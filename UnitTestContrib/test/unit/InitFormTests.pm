@@ -135,19 +135,17 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    my $query = new Unit::Request();
-    $this->{session}  = new Foswiki( undef, $query );
-    $this->{request}  = $query;
-    $this->{response} = new Unit::Response();
-    $user             = $this->{session}->{user};
-
+    $Foswiki::Plugins::SESSION->finish();
+    $this->{request} = Unit::Request->new();
+    $Foswiki::Plugins::SESSION =
+      Foswiki->new( $Foswiki::cfg{AdminUserLogin}, $this->{request} );
+    $this->{response} = Unit::Response->new();
+    Foswiki::Func::createWeb($testweb);
+    $Foswiki::Plugins::SESSION->finish();
+    $this->{session} = Foswiki->new( undef, $this->{request} );
+    $Foswiki::Plugins::SESSION = $this->{session};
     $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
     $surl = $this->{session}->getScriptUrl(1);
-
-    my $webObject = Foswiki::Meta->new( $this->{session}, $testweb );
-    $webObject->populateNewWeb();
-
-    $Foswiki::Plugins::SESSION = $this->{session};
     Foswiki::Func::saveTopicText( $testweb, $testtopic1, $testtext1, 1, 1 );
     Foswiki::Func::saveTopicText( $testweb, $testtopic2, $testtext2, 1, 1 );
     Foswiki::Func::saveTopicText( $testweb, $testtopic3, $testtext3, 1, 1 );
