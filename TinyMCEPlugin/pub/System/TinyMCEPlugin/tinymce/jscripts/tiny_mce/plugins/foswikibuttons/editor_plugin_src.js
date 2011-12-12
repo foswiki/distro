@@ -57,6 +57,8 @@
             this._setupTTButton(ed, url);
             this._setupColourButton(ed, url);
             this._setupAttachButton(ed, url);
+            this._setupIndentButton(ed, url);
+            this._setupExdentButton(ed, url);
             this._setupHideButton(ed, url);
             this._setupFormatCommand(ed, this.formats);
 
@@ -221,6 +223,75 @@
                 title: 'foswikibuttons.attach_desc',
                 cmd: 'foswikibuttonsAttach',
                 image: url + '/img/attach.gif'
+            });
+
+            return;
+        },
+
+       _setupIndentButton: function (ed, url) {
+            ed.addCommand('fwindent', function () {
+		if (this.queryCommandState('InsertUnorderedList') ||
+		    this.queryCommandState('InsertOrderedList'))
+		    // list type node - use the default behaviour
+		    this.execCommand("Indent");
+		else {
+		    // drive up to the nearest block node
+		    var dom = ed.dom, selection = ed.selection;
+		    var node = dom.getParent(selection.getStart(), dom.isBlock) ||
+			dom.getParent(selection.getEnd(), dom.isBlock);
+		    if (node) {
+			// SMELL: what about indentation inside tables? Needs to be disabled.
+			// insert div below the nearest block node
+			var div = dom.create('div', { class : 'foswikiIndent'});
+			while (node.firstChild) {
+			    dom.add(div, dom.remove(node.firstChild));
+			}
+			dom.add(node, div);
+			ed.selection.select(div);
+			ed.selection.collapse();
+		    }
+		}
+            });
+
+            ed.addButton('fwindent', {
+                title: 'foswikibuttons.indent_desc',
+                cmd: 'fwindent',
+                image: url + '/img/indent.gif'
+            });
+
+            return;
+        },
+
+        _setupExdentButton: function (ed, url) {
+            ed.addCommand('fwexdent', function () {
+		var dom = ed.dom, selection = ed.selection;
+		var node = dom.getParent(selection.getStart(), dom.isBlock);
+		if (node && dom.hasClass(node, 'foswikiIndent')) {
+		    var p = node.parentNode;
+		    while (node.firstChild) {
+			p.insertBefore(dom.remove(node.firstChild), node);
+		    }
+		    dom.remove(node);
+		    ed.selection.select(p.firstChild);
+		    ed.selection.collapse();
+		} else
+		    this.execCommand("Outdent");
+            });
+
+	    ed.onNodeChange.add(function(ed, cm, n, co, ob) {
+		var dom = ed.dom, selection = ed.selection;
+		var node = dom.getParent(selection.getStart(), dom.isBlock);
+
+		var state = (node && dom.hasClass(node, 'foswikiIndent')) ||
+		    ed.queryCommandState('Outdent');
+
+		cm.setDisabled('fwexdent', !state);
+	    });
+
+            ed.addButton('fwexdent', {
+                title: 'foswikibuttons.exdent_desc',
+                cmd: 'fwexdent',
+                image: url + '/img/exdent.gif'
             });
 
             return;
