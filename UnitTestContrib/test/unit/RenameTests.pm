@@ -1,9 +1,10 @@
 package RenameTests;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Foswiki;
 use Foswiki::UI::Rename;
 use Error ':try';
@@ -53,7 +54,7 @@ sub set_up {
     Foswiki::Func::createWeb( $this->{new_web} );
 
     # Topic text that contains all the different kinds of topic reference
-    my $originaltext = <<THIS;
+    my $originaltext = <<"THIS";
 1 $this->{test_web}.OldTopic
 $this->{test_web}.OldTopic 2
 3 $this->{test_web}.OldTopic more
@@ -202,7 +203,7 @@ THIS
     $topicObject->finish();
 
     # Topic text for template rename tests that contains all references.
-    my $origTemplateRefs = <<THIS;
+    my $origTemplateRefs = <<"THIS";
  $this->{test_web}.OldView
  $this->{test_web}.OldViewTemplate
    * Set VIEW_TEMPLATE = OldView
@@ -316,6 +317,8 @@ THIS
     $meta->text("Template");
     $meta->save();
     $this->_reset_session( { topic => "/$this->{test_web}/OldTopic" } );
+
+    return;
 }
 
 sub tear_down {
@@ -330,6 +333,8 @@ sub tear_down {
     $this->removeWebFixture( $this->{session}, "$this->{test_web}Root" )
       if ( Foswiki::Func::webExists("$this->{test_web}Root") );
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub check {
@@ -345,6 +350,8 @@ sub check {
         $this->assert_str_equals( $o, $n,
             "Expect $o\nActual $n\n" . join( ",", caller ) );
     }
+
+    return;
 }
 
 # Check the results of _getReferringTopics. $all means all webs. $expected
@@ -360,7 +367,7 @@ sub checkReferringTopics {
 
     $this->assert_str_equals( 'HASH', ref($refs) );
     if ($forgiving) {
-        foreach my $k ( keys %$refs ) {
+        foreach my $k ( keys %{$refs} ) {
             unless ( $k =~ /^$this->{test_web}/ ) {
                 delete( $refs->{$k} );
             }
@@ -369,7 +376,7 @@ sub checkReferringTopics {
 
     # Check that all expected topics were seen
     my %expected_but_unseen;
-    my %e = map { $_ => 1 } @$expected;
+    my %e = map { $_ => 1 } @{$expected};
     foreach my $r ( keys %e ) {
         unless ( $refs->{$r} ) {
             $expected_but_unseen{$r} = 1;
@@ -378,7 +385,7 @@ sub checkReferringTopics {
 
     # Check that no unexpected topics were seen
     my %not_expected;
-    foreach my $r ( keys %$refs ) {
+    foreach my $r ( keys %{$refs} ) {
         $this->assert_not_null($r);
         unless ( $e{$r} ) {
             $not_expected{$r} = 1;
@@ -396,10 +403,10 @@ sub checkReferringTopics {
         'expected but missing: ' . join( ' ', keys %expected_but_unseen )
     );
 
-    my $i = scalar( keys %$refs );
-    my @e = sort @$expected;
+    my $i = scalar( keys %{$refs} );
+    my @e = sort @{$expected};
     my $j = scalar(@e);
-    my @r = sort keys %$refs;
+    my @r = sort keys %{$refs};
     while ( --$i >= 0 && scalar(@e) ) {
         my $e = $e[ --$j ];
         while ( $i >= 0 && $r[$i] ne $e ) {
@@ -412,6 +419,8 @@ sub checkReferringTopics {
               . join( ',', @r ) );
     }
     $this->assert_equals( 0, $j );
+
+    return;
 }
 
 # Test referemces to a template topic
@@ -430,6 +439,8 @@ sub test_referringTemplateThisWeb {
             "$this->{test_web}.TmplRefMeta3"
         ]
     );
+
+    return;
 }
 
 # Test referemces to a template topic
@@ -514,6 +525,8 @@ sub test_renameTemplateThisWeb {
     $this->assert_str_equals(
         "   * Set SOME_TEMPLATE = $this->{new_web}.OldViewTemplate",
         $lines[16] );
+
+    return;
 }
 
 # Test references to a topic in this web
@@ -581,6 +594,8 @@ THIS
             "$this->{test_web}.Tmp1",
         ]
     );
+
+    return;
 }
 
 # Test references to a topic in all webs
@@ -643,6 +658,8 @@ THIS
         ],
         1
     );
+
+    return;
 }
 
 # Test references to a topic in this web, where the topic is not a wikiword
@@ -742,6 +759,8 @@ THIS
             "$this->{test_web}.ranDom",       "$this->{test_web}.Tmp1",
         ]
     );
+
+    return;
 }
 
 # There's a reference in a topic in a web which doesn't allow
@@ -812,6 +831,8 @@ sub test_rename_topic_reference_in_denied_web {
 
     $this->checkReferringTopics( $this->{test_web}, $fnord, 1,
         ["$this->{test_web}/Swamp.TopSecret"] );
+
+    return;
 }
 
 # Rename OldTopic to NewTopic within the same web
@@ -849,7 +870,7 @@ sub test_renameTopic_same_web_new_topic_name {
 # and renaming only references that result in a link, and missing the references used on
 # line 22 and 23.
     #
-    $this->check( $this->{test_web}, 'NewTopic', undef, <<THIS, 1 );
+    $this->check( $this->{test_web}, 'NewTopic', undef, <<"THIS", 1 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
 3 $this->{test_web}.NewTopic more
@@ -904,7 +925,7 @@ THIS
     #
     # Verify NewTopic references in test_web.OtherTopic  are updated
     #
-    $this->check( $this->{test_web}, 'OtherTopic', undef, <<THIS, 2 );
+    $this->check( $this->{test_web}, 'OtherTopic', undef, <<"THIS", 2 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
 3 $this->{test_web}.NewTopic more
@@ -959,7 +980,7 @@ THIS
     #
     # Verify NewTopic references in new_web.OtherTopic  are updated
     #
-    $this->check( $this->{new_web}, 'OtherTopic', undef, <<THIS, 3 );
+    $this->check( $this->{new_web}, 'OtherTopic', undef, <<"THIS", 3 );
 1 $this->{test_web}.NewTopic
 $this->{test_web}.NewTopic 2
 3 $this->{test_web}.NewTopic more
@@ -1010,6 +1031,8 @@ rename [[$this->{test_web}.NewTopic]]
 34 $this->{test_web}.NewTopic#OldTopic
 35 [[$this->{test_web}.NewTopic#OldTopic]]
 THIS
+
+    return;
 }
 
 # Rename OldTopic to a different web, keeping the same topic name
@@ -1036,7 +1059,7 @@ sub test_renameTopic_new_web_same_topic_name {
     $this->assert(
         !Foswiki::Func::topicExists( $this->{test_web}, 'OldTopic' ) );
 
-    $this->check( $this->{new_web}, 'OldTopic', undef, <<THIS, 4 );
+    $this->check( $this->{new_web}, 'OldTopic', undef, <<"THIS", 4 );
 1 $this->{new_web}.OldTopic
 $this->{new_web}.OldTopic 2
 3 $this->{new_web}.OldTopic more
@@ -1073,7 +1096,7 @@ rename [[OldTopic]]
 rename [[$this->{new_web}.OldTopic]]
 </noautolink>
 THIS
-    $this->check( $this->{new_web}, 'OtherTopic', undef, <<THIS, 5 );
+    $this->check( $this->{new_web}, 'OtherTopic', undef, <<"THIS", 5 );
 1 $this->{new_web}.OldTopic
 $this->{new_web}.OldTopic 2
 3 $this->{new_web}.OldTopic more
@@ -1111,7 +1134,7 @@ rename [[$this->{new_web}.OldTopic]]
 </noautolink>
 THIS
 
-    $this->check( $this->{test_web}, 'OtherTopic', undef, <<THIS, 6 );
+    $this->check( $this->{test_web}, 'OtherTopic', undef, <<"THIS", 6 );
 1 $this->{new_web}.OldTopic
 $this->{new_web}.OldTopic 2
 3 $this->{new_web}.OldTopic more
@@ -1148,6 +1171,8 @@ rename [[$this->{new_web}.OldTopic]]
 rename [[$this->{new_web}.OldTopic]]
 </noautolink>
 THIS
+
+    return;
 }
 
 # Rename OldTopic to a different web no change access on target web
@@ -1196,6 +1221,7 @@ sub test_renameTopic_new_web_same_topic_name_no_access {
         )
     );
 
+    return;
 }
 
 # Rename non-wikiword OldTopic to NewTopic within the same web
@@ -1237,6 +1263,8 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
 
     $this->assert_str_equals( 'Tmp2', $meta->getParent() );
     $meta->finish();
+
+    return;
 }
 
 # Purpose:  Rename a topic which starts with a lowercase letter
@@ -1255,7 +1283,7 @@ sub test_renameTopic_with_lowercase_first_letter {
         );
     }
 
-    my $topictext = <<THIS;
+    my $topictext = <<'THIS';
 One lowercase
 Twolowercase
 [[lowercase]]
@@ -1285,11 +1313,13 @@ THIS
       if ( defined $Foswiki::cfg{ScriptUrlPaths}{view} );
     $this->assert_matches( qr([lL]ocation:\s+$ss$this->{test_web}/UpperCase)s,
         $text );
-    $this->check( $this->{test_web}, 'UpperCase', $topicObject, <<THIS, 100 );
+    $this->check( $this->{test_web}, 'UpperCase', $topicObject, <<'THIS', 100 );
 One lowercase
 Twolowercase
 [[UpperCase]]
 THIS
+
+    return;
 }
 
 sub test_renameTopic_TOPICRENAME_access_denied {
@@ -1324,6 +1354,8 @@ sub test_renameTopic_TOPICRENAME_access_denied {
             shift->stringify()
         );
     }
+
+    return;
 }
 
 sub test_renameTopic_WEBRENAME_access_denied {
@@ -1347,7 +1379,7 @@ sub test_renameTopic_WEBRENAME_access_denied {
 
     try {
         no strict 'refs';
-        my ( $text, $result ) = &$UI_FN( $this->{session} );
+        my ( $text, $result ) = &{$UI_FN}( $this->{session} );
         use strict 'refs';
         $this->assert(0);
     }
@@ -1359,6 +1391,8 @@ sub test_renameTopic_WEBRENAME_access_denied {
             shift->stringify()
         );
     }
+
+    return;
 }
 
 # Test rename does not corrupt history, see Foswikibug:2299
@@ -1388,12 +1422,13 @@ sub test_renameTopic_preserves_history {
     $this->captureWithKey( rename => $UI_FN, $this->{session} );
     my ($m) =
       Foswiki::Func::readTopic( $this->{test_web}, $topicName . 'Renamed' );
-    $this->assert_equals( $history[$#history], $m->text );
+    $this->assert_equals( $history[-1], $m->text );
     my $info = $m->getRevisionInfo();
-    $this->assert_equals( $#history + 1, $info->{version} )
+    $this->assert_equals( scalar(@history), $info->{version} )
       ;    # rename adds a revision
     $m->finish();
 
+    return;
 }
 
 # Purpose: verify that leases are removed when a topic is renamed
@@ -1420,6 +1455,8 @@ sub test_renameTopic_ensure_leases_are_released {
     my $lease = $m->getLease();
     $this->assert_null( $lease, $lease );
     $m->finish();
+
+    return;
 }
 
 sub test_makeSafeTopicName {
@@ -1446,6 +1483,8 @@ sub test_makeSafeTopicName {
         print("expected=$expected.\n") if $debug;
         $this->assert( $result eq $expected );
     }
+
+    return;
 }
 
 # Move a subweb, ensuring that static links to that subweb are re-pointed
@@ -1512,6 +1551,8 @@ CONTENT
     $this->assert_str_equals(
         "[[$this->{test_web}/Notrenamedweb/Renamedweb.Subweb]]",
         $lines[8] );
+
+    return;
 }
 
 # Move a root web, ensuring that static links are re-pointed
@@ -1588,6 +1629,8 @@ EOF
         "[[$this->{test_web}/Renamed$this->{test_web}.Subweb]]",
         $lines[8] );
     $m->finish();
+
+    return;
 }
 
 # Move a root web, ensuring that topics containing web in topic name are not updated.
@@ -1687,6 +1730,7 @@ EOF
         $lines[7]
     );
 
+    return;
 }
 
 # Move a sub web, ensuring that topics containing web in topic name are not updated.
@@ -1786,6 +1830,7 @@ EOF
         $lines[7]
     );
 
+    return;
 }
 
 sub test_rename_attachment {
@@ -1797,9 +1842,9 @@ sub test_rename_attachment {
     $to->finish();
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
-    my $stream = new File::Temp( UNLINK => 0 );
+    my $stream = File::Temp->new( UNLINK => 0 );
     print $stream "Blah Blah";
-    $stream->close();
+    $this->assert( $stream->close() );
     $stream->unlink_on_destroy(1);
 
     ($to) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -1829,6 +1874,8 @@ sub test_rename_attachment {
             $this->{test_web}, 'NewTopic', 'dis.dat'
         )
     );
+
+    return;
 }
 
 # Item5464 - Rename of attachment requires change access, not rename access
@@ -1841,9 +1888,9 @@ sub test_rename_attachment_Rename_Denied_Change_Allowed {
     $to->finish();
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
-    my $stream = new File::Temp( UNLINK => 0 );
+    my $stream = File::Temp->new( UNLINK => 0 );
     print $stream "Blah Blah";
-    $stream->close();
+    $this->assert( $stream->close() );
     $stream->unlink_on_destroy(1);
 
     ($to) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -1873,6 +1920,8 @@ sub test_rename_attachment_Rename_Denied_Change_Allowed {
             $this->{test_web}, 'NewTopic', 'doh.dat'
         )
     );
+
+    return;
 }
 
 # Item5464 - Rename of attachment requires change access, not rename access
@@ -1885,9 +1934,9 @@ sub test_rename_attachment_Rename_Allowed_Change_Denied {
     $to->finish();
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
-    my $stream = new File::Temp( UNLINK => 0 );
+    my $stream = File::Temp->new( UNLINK => 0 );
     print $stream "Blah Blah";
-    $stream->close();
+    $this->assert( $stream->close() );
     $stream->unlink_on_destroy(1);
 
     ($to) = Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -1924,6 +1973,8 @@ sub test_rename_attachment_Rename_Allowed_Change_Denied {
             $this->{test_web}, $this->{test_topic}, 'dis.dat'
         )
     );
+
+    return;
 }
 
 sub test_rename_attachment_not_in_meta {
@@ -1938,7 +1989,7 @@ sub test_rename_attachment_not_in_meta {
     my $fh = $to->openAttachment( 'dis.dat', '>' );
     $to->finish();
     print $fh "Oh no not again";
-    close($fh);
+    $this->assert( close($fh) );
 
     $this->_reset_session(
         {
@@ -1963,6 +2014,8 @@ sub test_rename_attachment_not_in_meta {
             $this->{test_web}, 'NewTopic', 'dis.dat'
         )
     );
+
+    return;
 }
 
 sub test_rename_attachment_no_dest_topic {
@@ -1973,7 +2026,7 @@ sub test_rename_attachment_no_dest_topic {
     my $fh = $to->openAttachment( 'dis.dat', '>' );
     $to->finish();
     print $fh "Oh no not again";
-    close($fh);
+    $this->assert( close($fh) );
 
     $this->_reset_session(
         {
@@ -1998,6 +2051,8 @@ sub test_rename_attachment_no_dest_topic {
     otherwise {
         $this->assert( 0, shift );
     };
+
+    return;
 }
 
 # Check that an attachment in meta-data but not on the disc can be renamed
@@ -2005,9 +2060,9 @@ sub test_rename_attachment_no_dest_topic {
 sub do_not_test_rename_attachment_not_on_disc {
     my $this = shift;
 
-    my $stream = new File::Temp( UNLINK => 0 );
+    my $stream = File::Temp->new( UNLINK => 0 );
     print $stream "Blah Blah";
-    $stream->close();
+    $this->assert( $stream->close() );
     $stream->unlink_on_destroy(1);
 
     my ($to) =
@@ -2055,6 +2110,8 @@ sub do_not_test_rename_attachment_not_on_disc {
             $this->{test_web}, 'NewTopic', 'dis.dat'
         )
     );
+
+    return;
 }
 
 # Move a root web to something with same spelling bug different case (seemed to cause a MonogDB issue)
@@ -2092,8 +2149,9 @@ EOF
     $this->assert( !Foswiki::Func::webExists("Renamed$this->{test_web}") );
 
     #now remove it!
-    $this->removeWebFixture( $this->{session}, "RENAMED$this->{test_web}" )
+    $this->removeWebFixture( $this->{session}, "RENAMED$this->{test_web}" );
 
+    return;
 }
 
 1;
