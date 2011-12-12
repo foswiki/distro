@@ -2050,9 +2050,10 @@ sub access {
     my ($this) = @_;
 
     unless ( $this->{access} ) {
-        use Foswiki::Access;
-        $this->{access} = new Foswiki::Access($this);
+        require Foswiki::Access;
+        $this->{access} = Foswiki::Access->new($this);
     }
+    ASSERT( $this->{access} ) if DEBUG;
     return $this->{access};
 }
 

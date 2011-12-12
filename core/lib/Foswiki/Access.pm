@@ -30,8 +30,9 @@ sub new {
 
     print STDERR "using $imp Access Control\n" if MONITOR;
 
-    eval("use $imp");
+    ASSERT( eval("require $imp; 1;"), $@ );
     my $this = $imp->new($session);
+    ASSERT($this) if DEBUG;
 
     return $this;
 }
