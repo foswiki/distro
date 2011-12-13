@@ -31,6 +31,10 @@ To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1
    
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
+<blockquote class="foswikiHelp">
+%T% If you use the Foswiki PageCaching feature, be sure to refresh the cache after upgrading to a new Foswiki version.
+</blockquote>
+
 ---++ Upgrade procedure: upgrading to a new major or minor version, or upgrading from TWiki
 
 The following is a high level view of the upgrade procedure:

@@ -101,6 +101,10 @@ by specifying =refresh=on= or =refresh=cache=.
 
 The complete cache for all topics can be cleared using =refresh=all=. 
 
+<blockquote class="foswikiHelp">
+%T% The cache should be refreshed after installing a Foswiki upgrade, or after installing updates to any plugins that would change the output of macros.
+</blockquote>
+
 ---+++ Caching SEARCH results
 When you enable the Foswiki page cache, all SEARCH results will automatically
 be cached. As a consequence a SEARCH on a page will not be performed again as long as this
