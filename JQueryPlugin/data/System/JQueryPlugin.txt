@@ -145,7 +145,7 @@ reduce bandwidth and speed up interactive performance.
                   and a warining for Chili highlighter corruption; \
                   fixed jquery.chili to allow other non-recipe css classes in verbatim sections; \
                   fixed jquery.cookie to return undefined instead of an empty Object when asking for an unknown cookie; \
-                  fixed <nop>JQueryAjaxHelper's =users= backend to return users and groups |
+                  fixed <nop>JQueryAjaxHelper's =users= backend to return users and groups \
                   improved jquery-ui-dialog integration |
 |  26 Oct 2011: | fixing compatibility of jquery.media with newer jqueries; \
                   fixed placement of jquery.tooltips when viewport at right bottom;\
