@@ -165,8 +165,9 @@ Note that operator names are *not* case sensitive. =AND= is the same as =and=.
 %I% The same operators are supported by the [[VarIF][%IF]] and [[VarQUERY][%QUERY]] macros.
 
 %I% If you want to know if a field is undefined (has never been given a value) then you can compare it with =undefined=.
- 
-%I% In the operators (<code>&#61; !&#61; ~ &#61;~ &lt; &gt; &lt&#61; &gt&#61; NOT AND OR</code>) an undefined operand is treated the same as numerical 0. For =lc uc d2n= an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
+<sticky> 
+%I% In the operators (<literal><code> = != ~ =~ &lt; &gt; &lt;= &gt;= NOT AND OR</code></literal>) an undefined operand is treated the same as numerical 0. For =lc uc d2n= an undefined operand will give an undefined result. For =length= and undefined operand will give a result of 0.
+</sticky>
 </blockquote>
 
 ---++ Putting it all together
