@@ -195,6 +195,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  12 Dec 2011 | 1.138: George Clark: Foswikitask:Item11350 TablePlugin issues a die if included table is not found. |
 |  05 Dec 2011 | 1.137: Paul Harvey: Foswikitask:Item11331: Further improvements for persistent perls. |
 |  24 Oct 2011 | 1.136: George Clark:  Foswikitask:Item8647: TablePlugin generates empty tfoot, even when there are footer rows. |
 |  20 Sep 2011 | 1.135: George Clark:  Foswikitask:Item10559: perl errors about non-numeric or uninitialized variables for the URL parameters. Foswikitask:item10971: reload settings in persistent perl environment. |
