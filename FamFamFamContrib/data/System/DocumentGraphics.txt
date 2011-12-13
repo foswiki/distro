@@ -675,8 +675,8 @@ The social media icons are from [[http://icondock.com/free/vector-social-media-i
 %META:FILEATTACHMENT{name="closed.png" attr="h" comment="" date="1289269533" path="closed.png" size="863" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="code.gif" attr="h" comment="" date="1289269533" path="code.gif" size="572" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="code.png" attr="h" comment="" date="1289269533" path="code.png" size="621" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="cog.gif" attr="h" comment="" date="1289269533" path="cog.gif" size="572" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="cog.gif" attr="h" comment="" date="1289269533" path="cog.gif" size="621" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="cog.gif" attr="h" comment="" date="1289269533" path="cog.gif" size="1201" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="cog.png" attr="h" comment="" date="1289269533" path="cog.png" size="1283" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="comments.gif" attr="h" comment="" date="1289269533" path="comments.gif" size="375" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="comments.png" attr="h" comment="" date="1289269533" path="comments.png" size="557" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="connections.gif" attr="h" comment="" date="1289269533" path="connections.gif" size="595" user="ProjectContributor" version=""}%
