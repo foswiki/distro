@@ -184,7 +184,7 @@ s/^(%META:FIELD.*name="Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$chang
         print STDERR "Updating CheckinsOnBranches for $branch\n" if $verbose;
         unless ( $text =~
 s/^(%META:FIELD.*name="CheckinsOnBranches".*value=")(.*?)(".*%)$/$1._addBr($2, $branch, \$changed, \%brCommits ).$3/gem
-          )
+         && length($2) > 0  )
         {
 
 # The CheckinsOnBranches doesn't exist.  Need to recover the list of branches by processing all
