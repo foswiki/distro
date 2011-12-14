@@ -787,6 +787,7 @@ to your =bin/LocalLib.cfg=.
 ---++ Fixes
 
 <noautolink>
+| [[%BUGS%/Item9496][Item9496]] | Implement re-usable way to set default text of input fields |
 | [[%BUGS%/Item9569][Item9569]] | Non-trivial macros are rendered within verbatim blocks of included topics |
 | [[%BUGS%/Item9773][Item9773]] | Extension backup directories should be deleted after successful tar/zip archive |
 | [[%BUGS%/Item9788][Item9788]] | pub-htaccess.txt should mention symlinks |
