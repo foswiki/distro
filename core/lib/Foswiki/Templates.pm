@@ -125,7 +125,9 @@ sub expandTemplate {
     my ( $this, $params ) = @_;
 
     my $attrs = new Foswiki::Attrs($params);
+    no warnings 'recursion';
     my $value = $this->tmplP($attrs);
+    use warnings 'recursion';
     return $value;
 }
 
@@ -191,9 +193,12 @@ sub tmplP {
             }
         }
         $val =~ s/%TMPL:PREV%/%TMPL:P{"$template:_PREV"}%/g;
+        no warnings 'recursion';
         $val =~ s/%TMPL:P{(.*?)}%/$this->expandTemplate($1)/ge;
+        use warnings 'recursion';
     }
 
+    $this->{expansionRecursions}->{$template} -= 1;
     return $val;
 }
 
