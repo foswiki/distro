@@ -87,7 +87,7 @@ sub test_getViewUrl {
 
     # Item11121: ShortURLs wil break this test
     if (    exists $Foswiki::cfg{ScriptUrlPaths}{view}
-        and $Foswiki::cfg{ScriptUrlPaths}{view}
+        and defined $Foswiki::cfg{ScriptUrlPaths}{view}
         and not $Foswiki::cfg{ScriptUrlPaths}{view} =~ /$ss$/ )
     {
         $this->expect_failure();
