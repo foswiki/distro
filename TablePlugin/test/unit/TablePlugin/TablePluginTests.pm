@@ -272,7 +272,7 @@ sub test_Item8647_bold_with_foot {
 <table class="foswikiTable" rules="none" border="1">
         <tfoot>
                 <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> <a rel="nofollow" href="/foswiki/bin//TemporaryTableFormattingTestWebTableFormatting/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">Toe</a> </th>
+                        <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">Toe</a> </th>
                 </tr>
         </tfoot>
         <tbody>
