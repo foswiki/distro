@@ -260,7 +260,9 @@ sub verify_NoHistory_implicitSave {
     my $info = $readMeta->getRevisionInfo();
     $this->assert_str_equals( $this->{session}->{user}, $info->{author} );
     $this->assert_num_equals( 2, $info->{version} );
+
     # Ensure the file timestamp is used for the revision date
+    $date =  (stat("$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt"))[9];
     $this->assert_num_equals( $date, $info->{date} );
 
     # Make sure that rev 1 exists and has the original text pre-history.
