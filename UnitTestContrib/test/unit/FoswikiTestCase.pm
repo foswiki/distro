@@ -710,7 +710,6 @@ sub createNewFoswikiSession {
     $this->{session}->finish();
     $this->{session} = new Foswiki(@_ );
     $Foswiki::Plugins::SESSION = $this->{session};
-    ($this->{test_topicObject}) = Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
     
     return $this->{session};
 }
