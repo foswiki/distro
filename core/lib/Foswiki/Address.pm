@@ -259,8 +259,8 @@ sub new {
     my $this;
 
     if ( $opts{string} ) {
-        ASSERT( not $opts{topic} or ( $opts{webpath} and $opts{topic} ) )
-          if DEBUG;
+        #ASSERT( not $opts{topic} or ( $opts{webpath} and $opts{topic} ) )
+        #  if DEBUG;
 
         #        $this->{parseopts} = {
         #            web        => $opts{web},
@@ -503,6 +503,7 @@ and resolved.
 sub parse {
     my ( $this, $path, %opts ) = @_;
 
+    print STDERR "parse(): parsing '$path'\n" if TRACE2;
     $this->_invalidate();
     if ( not $this->{parseopts} ) {
         $this->{parseopts} = {
