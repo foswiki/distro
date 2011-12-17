@@ -156,6 +156,16 @@ Compose fully qualified URL
 
 Return: =$url=       URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNotify"=
 
+*Examples:*
+<verbatim class="perl">
+my $url;
+# $url eq 'http://wiki.example.org/url/to/bin'
+$url = Foswiki::Func::getScriptUrl();
+# $url eq 'http://wiki.example.org/url/to/bin/edit'
+$url = Foswiki::Func::getScriptUrl(undef, undef, 'edit');
+# $url eq 'http://wiki.example.org/url/to/bin/edit/Web/Topic'
+$url = Foswiki::Func::getScriptUrl('Web', 'Topic', 'edit');</verbatim>
+
 =cut
 
 sub getScriptUrl {
@@ -165,6 +175,37 @@ sub getScriptUrl {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
     return $Foswiki::Plugins::SESSION->getScriptUrl( 1, $script, $web, $topic,
+        @_ );
+}
+
+=begin TML
+
+---+++ getScriptUrlPath( $web, $topic, $script, ... ) -> $path
+
+Get script URL path. See Foswiki::Func::getScriptUrl
+
+Deprecated 28 Nov 2008, re-instated Foswiki 1.1.5 with a new calling convention
+to match =Foswiki::Func::getScriptUrl()=
+
+*Examples:*
+<verbatim class="perl">
+my $path;
+# $path eq '/path/to/bin'
+$path = Foswiki::Func::getScriptUrlPath();
+# $path eq '/path/to/bin/edit'
+$path = Foswiki::Func::getScriptUrlPath(undef, undef, 'edit');
+# $path eq '/path/to/bin/edit/Web/Topic'
+$path = Foswiki::Func::getScriptUrlPath('Web', 'Topic', 'edit');</verbatim>
+
+=cut
+
+sub getScriptUrlPath {
+    my $web    = shift;
+    my $topic  = shift;
+    my $script = shift;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    return $Foswiki::Plugins::SESSION->getScriptUrl( 0, $script, $web, $topic,
         @_ );
 }
 
@@ -3157,32 +3198,6 @@ See System.DevelopingPlugins for more information
 sub getRegularExpression {
     my ($regexName) = @_;
     return $Foswiki::regex{$regexName};
-}
-
-=begin TML
-
----+++ getScriptUrlPath( ) -> $path
-
-Get script URL path
-
-*Deprecated* 28 Nov 2008 - use =getScriptUrl= instead.
-
-Return: =$path= URL path of bin scripts, e.g. ="/cgi-bin"=
-
-*WARNING:* you are strongly recommended *not* to use this function, as the
-{ScriptUrlPaths} URL rewriting rules will not apply to urls generated
-using it.
-
-=cut
-
-sub getScriptUrlPath {
-    my $web    = shift;
-    my $topic  = shift;
-    my $script = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
-    return $Foswiki::Plugins::SESSION->getScriptUrl( 0, $script, $web, $topic,
-        @_ );
 }
 
 =begin TML
