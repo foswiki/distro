@@ -13,6 +13,8 @@ use Foswiki;
 use Foswiki::Func;
 use Assert;
 
+sub TRACE { 0 }
+
 my $MrWhite;
 
 # The second word in the string below consists only of two _graphemes_
@@ -32,6 +34,43 @@ my $uniname = 'übermaß_हिंदी';
 
 # http://translate.google.com/#auto|hi|standard
 my $unicomment = 'मानक';
+
+my @scripturl_tests = (
+    {
+        expected => {
+            'view' => '/path/to/bin/view',
+            'edit' => '/path/to/bin/edit'
+        }
+    },
+    {
+        cfg      => { ScriptUrlPaths => { 'view' => '/path/to' } },
+        expected => {
+            'view' => '/path/to',
+            'edit' => '/path/to/bin/edit'
+        }
+    },
+    {
+        cfg      => { ScriptUrlPaths => { 'view' => '' } },
+        expected => {
+            'view' => '',
+            'edit' => '/path/to/bin/edit'
+        }
+    },
+    {
+        cfg      => { ScriptUrlPaths => { 'edit' => '' } },
+        expected => {
+            'view' => '/path/to/bin/view',
+            'edit' => ''
+        }
+    },
+    {
+        cfg      => { ScriptUrlPaths => { 'edit' => '/somewhere/else' } },
+        expected => {
+            'view' => '/path/to/bin/view',
+            'edit' => '/somewhere/else'
+        }
+    },
+);
 
 sub new {
     my ( $class, @args ) = @_;
@@ -2504,6 +2543,74 @@ sub do_attachment {
             $this->{test_web}, $this->{test_topic}, $name
         )
     );
+
+    return;
+}
+
+sub _save_config {
+    my ($this) = @_;
+
+    $this->{_backup_config} = \%Foswiki::cfg;
+
+    return;
+}
+
+sub _restore_config {
+    my ($this) = @_;
+
+    %Foswiki::cfg = %{ $this->{_backup_config} };
+
+    return;
+}
+
+sub _test_path_func {
+    my ( $this, $func, $junk ) = @_;
+
+    $this->assert( ref($func) eq 'CODE' );
+    $junk ||= '';
+    $this->_save_config();
+    foreach my $test (@scripturl_tests) {
+        $Foswiki::cfg{ScriptUrlPath} = '/path/to/bin';
+        delete $Foswiki::cfg{ScriptUrlPaths};
+        if ( $test->{cfg} ) {
+            %Foswiki::cfg = ( %Foswiki::cfg, %{ $test->{cfg} } );
+        }
+
+        #$this->createNewFoswikiSession();
+        while ( my ( $script, $path ) = each %{ $test->{expected} } ) {
+            my $expected_path = $junk . $path . '/Web/Topic';
+            my $actual_path = $func->( 'Web', 'Topic', $script );
+
+            if (TRACE) {
+                require Data::Dumper;
+                print "Testing script '$script' with ScriptUrlPaths: "
+                  . Data::Dumper->Dump( [ $Foswiki::cfg{ScriptUrlPaths} ] );
+                print "\tExpected: '$expected_path', got: '$actual_path'\n";
+            }
+            $this->assert_str_equals( $expected_path, $actual_path );
+        }
+        if ( $test->{cfg} ) {
+            $this->_restore_config();
+        }
+    }
+    $this->_restore_config();
+
+    return;
+}
+
+sub test_getScriptUrl {
+    my ($this) = @_;
+
+    $this->_test_path_func( \&Foswiki::Func::getScriptUrl,
+        $Foswiki::cfg{DefaultUrlHost} );
+
+    return;
+}
+
+sub test_getScriptUrlPath {
+    my ($this) = @_;
+
+    $this->_test_path_func( \&Foswiki::Func::getScriptUrlPath );
 
     return;
 }
