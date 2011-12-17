@@ -690,6 +690,30 @@ sub getUIFn {
     return \&$fn;
 }
 
+=begin TML
+
+---++ ObjectMethod createNewFoswikiSession(params) -> ref to new Foswiki obj
+
+cleans up the existing Foswiki object, and creates a new one
+
+params are passed directly to the new Foswiki() call
+
+typically called to force a full re-initialisation either with new preferences, topics, users, groups or CFG
+
+__DO NOT CALL session->finish() yourself__
+
+=cut
+
+sub createNewFoswikiSession {
+    my $this = shift;
+    
+    $this->{session}->finish();
+    $this->{session} = new Foswiki(@_ );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    
+    return $this->{session};
+}
+
 1;
 __DATA__
 
