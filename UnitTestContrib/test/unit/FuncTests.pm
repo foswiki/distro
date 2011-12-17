@@ -2569,6 +2569,19 @@ sub _test_path_func {
     $this->assert( ref($func) eq 'CODE' );
     $junk ||= '';
     $this->_save_config();
+    $Foswiki::cfg{ScriptUrlPath} = '/path/to/bin';
+    delete $Foswiki::cfg{ScriptUrlPaths};
+    print "Testing no args\n" if TRACE;
+    $this->assert_str_equals( $junk . '/path/to/bin', $func->() );
+    print "Testing script only\n" if TRACE;
+    $this->assert_str_equals( $junk . '/path/to/bin/save',
+        $func->( undef, undef, 'save' ) );
+    print "Testing script/Web/Topic\n" if TRACE;
+    $this->assert_str_equals(
+        $junk . '/path/to/bin/save/Web/Topic',
+        $func->( 'Web', 'Topic', 'save' )
+    );
+
     foreach my $test (@scripturl_tests) {
         $Foswiki::cfg{ScriptUrlPath} = '/path/to/bin';
         delete $Foswiki::cfg{ScriptUrlPaths};
