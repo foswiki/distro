@@ -3176,8 +3176,13 @@ using it.
 =cut
 
 sub getScriptUrlPath {
+    my $web    = shift;
+    my $topic  = shift;
+    my $script = shift;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->getScriptUrl( 0, '' );
+
+    return $Foswiki::Plugins::SESSION->getScriptUrl( 0, $script, $web, $topic,
+        @_ );
 }
 
 =begin TML
