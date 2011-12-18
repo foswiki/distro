@@ -26,6 +26,8 @@ var FoswikiTiny = {
     // callbacks, attached in plugins
     html2tml: new Array(),
     // callbacks, attached in plugins
+    transformCbs: new Array(),
+    // callbacks, attached in plugins
     // Get a Foswiki variable from the set passed
     getFoswikiVar: function(name) {
         if (FoswikiTiny.foswikiVars == null) {
@@ -156,6 +158,11 @@ var FoswikiTiny = {
         editor, "html2tml", text, function(text, req, o) {
             this.getElement().value = text;
             FoswikiTiny.enableSaveButton(true);
+            // Call post-transform callbacks attached from plugins
+			for (var i = 0; i < FoswikiTiny.transformCbs.length; i++) {
+				var cb = FoswikiTiny.transformCbs[i];
+				cb.apply(editor, [editor, text]);
+			}
         },
         function(type, req, o) {
             this.setContent("<div class='foswikiAlert'>" + 
@@ -281,6 +288,11 @@ var FoswikiTiny = {
         if (el) {
             // exists, hide it
             el.style.display = "none";
+            // Call post-transform callbacks attached from plugins
+			for (var i = 0; i < FoswikiTiny.transformCbs.length; i++) {
+				var cb = FoswikiTiny.transformCbs[i];
+				cb.apply(editor, [editor, text]);
+			}
         }
     },
 
