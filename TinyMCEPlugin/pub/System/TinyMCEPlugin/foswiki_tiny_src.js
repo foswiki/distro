@@ -376,6 +376,15 @@ var FoswikiTiny = {
         // find the TINYMCEPLUGIN_INIT preference
         if (FoswikiTiny.init) {
             tinyMCE.init(FoswikiTiny.init);
+	    // Load plugins
+	    tinyMCE.each(tinyMCE.explode(FoswikiTiny.init.plugins), function(p) {
+		if (p.charAt(0) == '-') {
+		    p = p.substr(1, p.length);
+		    var url = FoswikiTiny.init.foswiki_plugin_urls[p];
+		    if (url)
+			tinyMCE.PluginManager.load(p, url);
+		}
+	    });
         } else {
             alert(
 'Unable to install TinyMCE: could not read "TINYMCEPLUGIN_INIT" from FoswikiTiny.init');

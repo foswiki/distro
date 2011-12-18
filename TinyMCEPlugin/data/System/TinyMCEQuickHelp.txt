@@ -96,7 +96,7 @@
   <span class="foswikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*
-   * Select <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/img/hide.gif" alt="Wiki text" />, or use the _Raw Edit_ link in the bottom action bar.
+   * Select <img src="%PUBURL%/%WEB%/TinyMCEPlugin/plugins/foswikibuttons/img/hide.gif" alt="Wiki text" />, or use the _Raw Edit_ link in the bottom action bar.
 </td>
 <td>
 

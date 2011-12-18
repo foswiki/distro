@@ -72,11 +72,15 @@ Below is the default configuration. If it is to be modified, it should be copied
 "plugins" : "%IF{
     "defined 'TINYMCEPLUGIN_MCEPLUGINS'"
     then="%TINYMCEPLUGIN_MCEPLUGINS%"
-    else="%STARTSECTION{"MCEPLUGINS"}%contextmenu, table, searchreplace, autosave, paste, legacyoutput, inlinepopups, fullscreen, foswiki, foswikibuttons, foswikiimage%ENDSECTION{"MCEPLUGINS"}%"
+    else="%STARTSECTION{"MCEPLUGINS"}%contextmenu, table, searchreplace, autosave, paste, legacyoutput, inlinepopups, fullscreen, -foswiki, -foswikibuttons, -foswikiimage%ENDSECTION{"MCEPLUGINS"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS'"
     then=", %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
 }%",
+"foswiki_plugin_urls" : {
+    "foswiki" : "%ATTACHURLPATH%/plugins/foswiki/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
+    "foswikibuttons" : "%ATTACHURLPATH%/plugins/foswikibuttons/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
+    "foswikiimage" : "%ATTACHURLPATH%/plugins/foswikiimage/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js" },
 "foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
 "foswiki_vars" : {
     "PUBURLPATH" : "%PUBURLPATH%",

@@ -246,9 +246,10 @@
 			while (node.firstChild) {
 			    dom.add(div, dom.remove(node.firstChild));
 			}
-			dom.add(node, div);
+			div = dom.add(node, div);
 			ed.selection.select(div);
-			ed.selection.collapse();
+			ed.selection.collapse(); // This eats the cursor!
+			ed.selection.setCursorLocation(div, 0);
 		    }
 		}
             });
