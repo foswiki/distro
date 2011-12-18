@@ -682,17 +682,23 @@ sub _isProtectedByAttrs {
 
 sub _convertIndent {
     my ( $this, $options ) = @_;
-    my $text = $WC::TAB;
+    my $indent = $WC::TAB;
 
+    my ($f, $t) = $this->_handleP($options);
+    if ($t =~ /^$WC::WS_NOTAB*($WC::TAB+):(.*)$/) {
+	return "$WC::CHECKn$1:$2";
+    }
     # Zoom up through the tree and see how many layers of indent we have
     my $p = $this;
     while ($p = $p->{parent}) {
-	$text .= $WC::TAB if $p->{tag} eq 'div' && $p->hasClass('foswikiIndent');
+	if ($p->{tag} eq 'div' && $p->hasClass('foswikiIndent')) {
+	    $indent .= $WC::TAB;
+	}
     }
-    my ($f, $t) = $this->_handleP($options);
     $t =~ s/^$WC::WS*//s;
     $t =~ s/$WC::WS*$//s;
-    return "$WC::CHECKn$text: " . $t;
+    $t = "$WC::CHECKn$indent: " . $t;
+    return $t;
 }
 
 # perform conversion on a list type

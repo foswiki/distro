@@ -594,7 +594,7 @@ HERE
 HERE
     },
     {
-        exec => $ROUNDTRIP,
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'definitionList',
         html => <<'HERE',
 <dl> <dt> Sushi
@@ -2452,6 +2452,7 @@ SPACED
         name => 'Item4789',
         tml  => "%EDITTABLE{}%\n| 1 | 2 |\n| 3 | 4 |",
     },
+
     {
         exec => $ROUNDTRIP,
         name => 'ProtectAndSurvive',
@@ -3117,6 +3118,7 @@ sub convertImage {
     }
 }
 
+#TranslatorTests->gen_compare_tests( 'test', [ grep { $_->{name} eq 'Item4855' } @$data ] );
 TranslatorTests->gen_compare_tests( 'test', $data );
 
 #gen_file_tests();

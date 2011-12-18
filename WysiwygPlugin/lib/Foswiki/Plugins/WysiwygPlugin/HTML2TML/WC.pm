@@ -28,26 +28,17 @@ package WC;
 use strict;
 use warnings;
 
-our (
-    $NO_TML,    $NO_HTML,    $NO_BLOCK_TML, $NOP_ALL,
-    $BLOCK_TML, $BR2NL,      $CHECKn,       $CHECKw,
-    $CHECKs,    $CHECK1,     $CHECK2,       $NBSP,
-    $NBBR,      $TAB,        $PON,          $POFF,
-    $WS,        $VERY_CLEAN, $PROTECTED,    $KEEP_ENTITIES,
-    $KEEP_WS
-);
+our $NO_HTML       = 1 << 0;
+our $NO_TML        = 1 << 1;
+our $NO_BLOCK_TML  = 1 << 2;
+our $NOP_ALL       = 1 << 3;
+our $VERY_CLEAN    = 1 << 4;
+our $BR2NL         = 1 << 5;
+our $KEEP_WS       = 1 << 6;
+our $PROTECTED     = 1 << 7;
+our $KEEP_ENTITIES = 1 << 8;
 
-$NO_HTML       = 1 << 0;
-$NO_TML        = 1 << 1;
-$NO_BLOCK_TML  = 1 << 2;
-$NOP_ALL       = 1 << 3;
-$VERY_CLEAN    = 1 << 4;
-$BR2NL         = 1 << 5;
-$KEEP_WS       = 1 << 6;
-$PROTECTED     = 1 << 7;
-$KEEP_ENTITIES = 1 << 8;
-
-$BLOCK_TML = $NO_BLOCK_TML;
+our $BLOCK_TML = $NO_BLOCK_TML;
 
 my %cc = (
     'NBSP'   => 14,    # unbreakable space
@@ -73,8 +64,8 @@ non-breaking whitespace.
 
 =cut
 
-$NBSP = chr( $cc{NBSP} );
-$NBBR = chr( $cc{NBBR} );
+our $NBSP = chr( $cc{NBSP} );
+our $NBBR = chr( $cc{NBBR} );
 
 =pod
 
@@ -95,15 +86,16 @@ process.
 
 =cut
 
-$CHECKn = chr( $cc{CHECKn} );
-$CHECKs = chr( $cc{CHECKs} );
-$CHECKw = chr( $cc{CHECKw} );
-$CHECK1 = chr( $cc{CHECK1} );
-$CHECK2 = chr( $cc{CHECK2} );
-$TAB    = chr( $cc{TAB} );
-$PON    = chr( $cc{PON} );
-$POFF   = chr( $cc{POFF} );
-$WS     = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2$TAB\s]*/;
+our $CHECKn = chr( $cc{CHECKn} );
+our $CHECKs = chr( $cc{CHECKs} );
+our $CHECKw = chr( $cc{CHECKw} );
+our $CHECK1 = chr( $cc{CHECK1} );
+our $CHECK2 = chr( $cc{CHECK2} );
+our $TAB    = chr( $cc{TAB} );
+our $PON    = chr( $cc{PON} );
+our $POFF   = chr( $cc{POFF} );
+our $WS_NOTAB = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2\s]*/;
+our $WS     = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2$TAB\s]*/;
 
 =pod
 
