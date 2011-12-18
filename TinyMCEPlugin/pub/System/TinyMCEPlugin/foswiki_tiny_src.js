@@ -153,6 +153,7 @@ var FoswikiTiny = {
             text = cb.apply(editor, [editor, text]);
         }
         FoswikiTiny.enableSaveButton(false);
+
         editor.getElement().value = "Please wait... retrieving page from server.";
         FoswikiTiny.transform(
         editor, "html2tml", text, function(text, req, o) {
@@ -257,8 +258,10 @@ var FoswikiTiny = {
             this.onSubmitHandler = null;
         }
         FoswikiTiny.enableSaveButton(false);
-        editor.setContent("<span class='foswikiAlert'>" +
-                "Please wait... retrieving page from server." + "</span>");
+        
+		var throbberPath = FoswikiTiny.getFoswikiVar('PUBURLPATH') + '/' + FoswikiTiny.getFoswikiVar('SYSTEMWEB') + '/' + 'DocumentGraphics/processing.gif';
+        editor.setContent("<img src='" + throbberPath + "' />");
+        
         FoswikiTiny.transform(
         editor, "tml2html", text, function(text, req, o) { // Success
             // Evaluate any registered pre-processors
