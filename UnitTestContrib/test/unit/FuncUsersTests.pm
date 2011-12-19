@@ -1495,12 +1495,22 @@ sub verify_addToGroup {
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
 
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
+    $this->assert( Foswiki::Func::addUserToGroup( 'UserA86', 'ZeeGroup' ) );
+
+    # Force a re-read
+    
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA86' ) );
+    $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
+
     $this->assert( Foswiki::Func::addUserToGroup( 'UserA', 'ZeeGroup' ) );
 
     # Force a re-read
     
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
     
+    $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA86' ) );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
 
     $this->assert(
