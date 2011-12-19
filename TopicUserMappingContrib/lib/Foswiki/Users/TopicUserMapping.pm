@@ -908,7 +908,7 @@ sub addUserToGroup {
 
     my $wikiName = $usersObj->getWikiName($cuid);
 
-    if ( $membersString !~ m/$wikiName/ ) {
+    if ( $membersString !~ m/\b$wikiName\b/ ) {
         $membersString .= ', ' if ( $membersString ne '' );
         $membersString .= $wikiName;
     }
