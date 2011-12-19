@@ -79,7 +79,7 @@ This template definition may be used as normal, Eg. %<nop>TMPL:P{"template"}%
 
    * To escape the exclamation mark escape, try prefixing a =&lt;nop>=, e.g. write =A &lt;nop>!=<nop> B= to get "A <nop>!= B". Alternatively, use the HTML entity =&amp;#33;=, which renders as an exclamation mark, e.g. write =A &amp;#33;=<nop> B= to get "A &#33;= B".
 
----++ Bullet and numbered lists
+---++ Indented lists
 
    * To indent with a bullet, enter =[space][space][space][asterisk][space]=.
       * Use multiples of 3 spaces to *nest bullets*.
@@ -91,7 +91,11 @@ This template definition may be used as normal, Eg. %<nop>TMPL:P{"template"}%
       1 To add a new paragraph without restarting list numbering, use the %<nop>BR% variable, like this:%BR% Text added (in a new paragraph)
       1 and the numbered list continues.
 
-Always start *counting* spaces for bullets or numbers from the beginning of a new line.
+   * To indent without a bullet or a number:
+      : Start indented text with =[space][space][space][colon][space]=.
+         : You can indent any number of levels
+
+Always start *counting* spaces for lists from the beginning of a new line.
 
 ---++ Others
 
