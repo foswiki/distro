@@ -41,7 +41,7 @@ First follow the installation instructions to install the Plugin:
 The default configuration of TinyMCEPlugin should prove sufficient for most users. The !TinyMCE editor itself is customised through a Javascript object holding a substantial number of initialisation parameters. In previous versions of TinyMCEPlugin, a text string making up the Javascript object was held in an ordinary Foswiki [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT= which should be removed and replaced with =TINYMCEPLUGIN_INIT_TOPIC= (described below) in most circumstances.
 
 ---+++ TINYMCEPLUGIN_INIT_TOPIC
-To make configuration easier and less error-prone, configuration is now held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used.
+To make configuration easier and less error-prone, configuration is held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used. =TINYMCEPLUGIN_INIT_TOPIC= is currently set to %=TINYMCEPLUGIN_INIT_TOPIC%.
 
 For a full explanation and guidance on configuration of available !TinyMCE options, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
 
@@ -310,6 +310,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  19 Dec 2011 (1.2.4) | Foswikitask:Item2516: Added support for indented plain paragraphs. NOTE: requires an update to TINYMCEPLUGIN_INIT, if you have customised it. |
 |  22 Nov 2011 (1.2.3) | Foswikitask:Item11272: Remove bogus dependency on !BehaviourContrib |
 |  08 Nov 2011 (1.2.2) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.7. |
 |  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.6. %BR%\
