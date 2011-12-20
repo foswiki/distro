@@ -9,18 +9,6 @@ Hidden form definition
 %JQREQUIRE{"chili, ui, ui::autocomplete"}%
 -->
 
-%ADDTOZONE{"head"
-   id="Autocomplete loader"
-   text="
-<style type='text/css' media='all'>
-  .ui-autocomplete-loading {
-    background-image: url('%PUBURL%/%SYSTEMWEB%/JQueryPlugin/images/spinner.gif') <nop>!important;
-    background-position: right center <nop>!important;
-    background-repeat: no-repeat <nop>!important;
-  }
-</style>"
-}%
-
 This page contains a set of example JQueryPlugin helpers that can be used in
 wiki applications. The examples demonstrate how you can
 dynamically populate autocomplete enabled input boxes using JQueryUIAutocomplete.
