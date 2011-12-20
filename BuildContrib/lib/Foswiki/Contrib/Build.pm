@@ -1976,6 +1976,7 @@ END
         $this );
     $userAgent->agent( 'ContribBuild/' . $VERSION . ' ' );
     $userAgent->cookie_jar( {} );
+    $userAgent->timeout(420);
 
     my $topic = $this->_getTopicName();
 
