@@ -137,6 +137,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  20 Dec 2011: | (4.32) - re-release Foswiki 1.1.4 - Item11335 revert spinner changes, Item11371 - close suggestions list. |
 |  12 Dec 2011: | (4.31) - Foswiki 1.1.4 Release. Item11335 JQueryAjaxHelper examples don't work reliably. |
 |  22 Nov 2011: | (4.30) added jquery-1.7 and jquery-1.7.1; \
                   added jquery.loader to ease loading sections asynchronously |
