@@ -67,6 +67,7 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.3.4 (20 Dec 2011) | Foswikitask:Item11373: Check for duplicate member of groups was incorrect |
 |  4.3.3 (05 Dec 2011) | Foswikitask:Item10815: Warn if registering user as admin when auto group membership is enabled.<br /> \
                          Foswikitask:Item11208: Throw error if group name not *Group <br /> \
                          Foswikitask:Item10906: Force user names to the %<nop>USERSWEB% - avoid linking errors if username might be interpreted as a Web.Topic name <br /> \
