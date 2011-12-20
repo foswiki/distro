@@ -31,7 +31,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
-   * Foswiki 1.1.4 was built 15 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 142 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
+   * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
 
 ---++ Pre-installed Extensions
 
@@ -1255,6 +1255,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11331][Item11331]] | Errors in TablePlugin in persistent perl environments. |
 | [[%BUGS%/Item11335][Item11335]] | JQueryAjaxHelper examples don't work reliably. |
 | [[%BUGS%/Item11350][Item11350]] | TablePlugin issues a die if included table is not found. |
+| [[%BUGS%/Item11373][Item11373]] | Unable to add member to group if new member contained within another member. |
 </noautolink>
 
 ---+++ Enhancements
