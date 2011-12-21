@@ -33,7 +33,7 @@ Let's say you want to simplify the bottom toolbar and remove all links except fo
    1 In =view.myskin.tmpl= you write:
    <verbatim class="tml">
    %TMPL:INCLUDE{"view"}%
-   %TMPL:DEF{"top:topicactionbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim>
+   %TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim>
    1 For testing, view any topic and append to the topic name: =?cover=myskin=. You should see an effect now.
    1 To make the changes visible on all pages, go to [[%USERSWEB%.SitePreferences]] (to keep %WIKIPREFSTOPIC% intact) and write:
    <pre class="tml">
@@ -57,10 +57,11 @@ Call this template by setting =VIEW_TEMPLATE=:
    * Note that you don't use the =Template= extension now
    * You can make this setting hidden by writing this in the Settings screen: go to More and then Topic Settings
 
-We can use the same example as above. In the topic you want to use as view template, for instance =<nop>OnlyMoreView=, write:
+We can use the same example as above, but extend it to also replace the Edit and Print buttons at the top with a _More Actions_ button. In the topic you want to use as view template, for instance =<nop>OnlyMoreView=, write:
 <verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%
 </verbatim>
 
 You can also test this by appending =?template=OnlyMoreView= to the url.
