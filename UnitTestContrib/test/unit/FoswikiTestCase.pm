@@ -707,7 +707,7 @@ __DO NOT CALL session->finish() yourself__
 sub createNewFoswikiSession {
     my $this = shift;
     
-    $this->{session}->finish();
+    $this->{session}->finish() if $this->{session};
     $this->{session} = new Foswiki(@_ );
     $Foswiki::Plugins::SESSION = $this->{session};
     ($this->{test_topicObject}) = Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
