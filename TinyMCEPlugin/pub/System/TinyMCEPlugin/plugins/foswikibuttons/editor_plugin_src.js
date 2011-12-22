@@ -15,8 +15,8 @@
 
   As per the GPL, removal of this notice is prohibited.
 */
-'use strict';
 (function () {
+    'use strict';
     tinymce.PluginManager.requireLangPack('foswikibuttons');
 
     tinymce.create('tinymce.plugins.FoswikiButtons', {
@@ -48,8 +48,7 @@
             /* Register Foswiki formats with TinyMCE's formatter, which isn't
                available during plugin init */
             ed.onInit.add(function (editor) {
-                this.plugins.foswikibuttons._registerFormats(editor, 
-                this.plugins.foswikibuttons.formats);
+                this.plugins.foswikibuttons._registerFormats(editor, this.plugins.foswikibuttons.formats);
 
                 this.plugins.foswikibuttons._contextMenuVerbatimClasses(editor);
             });
@@ -230,28 +229,30 @@
 
        _setupIndentButton: function (ed, url) {
             ed.addCommand('fwindent', function () {
-		if (this.queryCommandState('InsertUnorderedList') ||
-		    this.queryCommandState('InsertOrderedList'))
-		    // list type node - use the default behaviour
-		    this.execCommand("Indent");
-		else {
-		    // drive up to the nearest block node
-		    var dom = ed.dom, selection = ed.selection;
-		    var node = dom.getParent(selection.getStart(), dom.isBlock) ||
-			dom.getParent(selection.getEnd(), dom.isBlock);
-		    if (node) {
-			// SMELL: what about indentation inside tables? Needs to be disabled.
-			// insert div below the nearest block node
-			var div = dom.create('div', { class : 'foswikiIndent'});
-			while (node.firstChild) {
-			    dom.add(div, dom.remove(node.firstChild));
-			}
-			div = dom.add(node, div);
-			ed.selection.select(div);
-			ed.selection.collapse(); // This eats the cursor!
-			ed.selection.setCursorLocation(div, 0);
-		    }
-		}
+                if (this.queryCommandState('InsertUnorderedList') ||
+                    this.queryCommandState('InsertOrderedList')) {
+                    // list type node - use the default behaviour
+                    this.execCommand("Indent");
+                }
+                else {
+                    // drive up to the nearest block node
+                    var dom = ed.dom, selection = ed.selection,
+                        node = dom.getParent(selection.getStart(), dom.isBlock) ||
+                               dom.getParent(selection.getEnd(), dom.isBlock),
+                        div;
+                    if (node) {
+                        // SMELL: what about indentation inside tables? Needs to be disabled.
+                        // insert div below the nearest block node
+                        div = dom.create('div', { 'class' : 'foswikiIndent'});
+                        while (node.firstChild) {
+                            dom.add(div, dom.remove(node.firstChild));
+                        }
+                        div = dom.add(node, div);
+                        ed.selection.select(div);
+                        ed.selection.collapse(); // This eats the cursor!
+                        ed.selection.setCursorLocation(div, 0);
+                    }
+                }
             });
 
             ed.addButton('fwindent', {
@@ -265,29 +266,30 @@
 
         _setupExdentButton: function (ed, url) {
             ed.addCommand('fwexdent', function () {
-		var dom = ed.dom, selection = ed.selection;
-		var node = dom.getParent(selection.getStart(), dom.isBlock);
-		if (node && dom.hasClass(node, 'foswikiIndent')) {
-		    var p = node.parentNode;
-		    while (node.firstChild) {
-			p.insertBefore(dom.remove(node.firstChild), node);
-		    }
-		    dom.remove(node);
-		    ed.selection.select(p.firstChild);
-		    ed.selection.collapse();
-		} else
-		    this.execCommand("Outdent");
+                var dom = ed.dom, selection = ed.selection,
+                    node = dom.getParent(selection.getStart(), dom.isBlock),
+                    p;
+                if (node && dom.hasClass(node, 'foswikiIndent')) {
+                    p = node.parentNode;
+                    while (node.firstChild) {
+                        p.insertBefore(dom.remove(node.firstChild), node);
+                    }
+                    dom.remove(node);
+                    ed.selection.select(p.firstChild);
+                    ed.selection.collapse();
+                } else {
+                    this.execCommand("Outdent");
+                }
             });
 
-	    ed.onNodeChange.add(function(ed, cm, n, co, ob) {
-		var dom = ed.dom, selection = ed.selection;
-		var node = dom.getParent(selection.getStart(), dom.isBlock);
+            ed.onNodeChange.add(function(ed, cm, n, co, ob) {
+                var dom = ed.dom, selection = ed.selection,
+                    node = dom.getParent(selection.getStart(), dom.isBlock),
+                    state = (node && dom.hasClass(node, 'foswikiIndent')) ||
+                            ed.queryCommandState('Outdent');
 
-		var state = (node && dom.hasClass(node, 'foswikiIndent')) ||
-		    ed.queryCommandState('Outdent');
-
-		cm.setDisabled('fwexdent', !state);
-	    });
+                cm.setDisabled('fwexdent', !state);
+            });
 
             ed.addButton('fwexdent', {
                 title: 'foswikibuttons.exdent_desc',
@@ -435,7 +437,7 @@
                 if (!collapsed) {
                     // !collapsed means a selection; always update button state if
                     // there is a selection. 
-                    this._updateButtonState(ed, cm)
+                    this._updateButtonState(ed, cm);
                 } else if (node !== this._lastButtonUpdateNode) {
                     // Only update button state if it wasn't already calculated for
                     // this node already on a previous call.
@@ -457,11 +459,9 @@
          * for 500ms or more.
          */
         _updateButtonState: function (ed, cm, node, collapsed) {
-            var selectedFormats, listbox;
-
-            selectedFormats = ed.formatter.matchAll(
-                ed.plugins.foswikibuttons.format_names),
-            listbox = cm.get(ed.id + '_foswikiformat');
+            var selectedFormats = ed.formatter.matchAll(
+                    ed.plugins.foswikibuttons.format_names),
+                listbox = cm.get(ed.id + '_foswikiformat');
 
             if (collapsed) { // Disable the buttons
                 cm.setDisabled('colour', true);
@@ -491,10 +491,18 @@
         },
 
         _contextMenuVerbatimClasses: function (ed) {
-            ed.plugins.foswikibuttons.recipe_names = new Array('tml', 'html', 'js');
-            var recipes = {};
-            for (var i = 0; i < ed.plugins.foswikibuttons.recipe_names.length; i++) {
-                var key = ed.plugins.foswikibuttons.recipe_names[i];
+            var recipes = {},
+                i,
+                key,
+                sm,
+                se,
+                el,
+                selectedFormats,
+                current = '';
+
+            ed.plugins.foswikibuttons.recipe_names = ['tml', 'html', 'js'];
+            for (i = 0; i < ed.plugins.foswikibuttons.recipe_names.length; i += 1) {
+                key = ed.plugins.foswikibuttons.recipe_names[i];
                 recipes[key] = { "block" : "pre", "remove" : "all", classes : 'TMLverbatim ' + key };
             }
             ed.formatter.register(recipes);
@@ -503,11 +511,11 @@
             });
             if (ed && ed.plugins.contextmenu) {
                 ed.plugins.contextmenu.onContextMenu.add(function(th, m, e) {
-                    var sm, se = ed.selection, el = se.getNode() || ed.getBody();
+                    se = ed.selection;
+                    el = se.getNode() || ed.getBody();
 
-                    if (el.nodeName == 'PRE' && el.className.indexOf('TMLverbatim') != -1) {
-                        var selectedFormats = ed.formatter.matchAll(ed.plugins.foswikibuttons.recipe_names);
-                        var current = '';
+                    if (el.nodeName === 'PRE' && el.className.indexOf('TMLverbatim') !== -1) {
+                        selectedFormats = ed.formatter.matchAll(ed.plugins.foswikibuttons.recipe_names);
                         if (selectedFormats.length > 0) {
                             current = '(' + selectedFormats[0] + ')';
                         }
