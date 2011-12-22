@@ -310,6 +310,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  22 Dec 2011 (1.2.5) | Foswikitask:Item11382: Fix JS autosave error in IE7 when editing topics in nested webs |
 |  19 Dec 2011 (1.2.4) | Foswikitask:Item2516: Added support for indented plain paragraphs. NOTE: requires an update to TINYMCEPLUGIN_INIT, if you have customised it. |
 |  22 Nov 2011 (1.2.3) | Foswikitask:Item11272: Remove bogus dependency on !BehaviourContrib |
 |  08 Nov 2011 (1.2.2) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.7. |
