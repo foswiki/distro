@@ -772,6 +772,11 @@ sub _actionManageExtensions {
         _screenAuthorize( 'EXTEND', $messageType );
     }
     else {
+
+        # Reload the configuration - expanding variables
+        delete $Foswiki::cfg{ConfigurationFinished};
+        Foswiki::Configure::Load::readConfig();
+
         my $html = Foswiki::Configure::UI::getTemplateParser()
           ->readTemplate('pagebegin');
         Foswiki::Configure::UI::getTemplateParser()->parse( $html, {} );
