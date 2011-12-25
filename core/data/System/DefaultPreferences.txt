@@ -37,7 +37,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WEBSUMMARY = %IF{"defined SITEMAPWHAT" then="$percentSITEMAPWHAT$percent"}% %IF{"defined SITEMAPUSETO" then="$percentSITEMAPUSETO$percent"}%
 
    * Copyright notice:
-      * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="%MAKETEXT{"This site is powered by Foswiki"}%" title="%MAKETEXT{"This site is powered by Foswiki"}%" border="0" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}%
+      * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="%MAKETEXT{"This site is powered by Foswiki"}%" title="%MAKETEXT{"This site is powered by Foswiki"}%" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}%
 
    * Simplified Copyright notice for the WebRss feed (don't use any special characters, html tags, entities, wiki markup or WikiWords)
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
@@ -319,17 +319,17 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 #DocGraphics
    * Macros for graphics used in documentation - view all images in %ICONTOPIC%:
-      * Set H = <img src="%ICONURLPATH{help}%" alt="HELP" title="HELP" width="16" height="16" border="0" />
-      * Set I = <img src="%ICONURLPATH{tip}%" alt="IDEA!" title="IDEA!" width="16" height="16" border="0" />
-      * Set M = <img src="%ICONURLPATH{arrowright}%" alt="MOVED TO..." title="MOVED TO..." width="16" height="16" border="0" />
-      * Set N = <img src="%ICONURLPATH{new}%" alt="NEW" title="NEW" width="30" height="16" border="0" />
-      * Set P = <img src="%ICONURLPATH{pencil}%" alt="REFACTOR" title="REFACTOR" width="16" height="16" border="0" />
-      * Set Q = <img src="%ICONURLPATH{question}%" alt="QUESTION?" title="QUESTION?" width="16" height="16" border="0" />
-      * Set S = <img src="%ICONURLPATH{starred}%" alt="PICK" title="PICK" width="16" height="16" border="0" />
-      * Set T = <img src="%ICONURLPATH{tip}%" alt="TIP" title="TIP" width="16" height="16" border="0" />
-      * Set U = <img src="%ICONURLPATH{updated}%" alt="UPDATED" title="UPDATED" width="55" height="16" border="0" />
-      * Set X = <img src="%ICONURLPATH{warning}%" alt="ALERT!" title="ALERT!" width="16" height="16" border="0" />
-      * Set Y = <img src="%ICONURLPATH{choice-yes}%" alt="DONE" title="DONE" width="16" height="16" border="0" />
+      * Set H = <img src="%ICONURLPATH{help}%" alt="HELP" title="HELP" width="16" height="16" />
+      * Set I = <img src="%ICONURLPATH{tip}%" alt="IDEA!" title="IDEA!" width="16" height="16" />
+      * Set M = <img src="%ICONURLPATH{arrowright}%" alt="MOVED TO..." title="MOVED TO..." width="16" height="16" />
+      * Set N = <img src="%ICONURLPATH{new}%" alt="NEW" title="NEW" width="30" height="16" />
+      * Set P = <img src="%ICONURLPATH{pencil}%" alt="REFACTOR" title="REFACTOR" width="16" height="16" />
+      * Set Q = <img src="%ICONURLPATH{question}%" alt="QUESTION?" title="QUESTION?" width="16" height="16" />
+      * Set S = <img src="%ICONURLPATH{starred}%" alt="PICK" title="PICK" width="16" height="16" />
+      * Set T = <img src="%ICONURLPATH{tip}%" alt="TIP" title="TIP" width="16" height="16" />
+      * Set U = <img src="%ICONURLPATH{updated}%" alt="UPDATED" title="UPDATED" width="55" height="16" />
+      * Set X = <img src="%ICONURLPATH{warning}%" alt="ALERT!" title="ALERT!" width="16" height="16" />
+      * Set Y = <img src="%ICONURLPATH{choice-yes}%" alt="DONE" title="DONE" width="16" height="16" />
 
    * Colored text: (see more StandardColors)
      | You type: | =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= |
@@ -356,25 +356,25 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * <span style='background : #808080;'>%WHITE% *Set WHITE = looks like this (with gray background)* %ENDCOLOR%</span>
       * The following color settings are enclosed in verbatim tags to avoid incorrect nesting of XHTML tags:
 <verbatim class="tml">
-      * Set YELLOW = <font color="#ffff00">
-      * Set ORANGE = <font color="#ff6600">
-      * Set RED = <font color="#ff0000">
-      * Set PINK = <font color="#ff00ff">
-      * Set PURPLE = <font color="#800080">
-      * Set TEAL = <font color="#008080">
-      * Set NAVY = <font color="#000080">
-      * Set BLUE = <font color="#0000ff">
-      * Set AQUA = <font color="#00ffff">
-      * Set LIME = <font color="#00ff00">
-      * Set GREEN = <font color="#008000">
-      * Set OLIVE = <font color="#808000">
-      * Set MAROON = <font color="#800000">
-      * Set BROWN = <font color="#996633">
-      * Set BLACK = <font color="#000000">
-      * Set GRAY = <font color="#808080">
-      * Set SILVER = <font color="#c0c0c0">
-      * Set WHITE = <font color="#ffffff">
-      * Set ENDCOLOR = </font>
+      * Set YELLOW = <span style="color: #ff0">
+      * Set ORANGE = <span style="color: #f60">
+      * Set RED = <span style="color: #f00">
+      * Set PINK = <span style="color: #f0f">
+      * Set PURPLE = <span style="color: #800080">
+      * Set TEAL = <span style="color: #008080">
+      * Set NAVY = <span style="color: #000080">
+      * Set BLUE = <span style="color: #00f">
+      * Set AQUA = <span style="color: #0ff">
+      * Set LIME = <span style="color: #0f0">
+      * Set GREEN = <span style="color: #008000">
+      * Set OLIVE = <span style="color: #808000">
+      * Set MAROON = <span style="color: #800000">
+      * Set BROWN = <span style="color: #963">
+      * Set BLACK = <span style="color: #000">
+      * Set GRAY = <span style="color: #808080">
+      * Set SILVER = <span style="color: #c0c0c0">
+      * Set WHITE = <span style="color: #fff">
+      * Set ENDCOLOR = </span>
 </verbatim>
 
 ---++ Miscellaneous Settings
