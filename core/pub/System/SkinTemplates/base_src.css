@@ -208,3 +208,42 @@ img {
 .foswikiIndent {
 	padding-left: 3em;
 }
+
+/* colors */
+.foswikiYellowFG { color:#ffff00; }
+.foswikiOrangeFG { color:#ff6600; }
+.foswikiRedFG    { color:#ff0000; }
+.foswikiPinkFG   { color:#ff00ff; }
+.foswikiPurpleFG { color:#800080; }
+.foswikiTealFG   { color:#008080; }
+.foswikiNavyFG   { color:#000080; }
+.foswikiBlueFG   { color:#0000ff; }
+.foswikiAquaFG   { color:#00ffff; }
+.foswikiLimeFG   { color:#00ff00; }
+.foswikiGreenFG  { color:#008000; }
+.foswikiOliveFG  { color:#808000; }
+.foswikiMaroonFG { color:#800000; }
+.foswikiBrownFG  { color:#996633; }
+.foswikiBlackFG  { color:#000000; }
+.foswikiGrayFG   { color:#808080; }
+.foswikiSilverFG { color:#c0c0c0; }
+.foswikiWhiteFG  { color:#ffffff; }
+
+.foswikiYellowBG { background-color:#ffff00; }
+.foswikiOrangeBG { background-color:#ff6600; } 
+.foswikiRedBG    { background-color:#ff0000; } 
+.foswikiPinkBG   { background-color:#ff00ff; } 
+.foswikiPurpleBG { background-color:#800080; } 
+.foswikiNavyBG   { background-color:#000080; } 
+.foswikiBlueBG   { background-color:#0000ff; } 
+.foswikiTealBG   { background-color:#008080; } 
+.foswikiAquaBG   { background-color:#00ffff; } 
+.foswikiLimeBG   { background-color:#00ff00; } 
+.foswikiGreenBG  { background-color:#008000; } 
+.foswikiOliveBG  { background-color:#808000; } 
+.foswikiMaroonBG { background-color:#800000; } 
+.foswikiBrownBG  { background-color:#996633; } 
+.foswikiBlackBG  { background-color:#000000; } 
+.foswikiGrayBG   { background-color:#808080; } 
+.foswikiSilverBG { background-color:#c0c0c0; } 
+.foswikiWhiteBG  { background-color:#ffffff; } 

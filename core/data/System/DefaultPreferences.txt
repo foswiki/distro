@@ -356,24 +356,24 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * <span style='background : #808080;'>%WHITE% *Set WHITE = looks like this (with gray background)* %ENDCOLOR%</span>
       * The following color settings are enclosed in verbatim tags to avoid incorrect nesting of XHTML tags:
 <verbatim class="tml">
-      * Set YELLOW = <span style="color: #ff0">
-      * Set ORANGE = <span style="color: #f60">
-      * Set RED = <span style="color: #f00">
-      * Set PINK = <span style="color: #f0f">
-      * Set PURPLE = <span style="color: #800080">
-      * Set TEAL = <span style="color: #008080">
-      * Set NAVY = <span style="color: #000080">
-      * Set BLUE = <span style="color: #00f">
-      * Set AQUA = <span style="color: #0ff">
-      * Set LIME = <span style="color: #0f0">
-      * Set GREEN = <span style="color: #008000">
-      * Set OLIVE = <span style="color: #808000">
-      * Set MAROON = <span style="color: #800000">
-      * Set BROWN = <span style="color: #963">
-      * Set BLACK = <span style="color: #000">
-      * Set GRAY = <span style="color: #808080">
-      * Set SILVER = <span style="color: #c0c0c0">
-      * Set WHITE = <span style="color: #fff">
+      * Set YELLOW = <span class='foswikiYellowFG'>
+      * Set ORANGE = <span class='foswikiOrangeFG'>
+      * Set RED = <span class='foswikiRedFG'>
+      * Set PINK = <span class='foswikiPinkFG'>
+      * Set PURPLE = <span class='foswikiPurpleFG'>
+      * Set TEAL = <span class='foswikiTealFG'>
+      * Set NAVY = <span class='foswikiNavyFG'>
+      * Set BLUE = <span class='foswikiBlueFG'>
+      * Set AQUA = <span class='foswikiAquaFG'>
+      * Set LIME = <span class='foswikiLimeFG'>
+      * Set GREEN = <span class='foswikiGreenFG'>
+      * Set OLIVE = <span class='foswikiOliveFG'>
+      * Set MAROON = <span class='foswikiMaroonFG'>
+      * Set BROWN = <span class='foswikiBrownFG'>
+      * Set BLACK = <span class='foswikiBlackFG'>
+      * Set GRAY = <span class='foswikiGrayFG'>
+      * Set SILVER = <span class='foswikiSilverFG'>
+      * Set WHITE = <span class='foswikiWhiteFG'>
       * Set ENDCOLOR = </span>
 </verbatim>
 
