@@ -1845,7 +1845,7 @@ qr#Unable to find EmptyPlugin locally in (.*) ...fetching installer from http://
 
     my @files = $pkg->listFiles();
     $this->assert_num_equals(
-        3,
+        4,
         scalar @files,
         "Unexpected number of files in EmptyPlugin manifest"
     );
