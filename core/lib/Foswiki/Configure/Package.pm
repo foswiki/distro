@@ -666,7 +666,7 @@ sub _installAttachments {
             my $err = '';
             $err = "Target file $tfile is not writable\n"
               if ( -e "$tfile" && !-w "$tfile" && !-o "$tfile" );
-            $err .= "Source file missing, probable packaging error\n"
+            $err .= "Source file $dir/$file missing, probable packaging error\n"
               if ( !-e "$dir/$file" );
             if ($err) {
                 $errors .= $err;
