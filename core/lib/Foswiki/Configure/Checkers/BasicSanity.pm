@@ -178,17 +178,17 @@ HERE
     $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
 
-# The following check for OP_match is only needed on Foswiki 1.1.
-# Foswiki 1.2 does not use this setting.
+    # The following check for OP_match is only needed on Foswiki 1.1.
+    # Foswiki 1.2 does not use this setting.
     my $goodOp = 0;
-    foreach my $op ( @{$Foswiki::cfg{Operators}{Query}} ) {
+    foreach my $op ( @{ $Foswiki::cfg{Operators}{Query} } ) {
         if ( $op eq 'Foswiki::Query::OP_match' ) {
             $goodOp = 1;
             last;
         }
     }
 
-    unless ( $goodOp ) {
+    unless ($goodOp) {
         $result .= $this->ERROR(<<'MESSAGE');
 <code>lib/LocalSite.cfg</code> has a problem.  The setting for
 <code>{Operators}{Query}</code> is missing the definition for the match operator.
