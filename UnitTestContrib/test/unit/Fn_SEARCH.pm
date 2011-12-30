@@ -2035,7 +2035,7 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced', 'WebStatistics',
+            'WebSearchAdvanced',
             'WebTopicList'
         ],
         '_default',
@@ -2057,7 +2057,7 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced', 'WebStatistics',
+            'WebSearchAdvanced',
             'WebTopicList'
         ],
         '_default',
@@ -2073,9 +2073,9 @@ sub verify_getTopicList {
         'comma separated list'
     );
     $this->_getTopicList(
-        [ 'WebCreateNewTopic', 'WebStatistics' ],
+        [ 'WebCreateNewTopic', 'WebTopicList' ],
         '_default',
-        { includeTopics => 'WebStatistics, WebCreateNewTopic, NoSuchTopic' },
+        { includeTopics => 'WebTopicList, WebCreateNewTopic, NoSuchTopic' },
         'no filters, all topics in test_web'
     );
 
@@ -2093,7 +2093,7 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearchAdvanced',
-            'WebStatistics',     'WebTopicList'
+            'WebTopicList'
         ],
         '_default',
         { excludeTopics => 'WebSearch' },
@@ -4405,7 +4405,7 @@ sub test_simple_format {
 
     my $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
-    "(WebPreferences|^WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -4417,19 +4417,19 @@ sub test_simple_format {
     my $expected = <<'HERE';
    * !Main.WebHome
    * !Main.WebPreferences
-   * !Main.WebStatistics
+   * !Main.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
    * !Sandbox.WebHome
    * !Sandbox.WebPreferences
-   * !Sandbox.WebStatistics
+   * !Sandbox.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
    * !System.WebHome
    * !System.WebPreferences
-   * !System.WebStatistics
+   * !System.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
    * !TestCases.WebHome
    * !TestCases.WebPreferences
-   * !TestCases.WebStatistics
+   * !TestCases.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 HERE
 
@@ -4443,7 +4443,7 @@ sub test_formatdotBang {
 
     my $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
-    "(WebPreferences|^WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="%SYSTEMWEB%"
@@ -4455,7 +4455,7 @@ sub test_formatdotBang {
     my $expected = <<'HERE';
    * !System.!WebHome
    * !System.!WebPreferences
-   * !System.!WebStatistics
+   * !System.!WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 HERE
 
