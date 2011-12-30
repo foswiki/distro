@@ -49,7 +49,6 @@ data/Main/WebPreferences.txt 0644
 data/Main/WebRss.txt 0644
 data/Main/WebSearch.txt 0644
 data/Main/WebSearchAdvanced.txt 0644
-data/Main/WebStatistics.txt 0644
 data/Main/WebTopicList.txt 0644
 data/Main/WikiGroups.txt 0644
 data/Main/WikiGuest.txt 0644
@@ -63,7 +62,6 @@ data/Sandbox/WebPreferences.txt 0644
 data/Sandbox/WebRss.txt 0644
 data/Sandbox/WebSearch.txt 0644
 data/Sandbox/WebSearchAdvanced.txt 0644
-data/Sandbox/WebStatistics.txt 0644
 data/Sandbox/WebTopicList.txt 0644
 data/System/ACRONYM.txt 0644
 data/System/AccessControl.txt 0644
@@ -337,7 +335,6 @@ data/System/WebRssBase.txt 0644
 data/System/WebSearch.txt 0644
 data/System/WebSearchAdvanced.txt 0644
 data/System/WebSiteTools.txt 0644
-data/System/WebStatistics.txt 0644
 data/System/WebTemplateTopics.txt 0644
 data/System/WebTopicCreator.txt 0644
 data/System/WebTopicEditTemplate.txt 0644
@@ -363,7 +360,6 @@ data/Trash/WebPreferences.txt 0644
 data/Trash/WebRss.txt 0644
 data/Trash/WebSearch.txt 0644
 data/Trash/WebSearchAdvanced.txt 0644
-data/Trash/WebStatistics.txt 0644
 data/Trash/WebTopicList.txt 0644
 data/_default/WebAtom.txt 0644
 data/_default/WebChanges.txt 0644
@@ -375,7 +371,6 @@ data/_default/WebPreferences.txt 0644
 data/_default/WebRss.txt 0644
 data/_default/WebSearch.txt 0644
 data/_default/WebSearchAdvanced.txt 0644
-data/_default/WebStatistics.txt 0644
 data/_default/WebTopicList.txt 0644
 data/_empty/WebPreferences.txt 0644
 data/mime.types 0644
