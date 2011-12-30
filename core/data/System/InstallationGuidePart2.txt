@@ -34,13 +34,14 @@ In many cases enabling a security feature prevents other features. It is a balan
 
 A new administrator is encouraged to read Foswiki:Support.SecurityFeatures which gives a walkthrough of the different security aspects and how to set the appropriate configuration settings. Note that that some security settings are only visible in configure in "expert mode" which you enter by clicking the "Yes, I've read all the documentation" button at the top of the configure screen.
 
+#EmailConfig
 ---++++ Enable Email Notification
 
 Each web has an automatic email notification service that sends you an email with links to all of the topics modified since the last alert. To enable this service:
    1 Confirm the Mail and Proxies settings on the =configure= page.
    1 Setup a cron job (or equivalent) to call the =tools/mailnotify= script, as described in the [[%SYSTEMWEB%.MailerContrib]] topic.
 
-#SMIME
+#SMimeInfo
 ---++++ Enable Signed Email Notification
 
 Foswiki administrative emails are an attractive target for SPAM generators and phishing attacks. One good way to protect against this possibility to enable S/MIME signatures on all administrative e-mails. To do this, you need an an X.509 certificate and private key for the the ={WebMasterEmail}= email account. Obtain these as you would for any other S/MIME e-mail user.
@@ -70,7 +71,7 @@ By default Foswiki cleans out expired session and lease files each time any topi
 
 ---++++ Enable !WebStatistics
 
-You can manually or automatically generate a listing of the most popular pages for each web, based on number of visits. For information on setting up this feature, see the [[%SYSTEMWEB%.SiteTools]] topic.
+You can manually or automatically generate a listing of the most popular pages for each web, based on number of visits. For information on setting up this feature, see the [[%SYSTEMWEB%.SiteTools#WebStatistics]] topic.
 
 ---++++ Enable Localisation
 

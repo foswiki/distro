@@ -7,7 +7,7 @@
    * [[%BASEWEB%.WebChanges][WebChanges]]: Display recent changes to the %BASEWEB% web
    * [[%BASEWEB%.WebIndex][WebIndex]]: List all %BASEWEB% topics in alphabetical order. See also the faster [[%BASEWEB%.WebTopicList][WebTopicList]]
    * [[%BASEWEB%.%NOTIFYTOPIC%][%NOTIFYTOPIC%]]: Subscribe to an e-mail alert sent when something changes in the %BASEWEB% web
-   * [[%BASEWEB%.%STATISTICSTOPIC%][%STATISTICSTOPIC%]]: View access statistics of the %BASEWEB% web
+   * %IF{"istopic '%BASEWEB%.%STATISTICSTOPIC%'" then="[[%BASEWEB%.%STATISTICSTOPIC%][%STATISTICSTOPIC%]]" else="%STATISTICSTOPIC%"}%: View access statistics of the %BASEWEB% web
    * [[%BASEWEB%.%WEBPREFSTOPIC%][%WEBPREFSTOPIC%]]: Preferences of the %BASEWEB% web ([[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]] has site-wide preferences)
 </noautolink>
 </form>

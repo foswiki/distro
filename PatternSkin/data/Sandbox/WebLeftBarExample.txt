@@ -9,7 +9,7 @@
    * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
    * [[WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
    * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
-   * [[WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
+   * %IF{"istopic '%STATISTICSTOPIC%'" else=" $percntICON{\"statistics\"}$percnt $percntMAKETEXT{\"Statistics\"}$percnt" then="[[$percntSTATISTICSTOPIC$percnt][ $percntICON{\"statistics\"}$percnt $percntMAKETEXT{\"Statistics\"}$percnt]]"}%
    * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
 
 %INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%

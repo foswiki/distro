@@ -400,7 +400,10 @@ It is not possible to call =save= from an =&lt;a href ...&gt;= link.</blockquote
 This cgi script has been deprecated. When called, it will redirect to the WebSearch topic, and the parameters will be passed on.
 
 ---+++ =statistics=
-Refresh the %STATISTICSTOPIC% topics in range of webs.
+<!--
+   * Set ISSTATISTICSTOPIC = %IF{"istopic '%STATISTICSTOPIC%'" else="!WebStatistics" then="[[$percntSTATISTICSTOPIC$percnt][WebStatistics]]"}%
+-->
+Refresh the %ISSTATISTICSTOPIC% topics in range of webs.
 | *Parameter* | *Description* | *Default* |
 | =logdate= | YYYYMM to generate statistics for | _current month_ |
 | =webs= | comma-separated list of webs to run stats on | _all accessible webs_ |
@@ -413,7 +416,7 @@ for example:
    5 from command line bin/statistics -webs=Userweb,%SANDBOXWEB% updates _Userweb,%SANDBOXWEB%_
    6 from command line bin/statistics %WEB%.<nop>WebHome updates %WEB%
 
-see SiteTools#WebStatistics for more details on %STATISTICSTOPIC% and how to update statistics using cron.
+see SiteTools#WebStatistics for more details on %ISSTATISTICSTOPIC% and how to update statistics using cron.
 
 ---+++ =upload=
 Uploads an attachment to a topic. The HTTP request is expected to be in =multipart/form-data= format.

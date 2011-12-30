@@ -8,7 +8,7 @@
    * [[%BASEWEB%.WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
    * [[%BASEWEB%.WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
    * [[%BASEWEB%.WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
-   * [[%BASEWEB%.WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
+   * %IF{"istopic '%BASEWEB%.%STATISTICSTOPIC%'" else=" $percntICON{\"statistics\"}$percnt $percntMAKETEXT{\"Statistics\"}$percnt" then="[[$percntBASEWEB%percnt.$percntSTATISTICSTOPIC$percnt][ $percntICON{\"statistics\"}$percnt $percntMAKETEXT{\"Statistics\"}$percnt]]"}%
    * [[%BASEWEB%.WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
 
 ---

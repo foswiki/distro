@@ -53,7 +53,7 @@ The part below is included by each <nop>WebRss topic:
   "%URLPARAM{"search" 
   encode="quote" default=".*" }%" 
   web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%" 
-  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="WebStatistics" }%" 
+  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%" 
   type="%URLPARAM{"type" encode="quote" default="regex" }%" 
   nosearch="on" 
   order="modified" 
@@ -76,7 +76,7 @@ The part below is included by each <nop>WebRss topic:
 %SEARCH{
   "%URLPARAM{"search" encode="quote" default=".*" }%" 
   web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%" 
-  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="WebStatistics" }%" 
+  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%" 
   type="%URLPARAM{"type" encode="quote" default="regex" }%" 
   nosearch="on" 
   order="modified" 
