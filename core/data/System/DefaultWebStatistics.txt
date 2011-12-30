@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1239551007" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %STARTINCLUDE%
----++ Statistics for <nop>%BASEWEB% Web
+---++ <nop>%BASEWEB% %SPACEOUT{%BASETOPIC%}%
 %TWISTYBUTTON{id="infoOnStatistics" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about Statistics ..." hidelink="Close info" remember="on" firststart="hide"}%
 %TWISTYTOGGLE{id="infoOnStatistics"}%<div class="foswikiHelp">
 <h4>About Web Statistics</h4>
