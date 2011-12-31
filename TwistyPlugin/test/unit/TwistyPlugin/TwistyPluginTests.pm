@@ -183,13 +183,13 @@ EXPECTED1
     $expected .= "$pubUrlSystemWeb/DocumentGraphics/toggleopen-small.png";
 
     $expected .= <<'EXPECTED2';
-" alt="" /><span class="foswikiLinkLabel foswikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><img src="
+" alt="" border="0" /><span class="foswikiLinkLabel foswikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" style="display:none" class="twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><img src="
 EXPECTED2
 
     $expected .= "$pubUrlSystemWeb/DocumentGraphics/toggleclose-small.png";
 
     $expected .= <<'EXPECTED3';
-" alt="" /><span class="foswikiLinkLabel foswikiUnvisited">Hide</span></a></span>  </div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">
+" alt="" border="0" /><span class="foswikiLinkLabel foswikiUnvisited">Hide</span></a></span>  </div><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" style="" class="twistyContent twistyInited">
 content with icons
 </div></div>
 EXPECTED3
