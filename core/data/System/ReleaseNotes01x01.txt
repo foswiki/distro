@@ -298,7 +298,7 @@ The Foswiki logging architecture has been changed to make processing of the "cur
 |  *Foswiki 1.0.x*  |  *Foswiki 1.1.x*  ||
 |  *Current & Prior*  |  *Current Month*  |  *Prior Months*  |
 | =foswiki-root/data/logYYYYMM= | =foswiki-root/working/logs/events.log= | =foswiki-root/working/logs/events.YYYYMM= |
-| =foswiki-root/data/warnYYYYMM= | =foswiki-root/working/logs/warn.log= | =foswiki-root/working/logs/warn.YYYYMM= |
+| =foswiki-root/data/warnYYYYMM= | _warnings written to error log_ | n/a |
 | =foswiki-root/data/error.log= | =foswiki-root/working/logs/error.log= | =foswiki-root/working/logs/error.YYYYMM= |
 | =foswiki-root/data/debug.txt= | =foswiki-root/working/logs/debug.log= | =foswiki-root/working/logs/debug.YYYYMM= |
 | =foswiki-root/data/configurationlog.txt= | =foswiki-root/working/logs/configure.log= | _The configuratiog log does not roll_  |
