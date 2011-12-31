@@ -52,7 +52,7 @@ Usage:
 </pre>
 Lorem ipsum is pig latin for "that's my lorry, that is".
 <p />
--- <font color="#0000ff">AlexanderTheGeek</font> - 01 Nov 2004
+-- <span class=foswikiBlueFG>AlexanderTheGeek</span> - 01 Nov 2004
 <!-- /expected -->
 ---++ Actual at end of topic
 <!-- actual -->

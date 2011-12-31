@@ -257,7 +257,7 @@ pretemplate<hr />
 <span class="foswikiNewLink">MissingWikiWord<a href="$editUrl?topicparent=TemporaryViewScriptTestWebViewScript.TestTopic2" rel="nofollow" title="Create this topic">?</a></span> <br />
 ExclamationEscape <br />
 NopEscape 
-<font color="#ff0000"> <pre> adsf </pre> <pre> qwerty </pre>
+<span class='foswikiRedFG'> <pre> adsf </pre> <pre> qwerty </pre>
 <p>A Paragraph </p>
 #anchor
 <a href="http://blah.com/">asdf</a>
