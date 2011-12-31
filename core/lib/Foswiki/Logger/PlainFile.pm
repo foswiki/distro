@@ -43,7 +43,13 @@ our %LEVEL2LOG = (
     emergency => 'error'
 );
 
-our $nextCheckDue = 0;
+our %nextCheckDue =
+    (
+        debug  => 0,
+        events => 0,
+        error  => 0,
+    );
+
 
 # Symbols used so we can override during unit testing
 our $dontRotate = 0;
@@ -68,7 +74,7 @@ sub log {
 
     my $log = _getLogForLevel($level);
     my $now = _time();
-    _rotate( $log, $now );
+    _rotate( $LEVEL2LOG{$level}, $log, $now );
     my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
 
     # Unfortunate compatibility requirement; need the level, but the old
@@ -250,12 +256,13 @@ sub _time2month {
 # See if the log needs to be rotated. If the log was last modified
 # last month, we need to rotate it.
 sub _rotate {
-    my ( $log, $now ) = @_;
+    my ($level, $log, $now ) = @_;
 
     return if $dontRotate;
+    return unless $level;
 
     # Don't bother checking if we have checked in this process already
-    return if ( $now < $nextCheckDue );
+    return if ( $now < $nextCheckDue{$level} );
 
     # Work out the current month
     my $curMonth = _time2month($now);
@@ -270,7 +277,7 @@ sub _rotate {
     else {
         $m = sprintf( '%0.2d', $m );
     }
-    $nextCheckDue = Foswiki::Time::parseTime("$y-$m-01");
+    $nextCheckDue{$level} = Foswiki::Time::parseTime("$y-$m-01");
 
     # If there's no existing log, there's nothing to rotate
     return unless -e $log;
@@ -283,8 +290,6 @@ sub _rotate {
 
     # The log was last modified in a month that was not the current month.
     # Rotate older entries out into month-by-month logfiles.
-
-    #print STDERR ">> Checking $log entries\n";
 
     # Open the current log
     my $lf;
