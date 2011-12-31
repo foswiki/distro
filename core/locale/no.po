@@ -17,22 +17,22 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,dag) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,time)"
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minutt) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund) "
 
@@ -480,10 +480,10 @@ msgid ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
-"<a href='%1'>RSS feed</a>, siste endringer av <a href='%2'>50</a>, <a href='%"
-"3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' "
-"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> sider, <a "
-"href='%7' rel='nofollow'>alle endringer</a>"
+"<a href='%1'>RSS feed</a>, siste endringer av <a href='%2'>50</a>, <a "
+"href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+"href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+"sider, <a href='%7' rel='nofollow'>alle endringer</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -712,7 +712,7 @@ msgid ""
 msgstr ""
 "Alle endringer du gjorde på siden før du kom til denne siden er lagret."
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "Legg ved"
 
@@ -770,11 +770,15 @@ msgstr "Flytting av vedlegg feilet"
 msgid "Attachment name:"
 msgstr "Vedlegg navn:"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Vedlegg"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "Vedlegg i %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -820,7 +824,7 @@ msgstr "Tilgjenglige maler i %1 web'en:"
 msgid "Back to topic"
 msgstr "Tilbake til siden"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "Referanser"
 
@@ -985,7 +989,7 @@ msgid "Changes"
 msgstr "Endringer"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "Endinger fra r%1 til r%2"
 
@@ -1310,8 +1314,8 @@ msgstr "Ved flytting av vedlegg =%1= til %2 ble feil funnet."
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 "Ved navneendring av side %1 til %2 ble feil (%3) funnet. Vennligst informer "
 "din %4 administrator."
@@ -1364,7 +1368,7 @@ msgstr "EXPAND feilet - ingen side kalt '%PARAM1%'"
 msgid "Each preference has the syntax"
 msgstr "Hver egenskap har syntaksen"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "Rediger"
 
@@ -1372,7 +1376,7 @@ msgstr "Rediger"
 msgid "Edit Anyway"
 msgstr "Rediger allikevel"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr "Rediger Wiki<nop>Tekst"
 
@@ -1838,7 +1842,7 @@ msgstr ""
 "bli misbrukt av andre."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
 msgstr "Bilde %1 av %2"
 
@@ -2004,12 +2008,12 @@ msgstr "Begrens resultater til:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "Linje: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "Linje: %1 til %2"
 
@@ -2101,7 +2105,7 @@ msgid "More topic actions"
 msgstr "Flere valg for siden"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "Flere valg for siden..."
 
@@ -2149,7 +2153,7 @@ msgstr "Flytt side til web:"
 msgid "Move/Rename"
 msgstr "Flytt/Navngi"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "NY"
 
@@ -2571,6 +2575,7 @@ msgid "Redirect Denied"
 msgstr "Viderekobling Nektet"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Oppdater"
@@ -3085,6 +3090,10 @@ msgstr "Send"
 msgid "Submitted content:"
 msgstr "Sendt innhold:"
 
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "Subscribe"
+msgstr ""
+
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
@@ -3585,7 +3594,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Siden kan ikke oppgraderes fra gammel type kategori tabell"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 msgid "Topic data"
 msgstr "Side data"
 
@@ -4010,8 +4019,8 @@ msgstr "Du forsøker å lage en side fra en mal som ikke finnes."
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr ""
 "Du forsøker å utføre en handling på en side som ikke finnes (action '%1')."
 
@@ -4263,31 +4272,31 @@ msgstr ""
 "[3 mellomrom] * [mellomrom] Set [mellomrom] VARIABELNAVN [mellomrom] = "
 "[verdi]"
 
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "Norsk"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "tilgang nektes til root"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "tilgang nektes for side"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "tilgang nektes for web"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "tilgang ikke tillatt til root"
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "tilgang ikke tillatt til side"
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "tilgang ikke tillatt til web"
 
@@ -4405,7 +4414,7 @@ msgstr ""
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='Lag ny side' accesskey='c'>Lag (&c)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4425,24 +4434,24 @@ msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Fletting' accesskey='i'>Flett&ing"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr ""
 "title='Vis utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig "
 "versjon (&p)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr "title='Søk alle web for sider som linker hit' accesskey='l'>A&lle Webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr "title='Søk i %1 web for sider som linker hit' accesskey='b'>&Backlinks"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
@@ -4451,17 +4460,29 @@ msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Side ved side' accesskey='s'>Side ved &side"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr ""
+"title='Vis utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig "
+"versjon (&p)"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Vis side' accesskey='v'>&Vis side"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Vis total sidehistorikk' accesskey='h'>&Historikk"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Vis wiki tekst uten formatering' accesskey='v'>&Vis wiki tekst"
 

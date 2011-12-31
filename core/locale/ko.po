@@ -6,6 +6,7 @@ msgstr ""
 "PO-Revision-Date: \n"
 "Last-Translator: Justin Kim <justin@cleverplant.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,22 +15,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,일) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,시간) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,분) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,초) "
 
@@ -696,7 +697,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "이 페이지로 접근하기 전에 변경한 내용은 보존되었습니다."
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "첨부"
 
@@ -757,11 +758,15 @@ msgstr "첨부물 이동 실패"
 msgid "Attachment name:"
 msgstr "첨부물"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "첨부물"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "%1 의 첨부물"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -807,7 +812,7 @@ msgstr ""
 msgid "Back to topic"
 msgstr "토픽으로 돌아가기"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr ""
 
@@ -970,7 +975,7 @@ msgid "Changes"
 msgstr "변경내역"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "r%1 에서 r%2 로 변경된 내역"
 
@@ -1291,8 +1296,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 
 #: core/templates/messages.tmpl:102
@@ -1339,7 +1344,7 @@ msgstr ""
 msgid "Each preference has the syntax"
 msgstr "각 항목은 문법을 따라야 합니다"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "편집"
 
@@ -1347,7 +1352,7 @@ msgstr "편집"
 msgid "Edit Anyway"
 msgstr "무시하고 편집하기"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1787,7 +1792,7 @@ msgid ""
 msgstr ""
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 #, fuzzy
 msgid "Image %1 of %2"
 msgstr "%1 Web은 존재하지 않습니다."
@@ -1952,12 +1957,12 @@ msgstr ""
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr ""
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr ""
 
@@ -2052,7 +2057,7 @@ msgid "More topic actions"
 msgstr "더 많은 토픽 액션..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "더 많은 토픽 액션..."
 
@@ -2101,7 +2106,7 @@ msgstr "토픽을 다음 Web 으로 이동하기:"
 msgid "Move/Rename"
 msgstr "이동/이름변경"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr ""
 
@@ -2525,6 +2530,7 @@ msgid "Redirect Denied"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "새로고침"
@@ -3027,6 +3033,10 @@ msgstr "제출"
 msgid "Submitted content:"
 msgstr "제출된 컨텐츠:"
 
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "Subscribe"
+msgstr ""
+
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
@@ -3478,7 +3488,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr ""
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 #, fuzzy
 msgid "Topic data"
 msgstr "모든 토픽 내역 보기"
@@ -3903,8 +3913,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr ""
 
 #: core/templates/messages.tmpl:623
@@ -4115,31 +4125,31 @@ msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
 
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "한글"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "토픽에 대한 접근이 허용되지 않습니다."
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "Web의 접근이 허용되지 않습니다."
 
@@ -4257,7 +4267,7 @@ msgstr "title='이 토픽에 이미지 혹은 문서 첨부하기' accesskey='a'
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='새로운 토픽 만들기' accesskey='c'>토픽 만들기(&C)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4279,22 +4289,22 @@ msgstr "title='이 토픽 편집하기' accesskey='e'>편집하기(&E)"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='토픽 보기' accesskey='v'>토픽보기(&V)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr "title='이 토픽의 프린트 버전 보기' accesskey='p'>프린트 버전(&P)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr "title='이곳을 링크하고 있는 모든 Web 검색하기' accesskey='l'>A&ll Webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr "title='이곳을 링크하고 있는 %1 Web 검색하기' accesskey='b'>&Backlinks"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='이곳을 링크하고 있는 %1 Web 검색하기' accesskey='b'>We&b"
@@ -4304,17 +4314,27 @@ msgstr "title='이곳을 링크하고 있는 %1 Web 검색하기' accesskey='b'>
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='토픽 보기' accesskey='v'>토픽보기(&V)"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='이 토픽 편집하기' accesskey='e'>편집하기(&E)"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr "title='이 토픽의 프린트 버전 보기' accesskey='p'>프린트 버전(&P)"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='토픽 보기' accesskey='v'>토픽보기(&V)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='모든 토픽 변경 내역 보기' accesskey='h'>변경내역(&H)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='포맷팅 없이 위키 원문 보기' accesskey='v'>원문보기(&R)"

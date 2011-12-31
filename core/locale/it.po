@@ -20,22 +20,22 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,giorno) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,ora) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minuto) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,secondo) "
 
@@ -734,7 +734,7 @@ msgstr ""
 "Ogni cambiamento fatto alla pagina prima di arrivare a questa pagina è stato "
 "preservato."
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "Allega"
 
@@ -792,11 +792,15 @@ msgstr "Spostamento dell'allegato fallito"
 msgid "Attachment name:"
 msgstr "Nome dell'allegato:"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Allegati"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "Allegati di %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -842,7 +846,7 @@ msgstr "Modelli disponibili nel Web %1:"
 msgid "Back to topic"
 msgstr "Indietro alla pagina"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "Collegamenti alla pagina"
 
@@ -1012,7 +1016,7 @@ msgid "Changes"
 msgstr "Variazioni"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "Cambia da r%1 a r%2"
 
@@ -1345,8 +1349,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 "Durante il cambio di nome della pagina da %1 a %2 si è verificato un errore "
 "(%3). Notificalo al tuo amministratore %4."
@@ -1400,7 +1404,7 @@ msgstr "EXPAND fallito - nessuna pagina '%PARAM1%'"
 msgid "Each preference has the syntax"
 msgstr "Ogni preferenza ha la sintassi"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "Modifica"
 
@@ -1408,7 +1412,7 @@ msgstr "Modifica"
 msgid "Edit Anyway"
 msgstr "Modifica comunque"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr "Modifica Wiki<nop>Text"
 
@@ -1772,8 +1776,8 @@ msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
-"Se non è questo il problema, potrebbe essere perché hai una impostazione di %"
-"1 che punta a un modello che non esiste."
+"Se non è questo il problema, potrebbe essere perché hai una impostazione di "
+"%1 che punta a un modello che non esiste."
 
 #: core/templates/messages.tmpl:364
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1874,7 +1878,7 @@ msgstr ""
 "essere usato abusivamente da qualcun altro."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
 msgstr "Immagine %1 di %2"
 
@@ -2047,12 +2051,12 @@ msgstr "Limita i risultati a:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "Riga: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "Righe: da %1 a %2"
 
@@ -2144,7 +2148,7 @@ msgid "More topic actions"
 msgstr "Manutenzione"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "Manutenzione..."
 
@@ -2192,7 +2196,7 @@ msgstr "Sposta la pagina nel Web:"
 msgid "Move/Rename"
 msgstr "Sposta/Rinomina"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "NUOVO"
 
@@ -2626,6 +2630,7 @@ msgid "Redirect Denied"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Aggiorna"
@@ -3145,6 +3150,10 @@ msgstr "Invia"
 msgid "Submitted content:"
 msgstr "Contenuto inviato:"
 
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "Subscribe"
+msgstr ""
+
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
@@ -3575,8 +3584,8 @@ msgid ""
 "the other users changes. Please inspect the topic to make sure it is OK, "
 "especially if you made any changes to form fields."
 msgstr ""
-"Questi cambiamenti sono stati aggiunti ai tuoi nella creazione della Rev. %"
-"1. I campi di testo sono stati aggiunti ma altri dati come i campi del form "
+"Questi cambiamenti sono stati aggiunti ai tuoi nella creazione della Rev. "
+"%1. I campi di testo sono stati aggiunti ma altri dati come i campi del form "
 "sono stati sovrascritti, cancellando altri cambiamenti. Controlla la pagina "
 "per assicurarti che tutto sia andato a buon fine, specialmente se hai fatto "
 "cambiamenti nei campi del form."
@@ -3658,7 +3667,7 @@ msgstr ""
 "La pagina non può essere aggiornata da una tabella categorie vecchio stile"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 msgid "Topic data"
 msgstr "Data della pagina"
 
@@ -4097,11 +4106,11 @@ msgstr "Si sta tentando di creare una pagina da un modello che non esiste."
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr ""
-"Stai cercando di eseguire una azione su una pagina che non esiste (azione '%"
-"1')."
+"Stai cercando di eseguire una azione su una pagina che non esiste (azione "
+"'%1')."
 
 #: core/templates/messages.tmpl:623
 msgid "You are trying to rename a topic that does not exist."
@@ -4112,8 +4121,8 @@ msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
-"Puoi [[%1][creare un nuovo Web]] solo se hai il permesso di farlo. Contatta %"
-"2 per ogni problema o dubbio."
+"Puoi [[%1][creare un nuovo Web]] solo se hai il permesso di farlo. Contatta "
+"%2 per ogni problema o dubbio."
 
 #: core/templates/messages.tmpl:147
 msgid ""
@@ -4358,31 +4367,31 @@ msgstr ""
 "[multipli di 3 spazi] * [spazio] Set [spazio] NOMEVARIABILE [spazio] = "
 "[valore]"
 
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "Italiano"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "accesso vietato alla radice"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "accesso vietato alla pagina"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "accesso vietato al Web"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "accesso non permesso alla radice"
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "accesso non permesso alla pagina"
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "accesso non permesso al Web"
 
@@ -4502,7 +4511,7 @@ msgstr ""
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='Crea pagina' accesskey='c'>&Crea"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4522,18 +4531,18 @@ msgstr "title='Modifica il testo di questa pagina' accesskey='e'>Modifica(&e)"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Interwoven' accesskey='i'>&interwoven"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr "title='Versione stampabile della pagina' accesskey='p'>Stam&pabile"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='Cerca le pagine collegate in tutti i web' accesskey='l'>Tutti i Web"
 "(&l)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
@@ -4541,7 +4550,7 @@ msgstr ""
 "title='Cerca nel Web %1 le pagine qui collegate' accesskey='b'>Retro "
 "collegamenti (&b)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='Cerca nel Web %1 le pagine qui collegate' accesskey='b'>We&b"
@@ -4550,18 +4559,28 @@ msgstr "title='Cerca nel Web %1 le pagine qui collegate' accesskey='b'>We&b"
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Affianca' accesskey='s'>affianca (&s)"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='Modifica il testo di questa pagina' accesskey='e'>Modifica(&e)"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr "title='Versione stampabile della pagina' accesskey='p'>Stam&pabile"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Vedi pagina' accesskey='v'>&Vedi pagina"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr ""
 "title='Vedi tutte le revisioni della pagina' accesskey='h'>Revisioni (&H)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Vedi senza formattazione' accesskey='v'>&Vedi testo wiki"
 
@@ -4915,8 +4934,8 @@ msgstr "perché ti viene chiesto di confermare"
 #~ "You can set your favorite language permanently by setting the %1 variable "
 #~ "in your user topic."
 #~ msgstr ""
-#~ "Puoi fissare permanentemente la lingua preferita, definendo la variabile %"
-#~ "1 nella tua pagina personale."
+#~ "Puoi fissare permanentemente la lingua preferita, definendo la variabile "
+#~ "%1 nella tua pagina personale."
 
 #, fuzzy
 #~ msgid "You will be able to review the copied topic before saving"

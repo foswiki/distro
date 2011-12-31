@@ -10,32 +10,32 @@ msgstr ""
 "PO-Revision-Date: 2010-11-09 08:01+0200\n"
 "Last-Translator: Coria Xu <coria@wikidao.org>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.5\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,天) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,小时) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,分钟) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,秒)"
 
@@ -488,9 +488,9 @@ msgid ""
 "topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
 "<a href='%1'>订阅 RSS</a>，最近更新的<a href='%2'>50</a>个，<a href='%3' "
-"rel='nofollow'>100</a>个，<a href='%4' rel='nofollow'>200</a>个，<a href='%"
-"5' rel='nofollow'>500</a>个，<a href='%6' rel='nofollow'>1000</a>个主题，<a "
-"href='%7' rel='nofollow'>所有主题</a>"
+"rel='nofollow'>100</a>个，<a href='%4' rel='nofollow'>200</a>个，<a "
+"href='%5' rel='nofollow'>500</a>个，<a href='%6' rel='nofollow'>1000</a>个主"
+"题，<a href='%7' rel='nofollow'>所有主题</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -717,7 +717,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "显示本页前，您对对本主题的任何修改都已保留。"
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "附件"
 
@@ -778,11 +778,15 @@ msgstr "附件移动失败"
 msgid "Attachment name:"
 msgstr "附件"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "附件 "
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "%1 的附件"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -828,7 +832,7 @@ msgstr " %1 子网可用的范本"
 msgid "Back to topic"
 msgstr "回到主题"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "反向连结"
 
@@ -993,7 +997,7 @@ msgid "Changes"
 msgstr "更新"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "由 r%1 改成 r%2"
 
@@ -1315,8 +1319,8 @@ msgstr "移动附件 %1 到 %2 时发生错误。请通知 %3 管理员。"
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr "主题改名 %1 到 %2 时发生错误 (%3)。请通知 %4 管理员。"
 
 #: core/templates/messages.tmpl:102
@@ -1363,7 +1367,7 @@ msgstr ""
 msgid "Each preference has the syntax"
 msgstr "个属性都有语法"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "编辑"
 
@@ -1371,7 +1375,7 @@ msgstr "编辑"
 msgid "Edit Anyway"
 msgstr "强制编辑"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1798,8 +1802,8 @@ msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
-"若您从收到的电子邮件连到这儿或只是浏览这个主题，请 [[%1][取消保存]] 并转到 %"
-"2。"
+"若您从收到的电子邮件连到这儿或只是浏览这个主题，请 [[%1][取消保存]] 并转到 "
+"%2。"
 
 #: core/templates/messages.tmpl:605
 msgid "If you want to create the topic"
@@ -1828,7 +1832,7 @@ msgstr ""
 "可能被他人盗用。"
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 #, fuzzy
 msgid "Image %1 of %2"
 msgstr "子网 %1 不存在"
@@ -1993,12 +1997,12 @@ msgstr "限制结果于:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "行: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "行: %1 到 %2"
 
@@ -2094,7 +2098,7 @@ msgid "More topic actions"
 msgstr "更多主题功能..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "更多主题功能..."
 
@@ -2143,7 +2147,7 @@ msgstr "移动主题到子网:"
 msgid "Move/Rename"
 msgstr "移动/更名"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "新"
 
@@ -2549,8 +2553,8 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
-"快速浏览 %1 以对这个合作平台有个概念。进一步资料可以参考来自相同连结的 %"
-"SYSTEMWEB%.TwentyMinuteTutorial."
+"快速浏览 %1 以对这个合作平台有个概念。进一步资料可以参考来自相同连结的 "
+"%SYSTEMWEB%.TwentyMinuteTutorial."
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
@@ -2575,6 +2579,7 @@ msgid "Redirect Denied"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "更新"
@@ -3079,6 +3084,10 @@ msgstr "提交"
 msgid "Submitted content:"
 msgstr "提交内容:"
 
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "Subscribe"
+msgstr ""
+
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
@@ -3172,8 +3181,8 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"子网 %1 是个测试用的沙盘，欢迎任何人增加或删除内容。建议先看 %2 以快速熟悉 %"
-"3 的工具。在页面底端加上您的签名、姓名 %4 和日期，是个好习惯."
+"子网 %1 是个测试用的沙盘，欢迎任何人增加或删除内容。建议先看 %2 以快速熟悉 "
+"%3 的工具。在页面底端加上您的签名、姓名 %4 和日期，是个好习惯."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -3543,7 +3552,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "主题无法由旧风格的类别表格升级"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 #, fuzzy
 msgid "Topic data"
 msgstr "主题名称"
@@ -3975,8 +3984,8 @@ msgstr "您将建立的主题，其范本并不存在。"
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr "您将处理的主题并不存在（处理 %1）。"
 
 #: core/templates/messages.tmpl:623
@@ -4199,31 +4208,31 @@ msgid ""
 msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "简体中文"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "禁止浏览根目录"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "禁止浏览主题"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "禁止浏览子网"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "不允许浏览根目录"
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "不允许浏览主题"
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "不允许浏览子网"
 
@@ -4341,7 +4350,7 @@ msgstr "title='为这个主题增加图片或档案' accesskey='a'>增加附件(
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='建立新主题' accesskey='c'>建立(&C)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4363,22 +4372,22 @@ msgstr "title='编辑主题' accesskey='e'>编辑(&E)"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='浏览主题' accesskey='v'>浏览(&V)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr "title='列印本主题' accesskey='p' >列印(&P)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr "title='搜寻所有子网中连结至此的主题' accesskey='l'>全站搜寻(&L)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr "title='搜寻 %1 子网中连结至此的主题' accesskey='b'>反向连结(&B)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='搜寻 %1 子网中连结至此的主题' accesskey='b'>子网搜寻(&B)"
@@ -4388,17 +4397,27 @@ msgstr "title='搜寻 %1 子网中连结至此的主题' accesskey='b'>子网搜
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='浏览主题' accesskey='v'>浏览(&V)"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='编辑主题' accesskey='e'>编辑(&E)"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr "title='列印本主题' accesskey='p' >列印(&P)"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='浏览主题' accesskey='v'>浏览(&V)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='浏览主题历史' accesskey='h'>历史(&H)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='检视源码' accesskey='r'>检视源码(&v)"

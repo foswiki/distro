@@ -12,30 +12,30 @@ msgstr ""
 "PO-Revision-Date: 2011-03-26 19:18+0200\n"
 "Last-Translator: GeorgeClark <geonwiki@fenachrone.com>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,día) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,hora) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minuto) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,segundo) "
 
@@ -560,8 +560,8 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"Una nueva contraseña generada por el sistema para su nombre de usuario '%"
-"1' (!WikiName %2) fué envíada a su dirección de correo registrada. Si su "
+"Una nueva contraseña generada por el sistema para su nombre de usuario "
+"'%1' (!WikiName %2) fué envíada a su dirección de correo registrada. Si su "
 "direcciòn de correo electrónico ya no es válida, por favor contacte a %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -742,7 +742,7 @@ msgstr ""
 "Cualquier cambio que usted hizo al tema antes de venir a esta página será "
 "preservado."
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "Adjuntar"
 
@@ -800,11 +800,15 @@ msgstr "Mover el archivo adjunto falló"
 msgid "Attachment name:"
 msgstr "Nombre de archivo adjunto:"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Archivos adjuntos"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "Archivos adjuntos de %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -850,7 +854,7 @@ msgstr "Plantillas disponibles en la Web %1:"
 msgid "Back to topic"
 msgstr "Volver al tema"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "Enlaces entrantes"
 
@@ -1018,7 +1022,7 @@ msgid "Changes"
 msgstr "Cambios"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "Cambios de r%1 a r%2"
 
@@ -1349,8 +1353,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 "Durante el proceso de renombrar el tema %1 a %2 un error (%3) fue "
 "encontrado. Por favor notifique a su administrador %4."
@@ -1403,7 +1407,7 @@ msgstr "EXPAND - no existe tal tema '%PARAM1%'"
 msgid "Each preference has the syntax"
 msgstr "Cada preferencia tiene el sintaxis"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "Editar"
 
@@ -1411,7 +1415,7 @@ msgstr "Editar"
 msgid "Edit Anyway"
 msgstr "Editar de todas formas"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr "Editar Wiki<nop>Text"
 
@@ -1888,7 +1892,7 @@ msgstr ""
 "entonces su cuenta de usuario podría ser utilizada por alguien más."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
 msgstr "Imagen %1 de %2"
 
@@ -2062,12 +2066,12 @@ msgstr "Limitar resultados a:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "Línea: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "Línea: %1 a %2"
 
@@ -2160,7 +2164,7 @@ msgid "More topic actions"
 msgstr "Más acciones para el tema"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "Mas acciones del tema..."
 
@@ -2209,7 +2213,7 @@ msgstr "Mover tema a la web:"
 msgid "Move/Rename"
 msgstr "Mover/Renombrar"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "NUEVO"
 
@@ -2646,6 +2650,7 @@ msgid "Redirect Denied"
 msgstr "Acceso Denegado"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Recargar"
@@ -3161,6 +3166,11 @@ msgstr "Enviar"
 #: core/templates/registernotifyadmin.tmpl:12
 msgid "Submitted content:"
 msgstr "Contenido enviado:"
+
+#: core/templates/viewtopicactionbuttons.tmpl:76
+#, fuzzy
+msgid "Subscribe"
+msgstr "Editar texto"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
@@ -3681,7 +3691,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Tema no puede ser actualizado de la tabla de estilo vieja"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 msgid "Topic data"
 msgstr "Datos del tema"
 
@@ -4124,11 +4134,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr ""
-"Está tratando de realizar una acción en un tema que no existe (acción \"%1"
-"\")."
+"Está tratando de realizar una acción en un tema que no existe (acción "
+"\"%1\")."
 
 #: core/templates/messages.tmpl:623
 msgid "You are trying to rename a topic that does not exist."
@@ -4306,9 +4316,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"Su nombre como mostrado en linea. Nota, este debe ser un nombre único [[%"
-"SYSTEMWEB%.WikiName][Wiki name]]. Por defecto esta derivado de su nombre y "
-"apellidos."
+"Su nombre como mostrado en linea. Nota, este debe ser un nombre único "
+"[[%SYSTEMWEB%.WikiName][Wiki name]]. Por defecto esta derivado de su nombre "
+"y apellidos."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
 msgid "Your password"
@@ -4335,8 +4345,8 @@ msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
-"Su(s) dirección(es) de correo electrónico serán actualizadas a: <noautolink>%"
-"1</noautolink>."
+"Su(s) dirección(es) de correo electrónico serán actualizadas a: <noautolink>"
+"%1</noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
 msgid ""
@@ -4393,31 +4403,31 @@ msgstr ""
 "[espacio] = [valor]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "Español"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "acceso denegado a raíz"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "acceso denegado al tema"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "acceso denegado a la web"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "acceso no permitido a raíz"
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "acceso no permitido al tema"
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "acceso no permitido a esta web"
 
@@ -4536,7 +4546,7 @@ msgstr ""
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='Crear tema nuevo' accesskey='c'>&Crear"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4556,19 +4566,19 @@ msgstr "title='Editar texto de este tema' accesskey='e'>&Editar"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Entrelazado' accesskey='z'>entrela&zado"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr ""
 "title='Vista de impresión de este tema' accesskey='p'>Vista de im&presión"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='Buscar todas las webs por enlaces que estén enlazados aquí' "
 "accesskey='l'>Todas &las webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
@@ -4576,7 +4586,7 @@ msgstr ""
 "title='Buscar la web %1 por temas que estén enlazados aquí' "
 "accesskey='b'>Enlaces entrantes (&b)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
@@ -4587,17 +4597,28 @@ msgstr ""
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Lado a lado ' accesskey='l'>&lado a lado"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='Editar texto de este tema' accesskey='e'>&Editar"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr ""
+"title='Vista de impresión de este tema' accesskey='p'>Vista de im&presión"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Ver tema' accesskey='v'>&Ver tema"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='View historial completo del tema' accesskey='h'>&Historial"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='View código sin formato' accesskey='v'>&Ver texto wiki"
 
@@ -5128,12 +5149,12 @@ msgstr "por qué se le solicita su confirmación"
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
-#~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
-#~ "information about attaching files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
-#~ "*Ayuda:*Por favor vea <a target='Macros' onclick=\"return launchWindow('%"
-#~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> para "
+#~ "*Ayuda:*Por favor vea <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> para "
 #~ "mayor información de como adjuntar ficheros."
 
 #~ msgid "WYSIWYG"
@@ -5188,13 +5209,13 @@ msgstr "por qué se le solicita su confirmación"
 #~ "de nuevo. Deberá funcionar con el segundo intento."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return launchWindow('%"
-#~ "1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing webs</"
-#~ "a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
+#~ "webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return launchWindow('%"
-#~ "1','ManagingWebs')\" href='%2' rel='nofollow'>Obtener ayuda para trabajar "
-#~ "con webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Obtener ayuda para "
+#~ "trabajar con webs</a>"
 
 #~ msgid "Deleted"
 #~ msgstr "Borrado"
@@ -5842,10 +5863,6 @@ msgstr "por qué se le solicita su confirmación"
 #, fuzzy
 #~ msgid "Submit changes"
 #~ msgstr "(cambios)"
-
-#, fuzzy
-#~ msgid "Subscript text"
-#~ msgstr "Editar texto"
 
 #, fuzzy
 #~ msgid "Superscript text"

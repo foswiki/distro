@@ -9,34 +9,34 @@ msgstr ""
 "PO-Revision-Date: 2009-06-21 22:03+0200\n"
 "Last-Translator: Anjey Lobas <anjey.lobas@gmail.com>\n"
 "Language-Team: <translation@linux.org.ua>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1, дн.) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1, год.) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1, хв.) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1, сек.) "
 
@@ -510,8 +510,8 @@ msgid ""
 msgstr ""
 "<a href='%1'>RSS потік</a>, недавні зміни <a href='%2'>50</a>, <a href='%3' "
 "rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' "
-"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> теми, <a href='%"
-"7' rel='nofollow'>всі зміни</a>"
+"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> теми, <a "
+"href='%7' rel='nofollow'>всі зміни</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -753,7 +753,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "Прикріпити файл"
 
@@ -816,11 +816,15 @@ msgstr "Не вдалося перемістити файл"
 msgid "Attachment name:"
 msgstr "Прикріплений файл"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Прикріплені файли"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "Прикріплені файли для %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -866,7 +870,7 @@ msgstr ""
 msgid "Back to topic"
 msgstr "Повернутися до теми"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "Зворотні посилання"
 
@@ -1037,7 +1041,7 @@ msgid "Changes"
 msgstr "Зміни"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "Зміни з r%1 по r%2"
 
@@ -1373,8 +1377,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 "Під час перейменування теми %1 у %2 відбулася помилка (%3). Будь ласка, "
 "повідомте Вашого адміністратора %4."
@@ -1427,7 +1431,7 @@ msgstr ""
 msgid "Each preference has the syntax"
 msgstr "Кожен параметр має синтаксис"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "Редагувати"
 
@@ -1435,7 +1439,7 @@ msgstr "Редагувати"
 msgid "Edit Anyway"
 msgstr "Все одно редагувати"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr ""
 
@@ -1880,8 +1884,8 @@ msgid ""
 "the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
 "Якщо Ви отримали посилання на цю тему повідомленням по електронній пошті або "
-"просто хотіли на неї подивитися [[%1][відмініть збереження]] щоб перейти до %"
-"2."
+"просто хотіли на неї подивитися [[%1][відмініть збереження]] щоб перейти до "
+"%2."
 
 #: core/templates/messages.tmpl:605
 msgid "If you want to create the topic"
@@ -1898,8 +1902,8 @@ msgid ""
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "Якщо Ваша стара адреса електронної пошти невірна (або Ви не можете більше "
-"отримувати на нього пошту) і Ви забули свій пароль, будь ласка, зв'яжіться %"
-"1 для того, щоб отримати допомогу."
+"отримувати на нього пошту) і Ви забули свій пароль, будь ласка, зв'яжіться "
+"%1 для того, щоб отримати допомогу."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
 msgid ""
@@ -1912,7 +1916,7 @@ msgstr ""
 "обліковий запис може бути зламаний будь-ким."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 #, fuzzy
 msgid "Image %1 of %2"
 msgstr "Розділ %1 не існує"
@@ -2091,12 +2095,12 @@ msgstr "Обмежити виведення результатів:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "Рядок: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "Рядок: з %1 по %2"
 
@@ -2192,7 +2196,7 @@ msgid "More topic actions"
 msgstr "Інші операції..."
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "Інші операції..."
 
@@ -2241,7 +2245,7 @@ msgstr "Перемістити тему до розділу:"
 msgid "Move/Rename"
 msgstr "Перемістити / перейменувати"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "НОВА"
 
@@ -2695,6 +2699,7 @@ msgid "Redirect Denied"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Поновити"
@@ -3020,8 +3025,8 @@ msgstr "Примітка по безпеці:"
 #: core/templates/messages.tmpl:47
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
-"Дивіться у %1 щодо списку існуючих користувачів або реєструйтеся як новий у %"
-"2."
+"Дивіться у %1 щодо списку існуючих користувачів або реєструйтеся як новий у "
+"%2."
 
 #: core/templates/messages.tmpl:351
 msgid "See %1 for information about Form Definitions."
@@ -3212,6 +3217,10 @@ msgstr "Застосувати"
 #: core/templates/registernotifyadmin.tmpl:12
 msgid "Submitted content:"
 msgstr "Надані Вами відомості:"
+
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "Subscribe"
+msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
@@ -3709,7 +3718,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Тема не може бути оновлена з таблиці категорій старого стилю"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 #, fuzzy
 msgid "Topic data"
 msgstr "Назва теми"
@@ -4159,8 +4168,8 @@ msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 #: core/templates/messages.tmpl:612
 #, fuzzy
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
 #: core/templates/messages.tmpl:623
@@ -4404,31 +4413,31 @@ msgstr ""
 "[кратне 3-м пропускам] * [пропуск] Set [пропуск] ІМ'ЯЗМІННОЇ [пропуск] = "
 "[значення]"
 
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "Українська"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "доступ відхилений"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "доступ до теми відхилений"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "доступ до розділу відхилений"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "доступ заборонений"
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "доступ до теми заборонений"
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "доступ до розділу заборонений"
 
@@ -4549,7 +4558,7 @@ msgstr ""
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='Створити нову тему' accesskey='c'>Створити"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4571,24 +4580,24 @@ msgstr "title='Редагувати текст цієї теми' accesskey='e'>
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='Знайти теми, що посилаються сюди, у всіх розділах' accesskey='l'>Всі "
 "розділи"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
@@ -4599,17 +4608,27 @@ msgstr ""
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Проглянути повну історію змін сторінки' accesskey='h'>Історія"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
@@ -5025,9 +5044,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
-#~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
-#~ "information about attaching files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
 #~ "*Подсказка:* Вы можете прочитать в <a target='Macros' onclick=\"return "
 #~ "launchWindow('%1','FileAttachment')\" href='' "
@@ -5099,12 +5118,12 @@ msgstr ""
 #~ "сработать."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return launchWindow('%"
-#~ "1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing webs</"
-#~ "a>"
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
+#~ "webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return launchWindow('%"
-#~ "1','УправлениеРазделами')\" href='%2' rel='nofollow'>Справка по "
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','УправлениеРазделами')\" href='%2' rel='nofollow'>Справка по "
 #~ "Управлению Разделами</a>"
 
 #~ msgid ""

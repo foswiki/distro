@@ -18,22 +18,22 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,dag) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,time) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minut) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund)"
 
@@ -728,7 +728,7 @@ msgid ""
 msgstr ""
 "Alle ændringer, som du har lavet før du skiftede til denne side er gemt."
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "Vedhæft"
 
@@ -786,11 +786,15 @@ msgstr "Fejl under flytning af vedhæftet fil"
 msgid "Attachment name:"
 msgstr "Navn på vedhæftet fil"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Vedhæftede filer"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "Vedhæftede filer på %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -836,7 +840,7 @@ msgstr "Tilgængelige formular-skabeloner i %1-webbet"
 msgid "Back to topic"
 msgstr "Tilbage til siden"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "Referencer"
 
@@ -1003,7 +1007,7 @@ msgid "Changes"
 msgstr "Seneste ændringer"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "Ændringer fra r%1 til r%2"
 
@@ -1333,8 +1337,8 @@ msgstr ""
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 "Under omdøbningen af siden %1 til %2 blev der konstateret en fejl (%3). "
 "Underret venligst din %4 administrator."
@@ -1387,7 +1391,7 @@ msgstr "EXPAND fejlede - ingen side '%PARAM1%'"
 msgid "Each preference has the syntax"
 msgstr "Alle præferencer har syntaksen"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "Editér"
 
@@ -1395,7 +1399,7 @@ msgstr "Editér"
 msgid "Edit Anyway"
 msgstr "Editér alligevel"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr "Redigér Wiki<nop>Tekst"
 
@@ -1854,8 +1858,8 @@ msgid ""
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "Hvis dine gamle e-mail-adresser alle er ugyldige (du kan ikke længere "
-"modtage e-mail på dem) og du har glemt din adgangskode, kontakt da venligst %"
-"1."
+"modtage e-mail på dem) og du har glemt din adgangskode, kontakt da venligst "
+"%1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
 msgid ""
@@ -1868,7 +1872,7 @@ msgstr ""
 "mulighed for at din brugerkonto kan overtages af andre."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
 msgstr "Billede %1 web af %2."
 
@@ -2039,12 +2043,12 @@ msgstr "Begræns antallet af resultater til:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "Linie: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "Linie: %1 til %2"
 
@@ -2136,7 +2140,7 @@ msgid "More topic actions"
 msgstr "Flere muligheder med denne side"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "Flere muligheder med denne side..."
 
@@ -2184,7 +2188,7 @@ msgstr "Flyt side til web:"
 msgid "Move/Rename"
 msgstr "Flyt/Omdøb"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "NY"
 
@@ -2612,6 +2616,7 @@ msgid "Redirect Denied"
 msgstr "Redirigering nægtet"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Genopfrisk"
@@ -3124,6 +3129,10 @@ msgstr "Send"
 msgid "Submitted content:"
 msgstr "Tilføjet indhold:"
 
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "Subscribe"
+msgstr ""
+
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
@@ -3633,7 +3642,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Siden kan ikke opgraderes fra den gamle 'category table'-stil"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 msgid "Topic data"
 msgstr "Sidedata"
 
@@ -4063,11 +4072,11 @@ msgstr "Du forsøger at oprette en side fra en skabelon der ikke eksisterer."
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr ""
-"Du forsøger at udføre en handling på en side der ikke eksisterer (handling '%"
-"1')."
+"Du forsøger at udføre en handling på en side der ikke eksisterer (handling "
+"'%1')."
 
 #: core/templates/messages.tmpl:623
 msgid "You are trying to rename a topic that does not exist."
@@ -4078,8 +4087,8 @@ msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
-"Du kan [[%1][oprette et nyt web]], hvis du har rettigheden til det. Kontakt %"
-"2 hvis du har spørgsmål."
+"Du kan [[%1][oprette et nyt web]], hvis du har rettigheden til det. Kontakt "
+"%2 hvis du har spørgsmål."
 
 #: core/templates/messages.tmpl:147
 msgid ""
@@ -4241,9 +4250,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"Dit navn som det vil blive vist. Bemærk at dette skal være et unikt [[%"
-"SYSTEMWEB%.WikiName][Wiki navn]]. Som udgangspunkt er det afledt af dit for- "
-"og efternavn."
+"Dit navn som det vil blive vist. Bemærk at dette skal være et unikt "
+"[[%SYSTEMWEB%.WikiName][Wiki navn]]. Som udgangspunkt er det afledt af dit "
+"for- og efternavn."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
 msgid "Your password"
@@ -4325,31 +4334,31 @@ msgstr ""
 "[mellemrum] = [værdi]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "Dansk"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "adgang til root nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "adgang til siden nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "adgang til webbet nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "adgang til root ikke tilladt "
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "adgang til siden ikke tilladt "
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "adgang til webbet ikke tilladt "
 
@@ -4467,7 +4476,7 @@ msgstr ""
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='Opret ny side' accesskey='c'>Opret (&C)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4487,18 +4496,18 @@ msgstr "title='Editér denne side' accesskey='e'>&Editér"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='flettet ind' accesskey='i'>Flettet &ind"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr "title='Printbar version af denne side' accesskey='p'>&Printable"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='Søg i alle webs efter sider der linker til denne side ' "
 "accesskey='l'>A&lle webs"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
@@ -4506,7 +4515,7 @@ msgstr ""
 "title='Søg i %1-webbet efter sider der linker til denne side' "
 "accesskey='b'>Referencer (&B)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
@@ -4517,17 +4526,27 @@ msgstr ""
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Ved siden af' accesskey='s'>Ved &siden af"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='Editér denne side' accesskey='e'>&Editér"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr "title='Printbar version af denne side' accesskey='p'>&Printable"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Vis side' accesskey='v'>&Vis side"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Vis komplet historik for siden' accesskey='h'>&Historik "
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Vis uden formatering' accesskey='v'>&Vis wikitekst"
 
@@ -4758,8 +4777,8 @@ msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
 #~ "If you already know the name of the topic, enter the name of the topic "
 #~ "into the [[%1][Jump box]] at the top"
 #~ msgstr ""
-#~ "Hvis du allerede kender navnet på siden, indtast da navnet på siden i [[%"
-#~ "1][Hop feltet]] (øverst på siden)"
+#~ "Hvis du allerede kender navnet på siden, indtast da navnet på siden i "
+#~ "[[%1][Hop feltet]] (øverst på siden)"
 
 #~ msgid "List all topics in the %1 web in alphabetical order"
 #~ msgstr "Vis alle sider i %1-webbet i alfabetisk orden"

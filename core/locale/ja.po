@@ -9,32 +9,32 @@ msgstr ""
 "PO-Revision-Date: 2010-09-27 11:31+0200\n"
 "Last-Translator: Joel DeJesus <dejesus.joel@gmail.com>\n"
 "Language-Team: Foswiki Japanese team\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.5\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,日) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,時間) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,分) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,秒)"
 
@@ -735,7 +735,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "このページに移動する前にトピックへのすべての変更を保存しました。"
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "ファイルを添付します"
 
@@ -792,11 +792,15 @@ msgstr "添付ファイルの移動に失敗しました"
 msgid "Attachment name:"
 msgstr "添付ファイルの名称"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "添付ファイル"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "%1 の添付ファイル "
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -842,7 +846,7 @@ msgstr "%1にある使用可のテンプレート"
 msgid "Back to topic"
 msgstr "トピックに戻ります"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "バックリンク"
 
@@ -1008,7 +1012,7 @@ msgid "Changes"
 msgstr "変更"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr " r%1 から r%2に変更します"
 
@@ -1328,8 +1332,8 @@ msgstr "添付ファイル =%1=を%2に変更するときにエラーが発生�
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 "%1を%2にリネームする時にエラー(%3)が発生しました。%4管理者までご連絡ください"
 
@@ -1380,7 +1384,7 @@ msgstr "拡大故障 -  '%PARAM1%'と呼ぶトピックは存在ではありま�
 msgid "Each preference has the syntax"
 msgstr "それぞれの属性には文法上の問題がありません"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "編集"
 
@@ -1388,7 +1392,7 @@ msgstr "編集"
 msgid "Edit Anyway"
 msgstr "強制編集します"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 #, fuzzy
 msgid "Edit Wiki<nop>Text"
 msgstr "<nop>文字を編集するウィキ"
@@ -1554,8 +1558,8 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
-"クロスサイトリクエストフォージェリについては、あなたへの危機などの詳細は、[[%"
-"1][ウィキピディアの記事]]をご覧ください."
+"クロスサイトリクエストフォージェリについては、あなたへの危機などの詳細は、"
+"[[%1][ウィキピディアの記事]]をご覧ください."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1857,7 +1861,7 @@ msgstr ""
 "他の人に不正利用される可能性があります。"
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 #, fuzzy
 msgid "Image %1 of %2"
 msgstr "%1ウェブは存在しません"
@@ -2030,12 +2034,12 @@ msgstr "結果制限（to）:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "行: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "行: %1 to%2"
 
@@ -2133,7 +2137,7 @@ msgid "More topic actions"
 msgstr "もっと多くのトピックアクション"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "もっと多くのトピックアクション"
 
@@ -2182,7 +2186,7 @@ msgstr "トピックをウェブに移動します："
 msgid "Move/Rename"
 msgstr "移動/リネーム"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "新"
 
@@ -2621,6 +2625,7 @@ msgid "Redirect Denied"
 msgstr "アクセスが拒否されました"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr ""
@@ -3138,6 +3143,11 @@ msgstr "確定"
 msgid "Submitted content:"
 msgstr "確定した内容:"
 
+#: core/templates/viewtopicactionbuttons.tmpl:76
+#, fuzzy
+msgid "Subscribe"
+msgstr "サブスクリプトテキスト"
+
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
@@ -3622,7 +3632,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "古いスタイルのカテゴリーテーブルからトピックを更新できません"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 #, fuzzy
 msgid "Topic data"
 msgstr "トピックのメタデータ"
@@ -4062,8 +4072,8 @@ msgstr "作成しようとするトピックのテンプレートは存在しま
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr "トピックが存在したいため、操作できない (操作: %1)"
 
 #: core/templates/messages.tmpl:623
@@ -4301,31 +4311,31 @@ msgstr ""
 "[3のスペース] * [スペース] Set [スペース] VARIABLENNAME [スペース] = [値]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "日本語"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "アクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "トピックへのアクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "ウェブへのアクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "アクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "トピックへのアクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "ウェブへのアクセスが拒否されました"
 
@@ -4444,7 +4454,7 @@ msgstr "title='画像又はファイルをこのトピックに添付します' 
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='新しいトピックを作成します' accesskey='c'>作成"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4466,18 +4476,18 @@ msgstr "title='このトピックを編集します' accesskey='e'>編集"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='トピックを確認します' accesskey='v'>トピック確認"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr "title='このトピックの印刷用バージョン' accesskey='p'>印刷用バージョン"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='全てのウェブからここにリンクするトピックを検索します' accesskey='l'>全"
 "てのウェブ"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
@@ -4485,7 +4495,7 @@ msgstr ""
 "title='%1ウェブからここにリンクするトピックを検索します' accesskey='b'>バック"
 "リンク"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
@@ -4496,17 +4506,27 @@ msgstr ""
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='トピックを確認します' accesskey='v'>トピック確認"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='このトピックを編集します' accesskey='e'>編集"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr "title='このトピックの印刷用バージョン' accesskey='p'>印刷用バージョン"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='トピックを確認します' accesskey='v'>トピック確認"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='トピックの履歴を確認します' accesskey='h'>履歴"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 #, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr ""
@@ -4934,9 +4954,9 @@ msgstr "なぜ確認するか問われているか"
 #~ msgstr "%1の中の全てのトピック"
 
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
-#~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
-#~ "information about attaching files."
+#~ "Please see <a target='Macros' onclick=\"return launchWindow"
+#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
+#~ "more information about attaching files."
 #~ msgstr ""
 #~ "<a target='Macros' onclick=\"return launchWindow('%1','FileAttachment')\" "
 #~ "href='' rel='nofollow'>添付ファイル</a> を参照すると、もっと多くの添付ファ"
@@ -4982,13 +5002,13 @@ msgstr "なぜ確認するか問われているか"
 #~ "てください。二回目はエラーが発生しなくなります"
 
 #~ msgid ""
-#~ "&lt;a target='ManagingWebs' onclick=\"return launchWindow('%"
-#~ "1','ManagingWebs')\" href='%2' rel='nofollow'&gt;Get help on managing "
+#~ "&lt;a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'&gt;Get help on managing "
 #~ "webs&lt;/a&gt;"
 #~ msgstr ""
-#~ "&lt;a target='ManagingWebs' onclick=\"return launchWindow('%"
-#~ "1','ManagingWebs')\" href='%2' rel='nofollow'&gt;ウェブ管理のヘルプ情報を"
-#~ "もらいします&lt;/a&gt;"
+#~ "&lt;a target='ManagingWebs' onclick=\"return launchWindow"
+#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'&gt;ウェブ管理のヘルプ情報"
+#~ "をもらいします&lt;/a&gt;"
 
 #~ msgid "&lt;em&gt;in all public webs&lt;/em&gt;"
 #~ msgstr "&lt;em&gt;全てのパブリックウェブにあります&lt;/em&gt;"
@@ -5543,9 +5563,6 @@ msgstr "なぜ確認するか問われているか"
 #~ msgid "Submit changes"
 #~ msgstr "変更を保存します"
 
-#~ msgid "Subscript text"
-#~ msgstr "サブスクリプトテキスト"
-
 #~ msgid "Superscript text"
 #~ msgstr "スーパースクリプトテキスト"
 
@@ -5581,8 +5598,8 @@ msgstr "なぜ確認するか問われているか"
 #~ msgstr "ご入力のパスワードが違います。もう一度試してみてください。"
 
 #~ msgid ""
-#~ "The required field =&lt;span class=\"twikiAlert\"&gt;**&lt;/span&gt;= *%"
-#~ "1* was not filled in."
+#~ "The required field =&lt;span class=\"twikiAlert\"&gt;**&lt;/span&gt;= *"
+#~ "%1* was not filled in."
 #~ msgstr ""
 #~ "必須入力の=&lt;span class=\"twikiAlert\"&gt;**&lt;/span&gt;= *%1*をご入力"
 #~ "ください。"

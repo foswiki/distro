@@ -17,22 +17,22 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:485
+#: core/lib/Foswiki/Time.pm:484
 msgid "%*(%1,day) "
 msgstr "%*(%1,dag) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:488
+#: core/lib/Foswiki/Time.pm:487
 msgid "%*(%1,hour) "
 msgstr "%*(%1,timme) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:491
+#: core/lib/Foswiki/Time.pm:490
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minut) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:494
+#: core/lib/Foswiki/Time.pm:493
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund) "
 
@@ -727,7 +727,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "Alla ändringar du gjort innan du kom till denna sida bevaras."
 
-#: core/templates/viewtopicactionbuttons.tmpl:66
+#: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
 msgstr "Bifoga fil"
 
@@ -785,11 +785,15 @@ msgstr "Flytt av bifogad fil misslyckades"
 msgid "Attachment name:"
 msgstr "Den bifogade filens namn:"
 
-#: PatternSkin/templates/attachtables.pattern.tmpl:6
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
 msgstr "Bifogade filer"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:6
+#, fuzzy
+msgid "Attachments %1"
+msgstr "Bifogade filer till %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -835,7 +839,7 @@ msgstr "Tillgängliga mallar i avdelning %1:"
 msgid "Back to topic"
 msgstr "Tillbaka till sidan"
 
-#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:89
+#: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
 msgstr "Referenser hit"
 
@@ -1001,7 +1005,7 @@ msgid "Changes"
 msgstr "Senaste ändringar"
 
 #. ($rLow, $rHigh)
-#: core/lib/Foswiki/UI/RDiff.pm:584
+#: core/lib/Foswiki/UI/RDiff.pm:579
 msgid "Changes from r%1 to r%2"
 msgstr "Ändringar från r%1 till r%2"
 
@@ -1326,8 +1330,8 @@ msgstr "Vid flytt av den bifogade filen =%1= till %2 upptäcktes ett fel."
 
 #: core/templates/messages.tmpl:99
 msgid ""
-"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
-"4 administrator."
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your "
+"%4 administrator."
 msgstr ""
 "Vid omdöpning av sidan %1 till %2 upptäcktes ett fel (%3). Informera din %4-"
 "administratör."
@@ -1382,7 +1386,7 @@ msgstr "EXPAND misslyckades - sidan '%PARAM1%' finns inte"
 msgid "Each preference has the syntax"
 msgstr "Alla inställningar har formatet"
 
-#: core/templates/viewtopicactionbuttons.tmpl:45
+#: core/templates/viewtopicactionbuttons.tmpl:46
 msgid "Edit"
 msgstr "Redigera"
 
@@ -1390,7 +1394,7 @@ msgstr "Redigera"
 msgid "Edit Anyway"
 msgstr "Redigera ändå"
 
-#: core/templates/viewtopicactionbuttons.tmpl:61
+#: core/templates/viewtopicactionbuttons.tmpl:62
 msgid "Edit Wiki<nop>Text"
 msgstr "Redigera Wiki<nop>Text"
 
@@ -1856,7 +1860,7 @@ msgstr ""
 "av någon annan."
 
 #. ("{x}", "{y}")
-#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:59
+#: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
 msgstr "Bild %1 av %2."
 
@@ -2022,12 +2026,12 @@ msgstr "Begränsa resultatet till:"
 
 #. ($left)
 #. ($right)
-#: core/lib/Foswiki/UI/RDiff.pm:165 core/lib/Foswiki/UI/RDiff.pm:167
+#: core/lib/Foswiki/UI/RDiff.pm:168 core/lib/Foswiki/UI/RDiff.pm:169
 msgid "Line: %1"
 msgstr "Rad: %1"
 
 #. ($left, $right)
-#: core/lib/Foswiki/UI/RDiff.pm:329
+#: core/lib/Foswiki/UI/RDiff.pm:324
 msgid "Line: %1 to %2"
 msgstr "Rad: %1 till %2"
 
@@ -2119,7 +2123,7 @@ msgid "More topic actions"
 msgstr "Fler alternativ för denna sida"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
-#: core/templates/viewtopicactionbuttons.tmpl:76
+#: core/templates/viewtopicactionbuttons.tmpl:87
 msgid "More topic actions..."
 msgstr "Fler alternativ för denna sida..."
 
@@ -2167,7 +2171,7 @@ msgstr "Flytta sida till avdelning:"
 msgid "Move/Rename"
 msgstr "Flytta/Döp om"
 
-#: core/lib/Foswiki/Search.pm:1133
+#: core/lib/Foswiki/Search.pm:1138
 msgid "NEW"
 msgstr "NY"
 
@@ -2590,6 +2594,7 @@ msgid "Redirect Denied"
 msgstr "Omdirigering nekad"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
+#: JQueryPlugin/data/System/JQueryLoader.txt:93
 #: core/lib/Foswiki/UI/Rename.pm:1244
 msgid "Refresh"
 msgstr "Uppdatera"
@@ -3105,6 +3110,10 @@ msgstr "Skicka"
 msgid "Submitted content:"
 msgstr "Inskickat innehåll:"
 
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "Subscribe"
+msgstr ""
+
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
 #: MailerContrib/templates/newsletter.tmpl:20
@@ -3491,8 +3500,8 @@ msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
 msgstr ""
-"Detta namn har valts så att det inte kolliderar med andra namn i avdelning %"
-"1."
+"Detta namn har valts så att det inte kolliderar med andra namn i avdelning "
+"%1."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:3
 msgid ""
@@ -3605,7 +3614,7 @@ msgid "Topic can not be upgraded from old style category table"
 msgstr "Sidan kan inte uppdateras från den gamla kategoritabellstilen"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
-#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:63
+#: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:64
 msgid "Topic data"
 msgstr "Data om sidan"
 
@@ -4035,8 +4044,8 @@ msgstr "Du försöker at skapa en sida från en mall som inte existerar."
 
 #: core/templates/messages.tmpl:612
 msgid ""
-"You are trying to perform an action on a topic that does not exist (action '%"
-"1')."
+"You are trying to perform an action on a topic that does not exist (action "
+"'%1')."
 msgstr ""
 "Du försöker utföra en handling på en sida som inte existerar (handling '%1')."
 
@@ -4291,31 +4300,31 @@ msgstr ""
 "[mellanslag] = [värde]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:324
+#: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
 msgstr "Svenska"
 
-#: core/lib/Foswiki/Meta.pm:1836
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "åtkomst till rot nekad"
 
-#: core/lib/Foswiki/Meta.pm:1774
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "åtkomst till sidan nekad"
 
-#: core/lib/Foswiki/Meta.pm:1809
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "åtkomst till avdelningen nekad"
 
-#: core/lib/Foswiki/Meta.pm:1846
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "ingen åtkomst till rot"
 
-#: core/lib/Foswiki/Meta.pm:1793
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "ingen åtkomst till sidan"
 
-#: core/lib/Foswiki/Meta.pm:1821
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "ingen åtkomst till avdelningen"
 
@@ -4434,7 +4443,7 @@ msgstr ""
 msgid "title='Create new topic' accesskey='c'>&Create"
 msgstr "title='Skapa ny sida' accesskey='c'>Skapa (&C)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:17
+#: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
@@ -4454,20 +4463,20 @@ msgstr "title='Redigera denna sida' accesskey='e'>Redig&era"
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Sammanflätad' accesskey='i'>Sammanflätad (&I)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:21
+#: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
 msgstr ""
 "title='Utskriftsvänlig version av denna sida' accesskey='p'>Utskriftsvänlig "
 "(&P)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:28
+#: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='Sök i alla avdelningar efter sidor som länkar till denna' "
 "accesskey='l'>A&lla Avdelningar"
 
-#: core/templates/viewtopicactionbuttons.tmpl:30
+#: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
@@ -4475,7 +4484,7 @@ msgstr ""
 "title='Sök i avdelning %1 efter sidor som länkar hit' "
 "accesskey='b'>Referenser hit (&B)"
 
-#: core/templates/viewtopicactionbuttons.tmpl:26
+#: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
@@ -4486,17 +4495,29 @@ msgstr ""
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Sida vid sida' accesskey='s'>&Sida vid sida"
 
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
+msgstr "title='Redigera denna sida' accesskey='e'>Redig&era"
+
+#: core/templates/viewtopicactionbuttons.tmpl:16
+#, fuzzy
+msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
+msgstr ""
+"title='Utskriftsvänlig version av denna sida' accesskey='p'>Utskriftsvänlig "
+"(&P)"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Visa sida' accesskey='v'>&Visa sida"
 
-#: core/templates/viewtopicactionbuttons.tmpl:33
-#: core/templates/viewtopicactionbuttons.tmpl:35
+#: core/templates/viewtopicactionbuttons.tmpl:34
+#: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
 msgstr "title='Visa komplett historik för sidan' accesskey='h'>&Historik"
 
-#: core/templates/viewtopicactionbuttons.tmpl:38
+#: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
 msgstr "title='Visa utan formatering' accesskey='v'>&Visa wiki-text"
 
