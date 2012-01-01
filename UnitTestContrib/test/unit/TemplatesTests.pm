@@ -450,41 +450,39 @@ sub test_webTopicsE {
 #
 #}
 
-
 sub test_iterativeTemplate {
     my $this = shift;
     my $data;
 
-    # Template expands a template >1000 times - should not trigger any oops exceptions
+# Template expands a template >1000 times - should not trigger any oops exceptions
     write_template(
         'iterative', '
 %TMPL:DEF{"subtmpl"}% blah %TMPL:END%
-%TMPL:DEF{"iterative"}% ' . ( '%TMPL:P{"subtmpl"}% ' x 1001 ) .
-'%TMPL:END%'
-);
-     $data = $tmpls->readTemplate( 'iterative' );
-     $data = $tmpls->expandTemplate( 'iterative' );
- }
+%TMPL:DEF{"iterative"}% ' . ( '%TMPL:P{"subtmpl"}% ' x 1001 ) . '%TMPL:END%'
+    );
+    $data = $tmpls->readTemplate('iterative');
+    $data = $tmpls->expandTemplate('iterative');
+}
 
 sub test_loopingTemplate {
     my $this = shift;
     my $data;
 
-     write_template( 'looping', ' %TMPL:DEF{"loop"}% %TMPL:P{"loop"}% %TMPL:END%
+    write_template(
+        'looping', ' %TMPL:DEF{"loop"}% %TMPL:P{"loop"}% %TMPL:END%
 %TMPL:DEF{"subloop"}% %TMPL:P{"loop"}% %TMPL:END%
 '
     );
-    $data = $tmpls->readTemplate( 'looping' );
+    $data = $tmpls->readTemplate('looping');
     try {
-        $data = $tmpls->expandTemplate( 'loop' );
+        $data = $tmpls->expandTemplate('loop');
     }
     catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert( $e->isa('Foswiki::OopsException') );
         $this->assert_matches(
-        qr/^OopsException\(attention\/template_recursion/,
-            $e->stringify()
-        );
+            qr/^OopsException\(attention\/template_recursion/,
+            $e->stringify() );
     };
 }
 
