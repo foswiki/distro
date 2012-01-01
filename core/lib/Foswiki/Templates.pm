@@ -56,7 +56,8 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
 
-    $this->{VARS} = { sep => ' | ' };
+    $this->{VARS}                = {};
+    $this->{VARS}->{sep}->{text} = ' | ';
     $this->{expansionRecursions} = {};
     return $this;
 }
@@ -151,6 +152,7 @@ would add considerably to the power of templates.
 sub tmplP {
     my ( $this, $params ) = @_;
 
+    $params->remove('_RAW');    # don't need to iterate over _RAW
     my $template = $params->remove('_DEFAULT') || '';
     my $context  = $params->remove('context');
     my $then     = $params->remove('then');
@@ -180,8 +182,9 @@ sub tmplP {
 
     my $val = '';
     if ( exists( $this->{VARS}->{$template} ) ) {
-        $val = $this->{VARS}->{$template};
+        $val = $this->{VARS}->{$template}->{text};
         $val = "<!--$template-->\n$val<!--/$template-->\n" if (TRACE);
+
         foreach my $p ( keys %$params ) {
             if ( $p eq 'then' || $p eq 'else' ) {
                 $val =~ s/%$p%/$this->expandTemplate($1)/ge;
@@ -190,6 +193,12 @@ sub tmplP {
                 $val =~ s/%$p%/$params->{$p}/ge;
             }
         }
+
+        # process default values; this will clean up orphaned %p% params
+        foreach my $p ( keys %{ $this->{VARS}->{$template}->{params} } ) {
+            $val =~ s/%$p%/$this->{VARS}->{$template}->{params}->{$p}/ge;
+        }
+
         $val =~ s/%TMPL:PREV%/%TMPL:P{"$template:_PREV"}%/g;
         no warnings 'recursion';
         $val =~ s/%TMPL:P{(.*?)}%/$this->expandTemplate($1)/ge;
@@ -278,26 +287,35 @@ sub readTemplate {
         if (/^(%TMPL\:)$/) {
             $delim = $1;
         }
-        elsif ( (/^DEF{[\s\"]*(.*?)[\"\s]*}%(.*)/s) && ($1) ) {
+        elsif ( (/^DEF{(.*?)}%(.*)/s) && ($1) ) {
 
-            # handle %TMPL:DEF{key}%
+            # handle %TMPL:DEF{"key"}% and %TMPL:DEF{"key" p="1"}%
             if ($key) {
 
                 # if the key is already defined, rename the existing
                 # template to  key:_PREV
                 my $new_value  = $val;
                 my $prev_key   = $key;
-                my $prev_value = $this->{VARS}->{$prev_key};
-                $this->{VARS}->{$prev_key} = $new_value;
+                my $prev_value = $this->{VARS}->{$prev_key}->{text};
+                $this->{VARS}->{$prev_key}->{text} = $new_value;
                 while ($prev_value) {
-                    $new_value                 = $prev_value;
-                    $prev_key                  = "$prev_key:_PREV";
-                    $prev_value                = $this->{VARS}->{$prev_key};
-                    $this->{VARS}->{$prev_key} = $new_value;
+                    $new_value  = $prev_value;
+                    $prev_key   = "$prev_key:_PREV";
+                    $prev_value = $this->{VARS}->{$prev_key}->{text};
+                    $this->{VARS}->{$prev_key}->{text} = $new_value;
                 }
 
             }
-            $key = $1;
+
+            my $attrs = new Foswiki::Attrs($1);
+            $key = $attrs->{_DEFAULT};
+
+            # store params in TMPL:DEF for later retrieval
+            $attrs->remove('_DEFAULT');
+            $attrs->remove('_RAW');
+            foreach my $p ( keys %$attrs ) {
+                $this->{VARS}->{$key}->{params}->{$p} = $attrs->{$p};
+            }
 
             # SMELL: unchecked implicit untaint?
             $val = $2;
@@ -311,13 +329,13 @@ sub readTemplate {
             # key:_PREV
             my $new_value  = $val;
             my $prev_key   = $key;
-            my $prev_value = $this->{VARS}->{$prev_key};
-            $this->{VARS}->{$prev_key} = $new_value;
+            my $prev_value = $this->{VARS}->{$prev_key}->{text};
+            $this->{VARS}->{$prev_key}->{text} = $new_value;
             while ($prev_value) {
-                $new_value                 = $prev_value;
-                $prev_key                  = "$prev_key:_PREV";
-                $prev_value                = $this->{VARS}->{$prev_key};
-                $this->{VARS}->{$prev_key} = $new_value;
+                $new_value  = $prev_value;
+                $prev_key   = "$prev_key:_PREV";
+                $prev_value = $this->{VARS}->{$prev_key}->{text};
+                $this->{VARS}->{$prev_key}->{text} = $new_value;
             }
 
             $key = '';
@@ -627,7 +645,7 @@ sub getTemplateFromCache {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
