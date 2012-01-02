@@ -336,6 +336,7 @@ data/System/WebRssBase.txt 0644
 data/System/WebSearch.txt 0644
 data/System/WebSearchAdvanced.txt 0644
 data/System/WebSiteTools.txt 0644
+data/System/WebStatisticsTemplate.txt 0644
 data/System/WebTemplateTopics.txt 0644
 data/System/WebTopicCreator.txt 0644
 data/System/WebTopicEditTemplate.txt 0644

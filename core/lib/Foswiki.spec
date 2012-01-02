@@ -805,6 +805,20 @@ $Foswiki::cfg{Stats}{TopViews} = 10;
 # Number of top contributors to show in statistics topic
 $Foswiki::cfg{Stats}{TopContrib} = 10;
 
+# **SELECT Prohibited, Allowed, Always**
+# Set this parameter to <code>Allowed</code> if you want the statistics script to create a
+# missing WebStatistics topic only when the parameter <code>autocreate=1</code> is supplied.
+# Set it to <code>Always</code> if a missing WebStatistics topic should be created unless
+# overridden by URL parameter <code>'autocreate=0'</code>.  <code>Prohibited</code> is
+# the previous behavior and is the default.
+$Foswiki::cfg{Stats}{AutoCreateTopic} = 'Prohibited';
+
+# **STRING 20**
+# If this is set to the name of a Group, then the statistics script will only run for
+# members of the specified  and the AdminGroup.  Ex. Set to <code>AdminGroup</code> to restrict
+# statistics to  administrators.   Default is un-set.  Anyone can run statistics.
+$Foswiki::cfg{Stats}{StatisticsGroup} = '';
+
 # **STRING 20 EXPERT**
 # Name of statistics topic.  Note:  If you change the name of the statistics topic
 # you must also rename the WebStatistics topic in each web, and the DefaultWebStatistics topic

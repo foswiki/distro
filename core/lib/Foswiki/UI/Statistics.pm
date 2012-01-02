@@ -68,6 +68,22 @@ sub statistics {
             CGI::start_html( -title => 'Foswiki: Create Usage Statistics' ) );
     }
 
+    if ( defined $Foswiki::cfg{Stats}{StatisticsGroup}
+        && length( $Foswiki::cfg{Stats}{StatisticsGroup} ) > 0 )
+    {
+        unless (
+            Foswiki::Func::isGroupMember(
+                $Foswiki::cfg{Stats}{StatisticsGroup}
+            )
+            || Foswiki::Func::isAnAdmin()
+          )
+        {
+            _printMsg( $session,
+                'Statistics not permitted for user - exiting' );
+            return;
+        }
+    }
+
     # Initial messages
     _printMsg( $session, 'Foswiki: Create Usage Statistics' );
     _printMsg( $session, '!Do not interrupt this script!' );
@@ -130,6 +146,7 @@ sub statistics {
             push( @weblist, $w );
         }
     }
+
     my $firstTime = 1;
     foreach my $web (@weblist) {
         try {
@@ -351,17 +368,81 @@ sub _processWeb {
     # Update the WebStatistics topic
 
     my $tmp;
+    my $meta;
     my $statsTopic = $Foswiki::cfg{Stats}{TopicName};
-    unless ( $session->topicExists( $web, $statsTopic ) ) {
-        _printMsg( $session,
-            "! Warning: No updates done, topic $web.$statsTopic does not exist"
-        );
-        return $web;
-    }
 
     # DEBUG
     # $statsTopic = 'TestStatistics';		# Create this by hand
-    my $meta = Foswiki::Meta->load( $session, $web, $statsTopic );
+
+    my $statsTemplateWeb = '';
+    my $tmplObject;
+
+    my $autoCreate    = 0;
+    my $autoCreateMsg = 'prohibited';
+    if ( defined $Foswiki::cfg{Stats}{AutoCreateTopic} ) {
+        if ( $Foswiki::cfg{Stats}{AutoCreateTopic} eq 'Allowed' ) {
+            $autoCreateMsg = 'not requested';
+            $autoCreate    = $session->{request}->param('autocreate')
+              if defined $session->{request}->param('autocreate');
+        }
+        else {
+            $autoCreate = 1
+              if ( $Foswiki::cfg{Stats}{AutoCreateTopic} eq 'Always' );
+        }
+    }
+
+    unless ( $session->topicExists( $web, $statsTopic ) ) {
+        if ($autoCreate) {
+            my $statsTemplate = $statsTopic . 'Template';
+            if (
+                $session->topicExists(
+                    $Foswiki::cfg{UsersWebName},
+                    $statsTemplate
+                )
+              )
+            {
+                $statsTemplateWeb = $Foswiki::cfg{UsersWebName};
+            }
+            elsif (
+                $session->topicExists(
+                    $Foswiki::cfg{SystemWebName},
+                    $statsTemplate
+                )
+              )
+            {
+                $statsTemplateWeb = $Foswiki::cfg{SystemWebName};
+            }
+            if ($statsTemplateWeb) {
+                my $webMeta = Foswiki::Meta->load( $session, $web );
+                Foswiki::UI::checkAccess( $session, 'CHANGE', $webMeta );
+                _printMsg( $session,
+"* Creating $web.$statsTopic using template $statsTemplateWeb.$statsTemplate"
+                );
+                $tmplObject = Foswiki::Meta->load( $session, $statsTemplateWeb,
+                    $statsTemplate );
+                Foswiki::UI::checkAccess( $session, 'VIEW', $tmplObject );
+                $meta = Foswiki::Meta->new( $session, $web, $statsTopic );
+                $meta->copyFrom($tmplObject);
+                $meta->text( $tmplObject->text() );
+            }
+            else {
+                _printMsg( $session,
+"! Warning: Template topic $statsTemplate not found in $Foswiki::cfg{UsersWebName} or $Foswiki::cfg{SystemWebName}.  Unable to generate statistics in $web web."
+                );
+                return $web;
+            }
+        }
+        else {
+            _printMsg( $session,
+"! Warning: No updates done, topic $web.$statsTopic does not exist, and autocreate $autoCreateMsg."
+            );
+            return $web;
+        }
+    }
+    else {
+        $meta = Foswiki::Meta->load( $session, $web, $statsTopic );
+    }
+
     Foswiki::UI::checkAccess( $session, 'CHANGE', $meta );
     my @lines = split( /\r?\n/, $meta->text );
     my $statLine;
