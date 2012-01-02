@@ -1752,18 +1752,18 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced', 'WebStatistics',
+            'WebSearchAdvanced',
             'WebTopicList'
         ],
         $this->_getTopicList( '_default', {} ),
-        'no filters, all topics in test_web'
+        'no filters, all topics in _default web'
     );
 
     #use wildcards
     $this->assert_deep_equals(
         [ 'OkATopic', 'OkBTopic', 'OkTopic' ],
         $this->_getTopicList( $this->{test_web}, { includeTopics => 'Ok*' } ),
-        'comma separated list'
+        'test_web, Wildcard includeTopics Ok*'
     );
     $this->assert_deep_equals(
         [
@@ -1772,11 +1772,11 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced', 'WebStatistics',
+            'WebSearchAdvanced',
             'WebTopicList'
         ],
         $this->_getTopicList( '_default', { includeTopics => 'Web*' } ),
-        'no filters, all topics in test_web'
+        '_default web, Wildcard includeTopics Web*'
     );
 
     #comma separated list specifed for inclusion
@@ -1786,17 +1786,17 @@ sub verify_getTopicList {
             $this->{test_web},
             { includeTopics => 'TestTopicSEARCH,OkTopic,NoSuchTopic' }
         ),
-        'comma separated list'
+        'test_web, comma separated includeTopics, missing topic'
     );
     $this->assert_deep_equals(
-        [ 'WebStatistics', 'WebCreateNewTopic' ],
+        [ 'WebTopicList', 'WebCreateNewTopic' ],
         $this->_getTopicList(
             '_default',
             {
-                includeTopics => 'WebStatistics, WebCreateNewTopic, NoSuchTopic'
+                includeTopics => 'WebTopicList, WebCreateNewTopic, NoSuchTopic'
             }
         ),
-        'no filters, all topics in test_web'
+        '_default web, comma-space separated includeTopics, missing topic '
     );
 
     #excludes
@@ -1805,7 +1805,7 @@ sub verify_getTopicList {
         $this->_getTopicList(
             $this->{test_web}, { excludeTopics => 'NoSuchTopic,OkBTopic' }
         ),
-        'no filters, all topics in test_web'
+        'test_web, comma separated excludeTopics list'
     );
     $this->assert_deep_equals(
         [
@@ -1814,10 +1814,10 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearchAdvanced',
-            'WebStatistics',     'WebTopicList'
+            'WebTopicList'
         ],
         $this->_getTopicList( '_default', { excludeTopics => 'WebSearch' } ),
-        'no filters, all topics in test_web'
+        '_default web, exclude WebSearch'
     );
 
     #Talk about missing alot of tests
@@ -4024,7 +4024,7 @@ sub verify_simple_format {
 
     my $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
-    "(WebPreferences|^WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="TestCases, %SYSTEMWEB%, Main, Sandbox"
@@ -4036,19 +4036,19 @@ sub verify_simple_format {
     my $expected = <<'HERE';
    * !TestCases.WebHome
    * !TestCases.WebPreferences
-   * !TestCases.WebStatistics
+   * !TestCases.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
    * !System.WebHome
    * !System.WebPreferences
-   * !System.WebStatistics
+   * !System.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
    * !Main.WebHome
    * !Main.WebPreferences
-   * !Main.WebStatistics
+   * !Main.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
    * !Sandbox.WebHome
    * !Sandbox.WebPreferences
-   * !Sandbox.WebStatistics
+   * !Sandbox.WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 HERE
 
@@ -4060,7 +4060,7 @@ sub verify_formatdotBang {
 
     my $actual = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
-    "(WebPreferences|^WebStatistics|WebHome)$"
+    "(WebPreferences|WebTopicList|WebHome)$"
     type="regex"
     scope="topic"
     web="%SYSTEMWEB%"
@@ -4072,7 +4072,7 @@ sub verify_formatdotBang {
     my $expected = <<'HERE';
    * !System.!WebHome
    * !System.!WebPreferences
-   * !System.!WebStatistics
+   * !System.!WebTopicList
 <div class="foswikiSearchResultCount">Number of topics: <span>3</span></div>
 HERE
 

@@ -35,6 +35,7 @@ our %expect_non_html = (
 sub new {
     my ( $class, @args ) = @_;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $Foswiki::cfg{Stats}{AutoCreateTopic} = 0;
     my $self = $class->SUPER::new( "UIFnCompile", @args );
     return $self;
 }
