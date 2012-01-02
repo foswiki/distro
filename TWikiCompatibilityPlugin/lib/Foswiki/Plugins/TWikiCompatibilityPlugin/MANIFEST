@@ -26,7 +26,6 @@ data/TWiki/WebRss.txt  0644 make it a valid web
 data/TWiki/WebChanges.txt  0644 make it a valid web
 data/TWiki/WebHome.txt  0644 make it a valid web
 data/TWiki/WebNotify.txt  0644 make it a valid web
-data/TWiki/WebStatistics.txt  0644 make it a valid web
 data/TWiki/WebTopicList.txt  0644 make it a valid web
 data/TWiki/WebSearchAdvanced.txt  0644 make it a valid web
 data/TWiki/WebCreateNewTopic.txt  0644 make it a valid web
