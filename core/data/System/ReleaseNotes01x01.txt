@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.4
+---+!! Foswiki Release 1.1.5
 
 %TOC%
 
@@ -43,6 +43,17 @@ Foswiki 1.1 ships with the following:
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x01Changes
+---++ Important changes since Foswiki 1.1.4
+
+---+++ Changes to Statistics processing
+
+The !WebStatistics topics are no longer shipped with Foswiki.  Two new topics have been included;  %SYSTEMWEB%.DefaultWebStatistics and %SYSTEMWEB%.WebStatisticsTemplate.  The =statistics= script now has the optional capability of creating the missing !WebStatistics topics.
+   * The Foswiki configuration has a new parameter: ={Stats}{AutoCreateTopic}= (Default is disabled)
+   * The statistics script has a new parameter: =-autocreate 1= or =autocreate=1= (Default is disabled)
+
+The details of this change are in %SYSTEMWEB%.SiteTools#WebStatistics, including a tool to help with creating the missing !WebStatistics topics.
+
+
 ---++ Important changes since Foswiki 1.1.3
 
 ---+++ 1.1.3 may have changed some =form.name= MetaData to contain fully-qualified (with web name prefix) values
