@@ -351,8 +351,8 @@ To link to a topic in a subweb write =Otherweb.Subweb.TopicName=.%BR%
 
 It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTEMWEB%, %<nop>SANDBOXWEB% and %<nop>USERSWEB% instead of %SYSTEMWEB%, %SANDBOXWEB% and %USERSWEB%.
 </td><td>
-<pre class="tml">
-WebStatistics
+<verbatim class="tml">
+%STATISTICSTOPIC%
 
 %SANDBOXWEB%.WebNotify
 
@@ -362,7 +362,7 @@ WebStatistics
 </pre>
 </td><td>
 
-WebStatistics
+%STATISTICSTOPIC%
 
 %SANDBOXWEB%.WebNotify
 

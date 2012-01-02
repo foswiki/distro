@@ -162,7 +162,7 @@ zeroresults="%IF{ "defined search and $search!=''" then="on" else="off" }%"
 %STARTSECTION{"searchfeed"}%<div>%ICON{"rss-small"}%%INCLUDE{"%SYSTEMWEB%.%TOPIC%" section="searchfeedlink"}%</div>%ENDSECTION{"searchfeed"}%
 
 
-%STARTSECTION{"searchfeedlink"}% <a href='%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,WebHome,WebStatistics"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;recurse=%URLPARAM{"recurse" encode="url"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
+%STARTSECTION{"searchfeedlink"}% <a href='%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,WebHome,%STATISTICSTOPIC%"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;recurse=%URLPARAM{"recurse" encode="url"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
 
 
 %STARTSECTION{"querysearchexample"}%%IF{"$'URLPARAM{search}'!=''" then='$percentINCLUDE{$quot%TOPIC%$quot section=$quot_querysearchexample$quot}$percent'}%%ENDSECTION{"querysearchexample"}%

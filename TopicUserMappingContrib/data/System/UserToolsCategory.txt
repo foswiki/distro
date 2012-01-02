@@ -16,7 +16,7 @@
    $ [[WebRss]] : When viewed this topic returns an RSS feed of the changes in the web. There is a WebRss topic in each web
    $ [[WebSearchAdvanced]] : Same as WebSearch except it starts in the advanced tab
    $ [[WebSearch]] : Search this web for text. Each web has a WebSearch topic. You can search in current web or all webs
-   $ [[WebStatistics]] : Statistics for the use of the current web
+   $ <noautolink>%IF{"istopic '%STATISTICSTOPIC%'" then="[[%STATISTICSTOPIC%]]" else="%STATISTICSTOPIC%"}% : Statistics for the use of the current web</noautolink>
    $ [[WebTopicList]] : List of all topics in the current web. Displays only the topic names. WebIndex shows a more verbose list. There is a WebTopicList in each web
 
 ---++ Related Topics

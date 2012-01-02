@@ -33,8 +33,8 @@ This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGI
    * WebTopicList - all topics in alphabetical order
    * WebChanges - recent topic changes in this web
    * WebNotify - subscribe to an e-mail alert sent when topics change
-   * WebRss, WebAtom - RSS and ATOM news feeds of topic changes
-   * WebStatistics - listing popular topics and top contributors
+   * WebRss, WebAtom - RSS and ATOM news feeds of topic changes %IF{"istopic '%STATISTICSTOPIC%'" then="
+   * %STATISTICSTOPIC% - listing popular topics and top contributors"}%
    * WebPreferences - preferences for this web
 
 <a href="http://foswiki.org"><img src="%PUBURLPATH%/%WEB%/ProjectLogos/foswiki-badge.gif" alt="Foswiki badge" height="31" style="vertical-align:bottom" /></a> Foswiki is developed as Free Software under the [[FAQGnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[Foswiki:Download][Foswiki.org downloads]].

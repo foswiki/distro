@@ -17,6 +17,6 @@ and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of you
    * [[WebTopicList]] - all topics in alphabetical order
    * [[WebChanges]] - recent topic changes in this web
    * [[WebNotify]] - subscribe to an e-mail alert sent when topics change
-   * [[WebRss]], [[WebAtom]] - RSS and ATOM news feeds of topic changes
-   * [[WebStatistics]] - listing popular topics and top contributors
+   * [[WebRss]], [[WebAtom]] - RSS and ATOM news feeds of topic changes %IF{"istopic '%STATISTICSTOPIC%'" then="
+   * [[%STATISTICSTOPIC%]] - listing popular topics and top contributors"}%
    * [[WebPreferences]] - preferences of this web

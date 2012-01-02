@@ -7,7 +7,7 @@ _Utilities for searching, navigation, and monitoring site activity_
 
 Site Tools include utilities for navigating, searching and keeping up with site activity.
 
-In particular, you have two highly configurable, automated site monitoring tools, *<nop>WebNotify*, to e-mail alerts when topics are edited, and *<nop>WebStatistics*, to generate detailed activity reports.
+In particular, you have two highly configurable, automated site monitoring tools, *<nop>WebNotify*, to e-mail alerts when topics are edited, and *<nop>%STATISTICSTOPIC%*, to generate detailed activity reports.
 
 %TOC%
 
@@ -64,16 +64,66 @@ Statistics of visits to pages in a web can be generated manually or automaticall
 ---+++ Configuring for automatic operation
 
    * You can automatically generate usage statistics for all webs. To enable this:
-      * The %STATISTICSTOPIC% topic must be present in all webs where you want to have statistics. You can use the topic in the Main web as a template.
+      * The %STATISTICSTOPIC% topic must be present in all webs where you want to have statistics. See below for how to create the %STATISTICSTOPIC% topic.
       * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the %STATISTICSTOPIC% topics in all webs.
       * *Attention:* The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems. Example crontab entry: %BR% =0 0 * * * (cd /path/to/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
-      * There is a workaround in case you can't run the script as user =nobody= : Run the utility =tools/geturl.pl= in your cron job and specify the URL of the =bin/statistics= script as a parameter. Example: %BR% =0 0 * * * (cd /path/to/tools; ./geturl.pl mydomain.com /urlpath/to/bin/statistics &gt;/dev/null 2&gt;&amp;1)= 
+      * There is a workaround in case you can't run the script as the CGI user: Run the utility =tools/geturl.pl= in your cron job and specify the URL of the =bin/statistics= script as a parameter. Example: %BR% =0 0 * * * (cd /path/to/tools; ./geturl.pl mydomain.com /urlpath/to/bin/statistics &gt;/dev/null 2&gt;&amp;1)=
       * *NOTE:* =geturl.pl= will do a CGI request as the <nop>WikiGuest user, so if you use this workaround, the %STATISTICSTOPIC% topics you are updating will have to be writable by <nop>WikiGuest.
 
 When running from the command line or a cron job, you can pass parameters to the script like this:
 <verbatim class="bash">
-./statistics -logdate 200605 -webs Userweb,Sandbox
+./statistics -logdate 200605 -webs Userweb,Sandbox -autocreate 1
 </verbatim>
+
+---+++ Controlling access to the statistics script
+By default, the statistics script may be run by anyone, however the user must have CHANGE permission on the %STATISTICSTOPIC% topic.  Statistics generation can create a significant workload on the server.  In order to further restrict statistics generation
+   * If desired, create a Group for users that should be permitted to run the statistics script, or use the AdminGroup.
+   * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{StatisticsGroup}= to the group permitted to run statistics.
+   * Note: Regardless of this setting, members of the AdminGroup can always run statistics.
+
+---+++ Creating the <nop>%STATISTICSTOPIC% topics
+
+With this release of Foswiki, the !WebStatistics topics are no longer shipped by defaut.  The =bin/statistics= script can automatically create the required topics when enabled in the configuration, or when requested by URL Parameter =autocreate=1=.
+
+   * If you want the Statistics topic to be automatically created whenever needed, in every web
+      * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Always=
+
+   * If you want to manually add the <nop>%STATISTICSTOPIC% topic to a subset of webs
+      * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Permitted=
+      * Use the below form to run =statistics= on one or more webs.
+      * or  Add =-autocreate 1= to the statistics script as shown above..
+
+   * If yow want to prohibit autocreate of <nop>%STATISTICSTOPIC% topics
+      * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Prohibited=
+      * Note:  This is the default behavior.
+
+The following form can be used to create the <nop>%STATISTICSTOPIC% topics for selected or all webs.
+
+Note:  The current user - %WIKIUSERNAME% must have access rights to read/write the <nop>%STATISTICSTOPIC% topics, and if missing, must have authority to create the <nop>%STATISTICSTOPIC% in the selected webs.
+
+<noautolink>
+<form name="stats" action="%SCRIPTURLPATH{statistics}%" method="get">
+    <div id="createWeb" class="foswikiFormSteps">
+        <div class="foswikiFormStep">
+            <h3>Run statistics on a list of one or more webs. (Comma separated)</h3>
+            <p>If omitted, all webs will be processed</p>
+                <p>
+                    <input name="webs" class="foswikiInputField" type="text" value="%URLPARAM{"webs"}%" size="80" />
+                </p>
+        </div><!--//foswikFormStep-->
+        <div class="foswikiFormStep">
+            <h4>Select to auto-create the <nop>%STATISTICSTOPIC%</h4>
+                <p>
+                    <input type="checkbox" name="autocreate" value="1" />
+                </p>
+            <div class="foswikiClear"></div>
+        </div><!--//foswikiFormStep-->
+        <div class="foswikiFormStep">
+            <input type="submit" class="foswikiSubmit" value="Run Statistics" />
+        </div><!--//foswikiFormStep-->
+    </div><!--//foswikiFormSteps-->
+</form>
+</noautolink>
 
 ---+++ Generating statistics manually by URL
 
@@ -84,36 +134,51 @@ When running from the command line or a cron job, you can pass parameters to the
       * Update %SERVERTIME{$month $year}% for %USERSWEB% web: %BR% =%SCRIPTURLPATH{statistics}%/%USERSWEB%?logdate=%SERVERTIME{$year$mo}%=
       * Update %SERVERTIME{$month $year}% for the !ProjectX, !ProjectY and !ProjectZ webs: %BR% =%SCRIPTURLPATH{statistics}%?logdate=%SERVERTIME{$year$mo}%;webs=Project<nop>X,Project<nop>Y,Project<nop>Z=
 
----+++ Tailoring the %STATISTICSTOPIC% layout
+---+++ Tailoring the <nop>%STATISTICSTOPIC% layout
 
-The Statistics topics =%<nop>INCLUDE%= a header topic [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]].  To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%USERSWEB%.Default%STATISTICSTOPIC%]] and tailor as desired.  This prevents your changes from being lost when Foswiki is updated.
+The <nop>%STATISTICSTOPIC% topics are not shipped with Foswiki by default.  The topics are created on demand by the statistics script when requested by configuration.  The topics are created as follows:
+   1 The %USERSWEB% web is searched for [[%USERSWEB%.WebStatisticsTemplate]] - if this topic does not exist
+      * The %SYSTEMWEB% web is searched for [[%SYSTEMWEB%.WebStatisticsTemplate]].   (This topic is shipped with Foswiki by default)
+   1 If ={Stats}{AutoCreateTopic}= is enabled in the configuration, or the =autocreate= parameter is passed to the =statistics= script, then a new <nop>%STATISTICSTOPIC% is created using the !WebStatisticsTemplate topic found in the first step.
+      * If =autocreate= is not requested, and the <nop>%STATISTICSTOPIC% topic does not exist, then statistics will not be computed for the web.
 
-If a %STATISTICSTOPIC% topic does not exist, it will _not_ be created automatically.  Removal of the topic from a web will prevent statistics from being generated.
+The template topic contains an =%<nop>INCLUDE%= for help text and table headings, and a critical =marker line= that defines the columns to be recorded by the statistics script.   (This allows the help text or headings to be modified without needing to edit every <nop>%STATISTICSTOPIC% topic.)
+   * The <nop>%STATISTICSTOPIC% topic looks for [[%USERSWEB%.Default%STATISTICSTOPIC%]] - if this topic does not exist ..
+      * The [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] is included. (This topic is shipped with Foswiki by default).
 
-Statistics are written into the %STATISTICSTOPIC% in the following order.
+To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%USERSWEB%.Default%STATISTICSTOPIC%]] and tailor as desired.  This prevents your changes from being lost when Foswiki is updated.
+
+To tailor the actual columns recorded and the order of the columns, copy [[%SYSTEMWEB%.WebStatisticsTemplate]] to [[%USERSWEB%.WebStatisticsTemplate]] and tailor as desired.  Then remove the previous <nop>%STATISTICSTOPIC% and allow the statistics script to auto-create a new topic based upon the new template.
+Alternatively you can edit the <nop>%STATISTICSTOPIC% in each web.
+
+Statistics are written into the <nop>%STATISTICSTOPIC% in the following order.
    * If a ==marker line== is found in the topic, statistics are inserted into the topic _after_ the =marker line=.
    * If no =marker line= is present, but the topic contains existing statistics,  the current month is update, or a new month is written _after_ the previous month.
    * If no =marker line= is present and no previous statistics exist, a new line is added to the end of the topic.
 
 Removal of the marker line causes statistics to be gathered in chronological order (oldest first).  By default, statistics are reported in reverse chronological order.
 
-The =marker line= defines the order of the columns collected by the =statistics= script. The order of the columns should correspond to the table heading in the Default%STATISTICSTOPIC%.  Default marker line is:`;
+The =marker line= defines the order of the columns collected by the =statistics= script. The order of the columns should correspond to the table heading in the Default%STATISTICSTOPIC%.  Default marker line is:
 <verbatim>
 | <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |
 </verbatim>
 
----+++ Managing the %STATISTICSTOPIC%
+---+++ Managing the <nop>%STATISTICSTOPIC% Topics
 
-%STATISTICSTOPIC% will continue to grow.  In addition every run of the statistics script will create a new entry in the !%STATISTICSTOPIC% topic revision history. These can become extremely large over time and Foswiki does not provide any mechanism for automatically archiving statistics topics.  For good ongoing performance, it is recommended to archive statistics annually:
-   * Rename the %STATISTICSTOPIC% to =%STATISTICSTOPIC%YYYY=
-   * Restore the default topic with a copy of the =data/_default/%STATISTICSTOPIC%=
+Each <nop>%STATISTICSTOPIC% topic will continue to grow, a new row added every month.  In addition, every update of the statistics topic will create a new entry in the <nop>%STATISTICSTOPIC% topic revision history. These can become extremely large over time and Foswiki does not provide any mechanism for automatically archiving statistics topics.  For good ongoing performance, it is recommended to archive statistics annually:
+   * Enable ={Stats}{AutoCreateTopic}= or add  =-autocreate 1= to the cron job that runs the statistics script.
+   * Rename the <nop>%STATISTICSTOPIC% to =%STATISTICSTOPIC%YYYY= at year end.
+   * Optional: Tailor the DefaultWebStatistics topic, adding a search for archived statistics, for example:
+<verbatim>
+%SEARCH{"." type="regex" topic="%STATISTICSTOPIC%*" excludetopic="%BASETOPIC%" scope="topic" nonoise="on" header="*Other Statistics Topics:*" format="   * $web.$topic"}%
+</verbatim>
 Following these steps will start a fresh statistics topic with a clean revision history.
 
 #LogFiles
 ---++ Log Files
 
 Foswiki generates an event log which is used by the statistics script
-   * The directory for the log file is defined by the =={Log}{Dir}== setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
+   * The directory for the log file is defined by the =={Log}{Dir}== setting in [[%SCRIPTURLPATH{"configure"}%#LoggingAndStatistics][configure]]
    * The file name is =events.log=  Old events are archived as =events.&lt;year&gt;&lt;month&gt;=
    * Example path name: =working/logs/events.log=
    * Each access gets logged as: %BR%
@@ -144,11 +209,13 @@ Foswiki generates an event log which is used by the statistics script
 #ConfigureEmail
 ---++ E-mail
 
+See also [[%SYSTEMWEB%.InstallationGuidePart2#EmailConfig]]
+
 ---+++ Configuring outgoing mail
 
 Outgoing mail is required for UserRegistration and for [[#WebNotify][recent changes alert]].
 
-The preferred place to configure e-mail is in the =bin/configure= tool (=LocalSite.cfg=).  The configure tool fully documents these setting.  Mail settings are found in the "Mail and Proxies" tab. Foswiki will use the ==Net::SMTP== module if it is installed on your system. 
+The preferred place to configure e-mail is in the [[%SCRIPTURLPATH{"configure"}%#MailAndProxies][configure "Mail and Proxies" tab]] tool (=LocalSite.cfg=).  The configure tool fully documents these setting.
 
 The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
@@ -160,7 +227,7 @@ The notify e-mail uses the default =changes.tmpl= template, or a skin if activat
 %X% *Caution:* Older versions of Foswiki, and especially TWiki migrations might configure e-mail in the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] topic.  Make sure you delete that setting if you are using a SitePreferences topic from a previous release of Foswiki. 
 </blockquote>
 %TABLE{sort="off"}%
-| *Parameter* | *[[%SCRIPTURLPATH{"configure"}%][configure]]<br/>(Current)* | *[[%SYSTEMWEB%.PreferenceSettings][preference settings]]<br/>(Legacy)* | *Default* | *Description* |
+| *Parameter* | *[[%SCRIPTURLPATH{"configure"}%#MailAndProxies][configure]]<br/>(Current)* | *[[%SYSTEMWEB%.PreferenceSettings][preference settings]]<br/>(Legacy)* | *Default* | *Description* |
 | Global enable | ={EnableEmail}= | _n/a_ | =enabled= | Globally enable/disable email support. |
 | Extermal mail program | ={MailProgram}=  | _n/a_ | ='/usr/sbin/sendmail -t -oi -oeq'= | E-mail program used when Net:SMTP is unavailable |
 | Mail relay host | ={SMTP}{MAILHOST}= | =SMTPMAILHOST= | _not set_ | Destination SMTP Server used to receive and relay email. Net::SMTP is disabled if this is not set. |
