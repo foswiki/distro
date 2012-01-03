@@ -479,10 +479,13 @@ sub _install {
         if ($uselocal) {
 
             # Check $dir first, then the download directory.
-            for my $sdir ( "$dir", "$Foswiki::cfg{WorkingDir}/configure/download" ) {
+            for my $sdir ( "$dir",
+                "$Foswiki::cfg{WorkingDir}/configure/download" )
+            {
                 for my $sext (qw( .tgz .zip .TGZ .tar.gz .ZIP  )) {
                     use Cwd;
-                    if ( -r "$sdir/$this->{_pkgname}$sext" ) {    # readable by user
+                    if ( -r "$sdir/$this->{_pkgname}$sext" )
+                    {    # readable by user
                         $ext = $sext;
                         $dir = $sdir;
                         last;
@@ -519,7 +522,8 @@ sub _install {
         }
         $tmpfilename = "$dir/$this->{_pkgname}$ext" if ($ext);
         my $sb = stat("$tmpfilename");
-        $feedback .= "Unpacking $tmpfilename..., Size: "
+        $feedback .=
+            "Unpacking $tmpfilename..., Size: "
           . $sb->size
           . " Modified: "
           . scalar localtime( $sb->mtime )
@@ -533,12 +537,13 @@ sub _install {
         return ( $feedback, "No archive found to install\n" ) unless ($tmpdir);
 
         my ($tmpext) = $tmpfilename =~ m/.*(\.[^\.]+)$/;
-        $feedback .= "Saving $tmpfilename to $Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext\n";
+        $feedback .=
+"Saving $tmpfilename to $Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext\n";
         $this->_moveFile(
             $tmpfilename,
 "$Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext",
             undef,
-            1      # Force move even if simulate
+            1    # Force move even if simulate
         );
 
         $dir = $tmpdir;
