@@ -478,18 +478,25 @@ sub _install {
     unless ($expanded) {
         if ($uselocal) {
 
-            for (qw( .tgz .zip .TGZ .tar.gz .ZIP  )) {
-                use Cwd;
-                if ( -r "$dir/$this->{_pkgname}$_" ) {    # readable by user
-                    $ext = $_;
-                    last;
+            # Check $dir first, then the download directory.
+            for my $sdir ( "$dir", "$Foswiki::cfg{WorkingDir}/configure/download" ) {
+                for my $sext (qw( .tgz .zip .TGZ .tar.gz .ZIP  )) {
+                    use Cwd;
+                    if ( -r "$sdir/$this->{_pkgname}$sext" ) {    # readable by user
+                        $ext = $sext;
+                        $dir = $sdir;
+                        last;
+                    }
                 }
+                last if ($ext);
             }
-            $feedback .=
-'No local package found, and uselocal requested - download required'
-              . "\n"
-              unless ($ext);
         }
+        $feedback .=
+            ($ext) ? "Using local archive $dir/$this->{_pkgname}$ext \n"
+          : ($uselocal)
+          ? "No local package found, and uselocal requested - download required\n"
+          : "uselocal disabled, download required\n";
+
         my $tmpdir;         # Directory where archive was expanded
         my $tmpfilename;    # Filename set when downloaded
 
@@ -511,7 +518,12 @@ sub _install {
             }
         }
         $tmpfilename = "$dir/$this->{_pkgname}$ext" if ($ext);
-        $feedback .= "Unpacking $tmpfilename...\n";
+        my $sb = stat("$tmpfilename");
+        $feedback .= "Unpacking $tmpfilename..., Size: "
+          . $sb->size
+          . " Modified: "
+          . scalar localtime( $sb->mtime )
+          . " for package archive \n";
         ( $tmpdir, $err ) =
           Foswiki::Configure::Util::unpackArchive($tmpfilename);
         if ($err) {
@@ -519,6 +531,16 @@ sub _install {
             $this->{_errors} .= $err;
         }
         return ( $feedback, "No archive found to install\n" ) unless ($tmpdir);
+
+        my ($tmpext) = $tmpfilename =~ m/.*(\.[^\.]+)$/;
+        $feedback .= "Saving $tmpfilename to $Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext\n";
+        $this->_moveFile(
+            $tmpfilename,
+"$Foswiki::cfg{WorkingDir}/configure/download/$this->{_pkgname}$tmpext",
+            undef,
+            1      # Force move even if simulate
+        );
+
         $dir = $tmpdir;
     }
 
@@ -703,13 +725,16 @@ Make the path as required and move or copy the file into the target location
 
 sub _moveFile {
     my $this  = shift;
-    my $from  = shift;
-    my $to    = shift;
-    my $perms = shift;
+    my $from  = shift; # Source path
+    my $to    = shift; # Destination path
+    my $perms = shift; # File permissions
+    my $force = shift; # Force copy even if simulate - used for the .tgz archive
+
+    $force ||= 0;
 
     my @path = split( /[\/\\]+/, $to, -1 );    # -1 allows directories
     pop(@path);
-    unless ( $this->{_options}->{SIMULATE} ) {
+    if ( !$this->{_options}->{SIMULATE} || $force ) {
         if ( scalar(@path) ) {
             umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
             File::Path::mkpath( join( '/', @path ),

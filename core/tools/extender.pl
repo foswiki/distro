@@ -258,8 +258,6 @@ sub _loadInstaller {
         pub  => "$PACKAGES_URL/"
     };
 
-    my $fromDir = dirname( abs_path($0) );
-
     _inform "Package repository set to $PACKAGES_URL \n";
     _inform
 " ... locally found installer scripts and archives will be used if available"
@@ -272,7 +270,7 @@ sub _loadInstaller {
             SHELL    => 1,
             USELOCAL => $reuseOK,
             SIMULATE => $simulate,
-            DIR      => $fromDir
+            DIR      => $installationRoot,
         }
     );
     $thispkg->repository($repository);
