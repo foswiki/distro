@@ -915,9 +915,10 @@ sub removeSpuriousLeases {
     my $web = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/';
     if ( opendir( my $W, $web ) ) {
         foreach my $f ( readdir($W) ) {
-            if ( $f =~ /^(.*)\.lease$/ ) {
+            my $file = $web.$f;
+            if ( $file =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
-                    unlink($f);
+                    unlink($file);
                 }
             }
         }
