@@ -364,9 +364,12 @@ $Foswiki::cfg{DefaultUserWikiName} = 'WikiGuest';
 $Foswiki::cfg{AdminUserLogin} = 'admin';
 
 # **STRING 20 EXPERT**
-# An admin user WikiName what is displayed for actions done by the AdminUserLogin
+# An admin user WikiName that is displayed for actions done by the AdminUserLogin
 # You should normally not need to change this. (You will need to move the
-# %USERSWEB%.AdminUser topic to match.)
+# %USERSWEB%.AdminUser topic to match. Do not register a user with this name!)
+# This is a special WikiName and should never be directly authenticated.
+# It is accessed by logging in using the AdminUserLogin either directly or with the
+# sudo login.
 $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
 
 # **STRING 20 EXPERT**
