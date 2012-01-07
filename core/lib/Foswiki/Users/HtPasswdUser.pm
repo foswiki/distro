@@ -145,7 +145,7 @@ sub fetchUsers {
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
     my $operator     = @_;
-    my $lockFileName = $Foswiki::cfg{WorkingDir} . '/htpasswd.lock';
+    my $lockFileName = $Foswiki::cfg{Htpasswd}{FileName} . '.lock';
 
     sysopen( my $fh, $lockFileName, O_RDWR | O_CREAT, 0666 )
       || throw Error::Simple( $lockFileName
@@ -173,6 +173,15 @@ sub _unlockPasswdFile {
 sub _readPasswd {
     my ( $this, $lockShared ) = @_;
 
+    if (   $Foswiki::cfg{Htpasswd}{DetectModification}
+        && defined( $this->{passworddata} )
+        && -e $Foswiki::cfg{Htpasswd}{FileName} )
+    {
+        my $fileTime = ( stat( $Foswiki::cfg{Htpasswd}{FileName} ) )[9];
+        delete $this->{passworddata}
+          if ( $fileTime > $this->{passwordtimestamp} );
+    }
+
     return $this->{passworddata} if ( defined( $this->{passworddata} ) );
 
     my $data = {};
@@ -182,6 +191,10 @@ sub _readPasswd {
 
     $lockShared |= 0;
     my $lockHandle = _lockPasswdFile(LOCK_SH) if $lockShared;
+    $this->{passwordtimestamp} =
+      ( stat( $Foswiki::cfg{Htpasswd}{FileName} ) )[9];
+    print STDERR "Loading Passwords, timestamp $this->{passwordtimestamp} \n"
+      if (TRACE);
     my $IN_FILE;
 
     open( $IN_FILE, '<', "$Foswiki::cfg{Htpasswd}{FileName}" )
@@ -194,8 +207,8 @@ sub _readPasswd {
         my @fields = split( /:/, $line, 5 );
 
         if (TRACE) {
-            print "\nSplit LINE $line\n";
-            foreach my $f (@fields) { print "split: $f\n"; }
+            print STDERR "\nSplit LINE $line\n";
+            foreach my $f (@fields) { print STDERR "split: $f\n"; }
         }
 
         my $hID = shift @fields;
