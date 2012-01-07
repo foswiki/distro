@@ -451,6 +451,14 @@ $Foswiki::cfg{MinPasswordLength} = 7;
 # email addresses from an existing file.
 $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 
+# **PATH EXPERT**
+# Path to the lockfile for the password file.  This normally does not need to be changed
+# however if two Foswiki installations share and update a common password file it is
+# critical that both use the same lockfile.  For example, change it to the location of the
+# password file,  <tt>$Foswiki::cfg{DataDir}/htpasswd.lock</tt>.  Foswiki must have
+# rights to create the file in this location.
+$Foswiki::cfg{Htpasswd}{LockFileName} = '$Foswiki::cfg{WorkingDir}/htpasswd.lock';
+
 # **BOOLEAN EXPERT**
 # Enable this option if the .htpasswd file can be updated either external to Foswiki
 # or by another Foswiki instance.  When enabled, Foswiki will verify the timestamp of

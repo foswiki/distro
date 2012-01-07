@@ -145,7 +145,8 @@ sub fetchUsers {
 # Returns a file handle that you can later simply close with _unlockPasswdFile
 sub _lockPasswdFile {
     my $operator     = @_;
-    my $lockFileName = $Foswiki::cfg{Htpasswd}{FileName} . '.lock';
+    my $lockFileName = $Foswiki::cfg{Htpasswd}{LockFileName}
+      || "$Foswiki::cfg{WorkingDir}/htpasswd.lock";
 
     sysopen( my $fh, $lockFileName, O_RDWR | O_CREAT, 0666 )
       || throw Error::Simple( $lockFileName
