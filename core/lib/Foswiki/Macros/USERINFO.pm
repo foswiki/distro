@@ -5,11 +5,15 @@ use strict;
 use warnings;
 use Assert;
 
+# Set to true if user details should be cloaked.   Selected tokens will return an empty string.
+my $USERINFO_cloak = 0;
+
 my %USERINFO_tokens = (
     username => sub {
         my ( $this, $user ) = @_;
-        my $username = $this->{users}->getLoginName($user);
+        return '' if ($USERINFO_cloak);
 
+        my $username = $this->{users}->getLoginName($user);
         $username = 'unknown' unless defined $username;
 
         return $username;
@@ -19,6 +23,7 @@ my %USERINFO_tokens = (
     cUID => sub {
         my ( $this, $user ) = @_;
 
+        return '' if ($USERINFO_cloak);
         return $user;
     },
     wikiname => sub {
@@ -41,11 +46,14 @@ my %USERINFO_tokens = (
     emails => sub {
         my ( $this, $user ) = @_;
 
+        return '' if ($USERINFO_cloak);
         return join( ', ', $this->{users}->getEmails($user) );
     },
     groups => sub {
         my ( $this, $user ) = @_;
         my @groupNames;
+        return '' if ($USERINFO_cloak);
+
         my $it = $this->{users}->eachMembership($user);
 
         while ( $it->hasNext() ) {
@@ -60,6 +68,7 @@ my %USERINFO_tokens = (
     admin => sub {
         my ( $this, $user ) = @_;
 
+        return '' if ($USERINFO_cloak);
         return $this->{users}->isAdmin($user) ? 'true' : 'false';
     },
 
@@ -67,6 +76,7 @@ my %USERINFO_tokens = (
     isadmin => sub {
         my ( $this, $user ) = @_;
 
+        return '' if ($USERINFO_cloak);
         return $this->{users}->isAdmin($user) ? 'true' : 'false';
     },
     isgroup => sub {
@@ -100,10 +110,11 @@ sub USERINFO {
             $user = $cuid;
         }
         return '' unless $user;
-        return ''
-          if ( $Foswiki::cfg{AntiSpam}{HideUserDetails}
-            && !$this->{users}->isAdmin( $this->{user} )
-            && $user ne $this->{user} );
+
+        $USERINFO_cloak =
+          (      $Foswiki::cfg{AntiSpam}{HideUserDetails}
+              && !$this->{users}->isAdmin( $this->{user} )
+              && $user ne $this->{user} );
     }
 
     return '' unless $user;
