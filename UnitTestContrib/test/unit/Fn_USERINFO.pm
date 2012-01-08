@@ -98,6 +98,58 @@ HERE
     return;
 }
 
+sub test_antispam {
+    my $this = shift;
+    my $testformat =
+'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE$bogustoken nop$nopnop $percent $quot $comma$n$n()ewline $lt $gt $amp $dollar';
+
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 1;
+
+# ScumBag should only see his own information
+    $this->createNewFoswikiSession( "ScumBag" );
+    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"ScumBag" format="$testformat"}%
+HERE
+    $this->assert_str_equals( <<"HERE", $ui );
+W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGFriendsOfFriendsOfGropeGroup, FriendsOfGropeGroup, GropeGroupAfalseIAfalseIGfalseE\$bogustoken nopnop % " ,
+
+ewline < > & \$
+HERE
+
+    my $guest_ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"WikiGuest" format="$testformat"}%
+HERE
+
+#'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE$bogustoken nop$nopnop $percent $quot $comma$n$n()ewline $lt $gt $amp $dollar';
+    $this->assert_str_equals( <<"HERE", $guest_ui );
+W$Foswiki::cfg{UsersWebName}.WikiGuestUWikiGuestNEGAIAIGfalseE\$bogustoken nopnop % " ,
+
+ewline < > & \$
+HERE
+
+# Admin user should see everything
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"ScumBag" format="$testformat"}%
+HERE
+    $this->assert_str_equals( <<"HERE", $ui );
+W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGFriendsOfFriendsOfGropeGroup, FriendsOfGropeGroup, GropeGroupAfalseIAfalseIGfalseE\$bogustoken nopnop % " ,
+
+ewline < > & \$
+HERE
+
+    $guest_ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO{"WikiGuest" format="$testformat"}%
+HERE
+    $this->assert_str_equals( <<"HERE", $guest_ui );
+W$Foswiki::cfg{UsersWebName}.WikiGuestUWikiGuestNguestEGBaseGroup, FriendsOfFriendsOfGropeGroup, FriendsOfGropeGroup, GropeGroupAfalseIAfalseIGfalseE\$bogustoken nopnop % " ,
+
+ewline < > & \$
+HERE
+
+    return;
+}
+
 sub test_isgroup {
     my $this = shift;
     my $testformat =
