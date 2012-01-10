@@ -160,14 +160,12 @@ ul.natEditHelpTools {
 .patternEditPage .foswikiForm {
   margin:0px;
 }
-
 #patternPage .foswikiFormTable {
   width:99%;
 }
 #patternPage .jqTab {
   background:white;
 }
-
 .patternEditPage .foswikiFormStep {
   height:auto;
 }
@@ -177,8 +175,11 @@ ul.natEditHelpTools {
 .patternEditPage .foswikiFormLast {
   border-bottom:0px;
 }
-.patternEditPage .foswikiFormSteps h2 {
-  margin-bottom:1em;
+.patternEditPage .natEditContainer h2:first-child {
+  margin-top:0;
+}
+.patternEditPage .natEditContainer th {
+  text-align:left;
 }
 
 /* temporarily switched off */
