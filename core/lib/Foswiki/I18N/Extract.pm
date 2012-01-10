@@ -103,7 +103,7 @@ sub extract {
 # a %SEARCH{...}% format.
     $line = 1;
     pos($_) = 0;
-    my @_lines = split( /\n/, $_ );
+    @_lines = split( /\n/, $_ );
     foreach (@_lines) {
         while (m/\$perce?ntMAKETEXT\{\s*(string=)?(\\"(\\\\\\"|[^"])*\\")/gm) {
 
