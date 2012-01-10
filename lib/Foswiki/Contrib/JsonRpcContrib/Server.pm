@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2012 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,6 @@
 
 package Foswiki::Contrib::JsonRpcContrib::Server;
 
-use JSON ();
 use Error qw( :try );
 use Foswiki::Func ();
 use Foswiki::Contrib::JsonRpcContrib::Error ();
@@ -152,11 +151,22 @@ sub dispatch {
   };
 
   # finally
-  Foswiki::Contrib::JsonRpcContrib::Response->print($session,
-    code => $code,
-    message => $result,
-    id => $request->id()
-  );
+  my $redirectto = $request->param("redirectto");
+  if ($code == 0 && defined $redirectto) {
+    my $url;
+    if ($redirectto =~ /^https?:/) {
+      $url = $redirectto;
+    } else {
+      $url = $session->getScriptUrl(1, 'view', $session->{webName}, $redirectto );
+    }
+    $session->redirect($url);
+  } else {
+    Foswiki::Contrib::JsonRpcContrib::Response->print($session,
+      code => $code,
+      message => $result,
+      id => $request->id()
+    );
+  }
 
   return;
 }

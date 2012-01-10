@@ -122,7 +122,7 @@ $.jsonRpc(
 
 <verbatim>
 $.jsonRpc(
-  "%SCRIPTURL{"jsonrpc"}%/MyNamespace" 
+  "%SCRIPTURL{"jsonrpc"}%/MyNamespace",
   method: "someMethod",
   ...
 );
@@ -172,11 +172,13 @@ In case a namespace, method or parameters are specified as part of a JSON-RPC re
 -->
 
 |  Author(s): | Michael Daum|
-|  Copyright: | &copy; 2011 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright: | &copy; 2011-2012 Michael Daum http://michaeldaumconsulting.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  10 Jan 2012: | fixed perl dependencies; \
+                  added =redirectto= url parameter similar to the standard foswiki rest handler |
 |  10 May 2011: | fixed jsonrpc script to work on old foswikis; \
                   fixed multi-value params; \
                   fixed compatibility with various JSON cpan libraries |

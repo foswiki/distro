@@ -17,7 +17,7 @@ This is the perl stub for the JSON-RPC jquery plugin.
 
 =begin TML
 
----++ ClassMethod new( $class, $session, ... )
+---++ ClassMethod new( $class, ... )
 
 Constructor
 
@@ -25,11 +25,9 @@ Constructor
 
 sub new {
   my $class = shift;
-  my $session = shift || $Foswiki::Plugins::SESSION;
 
   my $this = bless(
     $class->SUPER::new(
-      $session,
       name => 'JsonRpc',
       version => '1.0',
       author => 'Michael Daum',
@@ -71,7 +69,7 @@ $this->renderJS("json2.js").
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2011 Michael Daum http://michaeldaumconsulting.com
+Copyright (C) 2011-2012 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

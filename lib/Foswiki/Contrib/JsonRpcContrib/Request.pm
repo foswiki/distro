@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2012 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,9 +16,11 @@
 
 package Foswiki::Contrib::JsonRpcContrib::Request;
 use JSON ();
+use Encode ();
 use Foswiki::Contrib::JsonRpcContrib::Error ();
 use Error qw( :try );
 use Foswiki::Func ();
+use Foswiki::Plugins ();
 use constant DEBUG => 0; # toggle me
 
 ###############################################################################
@@ -140,6 +142,11 @@ sub param {
 }
 
 ##############################################################################
+sub params {
+  return $_[0]->{data}{params};
+}
+
+##############################################################################
 sub method {
   my ($this, $value) = @_;
 
@@ -177,37 +184,14 @@ sub fromUtf8 {
   my $string = shift;
 
   return $string unless $string;
+#  return $string if $Foswiki::Plugins::VERSION > 2.1;
 
   my $charset = $Foswiki::cfg{Site}{CharSet};
   return $string if $charset =~ /^utf-?8$/i;
 
-  if ($] < 5.008) {
-
-    # use Unicode::MapUTF8 for Perl older than 5.8
-    require Unicode::MapUTF8;
-    if (Unicode::MapUTF8::utf8_supported_charset($charset)) {
-      return Unicode::MapUTF8::from_utf8({ -string => $string, -charset => $charset });
-    } else {
-      Foswiki::Func::writeWarning("Conversion from $charset no supported, ' . 'or name not recognised - check perldoc Unicode::MapUTF8");
-      return $string;
-    }
-  } else {
-
-    # good Perl version, just use Encode
-    require Encode;
-    import Encode;
-    my $encoding = Encode::resolve_alias($charset);
-    if (not $encoding) {
-      Foswiki::Func::writeWarning("Warning: Conversion from $charset not supported, or name not recognised - check perldoc Encode::Supported");
-      return $string;
-    } else {
-
-      # converts to $charset, generating HTML NCR's when needed
-      my $octets = $string;
-      $octets = Encode::decode('utf-8', $string) unless utf8::is_utf8($string);
-      return Encode::encode($encoding, $octets, 0);#&Encode::FB_HTMLCREF());
-    }
-  }
+  my $octets = $string;
+  $octets = Encode::decode('utf-8', $string) unless utf8::is_utf8($string);
+  return Encode::encode($charset, $octets);
 }
 
 
