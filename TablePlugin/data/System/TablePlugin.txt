@@ -13,7 +13,7 @@ Gives extra control of table display:
 
 ---++ Table Attributes
 
-Attributes are defined as a =TABLEATTRIBUTES= [[%SYSTEMWEB%.PreferenceSettings][preference]], or on the line before the table using =%<nop>TABLE{...}%=:
+Attributes are defined as a =TABLEPLUGIN_TABLEATTRIBUTES= [[%SYSTEMWEB%.PreferenceSettings][preference]], or on the line before the table using =%<nop>TABLE{...}%=:
 %INCLUDE{"%SYSTEMWEB%.VarTABLE" section="table_attributes"}%
 
 ---+++ Specifying and overriding attributes
@@ -32,7 +32,7 @@ If you pass =%<nop>TABLE{...}%= parameters, you partially override previously se
 </pre>
 
 ---+++ Reserved attributes
-The setting =disableallsort= is normally not used as a TABLE or TABLEATTRIBUTES setting. Plugins such as EditTablePlugin dynamically sets =disableallsort= to disable sorting while editing a table. For this to work it is important that EditTablePlugin runs before TablePlugin, which is the default. The setting =sort= can be overwritten by a URL parameter or hidden formfield of the same name. Plugins such as EditTablePlugin can use this to disable table header sorting while in edit mode.
+The setting =disableallsort= is normally not used as a TABLE or TABLEPLUGIN_TABLEATTRIBUTES setting. Plugins such as EditTablePlugin dynamically sets =disableallsort= to disable sorting while editing a table. For this to work it is important that EditTablePlugin runs before TablePlugin, which is the default. The setting =sort= can be overwritten by a URL parameter or hidden formfield of the same name. Plugins such as EditTablePlugin can use this to disable table header sorting while in edit mode.
 
 ---++ Examples
 
@@ -195,6 +195,7 @@ Sort icons in the header are read from System.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  10 Jan 2012 | 1.139: Michael Daum: Foswikitask:Item11423 fixed disabling default table attributes when setting them to the empty string |
 |  12 Dec 2011 | 1.138: George Clark: Foswikitask:Item11350 TablePlugin issues a die if included table is not found. |
 |  05 Dec 2011 | 1.137: Paul Harvey: Foswikitask:Item11331: Further improvements for persistent perls. |
 |  24 Oct 2011 | 1.136: George Clark:  Foswikitask:Item8647: TablePlugin generates empty tfoot, even when there are footer rows. |
