@@ -42,6 +42,7 @@ ul.natEditHelpTools {
   list-style:none;
   background:inherit;
 }
+#topic_resize,
 #topic_2WYSIWYG,
 #wysiwyg {
   display:none;
@@ -53,11 +54,11 @@ ul.natEditHelpTools {
   display:none;
 }
 
-/* temporary IE hack: disable preview button */
+/* IE hack to disable preview button for IE and below 
 .natEditBottomBar ul li.natEditPreviewButton {
-  display: none\9; /* IE8 and below */
+  display: none\9; 
 }
-
+*/
 
 .natEditToolBar a:hover,
 .natEditToolBar a {

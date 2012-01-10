@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2011 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2012 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -908,7 +908,7 @@ $(function() {
   };
 
   // listen for natedit
-  $(".natedit:not(.natedit_inited)").each(function() {
+  $(".natedit:not(.natedit_inited)").livequery(function() {
     $(this).addClass("natedit_inited").natedit({
       autoMaxExpand:false,
       signatureMarkup: ['-- ', foswiki.getPreference("WIKIUSERNAME"), ' - '+foswiki.getPreference("SERVERTIME")]

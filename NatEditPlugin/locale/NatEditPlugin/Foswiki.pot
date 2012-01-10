@@ -1,0 +1,240 @@
+# NatEditPlugin translations
+msgid ""
+msgstr ""
+"Project-Id-Version: NatEditPlugin $Id\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Foswiki German Translation Team <none>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: templates/edittoolbar.natedit.tmpl:61
+msgid "Abandon changes and exit"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:7 data/System/NatEditWordHelpText.txt:31
+msgid "Access keys"
+msgstr ""
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin.pm:101
+msgid "Add a new form to <nop>%1"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin.pm:100
+msgid "Add form"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:110
+msgid "Attachment"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:142 templates/edittoolbar.natedit.tmpl:60
+msgid "Cancel"
+msgstr ""
+
+#: lib/Foswiki/Plugins/NatEditPlugin.pm:97
+msgid "Change form"
+msgstr ""
+
+#. ("$theWeb.$theTopic")
+#: lib/Foswiki/Plugins/NatEditPlugin.pm:98
+msgid "Change the current form of <nop>%1"
+msgstr ""
+
+#: templates/preview.natedit.tmpl:8
+msgid "Close"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:20
+msgid "Columns"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:18
+msgid "Continue editing"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:9
+msgid "Create a new table"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:69
+msgid "Creates a new topic revision when saving"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:14 data/System/NatEditWordHelpText.txt:18
+msgid "Documentation"
+msgstr ""
+
+#: templates/previewtoolbar.natedit.tmpl:14
+msgid "Edit"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:97
+msgid "Existing files"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:124
+msgid "File"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:69
+msgid "Force new revision"
+msgstr ""
+
+#: templates/form.natedit.tmpl:19
+msgid "Form"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:20 data/System/NatEditWordHelpText.txt:26
+msgid "Form based input"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:19 data/System/NatEditWordHelpText.txt:25
+msgid "Formatted Search"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:16 data/System/NatEditWordHelpText.txt:22
+msgid "GoodStyle"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:12
+msgid "Headings"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:117 templates/edithelp.natedit.tmpl:2
+#: templates/settings.natedit.tmpl:26
+msgid "Help"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:21 data/System/NatEditWordHelpText.txt:27
+msgid "Including"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:41
+msgid "Insert link"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:18 data/System/NatEditWordHelpText.txt:24
+msgid "Macros"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:140
+msgid "OK"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:124
+msgid "Parent topic"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:23 data/System/NatEditWordHelpText.txt:10
+msgid "Plugins"
+msgstr ""
+
+#: templates/settings.natedit.tmpl:17
+msgid "Preferences"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:53 templates/preview.natedit.tmpl:2
+msgid "Preview"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:54
+msgid "Preview your changes"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:17
+msgid "Restore"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:31
+msgid "Restore and Continue"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:32
+msgid "Restore and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:18
+msgid "Restore and exit"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:16
+msgid "Rows"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:24
+msgid "Save"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:38
+msgid "Save and Continue"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:39
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/edittoolbar.natedit.tmpl:25
+msgid "Save and exit"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:113
+msgid "Settings"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:106 templates/editdialog.natedit.tmpl:128
+#: templates/editdialog.natedit.tmpl:54 templates/editdialog.natedit.tmpl:66
+msgid "Text"
+msgstr ""
+
+#: data/System/NatEditHelpText.txt:17 data/System/NatEditWordHelpText.txt:23
+msgid "TextFormatting"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:120 templates/editdialog.natedit.tmpl:50
+msgid "Topic"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:121
+msgid "Topic preferences"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:141 templates/editdialog.natedit.tmpl:82
+msgid "Upload"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:62
+msgid "Url"
+msgstr ""
+
+#: templates/editdialog.natedit.tmpl:116 templates/editdialog.natedit.tmpl:46
+msgid "Web"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:10 templates/form.natedit.tmpl:2
+msgid "edit"
+msgstr ""
+
+#: templates/editform.natedit.tmpl:2 templates/editform.natedit.tmpl:3
+#: templates/editform.natedit.tmpl:4
+msgid "edit form"
+msgstr ""
+
+#: templates/form.natedit.tmpl:4
+msgid "indicates mandatory fields"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:11
+msgid "new"
+msgstr ""
+
+#: templates/edit.natedit.tmpl:8
+msgid "restore"
+msgstr ""
+
+#: templates/editform.natedit.tmpl:3
+msgid "restore form"
+msgstr ""

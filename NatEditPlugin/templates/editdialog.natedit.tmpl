@@ -6,25 +6,25 @@
   requires="JQUERYPLUGIN::NATEDIT"
 }%<!-- inserttable -->
   <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Create a new table:"}%</h2>
+    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Create a new table"}%:</h2>
     <table class="foswikiLayoutTable" width="100%">
       <tr>
-        <th>%MAKETEXT{"Headings:"}%</th>
+        <th>%MAKETEXT{"Headings"}%:</th>
         <td><input type="text" id="natEditInsertTableHeads" size="20" name="heads" class="foswikiInputField" value="1" /></td>
       </tr>
       <tr>
-        <th>%MAKETEXT{"Rows:"}%</th>
+        <th>%MAKETEXT{"Rows"}%:</th>
         <td><input type="text" id="natEditInsertTableRows" size="20" name="rows" class="foswikiInputField" value="4" /></td>
       </tr>
       <tr>
-        <th>%MAKETEXT{"Columns:"}%</th>
+        <th>%MAKETEXT{"Columns"}%:</th>
         <td><input type="text" id="natEditInsertTableCols" size="20" name="cols" class="foswikiInputField" value="4" /></td>
       </tr>
     </table>
   </div>
   <hr />
   <div class="foswikiFormStep foswikiFormLast foswikiFormButtons">
-    %BUTTON{"Ok" class="foswikiButtonSubmit" icon="tick"}%
+    %BUTTON{"OK" class="foswikiButtonSubmit" icon="tick"}%
     %BUTTON{"Cancel" class="foswikiButtonCancel" icon="cross"}%
     %CLEAR%
   </div>
@@ -38,20 +38,20 @@
 }%<!-- insertlink -->
   <input type="hidden" name="insertlinkflag" id="natEditInsertLinkFlag" value="topic" />
   <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Insert link:"}%</h2>
+    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Insert link"}%:</h2>
     %TABPANE%
     %TAB{"Topic" after="jQuery('#natEditInsertLinkFlag').val('topic');" }%
       <table class="foswikiLayoutTable" width="100%">
 	<tr>
-	  <th>%MAKETEXT{"Web:"}%</th>
+	  <th>%MAKETEXT{"Web"}%:</th>
 	  <td><input type="text" id="natEditInsertLinkWeb" size="40" name="web" class="foswikiInputField baseweb" value="%BASEWEB%" /></td>
 	</tr>
 	<tr>
-	  <th>%MAKETEXT{"Topic:"}%</th>
+	  <th>%MAKETEXT{"Topic"}%:</th>
 	  <td><input type="text" id="natEditInsertLinkTopic" size="40" name="topic" class="foswikiInputField empty" value="" /></td>
 	</tr>
 	<tr>
-	  <th>%MAKETEXT{"Text:"}%</th>
+	  <th>%MAKETEXT{"Text"}%:</th>
 	  <td><input type="text" id="natEditInsertLinkTextTopic" size="40" name="linktext" class="foswikiInputField selection" value="" /></td>
 	</tr>
       </table>
@@ -59,11 +59,11 @@
     %TAB{"External" after="jQuery('#natEditInsertLinkFlag').val('external');"}%
       <table class="foswikiLayoutTable" >
 	<tr>
-	  <th>%MAKETEXT{"Url:"}%</th>
+	  <th>%MAKETEXT{"Url"}%:</th>
 	  <td><input type="text" id="natEditInsertLinkUrl" size="40" name="url" class="foswikiInputField empty" value="" /></td>
 	</tr>
 	<tr>
-	  <th>%MAKETEXT{"Text:"}%</th>
+	  <th>%MAKETEXT{"Text"}%:</th>
 	  <td><input type="text" id="natEditInsertLinkTextExternal" size="40" name="linktextext" class="foswikiInputField selection" value="" /></td>
 	</tr>
       </table>
@@ -71,7 +71,7 @@
     %ENDTABPANE%
   </div>
   <div class="foswikiFormStep foswikiFormLast foswikiFormButtons">
-    %BUTTON{"Ok" class="foswikiButtonSubmit" icon="tick"}%
+    %BUTTON{"OK" class="foswikiButtonSubmit" icon="tick"}%
     %BUTTON{"Cancel" class="foswikiButtonCancel" icon="cross"}%
     %CLEAR%
   </div>
@@ -94,7 +94,7 @@ Only included if UploadPlugin is enabled
 Only included if UploadPlugin is enabled
 }%    <div class="foswikiFormStep">
         <hr />
-        <h3>%MAKETEXT{"Existing files:"}%</h3>
+        <h3>%MAKETEXT{"Existing files"}%:</h3>
         <div id="natEditInsertAttachments">
         </div>
       </div>
@@ -107,25 +107,25 @@ Only included if UploadPlugin is enabled
   requires="JQUERYPLUGIN::NATEDIT"
 }%<!-- insertattachment -->
   <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Attachment:"}%</h2>
+    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Attachment"}%:</h2>
     %TABPANE%
     %TAB{"Insert" after="jQuery('#ok_button').show();jQuery('#upload_button').hide()"}%
       <div class="foswikiFormStep">
         <table class="foswikiLayoutTable" width="100%">
           <tr>
-            <th>%MAKETEXT{"Web:"}%</th>
+            <th>%MAKETEXT{"Web"}%:</th>
             <td><input type="text" id="natEditInsertAttachmentWeb" size="40" name="web" class="foswikiInputField baseweb" value="%BASEWEB%" /></td>
           </tr>
           <tr>
-            <th>%MAKETEXT{"Topic:"}%</th>
+            <th>%MAKETEXT{"Topic"}%:</th>
             <td><input type="text" id="natEditInsertAttachmentTopic" size="40" name="topic" class="foswikiInputField" value="%BASETOPIC%" /></td>
           </tr>
           <tr>
-            <th>%MAKETEXT{"File:"}%</th>
+            <th>%MAKETEXT{"File"}%:</th>
             <td><input type="text" id="natEditInsertAttachmentFile" size="40" name="attachment" class="foswikiInputField" value="" /></td>
           </tr>
           <tr>
-            <th>%MAKETEXT{"Text:"}%</th>
+            <th>%MAKETEXT{"Text"}%:</th>
             <td><input type="text" id="natEditInsertAttachmentText" size="40" name="linktext" class="foswikiInputField selection" value="" /></td>
           </tr>
         </table>
@@ -137,7 +137,7 @@ Only included if UploadPlugin is enabled
   </div>
   <div class="foswikiFormStep foswikiFormButtons foswikiFormLast">
     <hr />
-    %BUTTON{"%MAKETEXT{"Ok"}%" class="foswikiButtonSubmit" icon="tick" id="ok_button"}%
+    %BUTTON{"%MAKETEXT{"OK"}%" class="foswikiButtonSubmit" icon="tick" id="ok_button"}%
     %BUTTON{"%MAKETEXT{"Upload"}%" icon="attach" onclick="jQuery('.jqUploader form').submit();" style="display:none" id="upload_button"}%
     %BUTTON{"%MAKETEXT{"Cancel"}%" class="foswikiButtonCancel" icon="cross"}%
     %CLEAR%

@@ -123,3 +123,9 @@
   _margin:0px 1px 0px 0px;
   padding:0px 8px;
 }
+.natEditBottomBar a:active {
+  background-position:bottom right;
+}
+.natEditBottomBar li a:active span {
+  background-position:bottom left;
+}

@@ -84,11 +84,12 @@ Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 Sponsored by [[http://www.trivadis.com][Trivadis AG]] 
 
 |  Author: | Michael Daum |
-|  Copyright &copy;: | 2007-2011 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2007-2012 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  10 Jan 2012 | added german translation |
 |  30 Sep 2011 | fixed autoresize of wysiwyg editor; \
                  improved toggle button switching between raw and wysiwyg editor; \
                  improved integration of validation code; \
