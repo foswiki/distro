@@ -1,0 +1,22 @@
+%TMPL:INCLUDE{"edit"}%
+%TMPL:DEF{"messages"}%<div class="foswikiTipMessage">
+%MAKETEXT{"State change from *[_1]* to *[_2]* (see [[[_3]][workflow definition]])." args="%URLPARAM{"WORKFLOWCURRENTSTATE"}%, %URLPARAM{"WORKFLOWPENDINGSTATE"}%, %URLPARAM{"WORKFLOWWORKFLOW"}%"}% 
+</div>%TMPL:END%
+
+%TMPL:DEF{"titleaction"}%%URLPARAM{"WORKFLOWPENDINGACTION"}%%TMPL:END%
+
+%TMPL:END%
+%TMPL:DEF{"formend"}%<!-- -->
+<input type="hidden" name="WORKFLOWPENDINGACTION" value="%URLPARAM{"WORKFLOWPENDINGACTION"}%" />
+<input type="hidden" name="WORKFLOWCURRENTSTATE" value="%URLPARAM{"WORKFLOWCURRENTSTATE"}%" />
+<input type="hidden" name="WORKFLOWPENDINGSTATE" value="%URLPARAM{"WORKFLOWPENDINGSTATE"}%" />
+<input type="hidden" name="WORKFLOWWORKFLOW" value="%URLPARAM{"WORKFLOWWORKFLOW"}%"/>
+<input type="hidden" name="forcenewrevision" value="1" />
+</form></div>
+<!-- -->%TMPL:END%
+
+%TMPL:DEF{"forcenewrevision"}%%TMPL:END%
+%TMPL:DEF{"previewbutton"}%%TMPL:END%
+%TMPL:DEF{"checkpointbutton"}%%TMPL:END%
+%TMPL:DEF{"changeform"}%%TMPL:END%
+%TMPL:DEF{"formbutton"}%%TMPL:END%

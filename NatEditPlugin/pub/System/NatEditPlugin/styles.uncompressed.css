@@ -3,6 +3,9 @@
   font-size:12px;
   line-height:1.5em;
 }
+.natEditContainer {
+  margin-top:1em;
+}
 .natEditContainer .jqTabContents {
   overflow-x:hidden;
   overflow-y:auto;

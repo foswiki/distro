@@ -89,6 +89,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  11 Jan 2012 | added support for Foswiki:Extensions/WorkflowPlugin |
 |  10 Jan 2012 | added german translation; fixed css when used with !PatternSkin |
 |  30 Sep 2011 | fixed autoresize of wysiwyg editor; \
                  improved toggle button switching between raw and wysiwyg editor; \

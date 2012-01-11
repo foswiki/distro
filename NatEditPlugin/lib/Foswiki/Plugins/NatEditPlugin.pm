@@ -22,7 +22,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = '5.10';
+$RELEASE = '5.20';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';
