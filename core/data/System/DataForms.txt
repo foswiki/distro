@@ -149,19 +149,50 @@ The =Name=, =Type= and =Size= columns are required. Other columns are optional. 
 ==Name== is the name of the form field.
 
 The ==Type==, ==Size== and ==Value== fields describe the legal values for this field, and how to display them.
-   * ==Type== =checkbox= specifies one or more checkboxes. The =Size= field specifies how many checkboxes will be displayed on each line. The =Value= field should be a comma-separated list of item labels.
-      * ==Type== =checkbox+buttons= will add *Set* and *Clear* buttons to the basic =checkbox= type.
-   * ==Type== =radio= is like =checkbox= except that radio buttons are mutually exclusive; only one can be selected.
-   * ==Type== =label= specifies read-only label text. The =Value= field should contain the text of the label.
-   * ==Type== =select= specifies a select box. The =Value= field should contain a comma-separated list of options for the box. The =Size= field can specify a fixed size for the box (e.g. =1=, or a range e.g. =3..10=. If you specify a range, then the box will never be smaller than 3 items, never larger than 10, and will be 5 high if there are only 5 options.
-      * There are two modifiers that can be applied to the =select= type:
-         * =select+multi= turns multiselect on for the select, to allow Shift+Click and Ctrl+Click to select (or deselect) multiple items.
-         * =select+values= allows the definition of values that are different to the displayed text. For example:
-         <pre class="tml">| Field 9 | select+values | 5 | One, Two=2, Three=III, Four | Various values formats |</pre> shows <select size="2"><option>One</option><option>Two</option><option>Three</option><option>Four</option></select> but the values or options =Two= and =Three= are =2= and =III= respectively.<br />
-      You can combine these modifiers e.g. =select+multi+values=
-   * ==Type== =text= specifies a one-line text field. =Size= specifies the text box width in number of characters. =Value= is the initial (default) content when a new topic is created with this form definition.
-   * ==Type== =textarea= specifies a multi-line text box. The =Size= field should specify columns x rows, e.g. =80x6=; default size is 40x5. As for =text=, the =Value= field specifies the initial text
-   * ==Type== =date= specifies a single-line text box and a button next to it; clicking on the button will bring up a calendar from which the user can select a date. The date can also be typed into the text box. =Size= specifies the text box width in characters. As for =text=, the =Value= field specifies the initial text
+
+| *Type* | *Description* | *Modifiers* |
+| =checkbox= \
+| specifies one or more checkboxes. The =Size= field specifies how many checkboxes will be displayed on each line. \
+  The =Value= field should be a comma-separated list of item labels. \
+| =checkbox+buttons= will add *Set* and *Clear* buttons to the basic =checkbox= type. %BR% \
+   =checkbox+values= allows the definition of values that are different to the displayed text. |
+| =date= | specifies a single-line text box and a button next to it; clicking on the button will bring up a calendar from which the user can select a date. \
+  The date can also be typed into the text box. =Size= specifies the text box width in characters. As for =text=, the =Value= field specifies the initial text | |
+| =label= | specifies read-only label text. The =Value= field should contain the text of the label. | |
+| =radio= | like =checkbox= except that radio buttons are mutually exclusive; only one can be selected. \
+| =radio+values= allows the definition of values that are different to the displayed text. |
+| =select= | specifies a select box. The =Value= field should contain a comma-separated list of options for the box. \
+   The =Size= field can specify a fixed size for the box (e.g. =1=, or a range e.g. =3..10=. \
+   If you specify a range, then the box will never be smaller than 3 items, never larger than 10, and will be 5 high if there are only 5 options. \
+| =select+multi= turns multiselect on for the select, to allow Shift+Click and Ctrl+Click to select (or deselect) multiple items. %BR% \
+  =select+values= allows the definition of values that are different to the displayed text. You can combine these modifiers e.g. =select+multi+values= |
+| =text= | specifies a one-line text field. =Size= specifies the text box width in number of characters. \
+  =Value= is the initial (default) content when a new topic is created with this form definition. | |
+| =textarea= | specifies a multi-line text box. The =Size= field should specify columns x rows, e.g. =80x6=; default size is 40x5. \
+  As for =text=, the =Value= field specifies the initial text | |
+
+<blockquote>
+*Example:*
+
+A formfield definition like
+
+<verbatim class="tml">
+| Field 9 | select+values | 1 | One, Two=2, Three=III, Four | Various values formats |
+</verbatim> 
+
+displays as 
+
+<select name="Field9" size="1" class="foswikiSelect">
+  <option value="One" class="foswikiOption">One</option>
+  <option value="2" class="foswikiOption">Two</option>
+  <option value="III" class="foswikiOption">Three</option>
+  <option value="Four" class="foswikiOption">Four</option>
+</select> 
+
+but the values or options =Two= and =Three= are =2= and =III= respectively.
+</blockquote>
+
+
 
 ==Tooltip message== is a message that will be displayed when the cursor is hovered over the field in =edit= view.
 
