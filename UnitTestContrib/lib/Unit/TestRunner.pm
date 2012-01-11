@@ -12,7 +12,6 @@ script that runs testcases.
 
 use strict;
 use warnings;
-use Assert;
 use Devel::Symdump;
 use Error qw(:try);
 use File::Spec;
