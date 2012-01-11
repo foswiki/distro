@@ -34,7 +34,9 @@ any way.
 sub new {
     my ( $class, $list ) = @_;
 
-    ASSERT( !defined($list) || UNIVERSAL::isa( $list, 'ARRAY' ) ) if DEBUG;
+    $list = [] unless defined $list;
+
+    ASSERT( UNIVERSAL::isa( $list, 'ARRAY' ) ) if DEBUG;
 
     my $this = bless(
         {
@@ -78,7 +80,56 @@ sub hasNext {
         }
     } while ( $this->{filter} && !&{ $this->{filter} }($n) );
     $this->{next} = $n;
+    print STDERR "ListIterator::hasNext -> $this->{index} == $this->{next}\n"
+      if Foswiki::Iterator::MONITOR;
     return 1;
+}
+
+=begin TML
+
+---++ skip(count) -> $countremaining
+
+skip X elements (returns 0 if successful, or number of elements remaining to skip if there are not enough elements to skip)
+skip must set up next as though hasNext was called.
+
+=cut
+
+sub skip {
+    my $this  = shift;
+    my $count = shift;
+
+    if ( defined( $this->{next} ) ) {
+        $count--;
+    }
+
+    $count ||= 0;
+
+    return 0 if ( $count <= 0 );
+    print STDERR
+"--------------------------------------------ListIterator::skip($count)  $this->{index}, "
+      . scalar( @{ $this->{list} } ) . "\n"
+      if Foswiki::Iterator::MONITOR;
+
+
+    my $length = scalar(@{ $this->{list}});
+
+    if ( ( $this->{index} + $count ) >=  $length) {
+
+        #list too small
+        $count = $this->{index} + $count  - $length;
+        $this->{index} = 1 + $length;
+    }
+    else {
+        $this->{index} += $count;
+        $count = 0;
+    }
+    $this->{next} = undef;
+    my $hasnext = $this->hasNext();
+    print STDERR
+"--------------------------------------------ListIterator::skip() => $this->{index} $count, $hasnext\n"
+      if Foswiki::Iterator::MONITOR;
+
+    return $count;
 }
 
 =begin TML
