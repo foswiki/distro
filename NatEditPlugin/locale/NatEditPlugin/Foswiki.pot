@@ -185,6 +185,10 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#: templates/workflowedit.natedit.tmpl:3
+msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
+msgstr ""
+
 #: templates/edit.natedit.tmpl:106 templates/editdialog.natedit.tmpl:128
 #: templates/editdialog.natedit.tmpl:54 templates/editdialog.natedit.tmpl:66
 msgid "Text"
