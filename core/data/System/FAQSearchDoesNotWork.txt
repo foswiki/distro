@@ -4,7 +4,7 @@ That is often an indication that <nop>%WIKITOOLNAME% can't find the =egrep= and 
 
 %META:FORM{name="FAQForm"}%
 %META:TOPICMOVED{by="ProjectContributor" date="1280839581" from="SearchDoesNotWork" to="FaqSearchDoesNotWork"}%
-%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Fixing broken =%25<nop>SEARCH%7b%7d%25= caused by faulty configuration."}%
+%META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Fixing broken =%25SEARCH= caused by faulty configuration."}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="I've problems with the <nop>WebSearch</nop>. There is no Search Result on any inquiry. By clicking the Index topic it's the same problem."}%
 %META:FIELD{name="InterestedParties" attributes="" title="Interested Parties" value=""}%
