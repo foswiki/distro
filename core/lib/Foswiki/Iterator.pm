@@ -22,6 +22,9 @@ use strict;
 use warnings;
 use Assert;
 
+#debug Iterators
+use constant MONITOR => 0;
+
 =begin TML
 
 ---++ hasNext() -> $boolean
