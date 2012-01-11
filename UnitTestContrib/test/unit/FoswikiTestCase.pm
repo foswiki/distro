@@ -705,13 +705,17 @@ __DO NOT CALL session->finish() yourself__
 =cut
 
 sub createNewFoswikiSession {
-    my $this = shift;
-    
+    my ( $this, @args ) = @_;
+
     $this->{session}->finish() if $this->{session};
-    $this->{session} = new Foswiki(@_ );
+    $this->{request}->finish() if $this->{request};
+    $this->{session} = Foswiki->new(@args);
+    $this->{request} = $this->{session}{request};
     $Foswiki::Plugins::SESSION = $this->{session};
-    ($this->{test_topicObject}) = Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
-    
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    ( $this->{test_topicObject} ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
     return $this->{session};
 }
 
