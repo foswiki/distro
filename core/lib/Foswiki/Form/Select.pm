@@ -44,10 +44,12 @@ sub getDefaultValue {
 sub getOptions {
     my $this = shift;
 
-    return $this->{_options} if $this->{_options};
+    my $vals = $this->{_options};
+    return $vals if $vals;
 
-    my $vals = $this->SUPER::getOptions(@_);
-    if ( $this->{type} =~ /\+values/ ) {
+    $vals = $this->SUPER::getOptions(@_);
+
+    if ( $this->isValueMapped() ) {
 
         # create a values map
 
@@ -57,7 +59,9 @@ sub getOptions {
         foreach my $val (@$vals) {
             if ( $val =~ /^(.*[^\\])*=(.*)$/ ) {
                 $str = TAINT( $1 || '' );
+		my $descr = $this->{_descriptions}{$val};
                 $val = $2;
+		$this->{_descriptions}{$val} = $descr;
                 $str =~ s/\\=/=/g;
             }
             else {
@@ -93,15 +97,41 @@ sub finish {
 
 sub isMultiValued { return shift->{type} =~ /\+multi/; }
 
+sub isValueMapped { return shift->{type} =~ /\+values/; }
+
+sub renderForDisplay {
+    my ( $this, $format, $value, $attrs ) = @_;
+
+    $this->getOptions();
+
+    if ($this->isValueMapped()) {
+      my @vals = ();
+      foreach my $val (split(/\s*,\s*/, $value)) {
+        if ( defined( $this->{valueMap}{$val} ) ) {
+            push @vals, $this->{valueMap}{$val};
+        } else {
+            push @vals, $val;
+        }
+      }
+      $value = join(", ", @vals);
+    }
+
+    return $this->SUPER::renderForDisplay( $format, $value, $attrs );
+}
+
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
     my $choices = '';
 
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
-    foreach my $option ( @{ $this->getOptions() } ) {
+    foreach my $item ( @{ $this->getOptions() } ) {
+        my $option = $item;
         my %params = ( class => 'foswikiOption', );
         $params{selected} = 'selected' if $isSelected{$option};
+        if ($this->{_descriptions}{$option}) {
+          $params{title} = $this->{_descriptions}{$option};
+        }
         if ( defined( $this->{valueMap}{$option} ) ) {
             $params{value} = $option;
             $option = $this->{valueMap}{$option};

@@ -3,6 +3,7 @@ package Foswiki::Form::Checkbox;
 
 use strict;
 use warnings;
+use Assert;
 
 use Foswiki::Form::ListFieldDefinition ();
 our @ISA = ('Foswiki::Form::ListFieldDefinition');
@@ -18,11 +19,71 @@ sub new {
     return $this;
 }
 
+sub finish {
+    my $this = shift;
+    $this->SUPER::finish();
+    undef $this->{valueMap};
+}
+
+sub getOptions {
+    my $this = shift;
+
+    return $this->{_options} if $this->{_options};
+
+    my $vals = $this->SUPER::getOptions(@_);
+    if ( $this->isValueMapped() ) {
+
+        # create a values map
+
+        $this->{valueMap} = ();
+        $this->{_options} = ();
+        my $str;
+        foreach my $val (@$vals) {
+            if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
+                $str = TAINT($1);
+		my $descr = $this->{_descriptions}{$val};
+                $val = $2;
+		$this->{_descriptions}{$val} = $descr;
+                $str =~ s/\\=/=/g;
+            }
+            else {
+                $str = $val;
+            }
+            $this->{valueMap}{$val} = Foswiki::urlDecode($str);
+            push @{ $this->{_options} }, $val;
+        }
+    }
+
+    return $vals;
+}
+
 # Checkboxes can't provide a default from the form spec
 sub getDefaultValue { return; }
 
 # Checkbox store multiple values
 sub isMultiValued { return 1; }
+
+sub isValueMapped { return shift->{type} =~ /\+values/; }
+
+sub renderForDisplay {
+    my ( $this, $format, $value, $attrs ) = @_;
+
+    $this->getOptions();
+
+    if ($this->isValueMapped()) {
+      my @vals = ();
+      foreach my $val (split(/\s*,\s*/, $value)) {
+        if ( defined( $this->{valueMap}{$val} ) ) {
+            push @vals, $this->{valueMap}{$val};
+        } else {
+            push @vals, $val;
+        }
+      }
+      $value = join(", ", @vals);
+    }
+
+    return $this->SUPER::renderForDisplay( $format, $value, $attrs );
+}
 
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
@@ -47,24 +108,35 @@ sub renderForEdit {
     $value = '' unless defined($value) && length($value);
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
     my %attrs;
+    my @defaults;
     foreach my $item ( @{ $this->getOptions() } ) {
+
+        my $title = $item;
+        $title = $this->{_descriptions}{$item}
+          if $this->{_descriptions}{$item};
 
         # NOTE: Does not expand $item in title
         $attrs{$item} = {
             class => $this->cssClasses('foswikiCheckbox'),
-            title => $topicObject->expandMacros($item),
+            title => $topicObject->expandMacros($title),
         };
 
         if ( $isSelected{$item} ) {
             $attrs{$item}{checked} = 'checked';
+            push( @defaults, $item );
         }
     }
-    $value = CGI::checkbox_group(
+    my %params = (
         -name       => $this->{name},
         -values     => $this->getOptions(),
+        -defaults   => \@defaults,
         -columns    => $this->{size},
         -attributes => \%attrs
     );
+    if (defined $this->{valueMap}) {
+      $params{-labels} = $this->{valueMap};
+    }
+    $value = CGI::checkbox_group(%params);
 
     # Item2410: We need a dummy control to detect the case where
     #           all checkboxes have been deliberately unchecked
