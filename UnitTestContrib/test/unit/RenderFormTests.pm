@@ -121,6 +121,33 @@ HERE
     $meta->putKeyed(
         'FIELD',
         {
+            name       => 'Issue6',
+            attributes => '',
+            title      => 'Issue 6',
+            value      => '2'
+        }
+    );
+    $meta->putKeyed(
+        'FIELD',
+        {
+            name       => 'Issue7',
+            attributes => '',
+            title      => 'Issue 7',
+            value      => '2'
+        }
+    );
+    $meta->putKeyed(
+        'FIELD',
+        {
+            name       => 'Issue8',
+            attributes => '',
+            title      => 'Issue 8',
+            value      => '2'
+        }
+    );
+    $meta->putKeyed(
+        'FIELD',
+        {
             name       => 'State',
             attributes => 'H',
             title      => 'State',
@@ -208,6 +235,15 @@ HERE
     $meta->putKeyed(
         'FIELD',
         {
+            name       => 'Issue6',
+            attributes => '',
+            title      => 'Issue6',
+            value      => '3'
+        }
+    );
+    $meta->putKeyed(
+        'FIELD',
+        {
             name       => 'State',
             attributes => 'H',
             title      => 'State',
@@ -257,6 +293,9 @@ sub setForm {
 | Issue 3           | checkbox     |        |               |
 | Issue 4           | textarea     |        |               |
 | Issue 5           | select+multi | 3      | Foo, Bar, Baz |
+| Issue 6           | select+values | 1     | One=1, Two=2, Three=3, Four=4 | 
+| Issue 7           | checkbox+values | 1   | One=1, Two=2, Three=3, Four=4 | 
+| Issue 8           | radio+values | 1      | One=1, Two=2, Three=3, Four=4 | 
 Topic is deliberately missing
 HERE
     return;
@@ -338,7 +377,8 @@ _hello world_
 ,   * high
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
+Three </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
 HERE
     $meta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
@@ -358,7 +398,14 @@ Defect, None
 Defect
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
+Two 
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 7 </td><td>
+Two 
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 8 </td><td>
+Two 
+</td></tr>%IF{"context preview" then="</noautolink>"}%
+</table></div>
 HERE
     return;
 }
@@ -396,6 +443,9 @@ sub test_render_for_edit {
 <tr><th>Issue 4</th><td align="left"><textarea name="Issue4"  rows="4" cols="50" class="foswikiTextarea">
 Defect</textarea></td></tr>
 <tr><th>Issue 5</th><td align="left"><select name="Issue5" multiple="multiple" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr>
+<tr><th>Issue 6</th><td align="left"><select name="Issue6" class="foswikiSelect" size="1"><option value="1" class="foswikiOption">One</option><option value="2" selected="selected" class="foswikiOption">Two</option><option value="3" class="foswikiOption">Three</option><option value="4" class="foswikiOption">Four</option></select></td></tr>
+<tr><th>Issue 7</th><td align="left"><table><tr><td><label><input type="checkbox" name="Issue7" value="1"  title="1" class="foswikiCheckbox"/>One</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="2" checked="checked"  checked="checked" title="2" class="foswikiCheckbox"/>Two</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="3"  title="3" class="foswikiCheckbox"/>Three</label></td></tr><tr><td><label><input type="checkbox" name="Issue7" value="4"  title="4" class="foswikiCheckbox"/>Four</label></td></tr></table><input type="hidden" name="Issue7" value="" /></td></tr>
+<tr><th>Issue 8</th><td align="left"><table><tr><td><label><input type="radio" name="Issue8" value="1"  title="1" class="foswikiRadioButton"/>One</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="2" checked="checked"  title="2" class="foswikiRadioButton"/>Two</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="3"  title="3" class="foswikiRadioButton"/>Three</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="4"  title="4" class="foswikiRadioButton"/>Four</label></td></tr></table></td></tr> 
 <tr><th>Form definition</th><td><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></td></tr></table></div>
 HERE
 
@@ -419,7 +469,7 @@ sub test_render_hidden {
         "InitializationForm" );
     my $res = $formDef->renderHidden($meta);
     $this->assert_html_equals( <<'HERE', $res );
-<input type="hidden" name="IssueName" value="_An issue_"  /><input type="hidden" name="State" value="Invisible"  /><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><input type="hidden" name="Issue1" value="*Defect*"  /><input type="hidden" name="Issue2" value="Enhancement"  /><input type="hidden" name="Issue3" value="Defect"  /><input type="hidden" name="Issue3" value="None"  /><input type="hidden" name="Issue4" value="Defect"  /><input type="hidden" name="Issue5" value="Foo"  /><input type="hidden" name="Issue5" value="Baz"  />
+<input type="hidden" name="IssueName" value="_An issue_"  /><input type="hidden" name="State" value="Invisible"  /><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><input type="hidden" name="Issue1" value="*Defect*"  /><input type="hidden" name="Issue2" value="Enhancement"  /><input type="hidden" name="Issue3" value="Defect"  /><input type="hidden" name="Issue3" value="None"  /><input type="hidden" name="Issue4" value="Defect"  /><input type="hidden" name="Issue5" value="Foo"  /><input type="hidden" name="Issue5" value="Baz"  /><input type="hidden" name="Issue6" value="2"  /><input type="hidden" name="Issue7" value="2"  /><input type="hidden" name="Issue8" value="2"  />
 HERE
     return;
 }
