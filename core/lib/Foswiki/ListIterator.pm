@@ -34,7 +34,9 @@ any way.
 sub new {
     my ( $class, $list ) = @_;
 
-    ASSERT( !defined($list) || UNIVERSAL::isa( $list, 'ARRAY' ) ) if DEBUG;
+    $list = [] unless defined $list;
+
+    ASSERT( UNIVERSAL::isa( $list, 'ARRAY' ) ) if DEBUG;
 
     my $this = bless(
         {
@@ -100,17 +102,22 @@ sub skip {
         $count--;
     }
 
+    $count ||= 0;
+
     return 0 if ( $count <= 0 );
     print STDERR
 "--------------------------------------------ListIterator::skip($count)  $this->{index}, "
       . scalar( @{ $this->{list} } ) . "\n"
       if Foswiki::Iterator::MONITOR;
 
-    if ( ( $this->{index} + $count ) >= scalar( @{ $this->{list} } ) ) {
+
+    my $length = scalar(@{ $this->{list}});
+
+    if ( ( $this->{index} + $count ) >=  $length) {
 
         #list too small
-        $count = ( $this->{index} + $count ) - scalar( @{ $this->{list} } );
-        $this->{index} = 1 + scalar( @{ $this->{list} } );
+        $count = $this->{index} + $count  - $length;
+        $this->{index} = 1 + $length;
     }
     else {
         $this->{index} += $count;
