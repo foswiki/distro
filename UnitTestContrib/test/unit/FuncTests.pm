@@ -82,7 +82,7 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    my $topicObject = Foswiki::Meta->new(
+    my ($topicObject) = Foswiki::Meta->new(
         $this->{session},
         $Foswiki::cfg{UsersWebName},
         $Foswiki::cfg{DefaultUserWikiName}, ''
@@ -144,16 +144,14 @@ sub test_createWeb_permissions {
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     Foswiki::Func::saveTopicText( $this->{test_web},
         $Foswiki::cfg{WebPrefsTopicName}, <<"HERE");
 \t* Set DENYWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
 HERE
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new();
+    $this->createNewFoswikiSession();
 
     # Verify that create of a root web is denied by default user.
     try {
@@ -184,8 +182,7 @@ qr/Access to CHANGE TemporaryFuncTestWebFunc\/Blahsub. for BaseUserMapping_666 i
     $this->assert( !Foswiki::Func::webExists("$this->{test_web}/Blahsub"),
         "Test should not have created the web" );
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     Foswiki::Func::saveTopicText(
         $this->{test_web}, 'WebPreferences', <<"END",
@@ -193,8 +190,7 @@ qr/Access to CHANGE TemporaryFuncTestWebFunc\/Blahsub. for BaseUserMapping_666 i
 END
     );
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new();
+    $this->createNewFoswikiSession();
 
 # Verify that create of a sub web is allowed by default user if allowed in webPreferences.
     try {
@@ -216,8 +212,7 @@ sub test_Item9021 {
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     try {
         Foswiki::Func::createWeb( $this->{test_web} . "Missing/Blah" );
@@ -243,8 +238,7 @@ sub test_createWeb_InvalidBase {
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     try {
         Foswiki::Func::createWeb( $this->{test_web} . "InvaliBase",
@@ -267,8 +261,7 @@ sub test_createWeb_hierarchyDisabled {
     use Foswiki::AccessControlException;
     $Foswiki::cfg{EnableHierarchicalWebs} = 0;
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     try {
         Foswiki::Func::createWeb( $this->{test_web} . "/Subweb" );
@@ -331,8 +324,7 @@ sub test_getViewUrl {
     $result = Foswiki::Func::getViewUrl( "", "WebHome" );
     $this->assert_matches( qr!$ss/$this->{test_web}/WebHome!, $result );
 
-    $Foswiki::Plugins::SESSION =
-      Foswiki->new( undef,
+    $this->createNewFoswikiSession( undef,
         Unit::Request->new( { topic => "Sausages.AndMash" } ) );
 
     $result = Foswiki::Func::getViewUrl( "Sausages", "AndMash" );
@@ -340,7 +332,6 @@ sub test_getViewUrl {
 
     $result = Foswiki::Func::getViewUrl( "", "AndMash" );
     $this->assert_matches( qr!${ss}/Sausages/AndMash!, $result );
-    $Foswiki::Plugins::SESSION->finish();
 
     return;
 }
@@ -358,7 +349,7 @@ sub test_getScriptUrl {
 
     my $q = Unit::Request->new( {} );
     $q->path_info('/Sausages/AndMash');
-    $Foswiki::Plugins::SESSION = Foswiki->new( undef, $q );
+    $this->createNewFoswikiSession( undef, $q );
 
     $result = Foswiki::Func::getScriptUrl( "Sausages", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
@@ -383,8 +374,6 @@ sub test_getScriptUrl {
     $this->assert_matches( qr!wimple=2!, $result );
     $this->assert_matches(
         qr!/$ss/$this->{users_web}/WebHome\?w\w+=\d[;&]w\w+=\d$!, $result );
-
-    $Foswiki::Plugins::SESSION->finish();
 
     return;
 }
@@ -798,7 +787,7 @@ sub test_noauth_saveTopic {
 " APPLE \n   * Set ALLOWTOPICVIEW = SomeUser \n   * Set DENYTOPICCHANGE = BaseUserMapping_666,MrWhite \n ";
 
     my $query = Unit::Request->new();
-    $this->{session} = Foswiki->new( $userLogin, $query );
+    $this->createNewFoswikiSession( $userLogin, $query );
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $ttext );
 
     $this->assert( Foswiki::Func::topicExists( $this->{test_web}, $topic ) );
@@ -1571,8 +1560,7 @@ sub test_normalizeWebTopicName {
 sub test_checkWebAccessPermission {
     my $this = shift;
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     Foswiki::Func::saveTopicText( $this->{test_web},
         $Foswiki::cfg{WebPrefsTopicName}, <<"HERE");
@@ -1583,10 +1571,7 @@ HERE
 \t* Set ALLOWTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
 HERE
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new();
-
-    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->createNewFoswikiSession();
 
     # Test with undefined topic - web permissions tested
     my $access =
@@ -1685,9 +1670,7 @@ sub test_checkAccessPermission {
 \t* Set DENYTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}
 END
     );
-    $this->{session}->finish() if ref( $this->{session} );
-    $this->{session} = Foswiki->new();
-    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->createNewFoswikiSession();
     my $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
@@ -1848,9 +1831,7 @@ sub test_checkAccessPermission_login_name {
 \t* Set DENYTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}
 END
     );
-    eval { $this->{session}->finish() };
-    $this->{session} = Foswiki->new();
-    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->createNewFoswikiSession();
     my $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
         $Foswiki::cfg{DefaultUserLogin},
@@ -2051,15 +2032,13 @@ sub test_eachChangeSince {
     sleep(1);    # to move into a new time step
     my $start = time();
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new($user1);
+    $this->createNewFoswikiSession($user1);
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "ClutterBuck",
         "One" );
     $meta->save();
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new($user2);
+    $this->createNewFoswikiSession($user2);
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "PiggleNut",
         "One" );
@@ -2069,15 +2048,13 @@ sub test_eachChangeSince {
     sleep(1);
     my $mid = time();
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new($user2);
+    $this->createNewFoswikiSession($user2);
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "ClutterBuck",
         "One" );
     $meta->save();
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new($user1);
+    $this->createNewFoswikiSession($user1);
     $meta =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "PiggleNut",
         "Two" );
@@ -2154,8 +2131,7 @@ sub test_4308 {
 sub test_4411 {
     my $this = shift;
     $this->assert( Foswiki::Func::isGuest(), $this->{session}->{user} );
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
     $this->assert( !Foswiki::Func::isGuest(), $this->{session}->{user} );
 
     return;
@@ -2175,8 +2151,7 @@ sub test_setPreferences {
    * Set PSIBG = naff
    * Set FINALPREFERENCES = PSIBG
 HERE
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{GuestUserLogin}, $q );
+    $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -2187,8 +2162,7 @@ HERE
         $Foswiki::cfg{WebPrefsTopicName}, <<'HERE');
    * Set PSIBG = naff
 HERE
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{GuestUserLogin}, $q );
+    $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -2339,8 +2313,7 @@ sub test_pushPopContext {
 SETS
 
     # Force re-read of prefs
-    $Foswiki::Plugins::SESSION = $this->{session} =
-      Foswiki->new( undef,
+    $this->createNewFoswikiSession( undef,
         Unit::Request->new( { topic => "$this->{test_web}.$topic1" } ) );
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic2, <<'SETS' );
@@ -2481,7 +2454,7 @@ sub do_attachment {
     require Unit::Request;
     $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
-    $this->{session}  = Foswiki->new( undef, $query );
+    $this->createNewFoswikiSession( undef, $query );
     $this->{request}  = $query;
     $this->{response} = Unit::Response->new();
     ( $this->{test_topicObject} ) =

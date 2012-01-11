@@ -1,6 +1,8 @@
 # See bottom of file for license and copyright
 
 package FoswikiTestCase;
+use strict;
+use warnings;
 
 =begin TML
 
@@ -16,18 +18,17 @@ you can always create a new web based on that web.
 
 =cut
 
-use strict;
-use warnings;
 use Unit::TestCase;
 our @ISA = qw( Unit::TestCase );
 
+use Assert;
 use Data::Dumper;
 
-use Foswiki;
-use Foswiki::Meta;
-use Foswiki::Plugins;
-use Unit::Request;
-use Unit::Response;
+use Foswiki();
+use Foswiki::Meta();
+use Foswiki::Plugins();
+use Unit::Request();
+use Unit::Response();
 use Error qw( :try );
 
 BEGIN {
@@ -45,7 +46,7 @@ our $didOnlyOnceChecks = 0;
 # Temporary directory to store work files in (sessions, logs etc).
 # Will be cleaned up after running the tests unless the environment
 # variable FOSWIKI_DEBUG_KEEP is true
-use File::Temp;
+use File::Temp();
 my $cleanup = $ENV{FOSWIKI_DEBUG_KEEP} ? 0 : 1;
 
 sub new {
@@ -379,7 +380,7 @@ sub loadExtraConfig {
     my $context = shift;
 }
 
-use Cwd;
+use Cwd();
 
 # Use this to save the Foswiki cfg to a backing store during start_up
 # so it can be temporarily changed during tests.
@@ -438,9 +439,11 @@ sub set_up {
 
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
-    my $query = new Unit::Request();
-    my $tmp = new Foswiki( undef, $query );
+    my $query = Unit::Request->new();
+    ASSERT(!$Foswiki::Plugins::SESSION);
+    my $tmp = Foswiki->new( undef, $query );
     $tmp->finish();
+    ASSERT(!$Foswiki::Plugins::SESSION);
 
     my %tempDirOptions = ( CLEANUP => 1 );
     if ( $^O eq 'MSWin32' ) {
@@ -705,11 +708,12 @@ __DO NOT CALL session->finish() yourself__
 =cut
 
 sub createNewFoswikiSession {
-    my $this = shift;
+    my ($this, @args) = @_;
     
     $this->{session}->finish() if $this->{session};
-    $this->{session} = new Foswiki(@_ );
-    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->{session} = Foswiki->new(@args);
+    ASSERT($Foswiki::Plugins::SESSION == $this->{session});
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
     ($this->{test_topicObject}) = Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
     
     return $this->{session};

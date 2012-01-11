@@ -1,5 +1,7 @@
 # See bottom of file for license and copyright
 package Unit::Response;
+use strict;
+use warnings;
 
 =begin TML
 
@@ -10,15 +12,14 @@ package Unit::Response;
 # SMELL: this package should not be in Unit; it is a Foswiki class and
 # should be in test/unit
 
-use Foswiki::Response;
+use Foswiki::Response();
 our @ISA = qw( Foswiki::Response );
-use strict;
 
-our $response;    # for proper finalization
+my $response;    # for proper finalization
 
 BEGIN {
-    use Foswiki;
-    use CGI;
+    require Foswiki;
+    require CGI;
     my $_new = \&Foswiki::new;
     no warnings 'redefine';
     *Foswiki::new = sub {
