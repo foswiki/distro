@@ -68,7 +68,7 @@ sub test_ListIteratorWithUndef {
     $this->assert_str_equals( '1, 2, 3, ', $b );
 }
 
-sub test_ListIterator_nothing {
+sub test_ListIterator_nothing_hasNext {
     my $this = shift;
 
     my $it = new Foswiki::ListIterator();
@@ -79,6 +79,24 @@ sub test_ListIterator_nothing {
     }
 
     $this->assert_str_equals( '', $b );
+}
+
+sub test_ListIterator_nothing_all {
+    my $this = shift;
+
+    my $it = new Foswiki::ListIterator();
+    my @list = $it->all;
+
+    $this->assert_equals(0, scalar(@list));
+}
+
+sub test_ListIterator_nothing_skip {
+    my $this = shift;
+
+    my $it = new Foswiki::ListIterator();
+    my $count = $it->skip;
+
+    $this->assert_equals(0, $count);
 }
 
 sub test_AggregateIterator {
