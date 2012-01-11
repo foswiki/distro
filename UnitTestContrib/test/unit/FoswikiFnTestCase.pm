@@ -24,7 +24,6 @@ targeting single classes).
 
 =cut
 
-
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
@@ -62,14 +61,15 @@ to add extra stuff to Foswiki::cfg.
 sub loadExtraConfig {
     my $this = shift;
     $this->SUPER::loadExtraConfig(@_);
-    
+
     $Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::RcsLite";
     $Foswiki::cfg{RCS}{AutoAttachPubFiles}  = 0;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
-    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{WorkingDir}/htpasswd";
-    $Foswiki::cfg{PasswordManager}    = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
-    $Foswiki::cfg{LoginManager}       = 'Foswiki::LoginManager::TemplateLogin';
+    $Foswiki::cfg{Htpasswd}{FileName}    = "$Foswiki::cfg{WorkingDir}/htpasswd";
+    $Foswiki::cfg{PasswordManager}       = 'Foswiki::Users::HtPasswdUser';
+    $Foswiki::cfg{Htpasswd}{GlobalCache} = 0;
+    $Foswiki::cfg{UserMappingManager}    = 'Foswiki::Users::TopicUserMapping';
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
     $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 0;
 
@@ -112,7 +112,7 @@ sub set_up {
         $this->{session},    $this->{test_web},
         $this->{test_topic}, "BLEEGLE\n"
     );
-    $this->{test_topicObject}->save(forcedate=>(time()+60));
+    $this->{test_topicObject}->save( forcedate => ( time() + 60 ) );
 }
 
 sub tear_down {
@@ -181,12 +181,18 @@ sub registerUser {
     $query->path_info("/$this->{users_web}/UserRegistration");
 
     my $fatwilly = new Foswiki( undef, $query );
-    $this->assert($fatwilly->topicExists(
-        $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName}));
+    $this->assert(
+        $fatwilly->topicExists(
+            $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName}
+        )
+    );
 
     $fatwilly->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
-        $this->captureWithKey( register_cgi => \&Foswiki::UI::Register::register_cgi, $fatwilly);
+        $this->captureWithKey(
+            register_cgi => \&Foswiki::UI::Register::register_cgi,
+            $fatwilly
+        );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
