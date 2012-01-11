@@ -32,6 +32,7 @@ sub finish {
     my $this = shift;
     $this->SUPER::finish();
     undef $this->{_options};
+    undef $this->{_descriptions};
 }
 
 # PROTECTED - parse the {value} and extract a list of options.
@@ -44,6 +45,7 @@ sub getOptions {
     return $this->{_options} if $this->{_options};
 
     my @vals = ();
+    my %descr = ();
 
     @vals = split( /,/, $this->{value} );
     if ( !scalar(@vals) ) {
@@ -72,8 +74,11 @@ sub getOptions {
                 if (/^\s*\|\s*\*Name\*\s*\|/) {
                     $inBlock = 1;
                 }
-                elsif (/^\s*\|\s*([^|]*?)\s*\|/) {
-                    push( @vals, TAINT($1) ) if ($inBlock);
+                elsif (/^\s*\|\s*([^|]*?)\s*\|(?:\s*([^|]*?)\s*\|)?/) {
+		    if ($inBlock) {
+		      push( @vals, TAINT($1) );
+                      $descr{$1} = $2 if defined $2;
+		    }
                 }
                 else {
                     $inBlock = 0;
@@ -84,6 +89,7 @@ sub getOptions {
     @vals = map { $_ =~ s/^\s*(.*)\s*$/$1/; $_; } @vals;
 
     $this->{_options} = \@vals;
+    $this->{_descriptions} = \%descr;
 
     return $this->{_options};
 }
