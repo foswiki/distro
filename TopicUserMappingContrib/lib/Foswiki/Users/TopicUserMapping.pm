@@ -292,7 +292,10 @@ sub addUser {
         # They exist; their password must match
         unless ( $this->{passwords}->checkPassword( $login, $password ) ) {
             throw Error::Simple(
-                'New password did not match existing password for this user');
+                $this->{session}->i18n->maketext(
+                    'New password did not match existing password for this user'
+                )
+            );
         }
 
         # User exists, and the password was good.
@@ -309,7 +312,8 @@ sub addUser {
         unless ( $this->{passwords}->setPassword( $login, $password ) == 1 ) {
 
             throw Error::Simple(
-                'Failed to add user: ' . $this->{passwords}->error() );
+                    $this->{session}->i18n->maketext('Failed to add user: ')
+                  . $this->{passwords}->error() );
         }
     }
 
@@ -823,10 +827,12 @@ sub addUserToGroup {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
 
-    throw Error::Simple("Users cannot be added to $Group")
+    throw Error::Simple( $this->{session}
+          ->i18n->maketext( 'Users cannot be added to [_1]', $Group ) )
       if ( $Group eq 'NobodyGroup' || $Group eq 'BaseGroup' );
 
-    throw Error::Simple('Group names must end in Group')
+    throw Error::Simple(
+        $this->{session}->i18n->maketext('Group names must end in Group') )
       unless ( $Group =~ m/Group$/ );
 
     # the registration code will call this function using the rego agent
@@ -853,8 +859,8 @@ sub addUserToGroup {
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
             return 0;
 
-            #throw Error::Simple(
-            #    "CHANGE not permitted by $user");
+            throw Error::Simple( $this->{session}
+                  ->i18n->maketext( 'CHANGE not permitted by [_1]', $user ) );
         }
 
         $membersString = $groupTopicObject->getPreference('GROUP') || '';
@@ -881,14 +887,16 @@ sub addUserToGroup {
 
 # see if we have permission to add a topic, or to edit the existing topic, etc..
 
-        #throw Error::Simple(
-        #    'Group does not exist and create not permitted')
-        return 0
-          unless ($create);
+        throw Error::Simple( $this->{session}
+              ->i18n->maketext('Group does not exist and create not permitted')
+        ) unless ($create);
 
-        #throw Error::Simple(
-        #    "CHANGE not permitted for $groupName by $user")
-        return 0
+        throw Error::Simple(
+            $this->{session}->i18n->maketext(
+                'CHANGE not permitted for [_1] by [_2]',
+                ( $groupName, $user )
+            )
+          )
           unless (
             Foswiki::Func::checkAccessPermission(
                 'CHANGE', $user, '', $groupName, $groupWeb
@@ -1023,10 +1031,18 @@ sub removeUserFromGroup {
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $groupName );
 
-    throw Error::Simple("Users cannot be removed from $groupName")
+    throw Error::Simple( $this->{session}
+          ->i18n->maketext( 'Users cannot be removed from [_1]', $groupName ) )
       if ( $groupName eq 'BaseGroup' );
 
-    throw Error::Simple("AdminUser cannot be removed from $groupName")
+    throw Error::Simple(
+        $this->{session}->i18n->maketext(
+            '[_1] cannot be removed from [_2]',
+            (
+                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup}
+            )
+        )
+      )
       if ( $groupName eq "$Foswiki::cfg{SuperAdminGroup}"
         && $cuid eq 'BaseUserMapping_333' );
 
@@ -1043,18 +1059,23 @@ sub removeUserFromGroup {
             && !$usersObj->isGroup($cuid) )
         {
 
-            #throw Error::Simple(
-            #    "User $cuid not in group, cannot be removed")
-            return 0;
+            throw Error::Simple(
+                $this->{session}->i18n->maketext(
+                    'User [_1] not in group, cannot be removed', $cuid
+                )
+            );
         }
         my $groupTopicObject =
           Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
             $groupName );
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
 
-            #throw Error::Simple(
-            #    "CHANGE by $user not permitted.")
-            return 0;
+            throw Error::Simple(
+                $this->{session}->i18n->maketext(
+                    'User [_1] does not have CHANGE permission on [_2].',
+                    ( $user, $groupName )
+                )
+            );
         }
 
         my $WikiName = $usersObj->getWikiName($cuid);

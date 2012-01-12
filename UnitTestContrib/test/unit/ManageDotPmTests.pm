@@ -591,11 +591,11 @@ sub test_NoUserAddToNewGroupCreate {
             'action'    => ['addUserToGroup']
         }
     );
-    $this->assert_not_null( $ret, "no users in list of users to add to group" );
+    #$this->assert_not_null( $ret, "no users in list of users to add to group" );
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(
-        !Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
+        Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
@@ -606,9 +606,10 @@ sub test_NoUserAddToNewGroupCreate {
     $this->{session} = new Foswiki( undef, $q );
 
     $this->assert(
-        !Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
+        Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
+    # If not running as admin, current user is automatically added to the group.
     $this->assert(
-        !Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ) );
+        Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );

@@ -1685,12 +1685,24 @@ sub verify_removeFromGroup {
     );
 
     # Removing a user that is not member of the group should fail
-    $this->assert(
-        !Foswiki::Func::removeUserFromGroup( 'UserB', 'ZeeGroup' )
-    );
-    $this->assert(
-        !Foswiki::Func::removeUserFromGroup( 'SillyGuyDoesntExist', 'ZeeGroup' )
-    );
+    try {
+        Foswiki::Func::removeUserFromGroup( 'UserB', 'ZeeGroup' );
+        $this->assert( 'Remove User should not work' );
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr{User .* not in group, cannot be removed}, $e);
+    };
+
+    try {
+        Foswiki::Func::removeUserFromGroup( 'SillyGuyDoesntExist', 'ZeeGroup' );
+        $this->assert( 'Remove User should not work' );
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert_matches( qr{User .* not in group, cannot be removed}, $e);
+    };
+
 
     # Force a re-read
     
