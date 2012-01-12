@@ -643,13 +643,14 @@ sub addUserToGroup {
         }
     }
 
-    if ( !Foswiki::Func::isGroup($groupName)
-          && !$create ) {
+    if (   !Foswiki::Func::isGroup($groupName)
+        && !$create )
+    {
         throw Foswiki::OopsException(
             'attention',
-            def    => 'no_group_and_no_create',
-            web    => $web,
-            topic  => $topic,
+            def   => 'no_group_and_no_create',
+            web   => $web,
+            topic => $topic,
         );
     }
     if ( $#userNames == 0 ) {
@@ -673,9 +674,8 @@ sub addUserToGroup {
 
     my @failed;
     my @succeeded;
-    push @userNames, '<none>' if ( scalar @userNames == 0);
+    push @userNames, '<none>' if ( scalar @userNames == 0 );
     foreach my $u (@userNames) {
-        print STDERR "iterating for $u\n";
         $u =~ s/^\s+//;
         $u =~ s/\s+$//;
 
@@ -700,13 +700,12 @@ sub addUserToGroup {
             push( @failed, $u );
 
             # Log the error
-            $session->logger->log( 'warning',
-                $e->stringify() );
+            $session->logger->log( 'warning', $e->stringify() );
         };
     }
     if ( @failed || !@succeeded ) {
         $session->logger->log( 'warning',
-            "failed: ".scalar @failed . "Succeeded " . scalar @succeeded );
+            "failed: " . scalar @failed . "Succeeded " . scalar @succeeded );
         throw Foswiki::OopsException(
             'attention',
             web    => $web,
@@ -758,7 +757,7 @@ sub removeUserFromGroup {
         throw Foswiki::OopsException( 'attention',
             def => 'no_group_specified_for_remove_from_group' );
     }
-    unless ( Foswiki::Func::isGroup($groupName)) {
+    unless ( Foswiki::Func::isGroup($groupName) ) {
         throw Foswiki::OopsException( 'attention',
             def => 'problem_removing_from_group' );
     }
@@ -770,18 +769,17 @@ sub removeUserFromGroup {
 
         next if ( $u eq '' );
         try {
-             Foswiki::Func::removeUserFromGroup( $u, $groupName );
-             push( @succeeded, $u );
-             }
+            Foswiki::Func::removeUserFromGroup( $u, $groupName );
+            push( @succeeded, $u );
+        }
         catch Error::Simple with {
             my $e = shift;
 
             push( @failed, $u );
 
             # Log the error
-            print STDERR "======== Error ". $e->stringify()."\n";
-            $session->logger->log( 'warning',
-                $e->stringify() );
+            print STDERR "======== Error " . $e->stringify() . "\n";
+            $session->logger->log( 'warning', $e->stringify() );
         };
     }
     if (@failed) {
