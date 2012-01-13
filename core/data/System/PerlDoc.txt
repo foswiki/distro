@@ -1,23 +1,32 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300464455" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1303184283" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
----+!! %TOPIC%
-<form class='foswikiForm'>
+%DOC_TITLE%
+<form class='foswikiForm' action='%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc'>
 <div class='foswikiFormSteps'>
   <div class='foswikiFormStep'>
     <label for='module'><b>Perl Module:</b></label>
-    <input type='text' name='module' id='module' value='%URLPARAM{module}%' class='foswikiInputField foswikiFocus' />
+    <input type='text' name='module' id='module' value='%URLPARAM{module}%' class='foswikiInputField' />
+    <label for='publicOnly'><b>Public Only:</b></label>
+    <input type='checkbox' name='publicOnly' id='publicOnly' value='on' %IF{"$publicOnly = 'on'" then="checked='checked'"}% class='foswikiInputField' />
     <input type='submit' value='%MAKETEXT{"Submit"}%' class='foswikiSubmit' />
     <div class="foswikiFormDescription">
-      Enter a module name that to extract the perl documentation, e.g. <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Func">Foswiki::Func</a> or, <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Meta">Foswiki::Meta</a>.
+      Enter a module name that to extract the perl documentation, e.g. <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Func%IF{"$publicOnly = 'on'" then=";publicOnly=on"}%">Foswiki::Func</a> or, <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Meta%IF{"$publicOnly = 'on'" then=";publicOnly=on"}%">Foswiki::Meta</a>.<br/>
+      See also [[DevelopingPlugins][Developing plugins]], [[Foswiki:Development.DevelopersBible][Developer's Bible]], [[Foswiki:Development.TechnicalOverview][Technical Overview]] 
     </div>
+  </div>
+  <div class='foswikiFormStep'>
+    %TWISTY{link="Child packages" linkclass="foswikiButton" remember="on"}%
+
+%DOC_CHILDREN%
+    %ENDTWISTY%
   </div>
 </div>
 </form>
-
-Check [[DevelopingPlugins][Developing plugins]] and [[Foswiki:Development.DevelopersBible][Developer's Bible]] for more information.
 
 %SMELLS%
 
 %TOC%
 
-%INCLUDE{"doc:%URLPARAM{module}%" level="2"}%
+%STARTSECTION{"doc"}%
+%INCLUDE{"doc:%URLPARAM{module}%" publicOnly="%URLPARAM{publicOnly}%" level="2"}%
+%ENDSECTION{"doc"}%
