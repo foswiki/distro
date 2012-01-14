@@ -77,8 +77,24 @@ sub prompt {
         }
     }
 
-    # Build the endpoint before we munge the web and topic
-    my $endPoint = "$web.$topic";
+    # see if an alternate return is specified.  Sanitize and set the endpoint
+    # if set.
+    my $endPointReq = $attrs->{redirectto};
+    my $endPoint    = "$web.$topic";
+
+    if ($endPointReq) {
+        my $epAnchor = '';
+
+        # extract anchor
+        if ( $endPoint =~ s/(#\w+)$// ) {
+            $epAnchor = $1;
+        }
+        my ( $epWeb, $epTopic ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $endPointReq );
+        if ( Foswiki::Func::topicExists( $web, $endPointReq ) ) {
+            $endPoint = $epWeb . '/' . $epTopic . $epAnchor;
+        }
+    }
 
     # See if a save url has been defined in the template
     my $url = Foswiki::Func::expandTemplate('save_url');

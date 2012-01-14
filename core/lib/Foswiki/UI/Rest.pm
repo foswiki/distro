@@ -255,7 +255,7 @@ sub rest {
     my $result = &$function( $session, $subject, $verb, $session->{response} );
     use strict 'refs';
 
-    # SMELL: does anyone use endPoint? I can't find any evidence of it.
+    # Used by CommentPlugin rest handler to redirect to an alternate topic.
     my $endPoint = $req->param('endPoint');
     if ( defined($endPoint) ) {
         my $nurl = $session->getScriptUrl( 1, 'view', '', $endPoint );

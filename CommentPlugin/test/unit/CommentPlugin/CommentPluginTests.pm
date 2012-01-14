@@ -360,6 +360,32 @@ sub test_reverseCompat {
     return;
 }
 
+sub test_redirectto_redirects {
+    my $this = shift;
+
+    # If requested topic exists, redirect after post
+    my $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences\"}%"
+    );
+
+    $this->assert_matches(
+qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences".*?)\s*\/>/,
+        $html
+    );
+
+    # If requested topic missing, redirect to the target topic.
+    $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"MissingAnRE\"}%"
+    );
+
+    $this->assert_matches(
+qr/<input ([^>]*name="endPoint" value="$this->{test_web}.ATopic".*?)\s*\/>/,
+        $html
+    );
+
+    return;
+}
+
 sub test_locationOverridesAnchor {
     my $this = shift;
     my $html = Foswiki::Func::expandCommonVariables(
