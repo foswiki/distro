@@ -174,7 +174,7 @@ sub _setNavigation {
 # get a summary of the pod documentation by looking directly after the ---+ package TML.
 sub _getPackSummary ($) {
     my $pmfile = $_[0];
-    my $summary = '';
+    my @summary;
 
     my $PMFILE;
     open( $PMFILE, '<', $pmfile ) || return '';
@@ -185,42 +185,37 @@ sub _getPackSummary ($) {
             $inPod = 1;
         }
         elsif ( $line =~ /^=cut/ ) {
-            $summary
+            @summary
                 and last;
             $inPod = 0;
         }
         elsif ($inPod) {
             if ($inPackage) {
-                $summary .= $line;
+                chomp($line);
+                push @summary, $line;
             }
             if ( $line =~ /^---\+(!!)?\s+package\s+\S+\s*$/ ) {
                 $inPackage = 1;
             }
         }
-
     }
     close($PMFILE);
 
-#   Here is the first approach.
-#    truncates after the first period.  This doesn't work so well - e.g., i.e. and a.k.a.
-#    $summary =~ s/^\s+//s;
-#    $summary =~ s/\..*/./s;
-#    $summary =~ s/\n/ /mg;
-
-
-#   Truncates after an empty line.  This could probably be done better with regexes.
-    my @summary = split '\n', $summary;
-    while ($summary[0] =~ /^\s*$/) {
-        if (! defined(shift @summary)) {
-            return '';
-        }
+	while (@summary) {
+		if ($summary[0] =~ /^\s*$/) {
+			shift @summary;
+		} else {
+			last;
+		}
+	}
+    if (!@summary) {
+        return '';
     }
     my $emptyLine = 0;
-    while ($summary[$emptyLine] !~ /^\s*$/) {
+    while ($emptyLine < @summary && $summary[$emptyLine] !~ /^\s*$/) {
         $emptyLine++;
     }
-    $summary = join ' ', @summary[0 .. $emptyLine - 1];
-    return $summary;
+    return join ' ', @summary[0 .. $emptyLine - 1];
 }
 
 sub _loadPublishedAPI {
