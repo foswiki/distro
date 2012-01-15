@@ -93,8 +93,15 @@ sub _restSave {
     my $session  = shift;
     my $response = $session->{response};
     my $query    = Foswiki::Func::getCgiQuery();
+
     my ( $web, $topic ) =
       Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
+
+    $web = Foswiki::Sandbox::untaint( $web,
+        \&Foswiki::Sandbox::validateWebName );
+
+    $topic = Foswiki::Sandbox::untaint( $topic,
+        \&Foswiki::Sandbox::validateTopicName );
 
     if ( $query->param('redirectto') ) {
         Foswiki::Func::writeWarning(
@@ -127,7 +134,7 @@ sub _restSave {
             $response->body(shift);
         }
         else {
-            shift->throw;
+            shift->throw();
         }
     }
     otherwise {
@@ -136,7 +143,7 @@ sub _restSave {
             $response->body(shift);
         }
         else {
-            shift->throw;
+            shift->throw();
         }
     };
     return undef;

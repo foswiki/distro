@@ -228,9 +228,9 @@ sub save {
         throw Foswiki::AccessControlException(
             $mode,
             $wikiName,
-            web   => $web,
-            topic => $topic,
-            ''
+            $web,
+            $topic,
+            'Comment on topic not permitted'
         );
     }
 
