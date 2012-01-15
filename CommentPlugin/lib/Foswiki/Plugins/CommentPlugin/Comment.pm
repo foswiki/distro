@@ -76,6 +76,8 @@ sub prompt {
             $topic = $target;
         }
     }
+    return _alert("Target web does not exist: '$web'")
+      unless ( Foswiki::Func::webExists( $web ) );
 
     # see if an alternate return is specified.  Sanitize and set the endpoint
     # if set.
@@ -91,8 +93,12 @@ sub prompt {
         }
         my ( $epWeb, $epTopic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $endPointReq );
-        if ( Foswiki::Func::topicExists( $web, $endPointReq ) ) {
+
+        if ( Foswiki::Func::topicExists( $epWeb, $epTopic ) ) {
             $endPoint = $epWeb . '/' . $epTopic . $epParam;
+        }
+        else {
+            return _alert("redirectto location does not exist: '$epWeb.$epTopic'");
         }
     }
 
