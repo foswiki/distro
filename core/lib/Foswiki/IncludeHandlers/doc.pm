@@ -23,15 +23,14 @@ use constant PUBLISHED_API_TOPIC => 'PublishedAPI';
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my %removedblocks = ();
-    my $class         = $control->{_DEFAULT};
-    my $publicOnly = $params->{publicOnly} eq 'on';
+    my $class         = $control->{_DEFAULT} || 'Foswiki';
+    my $publicOnly = ($params->{publicOnly} || '') eq 'on';
     Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
     # SMELL This is no longer being used in PerlDoc ... 
 #    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', '' );
     Foswiki::Func::setPreferencesValue( 'DOC_CHILDREN', '' );
     Foswiki::Func::setPreferencesValue( 'DOC_TITLE', '---++ !! !%TOPIC%' );
     $class =~ s/[a-z]+://;    # remove protocol
-    $class ||= 'Foswiki';
 #    return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
 
@@ -250,7 +249,7 @@ sub _doclink ($) {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
