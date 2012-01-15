@@ -23,7 +23,8 @@ use constant PUBLISHED_API_TOPIC => 'PublishedAPI';
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my %removedblocks = ();
-    my $class         = $control->{_DEFAULT} || 'Foswiki';
+Foswiki::Func::writeDebug('class is ' . $control->{_DEFAULT});
+    my $class         = $control->{_DEFAULT} || 'doc:Foswiki';
     my $publicOnly = ($params->{publicOnly} || '') eq 'on';
     Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
     # SMELL This is no longer being used in PerlDoc ... 
@@ -31,6 +32,7 @@ sub INCLUDE {
     Foswiki::Func::setPreferencesValue( 'DOC_CHILDREN', '' );
     Foswiki::Func::setPreferencesValue( 'DOC_TITLE', '---++ !! !%TOPIC%' );
     $class =~ s/[a-z]+://;    # remove protocol
+    $class ||= 'Foswiki';	  # provide a reasonable default
 #    return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
 
@@ -218,8 +220,7 @@ sub _getPackSummary ($) {
 }
 
 sub _loadPublishedAPI {
-    # SMELL System is hardcoded
-    my ($meta, $text) = Foswiki::Func::readTopic('System', PUBLISHED_API_TOPIC);
+    my ($meta, $text) = Foswiki::Func::readTopic($Foswiki::cfg{SystemWebName}, PUBLISHED_API_TOPIC);
     my @ret;
     for my $line (split /\r?\n/, $text) {
         $line =~ /^\|\s*package\s*\|\s*(.*?)\s*\|/
