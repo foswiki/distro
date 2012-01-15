@@ -23,7 +23,6 @@ use constant PUBLISHED_API_TOPIC => 'PublishedAPI';
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my %removedblocks = ();
-Foswiki::Func::writeDebug('class is ' . $control->{_DEFAULT});
     my $class         = $control->{_DEFAULT} || 'doc:Foswiki';
     my $publicOnly = ($params->{publicOnly} || '') eq 'on';
     Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
