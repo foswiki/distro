@@ -100,6 +100,23 @@ sub _restSave {
     $web = Foswiki::Sandbox::untaint( $web,
         \&Foswiki::Sandbox::validateWebName );
 
+    unless ( Foswiki::Func::webExists($web) ) {
+        if ( $query->param('comment_ajax') ) {
+            $response->header( -status => 500 );
+            $response->body(shift);
+        }
+        else {
+            throw Foswiki::OopsException(
+                'oopsattention',
+                status => 403,
+                def    => 'web_not_found',
+                params => [ $web, "$web.$topic" ]
+            );
+        }
+    }
+
+    # Note: missing topic is okay,  will be created if allowed.
+
     $topic = Foswiki::Sandbox::untaint( $topic,
         \&Foswiki::Sandbox::validateTopicName );
 
