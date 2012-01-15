@@ -96,6 +96,16 @@ sub _restSave {
     my ( $web, $topic ) =
       Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
 
+    if ( $query->param('redirectto') ) {
+        Foswiki::Func::writeWarning(
+"CommentPlugin: obsolete redirectto parameter overriding endPoint in $web.$topic"
+        );
+        $query->param(
+            -name  => 'endPoint',
+            -value => $query->param('redirectto')
+        );
+    }
+
     try {
         require Foswiki::Plugins::CommentPlugin::Comment;
 

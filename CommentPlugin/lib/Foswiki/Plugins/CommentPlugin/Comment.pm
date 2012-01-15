@@ -79,20 +79,20 @@ sub prompt {
 
     # see if an alternate return is specified.  Sanitize and set the endpoint
     # if set.
-    my $endPointReq = $attrs->{redirectto};
-    my $endPoint    = "$web.$topic";
+    my $endPointReq = $attrs->{redirectto} || '';
+    my $endPoint = "$web.$topic";
 
     if ($endPointReq) {
-        my $epAnchor = '';
+        my $epParam = '';
 
-        # extract anchor
-        if ( $endPoint =~ s/(#\w+)$// ) {
-            $epAnchor = $1;
+        # extract ur
+        if ( $endPointReq =~ s/([\?\#].*)$// ) {
+            $epParam = $1;
         }
         my ( $epWeb, $epTopic ) =
           Foswiki::Func::normalizeWebTopicName( $web, $endPointReq );
         if ( Foswiki::Func::topicExists( $web, $endPointReq ) ) {
-            $endPoint = $epWeb . '/' . $epTopic . $epAnchor;
+            $endPoint = $epWeb . '/' . $epTopic . $epParam;
         }
     }
 

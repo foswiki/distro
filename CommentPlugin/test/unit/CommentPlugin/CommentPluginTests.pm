@@ -383,6 +383,57 @@ qr/<input ([^>]*name="endPoint" value="$this->{test_web}.ATopic".*?)\s*\/>/,
         $html
     );
 
+    # Redirect also works if an anchor is specified
+    $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences#AnchOr\"}%"
+    );
+
+    $this->assert_matches(
+qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences#AnchOr".*?)\s*\/>/,
+        $html
+    );
+
+    # Redirect also works if a querystring is specified
+    $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences?blah=01\"}%"
+    );
+
+    $this->assert_matches(
+qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences\?blah=01".*?)\s*\/>/,
+        $html
+    );
+
+    # Redirect also works if a querystring and Anchor is specified
+    $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences?blah=01#AnchOr\"}%"
+    );
+
+    $this->assert_matches(
+qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
+        $html
+    );
+
+    # Redirect with fully qualified web.topic?uri#anchor
+    my $systemweb = $Foswiki::cfg{SystemWebName};
+    $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"%SYSTEMWEB%.WebPreferences?blah=01#AnchOr\"}%"
+    );
+
+    $this->assert_matches(
+qr/<input ([^>]*name="endPoint" value="$systemweb.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
+        $html
+    );
+
+# Redirect also works if Anchor and querystring reversed.  Not really correct but is seen
+    $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences#AnchOr?blah=01\"}%"
+    );
+
+    $this->assert_matches(
+qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences#AnchOr\?blah=01".*?)\s*\/>/,
+        $html
+    );
+
     return;
 }
 
@@ -725,6 +776,96 @@ HERE
     $this->assert_matches( qr/Status: 404/, $responseText );
     $session->finish();
 
+}
+
+sub test_rev1_template_redirectto {
+    my $this = shift;
+
+    my $tmplate = <<"HERE";
+---++++ returntab
+
+Post to a different topic and return to here. The comment =target= is set in the =PROMPT=. In the form below the =redirectto= is set to the current (including) topic.
+
+<verbatim>
+%TMPL:DEF{returnpromptboxtab}%
+<input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%?tab=discuss" />
+%TMPL:P{promptbox}%
+%TMPL:END%
+</verbatim>
+<verbatim>
+%TMPL:DEF{PROMPT:returntab}%%TMPL:P{returnpromptboxtab}%%TMPL:END%
+</verbatim>
+<verbatim>
+%TMPL:DEF{OUTPUT:returntab}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
+</verbatim>
+
+HERE
+
+    Foswiki::Func::saveTopic( $this->{test_web}, 'UserCommentsTemplate', undef,
+        $tmplate );
+
+    my $sample = <<"HERE";
+before
+%COMMENT{type="returntab"}%
+after
+HERE
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+    my $html = Foswiki::Func::expandCommonVariables($sample);
+
+    $this->assert_matches(
+qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_topic}\?tab=discuss"/,
+        $html
+    );
+
+    my $warningLog = "$Foswiki::cfg{TempfileDir}/CommentPluginTestsWarnings";
+    unlink "$warningLog"
+      if ( -f "$warningLog" );
+    $Foswiki::cfg{WarningFileName} = "$warningLog";
+
+    # Compose the query
+    my $comm  = "This is the comment";
+    my $query = Unit::Request->new(
+        {
+            'comment_action' => 'save',
+            'comment_type'   => 'returntab',
+            'redirectto' =>
+              "$this->{test_web}.$this->{test_topic}\?tab=discuss",
+            'endPoint' => "$this->{test_web}.$this->{test_topic}#BLAH",
+            'comment'  => $comm,
+            'topic'    => "$this->{test_web}.$this->{test_topic}"
+        }
+    );
+    $query->path_info("/CommentPlugin/comment");
+
+    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    my $text = "Ignore this text";
+
+    # invoke the save handler
+    # $responseText, $result, $stdout, $stderr
+    my ( $response, $result, $stdout, $stderr ) =
+      $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    $session->finish();
+
+    $this->assert_matches( qr/^Status: 302/ms, $response );
+    $this->assert_matches(
+qr/^Location:.*\/$this->{test_web}\/$this->{test_topic}%3ftab%3ddiscuss/ms,
+        $response
+    );
+
+    open( my $fh, '<', $warningLog )
+      || die "$warningLog: $!";
+    local $/ = undef;
+    $this->assert_matches(
+        qr/CommentPlugin: obsolete redirectto parameter overriding endPoint/ms,
+        <$fh>
+    );
+    close($fh) || die "$warningLog: $!";
+    unlink "$warningLog"
+      if ( -f "$warningLog" );
+
+    return;
 }
 
 1;
