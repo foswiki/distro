@@ -214,6 +214,8 @@ sub save {
 
     my ( $text, $web, $topic ) = @_;
 
+    $text = '' unless defined $text;
+
     my $wikiName = Foswiki::Func::getWikiName();
     my $mode     = $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave}
       || 'change';
