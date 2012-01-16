@@ -174,10 +174,13 @@ the =%<nop>COMMENTPROMPT%= macro.
 | =comment_remove= | Zero-based index of a %COMMENT to remove from the target topic |
 | =comment_nopost= | As passed to %COMMENT |
 | =comment_templatetopic= | As passed to %COMMENT |
+| =comment_target= | Alternate save topic as passed to %COMMENT |
 Note that =comment_location= overrides =comment_anchor=, and both override =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
 <verbatim class="tml">
-<form method="post" action="%SCRIPTURL{save}%/%WEB%/%TOPIC%">
+<form method="post" action="%SCRIPTURL{restauth}%/CommentPlugin/comment" >
 <input type="submit" value="I Approve" />
+<input type="hidden" name="topic" value="%WEB%/%TOPIC%" />
+<input type="hidden" name="endPoint" value="%WEB%/%TOPIC%" />
 <input type="hidden" name="comment_action" value="save" />
 <input type="hidden" name="comment_type" value="bottom" />
 <input type="hidden" name="comment" value="I Approve" />
@@ -185,7 +188,11 @@ Note that =comment_location= overrides =comment_anchor=, and both override =comm
 </verbatim>
 
 ---++++ Customisation example with custom form template
+<blockquote class="foswikiAlert"> %X% *This method has critical differences from the version shipped with Foswiki 1.1.4!* (Identified by %X%) </blockquote>
 Write a custom form in a topic.
+   * %X% In the form, the =action= must be =%<nop>SCRIPTURL{"rest"}%/CommentPlugin/comment=.   The save script used in previous versions will not work.
+   * %X% In the form, the =topic= must be set to a valid, existing =Web.Topic=.  =topic= is validated by the =rest= script which will reject the request if invalid.
+   * %X% In the form, if the target topic will be provided by user input, use the =comment_target= input field to identify the target, otherwise it defaults to =topic= setting.  =comment_target= is more flexible and can omit the Web part.
    * In the form set the location of the prompt with =%<nop>COMMENTPROMPT%=; the prompt will be positioned here.
    * In %COMMENT use parameter =noform="on"=
    * In %COMMENT use parameter =templatetopic= to point to the topic with the form template
@@ -193,7 +200,8 @@ Write a custom form in a topic.
 Example form:
 <verbatim class="tml">
 %TMPL:DEF{FORM:example}%
-<form method="post" action="%SCRIPTURL{save}%/%BASEWEB%/%BASETOPIC%" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<form method="post" action="%SCRIPTURL{rest}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<input type="hidden" name="topic"  value="%BASEWEB%/%BASETOPIC%" /> 
 <input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
 %COMMENTPROMPT%
 </form>
@@ -246,6 +254,12 @@ These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in indiv
 Note that if you want to use the =action= template then you must also:
    1 Install the Foswiki:Extensions/ActionTrackerPlugin;
    1 Put the !CommentPlugin *before* the !ActionTrackerPlugin in the ={PluginsOrder}= configuration option (in =configure=)
+
+---++ Upgrade Instructions
+
+This plugin has been significantly changed from the =10 April 2011= version shipped with Foswiki 1.1.4.  
+   * The plugin uses a =rest= handler to update topics.  By default this script does not require authentication, and can now permit anonymous commenting.  Examine the [[%SCRIPTURL{"configure"}%#Login$SecurityAndAuthentication]] configuration ={AuthScripts}= setting, and the scripts requiring authentication in the Apache configuration.
+   * The plugin no longer processes %COMMENT macros during save.  If you have developed any forms using the [[Sandbox.CommentPluginExamples#NoForm][=noform= and =templatetopic= examples]] they must be revised.
 
 ---++ Info
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!

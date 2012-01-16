@@ -207,7 +207,7 @@ _Comments:_
 
 
 
-
+#NoForm
 ---+++ =noform=
 Example of a custom form to save a comment to a new topic. When the topic is created the parent will be our %SANDBOXWEB% [[%SANDBOXWEB%.CommentPluginExampleComments][example topic]].
 
