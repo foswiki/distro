@@ -28,8 +28,7 @@ sub test_edit_simple {
    * Set FLEEGLE = floon
 %EDITPREFERENCES%
 HERE
-    my $session = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $session;
+    $this->createNewFoswikiSession( undef, $query );
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
         $this->{test_web}, undef );
@@ -48,7 +47,6 @@ HERE
  <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButtonCancel" />
 </form>
 HTML
-    $session->finish();
 }
 
 # Item4816
@@ -67,8 +65,7 @@ Normal text outside form
    * Set HIDDENSETTING = hidden
 -->
 HERE
-    my $session = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $session;
+    $this->createNewFoswikiSession( undef, $query );
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
         $this->{test_web}, undef );
@@ -107,7 +104,6 @@ Normal text outside form
 -->
 HTML
 
-    $session->finish();
 }
 
 # Item1117
@@ -127,8 +123,7 @@ Not in the form
 </verbatim>
    * Set FLEEGLE2 = floontoo
 HERE
-    my $session = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $session;
+    $this->createNewFoswikiSession( undef, $query );
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
         $this->{test_web}, undef );
@@ -158,7 +153,6 @@ Not in the form
    * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = <input type="text" name="FLEEGLE2" value="floontoo" size="80" class="foswikiAlert foswikiInputField" /></span></form>
 HTML
 
-    $session->finish();
 }
 
 sub test_save {
@@ -188,19 +182,18 @@ HERE
         $input );
     $query->method('POST');
 
-    my $session = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $session;
+    $this->createNewFoswikiSession( undef, $query );
 
     # This will attempt to redirect, so must capture
     my ( $result, $ecode ) = $this->capture(
         sub {
-            $session->{response}->print(
+            $this->{session}{response}->print(
                 Foswiki::Func::expandCommonVariables(
                     $input, $this->{test_topic}, $this->{test_web}, undef
                 )
             );
-            $Foswiki::engine->finalize( $session->{response},
-                $session->{request} );
+            $Foswiki::engine->finalize( $this->{session}{response},
+                $this->{session}{request} );
         }
     );
     $this->assert( $result =~ /Status: 302/ );
@@ -223,7 +216,6 @@ HERE
 %EDITPREFERENCES%
 HERE
 
-    $session->finish();
 }
 
 sub test_view {
@@ -232,8 +224,7 @@ sub test_view {
    * Set FLEEGLE = floon
 %EDITPREFERENCES%
 HERE
-    my $session = new Foswiki();
-    $Foswiki::Plugins::SESSION = $session;
+    $this->createNewFoswikiSession();
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $this->{test_topic},
         $this->{test_web}, undef );
@@ -250,7 +241,6 @@ HERE
  <input type="submit" name="edit" value="Edit Preferences" class="foswikiButton" />
 </form>
 HTML
-    $session->finish();
 }
 
 1;
