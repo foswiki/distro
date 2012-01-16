@@ -211,15 +211,15 @@ _Comments:_
 ---+++ =noform=
 Example of a custom form to save a comment to a new topic. When the topic is created the parent will be our %SANDBOXWEB% [[%SANDBOXWEB%.CommentPluginExampleComments][example topic]].
 
-<form method="post" action="%SCRIPTURL{save}%/%SANDBOXWEB%/" enctype="application/x-www-form-urlencoded" name="noformcomment0" id="noformcomment0">
+<form method="post" action="%SCRIPTURL{rest}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="noformcomment0" id="noformcomment0">
 <input type="hidden" name="topicparent" value="CommentPluginExampleComments" />
+<input type="hidden" name="topic" value="%BASEWEB%/%BASETOPIC%" />
+<input type="hidden" name="endPoint" value="%BASEWEB%/%BASETOPIC%#NoForm" />
 <input type="hidden" name="comment_action" value="save" />
-<input type="hidden" name="nonwikiword" value="off" />
-<input type="hidden" name="onlywikiname" value="on" />
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 *New topic name:* %BR%
-<input class="foswikiInputField" %DISABLED% type="text" size="40" name="topic" id="topic" value="" /> <span class="foswikiGrayText">Enter a !WikiWord topic name</span>
+<input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_target" id="comment_target" value="" /> <span class="foswikiGrayText">Enter a !WikiWord topic name</span>
 </div>
 <div class="foswikiFormStep foswikiLast">
 *Topic text:* %BR%

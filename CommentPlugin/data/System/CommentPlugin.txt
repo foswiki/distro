@@ -163,7 +163,7 @@ As well as support for all the usual macros in templates, the following special 
 Within a =FORM= definition, the body of the prompt is expanded to replace
 the =%<nop>COMMENTPROMPT%= macro.
 
-*EXPERT* Note that when a comment is saved, the =save= script is invoked on the target topic, with a number of parameters provided by the comment form. Normally the CommentPlugin will provide these fields in the form, but experts can also provide the fields themselves in order to get finer control over what is submitted, or you might want to define your own HTML forms that do comment submission. The parameters that the CommentPlugin recognises are as follows:
+*EXPERT* Note that when a comment is saved, the =rest= script is invoked on the target topic, with a number of parameters provided by the comment form. Normally the CommentPlugin will provide these fields in the form, but experts can also provide the fields themselves in order to get finer control over what is submitted, or you might want to define your own HTML forms that do comment submission. The parameters that the CommentPlugin recognises are as follows:
 | *CGI parameter* | *Description* |
 | =comment_action= | Must be =save= to get the CommentPlugin to perform |
 | =comment_type= | Type of the OUTPUT template |
