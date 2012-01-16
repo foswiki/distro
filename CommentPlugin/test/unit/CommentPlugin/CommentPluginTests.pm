@@ -243,7 +243,6 @@ HERE
     $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
 
     $text = Foswiki::Func::readTopicText( $web, $topic );
-    $session->finish();
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
 
     #uncomment this to debug what the actual output looks like.
@@ -491,7 +490,6 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
-    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -537,7 +535,6 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
-    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -606,7 +603,6 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
-    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -663,7 +659,6 @@ HERE
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
-    $session->finish();
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -718,7 +713,6 @@ HERE
         ( $responseText, $result, $stdout, $stderr ) =
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
-    $session->finish();
 
     $this->assert($@);
     $this->assert_matches( qr"AccessControlException", $@ );
@@ -738,7 +732,6 @@ HERE
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    $session->finish();
     $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
     $this->assert_str_equals( <<HERE, $text );
    * Set DENYTOPICCHANGE = WikiGuest
@@ -774,13 +767,12 @@ HERE
     );
     $query->path_info("/CommentPlugin/comment");
     my ( $responseText, $result, $stdout, $stderr );
-    my $session = new Foswiki( undef, $query );
+    my $session = $this->createNewFoswikiSession( undef, $query );
     eval {
         ( $responseText, $result, $stdout, $stderr ) =
           $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
     };
     $this->assert_matches( qr/Status: 404/, $responseText );
-    $session->finish();
 
 }
 
@@ -852,11 +844,10 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
     # $responseText, $result, $stdout, $stderr
     my ( $response, $result, $stdout, $stderr ) =
       $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
-    $session->finish();
 
     $this->assert_matches( qr/^Status: 302/ms, $response );
     $this->assert_matches(
-qr/^Location:.*\/$this->{test_web}\/$this->{test_topic}%3ftab%3ddiscuss/ms,
+qr/^Location:.*\/$this->{test_web}\/$this->{test_topic}\?tab=discuss/ms,
         $response
     );
 
