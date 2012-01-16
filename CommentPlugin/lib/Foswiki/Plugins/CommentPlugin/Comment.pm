@@ -77,7 +77,7 @@ sub prompt {
         }
     }
     return _alert("Target web does not exist: '$web'")
-      unless ( Foswiki::Func::webExists( $web ) );
+      unless ( Foswiki::Func::webExists($web) );
 
     # see if an alternate return is specified.  Sanitize and set the endpoint
     # if set.
@@ -98,7 +98,8 @@ sub prompt {
             $endPoint = $epWeb . '/' . $epTopic . $epParam;
         }
         else {
-            return _alert("redirectto location does not exist: '$epWeb.$epTopic'");
+            return _alert(
+                "redirectto location does not exist: '$epWeb.$epTopic'");
         }
     }
 
@@ -222,6 +223,15 @@ sub save {
 
     $text = '' unless defined $text;
 
+    unless ( $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} ) {
+        unless ( Foswiki::Func::getContext()->{'authenticated'} ) {
+            my $authRest =
+              Foswiki::Func::getScriptUrl( undef, undef, 'restauth' )
+              . '/CommentPlugin/comment';
+            Foswiki::Func::redirectCgiQuery( undef, $authRest, 1 );
+        }
+    }
+
     my $wikiName = Foswiki::Func::getWikiName();
     my $mode     = $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave}
       || 'change';
@@ -231,13 +241,8 @@ sub save {
     unless ($access) {
 
         # user has no permission to change the topic
-        throw Foswiki::AccessControlException(
-            $mode,
-            $wikiName,
-            $web,
-            $topic,
-            'Comment on topic not permitted'
-        );
+        throw Foswiki::AccessControlException( $mode, $wikiName, $web, $topic,
+            'Comment on topic not permitted' );
     }
 
     my $query = Foswiki::Func::getCgiQuery();
