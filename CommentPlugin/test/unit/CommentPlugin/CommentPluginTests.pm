@@ -373,13 +373,19 @@ qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences".*?)\s*\
         $html
     );
 
-    # If requested topic missing, redirect to the target topic.
+    # If requested topic missing, return an error to the user.
     $html = Foswiki::Func::expandCommonVariables(
 "%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"MissingAnRE\"}%"
     );
 
+    # If requested target web is  missing, return an error to the user.
+    $html = Foswiki::Func::expandCommonVariables(
+"%COMMENT{type=\"bottom\" target=\"$this->{test_web}MISSING.ATopic#AAnchor\" }%"
+    );
+
     $this->assert_matches(
-qr/<input ([^>]*name="endPoint" value="$this->{test_web}.ATopic".*?)\s*\/>/,
+
+    qr/<span class='foswikiAlert'> Target web does not exist: '$this->{test_web}MISSING' <\/span>/,
         $html
     );
 
