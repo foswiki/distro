@@ -80,7 +80,9 @@ sub INCLUDE {
                     $line .= $isa;
                     $isa = undef;
                 }
-                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
+#               This changes breaks the unit tests.  If the proposal is accepted, then I will change again and update the unit tests.
+#                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
+                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =package= $1/;
             }
             else {
                 $line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#_doclink($1)#geo;
