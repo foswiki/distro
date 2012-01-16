@@ -3,6 +3,9 @@
 # Tests for the plugin component
 #
 package WysiwygPluginTests;
+use strict;
+use warnings;
+
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
@@ -12,8 +15,6 @@ use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin;
 use Foswiki::Plugins::WysiwygPlugin::Handlers;
 use Encode();
-use strict;
-use warnings;
 use Carp;
 
 my @unicodeCodepointsForWindows1252 = (
@@ -157,8 +158,7 @@ sub save_test {
     $query->param( text => $t );
     $query->method('GET');
 
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( 'guest', $query );
+    $this->createNewFoswikiSession( 'guest', $query );
     $Foswiki::Plugins::SESSION = $this->{session};
 
     # charset definition affects output, so it is a response method and
@@ -226,16 +226,16 @@ sub TML2HTML_test {
     );
     $query->method('GET');
 
-    my $foswiki = new Foswiki( 'guest', $query );
-    $foswiki->{response}->charset($charset)
+    $this->createNewFoswikiSession( 'guest', $query );
+    $this->{session}{response}->charset($charset)
       if $charset;    # why? REST responses are supposed to be UTF-8 encoded
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
             my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::_restTML2HTML(
-                $foswiki, undef, undef, $foswiki->{response} );
-            $Foswiki::engine->finalize( $foswiki->{response},
-                $foswiki->{request} );
+                $this->{session}, undef, undef, $this->{session}{response} );
+            $Foswiki::engine->finalize( $this->{session}{response},
+                $this->{session}{request} );
             return $ok;
         }
     );
@@ -255,7 +255,6 @@ sub TML2HTML_test {
 
     $this->assert( $expectedOutput eq $out,
         "'" . anal($out) . "' !=\n'" . anal($expectedOutput) . "'" );
-    $foswiki->finish();
 }
 
 sub HTML2TML_testCharsetCodesRange {
@@ -298,16 +297,16 @@ sub HTML2TML_test {
         }
     );
     $query->method('GET');
-    my $foswiki = new Foswiki( 'guest', $query );
-    $foswiki->{response}->charset($charset)
+    $this->createNewFoswikiSession( 'guest', $query );
+    $this->{session}{response}->charset($charset)
       if $charset;    # why? REST responses are supposed to be UTF-8 encoded
 
     my ( $out, $result ) = $this->captureWithKey(
         save => sub {
             my $ok = Foswiki::Plugins::WysiwygPlugin::Handlers::_restHTML2TML(
-                $foswiki, undef, undef, $foswiki->{response} );
-            $Foswiki::engine->finalize( $foswiki->{response},
-                $foswiki->{request} );
+                $this->{session}, undef, undef, $this->{session}{response} );
+            $Foswiki::engine->finalize( $this->{session}{response},
+                $this->{session}{request} );
             return $ok;
         }
     );
@@ -325,7 +324,6 @@ sub HTML2TML_test {
 
     $this->assert_str_equals( $expectedOutput, $out,
         "'" . anal($out) . "' !=\n'" . anal($expectedOutput) . "'" );
-    $foswiki->finish();
 }
 
 # tests for various charsets
