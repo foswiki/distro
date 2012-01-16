@@ -97,6 +97,11 @@ sub _restSave {
     my ( $web, $topic ) =
       Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
 
+    if ( $query->param('comment_target') ) {
+        ( $web, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( $web, $query->param('comment_target') );
+    }
+
     $web = Foswiki::Sandbox::untaint( $web,
         \&Foswiki::Sandbox::validateWebName );
 
