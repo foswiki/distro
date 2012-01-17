@@ -99,11 +99,12 @@ sub _restSave {
 
     if ( $query->param('comment_target') ) {
         ( $web, $topic ) =
-          Foswiki::Func::normalizeWebTopicName( $web, $query->param('comment_target') );
+          Foswiki::Func::normalizeWebTopicName( $web,
+            $query->param('comment_target') );
     }
 
-    $web = Foswiki::Sandbox::untaint( $web,
-        \&Foswiki::Sandbox::validateWebName );
+    $web =
+      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
 
     unless ( Foswiki::Func::webExists($web) ) {
         if ( $query->param('comment_ajax') ) {
@@ -121,9 +122,32 @@ sub _restSave {
     }
 
     # Note: missing topic is okay,  will be created if allowed.
+    # but it needs to be a valid name.
 
+    my $origTopic = $topic;    # (Stash topic name in case it's bad)
     $topic = Foswiki::Sandbox::untaint( $topic,
         \&Foswiki::Sandbox::validateTopicName );
+
+    unless ($topic) {
+
+        # validation failed - illegal name, don't have a topic name
+        if ( $query->param('comment_ajax') ) {
+            $response->header( -status => 500 );
+            $response->body(shift);
+        }
+        else {
+            throw Foswiki::OopsException(
+                'oopsattention',
+                status => 403,
+                def    => 'invalid_topic_parameter',
+                params => [ "$origTopic", 'comment_target' ]
+            );
+        }
+    }
+
+   # SMELL: Foswiki.pm ensures that the web cannot access a topic beginning with
+   # lower case letter,  so force it here as well.
+    $topic = ucfirst($topic);
 
     if ( $query->param('redirectto') ) {
         Foswiki::Func::writeWarning(

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284387405" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1326761699" format="1.1" version="1"}%
    * Top comment output 2 -- Main.ProjectContributor - 26 Nov 2006
    * Top comment output 1 -- Main.ProjectContributor - 26 Nov 2006
 
@@ -209,7 +209,7 @@ _Comments:_
 
 #NoForm
 ---+++ =noform=
-Example of a custom form to save a comment to a new topic. When the topic is created the parent will be our %SANDBOXWEB% [[%SANDBOXWEB%.CommentPluginExampleComments][example topic]].
+Example of a custom form to save a comment to a new or existing topic. If topic is created, the parent will not be set..
 
 <form method="post" action="%SCRIPTURL{rest}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="noformcomment0" id="noformcomment0">
 <input type="hidden" name="topicparent" value="CommentPluginExampleComments" />
