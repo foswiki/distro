@@ -576,12 +576,12 @@ sub _doFunc {
     }
     elsif ( $theFunc eq "LEFT" ) {
         $i      = $rPos + 1;
-        $result = "R$i:C0..R$i:C$cPos";
+        $result = "R$i:C1..R$i:C$cPos";
 
     }
     elsif ( $theFunc eq "ABOVE" ) {
         $i      = $cPos + 1;
-        $result = "R0:C$i..R$rPos:C$i";
+        $result = "R1:C$i..R$rPos:C$i";
 
     }
     elsif ( $theFunc eq "RIGHT" ) {
@@ -1866,7 +1866,7 @@ sub _workingDays {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

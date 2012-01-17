@@ -90,7 +90,7 @@ TABLE
 | 1 | 2 | 3 | 4 |
 | 5 | 6 | 7 | 8 |
 | 6 | 8 |
-| R0:C1..R3:C1 | R0:C2..R3:C2 |
+| R1:C1..R3:C1 | R1:C2..R3:C2 |
 EXPECT
     chomp $expected;
     $this->assert_equals( $expected, $actual );
@@ -450,13 +450,13 @@ sub test_LEFT {
 
     # Test for TWiki Item6667
     my $inTable = <<'TABLE';
-| 1 | 2 | <= %CALC{$SUM($LEFT())}% | 3 | 4 |
-| 5 | 6 | <= %CALC{$SUM($LEFT())}% | 7 | 8 |
+| 1 | 2 | <= %CALC{$SUM($LEFT())}% | 3 | 4 | %CALC{$LEFT()}% |
+| 5 | 6 | <= %CALC{$SUM($LEFT())}% | 7 | 8 | %CALC{$LEFT()}% |
 TABLE
     my $actual   = Foswiki::Func::expandCommonVariables($inTable);
     my $expected = <<'EXPECT';
-| 1 | 2 | <= 3 | 3 | 4 |
-| 5 | 6 | <= 11 | 7 | 8 |
+| 1 | 2 | <= 3 | 3 | 4 | R1:C1..R1:C5 |
+| 5 | 6 | <= 11 | 7 | 8 | R2:C1..R2:C5 |
 EXPECT
     chomp $expected;
     $this->assert_equals( $expected, $actual );
@@ -869,6 +869,27 @@ EXPECT
 
 }
 
+sub test_combine_SET_GET {
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | %CALC{"$ROW()"}% | 3 | 4 |
+| 5 | 6 | %CALC{"$ROW()"}% | 7 | 8 |
+| %CALC{"$ROW(-2)"}% | %CALC{$ROW(2)$SET(blah,a)}% | %CALC{$SET(b,$T(R3:C2))$GET(b)}% |
+| %CALC{$GET('blah')}% | %CALC{$GET(b)}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | 1 | 3 | 4 |
+| 5 | 6 | 2 | 7 | 8 |
+| 1 | 5 | 5 |
+| a | 5 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
+}
+
 sub test_SEARCH {
     my ($this) = @_;
     $this->assert( $this->CALC('$SEARCH([uy], fluffy)') == 3 );
@@ -1004,7 +1025,25 @@ sub test_SUMDAYS {
 }
 
 sub test_SUMPRODUCT {
-    warn '$SUMPRODUCT not implemented';
+    my ($this) = @_;
+
+    my $inTable = <<'TABLE';
+| 1 | 2 | 3 | 4 | 5 |
+| 1 | 2 | 3 | 4 | 5 |
+| 2 | 2 | 3 | 4 | 6 |
+| 3 | 2 | 3 | 4 | 7 |
+| %CALC{$SUMPRODUCT(R2:C1..R4:C1, R2:C5..R4:C5)}% |
+TABLE
+    my $actual   = Foswiki::Func::expandCommonVariables($inTable);
+    my $expected = <<'EXPECT';
+| 1 | 2 | 3 | 4 | 5 |
+| 1 | 2 | 3 | 4 | 5 |
+| 2 | 2 | 3 | 4 | 6 |
+| 3 | 2 | 3 | 4 | 7 |
+| 38 |
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_T {

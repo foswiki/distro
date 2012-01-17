@@ -855,11 +855,12 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 ---++ Info
 
-|  Copyright: | Copyright (C) 2001-2011 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2011 Foswiki Contributors  |
+|  Copyright: | Copyright (C) 2001-2011 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2012 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  17 Jan 2012: (1.1.5) | Foswikitask:Item11450 - ABOVE and LEFT return R0 and C0 respectively.  Should be R1 and C1 |
 |  05 Dec 2011: (1.1.4) | Foswiki release 1.1.4 - Foswikitask:Item11079: leading/trailing spaces break $LISTUNIQUE(). <br />\
                   Foswikitask:Item11183: Sync up with TWiki version. <br />\
                   Add $HEXENCODE(), $HEXDECODE(), $BITXOR(), $XOR(). $LISTNONEMPTY(), $SPLIT(), and $WHILE.  <br />\
