@@ -2141,7 +2141,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
     my $expected = <<EXPECTED;
  <ul>
 <li> Set MYNAMES = Ed, Kenneth,Benny 
-</li> <li> Set EXTRACT =  R0:C0..R0:C-1  
+</li> <li> Set EXTRACT =  R0:C1..R0:C-1
 </li></ul> 
 <p />
 <nop>
@@ -2215,7 +2215,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
     my $expected = <<EXPECTED;
  <ul>
 <li> Set MYNAMES = Ed, Kenneth,Benny 
-</li> <li> Set EXTRACT =  R0:C0..R0:C-1  
+</li> <li> Set EXTRACT =  R0:C1..R0:C-1
 </li></ul> 
 <p />
 <nop>
