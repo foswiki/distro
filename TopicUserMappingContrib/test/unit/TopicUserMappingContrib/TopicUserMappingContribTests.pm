@@ -81,11 +81,10 @@ sub setup_new_session() {
     $ENV{SCRIPT_NAME} = "view";
 
     # close this Foswiki session - its using the wrong mapper and login
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( undef, $query );
-    $this->{test_topicObject} =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+    $this->createNewFoswikiSession( undef, $query );
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    ( $this->{test_topicObject} ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 }
 
 sub set_up_user {
