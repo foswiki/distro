@@ -9,12 +9,13 @@ use warnings;
 # The tests are performed using the APIs published by the facade class,
 # Foswiki:Users, not the actual Foswiki::Users::TopicUserMapping
 
-use FoswikiTestCase;
+use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
 
-use Foswiki;
-use Foswiki::Users;
-use Foswiki::Users::TopicUserMapping;
+use Foswiki();
+use Foswiki::Func();
+use Foswiki::Users();
+use Foswiki::Users::TopicUserMapping();
 use Error qw( :try );
 
 my $testSysWeb    = 'TemporaryTopicUserMappingAsGuestTestsSystemWeb';
@@ -95,15 +96,17 @@ sub set_up_for_verify {
         Foswiki::Func::createWeb( $testSysWeb,    $original );
         Foswiki::Func::createWeb( $testNormalWeb, '_default' );
 
-        my $oprefs =
-          Foswiki::Meta->load( $this->{session}, $testSysWeb,
+        my ($oprefs) =
+          Foswiki::Func::readTopic( $testSysWeb,
             $Foswiki::cfg{SitePrefsTopicName} );
-        my $nprefs =
-          Foswiki::Meta->new( $this->{session}, $testSysWeb,
-            $Foswiki::cfg{SitePrefsTopicName},
-            $oprefs->text() );
+        my ($nprefs) =
+          Foswiki::Func::readTopic( $testSysWeb,
+            $Foswiki::cfg{SitePrefsTopicName} );
+        $nprefs->text( $oprefs->text() );
         $nprefs->copyFrom($oprefs);
         $nprefs->save();
+        $nprefs->finish();
+        $oprefs->finish();
 
         $testUser = $this->createFakeUser( $this->{session} );
     }
@@ -182,8 +185,8 @@ sub createFakeUser {
         $i++;
     }
     $text ||= '';
-    my $meta =
-      Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName}, $base . $i );
+    my ($meta) =
+      Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, $base . $i );
     $meta->put(
         "TOPICPARENT",
         {
@@ -194,6 +197,7 @@ sub createFakeUser {
     Foswiki::Func::saveTopic( $Foswiki::cfg{UsersWebName},
         $base . $i, undef, $text, $meta );
     push( @{ $this->{fake_users} }, $base . $i );
+    $meta->finish();
     return $base . $i;
 }
 
