@@ -1,8 +1,7 @@
 # See bottom of file for license and copyright information
+package TopicUserMappingTests;
 use strict;
 use warnings;
-
-package TopicUserMappingTests;
 
 # Some basic tests for Foswiki::Users::TopicUserMapping
 #
@@ -17,7 +16,6 @@ use Foswiki::Users;
 use Foswiki::Users::TopicUserMapping;
 use Error qw( :try );
 
-my $fatwilly;
 my $saveTopic;
 my $ttpath;
 
@@ -79,7 +77,7 @@ sub set_up_for_verify {
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
 
     try {
-        $fatwilly = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
+        $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
         Foswiki::Func::createWeb($testUsersWeb);
 
         # the group is recursive to force a recursion block
@@ -90,16 +88,16 @@ sub set_up_for_verify {
         Foswiki::Func::createWeb( $testNormalWeb, '_default' );
 
         my $oprefs =
-          Foswiki::Meta->load( $fatwilly, $testSysWeb,
+          Foswiki::Meta->load( $this->{session}, $testSysWeb,
             $Foswiki::cfg{SitePrefsTopicName} );
         my $nprefs =
-          Foswiki::Meta->new( $fatwilly, $testSysWeb,
+          Foswiki::Meta->new( $this->{session}, $testSysWeb,
             $Foswiki::cfg{SitePrefsTopicName},
             $oprefs->text() );
         $nprefs->copyFrom($oprefs);
         $nprefs->save();
 
-        $testUser = $this->createFakeUser($fatwilly);
+        $testUser = $this->createFakeUser( $this->{session} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -113,11 +111,10 @@ sub set_up_for_verify {
 sub tear_down {
     my $this = shift;
 
-    $this->removeWebFixture( $fatwilly, $testUsersWeb );
-    $this->removeWebFixture( $fatwilly, $testSysWeb );
-    $this->removeWebFixture( $fatwilly, $testNormalWeb );
+    $this->removeWebFixture( $this->{session}, $testUsersWeb );
+    $this->removeWebFixture( $this->{session}, $testSysWeb );
+    $this->removeWebFixture( $this->{session}, $testNormalWeb );
     unlink $Foswiki::cfg{Htpasswd}{FileName};
-    $fatwilly->finish();
     $this->SUPER::tear_down();
 }
 
@@ -198,20 +195,21 @@ sub verify_AddUsers {
     print $F $initial;
     close($F);
     chmod( 0777, $ttpath );
-    $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
+    $this->{session}->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
     open( $F, '<', $ttpath );
     local $/ = undef;
     my $text = <$F>;
     close($F);
     $this->assert_matches(
         qr/\n\s+\* GeorgeUser - guser - \d\d \w\w\w \d\d\d\d\n/s, $text );
-    $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser", $me );
+    $this->{session}->{users}->{mapping}->addUser( "auser", "AaronUser", $me );
     open( $F, '<', $ttpath );
     local $/ = undef;
     $text = <$F>;
     close($F);
     $this->assert_matches( qr/AaronUser.*GeorgeUser/s, $text );
-    $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
+    $this->{session}->{users}->{mapping}
+      ->addUser( "zuser", "ZebediahUser", $me );
     open( $F, '<', $ttpath );
     local $/ = undef;
     $text = <$F>;
@@ -231,30 +229,35 @@ sub verify_Load {
     close($F);
 
     my $zuser_id =
-      $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
+      $this->{session}->{users}->{mapping}
+      ->addUser( "zuser", "ZebediahUser", $me );
     my $auser_id =
-      $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser", $me );
+      $this->{session}->{users}->{mapping}
+      ->addUser( "auser", "AaronUser", $me );
     my $guser_id =
-      $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
+      $this->{session}->{users}->{mapping}
+      ->addUser( "guser", "GeorgeUser", $me );
 
     # deliberate repeat
-    $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
+    $this->{session}->{users}->{mapping}
+      ->addUser( "zuser", "ZebediahUser", $me );
 
     # find a nonexistent user to force a cache read
-    $fatwilly->finish();
-    $fatwilly = new Foswiki();
-    my $n = $fatwilly->{users}->{mapping}->login2cUID("auser");
+    $this->createNewFoswikiSession();
+    my $n = $this->{session}->{users}->{mapping}->login2cUID("auser");
     $this->assert_str_equals( $n, $auser_id );
     $this->assert_str_equals( "AaronUser",
-        $fatwilly->{users}->getWikiName($n) );
-    $this->assert_str_equals( "auser", $fatwilly->{users}->getLoginName($n) );
+        $this->{session}->{users}->getWikiName($n) );
+    $this->assert_str_equals( "auser",
+        $this->{session}->{users}->getLoginName($n) );
 
-    my $i = $fatwilly->{users}->eachUser();
+    my $i = $this->{session}->{users}->eachUser();
     my @l = ();
     while ( $i->hasNext() ) {
         push( @l, $i->next() );
     }
-    my $k = join( ",", sort map { $fatwilly->{users}->getWikiName($_) } @l );
+    my $k =
+      join( ",", sort map { $this->{session}->{users}->getWikiName($_) } @l );
     $this->assert( $k =~ s/^AaronUser,//,          $k );
     $this->assert( $k =~ s/^AdminUser,//,          $k );
     $this->assert( $k =~ s/^AttilaTheHun,//,       $k );
@@ -275,13 +278,15 @@ sub verify_Load {
 sub groupFix {
     my $this = shift;
     my $me   = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
-    $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser",    $me );
-    $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser",   $me );
-    $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
-    $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser",    $me );
-    $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser",   $me );
-    $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
-    $fatwilly->{users}->{mapping}->addUser( "scum",  "ScumUser",     $me );
+    $this->{session}->{users}->{mapping}->addUser( "auser", "AaronUser",  $me );
+    $this->{session}->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
+    $this->{session}->{users}->{mapping}
+      ->addUser( "zuser", "ZebediahUser", $me );
+    $this->{session}->{users}->{mapping}->addUser( "auser", "AaronUser",  $me );
+    $this->{session}->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
+    $this->{session}->{users}->{mapping}
+      ->addUser( "zuser", "ZebediahUser", $me );
+    $this->{session}->{users}->{mapping}->addUser( "scum", "ScumUser", $me );
     Foswiki::Func::saveTopic( $testUsersWeb, 'AmishGroup', undef,
         "   * Set GROUP = AaronUser,%MAINWEB%.GeorgeUser, scum\n" );
     Foswiki::Func::saveTopic( $testUsersWeb, 'BaptistGroup', undef,
@@ -294,7 +299,7 @@ sub groupFix {
 sub verify_getListOfGroups {
     my $this = shift;
     $this->groupFix();
-    my $i = $fatwilly->{users}->eachGroup();
+    my $i = $this->{session}->{users}->eachGroup();
     my @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
@@ -306,27 +311,30 @@ sub verify_groupMembers {
     my $this = shift;
     $this->groupFix();
     my $g = "AmishGroup";
-    $this->assert( $fatwilly->{users}->isGroup($g) );
-    my $i = $fatwilly->{users}->eachGroupMember($g);
+    $this->assert( $this->{session}->{users}->isGroup($g) );
+    my $i = $this->{session}->{users}->eachGroupMember($g);
     my @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
-    my $k = join( ',', map { $fatwilly->{users}->getLoginName($_) } sort @l );
+    my $k =
+      join( ',', map { $this->{session}->{users}->getLoginName($_) } sort @l );
     $this->assert_str_equals( "auser,guser,scum", $k );
 
     $g = "BaptistGroup";
-    $this->assert( $fatwilly->{users}->isGroup($g) );
-    $i = $fatwilly->{users}->eachGroupMember($g);
+    $this->assert( $this->{session}->{users}->isGroup($g) );
+    $i = $this->{session}->{users}->eachGroupMember($g);
     @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
-    $k = join( ',', map { $fatwilly->{users}->getLoginName($_) } sort @l );
+    $k =
+      join( ',', map { $this->{session}->{users}->getLoginName($_) } sort @l );
     $this->assert_str_equals( "guser,zuser", $k );
 
     $g = "MultiLineGroup";
-    $this->assert( $fatwilly->{users}->isGroup($g) );
-    $i = $fatwilly->{users}->eachGroupMember($g);
+    $this->assert( $this->{session}->{users}->isGroup($g) );
+    $i = $this->{session}->{users}->eachGroupMember($g);
     @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
-    $k = join( ',', map { $fatwilly->{users}->getLoginName($_) } sort @l );
+    $k =
+      join( ',', map { $this->{session}->{users}->getLoginName($_) } sort @l );
     $this->assert_str_equals( "auser,guser,scum,zuser", $k );
 }
 

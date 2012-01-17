@@ -17,8 +17,6 @@ use Foswiki::Users;
 use Foswiki::Users::TopicUserMapping;
 use Error qw( :try );
 
-my $fatwilly;
-
 my $testSysWeb    = 'TemporaryTopicUserMappingAsGuestTestsSystemWeb';
 my $testNormalWeb = "TemporaryTopicUserMappingAsGuestTestsNormalWeb";
 my $testUsersWeb  = "TemporaryTopicUserMappingAsGuestTestsUsersWeb";
@@ -87,7 +85,7 @@ sub set_up_for_verify {
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
 
     try {
-        $fatwilly = Foswiki->new( $Foswiki::cfg{DefaultUserWikiName} );
+        $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserWikiName} );
         Foswiki::Func::createWeb($testUsersWeb);
 
         # the group is recursive to force a recursion block
@@ -98,16 +96,16 @@ sub set_up_for_verify {
         Foswiki::Func::createWeb( $testNormalWeb, '_default' );
 
         my $oprefs =
-          Foswiki::Meta->load( $fatwilly, $testSysWeb,
+          Foswiki::Meta->load( $this->{session}, $testSysWeb,
             $Foswiki::cfg{SitePrefsTopicName} );
         my $nprefs =
-          Foswiki::Meta->new( $fatwilly, $testSysWeb,
+          Foswiki::Meta->new( $this->{session}, $testSysWeb,
             $Foswiki::cfg{SitePrefsTopicName},
             $oprefs->text() );
         $nprefs->copyFrom($oprefs);
         $nprefs->save();
 
-        $testUser = $this->createFakeUser($fatwilly);
+        $testUser = $this->createFakeUser( $this->{session} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -123,11 +121,10 @@ sub set_up_for_verify {
 sub tear_down {
     my $this = shift;
 
-    $this->removeWebFixture( $fatwilly, $testUsersWeb );
-    $this->removeWebFixture( $fatwilly, $testSysWeb );
-    $this->removeWebFixture( $fatwilly, $testNormalWeb );
+    $this->removeWebFixture( $this->{session}, $testUsersWeb );
+    $this->removeWebFixture( $this->{session}, $testSysWeb );
+    $this->removeWebFixture( $this->{session}, $testNormalWeb );
     unlink $Foswiki::cfg{Htpasswd}{FileName};
-    $fatwilly->finish();
     $this->SUPER::tear_down();
 
     return;
@@ -203,10 +200,11 @@ sub createFakeUser {
 sub groupFix {
     my $this = shift;
     my $me   = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
-    $fatwilly->{users}->{mapping}->addUser( "auser", "AaronUser",    $me );
-    $fatwilly->{users}->{mapping}->addUser( "guser", "GeorgeUser",   $me );
-    $fatwilly->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
-    $fatwilly->{users}->{mapping}->addUser( "scum",  "ScumUser",     $me );
+    $this->{session}->{users}->{mapping}->addUser( "auser", "AaronUser",  $me );
+    $this->{session}->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
+    $this->{session}->{users}->{mapping}
+      ->addUser( "zuser", "ZebediahUser", $me );
+    $this->{session}->{users}->{mapping}->addUser( "scum", "ScumUser", $me );
     Foswiki::Func::saveTopic( $testUsersWeb, 'AmishGroup', undef,
         "   * Set GROUP = AaronUser,%MAINWEB%.GeorgeUser, scum\n" );
     Foswiki::Func::saveTopic( $testUsersWeb, 'BaptistGroup', undef,
@@ -260,7 +258,7 @@ HERE
 sub verify_getListOfGroups {
     my $this = shift;
     $this->groupFix();
-    my $i = $fatwilly->{users}->eachGroup();
+    my $i = $this->{session}->{users}->eachGroup();
     my @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
@@ -283,7 +281,7 @@ sub verify_getListOfGroups {
 sub verify_eachGroupMember {
     my $this = shift;
     $this->groupFix();
-    my $i = $fatwilly->{users}->eachGroupMember('TopGroup');
+    my $i = $this->{session}->{users}->eachGroupMember('TopGroup');
     my @l = ();
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
@@ -305,9 +303,8 @@ sub verify_secretGroupIsHidden {
     my $expected =
       'AdminGroup,AmishGroup,BaptistGroup,BottomGroup,MultiLineGroup,TopGroup';
     my $result;
-    my $oldSession = $this->{session};
 
-    $this->{session} = Foswiki->new( $Foswiki::cfg{DefaultUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin} );
     $this->groupFix();
     my $i = $this->{session}->{users}->eachGroup();
 
@@ -324,8 +321,6 @@ sub verify_secretGroupIsHidden {
 HERE
     chomp($result);
     $this->assert_str_equals( $expected, $result );
-    $this->{session}->finish();
-    $this->{session} = $oldSession;
 
     return;
 }
@@ -335,9 +330,8 @@ sub verify_secretGroupIsHiddenFromGROUPINFO {
     my $expected =
 'AdminGroup, BaseGroup, AmishGroup, BaptistGroup, BottomGroup, MultiLineGroup, TopGroup';
     my $result;
-    my $oldSession = $this->{session};
 
-    $this->{session} = Foswiki->new( $Foswiki::cfg{DefaultUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin} );
     $this->groupFix();
     my $i = $this->{session}->{users}->eachGroup();
 
@@ -347,8 +341,6 @@ sub verify_secretGroupIsHiddenFromGROUPINFO {
 HERE
     chomp($result);
     $this->assert_str_equals( $expected, $result );
-    $this->{session}->finish();
-    $this->{session} = $oldSession;
 
     return;
 }
@@ -359,8 +351,8 @@ sub verify_eachGroupMemberGROUPINFO {
     my $this = shift;
     $this->groupFix();
 
-    #my $i = $fatwilly->{users}->eachGroupMember('TopGroup');
-    my $i = $fatwilly->{users}->eachGroup();    #prime the cache
+    #my $i = $this->{session}->{users}->eachGroupMember('TopGroup');
+    my $i = $this->{session}->{users}->eachGroup();    #prime the cache
 
     my $result = Foswiki::Func::expandCommonVariables(<<'HERE');
 %GROUPINFO{"TopGroup"}%
