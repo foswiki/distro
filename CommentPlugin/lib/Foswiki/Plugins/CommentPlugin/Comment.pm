@@ -223,12 +223,16 @@ sub save {
 
     $text = '' unless defined $text;
 
+    my $query = Foswiki::Func::getCgiQuery();
+    return undef unless $query;
+
     unless ( $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} ) {
         unless ( Foswiki::Func::getContext()->{'authenticated'} ) {
             my $authRest =
               Foswiki::Func::getScriptUrl( undef, undef, 'restauth' )
               . '/CommentPlugin/comment';
             Foswiki::Func::redirectCgiQuery( undef, $authRest, 1 );
+            throw Error::Simple('redirect');
         }
     }
 
@@ -244,9 +248,6 @@ sub save {
         throw Foswiki::AccessControlException( $mode, $wikiName, $web, $topic,
             'Comment on topic not permitted' );
     }
-
-    my $query = Foswiki::Func::getCgiQuery();
-    return unless $query;
 
     # The type of the comment dictates where in the target topic it
     # will be saved.

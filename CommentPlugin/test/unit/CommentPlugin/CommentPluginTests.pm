@@ -384,7 +384,7 @@ qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences".*?)\s*\
 
     $this->assert_matches(
 
-    qr/<span class='foswikiAlert'> Target web does not exist: '$this->{test_web}MISSING' <\/span>/,
+qr/<span class='foswikiAlert'> Target web does not exist: '$this->{test_web}MISSING' <\/span>/,
         $html
     );
 
@@ -776,6 +776,46 @@ HERE
 
 }
 
+sub test_guest_comment_redirect {
+    my $this = shift;
+    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 0;
+
+    my $sample = <<HERE;
+   * Set ALLOWTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+%COMMENT%
+HERE
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+
+    my $query = Unit::Request->new(
+        {
+            'comment_action' => 'save',
+            'comment_type'   => 'returntab',
+            'redirectto' =>
+              "$this->{test_web}.$this->{test_topic}\?tab=discuss",
+            'endPoint' => "$this->{test_web}.$this->{test_topic}#BLAH",
+            'comment'  => "This is the comment",
+            'topic'    => "$this->{test_web}.$this->{test_topic}"
+        }
+    );
+    $query->path_info("/CommentPlugin/comment");
+
+    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    my $text = "Ignore this text";
+
+    # invoke the save handler
+    # $responseText, $result, $stdout, $stderr
+    my ( $response, $result, $stdout, $stderr ) =
+      $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+
+    $this->assert_matches( qr/^Status: 302/ms, $response );
+    $this->assert_matches(
+qr/Location:.*\/restauth\/CommentPlugin\/comment\?foswiki_redirect_cache.*/ms,
+        $response
+    );
+
+}
+
 sub test_rev1_template_redirectto {
     my $this = shift;
 
@@ -847,7 +887,7 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
 
     $this->assert_matches( qr/^Status: 302/ms, $response );
     $this->assert_matches(
-qr/^Location:.*\/$this->{test_web}\/$this->{test_topic}\?tab=discuss/ms,
+        qr/^Location:.*\/$this->{test_web}\/$this->{test_topic}\?tab=discuss/ms,
         $response
     );
 

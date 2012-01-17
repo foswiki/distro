@@ -168,11 +168,15 @@ sub _restSave {
         $text =
           Foswiki::Plugins::CommentPlugin::Comment::save( $text, $web, $topic );
 
-        Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
-            { ignorepermissions => 1 } );
+        if ( defined $text ) {
 
-        $response->header( -status => 200 );
-        $response->body("$web.$topic");
+            # Don't save anything if nothing to save
+            Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
+                { ignorepermissions => 1 } );
+
+            $response->header( -status => 200 );
+            $response->body("$web.$topic");
+        }
     }
     catch Foswiki::AccessControlException with {
         if ( $query->param('comment_ajax') ) {
@@ -182,6 +186,12 @@ sub _restSave {
         else {
             shift->throw();
         }
+    }
+    catch Error::Simple with {
+        my $e = shift;
+
+        # Redirect already requested to clear the endpoint
+        $query->param( endPoint => '' ) if ( $e =~ 'redirect' );
     }
     otherwise {
         if ( $query->param('comment_ajax') ) {
