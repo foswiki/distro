@@ -16,9 +16,6 @@ use Foswiki::Users;
 use Foswiki::Users::TopicUserMapping;
 use Error qw( :try );
 
-my $saveTopic;
-my $ttpath;
-
 my $testSysWeb    = 'TemporaryTopicUserMappingTestsSystemWeb';
 my $testNormalWeb = "TemporaryTopicUserMappingTestsNormalWeb";
 my $testUsersWeb  = "TemporaryTopicUserMappingTestsUsersWeb";
@@ -33,6 +30,8 @@ sub NormalTopicUserMapping {
     my $this = shift;
     $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
+
+    return;
 }
 
 sub NamedTopicUserMapping {
@@ -41,23 +40,31 @@ sub NamedTopicUserMapping {
     # Set a mapping ID for purposes of testing named mappings
     $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
+
+    return;
 }
 
 sub useHtpasswdMgr {
     my $this = shift;
 
     $Foswiki::cfg{PasswordManager} = "Foswiki::Users::HtPasswdUser";
+
+    return;
 }
 
 sub noPasswdMgr {
     my $this = shift;
 
     $Foswiki::cfg{PasswordManager} = "none";
+
+    return;
 }
 
 # Override default set_up in base class; will call it after the mapping
 #  id has been set
 sub set_up {
+
+    return;
 }
 
 # Delay the calling of set_up till after the cfg's are set by above closure
@@ -106,6 +113,10 @@ sub set_up_for_verify {
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() || '' );
     };
+    $this->{ttpath} =
+"$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt";
+
+    return;
 }
 
 sub tear_down {
@@ -116,6 +127,8 @@ sub tear_down {
     $this->removeWebFixture( $this->{session}, $testNormalWeb );
     unlink $Foswiki::cfg{Htpasswd}{FileName};
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub new {
@@ -187,46 +200,46 @@ sub createFakeUser {
 
 sub verify_AddUsers {
     my $this = shift;
-    my $ttpath =
-"$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt";
-    my $me = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
+    my $me   = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
 
-    open( my $F, '>', $ttpath ) || $this->assert( 0, "open $ttpath failed" );
+    $this->assert( open( my $F, '>', $this->{ttpath} ),
+        "open $this->{ttpath} failed" );
     print $F $initial;
-    close($F);
-    chmod( 0777, $ttpath );
+    $this->assert( close($F) );
+    chmod( 0777, $this->{ttpath} );
     $this->{session}->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
-    open( $F, '<', $ttpath );
+    $this->assert( open( $F, '<', $this->{ttpath} ) );
     local $/ = undef;
     my $text = <$F>;
-    close($F);
+    $this->assert( close($F) );
     $this->assert_matches(
         qr/\n\s+\* GeorgeUser - guser - \d\d \w\w\w \d\d\d\d\n/s, $text );
     $this->{session}->{users}->{mapping}->addUser( "auser", "AaronUser", $me );
-    open( $F, '<', $ttpath );
+    $this->assert( open( $F, '<', $this->{ttpath} ) );
     local $/ = undef;
     $text = <$F>;
-    close($F);
+    $this->assert( close($F) );
     $this->assert_matches( qr/AaronUser.*GeorgeUser/s, $text );
     $this->{session}->{users}->{mapping}
       ->addUser( "zuser", "ZebediahUser", $me );
-    open( $F, '<', $ttpath );
+    $this->assert( open( $F, '<', $this->{ttpath} ) );
     local $/ = undef;
     $text = <$F>;
-    close($F);
+    $this->assert( close($F) );
     $this->assert_matches( qr/Aaron.*George.*Zebediah/s, $text );
+
+    return;
 }
 
 sub verify_Load {
     my $this = shift;
 
     my $me = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
-    $ttpath =
-"$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt";
 
-    open( my $F, '>', $ttpath ) || $this->assert( 0, "open $ttpath failed" );
+    $this->assert( open( my $F, '>', $this->{ttpath} ),
+        "open $this->{ttpath} failed" );
     print $F $initial;
-    close($F);
+    $this->assert( close($F) );
 
     my $zuser_id =
       $this->{session}->{users}->{mapping}
@@ -273,6 +286,8 @@ sub verify_Load {
     $this->assert( $k =~ s/^WikiGuest,//,          $k );
     $this->assert( $k =~ s/^ZebediahUser//,        $k );
     $this->assert_str_equals( "", $k );
+
+    return;
 }
 
 sub groupFix {
@@ -294,6 +309,8 @@ sub groupFix {
     Foswiki::Func::saveTopic( $testUsersWeb, 'MultiLineGroup', undef,
 "   * Set GROUP = GeorgeUser,$testUsersWeb.ZebediahUser\n   AaronUser, scum\n"
     );
+
+    return;
 }
 
 sub verify_getListOfGroups {
@@ -305,6 +322,8 @@ sub verify_getListOfGroups {
     my $k = join( ',', sort @l );
     $this->assert_str_equals(
         "AdminGroup,AmishGroup,BaptistGroup,BaseGroup,MultiLineGroup", $k );
+
+    return;
 }
 
 sub verify_groupMembers {
@@ -336,6 +355,8 @@ sub verify_groupMembers {
     $k =
       join( ',', map { $this->{session}->{users}->getLoginName($_) } sort @l );
     $this->assert_str_equals( "auser,guser,scum,zuser", $k );
+
+    return;
 }
 
 1;
