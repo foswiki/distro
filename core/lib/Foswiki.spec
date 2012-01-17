@@ -1416,6 +1416,11 @@ $Foswiki::cfg{SystemWebName} = 'System';
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
 # **STRING 20 EXPERT**
+# Name of the web used as a scratchpad or temporary workarea for users to
+# experiment with Foswiki topics.
+$Foswiki::cfg{SandboxWebName} = 'Sandbox';
+
+# **STRING 20 EXPERT**
 # Name of site-level preferences topic in the {SystemWebName} web.
 # <b>If you change this setting you will have to
 # use Foswiki and *manually* rename the existing topic.</b>
