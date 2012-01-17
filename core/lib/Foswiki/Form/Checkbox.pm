@@ -122,8 +122,12 @@ sub renderForEdit {
         };
 
         if ( $isSelected{$item} ) {
-            $attrs{$item}{checked} = 'checked';
-            push( @defaults, $item );
+	    # One or the other; not both, or CGI generates two checked="checked"
+	    if ($this->isValueMapped()) {
+		$attrs{$item}{checked} = 'checked';
+	    } else {
+		push( @defaults, $item );
+	    }
         }
     }
     my %params = (
