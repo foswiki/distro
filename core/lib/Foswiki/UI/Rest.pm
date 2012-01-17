@@ -234,6 +234,7 @@ sub rest {
         # an XHR.
     }
 
+
     $session->logEvent( 'rest',
         $session->{webName} . '.' . $session->{topicName} );
 
@@ -242,10 +243,44 @@ sub rest {
     my $result = &$function( $session, $subject, $verb, $session->{response} );
     use strict 'refs';
 
-    # SMELL: does anyone use endPoint? I can't find any evidence of it.
+    # Used by CommentPlugin rest handler to redirect to an alternate topic.
+    # Note that this might be better validated before dispatching the rest handler
+    # however the CommentPlugin handler modifies the endPoint and validating it early
+    # fails.
+
     my $endPoint = $req->param('endPoint');
-    if ( defined($endPoint) ) {
-        my $nurl = $session->getScriptUrl( 1, 'view', '', $endPoint );
+    my $nurl;
+
+    if ($endPoint) {
+        my $epParms = '';
+        # Strip off any anchors or query string
+        if ( $endPoint =~ s/([#\?].*$)// ) {
+            $epParms = $1;
+        }
+
+        my ( $web, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( undef, $endPoint );
+
+        $web = Foswiki::Sandbox::untaint( $web,
+            \&Foswiki::Sandbox::validateWebName );
+
+        $topic = Foswiki::Sandbox::untaint( $topic,
+            \&Foswiki::Sandbox::validateTopicName );
+
+        unless ( Foswiki::Func::topicExists($web, $topic) ) {
+            $res->header( -type => 'text/html', -status => '404' );
+            $err =
+                'ERROR: (404) Invalid REST invocation - '
+              . $req->param('endPoint')
+              . ' does not refer to an existing topic';
+            $res->print($err);
+            throw Foswiki::EngineException( 404, $err, $res );
+        }
+
+        $nurl = $session->getScriptUrl( 1, 'view', '', $endPoint );
+        $nurl .= $epParms if ( $epParms );
+    }
+    if ( defined($nurl) ) {
         $session->redirect($nurl);
     }
     elsif ($result) {
