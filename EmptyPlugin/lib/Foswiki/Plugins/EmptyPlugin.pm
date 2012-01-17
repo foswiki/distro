@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package EmptyPlugin
+---+ package Foswiki::Plugins::EmptyPlugin
 
 Foswiki plugins 'listen' to events happening in the core by registering an
 interest in those events. They do this by declaring 'plugin handlers'. These
@@ -20,8 +20,12 @@ subject to change without prior warning, and your plugin may suddenly stop
 working.
 
 Error messages can be output using the =Foswiki::Func= =writeWarning= and
-=writeDebug= functions. You can also =print STDERR=; the output will appear
-in the webserver error log. Most handlers can also throw exceptions (e.g.
+=writeDebug= functions. These logs can be found in the Foswiki/working/logs
+directory.  You can also =print STDERR=; the output will appear in the
+webserver error log.  The {WarningsAreErrors} configure setting makes
+Foswiki less tolerant of errors, and it is recommended to set it during
+development.  It can be set using configure, in the 'Miscellaneous'
+section.  Most handlers can also throw exceptions (e.g.
 [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]])
 
 For increased performance, all handler functions except =initPlugin= are
@@ -925,7 +929,9 @@ issues. Please use =afterUploadHandler()= instead.
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Author: %$AUTHOR%
+
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
