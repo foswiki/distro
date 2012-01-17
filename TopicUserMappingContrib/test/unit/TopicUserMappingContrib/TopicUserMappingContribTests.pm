@@ -1,7 +1,4 @@
 # See bottom of file for license and copyright information
-use strict;
-use warnings;
-
 #
 # Tests the TopicUserMappingContrib, including dealing with legacy login
 # names and wiki names stored in topics, in TOPICINFO and FILEATTACHMENT
@@ -10,13 +7,16 @@ use warnings;
 # Only works with the RCS store.
 #
 package TopicUserMappingContribTests;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Unit::Request;
-use Unit::Response;
-use Foswiki;
+use Unit::Request();
+use Unit::Response();
+use Foswiki();
+use Foswiki::Meta();
 use Error qw( :try );
 
 my $TopicTemplate = <<'THIS';
@@ -26,8 +26,8 @@ some text that is there.
 THIS
 
 sub new {
-    my $self = shift()->SUPER::new( 'TopicUserMappingContribTests', @_ );
-    return $self;
+    my ( $class, @args ) = @_;
+    return $class->SUPER::new( 'TopicUserMappingContribTests', @args );
 }
 
 sub fixture_groups {
@@ -38,6 +38,8 @@ sub NormalTopicUserMapping {
     my $this = shift;
     $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
+
+    return;
 }
 
 sub NamedTopicUserMapping {
@@ -46,11 +48,14 @@ sub NamedTopicUserMapping {
     # Set a mapping ID for purposes of testing named mappings
     $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
+
+    return;
 }
 
 # Override default set_up in base class; will call it after the mapping
 #  id has been set
 sub set_up {
+    return;
 }
 
 # Delay the calling of set_up till after the cfg's are set by above closure
@@ -70,21 +75,24 @@ sub set_up_for_verify {
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
     $Foswiki::cfg{Register}{AllowLoginName}            = 0;
     $Foswiki::cfg{DisplayTimeValues}                   = 'gmtime';
+
+    return;
 }
 
-sub setup_new_session() {
+sub setup_new_session {
     my $this = shift;
+    my $query = Unit::Request->new( {} );
 
-    my ( $query, $text );
-    $query = new Unit::Request( {} );
     $query->path_info("/Main/WebHome");
-    $ENV{SCRIPT_NAME} = "view";
+    local $ENV{SCRIPT_NAME} = "view";
 
     # close this Foswiki session - its using the wrong mapper and login
     $this->createNewFoswikiSession( undef, $query );
     $this->{test_topicObject}->finish() if $this->{test_topicObject};
     ( $this->{test_topicObject} ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
+    return;
 }
 
 sub set_up_user {
@@ -115,6 +123,8 @@ sub set_up_user {
     $this->{userLogin}    = $userLogin;
     $this->{userWikiName} = $userWikiName;
     $this->{user_id}      = $user_id;
+
+    return;
 }
 
 #TODO: add tests for when you're not using TopicUserMapping at all...
@@ -125,6 +135,8 @@ sub verify_WikiNameTopicUserMapping {
     $this->set_up_user();
     $this->std_tests( $this->{user_id},
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
+
+    return;
 }
 
 sub verify_LoginNameTopicUserMapping {
@@ -134,6 +146,8 @@ sub verify_LoginNameTopicUserMapping {
     $this->set_up_user();
     $this->std_tests( $this->{user_id},
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
+
+    return;
 }
 
 #legacy topic forms
@@ -144,6 +158,8 @@ sub verify_valid_login_no_Mapper_in_cUID {
     $this->set_up_user();
     $this->std_tests( $this->{userLogin},
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
+
+    return;
 }
 
 sub verify_valid_wikiname_no_Mapper_in_cUID {
@@ -153,6 +169,8 @@ sub verify_valid_wikiname_no_Mapper_in_cUID {
     $this->set_up_user();
     $this->std_tests( $this->{userWikiName},
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
+
+    return;
 }
 
 sub verify_web_and_wikiname_no_Mapper_in_cUID {
@@ -164,6 +182,8 @@ sub verify_web_and_wikiname_no_Mapper_in_cUID {
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ),
         $this->{session}->{users}->webDotWikiName( $this->{user_id} )
     );
+
+    return;
 }
 
 sub verify_valid_login_no_Mapper_in_cUID_NOAllowLoginName {
@@ -174,6 +194,8 @@ sub verify_valid_login_no_Mapper_in_cUID_NOAllowLoginName {
     $this->set_up_user();
     $this->std_tests( $this->{userLogin},
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
+
+    return;
 }
 
 sub verify_valid_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
@@ -184,6 +206,8 @@ sub verify_valid_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
     $this->set_up_user();
     $this->std_tests( $this->{userWikiName},
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
+
+    return;
 }
 
 sub verify_web_and_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
@@ -196,6 +220,8 @@ sub verify_web_and_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
         $this->{session}->{users}->webDotWikiName( $this->{user_id} ),
         $this->{session}->{users}->webDotWikiName( $this->{user_id} )
     );
+
+    return;
 }
 
 #error and fallback tests
@@ -206,6 +232,8 @@ sub TODOtest_non_existantIser {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( 'nonexistantUser', $this->{users_web} . '.UnknownUser' );
+
+    return;
 }
 
 sub std_tests {
@@ -221,15 +249,14 @@ sub std_tests {
         $CuidWithMappers );
 
     #test that all 4 raw internal values are ok cUIDs
-    my $nob =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'CuidWithMappers' );
+    my ($nob) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'CuidWithMappers' );
     my $info = $nob->getRevisionInfo();
     $this->assert_not_null( $info->{author} );
+    $nob->finish();
 
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        'CuidWithMappers' );
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'CuidWithMappers' );
 
     my $topicinfo = $meta->get('TOPICINFO');
     $this->assert_not_null( $topicinfo->{author} );
@@ -273,8 +300,10 @@ THIS
     $output =~ s/%PUBURLPATH%/$Foswiki::cfg{PubUrlPath}/e;
     $output =~ s/%EXPANDEDPUBURL%/$Foswiki::cfg{PubUrlPath}/e;
     $this->assert_str_equals( $output, $renderedMeta . "\n" );
+    $meta->finish();
 
     #see if leases and locks have similar issues
+    return;
 }
 
 ###########################################
@@ -348,6 +377,7 @@ sub verify_BaseMapping_handleUser {
     #TODO: work out what we'd like to have happen with bad combinations
 
     #TODO: users not in any mapping, and ones in the main mapping
+    return;
 }
 
 1;
