@@ -18,6 +18,7 @@ about the same topic more than once.
 =cut
 
 use Assert;
+use Scalar::Util qw(blessed);
 use Foswiki::Func                   ();
 use Foswiki::Meta                   ();
 use Foswiki::Users::BaseUserMapping ();
@@ -113,12 +114,15 @@ sub removeMeta {
     my ( $this, $web, $topic ) = @_;
     my $user = $this->current_user();
 
-    if ( defined($topic) and defined( $this->{cache}->{$user}{$web}{$topic} ) )
-    {
-        $this->{cache}->{$user}{$web}{$topic}->finish();
-        delete $this->{cache}->{$user}{$web}{$topic};
+    if ( defined($topic) ) {
+        my $cached_userwebtopic = $this->{cache}->{$user}{$web}{$topic};
+
+        if ($cached_userwebtopic) {
+            $cached_userwebtopic->finish() if blessed($cached_userwebtopic);
+            delete $this->{cache}->{$user}{$web}{$topic};
+        }
     }
-    else {
+    elsif ( defined $web ) {
         foreach my $topic ( keys( %{ $this->{cache}->{$user}{$web} } ) ) {
             $this->removeMeta( $web, $topic );
         }
