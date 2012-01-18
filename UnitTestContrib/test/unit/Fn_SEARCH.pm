@@ -1802,6 +1802,68 @@ sub verify_likeQuery {
     return;
 }
 
+sub test_metacache_madness {
+    my ($this) = @_;
+    my $text = <<'HERE';
+This is QueryTopicTwo SMONG
+HERE
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopicTwo' );
+    $topicObject->text($text);
+    $topicObject->save();
+    $topicObject->finish();
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"text ~ \'*QueryTopicTwo*\'" ' . $stdCrap );
+
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopicTwo' );
+
+    $this->assert( $this->{session}
+          ->search->metacache->hasCached( $this->{test_web}, 'QueryTopicTwo' )
+    );
+    $topicObject->finish();
+    $this->assert( !$this->{session}
+          ->search->metacache->hasCached( $this->{test_web}, 'QueryTopicTwo' )
+    );
+
+=begin note
+Fails on successive readTopic calls on Foswikirev:13655 and older, backtrace:
+
+Fn_SEARCH::test_metacache_madness
+Assertion (this is not a topic object) failed!
+ at /usr/local/src/github.com/foswiki/core/lib/Assert.pm line 80
+        Assert::ASSERT(undef, 'this is not a topic object') called at /usr/local/src/github.com/foswiki/core/lib/Foswiki/Meta.pm line 1083
+        Foswiki::Meta::text('Foswiki::Meta=HASH(0x2b08f88)') called at /usr/local/src/github.com/foswiki/core/lib/Foswiki/Func.pm line 1578
+        Foswiki::Func::readTopic('TemporarySEARCHTestWebSEARCH', 'QueryTopicTwo') called at /usr/local/src/github.com/foswiki/core/test/unit/Fn_SEARCH.pm line 1835
+        Fn_SEARCH::test_metacache_madness('Fn_SEARCH=HASH(0x2dd51c0)') called at /usr/local/src/github.com/foswiki/core/lib/Unit/TestRunner.pm line 456
+        Unit::TestRunner::__ANON__() called at /usr/local/src/github.com/foswiki/core/lib/CPAN/lib/Error.pm line 379
+        eval {...} called at /usr/local/src/github.com/foswiki/core/lib/CPAN/lib/Error.pm line 371
+        Error::subs::try('CODE(0x37b84d8)', 'HASH(0x37b8340)') called at /usr/local/src/github.com/foswiki/core/lib/Unit/TestRunner.pm line 480
+        Unit::TestRunner::runOne('Fn_SEARCH=HASH(0x2dd51c0)', 'Fn_SEARCH', 'test_metacache_madness') called at /usr/local/src/github.com/foswiki/core/lib/Unit/TestRunner.pm line 378
+        Unit::TestRunner::worker('Unit::TestRunner=HASH(0x1dd24f8)', 'Fn_SEARCH', 'test_metacache_madness', 'worker_output.10056.Fn_SEARCH') called at /usr/local/src/github.com/foswiki/core/test/unit/../bin/TestRunner.pl line 123
+ at /usr/local/src/github.com/foswiki/core/test/unit/FoswikiTestCase.pm line 44
+        FoswikiTestCase::__ANON__('Assertion (this is not a topic object) failed!\x{a} at /usr/local...') called at /usr/share/perl/5.14/Carp.pm line 80
+        Carp::confess('Assertion (this is not a topic object) failed!\x{a}') called at /usr/local/src/github.com/foswiki/core/lib/Assert.pm line 80
+        Assert::ASSERT(undef, 'this is not a topic object') called at /usr/local/src/github.com/foswiki/core/lib/Foswiki/Meta.pm line 1083
+        Foswiki::Meta::text('Foswiki::Meta=HASH(0x2b08f88)') called at /usr/local/src/github.com/foswiki/core/lib/Foswiki/Func.pm line 1578
+        Foswiki::Func::readTopic('TemporarySEARCHTestWebSEARCH', 'QueryTopicTwo') called at /usr/local/src/github.com/foswiki/core/test/unit/Fn_SEARCH.pm line 1835
+        Fn_SEARCH::test_metacache_madness('Fn_SEARCH=HASH(0x2dd51c0)') called at /usr/local/src/github.com/foswiki/core/lib/Unit/TestRunner.pm line 456
+        Unit::TestRunner::__ANON__() called at /usr/local/src/github.com/foswiki/core/lib/CPAN/lib/Error.pm line 379
+        eval {...} called at /usr/local/src/github.com/foswiki/core/lib/CPAN/lib/Error.pm line 371
+        Error::subs::try('CODE(0x37b84d8)', 'HASH(0x37b8340)') called at /usr/local/src/github.com/foswiki/core/lib/Unit/TestRunner.pm line 480
+        Unit::TestRunner::runOne('Fn_SEARCH=HASH(0x2dd51c0)', 'Fn_SEARCH', 'test_metacache_madness') called at /usr/local/src/github.com/foswiki/core/lib/Unit/TestRunner.pm line 378
+        Unit::TestRunner::worker('Unit::TestRunner=HASH(0x1dd24f8)', 'Fn_SEARCH', 'test_metacache_madness', 'worker_output.10056.Fn_SEARCH') called
+
+=cut
+
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopicTwo' );
+    $topicObject->finish();
+
+    return;
+}
+
 sub verify_likeQuery2 {
     my $this = shift;
 
