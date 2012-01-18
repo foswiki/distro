@@ -58,8 +58,11 @@ chomp($foswikihome);
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
 chdir('test/unit');
+
+# /usr/bin/time -v : -v print all stats, hopefully incl. max. res. memory usage
+#                    /usr/bin/time to avoid bash (1) internal 'time' command
 my $unitTests =
-"export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; perl ../bin/TestRunner.pl -tap -clean FoswikiSuite.pm 2>&1 > $foswikihome/Foswiki-UnitTests.log";
+"export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; /usr/bin/time -v perl ../bin/TestRunner.pl -tap -clean FoswikiSuite.pm 2>&1 > $foswikihome/Foswiki-UnitTests.log";
 my $return    = `$unitTests`;
 my $errorcode = $? >> 8;
 unless ( $errorcode == 0 ) {
