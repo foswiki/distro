@@ -20,6 +20,10 @@ about the same topic more than once.
 use Assert;
 use Foswiki::Func ();
 use Foswiki::Meta ();
+use Scalar::Util qw(blessed);
+use Foswiki::Func                   ();
+use Foswiki::Meta                   ();
+use Foswiki::Users::BaseUserMapping ();
 
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
@@ -95,8 +99,30 @@ returns true if the topic is already int he cache.
 sub hasCached {
     my ( $this, $web, $topic ) = @_;
     ASSERT( defined($topic) ) if DEBUG;
+    return unless ( defined($topic) );
 
-    return ( defined( $this->{cache}->{$web}{$topic} ) );
+    return defined( $this->{cache}->{$web}{$topic} );
+}
+
+sub removeMeta {
+    my ( $this, $web, $topic ) = @_;
+
+    if ( defined($topic) ) {
+        my $cached_webtopic = $this->{cache}->{$web}{$topic};
+
+        if ($cached_webtopic) {
+            $cached_webtopic->finish() if blessed($cached_webtopic);
+            delete $this->{cache}->{$web}{$topic};
+        }
+    }
+    elsif ( defined($web) ) {
+        foreach my $topic ( keys( %{ $this->{cache}->{$web} } ) ) {
+            $this->removeMeta( $web, $topic );
+        }
+        delete $this->{cache}->{$web};
+    }
+
+    return defined( $this->{cache}->{$web}{$topic} );
 }
 
 =begin TML
