@@ -135,7 +135,6 @@ sub registerUserExceptionTwk {
     $this->_registerUserException( 'Twk', @_ );
 }
 
-
 #to simplify registration
 #SMELL: why are we not re-using code like this
 #SMELL: or the verify code... this would benefit from reusing the mixing of mappers and other settings.
@@ -144,7 +143,7 @@ sub _registerUserException {
 
     my $query = new Unit::Request(
         {
-            'TopicName'     => ['UserRegistration'],
+            'TopicName'        => ['UserRegistration'],
             "${pfx}1Email"     => [$email],
             "${pfx}1WikiName"  => ["$forename$surname"],
             "${pfx}1Name"      => ["$forename $surname"],
@@ -152,7 +151,7 @@ sub _registerUserException {
             "${pfx}1LoginName" => [$loginname],
             "${pfx}1FirstName" => [$forename],
             "${pfx}1LastName"  => [$surname],
-            'action'        => ['register']
+            'action'           => ['register']
         }
     );
 
@@ -193,7 +192,6 @@ sub _registerUserException {
 
     return $exception;
 }
-
 
 sub addUserToGroup {
     my $this = shift;

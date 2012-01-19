@@ -195,20 +195,19 @@ sub test_createSubweb_missingParent {
 
     my $user = $this->{session}->{user};
 
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, "Missingweb/Subweb" );
+    my $webObject = Foswiki::Meta->new( $this->{session}, "Missingweb/Subweb" );
 
     try {
         $webObject->populateNewWeb();
-        $this->assert( 'No error thrown from populateNewWe() ');
-    } catch Error::Simple with {
+        $this->assert('No error thrown from populateNewWe() ');
+    }
+    catch Error::Simple with {
         my $e = shift;
-        $this->assert_matches( qr/^Parent web Missingweb does not exist.*/, $e, "Unexpected error $e");
+        $this->assert_matches( qr/^Parent web Missingweb does not exist.*/,
+            $e, "Unexpected error $e" );
     };
-    $this->assert(
-        !$this->{session}->webExists("Missingweb/Subweb") );
-    $this->assert(
-        !$this->{session}->webExists("Missingweb") );
+    $this->assert( !$this->{session}->webExists("Missingweb/Subweb") );
+    $this->assert( !$this->{session}->webExists("Missingweb") );
 }
 
 sub test_createWeb_InvalidBase {
@@ -227,10 +226,12 @@ sub test_createWeb_InvalidBase {
 
     try {
         $webObject->populateNewWeb("Missingbase");
-        $this->assert( 'No error thrown from populateNewWe() ');
-    } catch Error::Simple with {
+        $this->assert('No error thrown from populateNewWe() ');
+    }
+    catch Error::Simple with {
         my $e = shift;
-        $this->assert_matches( qr/^Template web Missingbase does not exist.*/, $e, "Unexpected error $e");
+        $this->assert_matches( qr/^Template web Missingbase does not exist.*/,
+            $e, "Unexpected error $e" );
     };
     $this->assert(
         !$this->{session}->webExists("$testWebSubWebPath/$webTest") );
@@ -249,19 +250,22 @@ sub test_createWeb_hierarchyDisabled {
 
     my $webTest = 'Item0';
     my $webObject =
-      Foswiki::Meta->new( $this->{session}, "$testWebSubWebPath/$webTest".'x' );
+      Foswiki::Meta->new( $this->{session},
+        "$testWebSubWebPath/$webTest" . 'x' );
 
     try {
         $webObject->populateNewWeb();
-        $this->assert( 'No error thrown from populateNewWe() ');
-    } catch Error::Simple with {
+        $this->assert('No error thrown from populateNewWe() ');
+    }
+    catch Error::Simple with {
         my $e = shift;
-        $this->assert_matches( qr/^Unable to create .* Hierarchical webs are disabled.*/, $e, "Unexpected error '$e'");
+        $this->assert_matches(
+            qr/^Unable to create .* Hierarchical webs are disabled.*/,
+            $e, "Unexpected error '$e'" );
     };
     $this->assert(
-        !$this->{session}->webExists("$testWebSubWebPath/$webTest".'x') );
+        !$this->{session}->webExists( "$testWebSubWebPath/$webTest" . 'x' ) );
 }
-
 
 sub test_url_parameters {
     my $this = shift;
@@ -409,11 +413,9 @@ sub test_squab_subweb_wih_topic {
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    my $scripturl = $this->{session}->getScriptUrl(0, 'view')."/$testWeb/$testWebSubWeb";
-    $this->assert_matches(
-qr!<a href="$scripturl">$testWebSubWeb</a>!,
-        $text
-    );
+    my $scripturl =
+      $this->{session}->getScriptUrl( 0, 'view' ) . "/$testWeb/$testWebSubWeb";
+    $this->assert_matches( qr!<a href="$scripturl">$testWebSubWeb</a>!, $text );
 }
 
 # Check expansion of [[TestWeb.SubWeb]] in TestWeb/NonExistant.
@@ -421,16 +423,16 @@ qr!<a href="$scripturl">$testWebSubWeb</a>!,
 sub test_squab_full_path_with_topic {
     my $this = shift;
 
-
     # Make a query that should set topic=$testSubWeb
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{session}->finish();
 
-    # SMELL:   If this call to getScriptUrl occurs before the finish() call
-    # It decides it is in $this->inContext('command_line') and returns 
-    # absolute URLs.   Moving it here after the finish() and it returns relative URLs.
-    my $scripturl = $this->{session}->getScriptUrl(0, 'view')."/$testWeb/$testWebSubWeb";
+# SMELL:   If this call to getScriptUrl occurs before the finish() call
+# It decides it is in $this->inContext('command_line') and returns
+# absolute URLs.   Moving it here after the finish() and it returns relative URLs.
+    my $scripturl =
+      $this->{session}->getScriptUrl( 0, 'view' ) . "/$testWeb/$testWebSubWeb";
 
     $this->{session} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query );
 
@@ -443,11 +445,9 @@ sub test_squab_full_path_with_topic {
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    
-    $this->assert_matches(
-qr!<a href="$scripturl">$testWeb.$testWebSubWeb</a>!,
-        $text
-    );
+
+    $this->assert_matches( qr!<a href="$scripturl">$testWeb.$testWebSubWeb</a>!,
+        $text );
 }
 
 # Check expansion of [[TestWeb.SubWeb.WebHome]] in TestWeb/NonExistant.
@@ -471,7 +471,8 @@ sub test_squab_path_to_topic_in_subweb {
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
 
-    my $scripturl = Foswiki::Func::getScriptUrl( "$testWeb/$testWebSubWeb", "$Foswiki::cfg{HomeTopicName}", 'view' );
+    my $scripturl = Foswiki::Func::getScriptUrl( "$testWeb/$testWebSubWeb",
+        "$Foswiki::cfg{HomeTopicName}", 'view' );
     ($scripturl) = $scripturl =~ m/https?:\/\/[^\/]+(\/.*)/;
 
     $this->assert_matches(

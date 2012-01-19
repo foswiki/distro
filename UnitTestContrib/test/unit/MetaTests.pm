@@ -106,7 +106,7 @@ sub test_zero_empty {
         name  => "a",
         value => "0"
     };
-    
+
     my $args_empty = {
         name  => "b",
         value => ""
@@ -114,12 +114,12 @@ sub test_zero_empty {
 
     $meta->putKeyed( "FIELD", $args_zero );
     $meta->putKeyed( "FIELD", $args_empty );
-    
+
     my $vals1 = $meta->get( "FIELD", "a" );
     $this->assert_str_equals( $vals1->{"name"},  "a" );
     $this->assert_str_equals( $vals1->{"value"}, "0" );
 
-    my $vals2 = $meta->get( "FIELD", "b" );      
+    my $vals2 = $meta->get( "FIELD", "b" );
     $this->assert_str_equals( $vals2->{"name"},  "b" );
     $this->assert_str_equals( $vals2->{"value"}, "" );
 }
@@ -362,16 +362,16 @@ sub test_attach_stream {
 
     my $temp = new File::Temp();
     print $temp 'eeza stream';
-    # $fh->seek only in File::Temp 0.17 and later
-    seek($temp,0,0);
-    $this->{test_topicObject}->attach(
-        name => 'dis.dat', stream => $temp);
-    $this->assert(close($temp));
 
-    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    # $fh->seek only in File::Temp 0.17 and later
+    seek( $temp, 0, 0 );
+    $this->{test_topicObject}->attach( name => 'dis.dat', stream => $temp );
+    $this->assert( close($temp) );
+
+    my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     my $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('eeza stream', $x);
+    $this->assert_str_equals( 'eeza stream', $x );
 }
 
 sub test_attach_file {
@@ -379,136 +379,155 @@ sub test_attach_file {
 
     my $temp = new File::Temp();
     print $temp 'eeza file';
-    # $fh->seek only in File::Temp 0.17 and later
-    seek($temp,0,0);
-    $this->{test_topicObject}->attach(
-        name => 'dis.dat', file => $temp->filename);
-    $this->assert(close($temp));
 
-    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    # $fh->seek only in File::Temp 0.17 and later
+    seek( $temp, 0, 0 );
+    $this->{test_topicObject}
+      ->attach( name => 'dis.dat', file => $temp->filename );
+    $this->assert( close($temp) );
+
+    my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     my $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('eeza file', $x);
+    $this->assert_str_equals( 'eeza file', $x );
 }
 
-sub test_attach_file_and_stream{
+sub test_attach_file_and_stream {
     my $this = shift;
 
     my $temp = new File::Temp();
     print $temp 'eeza file and a stream';
-    # $fh->seek only in File::Temp 0.17 and later
-    seek($temp,0,0);
-    $this->{test_topicObject}->attach(
-        name => 'dis.dat', stream => $temp, file => $temp->filename);
-    $this->assert(close($temp));
 
-    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    # $fh->seek only in File::Temp 0.17 and later
+    seek( $temp, 0, 0 );
+    $this->{test_topicObject}
+      ->attach( name => 'dis.dat', stream => $temp, file => $temp->filename );
+    $this->assert( close($temp) );
+
+    my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     my $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('eeza file and a stream', $x);
+    $this->assert_str_equals( 'eeza file and a stream', $x );
 }
 
 sub test_attachmentStreams {
     my $this = shift;
 
     #--- Simple write and read
-    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>');
+    my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>' );
     $this->assert($fh);
     print $fh 'Twas brillig, and the slithy toves';
     close($fh);
 
-    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->assert($fh);
     local $/;
     my $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('Twas brillig, and the slithy toves', $x);
+    $this->assert_str_equals( 'Twas brillig, and the slithy toves', $x );
 
     #--- Appending write
-    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>>');
+    $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>>' );
     $this->assert($fh);
     print $fh " did gyre and gimbal in the wabe";
     close($fh);
 
-    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('Twas brillig, and the slithy toves did gyre and gimbal in the wabe', $x);
+    $this->assert_str_equals(
+        'Twas brillig, and the slithy toves did gyre and gimbal in the wabe',
+        $x );
 
     #--- Reading older versions
 
     # Rev 1
-    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->{test_topicObject}->attach(
-        name => 'dat.dis',
+        name    => 'dat.dis',
         dontlog => 1,
         comment => "Shiver me timbers",
-        hide => 0,
-        stream => $fh);
+        hide    => 0,
+        stream  => $fh
+    );
     close($fh);
 
     # Rev 2
-    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>');
+    $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>' );
     $this->assert($fh);
     print $fh "All mimsy were the borogroves";
     close($fh);
 
-    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->{test_topicObject}->attach(
-        name => 'dat.dis',
+        name    => 'dat.dis',
         dontlog => 1,
         comment => "Pieces of eight",
-        hide => 0,
-        stream => $fh);
+        hide    => 0,
+        stream  => $fh
+    );
     close($fh);
-    $this->assert_equals(2, $this->{test_topicObject}->getLatestRev('dat.dis'));
+    $this->assert_equals( 2,
+        $this->{test_topicObject}->getLatestRev('dat.dis') );
 
     # Latest rev (rev 2)
-    $fh = $this->{test_topicObject}->openAttachment( 'dat.dis', '<');
+    $fh = $this->{test_topicObject}->openAttachment( 'dat.dis', '<' );
     $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('All mimsy were the borogroves', $x);
+    $this->assert_str_equals( 'All mimsy were the borogroves', $x );
 
-    $fh = $this->{test_topicObject}->openAttachment(
-        'dat.dis', '<', version => 1);
+    $fh =
+      $this->{test_topicObject}->openAttachment( 'dat.dis', '<', version => 1 );
     $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('Twas brillig, and the slithy toves did gyre and gimbal in the wabe', $x);
+    $this->assert_str_equals(
+        'Twas brillig, and the slithy toves did gyre and gimbal in the wabe',
+        $x );
 
-    $fh = $this->{test_topicObject}->openAttachment(
-        'dat.dis', '<', version => 2);
+    $fh =
+      $this->{test_topicObject}->openAttachment( 'dat.dis', '<', version => 2 );
     $x = <$fh>;
     close($fh);
-    $this->assert_str_equals('All mimsy were the borogroves', $x);
+    $this->assert_str_equals( 'All mimsy were the borogroves', $x );
 }
 
 sub test_testAttachment {
     my $this = shift;
 
-    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>');
+    my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>' );
     print $fh "No! Not the bore worms!";
     close($fh);
 
-    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->{test_topicObject}->attach(
-        name => 'dat.dis',
+        name    => 'dat.dis',
         dontlog => 1,
         comment => "Pieces of eight",
-        hide => 0,
-        stream => $fh);
+        hide    => 0,
+        stream  => $fh
+    );
 
     my $t = time;
-    $this->assert($this->{test_topicObject}->hasAttachment('dat.dis'));
+    $this->assert( $this->{test_topicObject}->hasAttachment('dat.dis') );
 
-    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'e'));
-    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'r'));
-    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'w'));
-    $this->assert(!$this->{test_topicObject}->testAttachment('dat.dis', 'z'));
-    $this->assert_equals(23, $this->{test_topicObject}->testAttachment('dat.dis', 's'));
-    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'T'));
-    $this->assert(!$this->{test_topicObject}->testAttachment('dat.dis', 'B'));
-    $this->assert($t, $this->{test_topicObject}->testAttachment('dat.dis', 'M'));
-    $this->assert($t, $this->{test_topicObject}->testAttachment('dat.dis', 'A'));
+    $this->assert(
+        $this->{test_topicObject}->testAttachment( 'dat.dis', 'e' ) );
+    $this->assert(
+        $this->{test_topicObject}->testAttachment( 'dat.dis', 'r' ) );
+    $this->assert(
+        $this->{test_topicObject}->testAttachment( 'dat.dis', 'w' ) );
+    $this->assert(
+        !$this->{test_topicObject}->testAttachment( 'dat.dis', 'z' ) );
+    $this->assert_equals( 23,
+        $this->{test_topicObject}->testAttachment( 'dat.dis', 's' ) );
+    $this->assert(
+        $this->{test_topicObject}->testAttachment( 'dat.dis', 'T' ) );
+    $this->assert(
+        !$this->{test_topicObject}->testAttachment( 'dat.dis', 'B' ) );
+    $this->assert( $t,
+        $this->{test_topicObject}->testAttachment( 'dat.dis', 'M' ) );
+    $this->assert( $t,
+        $this->{test_topicObject}->testAttachment( 'dat.dis', 'A' ) );
 }
 
 # Make sure that badly-formed meta tags in text are validated on save
@@ -531,34 +550,35 @@ GUNK
 $gunk
 EVIL
     my $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, "BadMeta", $text );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "BadMeta",
+        $text );
     $topicObject->save();
+
     # All meta should have found its way into text
-    $this->assert_equals($text, $topicObject->text()."\n");
-    $topicObject->expandMacros($topicObject->text());
+    $this->assert_equals( $text, $topicObject->text() . "\n" );
+    $topicObject->expandMacros( $topicObject->text() );
     $topicObject->expandNewTopic();
-    $topicObject->renderTML($topicObject->text());
+    $topicObject->renderTML( $topicObject->text() );
     $topicObject->renderFormForDisplay();
     $text = $topicObject->text();
-    $this->assert_matches(qr/%META:TOPICINFO{bad="bad"}%/, $text);
-    $this->assert_matches(qr/%META:TOPICPARENT{bad="bad"}%/, $text);
-    $this->assert_matches(qr/%META:FORM{bad="bad"}%/, $text);
-    $this->assert_matches(qr/%META:FIELD{bad="bad"}%/, $text);
-    $this->assert_matches(qr/%META:FILEATTACHMENT{bad="bad"}%/, $text);
-    $this->assert_matches(qr/%META:TOPICMOVED{bad="bad"}%/, $text);
-    $this->assert_does_not_match(qr/%META:TOPICMOVED{}%/, $text);
+    $this->assert_matches( qr/%META:TOPICINFO{bad="bad"}%/,      $text );
+    $this->assert_matches( qr/%META:TOPICPARENT{bad="bad"}%/,    $text );
+    $this->assert_matches( qr/%META:FORM{bad="bad"}%/,           $text );
+    $this->assert_matches( qr/%META:FIELD{bad="bad"}%/,          $text );
+    $this->assert_matches( qr/%META:FILEATTACHMENT{bad="bad"}%/, $text );
+    $this->assert_matches( qr/%META:TOPICMOVED{bad="bad"}%/,     $text );
+    $this->assert_does_not_match( qr/%META:TOPICMOVED{}%/, $text );
 
     # Item2554
     $text = <<EVIL;
 %META:TOPICPARENT{}%
 EVIL
     $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, "BadMeta", $text );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "BadMeta",
+        $text );
     $topicObject->save();
     $text = $topicObject->text();
-    $this->assert_does_not_match(qr/%META:TOPICPARENT{}%/, $text);
+    $this->assert_does_not_match( qr/%META:TOPICPARENT{}%/, $text );
 
     $text = <<GOOD;
 %META:TOPICINFO{version="1" date="9876543210" author="AlbertCamus" format="1.1"}%
@@ -570,13 +590,13 @@ EVIL
 $gunk
 GOOD
     $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, "GoodMeta", $text );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "GoodMeta",
+        $text );
     $topicObject->save();
-    $this->assert_equals($gunk, $topicObject->text());
-    $topicObject->expandMacros($topicObject->text());
+    $this->assert_equals( $gunk, $topicObject->text() );
+    $topicObject->expandMacros( $topicObject->text() );
     $topicObject->expandNewTopic();
-    $topicObject->renderTML($topicObject->text());
+    $topicObject->renderTML( $topicObject->text() );
     $topicObject->renderFormForDisplay();
 }
 
@@ -586,63 +606,80 @@ sub test_registerMETA {
     my $o = Foswiki::Meta->new( $this->{session} );
 
     # Check an unregistered tag
-    $this->assert($o->isValidEmbedding(
-        'TREE', { type => 'ash', height => '15' }));
-    $this->assert($o->isValidEmbedding( 'TREE', { }));
+    $this->assert(
+        $o->isValidEmbedding( 'TREE', { type => 'ash', height => '15' } ) );
+    $this->assert( $o->isValidEmbedding( 'TREE', {} ) );
 
     # required param
-    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ]);
-    $this->assert(!$o->isValidEmbedding( 'TREE', { }));
-    $this->assert(!$o->isValidEmbedding(
-        'TREE', { type => 'ash', height => '15' }));
-    $this->assert($o->isValidEmbedding(
-        'TREE', { type => 'ash', height => '15', spread=>'5' }));
+    Foswiki::Func::registerMETA( 'TREE', require => ['spread'] );
+    $this->assert( !$o->isValidEmbedding( 'TREE', {} ) );
+    $this->assert(
+        !$o->isValidEmbedding( 'TREE', { type => 'ash', height => '15' } ) );
+    $this->assert(
+        $o->isValidEmbedding(
+            'TREE', { type => 'ash', height => '15', spread => '5' }
+        )
+    );
 
     # required param and allowed param
-    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ],
-                     allow => [ 'height' ]);
-    $this->assert(!$o->isValidEmbedding(
-        'TREE', { type => 'ash', height => '15', spread=>'5' }));
-    $this->assert($o->isValidEmbedding(
-        'TREE', { spread => '5', height => '15' }));
+    Foswiki::Func::registerMETA(
+        'TREE',
+        require => ['spread'],
+        allow   => ['height']
+    );
+    $this->assert(
+        !$o->isValidEmbedding(
+            'TREE', { type => 'ash', height => '15', spread => '5' }
+        )
+    );
+    $this->assert(
+        $o->isValidEmbedding( 'TREE', { spread => '5', height => '15' } ) );
 
     # Function and require.
-    Foswiki::Func::registerMETA('TREE', require => [ 'height' ],
-                               function => sub {
-                                   my ($name, $args) = @_;
-                                   $this->assert_equals('TREE', $name);
-                                   return $args->{spread};
-                               });
-    $this->assert(!$o->isValidEmbedding(
-        'TREE', { height=>10 }));
+    Foswiki::Func::registerMETA(
+        'TREE',
+        require  => ['height'],
+        function => sub {
+            my ( $name, $args ) = @_;
+            $this->assert_equals( 'TREE', $name );
+            return $args->{spread};
+        }
+    );
+    $this->assert( !$o->isValidEmbedding( 'TREE', { height => 10 } ) );
 
     # required param, allowed param and function
-    Foswiki::Func::registerMETA('TREE', require => [ 'spread' ],
-                               allow => [ 'height' ],
-                               function => sub {
-                                   my ($name, $args) = @_;
-                                   $this->assert_equals('TREE', $name);
-                                   $this->assert($args->{spread});
-                                   $this->assert($args->{height});
-                                   return 1;
-                               });
-    $this->assert($o->isValidEmbedding(
-        'TREE', { spread=>15, height=>10 }), $Foswiki::Meta::reason);
+    Foswiki::Func::registerMETA(
+        'TREE',
+        require  => ['spread'],
+        allow    => ['height'],
+        function => sub {
+            my ( $name, $args ) = @_;
+            $this->assert_equals( 'TREE', $name );
+            $this->assert( $args->{spread} );
+            $this->assert( $args->{height} );
+            return 1;
+        }
+    );
+    $this->assert(
+        $o->isValidEmbedding( 'TREE', { spread => 15, height => 10 } ),
+        $Foswiki::Meta::reason );
 
     # allowed param only, function rewrites args
-    Foswiki::Func::registerMETA('TREE', allow => [ 'height' ],
-                               function => sub {
-                                   my ($name, $args) = @_;
-                                   $this->assert_equals('TREE', $name);
-                                   delete $args->{spread};
-                                   return 1;
-                               });
-    $this->assert(!$o->isValidEmbedding(
-        'TREE', { type => 'elm', height => '15' }));
-    $this->assert($o->isValidEmbedding(
-        'TREE', { height => '15' }));
-    $this->assert($o->isValidEmbedding(
-        'TREE', { spread => '5', height => '15' }));
+    Foswiki::Func::registerMETA(
+        'TREE',
+        allow    => ['height'],
+        function => sub {
+            my ( $name, $args ) = @_;
+            $this->assert_equals( 'TREE', $name );
+            delete $args->{spread};
+            return 1;
+        }
+    );
+    $this->assert(
+        !$o->isValidEmbedding( 'TREE', { type => 'elm', height => '15' } ) );
+    $this->assert( $o->isValidEmbedding( 'TREE', { height => '15' } ) );
+    $this->assert(
+        $o->isValidEmbedding( 'TREE', { spread => '5', height => '15' } ) );
 }
 
 # Item9948
@@ -668,21 +705,22 @@ TEST
 HERE
     Foswiki::Meta::registerMETA(
         'SLPROPERTY',
-        many => 1,
-	alias => 'slug',
+        many    => 1,
+        alias   => 'slug',
         require => [qw(name values)],
     );
     Foswiki::Meta::registerMETA(
         'SLPROPERTYVALUE',
-        many => 1,
+        many    => 1,
         require => [qw(name value)],
     );
     my $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, "registerArrayMetaTest", $text );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        "registerArrayMetaTest", $text );
     $topicObject->save();
+
     # All meta should have found its way into text
-    $this->assert_equals(<<'EXPECTED', $topicObject->expandMacros($test));
+    $this->assert_equals( <<'EXPECTED', $topicObject->expandMacros($test) );
 Properties: System.SemanticIsPartOf,Example.Property,PreyOf,Eat,IsPartOf
 A property: Snakes
 Values: System.UserDocumentationCategory,UserDocumentationCategory,Snakes,Mosquitos,Flies,UserDocumentationCategory
@@ -712,19 +750,18 @@ TEST
 HERE
     Foswiki::Meta::registerMETA(
         'SLPROPERTY',
-	alias => 'slug',
+        alias   => 'slug',
         require => [qw(name values)],
     );
-    Foswiki::Meta::registerMETA(
-        'SLPROPERTYVALUE',
-        require => [qw(name value)],
+    Foswiki::Meta::registerMETA( 'SLPROPERTYVALUE', require => [qw(name value)],
     );
     my $topicObject =
-      Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, "registerArrayMetaTest", $text );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        "registerArrayMetaTest", $text );
     $topicObject->save();
+
     # All meta should have found its way into text
-    $this->assert_equals(<<'EXPECTED', $topicObject->expandMacros($test));
+    $this->assert_equals( <<'EXPECTED', $topicObject->expandMacros($test) );
 Properties: System.SemanticIsPartOf
 Alias: System.SemanticIsPartOf
 Values: System.UserDocumentationCategory
@@ -735,107 +772,109 @@ EXPECTED
 #http://foswiki.org/Tasks/Item2274
 sub test_BadRevisionInfo {
     my $this = shift;
-    
-    my $in = '$Rev$';
+
+    my $in  = '$Rev$';
     my $rev = Foswiki::Store::cleanUpRevID($in);
-    $this->assert(defined($rev));
-    $this->assert_equals(0, $rev);
+    $this->assert( defined($rev) );
+    $this->assert_equals( 0, $rev );
 
     #svn attribute not set - still a valid topic.
-    my $broken = '$'.'Rev'.'$'; #stop svn from filling in the number..
+    my $broken = '$' . 'Rev' . '$';    #stop svn from filling in the number..
     $rev = Foswiki::Store::cleanUpRevID($broken);
-    $this->assert(defined($rev));
-    $this->assert_equals(0, $rev);
+    $this->assert( defined($rev) );
+    $this->assert_equals( 0, $rev );
 
     #we recognise a txt file that has not been written by foswiki as rev=0
     $rev = Foswiki::Store::cleanUpRevID('');
-    $this->assert(defined($rev));
-    $this->assert_equals(0, $rev);
+    $this->assert( defined($rev) );
+    $this->assert_equals( 0, $rev );
 
 }
 
 sub test_getRevisionHistory {
     my $this = shift;
-    my $topicObject = Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, 'RevIt', "Rev 1" );
-    $this->assert_equals(1, $topicObject->save());
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt',
+        "Rev 1" );
+    $this->assert_equals( 1, $topicObject->save() );
     $topicObject =
-      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
-    my $revIt  = $topicObject->getRevisionHistory();
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(1, $revIt->next());
-    $this->assert(!$revIt->hasNext());
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
+    my $revIt = $topicObject->getRevisionHistory();
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
 
     $topicObject->text('Rev 2');
-    $this->assert_equals(
-        2, $topicObject->save(forcenewrevision => 1));
+    $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
     $topicObject =
-      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
-    $revIt  = $topicObject->getRevisionHistory();
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(2, $revIt->next());
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(1, $revIt->next());
-    $this->assert(!$revIt->hasNext());
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt = $topicObject->getRevisionHistory();
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 2, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
 
     $topicObject->text('Rev 3');
-    $this->assert_equals(
-        3, $topicObject->save(forcenewrevision => 1));
+    $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
     $topicObject =
-      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
-    $revIt  = $topicObject->getRevisionHistory();
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(3, $revIt->next());
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(2, $revIt->next());
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(1, $revIt->next());
-    $this->assert(!$revIt->hasNext());
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt = $topicObject->getRevisionHistory();
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 3, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 2, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
 }
 
 sub test_summariseChanges {
     my $this = shift;
-    my $topicObject = Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, 'RevIt', "Line 1\n\nLine 2\n\nLine 3" );
-    $this->assert_equals(1, $topicObject->save());
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt',
+        "Line 1\n\nLine 2\n\nLine 3" );
+    $this->assert_equals( 1, $topicObject->save() );
     $topicObject =
-      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
-    my $revIt  = $topicObject->getRevisionHistory();
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(1, $revIt->next());
-    $this->assert(!$revIt->hasNext());
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
+    my $revIt = $topicObject->getRevisionHistory();
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
+
     #print "REV1 \n(".$topicObject->text().")\n";
 
     $topicObject->text("Line 1\n\nLine 3");
-    $this->assert_equals(
-        2, $topicObject->save(forcenewrevision => 1));
+    $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
     $topicObject =
-      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
-    $revIt  = $topicObject->getRevisionHistory();
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(2, $revIt->next());
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(1, $revIt->next());
-    $this->assert(!$revIt->hasNext());
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt = $topicObject->getRevisionHistory();
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 2, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
+
     #print "REV2 \n(".$topicObject->text().")\n";
 
     $topicObject->text("Line 1\n<nop>SomeOtherData\nLine 3");
-    $this->assert_equals(
-        3, $topicObject->save(forcenewrevision => 1));
+    $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
     $topicObject =
-      Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt' );
-    $revIt  = $topicObject->getRevisionHistory();
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(3, $revIt->next());
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(2, $revIt->next());
-    $this->assert($revIt->hasNext());
-    $this->assert_equals(1, $revIt->next());
-    $this->assert(!$revIt->hasNext());
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
+    $revIt = $topicObject->getRevisionHistory();
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 3, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 2, $revIt->next() );
+    $this->assert( $revIt->hasNext() );
+    $this->assert_equals( 1, $revIt->next() );
+    $this->assert( !$revIt->hasNext() );
+
     #print "REV3 \n(".$topicObject->text().")\n";
 
     # Verify the plain text summary
-    my $diff = $topicObject->summariseChanges('1', '3', 0);
+    my $diff = $topicObject->summariseChanges( '1', '3', 0 );
+
     #print "\nTEXT rev1:rev3\n====\n" . $diff . "\n====\n\n";
     my $expected = <<RESULT;
  Line 1
@@ -844,30 +883,30 @@ sub test_summariseChanges {
  Line 3
 RESULT
     chomp $expected;
-    $this->assert_equals( $expected, $diff);
+    $this->assert_equals( $expected, $diff );
 
-    # Verify the HTML summary
-    #print "\nHTML rev1:rev3\n" . $topicObject->summariseChanges('1', '3', 1) . "\n";
+# Verify the HTML summary
+#print "\nHTML rev1:rev3\n" . $topicObject->summariseChanges('1', '3', 1) . "\n";
     $this->assert_equals(
-      " Line 1<br /><del>Line 2</del><br /><ins>SomeOtherData</ins><br /> Line 3",
-      $topicObject->summariseChanges('1', '3', 1)
-      );
+" Line 1<br /><del>Line 2</del><br /><ins>SomeOtherData</ins><br /> Line 3",
+        $topicObject->summariseChanges( '1', '3', 1 )
+    );
 
     # Verify default summary - should be text for rev 3 vs. rev 2
-    $diff = $topicObject->summariseChanges();
+    $diff     = $topicObject->summariseChanges();
     $expected = qr/^ Line 1
 \+<nop>SomeOtherData
  Line 3$/ms;
-    #print "This summary doesn't make any sense: comparing rev2:rev3\n($diff)\n";
-    #print "\nTEXT rev2:rev3\n====\n" . $diff . "\n====\n\n";
-    $this->assert_matches( $expected, $diff);
 
-    # Verify the HTML default summary
-    #print "\nThis summary doesn't make any sense either:  comparing rev2:rev3\n(" . $topicObject->summariseChanges(undef,undef,1) . ")\n";
+   #print "This summary doesn't make any sense: comparing rev2:rev3\n($diff)\n";
+   #print "\nTEXT rev2:rev3\n====\n" . $diff . "\n====\n\n";
+    $this->assert_matches( $expected, $diff );
+
+# Verify the HTML default summary
+#print "\nThis summary doesn't make any sense either:  comparing rev2:rev3\n(" . $topicObject->summariseChanges(undef,undef,1) . ")\n";
     $expected = qr#^ Line 1<br /><ins>SomeOtherData</ins><br /> Line 3$#;
     $this->assert_matches( $expected,
-      $topicObject->summariseChanges(undef, undef, 1)
-      );
+        $topicObject->summariseChanges( undef, undef, 1 ) );
 
     #$topicObject =
     #  Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt', '1' );
@@ -883,21 +922,18 @@ RESULT
 sub test_haveAccess {
     my $this = shift;
 
-    my $topicObject = Foswiki::Meta->new(
-          $this->{session}, $this->{test_web}, 'WebHome' );
-    $this->assert($topicObject->haveAccess('VIEW'));
-    $this->assert($topicObject->haveAccess('CHANGE'));
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'WebHome' );
+    $this->assert( $topicObject->haveAccess('VIEW') );
+    $this->assert( $topicObject->haveAccess('CHANGE') );
 
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
+    $this->assert( $webObject->haveAccess('VIEW') );
+    $this->assert( $webObject->haveAccess('CHANGE') );
 
-    my $webObject = Foswiki::Meta->new(
-          $this->{session}, $this->{test_web} );
-    $this->assert($webObject->haveAccess('VIEW'));
-    $this->assert($webObject->haveAccess('CHANGE'));
-
-    my $rootObject = Foswiki::Meta->new(
-          $this->{session} );
-    $this->assert($rootObject->haveAccess('VIEW'));
-    $this->assert(not $rootObject->haveAccess('CHANGE'));
+    my $rootObject = Foswiki::Meta->new( $this->{session} );
+    $this->assert( $rootObject->haveAccess('VIEW') );
+    $this->assert( not $rootObject->haveAccess('CHANGE') );
 }
 
 #Item10789 - TOPICINFO should only come from the first line of the topic
@@ -906,8 +942,7 @@ sub test_setEmbededStoreForm_DOUBLE {
     my $this = shift;
 
     my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'TestTopic' );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
     $meta->setEmbeddedStoreForm(<<'HERE');
 %META:TOPICINFO{author="TemiVarghese" comment="reprev" date="1306913758" format="1.1" reprev="10" version="10"}%
 %META:TOPICPARENT{name="PhyloWidgetPlugin"}%
@@ -928,17 +963,16 @@ http://foswiki.org/Tasks/PhyloWidgetPlugin
 HERE
 
     my $ti = $meta->get('TOPICINFO');
-    $this->assert_equals('TemiVarghese', $ti->{author});
-    $this->assert_equals(10, $ti->{version});
-    $this->assert_equals(1306913758, $ti->{date});
+    $this->assert_equals( 'TemiVarghese', $ti->{author} );
+    $this->assert_equals( 10,             $ti->{version} );
+    $this->assert_equals( 1306913758,     $ti->{date} );
 }
 
 sub test_setEmbededStoreForm_NotFirstLine {
     my $this = shift;
 
     my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'TestTopic' );
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
     $meta->setEmbeddedStoreForm(<<'HERE');
 SOMETHING ELSE
 %META:TOPICINFO{author="TemiVarghese" comment="reprev" date="1306913758" format="1.1" reprev="10" version="10"}%
@@ -959,23 +993,22 @@ http://foswiki.org/Tasks/PhyloWidgetPlugin
  and more
 HERE
 
-#you're not supposed to access TOPICINFO like this :(
+    #you're not supposed to access TOPICINFO like this :(
     my $ti = $meta->get('TOPICINFO');
-    $this->assert_equals(undef, $ti->{author});
-    $this->assert_equals(undef, $ti->{version});
-    $this->assert_equals(undef, $ti->{date});
-    
-    $ti = $meta->getRevisionInfo();
-    $this->assert_equals('BaseUserMapping_666', $ti->{author});
-    $this->assert_equals(0, $ti->{version});
-    $this->assert_equals(0, $ti->{date});
-}
+    $this->assert_equals( undef, $ti->{author} );
+    $this->assert_equals( undef, $ti->{version} );
+    $this->assert_equals( undef, $ti->{date} );
 
+    $ti = $meta->getRevisionInfo();
+    $this->assert_equals( 'BaseUserMapping_666', $ti->{author} );
+    $this->assert_equals( 0,                     $ti->{version} );
+    $this->assert_equals( 0,                     $ti->{date} );
+}
 
 # Disabled as XML functionnality has been removed from the core, see Foswikitask:Item1917
 # sub testXML_topic {
 #     my $this = shift;
-# 
+#
 #     my $text = <<GOOD;
 # %META:TOPICINFO{version="1.2" date="9876543210" author="AlbertCamus" format="1.1"}%
 # %META:TOPICPARENT{name="System.UserForm"}%
@@ -1004,7 +1037,7 @@ HERE
 #     my $xml = $topicObject->xml();
 #     $this->assert_html_equals($expected, $xml);
 # }
-# 
+#
 # sub testXML_web {
 #     my $this = shift;
 #     my $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/SubWeb" );
@@ -1019,7 +1052,7 @@ HERE
 # XML
 #     my $xml = $webObject->xml();
 #     $this->assert_html_equals($expected, $xml);
-# 
+#
 #     $expected = <<'XML';
 # <web name="TemporaryMetaTestsTestWebMetaTests">
 #  <web name="SubWeb">
@@ -1032,7 +1065,7 @@ HERE
 # XML
 #     $xml = $webObject->xml(1);
 #     $this->assert_html_equals($expected, $xml);
-# 
+#
 #     $expected = <<'XML';
 # <web name="TemporaryMetaTestsTestWebMetaTests">
 #  <topic name="TestTopicMetaTests" format="1.1" version="1.1" date="@REX(\d+)" rev="1" author="BaseUserMapping_666">

@@ -141,7 +141,7 @@ EXAMPLE
     $cfg{MandatoryBoolean} = 0;
     $cfg{Types}{Chosen}    = 'Foswiki::Configure::Types::STRING';
     $cfg{OptionalRegex}    = qr/^X*$/;
-    my  $expected_regex = '\'^X*$\'';
+    my $expected_regex = '\'^X*$\'';
     $cfg{DontIgnore}  = 'now is';
     $saver->{content} = '';
     $out              = $saver->_save();

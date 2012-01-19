@@ -17,10 +17,10 @@ my $post11;
 sub new {
     my $self = shift()->SUPER::new( 'QUERY', @_ );
     my $dep = new Foswiki::Configure::Dependency(
-            type    => "perl",
-            module  => "Foswiki",
-            version => ">=1.2"
-           );
+        type    => "perl",
+        module  => "Foswiki",
+        version => ">=1.2"
+    );
     ( $post11, my $depmsg ) = $dep->check();
 
     return $self;
@@ -29,8 +29,10 @@ sub new {
 sub simpleTest {
     my ( $this, %test ) = @_;
     $this->{session}->enterContext('test');
-    my $text = $this->{test_topicObject}->expandMacros(
-        '%QUERY{"'.$test{test} . '"}%');
+    my $text =
+      $this->{test_topicObject}
+      ->expandMacros( '%QUERY{"' . $test{test} . '"}%' );
+
     #print STDERR "$text => $result\n";
     $this->assert_equals( $test{expect}, $text );
 }
@@ -53,7 +55,7 @@ sub test_3 {
 sub test_5 {
     my $this = shift;
     $this->simpleTest(
-        test => "d2n('2007-03-26')",
+        test   => "d2n('2007-03-26')",
         expect => Foswiki::Time::parseTime( '2007-03-26', 1 )
     );
 }
@@ -61,7 +63,7 @@ sub test_5 {
 sub test_6 {
     my $this = shift;
     $this->simpleTest(
-        test => "fields[name='nonExistantField']",
+        test   => "fields[name='nonExistantField']",
         expect => ''
     );
 }
@@ -69,17 +71,17 @@ sub test_6 {
 sub test_7 {
     my $this = shift;
     $this->simpleTest(
-        test => "fields[name='nonExistantField'].value",
+        test   => "fields[name='nonExistantField'].value",
         expect => ''
     );
 }
 
 sub test_atomic {
     my $this = shift;
-    
+
     #nope, parse failure (empty Expression) :/
     $this->simpleTest( test => "0", expect => 0 );
-    
+
     $this->simpleTest( test => "1", expect => 1 );
     $this->simpleTest( test => "9", expect => 9 );
 
@@ -87,16 +89,17 @@ sub test_atomic {
     $this->simpleTest( test => "-0", expect => 0 );
 
     $this->simpleTest( test => "0.0", expect => 0 );
-    
+
     ##and again as strings..
     $this->simpleTest( test => "'1'", expect => 1 );
     $this->simpleTest( test => "'9'", expect => 9 );
+
     #surprisingly..
     $this->simpleTest( test => "'-1'", expect => '-1' );
     $this->simpleTest( test => "'-0'", expect => '-0' );
 
     $this->simpleTest( test => "'0.0'", expect => '0.0' );
-    $this->simpleTest( test => "''", expect => '' );
+    $this->simpleTest( test => "''",    expect => '' );
 }
 
 # check parse failures
@@ -108,9 +111,8 @@ sub test_badQUERY {
         { test => "'A' 'B'", expect => "Missing operator in ''A' 'B''" },
     );
 
-    push @tests,
-        ( { test => ' ',       expect => "Empty expression" }, )
-        unless ( $post11 );
+    push @tests, ( { test => ' ', expect => "Empty expression" }, )
+      unless ($post11);
 
     foreach my $test (@tests) {
         my $text   = '%QUERY{"' . $test->{test} . '"}%';
@@ -190,7 +192,7 @@ sub test_json {
 
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-                          <<'SMELL');
+        <<'SMELL');
 [
 %QUERY{ "Wibble" style="json"}%,
 %QUERY{ "attachments.name" style="json" }%,
@@ -207,10 +209,14 @@ SMELL
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
     eval "require JSON";
-    if( $@ ) {
+    if ($@) {
+
         # Bad JSON
-        $this->assert_matches(qr/Perl (JSON::XS or )?JSON module is not available/, $result );
-    } else {
+        $this->assert_matches(
+            qr/Perl (JSON::XS or )?JSON module is not available/, $result );
+    }
+    else {
+
         # Good JSON
         $this->assert_json_equals( <<THIS, $result );
 [
@@ -226,7 +232,7 @@ THIS
 sub test_InvalidStyle {
     my $this = shift;
 
-    unless ($post11 ) {
+    unless ($post11) {
         print "InvalidStyle test not supported prior to Release 1.2\n";
         return;
     }
@@ -282,17 +288,19 @@ sub test_cfg {
     my $this = shift;
 
     # Check a few that should be hidden
-    foreach my $var ( '{Htpasswd}{FileName}', '{Password}', '{ScriptDir}') {
-        my $text = "%QUERY{\"$var\"}%";
+    foreach my $var ( '{Htpasswd}{FileName}', '{Password}', '{ScriptDir}' ) {
+        my $text   = "%QUERY{\"$var\"}%";
         my $result = $this->{test_topicObject}->expandMacros($text);
         $this->assert_equals( '', $result );
     }
 
     # Try those that *should* be visible (skip 'Filter' because it's a regex
-    foreach my $var ( grep { !/Accessible|Filter/ } @{$Foswiki::cfg{AccessibleCFG}}) {
-        my $text = "%QUERY{\"$var\"}%";
+    foreach my $var ( grep { !/Accessible|Filter/ }
+        @{ $Foswiki::cfg{AccessibleCFG} } )
+    {
+        my $text   = "%QUERY{\"$var\"}%";
         my $result = $this->{test_topicObject}->expandMacros($text);
-        while ($result =~ s/^\(?xism:(.*)\)$/$1/) {
+        while ( $result =~ s/^\(?xism:(.*)\)$/$1/ ) {
         }
         my $expected = eval("\$Foswiki::cfg$var");
         $expected = '' unless defined $expected;

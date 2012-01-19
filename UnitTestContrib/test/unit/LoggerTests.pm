@@ -237,7 +237,8 @@ sub verify_rotate_events {
     my $this = shift;
 
     return
-      unless $Foswiki::cfg{Log}{Implementation} =~ '^Foswiki::Logger::PlainFile';
+      unless $Foswiki::cfg{Log}{Implementation} =~
+          '^Foswiki::Logger::PlainFile';
 
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
@@ -262,32 +263,32 @@ sub verify_rotate_events {
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
     $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
-    $logger->log( 'info', 'Nil carborundum illegitami' );
-    $logger->log( 'warning', 'Nil carborundum illegitami' );
-    $logger->log( 'critical', 'Nil carborundum illegitami' );
+    $logger->log( 'info',      'Nil carborundum illegitami' );
+    $logger->log( 'warning',   'Nil carborundum illegitami' );
+    $logger->log( 'critical',  'Nil carborundum illegitami' );
     $logger->log( 'emergency', 'Nil carborundum illegitami' );
-    $logger->log( 'error', 'Nil carborundum illegitami' );
-    $logger->log( 'debug', 'Nil carborundum illegitami' );
-    $logger->log( 'alert', 'Nil carborundum illegitami' );
+    $logger->log( 'error',     'Nil carborundum illegitami' );
+    $logger->log( 'debug',     'Nil carborundum illegitami' );
+    $logger->log( 'alert',     'Nil carborundum illegitami' );
 
     # fake the modify time
     $mtime = $plainFileTestTime;
 
-    $Foswiki::Logger::PlainFile::dontRotate   = 0;
-    $Foswiki::Logger::PlainFile::nextCheckDue{error} = $then;
-    $Foswiki::Logger::PlainFile::nextCheckDue{debug} = $then;
+    $Foswiki::Logger::PlainFile::dontRotate           = 0;
+    $Foswiki::Logger::PlainFile::nextCheckDue{error}  = $then;
+    $Foswiki::Logger::PlainFile::nextCheckDue{debug}  = $then;
     $Foswiki::Logger::PlainFile::nextCheckDue{events} = $then;
 
     # now advance the clock to this month, and add another log entry. This
     # should rotate the log.
     $plainFileTestTime = $then;
-    $logger->log( 'info', 'Salve nauta' );
-    $logger->log( 'warning', 'Salve nauta' );
-    $logger->log( 'critical', 'Salve nauta' );
+    $logger->log( 'info',      'Salve nauta' );
+    $logger->log( 'warning',   'Salve nauta' );
+    $logger->log( 'critical',  'Salve nauta' );
     $logger->log( 'emergency', 'Salve nauta' );
-    $logger->log( 'error', 'Salve nauta' );
-    $logger->log( 'debug', 'Salve nauta' );
-    $logger->log( 'alert', 'Salve nauta' );
+    $logger->log( 'error',     'Salve nauta' );
+    $logger->log( 'debug',     'Salve nauta' );
+    $logger->log( 'alert',     'Salve nauta' );
 
     local $/ = undef;
     $this->assert( open( F, '<', $lfn ) );
@@ -317,7 +318,8 @@ sub verify_rotate_debug {
     my $this = shift;
 
     return
-      unless $Foswiki::cfg{Log}{Implementation} =~ '^Foswiki::Logger::PlainFile';
+      unless $Foswiki::cfg{Log}{Implementation} =~
+          '^Foswiki::Logger::PlainFile';
 
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
@@ -342,37 +344,38 @@ sub verify_rotate_debug {
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
     $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
-    $logger->log( 'info', 'Nil carborundum illegitami' );
-    $logger->log( 'warning', 'Nil carborundum illegitami' );
-    $logger->log( 'critical', 'Nil carborundum illegitami' );
+    $logger->log( 'info',      'Nil carborundum illegitami' );
+    $logger->log( 'warning',   'Nil carborundum illegitami' );
+    $logger->log( 'critical',  'Nil carborundum illegitami' );
     $logger->log( 'emergency', 'Nil carborundum illegitami' );
-    $logger->log( 'error', 'Nil carborundum illegitami' );
-    $logger->log( 'debug', 'Nil carborundum illegitami' );
-    $logger->log( 'alert', 'Nil carborundum illegitami' );
+    $logger->log( 'error',     'Nil carborundum illegitami' );
+    $logger->log( 'debug',     'Nil carborundum illegitami' );
+    $logger->log( 'alert',     'Nil carborundum illegitami' );
 
     # fake the modify time
     $mtime = $plainFileTestTime;
 
-    $Foswiki::Logger::PlainFile::dontRotate   = 0;
-    $Foswiki::Logger::PlainFile::nextCheckDue{error} = $then;
-    $Foswiki::Logger::PlainFile::nextCheckDue{debug} = $then;
+    $Foswiki::Logger::PlainFile::dontRotate           = 0;
+    $Foswiki::Logger::PlainFile::nextCheckDue{error}  = $then;
+    $Foswiki::Logger::PlainFile::nextCheckDue{debug}  = $then;
     $Foswiki::Logger::PlainFile::nextCheckDue{events} = $then;
 
     # now advance the clock to this month, and add another log entry. This
     # should rotate the log.
     $plainFileTestTime = $then;
-    $logger->log( 'info', 'Salve nauta' );
-    $logger->log( 'warning', 'Salve nauta' );
-    $logger->log( 'critical', 'Salve nauta' );
+    $logger->log( 'info',      'Salve nauta' );
+    $logger->log( 'warning',   'Salve nauta' );
+    $logger->log( 'critical',  'Salve nauta' );
     $logger->log( 'emergency', 'Salve nauta' );
-    $logger->log( 'error', 'Salve nauta' );
-    $logger->log( 'debug', 'Salve nauta' );
-    $logger->log( 'alert', 'Salve nauta' );
+    $logger->log( 'error',     'Salve nauta' );
+    $logger->log( 'debug',     'Salve nauta' );
+    $logger->log( 'alert',     'Salve nauta' );
 
     local $/ = undef;
     $this->assert( open( F, '<', $lfn ) );
     my $e = <F>;
-    $this->assert_equals( "| 2000-02-01T00:00:00Z debug | Salve nauta |\n", $e );
+    $this->assert_equals( "| 2000-02-01T00:00:00Z debug | Salve nauta |\n",
+        $e );
     close(F);
 
     # We should see the creation of a backup log with
@@ -397,7 +400,8 @@ sub verify_rotate_error {
     my $this = shift;
 
     return
-      unless $Foswiki::cfg{Log}{Implementation} =~ '^Foswiki::Logger::PlainFile';
+      unless $Foswiki::cfg{Log}{Implementation} =~
+          '^Foswiki::Logger::PlainFile';
 
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
@@ -422,33 +426,32 @@ sub verify_rotate_error {
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
     $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
-    $logger->log( 'info', 'Nil carborundum illegitami' );
-    $logger->log( 'warning', 'Nil carborundum illegitami' );
-    $logger->log( 'critical', 'Nil carborundum illegitami' );
+    $logger->log( 'info',      'Nil carborundum illegitami' );
+    $logger->log( 'warning',   'Nil carborundum illegitami' );
+    $logger->log( 'critical',  'Nil carborundum illegitami' );
     $logger->log( 'emergency', 'Nil carborundum illegitami' );
-    $logger->log( 'error', 'Nil carborundum illegitami' );
-    $logger->log( 'debug', 'Nil carborundum illegitami' );
-    $logger->log( 'alert', 'Nil carborundum illegitami' );
+    $logger->log( 'error',     'Nil carborundum illegitami' );
+    $logger->log( 'debug',     'Nil carborundum illegitami' );
+    $logger->log( 'alert',     'Nil carborundum illegitami' );
 
     # fake the modify time
     $mtime = $plainFileTestTime;
 
-    $Foswiki::Logger::PlainFile::dontRotate   = 0;
-    $Foswiki::Logger::PlainFile::nextCheckDue{error} = $then;
-    $Foswiki::Logger::PlainFile::nextCheckDue{debug} = $then;
+    $Foswiki::Logger::PlainFile::dontRotate           = 0;
+    $Foswiki::Logger::PlainFile::nextCheckDue{error}  = $then;
+    $Foswiki::Logger::PlainFile::nextCheckDue{debug}  = $then;
     $Foswiki::Logger::PlainFile::nextCheckDue{events} = $then;
-
 
     # now advance the clock to this month, and add another log entry. This
     # should rotate the log.
     $plainFileTestTime = $then;
-    $logger->log( 'info', 'Salve nauta' );
-    $logger->log( 'warning', 'Salve nauta' );
-    $logger->log( 'critical', 'Salve nauta' );
+    $logger->log( 'info',      'Salve nauta' );
+    $logger->log( 'warning',   'Salve nauta' );
+    $logger->log( 'critical',  'Salve nauta' );
     $logger->log( 'emergency', 'Salve nauta' );
-    $logger->log( 'error', 'Salve nauta' );
-    $logger->log( 'debug', 'Salve nauta' );
-    $logger->log( 'alert', 'Salve nauta' );
+    $logger->log( 'error',     'Salve nauta' );
+    $logger->log( 'debug',     'Salve nauta' );
+    $logger->log( 'alert',     'Salve nauta' );
 
     local $/ = undef;
     $this->assert( open( F, '<', $lfn ) );

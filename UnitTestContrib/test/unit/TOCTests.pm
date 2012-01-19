@@ -62,8 +62,9 @@ sub setup_TOCtests {
     }
 
     # Now generate the TOC
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session}, $this->{test_web}, $this->{test_topic} );
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
     my $res = $this->{session}->TOC( $text, $topicObject, $tocparams );
 
     eval 'use HTML::TreeBuilder; use HTML::Element;';
@@ -113,8 +114,7 @@ sub test_parameters {
 sub test_no_parameters {
     my $this = shift;
 
-    my @children =
-      $this->setup_TOCtests( $testtext1, '', '' );
+    my @children = $this->setup_TOCtests( $testtext1, '', '' );
 
     # @children will have alternating ' * ' and an href
     foreach my $c (@children) {
@@ -133,13 +133,14 @@ sub test_Item8592 {
 ---++ Followed by a level 2! headline
 ---++!! Another level 2 headline
 HERE
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session}, $this->{test_web}, $this->{test_topic}, $text );
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, $text );
     $topicObject->save();
-    my $res = $topicObject->expandMacros($text );
-    $res = $topicObject->renderTML( $res );
+    my $res = $topicObject->expandMacros($text);
+    $res = $topicObject->renderTML($res);
 
-    $this->assert_html_equals(<<HTML, $res);
+    $this->assert_html_equals( <<HTML, $res );
 <a name="foswikiTOC"></a>
 <div class="foswikiToc">
  <ul>
@@ -163,28 +164,31 @@ HTML
 sub test_Item9009 {
     my $this = shift;
 
-    my $url = $this->{session}->getScriptUrl(0, 'view');
+    my $url = $this->{session}->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 ---+ A level 1 head!line
 ---++ Followed by a level 2! headline
 ---++!! Another level 2 headline
 HERE
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session}, $this->{test_web}, $this->{test_topic}, $text );
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, $text );
     $topicObject->save();
 
     my $text2 = <<HERE;
 %TOC{"$this->{test_web}.$this->{test_topic}"}%
 HERE
-    my $topicObject2 = Foswiki::Meta->new(
-        $this->{session}, $this->{test_web}, $this->{test_topic}."2", $text2);
+    my $topicObject2 =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} . "2", $text2 );
     $topicObject->save();
-    my $res2 = $topicObject2->expandMacros($text2 );
-    $res2 = $topicObject->renderTML( $res2 );
+    my $res2 = $topicObject2->expandMacros($text2);
+    $res2 = $topicObject->renderTML($res2);
+
     #return;
 
-    $this->assert_html_equals(<<HTML, $res2);
+    $this->assert_html_equals( <<HTML, $res2 );
 <a name="foswikiTOC"></a><div class="foswikiToc"> <ul> 
 <li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line">A level 1 head!line</a> <ul>
 <li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#Followed_by_a_level_2_33_headline">Followed by a level 2! headline</a>
@@ -197,19 +201,20 @@ HTML
 sub test_Item2458 {
     my $this = shift;
 
-    my $url = $this->{session}->getScriptUrl(0, 'view');
+    my $url = $this->{session}->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 %TOC%
 ---+ !WikiWord
 HERE
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session}, $this->{test_web}, $this->{test_topic}, $text );
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, $text );
     $topicObject->save();
     my $res = $topicObject->expandMacros($text);
-    $res = $topicObject->renderTML( $res );
+    $res = $topicObject->renderTML($res);
 
-    $this->assert_html_equals(<<HTML, $res);
+    $this->assert_html_equals( <<HTML, $res );
 <a name="foswikiTOC"></a><div class="foswikiToc"> <ul>
 <li> <a href="#WikiWord"> <nop>WikiWord</a>
 </li></ul> 
@@ -222,30 +227,47 @@ sub test_TOC_SpecialCharacters {
     my ($this) = @_;
 
     # Each tuple describes one heading comparison and the expected result
-    # The first value is the expected anchor. 
+    # The first value is the expected anchor.
     # The second value is the heading.
     my @comparisons = (
-        ['A_1', '---+ 1', 'Numbered heading' ],
-        ['A_1_AN1', "---+ 1\n---+ 1", 'Duplicate heading' ],
-        ['A_1_AN2', "---+ 1\n---+ 1\n---+ 1", 'Triplicate heading' ],
-        ['test_361', '---+ test $1', 'Dollar sign'],    # Dollar Sign
-        ['test_40_41', '---+ test ()', 'Parenthesis'],                 # Parenthesis
-        ['TEST_33_WikiWord', '---+ TEST ! WikiWord', 'WikiWord and !'],   # Unescaped WikiWord
-        ['TEST_WikiWord', '---+ TEST <nop>WikiWord', '<nop> Escaped WikiWord'],       # Escaped WikiWord
-        ['TEST_WikiWord', '---+ TEST !WikiWord', '! Escaped WikiWord'],       # Escaped WikiWord
-        ['TEST_60_62', '---+ TEST <>', 'Null tag'],                 # Less / greater than.
-        ['TEST_62', '---+ TEST >', 'Greater-than'],                     # Greater-than
-        ['TEST_60', '---+ TEST <', 'Less-than'],                     # Less-than
-        ['TEST_92x', '---+ TEST \x', 'Backslash'],
-        ['TEST_38_38', '---+ TEST & &amp;', 'Ampersand'],
-        ['Entities', '---+ Entities &#65; &#x41; &copy;', 'Entities'],
-        ['Test_40_41_123_125_91_93_45_43_33_60_62_126_36', '---+ Test (){}[]_-+!<>~$', 'Complex 1'],
-        ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', '---+ Test <(){}[]_-+!>~$', 'Complex 2'],
-        ['Linkword', '---++ [[Linkword]]', 'Squarebracket'],
-        ['WikiWord', '---++ [[WikiWord]]', 'Squarebracket with wikiword'],
-        ['WikiWord_is_first', '---++ WikiWord is first', 'WikiWord is first'],
-        ['System.WikiWord_is_first', '---++ System.WikiWord is first', 'WikiWord is first'],
+        [ 'A_1',     '---+ 1',                 'Numbered heading' ],
+        [ 'A_1_AN1', "---+ 1\n---+ 1",         'Duplicate heading' ],
+        [ 'A_1_AN2', "---+ 1\n---+ 1\n---+ 1", 'Triplicate heading' ],
+        [ 'test_361',   '---+ test $1', 'Dollar sign' ],    # Dollar Sign
+        [ 'test_40_41', '---+ test ()', 'Parenthesis' ],    # Parenthesis
+        [ 'TEST_33_WikiWord', '---+ TEST ! WikiWord', 'WikiWord and !' ]
+        ,                                                   # Unescaped WikiWord
+        [
+            'TEST_WikiWord', '---+ TEST <nop>WikiWord', '<nop> Escaped WikiWord'
+        ],                                                  # Escaped WikiWord
+        [ 'TEST_WikiWord', '---+ TEST !WikiWord', '! Escaped WikiWord' ]
+        ,                                                   # Escaped WikiWord
+        [ 'TEST_60_62', '---+ TEST <>', 'Null tag' ],     # Less / greater than.
+        [ 'TEST_62',    '---+ TEST >',  'Greater-than' ], # Greater-than
+        [ 'TEST_60',    '---+ TEST <',  'Less-than' ],    # Less-than
+        [ 'TEST_92x',   '---+ TEST \x', 'Backslash' ],
+        [ 'TEST_38_38', '---+ TEST & &amp;',                 'Ampersand' ],
+        [ 'Entities',   '---+ Entities &#65; &#x41; &copy;', 'Entities' ],
+        [
+            'Test_40_41_123_125_91_93_45_43_33_60_62_126_36',
+            '---+ Test (){}[]_-+!<>~$',
+            'Complex 1'
+        ],
+        [
+            'Test_60_40_41_123_125_91_93_45_43_33_62_126_36',
+            '---+ Test <(){}[]_-+!>~$',
+            'Complex 2'
+        ],
+        [ 'Linkword', '---++ [[Linkword]]', 'Squarebracket' ],
+        [ 'WikiWord', '---++ [[WikiWord]]', 'Squarebracket with wikiword' ],
+        [ 'WikiWord_is_first', '---++ WikiWord is first', 'WikiWord is first' ],
+        [
+            'System.WikiWord_is_first',
+            '---++ System.WikiWord is first',
+            'WikiWord is first'
+        ],
     );
+
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
         my $wikitext = <<HERE;
@@ -253,14 +275,17 @@ sub test_TOC_SpecialCharacters {
 $set->[1]
 HERE
         my $topicObject = Foswiki::Meta->new(
-            $this->{session}, $this->{test_web}, $this->{test_topic}, $wikitext );
+            $this->{session},    $this->{test_web},
+            $this->{test_topic}, $wikitext
+        );
         $topicObject->save();
-        my $res = $topicObject->expandMacros($wikitext );
-        $res = $topicObject->renderTML( $res );
+        my $res = $topicObject->expandMacros($wikitext);
+        $res = $topicObject->renderTML($res);
+
         #print "RES $res \n\n";
-        $this->assert_matches( 
-            qr/href="#$expected".*name="$expected"/sm, 
-            $res, "$set->[2] - Expected Anchor/Link =  $expected  Actual HTML\n====\n$res\n====\n" );
+        $this->assert_matches( qr/href="#$expected".*name="$expected"/sm, $res,
+"$set->[2] - Expected Anchor/Link =  $expected  Actual HTML\n====\n$res\n====\n"
+        );
     }
 }
 
@@ -269,33 +294,50 @@ sub test_TOC_makeAnchorName {
     require Foswiki::Render;
 
     # Each tuple describes one heading comparison and the expected result
-    # The first value is the expected anchor. 
+    # The first value is the expected anchor.
     # The second value is the heading.
     my @comparisons = (
-        ['A_1', '1', 'Numbered heading' ],
-        ['test_361', 'test $1', 'Dollar sign'],    # Dollar Sign
-        ['test_40_41', 'test ()', 'Parenthesis'],                 # Parenthesis
-        ['TEST_33_WikiWord', 'TEST ! WikiWord', 'WikiWord and !'],   # Unescaped WikiWord
-        ['TEST_WikiWord', 'TEST <nop>WikiWord', '<nop> Escaped WikiWord'],       # Escaped WikiWord
-        ['TEST_WikiWord', 'TEST !WikiWord', '! Escaped WikiWord'],       # Escaped WikiWord
-        ['TEST_asdf', 'TEST <a href="A1"> asdf', 'valid tag'],                 
-        ['TEST_60_62', 'TEST <>', 'Null tag'],                 # Less / greater than.
-        ['TEST_62', 'TEST >', 'Greater-than'],                     # Greater-than
-        ['TEST_60', 'TEST <', 'Less-than'],                     # Less-than
-        ['Test_40_41_123_125_91_93_45_43_33_60_62_126_36', 'Test (){}[]_-+!<>~$', 'Complex 1'],
-        ['Test_60_40_41_123_125_91_93_45_43_33_62_126_36', 'Test <(){}[]_-+!>~$', 'Complex 2'],
-        ['Linkword', '[[Linkword]]', 'Squarebracket'],
-        ['WikiWord_is_first', 'WikiWord is first', 'WikiWord is first'],
-        ['WikiWord_escaped', '!WikiWord escaped', 'WikiWord is escaped'],
-        ['ABBREV_escaped', '!ABBREV escaped', 'ABBREV is escaped'],
-        ['System.WikiWord_is_first', 'System.WikiWord is first', 'WikiWord is first'],
+        [ 'A_1',        '1',       'Numbered heading' ],
+        [ 'test_361',   'test $1', 'Dollar sign' ],        # Dollar Sign
+        [ 'test_40_41', 'test ()', 'Parenthesis' ],        # Parenthesis
+        [ 'TEST_33_WikiWord', 'TEST ! WikiWord', 'WikiWord and !' ]
+        ,                                                  # Unescaped WikiWord
+        [ 'TEST_WikiWord', 'TEST <nop>WikiWord', '<nop> Escaped WikiWord' ]
+        ,                                                  # Escaped WikiWord
+        [ 'TEST_WikiWord', 'TEST !WikiWord', '! Escaped WikiWord' ]
+        ,                                                  # Escaped WikiWord
+        [ 'TEST_asdf', 'TEST <a href="A1"> asdf', 'valid tag' ],
+        [ 'TEST_60_62', 'TEST <>', 'Null tag' ],        # Less / greater than.
+        [ 'TEST_62',    'TEST >',  'Greater-than' ],    # Greater-than
+        [ 'TEST_60',    'TEST <',  'Less-than' ],       # Less-than
+        [
+            'Test_40_41_123_125_91_93_45_43_33_60_62_126_36',
+            'Test (){}[]_-+!<>~$',
+            'Complex 1'
+        ],
+        [
+            'Test_60_40_41_123_125_91_93_45_43_33_62_126_36',
+            'Test <(){}[]_-+!>~$',
+            'Complex 2'
+        ],
+        [ 'Linkword',          '[[Linkword]]',      'Squarebracket' ],
+        [ 'WikiWord_is_first', 'WikiWord is first', 'WikiWord is first' ],
+        [ 'WikiWord_escaped',  '!WikiWord escaped', 'WikiWord is escaped' ],
+        [ 'ABBREV_escaped',    '!ABBREV escaped',   'ABBREV is escaped' ],
+        [
+            'System.WikiWord_is_first',
+            'System.WikiWord is first',
+            'WikiWord is first'
+        ],
     );
+
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
         my $wikitext = $set->[1];
 
         my $res = Foswiki::Render::Anchors::make($wikitext);
-        $this->assert_str_equals($expected, $res, "$set->[2] - Expected = $expected,  ACTUAL = $res\n");
+        $this->assert_str_equals( $expected, $res,
+            "$set->[2] - Expected = $expected,  ACTUAL = $res\n" );
     }
 }
 

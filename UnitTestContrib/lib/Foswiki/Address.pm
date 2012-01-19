@@ -259,6 +259,7 @@ sub new {
     my $this;
 
     if ( $opts{string} ) {
+
         #ASSERT( not $opts{topic} or ( $opts{webpath} and $opts{topic} ) )
         #  if DEBUG;
 

@@ -1814,8 +1814,7 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced',
-            'WebTopicList'
+            'WebSearchAdvanced', 'WebTopicList'
         ],
         $this->_getTopicList( '_default', {} ),
         'no filters, all topics in _default web'
@@ -1834,8 +1833,7 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced',
-            'WebTopicList'
+            'WebSearchAdvanced', 'WebTopicList'
         ],
         $this->_getTopicList( '_default', { includeTopics => 'Web*' } ),
         '_default web, Wildcard includeTopics Web*'
@@ -1854,9 +1852,7 @@ sub verify_getTopicList {
         [ 'WebTopicList', 'WebCreateNewTopic' ],
         $this->_getTopicList(
             '_default',
-            {
-                includeTopics => 'WebTopicList, WebCreateNewTopic, NoSuchTopic'
-            }
+            { includeTopics => 'WebTopicList, WebCreateNewTopic, NoSuchTopic' }
         ),
         '_default web, comma-space separated includeTopics, missing topic '
     );
@@ -4915,7 +4911,10 @@ sub verify_multiple_order_fields {
       $this->{test_topicObject}->expandMacros(
         '%SEARCH{"1" order="formfield(Firstname),formfield(Lastname)" '
           . $stdCrap );
-    $this->assert_str_equals( 'OkATopic OkBTopic OkTopic QueryTopic QueryTopicTwo TestTopicSEARCH WebPreferences', $result );
+    $this->assert_str_equals(
+'OkATopic OkBTopic OkTopic QueryTopic QueryTopicTwo TestTopicSEARCH WebPreferences',
+        $result
+    );
 }
 
 1;

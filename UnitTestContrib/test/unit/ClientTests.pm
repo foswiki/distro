@@ -190,8 +190,7 @@ sub verify_sudo_login {
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
     $this->{session} = new Foswiki( undef, $query );
-    $this->{session}->getLoginManager()
-      ->login( $query, $this->{session} );
+    $this->{session}->getLoginManager()->login( $query, $this->{session} );
     my $script = $Foswiki::cfg{LoginManager} =~ /Apache/ ? 'viewauth' : 'view';
     my $surly =
       $this->{session}

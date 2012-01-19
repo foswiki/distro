@@ -15,26 +15,29 @@ my $VIEW_UI_FN;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up;
+
     # Testcases are written using good anchors
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
     $VIEW_UI_FN ||= $this->getUIFn('view');
 
     # This user is used in some testcases. All we need to do is make sure
     # their topic exists in the test users web
-    if (!$this->{session}->topicExists(
-            $Foswiki::cfg{UsersWebName},
-            'WikiGuest')){
+    if ( !$this->{session}
+        ->topicExists( $Foswiki::cfg{UsersWebName}, 'WikiGuest' ) )
+    {
         my $to = Foswiki::Meta->new(
             $this->{session}, $Foswiki::cfg{UsersWebName},
-            'WikiGuest', 'This user is used in some testcases');
+            'WikiGuest',      'This user is used in some testcases'
+        );
         $to->save();
     }
-    if (!$this->{session}->topicExists(
-            $Foswiki::cfg{UsersWebName},
-            'UnknownUser')){
+    if ( !$this->{session}
+        ->topicExists( $Foswiki::cfg{UsersWebName}, 'UnknownUser' ) )
+    {
         my $to = Foswiki::Meta->new(
             $this->{session}, $Foswiki::cfg{UsersWebName},
-            'UnknownUser', 'This user is used in some testcases');
+            'UnknownUser',    'This user is used in some testcases'
+        );
         $to->save();
     }
 }
@@ -72,9 +75,10 @@ sub run_testcase {
     my ( $this, $testcase ) = @_;
     my $query = new Unit::Request(
         {
-            test               => 'compare',
-            debugenableplugins => 'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
-            skin               => 'pattern'
+            test => 'compare',
+            debugenableplugins =>
+              'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
+            skin => 'pattern'
         }
     );
     $query->path_info("/TestCases/$testcase");

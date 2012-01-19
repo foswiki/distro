@@ -69,8 +69,7 @@ sub test_encode {
     $str =
       $this->{test_topicObject}
       ->expandMacros("%ENCODE{\"<evil script>\n&\'\\\"%*A\" type=\"url\"}%");
-    $this->assert_str_equals( "%3cevil%20script%3e%0a%26\'%22%25*A",
-        "$str" );
+    $this->assert_str_equals( "%3cevil%20script%3e%0a%26\'%22%25*A", "$str" );
 
     #http://trunk.foswiki.org/Tasks/Item5453
     #unfortuanatly, perl considers the string '0' to be
@@ -89,7 +88,7 @@ sub test_encode {
 
 sub test_old_new_1 {
     my $this = shift;
-    my $in = <<'THIS';
+    my $in   = <<'THIS';
 %ENCODE{"| One |
 | Two |
 | Three |" old="|,$n" new="&vbar;,<br>"}%
@@ -97,67 +96,71 @@ THIS
     my $out = <<'THAT';
 &vbar; One &vbar;<br>&vbar; Two &vbar;<br>&vbar; Three &vbar;
 THAT
-    $this->assert_equals($out, $this->{test_topicObject}->expandMacros($in));
+    $this->assert_equals( $out, $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_old_new_2 {
     my $this = shift;
-    my $in = <<'THIS';
+    my $in   = <<'THIS';
 %ENCODE{"\"%>,<&" old="$lt,$gt,$amp,$percent,$comma,$quot" new="L,G,A,P,C,Q"}%
 THIS
     my $out = "QPGCLA\n";
-    $this->assert_equals($out, $this->{test_topicObject}->expandMacros($in));
+    $this->assert_equals( $out, $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_old_new_3 {
     my $this = shift;
-    my $in = '%ENCODE{"spreadsheet" old="ee,sp" new="i,"}%';
-    my $out = 'readshit';
-    $this->assert_equals($out, $this->{test_topicObject}->expandMacros($in));
+    my $in   = '%ENCODE{"spreadsheet" old="ee,sp" new="i,"}%';
+    my $out  = 'readshit';
+    $this->assert_equals( $out, $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_old_new_4 {
     my $this = shift;
-    my $in = '%ENCODE{"101" old="0,1" new="x"}%';
-    my $out = 'x';
-    $this->assert_equals($out, $this->{test_topicObject}->expandMacros($in));
+    my $in   = '%ENCODE{"101" old="0,1" new="x"}%';
+    my $out  = 'x';
+    $this->assert_equals( $out, $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_old_new_5 {
     my $this = shift;
-    my $in = '%ENCODE{"XY" old="Y,X" new="X,Y"}%';
-    my $out = 'YX';
-    $this->assert_equals($out, $this->{test_topicObject}->expandMacros($in));
+    my $in   = '%ENCODE{"XY" old="Y,X" new="X,Y"}%';
+    my $out  = 'YX';
+    $this->assert_equals( $out, $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_old_new_sven2 {
     my $this = shift;
-    my $in = '%ENCODE{"go for it" old="g,o,f,r,i,t" new="w,h,a,t,t,h,e"}%';
-    my $out = "wh aht th";
-    $this->assert_equals($out, $this->{test_topicObject}->expandMacros($in));
+    my $in   = '%ENCODE{"go for it" old="g,o,f,r,i,t" new="w,h,a,t,t,h,e"}%';
+    my $out  = "wh aht th";
+    $this->assert_equals( $out, $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_fail_1 {
     my $this = shift;
-    my $in = '%ENCODE{"schlob" old="sch" new="f" type="replace"}%';
+    my $in   = '%ENCODE{"schlob" old="sch" new="f" type="replace"}%';
     my $out = "ENCODE failed - =type= cannot be used alongside =old= and =new=";
-    $this->assert_matches(qr/$out/, $this->{test_topicObject}->expandMacros($in));
+    $this->assert_matches( qr/$out/,
+        $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_fail_2 {
     my $this = shift;
-    my $in = '%ENCODE{"schlob" old="sch"}%';
-    my $out = "ENCODE failed - both of =old= and =new= must be given";
-    $this->assert_matches(qr/$out/, $this->{test_topicObject}->expandMacros($in));
+    my $in   = '%ENCODE{"schlob" old="sch"}%';
+    my $out  = "ENCODE failed - both of =old= and =new= must be given";
+    $this->assert_matches( qr/$out/,
+        $this->{test_topicObject}->expandMacros($in) );
     $in = '%ENCODE{"schlob" new="sch"}%';
-    $this->assert_matches(qr/$out/, $this->{test_topicObject}->expandMacros($in));
+    $this->assert_matches( qr/$out/,
+        $this->{test_topicObject}->expandMacros($in) );
 }
 
 sub test_fail_3 {
     my $this = shift;
-    my $in = '%ENCODE{"go for it" old="g,o,f,o,r,i,t" new="w,h,a,t,t,h,e"}%';
-    my $out = "ENCODE failed - token 'o' is repeated in =old=";
-    $this->assert_matches(qr/$out/, $this->{test_topicObject}->expandMacros($in));
+    my $in   = '%ENCODE{"go for it" old="g,o,f,o,r,i,t" new="w,h,a,t,t,h,e"}%';
+    my $out  = "ENCODE failed - token 'o' is repeated in =old=";
+    $this->assert_matches( qr/$out/,
+        $this->{test_topicObject}->expandMacros($in) );
 }
 
 1;

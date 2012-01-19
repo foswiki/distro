@@ -21,15 +21,15 @@ our %expected_status_main_webhome = (
 # TODO: this is beause we're calling the UI::function, not UI:Execute - need to
 # re-write it to use the full engine
 our %expect_non_html = (
-    rest        => 1,
-    restauth        => 1,
-    viewfile    => 1,
+    rest         => 1,
+    restauth     => 1,
+    viewfile     => 1,
     viewfileauth => 1,
-    register    => 1,    # TODO: missing action make it throw an exception
-    manage      => 1,    # TODO: missing action make it throw an exception
-    upload      => 1,    # TODO: zero size upload
-    resetpasswd => 1,
-    statistics  => 1,
+    register     => 1,    # TODO: missing action make it throw an exception
+    manage       => 1,    # TODO: missing action make it throw an exception
+    upload       => 1,    # TODO: zero size upload
+    resetpasswd  => 1,
+    statistics   => 1,
 );
 
 sub new {
@@ -66,8 +66,8 @@ sub fixture_groups {
                 context  => $array[2],
             };
         }
-        
-        next unless (ref($dispatcher) eq 'HASH');#bad switchboard entry.
+
+        next unless ( ref($dispatcher) eq 'HASH' );    #bad switchboard entry.
 
         my $package = $dispatcher->{package} || 'Foswiki::UI';
         eval "require $package" or next;

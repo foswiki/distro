@@ -85,11 +85,11 @@ Kill me
 %ENDSECTION{name="fred" type="section"}%
 END
     $this->{test_topicObject}->text($text);
-    $this->{test_topicObject}->put('PREFERENCE',
-                                   {name=>"BLAH", value=>"%WIKINAME%"});
+    $this->{test_topicObject}
+      ->put( 'PREFERENCE', { name => "BLAH", value => "%WIKINAME%" } );
     $this->{test_topicObject}->expandNewTopic();
 
-    my $xpect  = <<END;
+    my $xpect = <<END;
 scum
 
 ScumBag
@@ -102,7 +102,8 @@ scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
 %ENDSECTION{name="fred" type="section"}%
 END
     $this->assert_str_equals( $xpect, $this->{test_topicObject}->text() );
-    $this->assert_str_equals( "ScumBag", $this->{test_topicObject}->get('PREFERENCE', 'BLAH')->{value} );
+    $this->assert_str_equals( "ScumBag",
+        $this->{test_topicObject}->get( 'PREFERENCE', 'BLAH' )->{value} );
 }
 
 sub test_userExpansions {
@@ -133,16 +134,18 @@ END
 
 sub test_macroParams {
     my $this = shift;
+
     # Check default on undefined macros
     # Check default given, given but null, not given
     # Check quotes and other standard expansions
     # Check override of standard macros
     $this->{session}->{prefs}->setSessionPreferences(
-	ARFLE => '%BARFLE{default="gloop"}%',
-	TING => '%DEFAULT% %DEFAULT{default="tong"}%',
-	ALING =>  '\'%DEFAULT%\' \'%DEFAULT{default="tong"}%\'',
-	TOOT => '\'%NOP%\'',
-	WOOF =>  '%MIAOW{default="$quot$percent$quot"}%');
+        ARFLE => '%BARFLE{default="gloop"}%',
+        TING  => '%DEFAULT% %DEFAULT{default="tong"}%',
+        ALING => '\'%DEFAULT%\' \'%DEFAULT{default="tong"}%\'',
+        TOOT  => '\'%NOP%\'',
+        WOOF  => '%MIAOW{default="$quot$percent$quot"}%'
+    );
     my $input = <<'INPUT';
 | gloop | %BARFLE{default="gloop"}% |
 | mong | %ARFLE{BARFLE="mong"}% |
@@ -156,7 +159,7 @@ INPUT
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $this->{test_topic}, $input );
-    my $result = $topicObject->expandMacros($input);
+    my $result   = $topicObject->expandMacros($input);
     my $expected = <<'EXPECTED';
 | gloop | gloop |
 | mong | mong |

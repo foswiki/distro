@@ -598,23 +598,23 @@ sub registerVerifyOk {
 #Register a user using Fwk prefix, then give a bad verification code. It should barf.
 sub verify_registerBadVerify_Fwk {
     my $this = shift;
-    $this->_registerBadVerify('Fwk', @_);
+    $this->_registerBadVerify( 'Fwk', @_ );
 }
 
 #Register a user using Twk prefix, then give a bad verification code. It should barf.
 sub verify_registerBadVerify_Twk {
     my $this = shift;
-    $this->_registerBadVerify('Twk', @_);
+    $this->_registerBadVerify( 'Twk', @_ );
 }
 
 #Register a user, then give a bad verification code. It should barf.
 sub _registerBadVerify {
     my $this = shift;
-    my $pfx = shift;
+    my $pfx  = shift;
     $Foswiki::cfg{Register}{NeedVerification} = 1;
     my $query = new Unit::Request(
         {
-            'TopicName'     => ['UserRegistration'],
+            'TopicName'        => ['UserRegistration'],
             "${pfx}1Email"     => [ $this->{new_user_email} ],
             "${pfx}1WikiName"  => [ $this->{new_user_wikiname} ],
             "${pfx}1Name"      => [ $this->{new_user_fullname} ],
@@ -622,7 +622,7 @@ sub _registerBadVerify {
             "${pfx}1LoginName" => [ $this->{new_user_login} ],
             "${pfx}1FirstName" => [ $this->{new_user_fname} ],
             "${pfx}1LastName"  => [ $this->{new_user_sname} ],
-            'action'        => ['register']
+            'action'           => ['register']
         }
     );
     $query->path_info("/$this->{users_web}/UserRegistration");
@@ -724,7 +724,7 @@ sub _registerNoVerifyOk {
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     my $query = new Unit::Request(
         {
-            'TopicName'     => ['UserRegistration'],
+            'TopicName'        => ['UserRegistration'],
             "${pfx}1Email"     => [ $this->{new_user_email} ],
             "${pfx}1WikiName"  => [ $this->{new_user_wikiname} ],
             "${pfx}1Name"      => [ $this->{new_user_fullname} ],
@@ -732,7 +732,7 @@ sub _registerNoVerifyOk {
             "${pfx}1LoginName" => [ $this->{new_user_login} ],
             "${pfx}1FirstName" => [ $this->{new_user_fname} ],
             "${pfx}1LastName"  => [ $this->{new_user_sname} ],
-            'action'        => ['register']
+            'action'           => ['register']
         }
     );
 
@@ -951,6 +951,7 @@ sub verify_duplicateActivation {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
+
     # Read the verification code before finish()'ing the session
     my $debugVerificationCode = $this->{session}->{DebugVerificationCode};
     $this->{session}->finish();
@@ -1595,9 +1596,16 @@ sub verify_resetPassword_NoWikiUsersEntry {
     $this->registerAccount();
 
     #Remove the WikiUsers entry - by deleting it :)
-    my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} );
-    my $to =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} . 'DELETED' );
+    my $from = Foswiki::Meta->new(
+        $Foswiki::Plugins::SESSION,
+        $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{UsersTopicName}
+    );
+    my $to = Foswiki::Meta->new(
+        $Foswiki::Plugins::SESSION,
+        $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{UsersTopicName} . 'DELETED'
+    );
     $from->move($to);
 
     #force a reload to unload existing user caches, and then restart as guest

@@ -13,9 +13,10 @@ our $rcs_installed;
 
 sub rcs_is_installed {
     if ( !defined($rcs_installed) ) {
-	$ENV{PATH} =~ /^(.*)$/ms; $ENV{PATH} = $1; # untaint
+        $ENV{PATH} =~ /^(.*)$/ms;
+        $ENV{PATH} = $1;    # untaint
         eval {
-            `co -V`;    # Check to see if we have co
+            `co -V`;        # Check to see if we have co
         };
         if ( $@ || $? ) {
             $rcs_installed = 0;
@@ -54,21 +55,21 @@ sub fixture_groups {
             foreach my $alg ( readdir D ) {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
                 next if $alg =~ /RcsWrap/ && !rcs_is_installed();
-                ($alg) = $alg =~ /^(.*)$/ms; # untaint
-		eval "require Foswiki::Store::$alg";
-		die $@ if $@;
-		my $algname = ref($this).'_'.$alg;
+                ($alg) = $alg =~ /^(.*)$/ms;    # untaint
+                eval "require Foswiki::Store::$alg";
+                die $@ if $@;
+                my $algname = ref($this) . '_' . $alg;
                 next if defined &$algname;
-		no strict 'refs';
-		*$algname = sub {
-		    my $this = shift;
-		    $Foswiki::cfg{Store}{Implementation} =
-			'Foswiki::Store::'.$alg;
-		    $this->set_up_for_verify();
-		};
-		use strict 'refs';
-                push(@groups, $algname);
-		$seen{$alg} = 1;
+                no strict 'refs';
+                *$algname = sub {
+                    my $this = shift;
+                    $Foswiki::cfg{Store}{Implementation} =
+                      'Foswiki::Store::' . $alg;
+                    $this->set_up_for_verify();
+                };
+                use strict 'refs';
+                push( @groups, $algname );
+                $seen{$alg} = 1;
             }
             closedir(D);
         }
