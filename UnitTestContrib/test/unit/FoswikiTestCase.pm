@@ -18,6 +18,8 @@ you can always create a new web based on that web.
 
 use strict;
 use warnings;
+
+use Assert;
 use Unit::TestCase;
 our @ISA = qw( Unit::TestCase );
 
@@ -30,7 +32,8 @@ use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
 
-sub TRACE { 0 }
+sub SINGLE_SINGLETONS { 0 }
+sub TRACE             { 0 }
 
 BEGIN {
 
@@ -448,11 +451,15 @@ sub set_up {
     }
     close(F);
 
+    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
     my $query = new Unit::Request();
     my $tmp = new Foswiki( undef, $query );
+    ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     $tmp->finish();
+    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
     my %tempDirOptions = ( CLEANUP => 1 );
     if ( $^O eq 'MSWin32' ) {
@@ -488,7 +495,11 @@ sub set_up {
 # Restores Foswiki::cfg and %ENV from backup
 sub tear_down {
     my $this = shift;
-    $this->{session}->finish() if $this->{session};
+
+    if ( $this->{session} ) {
+        ASSERT( $this->{session}->isa('Foswiki') ) if SINGLE_SINGLETONS;
+        $this->finishFoswikiSession();
+    }
     eval { File::Path::rmtree( $Foswiki::cfg{WorkingDir} ); };
     %Foswiki::cfg = eval $this->{__FoswikiSafe};
     foreach my $sym ( keys %ENV ) {
@@ -577,14 +588,18 @@ $result is the result of the function.
 =cut
 
 sub capture {
-    my $this = shift;
+    my ( $this, $fn, $session, @args ) = @_;
 
-    my ( $stdout, $stderr, $result ) = $this->captureSTD(@_);
-    my $fn = shift;
+    # $fn may create a new Foswiki singleton, so it should take care to avoid
+    # stomping on the existing one without $this->finishFoswikiSession() or
+    # createNewFoswikiSession()
+    my ( $stdout, $stderr, $result ) =
+      $this->captureSTD( $fn, $session, @args );
 
+    ASSERT( ref($session) || ref($Foswiki::Plugins::SESSION) );
     my $response =
-      UNIVERSAL::isa( $_[0], 'Foswiki' )
-      ? $_[0]->{response}
+      UNIVERSAL::isa( $session, 'Foswiki' )
+      ? $session->{response}
       : $Foswiki::Plugins::SESSION->{response};
 
     my $responseText = '';
@@ -719,17 +734,26 @@ __DO NOT CALL session->finish() yourself__
 sub createNewFoswikiSession {
     my ( $this, $user, $query, @args ) = @_;
 
-    $this->{session}->finish() if $this->{session};
-    $this->{request}->finish()
-      if ( $this->{request} && $this->{request}->can('finish') );
-    $this->{session}           = Foswiki->new( $user, $query, @args );
-    $this->{request}           = $this->{session}{request};
-    $Foswiki::Plugins::SESSION = $this->{session};
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    $this->{test_topicObject}->finish()           if $this->{test_topicObject};
+    $this->{session}->finish()                    if $this->{session};
+    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    $this->{session} = Foswiki->new( $user, $query, @args );
+    $this->{request} = $this->{session}{request};
+    ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     ( $this->{test_topicObject} ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
     return $this->{session};
+}
+
+sub finishFoswikiSession {
+    my ($this) = @_;
+
+    $this->{session}->finish() if defined $this->{session};
+    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    $this->{session} = undef;
+
+    return;
 }
 
 1;

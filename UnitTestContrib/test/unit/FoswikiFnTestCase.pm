@@ -1,6 +1,8 @@
 # See bottom of file for license and copyright
 
 package FoswikiFnTestCase;
+use strict;
+use warnings;
 
 =begin TML
 
@@ -27,12 +29,10 @@ targeting single classes).
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
 
-use strict;
-
-use Foswiki;
-use Unit::Request;
-use Unit::Response;
-use Foswiki::UI::Register;
+use Foswiki();
+use Unit::Request();
+use Unit::Response();
+use Foswiki::UI::Register();
 use Error qw( :try );
 
 our @mails;
@@ -85,11 +85,10 @@ sub set_up {
     my $query = new Unit::Request("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    $this->{session}           = new Foswiki( undef, $query );
-    $this->{request}           = $query;
-    $this->{response}          = new Unit::Response();
-    $Foswiki::Plugins::SESSION = $this->{session};
-    @mails                     = ();
+    # Note: some tests are testing Foswiki::UI which also creates a session
+    $this->createNewFoswikiSession( undef, $query );
+    $this->{response} = new Unit::Response();
+    @mails = ();
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
     $webObject->populateNewWeb();
@@ -108,6 +107,7 @@ sub set_up {
     );
     $this->{test_user_cuid} =
       $this->{session}->{users}->getCanonicalUserID( $this->{test_user_login} );
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
     $this->{test_topicObject} = Foswiki::Meta->new(
         $this->{session},    $this->{test_web},
         $this->{test_topic}, "BLEEGLE\n"
