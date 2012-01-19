@@ -82,12 +82,10 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    my ($topicObject) = Foswiki::Meta->new(
-        $this->{session},
-        $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{DefaultUserWikiName}, ''
-    );
+    my ($topicObject) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{DefaultUserWikiName} );
     $topicObject->save();
+    $topicObject->finish();
     $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
     $MrWhite = $this->{session}->{users}->getCanonicalUserID('white');
 
@@ -490,6 +488,7 @@ NONNY
     my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     Foswiki::Func::saveTopic( $this->{test_web}, $topic, $meta, $text,
         { comment => 'atp save' } );
+    $meta->finish();
     my $text2 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
 
     my $matchText =
@@ -520,6 +519,7 @@ NONNY
     # Make sure the meta got into the topic
     my ( $m, $t ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     my $el = $m->get( 'PREFERENCE', 'Bird' );
+    $m->finish();
     $this->assert_equals( 'Kakapo', $el->{value} );
 
     # This should succeed
@@ -617,8 +617,10 @@ sub test_attachments {
     );
     $this->assert( !$e, $e );
 
+    $meta->finish();
     ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     @attachments = $meta->find('FILEATTACHMENT');
+    $meta->finish();
     $this->assert_str_equals( $name1, $attachments[0]->{name} );
     $this->assert_str_equals( $name2, $attachments[1]->{name} );
 
@@ -833,6 +835,7 @@ qr/^AccessControlException: Access to CHANGE TemporaryFuncTestWebFunc.BlahBlahcw
             "Unexpected error $e"
         );
     };
+    $meta->finish();
 
     return;
 }
@@ -939,8 +942,10 @@ sub test_subweb_attachments {
     $this->assert( ( -e $ft . "/$name2" ),
         "Attachment file $ft/$name2  was not written to disk?" );
 
+    $meta->finish();
     ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     @attachments = $meta->find('FILEATTACHMENT');
+    $meta->finish();
     $this->assert_str_equals( $name1, $attachments[0]->{name} );
 
     # Make sure it has a non-0 date
@@ -1037,6 +1042,7 @@ sub _checkMoveTopic {
         next if ( $_->{from} ne "$oldWeb.$oldTopic" );
         return 1;
     }
+    $meta->finish();
 
     return 0;
 }
@@ -1221,6 +1227,7 @@ sub test_moveAttachment {
     );
 
 # Verify that the source topic still contains the string "Wibble" following attachment move
+    $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "SourceTopic" );
     $this->assert( $text =~ m/Wibble/o );
@@ -1243,6 +1250,7 @@ sub test_moveAttachment {
     );
 
     # Verify that the target topic contains the string "Wibble"
+    $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
     $this->assert( $text =~ m/Wibble/o );
@@ -1265,9 +1273,11 @@ sub test_moveAttachment {
     );
 
 # Verify that the target topic still contains the string "Wibble" following attachment move
+    $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
     $this->assert( $text =~ m/Wibble/o );
+    $meta->finish();
 
     return;
 }
@@ -1325,6 +1335,7 @@ sub test_copyAttachment {
 
     # Verify that the source topic still contains the string "Wibble"
     # following attachment copy
+    $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "SourceTopic" );
     $this->assert( $text =~ m/Wibble/o );
@@ -1348,6 +1359,7 @@ sub test_copyAttachment {
     );
 
     # Verify that the target topic contains the string "Wibble"
+    $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
     $this->assert( $text =~ m/Wibble/o );
@@ -1372,9 +1384,11 @@ sub test_copyAttachment {
 
     # Verify that the target topic still contains the string "Wibble"
     # following attachment copy
+    $meta->finish();
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, "TargetTopic" );
     $this->assert( $text =~ m/Wibble/o );
+    $meta->finish();
 
     return;
 }
@@ -1697,8 +1711,7 @@ END
     $this->assert($access);
 
     # make sure meta overrides text, as documented - Item2953
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -1715,7 +1728,8 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert( !$access );
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -1733,6 +1747,7 @@ END
         $this->{test_web},
         $meta
     );
+    $meta->finish();
     $this->assert( !$access );
 
     #I'm not clear from the docco so...
@@ -1856,8 +1871,7 @@ END
     $this->assert($access);
 
     # make sure meta overrides text, as documented - Item2953
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -1874,7 +1888,8 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert( !$access );
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -1893,6 +1908,7 @@ END
         $meta
     );
     $this->assert( !$access );
+    $meta->finish();
 
     return;
 }
@@ -2033,15 +2049,14 @@ sub test_eachChangeSince {
     my $start = time();
 
     $this->createNewFoswikiSession($user1);
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "ClutterBuck",
-        "One" );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "ClutterBuck" );
+    $meta->text("One");
     $meta->save();
 
     $this->createNewFoswikiSession($user2);
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "PiggleNut",
-        "One" );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "PiggleNut" );
+    $meta->text("One");
     $meta->save();
 
     # Wait a second
@@ -2049,16 +2064,17 @@ sub test_eachChangeSince {
     my $mid = time();
 
     $this->createNewFoswikiSession($user2);
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "ClutterBuck",
-        "One" );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "ClutterBuck" );
+    $meta->text("One");
     $meta->save();
 
     $this->createNewFoswikiSession($user1);
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "PiggleNut",
-        "Two" );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "PiggleNut" );
+    $meta->text("Two");
     $meta->save();
+    $meta->finish();
 
     my $change;
     my $it = Foswiki::Func::eachChangeSince( $this->{test_web}, $start );
@@ -2247,15 +2263,16 @@ sub test_getAttachmentList {
     my $shortname = "testfile.gif";
     my $filename  = "$Foswiki::cfg{TempfileDir}/$shortname";
     $this->write_file( $filename, "Naff\n" );
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic}, "One" );
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $meta->text("One");
     $meta->attach(
         name    => $shortname,
         file    => $filename,
         comment => "a comment"
     );
     $meta->save();
+    $meta->finish();
     unlink $filename;
     my @list =
       Foswiki::Func::getAttachmentList( $this->{test_web},
@@ -2457,6 +2474,7 @@ sub do_attachment {
     $this->createNewFoswikiSession( undef, $query );
     $this->{request}  = $query;
     $this->{response} = Unit::Response->new();
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
     ( $this->{test_topicObject} ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     $this->{test_topicObject}->text("BLEEGLE\n");
@@ -2500,6 +2518,7 @@ sub do_attachment {
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my @attachments = $meta->find('FILEATTACHMENT');
+    $meta->finish();
 
     $this->assert( $name eq $attachments[0]->{name},
         "Got $attachments[0]->{name}  but expected $name " );
