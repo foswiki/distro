@@ -1306,6 +1306,8 @@ None
    : Sunny
 Pleasant
 ACTUAL
+    $this->expect_failure( 'Post-Foswiki 1.1.x TML syntax',
+        with_dep => 'Foswiki,<,1.2' );
     $this->do_test( $expected, $actual );
 }
 
