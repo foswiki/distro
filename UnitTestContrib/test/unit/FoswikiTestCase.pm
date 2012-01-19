@@ -33,6 +33,7 @@ use Unit::Response;
 use Error qw( :try );
 
 sub SINGLE_SINGLETONS { 0 }
+sub TRACE             { 0 }
 
 BEGIN {
 
@@ -193,6 +194,7 @@ sub check_using {
     else {
         $result = $this->_check_using($what);
     }
+    print STDERR "check_using('$what') : $result\n" if TRACE;
 
     return $result;
 }
@@ -202,10 +204,12 @@ sub _check_using {
     my $result;
 
     if ( $what =~ /^[^:]+Plugin$/ ) {
+        print STDERR "_check_using, plugin enabled\n" if TRACE;
         $result = $this->check_plugin_enabled($what);
     }
     if ( !$result ) {
         if ( exists $foswiki_things{$what} ) {
+            print STDERR "_check_using, things\n" if TRACE;
             $result = $foswiki_things{$what}->($this);
         }
         else {
@@ -213,6 +217,7 @@ sub _check_using {
                 "Don't know how to check if we're using '$what'" );
         }
     }
+    print STDERR "_check_using('$what') : $result\n" if TRACE;
 
     return $result;
 }
@@ -248,6 +253,7 @@ sub check_dependency {
     if ( ref($what) eq 'ARRAY' ) {
         my $not_usingsomething;
 
+        print STDERR "check_dependency, multiple\n" if TRACE;
         foreach my $thing ( @{$what} ) {
             $not_usingsomething ||= !$this->_check_dependency($thing);
         }
@@ -255,8 +261,10 @@ sub check_dependency {
         $result = !$not_usingsomething;
     }
     else {
-        $result = $this->check_dependency($what);
+        print STDERR "check_dependency, single\n" if TRACE;
+        $result = $this->_check_dependency($what);
     }
+    print STDERR "check_dependency('$what'): '$result'\n" if TRACE;
 
     return $result;
 }
@@ -267,18 +275,20 @@ sub _check_dependency {
 
     # Eg. Foswiki::Plugins::ZonePlugin,>=3.1,perl
     # TODO: type?
-    if ( $what =~ /^([^,]+)\s*(,\s*([^,]+,[^,]+))?/ ) {
+    if ( $what =~ /^([^,]+)\s*(,\s*([^,]+),([^,]+))?/ ) {
         require Foswiki::Configure::Dependency;
-        my ( $module, $version ) = ( $1, $3 );
+        my ( $module, $equality, $version ) = ( $1, $3, $4 );
+        print STDERR "_check_dependency, testing $module $equality $version\n"
+          if TRACE;
         my $type = $module =~ /^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
         my $dep =
           defined $version
-          ? Foswiki::Configure::Dependency(
+          ? Foswiki::Configure::Dependency->new(
             type    => $type,
             module  => $module,
-            version => $version
+            version => $equality . $version
           )
-          : Foswiki::Configure::Dependency(
+          : Foswiki::Configure::Dependency->new(
             type   => $type,
             module => $module
           );
@@ -288,6 +298,7 @@ sub _check_dependency {
     else {
         $this->assert( 0, "Don't know how to check for module '$what'" );
     }
+    print STDERR "_check_dependency('$what'): '$result'\n" if TRACE;
 
     return $result;
 }
