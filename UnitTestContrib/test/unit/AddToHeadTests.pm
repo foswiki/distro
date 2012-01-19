@@ -18,6 +18,7 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
+    $this->expect_failure('Pre-Foswiki 1.1 feature', with_dep => 'Foswiki,>=,1.1');
 }
 
 sub testSimple {
