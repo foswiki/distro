@@ -129,6 +129,19 @@ sub set_up {
     $Foswiki::cfg{AllowInlineScript}          = 1;
 }
 
+sub tear_down {
+    my $this = shift;
+
+    $this->removeWebFixture( $this->{session}, 'Aa' )
+      if ( Foswiki::Func::webExists('Aa') );
+    $this->removeWebFixture( $this->{session}, 'AA' )
+      if ( Foswiki::Func::webExists('AA') );
+    $this->removeWebFixture( $this->{session}, 'This(is)' )
+      if ( Foswiki::Func::webExists('This(is)') );
+    $this->SUPER::tear_down();
+}
+
+
 sub loadExtraConfig {
     my $this = shift;
     $this->SUPER::loadExtraConfig();
