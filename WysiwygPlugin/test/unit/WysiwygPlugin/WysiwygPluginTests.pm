@@ -6,16 +6,16 @@ package WysiwygPluginTests;
 use strict;
 use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Unit::Request;
-use Unit::Response;
-use Foswiki;
-use Foswiki::Plugins::WysiwygPlugin;
-use Foswiki::Plugins::WysiwygPlugin::Handlers;
+use Unit::Request();
+use Unit::Response();
+use Foswiki();
+use Foswiki::Plugins::WysiwygPlugin();
+use Foswiki::Plugins::WysiwygPlugin::Handlers();
 use Encode();
-use Carp;
+use Carp();
 
 my @unicodeCodepointsForWindows1252 = (
 
@@ -52,11 +52,6 @@ my @unicodeCodepointsForWindows1252 = (
 
 my $UI_FN;
 
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
-
 sub set_up {
     my $this = shift;
 
@@ -71,12 +66,8 @@ sub set_up {
     $Foswiki::cfg{Site}{CharSet}                   = undef;
     $Foswiki::cfg{Site}{Locale}                    = undef;
     $Foswiki::cfg{Site}{UseLocale}                 = 0;
-}
 
-sub tear_down {
-    my $this = shift;
-
-    $this->SUPER::tear_down();
+    return;
 }
 
 sub anal {
@@ -103,6 +94,8 @@ sub save_testCharsetCodesRange {
     my $text = join( '', @test ) . ".";
 
     $this->save_test( $charset, $text, $text );
+
+    return;
 }
 
 sub save_testUnicodeCodepointsRange {
@@ -115,6 +108,8 @@ sub save_testUnicodeCodepointsRange {
     my $text = join( '', @test ) . ".";
 
     $this->save_test( $charset, $text, $text );
+
+    return;
 }
 
 sub _perlEncodeCharset {
@@ -147,7 +142,7 @@ sub save_test {
       ? Encode::encode( _perlEncodeCharset($charset), $expectedOutput )
       : $expectedOutput;
 
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'wysiwyg_edit' => [1],
             'action_save'  => [1],
@@ -169,7 +164,7 @@ sub save_test {
     $this->captureWithKey(
         save => sub {
             no strict 'refs';
-            &$UI_FN($Foswiki::Plugins::SESSION);
+            &{$UI_FN}($Foswiki::Plugins::SESSION);
             use strict 'refs';
             $Foswiki::engine->finalize(
                 $Foswiki::Plugins::SESSION->{response},
@@ -183,6 +178,8 @@ sub save_test {
     $out =~ s/\s*$//s;
 
     $this->assert( $e eq $out, "'" . anal($out) . "' !=\n'" . anal($e) . "'" );
+
+    return;
 }
 
 sub TML2HTML_testCharsetCodesRange {
@@ -194,6 +191,8 @@ sub TML2HTML_testCharsetCodesRange {
     my $text = join( '', @test ) . ".";
 
     $this->TML2HTML_test( $charset, $text, $text );
+
+    return;
 }
 
 sub TML2HTML_testUnicodeCodepointsRange {
@@ -206,6 +205,8 @@ sub TML2HTML_testUnicodeCodepointsRange {
     my $text = join( '', @test ) . ".";
 
     $this->TML2HTML_test( $charset, $text, $text );
+
+    return;
 }
 
 # $input and $expectedOutput contain unicode codepoints;
@@ -216,7 +217,7 @@ sub TML2HTML_test {
     # Is this enough? Regexes are inited before we get here, aren't they?
     $Foswiki::cfg{Site}{CharSet} = $charset;
 
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'wysiwyg_edit' => [1],
 
@@ -255,6 +256,8 @@ sub TML2HTML_test {
 
     $this->assert( $expectedOutput eq $out,
         "'" . anal($out) . "' !=\n'" . anal($expectedOutput) . "'" );
+
+    return;
 }
 
 sub HTML2TML_testCharsetCodesRange {
@@ -266,6 +269,8 @@ sub HTML2TML_testCharsetCodesRange {
     my $text = join( '', @test ) . ".";
 
     $this->HTML2TML_test( $charset, $text, $text );
+
+    return;
 }
 
 sub HTML2TML_testUnicodeCodepointsRange {
@@ -278,6 +283,8 @@ sub HTML2TML_testUnicodeCodepointsRange {
     my $text = join( '', @test ) . ".";
 
     $this->HTML2TML_test( $charset, $text, $text );
+
+    return;
 }
 
 # $input and $expectedOutput contain unicode codepoints;
@@ -288,7 +295,7 @@ sub HTML2TML_test {
     # Is this enough? Regexes are inited before we get here, aren't they?
     $Foswiki::cfg{Site}{CharSet} = $charset;
 
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             'wysiwyg_edit' => [1],
 
@@ -324,6 +331,8 @@ sub HTML2TML_test {
 
     $this->assert_str_equals( $expectedOutput, $out,
         "'" . anal($out) . "' !=\n'" . anal($expectedOutput) . "'" );
+
+    return;
 }
 
 # tests for various charsets
@@ -339,6 +348,8 @@ sub test_restTML2HTML_undef {
     $this->TML2HTML_test( undef, $unicodeOfWindows1252, $unicodeOfWindows1252 );
 
     $this->TML2HTML_test( undef, chr(0x3B1) . chr(0x2640), '&alpha;&#x2640;' );
+
+    return;
 }
 
 sub test_restTML2HTML_iso_8859_1 {
@@ -355,6 +366,8 @@ sub test_restTML2HTML_iso_8859_1 {
 
     $this->TML2HTML_test( 'iso-8859-1', chr(0x3B1) . chr(0x2640),
         '&alpha;&#x2640;' );
+
+    return;
 }
 
 sub test_restTML2HTML_iso_8859_7 {
@@ -363,6 +376,8 @@ sub test_restTML2HTML_iso_8859_7 {
     $this->TML2HTML_testCharsetCodesRange( 'iso-8859-7', 160, 173 );
     $this->TML2HTML_testCharsetCodesRange( 'iso-8859-7', 175, 209 );
     $this->TML2HTML_testCharsetCodesRange( 'iso-8859-7', 211, 254 );
+
+    return;
 }
 
 sub test_restTML2HTML_iso_8859_15 {
@@ -377,6 +392,8 @@ sub test_restTML2HTML_iso_8859_15 {
     for my $code ( 0xA4, 0xA6, 0xA8, 0xB4, 0xBC, 0xBD, 0xBE ) {
         $this->TML2HTML_testCharsetCodesRange( 'iso-8859-15', $code, $code );
     }
+
+    return;
 }
 
 sub test_restTML2HTML_utf_8 {
@@ -387,6 +404,8 @@ sub test_restTML2HTML_utf_8 {
 
     # Chinese
     $this->TML2HTML_testUnicodeCodepointsRange( 'utf-8', 8000, 9000 );
+
+    return;
 }
 
 sub test_restHTML2TML_undef {
@@ -399,6 +418,8 @@ sub test_restHTML2TML_undef {
       join( '', map { chr($_) } @unicodeCodepointsForWindows1252 );
 
     $this->HTML2TML_test( undef, $unicodeOfWindows1252, $unicodeOfWindows1252 );
+
+    return;
 }
 
 sub test_restHTML2TML_iso_8859_1 {
@@ -412,6 +433,8 @@ sub test_restHTML2TML_iso_8859_1 {
 
     $this->HTML2TML_test( 'iso-8859-1', $unicodeOfWindows1252,
         $unicodeOfWindows1252 );
+
+    return;
 }
 
 sub test_restHTML2TML_iso_8859_7 {
@@ -420,6 +443,8 @@ sub test_restHTML2TML_iso_8859_7 {
     $this->HTML2TML_testCharsetCodesRange( 'iso-8859-7', 160, 173 );
     $this->HTML2TML_testCharsetCodesRange( 'iso-8859-7', 175, 209 );
     $this->HTML2TML_testCharsetCodesRange( 'iso-8859-7', 211, 254 );
+
+    return;
 }
 
 sub test_restHTML2TML_iso_8859_15 {
@@ -434,6 +459,8 @@ sub test_restHTML2TML_iso_8859_15 {
     for my $code ( 0xA4, 0xA6, 0xA8, 0xB4, 0xBC, 0xBD, 0xBE ) {
         $this->HTML2TML_testCharsetCodesRange( 'iso-8859-15', $code, $code );
     }
+
+    return;
 }
 
 sub test_restHTML2TML_utf_8 {
@@ -444,6 +471,8 @@ sub test_restHTML2TML_utf_8 {
 
     # Chinese
     $this->HTML2TML_testUnicodeCodepointsRange( 'utf-8', 8000, 9000 );
+
+    return;
 }
 
 sub test_save_undef {
@@ -453,6 +482,8 @@ sub test_save_undef {
     $this->save_testUnicodeCodepointsRange( undef, 142, 142 );
     $this->save_testUnicodeCodepointsRange( undef, 145, 156 );
     $this->save_testUnicodeCodepointsRange( undef, 158, 255 );
+
+    return;
 }
 
 sub test_save_iso_8859_1 {
@@ -466,6 +497,8 @@ sub test_save_iso_8859_1 {
 
     $this->save_test( 'iso-8859-1', $unicodeOfWindows1252,
         $unicodeOfWindows1252 );
+
+    return;
 }
 
 sub test_save_iso_8859_7 {
@@ -474,6 +507,8 @@ sub test_save_iso_8859_7 {
     $this->save_testCharsetCodesRange( 'iso-8859-7', 160, 173 );
     $this->save_testCharsetCodesRange( 'iso-8859-7', 175, 209 );
     $this->save_testCharsetCodesRange( 'iso-8859-7', 211, 254 );
+
+    return;
 }
 
 sub test_save_iso_8859_15 {
@@ -488,21 +523,29 @@ sub test_save_iso_8859_15 {
     for my $code ( 0xA4, 0xA6, 0xA8, 0xB4, 0xBC, 0xBD, 0xBE ) {
         $this->save_testCharsetCodesRange( 'iso-8859-15', $code, $code );
     }
+
+    return;
 }
 
 sub test_save_utf_8a {
     my $this = shift;
     $this->save_testUnicodeCodepointsRange( 'utf-8', 127, 300 );
+
+    return;
 }
 
 sub test_save_utf_8b {
     my $this = shift;
     $this->save_testUnicodeCodepointsRange( 'utf-8', 301, 400 );
+
+    return;
 }
 
 sub test_save_utf_8d {
     my $this = shift;
     $this->save_testUnicodeCodepointsRange( 'utf-8', 401, 500 );
+
+    return;
 }
 
 sub test_save_utf_8e {
@@ -510,6 +553,8 @@ sub test_save_utf_8e {
 
     # Chinese
     $this->save_testUnicodeCodepointsRange( 'utf-8', 8000, 9000 );
+
+    return;
 }
 
 1;
