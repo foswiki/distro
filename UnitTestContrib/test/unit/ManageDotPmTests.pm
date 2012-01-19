@@ -592,9 +592,6 @@ sub test_NoUserAddToNewGroupCreate {
 
    #$this->assert_not_null( $ret, "no users in list of users to add to group" );
 
-    $this->expect_failure( 'NEEDSMERGE, Item11196',
-        with_dep => 'Foswiki,<,1.2' );
-
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(
         Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
