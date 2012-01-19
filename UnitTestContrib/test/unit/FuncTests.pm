@@ -3,17 +3,17 @@
 #
 package FuncTests;
 
-use utf8;    # For test_unicode_attachment
 use strict;
 use warnings;
+use utf8;    # For test_unicode_attachment
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
-use Foswiki;
-use Foswiki::Func;
 use Assert;
+use FoswikiFnTestCase();
+our @ISA = qw( FoswikiFnTestCase );
+use Foswiki();
+use Foswiki::Func();
 
-sub TRACE { 0 }
+sub TRACE { return 0 }
 
 my $MrWhite;
 
@@ -2439,6 +2439,8 @@ sub DISABLEDtest_unicode_attachment {
     $this->assert( utf8::is_utf8($uniname),
         "Our attachment comment '$unicomment' doesn\'t have utf8 flag set" );
     $this->do_attachment( $uniname, $unicomment );
+
+    return;
 }
 
 # Test that we can attach a file named with unicode chars.
@@ -2458,6 +2460,8 @@ sub test_unicode_attachment_utf8_encoded {
         "Our utf-8 encoded attachment comment '$utfcomment' has utf8 flag set"
     );
     $this->do_attachment( $utfname, $utfcomment );
+
+    return;
 }
 
 sub do_attachment {
