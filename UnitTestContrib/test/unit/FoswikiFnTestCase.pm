@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright
 
 package FoswikiFnTestCase;
-use strict;
-use warnings;
 
 =begin TML
 
@@ -29,10 +27,12 @@ targeting single classes).
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
 
-use Foswiki();
-use Unit::Request();
-use Unit::Response();
-use Foswiki::UI::Register();
+use strict;
+
+use Foswiki;
+use Unit::Request;
+use Unit::Response;
+use Foswiki::UI::Register;
 use Error qw( :try );
 
 our @mails;
@@ -180,7 +180,7 @@ sub registerUser {
 
     $query->path_info("/$this->{users_web}/UserRegistration");
 
-    my $fatwilly = $this->createNewFoswikiSession(undef, $query);
+    my $fatwilly = new Foswiki( undef, $query );
     $this->assert($fatwilly->topicExists(
         $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName}));
 
@@ -207,10 +207,12 @@ sub registerUser {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
+    $fatwilly->finish();
 
     # Reload caches
     my $q = $this->{request};
-    $this->createNewFoswikiSession(undef, $q);
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $q );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 }
 
