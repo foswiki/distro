@@ -58,24 +58,36 @@ my %link_tests = (
         query    => 'q=r&s=t',
         fragment => 'f'
     },
+
+    # Extra spacey
     ' a a ' =>
-      { topic => 'Aa', autolink => 0, relative => 'web', normal => undef },
+      { topic => 'AA', autolink => 0, relative => 'web', normal => undef },
     ' a a / b b ' =>
-      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+      { address => 'AA.BB', autolink => 0, relative => 0, normal => undef },
     ' a a . b b ' =>
-      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+      { address => 'AA.BB', autolink => 0, relative => 0, normal => undef },
     ' a a . b b / cc ' =>
-
-      # Legacy behaviour is wrong! Should be Aa.Bb/Cc
-      { address => 'Aa/bb.Cc', autolink => 0, relative => 0, normal => undef },
+      { address => 'AA/BB.Cc', autolink => 0, relative => 0, normal => undef },
     ' a a / b b . cc ' =>
-
-      # Legacy behaviour is wrong! Should be Aa/Bb.Cc
-      { address => 'Aa/bb.Cc', autolink => 0, relative => 0, normal => undef },
+      { address => 'AA/BB.Cc', autolink => 0, relative => 0, normal => undef },
     ' a a . b b . cc ' =>
+      { address => 'AA.BB.Cc', autolink => 0, relative => 0, normal => undef },
 
-      # Legacy behaviour is wrong! Should be Aa.Bb.Cc
-      { address => 'Aa.bb.Cc', autolink => 0, relative => 0, normal => undef },
+    # Spacey
+    ' aa ' =>
+      { topic => 'Aa', autolink => 0, relative => 'web', normal => undef },
+    ' aa / bb ' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+    ' aa . bb ' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+    ' aa . bb / cc ' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => undef },
+    ' aa / bb . cc ' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => undef },
+    ' aa . bb . cc ' =>
+      { address => 'Aa.Bb.Cc', autolink => 0, relative => 0, normal => undef },
+
+    #  Normalish
     'Aa' => { topic => 'Aa', autolink => 0, relative => 'web', normal => 1 },
     'Aa.Bb' =>
       { address => 'Aa.Bb', autolink => 1, relative => 0, normal => 1 },
@@ -1607,12 +1619,12 @@ sub _uri_unescape {
 }
 
 sub _check_rendered_linktext {
-    my ($this, $linktext, $expected) = @_;
+    my ( $this, $linktext, $expected ) = @_;
     my $editpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'edit' );
     my $editpathregex = qr/^.*\Q$editpath\E\/([^"]*)/;
     my $viewpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'view' );
     my $viewpathregex = qr/^.*\Q$viewpath\E\/([^"]*)/;
-    my $html = $this->{test_topicObject}->renderTML("[[$linktext]]");
+    my $html          = $this->{test_topicObject}->renderTML("[[$linktext]]");
     my $expectedAddress;
     my $expectedAddrObj;
     my $addrObj;
@@ -1660,8 +1672,7 @@ sub _check_rendered_linktext {
       . ( defined $address ? $address : 'undef' ) . "\n"
       if TRACE;
     $this->assert_str_equals( $expectedAddrObj->stringify(),
-        $addrObj->stringify(),
-        "address mismatch checking [[$linktext]]" );
+        $addrObj->stringify(), "address mismatch checking [[$linktext]]" );
     $this->assert_deep_equals( $expected->{query}, $query,
         "query mismatch checking [[$linktext]]" );
     $this->assert_deep_equals( $expected->{fragment}, $fragment,
@@ -1674,14 +1685,14 @@ sub _check_rendered_linktext {
 # These tests were expected to be pass prior to re-working Foswiki link handling
 # See Item11356 Foswiki:Development.ImplementingLinkProposals
 sub test_sanity_link_tests {
-    my $this          = shift;
+    my $this = shift;
 
     $this->expect_failure('TODO: fix Item11366 ampersand escaping in squabs');
     $this->_create_link_test_fixtures();
     while ( my ( $linktext, $expected ) = each %link_tests ) {
 
         if ($linktext) {
-            $this->_check_rendered_linktext($linktext, $expected);
+            $this->_check_rendered_linktext( $linktext, $expected );
         }
     }
     $this->_remove_link_test_fixtures();
