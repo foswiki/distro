@@ -232,7 +232,7 @@ sub save {
               Foswiki::Func::getScriptUrl( undef, undef, 'restauth' )
               . '/CommentPlugin/comment';
             Foswiki::Func::redirectCgiQuery( undef, $authRest, 1 );
-            throw Error::Simple('redirect');
+            throw Error::Simple('restauth-redirect');
         }
     }
 

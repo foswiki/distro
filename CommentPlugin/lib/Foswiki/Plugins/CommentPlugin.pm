@@ -191,7 +191,12 @@ sub _restSave {
         my $e = shift;
 
         # Redirect already requested to clear the endpoint
-        $query->param( endPoint => '' ) if ( $e =~ 'redirect' );
+        if ( $e =~ 'restauth-redirect' ) {
+            $query->param( endPoint => '' );
+        }
+        else {
+            throw($e);
+        }
     }
     otherwise {
         if ( $query->param('comment_ajax') ) {

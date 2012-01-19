@@ -51,6 +51,16 @@ EOF
           . $e2
           . '</code>' )
       if $e2;
+
+    if ( $e2 =~ m/auth\b/ ) {
+        $msg .= $this->ERROR(
+            <<"EOF"
+There are one or more *auth scripts found in $Foswiki::cfg{ScriptDir} that are missing
+from <tt>{AuthScripts}</tt>.  For best security,
+any script ending in "auth" should be included in the list of <tt>{AuthScripts}</tt>.
+EOF
+    );
+    }
     return $msg;
 }
 
