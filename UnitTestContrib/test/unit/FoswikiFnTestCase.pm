@@ -46,7 +46,7 @@ sub new {
     $this->{test_web}   = 'Temporary' . $var . 'TestWeb' . $var;
     $this->{test_topic} = 'TestTopic' . $var;
     $this->{users_web}  = 'Temporary' . $var . 'UsersWeb';
-    $this->{session}    = undef;
+
     return $this;
 }
 
@@ -163,7 +163,7 @@ Can be used by subclasses to register test users.
 
 sub registerUser {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
-
+    my $q     = $this->{session}{request};
     my $query = new Unit::Request(
         {
             'TopicName'     => ['UserRegistration'],
@@ -180,15 +180,16 @@ sub registerUser {
 
     $query->path_info("/$this->{users_web}/UserRegistration");
 
-    my $fatwilly = new Foswiki( undef, $query );
-    $this->assert($fatwilly->topicExists(
-        $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName}));
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert( $this->{session}
+          ->topicExists( $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName} )
+    );
 
-    $fatwilly->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
         $this->captureWithKey(
             register_cgi => \&Foswiki::UI::Register::register_cgi,
-            $fatwilly
+            $this->{session}
         );
     }
     catch Foswiki::OopsException with {
@@ -207,12 +208,9 @@ sub registerUser {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
-    $fatwilly->finish();
 
     # Reload caches
-    my $q = $this->{request};
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( undef, $q );
+    $this->createNewFoswikiSession( undef, $q );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 }
 

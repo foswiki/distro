@@ -717,12 +717,13 @@ __DO NOT CALL session->finish() yourself__
 =cut
 
 sub createNewFoswikiSession {
-    my ( $this, @args ) = @_;
+    my ( $this, $user, $query, @args ) = @_;
 
     $this->{session}->finish() if $this->{session};
-    $this->{request}->finish() if $this->{request};
-    $this->{session} = Foswiki->new(@args);
-    $this->{request} = $this->{session}{request};
+    $this->{request}->finish()
+      if ( $this->{request} && $this->{request}->can('finish') );
+    $this->{session}           = Foswiki->new( $user, $query, @args );
+    $this->{request}           = $this->{session}{request};
     $Foswiki::Plugins::SESSION = $this->{session};
     $this->{test_topicObject}->finish() if $this->{test_topicObject};
     ( $this->{test_topicObject} ) =

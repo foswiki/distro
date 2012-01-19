@@ -30,6 +30,16 @@ sub new {
     return $this;
 }
 
+sub finish {
+    my ($this) = @_;
+
+    if ( $this->SUPER::can('finish') ) {
+        $this->SUPER::finish();
+    }
+
+    return;
+}
+
 sub setUrl {
     my ( $this, $queryString ) = @_;
 
