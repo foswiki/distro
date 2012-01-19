@@ -2,8 +2,8 @@ package ResponseTests;
 use strict;
 use warnings;
 
-use Unit::TestCase;
-our @ISA = qw( Unit::TestCase );
+use FoswikiTestCase();
+our @ISA = qw( FoswikiTestCase );
 use Assert;
 
 use Foswiki::Response;
@@ -43,8 +43,15 @@ sub test_empty_new {
 
     $this->assert_null( $res->status, 'Non-empty initial status' ) if not DEBUG;
     $this->assert_null( $res->body, 'Non-empty initial body' );
-    $this->assert_matches( 'ISO-8859-1', $res->charset,
-        'Bad default initial charset: ' . ( $res->charset || 'undef' ) );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+        $this->assert_matches( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1',
+            $res->charset,
+            'Bad default initial charset: ' . ( $res->charset || 'undef' ) );
+    }
+    else {
+        $this->assert_matches( 'ISO-8859-1', $res->charset,
+            'Bad default initial charset: ' . ( $res->charset || 'undef' ) );
+    }
 
     my @cookies = $res->cookies();
     $this->assert_str_equals( 0, scalar @cookies, '$res->cookies not empty' );
