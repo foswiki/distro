@@ -297,30 +297,6 @@ sub save {
 
     $output = '' unless defined($output);
 
-    # SMELL: Reverse the process that inserts meta-data just performed
-    # by the Foswiki core, but this time without the support of the
-    # methods in the core. Fortunately this will work even if there is
-    # no embedded meta-data.
-    my $premeta   = '';
-    my $postmeta  = '';
-    my $inpost    = 0;
-    my $innerText = '';
-    foreach my $line ( split( /\r?\n/, $text ) ) {
-        if ( $line =~ /^%META:[A-Z]+{[^}]*}%$/ ) {
-            if ($inpost) {
-                $postmeta .= $line . "\n";
-            }
-            else {
-                $premeta .= $line . "\n";
-            }
-        }
-        else {
-            $innerText .= $line . "\n";
-            $inpost = 1;
-        }
-    }
-    $text = $innerText;
-
     #make sure the anchor or location exits
     if ( defined($location) and not( $text =~ /(?<!location\=\")($location)/ ) )
     {
@@ -397,7 +373,7 @@ sub save {
         $text =~ s/(%COMMENT({.*?})?%)/_remove_nth($1,\$idx,$remove)/eg;
     }
 
-    return $premeta . $text . $postmeta;
+    return $text;
 }
 
 # PRIVATE embed output if this comment is the interesting one
@@ -428,7 +404,7 @@ sub _remove_nth {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
