@@ -2603,7 +2603,7 @@ sub _test_path_func {
     return;
 }
 
-sub test_getScriptUrl {
+sub test_getScriptUrl_spec {
     my ($this) = @_;
 
     $this->_test_path_func( \&Foswiki::Func::getScriptUrl,
@@ -2612,7 +2612,7 @@ sub test_getScriptUrl {
     return;
 }
 
-sub test_getScriptUrlPath {
+sub test_getScriptUrlPath_spec {
     my ($this) = @_;
 
     $this->_test_path_func( \&Foswiki::Func::getScriptUrlPath );
