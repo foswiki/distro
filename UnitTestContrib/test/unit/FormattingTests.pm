@@ -158,6 +158,7 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 0;
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we

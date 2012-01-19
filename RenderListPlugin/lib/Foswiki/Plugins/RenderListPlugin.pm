@@ -72,7 +72,7 @@ sub initPlugin {
 }
 
 # =========================
-sub startRenderingHandler {
+sub preRenderingHandler {
 ### my ( $text, $web ) = @_;   # do not uncomment, use $_[0], $_[1] instead
 
     # This handler is called by getRenderedVersion just before the line loop
