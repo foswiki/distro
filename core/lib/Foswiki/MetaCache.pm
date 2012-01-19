@@ -122,7 +122,7 @@ sub removeMeta {
         delete $this->{cache}->{$web};
     }
 
-    return defined( $this->{cache}->{$web}{$topic} );
+    return;
 }
 
 =begin TML
