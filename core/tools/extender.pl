@@ -468,7 +468,7 @@ sub _validatePerlModule {
 
 ---++ StaticMethod getScriptDir( )
 This routine will recover the Script Directory from LocalSite.cfg
-without processing the entire file.  
+without processing the entire file (unless it has to to expand embedded vars) 
 
 =cut
 
@@ -504,7 +504,20 @@ sub getScriptDir {
     my $cfgfile = do { local $/; <$cfg> };
 
     $cfgfile =~ m/$reBinDir/ms;
-    return $1 || $2;
+
+    my $val = $1 || $2;
+    if ($val =~ /\$Foswiki::cfg/) {
+	# if there's at least one unexpanded cfg var in the value,
+	# slurp LSC and expand
+	local %Foswiki::cfg; # local namespace, won't pollute anything else
+	eval $cfgfile;
+	unless ($@) {
+	    while ($val =~ s<(\$Foswiki::cfg{[A-Za-z0-9{}]+})>
+                             <eval $1>gex) {
+	    }
+	}
+    }
+    return $val;
 
 }
 
