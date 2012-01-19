@@ -1,7 +1,10 @@
 #!/usr/bin/perl -w
 # See bottom of file for description
 
+use strict;
+use warnings;
 require 5.006;
+
 use FindBin;
 use Cwd ();
 my $starting_root;
@@ -46,9 +49,8 @@ BEGIN {
     $starting_root = $root;
 }
 
-use strict;
-use Foswiki;   # If you take this out then TestRunner.pl will fail on IndigoPerl
-use Unit::TestRunner;
+use Foswiki();   # If you take this out then TestRunner.pl will fail on IndigoPerl
+use Unit::TestRunner();
 
 my %options;
 while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
