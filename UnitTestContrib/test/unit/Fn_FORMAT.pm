@@ -238,7 +238,7 @@ sub DISABLEtest_formatted_search_summary_with_exclamation_marks {
 
     $actual =
       $this->{test_topicObject}
-      ->expandMacros( '%FORMAT{"FormattedSearchTopic1" format="$summary"}%' );
+      ->expandMacros('%FORMAT{"FormattedSearchTopic1" format="$summary"}%');
     $actual = $this->{test_topicObject}->renderTML($actual);
     $expected =
 '<nop>MichaelAnchor and <nop>AnnaAnchor lived in Skagen in <nop>DenmarkEurope!. There is a very nice museum you can visit!';
