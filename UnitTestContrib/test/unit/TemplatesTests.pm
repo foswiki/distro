@@ -490,31 +490,23 @@ sub language_setup_11 {
     write_template(
         'strings', '
 %TMPL:DEF{"Question"}%Do you see?%TMPL:END%
-%TMPL:DEF{"Yes" char="?"}%Yes%char%%TMPL:END%
-%TMPL:DEF{"No"}%No%char%%TMPL:END%
-%TMPL:DEF{"Dontknow" char=""}%Dunno%char%%TMPL:END%
+%TMPL:DEF{"Yes"}%Yes%TMPL:END%
+%TMPL:DEF{"No"}%No%TMPL:END%
 '
     );
     write_template(
         'strings.gaelic', '
 %TMPL:DEF{"Question"}%An faca sibh?%TMPL:END%
-%TMPL:DEF{"Yes" char="?"}%Chunnaic%char%%TMPL:END%
-%TMPL:DEF{"No"}%Chan fhaca%char%%TMPL:END%
-%TMPL:DEF{"Dontknow" char=""}%Níl a fhios%char%%TMPL:END%
+%TMPL:DEF{"Yes"}%Chunnaic%TMPL:END%
+%TMPL:DEF{"No"}%Chan fhaca%TMPL:END%
 '
     );
     write_template( "pattern", '%TMPL:INCLUDE{"strings"}%SKIN=pattern ' );
 
-# test TMPL:DEF params
-# 'No': value is inserted in TMPL:P, old behaviour
-# 'Yes': default value is provided in DEF, not inserted in TMPL:P, so left as is
-# 'Dontknow': default empty value is provided in TMPL:DEF
-
     write_template(
         'example', '%TMPL:INCLUDE{"pattern"}%%TMPL:P{"Question"}%
-<input type="button" value="%TMPL:P{"No" char="!"}%">
+<input type="button" value="%TMPL:P{"No"}%">
 <input type="button" value="%TMPL:P{"Yes"}%">
-<input type="button" value="%TMPL:P{"Dontknow"}%">
 '
     );
 }
@@ -527,9 +519,8 @@ sub test_languageEnglish_11 {
     $data = $tmpls->readTemplate( 'example', skins => 'pattern' );
     $this->assert_str_equals( '
 SKIN=pattern Do you see?
-<input type="button" value="No!">
-<input type="button" value="Yes?">
-<input type="button" value="Dunno">
+<input type="button" value="No">
+<input type="button" value="Yes">
 ', $data );
 }
 
@@ -541,9 +532,8 @@ sub test_languageGaelic_11 {
     $data = $tmpls->readTemplate( 'example', skins => 'gaelic,pattern' );
     $this->assert_str_equals( '
 SKIN=pattern An faca sibh?
-<input type="button" value="Chan fhaca!">
-<input type="button" value="Chunnaic?">
-<input type="button" value="Níl a fhios">
+<input type="button" value="Chan fhaca">
+<input type="button" value="Chunnaic">
 ', $data );
 }
 
