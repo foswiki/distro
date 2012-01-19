@@ -126,7 +126,8 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $this->{request} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
+        $this->{request} );
     Foswiki::Func::createWeb($testweb);
     $this->createNewFoswikiSession( undef, $this->{request} );
     $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
@@ -167,6 +168,7 @@ sub setup_formtests {
     my $q = Unit::Request->new();
 
     $q->path_info("/$web/$topic");
+
     #$this->{session}->{webName}   = $web;
     #$this->{session}->{topicName} = $topic;
 
@@ -176,7 +178,8 @@ sub setup_formtests {
         next if $k eq '_RAW';
         $q->param( -name => $k, -value => $attr->{$k} );
     }
-    $this->createNewFoswikiSession(undef, $q);
+    $this->createNewFoswikiSession( undef, $q );
+    $this->{session}->enterContext('edit');
 
     # Now generate the form. We pass a template which throws everything away
     # but the form to allow for simpler analysis.
@@ -545,7 +548,8 @@ sub test_unsavedtopic_rendersform {
     );
     $query->path_info("/$testweb/MissingTopic");
     $query->method('POST');
-    my $fatwilly = $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my $fatwilly =
+      $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ($text) = $this->capture(
         sub {
             no strict 'refs';
