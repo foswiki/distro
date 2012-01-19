@@ -16,9 +16,10 @@ sub new {
 }
 
 sub test_NOP {
-    my $this        = shift;
-    my $topicObject = Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'WebHome' );
-    my $result      = $topicObject->expandMacros("%NOP%");
+    my $this = shift;
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'WebHome' );
+    my $result = $topicObject->expandMacros("%NOP%");
     $this->assert_equals( '<nop>', $result );
 
     $result = $topicObject->expandMacros("%NOP{   ignore me   }%");

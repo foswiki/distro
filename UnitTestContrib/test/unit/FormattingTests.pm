@@ -157,7 +157,7 @@ sub loadExtraConfig {
     my $this = shift;
     $this->SUPER::loadExtraConfig();
 
-    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled}      = 0;
     $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 0;
 }
 

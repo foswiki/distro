@@ -172,16 +172,22 @@ sub test_multiple {
     $this->{request}
       ->param( -name => 'multi', -value => [ 'foo', 'bar', 'baz' ] );
     $str =
-      $this->{test_topicObject}
-      ->expandMacros('%URLPARAM{"multi" multiple="-$percnt$item-" encode="none"}%');
+      $this->{test_topicObject}->expandMacros(
+        '%URLPARAM{"multi" multiple="-$percnt$item-" encode="none"}%');
     $this->assert_str_equals( "-%foo-\n-%bar-\n-%baz-", "$str" );
 
-    $this->{request}
-      ->param( -name => 'multi', -value => [ 'f!"£$'."\n".'{}[]o', 'b%^&*:@;\'r', 'b()_+-=<>?,./|z' ] );
+    $this->{request}->param(
+        -name  => 'multi',
+        -value => [ 'f!"£$' . "\n" . '{}[]o', 'b%^&*:@;\'r', 'b()_+-=<>?,./|z' ]
+    );
     $str =
-      $this->{test_topicObject}
-      ->expandMacros('%URLPARAM{"multi" multiple="-$item$quot-" encode="url" separator=","}%');
-    $this->assert_str_equals( "-f!%22%a3%24%0a%7b%7d%5b%5do%22-,-b%25%5e%26*:%40%3b'r%22-,-b%28%29_%2b-%3d%3c%3e%3f%2c./%7cz%22-", "$str" );
+      $this->{test_topicObject}->expandMacros(
+        '%URLPARAM{"multi" multiple="-$item$quot-" encode="url" separator=","}%'
+      );
+    $this->assert_str_equals(
+"-f!%22%a3%24%0a%7b%7d%5b%5do%22-,-b%25%5e%26*:%40%3b'r%22-,-b%28%29_%2b-%3d%3c%3e%3f%2c./%7cz%22-",
+        "$str"
+    );
 }
 
 sub test_newline {

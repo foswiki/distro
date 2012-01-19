@@ -84,19 +84,19 @@ sub test_ListIterator_nothing_hasNext {
 sub test_ListIterator_nothing_all {
     my $this = shift;
 
-    my $it = new Foswiki::ListIterator();
+    my $it   = new Foswiki::ListIterator();
     my @list = $it->all;
 
-    $this->assert_equals(0, scalar(@list));
+    $this->assert_equals( 0, scalar(@list) );
 }
 
 sub test_ListIterator_nothing_skip {
     my $this = shift;
 
-    my $it = new Foswiki::ListIterator();
+    my $it    = new Foswiki::ListIterator();
     my $count = $it->skip;
 
-    $this->assert_equals(0, $count);
+    $this->assert_equals( 0, $count );
 }
 
 sub test_AggregateIterator {
@@ -304,105 +304,105 @@ sub test_AggregateIteratorNested {
 
 sub test_NumberRangeIterator {
     my $this = shift;
-    my $i = new Foswiki::Iterator::NumberRangeIterator(0,0,1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert(!$i->hasNext());
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,0,-1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert(!$i->hasNext());
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,0);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert(!$i->hasNext());
+    my $i = new Foswiki::Iterator::NumberRangeIterator( 0, 0, 1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( !$i->hasNext() );
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, 0, -1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( !$i->hasNext() );
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, 0 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,1,1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(1, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, 1, 1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 1, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,3,2);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(2, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, 3, 2 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 2, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,4,2);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(2, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(4, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, 4, 2 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 2, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 4, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,1,-1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(1, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, 1, -1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 1, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,-1,-1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-1, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, -1, -1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -1, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,-1,1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-1, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, -1, 1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -1, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,-3, -2);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-2, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, -3, -2 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -2, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(0,-4, 2);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-2, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-4, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 0, -4, 2 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -2, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -4, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(-1,1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-1, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(1, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( -1, 1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -1, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 1, $i->next() );
+    $this->assert( !$i->hasNext() );
 
-    $i = new Foswiki::Iterator::NumberRangeIterator(1,-1);
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(1, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-1, $i->next());
-    $this->assert(!$i->hasNext());
+    $i = new Foswiki::Iterator::NumberRangeIterator( 1, -1 );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 1, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -1, $i->next() );
+    $this->assert( !$i->hasNext() );
 
     $i->reset();
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(1, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(0, $i->next());
-    $this->assert($i->hasNext());
-    $this->assert_num_equals(-1, $i->next());
-    $this->assert(!$i->hasNext());
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 1, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( 0, $i->next() );
+    $this->assert( $i->hasNext() );
+    $this->assert_num_equals( -1, $i->next() );
+    $this->assert( !$i->hasNext() );
 }
 
 #0, '', -1 are valid elements
@@ -424,7 +424,7 @@ sub test_ListIterator_falsies {
         $this->assert_str_equals( '-1, 0, , asd, ', $b );
     }
     {
-        my @list = ( '','+&','@:{}','!!','' );
+        my @list = ( '', '+&', '@:{}', '!!', '' );
 
         my $it = new Foswiki::ListIterator( \@list );
         $this->assert( $it->isa('Foswiki::Iterator') );

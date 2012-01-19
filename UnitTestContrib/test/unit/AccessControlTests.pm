@@ -5,9 +5,9 @@ use warnings;
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki          ();
-use Foswiki::Meta    ();
-use Foswiki::Plugins ();
+use Foswiki                        ();
+use Foswiki::Meta                  ();
+use Foswiki::Plugins               ();
 use Foswiki::Configure::Dependency ();
 
 # For Anchor test
@@ -20,10 +20,10 @@ sub new {
     my $self = $class->SUPER::new( 'AccessControl', @args );
 
     my $dep = new Foswiki::Configure::Dependency(
-            type    => "perl",
-            module  => "Foswiki",
-            version => ">=1.2"
-           );
+        type    => "perl",
+        module  => "Foswiki",
+        version => ">=1.2"
+    );
     my ( $ok, $message ) = $dep->check();
     $post11 = $ok;
 
@@ -86,7 +86,8 @@ sub DENIED {
         require Foswiki::Address;
         $this->assert(
             !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
-            "$user $mode $web.$topic" );
+            "$user $mode $web.$topic"
+        );
         $this->assert(
             !$this->{session}->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
@@ -105,7 +106,6 @@ sub DENIED {
         );
     }
 
-
     return;
 }
 
@@ -121,7 +121,8 @@ sub PERMITTED {
         require Foswiki::Address;
         $this->assert(
             $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
-            "$user $mode $web.$topic" );
+            "$user $mode $web.$topic"
+        );
         $this->assert(
             $this->{session}->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
@@ -736,8 +737,8 @@ THIS
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
     # like '/foswiki' (where {ScriptUrlPath} looks like '/foswiki/bin').
     # In any case, the test is hard-wired to ignore {ScriptSuffix}
-    $this->expect_failure(
-        'Test does\'t cater to ShortURL configurations', using => 'ShortURLs');
+    $this->expect_failure( 'Test does\'t cater to ShortURL configurations',
+        using => 'ShortURLs' );
 
     # Extract what we've been redirected to
     my ($redirect_to) = $text =~ /^Location: (.*?)\r?$/m;

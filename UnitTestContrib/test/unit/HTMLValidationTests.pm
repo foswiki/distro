@@ -54,7 +54,6 @@ sub loadExtraConfig {
 
     $this->SUPER::loadExtraConfig( $context, @args );
 
-
     return;
 }
 
@@ -111,7 +110,7 @@ sub fixture_groups {
                 context  => $array[2],
             };
         }
-        next unless (ref($dispatcher) eq 'HASH');#bad switchboard entry.
+        next unless ( ref($dispatcher) eq 'HASH' );    #bad switchboard entry.
 
         my $package  = $dispatcher->{package} || 'Foswiki::UI';
         my $function = $dispatcher->{function};

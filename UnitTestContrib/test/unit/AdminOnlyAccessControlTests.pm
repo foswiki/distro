@@ -744,8 +744,8 @@ THIS
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
     # like '/foswiki' (where {ScriptUrlPath} looks like '/foswiki/bin').
     # In any case, the test is hard-wired to ignore {ScriptSuffix}
-    $this->expect_failure(
-        'Test does\'t cater to ShortURL configurations', using => 'ShortURLs' );
+    $this->expect_failure( 'Test does\'t cater to ShortURL configurations',
+        using => 'ShortURLs' );
 
     # Extract what we've been redirected to
     my ($redirect_to) = $text =~ /^Location: (.*?)\r?$/m;

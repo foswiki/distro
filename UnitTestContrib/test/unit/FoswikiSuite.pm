@@ -17,7 +17,7 @@ sub list_tests {
 sub include_tests {
     my $this = shift;
     my $here = Cwd::abs_path;
-    ($here) = $here =~ m/^(.*)$/;  # untaint
+    ($here) = $here =~ m/^(.*)$/;    # untaint
     push( @INC, $here );
     my @list;
     opendir( DIR, "." ) || die "Failed to open .";
@@ -40,7 +40,7 @@ sub include_tests {
     }
     require Cwd;
     $home = Cwd::abs_path($home);
-    ($home) = $home =~ m/^(.*)$/;  # untaint
+    ($home) = $home =~ m/^(.*)$/;    # untaint
 
     print STDERR "Getting extensions from $home/lib/MANIFEST\n";
     if ( open( F, "$home/lib/MANIFEST" ) ) {
@@ -59,19 +59,19 @@ sub include_tests {
                 next unless ( -e "$d/${2}Suite.pm" );
                 push( @list, "${2}Suite.pm" );
                 ($d) = $d =~ m/^(.*)$/;
-                push( @INC,  $d );
+                push( @INC, $d );
             }
         }
         close(F);
     }
     push( @list, "UnitTestContribSuite.pm" );
-    push( @INC, "$here/UnitTestContrib");
+    push( @INC,  "$here/UnitTestContrib" );
     push( @list, "EngineTests.pm" );
 
     print STDERR "Running tests from ", join( ', ', @list ), "\n";
 
     #foreach my $dir ( @INC ) {
-    #   print "Checking $dir \n"; 
+    #   print "Checking $dir \n";
     #   Assert::UNTAINTED( $dir );
     #}
 

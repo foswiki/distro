@@ -332,7 +332,8 @@ sub test_simpleTextSaveDeniedWebCHANGE {
         if (   ( "attention" eq $exception->{template} )
             && ( "thanks" eq $exception->{def} ) )
         {
-            print STDERR "---------".$exception->stringify()."\n" if ($Error::Debug);
+            print STDERR "---------" . $exception->stringify() . "\n"
+              if ($Error::Debug);
             $exception = undef;    #the only correct answer
         }
     }
@@ -346,9 +347,12 @@ sub test_simpleTextSaveDeniedWebCHANGE {
         $exception = new Error::Simple();
     };
 
-    $this->assert_matches( qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck is denied. access denied on web/, $exception );
-    $this->assert( !$this->{session}->topicExists( $this->{test_web},
-        'DeleteTestSaveScriptTopic3'  ) );
+    $this->assert_matches(
+qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck is denied. access denied on web/,
+        $exception
+    );
+    $this->assert( !$this->{session}
+          ->topicExists( $this->{test_web}, 'DeleteTestSaveScriptTopic3' ) );
 }
 
 sub test_templateTopicTextSave {
@@ -426,8 +430,8 @@ sub test_missingWebSave {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     try {
         $this->captureWithKey( save => $UI_FN, $this->{session} );
-        $this->assert(0, 'save into missing web worked');
-        }
+        $this->assert( 0, 'save into missing web worked' );
+    }
     catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals( 'no_such_web', $e->{def} );
@@ -697,10 +701,9 @@ sub test_simpleFormSave3 {
 
 }
 
-
 # Testing zero value form field values - Item9970
 # The purpose of this test is to confirm that we can save the value 0
-# We have made this bug several times in history 
+# We have made this bug several times in history
 sub test_simpleFormSaveZeroValue {
     my $this  = shift;
     my $query = new Unit::Request(
@@ -728,7 +731,6 @@ sub test_simpleFormSaveZeroValue {
         $meta->get( 'FIELD', 'Textfield' )->{value} );
 }
 
-
 # Testing empty value form field values - Item9970
 # The purpose of this test is to confirm that we can save an empty value
 sub test_simpleFormSaveEmptyValue {
@@ -754,10 +756,8 @@ sub test_simpleFormSaveEmptyValue {
     $this->assert_matches( qr/^CORRECT\s*$/, $text );
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
 
-    $this->assert_str_equals( '',
-        $meta->get( 'FIELD', 'Textfield' )->{value} );
+    $this->assert_str_equals( '', $meta->get( 'FIELD', 'Textfield' )->{value} );
 }
-
 
 # meta data (other than FORM, FIELD, TOPICPARENT, etc.) is inherited from
 # templatetopic
@@ -791,44 +791,63 @@ sub test_templateTopicWithAttachments {
 
     open( FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" );
     print FILE "one two three";
-    close( FILE );
+    close(FILE);
     open( FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile2.txt" );
     print FILE "four five six";
-    close( FILE );
+    close(FILE);
 
     my $templateTopic = "TemplateTopic";
-    my $testTopic = "TemplateTopicWithAttachment";
+    my $testTopic     = "TemplateTopicWithAttachment";
 
-    Foswiki::Func::saveTopic($this->{test_web}, $templateTopic, undef, "test with an attachment");
+    Foswiki::Func::saveTopic( $this->{test_web}, $templateTopic, undef,
+        "test with an attachment" );
 
     Foswiki::Func::saveAttachment(
-        $this->{test_web}, $templateTopic, "testfile.txt",
-        { file => "$Foswiki::cfg{TempfileDir}/testfile.txt",
-          comment => "a comment" } );
+        $this->{test_web},
+        $templateTopic,
+        "testfile.txt",
+        {
+            file    => "$Foswiki::cfg{TempfileDir}/testfile.txt",
+            comment => "a comment"
+        }
+    );
     Foswiki::Func::saveAttachment(
-        $this->{test_web}, $templateTopic, "testfile2.txt",
-        { file => "$Foswiki::cfg{TempfileDir}/testfile2.txt",
-          comment => "a comment" } );
+        $this->{test_web},
+        $templateTopic,
+        "testfile2.txt",
+        {
+            file    => "$Foswiki::cfg{TempfileDir}/testfile2.txt",
+            comment => "a comment"
+        }
+    );
 
     my $query = new Unit::Request(
         {
-            templatetopic => [ 'TemplateTopic' ],
-            action => [ 'save' ],
-            topic => [ "$this->{test_web}.$testTopic" ]
-           });
+            templatetopic => ['TemplateTopic'],
+            action        => ['save'],
+            topic         => ["$this->{test_web}.$testTopic"]
+        }
+    );
     $this->{session}->finish();
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
 
-    my($meta, $text) = Foswiki::Func::readTopic($this->{test_web}, $testTopic);
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $testTopic );
 
     $this->assert_matches( qr/test with an attachment/, $text );
-    $this->assert_not_null($meta->get( 'FILEATTACHMENT', 'testfile.txt' ), "attachment meta copied for testfile.txt");
-    $this->assert_not_null($meta->get( 'FILEATTACHMENT', 'testfile2.txt' ), "attachment meta copied for testfile2.txt");
-    $this->assert(
-        $meta->testAttachment("testfile.txt", 'e'), "testfile.txt copied" );
-    $this->assert(
-        $meta->testAttachment("testfile2.txt", 'e'), "testfile2.txt copied" );
+    $this->assert_not_null(
+        $meta->get( 'FILEATTACHMENT', 'testfile.txt' ),
+        "attachment meta copied for testfile.txt"
+    );
+    $this->assert_not_null(
+        $meta->get( 'FILEATTACHMENT', 'testfile2.txt' ),
+        "attachment meta copied for testfile2.txt"
+    );
+    $this->assert( $meta->testAttachment( "testfile.txt", 'e' ),
+        "testfile.txt copied" );
+    $this->assert( $meta->testAttachment( "testfile2.txt", 'e' ),
+        "testfile2.txt copied" );
 }
 
 #Mergeing is only enabled if the topic text comes from =text= and =originalrev= is &gt; 0 and is not the same as the revision number of the most recent revision. If mergeing is enabled both the topic and the meta-data are merged.
@@ -1184,8 +1203,7 @@ sub test_addform {
     $query->method('POST');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     try {
-        my ($text) =
-          $this->captureWithKey( save => $UI_FN, $this->{session} );
+        my ($text) = $this->captureWithKey( save => $UI_FN, $this->{session} );
         $this->assert_matches( qr/input value="TestForm1" name="formtemplate"/,
             $text );
         $this->assert_matches( qr/value="TestForm2" name="formtemplate"/,
@@ -1214,8 +1232,7 @@ sub test_get {
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
 
     try {
-        my ($text) =
-          $this->captureWithKey( save => $UI_FN, $this->{session} );
+        my ($text) = $this->captureWithKey( save => $UI_FN, $this->{session} );
         $this->assert_matches( qr/^Status: 403.*$/m, $text );
     }
     catch Error::Simple with {};

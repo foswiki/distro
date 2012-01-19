@@ -62,13 +62,13 @@ sub fixture_groups {
     my $this   = shift;
     my $groups = [];
 
-    push ( @$groups, 'RcsLite' );
+    push( @$groups, 'RcsLite' );
 
     if ( FoswikiStoreTestCase::rcs_is_installed() ) {
-	push( @$groups, 'RcsWrap' );
-	unless ($Foswiki::cfg{RCS}{coMustCopy}) {
-	    push( @$groups, 'RcsWrap_coMustCopy' );
-	}
+        push( @$groups, 'RcsWrap' );
+        unless ( $Foswiki::cfg{RCS}{coMustCopy} ) {
+            push( @$groups, 'RcsWrap_coMustCopy' );
+        }
     }
 
     return ($groups);
@@ -212,7 +212,7 @@ sub verify_RcsWrapOnly_ciLocked {
     unlink("$topic.txt");
 
     # file is now locked by blocker_socker, save some new text
-    $rcs->ci(0, "Shimmy Dimmy", 'Gotcha', 'SheikAlot', time() );
+    $rcs->ci( 0, "Shimmy Dimmy", 'Gotcha', 'SheikAlot', time() );
 
     my $txt = $rcs->readFile($vfile);
     $this->assert_matches( qr/Gotcha/s,      $txt );

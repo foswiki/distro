@@ -113,13 +113,9 @@ sub test_no_format_no_separator {
 
     $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
     $this->{request}->param( -name => 'fee', -value => 'free' );
-    $str =
-      $this->{test_topicObject}->expandMacros(
-        '%QUERYPARAMS{}%');
+    $str = $this->{test_topicObject}->expandMacros('%QUERYPARAMS{}%');
     $this->assert_str_equals(
-"foo=&#60;evil script&#62;&#39;&#34;&#37;\nfee=free",
-        "$str"
-    );
+        "foo=&#60;evil script&#62;&#39;&#34;&#37;\nfee=free", "$str" );
 }
 
 sub test_no_format_with_separator {
@@ -130,12 +126,10 @@ sub test_no_format_with_separator {
     $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
     $this->{request}->param( -name => 'fee', -value => 'free' );
     $str =
-      $this->{test_topicObject}->expandMacros(
-        '%QUERYPARAMS{separator="NEXT"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%QUERYPARAMS{separator="NEXT"}%');
     $this->assert_str_equals(
-"foo=&#60;evil script&#62;&#39;&#34;&#37;NEXTfee=free",
-        "$str"
-    );
+        "foo=&#60;evil script&#62;&#39;&#34;&#37;NEXTfee=free", "$str" );
 }
 
 sub test_no_format_empty_separator {
@@ -146,12 +140,9 @@ sub test_no_format_empty_separator {
     $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
     $this->{request}->param( -name => 'fee', -value => 'free' );
     $str =
-      $this->{test_topicObject}->expandMacros(
-        '%QUERYPARAMS{separator=""}%');
+      $this->{test_topicObject}->expandMacros('%QUERYPARAMS{separator=""}%');
     $this->assert_str_equals(
-"foo=&#60;evil script&#62;&#39;&#34;&#37;fee=free",
-        "$str"
-    );
+        "foo=&#60;evil script&#62;&#39;&#34;&#37;fee=free", "$str" );
 }
 
 sub test_with_format_no_separator {
@@ -162,8 +153,8 @@ sub test_with_format_no_separator {
     $this->{request}->param( -name => 'foo', -value => '<evil script>\'"%' );
     $this->{request}->param( -name => 'fee', -value => 'free' );
     $str =
-      $this->{test_topicObject}->expandMacros(
-        '%QUERYPARAMS{format="$name is equal to $value"}%');
+      $this->{test_topicObject}
+      ->expandMacros('%QUERYPARAMS{format="$name is equal to $value"}%');
     $this->assert_str_equals(
 "foo is equal to &#60;evil script&#62;&#39;&#34;&#37;\nfee is equal to free",
         "$str"
@@ -211,9 +202,7 @@ sub test_stdescapes_not_expanded {
     $str =
       $this->{test_topicObject}
       ->expandMacros('%QUERYPARAMS{format="$name is equal to $value"}%');
-    $this->assert_str_equals('percent is equal to $percnt',
-        "$str"
-    );
+    $this->assert_str_equals( 'percent is equal to $percnt', "$str" );
 
 }
 

@@ -2097,8 +2097,7 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced',
-            'WebTopicList'
+            'WebSearchAdvanced', 'WebTopicList'
         ],
         '_default',
         {},
@@ -2119,8 +2118,7 @@ sub verify_getTopicList {
             'WebIndex',          'WebLeftBar',
             'WebNotify',         'WebPreferences',
             'WebRss',            'WebSearch',
-            'WebSearchAdvanced',
-            'WebTopicList'
+            'WebSearchAdvanced', 'WebTopicList'
         ],
         '_default',
         { includeTopics => 'Web*' },

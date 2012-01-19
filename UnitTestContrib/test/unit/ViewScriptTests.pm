@@ -33,11 +33,13 @@ NotTOAutoLink
 HERE
 
 #Sven is curious why the comment="" is in the meta - I thought that was dead and buried.
-my $topic2meta = '%META:TOPICINFO{author="BaseUserMapping_666"( comment="")? date="[0-9]{10,10}" format="1.1" version="1"}%\n'; 
-my $topic2metaQ = $topic2meta; 
-$topic2metaQ =~ s/"/&quot;/g; 
+my $topic2meta =
+'%META:TOPICINFO{author="BaseUserMapping_666"( comment="")? date="[0-9]{10,10}" format="1.1" version="1"}%\n';
+my $topic2metaQ = $topic2meta;
+$topic2metaQ =~ s/"/&quot;/g;
 
-my $topic2txtarea = '<textarea name=""  rows="22" cols="70" readonly="readonly" style="width:99%" id="topic" class="foswikiTextarea foswikiTextareaRawView">';
+my $topic2txtarea =
+'<textarea name=""  rows="22" cols="70" readonly="readonly" style="width:99%" id="topic" class="foswikiTextarea foswikiTextareaRawView">';
 
 my $topic2rawON = $topic2;
 $topic2rawON =~ s/</&lt;/g;
@@ -189,12 +191,12 @@ sub setup_view {
     my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin ) = @_;
     my $query = new Unit::Request(
         {
-            webName   => [$web],
-            topicName => [$topic],
-            template  => [$tmpl],
-            raw       => [$raw],
+            webName     => [$web],
+            topicName   => [$topic],
+            template    => [$tmpl],
+            raw         => [$raw],
             contenttype => [$ctype],
-            skin       => [$skin],
+            skin        => [$skin],
         }
     );
     $query->path_info("/$web/$topic");
@@ -210,37 +212,47 @@ sub setup_view {
         }
     );
 
-    my $editUrl = $fatwilly->getScriptUrl('0', 'edit', $this->{test_web}, '' );
+    my $editUrl = $fatwilly->getScriptUrl( '0', 'edit', $this->{test_web}, '' );
 
     $fatwilly->finish();
     $text =~ s/\r//g;
     $text =~ s/(^.*?\n\n+)//s;    # remove CGI header
-    return ($text, $1, $editUrl);
+    return ( $text, $1, $editUrl );
 }
 
-# This test verifies the rendering of the various raw views      
+# This test verifies the rendering of the various raw views
 sub test_render_raw {
     my $this = shift;
     my $text;
     my $hdr;
 
-    ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'text');
-    $this->assert_equals( "$topic2", $text, "Unexpected output from raw=text"  );
-    $this->assert_matches( qr#^Content-Type: text/plain#ms, $hdr, "raw=text should return text/plain - got $hdr");
+    ( $text, $hdr ) =
+      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'text' );
+    $this->assert_equals( "$topic2", $text, "Unexpected output from raw=text" );
+    $this->assert_matches( qr#^Content-Type: text/plain#ms,
+        $hdr, "raw=text should return text/plain - got $hdr" );
 
-    ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all');
-    $this->assert_matches( qr#$topic2meta$topic2#, $text, "Unexpected output from raw=all"  );
-    $this->assert_matches( qr#^Content-Type: text/plain#ms, $hdr, "raw=all should return text/plain - got $hdr");
+    ( $text, $hdr ) =
+      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all' );
+    $this->assert_matches( qr#$topic2meta$topic2#, $text,
+        "Unexpected output from raw=all" );
+    $this->assert_matches( qr#^Content-Type: text/plain#ms,
+        $hdr, "raw=all should return text/plain - got $hdr" );
 
-    ($text,$hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on');
-    $this->assert_matches( qr#.*$topic2txtarea$topic2rawON.*#, $text, "Unexpected output from raw=on"  );
-    $this->assert_matches( qr#^Content-Type: text/html#ms, $hdr, "raw=on should return text/html - got $hdr");
+    ( $text, $hdr ) =
+      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on' );
+    $this->assert_matches( qr#.*$topic2txtarea$topic2rawON.*#,
+        $text, "Unexpected output from raw=on" );
+    $this->assert_matches( qr#^Content-Type: text/html#ms,
+        $hdr, "raw=on should return text/html - got $hdr" );
 
-    ($text, $hdr) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug');
-    $this->assert_matches( qr#.*$topic2txtarea$topic2metaQ$topic2rawON.*#, $text, "Unexpected output from raw=debug" );
-    $this->assert_matches( qr#^Content-Type: text/html#ms, $hdr, "raw=debug should return text/html - got $hdr");
+    ( $text, $hdr ) =
+      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug' );
+    $this->assert_matches( qr#.*$topic2txtarea$topic2metaQ$topic2rawON.*#,
+        $text, "Unexpected output from raw=debug" );
+    $this->assert_matches( qr#^Content-Type: text/html#ms,
+        $hdr, "raw=debug should return text/html - got $hdr" );
 }
-
 
 # This test verifies the rendering of the text/plain
 sub test_render_textplain {
@@ -249,7 +261,9 @@ sub test_render_textplain {
     my $hdr;
     my $editUrl;
 
-    ($text, $hdr, $editUrl) = $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', '', 'text/plain', 'text');
+    ( $text, $hdr, $editUrl ) =
+      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', '',
+        'text/plain', 'text' );
     $editUrl =~ s/WebHome/MissingWikiWord/;
 
     my $topic2plain = <<HERE;
@@ -265,11 +279,15 @@ NotTOAutoLink
 <hr />posttemplate
 HERE
     chomp $topic2plain;
-    $this->assert_matches( qr#^Content-Type: text/plain#ms, $hdr, "contenttype=text/plain should return text/plain - got $hdr");
-    $this->assert_does_not_match( qr#<(noautolink|nop)>#, $text, "autolink or nop found in text skin" );
-    $this->assert_equals( "$topic2plain", $text, "Unexpected output from contentype=text/plain skin=text"  );
+    $this->assert_matches( qr#^Content-Type: text/plain#ms,
+        $hdr, "contenttype=text/plain should return text/plain - got $hdr" );
+    $this->assert_does_not_match( qr#<(noautolink|nop)>#, $text,
+        "autolink or nop found in text skin" );
+    $this->assert_equals( "$topic2plain", $text,
+        "Unexpected output from contentype=text/plain skin=text" );
 
 }
+
 # This test verifies the handling of preamble (the text following
 # %STARTTEXT%) and postamble (the text between %TEXT% and %ENDTEXT%).
 sub test_prepostamble {
@@ -551,8 +569,7 @@ sub test_urlparsing {
     #invalid..
 
     # - Invalid web name - Tasks.Item8713
-    $this->urltest( '/A:B/WebPreferences',
-        '', 'WebPreferences' );
+    $this->urltest( '/A:B/WebPreferences', '', 'WebPreferences' );
 
 }
 
