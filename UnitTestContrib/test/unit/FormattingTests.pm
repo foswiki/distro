@@ -4,11 +4,98 @@ use strict;
 
 package FormattingTests;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki;
+use Foswiki();
+use Foswiki::Func();
+use Benchmark qw( :hireswallclock);
 use Error qw( :try );
+
+sub TRACE { 0 }
+
+my %link_tests = (
+    ''           => { autolink => 0 },
+    '#'          => { autolink => 0, fragment => undef },
+    '#f'         => { autolink => 0, fragment => 'f' },
+    '?'          => { autolink => 0, query => '' },
+    '?q'         => { autolink => 0, query => 'q' },
+    '?q=r'       => { autolink => 0, query => 'q=r' },
+    '?q=r;s=t'   => { autolink => 0, query => 'q=r;s=t' },
+    '?q=r&s=t'   => { autolink => 0, query => 'q=r&s=t' },
+    '?#f'        => { query    => '', autolink => 0, fragment => 'f' },
+    '?q#f'       => { query    => 'q', autolink => 0, fragment => 'f' },
+    '?q=r#f'     => { query    => 'q=r', autolink => 0, fragment => 'f' },
+    '?q=r;s=t#f' => { query    => 'q=r;s=t', autolink => 0, fragment => 'f' },
+    '?q=r&s=t#f' => { query    => 'q=r&s=t', autolink => 0, fragment => 'f' },
+    '&aa . &amp; bb#' =>
+      { address => 'Aa.Bb', autolink => 0, fragment => undef },
+    '&aa . &amp; bb#f' =>
+      { address => 'Aa.Bb', autolink => 0, fragment => 'f' },
+    '&aa . &amp; bb?'  => { address => 'Aa.Bb', autolink => 0, query => '' },
+    '&aa . &amp; bb?q' => { address => 'Aa.Bb', autolink => 0, query => 'q' },
+    '&aa . &amp; bb?q=r' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r' },
+    '&aa . &amp; bb?q=r;s=t' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r;s=t' },
+    '&aa . &amp; bb?q=r&s=t' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r&s=t' },
+    '&aa . &amp; bb?#f' =>
+      { address => 'Aa.Bb', autolink => 0, query => '', fragment => 'f' },
+    '&aa . &amp; bb?q#f' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q', fragment => 'f' },
+    '&aa . &amp; bb?q=r#f' =>
+      { address => 'Aa.Bb', autolink => 0, query => 'q=r', fragment => 'f' },
+    '&aa . &amp; bb?q=r;s=t#f' => {
+        address  => 'Aa.Bb',
+        autolink => 0,
+        query    => 'q=r;s=t',
+        fragment => 'f'
+    },
+    '&aa . &amp; bb?q=r&s=t#f' => {
+        address  => 'Aa.Bb',
+        autolink => 0,
+        query    => 'q=r&s=t',
+        fragment => 'f'
+    },
+    ' a a ' =>
+      { topic => 'Aa', autolink => 0, relative => 'web', normal => undef },
+    ' a a / b b ' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+    ' a a . b b ' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => undef },
+    ' a a . b b / cc ' =>
+
+      # Legacy behaviour is wrong! Should be Aa.Bb/Cc
+      { address => 'Aa/bb.Cc', autolink => 0, relative => 0, normal => undef },
+    ' a a / b b . cc ' =>
+
+      # Legacy behaviour is wrong! Should be Aa/Bb.Cc
+      { address => 'Aa/bb.Cc', autolink => 0, relative => 0, normal => undef },
+    ' a a . b b . cc ' =>
+
+      # Legacy behaviour is wrong! Should be Aa.Bb.Cc
+      { address => 'Aa.bb.Cc', autolink => 0, relative => 0, normal => undef },
+    'Aa' => { topic => 'Aa', autolink => 0, relative => 'web', normal => 1 },
+    'Aa.Bb' =>
+      { address => 'Aa.Bb', autolink => 1, relative => 0, normal => 1 },
+    'Aa/Bb' =>
+      { address => 'Aa.Bb', autolink => 0, relative => 0, normal => 0 },
+    'Aa/Bb.Cc' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => 1 },
+    'Aa.Bb/Cc' =>
+      { address => 'Aa/Bb.Cc', autolink => 0, relative => 0, normal => 0 },
+    'Aa.Bb.Cc' =>
+      { address => 'Aa/Bb.Cc', autolink => 1, relative => 0, normal => 0 },
+    ' this (is). my! ?favourite=topic#ofcourse' => {
+        address  => 'This(is).My!',
+        autolink => 0,
+        query    => 'favourite=topic',
+        fragment => 'ofcourse',
+        relative => 0,
+        normal   => undef
+    },
+);
 
 sub new {
     my $self = shift()->SUPER::new( 'Formatting', @_ );
@@ -1120,6 +1207,84 @@ sub test_render_PlainText {
 #    );
 }
 
+# Test mixes of :, * and 1 lists
+# SMELL: extend to dl's, and make it more thorough!
+sub test_lists {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<div class='foswikiIndent'> Para
+</div> <div class='foswikiIndent'> Para
+</div> <div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para
+</div> <ul>
+<li> Bullet
+
+</li>  </ul><div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para
+</div> <ol>
+<li> Number
+</li>  </ol><div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para<div class='foswikiIndent'> Para
+
+</div>
+</div> <div class='foswikiIndent'> Para
+</div>
+<p></p><div class='foswikiIndent'> Para<div class='foswikiIndent'> Para<div class='foswikiIndent'> Para
+</div>
+</div>
+</div>
+<p></p>
+None<div class='foswikiIndent'> Para <ul>
+
+<li> Bullet
+</li>  </ul><div class='foswikiIndent'> Slushy<div class='foswikiIndent'> Rainy
+</div>
+</div> <div class='foswikiIndent'> Dry
+</div> <ul>
+<li> Warm
+</li></ul> 
+</div> <div class='foswikiIndent'> Sunny
+
+</div>
+Pleasant
+EXPECTED
+    my $actual = <<ACTUAL;
+   : Para
+   : Para
+   : Para
+
+   : Para
+   * Bullet
+   : Para
+
+   : Para
+   1 Number
+   : Para
+
+   : Para
+      : Para
+   : Para
+
+   : Para
+      : Para
+         : Para
+
+None
+   : Para
+      * Bullet
+      : Slushy
+         : Rainy
+      : Dry
+      * Warm
+   : Sunny
+Pleasant
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 sub test_tableTerminatesList {
     my $this = shift;
 
@@ -1337,6 +1502,189 @@ EXPECTED
 [[ http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ][foswiki-logo.gif]]
 ACTUAL
     $this->do_test( $expected, $actual );
+}
+
+sub _create_topic {
+    my ( $this, $web, $topic ) = @_;
+    my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
+
+    $topicObject->save();
+    $topicObject->finish();
+
+    return;
+}
+
+sub _create_link_test_fixtures {
+    my $this = shift;
+
+    $this->_create_topic( $this->{test_web}, 'Aa' );
+    $this->_create_topic( $this->{test_web}, 'AA' );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    Foswiki::Func::createWeb('Aa');
+    $this->_create_topic( 'Aa', 'Bb' );
+    Foswiki::Func::createWeb('AA');
+    $this->_create_topic( 'AA', 'Bb' );
+
+    # Legacy behaviour - [[ aa . bb ]] -> AA.BB :(
+    $this->_create_topic( 'AA', 'BB' );
+    Foswiki::Func::createWeb('Aa/Bb');
+    $this->_create_topic( 'Aa/Bb', 'Cc' );
+    Foswiki::Func::createWeb('Aa/bb');
+    $this->_create_topic( 'Aa/bb', 'Cc' );
+    Foswiki::Func::createWeb('AA/BB');
+    $this->_create_topic( 'AA/BB', 'Cc' );
+    Foswiki::Func::createWeb('This(is)');
+    $this->_create_topic( 'This(is)', 'My!' );
+
+    return;
+}
+
+sub _remove_link_test_fixtures {
+    my $this = shift;
+
+    $this->removeWebFixture( $this->{session}, 'Aa' );
+    $this->removeWebFixture( $this->{session}, 'AA' );
+    $this->removeWebFixture( $this->{session}, 'This(is)' );
+
+    return;
+}
+
+sub _time_link_tests {
+    my $this = shift;
+    my @keys = sort( keys %link_tests );
+
+    foreach my $linktext (@keys) {
+        my $tml       = "[[$linktext]]";
+        my $benchmark = timeit(
+            200,
+            sub {
+                $this->{test_topicObject}->renderTML($tml);
+            }
+        );
+        print "$tml:\n" . timestr($benchmark) . "\n";
+    }
+
+    return;
+}
+
+sub test_timing_link_tests_exist {
+    my $this = shift;
+
+    $this->_create_link_test_fixtures();
+    $this->_time_link_tests();
+    $this->_remove_link_test_fixtures();
+
+    return;
+}
+
+sub test_timing_link_tests_missing {
+    my $this = shift;
+
+    $this->_time_link_tests();
+
+    return;
+}
+
+# I'd use URI::Encode::uri_unescape(), but ... that's not in core
+sub _uri_unescape {
+    my ( $this, $text ) = @_;
+
+    $text =~ s/%([0-9A-Fa-f]{2})/chr(hex($1))/eg;
+
+    return $text;
+}
+
+sub _check_rendered_linktext {
+    my ($this, $linktext, $expected) = @_;
+    my $editpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'edit' );
+    my $editpathregex = qr/^.*\Q$editpath\E\/([^"]*)/;
+    my $viewpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'view' );
+    my $viewpathregex = qr/^.*\Q$viewpath\E\/([^"]*)/;
+    my $html = $this->{test_topicObject}->renderTML("[[$linktext]]");
+    my $expectedAddress;
+    my $expectedAddrObj;
+    my $addrObj;
+    my $part;
+
+    require Foswiki::Address;
+    require HTML::Entities;
+    print "[[$linktext]]\n\t$html\n" if TRACE;
+    $this->assert( $html !~ $editpathregex,
+        "[[$linktext]] doesn't exist (rendered as newLink: $html)" );
+    $this->assert_matches( $viewpathregex, $html );
+    $html =~ $viewpathregex;
+    $part = $1;
+    $part = HTML::Entities::decode_entities($part);
+    $part = $this->_uri_unescape($part);
+    $part =~ /^([^?#]*)(\?([^#]*))?(#(.*))?$/;
+    my ( $address, $query, $fragment ) = ( $1, $3, $5 );
+
+    if ( defined $expected->{address} ) {
+        $expectedAddress = $expected->{address};
+    }
+    elsif ( defined $expected->{topic} ) {
+        $expectedAddress = "$this->{test_web}.$expected->{topic}";
+    }
+    else {
+        $expectedAddress = "$this->{test_web}.$this->{test_topic}";
+    }
+    $addrObj = Foswiki::Address->new(
+        string => $address,
+        web    => $this->{test_web},
+        topic  => $this->{test_topic},
+        isA    => 'topic'
+    );
+    $expectedAddrObj = Foswiki::Address->new(
+        string => $expectedAddress,
+        web    => $this->{test_web},
+        topic  => $this->{test_topic},
+        isA    => 'topic'
+    );
+    print "\tfrag: "
+      . ( defined $fragment ? $fragment : 'undef' )
+      . ",\tquery: "
+      . ( defined $query ? $query : 'undef' )
+      . ",\taddr: "
+      . ( defined $address ? $address : 'undef' ) . "\n"
+      if TRACE;
+    $this->assert_str_equals( $expectedAddrObj->stringify(),
+        $addrObj->stringify(),
+        "address mismatch checking [[$linktext]]" );
+    $this->assert_deep_equals( $expected->{query}, $query,
+        "query mismatch checking [[$linktext]]" );
+    $this->assert_deep_equals( $expected->{fragment}, $fragment,
+        "fragment mismatch checkin [[$linktext]]" );
+
+    return;
+}
+
+# Confirm that our test data matches up with the renderer's [[link]] behaviour
+# These tests were expected to be pass prior to re-working Foswiki link handling
+# See Item11356 Foswiki:Development.ImplementingLinkProposals
+sub test_sanity_link_tests {
+    my $this          = shift;
+
+    $this->_create_link_test_fixtures();
+    while ( my ( $linktext, $expected ) = each %link_tests ) {
+
+        if ($linktext) {
+            $this->_check_rendered_linktext($linktext, $expected);
+        }
+    }
+    $this->_remove_link_test_fixtures();
+
+    return;
+}
+
+sub test_ampersand_querystring {
+    my ($this) = shift;
+
+    $this->_check_rendered_linktext("$this->{test_topic}?q=r&s=t", {
+        address => "$this->{test_topic}",
+        query => 'q=r&s=t'
+    });
+
+    return;
 }
 
 1;
