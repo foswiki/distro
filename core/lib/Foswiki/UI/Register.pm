@@ -348,7 +348,7 @@ sub _makeFormFieldOrderMatch {
 
 =begin TML
 
----++ StaticMethod registerAndNext($session) 
+---++ StaticMethod registerAndNext($session)
 
 This is called when action = register. It either completes the registration,
 or redirects to verification, depending on the configuration.
@@ -641,13 +641,16 @@ sub addUserToGroup {
                 params => [$groupName]
             );
         }
+    }
 
+    if (   !Foswiki::Func::isGroup($groupName)
+        && !$create )
+    {
         throw Foswiki::OopsException(
             'attention',
-            def    => 'no_users_to_add_to_group',
-            web    => $web,
-            topic  => $topic,
-            params => [$groupName]
+            def   => 'no_group_and_no_create',
+            web   => $web,
+            topic => $topic,
         );
     }
     if ( $#userNames == 0 ) {
@@ -671,6 +674,7 @@ sub addUserToGroup {
 
     my @failed;
     my @succeeded;
+    push @userNames, '<none>' if ( scalar @userNames == 0 );
     foreach my $u (@userNames) {
         $u =~ s/^\s+//;
         $u =~ s/\s+$//;
@@ -678,7 +682,8 @@ sub addUserToGroup {
         # We strip off any usersweb prefix
         $u =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
 
-        next if ( $u eq '' );
+        #next if ( $u eq '' );
+        $u = '' if ( $u eq '<none>' );
 
         next
           if ( Foswiki::Func::isGroup($groupName)
@@ -686,16 +691,8 @@ sub addUserToGroup {
           );
 
         try {
-            if ( Foswiki::Func::addUserToGroup( $u, $groupName, $create ) ) {
-                push( @succeeded, $u );
-            }
-            else {
-                push( @failed, $u );
-
-                # Log the error
-                $session->logger->log( 'warning',
-                    "'Failed to add $u to $groupName " );
-            }
+            Foswiki::Func::addUserToGroup( $u, $groupName, $create );
+            push( @succeeded, $u );
         }
         catch Error::Simple with {
             my $e = shift;
@@ -703,11 +700,12 @@ sub addUserToGroup {
             push( @failed, $u );
 
             # Log the error
-            $session->logger->log( 'warning',
-                "catch: Failed to add $u to $groupName " . $e->stringify() );
+            $session->logger->log( 'warning', $e->stringify() );
         };
     }
     if ( @failed || !@succeeded ) {
+        $session->logger->log( 'warning',
+            "failed: " . scalar @failed . "Succeeded " . scalar @succeeded );
         throw Foswiki::OopsException(
             'attention',
             web    => $web,
@@ -759,24 +757,20 @@ sub removeUserFromGroup {
         throw Foswiki::OopsException( 'attention',
             def => 'no_group_specified_for_remove_from_group' );
     }
+    unless ( Foswiki::Func::isGroup($groupName) ) {
+        throw Foswiki::OopsException( 'attention',
+            def => 'problem_removing_from_group' );
+    }
     my @failed;
     my @succeeded;
     foreach my $u (@userNames) {
+        $u =~ s/^\s+//;
+        $u =~ s/\s+$//;
+
+        next if ( $u eq '' );
         try {
-            $u =~ s/^\s+//;
-            $u =~ s/\s+$//;
-
-            next if ( $u eq '' );
-            if ( Foswiki::Func::removeUserFromGroup( $u, $groupName ) ) {
-                push( @succeeded, $u );
-            }
-            else {
-                push( @failed, $u );
-
-                # Log the error
-                $session->logger->log( 'warning',
-                    "'Failed to add $u to $groupName " );
-            }
+            Foswiki::Func::removeUserFromGroup( $u, $groupName );
+            push( @succeeded, $u );
         }
         catch Error::Simple with {
             my $e = shift;
@@ -784,8 +778,8 @@ sub removeUserFromGroup {
             push( @failed, $u );
 
             # Log the error
-            $session->logger->log( 'warning',
-                "catch: Failed to add $u to $groupName " . $e->stringify() );
+            print STDERR "======== Error " . $e->stringify() . "\n";
+            $session->logger->log( 'warning', $e->stringify() );
         };
     }
     if (@failed) {
@@ -904,7 +898,6 @@ sub _complete {
                 try {
                     $users->addUserToGroup( $cUID, $groupName );
                     push @addedTo, $groupName;
-                    print STDERR "Fell through adding $groupName\n";
                 }
                 catch Error::Simple with {
                     my $e = shift;

@@ -252,7 +252,7 @@ Return a iterator over the canonical user ids of users that are members
 of this group. Should only be called on groups.
 
 Note that groups may be defined recursively, so a group may contain other
-groups. Unless $expand is set to false, this method should *only* return 
+groups. Unless $expand is set to false, this method should *only* return
 users i.e.  all contained groups should be fully expanded.
 
 Subclasses *must* implement this method.
@@ -335,7 +335,14 @@ sub groupAllowsChange {
 
 ---++ ObjectMethod addToGroup( $cuid, $group, $create ) -> $boolean
 adds the user specified by the cuid to the group.
-If the group does not exist, it will return false and do nothing, unless the create flag is set.
+
+Mapper should throws Error::Simple if errors are encountered.  For example,
+if the group does not exist, and the create flag is not supplied:
+<pre>
+    throw Error::Simple( $this->{session}
+        ->i18n->maketext('Group does not exist and create not permitted')
+    ) unless ($create);
+</pre>
 
 =cut
 
@@ -346,6 +353,16 @@ sub addUserToGroup {
 =begin TML
 
 ---++ ObjectMethod removeFromGroup( $cuid, $group ) -> $boolean
+
+Mapper should throws Error::Simple if errors are encountered.  For example,
+if the user does not exist in the group:
+<pre>
+   throw Error::Simple(
+      $this->{session}->i18n->maketext(
+         'User [_1] not in group, cannot be removed', $cuid
+      )
+   );
+</pre>
 
 =cut
 
