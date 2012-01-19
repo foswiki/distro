@@ -38,7 +38,6 @@ use Foswiki;
 use Foswiki::UI::Edit;
 use Foswiki::Form;
 use Unit::Request;
-use Unit::Response;
 use Error qw( :try );
 
 my $testweb    = "TemporaryTestWeb";
@@ -135,15 +134,9 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    $Foswiki::Plugins::SESSION->finish();
-    $this->{request} = Unit::Request->new();
-    $Foswiki::Plugins::SESSION =
-      Foswiki->new( $Foswiki::cfg{AdminUserLogin}, $this->{request} );
-    $this->{response} = Unit::Response->new();
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $this->{request} );
     Foswiki::Func::createWeb($testweb);
-    $Foswiki::Plugins::SESSION->finish();
-    $this->{session} = Foswiki->new( undef, $this->{request} );
-    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->createNewFoswikiSession( undef, $this->{request} );
     $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
     $surl = $this->{session}->getScriptUrl(1);
     Foswiki::Func::saveTopicText( $testweb, $testtopic1, $testtext1, 1, 1 );
@@ -159,7 +152,6 @@ sub set_up {
 sub tear_down {
     my $this = shift;
     $this->removeWebFixture( $this->{session}, $testweb );
-    $this->{session}->finish();
     $this->SUPER::tear_down();
 }
 
@@ -175,17 +167,19 @@ sub get_formfield {
 
 sub setup_formtests {
     my ( $this, $web, $topic, $params ) = @_;
+    my $q = Unit::Request->new();
 
-    $this->{session}->{webName}   = $web;
-    $this->{session}->{topicName} = $topic;
-    my $render = $this->{session}->renderer;
+    $q->path_info("/$web/$topic");
+    #$this->{session}->{webName}   = $web;
+    #$this->{session}->{topicName} = $topic;
 
-    use Foswiki::Attrs;
-    my $attr = new Foswiki::Attrs($params);
+    require Foswiki::Attrs;
+    my $attr = Foswiki::Attrs->new($params);
     foreach my $k ( keys %$attr ) {
         next if $k eq '_RAW';
-        $this->{request}->param( -name => $k, -value => $attr->{$k} );
+        $q->param( -name => $k, -value => $attr->{$k} );
     }
+    $this->createNewFoswikiSession(undef, $q);
 
     # Now generate the form. We pass a template which throws everything away
     # but the form to allow for simpler analysis.
@@ -544,7 +538,7 @@ sub test_unsavedtopic_rendersform {
     );
     $query->path_info("/$testweb/MissingTopic");
     $query->method('POST');
-    my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
+    my $fatwilly = $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ($text) = $this->capture(
         sub {
             no strict 'refs';
@@ -554,6 +548,7 @@ sub test_unsavedtopic_rendersform {
                 $fatwilly->{request} );
         }
     );
+    $query->finish() if $query->can('finish');
     $this->assert_html_matches(
 '<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
         get_formfield( 6, $text )
