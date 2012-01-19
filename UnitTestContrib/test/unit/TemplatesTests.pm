@@ -486,7 +486,73 @@ sub test_loopingTemplate {
     };
 }
 
+sub language_setup_11 {
+    write_template(
+        'strings', '
+%TMPL:DEF{"Question"}%Do you see?%TMPL:END%
+%TMPL:DEF{"Yes" char="?"}%Yes%char%%TMPL:END%
+%TMPL:DEF{"No"}%No%char%%TMPL:END%
+%TMPL:DEF{"Dontknow" char=""}%Dunno%char%%TMPL:END%
+'
+    );
+    write_template(
+        'strings.gaelic', '
+%TMPL:DEF{"Question"}%An faca sibh?%TMPL:END%
+%TMPL:DEF{"Yes" char="?"}%Chunnaic%char%%TMPL:END%
+%TMPL:DEF{"No"}%Chan fhaca%char%%TMPL:END%
+%TMPL:DEF{"Dontknow" char=""}%Níl a fhios%char%%TMPL:END%
+'
+    );
+    write_template( "pattern", '%TMPL:INCLUDE{"strings"}%SKIN=pattern ' );
+
+# test TMPL:DEF params
+# 'No': value is inserted in TMPL:P, old behaviour
+# 'Yes': default value is provided in DEF, not inserted in TMPL:P, so left as is
+# 'Dontknow': default empty value is provided in TMPL:DEF
+
+    write_template(
+        'example', '%TMPL:INCLUDE{"pattern"}%%TMPL:P{"Question"}%
+<input type="button" value="%TMPL:P{"No" char="!"}%">
+<input type="button" value="%TMPL:P{"Yes"}%">
+<input type="button" value="%TMPL:P{"Dontknow"}%">
+'
+    );
+}
+
+sub test_languageEnglish_11 {
+    my $this = shift;
+    my $data;
+
+    $this->language_setup_11();
+    $data = $tmpls->readTemplate( 'example', skins => 'pattern' );
+    $this->assert_str_equals( '
+SKIN=pattern Do you see?
+<input type="button" value="No!">
+<input type="button" value="Yes?">
+<input type="button" value="Dunno">
+', $data );
+}
+
+sub test_languageGaelic_11 {
+    my $this = shift;
+    my $data;
+
+    $this->language_setup_11();
+    $data = $tmpls->readTemplate( 'example', skins => 'gaelic,pattern' );
+    $this->assert_str_equals( '
+SKIN=pattern An faca sibh?
+<input type="button" value="Chan fhaca!">
+<input type="button" value="Chunnaic?">
+<input type="button" value="Níl a fhios">
+', $data );
+}
+
 sub language_setup {
+    my ($this) = @_;
+
+    $this->expect_failure(
+        'Default TMPL params are Foswiki 1.2+ only, Item11400',
+        with_dep => 'Foswiki,<,1.2' );
     write_template(
         'strings', '
 %TMPL:DEF{"Question"}%Do you see?%TMPL:END%
@@ -523,7 +589,7 @@ sub test_languageEnglish {
     my $this = shift;
     my $data;
 
-    language_setup();
+    $this->language_setup();
     $data = $tmpls->readTemplate( 'example', skins => 'pattern' );
     $this->assert_str_equals( '
 SKIN=pattern Do you see?
@@ -537,7 +603,7 @@ sub test_languageGaelic {
     my $this = shift;
     my $data;
 
-    language_setup();
+    $this->language_setup();
     $data = $tmpls->readTemplate( 'example', skins => 'gaelic,pattern' );
     $this->assert_str_equals( '
 SKIN=pattern An faca sibh?
