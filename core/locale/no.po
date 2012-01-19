@@ -65,6 +65,12 @@ msgstr "%1 Web"
 msgid "%1 added to the %2 group. "
 msgstr "%1 lagt til i gruppen %2. "
 
+#. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1039
+#, fuzzy
+msgid "%1 cannot be removed from %2"
+msgstr "%1 fjernet fra %2 gruppen. "
+
 #: core/templates/messages.tmpl:494
 msgid "%1 group topic upgraded. "
 msgstr "%1 gruppe side oppgradert. "
@@ -78,7 +84,7 @@ msgstr "%1 har en liste over andre Foswiki brukere"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 er godkjent og registrert med epost %2"
 
-#: core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:547
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -109,7 +115,7 @@ msgstr "%1 er logget inn"
 msgid "%1 is currently set to %2"
 msgstr "%1 er satt til %2"
 
-#: core/templates/messages.tmpl:533
+#: core/templates/messages.tmpl:545
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 redigerer [[%2][%3]]."
 
@@ -129,7 +135,7 @@ msgstr "%1 er ikke gyldig verdi for  %2 parameteret"
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 er standard side for slettede vedlegg."
 
-#: core/templates/messages.tmpl:541
+#: core/templates/messages.tmpl:553
 msgid "%1 may still be editing %2."
 msgstr "%1 redigerer kanskje fremdeles %2."
 
@@ -137,7 +143,7 @@ msgstr "%1 redigerer kanskje fremdeles %2."
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 siste endringer i %2 Web"
 
-#: core/templates/messages.tmpl:525
+#: core/templates/messages.tmpl:537
 msgid "%1 removed from the %2 group. "
 msgstr "%1 fjernet fra %2 gruppen. "
 
@@ -153,7 +159,7 @@ msgstr "%1 for å tilpasse web spesifikke preferanser"
 msgid "%1 to start working on the new web"
 msgstr "%1 for å starte å bruke den nye weben"
 
-#: core/templates/messages.tmpl:611 core/templates/messages.tmpl:622
+#: core/templates/messages.tmpl:624 core/templates/messages.tmpl:635
 msgid "%1 topic does not exist"
 msgstr "%1 siden eksisterer ikke"
 
@@ -206,7 +212,7 @@ msgstr "(%1 vs. %2)"
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Forslag:* Hva med å laste opp ditt bilde til din side?)"
 
-#: core/data/System/WebSearch.txt:133
+#: core/data/System/WebSearch.txt:232
 msgid "(=all= to show all topics)"
 msgstr "(=alle= for å se alle sider)"
 
@@ -295,7 +301,7 @@ msgstr "(ingen foreldre, foreldreløs side)"
 msgid "(none)"
 msgstr "(ingen)"
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
+#: core/data/System/WebSearch.txt:120 core/data/System/WebSearch.txt:150
 msgid "(otherwise search %1 Web only)"
 msgstr "(eller søk kun i %1 web)"
 
@@ -505,7 +511,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "=.txt= legges til noen av filnavnene av sikkerhetshensyn"
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:607
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -523,11 +529,11 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:964
+#: core/lib/Foswiki/UI/Register.pm:957
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En bekreftelses epost har blitt sent til %1"
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:611
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -536,7 +542,7 @@ msgstr ""
 "En link til en side i en annen web skrives som %1. Vær sikker på at navnet "
 "er stavet riktig på forrige side; fiks linken hvis nødvendig."
 
-#: core/templates/messages.tmpl:566
+#: core/templates/messages.tmpl:579
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -556,7 +562,7 @@ msgstr ""
 "En side med dette navnet eksisterer, men det har endret navn eller flyttet "
 "til %1."
 
-#: core/data/System/WebSearch.txt:65
+#: core/data/System/WebSearch.txt:91
 msgid "A-Z"
 msgstr "A-Z"
 
@@ -564,7 +570,7 @@ msgstr "A-Z"
 msgid "Access Denied"
 msgstr "Tilgang nektes"
 
-#: core/templates/messages.tmpl:574
+#: core/templates/messages.tmpl:587
 msgid "Access check on %1 failed"
 msgstr "Tilgangskontroll til %1 feilet"
 
@@ -581,7 +587,7 @@ msgstr "Hurtigtaster:"
 msgid "Action"
 msgstr "Valg"
 
-#: core/templates/messages.tmpl:575
+#: core/templates/messages.tmpl:588
 msgid "Action %1: %2."
 msgstr "Valg %1: %2."
 
@@ -635,7 +641,7 @@ msgstr "Administrator Vedlikehold"
 msgid "Administration"
 msgstr "Administrasjon"
 
-#: core/data/System/WebSearch.txt:64
+#: core/data/System/WebSearch.txt:88
 msgid "Advanced search"
 msgstr "Avansert søk"
 
@@ -663,7 +669,7 @@ msgstr ""
 msgid "Ah, no!"
 msgstr "Åh, nei!"
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
+#: core/data/System/WebSearch.txt:120 core/data/System/WebSearch.txt:150
 msgid "All public webs"
 msgstr "Alle offentige web"
 
@@ -746,7 +752,7 @@ msgstr "Legg ved ny fil"
 msgid "Attachment"
 msgstr "Vedlegg"
 
-#: core/templates/messages.tmpl:628
+#: core/templates/messages.tmpl:641
 msgid "Attachment '%1' does not exist"
 msgstr "Vedlegg '%1' eksisterer ikke"
 
@@ -844,7 +850,7 @@ msgstr "Ugyldig passord"
 msgid "Base web %1 is missing or does not exist"
 msgstr "Basis web %1 mangler eller eksisterer ikke"
 
-#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:115 core/data/System/WebSearch.txt:145
 msgid "Both body and title"
 msgstr "Både innhold og tittel"
 
@@ -866,11 +872,21 @@ msgstr ""
 "ønsker at alle skal kunne se Trash web'en så fjern =ALLOWWEBVIEW= i "
 "WebPreferences."
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:564
+#. ($user)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+msgid "CHANGE not permitted by %1"
+msgstr ""
+
+#. (( $groupName, $user)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:897
+msgid "CHANGE not permitted for %1 by %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:577
 msgid "Can't find user %1"
 msgstr "Kan ikke finne bruker %1"
 
-#: core/templates/messages.tmpl:565
+#: core/templates/messages.tmpl:578
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 
@@ -904,7 +920,7 @@ msgstr "Kan ikke lage web'en %1 fordi den allerede eksisterer"
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr "Kan ikke navngi %1 til %2 fordi den allerede eksisterer."
 
-#: core/data/System/WebSearch.txt:115
+#: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
 msgstr "Store/små bokstaver"
 
@@ -1015,7 +1031,7 @@ msgid "Choose a new form for %1"
 msgstr "Velg et nytt skjema for %1"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:43
+#: core/lib/Foswiki/Form/Checkbox.pm:104
 msgid "Clear all"
 msgstr "Tøm alle"
 
@@ -1066,10 +1082,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: core/templates/messages.tmpl:577 core/templates/messages.tmpl:583
-#: core/templates/messages.tmpl:587 core/templates/messages.tmpl:608
-#: core/templates/messages.tmpl:619 core/templates/messages.tmpl:625
-#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:590 core/templates/messages.tmpl:596
+#: core/templates/messages.tmpl:600 core/templates/messages.tmpl:621
+#: core/templates/messages.tmpl:632 core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:644 core/templates/messages.tmpl:653
 msgid "Contact %1 if you have any questions."
 msgstr "Kontakt %1 dersom du har spørsmål."
 
@@ -1129,7 +1145,7 @@ msgstr "Kunne ikke lage ny web %1"
 msgid "Could not find template"
 msgstr "Kunne ikke finne mal"
 
-#: core/templates/messages.tmpl:569
+#: core/templates/messages.tmpl:582
 msgid "Could not perform search. Error was: %1"
 msgstr "Kunne ikke utføre søk. Feil var: %1"
 
@@ -1174,11 +1190,15 @@ msgstr "Lag ny FAQ side"
 msgid "Create new topic"
 msgstr "Lag nytt dokument"
 
+#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:511
+msgid "Create not specified and group does not exist"
+msgstr ""
+
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Create personal sidebar"
 msgstr "Lag personlig sidemeny"
 
-#: core/templates/messages.tmpl:606
+#: core/templates/messages.tmpl:619
 msgid "Create the topic"
 msgstr "Lag siden"
 
@@ -1296,7 +1316,7 @@ msgstr "Ikke glem å lagre dine endringer"
 msgid "Do not show attachment in table"
 msgstr "Ikke vis vedlegg i tabell"
 
-#: core/data/System/WebSearch.txt:125
+#: core/data/System/WebSearch.txt:211
 msgid "Don't show:"
 msgstr "Ikke vis:"
 
@@ -1340,27 +1360,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Epost ble endret!"
 
-#: core/templates/messages.tmpl:643
+#: core/templates/messages.tmpl:656
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE feilet - =type= kan ikke brukes sammen med =old= og =new= "
 
-#: core/templates/messages.tmpl:644
+#: core/templates/messages.tmpl:657
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE feilet - både =old= og =new= må angis"
 
-#: core/templates/messages.tmpl:645
+#: core/templates/messages.tmpl:658
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE feilet - tegnet '%PARAM1%' er gjentatt i =old= "
 
-#: core/templates/messages.tmpl:648
+#: core/templates/messages.tmpl:661
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND feilet - ingen tilgang til '%PARAM1%'"
 
-#: core/templates/messages.tmpl:646
+#: core/templates/messages.tmpl:659
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND feilet - ingen makro"
 
-#: core/templates/messages.tmpl:647
+#: core/templates/messages.tmpl:660
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND feilet - ingen side kalt '%PARAM1%'"
 
@@ -1466,11 +1486,11 @@ msgstr "Feil ved lagring av side"
 msgid "Error: %1"
 msgstr "Feil: %1"
 
-#: core/templates/messages.tmpl:555
+#: core/templates/messages.tmpl:567
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Feil: Vedlegg til %1,%2 eksisterer ikke"
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:569
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1478,7 +1498,7 @@ msgstr ""
 "Feil: Usupportert innholdstype: %1 (Må være =text/html=, =text/plain= eller "
 "=text/css=)"
 
-#: core/templates/messages.tmpl:556
+#: core/templates/messages.tmpl:568
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Feil: Usupportert protokoll. (Må være 'http://domene/...')"
 
@@ -1490,7 +1510,7 @@ msgstr "Feil"
 msgid "Errors adding users to group"
 msgstr "Feil ved tilknytning av brukere til grupper"
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:523
 msgid "Errors removing users from groups"
 msgstr "Feil ved fjerning av brukere fra grupper"
 
@@ -1502,7 +1522,11 @@ msgstr "Ondsinnet person"
 msgid "Failed plugins"
 msgstr "Feilede plugins"
 
-#: core/templates/messages.tmpl:567
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
+msgid "Failed to add user: "
+msgstr ""
+
+#: core/templates/messages.tmpl:580
 msgid "Failed to include URL %1"
 msgstr "Klarte ikke å inkludere URL %1"
 
@@ -1593,7 +1617,7 @@ msgstr "Få hjelp om å legge ved filer"
 msgid "Get help on setting topic preferences"
 msgstr "Få hjelp med å sette egenskaper for sider"
 
-#: core/data/System/WebSearch.txt:165
+#: core/data/System/WebSearch.txt:275
 msgid "Get notified on changes on this search"
 msgstr "Få varsler om endringer på dette søket"
 
@@ -1634,9 +1658,18 @@ msgstr "Gode eksempler:"
 msgid "Group"
 msgstr "Gruppe"
 
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
+#: core/lib/Foswiki/UserMapping.pm:343
+msgid "Group does not exist and create not permitted"
+msgstr ""
+
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
 msgstr "Gruppenavn"
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:835
+msgid "Group names must end in Group"
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1651,7 +1684,7 @@ msgstr "Hallo %1"
 msgid "Hello %1!"
 msgstr "Hallo %1!"
 
-#: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
 #: core/templates/login.tmpl:45
 msgid "Help"
 msgstr "Hjelp"
@@ -1762,7 +1795,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Hvis du er usikker på hva dette betyr, les: %1"
 
-#: core/templates/messages.tmpl:596
+#: core/templates/messages.tmpl:609
 msgid "If you came here by clicking on a question mark link"
 msgstr "Dersom du kom hit ved å klikke på et spørsmålstegn-link"
 
@@ -1813,11 +1846,11 @@ msgstr ""
 "Dersom du mottok en link til denne siden i en epost eller bare vil se på "
 "denne siden, [[%1][avbryt lagring]] for å gå til %2."
 
-#: core/templates/messages.tmpl:605
+#: core/templates/messages.tmpl:618
 msgid "If you want to create the topic"
 msgstr "Dersom du ønsker å lage siden"
 
-#: core/templates/messages.tmpl:601
+#: core/templates/messages.tmpl:614
 msgid "If you would like to create this web"
 msgstr "Dersom du ønsker å lage denne web'en"
 
@@ -1863,7 +1896,7 @@ msgstr ""
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr "Med en zip fil, legg ved alle inkluderte filer til denne siden."
 
-#: core/data/System/WebSearch.txt:108
+#: core/data/System/WebSearch.txt:176
 msgid "In reversed order"
 msgstr "I omvendt rekkefølge"
 
@@ -1920,7 +1953,7 @@ msgstr "Ugyldig aktiveringskode"
 msgid "Invalid e-mail address"
 msgstr "Ugyldig epostadresse"
 
-#: core/templates/messages.tmpl:537
+#: core/templates/messages.tmpl:549
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1969,7 +2002,7 @@ msgstr "Gå til første versjon"
 msgid "Jump to latest revision (%1)"
 msgstr "Gå til siste versjon (%1)"
 
-#: core/data/System/WebSearch.txt:118
+#: core/data/System/WebSearch.txt:195
 msgid "Keyword search"
 msgstr "Nøkkelord søk"
 
@@ -1978,7 +2011,7 @@ msgstr "Nøkkelord søk"
 msgid "Last edited by"
 msgstr "Siste redigert av"
 
-#: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:106
+#: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:171
 msgid "Last editor"
 msgstr "Siste redigerer"
 
@@ -1986,7 +2019,7 @@ msgstr "Siste redigerer"
 msgid "Last modified"
 msgstr "Siste endret"
 
-#: core/data/System/WebSearch.txt:105
+#: core/data/System/WebSearch.txt:167
 msgid "Last modified time"
 msgstr "Siste endringstidspunkt"
 
@@ -2002,7 +2035,7 @@ msgstr "Siste versjon: %1"
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr "Forlat uavkrysset dersom du ønsker å legge ved zip filen selv"
 
-#: core/data/System/WebSearch.txt:132
+#: core/data/System/WebSearch.txt:227
 msgid "Limit results to:"
 msgstr "Begrens resultater til:"
 
@@ -2021,11 +2054,11 @@ msgstr "Linje: %1 til %2"
 msgid "Link"
 msgstr "Link"
 
-#: core/data/System/WebSearch.txt:191
+#: core/data/System/WebSearch.txt:315
 msgid "List topics that start with the letter:"
 msgstr "List sider som starter med bokstaven:"
 
-#: core/data/System/WebSearch.txt:119
+#: core/data/System/WebSearch.txt:199
 msgid "Literal search"
 msgstr "Bokstavelig søk"
 
@@ -2062,7 +2095,7 @@ msgstr "Logg på"
 msgid "Mail to"
 msgstr "Post til"
 
-#: core/data/System/WebSearch.txt:112
+#: core/data/System/WebSearch.txt:180
 msgid "Make search:"
 msgstr "Lag søk:"
 
@@ -2194,6 +2227,10 @@ msgstr "Ny foreldre web:"
 msgid "New password"
 msgstr "Nytt passord"
 
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
+msgid "New password did not match existing password for this user"
+msgstr ""
+
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
 msgstr "Nytt sidenavn %1 er ikke et %2"
@@ -2222,11 +2259,11 @@ msgstr "Ingen endringer"
 msgid "No child topics"
 msgstr "Ingen undersider"
 
-#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:517
 msgid "No group name specified"
 msgstr "Gruppenavn ikke angitt"
 
-#: core/templates/messages.tmpl:554
+#: core/templates/messages.tmpl:566
 msgid "No permission to view %1"
 msgstr "Ingen tilgang til å lese %1"
 
@@ -2334,7 +2371,7 @@ msgstr "Ok"
 msgid "Older revision:"
 msgstr "Eldre versjon:"
 
-#: core/templates/messages.tmpl:585
+#: core/templates/messages.tmpl:598
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Kun medlemmer av %1 er tillatt å gjøre denne handlingen."
 
@@ -2420,7 +2457,7 @@ msgstr "Plassholder for slettede sider og vedlegg."
 msgid "Placeholder for trashed attachments"
 msgstr "Plassholder for slettede vedlegg"
 
-#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:515
+#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:527
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Vennligst forsikre at du har rettigheter til å endre gruppen."
 
@@ -2474,7 +2511,7 @@ msgstr ""
 "Vennligst forsikre deg om at du stavet %1 riktig og forsøk på nytt. Dersom "
 "det ikke går, vennligst send epost til %2."
 
-#: core/templates/messages.tmpl:652
+#: core/templates/messages.tmpl:665
 msgid "Please notify your %1 administrator."
 msgstr "Vennligst informer din %1 administrator."
 
@@ -2525,7 +2562,7 @@ msgstr "Egenskaper"
 msgid "Put it back..."
 msgstr "Tilbakestill..."
 
-#: core/data/System/WebSearch.txt:121
+#: core/data/System/WebSearch.txt:207
 msgid "Query Search"
 msgstr "Query Søk"
 
@@ -2610,18 +2647,18 @@ msgstr ""
 "{EnableNewUserRegistration}, eller på grunn av feil med passord systemet. "
 "Sjekk konfigurasjonen for feil."
 
-#: core/data/System/WebSearch.txt:120
+#: core/data/System/WebSearch.txt:203
 msgid "Regular expression search"
 msgstr "Regulære uttrykk søk"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:963
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:958
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:579 core/templates/messages.tmpl:590
+#: core/templates/messages.tmpl:592 core/templates/messages.tmpl:603
 msgid "Related topics:"
 msgstr "Relaterte sider:"
 
@@ -2661,7 +2698,7 @@ msgstr "Fjern brukeren fra gruppe(ne) %1 først."
 msgid "Rename"
 msgstr "Navngi"
 
-#: core/templates/messages.tmpl:581
+#: core/templates/messages.tmpl:594
 msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
@@ -2836,7 +2873,7 @@ msgstr "Lagret til:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:47 core/data/System/WebSearch.txt:63
+#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Søk"
 
@@ -2853,7 +2890,7 @@ msgstr "Søk i alle web"
 msgid "Search all webs for topics that link to here"
 msgstr "Søk i alle web for sider som linker hit"
 
-#: core/data/System/WebSearch.txt:22
+#: core/data/System/WebSearch.txt:34
 msgid "Search in %1 Web"
 msgstr "Søk kun i %1 web'en"
 
@@ -2865,7 +2902,7 @@ msgstr "Søk i alle web"
 msgid "Search more topics in this web"
 msgstr "Søk flere sider i denne web'en"
 
-#: core/data/System/WebSearch.txt:39
+#: core/data/System/WebSearch.txt:55
 msgid "Search options"
 msgstr "Søkemuligheter"
 
@@ -2873,7 +2910,7 @@ msgstr "Søkemuligheter"
 msgid "Search result"
 msgstr "Søkeresultat"
 
-#: core/data/System/WebSearch.txt:126
+#: core/data/System/WebSearch.txt:215
 msgid "Search string"
 msgstr "Søkestreng"
 
@@ -2881,7 +2918,7 @@ msgstr "Søkestreng"
 msgid "Search the %1 Web for topics that link to here"
 msgstr "Søk i %1 web etter sider som linker hit"
 
-#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:90
+#: core/data/System/WebSearch.txt:102 core/data/System/WebSearch.txt:132
 msgid "Search where:"
 msgstr "Søk hvor:"
 
@@ -2907,8 +2944,8 @@ msgid "See %1 for information about Form Definitions."
 msgstr "Se %1 for informasjon om Skjemadefinisjoner."
 
 #: core/templates/messages.tmpl:479 core/templates/messages.tmpl:489
-#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:517
-#: core/templates/messages.tmpl:527
+#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:529
+#: core/templates/messages.tmpl:539
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr "Se resultatet i %MAINWEB%.WikiGroups."
 
@@ -2961,7 +2998,7 @@ msgstr "Velg forelder for siden"
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Velg, kopier og lim inn din signaturtekst under ditt innlegg"
 
-#: core/data/System/WebSearch.txt:113
+#: core/data/System/WebSearch.txt:181
 msgid "Selections apply to search in \"text body\""
 msgstr "Valg gjelder søk i \"text\""
 
@@ -2969,7 +3006,7 @@ msgstr "Valg gjelder søk i \"text\""
 msgid "Sequential"
 msgstr "Sekvensiell"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:37
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Velg alle"
 
@@ -3049,7 +3086,7 @@ msgstr ""
 "Beklager, passordsystemet er for øyeblikke kun med lesetilgang, vennligst "
 "kontakt %1"
 
-#: core/data/System/WebSearch.txt:102
+#: core/data/System/WebSearch.txt:158
 msgid "Sort results by:"
 msgstr "Sorter resultater etter:"
 
@@ -3100,7 +3137,7 @@ msgstr ""
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abbonner / Si opp i:"
 
-#: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
+#: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
 msgstr "Underweb'er"
 
@@ -3108,11 +3145,11 @@ msgstr "Underweb'er"
 msgid "Success adding users to group"
 msgstr "Vellykket lagring av brukere i gruppe"
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:535
 msgid "Success removing users from group"
 msgstr "Vellykket fjerning av brukere fra gruppe"
 
-#: core/data/System/WebSearch.txt:127
+#: core/data/System/WebSearch.txt:219
 msgid "Summaries"
 msgstr "Sammendrag"
 
@@ -3132,11 +3169,11 @@ msgstr ""
 "TIPS: for å søke etter alle sider som inneholder =\"SOAP\"=, =\"WSDL\"=, en "
 "streng =\"web service\"=, men ikke =\"shampoo\"=, skriv:"
 
-#: core/templates/messages.tmpl:616
+#: core/templates/messages.tmpl:629
 msgid "Template %1 does not exist"
 msgstr "Mal %1 eksisterer ikke"
 
-#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:92
+#: core/data/System/WebSearch.txt:107 core/data/System/WebSearch.txt:137
 msgid "Text body"
 msgstr "Tekst innhold"
 
@@ -3161,7 +3198,7 @@ msgstr ""
 "Takk for at du registrerte deg i %1 samarbeidsplattformen. Din "
 "bekreftelseskode er %2."
 
-#: core/templates/messages.tmpl:634
+#: core/templates/messages.tmpl:647
 msgid "That user has already been activated "
 msgstr "Den brukeren er allerede aktivert "
 
@@ -3183,7 +3220,7 @@ msgid "The %1 topic already exists"
 msgstr "Siden %1 finnes allerede"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:593
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:606
 msgid "The %1 web does not exist"
 msgstr "Web'en %1 finnes ikke"
 
@@ -3257,7 +3294,7 @@ msgstr ""
 "En angriper forsøker å bruke dine rettigheter for å få til ting, for "
 "eksempel administrator rettigheter på nettstedet."
 
-#: core/templates/messages.tmpl:545
+#: core/templates/messages.tmpl:557
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3289,7 +3326,7 @@ msgstr ""
 msgid "The e-mail address for this account is not valid."
 msgstr "Epostadressen for denne kontoen er ikke gyldig."
 
-#: core/templates/messages.tmpl:563
+#: core/templates/messages.tmpl:576
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Informasjonen for bruker %1 manglet i passordsystemet."
 
@@ -3318,7 +3355,7 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr "Skjemaet skulle vært definert i siden %1"
 
-#: core/templates/messages.tmpl:543
+#: core/templates/messages.tmpl:555
 msgid "The lease on this topic expired %1 ago."
 msgstr "Leien for denne siden gikk ut for %1 siden."
 
@@ -3358,7 +3395,7 @@ msgstr "Siden er i et gamnmelt format"
 msgid "The two passwords you entered do not match."
 msgstr "De to passordene du skrev inn er ikke like."
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:649
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "Brukeren %1 er allerede aktivert og burde kunne logge inn."
 
@@ -3395,7 +3432,7 @@ msgstr "Der burde være en linje som inkliderer %1, se for %2 (eller %3)"
 msgid "There were errors adding %1 to the %2 group. "
 msgstr "Det oppsted feil ved lagring av %1 i gruppen %2. "
 
-#: core/templates/messages.tmpl:513
+#: core/templates/messages.tmpl:525
 msgid "There were errors removing %1 from the %2 group. "
 msgstr "Det oppstod feil ved fjerning av %1 fra gruppen %2. "
 
@@ -3527,7 +3564,7 @@ msgstr "Tittel"
 msgid "To attachment:"
 msgstr "For vedlegg:"
 
-#: core/data/System/WebSearch.txt:172
+#: core/data/System/WebSearch.txt:285
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3559,7 +3596,7 @@ msgstr "Til web"
 msgid "To web:"
 msgstr "Til web:"
 
-#: core/templates/messages.tmpl:651
+#: core/templates/messages.tmpl:664
 msgid "Too many recursions parsing template %1"
 msgstr "For mange rekurseringer ved tolking av mal %1"
 
@@ -3603,7 +3640,7 @@ msgstr "Side data"
 msgid "Topic history"
 msgstr "Side historie"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:104
+#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr "Sidenavn"
 
@@ -3631,7 +3668,7 @@ msgstr "Lagre side feil"
 msgid "Topic templates in %1 Web"
 msgstr "Side maler i %1 web'en"
 
-#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:93
+#: core/data/System/WebSearch.txt:111 core/data/System/WebSearch.txt:141
 msgid "Topic title"
 msgstr "Side tittel"
 
@@ -3643,7 +3680,7 @@ msgstr "Side ble flettet"
 msgid "Topics in %1 web:"
 msgstr "Sider i %1 web'en:"
 
-#: core/data/System/WebSearch.txt:133
+#: core/data/System/WebSearch.txt:232
 msgid "Topics per web"
 msgstr "Sider pr web"
 
@@ -3666,7 +3703,7 @@ msgstr ""
 "Sider som refererer til denne web'en og som du ikke har rettigheter til å "
 "endre:"
 
-#: core/data/System/WebSearch.txt:128
+#: core/data/System/WebSearch.txt:223
 msgid "Total matches"
 msgstr "Totalt antall treff"
 
@@ -3750,6 +3787,18 @@ msgstr "Bruk et sidenavn i %SYSTEMWEB%.WikiNotation"
 msgid "Use template:"
 msgstr "Bruk mal:"
 
+#. (( $user, $groupName)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1072
+msgid "User %1 does not have CHANGE permission on %2."
+msgstr ""
+
+#. ($cuid)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
+#: core/lib/Foswiki/UserMapping.pm:363
+#, fuzzy
+msgid "User %1 not in group, cannot be removed"
+msgstr "%1 er medlem av minst en gruppe og kan ikke fjernes"
+
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
 msgstr "Brukerkonto %1 Slettet"
@@ -3767,6 +3816,16 @@ msgstr "Brukernavn"
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "Brukere"
+
+#. ($Group)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:831
+msgid "Users cannot be added to %1"
+msgstr ""
+
+#. ($groupName)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1031
+msgid "Users cannot be removed from %1"
+msgstr ""
 
 #: core/templates/messages.tmpl:183
 msgid ""
@@ -3856,35 +3915,40 @@ msgstr "Advarsel! Bekreftelse kreves"
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Advarsel: 'include' siden finnes ikke!"
 
-#: core/templates/messages.tmpl:560
+#: core/templates/messages.tmpl:573
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 "Advarsel: Kan ikke INCLUDE %1 flere ganger, siden er allerede inkludert. %2"
 
-#: core/templates/messages.tmpl:561
+#: core/templates/messages.tmpl:574
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Advarsel: Kan ikke bruke INCLUDE '%1', stien er tom eller inneholder "
 "ulovlige tegn."
 
-#: core/templates/messages.tmpl:559
+#: core/templates/messages.tmpl:572
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Advarsel: Kan ikke finne nevnt seksjon %3 i siden %1.%2"
 
-#: core/templates/messages.tmpl:558
+#: core/templates/messages.tmpl:571
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Advarsel: Kan ikke finne siden %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:957
+#: core/templates/messages.tmpl:570
+#, fuzzy
+msgid "Warning: Can't find web %1 for topic %2"
+msgstr "Advarsel: Kan ikke finne siden %1.%2"
+
+#: core/lib/Foswiki/UI/Register.pm:950
 msgid "Warning: Could not send confirmation email"
 msgstr "Advarsel: Kunne ikke sende bekreftelses epost"
 
-#: core/lib/Foswiki/UI/Register.pm:969
+#: core/lib/Foswiki/UI/Register.pm:962
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Advarsel: Kunne ikke sende bekreftekses epost, epost er deaktivert"
 
-#: core/templates/messages.tmpl:568
+#: core/templates/messages.tmpl:581
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advarsel: Denne webløsningen tillater ikke %<nop>INCLUDE% av URLs"
 
@@ -3945,7 +4009,7 @@ msgstr "Wiki administratorer bør lese om %1."
 msgid "Wiki name"
 msgstr "Wikinavn"
 
-#: core/data/System/WebSearch.txt:117
+#: core/data/System/WebSearch.txt:191
 msgid "Word search"
 msgstr "Ord søk"
 
@@ -3979,7 +4043,7 @@ msgstr "Du er også listet på %1 siden"
 msgid "You are denied access to the following topics in the web:"
 msgstr "Du er nektet tilgang til følgende sider i web'en:"
 
-#: core/templates/messages.tmpl:547
+#: core/templates/messages.tmpl:559
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -4009,26 +4073,26 @@ msgstr ""
 "(en web som kun brukes ved opprettelse av nye web) velg et navn som starter "
 "med lav strek og kun har alfanumeriske tegn."
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:642
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Du forsøker å %1 et vedlegg som ikke eksisterer."
 
-#: core/templates/messages.tmpl:617
+#: core/templates/messages.tmpl:630
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Du forsøker å lage en side fra en mal som ikke finnes."
 
-#: core/templates/messages.tmpl:612
+#: core/templates/messages.tmpl:625
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
 "Du forsøker å utføre en handling på en side som ikke finnes (action '%1')."
 
-#: core/templates/messages.tmpl:623
+#: core/templates/messages.tmpl:636
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Du forsøker å endre navn på en side som ikke finnes."
 
-#: core/templates/messages.tmpl:602
+#: core/templates/messages.tmpl:615
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4054,6 +4118,11 @@ msgstr "Du kan endre ditt passord via %1"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Du kan gi denne web'en et annet navn."
+
+#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:513
+msgid ""
+"You cannot add users to a missing group unless the create option is set.."
+msgstr ""
 
 #: core/templates/validate.tmpl:28
 msgid ""
@@ -4094,7 +4163,7 @@ msgstr ""
 "Du kan få din Wiki administrator til å endre innstillingene dersom de er "
 "hensiktsmessige for ditt miljø."
 
-#: core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:651
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4116,7 +4185,7 @@ msgstr "Du må sende et sidenavn."
 msgid "You need to specify a valid group name to add users to a group."
 msgstr "Du må angi et gyldig gruppenavn for å legge til brukere i en gruppe."
 
-#: core/templates/messages.tmpl:506
+#: core/templates/messages.tmpl:518
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr "Du må angi et gyldig gruppenavn for å fjerne brukere fra en gruppe."
 
@@ -4276,27 +4345,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Norsk"
 
-#: core/lib/Foswiki/Meta.pm:1837
+#: core/lib/Foswiki/Meta.pm:1840
 msgid "access denied on root"
 msgstr "tilgang nektes til root"
 
-#: core/lib/Foswiki/Meta.pm:1775
+#: core/lib/Foswiki/Meta.pm:1778
 msgid "access denied on topic"
 msgstr "tilgang nektes for side"
 
-#: core/lib/Foswiki/Meta.pm:1810
+#: core/lib/Foswiki/Meta.pm:1813
 msgid "access denied on web"
 msgstr "tilgang nektes for web"
 
-#: core/lib/Foswiki/Meta.pm:1847
+#: core/lib/Foswiki/Meta.pm:1850
 msgid "access not allowed on root"
 msgstr "tilgang ikke tillatt til root"
 
-#: core/lib/Foswiki/Meta.pm:1794
+#: core/lib/Foswiki/Meta.pm:1797
 msgid "access not allowed on topic"
 msgstr "tilgang ikke tillatt til side"
 
-#: core/lib/Foswiki/Meta.pm:1822
+#: core/lib/Foswiki/Meta.pm:1825
 msgid "access not allowed on web"
 msgstr "tilgang ikke tillatt til web"
 

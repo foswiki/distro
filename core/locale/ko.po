@@ -63,6 +63,11 @@ msgstr "%1 Web"
 msgid "%1 added to the %2 group. "
 msgstr ""
 
+#. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1039
+msgid "%1 cannot be removed from %2"
+msgstr ""
+
 #: core/templates/messages.tmpl:494
 msgid "%1 group topic upgraded. "
 msgstr ""
@@ -77,7 +82,7 @@ msgstr "%1 에 다른 Foswiki 사용자 리스트가 있습니다."
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 은/는 이메일 %2  (으)로 등록되었습니다."
 
-#: core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:547
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -109,7 +114,7 @@ msgstr ""
 msgid "%1 is currently set to %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:533
+#: core/templates/messages.tmpl:545
 msgid "%1 is editing [[%2][%3]]."
 msgstr ""
 
@@ -131,7 +136,7 @@ msgstr "'%1'은 유효하지 않은 %2 입니다."
 msgid "%1 is the default topic for deleted attachments."
 msgstr ""
 
-#: core/templates/messages.tmpl:541
+#: core/templates/messages.tmpl:553
 msgid "%1 may still be editing %2."
 msgstr ""
 
@@ -140,7 +145,7 @@ msgstr ""
 msgid "%1 recent changes in %2 Web"
 msgstr "%2 Web 의 최근 변경 내역 %1"
 
-#: core/templates/messages.tmpl:525
+#: core/templates/messages.tmpl:537
 msgid "%1 removed from the %2 group. "
 msgstr ""
 
@@ -156,7 +161,7 @@ msgstr ""
 msgid "%1 to start working on the new web"
 msgstr ""
 
-#: core/templates/messages.tmpl:611 core/templates/messages.tmpl:622
+#: core/templates/messages.tmpl:624 core/templates/messages.tmpl:635
 msgid "%1 topic does not exist"
 msgstr ""
 
@@ -210,7 +215,7 @@ msgstr ""
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:133
+#: core/data/System/WebSearch.txt:232
 msgid "(=all= to show all topics)"
 msgstr ""
 
@@ -299,7 +304,7 @@ msgstr ""
 msgid "(none)"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
+#: core/data/System/WebSearch.txt:120 core/data/System/WebSearch.txt:150
 msgid "(otherwise search %1 Web only)"
 msgstr ""
 
@@ -493,7 +498,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:607
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -510,18 +515,18 @@ msgstr ""
 "색상 정보는 # 으로 시작되는 6개의 16진수 숫자로 구성됩니다. 예 = #FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:964
+#: core/lib/Foswiki/UI/Register.pm:957
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "확인 메일이 %1 로 전송되었습니다."
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:611
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
 "if necessary."
 msgstr ""
 
-#: core/templates/messages.tmpl:566
+#: core/templates/messages.tmpl:579
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -536,7 +541,7 @@ msgstr ""
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:65
+#: core/data/System/WebSearch.txt:91
 msgid "A-Z"
 msgstr ""
 
@@ -544,7 +549,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "접근 제한됨"
 
-#: core/templates/messages.tmpl:574
+#: core/templates/messages.tmpl:587
 msgid "Access check on %1 failed"
 msgstr ""
 
@@ -562,7 +567,7 @@ msgstr "접근 키"
 msgid "Action"
 msgstr ""
 
-#: core/templates/messages.tmpl:575
+#: core/templates/messages.tmpl:588
 msgid "Action %1: %2."
 msgstr ""
 
@@ -623,7 +628,7 @@ msgstr "관리하기"
 msgid "Administration"
 msgstr "등록"
 
-#: core/data/System/WebSearch.txt:64
+#: core/data/System/WebSearch.txt:88
 msgid "Advanced search"
 msgstr "고급 검색"
 
@@ -651,7 +656,7 @@ msgstr ""
 msgid "Ah, no!"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:80 core/data/System/WebSearch.txt:96
+#: core/data/System/WebSearch.txt:120 core/data/System/WebSearch.txt:150
 msgid "All public webs"
 msgstr "모든 공개된 웹"
 
@@ -731,7 +736,7 @@ msgstr "새 파일 첨부하기"
 msgid "Attachment"
 msgstr "첨부물"
 
-#: core/templates/messages.tmpl:628
+#: core/templates/messages.tmpl:641
 msgid "Attachment '%1' does not exist"
 msgstr "첨부물 '%1' 은 존재하지 않습니다."
 
@@ -832,7 +837,7 @@ msgstr "잘못된 비밀번호"
 msgid "Base web %1 is missing or does not exist"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:78 core/data/System/WebSearch.txt:94
+#: core/data/System/WebSearch.txt:115 core/data/System/WebSearch.txt:145
 msgid "Both body and title"
 msgstr ""
 
@@ -849,11 +854,21 @@ msgid ""
 "in WebPreferences."
 msgstr ""
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:564
+#. ($user)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+msgid "CHANGE not permitted by %1"
+msgstr ""
+
+#. (( $groupName, $user)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:897
+msgid "CHANGE not permitted for %1 by %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:577
 msgid "Can't find user %1"
 msgstr "사용자 %1 을 찾을 수 없습니다"
 
-#: core/templates/messages.tmpl:565
+#: core/templates/messages.tmpl:578
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 
@@ -887,7 +902,7 @@ msgstr ""
 msgid "Cannot rename %1 to %2 because it already exists."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:115
+#: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
 msgstr ""
 
@@ -1000,7 +1015,7 @@ msgid "Choose a new form for %1"
 msgstr ""
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:43
+#: core/lib/Foswiki/Form/Checkbox.pm:104
 msgid "Clear all"
 msgstr "모두 지우기"
 
@@ -1048,10 +1063,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "충돌"
 
-#: core/templates/messages.tmpl:577 core/templates/messages.tmpl:583
-#: core/templates/messages.tmpl:587 core/templates/messages.tmpl:608
-#: core/templates/messages.tmpl:619 core/templates/messages.tmpl:625
-#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:590 core/templates/messages.tmpl:596
+#: core/templates/messages.tmpl:600 core/templates/messages.tmpl:621
+#: core/templates/messages.tmpl:632 core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:644 core/templates/messages.tmpl:653
 msgid "Contact %1 if you have any questions."
 msgstr ""
 
@@ -1107,7 +1122,7 @@ msgstr ""
 msgid "Could not find template"
 msgstr "템플릿을 찾을 수 없습니다."
 
-#: core/templates/messages.tmpl:569
+#: core/templates/messages.tmpl:582
 msgid "Could not perform search. Error was: %1"
 msgstr ""
 
@@ -1157,12 +1172,16 @@ msgstr "새 토픽 생성하기"
 msgid "Create new topic"
 msgstr "새 토픽 생성하기"
 
+#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:511
+msgid "Create not specified and group does not exist"
+msgstr ""
+
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 #, fuzzy
 msgid "Create personal sidebar"
 msgstr "개인 정보 편집"
 
-#: core/templates/messages.tmpl:606
+#: core/templates/messages.tmpl:619
 msgid "Create the topic"
 msgstr "포틱 생성하기"
 
@@ -1280,7 +1299,7 @@ msgstr "변경한 내용을 저장하는 것을 잊지 마십시오"
 msgid "Do not show attachment in table"
 msgstr "테이블 안에 첨부물을 보이지 않기"
 
-#: core/data/System/WebSearch.txt:125
+#: core/data/System/WebSearch.txt:211
 msgid "Don't show:"
 msgstr "보이지 않기:"
 
@@ -1316,27 +1335,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "이메일 변경이 완료되었습니다!"
 
-#: core/templates/messages.tmpl:643
+#: core/templates/messages.tmpl:656
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:644
+#: core/templates/messages.tmpl:657
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:645
+#: core/templates/messages.tmpl:658
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:648
+#: core/templates/messages.tmpl:661
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:646
+#: core/templates/messages.tmpl:659
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:647
+#: core/templates/messages.tmpl:660
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1441,17 +1460,17 @@ msgstr "토픽 저장 에러"
 msgid "Error: %1"
 msgstr "Error: %1"
 
-#: core/templates/messages.tmpl:555
+#: core/templates/messages.tmpl:567
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr ""
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:569
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
 
-#: core/templates/messages.tmpl:556
+#: core/templates/messages.tmpl:568
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Error: 지원하지 않는 프로토콜.(반드시 'http://'로 시작해야합니다)"
 
@@ -1464,7 +1483,7 @@ msgstr ""
 msgid "Errors adding users to group"
 msgstr "토픽 저장 에러"
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:523
 msgid "Errors removing users from groups"
 msgstr ""
 
@@ -1477,7 +1496,11 @@ msgstr "개인 정보 편집"
 msgid "Failed plugins"
 msgstr ""
 
-#: core/templates/messages.tmpl:567
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
+msgid "Failed to add user: "
+msgstr ""
+
+#: core/templates/messages.tmpl:580
 msgid "Failed to include URL %1"
 msgstr ""
 
@@ -1566,7 +1589,7 @@ msgstr ""
 msgid "Get help on setting topic preferences"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:165
+#: core/data/System/WebSearch.txt:275
 msgid "Get notified on changes on this search"
 msgstr ""
 
@@ -1605,10 +1628,19 @@ msgstr "좋은 예제:"
 msgid "Group"
 msgstr "그룹"
 
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
+#: core/lib/Foswiki/UserMapping.pm:343
+msgid "Group does not exist and create not permitted"
+msgstr ""
+
 #: core/data/Main/WikiGroups.txt:28
 #, fuzzy
 msgid "Group name"
 msgstr "그룹"
+
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:835
+msgid "Group names must end in Group"
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1623,7 +1655,7 @@ msgstr "안녕하세요 %1"
 msgid "Hello %1!"
 msgstr "안녕하세요 %1!"
 
-#: core/data/System/WebSearch.txt:113 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
 #: core/templates/login.tmpl:45
 msgid "Help"
 msgstr "도움말"
@@ -1723,7 +1755,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:596
+#: core/templates/messages.tmpl:609
 msgid "If you came here by clicking on a question mark link"
 msgstr ""
 
@@ -1769,11 +1801,11 @@ msgid ""
 "the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:605
+#: core/templates/messages.tmpl:618
 msgid "If you want to create the topic"
 msgstr ""
 
-#: core/templates/messages.tmpl:601
+#: core/templates/messages.tmpl:614
 msgid "If you would like to create this web"
 msgstr ""
 
@@ -1812,7 +1844,7 @@ msgstr ""
 msgid "In case of a zip file, attach all included files to this topic"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:108
+#: core/data/System/WebSearch.txt:176
 msgid "In reversed order"
 msgstr ""
 
@@ -1867,7 +1899,7 @@ msgstr "유효하지 않은 활성화 코드"
 msgid "Invalid e-mail address"
 msgstr "유효하지 않은 이메일 주소"
 
-#: core/templates/messages.tmpl:537
+#: core/templates/messages.tmpl:549
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -1914,7 +1946,7 @@ msgstr "리비전 비교하기"
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:118
+#: core/data/System/WebSearch.txt:195
 #, fuzzy
 msgid "Keyword search"
 msgstr "변경 검색"
@@ -1924,7 +1956,7 @@ msgstr "변경 검색"
 msgid "Last edited by"
 msgstr ""
 
-#: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:106
+#: core/data/System/SiteChanges.txt:45 core/data/System/WebSearch.txt:171
 msgid "Last editor"
 msgstr ""
 
@@ -1933,7 +1965,7 @@ msgstr ""
 msgid "Last modified"
 msgstr "성(Last Name):"
 
-#: core/data/System/WebSearch.txt:105
+#: core/data/System/WebSearch.txt:167
 msgid "Last modified time"
 msgstr ""
 
@@ -1951,7 +1983,7 @@ msgstr "리비전 보기:"
 msgid "Leave unchecked if you wish to attach the zip file itself"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:132
+#: core/data/System/WebSearch.txt:227
 msgid "Limit results to:"
 msgstr ""
 
@@ -1970,11 +2002,11 @@ msgstr ""
 msgid "Link"
 msgstr "링크"
 
-#: core/data/System/WebSearch.txt:191
+#: core/data/System/WebSearch.txt:315
 msgid "List topics that start with the letter:"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:119
+#: core/data/System/WebSearch.txt:199
 msgid "Literal search"
 msgstr ""
 
@@ -2012,7 +2044,7 @@ msgstr "로그온"
 msgid "Mail to"
 msgstr "메일 보내기"
 
-#: core/data/System/WebSearch.txt:112
+#: core/data/System/WebSearch.txt:180
 msgid "Make search:"
 msgstr ""
 
@@ -2148,6 +2180,10 @@ msgstr "새로운 부모 Web:"
 msgid "New password"
 msgstr "새로운 비밀번호"
 
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
+msgid "New password did not match existing password for this user"
+msgstr ""
+
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
 msgstr "새로운 토픽 이름 %1 은 %2 가 아닙니다."
@@ -2178,11 +2214,11 @@ msgstr "변경내역"
 msgid "No child topics"
 msgstr "하위 토픽이 없음"
 
-#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:505
+#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:517
 msgid "No group name specified"
 msgstr ""
 
-#: core/templates/messages.tmpl:554
+#: core/templates/messages.tmpl:566
 msgid "No permission to view %1"
 msgstr "%1 의 보기 권한이 없습니다"
 
@@ -2288,7 +2324,7 @@ msgstr ""
 msgid "Older revision:"
 msgstr "이전 리비전:"
 
-#: core/templates/messages.tmpl:585
+#: core/templates/messages.tmpl:598
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr ""
 
@@ -2375,7 +2411,7 @@ msgstr ""
 msgid "Placeholder for trashed attachments"
 msgstr ""
 
-#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:515
+#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:527
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
@@ -2425,7 +2461,7 @@ msgid ""
 "stuck, please mail %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:652
+#: core/templates/messages.tmpl:665
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -2479,7 +2515,7 @@ msgstr "속성"
 msgid "Put it back..."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:121
+#: core/data/System/WebSearch.txt:207
 msgid "Query Search"
 msgstr "빠른 검색"
 
@@ -2562,18 +2598,18 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
-#: core/data/System/WebSearch.txt:120
+#: core/data/System/WebSearch.txt:203
 msgid "Regular expression search"
 msgstr "정규 표현식 검색"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:950
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:963
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:958
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:579 core/templates/messages.tmpl:590
+#: core/templates/messages.tmpl:592 core/templates/messages.tmpl:603
 msgid "Related topics:"
 msgstr "관련된 토픽:"
 
@@ -2612,7 +2648,7 @@ msgstr "먼저 그룹 %1 에서 사용자를 삭제하십시오."
 msgid "Rename"
 msgstr "이름 변경"
 
-#: core/templates/messages.tmpl:581
+#: core/templates/messages.tmpl:594
 msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
@@ -2784,7 +2820,7 @@ msgstr ""
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:47 core/data/System/WebSearch.txt:63
+#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "검색"
 
@@ -2801,7 +2837,7 @@ msgstr "모든 Web에서 검색하기"
 msgid "Search all webs for topics that link to here"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:22
+#: core/data/System/WebSearch.txt:34
 #, fuzzy
 msgid "Search in %1 Web"
 msgstr "%1 Web에서만 검색하기"
@@ -2814,7 +2850,7 @@ msgstr ""
 msgid "Search more topics in this web"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:39
+#: core/data/System/WebSearch.txt:55
 #, fuzzy
 msgid "Search options"
 msgstr "부가적인 검색 옵션:"
@@ -2824,7 +2860,7 @@ msgstr "부가적인 검색 옵션:"
 msgid "Search result"
 msgstr "문자 검색"
 
-#: core/data/System/WebSearch.txt:126
+#: core/data/System/WebSearch.txt:215
 msgid "Search string"
 msgstr "문자 검색"
 
@@ -2832,7 +2868,7 @@ msgstr "문자 검색"
 msgid "Search the %1 Web for topics that link to here"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:74 core/data/System/WebSearch.txt:90
+#: core/data/System/WebSearch.txt:102 core/data/System/WebSearch.txt:132
 msgid "Search where:"
 msgstr ""
 
@@ -2856,8 +2892,8 @@ msgid "See %1 for information about Form Definitions."
 msgstr ""
 
 #: core/templates/messages.tmpl:479 core/templates/messages.tmpl:489
-#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:517
-#: core/templates/messages.tmpl:527
+#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:529
+#: core/templates/messages.tmpl:539
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr ""
 
@@ -2911,7 +2947,7 @@ msgstr "토픽 지우기"
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:113
+#: core/data/System/WebSearch.txt:181
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
@@ -2919,7 +2955,7 @@ msgstr ""
 msgid "Sequential"
 msgstr ""
 
-#: core/lib/Foswiki/Form/Checkbox.pm:37
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr ""
 
@@ -2993,7 +3029,7 @@ msgstr ""
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:102
+#: core/data/System/WebSearch.txt:158
 msgid "Sort results by:"
 msgstr ""
 
@@ -3043,7 +3079,7 @@ msgstr ""
 msgid "Subscribe / Unsubscribe in:"
 msgstr "구독/ 구독취소 :"
 
-#: core/data/System/WebSearch.txt:82 core/data/System/WebSearch.txt:98
+#: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
 msgstr ""
 
@@ -3051,11 +3087,11 @@ msgstr ""
 msgid "Success adding users to group"
 msgstr ""
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:535
 msgid "Success removing users from group"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:127
+#: core/data/System/WebSearch.txt:219
 msgid "Summaries"
 msgstr "요약"
 
@@ -3073,11 +3109,11 @@ msgid ""
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
 
-#: core/templates/messages.tmpl:616
+#: core/templates/messages.tmpl:629
 msgid "Template %1 does not exist"
 msgstr "템플릿 %1 은 존재하지 않습니다."
 
-#: core/data/System/WebSearch.txt:76 core/data/System/WebSearch.txt:92
+#: core/data/System/WebSearch.txt:107 core/data/System/WebSearch.txt:137
 msgid "Text body"
 msgstr ""
 
@@ -3100,7 +3136,7 @@ msgid ""
 "verification code is %2."
 msgstr "%1 위키 플랫폼에 등록해주셔서 감사합니다. 인증 코드는 %2 입니다."
 
-#: core/templates/messages.tmpl:634
+#: core/templates/messages.tmpl:647
 msgid "That user has already been activated "
 msgstr "해당 사용자는 이미 활성화 되었습니다."
 
@@ -3121,7 +3157,7 @@ msgid "The %1 topic already exists"
 msgstr "%1 토픽은 이미 존재합니다."
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:593
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:606
 msgid "The %1 web does not exist"
 msgstr "%1 Web은 존재하지 않습니다."
 
@@ -3186,7 +3222,7 @@ msgid ""
 "the site."
 msgstr ""
 
-#: core/templates/messages.tmpl:545
+#: core/templates/messages.tmpl:557
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3210,7 +3246,7 @@ msgstr ""
 msgid "The e-mail address for this account is not valid."
 msgstr ""
 
-#: core/templates/messages.tmpl:563
+#: core/templates/messages.tmpl:576
 msgid "The entry for user %1 was missing in the password system."
 msgstr ""
 
@@ -3236,7 +3272,7 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:543
+#: core/templates/messages.tmpl:555
 msgid "The lease on this topic expired %1 ago."
 msgstr ""
 
@@ -3276,7 +3312,7 @@ msgstr ""
 msgid "The two passwords you entered do not match."
 msgstr ""
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:649
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
@@ -3308,7 +3344,7 @@ msgstr ""
 msgid "There were errors adding %1 to the %2 group. "
 msgstr ""
 
-#: core/templates/messages.tmpl:513
+#: core/templates/messages.tmpl:525
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
@@ -3421,7 +3457,7 @@ msgstr ""
 msgid "To attachment:"
 msgstr "첨부물 이동하기"
 
-#: core/data/System/WebSearch.txt:172
+#: core/data/System/WebSearch.txt:285
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3452,7 +3488,7 @@ msgstr ""
 msgid "To web:"
 msgstr ""
 
-#: core/templates/messages.tmpl:651
+#: core/templates/messages.tmpl:664
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -3499,7 +3535,7 @@ msgstr "모든 토픽 내역 보기"
 msgid "Topic history"
 msgstr "모든 토픽 내역 보기"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:104
+#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr ""
 
@@ -3527,7 +3563,7 @@ msgstr ""
 msgid "Topic templates in %1 Web"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:77 core/data/System/WebSearch.txt:93
+#: core/data/System/WebSearch.txt:111 core/data/System/WebSearch.txt:141
 msgid "Topic title"
 msgstr ""
 
@@ -3539,7 +3575,7 @@ msgstr ""
 msgid "Topics in %1 web:"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:133
+#: core/data/System/WebSearch.txt:232
 msgid "Topics per web"
 msgstr ""
 
@@ -3558,7 +3594,7 @@ msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:128
+#: core/data/System/WebSearch.txt:223
 msgid "Total matches"
 msgstr ""
 
@@ -3647,6 +3683,17 @@ msgstr "(System.WikiNotation 의 토픽 이름을 사용하세요)"
 msgid "Use template:"
 msgstr "다음 템플릿 사용하기:"
 
+#. (( $user, $groupName)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1072
+msgid "User %1 does not have CHANGE permission on %2."
+msgstr ""
+
+#. ($cuid)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
+#: core/lib/Foswiki/UserMapping.pm:363
+msgid "User %1 not in group, cannot be removed"
+msgstr ""
+
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
 msgstr "사용자 계정 %1 은 삭제되었습니다."
@@ -3664,6 +3711,16 @@ msgstr "사용자이름"
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
 msgstr "사용자"
+
+#. ($Group)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:831
+msgid "Users cannot be added to %1"
+msgstr ""
+
+#. ($groupName)
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1031
+msgid "Users cannot be removed from %1"
+msgstr ""
 
 #: core/templates/messages.tmpl:183
 msgid ""
@@ -3757,32 +3814,36 @@ msgstr ""
 msgid "Warning: 'include' topic does not exist!"
 msgstr ""
 
-#: core/templates/messages.tmpl:560
+#: core/templates/messages.tmpl:573
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:561
+#: core/templates/messages.tmpl:574
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:559
+#: core/templates/messages.tmpl:572
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr ""
 
-#: core/templates/messages.tmpl:558
+#: core/templates/messages.tmpl:571
 msgid "Warning: Can't find topic %1.%2"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:957
+#: core/templates/messages.tmpl:570
+msgid "Warning: Can't find web %1 for topic %2"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Register.pm:950
 msgid "Warning: Could not send confirmation email"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:969
+#: core/lib/Foswiki/UI/Register.pm:962
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
-#: core/templates/messages.tmpl:568
+#: core/templates/messages.tmpl:581
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 
@@ -3845,7 +3906,7 @@ msgstr ""
 msgid "Wiki name"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:117
+#: core/data/System/WebSearch.txt:191
 #, fuzzy
 msgid "Word search"
 msgstr "변경 검색"
@@ -3881,7 +3942,7 @@ msgstr ""
 msgid "You are denied access to the following topics in the web:"
 msgstr ""
 
-#: core/templates/messages.tmpl:547
+#: core/templates/messages.tmpl:559
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -3903,25 +3964,25 @@ msgid ""
 "underscore and has only alphanumeric characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:642
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:617
+#: core/templates/messages.tmpl:630
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:612
+#: core/templates/messages.tmpl:625
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
 
-#: core/templates/messages.tmpl:623
+#: core/templates/messages.tmpl:636
 msgid "You are trying to rename a topic that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:602
+#: core/templates/messages.tmpl:615
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -3941,6 +4002,11 @@ msgstr ""
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
+msgstr ""
+
+#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:513
+msgid ""
+"You cannot add users to a missing group unless the create option is set.."
 msgstr ""
 
 #: core/templates/validate.tmpl:28
@@ -3975,7 +4041,7 @@ msgid ""
 "they are inappropriate for your environment."
 msgstr ""
 
-#: core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:651
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -3993,7 +4059,7 @@ msgstr ""
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:506
+#: core/templates/messages.tmpl:518
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
@@ -4129,27 +4195,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "한글"
 
-#: core/lib/Foswiki/Meta.pm:1837
+#: core/lib/Foswiki/Meta.pm:1840
 msgid "access denied on root"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1775
+#: core/lib/Foswiki/Meta.pm:1778
 msgid "access denied on topic"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1810
+#: core/lib/Foswiki/Meta.pm:1813
 msgid "access denied on web"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1847
+#: core/lib/Foswiki/Meta.pm:1850
 msgid "access not allowed on root"
 msgstr ""
 
-#: core/lib/Foswiki/Meta.pm:1794
+#: core/lib/Foswiki/Meta.pm:1797
 msgid "access not allowed on topic"
 msgstr "토픽에 대한 접근이 허용되지 않습니다."
 
-#: core/lib/Foswiki/Meta.pm:1822
+#: core/lib/Foswiki/Meta.pm:1825
 msgid "access not allowed on web"
 msgstr "Web의 접근이 허용되지 않습니다."
 
