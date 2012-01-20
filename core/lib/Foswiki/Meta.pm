@@ -1898,8 +1898,14 @@ sub save {
         my $pretext = $text;               # text before the handler modifies it
         my $premeta = $this->stringify();  # just the meta, no text
 
+	# The meta obj may not have a loaded rev yet. If anything in the
+	# beforeSaveHandlers tries to do an access check with an unloadedRev,
+	# it will attempt to load the latest which we really don't want it to do.
+	# So we mark it as NEW.
+	$this->{_loadedRev} = 'NEW' unless defined $this->{_loadedRev};
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
             $this->{_web}, $this );
+	undef $this->{_loadedRev} if $this->{_loadedRev} eq 'NEW';
 
         # If the text has changed; it may be a text or meta change, or both
         if ( $text ne $pretext ) {
