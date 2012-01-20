@@ -1667,6 +1667,42 @@ sub verify_refQuery {
     return;
 }
 
+sub verify_lc_field_short {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"lc(Firstname) ~ lc(\'Emma\')"'
+          . $stdCrap );
+    $this->assert_str_equals( 'QueryTopic', $result );
+}
+
+sub verify_lc_field_qualified {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"lc(TestForm.Firstname) ~ lc(\'Emma\')"'
+          . $stdCrap );
+    $this->assert_str_equals( 'QueryTopic', $result );
+}
+
+sub verify_lc_field_fully_qualified {
+    my $this = shift;
+
+    $this->set_up_for_queries();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"lc(TestForm[name=\'Firstname\'].value) ~ lc(\'Emma\')"'
+          . $stdCrap );
+    $this->assert_str_equals( 'QueryTopic', $result );
+}
+
 # make sure syntax errors are handled cleanly. All the error cases thrown by
 # the infix parser are tested more thoroughly in Fn_IF, and don't have to
 # be re-tested here.
