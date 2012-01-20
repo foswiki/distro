@@ -498,8 +498,17 @@ sub verify_numeric_uops {
     $this->check( "int notafield", eval => undef );
     $this->check( "int 'foo'", eval => 0, simpler => 0 );
 
+    # Item10645 (?) GC checked into Release01x01:
+    my $dst = ( localtime(time) )[8];
+    my $zeroTime = ($dst) ? 3600 : 0;
+
     $this->check(
-        "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'gmtime' ) . "'",
+        "d2n '"
+          . Foswiki::Time::formatTime( $zeroTime, '$iso', 'servertime' ) . "'",
+
+        # Item10645 (?), prior to GC checkin Foswikirev:11117:
+        # $this->check(
+        #   "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'gmtime' ) . "'",
         eval    => 0,
         simpler => 0
     );
