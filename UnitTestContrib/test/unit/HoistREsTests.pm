@@ -87,16 +87,102 @@ sub set_up {
     $this->{meta} = $meta;
 }
 
+sub _hoist {
+    my ( $this, $query ) = @_;
+    my $filter;
+
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $filter = [ Foswiki::Query::HoistREs::hoist($query) ];
+        $this->assert_str_equals( 'ARRAY', ref($filter) );
+    }
+    else {
+        $filter = Foswiki::Query::HoistREs::hoist($query);
+        $this->assert_str_equals( 'HASH', ref($filter) );
+    }
+
+    return $filter;
+}
+
+# Filter element key names, mapping from Foswiki 1.2+ to Foswiki 1.1
+my %filter_key_map = (
+    'text'        => 'regex',
+    'name'        => 'regex',
+    'name_source' => 'source'
+);
+
+sub _getFilterNumElements {
+    my ( $this, $filter, $bogus ) = @_;
+    my $number;
+
+    $this->assert( !defined $bogus );
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $this->assert_str_equals( 'ARRAY', ref($filter) );
+        $number = scalar( @{$filter} );
+    }
+    else {
+        $this->assert_str_equals( 'HASH', ref($filter) );
+        $number = scalar( keys %{$filter} );
+    }
+
+    return $number;
+}
+
+sub _getFilterElements {
+    my ( $this, $filter, $key, $bogus ) = @_;
+    my @elements;
+
+    $this->assert( !defined $bogus );
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $this->assert_str_equals( 'ARRAY', ref($filter) );
+        if ( exists $filter_key_map{$key} ) {
+            @elements = map { $_->{ $filter_key_map{$key} } } @{$filter};
+        }
+        else {
+            @elements = map { $_->{$key} } @{$filter};
+        }
+    }
+    else {
+        $this->assert_str_equals( 'HASH',  ref($filter) );
+        $this->assert_str_equals( 'ARRAY', ref( $filter->{$key} ) );
+        @elements = @{ $filter->{$key} };
+    }
+
+    return @elements;
+}
+
+sub _getFilterElement {
+    my ( $this, $filter, $key, $index ) = @_;
+    my $element;
+
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $this->assert_str_equals( 'ARRAY', ref($filter) );
+        if ( exists $filter_key_map{$key} ) {
+            $element = $filter->[$index]->{ $filter_key_map{$key} };
+        }
+        else {
+            $element = $filter->[$index]->{$key};
+        }
+    }
+    else {
+        $this->assert_str_equals( 'HASH', ref($filter) );
+        $element = $filter->{$key}->[$index];
+    }
+
+    return $element;
+}
+
 sub test_hoistSimple {
     my $this        = shift;
     my $s           = "number=99";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
+    my $filter      = $this->_hoist($query);
 
    #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        join( ';', @{ $filter->{text} } ) );
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -107,11 +193,13 @@ sub test_hoistSimple2 {
     my $s           = "99=number";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
+    my $filter      = $this->_hoist($query);
 
    #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        join( ';', @{ $filter->{text} } ) );
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -123,19 +211,23 @@ sub test_hoistCompound {
 "number=99 AND string='String' and (moved.by='AlbertCamus' OR moved.by ~ '*bert*')";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
+    my $filter      = $this->_hoist($query);
 
    #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        $filter->{text}->[0] );
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        $this->_getFilterElement( $filter, 'text', 0 )
+    );
     $this->assert_str_equals(
         '^%META:FIELD{name=\"string\".*\bvalue=\"String\"',
-        $filter->{text}->[1] );
+        $this->_getFilterElement( $filter, 'text', 1 )
+    );
     $this->assert_str_equals(
 '^%META:TOPICMOVED{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED{.*\bby=\".*bert.*\"',
-        $filter->{text}->[2]
+        $this->_getFilterElement( $filter, 'text', 2 )
     );
-    $this->assert_num_equals( 3, scalar( @{ $filter->{text} } ) );
+    $this->assert_num_equals( 3,
+        scalar( $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -147,19 +239,23 @@ sub test_hoistCompound2 {
 "(moved.by='AlbertCamus' OR moved.by ~ '*bert*') AND number=99 AND string='String'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
+    my $filter      = $this->_hoist($query);
 
    #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
 '^%META:TOPICMOVED{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED{.*\bby=\".*bert.*\"',
-        $filter->{text}->[0]
+        $this->_getFilterElement( $filter, 'text', 0 )
     );
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        $filter->{text}->[1] );
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        $this->_getFilterElement( $filter, 'text', 1 )
+    );
     $this->assert_str_equals(
         '^%META:FIELD{name=\"string\".*\bvalue=\"String\"',
-        $filter->{text}->[2] );
-    $this->assert( scalar( @{ $filter->{text} } == 3 ) );
+        $this->_getFilterElement( $filter, 'text', 2 )
+    );
+    $this->assert_num_equals( 3,
+        scalar( $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -170,11 +266,9 @@ sub test_hoistAlias {
     my $s           = "info.date=12345";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals(
-        '^%META:TOPICINFO{.*\bdate=\"12345\"',
-        join( ';', @{ $filter->{text} } )
-    );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals( '^%META:TOPICINFO{.*\bdate=\"12345\"',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -185,9 +279,11 @@ sub test_hoistFormField {
     my $s           = "TestForm.number=99";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
-        join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -198,8 +294,9 @@ sub test_hoistText {
     my $s           = "text ~ '*Green*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '.*Green.*', join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals( '.*Green.*',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -210,10 +307,13 @@ sub test_hoistName {
     my $s           = "name ~ 'Web*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert( scalar( @{ $filter->{name} } ) == 1 );
-    $this->assert_str_equals( 'Web.*', $filter->{name}->[0] );
-    $this->assert_str_equals( 'Web*',  $filter->{name_source}->[0] );
+    my $filter      = $this->_hoist($query);
+    $this->assert_num_equals( 1,
+        scalar( $this->_getFilterElements( $filter, 'name' ) ) );
+    $this->assert_str_equals( 'Web.*',
+        $this->_getFilterElement( $filter, 'name', 0 ) );
+    $this->assert_str_equals( 'Web*',
+        $this->_getFilterElement( $filter, 'name_source', 0 ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
@@ -224,10 +324,13 @@ sub test_hoistName2 {
     my $s           = "name ~ 'Web*' OR name ~ 'A*' OR name = 'Banana'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert( scalar( @{ $filter->{name} } ) == 1 );
-    $this->assert_str_equals( 'Web.*|A.*|Banana', $filter->{name}->[0] );
-    $this->assert_str_equals( 'Web*,A*,Banana',   $filter->{name_source}->[0] );
+    my $filter      = $this->_hoist($query);
+    $this->assert_num_equals( 1,
+        scalar( $this->_getFilterElements( $filter, 'name' ) ) );
+    $this->assert_str_equals( 'Web.*|A.*|Banana',
+        $this->_getFilterElement( $filter, 'name', 0 ) );
+    $this->assert_str_equals( 'Web*,A*,Banana',
+        $this->_getFilterElement( $filter, 'name_source', 0 ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
@@ -238,8 +341,9 @@ sub test_hoist_OPMatch1 {
     my $s           = "text =~ 'Green'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( 'Green', join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals( 'Green',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -250,8 +354,9 @@ sub test_hoist_OPMatch2 {
     my $s           = "text =~ '.*Green.*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '.*Green.*', join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals( '.*Green.*',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -262,8 +367,9 @@ sub test_hoist_OPMatch3 {
     my $s           = "text =~ '^Green.*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^Green.*', join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals( '^Green.*',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -274,8 +380,9 @@ sub test_hoist_OPMatch4 {
     my $s           = "text =~ '.*Green\$'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '.*Green$', join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals( '.*Green$',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
@@ -286,8 +393,9 @@ sub test_hoist_OPMatch5 {
     my $s           = "text =~ '^Green\$'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^Green$', join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals( '^Green$',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
@@ -298,10 +406,11 @@ sub test_hoist_OPMatchField1 {
     my $s           = "string =~ 'rin'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
+    my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
         '^%META:FIELD{name=\"string\".*\bvalue=\".*rin.*\"',
-        join( ';', @{ $filter->{text} } ) );
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -312,10 +421,11 @@ sub test_hoist_OPMatchField2 {
     my $s           = "string =~ '.*rin.*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
+    my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
         '^%META:FIELD{name=\"string\".*\bvalue=\".*rin.*\"',
-        join( ';', @{ $filter->{text} } ) );
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -326,9 +436,11 @@ sub test_hoist_OPMatchField3 {
     my $s           = "string =~ '^rin.*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^%META:FIELD{name=\"string\".*\bvalue=\"rin.*\"',
-        join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"string\".*\bvalue=\"rin.*\"',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
@@ -339,9 +451,11 @@ sub test_hoist_OPMatchField4 {
     my $s           = "string =~ '.*rin\$'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^%META:FIELD{name=\"string\".*\bvalue=\".*rin\"',
-        join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"string\".*\bvalue=\".*rin\"',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
@@ -352,9 +466,11 @@ sub test_hoist_OPMatchField5 {
     my $s           = "string =~ '^rin\$'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    my $filter      = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_str_equals( '^%META:FIELD{name=\"string\".*\bvalue=\"rin\"',
-        join( ';', @{ $filter->{text} } ) );
+    my $filter      = $this->_hoist($query);
+    $this->assert_str_equals(
+        '^%META:FIELD{name=\"string\".*\bvalue=\"rin\"',
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
@@ -366,10 +482,11 @@ sub test_hoist_OPMatch_Item10352 {
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
 
-    my $filter = Foswiki::Query::HoistREs::hoist($query);
+    my $filter = $this->_hoist($query);
     $this->assert_str_equals(
         '^%META:FIELD{name=\"string\".*\bvalue=\"St.(i|n).*\"',
-        join( ';', @{ $filter->{text} } ) );
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -381,11 +498,11 @@ sub test_hoist_OPMatch_Item10352_long {
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
 
-    my $filter = Foswiki::Query::HoistREs::hoist($query);
+    my $filter = $this->_hoist($query);
 
 #$this->assert_str_equals( '^%META:FIELD{name=\"string\".*\bvalue=\"St.(i|n).*\"', join( ';', @{$filter->{text}} ) );
 #we fail to regex hoist it
-    $this->assert_num_equals( 0, scalar( keys %{$filter} ) );
+    $this->assert_num_equals( 0, $this->_getFilterNumElements($filter) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -397,10 +514,11 @@ sub test_hoist_OPMatch_Item10352_1 {
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
 
-    my $filter = Foswiki::Query::HoistREs::hoist($query);
+    my $filter = $this->_hoist($query);
     $this->assert_str_equals(
         '^%META:FIELD{name=\"string\".*\bvalue=\".*String.*\"',
-        join( ';', @{ $filter->{text} } ) );
+        join( ';', $this->_getFilterElements( $filter, 'text' ) )
+    );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
@@ -412,8 +530,10 @@ sub test_hoist_mixed_or {
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
 
-    my $filter = Foswiki::Query::HoistREs::hoist($query);
-    $this->assert_num_equals( 0, scalar( keys %$filter ) );
+    my $filter = $this->_hoist($query);
+    $this->expect_failure( 'n-ary query nodes are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
+    $this->assert_num_equals( 0, $this->_getFilterNumElements($filter) );
 }
 
 1;
