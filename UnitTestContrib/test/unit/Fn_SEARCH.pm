@@ -1581,7 +1581,12 @@ sub verify_formQuery2 {
     my $result =
       $this->{test_topicObject}
       ->expandMacros( '%SEARCH{"TestForm"' . $stdCrap );
-    $this->assert_str_equals( '', $result );
+    if ( $this->check_dependency( 'Foswiki,<,1.2' ) ) {
+        $this->assert_str_equals( 'QueryTopic', $result );
+    }
+    else {
+        $this->assert_str_equals( '', $result );
+    }
 
     return;
 }
@@ -1673,9 +1678,8 @@ sub verify_lc_field_short {
     $this->set_up_for_queries();
 
     my $result =
-      $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"lc(Firstname) ~ lc(\'Emma\')"'
-          . $stdCrap );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"lc(Firstname) ~ lc(\'Emma\')"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
@@ -1686,8 +1690,7 @@ sub verify_lc_field_qualified {
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-        '%SEARCH{"lc(TestForm.Firstname) ~ lc(\'Emma\')"'
-          . $stdCrap );
+        '%SEARCH{"lc(TestForm.Firstname) ~ lc(\'Emma\')"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
