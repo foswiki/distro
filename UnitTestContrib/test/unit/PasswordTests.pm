@@ -23,9 +23,6 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $this->{session} = new Foswiki();
-    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{TempfileDir}/junkpasswd";
-
     $this->{users1} = {
         alligator => { pass => 'hissss', emails => 'ally@masai.mara' },
         bat => { pass => 'ultrasonic squeal', emails => 'bat@belfry' },
@@ -49,10 +46,23 @@ sub set_up {
     };
 }
 
+sub loadExtraConfig {
+    my $this = shift;
+    $this->SUPER::loadExtraConfig(@_);
+
+    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{TempfileDir}/junkpasswd";
+    unlink "$Foswiki::cfg{TempfileDir}/junkpasswd"
+      if ( -e "$Foswiki::cfg{TempfileDir}/junkpasswd" );
+
+    $Foswiki::cfg{Htpasswd}{DetectModification} = 1;
+    $Foswiki::cfg{Htpasswd}{GlobalCache}        = 1;
+
+}
+
 sub tear_down {
     my $this = shift;
     unlink $Foswiki::cfg{Htpasswd}{FileName};
-    $this->{session}->finish();
+
     $this->SUPER::tear_down();
 }
 
@@ -204,7 +214,8 @@ sub test_disabled_entry {
 
     my %encrapted;
     my %encoded;
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
 
 # The following lines were generated with the apache htdigest and htpasswd command
 # Each one generated with an empty password.
@@ -227,7 +238,11 @@ DONE
     # Verify that no algorithm will validate an empty password entry
     # Against a blank password.
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+
+    # Make sure file is detected as modified.
+    sleep 2;
+
     open( $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
@@ -243,7 +258,7 @@ DONE
       my $algo ( 'apache-md5', 'htdigest-md5', 'crypt', 'sha1', 'crypt-md5' )
     {
         $Foswiki::cfg{Htpasswd}{Encoding} = $algo;
-        $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+        $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
         foreach my $user ( 'crypt', 'apache-md5', 'sha1', 'htdigest-md5',
             'crypt-md5' )
@@ -259,7 +274,7 @@ DONE
       my $user ( 'crypt', 'apache-md5', 'sha1', 'htdigest-md5', 'crypt-md5' )
     {
         $Foswiki::cfg{Htpasswd}{Encoding} = $user;
-        $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+        $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
         my $added = $impl->setPassword( $user, "pw$user", 1 );
         $this->assert_null( $impl->error() );
@@ -269,7 +284,7 @@ DONE
 
     # Verify that the passwords were reset
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
     foreach my $user ( 'crypt', 'apache-md5', 'sha1', 'crypt-md5' ) {
         $this->assert( $impl->checkPassword( $user, "pw$user" ),
             "Failure for $user" );
@@ -301,7 +316,8 @@ sub test_htpasswd_auto {
 
     my %encrapted;
     my %encoded;
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
 
 # The following lines were generated with the apache htdigest and htpasswd command
 # Used to verify the encode autodetect feature.
@@ -337,7 +353,10 @@ DONE
         }
     }
 
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    # Make sure the file timestamp has changed enough to be detected
+    sleep 2;
+
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
     # Test again with email addresses present
     open( $fh, '>', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
@@ -390,7 +409,7 @@ DONE
     }
 
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
     # force-change them to users2 password again,  Verify emails have survived.
     foreach my $user ( sort keys %{ $this->{users1} } ) {
@@ -417,7 +436,7 @@ DONE
     # And use new value for Encoding
     $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
     $Foswiki::cfg{AuthRealm} = 'Another New Realm';
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         my $added = $impl->setPassword(
@@ -440,7 +459,7 @@ DONE
     #dumpFile();
 
     $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
 
     # force-change them to users2 password again, migrating to apache_md5.
     foreach my $user ( sort keys %{ $this->{users1} } ) {
@@ -478,7 +497,8 @@ sub test_htpasswd_crypt_md5 {
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt-md5';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     $this->assert($impl);
     $this->doTests( $impl, $SALTED );
 
@@ -488,7 +508,8 @@ sub test_htpasswd_crypt_crypt {
     my $this = shift;
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     $this->assert($impl);
     $this->doTests( $impl, $SALTED );
 }
@@ -506,7 +527,9 @@ sub test_htpasswd_sha1 {
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'sha1';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     $this->assert($impl);
     $this->doTests($impl);
 }
@@ -519,7 +542,8 @@ sub test_htpasswd_plain {
 
     # User mole has empty password - not permitted when plain text passwords
     $this->{users1}->{mole}->{pass} = 'grub';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     $this->assert($impl);
     $this->doTests($impl);
 
@@ -530,7 +554,9 @@ sub test_htpasswd_md5 {
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'md5';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     $this->assert($impl);
     $this->doTests($impl);
 
@@ -541,13 +567,15 @@ sub test_htpasswd_htdigest_md5 {
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'htdigest-md5';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     $this->assert($impl);
     $this->doTests($impl);
 
     # Verify the passwords using deprecated md5, should be identical
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /(alligator|mole|budgie)/ ) {
             $this->assert(
@@ -561,6 +589,10 @@ sub test_htpasswd_htdigest_preserves_email {
     my $this = shift;
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
+
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
+
     my @users = keys %{ $this->{users1} };
     foreach
       my $algo ( 'apache-md5', 'htdigest-md5', 'crypt', 'sha1', 'crypt-md5',
@@ -568,7 +600,7 @@ sub test_htpasswd_htdigest_preserves_email {
     {
         my $user = pop @users;
         $Foswiki::cfg{Htpasswd}{Encoding} = $algo;
-        my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+        $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
         my $added =
           $impl->setPassword( $user, $this->{users1}->{$user}->{pass} );
         $this->assert_null( $impl->error() );
@@ -579,7 +611,7 @@ sub test_htpasswd_htdigest_preserves_email {
     #dumpFile();
 
     $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
     foreach my $user ( keys %{ $this->{users1} } ) {
         $this->assert_str_equals(
             $this->{users1}->{$user}->{emails},
@@ -600,7 +632,9 @@ sub test_htpasswd_apache_md5 {
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'apache-md5';
-    my $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+
+    my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     $this->assert($impl);
     $this->doTests( $impl, 0 );
 }
@@ -632,7 +666,8 @@ sub test_ApacheHtpasswdUser_md5 {
     $this->doTests( $impl, $SALTED );
 
     # Verify the passwords using HdPaswdUser for compatibility
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /(alligator|mole|budgie)/ ) {
             $this->assert(
@@ -673,7 +708,8 @@ sub test_ApacheHtpasswdUser_crypt {
     $this->doTests($impl);
 
     # Verify the passwords using HdPaswdUser for compatibility
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /(alligator|mole|budgie)/ ) {
             $this->assert(
@@ -712,7 +748,8 @@ sub DISABLE_test_ApacheHtpasswdUser_plain {
     $this->doTests($impl);
 
     # Verify the passwords using HdPaswdUser for compatibility
-    $impl = new Foswiki::Users::HtPasswdUser( $this->{session} );
+    $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
+    $impl->ClearCache();
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /(alligator|mole|budgie)/ ) {
             $this->assert(
