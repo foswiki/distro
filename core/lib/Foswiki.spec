@@ -464,13 +464,21 @@ $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{DataDir}/.htpasswd';
 # critical that both use the same lockfile.  For example, change it to the location of the
 # password file,  <tt>$Foswiki::cfg{DataDir}/htpasswd.lock</tt>.  Foswiki must have
 # rights to create the file in this location.
+# Only applicable to <tt>HtPasswdUser</tt>.
 $Foswiki::cfg{Htpasswd}{LockFileName} = '$Foswiki::cfg{WorkingDir}/htpasswd.lock';
+
+# **BOOLEAN EXPERT**
+# Enable this option on systems using <tt>FastCGI, FCGID, or Mod_Perl</tt> in order to avoid reading the
+# for every transaction. It will cause the <tt>HtPasswdUser</tt> module to globally
+# cache the password file, reading it only once on initization.   Only applicable to <tt>HtPasswdUser</tt>.
+$Foswiki::cfg{Htpasswd}{GlobalCache} = $FALSE;
 
 # **BOOLEAN EXPERT**
 # Enable this option if the .htpasswd file can be updated either external to Foswiki
 # or by another Foswiki instance.  When enabled, Foswiki will verify the timestamp of
 # the file and will invalidate the cache if the file has been changed. This is only useful
 # if Foswiki is running in a <tt>mod_perl</tt> or <tt>fcgi</tt> envinroment.
+# Only applicable to <tt>HtPasswdUser</tt>.
 $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 
 # **SELECT htdigest-md5,sha1,apache-md5,crypt-md5,crypt,plain**
