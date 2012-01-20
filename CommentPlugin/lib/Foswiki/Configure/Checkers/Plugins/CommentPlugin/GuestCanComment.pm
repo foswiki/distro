@@ -12,6 +12,7 @@ sub check {
     my $msg  = '';
 
     if ( $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} ) {
+
         # Enabled,  need to ensure rest is not auth.
         if ( $Foswiki::cfg{AuthScripts} =~ m/\brest\b/ ) {
             $msg .= $this->WARN(
@@ -23,7 +24,8 @@ EOF
         }
     }
     else {
-        # Disabled,  need to ensure restauth is protected, and a login manager is set.
+
+  # Disabled,  need to ensure restauth is protected, and a login manager is set.
         if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
             return $this->ERROR(
                 <<'EOF'
@@ -43,7 +45,7 @@ EOF
         }
     }
 
-return $msg;
+    return $msg;
 }
 
 1;

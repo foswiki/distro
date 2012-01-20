@@ -13,7 +13,7 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '2.0.2';
+our $RELEASE = '2.0.3';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -195,7 +195,7 @@ sub _restSave {
             $query->param( endPoint => '' );
         }
         else {
-            throw($e);
+            $e->throw();
         }
     }
     otherwise {
