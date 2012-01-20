@@ -215,7 +215,7 @@ sub test_disabled_entry {
     my %encrapted;
     my %encoded;
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
 
 # The following lines were generated with the apache htdigest and htpasswd command
 # Each one generated with an empty password.
@@ -317,7 +317,7 @@ sub test_htpasswd_auto {
     my %encrapted;
     my %encoded;
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
 
 # The following lines were generated with the apache htdigest and htpasswd command
 # Used to verify the encode autodetect feature.
@@ -498,7 +498,7 @@ sub test_htpasswd_crypt_md5 {
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt-md5';
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests( $impl, $SALTED );
 
@@ -509,7 +509,7 @@ sub test_htpasswd_crypt_crypt {
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt';
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests( $impl, $SALTED );
 }
@@ -529,7 +529,7 @@ sub test_htpasswd_sha1 {
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'sha1';
 
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
 }
@@ -543,7 +543,7 @@ sub test_htpasswd_plain {
     # User mole has empty password - not permitted when plain text passwords
     $this->{users1}->{mole}->{pass} = 'grub';
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
 
@@ -556,7 +556,7 @@ sub test_htpasswd_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'md5';
 
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
 
@@ -569,7 +569,7 @@ sub test_htpasswd_htdigest_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'htdigest-md5';
 
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
 
@@ -591,7 +591,7 @@ sub test_htpasswd_htdigest_preserves_email {
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
 
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
 
     my @users = keys %{ $this->{users1} };
     foreach
@@ -634,7 +634,7 @@ sub test_htpasswd_apache_md5 {
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'apache-md5';
 
     my $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests( $impl, 0 );
 }
@@ -667,7 +667,7 @@ sub test_ApacheHtpasswdUser_md5 {
 
     # Verify the passwords using HdPaswdUser for compatibility
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /(alligator|mole|budgie)/ ) {
             $this->assert(
@@ -709,7 +709,7 @@ sub test_ApacheHtpasswdUser_crypt {
 
     # Verify the passwords using HdPaswdUser for compatibility
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /(alligator|mole|budgie)/ ) {
             $this->assert(
@@ -749,7 +749,7 @@ sub DISABLE_test_ApacheHtpasswdUser_plain {
 
     # Verify the passwords using HdPaswdUser for compatibility
     $impl = Foswiki::Users::HtPasswdUser->new( $this->{session} );
-    $impl->ClearCache();
+    $impl->ClearCache() if $impl->can('ClearCache');
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         if ( $user !~ /(alligator|mole|budgie)/ ) {
             $this->assert(
