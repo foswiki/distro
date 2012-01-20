@@ -285,8 +285,6 @@ sub check {
 
 sub verify_atoms {
     my $this = shift;
-    $this->check( "",    eval => [],  simpler => '()' );
-    $this->check( "()",  eval => [],  simpler => '()' );
     $this->check( "'0'", eval => '0', simpler => '0' );
     $this->check( "''",  eval => '',  simpler => q{''} ); # Not 0 - See Item9971
     $this->check( "1",   eval => 1,   simpler => 1 );
@@ -302,6 +300,16 @@ sub verify_atoms {
     $this->check( "boolean",   eval => 1 );
     $this->check( "macro",     eval => '%RED%' );
     $this->check( "notafield", eval => undef );
+}
+
+# These tests were added by Crawford in Item10121; extracted from verify_items
+# by PH in Item11456.
+sub verify_atoms_empty {
+    my $this = shift;
+    $this->expect_failure( 'Empty expressions are broken in Foswiki 1.1.x',
+        with_dep => 'Foswiki,<,1.2' );
+    $this->check( "",   eval => [], simpler => '()' );
+    $this->check( "()", eval => [], simpler => '()' );
 }
 
 sub verify_meta_dot {
@@ -352,29 +360,6 @@ sub verify_meta_dot {
         eval => $anotherTopicInfo->{author}
     );
 
-    $anotherTopic->getRev1Info('createdate');
-    my $anotherTopicInfoRev1 = $anotherTopic->{_getRev1Info}->{rev1info};
-    $this->check(
-        "'AnotherTopic'/META:CREATEINFO.date",
-        eval => $anotherTopicInfoRev1->{date}
-    );
-
- #interestingly, format is not compulsory
- #    $this->check( "'AnotherTopic'/META:CREATEINFO.format",      eval => 1.1 );
-    $this->check(
-        "'AnotherTopic'/META:CREATEINFO.version",
-        eval => $anotherTopicInfoRev1->{version}
-    );
-    $this->check(
-        "'AnotherTopic'/META:CREATEINFO.author",
-        eval => $anotherTopicInfoRev1->{author}
-    );
-
-    $this->assert(
-        $anotherTopicInfoRev1->{version} < $anotherTopicInfo->{version},
-        $anotherTopicInfoRev1->{version} . ' < ' . $anotherTopicInfo->{version}
-    );
-
     #longhand to a topic that doesn't exist
     $this->check(
         "'DoesNotExist'/META:TOPICINFO.date",
@@ -399,8 +384,42 @@ sub verify_meta_dot {
 
 }
 
+sub verify_meta_dot_createinfo {
+    my $this = shift;
+    my ($anotherTopic) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'AnotherTopic' );
+    my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
+
+    $this->expect_failure( 'META:CREATEINFO is Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
+    $anotherTopic->getRev1Info('createdate');
+    my $anotherTopicInfoRev1 = $anotherTopic->{_getRev1Info}->{rev1info};
+    $this->check(
+        "'AnotherTopic'/META:CREATEINFO.date",
+        eval => $anotherTopicInfoRev1->{date}
+    );
+
+ #interestingly, format is not compulsory
+ #    $this->check( "'AnotherTopic'/META:CREATEINFO.format",      eval => 1.1 );
+    $this->check(
+        "'AnotherTopic'/META:CREATEINFO.version",
+        eval => $anotherTopicInfoRev1->{version}
+    );
+    $this->check(
+        "'AnotherTopic'/META:CREATEINFO.author",
+        eval => $anotherTopicInfoRev1->{author}
+    );
+
+    $this->assert(
+        $anotherTopicInfoRev1->{version} < $anotherTopicInfo->{version},
+        $anotherTopicInfoRev1->{version} . ' < ' . $anotherTopicInfo->{version}
+    );
+}
+
 sub verify_array_integer_index {
     my $this = shift;
+    $this->expect_failure( 'Multiple array indices are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
 
  #    $this->check( "preferences[0].name", eval => 'Red' );
  #    $this->check( "preferences[1]", eval => { name => 'Green', value => 1 } );
@@ -455,7 +474,13 @@ sub verify_boolean_uops {
     $this->check( "not boolean",   eval => 0 );
     $this->check( "not 0",         eval => 1, simpler => 1 );
     $this->check( "not notafield", eval => 1 );
-    $this->check( "not ()",        eval => [], simpler => '()' );
+}
+
+sub verify_boolean_uop_list {
+    my $this = shift;
+    $this->expect_failure( '() lists are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
+    $this->check( "not ()", eval => [], simpler => '()' );
 }
 
 sub verify_string_uops {
@@ -475,19 +500,26 @@ sub verify_string_uops {
     $this->check( "length info",            eval => 5 );
     $this->check( "length (info)",          eval => 5 );
     $this->check( "length notafield",       eval => 0 );
-    $this->check( "uc ()",                  eval => [], simpler => '()' );
-    $this->check( "lc ()",                  eval => [], simpler => '()' );
-    $this->check( "length ()",              eval => 0, simpler => 0 );
 
     $this->check( "brace",         eval => 'Some text (really) we have text' );
     $this->check( "lc(brace)",     eval => 'some text (really) we have text' );
     $this->check( "uc(brace)",     eval => 'SOME TEXT (REALLY) WE HAVE TEXT' );
     $this->check( "length(brace)", eval => 31 );
-
 }
 
-sub verify_numeric_uops {
+sub verify_string_uops_list {
     my $this = shift;
+    $this->expect_failure( '() lists are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
+    $this->check( "uc ()",     eval => [], simpler => '()' );
+    $this->check( "lc ()",     eval => [], simpler => '()' );
+    $this->check( "length ()", eval => 0,  simpler => 0 );
+}
+
+sub verify_numeric_uops_post11 {
+    my $this = shift;
+    $this->expect_failure( 'Numeric ops are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
     $this->check( "-()", eval => [], simpler => "()" );
     $this->check( "-1",  eval => -1, simpler => -1 );
     $this->check( "--1", eval => 1,  simpler => 1 );
@@ -496,7 +528,12 @@ sub verify_numeric_uops {
     $this->check( "int -1.5", eval => -1, simpler => -1 );
     $this->check( "int ()",   eval => [], simpler => "()" );
     $this->check( "int notafield", eval => undef );
-    $this->check( "int 'foo'", eval => 0, simpler => 0 );
+    $this->check( "int 'foo'",     eval => 0, simpler => 0 );
+    $this->check( "d2n ()",        eval => [], simpler => '()' );
+}
+
+sub verify_numeric_uops {
+    my $this = shift;
 
     # Item10645 (?) GC checked into Release01x01:
     my $dst = ( localtime(time) )[8];
@@ -521,7 +558,6 @@ sub verify_numeric_uops {
     $this->check( "d2n 'not a time'", eval => undef, simpler => 0 );
     $this->check( "d2n 0",            eval => undef, simpler => 0 );
     $this->check( "d2n notatime",     eval => undef );
-    $this->check( "d2n ()",           eval => [],    simpler => '()' );
 }
 
 sub verify_string_bops {
@@ -533,7 +569,6 @@ sub verify_string_bops {
     $this->check( "notafield=~'SomeTextToTestFor'", eval => 0 );
     $this->check( "string!=notafield",              eval => 1 );
     $this->check( "string=notafield",               eval => 0 );
-    $this->check( "string+notafield",               eval => 'String' );
     $this->check( "string='Str'",                   eval => 0 );
     $this->check( "string~'?trin?'",                eval => 1 );
     $this->check( "string~'*'",                     eval => 1 );
@@ -553,6 +588,18 @@ sub verify_string_bops {
     $this->check( "string!='String'",               eval => 0 );
     $this->check( "string!='string'",               eval => 1 );
     $this->check( "string='string'",                eval => 0 );
+    $this->check( "macro='\%RED\%'", eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'\%RED?'", eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'?RED\%'", eval => 1, syntaxOnly => 1 );
+    $this->check( "macro~'?RED\%'", eval => 1, syntaxOnly => 1 );
+}
+
+sub verify_string_bops_arithmetic {
+    my $this = shift;
+    $this->expect_failure(
+        'Arithmetic operations on strings are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
+    $this->check( "string+notafield", eval => 'String' );
     $this->check(
         "'string'+'string'",
         eval    => 'stringstring',
@@ -560,10 +607,6 @@ sub verify_string_bops {
     );
     $this->check( "'string'+1", eval => 'string1', simpler => "'string1'" );
     $this->check( "1+'string'", eval => '1string', simpler => "'1string'" );
-    $this->check( "macro='\%RED\%'", eval => 1, syntaxOnly => 1 );
-    $this->check( "macro~'\%RED?'",  eval => 1, syntaxOnly => 1 );
-    $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
-    $this->check( "macro~'?RED\%'",  eval => 1, syntaxOnly => 1 );
 }
 
 sub verify_constants {
@@ -588,6 +631,8 @@ sub verify_boolean_corner_cases {
 
 sub verify_numeric_bops {
     my $this = shift;
+    $this->expect_failure( 'Numeric ops are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
     $this->check( "1+1", eval => 2, simpler => 2 );
     $this->check( "1+notafield",                 eval => 1 );
     $this->check( "2-1",                         eval => 1, simpler => 1 );
@@ -666,7 +711,13 @@ sub verify_boolean_bops {
     $this->check( "''='0'",          eval => 0, simpler => 0 );
     $this->check( "0=''",            eval => 0, simpler => 0 );
     $this->check( "''=0",            eval => 0, simpler => 0 );
+}
 
+sub verify_boolean_bop_in {
+    my $this = shift;
+
+    $this->expect_failure( 'IN operator is Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
     $this->check( "1 in 1",       eval => 1, simpler => 1 );
     $this->check( "1 in 0",       eval => 0, simpler => 0 );
     $this->check( "0 in 1",       eval => 0, simpler => 0 );
@@ -755,6 +806,8 @@ sub verify_ref {
 
 sub verify_versions_on_other_topic {
     my $this = shift;
+    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
     $this->check( "'AnotherTopic'/versions[0].text",
         eval => "Superintelligent shades of the colour blue" );
     $this->check( "'AnotherTopic'/versions[2].text",  eval => "Quantum" );
@@ -785,6 +838,9 @@ sub verify_versions_on_other_topic {
 sub verify_versions_on_other_topic_fail {
     my $this = shift;
 
+    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
+
     # These aren't working :( - PH
     $this->expect_failure(
         'Item10121: OP_ref does\'nt play nice with versions queries');
@@ -796,12 +852,16 @@ sub verify_versions_on_other_topic_fail {
 
 sub verify_versions_out_of_range {
     my $this = shift;
+    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
     $this->check( "'AnotherTopic'/versions[-4]", eval => undef, simpler => 0 );
     $this->check( "'AnotherTopic'/versions[4]",  eval => undef, simpler => 0 );
 }
 
 sub verify_versions_on_cur_topic {
     my $this = shift;
+    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
     $this->check( "versions[0].text", eval => "Green ideas sleep furiously" );
     $this->check( "versions[1].text", eval => "Quantum" );
     $this->check( "versions[info.version=1].text", eval => "Quantum" );
@@ -854,6 +914,10 @@ sub test_match_field {
 sub test_match_lc_field {
     my $this = shift;
 
+    $this->expect_failure(
+"This test should be made to work on Foswiki 1.1, but it doesn't, Item11456",
+        with_dep => 'Foswiki,<,1.2'
+    );
     $this->check(
         "'$this->{test_web}.HitTopic'/fields",
         eval => [
@@ -885,8 +949,17 @@ sub test_match_lc_field {
         eval => [qw(number boolean macro brace)] );
 }
 
+sub test_match_lc_field_simple {
+    my $this = shift;
+    $this->check(
+        "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
+        eval => [qw(number boolean macro brace)] );
+}
+
 sub test_maths {
-    my $this        = shift;
+    my $this = shift;
+    $this->expect_failure( 'Numeric ops are Foswiki 1.2+ only',
+        with_dep => 'Foswiki,<,1.2' );
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse("1+2*-3+4 div 2 + div");
     $this->assert_equals( "+{+{+{1,*{2,-{3}}},div{4,2}},div}",
@@ -993,8 +1066,12 @@ sub verify_long_or {
     $this->check( $text, eval => 1, simpler => 1 );
 }
 
+# Crawford added this test in Item10520, expect_fail for 1.1 added by PH
 sub verify_form_name_context {
     my $this = shift;
+    $this->expect_failure(
+        'bareword "FooForm" semantics have changed since Foswiki 1.1',
+        with_dep => 'Foswiki,<,1.2' );
     $this->check( "TestForm", eval => undef );
     $this->check( "TestForm[title='Number']",
         eval => [ { value => 99, name => 'number', title => 'Number' } ] );
