@@ -16,7 +16,6 @@ use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki::Query::Parser;
-use Foswiki::Query::HoistREs;
 use Foswiki::Query::Node;
 use Foswiki::Meta;
 use strict;
@@ -118,7 +117,7 @@ sub fixture_groups {
     foreach my $dir (@INC) {
         if ( opendir( D, "$dir/Foswiki/Store/QueryAlgorithms" ) ) {
             foreach my $alg ( readdir D ) {
-                next unless $alg =~ /^(.*)\.pm$/;
+                next unless $alg =~ /^(\w*)\.pm$/;
                 $alg = $1;
                 $qalgs{$alg} = 1;
             }
@@ -132,8 +131,12 @@ sub fixture_groups {
         next if ( defined(&$fn) );
         eval <<SUB;
 sub $fn {
-require Foswiki::Store::QueryAlgorithms::$alg;
-\$Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::$alg'; }
+    my \$this = shift;
+
+    require Foswiki::Store::QueryAlgorithms::$alg;
+    \$Foswiki::cfg{Store}{QueryAlgorithm} =
+        'Foswiki::Store::QueryAlgorithms::$alg';
+}
 SUB
         die $@ if $@;
     }
@@ -592,6 +595,14 @@ sub verify_evaluatesToConstant {
     my $meta        = $this->{meta};
 
     $this->assert( !$query->evaluatesToConstant(), "non-constant" );
+}
+
+sub test_regex_name {
+    my $this = shift;
+    my $expr =
+"%SEARCH{\"name~'Hit*'\" type=\"query\" nonoise=\"on\" format=\"\$topic\"}%";
+    my $list = $this->{test_topicObject}->expandMacros($expr);
+    $this->assert_str_equals( 'HitTopic', $list );
 }
 
 1;

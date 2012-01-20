@@ -92,8 +92,7 @@ sub test_hoistSimple {
     my $s           = "number=99";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
 
    #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
@@ -110,8 +109,7 @@ sub test_hoistSimple2 {
     my $s           = "99=number";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
 
    #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
@@ -129,8 +127,7 @@ sub test_hoistCompound {
 "number=99 AND string='String' and (moved.by='AlbertCamus' OR moved.by ~ '*bert*')";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
 
    #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals( '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
@@ -154,8 +151,7 @@ sub test_hoistCompound2 {
 "(moved.by='AlbertCamus' OR moved.by ~ '*bert*') AND number=99 AND string='String'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
 
    #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
@@ -178,8 +174,7 @@ sub test_hoistAlias {
     my $s           = "info.date=12345";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
     $this->assert_str_equals(
         '^%META:TOPICINFO{.*\bdate=\"12345\"',
         join( ';', map { $_->{regex} } @filter )
@@ -194,8 +189,7 @@ sub test_hoistFormField {
     my $s           = "TestForm.number=99";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
     $this->assert_str_equals(
         '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
         join( ';', map { $_->{regex} } @filter )
@@ -210,8 +204,7 @@ sub test_hoistText {
     my $s           = "text ~ '*Green*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
     $this->assert_str_equals( '.*Green.*',
         join( ';', map { $_->{regex} } @filter ) );
     my $meta = $this->{meta};
@@ -224,8 +217,7 @@ sub test_hoistName {
     my $s           = "name ~ 'Web*'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
     $this->assert_str_equals( 'name',  $filter[0]->{node} );
     $this->assert_str_equals( 'Web.*', $filter[0]->{regex} );
     $this->assert_str_equals( 'Web*',  $filter[0]->{source} );
@@ -240,8 +232,7 @@ sub test_hoistName2 {
     my $s           = "name ~ 'Web*' OR name ~ 'A*' OR name = 'Banana'";
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
-    require Foswiki::Query::HoistREs;
-    my @filter = Foswiki::Query::HoistREs::hoist($query);
+    my @filter      = Foswiki::Query::HoistREs::hoist($query);
     $this->assert_str_equals( 'name',             $filter[0]->{node} );
     $this->assert_str_equals( 'Web.*|A.*|Banana', $filter[0]->{regex} );
     $this->assert_str_equals( 'Web*,A*,Banana',   $filter[0]->{source} );
