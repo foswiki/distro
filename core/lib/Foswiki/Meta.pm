@@ -1938,6 +1938,7 @@ sub save {
     # TWiki:Codev.BugBeforeSaveHandlerBroken
     if ( $plugins->haveHandlerFor('afterSaveHandler') ) {
         my $text = $this->getEmbeddedStoreForm();
+        delete $this->{_preferences};  # Make sure handler has changed prefs
         my $error = $signal ? $signal->{-text} : undef;
         $plugins->dispatch( 'afterSaveHandler', $text, $this->{_topic},
             $this->{_web}, $error, $this );
