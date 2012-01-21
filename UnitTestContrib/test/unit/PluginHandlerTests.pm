@@ -151,8 +151,7 @@ EOF
     $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 1;
     $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module} =
       "Foswiki::Plugins::$this->{plugin_name}";
-    $this->{session}->finish();
-    $this->{session} = new Foswiki();    # default user
+    $this->createNewFoswikiSession();
     eval "\$Foswiki::Plugins::$this->{plugin_name}::tester = \$this;";
     $this->checkCalls( 1, 'initPlugin' );
     $Foswiki::Plugins::SESSION = $this->{session};
@@ -189,8 +188,7 @@ sub test_saveHandlers {
     };
 
     my $q = Foswiki::Func::getRequestObject();
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( $Foswiki::cfg{GuestUserLogin}, $q );
+    $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
 
     $this->makePlugin( 'saveHandlers', <<'HERE');
 sub beforeSaveHandler {
@@ -215,14 +213,15 @@ sub afterSaveHandler {
     $tester->assert($_[4]->isa('Foswiki::Meta'), "OUCH $_[4]");
     $tester->assert_str_equals('Wibble', $_[4]->get('WIBBLE')->{wibble});
     $tester->assert_matches( qr/B4SAVE/, $_[0]);
-    Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
 
-    #SMELL:  This fails due to cached preferences
-    #$tester->assert_str_equals( "AFTER",
-    #        $_[4]->getPreference("BLAH"));
+    $tester->assert_str_equals( "AFTER",
+            $_[4]->getPreference("BLAH"));
 
     #SMELL:  And for some reason this returns null instead of either BEFORE or AFTER
-            #Foswiki::Func::getPreferencesValue("BLAH") );
+    # Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
+    # $tester->assert_str_equals( "AFTER",
+    #  Foswiki::Func::getPreferencesValue("BLAH") );
+
     $called->{afterSaveHandler}++;
 }
 HERE
@@ -236,14 +235,15 @@ HERE
     $this->checkCalls( 1, 'beforeSaveHandler' );
     $this->checkCalls( 1, 'afterSaveHandler' );
 
+    $this->createNewFoswikiSession(); # undef, $topicquery );
+    Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
+
     my $newMeta =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, "Tropic" );
     $this->assert_matches( qr\B4SAVE\, $newMeta->text() );
     $this->assert_str_equals( 'Wibble', $newMeta->get('WIBBLE')->{wibble} );
     $this->assert_str_equals( "AFTER",  $newMeta->getPreference("BLAH") );
 
-    #SMELL: Without this call, getPreferences returns BEFORE
-    Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
     $this->assert_str_equals( "AFTER",
         Foswiki::Func::getPreferencesValue("BLAH") );
 
@@ -686,9 +686,8 @@ sub finishPlugin {
 }
 HERE
 
-    $this->{session}->finish();
+    $this->createNewFoswikiSession();
     $this->checkCalls( 1, 'finishPlugin' );
-    $this->{session} = new Foswiki();
 }
 
 1;
