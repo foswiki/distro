@@ -301,7 +301,7 @@ sub _installMailHandler {
           Foswiki::Sandbox::untaintUnchecked( $this->{MAIL_HOST} );
         eval "require $this->{MAIL_METHOD};";
         if ($@) {
-            print STDERR "FAILED $@ \n";
+            print STDERR ">>>> Failed to load $this->{MAIL_METHOD}: $@ \n";
             $this->{session}->logger->log( 'warning',
                 "$this->{MAIL_METHOD} not available: $@" )
               if ( $this->{session} );
@@ -384,8 +384,10 @@ sub sendEmail {
         catch Error::Simple with {
             my $e = shift->stringify();
             ( my $to ) = $text =~ /^To:\s*(.*?)$/im;
-            $this->{session}->logger->log( 'warning', "Emailing $to - $e" )
+            $this->{session}
+              ->logger->log( 'warning', "Error sending email $to - $e" )
               if ( $this->{session} );
+            print STDERR ">>>> FAILURE Sending e-mail to $to - $e\n";
 
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the
@@ -453,7 +455,7 @@ sub _smimeSignMessage {
             $_[0] = $smime->sign( $_[0] );
         };
         if ($@) {
-            print STDERR "Crypt::SMIME Failed: $@ \n";
+            print STDERR ">>>> Crypt::SMIME Failed: $@ \n";
             $this->{session}->logger->log( 'warning', "S/MIME FAILED: $@" )
               if ( $this->{session} );
         }
@@ -597,11 +599,20 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     my $mess   = "ERROR: Can't send mail using $this->{MAIL_METHOD}. ";
     die $mess . "Can't connect to '$this->{MAIL_HOST}'" unless $smtp;
 
-#print STDERR ">>>>>>>>>>>>> ABOUT TO AUTH with $Foswiki::cfg{SMTP}{Username} \n";
+    print STDERR
+">>>> SMTP auth: Attempting authentication for $Foswiki::cfg{SMTP}{Username} \n"
+      if ( $Foswiki::cfg{SMTP}{Debug} && $Foswiki::cfg{SMTP}{Username} );
 
     if ( $Foswiki::cfg{SMTP}{Username}
         && !( $this->{MAIL_METHOD} eq 'Net::SMTP::TLS' ) )
     {
+        unless ( $Foswiki::cfg{SMTP}{Password} ) {
+            my $errmsg =
+"SMTP auth: AUTH requested for $Foswiki::cfg{SMTP}{Username} but no password provided";
+            print STDERR ">>>> $errmsg \n" if $Foswiki::cfg{SMTP}{Debug};
+            $this->{session}->logger->log( 'warning', "$errmsg" )
+              if $this->{session};
+        }
 
         unless (
             $smtp->auth(
@@ -614,7 +625,9 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
               'SMTP auth: ' . $smtp->code() . ': ' . $smtp->message();
             chomp($errmsg);
             $errmsg .= ' - Trying to send without authentication';
-            $this->{session}->logger->log( 'warning', "$errmsg" );
+            $this->{session}->logger->log( 'warning', "$errmsg" )
+              if $this->{session};
+            print STDERR ">>>> FAILURE - $errmsg\n";
         }
     }
     $smtp->mail($from) || die $mess . $smtp->message;
