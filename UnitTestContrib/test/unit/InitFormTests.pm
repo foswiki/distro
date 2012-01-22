@@ -559,7 +559,6 @@ sub test_unsavedtopic_rendersform {
                 $fatwilly->{request} );
         }
     );
-    $query->finish() if $query->can('finish');
     $this->assert_html_matches(
 '<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
         get_formfield( 6, $text )
