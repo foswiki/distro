@@ -5,38 +5,6 @@ use strict;
 # Make sure that all the right plugin handlers are called in the
 # right places with the right parameters.
 #
-# Here are the handlers we need to test, and the current status:
-#
-# | *Handler*                    | *Tested by* |
-# | afterAttachmentSaveHandler   | *untested* |
-# | afterUploadHandler           | *untested* |
-# | afterCommonTagsHandler       | test_commonTagsHandlers |
-# | afterEditHandler             | *untested* |
-# | afterRenameHandler           | *untested* |
-# | afterSaveHandler             | test_saveHandlers |
-# | beforeUploadHandler          | *untested* |
-# | beforeAttachmentSaveHandler  | *untested* |
-# | beforeCommonTagsHandler      | test_commonTagsHandlers |
-# | beforeEditHandler            | *untested* |
-# | beforeSaveHandler            | test_saveHandlers |
-# | commonTagsHandler            | test_commonTagsHandlers |
-# | earlyInitPlugin              | test_earlyInit |
-# | endRenderingHandler          | test_renderingHandlers |
-# | initPlugin                   | all tests |
-# | initializeUserHandler        | test_earlyInit |
-# | insidePREHandler             | test_renderingHandlers |
-# | modifyHeaderHandler          | *untested* |
-# | mergeHandler                 | *untested* |
-# | outsidePREHandler            | test_renderingHandlers |
-# | postRenderingHandler         | test_renderingHandlers |
-# | preRenderingHandler          | test_renderingHandlers |
-# | redirectrequestHandler       | *untested* |
-# | registrationHandler          | *untested* |
-# | renderFormFieldForEditHandler| *untested* |
-# | renderWikiWordHandler        | *untested* |
-# | startRenderingHandler        | test_renderingHandlers |
-# | writeHeaderHandler           | *untested* |
-#
 # We do this by actually writing a valid plugin implementation to the
 # plugins area in the code, and removing it again when we are done. Each
 # bespoke plugin has specialised handlers designed to interact with this
@@ -193,7 +161,9 @@ sub test_saveHandlers {
     $this->makePlugin( 'saveHandlers', <<'HERE');
 sub beforeSaveHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
-    $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
+    # ensure we have a loaded rev
+    $tester->assert($_[3]->getLoadedRev());
+     $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
     $tester->assert_str_equals($tester->{test_web}, $_[2], "THREE $_[2]");
     $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
     $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
@@ -211,6 +181,8 @@ sub afterSaveHandler {
     $tester->assert_str_equals($tester->{test_web}, $_[2]);
     $tester->assert_null($_[3]);
     $tester->assert($_[4]->isa('Foswiki::Meta'), "OUCH $_[4]");
+    # ensure we have a loaded rev
+    $tester->assert($_[4]->getLoadedRev());
     $tester->assert_str_equals('Wibble', $_[4]->get('WIBBLE')->{wibble});
     $tester->assert_matches( qr/B4SAVE/, $_[0]);
 
@@ -226,10 +198,9 @@ sub afterSaveHandler {
 }
 HERE
 
-# Test to ensure that the before and after save handlers are both called,
-# and that modifications made to the text are actaully written to the topic file
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, "Tropic" );
+    # Test to ensure that the before and after save handlers are both called,
+    # and that modifications made to the text are actaully written to the topic file
+    my $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, "Tropic", $text );
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
     $meta->save();
     $this->checkCalls( 1, 'beforeSaveHandler' );
@@ -552,6 +523,8 @@ sub test_afterUploadHandler {
     $this->makePlugin( 'afterUploadHandler', <<'HERE');
 sub afterUploadHandler {
     my ($attachmentAttrHash, $meta) = @_;
+    # ensure we have a loaded rev
+    $tester->assert($meta->getLoadedRev());
     $called->{afterUploadHandler}++;
 }
 HERE
@@ -593,6 +566,8 @@ sub test_beforeUploadHandler {
     $this->makePlugin( 'beforeUploadHandler', <<'HERE');
 sub beforeUploadHandler {
     my( $attrHashRef, $meta ) = @_;
+    # ensure we have a loaded rev
+    $tester->assert($meta->getLoadedRev());
     $called->{beforeUploadHandler}++;
 }
 HERE
