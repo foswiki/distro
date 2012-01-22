@@ -45,7 +45,11 @@ sub check {
 
     }
 
-    $e .= $this->showExpandedValue( $Foswiki::cfg{TemplatePath} );
+    my $expanded = $this->showExpandedValue( $Foswiki::cfg{TemplatePath} );
+    $expanded =~ s/to:/to:<ol><li>/;
+    $expanded =~ s/,/<li>/g;
+    $expanded .= '</ol>';
+    $e .= $expanded;
 
     return $e;
 }
