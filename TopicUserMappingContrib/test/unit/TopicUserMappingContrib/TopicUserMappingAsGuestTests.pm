@@ -85,6 +85,9 @@ sub set_up_for_verify {
     $Foswiki::cfg{Register}{AllowLoginName}            = 1;
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
 
+    # Reduced runtimes from ~17s down to ~3s elapsed on my machine
+    $Foswiki::cfg{Store}{Implementation} = "Foswiki::Store::RcsLite";
+
     try {
         $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserWikiName} );
         Foswiki::Func::createWeb($testUsersWeb);
