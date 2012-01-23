@@ -72,8 +72,7 @@ sub do_upload {
     $this->assert($stream);
     seek( $stream, 0, 0 );
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $cuid, $query );
+    $this->createNewFoswikiSession( $cuid, $query );
 
     my ($text) = $this->captureWithKey(
         'upload',
@@ -92,7 +91,7 @@ sub do_upload {
 
 sub test_simple_upload {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
@@ -125,7 +124,7 @@ sub test_simple_upload {
 
 sub test_noredirect_param {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
@@ -144,7 +143,7 @@ sub test_noredirect_param {
 sub test_redirectto_param {
     my $this = shift;
     $Foswiki::cfg{AllowRedirectUrl} = 1;
-    local $/;
+    local $/ = undef;
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
@@ -158,7 +157,7 @@ sub test_redirectto_param {
     $this->assert_matches( qr#^Location: http://blah.com/#ms, $result );
 
     $Foswiki::cfg{AllowRedirectUrl} = 0;
-    local $/;
+    local $/ = undef;
     $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
@@ -178,16 +177,14 @@ sub test_redirectto_param {
 
 sub test_oversized_upload {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my %args = (
         webName   => [ $this->{test_web} ],
         topicName => [ $this->{test_topic} ],
     );
     my $query = Unit::Request->new( \%args );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $this->{test_user_login}, $query );
-    $Foswiki::Plugins::SESSION = $this->{session};
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my $data = '00000000000000000000000000000000000000';
     my $sz   = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') * 1024;
     $data .= $data while length($data) <= $sz;
@@ -213,7 +210,7 @@ sub test_oversized_upload {
 
 sub test_zerosized_upload {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my $data = '';
     try {
         $this->do_upload(
@@ -237,7 +234,7 @@ sub test_zerosized_upload {
 
 sub test_illegal_upload {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my $data = 'asdfasdf';
     my ( $goodfilename, $badfilename ) =
       Foswiki::Sandbox::sanitizeAttachmentName('F$%^&&**()_ .php');
@@ -264,7 +261,7 @@ sub test_illegal_upload {
 
 sub test_illegal_propschange {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my $data = 'asdfasdf';
     my ( $goodfilename, $badfilename ) =
       Foswiki::Sandbox::sanitizeAttachmentName('F$%^&&**()_ .php');
@@ -308,7 +305,7 @@ sub test_illegal_propschange {
 
 sub test_propschanges {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my $data   = '';
     my $result = $this->do_upload(
         'Flappadoodle.txt',
@@ -357,10 +354,10 @@ qr/\[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedg
 
 sub test_imagelink {
     my $this = shift;
-    local $/;
+    local $/ = undef;
     my $imageFile = $Foswiki::cfg{PubDir} . '/System/DocumentGraphics/bomb.png';
     $this->assert( open( my $FILE, '<', $imageFile ) );
-    my $data = do { local $/; <$FILE> };
+    my $data = do { local $/ = undef; <$FILE> };
     $this->assert( close($FILE) );
     my $filename = 'bomb.png';
     $filename = Assert::TAINT($filename);

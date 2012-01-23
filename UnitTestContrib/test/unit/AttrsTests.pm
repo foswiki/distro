@@ -1,11 +1,11 @@
-use strict;
-
 package AttrsTests;
+use strict;
+use warnings;
 
-use FoswikiTestCase;
+use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
 
-use Foswiki::Attrs;
+use Foswiki::Attrs();
 
 sub new {
     my $self = shift()->SUPER::new(@_);

@@ -2,11 +2,11 @@ package UIFnCompileTests;
 use strict;
 use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki;
-use Foswiki::UI::View;
+use Foswiki();
+use Foswiki::UI::View();
 use Error qw( :try );
 
 our $UI_FN;
@@ -52,14 +52,14 @@ sub fixture_groups {
 
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
         push( @groups, $script );
-        next if ( defined(&$script) );
+        next if ( defined( &{$script} ) );
 
         #print STDERR "defining $script\n";
         my $dispatcher = $Foswiki::cfg{SwitchBoard}{$script};
         if ( ref($dispatcher) eq 'ARRAY' ) {
 
             # Old-style array entry in switchboard from a plugin
-            my @array = @$dispatcher;
+            my @array = @{$dispatcher};
             $dispatcher = {
                 package  => $array[0],
                 function => $array[1],
@@ -70,12 +70,12 @@ sub fixture_groups {
         next unless ( ref($dispatcher) eq 'HASH' );    #bad switchboard entry.
 
         my $package = $dispatcher->{package} || 'Foswiki::UI';
-        eval "require $package" or next;
+        eval "require $package; 1;" or next;
         my $function = $dispatcher->{function};
         my $sub      = $package->can($function);
 
         no strict 'refs';
-        *$script = sub {
+        *{$script} = sub {
             $UI_FN       = $sub;
             $SCRIPT_NAME = $script;
         };
@@ -97,17 +97,17 @@ sub call_UI_FN {
     );
     $query->path_info("/$web/$topic");
     $query->method('POST');
-    my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $responseText, $result, $stdout, $stderr );
     $responseText = "Status: 500";    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             switchboard => sub {
                 no strict 'refs';
-                &${UI_FN}($fatwilly);
+                &{ ${UI_FN} }( $this->{session} );
                 use strict 'refs';
-                $Foswiki::engine->finalize( $fatwilly->{response},
-                    $fatwilly->{request} );
+                $Foswiki::engine->finalize( $this->{session}{response},
+                    $this->{session}{request} );
             }
         );
     }
@@ -119,7 +119,6 @@ sub call_UI_FN {
         my $e = shift;
         $responseText = $e->stringify();
     };
-    $fatwilly->finish();
 
     $this->assert($responseText);
 
@@ -182,7 +181,7 @@ sub verify_switchboard_function_nonExistantWeb {
     my $this = shift;
 
     #turn off ASSERTs so we can see what a normal run time will show
-    $ENV{FOSWIKI_ASSERTS} = 0;
+    local $ENV{FOSWIKI_ASSERTS} = 0;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
       $this->call_UI_FN( 'Nosuchweb', $this->{test_topic} );
@@ -205,13 +204,15 @@ sub verify_switchboard_function_nonExistantWeb {
         "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
           . ( $stderr || '' ) . "\n"
     );
+
+    return;
 }
 
 sub verify_switchboard_function_nonExistantTopic {
     my $this = shift;
 
     #turn off ASSERTs so we can see what a normal run time will show
-    $ENV{FOSWIKI_ASSERTS} = 0;
+    local $ENV{FOSWIKI_ASSERTS} = 0;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
       $this->call_UI_FN( $this->{test_web}, 'NoSuchTopicBySven' );
@@ -232,6 +233,8 @@ sub verify_switchboard_function_nonExistantTopic {
         "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
           . ( $stderr || '' ) . "\n"
     );
+
+    return;
 }
 
 # TODO: add test_viewfile:

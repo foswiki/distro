@@ -1,5 +1,3 @@
-use strict;
-
 # Authors: Crawford Currie http://wikiring.com
 #
 # Make sure that all the right plugin handlers are called in the
@@ -16,20 +14,23 @@ use strict;
 # start coding....
 #
 package PluginHandlerTests;
-use FoswikiFnTestCase;
+use strict;
+use warnings;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-use Foswiki;
+use Foswiki();
 use Error qw( :try );
-use Foswiki::Plugin;
+use Foswiki::Func();
+use Foswiki::Plugin();
 use Symbol qw(delete_package);
 
 my $systemWeb = "TemporaryPluginHandlersSystemWeb";
 
 sub new {
-    my $self = shift()->SUPER::new( "PluginHandlers", @_ );
-    return $self;
+    my ( $class, @args ) = @_;
+
+    return $class->SUPER::new( "PluginHandlers", @args );
 }
 
 # Set up the test fixture.
@@ -40,6 +41,7 @@ sub set_up {
     my $testWebObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web} );
     $testWebObject->populateNewWeb();
+    $testWebObject->finish();
 
     # Disable all plugins
     foreach my $key ( keys %{ $Foswiki::cfg{Plugins} } ) {
@@ -61,8 +63,11 @@ sub set_up {
     $this->{code_root} = "$found/Foswiki/Plugins/";
     my $webObject = Foswiki::Meta->new( $this->{session}, $systemWeb );
     $webObject->populateNewWeb( $Foswiki::cfg{SystemWebName} );
+    $webObject->finish();
     $Foswiki::cfg{SystemWebName} = $systemWeb;
     $Foswiki::cfg{Plugins}{WebSearchPath} = $systemWeb;
+
+    return;
 }
 
 sub tear_down {
@@ -72,6 +77,8 @@ sub tear_down {
     unlink( $this->{plugin_pm} );
     Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
     $this->SUPER::tear_down();
+
+    return;
 }
 
 # Build the plugin source, using the code passed in $code as the
@@ -83,7 +90,7 @@ sub makePlugin {
     $this->{plugin_name} = ucfirst("${test}Plugin");
     $this->{plugin_pm}   = $this->{code_root} . $this->{plugin_name} . ".pm";
 
-    $code = <<HERE;
+    $code = <<"HERE";
 package Foswiki::Plugins::$this->{plugin_name};
 
 use vars qw( \$called \$tester \$VERSION );
@@ -98,17 +105,21 @@ sub initPlugin {
 $code
 1;
 HERE
-    open( F, ">$this->{plugin_pm}" )
-      || die "Failed to open $this->{plugin_pm}: $!";
-    print F $code;
-    close(F);
+    $this->assert(
+        open( my $F, ">$this->{plugin_pm}" ),
+        "Failed to open $this->{plugin_pm}: $!"
+    );
+    print $F $code;
+    $this->assert( close($F) );
     try {
-        my $topicObject =
-          Foswiki::Meta->new( $this->{session}, $Foswiki::cfg{SystemWebName},
-            $this->{plugin_name}, <<'EOF');
+        my ($topicObject) =
+          Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
+            $this->{plugin_name} );
+        $topicObject->text(<<'EOF');
    * Set PLUGINVAR = Blah
 EOF
         $topicObject->save();
+        $topicObject->finish();
     }
     catch Foswiki::AccessControlException with {
         $this->assert( 0, shift->stringify() );
@@ -119,10 +130,11 @@ EOF
     $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 1;
     $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module} =
       "Foswiki::Plugins::$this->{plugin_name}";
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiSession();    # default user
     eval "\$Foswiki::Plugins::$this->{plugin_name}::tester = \$this;";
     $this->checkCalls( 1, 'initPlugin' );
-    $Foswiki::Plugins::SESSION = $this->{session};
+
+    return;
 }
 
 sub checkCalls {
@@ -131,6 +143,8 @@ sub checkCalls {
       eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{$name} || 0";
     $this->assert_equals( $number, $saw,
         "calls($name) $saw != $number " . join( ' ', caller ) );
+
+    return;
 }
 
 sub test_saveHandlers {
@@ -138,8 +152,7 @@ sub test_saveHandlers {
 
     my $user = $this->{session}->{user};
     $this->assert_not_null($user);
-    my $topicObject =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'Tropic' );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'Tropic' );
     my $text = $topicObject->text() || '';
     $text =~ s/^\s*\* Set BLAH =.*$//gm;
     $text .= "\n\t* Set BLAH = BEFORE\n";
@@ -154,6 +167,7 @@ sub test_saveHandlers {
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() || '' );
     };
+    $topicObject->finish();
 
     my $q = Foswiki::Func::getRequestObject();
     $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
@@ -198,15 +212,29 @@ sub afterSaveHandler {
 }
 HERE
 
-    # Test to ensure that the before and after save handlers are both called,
-    # and that modifications made to the text are actaully written to the topic file
-    my $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, "Tropic", $text );
+# Test to ensure that the before and after save handlers are both called,
+# and that modifications made to the text are actaully written to the topic file
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "Tropic",
+        $text );
+
+    # Crawford changed from Meta->load to Meta->new (above) in Foswikirev:13781;
+    # so I'm holding off on eradicating the above Foswiki::Meta usage until I
+    # better understand why
+    # my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "Tropic" );
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
     $meta->save();
+    $meta->finish();
     $this->checkCalls( 1, 'beforeSaveHandler' );
     $this->checkCalls( 1, 'afterSaveHandler' );
 
-    $this->createNewFoswikiSession(); # undef, $topicquery );
+    my ($newMeta) = Foswiki::Func::readTopic( $this->{test_web}, "Tropic" );
+    $this->assert_matches( qr\B4SAVE\, $newMeta->text() );
+    $this->assert_str_equals( 'Wibble', $newMeta->get('WIBBLE')->{wibble} );
+    $this->assert_str_equals( "AFTER",  $newMeta->getPreference("BLAH") );
+    $newMeta->finish();
+
+    #SMELL: Without this call, getPreferences returns BEFORE
     Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
 
     my $newMeta =
@@ -218,6 +246,7 @@ HERE
     $this->assert_str_equals( "AFTER",
         Foswiki::Func::getPreferencesValue("BLAH") );
 
+    return;
 }
 
 sub test_commonTagsHandlers {
@@ -257,12 +286,15 @@ HERE
 
     # Crude test to ensure all handlers are called, and in the right order.
     # Doesn't verify that they are called at the right time
-    my $meta = Foswiki::Meta->new( $this->{session}, "Werb", "Tropic" );
+    my ($meta) = Foswiki::Func::readTopic( "Werb", "Tropic" );
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
     Foswiki::Func::expandCommonVariables( "Zero", "Tropic", "Werb", $meta );
+    $meta->finish();
     $this->checkCalls( 1, 'beforeCommonTagsHandler' );
     $this->checkCalls( 1, 'commonTagsHandler' );
     $this->checkCalls( 1, 'afterCommonTagsHandler' );
+
+    return;
 }
 
 sub test_earlyInit {
@@ -293,6 +325,8 @@ HERE
     $this->checkCalls( 1, 'earlyInitPlugin' );
     $this->checkCalls( 1, 'initPlugin' );
     $this->checkCalls( 1, 'initializeUserHandler' );
+
+    return;
 }
 
 # Test that the rendering handlers are called in the correct sequence.
@@ -444,7 +478,7 @@ sub outsidePREHandler {
     $called->{outsidePREHandler}++;
 }
 HERE
-    my $text = <<HERE;
+    my $text = <<'HERE';
 <literal>
 LITERAL
 </literal>
@@ -467,7 +501,7 @@ HERE
     @oprelines = ();
     @iprelines = ();
     my $out = Foswiki::Func::renderText( $text, "Gruntfos" ) . "\n";
-    $this->assert_str_equals( <<HERE, $out );
+    $this->assert_str_equals( <<'HERE', $out );
 postRenderingHandler
 endRenderingHandler
 preRenderingHandler
@@ -506,6 +540,8 @@ HERE
     $this->checkCalls( 1, 'startRenderingHandler' );
     $this->checkCalls( 1, 'endRenderingHandler' );
     $this->checkCalls( 1, 'postRenderingHandler' );
+
+    return;
 }
 
 sub test_afterAttachmentSaveHandler {
@@ -516,6 +552,8 @@ sub afterAttachmentSaveHandler {
     $called->{afterAttachmentSaveHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_afterUploadHandler {
@@ -528,6 +566,8 @@ sub afterUploadHandler {
     $called->{afterUploadHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_afterEditHandler {
@@ -538,6 +578,8 @@ sub afterEditHandler {
     $called->{afterEditHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_afterRenameHandler {
@@ -549,6 +591,8 @@ sub afterRenameHandler {
     $called->{afterRenameHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_beforeAttachmentSaveHandler {
@@ -559,6 +603,8 @@ sub beforeAttachmentSaveHandler {
     $called->{beforeAttachmentSaveHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_beforeUploadHandler {
@@ -571,6 +617,8 @@ sub beforeUploadHandler {
     $called->{beforeUploadHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_beforeEditHandler {
@@ -581,6 +629,8 @@ sub beforeEditHandler {
     $called->{beforeEditHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_modifyHeaderHandler {
@@ -591,6 +641,8 @@ sub modifyHeaderHandler {
     $called->{modifyHeaderHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_mergeHandler {
@@ -601,6 +653,8 @@ sub mergeHandler {
     $called->{mergeHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_redirectrequestHandler {
@@ -611,6 +665,8 @@ sub redirectrequestHandler {
     $called->{redirectrequestHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_registrationHandler {
@@ -621,6 +677,8 @@ sub registrationHandler {
     $called->{registrationHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_renderFormFieldForEditHandler {
@@ -631,6 +689,8 @@ sub renderFormFieldForEditHandler {
     $called->{renderFormFieldForEditHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_renderWikiWordHandler {
@@ -641,6 +701,8 @@ sub renderWikiWordHandler {
     $called->{renderWikiWordHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_writeHeaderHandler {
@@ -651,6 +713,8 @@ sub writeHeaderHandler {
     $called->{writeHeaderHandler}++;
 }
 HERE
+
+    return;
 }
 
 sub test_finishPlugin {
@@ -661,8 +725,11 @@ sub finishPlugin {
 }
 HERE
 
-    $this->createNewFoswikiSession();
+    $this->finishFoswikiSession();
     $this->checkCalls( 1, 'finishPlugin' );
+    $this->createNewFoswikiSession();
+
+    return;
 }
 
 1;

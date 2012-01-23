@@ -3,16 +3,8 @@ package ZoneTests;
 use strict;
 use warnings;
 
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
-
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    $this->{test_web}   = 'Temporary' . $class . 'TestWeb';
-    $this->{test_topic} = 'TestTopic' . $class;
-    return $this;
-}
+use FoswikiFnTestCase();
+our @ISA = qw( FoswikiFnTestCase );
 
 sub set_up {
     my ($this) = @_;
@@ -24,17 +16,12 @@ sub set_up {
     $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 0;
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled}  = 0;
 
-    my $query = new Unit::Request("");
+    my $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    $this->{session}  = new Foswiki( undef, $query );
-    $this->{request}  = $query;
-    $this->{response} = new Unit::Response();
+    $this->createNewFoswikiSession( undef, $query );
 
-    $this->{test_topicObject} = Foswiki::Meta->new(
-        $this->{session},    $this->{test_web},
-        $this->{test_topic}, "BLEEGLE\n"
-    );
+    return;
 }
 
 sub test_1 {
@@ -445,6 +432,8 @@ HERE
     $tml = $this->{test_topicObject}->expandMacros($tml);
     my $result = $this->{session}->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
+
+    return;
 }
 
 sub test_explicit_RENDERZONE_unmerged {
@@ -478,6 +467,8 @@ HERE
     $tml = $this->{test_topicObject}->expandMacros($tml);
     my $result = $this->{session}->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
+
+    return;
 }
 
 sub test_legacy_tag_param_compatibility {
@@ -539,6 +530,8 @@ HERE
     $tml = $this->{test_topicObject}->expandMacros($tml);
     my $result = $this->{session}->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
+
+    return;
 }
 
 1;

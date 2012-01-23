@@ -1,16 +1,14 @@
-use strict;
-
 # Example test case; use this as a basis to build your own
 
 package EmptyTests;
+use strict;
+use warnings;
 
 use FoswikiTestCase;
 our @ISA = qw( FoswikiTestCase );
 
 use Foswiki;
 use Error qw( :try );
-
-my $topicquery;
 
 sub set_up {
     my $this = shift;
@@ -19,10 +17,10 @@ sub set_up {
 
     # You can now safely modify $Foswiki::cfg
 
-    $topicquery = new Unit::Request('');
+    my $topicquery = Unit::Request->new('');
     $topicquery->path_info('/TestCases/WebHome');
     try {
-        $this->{session} = new Foswiki( 'AdminUser' || '' );
+        $this->createNewFoswikiSession( 'AdminUser' || '' );
         my $user = $this->{session}->{user};
 
         # You can create webs here; don't forget to tear them down
@@ -31,11 +29,13 @@ sub set_up {
         my $webObject =
           Foswiki::Meta->new( $this->{session}, "Temporarytestweb1" );
         $webObject->populateNewWeb("_default");
+        $webObject->finish();
 
         # Copy a system web like this:
         $webObject =
           Foswiki::Meta->new( $this->{session}, "Temporarysystemweb" );
         $webObject->populateNewWeb("System");
+        $webObject->finish();
 
         # Create a topic like this:
 
@@ -51,6 +51,8 @@ sub set_up {
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() || '' );
     };
+
+    return;
 }
 
 sub tear_down {
@@ -60,10 +62,11 @@ sub tear_down {
     # dies, you may end up with spurious test webs
     $this->removeWebFixture( $this->{session}, "Temporarytestweb1" );
     $this->removeWebFixture( $this->{session}, "Temporarysystemweb" );
-    $this->{session}->finish() if $this->{session};
 
     # Always do this, and always do it last
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub new {
@@ -76,6 +79,8 @@ sub new {
 
 sub test_ {
     my $this = shift;
+
+    return;
 }
 
 #================================================================================

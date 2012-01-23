@@ -1,26 +1,27 @@
 package ViewFileScriptTests;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-use Foswiki;
-use Foswiki::UI;
-use Foswiki::UI::Viewfile;
-use Unit::Request;
+use Assert;
+use Foswiki();
+use Foswiki::UI();
+use Foswiki::UI::Viewfile();
+use Unit::Request();
 use Error qw( :try );
 use File::Path qw(mkpath);
 
-my $fatwilly;
 my $UI_FN;
 
 sub new {
+    my ( $class, @args ) = @_;
 
     #$Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI' ;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    my $self = shift()->SUPER::new( "ViewFileScript", @_ );
-    return $self;
+    return $class->SUPER::new( "ViewFileScript", @args );
 }
 
 # Set up the test fixture
@@ -28,20 +29,19 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    $fatwilly = $this->{session};
     my $topic = 'TestTopic1';
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
-        'topci1 text' );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    $topicObject->text('topci1 text');
     $topicObject->save();
+    $topicObject->finish();
     $this->sneakAttachmentsToTopic( $this->{test_web}, $topic,
         ( 'one.txt', 'two.txt', 'inc/file.txt' ) );
 
     $topic = 'SecureTopic';
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
-        "SecureTopic text\n   * Set ALLOWTOPICVIEW=NoOneReal", undef );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    $topicObject->text("SecureTopic text\n   * Set ALLOWTOPICVIEW=NoOneReal");
     $topicObject->save();
+    $topicObject->finish();
     $this->sneakAttachmentsToTopic( $this->{test_web}, $topic,
         ( 'one.txt', 'two.txt', 'inc/file.txt' ) );
 
@@ -50,16 +50,18 @@ sub set_up {
     $topic = 'TestTopic1';
 
     try {
-        $this->{session} = new Foswiki('AdminUser');
+        $this->createNewFoswikiSession('AdminUser');
 
         my $webObject =
           Foswiki::Meta->new( $this->{session}, $this->{test_subweb} );
         $webObject->populateNewWeb();
         $this->assert( $this->{session}->webExists( $this->{test_subweb} ) );
-        my $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_subweb},
-            $Foswiki::cfg{HomeTopicName}, "SMELL" );
+        ($topicObject) =
+          Foswiki::Func::readTopic( $this->{test_subweb},
+            $Foswiki::cfg{HomeTopicName} );
+        $topicObject->text("SMELL");
         $topicObject->save();
+        $topicObject->finish();
         $this->assert(
             $this->{session}->topicExists(
                 $this->{test_subweb}, $Foswiki::cfg{HomeTopicName}
@@ -70,36 +72,38 @@ sub set_up {
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() || '' );
     };
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_subweb}, $topic,
-        'nested topci1 text', undef );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_subweb}, $topic );
+    $topicObject->text('nested topci1 text');
     $topicObject->save();
+    $topicObject->finish();
     $this->sneakAttachmentsToTopic( $this->{test_subweb}, $topic,
         ( 'one.txt', 'two.txt', 'inc/file.txt' ) );
 
     $topic = 'SecureTopic';
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_subweb}, $topic,
-        "SecureTopic text\n   * Set ALLOWTOPICVIEW=NoOneReal", undef );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_subweb}, $topic );
+    $topicObject->text("SecureTopic text\n   * Set ALLOWTOPICVIEW=NoOneReal");
     $topicObject->save();
+    $topicObject->finish();
     $this->sneakAttachmentsToTopic( $this->{test_subweb}, $topic,
         ( 'one.txt', 'two.txt', 'inc/file.txt' ) );
 
     $topic = 'BinaryTopic';
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
-        'BinaryTopic Text', undef );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    $topicObject->text('BinaryTopic Text');
     $topicObject->save();
+    $topicObject->finish();
     $this->sneakAttachmentsToTopic( $this->{test_web}, $topic,
         ('binaryfile.bin') );
 
     $topic = 'CasePreservingTopic';
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
-        'CasePreserving Text', undef );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    $topicObject->text('CasePreserving Text');
     $topicObject->save();
+    $topicObject->finish();
     $this->sneakAttachmentsToTopic( $this->{test_web}, $topic,
         ('CasePreserved.bin') );
+
+    return;
 }
 
 sub touchFile {
@@ -113,16 +117,17 @@ sub touchFile {
         else {
             print $FILE "Test attachment $file\n";
         }
-        close($FILE);
+        ASSERT( close($FILE) );
     }
     else {
         die "failed ($!) to write to $filename\n";
     }
+
+    return;
 }
 
 sub sneakAttachmentsToTopic {
-    my $this = shift;
-    my ( $web, $topic, @filenames ) = @_;
+    my ( $this, $web, $topic, @filenames ) = @_;
     my $path = $Foswiki::cfg{PubDir} . "/$web/$topic";
     mkpath($path);
 
@@ -132,41 +137,41 @@ sub sneakAttachmentsToTopic {
         if ( $file =~ /\// ) {
             my @dirs = split( /\//, $file );
             pop(@dirs);
-            my $path = $path;
             foreach my $adir (@dirs) {
-                $path .= '/' . $adir;
-                mkdir($path);
+                my $lpath = $path . '/' . $adir;
+                mkdir($lpath);
             }
         }
         touchFile( $path, $file );
     }
+
+    return;
 }
 
 sub viewfile {
     my ( $this, $url, $wantHdrs ) = @_;
-    my $query = new Unit::Request( {} );
+    my $query = Unit::Request->new( {} );
     $query->setUrl($url);
     $query->method('GET');
-    $fatwilly = new Foswiki( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $UI_FN ||= $this->getUIFn('viewfile');
     $this->{request}  = $query;
-    $this->{response} = new Unit::Response();
+    $this->{response} = Unit::Response->new();
     my ($text) = $this->capture(
         sub {
             try {
                 no strict 'refs';
-                &$UI_FN($fatwilly);
+                &{$UI_FN}( $this->{session} );
                 use strict 'refs';
             }
             catch Error with {
-                $fatwilly->{response}->print( shift->stringify() );
+                $this->{session}{response}->print( shift->stringify() );
             }
-            $Foswiki::engine->finalize( $fatwilly->{response},
-                $fatwilly->{request} );
+            $Foswiki::engine->finalize( $this->{session}{response},
+                $this->{session}{request} );
         }
     );
 
-    $fatwilly->finish();
     ( my $headers, $text ) = $text =~ m/^(.*?)\x0d\x0a\x0d\x0a(.*)/s;
 
     return ($wantHdrs) ? ( $headers, $text ) : $text;
@@ -186,6 +191,8 @@ sub test_simpleUrl {
         $this->viewfile("/$this->{test_web}/TestTopic1/two.txt") );
     $this->assert_equals( "Test attachment inc/file.txt\n",
         $this->viewfile("/$this->{test_web}/TestTopic1/inc/file.txt") );
+
+    return;
 }
 
 sub test_oddities {
@@ -196,6 +203,8 @@ sub test_oddities {
         $this->viewfile("/$this->{test_web}//TestTopic1/two.txt") );
     $this->assert_equals( "Test attachment inc/file.txt\n",
         $this->viewfile("/$this->{test_web}/TestTopic1/inc//file.txt") );
+
+    return;
 }
 
 sub test_simple_topic_filename_param {
@@ -211,6 +220,8 @@ sub test_simple_topic_filename_param {
 #Note1 $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=one.txt"));
 #Note1 $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=two.txt"));
 #Note1 $this->assert_equals("Test attachment inc/file.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=inc/file.txt"));
+
+    return;
 }
 
 sub test_nasty_attachment_names {
@@ -222,6 +233,8 @@ sub test_nasty_attachment_names {
     $this->assert_equals( "Test attachment inc/file.txt\n",
         $this->viewfile("/$this->{test_web}/TestTopic1?filename=/inc/file.txt")
     );
+
+    return;
 }
 
 sub test_nested_web_simple_topic_direct_path {
@@ -239,6 +252,8 @@ sub test_nested_web_simple_topic_direct_path {
         $this->viewfile("/$this->{test_subweb}//TestTopic1/two.txt") );
     $this->assert_equals( "Test attachment inc/file.txt\n",
         $this->viewfile("/$this->{test_subweb}/TestTopic1/inc//file.txt") );
+
+    return;
 }
 
 sub test_nested_web_simple_topic_filename_param {
@@ -266,6 +281,8 @@ sub test_nested_web_simple_topic_filename_param {
         $this->viewfile(
             "/$this->{test_subweb}/TestTopic1?filename=/inc/file.txt")
     );
+
+    return;
 }
 
 sub test_simple_web_secured_topic_direct_path {
@@ -290,6 +307,7 @@ sub test_simple_web_secured_topic_direct_path {
     $this->assert_equals( $expectedError,
         $this->viewfile("/$this->{test_web}/SecureTopic/inc//file.txt") );
 
+    return;
 }
 
 sub test_simple_web_secured_topic_filename_param {
@@ -325,6 +343,7 @@ sub test_simple_web_secured_topic_filename_param {
             "/$this->{test_web}/SecureTopic?filename=/inc/file.txt")
     );
 
+    return;
 }
 
 sub test_nested_web_secured_topic_direct_path {
@@ -348,6 +367,8 @@ sub test_nested_web_secured_topic_direct_path {
         $this->viewfile("/$this->{test_subweb}//SecureTopic/two.txt") );
     $this->assert_equals( $expectedError,
         $this->viewfile("/$this->{test_subweb}/SecureTopic/inc//file.txt") );
+
+    return;
 }
 
 sub test_nested_web_secured_topic_filename_param {
@@ -391,6 +412,8 @@ sub test_nested_web_secured_topic_filename_param {
 #$this->assert_equals("relative path in filename ../SecureTopic/one.txt at /data/home/www/foswiki/trunk/core/lib/Foswiki/Sandbox.pm line 136.\n",
 #                    $this->viewfile("/$this->{test_subweb}/TestTopic1/../SecureTopic/one.txt"));
 #TODO: add more nasty tricks
+
+    return;
 }
 
 sub test_MIME_types {
@@ -406,6 +429,8 @@ sub test_MIME_types {
         Foswiki::UI::Viewfile::_suffixToMimeType('blah.w02') );
     $this->assert_equals( 'text/plain',
         Foswiki::UI::Viewfile::_suffixToMimeType('blah.wibble') );
+
+    return;
 }
 
 sub test_binary_contents {
@@ -416,6 +441,8 @@ sub test_binary_contents {
         $this->viewfile(
             "/$this->{test_web}/BinaryTopic?filename=/binaryfile.bin")
     );
+
+    return;
 }
 
 sub test_simple_textfile {
@@ -432,6 +459,7 @@ sub test_simple_textfile {
     $this->assert_matches( 'Content-Disposition: inline; filename=one.txt',
         $headers );
 
+    return;
 }
 
 sub test_case_sensitivity {
@@ -449,5 +477,6 @@ sub test_case_sensitivity {
     $this->assert_matches(
         "Content-Disposition: inline; filename=CasePreserved.bin", $headers );
 
+    return;
 }
 1;

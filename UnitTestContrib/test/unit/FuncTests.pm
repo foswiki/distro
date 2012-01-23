@@ -94,6 +94,7 @@ sub set_up {
     $this->{test_web2}    = $this->{test_web} . 'Extra';
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
     $webObject->populateNewWeb();
+    $webObject->finish();
 
     return;
 }
@@ -282,10 +283,11 @@ sub test_moveWeb {
     my $webObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web} . "Blah" );
     $webObject->populateNewWeb();
-    undef $webObject;
+    $webObject->finish();
     $webObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web} . "Blah/SubWeb" );
     $webObject->populateNewWeb();
+    $webObject->finish();
 
     $this->assert( Foswiki::Func::webExists( $this->{test_web} . 'Blah' ) );
     $this->assert(
@@ -878,6 +880,7 @@ sub test_subweb_attachments {
     #
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->populateNewWeb();
+    $webObject->finish();
 
     my $stream =
       $this->write_file( $this->{tmpdatafile}, $data,
@@ -1001,6 +1004,7 @@ sub test_getrevinfo {
     my $webObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web} . "/Blah" );
     $webObject->populateNewWeb();
+    $webObject->finish();
 
     Foswiki::Func::saveTopicText( $this->{test_web},        $topic, 'blah' );
     Foswiki::Func::saveTopicText( "$this->{test_web}/Blah", $topic, 'blah' );

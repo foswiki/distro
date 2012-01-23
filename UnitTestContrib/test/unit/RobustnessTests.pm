@@ -1,20 +1,19 @@
 # Copyright (C) 2004 Florian Weimer
 package RobustnessTests;
-
-use utf8;    # For test_sanitizeAttachmentNama_unicode
+require 5.008;
 use strict;
 use warnings;
+use utf8;    # For test_sanitizeAttachmentNama_unicode
 
-use FoswikiTestCase;
+use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
-require 5.008;
 
-use Foswiki;
-use Foswiki::Sandbox;
-use Foswiki::Time;
+use Foswiki();
+use Foswiki::Sandbox();
+use Foswiki::Time();
 use Error qw( :try );
 
-my $slash;
+my $slash = ( $^O eq 'MSWin32' ) ? '\\' : '/';
 
 sub new {
     my ( $class, @args ) = @_;
@@ -29,8 +28,7 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-    $this->{session} = Foswiki->new();
-    $slash = ( $^O eq 'MSWin32' ) ? '\\' : '/';
+    $this->createNewFoswikiSession();
     Foswiki::Sandbox::_assessPipeSupport();
 
     return;
@@ -42,7 +40,6 @@ sub tear_down {
     # NOTE: this test pokes globals in the sandbox, so we have to be extra
     # careful about restoring state.
     Foswiki::Sandbox::_assessPipeSupport();
-    $this->{session}->finish();
     $this->SUPER::tear_down();
 
     return;
@@ -219,7 +216,7 @@ sub test_sanitizeAttachmentNama_unicode {
     require Unit::Request;
     $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
-    $this->{session}  = Foswiki->new( undef, $query );
+    $this->createNewFoswikiSession( undef, $query );
     $this->{request}  = $query;
     $this->{response} = Unit::Response->new();
     ( $this->{test_topicObject} ) =

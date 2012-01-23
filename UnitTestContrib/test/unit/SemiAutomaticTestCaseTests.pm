@@ -1,20 +1,19 @@
-use strict;
-
 package SemiAutomaticTestCaseTests;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-use Foswiki;
-use Foswiki::UI::View;
+use Foswiki();
+use Foswiki::UI::View();
 use Error qw( :try );
 
 my $VIEW_UI_FN;
 
 sub set_up {
     my $this = shift;
-    $this->SUPER::set_up;
+    $this->SUPER::set_up();
 
     # Testcases are written using good anchors
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
@@ -40,40 +39,41 @@ sub set_up {
         );
         $to->save();
     }
+
+    return;
 }
 
 sub list_tests {
     my ( $this, $suite ) = @_;
     my @set = $this->SUPER::list_tests(@_);
 
-    my $wiki = new Foswiki();
-    unless ( $wiki->webExists('TestCases') ) {
+    $this->createNewFoswikiSession();
+    unless ( $this->{session}->webExists('TestCases') ) {
         print STDERR
           "Cannot run semi-automatic test cases; TestCases web not found";
         return;
     }
-    eval "use Foswiki::Plugins::TestFixturePlugin";
-    if ($@) {
+
+    if ( !eval "require Foswiki::Plugins::TestFixturePlugin; 1;" ) {
         print STDERR
 "Cannot run semi-automatic test cases; could not find TestFixturePlugin";
-        $wiki->finish();
         return;
     }
     foreach my $case ( Foswiki::Func::getTopicList('TestCases') ) {
         next unless $case =~ /^TestCaseAuto/;
         my $test = 'SemiAutomaticTestCaseTests::test_' . $case;
         no strict 'refs';
-        *$test = sub { shift->run_testcase($case) };
+        *{$test} = sub { shift->run_testcase($case) };
         use strict 'refs';
         push( @set, $test );
     }
-    $wiki->finish();
+    $this->finishFoswikiSession();
     return @set;
 }
 
 sub run_testcase {
     my ( $this, $testcase ) = @_;
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             test => 'compare',
             debugenableplugins =>
@@ -86,30 +86,33 @@ sub run_testcase {
     $Foswiki::cfg{Plugins}{TestFixturePlugin}{Enabled} = 1;
     $Foswiki::cfg{Plugins}{TestFixturePlugin}{Module} =
       'Foswiki::Plugins::TestFixturePlugin';
-    my $wiki = new Foswiki( $this->{test_user_login}, $query );
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web},
-        'ProjectContributor', 'none' );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, 'ProjectContributor' );
+    $topicObject->text('none');
     $topicObject->save();
-    my ($text) = $this->capture( $VIEW_UI_FN, $wiki );
+    $topicObject->finish();
+    my ($text) = $this->capture( $VIEW_UI_FN, $this->{session} );
 
     unless ( $text =~ m#<font color="green">ALL TESTS PASSED</font># ) {
-        open( F, ">${testcase}_run.html" );
-        print F $text;
-        close F;
+        $this->assert( open( my $F, '>', "${testcase}_run.html" ) );
+        print $F $text;
+        $this->assert( close $F );
         $query->delete('test');
-        ($text) = $this->capture( $VIEW_UI_FN, $wiki );
-        open( F, ">${testcase}.html" );
-        print F $text;
-        close F;
+        ($text) = $this->capture( $VIEW_UI_FN, $this->{session} );
+        $this->assert( open( $F, '>', "${testcase}.html" ) );
+        print $F $text;
+        $this->assert( close $F );
         $this->assert( 0,
 "$testcase FAILED - output in ${testcase}.html and ${testcase}_run.html"
         );
     }
-    $wiki->finish();
+
+    return;
 }
 
 sub test_suppresswarning {
+    return;
 }
 
 1;

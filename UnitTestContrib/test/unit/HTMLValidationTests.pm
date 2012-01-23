@@ -5,25 +5,24 @@ use warnings;
 #this has been quickly copied from the UICompilation tests
 #TODO: need to pick a list of topics, actions, opps's and add detection of installed skins
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-use Foswiki;
-use Foswiki::UI::View;
+use Foswiki();
+use Foswiki::UI::View();
+use HTML::Tidy();
 use Error qw( :try );
-use HTML::Tidy;
 
-our $UI_FN;
-our $SCRIPT_NAME;
-our $SKIN_NAME;
-our %expected_status = (
+my $UI_FN;
+my $SCRIPT_NAME;
+my $SKIN_NAME;
+my %expected_status = (
     search => 302,
     save   => 302
 );
 
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
-our %expect_non_html = (
+my %expect_non_html = (
     rest         => 1,
     restauth     => 1,
     viewfile     => 1,
@@ -37,7 +36,7 @@ our %expect_non_html = (
 # Thanks to Foswiki::Form::Radio, and a default -columns attribute = 4,
 # CGI::radio_group() uses HTML3 tables (missing summary attribute) for layout
 # and this makes HTMLTidy cry.
-our %expect_table_summary_warnings = ( edit => 1 );
+my %expect_table_summary_warnings = ( edit => 1 );
 
 sub new {
     my ( $class, @args ) = @_;
@@ -87,6 +86,7 @@ sub set_up {
             ALLOWWEBRENAME => ''
         }
     );
+    $webObject->finish();
 
     return;
 }
@@ -96,14 +96,14 @@ sub fixture_groups {
 
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
         push( @scripts, $script );
-        next if ( defined(&$script) );
+        next if ( defined( &{$script} ) );
 
         #print STDERR "defining sub $script()\n";
         my $dispatcher = $Foswiki::cfg{SwitchBoard}{$script};
         if ( ref($dispatcher) eq 'ARRAY' ) {
 
             # Old-style array entry in switchboard from a plugin
-            my @array = @$dispatcher;
+            my @array = @{$dispatcher};
             $dispatcher = {
                 package  => $array[0],
                 function => $array[1],
@@ -141,7 +141,7 @@ sub fixture_groups {
     #TODO: detect installed skins..
     foreach my $skin (qw/default pattern plain print/) {
         push( @skins, $skin );
-        next if ( defined(&$skin) );
+        next if ( defined( &{$skin} ) );
 
         #print STDERR "defining sub $skin()\n";
         eval {
@@ -167,7 +167,7 @@ sub call_UI_FN {
         skin      => $SKIN_NAME
     );
     if ($params) {
-        %constructor = ( %constructor, %$params );
+        %constructor = ( %constructor, %{$params} );
     }
     my $query = Unit::Request->new( \%constructor );
     $query->path_info("/$web/$topic");
@@ -175,17 +175,17 @@ sub call_UI_FN {
 
 #turn off ASSERTS so we get less plain text erroring - the user should always see html
     local $ENV{FOSWIKI_ASSERTS} = 0;
-    my $fatwilly = Foswiki->new( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $responseText, $result, $stdout, $stderr );
     $responseText = 'Status: 500';    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             $SCRIPT_NAME => sub {
                 no strict 'refs';
-                &${UI_FN}($fatwilly);
+                &{$UI_FN}( $this->{session} );
                 use strict 'refs';
-                $Foswiki::engine->finalize( $fatwilly->{response},
-                    $fatwilly->{request} );
+                $Foswiki::engine->finalize( $this->{session}{response},
+                    $this->{session}{request} );
             }
         );
     }
@@ -197,7 +197,6 @@ sub call_UI_FN {
         my $e = shift;
         $responseText = $e->stringify();
     };
-    $fatwilly->finish();
 
     $this->assert($responseText);
     $this->assert_matches( qr/^1?$/, $result,
@@ -271,12 +270,12 @@ sub add_attachment {
     $this->assert(
         open( $save_params{stream}, '>', $Foswiki::cfg{TempfileDir} . $name ) );
     my $size = do_create_file( $save_params{stream}, $data );
-    close( $save_params{stream} );
+    $this->assert( close( $save_params{stream} ) );
     $save_params{filesize} = $size;
     $this->assert(
         open( $save_params{stream}, '<', $Foswiki::cfg{TempfileDir} . $name ) );
     do_save_attachment( $web, $topic, $name, \%save_params );
-    close( $save_params{stream} );
+    $this->assert( close( $save_params{stream} ) );
 
     return length $data;
 }
@@ -326,6 +325,7 @@ sub add_form_and_data {
     put_field( $meta, 'State',        'H', 'State',         'Invisible' );
     put_field( $meta, 'Anothertopic', '',  'Another topic', 'GRRR ' );
     $meta->save();
+    $meta->finish();
 
     return;
 }
