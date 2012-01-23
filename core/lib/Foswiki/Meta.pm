@@ -1246,10 +1246,9 @@ sub get {
     if ($data) {
         if ( defined $name ) {
 
-#this code presumes the _indices are there (Sven would like it to re-create when needed..)
-# Paul.H notes that we trip over this one when meta obj is unloaded (I think, see Item10927)
-            ASSERT( defined( $this->{_indices} ) ) if DEBUG;
-            my $indices = $this->{_indices}->{$type};
+            my $indices = $this->{_indices};
+            return undef unless defined $indices;
+	    $indices = $indices->{$type};
             return undef unless defined $indices;
             return undef unless defined $indices->{$name};
             return $data->[ $indices->{$name} ];
