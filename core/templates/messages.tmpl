@@ -170,6 +170,15 @@
 
 %MAKETEXT{"You have *not* been registered."}%
 %TMPL:END%
+%TMPL:DEF{"passwords_disabled"}%
+---+++ %MAKETEXT{"Passwords disabled"}%
+
+%MAKETEXT{"The Administrator has disabled password changes."}%
+
+%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
+
+%MAKETEXT{"Your password has not been changed."}%
+%TMPL:END%
 %TMPL:DEF{"thanks"}%
 ---+++ %MAKETEXT{"Thank you for registering"}%
    * %MAKETEXT{"Your personal Foswiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />

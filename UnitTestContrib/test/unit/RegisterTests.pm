@@ -1245,7 +1245,9 @@ sub verify_resetPasswordNoPassword {
     );
 
     $query->path_info( '/' . $this->{users_web} . '/WebHome' );
-    unlink $Foswiki::cfg{Htpasswd}{FileName};
+    my $fh;
+    open($fh, ">", $Foswiki::cfg{Htpasswd}{FileName}) || die $!;
+    close($fh) || die $!;
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );

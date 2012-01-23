@@ -23,15 +23,24 @@ sub check {
     my $f = $Foswiki::cfg{Htpasswd}{FileName};
     Foswiki::Configure::Load::expandValue($f);
 
-    return $e
-      . $this->WARN(
-"file $f is not found.  This may be normal for a new installation.  it will be created when the first user registers to the site"
-      ) unless ( -f $f );
-
-    return $e
-      . $this->ERROR(
-"$f is not writable.  User registration will be disabled until this is corrected."
-      ) unless ( -w $f );
+    unless ( -e $f ) {
+	# password file does not exist; check it can be created
+	my $fh;
+	if (!open($fh, ">", $f) || !close($fh)) {
+	    return $e . $this->ERROR("Password file $f does not exist and could not be created: $!");
+	} else {
+	    $e .= $this->NOTE("A new password file $f has been created.");
+	    unless (chmod(0600, $f)) {
+		$e .= $this->WARN("Permissions could not be changed on the new password file $f")
+	    }
+	}
+    } elsif ( !( -f $f && -w $f )) {
+	# password file exists but is not writable
+	return $e
+	    . $this->ERROR(
+	    "$f is not a writable plain file. "
+	    . "User registration will be disabled until this is corrected.")
+    }
 
     return $e;
 }
