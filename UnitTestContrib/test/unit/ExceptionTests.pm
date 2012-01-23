@@ -1,12 +1,13 @@
 package ExceptionTests;
-use FoswikiFnTestCase;
+use strict;
+use warnings;
+
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-
 use Error qw( :try );
-use Foswiki::OopsException;
-use Foswiki::AccessControlException;
+use Foswiki::OopsException();
+use Foswiki::AccessControlException();
 
 my $UI_FN;
 
@@ -14,6 +15,8 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
     $UI_FN ||= $this->getUIFn('oops');
+
+    return;
 }
 
 # Check an OopsException with one non-array parameter
@@ -43,6 +46,8 @@ qr/^OopsException\(templatename\/defname web=>webname topic=>topicname keep=>1 p
             $e->stringify()
         );
     };
+
+    return;
 }
 
 # Check an oops exception with several parameters, including illegal HTML
@@ -69,46 +74,52 @@ qr/^OopsException\(templatename web=>webname topic=>topicname params=>\[phlegm,<
             $e->stringify()
         );
     };
+
+    return;
 }
 
 sub upchuck {
     my $session = shift;
-    my $e       = new Foswiki::OopsException(
+    my $e       = Foswiki::OopsException->new(
         'templatename',
         web    => 'webname',
         topic  => 'topicname',
         params => [ 'phlegm', '<pus>' ]
     );
     $e->redirect($session);
+
+    return;
 }
 
 # Test for DEPRECATED redirect
 sub deprecated_test_redirectOopsException {
     my $this = shift;
-    my $t    = new Foswiki();
-    my ($output) = $this->capture( \&upchuck, $t );
-    $t->finish();
+    $this->createNewFoswikiSession();
+    my ($output) = $this->capture( \&upchuck, $this->{session} );
     $this->assert_matches( qr/^Status: 302.*$/m, $output );
     $this->assert_matches(
 qr#^Location: http.*/oops/webname/topicname?template=oopstemplatename;param1=phlegm;param2=%26%2360%3bpus%26%2362%3b$#m,
         $output
     );
+
+    return;
 }
 
 sub test_AccessControlException {
     my $this = shift;
-    my $ace  = new Foswiki::AccessControlException( 'FRY', 'burger', 'Spiders',
+    my $ace  = Foswiki::AccessControlException->new( 'FRY', 'burger', 'Spiders',
         'FlumpNuts', 'Because it was there.' );
     $this->assert_str_equals(
 "AccessControlException: Access to FRY Spiders.FlumpNuts for burger is denied. Because it was there.",
         $ace->stringify()
     );
 
+    return;
 }
 
 sub test_oopsScript {
     my $this  = shift;
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             skin     => 'none',
             template => 'oopsgeneric',
@@ -120,9 +131,9 @@ sub test_oopsScript {
             param5   => "the cat\nsat on\nthe rat"
         }
     );
-    my $session = new Foswiki( undef, $query );
+    $this->createNewFoswikiSession( undef, $query );
     my ($output) =
-      $this->capture( $UI_FN, $session, "Flum", "DeDum", $query, 0 );
+      $this->capture( $UI_FN, $this->{session}, "Flum", "DeDum", $query, 0 );
     $this->assert_matches( qr/^phlegm$/m,           $output );
     $this->assert_matches( qr/^&#60;pus&#62;$/m,    $output );
     $this->assert_matches( qr/^snot&#64;dot.dat$/m, $output );
@@ -131,7 +142,7 @@ sub test_oopsScript {
     $this->assert_matches( qr/^the rat$/m,          $output );
     $this->assert_matches( qr/^phlegm$/m,           $output );
 
-    $session->finish();
+    return;
 }
 
 1;

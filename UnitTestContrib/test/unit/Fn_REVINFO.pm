@@ -1,20 +1,20 @@
-use strict;
-
 # tests for the correct expansion of REVINFO
 
 package Fn_REVINFO;
-use FoswikiFnTestCase;
+use strict;
+use warnings;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-use Foswiki;
+use Foswiki();
+use Foswiki::Time();
 use Error qw( :try );
-use Foswiki::Time;
 
 sub new {
+    my ( $class, @args ) = @_;
+
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
-    my $self = shift()->SUPER::new( 'REVINFO', @_ );
-    return $self;
+    return $class->SUPER::new( 'REVINFO', @args );
 }
 
 sub set_up {
@@ -22,14 +22,17 @@ sub set_up {
     $this->SUPER::set_up(@_);
     $this->{guest_wikiname} = Foswiki::Func::getWikiName();
     $this->{session}->{user} = $this->{test_user_cuid};    # OUCH
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "GropeGroup",
-        "   * Set GROUP = ScumBag,WikiGuest\n" );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup" );
+    $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "GlumDrop",
-        "Burble\n" );
+    $topicObject->finish();
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, "GlumDrop" );
+    $topicObject->text("Burble\n");
     $topicObject->save();
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_basic {
@@ -42,13 +45,15 @@ sub test_basic {
     {
         $this->assert( 0, $ui );
     }
+
+    return;
 }
 
 sub test_basic2 {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros('%REVINFO%');
     unless ( $ui =~
 /^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
@@ -56,13 +61,16 @@ sub test_basic2 {
     {
         $this->assert( 0, $ui );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_basic3 {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros('%REVINFO{topic="GlumDrop"}%');
     unless ( $ui =~
 /^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
@@ -70,13 +78,16 @@ sub test_basic3 {
     {
         $this->assert( 0, $ui );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_thisWebVars {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{topic="%BASEWEB%.GlumDrop"}%');
     unless ( $ui =~
@@ -85,14 +96,17 @@ sub test_thisWebVars {
     {
         $this->assert( 0, $ui );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 #the following 2 return with reasonable looking non-0, but with WikiGuest as author - perhaps there's a bigger bug out there.
 sub BROKENtest_thisTopicVars {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros('%REVINFO{topic="%BASETOPIC%"}%');
     unless ( $ui =~
 /^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$this->{test_user_wikiname}$/
@@ -100,13 +114,16 @@ sub BROKENtest_thisTopicVars {
     {
         $this->assert( 0, $ui );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 sub BROKENtest_thisWebTopicVars {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{topic="%BASEWEB%.%BASETOPIC%"}%');
     unless ( $ui =~
@@ -115,14 +132,16 @@ sub BROKENtest_thisWebTopicVars {
     {
         $this->assert( 0, $ui );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_otherWeb {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my $ui = $topicObject->expandMacros(
         '%REVINFO{topic="GropeGroup" web="' . $this->{users_web} . '"}%',
     );
@@ -132,14 +151,16 @@ sub test_otherWeb {
     {
         $this->assert( 0, $ui );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_otherWeb2 {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my $ui = $topicObject->expandMacros(
         '%REVINFO{topic="' . $this->{users_web} . '.GropeGroup"}%' );
     unless ( $ui =~
@@ -148,19 +169,25 @@ sub test_otherWeb2 {
     {
         $this->assert( 0, $ui );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_formatUser {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros(
         '%REVINFO{format="$username $wikiname $wikiusername"}%');
     $this->assert_str_equals(
 "$this->{test_user_login} $this->{test_user_wikiname} $this->{users_web}\.$this->{test_user_wikiname}",
         $ui
     );
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_compatibility1 {
@@ -173,18 +200,21 @@ sub test_compatibility1 {
     if ( $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ ) {
         return;
     }
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'CrikeyMoses',
-        <<'HERE');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'CrikeyMoses' );
+    $topicObject->text( <<'HERE');
 %META:TOPICINFO{author="ScumBag" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'CrikeyMoses' );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'CrikeyMoses' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{format="$username $wikiname"}%');
     $this->assert_str_equals( "scum ScumBag", $ui );
+    $topicObject->finish();
 
+    return;
 }
 
 sub test_compatibility2 {
@@ -197,18 +227,21 @@ sub test_compatibility2 {
     if ( $Foswiki::cfg{Store}{Implementation} !~ /Rcs(Lite|Wrap)$/ ) {
         return;
     }
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'CrikeyMoses',
-        <<'HERE');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'CrikeyMoses' );
+    $topicObject->text( <<'HERE');
 %META:TOPICINFO{author="scum" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'CrikeyMoses' );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'CrikeyMoses' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{format="$username $wikiname"}%');
     $this->assert_str_equals( "scum ScumBag", $ui );
+    $topicObject->finish();
 
+    return;
 }
 
 sub test_5873 {
@@ -223,17 +256,17 @@ sub test_5873 {
     }
     $this->assert(
         open(
-            F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/GeeWillikins.txt"
+            my $F, '>',
+            "$Foswiki::cfg{DataDir}/$this->{test_web}/GeeWillikins.txt"
         )
     );
-    print F <<'HERE';
+    print $F <<'HERE';
 %META:TOPICINFO{author="eltonjohn" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
-    close(F);
+    $this->assert( close($F) );
     $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 0;
-    my $topicObject =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        'GeeWillikins' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GeeWillikins' );
     my $ui = $topicObject->expandMacros(
         '%REVINFO{format="$username $wikiname $wikiusername"}%');
     $this->assert_str_equals( "eltonjohn eltonjohn eltonjohn", $ui );
@@ -241,24 +274,29 @@ HERE
     $ui = $topicObject->expandMacros(
         '%REVINFO{format="$username $wikiname $wikiusername"}%');
     $this->assert_str_equals( "unknown unknown unknown", $ui );
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_42 {
     my $this = shift;
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "HappyPill",
-        "   * Set ALLOWTOPICVIEW = CarlosCastenada\n" );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "HappyPill" );
+    $topicObject->text("   * Set ALLOWTOPICVIEW = CarlosCastenada\n");
     $topicObject->save();
-    $this->{session}->finish();
-    $this->{session} = new Foswiki();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    $topicObject->finish();
+    $this->createNewFoswikiSession();
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros(
             '%REVINFO{topic="'
           . $this->{test_web}
           . '.HappyPill" format="$username $wikiname $wikiusername"}%',
     );
     $this->assert( $ui =~ /No permission to view/ );
+    $topicObject->finish();
+
+    return;
 }
 
 #see http://trunk.foswiki.org/Tasks/Item8708
@@ -268,17 +306,20 @@ sub test_42 {
 sub test_CaseSensitiveFormatString {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'GlumDrop' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'GlumDrop' );
     my $ui = $topicObject->expandMacros( '%REVINFO{format="$DATE"}%', );
     $this->assert_str_equals( '$DATE', $ui );
+    $topicObject->finish();
+
+    return;
 }
 
 # test for different revs and format strings
 sub test_Item9538 {
     my $this = shift;
 
-    my $topicObject = $this->_createHistory();
+    my ($topicObject) = $this->_createHistory();
 
     my $ui = $topicObject->expandMacros(<<'OFNIVER');
 %REVINFO{"$rev" rev="1"}%
@@ -290,7 +331,7 @@ sub test_Item9538 {
 %REVINFO{"$topic $rev" rev=""}%
 %REVINFO{"$rev" topic="BlessMySoul"}%
 OFNIVER
-    $this->assert_str_equals( <<OFNIVER, $ui );
+    $this->assert_str_equals( <<"OFNIVER", $ui );
 1
 2
 3
@@ -319,13 +360,16 @@ OFNIVER
         $y = $topicObject->expandMacros("%REVINFO{\"$tf\"}%");
         $this->assert_str_equals( $x, $y );
     }
+    $topicObject->finish();
+
+    return;
 }
 
 # test for combinations of format strings
 sub test_Item10476 {
     my $this = shift;
 
-    my $topicObject = $this->_createHistory();
+    my ($topicObject) = $this->_createHistory();
     my $format =
 'sec=$sec, seconds=$seconds, min=$min, minutes=$minutes, hou=$hou, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, month=$month, mo=$mo, ye=$ye, year=$year, ye=$ye, tz=$tz, iso=$iso, isotz=$isotz, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate';
 
@@ -334,6 +378,9 @@ sub test_Item10476 {
     my $epoch = $topicObject->expandMacros('%REVINFO{"$epoch"}%');
     my $expected = Foswiki::Time::formatTime( $epoch, $format );
     $this->assert_str_equals( $ui, $expected );
+    $topicObject->finish();
+
+    return;
 }
 
 sub _createHistory {
@@ -342,8 +389,7 @@ sub _createHistory {
     $topic ||= 'BlessMySoul';
     $num   ||= 4;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $topicObject->save();    # rev 1
 
     my @texts = [

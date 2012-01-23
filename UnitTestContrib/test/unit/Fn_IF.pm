@@ -1,13 +1,13 @@
 # tests for the correct expansion of IF
 
 package Fn_IF;
-
 use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki;
+use Foswiki();
 use Error qw( :try );
 use Assert;
 use Foswiki::Query::Node           ();
@@ -16,54 +16,71 @@ use Foswiki::Configure::Dependency ();
 my $post11;
 
 sub new {
-    my $self = shift()->SUPER::new( 'IF', @_ );
-    my $dep = new Foswiki::Configure::Dependency(
+    my ( $class, @args ) = @_;
+    my $dep = Foswiki::Configure::Dependency->new(
         type    => "perl",
         module  => "Foswiki",
         version => ">=1.2"
     );
     ( $post11, my $message ) = $dep->check();
-    return $self;
+
+    return $class->SUPER::new( 'IF', @args );
 }
 
 sub test_1 {
     my $this = shift;
     $this->simpleTest( test => "'A'='B'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_2 {
     my $this = shift;
     $this->simpleTest( test => "'A'!='B'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_3 {
     my $this = shift;
     $this->simpleTest( test => "'A'='A'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_4 {
     my $this = shift;
     $this->simpleTest( test => "'A'='B'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_5 {
     my $this = shift;
     $this->simpleTest( test => 'context test', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_5a {
     my $this = shift;
     $this->simpleTest( test => 'context \'test\'', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_6 {
     my $this = shift;
     $this->simpleTest( test => "{Fnargle}='Fleeble'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_7 {
     my $this = shift;
     $this->simpleTest( test => "{A}{B}='C'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_8 {
@@ -74,6 +91,8 @@ sub test_8 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_8a {
@@ -84,6 +103,8 @@ sub test_8a {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_9 {
@@ -91,6 +112,8 @@ sub test_9 {
     $this->simpleTest( test => 'defined EDITBOXHEIGHT', then => 1, else => 0 );
 
     # See test_96* for other 'defined' tests
+
+    return;
 }
 
 sub test_9a {
@@ -140,81 +163,113 @@ sub test_9a {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_10 {
     my $this = shift;
     $this->simpleTest( test => '0>1', then => 0, else => 1 );
+
+    return;
 }
 
 sub test_11 {
     my $this = shift;
     $this->simpleTest( test => '1>0', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_12 {
     my $this = shift;
     $this->simpleTest( test => '1<0', then => 0, else => 1 );
+
+    return;
 }
 
 sub test_13 {
     my $this = shift;
     $this->simpleTest( test => '0<1', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_14 {
     my $this = shift;
     $this->simpleTest( test => "0>=\t1", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_15 {
     my $this = shift;
     $this->simpleTest( test => '1>=0', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_16 {
     my $this = shift;
     $this->simpleTest( test => '1>=1', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_17 {
     my $this = shift;
     $this->simpleTest( test => '1<=0', then => 0, else => 1 );
+
+    return;
 }
 
 sub test_18 {
     my $this = shift;
     $this->simpleTest( test => '0<=1', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_19 {
     my $this = shift;
     $this->simpleTest( test => '1<=1', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_20 {
     my $this = shift;
     $this->simpleTest( test => "not 'A'='B'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_21 {
     my $this = shift;
     $this->simpleTest( test => "not NOT 'A'='B'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_22 {
     my $this = shift;
     $this->simpleTest( test => "'A'='A' AND 'B'='B'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_23 {
     my $this = shift;
     $this->simpleTest( test => "'A'='A' and 'B'='B'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_24 {
     my $this = shift;
     $this->simpleTest( test => "'A'='A' and 'B'='B'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_25 {
@@ -224,21 +279,29 @@ sub test_25 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_26 {
     my $this = shift;
     $this->simpleTest( test => "'A'='B' or 'B'='B'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_27 {
     my $this = shift;
     $this->simpleTest( test => "'A'='A' or 'B'='A'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_28 {
     my $this = shift;
     $this->simpleTest( test => "'A'='B' or 'B'='A'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_29 {
@@ -248,6 +311,8 @@ sub test_29 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_29a {
@@ -257,31 +322,43 @@ sub test_29a {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_30 {
     my $this = shift;
     $this->simpleTest( test => "'A'~'B'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_31 {
     my $this = shift;
     $this->simpleTest( test => "'ABLABA'~'*B?AB*'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_32 {
     my $this = shift;
     $this->simpleTest( test => '\"BABBA\"~\"*BB?\"', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_33 {
     my $this = shift;
     $this->simpleTest( test => "lc('FRED')='fred'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_34 {
     my $this = shift;
     $this->simpleTest( test => "('FRED')=uc 'fred'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_35 {
@@ -292,6 +369,8 @@ sub test_35 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_36 {
@@ -301,31 +380,43 @@ sub test_36 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_37 {
     my $this = shift;
     $this->simpleTest( test => "1 = 1 > 0", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_38 {
     my $this = shift;
     $this->simpleTest( test => "1 > 1 = 0", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_39 {
     my $this = shift;
     $this->simpleTest( test => "not 1 = 2", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_40 {
     my $this = shift;
     $this->simpleTest( test => "not not 1 and 1", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_41 {
     my $this = shift;
     $this->simpleTest( test => "0 or not not 1 and 1", then => 1, else => 0 );
+
+    return;
 }
 
 # ingroup test against a non-group that is a valid user wikiname
@@ -338,6 +429,8 @@ sub test_42 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_42a {
@@ -351,6 +444,8 @@ sub test_42a {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_42b {
@@ -360,6 +455,8 @@ sub test_42b {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 # ingroup test against a non-group that is a non-existant group
@@ -372,6 +469,8 @@ sub test_43 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_43a {
@@ -385,6 +484,8 @@ sub test_43a {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_43b {
@@ -396,6 +497,8 @@ sub test_43b {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 # ingroup test against a valid group the user is not a member of
@@ -410,6 +513,8 @@ sub test_44 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_44a {
@@ -421,6 +526,8 @@ sub test_44a {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_44b {
@@ -432,6 +539,8 @@ sub test_44b {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 # ingroup test against a group the user is a member of
@@ -446,6 +555,8 @@ sub test_45 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_45a {
@@ -457,6 +568,8 @@ sub test_45a {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_45b {
@@ -469,6 +582,8 @@ sub test_45b {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_46 {
@@ -478,6 +593,8 @@ sub test_46 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_47 {
@@ -487,6 +604,8 @@ sub test_47 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_48 {
@@ -496,6 +615,8 @@ sub test_48 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_49 {
@@ -505,6 +626,8 @@ sub test_49 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_50 {
@@ -514,6 +637,8 @@ sub test_50 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_51 {
@@ -524,6 +649,8 @@ sub test_51 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test52_ {
@@ -534,6 +661,8 @@ sub test52_ {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_53 {
@@ -543,6 +672,8 @@ sub test_53 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_54 {
@@ -552,6 +683,8 @@ sub test_54 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_55 {
@@ -562,6 +695,8 @@ sub test_55 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_56 {
@@ -572,6 +707,8 @@ sub test_56 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_57 {
@@ -581,6 +718,8 @@ sub test_57 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_58 {
@@ -590,6 +729,8 @@ sub test_58 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_59 {
@@ -600,6 +741,8 @@ sub test_59 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_60 {
@@ -610,6 +753,8 @@ sub test_60 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_61 {
@@ -619,6 +764,8 @@ sub test_61 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_62 {
@@ -630,6 +777,8 @@ sub test_62 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_63 {
@@ -641,6 +790,8 @@ sub test_63 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_64 {
@@ -653,6 +804,8 @@ sub test_64 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_65 {
@@ -664,6 +817,8 @@ sub test_65 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_66 {
@@ -675,6 +830,8 @@ sub test_66 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_67 {
@@ -686,6 +843,8 @@ sub test_67 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_68 {
@@ -698,6 +857,8 @@ sub test_68 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_69 {
@@ -709,6 +870,8 @@ sub test_69 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_70 {
@@ -720,6 +883,8 @@ sub test_70 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_71 {
@@ -731,6 +896,8 @@ sub test_71 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_72 {
@@ -743,6 +910,8 @@ sub test_72 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_73 {
@@ -752,6 +921,8 @@ sub test_73 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_74 {
@@ -761,6 +932,8 @@ sub test_74 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_75 {
@@ -772,6 +945,8 @@ sub test_75 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_76 {
@@ -784,6 +959,8 @@ sub test_76 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_77 {
@@ -793,6 +970,8 @@ sub test_77 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_78 {
@@ -802,6 +981,8 @@ sub test_78 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_79 {
@@ -813,6 +994,8 @@ sub test_79 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_80 {
@@ -825,6 +1008,8 @@ sub test_80 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_81 {
@@ -836,6 +1021,8 @@ sub test_81 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_82 {
@@ -845,6 +1032,8 @@ sub test_82 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_83 {
@@ -856,6 +1045,8 @@ sub test_83 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_84 {
@@ -868,6 +1059,8 @@ sub test_84 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_85 {
@@ -877,6 +1070,8 @@ sub test_85 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_86 {
@@ -886,6 +1081,8 @@ sub test_86 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_87 {
@@ -897,6 +1094,8 @@ sub test_87 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_88 {
@@ -909,6 +1108,8 @@ sub test_88 {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_89 {
@@ -920,26 +1121,36 @@ sub test_89 {
         then => 1,
         else => 0
     );
+
+    return;
 }
 
 sub test_90 {
     my $this = shift;
     $this->simpleTest( test => "isweb 'System'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_91 {
     my $this = shift;
     $this->simpleTest( test => "isweb 'Not a web'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_92 {
     my $this = shift;
     $this->simpleTest( test => "istopic \$'System'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_93 {
     my $this = shift;
     $this->simpleTest( test => "istopic \$'Not a web'", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_93a {
@@ -949,6 +1160,8 @@ sub test_93a {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_93b {
@@ -958,6 +1171,8 @@ sub test_93b {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_93c {
@@ -967,6 +1182,8 @@ sub test_93c {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_93d {
@@ -976,16 +1193,22 @@ sub test_93d {
         then => 0,
         else => 1
     );
+
+    return;
 }
 
 sub test_94 {
     my $this = shift;
     $this->simpleTest( test => "isweb \$ 'SYSTEMWEB'", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_95 {
     my $this = shift;
     $this->simpleTest( test => 'defined \'SYSTEMWEB\'', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_96 {
@@ -993,36 +1216,50 @@ sub test_96 {
     $this->simpleTest( test => 'defined SYSTEMWEB', then => 1, else => 0 );
 
     # see also test_9 and test_96*
+
+    return;
 }
 
 sub test_96a {
     my $this = shift;
     $this->simpleTest( test => 'defined( SYSTEMWEB )', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_96b {
     my $this = shift;
     $this->simpleTest( test => "defined( 'SYSTEMWEB' )", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_96c {
     my $this = shift;
     $this->simpleTest( test => 'defined( UNDEF )', then => 0, else => 1 );
+
+    return;
 }
 
 sub test_96d {
     my $this = shift;
     $this->simpleTest( test => "defined( 'UNDEF' )", then => 0, else => 1 );
+
+    return;
 }
 
 sub test_97 {
     my $this = shift;
     $this->simpleTest( test => 'defined \'IF\'', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_98 {
     my $this = shift;
     $this->simpleTest( test => 'defined IF', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_107 {
@@ -1038,28 +1275,30 @@ sub test_107 {
 
         #print STDERR "catched error ".shift."\n";
     };
+
+    return;
 }
 
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
 
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session},
-        $this->{users_web},
-        "GropeGroup",
-        "   * Set GROUP = "
-          . Foswiki::Func::getWikiName( $this->{session}->{user} ) . "\n"
-    );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup" );
+    $topicObject->text( "   * Set GROUP = "
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
+          . "\n" );
     $topicObject->save();
+    $topicObject->finish();
 
     # Create WebHome topic to trap existance errors related to
     # normalizeWebTopicName
-    $topicObject = Foswiki::Meta->new(
-        $this->{session}, $this->{test_web},
-        "WebHome",        "Gormless gimboid\n"
-    );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, "WebHome" );
+    $topicObject->text("Gormless gimboid\n");
     $topicObject->save();
+    $topicObject->finish();
+
+    return;
 }
 
 sub simpleTest {
@@ -1089,24 +1328,29 @@ sub simpleTest {
 
     #print STDERR "$text => $result\n";
     $this->assert_equals( '1', $result, $text . " => " . $result );
+
+    return;
 }
 
 sub test_INCLUDEparams {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
 one %IF{ "defined NAME" then="1" else="0" }%
 two %IF{ "$ NAME='%NAME%'" then="1" else="0" }%
 three %IF{ "$ NAME=$ 'NAME{}'" then="1" else="0" }%
 SMELL
     $topicObject->save();
+    $topicObject->finish();
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_matches( qr/^\s*one 1\s+two 1\s+three 1\s*$/s, $result );
+
+    return;
 }
 
 # check parse failures
@@ -1129,36 +1373,41 @@ sub test_badIF {
         $this->assert( $result =~ s/^.*}:\s*//s );
         $this->assert_str_equals( $test->{expect}, $result );
     }
+
+    return;
 }
 
 sub test_ContentAccessSyntax {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
 one %IF{ "BleaghForm.Wibble='Woo'" then="1" else="0" }%
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
 SMELL
     $topicObject->save();
+    $topicObject->finish();
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_matches( qr/^\s*one 1\s*$/s, $result );
+
+    return;
 }
 
 sub test_ALLOWS_and_EXISTS {
     my $this = shift;
     my $wn   = Foswiki::Func::getWikiName( $this->{session}->{user} );
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadDog",
-        <<PONG);
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "DeadDog" );
+    $meta->text( <<"PONG");
    * Set ALLOWTOPICVIEW = WibbleFloon
    * Set ALLOWTOPICCHANGE = $wn
 PONG
     $meta->save();
+    $meta->finish();
 
     my @tests;
     push(
@@ -1296,13 +1545,11 @@ PONG
             expect => "0"
         }
     );
-    $this->{session}->finish();
-    my $request = new Unit::Request( {} );
+    my $request = Unit::Request->new( {} );
     $request->path_info("/$this->{test_web}/$this->{test_topic}");
-    $this->{session} = new Foswiki( undef, $request );
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+    $this->createNewFoswikiSession( undef, $request );
+    ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
     foreach my $test (@tests) {
         my $text   = '%IF{"' . $test->{test} . '" then="1" else="0"}%';
@@ -1310,6 +1557,9 @@ PONG
         $this->assert_str_equals( $test->{expect}, $result,
             "$text: '$result'" );
     }
+    $meta->finish();
+
+    return;
 }
 
 sub test_DOS {
@@ -1317,12 +1567,15 @@ sub test_DOS {
     my $text = <<'PONG';
    * Set LOOP = %IF{"$ LOOP = '1'" then="ping" else="pong"}%
 PONG
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic}, $text );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($text);
     $topicObject->save();
+    $topicObject->finish();
     my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_str_equals( "   * Set LOOP = pong\n", $result );
+
+    return;
 }
 
 sub test_TOPICINFO {
@@ -1330,15 +1583,14 @@ sub test_TOPICINFO {
 
     my $topicName = 'TopicInfo';
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
-        <<PONG);
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topicName );
+    $meta->text( <<'PONG');
 oneapeny twoapenny we all fall down
 PONG
     $meta->save();
+    $meta->finish();
 
-    $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topicName );
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topicName );
     $meta->getRevisionInfo();
     my $ti = $meta->get('TOPICINFO');
 
@@ -1407,64 +1659,89 @@ PONG
         $this->assert_str_equals( $test->{expect}, $result,
             "$text: '$result'" );
     }
+    $meta->finish();
+
+    return;
 }
 
 sub test_ISEMPTY_PARAM_NOTTHERE {
     my $this = shift;
     $this->simpleTest( test => 'isempty notthere', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_ISEMPTY_PARAM_EMPTY {
     my $this = shift;
     $this->simpleTest( test => 'defined empty', then => 1, else => 0 );
     $this->simpleTest( test => 'isempty empty', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_ISEMPTY_PARAM_NOTEMPTY {
     my $this = shift;
     $this->simpleTest( test => 'isempty notempty', then => 0, else => 1 );
+
+    return;
 }
 
 sub test_ISEMPTY_PREF_NOTTHERE {
     my $this = shift;
     $this->simpleTest( test => 'isempty NOTTHERE', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_ISEMPTY_PREF_EMPTY {
     my $this = shift;
     $this->simpleTest( test => 'defined EMPTY', then => 1, else => 0 );
     $this->simpleTest( test => 'isempty EMPTY', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_ISEMPTY_PREF_NOTEMPTY {
     my $this = shift;
     $this->simpleTest( test => 'isempty SNOTEMPTY', then => 0, else => 1 );
+
+    return;
 }
 
 sub test_ISEMPTY_SESSION_NOTTHERE {
     my $this = shift;
     $this->simpleTest( test => 'isempty SNOTTHERE', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_ISEMPTY_SESSION_EMPTY {
     my $this = shift;
     $this->simpleTest( test => 'defined SEMPTY', then => 1, else => 0 );
     $this->simpleTest( test => 'isempty SEMPTY', then => 1, else => 0 );
+
+    return;
 }
 
 sub test_ISEMPTY_SESSION_NOTEMPTY {
     my $this = shift;
     $this->simpleTest( test => 'isempty NOTEMPTY', then => 0, else => 1 );
+
+    return;
 }
 
 sub test_ISEMPTY_EXPR_EMPTY {
     my $this = shift;
     $this->simpleTest( test => "isempty ''", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_ISEMPTY_EXPR_UNDEF {
     my $this = shift;
     $this->simpleTest( test => "isempty undef", then => 1, else => 0 );
+
+    return;
 }
 
 sub test_d2n {
@@ -1694,6 +1971,7 @@ sub test_d2n {
         else => 1
     );
 
+    return;
 }
 
 sub test_atomic {
@@ -1720,6 +1998,8 @@ sub test_atomic {
 
     $this->simpleTest( test => "'0.0'", then => 1, else => 0 );
     $this->simpleTest( test => "''",    then => 0, else => 1 );
+
+    return;
 }
 
 1;

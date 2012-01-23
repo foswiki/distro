@@ -265,8 +265,7 @@ sub set_up {
     $this->SUPER::set_up();
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    $this->{session}->finish() if $this->{session};
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
 
     ( $this->{test_topicObject} ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );

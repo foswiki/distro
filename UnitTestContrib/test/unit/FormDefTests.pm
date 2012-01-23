@@ -340,9 +340,9 @@ FORM
 sub test_Item10987_formObjClass {
     my ($this) = @_;
 
-    my $adminsession = Foswiki->new( $Foswiki::cfg{AdminUserWikiName} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
     my $formObj =
-      Foswiki::Form->new( $adminsession, $Foswiki::cfg{SystemWebName},
+      Foswiki::Form->new( $this->{session}, $Foswiki::cfg{SystemWebName},
         'UserForm' );
     $this->assert( $formObj->isa('Foswiki::Form') );
     my @fields = $formObj->getFields();

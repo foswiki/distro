@@ -1,16 +1,14 @@
-use strict;
-
 package ViewScriptTests;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Foswiki;
 use Foswiki::UI::View;
 use Error qw( :try );
 
-my $fatwilly;
 my $UI_FN;
 
 my $topic1 = <<'HERE';
@@ -73,9 +71,9 @@ pretemplate%STARTTEXT%pre%ENDTEXT%posttemplate
 HERE
 
 sub new {
+    my ( $class, @args ) = @_;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    my $self = shift()->SUPER::new( "ViewScript", @_ );
-    return $self;
+    return $class->SUPER::new( "ViewScript", @args );
 }
 
 # Set up the test fixture
@@ -85,54 +83,55 @@ sub set_up {
 
     $UI_FN ||= $this->getUIFn('view');
 
-    $fatwilly = $this->{session};
-
     #set up nested web $this->{test_web}/Nest
     $this->{test_subweb} = $this->{test_web} . '/Nest';
     my $topic = 'TestTopic1';
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic1',
-        $topic1, undef );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic1' );
+    $meta->text($topic1);
     $meta->save();
+    $meta->finish();
 
     $topic = 'TestTopic2';
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic2',
-        $topic2, undef );
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic2' );
+    $meta->text($topic2);
     $meta->save();
+    $meta->finish();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'ViewoneTemplate', $templateTopicContent1, undef );
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewoneTemplate' );
+    $meta->text($templateTopicContent1);
     $meta->save( user => $this->{test_user_wikiname} );
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'ViewtwoTemplate', $templateTopicContent2, undef );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewtwoTemplate' );
+    $meta->text($templateTopicContent2);
     $meta->save( user => $this->{test_user_wikiname} );
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'ViewthreeTemplate', $templateTopicContent3, undef );
+    $meta->finish();
+    ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'ViewthreeTemplate' );
+    $meta->text($templateTopicContent3);
     $meta->save( user => $this->{test_user_wikiname} );
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'ViewfourTemplate', $templateTopicContent4, undef );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewfourTemplate' );
+    $meta->text($templateTopicContent4);
     $meta->save( user => $this->{test_user_wikiname} );
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'ViewfiveTemplate', $templateTopicContent5, undef );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewfiveTemplate' );
+    $meta->text($templateTopicContent5);
     $meta->save( user => $this->{test_user_wikiname} );
+    $meta->finish();
 
     try {
-        $this->{session} = new Foswiki('AdminUser');
+        $this->createNewFoswikiSession('AdminUser');
 
         my $webObject =
           Foswiki::Meta->new( $this->{session}, $this->{test_subweb} );
         $webObject->populateNewWeb();
+        $webObject->finish();
         $this->assert( $this->{session}->webExists( $this->{test_subweb} ) );
-        my $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_subweb},
+        my ($topicObject) =
+          Foswiki::Func::readTopic( $this->{test_subweb},
             $Foswiki::cfg{HomeTopicName}, "SMELL" );
         $topicObject->save();
+        $topicObject->finish();
         $this->assert(
             $this->{session}->topicExists(
                 $this->{test_subweb}, $Foswiki::cfg{HomeTopicName}
@@ -143,33 +142,35 @@ sub set_up {
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() || '' );
     };
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_subweb}, $topic,
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_subweb}, $topic,
         'nested topci1 text', undef );
     $topicObject->save();
+    $topicObject->finish();
 
     #set up nested web _and_ topic called $this->{test_web}/ThisTopic
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'ThisTopic',
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'ThisTopic',
         'nested ThisTopic text', undef );
     $topicObject->save();
+    $topicObject->finish();
     $this->{test_clashingsubweb} = $this->{test_web} . '/ThisTopic';
     $topic = 'TestTopic1';
 
     try {
-        $this->{session} = new Foswiki('AdminUser');
+        $this->createNewFoswikiSession('AdminUser');
 
         my $webObject =
           Foswiki::Meta->new( $this->{session}, $this->{test_clashingsubweb} );
         $webObject->populateNewWeb();
+        $webObject->finish();
         $this->assert(
             $this->{session}->webExists( $this->{test_clashingsubweb} ) );
-        my $topicObject = Foswiki::Meta->new(
-            $this->{session},
-            $this->{test_clashingsubweb},
-            $Foswiki::cfg{HomeTopicName}, "SMELL"
-        );
+        ($topicObject) = Foswiki::Func::readTopic( $this->{test_clashingsubweb},
+            $Foswiki::cfg{HomeTopicName} );
+        $topicObject->text("SMELL");
         $topicObject->save();
+        $topicObject->finish();
         $this->assert(
             $this->{session}->topicExists(
                 $this->{test_clashingsubweb},
@@ -181,15 +182,18 @@ sub set_up {
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() || '' );
     };
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_clashingsubweb},
-        $topic, 'nested topci1 text', undef );
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_clashingsubweb}, $topic );
+    $topicObject->text('nested topci1 text');
     $topicObject->save();
+    $topicObject->finish();
+
+    return;
 }
 
 sub setup_view {
     my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin ) = @_;
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             webName     => [$web],
             topicName   => [$topic],
@@ -201,20 +205,20 @@ sub setup_view {
     );
     $query->path_info("/$web/$topic");
     $query->method('POST');
-    $fatwilly = new Foswiki( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ($text) = $this->capture(
         sub {
             no strict 'refs';
-            &$UI_FN($fatwilly);
+            &{$UI_FN}( $this->{session} );
             use strict 'refs';
-            $Foswiki::engine->finalize( $fatwilly->{response},
-                $fatwilly->{request} );
+            $Foswiki::engine->finalize( $this->{session}{response},
+                $this->{session}{request} );
         }
     );
 
-    my $editUrl = $fatwilly->getScriptUrl( '0', 'edit', $this->{test_web}, '' );
+    my $editUrl =
+      $this->{session}->getScriptUrl( '0', 'edit', $this->{test_web}, '' );
 
-    $fatwilly->finish();
     $text =~ s/\r//g;
     $text =~ s/(^.*?\n\n+)//s;    # remove CGI header
     return ( $text, $1, $editUrl );
@@ -252,6 +256,8 @@ sub test_render_raw {
         $text, "Unexpected output from raw=debug" );
     $this->assert_matches( qr#^Content-Type: text/html#ms,
         $hdr, "raw=debug should return text/html - got $hdr" );
+
+    return;
 }
 
 # This test verifies the rendering of the text/plain
@@ -266,7 +272,7 @@ sub test_render_textplain {
         'text/plain', 'text' );
     $editUrl =~ s/WebHome/MissingWikiWord/;
 
-    my $topic2plain = <<HERE;
+    my $topic2plain = <<"HERE";
 pretemplate<hr />
 <span class="foswikiNewLink">MissingWikiWord<a href="$editUrl?topicparent=TemporaryViewScriptTestWebViewScript.TestTopic2" rel="nofollow" title="Create this topic">?</a></span> <br />
 ExclamationEscape <br />
@@ -286,6 +292,7 @@ HERE
     $this->assert_equals( "$topic2plain", $text,
         "Unexpected output from contentype=text/plain skin=text" );
 
+    return;
 }
 
 # This test verifies the handling of preamble (the text following
@@ -315,18 +322,20 @@ postposttemplate', $text
 
     ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfive' );
     $this->assert_equals( 'pretemplateposttemplate', $text );
+
+    return;
 }
 
 sub urltest {
     my ( $this, $url, $web, $topic ) = @_;
-    my $query = new Unit::Request( {} );
+    my $query = Unit::Request->new( {} );
     $query->setUrl($url);
     $query->method('GET');
-    my $fatwilly = new Foswiki( $this->{test_user_login}, $query );
-    $this->assert_equals( $web,   $fatwilly->{webName} );
-    $this->assert_equals( $topic, $fatwilly->{topicName} );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->assert_equals( $web,   $this->{session}->{webName} );
+    $this->assert_equals( $topic, $this->{session}->{topicName} );
 
-    $fatwilly->finish();
+    return;
 }
 
 sub test_urlparsing {
@@ -571,6 +580,7 @@ sub test_urlparsing {
     # - Invalid web name - Tasks.Item8713
     $this->urltest( '/A:B/WebPreferences', '', 'WebPreferences' );
 
+    return;
 }
 
 1;

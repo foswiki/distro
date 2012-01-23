@@ -4,16 +4,17 @@
 # "sanity check" of store functionality. More complete tests of
 # VC functionality can be found in VCStoreTests and VCHandlerTests.
 package VCMetaTests;
+use strict;
+use warnings;
 
-use FoswikiStoreTestCase;
+use FoswikiStoreTestCase();
 our @ISA = qw( FoswikiStoreTestCase );
 
-use strict;
-use Foswiki;
-use Foswiki::Meta;
+use Foswiki();
+use Foswiki::Meta();
+use Foswiki::Func();
+use Foswiki::OopsException();
 use Error qw( :try );
-use Foswiki::OopsException;
-use Devel::Symdump;
 
 my $testUser1;
 my $testUser2;
@@ -28,8 +29,7 @@ sub set_up_for_verify {
     $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/junk";
     $Foswiki::cfg{LogFileName}     = "$Foswiki::cfg{TempfileDir}/junk";
 
-    $this->{session}->finish();
-    $this->{session} = new Foswiki();
+    $this->createNewFoswikiSession();
 
     $testUser1 = "DummyUserOne";
     $testUser2 = "DummyUserTwo";
@@ -37,6 +37,8 @@ sub set_up_for_verify {
         $testUser1 . '@example.com' );
     $this->registerUser( $testUser2, $testUser2, $testUser2,
         $testUser2 . '@example.com' );
+
+    return;
 }
 
 sub tear_down {
@@ -44,17 +46,21 @@ sub tear_down {
     unlink $Foswiki::cfg{WarningFileName};
     unlink $Foswiki::cfg{LogFileName};
     $this->SUPER::tear_down();
+
+    return;
 }
 
 sub verify_notopic {
     my $this  = shift;
     my $topic = "UnitTest1";
-    my $m =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "UnitTest1" );
+    my ($m) = Foswiki::Func::readTopic( $this->{test_web}, "UnitTest1" );
     my $rev = $m->getLatestRev();
     $this->assert(
         !$this->{session}->topicExists( $this->{test_web}, $topic ) );
     $this->assert_num_equals( 0, $rev );
+    $m->finish();
+
+    return;
 }
 
 sub verify_checkin {
@@ -65,14 +71,14 @@ sub verify_checkin {
 
     $this->assert(
         !$this->{session}->topicExists( $this->{test_web}, $topic ) );
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic, $text );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    $meta->text($text);
     $meta->save( user => $user );
     my $rev = $meta->getLatestRev();
     $this->assert_num_equals( 1, $rev );
 
-    $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topic, 0 );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic, 0 );
     my $text1 = $meta->text;
 
     $text1 =~ s/[\s]*$//go;
@@ -83,25 +89,29 @@ sub verify_checkin {
     $this->assert_num_equals( 1, $info->{version},
         "Rev from meta data should be 1 when first created $info->{version}" );
 
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $info = $meta->getRevisionInfo();
     $this->assert_num_equals( 1, $info->{version} );
 
     # Check-in with different text, under different user (to force change)
-    $this->{session}->finish();
-    $this->{session} = new Foswiki($testUser2);
+    $this->createNewFoswikiSession($testUser2);
     $text = "bye";
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $info = $meta->getRevisionInfo();
     $meta->save();
     $this->assert_num_equals( 2, $meta->getLatestRev() );
 
     # Force reload
-    $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topic, 0 );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic, 0 );
     $info = $meta->getRevisionInfo();
     $this->assert_num_equals( 2, $info->{version},
         "Rev from meta should be 2 after one change" );
+    $meta->finish();
+
+    return;
 }
 
 sub verify_checkin_attachment {
@@ -112,8 +122,8 @@ sub verify_checkin_attachment {
     my $text  = "hi";
     my $user  = $testUser1;
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic, $text );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    $meta->text($text);
     $meta->save( user => $user );
 
     # ensure pub directory for topic exists (SMELL surely not needed?)
@@ -125,9 +135,10 @@ sub verify_checkin_attachment {
     }
 
     my $attachment = "afile.txt";
-    open( FILE, ">$Foswiki::cfg{TempfileDir}/$attachment" );
-    print FILE "Test attachment\n";
-    close(FILE);
+    $this->assert(
+        open( my $FILE, '>', "$Foswiki::cfg{TempfileDir}/$attachment" ) );
+    print $FILE "Test attachment\n";
+    $this->assert( close($FILE) );
 
     my $saveCmd         = "";
     my $doNotLogChanges = 0;
@@ -145,9 +156,10 @@ sub verify_checkin_attachment {
     $this->assert_num_equals( 1, $rev );
 
     # Save again and check version number goes up by 1
-    open( FILE, ">$Foswiki::cfg{TempfileDir}/$attachment" );
-    print FILE "Test attachment\nAnd a second line";
-    close(FILE);
+    $this->assert(
+        open( my $FILE, '>', "$Foswiki::cfg{TempfileDir}/$attachment" ) );
+    print $FILE "Test attachment\nAnd a second line";
+    $this->assert( close($FILE) );
 
     $meta->attach(
         name => $attachment,
@@ -160,6 +172,9 @@ sub verify_checkin_attachment {
     # Check revision number
     $rev = $meta->getLatestRev($attachment);
     $this->assert_num_equals( 2, $rev );
+    $meta->finish();
+
+    return;
 }
 
 sub verify_rename {
@@ -171,16 +186,16 @@ sub verify_rename {
     my $newTopic = "UnitTest2Moved";
     my $user     = $testUser1;
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $oldWeb, $oldTopic,
-        "Elucidate the goose" );
+    my ($meta) = Foswiki::Func::readTopic( $oldWeb, $oldTopic );
+    $meta->text("Elucidate the goose");
     $meta->save( user => $user );
     $this->assert( !$this->{session}->topicExists( $newWeb, $newTopic ) );
 
     my $attachment = "afile.txt";
-    open( FILE, ">$Foswiki::cfg{TempfileDir}/$attachment" );
-    print FILE "Test her attachment to me\n";
-    close(FILE);
+    $this->assert(
+        open( my $FILE, '>', "$Foswiki::cfg{TempfileDir}/$attachment" ) );
+    print $FILE "Test her attachment to me\n";
+    $this->assert( close($FILE) );
     $user = $testUser2;
     $this->{session}->{user} = $user;
     $meta->attach(
@@ -207,16 +222,18 @@ sub verify_rename {
 
     my $newRevAtt = $nmeta->getLatestRev($attachment);
     $this->assert_num_equals( $oldRevAtt, $newRevAtt );
+    $meta->finish();
+    $nmeta->finish();
+
+    return;
 }
 
 sub verify_releaselocksonsave {
     my $this  = shift;
     my $topic = "MultiEditTopic";
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     # create rev 1 as TestUser1
-    my $query = new Unit::Request(
+    my $query = Unit::Request->new(
         {
             originalrev => [0],
             'action'    => ['save'],
@@ -225,7 +242,7 @@ sub verify_releaselocksonsave {
     );
     $query->path_info("/$this->{test_web}/$topic");
 
-    $this->{session} = new Foswiki( $testUser1, $query );
+    $this->createNewFoswikiSession( $testUser1, $query );
     try {
         $this->captureWithKey( save => $UI_FN, $this->{session} );
     }
@@ -243,7 +260,7 @@ sub verify_releaselocksonsave {
     my $t1 = $m->getRevisionInfo()->{date};
 
     # create rev 2 as TestUser1
-    $query = new Unit::Request(
+    $query = Unit::Request->new(
         {
             originalrev      => ["1_$t1"],
             'action'         => ['save'],
@@ -252,8 +269,7 @@ sub verify_releaselocksonsave {
         }
     );
     $query->path_info("/$this->{test_web}/$topic");
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( $testUser1, $query );
+    $this->createNewFoswikiSession( $testUser1, $query );
     try {
         $this->captureWithKey( save => $UI_FN, $this->{session} );
     }
@@ -267,7 +283,7 @@ sub verify_releaselocksonsave {
     };
 
     # now TestUser2 has a go, based on rev 1
-    $query = new Unit::Request(
+    $query = Unit::Request->new(
         {
             originalrev      => ["1_$t1"],
             'action'         => ['save'],
@@ -277,8 +293,7 @@ sub verify_releaselocksonsave {
     );
 
     $query->path_info("/$this->{test_web}/$topic");
-    $this->{session}->finish();
-    $this->{session} = new Foswiki( $testUser2, $query );
+    $this->createNewFoswikiSession( $testUser2, $query );
     try {
         $this->captureWithKey( save => $UI_FN, $this->{session} );
         $this->annotate(
@@ -295,10 +310,14 @@ sub verify_releaselocksonsave {
         $this->assert( 0, shift->{-text} );
     };
 
-    open( F, "<$Foswiki::cfg{DataDir}/$this->{test_web}/$topic.txt" );
+    $this->assert(
+        open(
+            my $F, '<', "$Foswiki::cfg{DataDir}/$this->{test_web}/$topic.txt"
+        )
+    );
     local $/ = undef;
-    my $text = <F>;
-    close(F);
+    my $text = <$F>;
+    $this->assert( close($F) );
     $this->assert_matches( qr/version="(1.)?3"/, $text );
     $this->assert_matches(
 qr/<div\s+class="foswikiConflict">.+version\s+2.*<\/div>\s*Changed\nLines[\s.]+<div/,
@@ -309,6 +328,7 @@ qr/<div\s+class="foswikiConflict">.+version\s+new.*<\/div>\s*Sausage\nChips[\s.]
         $text
     );
 
+    return;
 }
 
 1;

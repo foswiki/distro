@@ -1,22 +1,18 @@
 # Smoke tests for Foswiki::Meta
 
-require 5.006;
-use strict;
-
 package MetaTests;
+use strict;
+use warnings;
+require 5.006;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki;
-use Foswiki::Meta;
+use Foswiki::Func();
+use Foswiki::Store();
+use Foswiki::Meta();
 
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
-
-my $args = {
+my $args0 = {
     name  => "a",
     value => "1",
     aa    => "AA",
@@ -37,24 +33,28 @@ my $args2 = {
 my $web   = "TemporaryZoopyDoopy";
 my $topic = "NoTopic";
 my $m1;
-my $session;
 
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-    $this->{session} = new Foswiki();
+    $this->createNewFoswikiSession();
 
     $m1 = Foswiki::Meta->new( $this->{session}, $web, $topic );
-    $m1->put( "TOPICINFO", $args );
-    $m1->putKeyed( "FIELD", $args );
+    $m1->put( "TOPICINFO", $args0 );
+    $m1->putKeyed( "FIELD", $args0 );
     $m1->putKeyed( "FIELD", $args2 );
+
+    return;
 }
 
 sub tear_down {
     my $this = shift;
     $this->removeWebFixture( $this->{session}, $web )
       if $this->{session}->webExists($web);
+    $m1->finish();
     $this->SUPER::tear_down();
+
+    return;
 }
 
 # Field that can only have one copy
@@ -62,7 +62,7 @@ sub test_single {
     my $this = shift;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
 
-    $meta->put( "TOPICINFO", $args );
+    $meta->put( "TOPICINFO", $args0 );
     my $vals = $meta->get("TOPICINFO");
     $this->assert_str_equals( $vals->{"name"},  "a" );
     $this->assert_str_equals( $vals->{"value"}, "1" );
@@ -72,13 +72,16 @@ sub test_single {
     $this->assert_str_equals( "a", $vals1->{"name"} );
     $this->assert_equals( 2, $vals1->{"value"} );
     $this->assert_equals( 1, $meta->count("TOPICINFO"), "Should be one item" );
+    $meta->finish();
+
+    return;
 }
 
 sub test_multiple {
     my $this = shift;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
 
-    $meta->putKeyed( "FIELD", $args );
+    $meta->putKeyed( "FIELD", $args0 );
     my $vals = $meta->get( "FIELD", "a" );
     $this->assert_str_equals( $vals->{"name"},  "a" );
     $this->assert_str_equals( $vals->{"value"}, "1" );
@@ -95,6 +98,9 @@ sub test_multiple {
     my $vals2 = $meta->get( "FIELD", "b" );
     $this->assert_str_equals( $vals2->{"name"},  "b" );
     $this->assert_str_equals( $vals2->{"value"}, "3" );
+    $meta->finish();
+
+    return;
 }
 
 # Field with value 0 and value ''  This does not cover Item8738
@@ -122,26 +128,32 @@ sub test_zero_empty {
     my $vals2 = $meta->get( "FIELD", "b" );
     $this->assert_str_equals( $vals2->{"name"},  "b" );
     $this->assert_str_equals( $vals2->{"value"}, "" );
+    $meta->finish();
+
+    return;
 }
 
 sub test_removeSingle {
     my $this = shift;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
 
-    $meta->put( "TOPICINFO", $args );
+    $meta->put( "TOPICINFO", $args0 );
     $this->assert( $meta->count("TOPICINFO") == 1, "Should be one item" );
     $meta->remove("TOPICINFO");
     $this->assert( $meta->count("TOPICINFO") == 0,
         "Should be no items after remove" );
+    $meta->finish();
+
+    return;
 }
 
 sub test_removeMultiple {
     my $this = shift;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
 
-    $meta->putKeyed( "FIELD", $args );
+    $meta->putKeyed( "FIELD", $args0 );
     $meta->putKeyed( "FIELD", $args2 );
-    $meta->put( "TOPICINFO", $args );
+    $meta->put( "TOPICINFO", $args0 );
     $this->assert( $meta->count("FIELD") == 2, "Should be two items" );
 
     $meta->remove("FIELD");
@@ -150,11 +162,14 @@ sub test_removeMultiple {
         "Should be no FIELD items after remove" );
     $this->assert( $meta->count("TOPICINFO") == 1, "Should be one item" );
 
-    $meta->putKeyed( "FIELD", $args );
+    $meta->putKeyed( "FIELD", $args0 );
     $meta->putKeyed( "FIELD", $args2 );
     $meta->remove( "FIELD", "b" );
     $this->assert( $meta->count("FIELD") == 1,
         "Should be one FIELD items after partial remove" );
+    $meta->finish();
+
+    return;
 }
 
 sub test_foreach {
@@ -166,7 +181,6 @@ sub test_foreach {
     $meta->put( "FINAGLE", { name => "a", value => "aval" } );
     $meta->put( "FINAGLE", { name => "b", value => "bval" } );
 
-    my $fleegle;
     my $d      = {};
     my $before = $meta->stringify();
     $meta->forEachSelectedValue( undef, undef, \&fleegle, $d );
@@ -196,6 +210,9 @@ sub test_foreach {
     $this->assert( $d->{collected} =~ s/FIELD.name:a;// );
     $this->assert( $d->{collected} =~ s/FIELD.name:b;// );
     $this->assert_str_equals( "", $d->{collected} );
+    $meta->finish();
+
+    return;
 }
 
 sub fleegle {
@@ -224,6 +241,7 @@ sub test_copyFrom {
     $this->assert( $d->{collected} =~ s/FINAGLE.value:aval;// );
     $this->assert_str_equals( "", $d->{collected} );
 
+    $new->finish();
     $new = Foswiki::Meta->new( $this->{session}, $web, $topic );
     $new->copyFrom( $meta, 'FIELD' );
 
@@ -233,18 +251,24 @@ sub test_copyFrom {
     $this->assert( $d->{collected} =~ s/FIELD.value:cval;// );
     $this->assert_str_equals( "", $d->{collected} );
 
+    $new->finish();
     $new = Foswiki::Meta->new( $this->{session}, $web, $topic );
     $new->copyFrom( $meta, 'FIELD', qr/^(a|b)$/ );
     $new->forEachSelectedValue( qr/^FIELD$/, qr/^value$/, \&fleegle, $d );
     $this->assert( $d->{collected} =~ s/FIELD.value:aval;// );
     $this->assert( $d->{collected} =~ s/FIELD.value:bval;// );
     $this->assert_str_equals( "", $d->{collected} );
+    $new->finish();
+    $meta->finish();
+
+    return;
 }
 
 sub test_parent {
     my $this = shift;
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->populateNewWeb();
+    $webObject->finish();
 
     my $testTopic = "TestParent";
     for my $depth ( 1 .. 5 ) {
@@ -255,13 +279,15 @@ sub test_parent {
           Foswiki::Meta->new( $this->{session}, $web, $child, $text );
         $topicObject->put( "TOPICPARENT", { name => $parent } );
         $topicObject->save();
+        $topicObject->finish();
     }
-    my $topicObject = Foswiki::Meta->new(
+    my $ttopicObject = Foswiki::Meta->new(
         $this->{session}, $web,
         $testTopic . '6',
         'Final ancestor'
     );
-    $topicObject->save();
+    $ttopicObject->save();
+    $ttopicObject->finish();
 
     for my $depth ( 1 .. 5 ) {
         my $child       = $testTopic . $depth;
@@ -324,33 +350,37 @@ sub test_parent {
                 map { "[[$web.$testTopic$_][$testTopic$_]]" }
                   reverse $depth + 1 .. 6 )
         );
-
+        $topicObject->finish();
     }
 
     # Test nowebhome
-    $topicObject = Foswiki::Meta->new(
+    $ttopicObject = Foswiki::Meta->new(
         $this->{session}, $web,
         $testTopic . '6',
         'Final ancestor with WebHome as parent'
     );
-    $topicObject->put( "TOPICPARENT",
+    $ttopicObject->put( "TOPICPARENT",
         { name => $web . '.' . $Foswiki::cfg{HomeTopicName} } );
-    $topicObject->save();
-    $topicObject =
+    $ttopicObject->save();
+    $ttopicObject->finish();
+    $ttopicObject =
       Foswiki::Meta->load( $this->{session}, $web, $testTopic . '1' );
-    my $str = $topicObject->expandMacros('%META{"parent"}%');
+    my $str = $ttopicObject->expandMacros('%META{"parent"}%');
     $this->assert_str_equals(
         $str,
         join( " &gt; ",
             map { "[[$web.$_][$_]]" }
               ( 'WebHome', map { "$testTopic$_" } reverse 2 .. 6 ) )
     );
-    $str = $topicObject->expandMacros('%META{"parent" nowebhome="on"}%');
+    $str = $ttopicObject->expandMacros('%META{"parent" nowebhome="on"}%');
     $this->assert_str_equals(
         $str,
         join( " &gt; ",
             map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse 2 .. 6 )
     );
+    $ttopicObject->finish();
+
+    return;
 }
 
 # Note: for full coverage, there needs to be at least one plugin with
@@ -360,7 +390,7 @@ sub test_parent {
 sub test_attach_stream {
     my $this = shift;
 
-    my $temp = new File::Temp();
+    my $temp = File::Temp->new();
     print $temp 'eeza stream';
 
     # $fh->seek only in File::Temp 0.17 and later
@@ -370,14 +400,16 @@ sub test_attach_stream {
 
     my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     my $x = <$fh>;
-    close($fh);
+    $this->assert( close($fh) );
     $this->assert_str_equals( 'eeza stream', $x );
+
+    return;
 }
 
 sub test_attach_file {
     my $this = shift;
 
-    my $temp = new File::Temp();
+    my $temp = File::Temp->new();
     print $temp 'eeza file';
 
     # $fh->seek only in File::Temp 0.17 and later
@@ -388,14 +420,16 @@ sub test_attach_file {
 
     my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     my $x = <$fh>;
-    close($fh);
+    $this->assert( close($fh) );
     $this->assert_str_equals( 'eeza file', $x );
+
+    return;
 }
 
 sub test_attach_file_and_stream {
     my $this = shift;
 
-    my $temp = new File::Temp();
+    my $temp = File::Temp->new();
     print $temp 'eeza file and a stream';
 
     # $fh->seek only in File::Temp 0.17 and later
@@ -406,8 +440,10 @@ sub test_attach_file_and_stream {
 
     my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     my $x = <$fh>;
-    close($fh);
+    $this->assert( close($fh) );
     $this->assert_str_equals( 'eeza file and a stream', $x );
+
+    return;
 }
 
 sub test_attachmentStreams {
@@ -417,24 +453,24 @@ sub test_attachmentStreams {
     my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>' );
     $this->assert($fh);
     print $fh 'Twas brillig, and the slithy toves';
-    close($fh);
+    $this->assert( close($fh) );
 
     $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->assert($fh);
-    local $/;
+    local $/ = undef;
     my $x = <$fh>;
-    close($fh);
+    $this->assert( close($fh) );
     $this->assert_str_equals( 'Twas brillig, and the slithy toves', $x );
 
     #--- Appending write
     $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>>' );
     $this->assert($fh);
     print $fh " did gyre and gimbal in the wabe";
-    close($fh);
+    $this->assert( close($fh) );
 
     $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $x = <$fh>;
-    close($fh);
+    $this->assert( close($fh) );
     $this->assert_str_equals(
         'Twas brillig, and the slithy toves did gyre and gimbal in the wabe',
         $x );
@@ -450,13 +486,13 @@ sub test_attachmentStreams {
         hide    => 0,
         stream  => $fh
     );
-    close($fh);
+    $this->assert( close($fh) );
 
     # Rev 2
     $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>' );
     $this->assert($fh);
     print $fh "All mimsy were the borogroves";
-    close($fh);
+    $this->assert( close($fh) );
 
     $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->{test_topicObject}->attach(
@@ -466,20 +502,22 @@ sub test_attachmentStreams {
         hide    => 0,
         stream  => $fh
     );
-    close($fh);
+    $this->assert( close($fh) );
     $this->assert_equals( 2,
         $this->{test_topicObject}->getLatestRev('dat.dis') );
 
     # Latest rev (rev 2)
     $fh = $this->{test_topicObject}->openAttachment( 'dat.dis', '<' );
     $x = <$fh>;
-    close($fh);
+    $this->assert( close($fh) );
     $this->assert_str_equals( 'All mimsy were the borogroves', $x );
 
     $fh =
       $this->{test_topicObject}->openAttachment( 'dat.dis', '<', version => 1 );
     $x = <$fh>;
-    close($fh);
+
+    # Foswiki::Store::_MemoryFile::CLOSE returns undef :-(
+    $this->assert( !defined close($fh) );
     $this->assert_str_equals(
         'Twas brillig, and the slithy toves did gyre and gimbal in the wabe',
         $x );
@@ -487,8 +525,12 @@ sub test_attachmentStreams {
     $fh =
       $this->{test_topicObject}->openAttachment( 'dat.dis', '<', version => 2 );
     $x = <$fh>;
-    close($fh);
+
+    # Foswiki::Store::_MemoryFile::CLOSE returns undef :-(
+    $this->assert( !defined close($fh) );
     $this->assert_str_equals( 'All mimsy were the borogroves', $x );
+
+    return;
 }
 
 sub test_testAttachment {
@@ -496,7 +538,7 @@ sub test_testAttachment {
 
     my $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '>' );
     print $fh "No! Not the bore worms!";
-    close($fh);
+    $this->assert( close($fh) );
 
     $fh = $this->{test_topicObject}->openAttachment( 'dis.dat', '<' );
     $this->{test_topicObject}->attach(
@@ -528,19 +570,21 @@ sub test_testAttachment {
         $this->{test_topicObject}->testAttachment( 'dat.dis', 'M' ) );
     $this->assert( $t,
         $this->{test_topicObject}->testAttachment( 'dat.dis', 'A' ) );
+
+    return;
 }
 
 # Make sure that badly-formed meta tags in text are validated on save
 sub test_validateMetaTagsInText {
     my $this = shift;
-    my $gunk = <<GUNK;
+    my $gunk = <<'GUNK';
 %META{"form"}%
 %META{"formfield" name="bad"}%
 %META{"attachments"}%
 %META{"parent"}%
 %META{"moved"}%
 GUNK
-    my $text = <<EVIL;
+    my $text = <<"EVIL";
 %META:TOPICINFO{bad="bad"}%
 %META:TOPICPARENT{bad="bad"}%
 %META:FORM{bad="bad"}%
@@ -570,9 +614,10 @@ EVIL
     $this->assert_does_not_match( qr/%META:TOPICMOVED{}%/, $text );
 
     # Item2554
-    $text = <<EVIL;
+    $text = <<'EVIL';
 %META:TOPICPARENT{}%
 EVIL
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "BadMeta",
         $text );
@@ -580,7 +625,7 @@ EVIL
     $text = $topicObject->text();
     $this->assert_does_not_match( qr/%META:TOPICPARENT{}%/, $text );
 
-    $text = <<GOOD;
+    $text = <<"GOOD";
 %META:TOPICINFO{version="1" date="9876543210" author="AlbertCamus" format="1.1"}%
 %META:TOPICPARENT{name="System.UserForm"}%
 %META:FORM{name="System.UserForm"}%
@@ -589,6 +634,7 @@ EVIL
 %META:TOPICMOVED{from="here" to="there" by="her" date="1234567890"}%
 $gunk
 GOOD
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, "GoodMeta",
         $text );
@@ -598,6 +644,9 @@ GOOD
     $topicObject->expandNewTopic();
     $topicObject->renderTML( $topicObject->text() );
     $topicObject->renderFormForDisplay();
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_registerMETA {
@@ -680,6 +729,9 @@ sub test_registerMETA {
     $this->assert( $o->isValidEmbedding( 'TREE', { height => '15' } ) );
     $this->assert(
         $o->isValidEmbedding( 'TREE', { spread => '5', height => '15' } ) );
+    $o->finish();
+
+    return;
 }
 
 # Item9948
@@ -725,6 +777,9 @@ Properties: System.SemanticIsPartOf,Example.Property,PreyOf,Eat,IsPartOf
 A property: Snakes
 Values: System.UserDocumentationCategory,UserDocumentationCategory,Snakes,Mosquitos,Flies,UserDocumentationCategory
 EXPECTED
+    $topicObject->finish();
+
+    return;
 }
 
 # Item9948
@@ -766,6 +821,9 @@ Properties: System.SemanticIsPartOf
 Alias: System.SemanticIsPartOf
 Values: System.UserDocumentationCategory
 EXPECTED
+    $topicObject->finish();
+
+    return;
 }
 
 #lets see what happens when we use silly TOPICINFO
@@ -789,6 +847,7 @@ sub test_BadRevisionInfo {
     $this->assert( defined($rev) );
     $this->assert_equals( 0, $rev );
 
+    return;
 }
 
 sub test_getRevisionHistory {
@@ -797,6 +856,7 @@ sub test_getRevisionHistory {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt',
         "Rev 1" );
     $this->assert_equals( 1, $topicObject->save() );
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
     my $revIt = $topicObject->getRevisionHistory();
@@ -806,6 +866,7 @@ sub test_getRevisionHistory {
 
     $topicObject->text('Rev 2');
     $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -817,6 +878,7 @@ sub test_getRevisionHistory {
 
     $topicObject->text('Rev 3');
     $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -827,6 +889,9 @@ sub test_getRevisionHistory {
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 1, $revIt->next() );
     $this->assert( !$revIt->hasNext() );
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_summariseChanges {
@@ -835,6 +900,7 @@ sub test_summariseChanges {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt',
         "Line 1\n\nLine 2\n\nLine 3" );
     $this->assert_equals( 1, $topicObject->save() );
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
     my $revIt = $topicObject->getRevisionHistory();
@@ -846,6 +912,7 @@ sub test_summariseChanges {
 
     $topicObject->text("Line 1\n\nLine 3");
     $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -859,6 +926,7 @@ sub test_summariseChanges {
 
     $topicObject->text("Line 1\n<nop>SomeOtherData\nLine 3");
     $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
+    $topicObject->finish();
     $topicObject =
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -876,7 +944,7 @@ sub test_summariseChanges {
     my $diff = $topicObject->summariseChanges( '1', '3', 0 );
 
     #print "\nTEXT rev1:rev3\n====\n" . $diff . "\n====\n\n";
-    my $expected = <<RESULT;
+    my $expected = <<'RESULT';
  Line 1
 -Line 2
 +<nop>SomeOtherData
@@ -917,6 +985,9 @@ RESULT
     #$topicObject =
     #  Foswiki::Meta->load($this->{session}, $this->{test_web}, 'RevIt', '3' );
     #print "REV3 \n====\n".$topicObject->text()."\n====\n";
+    $topicObject->finish();
+
+    return;
 }
 
 sub test_haveAccess {
@@ -926,14 +997,19 @@ sub test_haveAccess {
       Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'WebHome' );
     $this->assert( $topicObject->haveAccess('VIEW') );
     $this->assert( $topicObject->haveAccess('CHANGE') );
+    $topicObject->finish();
 
     my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
     $this->assert( $webObject->haveAccess('VIEW') );
     $this->assert( $webObject->haveAccess('CHANGE') );
+    $webObject->finish();
 
     my $rootObject = Foswiki::Meta->new( $this->{session} );
     $this->assert( $rootObject->haveAccess('VIEW') );
     $this->assert( not $rootObject->haveAccess('CHANGE') );
+    $rootObject->finish();
+
+    return;
 }
 
 #Item10789 - TOPICINFO should only come from the first line of the topic
@@ -966,6 +1042,9 @@ HERE
     $this->assert_equals( 'TemiVarghese', $ti->{author} );
     $this->assert_equals( 10,             $ti->{version} );
     $this->assert_equals( 1306913758,     $ti->{date} );
+    $meta->finish();
+
+    return;
 }
 
 sub test_setEmbededStoreForm_NotFirstLine {
@@ -1003,6 +1082,9 @@ HERE
     $this->assert_equals( 'BaseUserMapping_666', $ti->{author} );
     $this->assert_equals( 0,                     $ti->{version} );
     $this->assert_equals( 0,                     $ti->{date} );
+    $meta->finish();
+
+    return;
 }
 
 # Disabled as XML functionnality has been removed from the core, see Foswikitask:Item1917
