@@ -8,8 +8,9 @@ use warnings;
 
 sub FORMAT {
     my ( $this, $params, $topicObject ) = @_;
+    my $list_str = defined $params->{_DEFAULT} ? $params->{_DEFAULT} : '';
 
-    my @list = split( /,\s*/, $params->{_DEFAULT} || '' );
+    my @list = split( /,\s*/, $list_str );
     my $s;
 
     # TODO: this is a common default that should be extracted into a
