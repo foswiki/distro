@@ -121,7 +121,7 @@ sub readOnly {
     my $path = $Foswiki::cfg{Htpasswd}{FileName};
 
     # We expect the path to exist and be writable.
-    return 0 if ( -e $path && -f $path && -w $path );
+    return 0 if ( -e $path && -f _ && -w _ );
 
     # Otherwise, log a problem.
     $this->{session}->logger->log(

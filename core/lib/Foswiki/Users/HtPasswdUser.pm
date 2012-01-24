@@ -162,7 +162,7 @@ sub readOnly {
     my $path = $Foswiki::cfg{Htpasswd}{FileName};
 
     # We expect the path to exist and be writable.
-    return 0 if ( -e $path && -f $path && -w $path );
+    return 0 if ( -e $path && -f _ && -w _ );
 
     # Otherwise, log a problem.
     $this->{session}->logger->log(
@@ -227,7 +227,7 @@ sub _readPasswd {
         && $this->PasswordData()
         && -e $Foswiki::cfg{Htpasswd}{FileName} )
     {
-        my $fileTime = ( stat( $Foswiki::cfg{Htpasswd}{FileName} ) )[9];
+        my $fileTime = ( stat(_) )[9];
         $this->ClearCache()
           if ( $fileTime > $this->PasswordTimestamp() );
     }

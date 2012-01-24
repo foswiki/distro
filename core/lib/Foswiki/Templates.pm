@@ -611,14 +611,14 @@ sub saveTemplateToCache {
     my $filename = Foswiki::Sandbox::untaintUnchecked(
         $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
 
-    unless ( open( FILE, ">$filename" ) ) {
+    unless ( open( my $file, '>', $filename ) ) {
         die "Can't create file $filename - $!\n" if DEBUG;
         print STDERR "Can't create file $filename - $!\n";
 
         return;
     }
-    print FILE $tmplText;
-    close(FILE);
+    print $file $tmplText;
+    close($file);
 }
 
 #unused, but can be used for a speedup by caching the expanded Template
@@ -633,10 +633,10 @@ sub getTemplateFromCache {
         $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
 
     if ( -e $filename ) {
-        open( IN_FILE, "<$filename" ) || return;
+        open( my $in_file, '<', $filename ) or return;
         local $/ = undef;    # set to read to EOF
-        my $data = <IN_FILE>;
-        close(IN_FILE);
+        my $data = <$in_file>;
+        close($in_file);
         return $data;
     }
 }
