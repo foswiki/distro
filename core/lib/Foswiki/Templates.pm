@@ -611,12 +611,12 @@ sub saveTemplateToCache {
     my $filename = Foswiki::Sandbox::untaintUnchecked(
         $tmpl_cachedir . '/' . $name . '__' . $skins . '__' . $web . '.tmpl' );
 
-    unless ( open( my $file, '>', $filename ) ) {
+    open( my $file, '>', $filename ) or do {
         die "Can't create file $filename - $!\n" if DEBUG;
         print STDERR "Can't create file $filename - $!\n";
 
         return;
-    }
+    };
     print $file $tmplText;
     close($file);
 }
