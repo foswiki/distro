@@ -284,65 +284,8 @@ In order to keep your user, group, and site configuration information separate f
    * If you need help, ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki).
 
 #SystemRequirements
----+++ Foswiki system requirements
-
-Foswiki is capable of running on a variety of operating systems and supporting a wide range of browsers, due to its minimal client and server requirements.
-
----++++ Server requirements
-
-Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands and <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. It should be able to run on any server platform that meets the following requirements.
-
-| *Resource* | *Required Server Environment* |
-| Perl | 5.8.8 or higher is recommended and it will run with Perl >=5.8.4 and <5.8.8 but this is untested. It also runs in Perl 5.6.1 but only with Wysiwyg editor disabled. Wysiwyg requires Unicode support which is provided by perl 5.8.1 onwards. |
-| RCS | 5.7 or higher (including GNU =diff=) <br /> Optional. Foswiki includes a pure Perl implementation of RCS (RcsLite) that can be used instead, at the cost of performance |
-| GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl RcsLite. <br /> Install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
-| Other external programs | =fgrep, egrep= |
-| Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
-| Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
-
----++++ CPAN modules
-
-Most of the <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a> libraries used by Foswiki are part of a standard Perl installation >=5.8.8 (recommended). A version >=5.8.4 and <5.8.8 will also work although untested. Please see Foswiki:Support.HowToInstallCpanModules for detailed information on how to install any !CPAN libraries not yet present in your installation.
-
-A more complete module status is listed in Foswiki [[%SCRIPTURLPATH{"configure"}%][configure]] (Foswiki 1.0.x: _CGI Setup_, 1.1.x: _Web Server Environment > Perl modules_). It should be easier to deal with CPAN modules from this perspective.
-
-The following CPAN modules are shipped with Foswiki, require a comment or may optionally be needed. In case the standard Foswiki will be enhanced with Foswiki:Extensions, please look at the related extension page for dependencies which may require additional modules. Try the script =dependencies_installer.pl= located in the =tools= directory, which makes perl module installation easier. Run it with option =-h= to understand basics. This script requires confirmation before it actually does something.
-
-%TABLE{ initsort="3" initdirection="up" }%
-| *Module* | *Preferred version* | *Required/Optional* | *Description* |
-| Algorithm::Diff | | %ORANGE%Required%ENDCOLOR% | *Included* with Foswiki |
-| Apache::Htpasswd | | Optional | May be required for !ApacheHtpasswd password manager |
-| Archive::Tar | | Optional | May be required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
-| Archive::Zip | | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar also unavailable |
-| CGI | Versions 2.89, 3.37, 3.43, and 3.47 must be avoided. Most versions from 3.15 and onwards should work. | %ORANGE%Required%ENDCOLOR% | *Included* with Perl core since Perl 5.4 |
-| CGI::Session |  | Optional | Required for Sessions support, available from the CPAN archive |
-| Error | | %ORANGE%Required%ENDCOLOR% | *Included* with Foswiki |
-| Digest::SHA | | Optional | May be required for password encryption, since Perl 5.9.3 part of core |
-| Digest::SHA1 | | Optional | |
-| Encode::compat | | Optional | May be required for international characters |
-| HTML::Entities | | Optional | Required for Foswiki:Extensions.WysiwygPlugin |
-| HTML::Parser | | Optional | Required for Foswiki:Extensions.WysiwygPlugin |
-| Lingua::EN::Sentence | | Optional | May be required for generating new language files |
-| Locale::Maketext::Lexicon | &gt;=0 | Optional | Used for !I18N support |
-| LWP | | Optional | Required for the Configure Extensions Installer, and for external URL based INCLUDEs |
-| URI | | Optional | Required by the [[%SCRIPTURLPATH{"configure"}%][configure]] script |
-| Win32::Console | | Optional | May be required for Windows |
-
-You can check version numbers with the [[%SCRIPTURLPATH{"configure"}%][configure]] script, or if you're still trying to get to that point, check from the command line (replace "ModuleName" with the name of the module):
-
-<verbatim class="bash">perl -le 'use ModuleName; print "ModuleName"->VERSION' </verbatim>
-
-#ClientRequirements
----++++ Client requirements
-
-Browser clients must support the following capabilities:
-
-   * HTML 3.2
-   * Cookie support enabled, if persistent sessions are required
-
-Most skins also require CSS and Javascript support. There is a low-fat skin ([[System.PlainSkin][Plain]]) that minimises these requirements. Some skins require newer browser version. The default skin ([[System.PatternSkin][Pattern]]) is tested on IE 6, Safari, and Mozilla 5.0 based browsers (such as Firefox).
-
-You can easily select a balance of browser capability versus look and feel. Try the installed skins in the [[skin browser]] and more at Foswiki:Extensions.SkinPackage.
+---++ Foswiki system requirements
+%INCLUDE{"SystemRequirements"}%
 
 #UploadingFoswikiDistribution
 ---+++ Uploading the Foswiki distribution to your web server host

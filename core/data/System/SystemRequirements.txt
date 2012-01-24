@@ -1,39 +1,106 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284973002" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1291655311" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
+---+!! Foswiki System Requirements
 %STARTINCLUDE%
----+ System Requirements
 
-_Server and client requirements_
+Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions. Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.
 
-Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions.  Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.
+%TOC{title="Contents"}%
 
-%TOC%
+---+++ Server Requirements
 
----++ Server Requirements
+Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands and <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. It should be able to run on any server platform that meets the following requirements.
 
-The code is written in Perl 5, and uses a number of shell commands from perl.
-The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Revision Control System)]], a GNU Free Software package. Foswiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
-
-| *Resource* | *Required Server Environment *<nop>* |
-| Perl | 5.8.0 or higher (5.8.4 or higher is recommended) |
-| RCS | 5.7 or higher (including GNU =diff=) %BR% Optional, Foswiki includes a pure perl implementation of RCS that can be used instead (although it's slower) |
-| GNU =diff= | GNU =diff= 2.7 or higher is required when not using the all-Perl <nop>RcsLite.  %BR% Install on PATH if not included with RCS (check version with =diff -v=)  %BR% Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
-| GNU =patch= | For upgrades only: GNU =patch= is required when patching the code using patches in diff format submitted by the community. |
-| GNU =fgrep=, =egrep= | Modify command line parameters in configure if you use non-GNU grep programs |
-| Cron/scheduler | %BULLET% Unix: =cron= %BB% Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
-| Web server | Apache is well supported; see Foswiki:Support.InstallingOnSpecificPlatforms for alternative options. |
+| *Resource* | *Required Server Environment* |
+| Perl | 5.8.8 or higher |
+| RCS | 5.7 or higher (including GNU =diff=) <br /> Optional. Foswiki includes a pure Perl implementation of RCS (RcsLite) that can be used instead, at the cost of performance |
+| GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl RcsLite. <br /> Install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
+| Other external programs | =fgrep, egrep= |
+| Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
+| Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 
 ---+++ Perl Modules
+
 A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
 
+The following CPAN modules are not shipped with Foswiki. Note that Foswiki extensions may add additional requirements.
+Modules marked as Required may still be optional if certain default core features are not used.
+
+| *Module* | *Required/Optional* | *Description* |
+| CGI::Session | Required | Sessions support is usually required. |
+| HTML::Entities | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
+| HTML::Parser | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
+| HTML::Tree | Required | Used by CompareRevisionAddOn. |
+| URI | Required | Used for email notifications of topic changes. [[Foswiki::Extensions.MailerContrib][MailerContrib]] |
+| LWP | Required | Used by the Configure Extensions Installer, and for external URL based INCLUDEs |
+| Digest::SHA | Optional | Required to use SHA1 password encoding, since Perl 5.9.3 part of core |
+| Crypt::PasswdMD5 | Optional | Required to use Apache or Crypt MD5 password encoding, and crypt encoding on Windows |
+| Digest::SHA1 | Optional | Required by the Foswiki FileCache feature |
+| Win32::Console | Optional | May be required for I18N on Windows |
+| Archive::Tar | Optional | Required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
+| Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
+| Net::SMTP::SSL | Optional | Required by Net::SMPT to send email over SSL to providers such as gmail. |
+| Authen::SASL | Optional | Required by Net::SMTP if email server requires authentication. |
+
+
 Most of them will probably already be available in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line like this:
-<!--%JQREQUIRE{"chili"}%--><verbatim class="bash">
+<verbatim class="bash">
 perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 </verbatim>
+For more detailed dependency information, try the script =dependencies_installer.pl= located in the =tools= directory, which makes perl module installation easier. Run it with option =-h= to understand basics. This script requires confirmation before it actually does something.
 
+---+++ Specific distribution details
+<noautolink>
+---++++!! Ubuntu and other Debian derived distributions
+%TWISTY{ showlink="Show Debian / Ubuntu information" hidelink="Hide Debian details"}%
 
+Install apache and rcs ==apt-get install apache2 rcs==
+
+| *Perl Module* | *Package to install* | *Notes* |
+| CGI::Session | =libcgi-session-perl= | |
+| HTML::Parser | =libhtml-parser-perl= | |
+| HTML::Entities | | included with HTML::Parser |
+| HTML::Tree | =libhtml-tree-perl= | |
+| LWP | =libwww-perl= | |
+| Digest::SHA | =libdigest-sha-perl= | |
+| Digest::SHA1 | =libdigest-sha1-perl= | |
+| URI | =liburi-perl= | |
+| Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= | |
+| Net::SMTP::SSL | =libnet-smtp-ssl= | |
+| Authen::SASL | =libauthen-sasl= | note, broken on Ubuntu 11.10 x64.  Install using CPAN! |
+
+After expanding the Foswiki archive, change the ownership of the files:
+   * Debian, Ubuntu, Kubunto: =chown -R www-data:www-data /path/to/foswiki=
+
+%ENDTWISTY{}%
+
+---++++!! RedHat, SuSE, CentOS and other RPM based distributions
+%TWISTY{ showlink="Show RetHat, SuSE and other RPM details" hidelink="Hide RPM details"}%
+
+Install apache2, rcs, and perl-CPAN
+
+| *Perl Module* | *Package to install* | *Notes* |
+| CGI::Session | =perl-CGI-Session= | |
+| HTML::Parser | =perl-HTML-Parser= | |
+| HTML::Entities | | included with HTML::Parser |
+| HTML::Tree | =perl-HTML-Tree= | |
+| LWP | =perl-libwww-perl= | |
+| Digest::SHA | =perl-Digest-SHA= | |
+| Digest::SHA1 | =perl-Digest-SHA1= | |
+| URI | =perl-URI= | |
+| Crypt::PasswdMD5 | =perl-Crypt-PasswdMD5= | |
+| Net::SMTP::SSL | =perl-Net-SMPT-SSL= | |
+| Authen::SASL | =perl-Authen-SASL= | |
+
+After expanding the Foswiki archive, change the ownership of the files:
+   * RedHat, Fedora, CentOS Mandriva: chown -R apache:apache /path/to/foswiki=
+   * Suse: =chown -R wwwrun:www /path/to/foswiki=
+
+%ENDTWISTY{}%
+
+</noautolink>
 #ClientRequirements
----++ Client Requirements
+---+++ Client Requirements
 
 The [[InstallationGuide][standard installation]] has relatively low browser requirements:
 
@@ -41,13 +108,12 @@ The [[InstallationGuide][standard installation]] has relatively low browser requ
    * Cookies, if persistent sessions are required
    * Javascript, for edit/save/upload functionality <blockquote class="foswikiHelp">%T% Change ={ValidationMethod}{Method}= from =strikeone= to =embedded= in [[%SCRIPTURLPATH{"configure"}%][configure]] to allow non-javascript browsers to edit/save/upload</blockquote>
 
-CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6, 7, Safari 3.0, and recent Mozilla based browsers (such as Firefox).
+CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6+, Safari, Chrome and Firefox.
 
 You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.SkinBrowser and more at Foswiki:Extensions.SkinPackage.
 
----++ Important note about Plugins
-
-   * Plugins can require just about anything -  browser-specific functions, stylesheets (CSS), Java applets, cookies, specific Perl modules,... - check the individual Plugin specs.
-
+%STOPINCLUDE%
 ---
 *Related Topics:* AdminDocumentationCategory
+
+<!--%JQREQUIRE{"chili"}%-->
