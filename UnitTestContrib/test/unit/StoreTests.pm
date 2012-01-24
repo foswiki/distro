@@ -858,7 +858,8 @@ sub verify_eachAttachment {
     my $this = shift;
 
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic}, "One" );
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $meta->text("One");
     $meta->attach(
         name    => "testfile.gif",
         file    => "$Foswiki::cfg{TempfileDir}/testfile.gif",
