@@ -1,7 +1,9 @@
 #!/usr/bin/perl -w
 # See bottom of file for description
-
+use strict;
+use warnings;
 require 5.006;
+
 use FindBin;
 use Cwd ();
 my $starting_root;
@@ -20,6 +22,12 @@ sub _findRelativeTo {
 }
 
 BEGIN {
+    if ( not defined $ENV{FOSWIKI_ASSERTS} or $ENV{FOSWIKI_ASSERTS} eq 'soft' ) {
+        print
+    "exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0\n";
+        $ENV{FOSWIKI_ASSERTS} = 1;
+    }
+
     $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
 
     # root the tree
@@ -46,8 +54,9 @@ BEGIN {
     $starting_root = $root;
 }
 
-use strict;
-use Foswiki;   # If you take this out then TestRunner.pl will fail on IndigoPerl
+# Item11466: PH commented the below & added require statements where necessary,
+# to avoid compiling Foswiki.pm before FOSWIKI_ASSERTS have been set
+#use Foswiki;   # If you take this out then TestRunner.pl will fail on IndigoPerl
 use Unit::TestRunner;
 
 my %options;
@@ -78,12 +87,6 @@ if ( $options{-log} and not $options{-worker} ) {
 }
 print STDERR "Options: ", join( ' ', keys %options ), "\n";
 
-if ( not defined $ENV{FOSWIKI_ASSERTS} or $ENV{FOSWIKI_ASSERTS} eq 'soft' ) {
-    print
-"exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0\n";
-    $ENV{FOSWIKI_ASSERTS} = 1;
-}
-
 if ( $ENV{FOSWIKI_ASSERTS} ) {
     print "Assert checking on $ENV{FOSWIKI_ASSERTS}\n";
 }
@@ -93,6 +96,7 @@ else {
 
 if ( $options{-clean} ) {
     require File::Path;
+    require Foswiki;
     my $rmDir = $Foswiki::cfg{DataDir};
     opendir( my $dataDir, $rmDir ) or die "Can't open directory $rmDir: $!";
     my @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir($dataDir);
@@ -113,6 +117,7 @@ if ( $options{-clean} ) {
 }
 
 if ( not $options{-worker} ) {
+    require Foswiki;
     testForFiles( $Foswiki::cfg{DataDir}, '/Temp*' );
     testForFiles( $Foswiki::cfg{PubDir},  '/Temp*' );
 }

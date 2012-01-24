@@ -7,6 +7,6 @@ our @ISA = 'Unit::TestSuite';
 
 sub name { 'UnitTestContribSuite' }
 
-sub include_tests { qw(EavesdropTests) }
+sub include_tests { qw(EavesdropTests UnitTestContribTests) }
 
 1;
