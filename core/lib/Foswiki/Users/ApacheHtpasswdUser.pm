@@ -124,11 +124,12 @@ sub readOnly {
     return 0 if ( -e $path && -f _ && -w _ );
 
     # Otherwise, log a problem.
-    $this->{session}->logger->log(
-	'warning',
-	'The password file does not exist or cannot be written.' .
-	'Run =configure= and check the setting of {Htpasswd}{FileName}.' .
-	' New user registration has been disabled until this is corrected.');
+    $this->{session}->logger->log( 'warning',
+            'The password file does not exist or cannot be written.'
+          . 'Run =configure= and check the setting of {Htpasswd}{FileName}.'
+          . ' New user registration has been disabled until this is corrected.'
+    );
+
     # And disable registration (and password changes)
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 0;
     return 1;
