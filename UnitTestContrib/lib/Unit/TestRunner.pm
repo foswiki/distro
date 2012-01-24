@@ -166,32 +166,40 @@ sub start {
 
     #marker so we can remove the above large output from the nightly emails
     print "\nUnit test run Summary:\n";
-    my $total = $passes;
-    my $failed;
-    my $expected_failures_total = 0;
-    my $unexpected_passes_total = 0;
-    if ( $failed = scalar @{ $this->{unexpected_passes} } ) {
+    my $expected_failures_total   = 0;
+    my $unexpected_failures_total = 0;
+    my $unexpected_passes_total   = 0;
+    my $total_failed              = 0;
+
+    if ( my $failed = scalar @{ $this->{unexpected_passes} } ) {
         print "$failed unexpected pass" . ( $failed > 1 ? 'es' : '' ) . ":\n";
         print join( "\n", @{ $this->{unexpected_passes} } );
         $unexpected_passes_total = $failed;
-        $total += $failed;
+        $total_failed += $failed;
     }
-    if ( $failed = scalar @{ $this->{expected_failures} } ) {
+    if ( my $failed = scalar @{ $this->{expected_failures} } ) {
         print "$failed expected failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n", @{ $this->{expected_failures} } );
         $expected_failures_total = $failed;
-        $total += $failed;
+        $total_failed += $failed;
     }
-    if ( $failed = scalar @{ $this->{failures} } ) {
-        my $unexpected_total = 0;
+    if ( my $failed = scalar @{ $this->{failures} } ) {
 
-        $total += $failed;
         print "\n$failed failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         print join( "\n---------------------------\n", @{ $this->{failures} } ),
           "\n";
+        $unexpected_failures_total = $failed;
+        $total_failed += $failed;
+    }
+
+    my $total = $passes + $expected_failures_total + $unexpected_failures_total;
+    my $unexpected_total =
+      $unexpected_passes_total + $unexpected_failures_total;
+    if ($unexpected_total) {
 
         if ( $total > 0 ) {
             print <<"HERE";
+
 ----------------------------
 ---++ Module Failure summary
 HERE
@@ -206,7 +214,6 @@ HERE
                   . $this->{unexpected_result}{$module}
                   . " unexpected results (of "
                   . $this->{tests_per_module}{$module} . "):\n";
-                $unexpected_total += $this->{unexpected_result}{$module};
                 foreach my $test ( sort( @{ $this->{unexpected_passes} } ) ) {
 
                     # SMELL: we should really re-arrange data structures to
@@ -227,20 +234,21 @@ HERE
             }
         }
 
-        my $expected_passes = $total - $expected_failures_total;
+        my $expected_passes_total =
+          $total - $unexpected_failures_total - $unexpected_passes_total;
         print <<"HERE";
 ----------------------------
-$passes of $total test cases passed (expected $expected_passes of $total).
-$unexpected_passes_total + $failed = $unexpected_total incorrect results from unexpected passes + failures
+$passes of $total test cases passed (expected $expected_passes_total of $total).
+$unexpected_passes_total + $unexpected_failures_total = $unexpected_total incorrect results from unexpected passes + failures
 HERE
         ::PRINT_TAP_TOTAL();
-
-        return $failed;
     }
-    print "All tests passed ($passes"
-      . ( $passes == $total ? '' : "/$total" ) . ")\n";
-    ::PRINT_TAP_TOTAL();
-    return 0;
+    else {
+        print "\nAll tests passed ($passes"
+          . ( $expected_failures_total ? "/$total" : '' ) . ")\n";
+        ::PRINT_TAP_TOTAL();
+    }
+    return $unexpected_total;
 }
 
 sub _print_unexpected_test {
