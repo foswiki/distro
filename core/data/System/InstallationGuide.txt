@@ -13,11 +13,11 @@ Getting your Foswiki up and running should take less than 5 minutes to complete.
 
 If you need help, feel free to ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki).
 
----++ Before Installing Foswiki
-
 This guide assumes the person installing Foswiki has a basic knowledge of server administration on the system on which Foswiki is to be installed, as described at Foswiki:System.AdminSkillsAssumptions.
 
-Please see the [[Foswiki:System.SystemRequirements][Foswiki system requirements]] for the server and client requirements to run Foswiki, including the Perl modules required on the server. If you need to install any Perl libraries from CPAN for use by Foswiki, see Foswiki:Support.HowToInstallCpanModules for more information.
+---++ Before Installing Foswiki
+
+Please see the [[#SystemRequirements][System Requirements]] (below) for server and client requirements to run Foswiki, including the Perl modules required on the server. If you need to install any Perl libraries from CPAN for use by Foswiki, see Foswiki:Support.HowToInstallCpanModules for more information.
 
 ---++ 5-Minute Install
 
@@ -40,12 +40,15 @@ That's it! You Foswiki should now be installed. Browse to =/bin/view= and start 
 
 If you do not have shell access to your web server host, see the section "[[#UploadingFoswikiDistribution][Uploading the Foswiki distribution to your web server host]]".
 
----+++ Step 2: Set the file and directory permissions for the installation
+---+++ Step 2: Set the file and directory ownership and permissions for the installation
 
-_NOTE: You can skip this step if you are on Windows._
-<div class="foswikiHelp"> Shouldn't this also talk about changing file
-ownership.  =chown -R . www:www=  or =apache:apache= or =wwwdata:wwwdata=
-depending upon your distribution?  </div>
+_Note: You can skip this step on Windows_
+
+File ownership depends upon the operating system and distribution.
+
+| RedHat, Fedora, CentOS, Gentoo, Mandriva | =chown -R apache:apache path/to/foswiki= |
+| debian, Ubuntu, Kubuntu | =chown -R www-data:www-data /path/to/foswiki= |
+| Suse | =chown -R wwwrun:www /path/to/foswiki= |
 
 The default file and directory access permissions as set by the distribution define a reasonable security level that will work for many types of installations, including shared hosting. Nonetheless, you should verify that the web server user has read access to all files and directories beneath the =foswiki= directory, and execute access for all directories. Also verify that the =data= and =pub= directories and all the subdirectories and files beneath them allow write access for the web server user.
 
@@ -240,6 +243,10 @@ To support a seamless upgrade from TWiki, Foswiki ships with a plugin called =TW
 If you are not upgrading an existing TWiki installation and do not plan to install plugins from the TWiki web site, it is recommended that you disable the !TWikiCompatibilityPlugin in the _Plugins_ Section on the =configure= page.
 
 If a plugin exists both in a TWiki version and a Foswiki version, it is strongly recommended that you use the Foswiki version, as this is coded to work optimally with Foswiki. As part of the Foswiki project, the Foswiki community is evaluating all of the extensions that are available for TWiki, and porting them over to the Foswiki name space. Many of them are being enhanced through the removal of bugs and security vulnerabilities, resulting in better, more functional extensions for Foswiki.
+
+#SystemRequirements
+---++ System Requirements
+%INCLUDE{"SystemRequirements"}%
 
 *Related Topics:* [[InstallationGuidePart2]], [[AdminDocumentationCategory]], Foswiki:Support.SupplementalDocuments
 

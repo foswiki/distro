@@ -8,6 +8,7 @@ This page contains all documentation topics as one long, complete reference shee
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
 
 ------
+---++ System Requirements
 %INCLUDE{"SystemRequirements"}%
 
 [[#PageTop][Back to top]]

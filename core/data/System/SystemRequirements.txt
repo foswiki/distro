@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1291655311" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
-%STARTINCLUDE%
 ---+!! Foswiki System Requirements
+%STARTINCLUDE%
 
 Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions. Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.
 
 %TOC{title="Contents"}%
 
----++ Server Requirements
+---+++ Server Requirements
 
 Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands and <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. It should be able to run on any server platform that meets the following requirements.
 
@@ -19,7 +19,7 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 | Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
 | Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
 
----++ Perl Modules
+---+++ Perl Modules
 
 A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
 
@@ -49,10 +49,10 @@ perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 </verbatim>
 For more detailed dependency information, try the script =dependencies_installer.pl= located in the =tools= directory, which makes perl module installation easier. Run it with option =-h= to understand basics. This script requires confirmation before it actually does something.
 
----++ Specific distribution details
+---+++ Specific distribution details
 <noautolink>
+---++++!! Ubuntu and other Debian derived distributions
 %TWISTY{ showlink="Show Debian / Ubuntu information" hidelink="Hide Debian details"}%
----+++!! Ubuntu and other Debian derived distributions
 
 Install apache and rcs ==apt-get install apache2 rcs==
 
@@ -74,8 +74,8 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 %ENDTWISTY{}%
 
+---++++!! RedHat, SuSE, CentOS and other RPM based distributions
 %TWISTY{ showlink="Show RetHat, SuSE and other RPM details" hidelink="Hide RPM details"}%
----+++!! RedHat, SuSE, CentOS and other RPM based distributions
 
 Install apache2, rcs, and perl-CPAN
 
@@ -100,7 +100,7 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 </noautolink>
 #ClientRequirements
----++ Client Requirements
+---+++ Client Requirements
 
 The [[InstallationGuide][standard installation]] has relatively low browser requirements:
 
@@ -112,6 +112,7 @@ CSS and Javascript are used in most skins. Some skins will require more recent r
 
 You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.SkinBrowser and more at Foswiki:Extensions.SkinPackage.
 
+%STOPINCLUDE%
 ---
 *Related Topics:* AdminDocumentationCategory
 
