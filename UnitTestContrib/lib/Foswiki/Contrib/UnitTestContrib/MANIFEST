@@ -98,6 +98,7 @@ test/unit/UIFnCompileTests.pm 0644
 test/unit/UTF8Tests.pm 0644
 test/unit/UnitTestContrib/EavesdropTests.pm 0644
 test/unit/UnitTestContrib/UnitTestContribSuite.pm 0644
+test/unit/UnitTestContrib/UnitTestContribTests.pm 0644
 test/unit/UploadScriptTests.pm 0644
 test/unit/VCMetaTests.pm 0644
 test/unit/VCStoreTests.pm 0644
