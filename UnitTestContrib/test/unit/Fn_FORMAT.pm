@@ -711,7 +711,10 @@ sub test_subweb_web_token {
 sub test_0_list {
     my $this = shift;
 
-    my $result = $this->{test_topicObject}->expandMacros('%FORMAT{"0"}%');
+    my $result = $this->{test_topicObject}->expandMacros(<<'HERE');
+%FORMAT{"0" type="string" format="$item"}%
+HERE
+    chomp($result);
 
     $this->assert_str_equals( '0', $result );
 
