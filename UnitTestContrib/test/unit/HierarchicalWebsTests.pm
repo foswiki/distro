@@ -310,7 +310,6 @@ sub test_url_parameters {
     $topicObject->save();
     $topicObject->finish();
 
-    $topicquery->finish if $topicquery->can('finish');
     $topicquery = Unit::Request->new(
         {
             action => 'view',
@@ -325,7 +324,6 @@ sub test_url_parameters {
     $this->assert_str_equals( $testWebSubWeb, $this->{session}->{topicName} );
 
     # try a query with a non-existant topic in the subweb.
-    $topicquery->finish if $topicquery->can('finish');
     $topicquery = Unit::Request->new(
         {
             action => 'view',
