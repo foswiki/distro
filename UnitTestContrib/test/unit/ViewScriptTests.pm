@@ -129,8 +129,8 @@ sub set_up {
         $this->assert( $this->{session}->webExists( $this->{test_subweb} ) );
         my ($topicObject) =
           Foswiki::Func::readTopic( $this->{test_subweb},
-            $Foswiki::cfg{HomeTopicName});
-        $topicObject->text( "SMELL" );
+            $Foswiki::cfg{HomeTopicName} );
+        $topicObject->text("SMELL");
         $topicObject->save();
         $topicObject->finish();
         $this->assert(
@@ -144,15 +144,14 @@ sub set_up {
         $this->assert( 0, shift->stringify() || '' );
     };
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_subweb}, $topic);
+      Foswiki::Func::readTopic( $this->{test_subweb}, $topic );
     $topicObject->text('nested topci1 text');
     $topicObject->save();
     $topicObject->finish();
 
     #set up nested web _and_ topic called $this->{test_web}/ThisTopic
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'ThisTopic');
-    $topicObject->text( 'nested ThisTopic text' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'ThisTopic' );
+    $topicObject->text('nested ThisTopic text');
     $topicObject->save();
     $topicObject->finish();
     $this->{test_clashingsubweb} = $this->{test_web} . '/ThisTopic';
