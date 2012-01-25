@@ -740,9 +740,9 @@ sub createNewFoswikiSession {
     $this->{session} = Foswiki->new( $user, $query, @args );
     $this->{request} = $this->{session}{request};
     ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-    if ($this->{test_web} && $this->{test_topic}) {
-	( $this->{test_topicObject} ) =
-	    Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    if ( $this->{test_web} && $this->{test_topic} ) {
+        ( $this->{test_topicObject} ) =
+          Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     }
 
     return $this->{session};
