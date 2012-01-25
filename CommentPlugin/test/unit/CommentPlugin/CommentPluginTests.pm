@@ -228,11 +228,12 @@ HERE
         $query->param( -name => 'comment_index', -value => $eidx );
     }
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLoginName},
+        $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $this->{session} );
 
     $text = Foswiki::Func::readTopicText( $web, $topic );
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
@@ -400,11 +401,12 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLoginName},
+        $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -446,11 +448,12 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLoginName},
+        $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -515,11 +518,12 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLoginName},
+        $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -573,11 +577,12 @@ HERE
     );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLoginName}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLoginName},
+        $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( save => $this->getUIFn('save'), $session );
+    $this->captureWithKey( save => $this->getUIFn('save'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
