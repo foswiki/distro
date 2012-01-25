@@ -236,11 +236,11 @@ HERE
         $query->param( -name => 'comment_index', -value => $eidx );
     }
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
     $text = Foswiki::Func::readTopicText( $web, $topic );
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
@@ -482,11 +482,11 @@ HERE
     );
     $query->path_info("/CommentPlugin/comment");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -527,11 +527,11 @@ HERE
     );
     $query->path_info("/CommentPlugin/comment");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -595,11 +595,11 @@ HERE
     );
     $query->path_info("/CommentPlugin/comment");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -651,11 +651,11 @@ HERE
     );
     $query->path_info("/CommentPlugin/comment");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
     $text =
       Foswiki::Func::readTopicText( $this->{test_web}, $this->{test_topic} );
@@ -703,15 +703,17 @@ HERE
 
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
 
-    my ( $responseText, $result, $stdout, $stderr, $session );
+    my ( $responseText, $result, $stdout, $stderr );
 
     # First make sure we can't *change* it
-    $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
     eval {
-        ( $responseText, $result, $stdout, $stderr ) =
-          $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
+            rest => $this->getUIFn('rest'),
+            $this->{session}
+        );
     };
 
     $this->assert($@);
@@ -720,12 +722,14 @@ HERE
     # Now make sure we *can* change it, given COMMENT access
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
 
-    $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
     eval {
-        ( $responseText, $result, $stdout, $stderr ) =
-          $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
+            rest => $this->getUIFn('rest'),
+            $this->{session}
+        );
     };
     $this->assert( !$@ );
     $this->assert_matches( qr/Status: 200/, $responseText );
@@ -767,10 +771,12 @@ HERE
     );
     $query->path_info("/CommentPlugin/comment");
     my ( $responseText, $result, $stdout, $stderr );
-    my $session = $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiSession( undef, $query );
     eval {
-        ( $responseText, $result, $stdout, $stderr ) =
-          $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
+            rest => $this->getUIFn('rest'),
+            $this->{session}
+        );
     };
     $this->assert_matches( qr/Status: 404/, $responseText );
 
@@ -800,13 +806,13 @@ HERE
     );
     $query->path_info("/CommentPlugin/comment");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
     # $responseText, $result, $stdout, $stderr
     my ( $response, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+      $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
     $this->assert_matches( qr/^Status: 302/ms, $response );
     $this->assert_matches(
@@ -877,13 +883,13 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
     );
     $query->path_info("/CommentPlugin/comment");
 
-    my $session = Foswiki->new( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     my $text = "Ignore this text";
 
     # invoke the save handler
     # $responseText, $result, $stdout, $stderr
     my ( $response, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rest => $this->getUIFn('rest'), $session );
+      $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
 
     $this->assert_matches( qr/^Status: 302/ms, $response );
     $this->assert_matches(
