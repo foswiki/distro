@@ -31,7 +31,7 @@ sub INCLUDE {
     Foswiki::Func::setPreferencesValue( 'DOC_CHILDREN', '' );
     Foswiki::Func::setPreferencesValue( 'DOC_TITLE', '---++ !! !%TOPIC%' );
     $class =~ s/[a-z]+://;    # remove protocol
-    $class ||= 'Foswiki';	  # provide a reasonable default
+    $class ||= 'Foswiki';     # provide a reasonable default
 #    return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
 
@@ -80,9 +80,7 @@ sub INCLUDE {
                     $line .= $isa;
                     $isa = undef;
                 }
-#               This changes breaks the unit tests.  If the proposal is accepted, then I will change again and update the unit tests.
-#                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
-                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =package= $1/;
+                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
             }
             else {
                 $line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#_doclink($1)#geo;
@@ -203,13 +201,13 @@ sub _getPackSummary ($) {
     }
     close($PMFILE);
 
-	while (@summary) {
-		if ($summary[0] =~ /^\s*$/) {
-			shift @summary;
-		} else {
-			last;
-		}
-	}
+    while (@summary) {
+        if ($summary[0] =~ /^\s*$/) {
+            shift @summary;
+        } else {
+            last;
+        }
+    }
     if (!@summary) {
         return '';
     }
