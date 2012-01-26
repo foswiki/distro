@@ -224,6 +224,7 @@ sub settings {
 
     # Set the session for this call stack
     local $Foswiki::Plugins::SESSION = $this->{session};
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     foreach my $plugin ( @{ $this->{plugins} } ) {
         $plugin->registerSettings($this);
@@ -246,6 +247,7 @@ sub enable {
 
     # Set the session for this call stack
     local $Foswiki::Plugins::SESSION = $this->{session};
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     foreach my $plugin ( @{ $this->{plugins} } ) {
         if ( $disabled{ $plugin->{name} } ) {
@@ -325,6 +327,7 @@ sub dispatch {
 
         # Set the value of $SESSION for this call stack
         local $SESSION = $this->{session};
+        ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
         # apply handler on the remaining list of args
         no strict 'refs';

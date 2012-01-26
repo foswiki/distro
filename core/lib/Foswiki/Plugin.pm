@@ -163,6 +163,7 @@ sub load {
 
     # Set the session for this call stack
     local $Foswiki::Plugins::SESSION = $this->{session};
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     my $sub = $p . "::initPlugin";
     if ( !defined(&$sub) ) {

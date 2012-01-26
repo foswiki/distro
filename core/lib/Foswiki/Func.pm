@@ -575,6 +575,7 @@ Registered tags differ from tags implemented using the old approach (text substi
 sub registerTagHandler {
     my ( $tag, $function, $syntax ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     # $pluginContext is undefined if a contrib registers a tag handler.
     my $pluginContext;
@@ -588,8 +589,7 @@ sub registerTagHandler {
         $tag,
         sub {
             my ( $session, $params, $topicObject ) = @_;
-            my $record = $Foswiki::Plugins::SESSION;
-            $Foswiki::Plugins::SESSION = $_[0];
+            local $Foswiki::Plugins::SESSION = $session;
 
             # $pluginContext is defined for all plugins
             # but never defined for contribs.
@@ -606,11 +606,8 @@ sub registerTagHandler {
             }
 
             # Compatibility; expand $topicObject to the topic and web
-            my $result =
-              &$function( $session, $params, $topicObject->topic,
+            return &$function( $session, $params, $topicObject->topic,
                 $topicObject->web, $topicObject );
-            $Foswiki::Plugins::SESSION = $record;
-            return $result;
         },
         $syntax
     );
@@ -703,6 +700,7 @@ sub registerRESTHandler {
         sub {
             my $record = $Foswiki::Plugins::SESSION;
             $Foswiki::Plugins::SESSION = $_[0];
+            ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
             my $result = &$function(@_);
             $Foswiki::Plugins::SESSION = $record;
             return $result;
