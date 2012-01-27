@@ -96,9 +96,8 @@ sub test_getViewUrl {
     $result = TWiki::Func::getViewUrl( "", "WebHome" );
     $this->assert_matches( qr!/$ss/$this->{test_web}/WebHome!, $result );
 
-    $this->finishFoswikiSession();
     $TWiki::Plugins::SESSION =
-      TWiki->new( undef,
+      $this->createNewFoswikiSession( undef,
         Unit::Request->new( { topic => "Sausages.AndMash" } ) );
     $this->{session} = $TWiki::Plugins::SESSION;
 
@@ -125,8 +124,7 @@ sub test_getScriptUrl {
 
     my $q = Unit::Request->new( {} );
     $q->path_info('/Sausages/AndMash');
-    $this->finishFoswikiSession();
-    $TWiki::Plugins::SESSION = TWiki->new( undef, $q );
+    $TWiki::Plugins::SESSION = $this->createNewFoswikiSession( undef, $q );
     $this->{session} = $TWiki::Plugins::SESSION;
 
     $result = TWiki::Func::getScriptUrl( "Sausages", "AndMash", 'wibble' );
@@ -547,8 +545,7 @@ sub test_checkAccessPermission {
 \t* Set DENYTOPICVIEW = $TWiki::cfg{DefaultUserWikiName}
 END
     );
-    $this->finishFoswikiSession();
-    $this->{session} = TWiki->new();
+    $this->{session} = $this->createNewFoswikiSession();
     $TWiki::Plugins::SESSION = $this->{session};
     my $access =
       TWiki::Func::checkAccessPermission( 'VIEW',
@@ -626,8 +623,7 @@ sub test_checkAccessPermission_421 {
 \t* Set DENYTOPICVIEW = $TWiki::cfg{DefaultUserWikiName}
 END
     );
-    $this->finishFoswikiSession();
-    $this->{session} = TWiki->new();
+    $this->{session} = $this->createNewFoswikiSession();
     $TWiki::Plugins::SESSION = $this->{session};
     my $access =
       TWiki::Func::checkAccessPermission( 'VIEW', $TWiki::cfg{DefaultUserLogin},
@@ -890,8 +886,8 @@ sub test_4308 {
 sub test_4411 {
     my $this = shift;
     $this->assert( TWiki::Func::isGuest(), $this->{session}->{user} );
-    $this->finishFoswikiSession();
-    $this->{session} = TWiki->new( $TWiki::cfg{AdminUserLogin} );
+    $this->{session} =
+      $this->createNewFoswikiSession( $TWiki::cfg{AdminUserLogin} );
     $TWiki::Plugins::SESSION = $this->{session};
     $this->assert( !TWiki::Func::isGuest(), $this->{session}->{user} );
     $this->createNewFoswikiSession();
@@ -913,8 +909,8 @@ sub test_setPreferences {
    * Set PSIBG = naff
    * Set FINALPREFERENCES = PSIBG
 HERE
-    $this->finishFoswikiSession();
-    $this->{session} = TWiki->new( $TWiki::cfg{GuestUserLogin}, $q );
+    $this->{session} =
+      $this->createNewFoswikiSession( $TWiki::cfg{GuestUserLogin}, $q );
     $TWiki::Plugins::SESSION = $this->{session};
     $this->assert_str_equals( "naff",
         TWiki::Func::getPreferencesValue("PSIBG") );
@@ -926,8 +922,8 @@ HERE
         $TWiki::cfg{WebPrefsTopicName}, <<"HERE");
    * Set PSIBG = naff
 HERE
-    $this->finishFoswikiSession();
-    $this->{session} = TWiki->new( $TWiki::cfg{GuestUserLogin}, $q );
+    $this->{session} =
+      $this->createNewFoswikiSession( $TWiki::cfg{GuestUserLogin}, $q );
     $TWiki::Plugins::SESSION = $this->{session};
     $this->assert_str_equals( "naff",
         TWiki::Func::getPreferencesValue("PSIBG") );
