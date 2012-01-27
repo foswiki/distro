@@ -20,12 +20,13 @@ use warnings;
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki();
-use Error qw( :try );
 use Assert;
-use English qw( -no_match_vars );
+use Foswiki();
+use Foswiki::Func();
 use Foswiki::Search();
 use Foswiki::Search::InfoCache();
+use English qw( -no_match_vars );
+use Error qw( :try );
 
 use File::Spec qw(case_tolerant)
   ; #TODO: this really should be in the Store somehow - but its not worth doing now, as we should really obliterate the issue
@@ -5919,26 +5920,25 @@ HERE
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
     $this->assert_str_equals( $this->{test_web}, $this->{session}->{webName} );
-    require Foswiki::Address;
     while ( my ( $fwaddress, $metatext ) = each %topics ) {
-        my $addrObj = Foswiki::Address->new( string => $fwaddress );
+        my ( $web, $topic ) =
+          Foswiki::Func::normalizeWebTopicName( '', $fwaddress );
         my $topicObj;
 
-        if ( not Foswiki::Func::webExists( $addrObj->web() ) ) {
+        if ( not Foswiki::Func::webExists($web) ) {
             my @webs;
 
-            foreach my $part ( @{ $addrObj->webpath() } ) {
-                my $web;
+            foreach my $part ( split( /\//, $web ) ) {
+                my $w;
 
                 push( @webs, $part );
-                $web = join( '/', @webs );
-                if ( not Foswiki::Func::webExists($web) ) {
-                    Foswiki::Func::createWeb( $web, '_default' );
+                $w = join( '/', @webs );
+                if ( not Foswiki::Func::webExists($w) ) {
+                    Foswiki::Func::createWeb( $w, '_default' );
                 }
             }
         }
-        ($topicObj) =
-          Foswiki::Func::readTopic( $addrObj->web(), $addrObj->topic() );
+        ($topicObj) = Foswiki::Func::readTopic( $web, $topic );
         $topicObj->text($metatext);
         $topicObj->save();
         $topicObj->finish();
