@@ -80,6 +80,14 @@ our $BLOCKID = 0;
 our $OC      = "<!--\0";
 our $CC      = "\0-->";
 
+# This variable is set if Foswiki is running in unit test mode.
+# It is provided so that modules can detect unit test mode to avoid
+# corrupting data spaces.
+our $inUnitTestMode = 0;
+
+sub SINGLE_SINGLETONS       { 0 }
+sub SINGLE_SINGLETONS_TRACE { 0 }
+
 # Returns the full path of the directory containing Foswiki.pm
 sub _getLibDir {
     return $foswikiLibDir if $foswikiLibDir;
@@ -1672,6 +1680,11 @@ sub new {
         # CGI will lose things like its temp files.
         CGI::charset( $Foswiki::cfg{Site}{CharSet} );
     }
+    if (SINGLE_SINGLETONS_TRACE) {
+        require Data::Dumper;
+        print STDERR "new $this: "
+          . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
+    }
 
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
@@ -1680,7 +1693,9 @@ sub new {
 
     # This is required in case we get an exception during
     # initialisation, so that we have a session to handle it with.
+    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     $Foswiki::Plugins::SESSION = $this;
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     # Tell Foswiki::Response which charset we are using if not default
     if ( defined $Foswiki::cfg{Site}{CharSet}
@@ -2130,6 +2145,17 @@ sub finish {
     undef $this->{evaluatingEval};
 
     undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
+    if (SINGLE_SINGLETONS_TRACE) {
+        require Data::Dumper;
+        print STDERR "finish $this: "
+          . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
+    }
+    if (SINGLE_SINGLETONS) {
+        ASSERT( defined $Foswiki::Plugins::SESSION );
+        ASSERT( $Foswiki::Plugins::SESSION == $this );
+        ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') );
+    }
+    undef $Foswiki::Plugins::SESSION;
 
     if (DEBUG) {
         my $remaining = join ',', grep { defined $this->{$_} } keys %$this;
@@ -2395,7 +2421,12 @@ sub expandMacrosOnTopicCreation {
     my ( $this, $topicObject ) = @_;
 
     # Make sure func works, for registered tag handlers
+    if (SINGLE_SINGLETONS) {
+        ASSERT( defined $Foswiki::Plugins::SESSION );
+        ASSERT( $Foswiki::Plugins::SESSION == $this );
+    }
     local $Foswiki::Plugins::SESSION = $this;
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     my $text = $topicObject->text();
     if ($text) {
@@ -2732,7 +2763,12 @@ sub innerExpandMacros {
     $$text =~ s/(?<=\s)!%($regex{tagNameRegex})/&#37;$1/g;
 
     # Make sure func works, for registered tag handlers
-    $Foswiki::Plugins::SESSION = $this;
+    if (SINGLE_SINGLETONS) {
+        ASSERT( defined $Foswiki::Plugins::SESSION );
+        ASSERT( $Foswiki::Plugins::SESSION == $this );
+    }
+    local $Foswiki::Plugins::SESSION = $this;
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     # NOTE TO DEBUGGERS
     # The depth parameter in the following call controls the maximum number
