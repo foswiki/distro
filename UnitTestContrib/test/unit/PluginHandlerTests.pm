@@ -237,12 +237,6 @@ HERE
     #SMELL: Without this call, getPreferences returns BEFORE
     Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
 
-    my $newMeta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, "Tropic" );
-    $this->assert_matches( qr\B4SAVE\, $newMeta->text() );
-    $this->assert_str_equals( 'Wibble', $newMeta->get('WIBBLE')->{wibble} );
-    $this->assert_str_equals( "AFTER",  $newMeta->getPreference("BLAH") );
-
     $this->assert_str_equals( "AFTER",
         Foswiki::Func::getPreferencesValue("BLAH") );
 
