@@ -1,6 +1,5 @@
 bin/test 0755
 data/System/UnitTestContrib.txt 0644
-lib/Foswiki/Address.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/Config.spec 0644
 lib/Foswiki/Contrib/UnitTestContrib/MissingDependency.pm 0644
@@ -17,9 +16,11 @@ lib/Unit/TestRunner.pm 0644
 lib/Unit/TestSuite.pm 0644
 pub/System/UnitTestContrib/logo.gif 0644
 pub/System/UnitTestContrib/wikiringlogo20x20.png 0644
-test/bin/TestRunner.pl 0644
+test/bin/TestRunner.pl 0755
 test/unit/AccessControlTests.pm 0644
 test/unit/AddToHeadTests.pm 0644
+test/unit/AddressTests.pm 0644
+test/unit/AdminOnlyAccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/AutoAttachTests.pm 0644
 test/unit/CacheTests.pm 0644
