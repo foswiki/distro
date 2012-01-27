@@ -269,6 +269,8 @@ sub set_up {
 
     ( $this->{test_topicObject} ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
+        with_dep => 'Foswiki,<,1.2' );
 
     return;
 }

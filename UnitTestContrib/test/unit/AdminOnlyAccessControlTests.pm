@@ -82,6 +82,8 @@ sub set_up {
 THIS
     $topicObject->save();
     $topicObject->finish();
+    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Access',
+        with_dep => 'Foswiki,<,1.2' );
 
     return;
 }
