@@ -10,9 +10,11 @@ sub TWiki::new {
     my ( $this, $loginName, $query, $initialContext ) = @_;
     if ( !$Foswiki::Plugins::SESSION && UNIVERSAL::isa( $query, 'CGI' ) ) {
 
-        # Compatibility: User gave a CGI object
-        # This probably means we're inside a script
-        $query = undef;
+        ## Compatibility: User gave a CGI object
+        ## This probably means we're inside a script
+        ## $query = undef;
+        # The above was added in Item689, Foswikirev:1847. It doesn't make any
+        # sense to me. PH disabled under Item11431 ('no singleton left behind')
     }
     my $fatwilly = new Foswiki( $loginName, $query, $initialContext );
     require TWiki::Sandbox;

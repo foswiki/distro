@@ -44,8 +44,7 @@ sub tear_down {
 sub test_web {
     my $this = shift;
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     TWiki::Func::createWeb( $this->{test_web} . "/Blah" );
     $this->assert( TWiki::Func::webExists( $this->{test_web} . "/Blah" ) );
@@ -61,8 +60,7 @@ sub test_web {
 sub test_TWiki_web {
     my $this = shift;
 
-    $this->{session}->finish();
-    $this->{session} = Foswiki->new( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     $this->assert( Foswiki::Func::webExists('TWiki') );
     $this->assert( TWiki::Func::webExists('TWiki') );
@@ -98,16 +96,18 @@ sub test_getViewUrl {
     $result = TWiki::Func::getViewUrl( "", "WebHome" );
     $this->assert_matches( qr!/$ss/$this->{test_web}/WebHome!, $result );
 
+    $this->finishFoswikiSession();
     $TWiki::Plugins::SESSION =
       TWiki->new( undef,
         Unit::Request->new( { topic => "Sausages.AndMash" } ) );
+    $this->{session} = $TWiki::Plugins::SESSION;
 
     $result = TWiki::Func::getViewUrl( "Sausages", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
 
     $result = TWiki::Func::getViewUrl( "", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
-    $TWiki::Plugins::SESSION->finish();
+    $this->createNewFoswikiSession();
 
     return;
 }
@@ -125,14 +125,16 @@ sub test_getScriptUrl {
 
     my $q = Unit::Request->new( {} );
     $q->path_info('/Sausages/AndMash');
+    $this->finishFoswikiSession();
     $TWiki::Plugins::SESSION = TWiki->new( undef, $q );
+    $this->{session} = $TWiki::Plugins::SESSION;
 
     $result = TWiki::Func::getScriptUrl( "Sausages", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
 
     $result = TWiki::Func::getScriptUrl( "", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/$this->{users_web}/AndMash!, $result );
-    $TWiki::Plugins::SESSION->finish();
+    $this->createNewFoswikiSession();
 
     return;
 }
@@ -545,7 +547,7 @@ sub test_checkAccessPermission {
 \t* Set DENYTOPICVIEW = $TWiki::cfg{DefaultUserWikiName}
 END
     );
-    eval { $this->{session}->finish() };
+    $this->finishFoswikiSession();
     $this->{session} = TWiki->new();
     $TWiki::Plugins::SESSION = $this->{session};
     my $access =
@@ -609,6 +611,7 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert( !$access );
+    $this->createNewFoswikiSession();
 
     return;
 }
@@ -623,7 +626,7 @@ sub test_checkAccessPermission_421 {
 \t* Set DENYTOPICVIEW = $TWiki::cfg{DefaultUserWikiName}
 END
     );
-    eval { $this->{session}->finish() };
+    $this->finishFoswikiSession();
     $this->{session} = TWiki->new();
     $TWiki::Plugins::SESSION = $this->{session};
     my $access =
@@ -887,9 +890,11 @@ sub test_4308 {
 sub test_4411 {
     my $this = shift;
     $this->assert( TWiki::Func::isGuest(), $this->{session}->{user} );
-    $this->{session}->finish();
+    $this->finishFoswikiSession();
     $this->{session} = TWiki->new( $TWiki::cfg{AdminUserLogin} );
+    $TWiki::Plugins::SESSION = $this->{session};
     $this->assert( !TWiki::Func::isGuest(), $this->{session}->{user} );
+    $this->createNewFoswikiSession();
 
     return;
 }
@@ -908,8 +913,9 @@ sub test_setPreferences {
    * Set PSIBG = naff
    * Set FINALPREFERENCES = PSIBG
 HERE
-    $this->{session}->finish();
+    $this->finishFoswikiSession();
     $this->{session} = TWiki->new( $TWiki::cfg{GuestUserLogin}, $q );
+    $TWiki::Plugins::SESSION = $this->{session};
     $this->assert_str_equals( "naff",
         TWiki::Func::getPreferencesValue("PSIBG") );
     TWiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -920,13 +926,15 @@ HERE
         $TWiki::cfg{WebPrefsTopicName}, <<"HERE");
    * Set PSIBG = naff
 HERE
-    $this->{session}->finish();
+    $this->finishFoswikiSession();
     $this->{session} = TWiki->new( $TWiki::cfg{GuestUserLogin}, $q );
+    $TWiki::Plugins::SESSION = $this->{session};
     $this->assert_str_equals( "naff",
         TWiki::Func::getPreferencesValue("PSIBG") );
     $this->assert( TWiki::Func::setPreferencesValue( "PSIBG", "KJHD" ) );
     $this->assert_str_equals( "KJHD",
         TWiki::Func::getPreferencesValue("PSIBG") );
+    $this->createNewFoswikiSession();
 
     return;
 }
