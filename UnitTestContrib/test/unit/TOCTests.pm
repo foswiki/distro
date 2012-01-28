@@ -1,4 +1,6 @@
 package TOCTests;
+use strict;
+use warnings;
 
 =pod
 
@@ -9,11 +11,10 @@ propagated into the TOC.
 
 =cut
 
-use FoswikiTestCase;
-use FoswikiFnTestCase;
+use FoswikiTestCase();
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Foswiki;
 use Foswiki::UI::Edit;
 use Foswiki::Form;
@@ -62,9 +63,8 @@ sub setup_TOCtests {
     }
 
     # Now generate the TOC
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my $res = $this->{session}->TOC( $text, $topicObject, $tocparams );
 
     eval 'use HTML::TreeBuilder; use HTML::Element;';
@@ -133,9 +133,9 @@ sub test_Item8592 {
 ---++ Followed by a level 2! headline
 ---++!! Another level 2 headline
 HERE
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic}, $text );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($text);
     $topicObject->save();
     my $res = $topicObject->expandMacros($text);
     $res = $topicObject->renderTML($res);
@@ -159,6 +159,7 @@ HERE
 <nop><h2><a name="Another_level_2_headline"></a>
  Another level 2 headline </h2>
 HTML
+    $topicObject->finish();
 }
 
 sub test_Item9009 {
@@ -171,20 +172,21 @@ sub test_Item9009 {
 ---++ Followed by a level 2! headline
 ---++!! Another level 2 headline
 HERE
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic}, $text );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($text);
     $topicObject->save();
 
     my $text2 = <<HERE;
 %TOC{"$this->{test_web}.$this->{test_topic}"}%
 HERE
-    my $topicObject2 =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} . "2", $text2 );
+    my ($topicObject2) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} . "2" );
+    $topicObject2->text($text2);
     $topicObject->save();
     my $res2 = $topicObject2->expandMacros($text2);
     $res2 = $topicObject->renderTML($res2);
+    $topicObject->finish();
 
     #return;
 
@@ -207,9 +209,9 @@ sub test_Item2458 {
 %TOC%
 ---+ !WikiWord
 HERE
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic}, $text );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($text);
     $topicObject->save();
     my $res = $topicObject->expandMacros($text);
     $res = $topicObject->renderTML($res);
@@ -221,6 +223,7 @@ HERE
 </div>
 <nop><h1><a name="WikiWord"></a>  <nop>WikiWord </h1>
 HTML
+    $topicObject->finish();
 }
 
 sub test_TOC_SpecialCharacters {
@@ -274,7 +277,7 @@ sub test_TOC_SpecialCharacters {
 %TOC%
 $set->[1]
 HERE
-        my $topicObject = Foswiki::Meta->new(
+        my ($topicObject) = Foswiki::Meta->new(
             $this->{session},    $this->{test_web},
             $this->{test_topic}, $wikitext
         );

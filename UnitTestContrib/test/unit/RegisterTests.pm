@@ -60,9 +60,9 @@ sub set_up {
       "$this->{new_user_fname} $this->{new_user_sname}";
 
     try {
-        my $topicObject = Foswiki::Meta->new(
-            $this->{session},  $this->{users_web},
-            'NewUserTemplate', <<'EOF');
+        my ($topicObject) =
+          Foswiki::Func::readTopic( $this->{users_web}, 'NewUserTemplate' );
+        $topicObject->text(<<'EOF');
 %NOP{Ignore this}%
 But not this
 %SPLIT%
@@ -77,16 +77,19 @@ EOF
 
         # Make the test current user an admin; we will only use
         # them where necessary (e.g. for bulk registration)
-        $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{users_web},
-            $Foswiki::cfg{SuperAdminGroup}, <<"EOF");
+        $topicObject->finish();
+        ($topicObject) =
+          Foswiki::Func::readTopic( $this->{users_web},
+            $Foswiki::cfg{SuperAdminGroup} );
+        $topicObject->text(<<"EOF");
    * Set GROUP = $this->{test_user_wikiname}
 EOF
         $topicObject->save();
 
-        $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{users_web}, 'UserForm',
-            <<'EOF');
+        $topicObject->finish();
+        ($topicObject) =
+          Foswiki::Func::readTopic( $this->{users_web}, 'UserForm' );
+        $topicObject->text(<<'EOF');
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* |
 | <nop>FirstName | text | 40 | | |
 | <nop>LastName | text | 40 | | |
@@ -95,9 +98,11 @@ EOF
 | Comment | textarea | 50x6 | | |
 EOF
         $topicObject->save();
+        $topicObject->finish();
 
         my $webObject = Foswiki::Meta->new( $this->{session}, $systemWeb );
         $webObject->populateNewWeb( $Foswiki::cfg{SystemWebName} );
+        $webObject->finish();
         $Foswiki::cfg{SystemWebName} = $systemWeb;
         $Foswiki::cfg{EnableEmail}   = 1;
 
@@ -294,12 +299,10 @@ sub verify_userTopicWithPMWithoutForm {
         "cannot re-register user who's topic exists"
     );
     $this->registerAccount();
-    my $meta = Foswiki::Meta->load(
-        $this->{session},
-        $Foswiki::cfg{UsersWebName},
-        $this->{new_user_wikiname}
-    );
+    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $this->{new_user_wikiname} );
     my $text = $meta->text;
+    $meta->finish();
     $this->assert( $text !~ /Ignore this%/, $text );
     $this->assert( $text =~ s/But not this//, $text );
     $this->assert( $text =~ s/^\s*\* First Name: $this->{new_user_fname}$//m,
@@ -332,12 +335,10 @@ sub verify_userTopicWithoutPMWithoutForm {
         "cannot re-register user who's topic exists"
     );
     $this->registerAccount();
-    my $meta = Foswiki::Meta->load(
-        $this->{session},
-        $Foswiki::cfg{UsersWebName},
-        $this->{new_user_wikiname}
-    );
+    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $this->{new_user_wikiname} );
     my $text = $meta->text;
+    $meta->finish();
     $this->assert( $text !~ /Ignore this%/, $text );
     $this->assert( $text =~ s/But not this//, $text );
     $this->assert( $text =~ s/^\s*\* First Name: $this->{new_user_fname}$//m,
@@ -366,9 +367,8 @@ sub verify_userTopicWithoutPMWithForm {
     $Foswiki::cfg{PasswordManager} = 'none';
 
     # Change the new user topic to include the form
-    my $m =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web},
-        'NewUserTemplate', <<"BODY" );
+    my ($m) = Foswiki::Func::readTopic( $this->{users_web}, 'NewUserTemplate' );
+    $m->text(<<"BODY" );
 %SPLIT%
 \t* Set %KEY% = %VALUE%
 %SPLIT%
@@ -421,14 +421,12 @@ BODY
     );
 
     $m->save();
+    $m->finish();
 
     $this->registerAccount();
 
-    my $meta = Foswiki::Meta->load(
-        $this->{session},
-        $Foswiki::cfg{UsersWebName},
-        $this->{new_user_wikiname}
-    );
+    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $this->{new_user_wikiname} );
     my $text = $meta->text;
 
     my $field = $meta->get( 'FIELD', 'FirstName' );
@@ -444,6 +442,7 @@ BODY
     $this->assert_str_equals( '', $field->{value} );
 
     $field = $meta->get( 'FIELD', 'Email' );
+    $meta->finish();
     if ($field) {
         $this->assert_str_equals( $this->{new_user_email}, $field->{value} );
     }
@@ -456,9 +455,8 @@ sub verify_userTopicWithPMWithForm {
     my $this = shift;
 
     # Change the new user topic to include the form
-    my $m =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web},
-        'NewUserTemplate', <<"BODY" );
+    my ($m) = Foswiki::Func::readTopic( $this->{users_web}, 'NewUserTemplate' );
+    $m->text(<<"BODY" );
 %SPLIT%
 \t* Set %KEY% = %VALUE%
 %SPLIT%
@@ -510,13 +508,11 @@ BODY
         }
     );
     $m->save();
+    $m->finish();
 
     $this->registerAccount();
-    my $meta = Foswiki::Meta->load(
-        $this->{session},
-        $Foswiki::cfg{UsersWebName},
-        $this->{new_user_wikiname}
-    );
+    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $this->{new_user_wikiname} );
     my $text = $meta->text;
     $this->assert_not_null( $meta->get('FORM') );
     $this->assert_str_equals( "$this->{users_web}.UserForm",
@@ -527,6 +523,7 @@ BODY
         $meta->get( 'FIELD', 'LastName' )->{value} );
     $this->assert_str_equals( '', $meta->get( 'FIELD', 'Comment' )->{value} );
     $this->assert_str_equals( '', $meta->get( 'FIELD', 'Email' )->{value} );
+    $meta->finish();
     $this->assert_matches( qr/^\s*$/s, $text );
 
     return;
@@ -1246,7 +1243,7 @@ sub verify_resetPasswordNoPassword {
 
     $query->path_info( '/' . $this->{users_web} . '/WebHome' );
     my $fh;
-    open($fh, ">", $Foswiki::cfg{Htpasswd}{FileName}) || die $!;
+    open( $fh, ">", $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;
     close($fh) || die $!;
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
@@ -1657,17 +1654,13 @@ sub verify_resetPassword_NoWikiUsersEntry {
     $this->registerAccount();
 
     #Remove the WikiUsers entry - by deleting it :)
-    my $from = Foswiki::Meta->new(
-        $Foswiki::Plugins::SESSION,
-        $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName}
-    );
-    my $to = Foswiki::Meta->new(
-        $Foswiki::Plugins::SESSION,
-        $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} . 'DELETED'
-    );
+    my ($from) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{UsersTopicName} );
+    my ($to) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{UsersTopicName} . 'DELETED' );
     $from->move($to);
+    $from->finish();
+    $to->finish();
 
     #force a reload to unload existing user caches, and then restart as guest
     $this->createNewFoswikiSession();

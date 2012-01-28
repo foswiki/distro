@@ -1,10 +1,10 @@
-use strict;
-
 # tests for the correct expansion of macros
 
 package ExpandMacrosTests;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
@@ -227,9 +227,8 @@ sub _testExpand {
 
 sub _expand {
     my ( $this, $tml ) = @_;
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     return $topicObject->expandMacros($tml);
 }
 

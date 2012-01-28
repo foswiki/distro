@@ -25,9 +25,9 @@ sub set_up {
     $this->SUPER::set_up();
     $EDIT_UI_FN ||= $this->getUIFn('edit');
     $VIEW_UI_FN ||= $this->getUIFn('view');
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session},    $this->{test_web},
-        $this->{test_topic}, <<'CONSTRAINT');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(<<'CONSTRAINT');
    * Set ALLOWTOPICCHANGE = AdminGroup
 CONSTRAINT
     $topicObject->save();

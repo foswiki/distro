@@ -1,8 +1,8 @@
-use strict;
-
 # tests for basic formatting
 
 package FormattingTests;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
@@ -119,26 +119,30 @@ sub set_up {
 
     $this->SUPER::set_up();
     $this->{sup} = $this->{session}->getScriptUrl( 0, 'view' );
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'H_',
-        "BLEEGLE" );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'H_' );
+    $topicObject->text("BLEEGLE");
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'Underscore_topic', "BLEEGLE" );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'Underscore_topic' );
+    $topicObject->text("BLEEGLE");
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $Foswiki::cfg{HomeTopicName}, "BLEEGLE" );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{HomeTopicName} );
+    $topicObject->text("BLEEGLE");
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'Numeric1Wikiword', "BLEEGLE" );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'Numeric1Wikiword' );
+    $topicObject->text("BLEEGLE");
     $topicObject->save();
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $Foswiki::cfg{AntiSpam}{EmailPadding}     = 'STUFFED';
     $Foswiki::cfg{AntiSpam}{EntityEncode}     = 1;
     $Foswiki::cfg{AllowInlineScript}          = 1;
+    $topicObject->finish();
 }
 
 sub tear_down {

@@ -11,14 +11,15 @@
 # query syntax.
 
 package QueryTests;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki::Query::Parser;
 use Foswiki::Query::Node;
-use Foswiki::Meta;
-use strict;
+use Foswiki::Func();
 
 use constant MONITOR => 0;
 
@@ -38,8 +39,7 @@ sub set_up {
     $Foswiki::cfg{Store}{SearchAlgorithm} =
       'Foswiki::Store::SearchAlgorithms::PurePerl';
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'HitTopic' );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'HitTopic' );
     $meta->putKeyed(
         'FILEATTACHMENT',
         {
@@ -125,9 +125,7 @@ sub set_up {
     $meta->topic("AnotherTopic");
     $meta->save();
 
-    $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'AnotherTopic',
-        1 );
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'AnotherTopic', 1 );
     $meta->text("Singularity");
     $meta->putKeyed( 'FIELD',
         { name => 'SillyFuel', title => 'Silly fuel', value => 'Petroleum' } );
@@ -137,8 +135,7 @@ sub set_up {
         { name => 'SillyFuel', title => 'Silly fuel', value => 'Diesel' } );
     $meta->save( forcenewrevision => 1 );
 
-    $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'HitTopic', 1 );
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'HitTopic', 1 );
     $meta->text("Green ideas sleep furiously");
     $meta->save( forcenewrevision => 1 );
     $this->{meta} = $meta;
@@ -226,7 +223,7 @@ sub check {
 
     #use Data::Dumper;
     #print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
-    my $meta = $this->{meta};
+    my ($meta) = $this->{meta};
 
     my $val = $query->evaluate( tom => $meta, data => $meta );
     if ( ref( $opts{'eval'} ) ) {
@@ -316,7 +313,7 @@ sub verify_meta_dot {
     my $this = shift;
 
 #longhand to a topic that as more than one rev
-#    my $anotherTopic = Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'AnotherTopic' );
+#    my ($anotherTopic) = Foswiki::Func::readTopic($this->{test_web}, 'AnotherTopic' );
 #    my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
 #    $this->check( "'AnotherTopic'/META:CREATEINFO.date",        eval => $anotherTopicInfo->{date} );
 #return;
@@ -343,8 +340,8 @@ sub verify_meta_dot {
     $this->check( "META:TOPICINFO.author",  eval => $info->{author} );
 
     #longhand to a topic that as more than one rev
-    my $anotherTopic =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'AnotherTopic' );
+    my ($anotherTopic) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'AnotherTopic' );
     my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
     $this->check(
         "'AnotherTopic'/META:TOPICINFO.date",
@@ -1025,7 +1022,7 @@ sub verify_evaluatesToConstant {
 
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse("notafield AND 1");
-    my $meta        = $this->{meta};
+    my ($meta)      = $this->{meta};
 
     $this->assert( !$query->evaluatesToConstant(), "non-constant" );
 }

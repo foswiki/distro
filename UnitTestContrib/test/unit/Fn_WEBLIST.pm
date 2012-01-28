@@ -1,10 +1,12 @@
 # tests for the correct expansion of WEBLIST
 
 package Fn_WEBLIST;
+use strict;
+use warnings;
+
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Foswiki;
 use Error qw( :try );
 

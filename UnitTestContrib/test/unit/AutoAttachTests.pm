@@ -1,17 +1,17 @@
-use strict;
-
 # Test cases:
 # 1) Autoattach = off. Save a topic referring to an attachmentMissing that does not exist.
 # 2) Add attachmentAdded into the attachment area for that topic, circumventing Foswiki
 # 3) Turn autoattach = on. Ask for the list of attachments. attachmentAdded should appear. attachmentMissing should not.
 
 package AutoAttachTests;
-use FoswikiFnTestCase;
+use strict;
+use warnings;
+
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
 use Foswiki;
-use Foswiki::Meta;
+use Foswiki::Func();
 use Error qw( :try );
 use Foswiki::UI::Save;
 use Foswiki::OopsException;
@@ -33,9 +33,10 @@ sub set_up_topic {
     my $topic = shift;
     my $text  = "hi";
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic, $text );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    $topicObject->text($text);
     $topicObject->save();
+    $topicObject->finish();
 }
 
 # We create a topic with a missing attachment
@@ -48,8 +49,7 @@ sub addMissingAttachment {
 
     $this->assert( $this->{session}->topicExists( $this->{test_web}, $topic ) );
 
-    my $topicObject =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topic );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
 
     $topicObject->putKeyed(
         'FILEATTACHMENT',
@@ -192,8 +192,7 @@ sub verify_normal_attachment {
     my $doNotLogChanges = 0;
     my $doUnlock        = 1;
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->attach(
         name    => $attachment,
         file    => "$TWiki::cfg{TempfileDir}/$attachment",
@@ -217,7 +216,7 @@ sub simulate_view {
     $this->{session}->{webName}   = $web;
     $this->{session}->{topicName} = $topic;
 
-    my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    my ($meta) = Foswiki::Func::readTopic( $web, $topic );
 
     $this->{session}->{webName}   = $oldWebName;
     $this->{session}->{topicName} = $oldTopicName;

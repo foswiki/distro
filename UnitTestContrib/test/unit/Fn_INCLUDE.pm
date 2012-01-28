@@ -37,9 +37,9 @@ sub test_webExpansion {
 
     # Create topic to include
     my $includedTopic = "TopicToInclude";
-    my $inkyDink =
-      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
-        <<THIS);
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text( <<THIS);
 <literal>
 1 [[$includedTopic][one]] $includedTopic
 </literal>
@@ -65,9 +65,8 @@ THIS
     $inkyDink->save();
 
     # Expand an include in the context of the test web
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     my $text = $topicObject->expandMacros(
         "%INCLUDE{$this->{other_web}.$includedTopic}%");
     my @get    = split( /\n/, $text );
@@ -105,9 +104,9 @@ THIS
 sub test_3158 {
     my $this          = shift;
     my $includedTopic = "TopicToInclude";
-    my $inkyDink =
-      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
-        <<THIS);
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text(<<THIS);
 Snurfle
 %STARTSECTION{"suction"}%
 Such a section!
@@ -167,9 +166,9 @@ THIS
     my $handledTopicText = $topicText;
     $handledTopicText =~ s/%(START|END)SECTION{"suction"}%//g;
 
-    my $inkyDink =
-      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
-        $topicText );
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
       $this->{test_topicObject}->expandMacros(
@@ -209,9 +208,9 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
-    my $inkyDink =
-      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
-        $topicText );
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
       $this->{test_topicObject}->expandMacros(
@@ -230,9 +229,9 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
-    my $inkyDink =
-      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
-        $topicText );
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
       $this->{test_topicObject}->expandMacros(
@@ -252,9 +251,9 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
-    my $inkyDink =
-      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
-        $topicText );
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
       $this->{test_topicObject}->expandMacros(
@@ -273,9 +272,9 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
-    my $inkyDink =
-      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
-        $topicText );
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
       $this->{test_topicObject}->expandMacros(

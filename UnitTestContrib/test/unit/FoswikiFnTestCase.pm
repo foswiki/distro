@@ -66,15 +66,15 @@ sub loadExtraConfig {
     $Foswiki::cfg{RCS}{AutoAttachPubFiles}  = 0;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
     $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{WorkingDir}/htpasswd";
-    unless (-e $Foswiki::cfg{Htpasswd}{FileName} ) {
-	my $fh;
-	open($fh, ">", $Foswiki::cfg{Htpasswd}{FileName}) || die $!;
-	close($fh) || die $!;
+    unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
+        my $fh;
+        open( $fh, ">", $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;
+        close($fh) || die $!;
     }
-    $Foswiki::cfg{PasswordManager}    = 'Foswiki::Users::HtPasswdUser';
+    $Foswiki::cfg{PasswordManager}       = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Htpasswd}{GlobalCache} = 0;
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
-    $Foswiki::cfg{LoginManager}       = 'Foswiki::LoginManager::TemplateLogin';
+    $Foswiki::cfg{UserMappingManager}    = 'Foswiki::Users::TopicUserMapping';
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
     $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 0;
 

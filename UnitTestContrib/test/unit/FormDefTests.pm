@@ -15,13 +15,14 @@ use Error qw( :try );
 sub test_minimalForm {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<'FORM');
 | *Name* | *Type* | *Size* |
 | Date | date | 30 |
 FORM
     $topicObject->save();
+    $topicObject->finish();
     my $def =
       Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
     $this->assert($def);
@@ -42,9 +43,9 @@ FORM
 sub test_allCols {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<'FORM');
 | *Name*     | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
 | Select     | select   | 2..4   | a,b,c   | Tippity   | M            |
 | Checky Egg | checkbox | 1      | 1,2,3,4   | Blip      |              |
@@ -55,6 +56,7 @@ sub test_allCols {
 | DoLink | textarea | 80x20  | some initial   | Write Something      |              |
 FORM
     $topicObject->save();
+    $topicObject->finish();
     my $def =
       Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
@@ -115,6 +117,7 @@ FORM
     $this->assert_str_equals( 'DoLink',   $f->{name} );
     $this->assert_str_equals( 'DoLink',   $f->{title} );
     $this->assert_str_equals( '',         $f->{definingTopic} );
+    $def->finish();
 
     return;
 }
@@ -122,22 +125,24 @@ FORM
 sub test_valsFromOtherTopic {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<'FORM');
 | *Name*         | *Type* | *Size* | *Value*   |
 | Vals Elsewhere | select |        |           |
 FORM
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'ValsElsewhere',
-        <<'FORM');
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'ValsElsewhere' );
+    $topicObject->text( <<'FORM');
 | *Name* |
 | ValOne |
 | RowName |
 | Age |
 FORM
     $topicObject->save();
+    $topicObject->finish();
 
     my $def =
       Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
@@ -153,6 +158,7 @@ FORM
     $this->assert_str_equals( 'ValOne,RowName,Age',
         join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( '', $f->{definingTopic} );
+    $def->finish();
 
     return;
 }
@@ -160,22 +166,23 @@ FORM
 sub test_squabValRef {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<"FORM");
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<"FORM");
 | *Name*         | *Type* | *Size* | *Value*   |
 | [[$this->{test_web}.Splodge][Vals Elsewhere]] | select |        |           |
 FORM
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'Splodge',
-        <<'FORM');
+    $topicObject->finish();
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'Splodge' );
+    $topicObject->text( <<'FORM');
 | *Name* |
 | ValOne |
 | RowName |
 | Age |
 FORM
     $topicObject->save();
+    $topicObject->finish();
     my $def =
       Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
@@ -188,6 +195,7 @@ FORM
         join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( $this->{test_web} . '.Splodge',
         $f->{definingTopic} );
+    $def->finish();
 
     return;
 }
@@ -195,25 +203,28 @@ FORM
 sub test_searchForOptions {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<'FORM');
 | *Name*         | *Type* | *Size* | *Value*   |
 | Ecks | select | 1 | %SEARCH{"^\\| (Age\|Beauty)" type="regex" nonoise="on" separator="," format="$topic"}% |
 FORM
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
-        <<'FORM');
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
+    $topicObject->text( <<'FORM');
 | Age |
 FORM
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeTwo',
-        <<'FORM');
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeTwo' );
+    $topicObject->text( <<'FORM');
 | Beauty |
 FORM
     $topicObject->save();
+    $topicObject->finish();
     my $def =
       Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
@@ -221,6 +232,7 @@ FORM
     my $f = $def->getField('Ecks');
     $this->assert_str_equals( 'SplodgeOne,SplodgeTwo',
         join( ',', sort @{ $f->getOptions() } ) );
+    $def->finish();
 
     return;
 }
@@ -228,25 +240,28 @@ FORM
 sub test_searchForOptionsQuery {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<'FORM');
 | *Name*         | *Type* | *Size* | *Value*   |
 | Ecks | select | 1 | %SEARCH{"text=~'^\\| (Age\|Beauty)'" type="query" nonoise="on" separator="," format="$topic"}% |
 FORM
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
-        <<FORM);
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
+    $topicObject->text( <<FORM);
 | Age |
 FORM
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeTwo',
-        <<FORM);
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeTwo' );
+    $topicObject->text( <<FORM);
 | Beauty |
 FORM
     $topicObject->save();
+    $topicObject->finish();
     my $def =
       new Foswiki::Form( $this->{session}, $this->{test_web}, 'TestForm' );
 
@@ -254,6 +269,7 @@ FORM
     my $f = $def->getField('Ecks');
     $this->assert_str_equals( 'SplodgeOne,SplodgeTwo',
         join( ',', sort @{ $f->getOptions() } ) );
+    $def->finish();
 }
 
 sub test_Item6082 {
@@ -261,21 +277,23 @@ sub test_Item6082 {
 
     # Form definition that requires the form definition to be loaded before
     # it can be loaded.
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<'FORM');
 | *Name*         | *Type* | *Size* | *Value*   | *Tooltip message* | *Attributes* |
 | Why | text | 32 | | Mandatory field | M |
 | Ecks | select | 1 | %SEARCH{"TestForm.Ecks~'Blah*'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}% | | |
 FORM
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
-        <<'FORM');
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
+    $topicObject->text( <<'FORM');
 %META:FORM{name="TestForm"}%
 %META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
 FORM
     $topicObject->save();
+    $topicObject->finish();
 
     my $def =
       Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
@@ -284,24 +302,25 @@ FORM
     $this->assert_str_equals( 'SplodgeOne;Blah',
         join( ',', sort @{ $f->getOptions() } ) );
 
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'TestForm' );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
     $meta->renderFormForDisplay();
+    $def->finish();
+    $meta->finish();
 
     return;
 }
 
 sub test_makeFromMeta {
     my $this = shift;
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
+    $topicObject->text( <<'FORM');
 %META:FORM{name="NonExistantForm"}%
 %META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
 FORM
     $topicObject->save();
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'SplodgeOne' );
+    $topicObject->finish();
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
     my $form =
       Foswiki::Form->new( $this->{session}, $this->{test_web},
         'NonExistantForm', $meta );
@@ -310,6 +329,8 @@ FORM
     $this->assert_str_equals( 'Ecks', $f->{name} );
     $this->assert_str_equals( 'X',    $f->{title} );
     $this->assert_str_equals( '',     $f->{size} );
+    $form->finish();
+    $meta->finish();
 
     return;
 }
@@ -317,13 +338,14 @@ FORM
 sub test_Item972_selectPlusValues {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
-        <<'FORM');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
+    $topicObject->text( <<'FORM');
 | *Name* | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
 | Select | select+values | 5 | , =0, One, Two=2, Three=III, Four | Various values |
 FORM
     $topicObject->save();
+    $topicObject->finish();
     my $def =
       Foswiki::Form->new( $this->{session}, $this->{test_web}, 'TestForm' );
 
@@ -333,6 +355,7 @@ FORM
     $this->assert_str_equals( ',0,One,2,III,Four',
         join( ',', @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'Various values', $f->{tooltip} );
+    $def->finish();
 
     return;
 }
