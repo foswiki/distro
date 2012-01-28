@@ -1,10 +1,10 @@
-use strict;
-
 # tests for the correct expansion of GROUPS
 
 package Fn_GROUPS;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
@@ -18,36 +18,42 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "GropeGroup",
-        "   * Set GROUP = ScumBag,WikiGuest\n" );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup" );
+    $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
+    $topicObject->finish();
 
-    $topicObject = Foswiki::Meta->new(
-        $this->{session}, $this->{users_web},
-        "NestingGroup",   "   * Set GROUP = GropeGroup\n"
-    );
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "NestingGroup" );
+    $topicObject->text("   * Set GROUP = GropeGroup\n");
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web},
-        "GroupWithHiddenGroup", "   * Set GROUP = HiddenGroup,WikiGuest\n" );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "GroupWithHiddenGroup" );
+    $topicObject->text("   * Set GROUP = HiddenGroup,WikiGuest\n");
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "HiddenGroup",
-        "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n" );
+    $topicObject->finish();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "HiddenGroup" );
+    $topicObject->text(
+        "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n");
     $topicObject->save();
+    $topicObject->finish();
 
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web},
-        "HiddenUserGroup", "   * Set GROUP = ScumBag,HidemeGood\n" );
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "HiddenUserGroup" );
+    $topicObject->text("   * Set GROUP = ScumBag,HidemeGood\n");
     $topicObject->save();
+    $topicObject->finish();
 
-    $topicObject =
-      Foswiki::Meta->load( $this->{session}, $this->{users_web}, "HidemeGood" );
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "HidemeGood" );
     my $topText = $topicObject->text();
     $topText .= "   * Set ALLOWTOPICVIEW = AdminUser\n";
     $topText = $topicObject->text($topText);
     $topicObject->save();
+    $topicObject->finish();
 
 }
 

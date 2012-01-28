@@ -1,5 +1,7 @@
 # Test for hoisting REs from query expressions
 package HoistREsTests;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
@@ -8,13 +10,12 @@ use Foswiki::Query::Parser;
 use Foswiki::Query::HoistREs;
 use Foswiki::Query::Node;
 use Foswiki::Meta;
-use strict;
 
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    my $meta = Foswiki::Meta->new( $this->{session}, 'Web', 'Topic' );
+    my ($meta) = Foswiki::Func::readTopic( 'Web', 'Topic' );
     $meta->putKeyed(
         'FILEATTACHMENT',
         {

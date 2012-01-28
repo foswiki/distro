@@ -52,8 +52,7 @@ sub set_up {
    * Set WEBFORMS = InitializationForm
 HERE
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testtopic1 );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
     $meta->put( 'FORM', { name => 'InitializationForm' } );
     $meta->putKeyed(
         'FIELD',
@@ -166,8 +165,8 @@ HERE
 
     Foswiki::Func::saveTopic( $this->{test_web}, $testtopic1, $meta, 'TT1' );
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testtopic2 );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic2 );
     $meta->put( 'FORM', { name => 'InitializationForm', } );
     $meta->putKeyed(
         'FIELD',
@@ -305,8 +304,7 @@ HERE
 sub test_render_formfield_raw {
 
     my $this = shift;
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic2 );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic2 );
     my $text   = $meta->text;
     my $render = $this->{session}->renderer;
     my $res;
@@ -360,10 +358,9 @@ sub test_render_formfield_with_form {
 
     $this->setForm();
 
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic2 );
-    my $text = $meta->text;
-    my $res  = $meta->renderFormForDisplay();
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic2 );
+    my $text   = $meta->text;
+    my $res    = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
 <div class="foswikiForm foswikiFormStep">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
@@ -380,8 +377,8 @@ Foo, Baz
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
 Three </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
 HERE
-    $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
     $text = $meta->text;
     $res  = $meta->renderFormForDisplay();
 
@@ -420,8 +417,7 @@ sub test_render_for_edit {
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
     $this->setForm();
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
     my $text = $meta->text;
     my $formDef =
       Foswiki::Form->new( $this->{session}, $this->{test_web},
@@ -461,8 +457,7 @@ HERE
 sub test_render_hidden {
     my $this = shift;
     $this->setForm();
-    my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
     my $text = $meta->text;
     my $formDef =
       Foswiki::Form->new( $this->{session}, $this->{test_web},
@@ -494,9 +489,9 @@ TOPIC
 
     Foswiki::Func::saveTopic( $web, $topic, undef, $rawtext );
 
-    my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
-    my $text = $meta->text;
-    my $res  = $meta->renderFormForDisplay();
+    my ($meta) = Foswiki::Func::readTopic( $web, $topic );
+    my $text   = $meta->text;
+    my $res    = $meta->renderFormForDisplay();
 
     $this->assert_html_equals( <<'HERE', $res );
 <span class='foswikiAlert'>

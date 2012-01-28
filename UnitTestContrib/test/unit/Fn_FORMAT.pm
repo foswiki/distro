@@ -1,10 +1,10 @@
-use strict;
-
 #test the FORMAT rendering operator extracted from legacy SEARCH
 
 package Fn_FORMAT;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
@@ -204,10 +204,11 @@ This text is fill in text which is there to ensure that the unique word below do
 %META:FIELD{name="Name" attributes="" title="Name" value="!AnnaAnchor"}%
 HERE
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        'FormattedSearchTopic1', $text );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'FormattedSearchTopic1' );
+    $topicObject->text($text);
     $topicObject->save();
+    $topicObject->finish();
 }
 
 sub test_same_topic_listed_twice {
@@ -326,14 +327,15 @@ sub test_validatepattern {
 sub test_formatOfLinks {
     my $this = shift;
 
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session},
-        $this->{test_web}, 'Item977', "---+ Apache
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'Item977' );
+    $topicObject->text( <<'HERE');
+---+ Apache
 
 Apache is the [[http://www.apache.org/httpd/][well known web server]].
-"
-    );
+HERE
     $topicObject->save();
+    $topicObject->finish();
 
     my $result =
       $this->{test_topicObject}

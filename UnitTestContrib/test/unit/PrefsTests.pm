@@ -1,9 +1,9 @@
 # Copyright (C) 2004 Crawford Currie
 
 package PrefsTests;
-require 5.006;
 use strict;
 use warnings;
+require 5.006;
 
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
@@ -40,8 +40,8 @@ sub set_up {
         my $webObject =
           Foswiki::Meta->new( $this->{session}, $TWiki::cfg{SystemWebName} );
         $webObject->populateNewWeb($original);
-        my $m =
-          Foswiki::Meta->load( $this->{session}, $original,
+        my ($m) =
+          Foswiki::Func::readTopic( $original,
             $TWiki::cfg{SitePrefsTopicName} );
         $m->saveAs( $TWiki::cfg{SystemWebName},
             $TWiki::cfg{SitePrefsTopicName} );
@@ -77,7 +77,7 @@ sub _set {
 
     my $user = $this->{session}->{user};
     $this->assert_not_null($user);
-    my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
     my $text = $topicObject->text() || '';
     $text =~ s/^\s*\* $type $pref =.*$//gm;
     $text .= "\n\t* $type $pref = $val\n";

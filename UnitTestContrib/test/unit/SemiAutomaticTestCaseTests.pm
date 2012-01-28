@@ -24,20 +24,21 @@ sub set_up {
     if ( !$this->{session}
         ->topicExists( $Foswiki::cfg{UsersWebName}, 'WikiGuest' ) )
     {
-        my $to = Foswiki::Meta->new(
-            $this->{session}, $Foswiki::cfg{UsersWebName},
-            'WikiGuest',      'This user is used in some testcases'
-        );
+        my ($to) =
+          Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, 'WikiGuest' );
+        $to->text('This user is used in some testcases');
         $to->save();
+        $to->finish();
     }
     if ( !$this->{session}
         ->topicExists( $Foswiki::cfg{UsersWebName}, 'UnknownUser' ) )
     {
-        my $to = Foswiki::Meta->new(
-            $this->{session}, $Foswiki::cfg{UsersWebName},
-            'UnknownUser',    'This user is used in some testcases'
-        );
+        my ($to) =
+          Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+            'UnknownUser' );
+        $to->text('This user is used in some testcases');
         $to->save();
+        $to->finish();
     }
 
     return;

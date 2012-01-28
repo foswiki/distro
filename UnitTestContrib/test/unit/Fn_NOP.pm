@@ -1,8 +1,8 @@
-use strict;
-
 # tests for the correct expansion of NOP
 
 package Fn_NOP;
+use strict;
+use warnings;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
@@ -17,8 +17,8 @@ sub new {
 
 sub test_NOP {
     my $this = shift;
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'WebHome' );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'WebHome' );
     my $result = $topicObject->expandMacros("%NOP%");
     $this->assert_equals( '<nop>', $result );
 

@@ -214,9 +214,8 @@ HERE
 
 # Test to ensure that the before and after save handlers are both called,
 # and that modifications made to the text are actaully written to the topic file
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "Tropic",
-        $text );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "Tropic" );
+    $meta->text($text);
 
     # Crawford changed from Meta->load to Meta->new (above) in Foswikirev:13781;
     # so I'm holding off on eradicating the above Foswiki::Meta usage until I

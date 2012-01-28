@@ -157,7 +157,7 @@ sub verify_checkin_attachment {
 
     # Save again and check version number goes up by 1
     $this->assert(
-        open( my $FILE, '>', "$Foswiki::cfg{TempfileDir}/$attachment" ) );
+        open( $FILE, '>', "$Foswiki::cfg{TempfileDir}/$attachment" ) );
     print $FILE "Test attachment\nAnd a second line";
     $this->assert( close($FILE) );
 
@@ -256,7 +256,7 @@ sub verify_releaselocksonsave {
     };
 
     # get the date
-    my $m = Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topic );
+    my ($m) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     my $t1 = $m->getRevisionInfo()->{date};
 
     # create rev 2 as TestUser1

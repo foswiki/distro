@@ -1,10 +1,10 @@
-use strict;
-
 # tests for the correct expansion of QUERY
 
 package Fn_QUERY;
+use strict;
+use warnings;
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki;
@@ -138,9 +138,9 @@ sub test_badQUERY {
 sub test_CAS {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
 %QUERY{ "BleaghForm.Wibble" }%
 %QUERY{ "Wibble" }%
 %QUERY{ "attachments.name" }%
@@ -159,14 +159,15 @@ Woo
 Woo
 whatsnot.gif,World.gif
 THIS
+    $topicObject->finish();
 }
 
 sub test_perl {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
 %QUERY{ "Wibble" style="perl" }%
 %QUERY{ "attachments.name" style="perl" }%
 %QUERY{ "attachments" style="perl" }%
@@ -185,14 +186,15 @@ PONG
 ['whatsnot.gif','World.gif']
 [{'version' => '1','date' => '1266942905','name' => 'whatsnot.gif','size' => '4586'},{'version' => '1','date' => '1266943219','name' => 'World.gif','size' => '2486'}]
 THIS
+    $topicObject->finish();
 }
 
 sub test_json {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
 [
 %QUERY{ "Wibble" style="json"}%,
 %QUERY{ "attachments.name" style="json" }%,
@@ -226,6 +228,7 @@ PONG
 ]
 THIS
     }
+    $topicObject->finish();
 }
 
 #style defaults to Simplified (ie style=default)
@@ -237,9 +240,9 @@ sub test_InvalidStyle {
         return;
     }
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
 %QUERY{ "BleaghForm.Wibble"  style="NoSuchStyle" }%
 %QUERY{ "Wibble"  style="NoSuchStyle" }%
 %QUERY{ "attachments.name"  style="NoSuchStyle" }%
@@ -258,14 +261,15 @@ Woo
 Woo
 whatsnot.gif,World.gif
 THIS
+    $topicObject->finish();
 }
 
 sub test_ref {
     my $this = shift;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
-        <<'SMELL');
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
 %META:FILEATTACHMENT{name="whatsnot.gif" date="1266942905" size="4586" version="1"}%
@@ -282,6 +286,7 @@ PONG
 BleaghForm
 whatsnot.gif,World.gif
 THIS
+    $topicObject->finish();
 }
 
 sub test_cfg {
