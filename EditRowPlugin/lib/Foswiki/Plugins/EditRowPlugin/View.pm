@@ -68,13 +68,16 @@ sub process {
     my $nlines = '';
     my $table  = undef;
 
-    # If this is set, the table isn't editable
-    my $displayOnly = 0;
-
     # Without change access, there is no way you can edit.
-    $displayOnly = 1 unless ( Foswiki::Func::checkAccessPermission(
-				  'CHANGE', Foswiki::Func::getWikiName(),
-				  $text, $topic, $web, $meta));
+    my $editIsDisabled = Foswiki::Func::checkAccessPermission(
+	'CHANGE', Foswiki::Func::getWikiName(),
+	$text, $topic, $web, $meta ) ? 0 : 1;
+
+    # If rest is in AuthScripts and we are not authenticated, cannot jsedit
+    my $jsIsDisabled = ( $Foswiki::cfg{AuthScripts} =~ /\brest\b/ &&
+			 ! Foswiki::Func::getContext()->{authenticated} );
+
+    # If we are denied change permission, cannot edit
 
     my $hasTables = 0; # set to true if there is at least one table
     my $needHead  = 0; # set to true if we need JS included
@@ -88,9 +91,10 @@ sub process {
         next unless ( UNIVERSAL::isa( $_, 'Foswiki::Plugins::EditRowPlugin::Table' ) );
 	my $line = '';
 	$table = $_;
-	$table->{editable} = !$displayOnly;
+	$table->{editable} = !$editIsDisabled;
+	$table->{attrs}->{js} = 'ignored' if $jsIsDisabled;
 	$active_table++;
-	if (  !$displayOnly
+	if (  $table->{editable}
 	      && $active_topic eq $urps->{erp_active_topic}
 	      && $urps->{erp_active_table} eq "${macro}_$active_table" ) {
 
@@ -149,7 +153,7 @@ sub process {
 	    $needHead = 1;
 	}
 	else {
-	    $line = $table->render({ with_controls => !$displayOnly });
+	    $line = $table->render({ with_controls => $table->{editable} });
 	}
 
 	$table->finish();
