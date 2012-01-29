@@ -15,6 +15,7 @@ use strict;
 use Error qw( :try );
 use Carp;
 use Unit::HTMLDiffer;
+use Unit::TestRunner();
 
 $Carp::Verbose = 1;
 
@@ -155,13 +156,18 @@ sub list_tests {
     # Generate a verify method for each combination of the different
     # fixture methods
     my @setups = ();
-    push( @tests,
-        _gen_verification_functions( \@setups, $suite, \@verifies, @fgs ) );
+    push(
+        @tests,
+        $this->_gen_verification_functions(
+            \@setups, $suite, \@verifies, @fgs
+        )
+    );
     $tests_in{$suite} = \@tests;
     return @tests;
 }
 
 sub _gen_verification_functions {
+    my $this     = shift;
     my $setups   = shift;
     my $suite    = shift;
     my $verifies = shift;
@@ -170,13 +176,18 @@ sub _gen_verification_functions {
     foreach my $setup_function (@$group) {
         push( @$setups, $setup_function );
         if ( scalar(@_) ) {
-            push( @tests,
-                _gen_verification_functions( $setups, $suite, $verifies, @_ ) );
+            push(
+                @tests,
+                $this->_gen_verification_functions(
+                    $setups, $suite, $verifies, @_
+                )
+            );
         }
         else {
             foreach my $verify (@$verifies) {
-                my $fn = $suite . '::' . $verify . '_' . join( '_', @$setups );
-                my $sup = join( ';', map { '$this->' . $_ . '()' } @$setups );
+                my $_fn  = $verify . '_' . join( '_', @$setups );
+                my $fn   = $suite . '::' . $_fn;
+                my $sup  = join( ';', map { '$this->' . $_ . '()' } @$setups );
                 my $code = <<SUB;
 *$fn = sub {
     my \$this = shift;
@@ -187,6 +198,7 @@ SUB
                 eval $code;
                 die "Couldn't make $code: $@" if $@;
                 push( @tests, $fn );
+                $this->{verify_permutations}{$fn} = $suite . '::' . $verify;
             }
         }
         pop(@$setups);
@@ -207,7 +219,7 @@ sub assert {
     ::TAP( $bool, $mess );    #lets hack in perl TAP output
     return 1 if $bool;
     $mess ||= "Assertion failed";
-    $mess = join( "\n", @{ $this->{annotations} } ) . "\n" . $mess;
+    $mess = join( "\n", $this->annotations() ) . "\n" . $mess;
     $mess = Carp::longmess($mess);
     die $mess;
 }
@@ -459,6 +471,18 @@ sub annotate {
 
 =begin TML
 
+---++ ObjectMethod annotations() -> @annotations
+
+=cut
+
+sub annotations {
+    my ($this) = @_;
+
+    return @{ $this->{annotations} || [] };
+}
+
+=begin TML
+
 ---++ ObjectMethod expect_failure($reason)
 
 Flag that the test is expected to fail in the current environment. This
@@ -471,7 +495,7 @@ expected.
 =cut
 
 sub expect_failure {
-    my ( $this, $reason ) = shift;
+    my ( $this, $reason ) = @_;
 
     if ($reason) {
         $this->annotate($reason);

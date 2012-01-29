@@ -59,6 +59,50 @@ sub new {
     return $self;
 }
 
+sub _test_with_deps {
+    my ( $this, $test, %skip_data ) = @_;
+
+}
+
+=begin TML
+
+---+++ ObjectMethod skip_test_if($test, @skip_data) -> $reason
+
+Skip =$test= if it is listed under a satisified condition key in =%skip_data=,
+return =$reason= string if the test should be skipped, undef otherwise.
+
+   * =$test=        - name of the test under consideration
+   * =@skip_data=   - array of hashrefs, containing two keys:
+      * =condition= - value is a hashref understood by =check_conditions_met=
+      * =tests=     - =$test => $reason= key/value pairs.
+
+=cut
+
+sub skip_test_if {
+    my ( $this, $test, @list ) = @_;
+    my $skip_reason;
+
+    if ( defined $test ) {
+        while ( !defined $skip_reason && scalar(@list) ) {
+            my $item = shift(@list);
+
+            ASSERT( ref( $item->{condition} ) eq 'HASH' );
+            if ( $this->check_conditions_met( %{ $item->{condition} } ) ) {
+                my $verify_name = $this->{verify_permutations}{$test};
+
+                if ($verify_name) {
+                    $skip_reason = $item->{tests}{$verify_name};
+                }
+                else {
+                    $skip_reason = $item->{tests}{$test};
+                }
+            }
+        }
+    }
+
+    return $skip_reason;
+}
+
 # Checks we only need to run once per test run
 sub _onceOnlyChecks {
     return if $didOnlyOnceChecks;
@@ -278,7 +322,9 @@ sub _check_dependency {
     if ( $what =~ /^([^,]+)\s*(,\s*([^,]+),([^,]+))?/ ) {
         require Foswiki::Configure::Dependency;
         my ( $module, $equality, $version ) = ( $1, $3, $4 );
-        print STDERR "_check_dependency, testing $module $equality $version\n"
+        print STDERR "_check_dependency, testing $module "
+          . ( $equality || '""' ) . ' '
+          . ( $version  || '""' ) . "\n"
           if TRACE;
         my $type = $module =~ /^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
         my $dep =
@@ -312,17 +358,8 @@ is used for example on platfroms where tests are known to fail e.g. case
 sensitivity of filenames on Win32.
 
    * =$reason=       - Optional. String with reason for why failure is expected.
-   * =%conditions=   - Optional. Hash of conditions for when the failure is
-                       expected. All conditions must be met. Keys:
-      * =using=      - String (or arrayref of strings) of named configuration
-                       profile(s), feature(s) or plugin(s) which must be in use
-                       for the failure to be expected. See =check_using()=
-      * =not_using=  - As with =using=, but inverted sense (expect failure when
-                       NOT using feature(s)/config(s)/plugin(s))
-      * =with_dep=   - String (or arrayref of strings) of module(s), optionally
-                       of specific version(s) which must be present for the
-                       failure to be expected. Same strings as each line in
-                       BuildContrib's DEPENDENCIES. See =check_dependency()=
+   * =%conditions=   - Optional. Conditions to be met for failure to be expected
+                       see =check_conditions_met()=
 
 Examples:
 <verbatim class="perl">
@@ -357,27 +394,7 @@ sub expect_failure {
     my $reason = scalar(@args) % 2 ? shift(@args) : undef;
 
     if ( scalar(@args) ) {
-        my %conditions = @args;
-        my $expect_failure;
-        foreach my $key ( keys %conditions ) {
-            $this->assert_matches( qr/^(using|not_using|with_dep)$/,
-                $key,
-                "Don't know how to apply condition $key in expect_failure()" );
-        }
-        if ( exists $conditions{using} ) {
-            $expect_failure ||= $this->check_using( $conditions{using} );
-        }
-        if ( exists $conditions{with_dep} ) {
-            $expect_failure ||=
-              $this->check_dependency( $conditions{with_dep} );
-        }
-        if ( exists $conditions{not_using} ) {
-            $expect_failure =
-              $this->check_using( $conditions{not_using} )
-              ? 0
-              : $expect_failure;
-        }
-        if ($expect_failure) {
+        if ( $this->check_conditions_met(@args) ) {
             $this->SUPER::expect_failure($reason);
         }
     }
@@ -386,6 +403,58 @@ sub expect_failure {
     }
 
     return;
+}
+
+=begin TML
+
+---++ ObjectMethod check_conditions_met(%conditions) -> $boolean
+
+Check that ALL =%conditions= are met in the environment under test.
+
+   * =%conditions=   - Hash of conditions to check. All must be met. Keys:
+      * =using=      - String (or arrayref of strings) of named configuration
+                       profile(s), feature(s) or plugin(s) which must be in use
+                       for the failure to be expected. See =check_using()=
+      * =not_using=  - As with =using=, but inverted sense (expect failure when
+                       NOT using feature(s)/config(s)/plugin(s))
+      * =with_dep=   - String (or arrayref of strings) of module(s), optionally
+                       of specific version(s) which must be present for the
+                       failure to be expected. Same strings as each line in
+                       BuildContrib's DEPENDENCIES. See =check_dependency()=
+      * =without_dep=  - opposite of =with_dep=
+
+=cut
+
+sub check_conditions_met {
+    my ( $this, %conditions ) = @_;
+    my $conditions_met;
+
+    foreach my $key ( keys %conditions ) {
+        $this->assert_matches( qr/^(using|not_using|with_dep|without_dep)$/,
+            $key, "Don't know how to apply condition $key" );
+    }
+    if ( exists $conditions{using} ) {
+        $conditions_met = $this->check_using( $conditions{using} ) ? 1 : 0;
+    }
+    if ( ( !defined $conditions_met || $conditions_met )
+        && exists $conditions{with_dep} )
+    {
+        $conditions_met =
+          $this->check_dependency( $conditions{with_dep} ) ? 1 : 0;
+    }
+    if ( ( !defined $conditions_met || $conditions_met )
+        && exists $conditions{without_dep} )
+    {
+        $conditions_met =
+          $this->check_dependency( $conditions{without_dep} ) ? 0 : 1;
+    }
+    if ( ( !defined $conditions_met || $conditions_met )
+        && exists $conditions{not_using} )
+    {
+        $conditions_met = $this->check_using( $conditions{not_using} ) ? 0 : 1;
+    }
+
+    return $conditions_met;
 }
 
 # Override in subclasses to change the config on a per-testcase basis
