@@ -256,6 +256,14 @@ sub new {
     return $this;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->check_dependency('Foswiki,<,1.2')
+      ? 'Foswiki 1.1 has no Foswiki::Address'
+      : undef;
+}
+
 sub set_up {
     my ($this) = @_;
 
@@ -355,8 +363,6 @@ HERE
 sub test_roundtrips {
     my ($this) = @_;
 
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     $this->gendata( \%test_roundtrip_range );
     my %test_range = $this->gen_roundtrip_range_tests( \%test_roundtrip_range );
 
@@ -391,8 +397,6 @@ sub gen_testspec_fns {
 
         no strict 'refs';
         *{$fn} = sub {
-            $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-                with_dep => 'Foswiki,<,1.2' );
             my $addrObj = Foswiki::Address->new( %{ $test->{atoms} } );
             my $parsedaddrObj =
               Foswiki::Address->new( string => $test->{string} );
@@ -512,8 +516,6 @@ sub _newAddrTestingWebpathParam {
 
 sub test_meta1 {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor = (
         web     => "$test_web/SubWeb",
         topic   => 'Topic',
@@ -535,8 +537,6 @@ sub test_meta1 {
 
 sub test_meta2 {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor = (
         web     => "$test_web/SubWeb",
         topic   => 'Topic',
@@ -567,8 +567,6 @@ sub test_meta2 {
 
 sub test_meta3 {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor = (
         web     => "$test_web/SubWeb",
         topic   => 'Topic',
@@ -591,8 +589,6 @@ sub test_meta3 {
 
 sub test_meta4 {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor = (
         web     => "$test_web/SubWeb",
         topic   => 'Topic',
@@ -615,8 +611,6 @@ sub test_meta4 {
 
 sub test_chain_new_web {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my $addrObj = Foswiki::Address->new( web => 'Main', topic => 'WebHome' );
     my $web = Foswiki::Address->new( web => 'Main', topic => 'WebHome' )->web();
 
@@ -662,8 +656,6 @@ sub test_timing_normaliseWebTopicName_default {
 
 sub test_timing_normaliseWebTopicName_equiv {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my $addr;
     my $benchmark = timeit(
         10000,
@@ -682,8 +674,6 @@ sub test_timing_normaliseWebTopicName_equiv {
 
 sub test_timing_normaliseWebTopicName_equiv_default {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my $addr;
     my $benchmark = timeit(
         10000,
@@ -703,8 +693,6 @@ sub test_timing_normaliseWebTopicName_equiv_default {
 
 sub test_timing_creation {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my $addr;
     my $benchmark = timeit(
         100000,
@@ -745,8 +733,6 @@ sub test_timing_hashref_creation {
 
 sub test_timing_reparse_default {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my $addr =
       Foswiki::Address->new( topic => 'Topic', webpath => [qw(Web SubWeb)] );
     my $benchmark = timeit(
@@ -767,8 +753,6 @@ sub test_timing_reparse_default {
 
 sub test_timing_reparse {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my $addr =
       Foswiki::Address->new( topic => 'Topic', webpath => [qw(Web SubWeb)] );
     my $benchmark = timeit(
@@ -799,8 +783,6 @@ sub test_timing_reparse {
 
 sub test_attachment_constructor_tompath {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor = (
         web     => "$test_web/SubWeb",
         topic   => 'Topic',
@@ -822,8 +804,6 @@ sub test_attachment_constructor_tompath {
 
 sub test_attachment_constructor {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor = (
         web        => "$test_web/SubWeb",
         topic      => 'Topic',
@@ -845,8 +825,6 @@ sub test_attachment_constructor {
 
 sub test_attachment_getsetters {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor = (
         web   => "$test_web/SubWeb",
         topic => 'Topic',
@@ -875,8 +853,6 @@ sub test_attachment_getsetters {
 
 sub test_root {
     my ($this) = @_;
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Address',
-        with_dep => 'Foswiki,<,1.2' );
     my %constructor   = ( root => 1 );
     my $addrObj       = Foswiki::Address->new(%constructor);
     my $parsedaddrObj = Foswiki::Address->new( string => "/" );

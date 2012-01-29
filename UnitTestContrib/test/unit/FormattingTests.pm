@@ -114,6 +114,21 @@ sub new {
     return $self;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'FormattingTests::test_lists' =>
+                  'Post-Foswiki 1.1.x TML syntax',
+            }
+        }
+    );
+}
+
 sub set_up {
     my $this = shift;
 
@@ -1311,8 +1326,6 @@ None
    : Sunny
 Pleasant
 ACTUAL
-    $this->expect_failure( 'Post-Foswiki 1.1.x TML syntax',
-        with_dep => 'Foswiki,<,1.2' );
     $this->do_test( $expected, $actual );
 }
 

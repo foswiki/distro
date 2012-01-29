@@ -1661,17 +1661,10 @@ sub verify_formQuery3 {
 sub verify_formQuery4 {
     my $this = shift;
 
-    if (
-            ( $Foswiki::cfg{OS} eq 'WINDOWS' )
-        and ( $Foswiki::cfg{DetailedOS} ne 'cygwin' )
-        and ( $Foswiki::cfg{Store}{SearchAlgorithm} eq
-            'Foswiki::Store::SearchAlgorithms::Forking' )
-      )
-    {
-        $this->expect_failure();
-        $this->annotate(
-            "THIS IS WINDOWS & grep; Test will fail because of Item1072");
-    }
+    $this->expect_failure(
+        "THIS IS WINDOWS & grep; Test will fail because of Item1072",
+        using => [ 'PlatformWindows', 'SearchAlgorithmForking' ]
+    );
 
     $this->set_up_for_queries();
 
@@ -1686,17 +1679,10 @@ sub verify_formQuery4 {
 sub verify_formQuery5 {
     my $this = shift;
 
-    if (
-            ( $Foswiki::cfg{OS} eq 'WINDOWS' )
-        and ( $Foswiki::cfg{DetailedOS} ne 'cygwin' )
-        and ( $Foswiki::cfg{Store}{SearchAlgorithm} eq
-            'Foswiki::Store::SearchAlgorithms::Forking' )
-      )
-    {
-        $this->expect_failure();
-        $this->annotate(
-            "THIS IS WINDOWS & grep; Test will fail because of Item1072");
-    }
+    $this->expect_failure(
+        "THIS IS WINDOWS & grep; Test will fail because of Item1072",
+        using => [ 'PlatformWindows', 'SearchAlgorithmForking' ]
+    );
 
     $this->set_up_for_queries();
 

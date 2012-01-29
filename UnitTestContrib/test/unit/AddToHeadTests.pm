@@ -15,6 +15,14 @@ sub new {
     return $self;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->check_dependency('Foswiki,>=,1.1')
+      ? 'Feature removed from Foswiki 1.1+'
+      : undef;
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
