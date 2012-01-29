@@ -8,7 +8,6 @@ use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki          ();
-use Foswiki::Address ();
 use Foswiki::Meta    ();
 use Foswiki::Plugins ();
 use Foswiki::Configure::Dependency();
@@ -54,6 +53,14 @@ my $MrOrange;
 my $MrGreen;
 my $MrYellow;
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->check_dependency('Foswiki,<,1.2')
+      ? 'Foswiki 1.1 has no Foswiki::Access'
+      : undef;
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
@@ -82,8 +89,6 @@ sub set_up {
 THIS
     $topicObject->save();
     $topicObject->finish();
-    $this->expect_failure( 'Foswiki 1.1 has no Foswiki::Access',
-        with_dep => 'Foswiki,<,1.2' );
 
     return;
 }

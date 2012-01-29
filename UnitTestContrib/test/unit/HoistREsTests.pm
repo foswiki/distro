@@ -11,6 +11,21 @@ use Foswiki::Query::HoistREs;
 use Foswiki::Query::Node;
 use Foswiki::Meta;
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'HoistREsTests::test_hoist_mixed_or' =>
+                  'n-ary query nodes are Foswiki 1.2+ only',
+            }
+        }
+    );
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
@@ -532,8 +547,6 @@ sub test_hoist_mixed_or {
     my $query       = $queryParser->parse($s);
 
     my $filter = $this->_hoist($query);
-    $this->expect_failure( 'n-ary query nodes are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->assert_num_equals( 0, $this->_getFilterNumElements($filter) );
 }
 

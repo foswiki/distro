@@ -18,6 +18,28 @@ use Foswiki::Configure::Valuer         ();
 use Foswiki::Configure::UI             ();
 use Foswiki::Configure::GlobalControls ();
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { without_dep => 'Archive::Tar' },
+            tests     => {
+                'ConfigureTests::test_Util_createArchive_perlTar' =>
+                  'Missing Archive::Tar'
+            }
+        },
+        {
+            condition => { without_dep => 'Archive::Zip' },
+            tests     => {
+                'ConfigureTests::test_Util_createArchive_perlZip' =>
+                  'Missing Archive::Zip'
+            }
+        }
+    );
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
@@ -1744,12 +1766,12 @@ sub test_Util_createArchive_perlTar {
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    eval { require Archive::Tar; 1; } or do {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure("CANNOT RUN test for tar archive:  $mess");
-        $this->assert(0);
-    };
+    #eval { require Archive::Tar; 1; } or do {
+    #    my $mess = $@;
+    #    $mess =~ s/\(\@INC contains:.*$//s;
+    #    $this->expect_failure("CANNOT RUN test for tar archive:  $mess");
+    #    $this->assert(0);
+    #};
 
     ( $file, $rslt ) =
       Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',
@@ -1787,12 +1809,12 @@ sub test_Util_createArchive_perlZip {
     mkpath("$tempdir/$extbkup");
     _makePackage( "$tempdir/$extbkup", $extension );
 
-    eval { require Archive::Zip; 1; } or do {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure("CANNOT RUN test for zip archive:  $mess");
-        $this->assert(0);
-    };
+    #eval { require Archive::Zip; 1; } or do {
+    #    my $mess = $@;
+    #    $mess =~ s/\(\@INC contains:.*$//s;
+    #    $this->expect_failure("CANNOT RUN test for zip archive:  $mess");
+    #    $this->assert(0);
+    #};
 
     ( $file, $rslt ) =
       Foswiki::Configure::Util::createArchive( "$extbkup", "$tempdir", '0',

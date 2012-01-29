@@ -199,18 +199,51 @@ sub doTests {
     return;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { without_dep => 'Digest::SHA' },
+            tests     => {
+                'PasswordTests::test_disabled_entry' => 'Missing Digest::SHA',
+                'PasswordTests::test_htpasswd_sha1'  => 'Missing Digest::SHA',
+                'PasswordTests::test_htpasswd_htdigest_preserves_email' =>
+                  'Missing Digest::SHA',
+                'PasswordTests::test_htpasswd_auto' => 'Missing Digest::SHA',
+            }
+        },
+        {
+            condition => { without_dep => 'Crypt::PasswdMD5' },
+            tests     => {
+                'PasswordTests::test_disabled_entry' =>
+                  'Missing Crypt::PasswdMD5',
+                'PasswordTests::test_htpasswd_apache_md5' =>
+                  'Missing Crypt::PasswdMD5',
+                'PasswordTests::test_htpasswd_auto' =>
+                  'Missing Crypt::PasswdMD5',
+                'PasswordTests::test_ApacheHtpasswdUser_md5' =>
+                  'Missing Crypt::PasswdMD5',
+                'PasswordTests::test_htpasswd_htdigest_preserves_email' =>
+                  'Missing Crypt::PasswdMD5',
+            }
+        }
+    );
+}
+
 sub test_disabled_entry {
     my $this = shift;
 
-    foreach my $m (qw( Digest::SHA Crypt::PasswdMD5 )) {
-
-        if ( !eval "require $m; 1;" ) {
-            my $mess = $@;
-            $mess =~ s/\(\@INC contains:.*$//s;
-            $this->expect_failure();
-            $this->annotate("disabled_entry TESTS WILL FAIL: missing $m");
-        }
-    }
+    #    foreach my $m (qw( Digest::SHA Crypt::PasswdMD5 )) {
+    #
+    #        if ( !eval "require $m; 1;" ) {
+    #            my $mess = $@;
+    #            $mess =~ s/\(\@INC contains:.*$//s;
+    #            $this->expect_failure();
+    #            $this->annotate("disabled_entry TESTS WILL FAIL: missing $m");
+    #        }
+    #    }
 
     $Foswiki::cfg{AuthRealm} = 'MyNewRealmm';
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
@@ -299,15 +332,15 @@ DONE
 sub test_htpasswd_auto {
     my $this = shift;
 
-    foreach my $m (qw( Digest::SHA Crypt::PasswdMD5 )) {
-
-        if ( !eval "require $m; 1;" ) {
-            my $mess = $@;
-            $mess =~ s/\(\@INC contains:.*$//s;
-            $this->expect_failure();
-            $this->annotate("AUTO TESTS WILL FAIL: missing $m");
-        }
-    }
+    #foreach my $m (qw( Digest::SHA Crypt::PasswdMD5 )) {
+    #
+    #        if ( !eval "require $m; 1;" ) {
+    #            my $mess = $@;
+    #            $mess =~ s/\(\@INC contains:.*$//s;
+    #            $this->expect_failure();
+    #            $this->annotate("AUTO TESTS WILL FAIL: missing $m");
+    #        }
+    #    }
 
     $Foswiki::cfg{AuthRealm} = 'MyNewRealmm';
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
@@ -528,12 +561,12 @@ sub test_htpasswd_crypt_crypt {
 sub test_htpasswd_sha1 {
     my $this = shift;
 
-    if ( !eval 'require Digest::SHA; 1;' ) {
-        my $mess = $@;
-        $mess =~ s/\(\@INC contains:.*$//s;
-        $this->expect_failure();
-        $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
-    }
+    #if ( !eval 'require Digest::SHA; 1;' ) {
+    #    my $mess = $@;
+    #    $mess =~ s/\(\@INC contains:.*$//s;
+    #    $this->expect_failure();
+    #    $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
+    #}
 
     $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
     $Foswiki::cfg{Htpasswd}{Encoding}   = 'sha1';

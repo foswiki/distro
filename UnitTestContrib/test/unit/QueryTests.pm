@@ -30,6 +30,51 @@ sub new {
     return $self;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'QueryTests::verify_atoms_empty' =>
+                  'Empty expressions are broken in Foswiki 1.1',
+                'QueryTests::verify_meta_dot_createinfo' =>
+                  'META:CREATEINFO is introduced in Foswiki 1.2',
+                'QueryTests::verify_array_integer_index' =>
+                  'Multiple array indices are introduced in Foswiki 1.2',
+                'QueryTests::verify_boolean_uop_list' =>
+                  '() lists are introduced in Foswiki 1.2',
+                'QueryTests::verify_string_uops_list' =>
+                  '() lists are introduced in Foswiki 1.2',
+                'QueryTests::verify_numeric_uops_post11' =>
+                  'Numeric ops are introduced in Foswiki 1.2',
+                'QueryTests::verify_string_bops_arithmetic' =>
+'Arithmetic operations on strings are introduced in Foswiki 1.2',
+                'QueryTests::verify_numeric_bops' =>
+                  'Numeric ops are introduced in Foswiki 1.2',
+                'QueryTests::verify_boolean_bop_in' =>
+                  'IN operator is introduced in Foswiki 1.2',
+                'QueryTests::verify_versions_on_other_topic' =>
+                  'versions queries are introduced in Foswiki 1.2',
+                'QueryTests::verify_versions_on_other_topic_fail' =>
+                  'versions queries are introduced in Foswiki 1.2',
+                'QueryTests::verify_versions_out_of_range' =>
+                  'versions queries are introduced in Foswiki 1.2',
+                'QueryTests::verify_versions_on_cur_topic' =>
+                  'versions queries are introduced in Foswiki 1.2',
+                'QueryTests::test_maths test_maths' =>
+                  'Numeric ops are introduced in Foswiki 1.2',
+                'QueryTests::verify_form_name_context' =>
+                  'Bareword "FooForm" semantics were changed in Foswiki 1.2',
+                'QueryTests::test_maths' =>
+'Arithmetic operations on strings are introduced in Foswiki 1.2',
+            }
+        }
+    );
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
@@ -303,8 +348,6 @@ sub verify_atoms {
 # by PH in Item11456.
 sub verify_atoms_empty {
     my $this = shift;
-    $this->expect_failure( 'Empty expressions are broken in Foswiki 1.1.x',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "",   eval => [], simpler => '()' );
     $this->check( "()", eval => [], simpler => '()' );
 }
@@ -387,8 +430,6 @@ sub verify_meta_dot_createinfo {
       Foswiki::Func::readTopic( $this->{test_web}, 'AnotherTopic' );
     my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
 
-    $this->expect_failure( 'META:CREATEINFO is Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $anotherTopic->getRev1Info('createdate');
     my $anotherTopicInfoRev1 = $anotherTopic->{_getRev1Info}->{rev1info};
     $this->check(
@@ -415,8 +456,6 @@ sub verify_meta_dot_createinfo {
 
 sub verify_array_integer_index {
     my $this = shift;
-    $this->expect_failure( 'Multiple array indices are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
 
  #    $this->check( "preferences[0].name", eval => 'Red' );
  #    $this->check( "preferences[1]", eval => { name => 'Green', value => 1 } );
@@ -475,8 +514,6 @@ sub verify_boolean_uops {
 
 sub verify_boolean_uop_list {
     my $this = shift;
-    $this->expect_failure( '() lists are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "not ()", eval => [], simpler => '()' );
 }
 
@@ -506,8 +543,6 @@ sub verify_string_uops {
 
 sub verify_string_uops_list {
     my $this = shift;
-    $this->expect_failure( '() lists are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "uc ()",     eval => [], simpler => '()' );
     $this->check( "lc ()",     eval => [], simpler => '()' );
     $this->check( "length ()", eval => 0,  simpler => 0 );
@@ -515,8 +550,6 @@ sub verify_string_uops_list {
 
 sub verify_numeric_uops_post11 {
     my $this = shift;
-    $this->expect_failure( 'Numeric ops are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "-()", eval => [], simpler => "()" );
     $this->check( "-1",  eval => -1, simpler => -1 );
     $this->check( "--1", eval => 1,  simpler => 1 );
@@ -593,9 +626,6 @@ sub verify_string_bops {
 
 sub verify_string_bops_arithmetic {
     my $this = shift;
-    $this->expect_failure(
-        'Arithmetic operations on strings are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "string+notafield", eval => 'String' );
     $this->check(
         "'string'+'string'",
@@ -628,8 +658,6 @@ sub verify_boolean_corner_cases {
 
 sub verify_numeric_bops {
     my $this = shift;
-    $this->expect_failure( 'Numeric ops are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "1+1", eval => 2, simpler => 2 );
     $this->check( "1+notafield",                 eval => 1 );
     $this->check( "2-1",                         eval => 1, simpler => 1 );
@@ -713,8 +741,6 @@ sub verify_boolean_bops {
 sub verify_boolean_bop_in {
     my $this = shift;
 
-    $this->expect_failure( 'IN operator is Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "1 in 1",       eval => 1, simpler => 1 );
     $this->check( "1 in 0",       eval => 0, simpler => 0 );
     $this->check( "0 in 1",       eval => 0, simpler => 0 );
@@ -803,8 +829,6 @@ sub verify_ref {
 
 sub verify_versions_on_other_topic {
     my $this = shift;
-    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "'AnotherTopic'/versions[0].text",
         eval => "Superintelligent shades of the colour blue" );
     $this->check( "'AnotherTopic'/versions[2].text",  eval => "Quantum" );
@@ -835,9 +859,6 @@ sub verify_versions_on_other_topic {
 sub verify_versions_on_other_topic_fail {
     my $this = shift;
 
-    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
-
     # These aren't working :( - PH
     $this->expect_failure(
         'Item10121: OP_ref does\'nt play nice with versions queries');
@@ -849,16 +870,12 @@ sub verify_versions_on_other_topic_fail {
 
 sub verify_versions_out_of_range {
     my $this = shift;
-    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "'AnotherTopic'/versions[-4]", eval => undef, simpler => 0 );
     $this->check( "'AnotherTopic'/versions[4]",  eval => undef, simpler => 0 );
 }
 
 sub verify_versions_on_cur_topic {
     my $this = shift;
-    $this->expect_failure( 'versions queries are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "versions[0].text", eval => "Green ideas sleep furiously" );
     $this->check( "versions[1].text", eval => "Quantum" );
     $this->check( "versions[info.version=1].text", eval => "Quantum" );
@@ -912,7 +929,7 @@ sub test_match_lc_field {
     my $this = shift;
 
     $this->expect_failure(
-"This test should be made to work on Foswiki 1.1, but it doesn't, Item11456",
+'This test should be made to work on Foswiki 1.1, but it doesn\'t, Item11456',
         with_dep => 'Foswiki,<,1.2'
     );
     $this->check(
@@ -954,9 +971,7 @@ sub test_match_lc_field_simple {
 }
 
 sub test_maths {
-    my $this = shift;
-    $this->expect_failure( 'Numeric ops are Foswiki 1.2+ only',
-        with_dep => 'Foswiki,<,1.2' );
+    my $this        = shift;
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse("1+2*-3+4 div 2 + div");
     $this->assert_equals( "+{+{+{1,*{2,-{3}}},div{4,2}},div}",
@@ -1066,9 +1081,6 @@ sub verify_long_or {
 # Crawford added this test in Item10520, expect_fail for 1.1 added by PH
 sub verify_form_name_context {
     my $this = shift;
-    $this->expect_failure(
-        'bareword "FooForm" semantics have changed since Foswiki 1.1',
-        with_dep => 'Foswiki,<,1.2' );
     $this->check( "TestForm", eval => undef );
     $this->check( "TestForm[title='Number']",
         eval => [ { value => 99, name => 'number', title => 'Number' } ] );
