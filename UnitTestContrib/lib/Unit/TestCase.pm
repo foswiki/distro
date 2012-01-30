@@ -173,7 +173,7 @@ sub _gen_verification_functions {
     my $verifies = shift;
     my $group    = shift;
     my @tests;
-    foreach my $setup_function (@$group) {
+    foreach my $setup_function ( @{$group} ) {
         push( @$setups, $setup_function );
         if ( scalar(@_) ) {
             push(
@@ -184,24 +184,26 @@ sub _gen_verification_functions {
             );
         }
         else {
-            foreach my $verify (@$verifies) {
-                my $_fn  = $verify . '_' . join( '_', @$setups );
-                my $fn   = $suite . '::' . $_fn;
-                my $sup  = join( ';', map { '$this->' . $_ . '()' } @$setups );
-                my $code = <<SUB;
+            foreach my $verify ( @{$verifies} ) {
+                my $_fn = $verify . '_' . join( '_', @$setups );
+                my $fn  = $suite . '::' . $_fn;
+                my $sup = join( ';', map { '$this->' . $_ . '()' } @{$setups} );
+                my $code = <<"SUB";
 *$fn = sub {
     my \$this = shift;
     $sup;
     \$this->$verify();
-}
+};
+
+1;
 SUB
-                eval $code;
-                die "Couldn't make $code: $@" if $@;
+
+                die "Couldn't make $code: $@" if ( !eval $code );
                 push( @tests, $fn );
                 $this->{verify_permutations}{$fn} = $suite . '::' . $verify;
             }
         }
-        pop(@$setups);
+        pop( @{$setups} );
     }
     return @tests;
 }
