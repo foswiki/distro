@@ -632,6 +632,18 @@ sub compareHTML_TML {
     $this->assert_tml_equals( $args->{tml}, $actualTml, $args->{name} );
 }
 
+# Item11440 - dummy test, do not remove. skip() is never called if list_tests()
+# returns nothing (why bother skipping zero tests), and this is the case with
+# the (default) empty $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}
+#
+# We would rather a bogus dummy test which gives a meaningful skip annotation
+# in the result summary, than to silently skip a suite which contains zero tests
+sub test_nothing {
+    my ($this) = @_;
+
+    return;
+}
+
 1;
 
 __END__
