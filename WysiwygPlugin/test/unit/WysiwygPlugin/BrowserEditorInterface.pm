@@ -55,7 +55,7 @@ sub init {
           Foswiki::Func::readTopic( $this->{_test}->{test_web},
             $Foswiki::cfg{WebPrefsTopicName} );
         $topicObject->text( <<"HERE");
-   * Set SKIN=pattern
+   * Set SKIN = pattern
    * Set ALLOWTOPICCHANGE=$this->{_test}->{test_user_wikiname}
 HERE
         $topicObject->save();
