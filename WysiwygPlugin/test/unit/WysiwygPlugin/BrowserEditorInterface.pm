@@ -1,8 +1,7 @@
 # See bottom of file for license and copyright information
+package BrowserEditorInterface;
 use strict;
 use warnings;
-
-package BrowserEditorInterface;
 
 # This package encapsulates the interface to the wysiwyg editor
 
@@ -53,16 +52,15 @@ sub init {
     print STDERR "BrowserEditorInterface::init()\n" if _DEBUG;
 
     if ( not $this->{_initWebPreferences} ) {
-        my $topicObject = Foswiki::Meta->new(
-            $this->{_test}->{session},
-            $this->{_test}->{test_web},
-            $Foswiki::cfg{WebPrefsTopicName},
-            <<"HERE"
+        my ($topicObject) =
+          Foswiki::Func::readTopic( $this->{_test}->{test_web},
+            $Foswiki::cfg{WebPrefsTopicName} );
+        $topicObject->text( <<"HERE");
    * Set SKIN = pattern
-   * Set ALLOWTOPICCHANGE = $this->{_test}->{test_user_wikiname}
+   * Set ALLOWTOPICCHANGE=$this->{_test}->{test_user_wikiname}
 HERE
-        );
         $topicObject->save();
+        $topicObject->finish();
 
         $this->{_initWebPreferences} = 1;
     }
@@ -351,7 +349,7 @@ sub selectWysiwygMode {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

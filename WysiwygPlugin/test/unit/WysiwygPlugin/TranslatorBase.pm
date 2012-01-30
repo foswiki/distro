@@ -62,26 +62,26 @@ sub gen_compare_tests {
         if ( ( $mask & $datum->{exec} ) & $TML2HTML ) {
             my $fn = $class . '::' . $method . 'TML2HTML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareTML_HTML($datum) };
+            *{$fn} = sub { my $this = shift; $this->compareTML_HTML($datum) };
             use strict 'refs';
         }
         if ( ( $mask & $datum->{exec} ) & $HTML2TML ) {
             my $fn = $class . '::' . $method . 'HTML2TML_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareHTML_TML($datum) };
+            *{$fn} = sub { my $this = shift; $this->compareHTML_TML($datum) };
             use strict 'refs';
         }
         if ( ( $mask & $datum->{exec} ) & $ROUNDTRIP ) {
             my $fn = $class . '::' . $method . 'ROUNDTRIP_' . $datum->{name};
             no strict 'refs';
-            *$fn = sub { my $this = shift; $this->compareRoundTrip($datum) };
+            *{$fn} = sub { my $this = shift; $this->compareRoundTrip($datum) };
             use strict 'refs';
         }
         if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
             my $fn =
               $class . '::' . $method . 'CANNOTWYSIWYG_' . $datum->{name};
             no strict 'refs';
-            *$fn =
+            *{$fn} =
               sub { my $this = shift; $this->compareNotWysiwygEditable($datum) };
             use strict 'refs';
         }
@@ -170,7 +170,7 @@ sub assert_tml_not_equals {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
