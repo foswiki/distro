@@ -1417,13 +1417,13 @@ hijk',
         # when the site charset is utf8
         CharSet => 'cp1251',
         topic   => "Test" . (
-            $Foswiki::cfg{Site}{CharSet} =~ /utf-?8/i
+            ( $Foswiki::cfg{Site}{CharSet} || '' ) =~ /utf-?8/i
             ? Encode::encode( 'utf8', "\x0419" )    # same as cp1251's 0xc9
             : "\xc9"
         ),
         html => "<p><img src='$Foswiki::cfg{PubUrlPath}/Current/Test"
           . (
-            $Foswiki::cfg{Site}{CharSet} =~ /utf-?8/i
+            ( $Foswiki::cfg{Site}{CharSet} || '' ) =~ /utf-?8/i
             ? Encode::encode( 'utf8', "\x0419" )
             : "\xc9"
           )
