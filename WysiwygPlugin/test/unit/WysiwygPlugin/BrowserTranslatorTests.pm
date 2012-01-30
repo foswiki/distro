@@ -258,10 +258,10 @@ HERE
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest2',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest2',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 ---+++ Some test headline.
 
 Below is what could be an example of C code
@@ -286,10 +286,10 @@ if (imgs->labelsize_max) {
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest3',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest3',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 These two options are defined like this
 
 | *Option* | *Function* |
@@ -320,10 +320,10 @@ and in the config code you find this
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest4',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest4',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 ---+++ More code right after headline
 
 <verbatim>
@@ -343,10 +343,10 @@ char *mystrcpy(char *to, const char *from)
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest5',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest5',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 ---+++ Some stuff protected by literal
 
 | This is a two row table |
@@ -374,10 +374,10 @@ The text below is yellow <literal>
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest6',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest6',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 
 ---+++ Plain text
 
@@ -416,10 +416,10 @@ Trala
 HERE
     },
     {
-        name => 'KennethsNewLineEatingTest7',
-        exec => $TranslatorBase::ROUNDTRIP,
+        name           => 'KennethsNewLineEatingTest7',
+        exec           => $TranslatorBase::ROUNDTRIP,
         expect_failure => 1,
-        tml  => <<HERE,
+        tml            => <<HERE,
 
 ---+++ Literal after header
 
@@ -470,7 +470,7 @@ sub _init {
     my $this = shift;
     my %args = @_;
 
-    if ($args{expect_failure}) {
+    if ( $args{expect_failure} ) {
         $this->expect_failure();
     }
     $this->{editor}->init();
@@ -559,7 +559,7 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
 sub compareTML_HTML {
     my ( $this, $args ) = @_;
 
-    $this->_init(expect_failure => $args->{expect_failure});
+    $this->_init( expect_failure => $args->{expect_failure} );
 
     $this->{editor}->selectWikitextMode();
     $this->{editor}->setWikitextEditorContent( $args->{tml} );
@@ -589,7 +589,7 @@ sub compareRoundTrip {
     my $this = shift;
     my $args = shift;
 
-    $this->_init(expect_failure => $args->{expect_failure});
+    $this->_init( expect_failure => $args->{expect_failure} );
 
     $this->{editor}->selectWikitextMode();
     $this->{editor}->setWikitextEditorContent( $args->{tml} );
@@ -607,7 +607,7 @@ sub compareRoundTrip {
 sub compareHTML_TML {
     my ( $this, $args ) = @_;
 
-    $this->_init(expect_failure => $args->{expect_failure});
+    $this->_init( expect_failure => $args->{expect_failure} );
 
     $this->{editor}->selectWysiwygMode();
     $this->{editor}->setWysiwygEditorContent( $args->{html} );
