@@ -32,7 +32,7 @@ use Foswiki::Plugins::WysiwygPlugin::Constants();
 # finaltml => optional expected tml from translating html. If not there,
 # will use tml. Only use where round-trip can't be closed because
 # we are testing deprecated syntax.
-# expect_failure => boolean, for tests that don't pass yet.
+# expect_failure => $reason, for tests that don't pass yet.
 my $data = [
     {
         exec => $TranslatorBase::ROUNDTRIP | $TranslatorBase::HTML2TML |
@@ -253,10 +253,9 @@ HERE
 HERE
     },
     {
-        name           => 'KennethsNewLineEatingTest2',
-        exec           => $TranslatorBase::ROUNDTRIP,
-        expect_failure => 1,
-        tml            => <<HERE,
+        name => 'KennethsNewLineEatingTest2',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
 ---+++ Some test headline.
 
 Below is what could be an example of C code
@@ -281,10 +280,9 @@ if (imgs->labelsize_max) {
 HERE
     },
     {
-        name           => 'KennethsNewLineEatingTest3',
-        exec           => $TranslatorBase::ROUNDTRIP,
-        expect_failure => 1,
-        tml            => <<HERE,
+        name => 'KennethsNewLineEatingTest3',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
 These two options are defined like this
 
 | *Option* | *Function* |
@@ -315,10 +313,9 @@ and in the config code you find this
 HERE
     },
     {
-        name           => 'KennethsNewLineEatingTest4',
-        exec           => $TranslatorBase::ROUNDTRIP,
-        expect_failure => 1,
-        tml            => <<HERE,
+        name => 'KennethsNewLineEatingTest4',
+        exec => $TranslatorBase::ROUNDTRIP,
+        tml  => <<HERE,
 ---+++ More code right after headline
 
 <verbatim>
@@ -340,7 +337,7 @@ HERE
     {
         name           => 'KennethsNewLineEatingTest5',
         exec           => $TranslatorBase::ROUNDTRIP,
-        expect_failure => 1,
+        expect_failure => 'TODO: Item2174 reintroducing Item5702?',
         tml            => <<HERE,
 ---+++ Some stuff protected by literal
 
@@ -371,7 +368,7 @@ HERE
     {
         name           => 'KennethsNewLineEatingTest6',
         exec           => $TranslatorBase::ROUNDTRIP,
-        expect_failure => 1,
+        expect_failure => 'TODO: Item2174 reintroducing Item5702?',
         tml            => <<HERE,
 
 ---+++ Plain text
@@ -413,7 +410,7 @@ HERE
     {
         name           => 'KennethsNewLineEatingTest7',
         exec           => $TranslatorBase::ROUNDTRIP,
-        expect_failure => 1,
+        expect_failure => 'TODO: Item2174 reintroducing Item5702?',
         tml            => <<HERE,
 
 ---+++ Literal after header
@@ -466,7 +463,7 @@ sub _init {
     my %args = @_;
 
     if ( $args{expect_failure} ) {
-        $this->expect_failure();
+        $this->expect_failure( $args{expect_failure} );
     }
     $this->{editor}->init();
 
