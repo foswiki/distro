@@ -6,14 +6,14 @@ package BrowserTranslatorTests;
 
 use Encode;
 
-use FoswikiSeleniumTestCase;
-use TranslatorBase;
+use FoswikiSeleniumTestCase();
+use TranslatorBase();
 our @ISA = qw( FoswikiSeleniumTestCase TranslatorBase );
 
-use BrowserEditorInterface;
-use Foswiki::Func;
-use Foswiki::Plugins::WysiwygPlugin::Handlers;
-use Foswiki::Plugins::WysiwygPlugin::Constants;
+use BrowserEditorInterface();
+use Foswiki::Func();
+use Foswiki::Plugins::WysiwygPlugin::Handlers();
+use Foswiki::Plugins::WysiwygPlugin::Constants();
 
 # The following big table contains all the testcases. These are
 # used to add a bunch of functions to the symbol table of this
@@ -447,6 +447,7 @@ sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
     $self->{editor} = BrowserEditorInterface->new($self);
+    BrowserTranslatorTests->gen_compare_tests( 'verify', $data );
 
     return $self;
 }
@@ -502,27 +503,36 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
 
     # Create the test topic
     my $topicName = $this->{test_topic} . "For9170";
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
-        "Before${testText}After\n" );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $topicName );
+    $topicObject->text("Before${testText}After\n");
     $topicObject->save();
+    $topicObject->finish();
 
     # Open the test topic in the wysiwyg editor
     $this->{editor}->openWysiwygEditor( $this->{test_web}, $topicName );
 
-    # Write rubbish over the topic, which will be overwritten on save
-    $topicObject->text("Rubbish");
-    $topicObject->save();
-    undef $topicObject;
+    # PH Commented this out below in Item11440, it causes Foswiki to redirect
+    # back to the save oops "merged with new revision while you were
+    # editing..." screen, rather than view as the tests expect.
+    #
+    ## Write rubbish over the topic, which will be overwritten on save
+    #($topicObject) =
+    #  Foswiki::Func::readTopic( $this->{test_web}, $topicName);
+    #$topicObject->text("Rubbish");
+    #
+    #$topicObject->save();
+    #$topicObject->finish();
+    #undef $topicObject;
 
     # Save from the editor
     $this->{editor}->save();
 
     # Reload the topic and check that the content is as expected
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName );
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topicName );
 
     my $text = $topicObject->text();
+    $topicObject->finish();
 
     # Isolate the portion of interest
     $text =~ s/.*Before//ms or $this->assert( 0, $text );
@@ -596,14 +606,12 @@ sub compareHTML_TML {
     $this->assert_tml_equals( $args->{tml}, $actualTml, $args->{name} );
 }
 
-BrowserTranslatorTests->gen_compare_tests( 'verify', $data );
-
 1;
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
