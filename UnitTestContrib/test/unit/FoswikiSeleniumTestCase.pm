@@ -3,25 +3,27 @@
 # The FoswikiFnTestCase restrictions also apply.
 
 package FoswikiSeleniumTestCase;
-use FoswikiFnTestCase;
+use strict;
+use warnings;
+
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-
-use Foswiki;
-use Unit::Request;
-use Unit::Response;
-use Foswiki::UI::Register;
-use Error qw( :try );
 use Encode;
+use Foswiki();
+use Unit::Request();
+use Unit::Response();
+use Foswiki::UI::Register();
+use Error qw( :try );
 use Scalar::Util qw( weaken );
 
 my $startWait;
 my $doze;
 
 BEGIN {
-    eval "use Time::HiRes qw/usleep time/;";
-    if ( not $@ ) {
+    if ( eval { require Time::HiRes; Time::HiRes->import(qw/usleep time/); 1; }
+      )
+    {
         $startWait = sub { return time(); };
 
         # success
@@ -49,17 +51,34 @@ my $testsRunWithoutRestartingBrowsers = 0;
 
 my $debug = 0;
 
+sub skip {
+    my ( $this, $test ) = @_;
+    my $browsers = $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers};
+    my $reason;
+
+    if ( !( ref($browsers) eq 'HASH' && scalar( keys %{$browsers} ) ) ) {
+        $reason =
+"No browsers configured in \$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}";
+    }
+
+    if ( $this->{useSeleniumError} ) {
+        $reason = "Cannot run Selenium-based tests: $this->{useSeleniumError}";
+    }
+
+    return $reason;
+}
+
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
 
-    if ( defined $currentTest ) {
-        $this->assert( 0,
-                "There may only be one FoswikiSeleniumTestCase-based test\n"
-              . "running in each test process.\n"
-              . "Cannot run the $class test \n"
-              . "because the $currentTest is still running." );
-    }
+    #if ( defined $currentTest ) {
+    #    $this->assert( 0,
+    #            "There may only be one FoswikiSeleniumTestCase-based test\n"
+    #          . "running in each test process.\n"
+    #          . "Cannot run the $class test \n"
+    ##          . "because the $currentTest is still running." );
+    #}
     $currentTest = $this;
     weaken($currentTest);   # Ensure the destructor is called at the normal time
 
@@ -94,48 +113,19 @@ sub DESTROY {
     $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
 
-sub list_tests {
-    my ( $this, $suite ) = @_;
-    my @set = $this->SUPER::list_tests($suite);
-
-    unless ( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} ) {
-        print STDERR "There are no browsers configured in "
-          . "\$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}, "
-          . "skipping Selenium-based tests\n";
-        return;
-    }
-
-    if ( $this->{useSeleniumError} ) {
-        print STDERR
-          "Cannot run Selenium-based tests: $this->{useSeleniumError}\n";
-        return;
-    }
-    return @set;
-}
-
 sub fixture_groups {
     my ( $this, $suite ) = @_;
-
-    unless ( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} ) {
-
-        # Message is already reported from list_tests - no need to do it twice
-        return;
-    }
-
-    if ( $this->{useSeleniumError} ) {
-
-        # Message is already reported from list_tests - no need to do it twice
-        return;
-    }
 
     return \@BrowserFixtureGroups if @BrowserFixtureGroups;
 
     for my $browser ( keys %{ $this->{seleniumBrowsers} } ) {
         my $onBrowser = "on$browser";
         push @BrowserFixtureGroups, $onBrowser;
-        eval
-"sub $onBrowser { my \$this = shift; \$this->selectBrowser(\$browser); }";
-        die $@ if $@;
+
+        die $@
+          if ( !eval
+"sub $onBrowser { my \$this = shift; \$this->selectBrowser(\$browser); } 1;"
+          );
     }
     return \@BrowserFixtureGroups;
 }
@@ -157,8 +147,7 @@ sub _loadSeleniumInterface {
 
     return $useSeleniumError if defined $useSeleniumError;
 
-    eval "use Test::WWW::Selenium";
-    if ($@) {
+    if ( !eval { require Test::WWW::Selenium; 1; } ) {
         $useSeleniumError = $@;
         $useSeleniumError =~ s/\(\@INC contains:.*$//s;
     }
@@ -175,30 +164,34 @@ sub _loadSeleniumBrowsers {
 
     $browsers = {};
 
-    unless ( $this->{useSeleniumError} ) {
-        if ( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} ) {
-            for my $browser (
-                keys %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} } )
-            {
-                my %config =
-                  %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}
-                      {$browser} };
-                $config{host}        ||= 'localhost';
-                $config{port}        ||= 4444;
-                $config{browser}     ||= '*firefox';
-                $config{browser_url} ||= $Foswiki::cfg{DefaultUrlHost};
+    if ( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} ) {
+        for my $browser (
+            keys %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} } )
+        {
+            my %config =
+              %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}
+                  {$browser} };
+            $config{host}        ||= 'localhost';
+            $config{port}        ||= 4444;
+            $config{browser}     ||= '*firefox';
+            $config{browser_url} ||= $Foswiki::cfg{DefaultUrlHost};
 
-                # The error callback needs a reference to the current test
-                # object. There may be several test objects that use the
-                # selenium interface, so the error callback cannot be a
-                # closure (anonymous sub) that uses $this (because $this
-                # in a closure would always refers to the first test
-                # to run that is derived from FoswikiSeleniumTestCase).
-                # Instead, the error callback uses a static class variable
-                # that is set (and weakened) in the constructor.
-                $config{error_callback} = \&_errorCallback;
+            # The error callback needs a reference to the current test
+            # object. There may be several test objects that use the
+            # selenium interface, so the error callback cannot be a
+            # closure (anonymous sub) that uses $this (because $this
+            # in a closure would always refers to the first test
+            # to run that is derived from FoswikiSeleniumTestCase).
+            # Instead, the error callback uses a static class variable
+            # that is set (and weakened) in the constructor.
+            $config{error_callback} = \&_errorCallback;
 
-                my $selenium = Test::WWW::Selenium->new(%config);
+            my $selenium;
+            if ( $this->{useSeleniumError} ) {
+                $browsers->{$browser} = undef;
+            }
+            else {
+                $selenium = Test::WWW::Selenium->new(%config);
                 if ($selenium) {
                     $browsers->{$browser} = $selenium;
                 }
@@ -211,8 +204,7 @@ sub _loadSeleniumBrowsers {
         }
     }
     if ( keys %{$browsers} ) {
-        eval "use Test::Builder";
-        die $@ if $@;
+        die $@ if ( !eval { require Test::Builder; 1; } );
         my $test = Test::Builder->new;
         $test->reset();
         $test->no_plan();
@@ -240,7 +232,7 @@ sub _errorCallback {
 sub _shutDownSeleniumBrowsers {
     for my $browser ( values %$browsers ) {
         print STDERR "Shutting down $browser\n" if $debug;
-        $browser->stop();
+        $browser->stop() if $browser;
     }
     undef $browsers;
 }
