@@ -380,6 +380,7 @@ data/mime.types 0644
 foswiki_httpd_conf.txt 0444
 index.html 0444
 lib/Assert.pm 0444
+lib/MANIFEST 0444
 lib/CPAN/lib/Algorithm/Diff.pm 0444
 lib/CPAN/lib/CGI/Session.pm 0444
 lib/CPAN/lib/CGI/Session/Driver.pm 0444
@@ -442,7 +443,6 @@ lib/CPAN/lib/Locale/Msgfmt/Utils.pm 444
 lib/CPAN/lib/Locale/Msgfmt/mo.pm 444
 lib/CPAN/lib/Locale/Msgfmt/po.pm 444
 lib/CPAN/lib/Sort/Maker.pm 0444
-lib/DEPENDENCIES 0444
 lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
 lib/Foswiki/AccessControlException.pm 0444
@@ -639,6 +639,8 @@ lib/Foswiki/Configure/templates/pageend.tmpl 0444
 lib/Foswiki/Configure/templates/sanity.tmpl 0444
 lib/Foswiki/Configure/templates/section.tmpl 0444
 lib/Foswiki/Configure/templates/testemailintro.tmpl 0444
+lib/Foswiki/Contrib/core/DEPENDENCIES 0444
+lib/Foswiki/Contrib/core/MANIFEST 0444
 lib/Foswiki/Engine.pm 0444
 lib/Foswiki/Engine/CGI.pm 0444
 lib/Foswiki/Engine/CLI.pm 0444
