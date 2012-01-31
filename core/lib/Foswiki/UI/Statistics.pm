@@ -126,20 +126,38 @@ sub statistics {
     my $webSet = $session->{request}->param('webs')
       || $session->{requestedWebName};
 
+    my $recurse =
+      Foswiki::Func::isTrue( $session->{request}->param('subwebs') );
+
     if ($webSet) {
 
         # do specific webs
         foreach my $web ( split( /,\s*/, $webSet ) ) {
             $web = Foswiki::Sandbox::untaint( $web,
                 \&Foswiki::Sandbox::validateWebName );
-            push( @weblist, $web ) if $web;
+            if ($web) {
+                push( @weblist, $web );
+                if ($recurse) {
+                    my $webObj = Foswiki::Meta->new( $session, $web );
+                    my $subweb = $webObj->web();
+                    my $it     = $webObj->eachWeb($recurse);
+                    while ( $it->hasNext() ) {
+                        my $w = $it->next();
+                        next
+                          unless Foswiki::WebFilter->user()
+                              ->ok( $session, "$subweb/$w" );
+                        push( @weblist, "$subweb/$w" );
+                    }
+                    $webObj->finish();
+                }
+            }
         }
     }
     else {
 
         # otherwise do all user webs:
         my $root = Foswiki::Meta->new($session);
-        my $it   = $root->eachWeb();
+        my $it   = $root->eachWeb($recurse);
         while ( $it->hasNext() ) {
             my $w = $it->next();
             next unless $Foswiki::WebFilter::user->ok( $session, $w );
@@ -334,6 +352,11 @@ sub _processWeb {
     }
 
     _printMsg( $session, "* Reporting on $web web" );
+
+    unless ( Foswiki::Func::webExists( $web ) ) {
+        _printMsg( $session, "!Web $web does not exist,  skipping.." );
+        return;
+    }
 
     # Handle null values, print summary message to browser/stdout
     my $statViews   = $data->{statViewsRef}->{$web};
