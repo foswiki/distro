@@ -27,18 +27,11 @@ use Foswiki::Plugin ();
 This is the version number of the plugins package. Use it for checking
 if you have a recent enough version.
 
----++ PUBLIC $SESSION
-
-This is a reference to the Foswiki session object. It can be used in
-plugins to get at the methods of the Foswiki kernel.
-
-You are _highly_ recommended to only use the methods in the
-=Foswiki::Func= interface, unless you have no other choice,
-as kernel methods may change between Foswiki releases.
-
 =cut
 
-our $VERSION = '2.1';
+# If we go to 3.x, let's re-instate a 3-digit decimal version format, i.e. 3.000
+# http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
+our $VERSION = '2.2';
 
 our $inited = 0;
 
@@ -49,6 +42,19 @@ my %onlyOnceHandlers = (
     renderFormFieldForEditHandler => 1,
     renderWikiWordHandler         => 1,
 );
+
+=begin TML
+
+---++ PUBLIC $SESSION
+
+This is a reference to the Foswiki session object. It can be used in
+plugins to get at the methods of the Foswiki kernel.
+
+You are _highly_ recommended to only use the methods in the
+=Foswiki::Func= interface, unless you have no other choice,
+as kernel methods may change between Foswiki releases.
+
+=cut
 
 our $SESSION;
 

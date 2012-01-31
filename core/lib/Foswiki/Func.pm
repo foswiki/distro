@@ -182,10 +182,7 @@ sub getScriptUrl {
 
 ---+++ getScriptUrlPath( $web, $topic, $script, ... ) -> $path
 
-Get script URL path. See Foswiki::Func::getScriptUrl
-
-Deprecated 28 Nov 2008, re-instated Foswiki 1.1.5 with a new calling convention
-to match =Foswiki::Func::getScriptUrl()=
+Compose absolute URL path. See Foswiki::Func::getScriptUrl
 
 *Examples:*
 <verbatim class="perl">
@@ -196,6 +193,9 @@ $path = Foswiki::Func::getScriptUrlPath();
 $path = Foswiki::Func::getScriptUrlPath(undef, undef, 'edit');
 # $path eq '/path/to/bin/edit/Web/Topic'
 $path = Foswiki::Func::getScriptUrlPath('Web', 'Topic', 'edit');</verbatim>
+
+*Since:* 19 Jan 2012 (when called without parameters, this function is
+backwards-compatible with the old version which was deprecated 28 Nov 2008).
 
 =cut
 
