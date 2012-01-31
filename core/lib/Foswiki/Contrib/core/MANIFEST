@@ -159,6 +159,7 @@ data/System/SiteChanges.txt 0644
 data/System/SiteMap.txt 0644
 data/System/SitePermissions.txt 0644
 data/System/SiteTools.txt 0644
+data/System/SiteToolStatistics.txt 0644
 data/System/SkinBrowser.txt 0644
 data/System/SkinTemplateTokens.txt 0644
 data/System/SkinTemplateViewTemplate.txt 0644
