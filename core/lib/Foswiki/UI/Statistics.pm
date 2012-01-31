@@ -66,6 +66,17 @@ sub statistics {
         $session->generateHTTPHeaders();
         $session->{response}->print(
             CGI::start_html( -title => 'Foswiki: Create Usage Statistics' ) );
+
+        if ( uc( $session->{request}->method() ) ne 'POST' )
+        {
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $session->{webName},
+                topic  => $session->{topicName},
+                def    => 'post_method_only',
+                params => ['statistics']
+            );
+        }
     }
 
     if ( defined $Foswiki::cfg{Stats}{StatisticsGroup}
