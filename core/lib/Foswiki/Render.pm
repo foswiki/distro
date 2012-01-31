@@ -272,8 +272,9 @@ sub _addListItem {
         my $firstTime = 1;
         while ( $size < $depth ) {
             push( @{ $this->{LIST} }, { type => $type, element => $element } );
-            push( @$result, " <$element" . ($css ? " class='$css'" : "") .">\n" )
-		unless ($firstTime);
+            push( @$result,
+                " <$element" . ( $css ? " class='$css'" : "" ) . ">\n" )
+              unless ($firstTime);
             push( @$result, ' <' . $type . ">\n" ) if $type;
             $firstTime = 0;
             $size++;
@@ -282,14 +283,14 @@ sub _addListItem {
     else {
         while ( $size > $depth ) {
             my $tags = pop( @{ $this->{LIST} } );
-	    my $r = "\n</" . $tags->{element} . '>';
-	    $r .= '</' . $tags->{type} . '> ' if $tags->{type};
+            my $r    = "\n</" . $tags->{element} . '>';
+            $r .= '</' . $tags->{type} . '> ' if $tags->{type};
             push( @$result, $r );
             $size--;
         }
         if ($size) {
             push( @$result,
-              "\n</" . $this->{LIST}->[ $size - 1 ]->{element} . '> ' );
+                "\n</" . $this->{LIST}->[ $size - 1 ]->{element} . '> ' );
         }
         else {
             push( @$result, "\n" );
@@ -299,13 +300,12 @@ sub _addListItem {
     if ($size) {
         my $oldt = $this->{LIST}->[ $size - 1 ];
         if ( $oldt->{type} ne $type ) {
-	    my $r = '';
-	    $r .= ' </' . $oldt->{type} . '>' if $oldt->{type};
-	    $r .= '<' . $type . ">\n" if $type;
+            my $r = '';
+            $r .= ' </' . $oldt->{type} . '>' if $oldt->{type};
+            $r .= '<' . $type . ">\n" if $type;
             push( @$result, $r ) if $r;
             pop( @{ $this->{LIST} } );
-            push( @{ $this->{LIST} }, {
-		type => $type, element => $element } );
+            push( @{ $this->{LIST} }, { type => $type, element => $element } );
         }
     }
 }
