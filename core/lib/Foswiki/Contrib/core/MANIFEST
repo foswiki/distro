@@ -379,6 +379,7 @@ data/mime.types 0644
 foswiki_httpd_conf.txt 0444
 index.html 0444
 lib/Assert.pm 0444
+lib/MANIFEST 0444 #submodules that make up a full foswiki release
 lib/CPAN/lib/Algorithm/Diff.pm 0444
 lib/CPAN/lib/CGI/Session.pm 0444
 lib/CPAN/lib/CGI/Session/Driver.pm 0444
@@ -646,6 +647,8 @@ lib/Foswiki/Configure/templates/pageend.tmpl 0444
 lib/Foswiki/Configure/templates/sanity.tmpl 0444
 lib/Foswiki/Configure/templates/section.tmpl 0444
 lib/Foswiki/Configure/templates/testemailintro.tmpl 0444
+lib/Foswiki/Contrib/core/MANIFEST 0444 #just the foswiki core module files
+lib/Foswiki/Contrib/core/DEPENDENCIES 0444
 lib/Foswiki/Engine.pm 0444
 lib/Foswiki/Engine/CGI.pm 0444
 lib/Foswiki/Engine/CLI.pm 0444
