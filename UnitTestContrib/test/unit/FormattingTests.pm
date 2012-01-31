@@ -9,6 +9,7 @@ our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki();
 use Foswiki::Func();
+use Foswiki::Render();
 use Benchmark qw( :hireswallclock);
 use Error qw( :try );
 
@@ -109,9 +110,76 @@ my %link_tests = (
     },
 );
 
+# in       - input to renderTML
+# out      - renderTML output
+# out11316 - renderTML prior to Item11316 (orig. empty <p></p> tag behaviour)
+my %sanity_tests = (
+    para_no_NLs               => { in => 'Foo',        out => 'Foo' },
+    para_NL_end               => { in => "Foo\n",      out => 'Foo' },
+    para_NL_begin             => { in => "\nFoo",      out => "\nFoo" },
+    para_NL_between           => { in => "Foo\nBar",   out => "Foo\nBar" },
+    para_NL_between_and_end   => { in => "Foo\nBar\n", out => "Foo\nBar" },
+    para_NL_between_and_begin => { in => "\nFoo\nBar", out => "\nFoo\nBar" },
+    para_NLs_wrap =>
+      { in => "\nFoo\n", out => '<p>Foo</p>', out_11316 => "\nFoo" },
+    para_NLs_wrap_and_begin =>
+      { in => "\n\nFoo\n", out => '<p>Foo</p>', out_11316 => "\n<p></p>\nFoo" },
+    para_NLs_wrap_and_begin2 => {
+        in        => "\n\n\nFoo\n",
+        out       => '<p>Foo</p>',
+        out_11316 => "\n<p></p>\n<p></p>\nFoo"
+    },
+    para_NLs_wrap_and_end =>
+      { in => "\nFoo\n\n", out => '<p>Foo</p>', out_11316 => "\nFoo" },
+    para_NLs_wrap_and_end2 => {
+        in        => "\nFoo\n\n\n",
+        out       => '<p>Foo</p>',
+        out_11316 => "\nFoo\n<p></p>"
+    },
+    para_NLs_wrap_and_end3 => {
+        in        => "\nFoo\n\n\n\n",
+        out       => '<p>Foo</p>',
+        out_11316 => "\nFoo\n<p></p>\n<p></p>"
+    },
+    para_2NL_between => {
+        in        => "Foo\n\nBar",
+        out       => "<p>Foo</p>\n<p>Bar</p>",
+        out_11316 => "Foo\n<p></p>\nBar"
+    },
+    para_2NL_between_and_begin => {
+        in        => "\nFoo\n\nBar",
+        out       => "<p>Foo</p>\n<p>Bar</p>",
+        out_11316 => "\nFoo\n<p></p>\nBar"
+    },
+    para_2NL_between_and_end => {
+        in        => "Foo\n\nBar\n",
+        out       => "<p>Foo</p>\n<p>Bar</p>",
+        out_11316 => "Foo\n<p></p>\nBar"
+    },
+    para_2NL_between_and_wrap => {
+        in        => "\nFoo\n\nBar\n",
+        out       => "<p>Foo</p>\n<p>Bar</p>",
+        out_11316 => "\nFoo\n<p></p>\nBar"
+    },
+    para_2NL_between_and_wrap_and_begin => {
+        in        => "\n\nFoo\n\nBar\n",
+        out       => "<p>Foo</p>\n<p>Bar</p>",
+        out_11316 => "\n<p></p>\nFoo\n<p></p>\nBar"
+    },
+    para_2NL_between_and_wrap_and_begin2 => {
+        in        => "\n\n\nFoo\n\nBar\n",
+        out       => "<p>Foo</p>\n<p>Bar</p>",
+        out_11316 => "\n<p></p>\n<p></p>\nFoo\n<p></p>\nBar"
+    },
+);
+
 sub new {
-    my $self = shift()->SUPER::new( 'Formatting', @_ );
-    return $self;
+    my ( $class, @args ) = @_;
+    my $this = $class->SUPER::new( 'Formatting', @args );
+
+    $this->_gen_sanity_tests();
+
+    return $this;
 }
 
 sub skip {
@@ -178,6 +246,30 @@ sub loadExtraConfig {
 
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled}      = 0;
     $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 0;
+}
+
+sub _gen_sanity_tests {
+    my $this = shift;
+
+    while ( my ( $test, $params ) = each %sanity_tests ) {
+        my $fn       = __PACKAGE__ . '::test_' . $test;
+        my $input    = $params->{in};
+        my $expected = $params->{out};
+
+        if ( exists $params->{out_11316} && !defined $Foswiki::Render::VERSION )
+        {
+            $expected = $params->{out_11316};
+        }
+
+        no strict 'refs';
+        *{$fn} = sub {
+            my $this   = shift;
+            my $result = $this->{test_topicObject}->renderTML($input);
+
+            $this->assert_str_equals( $expected, $result );
+        };
+        use strict 'refs';
+    }
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
