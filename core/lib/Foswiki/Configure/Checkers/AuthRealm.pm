@@ -20,12 +20,16 @@ sub check {
         ( $Foswiki::cfg{AuthRealm} =~ /\:/ )
         and
 
- #        ($Foswiki::cfg{AuthRealm} eq 'Foswiki::LoginManager::ApacheLogin') and
-        ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' )
+        (
+               $Foswiki::cfg{Htpasswd}{Encoding} eq 'htdigest-md5'
+            || $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
+            || $Foswiki::cfg{Htpasswd}{AutoDetect}
+        )
       )
     {
         return $this->ERROR(
-"Digest auth (md5) password files store the AuthRealm in the password file, which uses ':' (colons) as the data separator. Please remove the colon from the Setting."
+"The password manager can store the AuthRealm in the password file, which uses ':' (colons) as the data separator. Please remove the colon from the Setting. This is an error if you have chosen
+<code>htdigest-md5</code> or <code>md5</code> password encoding, or have enabled auto-detection of the password encoding"
         );
     }
     return '';
@@ -35,7 +39,7 @@ sub check {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
