@@ -148,6 +148,11 @@ for my $module ( sort keys %modifiedPlugin ) {
     for my $branch ( sort keys %{ $modifiedPlugin{$module} } ) {
         warn "Updating module $module, branch $branch" if $verbose;
         $submodule->run( checkout => $branch );
+
+        # Create local branch if it doesn't exist
+        unless( eval { $submodule->run( 'symbolic-ref' => 'HEAD' ) } ) {
+            $submodule->run( checkout => '-b' => $branch );
+        }
         $submodule->run( svn      => 'rebase' );
     }
     $submodule->run( push => '--all' );
