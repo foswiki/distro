@@ -8,25 +8,42 @@ use warnings;
 use Socket;
 
 if ( !$ARGV[1] ) {
-    print "Usage:    geturl <host> <path> [<port> [<header>]]\n";
+    print "Usage:    geturl [POST] <host> <path> [<port> [<header>]]\n";
     print "Example:  geturl some.domain /some/dir/file.html 80\n";
-    print "will get: http://some.domain:80/some/dir/file.html\n";
+    print "will get: http://some.domain:80/some/dir/file.html\n\n";
+    print "Example:  geturl POST some.domain /bin/statistics?webs=Sandbox\\&subwebs=1\n";
+    print "will post to the statistics script, requesting a statistics run for Sandbox and all subwebs\n";
     exit 1;
+}
+my $method = 'GET';
+if ( $ARGV[0] eq 'POST' ) {
+    $method = shift;
 }
 my $host   = $ARGV[0];
 my $url    = $ARGV[1];
+my $content = '';
+if ( $method eq 'POST' ) {
+    ($url,$content)    = split(/\?/, $ARGV[1]);
+}
+$content ||= '';
 my $port   = $ARGV[2] || "80";
 my $header = $ARGV[3] || "Host: $host";
-print getUrl( $host, $port, $url, $header );
+
+if ($content) {
+    $header .= "\r\nContent-Type: application/x-www-form-urlencoded";
+    $header .= "\r\nContent-Length: " . length($content);
+}
+
+print getUrl( $host, $port, $url, $header, $content);
 
 # =========================
 sub getUrl {
-    my ( $theHost, $thePort, $theUrl, $theHeader ) = @_;
+    my ( $theHost, $thePort, $theUrl, $theHeader, $content ) = @_;
     my $result = '';
     my $req =
-        "GET $theUrl HTTP/1.0\r\n"
+        "$method $theUrl HTTP/1.0\r\n"
       . "$theHeader\r\n"
-      . "User-Agent: Foswiki/geturl.pl\r\n\r\n";
+      . "User-Agent: Foswiki/geturl.pl\r\n\r\n$content\r\n";
     my ( $iaddr, $paddr, $proto );
     $iaddr = inet_aton($theHost);
     $paddr = sockaddr_in( $thePort, $iaddr );
