@@ -474,10 +474,12 @@ to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname
 Details on command line scripts located in the =tools= directory.
 
 ---+++ =geturl.pl=
-This is a very simple script to get the content of a web site. It is marked as _deprecated_ and might be removed (or enhanced) in a future release. Its functions are covered by the standard =wget= and =curl= commands.
+This is a very simple script to get the content of a web site, either using GET or POST. It is marked as _deprecated_ and might be removed in a future release. Its functions are covered by the standard =wget= and =curl= commands, which have the added advantage of performing authentication..
    * Usage:    =geturl.pl &lt;host&gt; &lt;path&gt; [&lt;port&gt; [&lt;header&gt;]]=
    * Example:  =geturl.pl some.domain /some/dir/file.html 80=
    * Will get: =http://some.domain:80/some/dir/file.html=
+   * Example:  =geturl.pl POST some.domain /bin/statistics?webs=Sandbox=
+   * Will post: =http://some.domain/bin/statistics?web=Sandbox= triggering a statistics run
 
 ---+++ =rewriteshebang.pl=
 Simple script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
