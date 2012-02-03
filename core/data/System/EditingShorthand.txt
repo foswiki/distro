@@ -1,9 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1285774528" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1285750332" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TextFormattingRules"}%
----++ Editing Shorthand
-
+---+ Editing Shorthand
 %STARTINCLUDE%
-
 %TABLE{}%
 <table class="foswikiTable" border="1" cellpadding="3" bgcolor="#ffffff">
 <tr bgcolor="#ffffff">
@@ -359,7 +357,7 @@ It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTE
 %SANDBOXWEB%.WebHome
 
 %SANDBOXWEB%.Subweb.TopicName
-</pre>
+</verbatim>
 </td><td>
 
 %STATISTICSTOPIC%
