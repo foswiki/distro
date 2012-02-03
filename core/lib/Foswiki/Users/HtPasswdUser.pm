@@ -162,7 +162,10 @@ sub readOnly {
     my $path = $Foswiki::cfg{Htpasswd}{FileName};
 
     # We expect the path to exist and be writable.
-    return 0 if ( -e $path && -f _ && -w _ );
+    if ( -e $path && -f _ && -w _ ) {
+        $this->{session}->enterContext('passwords_modifyable');
+        return 0;
+    }
 
     # Otherwise, log a problem.
     $this->{session}->logger->log( 'warning',
