@@ -541,6 +541,24 @@ sub passwordError {
     return;
 }
 
+=begin TML
+
+---++ ObjectMethod validateRegistrationField($field, $value ) -> $string
+
+Returns a string containing the sanitized registration field, or can throw an oops
+if the field contains illegal data to block the registration.
+
+returns the string unchanged if no issue found.
+
+=cut
+
+sub validateRegistrationField {
+
+    #my ($this, $field, $value) = @_;
+
+    return $_[2];
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

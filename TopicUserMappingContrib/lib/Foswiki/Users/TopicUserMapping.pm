@@ -1496,6 +1496,27 @@ sub passwordError {
     return $this->{passwords}->error();
 }
 
+=begin TML
+
+---++ ObjectMethod validateRegistrationField($field, $value ) -> $string
+
+Returns a string containing the sanitized registration field, or can throw an oops
+if the field contains illegal data to block the registration.
+
+returns the string unchanged if no issue found.
+
+=cut
+
+sub validateRegistrationField {
+
+    #my ($this, $field, $value) = @_;
+
+    throw Error::Simple('Failed to add user: EVIL detected')
+      if ( $_[2] =~ m/evil/i );
+
+    return $_[2];
+}
+
 # TODO: and probably flawed in light of multiple cUIDs mapping to one wikiname
 sub _cacheUser {
     my ( $this, $wikiname, $login ) = @_;

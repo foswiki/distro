@@ -208,6 +208,7 @@ sub bulkRegister {
     #-- Process each row, generate a log as we go
     for ( my $n = 0 ; $n < scalar(@data) ; $n++ ) {
         my $row = $data[$n];
+
         $row->{webName} = $userweb;
 
         unless ( $row->{WikiName} ) {
@@ -267,6 +268,14 @@ sub _registerSingleBulkUser {
     }
 
     try {
+
+  #SMELL: Field Validations
+  # foreach my $field ( %$row ) {
+  #  - validate with Users::validateRegistrationField( $field, $row->{$field} );
+  #  - catch any errors to log
+  # Note, do this HERE and not in _validateRegistration.
+  # CGI registration validates earlier in _getDataFromQuery()
+
         _validateRegistration( $session, $row, 0 );
     }
     catch Foswiki::OopsException with {
@@ -371,7 +380,7 @@ sub _innerRegister {
     my ($session) = @_;
 
     my $query = $session->{request};
-    my $data = _getDataFromQuery( $query, $query->param() );
+    my $data = _getDataFromQuery( $session->{users}, $query, $query->param() );
 
     $data->{webName} = $session->{webName};
 
@@ -399,7 +408,7 @@ sub _requireVerification {
     my $topic = $session->{topicName};
     my $web   = $session->{webName};
 
-    my $data = _getDataFromQuery( $query, $query->param() );
+    my $data = _getDataFromQuery( $session->{users}, $query, $query->param() );
     my $oldName = $data->{WikiName};
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
@@ -685,6 +694,8 @@ sub addUserToGroup {
         #next if ( $u eq '' );
         $u = '' if ( $u eq '<none>' );
 
+        $u = $session->{users}->validateRegistrationField( 'username', $u );
+
         next
           if ( Foswiki::Func::isGroup($groupName)
             && Foswiki::Func::isGroupMember( $groupName, $u, { expand => 0 } )
@@ -816,7 +827,7 @@ sub _complete {
         _clearPendingRegistrationsForUser($code);
     }
     else {
-        $data = _getDataFromQuery( $query, $query->param() );
+        $data = _getDataFromQuery( $session->{users}, $query, $query->param() );
         $data->{webName} = $web;
     }
 
@@ -1534,6 +1545,7 @@ sub _loadPendingRegistration {
 }
 
 sub _getDataFromQuery {
+    my $users = shift;
     my $query = shift;
 
     # get all parameters from the form
@@ -1549,14 +1561,7 @@ sub _getDataFromQuery {
             # deal with multivalue fields like checkboxen
             my $value = join( ',', @values );
 
-            # Note: field values are unvalidated (and therefore tainted).
-            # This is because the registration code does not have enough
-            # information to validate the data - for example, it cannot
-            # know what the user mapper considers to be a valid login name.
-            # It is the responsibility of the implementation code to untaint
-            # these data before they are used in dangerous ways.
-            # DO NOT UNTAINT THESE DATA HERE!
-            $data->{$name} = $value;
+            $data->{$name} = $users->validateRegistrationField( $name, $value );
             push(
                 @{ $data->{form} },
                 {
