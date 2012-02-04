@@ -1500,7 +1500,10 @@ sub passwordError {
 
 ---++ ObjectMethod validateRegistrationField($field, $value ) -> $string
 
-Returns a string containing the sanitized registration field, or can throw an oops
+This method is called for every field submitted during registration.  It is also used
+to validate the username when adding a member to a group.
+
+Returns a string containing the sanitized registration field, or can throw an Error::Simple
 if the field contains illegal data to block the registration.
 
 returns the string unchanged if no issue found.
@@ -1510,11 +1513,10 @@ returns the string unchanged if no issue found.
 sub validateRegistrationField {
 
     #my ($this, $field, $value) = @_;
+    my $this = shift;
 
-    throw Error::Simple('Failed to add user: EVIL detected')
-      if ( $_[2] =~ m/evil/i );
-
-    return $_[2];
+# For now just let Foswiki::UserMapping do the validation - nothing special needed.
+    return $this->SUPER::validateRegistrationField(@_);
 }
 
 # TODO: and probably flawed in light of multiple cUIDs mapping to one wikiname
