@@ -62,7 +62,7 @@ msgstr "%1 - Inscription de %2 (%3)"
 msgid "%1 Web"
 msgstr "Web %1"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:493
 msgid "%1 added to the %2 group. "
 msgstr "%1 ajouté au groupe %2. "
 
@@ -72,7 +72,7 @@ msgstr "%1 ajouté au groupe %2. "
 msgid "%1 cannot be removed from %2"
 msgstr "%1 a été supprimé du groupe %2. "
 
-#: core/templates/messages.tmpl:494
+#: core/templates/messages.tmpl:500
 msgid "%1 group topic upgraded. "
 msgstr "Page du groupe %1 mise à jour. "
 
@@ -85,7 +85,7 @@ msgstr "%1 a une liste des autres utilisateurs"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 a été approuvé·e et enregistré·e avec l'adresse e-mail %2"
 
-#: core/templates/messages.tmpl:547
+#: core/templates/messages.tmpl:553
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -113,11 +113,11 @@ msgstr "%1 est un nom de web invalide"
 msgid "%1 is currently logged in"
 msgstr "%1 est actuellement connecté·e"
 
-#: core/templates/messages.tmpl:437
+#: core/templates/messages.tmpl:443
 msgid "%1 is currently set to %2"
 msgstr "%1 vaut actuellement %2"
 
-#: core/templates/messages.tmpl:545
+#: core/templates/messages.tmpl:551
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 est en train d'éditer [[%2][%3]]."
 
@@ -138,7 +138,7 @@ msgid "%1 is the default topic for deleted attachments."
 msgstr ""
 "%1 est la page par défaut pour les fichiers attachés qui ont été supprimés."
 
-#: core/templates/messages.tmpl:553
+#: core/templates/messages.tmpl:559
 msgid "%1 may still be editing %2."
 msgstr "%2 est peut-être toujours en cours de modification par %1."
 
@@ -146,7 +146,7 @@ msgstr "%2 est peut-être toujours en cours de modification par %1."
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 pages modifiées récemment dans le Web %2"
 
-#: core/templates/messages.tmpl:537
+#: core/templates/messages.tmpl:543
 msgid "%1 removed from the %2 group. "
 msgstr "%1 a été supprimé du groupe %2. "
 
@@ -162,7 +162,7 @@ msgstr "%1 pour modifier la configuration de ce web"
 msgid "%1 to start working on the new web"
 msgstr "%1 pour commencer à travailler sur ce nouveau web"
 
-#: core/templates/messages.tmpl:624 core/templates/messages.tmpl:635
+#: core/templates/messages.tmpl:630 core/templates/messages.tmpl:641
 msgid "%1 topic does not exist"
 msgstr "La page %1 n'existe pas"
 
@@ -191,7 +191,7 @@ msgstr "&Historique"
 msgid "&Sequential"
 msgstr "À la &suite"
 
-#: core/templates/messages.tmpl:287
+#: core/templates/messages.tmpl:293
 msgid "'%1' is not a valid %2 "
 msgstr "'%1' n'est pas un %2 valide "
 
@@ -334,11 +334,11 @@ msgstr "(erreur d'enregistrement)"
 msgid "(set preferences)"
 msgstr "(enregistrer les options)"
 
-#: core/templates/messages.tmpl:300
+#: core/templates/messages.tmpl:306
 msgid "(single character first name)"
 msgstr "(un seul caractère pour le prénom)"
 
-#: core/templates/messages.tmpl:299
+#: core/templates/messages.tmpl:305
 msgid "(single character last name)"
 msgstr "(un seul caractère pour le nom de famille)"
 
@@ -519,13 +519,13 @@ msgstr ""
 "<strong>Confirmation requise !</strong> Appuyer sur OK pour confirmer que ce "
 "changement été intentionnel<br />Sinon, appuyer sur Annuler"
 
-#: core/templates/messages.tmpl:385
+#: core/templates/messages.tmpl:391
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
 "Pour des raisons de sécurité, l'extension =.txt= est ajoutée à certains noms "
 "de fichiers."
 
-#: core/templates/messages.tmpl:607
+#: core/templates/messages.tmpl:613
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -542,11 +542,11 @@ msgstr ""
 "hexadécimaux ; exemple : =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:957
+#: core/lib/Foswiki/UI/Register.pm:967
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Un e-mail de confirmation a été envoyé à %1"
 
-#: core/templates/messages.tmpl:611
+#: core/templates/messages.tmpl:617
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -556,7 +556,7 @@ msgstr ""
 "pas d'erreur, sur la page précédente, dans le nom du web, et corrigez le "
 "lien si nécessaire."
 
-#: core/templates/messages.tmpl:579
+#: core/templates/messages.tmpl:585
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -584,7 +584,7 @@ msgstr "A-Z"
 msgid "Access Denied"
 msgstr "Accès refusé"
 
-#: core/templates/messages.tmpl:587
+#: core/templates/messages.tmpl:593
 msgid "Access check on %1 failed"
 msgstr "L'accès à %1 a été refusé"
 
@@ -601,7 +601,7 @@ msgstr "Raccourcis clavier:"
 msgid "Action"
 msgstr "Action"
 
-#: core/templates/messages.tmpl:588
+#: core/templates/messages.tmpl:594
 msgid "Action %1: %2."
 msgstr "Action %1 : %2."
 
@@ -638,7 +638,7 @@ msgstr "Ajouter des paramètres de gestion utilisateur à cette page."
 msgid "Add users or groups to this group"
 msgstr "Ajouter des utilisateurs ou groupes à ce groupe"
 
-#: core/templates/messages.tmpl:373
+#: core/templates/messages.tmpl:379
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "Ajout d'une option %1 sur la page WebPreferences"
 
@@ -694,7 +694,7 @@ msgstr ""
 "Forcer le choix, pour cette page, d'un nom qui n'est pas un <nop>MotWiki "
 "(<nop>WikiWord)"
 
-#: core/templates/messages.tmpl:281
+#: core/templates/messages.tmpl:287
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -706,7 +706,7 @@ msgstr ""
 msgid "An attachment with the same name already exists in this topic."
 msgstr "Un fichier attaché portant ce nom existe déjà sur cette page."
 
-#: core/templates/messages.tmpl:268
+#: core/templates/messages.tmpl:274
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
@@ -774,7 +774,7 @@ msgstr "Attacher un nouveau fichier"
 msgid "Attachment"
 msgstr "Fichier attaché"
 
-#: core/templates/messages.tmpl:641
+#: core/templates/messages.tmpl:647
 msgid "Attachment '%1' does not exist"
 msgstr "Le fichier attaché '%1' n'existe pas"
 
@@ -864,7 +864,7 @@ msgstr "Liens pointant vers %1 dans le Web %2"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Liens pointant vers %1 dans tous les Webs"
 
-#: core/templates/messages.tmpl:305
+#: core/templates/messages.tmpl:311
 msgid "Bad password"
 msgstr "Mot de passe erroné"
 
@@ -904,11 +904,11 @@ msgstr ""
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:577
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:583
 msgid "Can't find user %1"
 msgstr "L'utilisateur ou l'utilisatrice %1 est introuvable"
 
-#: core/templates/messages.tmpl:578
+#: core/templates/messages.tmpl:584
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "L'adresse e-mail de %1 (nécessaire pour réinitialiser son mot de passe) est "
@@ -1033,7 +1033,7 @@ msgstr "Modifications"
 msgid "Changes from r%1 to r%2"
 msgstr "Modifications entre r%1 et r%2"
 
-#: core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:439
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
 "Vérifiez vos paramètres de configuration pour {TemplateDir} et "
@@ -1111,10 +1111,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Conflit"
 
-#: core/templates/messages.tmpl:590 core/templates/messages.tmpl:596
-#: core/templates/messages.tmpl:600 core/templates/messages.tmpl:621
-#: core/templates/messages.tmpl:632 core/templates/messages.tmpl:638
-#: core/templates/messages.tmpl:644 core/templates/messages.tmpl:653
+#: core/templates/messages.tmpl:596 core/templates/messages.tmpl:602
+#: core/templates/messages.tmpl:606 core/templates/messages.tmpl:627
+#: core/templates/messages.tmpl:638 core/templates/messages.tmpl:644
+#: core/templates/messages.tmpl:650 core/templates/messages.tmpl:659
 msgid "Contact %1 if you have any questions."
 msgstr "Contactez %1 si vous avez des questions."
 
@@ -1122,7 +1122,7 @@ msgstr "Contactez %1 si vous avez des questions."
 msgid "Context"
 msgstr "Contexte"
 
-#: core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:431
 msgid "Continue and try to rename web?"
 msgstr "Continuer et essayer de renommer le web ?"
 
@@ -1171,15 +1171,15 @@ msgstr ""
 msgid "Could not create the new web %1"
 msgstr "Impossible de créer le web %1"
 
-#: core/templates/messages.tmpl:431
+#: core/templates/messages.tmpl:437
 msgid "Could not find template"
 msgstr "Impossible de trouver le modèle (template)"
 
-#: core/templates/messages.tmpl:582
+#: core/templates/messages.tmpl:588
 msgid "Could not perform search. Error was: %1"
 msgstr "Impossible d'effectuer la recherche. L'erreur est :%1."
 
-#: core/templates/messages.tmpl:337
+#: core/templates/messages.tmpl:343
 msgid "Could not save %1."
 msgstr "Impossible d'enregistrer %1."
 
@@ -1220,7 +1220,7 @@ msgstr "Créer une nouvelle page de FAQ"
 msgid "Create new topic"
 msgstr "Créer nouvelle page"
 
-#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:511 core/templates/messages.tmpl:517
 msgid "Create not specified and group does not exist"
 msgstr ""
 
@@ -1229,7 +1229,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Créer menu personnel"
 
-#: core/templates/messages.tmpl:619
+#: core/templates/messages.tmpl:625
 msgid "Create the topic"
 msgstr "Créer la page"
 
@@ -1249,7 +1249,7 @@ msgstr "Créer la page"
 msgid "Create your account to edit pages on this site."
 msgstr "Veuillez créer votre compte pour modifier des pages sur ce site."
 
-#: core/templates/messages.tmpl:372
+#: core/templates/messages.tmpl:378
 msgid "Creating a suitable Form Definition topic"
 msgstr "Créant une page correcte de définition de formulaire"
 
@@ -1323,7 +1323,7 @@ msgstr ""
 "Avez-vous tapé le nom de la page correctement ? Rappel : respectez les "
 "majuscules et minuscules du nom de page."
 
-#: core/templates/messages.tmpl:279
+#: core/templates/messages.tmpl:285
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Souhaitiez-vous [[%1][réinitialiser le mot de passe de %2]] ?"
 
@@ -1382,7 +1382,7 @@ msgstr ""
 "Une erreur (%3) est survenue lors du renommage du web %1 en %2. Merci d'en "
 "informer l'administrateur de %4."
 
-#: core/templates/messages.tmpl:402 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:408 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1394,27 +1394,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "E-mail changé avec succès !"
 
-#: core/templates/messages.tmpl:656
+#: core/templates/messages.tmpl:662
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE a échoué - =type= ne peut pas être utilisé avec =old= et =new= "
 
-#: core/templates/messages.tmpl:657
+#: core/templates/messages.tmpl:663
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE a échoué - =old= et =new= doivent tous deux être spécifiés"
 
-#: core/templates/messages.tmpl:658
+#: core/templates/messages.tmpl:664
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE a échoué - le paramètre '%PARAM1%' est répété dans =old= "
 
-#: core/templates/messages.tmpl:661
+#: core/templates/messages.tmpl:667
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND a échoué - l'accès à '%PARAM1%' est interdit"
 
-#: core/templates/messages.tmpl:659
+#: core/templates/messages.tmpl:665
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND a échoué - pas de macro"
 
-#: core/templates/messages.tmpl:660
+#: core/templates/messages.tmpl:666
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND a échoué - la page '%PARAM1%' n'existe pas"
 
@@ -1460,7 +1460,7 @@ msgstr "Modifier les paramètres de la page"
 msgid "Ehm, let me go back to correct the page..."
 msgstr "Hum, laissez moi revenir en arrière et corriger la page..."
 
-#: core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:328
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
@@ -1477,7 +1477,7 @@ msgstr ""
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr "Soit le nom est invalide, soit il correspond à une page inexistante."
 
-#: core/templates/messages.tmpl:393
+#: core/templates/messages.tmpl:399
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1489,7 +1489,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Adresse e-mail"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:469
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "L'e-mail a été désactivé sur cette installation de Foswiki"
 
@@ -1509,15 +1509,15 @@ msgstr ""
 "Entrez le nom d'utilisateur servant à l'administration du Wiki, qui a été "
 "défini dans %1"
 
-#: core/templates/messages.tmpl:255
+#: core/templates/messages.tmpl:261
 msgid "Error registering new user"
 msgstr "Erreur lors de l'inscription de l'utilisateur"
 
-#: core/templates/messages.tmpl:246
+#: core/templates/messages.tmpl:252
 msgid "Error registering user %1"
 msgstr "Erreur lors de l'inscription de l'utilisateur ou utilisatrice %1"
 
-#: core/templates/messages.tmpl:401
+#: core/templates/messages.tmpl:407
 msgid "Error saving topic"
 msgstr "Erreur lors de l'enregistrement de la page"
 
@@ -1525,11 +1525,11 @@ msgstr "Erreur lors de l'enregistrement de la page"
 msgid "Error: %1"
 msgstr "Erreur : %1"
 
-#: core/templates/messages.tmpl:567
+#: core/templates/messages.tmpl:573
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Erreur : Le fichier attaché à %1,%2 n'existe pas"
 
-#: core/templates/messages.tmpl:569
+#: core/templates/messages.tmpl:575
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1537,19 +1537,19 @@ msgstr ""
 "Erreur : Type de contenu non supporté : %1 (types supportés : =text/html=, "
 "=text/plain= et =text/css=)"
 
-#: core/templates/messages.tmpl:568
+#: core/templates/messages.tmpl:574
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Erreur : Protocole non supporté. (Doit être 'http://domaine/...')"
 
-#: core/templates/messages.tmpl:272
+#: core/templates/messages.tmpl:278
 msgid "Errors"
 msgstr "Erreurs "
 
-#: core/templates/messages.tmpl:473
+#: core/templates/messages.tmpl:479
 msgid "Errors adding users to group"
 msgstr "Erreur lors de l'ajout des utilisateurs au groupe"
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:529
 msgid "Errors removing users from groups"
 msgstr "Erreurs lors de la suppression des utilisateurs des groupes"
 
@@ -1557,7 +1557,7 @@ msgstr "Erreurs lors de la suppression des utilisateurs des groupes"
 msgid "Evil person"
 msgstr "Personne mal intentionnée"
 
-#: core/lib/Foswiki/Plugins.pm:366
+#: core/lib/Foswiki/Plugins.pm:375
 msgid "Failed plugins"
 msgstr "Echec de plugins"
 
@@ -1565,7 +1565,7 @@ msgstr "Echec de plugins"
 msgid "Failed to add user: "
 msgstr ""
 
-#: core/templates/messages.tmpl:580
+#: core/templates/messages.tmpl:586
 msgid "Failed to include URL %1"
 msgstr "Échec de l'insertion de l'URL %1"
 
@@ -1579,7 +1579,7 @@ msgid "Fields marked <span class='required'>*</span> are required"
 msgstr ""
 "Les champs marqués par des <span class='required'>*</span> sont obligatoires"
 
-#: core/templates/messages.tmpl:378
+#: core/templates/messages.tmpl:384
 msgid "File has been uploaded with different name"
 msgstr "Ce fichier a été envoyé, sous un nom différent"
 
@@ -1612,7 +1612,7 @@ msgstr "Forcer le passage à une nouvelle version"
 msgid "Forgotten your password?"
 msgstr "Mot de passe oublié ?"
 
-#: core/templates/messages.tmpl:350
+#: core/templates/messages.tmpl:356
 msgid "Form Definition %1 missing"
 msgstr "Définition du formulaire %1 introuvable"
 
@@ -1625,11 +1625,11 @@ msgstr "Données du formulaire"
 msgid "Form definition"
 msgstr "Définition du formulaire"
 
-#: core/templates/messages.tmpl:347
+#: core/templates/messages.tmpl:353
 msgid "Form definition '%1' not found"
 msgstr "Définition du formulaire '%1' introuvable"
 
-#: core/templates/messages.tmpl:355
+#: core/templates/messages.tmpl:361
 msgid "Form definition missing"
 msgstr "Définition du formulaire manquante"
 
@@ -1666,12 +1666,12 @@ msgstr "Etre informé lorsque le résultat de cette recherche change"
 msgid "Globe"
 msgstr "Globe"
 
-#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:462
-#: core/templates/messages.tmpl:469
+#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:475
 msgid "Go back"
 msgstr "Revenir en arrière"
 
-#: core/templates/messages.tmpl:341
+#: core/templates/messages.tmpl:347
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
@@ -1679,7 +1679,7 @@ msgstr ""
 "Retournez à la page précédente et remplissez tous les champs nécessaires "
 "avant de sauvegarder à nouveau"
 
-#: core/templates/messages.tmpl:408 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:414 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr ""
 "Retournez à la page précédente et enregistrez vos modifications localement "
@@ -1693,7 +1693,7 @@ msgstr ""
 "Retournez à la page précédente, et activez les Cookies et le Javascript "
 "avant d'essayer de nouveau"
 
-#: core/templates/messages.tmpl:296
+#: core/templates/messages.tmpl:302
 msgid "Good examples:"
 msgstr "Exemples corrects :"
 
@@ -1780,7 +1780,7 @@ msgstr ""
 "supprimé automatiquement. Néanmoins, il se peut que vous deviez supprimer la "
 "page personnelle de l'utilisateur manuellement."
 
-#: core/templates/messages.tmpl:380
+#: core/templates/messages.tmpl:386
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
@@ -1814,7 +1814,7 @@ msgstr ""
 "administrateurs peuvent toujours enregistrer des utilisateurs sur ce site en "
 "utilisant %1."
 
-#: core/templates/messages.tmpl:435
+#: core/templates/messages.tmpl:441
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
@@ -1822,19 +1822,19 @@ msgstr ""
 "Si tel n'est pas le problème, il est possible que vous ayez une valeur de %1 "
 "qui pointe vers un modèle (template) qui n'existe pas."
 
-#: core/templates/messages.tmpl:364
+#: core/templates/messages.tmpl:370
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr ""
 "Si cette ligne n'apparaît pas, lisez le paragraphe concernant la mise à jour "
 "(_upgrade_), ci-dessous"
 
-#: core/templates/messages.tmpl:358
+#: core/templates/messages.tmpl:364
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr ""
 "Si cette page n'existe pas, créez-la ; sinon, vérifiez qu'elle ne contient "
 "pas d'erreurs."
 
-#: core/templates/messages.tmpl:452
+#: core/templates/messages.tmpl:458
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -1846,13 +1846,13 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Si vous n'êtes pas certain de ce que cela signifie, lisez : %1"
 
-#: core/templates/messages.tmpl:609
+#: core/templates/messages.tmpl:615
 msgid "If you came here by clicking on a question mark link"
 msgstr ""
 "Si vous êtes arrivé·e ici en cliquant sur un lien en forme de point "
 "d'interrogation"
 
-#: core/templates/messages.tmpl:261
+#: core/templates/messages.tmpl:267
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
 "Si vous ne recevez pas un e-mail de vérification dans l'heure qui suit,"
@@ -1895,7 +1895,7 @@ msgstr ""
 "Si vous n'avez pas encore choisi de mot de passe, ou si vous souhaitez le "
 "réinitialisez, allez sur la page %1"
 
-#: core/templates/messages.tmpl:450
+#: core/templates/messages.tmpl:456
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1904,11 +1904,11 @@ msgstr ""
 "seulement consulter cette page, cliquez sur [[%1][annuler l'enregistrement]] "
 "pour vous rendre sur %2."
 
-#: core/templates/messages.tmpl:618
+#: core/templates/messages.tmpl:624
 msgid "If you want to create the topic"
 msgstr "Si vous souhaitez créer la page"
 
-#: core/templates/messages.tmpl:614
+#: core/templates/messages.tmpl:620
 msgid "If you would like to create this web"
 msgstr "Si vous souhaitez créer ce web"
 
@@ -1963,7 +1963,7 @@ msgstr ""
 msgid "In reversed order"
 msgstr "En ordre inverse"
 
-#: core/templates/messages.tmpl:383
+#: core/templates/messages.tmpl:389
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
@@ -1971,11 +1971,11 @@ msgstr ""
 "Dans certains cas, Foswiki modifie le nom du fichier attaché afin qu'il soit "
 "utilisable, en toute sécurité, sur toutes les plates-formes :"
 
-#: core/templates/messages.tmpl:286 core/templates/messages.tmpl:293
+#: core/templates/messages.tmpl:292 core/templates/messages.tmpl:299
 msgid "Incorrect %1"
 msgstr "%1 incorrect"
 
-#: core/templates/messages.tmpl:296
+#: core/templates/messages.tmpl:302
 msgid "Incorrect %1.WikiNames:"
 msgstr "!MotsWiki (%1.WikiNames) incorrects :"
 
@@ -1983,7 +1983,7 @@ msgstr "!MotsWiki (%1.WikiNames) incorrects :"
 msgid "Incorrect Password"
 msgstr "Mot de passe erroné"
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:454
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Paramètres erronés pour le script =%1="
 
@@ -2000,7 +2000,7 @@ msgstr "Index"
 msgid "Info"
 msgstr "Info"
 
-#: core/templates/messages.tmpl:387
+#: core/templates/messages.tmpl:393
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
@@ -2008,15 +2008,19 @@ msgstr ""
 "Les caractères internationaux (8 bits) sont enlevés, et remplacés, dans le "
 "cas du Latin-1, par leurs équivalents US-ASCII"
 
-#: core/templates/messages.tmpl:319
+#: core/templates/messages.tmpl:325
 msgid "Invalid Activation Code"
 msgstr "Code de validation erroné"
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:240
+msgid "Invalid Input"
+msgstr ""
+
+#: core/templates/messages.tmpl:317
 msgid "Invalid e-mail address"
 msgstr "Adresse e-mail invalide"
 
-#: core/templates/messages.tmpl:549
+#: core/templates/messages.tmpl:555
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2158,7 +2162,7 @@ msgstr "Nom de connexion %1"
 msgid "Logon"
 msgstr "Connexion"
 
-#: core/templates/messages.tmpl:270
+#: core/templates/messages.tmpl:276
 msgid "Mail to"
 msgstr "Écrivez à "
 
@@ -2326,11 +2330,11 @@ msgstr "Aucun changement"
 msgid "No child topics"
 msgstr "Pas de pages filles"
 
-#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:517
+#: core/templates/messages.tmpl:472 core/templates/messages.tmpl:523
 msgid "No group name specified"
 msgstr "Nom de groupe non spécifié"
 
-#: core/templates/messages.tmpl:566
+#: core/templates/messages.tmpl:572
 msgid "No permission to view %1"
 msgstr "Vous n'avez pas la permission d'accéder à %1"
 
@@ -2342,7 +2346,7 @@ msgstr "Aucune version précédente n'existe."
 msgid "No topics to update."
 msgstr "Aucune page à mettre à jour."
 
-#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:499
+#: core/templates/messages.tmpl:464 core/templates/messages.tmpl:505
 msgid "No username specified"
 msgstr "Nom de connexion non spécifié"
 
@@ -2368,7 +2372,7 @@ msgstr ""
 "après ce déplacement."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
-#: core/templates/messages.tmpl:324 core/templates/messages.tmpl:382
+#: core/templates/messages.tmpl:330 core/templates/messages.tmpl:388
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
@@ -2439,7 +2443,7 @@ msgstr "Ok"
 msgid "Older revision:"
 msgstr "Ancienne version :"
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:604
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Seuls les membres du %1 sont autorisés à faire ça."
 
@@ -2504,7 +2508,7 @@ msgstr "Le mot de passe n'a pu être changé"
 msgid "Password reset failed"
 msgstr "Échec de la réinitialisation du mot de passe"
 
-#: core/templates/messages.tmpl:240
+#: core/templates/messages.tmpl:246
 msgid "Passwords do not match"
 msgstr "Les mots de passe ne concordent pas"
 
@@ -2525,17 +2529,17 @@ msgstr "Emplacement des pages et des fichiers attachés supprimés."
 msgid "Placeholder for trashed attachments"
 msgstr "Emplacement où seront déplacés les fichiers attachés supprimés"
 
-#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:527
+#: core/templates/messages.tmpl:483 core/templates/messages.tmpl:533
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 "Merci de vérifier que vous avez bien la permission de modifier le groupe."
 
-#: core/templates/messages.tmpl:283 core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:289 core/templates/messages.tmpl:339
 msgid "Please contact %1 if you have any questions."
 msgstr "Veuillez contacter %1 si vous avez des questions."
 
 #: core/templates/messages.tmpl:160 core/templates/messages.tmpl:169
-#: core/templates/messages.tmpl:250 core/templates/messages.tmpl:262
+#: core/templates/messages.tmpl:256 core/templates/messages.tmpl:268
 msgid "Please contact %1."
 msgstr "Veuillez contacter %1."
 
@@ -2548,7 +2552,7 @@ msgstr "Veuillez taper le mot de passe d'administration de Wiki"
 msgid "Please go _back_ in your browser and try a new name."
 msgstr "Veuillez retourner à la page précédente, pour essayer un nouveau nom."
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:400
 msgid "Please go back in your browser and check again."
 msgstr "Veuillez retourner à la page précédente et vérifier."
 
@@ -2565,11 +2569,11 @@ msgstr ""
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
 #: core/templates/messages.tmpl:135 core/templates/messages.tmpl:139
 #: core/templates/messages.tmpl:149 core/templates/messages.tmpl:237
-#: core/templates/messages.tmpl:243 core/templates/messages.tmpl:290
-#: core/templates/messages.tmpl:302 core/templates/messages.tmpl:308
-#: core/templates/messages.tmpl:316 core/templates/messages.tmpl:37
-#: core/templates/messages.tmpl:41 core/templates/messages.tmpl:59
-#: core/templates/messages.tmpl:95
+#: core/templates/messages.tmpl:243 core/templates/messages.tmpl:249
+#: core/templates/messages.tmpl:296 core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:314 core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
+#: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
 msgstr "Veuillez retourner à la page précédente, et réessayer."
 
@@ -2581,7 +2585,7 @@ msgstr ""
 "Veuillez vérifier que vous avez écrit le %1 correctement, et réessayez. Si "
 "ça ne fonctionne toujours pas, veuillez en informer %2."
 
-#: core/templates/messages.tmpl:665
+#: core/templates/messages.tmpl:671
 msgid "Please notify your %1 administrator."
 msgstr "Merci d'informer l'administrateur de %1."
 
@@ -2593,7 +2597,7 @@ msgstr ""
 "vous rappellerez plus facilement."
 
 # Le terme plugin (qui est parfaitement compris en français) est utilisé partout, plutôt que greffon. Si nous changeons plugin en greffon, il faut le changer partout.
-#: core/lib/Foswiki/Plugins.pm:407
+#: core/lib/Foswiki/Plugins.pm:416
 msgid "Plugin handlers"
 msgstr "Connecteurs de plugin"
 
@@ -2707,7 +2711,7 @@ msgstr "Adresses e-mail enregistrées pour l'utilisateur actuellement connecté 
 msgid "Registration"
 msgstr "Inscription"
 
-#: core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:328
 msgid "Registration codes can only be used once."
 msgstr "Les codes d'enregistrement ne peuvent être utilisés qu'une fois."
 
@@ -2732,7 +2736,7 @@ msgstr "Recherche par expression rationnelle"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:592 core/templates/messages.tmpl:603
+#: core/templates/messages.tmpl:598 core/templates/messages.tmpl:609
 msgid "Related topics:"
 msgstr "Pages liées :"
 
@@ -2772,7 +2776,7 @@ msgstr "Retirez tout d'abord l'utilisateur du/des groupe(s) %1."
 msgid "Rename"
 msgstr "Renommer"
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:600
 msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
@@ -3019,15 +3023,15 @@ msgstr ""
 "Pour consulter la liste des utilisateurs, consultez %1. Pour créer votre "
 "propre compte, inscrivez-vous sur %2. "
 
-#: core/templates/messages.tmpl:351
+#: core/templates/messages.tmpl:357
 msgid "See %1 for information about Form Definitions."
 msgstr ""
 "Pour plus d'informations à propos des définitions de formulaires, consultez "
 "%1."
 
-#: core/templates/messages.tmpl:479 core/templates/messages.tmpl:489
-#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:529
-#: core/templates/messages.tmpl:539
+#: core/templates/messages.tmpl:485 core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:502 core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:545
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr "Pour consulter le résultat, voir %MAINWEB%.WikiGroups."
 
@@ -3142,11 +3146,11 @@ msgstr ""
 "Certaines personnes y incluent des informations publiques sur leur emploi du "
 "temps, des messages d'absence."
 
-#: core/templates/messages.tmpl:386
+#: core/templates/messages.tmpl:392
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "Certains caractères, tels que =&#126;=, =$=, =@=, =%=, sont supprimés"
 
-#: core/templates/messages.tmpl:325
+#: core/templates/messages.tmpl:331
 msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
@@ -3180,7 +3184,7 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Trier les résultats par :"
 
-#: core/templates/messages.tmpl:384
+#: core/templates/messages.tmpl:390
 msgid "Spaces are replaced by underscores"
 msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
 
@@ -3204,8 +3208,8 @@ msgstr "Statistiques"
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:9 core/templates/messages.tmpl:221
-#: core/templates/messages.tmpl:330
+#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:221
+#: core/templates/messages.tmpl:336
 msgid "Submit"
 msgstr "Envoyer"
 
@@ -3232,11 +3236,11 @@ msgstr "Abonnement / Désabonnement de :"
 msgid "Subwebs"
 msgstr "Sous-webs"
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:491
 msgid "Success adding users to group"
 msgstr "Utilisateurs ajoutés au groupe avec succès"
 
-#: core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:541
 msgid "Success removing users from group"
 msgstr "Utilisateurs supprimés du groupe avec succès"
 
@@ -3260,7 +3264,7 @@ msgstr ""
 "Astuce : pour chercher les pages contenant =\"SOAP\"=, =\"WSDL\"=, et =\"web "
 "service\"= littéralement, mais pas =\"shampoo\"=, écrivez :"
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:635
 msgid "Template %1 does not exist"
 msgstr "Le template %1 n'existe pas"
 
@@ -3289,11 +3293,11 @@ msgstr ""
 "Merci de vous être inscrit·e sur la plate-forme collaborative %1. Votre code "
 "de vérification est %2."
 
-#: core/templates/messages.tmpl:647
+#: core/templates/messages.tmpl:653
 msgid "That user has already been activated "
 msgstr "Cet utilisateur a déjà été activé"
 
-#: core/templates/messages.tmpl:294
+#: core/templates/messages.tmpl:300
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
@@ -3303,7 +3307,7 @@ msgstr ""
 "le \"Nom\" tout en majuscules). Par exemple, <nop>PrénomNom accolé en ôtant "
 "les espaces."
 
-#: core/templates/messages.tmpl:288
+#: core/templates/messages.tmpl:294
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
 msgstr "Le champs %1 doit respecter le filtre {LoginNameFilterIn} de ce site"
 
@@ -3312,7 +3316,7 @@ msgid "The %1 topic already exists"
 msgstr "La page %1 existe déjà"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:606
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:612
 msgid "The %1 web does not exist"
 msgstr "Le web %1 n'existe pas"
 
@@ -3345,7 +3349,7 @@ msgstr ""
 "Le web %1 de Foswiki, le \"Free and Open Source Wiki\" (Wiki libre et open "
 "source)."
 
-#: core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:450
 msgid "The =%1= script can only be called with POST method."
 msgstr "Le script =%1= peut être appelé seulement avec la méthode POST"
 
@@ -3357,7 +3361,7 @@ msgstr "L'administrateur a désactivé l'inscription de nouveaux utilisateurs."
 msgid "The Free and Open Source Wiki."
 msgstr "\"Free and Open Source Wiki\" (Wiki libre et open source)."
 
-#: core/templates/messages.tmpl:320
+#: core/templates/messages.tmpl:326
 msgid "The activation code %1 is invalid."
 msgstr "Le code de validation %1 est invalide."
 
@@ -3392,7 +3396,7 @@ msgstr ""
 "L'attaquant essaye d'utiliser vos droits pour obtenir des choses, comme des "
 "droits d'administration sur votre site. "
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:563
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3421,33 +3425,33 @@ msgstr ""
 "le bouton \"Retour\" du navigateur après avoir sauvegardé une page. Foswiki "
 "utilise alors une approche \"mieux vaut prévenir que guérir\"."
 
-#: core/templates/messages.tmpl:312
+#: core/templates/messages.tmpl:318
 msgid "The e-mail address for this account is not valid."
 msgstr "L'adresse e-mail de ce compte est invalide."
 
-#: core/templates/messages.tmpl:576
+#: core/templates/messages.tmpl:582
 msgid "The entry for user %1 was missing in the password system."
 msgstr ""
 "Le système de mot de passe ne contenait pas l'enregistrement de "
 "l'utilisateur %1."
 
-#: core/templates/messages.tmpl:379
+#: core/templates/messages.tmpl:385
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Le fichier a été attaché avec succès à la page %1."
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:421
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
 "Les pages suivantes sont bloquées parce qu'en cours de modification ; elles "
 "ne peuvent donc être déplacées."
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:427
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "Les pages listées ci-dessous contiennent des liens pointant vers des pages "
 "de ce web, mais sont en cours d'édition :"
 
-#: core/templates/messages.tmpl:418
+#: core/templates/messages.tmpl:424
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
@@ -3455,11 +3459,11 @@ msgstr ""
 "Les pages listées ci-dessous contiennent des liens pointant vers des pages "
 "de ce web, mais vous n'avez pas le droit d'y accéder :"
 
-#: core/templates/messages.tmpl:357
+#: core/templates/messages.tmpl:363
 msgid "The form should be defined in the topic %1"
 msgstr "Le formulaire devrait être défini sur la page %1"
 
-#: core/templates/messages.tmpl:555
+#: core/templates/messages.tmpl:561
 msgid "The lease on this topic expired %1 ago."
 msgstr "Leur verrou sur cette page a expiré il y a %1."
 
@@ -3484,7 +3488,7 @@ msgid "The password you entered in the *old password* field is incorrect."
 msgstr ""
 "Le mot de passe que vous avez entré dans le champ *old password* est erroné."
 
-#: core/templates/messages.tmpl:339
+#: core/templates/messages.tmpl:345
 msgid "The required field %1 was not filled in."
 msgstr "Le champ %1, qui est nécessaire, n'a pas été rempli."
 
@@ -3494,19 +3498,23 @@ msgstr ""
 "Le système d'utilisateurs sélectionné ne supporte pas l'inscription de "
 "nouveaux utilisateurs."
 
-#: core/templates/messages.tmpl:360
+#: core/templates/messages.tmpl:366
 msgid "The topic is in an old format"
 msgstr "La page est dans un format obsolète."
 
-#: core/templates/messages.tmpl:241
+#: core/templates/messages.tmpl:247
 msgid "The two passwords you entered do not match."
 msgstr "Les deux mots de passe que vous avez entrés ne concordent pas."
 
-#: core/templates/messages.tmpl:649
+#: core/templates/messages.tmpl:655
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 "L'utilisateur %1 a déjà été activé, et devrait être capable de "
 "s'authentifier."
+
+#: core/templates/messages.tmpl:241
+msgid "The value supplied for =%1= has been rejected."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
@@ -3517,11 +3525,11 @@ msgstr ""
 "envoyant une requête a votre serveur, en utilisant votre navigateur et votre "
 "identité."
 
-#: core/templates/messages.tmpl:411
+#: core/templates/messages.tmpl:417
 msgid "There are problems with renaming this web:"
 msgstr "Des problèmes se posent pour le renommage de ce web :"
 
-#: core/templates/messages.tmpl:248
+#: core/templates/messages.tmpl:254
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "L'enregistrement de votre compte dans le système de mots de passe a échoué."
@@ -3534,24 +3542,24 @@ msgstr ""
 "Il y a un risque que quelqu'un tente d'utiliser votre identité pour changer "
 "le contenu sur %1 à votre insu."
 
-#: core/templates/messages.tmpl:363
+#: core/templates/messages.tmpl:369
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
 "Il devrait y avoir une ligne incluant %1, essayez de trouver %2 (ou %3)"
 
-#: core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:481
 msgid "There were errors adding %1 to the %2 group. "
 msgstr "L'ajout de %1 au groupe %2 a généré des erreurs. "
 
-#: core/templates/messages.tmpl:525
+#: core/templates/messages.tmpl:531
 msgid "There were errors removing %1 from the %2 group. "
 msgstr "La suppression de %1 du groupe %2 a généré des erreurs. "
 
-#: core/templates/messages.tmpl:370
+#: core/templates/messages.tmpl:376
 msgid "This can be automatically upgraded by:"
 msgstr "La mise à jour peut être automatiquement effectuée en :"
 
-#: core/templates/messages.tmpl:353
+#: core/templates/messages.tmpl:359
 msgid "This could be for several reasons:"
 msgstr "Plusieurs raisons peuvent expliquer cela :"
 
@@ -3645,7 +3653,7 @@ msgstr ""
 "Cette page explique une des mesures de sécurité que Foswiki, le logiciel qui "
 "fait fonctionner ce site, met en œuvre pour le sécuriser contre les attaques."
 
-#: core/templates/messages.tmpl:368
+#: core/templates/messages.tmpl:374
 msgid "This requires the form definition to be present."
 msgstr "Pour cela, le formulaire doit être défini."
 
@@ -3653,7 +3661,7 @@ msgstr "Pour cela, le formulaire doit être défini."
 msgid "This site is powered by Foswiki"
 msgstr "Le présent site est propulsé par Foswiki"
 
-#: core/templates/messages.tmpl:306
+#: core/templates/messages.tmpl:312
 msgid "This site requires at least %1 character passwords"
 msgstr "Les mots de passe doivent être composés d'au moins %1 caractères"
 
@@ -3716,7 +3724,7 @@ msgstr "Vers le web"
 msgid "To web:"
 msgstr "Vers le web :"
 
-#: core/templates/messages.tmpl:664
+#: core/templates/messages.tmpl:670
 msgid "Too many recursions parsing template %1"
 msgstr "Trop de récursions lors du traitement du gabarit %1"
 
@@ -3738,7 +3746,7 @@ msgstr "Page"
 msgid "Topic %1 does not exist"
 msgstr "La page %1 n'existe pas"
 
-#: core/templates/messages.tmpl:336
+#: core/templates/messages.tmpl:342
 msgid "Topic Save Error"
 msgstr "Erreur lors de l'enregistrement de la page"
 
@@ -3747,7 +3755,7 @@ msgstr "Erreur lors de l'enregistrement de la page"
 msgid "Topic attachments"
 msgstr "Fichiers attachés"
 
-#: core/templates/messages.tmpl:366
+#: core/templates/messages.tmpl:372
 msgid "Topic can not be upgraded from old style category table"
 msgstr "Le tableau de catégories de cette page ne peut être mis à jour"
 
@@ -3868,7 +3876,7 @@ msgstr "Mettre à jour page de groupe"
 msgid "Upgrade group topic..."
 msgstr "Migrer la page de groupe..."
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:498
 msgid "Upgraded group"
 msgstr "Groupe mis à jour"
 
@@ -3886,11 +3894,11 @@ msgstr "Charger des fichiers attachés multiples en un fichier zip"
 msgid "Upload up to %1 KB."
 msgstr "Taille limite d'un fichier attaché : %1 Ko."
 
-#: core/templates/messages.tmpl:398
+#: core/templates/messages.tmpl:404
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "La taille du fichier %1 dépasse la limite de %2 Ko"
 
-#: core/templates/messages.tmpl:397
+#: core/templates/messages.tmpl:403
 msgid "Uploaded file is too big"
 msgstr "Ce fichier est trop gros"
 
@@ -4038,44 +4046,44 @@ msgstr "Confirmation nécessaire"
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Attention : cette 'include'-page Wiki n'existe pas"
 
-#: core/templates/messages.tmpl:573
+#: core/templates/messages.tmpl:579
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 "Attention : la page %1 est déjà insérée. Vous ne pouvez utiliser INCLUDE à "
 "plusieurs reprises. %2"
 
-#: core/templates/messages.tmpl:574
+#: core/templates/messages.tmpl:580
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Attention : impossible d'exécuter INCLUDE '%1', le chemin est vide ou "
 "contient des caractères non autorisés."
 
-#: core/templates/messages.tmpl:572
+#: core/templates/messages.tmpl:578
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr ""
 "Attention : impossible de trouver la section dénommée %3 dans la page %1.%2"
 
-#: core/templates/messages.tmpl:571
+#: core/templates/messages.tmpl:577
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Attention : la page %1.%2 est introuvable"
 
-#: core/templates/messages.tmpl:570
+#: core/templates/messages.tmpl:576
 #, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Attention : la page %1.%2 est introuvable"
 
-#: core/lib/Foswiki/UI/Register.pm:950
+#: core/lib/Foswiki/UI/Register.pm:960
 msgid "Warning: Could not send confirmation email"
 msgstr "Attention : l'e-mail de confirmation n'a pas pu être envoyé"
 
-#: core/lib/Foswiki/UI/Register.pm:962
+#: core/lib/Foswiki/UI/Register.pm:972
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Attention : l'e-mail de confirmation n'a pas pu être envoyé, la "
 "fonctionnalité e-mail a été désactivée"
 
-#: core/templates/messages.tmpl:581
+#: core/templates/messages.tmpl:587
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Attention : ce site n'autorise pas l'inclusion d'URLs avec %<nop>INCLUDE%"
@@ -4111,7 +4119,7 @@ msgstr ""
 msgid "Welcome to the %1 web"
 msgstr "Bienvenue sur le web %1"
 
-#: core/templates/messages.tmpl:257
+#: core/templates/messages.tmpl:263
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr "En essayant d'envoyer un e-mail à <noautolink>%1</noautolink>."
 
@@ -4164,7 +4172,7 @@ msgstr ""
 "adresses e-mail que vous avez fournies n'est valide, et que vous avez oublié "
 "votre mot de passe, contactez %1."
 
-#: core/templates/messages.tmpl:276
+#: core/templates/messages.tmpl:282
 msgid "You are already registered"
 msgstr "Vous êtes déjà inscrit·e"
 
@@ -4172,11 +4180,11 @@ msgstr "Vous êtes déjà inscrit·e"
 msgid "You are also listed in the %1 topic"
 msgstr "Vous figurez aussi sur la page %1"
 
-#: core/templates/messages.tmpl:412
+#: core/templates/messages.tmpl:418
 msgid "You are denied access to the following topics in the web:"
 msgstr "Dans ce web, l'accès aux pages suivantes vous est refusé :"
 
-#: core/templates/messages.tmpl:559
+#: core/templates/messages.tmpl:565
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -4211,15 +4219,15 @@ msgstr ""
 "webs), choisissez un nom qui commence par un underscore (_), et ne contenant "
 "par ailleurs que des caractères alphanumériques."
 
-#: core/templates/messages.tmpl:642
+#: core/templates/messages.tmpl:648
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Vous tentez de %1 un fichier attaché qui n'existe pas."
 
-#: core/templates/messages.tmpl:630
+#: core/templates/messages.tmpl:636
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Vous tentez de créer une page d'un modèle (template) qui n'existe pas."
 
-#: core/templates/messages.tmpl:625
+#: core/templates/messages.tmpl:631
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
@@ -4227,11 +4235,11 @@ msgstr ""
 "Vous tentez d'effectuer une action sur une page qui n'existe pas. (action "
 "'%1')."
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:642
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Vous tentez de renommer une page qui n'existe pas."
 
-#: core/templates/messages.tmpl:615
+#: core/templates/messages.tmpl:621
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4258,7 +4266,7 @@ msgstr "Vous pouvez changer de mot de passe via %1"
 msgid "You can give this web a different name."
 msgstr "Vous pouvez renommer ce web."
 
-#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:513
+#: core/templates/messages.tmpl:513 core/templates/messages.tmpl:519
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
@@ -4275,7 +4283,7 @@ msgstr ""
 msgid "You cannot register on this site."
 msgstr "Vous ne pouvez pas vous inscrire sur ce site."
 
-#: core/templates/messages.tmpl:277
+#: core/templates/messages.tmpl:283
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr ""
 "Vous ne pouvez pas vous inscrire deux fois, et le nom %1 est déjà utilisé."
@@ -4291,11 +4299,11 @@ msgstr ""
 "système cherchera une ligne comme celle-ci :"
 
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
-#: core/templates/messages.tmpl:252
+#: core/templates/messages.tmpl:258
 msgid "You have *not* been registered."
 msgstr "Vous n'avez *pas* été inscrit."
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:394
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
@@ -4303,7 +4311,7 @@ msgstr ""
 "Si elles ne sont pas adaptées à votre contexte, vous pouvez demander aux "
 "administrateurs de ce Wiki de les modifier."
 
-#: core/templates/messages.tmpl:651
+#: core/templates/messages.tmpl:657
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4321,23 +4329,23 @@ msgstr ""
 msgid "You must pass a topic name."
 msgstr "Vous devez fournir un nom de page."
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:473
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 "Vous devez spécifier un nom de groupe valide pour ajouter des utilisateurs à "
 "un groupe."
 
-#: core/templates/messages.tmpl:518
+#: core/templates/messages.tmpl:524
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 "Vous devez spécifier un nom de groupe valide pour supprimer des utilisateurs "
 "d'un groupe."
 
-#: core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:466
 msgid "You need to specify a valid user to add to a group."
 msgstr "Vous devez spécifier un utilisateur valide pour l'ajouter à un groupe."
 
-#: core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:507
 msgid "You need to specify a valid user to remove from a group."
 msgstr ""
 "Vous devez spécifier un utilisateur valide pour le supprimer d'un groupe."
@@ -4363,7 +4371,7 @@ msgstr ""
 "recherchera dans votre page personnelle un champ de formulaire dénommé "
 "'Email'. Si ce champ n'existe pas, il recherchera une ligne du type :"
 
-#: core/templates/messages.tmpl:375
+#: core/templates/messages.tmpl:381
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
 "Vous devrez probablement demander à l'administrateur, %1, de faire cela."
@@ -4447,7 +4455,7 @@ msgstr ""
 "envoyer des e-mails, y compris des notifications de changement de mot de "
 "passe."
 
-#: core/templates/messages.tmpl:259
+#: core/templates/messages.tmpl:265
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -4481,7 +4489,7 @@ msgstr ""
 "Votre page personnelle n'a pas été renommée. Veuillez envoyer un e-mail à %1 "
 "pour lui en faire la demande."
 
-#: core/templates/messages.tmpl:362
+#: core/templates/messages.tmpl:368
 msgid "[[%1][Debug topic text]]."
 msgstr "Consultez les [[%1][informations de débogage de la page]]."
 
@@ -4552,7 +4560,7 @@ msgstr "fermer options d'affichage"
 msgid "diff"
 msgstr "diff"
 
-#: core/templates/messages.tmpl:439
+#: core/templates/messages.tmpl:445
 msgid "don't forget to check your Topic Settings"
 msgstr "n'oubliez pas de vérifier votre page de préférences"
 

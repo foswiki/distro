@@ -61,7 +61,7 @@ msgstr "%1 - Registrace pro %2 (%3)"
 msgid "%1 Web"
 msgstr "%1 Web"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:493
 msgid "%1 added to the %2 group. "
 msgstr "%1 přidán do skupiny %2."
 
@@ -71,7 +71,7 @@ msgstr "%1 přidán do skupiny %2."
 msgid "%1 cannot be removed from %2"
 msgstr "%1 odstraněn ze skupiny %2."
 
-#: core/templates/messages.tmpl:494
+#: core/templates/messages.tmpl:500
 msgid "%1 group topic upgraded. "
 msgstr "Předmět skupiny %1 je změněn."
 
@@ -84,7 +84,7 @@ msgstr "%1 obsahuje seznam ostatních uživatelů Foswiki"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 byl povolen a zaregistrován s e-mailem %2"
 
-#: core/templates/messages.tmpl:547
+#: core/templates/messages.tmpl:553
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -111,11 +111,11 @@ msgstr "%1 je chybné jméno pro nový web"
 msgid "%1 is currently logged in"
 msgstr "%1 je v současnosti přihlášen"
 
-#: core/templates/messages.tmpl:437
+#: core/templates/messages.tmpl:443
 msgid "%1 is currently set to %2"
 msgstr "%1 je nastaven na %2"
 
-#: core/templates/messages.tmpl:545
+#: core/templates/messages.tmpl:551
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 edituje [[%2][%3]]."
 
@@ -135,7 +135,7 @@ msgstr "%1 není platnou hodnotou pro parametr %2."
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 je přednastaveným článkem pro smazané přílohy."
 
-#: core/templates/messages.tmpl:553
+#: core/templates/messages.tmpl:559
 msgid "%1 may still be editing %2."
 msgstr "%1 stále může editovat %2."
 
@@ -143,7 +143,7 @@ msgstr "%1 stále může editovat %2."
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 poslední změny na webu %2."
 
-#: core/templates/messages.tmpl:537
+#: core/templates/messages.tmpl:543
 msgid "%1 removed from the %2 group. "
 msgstr "%1 odstraněn ze skupiny %2."
 
@@ -159,7 +159,7 @@ msgstr "%1 pro změnu preferencí webu"
 msgid "%1 to start working on the new web"
 msgstr "%1 pro začátek práce na novém webu"
 
-#: core/templates/messages.tmpl:624 core/templates/messages.tmpl:635
+#: core/templates/messages.tmpl:630 core/templates/messages.tmpl:641
 msgid "%1 topic does not exist"
 msgstr "článek %1 neexistuje"
 
@@ -188,7 +188,7 @@ msgstr "Historie"
 msgid "&Sequential"
 msgstr "Postupně"
 
-#: core/templates/messages.tmpl:287
+#: core/templates/messages.tmpl:293
 msgid "'%1' is not a valid %2 "
 msgstr "'%1' není platné %2 "
 
@@ -331,11 +331,11 @@ msgstr "(chyba uložení)"
 msgid "(set preferences)"
 msgstr "(nastavit předvolby)"
 
-#: core/templates/messages.tmpl:300
+#: core/templates/messages.tmpl:306
 msgid "(single character first name)"
 msgstr "(první písmeno křestního jména)"
 
-#: core/templates/messages.tmpl:299
+#: core/templates/messages.tmpl:305
 msgid "(single character last name)"
 msgstr "(první písmeno přijmení)"
 
@@ -506,11 +506,11 @@ msgid ""
 "intentional<br />Press Cancel otherwise"
 msgstr "Vyžadováno potvrzení! Pro potvrzení zvol OK, jinak Cancel."
 
-#: core/templates/messages.tmpl:385
+#: core/templates/messages.tmpl:391
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Extenze =.txt= se přidává k některým souborům z důvodu bezpečnosti."
 
-#: core/templates/messages.tmpl:607
+#: core/templates/messages.tmpl:613
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -527,11 +527,11 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:957
+#: core/lib/Foswiki/UI/Register.pm:967
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Potvrzovací e-mail byl odeslán %1"
 
-#: core/templates/messages.tmpl:611
+#: core/templates/messages.tmpl:617
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -541,7 +541,7 @@ msgstr ""
 "že jméno webu je správné na předchozí stránce; opravte odkaz, pokud je to "
 "nezbytné."
 
-#: core/templates/messages.tmpl:579
+#: core/templates/messages.tmpl:585
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -569,7 +569,7 @@ msgstr "A-Z"
 msgid "Access Denied"
 msgstr "Přístup odepřen"
 
-#: core/templates/messages.tmpl:587
+#: core/templates/messages.tmpl:593
 msgid "Access check on %1 failed"
 msgstr "Přístup k %1 byl odepřen"
 
@@ -586,7 +586,7 @@ msgstr "Přístupové klíče:"
 msgid "Action"
 msgstr "Akce"
 
-#: core/templates/messages.tmpl:588
+#: core/templates/messages.tmpl:594
 msgid "Action %1: %2."
 msgstr "Akce %1: %2."
 
@@ -623,7 +623,7 @@ msgstr "Přidat k tomuto článku možnosti pro nastavení uživatele."
 msgid "Add users or groups to this group"
 msgstr "Přidej uživatele (nebo skupiny) do této skupiny"
 
-#: core/templates/messages.tmpl:373
+#: core/templates/messages.tmpl:379
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "Přidána proměnná %1 do WebPreferences."
 
@@ -676,7 +676,7 @@ msgstr "Všechny veřejně dostupné weby"
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Povolí ne <nop>WikiWord pro nový název článku"
 
-#: core/templates/messages.tmpl:281
+#: core/templates/messages.tmpl:287
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -688,7 +688,7 @@ msgstr ""
 msgid "An attachment with the same name already exists in this topic."
 msgstr "Přiloha se stejným jménem už v článku existuje."
 
-#: core/templates/messages.tmpl:268
+#: core/templates/messages.tmpl:274
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr "Email nemohl být doručen. Uvědomte prosím Vašeho administrátora %1, %2"
@@ -753,7 +753,7 @@ msgstr "Připoj nový soubor"
 msgid "Attachment"
 msgstr "Příloha"
 
-#: core/templates/messages.tmpl:641
+#: core/templates/messages.tmpl:647
 msgid "Attachment '%1' does not exist"
 msgstr "Přiloha '%1' neexistuje"
 
@@ -843,7 +843,7 @@ msgstr "Zpětné odkazy na %1 v %2 Webu"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Zpětné odkazy na %1 ve všech Webech"
 
-#: core/templates/messages.tmpl:305
+#: core/templates/messages.tmpl:311
 msgid "Bad password"
 msgstr "Špatné heslo"
 
@@ -883,11 +883,11 @@ msgstr ""
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:577
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:583
 msgid "Can't find user %1"
 msgstr "Nemohu nalézt uživatele %1"
 
-#: core/templates/messages.tmpl:578
+#: core/templates/messages.tmpl:584
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Nemohu zjistit emailovou adresu pro %1 (požadovaná pro nové nastavení hesla)"
@@ -1011,7 +1011,7 @@ msgstr "Změny"
 msgid "Changes from r%1 to r%2"
 msgstr "Změněno z verze r%1 to r%2"
 
-#: core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:439
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr "Zkontroluj konfiguraci pro {TemplateDir} a {TemplatePath}."
 
@@ -1082,10 +1082,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Konflikt"
 
-#: core/templates/messages.tmpl:590 core/templates/messages.tmpl:596
-#: core/templates/messages.tmpl:600 core/templates/messages.tmpl:621
-#: core/templates/messages.tmpl:632 core/templates/messages.tmpl:638
-#: core/templates/messages.tmpl:644 core/templates/messages.tmpl:653
+#: core/templates/messages.tmpl:596 core/templates/messages.tmpl:602
+#: core/templates/messages.tmpl:606 core/templates/messages.tmpl:627
+#: core/templates/messages.tmpl:638 core/templates/messages.tmpl:644
+#: core/templates/messages.tmpl:650 core/templates/messages.tmpl:659
 msgid "Contact %1 if you have any questions."
 msgstr "Kontaktujte %1 pokud máte nějaké otázky."
 
@@ -1093,7 +1093,7 @@ msgstr "Kontaktujte %1 pokud máte nějaké otázky."
 msgid "Context"
 msgstr "Kontext"
 
-#: core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:431
 msgid "Continue and try to rename web?"
 msgstr "Pokračujte a zkuste přejmenovat web?"
 
@@ -1140,15 +1140,15 @@ msgstr ""
 msgid "Could not create the new web %1"
 msgstr "Nemohu vytvořit nový web %1"
 
-#: core/templates/messages.tmpl:431
+#: core/templates/messages.tmpl:437
 msgid "Could not find template"
 msgstr "Nemohu nalézt šablonu"
 
-#: core/templates/messages.tmpl:582
+#: core/templates/messages.tmpl:588
 msgid "Could not perform search. Error was: %1"
 msgstr "Nemůžu vykonat vyhledávání. Chyba byla: %1"
 
-#: core/templates/messages.tmpl:337
+#: core/templates/messages.tmpl:343
 msgid "Could not save %1."
 msgstr "Nemohu uložit %1"
 
@@ -1189,7 +1189,7 @@ msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
 msgid "Create new topic"
 msgstr "Vytvoř nový článek"
 
-#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:511 core/templates/messages.tmpl:517
 msgid "Create not specified and group does not exist"
 msgstr ""
 
@@ -1197,7 +1197,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Vaše osobní stránka"
 
-#: core/templates/messages.tmpl:619
+#: core/templates/messages.tmpl:625
 msgid "Create the topic"
 msgstr "Vytvořit článek"
 
@@ -1217,7 +1217,7 @@ msgstr "Vytvoř článek"
 msgid "Create your account to edit pages on this site."
 msgstr "Pro editaci stránek na tomto webu si vytvoř účet. "
 
-#: core/templates/messages.tmpl:372
+#: core/templates/messages.tmpl:378
 msgid "Creating a suitable Form Definition topic"
 msgstr "Vytvořte vhodný Definiční článek formuláře"
 
@@ -1290,7 +1290,7 @@ msgstr ""
 "Napsal jste jméno článku korektně? Nezapomeňte, že ve jméně článku se "
 "rozlišují malá a velká písmena."
 
-#: core/templates/messages.tmpl:279
+#: core/templates/messages.tmpl:285
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
 
@@ -1347,7 +1347,7 @@ msgstr ""
 "Během přejmenování webu %1 na %2 se objevila chyba (%3). Prosím uvědomte %4 "
 "- administrátora."
 
-#: core/templates/messages.tmpl:402 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:408 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1359,27 +1359,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Email byl úspěšně změněn!"
 
-#: core/templates/messages.tmpl:656
+#: core/templates/messages.tmpl:662
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE selhalo - =type= nemůže být použit dohromady s =old= a =new="
 
-#: core/templates/messages.tmpl:657
+#: core/templates/messages.tmpl:663
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE selhalo - oba ( =old= and =new= ) musí být uvedeny."
 
-#: core/templates/messages.tmpl:658
+#: core/templates/messages.tmpl:664
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE selhalo - symbol '%PARAM1%' je opakován v =old="
 
-#: core/templates/messages.tmpl:661
+#: core/templates/messages.tmpl:667
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND selhal - přístup do '%PARAM1%' je zamítnut."
 
-#: core/templates/messages.tmpl:659
+#: core/templates/messages.tmpl:665
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND selhal - neexistuje makro."
 
-#: core/templates/messages.tmpl:660
+#: core/templates/messages.tmpl:666
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND selhal - článek '%PARAM1%' neexistuje"
 
@@ -1425,7 +1425,7 @@ msgstr "Změňte nastavení tohoto článku"
 msgid "Ehm, let me go back to correct the page..."
 msgstr "Dovol mi se vrátit zpět a opravit stránku..."
 
-#: core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:328
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
@@ -1439,7 +1439,7 @@ msgstr "Buď je jméno špatně a nebo odkazuje na neexistující formulář."
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr "Buď je jméno špatně a nebo odkazuje na neexistující článek."
 
-#: core/templates/messages.tmpl:393
+#: core/templates/messages.tmpl:399
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1451,7 +1451,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Emailová adresa"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:460
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:469
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "Email byl zablokovám pro tuto instalaci Foswiki"
 
@@ -1467,15 +1467,15 @@ msgstr "Vložte nové uživatelské jméno a heslo pro změnu identity"
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Vložte Wiki Administrátora nebo login jak je nastaveno v %1"
 
-#: core/templates/messages.tmpl:255
+#: core/templates/messages.tmpl:261
 msgid "Error registering new user"
 msgstr "Chyba při registraci nového uživatele"
 
-#: core/templates/messages.tmpl:246
+#: core/templates/messages.tmpl:252
 msgid "Error registering user %1"
 msgstr "Chyba při registraci uživatele %1"
 
-#: core/templates/messages.tmpl:401
+#: core/templates/messages.tmpl:407
 msgid "Error saving topic"
 msgstr "Chyba při uložení ćlánku"
 
@@ -1483,11 +1483,11 @@ msgstr "Chyba při uložení ćlánku"
 msgid "Error: %1"
 msgstr "Chyba: %1"
 
-#: core/templates/messages.tmpl:567
+#: core/templates/messages.tmpl:573
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Chyba: Příloha v %1,%2 neexistuje"
 
-#: core/templates/messages.tmpl:569
+#: core/templates/messages.tmpl:575
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1495,19 +1495,19 @@ msgstr ""
 "Chyba: Nepodporovaný typ souboru: %1 (Musí být =text/html=, =text/plain= "
 "nebo =text/css=)"
 
-#: core/templates/messages.tmpl:568
+#: core/templates/messages.tmpl:574
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Chyba: Nepodporovaný protokol. (Musí být 'http://domain/...')"
 
-#: core/templates/messages.tmpl:272
+#: core/templates/messages.tmpl:278
 msgid "Errors"
 msgstr "Chyby"
 
-#: core/templates/messages.tmpl:473
+#: core/templates/messages.tmpl:479
 msgid "Errors adding users to group"
 msgstr "Chyba při přidávání uživatelů do skupiny."
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:529
 msgid "Errors removing users from groups"
 msgstr "Chyba při odebírání uživatelů ze skupin."
 
@@ -1515,7 +1515,7 @@ msgstr "Chyba při odebírání uživatelů ze skupin."
 msgid "Evil person"
 msgstr "Zlá osoba"
 
-#: core/lib/Foswiki/Plugins.pm:366
+#: core/lib/Foswiki/Plugins.pm:375
 msgid "Failed plugins"
 msgstr "Chybné pluginy"
 
@@ -1523,7 +1523,7 @@ msgstr "Chybné pluginy"
 msgid "Failed to add user: "
 msgstr ""
 
-#: core/templates/messages.tmpl:580
+#: core/templates/messages.tmpl:586
 msgid "Failed to include URL %1"
 msgstr "Chyba při vložení URL %1"
 
@@ -1536,7 +1536,7 @@ msgstr "Pole označená %1 jsou nutná"
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr "Pole označená <span class='required'>*</span> jsou nutná"
 
-#: core/templates/messages.tmpl:378
+#: core/templates/messages.tmpl:384
 msgid "File has been uploaded with different name"
 msgstr "Soubor byl nahrán pod odlišným jménem"
 
@@ -1569,7 +1569,7 @@ msgstr "Vynucení nové revize"
 msgid "Forgotten your password?"
 msgstr "Zapomněl jste Vaše heslo?"
 
-#: core/templates/messages.tmpl:350
+#: core/templates/messages.tmpl:356
 msgid "Form Definition %1 missing"
 msgstr "Definice formuláře %1 chybí"
 
@@ -1582,11 +1582,11 @@ msgstr "Data formuláře"
 msgid "Form definition"
 msgstr "Definice formuláře"
 
-#: core/templates/messages.tmpl:347
+#: core/templates/messages.tmpl:353
 msgid "Form definition '%1' not found"
 msgstr "Definice formuláře %1 nenalezena"
 
-#: core/templates/messages.tmpl:355
+#: core/templates/messages.tmpl:361
 msgid "Form definition missing"
 msgstr "Definice formuláře chybí"
 
@@ -1622,12 +1622,12 @@ msgstr "Nechte se upozornit o změnách tohoto vyhledávání"
 msgid "Globe"
 msgstr "Glóbus"
 
-#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:462
-#: core/templates/messages.tmpl:469
+#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:475
 msgid "Go back"
 msgstr "Jdi zpět"
 
-#: core/templates/messages.tmpl:341
+#: core/templates/messages.tmpl:347
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
@@ -1635,7 +1635,7 @@ msgstr ""
 "Jděte v prohlížeči zpět a vložte informace pro všechna pole kde je to "
 "vyžadováno."
 
-#: core/templates/messages.tmpl:408 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:414 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "Jděte zpět ve svém prohlížeči a uložte Vaše změny lokálně."
 
@@ -1647,7 +1647,7 @@ msgstr ""
 "Jděte na předchozí stránku a povolte Cookies a Javascript. Poté to zkuste "
 "znovu."
 
-#: core/templates/messages.tmpl:296
+#: core/templates/messages.tmpl:302
 msgid "Good examples:"
 msgstr "Dobré příklady:"
 
@@ -1732,7 +1732,7 @@ msgstr ""
 "jít o falešnou registraci. Uživatel '%1' byl odstraněn automaticky. Avšak "
 "osobní stránku uživatele musíte odstranit manuálně."
 
-#: core/templates/messages.tmpl:380
+#: core/templates/messages.tmpl:386
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
@@ -1765,7 +1765,7 @@ msgstr ""
 "Jestliže registraci není možné provést z důvodu chyb, administrátoři přesto "
 "mohou zaregistrovat uživatele pomocí %1."
 
-#: core/templates/messages.tmpl:435
+#: core/templates/messages.tmpl:441
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
@@ -1773,15 +1773,15 @@ msgstr ""
 "Pokud toto není problém, problémem může být, že %1 ukazuje na šablonu, která "
 "neexistuje."
 
-#: core/templates/messages.tmpl:364
+#: core/templates/messages.tmpl:370
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr "Pokud se tato řádka neukazuje, zkontroluj _upgrade_ sekci dole"
 
-#: core/templates/messages.tmpl:358
+#: core/templates/messages.tmpl:364
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "Pokud tento článek chybí, vytvořte ho, jinak ho zkontrolujte na chyby."
 
-#: core/templates/messages.tmpl:452
+#: core/templates/messages.tmpl:458
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -1793,11 +1793,11 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Jestliže si nejste jisti co toto přesně znamená, čtěte: %1"
 
-#: core/templates/messages.tmpl:609
+#: core/templates/messages.tmpl:615
 msgid "If you came here by clicking on a question mark link"
 msgstr "Pokud jste sem přišel stiskem otazníku"
 
-#: core/templates/messages.tmpl:261
+#: core/templates/messages.tmpl:267
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "Jestliže neobdržíte verifikační email v následující hodině, "
 
@@ -1836,7 +1836,7 @@ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
 "Pokud jste zatím nenastavil heslo nebo ho chcete znovu nastavit, jděte na: %1"
 
-#: core/templates/messages.tmpl:450
+#: core/templates/messages.tmpl:456
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1844,11 +1844,11 @@ msgstr ""
 "Pokud jste obdržel odkaz na tento článek v emailu nebo se chcete pouze "
 "podívat na článek, stiskněte [[%1][přerušit uložit]] aby jste přešli na %2."
 
-#: core/templates/messages.tmpl:618
+#: core/templates/messages.tmpl:624
 msgid "If you want to create the topic"
 msgstr "Pokud chcete vytvořit článek"
 
-#: core/templates/messages.tmpl:614
+#: core/templates/messages.tmpl:620
 msgid "If you would like to create this web"
 msgstr "Pokud chcete vytvořit tento web"
 
@@ -1898,7 +1898,7 @@ msgstr "Pokud se jedná o soubory typu ZIP archiv, připojte je k tomuto článk
 msgid "In reversed order"
 msgstr "V obráceném pořadí"
 
-#: core/templates/messages.tmpl:383
+#: core/templates/messages.tmpl:389
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
@@ -1906,11 +1906,11 @@ msgstr ""
 "V některých případech, Foswiki změní jméno nahraného souboru pro bezpečný a "
 "dosažitelný přístup ze všech platforem:"
 
-#: core/templates/messages.tmpl:286 core/templates/messages.tmpl:293
+#: core/templates/messages.tmpl:292 core/templates/messages.tmpl:299
 msgid "Incorrect %1"
 msgstr "Chybné %1"
 
-#: core/templates/messages.tmpl:296
+#: core/templates/messages.tmpl:302
 msgid "Incorrect %1.WikiNames:"
 msgstr "Chybné %1.WikiNames:"
 
@@ -1918,7 +1918,7 @@ msgstr "Chybné %1.WikiNames:"
 msgid "Incorrect Password"
 msgstr "Chybné heslo"
 
-#: core/templates/messages.tmpl:448
+#: core/templates/messages.tmpl:454
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Chybné parametry pro =%1= skript"
 
@@ -1935,7 +1935,7 @@ msgstr "Index"
 msgid "Info"
 msgstr "Info"
 
-#: core/templates/messages.tmpl:387
+#: core/templates/messages.tmpl:393
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
@@ -1943,15 +1943,19 @@ msgstr ""
 "Mazinárodní (8-bit) znaky byly odstraněny (nahrazeny US-ASCII ekvivalenty "
 "pro Latin-1)"
 
-#: core/templates/messages.tmpl:319
+#: core/templates/messages.tmpl:325
 msgid "Invalid Activation Code"
 msgstr "Chybný aktivační kód"
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:240
+msgid "Invalid Input"
+msgstr ""
+
+#: core/templates/messages.tmpl:317
 msgid "Invalid e-mail address"
 msgstr "Chybná emailová adresa"
 
-#: core/templates/messages.tmpl:549
+#: core/templates/messages.tmpl:555
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2089,7 +2093,7 @@ msgstr "Přihlášen %1"
 msgid "Logon"
 msgstr "Přihlásit"
 
-#: core/templates/messages.tmpl:270
+#: core/templates/messages.tmpl:276
 msgid "Mail to"
 msgstr "Odeslat mail"
 
@@ -2257,11 +2261,11 @@ msgstr "Beze změn"
 msgid "No child topics"
 msgstr "Žádné podřízené články"
 
-#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:517
+#: core/templates/messages.tmpl:472 core/templates/messages.tmpl:523
 msgid "No group name specified"
 msgstr "Nebylo uvedeno jméno skupiny"
 
-#: core/templates/messages.tmpl:566
+#: core/templates/messages.tmpl:572
 msgid "No permission to view %1"
 msgstr "Nemáte právo pro prohlížení %1"
 
@@ -2273,7 +2277,7 @@ msgstr "Neexistují žádné předchozí revize článku."
 msgid "No topics to update."
 msgstr "Žádné články k aktualizaci"
 
-#: core/templates/messages.tmpl:458 core/templates/messages.tmpl:499
+#: core/templates/messages.tmpl:464 core/templates/messages.tmpl:505
 msgid "No username specified"
 msgstr "Nebylo uvedeno jméno uživatele"
 
@@ -2298,7 +2302,7 @@ msgstr ""
 "tomto přesunu."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
-#: core/templates/messages.tmpl:324 core/templates/messages.tmpl:382
+#: core/templates/messages.tmpl:330 core/templates/messages.tmpl:388
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
@@ -2369,7 +2373,7 @@ msgstr "Ok"
 msgid "Older revision:"
 msgstr "Starší revize"
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:604
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Pouze členové %1 jsou oprávnění provést tuto akci."
 
@@ -2434,7 +2438,7 @@ msgstr "Heslo nemohlo být změněno"
 msgid "Password reset failed"
 msgstr "Znovunastavení hesla bylo neúspěšné"
 
-#: core/templates/messages.tmpl:240
+#: core/templates/messages.tmpl:246
 msgid "Passwords do not match"
 msgstr "Hesla si neodpovídají"
 
@@ -2455,16 +2459,16 @@ msgstr "Místo pro vymazané články a přílohy."
 msgid "Placeholder for trashed attachments"
 msgstr "Místo pro vymazané přílohy"
 
-#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:527
+#: core/templates/messages.tmpl:483 core/templates/messages.tmpl:533
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Prosím zkontrolujte že máte oprávnění měnit skupinu."
 
-#: core/templates/messages.tmpl:283 core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:289 core/templates/messages.tmpl:339
 msgid "Please contact %1 if you have any questions."
 msgstr "Prosím kontatujte %1 pokud máte libovolné otázky."
 
 #: core/templates/messages.tmpl:160 core/templates/messages.tmpl:169
-#: core/templates/messages.tmpl:250 core/templates/messages.tmpl:262
+#: core/templates/messages.tmpl:256 core/templates/messages.tmpl:268
 msgid "Please contact %1."
 msgstr "Prosím kontaktujte %1."
 
@@ -2477,7 +2481,7 @@ msgstr "Vložte prosím heslo Wiki administrátora:"
 msgid "Please go _back_ in your browser and try a new name."
 msgstr "Prosím jděte _zpět_ ve vašem prohlížeči a zkuste nové jméno."
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:400
 msgid "Please go back in your browser and check again."
 msgstr "Prosím jděte zpět ve Vašem prohlížeči a zkontrolujte to znova."
 
@@ -2494,11 +2498,11 @@ msgstr ""
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
 #: core/templates/messages.tmpl:135 core/templates/messages.tmpl:139
 #: core/templates/messages.tmpl:149 core/templates/messages.tmpl:237
-#: core/templates/messages.tmpl:243 core/templates/messages.tmpl:290
-#: core/templates/messages.tmpl:302 core/templates/messages.tmpl:308
-#: core/templates/messages.tmpl:316 core/templates/messages.tmpl:37
-#: core/templates/messages.tmpl:41 core/templates/messages.tmpl:59
-#: core/templates/messages.tmpl:95
+#: core/templates/messages.tmpl:243 core/templates/messages.tmpl:249
+#: core/templates/messages.tmpl:296 core/templates/messages.tmpl:308
+#: core/templates/messages.tmpl:314 core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
+#: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
 msgstr "Jděte zpět ve Vašem browseru a zkuste to znova."
 
@@ -2510,7 +2514,7 @@ msgstr ""
 "Ujistéte se prosím, že jste napsal %1 správně, ješté jednou. Pokud jste se "
 "opravdu zasekl, prosím zašlete mail %2."
 
-#: core/templates/messages.tmpl:665
+#: core/templates/messages.tmpl:671
 msgid "Please notify your %1 administrator."
 msgstr "Uvědomte prosím Vašeho administrátora %1,"
 
@@ -2520,7 +2524,7 @@ msgid ""
 msgstr ""
 "Přejděte prosím na %1 a změňte Vaše heslo na něco, co si snáže zapamatujete."
 
-#: core/lib/Foswiki/Plugins.pm:407
+#: core/lib/Foswiki/Plugins.pm:416
 msgid "Plugin handlers"
 msgstr "Držátka pluginů :)"
 
@@ -2634,7 +2638,7 @@ msgstr "Registrovaná e-mailová adresa aktuálně přihlášeného uživatele"
 msgid "Registration"
 msgstr "Registrace"
 
-#: core/templates/messages.tmpl:322
+#: core/templates/messages.tmpl:328
 msgid "Registration codes can only be used once."
 msgstr "Registrační kódy mohou být použity pouze jednou."
 
@@ -2658,7 +2662,7 @@ msgstr "Hledání pomocí regulárních výrazů"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:592 core/templates/messages.tmpl:603
+#: core/templates/messages.tmpl:598 core/templates/messages.tmpl:609
 msgid "Related topics:"
 msgstr "Podobné články:"
 
@@ -2698,7 +2702,7 @@ msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:600
 msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
@@ -2938,13 +2942,13 @@ msgstr ""
 "Zkontrolujte %1 v seznamu existujících uživatelů nebo se zaregistrujte jako "
 "nový uživatel v %2."
 
-#: core/templates/messages.tmpl:351
+#: core/templates/messages.tmpl:357
 msgid "See %1 for information about Form Definitions."
 msgstr "Přečtěte si %1 pro informaci o definici formuláře."
 
-#: core/templates/messages.tmpl:479 core/templates/messages.tmpl:489
-#: core/templates/messages.tmpl:496 core/templates/messages.tmpl:529
-#: core/templates/messages.tmpl:539
+#: core/templates/messages.tmpl:485 core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:502 core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:545
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr "Výsledek uvidíš na %MAINWEB%.WikiGroups."
 
@@ -3050,11 +3054,11 @@ msgstr "Velikost"
 msgid "Some add schedule information and vacation notice."
 msgstr "Někdo přidal informace o rozvrhu a poznámky o volnu."
 
-#: core/templates/messages.tmpl:386
+#: core/templates/messages.tmpl:392
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "Některé znaky jako je =&#126;=, =$=, =@=, =%= jsou mazány"
 
-#: core/templates/messages.tmpl:325
+#: core/templates/messages.tmpl:331
 msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
@@ -3088,7 +3092,7 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Seřaď výsledky podle:"
 
-#: core/templates/messages.tmpl:384
+#: core/templates/messages.tmpl:390
 msgid "Spaces are replaced by underscores"
 msgstr "Mezery jsou nahrazeny podtržítky"
 
@@ -3111,8 +3115,8 @@ msgstr "Statistiky"
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:9 core/templates/messages.tmpl:221
-#: core/templates/messages.tmpl:330
+#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:221
+#: core/templates/messages.tmpl:336
 msgid "Submit"
 msgstr "Potvrdit"
 
@@ -3139,11 +3143,11 @@ msgstr "Příhlásit/ Odhlásit z:"
 msgid "Subwebs"
 msgstr "Podweby"
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:491
 msgid "Success adding users to group"
 msgstr "Přidání uživatelů do skupiny bylo úspěšné"
 
-#: core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:541
 msgid "Success removing users from group"
 msgstr "Odstranění uživatelů ze skupiny bylo úspěšné"
 
@@ -3167,7 +3171,7 @@ msgstr ""
 "TIP: pro hledání všech článků, které obsahují =\"SOAP\"=, =\"WSDL\"=, a "
 "literal =\"web service\"=, ale ne =\"shampoo\"=, napište:"
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:635
 msgid "Template %1 does not exist"
 msgstr "Šablona %1 neexistuje"
 
@@ -3196,11 +3200,11 @@ msgstr ""
 "Díky za Vaši registraci v %1 - platformě pro spolupráci. Váš verifikační kód "
 "je %2."
 
-#: core/templates/messages.tmpl:647
+#: core/templates/messages.tmpl:653
 msgid "That user has already been activated "
 msgstr "Konto tohoto uživatele již bylo aktivováno."
 
-#: core/templates/messages.tmpl:294
+#: core/templates/messages.tmpl:300
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
@@ -3208,7 +3212,7 @@ msgstr ""
 "%1 je Vaše křestní jméno, %2 Vaše příjmení, tj. Vaše Křestní jméno a "
 "příjmení bez mezer a s prvními písmeny velkými."
 
-#: core/templates/messages.tmpl:288
+#: core/templates/messages.tmpl:294
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
 msgstr "Pole %1 musí souhlasit s filtrem {LoginNameFilterIn} pro tuto site."
 
@@ -3217,7 +3221,7 @@ msgid "The %1 topic already exists"
 msgstr "Článek %1 už existuje"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:606
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:612
 msgid "The %1 web does not exist"
 msgstr "Web %1 neexistuje"
 
@@ -3247,7 +3251,7 @@ msgstr "%1 web z %2."
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr "Web %1 je webem Foswiki - wiki dostupné zdarma a jako Open Source."
 
-#: core/templates/messages.tmpl:444
+#: core/templates/messages.tmpl:450
 msgid "The =%1= script can only be called with POST method."
 msgstr "Skript =%1= může být volán pouze metodou POST."
 
@@ -3259,7 +3263,7 @@ msgstr "Registrace nových uživatelů byla zakázána Administrátorem."
 msgid "The Free and Open Source Wiki."
 msgstr "Wiki dostupná zdarma a jako Open Source."
 
-#: core/templates/messages.tmpl:320
+#: core/templates/messages.tmpl:326
 msgid "The activation code %1 is invalid."
 msgstr "Aktivační kód %1 je neplatný."
 
@@ -3291,7 +3295,7 @@ msgstr ""
 "Útočník se pokouší zneužít vašich práv pro získání věcí jako jsou např. "
 "administrátorská oprávnění k tomuto webu."
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:563
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3317,28 +3321,28 @@ msgstr ""
 "Foswiki se poté chová stylem \"better safe than sorry - lepe je předcházet "
 "problémům\""
 
-#: core/templates/messages.tmpl:312
+#: core/templates/messages.tmpl:318
 msgid "The e-mail address for this account is not valid."
 msgstr "Emailová adresa pro tento účet není správná."
 
-#: core/templates/messages.tmpl:576
+#: core/templates/messages.tmpl:582
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Záznam pro uživatele %1 chyběl systému."
 
-#: core/templates/messages.tmpl:379
+#: core/templates/messages.tmpl:385
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Soubor byl nahrán a v poŕadku připojen ke článku %1"
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:421
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr "Následující ćlánky jsou zamćeny pro editování a nemohou být přesunuty:"
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:427
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "Následující články odkazují na články v tomto webu, ale nyní jsou editovány:"
 
-#: core/templates/messages.tmpl:418
+#: core/templates/messages.tmpl:424
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
@@ -3346,11 +3350,11 @@ msgstr ""
 "Následující články odkazují na články v tomto webu, ale Vy k nim máte "
 "zakázán přístup:"
 
-#: core/templates/messages.tmpl:357
+#: core/templates/messages.tmpl:363
 msgid "The form should be defined in the topic %1"
 msgstr "Formulář měl být definován ve článku %1"
 
-#: core/templates/messages.tmpl:555
+#: core/templates/messages.tmpl:561
 msgid "The lease on this topic expired %1 ago."
 msgstr "Zámek na tomto článku vypršel před %1"
 
@@ -3374,7 +3378,7 @@ msgstr "Nový web byl vytvořen"
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "Heslo, které jste vložil do *předchozího hesla* je nesprávná."
 
-#: core/templates/messages.tmpl:339
+#: core/templates/messages.tmpl:345
 msgid "The required field %1 was not filled in."
 msgstr "Požadované pole %1 nebylo vyplněno."
 
@@ -3382,18 +3386,22 @@ msgstr "Požadované pole %1 nebylo vyplněno."
 msgid "The selected User System does not support new user registration."
 msgstr "Zvolený User System nepodporuje registraci nových uživatelů."
 
-#: core/templates/messages.tmpl:360
+#: core/templates/messages.tmpl:366
 msgid "The topic is in an old format"
 msgstr "Článek je ve starém formátu"
 
-#: core/templates/messages.tmpl:241
+#: core/templates/messages.tmpl:247
 msgid "The two passwords you entered do not match."
 msgstr "Hesla, která jste vložil nesouhlasí."
 
-#: core/templates/messages.tmpl:649
+#: core/templates/messages.tmpl:655
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 "Uživatel %1 byl již aktivován a měl by být schopen se přihlásit do systému."
+
+#: core/templates/messages.tmpl:241
+msgid "The value supplied for =%1= has been rejected."
+msgstr ""
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
@@ -3403,11 +3411,11 @@ msgstr ""
 "Jejich záměrem je automatické ukládání dat za pomoci odeslání požadavku na "
 "server s vaším oprávněním. "
 
-#: core/templates/messages.tmpl:411
+#: core/templates/messages.tmpl:417
 msgid "There are problems with renaming this web:"
 msgstr "Problémy s přejmenováním tohoto webu:"
 
-#: core/templates/messages.tmpl:248
+#: core/templates/messages.tmpl:254
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "Objevil se problém v přidání Vašeho účtu do systému."
 
@@ -3419,23 +3427,23 @@ msgstr ""
 "Existuje riziko, že někdo se může pokoušet změnit obsah %1 bez vašeho vědomí "
 "a navíc za použití vaší identity."
 
-#: core/templates/messages.tmpl:363
+#: core/templates/messages.tmpl:369
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
 
-#: core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:481
 msgid "There were errors adding %1 to the %2 group. "
 msgstr "Při přidání skupiny %1 do skupiny %2 se vyskytly chyby."
 
-#: core/templates/messages.tmpl:525
+#: core/templates/messages.tmpl:531
 msgid "There were errors removing %1 from the %2 group. "
 msgstr "Při odebrání skupiny %1 ze skupiny %2 se vyskytly chyby."
 
-#: core/templates/messages.tmpl:370
+#: core/templates/messages.tmpl:376
 msgid "This can be automatically upgraded by:"
 msgstr "Toto může být automaticky upgradováno na:"
 
-#: core/templates/messages.tmpl:353
+#: core/templates/messages.tmpl:359
 msgid "This could be for several reasons:"
 msgstr "Mohlo se stát z několika příčin:"
 
@@ -3522,7 +3530,7 @@ msgstr ""
 "Tato stránka vysvětluje jedno z bezpečnostních měřítek jež Foswiki, software "
 "na kterém běží tato stránky, provádí k ochraně před útočníky."
 
-#: core/templates/messages.tmpl:368
+#: core/templates/messages.tmpl:374
 msgid "This requires the form definition to be present."
 msgstr "Toto vyžaduje aby existovala definice formuláře."
 
@@ -3530,7 +3538,7 @@ msgstr "Toto vyžaduje aby existovala definice formuláře."
 msgid "This site is powered by Foswiki"
 msgstr "Tento web běží na technologii Foswiki."
 
-#: core/templates/messages.tmpl:306
+#: core/templates/messages.tmpl:312
 msgid "This site requires at least %1 character passwords"
 msgstr "Tento web vyžaduje nejméně %1 znaková hesla"
 
@@ -3589,7 +3597,7 @@ msgstr "K webu:"
 msgid "To web:"
 msgstr "K webu:"
 
-#: core/templates/messages.tmpl:664
+#: core/templates/messages.tmpl:670
 msgid "Too many recursions parsing template %1"
 msgstr "Příliš mnoho rekurzí při procházení šablony %1"
 
@@ -3610,7 +3618,7 @@ msgstr "Článek"
 msgid "Topic %1 does not exist"
 msgstr "Článek %1 neexistuje"
 
-#: core/templates/messages.tmpl:336
+#: core/templates/messages.tmpl:342
 msgid "Topic Save Error"
 msgstr "Chyba při uložení článku"
 
@@ -3619,7 +3627,7 @@ msgstr "Chyba při uložení článku"
 msgid "Topic attachments"
 msgstr "Přílohy článku"
 
-#: core/templates/messages.tmpl:366
+#: core/templates/messages.tmpl:372
 msgid "Topic can not be upgraded from old style category table"
 msgstr "Článek nemůže být upgradován ze starého stylu tabulky kategorií"
 
@@ -3739,7 +3747,7 @@ msgstr "Upgrade názvu skupiny"
 msgid "Upgrade group topic..."
 msgstr "Upgrade téma skupiny..."
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:498
 msgid "Upgraded group"
 msgstr "Upgradovaná skupina"
 
@@ -3757,11 +3765,11 @@ msgstr "Nahraj více příloh v rámci jednoho ZIP souboru"
 msgid "Upload up to %1 KB."
 msgstr "Maximální velikost přílohy je %1 KB."
 
-#: core/templates/messages.tmpl:398
+#: core/templates/messages.tmpl:404
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "Velikost přílohy %1 přesáhla limit %2 KB"
 
-#: core/templates/messages.tmpl:397
+#: core/templates/messages.tmpl:403
 msgid "Uploaded file is too big"
 msgstr "Příloha je příliš veliká"
 
@@ -3907,39 +3915,39 @@ msgstr "Varování! Je vyžadováno potvrzení."
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Varování: 'include' článek ještě neexistuje!"
 
-#: core/templates/messages.tmpl:573
+#: core/templates/messages.tmpl:579
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "Varování: INCLUDE %1 nelze provést opakovaně, článek je už zahrnut. %2"
 
-#: core/templates/messages.tmpl:574
+#: core/templates/messages.tmpl:580
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Varování: Nemohu provést INCLUDE '%1', cesta je prázdná nebo obsahuje "
 "nepovolené znaky."
 
-#: core/templates/messages.tmpl:572
+#: core/templates/messages.tmpl:578
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Varování: Nemohu najít sekci %3 v článku %1.%2"
 
-#: core/templates/messages.tmpl:571
+#: core/templates/messages.tmpl:577
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Varování: Nemohu najít článek %1.%2"
 
-#: core/templates/messages.tmpl:570
+#: core/templates/messages.tmpl:576
 #, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Varování: Nemohu najít článek %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:950
+#: core/lib/Foswiki/UI/Register.pm:960
 msgid "Warning: Could not send confirmation email"
 msgstr "Varování: Nemohu odeslat konfirmační email."
 
-#: core/lib/Foswiki/UI/Register.pm:962
+#: core/lib/Foswiki/UI/Register.pm:972
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Varování: Nemohu zaslat konfirmační email, zasílání emailů je vypnuté."
 
-#: core/templates/messages.tmpl:581
+#: core/templates/messages.tmpl:587
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
@@ -3972,7 +3980,7 @@ msgstr "Vítejte na %1 ... seznamte se s lidmi na tomto webu"
 msgid "Welcome to the %1 web"
 msgstr "Vítejte do %1 webu"
 
-#: core/templates/messages.tmpl:257
+#: core/templates/messages.tmpl:263
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr "Zatímco přistupuji k emailu <noautolink>%1</noautolink>."
 
@@ -4022,7 +4030,7 @@ msgstr ""
 "resetovat Vaše heslo. Pokud žádný z Vašich registrovaných emailových adres "
 "není správný a Vy jste změnil Vaše heslo, kontaktujte %1."
 
-#: core/templates/messages.tmpl:276
+#: core/templates/messages.tmpl:282
 msgid "You are already registered"
 msgstr "Už jste registrován"
 
@@ -4030,11 +4038,11 @@ msgstr "Už jste registrován"
 msgid "You are also listed in the %1 topic"
 msgstr "Také jste uveden v článku %1"
 
-#: core/templates/messages.tmpl:412
+#: core/templates/messages.tmpl:418
 msgid "You are denied access to the following topics in the web:"
 msgstr "Nemáte přístup k tomuto článku:"
 
-#: core/templates/messages.tmpl:559
+#: core/templates/messages.tmpl:565
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -4066,25 +4074,25 @@ msgstr ""
 "webů), vyberte jméno, které  začíná podtržitkem a obsahuje pouze "
 "alfanumerické znaky."
 
-#: core/templates/messages.tmpl:642
+#: core/templates/messages.tmpl:648
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "Zkoušíte %1 k příloze, která neexistuje."
 
-#: core/templates/messages.tmpl:630
+#: core/templates/messages.tmpl:636
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Pokoušíte se vytvořit článek ze šablony která neexistuje."
 
-#: core/templates/messages.tmpl:625
+#: core/templates/messages.tmpl:631
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr "Pokoušíte se provést akci '%1' článkem který neexistuje."
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:642
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Zkoušíte přejmenovat článek který neexistuje."
 
-#: core/templates/messages.tmpl:615
+#: core/templates/messages.tmpl:621
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4111,7 +4119,7 @@ msgstr "Můžete změnit Vaše heslo přes %1"
 msgid "You can give this web a different name."
 msgstr "Webu můžete dát jiné jméno."
 
-#: core/templates/messages.tmpl:507 core/templates/messages.tmpl:513
+#: core/templates/messages.tmpl:513 core/templates/messages.tmpl:519
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
@@ -4128,7 +4136,7 @@ msgstr ""
 msgid "You cannot register on this site."
 msgstr "Na tomto webu se nemůžete zaregistrovat."
 
-#: core/templates/messages.tmpl:277
+#: core/templates/messages.tmpl:283
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Nemůžete se registrovat dvakrát, účet %1 už je zaregistrováno."
 
@@ -4142,11 +4150,11 @@ msgstr ""
 "toto pole neexistuje podívejte se po řádce jako je tato:"
 
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
-#: core/templates/messages.tmpl:252
+#: core/templates/messages.tmpl:258
 msgid "You have *not* been registered."
 msgstr "Ještě jste *ne*byl registrován."
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:394
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
@@ -4154,7 +4162,7 @@ msgstr ""
 "Váš Wiki administrátor může změnit nastavení, pokud jsou nevhodné pro Vaše "
 "prostředí."
 
-#: core/templates/messages.tmpl:651
+#: core/templates/messages.tmpl:657
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4170,19 +4178,19 @@ msgstr "Musíte zavřít Váš prohlížeč, aby se změny projevily."
 msgid "You must pass a topic name."
 msgstr "Musíte zadat název stránky."
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:473
 msgid "You need to specify a valid group name to add users to a group."
 msgstr "Pro přidání uživatelů je třeba uvést platné jméno skupiny."
 
-#: core/templates/messages.tmpl:518
+#: core/templates/messages.tmpl:524
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr "Pro odebrání uživatelů je třeba uvést platné jméno skupiny."
 
-#: core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:466
 msgid "You need to specify a valid user to add to a group."
 msgstr "Pro přidání do skupiny je třeba uvést platné jméno uživatele."
 
-#: core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:507
 msgid "You need to specify a valid user to remove from a group."
 msgstr "Pro odebrání za skupiny je třeba uvést platné jméno uživatele."
 
@@ -4206,7 +4214,7 @@ msgstr ""
 "nebude moci najít Váš email ve své databázi, vyhledá ve Vašem osobním článku "
 "pole Email nebo řádek jako je tento:"
 
-#: core/templates/messages.tmpl:375
+#: core/templates/messages.tmpl:381
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
 "Pravděpodobně se budete muset zeptat Vašeho administrátora - %1, aby jste "
@@ -4286,7 +4294,7 @@ msgstr ""
 "Vaše registrované emaily používá Foswiki pro zasílání informací včetně "
 "notifikace o změně hesla."
 
-#: core/templates/messages.tmpl:259
+#: core/templates/messages.tmpl:265
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -4320,7 +4328,7 @@ msgstr ""
 "Váš osobní článek nebyl pŕejmenován. Prosím pošlete email %1 s tímto "
 "požadavkem."
 
-#: core/templates/messages.tmpl:362
+#: core/templates/messages.tmpl:368
 msgid "[[%1][Debug topic text]]."
 msgstr "Klikni na [[%1][Odstranění chyb v textu stránky]]."
 
@@ -4390,7 +4398,7 @@ msgstr "Více možností pro zobrazení:"
 msgid "diff"
 msgstr "rozdíl"
 
-#: core/templates/messages.tmpl:439
+#: core/templates/messages.tmpl:445
 msgid "don't forget to check your Topic Settings"
 msgstr "nezapomeň zkontrolovat nastavení článku (Topic Settings)"
 
