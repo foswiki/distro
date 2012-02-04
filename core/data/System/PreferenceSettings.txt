@@ -18,7 +18,7 @@ Preferences can be defined in a number of places:
    1 In user topics, if the user has one (yours is [[%WIKIUSERNAME%]])
    1 In (some) plugin documentation topics
    1 In the topic being accessed
-=Set= statements which occur at higher-numbered locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a FINALPREFERENCES setting (finalised) at a lower-numbered level._ In this case, the macro is locked to the value at that level; =Set= statements at higher-numbered levels are ignored.</blockquote>
+=Set= statements which occur at higher-numbered locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a FINALPREFERENCES setting (finalised) at a lower-numbered level._ In this case, the macro is locked to the value at that level; =Set= statements at higher-numbered levels are ignored.
 
 %I% Preference settings can easily be disabled with a # sign. Example:%BR%
    <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
