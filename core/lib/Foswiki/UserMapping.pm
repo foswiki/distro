@@ -541,6 +541,37 @@ sub passwordError {
     return;
 }
 
+=begin TML
+
+---++ ObjectMethod validateRegistrationField($field, $value ) -> $string
+
+Returns a string containing the sanitized registration field, or can throw an oops
+if the field contains illegal data to block the registration.
+
+returns the string unchanged if no issue found.
+
+=cut
+
+sub validateRegistrationField {
+
+    #my ($this, $field, $value) = @_;
+
+    # Filter username per the login validation rules.
+    if ( lc( $_[1] ) eq 'username'
+        && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/ ) )
+    {
+        throw Error::Simple("Invalid username");
+    }
+
+    # Don't check contents of password - it's never displayed.
+    return $_[2] if ( lc( $_[1] ) eq 'password' || lc( $_[1] ) eq 'confirm' );
+
+    # Don't allow html markup in any other fields.
+    throw Error::Simple("Invalid $_[1]") if ( $_[2] =~ m/[<>]+/ );
+
+    return $_[2];
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

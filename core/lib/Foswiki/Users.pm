@@ -237,6 +237,19 @@ sub supportsRegistration {
 
 =begin TML
 
+---++ ObjectMethod validateRegistrationField ( $field, $value ) -> text
+
+Return the registration formfield sanitized by the mapper,  or oops thrown to block the registration.
+
+=cut
+
+sub validateRegistrationField {
+    my ($this) = shift;
+    return $this->{mapping}->validateRegistrationField(@_);
+}
+
+=begin TML
+
 ---++ ObjectMethod initialiseUser ($login) -> $cUID
 
 Given a login (which must have been authenticated) determine the cUID that

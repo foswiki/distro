@@ -245,6 +245,12 @@
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
+%TMPL:DEF{"invalid_field"}%
+---+++ %MAKETEXT{"Invalid Input"}%
+=<font color="red">**</font>= %MAKETEXT{"The value supplied for =[_1]= has been rejected." args="%PARAM1%"}%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
 %TMPL:DEF{"password_mismatch"}%
 ---+++ %MAKETEXT{"Passwords do not match"}%
 %MAKETEXT{"The two passwords you entered do not match."}%

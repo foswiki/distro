@@ -1500,6 +1500,29 @@ sub passwordError {
     return $this->{passwords}->error();
 }
 
+=begin TML
+
+---++ ObjectMethod validateRegistrationField($field, $value ) -> $string
+
+This method is called for every field submitted during registration.  It is also used
+to validate the username when adding a member to a group.
+
+Returns a string containing the sanitized registration field, or can throw an Error::Simple
+if the field contains illegal data to block the registration.
+
+returns the string unchanged if no issue found.
+
+=cut
+
+sub validateRegistrationField {
+
+    #my ($this, $field, $value) = @_;
+    my $this = shift;
+
+# For now just let Foswiki::UserMapping do the validation - nothing special needed.
+    return $this->SUPER::validateRegistrationField(@_);
+}
+
 # TODO: and probably flawed in light of multiple cUIDs mapping to one wikiname
 sub _cacheUser {
     my ( $this, $wikiname, $login ) = @_;
