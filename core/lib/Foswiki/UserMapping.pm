@@ -556,16 +556,18 @@ sub validateRegistrationField {
 
     #my ($this, $field, $value) = @_;
 
-    if ( $_[1] eq 'username'
+    # Filter username per the login validation rules.
+    if ( lc( $_[1] ) eq 'username'
         && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/ ) )
     {
         throw Error::Simple("Invalid username");
     }
 
-    unless ( $_[1] eq 'password' ) {
-        throw Error::Simple("Invalid $_[1]")
-          if ( $_[2] =~ m/[<>]+/ );
-    }
+    # Don't check contents of password - it's never displayed.
+    return $_[2] if ( lc( $_[1] ) eq 'password' || lc( $_[1] ) eq 'confirm' );
+
+    # Don't allow html markup in any other fields.
+    throw Error::Simple("Invalid $_[1]") if ( $_[2] =~ m/[<>]+/ );
 
     return $_[2];
 }
