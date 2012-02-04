@@ -313,4 +313,26 @@ sub test_cfg {
     }
 }
 
+# Item11502
+sub test_opWHERE {
+    my $this = shift;
+
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    $topicObject->text( <<'SMELL');
+%META:FORM{name="BleaghForm"}%
+%META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
+SMELL
+    $topicObject->save();
+
+    my $text = <<PONG;
+%QUERY{ "'$this->{test_web}.DeadHerring'/META:FIELD[name='Wibble'].value"}%
+PONG
+    my $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+Woo
+THIS
+    $topicObject->finish();
+}
+
 1;
