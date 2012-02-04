@@ -694,14 +694,13 @@ sub addUserToGroup {
         #next if ( $u eq '' );
         $u = '' if ( $u eq '<none>' );
 
-        $u = $session->{users}->validateRegistrationField( 'username', $u );
-
         next
           if ( Foswiki::Func::isGroup($groupName)
             && Foswiki::Func::isGroupMember( $groupName, $u, { expand => 0 } )
           );
 
         try {
+            $u = $session->{users}->validateRegistrationField( 'username', $u );
             Foswiki::Func::addUserToGroup( $u, $groupName, $create );
             push( @succeeded, $u );
         }
@@ -1561,7 +1560,19 @@ sub _getDataFromQuery {
             # deal with multivalue fields like checkboxen
             my $value = join( ',', @values );
 
-            $data->{$name} = $users->validateRegistrationField( $name, $value );
+            try {
+                $data->{$name} = $users->validateRegistrationField( $name, $value );
+            }
+            catch Error::Simple with {
+                my $e = shift;
+                throw Foswiki::OopsException(
+                    'attention',
+                    #web    => $data->{webName},
+                    #topic  => $session->{topicName},
+                    def    => 'invalid_field',
+                    params => [ $name ]
+                );
+            };
             push(
                 @{ $data->{form} },
                 {
