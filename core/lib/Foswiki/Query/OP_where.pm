@@ -45,7 +45,7 @@ sub evaluate {
         return \@res;
     }
     else {
-        return $b->evaluate( data => $lval, tom => $domain{tom} );
+        return $b->evaluate( data => $lval, tom => $domain{tom} ) ? $lval : [];
     }
 }
 
