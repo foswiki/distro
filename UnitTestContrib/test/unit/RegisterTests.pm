@@ -911,9 +911,14 @@ sub verify_rejectEvilContent {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
+        #$this->assert_matches(
+        #    /Invalid Organization/,
+        #    $e->stringify
+        #);
         $this->assert_str_equals( "attention", $e->{template},
             $e->stringify() );
-        $this->assert_str_equals( "bad_password", $e->{def}, $e->stringify() );
+        $this->assert_str_equals( "Organization", $e->{params}[0], $e->stringify() );
+        $this->assert_str_equals( "invalid_field", $e->{def}, $e->stringify() );
         $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
         @FoswikiFnTestCase::mails = ();
     }
@@ -923,10 +928,7 @@ sub verify_rejectEvilContent {
     }
     catch Error::Simple with {
         my $e = shift;
-        $this->assert_equals(
-            'Invalid Organization',
-            substr( $e->stringify, 0, 20 )
-        );
+        $this->assert( 0, $e->stringify );
     }
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
