@@ -132,7 +132,7 @@ For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
          * =Net::SMTP::SSL= will encrypt the connection to the e-mail server and is required for some email services like Google's GMail.
       * Under the "Proxy" tab, if your server is behind a firewall with a proxy, and you wish to install extensions via =configure=, you may have to set ={PROXY}{HOST}= and ={PROXY}{PORT}=.
      <blockquote class="foswikiHelp">%X% %INCLUDE{"UserAuthentication" section="SMTPNOTE"}%</blockquote> <div class="foswikiHelp">I think we can drop this next note - configure will warn if modules are missing</div>
-     <blockquote class="foswikiHelp">%X% SMTP authentication requires additional perl modules including =Authen::SASL= and =MIMI::Base64=, </blockquote>
+     <blockquote class="foswikiHelp">%X% SMTP authentication requires additional perl modules including =Authen::SASL= and =MIME::Base64=, </blockquote>
 
 If there is a problem with your setup that prevents you from accessing the =configure= page, you can [[#ConfiguringFoswikiManually][configure Foswiki manually]].
 
