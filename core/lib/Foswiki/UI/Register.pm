@@ -1572,16 +1572,15 @@ sub _getDataFromQuery {
             my $value = join( ',', @values );
 
             try {
-                $data->{$name} = $users->validateRegistrationField( $name, $value );
+                $data->{$name} =
+                  $users->validateRegistrationField( $name, $value );
             }
             catch Error::Simple with {
                 my $e = shift;
                 throw Foswiki::OopsException(
                     'attention',
-                    #web    => $data->{webName},
-                    #topic  => $session->{topicName},
                     def    => 'invalid_field',
-                    params => [ $name ]
+                    params => [$name]
                 );
             };
             push(
