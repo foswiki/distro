@@ -36,6 +36,7 @@ use strict;
 use warnings;
 use Assert;
 use Error ();
+use Foswiki::Func;
 
 =begin TML
 
@@ -557,16 +558,34 @@ sub validateRegistrationField {
     #my ($this, $field, $value) = @_;
 
     # Filter username per the login validation rules.
-    if ( lc( $_[1] ) eq 'username'
+    #    Note:  loginname excluded as it's validated directly in the mapper
+
+    return $_[2] if ( lc( $_[1] ) eq 'loginname' );
+
+    if ( ( lc( $_[1] ) eq 'username' )
         && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/ ) )
     {
-        throw Error::Simple("Invalid username");
+        throw Error::Simple("Invalid $_[1]");
     }
 
     # Don't check contents of password - it's never displayed.
     return $_[2] if ( lc( $_[1] ) eq 'password' || lc( $_[1] ) eq 'confirm' );
 
+    unless ( $_[1] =~ m/^(?:firstname|lastname|email|wikiname|name|)$/i ) {
+
+# SMELL This would be better but for now I can't make it work.
+# Undefined subroutine &Foswiki::Macros::ENCODE called
+#
+#require Foswiki::Macros::ENCODE;
+#my $session = $Foswiki::Plugins::SESSION;
+#my $value = Foswiki::Macros::ENCODE->ENCODE( $session, { type => 'safe', _DEFAULT => $_[2] } );
+#print STDERR "Encoding $_[1] as $value\n";
+
+        $_[2] = Foswiki::Func::expandCommonVariables("%ENCODE{\"$_[2]\"}%");
+    }
+
     # Don't allow html markup in any other fields.
+    # This should never hit if the encoding works correctly.
     throw Error::Simple("Invalid $_[1]") if ( $_[2] =~ m/[<>]+/ );
 
     return $_[2];

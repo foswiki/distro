@@ -890,13 +890,13 @@ sub verify_rejectEvilContent {
             'Twk1Email'    => [ $this->{new_user_email} ],
             'Twk1WikiName' => [ $this->{new_user_wikiname} ],
             'Twk1Name'     => [ $this->{new_user_fullname} ],
-            'Twk0Comment'  => [''],
+            'Twk0Comment'  => ['<blah>'],
 
             #'Twk1LoginName' => [ 'Bad@User' ],
             'Twk1FirstName'    => [ $this->{new_user_fname} ],
             'Twk1LastName'     => [ $this->{new_user_sname} ],
-            'Twk1Password'     => ['12345aaaaa'],
-            'Twk1Confirm'      => ['12345aaaaa'],
+            'Twk1Password'     => ['123<><>aaa'],
+            'Twk1Confirm'      => ['123<><>aaa'],
             'Twk0Organization' => ['<script>Bad stuff</script>'],
             'action'           => ['register'],
         }
@@ -911,16 +911,18 @@ sub verify_rejectEvilContent {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        #$this->assert_matches(
-        #    /Invalid Organization/,
-        #    $e->stringify
-        #);
-        $this->assert_str_equals( "attention", $e->{template},
+        $this->assert_str_equals( "200", $e->{status},
             $e->stringify() );
-        $this->assert_str_equals( "Organization", $e->{params}[0], $e->stringify() );
-        $this->assert_str_equals( "invalid_field", $e->{def}, $e->stringify() );
-        $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-        @FoswikiFnTestCase::mails = ();
+        $this->assert_matches( qr/.*Comment: %3cblah%3e.*Organization: %3cscript%3eBad%20stuff%3c\/script%3e/ms, $FoswikiFnTestCase::mails[0] );
+
+        my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+            $this->{new_user_wikiname} );
+        my $text = $meta->text;
+        $meta->finish();
+        $this->assert_matches( qr/.*Comment: %3cblah%3e.*Organization: %3cscript%3eBad%20stuff%3c\/script%3e/ms, $text );
+
+    return;
+
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
