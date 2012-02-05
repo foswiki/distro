@@ -581,7 +581,8 @@ sub validateRegistrationField {
 #my $value = Foswiki::Macros::ENCODE->ENCODE( $session, { type => 'safe', _DEFAULT => $_[2] } );
 #print STDERR "Encoding $_[1] as $value\n";
 
-        $_[2] = Foswiki::Func::expandCommonVariables("%ENCODE{\"$_[2]\"}%");
+        # This is the "safe" encode in ENCODE.pm
+        $_[2] =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
     }
 
     # Don't allow html markup in any other fields.
