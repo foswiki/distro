@@ -911,17 +911,22 @@ sub verify_rejectEvilContent {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "200", $e->{status},
-            $e->stringify() );
-        $this->assert_matches( qr/.*Comment: %3cblah%3e.*Organization: %3cscript%3eBad%20stuff%3c\/script%3e/ms, $FoswikiFnTestCase::mails[0] );
+        $this->assert_str_equals( "200", $e->{status}, $e->stringify() );
+        $this->assert_matches(
+qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/script&#62;/ms,
+            $FoswikiFnTestCase::mails[0]
+        );
 
         my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
             $this->{new_user_wikiname} );
         my $text = $meta->text;
         $meta->finish();
-        $this->assert_matches( qr/.*Comment: %3cblah%3e.*Organization: %3cscript%3eBad%20stuff%3c\/script%3e/ms, $text );
+        $this->assert_matches(
+qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/script&#62;/ms,
+            $text
+        );
 
-    return;
+        return;
 
     }
     catch Foswiki::AccessControlException with {
