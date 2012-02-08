@@ -233,7 +233,7 @@ link="<img src='%ICONURLPATH{"wrench"}%' alt='%MAKETEXT{"Upgrade group topic..."
 <div class='foswikiFormSteps'>
   <div class='foswikiFormStep'>
      <h3>%MAKETEXT{"Add users or groups to this group"}%</h3>%JQREQUIRE{"textboxlist"}%
-     <input type='text' name='username' value='' size='30' class='foswikiInputField jqTextboxList' autocomplete='%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%' />
+     <input type='text' name='username' value='' size='30' class='foswikiInputField jqTextboxList' autocomplete='%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;contenttype=application/json;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%' />
   </div>
   <div class='foswikiFormStep foswikiLast'>
      %BUTTON{"%MAKETEXT{"Add members"}%" icon="add" type="submit"}%

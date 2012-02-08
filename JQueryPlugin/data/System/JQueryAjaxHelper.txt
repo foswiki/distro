@@ -52,7 +52,7 @@ loads the =topic= section of this topic, which expands to the topic list.
      =excludetopic= parameter in VarSEARCH
 <verbatim class="tml">
 %STARTSECTION{"topicselector"}%<!-- topicselector  -->
-<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //topicselector -->%ENDSECTION{"topicselector"}%
 </verbatim>
 
@@ -101,7 +101,7 @@ Foswiki:Extensions.FlexWebListPlugin. "}% </div>
    * =INPUT_VALUE=: preselected value
 <verbatim class="tml">
 %STARTSECTION{"webselector"}%<!-- webselector  -->
-<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;skin=text;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;skin=text;contenttype=application/json;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //webselector -->%ENDSECTION{"webselector"}%
 </verbatim>
 
@@ -162,7 +162,7 @@ jQuery(function($){
     var $this = $(this), 
         opts = $.extend({}, $this.metadata());
     $this.autocomplete({
-      source: "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;baseweb="+opts.baseweb+";format="+opts.format,
+      source: "%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb="+opts.baseweb+";format="+opts.format,
       select: function(event, ui) {
         window.location.href="%SCRIPTURLPATH{"view"}%/"+(opts.global?'':opts.baseweb+'/')+ui.item.value;
       }
@@ -204,7 +204,7 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
    * =INPUT_VALUE=: preselected user
 <verbatim class="tml">
 %STARTSECTION{"userselector"}%<!-- userselector -->
-<input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;contenttype=application/json" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 %ADDTOZONE{"script"
   tag="userselector::js"
   section="userselector::js"
@@ -287,7 +287,7 @@ or later).
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
-     $.get(\"%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text\",
+     $.get(\"%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text;contenttype=application/json\",
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
