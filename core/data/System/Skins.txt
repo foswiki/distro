@@ -151,9 +151,15 @@ The box also understands URLs, e.g. you can type =http://www.google.com/= to jum
 Here is an example form that has a select box and the "Go" box for illustration purposes. You need to have <nop>JavaScript enabled for this to work:
 
 <form name="sample" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
+%ADDTOZONE{
+"script"
+id="SkinNavigation"
+requires="JQUERYPLUGIN"
+text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/Skins/js.js'></script>"
+}%
 %TABLE{databg="#ffffff" tableframe="box" tablerules="none"}%
 | Bare bones header, for demo only ||
-| Navigate: | <select class="foswikiSelect" name="sel" onchange="this.form.topic.value=this.options[this.selectedIndex].value; this.form.submit()"><option selected="selected" value="">choose</option><option value="http://foswiki.org/">Intranet home</option><option value="%USERSWEB%.%WIKIUSERSTOPIC%">Employee index</option><option value="%USERSWEB%.%HOMETOPIC%">%USERSWEB% web</option><option value="%SYSTEMWEB%.%HOMETOPIC%">%SYSTEMWEB% web</option><option value="http://www.google.com/">Google</option><option value="http://www.yahoo.com/">Yahoo!</option></select> |
+| Navigate: | <select class="foswikiSelect" id="navigate" name="sel"><option selected="selected" value="">choose</option><option value="http://foswiki.org/">Intranet home</option><option value="%USERSWEB%.%WIKIUSERSTOPIC%">Employee index</option><option value="%USERSWEB%.%HOMETOPIC%">%USERSWEB% web</option><option value="%SYSTEMWEB%.%HOMETOPIC%">%SYSTEMWEB% web</option><option value="http://www.google.com/">Google</option><option value="http://www.yahoo.com/">Yahoo!</option></select> |
 | Jump: | <input class="foswikiInputField" type="text" name="topic" size="16" /> |
 </form> 
 

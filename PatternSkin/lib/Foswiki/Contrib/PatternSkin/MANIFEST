@@ -157,6 +157,7 @@ pub/System/PatternSkinThemeFatWilly/style_src.css 0644
 pub/System/PatternSkinThemeFatWilly/style.css 0644
 pub/System/PatternSkinThemeFatWilly/style.css.gz 0644
 pub/System/PatternSkinThemeFatWilly/topicactions_background.gif 0644
+pub/System/PatternSkinWebCreateNewTopicTemplate/js.js 0644
 templates/attach.pattern.tmpl 0444
 templates/attachagain.pattern.tmpl 0444
 templates/attachnew.pattern.tmpl 0444

@@ -53,7 +53,8 @@ Line before table: <pre class="tml">%<nop>TABLE{ sort="on" tableborder="0" cellp
 ---+++ Sorting
 Click on column heading text to sort by a column. Initial column will be sorted in descending order, click again to get ascending order.  The type of data in the cell is determined automatically:
 
-   * Date with supported date formats %TWISTY{mode="span" link="View date formats" remember="on"}%
+   * Date with supported date formats
+%TWISTY{mode="span" link="View date formats" remember="on"}%
       * Default Foswiki format
          * 31 Dec 2001 - 23:59
          * 31-Dec-2001 - 23:59
@@ -76,7 +77,8 @@ Click on column heading text to sort by a column. Initial column will be sorted 
          * 2001-12-31T
       * ISO dates may have a timezone specifier, either Z or a signed difference in hh:mm format. For example:
          * 2001-12-31T23:59:59+01:00
-         * 2001-12-31T23:59Z %ENDTWISTY%
+         * 2001-12-31T23:59Z
+%ENDTWISTY%
    * Number is digits, with optional decimal point
    * Otherwise treated as text
 

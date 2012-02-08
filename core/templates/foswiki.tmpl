@@ -73,7 +73,7 @@ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea 
 	<link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
 	<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
 	<meta name="description" content="%TOPIC%" />
-    <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%" /><!--[if IE]></base><![endif]-->
+    <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%"><!--[if IE]></base><![endif]-->
 	%TMPL:P{"script"}%
 	%TMPL:P{"defaultstyle"}%
 </head>%TMPL:END%%{
@@ -156,7 +156,7 @@ Container displayed just below the topic text: }%
 ---------------------------------------------------
 }%%TMPL:DEF{"login"}%%TMPL:P{context="can_login" then="login_actions"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"login_actions"}%%IF{"context authenticated" then='<strong>%MAKETEXT{"Hello [_1]!" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%</strong> %LOGOUT%' else='%LOGIN% %MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]'}%%TMPL:END%%{
+}%%TMPL:DEF{"login_actions"}%%IF{"context authenticated" then='<strong>%MAKETEXT{"Hello [_1]!" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%%IF{"context isadmin" then=" (admin)"}%]]"}%</strong> %LOGOUT%' else='%LOGIN% %MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]'}%%TMPL:END%%{
 ---------------------------------------------------
 app-style page layout
 additional style

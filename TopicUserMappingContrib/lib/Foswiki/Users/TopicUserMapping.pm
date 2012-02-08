@@ -65,17 +65,8 @@ sub new {
     die $@ if $@;
     $this->{passwords} = $implPasswordManager->new($session);
 
-# if password manager says sorry, we're read only today
-# 'none' is a special case, as it means we're not actually using the password manager for
-# registration.
-    if (   $this->{passwords}->readOnly()
-        && ( $Foswiki::cfg{PasswordManager} ne 'none' )
-        && $Foswiki::cfg{Register}{EnableNewUserRegistration} )
-    {
-        $session->logger->log( 'warning',
-'TopicUserMapping has TURNED OFF EnableNewUserRegistration, because the password file is read only.'
-        );
-        $Foswiki::cfg{Register}{EnableNewUserRegistration} = 0;
+    unless ( $this->{passwords}->readOnly()) {
+        $this->{session}->enterContext('passwords_modifyable');
     }
 
     #SMELL: and this is a second user object

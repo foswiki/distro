@@ -123,7 +123,7 @@ This table can be used to choose a color in %WEBPREFSTOPIC% of each web.
 #ShortCuts
 ---+ Shortcut macros for colors
 %SEARCH{ "parent.name='StandardColors'" type="query" topic="Var*" 
-format="   * $percent<nop>$pattern(.*?\-\++ *([^ ]*).*)$percent $percent$pattern(.*?\-\++ *([^ ]*).*)$percent Lorem ipsum.... $percentENDCOLOR$percent $percent<nop>ENDCOLOR$percent" nonoise="on" }%
+format="   * $topic $percent<nop>$pattern(.*?color=\"(.*?)\".*)$percent $percent$pattern(.*?color=\"(.*?)\".*)$percent Lorem ipsum.... $percentENDCOLOR$percent $percent<nop>ENDCOLOR$percent" nonoise="on" }%
 
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
