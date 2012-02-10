@@ -94,8 +94,7 @@
 	text="<literal><script type='text/javascript'>
 (function($) {
 	
-	// debug the javascript by passing urlparam debugJs=1
-	var DEBUG = %URLPARAM{"debugJs" default="0"}%;
+	var DEBUG;
 
 	function updateLastTimeCheckedOption (inDate) {
 		var el = document.getElementById('last_time_checked');
@@ -133,12 +132,11 @@
 	}
 	
 	function init() {
-	
 		var DEFAULT_OPTION_ID = '24_hours_ago';
 	
 		var dateLastCheck = foswiki.Pref.getPref('WebChangesForAllWebs_dateLastCheck');
 		if (dateLastCheck) {
-			var selectedOption = '%URLPARAM{"sinceReadable"}%';
+			var selectedOption = $('input[name=\"sinceReadable\"]').val();
 			if (DEBUG && console) {
 				console.log('sinceReadable selectedOption:' + selectedOption);
 			}
@@ -148,12 +146,21 @@
 				setOptionSelected(DEFAULT_OPTION_ID);
 			}
 		}
-		var now = '%CALC{"$FORMATTIME($EVAL($TIME()), $year-$month-$day $hour:$minute:$second)"}%';
+		var d = new Date();
+		var now = d.getFullYear() + '-' +
+		    (d.getMonth() + 1) + '-' +
+		    d.getDate() + ' ' +
+		    d.getHours() + ':' +
+		    d.getMinutes() + ':' +
+		    d.getSeconds();
+		now = now.replace(/([-: ])(\d)([-: ]|$)/g, '$1\60$2$3');
 		if (DEBUG && console) {
 			console.log('now:' + now);
 		}
 		if (now) {
-			foswiki.Pref.setPref('%WEB%_%TOPIC%_dateLastCheck', now);
+			foswiki.Pref.setPref(foswiki.getPreference('WEB') +
+			'_' + foswiki.getPreference('TOPIC') +
+			'_dateLastCheck', now);
 			updateLastTimeCheckedOption(now);
 		}
 	}
@@ -165,6 +172,7 @@
 	}
 	
 	$(function() {
+		DEBUG = $(\"input[name='debugJs']\").val();
 		$('#siteChangesSelect').change(function() {
 			var $selected = $('option:selected', this);
 			storeSelectedOption($selected.attr('id'), $selected.attr('value'), document.forms.seeChangesSince.sinceReadable);
