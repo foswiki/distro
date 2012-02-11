@@ -12,6 +12,7 @@ use Foswiki();
 use Foswiki::LoginManager();
 use Unit::Request();
 use Error qw( :try );
+use Digest::MD5 qw(md5_hex);
 
 my $agent = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
 my $userLogin;
@@ -189,7 +190,9 @@ sub verify_sudo_login {
         return;
     }
     my $secret = "a big mole on my left buttock";
-    my $crypted = crypt( $secret, "12" );
+
+    # Test new style MD5 hashed password
+    my $crypted = '$1234asdf$' . Digest::MD5::md5_hex( '$1234asdf$' . $secret );
     $Foswiki::cfg{Password} = $crypted;
 
     my $query = Unit::Request->new(
@@ -206,6 +209,33 @@ sub verify_sudo_login {
     $this->{session}->getLoginManager()->login( $query, $this->{session} );
     my $script = $Foswiki::cfg{LoginManager} =~ /Apache/ ? 'viewauth' : 'view';
     my $surly =
+      $this->{session}
+      ->getScriptUrl( 0, $script, $this->{test_web}, $this->{test_topic} );
+    $this->assert_matches( qr/^302/, $this->{session}->{response}->status() );
+    $this->assert_matches( qr/^$surly/,
+        $this->{session}->{response}->headers()->{Location} );
+
+    # Verify that old crypted password works
+    $crypted = crypt( $secret, "12" );
+    $Foswiki::cfg{Password} = $crypted;
+
+    # SMELL: 8 character truncated password will match.
+    $secret = substr( $secret, 0, 8 );
+
+    $query = Unit::Request->new(
+        {
+            username => [ $Foswiki::cfg{AdminUserLogin} ],
+            password => [$secret],
+            Logon    => [1],
+            skin     => ['none'],
+        }
+    );
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+
+    $this->createNewFoswikiSession( undef, $query );
+    $this->{session}->getLoginManager()->login( $query, $this->{session} );
+    $script = $Foswiki::cfg{LoginManager} =~ /Apache/ ? 'viewauth' : 'view';
+    $surly =
       $this->{session}
       ->getScriptUrl( 0, $script, $this->{test_web}, $this->{test_topic} );
     $this->assert_matches( qr/^302/, $this->{session}->{response}->status() );
