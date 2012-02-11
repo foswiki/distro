@@ -20,6 +20,7 @@ use strict;
 use warnings;
 use File::Spec ();
 use FindBin    ();
+use Digest::MD5 qw(md5_hex);
 
 our $totwarnings;
 our $toterrors;
@@ -344,7 +345,7 @@ sub authorised {
     if (
         $Foswiki::cfg{Password}
         && ( $pass
-            && crypt( $pass, $Foswiki::cfg{Password} ) ne
+            && _encode_MD5( $pass, $Foswiki::cfg{Password} ) ne
             $Foswiki::cfg{Password} )
       )
     {
@@ -361,7 +362,7 @@ sub authorised {
         if ( $newPass ne $confPass ) {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_CONFIRM_NO_MATCH} );
         }
-        $Foswiki::cfg{Password} = _encode($newPass);
+        $Foswiki::cfg{Password} = _encode_MD5($newPass);
         return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
     }
 
@@ -376,7 +377,7 @@ sub authorised {
         if ( !$newPass || !$confPass ) {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
         }
-        $Foswiki::cfg{Password} = _encode($newPass);
+        $Foswiki::cfg{Password} = _encode_MD5($newPass);
         return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
     }
 
@@ -432,13 +433,35 @@ sub logPasswordFailure {
     }
 }
 
-sub _encode {
-    my $pass = shift;
-    my @saltchars = ( 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '.', '/' );
-    my $salt =
-        $saltchars[ int( rand( $#saltchars + 1 ) ) ]
-      . $saltchars[ int( rand( $#saltchars + 1 ) ) ];
-    return crypt( $pass, $salt );
+sub _encode_MD5 {
+    my $pass   = shift;    # Password to be encoded
+    my $stored = shift;    # Stored pw to recover salt.
+
+    if ( defined $stored && length($stored) == 13 ) { # Old style crypt password
+        return crypt( $pass, $stored );
+    }
+
+    my $salt;
+    if ( defined $stored ) {
+        $salt = substr( $stored, 0, 10 );
+    }
+    else {
+        $salt = '$';
+        my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+        my $login = $Foswiki::cfg{AdminUserLogin} || 'admin';
+        foreach my $i ( 0 .. 7 ) {
+
+            $salt .= $saltchars[
+              (
+                  int( rand( $#saltchars + 1 ) ) +
+                    $i +
+                    ord( substr( $login, $i % length($login), 1 ) ) )
+              % ( $#saltchars + 1 )
+            ];
+        }
+        $salt .= '$';
+    }
+    return $salt . Digest::MD5::md5_hex( $salt . $pass );
 }
 
 # Return a string of settingBlocks giving the status of various
