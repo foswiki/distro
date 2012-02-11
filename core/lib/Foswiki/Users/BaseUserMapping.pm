@@ -35,6 +35,7 @@ our @ISA = ('Foswiki::UserMapping');
 
 use Assert;
 use Error ();
+use Digest::MD5 qw(md5_hex);
 
 our $DEFAULT_USER_CUID = 'BaseUserMapping_666';
 our $UNKNOWN_USER_CUID = 'BaseUserMapping_999';
@@ -436,8 +437,16 @@ sub checkPassword {
     my ( $this, $login, $pass ) = @_;
 
     my $hash = $this->{L2P}->{$login};
-    if ( $hash && crypt( $pass, $hash ) eq $hash ) {
-        return 1;    # yay, you've passed
+
+    if ($hash) {
+        if ( length($hash) == 13 ) {
+            return 1 if ( crypt( $pass, $hash ) eq $hash );
+        }
+        else {
+            my $salt = substr( $hash, 0, 10 );
+            return 1
+              if ( $salt . Digest::MD5::md5_hex( $salt . $pass ) eq $hash );
+        }
     }
 
     # be a little more helpful to the admin
