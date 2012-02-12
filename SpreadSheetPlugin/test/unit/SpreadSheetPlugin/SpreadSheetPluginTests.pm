@@ -10,6 +10,22 @@ use Foswiki();
 use Foswiki::Plugins::SpreadSheetPlugin();
 use Foswiki::Plugins::SpreadSheetPlugin::Calc();
 
+my %skip_tests = (
+    'SpreadSheetPluginTests::test_IF'       => '$IF not implemented',
+    'SpreadSheetPluginTests::test_LISTRAND' => '$LISTRAND not implemented',
+    'SpreadSheetPluginTests::test_LISTSHUFFLE' =>
+      '$LISTSHUFFLE not implemented',
+    'SpreadSheetPluginTests::test_SETIFEMPTY' => '$SETIFEMPTY not implemented',
+    'SpreadSheetPluginTests::test_T'          => '$T not implemented',
+    'SpreadSheetPluginTests::test_TODAY'      => '$TODAY not implemented',
+);
+
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return defined $test ? $skip_tests{$test} : undef;
+}
+
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
@@ -1047,7 +1063,7 @@ EXPECT
 sub test_T {
     my ($this) = @_;
     warn '$T not implemented';
-###    $this->assert( $this->CALC( '$T(R1:C5)' ) eq '...' );
+    $this->assert( $this->CALC('$T(R1:C5)') eq '...' );
 }
 
 sub test_TIME {
