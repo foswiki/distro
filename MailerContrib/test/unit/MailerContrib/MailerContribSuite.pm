@@ -1,13 +1,13 @@
 # See bottom of file for license and copyright information
 package MailerContribSuite;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
-
 use strict;
 use warnings;
 use locale;
 
-use Foswiki::Contrib::MailerContrib;
+use FoswikiFnTestCase();
+our @ISA = qw( FoswikiFnTestCase );
+
+use Foswiki::Contrib::MailerContrib();
 
 my $testWeb2;
 
@@ -63,8 +63,8 @@ sub set_up {
     $testWeb2 = "$this->{test_web}/SubWeb";
 
     # Will get torn down when the parent web dies
-    my $webObject = Foswiki::Meta->new( $this->{session}, $testWeb2 );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb($testWeb2);
+    $webObject->finish();
 
     $this->registerUser( "tu1", "Test", "User1", "test1\@example.com" );
     $this->registerUser( "tu2", "Test", "User2", "test2\@example.com" );
@@ -228,36 +228,34 @@ sub set_up {
         $s .= "   * $spec->{entry}\n";
     }
     foreach my $web ( $this->{test_web}, $testWeb2 ) {
-        my $meta =
-          Foswiki::Meta->new( $this->{session}, $web,
-            $Foswiki::cfg{NotifyTopicName} );
+        my ($meta) =
+          Foswiki::Func::readTopic( $web, $Foswiki::cfg{NotifyTopicName} );
         $meta->put( "TOPICPARENT", { name => "$web.WebHome" } );
-        Foswiki::Func::saveTopic(
-            $web,  $Foswiki::cfg{NotifyTopicName},
-            $meta, "Before\n${s}After"
-        );
+        $meta->text("Before\n${s}After");
+        $meta->save();
+        $meta->finish();
         for my $testTopic ( keys %expectedRevs ) {
             my $parent = 'WebHome';
             if ( $testTopic =~ /^TestTopic(\d+)\d$/ ) {
                 $parent = 'TestTopic' . $1;
             }
-            $meta = Foswiki::Meta->new( $this->{session}, $web, $testTopic );
+            ($meta) = Foswiki::Func::readTopic( $web, $testTopic );
             $meta->put( "TOPICPARENT", { name => $parent } );
-            Foswiki::Func::saveTopic( $web, $testTopic, $meta,
-                "This is $testTopic so there" );
+            $meta->text("This is $testTopic so there");
+            $meta->save();
+            $meta->finish();
         }
 
-        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopicDenied" );
-        Foswiki::Func::saveTopic( $web, "TestTopicDenied", $meta,
-            "   * Set ALLOWTOPICVIEW = TestUser1" );
+        ($meta) = Foswiki::Func::readTopic( $web, "TestTopicDenied" );
+        $meta->text("   * Set ALLOWTOPICVIEW = TestUser1");
+        $meta->save();
+        $meta->finish();
 
         # add a second rev to TestTopic2 so the base rev is 2
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic2" );
-        Foswiki::Func::saveTopic(
-            $web, "TestTopic2", $meta,
-            "This is TestTopic2 so there",
-            { forcenewrevision => 1 }
-        );
+        ($meta) = Foswiki::Func::readTopic( $web, "TestTopic2" );
+        $meta->text("This is TestTopic2 so there");
+        $meta->save( forcenewrevision => 1 );
+        $meta->finish();
 
         # stamp the baseline
         my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
@@ -271,12 +269,10 @@ sub set_up {
         # wait a wee bit for the clock to tick over
         sleep(1);
 
-        ( $meta, $text ) = Foswiki::Func::readTopic( $web, "TestTopic1" );
-        Foswiki::Func::saveTopic(
-            $web, "TestTopic1", $meta,
-            "not the last word",
-            { forcenewrevision => 1 }
-        );
+        ($meta) = Foswiki::Func::readTopic( $web, "TestTopic1" );
+        $meta->text("not the last word");
+        $meta->save( forcenewrevision => 1 );
+        $meta->finish();
 
         # wait a wee bit more for the clock to tick over again
         # TestTopic1 should now have two change records in the period, so
@@ -285,9 +281,10 @@ sub set_up {
         sleep(1);
 
         for my $testTopic ( reverse sort keys %expectedRevs ) {
-            ( $meta, $text ) = Foswiki::Func::readTopic( $web, $testTopic );
-            Foswiki::Func::saveTopic( $web, $testTopic, $meta,
-                $finalText{$testTopic}, { forcenewrevision => 1 } );
+            ($meta) = Foswiki::Func::readTopic( $web, $testTopic );
+            $meta->text( $finalText{$testTopic} );
+            $meta->save( forcenewrevision => 1 );
+            $meta->finish();
         }
 
     }
@@ -536,12 +533,13 @@ sub testExcluded {
    * good@example.com: *
 HERE
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
-    Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
-        $meta, "Before\n${s}After", $meta );
+    $meta->text("Before\n${s}After");
+    $meta->save();
+    $meta->finish();
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
         0, undef, 0, 0 );
 
@@ -565,12 +563,13 @@ sub testExpansion {
 gribble.com
 HERE
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
-    Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
-        $meta, "Before\n${s}After", $meta );
+    $meta->text("Before\n${s}After");
+    $meta->save();
+    $meta->finish();
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
         0, undef, 0, 0 );
 
@@ -607,19 +606,19 @@ sub testExpansion_1847 {
     my $testContent = join "\n", map { "$_: \%$_\%" } @token;
 
     # Create a WebNotify matching our topic
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
-    Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
-        $meta, "   * $testEmail: $testTopic!", $meta );
+    $meta->text("   * $testEmail: $testTopic!");
+    $meta->save();
+    $meta->finish();
 
     # Fill our topic with our test data
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testTopic );
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testTopic );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
-    Foswiki::Func::saveTopic( $this->{test_web}, $testTopic, $meta,
-        "This is $testTopic so there", $meta );
+    $meta->text("This is $testTopic so there");
+    $meta->save();
 
     # stamp the baseline
     my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
@@ -633,11 +632,9 @@ sub testExpansion_1847 {
     # wait a wee bit for the clock to tick over
     sleep(1);
 
-    Foswiki::Func::saveTopic(
-        $this->{test_web}, $testTopic, $meta,
-        "<noautolink>$testContent\n</noautolink>",
-        { forcenewrevision => 1 }
-    );
+    $meta->text("<noautolink>$testContent\n</noautolink>");
+    $meta->save( forcenewrevision => 1 );
+    $meta->finish();
 
     # Launch mailNotify
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
@@ -660,12 +657,13 @@ sub test_5949 {
     my $s    = <<'HERE';
    * TestUser1: SpringCabbage
 HERE
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
-    Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
-        $meta, "Before\n${s}After", $meta );
+    $meta->text("Before\n${s}After");
+    $meta->save();
+    $meta->finish();
 
     my $wn =
       new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
@@ -687,12 +685,13 @@ sub test_changeSubscription_and_isSubScribedTo_API {
     my $this = shift;
 
     #start by removing all subscriptions
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
-    Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
-        $meta, "Before\nAfter\n", $meta );
+    $meta->text("Before\nAfter\n");
+    $meta->save();
+    $meta->finish();
 
     my $defaultWeb = $this->{test_web};
     my $who        = 'TestUser1';
