@@ -4,7 +4,7 @@ package TWiki::Meta;
 use strict;
 use warnings;
 
-use Foswiki::Meta;
+use Foswiki::Meta();
 
 sub new {
     shift;
