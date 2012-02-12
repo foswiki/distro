@@ -5,10 +5,10 @@ use warnings;
 
 # tests for basic formatting
 
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki;
+use Foswiki();
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTwistyFormattingTestWeb';
 my %mangledIDs;
@@ -36,7 +36,7 @@ sub do_test {
     my $session   = $this->{session};
     my $webName   = $web || $this->{test_web};
     my $topicName = $topic || $this->{test_topic};
-    my $actin = $actual;
+    my $actin     = $actual;
 
     $actual =
       Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
@@ -301,8 +301,8 @@ sub test_twistyInSubWeb {
     $this->{session} = Foswiki->new();
 
     my $testWebSubWebPath = $this->{test_web} . '/SubWeb';
-    my $webObject = Foswiki::Meta->new( $this->{session}, $testWebSubWebPath );
-    $webObject->populateNewWeb();
+    my $webObject         = $this->populateNewWeb($testWebSubWebPath);
+    $webObject->finish();
     my $testTopic = 'TwistyTestTopic';
     my $source    = <<'SOURCE';
 %TWISTY{
@@ -315,11 +315,12 @@ my twisty content
 %ENDTWISTY%
 SOURCE
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $testWebSubWebPath, $testTopic,
-        $source );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $testWebSubWebPath, $testTopic );
+    $topicObject->text($source);
 
     $topicObject->save();
+    $topicObject->finish();
 
     my $expected = <<'EXPECTED';
 <span class="twistyPlugin foswikiMakeVisible"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1show" style="display:none" class="twistyRememberSetting twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1hide" style="display:none" class="twistyRememberSetting twistyTrigger foswikiUnvisited twistyInited"><a href="#" class=""><span class="foswikiLinkLabel foswikiUnvisited">Hide</span></a></span></span><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingsubwebSubWebTwistyTestTopic1toggle" style="" class="twistyRememberSetting twistyContent twistyInited">
