@@ -57,7 +57,7 @@ sub set_up {
     $this->{user}    = $Foswiki::cfg{AdminUserLogin};
     $this->createNewFoswikiSession( $this->{user} );
     $this->{test_web} = 'Testsystemweb1234';
-    my $webObject = $webObject->populateNewWeb( $this->{test_web} );
+    my $webObject = $this->populateNewWeb( $this->{test_web} );
     $webObject->finish();
     $this->{trash_web} = 'Testtrashweb1234';
     $webObject = $this->populateNewWeb( $this->{trash_web} );
