@@ -4,16 +4,16 @@ package CommentPluginTests;
 
 use strict;
 use warnings;
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 use Error ':try';
 
-use Unit::Request;
-use Unit::Response;
-use Foswiki;
-use Foswiki::UI::Save;
-use Foswiki::Plugins::CommentPlugin;
-use Foswiki::Plugins::CommentPlugin::Comment;
+use Unit::Request();
+use Unit::Response();
+use Foswiki();
+use Foswiki::UI::Save();
+use Foswiki::Plugins::CommentPlugin();
+use Foswiki::Plugins::CommentPlugin::Comment();
 use CGI;
 
 # Set up the test fixture
@@ -24,8 +24,7 @@ sub set_up {
 
     $this->{target_web}   = "$this->{test_web}Target";
     $this->{target_topic} = "$this->{test_topic}Target";
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{target_web} );
     $webObject->finish();
 
     Foswiki::Func::getContext()->{view} = 1;
