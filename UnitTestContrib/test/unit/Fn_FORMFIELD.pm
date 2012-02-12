@@ -167,8 +167,8 @@ sub test_FORMFIELD_web {
 
     # create other web
     $this->{other_web} = "$this->{test_web}other";
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{other_web} );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{other_web} );
+    $webObject->finish();
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{other_web}, $this->{test_topic} );
     $this->_createTopic( $this->{other_web}, $topicObject );

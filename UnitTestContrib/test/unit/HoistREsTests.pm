@@ -9,7 +9,6 @@ our @ISA = qw( FoswikiFnTestCase );
 use Foswiki::Query::Parser;
 use Foswiki::Query::HoistREs;
 use Foswiki::Query::Node;
-use Foswiki::Meta;
 
 sub skip {
     my ( $this, $test ) = @_;

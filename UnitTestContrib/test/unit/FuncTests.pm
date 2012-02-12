@@ -92,8 +92,7 @@ sub set_up {
     $this->{tmpdatafile}  = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp.gif';
     $this->{tmpdatafile2} = $Foswiki::cfg{TempfileDir} . '/tmpity-tmp2.gif';
     $this->{test_web2}    = $this->{test_web} . 'Extra';
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{test_web2} );
     $webObject->finish();
 
     return;
@@ -280,13 +279,9 @@ sub test_moveWeb {
     my $this = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web} . "Blah" );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{test_web} . "Blah" );
     $webObject->finish();
-    $webObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web} . "Blah/SubWeb" );
-    $webObject->populateNewWeb();
+    $webObject = $this->populateNewWeb( $this->{test_web} . "Blah/SubWeb" );
     $webObject->finish();
 
     $this->assert( Foswiki::Func::webExists( $this->{test_web} . 'Blah' ) );
@@ -878,8 +873,7 @@ sub test_subweb_attachments {
 
     #$web = Assert::TAINT($web);
     #
-    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb($web);
     $webObject->finish();
 
     my $stream =
@@ -1001,9 +995,7 @@ sub test_getrevinfo {
     my $now   = time();
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web} . "/Blah" );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{test_web} . "/Blah" );
     $webObject->finish();
 
     Foswiki::Func::saveTopicText( $this->{test_web},        $topic, 'blah' );

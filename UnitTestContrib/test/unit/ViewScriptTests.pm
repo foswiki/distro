@@ -122,9 +122,7 @@ sub set_up {
     try {
         $this->createNewFoswikiSession('AdminUser');
 
-        my $webObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_subweb} );
-        $webObject->populateNewWeb();
+        my $webObject = $this->populateNewWeb( $this->{test_subweb} );
         $webObject->finish();
         $this->assert( $this->{session}->webExists( $this->{test_subweb} ) );
         my ($topicObject) =
@@ -160,9 +158,7 @@ sub set_up {
     try {
         $this->createNewFoswikiSession('AdminUser');
 
-        my $webObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_clashingsubweb} );
-        $webObject->populateNewWeb();
+        my $webObject = $this->populateNewWeb( $this->{test_clashingsubweb} );
         $webObject->finish();
         $this->assert(
             $this->{session}->webExists( $this->{test_clashingsubweb} ) );

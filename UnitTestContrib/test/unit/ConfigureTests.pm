@@ -57,21 +57,16 @@ sub set_up {
     $this->{user}    = $Foswiki::cfg{AdminUserLogin};
     $this->createNewFoswikiSession( $this->{user} );
     $this->{test_web} = 'Testsystemweb1234';
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
-    $webObject->populateNewWeb();
+    my $webObject = $webObject->populateNewWeb( $this->{test_web} );
     $webObject->finish();
     $this->{trash_web} = 'Testtrashweb1234';
-    $webObject = Foswiki::Meta->new( $this->{session}, $this->{trash_web} );
-    $webObject->populateNewWeb();
+    $webObject = $this->populateNewWeb( $this->{trash_web} );
     $webObject->finish();
     $this->{sandbox_web} = 'Testsandboxweb1234';
-    $webObject = Foswiki::Meta->new( $this->{session}, $this->{sandbox_web} );
-    $webObject->populateNewWeb();
+    $webObject = $this->populateNewWeb( $this->{sandbox_web} );
     $webObject->finish();
     $this->{sandbox_subweb} = 'Testsandboxweb1234/Subweb';
-    $webObject =
-      Foswiki::Meta->new( $this->{session}, $this->{sandbox_subweb} );
-    $webObject->populateNewWeb();
+    $webObject = $this->populateNewWeb( $this->{sandbox_subweb} );
     $webObject->finish();
     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
     rmtree( $this->{tempdir} )

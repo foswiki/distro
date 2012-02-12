@@ -6,7 +6,6 @@ use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki();
-use Foswiki::Meta();
 use File::Spec();
 use Foswiki::OopsException();
 use Foswiki::PageCache();

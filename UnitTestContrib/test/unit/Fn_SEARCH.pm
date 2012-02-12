@@ -2141,7 +2141,7 @@ sub _getTopicList {
     #    };
 
     $this->assert_str_equals( 'ARRAY', ref($expected) );
-    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    my $webObject = $this->getWebObject($web);
 
     # Run the search on topics in this web
     my $search = $this->{session}->search();
@@ -3319,9 +3319,7 @@ EXPECT
 sub test_groupby_none_using_subwebs {
     my $this = shift;
 
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/A" );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb("$this->{test_web}/A");
     $webObject->finish();
     my ($topicObject) =
       Foswiki::Func::readTopic( "$this->{test_web}/A", 'TheTopic' );
@@ -3332,8 +3330,7 @@ CRUD
     $topicObject->save( forcedate => 1000 );
     $topicObject->finish();
 
-    $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/B" );
-    $webObject->populateNewWeb();
+    $webObject = $this->populateNewWeb("$this->{test_web}/B");
     $webObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( "$this->{test_web}/B", 'TheTopic' );
@@ -3344,8 +3341,7 @@ CRUD
     $topicObject->save( forcedate => 100 );
     $topicObject->finish();
 
-    $webObject = Foswiki::Meta->new( $this->{session}, "$this->{test_web}/C" );
-    $webObject->populateNewWeb();
+    $webObject = $this->populateNewWeb("$this->{test_web}/C");
     $webObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( "$this->{test_web}/C", 'TheTopic' );

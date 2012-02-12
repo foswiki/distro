@@ -22,22 +22,22 @@ sub set_up {
 
     $this->SUPER::set_up();
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/SubWeb" );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb("$this->{test_web}/SubWeb");
+    $webObject->finish();
 
-    my $webObjectH =
-      Foswiki::Meta->new( $this->{session}, "$this->{test_web}Hidden" );
-    $webObjectH->populateNewWeb();
+    my $webObjectH = $this->populateNewWeb("$this->{test_web}Hidden");
+    $webObjectH->finish();
 
-    my $webPrefsObj =
-      Foswiki::Meta->new( $this->{session}, "$this->{test_web}Hidden",
-        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+    my ($webPrefsObj) =
+      Foswiki::Func::readTopic( "$this->{test_web}Hidden",
+        $Foswiki::cfg{WebPrefsTopicName} );
+    $webPrefsObj->text(<<"THIS");
 If ALLOW is set to a list of wikiname
    * people not in the list are DENIED access
    * Set ALLOWWEBVIEW = $this->{users_web}.AdminUser
 THIS
     $webPrefsObj->save();
+    $webPrefsObj->finish();
 
     Foswiki::Func::readTemplate('foswiki');
 
@@ -107,11 +107,12 @@ sub test_otherWeb {
 sub test_otherWeb_NOSEARCHALL {
     my $this = shift;
 
-    my $to =
-      load Foswiki::Meta( $this->{session}, "$this->{test_web}/SubWeb",
+    my ($to) =
+      Foswiki::Func::readTopic( "$this->{test_web}/SubWeb",
         $Foswiki::cfg{WebPrefsTopicName} );
     $to->text( $to->text() . "\n   * Set NOSEARCHALL = on\n" );
     $to->save();
+    $to->finish();
 
     my $text =
       $this->{test_topicObject}

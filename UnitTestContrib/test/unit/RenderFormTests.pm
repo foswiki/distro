@@ -5,7 +5,6 @@ use warnings;
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki::Meta;
 use File::Temp;
 use Benchmark ':hireswallclock';
 

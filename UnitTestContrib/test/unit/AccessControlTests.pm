@@ -6,7 +6,6 @@ use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki                        ();
-use Foswiki::Meta                  ();
 use Foswiki::Plugins               ();
 use Foswiki::Configure::Dependency ();
 
@@ -581,8 +580,7 @@ THIS
     $topicObject->finish();
 
     # Now build a subweb with view restricted to MrOrange
-    my $webObject = Foswiki::Meta->new( $this->{session}, $subweb );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb($subweb);
     $webObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
@@ -622,8 +620,7 @@ THIS
     $topicObject->finish();
 
     # Now build a subweb with no restrictions
-    my $webObject = Foswiki::Meta->new( $this->{session}, $subweb );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb($subweb);
     $webObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
@@ -661,8 +658,7 @@ THIS
     $topicObject->finish();
 
     # Now build a subweb with view restricted to MrOrange
-    my $webObject = Foswiki::Meta->new( $this->{session}, $subweb );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb($subweb);
     $webObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
