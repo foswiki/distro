@@ -1,16 +1,14 @@
 # See bottom of file for license and copyright information
+# tests for basic formatting
+package HistoryPluginTests;
 use strict;
 use warnings;
 
-# tests for basic formatting
-
-package HistoryPluginTests;
-
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki;
-use Foswiki::Time;
+use Foswiki();
+use Foswiki::Time();
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTableFormattingTestWebHistoryPlugin';
 my $tableCount    = 1;
@@ -26,14 +24,15 @@ sub set_up {
     $this->SUPER::set_up(@_);
     $this->{guest_wikiname} = Foswiki::Func::getWikiName();
     $this->{session}->{user} = $this->{test_user_cuid};    # OUCH
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "GropeGroup",
-        "   * Set GROUP = ScumBag,WikiGuest\n" );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup" );
+    $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "GlumDrop",
-        "Burble\n" );
+    $topicObject->finish();
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, "GlumDrop" );
+    $topicObject->text("Burble\n");
     $topicObject->save();
+    $topicObject->finish();
 }
 
 sub loadExtraConfig {
@@ -64,8 +63,7 @@ sub _createHistory {
     $topic ||= 'BlessMySoul';
     $num   ||= 4;
 
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $topicObject->save();    # rev 1
 
     my @texts = [
