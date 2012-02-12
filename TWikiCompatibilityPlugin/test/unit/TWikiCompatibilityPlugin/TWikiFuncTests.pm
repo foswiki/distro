@@ -26,8 +26,8 @@ sub set_up {
     $this->SUPER::set_up();
     $this->{tmpdatafile} = $TWiki::cfg{TempfileDir} . '/tmpity-tmp.gif';
     $this->{test_web2}   = $this->{test_web} . 'Extra';
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web2} );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{test_web2} );
+    $webObject->finish();
 
     return;
 }
@@ -571,8 +571,7 @@ END
     $this->assert($access);
 
     # make sure meta overrides text, as documented - Item2953
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    my ($meta) = $this->getUnloadedTopicObject( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -590,7 +589,8 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert($access);
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -607,6 +607,7 @@ END
         "   * Set ALLOWTOPICVIEW = $TWiki::cfg{DefaultUserWikiName}\n",
         $topic, $this->{test_web}, $meta
     );
+    $meta->finish();
     $this->assert( !$access );
     $this->createNewFoswikiSession();
 
@@ -646,8 +647,7 @@ END
     $this->assert($access);
 
     # make sure meta overrides text, as documented - Item2953
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    my ($meta) = $this->getUnloadedTopicObject( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -665,7 +665,8 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert($access);
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $meta->finish();
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(
         'PREFERENCE',
         {
@@ -683,6 +684,7 @@ END
         $topic, $this->{test_web}, $meta
     );
     $this->assert( !$access );
+    $meta->finish();
 
     return;
 }
