@@ -1018,7 +1018,7 @@ sub test_createDefaultWeb {
 
     #check that the settings we created with happened.
     $this->assert( $this->{session}->webExists($newWeb) );
-    my $webObject = Foswiki::Meta->new( $this->{session}, $newWeb );
+    my $webObject = $this->getWebObject($newWeb);
     $this->assert_equals( 'fuchsia', $webObject->getPreference('WEBBGCOLOR') );
     $this->assert_equals( 'on',      $webObject->getPreference('SITEMAPLIST') );
     $webObject->finish();
@@ -1212,7 +1212,7 @@ sub test_createEmptyWeb {
 
     #check that the settings we created with happened.
     $this->assert( $this->{session}->webExists($newWeb) );
-    my $webObject = Foswiki::Meta->new( $this->{session}, $newWeb );
+    my $webObject = $this->getWebObject($newWeb);
     $this->assert_equals( 'fuchsia', $webObject->getPreference('WEBBGCOLOR') );
     $this->assert_equals( 'somenewskin,another',
         $webObject->getPreference('SKIN') );

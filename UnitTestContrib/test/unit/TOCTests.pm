@@ -277,13 +277,13 @@ sub test_TOC_SpecialCharacters {
 %TOC%
 $set->[1]
 HERE
-        my ($topicObject) = Foswiki::Meta->new(
-            $this->{session},    $this->{test_web},
-            $this->{test_topic}, $wikitext
-        );
+        my ($topicObject) =
+          Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+        $topicObject->text($wikitext);
         $topicObject->save();
         my $res = $topicObject->expandMacros($wikitext);
         $res = $topicObject->renderTML($res);
+        $topicObject->finish();
 
         #print "RES $res \n\n";
         $this->assert_matches( qr/href="#$expected".*name="$expected"/sm, $res,

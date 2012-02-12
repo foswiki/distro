@@ -52,9 +52,8 @@ sub set_up {
     try {
         $this->createNewFoswikiSession('AdminUser');
 
-        my $webObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_subweb} );
-        $webObject->populateNewWeb();
+        my $webObject = $this->populateNewWeb( $this->{test_subweb} );
+        $webObject->finish();
         $this->assert( $this->{session}->webExists( $this->{test_subweb} ) );
         ($topicObject) =
           Foswiki::Func::readTopic( $this->{test_subweb},

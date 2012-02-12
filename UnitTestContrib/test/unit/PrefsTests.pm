@@ -38,8 +38,8 @@ sub set_up {
 
     try {
         my $webObject =
-          Foswiki::Meta->new( $this->{session}, $TWiki::cfg{SystemWebName} );
-        $webObject->populateNewWeb($original);
+          $this->populateNewWeb( $TWiki::cfg{SystemWebName}, $original );
+        $webObject->finish();
         my ($m) =
           Foswiki::Func::readTopic( $original,
             $TWiki::cfg{SitePrefsTopicName} );

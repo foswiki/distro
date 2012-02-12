@@ -95,10 +95,10 @@ sub set_up {
     $this->{response} = new Unit::Response();
     @mails = ();
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{test_web} );
-    $webObject->populateNewWeb();
-    $webObject = Foswiki::Meta->new( $this->{session}, $this->{users_web} );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{test_web} );
+    $webObject->finish();
+    $webObject = $this->populateNewWeb( $this->{users_web} );
+    $webObject->finish();
 
     $this->{test_user_forename} = 'Scum';
     $this->{test_user_surname}  = 'Bag';

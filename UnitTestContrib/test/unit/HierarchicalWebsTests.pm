@@ -29,8 +29,7 @@ sub set_up {
     try {
         $this->createNewFoswikiSession('AdminUser');
 
-        my $webObject = Foswiki::Meta->new( $this->{session}, $testWeb );
-        $webObject->populateNewWeb();
+        my $webObject = $this->populateNewWeb($testWeb);
         $webObject->finish();
         $this->assert( $this->{session}->webExists($testWeb) );
         my ($topicObject) =
@@ -41,8 +40,7 @@ sub set_up {
         $this->assert( $this->{session}
               ->topicExists( $testWeb, $Foswiki::cfg{HomeTopicName} ) );
 
-        $webObject = Foswiki::Meta->new( $this->{session}, $testWebSubWebPath );
-        $webObject->populateNewWeb();
+        $webObject = $this->populateNewWeb($testWebSubWebPath);
         $webObject->finish();
         $this->assert( $this->{session}->webExists($testWebSubWebPath) );
         ($topicObject) =
@@ -67,12 +65,8 @@ sub tear_down {
     my $this = shift;
 
     unlink $Foswiki::cfg{Htpasswd}{FileName};
-    my $webObject = Foswiki::Meta->new( $this->{session}, $testWebSubWebPath );
-    $webObject->removeFromStore();
-    $webObject->finish();
-    $webObject = Foswiki::Meta->new( $this->{session}, $testWeb );
-    $webObject->removeFromStore();
-    $webObject->finish();
+    $this->removeFromStore($testWebSubWebPath);
+    $this->removeFromStore($testWeb);
 
     return $this->SUPER::tear_down();
 }
@@ -81,19 +75,15 @@ sub test_createSubSubWeb {
     my $this = shift;
 
     $this->createNewFoswikiSession();
-    my $webTest = 'Item0';
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, "$testWebSubWebPath/$webTest" );
-    $webObject->populateNewWeb();
+    my $webTest   = 'Item0';
+    my $webObject = $this->populateNewWeb("$testWebSubWebPath/$webTest");
+    $webObject->finish();
     $this->assert( $this->{session}->webExists("$testWebSubWebPath/$webTest") );
 
-    $webTest = 'Item0_';
+    $webTest   = 'Item0_';
+    $webObject = $this->populateNewWeb("$testWebSubWebPath/$webTest");
     $webObject->finish();
-    $webObject =
-      Foswiki::Meta->new( $this->{session}, "$testWebSubWebPath/$webTest" );
-    $webObject->populateNewWeb();
     $this->assert( $this->{session}->webExists("$testWebSubWebPath/$webTest") );
-    $webObject->finish();
 
     return;
 }
@@ -180,9 +170,7 @@ sub test_create_subweb_with_same_name_as_a_topic {
     $meta->finish();
 
     # create the subweb with the same name as the page
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, "$testWebSubWebPath/$testTopic" );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb("$testWebSubWebPath/$testTopic");
     $this->assert(
         $this->{session}->webExists("$testWebSubWebPath/$testTopic") );
 
@@ -206,7 +194,7 @@ sub test_createSubweb_missingParent {
     $this->createNewFoswikiSession();
     my $user = $this->{session}->{user};
 
-    my $webObject = Foswiki::Meta->new( $this->{session}, "Missingweb/Subweb" );
+    my $webObject = $this->getWebObject("Missingweb/Subweb");
 
     try {
         $webObject->populateNewWeb();
@@ -232,9 +220,8 @@ sub test_createWeb_InvalidBase {
 
     my $user = $this->{session}->{user};
 
-    my $webTest = 'Item0';
-    my $webObject =
-      Foswiki::Meta->new( $this->{session}, "$testWebSubWebPath/$webTest" );
+    my $webTest   = 'Item0';
+    my $webObject = $this->getWebObject("$testWebSubWebPath/$webTest");
 
     try {
         $webObject->populateNewWeb("Missingbase");
@@ -261,10 +248,8 @@ sub test_createWeb_hierarchyDisabled {
 
     my $user = $this->{session}->{user};
 
-    my $webTest = 'Item0';
-    my $webObject =
-      Foswiki::Meta->new( $this->{session},
-        "$testWebSubWebPath/$webTest" . 'x' );
+    my $webTest   = 'Item0';
+    my $webObject = $this->getWebObject( "$testWebSubWebPath/$webTest" . 'x' );
 
     try {
         $webObject->populateNewWeb();

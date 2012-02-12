@@ -11,7 +11,6 @@ use FoswikiStoreTestCase();
 our @ISA = qw( FoswikiStoreTestCase );
 
 use Foswiki();
-use Foswiki::Meta();
 use Foswiki::Func();
 use Foswiki::OopsException();
 use Error qw( :try );
@@ -211,7 +210,7 @@ sub verify_rename {
     $this->{session}->{user} = $user;
 
     #$Foswiki::Sandbox::_trace = 1;
-    my $nmeta = Foswiki::Meta->new( $this->{session}, $newWeb, $newTopic );
+    my ($nmeta) = Foswiki::Func::readTopic( $newWeb, $newTopic );
     $this->{session}->{store}->moveTopic( $meta, $nmeta, $user );
 
     #$Foswiki::Sandbox::_trace = 0;

@@ -28,13 +28,14 @@ sub new {
 sub test_phantom_topic {
     my $this = shift;
     my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "PhantomTopic" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "PhantomTopic" );
     $this->assert_equals( undef, $topicObject->getLoadedRev() );
     $topicObject->load();
     $this->assert_equals( undef, $topicObject->getLoadedRev() );
     $topicObject->load(1);
     $this->assert_equals( undef, $topicObject->getLoadedRev() );
 
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "PhantomTopic" );
     $this->assert_equals( undef, $topicObject->getLoadedRev() );
@@ -46,7 +47,7 @@ sub test_phantom_topic {
 sub test_good_topic {
     my $this = shift;
     my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "GoodTopic" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "GoodTopic" );
     $topicObject->text('Let there be light');
 
     # We haven't loaded a rev yet, so the loaded rev should be undef
@@ -57,20 +58,24 @@ sub test_good_topic {
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
     # Create a new unloaded object for what we just saved
+    $topicObject->finish();
     $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "GoodTopic" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "GoodTopic" );
     $this->assert_equals( undef, $topicObject->getLoadedRev() );
 
     $topicObject->load();
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "GoodTopic", 0 );
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "GoodTopic", 1 );
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "GoodTopic", 2 );
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
@@ -81,8 +86,7 @@ sub test_good_topic {
 sub test_borked_TOPICINFO_save {
     my $this = shift;
     my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        "BorkedTOPICINFO" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "BorkedTOPICINFO" );
     $topicObject->text(<<SICK);
 %META:TOPICINFO{version="3"}%
 Houston, we may have a problem here
@@ -97,6 +101,7 @@ SICK
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
     # Load it again to make sure
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO" );
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
@@ -117,8 +122,9 @@ WHEE
       Foswiki::Func::readTopic( $this->{test_web}, "NoCommaV" );
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
+    $topicObject->finish();
     $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "NoCommaV" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "NoCommaV" );
     $topicObject->load(3);
 
     # We asked for an out-of-range version; even though that's the rev no
@@ -127,20 +133,23 @@ WHEE
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
     # Reload out-of-range
+    $topicObject->finish();
     $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "NoCommaV" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "NoCommaV" );
     $topicObject->load(4);
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
     # Reload undef
+    $topicObject->finish();
     $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "NoCommaV" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "NoCommaV" );
     $topicObject->load();
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 
     # Reload 0
+    $topicObject->finish();
     $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "NoCommaV" );
+      $this->getUnloadedTopicObject( $this->{test_web}, "NoCommaV" );
     $topicObject->load(0);
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
 }
@@ -178,6 +187,7 @@ SICK
     close($f);
 
     # The load shouldn't access the history
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO" );
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
@@ -188,22 +198,26 @@ SICK
     # number
 
     # load explicit number
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 1 );
     $this->assert_equals( 1, $topicObject->getLoadedRev() );
     $this->assert_matches( qr/elderberries/, $topicObject->text() );
 
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 2 );
     $this->assert_equals( 2, $topicObject->getLoadedRev() );
     $this->assert_matches( qr/lovely muck/, $topicObject->text() );
 
     # load latest rev
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 3 );
     $this->assert_equals( 2, $topicObject->getLoadedRev() );
     $this->assert_matches( qr/lovely muck/, $topicObject->text() );
 
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 0 );
 
@@ -212,6 +226,7 @@ SICK
 
     # If we now save it, we should be back to corrected rev nos
     $topicObject->save( forcenewrevision => 1 );
+    $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 0 );
     $this->assert_equals( 3, $topicObject->getLoadedRev() );
