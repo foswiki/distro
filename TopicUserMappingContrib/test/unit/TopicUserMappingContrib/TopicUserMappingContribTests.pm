@@ -14,9 +14,9 @@ package TopicUserMappingContribTests;
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use Unit::Request;
-use Unit::Response;
-use Foswiki;
+use Unit::Request();
+use Unit::Response();
+use Foswiki();
 use Error qw( :try );
 
 my $TopicTemplate = <<'THIS';
