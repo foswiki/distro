@@ -20,16 +20,16 @@ use strict;
 use warnings;
 
 use Assert;
-use Unit::TestCase;
+use Unit::TestCase();
 our @ISA = qw( Unit::TestCase );
 
 use Data::Dumper;
 
-use Foswiki;
-use Foswiki::Meta;
-use Foswiki::Plugins;
-use Unit::Request;
-use Unit::Response;
+use Foswiki();
+use Foswiki::Meta();
+use Foswiki::Plugins();
+use Unit::Request();
+use Unit::Response();
 use Error qw( :try );
 
 sub SINGLE_SINGLETONS { 0 }
@@ -457,6 +457,83 @@ sub check_conditions_met {
     return $conditions_met;
 }
 
+=begin TML
+
+---++ ObjectMethod populateNewWeb($web, $template, $opts)
+
+Creates a new web =$web= from the =$template= web (defaults to =_default=).
+
+=cut
+
+sub populateNewWeb {
+    my ( $this, $web, $template, $opts ) = @_;
+    my $webObject;
+
+    require Foswiki::Store;
+    if ( defined &Foswiki::Store::create ) {
+
+        # store2
+        $webObject = Foswiki::Store->create( address => { web => $web } );
+    }
+    else {
+
+        # pre-store2, Foswiki 1.1.x and below
+        $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+    }
+    $webObject->populateNewWeb( $template, $opts );
+
+    return $webObject;
+}
+
+=begin TML
+
+---++ ObjectMethod getUnloadedTopicObject($web, $topic) -> $topicObject
+
+Get an unloaded topic object.
+
+Equivalent to Foswiki::Meta->new, we take the session from $this->{session}.
+
+That assumes all the tests are playing nice, and aren't doing Foswiki->new()
+themselves (using createNewFoswikiSession instead).
+
+=cut
+
+sub getUnloadedTopicObject {
+    my ( $this, $web, $topic ) = @_;
+
+    ASSERT( defined $web );
+    ASSERT( defined $topic );
+
+    return Foswiki::Meta->new( $this->{session}, $web, $topic );
+}
+
+=begin TML
+
+---++ ObjectMethod getWebObject($web) -> $webObject
+
+Get an object representing a handle to a Foswiki =$web=
+
+=cut
+
+sub getWebObject {
+    my ( $this, $web ) = @_;
+    my $webObject;
+
+    require Foswiki::Store;
+    if ( defined &Foswiki::Store::create ) {
+
+        # store2
+        $webObject = Foswiki::Store->load( address => { web => $web } );
+    }
+    else {
+
+        # pre-store2, Foswiki 1.1.x and below
+        $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+    }
+
+    return $webObject;
+}
+
 # Override in subclasses to change the config on a per-testcase basis
 sub loadExtraConfig {
     my $this    = shift;
@@ -616,6 +693,23 @@ sub _copy {
     else {
         return $n;
     }
+}
+
+=begin TML
+
+---++ ObjectMethod removeFromStore($web, $topic)
+
+Remove =$web= from the store ( =$topic= not yet implemented)
+
+=cut
+
+sub removeFromStore {
+    my ( $this, $web, $topic ) = @_;
+
+    ASSERT( !defined $topic, '$topic not implemented' );
+    $this->removeWebFixture( $this->{session}, $web );
+
+    return;
 }
 
 =begin TML
