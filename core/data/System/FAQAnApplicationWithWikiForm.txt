@@ -11,7 +11,7 @@ Step by step:
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 ---+++!! Create a data form definition
-See [[DataForms][Data Form]], specifically the section [[DataForms#DefiningForm][Defining a form]]
+See [[DataForms][Data Form]], specifically the section [[DataForms#FormTable][The form table]].
 
 As an example we will create the topic "ReadingForm" with these contents:
 <verbatim class="tml">
@@ -49,10 +49,10 @@ Title of article or book: %BR%
 <input type="hidden" name="topicparent" value="%TOPIC%" />
 </form>
 </verbatim>
+Now create a bunch of topics with this form.
 </div>
 <div class="foswikiFormStep">
 ---+++!! Create a query search   
-
 To list all topics that have a form named !ReadingForm:
 <verbatim class="tml">
 %SEARCH{
