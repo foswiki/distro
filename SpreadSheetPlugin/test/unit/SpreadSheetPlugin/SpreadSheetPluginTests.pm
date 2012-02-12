@@ -1,17 +1,14 @@
 # See bottom of file for license and copyright information
+package SpreadSheetPluginTests;
 use strict;
 use warnings;
 
-package SpreadSheetPluginTests;
-
-use FoswikiFnTestCase;
+use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
-use strict;
-use warnings;
-use Foswiki;
-use Foswiki::Plugins::SpreadSheetPlugin;
-use Foswiki::Plugins::SpreadSheetPlugin::Calc;
+use Foswiki();
+use Foswiki::Plugins::SpreadSheetPlugin();
+use Foswiki::Plugins::SpreadSheetPlugin::Calc();
 
 sub set_up {
     my $this = shift;
@@ -22,8 +19,8 @@ sub set_up {
     $this->{target_topic} = 'SpreadSheetTestTopic'
       || "$this->{test_topic}Target";
 
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
-    $webObject->populateNewWeb();
+    my $webObject = $this->populateNewWeb( $this->{target_web} );
+    $webObject->finish();
 
 #$this->{session}->{store}->createWeb( $this->{session}->{user}, $this->{target_web} );
 
@@ -44,16 +41,17 @@ sub tear_down {
     my $this = shift;
 
 #$this->{session}->{store}->removeWeb( $this->{session}->{user}, $this->{target_web} );
-    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{target_web} );
-    $webObject->removeFromStore();
+    $this->removeFromStore( $this->{target_web} );
 
     $this->SUPER::tear_down();
 }
 
 sub writeTopic {
     my ( $this, $web, $topic, $text ) = @_;
-    my $meta = new Foswiki::Meta( $this->{session}, $web, $topic, $text );
+    my ($meta) = Foswiki::Func::readTopic( $web, $topic );
+    $meta->text($text);
     $meta->save();
+    $meta->finish();
 
 #$this->{session}->{store}->saveTopic( $this->{session}->{user}, $web, $topic, $text, $meta );
 }
