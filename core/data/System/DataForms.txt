@@ -1,240 +1,251 @@
 %META:TOPICINFO{author="ProjectContributor" date="1300145751" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
----+ Data Forms
-Data forms allow you to add structured data to topics. The data stored in the form fields can be used to search and filter topics. The combination of structured data and search queries are the base for building database applications.
+---+!! Data Forms
+_This page introduces structured data, and explains how to set up and work with data forms._
 
 %TOC%
 
 ---++ Overview
+Next to freeform topic contents, each topic can store additional data in name/value pairs.
 
-By adding form-based input to freeform content, you can structure topics with unlimited, easily searchable categories. A form is enabled for a web and can be added to a topic. The form data is shown in tabular format when the topic is viewed, and can be changed in edit mode using edit fields, radio buttons, check boxes and list boxes. Many different form types can be defined in a web, though a topic can only have one form attached to it at a time.
+Topic data is normally not visible when you view a topic (except for a small table at the bottom of the topic - dependent on the used skin). Topic data works "behind the scenes" and facilitates searches, reports and custom displays.
 
-Typical steps to build an application based on Foswiki forms:
-   1. Define a form definition
-   1. Enable the form for a web
-   1. Build an HTML form to create new topics based on that template topic
-   1. Build a FormattedSearch to list topics that share the same form
+Topic data, or better: structured data, can be used in many ways. The [[http://foswiki.org/Support/SupportQuestions][Foswiki Support questions]] serves as a demonstration how topic data can be used:
+   * To create a complete list of "Support Questions" topics
+   * To show a subset of all questions that have not been answered yet
+   * To display the title and subject of each question
 
-For a step by step tutorial, see FAQAnApplicationWithWikiForm.
+Another uses for structured data could be:
+   * Create a list of all contributions of one particular author
+   * Create a quick report of all employee names and phone numbers
+   * Create a software documentation repository
+   * Create and track tasks
+   * Create a bug tracker
 
-#FormDefinition
----++ Defining a form
-A form definition specifies the fields in a form. A form definition is simply a page containing a Foswiki table, where each row of the table specifies one form field.
-   1. Create a new topic with your form name: ==<nop>YourForm==, ==<nop>ExpenseReportForm==, ==<nop>InfoCategoryForm==, ==<nop>RecordReviewForm==, whatever you need.
-   1. Create a TML table, with each column representing one element of an entry field: ==Name==, ==Type==, ==Size==, ==Values==, ==Tooltip message==, and ==Attributes== _(see sample below)_.
-   1. For each field, fill in a new line; for the type of field, select from the list.
-   1. Save the topic _(you can later choose to [[#EnablingForms][enable/disable]] individual forms)_.
 
-<blockquote>
-*Example:*
-<verbatim class="tml">| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-| TopicClassification | select | 1 | NoDisclosure, PublicSupported, PublicFAQ | blah blah... | |
-| OperatingSystem | checkbox | 3 | OsHPUX, OsLinux, OsSolaris, OsWin | blah blah... | |
-| OsVersion | text | 16 | | blah blah... | |</verbatim>
+To work with topic data, you will need 3 things:
+   1. The data definition, specified in a table in a "data form" topic. The table lists all fields and their types - see [[#DataDefinition][The data definition]].
+   1. The web's !WebPreferences needs to list the form in the =WEBFORMS= setting - see [[#EnablingForms][Enabling forms]].
+   1. The form must get connected to the topic - see [[#AddingAForm][Adding a form to a topic]].
+Then you are ready to enter data values for each topic.
 
-*Preview:*
-| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-| <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/TopicClassification"><nop>TopicClassification</a> | select |  1  | <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/NoDisclosure"><nop>NoDisclosure</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/PublicSupported"><nop>PublicSupported</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/PublicFAQ"><nop>PublicFAQ</a> | blah blah... | &nbsp; |
-| <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OperatingSystem"><nop>OperatingSystem</a> | checkbox |  3  | <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsHPUX"><nop>OsHPUX</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsLinux"><nop>OsLinux</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsSolaris"><nop>OsSolaris</a>, <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsWin"><nop>OsWin</a> | blah blah... | &nbsp; |
-| <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsVersion"><nop>OsVersion</a> | text |  16  | | blah blah... | &nbsp; |
-</blockquote>
+Optional further steps are:
+   1. Create a template topic so that new topics based on that template have the form already added - see [[%SYSTEMWEB%.TemplateTopics][Template topics]].
+   1. Build an HTML form to create new topics based on that template topic, or to pass field values from the HTML form to the data form.
+   1. Build a search to create a report from the stored data
 
-<blockquote class="foswikiHelp"> %X% Do *not* use the field name =undefined= (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.</blockquote>
 
-See [[#FormStructure][structure of a form]] for full details of what types are available and what all the columns mean.
+For a step by step tutorial, see the FAQ [[%SYSTEMWEB%.FAQAnApplicationWithWikiForm][How can I create a simple data form based application?]].
 
-You can also retrieve possible values for =select=, =checkbox= or =radio= types from other topics:
+<div class="foswikiHelp">
+Sometimes new users with a web programming background are confused how "data forms" and "HTML forms" are related. They are not related. But you'll see later on that you can use web forms to pass data to a topic data form.
+</div>
 
-<blockquote>
-*Example:*
+#DefiningForm
+#DataDefinition
+---++ The data definition
+Topics can store data as name/value pairs, or form fields. The attributes of each form field are specified in the data definition, which is an ordinary topic.
 
-   * In the <nop>WebForm topic, define the form:
-     | *Name* | *Type* | *Size* | *Values*  | *Tooltip message* | *Attributes* |
-     | <nop>TopicClassification | select | 1 |    | blah blah... | &nbsp; |
-     | <nop>OperatingSystem | checkbox | 3 |    | blah blah... | &nbsp; |
-     | <nop>OsVersion | text | 16 |    | blah blah... | &nbsp; |
-     <blockquote class="foswikiHelp"> %X% Leave the ==Values== field *blank*.</blockquote>
+---+++ The data form topic
+The data definition is defined in a TML table and looks like this:
+<verbatim class="tml">
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| TopicTitle | text | 100 | | | H |
+| Version | select | 1 | ,Version in SVN,Foswiki 1.1.4,Foswiki 1.1.3,Foswiki 1.1.2,Foswiki 1.1.1 | | |
+| Status | select | 1 | Asked,More info required,Answered | | M |
+| Related Topics | textboxlist | | | |
+</verbatim>
+In the next section we'll go into the details of the table contents.
 
-   * Then in the <nop>TopicClassification topic, define the possible values:
-     <br /><verbatim class="tml">
-| *Name*            |
-| NoDisclosure      |
-| Public Supported  |
-| Public FAQ        |
+The name of the data form topic usually ends with "Form". For example, the form topic for the Support Questions is named "<nop>QuestionForm". The form topic can be placed in any web, but usually this is in the same web as the topics that will be using it.
+
+<div class="foswikiHelp">
+*Topic types* %BR%
+You could consider the data form topic as the data _type_. For instance, all topics that use the form <nop>QuestionForm are topics of type "Question".
+
+A useful core feature of Foswiki 1.1 is the automatic selection of view and edit templates based on the name of the form attached to a topic. With this we are really starting build up a topic as something resembling a typed object: its form name being the type identifier, and its form+templates as the details of its implementation. See [[http://foswiki.org/Extensions/AutoViewTemplatePlugin][AutoViewTemplatePlugin]] for details of this feature.
+</div>
+
+<div class="foswikiHelp">
+*General Notes:*
+   * The topic definition is not read when a topic is viewed.
+   * Form definition topics can be protected in the usual manner, using  AccessControl, to limit who can change the form definition and/or individual value lists. Note that view access is required to be able to edit topics that use the form definition, though view access to the form definition is _not_ required to view a topic where the form has been used.
+</div>
+
+#FormTable
+---+++ The form table
+_A form is to a web as a table is to a database. -- Andrew Steele_
+
+The data form table is a kind of spreadsheet:
+   * Each row of the table specifies one form field
+   * The table header defines what attributes of the form fields need to be specified
+
+
+---++++ Header row
+Each column name in the table header row is one element of an entry field:
+<verbatim class="tml">
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
 </verbatim>
 
-*Preview:*
-     | *Name* |
-     | <nop>NoDisclosure |
-     | Public Supported |
-     | Public FAQ |
-</blockquote>
-
-Field values can also be set using the result of expanding other macros. For example,
-
+Only  =Name=, =Type= and =Size= are required. So the minimum table has this header row:
 <verbatim class="tml">
-%SEARCH{
-   "Office$"
-   scope="topic"
-   web="%USERSWEB%"
-   nonoise="on"
-   type="regex"
-   format="$web.$topic"
-   separator=", "
-}%
+| *Name* | *Type* | *Size* |
 </verbatim>
 
-When used in the value field of the form definition, this will find all topic names in the %USERSWEB% web which end in "Office" and use them as the legal field values.
-
-#EnablingForms
----++ Enabling forms by Web
-
-Forms have to be enabled for each individual web. The ==WEBFORMS== setting in WebPreferences is optional and defines a list of possible form definitions.
-<blockquote>
-*Example:*
-<verbatim class="tml">   * Set WEBFORMS = BugForm, FeatureForm, Books.BookLoanForm</verbatim>
-</blockquote>
-   * With ==WEBFORMS== enabled, an extra button is added to the edit view. If the topic doesn't have a Form, an *Add Form* button appears at the end of the topic. If a Form is present, a *Change* button appears in the top row of the Form. The buttons open a screen that enables selection of a form specified in =WEBFORMS=, or the *No form* option.
-   * You have to list the available form topics explicitly. You cannot use a =SEARCH= to define =WEBFORMS=.
-
----++ Adding a form to a topic
-
-   * Edit the topic and follow the "Add form" button to add a Form. This is typically done to a [[TemplateTopics][template topic]], either to the =WebTopicEditTemplate= topic in a web, or a new topic that serves as an application specific template topic. Initial Form values can be set there.
-
-   * Additionally a new topic can be given a Form using the =formtemplate= parameter in the (edit or save) URL.  Initial values can then be provided in the URLs or as form values:
-      * other than checkboxes: ==name==, ex: ==?BugPriority=1==
-      * checkbox: ==namevalue=1==, ex: ==?ColorRed=1==. <br /> 
-        Boxes with a tick must be specified.
-      * Example: This will add a textfield for the new topic name and a "Create"-Button to your topic. When the button is pressed, the topic editor will open with the form "MyForm" already attached to the new topic.
-       <verbatim class="tml">
-    <form name="newtopic" action="%SCRIPTURLPATH{"edit"}%/%WEB%/">
-       <input type="hidden" name="formtemplate" value="MyForm" />
-       New topic name <input type="text" name="topic" size="40" />
-       <input type="submit" class="foswikiSubmit" value="Create" />
-    </form>
-       </verbatim>
-<blockquote class="foswikiHelp"> *%X% Note:* You can create a topic in one step, without going through the edit screen. To do that, specify the =save= script instead of the =edit= script in the form action. When you specify the =save= script you must to use the "post" method. Example:
-       <verbatim class="tml">
-    <form name="newtopic" action="%SCRIPTURLPATH{"save"}%/%WEB%/" method="post">
-       .....
-    </form>
-       </verbatim>
-%H% The =edit= and =save= scripts understand many more parameters, see CommandAndCGIScripts#edit and CommandAndCGIScripts#save for details.
-
-*%T% Tip:* For Wiki Applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
-
-*%X% Note:* Initial values will *not* be set in the form of a new topic if you _only_ use the formtemplate parameter.
-</blockquote>
----++ Changing a form
-   * You can change a form definition, and Foswiki will try to make sure you don't lose any data from the topics that use that form. 
-
-   * If you change the form definition, the changes will not take affect in a topic that uses that form until you edit and save it.
-
-   * If you add a new field to the form, then it will appear next time you edit a topic that uses the form.
-
-   * If you delete a field from the form, or change a field name, then the data will not be visible when you edit the topic (the changed form definition will be used). *If you save the topic, the old data will be lost* (though thanks to revision control, you can always see it in older versions of the topic)
-
-   * If two people edit the same topic containing a form at exactly the same time, and both change fields in the form, Foswiki will try to merge the changes so that no data is lost.
-
-#FormStructure
----++ Structure of a form definition
-
-A form definition specifies the fields in a form. A form definition is simply a TML table contained in a topic, where each row of the table specifies one form field.
-
-Each *column* of the table is one element of an entry field: ==Name==, ==Type==, ==Size==, ==Values==, ==Tooltip message==, and ==Attributes==.
-
-The =Name=, =Type= and =Size= columns are required. Other columns are optional. The form *must* have a header row (e.g. =| <nop>*Name* | <nop>*Type* | <nop>*Size* |=).
-
-==Name== is the name of the form field.
-
-The ==Type==, ==Size== and ==Value== fields describe the legal values for this field, and how to display them.
-
-| *Type* | *Description* | *Modifiers* |
-| =checkbox= \
-| specifies one or more checkboxes. The =Size= field specifies how many checkboxes will be displayed on each line. \
-  The =Value= field should be a comma-separated list of item labels. \
-| =checkbox+buttons= will add *Set* and *Clear* buttons to the basic =checkbox= type. %BR% \
-   =checkbox+values= allows the definition of values that are different to the displayed text. |
-| =date= | specifies a single-line text box and a button next to it; clicking on the button will bring up a calendar from which the user can select a date. \
-  The date can also be typed into the text box. =Size= specifies the text box width in characters. As for =text=, the =Value= field specifies the initial text | |
-| =label= | specifies read-only label text. The =Value= field should contain the text of the label. | |
-| =radio= | like =checkbox= except that radio buttons are mutually exclusive; only one can be selected. \
-| =radio+values= allows the definition of values that are different to the displayed text. |
-| =select= | specifies a select box. The =Value= field should contain a comma-separated list of options for the box. \
-   The =Size= field can specify a fixed size for the box (e.g. =1=, or a range e.g. =3..10=. \
-   If you specify a range, then the box will never be smaller than 3 items, never larger than 10, and will be 5 high if there are only 5 options. \
-| =select+multi= turns multiselect on for the select, to allow Shift+Click and Ctrl+Click to select (or deselect) multiple items. %BR% \
-  =select+values= allows the definition of values that are different to the displayed text. You can combine these modifiers e.g. =select+multi+values= |
-| =text= | specifies a one-line text field. =Size= specifies the text box width in number of characters. \
-  =Value= is the initial (default) content when a new topic is created with this form definition. | |
-| =textarea= | specifies a multi-line text box. The =Size= field should specify columns x rows, e.g. =80x6=; default size is 40x5. \
-  As for =text=, the =Value= field specifies the initial text | |
-
-<blockquote>
-*Example:*
-
-A formfield definition like
-
-<verbatim class="tml">
-| Field 9 | select+values | 1 | One, Two=2, Three=III, Four | Various values formats |
-</verbatim> 
-
-displays as 
-
-<select name="Field9" size="1" class="foswikiSelect">
-  <option value="One" class="foswikiOption">One</option>
-  <option value="2" class="foswikiOption">Two</option>
-  <option value="III" class="foswikiOption">Three</option>
-  <option value="Four" class="foswikiOption">Four</option>
-</select> 
-
-but the values or options =Two= and =Three= are =2= and =III= respectively.
-</blockquote>
-
-
-
-==Tooltip message== is a message that will be displayed when the cursor is hovered over the field in =edit= view.
-
-==Attributes== specifies special attributes for the field. Multiple attributes can be entered, separated by spaces.
-   * An attribute =H= indicates that this field should not be shown in view mode. However, the field is available for editing and storing information.
-   * An attribute =M= indicates that this field is mandatory. The topic cannot be saved unless a value is provided for this field. If the field is found empty during topic save, an error is raised and the user is redirected to an =oops= page. Mandatory fields are indicated by an asterisks next to the field name.
-
-For example, a simple form just supporting entry of a name and a date would look as follows:
+A simple form just supporting entry of a name and a date would be:
 <verbatim class="tml">
 | *Name* | *Type* | *Size* |
 | Name   | text   | 80     |
 | Date   | date   | 30     |
 </verbatim>
-*Field Name Notes:*
-   * Field names have to be unique.
-   * A very few field names are reserved. If you try to use one of these names, Foswiki will automatically append an underscore to the name when the form is used.
+
+---++++ Form field rows
+Each form field is defined by these attributes:
+
+%TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
+| Name | The name of the form field; must be unique for that form. |
+| Type | The data type: text, date, single or multi-value, read-only. The type also defines how form field data can be entered in the edit screen, such as text field or radio buttons. |
+| Size | The input size of the form field inputs on the edit screen. |
+| Values | For checkboxes, radio buttons and dropdown lists: predefined input to select from. More advanced: this can be a dynamically generated list of values. |
+| Tooltip message | (hardly used or useful anymore) A message that will be displayed when the cursor is hovered over the field in edit view. |
+| Attributes | Whether the field is mandatory or hidden in view mode. |
+
+As said, only  =Name=, =Type= and =Size= are required.
+
+#FormFieldAttributes
+---+++ Form field attributes
+---++++ Name
+The name of the form field.
+
+   * Names have to be unique for each data definition.
+   * A very few field names are reserved. If you try to use one of these names, Foswiki will automatically append an underscore to the name when the form is used. But do *not* use the field name ==undefined== (or any variant of that name, such as !UnDefined), as that name is reserved for use in search queries.
    * You can space out the title of the field, and it will still find the topic e.g. =Aeroplane Manufacturers= is equivalent to =AeroplaneManufacturers=.
    * If a =label= field has no name, it will *not* be shown when the form is *viewed*, only when it is *edited*.
-   * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use  ==[<nop>[...]]== links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field. 
-   * If you want the Field name to include embedded spaces, use the format [&lt;nop&gt;[FieldName][Descriptive human-friendly Field Name]].
-   * Leading and trailing spaces are _not_ significant.
-*Field Value Notes:*
+   * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use =[<nop>[...]]= double bracket links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field. 
+   * If you want the Field name to include embedded spaces, use the format =[&lt;nop&gt;[FieldName][Descriptive human-friendly Field Name]]=.
+   * Leading and trailing spaces do not matter.
+   
+
+#TypeTable
+---++++ Type
+The data type defines the kind of input: text, date, single or multi-value, or read-only. This is done by setting the type of interface control on the edit screen: checkbox, radio button, text field, and so on.
+
+The control appearance is also specified by size and (initial) value. More on those attributes below.
+
+%TABLE{columnwidths="12%, 22%, 22%, 22%, 22%" sort="off"}%
+| *Type* | *Description* | *Size attribute* | *Value attribute* | *Modifiers* |
+| =checkbox= \
+| One or more checkboxes. \
+| How many checkboxes will be displayed on each line. \
+| A comma-separated list of item labels. \
+| =checkbox+buttons= will add *Set* and *Clear* buttons to the basic =checkbox= type. %BR% \
+=checkbox+values= allows the definition of values that are different to the displayed text. |
+| =date= \
+| A single-line text box and a calendar icon button next to it; clicking on the button will bring up a calendar from which the user can select a date. \
+The date can also be typed into the text box. \
+| The text box width in characters. \
+| The initial text. \
+| |
+| =label= \
+| Read-only label text. \
+| \
+| The text of the label. \
+| |
+| =radio= \
+| Like =checkbox= except that radio buttons are mutually exclusive; only one can be selected. \
+||| =radio+values= allows the definition of values that are different to the displayed text. |
+| =select= \
+| A select box / dropdown. \
+| A fixed size for the box (e.g. =1=, or a range e.g. =3..10=. \
+To get a dropdown, use size =1=. %BR% \
+If you specify a range, the box will never be smaller than 3 items, never larger than 10, and will be 5 high if there are only 5 options. \
+| A comma-separated list of options for the box. \
+| =select+multi= turns multiselect on for the select, to allow Shift+Click and Ctrl+Click to select (or deselect) multiple items. %BR% \
+  =select+values= allows the definition of values that are different to the displayed text. You can combine these modifiers e.g. =select+multi+values= |
+| =text= \
+| A one-line text field. \
+| The text box width in number of characters. \
+| The initial (default) content when a new topic is created with this form definition. \
+| |
+| =textarea= \
+| A multi-line text box. \
+| Size in columns x rows, e.g. =80x6=; default size is 40x5. \
+| The initial text. \
+| |
+  
+<div class='foswikiHelp'>
+---+++++ Example of select+values
+A formfield definition like:
+<verbatim class="tml">
+| Field 9 | select+values | 1 | One, Two=2, Three=III, Four | Various values formats |
+</verbatim> 
+
+displays as: 
+<select name="Field9" size="1" class="foswikiSelect">
+<option value="One" class="foswikiOption">One</option>
+<option value="2" class="foswikiOption">Two</option>
+<option value="III" class="foswikiOption">Three</option>
+<option value="Four" class="foswikiOption">Four</option>
+</select> 
+
+The generated HTML code reveals that the form values differ from the option labels:
+<verbatim class="tml">
+<select name="Field9" size="1" class="foswikiSelect">
+<option value="One" class="foswikiOption">One</option>
+<option value="2" class="foswikiOption">Two</option>
+<option value="III" class="foswikiOption">Three</option>
+<option value="Four" class="foswikiOption">Four</option>
+</select>
+</verbatim>
+</div>
+
+<div class='foswikiHelp'>
+---+++++ Extending the range of form data types
+Some plugins add data types. For instance, [[%SYSTEMWEB%.JQueryPlugin][JQueryPlugin's]] sub-plugin [[%SYSTEMWEB%.JQueryPlugin][JQueryFarbtastic]] adds the data type =color=:
+<verbatim class='tml'>
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| MyColor | color | 10 | | | |
+</verbatim>
+
+Example (click in the field to view):
+%JQREQUIRE{"farbtastic"}%
+<input type="text" id="color" name="color" value="#123456" class="jqFarbtastic" />
+---
+*Note to extension developers* %BR%
+Such extended data types are single-valued (can only have one value) with the following exceptions:
+   * any type name starting with =checkbox=
+   * any type name with =+multi= anywhere in the name
+Types with names like this can both take multiple values.
+</div>
+
+---++++ Size
+The input size of the form field inputs on the edit screen. The size acts a bit different for each type - see the [[#TypeTable][Type table]] above.
+
+
+---++++ Values
+For checkboxes, radio buttons and dropdown lists: predefined input to select from. More advanced: this can be a dynamically generated list of values.
+
    * The field value will be used to initialize a field when a form is created, unless specific values are given by the topic template or query parameters. The first item in the list for a select or radio type is the default item. For =label=, =text=, and =textarea= fields the value may also contain commas. =checkbox= fields cannot be initialized through the form definition.
-   * Leading and trailing spaces are _not_ significant.
+   * Leading and trailing spaces do not matter.
    * Field values can also be generated through a %SYSTEMWEB%.FormattedSearch, which must yield a suitable table as the result.
    * Macros in the initial values of a form definition get expanded when the form definition is loaded.
       * If you want to use a =|= character in the initial values field, you have to precede it with a backslash, thus: =\|=.
       * You can use =&lt;nop>= to prevent macros from being expanded.
-      * The FormatTokens can be used to prevent expansion of other characters.
-*General Notes:*
-   * The topic definition is not read when a topic is viewed.
-   * Form definition topics can be protected in the usual manner, using  AccessControl, to limit who can change the form definition and/or individual value lists. Note that view access is required to be able to edit topics that use the form definition, though view access to the form definition is _not_ required to view a topic where the form has been used.
-
----+++ Values in other topics
-As described above, you can also retrieve possible values for select, checkbox or radio types from other topics. For example, if you have a rows defined like this:
+      * The [[%SYSTEMWEB%.FormatTokens][Format tokens]] can be used to prevent expansion of other characters.
+      
+<div class='foswikiHelp'>
+---+++++ How to retrieve values from other topics
+If you have rows defined like this:
 <verbatim class="tml">
-| *Name*                 | *Type* | *Size* |
-| AeroplaneManufacturers | select |        |
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| AeroplaneManufacturers | select | | | | | 
 </verbatim>
-the Foswiki will look for the topic !AeroplaneManufacturers to get the possible values for the =select=.
+... Foswiki will look for the topic !AeroplaneManufacturers to get the possible values for the =select= field. 
 
-The !AeroplaneManufacturers topic must contain a table, where each row of the table describes a possible value. The table only requires one column, ==Name==. Other columns may be present, but are ignored.
+The =Values= column *must be empty*.
+
+The !AeroplaneManufacturers topic must contain a table, where each row of the table describes a possible value. The table only requires one column, =Name=. Other columns may be present, but are ignored.
 
 For example:
 <verbatim class="tml">
@@ -243,30 +254,173 @@ For example:
 | Focke-Wulf |
 | De Havilland |
 </verbatim>
+</div>
 
-*Notes:*
-   * The ==Values== column *must be empty* in the referring form definition.
+<div class='foswikiHelp'>
+---+++++ How to set field values using a macro
+A powerful way to populate selectable field values is by using [[%SYSTEMWEB%.VarSEARCH][SEARCH]] to generate a comma-separated list of values.
+
+For example, to create a list of documentation topics whose name contain "Wiki", you write:
+<verbatim class="tml">
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| Subject | select+multi | 10 | ,%SEARCH{ \
+   "Wiki" \
+   scope="topic" \
+   web="%SYSTEMWEB%" \
+   nonoise="on" \
+   type="regex" \
+   format="$topic" \
+   separator=", " \
+}% | | |
+</verbatim>
+Note the use of the backslash to be able to write the macro in a more readable way using multiple lines. The comma just before the =SEARCH= means "empty value" to make it possible to select none.
+
+Sometimes you have a topic with a bullet list that can be used as selectable values. The rather advanced =SEARCH= expression would be:
+<verbatim class="tml">
+| Subject | select+multi | 10 | ,%SEARCH{ \
+	"   *\s*.*?" \
+	topic="QuestionSubjectCategory" \
+	type="regex" \
+	multiple="on" \
+	casesensitive="on" \
+	nonoise="on" \
+	separator="," \
+	format="$pattern(.*   \*\s*([^\n]*).*)" \
+}% | | |
+</verbatim>
+You are not expected to write these kind of search expressions yourself, but if you like you can find more of these in [[%SYSTEMWEB%.SearchPatternCookbook][Search Pattern Cookbook]].
+</div>
+
+<div class='foswikiHelp'>
+*Fields and linefeeds* %BR%
+Some browsers may strip linefeeds from =text= fields when a topic is saved. If you need linefeeds in a field, make sure it is a =textarea=.
+</div>
+
+---++++ Tooltip message
+(hardly used or useful anymore) A message that will be displayed when the cursor is hovered over the field in edit view.
+
+
+---++++ Attributes
+Whether the field is mandatory or hidden in view mode.
+
+%TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
+| =H= | Indicates that this field should not be shown in view mode. However, the field is available for editing and storing information. |
+| =M= | Indicates that this field is mandatory. The topic cannot be saved unless a value is provided for this field. If the field is found empty during topic save, the user is presented with an error message. Mandatory fields are indicated by an asterisk next to the field name. |
+
+Multiple attributes can be entered, separated by spaces:
+<verbatim>
+| TopicTitle | text | 100 | | | H M |
+</verbatim>
+
+
+#EnablingForms
+---++ Enabling forms
+Before connecting topics to a data definition, the definition must be enabled in the Web's !WebPreferences topic.
+
+This is done by adding the form topic name to the =WEBFORMS= setting. The setting accepts a comma-separated list of form topics:
+<verbatim class="tml">
+   * Set WEBFORMS = BugForm, FeatureForm, Books.BookLoanForm, %USERSWEB%.UserForm
+</verbatim>
+As you can see, form topics located in other webs can be added by using their web prefix.
+
+You have to list the available form topics explicitly. You cannot use a =SEARCH= to define =WEBFORMS=.
+
+#AddingAForm
+---++ Adding a form to a topic
+With =WEBFORMS= enabled, a form can be added or changed on the edit screen.
+
+---+++ Manual operation
+   1. Add a form: click the "Add form" button and select one of the forms in the list.
+   1. Switching or removing a form: click the "Change form" button and select another one, or none, from the list.
+
+---+++ Automatically adding a form to a new topic
+---++++ Using a template topic
+If you don't want users to select a form themselves, this step can be automated by using a [[%SYSTEMWEB%.TemplateTopics][template topic]] that has the form connected.
+
+For example, Question topics on foswiki.org are created using !QuestionTemplate:
+<pre>
+%<nop>META:FORM{name="QuestionForm"}%
+%<nop>META:FIELD{name="<nop>TopicTitle" attributes="H" title="<nop>TopicTitle" value=""}%
+%<nop>META:FIELD{name="Subject" attributes="" title="Subject" value=""}%
+%<nop>META:FIELD{name="Status" attributes="M" title="Status" value="Asked"}%
+</pre>
+In the template initial field values can be set, like the "Status" field in this example.
+
+---++++ Using the edit template
+If you will use only one form in a web, you can also modify the web's =WebTopicEditTemplate= topic to contain the form reference.
+
+---++++ Using url parameters
+You can also pass the =formtemplate= parameter to the edit (not save) URL.
+Initial values can then be provided in the URLs or as form values.
+
+For example:
+<verbatim>
+%SCRIPTURL{edit}%/%WEB%/KnowledgeTopicAUTOINC00001?formtemplate=MyForm;Subject=FAQWhatIsWikiWiki;Category=One;Category=Two;action=form
+</verbatim>
+
+   * =XxxYyyAUTOINC00001=: creates a new auto-numbered topic name with base "XxxYyy" - see [[%SYSTEMWEB%.TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topic names]]
+   * =formtemplate=: specifies the form topic, like: =formtemplate=MyForm=
+   * form values: =name=value=, like: =Subject=FAQWhatIsWikiWiki=
+   * form values with multiple values like checkboxes: =name=value1;name=value2=, like: =Category=One;Category=Two=
+   * =action=form=: shows the topic data form and hides the topic text form
+
+---+++ Using a web form to create a topic and pass data
+If you want to create+save a topic instead of bringing up the edit screen, you must use a web form.
+
+The same parameters as above can be set in HTML (hidden) form fields:
+<verbatim class='tml'>
+<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/Sandbox/" method="post">
+<input type="hidden" name="formtemplate" value="SimpleForm" />
+<input type="hidden" name="topic" value="KnowledgeTopicAUTOINC00001" />
+<input type="hidden" name="Subject" value="FAQWhatIsWikiWiki" />
+<input type="hidden" name="Category" value="One" />
+<input type="hidden" name="Category" value="Two" />
+<input type="submit" class="foswikiSubmit" value="Create topic" />
+</form>
+</verbatim>
+
+Creates:
+<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/Sandbox/" method="post">
+<input type="hidden" name="formtemplate" value="SimpleForm" />
+<input type="hidden" name="topic" value="KnowledgeTopicAUTOINC00001" />
+<input type="hidden" name="Subject" value="FAQWhatIsWikiWiki" />
+<input type="hidden" name="Category" value="One" />
+<input type="hidden" name="Category" value="Two" />
+<input type="submit" class="foswikiSubmit" value="Create topic" />
+</form>
+For an overview of web form parameters, see [[%SYSTEMWEB%.CommandAndCGIScripts][CGI and Command Line Scripts]].
+   
+
+---++ Changing a form
+You can change a form definition, and Foswiki will try to make sure you don't lose any data from the topics that use that form. 
+
+   * If you change the form definition, the changes will not take affect in a topic that uses that form until you edit and save it.
+   * If you add a new field to the form, then it will appear next time you edit a topic that uses the form.
+   * If you delete a field from the form, or change a field name, then the data will not be visible when you edit the topic (the changed form definition will be used). *If you save the topic, the old data will be lost* (though thanks to revision control, you can always see it in older versions of the topic)
+   * If two people edit the same topic containing a form at exactly the same time, and both change fields in the form, Foswiki will try to merge the changes so that no data is lost.
  
----++ Extending the range of form data types
-You can extend the range of data types accepted by forms by using [[Plugins]]. All such extended data types are single-valued (can only have one value) with the following exceptions:
-   * any type name starting with =checkbox=
-   * any type name with =+multi= anywhere in the name
-Types with names like this can both take multiple values.
-
----++ Hints and tips
----+++ Build an HTML form to create new form-based topics
-   * New topics with a form are created by simple HTML forms asking for a topic name. For example, you can have a =<nop>SubmitExpenseReport= topic where you can create new expense reports, a =<nop>SubmitVacationRequest= topic, and so on. These can specify the required template topic with its associated form. [[TemplateTopics][Template topics]] has more.
-A form definition specifies the fields in a form. A form definition is simply a page containing a Foswiki table, where each row of the table specifies one form field.
-
 #UsingFormData
----+++ Searching in form data
-The best way to search in form data is using the structured query language in the SEARCH macro. See QuerySearch for more information.
+---++ Searching in form data
+The best way to search in form data is using the structured query language in the SEARCH macro.
 
----+++ Gotcha!
-   * Some browsers may strip linefeeds from =text= fields when a topic is saved. If you need linefeeds in a field, make sure it is a =textarea=.
+As an example, the search used on [[http://foswiki.org/Support/SupportQuestions][Foswiki Support questions]] is:
+<verbatim>
+%SEARCH{
+	"QuestionForm.Status='Asked'"
+	type="query"
+	excludetopic="QuestionTemplate"
+	web="%WEB%"
+	format="   * [[$web.$topic][$formfield(TopicTitle)]] $formfield(Subject)"
+	order="formfield(Extension)"
+	nonoise="on"
+}%
+</verbatim>
+For a step by step tutorial, see the FAQ [[%SYSTEMWEB%.FAQAnApplicationWithWikiForm][How can I create a simple data form based application?]].
+
+See [[%SYSTEMWEB%.VarSEARCH][SEARCH]] for an overview of =SEARCH= parameters, and [[%SYSTEMWEB%.QuerySearch][Query Search]] for the query language specifics.
 
 %STOPINCLUDE%
 
 ---
-*Related Topics:* DeveloperDocumentationCategory, TemplateTopics, FAQAnApplicationWithWikiForm
+*Related Topics:* %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.TemplateTopics, %SYSTEMWEB%.FAQAnApplicationWithWikiForm
 <!-- %JQREQUIRE{"chili"}% -->
