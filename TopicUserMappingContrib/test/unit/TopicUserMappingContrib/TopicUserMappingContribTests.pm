@@ -16,7 +16,6 @@ our @ISA = qw( FoswikiFnTestCase );
 use Unit::Request();
 use Unit::Response();
 use Foswiki();
-use Foswiki::Meta();
 use Error qw( :try );
 
 my $TopicTemplate = <<'THIS';
