@@ -162,9 +162,9 @@ jQuery(function($){
     var $this = $(this), 
         opts = $.extend({}, $this.metadata());
     $this.autocomplete({
-      source: foswiki.getPreference('SCRIPTURL') + 'view/' + foswiki.getPreference('SYSTEMWEB') + "/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb="+opts.baseweb+";format="+opts.format,
+      source: foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + "/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb="+opts.baseweb+";format="+opts.format,
       select: function(event, ui) {
-        window.location.href=foswiki.getPreference('SCRIPTURL') + 'view/'+(opts.global?'':opts.baseweb+'/')+ui.item.value;
+        window.location.href=foswiki.getPreference('SCRIPTURL') + '/view/'+(opts.global?'':opts.baseweb+'/')+ui.item.value;
       }
     });
   });
@@ -287,7 +287,7 @@ or later).
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
-     $.get(foswiki.getPreference('SCRIPTURL') + 'view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text;contenttype=application/json',
+     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text',
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
