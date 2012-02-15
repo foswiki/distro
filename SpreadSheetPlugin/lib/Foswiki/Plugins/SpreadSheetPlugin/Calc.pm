@@ -620,6 +620,22 @@ sub _doFunc {
         $result = $arr[0];
 
     }
+    elsif( $theFunc eq "FLOOR" ) {
+        $i = _getNumber( $theAttr );
+        $result = int( $i );
+        if( $i < 0 && $i != $result ) {
+            $result -= 1;
+        }
+
+    }
+    elsif( $theFunc eq "CEILING" ) {
+        $i = _getNumber( $theAttr );
+        $result = int( $i );
+        if( $i > 0 && $i != $result ) {
+            $result += 1;
+        }
+
+    }
     elsif ( $theFunc eq "SUM" ) {
         $result = 0;
         my @arr = _getListAsFloat($theAttr);
