@@ -824,6 +824,8 @@ sub _doFunc {
         $start-- unless ( $start < 1 );
         $num     = 0  unless ($num);
         $replace = "" unless ( defined $replace );
+        $replace =~ s/\$comma/,/g;
+        $replace =~ s/\$sp/ /g;
         eval 'substr( $string, $start, $num, $replace )';
         $result = $string;
 
@@ -833,8 +835,12 @@ sub _doFunc {
         $string = "" unless ( defined $string );
         $result = $string;
         $from   = "" unless ( defined $from );
+        $from =~ s/\$comma/,/g;
+        $from =~ s/\$sp/ /g;
         $from   = quotemeta($from) unless ( $options && $options =~ /r/i );
         $to     = "" unless ( defined $to );
+        $to =~ s/\$comma/,/g;
+        $to =~ s/\$sp/ /g;
 
         # Note that the number 0 is valid string. An empty string as well as 0
         # are valid return values

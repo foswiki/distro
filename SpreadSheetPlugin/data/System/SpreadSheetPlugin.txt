@@ -570,9 +570,11 @@ This function has two modes of operation.
 
 #FuncREPLACE
 ---+++ REPLACE( text, start, num, new ) -- replace part of a text string
-   * Replace =num= number of characters of text string =text=, starting at =start=, with new text =new=. Starting position is 1; use a negative =start= to count from the end of the text
+   * Replace =num= number of characters of text string =text=, starting at =start=, with new text =new=. Starting position is 1; use a negative =start= to count from the end of the text.  In the =new= parameter you can write =$comma= to escape comma, =$sp= to escape space.
    * Syntax: ==$REPLACE( text, start, num, new )==
    * Example: ==%<nop>CALC{"$REPLACE(abcdefghijk, 6, 5, *)"}%== returns ==abcde*k==
+   * Example: ==%<nop>CALC{"$REPLACE(abcdefghijk, 6, 5, $comma)"}%== returns ==abcde,k==
+   * Example: ==%<nop>CALC{"$REPLACE(abcdefghijk, 6, 5, $sp)"}%== returns ==abcde k==
    * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSEARCH][$SEARCH()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
 #FuncRIGHT
@@ -666,11 +668,12 @@ This function has two modes of operation.
 
 #FuncSUBSTITUTE
 ---+++ SUBSTITUTE( text, old, new, instance, option ) -- substitute text
-   * Substitutes =new= text for =old= text in a =text= string. =instance= specifies which occurance of =old= you want to replace. If you specify =instance=, only that instance is replaced. Otherwise, every occurance is changed to the new text. A literal search is performed by default; a %SYSTEMWEB%.RegularExpression search if the =option= is set to ==r==
+   * Substitutes =new= text for =old= text in a =text= string. =instance= specifies which occurance of =old= you want to replace. If you specify =instance=, only that instance is replaced. Otherwise, every occurance is changed to the new text. The text may not contain commas. In the =old= and =new= parameters you can write =$comma= to escape comma, =$sp= to escape space. A literal search is performed by default; a %SYSTEMWEB%.RegularExpression search if the =option= is set to ==r==
    * Syntax: ==$SUBSTITUTE( text, old, _new_, _instance_, _option_ )==
    * Example: ==%<nop>CALC{"$SUBSTITUTE(Good morning, morning, day)"}%== returns ==Good day==
    * Example: ==%<nop>CALC{"$SUBSTITUTE(Q2-2002, 2, 3)"}%== returns ==Q3-3003==
    * Example: ==%<nop>CALC{"$SUBSTITUTE(Q2-2002,2, 3, 3)"}%== returns ==Q2-2003==
+   * Example: ==%<nop>CALC{"$SUBSTITUTE(Q2-2002, -, $comma)"}%== returns ==Q2,2002==
    * Example: ==%<nop>CALC{"$SUBSTITUTE(abc123def, [0-9], 9, , r)"}%== returns ==abc999def==
    * Related: =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
