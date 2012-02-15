@@ -180,6 +180,18 @@ EXPECT
     $this->assert_equals( $expected, $actual );
 }
 
+sub test_CEILING {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$CEILING(5)') == 5 );
+    $this->assert( $this->CALC('$CEILING(5.0)') == 5 );
+    $this->assert( $this->CALC('$CEILING(5.4)') == 6 );
+    $this->assert( $this->CALC('$CEILING(05.4)') == 6 );
+    $this->assert( $this->CALC('$CEILING(5.0040)') == 6 );
+    $this->assert( $this->CALC('$CEILING(-5.4)') == -5 );
+    $this->assert( $this->CALC('$CEILING(-05.4)') == -5 );
+    $this->assert( $this->CALC('$CEILING(-05.0040)') == -5 );
+}
+
 sub test_CHAR {
     my ($this) = @_;
     $this->assert( $this->CALC('$CHAR(65)') eq 'A' );
@@ -290,6 +302,17 @@ sub test_EVAL {
     $this->assert( $this->CALC('$EVAL( (5 * 3) / 2 + 1.1 )') == 8.6 );
     $this->assert( $this->CALC('$EVAL(2+08)') == 10 );
     $this->assert( $this->CALC('$EVAL(8.0068/2)') == 4.0034 );
+    $this->assert( $this->CALC('$EVAL(+68/2)') == 34 );
+    $this->assert( $this->CALC('$EVAL(-68/2)') == -34 );
+    $this->assert( $this->CALC('$EVAL(068/2)') == 34 );
+    $this->assert( $this->CALC('$EVAL(+068/2)') == 34 );
+    $this->assert( $this->CALC('$EVAL(-068/2)') == -34 );
+    $this->assert( $this->CALC('$EVAL(aaaaa068/2zzzzz)') == 34 );
+    $this->assert( $this->CALC('$EVAL(0068/2)') == 34 );
+    $this->assert( $this->CALC('$EVAL(.0068/2)') == 0.0034 );
+    $this->assert( $this->CALC('$EVAL(8.0068/2)') == 4.0034 );
+    $this->assert( $this->CALC('$EVAL(8.0068/8)') == 1.00085 );
+    $this->assert( $this->CALC('$EVAL(8.0068/08)') == 1.00085 );
 }
 
 sub test_EVEN {
@@ -333,6 +356,19 @@ sub test_FIND {
     $this->assert( $this->CALC('$FIND(f, fluffy)') == 1 );
     $this->assert( $this->CALC('$FIND(f, fluffy, 2)') == 4 );
     $this->assert( $this->CALC('$FIND(@, fluffy, 1)') == 0 );
+}
+
+sub test_FLOOR {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$FLOOR(5)') == 5 );
+    $this->assert( $this->CALC('$FLOOR(5.0)') == 5 );
+    $this->assert( $this->CALC('$FLOOR(5.4)') == 5 );
+    $this->assert( $this->CALC('$FLOOR(05.4)') == 5 );
+    $this->assert( $this->CALC('$FLOOR(05.0040)') == 5 );
+    $this->assert( $this->CALC('$FLOOR(-5)') == -5 );
+    $this->assert( $this->CALC('$FLOOR(-5.4)') == -6 );
+    $this->assert( $this->CALC('$FLOOR(-05.4)') == -6 );
+    $this->assert( $this->CALC('$FLOOR(-05.004)') == -6 );
 }
 
 sub test_FORMAT {
