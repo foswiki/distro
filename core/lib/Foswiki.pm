@@ -335,12 +335,6 @@ BEGIN {
         $Foswiki::cfg{isVALID} = 1;
     }
 
-    if ( $Foswiki::cfg{WarningsAreErrors} ) {
-
-        # Note: Warnings are always errors if ASSERTs are enabled
-        $SIG{'__WARN__'} = sub { die @_ };
-    }
-
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();

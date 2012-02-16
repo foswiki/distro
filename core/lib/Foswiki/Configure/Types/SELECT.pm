@@ -12,7 +12,6 @@ sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
     $opts =~ s/^\s+//;
     $opts =~ s/\s+$//;
-    $opts =~ s/(\b|^)EXPERT(\b|$)//i;
     my $sopts = '';
     if ( defined($value) ) {
         $sopts .= '<option selected="selected">' . $value . '</option>';

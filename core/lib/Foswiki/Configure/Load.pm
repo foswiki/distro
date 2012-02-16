@@ -7,6 +7,9 @@
 Handling for loading configuration information (Foswiki.spec, Config.spec and
 LocalSite.cfg) as efficiently and flexibly as possible.
 
+This reads *values* from these files and does *not* parse the structured comments. For that,
+see FoswikiCfg.pm
+
 =cut
 
 package Foswiki::Configure::Load;

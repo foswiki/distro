@@ -69,7 +69,11 @@ sub new {
         $this->{mandatory} = ( $this->{opts} =~ /(\b|^)M(\b|$)/ );
         $this->{hidden}    = ( $this->{opts} =~ /(\b|^)H(\b|$)/ );
         $this->{expertsOnly} = 1
-          if ( $this->{opts} =~ s/\bEXPERT\b// );
+          if ( $this->{opts} =~ s/(\b|^)EXPERT(\b|$)// );
+        $this->{displayIf} = $1
+          if ( $this->{opts} =~ s/(?:\b|^)DISPLAY_IF\s+(.*?)(\/DISPLAY_IF|$)// );
+        $this->{enableIf} = $1
+          if ( $this->{opts} =~ s/(?:\b|^)ENABLE_IF\s+(.*?)(\/ENABLE_IF|$)// );
     }
 
     return $this;
@@ -79,6 +83,16 @@ sub new {
 sub isExpertsOnly {
     my $this = shift;
     return $this->{expertsOnly};
+}
+
+sub displayIf {
+    my $this = shift;
+    return $this->{displayIf} || '';
+}
+
+sub enableIf {
+    my $this = shift;
+    return $this->{enableIf} || '';
 }
 
 # See Foswiki::Configure::Item

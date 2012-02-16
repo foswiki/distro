@@ -40,11 +40,11 @@ sub renderHtml {
 
     return '' if $value->{hidden};
 
-    my $isExpert = $value->isExpertsOnly();
-    my $info     = '';
-
-    $info .= $value->{desc};
-    my $keys = $value->getKeys();
+    my $isExpert  = $value->isExpertsOnly();
+    my $displayIf = $value->displayIf();
+    my $enableIf  = $value->enableIf();
+    my $info      = $value->{desc};
+    my $keys      = $value->getKeys();
 
     my $checker  = Foswiki::Configure::UI::loadChecker( $keys, $value );
     my $isUnused = 0;
@@ -139,12 +139,17 @@ HERE
 "<div id='info_$tip' class='configureInfoText foswikiMakeHidden'>$info</div>";
     }
 
-    my $class = join( ' ', @cssClasses );
+    my %props;
+    $props{class} = join( ' ', @cssClasses ) if ( scalar @cssClasses );
+    $props{'data-displayif'} = $displayIf if $displayIf;
+    $props{'data-enableif'} = $enableIf if $enableIf;
 
-    $output .=
-      _getRowHtml( $class, "$index$hiddenTypeOf", $helpTextLink,
-        "$control&nbsp;$resetToDefaultLinkText$check$helpText" )
-      . "\n";
+    $output .= CGI::Tr(
+	\%props,
+	CGI::th( "$index$hiddenTypeOf" )
+	. CGI::td( "$control&nbsp;$resetToDefaultLinkText$check$helpText" )
+	. CGI::td( { class => "configureHelp" }, $helpTextLink ) )
+	. "\n";
 
     return (
         $output,
@@ -156,16 +161,6 @@ HERE
             hidden => $value->{hidden}
         }
     );
-}
-
-sub _getRowHtml {
-    my ( $class, $header, $info, $data ) = @_;
-
-    my $classProp = $class ? { class => $class } : undef;
-    return CGI::Tr( $classProp,
-            CGI::th( $classProp, $header )
-          . CGI::td( {}, $data )
-          . CGI::td( { class => "$class configureHelp" }, $info ) );
 }
 
 1;
