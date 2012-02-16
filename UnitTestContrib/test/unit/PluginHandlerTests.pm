@@ -687,11 +687,39 @@ HERE
 sub test_renderWikiWordHandler {
     my $this = shift;
     $this->makePlugin( 'renderWikiWordHandler', <<'HERE');
+#($linkText, $hasExplicitLinkLabel, $web, $topic) -> $linkText
 sub renderWikiWordHandler {
-    my ($text) = @_;
+    my ($linkText, $hasExplicitLinkLabel, $web, $topic) = @_;
     $called->{renderWikiWordHandler}++;
+    $called->{renderWikiWordHandlerLinks}->{$web.'___'.$topic} = $linkText.'___'.($hasExplicitLinkLabel||'undef');
 }
 HERE
+    $this->checkCalls( 0, 'renderWikiWordHandler' );
+    my $html = Foswiki::Func::renderText( <<'HERE', 'Sandbox', 'TestThisCarefully' );
+    This is AWikiWord and some NoSuchWeb.NoTopic that we CANNOT
+   * Set ALLOWTOPICVIEW=guest
+ %ATTACHURL%/Foswiki-1.1.4.tar.gz
+ 
+ %ATTACHURL%/releases/Foswiki-1.0.4.tar.gz
+ %ATTACHURL%/releases/other/file-3.0.4.tar.gz
+
+
+[[some test link]] [[text][link text]]
+HERE
+    $this->checkCalls( 6, 'renderWikiWordHandler' );
+    #$Foswiki::Plugins::$this->{plugin_name}::called->{$name}
+    my $hashRef = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+#use Data::Dumper;
+#print STDERR "------ ".Dumper($hashRef)."\n";
+#TODO: this is not correct, its just what we have
+    $this->assert_deep_equals({
+          'NoSuchWeb___NoTopic' => 'NoTopic___undef',
+          'Sandbox___AWikiWord' => 'AWikiWord___undef',
+          'Sandbox___SomeTestLink' => 'some test link___undef',
+          'Sandbox___ALLOWTOPICVIEW' => 'ALLOWTOPICVIEW___undef',
+          'Sandbox___CANNOT' => 'CANNOT___undef',
+          'Sandbox___Text' => 'link text___1'
+        }, $hashRef);
 
     return;
 }
