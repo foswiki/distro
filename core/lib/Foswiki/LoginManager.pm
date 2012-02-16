@@ -65,7 +65,7 @@ our $M3 = chr(7);
 our %secretSK = ( STRIKEONESECRET => 1, VALID_ACTIONS => 1 );
 our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
 
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 =begin TML
 
