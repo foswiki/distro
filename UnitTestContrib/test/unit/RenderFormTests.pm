@@ -602,4 +602,26 @@ HERE
     return;
 }
 
+# Item11527 - test that %macros in the WEBFORMS pref are expanded
+sub test_getAvailableForms {
+    my ($this) = @_;
+    $this->createNewFoswikiSession();
+    my ($topicObj) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    my $pref         = '%SYSTEMWEB%.UserForm';
+    my $expandedpref = Foswiki::Func::expandCommonVariables($pref);
+
+    $topicObj->text( $topicObj->text() . "\n    * Set WEBFORMS = $pref\n" );
+    $topicObj->putKeyed( 'PREFERENCE',
+        { name => 'WEBFORMS', type => 'Set', value => $pref } );
+    $topicObj->save();
+    require Foswiki::Form;
+    my @forms = Foswiki::Form::getAvailableForms($topicObj);
+    $this->assert_str_equals( $expandedpref, join( ',', @forms ) );
+    $topicObj->finish();
+
+    return;
+}
+
 1;
