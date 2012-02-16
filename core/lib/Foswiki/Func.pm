@@ -2504,6 +2504,8 @@ See also: expandVariablesOnTopicCreation
 sub expandCommonVariables {
     my ( $text, $topic, $web, $meta ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    #ASSERT(!Foswiki::Func::webExists($topic)) if DEBUG;
+    
     ( $web, $topic ) = _validateWTA(
         $web   || $Foswiki::Plugins::SESSION->{webName},
         $topic || $Foswiki::Plugins::SESSION->{topicName}
