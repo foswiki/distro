@@ -78,9 +78,11 @@ sub createSubModule {
         token => $token,
     );
     $github->repos->create(
-        $module,
-        "Foswiki module $module",
-        "http://foswiki.org/Extensions/$module", 1
+        {
+            name        => $module,
+            description => "Foswiki module $module",
+            homepage    => "http://foswiki.org/Extensions/$module"
+        }
     );
     warn
       "\tAdding: git submodule add git\@github.com:foswiki/$module.git $module"
