@@ -153,8 +153,7 @@ sub getExternalResource {
             # Use MIME::Base64 at run-time if using outbound proxy with
             # authentication
             require MIME::Base64;
-            import MIME::Base64();
-            my $base64 = encode_base64( "$user:$pass", "\r\n" );
+            my $base64 = MIME::Base64::encode_base64( "$user:$pass", "\r\n" );
             $req .= "Authorization: Basic $base64";
         }
 
@@ -189,8 +188,9 @@ sub getExternalResource {
             $port = $proxyPort;
             if ($proxyUser) {
                 require MIME::Base64;
-                import MIME::Base64();
-                my $base64 = encode_base64( "$proxyUser:$proxyPass", "\r\n" );
+                my $base64 =
+                  MIME::Base64::encode_base64( "$proxyUser:$proxyPass",
+                    "\r\n" );
                 $req .= "Proxy-Authorization: Basic $base64";
             }
         }

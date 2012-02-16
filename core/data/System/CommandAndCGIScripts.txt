@@ -298,13 +298,30 @@ The =rest= script supports the following parameters:
 | *Parameter* | *Description* | *Default* |
 | =endPoint= | Where to redirect the response once the request is served, in the form "Web.Topic". If not given, the REST script must generate a valid response. | |
 | =password= | See =username= | |
-| =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you need to pass a username and password to the server. The =username= and =password= parameters are used for this purpose. |
+| =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you can pass a username and password to the server (though see below for a preferred way to pass authentication information). |
 
-REST scripts that require a topic context must use the standard =topic= parameter to pass the topic name, as the URL path is used to identify the REST funtcion. If not defined, then the topic context in REST handlers will be [[%USERSWEB%.%HOMETOPIC%]].
+REST scripts that require a topic context must use the standard =topic= parameter to pass the topic name, as the URL path is used to identify the REST function. If not defined, then the topic context in REST handlers will be [[%USERSWEB%.%HOMETOPIC%]].
 
 The function is free to use any other query parameters for its own purposes.
 
-<blockquote class="foswikiHelp"> %X% The =rest= script should *always* require authentication in any site that has logins. Otherwise there is a risk of opening up major security holes. So make sure you add it to the list of authenticated scripts if you are using =ApacheLogin=.</blockquote>
+---++++ =rest= authentication
+If a REST operation requires a logged-in user but no user is logged in, then it will return a 401 status. In the case of the =TemplateLogin= login manager, this will include a =WWW-Authenticate= header starting with =FoswikiBasic=. This allows the status to percolate through to Javascript where it can be handled by your code. The =realm= in the =WWW-Authenticate= header is taken from the ={AuthRealm}= setting in =configure=, or the empty string if it is not set.
+
+If you are using =TemplateLogin=, the preferred way to pass user login information back to the server is to use the =X-Authorization= HTTP header. This header is modelled on the HTTP Authorization header, as described in [[http://www.ietf.org/rfc/rfc2617.txt]], except that the scheme name =FoswikiBasic= is used instead of =Basic=. The user-id and password are combined with a : and base64 encoded. For example, if the user agent wishes to send the userid "Aladdin" and password "open sesame", it would use the following header field:
+<verbatim>
+X-Authorization: FoswikiBasic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+</verbatim>
+When used with jQuery:
+<verbatim>
+$.ajax({
+  beforeSend: function(xhrObj){
+    xhrObj.setRequestHeader("X-Authorization",
+      "FoswikiBasic QWxhZGRpbjpvcGVuIHNlc2FtZQ==");
+  }
+});
+</verbatim>
+
+<blockquote class="foswikiHelp"> %X% The =rest= script should *always* be configured to require authentication in any site that is using =ApacheLogin=. Otherwise there is a risk of opening up major security holes. So make sure you add it to the ={AuthScripts}= list in =configure=.</blockquote>
 
 ---++++ Invocation Examples
 

@@ -17,7 +17,7 @@ use Error qw( :try );
 
 our %restDispatch;
 
-=begin TML=
+=begin TML
 
 ---++ StaticMethod registerRESTHandler( $subject, $verb, \&fn, %options )
 
@@ -50,7 +50,7 @@ attacks, or used for phishing.
    * =http_allow= use this option to specify the HTTP methods that can
      be used to invoke the handler.
 
-=cut=
+=cut
 
 sub registerRESTHandler {
     my ( $subject, $verb, $fnref, %options ) = @_;

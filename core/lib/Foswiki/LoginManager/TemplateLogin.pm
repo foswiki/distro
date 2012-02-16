@@ -80,22 +80,26 @@ sub forceAuthentication {
     my $session = $this->{session};
 
     unless ( $session->inContext('authenticated') ) {
-        my $query = $session->{request};
+        my $query    = $session->{request};
+        my $response = $session->{response};
 
-        # Redirect with passthrough so we don't lose the original query params
-
-        my $url = $session->getScriptUrl( 0, 'login' );
-
-        # We use the query here to ensure the original path_info
-        # from the request gets through to the login form. See also
-        # PATH_INFO below.
-        $url .= Foswiki::urlEncode( $query->path_info() );
+        # Respond with a 401 with an appropriate WWW-Authenticate
+        # that won't be snatched by the browser, but can be used
+        # by JS to generate login info.
+        $response->header(
+            -status           => 401,
+            -WWW_Authenticate => 'FoswikiBasic realm="'
+              . ( $Foswiki::cfg{AuthRealm} || "" ) . '"'
+        );
 
         $query->param(
             -name  => 'foswiki_origin',
             -value => _packRequest($session)
         );
-        $session->redirect( $url, 1 );    # with passthrough
+
+        # Throw back the login page with the 401
+        $this->login( $query, $session );
+
         return 1;
     }
     return 0;

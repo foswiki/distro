@@ -65,6 +65,8 @@ our $M3 = chr(7);
 our %secretSK = ( STRIKEONESECRET => 1, VALID_ACTIONS => 1 );
 our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
 
+use constant TRACE => 1;
+
 =begin TML
 
 ---++ StaticMethod makeLoginManager( $session ) -> $Foswiki::LoginManager
@@ -201,7 +203,7 @@ sub _real_trace {
     print STDERR "$id: $mess\n";
 }
 
-if ( $Foswiki::cfg{Trace}{LoginManager} ) {
+if (TRACE) {
     *_trace = \&_real_trace;
 }
 else {
@@ -268,7 +270,7 @@ sub loadSession {
     my ( $this, $defaultUser, $pwchecker ) = @_;
     my $session = $this->{session};
 
-    _trace( $this, "LOAD SESSION\n" );
+    _trace( $this, "LOAD\n" );
 
     $defaultUser = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined($defaultUser) );
@@ -283,6 +285,7 @@ sub loadSession {
     # do not create the session. This might be defined if the request
     # is made by a search engine bot, depending on how the web server
     # is configured
+
     return $authUser if $ENV{NO_FOSWIKI_SESSION};
 
     if ( $Foswiki::cfg{UseClientSessions}
@@ -361,7 +364,6 @@ sub loadSession {
           if ( !defined($authUser)
             || $sessionUser && $sessionUser eq $Foswiki::cfg{AdminUserLogin} );
     }
-
     if ( !$authUser ) {
 
         # if we couldn't get the login manager or the http session to tell
@@ -369,6 +371,32 @@ sub loadSession {
 
         my $login = $session->{request}->param('username');
         my $pass  = $session->{request}->param('password');
+
+        if ( !$login ) {
+
+            # Nothing in the query params. Check query headers.
+            my $auth = $session->{request}->http('X-Authorization');
+            if ( defined $auth ) {
+                _trace( $this, "X-Authorization: $auth" );
+                if ( $auth =~ /^FoswikiBasic (.+)$/ ) {
+
+                    # If the user agent wishes to send the userid "Aladdin"
+                    # and password "open sesame", it would use the following
+                    # header field:
+                    # Authorization: Foswiki QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+                    require MIME::Base64;
+                    my $cred = MIME::Base64::decode_base64($1);
+                    if ( $cred =~ /:/ ) {
+                        ( $login, $pass ) = split( ':', $cred, 2 );
+                        _trace( $this,
+                            "Login credentials taken from query headers" );
+                    }
+                }    # TODO: implement FoswikiDigest here
+            }
+        }
+        else {
+            _trace( $this, "Login credentials taken from query parameters" );
+        }
         if ( $login && defined $pass && $pwchecker ) {
             my $validation = $pwchecker->checkPassword( $login, $pass );
             unless ($validation) {
