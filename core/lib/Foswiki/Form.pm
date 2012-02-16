@@ -164,12 +164,23 @@ given topic. $metaObject can be a topic or a web.
 =cut
 
 sub getAvailableForms {
-    my $metaObject = shift;
-    if ( defined $metaObject->topic ) {
+    my $contextObject = shift;
+    my $legalForms;
+    my $metaObject;
+
+    # SMELL: Item11527, why aren't we using Foswiki::Func::getPreferencesValue?
+    # AKA: Why can't we inherit WEBFORMS from parent webs?
+    if ( defined $contextObject->topic ) {
         $metaObject =
-          Foswiki::Meta->new( $metaObject->session, $metaObject->web );
+          Foswiki::Meta->new( $contextObject->session, $contextObject->web() );
+        $legalForms = $metaObject->getPreference('WEBFORMS') || '';
+        $legalForms =
+          Foswiki::Func::expandCommonVariables( $legalForms,
+            $contextObject->topic(), $contextObject->web(), $contextObject );
     }
-    my $legalForms = $metaObject->getPreference('WEBFORMS') || '';
+    else {
+        $legalForms = $contextObject->getPreference('WEBFORMS') || '';
+    }
     $legalForms =~ s/^\s+//;
     $legalForms =~ s/\s+$//;
     my @forms = split( /[,\s]+/, $legalForms );
