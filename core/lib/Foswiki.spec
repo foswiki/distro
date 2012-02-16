@@ -1,36 +1,41 @@
-# Configuration of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # See bottom of file for license and copyright information.
-
-# This specification file is held in 'foswiki/lib' directory. DO NOT EDIT
-# THIS FILE!
-
-# DO NOT COPY THIS FILE TO LocalSite.cfg - Run configure from your browser
-# which will guess required settings, merge the files and write a new
-# LocalSite.cfg.
-
-# If for some reason you still want to copy this file to LocalSite.cfg,  you
-# must un-comment and complete the 10 PATH and URLPATH settings that are flagged
-# as Mandatory ( M** ) and remove the __END__ line toward the end of the file.
-
-# Manually building LocalSite.cfg is STRONGLY DISCOURAGED.
-
+#
+# This file contains a specification of the parts of Foswiki that can be
+# configured using =configure=. It is combined with =Config.spec= files
+# shipped with extensions to generate the interface seen when you run
+# =configure=.
+#
+# When you run configure from your browser, it will work out required
+# settings and write a new LocalSite.cfg. It should never be necessary to
+# modify this file directly.
+#
+# If for some strange reason you want to brew your own LocalSite.cfg by
+# copying this file (NOT recommended),  then you must un-comment and complete
+# the PATH and URLPATH settings that are flagged as Mandatory ( M** ) and
+# remove the __END__ line toward the end of the file.
+#
 # See 'setlib.cfg' in the 'bin' directory for how to configure a non-standard
 # include path for Perl modules.
 #
-# Note that the comments in this file are formatted specifically so
-# that the 'configure' script can extract documentation from here. See
+#############################################################################
+#
+# NOTE FOR DEVELOPERS:
+# The comments in this file are formatted so that the 'configure' script
+# can extract documentation from here. See
 # http://foswiki.org/System/DevelopingPlugins#Integrating_with_configure
 # for details of the syntax used.
 #
-# NOTE FOR DEVELOPERS: you can use $Foswiki::cfg variables in other settings,
+# You can use $Foswiki::cfg variables in other settings,
 # but you must be sure they are only evaluated under program control and
-# not when this file is loaded. For example:
+# NOT when this file is loaded. For example:
 ## $Foswiki::cfg{Blah} = "$Foswiki::cfg{DataDir}/blah.dat"; # BAD
 ## $Foswiki::cfg{Blah} = '$Foswiki::cfg{DataDir}/blah.dat'; # GOOD
-
+#
 # Note that the general path settings are deliberately commented out.
 # This is because they *must* be defined in LocalSite.cfg, and *not* here.
 
+#############################################################################
 #---+ General path settings
 # <p><strong>If you are a first-time installer:</strong> once you have set
 # up the eight paths below, your wiki should work - try it. You can
@@ -165,6 +170,7 @@ $Foswiki::cfg{OS} = '';
 # The value of Perl $OS
 $Foswiki::cfg{DetailedOS} = '';
 
+#############################################################################
 #---+ Security and Authentication -- TABS
 # <p>In order to support tracking who changed what, and apply access controls,
 # Foswiki is normally configured to use logins. The tabs below control
@@ -784,6 +790,7 @@ $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
 # (there is an example in the root of your Foswiki installation).
 $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
+#############################################################################
 #---+ Logging and Statistics
 
 # **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
@@ -867,6 +874,7 @@ $Foswiki::cfg{Stats}{StatisticsGroup} = '';
 # in the System web (and possibly in the Main web).
 $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 
+#############################################################################
 #---+ Internationalisation -- TABS
 #---++ Languages
 # **BOOLEAN**
@@ -876,7 +884,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # modules to be installed.</p>
 $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN EXPERT DISPLAY_IF {UserInterfaceInternationalisation}**
 # <p>Enable compilation of .po string files into compressed .mo files.
 # This can result in a significant performance improvement for I18N, but has also been
 # reported to cause issues on some systems.  So for now this is considered experimental.
@@ -887,31 +895,15 @@ $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 
 # *LANGUAGES* Marker used by bin/configure script - do not remove!
-# <p>These settings control the languages that are available for the
+# <p>If <tt>{UserInterfaceInternationalisation}</tt> is enabled, the following
+# settings control the languages that are available in the
 # user interface. Check every language that you want your site to support.</p>
 # <p>Allowing all languages is the best for <strong>really</Strong> international 
 # sites, but for best performance you should enable only the languages you 
 # really need. English is the default language, and is always enabled.</p>
 # <p><code>{LocalesDir}</code> is used to find the languages supported in your installation,
-# so if the list of available languages below is empty, it's probably because
+# so if the list of available languages is empty, it's probably because
 # <code>{LocalesDir}</code> is pointing to the wrong place.</p>
-
-$Foswiki::cfg{Languages}{bg}{Enabled} = 1;
-$Foswiki::cfg{Languages}{cs}{Enabled} = 1;
-$Foswiki::cfg{Languages}{da}{Enabled} = 1;
-$Foswiki::cfg{Languages}{de}{Enabled} = 1;
-$Foswiki::cfg{Languages}{es}{Enabled} = 1;
-$Foswiki::cfg{Languages}{fr}{Enabled} = 1;
-$Foswiki::cfg{Languages}{it}{Enabled} = 1;
-$Foswiki::cfg{Languages}{ja}{Enabled} = 1;
-$Foswiki::cfg{Languages}{nl}{Enabled} = 1;
-$Foswiki::cfg{Languages}{pl}{Enabled} = 1;
-$Foswiki::cfg{Languages}{pt}{Enabled} = 1;
-$Foswiki::cfg{Languages}{ru}{Enabled} = 1;
-$Foswiki::cfg{Languages}{sv}{Enabled} = 1;
-$Foswiki::cfg{Languages}{tr}{Enabled} = 1;
-$Foswiki::cfg{Languages}{'zh-cn'}{Enabled} = 1;
-$Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 
 #---++ Locale
 # <p>Enable operating system level locales and internationalisation support
@@ -1004,6 +996,7 @@ $Foswiki::cfg{LowerNational} = '';
 # e.g. TestPolicies to TestPolicy. Only works in English.
 $Foswiki::cfg{PluralToSingular} = $TRUE;
 
+#############################################################################
 #---+ Store
 # <p>Foswiki supports different back-end store implementations.</p>
 # **SELECTCLASS Foswiki::Store::* **
@@ -1106,7 +1099,7 @@ $Foswiki::cfg{Store}{Listeners} = {};
 # {RCS}{filePermission} to be consistent with the system umask.
 $Foswiki::cfg{RCS}{overrideUmask}= $FALSE;
 
-# **OCTAL DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **OCTAL EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # File security for new directories created by RCS stores. You may have
 # to adjust these
 # permissions to allow (or deny) users other than the webserver user access
@@ -1114,14 +1107,14 @@ $Foswiki::cfg{RCS}{overrideUmask}= $FALSE;
 # representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
 $Foswiki::cfg{RCS}{dirPermission}= 0755;
 
-# **OCTAL DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **OCTAL EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # File security for new files created by RCS stores. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
 # to files that Foswiki creates.  This is an <strong>octal</strong> number
 # representing the standard UNIX permissions (e.g. 644 == rw-r--r--)
 $Foswiki::cfg{RCS}{filePermission}= 0644;
 
-# **BOOLEAN DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **BOOLEAN EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # Some file-based Store implementations (RcsWrap and RcsLite) store
 # attachment meta-data separately from the actual attachments.
 # This means that it is possible to have a file in an attachment directory
@@ -1131,12 +1124,12 @@ $Foswiki::cfg{RCS}{filePermission}= 0644;
 # Considered experimental.
 $Foswiki::cfg{RCS}{AutoAttachPubFiles} = $FALSE;
 
-# **STRING 20 DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
+# **STRING 20 EXPERT DISPLAY_IF {Store}{Implementation}=='Foswiki::Store::RcsWrap'**
 # Specifies the extension to use on RCS files. Set to -x,v on windows, leave
 # blank on other platforms.
 $Foswiki::cfg{RCS}{ExtOption} = "";
 
-# **REGEX DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **REGEX EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # Perl regular expression matching suffixes valid on plain text files
 # Defines which attachments will be treated as ASCII in RCS. This is a
 # filter <b>in</b>, so any filenames that match this expression will
@@ -1209,6 +1202,7 @@ $Foswiki::cfg{RCS}{breaklockCmd} =
 $Foswiki::cfg{RCS}{delRevCmd} =
     "/usr/bin/rcs $Foswiki::cfg{RCS}{ExtOption} -o%REVISION|N% %FILENAME|F%";
 
+#############################################################################
 #---+ Tuning
 
 #---++ HTTP Compression
@@ -1289,12 +1283,13 @@ $Foswiki::cfg{Cache}{MaxSize} = 1000;
 # <code>Memcached</code>. This setting won't have any effect on other CacheManagers.
 $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 
+#############################################################################
 #---+ Mail and Proxies -- TABS
 # <p>Settings controlling if and how Foswiki sends email, and the proxies used
 # to access external web pages.</p>
 
 #---++ Email General
-# <p>Settings controlling if and how Foswiki sends email including the identity of the sender
+# <p>Settings controlling if and how Foswiki <b>sends</b> email including the identity of the sender
 # and other expert settings controlling the email process.</p>
 # **BOOLEAN**
 # Enable email globally.  Un-check this option to disable all outgoing
@@ -1342,17 +1337,17 @@ $Foswiki::cfg{Email}{Servertime} = $FALSE;
 # the below fields are not used.
 #$Foswiki::cfg{Email}{MailMethod} = 'Net::SMTP';
 
-# **COMMAND**
+# **COMMAND DISPLAY_IF {Email}{MailMethod} == 'MailProgram'**
 # This needs to be a command-line program that accepts
 # MIME format mail messages on standard input, and mails them.
 $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 
-# **BOOLEAN DISPLAY_IF {Email}{MailMethod}=='Net::SMTP'**
+# **BOOLEAN DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Set this option on to enable debug
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-# **STRING 30 ENABLE_IF {Email}{MailMethod}=='Net::SMTP'**
+# **STRING 30 DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Mail host for outgoing mail. This is only used if Net::SMTP is used.
 # Examples: <tt>mail.your.company</tt> If the smtp server uses a different port
 # than the default 25 # use the syntax <tt>mail.your.company:portnumber</tt>
@@ -1363,7 +1358,7 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 # and provide your gmail email address and password below for authentication.</p>
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
-# **STRING 30 DISPLAY_IF {Email}{MailMethod}=='Net::SMTP'**
+# **STRING 30 DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Mail domain sending mail, required. SMTP
 # requires that you identify the server sending mail. If not set,
 # <tt>Net::SMTP</tt> will guess it for you. Example: foswiki.your.company.
@@ -1371,12 +1366,12 @@ $Foswiki::cfg{SMTP}{MAILHOST} = '';
 # in SitePreferences. Make sure you delete that setting.
 $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
-# **STRING 30 DISPLAY_IF {Email}{MailMethod}=='Net::SMTP'**
+# **STRING 30 DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Username for SMTP. Only required if your mail server requires authentication. If
 # this is left blank, Foswiki will not attempt to authenticate the mail sender.
 $Foswiki::cfg{SMTP}{Username} = '';
 
-# **PASSWORD 30 DISPLAY_IF {Email}{MailMethod}=='Net::SMTP'**
+# **PASSWORD 30 DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
@@ -1389,13 +1384,13 @@ $Foswiki::cfg{SMTP}{Password} = '';
 # Enable S/MIME signing.
 $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 
-# **PATH**
+# **PATH DISPLAY_IF {Email}{EnableSMIME}**
 # Secure email certificate.  If you want e-mail sent by Foswiki to be signed,
 # specify the filename of the administrator's X.509 certificate here.  It
 # must be in PEM format.
 $Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/cert.pem';
 
-# **PATH**
+# **PATH DISPLAY_IF {Email}{EnableSMIME}**
 # Secure email certificate.  If you want e-mail sent by Foswiki to be signed,
 # specify the filename of the administrator's X.509 private key here.  It
 # must be in PEM format.  <em>Be sure that this file is only readable by the
@@ -1429,6 +1424,7 @@ $Foswiki::cfg{PROXY}{PORT} = '';
 # *TESTEMAIL* Marker used by bin/configure script - do not remove!
 
 
+#############################################################################
 #---+ Miscellaneous -- EXPERT
 # <p>Miscellaneous expert options.</p>
 
@@ -1578,6 +1574,7 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 # the Foswiki data directory.
 $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 
+#############################################################################
 #---+ Extensions -- TABS
 
 #---++ Install and update extensions
