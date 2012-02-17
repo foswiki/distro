@@ -1,9 +1,8 @@
 %TMPL:INCLUDE{"edit"}%<!-- template: edit.natedit.tmpl -->
-%TMPL:INCLUDE{"editjavascript"}%<!-- edittoolbar// -->
-%TMPL:INCLUDE{"edittoolbar"}%<!-- edittoolbar// -->
-%TMPL:INCLUDE{"edithelp"}%<!-- edithelp// -->
-%TMPL:INCLUDE{"editdialog"}%<!-- editdialog// -->
-%TMPL:INCLUDE{"uploadplugin"}%<!-- uploadplugin// -->
+%TMPL:INCLUDE{"editjavascript"}%<!-- -->
+%TMPL:INCLUDE{"edittoolbar"}%<!-- -->
+%TMPL:INCLUDE{"edithelp"}%<!-- -->
+%TMPL:INCLUDE{"editdialog"}%<!-- -->
 %TMPL:DEF{"titleaction"}%%IF{"defined 'rev'" 
   then="%MAKETEXT{"restore"}%" 
   else="%IF{"istopic '%WEB%.%TOPIC%'" 
@@ -11,12 +10,13 @@
     else="%MAKETEXT{"new"}%"
   }%"
 }%%TMPL:END%
-%TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
+%TMPL:DEF{"pagetitlestylewrapper"}%<!-- -->%TMPL:END%
 %TMPL:DEF{"contenttitle"}%<h1 class="natEditTitle">%IF{
   "istopic '%WEB%.%TOPIC%'" 
   then="[[%WEB%.%TOPIC%][%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}%]]" 
   else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle"}%"}%"
 }% (%TMPL:P{"titleaction"}%)</h1>%TMPL:END%
+%TMPL:DEF{"windowtitle"}%<title>(%TMPL:P{"titleaction"}%) <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
@@ -29,16 +29,16 @@
 %TMPL:P{"formstart"}%<!-- -->
 %TMPL:P{"formattop"}%<!-- -->
 %TMPL:P{"tabpane"}%<!-- -->
-%TMPL:P{"bottomtopicactions"}%<!-- bottomtopicactions// -->
-%TMPL:P{"formend"}%<!-- formend //-->
+%TMPL:P{"bottomtopicactions"}%<!-- -->
+%TMPL:P{"formend"}%<!-- -->
 %TMPL:P{"dialogs"}%
 %JQREQUIRE{"natedit, blockui, form, ui::autocomplete"}%<!-- -->
 %ADDTOZONE{"head"
   tag="NATEDIT::MATHMODEPLUGINENABLED"
   text="<meta name='foswiki.MathModePluginEnabled' content='%IF{"context MathModePluginEnabled" then="true" else="false"}%' />"
-}%<!-- //content -->%TMPL:END%
+}%<!-- -->%TMPL:END%
 
-%TMPL:DEF{"formstart"}%<!-- formstart -->
+%TMPL:DEF{"formstart"}%<!-- -->
 <div class="natEditContainer">
 <form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" validate="%TMPL:P{"validationrules"}%">
 <input type="submit" style="display:none" />
@@ -61,11 +61,11 @@
 <input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
 <input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
 <input type="hidden" name="template" value="%URLPARAM{"template"}%" />
-<!-- //formstart -->%TMPL:END%
+<!-- -->%TMPL:END%
 
-%TMPL:DEF{"textarea"}%<!-- textarea -->
+%TMPL:DEF{"textarea"}%<!-- -->
 <textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" wrap="virtual" name="text" rows="22" cols="70">%TEXT%</textarea>
-<!-- //textarea -->%TMPL:END%
+<!-- -->%TMPL:END%
 
 %TMPL:DEF{"messages"}%<div id="natEditMessageContainer"></div>%TMPL:END%
 
@@ -75,23 +75,24 @@
 <!-- -->%TMPL:END%
 
 %TMPL:DEF{"help"}%%TMPL:P{"edithelp"}%%TMPL:END%
-%TMPL:DEF{"pagehelp"}%<!-- pagehelp-->
-%TMPL:P{"help"}%<!-- help// -->
-<!-- //pagehelp -->%TMPL:END%
+%TMPL:DEF{"pagehelp"}%<!-- -->
+%TMPL:P{"help"}%<!-- -->
+<!-- -->%TMPL:END%
 
-%TMPL:DEF{"tabpane"}%<!-- tabpane -->
-%TABPANE{automaxexpand="on" minheight="300" animate="on"}%
-%TMPL:P{"firsttab"}%<!-- firstab// -->
-%TMPL:P{"formfields"}%<!-- formfields// -->
-%TMPL:P{"settingstab"}%<!-- settingstab// -->
-%TMPL:P{"moretabs"}%<!-- moretabs// -->
-%TMPL:P{"helptab"}%<!-- helptab //-->
+%TMPL:DEF{"tabpane"}%<!-- -->
+%TABPANE{automaxexpand="on" minheight="300" animate="on" select="%URLPARAM{"natedittab"}%"}%
+%TMPL:P{"firsttab"}%<!-- -->
+%TMPL:P{"formfields"}%<!-- -->
+%TMPL:P{"settingstab"}%<!-- -->
+%TMPL:P{context="SetVariablePluginEnabled" then="permissionstab"}%<!-- -->
+%TMPL:P{"moretabs"}%<!-- -->
+%TMPL:P{"helptab"}%<!-- -->
 %ENDTABPANE%
-<!-- //tabpane -->%TMPL:END%
+<!-- -->%TMPL:END%
 
 %TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%
 
-%TMPL:DEF{"topicmeta"}%<!-- topicmeta -->
+%TMPL:DEF{"topicmeta"}%<!-- -->
 <div class="natEditTopicInfo"><literal>
   <table>
   <tr>
@@ -100,33 +101,34 @@
   </tr>
   </table>
 </literal></div>
-<!-- //topicmeta -->%TMPL:END%
+<!-- -->%TMPL:END%
 
-%TMPL:DEF{"firsttab"}%<!-- firsttab -->
-%TAB{"%MAKETEXT{"Text"}%"}%
-%TMPL:P{"topicmeta"}%<!-- topicmeta// -->
-%TMPL:P{"textarea"}%<!-- textarea// -->
+%TMPL:DEF{"firsttab"}%<!-- -->
+%TAB{"%MAKETEXT{"Text"}%" id="text"}%
+%TMPL:P{"topicmeta"}%<!-- -->
+%TMPL:P{"textarea"}%<!-- -->
 %ENDTAB%
-<!-- //firsttab -->%TMPL:END%
+<!-- -->%TMPL:END%
 
-%TMPL:DEF{"settingstab"}%<!-- settingstab -->
-%TAB{"%MAKETEXT{"Settings"}%"}% %TMPL:P{"settings"}% %ENDTAB%
-<!-- //settingstab -->%TMPL:END%
+%TMPL:DEF{"settingstab"}%%TAB{"%MAKETEXT{"Settings"}%" id="settings"}%%TMPL:P{"settings"}%%ENDTAB%%TMPL:END%
 
-%TMPL:DEF{"helptab"}%<!-- helptab -->
-%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"edithelp"}% %ENDTAB%
-<!-- //helptab -->%TMPL:END%
+%TMPL:DEF{"settings"}%<!-- -->
+%TMPL:P{"topicsettings"}%<!-- -->
+%TMPL:P{"moresettings"}%<!-- -->
+<!-- -->%TMPL:END%
 
-%TMPL:DEF{"DISsettings"}%<!-- settings -->
-<h2>%MAKETEXT{"Topic preferences"}%</h2>
+%TMPL:DEF{"topicsettings"}%<!-- -->
+<h2 style='margin-top:0'>%MAKETEXT{"Topic settings"}%</h2>
 <div class="foswikiFormSteps">
-  <div class="foswikiFormStep foswikiFormLast">
+  <div class="foswikiFormStep">
     <h3>%MAKETEXT{"Parent topic"}%:</h3>
     <input class="foswikiInputField jqUIAutocomplete" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%"  />
   </div>
+  %TMPL:P{"moretopicsettings"}%<!-- -->
 </div>
-%TMPL:P{"moresettings"}%<!-- moresettings// -->
-<!-- //settings -->%TMPL:END%
+<!-- -->%TMPL:END%
+
+%TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%" id="help"}% %TMPL:P{"edithelp"}%%ENDTAB%%TMPL:END%
 
 %TMPL:DEF{"revCommentPluginOptions"}%<!--revCommentPluginOptions -->
 %IF{ 
@@ -134,5 +136,102 @@
   then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='foswikiEditComment foswikiInputField' size='50' type='text' name='comment' id='comment' /></div><!--/revComment-->" 
   else=""
 }%
-<!-- //revCommentPluginOptions -->%TMPL:END%
+<!-- -->%TMPL:END%
 
+%{ ################################################################################ }%
+%TMPL:DEF{"permissionstab"}%<!-- -->
+%TAB{"%MAKETEXT{"Permissions"}%" id="permissions"}%
+<noautolink>
+<h2>%MAKETEXT{"Permissions"}%</h2>
+<div class="foswikiFormSteps" id="permissionsForm">
+  <input type="hidden" name="Set+ALLOWTOPICVIEW" value="%GETVAR{"ALLOWTOPICVIEW" default="undefined"}%" class="permset_view" id="allow_view" />
+  <input type="hidden" name="Set+DENYTOPICVIEW" value="%GETVAR{"DENYTOPICVIEW" default="undefined"}%" class="permset_view" id="deny_view" />
+  <input type="hidden" name="Set+ALLOWTOPICCHANGE" value="%GETVAR{"ALLOWTOPICCHANGE" default="undefined"}%" class="permset_change" id="allow_change" />
+  <input type="hidden" name="Set+DENYTOPICCHANGE" value="%GETVAR{"DENYTOPICCHANGE" default="undefined"}%" class="permset_change" id="deny_change" />
+  <input type="hidden" name="Default+ALLOWTOPICVIEW" value="undefined" />
+  <input type="hidden" name="Default+ALLOWTOPICCHANGE" value="undefined" />
+  <input type="hidden" name="Default+DENYTOPICVIEW" value="undefined" />
+  <input type="hidden" name="Default+DENYTOPICCHANGE" value="undefined" />
+  <input type="hidden" name="Default+PERMSET_VIEW" value="default" />
+  <input type="hidden" name="Default+PERMSET_CHANGE" value="default" />
+  <div class="foswikiFormStep">
+    <h3>%MAKETEXT{"Users who may view"}%:</h3>
+      <input type="radio" class="foswikiRadioButton" id="default_view" name="Local+PERMSET_VIEW" value="default" %IF{"$'PERMSET_VIEW'='default' OR isempty 'PERMSET_VIEW'" then="checked='checked'"}% /> 
+      <label for="default_view" title='%MAKETEXT{"default as defined in the [_1]" args="<nop>%WEBPREFSTOPIC%"}%'>%MAKETEXT{"Default"}%</label>
+
+      <input type="radio" class="foswikiRadioButton" id="everybody_view" name="Local+PERMSET_VIEW" value="everybody" %IF{"$'PERMSET_VIEW'='everybody'" then="checked='checked'"}% /> 
+      <label for="everybody_view" title="%MAKETEXT{"public view access"}%">%MAKETEXT{"Everybody"}%</label>
+
+      <input type="radio" class="foswikiRadioButton" id="registered_users_view" name="Local+PERMSET_VIEW" value="registeredusers" %IF{"$'PERMSET_VIEW'='registeredusers'" then="checked='checked'"}% /> 
+      <label for="registered_users_view" title='%MAKETEXT{"restrict read access to users that have an account on this site"}%'>%MAKETEXT{"Registered users"}%</label>
+
+      <input type="radio" class="foswikiRadioButton" id="just_author_view" name="Local+PERMSET_VIEW" value="justauthor" %IF{"$'PERMSET_VIEW'='justauthor'" then="checked='checked'"}% />
+      <label for="just_author_view" title='%MAKETEXT{"restrict access to [_1]" args="%SPACEOUT{"%WIKINAME%"}%"}%'>%MAKETEXT{"Just me"}%</label>
+
+      <input type="radio" class="foswikiRadioButton" id="nobody_view" name="Local+PERMSET_VIEW" value="nobody" %IF{"$'PERMSET_VIEW'='nobody'" then="checked='checked'"}% /> 
+      <label for="nobody_view" title='%MAKETEXT{"strictly deny any access to this topic"}%'>%MAKETEXT{"Nobody"}%</label>
+
+      <table class="foswikiNullTable" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            <input type="radio" class="foswikiRadioButton" id="details_view_toggle" name="Local+PERMSET_VIEW" value="details" %IF{"$'PERMSET_VIEW'='details'" then="checked='checked'"}% />
+          </td>
+          <td>
+            <label for="details_view_toggle" title='%MAKETEXT{"specify a list of users and/or groups"}%'>&nbsp;%MAKETEXT{"Specific users/groups"}%</label>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div id="details_view_container" %IF{"$'PERMSET_VIEW'!='details'" then="style='display:none'"}%>
+              <input type="text" class="foswikiInputField" size="40" id="details_view" autocomplete="off" name="Local+PERMSET_VIEW_DETAILS" value="%GETVAR{"PERMSET_VIEW_DETAILS"}%" />
+              <input type="hidden" name="Default+PERMSET_VIEW_DETAILS" value="" />
+            </div>
+          </td>
+        </tr>
+      </table>
+  </div>
+  <div class="foswikiFormStep">
+    <h3>%MAKETEXT{"Users who may edit"}%:</h3>
+    <input type="radio" class="foswikiRadioButton" id="default_change" name="Local+PERMSET_CHANGE" value="default" %IF{"$'PERMSET_CHANGE'='default' OR isempty 'PERMSET_CHANGE'" then="checked='checked'"}% /> 
+    <label for="default_change" title='%MAKETEXT{"default as defined in the [_1]" args="<nop>%WEBPREFSTOPIC%"}%'>%MAKETEXT{"Default"}%</label>
+
+    <input type="radio" class="foswikiRadioButton" id="registered_users_change" name="Local+PERMSET_CHANGE"  value="registeredusers" %IF{"$'PERMSET_CHANGE'='registeredusers'" then="checked='checked'"}% /> 
+    <label for="registered_users_change" title='%MAKETEXT{"restrict write access to users that have an account on this site"}%'>%MAKETEXT{"Registered users"}%</label>
+
+    <input type="radio" class="foswikiRadioButton" id="just_author_change" name="Local+PERMSET_CHANGE" value="justauthor" %IF{"$'PERMSET_CHANGE'='justauthor'" then="checked='checked'"}% />
+    <label for="just_author_change" title='%MAKETEXT{"restrict access to [_1]" args="%SPACEOUT{"%WIKINAME%"}%"}%'>%MAKETEXT{"Just me"}%</label>
+
+    <input type="radio" class="foswikiRadioButton" id="nobody_change" name="Local+PERMSET_CHANGE" value="nobody" %IF{"$'PERMSET_CHANGE'='nobody'" then="checked='checked'"}% /> 
+    <label for="nobody_change" title='%MAKETEXT{"strictly deny write access to this topic"}%'>%MAKETEXT{"Nobody"}%</label>
+
+    <table class="foswikiNullTable" cellspacing="0" cellpadding="0">
+      <tr>
+        <td>
+          <input type="radio" class="foswikiRadioButton" id="details_change_toggle" name="Local+PERMSET_CHANGE" value="details" %IF{"$'PERMSET_CHANGE'='details'" then="checked='checked'"}% />
+        </td>
+        <td>
+          <label for="details_change_toggle" title='%MAKETEXT{"specify a list of users and/or groups"}%'>&nbsp;%MAKETEXT{"Specific users/groups"}%</label>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <div id="details_change_container" %IF{"$'PERMSET_CHANGE'!='details'" then="style='display:none'"}%>
+            <input type="text" class="foswikiInputField" size="40" id="details_change" autocomplete="off" name="Local+PERMSET_CHANGE_DETAILS" value="%GETVAR{"PERMSET_CHANGE_DETAILS"}%" />
+            <input type="hidden" name="Default+PERMSET_CHANGE_DETAILS" value="" />
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+%ADDTOZONE{
+  "script"
+  tag="NATSKIN:EDIT" 
+  text="<script src='%PUBURLPATH%/%SYSTEMWEB%/NatSkin/edit.js'></script>"
+  requires="NATSKIN::OPTS"
+}%<!-- -->
+</noautolink>
+%ENDTAB%
+<!-- -->%TMPL:END%

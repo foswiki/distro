@@ -2,6 +2,7 @@
 .natEdit {
   font-size:12px;
   line-height:1.5em;
+  margin:0 10px 0 0;
 }
 .natEditContainer {
   margin-top:1em;
@@ -12,7 +13,7 @@
 }
 .natEdit textarea,
 .natEditTextArea {
-  width:99%;
+  width:100% !important;
   font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
   font-size:12px;
   resize: none;
@@ -177,9 +178,6 @@ ul.natEditHelpTools {
 }
 .patternEditPage .foswikiFormLast {
   border-bottom:0px;
-}
-.patternEditPage .natEditContainer h2:first-child {
-  margin-top:0;
 }
 .patternEditPage .natEditContainer th {
   text-align:left;

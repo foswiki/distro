@@ -4,25 +4,6 @@
 Help text for the NatEditPlugin editor
 
 %STARTINCLUDE%
----+++ %MAKETEXT{"Access keys"}%
-
-   * S = Save
-   * W = Save and Continue
-   * P = Preview
-   * C = Cancel
-
----+++ %MAKETEXT{"Documentation"}%
-
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/GoodStyle" target="_blank">%MAKETEXT{"GoodStyle"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TextFormattingRules" target="_blank">%MAKETEXT{"TextFormatting"}%</a> 
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/Macros" target="_blank">%MAKETEXT{"Macros"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/FormattedSearch" target="_blank">%MAKETEXT{"Formatted Search"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/DataForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/IncludeTopicsAndWebPages" target="_blank">%MAKETEXT{"Including"}%</a>
-
----+++ %MAKETEXT{"Plugins"}%
-
-%PLUGINDESCRIPTIONS%
-
+%INCLUDE{"%SYSTEMWEB%.EditingShorthand"}%
 %STOPINCLUDE%
 </verbatim>

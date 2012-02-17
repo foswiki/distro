@@ -46,10 +46,6 @@ sub initPlugin {
   Foswiki::Func::registerTagHandler('FORMBUTTON', \&handleFORMBUTTON);
   Foswiki::Func::registerTagHandler('NATFORMLIST', \&handleNATFORMLIST);
 
-  # register the natedit jquery plugin
-  Foswiki::Plugins::JQueryPlugin::registerPlugin("NatEdit",
-    'Foswiki::Plugins::NatEditPlugin::NATEDIT');
-
   return 1;
 }
 

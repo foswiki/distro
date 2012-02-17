@@ -40,13 +40,13 @@ sub new {
 
   my $this = bless($class->SUPER::new( 
     name => 'NatEdit',
-    version => '1.1',
+    version => '1.11',
     author => 'Michael Daum',
     homepage => 'http://foswiki.org/Extensions/NatEditPlugin',
     puburl => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',
     css => ['styles.css'],
     documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
-    javascript => ['edit.js', 'jquery.natedit.js'],
+    javascript => ['edit.js', 'natedit.js'],
     dependencies => ['simplemodal', 'textboxlist', 'form', 'validate', 'ui'],
   ), $class);
 

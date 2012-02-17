@@ -1,12 +1,18 @@
 FOSWIKI_ROOT?=~/foswiki/trunk/core
 TARGET= \
-  edit.js \
-  jquery.natedit.js \
-  jquery.natedit.inserttable.js \
-  jquery.natedit.insertlink.js \
-  jquery.natedit.insertattachment.js \
+  edit.uncompressed.js \
+  natedit.js \
   styles.css
+
+NATEDIT_SOURCE=\
+  jquery.natedit.uncompressed.js \
+  jquery.natedit.insertlink.uncompressed.js \
+  jquery.natedit.inserttable.uncompressed.js
 
 SUBDIRS=default
 
 -include $(FOSWIKI_ROOT)/pub/System/JQueryPlugin/Makefile.include
+
+natedit.uncompressed.js: $(NATEDIT_SOURCE)
+	@echo generating $@
+	@$(CAT) $(NATEDIT_SOURCE) > $@
