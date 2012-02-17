@@ -12,14 +12,6 @@
    mail the author.
 -->
 %TOC%
-<table style="float:right">
-<tr>
-  <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png"></td>
-  <td><a href="http://wikiring.com" title="Make your Wiki ring!" style="text-decoration:none">
-      Powered by <br /> <nop>WikiRing Consultants </a>
-  </td>
-</tr>
-</table>
 
 ---++ Description
 %STARTSECTION{"summary"}%
@@ -68,20 +60,8 @@ is sufficient.
    * Set SHORTDESCRIPTION = A Wikiwyg Editor
 -->
 
----++ <nop>JSUnitContrib based Unit tests
-There is a small set of browser based unit tests defined in
-NatEditPluginJSUnitTests that can be run as a problem diagnosing tool. These
-require the installation of <nop>JSUnitContrib, and then can be run
-from
-*[[%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/NatEditPluginJSUnitTests][Run all tests]]*
-
-Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
-
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
-
----++ Plugin Info
-Sponsored by [[http://www.trivadis.com][Trivadis AG]] 
 
 |  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2012 Michael Daum http://michaeldaumconsulting.com |
@@ -89,6 +69,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  17 Feb 2012 | added interface to set permissions from within edit (only with Foswiki:Extensions/SetVariablePlugin installed) |
 |  11 Jan 2012 | added support for Foswiki:Extensions/WorkflowPlugin |
 |  10 Jan 2012 | added german translation; fixed css when used with !PatternSkin |
 |  30 Sep 2011 | fixed autoresize of wysiwyg editor; \
