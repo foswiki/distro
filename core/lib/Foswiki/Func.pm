@@ -2579,7 +2579,7 @@ Direct interface to %<nop>ADDTOZONE (see %SYSTEMWEB%.VarADDTOZONE)
    * =requires= optional, comma-separated list of =$id= identifiers that should
      precede the content
 
-All macros present in =$data= will be expanded before being inserted into the =<head>= section.
+All macros present in =$data= will be expanded before being inserted into the =&lt;head>= section.
 
 <blockquote class="foswikiHelp">%X%
 *Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers if you are
@@ -3536,7 +3536,7 @@ sub saveTopicText {
 
 ---+++ addToHEAD( $id, $data, $requires )
 
-Adds =$data= to the HTML header (the <head> tag).
+Adds =$data= to the HTML header (the &lt;head> tag).
 
 *Deprecated* 26 Mar 2010 - use =addZoZone('head', ...)=.
 

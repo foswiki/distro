@@ -76,16 +76,16 @@ sub new {
 
 Convert a block of TML text into HTML.
 Options:
-   * getViewUrl is a reference to a method:<br>
+   * getViewUrl is a reference to a method:<br/>
      getViewUrl($web,$topic) -> $url (where $topic may include an anchor)
-   * expandVarsInURL is a reference to a static method:<br>
-     expandVarsInURL($url, \%options) -> $url<br>
+   * expandVarsInURL is a reference to a static method:<br/>
+     expandVarsInURL($url, \%options) -> $url<br/>
      that expands selected variables in URLs so that, for example,
      <img> tags appear as pictures in the wysiwyg editor.
    * xmltag is a reference to a hash. The keys are names of XML-like
      tags. The values are references to a function to determine if the
-     content of the tag must be protected:<br>
-     fn($markup) -> $bool<br>
+     content of the tag must be protected:<br/>
+     fn($markup) -> $bool<br/>
      The $markup appears between the <tag></tag> delimiters.
      The functions may modify the markup.
    * dieOnError makes convert throw an exception if a conversion fails.

@@ -2527,7 +2527,7 @@ an <em>entity</em>, <strong class=html>&amp;lt;</strong>. Similarly, "&gt;"
 is escaped as <strong class=html>&amp;gt;</strong>, and "&amp;" is escaped
 as <strong class=html>&amp;amp;</strong>. If an attribute value contains a
 double quotation mark and is delimited by double quotation marks, then the
-quote should be escaped as <strong class=html>&amp;quot;</strong>.</p>
+quote should be escaped as <strong class=html>&amp;quot;</strong>.
 
 Other entities exist for special characters that cannot easily be entered
 with some keyboards..."

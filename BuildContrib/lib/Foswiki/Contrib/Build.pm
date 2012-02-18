@@ -1040,7 +1040,7 @@ sub _isPerl {
 =begin TML
 
 ---++++ target_test
-Basic CPAN:Test::Unit test target, runs <project>Suite.
+Basic CPAN:Test::Unit test target, runs &lt;project>Suite.
 
 =cut
 
