@@ -17,6 +17,7 @@
     #createWeb .additionalSettings .foswikiFormStep {padding:5px 10px;}
     .twistyTrigger {font-weight:bold;}
 </style>"}%
+<!-- %JQREQUIRE{"popupwindow"}% -->
 
 ---++ What are Webs?
 A Foswiki site is divided into "Webs", or groups or topics - each one represents one subject, one area of collaboration. Administrators can add, rename or delete webs.%BR%
@@ -156,7 +157,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Displayed on !SiteMap and in the left bar (Pattern Skin).
+								Displayed on !SiteMap and in the left bar (Pattern Skin). Choose from  %POPUPWINDOW{"%SYSTEMWEB%.StandardColors"}%.
 							</p>
 						</div><!--//col2-->
 						<div class="foswikiClear"></div>
