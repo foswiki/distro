@@ -24,7 +24,7 @@ The differences may be shown in two formats, either side-by-side or as an interw
    * Screenshot of side-by-side output: %BR%
      <div class="foswikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
 
-These screenshots have been taken from Sandbox.CompareRevisionsAddOnDemoTopic.
+These screenshots have been taken from %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic.
 
 The appearance can be affected by templates and skins.
 
@@ -124,7 +124,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 
    * Test if the installation was successful:%BR%
      Call ==<noautolink>%SCRIPTURL{"compare"}%/Web/Topic</noautolink>== with
-     some existing topic. (Try for instance Sandbox.CompareRevisionsAddOnDemoTopic and 
+     some existing topic. (Try for instance %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic and 
      compare your output with above screenshots).
    * Enable the helper plugin CompareRevisionsAddonPlugin with the configure script
    * This plugin will support the HistoryPlugin, if it is enabled

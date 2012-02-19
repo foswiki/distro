@@ -368,7 +368,7 @@ If you want to create+save a topic instead of bringing up the edit screen, you m
 
 The same parameters as above can be set in HTML (hidden) form fields:
 <verbatim class='tml'>
-<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/Sandbox/" method="post">
+<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/%SANDBOXWEB%/" method="post">
 <input type="hidden" name="formtemplate" value="SimpleForm" />
 <input type="hidden" name="topic" value="KnowledgeTopicAUTOINC00001" />
 <input type="hidden" name="Subject" value="FAQWhatIsWikiWiki" />
@@ -379,7 +379,7 @@ The same parameters as above can be set in HTML (hidden) form fields:
 </verbatim>
 
 Creates:
-<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/Sandbox/" method="post">
+<form name="newtopic" action="%SCRIPTURLPATH{"save"}%/%SANDBOXWEB%/" method="post">
 <input type="hidden" name="formtemplate" value="SimpleForm" />
 <input type="hidden" name="topic" value="KnowledgeTopicAUTOINC00001" />
 <input type="hidden" name="Subject" value="FAQWhatIsWikiWiki" />

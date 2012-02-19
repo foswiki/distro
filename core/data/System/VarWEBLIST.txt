@@ -11,7 +11,7 @@
      | =separator=", "= | Line separator | =$n= (new line) |
      | =web=""= | if you specify =$web= in format, it will be replaced with this value. | none |
      | =webs="public"=   | Comma separated list of webs to consider. This list can include two pseudo-webs, =public= which expands to all non-hidden and =webtemplate= which expands to the names of all template webs.%BR% *NOTE:* Administrators will see all webs, not just the public ones | =public= |
-     | =subwebs="Sandbox"=   | Specifies a single web. If specified, then =public= and =webtemplate= (described above) will expand relative to show subwebs *below this web only. | =""= |
+     | =subwebs="%SANDBOXWEB%"=   | Specifies a single web. If specified, then =public= and =webtemplate= (described above) will expand relative to show subwebs *below this web only. | =""= |
      | =selection="%<nop>WEB%"= | Entry to be selected in list. If one of the webs matches this selection, then =$marker= in the =format= will be expanded | =selection=%<nop>WEB%= |
      | =marker="selected"= | Text for =$marker= if the item matches =selection= | =selected="selected"= |
    * Example, creates a bullet list of all webs: <verbatim class="tml">%WEBLIST{"   * [[$name.%HOMETOPIC%]]"}%</verbatim>

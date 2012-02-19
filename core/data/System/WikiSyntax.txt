@@ -69,7 +69,7 @@ This template definition may be used as normal, Eg. %<nop>TMPL:P{"template"}%
 
    * To link to another Wiki topic in the same web, type the WikiWord of that topic: =<nop>%HOMETOPIC%=.  Acronyms will also be linked if the topic exists. See ACRONYM.
 
-   * To link to a Wiki topic in a different web, type the name of the web, and a dot, first: =Sandbox.<nop>%HOMETOPIC%=.
+   * To link to a Wiki topic in a different web, type the name of the web, and a dot, first: =%SANDBOXWEB%.<nop>%HOMETOPIC%=.
 
    * A Wiki topic that doesn't exist will appear highlighted, with question mark at the end, prompting you (or someone else) to start that topic by clicking the *?*: ExampleOfANewTopic (click the *?*, but don't save, to preserve the example!).
 

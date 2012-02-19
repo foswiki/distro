@@ -134,7 +134,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WIKIHOMEURL = %SCRIPTURLPATH{"view"}%
 
    * List of <nop>%WIKITOOLNAME% webs - on the first line of the upper toolbar (to add a new web, see ManagingWebs and %SYSTEMWEB%.SiteMap):
-      * Set WIKIWEBLIST = [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[Sandbox.%HOMETOPIC%][Sandbox]]
+      * Set WIKIWEBLIST = [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[%SANDBOXWEB%.%HOMETOPIC%][%SANDBOXWEB%]]
       * %T% *NOTE:* To automatically list all non-hidden webs in alphabetical order, use the =%<nop>WEBLIST{}%= macro instead: <br />
         %WEBLIST{"[[$name.%HOMETOPIC%][$name]]" separator=" | "}%
 

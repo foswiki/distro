@@ -176,13 +176,13 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 ---+++ Subweb preferences are inherited
 The [[preference settings]] of a subweb are inherited from the parent web and overridden locally. Preferences are ultimately inherited from the [[%SYSTEMWEB%.DefaultPreferences]] topic.
 
-*Example Preference Inheritance for =Sandbox/TestWeb/SubWeb.SubWebTopic= topic:*    
+*Example Preference Inheritance for =%SANDBOXWEB%/TestWeb/SubWeb.SubWebTopic= topic:*
    1 =%SYSTEMWEB%.DefaultPreferences= default settings
    1 =%USERSWEB%.SitePreferences= site-wide settings inherits from and overrides settings in =%SYSTEMWEB%.DefaultPreferences=
-   1 =Sandbox.%WEBPREFSTOPIC%= inherits from and overrides settings in =%USERSWEB%.SitePreferences=
-   1 =Sandbox/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox.%WEBPREFSTOPIC%=
-   1 =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox/TestWeb.%WEBPREFSTOPIC%=
-   1 =Sandbox/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= 
+   1 =%SANDBOXWEB%.%WEBPREFSTOPIC%= inherits from and overrides settings in =%USERSWEB%.SitePreferences=
+   1 =%SANDBOXWEB%/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SANDBOXWEB%.%WEBPREFSTOPIC%=
+   1 =%SANDBOXWEB%/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SANDBOXWEB%/TestWeb.%WEBPREFSTOPIC%=
+   1 =%SANDBOXWEB%/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =%SANDBOXWEB%/TestWeb/SubWeb.%WEBPREFSTOPIC%=
 
 ---+++ Subweb navigation
 The Pattern skin (default) indicates Subwebs by indenting them in the sidebar relative to their level in the hierarchy.

@@ -241,8 +241,8 @@ TablePlugin is %IF{
 Example:
 <verbatim class="tml">
 You %IF{"'%TOPIC%' allows 'change'" then="can" else="cannot"}% change this topic.
-You %IF{"'Sandbox.TestTopic' allows 'change'" then="can" else="cannot"}% change Sandbox.TestTopic.
-You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox web
+You %IF{"'%SANDBOXWEB%.TestTopic' allows 'change'" then="can" else="cannot"}% change %SANDBOXWEB%.TestTopic.
+You %IF{"'%SANDBOXWEB%' allows 'change'" then="can" else="cannot"}% change %SANDBOXWEB% web
 </verbatim>
 
 ---+++ Topic existence
@@ -250,8 +250,8 @@ You %IF{"'Sandbox' allows 'change'" then="can" else="cannot"}% change Sandbox we
 
 Example:
 <verbatim class="tml">
-Topic Sandbox.TestTopic %IF{"istopic 'Sandbox.TestTopic'" then="exists" else="does not exist"}%.
-Web Sandbox %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%.
+Topic %SANDBOXWEB%.TestTopic %IF{"istopic '%SANDBOXWEB%.TestTopic'" then="exists" else="does not exist"}%.
+Web %SANDBOXWEB% %IF{"isweb '%SANDBOXWEB%'" then="exists" else="does not exist"}%.
 </verbatim>
 
 ---+++ Group membership

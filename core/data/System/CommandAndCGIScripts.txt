@@ -388,7 +388,7 @@ Form field values are passed in parameters named 'field' - for example, if I hav
 
 <blockquote class="foswikiHelp"> *%X% Note:* The =save= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =save= script via a form action. Example:
 <verbatim class="html">
-<form name="new" action="%SCRIPTURLPATH{save}%/Sandbox/" method="post">
+<form name="new" action="%SCRIPTURLPATH{save}%/%SANDBOXWEB%/" method="post">
     ...
 </form>
 </verbatim>
@@ -411,7 +411,7 @@ for example:
    2 from browser %SCRIPTURL{"statistics"}%?webs=Userweb,%SANDBOXWEB% updates _Userweb,%SANDBOXWEB%_
    3 from browser %SCRIPTURL{"statistics"}%/%WEB%/ updates %WEB%
    4 from command line bin/statistics updates _all user webs_
-   5 from command line bin/statistics -webs=Userweb,Sandbox updates _Userweb,Sandbox_
+   5 from command line bin/statistics -webs=Userweb,%SANDBOXWEB% updates _Userweb,%SANDBOXWEB%_
    6 from command line bin/statistics %WEB%.<nop>WebHome updates %WEB%
 
 see SiteTools#WebStatistics for more details on %ISSTATISTICSTOPIC% and how to update statistics using cron.
@@ -476,8 +476,8 @@ This is a very simple script to get the content of a web site, either using GET 
    * Usage:    =geturl.pl &lt;host&gt; &lt;path&gt; [&lt;port&gt; [&lt;header&gt;]]=
    * Example:  =geturl.pl some.domain /some/dir/file.html 80=
    * Will get: =http://some.domain:80/some/dir/file.html=
-   * Example:  =geturl.pl POST some.domain /bin/statistics?webs=Sandbox=
-   * Will post: =http://some.domain/bin/statistics?web=Sandbox= triggering a statistics run
+   * Example:  =geturl.pl POST some.domain /bin/statistics?webs=%SANDBOXWEB%=
+   * Will post: =http://some.domain/bin/statistics?web=%SANDBOXWEB%= triggering a statistics run
 
 ---+++ =rewriteshebang.pl=
 Simple script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
