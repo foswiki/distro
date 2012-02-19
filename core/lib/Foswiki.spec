@@ -54,7 +54,7 @@
 # Do <b>not</b> include a trailing /.
 # <p />
 # See <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">ShorterUrlCookbook</a> for more information on setting up
-# Foswiki to use shorter script URLs.  Expand expert settings to get to settings for the <code>view</code> script.  Other scripts need to 
+# Foswiki to use shorter script URLs.  The setting for the <code>view</code> script may be adjusted below.  Other scripts need to 
 # be manually added to <code>lib/LocalSite.cfg</code>
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
