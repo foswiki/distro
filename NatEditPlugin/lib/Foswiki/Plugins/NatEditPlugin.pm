@@ -22,7 +22,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = '6.02';
+$RELEASE = '6.03';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';
@@ -201,15 +201,29 @@ sub beforeSaveHandler {
 sub beforeEditHandler {
   my ($text, $topic, $web, $error, $meta) = @_;
 
+  my $nonce;
+
   my $session = $Foswiki::Plugins::SESSION;
-  my $request = $session->{request};
   my $response = $session->{response};
+  my $request = $session->{request};
   my $cgis = $session->getCGISession();
   my $context = $request->url(-full => 1, -path => 1, -query => 1) . time();
   my $useStrikeOne = ($Foswiki::cfg{Validation}{Method} eq 'strikeone');
-  my $nonce = Foswiki::Validation::generateValidationKey($cgis, $context, $useStrikeOne);
 
-  $response->pushHeader('X-Foswiki-Nonce', $nonce);
+  if (Foswiki::Validation->can('generateValidationKey')) {
+    # newer foswikis have a proper api for things like this
+    $nonce = Foswiki::Validation::generateValidationKey($cgis, $context, $useStrikeOne);
+  }  else {
+    # older ones get a quick and dirty approach
+    my $result = Foswiki::Validation::addValidationKey($cgis, $context, $useStrikeOne);
+    if ($result =~ /value='(.*)'/) {
+      $nonce = $1;
+    }
+  }
+
+  #print STDERR "nonce=$nonce\n";
+
+  $response->pushHeader('X-Foswiki-Nonce', $nonce) if defined $nonce;
 }
 
 ###############################################################################

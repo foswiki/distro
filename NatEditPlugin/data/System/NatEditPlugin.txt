@@ -70,7 +70,8 @@ is sufficient.
 |  Version: | %$VERSION% |
 |  Change History: | |
 |  20 Feb 2012 | moved missing javascript code over from !NatSkin to !NatEditPlugin;\
-                 fixed save+continue on a strikeone-protected foswiki |
+                 fixed save+continue on a strikeone-protected foswiki; \
+                 added compatibility wrapper for older APIs to Foswiki::Validate |
 |  17 Feb 2012 | added interface to set permissions from within edit (only with Foswiki:Extensions/SetVariablePlugin installed) |
 |  11 Jan 2012 | added support for Foswiki:Extensions/WorkflowPlugin |
 |  10 Jan 2012 | added german translation; fixed css when used with !PatternSkin |
