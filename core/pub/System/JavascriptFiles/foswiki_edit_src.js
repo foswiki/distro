@@ -95,6 +95,7 @@ var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "foswikiEditboxStyleProportional";
      */
     foswiki.Edit.changeEditBox = function(inDirection) {
         var rowCount = $('#' +  EDITBOX_ID).attr('rows');
+	rowCount = parseInt(rowCount);
         rowCount += (inDirection * EDITBOX_CHANGE_STEP_SIZE);
         rowCount = (rowCount < EDITBOX_MIN_ROWCOUNT)
         ? EDITBOX_MIN_ROWCOUNT : rowCount;
