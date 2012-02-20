@@ -7,6 +7,7 @@ function handleKeyDown () { }
 /* backwards compatibility */
 function fixHeightOfPane () { }
 
+/* foswiki integration */
 (function($) {
   var editAction, $editForm;
 
@@ -19,8 +20,118 @@ function fixHeightOfPane () { }
     $(window).trigger("resize");
   }
 
-  // add submit handler
+  function setPermission(type, rules) {
+    $(".permset_"+type).each(function() { 
+      $(this).val("undefined");
+    });
+    for (var key in rules) {
+      if (1) {
+        var val = rules[key];
+        $.log("EDIT: setting #"+key+"_"+type+"="+val); 
+        $("#"+key+"_"+type).val(val);
+      }
+    }
+  }
+
+  function switchOnDetails(type) {
+    $("#details_"+type+"_container").slideDown(300);
+    var names = [];
+    $("input[name='Local+PERMSET_"+type.toUpperCase()+"_DETAILS']").each(function() {
+      var val = $(this).val();
+      if (val && val != '') {
+        names.push(val);
+      }
+    });
+    names = names.join(', ');
+    $.log("EDIT: switchOnDetails - names="+names);
+    setPermission(type, {
+      allow: names
+    });
+  }
+
+  function switchOffDetails(type) {
+    $("#details_"+type+"_container").slideUp(300);
+    setPermission(type, {
+      allow: ""
+    });
+  }
+
+  function setPermissionSet(permSet) {
+    $.log("EDIT: called setPermissionSet "+permSet);
+    var wikiName = foswiki.getPreference("WIKINAME");
+    switch(permSet) {
+      /* change rules */
+      case 'default_change':
+        switchOffDetails("change");
+        setPermission("change", {
+        });
+        break;
+      case 'nobody_change':
+        switchOffDetails("change");
+        setPermission("change", {
+          allow: 'AdminUser',
+          deny: undefined
+        });
+        break;
+      case 'registered_users_change':
+        switchOffDetails("change");
+        setPermission("change", {
+          deny: 'WikiGuest'
+        });
+        break;
+      case 'just_author_change':
+        switchOffDetails("change");
+        setPermission("change", {
+          allow: wikiName
+        });
+        break;
+      case 'details_change':
+      case 'details_change_toggle':
+        switchOnDetails("change");
+        break;
+      /* view rules */
+      case 'default_view':
+        switchOffDetails("view");
+        setPermission("view");
+        break;
+      case 'everybody_view':
+        switchOffDetails("view");
+        setPermission("view", {
+          deny: ' '
+        });
+        break;
+      case 'nobody_view':
+        switchOffDetails("view");
+        setPermission("view", {
+          allow: 'AdminUser',
+          deny: undefined
+        });
+        break;
+      case 'registered_users_view':
+        switchOffDetails("view");
+        setPermission("view", {
+          deny: 'WikiGuest'
+        });
+        break;
+      case 'just_author_view':
+        switchOffDetails("view");
+        setPermission("view", {
+          allow: wikiName
+        });
+        break;
+      case 'details_view':
+      case 'details_view_toggle':
+        switchOnDetails("view");
+        break;
+      default:
+        alert("unregistered permission-set '"+permSet+"'");
+        break;
+    }
+  }
+
   $(function() {
+
+    // add submit handler
     $("form[name=EditForm]").livequery(function() {
       var $editForm = $(this);
 
@@ -235,6 +346,33 @@ function fixHeightOfPane () { }
       $.validator.addClassRules("foswikiMandatory", {
         required: true
       });
+    });
+
+    // init permissions tab
+    if (0) { /* debugging */
+      $(".permset_view, .permset_change").each(function() {
+        $(this).wrap("<div></div>").parent().prepend("<b>"+$(this).attr('name')+": </b>");
+      });
+    }
+    var scriptUrl = foswiki.getPreference('SCRIPTURL');
+    var systemWeb = foswiki.getPreference('SYSTEMWEB');
+
+    $("#details_change, #details_view").textboxlist({
+      onSelect: function(input) {
+        var currentValues = input.currentValues;
+        $.log("EDIT: currentValues="+currentValues);
+        var type = (input.opts.inputName=="Local+PERMSET_CHANGE_DETAILS")?"change":"view";
+        setPermission(type, {
+          allow: currentValues.join(", ")
+        });
+      },
+      autocomplete:scriptUrl+"/view/"+systemWeb+"/JQueryAjaxHelper?section=user;contenttype=text/plain;skin=text;contenttype=application/json"
+    });
+    $("input[type=radio], input[type=checkbox]").click(function() {
+      $(this).blur();
+    });
+    $("#permissionsForm input[type=radio]").click(function() {
+      setPermissionSet($(this).attr('id'));
     });
   });
 

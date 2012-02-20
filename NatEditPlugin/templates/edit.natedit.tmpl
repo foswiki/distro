@@ -32,7 +32,7 @@
 %TMPL:P{"bottomtopicactions"}%<!-- -->
 %TMPL:P{"formend"}%<!-- -->
 %TMPL:P{"dialogs"}%
-%JQREQUIRE{"natedit, blockui, form, ui::autocomplete"}%<!-- -->
+%JQREQUIRE{"natedit, blockui, form, ui::autocomplete" warn="off"}%<!-- -->
 %ADDTOZONE{"head"
   tag="NATEDIT::MATHMODEPLUGINENABLED"
   text="<meta name='foswiki.MathModePluginEnabled' content='%IF{"context MathModePluginEnabled" then="true" else="false"}%' />"
@@ -142,7 +142,7 @@
 %TMPL:DEF{"permissionstab"}%<!-- -->
 %TAB{"%MAKETEXT{"Permissions"}%" id="permissions"}%
 <noautolink>
-<h2>%MAKETEXT{"Permissions"}%</h2>
+<h2 style='margin-top:0'>%MAKETEXT{"Permissions"}%</h2>
 <div class="foswikiFormSteps" id="permissionsForm">
   <input type="hidden" name="Set+ALLOWTOPICVIEW" value="%GETVAR{"ALLOWTOPICVIEW" default="undefined"}%" class="permset_view" id="allow_view" />
   <input type="hidden" name="Set+DENYTOPICVIEW" value="%GETVAR{"DENYTOPICVIEW" default="undefined"}%" class="permset_view" id="deny_view" />
@@ -226,12 +226,6 @@
     </table>
   </div>
 </div>
-%ADDTOZONE{
-  "script"
-  tag="NATSKIN:EDIT" 
-  text="<script src='%PUBURLPATH%/%SYSTEMWEB%/NatSkin/edit.js'></script>"
-  requires="NATSKIN::OPTS"
-}%<!-- -->
 </noautolink>
 %ENDTAB%
 <!-- -->%TMPL:END%

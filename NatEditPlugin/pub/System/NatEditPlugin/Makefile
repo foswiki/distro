@@ -1,6 +1,6 @@
 FOSWIKI_ROOT?=~/foswiki/trunk/core
 TARGET= \
-  edit.uncompressed.js \
+  edit.js \
   natedit.js \
   styles.css
 
