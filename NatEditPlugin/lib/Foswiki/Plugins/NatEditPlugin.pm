@@ -29,6 +29,8 @@ $SHORTDESCRIPTION = 'A Wikiwyg Editor';
 
 use constant DEBUG => 0; # toggle me
 use Foswiki::Func ();
+use Foswiki::Plugins ();
+use Foswiki::Validation ();
 use Foswiki::Plugins::JQueryPlugin ();
 
 ###############################################################################
@@ -193,6 +195,21 @@ sub beforeSaveHandler {
       value=>$topicTitle
     });
   }
+}
+
+###############################################################################
+sub beforeEditHandler {
+  my ($text, $topic, $web, $error, $meta) = @_;
+
+  my $session = $Foswiki::Plugins::SESSION;
+  my $request = $session->{request};
+  my $response = $session->{response};
+  my $cgis = $session->getCGISession();
+  my $context = $request->url(-full => 1, -path => 1, -query => 1) . time();
+  my $useStrikeOne = ($Foswiki::cfg{Validation}{Method} eq 'strikeone');
+  my $nonce = Foswiki::Validation::generateValidationKey($cgis, $context, $useStrikeOne);
+
+  $response->pushHeader('X-Foswiki-Nonce', $nonce);
 }
 
 ###############################################################################

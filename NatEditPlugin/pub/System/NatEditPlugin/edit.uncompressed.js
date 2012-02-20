@@ -214,8 +214,13 @@ function fixHeightOfPane () { }
                 $.unblockUI();
                 showErrorMessage(message);
               },
-              success: function(data, textStatus) {
+              success: function(data, textStatus, xhr) {
+                var nonce = xhr.getResponseHeader('X-Foswiki-Nonce'),
+                    validation_key = $editForm.find("input[name='validation_key']");
                 $.unblockUI();
+                if (validation_key) {
+                  validation_key.val("?"+nonce);
+                }
               }
             });
           }
