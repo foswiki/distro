@@ -1213,7 +1213,7 @@ msgstr "Skapa ny sida"
 msgid "Create not specified and group does not exist"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+#: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
 msgstr "Skapa en personlig sidomeny"
 
@@ -1221,8 +1221,8 @@ msgstr "Skapa en personlig sidomeny"
 msgid "Create the topic"
 msgstr "Skapa sidan"
 
-#: core/data/System/DefaultPreferences.txt:386
 #: core/data/System/DefaultPreferences.txt:388
+#: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicTemplate.txt:64
 #: core/lib/Foswiki/Render.pm:73
@@ -1680,7 +1680,7 @@ msgid "Group"
 msgstr "Grupp"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
-#: core/lib/Foswiki/UserMapping.pm:343
+#: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
 
@@ -1697,7 +1697,7 @@ msgstr ""
 msgid "Groups"
 msgstr "Grupper"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Hello %1"
 msgstr "Hej %1"
 
@@ -2645,7 +2645,7 @@ msgstr "Uppdatera"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
-#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/data/System/WebLeftBarLogin.txt:14
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
@@ -2785,7 +2785,7 @@ msgstr "Nollställ lösenord"
 msgid "Reset password"
 msgstr "Nollställ lösenord"
 
-#: core/data/System/DefaultPreferences.txt:195
+#: core/data/System/DefaultPreferences.txt:197
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Foswiki hanterar inte att ange eller nollställa lösenord"
 
@@ -3824,7 +3824,7 @@ msgstr ""
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
-#: core/lib/Foswiki/UserMapping.pm:363
+#: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
 msgstr "%1 är medlem av minst en grupp och kan inte tas bort"
@@ -4489,7 +4489,7 @@ msgstr "nu %1"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
-#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/data/System/WebLeftBarLogin.txt:14
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18

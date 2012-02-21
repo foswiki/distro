@@ -1176,7 +1176,7 @@ msgstr "새 토픽 생성하기"
 msgid "Create not specified and group does not exist"
 msgstr ""
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:6
+#: PatternSkin/data/System/WebLeftBarLogin.txt:20
 #, fuzzy
 msgid "Create personal sidebar"
 msgstr "개인 정보 편집"
@@ -1185,8 +1185,8 @@ msgstr "개인 정보 편집"
 msgid "Create the topic"
 msgstr "포틱 생성하기"
 
-#: core/data/System/DefaultPreferences.txt:386
 #: core/data/System/DefaultPreferences.txt:388
+#: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicTemplate.txt:64
 #: core/lib/Foswiki/Render.pm:73
@@ -1629,7 +1629,7 @@ msgid "Group"
 msgstr "그룹"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
-#: core/lib/Foswiki/UserMapping.pm:343
+#: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
 
@@ -1647,7 +1647,7 @@ msgstr ""
 msgid "Groups"
 msgstr "그룹"
 
-#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Hello %1"
 msgstr "안녕하세요 %1"
 
@@ -2577,7 +2577,7 @@ msgstr "새로고침"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
-#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/data/System/WebLeftBarLogin.txt:14
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
@@ -2712,7 +2712,7 @@ msgstr "비밀번호 재설정"
 msgid "Reset password"
 msgstr "비밀번호 재설정"
 
-#: core/data/System/DefaultPreferences.txt:195
+#: core/data/System/DefaultPreferences.txt:197
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3698,7 +3698,7 @@ msgstr ""
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
-#: core/lib/Foswiki/UserMapping.pm:363
+#: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
 msgstr ""
 
@@ -4309,7 +4309,7 @@ msgstr ""
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:78
-#: PatternSkin/data/System/WebLeftBarLogin.txt:4
+#: PatternSkin/data/System/WebLeftBarLogin.txt:14
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:159
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
