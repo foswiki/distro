@@ -287,8 +287,8 @@ sub _collectLogData {
         # ignore events that are not statistically helpful
         next if ( $notes && $notes =~ /dontlog/ );
 
-        # ignore searches for now - idea: make a "top search phrase list"
-        next if ( $opName && $opName =~ /search|renameweb|changepasswd/ );
+        # ignore events statistics doesn't understand for now - idea: make a "top search phrase list"
+        next if ( $opName && $opName =~ /search|renameweb|changepasswd|resetpasswd|sudo login|logout/ );
 
         # .+ is used because topics name can contain stuff like
         # !, (, ), =, -, _ and they should have stats anyway
@@ -345,8 +345,13 @@ sub _collectLogData {
             }
         }
         else {
+
+            # ignore template webs.  (Regex copied from Foswiki::WebFilter)
+            my ($w, $t) = split( /\./, $webTopic);
+            next if $w =~ /(?:^_|\/_)/;
+
             $session->logger->log( 'debug',
-                'WebStatistics: Bad logfile line ' . join( '|', @$line ) );
+                'WebStatistics: Bad logfile line ' . join( '|', @$line ) ) if (DEBUG);
         }
     }
 
