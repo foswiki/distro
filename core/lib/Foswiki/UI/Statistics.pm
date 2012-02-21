@@ -347,8 +347,10 @@ sub _collectLogData {
         else {
 
             # ignore template webs.  (Regex copied from Foswiki::WebFilter)
-            my ($w, $t) = split( /\./, $webTopic);
-            next if $w =~ /(?:^_|\/_)/;
+            if ( defined $webTopic ) {
+                my ($w, $t) = split( /\./, $webTopic);
+                next if $w =~ /(?:^_|\/_)/;
+            }
 
             $session->logger->log( 'debug',
                 'WebStatistics: Bad logfile line ' . join( '|', @$line ) ) if (DEBUG);
