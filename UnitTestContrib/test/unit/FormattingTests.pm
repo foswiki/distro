@@ -1814,9 +1814,8 @@ sub test_sanity_link_tests {
 sub test_ampersand_querystring {
     my ($this) = shift;
 
-    $this->expect_failure('TODO: fix Item11366 ampersand escaping in squabs');
     $this->_check_rendered_linktext(
-        "$this->{test_topic}?q=r&amp;s=t",
+        "$this->{test_topic}?q=r&s=t",
         {
             address => "$this->{test_topic}",
             query   => 'q=r&s=t'
