@@ -2,6 +2,8 @@ foswiki (1.1.4-1) stable; urgency=high
 
   * upgrade to 1.1.4
   * add dependency for HTML::Tree
+  * Foswiki Script Insertion Vulnerability via unchecked user registration fields
+    resolves Security Alert CVE-2012-1004
 
  -- Sven Dowideit <SvenDowideit@fosiki.com>  Wed, 22 Feb 2012 12:00:00 +1000 
 
