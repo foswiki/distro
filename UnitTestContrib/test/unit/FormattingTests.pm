@@ -1742,7 +1742,6 @@ sub _check_rendered_linktext {
     my $addrObj;
     my $part;
 
-    require Foswiki::Address;
     require HTML::Entities;
     print "[[$linktext]]\n\t$html\n" if TRACE;
     $this->assert( $html !~ $editpathregex,
@@ -1764,18 +1763,11 @@ sub _check_rendered_linktext {
     else {
         $expectedAddress = "$this->{test_web}.$this->{test_topic}";
     }
-    $addrObj = Foswiki::Address->new(
-        string => $address,
-        web    => $this->{test_web},
-        topic  => $this->{test_topic},
-        isA    => 'topic'
-    );
-    $expectedAddrObj = Foswiki::Address->new(
-        string => $expectedAddress,
-        web    => $this->{test_web},
-        topic  => $this->{test_topic},
-        isA    => 'topic'
-    );
+    my ( $actualWeb, $actualTopic ) =
+      Foswiki::Func::normalizeWebTopicName( $this->{test_web}, $address );
+    my ( $expectedWeb, $expectedTopic ) =
+      Foswiki::Func::normalizeWebTopicName( $this->{test_web},
+        $expectedAddress );
     print "\tfrag: "
       . ( defined $fragment ? $fragment : 'undef' )
       . ",\tquery: "
@@ -1783,8 +1775,8 @@ sub _check_rendered_linktext {
       . ",\taddr: "
       . ( defined $address ? $address : 'undef' ) . "\n"
       if TRACE;
-    $this->assert_str_equals( $expectedAddrObj->stringify(),
-        $addrObj->stringify(), "address mismatch checking [[$linktext]]" );
+    $this->assert_str_equals( "$expectedWeb.$expectedTopic",
+        "$actualWeb.$actualTopic", "address mismatch checking [[$linktext]]" );
     $this->assert_deep_equals( $expected->{query}, $query,
         "query mismatch checking [[$linktext]]" );
     $this->assert_deep_equals( $expected->{fragment}, $fragment,
