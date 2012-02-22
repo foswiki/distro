@@ -154,8 +154,12 @@ case "$1" in
 	#and for some reason create a session
 	#use 1777 to prevent third parties replacing the file with a doctored one
 
+	#need to deprecate this, as its the old location
 	if [ ! -e /var/lib/foswiki/log ]; then
 		ln -s /var/log/foswiki /var/lib/foswiki/log
+	fi
+	if [ ! -e /var/lib/foswiki/working/logs ]; then
+		ln -s /var/log/foswiki /var/lib/foswiki/working/logs
 	fi
 
 	chown -R $WIKI_OWNER.www-data /var/log/foswiki

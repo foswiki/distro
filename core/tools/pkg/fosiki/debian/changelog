@@ -1,6 +1,7 @@
 foswiki (1.1.4-1) stable; urgency=high
 
   * upgrade to 1.1.4
+  * add dependency for HTML::Tree
 
  -- Sven Dowideit <SvenDowideit@fosiki.com>  Wed, 22 Feb 2012 12:00:00 +1000 
 
