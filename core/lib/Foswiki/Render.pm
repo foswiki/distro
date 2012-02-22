@@ -683,12 +683,14 @@ sub _renderExistingWikiWord {
     my $tooltip = _linkToolTipInfo( $this, $web, $topic );
     $attrs{title} = $tooltip if $tooltip;
 
+    my $aFlag = CGI::autoEscape(0);
     my $link = CGI::a( \%attrs, $text );
+    CGI::autoEscape($aFlag);
 
     # When we pass the tooltip text to CGI::a it may contain
     # <nop>s, and CGI::a will convert the < to &lt;. This is a
     # basic problem with <nop>.
-    $link =~ s/&lt;nop&gt;/<nop>/g;
+    #$link =~ s/&lt;nop&gt;/<nop>/g;
     return $link;
 }
 

@@ -1799,7 +1799,6 @@ sub _check_rendered_linktext {
 sub test_sanity_link_tests {
     my $this = shift;
 
-    $this->expect_failure('TODO: fix Item11366 ampersand escaping in squabs');
     $this->_create_link_test_fixtures();
     while ( my ( $linktext, $expected ) = each %link_tests ) {
 
@@ -1817,7 +1816,7 @@ sub test_ampersand_querystring {
 
     $this->expect_failure('TODO: fix Item11366 ampersand escaping in squabs');
     $this->_check_rendered_linktext(
-        "$this->{test_topic}?q=r&s=t",
+        "$this->{test_topic}?q=r&amp;s=t",
         {
             address => "$this->{test_topic}",
             query   => 'q=r&s=t'
