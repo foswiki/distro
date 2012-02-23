@@ -393,7 +393,10 @@ sub try (&;$) {
     $clauses->{'finally'}->()
 	if(defined($clauses->{'finally'}));
 
-    throw $err if defined($err);
+    if (defined($err)) {
+      throw $err if $err->can("throw");
+      die $err;
+    }
 
     wantarray ? @result : $result[0];
 }

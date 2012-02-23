@@ -100,8 +100,8 @@ sub rest {
           if $Foswiki::cfg{Cache}{Debug};
 
         # render uncacheable areas
-        my $text = $cachedPage->{text};
-        $cache->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
+        my $text = $cachedPage->{data};
+        $cache->renderDirtyAreas( \$text ) if $cachedPage->{isdirty};
 
         # set status
         my $status = $cachedPage->{status};
@@ -113,7 +113,7 @@ sub rest {
         }
 
         # set headers
-        $session->generateHTTPHeaders( 'rest', $cachedPage->{contentType},
+        $session->generateHTTPHeaders( 'rest', $cachedPage->{contenttype},
             $text, $cachedPage );
 
         # send it out

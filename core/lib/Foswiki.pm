@@ -799,7 +799,7 @@ JS
         {
             $cachedPage = $this->{cache}->cachePage( $contentType, $text );
             $this->{cache}->renderDirtyAreas( \$text )
-              if $cachedPage->{isDirty};
+              if $cachedPage && $cachedPage->{isdirty};
         }
         else {
 
@@ -923,8 +923,8 @@ sub generateHTTPHeaders {
             $hopts->{'Vary'}             = 'Accept-Encoding';
 
             # check if we take the version from the cache
-            if ( $cachedPage && !$cachedPage->{isDirty} ) {
-                $text = $cachedPage->{text};
+            if ( $cachedPage && !$cachedPage->{isdirty} ) {
+                $text = $cachedPage->{data};
             }
             else {
                 require Compress::Zlib;
@@ -932,7 +932,7 @@ sub generateHTTPHeaders {
             }
         }
         elsif ($cachedPage
-            && !$cachedPage->{isDirty}
+            && !$cachedPage->{isdirty}
             && $Foswiki::cfg{HttpCompress} )
         {
 
@@ -954,9 +954,9 @@ sub generateHTTPHeaders {
         # if we have a cached page on the server side
         if ($cachedPage) {
             my $etag         = $cachedPage->{etag};
-            my $lastModified = $cachedPage->{lastModified};
+            my $lastModified = $cachedPage->{lastmodified};
 
-            $hopts->{'ETag'} = $etag;
+            $hopts->{'ETag'} = $etag if $etag;
             $hopts->{'Last-Modified'} = $lastModified if $lastModified;
 
             # only send a 304 if both criteria are true
@@ -1689,10 +1689,12 @@ sub new {
 
     $this->{context} = $initialContext;
 
-    if ( $Foswiki::cfg{Cache}{Enabled} ) {
-        require Foswiki::PageCache;
-        $this->{cache} = new Foswiki::PageCache($this);
+    if ( $Foswiki::cfg{Cache}{Enabled} && $Foswiki::cfg{Cache}{Implementation}) {
+        eval "require $Foswiki::cfg{Cache}{Implementation}";
+        ASSERT( !$@, $@ ) if DEBUG;
+        $this->{cache} = $Foswiki::cfg{Cache}{Implementation}->new();
     }
+
     my $prefs = new Foswiki::Prefs($this);
     $this->{prefs}   = $prefs;
     $this->{plugins} = new Foswiki::Plugins($this);

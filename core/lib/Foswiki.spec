@@ -1245,6 +1245,10 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
+# **PATH DISPLAY_IF {Cache}{Enabled}**
+# Specify the directory where binary large objects will be stored.
+$Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
+
 # **STRING 80 DISPLAY_IF {Cache}{Enabled}**
 # List of those topics that have a manual dependency on every topic
 # in a web. Web dependencies can also be specified using the WEBDEPENDENCIES
@@ -1254,40 +1258,76 @@ $Foswiki::cfg{Cache}{WebDependencies} = 'WebRss, WebAtom, WebTopicList, WebIndex
 # **REGEX DISPLAY_IF {Cache}{Enabled}**
 # Exclude topics that match this regular expression from the dependency
 # tracker.
-$Foswiki::cfg{Cache}{DependencyFilter} = '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|.*Template$|TWiki\..*';
+$Foswiki::cfg{Cache}{DependencyFilter} = '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|TWiki\..*';
 
-# **SELECTCLASS Foswiki::Cache::* DISPLAY_IF {Cache}{Enabled}**
-# Select the default caching mechanism. Note that individual subsystems might
-# choose a different backend for their own purposes.
-$Foswiki::cfg{CacheManager} = 'Foswiki::Cache::FileCache';
+# **SELECTCLASS Foswiki::PageCache::DBI::*  DISPLAY_IF {Cache}{Enabled}**
+# Select the cache implementation. The default page cache implementation
+# is based on DBI (http://dbi.perl.org) which requires a working DBI driver to
+# connect to a database. This database will hold all cached data as well as the
+# maintenance data to keep the cache correct while content changes in the wiki.
+# Recommended drivers are DBD::mysql, DBD::Pg, DBD::SQLite or any other database driver connecting
+# to a real SQL engine.
+$Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
 
-# **SELECT Foswiki::Cache::DB_File,Foswiki::Cache::BDB DISPLAY_IF {Cache}{Enabled}**
-# Select the database backend use to store meta data for the page cache.
-$Foswiki::cfg{MetaCacheManager} = 'Foswiki::Cache::DB_File';
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && /Foswiki::PageCache::DBI.*/.test({Cache}{Implementation}) **
+# Prefix used naming tables and indexes generated in the database. 
+$Foswiki::cfg{Cache}{DBI}{TablePrefix} = 'foswiki_cache';
 
-# **PATH DISPLAY_IF {Cache}{Enabled}**
-# Specify the root directory for CacheManagers that use file-system based
-# storage. This is where the database files will be stored.
-$Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/tmp/cache';
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' **
+# Generic database driver. See the docu of your DBI driver for the exact syntax of the DSN parameter string.
+$Foswiki::cfg{Cache}{DBI}{DSN} = '';
 
-# **STRING 30 DISPLAY_IF {Cache}{Enabled}**
-# Specify the database file for the <code>Foswiki::Cache::DB_File</code>
-# CacheManager
-$Foswiki::cfg{Cache}{DBFile} = '$Foswiki::cfg{WorkingDir}/tmp/foswiki_db';
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' **
+# Database user name. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{Username} = '';
 
-# **STRING DISPLAY_IF {Cache}{Enabled}**
-# Specify the namespace used by this site in a store shared with other systems.
-$Foswiki::cfg{Cache}{NameSpace} = '$Foswiki::cfg{DefaultUrlHost}';
+# **PASSWORD 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::Generic' **
+# Database user password. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{Password} = '';
 
-# **NUMBER DISPLAY_IF {Cache}{Enabled}**
-# Specify the maximum number of cache entries for size-aware CacheManagers like
-# <code>MemoryLRU</code>. This won't have any effect on other CacheManagers.
-$Foswiki::cfg{Cache}{MaxSize} = 1000;
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::SQLite'**
+# Name of the SQL
+$Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} = '$Foswiki::cfg{WorkingDir}/sqlite.db';
 
-# **STRING 30 DISPLAY_IF {Cache}{Enabled}**
-# Specify a comma separated list of servers for distributed CacheManagers like
-# <code>Memcached</code>. This setting won't have any effect on other CacheManagers.
-$Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' **
+# Name or IP address of the database server
+$Foswiki::cfg{Cache}{DBI}{MySQL}{Host} = 'localhost';
+
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' **
+# Port on the database server to connect to
+$Foswiki::cfg{Cache}{DBI}{MySQL}{Port} = '';
+
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' **
+# Name of the database on the server host.
+$Foswiki::cfg{Cache}{DBI}{MySQL}{Database} = '';
+
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' **
+# Database user name. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{MySQL}{Username} = '';
+
+# **PASSWORD 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::MySQL' **
+# Database user password. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{MySQL}{Password} = '';
+
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' **
+# Name or IP address of the database server
+$Foswiki::cfg{Cache}{DBI}{MySQL}{Host} = 'localhost';
+
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' **
+# Port on the database server to connect to
+$Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Port} = '';
+
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' **
+# Name of the database on the server host.
+$Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Database} = '';
+
+# **STRING 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' **
+# Database user name. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Username} = '';
+
+# **PASSWORD 80 DISPLAY_IF {Cache}{Enabled} && {Cache}{Implementation} == 'Foswiki::PageCache::DBI::PostgreSQL' **
+# Database user password. Add a value if your database needs authentication
+$Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 
 #############################################################################
 #---+ Mail and Proxies -- TABS

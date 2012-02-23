@@ -57,8 +57,8 @@ sub view {
         Monitor::MARK("found page in cache");
 
         # render uncacheable areas
-        my $text = $cachedPage->{text};
-        $cache->renderDirtyAreas( \$text ) if $cachedPage->{isDirty};
+        my $text = $cachedPage->{data};
+        $cache->renderDirtyAreas( \$text ) if $cachedPage->{isdirty};
 
         # set status
         my $status = $cachedPage->{status};
@@ -72,7 +72,7 @@ sub view {
         }
 
         # set headers
-        $session->generateHTTPHeaders( 'view', $cachedPage->{contentType},
+        $session->generateHTTPHeaders( 'view', $cachedPage->{contenttype},
             $text, $cachedPage );
 
         # send it out
