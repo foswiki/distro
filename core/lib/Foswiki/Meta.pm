@@ -483,8 +483,9 @@ sub load {
         ASSERT( not( $this->{_latestIsLoaded} ) ) if DEBUG;
     }
     else {
-
-        ASSERT( defined( $this->{_loadedRev} ) and ( $this->{_loadedRev} > 0 ) )
+        ASSERT( defined( $this->{_loadedRev} ) ) if DEBUG;
+        ASSERT( ( $this->{_loadedRev} > 0 ),
+            "loadedRev is non-zero: $this->{_loadedRev}" )
           if DEBUG;
         ASSERT( defined( $this->{_latestIsLoaded} ) ) if DEBUG;
     }
