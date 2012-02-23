@@ -59,9 +59,9 @@ sub getOptions {
         foreach my $val (@$vals) {
             if ( $val =~ /^(.*[^\\])*=(.*)$/ ) {
                 $str = TAINT( $1 || '' );
-		my $descr = $this->{_descriptions}{$val};
+                my $descr = $this->{_descriptions}{$val};
                 $val = $2;
-		$this->{_descriptions}{$val} = $descr;
+                $this->{_descriptions}{$val} = $descr;
                 $str =~ s/\\=/=/g;
             }
             else {
@@ -104,16 +104,17 @@ sub renderForDisplay {
 
     $this->getOptions();
 
-    if ($this->isValueMapped()) {
-      my @vals = ();
-      foreach my $val (split(/\s*,\s*/, $value)) {
-        if ( defined( $this->{valueMap}{$val} ) ) {
-            push @vals, $this->{valueMap}{$val};
-        } else {
-            push @vals, $val;
+    if ( $this->isValueMapped() ) {
+        my @vals = ();
+        foreach my $val ( split( /\s*,\s*/, $value ) ) {
+            if ( defined( $this->{valueMap}{$val} ) ) {
+                push @vals, $this->{valueMap}{$val};
+            }
+            else {
+                push @vals, $val;
+            }
         }
-      }
-      $value = join(", ", @vals);
+        $value = join( ", ", @vals );
     }
 
     return $this->SUPER::renderForDisplay( $format, $value, $attrs );
@@ -129,8 +130,8 @@ sub renderForEdit {
         my $option = $item;
         my %params = ( class => 'foswikiOption', );
         $params{selected} = 'selected' if $isSelected{$option};
-        if ($this->{_descriptions}{$option}) {
-          $params{title} = $this->{_descriptions}{$option};
+        if ( $this->{_descriptions}{$option} ) {
+            $params{title} = $this->{_descriptions}{$option};
         }
         if ( defined( $this->{valueMap}{$option} ) ) {
             $params{value} = $option;

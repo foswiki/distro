@@ -24,21 +24,24 @@ sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my %removedblocks = ();
     my $class         = $control->{_DEFAULT} || 'doc:Foswiki';
-    my $publicOnly = ($params->{publicOnly} || '') eq 'on';
+    my $publicOnly    = ( $params->{publicOnly} || '' ) eq 'on';
     Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
-    # SMELL This is no longer being used in PerlDoc ... 
-#    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', '' );
+
+    # SMELL This is no longer being used in PerlDoc ...
+    #    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', '' );
     Foswiki::Func::setPreferencesValue( 'DOC_CHILDREN', '' );
-    Foswiki::Func::setPreferencesValue( 'DOC_TITLE', '---++ !! !%TOPIC%' );
+    Foswiki::Func::setPreferencesValue( 'DOC_TITLE',    '---++ !! !%TOPIC%' );
     $class =~ s/[a-z]+://;    # remove protocol
     $class ||= 'Foswiki';     # provide a reasonable default
-#    return '' unless $class && $class =~ /^Foswiki/;
+
+    #    return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
 
-    my %publicPackages = map {$_ => 1} _loadPublishedAPI();
+    my %publicPackages = map { $_ => 1 } _loadPublishedAPI();
     my $visibility = exists $publicPackages{$class} ? 'public' : 'internal';
-    _setNavigation($class, $publicOnly, \%publicPackages);
-    Foswiki::Func::setPreferencesValue( 'DOC_TITLE', "---++ !! =$visibility package= " . _renderTitle($class) );
+    _setNavigation( $class, $publicOnly, \%publicPackages );
+    Foswiki::Func::setPreferencesValue( 'DOC_TITLE',
+        "---++ !! =$visibility package= " . _renderTitle($class) );
 
     my $pmfile;
     $class =~ s#::#/#g;
@@ -68,7 +71,7 @@ sub INCLUDE {
     $perl = Foswiki::takeOutBlocks( $perl, 'verbatim', \%removedblocks );
     foreach my $line ( split( /\r?\n/, $perl ) ) {
         if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
-            $inPod = 1;
+            $inPod              = 1;
             $inSuppressedMethod = 0;
         }
         elsif ( $line =~ /^=cut/ ) {
@@ -80,23 +83,28 @@ sub INCLUDE {
                     $line .= $isa;
                     $isa = undef;
                 }
-                $line =~ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
+                $line =~
+s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
             }
             else {
                 $line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#_doclink($1)#geo;
             }
             if ( $line =~ s/^(---\++\s+)(\w+Method)\s+/$1=$2= / ) {
                 $line =~ s/\s+[-=]>\s+/ &rarr; /;
-                if ($publicOnly && $line =~ /Method=\s+_/) {
+                if ( $publicOnly && $line =~ /Method=\s+_/ ) {
                     $inSuppressedMethod = 1;
                 }
-            } elsif ($line =~ /^---/) {
+            }
+            elsif ( $line =~ /^---/ ) {
                 $inSuppressedMethod = 0;
             }
             $pod .= "$line\n"
-                unless $inSuppressedMethod;
+              unless $inSuppressedMethod;
         }
-        if (!$inSuppressedMethod && $line =~ /(SMELL|FIXME|TODO)/ && $showSmells ) {
+        if (  !$inSuppressedMethod
+            && $line =~ /(SMELL|FIXME|TODO)/
+            && $showSmells )
+        {
             $howSmelly++;
             $pod .= "<blockquote class=\"foswikiAlert\">$line</blockquote>";
         }
@@ -133,24 +141,27 @@ sub INCLUDE {
 
 # set DOC_CHILDREN preference value to a list of sub-packages.
 sub _setNavigation {
-    my ($class, $publicOnly, $publicPackages) = @_;
+    my ( $class, $publicOnly, $publicPackages ) = @_;
     my @children;
     my %childrenDesc;
     my $classPrefix = $class . '::';
+
 #    my $classParent = $class;
 #    $classParent =~ s/::[^:]+$//;
 #    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', _doclink($classParent) );
     $class =~ s#::#/#g;
 
     foreach my $inc (@INC) {
-        if ( -d "$inc/$class" and opendir my $dh, "$inc/$class") {
+        if ( -d "$inc/$class" and opendir my $dh, "$inc/$class" ) {
             my @dir = grep { !/^\./ } readdir($dh);
-            push @children, map { -d "$inc/$class/$_" ? "$classPrefix$_" : () } @dir;
+            push @children,
+              map { -d "$inc/$class/$_" ? "$classPrefix$_" : () } @dir;
             for my $d (@dir) {
-                if ($d =~ s/\.pm$//) {
+                if ( $d =~ s/\.pm$// ) {
                     push @children, "$classPrefix$d";
-                    $childrenDesc{"$classPrefix$d"} = _getPackSummary("$inc/$class/$d.pm");
-                }               
+                    $childrenDesc{"$classPrefix$d"} =
+                      _getPackSummary("$inc/$class/$d.pm");
+                }
             }
             closedir $dh;
         }
@@ -163,7 +174,8 @@ sub _setNavigation {
         my %children = map { $_ => 1 } @children;
         @children = sort keys %children;
         foreach my $child (@children) {
-            my $desc = $childrenDesc{$child} ? ' - ' . $childrenDesc{$child} : '';
+            my $desc =
+              $childrenDesc{$child} ? ' - ' . $childrenDesc{$child} : '';
             $children .= '<li>' . _doclink($child) . "$desc</li>\n";
         }
     }
@@ -178,15 +190,15 @@ sub _getPackSummary ($) {
 
     my $PMFILE;
     open( $PMFILE, '<', $pmfile ) || return '';
-    my $inPod      = 0;
-    my $inPackage  = 0;
-    while (my $line = <$PMFILE>) {
+    my $inPod     = 0;
+    my $inPackage = 0;
+    while ( my $line = <$PMFILE> ) {
         if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod = 1;
         }
         elsif ( $line =~ /^=cut/ ) {
             @summary
-                and last;
+              and last;
             $inPod = 0;
         }
         elsif ($inPod) {
@@ -202,28 +214,31 @@ sub _getPackSummary ($) {
     close($PMFILE);
 
     while (@summary) {
-        if ($summary[0] =~ /^\s*$/) {
+        if ( $summary[0] =~ /^\s*$/ ) {
             shift @summary;
-        } else {
+        }
+        else {
             last;
         }
     }
-    if (!@summary) {
+    if ( !@summary ) {
         return '';
     }
     my $emptyLine = 0;
-    while ($emptyLine < @summary && $summary[$emptyLine] !~ /^\s*$/) {
+    while ( $emptyLine < @summary && $summary[$emptyLine] !~ /^\s*$/ ) {
         $emptyLine++;
     }
-    return join ' ', @summary[0 .. $emptyLine - 1];
+    return join ' ', @summary[ 0 .. $emptyLine - 1 ];
 }
 
 sub _loadPublishedAPI {
-    my ($meta, $text) = Foswiki::Func::readTopic($Foswiki::cfg{SystemWebName}, PUBLISHED_API_TOPIC);
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
+        PUBLISHED_API_TOPIC );
     my @ret;
-    for my $line (split /\r?\n/, $text) {
+    for my $line ( split /\r?\n/, $text ) {
         $line =~ /^\|\s*package\s*\|\s*(.*?)\s*\|/
-            and push @ret, $1;
+          and push @ret, $1;
     }
     return @ret;
 }
@@ -232,7 +247,9 @@ sub _loadPublishedAPI {
 sub _renderTitle {
     my $pack = $_[0];
     my @packComps = split '::', $pack;
-    my @packLinks = map { _doclink((join '::', @packComps[0 .. $_]), $packComps[$_]) } 0 .. $#packComps - 1;
+    my @packLinks =
+      map { _doclink( ( join '::', @packComps[ 0 .. $_ ] ), $packComps[$_] ) }
+      0 .. $#packComps - 1;
     my $packageTitle = join '::', @packLinks, $packComps[$#packComps];
     return $packageTitle;
 }
@@ -240,8 +257,10 @@ sub _renderTitle {
 sub _doclink ($) {
     my $module = $_[0];
     my $title = $_[1] || $module;
+
     # SMELL relying on TML to set publicOnly
-    return "[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$module%IF{\"\$publicOnly = 'on'\" then=\";publicOnly=on\"}%][$title]]";
+    return
+"[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$module%IF{\"\$publicOnly = 'on'\" then=\";publicOnly=on\"}%][$title]]";
 }
 
 1;

@@ -39,14 +39,14 @@ sub check {
     unless ( -d $d ) {
         mkdir( untaint($d), oct(755) )
           || return $mess
-          . $this->ERROR( "$d does not exist, and I can't create it: $!" );
+          . $this->ERROR("$d does not exist, and I can't create it: $!");
         $mess .= $this->NOTE("Created $d");
     }
 
     unless ( -d "$d/tmp" ) {
         if ( -e "$d/tmp" ) {
             $mess .=
-              $this->ERROR( "$d/tmp already exists, but is not a directory" );
+              $this->ERROR("$d/tmp already exists, but is not a directory");
         }
         elsif ( !mkdir( untaint("$d/tmp"), oct(1777) ) ) {
             $mess .= $this->ERROR("Could not create $d/tmp");
@@ -59,7 +59,7 @@ sub check {
     unless ( -d "$d/work_areas" ) {
         if ( -e "$d/work_areas" ) {
             $mess .= $this->ERROR(
-                "$d/work_areas already exists, but is not a directory" );
+                "$d/work_areas already exists, but is not a directory");
         }
         elsif ( !mkdir( untaint("$d/work_areas"), oct(755) ) ) {
             $mess .= $this->ERROR("Could not create $d/work_areas");
@@ -97,8 +97,7 @@ the upgrade." );
             );
         }
         elsif ( !mkdir( untaint("$d/registration_approvals"), oct(755) ) ) {
-            $mess .=
-              $this->ERROR( "Could not create $d/registration_approvals" );
+            $mess .= $this->ERROR("Could not create $d/registration_approvals");
         }
     }
 

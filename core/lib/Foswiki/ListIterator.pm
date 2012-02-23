@@ -110,13 +110,12 @@ sub skip {
       . scalar( @{ $this->{list} } ) . "\n"
       if Foswiki::Iterator::MONITOR;
 
+    my $length = scalar( @{ $this->{list} } );
 
-    my $length = scalar(@{ $this->{list}});
-
-    if ( ( $this->{index} + $count ) >=  $length) {
+    if ( ( $this->{index} + $count ) >= $length ) {
 
         #list too small
-        $count = $this->{index} + $count  - $length;
+        $count = $this->{index} + $count - $length;
         $this->{index} = 1 + $length;
     }
     else {

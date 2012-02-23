@@ -409,11 +409,12 @@ EoT
     print $fh $content;
 
     close($fh);
+
     # Reset the cache timestamp
     $this->PasswordData($db);
     $this->PasswordTimestamp(
         ( stat( $Foswiki::cfg{Htpasswd}{FileName} ) )[9] );
-    umask($oldMask);             # Restore original umask
+    umask($oldMask);    # Restore original umask
 }
 
 sub encrypt {
