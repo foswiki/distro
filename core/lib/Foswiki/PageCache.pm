@@ -100,14 +100,14 @@ information from the current session and url params, as follows:
           o FOSWIKISTRIKEONE.*
           o VALID_ACTIONS.*
           o BREADCRUMB_TRAIL
+          o DGP_hash
     * All HTTP request parameters EXCEPT:
           o All those starting with an underscore
           o refresh
           o foswiki_redirect_cache
           o logout
-          o style.*
-          o switch.*
           o topic
+          o cache_ignore
 
 =cut
 
@@ -136,7 +136,7 @@ sub genVariationKey {
     my $sessionValues = $session->getLoginManager()->getSessionValues();
     foreach my $key ( sort keys %$sessionValues ) {
 
-        # SMELL: make this a cfg thing
+        # SMELL: add a setting to make exclusion of session variables configurable 
         next
           if $key =~
 /^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|DGP_hash)$/o;

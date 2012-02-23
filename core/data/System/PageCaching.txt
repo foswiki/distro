@@ -13,8 +13,8 @@ site, especially where most requests are views (this is normal on most sites).
 Since version 1.1, Foswiki has built-in page caching.
 
 For most Foswiki installations you can enable page caching by simply selecting
-the ={Cache}{Enabled}=
-option in the Tuning section of =configure=. However to
+the ={Cache}{Enabled}= option and connecting it to a database backend
+in the Tuning section of =configure=. However to
 get the most out of the cache, you need to understand what it is doing, and may
 want to tune the cache options for your site.
 
@@ -43,9 +43,6 @@ While this works out for most normal wiki use cases, cache maintenance
 is not able to fully track _all_ required dependencies of a page because some
 of them are either out of scope for Foswiki or simply not available a priori.
 
-There are some things users may have to know to get the best out of the
-Foswiki cache.
-
 ---+++ Cache Expiry
 Normally a page will be cached as long as it is valid, that is no newer version needs
 to be rendered. In addition to this basic strategy an expiry date or timespan can
@@ -72,10 +69,40 @@ Examples for valid cache expiry values are:
    * +10y: in ten years time
    * Thursday, 25-Apr-1999 00:40:33 GMT  at the indicated time & date
 
+<a name="jqloader"></a>
+---+++ Loading parts of a page asynchronously
+When a page is made up of a lot of independently computed fragments, like on a dashboard, then
+you might want to make use of %SYSTEMWEB.JQueryLoader to load these fragments asynchronously.
+While this generally can improve the load time of the page itself by delaying computation of fragments until
+required, it also helps caching. 
+
+Firstly, the main page will be cached with asynchronously computed fragments taken out. As a consequence
+the main page will have less dependencies on additional content and is less likely to be invalidated from
+the page cache.
+
+Sencond, each fragment requested via an ajax call and inserted into the main page dynamically is computed
+and cached separately, each with its own set of dependencies. So when one fragment's dependency is fired (one of
+its ingredience has been updated), then only this single fragment and not the complete page nor the other fragments
+need recomputation.
+
+The general pattern for asynchronously loaded page fragments looks like this:
+
+<verbatim class="tml">
+<verbatim class="jqLoader {section:'name_of_section'}">
+%STARTSECTION{"name_of_section"}%
+%SEARCH{
+...
+}%
+%ENDSECTION{"name_of_section"}%
+</verbatim>
+</verbatim>
+
+See %SYSTEMWEB%.JQueryLoader for more information.
+
 <a name="dirtyarea"></a>
 ---+++ Dirty Areas
 Sometimes caching complete pages is too coarse-grained. There may be parts of a
-page that change frequently, while the rest of the same page never change. In
+page that change frequently, while the rest of the same page never changes. In
 this case the author of the topic can tell the cache not to save certain parts
 of it, called _dirty areas_. Dirty areas are marked in the topic using the
 =&lt;dirtyarea&gt;...&lt;/dirtyarea&gt;= tags. Foswiki markup within a dirty
@@ -89,7 +116,8 @@ This page was cached at %SERVERTIME%.
 </verbatim>
 
 ensures that the cache will never store the SERVERTIME expression inside the =&lt;dirtyarea> section=, forcing it to be
-re-computed every time the page is served.
+re-computed every time the page is served. So both times will diverge the longer the
+page stays in cache.
 
 ---+++ Controlling which pages to cache and which ones not
 When enabling the page cache in configure by switching on ={Cache}{Enabled}= every page
@@ -117,38 +145,40 @@ a subset of pages and webs again using
 
 ---+++ Refreshing the cache
 Sometimes it is necessary to force a cache refresh manually. To support
-this, Foswiki provides the =refresh= parameter, which works with all scripts
+this, Foswiki provides the =refresh= url parameter, which works with all scripts
 that produce cacheable output. You may force the current topic to be recomputed
-by specifying =refresh=on= or =refresh=cache=. 
+by adding =refresh=on= or =refresh=cache= to an url.
 
 <verbatim class="tml">
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?refresh=cache">Refresh this page.</a>
 </verbatim>
 
-The complete cache for all topics can be cleared using =refresh=all=. 
+The complete cache for all topics can be cleared as well using =refresh=all=. 
 
 <blockquote class="foswikiHelp">
-%T% The cache should be refreshed after installing a Foswiki upgrade, or after installing updates to any plugins that would change the output of macros.
+%T% The cache should be refreshed after installing a Foswiki upgrade, or after
+installing or upgrading any plugin that would change the output of macros.
 </blockquote>
 
 ---+++ Caching SEARCH results
 When you enable the Foswiki page cache, all SEARCH results will automatically
-be cached. As a consequence a SEARCH on a page will not be performed again as long as this
-page is cached. 
+be cached as part of the process. As a consequence a SEARCH on a page will not
+be performed again as long as this page is cached. 
 
 There are a few things to keep in mind when caching a page with a SEARCH:
 
-   * If a new topic is created that the SEARCH should find, it will not be listed.
+   * If a new topic is created that the SEARCH should find, it will not be listed until after the page the SEARCH is on is recomputed.
    * If content in an existing topic is changed so it will start being found by the SEARCH, it will not be listed.
-   * If the content of an already found topic changes the cache will update itself.
+   * If the content of an already found topic changes the cached page will be updated automatically.
 
 To avoid this effect you can 
 
    * Specify a =CACHEEXPIRE= timespan after which the SEARCH is performed again; 
      in the meantime the same cache results will
      be displayed
-   * Put the SEARCH inside a [[#dirtyarea][dirty area]]. 
-   * List the topic with the SEARCH in WEBDEPENDENCIES. 
+   * Put the SEARCH into an [[#jqloader]][asynchronously loaded fragment]]
+   * Put the SEARCH inside a [[#dirtyarea][dirty area]]
+   * List the topic with the SEARCH in WEBDEPENDENCIES 
      Topics in this list will be refreshed whenever a topic in this web is editted.
    * Add a refresh button to the page to allow users to manually refresh the page.
 
@@ -163,44 +193,14 @@ are the most expensive ones.
 
 ---++ Configuring the Cache
 ---+++ Choosing a database engine
-The database engine used by the cache is selected using the ={Cache}{CacheManager}= *EXPERT* setting in =configure=.
-   * Use =Foswiki::Cache::FileCache=  for long term caching. Cached pages will
-     be stored on disk. This is the default  cache type. The required CPAN
-     libraries are included with Foswiki, so it should work "out-of-the-box",
-     even on hosted sites.
-   * =Foswiki::Cache::BDB= uses the fast and freely available Berkeley DB.
-     However it requires the Berkeley DB to be installed on the server, and
-     requires the additional Perl module =BerkeleyDB= (available from CPAN).
-   * Use =Foswiki::Cache::Memcached= for distributed caching on high end sites.
-     Look up =memcached= in your favourite search engine for more information
-     on how this powerful tool works. This option requires the
-     =Cache::Memcached= Perl module, available from CPAN.
-   * Use =Foswiki::Cache::MemoryLRU= for an in-memory LRU (least recently used)
-     cache. This is only useful
-     when used in conjunction with a persistent perl back end, such as
-     =mod_perl= or =fastcgi=. Pages will be cached for the lifetime of each
-     persistent backend process (but are *not* shared between different backend
-     instances). 
+The database used by the page cache is selected by the ={Cache}{Implementation}= setting in =configure=.
+It offers a set of standard connectors, i.e. using the perl DBI interface, to store meta data about cached
+pages in a database. For larger sites in production use, you should choose either =Foswiki::PageCache::DBI::MySQL=
+or =Foswiki::PageCache::DBI::PostgreSQL=. For smaller sites and personal wikis, =Foswiki::PageCache::DBI::SQLite=
+is approriate as well.
 
-<a name="metadatadb"></a>
----++++ The meta-data DB
-The  ={Cache}{MetaCacheManager}= *EXPERT* setting in =configure= is used to
-select the database implementation used to store cache meta-data (data about
-the cache). This data needs to be accessed as fast as possible.
-
-   * =Foswiki::Cache::DB_File= uses plain files to store the cache. This is the default and works "out-of-the-box".
-   * =Foswiki::Cache::BDB= uses the Berkeley DB, which is recommended, but requires additional libraries to be installed (see above).
-
-While the cached pages might be safely discarded in a page cache, meta data
-about page dependencies must be stored reliably. That's why only DB_File and
-Berkeley DB are selectable for the meta data cache.
-
----+++ Namespaces
-Sometime you may want to use a database that is shared with other Foswiki
-installs. In this case you need to be able to distinguish data that is stored
-for this install versus other users of the database. To do this you can set the
-={Cache}{Namespace}= *EXPERT* setting in =configure= to a name that is unique
-for the configured system. 
+See the <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::PageCache">Foswiki::PageCache</a>
+documentation for more detailed information.
 
 <a name="#tuning"><a>
 ---+++ Tuning
@@ -294,8 +294,11 @@ Depending on the values of a number of different parameters, a generated page
 may have very different output.  For example, depending on the user who is
 logged in, a page might be displayed very differently.
 
-The cache has to record a this sort of environment information in order to
-correctly identify pages in the cache.
+The cache thus has to consider the _context_ a page has been rendered within.
+The context holds all sort of environment information. This information is
+captured while storing pages as well as identifying them later on.
+
+The context consists of:
 
    * The server serving the request (HTTP_HOST)
    * The port number of the server serving the request (HTTP_PORT)
@@ -307,14 +310,15 @@ correctly identify pages in the cache.
       * FOSWIKISTRIKEONE.*
       * VALID_ACTIONS.*
       * BREADCRUMB_TRAIL
+      * DGP_hash
    * All the request parameters EXCEPT:
       * All those starting with an underscore
       * refresh
       * foswiki_redirect_cache
       * logout
-      * style.*
-      * switch.*
       * topic
+      * cache_ignore
+      * request parameters listed in the =cache_ignore= request parameter
 
 Note that this also means that users will never share cached pages among each other.
 This separation is required to prevent users from seeing pages that have been rendered
@@ -324,11 +328,11 @@ When such a page is cached it must only be retrieved for the identical user it w
 generated for the first time.
 
 ----+++ Software requirements
-   * {HttpCompress} and {Cache}{Compress} depend on =Compress::Zlib=
-   * Cache::FileCache,>=0,cpan,Required
-   * Cache::Memcached,>=0,cpan,Optional
-   * Cache::MemoryCache,>=0,Optional
-   * DB_File,>=0,cpan,Optional
-   * !BerkeleyDB,>=0,perl,Optional, used by the BDB !CacheManager and !MetaCacheManager
+   * {HttpCompress} and {Cache}{Compress} depend on =Compress::Zlib=,
+   * DBD::Pg to connect to a !PostgreSQL database or
+   * DBD::mysql to connect to a !MySQL database or
+   * DBD::SQLite to connect to an !SQLite database.
+
+You will need either of one the DBD:: drivers to make use of page caching.
 
 <!-- %JQREQUIRE{"chili"}% -->
