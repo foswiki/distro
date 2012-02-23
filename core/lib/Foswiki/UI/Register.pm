@@ -107,7 +107,7 @@ sub register_cgi {
                 topic => $session->{topicName},
                 def   => 'passwords_disabled'
             );
-	}
+        }
         require Foswiki::UI::Passwords;
         Foswiki::UI::Passwords::resetpasswd($session);
     }
@@ -302,9 +302,12 @@ sub _registerSingleBulkUser {
 
         # Add the user to the user management system. May throw an exception
         my $cUID = $users->addUser(
-            $row->{LoginName}, $row->{WikiName},
-            $session->inContext("passwords_modifyable") ? $row->{Password} : undef,
-	    $row->{Email}
+            $row->{LoginName},
+            $row->{WikiName},
+            $session->inContext("passwords_modifyable")
+            ? $row->{Password}
+            : undef,
+            $row->{Email}
         );
         $log .=
 "$b1 $row->{WikiName} has been added to the password and user mapping managers\n";
@@ -855,8 +858,9 @@ sub _complete {
 
     my $users = $session->{users};
     try {
-        unless ( !$session->inContext("passwords_modifyable") ||
-		 defined( $data->{Password} ) ) {
+        unless ( !$session->inContext("passwords_modifyable")
+            || defined( $data->{Password} ) )
+        {
 
             # SMELL: should give consideration to disabling
             # $Foswiki::cfg{Register}{HidePasswd} though that may
@@ -873,9 +877,12 @@ sub _complete {
         }
 
         my $cUID = $users->addUser(
-            $data->{LoginName}, $data->{WikiName},
-            $session->inContext("passwords_modifyable") ? $data->{Password} : undef,
-	    $data->{Email}
+            $data->{LoginName},
+            $data->{WikiName},
+            $session->inContext("passwords_modifyable")
+            ? $data->{Password}
+            : undef,
+            $data->{Email}
         );
         my $log = _createUserTopic( $session, $data );
         $users->setEmails( $cUID, $data->{Email} );

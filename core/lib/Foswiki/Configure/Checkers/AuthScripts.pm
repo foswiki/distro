@@ -59,7 +59,7 @@ There are one or more *auth scripts found in $Foswiki::cfg{ScriptDir} that are m
 from <tt>{AuthScripts}</tt>.  For best security,
 any script ending in "auth" should be included in the list of <tt>{AuthScripts}</tt>.
 EOF
-    );
+        );
     }
     return $msg;
 }

@@ -71,7 +71,8 @@ sub new {
         $this->{expertsOnly} = 1
           if ( $this->{opts} =~ s/(\b|^)EXPERT(\b|$)// );
         $this->{displayIf} = $1
-          if ( $this->{opts} =~ s/(?:\b|^)DISPLAY_IF\s+(.*?)(\/DISPLAY_IF|$)// );
+          if (
+            $this->{opts} =~ s/(?:\b|^)DISPLAY_IF\s+(.*?)(\/DISPLAY_IF|$)// );
         $this->{enableIf} = $1
           if ( $this->{opts} =~ s/(?:\b|^)ENABLE_IF\s+(.*?)(\/ENABLE_IF|$)// );
     }

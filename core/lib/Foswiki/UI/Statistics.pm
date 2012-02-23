@@ -67,8 +67,7 @@ sub statistics {
         $session->{response}->print(
             CGI::start_html( -title => 'Foswiki: Create Usage Statistics' ) );
 
-        if ( uc( $session->{request}->method() ) ne 'POST' )
-        {
+        if ( uc( $session->{request}->method() ) ne 'POST' ) {
             throw Foswiki::OopsException(
                 'attention',
                 web    => $session->{webName},
@@ -287,8 +286,11 @@ sub _collectLogData {
         # ignore events that are not statistically helpful
         next if ( $notes && $notes =~ /dontlog/ );
 
-        # ignore events statistics doesn't understand for now - idea: make a "top search phrase list"
-        next if ( $opName && $opName =~ /search|renameweb|changepasswd|resetpasswd|sudo login|logout/ );
+# ignore events statistics doesn't understand for now - idea: make a "top search phrase list"
+        next
+          if ( $opName
+            && $opName =~
+            /search|renameweb|changepasswd|resetpasswd|sudo login|logout/ );
 
         # .+ is used because topics name can contain stuff like
         # !, (, ), =, -, _ and they should have stats anyway
@@ -348,12 +350,13 @@ sub _collectLogData {
 
             # ignore template webs.  (Regex copied from Foswiki::WebFilter)
             if ( defined $webTopic ) {
-                my ($w, $t) = split( /\./, $webTopic);
+                my ( $w, $t ) = split( /\./, $webTopic );
                 next if $w =~ /(?:^_|\/_)/;
             }
 
             $session->logger->log( 'debug',
-                'WebStatistics: Bad logfile line ' . join( '|', @$line ) ) if (DEBUG);
+                'WebStatistics: Bad logfile line ' . join( '|', @$line ) )
+              if (DEBUG);
         }
     }
 
@@ -371,7 +374,7 @@ sub _processWeb {
 
     _printMsg( $session, "* Reporting on $web web" );
 
-    unless ( Foswiki::Func::webExists( $web ) ) {
+    unless ( Foswiki::Func::webExists($web) ) {
         _printMsg( $session, "!Web $web does not exist,  skipping.." );
         return;
     }

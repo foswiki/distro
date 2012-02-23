@@ -41,9 +41,9 @@ sub getOptions {
         foreach my $val (@$vals) {
             if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
                 $str = TAINT($1);
-		my $descr = $this->{_descriptions}{$val};
+                my $descr = $this->{_descriptions}{$val};
                 $val = $2;
-		$this->{_descriptions}{$val} = $descr;
+                $this->{_descriptions}{$val} = $descr;
                 $str =~ s/\\=/=/g;
             }
             else {
@@ -70,16 +70,17 @@ sub renderForDisplay {
 
     $this->getOptions();
 
-    if ($this->isValueMapped()) {
-      my @vals = ();
-      foreach my $val (split(/\s*,\s*/, $value)) {
-        if ( defined( $this->{valueMap}{$val} ) ) {
-            push @vals, $this->{valueMap}{$val};
-        } else {
-            push @vals, $val;
+    if ( $this->isValueMapped() ) {
+        my @vals = ();
+        foreach my $val ( split( /\s*,\s*/, $value ) ) {
+            if ( defined( $this->{valueMap}{$val} ) ) {
+                push @vals, $this->{valueMap}{$val};
+            }
+            else {
+                push @vals, $val;
+            }
         }
-      }
-      $value = join(", ", @vals);
+        $value = join( ", ", @vals );
     }
 
     return $this->SUPER::renderForDisplay( $format, $value, $attrs );
@@ -122,12 +123,14 @@ sub renderForEdit {
         };
 
         if ( $isSelected{$item} ) {
-	    # One or the other; not both, or CGI generates two checked="checked"
-	    if ($this->isValueMapped()) {
-		$attrs{$item}{checked} = 'checked';
-	    } else {
-		push( @defaults, $item );
-	    }
+
+            # One or the other; not both, or CGI generates two checked="checked"
+            if ( $this->isValueMapped() ) {
+                $attrs{$item}{checked} = 'checked';
+            }
+            else {
+                push( @defaults, $item );
+            }
         }
     }
     my %params = (
@@ -137,8 +140,8 @@ sub renderForEdit {
         -columns    => $this->{size},
         -attributes => \%attrs
     );
-    if (defined $this->{valueMap}) {
-      $params{-labels} = $this->{valueMap};
+    if ( defined $this->{valueMap} ) {
+        $params{-labels} = $this->{valueMap};
     }
     $value = CGI::checkbox_group(%params);
 

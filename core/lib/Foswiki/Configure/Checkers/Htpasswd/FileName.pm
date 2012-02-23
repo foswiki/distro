@@ -24,22 +24,29 @@ sub check {
     Foswiki::Configure::Load::expandValue($f);
 
     unless ( -e $f ) {
-	# password file does not exist; check it can be created
-	my $fh;
-	if (!open($fh, ">", $f) || !close($fh)) {
-	    return $e . $this->ERROR("Password file $f does not exist and could not be created: $!");
-	} else {
-	    $e .= $this->NOTE("A new password file $f has been created.");
-	    unless (chmod(0600, $f)) {
-		$e .= $this->WARN("Permissions could not be changed on the new password file $f")
-	    }
-	}
-    } elsif ( !( -f $f && -w $f )) {
-	# password file exists but is not writable
-	return $e
-	    . $this->ERROR(
-	    "$f is not a writable plain file. "
-	    . "User registration will be disabled until this is corrected.")
+
+        # password file does not exist; check it can be created
+        my $fh;
+        if ( !open( $fh, ">", $f ) || !close($fh) ) {
+            return $e
+              . $this->ERROR(
+                "Password file $f does not exist and could not be created: $!");
+        }
+        else {
+            $e .= $this->NOTE("A new password file $f has been created.");
+            unless ( chmod( 0600, $f ) ) {
+                $e .= $this->WARN(
+"Permissions could not be changed on the new password file $f"
+                );
+            }
+        }
+    }
+    elsif ( !( -f $f && -w $f ) ) {
+
+        # password file exists but is not writable
+        return $e
+          . $this->ERROR( "$f is not a writable plain file. "
+              . "User registration will be disabled until this is corrected." );
     }
 
     return $e;

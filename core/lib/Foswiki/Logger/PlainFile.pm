@@ -43,13 +43,11 @@ our %LEVEL2LOG = (
     emergency => 'error'
 );
 
-our %nextCheckDue =
-    (
-        debug  => 0,
-        events => 0,
-        error  => 0,
-    );
-
+our %nextCheckDue = (
+    debug  => 0,
+    events => 0,
+    error  => 0,
+);
 
 # Symbols used so we can override during unit testing
 our $dontRotate = 0;
@@ -256,7 +254,7 @@ sub _time2month {
 # See if the log needs to be rotated. If the log was last modified
 # last month, we need to rotate it.
 sub _rotate {
-    my ($level, $log, $now ) = @_;
+    my ( $level, $log, $now ) = @_;
 
     return if $dontRotate;
     return unless $level;

@@ -38,7 +38,7 @@ sub new {
                 'BOOLEAN',
                 parent => $this,
                 keys   => '{Languages}{' . $lang . '}{Enabled}',
-		opts => 'DISPLAY_IF {UserInterfaceInternationalisation}'
+                opts   => 'DISPLAY_IF {UserInterfaceInternationalisation}'
             )
         );
     }

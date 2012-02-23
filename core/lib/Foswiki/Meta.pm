@@ -1248,7 +1248,7 @@ sub get {
 
             my $indices = $this->{_indices};
             return undef unless defined $indices;
-	    $indices = $indices->{$type};
+            $indices = $indices->{$type};
             return undef unless defined $indices;
             return undef unless defined $indices->{$name};
             return $data->[ $indices->{$name} ];
@@ -1875,15 +1875,16 @@ sub save {
 
         my $pretext = $text;               # text before the handler modifies it
         my $premeta = $this->stringify();  # just the meta, no text
-	unless ( $this->{_loadedRev} ) {
-	    # The meta obj doesn't have a loaded rev yet, and we have to block the
-	    # beforeSaveHandlers from loading the topic from store. We are saving,
-	    # and anything we have in $this is going to get written anyway, so we
-	    # can simply mark it as "the latest".
-	    # SMELL: this may not work if the beforeSaveHandler tries to use the
-	    # meta obj for access control checks, so that is not recommended.
-	    $this->{_loadedRev} = $this->getLatestRev();
-	}
+        unless ( $this->{_loadedRev} ) {
+
+          # The meta obj doesn't have a loaded rev yet, and we have to block the
+          # beforeSaveHandlers from loading the topic from store. We are saving,
+          # and anything we have in $this is going to get written anyway, so we
+          # can simply mark it as "the latest".
+          # SMELL: this may not work if the beforeSaveHandler tries to use the
+          # meta obj for access control checks, so that is not recommended.
+            $this->{_loadedRev} = $this->getLatestRev();
+        }
 
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
             $this->{_web}, $this );
@@ -1915,13 +1916,13 @@ sub save {
         $signal = shift;
     };
 
-    ASSERT($newRev, $this->{loadedRev}) if DEBUG;
+    ASSERT( $newRev, $this->{loadedRev} ) if DEBUG;
 
     # Semantics inherited from TWiki. See
     # TWiki:Codev.BugBeforeSaveHandlerBroken
     if ( $plugins->haveHandlerFor('afterSaveHandler') ) {
         my $text = $this->getEmbeddedStoreForm();
-        delete $this->{_preferences};  # Make sure handler has changed prefs
+        delete $this->{_preferences};    # Make sure handler has changed prefs
         my $error = $signal ? $signal->{-text} : undef;
         $plugins->dispatch( 'afterSaveHandler', $text, $this->{_topic},
             $this->{_web}, $error, $this );

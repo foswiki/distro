@@ -142,14 +142,13 @@ HERE
     my %props;
     $props{class} = join( ' ', @cssClasses ) if ( scalar @cssClasses );
     $props{'data-displayif'} = $displayIf if $displayIf;
-    $props{'data-enableif'} = $enableIf if $enableIf;
+    $props{'data-enableif'}  = $enableIf  if $enableIf;
 
-    $output .= CGI::Tr(
-	\%props,
-	CGI::th( "$index$hiddenTypeOf" )
-	. CGI::td( "$control&nbsp;$resetToDefaultLinkText$check$helpText" )
-	. CGI::td( { class => "configureHelp" }, $helpTextLink ) )
-	. "\n";
+    $output .= CGI::Tr( \%props,
+            CGI::th("$index$hiddenTypeOf")
+          . CGI::td("$control&nbsp;$resetToDefaultLinkText$check$helpText")
+          . CGI::td( { class => "configureHelp" }, $helpTextLink ) )
+      . "\n";
 
     return (
         $output,
