@@ -357,12 +357,19 @@ sub isCacheable {
     # by default we try to cache as much as possible
     $isCacheable = 1;
 
-    # check prefs value
     my $session = $Foswiki::Plugins::SESSION;
-    my $flag = $session->{prefs}->getPreference('CACHEABLE');
-    $isCacheable = 0 if defined $flag && !Foswiki::isTrue($flag);
 
-    # TODO: give plugins a chance - create a callback
+    # POSTs aren't cacheable
+    my $request = $session->{request};
+    $isCacheable = 0 if $request->method eq 'POST';
+
+    if ($isCacheable) {
+      # check prefs value
+      my $flag = $session->{prefs}->getPreference('CACHEABLE');
+      $isCacheable = 0 if defined $flag && !Foswiki::isTrue($flag);
+    }
+
+    # TODO: give plugins a chance - create a callback to intercept cacheability
 
     writeDebug("isCacheable=$isCacheable");
     $this->{isCacheable}{$webTopic} = $isCacheable;
