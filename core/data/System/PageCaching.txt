@@ -72,7 +72,7 @@ Examples for valid cache expiry values are:
 <a name="jqloader"></a>
 ---+++ Loading parts of a page asynchronously
 When a page is made up of a lot of independently computed fragments, like on a dashboard, then
-you might want to make use of %SYSTEMWEB.JQueryLoader to load these fragments asynchronously.
+you might want to make use of %SYSTEMWEB%.JQueryLoader to load these fragments asynchronously.
 While this generally can improve the load time of the page itself by delaying computation of fragments until
 required, it also helps caching. 
 
