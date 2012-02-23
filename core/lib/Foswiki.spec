@@ -1660,7 +1660,7 @@ $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensi
 # *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
 
 
-#---++ Enabled plugins
+#---++ Plugin operation (Enable / Disable)
 # *PLUGINS* Marker used by bin/configure script - do not remove!
 # <p>The plugins listed below were discovered by searching the <code>@INC</code>
 # path for modules that match the Foswiki standard e.g.
@@ -1683,6 +1683,13 @@ $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensi
 # will also be reported here.  Expand the "Expert" options to find these issues.
 #
 $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
+
+# **STRING 80 EXPERT**
+# Search path (web names) for plugin topics. Note that the current web
+# is searched last, after this list.   Most modern foswiki plugins do not
+# use the plugin topic for settings, and this setting is ignored.
+$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
+
 
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
@@ -1724,13 +1731,6 @@ $Foswiki::cfg{Plugins}{SubscribePlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{SubscribePlugin}{Module} = 'Foswiki::Plugins::SubscribePlugin';
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} = 'Foswiki::Plugins::UpdatesPlugin';
-
-#---++ Plugin settings
-#<p>Expert settings controlling extension operation.</p>
-# **STRING 80 EXPERT**
-# Search path (web names) for plugin topics. Note that the session web
-# is searched last, after this list.
-$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 
 1;
 __END__
