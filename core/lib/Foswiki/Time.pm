@@ -242,7 +242,8 @@ sub parseTime {
    | $day | day |
    | $wday | weekday name |
    | $dow | day number (0 = Sunday) |
-   | $week | week number (ISO 8601) |
+   | $week | week number |
+   | $we | week number (~ISO 8601) |
    | $month | month name |
    | $mo | month number |
    | $year | 4-digit year |
@@ -313,6 +314,7 @@ sub formatTime {
     $value =~ s/\$wday/$WEEKDAY[$wday]/gi;
     $value =~ s/\$dow/$wday/gi;
     $value =~ s/\$week/_weekNumber($wday, $yday, $year + 1900)/egi;
+    $value =~ s/\$we/substr('0'._weekNumber($wday, $yday, $year + 1900),-2)/egi;
     $value =~ s/\$mont?h?/$ISOMONTH[$mon]/gi;
     $value =~ s/\$mo/sprintf('%.2u',$mon+1)/gei;
     $value =~ s/\$year?/sprintf('%.4u',$year + 1900)/gei;
