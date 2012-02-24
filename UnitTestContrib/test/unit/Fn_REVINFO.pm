@@ -349,10 +349,11 @@ OFNIVER
     my $y = $topicObject->expandMacros('%REVINFO{"$time"}%');
     $x = Foswiki::Time::formatTime( $t, $Foswiki::cfg{DefaultDateFormat} );
     $y = $topicObject->expandMacros('%REVINFO{"$date"}%');
+    $this->assert_str_equals( $x, $y );
 
     foreach my $f (
         qw(rcs http email iso longdate sec min hou day wday
-        dow week mo ye epoch tz)
+        dow week we mo ye epoch tz)
       )
     {
         my $tf = '$' . $f;
@@ -371,7 +372,7 @@ sub test_Item10476 {
 
     my ($topicObject) = $this->_createHistory();
     my $format =
-'sec=$sec, seconds=$seconds, min=$min, minutes=$minutes, hou=$hou, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, month=$month, mo=$mo, ye=$ye, year=$year, ye=$ye, tz=$tz, iso=$iso, isotz=$isotz, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate';
+'sec=$sec, seconds=$seconds, min=$min, minutes=$minutes, hou=$hou, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, we=$we, month=$month, mo=$mo, ye=$ye, year=$year, ye=$ye, tz=$tz, iso=$iso, isotz=$isotz, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate';
 
     my $ui = $topicObject->expandMacros( '%REVINFO{"' . $format . '"}%' );
 
