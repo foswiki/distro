@@ -340,16 +340,56 @@ sub test_week {
     $this->assert_equals( 1, $week );
 }
 
+sub test_we {
+    my $this = shift;
+
+    # 2004 started on a thursday, so 1st Jan is in week 1
+    my $time = Time::Local::timegm( 1, 0, 0, 1, 0, 104 );
+    my $week = Foswiki::Time::formatTime( $time, '$we', 'gmtime' );
+    $this->assert_str_equals( '01', $week );
+
+    # 4th was the sunday of the first week, so also week 1
+    $time = Time::Local::timegm( 1, 0, 0, 4, 0, 104 );
+    $week = Foswiki::Time::formatTime( $time, '$we', 'gmtime' );
+    $this->assert_str_equals( '01', $week );
+
+    # 5th was monday of second week, so week 2
+    $time = Time::Local::timegm( 1, 0, 0, 5, 0, 104 );
+    $week = Foswiki::Time::formatTime( $time, '$we', 'gmtime' );
+    $this->assert_str_equals( '02', $week );
+
+    # poke back into 2003; 31st is in week 1 of 2004
+    $time = Time::Local::timegm( 1, 0, 0, 31, 11, 103 );
+    $week = Foswiki::Time::formatTime( $time, '$we', 'gmtime' );
+    $this->assert_str_equals( '01', $week );
+
+    # and 28th in week 52
+    $time = Time::Local::timegm( 1, 0, 0, 28, 11, 103 );
+    $week = Foswiki::Time::formatTime( $time, '$we', 'gmtime' );
+    $this->assert_str_equals( 52, $week );
+
+    # 1999 started on a friday, so 1st is week 53 of 1998
+    # (week 0 of 1999)
+    $time = Time::Local::timegm( 1, 0, 0, 1, 0, 99 );
+    $week = Foswiki::Time::formatTime( $time, '$we', 'gmtime' );
+    $this->assert_str_equals( 53, $week );
+
+    # And 4th is week 1
+    $time = Time::Local::timegm( 1, 0, 0, 4, 0, 99 );
+    $week = Foswiki::Time::formatTime( $time, '$we', 'gmtime' );
+    $this->assert_str_equals( '01', $week );
+}
+
 sub test_parseTimeFormatString {
     my $this = shift;
 
     my $format =
-'sec=$sec, seconds=$seconds, min=$min, minutes=$minutes, hou=$hou, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, month=$month, mo=$mo, ye=$ye, year=$year, ye=$ye, tz=$tz, iso=$iso, isotz=$isotz, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate';
+'sec=$sec, seconds=$seconds, min=$min, minutes=$minutes, hou=$hou, hours=$hours, day=$day, wday=$wday, dow=$dow, week=$week, we=$we, month=$month, mo=$mo, ye=$ye, year=$year, ye=$ye, tz=$tz, iso=$iso, isotz=$isotz, rcs=$rcs, http=$http, epoch=$epoch, longdate=$longdate';
 
     my $time = Time::Local::timegm( 1, 0, 0, 1, 0, 104 );
     my $formatted = Foswiki::Time::formatTime( $time, $format );
     my $expected =
-'sec=01, seconds=01, min=00, minutes=00, hou=00, hours=00, day=01, wday=Thu, dow=4, week=1, month=Jan, mo=01, ye=04, year=2004, ye=04, tz=GMT, iso=2004-01-01T00:00:01Z, isotz=Z, rcs=2004/01/01 00:00:01, http=Thu, 01 Jan 2004 00:00:01 GMT, epoch=1072915201, longdate=01 Jan 2004 - 00:00';
+'sec=01, seconds=01, min=00, minutes=00, hou=00, hours=00, day=01, wday=Thu, dow=4, week=1, we=01, month=Jan, mo=01, ye=04, year=2004, ye=04, tz=GMT, iso=2004-01-01T00:00:01Z, isotz=Z, rcs=2004/01/01 00:00:01, http=Thu, 01 Jan 2004 00:00:01 GMT, epoch=1072915201, longdate=01 Jan 2004 - 00:00';
 
     $this->assert_equals( $expected, $formatted );
 }
