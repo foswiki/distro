@@ -518,7 +518,6 @@ sub createTables {
  
     if ($@) {
         writeDebug("test result: $@");
-        $this->{dbh}->rollback;
     }
     else {
  
@@ -574,9 +573,8 @@ sub rebuild {
     writeDebug("rebuild database");
 
     eval {
-        $this->{dbh}->do("drop table $this->{pagesTable} cascade");
+        $this->{dbh}->do("drop table $this->{pagesTable}");
         $this->{dbh}->do("drop table $this->{depsTable}");
-        $this->{dbh}->commit;
     };
 
     if ($@) {
