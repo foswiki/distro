@@ -102,6 +102,8 @@ rename [[$this->{test_web}.OldTopic]]
 33 https://site/$this->{test_web}/OldTopic#anchor
 34 OldTopic#OldTopic
 35 [[OldTopic#OldTopic]]
+36 [[$this->{test_web}.OldTopic][Old Topic Text]]
+37 [[$this->{test_web}/OldTopic][Old Topic Text]]
 THIS
 
     # Strategically-selected set of identical topics in the test web
@@ -853,7 +855,11 @@ sub test_renameTopic_same_web_new_topic_name {
         }
     );
 
-    $this->captureWithKey( rename => $UI_FN, $this->{session} );
+    my ( $responseText, $result, $stdout, $stderr ) =
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+
+    # Uncomment to get output from rename command
+    #print STDERR $responseText . $result . $stdout . $stderr . "\n";
 
     $this->assert(
         Foswiki::Func::topicExists( $this->{test_web}, 'NewTopic' ) );
@@ -918,6 +924,8 @@ rename [[$this->{test_web}.NewTopic]]
 33 https://site/$this->{test_web}/NewTopic#anchor
 34 NewTopic#OldTopic
 35 [[NewTopic#OldTopic]]
+36 [[$this->{test_web}.NewTopic][Old Topic Text]]
+37 [[$this->{test_web}/OldTopic][Old Topic Text]]
 THIS
 
     #
@@ -973,6 +981,8 @@ rename [[$this->{test_web}.NewTopic]]
 33 https://site/$this->{test_web}/NewTopic#anchor
 34 NewTopic#OldTopic
 35 [[NewTopic#OldTopic]]
+36 [[$this->{test_web}.NewTopic][Old Topic Text]]
+37 [[$this->{test_web}/OldTopic][Old Topic Text]]
 THIS
 
     #
@@ -1028,7 +1038,57 @@ rename [[$this->{test_web}.NewTopic]]
 33 https://site/$this->{test_web}/NewTopic#anchor
 34 $this->{test_web}.NewTopic#OldTopic
 35 [[$this->{test_web}.NewTopic#OldTopic]]
+36 [[$this->{test_web}.NewTopic][Old Topic Text]]
+37 [[$this->{test_web}/OldTopic][Old Topic Text]]
 THIS
+
+    return;
+}
+
+# Test rename with slash delim
+sub test_renameTopic_same_web_new_topic_name_slash_delim {
+    my $this = shift;
+
+    # SMELL:  If this gets fixed, then the expected line 37 needs to be changed
+    # in test_renameTopic_same_web_new_topic_name.
+
+    $this->expect_failure();
+    $this->annotate("[[Web/Topic]] fails");
+
+    $this->_reset_session(
+        {
+            action           => ['rename'],
+            newweb           => [ $this->{test_web} ],
+            newtopic         => ['NewTopic'],
+            referring_topics => [
+                "$this->{test_web}.NewTopic", "$this->{test_web}.OtherTopic",
+                "$this->{new_web}.OtherTopic"
+            ],
+            topic => 'OldTopic',
+
+            # The topic in the path should not matter
+            path_info => "/$this->{test_web}/SanityCheck"
+        }
+    );
+
+    my ( $responseText, $result, $stdout, $stderr ) =
+      $this->captureWithKey( rename => $UI_FN, $this->{session} );
+
+    # Uncomment to get output from rename command
+    #print STDERR $responseText . $result . $stdout . $stderr . "\n";
+
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{test_web}, 'NewTopic' ) );
+    $this->assert(
+        !Foswiki::Func::topicExists( $this->{test_web}, 'OldTopic' ) );
+
+    # Verify line 37.   The expected results are modified to pass
+    # in test_renameTopic_same_web_new_topic_name.
+    my ( $meta, $actual ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'NewTopic' );
+    $this->assert_matches(
+        qr/^37 \[\[$this->{test_web}\/NewTopic\]\[Old Topic Text\]\]/ms,
+        $actual );
 
     return;
 }
