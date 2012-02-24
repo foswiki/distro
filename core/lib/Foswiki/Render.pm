@@ -1718,7 +1718,7 @@ sub renderRevisionInfo {
     # nop if there are no format tokens
     return $value
       unless $value =~
-/\$(year|ye|wikiusername|wikiname|week|web|wday|username|tz|topic|time|seconds|sec|rev|rcs|month|mo|minutes|min|longdate|isotz|iso|http|hours|hou|epoch|email|dow|day|date)/x;
+/\$(?:year|ye|wikiusername|wikiname|week|we|web|wday|username|tz|topic|time|seconds|sec|rev|rcs|month|mo|minutes|min|longdate|isotz|iso|http|hours|hou|epoch|email|dow|day|date)/x;
 
     my $users = $this->{session}->{users};
     if ($rrev) {
@@ -1795,7 +1795,7 @@ sub renderRevisionInfo {
       Foswiki::Time::formatTime($info->{date}, $1 )/ge;
 
     if ( $value =~
-/\$(year|ye|week|web|wday|username|tz|seconds|sec|rcs|month|mo|minutes|min|longdate|hours|hou|epoch|dow|day)/
+/\$(?:year|ye|week|we|web|wday|username|tz|seconds|sec|rcs|month|mo|minutes|min|longdate|hours|hou|epoch|dow|day)/
       )
     {
         $value = Foswiki::Time::formatTime( $info->{date}, $value );
