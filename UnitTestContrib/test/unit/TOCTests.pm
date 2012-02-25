@@ -141,9 +141,7 @@ HERE
     $res = $topicObject->renderTML($res);
 
     $this->assert_html_equals( <<HTML, $res );
-<a name="foswikiTOC"></a>
-<div class="foswikiToc">
- <ul>
+<div class="foswikiToc" id="foswikiTOC"> <ul>
   <li> <a href="#A_level_1_head_33line">A level 1 head!line</a>
    <ul>
     <li> <a href="#Followed_by_a_level_2_33_headline">
@@ -153,10 +151,10 @@ HERE
   </li>
  </ul> 
 </div>
-<nop><h1><a name="A_level_1_head_33line"></a>  A level 1 head!line </h1>
-<nop><h2><a name="Followed_by_a_level_2_33_headline"></a>
+<nop><h1 id="A_level_1_head_33line">  A level 1 head!line </h1>
+<nop><h2 id="Followed_by_a_level_2_33_headline">
  Followed by a level 2! headline </h2>
-<nop><h2><a name="Another_level_2_headline"></a>
+<nop><h2 id="Another_level_2_headline">
  Another level 2 headline </h2>
 HTML
     $topicObject->finish();
@@ -191,7 +189,7 @@ HERE
     #return;
 
     $this->assert_html_equals( <<HTML, $res2 );
-<a name="foswikiTOC"></a><div class="foswikiToc"> <ul> 
+<div class="foswikiToc" id="foswikiTOC"> <ul> 
 <li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line">A level 1 head!line</a> <ul>
 <li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#Followed_by_a_level_2_33_headline">Followed by a level 2! headline</a>
 </li></ul>                                                                                                                              
@@ -217,11 +215,11 @@ HERE
     $res = $topicObject->renderTML($res);
 
     $this->assert_html_equals( <<HTML, $res );
-<a name="foswikiTOC"></a><div class="foswikiToc"> <ul>
+<div class="foswikiToc" id="foswikiTOC"> <ul>
 <li> <a href="#WikiWord"> <nop>WikiWord</a>
 </li></ul> 
 </div>
-<nop><h1><a name="WikiWord"></a>  <nop>WikiWord </h1>
+<nop><h1 id="WikiWord">  <nop>WikiWord </h1>
 HTML
     $topicObject->finish();
 }
@@ -285,8 +283,8 @@ HERE
         $res = $topicObject->renderTML($res);
         $topicObject->finish();
 
-        #print "RES $res \n\n";
-        $this->assert_matches( qr/href="#$expected".*name="$expected"/sm, $res,
+        # print "RES:$res \n\nEXPECTED:$expected\n\n";
+        $this->assert_matches( qr/href="#$expected".*id="$expected"/sm, $res,
 "$set->[2] - Expected Anchor/Link =  $expected  Actual HTML\n====\n$res\n====\n"
         );
     }

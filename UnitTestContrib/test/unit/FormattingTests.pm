@@ -1031,7 +1031,7 @@ sub test_USInHeader {
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
     my $expected = <<EXPECTED;
-<nop><h3><a name="Test_with_link_in_header:_Underscore_topic"></a>Test with link in header: Underscore_topic</h3>
+<nop><h3 id="Test_with_link_in_header:_Underscore_topic">Test with link in header: Underscore_topic</h3>
 EXPECTED
 
     my $actual = <<ACTUAL;
