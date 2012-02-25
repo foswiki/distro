@@ -342,6 +342,8 @@ sub _action_create {
         }
     );
 
+    Foswiki::UI::checkValidationKey($session);
+
     # user must have change access
     my $topicObject = Foswiki::Meta->new( $session, $newWeb, $newTopic );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
@@ -382,6 +384,8 @@ sub _action_editSettings {
           . $value . "\n";
     }
 
+    Foswiki::UI::checkValidationKey($session);
+
     my $tmpl = $session->templates->readTemplate('settings');
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
@@ -405,6 +409,7 @@ sub _action_saveSettings {
     my $newTopicObject = Foswiki::Meta->load( $session, $web, $topic );
 
     Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
+    Foswiki::UI::checkValidationKey($session);
 
     my $query       = $session->{request};
     my $settings    = $query->param('text');
@@ -514,6 +519,8 @@ sub _action_restoreRevision {
             params => [ $rev, $meta->getLoadedRev() ]
         );
     }
+
+    Foswiki::UI::checkValidationKey($session);
 
     foreach my $k ( sort keys %$meta ) {
         next if $k =~ m/^_/;
