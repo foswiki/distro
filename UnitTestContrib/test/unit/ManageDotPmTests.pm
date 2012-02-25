@@ -594,16 +594,6 @@ sub test_NoUserAddToNewGroupCreate {
     my $this = shift;
     my $ret;
 
-    $ret = $this->registerUserExceptionFwk( 'asdf', 'Asdf', 'Poiu',
-        'asdf@example.com' );
-    $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserExceptionTwk( 'qwer', 'Qwer', 'Poiu',
-        'qwer@example.com' );
-    $this->assert_null( $ret, "Simple rego should work" );
-    $ret = $this->registerUserExceptionFwk( 'zxcv', 'Zxcv', 'Poiu',
-        'zxcv@example.com' );
-    $this->assert_null( $ret, "Simple rego should work" );
-
     $ret = $this->addUserToGroup(
         {
             'username'  => [],
@@ -613,14 +603,9 @@ sub test_NoUserAddToNewGroupCreate {
         }
     );
 
-   #$this->assert_not_null( $ret, "no users in list of users to add to group" );
-
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(
         Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     my $q = $this->{request};
@@ -632,13 +617,43 @@ sub test_NoUserAddToNewGroupCreate {
     # If not running as admin, current user is automatically added to the group.
     $this->assert(
         Foswiki::Func::isGroupMember( "NewGroup", $this->{session}->{user} ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     return;
 }
 
+sub test_NoUserAddToNewGroupCreateAsAdmin {
+    my $this = shift;
+    my $ret;
+
+    my $query = $this->{request};
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName}, $query );
+
+    $ret = $this->addUserToGroup(
+        {
+            'username'  => [],
+            'groupname' => ['NewGroup'],
+            'create'    => [1],
+            'action'    => ['addUserToGroup']
+        }
+    );
+
+
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
+
+    #need to reload to force Foswiki to reparse Groups :(
+    $this->createNewFoswikiSession( undef, $query );
+
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
+
+    # If running as admin, no user is automatically added to the group.
+    $this->assert(
+        !Foswiki::Func::isGroupMember( "NewGroup", $Foswiki::cfg{AdminUserWikiName} ) );
+
+    return;
+}
 sub test_RemoveFromNonExistantGroup {
     my $this = shift;
     my $ret;
@@ -806,7 +821,7 @@ EOM
     );
 
     $query->path_info("/$this->{test_web}/$regTopic");
-    $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $this->{session}->{topicName} = $regTopic;
     $this->{session}->{webName}   = $this->{test_web};
@@ -870,7 +885,7 @@ EOM
     );
 
     $query->path_info("/$this->{test_web}/$regTopic");
-    $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $this->{session}->{topicName} = $regTopic;
     $this->{session}->{webName}   = $this->{test_web};
@@ -985,6 +1000,7 @@ sub test_createDefaultWeb {
         }
     );
     $query->path_info("/$this->{test_web}/Arbitrary");
+    # SMELL: Test fails unless the "user" is the AdminGroup.
     $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $this->{session}->{topicName} = 'Arbitrary';
@@ -1179,6 +1195,7 @@ sub test_createEmptyWeb {
         }
     );
     $query->path_info("/$this->{test_web}/Arbitrary");
+    # SMELL: Test fails unless the "user" is the AdminGroup.
     $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $this->{session}->{topicName} = 'Arbitrary';
