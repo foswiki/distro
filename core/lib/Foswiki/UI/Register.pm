@@ -643,7 +643,7 @@ sub addUserToGroup {
    # I'm not sure what other mappers might make of this..
         if ( $create and Foswiki::Func::isGroup($groupName) ) {
             try {
-                Foswiki::Func::addUserToGroup( undef, $groupName, $create );
+                $session->{users}->addUserToGroup( undef, $groupName, $create );
             }
             catch Error::Simple with {
                 my $e = shift;
@@ -713,13 +713,15 @@ sub addUserToGroup {
 
         try {
             $u = $session->{users}->validateRegistrationField( 'username', $u );
-            Foswiki::Func::addUserToGroup( $u, $groupName, $create );
+            $session->{users}->addUserToGroup( $u, $groupName, $create );
             push( @succeeded, $u );
         }
         catch Error::Simple with {
-            my $e = shift;
+            my $e    = shift;
+            my $mess = $e->stringify();
+            $mess =~ s/ at .*$//s;
 
-            push( @failed, $u );
+            push( @failed, "$u : $mess" );
 
             # Log the error
             $session->logger->log( 'warning', $e->stringify() );
@@ -727,7 +729,7 @@ sub addUserToGroup {
     }
     if ( @failed || !@succeeded ) {
         $session->logger->log( 'warning',
-            "failed: " . scalar @failed . "Succeeded " . scalar @succeeded );
+            "failed: " . scalar @failed . " Succeeded " . scalar @succeeded );
         throw Foswiki::OopsException(
             'attention',
             web    => $web,
@@ -736,6 +738,8 @@ sub addUserToGroup {
             params => [ join( ', ', @failed ), $groupName ]
         );
     }
+
+#    unless (  $query->param('redirectto') ) {
     throw Foswiki::OopsException(
         'attention',
         status => 200,
@@ -744,6 +748,11 @@ sub addUserToGroup {
         topic  => $topic,
         params => [ join( ', ', @succeeded ), $groupName ]
     );
+#    }
+#    else {
+#        my $nurl = $session->getScriptUrl( 1, 'view', '', $query->param('redirectto') );
+#        $session->redirect($nurl);
+#    }
 }
 
 =begin TML
@@ -795,12 +804,13 @@ sub removeUserFromGroup {
             push( @succeeded, $u );
         }
         catch Error::Simple with {
-            my $e = shift;
+            my $e    = shift;
+            my $mess = $e->stringify();
+            $mess =~ s/ at .*$//s;
 
-            push( @failed, $u );
+            push( @failed, "$u: $mess" );
 
             # Log the error
-            print STDERR "======== Error " . $e->stringify() . "\n";
             $session->logger->log( 'warning', $e->stringify() );
         };
     }
@@ -813,6 +823,8 @@ sub removeUserFromGroup {
             params => [ join( ', ', @failed ), $groupName ]
         );
     }
+
+#    unless (  $query->param('redirectto') ) {
     throw Foswiki::OopsException(
         'attention',
         status => 200,
@@ -821,6 +833,12 @@ sub removeUserFromGroup {
         topic  => $topic,
         params => [ join( ', ', @succeeded ), $groupName ]
     );
+
+#    }
+#    else {
+#        my $nurl = $session->getScriptUrl( 1, 'view', '', $query->param('redirectto') );
+#        $session->redirect($nurl);
+#    }
 }
 
 # Complete a registration (commit it to the DB)
