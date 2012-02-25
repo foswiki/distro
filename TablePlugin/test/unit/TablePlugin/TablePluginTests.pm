@@ -1187,6 +1187,167 @@ EXPECTED
 
 =pod
 
+include param
+
+=cut
+
+sub test_include_normal {
+    my $this = shift;
+
+    # Create topic with table definition
+    my $tableDefTopic = "TableDef";
+    Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef, <<END);
+%TABLE{tablerules="all" datacolor="#f00" tableborder="5" inlinemarkup="on"}%
+END
+
+    # include this in our test topic
+    my $topicName       = $this->{test_topic};
+    my $webName         = $this->{test_web};
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $input = <<END;
+%TABLE{ include="TableDef"}%
+|*A*|*B*|
+| a | b |
+END
+
+    my $expected = <<END;
+<nop>
+<nop>
+<nop>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="all" border="5">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0 foswikiTableRowdataColor0">
+			<th bgcolor="#687684" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#fff">A</font></a> </th>
+			<th bgcolor="#687684" valign="top" class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#fff">B</font></a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0 foswikiTableRowdataColor0">
+			<td bgcolor="#ddd" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <font color="#f00"> a </font> </td>
+			<td bgcolor="#ddd" valign="top" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <font color="#f00"> b </font> </td>
+		</tr>
+	</tbody></table>
+
+END
+
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
+    _trimSpaces($expected);
+    _trimSpaces($result);
+    $this->do_test( $expected, $result );
+}
+
+=pod
+
+include param with non-existing topic
+
+=cut
+
+sub test_include_missing_topic {
+    my $this = shift;
+
+    # include this in our test topic
+    my $topicName       = $this->{test_topic};
+    my $webName         = $this->{test_web};
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $input = <<END;
+%TABLE{ include="TableDefX"}%
+|*A*|*B*|
+| a | b |
+END
+
+    my $expected = <<END;
+<nop>
+<nop>
+<nop>
+<span class="foswikiAlert">Warning: 'include' topic <nop>TemporaryTableFormattingTestWebTableFormatting.TableDefX does not exist!</span>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">A</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">B</a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> b </td>
+		</tr>
+	</tbody></table>
+END
+
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
+    _trimSpaces($expected);
+    _trimSpaces($result);
+    $this->do_test( $expected, $result );
+}
+
+=pod
+
+include param with missing table definition
+
+=cut
+
+sub test_include_missing_definition {
+    my $this = shift;
+
+    # Create topic with table definition
+    my $tableDefTopic = "TableDef";
+    Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef, <<END);
+|*A*|*B*|
+| a | b |
+END
+
+    # include this in our test topic
+    my $topicName       = $this->{test_topic};
+    my $webName         = $this->{test_web};
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $defTopicViewUrl         = Foswiki::Func::getScriptUrlPath($webName, $tableDefTopic, 'view');
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+
+    my $input = <<END;
+%TABLE{ include="TableDef"}%
+|*A*|*B*|
+| a | b |
+END
+
+    my $expected = <<END;
+<nop>
+<nop>
+<nop>
+<span class="foswikiAlert">Warning: table definition in 'include' topic <a href="$defTopicViewUrl">TableDef</a> does not exist!</span>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column">A</a> </th>
+			<th class="foswikiTableCol1 foswikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">B</a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> b </td>
+		</tr>
+	</tbody></table>
+END
+
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
+    _trimSpaces($expected);
+    _trimSpaces($result);
+    $this->do_test( $expected, $result );
+}
+
+=pod
+
 Includes a topic that has an EDITTABLE with param 'include' set: the table definition is in a third topic.
 
 =cut

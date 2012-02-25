@@ -18,7 +18,8 @@ my $didWriteDefaultStyle;
 my $defaultAttrs;          # to write generic table CSS
 my $tableSpecificAttrs;    # to write table specific table CSS
 my $combinedTableAttrs;    # default and specific table attributes
-my $styles = {};           # hash of default and specific styles
+my $styles   = {};         # hash of default and specific styles
+my @messages = ();
 
 # not yet refactored:
 my $tableCount;
@@ -119,6 +120,7 @@ $TABLE_FRAME->{box}    = 'border-style:solid';
 $TABLE_FRAME->{border} = 'border-style:solid';
 
 sub _init {
+    _debug("_init");
     $translationToken = "\0";
 
     # the maximum number of columns we will handle
@@ -130,6 +132,7 @@ sub _init {
     $tableSpecificAttrs   = {};
 }
 
+# called one time
 sub _initDefaults {
     _debug('_initDefaults');
     $defaultAttrs = {
@@ -139,7 +142,6 @@ sub _initDefaults {
         class         => 'foswikiTable',
         sortAllTables => $sortTablesInText,
     };
-
     _parseDefaultAttributes(
         %{Foswiki::Plugins::TablePlugin::pluginAttributes} );
 
@@ -147,7 +149,6 @@ sub _initDefaults {
 }
 
 sub _addDefaultStyles {
-
     return if $Foswiki::Plugins::TablePlugin::writtenToHead;
     $Foswiki::Plugins::TablePlugin::writtenToHead = 1;
 
@@ -162,6 +163,7 @@ sub _resetReusedVariables {
     $combinedTableAttrs = _mergeHashes( {}, $defaultAttrs );
     $tableSpecificAttrs = {};
     $sortCol            = 0;
+    @messages           = ();
 }
 
 =pod
@@ -232,8 +234,17 @@ sub _parseAttributes {
         $inParams );
 
     # include topic to read definitions
-    my $includeTopicParam = $inParams->{include};
-    $inParams = _getIncludeParams($includeTopicParam) if $includeTopicParam;
+    if ( $inParams->{include} ) {
+        my ( $includeParams, $message ) =
+          _getIncludeParams( $inParams->{include} );
+
+        if ($includeParams) {
+            $inParams = $includeParams;
+        }
+        if ($message) {
+            push( @messages, $message );
+        }
+    }
 
     # table attributes
     # some will be used for css styling as well
@@ -400,13 +411,17 @@ sub _getIncludeParams {
 
     if ( !Foswiki::Func::topicExists( $includeWeb, $includeTopic ) ) {
         _debug("TablePlugin: included topic $inIncludeTopic does not exist.");
+        return ( undef,
+'%MAKETEXT{"Warning: \'include\' topic <nop>[_1] does not exist!" args="'
+              . "$includeWeb.$includeTopic"
+              . '"}%' );
     }
     else {
 
         my $text = Foswiki::Func::readTopicText( $includeWeb, $includeTopic );
 
-        $text =~ /$PATTERN_TABLE/os;
-        if ($1) {
+        if ( $text =~ m/$PATTERN_TABLE/s ) {
+            _debug("\t PATTERN_TABLE=$PATTERN_TABLE; 1=$1");
             my $paramString = $1;
 
             if (   $includeWeb ne $Foswiki::Plugins::TablePlugin::web
@@ -419,10 +434,15 @@ sub _getIncludeParams {
                     $includeTopic, $includeWeb );
             }
             my %params = Foswiki::Func::extractParameters($paramString);
-            return \%params;
+            return ( \%params, undef );
+        }
+        else {
+            return ( undef,
+'%MAKETEXT{"Warning: table definition in \'include\' topic [_1] does not exist!" args="'
+                  . "$includeWeb.$includeTopic"
+                  . '"}%' );
         }
     }
-    return undef;
 }
 
 =pod
@@ -1276,19 +1296,6 @@ sub _addHeadStyles {
     }
 }
 
-=pod
-
-_getInlineMarkupStyle( $id, @styles ) -> $text
-
-Creates an inline HTML markup
-
-=cut
-
-sub _getInlineMarkupStyle {
-    my ( $inId, @inStyles ) = @_;
-
-}
-
 sub _writeStyleToHead {
     my ( $inId, $inStyles ) = @_;
 
@@ -1808,12 +1815,17 @@ sub emitTable {
         $tbody =
 "$singleIndent<tbody>$doubleIndent<tr style=\"display:none;\">$tripleIndent<td></td>$doubleIndent</tr>$singleIndent</tbody>\n";
     }
+
+    if ( scalar @messages ) {
+        $text =
+            '<span class="foswikiAlert">'
+          . Foswiki::Func::expandCommonVariables( join( "\n", @messages ) )
+          . '</span>' . "\n"
+          . $text;
+    }
+
     $text .= $currTablePre . $tbody;
-
     $text .= $currTablePre . CGI::end_table() . "\n";
-
-    # prepare for next table
-    _resetReusedVariables();
 
     return $text;
 }
@@ -1899,6 +1911,9 @@ s/$PATTERN_TABLE/_parseTableSpecificTableAttributes(Foswiki::Func::extractParame
 
             $combinedTableAttrs->{sortAllTables} = $defaultSort;
             $acceptable = $defaultSort;
+
+            # prepare for next table
+            _resetReusedVariables();
         }
     }
     $_[0] = join( "\n", @lines );
@@ -1906,6 +1921,9 @@ s/$PATTERN_TABLE/_parseTableSpecificTableAttributes(Foswiki::Func::extractParame
     if ($insideTABLE) {
         $_[0] .= emitTable();
     }
+
+    # prepare for next table
+    _resetReusedVariables();
 }
 
 =pod
@@ -1974,7 +1992,7 @@ sub _debugData {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
