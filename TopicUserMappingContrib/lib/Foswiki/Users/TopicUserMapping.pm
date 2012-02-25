@@ -857,8 +857,6 @@ sub addUserToGroup {
           Foswiki::Meta->load( $this->{session}, $groupWeb, $groupName );
 
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
-            return 0;
-
             throw Error::Simple( $this->{session}
                   ->i18n->maketext( 'CHANGE not permitted by [_1]', $user ) );
         }
