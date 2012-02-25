@@ -100,6 +100,8 @@ sub register_cgi {
         _complete($session);
     }
     elsif ( $action eq 'resetPassword' ) {
+
+        # resetpasswd calls checkValidationKey - don't check it here
         require Foswiki::UI::Passwords;
         Foswiki::UI::Passwords::resetpasswd($session);
     }
@@ -622,6 +624,8 @@ sub addUserToGroup {
         );
     }
 
+    Foswiki::UI::checkValidationKey($session);
+
     if (   ( $#userNames < 0 )
         or ( $userNames[0] eq '' ) )
     {
@@ -780,6 +784,10 @@ sub removeUserFromGroup {
         throw Foswiki::OopsException( 'attention',
             def => 'problem_removing_from_group' );
     }
+
+    # Validate
+    Foswiki::UI::checkValidationKey($session);
+
     my @failed;
     my @succeeded;
     foreach my $u (@userNames) {
