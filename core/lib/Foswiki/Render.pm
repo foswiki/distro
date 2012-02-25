@@ -451,8 +451,8 @@ sub _makeAnchorHeading {
 
     my $html =
         '<nop><h' 
-      . $level . '>'
-      . $anchors->makeHTMLTarget($text) . ' '
+      . $level . ' '
+      . 'id="' . $anchors->makeHTMLTarget($text) . '"> '
       . $text . ' </h'
       . $level . '>';
 
@@ -1239,8 +1239,8 @@ sub getRenderedVersion {
     # '#WikiName' anchors. Don't attempt to make these unique; renaming
     # user-defined anchors is not sensible.
     $text =~ s/^(\#$Foswiki::regex{wikiWordRegex})/
-      CGI::a({
-          name => $anchors->add( $1 )
+      CGI::span({
+          id => $anchors->add( $1 )
          }, '')/geom;
 
     # Headings
@@ -2247,7 +2247,7 @@ sub renderIconImage {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

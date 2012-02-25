@@ -176,35 +176,35 @@ sub make {
 
 =begin TML
 
----++ ObjectMethod makeHTMLTarget($name) -> $html
-Make an HTML anchor that can be used as the target of links.
+---++ ObjectMethod makeHTMLTarget($name) -> $id
+Make an id that can be used as the target of links.
 
 =cut
 
 sub makeHTMLTarget {
-    my ( $this, $text ) = @_;
+    my ( $this, $name ) = @_;
 
-    my $goodAnchor = make($text);
-    my $html = CGI::a( { name => $this->addUnique( $goodAnchor, 1 ) }, '' );
-
+    my $goodAnchor = make($name);
+    my $id = $this->addUnique( $goodAnchor, 1 );
+    
     if ( $Foswiki::cfg{RequireCompatibleAnchors} ) {
 
         # Add in extra anchors compatible with old formats, as required
         require Foswiki::Compatibility;
-        my @extras = Foswiki::Compatibility::makeCompatibleAnchors($text);
+        my @extras = Foswiki::Compatibility::makeCompatibleAnchors($name);
         foreach my $extra (@extras) {
             next if ( $extra eq $goodAnchor );
-            $html .= CGI::a( { name => $this->addUnique( $extra, 1 ), }, '' );
+            $id = $this->addUnique( $extra, 1 );
         }
     }
-    return $html;
+    return $id;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
