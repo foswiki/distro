@@ -845,7 +845,7 @@ sub addUserToGroup {
       . ") is TRYING to add $cuid aka("
       . $usersObj->getWikiName($cuid)
       . ") to $groupName\n"
-      if DEBUG;
+      if ( $cuid && DEBUG );
 
     my $membersString = '';
     my $allowChangeString;
@@ -912,7 +912,8 @@ sub addUserToGroup {
         $allowChangeString = $groupName;
     }
 
-    my $wikiName = $usersObj->getWikiName($cuid);
+    my $wikiName = '';
+    $wikiName = $usersObj->getWikiName($cuid) if ($cuid);
 
     if ( $membersString !~ m/\b$wikiName\b/ ) {
         $membersString .= ', ' if ( $membersString ne '' );
