@@ -12,18 +12,21 @@ This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCale
 ---++ Detailed Documentation
 %$POD%
 
----+++ Using the Calendar for picking dates only or picking times and dates
+---+++ Using the Calendar for picking date and time
 
 The calendar is able to display a time-picker, in addition to the default date-picker, depending on the optional date format passed.
 
-   * The calendar displays the built-in time picker when the passed format descriptions includes hours, minutes or am or pm specifiers (i.e.: =%H, %I, %k, %l, %M, %p, %P=)
-   * The format is set in =JSCALENDARCONTRIB_FORMAT=
-      * For instance, to show date and time formatted as =2011-12-31 23:59:59=, use =Set JSCALENDARCONTRIB_FORMAT = %Y-%m-%d %H:%M:%S=
-   * Otherwise the calendar is displayed normally with only dates if anything else or no format description is passed.
+%TABLE{columnwidths="50%,50%" databg="#fff" tablerules="all" valign="middle"}%
+| *Pick days and time* | *Pick days only* |
+| When the passed format descriptions includes hours, minutes or am or pm specifiers. %BR% \
+For instance: =%H, %I, %k, %l, %M, %p, %P= | All other cases |
+| A time format is set in =JSCALENDARCONTRIB_FORMAT=. For instance: %BR% \
+=Set JSCALENDARCONTRIB_FORMAT = %Y-%m-%d %H:%M:%S= | ^ |
 
----+++ Using the Calendar in user forms
-You can also use the calendar directly in your own hand-built forms, without
-having to write any code.
+---+++ Using the Calendar in forms
+The date picker is shown automatically in %SYSTEMWEB%.DataForms when a =date= field is specified.
+
+You can also use the calendar directly in your own hand-built forms.
 
 ---++++ Preparation
 Just add this inline in the topic text:
@@ -37,65 +40,26 @@ You may pass language and style options:
 %INCLUDE{
 	"%SYSTEMWEB%/JSCalendarContribInline"
 	lang="nl"
-	style="blue2"
+	style="blue"
 }%
 </verbatim>
 The default =lang= is =en=, the default =style= is =large=.
-
----++++ Setting the date format (optional)
-To set the initial date format for a field that already contains a value, add this to the topic text:
-<verbatim class="tml">
-%INCLUDE{
-	"%SYSTEMWEB%/JSCalendarContribInline"
-	section="initCalendar"
-	id="cal_val_here"
-	format="%Y-%m-%d %H:%M:%S"
-}%
-</verbatim>
-If no format is passed, the value from =JSCALENDARCONTRIB_FORMAT= will be used instead.
 
 ---++++ Displaying the calendar
 To display a calendar icon next to a text input field:
 <verbatim class="tml">
 <input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="return showCalendar('cal_val_here','%Y-%m-%d %H:%M:%S')" />
+       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y %H:%M:%S ')" />
 </verbatim>
-
-If you have set the initial date format (see above), you can omit the format in the javascript call:
-<verbatim class="tml">
-<input type="text" class="foswikiInputField" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="return showCalendar('cal_val_here')" />
-</verbatim>
-
-<div class="foswikiHelp">
-Google Chrome's security settings disable the calendar =showCalendar= call when the topic is just saved (it works on second view). To make the calendar work in all situations, add a unique time token:
-<verbatim class="tml">
-<input type="text" class="foswikiInputField" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="return showCalendar('cal_val_here','%Y-%m-%d %H:%M:%S','%GMTIME{"$epoch"}%')" />
-</verbatim>
-or without the format:
-<verbatim>
-       onclick="return showCalendar('cal_val_here','','%GMTIME{"$epoch"}%')" />
-</verbatim>
-</div>
-
----++++ Test installation
 If the contrib is installed, you will see such a field here:
 %INCLUDE{
 	"%SYSTEMWEB%/JSCalendarContribInline"
+	style="large"
 }%
-%INCLUDE{
-	"%SYSTEMWEB%/JSCalendarContribInline"
-	section="initCalendar"
-	id="cal_val_here"
-	format="%Y-%m-%d %H:%M:%S"
-}%
-<input type="text" class="foswikiInputField" id="cal_val_here" value="%DATE%" />
+<input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="return showCalendar('cal_val_here')" />
+       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y %H:%M:%S')" />
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -106,7 +70,7 @@ If the contrib is installed, you will see such a field here:
 
 ---+++ Customizing the appearance of the calendar
 
-   * An administrator can customize the default appearance of the calendar using the =configure= interface to set the style, language and time format options.
+   * An administrator can customize the default appearance of the calendar using the =configure= interface to set the style and language options.
    * Users can customize the appearance of the calendar, overriding the administrator's choices, either system-wide (at %LOCALSITEPREFS%), by web (at the !WebPreferences topic), and even or per-topic basis. To do that they need to define the following settings: 
       | *Setting* | *Default value* |
       | JSCALENDARCONTRIB_FORMAT | %e %b %Y |
@@ -125,14 +89,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
-|  17 Nov 2011 | 1.4.3: Foswikitask:Item11256 - fixed typo preventing JSCalendarContribInline from loading =foswikiDate.js=. Thanks to Foswiki:Main.FlorianSchlichting |
-|  15 Nov 2011 | 1.4.2: Foswikitask:Item11195 - fixed decrementing dates when using servertime in timezones west of GMT. | 
-|  27 Sep 2011 | 1.4.1: Michael Daum: fixed date widget in jQuery no-conflict mode |
-|  19 Aug 2011 | 1.4.0: Arthur Clemens: Prevent that an empty data form field gets prefilled with a 1970 date. Prevent javascript error if input field value is not a date. Send a =change= event when setting the date value. |
-|  10 Aug 2011 | Arthur Clemens: Convert existing date field values to the used date format. Update the calendar when the date field value is changed by typing. |
-|  09 Aug 2011 | Arthur Clemens: Allow calendars with different date formats on one page. Show AM/PM interface if the date format contains AM/PM tokens. Add new calendar style =large= and make it the default. |
-|  09 Aug 2011 | Arthur Clemens, Michael Daum: Fix an issue where the calendar jumps to different dates if clicked subsequently. |
-|  04 Aug 2011 | Arthur Clemens: Format values in date fields according to =JSCALENDARCONTRIB_FORMAT= settings. |
+|  26 Feb 2012 | Re-introduce style options and updated default calendar style. |
+|  29 Nov 2011 | Revert changes since 30 July.  Bump release to 1.5. |
 |  30 Jul 2011 | Arthur Clemens: Several bug fixes related to using seconds. |
 |  11 Apr 2011 | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |

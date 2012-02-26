@@ -46,36 +46,6 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
 }%%TMPL:P{
   "LIBJS"
   id="JSCalendarContrib/foswiki"
-  requires="JSCalendarContrib/calendar-setup,JSCalendarContrib/date"
-}%%IF{
-  "'%PLUGINVERSION%'>'2.1'"
-  then="$percntTMPL:P{
-  $quotLIBJS$quot
-  id=$quotJavascriptFiles/foswikiDate$quot
-}$percnt"
+  requires="JSCalendarContrib/calendar-setup"
 }%%ENDSECTION{"loadCalendar"}%%STOPINCLUDE%
-</verbatim>
-
----++ Initializes a date input field
-
-(called once per date input field)
-
-<verbatim class="tml">
-%STARTSECTION{"initCalendar"}%%INCLUDE{"%TOPIC%" section="loadCalendar"}%%ADDTOZONE{
-  "script"
-  id="JSCalendarContrib/calendar_%id%"
-  requires="JSCalendarContrib/calendar,JQUERYPLUGIN::FOSWIKI"
-  text="<literal><script type='text/javascript'>
-jQuery(function($) {
-  formatValue('%id%', '%IF{
-    "defined format AND $format!=''"
-    then="%format%"
-    else="%IF{"defined JSCALENDARCONTRIB_FORMAT"
-            then="%JSCALENDARCONTRIB_FORMAT%"
-            else="%e %b %Y"
-    }%"
-  }%');
-});
-</script></literal>"
-}%%ENDSECTION{"initCalendar"}%
 </verbatim>

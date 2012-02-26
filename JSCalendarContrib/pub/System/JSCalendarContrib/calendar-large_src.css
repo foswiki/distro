@@ -9,7 +9,6 @@ div.calendar {
 	color: #000;
 	cursor: default;
 	background: #dee4ea;
-	font-family: arial,tahoma,verdana,sans-serif;
 }
 .calendar {
 	border: 1px solid #a5b2bd;
@@ -32,6 +31,9 @@ div.calendar {
 
 .calendar .nav {
 	background: #566882 url(menuarrow3.gif) no-repeat 100% 100%;
+	float: none;
+	margin: 0;
+	display: table-cell;
 }
 
 .calendar thead .title { /* This holds the current "month, year" */
@@ -61,18 +63,15 @@ div.calendar {
 .calendar tbody .wn,
 .calendar tbody .wn.day {
 	text-align: right;
-	border-style: none solid solid none;
-	border-color: #fff;
-	border-width: 1px;
+	border: none;
 }
 .calendar thead .name.hilite {
-	font-weight: bold;
+	font-weight: normal;
 }
 
 /* last cell of week number col needs to have a bottom border */
 .calendar tbody tr + tr + tr + tr + tr + tr .wn.day {
-	border-style: none solid none none;
-	border-color: #fff;
+	border: none;
 }
 
 .calendar thead .name {
@@ -110,13 +109,10 @@ div.calendar {
 	width: 2em;
 	color: #333;
 	text-align: right;
-	border-style: solid none none solid;
-	border-color: #fff;
-	border-width: 1px;
+	border: none;
 }
 .calendar tbody .day.othermonth {
 	color: #ddd;
-	background: #f5f5f5;
 }
 
 .calendar tbody .rowhilite td {
@@ -134,6 +130,7 @@ div.calendar {
 	background: #6e99e3; /* blue */
 	color: #fff;
 	font-weight: bold;
+	text-shadow: none;
 }
 
 .calendar tbody td.weekend { /* Cells showing weekend days */
@@ -231,8 +228,6 @@ div.calendar {
 	background: #77c;
 	padding: 2px 0 0 2px;
 }
-
-
 
 .calendar td.time {
 	padding: 5px 0;
