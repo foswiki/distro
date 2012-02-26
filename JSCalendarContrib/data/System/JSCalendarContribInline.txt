@@ -1,17 +1,51 @@
 %META:TOPICPARENT{name="JSCalendarContrib"}%
-Inline include of JSCalendarContrib HTML for use in forms.
-%STARTINCLUDE%
-%ADDTOZONE{
-   "head"
-   id="JSCalendarContrib/calendar-blue"
-   text="
-<style type='text/css' media='all'>
-   @import url('%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/calendar-blue.css');
-   .calendar {z-index:2000;}
+---+ %TOPIC%
+
+Inline include of [[JSCalendarContrib]] HTML for use in forms.
+
+---++ Initializes the library
+
+(called only once)
+
+<verbatim class="tml">
+%STARTINCLUDE%%STARTSECTION{"loadCalendar"}%%ADDTOZONE{
+  "head"
+  id="JSCalendarContrib/calendar-%IF{
+    "defined style and $style!=''"
+    then="%style%"
+    else="large"
+  }%"
+  text="<style type='text/css' media='all'>
+    @import url('%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/calendar-%IF{
+      "defined style and $style!=''"
+      then="%style%"
+      else="large"
+    }%.css');
+    .calendar {z-index:2000;}
 </style>"
-}%
-%TMPL:P{"LIBJS" id="JSCalendarContrib/calendar" requires=""}%
-%TMPL:P{"LIBJS" id="JSCalendarContrib/lang/calendar-en" requires="JSCalendarContrib/calendar"}%
-%TMPL:P{"LIBJS" id="JSCalendarContrib/calendar-setup" requires="JSCalendarContrib/lang/calendar-en"}%
-%TMPL:P{"LIBJS" id="JSCalendarContrib/foswiki" requires="JSCalendarContrib/calendar-setup"}%
-%STOPINCLUDE%
+}%%TMPL:P{
+  "LIBJS"
+  id="JSCalendarContrib/calendar"
+  requires="JQUERYPLUGIN::FOSWIKI"
+}%%TMPL:P{
+  "LIBJS"
+  id="JSCalendarContrib/lang/calendar-%IF{
+    "defined lang and $lang!=''"
+    then="%lang%"
+    else="en"
+  }%"
+  requires="JSCalendarContrib/calendar"
+}%%TMPL:P{
+  "LIBJS"
+  id="JSCalendarContrib/calendar-setup"
+  requires="JSCalendarContrib/lang/calendar-%IF{
+    "defined lang and $lang!=''"
+    then="%lang%"
+    else="en"
+  }%"
+}%%TMPL:P{
+  "LIBJS"
+  id="JSCalendarContrib/foswiki"
+  requires="JSCalendarContrib/calendar-setup"
+}%%ENDSECTION{"loadCalendar"}%%STOPINCLUDE%
+</verbatim>

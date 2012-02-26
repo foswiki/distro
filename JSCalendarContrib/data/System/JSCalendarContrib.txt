@@ -12,32 +12,54 @@ This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCale
 ---++ Detailed Documentation
 %$POD%
 
----+++ Using the Calendar for picking dates only or picking times and dates
+---+++ Using the Calendar for picking date and time
 
 The calendar is able to display a time-picker, in addition to the default date-picker, depending on the optional date format passed.
 
-   * The calendar displays the built-in time picker when the passed format descriptions includes hours, minutes or am or pm specifiers (i.e.: =%H, %I, %k, %l, %M, %p, %P=)
-   * The format is set in =JSCALENDARCONTRIB_FORMAT=
-      * For instance, to show date and time formatted as =2011-12-31 23:59:59=, use =Set JSCALENDARCONTRIB_FORMAT = %Y-%m-%d %H:%M:%S=
-   * Otherwise the calendar is displayed normally with only dates if anything else or no format description is passed.
+%TABLE{columnwidths="50%,50%" databg="#fff" tablerules="all" valign="middle"}%
+| *Pick days and time* | *Pick days only* |
+| When the passed format descriptions includes hours, minutes or am or pm specifiers. %BR% \
+For instance: =%H, %I, %k, %l, %M, %p, %P= | All other cases |
+| A time format is set in =JSCALENDARCONTRIB_FORMAT=. For instance: %BR% \
+=Set JSCALENDARCONTRIB_FORMAT = %Y-%m-%d %H:%M:%S= | ^ |
 
----+++ Using the Calendar in user forms
-You can also use the calendar directly in your own hand-built forms, without
-having to write any code. Just add this inline in the topic text:
+---+++ Using the Calendar in forms
+The date picker is shown automatically in %SYSTEMWEB%.DataForms when a =date= field is specified.
+
+You can also use the calendar directly in your own hand-built forms.
+
+---++++ Preparation
+Just add this inline in the topic text:
 <verbatim class="tml">
-%INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
+%INCLUDE{
+	"%SYSTEMWEB%/JSCalendarContribInline"
+}%
 </verbatim>
-Then, to display a calendar icon next to a text input field:
+You may pass language and style options:
+<verbatim class="tml">
+%INCLUDE{
+	"%SYSTEMWEB%/JSCalendarContribInline"
+	lang="nl"
+	style="blue"
+}%
+</verbatim>
+The default =lang= is =en=, the default =style= is =large=.
+
+---++++ Displaying the calendar
+To display a calendar icon next to a text input field:
 <verbatim class="tml">
 <input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y %H:%M:%S ')" />
 </verbatim>
 If the contrib is installed, you will see such a field here:
-%INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
+%INCLUDE{
+	"%SYSTEMWEB%/JSCalendarContribInline"
+	style="large"
+}%
 <input type="text" class="foswikiInputField" id="cal_val_here" />
 <input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y %H:%M:%S')" />
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -48,11 +70,11 @@ If the contrib is installed, you will see such a field here:
 
 ---+++ Customizing the appearance of the calendar
 
-   * An administrator can customize the default appearance of the calendar using the =configure= interface to set the style, language and time format options.
+   * An administrator can customize the default appearance of the calendar using the =configure= interface to set the style and language options.
    * Users can customize the appearance of the calendar, overriding the administrator's choices, either system-wide (at %LOCALSITEPREFS%), by web (at the !WebPreferences topic), and even or per-topic basis. To do that they need to define the following settings: 
       | *Setting* | *Default value* |
       | JSCALENDARCONTRIB_FORMAT | %e %b %Y |
-      | JSCALENDARCONTRIB_STYLE | blue |
+      | JSCALENDARCONTRIB_STYLE | large |
       | JSCALENDARCONTRIB_LANG | en |
 
 ---+++ Contrib Info
@@ -67,6 +89,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
+|  26 Feb 2012 | Re-introduce style options and updated default calendar style. |
 |  29 Nov 2011 | Revert changes since 30 July.  Bump release to 1.5. |
 |  30 Jul 2011 | Arthur Clemens: Several bug fixes related to using seconds. |
 |  11 Apr 2011 | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |

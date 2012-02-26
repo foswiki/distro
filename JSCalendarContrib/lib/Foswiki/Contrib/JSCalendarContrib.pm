@@ -19,39 +19,39 @@ use warnings;
 use Foswiki::Func ();    # The plugins API
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.5.0';
+our $RELEASE = '1.5.1';
 our $SHORTDESCRIPTION =
-"[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons";
+"[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] date and time picker, packaged for use by plugins, skins and add-ons";
 
 # Max width of different mishoo format components
 my %w = (
-    a => 3,              # abbreviated weekday name
-    A => 9,              # full weekday name
-    b => 3,              # abbreviated month name
-    B => 9,              # full month name
-    C => 2,              # century number
-    d => 2,              # the day of the month ( 00 .. 31 )
-    e => 2,              # the day of the month ( 0 .. 31 )
-    H => 2,              # hour ( 00 .. 23 )
-    I => 2,              # hour ( 01 .. 12 )
-    j => 3,              # day of the year ( 000 .. 366 )
-    k => 2,              # hour ( 0 .. 23 )
-    l => 2,              # hour ( 1 .. 12 )
-    m => 2,              # month ( 01 .. 12 )
-    M => 2,              # minute ( 00 .. 59 )
-    n => 1,              # a newline character
-    p => 2,              # 'PM' or 'AM'
-    P => 2,              # 'pm' or 'am'
-    S => 2,              # second ( 00 .. 59 )
-    s => 12,             # number of seconds since Epoch
-    t => 1,              # a tab character
-    U => 2,              # the week number
-    u => 1,              # the day of the week ( 1 .. 7, 1 = MON )
-    W => 2,              # the week number
-    w => 1,              # the day of the week ( 0 .. 6, 0 = SUN )
-    V => 2,              # the week number
-    y => 2,              # year without the century ( 00 .. 99 )
-    Y => 4,              # year including the century ( ex. 1979 )
+    'a' => 3,            # abbreviated weekday name
+    'A' => 9,            # full weekday name
+    'b' => 3,            # abbreviated month name
+    'B' => 9,            # full month name
+    'C' => 2,            # century number
+    'd' => 2,            # the day of the month ( 00 .. 31 )
+    'e' => 2,            # the day of the month ( 0 .. 31 )
+    'H' => 2,            # hour ( 00 .. 23 )
+    'I' => 2,            # hour ( 01 .. 12 )
+    'j' => 3,            # day of the year ( 000 .. 366 )
+    'k' => 2,            # hour ( 0 .. 23 )
+    'l' => 2,            # hour ( 1 .. 12 )
+    'm' => 2,            # month ( 01 .. 12 )
+    'M' => 2,            # minute ( 00 .. 59 )
+    'n' => 1,            # a newline character
+    'p' => 2,            # 'PM' or 'AM'
+    'P' => 2,            # 'pm' or 'am'
+    'S' => 2,            # second ( 00 .. 59 )
+    's' => 12,           # number of seconds since Epoch
+    't' => 1,            # a tab character
+    'U' => 2,            # the week number
+    'u' => 1,            # the day of the week ( 1 .. 7, 1 = MON )
+    'W' => 2,            # the week number
+    'w' => 1,            # the day of the week ( 0 .. 6, 0 = SUN )
+    'V' => 2,            # the week number
+    'y' => 2,            # year without the century ( 00 .. 99 )
+    'Y' => 4,            # year including the century ( ex. 1979 )
 );
 
 =begin TML
@@ -198,7 +198,7 @@ sub addHEAD {
     my $style =
          Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_STYLE')
       || $Foswiki::cfg{JSCalendarContrib}{style}
-      || 'blue';
+      || 'large';
     my $lang =
          Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_LANG')
       || $Foswiki::cfg{JSCalendarContrib}{lang}
@@ -226,14 +226,15 @@ HERE
     # Add the setup separately; there might be different setups required
     # in a single HTML page.
     Foswiki::Func::addToZone( 'script', "JSCalendarContrib/$setup",
-        "<script type='text/javascript' src='$base/$setup.js'></script>" );
+        "<script type='text/javascript' src='$base/$setup.js'></script>",
+        'JSCalendarContrib/calendar' );
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
