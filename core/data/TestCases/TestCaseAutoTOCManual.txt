@@ -7,20 +7,17 @@ anchors.
 
 Designed by: Crawford Currie
 
-Note that the "expected" is a bit wierd (doubled anchors in the TOC) because of
-the way TOC is processed.
-
 *Expected*
 <!-- expected rex -->
-<a name="ThisHeading"></a>
+<span id="ThisHeading"></span>
 This heading anchor
 
 <p />
-<a name="ThatHeading"></a>
+<span id="ThatHeading"></span>
 That heading anchor
 <p />
-<h1 id="ThatHeading_AN2"> ThatHeading </h1>
-<h1 id="ThisHeading_AN2"> ThisHeading </h1>
+<h1 id="ThatHeading_AN1"> ThatHeading </h1>
+<h1 id="ThisHeading_AN1"> ThisHeading </h1>
 <p />
 <div class="foswikiToc" id="foswikiTOC">
  <ul>
@@ -29,12 +26,6 @@ That heading anchor
   </li>
   <li>
    <a href="?@REX(.*)#ThisHeading_AN1"> ThisHeading </a>
-  </li>
-  <li>
-   <a href="?@REX(.*)#ThatHeading_AN2"> ThatHeading </a>
-  </li>
-  <li>
-   <a href="?@REX(.*)#ThisHeading_AN2"> ThisHeading </a>
   </li>
  </ul> 
 </div>

@@ -28,8 +28,8 @@ Designed by: Crawford Currie
 ---++ Headings
 ---+++ Expected
 <!-- expected HEADS -->
-<h2><a name="Sushi_AN1"></a>Sushi</h2>
-<h3><a name="Maguro_AN1"></a>Maguro</h3>
+<h2 id="Sushi">Sushi</h2>
+<h3 id="Maguro">Maguro</h3>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
@@ -435,7 +435,7 @@ escaped:
 <p />
 <a class="foswikiCurrentTopicLink" href="#MyAnchor">Jump</a>
 <p />
-<a name="MyAnchor"></a> To here
+<span id="MyAnchor"></span> To here
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->

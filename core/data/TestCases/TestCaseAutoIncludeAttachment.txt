@@ -10,7 +10,7 @@ Designed by: Crawford Currie
 ---+ Existing attachment
 ---++ Expected
 <!-- expected -->
-<h1><a name="heading_1_AN1"></a>heading 1</h1>
+<h1 id="heading_1">heading 1</h1>
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
@@ -21,7 +21,7 @@ Designed by: Crawford Currie
 ---++ Expected
 <!-- manual expected  -->
 <p />
-<h1><a name="Not_Found"> </a> Not Found </h1>
+<h1 id="Not_Found"> Not Found </h1>
 <span class='foswikiAlert'>
       Failed to include URL <a href="%ATTACHURLPATH%/noexist" target="_top">http://daphne/foswiki/trunk/core/pub/TestCases/TestCaseAutoIncludeAttachment/noexist</a> Not Found
 </span>
