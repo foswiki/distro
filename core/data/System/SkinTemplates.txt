@@ -39,10 +39,10 @@ expanding the template, and cannot be used elsewhere in Foswiki.  See
 ---++ How Template Directives Work
 Template directives look a lot like standard [[macros]].
    * =%<nop>TMPL:INCLUDE{"file"}%= includes a template file. The file is found as described [[#FindingTemplates][below]].
-   * =%<nop>TMPL:DEF{"block"}%= defines a block. *All* text between this and the next =%<nop>TMPL:END%= directive is removed and saved for later use with =%<nop>TMPL:P%=.
+   * =%<nop>TMPL:DEF{"name"}%= defines a block. *All* text between this and the next =%<nop>TMPL:END%= directive is removed and saved for later use with =%<nop>TMPL:P%=.
    * =%<nop>TMPL:END%= ends a block definition.
    * =%<nop>TMPL:PREV%=: returns the previous definition of the block being defined.
-   * =%<nop>TMPL:P{"var"}%= includes a previously defined block.
+   * =%<nop>TMPL:P{"name"}%= includes a previously defined block.
    * =%<nop>{...}%= is a comment. Whitespace either side of the comment
      (newlines, spaces, tabs etc) is treated as part of the comment, and
      removed when the comment is removed.
@@ -54,17 +54,25 @@ block twice, only the second definition is used.
 </blockquote>
 
 ---+++ Parameters to blocks
-=%<nop>TMPL:DEF%= and =%<nop>TMPL:P%= support simple parameters. For
-example, given the definition
+=%<nop>TMPL:DEF%= and =%<nop>TMPL:P%= support simple parameters.
+
+Parameters are only available in the immediate definition being included; they
+are not passed on to any other =TMPL:P= inside the =TMPL:DEF= being expanded
+unless they are passed on explicitly in a new parameter.
+
+
+---++++ Block parameters
+For example, we can define a parameter =P= inside a block:
 <verbatim class="tml">
 %TMPL:DEF{"x"}% x%P%z %TMPL:END%
 </verbatim>
-then
+then pass a value to that parameter:
 <verbatim class="tml">
 %TMPL:P{"x" P="y"}%
 </verbatim>
-will expand to =xyz=.
+This will expand to =xyz=.
 
+---++++ Block definition parameters
 Default parameter values can be set in the definition:
 <verbatim class="tml">
 %TMPL:DEF{"x" y="1"}% x%y%z %TMPL:END%
@@ -75,13 +83,24 @@ then
 </verbatim>
 will expand to =x1z=.
 
-Parameters are only available in the immediate definition being included; they
-are not passed on to any other =TMPL:P= inside the =TMPL:DEF= being expanded
-unless they are passed on explicitly in a new parameter.
+You can also use a parameter inside a parameter:
+<verbatim class="tml">
+%TMPL:DEF{"x" y="%value%"}% x%y%z %TMPL:END%
+</verbatim>
+then
+<verbatim class="tml">
+%TMPL:P{"x" value="1000"}%
+</verbatim>
+will expand to =x1000z=.
 
-Any alphanumeric characters can be used in parameter names. TMPL:P parameters
+
+---++++ Naming
+Any alphanumeric characters can be used in parameter names. =TMPL:P= parameters
 override any other possible definition of the name, so you should not use
-parameter names that might clash with [[macros]].
+parameter names that might clash with [[Macros]].
+
+
+
 
 ---+++ Conditional expansion
 ---++++ Using context identifiers
