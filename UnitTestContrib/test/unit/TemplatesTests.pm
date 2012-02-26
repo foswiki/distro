@@ -586,14 +586,14 @@ sub language_setup {
     write_template( 'strings', <<'HERE');
 
 %TMPL:DEF{"Question"}%Do you see?%TMPL:END%
-%TMPL:DEF{"Yes" char="?"}%Yes%char%%TMPL:END%
+%TMPL:DEF{"Yes" char="%type%"}%Yes%char%%TMPL:END%
 %TMPL:DEF{"No"}%No%char%%TMPL:END%
 %TMPL:DEF{"Dontknow" char=""}%Dunno%char%%TMPL:END%
 HERE
     write_template( 'strings.gaelic', <<'HERE');
 
 %TMPL:DEF{"Question"}%An faca sibh?%TMPL:END%
-%TMPL:DEF{"Yes" char="?"}%Chunnaic%char%%TMPL:END%
+%TMPL:DEF{"Yes" char="%type%"}%Chunnaic%char%%TMPL:END%
 %TMPL:DEF{"No"}%Chan fhaca%char%%TMPL:END%
 %TMPL:DEF{"Dontknow" char=""}%Níl a fhios%char%%TMPL:END%
 HERE
@@ -607,7 +607,7 @@ HERE
     write_template( 'example', <<'HERE');
 %TMPL:INCLUDE{"pattern"}%%TMPL:P{"Question"}%
 <input type="button" value="%TMPL:P{"No" char="!"}%">
-<input type="button" value="%TMPL:P{"Yes"}%">
+<input type="button" value="%TMPL:P{"Yes" type="?"}%">
 <input type="button" value="%TMPL:P{"Dontknow"}%">
 HERE
 
