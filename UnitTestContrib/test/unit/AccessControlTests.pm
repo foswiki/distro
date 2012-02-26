@@ -753,13 +753,8 @@ THIS
     my ($origin) = $text =~
       /^<input type="hidden" name="foswiki_origin" value="([^"]+)" \/>\r?$/m;
     $this->assert_not_null( $origin,
-        "No viewUrl (GET,view,$loginUrl) in foswiki_origin\n" . "Got:\n$text" );
-    my @origins = split /,/, $origin;
-    $this->assert_equals( 3, scalar(@origins),
-        "$origin does not contain 3 parameters, comma separted: $origin" );
-    $this->assert_equals( 'GET',        $origins[0] );
-    $this->assert_equals( 'view',       $origins[1] );
-    $this->assert_equals( $fullViewUrl, $origins[2] );
+        "No viewUrl (GET,view,$viewUrl) in foswiki_origin, got:\n$text" );
+    $this->assert_equals( "GET,view,$viewUrl", $origin );
 
     # Get the redirected page after login
 
