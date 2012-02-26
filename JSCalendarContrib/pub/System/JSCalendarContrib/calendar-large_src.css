@@ -9,7 +9,6 @@ div.calendar {
 	color: #000;
 	cursor: default;
 	background: #dee4ea;
-	font-family: arial,tahoma,verdana,sans-serif;
 }
 .calendar {
 	border: 1px solid #a5b2bd;
@@ -131,6 +130,7 @@ div.calendar {
 	background: #6e99e3; /* blue */
 	color: #fff;
 	font-weight: bold;
+	text-shadow: none;
 }
 
 .calendar tbody td.weekend { /* Cells showing weekend days */
