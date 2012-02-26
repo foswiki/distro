@@ -196,7 +196,11 @@ sub tmplP {
 
         # process default values; this will clean up orphaned %p% params
         foreach my $p ( keys %{ $this->{VARS}->{$template}->{params} } ) {
-            $val =~ s/%$p%/$this->{VARS}->{$template}->{params}->{$p}/ge;
+
+            # resolve dynamic lookups such as %TMPL:DEF{"LIBJS" name="%id%"}%
+            my $pvalue = $this->{VARS}->{$template}->{params}->{$p};
+            $pvalue =~ s/\%(.*?)\%/$params->{$1}/go;
+            $val    =~ s/%$p%/$pvalue/ge;
         }
 
         $val =~ s/%TMPL:PREV%/%TMPL:P{"$template:_PREV"}%/g;
@@ -304,7 +308,6 @@ sub readTemplate {
                     $prev_value = $this->{VARS}->{$prev_key}->{text};
                     $this->{VARS}->{$prev_key}->{text} = $new_value;
                 }
-
             }
 
             my $attrs = new Foswiki::Attrs($1);
