@@ -90,7 +90,8 @@ sub new {
         $this->{SHA} = 1 unless ($@);
         eval 'use Crypt::PasswdMD5';
         $this->{APR} = 1 unless ($@);
-
+        eval 'use Crypt::Eksblowfish::Bcrypt;';
+        $this->{BCRYPT} = 1 unless ($@);
     }
 
     if (   $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
@@ -120,6 +121,10 @@ sub new {
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
         eval 'use Crypt::PasswdMD5';
         $this->{APR} = 1 unless ($@);
+    }
+    elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'bcrypt' ) {
+        eval 'use Crypt::Eksblowfish::Bcrypt;';
+        $this->{BCRYPT} = 1 unless ($@);
     }
     else {
         print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : "
@@ -286,6 +291,9 @@ sub _readPasswd {
             }
             elsif ( length($tPass) eq 37 && $tPass =~ m/^\$apr1\$/ ) {
                 $data->{$hID}->{enc} = 'apache-md5';
+            }
+            elsif ( length($tPass) eq 60 && $tPass =~ m/^\$2a\$/ ) {
+                $data->{$hID}->{enc} = 'bcrypt';
             }
             elsif ( length($tPass) eq 13
                 && ( !$fields[0] || $fields[0] =~ m/@/ ) )
@@ -524,6 +532,34 @@ sub encrypt {
     elsif ( $enc eq 'plain' ) {
         return $passwd;
 
+    }
+    elsif ( $enc eq 'bcrypt' ) {
+        unless ( $this->{BCRYPT} ) {
+            $this->{error} = "Unsupported Encoding";
+            return 0;
+        }
+
+        my $salt;
+        $salt = $this->fetchPass($login) unless $fresh;
+        if ( $fresh || !$salt ) {
+            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+            foreach my $i ( 0 .. 15 ) {
+
+                # generate a salt not only from rand() but also mixing
+                # in the users login name: unecessary
+                $salt .= $saltchars[
+                  (
+                      int( rand( $#saltchars + 1 ) ) +
+                        $i +
+                        ord( substr( $login, $i % length($login), 1 ) ) )
+                  % ( $#saltchars + 1 )
+                ];
+            }
+         $salt = Crypt::Eksblowfish::Bcrypt::en_base64($salt);
+         $salt = '$2a$08$'.$salt;
+        }
+        $salt = substr( $salt, 0, 29 );
+        return Crypt::Eksblowfish::Bcrypt::bcrypt($passwd, $salt);
     }
     die 'Unsupported password encoding ' . $enc;
 }

@@ -49,42 +49,15 @@ sub check {
         }
     }
 
-    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'htdigest-md5' ) {
-        my $n =
-          $this->checkPerlModule( 'Digest::MD5', "Required $auto md5 encoding",
-            0 );
+    my $check = {
+        'Digest::MD5'                => ['htdigest-md5'],
+        'Digest::SHA'                => ['sha1'],
+        'Crypt::PasswdMD5'           => [ 'apache-md5', 'crypt-md5' ],
+        'Crypt::Eksblowfish::Bcrypt' => ['bcrypt'],
+    };
 
-        if ( $n =~ m/Not installed/ ) {
-            $e .= $this->ERROR($n);
-        }
-        else {
-            $e .= $this->NOTE($n);
-        }
-    }
-
-    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'sha1' ) {
-        my $n =
-          $this->checkPerlModule( 'Digest::SHA', "Required $auto sha1 encoding",
-            0 );
-
-        if ( $n =~ m/Not installed/ ) {
-            $e .= $this->ERROR($n);
-        }
-        else {
-            $e .= $this->NOTE($n);
-        }
-    }
-
-    if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'apache-md5' ) {
-        my $n = $this->checkPerlModule( 'Crypt::PasswdMD5',
-            "Required $auto apache-md5 encoding", 0 );
-
-        if ( $n =~ m/Not installed/ ) {
-            $e .= $this->ERROR($n);
-        }
-        else {
-            $e .= $this->NOTE($n);
-        }
+    foreach my $mod ( sort keys %$check ) {
+        $e .= $this->_checkPerl( $auto, $mod, $check->{$mod} );
     }
 
     if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt-md5' ) {
@@ -98,9 +71,6 @@ sub check {
 
             if ( $n =~ m/Not installed/ ) {
                 $e .= $this->ERROR($n);
-            }
-            else {
-                $e .= $this->NOTE($n);
             }
         }
     }
@@ -118,6 +88,35 @@ sub check {
     return $e;
 }
 
+sub _checkPerl {
+    my ( $this, $auto, $module, $method_list ) = @_;
+    my $note;
+    my $n;
+
+    foreach my $method (@$method_list) {
+        if (   $Foswiki::cfg{Htpasswd}{AutoDetect}
+            || $Foswiki::cfg{Htpasswd}{Encoding} eq $method )
+        {
+            $auto = 'for' if ( $Foswiki::cfg{Htpasswd}{Encoding} eq $method );
+
+            unless ($n) {
+                $n = $this->checkPerlModule( $module,
+                    "Required $auto $method  encoding", 0 );
+                if ( $n =~ m/Not installed/ ) {
+                    $note .= $this->ERROR($n);
+                }
+                else {
+                    $note .= $this->NOTE($n);
+                }
+            }
+            else {
+                $note .= $this->NOTE("Also required $auto $method encoding");
+            }
+        }
+    }
+
+    return $note;
+}
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
