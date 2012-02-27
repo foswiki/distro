@@ -34,5 +34,4 @@ Template Login. Logging in with the =AdminUser= !WikiName through the normal aut
 ---
 *Related topics:* [[%WIKIUSERSTOPIC%]], [[AdminGroup]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
 
-
-
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
