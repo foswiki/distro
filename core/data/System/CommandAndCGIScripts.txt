@@ -204,12 +204,14 @@ add a user / list of users to a group
 | *Parameter* | *Description* | *Default* |
 | =create= | create the group if it doesn't exist | =0= |
 | =groupname= |groupname to change | _required_ |
+| =redirectto= | If the add process is successful, =manage= will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | None.  An Oops screen showing the results is returned. |
 | =username= | *list* of usernames/wikinames to add to group | _required_ |
 
 ---++++ =action=removeUserFromGroup=
 remove a user / list of users to a group
 | *Parameter* | *Description* | *Default* |
 | =groupname= |groupname to change | _required_ |
+| =redirectto= | If the remove process is successful, =manage= will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | None.  An Oops screen showing the results is returned. |
 | =username= | *list* of usernames/wikinames to add to group | _required_ |
 
 ---+++ =oops=
