@@ -49,7 +49,7 @@ Foswiki can be used as:
    * A document repository
    * A collaborative authoring environment
    * A notebook / scrapbook
-   * A chat room   
+   * A chat room
 
 ---++ Extended applications
 Foswiki-with-extensions can be used:
@@ -77,7 +77,7 @@ Foswiki is very configurable, and the look can change. However the essentials wi
 
 ---++ The page header
 The header of a Foswiki page is generally highlighted, and will usually contain an icon that gives you an idea of where you are, such as a company logo. It will also usually contain:
-   * A *Search* box that allows you to look for topics or content all over the Foswiki site 
+   * A *Search* box that allows you to look for topics or content all over the Foswiki site
    * A *Jump* box where you can type in the name of a page you already know.
 
 #HeaderSample
@@ -106,7 +106,7 @@ The Toolbox section contains these items
 <ul style="list-style-type:none;">
 <li> *Toolbox* </li>
 <li> %ICON{"newtopic"}% Create New Topic - for creating new topics via a menu </li>
-<li> %ICON{"index"}% Index - an alphabetical listing of all topics in the web </li> 
+<li> %ICON{"index"}% Index - an alphabetical listing of all topics in the web </li>
 <li> %ICON{"searchtopic"}% Search - leads to a more advanced search page</li>
 <li> %ICON{"changes"}% Changes - shows a list of recently changed topics </li>
 <li> %ICON{"notify"}% Notifications - allows you to subscribe to receiving emails when topics change </li>
@@ -145,7 +145,7 @@ These menu points can be different from web to web.
 <ul style="list-style-type:none;">
 <li> *Myco* </li>
 <li> Important topic</li>
-<li> Company philosophy </li> 
+<li> Company philosophy </li>
 </ul>
 
 ---++ The page footer
@@ -166,11 +166,11 @@ Edit | Attach | Print version | History: r2 < r1 | Backlinks | View wiki text | 
    * Backlinks shows which other pages link to this page
    * View Wiki Text is for viewing the raw markup
    * Edit Wiki Text is for editing the raw markup in a simple text editor
-   * More topic actions - takes you to a menu of less-frequently-used features 
+   * More topic actions - takes you to a menu of less-frequently-used features
 
 ---++ Editing Pages
    * You've read a page, and you disagree with it violently! It says:<br /> _Everyone_ *knows* that =the world= is an <font color="blue"><u>OblateSpheroid</u></font><br />But you know for a fact it is flat! ;-)
-   * You've clicked the edit link, and an edit page has appeared. 
+   * You've clicked the edit link, and an edit page has appeared.
       * Depending on your site configuration and with some luck, you will see a WYSIWYG-editor and can start writing right away.
       * But it _might_ happen that it doesn't look much like what was on the page before - it's full of strange hieroglyphics!
 <code>_Everyone_ <nop>*knows* that <nop>=the world= is an Oblate<nop>Spheroid</code>
@@ -252,7 +252,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    *  Alternative ways:
       * Click on the question mark after a WikiWord
       * Type in the name of the topic in the "Go:" box
-      * Type in the name of the topic in the URL 
+      * Type in the name of the topic in the URL
    * Any time you try to visit a page that doesn't exist, Foswiki will invite you to create it.
    * Make sure the names of topics are always WikiWords.
 
@@ -264,25 +264,25 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
 <table style="border-width:1px;" cellspacing="0" id="foswikiAttachmentsTable" cellpadding="0" class="foswikiTable">
    <tr class="foswikiTableEven">
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="foswikiFirstCol">
-      <a href="#FileAttachmentTable" style="color:#0066cc">I</a>
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">I</a>
    </th>
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a href="#FileAttachmentTable" style="color:#0066cc">Attachment</a> 
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Attachment</a>
    </th>
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a href="#FileAttachmentTable" style="color:#0066cc">Action</a>
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Action</a>
    </th>
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a href="FileAttachmentTable" style="color:#0066cc">Size</a>
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Size</a>
    </th>
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Date</a> 
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Date</a>
    </th>
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Who</a> 
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Who</a>
    </th>
    <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a href="#FileAttachmentTable" style="color:#0066cc">Comment</a>
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Comment</a>
    </th>
    </tr>
    <tr class="foswikiTableOdd">
@@ -305,9 +305,10 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    </tr>
 </table>
 </div>
+_The links in the above table are just for show, and don't really go anywhere_
 
    * Attachments are simply files, in whatever format you want.
-   * Foswiki recognises some file formats, notably image files (.gif)
+   * Foswiki recognises some file formats, notably image files (.gif, .jpeg, ...)
       * Write =%<nop>ATTACHURL%/myco.gif= to see this: %ATTACHURL%/myco.gif
 
 ---++ Wiki Culture
