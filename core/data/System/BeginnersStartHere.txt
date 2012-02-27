@@ -138,7 +138,7 @@ Your wiki may contain any number of webs, and webs can contain other webs.
 
 ---++ The menu - part 3
 
-Besides the Tools and Webs sections it it common to add your own links to important places.
+Besides the Tools and Webs sections it is common to add your own links to important places.
 
 These menu points can be different from web to web.
 

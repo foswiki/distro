@@ -313,7 +313,7 @@ Each row of the table is a line containing of one or more cells. Each cell start
 <verbatim class="tml">
 | *L* | *C* | *R* |
 | A2 |  B2  |  C2 |
-| A3 |  B3  |  C3 |
+  | A3 |  B3  |  C3 |
 | multi span |||
 | A5-7 |  5  |  5 |
 |^| six | six |
@@ -322,12 +322,14 @@ Each row of the table is a line containing of one or more cells. Each cell start
   | over\
   | 3 lines |
 | A9 |  B9  |  C9 |
+| %CARET% | B10 |%VBAR%|
+| &#94; | B11 |&#124;|
 </verbatim>
 </td><td>
 
 | *L* | *C* | *R* |
 | A2 |  B2  |  C2 |
-| A3 |  B3  |  C3 |
+  | A3 |  B3  |  C3 |
 | multi span |||
 | A5-7 |  5  |  5 |
 |^| six | six |
@@ -336,6 +338,8 @@ Each row of the table is a line containing of one or more cells. Each cell start
   | over\
   | 3 lines |
 | A9 |  B9  |  C9 |
+| %CARET% | B10 |%VBAR%|
+| &#94; | B11 |&#124;|
 </td>
 </tr>
 <tr valign="top">
@@ -372,7 +376,7 @@ It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTE
 <tr valign="top">
 <td>
  *<nop>Acronym  Links:* %BR%
- <nop>Words that are all capitals will produce a link automatically _only_ if the topic aready exists!. 
+ <nop>Words that are all capitals will produce a link automatically _only_ if the topic already exists!. 
 </td><td>
 <verbatim class="tml">
 ACRONYM
@@ -421,7 +425,7 @@ Text within the brackets may contain optional spaces; the topic name is formed b
 <pre class="tml">
 [[wiki syntax]]
 
-[[%SANDBOXWEB%.My unspaced topic]]
+[[%USERSWEB%.Wiki groups]]
 
 escaped:
 ![[wiki syntax]]
@@ -471,7 +475,7 @@ The rules described under *Forced Links* apply for internal link references.
 <td>
  *Disable Links:* %BR%
  You can disable automatic linking of WikiWords by surrounding text with =&lt;noautolink&gt;= and =&lt;/noautolink&gt;= tags.%BR%
-%H% It is possible to turn off all auto-linking with a NOAUTOLINK preferences setting.
+%H% It is possible to turn off all auto-linking with a NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 </td><td>
 <verbatim class="tml">
  <noautolink>
@@ -514,9 +518,11 @@ a@b.com
  *Literal content:* %BR%
  Foswiki generates HTML code from TML shorthand.
  *Experts* surround anything that must be output literally in the HTML code, without the application of
- shorthand rules, with =&lt;literal&gt;..&lt;/literal&gt;= tags. %X% any HTML
+ shorthand rules, with =&lt;literal&gt;..&lt;/literal&gt;= tags. 
+ %BR% %X% Any HTML
  within literal tags *must* be well formed i.e. all tags must be properly closed before
- the end of the literal block. %I% Macros are expanded within literal blocks.
+ the end of the literal block. 
+ %BR% %I% Macros are expanded within literal blocks.
 </td><td>
 <pre>
 &lt;literal&gt;
@@ -539,11 +545,17 @@ a@b.com
  protected from a WYSIWYG editor (usually because it isn't well-formed HTML, or because it
  is HTML that WYSIWYG would normally filter out or modify). Protected
  content appears as plain text in the WYSIWYG editor.
+ %BR% %X% Any HTML within sticky tags *must* be well formed
+ i.e. all tags must be properly closed before
+ the end of the sticky block. 
+ %BR% %I% Macros are expanded within sticky blocks.
 </td><td>
 <verbatim class="tml">
 <sticky>
 <div>
-This div is required
+This div
+%RED%is%ENDCOLOR%
+required
 </div>
 </sticky>
 </verbatim>
@@ -551,7 +563,9 @@ This div is required
 <td>
 <sticky>
 <div>
-This div is required
+This div
+%RED%is%ENDCOLOR%
+required
 </div>
 </sticky>
 </td>
