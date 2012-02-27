@@ -58,8 +58,8 @@ Foswiki makes it easy to add and edit topics or link between them.
    * Click ==Save== to save.
 
 *To add a new topic* there are three ways in the default PatternSkin:
-   1 Create a link to the topic which doesn't exist yet, Eg. by editing a topic and typing a WikiName. When the topic is saved, the link will be shown with a *?*: click the *?* and a new edit window appears.
-   1 Navigate to the topic which doesn't exist yet, Eg. by typing the name of topic in the [[GoBox][JumpBox]]. Foswiki should display a screen which invites you to create the topic.
+   1 Create a link to the topic which doesn't exist yet, e.g. by editing a topic and typing a WikiName. When the topic is saved, the link will be shown with a *?*: click the *?* and a new edit window appears.
+   1 Navigate to the topic which doesn't exist yet, e.g. by typing the name of topic in the [[GoBox][JumpBox]]. Foswiki should display a screen which invites you to create the topic.
    1 Click the ==Create New Topic== link in the WebLeftBar links down the left side of the page (assuming default PatternSkin). Foswiki should display a screen which invites you to create the topic.
 
 #TopicNames
@@ -105,12 +105,12 @@ If a user navigates to a Foswiki site without specifying a web, the default [[%U
 Each web has:
    * name
       * [[#TopicNames][topic naming rules]] apply to web names
-      * there is no ability to refer to _subwebs_ with a _relative_ path, IE. they must always be _fully qualified_ - referred to in full, with the parent web(s) prefixed
+      * there is no ability to refer to _subwebs_ with a _relative_ path, i.e. they must always be _fully qualified_ - referred to in full, with the parent web(s) prefixed
          * the '.' and '/' characters serve as _path delimiters_ to a web or topic
          * example: [[Sandbox/MySubWeb/MySubSubWeb.MyTopic]]
-         * it is possible in Foswiki to have a subweb which is the same name as a topic. For this reason, if there is a web named =Sandbox/MySubWeb=, navigating to it must be done so using a trailing slash, IE. =Sandbox/MySubWeb/=. Without the trailing slash, Foswiki tries to display the _topic_ named =Sandbox.MySubWeb=
+         * it is possible in Foswiki to have a subweb which is the same name as a topic. For this reason, if there is a web named =Sandbox/MySubWeb=, navigating to it must be done so using a trailing slash, i.e. =Sandbox/MySubWeb/=. Without the trailing slash, Foswiki tries to display the _topic_ named =Sandbox.MySubWeb=
    * WebPreferences topic
-      * sets PreferenceSettings to be inherited by all contained topics, EG. [[AccessControl][access controls]], and:
+      * sets PreferenceSettings to be inherited by all contained topics, e.g. [[AccessControl][access controls]], and:
          * =FINALPREFERENCES= to prevent subwebs and topics from overriding inherited PreferenceSettings
          * =WEBFORMS= to specify a list of DataForms that users should be able to attach to contained topics
          * =WEBCOPYRIGHT= to customise copyright message for all contained topics

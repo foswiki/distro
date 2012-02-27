@@ -66,7 +66,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 				%TWISTYTOGGLE{id="infoOnNestedWebs"}%<div class="foswikiHelp">
 					<h4>About hierarchical webs</h4>
 					<p>
-						You can only create hierarchical webs if the ={EnableHierarchicalWebs}= setting in [[%SCRIPTURLPATH{"configure"}%#Store][configure]] is enabled.  %IF{"{EnableHierarchicalWebs}" then='%GREEN% Hierarchical webs are currently enabled %ENDCOLOR%.' else='%RED Hierarchical webs are currently disabled %ENDCOLOR%. Without this setting, Foswiki will only allow a single level of hierarchy. With it, you can use multiple levels, like a directory tree, i.e. webs within webs.'}%
+						You can only create hierarchical webs if the ={EnableHierarchicalWebs}= setting in [[%SCRIPTURLPATH{"configure"}%#Store][configure]] is enabled.  %IF{"{EnableHierarchicalWebs}" then="%GREEN% Hierarchical webs are currently enabled %ENDCOLOR%." else="%RED% Hierarchical webs are currently disabled %ENDCOLOR%. Without this setting, Foswiki will only allow a single level of hierarchy. With it, you can use multiple levels, like a directory tree, i.e. webs within webs."}%
 					</p>
 					<p>
 						You might not need hierarchical webs. Foswiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.

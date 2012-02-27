@@ -12,16 +12,21 @@ _Browser-based rename, move, copy, and delete for individual topics_
 You can use browser-based controls to change a name of a topic, move it to another web or delete it to a hidden =Trash= web.
 
 %STARTSECTION{"PowerUserGuide"}%
----++ How to rename, move or delete a topic
+---++ How to rename or move a topic
 
-   1. *Select* the ==[More actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed. Then, in the new screen, click ==[Rename, move or delete this topic]==. You can now rename and/or move/delete in one operation:
-      * *Move/Delete:* Select the target web if other than the current web - choose =Trash= to [[#DeleteTopic][delete a topic]].
+   1. *Select* the ==[More actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed. Then, in the new screen, click ==[Rename or move topic...]== or ==[Delete topic...]==. You can now rename and/or move in one operation:
+      * *Move:* Select the target web if other than the current web
       * *Rename:* Enter the new topic name - default is current name
       <blockquote class="foswikiHelp">%X% You'll be warned if any of the topics to be affected are locked (being edited), or if there is a name conflict.</blockquote>
    1. *Prevent updates* by unchecking individual items on the list of referring links - these topics will NOT to be updated with the new name (by default, *only links in the same web* will be updated).
    1. *Click* on ==[Rename]==: the topic will be renamed and links to the topic updated as requested.
       * If any of the referring pages are locked then they will be listed: you can correct these later by again pressing ==[Rename]==.
       <blockquote class="foswikiHelp">%H% There is a *Put back* feature that allows you to undo a ==rename/move/delete== action - an instruction line and an undo link will appear at the bottom of the modified topic. This allows you to revert from the _last modification only_.</blockquote>
+
+---++ How to delete a topic
+Foswiki deletes topics by moving them to the hidden =Trash= web.
+   1. *Select* the ==[More actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed. Then, in the new screen, click ==[Delete topic...]==. That will bring up the "rename" form prepopulated with the =Trash= web and a suitable topic name.
+   1. *Click* on ==[Delete]==: the topic will be renamed and moved to the =Trash= web as requested.
 
 #CopyTopic
 ---++ How to copy a topic
@@ -51,6 +56,7 @@ they will be able to click through to the new name.
    1. %<nop>SEARCH%, with a special template, finds and displays all occurrences of the topic name in other topics, either web- or site-wide. These referring links are by default automatically changed to the new topic and/or web name. This includes relevant MetaData definitions.
       * User can omit one or more topics from the update list by unchecking them.
       * =&lt;pre&gt;= and =&lt;verbatim&gt;= are honoured - no changes are made to text within these areas.
+        %BR% %X% Foswiki will therefore _not_ change any references within [[Macros][macros]] defined in =&lt;pre&gt;= and =&lt;verbatim&gt;= blocks
    2. The topic is moved (if locks allow).
    3. References are changed (locks and permissions permitting).
    4. Any referring topics that cannot be changed due to locks are listed - user can take note and change them at another time.
@@ -59,7 +65,7 @@ they will be able to click through to the new name.
 
 First, matching topics in the current web are listed - matches are to ==topic==.  Next, all webs (including the current one) are listed that match ==web.topic==. _All_ webs will be searched during rename, even if =NOSEARCHALL= is defined on a web, though access permissions will of course be honoured.
 
-Changed references are kept as short as possible, ex: =topic= is used in preference to =web.topic=.
+Changed references are kept as short as possible, for example: =topic= is used in preference to =web.topic=.
 
 ---+++ Effect of user access settings
 
@@ -69,7 +75,7 @@ User permissions affect the 'rename' functions in various ways. To rename a topi
 
 Consider carefully whether to make browser-based *rename/move/delete* widely available, or to restrict it to an administrator/moderator group. Allowing all users to easily manipulate topics can be extremely useful in refactoring a busy web or site. However, there are at least two significant potential drawbacks to take into account: 
    1. When referring links are updated, the modified topics appear in WebChanges, creating the impression that editorial changes were made. This can undermine the usefulness of WebChanges.
-   2. Due to [[#RenameLimitations][current limitations]], fairly heavy use of rename/move/delete functions can lead to an accumulation of minor technical problems (ex: broken links) and usability issues (ex: user confusion). If rename... is used heavily, these negatives will obviously increase, in number and effect.
+   2. Due to [[#RenameLimitations][current limitations]], fairly heavy use of rename/move/delete functions can lead to an accumulation of minor technical problems (such as broken links) and usability issues (e.g. user confusion). If rename... is used heavily, these negatives will obviously increase, in number and effect.
 
 Ultimately, the size, objectives, and policies of your site, the real-world behavior of your user group, and most importantly, the initial Foswiki site management leadership, will determine the most effective implementation of this feature, and the success of the site overall.
 
