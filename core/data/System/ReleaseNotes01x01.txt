@@ -45,11 +45,31 @@ Foswiki 1.1 ships with the following:
 #Release01x01Changes
 ---++ Important changes since Foswiki 1.1.4
 
+Release 1.1.5 is a security focused release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.
+
+---+++ Improvements to User Registration
+
+   * The complete fix for [[http://foswiki.org/Support/SecurityAlert-CVE-2012-1004][CVE-2012-1004]] has been integrated, including pluggable field validations in the User Mapper.  If your installation uses a custom user mapper, there is a new function in the base user mapper =lib/Foswiki/Users.pm=, that performs registration field validations.  Override this method in your custom user mapper to add site specific validations.
+   * The user registration and group management API calls now all return error messages describing any failures.  All errors are processed through MAKETEXT so that they are translated to the selected language.
+
+---+++ Improvements to .htpasswd handling
+
+   * The =HtPasswdUser= password manager has been changed to globally cache the password file if enabled.   In an installation running =fcgi= or =mod_perl=, this will reduce the overhead of reading the file for each transaction.
+   * The =.htpasswd= lock file is now configurable.  There was a small risk that when multiple foswiki installations shared a common =.htpasswd= file, simultaneous updates would not be prevented, resulting in file corruption.
+   * The default for ={Htpasswd}{Encoding}= has been changed to =apache-md5=.  We _strongly_ recommend that installations migrate away from =crypt= encoding - the prior default. =crypt= truncates passwords at 8 characters.
+   * The ={Htpasswd}{AutoDetect}= option is enabled by default.  This ensures that an existing =.htpasswd= file cannot be accidentally corrupted due to the change in default encoding.
+   * A new password encoding hash has been added. =bcrypt= encoding.  (Ref. http://yorickpeterse.com/articles/use-bcrypt-fool )
+
+---+++ Changes to the =configure= password handling
+
+The encoding of the =bin/configure= and "sudo" =admin= user has been changed.  Sites should change their configure password as soon as possible. Note that this change is not backwards compatible.  Once the password has been changed, if fallback to 1.1.4 is required, the password will have to be reset by removing the password from =lib/LocalSite.cfg.=
+
 ---+++ Changes to Statistics processing
 
 The !WebStatistics topics are no longer shipped with Foswiki.  Two new topics have been included;  %SYSTEMWEB%.DefaultWebStatistics and %SYSTEMWEB%.WebStatisticsTemplate.  The =statistics= script now has the optional capability of creating the missing !WebStatistics topics.
    * The Foswiki configuration has a new parameter: ={Stats}{AutoCreateTopic}= (Default is disabled)
-   * The statistics script has a new parameter: =-autocreate 1= or =autocreate=1= (Default is disabled)
+   * The =statistics= script has a new parameter: =-autocreate 1= or =autocreate=1= (Default is 0 or disabled)
+   * The =statistics= script must now only be run using =POST=.  HTML =GET= should never result in an update.
 
 The details of this change are in %SYSTEMWEB%.SiteTools#WebStatistics, including a tool to help with creating the missing !WebStatistics topics.
 
