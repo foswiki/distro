@@ -52,10 +52,13 @@ Release 1.1.5 is a security focused release.  There are a number of fixes and sm
    * The complete fix for [[http://foswiki.org/Support/SecurityAlert-CVE-2012-1004][CVE-2012-1004]] has been integrated, including pluggable field validations in the User Mapper.  If your installation uses a custom user mapper, there is a new function in the base user mapper =lib/Foswiki/Users.pm=, that performs registration field validations.  Override this method in your custom user mapper to add site specific validations.
    * The user registration and group management API calls now all return error messages describing any failures.  All errors are processed through MAKETEXT so that they are translated to the selected language.
 
----+++ Improvements to .hpasswd handling
+---+++ Improvements to .htpasswd handling
 
    * The =HtPasswdUser= password manager has been changed to globally cache the password file if enabled.   In an installation running =fcgi= or =mod_perl=, this will reduce the overhead of reading the file for each transaction.
    * The =.htpasswd= lock file is now configurable.  There was a small risk that when multiple foswiki installations shared a common =.htpasswd= file, simultaneous updates would not be prevented, resulting in file corruption.
+   * The default for ={Htpasswd}{Encoding}= has been changed to =apache-md5=.  We _strongly_ recommend that installations migrate away from =crypt= encoding - the prior default. =crypt= truncates passwords at 8 characters.
+   * The ={Htpasswd}{AutoDetect}= option is enabled by default.  This ensures that an existing =.htpasswd= file cannot be accidentally corrupted due to the change in default encoding.
+   * A new password encoding hash has been added. =bcrypt= encoding.  (Ref. http://yorickpeterse.com/articles/use-bcrypt-fool )
 
 ---+++ Changes to the =configure= password handling
 
