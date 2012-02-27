@@ -37,12 +37,12 @@ sub check {
                 );
             }
             elsif ( -f $f ) {
-                $e .= $this->NOTE(
+                $e .= $this->WARN(
 '<b>Not Recommended:</b> crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  However changing Encoding will invalidate existing passwords unless <tt>AutoDetect</tt> is enabled. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
                 );
             }
             else {
-                $e .= $this->WARN(
+                $e .= $this->ERROR(
 'crypt encoding only uses the first 8 characters of the password and silently ignores the rest.  No password file exists, so now is a good time choose a different encoding. See <a href="http://foswiki.org/Support/HtPasswdEncodingSupplement">HtPasswdEncodingSupplement</a> for more information'
                 );
             }
@@ -90,7 +90,7 @@ sub check {
 
 sub _checkPerl {
     my ( $this, $auto, $module, $method_list ) = @_;
-    my $note;
+    my $note = '';
     my $n;
 
     foreach my $method (@$method_list) {
