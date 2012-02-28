@@ -1151,34 +1151,34 @@ sub _newTopicOrAttachmentScreen {
             $search = $session->i18n->maketext('(skipped)');
         }
         else {
-            if ($tmpl =~ /%GLOBAL_SEARCH%/) {
-              $refs = _getReferringTopics( $session, $from, 1 );
-              $resultCount += keys %$refs;
-              foreach my $entry ( sort keys %$refs ) {
-                  $checkboxAttrs->{value} = $entry;
-                  $search .= CGI::div( { class => 'foswikiTopRow' },
-                      CGI::input($checkboxAttrs) . " [[$entry]] " );
-              }
-              unless ($search) {
-                  $search = ( $session->i18n->maketext('(none)') );
-              }
+            if ( $tmpl =~ /%GLOBAL_SEARCH%/ ) {
+                $refs = _getReferringTopics( $session, $from, 1 );
+                $resultCount += keys %$refs;
+                foreach my $entry ( sort keys %$refs ) {
+                    $checkboxAttrs->{value} = $entry;
+                    $search .= CGI::div( { class => 'foswikiTopRow' },
+                        CGI::input($checkboxAttrs) . " [[$entry]] " );
+                }
+                unless ($search) {
+                    $search = ( $session->i18n->maketext('(none)') );
+                }
             }
         }
         $tmpl =~ s/%GLOBAL_SEARCH%/$search/o;
 
-        if ($tmpl =~ /%LOCAL_SEARCH%/) {
-          $refs = _getReferringTopics( $session, $from, 0 );
-          $resultCount += keys %$refs;
-          $search = '';
-          foreach my $entry ( sort keys %$refs ) {
-              $checkboxAttrs->{value} = $entry;
-              $search .= CGI::div( { class => 'foswikiTopRow' },
-                  CGI::input($checkboxAttrs) . " [[$entry]] " );
-          }
-          unless ($search) {
-              $search = ( $session->i18n->maketext('(none)') );
-          }
-          $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
+        if ( $tmpl =~ /%LOCAL_SEARCH%/ ) {
+            $refs = _getReferringTopics( $session, $from, 0 );
+            $resultCount += keys %$refs;
+            $search = '';
+            foreach my $entry ( sort keys %$refs ) {
+                $checkboxAttrs->{value} = $entry;
+                $search .= CGI::div( { class => 'foswikiTopRow' },
+                    CGI::input($checkboxAttrs) . " [[$entry]] " );
+            }
+            unless ($search) {
+                $search = ( $session->i18n->maketext('(none)') );
+            }
+            $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
         }
         $tmpl =~ s/%SEARCH_COUNT%/$resultCount/go;
     }
