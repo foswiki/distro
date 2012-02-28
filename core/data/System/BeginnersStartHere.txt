@@ -263,45 +263,45 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
 <div class="foswikiAttachments">
 <table style="border-width:1px;" cellspacing="0" id="foswikiAttachmentsTable" cellpadding="0" class="foswikiTable">
    <tr class="foswikiTableEven">
-   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="foswikiFirstCol">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">I</a>
+   <th align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="foswikiFirstCol">
+      <a rel="nofollow" href="#FileAttachmentTable">I</a>
    </th>
-   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Attachment</a>
+   <th align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable">Attachment</a>
    </th>
-   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Action</a>
+   <th align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable">Action</a>
    </th>
-   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Size</a>
+   <th align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable">Size</a>
    </th>
-   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Date</a>
+   <th align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable">Date</a>
    </th>
-   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Who</a>
+   <th align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable">Who</a>
    </th>
-   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
-      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Comment</a>
+   <th align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable">Comment</a>
    </th>
    </tr>
    <tr class="foswikiTableOdd">
-   <td style='background-color:#ffffff' align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{txt}% </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Sample.txt]] </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:37</td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> Just a sample </td>
+   <td align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{txt}% </td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Sample.txt]] </td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
+   <td align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:37</td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> Just a sample </td>
    </tr>
    <tr class="foswikiTableOdd">
-   <td style='background-color:#ffffff' align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{gif}% </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Smile.gif]] </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:38</td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
-   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> Smiley face </td>
+   <td align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{gif}% </td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Smile.gif]] </td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
+   <td align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:38</td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
+   <td align="left" valign="top" style="text-align:left;vertical-align:top;"> Smiley face </td>
    </tr>
 </table>
 </div>
