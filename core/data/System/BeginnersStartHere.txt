@@ -32,7 +32,7 @@ Foswiki is an Open-Source development on http://foswiki.org/
 ---++ Foswiki features
 Foswiki builds on the original Wiki concept, and adds features that make it very useful in a business environment.
    * *Revision control* of all pages, so a record of every change to every page is kept
-     <table><tr><td valign="top"></td><td><td bgcolor="#D0D0D0"><font color="black" size="-1">r6 &lt; r5 &lt; r4 &lt; r3 &lt; r2</font></td></tr></table>
+     <table><tr><td valign="top"></td><td><td style="background-color:#D0D0D0"><font color="black" size="-1">r6 &lt; r5 &lt; r4 &lt; r3 &lt; r2</font></td></tr></table>
    * *Powerful macros* allow _users_ to build and use their own online applications
    * *Highly configurable* look and feel, through use of templates
    * *Plugins interface* eases
@@ -263,45 +263,45 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
 <div class="foswikiAttachments">
 <table style="border-width:1px;" cellspacing="0" id="foswikiAttachmentsTable" cellpadding="0" class="foswikiTable">
    <tr class="foswikiTableEven">
-   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="foswikiFirstCol">
+   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="foswikiFirstCol">
       <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">I</a>
    </th>
-   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
       <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Attachment</a>
    </th>
-   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
       <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Action</a>
    </th>
-   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
       <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Size</a>
    </th>
-   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
       <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Date</a>
    </th>
-   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
       <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Who</a>
    </th>
-   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+   <th style='background-color:#ffffff' align="center" valign="middle" style="text-align:center;vertical-align:middle;">
       <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Comment</a>
    </th>
    </tr>
    <tr class="foswikiTableOdd">
-   <td bgcolor="#ffffff" align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{txt}% </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Sample.txt]] </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:37</td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> Just a sample </td>
+   <td style='background-color:#ffffff' align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{txt}% </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Sample.txt]] </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:37</td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> Just a sample </td>
    </tr>
    <tr class="foswikiTableOdd">
-   <td bgcolor="#ffffff" align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{gif}% </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Smile.gif]] </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:38</td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
-   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> Smiley face </td>
+   <td style='background-color:#ffffff' align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{gif}% </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Smile.gif]] </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:38</td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
+   <td style='background-color:#ffffff' align="left" valign="top" style="text-align:left;vertical-align:top;"> Smiley face </td>
    </tr>
 </table>
 </div>

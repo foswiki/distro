@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="WebPreferences"}%
 ---++!! Tools
 %INCLUDE{"%SYSTEMWEB%.RenameWeb"}%
-%ICON{"help"}% %TWISTY{mode="div" showlink="%MAKETEXT{"Show help"}%" hidelink="%MAKETEXT{"Hide help"}%"}%
+%TWISTY{mode="div" showlink="$percntICON{help}$percnt %MAKETEXT{"Show help"}%" hidelink="$percntICON{help}$percnt %MAKETEXT{"Hide help"}%"}%
 %INCLUDE{"%SYSTEMWEB%.PreferenceSettings"}%
 
 ---++!! Related Topics
