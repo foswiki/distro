@@ -3129,8 +3129,7 @@ sub convertImage {
 }
 
 #TranslatorTests->gen_compare_tests( 'test', [ grep { $_->{name} eq 'Item4855' } @$data ] );
-TranslatorTests->gen_compare_tests( 'test', [ grep { $_->{name} =~ /Item11378/ } @$data ] );
-#TranslatorTests->gen_compare_tests( 'test', $data );
+TranslatorTests->gen_compare_tests( 'test', $data );
 
 #gen_file_tests();
 

@@ -86,16 +86,16 @@ process.
 
 =cut
 
-our $CHECKn = chr( $cc{CHECKn} );
-our $CHECKs = chr( $cc{CHECKs} );
-our $CHECKw = chr( $cc{CHECKw} );
-our $CHECK1 = chr( $cc{CHECK1} );
-our $CHECK2 = chr( $cc{CHECK2} );
-our $TAB    = chr( $cc{TAB} );
-our $PON    = chr( $cc{PON} );
-our $POFF   = chr( $cc{POFF} );
+our $CHECKn   = chr( $cc{CHECKn} );
+our $CHECKs   = chr( $cc{CHECKs} );
+our $CHECKw   = chr( $cc{CHECKw} );
+our $CHECK1   = chr( $cc{CHECK1} );
+our $CHECK2   = chr( $cc{CHECK2} );
+our $TAB      = chr( $cc{TAB} );
+our $PON      = chr( $cc{PON} );
+our $POFF     = chr( $cc{POFF} );
 our $WS_NOTAB = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2\s]*/;
-our $WS     = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2$TAB\s]*/;
+our $WS       = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2$TAB\s]*/;
 
 =pod
 

@@ -547,11 +547,13 @@ sub generate {
         return ( $flags, $text ) if defined $text;
     }
 
-    unless ($this->{tag}) {
-	# No translation, so we need the text of the children
-	( $flags, $text ) = $this->_flatten($options);
-	# just return the text if there is no tag name
-	return ( $flags, $text );
+    unless ( $this->{tag} ) {
+
+        # No translation, so we need the text of the children
+        ( $flags, $text ) = $this->_flatten($options);
+
+        # just return the text if there is no tag name
+        return ( $flags, $text );
     }
 
     return $this->_defaultTag($options);
@@ -685,16 +687,17 @@ sub _convertIndent {
     my ( $this, $options ) = @_;
     my $indent = $WC::TAB;
 
-    my ($f, $t) = $this->_handleP($options);
-    if ($t =~ /^$WC::WS_NOTAB*($WC::TAB+):(.*)$/) {
-	return "$WC::CHECKn$1:$2";
+    my ( $f, $t ) = $this->_handleP($options);
+    if ( $t =~ /^$WC::WS_NOTAB*($WC::TAB+):(.*)$/ ) {
+        return "$WC::CHECKn$1:$2";
     }
+
     # Zoom up through the tree and see how many layers of indent we have
     my $p = $this;
-    while ($p = $p->{parent}) {
-	if ($p->{tag} eq 'div' && $p->hasClass('foswikiIndent')) {
-	    $indent .= $WC::TAB;
-	}
+    while ( $p = $p->{parent} ) {
+        if ( $p->{tag} eq 'div' && $p->hasClass('foswikiIndent') ) {
+            $indent .= $WC::TAB;
+        }
     }
     $t =~ s/^$WC::WS*//s;
     $t =~ s/$WC::WS*$//s;
@@ -1481,7 +1484,7 @@ sub _handleDIV {
     if ( ( $options & $WC::NO_BLOCK_TML )
         || !$this->_isConvertableIndent( $options | $WC::NO_BLOCK_TML ) )
     {
-        return $this->_handleP( $options );
+        return $this->_handleP($options);
     }
     return ( $WC::BLOCK_TML, $this->_convertIndent($options) );
 }

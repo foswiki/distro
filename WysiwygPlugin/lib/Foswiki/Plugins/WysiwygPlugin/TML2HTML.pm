@@ -613,12 +613,13 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li>)\s*$/$1&nbsp;/;
 
         }
-	elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
+        elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
 
-	    # Indent pseudo-list
-	    $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"', $1 );
-	    $inList = 1;
-	}
+            # Indent pseudo-list
+            $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"',
+                $1 );
+            $inList = 1;
+        }
         elsif ( $line =~ m/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/ ) {
 
             # Numbered list
@@ -823,9 +824,8 @@ sub _processTableRow {
     $row =~ s/^(\s*)\|//;    # Remove leading junk
     my $pre = $1;
 
-    $row =~
-      s/(\|\|+)/'colspan'.$Foswiki::TranslationToken.length($1)."\|"/geo
-      ;                         # calc COLSPAN
+    $row =~ s/(\|\|+)/'colspan'.$Foswiki::TranslationToken.length($1)."\|"/geo
+      ;                      # calc COLSPAN
     my $colCount = 0;
     my @cols     = ();
     my $span     = 0;
@@ -1237,8 +1237,8 @@ sub _addListItem {
         my $firstTime = 1;
         while ( $size < $depth ) {
             push( @{ $this->{LIST} }, { type => $type, element => $element } );
-            push( @$result, "<$element" . ($opts ? " $opts" : "") .">" )
-		unless ($firstTime);
+            push( @$result, "<$element" . ( $opts ? " $opts" : "" ) . ">" )
+              unless ($firstTime);
             push( @$result, "<$type>" ) if $type;
             $firstTime = 0;
             $size++;
@@ -1259,13 +1259,12 @@ sub _addListItem {
     if ($size) {
         my $oldt = $this->{LIST}->[ $size - 1 ];
         if ( $oldt->{type} ne $type ) {
-	    my $r = '';
- 	    $r .= "</$oldt->{type}>" if $oldt->{type};
-	    $r .= "<$type>" if $type;
+            my $r = '';
+            $r .= "</$oldt->{type}>" if $oldt->{type};
+            $r .= "<$type>" if $type;
             push( @$result, $r );
             pop( @{ $this->{LIST} } );
-            push( @{ $this->{LIST} }, {
-                type => $type, element => $element } );
+            push( @{ $this->{LIST} }, { type => $type, element => $element } );
         }
     }
 }
