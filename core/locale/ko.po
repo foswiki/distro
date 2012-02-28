@@ -15,22 +15,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:486
 msgid "%*(%1,day) "
 msgstr "%*(%1,일) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:489
 msgid "%*(%1,hour) "
 msgstr "%*(%1,시간) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:492
 msgid "%*(%1,minute) "
 msgstr "%*(%1,분) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:493
+#: core/lib/Foswiki/Time.pm:495
 msgid "%*(%1,second) "
 msgstr "%*(%1,초) "
 
@@ -64,7 +64,7 @@ msgid "%1 added to the %2 group. "
 msgstr ""
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1039
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1038
 msgid "%1 cannot be removed from %2"
 msgstr ""
 
@@ -515,7 +515,7 @@ msgstr ""
 "색상 정보는 # 으로 시작되는 6개의 16진수 숫자로 구성됩니다. 예 = #FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:967
+#: core/lib/Foswiki/UI/Register.pm:998
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "확인 메일이 %1 로 전송되었습니다."
 
@@ -855,12 +855,12 @@ msgid ""
 msgstr ""
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:861
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:897
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:895
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1015,7 +1015,7 @@ msgid "Choose a new form for %1"
 msgstr ""
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:104
+#: core/lib/Foswiki/Form/Checkbox.pm:105
 msgid "Clear all"
 msgstr "모두 지우기"
 
@@ -1428,7 +1428,7 @@ msgstr ""
 msgid "Email address"
 msgstr "이메일 주소:"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:469
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:471
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
@@ -1628,7 +1628,7 @@ msgstr "좋은 예제:"
 msgid "Group"
 msgstr "그룹"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1675,7 +1675,7 @@ msgstr ""
 "계층 구조의 웹 생성 기능이비활성화 되어있기 때문에 하부 토픽을 생성할 수 없습"
 "니다."
 
-#: core/data/System/ManagingTopics.txt:92
+#: core/data/System/ManagingTopics.txt:98
 #, fuzzy
 msgid "History"
 msgstr "기록 (&H)"
@@ -2609,8 +2609,8 @@ msgstr "정규 표현식 검색"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:958
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:957
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:970
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:598 core/templates/messages.tmpl:609
@@ -2959,7 +2959,7 @@ msgstr ""
 msgid "Sequential"
 msgstr ""
 
-#: core/lib/Foswiki/Form/Checkbox.pm:98
+#: core/lib/Foswiki/Form/Checkbox.pm:99
 msgid "Set all"
 msgstr ""
 
@@ -3349,7 +3349,7 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
 
 #: core/templates/messages.tmpl:481
-msgid "There were errors adding %1 to the %2 group. "
+msgid "There were errors adding to the %2 group. %1 "
 msgstr ""
 
 #: core/templates/messages.tmpl:531
@@ -3692,12 +3692,12 @@ msgid "Use template:"
 msgstr "다음 템플릿 사용하기:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1072
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1071
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1060
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
 msgstr ""
@@ -3726,7 +3726,7 @@ msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1031
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1030
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -3843,11 +3843,11 @@ msgstr ""
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:960
+#: core/lib/Foswiki/UI/Register.pm:991
 msgid "Warning: Could not send confirmation email"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:972
+#: core/lib/Foswiki/UI/Register.pm:1003
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
@@ -3855,8 +3855,16 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+msgstr ""
+
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
+msgstr ""
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr ""
 
 #: core/data/System/SiteChanges.txt:45

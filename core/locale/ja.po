@@ -19,22 +19,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:486
 msgid "%*(%1,day) "
 msgstr "%*(%1,日) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:489
 msgid "%*(%1,hour) "
 msgstr "%*(%1,時間) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:492
 msgid "%*(%1,minute) "
 msgstr "%*(%1,分) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:493
+#: core/lib/Foswiki/Time.pm:495
 msgid "%*(%1,second) "
 msgstr "%*(%1,秒)"
 
@@ -72,7 +72,7 @@ msgstr "%1は%2グループに追加しました。"
 #   $date,
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1039
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1038
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 は%2から外されました。"
@@ -545,7 +545,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:967
+#: core/lib/Foswiki/UI/Register.pm:998
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認のメールが %1 に送信されました"
 
@@ -898,12 +898,12 @@ msgstr ""
 "=ALLOWWEBVIEW= の関係制限を削除してください"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:861
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:897
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:895
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1056,7 +1056,7 @@ msgid "Choose a new form for %1"
 msgstr " %1 のために新しいフォームを選択します"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:104
+#: core/lib/Foswiki/Form/Checkbox.pm:105
 msgid "Clear all"
 msgstr "全てクリアします"
 
@@ -1478,7 +1478,7 @@ msgstr ""
 msgid "Email address"
 msgstr "メールアドレス："
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:469
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:471
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "電子メールはこのサイトでは無効にしました。"
 
@@ -1681,7 +1681,7 @@ msgstr "良い例:"
 msgid "Group"
 msgstr "グループ"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1726,7 +1726,7 @@ msgstr "ヘルプを隠します"
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 
-#: core/data/System/ManagingTopics.txt:92
+#: core/data/System/ManagingTopics.txt:98
 #, fuzzy
 msgid "History"
 msgstr "履歴"
@@ -2708,8 +2708,8 @@ msgstr "正規表現検索"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:958
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:957
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:970
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:598 core/templates/messages.tmpl:609
@@ -3068,7 +3068,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "シーケンシャル"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:98
+#: core/lib/Foswiki/Form/Checkbox.pm:99
 msgid "Set all"
 msgstr "全て設定"
 
@@ -3478,8 +3478,9 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr " %1 を含むラインが無ければなりません。%2(又は%3)を参照してください "
 
 #: core/templates/messages.tmpl:481
-msgid "There were errors adding %1 to the %2 group. "
-msgstr ""
+#, fuzzy
+msgid "There were errors adding to the %2 group. %1 "
+msgstr "%1は%2グループに追加しました。"
 
 #: core/templates/messages.tmpl:531
 msgid "There were errors removing %1 from the %2 group. "
@@ -3841,13 +3842,13 @@ msgid "Use template:"
 msgstr "テンプレートを使用します："
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1072
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1071
 #, fuzzy
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "%1には%2 *%3*にアクセスする権限がありません。"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1060
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3877,7 +3878,7 @@ msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1031
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1030
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -4000,11 +4001,11 @@ msgstr "警告: トピック%1.%2が見つかりません"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: トピック%1.%2が見つかりません"
 
-#: core/lib/Foswiki/UI/Register.pm:960
+#: core/lib/Foswiki/UI/Register.pm:991
 msgid "Warning: Could not send confirmation email"
 msgstr "警告： 確認のメールが送信できません"
 
-#: core/lib/Foswiki/UI/Register.pm:972
+#: core/lib/Foswiki/UI/Register.pm:1003
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "警告： 確認のメールが送信できませんでした。メールは利用不可になっています。"
@@ -4013,9 +4014,19 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告： このウェブサイトでは %<nop>INCLUDE% リンクは使用できません"
 
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+#, fuzzy
+msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+msgstr "警告：'include'トピックは存在しません！"
+
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 #, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "警告：'include'トピックは存在しません！"
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+#, fuzzy
+msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
 
 #: core/data/System/SiteChanges.txt:45

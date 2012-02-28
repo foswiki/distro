@@ -17,22 +17,22 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:486
 msgid "%*(%1,day) "
 msgstr "%*(%1,den) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:489
 msgid "%*(%1,hour) "
 msgstr "%*(%1,hodin) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:492
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minut) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:493
+#: core/lib/Foswiki/Time.pm:495
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund) "
 
@@ -66,7 +66,7 @@ msgid "%1 added to the %2 group. "
 msgstr "%1 přidán do skupiny %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1039
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1038
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 odstraněn ze skupiny %2."
@@ -527,7 +527,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:967
+#: core/lib/Foswiki/UI/Register.pm:998
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Potvrzovací e-mail byl odeslán %1"
 
@@ -874,12 +874,12 @@ msgstr ""
 "WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:861
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:897
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:895
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1032,7 +1032,7 @@ msgid "Choose a new form for %1"
 msgstr "Vyberte nový formulář pro %1"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:104
+#: core/lib/Foswiki/Form/Checkbox.pm:105
 msgid "Clear all"
 msgstr "Vymaž vše"
 
@@ -1451,7 +1451,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Emailová adresa"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:469
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:471
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "Email byl zablokovám pro tuto instalaci Foswiki"
 
@@ -1655,7 +1655,7 @@ msgstr "Dobré příklady:"
 msgid "Group"
 msgstr "Skupina"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1701,7 +1701,7 @@ msgstr ""
 "Funkce Hierarchických Webů je momentálně vypnutá, nemůžete vytvářet vložené "
 "weby."
 
-#: core/data/System/ManagingTopics.txt:92
+#: core/data/System/ManagingTopics.txt:98
 msgid "History"
 msgstr "Historie"
 
@@ -2658,8 +2658,8 @@ msgstr "Hledání pomocí regulárních výrazů"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:958
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:957
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:970
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:598 core/templates/messages.tmpl:609
@@ -3008,7 +3008,7 @@ msgstr "Pro vyhledávání v textu jsou aktivována omezení."
 msgid "Sequential"
 msgstr "Sekvenčně"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:98
+#: core/lib/Foswiki/Form/Checkbox.pm:99
 msgid "Set all"
 msgstr "Nastav vše"
 
@@ -3432,7 +3432,8 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
 
 #: core/templates/messages.tmpl:481
-msgid "There were errors adding %1 to the %2 group. "
+#, fuzzy
+msgid "There were errors adding to the %2 group. %1 "
 msgstr "Při přidání skupiny %1 do skupiny %2 se vyskytly chyby."
 
 #: core/templates/messages.tmpl:531
@@ -3788,12 +3789,12 @@ msgid "Use template:"
 msgstr "Použij šablonu:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1072
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1071
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1060
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3823,7 +3824,7 @@ msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1031
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1030
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -3939,11 +3940,11 @@ msgstr "Varování: Nemohu najít článek %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Varování: Nemohu najít článek %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:960
+#: core/lib/Foswiki/UI/Register.pm:991
 msgid "Warning: Could not send confirmation email"
 msgstr "Varování: Nemohu odeslat konfirmační email."
 
-#: core/lib/Foswiki/UI/Register.pm:972
+#: core/lib/Foswiki/UI/Register.pm:1003
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Varování: Nemohu zaslat konfirmační email, zasílání emailů je vypnuté."
 
@@ -3951,8 +3952,18 @@ msgstr "Varování: Nemohu zaslat konfirmační email, zasílání emailů je vy
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+#, fuzzy
+msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+msgstr "Varování: \\'include\\' článek ještě neexistuje!"
+
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "Varování: \\'include\\' článek ještě neexistuje!"
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+#, fuzzy
+msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Varování: \\'include\\' článek ještě neexistuje!"
 
 #: core/data/System/SiteChanges.txt:45

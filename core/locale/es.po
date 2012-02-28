@@ -20,22 +20,22 @@ msgstr ""
 "X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:486
 msgid "%*(%1,day) "
 msgstr "%*(%1,día) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:489
 msgid "%*(%1,hour) "
 msgstr "%*(%1,hora) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:492
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minuto) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:493
+#: core/lib/Foswiki/Time.pm:495
 msgid "%*(%1,second) "
 msgstr "%*(%1,segundo) "
 
@@ -70,7 +70,7 @@ msgid "%1 added to the %2 group. "
 msgstr "%1 fue agregado al grupo %2. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1039
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1038
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 fue eliminado del grupo %2. "
@@ -546,7 +546,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:967
+#: core/lib/Foswiki/UI/Register.pm:998
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Se envió un correo de confirmación a %1"
 
@@ -903,12 +903,12 @@ msgstr ""
 "=ALLOWWEBVIEW= en WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:861
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:897
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:895
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1066,7 +1066,7 @@ msgid "Choose a new form for %1"
 msgstr "Escoja un nuevo formulario para %1"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:104
+#: core/lib/Foswiki/Form/Checkbox.pm:105
 msgid "Clear all"
 msgstr "Borrar todo"
 
@@ -1493,7 +1493,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:469
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:471
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 "El correo electrónico fue deshabilitado para esta instalación de Foswiki"
@@ -1703,7 +1703,7 @@ msgstr "Buenos ejemplos:"
 msgid "Group"
 msgstr "Grupo"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1749,7 +1749,7 @@ msgstr ""
 "El uso de webs jerárquicas está actualmente deshabilitado; no puede crear "
 "webs anidadas."
 
-#: core/data/System/ManagingTopics.txt:92
+#: core/data/System/ManagingTopics.txt:98
 msgid "History"
 msgstr "Historial"
 
@@ -2731,8 +2731,8 @@ msgstr "Búsqueda de expresión regular"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:958
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:957
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:970
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:598 core/templates/messages.tmpl:609
@@ -3086,7 +3086,7 @@ msgstr "Aplicación de selecciones a buscar en el \"cuerpo del texto\""
 msgid "Sequential"
 msgstr "Secuencial"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:98
+#: core/lib/Foswiki/Form/Checkbox.pm:99
 msgid "Set all"
 msgstr "Seleccionar todos"
 
@@ -3524,7 +3524,8 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Deberia haber una linea que incluya %1, busque %2 (o %3)"
 
 #: core/templates/messages.tmpl:481
-msgid "There were errors adding %1 to the %2 group. "
+#, fuzzy
+msgid "There were errors adding to the %2 group. %1 "
 msgstr "Se encontraron errores añadiendo %1 al grupo %2. "
 
 #: core/templates/messages.tmpl:531
@@ -3898,13 +3899,13 @@ msgid "Use template:"
 msgstr "Utilice plantilla:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1072
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1071
 #, fuzzy
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "No hay acceso para ver %1"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1060
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3934,7 +3935,7 @@ msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1031
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1030
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -4057,11 +4058,11 @@ msgstr "Advertencia: No se puede encontrar el tema %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Advertencia: No se puede encontrar el tema %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:960
+#: core/lib/Foswiki/UI/Register.pm:991
 msgid "Warning: Could not send confirmation email"
 msgstr "Advertencia: No se pudo enviar correo de confirmación"
 
-#: core/lib/Foswiki/UI/Register.pm:972
+#: core/lib/Foswiki/UI/Register.pm:1003
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Advertencia: No se pudo enviar correo de confirmación, correo electrónico "
@@ -4071,8 +4072,18 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advertencia: Este sitio no permite %<nop>INCLUDE% de direcciones web"
 
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+#, fuzzy
+msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+msgstr "¡Advertencia: tema \\'incluido\\' no existe!"
+
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "¡Advertencia: tema \\'incluido\\' no existe!"
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+#, fuzzy
+msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "¡Advertencia: tema \\'incluido\\' no existe!"
 
 #: core/data/System/SiteChanges.txt:45

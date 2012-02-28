@@ -20,22 +20,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:484
+#: core/lib/Foswiki/Time.pm:486
 msgid "%*(%1,day) "
 msgstr "%*(%1,天) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:487
+#: core/lib/Foswiki/Time.pm:489
 msgid "%*(%1,hour) "
 msgstr "%*(%1,小时) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:490
+#: core/lib/Foswiki/Time.pm:492
 msgid "%*(%1,minute) "
 msgstr "%*(%1,分钟) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:493
+#: core/lib/Foswiki/Time.pm:495
 msgid "%*(%1,second) "
 msgstr "%*(%1,秒)"
 
@@ -73,7 +73,7 @@ msgstr "%1 加入 %2 群组。"
 # $date,
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1039
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1038
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -534,7 +534,7 @@ msgid ""
 msgstr "颜色记号始于 # 标记，后面由 6 个位元的 16 进位数组成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:967
+#: core/lib/Foswiki/UI/Register.pm:998
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "确认的电子邮件已寄往 %1 "
 
@@ -881,12 +881,12 @@ msgstr ""
 "WebPreferences 中 =ALLOWWEBVIEW= 的相关限制。"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:861
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:897
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:895
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1041,7 +1041,7 @@ msgid "Choose a new form for %1"
 msgstr "为 %1 选个新表单"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#: core/lib/Foswiki/Form/Checkbox.pm:104
+#: core/lib/Foswiki/Form/Checkbox.pm:105
 msgid "Clear all"
 msgstr "全部清除"
 
@@ -1455,7 +1455,7 @@ msgstr "未指定档名，或上传的档案 %1 没有内容。不能上传空�
 msgid "Email address"
 msgstr "电子邮件位址:"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:469
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:471
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "本网站不开放电子邮件使用。"
 
@@ -1660,7 +1660,7 @@ msgstr "好范例:"
 msgid "Group"
 msgstr "群组"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:891
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1705,7 +1705,7 @@ msgstr "隐藏说明"
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr "目前禁用次子网，您无法建立巢状子网。"
 
-#: core/data/System/ManagingTopics.txt:92
+#: core/data/System/ManagingTopics.txt:98
 #, fuzzy
 msgid "History"
 msgstr "历史(&H)"
@@ -2662,8 +2662,8 @@ msgstr "正则运算式搜寻"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:958
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:971
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:957
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:970
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:598 core/templates/messages.tmpl:609
@@ -3010,7 +3010,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "连续的"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:98
+#: core/lib/Foswiki/Form/Checkbox.pm:99
 msgid "Set all"
 msgstr "设定所有"
 
@@ -3406,8 +3406,9 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必须包含一行包含 %1，参考 %2 (或 %3)"
 
 #: core/templates/messages.tmpl:481
-msgid "There were errors adding %1 to the %2 group. "
-msgstr ""
+#, fuzzy
+msgid "There were errors adding to the %2 group. %1 "
+msgstr "%1 加入 %2 群组。"
 
 #: core/templates/messages.tmpl:531
 msgid "There were errors removing %1 from the %2 group. "
@@ -3761,12 +3762,12 @@ msgid "Use template:"
 msgstr "使用范本:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1072
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1071
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1061
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1060
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3796,7 +3797,7 @@ msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1031
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1030
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -3914,11 +3915,11 @@ msgstr "警告: 找不到主题%1. %2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: 找不到主题%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:960
+#: core/lib/Foswiki/UI/Register.pm:991
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 无法寄送确认邮件"
 
-#: core/lib/Foswiki/UI/Register.pm:972
+#: core/lib/Foswiki/UI/Register.pm:1003
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 
@@ -3926,8 +3927,18 @@ msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本网站不允许 %<nop>INCLUDE% 连结"
 
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+#, fuzzy
+msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
+msgstr "警告: \\'include\\' 的主题不存在！"
+
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "警告: \\'include\\' 的主题不存在！"
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+#, fuzzy
+msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告: \\'include\\' 的主题不存在！"
 
 #: core/data/System/SiteChanges.txt:45
