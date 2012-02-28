@@ -3,57 +3,56 @@
 
 This topic implements a button that will turn Admin status on or off for the
 current user (!%WIKINAME%), by adding or removing the user from the
-!AdminGroup.  This new function is recommended to replace
-=sudo= login when possible.  It provides better security and allows changes to be tracked to
-the user making the change instead of the anonymous !AdminUser.
+!AdminGroup.  This new function is recommended to replace =sudo= login when
+possible.  It provides better security and allows changes to be tracked to the
+user making the change instead of the anonymous !AdminUser.
 
-<blockquote class="foswikiHelp"> %T% Note: This feature is only usable if your User Mapper allows group membership to be modified from the Wiki.</blockquote>
+<blockquote class="foswikiHelp"> 
+  %T% Note: This feature is only usable if your User Mapper allows group membership to be modified from the Wiki.
+</blockquote>
+
 ---++ Configuration
-   * Edit the settings for Main.AdminGroup
+   * Edit the settings for %USERSWEB%.AdminGroup
       * Allow the users who are permitted to gain "Admin Rights" to modify the topic.
       * Ex. =* ALLOWTOPICCHANGE = !AdminGroup, !JoeTheAdmin, !AnotherAdmin=
    * Remove those users from the !AdminGroup. They can add themselves using the below button.
-   * Notify the potential administrators that they can either use this topic, or =%I<nop>NCLUDE{"AdminToggle"}%= in their custom !LeftBar topic, or somewhere else convenient.
+   * Notify the potential administrators that they can either use this topic, or =%I<nop>NCLUDE{"AdminToggle"}%= in their custom sidebar topic, or somewhere else convenient.
 
 ---++ Operation
-_If you (<nop>%WIKINAME%) has permission to change the Main.AdminGroup topic,  a button to add or remove yourself from the Admin Group will appear below:_ Be sure that you have explicit CHANGE authority on the !AdminGroup or removing yourself from the group will be permanent.
+_If you (<nop>%WIKINAME%) has permission to change the %USERSWEB%.AdminGroup topic,  a button to add or remove yourself from the Admin Group will appear below:_ 
+Be sure that you have explicit CHANGE authority on the !AdminGroup or removing yourself from the group will be permanent.
+
 %IF{"{AdminUserWikiName}='%WIKINAME%'" then="
    * Note that the !AdminUser is a permanent member of !AdminGroup, so the button will not appear."}%
 
 <verbatim class="foswikiHidden">
-%STARTSECTION{"ADD"}%
-%IF{"'%USERSWEB%.AdminGroup' allows 'CHANGE'" then="
-<form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
-<input type='hidden' name='groupname' value='AdminGroup'/>
-<input type='hidden' name='action' value='addUserToGroup'/>
-<input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
-<input type='hidden' name='username' value='%WIKINAME%' />
-%BUTTON{"%MAKETEXT{"Become Admin"}%" icon="add" type="submit"}%
-     %CLEAR%
+%STARTSECTION{"ADD"}%%IF{"'%USERSWEB%.AdminGroup' allows 'CHANGE'" then="
+  <form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
+  <input type='hidden' name='groupname' value='AdminGroup'/>
+  <input type='hidden' name='action' value='addUserToGroup'/>
+  <input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
+  <input type='hidden' name='username' value='%WIKINAME%' />
+  %BUTTON{"%MAKETEXT{"Become Admin"}%" icon="add" type="submit"}%
+  %CLEAR%
 </form>
-"}%
-%ENDSECTION{"ADD"}%
+"}%%ENDSECTION{"ADD"}%
 
-%STARTSECTION{"DEL"}%
-%IF{"'%USERSWEB%.AdminGroup' allows 'CHANGE'" then="
-<form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
-<input type='hidden' name='groupname' value='AdminGroup'/>
-<input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
-<input type='hidden' name='action' value='removeUserFromGroup'/>
-<input type='hidden' name='username' value='%WIKINAME%' />
-%BUTTON{"%MAKETEXT{"<b>Remove Admin</b>"}%" icon="delete" class="red" type="submit"}%
-     %CLEAR%
+%STARTSECTION{"DEL"}%%IF{"'%USERSWEB%.AdminGroup' allows 'CHANGE'" then="
+  <form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
+  <input type='hidden' name='groupname' value='AdminGroup'/>
+  <input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
+  <input type='hidden' name='action' value='removeUserFromGroup'/>
+  <input type='hidden' name='username' value='%WIKINAME%' />
+  %BUTTON{"<b>%MAKETEXT{"Remove Admin"}%</b>" icon="delete" class="red" type="submit"}%
+  %CLEAR%
 </form>
-"}%
-%ENDSECTION{"DEL"}%
+"}%%ENDSECTION{"DEL"}%
 </verbatim>
 
-%STARTINCLUDE%
-%IF{"{AdminUserWikiName}='%WIKINAME%'" else="
-    $percntIF{
-       $quot$USERNAME ingroup 'AdminGroup'$quot
-          then=$quot%INCLUDE{"%TOPIC%" section="DEL"}%$quot
-          else=$quot%INCLUDE{"%TOPIC%" section="ADD"}%$quot
-    }$percnt
-"}%
-%STOPINCLUDE%
+%STARTINCLUDE%%IF{"{AdminUserWikiName}='%WIKINAME%'" else="
+  $percntIF{
+    \"$USERNAME ingroup 'AdminGroup'\"
+      then=\"%INCLUDE{"%TOPIC%" section="DEL"}%\"
+      else=\"%INCLUDE{"%TOPIC%" section="ADD"}%\"
+  }$percnt
+"}%%STOPINCLUDE%
