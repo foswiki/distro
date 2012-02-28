@@ -3,8 +3,8 @@
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
-<table class="foswikiTable" border="1" cellpadding="3" bgcolor="#ffffff">
-<tr bgcolor="#ffffff">
+<table class="foswikiTable" border="1" cellpadding="3">
+<tr>
 <th width="50%" class="foswikiFirstCol">
  Formatting Command:
 </th>
@@ -208,7 +208,7 @@ done; exit 0
 Three or more three dashes at the beginning of a line..
 </td><td>
 <verbatim class="tml">
--------
+---
 </verbatim>
 </td><td>
 
@@ -497,11 +497,9 @@ E-mail addresses are linked automatically. To create e-mail links that have more
 <verbatim class="tml">
 a@b.com
 
-[[mailto:a@b.com]\
-[Mail]]
+[[mailto:a@b.com][Mail]]
 
-[[mailto:?subject=\
-Hi][Hi]]
+[[mailto:?subject=Hi][Hi]]
 </verbatim>
 </td><td>
 
@@ -518,10 +516,10 @@ a@b.com
  *Literal content:* %BR%
  Foswiki generates HTML code from TML shorthand.
  *Experts* surround anything that must be output literally in the HTML code, without the application of
- shorthand rules, with =&lt;literal&gt;..&lt;/literal&gt;= tags. 
+ shorthand rules, with =&lt;literal&gt;..&lt;/literal&gt;= tags.
  %BR% %X% Any HTML
  within literal tags *must* be well formed i.e. all tags must be properly closed before
- the end of the literal block. 
+ the end of the literal block.
  %BR% %I% Macros are expanded within literal blocks.
 </td><td>
 <pre>
@@ -553,7 +551,7 @@ a@b.com
 <verbatim class="tml">
 <sticky>
 <div>
-This div
+This div 
 %RED%is%ENDCOLOR%
 required
 </div>
