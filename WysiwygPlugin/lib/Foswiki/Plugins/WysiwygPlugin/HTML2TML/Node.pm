@@ -547,11 +547,12 @@ sub generate {
         return ( $flags, $text ) if defined $text;
     }
 
-    # No translation, so we need the text of the children
-    ( $flags, $text ) = $this->_flatten($options);
-
-    # just return the text if there is no tag name
-    return ( $flags, $text ) unless $this->{tag};
+    unless ($this->{tag}) {
+	# No translation, so we need the text of the children
+	( $flags, $text ) = $this->_flatten($options);
+	# just return the text if there is no tag name
+	return ( $flags, $text );
+    }
 
     return $this->_defaultTag($options);
 }
@@ -1470,7 +1471,6 @@ sub _handleCODE { return _emphasis( @_, '=' ); }
 sub _handleCOL      { return _flatten(@_); }
 sub _handleCOLGROUP { return _flatten(@_); }
 sub _handleDD       { return _flatten(@_); }
-sub _handleDEL      { return _flatten(@_); }
 sub _handleDFN      { return _flatten(@_); }
 
 # DIR

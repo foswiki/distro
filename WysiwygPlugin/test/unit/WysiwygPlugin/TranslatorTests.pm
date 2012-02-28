@@ -2856,6 +2856,16 @@ HERE
 <p><span class="WYSIWYG_PROTECTED">%MACRO{"<br />%ANOTHERMACRO%"}%</span></p>
 HERE
     },
+    {
+        name => 'Item11378_del_ins_and_strike',
+        exec => $HTML2TML,
+        html => <<HTML,
+yes <del>no</del> YES <strike>NO</strike> <ins>yes</ins> no
+HTML
+        tml => <<TML
+yes <del>no</del> YES <strike>NO</strike> <ins>yes</ins> no
+TML
+    }
 ];
 
 sub encodedWhitespace {
@@ -3119,7 +3129,8 @@ sub convertImage {
 }
 
 #TranslatorTests->gen_compare_tests( 'test', [ grep { $_->{name} eq 'Item4855' } @$data ] );
-TranslatorTests->gen_compare_tests( 'test', $data );
+TranslatorTests->gen_compare_tests( 'test', [ grep { $_->{name} =~ /Item11378/ } @$data ] );
+#TranslatorTests->gen_compare_tests( 'test', $data );
 
 #gen_file_tests();
 
