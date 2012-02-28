@@ -5,8 +5,7 @@
 The %TOPIC% allows you to login without needing to register a user,
 or to temporarily login as %TOPIC% using the password set in configure, and then log back out to the same User and Group as before.
 
-This means it is no longer necessary to add yourself to the AdminGroup, and you will be able to quickly
-change to Admin User (and back to your user) only when you need to.
+If your system is configured using a !UserMapper that permits group maintenance, (!TopicUserMapping for example) it is recommended to include the %SYSTEMWEB%.AdminToggle topic to obtain admin rights.
 
 %STARTSECTION{"sudo_login"}%
 ---+++ How to login as %TOPIC%
