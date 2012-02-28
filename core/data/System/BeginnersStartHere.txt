@@ -32,7 +32,7 @@ Foswiki is an Open-Source development on http://foswiki.org/
 ---++ Foswiki features
 Foswiki builds on the original Wiki concept, and adds features that make it very useful in a business environment.
    * *Revision control* of all pages, so a record of every change to every page is kept
-     <table><tr><td valign="top"></td><td><td style="background-color:#D0D0D0"><font color="black" size="-1">r6 &lt; r5 &lt; r4 &lt; r3 &lt; r2</font></td></tr></table>
+     <table><tr><td valign="top"></td><td><td style="background-color:#D0D0D0">%BLACK%r6 &lt; r5 &lt; r4 &lt; r3 &lt; r2%ENDCOLOR%</td></tr></table>
    * *Powerful macros* allow _users_ to build and use their own online applications
    * *Highly configurable* look and feel, through use of templates
    * *Plugins interface* eases
@@ -169,7 +169,7 @@ Edit | Attach | Print version | History: r2 < r1 | Backlinks | View wiki text | 
    * More topic actions - takes you to a menu of less-frequently-used features
 
 ---++ Editing Pages
-   * You've read a page, and you disagree with it violently! It says:<br /> _Everyone_ *knows* that =the world= is an <font color="blue"><u>OblateSpheroid</u></font><br />But you know for a fact it is flat! ;-)
+   * You've read a page, and you disagree with it violently! It says:<br /> _Everyone_ *knows* that =the world= is an %BLUE%<u>OblateSpheroid</u>%ENDCOLOR%<br />But you know for a fact it is flat! ;-)
    * You've clicked the edit link, and an edit page has appeared.
       * Depending on your site configuration and with some luck, you will see a WYSIWYG-editor and can start writing right away.
       * But it _might_ happen that it doesn't look much like what was on the page before - it's full of strange hieroglyphics!
@@ -206,7 +206,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    * Bulleted lists use three spaces followed by an asterisk (<tt>*</tt>) at the start of the line
       * The depth of the bullet is given by the number of spaces, in multiples of three
         | *You type* | *You see* |
-        | <font color="black"><code>&nbsp;&nbsp;&nbsp;* Bullet</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Sub-bullet</code></font> | <ul><li><font color="black">Bullet</font><ul><li><font color="black">Sub-bullet</font></li></ul></li></ul> |
+        | %BLACK%<code>&nbsp;&nbsp;&nbsp;* Bullet</code><br /><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Sub-bullet</code>%ENDCOLOR% | <ul><li>%BLACK%Bullet%ENDCOLOR%<ul><li>%BLACK%Sub-bullet%ENDCOLOR%</li></ul></li></ul> |
    * Numbered lists use a number in place of the <tt>*</tt>.  The list is numbered automatically, so you can just use a =1=
 
 ---++ Even more.....
@@ -217,9 +217,9 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
      | Wolf | Lupine |
 </verbatim>
    * appears as
-     | <font color="black">Cat</font> | <font color="black">Feline</font> |
-     | <font color="black">Bear</font> | <font color="black">Ursine</font> |
-     | <font color="black">Wolf</font> | <font color="black">Lupine</font> |
+     | Cat | Feline |
+     | Bear | Ursine |
+     | Wolf | Lupine |
    * %<nop>RED% .... %<nop>ENDCOLOR% will change the colour of the enclosed text. Lots of colours are available (%RED%%<nop>RED%%ENDCOLOR%, %GREEN%%<nop>GREEN%%ENDCOLOR%, %BLUE%%<nop>BLUE%%ENDCOLOR% etc)
 
 ---++ Wiki<nop>Words
