@@ -103,6 +103,7 @@ sub TOC {
         next if ( $name eq 'validation_key' );
         next if ( $name eq 'topic' );
         next if ( $name eq 'text' );
+        next if ( $name eq 'refresh' );
         push @qparams, $name => $query->param($name);
     }
 
