@@ -158,7 +158,8 @@ The date can also be typed into the text box. \
 | A select box / dropdown. \
 | A fixed size for the box (e.g. =1=, or a range e.g. =3..10=. \
 To get a dropdown, use size =1=. %BR% \
-If you specify a range, the box will never be smaller than 3 items, never larger than 10, and will be 5 high if there are only 5 options. \
+If you specify a range, the box will never be smaller than 3 items, never larger than 10, and will be 5 high if there are only 5 options. %BR% \
+*Caution* size =1= dropdown is incompatible with =select+multi= modifier on some browsers. \
 | A comma-separated list of options for the box. \
 | =select+multi= turns multiselect on for the select, to allow Shift+Click and Ctrl+Click to select (or deselect) multiple items. %BR% \
   =select+values= allows the definition of values that are different to the displayed text. You can combine these modifiers e.g. =select+multi+values= |
