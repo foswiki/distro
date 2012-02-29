@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.5
+---+!! Foswiki Release 1.1.5 Beta 1
 
 %TOC%
 
@@ -32,6 +32,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
+   * Foswiki 1.1.5 Beta 1 was built 29 Feb 2012.  It is a release that fixes some very important issues including some security related issues. It contains 52 fixes and enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1318,6 +1319,68 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11104][Item11104]] | Add small trash icon |
 | [[%BUGS%/Item11119][Item11119]] | create a new foswiki jquery-ui theme |
 | [[%BUGS%/Item11126][Item11126]] | deprecate JQuery shake module - It is included in the jquery-ui effect stack. |
+</noautolink>
+
+#Rel01x01x05Details
+---++ Foswiki Patch Release 1.1.5 Beta Details
+
+---++ Fixes
+<noautolink>
+| [[%BUGS%/Item9615][Item9615]] | File lib/Foswiki/Contrib/core/DEPENDENCIES appears to be an out-of-date version of lib/DEPENDENCIES |
+| [[%BUGS%/Item10071][Item10071]] | select+values formfield doesn't display its mapped value |
+| [[%BUGS%/Item10238][Item10238]] | can't create empty groups with UI |
+| [[%BUGS%/Item11366][Item11366]] | Ampersands in =[[squab?queries]]= are double-encoded |
+| [[%BUGS%/Item11382][Item11382]] | Javascript error with IE7 causes Format dropdown to fail on nested webs |
+| [[%BUGS%/Item11384][Item11384]] | =$Foswiki::cfg= references in other config variables not expanded within web Extensions installer |
+| [[%BUGS%/Item11386][Item11386]] | Upgrades to 1.1.x don't get the =OP_match= operator added to query search.  Breaks attachments table. |
+| [[%BUGS%/Item11395][Item11395]] | Statistics topic changes in Item11182 has issues if WebStatistics topic is renamed or archived. |
+| [[%BUGS%/Item11398][Item11398]] | Foswiki logger fails to rotate files other than events.log |
+| [[%BUGS%/Item11403][Item11403]] | properly remove spurious lease files |
+| [[%BUGS%/Item11409][Item11409]] | HtpasswdUser issues when shared between multiple Foswiki instances |
+| [[%BUGS%/Item11423][Item11423]] | can't disable default tableplugin settings |
+| [[%BUGS%/Item11427][Item11427]] | @_lines redefined in I18N module |
+| [[%BUGS%/Item11444][Item11444]] | Document {WarningsAreErrors} in EmptyPlugin |
+| [[%BUGS%/Item11445][Item11445]] | SANDBOXWEB macro is undefined. |
+| [[%BUGS%/Item11446][Item11446]] | rest script needs better endPoint handling |
+| [[%BUGS%/Item11450][Item11450]] | SpreadSheetPlugin $ABOVE() thinks rows are zero-based |
+| [[%BUGS%/Item11452][Item11452]] | MetaCache robustness: remove from cache on =$topicObject->finish()= |
+| [[%BUGS%/Item11461][Item11461]] | beforeSaveHandler is passed an uncommitted meta object |
+| [[%BUGS%/Item11462][Item11462]] | Email debug messages need some improvements |
+| [[%BUGS%/Item11463][Item11463]] | Configure updates for checkers and documentation |
+| [[%BUGS%/Item11467][Item11467]] | Need better documentation and handling of Perl dependencies |
+| [[%BUGS%/Item11468][Item11468]] | FORMAT{"0" type="string"... doesn't work |
+| [[%BUGS%/Item11478][Item11478]] | Statistics not generated for subwebs |
+| [[%BUGS%/Item11484][Item11484]] | statistics script updates topics with GET.  It should be restricted to POST |
+| [[%BUGS%/Item11490][Item11490]] | =geturl.pl= script needs POST capability to run statistics |
+| [[%BUGS%/Item11492][Item11492]] | rename computes the list of referring topics even though there's no LOCAL_SEARCH or GLOBAL_SEARCH on the rename template |
+| [[%BUGS%/Item11495][Item11495]] | ={AuthRealm}= checker doesn't detect htdigest-md5 encoding |
+| [[%BUGS%/Item11501][Item11501]] | User registration needs mechanism to validate form fields |
+| [[%BUGS%/Item11502][Item11502]] | %QUERY containing where clause can fail if only one item is being examined |
+| [[%BUGS%/Item11503][Item11503]] | spelling mistake in the installation guide |
+| [[%BUGS%/Item11523][Item11523]] | $dollarcomma token not used in SUBSTITUTE and other Spreadsheet macros |
+| [[%BUGS%/Item11533][Item11533]] | Argument "%DEFAULTPAGESIZE%" isn't numeric in multiplication, Search.pm line 279 |
+| [[%BUGS%/Item11541][Item11541]] | resizing EditBox broken: enlarges a *lot*, shrink doesn't work |
+| [[%BUGS%/Item11545][Item11545]] | Excessive debug logging from Statistics runs |
+| [[%BUGS%/Item11567][Item11567]] | Manage and register needs some tlc |
+| [[%BUGS%/Item11582][Item11582]] | use style attributes instead of bgcolor |
+
+---++ Enhancements
+
+| [[%BUGS%/Item8744][Item8744]] | Sandbox webname should be configurable in the same way that other default webs are configurable |
+| [[%BUGS%/Item11196][Item11196]] | Better error feedback from TopicUserMapper and UI::Register |
+| [[%BUGS%/Item11365][Item11365]] | Un-deprecate, improve =Foswiki::Func::getScriptUrlPath()= API |
+| [[%BUGS%/Item11394][Item11394]] | Implement Development.ImproveStatisticsHandlingForMissingTopics |
+| [[%BUGS%/Item11410][Item11410]] | Implement USERINFOisTooRestrictive |
+| [[%BUGS%/Item11428][Item11428]] | add +values to radio and checkbox formfields |
+| [[%BUGS%/Item11436][Item11436]] | HtpasswdUser creates a cache,  make it a global cache |
+| [[%BUGS%/Item11437][Item11437]] | Add package navigation to Perl Doc |
+| [[%BUGS%/Item11453][Item11453]] | Convert RenderListPlugin to use preRenderingHandler |
+| [[%BUGS%/Item11517][Item11517]] | Use a better password method for configure |
+| [[%BUGS%/Item11518][Item11518]] | Add BCrypt encryption to =HtPasswdUser.pm= |
+| [[%BUGS%/Item11524][Item11524]] | Sync up SpreadSheetPlugin - FLOOR and CEILING |
+| [[%BUGS%/Item11563][Item11563]] | Implement ChangeDefaultHtpasswdEncoding |
+| [[%BUGS%/Item11568][Item11568]] | Re-introduce style option and new default calendar skin |
+| [[%BUGS%/Item11576][Item11576]] | Add support for redirectto to the addUserToGroup and removeUserFromGroup register actions. |
 </noautolink>
 
 ---
