@@ -32,7 +32,7 @@ If you are setting a preference and using it in the same topic, note that Foswik
 
 Also note that Foswiki always reads the setting from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
 
-And especially important, *preference settings are never overridden or set in "%<nonp>INCLUDE{" topics.* %IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
+And especially important, *preference settings are never overridden or set in "%<nop>INCLUDE{" topics.* %IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
 
 Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
 
