@@ -2652,11 +2652,11 @@ NONNY
     
     my @orig_metas;
     $origtext =~ s/^(\%META:[^}]*}%)/push(@orig_metas, $1)/gems;
-print STDERR "\n   orig  ".join("\n   * ", @orig_metas)."\n";
+#print STDERR "\n   orig  ".join("\n   * ", @orig_metas)."\n";
     $this->assert_equals(4, scalar(@orig_metas));    
     my @raw_metas;
     $rawtext =~ s/^(\%META:[^}]*}%)/push(@raw_metas, $1)/gems;
-print STDERR "\n   raw  ".join("\n   * ", @raw_metas)."\n";
+#print STDERR "\n   raw  ".join("\n   * ", @raw_metas)."\n";
     #in 1.0.10 the FILEATTACHMENT is removed - presumably because the file is not there?
     #in 1.1 the FILEATTACHMENT is kept - frustrating.
     #TODO: check this

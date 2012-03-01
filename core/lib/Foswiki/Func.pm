@@ -3549,7 +3549,8 @@ sub saveTopicText {
             param1   => ( $caller[0] || 'unknown' )
         );
     }
-    $topicObject->text($text);
+    #see Tasks.Item11586 - saveTopicText is supposed to use the embedded meta
+    $topicObject->setEmbeddedStoreForm($text);
 
     try {
         $topicObject->save( minor => $dontNotify );
