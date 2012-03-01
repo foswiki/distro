@@ -692,33 +692,52 @@ sub renderWikiWordHandler {
     my ($linkText, $hasExplicitLinkLabel, $web, $topic) = @_;
     $called->{renderWikiWordHandler}++;
     $called->{renderWikiWordHandlerLinks}->{$web.'___'.$topic} = $linkText.'___'.($hasExplicitLinkLabel||'undef');
+    #die $topic if ($topic eq 'ALLOWTOPICVIEW');
 }
 HERE
     $this->checkCalls( 0, 'renderWikiWordHandler' );
     my $html = Foswiki::Func::renderText( <<'HERE', 'Sandbox', 'TestThisCarefully' );
     This is AWikiWord and some NoSuchWeb.NoTopic that we CANNOT
-   * Set ALLOWTOPICVIEW=guest
+   * Set ALLOWTOPICCHANGE=guest
  %ATTACHURL%/Foswiki-1.1.4.tar.gz
  
  %ATTACHURL%/releases/Foswiki-1.0.4.tar.gz
  %ATTACHURL%/releases/other/file-3.0.4.tar.gz
 
+ %SYSTEMWEB%.WebHome
+ %SYSTEMWEB%.WikiWords
+ 
+ %USERSWEB%.%SYSTEMWEB%Topic
+ 
+ %ATTACHURL%/Foswiki-1.1.4.tar.gz
+ 
+ %ATTACHURL%/releases/Foswiki-1.0.4.tar.gz
+ [[%ATTACHURL%/releases/other/file-3.0.4.tar.gz]]
+
+ [[%SYSTEMWEB%.WebHome]]
+ [[%SYSTEMWEB%.WikiWords]]
+ 
+ [[%USERSWEB%.%SYSTEMWEB%Topic]]
 
 [[some test link]] [[text][link text]]
 HERE
-    $this->checkCalls( 6, 'renderWikiWordHandler' );
+    $this->checkCalls( 10, 'renderWikiWordHandler' );
     #$Foswiki::Plugins::$this->{plugin_name}::called->{$name}
     my $hashRef = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
-#use Data::Dumper;
-#print STDERR "------ ".Dumper($hashRef)."\n";
+use Data::Dumper;
+print STDERR "------ ".Dumper($hashRef)."\n";
 #TODO: this is not correct, its just what we have
     $this->assert_deep_equals({
+          'ATTACHURL/releases/other/file-3/0/4/tar___gz' => '%ATTACHURL%/releases/other/file-3.0.4.tar.gz___undef',
+          'SYSTEMWEB___WikiWords' => '%SYSTEMWEB%.WikiWords___undef',
+          'Sandbox___Text' => 'link text___1',
+          'SYSTEMWEB___WebHome' => '%SYSTEMWEB%.WebHome___undef',
           'NoSuchWeb___NoTopic' => 'NoTopic___undef',
+          'Sandbox___ALLOWTOPICCHANGE' => 'ALLOWTOPICCHANGE___undef',
+          'USERSWEB___SYSTEMWEBTopic' => '%USERSWEB%.%SYSTEMWEB%Topic___undef',
           'Sandbox___AWikiWord' => 'AWikiWord___undef',
           'Sandbox___SomeTestLink' => 'some test link___undef',
-          'Sandbox___ALLOWTOPICVIEW' => 'ALLOWTOPICVIEW___undef',
-          'Sandbox___CANNOT' => 'CANNOT___undef',
-          'Sandbox___Text' => 'link text___1'
+          'Sandbox___CANNOT' => 'CANNOT___undef'
         }, $hashRef);
 
     return;

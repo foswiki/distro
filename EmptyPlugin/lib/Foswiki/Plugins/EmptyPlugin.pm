@@ -792,12 +792,16 @@ extend the form field types.
    * =$linkText= - the text for the link i.e. for =[<nop>[Link][blah blah]]=
      it's =blah blah=, for =BlahBlah= it's =BlahBlah=, and for [[Blah Blah]] it's =Blah Blah=.
    * =$hasExplicitLinkLabel= - true if the link is of the form =[<nop>[Link][blah blah]]= (false if it's ==<nop>[Blah]] or =BlahBlah=)
-   * =$web=, =$topic= - specify the topic being rendered
+   * =$web=, =$topic= - specify the link being rendered
 
 Called during rendering, this handler allows the plugin a chance to change
 the rendering of labels used for links.
 
 Return the new link text.
+
+NOTE: this handler is to allow a plugin to change the link text for a possible link - it may never be used.
+for example, Set ALLOWTOPICVIEW = is a possible ACRONYM link that will not be displayed unless the topic exists
+similarly, this handler is called before the Plurals code has a chance to remove the 's' from WikiWords
 
 *Since:* Foswiki::Plugins::VERSION 2.0
 
