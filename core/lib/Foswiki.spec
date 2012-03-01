@@ -427,7 +427,11 @@ $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
 #---++ Access Control
 # **SELECTCLASS Foswiki::Access::*Access**
-# under development - see http://foswiki.org/Development/PluggableAccessControlImplementation
+# <ol><li>
+# TopicACLAccess is the normal foswiki ACL system, as documented throught the setup guides.
+# </li><li>
+# AdminOnlyAccess denies all non-admins (not in the AdminGroup) any access to the wiki - useful for site maintainence.
+# </li></ol>
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
 #---++ Passwords
