@@ -2628,4 +2628,56 @@ sub test_getScriptUrlPath_spec {
     return;
 }
 
+# Verify that saveTopicText uses embedded meta
+sub test_saveTopicTextEmbeddedMeta {
+    my $this     = shift;
+    my $topic    = 'SaveTopicText2';
+    my $origtext = <<'NONNY';
+%META:TOPICINFO{author="BaseUserMapping_123" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%
+'Tis some text
+and a trailing newline
+
+%META:FORM{name="TestForm"}%
+%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
+%META:FILEATTACHMENT{name="IMG_0608.JPG" attr="" autoattached="1" comment="A Comment" date="1162233146" size="762004" user="Main.AUser" version="1"}%
+NONNY
+    Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
+
+    my $rawtext = Foswiki::Func::readFile($Foswiki::cfg{DataDir}.'/'.$this->{test_web}."/$topic.txt");
+    $this->assert_str_not_equals( $origtext, $rawtext );
+
+    my $readtext = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
+    #lets start by making sure that the readTopic == what is on disk
+    $this->assert_str_equals( $rawtext, $readtext );
+    
+    my @orig_metas;
+    $origtext =~ s/^(\%META:[^}]*}%)/push(@orig_metas, $1)/gems;
+print STDERR "\n   orig  ".join("\n   * ", @orig_metas)."\n";
+    $this->assert_equals(4, scalar(@orig_metas));    
+    my @raw_metas;
+    $rawtext =~ s/^(\%META:[^}]*}%)/push(@raw_metas, $1)/gems;
+print STDERR "\n   raw  ".join("\n   * ", @raw_metas)."\n";
+    #in 1.0.10 the FILEATTACHMENT is removed - presumably because the file is not there?
+    #TODO: check this
+    $this->assert_equals(3, scalar(@raw_metas));    
+    #TOPICINFO from commit
+    #make sure that the save changed the topicinfo (this is the 1.1.0 introduced bug (fixed in 1.1.4) where by we use the TOPICINFO passed to saveTopicText literally, without recording who actually called save)
+    $this->assert_str_not_equals(shift @orig_metas, shift @raw_metas);
+    #FORM
+    $this->assert_str_equals(shift @orig_metas, shift @raw_metas);
+    #FIELD
+    $this->assert_str_equals(shift @orig_metas, shift @raw_metas);
+    #leaving only the missinf FILEATTACHMENT
+    $this->assert_matches(qr/FILEATTACHMENT/, shift @orig_metas);
+    $this->assert_equals(0, scalar(@raw_metas));    
+    $this->assert_equals(0, scalar(@orig_metas));    
+
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+    #make sure that the save extracted the META:
+    $this->assert_does_not_match( qr/%META/, $text );
+
+
+    return;
+}
+
 1;
