@@ -222,7 +222,7 @@ sub eachEventSince {
 
             # Would be nice to report this, but it's chicken and egg and
             # besides, empty logfiles can happen.
-            #print STDERR "Failed to open $logfile: $!";
+            print STDERR "Failed to open $logfile: $!";
         }
     }
     return new Foswiki::ListIterator( \@iterators ) if scalar(@iterators) == 0;
@@ -276,15 +276,19 @@ sub _rotate {
         $m = sprintf( '%0.2d', $m );
     }
     $nextCheckDue{$level} = Foswiki::Time::parseTime("$y-$m-01");
+    print STDERR "Next log check due $nextCheckDue{$level} for $level\n";
 
     # If there's no existing log, there's nothing to rotate
     return unless -e $log;
+    print STDERR "Log exists - proceed\n";
 
     # Check when the log was last modified. If it was in the previous
     # month, if may need to be rotated.
     my @stat     = _stat($log);
     my $modMonth = _time2month( $stat[9] );
+    print STDERR "compare $modMonth,  $curMonth\n";
     return if ( $modMonth == $curMonth );
+    print STDERR "modified last month - proceed\n";
 
     # The log was last modified in a month that was not the current month.
     # Rotate older entries out into month-by-month logfiles.
@@ -292,42 +296,58 @@ sub _rotate {
     # Open the current log
     my $lf;
     return unless open( $lf, '<', $log );
+    print STDERR "open succeeded - proceed\n";
 
     # Analyse the log and partition the lines into month groups
     my %months;
 
     local $/ = "\n";
     my $line;
+    my $linecount;
+    my $stashline = '';
     while ( $line = <$lf> ) {
+        $stashline .= $line;
         my @event = split( /\s*\|\s*/, $line );
-        last unless $event[1];
+        $linecount++;
+        if ( scalar(@event) > 7 ) {
+            print STDERR "Bad log " . join( ' | ', @event) . " | - Skipped \n ";
+            $stashline = '';
+            next;
+        }
+
+        unless ( $event[1] ) {
+            print STDERR "BAD LOGFILE LINE - skip $line - line $linecount in $log\n";
+            next;
+        }
         my $eventTime = Foswiki::Time::parseTime( $event[1] );
 
         if ( !$eventTime ) {
 
-            #print STDERR ">> Bad time in log: $line\n";
-            close($lf);
-            return;
+            print STDERR ">> Bad time in log - skip: $line - line $linecount in $log\n";
+            next;
         }
 
         my $eventMonth = _time2month($eventTime);
 
         if ( $eventMonth < $curMonth ) {
-            push( @{ $months{$eventMonth} }, $line );
+            push( @{ $months{$eventMonth} }, $stashline );
+            $stashline = '';
         }
         else {
 
             # Reached the start of log entries for this month
+            print STDERR ">> Reached start of this month - count $linecount \n";
             last;
         }
     }
+    print STDERR " Months " . join(' ', keys %months) . " - processed $linecount records \n";
 
     if ( !scalar( keys %months ) ) {
 
         # no old months, we're done. The modify time on the current
         # log will be touched by the next write, so we won't attempt
         # to rotate again until next month (or $forceRotate is set).
-        #print STDERR ">> No old months\n";
+        print STDERR ">> No old months\n";
         close($lf);
         return;
     }
@@ -344,7 +364,7 @@ sub _rotate {
         $backup =~ s/log$/$month/;
         if ( -e $backup || !open( $bf, '>', $backup ) ) {
 
-            #print STDERR ">> Could not create $backup\n";
+            print STDERR ">> Could not create $backup\n";
             return;
         }
         print $bf join( '', @{ $months{$month} } );
