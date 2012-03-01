@@ -78,10 +78,14 @@ HERE
 
         #  Verify that scripts are executable
         if (   $script !~ /\.cfg$/
+            && $script !~ /^login/
+            && $script !~ /^logon/
             && $script !~ /^configure/
             && $Foswiki::cfg{AuthScripts} !~ m/\b$script\b/ )
         {
-            $unauth .= $script . ' ';
+            #use commas so users can 'just cut and paste'
+            $unauth .= ', ' if ($unauth ne '');
+            $unauth .= $script;
         }
     }
     closedir(D);
