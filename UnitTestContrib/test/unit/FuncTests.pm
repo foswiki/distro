@@ -2658,8 +2658,9 @@ print STDERR "\n   orig  ".join("\n   * ", @orig_metas)."\n";
     $rawtext =~ s/^(\%META:[^}]*}%)/push(@raw_metas, $1)/gems;
 print STDERR "\n   raw  ".join("\n   * ", @raw_metas)."\n";
     #in 1.0.10 the FILEATTACHMENT is removed - presumably because the file is not there?
+    #in 1.1 the FILEATTACHMENT is kept - frustrating.
     #TODO: check this
-    $this->assert_equals(3, scalar(@raw_metas));    
+    $this->assert_equals(4, scalar(@raw_metas));    
     #TOPICINFO from commit
     #make sure that the save changed the topicinfo (this is the 1.1.0 introduced bug (fixed in 1.1.4) where by we use the TOPICINFO passed to saveTopicText literally, without recording who actually called save)
     $this->assert_str_not_equals(shift @orig_metas, shift @raw_metas);
@@ -2667,8 +2668,9 @@ print STDERR "\n   raw  ".join("\n   * ", @raw_metas)."\n";
     $this->assert_str_equals(shift @orig_metas, shift @raw_metas);
     #FIELD
     $this->assert_str_equals(shift @orig_metas, shift @raw_metas);
-    #leaving only the missinf FILEATTACHMENT
-    $this->assert_matches(qr/FILEATTACHMENT/, shift @orig_metas);
+    #leaving only the FILEATTACHMENT
+    $this->assert_str_equals(shift @orig_metas, shift @raw_metas);
+    #$this->assert_matches(qr/FILEATTACHMENT/, shift @orig_metas);
     $this->assert_equals(0, scalar(@raw_metas));    
     $this->assert_equals(0, scalar(@orig_metas));    
 
