@@ -1564,6 +1564,14 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Wibble/Web2', $w );
     $this->assert_str_equals( 'Topic',       $t );
 
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Sandbox.ALLOWTOPICCHANGE' );
+    $this->assert_str_equals( 'Sandbox', $w );
+    $this->assert_str_equals( 'ALLOWTOPICCHANGE',       $t );
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'ALLOWTOPICCHANGE' );
+    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
+    $this->assert_str_equals( 'ALLOWTOPICCHANGE',       $t );
+
+
     return;
 }
 

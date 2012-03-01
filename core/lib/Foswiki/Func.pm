@@ -2531,6 +2531,8 @@ Render text from TML into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]
    * =$topic= - topic name, optional, defaults to web home
 Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&lt;/code>'=
 
+NOTE: renderText expects that all %MACROS% have already been expanded - it does not expand them for you.
+
 =cut
 
 sub renderText {
