@@ -2275,9 +2275,10 @@ sub inlineAlert {
         # Error in the template system.
         $text = $topicObject->renderTML(<<MESSAGE);
 ---+ Foswiki Installation Error
-Template '$template' not found.
+Template 'oops$template' not found or returned no text, expanding $def.
 
 Check your configuration settings for {TemplateDir} and {TemplatePath}
+or check for syntax errors in templates,  or a missing TMPL:END.
 MESSAGE
     }
 
