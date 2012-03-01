@@ -696,7 +696,7 @@ sub renderWikiWordHandler {
 }
 HERE
     $this->checkCalls( 0, 'renderWikiWordHandler' );
-    my $html = Foswiki::Func::renderText( <<'HERE', 'Sandbox', 'TestThisCarefully' );
+my $tmlText = <<'HERE';
     This is AWikiWord and some NoSuchWeb.NoTopic that we CANNOT
    * Set ALLOWTOPICCHANGE=guest
  %ATTACHURL%/Foswiki-1.1.4.tar.gz
@@ -721,12 +721,14 @@ HERE
 
 [[some test link]] [[text][link text]]
 HERE
+{
+    my $html = Foswiki::Func::renderText( $tmlText, 'Sandbox', 'TestThisCarefully' );
     $this->checkCalls( 10, 'renderWikiWordHandler' );
-    #$Foswiki::Plugins::$this->{plugin_name}::called->{$name}
     my $hashRef = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
 use Data::Dumper;
+print STDERR "------ $html\n";
 print STDERR "------ ".Dumper($hashRef)."\n";
-#TODO: this is not correct, its just what we have
+#this is what we have - and it shows that you need to call expandMacros before calling renderText
     $this->assert_deep_equals({
           'ATTACHURL/releases/other/file-3/0/4/tar___gz' => '%ATTACHURL%/releases/other/file-3.0.4.tar.gz___undef',
           'SYSTEMWEB___WikiWords' => '%SYSTEMWEB%.WikiWords___undef',
@@ -738,6 +740,30 @@ print STDERR "------ ".Dumper($hashRef)."\n";
           'Sandbox___AWikiWord' => 'AWikiWord___undef',
           'Sandbox___SomeTestLink' => 'some test link___undef',
           'Sandbox___CANNOT' => 'CANNOT___undef'
+        }, $hashRef);
+}
+#lets do it again, this time with expandMacros first
+    eval "delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandler}";
+    eval "delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+    my $expandedText = Foswiki::Func::expandCommonVariables($tmlText, 'Sandbox', 'TestThisCarefully' );
+    $this->checkCalls( 0, 'renderWikiWordHandler' );
+    my $html = Foswiki::Func::renderText( $expandedText, 'Sandbox', 'TestThisCarefully' );
+    $this->checkCalls( 12, 'renderWikiWordHandler' );
+    my $hashRef = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+use Data::Dumper;
+print STDERR "------ $html\n";
+print STDERR "------ ".Dumper($hashRef)."\n";
+#this is what we have - and it shows that you need to call expandMacros before calling renderText
+    $this->assert_deep_equals({
+          'TemporaryPluginHandlersUsersWeb___TemporaryPluginHandlersSystemWebTopic' => 'TemporaryPluginHandlersSystemWebTopic___undef',
+          'Sandbox___Text' => 'link text___1',
+          'TemporaryPluginHandlersSystemWeb___WebHome' => 'TemporaryPluginHandlersSystemWeb___undef',
+          'NoSuchWeb___NoTopic' => 'NoTopic___undef',
+          'Sandbox___ALLOWTOPICCHANGE' => 'ALLOWTOPICCHANGE___undef',
+          'Sandbox___AWikiWord' => 'AWikiWord___undef',
+          'Sandbox___SomeTestLink' => 'some test link___undef',
+          'Sandbox___CANNOT' => 'CANNOT___undef',
+          'TemporaryPluginHandlersSystemWeb___WikiWords' => 'WikiWords___undef'
         }, $hashRef);
 
     return;
