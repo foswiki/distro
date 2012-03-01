@@ -344,7 +344,7 @@ sub manifestExtract {
 sub pmEmptyExtract {
     my $s = commonEmptyExtract(shift);
     $s =~ s/^# change the package name.*$//m; # we're doing it!
-    $s =~ s/(\$SHORTDESCRIPTION = ').*?'/$1.'%$SHORTDESCRIPTION%'/e;
+    $s =~ s/(\$SHORTDESCRIPTION = ').*?'/$1.'%$SHORTDESCRIPTION%'."';"/e;
     return $s;
 }
 
