@@ -144,6 +144,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Broadcast message for skins supporting a %<nop>BROADCASTMESSAGE% at the top of the page: (IMPORTANT: Set to empty message if not used; #Comment out unused messages)
       * Set BROADCASTMESSAGE =
       * #Set BROADCASTMESSAGE = *NOTE:* Edit and Attach will be disabled today between 05:00 PM and 06:00 PM PDT (00:00 to 01:00 GMT) for a scheduled <nop>%WIKITOOLNAME% maintenance.
+      * %I% __Note:__ if you need to block all user access (view included) the easiest way it to change the =configure= =AccessControl= option to =AdminOnlyAccess= (see the =Security and Authentication= section)
 
    * Users or groups allowed to [[%SYSTEMWEB%.ManagingWebs][create new top-level webs]]: (ex: %USERSWEB%.WebCreatorsGroup). If set to nothing, only administrators will be able to do this.
       * Set ALLOWROOTCHANGE = %USERSWEB%.AdminGroup
