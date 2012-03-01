@@ -23,9 +23,6 @@ sub check {
     }
     my $enc = $Foswiki::cfg{Htpasswd}{Encoding};
 
-    my $auto =
-      ( $Foswiki::cfg{Htpasswd}{AutoDetect} ) ? 'to autodetect' : 'for';
-
     if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt' ) {
         my $f = $Foswiki::cfg{Htpasswd}{FileName};
         Foswiki::Configure::Load::expandValue($f);
@@ -57,7 +54,7 @@ sub check {
     };
 
     foreach my $mod ( sort keys %$check ) {
-        $e .= $this->_checkPerl( $auto, $mod, $check->{$mod} );
+        $e .= $this->_checkPerl( $mod, $check->{$mod} );
     }
 
     if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt-md5' ) {
@@ -89,30 +86,31 @@ sub check {
 }
 
 sub _checkPerl {
-    my ( $this, $auto, $module, $method_list ) = @_;
+    my ( $this, $module, $method_list ) = @_;
     my $note = '';
     my $n;
+    my $err   = 0;
+    my $mlist = '';
+
+    $n =
+      $this->checkPerlModule( $module, "Required to use or autodetect: XENC ",
+        0 );
 
     foreach my $method (@$method_list) {
-        if (   $Foswiki::cfg{Htpasswd}{AutoDetect}
-            || $Foswiki::cfg{Htpasswd}{Encoding} eq $method )
-        {
-            $auto = 'for' if ( $Foswiki::cfg{Htpasswd}{Encoding} eq $method );
+        $err = 1 if ( $Foswiki::cfg{Htpasswd}{Encoding} eq $method );
+    }
+    $mlist = join( ', ', @$method_list );
 
-            unless ($n) {
-                $n = $this->checkPerlModule( $module,
-                    "Required $auto $method  encoding", 0 );
-                if ( $n =~ m/Not installed/ ) {
-                    $note .= $this->ERROR($n);
-                }
-                else {
-                    $note .= $this->NOTE($n);
-                }
-            }
-            else {
-                $note .= $this->NOTE("Also required $auto $method encoding");
-            }
-        }
+    $n =~ s/XENC/<tt>$mlist<\/tt> encoding./;
+
+    if ( $n =~ m/Not installed/ && $err ) {
+        $note .= $this->ERROR($n);
+    }
+    elsif ( $n =~ m/Not installed/ && $Foswiki::cfg{Htpasswd}{AutoDetect} ) {
+        $note .= $this->WARN($n);
+    }
+    else {
+        $note .= $this->NOTE($n);
     }
 
     return $note;
