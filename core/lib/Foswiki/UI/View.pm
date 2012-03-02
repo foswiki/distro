@@ -98,7 +98,16 @@ sub view {
 
     Foswiki::UI::checkWebExists( $session, $web, 'view' );
 
-    my $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+    my $requestedRev;
+    if ( defined $query->param('rev') ) {
+        $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev'));
+        unless ( $requestedRev ) {
+            # Invalid request, remove it from the query. 
+            $requestedRev = undef;
+            $query->delete('rev');
+        }
+    }
+
     my $showLatest   = !$requestedRev;
     my $showRev;
 
