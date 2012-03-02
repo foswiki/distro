@@ -74,6 +74,27 @@ The !WebStatistics topics are no longer shipped with Foswiki.  Two new topics ha
 
 The details of this change are in %SYSTEMWEB%.SiteTools#WebStatistics, including a tool to help with creating the missing !WebStatistics topics.
 
+---+++ Changes to !PlainFile logger to improve log rotation
+
+In previous versions of foswiki, the default =PlainFile= logger failed to rotate the logs if any log records were corrupted.  This is more likely in the error log file, but can be caused by any log record that is written containing embedded newlines.  If a log record is read without the expected =| Timestamp |= as the first column, rotation stops.
+
+This behavior has been corrected, however sites where rotation was failing may have extremely large log files. When foswiki performs the rotation at the beginning of the next month, rotation can take an extended time, resulting in extended response time.
+
+Rotation is performed when the timestamp of the log file (=events.log=, =error.log=, =debug.log=) is in a month prior to the current month.  In order for rotation to proceed:
+   * The directory containing the log files must be writable.
+   * Archive files named =[logfile].YYYYMM= must not exist for any records in the current =[logfile].log= file.
+      * For example, if =events.log= contains an event dated =2012-01-15:=, then the archive file =events.201201= must not exist.
+
+In order to force rotation and avoid extended web server response time:
+   * Quiesce the web server to prevent logging activity
+   * Upgrade to 1.1.5, which will install the updated =lib/Foswiki/Logger/PlainFile.pm=
+   * Reset the timestamps to the previous month on the logfile requiring rotation
+      * =touch -t 201202280101 events.log= will set the timestamp to February 28th on a linux/unix system.
+      * Windows users will need to install a 3rd party tool to change timestamps, or wait for the next month
+   * Change to the =bin= directory and run the view script from the shell as the web user.
+      * =sudo -u www ./view=  _(Actual user will vary depending on the distribution)_
+
+The plainfile logger will now report additional information on the rotation process, including displaying bad records to STDERR.   Edit =lib/Foswiki/Logger/Plainfile.pm= and change the line  =use constant TRACE => 0;= to use =constant TRACE => 1;= to enable more detailed debug messages.
 
 ---++ Important changes since Foswiki 1.1.3
 

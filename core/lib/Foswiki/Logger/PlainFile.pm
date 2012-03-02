@@ -358,7 +358,7 @@ sub _rotate {
 
         # no old months, we're done. The modify time on the current
         # log will be touched by the next write, so we won't attempt
-        # to rotate again until next month (or $forceRotate is set).
+        # to rotate again until next month.
         print STDERR ">> No old months\n" if (TRACE);
         close($lf);
         return;
