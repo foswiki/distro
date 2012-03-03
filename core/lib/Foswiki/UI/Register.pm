@@ -953,8 +953,19 @@ sub _complete {
 
         $data->{AddToGroups} = join( ',', @addedTo );
     }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $users->removeUser( $data->{LoginName}, $data->{WikiName} )
+          if ( $users->userExists( $data->{WikiName} ) );
+        $e->throw();
+
+        #throw Foswiki::OopsException ( @_ ); # Propagate
+    }
     catch Error::Simple with {
         my $e = shift;
+
+        $users->removeUser( $data->{LoginName}, $data->{WikiName} )
+          if ( $users->userExists( $data->{WikiName} ) );
 
         # Log the error
         $session->logger->log( 'warning',
@@ -1207,20 +1218,14 @@ sub _emailRegistrationConfirmations {
             my $users = $session->{users};
             my $cUID  = $users->getCanonicalUserID( $data->{LoginName} );
 
-            if ( $session->{users}->removeUser($cUID) ) {
-                $template =
-                  $session->templates->readTemplate('registerfailedremoved');
-            }
-            else {
-                $template =
-                  $session->templates->readTemplate('registerfailednotremoved');
-            }
+            $template =
+              $session->templates->readTemplate('registerfailednotremoved');
         }
         catch Error::Simple with {
 
             # Most Mapping Managers don't support removeUser, unfortunately
             $template =
-              $session->templates->readTemplate('registerfailednoremove');
+              $session->templates->readTemplate('registerfailednotremoved');
         };
     }
     else {

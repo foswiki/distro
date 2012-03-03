@@ -260,7 +260,7 @@ sub _userReallyExists {
 
 ---++ ObjectMethod addUser ($login, $wikiname, $password, $emails) -> $cUID
 
-throws an Error::Simple 
+throws an Error::Simple
 
 Add a user to the persistant mapping that maps from usernames to wikinames
 and vice-versa. The default implementation uses a special topic called
@@ -273,7 +273,7 @@ This function must return a *canonical user id* that it uses to uniquely
 identify the user. This can be the login name, or the wikiname if they
 are all guaranteed unigue, or some other string consisting only of 7-bit
 alphanumerics and underscores.
-if you fail to create a new user (for eg your Mapper has read only access), 
+if you fail to create a new user (for eg your Mapper has read only access),
             throw Error::Simple(
                'Failed to add user: '.$ph->error());
 
@@ -317,6 +317,30 @@ sub addUser {
         }
     }
 
+    my $user = $this->_maintainUsersTopic( 'add', $login, $wikiname );
+
+#can't call setEmails here - user may be in the process of being registered
+#TODO; when registration is moved into the mapping, setEmails will happend after the createUserTOpic
+#$this->setEmails( $user, $emails );
+
+    return $user;
+}
+
+=begin TML
+
+---++ ObjectMethod _maintainUsersTopic ( $action, $login, $wikiname )
+
+throws an Error::Simple
+
+Add or remove  a user to/from the persistant mapping that maps from usernames to wikinames
+and vice-versa. The default implementation uses a special topic called
+"WikiUsers" in the users web. =cut
+
+=cut
+
+sub _maintainUsersTopic {
+    my ( $this, $action, $login, $wikiname ) = @_;
+
     my $usersTopicObject;
 
     if (
@@ -335,6 +359,8 @@ sub addUser {
         );
     }
     else {
+
+        return undef if ( $action eq 'del' );
 
         # Construct a new users topic from the template
         my $templateTopicObject =
@@ -408,6 +434,8 @@ sub addUser {
                 # found alphabetical position or last record
                 if ( $wikiname eq $name ) {
 
+                    next if ( $action eq 'del' );
+
                     # adjusting existing user - keep original registration date
                     $entry .= $odate;
                 }
@@ -416,15 +444,14 @@ sub addUser {
                 }
 
                 # don't adjust if unchanged
-                return $user if ( $entry eq $line );
-                $line  = $entry;
+                return $user if ( $entry eq $line && $action eq 'add' );
+                $line = $entry if ( $action eq 'add' );
                 $entry = '';
             }
         }
-
         $output .= $line . "\n";
     }
-    if ($entry) {
+    if ( $entry && $action eq 'add' ) {
 
         # brand new file - add to end
         $output .= "$entry$today\n";
@@ -450,10 +477,6 @@ sub addUser {
         throw $e;
     };
 
-#can't call setEmails here - user may be in the process of being registered
-#TODO; when registration is moved into the mapping, setEmails will happend after the createUserTOpic
-#$this->setEmails( $user, $emails );
-
     return $user;
 }
 
@@ -469,8 +492,13 @@ topics, which may still be linked.
 
 sub removeUser {
     my ( $this, $cUID ) = @_;
-    my $ln = $this->getLoginName($cUID);
-    $this->{passwords}->removeUser($ln);
+    my $ln       = $this->getLoginName($cUID);
+    my $wikiname = $this->getWikiName($cUID);
+    $this->{passwords}->removeUser($ln) if ($ln);
+
+    $this->_maintainUsersTopic( 'del', $ln, $wikiname ) if ( $ln && $wikiname );
+
+    return 1;
 
     # SMELL: does not update the internal caches,
     # needs someone to implement it
