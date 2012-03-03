@@ -63,8 +63,16 @@ sub init_edit {
       || 'text/html';
     my $parentTopic = $query->param('topicparent') || '';
     my $ptext       = $query->param('text');
-    my $revision    = $query->param('rev');
-    $revision = Foswiki::Store::cleanUpRevID($revision) if defined $revision;
+
+    my $revision;
+    if ( defined $query->param('rev') ) {
+        $revision = Foswiki::Store::cleanUpRevID( $query->param('rev'));
+        unless ( $revision ) {
+            # Invalid request, remove it from the query.
+            $revision = undef;
+            $query->delete('rev');
+        }
+    }
 
     Foswiki::UI::checkWebExists( $session, $web, 'edit' );
 

@@ -17,7 +17,9 @@ sub FORMFIELD {
         # SMELL: horrible hack; assumes the current rev comes from the 'rev'
         # parameter. There has to be a better way!
         my $query = $this->{request};
-        $args->{rev} ||= $query->param('rev') if ($query);
+        my $cgiRev;
+        $cgiRev = $query->param('rev') if ($query);
+        $args->{rev} = Foswiki::Store::cleanUpRevID( $args->{rev} || $cgiRev ) || '';
     }
     return $this->renderer->renderFORMFIELD( $args, $topicObject );
 }
