@@ -112,21 +112,21 @@ sub _includeWarning {
 }
 
 sub _includeProtocol {
-    my ($this, $handler, $control, $params) = @_;
+    my ( $this, $handler, $control, $params ) = @_;
 
     eval 'use Foswiki::IncludeHandlers::' . $handler . ' ()';
     if ($@) {
-	return $this->_includeWarning(
-	    $control->{warn}, 'bad_include_path', $control->{_DEFAULT} );
+        return $this->_includeWarning( $control->{warn}, 'bad_include_path',
+            $control->{_DEFAULT} );
     }
     else {
-	$handler = 'Foswiki::IncludeHandlers::' . $handler;
-	return $handler->INCLUDE( $this, $control, $params );
+        $handler = 'Foswiki::IncludeHandlers::' . $handler;
+        return $handler->INCLUDE( $this, $control, $params );
     }
 }
 
 sub _includeTopic {
-    my ($this, $includingTopicObject, $control, $params) = @_;
+    my ( $this, $includingTopicObject, $control, $params ) = @_;
 
     my $text = '';
     my $includedWeb;
@@ -167,7 +167,8 @@ sub _includeTopic {
     $this->{_INCLUDES}->{$key} = 1;
 
     my $includedTopicObject =
-      Foswiki::Meta->load( $this, $includedWeb, $includedTopic, $control->{rev} );
+      Foswiki::Meta->load( $this, $includedWeb, $includedTopic,
+        $control->{rev} );
     unless ( $includedTopicObject->haveAccess('VIEW') ) {
         if ( isTrue( $control->{warn} ) ) {
             return $this->inlineAlert( 'alerts', 'access_denied',
@@ -238,8 +239,9 @@ sub _includeTopic {
 
         if ( $interesting and ( length($text) eq 0 ) ) {
             $text =
-              _includeWarning( $this, $control->{warn}, 'topic_section_not_found',
-                $includedWeb, $includedTopic, $control->{section} );
+              _includeWarning( $this, $control->{warn},
+                'topic_section_not_found', $includedWeb, $includedTopic,
+                $control->{section} );
         }
         else {
 
@@ -329,39 +331,45 @@ sub INCLUDE {
     $control{warn} ||= $this->{prefs}->getPreference('INCLUDEWARNING');
 
     my $text;
+
     # make sure we have something to include. If we don't do this, then
     # normalizeWebTopicName will default to WebHome. TWikibug:Item2209.
     unless ( $control{_DEFAULT} ) {
-        $text = $this->_includeWarning( $control{warn}, 'bad_include_path', '' );
+        $text =
+          $this->_includeWarning( $control{warn}, 'bad_include_path', '' );
     }
 
     # Filter out '..' from path to prevent includes of '../../file'
     elsif ( $Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ /\.\./ ) {
-        $text = $this->_includeWarning( $control{warn}, 'bad_include_path',
+        $text =
+          $this->_includeWarning( $control{warn}, 'bad_include_path',
             $control{_DEFAULT} );
     }
 
     else {
-	# no sense in considering an empty string as an unfindable section
-	delete $control{section} if
-	    ( defined( $control{section} ) && $control{section} eq '' );
-	$control{raw} ||= '';
-	$control{inWeb}   = $includingTopicObject->web;
-	$control{inTopic} = $includingTopicObject->topic;
 
-	# Protocol links e.g. http:, https:, doc:
-	if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
-	    $text = $this->_includeProtocol($1, \%control, $params);
-	} else {
-	    $text = $this->_includeTopic($includingTopicObject, \%control, $params);
-	}
+        # no sense in considering an empty string as an unfindable section
+        delete $control{section}
+          if ( defined( $control{section} ) && $control{section} eq '' );
+        $control{raw} ||= '';
+        $control{inWeb}   = $includingTopicObject->web;
+        $control{inTopic} = $includingTopicObject->topic;
+
+        # Protocol links e.g. http:, https:, doc:
+        if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
+            $text = $this->_includeProtocol( $1, \%control, $params );
+        }
+        else {
+            $text =
+              $this->_includeTopic( $includingTopicObject, \%control, $params );
+        }
     }
 
     # Apply any heading offset
     my $hoff = $params->{headingoffset};
-    if ($hoff && $hoff =~ /^([-+]?\d+)$/ && $1 != 0) {
-	my ($off, $noff) = (0 + $1, 0 - $1);
-	$text = "<ho off=\"$off\"/>\n$text\n<ho off=\"$noff\">";
+    if ( $hoff && $hoff =~ /^([-+]?\d+)$/ && $1 != 0 ) {
+        my ( $off, $noff ) = ( 0 + $1, 0 - $1 );
+        $text = "<ho off=\"$off\"/>\n$text\n<ho off=\"$noff\">";
     }
 
     return $text;

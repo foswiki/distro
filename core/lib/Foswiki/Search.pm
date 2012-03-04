@@ -763,6 +763,7 @@ sub formatResults {
             #TODO: should extract this somehow
 
             if ( $doMultiple && !$query->isEmpty() ) {
+
                 #TODO: Sven wonders if this should be a HoistRE..
                 #TODO: well, um, and how does this work for query search?
                 my @tokens = @{ $query->tokens() };
@@ -781,18 +782,21 @@ sub formatResults {
                 }
             }
 
-	    # Apply heading offset - posibly to each hit result independently
-	    if ($params->{headingoffset} && $params->{headingoffset} =~ /^([-+]?\d+)$/
-		&& $1 != 0) {
-		my ($off, $noff) = (0 + $1, 0 - $1);
-		if ( scalar(@multipleHitLines) ) {
-		    @multipleHitLines = map {
-			$_ =~ "<ho off=\"$off\">\n$text\n<ho off=\"$noff\"/>"
-		    } @multipleHitLines;
-		} else {
-		    $text = "<ho off=\"$off\">\n$text\n<ho off=\"$noff\"/>";
-		}
-	    }
+            # Apply heading offset - posibly to each hit result independently
+            if (   $params->{headingoffset}
+                && $params->{headingoffset} =~ /^([-+]?\d+)$/
+                && $1 != 0 )
+            {
+                my ( $off, $noff ) = ( 0 + $1, 0 - $1 );
+                if ( scalar(@multipleHitLines) ) {
+                    @multipleHitLines = map {
+                        $_ =~ "<ho off=\"$off\">\n$text\n<ho off=\"$noff\"/>"
+                    } @multipleHitLines;
+                }
+                else {
+                    $text = "<ho off=\"$off\">\n$text\n<ho off=\"$noff\"/>";
+                }
+            }
         }
 
         $ntopics += 1;
@@ -1085,7 +1089,7 @@ sub formatResults {
     }
 
     my $result = '';
-    if ( ! defined $params->{_callback} && $nhits >= 0 ) {
+    if ( !defined $params->{_callback} && $nhits >= 0 ) {
         $result = join( '', @$cbdata );
     }
     return ( $ntopics, $result );

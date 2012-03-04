@@ -808,7 +808,7 @@ HERE
 %SEARCH{"---+" multiple="on" web="$this->{test_web}" topic="TestHINC" format="\$text" headingoffset="3"}%
 HERE
 
-    $this->assert_str_equals(<<EXPECT, $result);
+    $this->assert_str_equals( <<EXPECT, $result );
 <div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>---+</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 <ho off="3">
 ---+ H4

@@ -451,8 +451,8 @@ sub _makeAnchorHeading {
 
     my $html =
         '<nop><h' 
-      . $level . ' '
-      . 'id="' . $anchors->makeHTMLTarget($text) . '"> '
+      . $level . ' ' . 'id="'
+      . $anchors->makeHTMLTarget($text) . '"> '
       . $text . ' </h'
       . $level . '>';
 
@@ -1086,27 +1086,28 @@ sub renderFORMFIELD {
 sub _adjustH {
     my ($text) = @_;
 
-    my @blocks = split(/(<ho(?:\s+off="(?:[-+]?\d+)")?\s*\/?>)/i, $text);
+    my @blocks = split( /(<ho(?:\s+off="(?:[-+]?\d+)")?\s*\/?>)/i, $text );
 
     return $text unless scalar(@blocks) > 1;
 
     sub _cap {
-	return 1 if ($_[0] < 1);
-	return 6 if ($_[0] > 6);
-	return $_[0];
-    };
+        return 1 if ( $_[0] < 1 );
+        return 6 if ( $_[0] > 6 );
+        return $_[0];
+    }
 
     my $off = 0;
     my $out = '';
-    while (scalar(@blocks)) {
-	my $i = shift(@blocks);
-	if ($i =~ /^<ho(?:\s+off="([-+]?\d+)")?\s*\/?>$/i && $1) {
-	    $off += $1;
-	} else {
-	    $i =~ s/(<\/?h)(\d)((\s+.*?)?>)/$1 . _cap($2 + $off) . $3/gesi
-		if ($off);
-	    $out .= $i;
-	}
+    while ( scalar(@blocks) ) {
+        my $i = shift(@blocks);
+        if ( $i =~ /^<ho(?:\s+off="([-+]?\d+)")?\s*\/?>$/i && $1 ) {
+            $off += $1;
+        }
+        else {
+            $i =~ s/(<\/?h)(\d)((\s+.*?)?>)/$1 . _cap($2 + $off) . $3/gesi
+              if ($off);
+            $out .= $i;
+        }
     }
     return $out;
 }
