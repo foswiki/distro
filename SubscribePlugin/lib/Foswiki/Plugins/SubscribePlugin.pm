@@ -7,7 +7,7 @@ require Foswiki::Func;
 use vars qw( $UID $WEB $TOPIC);
 
 our $VERSION = '$Rev$';
-our $RELEASE = '03 Dec 2008';
+our $RELEASE = '2.0';
 our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -16,8 +16,26 @@ our $UID;
 our $WEB;
 our $TOPIC;
 
+my $activeWebs;
+
 sub initPlugin {
     ( $TOPIC, $WEB ) = @_;
+
+    Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 1;
+
+    # LocalSite.cfg takes precedence.  Give admin most control.
+    $activeWebs = $Foswiki::cfg{Plugins}{SubscribePlugin}{ActiveWebs}
+      || Foswiki::Func::getPreferencesValue(
+        "SUBSCRIBEPLUGIN_ACTIVEWEBS");
+
+    if ( $activeWebs ) {
+        $activeWebs =~ s/\s*\,\s*/\|/go;    # Change comma's to "or"
+        $activeWebs =~ s/^\s*//o;        # Drop leading spaces
+        $activeWebs =~ s/\s*$//o;        # Drop trailing spaces
+        #$activeWebs =~ s/[^$Foswiki::regex{mixedAlphaNum}\|]//go
+        #  ;    # Filter any characters not valid in WikiWords
+        Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 0 unless ( $WEB =~ qr/^($activeWebs)$/ );
+    }
 
     Foswiki::Func::registerTagHandler( 'SUBSCRIBE', \&_SUBSCRIBE );
     $UID = 1;
@@ -28,6 +46,8 @@ sub initPlugin {
 # Show a button inviting (un)subscription to this topic
 sub _SUBSCRIBE {
     my ( $session, $params, $topic, $web ) = @_;
+
+    return '' unless ( Foswiki::Func::getContext()->{'SubscribePluginAllowed'} );
 
     my $query = Foswiki::Func::getCgiQuery();
     my $form;
@@ -158,7 +178,7 @@ __END__
 
 Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2007 Crawford Currie http://c-dot.co.uk
+Copyright (C) 2007, 2012 Crawford Currie http://c-dot.co.uk
 and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.

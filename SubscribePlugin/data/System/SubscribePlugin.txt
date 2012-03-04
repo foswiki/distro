@@ -4,7 +4,7 @@
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
-%SHORTDESCRIPTION%  
+%SHORTDESCRIPTION%
 
 Example (only works if plugin is installed, and you are logged in - you are: %WIKIUSERNAME% (not %MAINWEB%.WikiGuest)): %SUBSCRIBE%
 
@@ -26,6 +26,21 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 
 %X% Note that permissions on individual topics are *not* checked when subscription mails are sent out, so be very careful about who you allow to subscribe.
 
+---++ Configuration
+
+This plugin has been found to be extremely costly when processing highly
+complex WebNotify topics.  However in most environments, its not an issue.
+
+If you wish to limit the plugin to one or more webs, specifiy the list of Active Webs in one of the following ways.   This list is a comma-separates list of Web names.  A "Regular-expression" style wildcard can be used.  For
+example: =Main,Sandbox.*= would permit the Main web, Sandbox, including subwebs of Sandbox, or any web prefixed with Sandbox.
+
+   * [[%SCRIPTURL{"configure"}%#SubscribePlugin$Extensions][configure -> Extensions -> SubscribePlugin]]
+      * ={Plugins}{SubscribePlugin}{ActiveWebs} = "Main,Sandbox.*=
+   * As a standard preference setting, set in Main.SitePreferences or individual WebPreferences topics.
+      * =Set SUBSCRIBEPLUGIN_ACTIVEWEBS = Main,Sandbox.*=
+
+The configure setting takes precedence over the topic based preference setting.
+
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
@@ -34,12 +49,13 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright: | &copy; 2008, Crawford Currie |
+|  Copyright: | &copy; 2008, Crawford Currie,  2012 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Mar 2012 | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
 |  03 Dec 2008 | Re-released for Foswiki |
 |  15 Oct 2008 | TWikibug:Item4115: enable subscriptions with (child), \
                     TWikibug:Item5950: fix cross web SUBSCRIPTION indication (requires updated MailerContrib) \

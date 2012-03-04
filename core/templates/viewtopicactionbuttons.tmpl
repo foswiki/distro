@@ -77,7 +77,7 @@
 
 %TMPL:DEF{"enabled_active_subscribe"}%%TMPL:P{context="authenticated" then="activatable_subscribe"}%%TMPL:P{context="authenticated" then="sep"}%%TMPL:END%
 
-%TMPL:DEF{"action_activatable_subscribe"}%%TMPL:P{context="SubscribePluginEnabled" then="enabled_active_subscribe"}%%TMPL:END%
+%TMPL:DEF{"action_activatable_subscribe"}%%TMPL:P{context="SubscribePluginAllowed" then="enabled_active_subscribe"}%%TMPL:END%
 
 %TMPL:DEF{"activatable_subscribe"}%%TMPL:P{context="inactive" then="inactive_subscribe" else="active_subscribe"}%%TMPL:END%
 
