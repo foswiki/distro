@@ -86,10 +86,12 @@ sub upload {
         # allow exceptions to propagate
         _upload($session);
 
-        my $nurl =
-          $session->getScriptUrl( 1, 'view', $session->{webName},
-            $session->{topicName} );
-        $session->redirect( $session->redirectto($nurl) );
+	my $nurl = $session->redirectto(
+	    "$session->{webName}.$session->{topicName}" ) ||
+	    $session->getScriptUrl( 1, 'view', $session->{webName},
+				    $session->{topicName} );
+        $session->redirect($nurl) if ($nurl);
+
     }
 }
 

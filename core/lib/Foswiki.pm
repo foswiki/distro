@@ -786,7 +786,14 @@ JS
 
     # SMELL: can't compute; faking content-type for backwards compatibility;
     # any other information might become bogus later anyway
-    my $hdr = "Content-type: " . $contentType . "\r\n";
+    # Validate format of content-type (defined in rfc2616)
+    my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/o;
+    if ($contentType =~ /($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/oi) {
+	$contentType = $1;
+    } else {
+	$contentType = "text/plain;contenttype=invalid";
+    }
+    my $hdr = "Content-type: " . $1 . "\r\n";
 
     # Call final handler
     $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
@@ -1032,35 +1039,28 @@ sub _isRedirectSafe {
 =begin TML
 
 ---++ ObjectMethod redirectto($url) -> $url
-Gets a redirect url from CGI parameter 'redirectto', if present on the query.
 
-If the redirectto CGI parameter specifies a valid redirection target it is
-returned; otherwise the original URL passed in the parameter is returned.
+If the CGI parameter 'redirectto' is present on the query, then will validate
+that it is a legal redirection target (url or topic name). If 'redirectto'
+is not present on the query, performs the same steps on $url.
 
-Conditions for a valid redirection target are:
-   * The target matches the linkProtocolPattern regex, and redirection
-     to the url _isRedirectSafe
-   * The target specified a topic, or a Web.Topic (redirect will be to
-     'view')
+Returns undef if the target is not valid, and the target URL otherwise.
 
 =cut
 
 sub redirectto {
     my ( $this, $url ) = @_;
-    ASSERT($url) if DEBUG;
 
     my $redirecturl = $this->{request}->param('redirectto');
-    return $url unless $redirecturl;
+    $redirecturl = $url unless $redirecturl;
+
+    return unless $redirecturl;
 
     if ( $redirecturl =~ m#^$regex{linkProtocolPattern}://#o ) {
 
         # assuming URL
-        if ( _isRedirectSafe($redirecturl) ) {
-            return $redirecturl;
-        }
-        else {
-            return $url;
-        }
+        return $redirecturl if _isRedirectSafe($redirecturl);
+	return;
     }
 
     # assuming 'web.topic' or 'topic'
@@ -1073,7 +1073,7 @@ sub redirectto {
     my @attrs = ();
     push( @attrs, '#' => $anchor ) if $anchor;
 
-    return $this->getScriptUrl( 1, 'view', $w, $t, @attrs );
+    return $this->getScriptUrl( 0, 'view', $w, $t, @attrs );
 }
 
 =begin TML

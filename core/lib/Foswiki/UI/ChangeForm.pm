@@ -85,10 +85,13 @@ sub generate {
     $page =~ s/%FORMLIST%/$formList/go;
 
     my $parent = $q->param('topicparent') || '';
+    $parent = Foswiki::Sandbox::untaint(
+	$parent,
+	\&Foswiki::Sandbox::validateTopicName ) if $parent;
     $page =~ s/%TOPICPARENT%/$parent/go;
 
-    my $redirectTo = $q->param('redirectto') || '';
-    $page =~ s/%REDIRECTTO%/$redirectTo/go;
+    my $redirectTo = $session->redirectto() || '';
+    $page =~ s/%REDIRECTTO%/$redirectTo/g;
 
     my $text = '';
     $text = "<input type=\"hidden\" name=\"action\" value=\"$editaction\" />"

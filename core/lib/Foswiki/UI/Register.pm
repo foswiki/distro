@@ -743,22 +743,18 @@ sub addUserToGroup {
         );
     }
 
-    unless ( $query->param('redirectto') ) {
-        throw Foswiki::OopsException(
-            'attention',
-            status => 200,
-            def    => 'added_users_to_group',
-            web    => $web,
-            topic  => $topic,
-            params => [ join( ', ', @succeeded ), $groupName ]
-        );
-    }
-    else {
-        $session->redirect(
-            $session->redirectto(
-                $session->getScriptUrl( 1, 'view', $web, $topic )
-            )
-        );
+    my $url = $session->redirectto();
+    unless ( $url ) {
+	throw Foswiki::OopsException(
+	    'attention',
+	    status => 200,
+	    def    => 'added_users_to_group',
+	    web    => $web,
+	    topic  => $topic,
+	    params => [ join( ', ', @succeeded ), $groupName ]
+	    );
+    } else {
+	$session->redirect( $url );
     }
 }
 
@@ -835,22 +831,18 @@ sub removeUserFromGroup {
         );
     }
 
-    unless ( $query->param('redirectto') ) {
-        throw Foswiki::OopsException(
-            'attention',
-            status => 200,
-            def    => 'removed_users_from_group',
-            web    => $web,
-            topic  => $topic,
-            params => [ join( ', ', @succeeded ), $groupName ]
-        );
-    }
-    else {
-        $session->redirect(
-            $session->redirectto(
-                $session->getScriptUrl( 1, 'view', $web, $topic )
-            )
-        );
+    my $url = $session->redirectto();
+    unless ( $url ) {
+	throw Foswiki::OopsException(
+	    'attention',
+	    status => 200,
+	    def    => 'removed_users_from_group',
+	    web    => $web,
+	    topic  => $topic,
+	    params => [ join( ', ', @succeeded ), $groupName ]
+	    );
+    } else {
+	$session->redirect( $url );
     }
 }
 
