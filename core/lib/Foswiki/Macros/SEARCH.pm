@@ -50,7 +50,6 @@ sub SEARCH {
               . $message
               . "\n-------\n" );
     };
-
     return $s;
 }
 

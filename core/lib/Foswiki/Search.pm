@@ -763,7 +763,6 @@ sub formatResults {
             #TODO: should extract this somehow
 
             if ( $doMultiple && !$query->isEmpty() ) {
-
                 #TODO: Sven wonders if this should be a HoistRE..
                 #TODO: well, um, and how does this work for query search?
                 my @tokens = @{ $query->tokens() };
@@ -781,6 +780,19 @@ sub formatResults {
                       reverse grep { /$pattern/i } split( /[\n\r]+/, $text );
                 }
             }
+
+	    # Apply heading offset - posibly to each hit result independently
+	    if ($params->{headingoffset} && $params->{headingoffset} =~ /^([-+]?\d+)$/
+		&& $1 != 0) {
+		my ($off, $noff) = (0 + $1, 0 - $1);
+		if ( scalar(@multipleHitLines) ) {
+		    @multipleHitLines = map {
+			$_ =~ "<ho off=\"$off\">\n$text\n<ho off=\"$noff\"/>"
+		    } @multipleHitLines;
+		} else {
+		    $text = "<ho off=\"$off\">\n$text\n<ho off=\"$noff\"/>";
+		}
+	    }
         }
 
         $ntopics += 1;
@@ -1072,10 +1084,11 @@ sub formatResults {
         &$callback( $cbdata, $footer );
     }
 
-    return ( $ntopics,
-        ( ( not defined( $params->{_callback} ) ) and ( $nhits >= 0 ) )
-        ? join( '', @$cbdata )
-        : '' );
+    my $result = '';
+    if ( ! defined $params->{_callback} && $nhits >= 0 ) {
+        $result = join( '', @$cbdata );
+    }
+    return ( $ntopics, $result );
 }
 
 sub formatCommon {

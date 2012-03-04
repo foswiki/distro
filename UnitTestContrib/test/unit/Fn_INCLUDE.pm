@@ -190,10 +190,10 @@ sub test_singlequoted_params {
 
     $text =
       $this->{test_topicObject}
-      ->expandMacros('%INCLUDE{"I can\'t beleive its not butter"}%');
+      ->expandMacros('%INCLUDE{"I can\'t believe its not butter"}%');
     $this->assert_str_equals(
         "<span class='foswikiAlert'>
-   Warning: Can't INCLUDE '<nop>I can't beleive its not butter', path is empty or contains illegal characters. 
+   Warning: Can't INCLUDE '<nop>I can't believe its not butter', path is empty or contains illegal characters. 
 </span>", $text
     );
 }
@@ -318,6 +318,91 @@ EXPECTED
         "%INCLUDE{\"doc:$class\" pattern=\"(cabbage.*avocado)\" warn=\"no\"}%");
     $expected = '';
     $this->assert_str_equals( $expected, $text );
+}
+
+sub test_hassleFreeHoff {
+    my $this = shift;
+
+    # Create topic to include
+    my $includedTopic = "TopicToInclude";
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{test_web}, $includedTopic );
+    $inkyDink->text( <<INCLUDE);
+---+ H1
+---++ H2
+---+++ H3
+---++++ H4
+---+++++ H5
+---++++++ H6
+<h6>H6</H6>
+<H5>H5</h5>
+<H4>H4</H4>
+<h3>H3</h3>
+<h2 style="color:orange">H2</h2>
+<h1>H1</h1>
+<ho off="1">
+---+ H1
+<ho off="-1">
+---+ H1
+INCLUDE
+    $inkyDink->save();
+
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    my $text = $topicObject->expandMacros(<<EXPAND);
+%INCLUDE{"$includedTopic" headingoffset="1"}%
+%INCLUDE{"$includedTopic" headingoffset="+1"}%
+%INCLUDE{"$includedTopic" headingoffset="-1"}%
+EXPAND
+    $text = $topicObject->renderTML($text);
+    $text =~ s/<nop>//g;
+    my $expect = <<EXPECT;
+<h2 id="H1_AN3">  H1 </h2>
+<h3 id="H2">  H2 </h3>
+<h4 id="H3_AN3">  H3 </h4>
+<h5 id="H4_AN3">  H4 </h5>
+<h6 id="H5_AN3">  H5 </h6>
+<h6 id="H6_AN3">  H6 </h6>
+<h6 id="H6"> H6 </h6>
+<h6 id="H5"> H5 </h6>
+<h5 id="H4"> H4 </h5>
+<h4 id="H3"> H3 </h4>
+<h3 style="color:orange">H2</h3>
+<h2 id="H1"> H1 </h2>
+<h3 id="H1_AN4">  H1 </h3>
+<h2 id="H1_AN5">  H1 </h2>
+
+<h2 id="H1_AN6">  H1 </h2>
+<h3 id="H2_AN1">  H2 </h3>
+<h4 id="H3_AN4">  H3 </h4>
+<h5 id="H4_AN4">  H4 </h5>
+<h6 id="H5_AN4">  H5 </h6>
+<h6 id="H6_AN4">  H6 </h6>
+<h6 id="H6_AN1"> H6 </h6>
+<h6 id="H5_AN1"> H5 </h6>
+<h5 id="H4_AN1"> H4 </h5>
+<h4 id="H3_AN1"> H3 </h4>
+<h3 style="color:orange">H2</h3>
+<h2 id="H1_AN1"> H1 </h2>
+<h3 id="H1_AN7">  H1 </h3>
+<h2 id="H1_AN8">  H1 </h2>
+
+<h1 id="H1_AN9">  H1 </h1>
+<h1 id="H2_AN2">  H2 </h1>
+<h2 id="H3_AN5">  H3 </h2>
+<h3 id="H4_AN5">  H4 </h3>
+<h4 id="H5_AN5">  H5 </h4>
+<h5 id="H6_AN5">  H6 </h5>
+<h5 id="H6_AN2"> H6 </h5>
+<h4 id="H5_AN2"> H5 </h4>
+<h3 id="H4_AN2"> H4 </h3>
+<h2 id="H3_AN2"> H3 </h2>
+<h1 style="color:orange">H2</h1>
+<h1 id="H1_AN2"> H1 </h1>
+<h1 id="H1_AN10">  H1 </h1>
+<h1 id="H1_AN11">  H1 </h1>
+EXPECT
+    $this->assert_html_equals( $expect, $text );
 }
 
 1;

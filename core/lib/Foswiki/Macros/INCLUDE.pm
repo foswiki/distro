@@ -111,62 +111,26 @@ sub _includeWarning {
     return '';
 }
 
-# Processes a specific instance %<nop>INCLUDE{...}% syntax.
-# Returns the text to be inserted in place of the INCLUDE command.
-# $includingTopicObject should be for the immediate parent topic in the
-# include hierarchy. Works for both URLs and absolute server paths.
-sub INCLUDE {
-    my ( $this, $params, $includingTopicObject ) = @_;
+sub _includeProtocol {
+    my ($this, $handler, $control, $params) = @_;
 
-    # remember args for the key before mangling the params
-    my $args = $params->stringify();
-
-    # Remove params, so they don't get expanded in the included page
-    my %control;
-    for my $p (qw(_DEFAULT pattern rev section raw warn)) {
-        $control{$p} = $params->remove($p);
+    eval 'use Foswiki::IncludeHandlers::' . $handler . ' ()';
+    if ($@) {
+	return $this->_includeWarning(
+	    $control->{warn}, 'bad_include_path', $control->{_DEFAULT} );
     }
-
-    $control{warn} ||= $this->{prefs}->getPreference('INCLUDEWARNING');
-
-    # make sure we have something to include. If we don't do this, then
-    # normalizeWebTopicName will default to WebHome. TWikibug:Item2209.
-    unless ( $control{_DEFAULT} ) {
-        return $this->_includeWarning( $control{warn}, 'bad_include_path', '' );
+    else {
+	$handler = 'Foswiki::IncludeHandlers::' . $handler;
+	return $handler->INCLUDE( $this, $control, $params );
     }
+}
 
-    # Filter out '..' from path to prevent includes of '../../file'
-    if ( $Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ /\.\./ ) {
-        return $this->_includeWarning( $control{warn}, 'bad_include_path',
-            $control{_DEFAULT} );
-    }
-
-    # no sense in considering an empty string as an unfindable section
-    delete $control{section}
-      if ( defined( $control{section} ) && $control{section} eq '' );
-    $control{raw} ||= '';
-    $control{inWeb}   = $includingTopicObject->web;
-    $control{inTopic} = $includingTopicObject->topic;
-
-    # Protocol links e.g. http:, https:, doc:
-    if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
-        my $handler = $1;
-        eval 'use Foswiki::IncludeHandlers::' . $handler . ' ()';
-        if ($@) {
-            return $this->_includeWarning( $control{warn}, 'bad_include_path',
-                $control{_DEFAULT} );
-        }
-        else {
-            $handler = 'Foswiki::IncludeHandlers::' . $handler;
-            return $handler->INCLUDE( $this, \%control, $params );
-        }
-    }
-
-    # No protocol handler; must be a topic reference
+sub _includeTopic {
+    my ($this, $includingTopicObject, $control, $params) = @_;
 
     my $text = '';
     my $includedWeb;
-    my $includedTopic = $control{_DEFAULT};
+    my $includedTopic = $control->{_DEFAULT};
     $includedTopic =~ s/\.txt$//;    # strip optional (undocumented) .txt
 
     ( $includedWeb, $includedTopic ) =
@@ -174,13 +138,13 @@ sub INCLUDE {
         $includedTopic );
 
     if ( !Foswiki::isValidTopicName( $includedTopic, 1 ) ) {
-        return $this->_includeWarning( $control{warn}, 'bad_include_path',
-            $control{_DEFAULT} );
+        return $this->_includeWarning( $control->{warn}, 'bad_include_path',
+            $control->{_DEFAULT} );
     }
 
     # See Codev.FailedIncludeWarning for the history.
     unless ( $this->{store}->topicExists( $includedWeb, $includedTopic ) ) {
-        return _includeWarning( $this, $control{warn}, 'topic_not_found',
+        return _includeWarning( $this, $control->{warn}, 'topic_not_found',
             $includedWeb, $includedTopic );
     }
 
@@ -189,9 +153,9 @@ sub INCLUDE {
     # topic will fail. There is a hard block of 99 on any recursive include.
     my $key = $includingTopicObject->web . '.' . $includingTopicObject->topic;
     my $count = grep( $key, keys %{ $this->{_INCLUDES} } );
-    $key .= $args;
+    $key .= $control->{_sArgs};
     if ( $this->{_INCLUDES}->{$key} || $count > 99 ) {
-        return _includeWarning( $this, $control{warn}, 'already_included',
+        return _includeWarning( $this, $control->{warn}, 'already_included',
             "$includedWeb.$includedTopic", '' );
     }
 
@@ -203,9 +167,9 @@ sub INCLUDE {
     $this->{_INCLUDES}->{$key} = 1;
 
     my $includedTopicObject =
-      Foswiki::Meta->load( $this, $includedWeb, $includedTopic, $control{rev} );
+      Foswiki::Meta->load( $this, $includedWeb, $includedTopic, $control->{rev} );
     unless ( $includedTopicObject->haveAccess('VIEW') ) {
-        if ( isTrue( $control{warn} ) ) {
+        if ( isTrue( $control->{warn} ) ) {
             return $this->inlineAlert( 'alerts', 'access_denied',
                 "[[$includedWeb.$includedTopic]]" );
         }    # else fail silently
@@ -237,7 +201,7 @@ sub INCLUDE {
 
         # remove everything before and after the default include block unless
         # a section is explicitly defined
-        if ( !$control{section} ) {
+        if ( !$control->{section} ) {
             $text =~ s/.*?%STARTINCLUDE%//s;
             $text =~ s/%STOPINCLUDE%.*//s;
         }
@@ -249,22 +213,22 @@ sub INCLUDE {
         # handle sections
         my ( $ntext, $sections ) = parseSections($text);
 
-        my $interesting = ( defined $control{section} );
+        my $interesting = ( defined $control->{section} );
         if ( $interesting || scalar(@$sections) ) {
 
             # Rebuild the text from the interesting sections
             $text = '';
             foreach my $s (@$sections) {
-                if (   $control{section}
+                if (   $control->{section}
                     && $s->{type} eq 'section'
-                    && $s->{name} eq $control{section} )
+                    && $s->{name} eq $control->{section} )
                 {
                     $text .=
                       substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                     $interesting = 1;
                     last;
                 }
-                elsif ( $s->{type} eq 'include' && !$control{section} ) {
+                elsif ( $s->{type} eq 'include' && !$control->{section} ) {
                     $text .=
                       substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                     $interesting = 1;
@@ -274,16 +238,16 @@ sub INCLUDE {
 
         if ( $interesting and ( length($text) eq 0 ) ) {
             $text =
-              _includeWarning( $this, $control{warn}, 'topic_section_not_found',
-                $includedWeb, $includedTopic, $control{section} );
+              _includeWarning( $this, $control->{warn}, 'topic_section_not_found',
+                $includedWeb, $includedTopic, $control->{section} );
         }
         else {
 
             # If there were no interesting sections, restore the whole text
             $text = $ntext unless $interesting;
 
-            $text = applyPatternToIncludedText( $text, $control{pattern} )
-              if ( $control{pattern} );
+            $text = applyPatternToIncludedText( $text, $control->{pattern} )
+              if ( $control->{pattern} );
 
             # Do not show TOC in included topic if TOC_HIDE_IF_INCLUDED
             # preference has been set
@@ -341,6 +305,64 @@ sub INCLUDE {
         ( $this->{webName}, $this->{topicName} ) =
           $this->{prefs}->popTopicContext();
     };
+
+    return $text;
+}
+
+# Processes a specific instance %<nop>INCLUDE{...}% syntax.
+# Returns the text to be inserted in place of the INCLUDE command.
+# $includingTopicObject should be for the immediate parent topic in the
+# include hierarchy. Works for both URLs and absolute server paths.
+sub INCLUDE {
+    my ( $this, $params, $includingTopicObject ) = @_;
+
+    # remember args for the key before mangling the params
+    my $args = $params->stringify();
+
+    # Remove params, so they don't get expanded in the included page
+    my %control;
+    for my $p (qw(_DEFAULT pattern rev section raw warn)) {
+        $control{$p} = $params->remove($p);
+    }
+    $control{_sArgs} = $args;
+
+    $control{warn} ||= $this->{prefs}->getPreference('INCLUDEWARNING');
+
+    my $text;
+    # make sure we have something to include. If we don't do this, then
+    # normalizeWebTopicName will default to WebHome. TWikibug:Item2209.
+    unless ( $control{_DEFAULT} ) {
+        $text = $this->_includeWarning( $control{warn}, 'bad_include_path', '' );
+    }
+
+    # Filter out '..' from path to prevent includes of '../../file'
+    elsif ( $Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ /\.\./ ) {
+        $text = $this->_includeWarning( $control{warn}, 'bad_include_path',
+            $control{_DEFAULT} );
+    }
+
+    else {
+	# no sense in considering an empty string as an unfindable section
+	delete $control{section} if
+	    ( defined( $control{section} ) && $control{section} eq '' );
+	$control{raw} ||= '';
+	$control{inWeb}   = $includingTopicObject->web;
+	$control{inTopic} = $includingTopicObject->topic;
+
+	# Protocol links e.g. http:, https:, doc:
+	if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
+	    $text = $this->_includeProtocol($1, \%control, $params);
+	} else {
+	    $text = $this->_includeTopic($includingTopicObject, \%control, $params);
+	}
+    }
+
+    # Apply any heading offset
+    my $hoff = $params->{headingoffset};
+    if ($hoff && $hoff =~ /^([-+]?\d+)$/ && $1 != 0) {
+	my ($off, $noff) = (0 + $1, 0 - $1);
+	$text = "<ho off=\"$off\"/>\n$text\n<ho off=\"$noff\">";
+    }
 
     return $text;
 }

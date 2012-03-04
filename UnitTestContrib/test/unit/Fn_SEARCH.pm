@@ -785,6 +785,60 @@ EXPECT
     return;
 }
 
+sub test_headingoffset {
+    my ( $this, $query, $web ) = @_;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestHINC' );
+    $topicObject->text(<<HERE);
+---+ H4
+<ho off="1">
+---+ H5
+<h1>H2</h1>
+<ho off="+2">
+---+ H6
+<h1>H6</h1>
+<ho off="-3">
+---+ H4
+HERE
+    $topicObject->save();
+    $topicObject->finish();
+    my $result = $this->{test_topicObject}->expandMacros(<<HERE);
+%SEARCH{"---+" web="$this->{test_web}" topic="TestHINC" format="\$text" headingoffset="3"}%
+###
+%SEARCH{"---+" multiple="on" web="$this->{test_web}" topic="TestHINC" format="\$text" headingoffset="3"}%
+HERE
+
+    $this->assert_str_equals(<<EXPECT, $result);
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>---+</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<ho off="3">
+---+ H4
+<ho off="1">
+---+ H5
+<h1>H2</h1>
+<ho off="+2">
+---+ H6
+<h1>H6</h1>
+<ho off="-3">
+---+ H4
+
+<ho off="-3"/>
+<div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
+###
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>---+</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+---+ H4
+<ho off="1">
+---+ H5
+<h1>H2</h1>
+<ho off="+2">
+---+ H6
+<h1>H6</h1>
+<ho off="-3">
+---+ H4
+
+<div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
+EXPECT
+}
+
 sub verify_regex_match {
     my $this = shift;
 

@@ -1080,6 +1080,37 @@ sub renderFORMFIELD {
     return $text;
 }
 
+# Adjust heading levels
+# <h off="1"> will increase the indent level by 1
+# <h off="-1"> will decrease the indent level by 1
+sub _adjustH {
+    my ($text) = @_;
+
+    my @blocks = split(/(<ho(?:\s+off="(?:[-+]?\d+)")?\s*\/?>)/i, $text);
+
+    return $text unless scalar(@blocks) > 1;
+
+    sub _cap {
+	return 1 if ($_[0] < 1);
+	return 6 if ($_[0] > 6);
+	return $_[0];
+    };
+
+    my $off = 0;
+    my $out = '';
+    while (scalar(@blocks)) {
+	my $i = shift(@blocks);
+	if ($i =~ /^<ho(?:\s+off="([-+]?\d+)")?\s*\/?>$/i && $1) {
+	    $off += $1;
+	} else {
+	    $i =~ s/(<\/?h)(\d)((\s+.*?)?>)/$1 . _cap($2 + $off) . $3/gesi
+		if ($off);
+	    $out .= $i;
+	}
+    }
+    return $out;
+}
+
 =begin TML
 
 ---++ ObjectMethod getRenderedVersion ( $text, $topicObject ) -> $html
@@ -1441,6 +1472,8 @@ sub getRenderedVersion {
     $this->_putBackProtected( \$text, 'comment',  $removed );
     $this->_putBackProtected( \$text, 'head',     $removed );
     $this->_putBackProtected( \$text, 'textarea', $removed );
+
+    $text = _adjustH($text);
 
     $this->{session}->getLoginManager()->endRenderingHandler($text);
 

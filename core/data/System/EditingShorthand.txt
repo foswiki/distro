@@ -40,6 +40,9 @@ Three or more dashes at the beginning of a line, followed by plus signs and the 
 You can create a table of contents with the [[VarTOC][%<nop>TOC%]] macro. If you want to *exclude* a heading from the TOC, put =!!= after the =---+=.
 
 %X% Empty headings are allowed, but won't appear in the table of contents.
+
+See the =&lt;ho&gt;= tag below for how to adjust heading levels dynamically.
+
 </td><td>
 <verbatim class="tml">
 ---++ Sushi
@@ -566,6 +569,27 @@ This div
 required
 </div>
 </sticky>
+</td>
+</tr>
+<tr>
+<td>
+ *Adjust heading levels:* %BR%
+ You can adjust heading levels for headings generated using =---+= markup and also HTML =&lt;h&gt;= tags using the =&lt;ho&gt; tag.<br />The =%<nop>INCLUDE= and =%<nop>SEARCH= macros also have a =headingoffset= parameter to do this for you in included content.<br />Heading levels are limited to the range 1..6 *after* any .
+</td><td>
+<pre>
+---+ Offset is 0
+&lt;ho off="1"&gt;
+---+ H1 becomes H2
+&lt;ho off="-1"&gt;
+---+ Offset was 1, so Offset is now 0
+</pre>
+</td>
+<td>
+---+ Offset is 0
+<ho off="1">
+---+ Offset is 1, so H1 becomes H2
+<ho off="-1">
+---+ Offset is now 0
 </td>
 </tr>
 </table>
