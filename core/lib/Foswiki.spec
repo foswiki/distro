@@ -566,6 +566,20 @@ $Foswiki::cfg{Register}{HidePasswd} = $TRUE;
 # You are recommended not to change this.
 $Foswiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';
 
+# **BOOLEAN**
+# Normally users can register multiple WikiNames using the same email address.
+# Enable this parameter to prevent multiple registrations using the same email address.
+$Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
+
+# **REGEX 80 EXPERT**
+# This regular expression can be used to block certain email addresses from being used
+# for registering users.  It can be used to block some of the more common wikispam bots.
+# If this regex matches the entered address, the registration is rejected.  For example:<br/>
+# <code>^.*@(lease-a-seo\.com|paydayloans).*$</code><br/>
+# To block all domains and list only the permitted domains, use an expression of the format:<br/>
+# <code>@(?!(example\.com|example\.net)$)</code>
+$Foswiki::cfg{Register}{EmailFilter} = '';
+
 # **STRING H**
 # Configuration password (not prompted)
 $Foswiki::cfg{Password} = '';
@@ -1272,7 +1286,7 @@ $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 # to access external web pages.</p>
 
 #---++ Email General
-# <p>Settings controlling if and how Foswiki sends email including the identity of the sender
+# <p>Settings controlling if and how Foswiki handles email including the identity of the sender
 # and other expert settings controlling the email process.</p>
 # **BOOLEAN**
 # Enable email globally.  Un-check this option to disable all outgoing
@@ -1303,6 +1317,16 @@ $Foswiki::cfg{NotifyTopicName}     = 'WebNotify';
 # **BOOLEAN EXPERT**
 # Send email Date header using local "server time" instead of GMT
 $Foswiki::cfg{Email}{Servertime} = $FALSE;
+
+# **REGEX 80 EXPERT**
+# This parameter is used to determine which Top Level domains are vaild
+# when auto-linking email addresses.  It is also used by UserRegistration to
+# validate email addresses.  Note, this parameter <em>only</em> controls
+# matching of 3 character and longer TLDs.   2-character country codes and
+# IP Address domains always permitted.  See:<br/><code>
+# Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt<br/>
+# Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC</code>
+$Foswiki::cfg{Email}{ValidTLD} = qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
 
 #---++ Email Server
 # <p>Settings to select the destination mail server or local email agent used for forwarding email.</p>
