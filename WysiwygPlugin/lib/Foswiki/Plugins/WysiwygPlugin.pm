@@ -31,7 +31,7 @@ our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 our $VERSION           = '$Rev$';
 
-our $RELEASE = '1.1.4';
+our $RELEASE = '1.1.5';
 
 our %xmltag;
 
@@ -119,9 +119,9 @@ sub wysiwygEditingDisabledForThisContent {
     my $exclusions = $_[1];
     unless ( defined($exclusions) ) {
         $exclusions = Foswiki::Func::getPreferencesValue('WYSIWYG_EXCLUDE')
-          || '';
+          || 'script,style';
     }
-
+    
     # Check for explicit exclusions before generic, non-configurable
     # purely content-related reasons for exclusion
     if ($exclusions) {
@@ -159,6 +159,16 @@ sub wysiwygEditingDisabledForThisContent {
             print STDERR "WYSIWYG_DEBUG: has pre\n"
               if (WHY);
             return "Text contains PRE";
+        }
+        if ( $exclusions =~ /script/ && $_[0] =~ /<script\W/ ) {
+            print STDERR "WYSIWYG_DEBUG: has script\n"
+              if (WHY);
+            return "Text contains script";
+        }
+        if ( $exclusions =~ /style/ && $_[0] =~ /<style\w/ ) {
+            print STDERR "WYSIWYG_DEBUG: has style\n"
+              if (WHY);
+            return "Text contains style";
         }
     }
 
@@ -284,7 +294,7 @@ sub modifyHeaderHandler {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -2,14 +2,14 @@
 ---+ Settings for WysiwygPlugin that are common to most editor integrations
 %STARTINCLUDE%
 ---++++ WYSIWYG_EXCLUDE - Prevent WYSIWYG editing 
-<blockquote class="foswikiHelp">%X% This is not supported currently by the !TinyMCE Editor.  This setting is not used.</blockquote>
-
-The *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
+The *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. The comma separated list to fall back to text edit can include:
    * =html= - HTML tags (e.g. =&lt;div&gt;=, not including &lt;br&gt;), or 
    * =macros= - simple macros (e.g. =%<nop>VAR%=) or 
    * =calls= - macros with parameters e.g. =%<nop>MACRO{...}%=
    * =pre= blocks (=&lt;pre&gt;=)
    * HTML =comments= (=&lt;!--= ... =--&gt;=)
+   * =script= = inline HTML Script tags - _default_
+   * =style= = inline Css style tags - _default_
 If the plugin detects an excluded construct in the topic, it will refuse to allow the edit and will redirect to the default editor.
 ---+++++ WYSIWYG_EDITABLE_CALLS - Exceptions to WYSIWYG_EXCLUDE
 If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
