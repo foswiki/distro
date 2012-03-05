@@ -403,54 +403,80 @@ sub _action_saveSettings {
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
     my $cUID    = $session->{user};
+    my $query   = $session->{request};
 
-    # set up editing session
-    require Foswiki::Meta;
-    my $newTopicObject = Foswiki::Meta->load( $session, $web, $topic );
+    if ( defined $query->param('action_cancel')
+        && $query->param('action_cancel') eq 'Cancel' )
+    {
+        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
-    Foswiki::UI::checkValidationKey($session);
-
-    my $query       = $session->{request};
-    my $settings    = $query->param('text');
-    my $originalrev = $query->param('originalrev');
-
-    $newTopicObject->remove('PREFERENCE');    # delete previous settings
-        # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires
-        # use in code that parses multiline settings line by line.
-    $settings =~
-s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
-        (_parsePreferenceValue($newTopicObject, $1, $2, $3))mgeo;
-
-    my $saveOpts = {};
-    $saveOpts->{minor}            = 1;    # don't notify
-    $saveOpts->{forcenewrevision} = 1;    # always new revision
-
-    # Merge changes in meta data
-    if ($originalrev) {
-        my $info = $newTopicObject->getRevisionInfo();
-
-        # If the last save was by me, don't merge
-        if (   $info->{version} ne $originalrev
-            && $info->{author} ne $session->{user} )
-        {
-            my $currTopicObject = Foswiki::Meta->load( $session, $web, $topic );
-            $newTopicObject->merge($currTopicObject);
+        my $lease = $topicObject->getLease();
+        if ( $lease && $lease->{user} eq $session->{user} ) {
+            $topicObject->clearLease();
         }
     }
+    elsif ( defined $query->param('action_save')
+        && $query->param('action_save') eq 'Save' )
+    {
 
-    try {
-        $newTopicObject->save( minor => 1, forcenewrevision => 1 );
+        # set up editing session
+        require Foswiki::Meta;
+        my $newTopicObject = Foswiki::Meta->load( $session, $web, $topic );
+
+        Foswiki::UI::checkAccess( $session, 'VIEW', $newTopicObject );
+        Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
+        Foswiki::UI::checkValidationKey($session);
+
+        my $settings    = $query->param('text');
+        my $originalrev = $query->param('originalrev');
+
+        $newTopicObject->remove('PREFERENCE');    # delete previous settings
+            # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires
+            # use in code that parses multiline settings line by line.
+        $settings =~
+s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
+            (_parsePreferenceValue($newTopicObject, $1, $2, $3))mgeo;
+
+        my $saveOpts = {};
+        $saveOpts->{minor}            = 1;    # don't notify
+        $saveOpts->{forcenewrevision} = 1;    # always new revision
+
+        # Merge changes in meta data
+        if ($originalrev) {
+            my $info = $newTopicObject->getRevisionInfo();
+
+            # If the last save was by me, don't merge
+            if (   $info->{version} ne $originalrev
+                && $info->{author} ne $session->{user} )
+            {
+                my $currTopicObject =
+                  Foswiki::Meta->load( $session, $web, $topic );
+                $newTopicObject->merge($currTopicObject);
+            }
+        }
+
+        try {
+            $newTopicObject->save( minor => 1, forcenewrevision => 1 );
+        }
+        catch Error::Simple with {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'save_error',
+                web    => $web,
+                topic  => $topic,
+                params => [ shift->{-text} ]
+            );
+        };
     }
-    catch Error::Simple with {
+    else {
         throw Foswiki::OopsException(
             'attention',
-            def    => 'save_error',
+            def    => 'invalid_field',
             web    => $web,
             topic  => $topic,
-            params => [ shift->{-text} ]
+            params => ['action_save or action_cancel']
         );
-    };
+    }
 
     $session->redirect( $session->redirectto("$web.$topic") );
 }
