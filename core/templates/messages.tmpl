@@ -330,6 +330,22 @@
 
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
+%TMPL:DEF{"rej_email"}%
+---+++ %MAKETEXT{"Invalid e-mail address"}%
+%MAKETEXT{"The e-mail address for this account has been rejected."}%
+
+%PARAM1%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
+%TMPL:DEF{"dup_email"}%
+---+++ %MAKETEXT{"Invalid e-mail address"}%
+%MAKETEXT{"The e-mail address for this account is already registered to another user."}%
+
+%PARAM1%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
 %TMPL:DEF{"bad_ver_code"}%
 ---+++ %MAKETEXT{"Invalid Activation Code"}%
 %MAKETEXT{"The activation code [_1] is invalid." args="==%PARAM1%=="}% %PARAM2%

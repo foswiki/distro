@@ -480,8 +480,8 @@ BEGIN {
     my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;    # Per RFC 5322
 
     # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-    # Version 2011083000, Last Updated Tue Aug 30 14:07:02 2011 UTC
-    my $validTLD =
+    # Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC
+    my $validTLD = $Foswiki::cfg{Email}{ValidTLD} ||
 qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
 
     $regex{emailAddrRegex} = qr(

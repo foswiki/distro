@@ -402,13 +402,18 @@ sub _innerRegister {
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
         \&Foswiki::Sandbox::validateTopicName );
-    throw Foswiki::OopsException(
-        'attention',
-        def    => 'bad_wikiname',
-        web    => $data->{webName},
-        topic  => $session->{topicName},
-        params => [$oldName]
-    ) unless $data->{WikiName};
+    unless ( $data->{WikiName} ) {
+        $session->logger->log( 'warning',
+"Registration rejected: validateTopicName failed for $oldName"
+        );
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'bad_wikiname',
+            web    => $data->{webName},
+            topic  => $session->{topicName},
+            params => [$oldName]
+        );
+    }
 
     _validateRegistration( $session, $data, 1 );
 }
@@ -427,13 +432,18 @@ sub _requireVerification {
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
         \&Foswiki::Sandbox::validateTopicName );
-    throw Foswiki::OopsException(
-        'attention',
-        def    => 'bad_wikiname',
-        web    => $data->{webName},
-        topic  => $session->{topicName},
-        params => [$oldName]
-    ) unless $data->{WikiName};
+    unless ( $data->{WikiName} ) {
+        $session->logger->log( 'warning',
+"Verification rejected: validateTopicName failed for $oldName"
+        );
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'bad_wikiname',
+            web    => $data->{webName},
+            topic  => $session->{topicName},
+            params => [$oldName]
+        );
+    }
     $data->{LoginName} ||= $data->{WikiName};
     $data->{webName} = $web;
 
@@ -469,6 +479,9 @@ sub _requireVerification {
         my $err = sendEmail( $session, 'registerconfirm', $data );
 
         if ($err) {
+            $session->logger->log( 'warning',
+"Registration rejected: registration_mail_failed - Email: $em, Error $err"
+            );
             throw Foswiki::OopsException(
                 'attention',
                 def    => 'registration_mail_failed',
@@ -1373,6 +1386,9 @@ sub _validateRegistration {
         )
       )
     {
+        $session->logger->log( 'warning',
+"Registration rejected:  LoginName $data->{LoginName} or WikiName $wikiname already known to Mapper"
+        );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -1386,6 +1402,9 @@ sub _validateRegistration {
     if ( $session->topicExists( $Foswiki::cfg{UsersWebName}, $data->{WikiName} )
       )
     {
+        $session->logger->log( 'warning',
+"Registration rejected: Topic $Foswiki::cfg{UsersWebName}.$data->{WikiName}  already exists."
+        );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -1397,6 +1416,9 @@ sub _validateRegistration {
 
     # Check if WikiName is a WikiName
     if ( !Foswiki::isValidWikiWord( $data->{WikiName} ) ) {
+        $session->logger->log( 'warning',
+            "Registration rejected:  $data->{WikiName} is not a valid WikiWord."
+        );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -1416,6 +1438,9 @@ sub _validateRegistration {
         if ( $doCheckPasswordLength
             && length( $data->{Password} ) < $Foswiki::cfg{MinPasswordLength} )
         {
+            $session->logger->log( 'warning',
+"Registration rejected for $data->{WikiName}: requested password is too short."
+            );
             throw Foswiki::OopsException(
                 'attention',
                 web    => $data->{webName},
@@ -1429,6 +1454,9 @@ sub _validateRegistration {
         if (  !$Foswiki::cfg{Register}{DisablePasswordConfirmation}
             && $data->{Password} ne $data->{Confirm} )
         {
+            $session->logger->log( 'warning',
+"Registration rejected for $data->{WikiName}: passwords do not match."
+            );
             throw Foswiki::OopsException(
                 'attention',
                 web   => $data->{webName},
@@ -1440,6 +1468,9 @@ sub _validateRegistration {
 
     # check valid email address
     if ( $data->{Email} !~ $Foswiki::regex{emailAddrRegex} ) {
+        $session->logger->log( 'warning',
+"Registration rejected: $data->{Email} failed the system email regex check."
+        );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -1449,10 +1480,48 @@ sub _validateRegistration {
         );
     }
 
+    # Optional check email against filter
+    # Case insensitive, and ignore whitespace.
+    my $emailFilter;
+    $emailFilter = qr/$Foswiki::cfg{Register}{EmailFilter}/ix if ( length($Foswiki::cfg{Register}{EmailFilter}) );
+    if (   defined $emailFilter
+        && $data->{Email} =~ $emailFilter )
+    {
+        $session->logger->log( 'warning',
+"Registration rejected: $data->{Email} rejected by the {Register}{EmailFilter}."
+        );
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'rej_email',
+            web    => $data->{webName},
+            topic  => $session->{topicName},
+            params => [ $data->{Email} ]
+        );
+    }
+
+    # Optional check if email address is already registered
+    if ( $Foswiki::cfg{Register}{UniqueEmail} ) {
+        my @existingNames = Foswiki::Func::emailToWikiNames( $data->{Email} );
+        if ( scalar(@existingNames) ) {
+            $session->logger->log( 'warning',
+                "Registration rejected: $data->{Email} already registered by: "
+                  . join( ',', @existingNames ) );
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'dup_email',
+                params => [ $data->{Email} ]
+            );
+        }
+    }
+
     return unless $requireForm;
 
     # check if required fields are filled in
     unless ( $data->{form} && ( $#{ $data->{form} } > 1 ) ) {
+        $session->logger->log( 'warning',
+            'Registration rejected: The submitted form was empty' );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -1469,6 +1538,9 @@ sub _validateRegistration {
     }
 
     if ( scalar(@missing) ) {
+        $session->logger->log( 'warning',
+            'Registration rejected: missing required fields: '
+              . join( ',', @missing ) );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
