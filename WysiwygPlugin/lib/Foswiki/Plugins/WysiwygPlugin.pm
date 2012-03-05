@@ -144,7 +144,7 @@ sub wysiwygEditingDisabledForThisContent {
             return "Text contains macros";
         }
         if (   $exclusions =~ /html/
-            && $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/ )
+            && $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/i )
         {
             print STDERR "WYSIWYG_DEBUG: has html: $1\n"
               if (WHY);
@@ -155,17 +155,17 @@ sub wysiwygEditingDisabledForThisContent {
               if (WHY);
             return "Text contains comments";
         }
-        if ( $exclusions =~ /pre/ && $_[0] =~ /<pre\w/ ) {
+        if ( $exclusions =~ /pre/ && $_[0] =~ /<pre\w/i ) {
             print STDERR "WYSIWYG_DEBUG: has pre\n"
               if (WHY);
             return "Text contains PRE";
         }
-        if ( $exclusions =~ /script/ && $_[0] =~ /<script\W/ ) {
+        if ( $exclusions =~ /script/ && $_[0] =~ /<script\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has script\n"
               if (WHY);
             return "Text contains script";
         }
-        if ( $exclusions =~ /style/ && $_[0] =~ /<style\w/ ) {
+        if ( $exclusions =~ /style/ && $_[0] =~ /<style\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has style\n"
               if (WHY);
             return "Text contains style";
