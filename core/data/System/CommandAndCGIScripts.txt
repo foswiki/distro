@@ -163,7 +163,9 @@ No parameters
 | =originalrev= | Revision that the edit started on | _latest_ |
 | =redirectto= | If the savesettings process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | _redirect to the web.topic from the URL path_ |
 | =text= | Text of the topic | _required_ |
-All other parameters may be interpreted as form fields, depending on the current form definition in the topic.
+| =action_save= | Must be set to =Save= or settings are not saved | _required_ |
+| =action_cancel= | Must be set to =Cancel= to cancel save. | _required_ |
+If neither =action_save= or =action_cancel= are provided, an oops error is issued. All other parameters may be interpreted as form fields, depending on the current form definition in the topic.
 
 ---++++ =action=bulkRegister=
 See BulkRegistration.
