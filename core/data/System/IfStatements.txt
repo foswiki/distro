@@ -255,9 +255,10 @@ Web %SANDBOXWEB% %IF{"isweb '%SANDBOXWEB%'" then="exists" else="does not exist"}
 </verbatim>
 
 ---+++ Group membership
-<verbatim class="tml">%IF{"$USER ingroup 'GROUP'" then="THEN" else="ELSE"}%</verbatim>
+To test if SOMEONE is in the GROUP:
+<verbatim class="tml">%IF{"'SOMEONE' ingroup 'GROUP'" then="THEN" else="ELSE"}%</verbatim>
 
-Example:
+Or to test the currently logged in user for !AdminGroup membership:
 <verbatim class="tml">
 You are %IF{
    "$USERNAME ingroup 'AdminGroup'"
