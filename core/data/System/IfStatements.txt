@@ -255,9 +255,10 @@ Web Sandbox %IF{"isweb 'Sandbox'" then="exists" else="does not exist"}%.
 </verbatim>
 
 ---+++ Group membership
-<verbatim class="tml">%IF{"$USER ingroup 'GROUP'" then="THEN" else="ELSE"}%</verbatim>
+To test if the =%SOMEONE% UrlParam or Macro is set to a WikiName that is in a group:
+<verbatim class="tml">%IF{"$SOMEONE ingroup 'GROUP'" then="THEN" else="ELSE"}%</verbatim>
 
-Example:
+Or to test the currently logged in user:
 <verbatim class="tml">
 You are %IF{
    "$USERNAME ingroup 'AdminGroup'"
