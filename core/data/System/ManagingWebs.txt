@@ -151,13 +151,13 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 					<div class="foswikiFormStep">
 						<h3>Web color</h3>
 						<div class="col1">
-							<p>
-								<input name="WEBBGCOLOR" class="foswikiInputField" type="text" value="#efefef" size="20" /> 
+							<p> %JQREQUIRE{"farbtastic"}%
+								<input name="WEBBGCOLOR" class="foswikiInputField jqFarbtastic" type="text" value="#efefef" size="20" /> 
 							</p>
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Displayed on !SiteMap and in the left bar (Pattern Skin). Choose from  %POPUPWINDOW{"%SYSTEMWEB%.StandardColors"}%.
+								Displayed on !SiteMap and in the left bar (Pattern Skin). %BR%Choose by clicking on the input field, or enter a %POPUPWINDOW{"%SYSTEMWEB%.StandardColors"}%.
 							</p>
 						</div><!--//col2-->
 						<div class="foswikiClear"></div>
