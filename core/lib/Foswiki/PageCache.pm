@@ -108,6 +108,7 @@ information from the current session and url params, as follows:
           o logout
           o topic
           o cache_ignore
+          o cache_expire
 
 =cut
 
@@ -153,9 +154,10 @@ sub genVariationKey {
     my @ignoreParams = $request->param("cache_ignore");
     push @ignoreParams,
       (
-        "cache_ignore", "_.*",
-        "refresh",      "foswiki_redirect_cache",
-        "logout",       "topic"
+        "cache_expire",           "cache_ignore",
+        "_.*",                    "refresh",
+        "foswiki_redirect_cache", "logout",
+        "topic"
       );
     my $ignoreParams = join( "|", @ignoreParams );
 
@@ -163,17 +165,16 @@ sub genVariationKey {
 
         # filter out some params that are not relevant
         next if $key =~ /^($ignoreParams)$/;
-        my $val = $request->param($key);
-        next unless $val;
-
-        $variationKey .= '::' . $key . '=' . $val;
-
-        writeDebug("adding urlparam key=$key");
+        my @vals = $request->param($key);
+        foreach my $val (@vals) {
+          $variationKey .= '::' . $key . '=' . $val;
+          writeDebug("adding urlparam key=$key val=$val");
+        }
     }
 
     $variationKey =~ s/'/\\'/g;
 
-    #writeDebug("variation key = '$variationKey'");
+    writeDebug("variation key = '$variationKey'");
 
     # cache it
     $this->{variationKey} = $variationKey;
@@ -194,6 +195,7 @@ sub cachePage {
     my ( $this, $contentType, $data ) = @_;
 
     my $session = $Foswiki::Plugins::SESSION;
+    my $request = $session->{request};
     my $web     = $session->{webName};
     my $topic   = $session->{topicName};
     $web =~ s/\//./go;
@@ -203,7 +205,7 @@ sub cachePage {
     return undef unless $this->isCacheable( $web, $topic );
 
     # delete page and all variations if we ask for a refresh copy
-    my $refresh = $session->{request}->param('refresh') || '';
+    my $refresh = $request->param('refresh') || '';
     my $variationKey = $this->genVariationKey();
 
     # remove old entries
@@ -247,7 +249,8 @@ sub cachePage {
     $variation->{location} = $headers->{Location} if $status == 302;
 
     # get cache-expiry preferences and add it to the bucket if available
-    my $expire = $session->{prefs}->getPreference('CACHEEXPIRE');
+    my $expire = $request->param("cache_expire");
+    $expire = $session->{prefs}->getPreference('CACHEEXPIRE') unless defined $expire;
     $variation->{expire} = CGI::Util::expire_calc($expire)
       if defined $expire;
 
@@ -399,9 +402,7 @@ sub addDependency {
 
     # exclude unwanted dependencies
     if ( $depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o ) {
-        writeDebug(
-"dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}"
-        );
+        #writeDebug( "dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}");
         return;
     }
     else {

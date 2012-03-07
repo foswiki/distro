@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1301018263" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" date="1331127471" format="1.1" version="5"}%
 ---+!! Page Caching
 
 %TOC%
@@ -50,8 +50,8 @@ be added to a page specifying how long the cache entry is valid. When this times
 expires will a new page be created from scratch. This renewed page will then replace
 the old one in the cache.
 
-The expiry time can be specified using the =CACHEEXPIRE= preference variable. As usual,
-this variable can be set per topic, per web, or per user as you like. By default the
+The expiry time can be specified using the =CACHEEXPIRE= preference variable or the =cache_expire= url parameter. 
+As usual, this variable can be set per topic, per web, or per user as you like. By default the
 expiry time falls back to infinite so that pages are invalidated only by the normal
 displacement strategy. Note that whichever constraint - either the expiry time or the
 refreshing strategy - holds first will the page be refreshed.
@@ -318,6 +318,7 @@ The context consists of:
       * logout
       * topic
       * cache_ignore
+      * cache_expire
       * request parameters listed in the =cache_ignore= request parameter
 
 Note that this also means that users will never share cached pages among each other.
@@ -336,3 +337,5 @@ generated for the first time.
 You will need either of one the DBD:: drivers to make use of page caching.
 
 <!-- %JQREQUIRE{"chili"}% -->
+
+%META:PREFERENCE{name="NATSKIN_STYLE" title="NATSKIN_STYLE" type="Local" value="jazzynote"}%
