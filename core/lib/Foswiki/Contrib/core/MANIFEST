@@ -268,7 +268,9 @@ data/System/VarREMOTEADDR.txt 0644
 data/System/VarREMOTEPORT.txt 0644
 data/System/VarREMOTEUSER.txt 0644
 data/System/VarRENDERZONE.txt 0644
+data/System/VarREVARG.txt 0644
 data/System/VarREVINFO.txt 0644
+data/System/VarREVTITLE.txt 0644
 data/System/VarS.txt 0644
 data/System/VarSCRIPTNAME.txt 0644
 data/System/VarSCRIPTSUFFIX.txt 0644
