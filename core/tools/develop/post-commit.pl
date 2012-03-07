@@ -180,6 +180,9 @@ s/^(%META:FIELD.*name="Checkins".*value=")(.*?)(".*%)$/$1._add($2, $rev, \$chang
             $changed = 1;
         }
 
+        # Delete an empty CheckinsOnBranches
+        $text =~ s/^%META:FIELD.*name="CheckinsOnBranches".*value="".*%$//gm;
+
         my %brCommits;
         print STDERR "Updating CheckinsOnBranches for $branch\n" if $verbose;
         unless ( $text =~
