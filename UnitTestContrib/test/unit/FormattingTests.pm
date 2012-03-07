@@ -288,6 +288,23 @@ sub do_test {
     }
 }
 
+# Formatting and WikiWord in Input Field
+sub test_escapedWikwordFormfield {
+    my $this     = shift;
+
+    $this->expect_failure();
+    $this->annotate("Formatting in input field should not be rendered: Item11480");
+ 
+    my $expected = <<EXPECTED;
+<input type="text" value="!WikiWord !WikiWord !WikiWord *bold* __boldItalic__ " />
+EXPECTED
+
+    my $actual = <<ACTUAL;
+<input type="text" value="!WikiWord !WikiWord !WikiWord *bold* __boldItalic__ " />
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 # current topic WikiWord
 sub test_seflLinkingWikiword {
     my $this     = shift;
