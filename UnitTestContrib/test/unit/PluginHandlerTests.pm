@@ -103,6 +103,16 @@ sub initPlugin {
 $code
 1;
 HERE
+
+# Dump the handler code with line numbers
+# To help with debugging failures in the plugin handlers
+#    my @tempCode = split /\n/, $code;
+#    my $codeCount = 1;
+#    foreach my $codeLine ( @tempCode ) {
+#        print "$codeCount: $codeLine\n";
+#        $codeCount++;
+#    }
+
     $this->assert(
         open( my $F, ">$this->{plugin_pm}" ),
         "Failed to open $this->{plugin_pm}: $!"
@@ -240,32 +250,94 @@ HERE
     return;
 }
 
-sub test_commonTagsHandlers {
+#  Verify that verbatim blocks are removed in both the including and included topics.
+sub test_commonTagsHandlersINCLUDE {
     my $this = shift;
-    $this->makePlugin( 'beforeCommonTagsHandler', <<'HERE');
+    $this->makePlugin( 'commonTagsHandlersINCLUDE', <<'HERE');
 sub beforeCommonTagsHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
-    $tester->assert_str_equals('Zero', $_[0], "ONE $_[0]");
-    $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
-    $tester->assert_str_equals('Werb', $_[2], "THREE $_[2]");
+    if ( $_[1] eq 'IncludedTopic') {
+        $tester->assert_matches(qr/<verbatim>/, $_[0], "ONE $_[0]");
+    }
+    else {
+        $tester->assert_matches(qr/Zero%INCLUDE/, $_[0], "ONE $_[0]");
+    }
+    $tester->assert_matches(qr/(Tropic|IncludedTopic)/, $_[1], "TWO $_[1]");
     $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
-    $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
-    $_[0] = 'One';
+    $_[0] =~ s/Zero/One/g;
     $called->{beforeCommonTagsHandler}++;
 }
 sub commonTagsHandler {
     #my( $text, $topic, $theWeb, $included, $meta ) = @_;
-    $tester->assert_str_equals('One', $_[0]);
-    $tester->assert_str_equals('Tropic', $_[1]);
-    $tester->assert_str_equals('Werb', $_[2]);
+    if ( $_[1] eq 'Tropic') {
+        $tester->assert_matches(qr/One/, $_[0]);
+        $tester->assert( !$_[3] );
+    }
+    else {
+        $tester->assert_does_not_match( qr/BOO/, $_[0]);
+        $tester->assert( $_[3] );
+    }
+    $tester->assert_does_not_match(qr/<verbatim>/, $_[0] );
+    $tester->assert_matches(qr/(Tropic|IncludedTopic)/, $_[1], "TWO $_[1]");
     $tester->assert($_[4]->isa('Foswiki::Meta'), "OUCH $_[4]");
-    $tester->assert_str_equals('Wibble', $_[4]->get('WIBBLE')->{wibble});
-    $_[0] = 'Two';
+    $_[0] =~ s/One/Two/g;
     $called->{commonTagsHandler}++;
 }
 sub afterCommonTagsHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
-    $tester->assert_str_equals('Two', $_[0]);
+    $tester->assert_matches(/(Tropic|IncludedTopic)/, $_[1], "TWO $_[1]");
+    #$tester->assert_str_equals('Werb', $_[2]);
+    $tester->assert($_[3]->isa('Foswiki::Meta'));
+    $tester->assert_matches( qr/Two/, $_[0]);
+    $called->{afterCommonTagsHandler}++;
+}
+HERE
+
+    # Crude test to ensure all handlers are called, and in the right order.
+    # Doesn't verify that they are called at the right time
+    Foswiki::Func::saveTopic( $this->{test_web}, 'IncludedTopic', undef,
+        '<verbatim>BOO</verbatim>' );
+    my ($meta) = Foswiki::Func::readTopic( "Werb", "Tropic" );
+    $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
+    my $expanded = Foswiki::Func::expandCommonVariables(
+        "Zero%INCLUDE{\"$this->{test_web}.IncludedTopic\"}%",
+        "Tropic", "Werb", $meta );
+    $this->assert_str_equals( $expanded, "Two<verbatim>BOO</verbatim>" );
+    $meta->finish();
+    $this->checkCalls( 1, 'beforeCommonTagsHandler' );
+    $this->checkCalls( 2, 'commonTagsHandler' );
+    $this->checkCalls( 1, 'afterCommonTagsHandler' );
+
+    return;
+}
+
+sub test_commonTagsHandlers {
+    my $this = shift;
+    $this->makePlugin( 'commonTagsHandlers', <<'HERE');
+sub beforeCommonTagsHandler {
+    #my( $text, $topic, $theWeb, $meta ) = @_;
+    $tester->assert_str_equals('Zero<verbatim>blah</verbatim>', $_[0], "ONE $_[0]");
+    $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
+    $tester->assert_str_equals('Werb', $_[2], "THREE $_[2]");
+    $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
+    $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
+    $_[0] =~ s/Zero/One/g;
+    $called->{beforeCommonTagsHandler}++;
+}
+sub commonTagsHandler {
+    #my( $text, $topic, $theWeb, $included, $meta ) = @_;
+    $tester->assert_matches('One', $_[0]);
+    $tester->assert_does_not_match(qr/<verbatim>/, $_[0] );
+    $tester->assert_str_equals('Tropic', $_[1]);
+    $tester->assert_str_equals('Werb', $_[2]);
+    $tester->assert($_[4]->isa('Foswiki::Meta'), "OUCH $_[4]");
+    $tester->assert_str_equals('Wibble', $_[4]->get('WIBBLE')->{wibble});
+    $_[0] =~ s/One/Two/g;
+    $called->{commonTagsHandler}++;
+}
+sub afterCommonTagsHandler {
+    #my( $text, $topic, $theWeb, $meta ) = @_;
+    $tester->assert_str_equals('Two<verbatim>blah</verbatim>', $_[0]);
     $tester->assert_str_equals('Tropic', $_[1]);
     $tester->assert_str_equals('Werb', $_[2]);
     $tester->assert($_[3]->isa('Foswiki::Meta'));
@@ -279,7 +351,8 @@ HERE
     # Doesn't verify that they are called at the right time
     my ($meta) = Foswiki::Func::readTopic( "Werb", "Tropic" );
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
-    Foswiki::Func::expandCommonVariables( "Zero", "Tropic", "Werb", $meta );
+    Foswiki::Func::expandCommonVariables( "Zero<verbatim>blah</verbatim>",
+        "Tropic", "Werb", $meta );
     $meta->finish();
     $this->checkCalls( 1, 'beforeCommonTagsHandler' );
     $this->checkCalls( 1, 'commonTagsHandler' );
@@ -696,7 +769,7 @@ sub renderWikiWordHandler {
 }
 HERE
     $this->checkCalls( 0, 'renderWikiWordHandler' );
-my $tmlText = <<'HERE';
+    my $tmlText = <<'HERE';
     This is AWikiWord and some NoSuchWeb.NoTopic that we CANNOT
    * Set ALLOWTOPICCHANGE=guest
  %ATTACHURL%/Foswiki-1.1.4.tar.gz
@@ -721,50 +794,72 @@ my $tmlText = <<'HERE';
 
 [[some test link]] [[text][link text]]
 HERE
-{
-    my $html = Foswiki::Func::renderText( $tmlText, 'Sandbox', 'TestThisCarefully' );
-    $this->checkCalls( 10, 'renderWikiWordHandler' );
-    my $hashRef = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
-use Data::Dumper;
-print STDERR "------ $html\n";
-print STDERR "------ ".Dumper($hashRef)."\n";
+    {
+        my $html =
+          Foswiki::Func::renderText( $tmlText, 'Sandbox', 'TestThisCarefully' );
+        $this->checkCalls( 10, 'renderWikiWordHandler' );
+        my $hashRef = eval
+"\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+        use Data::Dumper;
+        print STDERR "------ $html\n";
+        print STDERR "------ " . Dumper($hashRef) . "\n";
+
 #this is what we have - and it shows that you need to call expandMacros before calling renderText
-    $this->assert_deep_equals({
-          'ATTACHURL/releases/other/file-3/0/4/tar___gz' => '%ATTACHURL%/releases/other/file-3.0.4.tar.gz___undef',
-          'SYSTEMWEB___WikiWords' => '%SYSTEMWEB%.WikiWords___undef',
-          'Sandbox___Text' => 'link text___1',
-          'SYSTEMWEB___WebHome' => '%SYSTEMWEB%.WebHome___undef',
-          'NoSuchWeb___NoTopic' => 'NoTopic___undef',
-          'Sandbox___ALLOWTOPICCHANGE' => 'ALLOWTOPICCHANGE___undef',
-          'USERSWEB___SYSTEMWEBTopic' => '%USERSWEB%.%SYSTEMWEB%Topic___undef',
-          'Sandbox___AWikiWord' => 'AWikiWord___undef',
-          'Sandbox___SomeTestLink' => 'some test link___undef',
-          'Sandbox___CANNOT' => 'CANNOT___undef'
-        }, $hashRef);
-}
-#lets do it again, this time with expandMacros first
-    eval "delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandler}";
-    eval "delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
-    my $expandedText = Foswiki::Func::expandCommonVariables($tmlText, 'Sandbox', 'TestThisCarefully' );
+        $this->assert_deep_equals(
+            {
+                'ATTACHURL/releases/other/file-3/0/4/tar___gz' =>
+                  '%ATTACHURL%/releases/other/file-3.0.4.tar.gz___undef',
+                'SYSTEMWEB___WikiWords'      => '%SYSTEMWEB%.WikiWords___undef',
+                'Sandbox___Text'             => 'link text___1',
+                'SYSTEMWEB___WebHome'        => '%SYSTEMWEB%.WebHome___undef',
+                'NoSuchWeb___NoTopic'        => 'NoTopic___undef',
+                'Sandbox___ALLOWTOPICCHANGE' => 'ALLOWTOPICCHANGE___undef',
+                'USERSWEB___SYSTEMWEBTopic' =>
+                  '%USERSWEB%.%SYSTEMWEB%Topic___undef',
+                'Sandbox___AWikiWord'    => 'AWikiWord___undef',
+                'Sandbox___SomeTestLink' => 'some test link___undef',
+                'Sandbox___CANNOT'       => 'CANNOT___undef'
+            },
+            $hashRef
+        );
+    }
+
+    #lets do it again, this time with expandMacros first
+    eval
+"delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandler}";
+    eval
+"delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+    my $expandedText =
+      Foswiki::Func::expandCommonVariables( $tmlText, 'Sandbox',
+        'TestThisCarefully' );
     $this->checkCalls( 0, 'renderWikiWordHandler' );
-    my $html = Foswiki::Func::renderText( $expandedText, 'Sandbox', 'TestThisCarefully' );
+    my $html = Foswiki::Func::renderText( $expandedText, 'Sandbox',
+        'TestThisCarefully' );
     $this->checkCalls( 12, 'renderWikiWordHandler' );
-    my $hashRef = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
-use Data::Dumper;
-print STDERR "------ $html\n";
-print STDERR "------ ".Dumper($hashRef)."\n";
+    my $hashRef = eval
+"\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+    use Data::Dumper;
+    print STDERR "------ $html\n";
+    print STDERR "------ " . Dumper($hashRef) . "\n";
+
 #this is what we have - and it shows that you need to call expandMacros before calling renderText
-    $this->assert_deep_equals({
-          'TemporaryPluginHandlersUsersWeb___TemporaryPluginHandlersSystemWebTopic' => 'TemporaryPluginHandlersSystemWebTopic___undef',
-          'Sandbox___Text' => 'link text___1',
-          'TemporaryPluginHandlersSystemWeb___WebHome' => 'TemporaryPluginHandlersSystemWeb___undef',
-          'NoSuchWeb___NoTopic' => 'NoTopic___undef',
-          'Sandbox___ALLOWTOPICCHANGE' => 'ALLOWTOPICCHANGE___undef',
-          'Sandbox___AWikiWord' => 'AWikiWord___undef',
-          'Sandbox___SomeTestLink' => 'some test link___undef',
-          'Sandbox___CANNOT' => 'CANNOT___undef',
-          'TemporaryPluginHandlersSystemWeb___WikiWords' => 'WikiWords___undef'
-        }, $hashRef);
+    $this->assert_deep_equals(
+        {
+'TemporaryPluginHandlersUsersWeb___TemporaryPluginHandlersSystemWebTopic'
+              => 'TemporaryPluginHandlersSystemWebTopic___undef',
+            'Sandbox___Text' => 'link text___1',
+            'TemporaryPluginHandlersSystemWeb___WebHome' =>
+              'TemporaryPluginHandlersSystemWeb___undef',
+            'NoSuchWeb___NoTopic'        => 'NoTopic___undef',
+            'Sandbox___ALLOWTOPICCHANGE' => 'ALLOWTOPICCHANGE___undef',
+            'Sandbox___AWikiWord'        => 'AWikiWord___undef',
+            'Sandbox___SomeTestLink'     => 'some test link___undef',
+            'Sandbox___CANNOT'           => 'CANNOT___undef',
+            'TemporaryPluginHandlersSystemWeb___WikiWords' =>
+              'WikiWords___undef'
+        },
+        $hashRef
+    );
 
     return;
 }
