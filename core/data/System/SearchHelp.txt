@@ -64,7 +64,7 @@ You can copy and paste this text to any topic to get show search results on that
    * [[FormattedSearch][Formatted search]] - formatting of inline search
    * [[%SYSTEMWEB%.QuerySearch][Query search]] - extend the search to form fields, parent relationships and file attachment information (but *not* the attached files themselves)
    * [[%SYSTEMWEB%.RegularExpression][Regular expression search]]
-   * [[http:///foswiki.org/Extensions/KinoSearchPlugin][KinoSearchPlugin]] -  search within attachments
+   * [[http://foswiki.org/Extensions/KinoSearchPlugin][KinoSearchPlugin]] -  search within attachments
 %TWISTY{
 mode="div"
 link="Currently set search preferences"
