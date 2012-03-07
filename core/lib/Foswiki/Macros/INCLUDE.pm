@@ -179,6 +179,7 @@ sub _includeTopic {
     my $memWeb   = $this->{prefs}->getPreference('INCLUDINGWEB');
     my $memTopic = $this->{prefs}->getPreference('INCLUDINGTOPIC');
 
+    my $verbatim   = {};
     my $dirtyAreas = {};
     try {
 
@@ -261,10 +262,14 @@ sub _includeTopic {
 
             $this->innerExpandMacros( \$text, $includedTopicObject );
 
+        # Item9569: remove verbatim blocks from text passed to commonTagsHandler
+            $text = takeOutBlocks( $text, 'verbatim', $verbatim );
+
             # 4th parameter tells plugin that its called for an included file
             $this->{plugins}
               ->dispatch( 'commonTagsHandler', $text, $includedTopic,
                 $includedWeb, 1, $includedTopicObject );
+            putBackBlocks( \$text, $verbatim, 'verbatim' );
 
             # We have to expand tags again, because a plugin may have inserted
             # additional tags.
