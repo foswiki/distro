@@ -2,10 +2,12 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarREVINFO
 ---+++ REVINFO -- revision information of current topic
-   * Syntax:
-   * Date format defined as ={DefaultDateFormat}= in [[%SCRIPTURLPATH{"configure"}%#Locale$Internationalisation][configure]]
+   * Syntax: =%<nop>REVINFO%=
+   * =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
+      * Expands to: <code>%REVINFO%</code>
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVARG][REVARG]],[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVTITLE][REVTITLE]]
 ---+++ REVINFO{"format"} -- formatted revision information of topic
-   * Syntax: =%<nop>REVINFO%= OR =%<nop>REVINFO{"format"}%=
+   * Syntax: =%<nop>REVINFO{"format"}%=
    * =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
       * Expands to: <code>%REVINFO%</code>
    * Supported parameters:
@@ -28,5 +30,5 @@
      | =$min=, =$sec=, etc. | Same date format qualifiers as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]] | |
    * Example, returns revision info of revision 43: <verbatim class="tml">%REVINFO{"$date - $wikiusername" rev="43"}%</verbatim> 
    * To get the latest revision, even when looking at an older revision: <verbatim class="tml">%REVINFO{"$rev" rev="-1"}%</verbatim>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVARG][REVARG]],[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVTITLE][REVTITLE]]
 <!--%JQREQUIRE{"chili"}%-->
