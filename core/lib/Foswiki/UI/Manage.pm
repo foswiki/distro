@@ -362,12 +362,78 @@ sub _action_editSettings {
     my $session = shift;
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
+    my $query   = $session->{request};
+    my $user    = $session->{user};
+    my $users   = $session->{users};
 
     my $topicObject = Foswiki::Meta->load( $session, $web, $topic );
     Foswiki::UI::checkAccess( $session, 'VIEW',   $topicObject );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
+
+    # Check lease, unless we have been instructed to ignore it
+    # or if we are using the 10X's or AUTOINC topic name for
+    # dynamic topic names.
+    my $breakLock = $query->param('breaklock') || '';
+    unless ( $breakLock ) {
+        my $lease = $topicObject->getLease();
+        if ($lease) {
+            my $who = $users->webDotWikiName( $lease->{user} );
+
+            if ( $who ne $users->webDotWikiName($user) ) {
+
+                # redirect; we are trying to break someone else's lease
+                my ( $future, $past );
+                my $why = $lease->{message};
+                my $def;
+                my $t = time();
+                require Foswiki::Time;
+
+                if ( $t > $lease->{expires} ) {
+
+                    # The lease has expired, but see if we are still
+                    # expected to issue a "less forceful' warning
+                    if (   $Foswiki::cfg{LeaseLengthLessForceful} < 0
+                        || $t < $lease->{expires} +
+                        $Foswiki::cfg{LeaseLengthLessForceful} )
+                    {
+                        $def = 'lease_old';
+                        $past =
+                          Foswiki::Time::formatDelta( $t - $lease->{expires},
+                            $session->i18n );
+                        $future = '';
+                    }
+                }
+                else {
+
+                    # The lease is active
+                    $def  = 'lease_active';
+                    $past = Foswiki::Time::formatDelta( $t - $lease->{taken},
+                        $session->i18n );
+                    $future =
+                      Foswiki::Time::formatDelta( $lease->{expires} - $t,
+                        $session->i18n );
+                }
+                if ($def) {
+
+                    # use a 'keep' redirect to ensure we pass parameter
+                    # values in the query on to the oops script
+                    throw Foswiki::OopsException(
+                        'leaseconflict',
+                        def    => $def,
+                        web    => $web,
+                        topic  => $topic,
+                        keep   => 1,
+                        params => [ $who, $past, $future, 'manage' ]
+                    );
+                }
+            }
+        }
+    }
+
     my $settings = "";
+    $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+
 
     my @fields = $topicObject->find('PREFERENCE');
     foreach my $field (@fields) {
