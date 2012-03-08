@@ -37,7 +37,7 @@ sub manage {
     my $action = $session->{request}->param('action');
 
     # Dispatch to action function
-    if ( defined $action && $action =~ /^([a-z]+)$/i) {
+    if ( defined $action && $action =~ /^([a-z]+)$/i ) {
         my $method = 'Foswiki::UI::Manage::_action_' . $1;
 
         if ( defined &$method ) {
@@ -370,12 +370,11 @@ sub _action_editSettings {
     Foswiki::UI::checkAccess( $session, 'VIEW',   $topicObject );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
-
     # Check lease, unless we have been instructed to ignore it
     # or if we are using the 10X's or AUTOINC topic name for
     # dynamic topic names.
     my $breakLock = $query->param('breaklock') || '';
-    unless ( $breakLock ) {
+    unless ($breakLock) {
         my $lease = $topicObject->getLease();
         if ($lease) {
             my $who = $users->webDotWikiName( $lease->{user} );
@@ -434,7 +433,6 @@ sub _action_editSettings {
     my $settings = "";
     $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
 
-
     my @fields = $topicObject->find('PREFERENCE');
     foreach my $field (@fields) {
         my $name  = $field->{name};
@@ -487,7 +485,7 @@ sub _action_saveSettings {
         require Foswiki::Meta;
         my $newTopicObject = Foswiki::Meta->load( $session, $web, $topic );
 
-        Foswiki::UI::checkAccess( $session, 'VIEW', $newTopicObject );
+        Foswiki::UI::checkAccess( $session, 'VIEW',   $newTopicObject );
         Foswiki::UI::checkAccess( $session, 'CHANGE', $newTopicObject );
         Foswiki::UI::checkValidationKey($session);
 
@@ -631,7 +629,7 @@ sub _action_restoreRevision {
 
     $session->{cgiQuery}->delete('action');
 
-    $session->redirect( $session->redirectto( "$web.$topic" ) );
+    $session->redirect( $session->redirectto("$web.$topic") );
 
     #require Foswiki::UI::Edit;
     #Foswiki::UI::Edit::edit($session);
