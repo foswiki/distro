@@ -421,8 +421,6 @@ sub _action_editSettings {
           . $value . "\n";
     }
 
-    Foswiki::UI::checkValidationKey($session);
-
     my $tmpl = $session->templates->readTemplate('settings');
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
