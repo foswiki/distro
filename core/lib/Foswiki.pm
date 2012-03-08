@@ -1735,15 +1735,15 @@ sub new {
     if ( $url && $url =~ m{^([^:]*://[^/]*).*$} ) {
         $this->{urlHost} = $1;
 
+        if ( $Foswiki::cfg{RemovePortNumber} ) {
+            $this->{urlHost} =~ s/\:[0-9]+$//;
+        }
         # If the urlHost in the url is localhost, this is a lot less
         # useful than the default url host. This is because new CGI("")
         # assigns this host by default - it's a default setting, used
         # when there is nothing better available.
         if ( $this->{urlHost} eq 'http://localhost' ) {
             $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
-        }
-        elsif ( $Foswiki::cfg{RemovePortNumber} ) {
-            $this->{urlHost} =~ s/\:[0-9]+$//;
         }
     }
     else {
