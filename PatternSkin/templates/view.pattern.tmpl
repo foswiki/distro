@@ -39,7 +39,7 @@
 
 %TMPL:DEF{"breadcrumb:currentweb"}%%TMPL:P{"breadcrumb:separator"}%<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%MAKETEXT{"[_1] Web" args="<nop>%WEB%"}%</a>%TMPL:END%
 
-%TMPL:DEF{"breadcrumb:annotation"}%%IF{"defined rev" then=" %MAKETEXT{"(revision [_1])" args="%URLPARAM{"rev"}%"}%" else=" <span class='patternRevInfo'>(%REVINFO{format="$date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot$nop$wikiname$quot}$percnt"}%)</span>"}%%IF{"defined raw" then=" %MAKETEXT{"(raw view)"}%"}%%TMPL:END%
+%TMPL:DEF{"breadcrumb:annotation"}%%IF{"defined rev" then=" %MAKETEXT{"(revision [_1])" args="%URLPARAM{"rev"}%"}%" else=" <span class='patternRevInfo'>(%REVINFO{format="$date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot!$wikiname$quot}$percnt"}%)</span>"}%%IF{"defined raw" then=" %MAKETEXT{"(raw view)"}%"}%%TMPL:END%
 
 %TMPL:DEF{"breadcrumb:currenttopic"}%%TMPL:P{"breadcrumb:separator"}%<a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%" title='%MAKETEXT{"Topic revision:"}% %REVINFO{format="$rev ($date - $time)"}%'>%TMPL:P{"breadcrumb:topic"}%</a>%TMPL:P{"breadcrumb:annotation"}%%TMPL:END%%{
 ---------------------------------------------------
@@ -67,7 +67,7 @@
 }%%TMPL:DEF{"printaction"}%%TMPL:P{"activatable_printable"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"footernote"}%%TMPL:P{"topicinfo"}%%TMPL:END%
-%TMPL:DEF{"topicinfo"}%<div class="patternInfo"><span class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO%</span>%TMPL:P{"cacheinfo"}%</div>%TMPL:END%%{
+%TMPL:DEF{"topicinfo"}%<div class="patternInfo"><span class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO{format="$date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot!$wikiname$quot}$percnt"}%</span>%TMPL:P{"cacheinfo"}%</div>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"cacheinfo"}%%IF{"{Cache}{Enabled} and $CACHEABLE != 'off'" 
   then="<span class='patternCacheInfo'>
