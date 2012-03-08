@@ -185,4 +185,54 @@ HERE
     return;
 }
 
+#http://foswiki.org/Tasks/Item11619?raw=on
+# its difficult to convert TOPICINFO.author into something you can show the users if you can't use USERINFO("cuid")
+sub test_Item11619 {
+    my $this = shift;
+
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    my $ui = $this->{test_topicObject}->expandMacros(<<'HERE');
+---+++ cuid
+   * USERINFO for !BaseUserMapping_999: %USERINFO{"BaseUserMapping_999" format="this is user $wikiusername"}%
+   * USERINFO for !BaseUserMapping_666: %USERINFO{"BaseUserMapping_666" format="this is user $wikiusername"}%
+   * USERINFO for !BaseUserMapping_333: %USERINFO{"BaseUserMapping_333" format="this is user $wikiusername"}%
+   * USERINFO for !BaseUserMapping_222: %USERINFO{"BaseUserMapping_222" format="this is user $wikiusername"}%
+   * USERINFO for !BaseUserMapping_111: %USERINFO{"BaseUserMapping_111" format="this is user $wikiusername"}%
+---+++ login
+   * USERINFO for !unknown: %USERINFO{"unknown" format="this is user $wikiusername"}%
+   * USERINFO for !guest: %USERINFO{"guest" format="this is user $wikiusername"}%
+   * USERINFO for !admin: %USERINFO{"admin" format="this is user $wikiusername"}%
+   * USERINFO for !RegistrationAgent: %USERINFO{"RegistrationAgent" format="this is user $wikiusername"}%
+   * USERINFO for !ProjectContributor: %USERINFO{"ProjectContributor" format="this is user $wikiusername"}%
+---+++ wikiname
+   * USERINFO for !UnknownUser: %USERINFO{"UnknownUser" format="this is user $wikiusername"}%
+   * USERINFO for !WikiGuest: %USERINFO{"WikiGuest" format="this is user $wikiusername"}%
+   * USERINFO for !AdminUser: %USERINFO{"AdminUser" format="this is user $wikiusername"}%
+   * USERINFO for !RegistrationAgent: %USERINFO{"RegistrationAgent" format="this is user $wikiusername"}%
+   * USERINFO for !ProjectContributor: %USERINFO{"ProjectContributor" format="this is user $wikiusername"}%
+HERE
+    $this->assert_str_equals(
+        <<'RESULT',
+---+++ cuid
+   * USERINFO for !BaseUserMapping_999: 
+   * USERINFO for !BaseUserMapping_666: 
+   * USERINFO for !BaseUserMapping_333: 
+   * USERINFO for !BaseUserMapping_222: 
+   * USERINFO for !BaseUserMapping_111: 
+---+++ login
+   * USERINFO for !unknown: this is user TemporaryUSERINFOUsersWeb.UnknownUser
+   * USERINFO for !guest: this is user TemporaryUSERINFOUsersWeb.WikiGuest
+   * USERINFO for !admin: 
+   * USERINFO for !RegistrationAgent: this is user TemporaryUSERINFOUsersWeb.RegistrationAgent
+   * USERINFO for !ProjectContributor: this is user TemporaryUSERINFOUsersWeb.ProjectContributor
+---+++ wikiname
+   * USERINFO for !UnknownUser: this is user TemporaryUSERINFOUsersWeb.UnknownUser
+   * USERINFO for !WikiGuest: this is user TemporaryUSERINFOUsersWeb.WikiGuest
+   * USERINFO for !AdminUser: this is user TemporaryUSERINFOUsersWeb.AdminUser
+   * USERINFO for !RegistrationAgent: this is user TemporaryUSERINFOUsersWeb.RegistrationAgent
+   * USERINFO for !ProjectContributor: this is user TemporaryUSERINFOUsersWeb.ProjectContributor
+RESULT
+        $ui );
+}
+
 1;
