@@ -130,6 +130,8 @@ sub log {
               )
             {
                 $line[0] = Foswiki::Time::parseTime( $line[0] );
+                next
+                  unless ( defined $line[0] ); # Skip record if time not decoded
                 if ( $line[0] >= $this->{_threshold} ) {    # test the time
                     $this->{_nextEvent} = \@line;
                     return 1;
