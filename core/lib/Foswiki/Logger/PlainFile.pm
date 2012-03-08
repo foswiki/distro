@@ -139,6 +139,7 @@ sub log {
         while ( $this->SUPER::hasNext() ) {
             my @line = split( /\s*\|\s*/, $this->SUPER::next() );
             shift @line;    # skip the leading empty cell
+            next unless scalar(@line) && defined $line[0];
             if (
                 $line[0] =~ s/\s+$this->{_level}\s*$//    # test the level
                   # accept a plain 'old' format date with no level only if reading info (statistics)
@@ -147,6 +148,9 @@ sub log {
               )
             {
                 $line[0] = Foswiki::Time::parseTime( $line[0] );
+                next
+                  unless ( defined $line[0] )
+                  ;    # Skip record if time doesn't decode.
                 if ( $line[0] >= $this->{_threshold} ) {    # test the time
                     $this->{_nextEvent} = \@line;
                     return 1;
