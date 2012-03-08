@@ -516,6 +516,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     my $inParagraph = 0;    # True when within a P
     my $inDiv       = 0;    # True when within a foswikiTableAndMacros div
     my @result      = ();
+    my $spi = Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
 
     foreach my $line ( split( /\n/, $text ) ) {
         my $tableEnded = 0;
@@ -613,7 +614,8 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li>)\s*$/$1&nbsp;/;
 
         }
-        elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
+        elsif ( $spi &&
+		$line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
 
             # Indent pseudo-list
             $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"',

@@ -123,7 +123,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "theme_advanced_buttons1" : "%IF{
     "defined 'TINYMCEPLUGIN_BUTTONS1'"
     then="%TINYMCEPLUGIN_BUTTONS1%"
-    else="%STARTSECTION{"BUTTONS1"}%foswikiformat, separator, bold, italic, tt, colour, removeformat, separator, bullist, numlist, fwexdent, fwindent, blockquote, separator, link, unlink, anchor, separator, undo, redo, separator, search, replace%ENDSECTION{"BUTTONS1"}%"
+    else="%STARTSECTION{"BUTTONS1"}%foswikiformat, separator, bold, italic, tt, colour, removeformat, separator, bullist, numlist, %IF{"context SUPPORTS_PARA_INDENT" then="fwexdent, fwindent" else="outdent, indent"}%, blockquote, separator, link, unlink, anchor, separator, undo, redo, separator, search, replace%ENDSECTION{"BUTTONS1"}%"
 }%%IF{
     "defined 'TINYMCEPLUGIN_ADDITIONAL_BUTTONS1'"
     then=", %TINYMCEPLUGIN_ADDITIONAL_BUTTONS1%"

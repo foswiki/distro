@@ -688,6 +688,8 @@ sub _convertIndent {
     my $indent = $WC::TAB;
 
     my ( $f, $t ) = $this->_handleP($options);
+    return $t unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
+
     if ( $t =~ /^$WC::WS_NOTAB*($WC::TAB+):(.*)$/ ) {
         return "$WC::CHECKn$1:$2";
     }
@@ -809,6 +811,8 @@ sub _convertList {
 
 sub _isConvertableIndent {
     my ( $this, $options ) = @_;
+
+    return 0 unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
 
     return 0 if ( $this->_isProtectedByAttrs() );
 
