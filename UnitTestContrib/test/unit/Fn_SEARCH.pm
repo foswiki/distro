@@ -3588,19 +3588,19 @@ Searched: <noautolink>BLEEGLE</noautolink>Results from <nop>$this->{test_web} we
 
 <a href="">OkATopic</a>
 <nop>BLEEGLE dontmatchme.blah
-NEW - <a href="">DATE - TIME</a> by WikiGuest
+NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 <a href="">OkBTopic</a>
 <nop>BLEEGLE dont.matchmeblah
-NEW - <a href="">DATE - TIME</a> by WikiGuest
+NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 <a href="">OkTopic</a>
 <nop>BLEEGLE blah/matchme.blah
-NEW - <a href="">DATE - TIME</a> by WikiGuest
+NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 <a href="">TestTopicSEARCH</a>
 <nop>BLEEGLE
-NEW - <a href="">DATE - TIME</a> by WikiGuest
+NEW - <a href="">DATE - TIME</a> by !WikiGuest
 
 Number of topics: 4
 CRUD
