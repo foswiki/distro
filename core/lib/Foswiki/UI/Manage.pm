@@ -407,12 +407,11 @@ sub _action_editSettings {
     my $topicObject = Foswiki::Meta->load( $session, $web, $topic );
     Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
-
     # Check lease, unless we have been instructed to ignore it
     # or if we are using the 10X's or AUTOINC topic name for
     # dynamic topic names.
     my $breakLock = $query->param('breaklock') || '';
-    unless ( $breakLock ) {
+    unless ($breakLock) {
         my $lease = $topicObject->getLease();
         if ($lease) {
             my $who = $users->webDotWikiName( $lease->{user} );
@@ -470,7 +469,6 @@ sub _action_editSettings {
 
     my $settings = "";
     $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
-
 
     my @fields = $topicObject->find('PREFERENCE');
     foreach my $field (@fields) {
