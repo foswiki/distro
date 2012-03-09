@@ -26,6 +26,8 @@ var FoswikiTiny = {
     // callbacks, attached in plugins
     html2tml: new Array(),
     // callbacks, attached in plugins
+    transformCbs: new Array(),
+    // callbacks, attached in plugins
     // Get a Foswiki variable from the set passed
     getFoswikiVar: function(name) {
         if (FoswikiTiny.foswikiVars == null) {
@@ -151,11 +153,17 @@ var FoswikiTiny = {
             text = cb.apply(editor, [editor, text]);
         }
         FoswikiTiny.enableSaveButton(false);
+
         editor.getElement().value = "Please wait... retrieving page from server.";
         FoswikiTiny.transform(
         editor, "html2tml", text, function(text, req, o) {
             this.getElement().value = text;
             FoswikiTiny.enableSaveButton(true);
+            // Call post-transform callbacks attached from plugins
+			for (var i = 0; i < FoswikiTiny.transformCbs.length; i++) {
+				var cb = FoswikiTiny.transformCbs[i];
+				cb.apply(editor, [editor, text]);
+			}
         },
         function(type, req, o) {
             this.setContent("<div class='foswikiAlert'>" + 
@@ -169,7 +177,7 @@ var FoswikiTiny = {
         var el = document.getElementById(id);
         if (el) {
             // exists, unhide it
-            el.style.display = "block";
+            el.style.display = "inline";
         } else {
             // does not exist, create it
             el = document.createElement('INPUT');
@@ -177,25 +185,31 @@ var FoswikiTiny = {
             el.type = "button";
             el.value = "WYSIWYG";
             el.className = "foswikiButton";
-            el.onclick = function() {
-                // Make the wysiwyg help visible (still subject to toggle)
-                var el = document.getElementById(
-                        "foswikiTinyMcePluginWysiwygEditHelp");
-                if (el) {
-                    el.style.display = 'block';
-                }
-                el = document.getElementById("foswikiTinyMcePluginRawEditHelp");
-                if (el) {
-                    el.style.display = 'none';
-                }
-                tinyMCE.execCommand("mceToggleEditor", null, eid);
-                FoswikiTiny.switchToWYSIWYG(editor);
-                return false;
-            }
-            // Need to insert after to avoid knackering 'back'
-            var pel = editor.getElement().parentNode;
-            pel.insertBefore(el, editor.getElement());
+            
+			// Need to insert after to avoid knackering 'back'
+			var pel = editor.getElement().parentNode;
+			pel.insertBefore(el, editor.getElement());
         }
+		el.onclick = function() {
+			// Make the wysiwyg help visible (still subject to toggle)
+			var el_help = document.getElementById(
+					"foswikiTinyMcePluginWysiwygEditHelp");
+			if (el_help) {
+				el_help.style.display = 'block';
+			}
+			el_help = document.getElementById("foswikiTinyMcePluginRawEditHelp");
+			if (el_help) {
+				el_help.style.display = 'none';
+			}
+			tinyMCE.execCommand("mceToggleEditor", null, eid);
+			FoswikiTiny.switchToWYSIWYG(editor);
+			return false;
+		}
+
+		// remove class 'foswikiHasWysiwyg' to make non-wysiwyg controls visible 
+		var body = document.getElementsByTagName('body')[0];
+		tinymce.DOM.removeClass(body, 'foswikiHasWysiwyg');
+
         // SMELL: what if there is already an onchange handler?
         editor.getElement().onchange = function() {
             var editor = tinyMCE.getInstanceById(eid);
@@ -244,8 +258,10 @@ var FoswikiTiny = {
             this.onSubmitHandler = null;
         }
         FoswikiTiny.enableSaveButton(false);
-        editor.setContent("<span class='foswikiAlert'>" +
-                "Please wait... retrieving page from server." + "</span>");
+        
+		var throbberPath = FoswikiTiny.getFoswikiVar('PUBURLPATH') + '/' + FoswikiTiny.getFoswikiVar('SYSTEMWEB') + '/' + 'DocumentGraphics/processing.gif';
+        editor.setContent("<img src='" + throbberPath + "' />");
+        
         FoswikiTiny.transform(
         editor, "tml2html", text, function(text, req, o) { // Success
             // Evaluate any registered pre-processors
@@ -266,6 +282,24 @@ var FoswikiTiny = {
             this.setContent(text);
             this.isNotDirty = true;
             FoswikiTiny.enableSaveButton(true);
+            
+            // Hide the conversion button, if it exists
+			var id = editor.id + "_2WYSIWYG";
+			var el = document.getElementById(id);
+			if (el) {
+				// exists, hide it
+				el.style.display = "none";
+				
+				// and show controls
+				var body = document.getElementsByTagName('body')[0];
+				tinymce.DOM.addClass(body, 'foswikiHasWysiwyg');
+			}
+			
+            // Call post-transform callbacks attached from plugins
+			for (var i = 0; i < FoswikiTiny.transformCbs.length; i++) {
+				var cb = FoswikiTiny.transformCbs[i];
+				cb.apply(editor, [editor, text]);
+			}
         },
         function(type, req, o) {
             // Handle a failure
@@ -273,15 +307,7 @@ var FoswikiTiny = {
                     "There was a problem retrieving " + o.url + ": " + type + 
                     " " + req.status + "</div>");
             //FoswikiTiny.enableSaveButton(true); leave save disabled
-        });
-
-        // Hide the conversion button, if it exists
-        var id = editor.id + "_2WYSIWYG";
-        var el = document.getElementById(id);
-        if (el) {
-            // exists, hide it
-            el.style.display = "none";
-        }
+        }); 
     },
 
     // Callback on save. Make sure the WYSIWYG flag ID is there.
@@ -376,6 +402,15 @@ var FoswikiTiny = {
         // find the TINYMCEPLUGIN_INIT preference
         if (FoswikiTiny.init) {
             tinyMCE.init(FoswikiTiny.init);
+	    // Load plugins
+	    tinyMCE.each(tinyMCE.explode(FoswikiTiny.init.plugins), function(p) {
+		if (p.charAt(0) == '-') {
+		    p = p.substr(1, p.length);
+		    var url = FoswikiTiny.init.foswiki_plugin_urls[p];
+		    if (url)
+			tinyMCE.PluginManager.load(p, url);
+		}
+	    });
         } else {
             alert(
 'Unable to install TinyMCE: could not read "TINYMCEPLUGIN_INIT" from FoswikiTiny.init');

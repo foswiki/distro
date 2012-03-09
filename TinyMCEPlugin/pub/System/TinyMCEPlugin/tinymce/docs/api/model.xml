@@ -45,6 +45,23 @@
 <type fullname="tinymce.Plugin"/>
 <description>The same theme or plugin instance that got passed in.</description>
 </return>
+<example>// Create a simple plugin
+tinymce.create('tinymce.plugins.TestPlugin', {
+    TestPlugin : function(ed, url) {
+        ed.onClick.add(function(ed, e) {
+            ed.windowManager.alert('Hello World!');
+        });
+    }
+});
+
+// Register plugin using the add method
+tinymce.PluginManager.add('test', tinymce.plugins.TestPlugin);
+
+// Initialize TinyMCE
+tinyMCE.init({
+   ...
+   plugins : '-test' // Init the plugin but don't try to load it
+});</example>
 </method>
 <method name="load" summary="Loads an add-on from a specific url.">
 <description>Loads an add-on from a specific url.
@@ -61,16 +78,197 @@
 <param name="s" type="Object">
 <description>Optional scope to execute the callback in.</description>
 </param>
+<example>// Loads a plugin from an external URL
+tinymce.PluginManager.load('myplugin', '/some/dir/someplugin/editor_plugin.js');
+
+// Initialize TinyMCE
+tinyMCE.init({
+   ...
+   plugins : '-myplugin' // Don't try to load it again
+});</example>
 </method>
 </members>
 </class>
 <class fullname="tinymce.Theme" name="Theme" summary="TinyMCE theme class.">
 <description>TinyMCE theme class.
 </description>
-</class>
-<class fullname="tinymce.Plugin" name="Plugin" summary="TinyMCE plugin class.">
-<description>TinyMCE plugin class.
+<members>
+<method name="init" summary="Initializes the theme.">
+<description>Initializes the theme.
 </description>
+<param name="editor" type="tinymce.Editor">
+<description>Editor instance that created the theme instance.</description>
+</param>
+<param name="url" type="String">
+<description>Absolute URL where the theme is located.</description>
+</param>
+</method>
+<method name="getInfo" summary="Meta info method, this method gets executed when TinyMCE wants to present information about the theme for example in the...">
+<description>Meta info method, this method gets executed when TinyMCE wants to present information about the theme for example in the about/help dialog.
+</description>
+<return type="Object">
+<description>Returns an object with meta information about the theme the current items are longname, author, authorurl, infourl and version.</description>
+</return>
+</method>
+<method name="renderUI" summary="This method is responsible for rendering/generating the overall user interface with toolbars, buttons, iframe containers...">
+<description>This method is responsible for rendering/generating the overall user interface with toolbars, buttons, iframe containers etc.
+</description>
+<param name="obj" type="Object">
+<description>Object parameter containing the targetNode DOM node that will be replaced visually with an editor instance.</description>
+</param>
+<return type="Object">
+<description>an object with items like iframeContainer, editorContainer, sizeContainer, deltaWidth, deltaHeight.</description>
+</return>
+</method>
+</members>
+</class>
+<class fullname="tinymce.Plugin" name="Plugin" summary="Plugin base class, this is a pseudo class that describes how a plugin is to be created for TinyMCE.">
+<description>Plugin base class, this is a pseudo class that describes how a plugin is to be created for TinyMCE. The methods below are all optional.
+</description>
+<example>// Create a new plugin class
+tinymce.create('tinymce.plugins.ExamplePlugin', {
+    init : function(ed, url) {
+        // Register an example button
+        ed.addButton('example', {
+            title : 'example.desc',
+            onclick : function() {
+                 // Display an alert when the user clicks the button
+                 ed.windowManager.alert('Hello world!');
+            },
+            'class' : 'bold' // Use the bold icon from the theme
+        });
+    }
+});
+
+// Register plugin with a short name
+tinymce.PluginManager.add('example', tinymce.plugins.ExamplePlugin);
+
+// Initialize TinyMCE with the new plugin and button
+tinyMCE.init({
+   ...
+   plugins : '-example', // - means TinyMCE will not try to load it
+   theme_advanced_buttons1 : 'example' // Add the new example button to the toolbar
+});</example>
+<members>
+<method name="init" summary="Initialization function for the plugin.">
+<description>Initialization function for the plugin. This will be called when the plugin is created.
+</description>
+<param name="editor" type="tinymce.Editor">
+<description>Editor instance that created the plugin instance.</description>
+</param>
+<param name="url" type="String">
+<description>Absolute URL where the plugin is located.</description>
+</param>
+<example>// Creates a new plugin class
+tinymce.create('tinymce.plugins.ExamplePlugin', {
+    init : function(ed, url) {
+        // Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
+        ed.addCommand('mceExample', function() {
+            ed.windowManager.open({
+                file : url + '/dialog.htm',
+                width : 320 + ed.getLang('example.delta_width', 0),
+                height : 120 + ed.getLang('example.delta_height', 0),
+                inline : 1
+            }, {
+                plugin_url : url, // Plugin absolute URL
+                some_custom_arg : 'custom arg' // Custom argument
+            });
+        });
+
+        // Register example button
+        ed.addButton('example', {
+            title : 'example.desc',
+            cmd : 'mceExample',
+            image : url + '/img/example.gif'
+        });
+
+        // Add a node change handler, selects the button in the UI when a image is selected
+        ed.onNodeChange.add(function(ed, cm, n) {
+            cm.setActive('example', n.nodeName == 'IMG');
+        });
+    }
+});
+
+// Register plugin
+tinymce.PluginManager.add('example', tinymce.plugins.ExamplePlugin);</example>
+</method>
+<method name="getInfo" summary="Meta info method, this method gets executed when TinyMCE wants to present information about the plugin for example in th...">
+<description>Meta info method, this method gets executed when TinyMCE wants to present information about the plugin for example in the about/help dialog.
+</description>
+<return type="Object">
+<description>Returns an object with meta information about the plugin the current items are longname, author, authorurl, infourl and version.</description>
+</return>
+<example>// Creates a new plugin class
+tinymce.create('tinymce.plugins.ExamplePlugin', {
+    // Meta info method
+    getInfo : function() {
+        return {
+            longname : 'Example plugin',
+            author : 'Some author',
+            authorurl : 'http://tinymce.moxiecode.com',
+            infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/example',
+            version : "1.0"
+        };
+    }
+});
+
+// Register plugin
+tinymce.PluginManager.add('example', tinymce.plugins.ExamplePlugin);
+
+// Initialize TinyMCE with the new plugin
+tinyMCE.init({
+   ...
+   plugins : '-example' // - means TinyMCE will not try to load it
+});</example>
+</method>
+<method name="createControl" summary="Gets called when a new control instance is created.">
+<description>Gets called when a new control instance is created.
+</description>
+<param name="name" type="String">
+<description>Control name to create for example "mylistbox"</description>
+</param>
+<param name="controlman" type="tinymce.ControlManager">
+<description>Control manager/factory to use to create the control.</description>
+</param>
+<return type="tinymce.ui.Control">
+<description>Returns a new control instance or null.</description>
+</return>
+<example>// Creates a new plugin class
+tinymce.create('tinymce.plugins.ExamplePlugin', {
+    createControl: function(n, cm) {
+        switch (n) {
+            case 'mylistbox':
+                var mlb = cm.createListBox('mylistbox', {
+                     title : 'My list box',
+                     onselect : function(v) {
+                         tinyMCE.activeEditor.windowManager.alert('Value selected:' + v);
+                     }
+                });
+
+                // Add some values to the list box
+                mlb.add('Some item 1', 'val1');
+                mlb.add('some item 2', 'val2');
+                mlb.add('some item 3', 'val3');
+
+                // Return the new listbox instance
+                return mlb;
+        }
+
+        return null;
+    }
+});
+
+// Register plugin
+tinymce.PluginManager.add('example', tinymce.plugins.ExamplePlugin);
+
+// Initialize TinyMCE with the new plugin and button
+tinyMCE.init({
+   ...
+   plugins : '-example', // - means TinyMCE will not try to load it
+   theme_advanced_buttons1 : 'mylistbox' // Add the new mylistbox control to the toolbar
+});</example>
+</method>
+</members>
 </class>
 <class fullname="tinymce.ControlManager" name="ControlManager" summary="This class is responsible for managing UI control instances.">
 <description>This class is responsible for managing UI control instances. It's both a factory and a collection for the controls.</description>
@@ -286,7 +484,7 @@ depends on the use_native_selects settings state.
 </method>
 </members>
 </class>
-<class author="Moxiecode" fullname="tinymce.Editor" name="Editor" summary="This class contains the core logic for a TinyMCE editor.">
+<class fullname="tinymce.Editor" name="Editor" summary="This class contains the core logic for a TinyMCE editor.">
 <description>This class contains the core logic for a TinyMCE editor.
 </description>
 <example>// Add a class to all paragraphs in the editor.
@@ -324,10 +522,20 @@ ed.render();</example>
 <property name="isNotDirty" summary="State to force the editor to return false on a isDirty call." type="Boolean">
 <description>State to force the editor to return false on a isDirty call.
 </description>
+<example>function ajaxSave() {
+    var ed = tinyMCE.get('elm1');
+
+    // Save contents using some XHR call
+    alert(ed.getContent());
+
+    ed.isNotDirty = 1; // Force not dirty state
+}</example>
 </property>
 <property name="plugins" summary="Name/Value object containting plugin instances." type="Object">
 <description>Name/Value object containting plugin instances.
 </description>
+<example>// Execute a method inside a plugin directly
+tinyMCE.activeEditor.plugins.someplugin.someMethod();</example>
 </property>
 <event name="onPreInit" summary="Fires before the initialization of the editor.">
 <description>Fires before the initialization of the editor.
@@ -335,6 +543,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onPreInit event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onPreInit.add(function(ed) {
+          console.debug('PreInit: ' + ed.id);
+      });
+   }
+});</example>
 <see member="onInit"/>
 </event>
 <event name="onBeforeRenderUI" summary="Fires before the initialization of the editor.">
@@ -343,6 +560,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onBeforeRenderUI event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+     ed.onBeforeRenderUI.add(function(ed, cm) {
+         console.debug('Before render: ' + ed.id);
+     });
+   }
+});</example>
 </event>
 <event name="onPostRender" summary="Fires after the rendering has completed.">
 <description>Fires after the rendering has completed.
@@ -350,6 +576,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onPostRender event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onPostRender.add(function(ed, cm) {
+          console.debug('After render: ' + ed.id);
+      });
+   }
+});</example>
 </event>
 <event name="onInit" summary="Fires after the initialization of the editor is done.">
 <description>Fires after the initialization of the editor is done.
@@ -357,6 +592,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onInit event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onInit.add(function(ed) {
+          console.debug('Editor is done: ' + ed.id);
+      });
+   }
+});</example>
 <see member="onPreInit"/>
 </event>
 <event name="onRemove" summary="Fires when the editor instance is removed from page.">
@@ -365,6 +609,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onRemove event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onRemove.add(function(ed) {
+          console.debug('Editor was removed: ' + ed.id);
+      });
+   }
+});</example>
 </event>
 <event name="onActivate" summary="Fires when the editor is activated.">
 <description>Fires when the editor is activated.
@@ -372,6 +625,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onActivate event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onActivate.add(function(ed) {
+          console.debug('Editor was activated: ' + ed.id);
+      });
+   }
+});</example>
 </event>
 <event name="onDeactivate" summary="Fires when the editor is deactivated.">
 <description>Fires when the editor is deactivated.
@@ -379,6 +641,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onDeactivate event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onDeactivate.add(function(ed) {
+          console.debug('Editor was deactivated: ' + ed.id);
+      });
+   }
+});</example>
 </event>
 <event name="onClick" summary="Fires when something in the body of the editor is clicked.">
 <description>Fires when something in the body of the editor is clicked.
@@ -389,6 +660,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onClick event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onClick.add(function(ed, e) {
+          console.debug('Editor was clicked: ' + e.target.nodeName);
+      });
+   }
+});</example>
 </event>
 <event name="onEvent" summary="Fires when a registered event is intercepted.">
 <description>Fires when a registered event is intercepted.
@@ -399,6 +679,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onEvent event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onEvent.add(function(ed, e) {
+         console.debug('Editor event occured: ' + e.target.nodeName);
+      });
+   }
+});</example>
 </event>
 <event name="onMouseUp" summary="Fires when a mouseup event is intercepted inside the editor.">
 <description>Fires when a mouseup event is intercepted inside the editor.
@@ -409,6 +698,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onMouseUp event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onMouseUp.add(function(ed, e) {
+          console.debug('Mouse up event: ' + e.target.nodeName);
+      });
+   }
+});</example>
 </event>
 <event name="onMouseDown" summary="Fires when a mousedown event is intercepted inside the editor.">
 <description>Fires when a mousedown event is intercepted inside the editor.
@@ -419,6 +717,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onMouseDown event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onMouseDown.add(function(ed, e) {
+          console.debug('Mouse down event: ' + e.target.nodeName);
+      });
+   }
+});</example>
 </event>
 <event name="onDblClick" summary="Fires when a dblclick event is intercepted inside the editor.">
 <description>Fires when a dblclick event is intercepted inside the editor.
@@ -429,6 +736,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onDblClick event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onDblClick.add(function(ed, e) {
+         console.debug('Double click event: ' + e.target.nodeName);
+      });
+   }
+});</example>
 </event>
 <event name="onKeyDown" summary="Fires when a keydown event is intercepted inside the editor.">
 <description>Fires when a keydown event is intercepted inside the editor.
@@ -439,6 +755,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onKeyDown event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onKeyDown.add(function(ed, e) {
+          console.debug('Key down event: ' + e.keyCode);
+      });
+   }
+});</example>
 </event>
 <event name="onKeyUp" summary="Fires when a keydown event is intercepted inside the editor.">
 <description>Fires when a keydown event is intercepted inside the editor.
@@ -449,6 +774,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onKeyUp event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onKeyUp.add(function(ed, e) {
+          console.debug('Key up event: ' + e.keyCode);
+      });
+   }
+});</example>
 </event>
 <event name="onKeyPress" summary="Fires when a keypress event is intercepted inside the editor.">
 <description>Fires when a keypress event is intercepted inside the editor.
@@ -459,6 +793,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onKeyPress event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onKeyPress.add(function(ed, e) {
+          console.debug('Key press event: ' + e.keyCode);
+      });
+   }
+});</example>
 </event>
 <event name="onContextMenu" summary="Fires when a contextmenu event is intercepted inside the editor.">
 <description>Fires when a contextmenu event is intercepted inside the editor.
@@ -469,6 +812,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onContextMenu event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onContextMenu.add(function(ed, e) {
+           console.debug('Context menu event:' + e.target);
+      });
+   }
+});</example>
 </event>
 <event name="onSubmit" summary="Fires when a form submit event is intercepted.">
 <description>Fires when a form submit event is intercepted.
@@ -479,6 +831,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onSubmit event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onSubmit.add(function(ed, e) {
+           console.debug('Form submit:' + e.target);
+      });
+   }
+});</example>
 </event>
 <event name="onReset" summary="Fires when a form reset event is intercepted.">
 <description>Fires when a form reset event is intercepted.
@@ -489,6 +850,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onReset event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onReset.add(function(ed, e) {
+           console.debug('Form reset:' + e.target);
+      });
+   }
+});</example>
 </event>
 <event name="onPaste" summary="Fires when a paste event is intercepted inside the editor.">
 <description>Fires when a paste event is intercepted inside the editor.
@@ -499,6 +869,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onPaste event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onPaste.add(function(ed, e) {
+           console.debug('Pasted plain text');
+      });
+   }
+});</example>
 </event>
 <event name="onPreProcess" summary="Fires when the Serializer does a preProcess on the contents.">
 <description>Fires when the Serializer does a preProcess on the contents.
@@ -524,6 +903,16 @@ ed.render();</example>
 <description>Is true if the process is on a cleanup operation.</description>
 </option>
 </param>
+<example>// Adds an observer to the onPreProcess event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onPreProcess.add(function(ed, o) {
+           // Add a class to each paragraph in the editor
+           ed.dom.addClass(ed.dom.select('p', o.node), 'myclass');
+      });
+   }
+});</example>
 </event>
 <event name="onPostProcess" summary="Fires when the Serializer does a postProcess on the contents.">
 <description>Fires when the Serializer does a postProcess on the contents.
@@ -534,6 +923,17 @@ ed.render();</example>
 <param name="obj" type="Object">
 <description>PreProcess object.</description>
 </param>
+<example>// Adds an observer to the onPostProcess event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onPostProcess.add(function(ed, o) {
+           // Remove all paragraphs and replace with BR
+           o.content = o.content.replace(/&lt;p[^&gt;]+&gt;|&lt;p&gt;/g, '');
+           o.content = o.content.replace(/&lt;\/p&gt;/g, '&lt;br /&gt;');
+      });
+   }
+});</example>
 </event>
 <event name="onBeforeSetContent" summary="Fires before new contents is added to the editor.">
 <description>Fires before new contents is added to the editor. Using for example setContent.
@@ -541,6 +941,16 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onBeforeSetContent event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onBeforeSetContent.add(function(ed, o) {
+           // Replaces all a characters with b characters
+           o.content = o.content.replace(/a/g, 'b');
+      });
+   }
+});</example>
 </event>
 <event name="onBeforeGetContent" summary="Fires before contents is extracted from the editor using for example getContent.">
 <description>Fires before contents is extracted from the editor using for example getContent.
@@ -551,6 +961,15 @@ ed.render();</example>
 <param name="evt" type="Event">
 <description>W3C DOM Event instance.</description>
 </param>
+<example>// Adds an observer to the onBeforeGetContent event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onBeforeGetContent.add(function(ed, o) {
+           console.debug('Before get content.');
+      });
+   }
+});</example>
 </event>
 <event name="onSetContent" summary="Fires after the contents has been added to the editor using for example onSetContent.">
 <description>Fires after the contents has been added to the editor using for example onSetContent.
@@ -558,6 +977,16 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onSetContent event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onSetContent.add(function(ed, o) {
+           // Replaces all a characters with b characters
+           o.content = o.content.replace(/a/g, 'b');
+      });
+   }
+});</example>
 </event>
 <event name="onGetContent" summary="Fires after the contents has been extracted from the editor using for example getContent.">
 <description>Fires after the contents has been extracted from the editor using for example getContent.
@@ -565,6 +994,16 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onGetContent event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onGetContent.add(function(ed, o) {
+          // Replace all a characters with b
+          o.content = o.content.replace(/a/g, 'b');
+      });
+   }
+});</example>
 </event>
 <event name="onLoadContent" summary="Fires when the editor gets loaded with contents for example when the load method is executed.">
 <description>Fires when the editor gets loaded with contents for example when the load method is executed.
@@ -572,6 +1011,16 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onLoadContent event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onLoadContent.add(function(ed, o) {
+          // Output the element name
+          console.debug(o.element.nodeName);
+      });
+   }
+});</example>
 </event>
 <event name="onSaveContent" summary="Fires when the editor contents gets saved for example when the save method is executed.">
 <description>Fires when the editor contents gets saved for example when the save method is executed.
@@ -579,6 +1028,16 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onSaveContent event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onSaveContent.add(function(ed, o) {
+          // Output the element name
+          console.debug(o.element.nodeName);
+      });
+   }
+});</example>
 </event>
 <event name="onNodeChange" summary="Fires when the user changes node location using the mouse or keyboard.">
 <description>Fires when the user changes node location using the mouse or keyboard.
@@ -586,6 +1045,17 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onNodeChange event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onNodeChange.add(function(ed, cm, e) {
+          // Activates the link button when the caret is placed in a anchor element
+          if (e.nodeName == 'A')
+             cm.setActive('link', true);
+      });
+   }
+});</example>
 </event>
 <event name="onChange" summary="Fires when a new undo level is added to the editor.">
 <description>Fires when a new undo level is added to the editor.
@@ -593,6 +1063,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onChange event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+	  ed.onChange.add(function(ed, l) {
+		  console.debug('Editor contents was modified. Contents: ' + l.content);
+	  });
+   }
+});</example>
 </event>
 <event name="onBeforeExecCommand" summary="Fires before a command gets executed for example &quot;Bold&quot;.">
 <description>Fires before a command gets executed for example "Bold".
@@ -600,6 +1079,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onBeforeExecCommand event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+          console.debug('Command is to be executed: ' + cmd);
+      });
+   }
+});</example>
 </event>
 <event name="onExecCommand" summary="Fires after a command is executed for example &quot;Bold&quot;.">
 <description>Fires after a command is executed for example "Bold".
@@ -607,6 +1095,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onExecCommand event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onExecCommand.add(function(ed, cmd, ui, val) {
+          console.debug('Command was executed: ' + cmd);
+      });
+   }
+});</example>
 </event>
 <event name="onUndo" summary="Fires when the contents is undo:ed.">
 <description>Fires when the contents is undo:ed.
@@ -614,8 +1111,18 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
-<param name="evt" type="Event">
-<description>W3C DOM Event instance.</description>
+<param name="level" type="Object">
+<description>{Object} level Undo level object.
+@ example
+// Adds an observer to the onUndo event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onUndo.add(function(ed, level) {
+          console.debug('Undo was performed: ' + level.content);
+      });
+   }
+});</description>
 </param>
 </event>
 <event name="onRedo" summary="Fires when the contents is redo:ed.">
@@ -624,9 +1131,18 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
-<param name="evt" type="Event">
-<description>W3C DOM Event instance.</description>
+<param name="level" type="Object">
+<description>Undo level object.</description>
 </param>
+<example>// Adds an observer to the onRedo event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onRedo.add(function(ed, level) {
+          console.debug('Redo was performed: ' +level.content);
+      });
+   }
+});</example>
 </event>
 <event name="onVisualAid" summary="Fires when visual aids is enabled/disabled.">
 <description>Fires when visual aids is enabled/disabled.
@@ -634,6 +1150,15 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onVisualAid event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onVisualAid.add(function(ed, e, s) {
+          console.debug('onVisualAid event: ' + ed.id + ", State: " + s);
+      });
+   }
+});</example>
 </event>
 <event name="onSetProgressState" summary="Fires when the progress throbber is shown above the editor.">
 <description>Fires when the progress throbber is shown above the editor.
@@ -641,18 +1166,42 @@ ed.render();</example>
 <param name="sender" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>// Adds an observer to the onSetProgressState event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onSetProgressState.add(function(ed, b) {
+           if (b)
+                console.debug('SHOW!');
+           else
+                console.debug('HIDE!');
+      });
+   }
+});</example>
 </event>
 <property name="settings" summary="Name/value collection with editor settings." type="Object">
 <description>Name/value collection with editor settings.
 </description>
+<example>// Get the value of the theme setting
+tinyMCE.activeEditor.windowManager.alert("You are using the " + tinyMCE.activeEditor.settings.theme + " theme");</example>
 </property>
 <property name="documentBaseURI" summary="URI object to document configured for the TinyMCE instance." type="tinymce.util.URI">
 <description>URI object to document configured for the TinyMCE instance.
 </description>
+<example>// Get relative URL from the location of document_base_url
+tinyMCE.activeEditor.documentBaseURI.toRelative('/somedir/somefile.htm');
+
+// Get absolute URL from the location of document_base_url
+tinyMCE.activeEditor.documentBaseURI.toAbsolute('somefile.htm');</example>
 </property>
 <property name="baseURI" summary="URI object to current document that holds the TinyMCE editor instance." type="tinymce.util.URI">
 <description>URI object to current document that holds the TinyMCE editor instance.
 </description>
+<example>// Get relative URL from the location of the API
+tinyMCE.activeEditor.baseURI.toRelative('/somedir/somefile.htm');
+
+// Get absolute URL from the location of the API
+tinyMCE.activeEditor.baseURI.toAbsolute('somefile.htm');</example>
 </property>
 <property name="contentCSS" summary="Array with CSS files to load into the iframe." type="Array">
 <description>Array with CSS files to load into the iframe.
@@ -665,6 +1214,18 @@ ed.render();</example>
 <property name="windowManager" summary="Window manager reference, use this to open new windows and dialogs." type="tinymce.WindowManager">
 <description>Window manager reference, use this to open new windows and dialogs.
 </description>
+<example>// Shows an alert message
+tinyMCE.activeEditor.windowManager.alert('Hello world!');
+
+// Opens a new dialog with the file.htm file and the size 320x240
+// It also adds a custom parameter this can be retrieved by using tinyMCEPopup.getWindowArg inside the dialog.
+tinyMCE.activeEditor.windowManager.open({
+   url : 'file.htm',
+   width : 320,
+   height : 240
+}, {
+   custom_param : 1
+});</example>
 </property>
 <method name="init" summary="Initializes the editor this will be called automatically when all plugins/themes and language packs are loaded by the re...">
 <description>Initializes the editor this will be called automatically when
@@ -675,10 +1236,14 @@ This method will setup the iframe and create the theme and plugin instances.
 <property name="theme" summary="Reference to the theme instance that was used to generate the UI." type="tinymce.Theme">
 <description>Reference to the theme instance that was used to generate the UI.
 </description>
+<example>// Executes a method on the theme directly
+tinyMCE.activeEditor.theme.someMethod();</example>
 </property>
 <property name="controlManager" summary="Control manager instance for the editor." type="tinymce.ControlManager">
 <description>Control manager instance for the editor. Will enables you to create new UI elements and change their states etc.
 </description>
+<example>// Disables the bold button
+tinyMCE.activeEditor.controlManager.setDisabled('bold', true);</example>
 </property>
 <method name="setupIframe" summary="This method get called by the init method ones the iframe is loaded.">
 <description>This method get called by the init method ones the iframe is loaded.
@@ -693,6 +1258,8 @@ This method should not be called directly.
 <property name="dom" summary="DOM instance for the editor." type="tinymce.dom.DOMUtils">
 <description>DOM instance for the editor.
 </description>
+<example>// Adds a class to all paragraphs within the editor
+tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'someclass');</example>
 </property>
 <property name="parser" summary="HTML parser will be used when contents is inserted into the editor." type="tinymce.html.DomParser">
 <description>HTML parser will be used when contents is inserted into the editor.
@@ -701,10 +1268,20 @@ This method should not be called directly.
 <property name="serializer" summary="DOM serializer for the editor." type="tinymce.dom.Serializer">
 <description>DOM serializer for the editor. Will be used when contents is extracted from the editor.
 </description>
+<example>// Serializes the first paragraph in the editor into a string
+tinyMCE.activeEditor.serializer.serialize(tinyMCE.activeEditor.dom.select('p')[0]);</example>
 </property>
 <property name="selection" summary="Selection instance for the editor." type="tinymce.dom.Selection">
 <description>Selection instance for the editor.
 </description>
+<example>// Sets some contents to the current selection in the editor
+tinyMCE.activeEditor.selection.setContent('Some contents');
+
+// Gets the current selection
+alert(tinyMCE.activeEditor.selection.getContent());
+
+// Selects the first paragraph found
+tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('p')[0]);</example>
 </property>
 <property name="formatter" summary="Formatter instance." type="tinymce.Formatter">
 <description>Formatter instance.
@@ -713,6 +1290,8 @@ This method should not be called directly.
 <property name="undoManager" summary="Undo manager instance, responsible for handling undo levels." type="tinymce.UndoManager">
 <description>Undo manager instance, responsible for handling undo levels.
 </description>
+<example>// Undoes the last modification to the editor
+tinyMCE.activeEditor.undoManager.undo();</example>
 </property>
 <method name="setupContentEditable" summary="Sets up the contentEditable mode.">
 <description>Sets up the contentEditable mode.
@@ -773,6 +1352,11 @@ a key mathcin the input.
 <return type="String">
 <description>Configuration parameter value or default value.</description>
 </return>
+<example>// Returns a specific config value from the currently active editor
+var someval = tinyMCE.activeEditor.getParam('myvalue');
+
+// Returns a specific config value from a specific editor instance by id
+var someval2 = tinyMCE.get('my_editor').getParam('myvalue');</example>
 </method>
 <method name="nodeChanged" summary="Distpaches out a onNodeChange event to all observers.">
 <description>Distpaches out a onNodeChange event to all observers. This method should be called when you
@@ -793,6 +1377,24 @@ powerfull if you need more control use the ControlManagers factory methods inste
 <param name="s" type="Object">
 <description>Settings object with title, cmd etc.</description>
 </param>
+<example>// Adds a custom button to the editor and when a user clicks the button it will open
+// an alert box with the selected contents as plain text.
+tinyMCE.init({
+   ...
+
+   theme_advanced_buttons1 : 'example,..'
+
+   setup : function(ed) {
+      // Register example button
+      ed.addButton('example', {
+         title : 'example.desc',
+         image : '../jscripts/tiny_mce/plugins/example/img/example.gif',
+         onclick : function() {
+            ed.windowManager.alert('Hello world!! Selection: ' + ed.selection.getContent({format : 'text'}));
+         }
+      });
+   }
+});</example>
 </method>
 <method name="addCommand" summary="Adds a custom command to the editor, you can also override existing commands with this method.">
 <description>Adds a custom command to the editor, you can also override existing commands with this method.
@@ -807,6 +1409,17 @@ The command that you add can be executed with execCommand.
 <param name="scope" type="Object">
 <description>Optional scope to execute the function in.</description>
 </param>
+<example>// Adds a custom command that later can be executed using execCommand
+tinyMCE.init({
+   ...
+
+   setup : function(ed) {
+      // Register example command
+      ed.addCommand('mycommand', function(ui, v) {
+         ed.windowManager.alert('Hello world!! Selection: ' + ed.selection.getContent({format : 'text'}));
+      });
+   }
+});</example>
 </method>
 <callback fullname="tinymce.Editor.addCommandCallback" name="addCommandCallback" summary="Callback function that gets called when a command is executed.">
 <description>Callback function that gets called when a command is executed.
@@ -957,6 +1570,14 @@ This is ideal for asycronous operations like an AJAX save call.
 <return type="Boolean">
 <description>Same as the input state.</description>
 </return>
+<example>// Show progress for the active editor
+tinyMCE.activeEditor.setProgressState(true);
+
+// Hide progress for the active editor
+tinyMCE.activeEditor.setProgressState(false);
+
+// Show progress after 3 seconds
+tinyMCE.activeEditor.setProgressState(true, 3000);</example>
 </method>
 <method name="load" summary="Loads contents from the textarea or div element that got converted into an editor instance.">
 <description>Loads contents from the textarea or div element that got converted into an editor instance.
@@ -995,6 +1616,17 @@ the different cleanup rules options.
 <return type="String">
 <description>HTML string that got set into the editor.</description>
 </return>
+<example>// Sets the HTML contents of the activeEditor editor
+tinyMCE.activeEditor.setContent('&lt;span&gt;some&lt;/span&gt; html');
+
+// Sets the raw contents of the activeEditor editor
+tinyMCE.activeEditor.setContent('&lt;span&gt;some&lt;/span&gt; html', {format : 'raw'});
+
+// Sets the content of a specific editor (my_editor in this example)
+tinyMCE.get('my_editor').setContent(data);
+
+// Sets the bbcode contents of the activeEditor editor if the bbcode plugin was added
+tinyMCE.activeEditor.setContent('[b]some[/b] html', {format : 'bbcode'});</example>
 </method>
 <method name="getContent" summary="Gets the content from the editor instance, this will cleanup the content before it gets returned using the different cle...">
 <description>Gets the content from the editor instance, this will cleanup the content before it gets returned using
@@ -1006,6 +1638,14 @@ the different cleanup rules options.
 <return type="String">
 <description>Cleaned content string, normally HTML contents.</description>
 </return>
+<example>// Get the HTML contents of the currently active editor
+console.debug(tinyMCE.activeEditor.getContent());
+
+// Get the raw contents of the currently active editor
+tinyMCE.activeEditor.getContent({format : 'raw'});
+
+// Get content of a specific editor:
+tinyMCE.get('content id').getContent()</example>
 </method>
 <method name="isDirty" summary="Returns true/false if the editor is dirty or not.">
 <description>Returns true/false if the editor is dirty or not. It will get dirty if the user has made modifications to the contents.
@@ -1013,6 +1653,8 @@ the different cleanup rules options.
 <return type="Boolean">
 <description>True/false if the editor is dirty or not. It will get dirty if the user has made modifications to the contents.</description>
 </return>
+<example>if (tinyMCE.activeEditor.isDirty())
+    alert("You must save your contents.");</example>
 </method>
 <method name="getContainer" summary="Returns the editors container element.">
 <description>Returns the editors container element. The container element wrappes in
@@ -1215,8 +1857,10 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <param name="vars" type="Object">
 <description>Optional list of variables to replace within format before removing it.</description>
 </param>
-<param name="node" type="Node">
-<description>Optional node to remove the format from defaults to current selection.</description>
+<param name="node">
+<type fullname="Node"/>
+<type fullname="Range"/>
+<description>Optional node or DOM range to remove the format from defaults to current selection.</description>
 </param>
 </method>
 <method name="toggle" summary="Toggles the specified format on/off.">
@@ -1326,6 +1970,11 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <description>The old level object containing a bookmark and contents.</description>
 </param>
 </event>
+<method name="beforeChange" summary="Stores away a bookmark to be used when performing an undo action so that the selection is before the change has been mad...">
+<description>Stores away a bookmark to be used when performing an undo action so that the selection is before
+the change has been made.
+</description>
+</method>
 <method name="add" summary="Adds a new undo level/snapshot to the undo list.">
 <description>Adds a new undo level/snapshot to the undo list.
 </description>
@@ -1371,7 +2020,28 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </members>
 </class>
 <class fullname="tinymce.WindowManager" name="WindowManager" summary="This class handles the creation of native windows and dialogs.">
-<description>This class handles the creation of native windows and dialogs. This class can be extended to provide for example inline dialogs.</description>
+<description>This class handles the creation of native windows and dialogs. This class can be extended to provide for example inline dialogs.
+</description>
+<example>// Opens a new dialog with the file.htm file and the size 320x240
+// It also adds a custom parameter this can be retrieved by using tinyMCEPopup.getWindowArg inside the dialog.
+tinyMCE.activeEditor.windowManager.open({
+   url : 'file.htm',
+   width : 320,
+   height : 240
+}, {
+   custom_param : 1
+});
+
+// Displays an alert box using the active editors window manager instance
+tinyMCE.activeEditor.windowManager.alert('Hello world!');
+
+// Displays an confirm box and an alert message will be displayed depending on what you choose in the confirm
+tinyMCE.activeEditor.windowManager.confirm("Do you want to do something", function(s) {
+   if (s)
+      tinyMCE.activeEditor.windowManager.alert("Ok");
+   else
+      tinyMCE.activeEditor.windowManager.alert("Cancel");
+});</example>
 <members>
 <method constructor="true" name="WindowManager" summary="Constructs a new window manager instance.">
 <description>Constructs a new window manager instance.
@@ -1385,9 +2055,51 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </description>
 <param name="s" type="Object">
 <description>Optional name/value settings collection contains things like width/height/url etc.</description>
+<option name="title" type="String">
+<description>Window title.</description>
+</option>
+<option name="file" type="String">
+<description>URL of the file to open in the window.</description>
+</option>
+<option name="width" type="Number">
+<description>Width in pixels.</description>
+</option>
+<option name="height" type="Number">
+<description>Height in pixels.</description>
+</option>
+<option name="resizable" type="Boolean">
+<description>Specifies whether the popup window is resizable or not.</description>
+</option>
+<option name="maximizable" type="Boolean">
+<description>Specifies whether the popup window has a "maximize" button and can get maximized or not.</description>
+</option>
+<option name="inline" type="Boolean">
+<description>Specifies whether to display in-line (set to 1 or true for in-line display; requires inlinepopups plugin).</description>
+</option>
+<option name="popup_css">
+<type fullname="String"/>
+<type fullname="Boolean"/>
+<description>Optional CSS to use in the popup. Set to false to remove the default one.</description>
+</option>
+<option name="translate_i18n" type="Boolean">
+<description>Specifies whether translation should occur or not of i18 key strings. Default is true.</description>
+</option>
+<option name="close_previous">
+<type fullname="String"/>
+<type fullname="bool"/>
+<description>Specifies whether a previously opened popup window is to be closed or not (like when calling the file browser window over the advlink popup).</description>
+</option>
+<option name="scrollbars">
+<type fullname="String"/>
+<type fullname="bool"/>
+<description>Specifies whether the popup window can have scrollbars if required (i.e. content larger than the popup size specified).</description>
+</option>
 </param>
 <param name="p" type="Object">
 <description>Optional parameters/arguments collection can be used by the dialogs to retrive custom parameters.</description>
+<option name="plugin_url" type="String">
+<description>url to plugin if opening plugin window that calls tinyMCEPopup.requireLangPack() and needs access to the plugin language js files</description>
+</option>
 </param>
 </method>
 <method name="close" summary="Closes the specified window.">
@@ -1408,6 +2120,8 @@ will be passed as arguments to the constructor.
 <return type="Object">
 <description>Instance of the specified class.</description>
 </return>
+<example>var uri = tinyMCEPopup.editor.windowManager.createInstance('tinymce.util.URI', 'http://www.somesite.com');
+alert(uri.getURI());</example>
 </method>
 <method name="confirm" summary="Creates a confirm dialog.">
 <description>Creates a confirm dialog. Please don't use the blocking behavior of this
@@ -1422,6 +2136,13 @@ native version use the callback method instead then it can be extended.
 <param name="s" type="Object">
 <description>Optional scope to execute the callback in.</description>
 </param>
+<example>// Displays an confirm box and an alert message will be displayed depending on what you choose in the confirm
+tinyMCE.activeEditor.windowManager.confirm("Do you want to do something", function(s) {
+   if (s)
+      tinyMCE.activeEditor.windowManager.alert("Ok");
+   else
+      tinyMCE.activeEditor.windowManager.alert("Cancel");
+});</example>
 </method>
 <method name="alert" summary="Creates a alert dialog.">
 <description>Creates a alert dialog. Please don't use the blocking behavior of this
@@ -1436,13 +2157,21 @@ native version use the callback method instead then it can be extended.
 <param name="s" type="Object">
 <description>Optional scope to execute the callback in.</description>
 </param>
+<example>// Displays an alert box using the active editors window manager instance
+tinyMCE.activeEditor.windowManager.alert('Hello world!');</example>
 </method>
 </members>
 </class>
 <namespace fullname="tinymce.dom" name="dom">
 <description>Contains classes for handling the browsers DOM.</description>
 <class fullname="tinymce.dom.DOMUtils" name="DOMUtils" summary="Utility class for various DOM manipulation and retrival functions.">
-<description>Utility class for various DOM manipulation and retrival functions.</description>
+<description>Utility class for various DOM manipulation and retrival functions.
+</description>
+<example>// Add a class to an element by id in the page
+tinymce.DOM.addClass('someid', 'someclass');
+
+// Add a class to an element by id inside the editor
+tinyMCE.activeEditor.dom.addClass('someid', 'someclass');</example>
 <members>
 <method constructor="true" name="DOMUtils" summary="Constructs a new DOMUtils instance.">
 <description>Constructs a new DOMUtils instance. Consult the Wiki for more details on settings etc for this class.
@@ -1548,6 +2277,36 @@ If the function then returns true indicating that it has found what it was looki
 <description>Element matching the specified id or null if it wasn't found.</description>
 </return>
 </method>
+<method name="getNext" summary="Returns the next node that matches selector or function">
+<description>Returns the next node that matches selector or function
+</description>
+<param name="node" type="Node">
+<description>Node to find siblings from.</description>
+</param>
+<param name="selector">
+<type fullname="String"/>
+<type fullname="function"/>
+<description>Selector CSS expression or function.</description>
+</param>
+<return type="Node">
+<description>Next node item matching the selector or null if it wasn't found.</description>
+</return>
+</method>
+<method name="getPrev" summary="Returns the previous node that matches selector or function">
+<description>Returns the previous node that matches selector or function
+</description>
+<param name="node" type="Node">
+<description>Node to find siblings from.</description>
+</param>
+<param name="selector">
+<type fullname="String"/>
+<type fullname="function"/>
+<description>Selector CSS expression or function.</description>
+</param>
+<return type="Node">
+<description>Previous node item matching the selector or null if it wasn't found.</description>
+</return>
+</method>
 <method name="select" summary="Selects specific elements by a CSS level 3 pattern.">
 <description>Selects specific elements by a CSS level 3 pattern. For example "div#a1 p.test".
 This function is optimized for the most common patterns needed in TinyMCE but it also performes good enough
@@ -1562,6 +2321,11 @@ on more complex patterns.
 <return type="Array">
 <description>Array with all matched elements.</description>
 </return>
+<example>// Adds a class to all paragraphs in the currently active editor
+tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'someclass');
+
+// Adds a class to all spans that has the test class in the currently active editor
+tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('span.test'), 'someclass')</example>
 </method>
 <method name="is" summary="Returns true/false if the specified element matches the specified css pattern.">
 <description>Returns true/false if the specified element matches the specified css pattern.
@@ -1603,6 +2367,8 @@ on more complex patterns.
 <type fullname="Array"/>
 <description>Element that got created or array with elements if multiple elements where passed.</description>
 </return>
+<example>// Adds a new paragraph to the end of the active editor
+tinyMCE.activeEditor.dom.add(tinyMCE.activeEditor.getBody(), 'p', {title : 'my title'}, 'Some content');</example>
 </method>
 <method name="create" summary="Creates a new element.">
 <description>Creates a new element.
@@ -1619,9 +2385,12 @@ on more complex patterns.
 <return type="Element">
 <description>HTML DOM node element that got created.</description>
 </return>
+<example>// Adds an element where the caret/selection is in the active editor
+var el = tinyMCE.activeEditor.dom.create('div', {id : 'test', 'class' : 'myclass'}, 'some content');
+tinyMCE.activeEditor.selection.setNode(el);</example>
 </method>
 <method name="createHTML" summary="Create HTML string for element.">
-<description>Create HTML string for element. The elemtn will be closed unless an empty inner HTML string is passed.
+<description>Create HTML string for element. The element will be closed unless an empty inner HTML string is passed.
 </description>
 <param name="n" type="String">
 <description>Name of new element.</description>
@@ -1635,6 +2404,8 @@ on more complex patterns.
 <return type="String">
 <description>String with new HTML element like for example: &lt;a href="#"&gt;test&lt;/a&gt;.</description>
 </return>
+<example>// Creates a html chunk and inserts it at the current selection/caret location
+tinyMCE.activeEditor.selection.setContent(tinyMCE.activeEditor.dom.createHTML('a', {href : 'test.html'}, 'some line'));</example>
 </method>
 <method name="remove" summary="Removes/deletes the specified element(s) from the DOM.">
 <description>Removes/deletes the specified element(s) from the DOM.
@@ -1653,6 +2424,11 @@ on more complex patterns.
 <type fullname="Array"/>
 <description>HTML DOM element that got removed or array of elements depending on input.</description>
 </return>
+<example>// Removes all paragraphs in the active editor
+tinyMCE.activeEditor.dom.remove(tinyMCE.activeEditor.dom.select('p'));
+
+// Removes a element by id in the document
+tinyMCE.DOM.remove('mydiv');</example>
 </method>
 <method name="setStyle" summary="Sets the CSS style value on a HTML element.">
 <description>Sets the CSS style value on a HTML element. The name can be a camelcase string
@@ -1670,6 +2446,11 @@ or the CSS style name like background-color.
 <param name="v" type="String">
 <description>Value to set on the style.</description>
 </param>
+<example>// Sets a style value on all paragraphs in the currently active editor
+tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('p'), 'background-color', 'red');
+
+// Sets a style value to an element by id in the current document
+tinyMCE.DOM.setStyle('mydiv', 'background-color', 'red');</example>
 </method>
 <method name="getStyle" summary="Returns the current style or runtime/computed value of a element.">
 <description>Returns the current style or runtime/computed value of a element.
@@ -1701,6 +2482,11 @@ or the CSS style name like background-color.
 <param name="o" type="Object">
 <description>Name/Value collection of style items to add to the element(s).</description>
 </param>
+<example>// Sets styles on all paragraphs in the currently active editor
+tinyMCE.activeEditor.dom.setStyles(tinyMCE.activeEditor.dom.select('p'), {'background-color' : 'red', 'color' : 'green'});
+
+// Sets styles to an element by id in the current document
+tinyMCE.DOM.setStyles('mydiv', {'background-color' : 'red', 'color' : 'green'});</example>
 </method>
 <method name="setAttrib" summary="Sets the specified attributes value of a element or elements.">
 <description>Sets the specified attributes value of a element or elements.
@@ -1717,6 +2503,11 @@ or the CSS style name like background-color.
 <param name="v" type="String">
 <description>Value to set on the attribute of this value is falsy like null 0 or '' it will remove the attribute instead.</description>
 </param>
+<example>// Sets an attribute to all paragraphs in the active editor
+tinyMCE.activeEditor.dom.setAttrib(tinyMCE.activeEditor.dom.select('p'), 'class', 'myclass');
+
+// Sets an attribute to a specific element in the current page
+tinyMCE.dom.setAttrib('mydiv', 'class', 'myclass');</example>
 </method>
 <method name="setAttribs" summary="Sets the specified attributes of a element or elements.">
 <description>Sets the specified attributes of a element or elements.
@@ -1730,6 +2521,11 @@ or the CSS style name like background-color.
 <param name="o" type="Object">
 <description>Name/Value collection of attribute items to add to the element(s).</description>
 </param>
+<example>// Sets some attributes to all paragraphs in the active editor
+tinyMCE.activeEditor.dom.setAttribs(tinyMCE.activeEditor.dom.select('p'), {'class' : 'myclass', title : 'some title'});
+
+// Sets some attributes to a specific element in the current page
+tinyMCE.DOM.setAttribs('mydiv', {'class' : 'myclass', title : 'some title'});</example>
 </method>
 <method name="getAttrib" summary="Returns the specified attribute by name.">
 <description>Returns the specified attribute by name.
@@ -1795,6 +2591,17 @@ colors to hex values. Urls inside the styles will also be converted to absolute/
 <param name="u" type="String">
 <description>URL to CSS file to load.</description>
 </param>
+<example>// Loads a CSS file dynamically into the current document
+tinymce.DOM.loadCSS('somepath/some.css');
+
+// Loads a CSS file into the currently active editor instance
+tinyMCE.activeEditor.dom.loadCSS('somepath/some.css');
+
+// Loads a CSS file into an editor instance by id
+tinyMCE.get('someid').dom.loadCSS('somepath/some.css');
+
+// Loads multiple CSS files into the current document
+tinymce.DOM.loadCSS('somepath/some.css,somepath/someother.css');</example>
 </method>
 <method name="addClass" summary="Adds a class to the specified element or elements.">
 <description>Adds a class to the specified element or elements.
@@ -1813,6 +2620,11 @@ colors to hex values. Urls inside the styles will also be converted to absolute/
 <type fullname="Array"/>
 <description>String with new class value or array with new class values for all elements.</description>
 </return>
+<example>// Adds a class to all paragraphs in the active editor
+tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'myclass');
+
+// Adds a class to a specific element in the current page
+tinyMCE.DOM.addClass('mydiv', 'myclass');</example>
 </method>
 <method name="removeClass" summary="Removes a class from the specified element or elements.">
 <description>Removes a class from the specified element or elements.
@@ -1831,6 +2643,11 @@ colors to hex values. Urls inside the styles will also be converted to absolute/
 <type fullname="Array"/>
 <description>String with new class value or array with new class values for all elements.</description>
 </return>
+<example>// Removes a class from all paragraphs in the active editor
+tinyMCE.activeEditor.dom.removeClass(tinyMCE.activeEditor.dom.select('p'), 'myclass');
+
+// Removes a class from a specific element in the current page
+tinyMCE.DOM.removeClass('mydiv', 'myclass');</example>
 </method>
 <method name="hasClass" summary="Returns true if the specified element has the specified class.">
 <description>Returns true if the specified element has the specified class.
@@ -1866,6 +2683,8 @@ colors to hex values. Urls inside the styles will also be converted to absolute/
 <type fullname="Array"/>
 <description>ID of DOM element or DOM element or array with elements or IDs to hide.</description>
 </param>
+<example>// Hides a element by id in the document
+tinymce.DOM.hide('myid');</example>
 </method>
 <method name="isHidden" summary="Returns true/false if the element is hidden or not by checking the &quot;display&quot; style.">
 <description>Returns true/false if the element is hidden or not by checking the "display" style.
@@ -1903,6 +2722,11 @@ URLs will get converted, hex color values fixed etc. Check processHTML for detai
 <param name="h" type="String">
 <description>HTML content to set as inner HTML of the element.</description>
 </param>
+<example>// Sets the inner HTML of all paragraphs in the active editor
+tinyMCE.activeEditor.dom.setHTML(tinyMCE.activeEditor.dom.select('p'), 'some inner html');
+
+// Sets the inner HTML of a element by id in the document
+tinyMCE.DOM.setHTML('mydiv', 'some inner html');</example>
 </method>
 <method name="getOuterHTML" summary="Returns the outer HTML of an element.">
 <description>Returns the outer HTML of an element.
@@ -1915,6 +2739,8 @@ URLs will get converted, hex color values fixed etc. Check processHTML for detai
 <return type="String">
 <description>Outer HTML string.</description>
 </return>
+<example>tinymce.DOM.getOuterHTML(editorElement);
+tinyMCE.activeEditor.getOuterHTML(tinyMCE.activeEditor.getBody());</example>
 </method>
 <method name="setOuterHTML" summary="Sets the specified outer HTML on a element or elements.">
 <description>Sets the specified outer HTML on a element or elements.
@@ -1931,6 +2757,11 @@ URLs will get converted, hex color values fixed etc. Check processHTML for detai
 <param name="d" type="Document">
 <description>Optional document scope to use in this process defaults to the document of the DOM class.</description>
 </param>
+<example>// Sets the outer HTML of all paragraphs in the active editor
+tinyMCE.activeEditor.dom.setOuterHTML(tinyMCE.activeEditor.dom.select('p'), '&lt;div&gt;some html&lt;/div&gt;');
+
+// Sets the outer HTML of a element by id in the document
+tinyMCE.DOM.setOuterHTML('mydiv', '&lt;div&gt;some html&lt;/div&gt;');</example>
 </method>
 <method name="decode" summary="Entity decode a string, resolves any HTML entities like &amp;aring;.">
 <description>Entity decode a string, resolves any HTML entities like &amp;aring;.
@@ -2076,6 +2907,17 @@ rule like ".class" complex ones like "div td.class" will not be added to output.
 <description>NodeList with attributes.</description>
 </return>
 </method>
+<method name="isEmpty" summary="Returns true/false if the specified node is to be considered empty or not.">
+<description>Returns true/false if the specified node is to be considered empty or not.
+</description>
+<param name="elements" type="Object">
+<description>Optional name/value object with elements that are automatically treated as non empty elements.</description>
+</param>
+<return type="Boolean">
+<description>true/false if the node is empty or not.</description>
+</return>
+<example>tinymce.DOM.isEmpty(node, {img : true});</example>
+</method>
 <method name="destroy" summary="Destroys all internal references to the DOM to solve IE leak issues.">
 <description>Destroys all internal references to the DOM to solve IE leak issues.
 </description>
@@ -2087,6 +2929,8 @@ available if it's not it will fallback to the custom TinyMCE implementation.
 <return type="DOMRange">
 <description>DOM Range object.</description>
 </return>
+<example>var rng = tinymce.DOM.createRng();
+alert(rng.startContainer + "," + rng.startOffset);</example>
 </method>
 <method name="split" summary="Splits an element into two new elements and places the specified split element or element between the new ones.">
 <description>Splits an element into two new elements and places the specified split
@@ -2158,6 +3002,11 @@ this example &lt;p&gt;abc&lt;b&gt;abc&lt;/b&gt;123&lt;/p&gt; would produce &lt;p
 gets visible though DIVs on IE 6 it uses a iframe for this blocking. This class also shortens the length of some DOM API calls
 since it's bound to an element.
 </description>
+<example>// Creates an basic element for an existing element
+var elm = new tinymce.dom.Element('someid');
+
+elm.setStyle('background-color', 'red');
+elm.moveTo(10, 10);</example>
 <members>
 <method constructor="true" name="Element" summary="Constructs a new Element instance.">
 <description>Constructs a new Element instance. Consult the Wiki for more details on this class.
@@ -2282,6 +3131,10 @@ and handler references to be able to clean elements to reduce IE memory leaks.
 <return type="function">
 <description>Function callback handler the same as the one passed in.</description>
 </return>
+<example>// Adds a click handler to the current document
+tinymce.dom.Event.add(document, 'click', function(e) {
+   console.debug(e.target);
+});</example>
 </method>
 <method name="remove" summary="Removes the specified event handler by name and function from a element or collection of elements.">
 <description>Removes the specified event handler by name and function from a element or collection of elements.
@@ -2303,6 +3156,13 @@ and handler references to be able to clean elements to reduce IE memory leaks.
 <type fullname="Array"/>
 <description>Bool state if true if the handler was removed or an array with states if multiple elements where passed in.</description>
 </return>
+<example>// Adds a click handler to the current document
+var func = tinymce.dom.Event.add(document, 'click', function(e) {
+   console.debug(e.target);
+});
+
+// Removes the click handler from the document
+tinymce.dom.Event.remove(document, 'click', func);</example>
 </method>
 <method name="clear" summary="Clears all events of a specific object.">
 <description>Clears all events of a specific object.
@@ -2310,6 +3170,10 @@ and handler references to be able to clean elements to reduce IE memory leaks.
 <param name="o" type="Object">
 <description>DOM element or object to remove all events from.</description>
 </param>
+<example>// Cancels all mousedown events in the active editor
+tinyMCE.activeEditor.onMouseDown.add(function(ed, e) {
+   return tinymce.dom.Event.cancel(e);
+});</example>
 </method>
 <method name="cancel" summary="Cancels an event for both bubbeling and the default browser behavior.">
 <description>Cancels an event for both bubbeling and the default browser behavior.
@@ -2347,9 +3211,104 @@ and handler references to be able to clean elements to reduce IE memory leaks.
 </method>
 </members>
 </class>
+<class fullname="tinymce.dom.ScriptLoader" name="ScriptLoader" summary="This class handles asynchronous/synchronous loading of JavaScript files it will execute callbacks when various items get...">
+<description>This class handles asynchronous/synchronous loading of JavaScript files it will execute callbacks when various items gets loaded. This class is useful to load external JavaScript files.
+</description>
+<example>// Load a script from a specific URL using the global script loader
+tinymce.ScriptLoader.load('somescript.js');
+
+// Load a script using a unique instance of the script loader
+var scriptLoader = new tinymce.dom.ScriptLoader();
+
+scriptLoader.load('somescript.js');
+
+// Load multiple scripts
+var scriptLoader = new tinymce.dom.ScriptLoader();
+
+scriptLoader.add('somescript1.js');
+scriptLoader.add('somescript2.js');
+scriptLoader.add('somescript3.js');
+
+scriptLoader.loadQueue(function() {
+   alert('All scripts are now loaded.');
+});</example>
+<members>
+<method name="load" summary="Loads a specific script directly without adding it to the load queue.">
+<description>Loads a specific script directly without adding it to the load queue.
+</description>
+<param name="url" type="String">
+<description>Absolute URL to script to add.</description>
+</param>
+<param name="callback" type="function">
+<description>Optional callback function to execute ones this script gets loaded.</description>
+</param>
+<param name="scope" type="Object">
+<description>Optional scope to execute callback in.</description>
+</param>
+</method>
+<method name="isDone" summary="Returns true/false if a script has been loaded or not.">
+<description>Returns true/false if a script has been loaded or not.
+</description>
+<param name="url" type="String">
+<description>URL to check for.</description>
+</param>
+<return type="Object">
+<description>[Boolean} true/false if the URL is loaded.</description>
+</return>
+</method>
+<method name="markDone" summary="Marks a specific script to be loaded.">
+<description>Marks a specific script to be loaded. This can be useful if a script got loaded outside
+the script loader or to skip it from loading some script.
+</description>
+<param name="u" type="string">
+<description>Absolute URL to the script to mark as loaded.</description>
+</param>
+</method>
+<method name="add" summary="Adds a specific script to the load queue of the script loader.">
+<description>Adds a specific script to the load queue of the script loader.
+</description>
+<param name="url" type="String">
+<description>Absolute URL to script to add.</description>
+</param>
+<param name="callback" type="function">
+<description>Optional callback function to execute ones this script gets loaded.</description>
+</param>
+<param name="scope" type="Object">
+<description>Optional scope to execute callback in.</description>
+</param>
+</method>
+<method name="loadQueue" summary="Starts the loading of the queue.">
+<description>Starts the loading of the queue.
+</description>
+<param name="callback" type="function">
+<description>Optional callback to execute when all queued items are loaded.</description>
+</param>
+<param name="scope" type="Object">
+<description>Optional scope to execute the callback in.</description>
+</param>
+</method>
+<method name="loadScripts" summary="Loads the specified queue of files and executes the callback ones they are loaded.">
+<description>Loads the specified queue of files and executes the callback ones they are loaded.
+This method is generally not used outside this class but it might be useful in some scenarios.
+</description>
+<param name="scripts" type="Array">
+<description>Array of queue items to load.</description>
+</param>
+<param name="callback" type="function">
+<description>Optional callback to execute ones all items are loaded.</description>
+</param>
+<param name="scope" type="Object">
+<description>Optional scope to execute callback in.</description>
+</param>
+</method>
+</members>
+</class>
 <class fullname="tinymce.dom.Selection" name="Selection" summary="This class handles text and control selection it's an crossbrowser utility class.">
 <description>This class handles text and control selection it's an crossbrowser utility class.
-Consult the TinyMCE Wiki API for more details and examples on how to use this class.</description>
+Consult the TinyMCE Wiki API for more details and examples on how to use this class.
+</description>
+<example>// Getting the currently selected node for the active editor
+alert(tinymce.activeEditor.selection.getNode().nodeName);</example>
 <members>
 <method constructor="true" name="Selection" summary="Constructs a new selection instance.">
 <description>Constructs a new selection instance.
@@ -2364,6 +3323,46 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <description>DOM serialization class to use for getContent.</description>
 </param>
 </method>
+<event name="onBeforeSetContent" summary="This event gets executed before contents is extracted from the selection.">
+<description>This event gets executed before contents is extracted from the selection.
+</description>
+<param name="selection" type="tinymce.dom.Selection">
+<description>Selection object that fired the event.</description>
+</param>
+<param name="args" type="Object">
+<description>Contains things like the contents that will be returned.</description>
+</param>
+</event>
+<event name="onBeforeGetContent" summary="This event gets executed before contents is inserted into selection.">
+<description>This event gets executed before contents is inserted into selection.
+</description>
+<param name="selection" type="tinymce.dom.Selection">
+<description>Selection object that fired the event.</description>
+</param>
+<param name="args" type="Object">
+<description>Contains things like the contents that will be inserted.</description>
+</param>
+</event>
+<event name="onSetContent" summary="This event gets executed when contents is inserted into selection.">
+<description>This event gets executed when contents is inserted into selection.
+</description>
+<param name="selection" type="tinymce.dom.Selection">
+<description>Selection object that fired the event.</description>
+</param>
+<param name="args" type="Object">
+<description>Contains things like the contents that will be inserted.</description>
+</param>
+</event>
+<event name="onGetContent" summary="This event gets executed when contents is extracted from the selection.">
+<description>This event gets executed when contents is extracted from the selection.
+</description>
+<param name="selection" type="tinymce.dom.Selection">
+<description>Selection object that fired the event.</description>
+</param>
+<param name="args" type="Object">
+<description>Contains things like the contents that will be returned.</description>
+</param>
+</event>
 <method name="getContent" summary="Returns the selected contents using the DOM serializer passed in to this class.">
 <description>Returns the selected contents using the DOM serializer passed in to this class.
 </description>
@@ -2373,18 +3372,25 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <return type="String">
 <description>Selected contents in for example HTML format.</description>
 </return>
+<example>// Alerts the currently selected contents
+alert(tinyMCE.activeEditor.selection.getContent());
+
+// Alerts the currently selected contents as plain text
+alert(tinyMCE.activeEditor.selection.getContent({format : 'text'}));</example>
 </method>
 <method name="setContent" summary="Sets the current selection to the specified content.">
 <description>Sets the current selection to the specified content. If any contents is selected it will be replaced
 with the contents passed in to this function. If there is no selection the contents will be inserted
 where the caret is placed in the editor/page.
 </description>
-<param name="h" type="String">
+<param name="content" type="String">
 <description>HTML contents to set could also be other formats depending on settings.</description>
 </param>
-<param name="s" type="Object">
+<param name="args" type="Object">
 <description>Optional settings object with for example data format.</description>
 </param>
+<example>// Inserts some HTML contents at the current selection
+tinyMCE.activeEditor.selection.setContent('&lt;strong&gt;Some contents&lt;/strong&gt;');</example>
 </method>
 <method name="getStart" summary="Returns the start element of a selection range.">
 <description>Returns the start element of a selection range. If the start is in a text
@@ -2415,6 +3421,13 @@ can then be used to restore the selection after some content modification to the
 <return type="Object">
 <description>Bookmark object, use moveToBookmark with this object to restore the selection.</description>
 </return>
+<example>// Stores a bookmark of the current selection
+var bm = tinyMCE.activeEditor.selection.getBookmark();
+
+tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent() + 'Some new content');
+
+// Restore the selection bookmark
+tinyMCE.activeEditor.selection.moveToBookmark(bm);</example>
 </method>
 <method name="moveToBookmark" summary="Restores the selection to the specified bookmark.">
 <description>Restores the selection to the specified bookmark.
@@ -2425,6 +3438,13 @@ can then be used to restore the selection after some content modification to the
 <return type="Boolean">
 <description>true/false if it was successful or not.</description>
 </return>
+<example>// Stores a bookmark of the current selection
+var bm = tinyMCE.activeEditor.selection.getBookmark();
+
+tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent() + 'Some new content');
+
+// Restore the selection bookmark
+tinyMCE.activeEditor.selection.moveToBookmark(bm);</example>
 </method>
 <method name="select" summary="Selects the specified element.">
 <description>Selects the specified element. This will place the start and end of the selection range around the element.
@@ -2438,6 +3458,8 @@ can then be used to restore the selection after some content modification to the
 <return type="Element">
 <description>Selected element the same element as the one that got passed in.</description>
 </return>
+<example>// Select the first paragraph in the active editor
+tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('p')[0]);</example>
 </method>
 <method name="isCollapsed" summary="Returns true/false if the selection range is collapsed or not.">
 <description>Returns true/false if the selection range is collapsed or not. Collapsed means if it's a caret or a larger selection.
@@ -2449,7 +3471,7 @@ can then be used to restore the selection after some content modification to the
 <method name="collapse" summary="Collapse the selection to start or end of range.">
 <description>Collapse the selection to start or end of range.
 </description>
-<param name="b" type="Boolean">
+<param name="to_start" type="Boolean">
 <description>Optional boolean state if to collapse to end or not. Defaults to start.</description>
 </param>
 </method>
@@ -2469,6 +3491,8 @@ can then be used to restore the selection after some content modification to the
 <return type="Range">
 <description>Internal browser range object.</description>
 </return>
+<see class="http://www.quirksmode.org/dom/range_intro.html"/>
+<see class="http://www.dotvoid.com/2001/03/using-the-range-object-in-mozilla"/>
 </method>
 <method name="setRng" summary="Changes the selection to the specified DOM range.">
 <description>Changes the selection to the specified DOM range.
@@ -2486,6 +3510,8 @@ can then be used to restore the selection after some content modification to the
 <return type="Element">
 <description>Returns the element that got passed in.</description>
 </return>
+<example>// Inserts a DOM node at current selection/caret location
+tinyMCE.activeEditor.selection.setNode(tinyMCE.activeEditor.dom.create('img', {src : 'some.gif', title : 'some title'}));</example>
 </method>
 <method name="getNode" summary="Returns the currently selected element or the common ancestor element for both start and end of the selection.">
 <description>Returns the currently selected element or the common ancestor element for both start and end of the selection.
@@ -2493,6 +3519,147 @@ can then be used to restore the selection after some content modification to the
 <return type="Element">
 <description>Currently selected element or common ancestor element.</description>
 </return>
+<example>// Alerts the currently selected elements node name
+alert(tinyMCE.activeEditor.selection.getNode().nodeName);</example>
+</method>
+</members>
+</class>
+<class fullname="tinymce.dom.Serializer" name="Serializer" summary="This class is used to serialize DOM trees into a string.">
+<description>This class is used to serialize DOM trees into a string. Consult the TinyMCE Wiki API for more details and examples on how to use this class.
+</description>
+<members>
+<method constructor="true" name="Serializer" summary="Constucts a new DOM serializer class.">
+<description>Constucts a new DOM serializer class.
+</description>
+<param name="settings" type="Object">
+<description>Serializer settings object.</description>
+</param>
+<param name="dom" type="tinymce.dom.DOMUtils">
+<description>DOMUtils instance reference.</description>
+</param>
+<param name="schema" type="tinymce.html.Schema">
+<description>Optional schema reference.</description>
+</param>
+</method>
+<event name="onPreProcess" summary="This event gets executed before a HTML fragment gets serialized into a HTML string.">
+<description>This event gets executed before a HTML fragment gets serialized into a HTML string. This event enables you to do modifications to the DOM before the serialization occurs. It's important to know that the element that is getting serialized is cloned so it's not inside a document.
+</description>
+<param name="sender" type="tinymce.dom.Serializer">
+<description>object/Serializer instance that is serializing an element.</description>
+</param>
+<param name="args" type="Object">
+<description>Object containing things like the current node.</description>
+</param>
+<example>// Adds an observer to the onPreProcess event
+serializer.onPreProcess.add(function(se, o) {
+    // Add a class to each paragraph
+    se.dom.addClass(se.dom.select('p', o.node), 'myclass');
+});</example>
+</event>
+<event name="onPreProcess" summary="This event gets executed after a HTML fragment has been serialized into a HTML string.">
+<description>This event gets executed after a HTML fragment has been serialized into a HTML string. This event enables you to do modifications to the HTML string like regexp replaces etc.
+</description>
+<param name="sender" type="tinymce.dom.Serializer">
+<description>object/Serializer instance that is serializing an element.</description>
+</param>
+<param name="args" type="Object">
+<description>Object containing things like the current contents.</description>
+</param>
+<example>// Adds an observer to the onPostProcess event
+serializer.onPostProcess.add(function(se, o) {
+   // Remove all paragraphs and replace with BR
+   o.content = o.content.replace(/&lt;p[^&gt;]+&gt;|&lt;p&gt;/g, '');
+   o.content = o.content.replace(/&lt;\/p&gt;/g, '&lt;br /&gt;');
+});</example>
+</event>
+<method name="addNodeFilter" summary="Adds a node filter function to the parser used by the serializer, the parser will collect the specified nodes by name an...">
+<description>Adds a node filter function to the parser used by the serializer, the parser will collect the specified nodes by name
+and then execute the callback ones it has finished parsing the document.
+</description>
+<param name="callback" type="function">
+<description>Callback function to execute once it has collected nodes.</description>
+</param>
+<example>parser.addNodeFilter('p,h1', function(nodes, name) {
+	for (var i = 0; i &lt; nodes.length; i++) {
+		console.log(nodes[i].name);
+	}
+});</example>
+</method>
+<method name="addAttributeFilter" summary="Adds a attribute filter function to the parser used by the serializer, the parser will collect nodes that has the specif...">
+<description>Adds a attribute filter function to the parser used by the serializer, the parser will collect nodes that has the specified attributes
+and then execute the callback ones it has finished parsing the document.
+</description>
+<param name="callback" type="function">
+<description>Callback function to execute once it has collected nodes.</description>
+</param>
+<example>parser.addAttributeFilter('src,href', function(nodes, name) {
+	for (var i = 0; i &lt; nodes.length; i++) {
+		console.log(nodes[i].name);
+	}
+});</example>
+</method>
+<event name="onPreProcess" summary="Fires when the Serializer does a preProcess on the contents.">
+<description>Fires when the Serializer does a preProcess on the contents.
+</description>
+<param name="sender" type="tinymce.Editor">
+<description>Editor instance.</description>
+</param>
+<param name="obj" type="Object">
+<description>PreProcess object.</description>
+<option name="node" type="Node">
+<description>DOM node for the item being serialized.</description>
+</option>
+<option name="format" type="String">
+<description>The specified output format normally "html".</description>
+</option>
+<option name="get" type="Boolean">
+<description>Is true if the process is on a getContent operation.</description>
+</option>
+<option name="set" type="Boolean">
+<description>Is true if the process is on a setContent operation.</description>
+</option>
+<option name="cleanup" type="Boolean">
+<description>Is true if the process is on a cleanup operation.</description>
+</option>
+</param>
+</event>
+<event name="onPostProcess" summary="Fires when the Serializer does a postProcess on the contents.">
+<description>Fires when the Serializer does a postProcess on the contents.
+</description>
+<param name="sender" type="tinymce.Editor">
+<description>Editor instance.</description>
+</param>
+<param name="obj" type="Object">
+<description>PreProcess object.</description>
+</param>
+</event>
+<method name="serialize" summary="Serializes the specified browser DOM node into a HTML string.">
+<description>Serializes the specified browser DOM node into a HTML string.
+</description>
+<param name="node" type="DOMNode">
+<description>DOM node to serialize.</description>
+</param>
+<param name="args" type="Object">
+<description>Arguments option that gets passed to event handlers.</description>
+</param>
+</method>
+<method name="addRules" summary="Adds valid elements rules to the serializers schema instance this enables you to specify things like what elements shoul...">
+<description>Adds valid elements rules to the serializers schema instance this enables you to specify things
+like what elements should be outputted and what attributes specific elements might have.
+Consult the Wiki for more details on this format.
+</description>
+<param name="rules" type="String">
+<description>Valid elements rules string to add to schema.</description>
+</param>
+</method>
+<method name="setRules" summary="Sets the valid elements rules to the serializers schema instance this enables you to specify things like what elements s...">
+<description>Sets the valid elements rules to the serializers schema instance this enables you to specify things
+like what elements should be outputted and what attributes specific elements might have.
+Consult the Wiki for more details on this format.
+</description>
+<param name="rules" type="String">
+<description>Valid elements rules string.</description>
+</param>
 </method>
 </members>
 </class>
@@ -2688,7 +3855,7 @@ and attributes that doesn't fit the schema if the validate setting is enabled.
     },
 
     doctype: function(text) {
-        console.log('DocType:', name);
+        console.log('DocType:', text);
     }
 }, schema);</example>
 </class>
@@ -2809,8 +3976,8 @@ there should only be one id per document.
 <description>The current node that got cleared.</description>
 </return>
 </method>
-<method name="isEmpty" summary="Returns true/false if the node is to be considered empty or not">
-<description>Returns true/false if the node is to be considered empty or not
+<method name="isEmpty" summary="Returns true/false if the node is to be considered empty or not.">
+<description>Returns true/false if the node is to be considered empty or not.
 </description>
 <param name="elements" type="Object">
 <description>Name/value object with elements that are automatically treated as non empty elements.</description>
@@ -2819,6 +3986,16 @@ there should only be one id per document.
 <description>true/false if the node is empty or not.</description>
 </return>
 <example>node.isEmpty({img : true});</example>
+</method>
+<method name="walk" summary="Walks to the next or previous node and returns that node or null if it wasn't found.">
+<description>Walks to the next or previous node and returns that node or null if it wasn't found.
+</description>
+<param name="prev" type="Boolean">
+<description>Optional previous node state defaults to false.</description>
+</param>
+<return type="tinymce.html.Node">
+<description>Node that is next to or previous of the current node.</description>
+</return>
 </method>
 <method name="create" static="true" summary="Creates a node of a specific type.">
 <description>Creates a node of a specific type.
@@ -2862,11 +4039,26 @@ there should only be one id per document.
 <description>Name/value lookup map for block elements.</description>
 </return>
 </method>
-<method name="getEmptyElements" summary="Returns a map with empty elements.">
-<description>Returns a map with empty elements.
+<method name="getShortEndedElements" summary="Returns a map with short ended elements such as BR or IMG.">
+<description>Returns a map with short ended elements such as BR or IMG.
 </description>
 <return type="Object">
-<description>Name/value lookup map for empty elements.</description>
+<description>Name/value lookup map for short ended elements.</description>
+</return>
+</method>
+<method name="getSelfClosingElements" summary="Returns a map with self closing tags such as .">
+<description>Returns a map with self closing tags such as &lt;li&gt;.
+</description>
+<return type="Object">
+<description>Name/value lookup map for self closing tags elements.</description>
+</return>
+</method>
+<method name="getNonEmptyElements" summary="Returns a map with elements that should be treated as contents regardless if it has text content in them or not such as ...">
+<description>Returns a map with elements that should be treated as contents regardless if it has text
+content in them or not such as TD, VIDEO or IMG.
+</description>
+<return type="Object">
+<description>Name/value lookup map for non empty elements.</description>
 </return>
 </method>
 <method name="getWhiteSpaceElements" summary="Returns a map with elements where white space is to be preserved like PRE or SCRIPT.">
@@ -2899,6 +4091,13 @@ according to the schema.
 </param>
 <return type="Object">
 <description>Element object or undefined if the element isn't valid.</description>
+</return>
+</method>
+<method name="getCustomElements" summary="Returns an map object of all custom elements.">
+<description>Returns an map object of all custom elements.
+</description>
+<return type="Object">
+<description>Name/value map object of all custom elements.</description>
 </return>
 </method>
 <method name="addValidElements" summary="Parses a valid elements string and adds it to the schema.">
@@ -3118,6 +4317,9 @@ that is styled to look like a button or icon.
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
 </param>
+<param name="ed" type="Editor">
+<description>Optional the editor instance this button is for.</description>
+</param>
 </method>
 <method name="renderHTML" summary="Renders the button as a HTML string.">
 <description>Renders the button as a HTML string. This method is much faster than using the DOM and when
@@ -3160,6 +4362,9 @@ when you press the open menu.
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
 </param>
+<param name="ed" type="Editor">
+<description>The editor instance this button is for.</description>
+</param>
 </method>
 <property name="settings" summary="Settings object." type="Object">
 <description>Settings object.
@@ -3196,6 +4401,13 @@ doesn't close them menu if it was a event inside the menu.
 </method>
 <method name="setColor" summary="Sets the current color for the control and hides the menu if it should be visible.">
 <description>Sets the current color for the control and hides the menu if it should be visible.
+</description>
+<param name="c" type="String">
+<description>Color code value in hex for example: #FF00FF</description>
+</param>
+</method>
+<method name="displayColor" summary="Change the currently selected color for the control.">
+<description>Change the currently selected color for the control.
 </description>
 <param name="c" type="String">
 <description>Color code value in hex for example: #FF00FF</description>
@@ -3381,6 +4593,49 @@ events tied to it will also be removed.
 <description>This class is used to create drop menus, a drop menu can be a
 context menu, or a menu for a list box or a menu bar.
 </description>
+<example>// Adds a menu to the currently active editor instance
+var dm = tinyMCE.activeEditor.controlManager.createDropMenu('somemenu');
+
+// Add some menu items
+dm.add({title : 'Menu 1', onclick : function() {
+    alert('Item 1 was clicked.');
+}});
+
+dm.add({title : 'Menu 2', onclick : function() {
+    alert('Item 2 was clicked.');
+}});
+
+// Adds a submenu
+var sub1 = dm.addMenu({title : 'Menu 3'});
+sub1.add({title : 'Menu 1.1', onclick : function() {
+    alert('Item 1.1 was clicked.');
+}});
+
+// Adds a horizontal separator
+sub1.addSeparator();
+
+sub1.add({title : 'Menu 1.2', onclick : function() {
+    alert('Item 1.2 was clicked.');
+}});
+
+// Adds a submenu to the submenu
+var sub2 = sub1.addMenu({title : 'Menu 1.3'});
+
+// Adds items to the sub sub menu
+sub2.add({title : 'Menu 1.3.1', onclick : function() {
+    alert('Item 1.3.1 was clicked.');
+}});
+
+sub2.add({title : 'Menu 1.3.2', onclick : function() {
+    alert('Item 1.3.2 was clicked.');
+}});
+
+dm.add({title : 'Menu 4', onclick : function() {
+    alert('Item 3 was clicked.');
+}});
+
+// Display the menu at position 100, 100
+dm.showMenu(100, 100);</example>
 <members>
 <method constructor="true" name="DropMenu" summary="Constructs a new drop menu control instance.">
 <description>Constructs a new drop menu control instance.
@@ -3485,10 +4740,65 @@ context menu, or a menu for a list box or a menu bar.
 <class-ref class="tinymce.ui.Control"/>
 </super-classes>
 </class>
+<class fullname="tinymce.ui.KeyboardNavigation" name="KeyboardNavigation" summary="This class provides basic keyboard navigation using the arrow keys to children of a component.">
+<description>This class provides basic keyboard navigation using the arrow keys to children of a component.
+For example, this class handles moving between the buttons on the toolbars.
+</description>
+<members>
+<method constructor="true" name="KeyboardNavigation" summary="Create a new KeyboardNavigation instance to handle the focus for a specific element.">
+<description>Create a new KeyboardNavigation instance to handle the focus for a specific element.
+</description>
+<param name="settings" type="Object">
+<description>the settings object to define how keyboard navigation works.</description>
+</param>
+<param name="dom" type="DOMUtils">
+<description>the DOMUtils instance to use.</description>
+</param>
+</method>
+<method name="destroy" summary="Destroys the KeyboardNavigation and unbinds any focus/blur event handles it might have added.">
+<description>Destroys the KeyboardNavigation and unbinds any focus/blur event handles it might have added.
+</description>
+</method>
+</members>
+</class>
 <class extends="tinymce.ui.Control" fullname="tinymce.ui.ListBox" name="ListBox" summary="This class is used to create list boxes/select list.">
 <description>This class is used to create list boxes/select list. This one will generate
 a non native control. This one has the benefits of having visual items added.
 </description>
+<example>// Creates a new plugin class and a custom listbox
+tinymce.create('tinymce.plugins.ExamplePlugin', {
+    createControl: function(n, cm) {
+        switch (n) {
+            case 'mylistbox':
+                var mlb = cm.createListBox('mylistbox', {
+                     title : 'My list box',
+                     onselect : function(v) {
+                         tinyMCE.activeEditor.windowManager.alert('Value selected:' + v);
+                     }
+                });
+
+                // Add some values to the list box
+                mlb.add('Some item 1', 'val1');
+                mlb.add('some item 2', 'val2');
+                mlb.add('some item 3', 'val3');
+
+                // Return the new listbox instance
+                return mlb;
+        }
+
+        return null;
+    }
+});
+
+// Register plugin with a short name
+tinymce.PluginManager.add('example', tinymce.plugins.ExamplePlugin);
+
+// Initialize TinyMCE with the new plugin and button
+tinyMCE.init({
+   ...
+   plugins : '-example', // - means TinyMCE will not try to load it
+   theme_advanced_buttons1 : 'mylistbox' // Add the new example listbox to the toolbar
+});</example>
 <members>
 <method constructor="true" name="ListBox" summary="Constructs a new listbox control instance.">
 <description>Constructs a new listbox control instance.
@@ -3498,6 +4808,9 @@ a non native control. This one has the benefits of having visual items added.
 </param>
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
+</param>
+<param name="ed" type="Editor">
+<description>Optional the editor instance this button is for.</description>
 </param>
 </method>
 <property name="items" summary="Array of ListBox items." type="Array">
@@ -3716,6 +5029,35 @@ be instantiated directly other menu controls should inherit from this one.
 <description>This class is used to create a UI button. A button is basically a link
 that is styled to look like a button or icon.
 </description>
+<example>// Creates a new plugin class and a custom menu button
+tinymce.create('tinymce.plugins.ExamplePlugin', {
+    createControl: function(n, cm) {
+        switch (n) {
+            case 'mymenubutton':
+                var c = cm.createSplitButton('mysplitbutton', {
+                    title : 'My menu button',
+                    image : 'some.gif'
+                });
+
+                c.onRenderMenu.add(function(c, m) {
+                    m.add({title : 'Some title', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+
+                    m.add({title : 'Some item 1', onclick : function() {
+                        alert('Some item 1 was clicked.');
+                    }});
+
+                    m.add({title : 'Some item 2', onclick : function() {
+                        alert('Some item 2 was clicked.');
+                    }});
+              });
+
+              // Return the new menubutton instance
+              return c;
+        }
+
+        return null;
+    }
+});</example>
 <members>
 <method constructor="true" name="MenuButton" summary="Constructs a new split button control instance.">
 <description>Constructs a new split button control instance.
@@ -3725,6 +5067,9 @@ that is styled to look like a button or icon.
 </param>
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
+</param>
+<param name="ed" type="Editor">
+<description>Optional the editor instance this button is for.</description>
 </param>
 </method>
 <event name="onRenderMenu" summary="Fires when the menu is rendered.">
@@ -3957,6 +5302,38 @@ creating a whole toolbar with buttons it does make a lot of difference.
 <class extends="tinymce.ui.Button" fullname="tinymce.ui.SplitButton" name="SplitButton" summary="This class is used to create a split button.">
 <description>This class is used to create a split button. A button with a menu attached to it.
 </description>
+<example>// Creates a new plugin class and a custom split button
+tinymce.create('tinymce.plugins.ExamplePlugin', {
+    createControl: function(n, cm) {
+        switch (n) {
+            case 'mysplitbutton':
+                var c = cm.createSplitButton('mysplitbutton', {
+                    title : 'My split button',
+                    image : 'some.gif',
+                    onclick : function() {
+                        alert('Button was clicked.');
+                    }
+                });
+
+                c.onRenderMenu.add(function(c, m) {
+                    m.add({title : 'Some title', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+
+                    m.add({title : 'Some item 1', onclick : function() {
+                        alert('Some item 1 was clicked.');
+                    }});
+
+                    m.add({title : 'Some item 2', onclick : function() {
+                        alert('Some item 2 was clicked.');
+                    }});
+                });
+
+              // Return the new splitbutton instance
+              return c;
+        }
+
+        return null;
+    }
+});</example>
 <members>
 <method constructor="true" name="SplitButton" summary="Constructs a new split button control instance.">
 <description>Constructs a new split button control instance.
@@ -3966,6 +5343,9 @@ creating a whole toolbar with buttons it does make a lot of difference.
 </param>
 <param name="s" type="Object">
 <description>Optional name/value settings object.</description>
+</param>
+<param name="ed" type="Editor">
+<description>Optional the editor instance this button is for.</description>
 </param>
 </method>
 <method name="renderHTML" summary="Renders the split button as a HTML string.">
@@ -4027,12 +5407,50 @@ creating a whole toolbar with buttons it does make a lot of difference.
 <class-ref class="tinymce.ui.Control"/>
 </super-classes>
 </class>
+<class extends="tinymce.ui.Container" fullname="tinymce.ui.ToolbarGroup" name="ToolbarGroup" summary="This class is used to group a set of toolbars together and control the keyboard navigation and focus.">
+<description>This class is used to group a set of toolbars together and control the keyboard navigation and focus.
+</description>
+<members>
+<method name="renderHTML" summary="Renders the toolbar group as a HTML string.">
+<description>Renders the toolbar group as a HTML string.
+</description>
+<return type="String">
+<description>HTML for the toolbar control.</description>
+</return>
+</method>
+<property inherited-from="tinymce.ui.Container" name="controls"/>
+<method inherited-from="tinymce.ui.Container" name="add"/>
+<method inherited-from="tinymce.ui.Container" name="get"/>
+<method inherited-from="tinymce.ui.Control" name="setDisabled"/>
+<method inherited-from="tinymce.ui.Control" name="isDisabled"/>
+<method inherited-from="tinymce.ui.Control" name="setActive"/>
+<method inherited-from="tinymce.ui.Control" name="isActive"/>
+<method inherited-from="tinymce.ui.Control" name="setState"/>
+<method inherited-from="tinymce.ui.Control" name="isRendered"/>
+<method inherited-from="tinymce.ui.Control" name="renderTo"/>
+<method inherited-from="tinymce.ui.Control" name="postRender"/>
+<method inherited-from="tinymce.ui.Control" name="remove"/>
+<method inherited-from="tinymce.ui.Control" name="destroy"/>
+</members>
+<super-classes>
+<class-ref class="tinymce.ui.Container"/>
+<class-ref class="tinymce.ui.Control"/>
+</super-classes>
+</class>
 </namespace>
 <namespace fullname="tinymce.util" name="util">
 <description>Contains various utility classes such as json parser, cookies etc.</description>
 <class fullname="tinymce.util.Cookie" name="Cookie" static="true" summary="This class contains simple cookie manangement functions.">
 <description>This class contains simple cookie manangement functions.
 </description>
+<example>// Gets a cookie from the browser
+console.debug(tinymce.util.Cookie.get('mycookie'));
+
+// Gets a hash table cookie from the browser and takes out the x parameter from it
+console.debug(tinymce.util.Cookie.getHash('mycookie').x);
+
+// Sets a hash table cookie to the browser
+tinymce.util.Cookie.setHash({x : '1', y : '2'});</example>
 <members>
 <method name="getHash" static="true" summary="Parses the specified query string into an name/value object.">
 <description>Parses the specified query string into an name/value object.
@@ -4114,6 +5532,11 @@ creating a whole toolbar with buttons it does make a lot of difference.
 <description>This class is used to dispatch event to observers/listeners.
 All internal events inside TinyMCE uses this class.
 </description>
+<example>// Creates a custom event
+this.onSomething = new tinymce.util.Dispatcher(this);
+
+// Dispatch/fire the event
+this.onSomething.dispatch('some string');</example>
 <members>
 <method constructor="true" name="Dispatcher" summary="Constructs a new event dispatcher object.">
 <description>Constructs a new event dispatcher object.
@@ -4173,6 +5596,11 @@ All internal events inside TinyMCE uses this class.
 <class fullname="tinymce.util.JSON" name="JSON" static="true" summary="JSON parser and serializer class.">
 <description>JSON parser and serializer class.
 </description>
+<example>// JSON parse a string into an object
+var obj = tinymce.util.JSON.parse(somestring);
+
+// JSON serialize a object into an string
+var str = tinymce.util.JSON.serialize(obj);</example>
 <members>
 <method name="serialize" static="true" summary="Serializes the specified object as a JSON string.">
 <description>Serializes the specified object as a JSON string.
@@ -4202,6 +5630,27 @@ All internal events inside TinyMCE uses this class.
 <class fullname="tinymce.util.JSONRequest" name="JSONRequest" summary="This class enables you to use JSON-RPC to call backend methods.">
 <description>This class enables you to use JSON-RPC to call backend methods.
 </description>
+<example>var json = new tinymce.util.JSONRequest({
+    url : 'somebackend.php'
+});
+
+// Send RPC call 1
+json.send({
+    method : 'someMethod1',
+    params : ['a', 'b'],
+    success : function(result) {
+        console.dir(result);
+    }
+});
+
+// Send RPC call 2
+json.send({
+    method : 'someMethod2',
+    params : ['a', 'b'],
+    success : function(result) {
+        console.dir(result);
+    }
+});</example>
 <members>
 <method constructor="true" name="JSONRequest" summary="Constructs a new JSONRequest instance.">
 <description>Constructs a new JSONRequest instance.
@@ -4256,6 +5705,8 @@ Consult the Wiki API documentation for more details on what you can pass to this
 <return type="String">
 <description>Relative URI from the point specified in the current URI instance.</description>
 </return>
+<example>// Converts an absolute URL to an relative URL url will be somedir/somefile.htm
+var url = new tinymce.util.URI('http://www.site.com/dir/').toRelative('http://www.site.com/dir/somedir/somefile.htm');</example>
 </method>
 <method name="toAbsolute" summary="Converts the specified URI into a absolute URI based on the current URI instance location.">
 <description>Converts the specified URI into a absolute URI based on the current URI instance location.
@@ -4269,6 +5720,8 @@ Consult the Wiki API documentation for more details on what you can pass to this
 <return type="String">
 <description>Absolute URI from the point specified in the current URI instance.</description>
 </return>
+<example>// Converts an relative URL to an absolute URL url will be http://www.site.com/dir/somedir/somefile.htm
+var url = new tinymce.util.URI('http://www.site.com/dir/').toAbsolute('somedir/somefile.htm');</example>
 </method>
 <method name="toRelPath" summary="Converts a absolute path into a relative path.">
 <description>Converts a absolute path into a relative path.
@@ -4301,6 +5754,13 @@ Consult the Wiki API documentation for more details on what you can pass to this
 </class>
 <class fullname="tinymce.util.XHR" name="XHR" static="true" summary="This class enables you to send XMLHTTPRequests cross browser.">
 <description>This class enables you to send XMLHTTPRequests cross browser.</description>
+<example>// Sends a low level Ajax request
+tinymce.util.XHR.send({
+   url : 'someurl',
+   success : function(text) {
+      console.debug(text);
+   }
+});</example>
 <members>
 <method name="send" static="true" summary="Sends a XMLHTTPRequest.">
 <description>Sends a XMLHTTPRequest.
@@ -4440,9 +5900,17 @@ The current keys are longname, author, authorurl, infourl and version.
 </class>
 </namespace>
 <members>
+<property fullname="tinymce.EditorManager" name="EditorManager" summary="Alternative name for tinymce added for compatibility." type="tinymce">
+<description>Alternative name for tinymce added for compatibility.
+</description>
+<example>// To initialize editor instances
+tinymce.EditorManager.get('editor');</example>
+</property>
 <property fullname="tinymce.DOM" name="DOM" summary="Instance of DOMUtils for the current document." type="tinymce.dom.DOMUtils">
 <description>Instance of DOMUtils for the current document.
 </description>
+<example>// Example of how to add a class to some element by id
+tinymce.DOM.addClass('someid', 'someclass');</example>
 </property>
 </members>
 </namespace>
@@ -4462,6 +5930,10 @@ The current keys are longname, author, authorurl, infourl and version.
 <param name="editor" type="tinymce.Editor">
 <description>Editor instance.</description>
 </param>
+<example>tinyMCE.execCommand("mceAddControl", false, "some_textarea");
+tinyMCE.onAddEditor.add(function(mgr,ed) {
+    console.debug('A new editor is available' + ed.id);
+});</example>
 </event>
 <event name="onRemoveEditor" summary="Fires when an editor instance is removed from the tinymce collection.">
 <description>Fires when an editor instance is removed from the tinymce collection.
@@ -4476,6 +5948,8 @@ The current keys are longname, author, authorurl, infourl and version.
 <property name="editors" summary="Collection of editor instances." type="Object">
 <description>Collection of editor instances.
 </description>
+<example>for (edId in tinyMCE.editors)
+    tinyMCE.editors[edId].save();</example>
 </property>
 <property name="i18n" summary="Collection of language pack data." type="Object">
 <description>Collection of language pack data.
@@ -4484,6 +5958,8 @@ The current keys are longname, author, authorurl, infourl and version.
 <property name="activeEditor" summary="Currently active editor instance." type="tinymce.Editor">
 <description>Currently active editor instance.
 </description>
+<example>tinyMCE.activeEditor.selection.getContent();
+tinymce.EditorManager.activeEditor.selection.getContent();</example>
 </property>
 <method name="init" summary="Initializes a set of editors.">
 <description>Initializes a set of editors. This method will create a bunch of editors based in the input.
@@ -4491,6 +5967,15 @@ The current keys are longname, author, authorurl, infourl and version.
 <param name="s" type="Object">
 <description>Settings object to be passed to each editor instance.</description>
 </param>
+<example>// Initializes a editor using the longer method
+tinymce.EditorManager.init({
+   some_settings : 'some value'
+});
+
+// Initializes a editor instance using the shorter version
+tinyMCE.init({
+   some_settings : 'some value'
+});</example>
 </method>
 <method name="get" summary="Returns a editor instance by id.">
 <description>Returns a editor instance by id.
@@ -4503,6 +5988,15 @@ The current keys are longname, author, authorurl, infourl and version.
 <return type="tinymce.Editor">
 <description>Editor instance to return.</description>
 </return>
+<example>// Adds an onclick event to an editor by id (shorter version)
+tinyMCE.get('mytextbox').onClick.add(function(ed, e) {
+   ed.windowManager.alert('Hello world!');
+});
+
+// Adds an onclick event to an editor by id (longer version)
+tinymce.EditorManager.get('mytextbox').onClick.add(function(ed, e) {
+   ed.windowManager.alert('Hello world!');
+});</example>
 </method>
 <method deprecated="Use get method instead." name="getInstanceById" summary="Returns a editor instance by id.">
 <description>Returns a editor instance by id. This method was added for compatibility with the 2.x branch.
@@ -4573,6 +6067,8 @@ The current keys are longname, author, authorurl, infourl and version.
 <method name="triggerSave" summary="Calls the save method on all editor instances in the collection.">
 <description>Calls the save method on all editor instances in the collection. This can be useful when a form is to be submitted.
 </description>
+<example>// Saves all contents
+tinyMCE.triggerSave();</example>
 </method>
 <method name="addI18n" summary="Adds a language pack, this gets called by the loaded language files like en.">
 <description>Adds a language pack, this gets called by the loaded language files like en.js.
@@ -4612,6 +6108,18 @@ The current keys are longname, author, authorurl, infourl and version.
 <description>Constant that is true if the browser is IE 6 or older.
 </description>
 </property>
+<property final="true" name="isIE7" static="true" summary="Constant that is true if the browser is IE 7." type="Boolean">
+<description>Constant that is true if the browser is IE 7.
+</description>
+</property>
+<property final="true" name="isIE8" static="true" summary="Constant that is true if the browser is IE 8." type="Boolean">
+<description>Constant that is true if the browser is IE 8.
+</description>
+</property>
+<property final="true" name="isIE9" static="true" summary="Constant that is true if the browser is IE 9." type="Boolean">
+<description>Constant that is true if the browser is IE 9.
+</description>
+</property>
 <property final="true" name="isGecko" static="true" summary="Constant that is true if the browser is Gecko." type="Boolean">
 <description>Constant that is true if the browser is Gecko.
 </description>
@@ -4626,6 +6134,10 @@ The current keys are longname, author, authorurl, infourl and version.
 </property>
 <property final="true" name="isIDevice" static="true" summary="Constant that tells if the current browser is an iPhone or iPad." type="Boolean">
 <description>Constant that tells if the current browser is an iPhone or iPad.
+</description>
+</property>
+<property final="true" name="isIOS5" static="true" summary="Constant that is true if the current browser is running on iOS 5 or greater." type="Boolean">
+<description>Constant that is true if the current browser is running on iOS 5 or greater.
 </description>
 </property>
 <method name="is" static="true" summary="Checks if a object is of a specific type for example an array.">
@@ -4673,8 +6185,14 @@ The callback has the following format: cb(value, key_or_index).
 <param name="s" type="Object">
 <description>Optional scope to execute the callback in.</description>
 </param>
-<example>tinymce.each([1, 2, 3], function(v, i) {
-  console.log(i + '=' + v);
+<example>// Iterate an array
+tinymce.each([1,2,3], function(v, i) {
+    console.debug("Value: " + v + ", Index: " + i);
+});
+
+// Iterate an object
+tinymce.each({a : 1, b : 2, c: 3], function(v, k) {
+    console.debug("Value: " + v + ", Key: " + k);
 });</example>
 </method>
 <method name="map" static="true" summary="Creates a new array by the return value of each iteration function call.">
@@ -4704,6 +6222,8 @@ If the function returns false the item will be excluded if it returns true it wi
 <return type="Array">
 <description>New array with values imported and filtered based in input.</description>
 </return>
+<example>// Filter out some items, this will return an array with 4 and 5
+var items = tinymce.grep([1,2,3,4,5], function(v) {return v &gt; 3;});</example>
 </method>
 <method name="inArray" static="true" summary="Returns the index of a value in an array, this method will return -1 if the item wasn't found.">
 <description>Returns the index of a value in an array, this method will return -1 if the item wasn't found.
@@ -4719,6 +6239,8 @@ If the function returns false the item will be excluded if it returns true it wi
 <type fullname="String"/>
 <description>Index of item inside the array inside an object. Or -1 if it wasn't found.</description>
 </return>
+<example>// Get index of value in array this will alert 1 since 2 is at that index
+alert(tinymce.inArray([1,2,3], 2));</example>
 </method>
 <method name="extend" static="true" summary="Extends an object with the specified other object(s).">
 <description>Extends an object with the specified other object(s).
@@ -4732,6 +6254,14 @@ If the function returns false the item will be excluded if it returns true it wi
 <return type="Object">
 <description>o New extended object, same reference as the input object.</description>
 </return>
+<example>// Extends obj1 with two new fields
+var obj = tinymce.extend(obj1, {
+    somefield1 : 'a',
+    somefield2 : 'a'
+});
+
+// Extends obj with obj2 and obj3
+tinymce.extend(obj, obj2, obj3);</example>
 </method>
 <method name="trim" static="true" summary="Removes whitespace from the beginning and end of a string.">
 <description>Removes whitespace from the beginning and end of a string.
@@ -4756,6 +6286,42 @@ More details on this method can be found in the Wiki.
 <param name="root" type="Object">
 <description>Optional root object defaults to the global window object.</description>
 </param>
+<example>// Creates a basic class
+tinymce.create('tinymce.somepackage.SomeClass', {
+    SomeClass : function() {
+        // Class constructor
+    },
+
+    method : function() {
+        // Some method
+    }
+});
+
+// Creates a basic subclass class
+tinymce.create('tinymce.somepackage.SomeSubClass:tinymce.somepackage.SomeClass', {
+    SomeSubClass: function() {
+        // Class constructor
+        this.parent(); // Call parent constructor
+    },
+
+    method : function() {
+        // Some method
+        this.parent(); // Call parent method
+    },
+
+    'static' : {
+        staticMethod : function() {
+            // Static method
+        }
+    }
+});
+
+// Creates a singleton/static class
+tinymce.create('static tinymce.somepackage.SomeSingletonClass', {
+    method : function() {
+        // Some method
+    }
+});</example>
 </method>
 <method name="walk" static="true" summary="Executed the specified function for each item in a object tree.">
 <description>Executed the specified function for each item in a object tree.
@@ -4785,6 +6351,15 @@ More details on this method can be found in the Wiki.
 <return type="Object">
 <description>New namespace object the last item in path.</description>
 </return>
+<example>// Create some namespace
+tinymce.createNS('tinymce.somepackage.subpackage');
+
+// Add a singleton
+var tinymce.somepackage.subpackage.SomeSingleton = {
+    method : function() {
+        // Some method
+    }
+};</example>
 </method>
 <method name="resolve" static="true" summary="Resolves a string and returns the object from a specific structure.">
 <description>Resolves a string and returns the object from a specific structure.
@@ -4798,6 +6373,8 @@ More details on this method can be found in the Wiki.
 <return type="Object">
 <description>Last object in path or null if it couldn't be resolved.</description>
 </return>
+<example>// Resolve a path into an object reference
+var obj = tinymce.resolve('a.b.c.d');</example>
 </method>
 <method name="addUnload" static="true" summary="Adds an unload handler to the document.">
 <description>Adds an unload handler to the document. This handler will be executed when the document gets unloaded.
@@ -4812,6 +6389,11 @@ This method is useful for dealing with browser memory leaks where it might be vi
 <return type="function">
 <description>Returns the specified unload handler function.</description>
 </return>
+<example>// Fixes a leak with a DOM element that was palces in the someObject
+tinymce.addUnload(function() {
+    // Null DOM element to reduce IE memory leak
+    someObject.someElement = null;
+});</example>
 </method>
 <method name="removeUnload" static="true" summary="Removes the specified function form the unload handler list.">
 <description>Removes the specified function form the unload handler list.
@@ -4832,6 +6414,8 @@ This method is useful for dealing with browser memory leaks where it might be vi
 <param name="d" type="string">
 <description>Delimiter to split by.</description>
 </param>
+<example>// Split a string into an array with a,b,c
+var arr = tinymce.explode('a, b,   c');</example>
 </method>
 </members>
 <description>Core namespace with core functionality for the TinyMCE API all sub classes will be added to this namespace/object.
@@ -4855,6 +6439,20 @@ that you load this script into your dialogs.
 <description>Initializes the popup this will be called automatically.
 </description>
 </method>
+<event name="onInit" static="true" summary="Fires when the popup is initialized.">
+<description>Fires when the popup is initialized.
+</description>
+<param name="editor" type="tinymce.Editor">
+<description>Editor instance.</description>
+</param>
+<example>// Alerts the selected contents when the dialog is loaded
+tinyMCEPopup.onInit.add(function(ed) {
+    alert(ed.selection.getContent());
+});
+
+// Executes the init method on page load in some object using the SomeObject scope
+tinyMCEPopup.onInit.add(SomeObject.init, SomeObject);</example>
+</event>
 <method name="getWin" static="true" summary="Returns the reference to the parent window that opened the dialog.">
 <description>Returns the reference to the parent window that opened the dialog.
 </description>
@@ -5008,6 +6606,10 @@ native version use the callback method instead then it can be extended.
 <property fullname="tinyMCE" name="tinyMCE" summary="Alternative name for tinymce added for 2." type="tinymce">
 <description>Alternative name for tinymce added for 2.x compatibility.
 </description>
+<example>// To initialize editor instances
+tinyMCE.init({
+   ...
+});</example>
 </property>
 </members>
 </model>

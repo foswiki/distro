@@ -28,8 +28,8 @@
 <td class="last">Serializer</td>
 </tr>
 </table>
-<div class="classDescription">This class is used to serialize DOM trees into a string.
-Consult the TinyMCE Wiki API for more details and examples on how to use this class.</div>
+<div class="classDescription">This class is used to serialize DOM trees into a string. Consult the TinyMCE Wiki API for more details and examples on how to use this class.
+</div>
 <div class="summaryLists">
 <h2>Public Methods</h2>
 <table class="Methods summary">
@@ -43,7 +43,7 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Serializer.html#Serializer">Serializer</a>(s:Object)</div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#Serializer">Serializer</a>(settings:Object, dom:<a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>, schema:<a href="class_tinymce.html.Schema.html">Schema</a>)</div>
 <div class="summary">Constucts a new DOM serializer class.</div>
 </td>
 <td class="last">Serializer</td>
@@ -51,48 +51,83 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Serializer.html#addRules">addRules</a>(s:String):void</div>
-<div class="summary">Adds valid elements rules to the serializer this enables you to specify things like what elements should be outputted an...</div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#addAttributeFilter">addAttributeFilter</a>(callback:function):void</div>
+<div class="summary">Adds a attribute filter function to the parser used by the serializer, the parser will collect nodes that has the specif...</div>
 </td>
 <td class="last">Serializer</td>
 </tr>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Serializer.html#findAttribRule">findAttribRule</a>(ru:Object, n:String):Object</div>
-<div class="summary">Finds an attribute rule object by name.</div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#addNodeFilter">addNodeFilter</a>(callback:function):void</div>
+<div class="summary">Adds a node filter function to the parser used by the serializer, the parser will collect the specified nodes by name an...</div>
 </td>
 <td class="last">Serializer</td>
 </tr>
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Serializer.html#findRule">findRule</a>(n:String):Object</div>
-<div class="summary">Finds a rule object by name.</div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#addRules">addRules</a>(rules:String):void</div>
+<div class="summary">Adds valid elements rules to the serializers schema instance this enables you to specify things like what elements shoul...</div>
 </td>
 <td class="last">Serializer</td>
 </tr>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Serializer.html#serialize">serialize</a>(n:Element, o:Object):String</div>
-<div class="summary">Serializes the specified node into a HTML string.</div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#serialize">serialize</a>(node:DOMNode, args:Object):void</div>
+<div class="summary">Serializes the specified browser DOM node into a HTML string.</div>
 </td>
 <td class="last">Serializer</td>
 </tr>
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Serializer.html#setEntities">setEntities</a>(s:String):void</div>
-<div class="summary">Sets a list of entities to use for the named entity encoded.</div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#setRules">setRules</a>(rules:String):void</div>
+<div class="summary">Sets the valid elements rules to the serializers schema instance this enables you to specify things like what elements s...</div>
+</td>
+<td class="last">Serializer</td>
+</tr>
+</tbody>
+</table>
+<h2>Public Events</h2>
+<table class="Events summary">
+<thead>
+<tr>
+<th>Event</th>
+<th>Defined By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#onPostProcess">onPostProcess</a>(sender:<a href="class_tinymce.Editor.html">Editor</a>, obj:Object)</div>
+<div class="summary">Fires when the Serializer does a postProcess on the contents.</div>
+</td>
+<td class="last">Serializer</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#onPreProcess">onPreProcess</a>(sender:<a href="class_tinymce.dom.Serializer.html">Serializer</a>, args:Object)</div>
+<div class="summary">This event gets executed before a HTML fragment gets serialized into a HTML string.</div>
 </td>
 <td class="last">Serializer</td>
 </tr>
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.dom.Serializer.html#setRules">setRules</a>(s:String):void</div>
-<div class="summary">Sets the valid elements rules of the serializer this enables you to specify things like what elements should be outputte...</div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#onPreProcess">onPreProcess</a>(sender:<a href="class_tinymce.dom.Serializer.html">Serializer</a>, args:Object)</div>
+<div class="summary">This event gets executed after a HTML fragment has been serialized into a HTML string.</div>
+</td>
+<td class="last">Serializer</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.dom.Serializer.html#onPreProcess">onPreProcess</a>(sender:<a href="class_tinymce.Editor.html">Editor</a>, obj:Object)</div>
+<div class="summary">Fires when the Serializer does a preProcess on the contents.</div>
 </td>
 <td class="last">Serializer</td>
 </tr>
@@ -106,105 +141,96 @@ Consult the TinyMCE Wiki API for more details and examples on how to use this cl
 <h3>Serializer<span class="memberType">constructor</span>
 </h3>
 <code class="syntax">public 
-						function Serializer(s:Object)</code>
+						function Serializer(settings:Object, dom:<a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>, schema:<a href="class_tinymce.html.Schema.html">Schema</a>)</code>
 <div class="memberDescription">Constucts a new DOM serializer class.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">s:Object</td>
-<td class="last">Optional name/Value collection of settings for the serializer.</td>
+<td class="first">settings:Object</td>
+<td class="last">Serializer settings object.</td>
+</tr>
+<tr>
+<td class="first">dom:<a href="class_tinymce.dom.DOMUtils.html">DOMUtils</a>
+</td>
+<td class="last">DOMUtils instance reference.</td>
+</tr>
+<tr>
+<td class="first">schema:<a href="class_tinymce.html.Schema.html">Schema</a>
+</td>
+<td class="last">Optional schema reference.</td>
 </tr>
 </table>
+</div>
+<div class="memberDetails" id="addAttributeFilter">
+<h3>addAttributeFilter<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function addAttributeFilter(callback:function):void</code>
+<div class="memberDescription">Adds a attribute filter function to the parser used by the serializer, the parser will collect nodes that has the specified attributes
+and then execute the callback ones it has finished parsing the document.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">callback:function</td>
+<td class="last">Callback function to execute once it has collected nodes.</td>
+</tr>
+</table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
+</div>
+<div class="memberDetails" id="addNodeFilter">
+<h3>addNodeFilter<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function addNodeFilter(callback:function):void</code>
+<div class="memberDescription">Adds a node filter function to the parser used by the serializer, the parser will collect the specified nodes by name
+and then execute the callback ones it has finished parsing the document.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">callback:function</td>
+<td class="last">Callback function to execute once it has collected nodes.</td>
+</tr>
+</table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
 </div>
 <div class="memberDetails" id="addRules">
 <h3>addRules<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function addRules(s:String):void</code>
-<div class="memberDescription">Adds valid elements rules to the serializer this enables you to specify things like what elements should be
-outputted and what attributes specific elements might have.
+						function addRules(rules:String):void</code>
+<div class="memberDescription">Adds valid elements rules to the serializers schema instance this enables you to specify things
+like what elements should be outputted and what attributes specific elements might have.
 Consult the Wiki for more details on this format.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">s:String</td>
-<td class="last">Valid elements rules string to add.</td>
+<td class="first">rules:String</td>
+<td class="last">Valid elements rules string to add to schema.</td>
 </tr>
 </table>
-</div>
-<div class="memberDetails" id="findAttribRule">
-<h3>findAttribRule<span class="memberType">method</span>
-</h3>
-<code class="syntax">public 
-						function findAttribRule(ru:Object, n:String):Object</code>
-<div class="memberDescription">Finds an attribute rule object by name.
-</div>
-<h4>Parameters</h4>
-<table class="params">
-<tr>
-<td class="first">ru:Object</td>
-<td class="last">Rule object to search though.</td>
-</tr>
-<tr>
-<td class="first">n:String</td>
-<td class="last">Name of the rule to retrive.</td>
-</tr>
-</table>
-<h4>Returns</h4>
-<div class="returns">Object - Rule object of the specified attribute.</div>
-</div>
-<div class="memberDetails" id="findRule">
-<h3>findRule<span class="memberType">method</span>
-</h3>
-<code class="syntax">public 
-						function findRule(n:String):Object</code>
-<div class="memberDescription">Finds a rule object by name.
-</div>
-<h4>Parameters</h4>
-<table class="params">
-<tr>
-<td class="first">n:String</td>
-<td class="last">Name to look for in rules collection.</td>
-</tr>
-</table>
-<h4>Returns</h4>
-<div class="returns">Object - Rule object found or null if it wasn't found.</div>
 </div>
 <div class="memberDetails" id="serialize">
 <h3>serialize<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function serialize(n:Element, o:Object):String</code>
-<div class="memberDescription">Serializes the specified node into a HTML string.
+						function serialize(node:DOMNode, args:Object):void</code>
+<div class="memberDescription">Serializes the specified browser DOM node into a HTML string.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">n:Element</td>
-<td class="last">Element/Node to serialize.</td>
+<td class="first">node:DOMNode</td>
+<td class="last">DOM node to serialize.</td>
 </tr>
 <tr>
-<td class="first">o:Object</td>
-<td class="last">Object to add serialized contents to, this object will also be passed to the event listeners.</td>
-</tr>
-</table>
-<h4>Returns</h4>
-<div class="returns">String - Serialized HTML contents.</div>
-</div>
-<div class="memberDetails" id="setEntities">
-<h3>setEntities<span class="memberType">method</span>
-</h3>
-<code class="syntax">public 
-						function setEntities(s:String):void</code>
-<div class="memberDescription">Sets a list of entities to use for the named entity encoded.
-</div>
-<h4>Parameters</h4>
-<table class="params">
-<tr>
-<td class="first">s:String</td>
-<td class="last">List of entities in the following format: number,name,....</td>
+<td class="first">args:Object</td>
+<td class="last">Arguments option that gets passed to event handlers.</td>
 </tr>
 </table>
 </div>
@@ -212,16 +238,103 @@ Consult the Wiki for more details on this format.
 <h3>setRules<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function setRules(s:String):void</code>
-<div class="memberDescription">Sets the valid elements rules of the serializer this enables you to specify things like what elements should be
-outputted and what attributes specific elements might have.
+						function setRules(rules:String):void</code>
+<div class="memberDescription">Sets the valid elements rules to the serializers schema instance this enables you to specify things
+like what elements should be outputted and what attributes specific elements might have.
 Consult the Wiki for more details on this format.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">s:String</td>
+<td class="first">rules:String</td>
 <td class="last">Valid elements rules string.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="details">
+<h2>Event details</h2>
+<div class="memberDetails" id="onPostProcess">
+<h3>onPostProcess<span class="memberType">event</span>
+</h3>
+<code class="syntax">public 
+						event onPostProcess(sender:<a href="class_tinymce.Editor.html">Editor</a>, obj:Object)</code>
+<div class="memberDescription">Fires when the Serializer does a postProcess on the contents.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">sender:<a href="class_tinymce.Editor.html">Editor</a>
+</td>
+<td class="last">Editor instance.</td>
+</tr>
+<tr>
+<td class="first">obj:Object</td>
+<td class="last">PreProcess object.</td>
+</tr>
+</table>
+</div>
+<div class="memberDetails" id="onPreProcess">
+<h3>onPreProcess<span class="memberType">event</span>
+</h3>
+<code class="syntax">public 
+						event onPreProcess(sender:<a href="class_tinymce.dom.Serializer.html">Serializer</a>, args:Object)</code>
+<div class="memberDescription">This event gets executed before a HTML fragment gets serialized into a HTML string. This event enables you to do modifications to the DOM before the serialization occurs. It's important to know that the element that is getting serialized is cloned so it's not inside a document.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">sender:<a href="class_tinymce.dom.Serializer.html">Serializer</a>
+</td>
+<td class="last">object/Serializer instance that is serializing an element.</td>
+</tr>
+<tr>
+<td class="first">args:Object</td>
+<td class="last">Object containing things like the current node.</td>
+</tr>
+</table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
+</div>
+<div class="memberDetails" id="onPreProcess">
+<h3>onPreProcess<span class="memberType">event</span>
+</h3>
+<code class="syntax">public 
+						event onPreProcess(sender:<a href="class_tinymce.dom.Serializer.html">Serializer</a>, args:Object)</code>
+<div class="memberDescription">This event gets executed after a HTML fragment has been serialized into a HTML string. This event enables you to do modifications to the HTML string like regexp replaces etc.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">sender:<a href="class_tinymce.dom.Serializer.html">Serializer</a>
+</td>
+<td class="last">object/Serializer instance that is serializing an element.</td>
+</tr>
+<tr>
+<td class="first">args:Object</td>
+<td class="last">Object containing things like the current contents.</td>
+</tr>
+</table>
+<h4>Example</h4>
+<pre class="brush: js;"/>
+</div>
+<div class="memberDetails last" id="onPreProcess">
+<h3>onPreProcess<span class="memberType">event</span>
+</h3>
+<code class="syntax">public 
+						event onPreProcess(sender:<a href="class_tinymce.Editor.html">Editor</a>, obj:Object)</code>
+<div class="memberDescription">Fires when the Serializer does a preProcess on the contents.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">sender:<a href="class_tinymce.Editor.html">Editor</a>
+</td>
+<td class="last">Editor instance.</td>
+</tr>
+<tr>
+<td class="first">obj:Object</td>
+<td class="last">PreProcess object.</td>
 </tr>
 </table>
 </div>
