@@ -380,8 +380,8 @@ sub _getRenderedVersion {
 
     $text = $this->_takeOutCustomTags($text);
 
-    $text =~ s/\\\n/ /g;
     $text =~ s/\t/   /g;
+    $text =~ s/( +\\\n)/$this->_hideWhitespace($1)/ge;
 
     # Remove PRE to prevent TML interpretation of text inside it
     $text = $this->_liftOutBlocks( $text, 'pre', {} );
@@ -449,8 +449,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     $text =~ s/$TT0([$Foswiki::regex{mixedAlphaNum}]+;)/&$1/go;
 
     # Horizontal rule
-    my $hr = CGI::hr( { class => 'TMLhr' } );
-    $text =~ s/^---+$/$hr/gm;
+    $text =~ s/^(---+)$/_encodeHr($1)/gme;
 
     # Wrap tables with macros before or after them in a <div>,
     # together with the macros,
@@ -517,6 +516,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     my $inParagraph = 0;    # True when within a P
     my $inDiv       = 0;    # True when within a foswikiTableAndMacros div
     my @result      = ();
+    my $spi = Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
 
     foreach my $line ( split( /\n/, $text ) ) {
         my $tableEnded = 0;
@@ -526,7 +526,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ( $line =~ m/^(\s*\|.*\|\s*)$/ ) {
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, '', '', '' ) if $inList;
+            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
             $inList = 0;
             push( @result, _processTableRow( $1, $inTable, \%table ) );
             $inTable = 1;
@@ -542,7 +542,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         if ( $line =~ /$Foswiki::regex{headerPatternDa}/o ) {
 
             # Running head
-            $this->_addListItem( \@result, '', '', '' ) if $inList;
+            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
             $inList = 0;
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
@@ -564,11 +564,20 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         elsif ( $line =~ /^\s*$/ ) {
 
             # Blank line
+            my $class = '';
+            if ( not $inParagraph ) {
+                $class = 'WYSIWYG_NBNL';
+            }
+            $class = " class='$class'" if $class;
+
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $line        = '<p>';
-            $this->_addListItem( \@result, '', '', '' ) if $inList;
-            $inList      = 0;
+
+            $line = '<p' . $class . '>';
+
+            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
+            $inList = 0;
+
             $inParagraph = 1;
 
         }
@@ -579,7 +588,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Definition list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'dl', 'dd', $1, '' );
+            $this->_addListItem( \@result, 'dl', 'dd', '', $1 );
             $inList = 1;
 
         }
@@ -588,7 +597,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Definition list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'dl', 'dd', $1, '' );
+            $this->_addListItem( \@result, 'dl', 'dd', '', $1 );
             $inList = 1;
 
         }
@@ -597,13 +606,21 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Unnumbered list
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
-            $this->_addListItem( \@result, 'ul', 'li', $1, '' );
+            $this->_addListItem( \@result, 'ul', 'li', '', $1 );
             $inList = 1;
 
             # TinyMCE won't let the cursor go into an empty element
             # so make sure that the element isn't empty.
             $line =~ s/^(<li>)\s*$/$1&nbsp;/;
 
+        }
+        elsif ( $spi &&
+		$line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
+
+            # Indent pseudo-list
+            $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"',
+                $1 );
+            $inList = 1;
         }
         elsif ( $line =~ m/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/ ) {
 
@@ -619,7 +636,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                 $ot = '';
             }
             $line =~ s/^((\t|   )+)([1AaIi]\.|\d+\.?) ?/<li$ot> /;
-            $this->_addListItem( \@result, 'ol', 'li', $1, $ot );
+            $this->_addListItem( \@result, 'ol', 'li', '', $1 );
             $inList = 1;
 
             # TinyMCE won't let the cursor go into an empty element
@@ -627,12 +644,16 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li\Q$ot\E>)\s*$/$1&nbsp;/;
 
         }
-        elsif ( $inList && $line =~ /^[ \t]/ ) {
+        elsif ($inList
+            && $line =~ s/^([ \t]+)/$this->_hideWhitespace("\n$1")/e )
+        {
 
             # Extend text of previous list item by dropping through
+            $result[-1] .= $line;
+            $line = '';
 
         }
-        elsif ( $line eq $hr ) {
+        elsif ( $line =~ /^<hr class="TMLhr"/ ) {
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
         }
@@ -657,13 +678,37 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Other line
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
+            if (    $inParagraph
+                and @result
+                and $result[-1] !~ /<p(?: class='[^']+')?>$/ )
+            {
+
+                # This is the second (or later) line of a paragraph
+
+                my $whitespace = "\n";
+                if (    $line =~ m/^$TT1(\d+)$TT2/
+                    and $this->{refs}->[$1]->{text} =~ /^\n?%/ )
+                {
+
+                    # The newline is already protected
+                    $whitespace = "";
+                }
+                if ( $line =~ s/^(\s+)// ) {
+                    $whitespace .= $1;
+                }
+                $line = $this->_hideWhitespace($whitespace) . $line
+                  if length($whitespace);
+            }
             unless ( $inParagraph or $inDiv ) {
                 push( @result, '<p>' );
                 $inParagraph = 1;
             }
+            $line =~ s/(\s\s+)/$this->_hideWhitespace($1)/ge;
+            $result[-1] .= $line;
+            $line = '';
         }
 
-        push( @result, $line );
+        push( @result, $line ) if length($line) > 0;
     }
 
     if ($inTable) {
@@ -724,6 +769,34 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
     return $text;
 }
 
+sub _encodeHr {
+    my $dashes = shift;
+    my $style  = '';
+    if ( length($dashes) > 3 ) {
+        $style = ' style="{numdashes:' . length($dashes) . '}"';
+    }
+    return '<hr class="TMLhr"' . $style . ' />';
+}
+
+sub _hideWhitespace {
+    my $this       = shift;
+    my $whitespace = shift;
+
+    $whitespace =~ s/\\/b/g;
+    $whitespace =~ s/\n/n/g;
+    $whitespace =~ s/(\t+)/'t' . length($1)/ge;
+    $whitespace =~ s/( +)/'s' . length($1)/ge;
+
+    return $this->_liftOutGeneral(
+        " ",
+        {
+            tag    => 'span',
+            class  => "WYSIWYG_HIDDENWHITESPACE",
+            params => "style=\"{encoded:'$whitespace'}\"",
+        }
+    );
+}
+
 sub _appendClassToTag {
     my $this         = shift;
     my $tagWithAttrs = shift;
@@ -739,7 +812,7 @@ sub _appendClassToTag {
 
 sub _processTableRow {
 
-    my ( $theRow, $inTable, $state ) = @_;
+    my ( $row, $inTable, $state ) = @_;
     my @result;
     my $firstRow = 0;
     if ( !$inTable ) {
@@ -748,22 +821,21 @@ sub _processTableRow {
         $firstRow = 1;
     }
 
-    $theRow =~ s/\t/   /go;     # change tabs to space
-    $theRow =~ s/\s*$//o;       # remove trailing spaces
-    $theRow =~ s/^(\s*)\|//;    # Remove leading junk
+    $row =~ s/\t/   /go;     # change tabs to space
+    $row =~ s/\s*$//o;       # remove trailing spaces
+    $row =~ s/^(\s*)\|//;    # Remove leading junk
     my $pre = $1;
 
-    $theRow =~
-      s/(\|\|+)/'colspan'.$Foswiki::TranslationToken.length($1)."\|"/geo
-      ;                         # calc COLSPAN
+    $row =~ s/(\|\|+)/'colspan'.$Foswiki::TranslationToken.length($1)."\|"/geo
+      ;                      # calc COLSPAN
     my $colCount = 0;
-    my @row      = ();
+    my @cols     = ();
     my $span     = 0;
     my $value    = '';
 
     my $rowspanEnabled = Foswiki::Func::getContext()->{'TablePluginEnabled'};
 
-    foreach ( split( /\|/, $theRow ) ) {
+    foreach ( split( /\|/, $row ) ) {
         my $attr = {};
         $span = 1;
         if (s/colspan$Foswiki::TranslationToken([0-9]+)//) {
@@ -799,7 +871,7 @@ sub _processTableRow {
             and /^(\s|<[^>]*>)*\^(\s|<[^>]*>)*$/ )
         {    # row span above
             $state->{rowspan}->[$colCount]++;
-            push @row, { text => $value, type => 'Y' };
+            push( @cols, { text => $value, type => 'Y' } );
         }
         else {
             for ( my $col = $colCount ; $col < ( $colCount + $span ) ; $col++ )
@@ -833,17 +905,17 @@ sub _processTableRow {
             $value = ' ' . $value if $value =~ /^(?:\*|==?|__?)[^\s]/;
             $value = $value . ' ' if $value =~ /[^\s](?:\*|==?|__?)$/;
 
-            push @row, { text => $value, attrs => $attr, type => $type };
+            push( @cols, { text => $value, attrs => $attr, type => $type } );
         }
 
         while ( $span > 1 ) {
-            push @row, { text => $value, type => 'X' };
+            push( @cols, { text => $value, type => 'X' } );
             $colCount++;
             $span--;
         }
         $colCount++;
     }
-    push @{ $state->{curTable} }, \@row;
+    push @{ $state->{curTable} }, \@cols;
     push @{ $state->{pre} },      $pre;
     return;
 }
@@ -1155,23 +1227,21 @@ sub _parseParams {
     return $params;
 }
 
-# Lifted straight out of DevelopBranch Render.pm
+# Lifted straight out of Render.pm
 sub _addListItem {
-    my ( $this, $result, $theType, $theElement, $theIndent, $theOlType ) = @_;
-
-    $theIndent =~ s/   /\t/g;
-    my $depth = length($theIndent);
+    my ( $this, $result, $type, $element, $opts, $indent ) = @_;
+    $indent ||= '';
+    $indent =~ s/   /\t/g;
+    my $depth = length($indent);
 
     my $size = scalar( @{ $this->{LIST} } );
     if ( $size < $depth ) {
         my $firstTime = 1;
         while ( $size < $depth ) {
-            push(
-                @{ $this->{LIST} },
-                { type => $theType, element => $theElement }
-            );
-            push( @$result, "<$theElement>" ) unless ($firstTime);
-            push( @$result, "<$theType>" );
+            push( @{ $this->{LIST} }, { type => $type, element => $element } );
+            push( @$result, "<$element" . ( $opts ? " $opts" : "" ) . ">" )
+              unless ($firstTime);
+            push( @$result, "<$type>" ) if $type;
             $firstTime = 0;
             $size++;
         }
@@ -1180,7 +1250,7 @@ sub _addListItem {
         while ( $size > $depth ) {
             my $tags = pop( @{ $this->{LIST} } );
             push( @$result, "</$tags->{element}>" );
-            push( @$result, "</$tags->{type}>" );
+            push( @$result, "</$tags->{type}>" ) if $tags->{type};
             $size--;
         }
         if ($size) {
@@ -1190,13 +1260,13 @@ sub _addListItem {
 
     if ($size) {
         my $oldt = $this->{LIST}->[ $size - 1 ];
-        if ( $oldt->{type} ne $theType ) {
-            push( @$result, "</$oldt->{type}>\n<$theType>" );
+        if ( $oldt->{type} ne $type ) {
+            my $r = '';
+            $r .= "</$oldt->{type}>" if $oldt->{type};
+            $r .= "<$type>" if $type;
+            push( @$result, $r );
             pop( @{ $this->{LIST} } );
-            push(
-                @{ $this->{LIST} },
-                { type => $theType, element => $theElement }
-            );
+            push( @{ $this->{LIST} }, { type => $type, element => $element } );
         }
     }
 }

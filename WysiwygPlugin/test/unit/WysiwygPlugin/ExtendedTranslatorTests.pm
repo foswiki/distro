@@ -100,12 +100,13 @@ my $data = [
           . $protecton
           . '&lt;customtag&gt;'
           . $protectoff
-          . 'some &gt; text'
+          . 'some &gt;'
+          . TranslatorTests::encodedWhitespace('s2') . 'text'
           . $protecton
           . '&lt;/customtag&gt;'
           . $protectoff . '</p>',
         tml      => '<customtag>some >  text</customtag>',
-        finaltml => '<customtag>some &gt; text</customtag>',
+        finaltml => '<customtag>some &gt;  text</customtag>',
     },
     {
         exec  => $TML2HTML | $ROUNDTRIP,
@@ -120,12 +121,13 @@ my $data = [
           . $protecton
           . '&lt;customtag&gt;'
           . $protectoff
-          . 'some &gt; text'
+          . 'some &gt;'
+          . TranslatorTests::encodedWhitespace('s2') . 'text'
           . $protecton
           . '&lt;/customtag&gt;'
           . $protectoff . '</p>',
         tml      => '<customtag>some >  text</customtag>',
-        finaltml => '<customtag>some &gt; text</customtag>',
+        finaltml => '<customtag>some &gt;  text</customtag>',
     },
     {
         exec  => $TML2HTML | $ROUNDTRIP,
@@ -460,7 +462,7 @@ TML
 <p>
 Before
 </p>
-<table border="1" cellpadding="0" cellspacing="1"><tr><th>L</th><th>C</th><th>R</th></tr><tr><td> A2</td><td style="text-align: center" class="align-center"> 2</td><td style="text-align: right" class="align-right"> 2</td></tr><tr><td> A3</td><td style="text-align: center" class="align-center"> 3</td><td style="text-align: left" class="align-left"> 3</td></tr><tr><td> A4-6</td><td> four</td><td> four</td></tr><tr><td>^</td><td> five</td><td> five</td></tr></table><p /><table border="1" cellpadding="0" cellspacing="1"><tr><td>^</td><td> six</td><td> six</td></tr></table>
+<table border="1" cellpadding="0" cellspacing="1"><tr><th>L</th><th>C</th><th>R</th></tr><tr><td> A2</td><td style="text-align: center" class="align-center"> 2</td><td style="text-align: right" class="align-right"> 2</td></tr><tr><td> A3</td><td style="text-align: center" class="align-center"> 3</td><td style="text-align: left" class="align-left"> 3</td></tr><tr><td> A4-6</td><td> four</td><td> four</td></tr><tr><td>^</td><td> five</td><td> five</td></tr></table><p class="WYSIWYG_NBNL"/><table border="1" cellpadding="0" cellspacing="1"><tr><td>^</td><td> six</td><td> six</td></tr></table>
 <p>After</p>
 HERE
         tml => <<'HERE',

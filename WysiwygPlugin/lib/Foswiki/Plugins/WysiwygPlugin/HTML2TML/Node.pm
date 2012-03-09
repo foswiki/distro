@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-# The generator works by expanding and HTML parse tree to "decorated"
+# The generator works by expanding an HTML parse tree to "decorated"
 # text, where the decorators are non-printable characters. These characters
 # act to express format requirements - for example, the need to have a
 # newline before some text, or the need for a space. Whitespace is then
@@ -38,7 +38,7 @@ my %jqueryChiliClass = map { $_ => 1 }
 
 my %tml2htmlClass = map { $_ => 1 }
   qw( WYSIWYG_PROTECTED WYSIWYG_STICKY TMLverbatim WYSIWYG_LINK
-  TMLhtml );
+  TMLhtml WYSIWYG_HIDDENWHITESPACE );
 
 =pod
 
@@ -547,11 +547,14 @@ sub generate {
         return ( $flags, $text ) if defined $text;
     }
 
-    # No translation, so we need the text of the children
-    ( $flags, $text ) = $this->_flatten($options);
+    unless ( $this->{tag} ) {
 
-    # just return the text if there is no tag name
-    return ( $flags, $text ) unless $this->{tag};
+        # No translation, so we need the text of the children
+        ( $flags, $text ) = $this->_flatten($options);
+
+        # just return the text if there is no tag name
+        return ( $flags, $text );
+    }
 
     return $this->_defaultTag($options);
 }
@@ -680,6 +683,30 @@ sub _isProtectedByAttrs {
     return 0;
 }
 
+sub _convertIndent {
+    my ( $this, $options ) = @_;
+    my $indent = $WC::TAB;
+
+    my ( $f, $t ) = $this->_handleP($options);
+    return $t unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
+
+    if ( $t =~ /^$WC::WS_NOTAB*($WC::TAB+):(.*)$/ ) {
+        return "$WC::CHECKn$1:$2";
+    }
+
+    # Zoom up through the tree and see how many layers of indent we have
+    my $p = $this;
+    while ( $p = $p->{parent} ) {
+        if ( $p->{tag} eq 'div' && $p->hasClass('foswikiIndent') ) {
+            $indent .= $WC::TAB;
+        }
+    }
+    $t =~ s/^$WC::WS*//s;
+    $t =~ s/$WC::WS*$//s;
+    $t = "$WC::CHECKn$indent: " . $t;
+    return $t;
+}
+
 # perform conversion on a list type
 sub _convertList {
     my ( $this, $indent ) = @_;
@@ -703,12 +730,12 @@ sub _convertList {
     while ($kid) {
 
         # be tolerant of dl, ol and ul with no li
-        if ( $kid->{tag} =~ m/^[dou]l$/i ) {
+        if ( $kid->{tag} =~ m/^[dou]l$/ ) {
             $text .= $kid->_convertList( $indent . $WC::TAB );
             $kid = $kid->{next};
             next;
         }
-        unless ( $kid->{tag} =~ m/^(dt|dd|li)$/i ) {
+        unless ( $kid->{tag} =~ m/^(dt|dd|li)$/ ) {
             $kid = $kid->{next};
             next;
         }
@@ -737,14 +764,14 @@ sub _convertList {
             # IE generates spurious empty divs inside LIs. Detect and skip
             # them.
             if (   $grandkid->{tag}
-                && $grandkid->{tag} =~ /^div$/i
+                && $grandkid->{tag} =~ /^div$/
                 && $grandkid == $kid->{tail}
                 && scalar( keys %{ $this->{attrs} } ) == 0 )
             {
                 $grandkid = $grandkid->{head};
             }
             while ($grandkid) {
-                if ( $grandkid->{tag} && $grandkid->{tag} =~ /^[dou]l$/i ) {
+                if ( $grandkid->{tag} && $grandkid->{tag} =~ /^[dou]l$/ ) {
 
                     #$spawn = _trim( $spawn );
                     $t = $grandkid->_convertList( $indent . $WC::TAB );
@@ -782,6 +809,16 @@ sub _convertList {
     return $text;
 }
 
+sub _isConvertableIndent {
+    my ( $this, $options ) = @_;
+
+    return 0 unless Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
+
+    return 0 if ( $this->_isProtectedByAttrs() );
+
+    return $this->{tag} eq 'div' && $this->hasClass('foswikiIndent');
+}
+
 # probe down into a list type to determine if it
 # can be converted to TML.
 sub _isConvertableList {
@@ -795,10 +832,10 @@ sub _isConvertableList {
         # check for malformed list. We can still handle it,
         # by simply ignoring illegal text.
         # be tolerant of dl, ol and ul with no li
-        if ( $kid->{tag} =~ m/^[dou]l$/i ) {
+        if ( $kid->{tag} =~ m/^[dou]l$/ ) {
             return 0 unless $kid->_isConvertableList($options);
         }
-        elsif ( $kid->{tag} =~ m/^(dt|dd|li)$/i ) {
+        elsif ( $kid->{tag} =~ m/^(dt|dd|li)$/ ) {
             unless ( $kid->_isConvertableListItem( $options, $this ) ) {
                 return 0;
             }
@@ -817,7 +854,7 @@ sub _isConvertableListItem {
     return 0 if ( $this->_isProtectedByAttrs() );
 
     if ( $parent->{tag} eq 'dl' ) {
-        return 0 unless ( $this->{tag} =~ /^d[td]$/i );
+        return 0 unless ( $this->{tag} =~ /^d[td]$/ );
     }
     else {
         return 0 unless ( $this->{tag} eq 'li' );
@@ -825,7 +862,7 @@ sub _isConvertableListItem {
 
     my $kid = $this->{head};
     while ($kid) {
-        if ( $kid->{tag} =~ /^[oud]l$/i ) {
+        if ( $kid->{tag} =~ /^[oud]l$/ ) {
             unless ( $kid->_isConvertableList($options) ) {
                 return 0;
             }
@@ -846,9 +883,7 @@ sub _isConvertableListItem {
 sub _isConvertableTable {
     my ( $this, $options, $table ) = @_;
 
-    if ( $this->_isProtectedByAttrs() ) {
-        return 0;
-    }
+    return 0 if ( $this->_isProtectedByAttrs() );
 
     my $rowspan = undef;
     $rowspan = [] if Foswiki::Func::getContext()->{'TablePluginEnabled'};
@@ -1128,7 +1163,7 @@ sub _emphasis {
     # whitespace
     $contents =~ s/&nbsp;/$WC::NBSP/go;
     $contents =~ s/&#160;/$WC::NBSP/go;
-    $contents =~ /^($WC::WS)(.*?)($WC::WS)$/;
+    $contents =~ /^($WC::WS)(.*?)($WC::WS)$/s;
     my ( $pre, $post ) = ( $1, $3 );
     $contents = $2;
     return ( 0, undef ) if ( $contents =~ /^</ || $contents =~ />$/ );
@@ -1161,7 +1196,7 @@ sub isBlockNode {
     my $node = shift;
     return ( $node->{tag}
           && $node->{tag} =~
-/^(ADDRESS|BLOCKQUOTE|CENTER|DIR|DIV|DL|FIELDSET|FORM|H\d|HR|ISINDEX|MENU|NOFRAMES|NOSCRIPT|OL|P|PRE|TABLE|UL)$/i
+/^(address|blockquote|center|dir|div|dl|fieldset|form|h\d|hr|isindex|menu|noframes|noscript|ol|p|pre|table|ul)$/
     );
 }
 
@@ -1443,12 +1478,20 @@ sub _handleCODE { return _emphasis( @_, '=' ); }
 sub _handleCOL      { return _flatten(@_); }
 sub _handleCOLGROUP { return _flatten(@_); }
 sub _handleDD       { return _flatten(@_); }
-sub _handleDEL      { return _flatten(@_); }
 sub _handleDFN      { return _flatten(@_); }
 
 # DIR
 
-sub _handleDIV { return _handleP(@_); }
+sub _handleDIV {
+    my ( $this, $options ) = @_;
+
+    if ( ( $options & $WC::NO_BLOCK_TML )
+        || !$this->_isConvertableIndent( $options | $WC::NO_BLOCK_TML ) )
+    {
+        return $this->_handleP($options);
+    }
+    return ( $WC::BLOCK_TML, $this->_convertIndent($options) );
+}
 
 sub _handleDL { return _LIST(@_); }
 sub _handleDT { return _flatten(@_); }
@@ -1517,7 +1560,17 @@ sub _handleHR {
 
     my ( $f, $kids ) = $this->_flatten($options);
     return ( $f, '<hr />' . $kids ) if ( $options & $WC::NO_BLOCK_TML );
-    return ( $f | $WC::BLOCK_TML, $WC::CHECKn . '---' . $WC::CHECKn . $kids );
+
+    my $dashes = 3;
+    if (    $this->{attrs}->{style}
+        and $this->{attrs}->{style} =~ s/\bnumdashes\s*:\s*(\d+)\b// )
+    {
+        $dashes = $1;
+        $dashes = 3 if $dashes < 3;
+        $dashes = 160 if $dashes > 160;    # Filter out probably-bad data
+    }
+    return ( $f | $WC::BLOCK_TML,
+        $WC::CHECKn . ( '-' x $dashes ) . $WC::CHECKn . $kids );
 }
 
 sub _handleHTML { return _flatten(@_); }
@@ -1579,6 +1632,8 @@ sub _handleOL       { return _LIST(@_); }
 sub _handleP {
     my ( $this, $options ) = @_;
 
+    my $nbnl = $this->hasClass('WYSIWYG_NBNL');
+
     if ( $this->hasClass('WYSIWYG_WARNING') ) {
         return ( 0, '' );
     }
@@ -1589,7 +1644,6 @@ sub _handleP {
     if ( $this->hasClass('WYSIWYG_STICKY') ) {
         return $this->_verbatim( 'sticky', $options );
     }
-
     my ( $f, $kids ) = $this->_flatten($options);
     return ( $f, '<p>' . $kids . '</p>' ) if ( $options & $WC::NO_BLOCK_TML );
     my $prevNode = $this->{prev};
@@ -1612,6 +1666,7 @@ sub _handleP {
     else {
         $pre = $WC::NBBR;
     }
+    $pre = $WC::NBBR . $pre if $nbnl;
     return ( $f | $WC::BLOCK_TML, $pre . $kids . $WC::NBBR );
 }
 
@@ -1630,7 +1685,7 @@ sub _handlePRE {
     unless ( $options & $WC::NO_BLOCK_TML ) {
         my ( $flags, $text ) =
           $this->_flatten(
-            $options | $WC::NO_BLOCK_TML | $WC::BR2NL | $WC::KEEP_WS );
+            $options | $WC::NO_TML | $WC::BR2NL | $WC::KEEP_WS );
         my $p = _htmlParams( $this->{attrs}, $options );
         return ( $WC::BLOCK_TML, "<$tag$p>$text</$tag>" );
     }
@@ -1679,6 +1734,62 @@ sub _handleSPAN {
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);
             return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
+        }
+    }
+
+    if ( _removeClass( \%atts, 'WYSIWYG_HIDDENWHITESPACE' ) ) {
+
+# This regular expression ensures the encoded whitespace is valid.
+# The limit on the number of digits will ensure that the numbers are reasonable.
+        if (    $atts{style}
+            and $atts{style} =~
+            s/\bencoded\s*:\s*(['"])((?:b|n|t\d{1,2}|s\d{1,3})+)\1;?// )
+        {
+            my $whitespace = $2;
+
+            #print STDERR "'$whitespace' -> ";
+            $whitespace =~ s/b/\\/g;
+            $whitespace =~ s/n/$WC::NBBR/g;
+            $whitespace =~ s/t(\d+)/'\t' x $1/ge;
+            $whitespace =~ s/s(\d+)/$WC::NBSP x $1/ge;
+
+            #print STDERR "'$whitespace'\n";
+            #require Data::Dumper;
+            my ( $f, $kids ) =
+              $this->_flatten( $options | $WC::KEEP_WS | $WC::KEEP_ENTITIES );
+
+            #die Data::Dumper::Dumper($kids);
+            if ( $kids eq ' ' ) {
+
+                # The space was not changed
+                # So restore the encoded whitespace
+                return ( $f, $whitespace );
+            }
+            elsif ( length($kids) == 0 ) {
+
+                # The user deleted the space
+                # So return blank
+                return ( 0, '' );
+            }
+
+            #else {die "'".ord($kids)."'";}if(1){}
+            elsif ( 0
+                and
+                ( $kids eq '&nbsp;' or $kids eq '&#160;' or $kids eq chr(160) )
+              )
+            {    # SMELL: Firefox-specific
+                 # This was probably inserted by Firefox after the user deleted the space.
+                 # So return blank
+                return ( 0, '' );
+            }
+            else {
+
+             # The user entered some new text
+             # Return the combination.
+             # Assume that a leading space corresponds to the encoded whitespace
+                $kids =~ s/^ //;
+                return ( $f, $whitespace . $kids );
+            }
         }
     }
 

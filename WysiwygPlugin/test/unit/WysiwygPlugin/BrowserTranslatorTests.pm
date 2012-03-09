@@ -140,14 +140,9 @@ HERE
 
 %SEARCH{search="Sven"}%
 HERE
-        finaltml => <<'HERE',
----
-
-%SEARCH{search="Sven"}%
-HERE
         html => <<'HERE',
 <hr class="TMLhr" />
-<p>
+<p class="WYSIWYG_NBNL">
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{search=&#34;Sven&#34;}%</span>
 </p>
 HERE
@@ -492,7 +487,7 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
 
     $this->{editor}->init();
 
-    # Close the editor because this tests uses a different topic
+    # Close the editor because this test uses a different topic
     if ( $this->{editor}->editorMode() ) {
         $this->{editor}->cancelEdit();
     }
@@ -517,8 +512,20 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     $topicObject->save();
     $topicObject->finish();
 
+    # Reload the topic and note the topic date
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topicName );
+    my $topicinfo                = $topicObject->get('TOPICINFO');
+    my $dateBeforeSaveFromEditor = $topicinfo->{date};
+    $this->assert( $dateBeforeSaveFromEditor,
+        "Date from topic info before saving from editor" );
+    $topicObject->finish();
+
     # Open the test topic in the wysiwyg editor
     $this->{editor}->openWysiwygEditor( $this->{test_web}, $topicName );
+
+    # Make sure the topic timestamp is different,
+    # so that we can confirm that the save did write to the file
+    sleep(1);
 
     # PH Commented this out below in Item11440, it causes Foswiki to redirect
     # back to the save oops "merged with new revision while you were
@@ -538,6 +545,14 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
 
     # Reload the topic and check that the content is as expected
     ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, $topicName );
+
+    # Make sure the topic really was saved
+    $topicinfo = $topicObject->get('TOPICINFO');
+    my $dateAfterSaveFromEditor = $topicinfo->{date};
+    $this->assert( $dateAfterSaveFromEditor,
+        "Date from topic info after saving from editor" );
+    $this->assert_num_not_equals( $dateBeforeSaveFromEditor,
+        $dateAfterSaveFromEditor );
 
     my $text = $topicObject->text();
     $topicObject->finish();

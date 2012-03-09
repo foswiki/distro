@@ -93,9 +93,6 @@ my $data = [
 Move !<span class="WYSIWYG_LINK">ItTest</span>/site/ToWeb5 leaving web5 as !<span class="WYSIWYG_LINK">MySQL</span> host
 </p>
 HERE
-        finaltml => <<'HERE',
-Move !ItTest/site/ToWeb5 leaving web5 as !MySQL host
-HERE
     },
     {
         exec => $ROUNDTRIP,
@@ -110,11 +107,10 @@ HERE
         html => $linkon . 'OtherWeb.LinkAtStart' . $linkoff,
     },
     {
-        exec     => $ROUNDTRIP,
-        name     => 'currentWebLinkAtStart',
-        tml      => 'Current.LinkAtStart',
-        html     => $linkon . 'Current.LinkAtStart' . $linkoff,
-        finaltml => 'Current.LinkAtStart',
+        exec => $ROUNDTRIP,
+        name => 'currentWebLinkAtStart',
+        tml  => 'Current.LinkAtStart',
+        html => $linkon . 'Current.LinkAtStart' . $linkoff,
     },
     {
         exec => $ROUNDTRIP,
@@ -150,8 +146,7 @@ HERE
         html => <<HERE,
 <b>reminded about${linkon}http://www.koders.com${linkoff}</b>
 HERE
-        tml      => '*reminded about http://www.koders.com*',
-        finaltml => '*reminded about http://www.koders.com*',
+        tml => '*reminded about http://www.koders.com*',
     },
     {
         exec => $ROUNDTRIP,
@@ -418,8 +413,9 @@ Before &nbsp; After
     {
         exec => $ROUNDTRIP | $TML2HTML,
         name => 'simpleHR',
-        html => '<hr class="TMLhr"/><hr class="TMLhr"/><p>--</p>',
-        tml  => <<'HERE',
+        html =>
+'<hr class="TMLhr"/><hr class="TMLhr" style="{numdashes:7}"/><p>--</p>',
+        tml => <<'HERE',
 ---
 -------
 --
@@ -427,7 +423,7 @@ Before &nbsp; After
 HERE
         finaltml => <<'HERE',
 ---
----
+-------
 
 --
 HERE
@@ -514,10 +510,10 @@ HERE
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'orderedList_Item1341',
         html => <<'HERE',
-<ol><li>Sushi</li><li>Banana</li></ol><p />
-<ol><li type="A">Sushi</li><li type="A">Banana</li></ol><p />
-<ol><li type="i">Sushi</li><li type="i">Banana</li></ol><p />
-<ol><li type="I">Sushi</li><li type="I">Banana</li></ol><p />
+<ol><li>Sushi</li><li>Banana</li></ol><p class="WYSIWYG_NBNL"/>
+<ol><li type="A">Sushi</li><li type="A">Banana</li></ol><p class="WYSIWYG_NBNL"/>
+<ol><li type="i">Sushi</li><li type="i">Banana</li></ol><p class="WYSIWYG_NBNL"/>
+<ol><li type="I">Sushi</li><li type="I">Banana</li></ol><p class="WYSIWYG_NBNL"/>
 <ol><li>Sushi</li><li type="A">Sushi</li><li type="i">Sushi</li></ol>
 HERE
         tml => <<'HERE',
@@ -557,8 +553,10 @@ HERE
 blah
 TML
         html => <<'HTML',
-<ul><li>&nbsp;</li><li>alpha</li><li>&nbsp;</li><li>beta</li><li>&nbsp;</li></ul><p />
-<ol><li>&nbsp;</li><li>charlie</li><li>&nbsp;</li></ol><p />
+<ul><li>&nbsp;</li><li>alpha</li><li>&nbsp;</li><li>beta</li><li>&nbsp;</li></ul>
+<p class="WYSIWYG_NBNL"/>
+<ol><li>&nbsp;</li><li>charlie</li><li>&nbsp;</li></ol>
+<p class="WYSIWYG_NBNL"/>
 <ol><li type="i">angel</li><li type="i">&nbsp;</li></ol>
 <p>blah</p>
 HTML
@@ -596,7 +594,7 @@ HERE
 HERE
     },
     {
-        exec => $ROUNDTRIP,
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'definitionList',
         html => <<'HERE',
 <dl> <dt> Sushi
@@ -614,6 +612,49 @@ HERE
    $ Dim Sum: S. F.
    $ Sauerkraut: Germany
    * Fennel
+HERE
+    },
+    {
+        exec => $ROUNDTRIP,
+        name => 'indentColon',
+        html => <<'HERE',
+<p>Grim
+<div class='foswikiIndent'>
+ Snowy
+ <div class='foswikiIndent'>
+  Slushy
+  <div class='foswikiIndent'>
+   Rainy
+  </div>
+ </div>
+ <div class='foswikiIndent'>
+  Dry
+ </div>
+</div>
+<div class='foswikiIndent'>
+ Sunny
+</div>
+<span class=WYSIWYG_HIDDENWHITESPACE style={encoded:'n'}>
+</span>Pleasant
+</p>
+HERE
+        tml => <<'HERE',
+Grim
+   : Snowy
+      : Slushy
+         : Rainy
+      : Dry
+   : Sunny
+Pleasant
+HERE
+        finaltml => <<'HERE',
+Grim
+   : Snowy
+      : Slushy
+         : Rainy
+      : Dry
+   : Sunny
+Pleasant
 HERE
     },
     {
@@ -783,21 +824,30 @@ YYY
 '<nop>WebPreferences %<nop>MAINWEB%.WikiUsers <nop>CompleteAndUtterNothing',
     },
     {
-        exec => $ROUNDTRIP,
-        name => 'squabsWithVars',
+        exec => $HTML2TML,
+        name => 'squabsWithVars1',
         html => <<HERE,
-${linkon}[[wiki syntax]]$linkoff$linkon\[[%MAINWEB%.TWiki users]]${linkoff}
+${linkon}[[wiki syntax]]$linkoff$linkon\[[%MAINWEB%.Wiki users]]${linkoff}
+escaped:
+[${nop}[wiki syntax]]
+HERE
+        tml => <<'EVERYWHERE',
+[[wiki syntax]][[%MAINWEB%.Wiki users]] escaped: [<nop>[wiki syntax]]
+EVERYWHERE
+    },
+    {
+        exec => $ROUNDTRIP,
+        name => 'squabsWithVars2',
+        html => <<HERE,
+${linkon}[[wiki syntax]]$linkoff$linkon\[[%MAINWEB%.Wiki users]]${linkoff}
 escaped:
 [<nop>[wiki syntax]]
 HERE
         tml => <<'THERE',
-[[wiki syntax]][[%MAINWEB%.TWiki users]]
+[[wiki syntax]][[%MAINWEB%.Wiki users]]
 escaped:
 ![[wiki syntax]]
 THERE
-        finaltml => <<'EVERYWHERE',
-[[wiki syntax]][[%MAINWEB%.TWiki users]] escaped: ![[wiki syntax]]
-EVERYWHERE
     },
     {
         exec => $ROUNDTRIP,
@@ -821,18 +871,16 @@ EVERYWHERE
         tml  => 'FleegleHorn#TrumpetHack',
     },
     {
-        exec     => $ROUNDTRIP,
-        name     => 'plingedVarOne',
-        html     => '!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>nowt',
-        tml      => '!%MAINWEB%nowt',
-        finaltml => '!%MAINWEB%nowt',
+        exec => $ROUNDTRIP,
+        name => 'plingedVarOne',
+        html => '!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>nowt',
+        tml  => '!%MAINWEB%nowt',
     },
     {
-        exec     => $ROUNDTRIP,
-        name     => 'plingedVarTwo',
-        html     => 'nowt!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>',
-        tml      => 'nowt!%MAINWEB%',
-        finaltml => 'nowt!%MAINWEB%',
+        exec => $ROUNDTRIP,
+        name => 'plingedVarTwo',
+        html => 'nowt!<span class="WYSIWYG_PROTECTED">%MAINWEB%</span>',
+        tml  => 'nowt!%MAINWEB%',
     },
     {
         exec => $ROUNDTRIP,
@@ -1006,8 +1054,17 @@ EVERYWHERE
         tml  => '%SCRIPTNAME%',
     },
     {
+        exec => $HTML2TML,
+        name => 'nestedVerbatim1',
+        html => 'Outside
+ <span class="TMLverbatim"><br />&nbsp;Inside<br />&nbsp;</span> Outside',
+        tml => 'Outside <verbatim>
+ Inside
+ </verbatim> Outside',
+    },
+    {
         exec => $ROUNDTRIP,
-        name => 'nestedVerbatim',
+        name => 'nestedVerbatim2',
         html => 'Outside
  <span class="TMLverbatim"><br />Inside<br /></span>Outside',
         tml => 'Outside
@@ -1015,9 +1072,6 @@ EVERYWHERE
  Inside
  </verbatim>
  Outside',
-        finaltml => 'Outside <verbatim>
- Inside
- </verbatim> Outside',
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
@@ -1077,13 +1131,15 @@ HERE
     </verbatim>
  Outside
  ',
-        finaltml => 'Outside <verbatim>
+        finaltml => 'Outside
+    <verbatim>
  Inside
-    </verbatim> Outside',
+    </verbatim>
+ Outside',
     },
     {
-        exec => $ROUNDTRIP | $HTML2TML,
-        name => 'nestedIndentedPre',
+        exec => $ROUNDTRIP,
+        name => 'nestedIndentedPre1',
         html => 'Outside
  <pre>
  Inside
@@ -1098,7 +1154,18 @@ Snide
 Snide
  </pre>
 Outside',
-        finaltml => 'Outside <pre>
+    },
+    {
+        exec => $HTML2TML,
+        name => 'nestedIndentedPre2',
+        html => 'Outside
+ <pre>
+ Inside
+
+Snide
+ </pre>
+ Outside',
+        tml => 'Outside <pre>
  Inside
 
 Snide
@@ -1117,8 +1184,18 @@ Snide
  </pre> Outside',
     },
     {
+        exec => $HTML2TML,
+        name => 'indentedPre1',
+        html => 'Outside<pre>
+ Inside
+    </pre> Outside',
+        tml => 'Outside<pre>
+ Inside
+    </pre> Outside',
+    },
+    {
         exec => $ROUNDTRIP,
-        name => 'indentedPre',
+        name => 'indentedPre2',
         html => 'Outside<pre>
 Inside
 </pre>Outside',
@@ -1127,28 +1204,38 @@ Inside
  Inside
     </pre>
  Outside',
-        finaltml => 'Outside <pre>
- Inside
-    </pre> Outside',
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
-        name => 'NAL',
+        name => 'NAL1',
         html => '<p>Outside
  <span class="WYSIWYG_PROTECTED">&lt;noautolink&gt;</span>
  Inside
  <span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
  Outside</p>',
+        tml => 'Outside <noautolink> Inside </noautolink> Outside',
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'NAL2',
+        html => '<p>Outside'
+          . encodedWhitespace('ns1')
+          . '<span class="WYSIWYG_PROTECTED">&lt;noautolink&gt;</span>'
+          . encodedWhitespace('ns1')
+          . 'Inside'
+          . encodedWhitespace('ns1')
+          . '<span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>'
+          . encodedWhitespace('ns1')
+          . 'Outside</p>',
         tml => 'Outside
  <noautolink>
  Inside
  </noautolink>
  Outside',
-        finaltml => 'Outside <noautolink> Inside </noautolink> Outside',
     },
     {
-        exec => $TML2HTML | $ROUNDTRIP,
-        name => 'classifiedNAL',
+        exec => $HTML2TML,
+        name => 'classifiedNAL1',
         html => '<p>Outside
 <span class="WYSIWYG_PROTECTED">&lt;noautolink&nbsp;class="foswikiAlert"&gt;</span></p>
   <ul>
@@ -1157,31 +1244,53 @@ Inside
 <p><span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
  Outside
  </p>',
+        tml => 'Outside <noautolink class="foswikiAlert">
+   * Inside
+</noautolink> Outside',
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'classifiedNAL2',
+        html => '<p>Outside'
+          . encodedWhitespace('n')
+          . '<span class="WYSIWYG_PROTECTED">&lt;noautolink&nbsp;class="foswikiAlert"&gt;</span></p>
+  <ul>
+   <li> Inside </li>
+  </ul>
+<p><span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>'
+          . encodedWhitespace('ns1') . 'Outside
+ </p>',
         tml => 'Outside
 <noautolink class="foswikiAlert">
    * Inside
 </noautolink>
  Outside',
-        finaltml => 'Outside <noautolink class="foswikiAlert">
-   * Inside
-</noautolink> Outside',
     },
     {
-        exec => $ROUNDTRIP,
-        name => 'indentedNAL',
+        exec => $HTML2TML,
+        name => 'indentedNAL1',
         html => 'Outside
  <span class="WYSIWYG_PROTECTED">&lt;noautolink&gt;</span>
  Inside
  <span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
  Outside
  ',
-        tml => 'Outside
+        tml => 'Outside <noautolink> Inside </noautolink> Outside',
+    },
+    {
+        exec => $ROUNDTRIP,
+        name => 'indentedNAL2',
+        tml  => 'Outside
     <noautolink>
  Inside
     </noautolink>
  Outside
  ',
-        finaltml => 'Outside <noautolink> Inside </noautolink> Outside',
+        finaltml => 'Outside
+    <noautolink>
+ Inside
+    </noautolink>
+ Outside',
     },
     {
         exec => $ROUNDTRIP,
@@ -1191,10 +1300,10 @@ Inside
         tml => '---+++ Test with LinkInHeader',
     },
     {
-        exec     => $HTML2TML,
-        name     => 'inlineBreaks',
-        html     => 'Zadoc<br />The<br />Priest',
-        finaltml => 'Zadoc<br />The<br />Priest',
+        exec => $HTML2TML,
+        name => 'inlineBreaks',
+        html => 'Zadoc<br />The<br />Priest',
+        tml  => 'Zadoc<br />The<br />Priest',
     },
     {
         exec => $HTML2TML,
@@ -1239,7 +1348,7 @@ Inside
     },
     {
         exec => $ROUNDTRIP,
-        name => "TWikiTagsInHTMLParam",
+        name => "WikiTagsInHTMLParam",
         html => "${linkon}[[%!page!%/Burble/Barf][Burble]]${linkoff}",
         tml  => '[[%!page!%/Burble/Barf][Burble]]',
     },
@@ -1436,9 +1545,6 @@ ${linkon}Sandbox.TestTopic${linkoff}
 ${linkon}\[[Current.TestTopic]]${linkoff}
 ${linkon}\[[Sandbox.TestTopic]]${linkoff}
 HERE
-        finaltml => <<HERE,
-Current.TestTopic Sandbox.TestTopic [[Current.TestTopic]] [[Sandbox.TestTopic]]
-HERE
     },
     {
         exec     => $ROUNDTRIP,
@@ -1453,7 +1559,6 @@ HERE
         tml  => '[[WebCTPasswords][Resetting a WebCT Password]]',
         html =>
           "${linkon}[[WebCTPasswords][Resetting a WebCT Password]]${linkoff}",
-        finaltml => '[[WebCTPasswords][Resetting a WebCT Password]]',
     },
     {
         exec => $ROUNDTRIP,
@@ -1490,9 +1595,9 @@ HERE
 <li>x
 </li><li></li><li>y
 </li></ul>',
-        finaltml => <<'HERE',
+        finaltml => <<"HERE",
    * x
-   * 
+   *$trailingSpace
    * y
 HERE
     },
@@ -1529,7 +1634,7 @@ HERE
         tml  => "what\n\nthef",
     },
     {
-        exec => $HTML2TML,    # | $ROUNDTRIP,
+        exec => $HTML2TML | $ROUNDTRIP,
         name => 'Item4435',
         html => <<HTML,
 <ul>
@@ -1570,8 +1675,8 @@ TML
         name => 'paraConversions1',
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         html => '<p>
-Paraone
-Paratwo
+Paraone'
+          . encodedWhitespace('n') . 'Paratwo
 </p>
 <p>
 Parathree
@@ -1587,7 +1692,8 @@ Parathree
 
 
 Parafour',
-        finaltml => 'Paraone Paratwo
+        finaltml => 'Paraone
+Paratwo
 
 Parathree
 
@@ -1621,6 +1727,24 @@ Parafour',
         tml  => '   * list
 Paraone',
         html => '<ul><li>list</li></ul>Paraone',
+    },
+    {
+        name => 'blankLineAndParaAfterList',
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => '   * list
+
+Paraone',
+        html => '<ul><li>list'
+          . '</li></ul><p class="WYSIWYG_NBNL">Paraone</p>',
+    },
+    {
+        name => 'blankLineAndParaWithLeadingSpacesAfterList',
+        exec => $ROUNDTRIP,
+        tml  => <<'TML',
+   * list
+
+     Paraone
+TML
     },
     {
         name => 'brInText',
@@ -1733,9 +1857,10 @@ FGFG
         html => '<h1 class="TML">  A </h1>
 <p><span class="WYSIWYG_PROTECTED">&lt;section&gt;</span></p>
 <h2 class="TML">  B </h2>
-<p>C
-<span class="WYSIWYG_PROTECTED">&lt;/section&gt;</span>
-X</p>
+<p>C'
+          . encodedWhitespace('n')
+          . '<span class="WYSIWYG_PROTECTED">&lt;/section&gt;</span>'
+          . encodedWhitespace('n') . 'X</p>
 ',
         finaltml => <<FGFG,
 ---+ A
@@ -1743,7 +1868,9 @@ X</p>
 <section>
 ---++ B
 
-C </section> X
+C
+</section>
+X
 FGFG
     },
     {
@@ -1765,8 +1892,6 @@ D <b> <i>here</i></b>D
 E  <b><i>here</i></b>E
 F <i> <b>here</b></i>F
 XWYZ
-        final_tml => <<ZYX,
-ZYX
     },
     {
         exec => $ROUNDTRIP,
@@ -2312,20 +2437,22 @@ DECAPS
  with one space
 No more
 SPACED
-        html => <<DECAPS,
-<ol>
-<li> One item     spanning several lines
+        html => '<ol>
+<li> One item'
+          . encodedWhitespace('ns5') . 'spanning several lines
 
-</li> <li> And another item with one space
+</li> <li> And another item'
+          . encodedWhitespace('ns1') . 'with one space
 </li></ol> 
 <p>No more</p>
-DECAPS
+',
     },
     {
         exec => $ROUNDTRIP,
         name => 'Item4789',
         tml  => "%EDITTABLE{}%\n| 1 | 2 |\n| 3 | 4 |",
     },
+
     {
         exec => $ROUNDTRIP,
         name => 'ProtectAndSurvive',
@@ -2392,14 +2519,14 @@ Blah
 <a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
 Blah
 BLAH
-        html => <<'BLAH',
-<p>
-Blah
-<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;</span>edit<span
-class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>
-Blah
+        html => '<p>
+Blah'
+          . encodedWhitespace('n')
+          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;</span>edit<span
+class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>'
+          . encodedWhitespace('n') . 'Blah
 </p>
-BLAH
+',
     },
     {
         name => 'Item4903',
@@ -2552,29 +2679,19 @@ HERE
 </verbatim>
 &&gt;&lt;"
 HERE
-        html => <<HERE,
-<p>
-<span class="WYSIWYG_PROTECTED">&#60;smeg&#62;</span>
-<pre class="TMLverbatim"><br />&#60;img&nbsp;src=&#34;ball&#38;co&#60;ck&#62;s&#34;&#62;&#38;&#62;&#60;&#34;<br /></pre>
-&&gt;&lt;"
+        html => '<p>
+<span class="WYSIWYG_PROTECTED">&#60;smeg&#62;</span>'
+          . encodedWhitespace('n')
+          . '<pre class="TMLverbatim"><br />&#60;img&nbsp;src=&#34;ball&#38;co&#60;ck&#62;s&#34;&#62;&#38;&#62;&#60;&#34;<br /></pre>'
+          . encodedWhitespace('n')
+          . '&&gt;&lt;"
 </p>
-HERE
-        finaltml => <<HERE,
-<smeg> <verbatim>
-<img src="ball&co<ck>s">&><"
-</verbatim> &&gt;&lt;"
-HERE
+',
     },
     {
         name => "Item5337",
         exec => $TML2HTML | $ROUNDTRIP,
         tml  => <<HERE,
-<pre>
-hello
-there
-</pre>
-HERE
-        finaltml => <<HERE,
 <pre>
 hello
 there
@@ -2601,7 +2718,6 @@ HERE
     {
         name => "Item5961",
         exec => $HTML2TML | $ROUNDTRIP,
-        html => 'o<strong>n</strong>e',
         html =>
 ' <strong>zero</strong> <strong>on</strong>e t<strong>w</strong>o t<strong>re</strong>',
         tml =>
@@ -2635,14 +2751,9 @@ ZAT
 
 %SEARCH{search="Sven"}%
 HERE
-        finaltml => <<'HERE',
----
-
-%SEARCH{search="Sven"}%
-HERE
         html => <<'HERE',
 <hr class="TMLhr" />
-<p>
+<p class="WYSIWYG_NBNL">
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{search=&#34;Sven&#34;}%</span>
 </p>
 HERE
@@ -2718,6 +2829,23 @@ HERE
           . '</span>' . '</p>'
     },
     {
+        name => "whitespaceEncoding",
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => <<'HERE',
+a  a
+ b
+   * c
+     d
+e
+HERE
+        html => '<p>' . 'a'
+          . encodedWhitespace('s2') . 'a'
+          . encodedWhitespace('ns1') . 'b' . '</p>'
+          . '<ul><li>' . 'c'
+          . encodedWhitespace('ns5') . 'd'
+          . '</li></ul>' . '<p>' . 'e' . '</p>',
+    },
+    {
         name => "failsTML2HTML",
         exec => 0,                 #$TML2HTML | $HTML2TML | $ROUNDTRIP,
         tml  => <<'HERE',
@@ -2728,6 +2856,50 @@ HERE
 <p><span class="WYSIWYG_PROTECTED">%MACRO{"<br />%ANOTHERMACRO%"}%</span></p>
 HERE
     },
+    {
+        name => 'Item11378_del_ins_and_strike',
+        exec => $HTML2TML,
+        html => <<HTML,
+yes <del>no</del> YES <strike>NO</strike> <ins>yes</ins> no
+HTML
+        tml => <<TML
+yes <del>no</del> YES <strike>NO</strike> <ins>yes</ins> no
+TML
+    },
+    {
+        name => "Item11440",
+        exec => $HTML2TML | $TML2HTML | $ROUNDTRIP,
+        tml  => <<'HERE',
+<pre><b>this will
+disappear.</b>
+ and
+ <b>this will be surrounded by stars</b>
+</pre>
+
+<code><pre>This will disappear,
+leaving an empty pre-tag</pre></code>
+
+<pre><code>As will
+this.</code></pre>
+HERE
+        html => <<'HERE',
+<p>
+<pre><b>this will
+disappear.</b>
+ and
+ <b>this will be surrounded by stars</b>
+</pre>
+</p>
+<p>
+<code><pre>This will disappear,
+leaving an empty pre-tag</pre></code>
+</p>
+<p>
+<pre><code>As will
+this.</code></pre>
+</p>
+HERE
+    }
 ];
 
 sub encodedWhitespace {
@@ -2990,6 +3162,7 @@ sub convertImage {
     }
 }
 
+#TranslatorTests->gen_compare_tests( 'test', [ grep { $_->{name} eq 'Item4855' } @$data ] );
 TranslatorTests->gen_compare_tests( 'test', $data );
 
 #gen_file_tests();
