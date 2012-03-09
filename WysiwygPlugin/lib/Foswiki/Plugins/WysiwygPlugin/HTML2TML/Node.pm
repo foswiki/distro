@@ -1163,7 +1163,7 @@ sub _emphasis {
     # whitespace
     $contents =~ s/&nbsp;/$WC::NBSP/go;
     $contents =~ s/&#160;/$WC::NBSP/go;
-    $contents =~ /^($WC::WS)(.*?)($WC::WS)$/;
+    $contents =~ /^($WC::WS)(.*?)($WC::WS)$/s;
     my ( $pre, $post ) = ( $1, $3 );
     $contents = $2;
     return ( 0, undef ) if ( $contents =~ /^</ || $contents =~ />$/ );
@@ -1685,7 +1685,7 @@ sub _handlePRE {
     unless ( $options & $WC::NO_BLOCK_TML ) {
         my ( $flags, $text ) =
           $this->_flatten(
-            $options | $WC::NO_BLOCK_TML | $WC::BR2NL | $WC::KEEP_WS );
+            $options | $WC::NO_TML | $WC::BR2NL | $WC::KEEP_WS );
         my $p = _htmlParams( $this->{attrs}, $options );
         return ( $WC::BLOCK_TML, "<$tag$p>$text</$tag>" );
     }

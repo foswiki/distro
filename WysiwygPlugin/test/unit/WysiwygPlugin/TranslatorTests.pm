@@ -2865,6 +2865,40 @@ HTML
         tml => <<TML
 yes <del>no</del> YES <strike>NO</strike> <ins>yes</ins> no
 TML
+    },
+    {
+        name => "Item11440",
+        exec => $HTML2TML | $TML2HTML | $ROUNDTRIP,
+        tml  => <<'HERE',
+<pre><b>this will
+disappear.</b>
+ and
+ <b>this will be surrounded by stars</b>
+</pre>
+
+<code><pre>This will disappear,
+leaving an empty pre-tag</pre></code>
+
+<pre><code>As will
+this.</code></pre>
+HERE
+        html => <<'HERE',
+<p>
+<pre><b>this will
+disappear.</b>
+ and
+ <b>this will be surrounded by stars</b>
+</pre>
+</p>
+<p>
+<code><pre>This will disappear,
+leaving an empty pre-tag</pre></code>
+</p>
+<p>
+<pre><code>As will
+this.</code></pre>
+</p>
+HERE
     }
 ];
 

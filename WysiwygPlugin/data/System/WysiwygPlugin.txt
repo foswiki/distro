@@ -188,7 +188,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  1.1.5 (31 Mar 2012) | Foswikitask:Item11603: protect inline script and style tags from wysiwyg |
+|  1.1.5 (31 Mar 2012) | Foswikitask:Item11603: protect inline script and style tags from wysiwyg. Foswikitask:Item11440: protect tags inside pre |
 |  1.1.4 (28 Feb 2012) | Foswikitask:Item11378: support pass-through of DEL and INS tags |
 |  1.1.3 (08 Nov 2011) | Foswikitask:Item2174: Fix WysiwygPlugin eating newlines inside =%MACRO{...}= expressions (Michael Tempest) |
 |  1.1.2 (11 Apr 2011) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
