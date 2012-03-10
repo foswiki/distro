@@ -35,7 +35,7 @@ sub REVINFO {
         }
     }
 
-    return $this->renderer->renderRevisionInfo( $topicObject, $rev, expandStandardEscapes($format) );
+    return $this->renderer->renderRevisionInfo( $topicObject, $rev, $format );
 }
 
 1;

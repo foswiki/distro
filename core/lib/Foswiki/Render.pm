@@ -1748,6 +1748,7 @@ Obtain and render revision info for a topic.
 sub renderRevisionInfo {
     my ( $this, $topicObject, $rrev, $format ) = @_;
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
+    $value = Foswiki::expandStandardEscapes($value);
 
     # nop if there are no format tokens
     return $value
