@@ -5800,7 +5800,7 @@ TOPICTEXT
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="/~sven/core/bin/view/$this->{test_web}/Item10491"><b>Item10491</b></a>
 <div class="foswikiSummary"><b>&hellip;</b> it can be created From <nop>IRC<nop>: <em><nop>SomeString</em>.txt So hopefully this topic  <b>&hellip;</b>  hits don't get corrupted. <em><nop>SomeString</em>? " txt<nop>: <nop>SomeString? And  <b>&hellip;</b> ?tab=searchadvanced search=<em><nop>SomeString</em> scope=all order=topic type= <b>&hellip;</b> </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/$this->{test_web}/Item10491" rel='nofollow'>16 Mar 2011 - 04:34</a></span> <span class="foswikiSRAuthor">by WikiGuest </span></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/~sven/core/bin/rdiff/$this->{test_web}/Item10491" rel='nofollow'>16 Mar 2011 - 04:34</a></span> <span class="foswikiSRAuthor">by !WikiGuest </span></div>
 </div>
 <div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
 RESULT
