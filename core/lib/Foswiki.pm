@@ -1724,8 +1724,12 @@ sub new {
         # useful than the default url host. This is because new CGI("")
         # assigns this host by default - it's a default setting, used
         # when there is nothing better available.
-        if ( $this->{urlHost} eq 'http://localhost' ) {
-            $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
+        if ( $this->{urlHost} =~ /(https?):\/\/localhost/i ) {
+            my $protocol = $1;
+            #only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
+            if ($Foswiki::cfg{DefaultUrlHost} =~ /^$protocol/i ) {
+                $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
+            }
         }
     }
     else {
