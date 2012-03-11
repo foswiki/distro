@@ -23,6 +23,8 @@ sub check {
     my $f = $Foswiki::cfg{Htpasswd}{FileName};
     Foswiki::Configure::Load::expandValue($f);
 
+    ($f) = $f =~ m/(.*)/;     # Untaint needed to prevent a failure.
+
     unless ( -e $f ) {
 
         # password file does not exist; check it can be created
