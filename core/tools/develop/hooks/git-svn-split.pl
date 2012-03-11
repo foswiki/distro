@@ -72,10 +72,13 @@ sub createSubModule {
     require Net::GitHub;
     my $token  = getGitHubToken;
     my $github = Net::GitHub->new(
-        owner => 'foswiki',
-        repo  => $module,
+
+        # V3 no longer support application tokens. Using user + pass as fallback
+        # owner => 'foswiki',
+        # repo  => $module,
+        # token => $token,
         login => 'foswiki',
-        token => $token,
+        pass  => $token,
     );
     $github->repos->create(
         {
