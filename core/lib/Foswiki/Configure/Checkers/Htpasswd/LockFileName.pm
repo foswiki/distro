@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Htpasswd::FileName;
+package Foswiki::Configure::Checkers::Htpasswd::LockFileName;
 
 use strict;
 use warnings;
@@ -11,7 +11,7 @@ sub check {
     my $this = shift;
     my $e    = '';
 
-    $e .= $this->showExpandedValue( $Foswiki::cfg{Htpasswd}{FileName} );
+    $e .= $this->showExpandedValue( $Foswiki::cfg{Htpasswd}{LockFileName} );
 
     #NOTE:  If there are any other PasswordManagers that require .htpasswd,
     #       they should be added to this list.
@@ -20,34 +20,23 @@ sub check {
         && $Foswiki::cfg{PasswordManager} ne
         'Foswiki::Users::ApacheHtpasswdUser' );
 
-    my $f = $Foswiki::cfg{Htpasswd}{FileName};
+    my $f = $Foswiki::cfg{Htpasswd}{LockFileName};
     Foswiki::Configure::Load::expandValue($f);
 
     unless ( -e $f ) {
 
-        # password file does not exist; check it can be created
+        # lock file does not exist; check it can be created
         my $fh;
         if ( !open( $fh, ">", $f ) || !close($fh) ) {
-            return $e
-              . $this->ERROR(
-                "Password file $f does not exist and could not be created: $!");
-        }
-        else {
-            $e .= $this->NOTE("A new password file $f has been created.");
-            unless ( chmod( 0600, $f ) ) {
-                $e .= $this->WARN(
-"Permissions could not be changed on the new password file $f"
-                );
-            }
+            $e .= $this->ERROR("$f could not be created: $!");
         }
     }
-    elsif ( !( -f $f && -w $f ) ) {
+    elsif ( !-f $f || !-w $f ) {
 
-        # password file exists but is not writable
-        return $e
-          . $this->ERROR( "$f is not a writable plain file. "
-              . "User registration will be disabled until this is corrected." );
+        # lock file exists but is a directory or is not writable
+        $e .= $this->ERROR("$f is not a writable plain file. ");
     }
+    unlink $f;
 
     return $e;
 }
@@ -56,16 +45,9 @@ sub check {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-TWiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
