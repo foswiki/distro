@@ -37,8 +37,8 @@ sub manage {
     my $action = $session->{request}->param('action');
 
     # Dispatch to action function
-    if ( defined $action && $action =~ /^([a-z]+)$/i ) {
-        my $method = 'Foswiki::UI::Manage::_action_' . $1;
+    if ( defined $action ) {
+        my $method = 'Foswiki::UI::Manage::_action_' . $action;
 
         if ( defined &$method ) {
             no strict 'refs';
@@ -578,7 +578,8 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
         );
     }
 
-    $session->redirect( $session->redirectto("$web.$topic") );
+    my $viewURL = $session->getScriptUrl( 0, 'view', $web, $topic );
+    $session->redirect( $session->redirectto($viewURL) );
 }
 
 sub _parsePreferenceValue {
@@ -667,7 +668,8 @@ sub _action_restoreRevision {
 
     $session->{cgiQuery}->delete('action');
 
-    $session->redirect( $session->redirectto( "$web.$topic" ) );
+    my $viewURL = $session->getScriptUrl( 0, 'view', $web, $topic );
+    $session->redirect( $session->redirectto($viewURL) );
 
 }
 

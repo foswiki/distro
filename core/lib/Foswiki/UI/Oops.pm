@@ -92,9 +92,8 @@ sub oops {
     }
     $tmplName ||= 'oops';
 
-    # Item5324: Filter to block XSS
-    # SMELL: not i18n-friendly (can't have accented characters in template name)
-    $tmplName =~ s/[^A-Za-z0-9_,.\/]//g;
+    # Item5324: Filter out < and > to block XSS
+    $tmplName =~ tr/<>//d;
 
     # Do not pass on the template parameter otherwise continuation won't work
     $query->delete('template');

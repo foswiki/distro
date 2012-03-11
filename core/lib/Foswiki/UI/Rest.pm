@@ -277,10 +277,9 @@ sub rest {
             throw Foswiki::EngineException( 404, $err, $res );
         }
 
-        $nurl = $session->getScriptUrl( 1, 'view', $web, $topic );
+        $nurl = $session->getScriptUrl( 1, 'view', '', $endPoint );
         $nurl .= $epParms if ($epParms);
     }
-
     if ( defined($nurl) ) {
         $session->redirect($nurl);
     }
