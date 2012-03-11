@@ -160,6 +160,63 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
+# **PATH M**
+# You can override the default PATH setting to control
+# where Foswiki looks for external programs, such as grep and rcs.
+# By restricting this path to just a few key
+# directories, you increase the security of your Foswiki.
+# <ol>
+# 	<li>
+# 		Unix or Linux
+# 		<ul>
+# 			<li>
+# 				Path separator is :
+# 			</li>
+# 			<li>
+# 				Make sure diff and shell (Bourne or bash type) are found on path.
+# 			</li>
+# 			<li>
+# 				Typical setting is /bin:/usr/bin
+# 			</li>
+# 		</ul>
+# 	</li>
+# 	<li>
+# 		Windows ActiveState Perl, using DOS shell
+# 		<ul>
+# 			<li>
+# 				path separator is ;
+# 			</li>
+# 			<li>
+# 				The Windows system directory is required.
+# 			</li>
+# 			<li>
+# 				Use '\' not '/' in pathnames.
+# 			</li>
+# 			<li>
+# 				Typical setting is C:\windows\system32
+# 			</li>
+# 		</ul>
+# 	</li>
+# 	<li>
+# 		Windows Cygwin Perl
+# 		<ul>
+# 			<li>
+# 				path separator is :
+# 			</li>
+# 			<li>
+# 				The Windows system directory is required.
+# 			</li>
+# 			<li>
+# 				Use '/' not '\' in pathnames.
+# 			</li>
+# 			<li>
+# 				Typical setting is /cygdrive/c/windows/system32
+# 			</li>
+# 		</ul>
+# 	</li>
+# </ol>
+#$Foswiki::cfg{SafeEnvPath} = '';
+
 # **STRING 20 EXPERT**
 # {OS} and {DetailedOS} are calculated in the Foswiki code. <b>You
 # should only need to override if there is something badly wrong with
@@ -609,63 +666,6 @@ $Foswiki::cfg{Register}{EmailFilter} = '';
 $Foswiki::cfg{Password} = '';
 
 #---++ Environment
-# **PATH M**
-# You can override the default PATH setting to control
-# where Foswiki looks for external programs, such as grep and rcs.
-# By restricting this path to just a few key
-# directories, you increase the security of your Foswiki.
-# <ol>
-# 	<li>
-# 		Unix or Linux 
-# 		<ul>
-# 			<li>
-# 				Path separator is : 
-# 			</li>
-# 			<li>
-# 				Make sure diff and shell (Bourne or bash type) are found on path. 
-# 			</li>
-# 			<li>
-# 				Typical setting is /bin:/usr/bin 
-# 			</li>
-# 		</ul>
-# 	</li>
-# 	<li>
-# 		Windows ActiveState Perl, using DOS shell 
-# 		<ul>
-# 			<li>
-# 				path separator is ; 
-# 			</li>
-# 			<li>
-# 				The Windows system directory is required. 
-# 			</li>
-# 			<li>
-# 				Use '\' not '/' in pathnames. 
-# 			</li>
-# 			<li>
-# 				Typical setting is C:\windows\system32 
-# 			</li>
-# 		</ul>
-# 	</li>
-# 	<li>
-# 		Windows Cygwin Perl 
-# 		<ul>
-# 			<li>
-# 				path separator is : 
-# 			</li>
-# 			<li>
-# 				The Windows system directory is required. 
-# 			</li>
-# 			<li>
-# 				Use '/' not '\' in pathnames. 
-# 			</li>
-# 			<li>
-# 				Typical setting is /cygdrive/c/windows/system32 
-# 			</li>
-# 		</ul>
-# 	</li>
-# </ol>
-$Foswiki::cfg{SafeEnvPath} = '';
-
 # **PERL**
 # Array of the names of configuration items that are available when using %IF, %SEARCH
 # and %QUERY{}%. Extensions can push into this array to extend the set. This is done as
