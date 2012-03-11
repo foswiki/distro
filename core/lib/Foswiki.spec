@@ -474,7 +474,7 @@ $Foswiki::cfg{Htpasswd}{GlobalCache} = $FALSE;
 # Only applicable to <tt>HtPasswdUser</tt>.
 $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 
-# **SELECT htdigest-md5,apache-md5,bcrypt,sha1,crypt-md5,crypt,plain DISPLAY_IF /htpasswd/i.test({PasswordManager})**
+#**SELECT htdigest-md5,apache-md5,bcrypt,sha1,crypt-md5,crypt,plain**
 # Password encryption, for the <tt>Foswiki::Users::HtPasswdUser</tt> password manager. This
 # specifies the type of password hash to generate when writing entries to <tt>.htpasswd</tt>
 # It is also used when reading password entries unless the parameter
