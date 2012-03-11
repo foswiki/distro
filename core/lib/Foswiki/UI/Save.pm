@@ -483,8 +483,7 @@ WARN
                 \&Foswiki::Sandbox::validateTopicName );
             last if ( $session->topicExists( $w, $t ) );
         }
-        my $viewURL = $session->getScriptUrl( 1, 'view', $w, $t );
-        $session->redirect( $session->redirectto($viewURL), undef, 1 );
+        $session->redirect( $session->redirectto("$w.$t"), undef, 1 );
 
         return;
     }
@@ -541,10 +540,9 @@ WARN
     }
     else {
 
-      # redirect to topic view or any other redirectto specified as an url param
-        $redirecturl =
-          $session->redirectto(
-            $session->getScriptUrl( 1, 'view', $web, $topic ) );
+	# redirect to topic view or any other redirectto
+	# specified as an url param
+        $redirecturl = $session->redirectto( "$web.$topic" );
     }
 
     if ( $saveaction eq 'quietsave' ) {
