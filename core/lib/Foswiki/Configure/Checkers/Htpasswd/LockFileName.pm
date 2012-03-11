@@ -23,6 +23,8 @@ sub check {
     my $f = $Foswiki::cfg{Htpasswd}{LockFileName};
     Foswiki::Configure::Load::expandValue($f);
 
+    ($f) = $f =~ m/(.*)/;     # Untaint needed to prevent a failure.
+
     unless ( -e $f ) {
 
         # lock file does not exist; check it can be created
