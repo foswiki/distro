@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checker ();
+use Scalar::Util qw( tainted );
 our @ISA = ('Foswiki::Configure::Checker');
 
 # Unix or Linux, Windows ActiveState Perl, using PERL5SHELL set to cygwin shell
@@ -23,22 +24,43 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
 
-    unless ( $Foswiki::cfg{SafeEnvPath} ) {
-        return $this->WARN("You should set a value for this path.");
-    }
-
     my $check = '';
+    my $pathSep =
+      ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) ? ';' : ':';
+
+    # Make %ENV safer for CGI - Assign a safe default for SafeEnvPath
+    my $val = $Foswiki::cfg{SafeEnvPath};
+    if ( !$val || $val eq 'NOT SET' || $val eq 'undef' ) {
+
+        # Grab the current path
+        if ( defined( $ENV{PATH} ) ) {
+            $ENV{PATH} =~ /(.*)/;
+            my $envPath = $1;
+
+            my @safePath;
+            foreach
+              my $component ( split( /$pathSep/o, $envPath ) )
+            {
+                next if ( tainted($component) );    # Tainted
+                next if ( $component eq '.' );      # current directory tainted
+                next if ( $component =~ /^~/ );      # Userdir tainted
+                next if ( $component =~ /^\.\.[\\\/]/ );  # relative path tainted
+                push @safePath, $component;
+                print "Added $component ";
+            }
+            $Foswiki::cfg{SafeEnvPath} = join( $pathSep, @safePath);
+            $check = $this->guessed();
+        }
+        else {
+
+            # Can't guess
+            $Foswiki::cfg{SafeEnvPath} = '';
+            return $this->WARN("Unable to guess a value. You should set a value for this path.");
+        }
+    }
 
     # First, get the proposed path
-    my @dirs;
-    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
-
-        # Active State perl, probably. Need DOS paths.
-        @dirs = split( ';', $Foswiki::cfg{SafeEnvPath} );
-    }
-    else {
-        @dirs = split( ':', $Foswiki::cfg{SafeEnvPath} );
-    }
+    my @dirs = ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} ) );
 
     # Check they exist
     my $found = 0;
