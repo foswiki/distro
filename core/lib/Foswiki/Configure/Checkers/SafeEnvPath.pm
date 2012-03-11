@@ -25,39 +25,40 @@ sub check {
     my $this = shift;
 
     my $check = '';
-    my $pathSep =
-      ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) ? ';' : ':';
+    my $pathSep = ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) ? ';' : ':';
 
     # Make %ENV safer for CGI - Assign a safe default for SafeEnvPath
-    my $val = $Foswiki::cfg{SafeEnvPath};
-    if ( !$val || $val eq 'NOT SET' || $val eq 'undef' ) {
+    if (  !$Foswiki::cfg{SafeEnvPath}
+        || $Foswiki::cfg{SafeEnvPath} eq 'NOT SET'
+        || $Foswiki::cfg{SafeEnvPath} eq 'undef' )
+    {
 
         # Grab the current path
-        if ( defined( $ENV{PATH} ) ) {
-            $ENV{PATH} =~ /(.*)/;
+        if ( defined( $Foswiki::cfg{DETECTED}{originalPath} ) ) {
+            $Foswiki::cfg{DETECTED}{originalPath} =~ /(.*)/;
             my $envPath = $1;
 
             my @safePath;
-            foreach
-              my $component ( split( /$pathSep/o, $envPath ) )
-            {
+            foreach my $component ( split( /$pathSep/o, $envPath ) ) {
                 next if ( tainted($component) );    # Tainted
-                next if ( $component eq '.' );      # current directory tainted
-                next if ( $component =~ /^~/ );      # Userdir tainted
-                next if ( $component =~ /^\.\.[\\\/]/ );  # relative path tainted
+                next if ( $component eq '.' );      # current directory insecure
+                next if ( $component =~ /^~/ );     # Userdir insecure
+                next if ( $component =~ /^\.\.[\\\/]/ ); # relative path insecure
                 push @safePath, $component;
-                print "Added $component ";
             }
-            $Foswiki::cfg{SafeEnvPath} = join( $pathSep, @safePath);
-            $check = $this->guessed();
+            $Foswiki::cfg{SafeEnvPath} = join( $pathSep, @safePath );
+            $check .= $this->guessed();
         }
         else {
 
             # Can't guess
             $Foswiki::cfg{SafeEnvPath} = '';
-            return $this->WARN("Unable to guess a value. You should set a value for this path.");
         }
     }
+
+    return $this->WARN(
+        "Unable to guess a value. You should set a value for this path.")
+      unless ( $Foswiki::cfg{SafeEnvPath} );
 
     # First, get the proposed path
     my @dirs = ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} ) );
