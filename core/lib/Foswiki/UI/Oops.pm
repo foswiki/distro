@@ -16,6 +16,14 @@ use Assert;
 
 use Foswiki ();
 
+# Module uses \w, requiring locale
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod oops_cgi($session)
@@ -92,8 +100,8 @@ sub oops {
     }
     $tmplName ||= 'oops';
 
-    # Item5324: Filter out < and > to block XSS
-    $tmplName =~ tr/<>//d;
+    # Item5324: Filter to block XSS
+    $tmplName =~ s/[^\w,.\/]//g;
 
     # Do not pass on the template parameter otherwise continuation won't work
     $query->delete('template');

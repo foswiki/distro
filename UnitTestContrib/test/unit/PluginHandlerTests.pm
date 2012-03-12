@@ -285,7 +285,7 @@ sub commonTagsHandler {
 }
 sub afterCommonTagsHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
-    $tester->assert_matches(/(Tropic|IncludedTopic)/, $_[1], "TWO $_[1]");
+    $tester->assert_matches(qr/(Tropic|IncludedTopic)/, $_[1], "TWO $_[1]");
     #$tester->assert_str_equals('Werb', $_[2]);
     $tester->assert($_[3]->isa('Foswiki::Meta'));
     $tester->assert_matches( qr/Two/, $_[0]);

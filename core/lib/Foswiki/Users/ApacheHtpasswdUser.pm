@@ -120,11 +120,18 @@ sub readOnly {
     my $this = shift;
     my $path = $Foswiki::cfg{Htpasswd}{FileName};
 
-    #TODO: what if the data dir is also read only?
-    if ( ( !-e $path ) || ( -e $path && -r $path && !-d $path && -w $path ) ) {
-        $this->{session}->enterContext('passwords_modifyable');
-        return 0;
-    }
+    # We expect the path to exist and be writable.
+    return 0 if ( -e $path && -f _ && -w _ );
+
+    # Otherwise, log a problem.
+    $this->{session}->logger->log( 'warning',
+            'The password file does not exist or cannot be written.'
+          . 'Run =configure= and check the setting of {Htpasswd}{FileName}.'
+          . ' New user registration has been disabled until this is corrected.'
+    );
+
+    # And disable registration (and password changes)
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 0;
     return 1;
 }
 
