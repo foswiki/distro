@@ -65,7 +65,7 @@ msgstr "%1 - %2 (%3) 注册"
 msgid "%1 Web"
 msgstr "%1 子网"
 
-#: core/templates/messages.tmpl:509
+#: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
 msgstr "%1 加入 %2 群组。"
 
@@ -78,7 +78,7 @@ msgstr "%1 加入 %2 群组。"
 msgid "%1 cannot be removed from %2"
 msgstr "%1 由 %4 从 %2 移到 %3"
 
-#: core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
 msgstr "%1 群组页已更新。"
 
@@ -92,7 +92,7 @@ msgstr "%1 列出其他用户"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 已使用电子邮件地址 %2 注册"
 
-#: core/templates/messages.tmpl:569
+#: core/templates/messages.tmpl:578
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -119,11 +119,11 @@ msgstr "%1 是个非法的新子网名称"
 msgid "%1 is currently logged in"
 msgstr "%1 已经登录"
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:468
 msgid "%1 is currently set to %2"
 msgstr "%1 现在已设为 %2"
 
-#: core/templates/messages.tmpl:567
+#: core/templates/messages.tmpl:576
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 正在编辑 %2。"
 
@@ -144,7 +144,7 @@ msgstr "'%1' 不是个合法的 %2"
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 是附件删除后的预设主题。"
 
-#: core/templates/messages.tmpl:575
+#: core/templates/messages.tmpl:584
 msgid "%1 may still be editing %2."
 msgstr "%1 可能仍在编辑 %2 。"
 
@@ -156,7 +156,7 @@ msgstr "%1 %2 子网的最近更新"
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
 # $by)
-#: core/templates/messages.tmpl:559
+#: core/templates/messages.tmpl:568
 #, fuzzy
 msgid "%1 removed from the %2 group. "
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -173,7 +173,7 @@ msgstr "%1 设定子网属性"
 msgid "%1 to start working on the new web"
 msgstr "%1 开始使用新子网"
 
-#: core/templates/messages.tmpl:646 core/templates/messages.tmpl:657
+#: core/templates/messages.tmpl:655 core/templates/messages.tmpl:666
 msgid "%1 topic does not exist"
 msgstr "%1 主题不存在"
 
@@ -208,7 +208,7 @@ msgstr "历史(&H)"
 msgid "&Sequential"
 msgstr "连续的"
 
-#: core/templates/messages.tmpl:293
+#: core/templates/messages.tmpl:302
 msgid "'%1' is not a valid %2 "
 msgstr "'%1' 不是个合法的 %2"
 
@@ -228,7 +228,7 @@ msgstr "(%1 验证)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 比上 %2)"
 
-#: core/templates/messages.tmpl:176
+#: core/templates/messages.tmpl:185
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*建议：*上传您的图片?)"
 
@@ -353,11 +353,11 @@ msgstr "(保存错误)"
 msgid "(set preferences)"
 msgstr "(设定属性)"
 
-#: core/templates/messages.tmpl:306
+#: core/templates/messages.tmpl:315
 msgid "(single character first name)"
 msgstr "(单字元名字)"
 
-#: core/templates/messages.tmpl:305
+#: core/templates/messages.tmpl:314
 msgid "(single character last name)"
 msgstr "(单字元姓氏)"
 
@@ -515,11 +515,11 @@ msgid ""
 "intentional<br />Press Cancel otherwise"
 msgstr ""
 
-#: core/templates/messages.tmpl:407
+#: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "因安全考量，部分档案加上 =.txt= 的副档名"
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:638
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -534,11 +534,11 @@ msgid ""
 msgstr "颜色记号始于 # 标记，后面由 6 个位元的 16 进位数组成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1022
+#: core/lib/Foswiki/UI/Register.pm:1025
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "确认的电子邮件已寄往 %1 "
 
-#: core/templates/messages.tmpl:633
+#: core/templates/messages.tmpl:642
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -546,7 +546,7 @@ msgid ""
 msgstr ""
 "与 %1 相似的主题在另一个子网内。请确认子网名没有拼错；必要时请修正连结。"
 
-#: core/templates/messages.tmpl:601
+#: core/templates/messages.tmpl:610
 #, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
@@ -572,7 +572,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "禁止访问"
 
-#: core/templates/messages.tmpl:609
+#: core/templates/messages.tmpl:618
 msgid "Access check on %1 failed"
 msgstr "访问检查%1失败"
 
@@ -590,7 +590,7 @@ msgstr "快捷键"
 msgid "Action"
 msgstr "功能"
 
-#: core/templates/messages.tmpl:610
+#: core/templates/messages.tmpl:619
 msgid "Action %1: %2."
 msgstr "功能 %1: %2."
 
@@ -633,7 +633,7 @@ msgstr "编辑本主题的设定"
 msgid "Add users or groups to this group"
 msgstr "请先将用户从 %1 群组删除。"
 
-#: core/templates/messages.tmpl:395
+#: core/templates/messages.tmpl:404
 #, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "增加 %1 参数到 WebPreferences 内"
@@ -687,7 +687,7 @@ msgstr "所有公开的子网"
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "允许新主题名称使用非<nop>WikiWord"
 
-#: core/templates/messages.tmpl:287
+#: core/templates/messages.tmpl:296
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -698,7 +698,7 @@ msgstr "点击\"返回\"回到 %SYSTEMWEB%.UserRegistration 并选择另一个�
 msgid "An attachment with the same name already exists in this topic."
 msgstr "新主题中的附件已存在"
 
-#: core/templates/messages.tmpl:274
+#: core/templates/messages.tmpl:283
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
@@ -760,7 +760,7 @@ msgstr "增加新档"
 msgid "Attachment"
 msgstr "附件"
 
-#: core/templates/messages.tmpl:663
+#: core/templates/messages.tmpl:672
 msgid "Attachment '%1' does not exist"
 msgstr "附件 '%1' 不存在"
 
@@ -853,7 +853,7 @@ msgstr "%2 子网中指向 %1 的反向连结"
 msgid "Backlinks to %1 in all Webs"
 msgstr "所有子网中指向 %1 的反向连结"
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:320
 msgid "Bad password"
 msgstr "密码错误"
 
@@ -890,11 +890,11 @@ msgstr ""
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:599
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
 msgstr "无法找到用户%1"
 
-#: core/templates/messages.tmpl:600
+#: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 
@@ -1020,7 +1020,7 @@ msgstr "更新"
 msgid "Changes from r%1 to r%2"
 msgstr "由 r%1 改成 r%2"
 
-#: core/templates/messages.tmpl:455
+#: core/templates/messages.tmpl:464
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
 
@@ -1089,10 +1089,10 @@ msgstr "使用 [[%1][主题版本比较工具 (diff)]] 确认您的修改"
 msgid "Conflict"
 msgstr "冲突"
 
-#: core/templates/messages.tmpl:612 core/templates/messages.tmpl:618
-#: core/templates/messages.tmpl:622 core/templates/messages.tmpl:643
-#: core/templates/messages.tmpl:654 core/templates/messages.tmpl:660
-#: core/templates/messages.tmpl:666 core/templates/messages.tmpl:675
+#: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
+#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
+#: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
+#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
 msgid "Contact %1 if you have any questions."
 msgstr "如有问题，请联系 %1"
 
@@ -1101,7 +1101,7 @@ msgstr "如有问题，请联系 %1"
 msgid "Context"
 msgstr "国家:"
 
-#: core/templates/messages.tmpl:447
+#: core/templates/messages.tmpl:456
 msgid "Continue and try to rename web?"
 msgstr "继续为子网改名?"
 
@@ -1144,15 +1144,15 @@ msgstr "版权所有 &&copy; 所有作者。本合作平台的所有资料归内
 msgid "Could not create the new web %1"
 msgstr "无法建立新子网 %1"
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:462
 msgid "Could not find template"
 msgstr "找不到范本"
 
-#: core/templates/messages.tmpl:604
+#: core/templates/messages.tmpl:613
 msgid "Could not perform search. Error was: %1"
 msgstr "无法搜寻，错误: %1"
 
-#: core/templates/messages.tmpl:359
+#: core/templates/messages.tmpl:368
 msgid "Could not save %1."
 msgstr "%1 无法保存。"
 
@@ -1198,7 +1198,7 @@ msgstr "建立新主题"
 msgid "Create new topic"
 msgstr "建立新主题"
 
-#: core/templates/messages.tmpl:527 core/templates/messages.tmpl:533
+#: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
 msgstr ""
 
@@ -1207,7 +1207,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "编辑个人资料"
 
-#: core/templates/messages.tmpl:641
+#: core/templates/messages.tmpl:650
 msgid "Create the topic"
 msgstr "建立主题"
 
@@ -1228,7 +1228,7 @@ msgstr "建立主题"
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
 msgstr "建立适当的表单定义主题"
 
@@ -1299,7 +1299,7 @@ msgid ""
 "sensitive."
 msgstr "主题名称是否拼写正确？注意主题名称是有大小写的区分。"
 
-#: core/templates/messages.tmpl:285
+#: core/templates/messages.tmpl:294
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "您是否想 [[%1][重设 %2 的密码]]?"
 
@@ -1352,37 +1352,37 @@ msgid ""
 "administrator."
 msgstr "子网改名 %1 到 %2 时发生错误 (%3)。请通知 %4 管理员。"
 
-#: core/templates/messages.tmpl:424 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:433 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
 msgstr "主题 %1 保存时发生版本控制错误。请通知 %2 管理员。"
 
-#: core/templates/messages.tmpl:205
+#: core/templates/messages.tmpl:214
 msgid "E-mail changed successfully!"
 msgstr "电子邮件变更成功!"
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:687
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:679
+#: core/templates/messages.tmpl:688
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:683
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:681
+#: core/templates/messages.tmpl:690
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:691
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1430,7 +1430,7 @@ msgstr "编辑主题属性设定"
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:353
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
@@ -1444,7 +1444,7 @@ msgstr ""
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:424
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1455,7 +1455,7 @@ msgstr "未指定档名，或上传的档案 %1 没有内容。不能上传空�
 msgid "Email address"
 msgstr "电子邮件位址:"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:484
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "本网站不开放电子邮件使用。"
 
@@ -1471,15 +1471,15 @@ msgstr "输入新用户名和密码以改变身份"
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "输入 Wiki 管理员或依 %1 设定登录"
 
-#: core/templates/messages.tmpl:261
+#: core/templates/messages.tmpl:270
 msgid "Error registering new user"
 msgstr "注册新用户发生错误"
 
-#: core/templates/messages.tmpl:252
+#: core/templates/messages.tmpl:261
 msgid "Error registering user %1"
 msgstr "注册用户 %1 发生错误"
 
-#: core/templates/messages.tmpl:423
+#: core/templates/messages.tmpl:432
 msgid "Error saving topic"
 msgstr "主题保存失败"
 
@@ -1487,31 +1487,31 @@ msgstr "主题保存失败"
 msgid "Error: %1"
 msgstr "错误: %1"
 
-#: core/templates/messages.tmpl:589
+#: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "错误: %1 的附件 %2 不存在"
 
-#: core/templates/messages.tmpl:591
+#: core/templates/messages.tmpl:600
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
 "错误: 不支援的内容类别: %1 (必须是 =text/html=, =text/plain= 或 =text/css=)"
 
-#: core/templates/messages.tmpl:590
+#: core/templates/messages.tmpl:599
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "错误: 不支援的协定 (必须是 'http://domain/...')"
 
-#: core/templates/messages.tmpl:278
+#: core/templates/messages.tmpl:287
 msgid "Errors"
 msgstr "错误"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:504
 #, fuzzy
 msgid "Errors adding users to group"
 msgstr "主题保存失败"
 
-#: core/templates/messages.tmpl:545
+#: core/templates/messages.tmpl:554
 msgid "Errors removing users from groups"
 msgstr ""
 
@@ -1528,7 +1528,7 @@ msgstr ""
 msgid "Failed to add user: "
 msgstr ""
 
-#: core/templates/messages.tmpl:602
+#: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
 msgstr "无法包含 URL %1"
 
@@ -1542,7 +1542,7 @@ msgstr "必填标为 %1 的栏位"
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr "必填标为 %1 的栏位"
 
-#: core/templates/messages.tmpl:400
+#: core/templates/messages.tmpl:409
 msgid "File has been uploaded with different name"
 msgstr "档案已用其他名称上传"
 
@@ -1574,7 +1574,7 @@ msgstr "强制新版本"
 msgid "Forgotten your password?"
 msgstr "忘记密码?"
 
-#: core/templates/messages.tmpl:372
+#: core/templates/messages.tmpl:381
 msgid "Form Definition %1 missing"
 msgstr "表单定义 %1 遗失"
 
@@ -1588,12 +1588,12 @@ msgstr ""
 msgid "Form definition"
 msgstr "表单定义遗失"
 
-#: core/templates/messages.tmpl:369
+#: core/templates/messages.tmpl:378
 #, fuzzy
 msgid "Form definition '%1' not found"
 msgstr "表单定义 %1 遗失"
 
-#: core/templates/messages.tmpl:377
+#: core/templates/messages.tmpl:386
 msgid "Form definition missing"
 msgstr "表单定义遗失"
 
@@ -1629,19 +1629,19 @@ msgstr "得到此搜寻的修改通知"
 msgid "Globe"
 msgstr "关闭"
 
-#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:484
-#: core/templates/messages.tmpl:491
+#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
+#: core/templates/messages.tmpl:500
 msgid "Go back"
 msgstr "返回"
 
-#: core/templates/messages.tmpl:363
+#: core/templates/messages.tmpl:372
 #, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
 msgstr "回到浏览器上一页并输入所有必填的栏位。"
 
-#: core/templates/messages.tmpl:430 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "回浏览器上一页并储存本地所有变更。"
 
@@ -1651,7 +1651,7 @@ msgid ""
 "trying again"
 msgstr ""
 
-#: core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:311
 msgid "Good examples:"
 msgstr "好范例:"
 
@@ -1735,7 +1735,7 @@ msgstr ""
 "然而，确认的电子邮件无法寄给 %2，表示可能是个假注册。用户 '%1' 已自动移除，但"
 "您需手动移除用户个人主题。"
 
-#: core/templates/messages.tmpl:402
+#: core/templates/messages.tmpl:411
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
@@ -1762,7 +1762,7 @@ msgid ""
 "users to this site using %1."
 msgstr ""
 
-#: core/templates/messages.tmpl:457
+#: core/templates/messages.tmpl:466
 #, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
@@ -1771,15 +1771,15 @@ msgstr ""
 "检查您设定页内 {TemplateDir} 和 {TemplatePath} 的设定。若不是这个问题，可能是"
 "您有个设定指向不存在的范本 %1。"
 
-#: core/templates/messages.tmpl:386
+#: core/templates/messages.tmpl:395
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr "如果未显示这行，请看下面 _升级_ 的段落"
 
-#: core/templates/messages.tmpl:380
+#: core/templates/messages.tmpl:389
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "若此主题不存在，请建立它。否则请检查错误。"
 
-#: core/templates/messages.tmpl:474
+#: core/templates/messages.tmpl:483
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -1790,11 +1790,11 @@ msgstr "若您将开发 Foswiki 应用程式，请参考 %1 内正确的参数�
 msgid "If you are unsure what this means, read: %1"
 msgstr "若您不清楚这是什么意思，请读："
 
-#: core/templates/messages.tmpl:631
+#: core/templates/messages.tmpl:640
 msgid "If you came here by clicking on a question mark link"
 msgstr "若您是点问号连结才来这里"
 
-#: core/templates/messages.tmpl:267
+#: core/templates/messages.tmpl:276
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "若您未在一小时内收到确认的电子邮件，"
 
@@ -1833,7 +1833,7 @@ msgstr "任何问题，请联系 %1。"
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "若您尚未设定密码，或想重设密码，请到: %1"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:481
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -1841,11 +1841,11 @@ msgstr ""
 "若您从收到的电子邮件连到这儿或只是浏览这个主题，请 [[%1][取消保存]] 并转到 "
 "%2。"
 
-#: core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:649
 msgid "If you want to create the topic"
 msgstr "让您想建立这主题"
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:645
 msgid "If you would like to create this web"
 msgstr "让您想建立这子网"
 
@@ -1892,17 +1892,17 @@ msgstr ""
 msgid "In reversed order"
 msgstr "反向排序"
 
-#: core/templates/messages.tmpl:405
+#: core/templates/messages.tmpl:414
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
 msgstr "某些情况下，系统会修改上传的档名以确保各平台都能使用:"
 
-#: core/templates/messages.tmpl:292 core/templates/messages.tmpl:299
+#: core/templates/messages.tmpl:301 core/templates/messages.tmpl:308
 msgid "Incorrect %1"
 msgstr "不正确的 %1"
 
-#: core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:311
 msgid "Incorrect %1.WikiNames:"
 msgstr "不正确的 %1.WikiNames"
 
@@ -1910,7 +1910,7 @@ msgstr "不正确的 %1.WikiNames"
 msgid "Incorrect Password"
 msgstr "不正确的密码"
 
-#: core/templates/messages.tmpl:470
+#: core/templates/messages.tmpl:479
 msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1= 脚本的参数错误"
 
@@ -1927,26 +1927,26 @@ msgstr "索引"
 msgid "Info"
 msgstr ""
 
-#: core/templates/messages.tmpl:409
+#: core/templates/messages.tmpl:418
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
 msgstr "国际字元 (8位元) 已删除 (并以 Latin-1 相同的 US-ASCII 字元替代)"
 
-#: core/templates/messages.tmpl:341
+#: core/templates/messages.tmpl:350
 msgid "Invalid Activation Code"
 msgstr "启动码错误"
 
-#: core/templates/messages.tmpl:240
+#: core/templates/messages.tmpl:249
 msgid "Invalid Input"
 msgstr ""
 
-#: core/templates/messages.tmpl:317 core/templates/messages.tmpl:325
-#: core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
+#: core/templates/messages.tmpl:342
 msgid "Invalid e-mail address"
 msgstr "电子邮件地址错误"
 
-#: core/templates/messages.tmpl:571
+#: core/templates/messages.tmpl:580
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2090,7 +2090,7 @@ msgstr "登录名 %1"
 msgid "Logon"
 msgstr "登录"
 
-#: core/templates/messages.tmpl:276
+#: core/templates/messages.tmpl:285
 msgid "Mail to"
 msgstr "邮寄给"
 
@@ -2107,7 +2107,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: core/templates/messages.tmpl:234
+#: core/templates/messages.tmpl:243
 msgid "Missing Fields"
 msgstr "缺少栏位"
 
@@ -2264,11 +2264,11 @@ msgstr "(变更)"
 msgid "No child topics"
 msgstr "无子主题"
 
-#: core/templates/messages.tmpl:488 core/templates/messages.tmpl:539
+#: core/templates/messages.tmpl:497 core/templates/messages.tmpl:548
 msgid "No group name specified"
 msgstr ""
 
-#: core/templates/messages.tmpl:588
+#: core/templates/messages.tmpl:597
 msgid "No permission to view %1"
 msgstr "无浏览 %1 的权限"
 
@@ -2281,11 +2281,11 @@ msgstr "前一个版本不存在。"
 msgid "No topics to update."
 msgstr "移动主题到子网:"
 
-#: core/templates/messages.tmpl:480 core/templates/messages.tmpl:521
+#: core/templates/messages.tmpl:489 core/templates/messages.tmpl:530
 msgid "No username specified"
 msgstr ""
 
-#: core/templates/messages.tmpl:227
+#: core/templates/messages.tmpl:236
 msgid "No users to reset passwords for."
 msgstr "没有用户重设密码."
 
@@ -2304,7 +2304,7 @@ msgid ""
 msgstr "移动后，任何引用此附件的 URL 都将失效。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
-#: core/templates/messages.tmpl:346 core/templates/messages.tmpl:404
+#: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
@@ -2351,8 +2351,8 @@ msgstr "主题数量:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:185
-#: core/templates/messages.tmpl:195 core/templates/messages.tmpl:202
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
+#: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
 #: core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:54
@@ -2373,7 +2373,7 @@ msgstr ""
 msgid "Older revision:"
 msgstr "旧版本:"
 
-#: core/templates/messages.tmpl:620
+#: core/templates/messages.tmpl:629
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "只有 %1 的成员允许使用这些功能。"
 
@@ -2430,19 +2430,24 @@ msgstr "组织名称:"
 msgid "Password"
 msgstr "密码"
 
-#: core/templates/messages.tmpl:188
+#: core/templates/messages.tmpl:197
 msgid "Password changed successfully!"
 msgstr "密码修改成功!"
 
-#: core/templates/messages.tmpl:198
+#: core/templates/messages.tmpl:207
 msgid "Password could not be changed"
 msgstr "密码无法修改"
 
-#: core/templates/messages.tmpl:226 core/templates/messages.tmpl:230
+#: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "密码重设失败"
 
-#: core/templates/messages.tmpl:246
+#: core/templates/messages.tmpl:174
+#, fuzzy
+msgid "Passwords disabled"
+msgstr "密码重设失败"
+
+#: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
 msgstr "密码不相同"
 
@@ -2464,16 +2469,17 @@ msgstr "丢弃附件的存放地"
 msgid "Placeholder for trashed attachments"
 msgstr "丢弃附件的存放地"
 
-#: core/templates/messages.tmpl:499 core/templates/messages.tmpl:549
+#: core/templates/messages.tmpl:508 core/templates/messages.tmpl:558
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: core/templates/messages.tmpl:289 core/templates/messages.tmpl:355
+#: core/templates/messages.tmpl:298 core/templates/messages.tmpl:364
 msgid "Please contact %1 if you have any questions."
 msgstr "如有问题请联系 %1."
 
 #: core/templates/messages.tmpl:160 core/templates/messages.tmpl:169
-#: core/templates/messages.tmpl:256 core/templates/messages.tmpl:268
+#: core/templates/messages.tmpl:178 core/templates/messages.tmpl:265
+#: core/templates/messages.tmpl:277
 msgid "Please contact %1."
 msgstr "请联系 %1."
 
@@ -2486,7 +2492,7 @@ msgstr "请输入 Wiki 管理员的密码"
 msgid "Please go _back_ in your browser and try a new name."
 msgstr "请_返回_浏览器的上一页，并试一个新名字."
 
-#: core/templates/messages.tmpl:416
+#: core/templates/messages.tmpl:425
 msgid "Please go back in your browser and check again."
 msgstr "请返回浏览器的上一页，并再检查一次."
 
@@ -2502,11 +2508,11 @@ msgstr ""
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
 #: core/templates/messages.tmpl:135 core/templates/messages.tmpl:139
-#: core/templates/messages.tmpl:149 core/templates/messages.tmpl:237
-#: core/templates/messages.tmpl:243 core/templates/messages.tmpl:249
-#: core/templates/messages.tmpl:296 core/templates/messages.tmpl:308
-#: core/templates/messages.tmpl:314 core/templates/messages.tmpl:322
-#: core/templates/messages.tmpl:330 core/templates/messages.tmpl:338
+#: core/templates/messages.tmpl:149 core/templates/messages.tmpl:246
+#: core/templates/messages.tmpl:252 core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:305 core/templates/messages.tmpl:317
+#: core/templates/messages.tmpl:323 core/templates/messages.tmpl:331
+#: core/templates/messages.tmpl:339 core/templates/messages.tmpl:347
 #: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
 #: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
@@ -2518,7 +2524,7 @@ msgid ""
 "stuck, please mail %2."
 msgstr "请确认 %1 的拼写正确并重试。若仍不成功，请发邮件给 %2。"
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:696
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
@@ -2646,7 +2652,7 @@ msgstr ""
 msgid "Registration"
 msgstr "注册"
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:353
 msgid "Registration codes can only be used once."
 msgstr "注册码只能使用一次。"
 
@@ -2668,7 +2674,7 @@ msgstr "正则运算式搜寻"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:614 core/templates/messages.tmpl:625
+#: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
 msgid "Related topics:"
 msgstr "相关主题:"
 
@@ -2676,7 +2682,7 @@ msgstr "相关主题:"
 msgid "Remember me on this computer"
 msgstr "在此电脑上记住我"
 
-#: core/templates/messages.tmpl:207
+#: core/templates/messages.tmpl:216
 msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
@@ -2707,7 +2713,7 @@ msgstr "请先将用户从 %1 群组删除。"
 msgid "Rename"
 msgstr "改名"
 
-#: core/templates/messages.tmpl:616
+#: core/templates/messages.tmpl:625
 msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
@@ -2811,7 +2817,7 @@ msgstr "%1 子网中的结果"
 msgid "Results from %1 web:"
 msgstr "%1 子网中的结果"
 
-#: core/templates/messages.tmpl:211
+#: core/templates/messages.tmpl:220
 msgid "Return to %1."
 msgstr "回到 %1."
 
@@ -2944,13 +2950,13 @@ msgstr "安全提示:"
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr "查看 %1 的用户列表或在 %2 注册新用户."
 
-#: core/templates/messages.tmpl:373
+#: core/templates/messages.tmpl:382
 msgid "See %1 for information about Form Definitions."
 msgstr "更多关于表单定义的资讯，请参考 %1."
 
-#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:511
-#: core/templates/messages.tmpl:518 core/templates/messages.tmpl:551
-#: core/templates/messages.tmpl:561
+#: core/templates/messages.tmpl:510 core/templates/messages.tmpl:520
+#: core/templates/messages.tmpl:527 core/templates/messages.tmpl:560
+#: core/templates/messages.tmpl:570
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr ""
 
@@ -3059,11 +3065,11 @@ msgstr "大小"
 msgid "Some add schedule information and vacation notice."
 msgstr "加上某些时间表资讯和假期通知。"
 
-#: core/templates/messages.tmpl:408
+#: core/templates/messages.tmpl:417
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr "已删除一些像于 =&#126;=, =$=, =@=, =%= 的字元"
 
-#: core/templates/messages.tmpl:347
+#: core/templates/messages.tmpl:356
 msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
@@ -3094,7 +3100,7 @@ msgstr "抱歉，目前密码系统是唯读，请联系 %1"
 msgid "Sort results by:"
 msgstr "对结果排序:"
 
-#: core/templates/messages.tmpl:406
+#: core/templates/messages.tmpl:415
 msgid "Spaces are replaced by underscores"
 msgstr "空格已以下划线替代"
 
@@ -3116,8 +3122,8 @@ msgstr "统计"
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:221
-#: core/templates/messages.tmpl:352
+#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr "提交"
 
@@ -3144,11 +3150,11 @@ msgstr "订阅/退订:"
 msgid "Subwebs"
 msgstr ""
 
-#: core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:516
 msgid "Success adding users to group"
 msgstr ""
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:566
 msgid "Success removing users from group"
 msgstr ""
 
@@ -3172,7 +3178,7 @@ msgstr ""
 "技巧：搜寻所有包含 =\"SOAP\"=, =\"WSDL\"=, 逐字的 =\"web service\"=，但不包"
 "含 =\"shampoo\"=  的主题: "
 
-#: core/templates/messages.tmpl:651
+#: core/templates/messages.tmpl:660
 msgid "Template %1 does not exist"
 msgstr "范本 %1 不存在"
 
@@ -3181,7 +3187,7 @@ msgid "Text body"
 msgstr "内容"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:208
-#: core/templates/messages.tmpl:174 core/templates/messages.tmpl:214
+#: core/templates/messages.tmpl:183 core/templates/messages.tmpl:223
 msgid "Thank you for registering"
 msgstr "谢谢您注册"
 
@@ -3197,17 +3203,17 @@ msgid ""
 "verification code is %2."
 msgstr "谢谢您在 %1 合作平台注册。您的校验码是 %2."
 
-#: core/templates/messages.tmpl:669
+#: core/templates/messages.tmpl:678
 msgid "That user has already been activated "
 msgstr "用户已经启动"
 
-#: core/templates/messages.tmpl:300
+#: core/templates/messages.tmpl:309
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
 msgstr "%1 栏位必须是姓名，姓氏在 %2 ，如：大写的姓名拼字但去掉空格。 "
 
-#: core/templates/messages.tmpl:294
+#: core/templates/messages.tmpl:303
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
 msgstr "%1 栏位必须符合本站的注册名称的 {LoginNameFilterIn} 过滤规则"
 
@@ -3216,7 +3222,7 @@ msgid "The %1 topic already exists"
 msgstr "主题 %1 已存在"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:628
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "子网 %1 不存在"
 
@@ -3245,7 +3251,7 @@ msgstr "子网 %1 不存在"
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr "Foswiki 的 %1 子网，Foswiki 是自由且开放源码的 Wiki。"
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:475
 msgid "The =%1= script can only be called with POST method."
 msgstr "=％1= 的脚本只以 POST 的方式呼叫。"
 
@@ -3253,12 +3259,17 @@ msgstr "=％1= 的脚本只以 POST 的方式呼叫。"
 msgid "The Administrator has disabled new user registration."
 msgstr "系统管理员禁止新用户注册。"
 
+#: core/templates/messages.tmpl:176
+#, fuzzy
+msgid "The Administrator has disabled password changes."
+msgstr "系统管理员禁止新用户注册。"
+
 #: core/data/System/WebPreferences.txt:12
 #, fuzzy
 msgid "The Free and Open Source Wiki."
 msgstr "Foswiki 的 %1 子网，Foswiki 是自由且开放源码的 Wiki。"
 
-#: core/templates/messages.tmpl:342
+#: core/templates/messages.tmpl:351
 msgid "The activation code %1 is invalid."
 msgstr "启动码 %1 不合法."
 
@@ -3284,7 +3295,7 @@ msgid ""
 "the site."
 msgstr ""
 
-#: core/templates/messages.tmpl:579
+#: core/templates/messages.tmpl:588
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3304,48 +3315,48 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/templates/messages.tmpl:326
+#: core/templates/messages.tmpl:335
 #, fuzzy
 msgid "The e-mail address for this account has been rejected."
 msgstr "这个帐号的电子邮件位址不合法。"
 
-#: core/templates/messages.tmpl:334
+#: core/templates/messages.tmpl:343
 #, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr "这个帐号的电子邮件位址不合法。"
 
-#: core/templates/messages.tmpl:318
+#: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "这个帐号的电子邮件位址不合法。"
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
 msgstr "%1 的用户资料不在密码系统中。"
 
-#: core/templates/messages.tmpl:401
+#: core/templates/messages.tmpl:410
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "档案已上传并附于主题 %1 内。"
 
-#: core/templates/messages.tmpl:437
+#: core/templates/messages.tmpl:446
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr "以下主题正在编辑中而被锁定，且无法移动:"
 
-#: core/templates/messages.tmpl:443
+#: core/templates/messages.tmpl:452
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr "以主题属于本子网内的文章，但正在编辑中:"
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:449
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
 msgstr "以主题属于本子网内的文章，但您没有存取的权限:"
 
-#: core/templates/messages.tmpl:379
+#: core/templates/messages.tmpl:388
 msgid "The form should be defined in the topic %1"
 msgstr "主题 %1 内应定义此表单"
 
-#: core/templates/messages.tmpl:577
+#: core/templates/messages.tmpl:586
 msgid "The lease on this topic expired %1 ago."
 msgstr "本主题的锁定期于 %1 前到期。"
 
@@ -3369,7 +3380,7 @@ msgstr "新子网已建立"
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "*旧密码* 栏内的密码错误."
 
-#: core/templates/messages.tmpl:361
+#: core/templates/messages.tmpl:370
 msgid "The required field %1 was not filled in."
 msgstr "必备的栏位%1没有填写"
 
@@ -3377,19 +3388,19 @@ msgstr "必备的栏位%1没有填写"
 msgid "The selected User System does not support new user registration."
 msgstr "选择的用户系统并不支援新用户注册。"
 
-#: core/templates/messages.tmpl:382
+#: core/templates/messages.tmpl:391
 msgid "The topic is in an old format"
 msgstr "本主题属于旧格式"
 
-#: core/templates/messages.tmpl:247
+#: core/templates/messages.tmpl:256
 msgid "The two passwords you entered do not match."
 msgstr "两次输入的密码不相同。"
 
-#: core/templates/messages.tmpl:671
+#: core/templates/messages.tmpl:680
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "用户 %1 已经启动并可登录。"
 
-#: core/templates/messages.tmpl:241
+#: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
 
@@ -3399,11 +3410,11 @@ msgid ""
 "request to your server, using your browser and your identity."
 msgstr ""
 
-#: core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:442
 msgid "There are problems with renaming this web:"
 msgstr "此子网改名时出现错误:"
 
-#: core/templates/messages.tmpl:254
+#: core/templates/messages.tmpl:263
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "新增您的用户资料到密码系统时出现错误。"
 
@@ -3414,24 +3425,24 @@ msgid ""
 msgstr ""
 "有个风险，就是在您不知情的情况下，有人可能试着以您的身份变更 %1 的内容。"
 
-#: core/templates/messages.tmpl:385
+#: core/templates/messages.tmpl:394
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必须包含一行包含 %1，参考 %2 (或 %3)"
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:506
 #, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
 msgstr "%1 加入 %2 群组。"
 
-#: core/templates/messages.tmpl:547
+#: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:401
 msgid "This can be automatically upgraded by:"
 msgstr "这将被自动更新:"
 
-#: core/templates/messages.tmpl:375
+#: core/templates/messages.tmpl:384
 msgid "This could be for several reasons:"
 msgstr "可能由很多问题引起:"
 
@@ -3510,7 +3521,7 @@ msgid ""
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:399
 msgid "This requires the form definition to be present."
 msgstr "这儿需要表单定义。"
 
@@ -3518,7 +3529,7 @@ msgstr "这儿需要表单定义。"
 msgid "This site is powered by Foswiki"
 msgstr "本站使用 Foswiki"
 
-#: core/templates/messages.tmpl:312
+#: core/templates/messages.tmpl:321
 msgid "This site requires at least %1 character passwords"
 msgstr "本站的密码至少要 %1 个字元"
 
@@ -3578,7 +3589,7 @@ msgstr "到子网:"
 msgid "To web:"
 msgstr "到子网:"
 
-#: core/templates/messages.tmpl:686
+#: core/templates/messages.tmpl:695
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -3600,7 +3611,7 @@ msgstr "到主题:"
 msgid "Topic %1 does not exist"
 msgstr "主题 %1 不存在"
 
-#: core/templates/messages.tmpl:358
+#: core/templates/messages.tmpl:367
 msgid "Topic Save Error"
 msgstr "主题保存错误"
 
@@ -3609,7 +3620,7 @@ msgstr "主题保存错误"
 msgid "Topic attachments"
 msgstr "主题附件"
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:397
 msgid "Topic can not be upgraded from old style category table"
 msgstr "主题无法由旧风格的类别表格升级"
 
@@ -3731,7 +3742,7 @@ msgstr ""
 msgid "Upgrade group topic..."
 msgstr "建立新主题"
 
-#: core/templates/messages.tmpl:514
+#: core/templates/messages.tmpl:523
 #, fuzzy
 msgid "Upgraded group"
 msgstr "建立新主题"
@@ -3751,11 +3762,11 @@ msgstr "在 %2 更新附件 %1"
 msgid "Upload up to %1 KB."
 msgstr "上传档案大小上限 %1 KB."
 
-#: core/templates/messages.tmpl:420
+#: core/templates/messages.tmpl:429
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "上传档案 %1 的大小超过上限 %2 KB"
 
-#: core/templates/messages.tmpl:419
+#: core/templates/messages.tmpl:428
 msgid "Uploaded file is too big"
 msgstr "上传的档案过大"
 
@@ -3814,7 +3825,7 @@ msgstr ""
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:183
+#: core/templates/messages.tmpl:192
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -3906,37 +3917,37 @@ msgstr "要求确认"
 msgid "Warning: 'include' topic does not exist!"
 msgstr "警告:  \"包含\" 的主题不存在！"
 
-#: core/templates/messages.tmpl:595
+#: core/templates/messages.tmpl:604
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr "警告: 无法重复包含 %1，主题已经包含。%2"
 
-#: core/templates/messages.tmpl:596
+#: core/templates/messages.tmpl:605
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr "警告: 无法包含 %1，路径空白或包含非法字元。"
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:603
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "警告: 主题 %1. %2 内找不到命名的段落 %3"
 
-#: core/templates/messages.tmpl:593
+#: core/templates/messages.tmpl:602
 msgid "Warning: Can't find topic %1.%2"
 msgstr "警告: 找不到主题%1. %2"
 
-#: core/templates/messages.tmpl:592
+#: core/templates/messages.tmpl:601
 #, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: 找不到主题%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1015
+#: core/lib/Foswiki/UI/Register.pm:1018
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 无法寄送确认邮件"
 
-#: core/lib/Foswiki/UI/Register.pm:1027
+#: core/lib/Foswiki/UI/Register.pm:1030
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 
-#: core/templates/messages.tmpl:603
+#: core/templates/messages.tmpl:612
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本网站不允许 %<nop>INCLUDE% 连结"
 
@@ -3980,7 +3991,7 @@ msgstr ""
 msgid "Welcome to the %1 web"
 msgstr "欢迎来到 %1 子网"
 
-#: core/templates/messages.tmpl:263
+#: core/templates/messages.tmpl:272
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr "正试寄电子邮件给 <noautolink>%1</noautolink>."
 
@@ -4033,19 +4044,19 @@ msgstr ""
 "您 *必须* 至少有 1 个有效的注册电子邮件才能重设密码。若您忘记密码且注册用的邮"
 "件地址已失效，后请联系 %1。"
 
-#: core/templates/messages.tmpl:282
+#: core/templates/messages.tmpl:291
 msgid "You are already registered"
 msgstr "您已注册"
 
-#: core/templates/messages.tmpl:177
+#: core/templates/messages.tmpl:186
 msgid "You are also listed in the %1 topic"
 msgstr "您也被列在%1主题中"
 
-#: core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:443
 msgid "You are denied access to the following topics in the web:"
 msgstr "在本子网中，您禁止浏览在以下主题:"
 
-#: core/templates/messages.tmpl:581
+#: core/templates/messages.tmpl:590
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -4073,25 +4084,25 @@ msgstr ""
 "您想建立子网范本（建立新子网用的子网），子网名称必须始于下划线，且之后只用英"
 "文字母及数字。"
 
-#: core/templates/messages.tmpl:664
+#: core/templates/messages.tmpl:673
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr "%1 的附件不存在。"
 
-#: core/templates/messages.tmpl:652
+#: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "您将建立的主题，其范本并不存在。"
 
-#: core/templates/messages.tmpl:647
+#: core/templates/messages.tmpl:656
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr "您将处理的主题并不存在（处理 %1）。"
 
-#: core/templates/messages.tmpl:658
+#: core/templates/messages.tmpl:667
 msgid "You are trying to rename a topic that does not exist."
 msgstr "您将更名的主题并不存在。"
 
-#: core/templates/messages.tmpl:637
+#: core/templates/messages.tmpl:646
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4115,7 +4126,7 @@ msgstr "您可利用 %1 修改密码"
 msgid "You can give this web a different name."
 msgstr "您能为本子网改名。"
 
-#: core/templates/messages.tmpl:529 core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:538 core/templates/messages.tmpl:544
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
@@ -4131,7 +4142,7 @@ msgstr ""
 msgid "You cannot register on this site."
 msgstr "您不能注册 2 次，%1 已经注册过。"
 
-#: core/templates/messages.tmpl:283
+#: core/templates/messages.tmpl:292
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "您不能注册 2 次，%1 已经注册过。"
 
@@ -4143,23 +4154,23 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
-#: core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:267
 msgid "You have *not* been registered."
 msgstr "您*尚未*注册。"
 
-#: core/templates/messages.tmpl:410
+#: core/templates/messages.tmpl:419
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr "若觉得设定不适合您的环境，请通知管理员协助修改。"
 
-#: core/templates/messages.tmpl:673
+#: core/templates/messages.tmpl:682
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr "您已点击曾经浏览过的注册验证连结。"
 
-#: core/templates/messages.tmpl:192
+#: core/templates/messages.tmpl:201
 msgid "You may need to close your browser to make this change take effect."
 msgstr "您需关闭浏览器，使变更生效。"
 
@@ -4167,19 +4178,19 @@ msgstr "您需关闭浏览器，使变更生效。"
 msgid "You must pass a topic name."
 msgstr "您必须输入主题名称。"
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:498
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:540
+#: core/templates/messages.tmpl:549
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:482
+#: core/templates/messages.tmpl:491
 msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:532
 msgid "You need to specify a valid user to remove from a group."
 msgstr ""
 
@@ -4202,7 +4213,7 @@ msgstr ""
 "您必须以合法的邮件地址注册。若系统无法找到您注册的邮件地址，它将在您的用户主"
 "题中找以下这行:"
 
-#: core/templates/messages.tmpl:397
+#: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "或许您需要询问管理员 %1 以进行这个工作。"
 
@@ -4216,7 +4227,7 @@ msgstr "或"
 msgid "Your %1.LoginName"
 msgstr "您的 %1.LoginName"
 
-#: core/templates/messages.tmpl:216
+#: core/templates/messages.tmpl:225
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -4252,17 +4263,22 @@ msgstr "您的密码:"
 msgid "Your password has been changed to %1."
 msgstr "您的密码已改成 %1。"
 
+#: core/templates/messages.tmpl:180
+#, fuzzy
+msgid "Your password has not been changed."
+msgstr "您的密码已改成 %1。"
+
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr "您在 %2 内的个人 %1 主题。可按您的习惯修改。 "
 
-#: core/templates/messages.tmpl:175
+#: core/templates/messages.tmpl:184
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "已建立您的个人主题 %1"
 
-#: core/templates/messages.tmpl:209
+#: core/templates/messages.tmpl:218
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -4274,7 +4290,7 @@ msgid ""
 "notifications of password changes."
 msgstr ""
 
-#: core/templates/messages.tmpl:265
+#: core/templates/messages.tmpl:274
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -4288,7 +4304,7 @@ msgstr "复制/贴上您的签名"
 msgid "Your signature to copy/paste:"
 msgstr "复制/贴上您的签名:"
 
-#: core/templates/messages.tmpl:200
+#: core/templates/messages.tmpl:209
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -4302,7 +4318,7 @@ msgstr "您的用户名称已从认证系统删除。"
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
 msgstr "您的用户主题尚未更名。请用电子邮件向 %1 申请。"
 
-#: core/templates/messages.tmpl:384
+#: core/templates/messages.tmpl:393
 msgid "[[%1][Debug topic text]]."
 msgstr "[[%1][主题内文除错]]。"
 
@@ -4373,7 +4389,7 @@ msgstr "更多主题功能..."
 msgid "diff"
 msgstr ""
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:470
 msgid "don't forget to check your Topic Settings"
 msgstr "别忘了检查您的主题设定"
 
@@ -4382,7 +4398,7 @@ msgstr "别忘了检查您的主题设定"
 msgid "edit"
 msgstr "编辑"
 
-#: core/templates/messages.tmpl:235
+#: core/templates/messages.tmpl:244
 msgid "fields are required."
 msgstr "必填栏位。"
 

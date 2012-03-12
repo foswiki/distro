@@ -65,7 +65,7 @@ msgstr "%1 - Регистрация за %2 (%3)"
 msgid "%1 Web"
 msgstr "Раздел %1"
 
-#: core/templates/messages.tmpl:509
+#: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 msgid "%1 cannot be removed from %2"
 msgstr "%1 е преместен(а) от %2 на %3 от %4"
 
-#: core/templates/messages.tmpl:516
+#: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
 msgstr ""
 
@@ -89,7 +89,7 @@ msgstr "на %1 има списък с Foswiki потребители"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 е регистриран с електронна поща %2"
 
-#: core/templates/messages.tmpl:569
+#: core/templates/messages.tmpl:578
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -116,11 +116,11 @@ msgstr "%1 е невалидно име за нов раздел"
 msgid "%1 is currently logged in"
 msgstr "%1 в момента е влязъл"
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:468
 msgid "%1 is currently set to %2"
 msgstr "%1 сега е настроено на %2"
 
-#: core/templates/messages.tmpl:567
+#: core/templates/messages.tmpl:576
 #, fuzzy
 msgid "%1 is editing [[%2][%3]]."
 msgstr " %1 сега редактира %2."
@@ -143,7 +143,7 @@ msgstr "'%1' е невалидно %2 "
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 е подразбиращата се страница за изтрити прикачени файлове."
 
-#: core/templates/messages.tmpl:575
+#: core/templates/messages.tmpl:584
 msgid "%1 may still be editing %2."
 msgstr "%1 може би все още редактира %2."
 
@@ -152,7 +152,7 @@ msgstr "%1 може би все още редактира %2."
 msgid "%1 recent changes in %2 Web"
 msgstr "%1 Последни промени в раздел %2"
 
-#: core/templates/messages.tmpl:559
+#: core/templates/messages.tmpl:568
 #, fuzzy
 msgid "%1 removed from the %2 group. "
 msgstr "%1 е преместен(а) от %2 на %3 от %4"
@@ -169,7 +169,7 @@ msgstr "%1, за да промените настройките за разде�
 msgid "%1 to start working on the new web"
 msgstr "%1, за да работите по новия раздел"
 
-#: core/templates/messages.tmpl:646 core/templates/messages.tmpl:657
+#: core/templates/messages.tmpl:655 core/templates/messages.tmpl:666
 msgid "%1 topic does not exist"
 msgstr "Страница %1 не съществува"
 
@@ -201,7 +201,7 @@ msgstr "История"
 msgid "&Sequential"
 msgstr "Последователно"
 
-#: core/templates/messages.tmpl:293
+#: core/templates/messages.tmpl:302
 msgid "'%1' is not a valid %2 "
 msgstr "'%1' е невалидно %2 "
 
@@ -221,7 +221,7 @@ msgstr "(%1 валидация)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 с-у %2)"
 
-#: core/templates/messages.tmpl:176
+#: core/templates/messages.tmpl:185
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Предложение:* Можете да прикачите ваша снимка към страницата.)"
 
@@ -346,11 +346,11 @@ msgstr "(грешка при запис)"
 msgid "(set preferences)"
 msgstr "(настройки)"
 
-#: core/templates/messages.tmpl:306
+#: core/templates/messages.tmpl:315
 msgid "(single character first name)"
 msgstr "(една буква за име)"
 
-#: core/templates/messages.tmpl:305
+#: core/templates/messages.tmpl:314
 msgid "(single character last name)"
 msgstr "(една буква за фамилия)"
 
@@ -526,13 +526,13 @@ msgid ""
 "intentional<br />Press Cancel otherwise"
 msgstr ""
 
-#: core/templates/messages.tmpl:407
+#: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
 "Разширение =.txt= се добавя към някои имена на файлове от съображения за "
 "сигурност"
 
-#: core/templates/messages.tmpl:629
+#: core/templates/messages.tmpl:638
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -549,11 +549,11 @@ msgstr ""
 "шестнадесетичната бройна система, например: =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1022
+#: core/lib/Foswiki/UI/Register.pm:1025
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "e-mail с потвърждение бе изпратен на %1"
 
-#: core/templates/messages.tmpl:633
+#: core/templates/messages.tmpl:642
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -563,7 +563,7 @@ msgstr ""
 "написали правилно името на раздела на предната страница; поправете връзката "
 "ако е необходимо."
 
-#: core/templates/messages.tmpl:601
+#: core/templates/messages.tmpl:610
 #, fuzzy
 msgid ""
 "A new system-generated password for your login name '%1' (!WikiName %2) has "
@@ -593,7 +593,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Достъпът отказан"
 
-#: core/templates/messages.tmpl:609
+#: core/templates/messages.tmpl:618
 msgid "Access check on %1 failed"
 msgstr "Достъпът до %1 бе отказан"
 
@@ -611,7 +611,7 @@ msgstr "Клавиши за достъп"
 msgid "Action"
 msgstr "Действие"
 
-#: core/templates/messages.tmpl:610
+#: core/templates/messages.tmpl:619
 msgid "Action %1: %2."
 msgstr "Действие %1 : %2."
 
@@ -654,7 +654,7 @@ msgstr "Промяна на настройките за тази страниц�
 msgid "Add users or groups to this group"
 msgstr "Първо премахнете потребителя от груп(ата/ите) %1."
 
-#: core/templates/messages.tmpl:395
+#: core/templates/messages.tmpl:404
 #, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "Добавяне на променлива %1 в страница WebPreferences"
@@ -710,7 +710,7 @@ msgstr "Всички публични рздели"
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Разреши не-<nop>WikiWord в името на новата страница"
 
-#: core/templates/messages.tmpl:287
+#: core/templates/messages.tmpl:296
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -723,7 +723,7 @@ msgstr ""
 msgid "An attachment with the same name already exists in this topic."
 msgstr "Прикрепения файл вече съществува в нова страница"
 
-#: core/templates/messages.tmpl:274
+#: core/templates/messages.tmpl:283
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
@@ -791,7 +791,7 @@ msgstr "Прикрепяне на нов файл"
 msgid "Attachment"
 msgstr "Прикрепен файл"
 
-#: core/templates/messages.tmpl:663
+#: core/templates/messages.tmpl:672
 msgid "Attachment '%1' does not exist"
 msgstr "Прикрепеният файл '%1' не съсществува"
 
@@ -884,7 +884,7 @@ msgstr "Обратни връзки към %1 в %2 Раздел"
 msgid "Backlinks to %1 in all Webs"
 msgstr "Обратни връзки към %1 във всички раздели"
 
-#: core/templates/messages.tmpl:311
+#: core/templates/messages.tmpl:320
 msgid "Bad password"
 msgstr "Грешна парола"
 
@@ -924,11 +924,11 @@ msgstr ""
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:599
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
 msgstr "Потребителят %1  не бе открит"
 
-#: core/templates/messages.tmpl:600
+#: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "Няма e-mail-адрес за %1 (задължителен за нулиране на паролата)"
 
@@ -1054,7 +1054,7 @@ msgstr "Промени"
 msgid "Changes from r%1 to r%2"
 msgstr "Промени от r%1 до r%2"
 
-#: core/templates/messages.tmpl:455
+#: core/templates/messages.tmpl:464
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
 
@@ -1128,10 +1128,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Конфликт"
 
-#: core/templates/messages.tmpl:612 core/templates/messages.tmpl:618
-#: core/templates/messages.tmpl:622 core/templates/messages.tmpl:643
-#: core/templates/messages.tmpl:654 core/templates/messages.tmpl:660
-#: core/templates/messages.tmpl:666 core/templates/messages.tmpl:675
+#: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
+#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
+#: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
+#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
 msgid "Contact %1 if you have any questions."
 msgstr "Свържете се с %1 ако имате някакви въпроси."
 
@@ -1140,7 +1140,7 @@ msgstr "Свържете се с %1 ако имате някакви въпро�
 msgid "Context"
 msgstr "Страна:"
 
-#: core/templates/messages.tmpl:447
+#: core/templates/messages.tmpl:456
 msgid "Continue and try to rename web?"
 msgstr "Продължете и се опитайте да преименувате раздела."
 
@@ -1188,15 +1188,15 @@ msgstr ""
 msgid "Could not create the new web %1"
 msgstr "Новият раздел %1 не може да бъде създаден"
 
-#: core/templates/messages.tmpl:453
+#: core/templates/messages.tmpl:462
 msgid "Could not find template"
 msgstr "Шаблонът не може да бъде създаден"
 
-#: core/templates/messages.tmpl:604
+#: core/templates/messages.tmpl:613
 msgid "Could not perform search. Error was: %1"
 msgstr "Търсенето е невъзможно. Грешката беше: %1"
 
-#: core/templates/messages.tmpl:359
+#: core/templates/messages.tmpl:368
 msgid "Could not save %1."
 msgstr "Неуспешен запис на %1."
 
@@ -1242,7 +1242,7 @@ msgstr "Нова Страница"
 msgid "Create new topic"
 msgstr "Нова Страница"
 
-#: core/templates/messages.tmpl:527 core/templates/messages.tmpl:533
+#: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
 msgstr ""
 
@@ -1250,7 +1250,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Създаване на личен страничен панел"
 
-#: core/templates/messages.tmpl:641
+#: core/templates/messages.tmpl:650
 msgid "Create the topic"
 msgstr "Създаване на Страницата"
 
@@ -1271,7 +1271,7 @@ msgstr "Създаване на Страницата"
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
 msgstr "Създаване на подходяща страница за дефиниция на форма"
 
@@ -1344,7 +1344,7 @@ msgstr ""
 "Написали ли сте правилно %1 ? Запомнете, името на страницата е чувствително "
 "към регистъра."
 
-#: core/templates/messages.tmpl:285
+#: core/templates/messages.tmpl:294
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Да не искахте да нулирате [[%1][паролата на %2]]?"
 
@@ -1405,7 +1405,7 @@ msgstr ""
 "При преименуване на раздел %1 на %2 се появи грешка (%3). Моля, уведомете "
 "вашия %4 администратор."
 
-#: core/templates/messages.tmpl:424 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:433 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1413,31 +1413,31 @@ msgstr ""
 "При записа на %1 бе открита грешка от системата за контрол на версиите. "
 "Моля, уведомете вашия %2 администратор."
 
-#: core/templates/messages.tmpl:205
+#: core/templates/messages.tmpl:214
 msgid "E-mail changed successfully!"
 msgstr "E-mail адресът ви бе променен успешно!"
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:687
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:679
+#: core/templates/messages.tmpl:688
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:683
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:681
+#: core/templates/messages.tmpl:690
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:691
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1485,7 +1485,7 @@ msgstr "Редактиране настройките на тази страни
 msgid "Ehm, let me go back to correct the page..."
 msgstr ""
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:353
 msgid ""
 "Either the code is not valid, or you have already confirmed your "
 "registration using it."
@@ -1501,7 +1501,7 @@ msgstr ""
 msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
 
-#: core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:424
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1514,7 +1514,7 @@ msgstr ""
 msgid "Email address"
 msgstr "E-mail адрес:"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:484
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 "Изпращането на електронна поща е изключено за тази инсталация на Foswiki"
@@ -1532,15 +1532,15 @@ msgstr ""
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Въведете Wiki Администратор потребител или влезте както е указано в %1"
 
-#: core/templates/messages.tmpl:261
+#: core/templates/messages.tmpl:270
 msgid "Error registering new user"
 msgstr "Грешка при регистрация на нов потребител"
 
-#: core/templates/messages.tmpl:252
+#: core/templates/messages.tmpl:261
 msgid "Error registering user %1"
 msgstr "Грешка при регистрация на потребител %1"
 
-#: core/templates/messages.tmpl:423
+#: core/templates/messages.tmpl:432
 msgid "Error saving topic"
 msgstr "Грешка при запис на страницата"
 
@@ -1548,11 +1548,11 @@ msgstr "Грешка при запис на страницата"
 msgid "Error: %1"
 msgstr "Грешка: %1"
 
-#: core/templates/messages.tmpl:589
+#: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Грешка: прикрепенияткъм %1файл %2, does not exist"
 
-#: core/templates/messages.tmpl:591
+#: core/templates/messages.tmpl:600
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1560,20 +1560,20 @@ msgstr ""
 "грешка: Неподдържан тип на съдържанието: %1 (Трябва да бъде =text/html=, "
 "=text/plain= или =text/css=)"
 
-#: core/templates/messages.tmpl:590
+#: core/templates/messages.tmpl:599
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr "Грешка: Неподдържан протокол. (Трябва да бъде 'http://domain/...')"
 
-#: core/templates/messages.tmpl:278
+#: core/templates/messages.tmpl:287
 msgid "Errors"
 msgstr "Грешки"
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:504
 #, fuzzy
 msgid "Errors adding users to group"
 msgstr "Грешка при запис на страницата"
 
-#: core/templates/messages.tmpl:545
+#: core/templates/messages.tmpl:554
 msgid "Errors removing users from groups"
 msgstr ""
 
@@ -1590,7 +1590,7 @@ msgstr ""
 msgid "Failed to add user: "
 msgstr ""
 
-#: core/templates/messages.tmpl:602
+#: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
 msgstr "Неуспешно включване на URL %1"
 
@@ -1604,7 +1604,7 @@ msgstr "Полетата, маркирани с %1 са задължителни
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr "Полетата, маркирани с %1 са задължителни"
 
-#: core/templates/messages.tmpl:400
+#: core/templates/messages.tmpl:409
 msgid "File has been uploaded with different name"
 msgstr "Файлът бе качен с различно име"
 
@@ -1636,7 +1636,7 @@ msgstr "Нова версия сега!"
 msgid "Forgotten your password?"
 msgstr "Забравена парола?"
 
-#: core/templates/messages.tmpl:372
+#: core/templates/messages.tmpl:381
 msgid "Form Definition %1 missing"
 msgstr "Дефиниция на форма %1 липсва"
 
@@ -1650,12 +1650,12 @@ msgstr ""
 msgid "Form definition"
 msgstr "Липсва дефиниция на формата"
 
-#: core/templates/messages.tmpl:369
+#: core/templates/messages.tmpl:378
 #, fuzzy
 msgid "Form definition '%1' not found"
 msgstr "Дефиниция на форма %1 липсва"
 
-#: core/templates/messages.tmpl:377
+#: core/templates/messages.tmpl:386
 msgid "Form definition missing"
 msgstr "Липсва дефиниция на формата"
 
@@ -1691,12 +1691,12 @@ msgstr "Уведомяване за промени в това търсене"
 msgid "Globe"
 msgstr "Затваряне"
 
-#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:484
-#: core/templates/messages.tmpl:491
+#: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
+#: core/templates/messages.tmpl:500
 msgid "Go back"
 msgstr "Обратно"
 
-#: core/templates/messages.tmpl:363
+#: core/templates/messages.tmpl:372
 #, fuzzy
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
@@ -1705,7 +1705,7 @@ msgstr ""
 "Върнете се назад с браузъра си и въведете информация във всички задължителни "
 "полета."
 
-#: core/templates/messages.tmpl:430 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "Върнете се назад с браузъра си и запишете локално промените."
 
@@ -1715,7 +1715,7 @@ msgid ""
 "trying again"
 msgstr ""
 
-#: core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:311
 msgid "Good examples:"
 msgstr "Добри примери:"
 
@@ -1798,7 +1798,7 @@ msgid ""
 "However you may have to remove the user's personal topic manually."
 msgstr ""
 
-#: core/templates/messages.tmpl:402
+#: core/templates/messages.tmpl:411
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
@@ -1826,7 +1826,7 @@ msgid ""
 "users to this site using %1."
 msgstr ""
 
-#: core/templates/messages.tmpl:457
+#: core/templates/messages.tmpl:466
 #, fuzzy
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
@@ -1836,15 +1836,15 @@ msgstr ""
 "проблема, е може би защото имате настройка за %1, която сочи към "
 "несъществуващ шаблон."
 
-#: core/templates/messages.tmpl:386
+#: core/templates/messages.tmpl:395
 msgid "If this line isn't present see _upgrade_ section below"
 msgstr "Ако този ред го няма, вижте секцията _подобрения_ по-долу"
 
-#: core/templates/messages.tmpl:380
+#: core/templates/messages.tmpl:389
 msgid "If this topic is missing create it, otherwise check it for errors."
 msgstr "Ако тази страница липсва, създайте я или я проверете за грешки."
 
-#: core/templates/messages.tmpl:474
+#: core/templates/messages.tmpl:483
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -1856,11 +1856,11 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:631
+#: core/templates/messages.tmpl:640
 msgid "If you came here by clicking on a question mark link"
 msgstr "Ако сте тук защото сте щракнали върху връзка с въпрос"
 
-#: core/templates/messages.tmpl:267
+#: core/templates/messages.tmpl:276
 msgid "If you don't receive a verification email within the next hour, "
 msgstr ""
 
@@ -1898,17 +1898,17 @@ msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
 "Ако не сте задали парола все още или желаете д я промените, отидете на  %1"
 
-#: core/templates/messages.tmpl:472
+#: core/templates/messages.tmpl:481
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:649
 msgid "If you want to create the topic"
 msgstr "Ако желаете да създадете страницата"
 
-#: core/templates/messages.tmpl:636
+#: core/templates/messages.tmpl:645
 msgid "If you would like to create this web"
 msgstr "Ако желаете да създадете този раздел"
 
@@ -1956,7 +1956,7 @@ msgstr ""
 msgid "In reversed order"
 msgstr "В обратен ред"
 
-#: core/templates/messages.tmpl:405
+#: core/templates/messages.tmpl:414
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
@@ -1964,11 +1964,11 @@ msgstr ""
 "В някои случаи Foswiki променя името на качения файл от съображения за "
 "сигурност и по-добър достъп на всички платформи."
 
-#: core/templates/messages.tmpl:292 core/templates/messages.tmpl:299
+#: core/templates/messages.tmpl:301 core/templates/messages.tmpl:308
 msgid "Incorrect %1"
 msgstr "Невярно %1"
 
-#: core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:311
 msgid "Incorrect %1.WikiNames:"
 msgstr "Невярно %1.WikiИмена:"
 
@@ -1976,7 +1976,7 @@ msgstr "Невярно %1.WikiИмена:"
 msgid "Incorrect Password"
 msgstr "Грешна парола"
 
-#: core/templates/messages.tmpl:470
+#: core/templates/messages.tmpl:479
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Грешни параметри към скрипта =%1="
 
@@ -1993,7 +1993,7 @@ msgstr "Индекс"
 msgid "Info"
 msgstr ""
 
-#: core/templates/messages.tmpl:409
+#: core/templates/messages.tmpl:418
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
@@ -2001,20 +2001,20 @@ msgstr ""
 "Международните (8-битови) символи са премахнати (заместени с US-ASCII "
 "еквиваленти за Latin-1)"
 
-#: core/templates/messages.tmpl:341
+#: core/templates/messages.tmpl:350
 msgid "Invalid Activation Code"
 msgstr "Невалиден код за активиране"
 
-#: core/templates/messages.tmpl:240
+#: core/templates/messages.tmpl:249
 msgid "Invalid Input"
 msgstr ""
 
-#: core/templates/messages.tmpl:317 core/templates/messages.tmpl:325
-#: core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
+#: core/templates/messages.tmpl:342
 msgid "Invalid e-mail address"
 msgstr "невалиден адрес за електронна поща"
 
-#: core/templates/messages.tmpl:571
+#: core/templates/messages.tmpl:580
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2156,7 +2156,7 @@ msgstr "Име за вход %1"
 msgid "Logon"
 msgstr "Вход"
 
-#: core/templates/messages.tmpl:276
+#: core/templates/messages.tmpl:285
 msgid "Mail to"
 msgstr "Изпрати до"
 
@@ -2173,7 +2173,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: core/templates/messages.tmpl:234
+#: core/templates/messages.tmpl:243
 msgid "Missing Fields"
 msgstr "Липсващи полета"
 
@@ -2330,11 +2330,11 @@ msgstr "(промени)"
 msgid "No child topics"
 msgstr "Няма подстраници"
 
-#: core/templates/messages.tmpl:488 core/templates/messages.tmpl:539
+#: core/templates/messages.tmpl:497 core/templates/messages.tmpl:548
 msgid "No group name specified"
 msgstr ""
 
-#: core/templates/messages.tmpl:588
+#: core/templates/messages.tmpl:597
 msgid "No permission to view %1"
 msgstr "нямате права да видите %1"
 
@@ -2347,11 +2347,11 @@ msgstr "Не съществува предна версия."
 msgid "No topics to update."
 msgstr "Преместване на страницата в раздел:"
 
-#: core/templates/messages.tmpl:480 core/templates/messages.tmpl:521
+#: core/templates/messages.tmpl:489 core/templates/messages.tmpl:530
 msgid "No username specified"
 msgstr ""
 
-#: core/templates/messages.tmpl:227
+#: core/templates/messages.tmpl:236
 msgid "No users to reset passwords for."
 msgstr "Няма потребители, чиито пароли да бъдат променени."
 
@@ -2370,7 +2370,7 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
-#: core/templates/messages.tmpl:346 core/templates/messages.tmpl:404
+#: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
 msgid "Note:"
@@ -2417,8 +2417,8 @@ msgstr "Брой страници:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:185
-#: core/templates/messages.tmpl:195 core/templates/messages.tmpl:202
+#: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
+#: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
 #: core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:54
@@ -2439,7 +2439,7 @@ msgstr ""
 msgid "Older revision:"
 msgstr "По-стара версия"
 
-#: core/templates/messages.tmpl:620
+#: core/templates/messages.tmpl:629
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Само членовете на %1 могат да извършват това действие."
 
@@ -2496,19 +2496,24 @@ msgstr "Име на организацията"
 msgid "Password"
 msgstr "Парола"
 
-#: core/templates/messages.tmpl:188
+#: core/templates/messages.tmpl:197
 msgid "Password changed successfully!"
 msgstr "Паролата е променена успешно!"
 
-#: core/templates/messages.tmpl:198
+#: core/templates/messages.tmpl:207
 msgid "Password could not be changed"
 msgstr "Паролата не може да бъде променена"
 
-#: core/templates/messages.tmpl:226 core/templates/messages.tmpl:230
+#: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Връщането на старата парола се провали"
 
-#: core/templates/messages.tmpl:246
+#: core/templates/messages.tmpl:174
+#, fuzzy
+msgid "Passwords disabled"
+msgstr "Връщането на старата парола се провали"
+
+#: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
 msgstr "Паролите не съвпадат"
 
@@ -2530,16 +2535,17 @@ msgstr "Място за изхвърлени прикачени файлове"
 msgid "Placeholder for trashed attachments"
 msgstr "Място за изхвърлени прикачени файлове"
 
-#: core/templates/messages.tmpl:499 core/templates/messages.tmpl:549
+#: core/templates/messages.tmpl:508 core/templates/messages.tmpl:558
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: core/templates/messages.tmpl:289 core/templates/messages.tmpl:355
+#: core/templates/messages.tmpl:298 core/templates/messages.tmpl:364
 msgid "Please contact %1 if you have any questions."
 msgstr "Моля свържете се с %1 ако имате някакви въпроси."
 
 #: core/templates/messages.tmpl:160 core/templates/messages.tmpl:169
-#: core/templates/messages.tmpl:256 core/templates/messages.tmpl:268
+#: core/templates/messages.tmpl:178 core/templates/messages.tmpl:265
+#: core/templates/messages.tmpl:277
 msgid "Please contact %1."
 msgstr "Моля свържете се с %1."
 
@@ -2552,7 +2558,7 @@ msgstr "Моля, въведете администраторската паро
 msgid "Please go _back_ in your browser and try a new name."
 msgstr ""
 
-#: core/templates/messages.tmpl:416
+#: core/templates/messages.tmpl:425
 msgid "Please go back in your browser and check again."
 msgstr "Моля върнете се назад с браузъра и проверете отново."
 
@@ -2565,11 +2571,11 @@ msgstr ""
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
 #: core/templates/messages.tmpl:135 core/templates/messages.tmpl:139
-#: core/templates/messages.tmpl:149 core/templates/messages.tmpl:237
-#: core/templates/messages.tmpl:243 core/templates/messages.tmpl:249
-#: core/templates/messages.tmpl:296 core/templates/messages.tmpl:308
-#: core/templates/messages.tmpl:314 core/templates/messages.tmpl:322
-#: core/templates/messages.tmpl:330 core/templates/messages.tmpl:338
+#: core/templates/messages.tmpl:149 core/templates/messages.tmpl:246
+#: core/templates/messages.tmpl:252 core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:305 core/templates/messages.tmpl:317
+#: core/templates/messages.tmpl:323 core/templates/messages.tmpl:331
+#: core/templates/messages.tmpl:339 core/templates/messages.tmpl:347
 #: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
 #: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
 msgid "Please go back in your browser and try again."
@@ -2581,7 +2587,7 @@ msgid ""
 "stuck, please mail %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:696
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -2711,7 +2717,7 @@ msgstr ""
 msgid "Registration"
 msgstr "Регистрация"
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:353
 msgid "Registration codes can only be used once."
 msgstr "Кодовете за регистрация могат да се ползват само по веднъж."
 
@@ -2733,7 +2739,7 @@ msgstr "Търсене с регулярни изрази"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
-#: core/templates/messages.tmpl:614 core/templates/messages.tmpl:625
+#: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
 msgid "Related topics:"
 msgstr "Подобни:"
 
@@ -2741,7 +2747,7 @@ msgstr "Подобни:"
 msgid "Remember me on this computer"
 msgstr "Запомни ме на този компютър"
 
-#: core/templates/messages.tmpl:207
+#: core/templates/messages.tmpl:216
 msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
@@ -2774,7 +2780,7 @@ msgstr "Първо премахнете потребителя от груп(а�
 msgid "Rename"
 msgstr "Преименуване"
 
-#: core/templates/messages.tmpl:616
+#: core/templates/messages.tmpl:625
 msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
@@ -2879,7 +2885,7 @@ msgstr "Резултати от раздел %1"
 msgid "Results from %1 web:"
 msgstr "Резултати от раздел %1"
 
-#: core/templates/messages.tmpl:211
+#: core/templates/messages.tmpl:220
 msgid "Return to %1."
 msgstr "Върнете се към %1."
 
@@ -3014,13 +3020,13 @@ msgstr ""
 "Прегледайте списъка на съществуващите потребители в %1 или регистрирайте нов "
 "потребител в %2."
 
-#: core/templates/messages.tmpl:373
+#: core/templates/messages.tmpl:382
 msgid "See %1 for information about Form Definitions."
 msgstr "Прегледайте %1 за информация относно Дефиниране на Форми."
 
-#: core/templates/messages.tmpl:501 core/templates/messages.tmpl:511
-#: core/templates/messages.tmpl:518 core/templates/messages.tmpl:551
-#: core/templates/messages.tmpl:561
+#: core/templates/messages.tmpl:510 core/templates/messages.tmpl:520
+#: core/templates/messages.tmpl:527 core/templates/messages.tmpl:560
+#: core/templates/messages.tmpl:570
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr ""
 
@@ -3130,11 +3136,11 @@ msgstr "Размер"
 msgid "Some add schedule information and vacation notice."
 msgstr ""
 
-#: core/templates/messages.tmpl:408
+#: core/templates/messages.tmpl:417
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
 msgstr ""
 
-#: core/templates/messages.tmpl:347
+#: core/templates/messages.tmpl:356
 msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
@@ -3161,7 +3167,7 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Сортирай резултатите по:"
 
-#: core/templates/messages.tmpl:406
+#: core/templates/messages.tmpl:415
 msgid "Spaces are replaced by underscores"
 msgstr "паузите се заместват с подчертавки"
 
@@ -3183,8 +3189,8 @@ msgstr "Статистика"
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:221
-#: core/templates/messages.tmpl:352
+#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr ""
 
@@ -3211,11 +3217,11 @@ msgstr ""
 msgid "Subwebs"
 msgstr ""
 
-#: core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:516
 msgid "Success adding users to group"
 msgstr ""
 
-#: core/templates/messages.tmpl:557
+#: core/templates/messages.tmpl:566
 msgid "Success removing users from group"
 msgstr ""
 
@@ -3239,7 +3245,7 @@ msgstr ""
 "СЪВЕТ: за да търсите за страници, съдържащи =\"SOAP\"=, =\"WSDL\"=, буквален "
 "текст =\"web service\"=, но не =\"shampoo\"=, напишете:"
 
-#: core/templates/messages.tmpl:651
+#: core/templates/messages.tmpl:660
 msgid "Template %1 does not exist"
 msgstr "Шаблон %1 не съществува"
 
@@ -3248,7 +3254,7 @@ msgid "Text body"
 msgstr "Тялото на текста"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:208
-#: core/templates/messages.tmpl:174 core/templates/messages.tmpl:214
+#: core/templates/messages.tmpl:183 core/templates/messages.tmpl:223
 msgid "Thank you for registering"
 msgstr ""
 
@@ -3264,17 +3270,17 @@ msgid ""
 "verification code is %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:669
+#: core/templates/messages.tmpl:678
 msgid "That user has already been activated "
 msgstr ""
 
-#: core/templates/messages.tmpl:300
+#: core/templates/messages.tmpl:309
 msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
 msgstr ""
 
-#: core/templates/messages.tmpl:294
+#: core/templates/messages.tmpl:303
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
 msgstr ""
 
@@ -3283,7 +3289,7 @@ msgid "The %1 topic already exists"
 msgstr "Страницата %1 вече съществува"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:628
+#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "Разделът %1 не съществува"
 
@@ -3310,7 +3316,7 @@ msgstr "Разделът %1 не съществува"
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr ""
 
-#: core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:475
 msgid "The =%1= script can only be called with POST method."
 msgstr ""
 
@@ -3318,11 +3324,15 @@ msgstr ""
 msgid "The Administrator has disabled new user registration."
 msgstr ""
 
+#: core/templates/messages.tmpl:176
+msgid "The Administrator has disabled password changes."
+msgstr ""
+
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
 msgstr ""
 
-#: core/templates/messages.tmpl:342
+#: core/templates/messages.tmpl:351
 msgid "The activation code %1 is invalid."
 msgstr ""
 
@@ -3348,7 +3358,7 @@ msgid ""
 "the site."
 msgstr ""
 
-#: core/templates/messages.tmpl:579
+#: core/templates/messages.tmpl:588
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -3368,48 +3378,48 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/templates/messages.tmpl:326
+#: core/templates/messages.tmpl:335
 #, fuzzy
 msgid "The e-mail address for this account has been rejected."
 msgstr "Адресът за електронна поща на тази сметка е невалиден."
 
-#: core/templates/messages.tmpl:334
+#: core/templates/messages.tmpl:343
 #, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr "Адресът за електронна поща на тази сметка е невалиден."
 
-#: core/templates/messages.tmpl:318
+#: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "Адресът за електронна поща на тази сметка е невалиден."
 
-#: core/templates/messages.tmpl:598
+#: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
 msgstr "Записът за потребител %1 липсваше в системата за пароли."
 
-#: core/templates/messages.tmpl:401
+#: core/templates/messages.tmpl:410
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr ""
 
-#: core/templates/messages.tmpl:437
+#: core/templates/messages.tmpl:446
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
 
-#: core/templates/messages.tmpl:443
+#: core/templates/messages.tmpl:452
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 
-#: core/templates/messages.tmpl:440
+#: core/templates/messages.tmpl:449
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
 msgstr ""
 
-#: core/templates/messages.tmpl:379
+#: core/templates/messages.tmpl:388
 msgid "The form should be defined in the topic %1"
 msgstr "Формата трябва да е дефинирана в страницата %1"
 
-#: core/templates/messages.tmpl:577
+#: core/templates/messages.tmpl:586
 msgid "The lease on this topic expired %1 ago."
 msgstr ""
 
@@ -3433,7 +3443,7 @@ msgstr "Новият раздел бе създаден"
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr ""
 
-#: core/templates/messages.tmpl:361
+#: core/templates/messages.tmpl:370
 msgid "The required field %1 was not filled in."
 msgstr ""
 
@@ -3441,19 +3451,19 @@ msgstr ""
 msgid "The selected User System does not support new user registration."
 msgstr ""
 
-#: core/templates/messages.tmpl:382
+#: core/templates/messages.tmpl:391
 msgid "The topic is in an old format"
 msgstr ""
 
-#: core/templates/messages.tmpl:247
+#: core/templates/messages.tmpl:256
 msgid "The two passwords you entered do not match."
 msgstr ""
 
-#: core/templates/messages.tmpl:671
+#: core/templates/messages.tmpl:680
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
-#: core/templates/messages.tmpl:241
+#: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
 msgstr ""
 
@@ -3463,11 +3473,11 @@ msgid ""
 "request to your server, using your browser and your identity."
 msgstr ""
 
-#: core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:442
 msgid "There are problems with renaming this web:"
 msgstr ""
 
-#: core/templates/messages.tmpl:254
+#: core/templates/messages.tmpl:263
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 
@@ -3477,23 +3487,23 @@ msgid ""
 "content on %1 without your knowledge."
 msgstr ""
 
-#: core/templates/messages.tmpl:385
+#: core/templates/messages.tmpl:394
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:506
 msgid "There were errors adding to the %2 group. %1 "
 msgstr ""
 
-#: core/templates/messages.tmpl:547
+#: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
 msgstr ""
 
-#: core/templates/messages.tmpl:392
+#: core/templates/messages.tmpl:401
 msgid "This can be automatically upgraded by:"
 msgstr ""
 
-#: core/templates/messages.tmpl:375
+#: core/templates/messages.tmpl:384
 msgid "This could be for several reasons:"
 msgstr ""
 
@@ -3565,7 +3575,7 @@ msgid ""
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
 
-#: core/templates/messages.tmpl:390
+#: core/templates/messages.tmpl:399
 msgid "This requires the form definition to be present."
 msgstr ""
 
@@ -3573,7 +3583,7 @@ msgstr ""
 msgid "This site is powered by Foswiki"
 msgstr ""
 
-#: core/templates/messages.tmpl:312
+#: core/templates/messages.tmpl:321
 msgid "This site requires at least %1 character passwords"
 msgstr ""
 
@@ -3631,7 +3641,7 @@ msgstr "Към раздел:"
 msgid "To web:"
 msgstr "Към раздел:"
 
-#: core/templates/messages.tmpl:686
+#: core/templates/messages.tmpl:695
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -3653,7 +3663,7 @@ msgstr "Към страница:"
 msgid "Topic %1 does not exist"
 msgstr "Страница %1 не съществува"
 
-#: core/templates/messages.tmpl:358
+#: core/templates/messages.tmpl:367
 msgid "Topic Save Error"
 msgstr "Грешка при Запис на Страницата"
 
@@ -3662,7 +3672,7 @@ msgstr "Грешка при Запис на Страницата"
 msgid "Topic attachments"
 msgstr "Прикачени файлове към страницата"
 
-#: core/templates/messages.tmpl:388
+#: core/templates/messages.tmpl:397
 msgid "Topic can not be upgraded from old style category table"
 msgstr ""
 
@@ -3784,7 +3794,7 @@ msgstr ""
 msgid "Upgrade group topic..."
 msgstr "Нова Страница"
 
-#: core/templates/messages.tmpl:514
+#: core/templates/messages.tmpl:523
 #, fuzzy
 msgid "Upgraded group"
 msgstr "Нова Страница"
@@ -3804,11 +3814,11 @@ msgstr "Обновяване на прикрепен файл %1 на %2"
 msgid "Upload up to %1 KB."
 msgstr "Качване на файлове до %1 KB."
 
-#: core/templates/messages.tmpl:420
+#: core/templates/messages.tmpl:429
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "Каченият файл %1 надвишава ограничението от %2 KB"
 
-#: core/templates/messages.tmpl:419
+#: core/templates/messages.tmpl:428
 msgid "Uploaded file is too big"
 msgstr "Каченият файл е твърде голям"
 
@@ -3867,7 +3877,7 @@ msgstr ""
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:183
+#: core/templates/messages.tmpl:192
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -3959,42 +3969,42 @@ msgstr ""
 msgid "Warning: 'include' topic does not exist!"
 msgstr "Внимание: 'include' страница не съществува"
 
-#: core/templates/messages.tmpl:595
+#: core/templates/messages.tmpl:604
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 "Внимание: %1 не може да се ВМЪКНЕ(INCLUDE) отново, страницата е вече "
 "вмъкната. %2"
 
-#: core/templates/messages.tmpl:596
+#: core/templates/messages.tmpl:605
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:594
+#: core/templates/messages.tmpl:603
 #, fuzzy
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Внимание: Страница %1 не може да бъде намерена.%2"
 
-#: core/templates/messages.tmpl:593
+#: core/templates/messages.tmpl:602
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Внимание: Страница %1 не може да бъде намерена.%2"
 
-#: core/templates/messages.tmpl:592
+#: core/templates/messages.tmpl:601
 #, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Внимание: Страница %1 не може да бъде намерена.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1015
+#: core/lib/Foswiki/UI/Register.pm:1018
 msgid "Warning: Could not send confirmation email"
 msgstr "Внимание: Потвърдителното съобщение(email) не може да бъде изпратено"
 
-#: core/lib/Foswiki/UI/Register.pm:1027
+#: core/lib/Foswiki/UI/Register.pm:1030
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Внимание: Потвърдителното съобщение(email) не може да бъде изпратено. "
 "Изпращането на електронна поща е изключено."
 
-#: core/templates/messages.tmpl:603
+#: core/templates/messages.tmpl:612
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Внимание: Този сайт не разрешава %<nop>INCLUDE% на уеб-адреси"
 
@@ -4039,7 +4049,7 @@ msgstr ""
 msgid "Welcome to the %1 web"
 msgstr "Добре дошли в раздел %1"
 
-#: core/templates/messages.tmpl:263
+#: core/templates/messages.tmpl:272
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr ""
 
@@ -4092,19 +4102,19 @@ msgstr ""
 "паролата си. Ако нито един от регистрираните e-mail-адреси не е валиден, "
 "свържете се с %1."
 
-#: core/templates/messages.tmpl:282
+#: core/templates/messages.tmpl:291
 msgid "You are already registered"
 msgstr "Вие вече сте регистриран"
 
-#: core/templates/messages.tmpl:177
+#: core/templates/messages.tmpl:186
 msgid "You are also listed in the %1 topic"
 msgstr "Вие също сте в списъка на страница %1"
 
-#: core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:443
 msgid "You are denied access to the following topics in the web:"
 msgstr "На вас ви е отказан достъп до следните страници в раздела:"
 
-#: core/templates/messages.tmpl:581
+#: core/templates/messages.tmpl:590
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -4126,25 +4136,25 @@ msgid ""
 "underscore and has only alphanumeric characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:664
+#: core/templates/messages.tmpl:673
 msgid "You are trying to %1 an attachment that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:652
+#: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
 
-#: core/templates/messages.tmpl:647
+#: core/templates/messages.tmpl:656
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
 
-#: core/templates/messages.tmpl:658
+#: core/templates/messages.tmpl:667
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Опитвате се да преименувате страница, която не съществува."
 
-#: core/templates/messages.tmpl:637
+#: core/templates/messages.tmpl:646
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4166,7 +4176,7 @@ msgstr ""
 msgid "You can give this web a different name."
 msgstr ""
 
-#: core/templates/messages.tmpl:529 core/templates/messages.tmpl:535
+#: core/templates/messages.tmpl:538 core/templates/messages.tmpl:544
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
@@ -4181,7 +4191,7 @@ msgstr ""
 msgid "You cannot register on this site."
 msgstr ""
 
-#: core/templates/messages.tmpl:283
+#: core/templates/messages.tmpl:292
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr ""
 
@@ -4193,23 +4203,23 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
-#: core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:267
 msgid "You have *not* been registered."
 msgstr "Вие *не* бяхте регистриран."
 
-#: core/templates/messages.tmpl:410
+#: core/templates/messages.tmpl:419
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
 
-#: core/templates/messages.tmpl:673
+#: core/templates/messages.tmpl:682
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr ""
 
-#: core/templates/messages.tmpl:192
+#: core/templates/messages.tmpl:201
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 
@@ -4217,19 +4227,19 @@ msgstr ""
 msgid "You must pass a topic name."
 msgstr ""
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:498
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:540
+#: core/templates/messages.tmpl:549
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:482
+#: core/templates/messages.tmpl:491
 msgid "You need to specify a valid user to add to a group."
 msgstr ""
 
-#: core/templates/messages.tmpl:523
+#: core/templates/messages.tmpl:532
 msgid "You need to specify a valid user to remove from a group."
 msgstr ""
 
@@ -4247,7 +4257,7 @@ msgid ""
 "will look for a line like this:"
 msgstr ""
 
-#: core/templates/messages.tmpl:397
+#: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
 
@@ -4261,7 +4271,7 @@ msgstr "или"
 msgid "Your %1.LoginName"
 msgstr ""
 
-#: core/templates/messages.tmpl:216
+#: core/templates/messages.tmpl:225
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -4294,17 +4304,22 @@ msgstr "Вашата парола:"
 msgid "Your password has been changed to %1."
 msgstr ""
 
+#: core/templates/messages.tmpl:180
+#, fuzzy
+msgid "Your password has not been changed."
+msgstr "Паролата не може да бъде променена"
+
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr ""
 
-#: core/templates/messages.tmpl:175
+#: core/templates/messages.tmpl:184
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "Вашата лична страница %1 бе създадена"
 
-#: core/templates/messages.tmpl:209
+#: core/templates/messages.tmpl:218
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -4316,7 +4331,7 @@ msgid ""
 "notifications of password changes."
 msgstr ""
 
-#: core/templates/messages.tmpl:265
+#: core/templates/messages.tmpl:274
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -4330,7 +4345,7 @@ msgstr "Вашият подпис за copy/paste:"
 msgid "Your signature to copy/paste:"
 msgstr "Вашият подпис за copy/paste:"
 
-#: core/templates/messages.tmpl:200
+#: core/templates/messages.tmpl:209
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -4344,7 +4359,7 @@ msgstr ""
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
 msgstr ""
 
-#: core/templates/messages.tmpl:384
+#: core/templates/messages.tmpl:393
 msgid "[[%1][Debug topic text]]."
 msgstr "[[%1][Дебъгване текста на страницатаt]]."
 
@@ -4414,7 +4429,7 @@ msgstr "Още действия..."
 msgid "diff"
 msgstr ""
 
-#: core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:470
 msgid "don't forget to check your Topic Settings"
 msgstr "не забравяйте да проверите Настройките на Страницата си"
 
@@ -4423,7 +4438,7 @@ msgstr "не забравяйте да проверите Настройките
 msgid "edit"
 msgstr "редакция"
 
-#: core/templates/messages.tmpl:235
+#: core/templates/messages.tmpl:244
 msgid "fields are required."
 msgstr "полета са задължителни."
 
