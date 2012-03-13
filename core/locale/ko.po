@@ -85,7 +85,9 @@ msgstr "%1님은 승인되었고 %2 로 등록되었습니다"
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
-msgstr "%1 님이 %2 동안 토픽을 편집하고 있으며, 임대기간은 아직 %3 동안 더 유효합니다."
+msgstr ""
+"%1 님이 %2 동안 토픽을 편집하고 있으며, 임대기간은 아직 %3 동안 더 유효합니"
+"다."
 
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
@@ -168,7 +170,8 @@ msgstr "%1 님이 이메일 계정 %2 으로 등록하려 하였습니다"
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render.pm:253
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 은 %4 님에 의하여 %3 에 %2 으로부터 이름이 변경되거나 이동 되었습니다."
+msgstr ""
+"%1 은 %4 님에 의하여 %3 에 %2 으로부터 이름이 변경되거나 이동 되었습니다."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
 msgid "%1.LoginName"
@@ -346,8 +349,8 @@ msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
 msgstr ""
-"*관리자:* 이 양식을 사용하여 사용자의 이메일 주소를 변경할 수 있습니다. 사용자의 로그인 혹은 위키명을 입력하고 새 이메일 주소를 "
-"입력하십시오."
+"*관리자:* 이 양식을 사용하여 사용자의 이메일 주소를 변경할 수 있습니다. 사용"
+"자의 로그인 혹은 위키명을 입력하고 새 이메일 주소를 입력하십시오."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -355,8 +358,9 @@ msgid ""
 "comment shown in the topic will change, but the comment shown against the "
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
-"*댓글 변경:* _속성 변경_ 을 사용하여 댓글을 변경하면, 토픽에 보이는 댓글이 변경됩니다, 하지만 첨부파일 대비 보여지는 댓글은 "
-"파일이 업로드 되었을 때의 댓글이 보여집니다."
+"*댓글 변경:* _속성 변경_ 을 사용하여 댓글을 변경하면, 토픽에 보이는 댓글이 변"
+"경됩니다, 하지만 첨부파일 대비 보여지는 댓글은 파일이 업로드 되었을 때의 댓글"
+"이 보여집니다."
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -373,23 +377,29 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*중요:* 여기서 제공되는 정보는 포스위키 서버의 데이터베이스에 저장됩니다. 이 데이터베이스는 웹을 통하여 서버에 접근할 수 있는 누구나 "
-"열람이 가능합니다(하지만 스팸을 방지하기 위하여, 이메일과 비밀번호는 암호화되어 있습니다). 사용자의 국가 혹은 서버가 위치하는 국가는 "
-"이러한 데이터베이스를 관리하기위한 데이터 보호 법규를 가지고 있을 수 있습니다. 이러한 부분이 모호하다면 등록하기 전에 포스위키 서버의 "
-"데이터 보호 정책에 대해서 자세히 알기위해 %1 와 연락하십시오."
+"*중요:* 여기서 제공되는 정보는 포스위키 서버의 데이터베이스에 저장됩니다. 이 "
+"데이터베이스는 웹을 통하여 서버에 접근할 수 있는 누구나 열람이 가능합니다(하"
+"지만 스팸을 방지하기 위하여, 이메일과 비밀번호는 암호화되어 있습니다). 사용자"
+"의 국가 혹은 서버가 위치하는 국가는 이러한 데이터베이스를 관리하기위한 데이"
+"터 보호 법규를 가지고 있을 수 있습니다. 이러한 부분이 모호하다면 등록하기 전"
+"에 포스위키 서버의 데이터 보호 정책에 대해서 자세히 알기위해 %1 와 연락하십시"
+"오."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
 "*Local file:* If you select a different file in _Local file:_, it is this "
 "that will be updated or added."
-msgstr "*지역 파일:* _지역 파일:_ 의 다른 파일을 선택하시면, 그 파일이 업데이트 되거나 추가 됩니다."
+msgstr ""
+"*지역 파일:* _지역 파일:_ 의 다른 파일을 선택하시면, 그 파일이 업데이트 되거"
+"나 추가 됩니다."
 
 #: core/templates/attachagain.tmpl:17
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
-"*속성:* 댓글과 표시 여부 (예: 첨부파일이 숨겨져 있는가) 는 파일을 업로드 하지 않고 \"속성만 변경\" 을 눌러서 변경 가능합니다."
+"*속성:* 댓글과 표시 여부 (예: 첨부파일이 숨겨져 있는가) 는 파일을 업로드 하"
+"지 않고 \"속성만 변경\" 을 눌러서 변경 가능합니다."
 
 #: core/data/System/WikiSyntaxSummary.txt:9
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -399,17 +409,23 @@ msgstr "*굵은체* 는 단어/구문을 별표 사이에 둡니다: =<nop>*귀�
 msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
-msgstr "*목록형 글머리 기호* 3 스페이스, 별표, 1 스페이스 =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;귀하의 문구="
+msgstr ""
+"*목록형 글머리 기호* 3 스페이스, 별표, 1 스페이스 =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp;귀하의 문구="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
-msgstr "*외부 링크* =http://yahoo.com= 혹은 =[<nop>[http://yahoo.com/][Yahoo로 링크]]="
+msgstr ""
+"*외부 링크* =http://yahoo.com= 혹은 =[<nop>[http://yahoo.com/][Yahoo로 링크]]"
+"="
 
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
-msgstr "*머리글* 3 대시, 더하기 표시 1 개에서 6 개, 1 스페이스: =---++&&nbsp;귀하의 머리글="
+msgstr ""
+"*머리글* 3 대시, 더하기 표시 1 개에서 6 개, 1 스페이스: =---++&&nbsp;귀하의 "
+"머리글="
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
@@ -425,7 +441,9 @@ msgstr "*단락* 은 빈 줄로 구분합니다"
 
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
-msgstr "*사이트 링크* 는 토픽 제목을 사용합니다: =%1= 혹은 =[<nop>[%1][우리 홈페이지]]="
+msgstr ""
+"*사이트 링크* 는 토픽 제목을 사용합니다: =%1= 혹은 =[<nop>[%1][우리 홈페이"
+"지]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:93
 msgid "..."
@@ -470,10 +488,10 @@ msgid ""
 "href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
 "topics, <a href='%7' rel='nofollow'>all changes</a>"
 msgstr ""
-"<a href='%1'>RSS feed</a>, 최근 변경 내역 <a href='%2'>50 개</a>, <a href='%3' "
-"rel='nofollow'>100 개</a>, <a href='%4' rel='nofollow'>200 개</a>, <a href='%"
-"5' rel='nofollow'>500 개 </a>, <a href='%6' rel='nofollow'>1000 개 </a> 토픽, <a "
-"href='%7' rel='nofollow'>모든 변경 내역</a>"
+"<a href='%1'>RSS feed</a>, 최근 변경 내역 <a href='%2'>50 개</a>, <a "
+"href='%3' rel='nofollow'>100 개</a>, <a href='%4' rel='nofollow'>200 개</a>, "
+"<a href='%5' rel='nofollow'>500 개 </a>, <a href='%6' rel='nofollow'>1000 개 "
+"</a> 토픽, <a href='%7' rel='nofollow'>모든 변경 내역</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -488,8 +506,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>확인 필수!</strong> 본 변경이 의도한 바 였음을 확인하였으면 확인을 눌르십시오<br />그렇지 않다면 취소를 "
-"누르십시오"
+"<strong>확인 필수!</strong> 본 변경이 의도한 바 였음을 확인하였으면 확인을 눌"
+"르십시오<br />그렇지 않다면 취소를 누르십시오"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -500,14 +518,16 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Foswiki 사이트는 웹으로 나뉘어집니다; 각각의 웹은 한 개의 주제, 협업의 한 영역을를 나타냅니다. 당신은 존재하지 않는 웹에서 %"
-"1 작업을 시도하고 있습니다."
+"Foswiki 사이트는 웹으로 나뉘어집니다; 각각의 웹은 한 개의 주제, 협업의 한 영"
+"역을를 나타냅니다. 당신은 존재하지 않는 웹에서 %1 작업을 시도하고 있습니다."
 
 #: core/templates/messages.tmpl:143
 msgid ""
 "A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
 "=#FFFF00=."
-msgstr "색상 정보는 # 표시로 시작되며, 그 뒤에는 6개의 16진수 숫자로 구성됩니다. 예 = #FFFF00=."
+msgstr ""
+"색상 정보는 # 표시로 시작되며, 그 뒤에는 6개의 16진수 숫자로 구성됩니다. 예 "
+"= #FFFF00=."
 
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1025
@@ -520,8 +540,9 @@ msgid ""
 "the name of the web is not spelt wrongly on the previous page; fix the link "
 "if necessary."
 msgstr ""
-"다른 웹에 위치한 토픽으로의 링크는 다음과 같이 작성됩니다: %1. 웹의 이름이 이전 페이지에서 철자가 틀리지 않았는지 확인하십시오; "
-"필요하다면 링크를 수정하십시오."
+"다른 웹에 위치한 토픽으로의 링크는 다음과 같이 작성됩니다: %1. 웹의 이름이 이"
+"전 페이지에서 철자가 틀리지 않았는지 확인하십시오; 필요하다면 링크를 수정하십"
+"시오."
 
 #: core/templates/messages.tmpl:610
 msgid ""
@@ -529,8 +550,9 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
-"귀하의 로그인 이름 '%1' (!위키이름 %2) 에 대하여 새롭게 시스템에서 생성된 비밀번호가 등록하신 이메일 주소로 전송되었습니다. "
-"만약 이메일 주소가 더 이상 유효하지 않다면, %3 에게 연락하십시오"
+"귀하의 로그인 이름 '%1' (!위키이름 %2) 에 대하여 새롭게 시스템에서 생성된 비"
+"밀번호가 등록하신 이메일 주소로 전송되었습니다. 만약 이메일 주소가 더 이상 유"
+"효하지 않다면, %3 에게 연락하십시오"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
@@ -538,7 +560,9 @@ msgstr "토픽 템플릿은 신규 생성된 토픽의 초기 내용을 정의�
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
-msgstr "이와 같은 이름을 가진 토픽이 존재합니다만, %1 로 이름이 바뀌었거나 이동 되었습니다."
+msgstr ""
+"이와 같은 이름을 가진 토픽이 존재합니다만, %1 로 이름이 바뀌었거나 이동 되었"
+"습니다."
 
 #: core/data/System/WebSearch.txt:91
 msgid "A-Z"
@@ -627,7 +651,9 @@ msgstr "고급 검색"
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
-msgstr "이 양식을 제출하면 이메일 주소가 변경되고, 화면은 이 양식으로 다시 돌아옵니다."
+msgstr ""
+"이 양식을 제출하면 이메일 주소가 변경되고, 화면은 이 양식으로 다시 돌아옵니"
+"다."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
@@ -638,8 +664,8 @@ msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
-"이 폼을 제출하면, *시스템이 생성한 비밀번호* 를 이메일을 통해서 받아볼 수 있으며, 이메일로 전송된 링크를 따라서 비밀번호를 변경할 "
-"수 있습니다."
+"이 폼을 제출하면, *시스템이 생성한 비밀번호* 를 이메일을 통해서 받아볼 수 있"
+"으며, 이메일로 전송된 링크를 따라서 비밀번호를 변경할 수 있습니다."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
@@ -657,7 +683,9 @@ msgstr "<nop>WikiWord 가 아닌 단어로 토픽을 생성하는 것을 허용"
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
-msgstr "대안으로는, 뒤로가기를 눌러 %SYSTEMWEB%.UserRegistration 으로 복귀 한 후 다른 사용자명을 선택하십시오."
+msgstr ""
+"대안으로는, 뒤로가기를 눌러 %SYSTEMWEB%.UserRegistration 으로 복귀 한 후 다"
+"른 사용자명을 선택하십시오."
 
 #: core/lib/Foswiki/UI/Rename.pm:205
 msgid "An attachment with the same name already exists in this topic."
@@ -666,19 +694,25 @@ msgstr "이 토픽에 동명의 첨부파일이 이미 존재하고 있습니다
 #: core/templates/messages.tmpl:283
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
-msgstr "이메일은 전송되지 않았습니다. 해당 내용을 귀하의 %1 관리자인, %2 님에게 알려주세요"
+msgstr ""
+"이메일은 전송되지 않았습니다. 해당 내용을 귀하의 %1 관리자인, %2 님에게 알려"
+"주세요"
 
 #: core/templates/moveattachment.tmpl:49
 msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
-msgstr "토픽 중 하나가 다른 사용자에 의하여 잠겨있는 경우라면 오류 페이지가 표기됩니다."
+msgstr ""
+"토픽 중 하나가 다른 사용자에 의하여 잠겨있는 경우라면 오류 페이지가 표기됩니"
+"다."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
-msgstr "악의를 가진 사람이 귀하의 로그인 신분을 사용하여 귀하 몰래 귀하의 위키의 내용을 변경할 수 있습니다."
+msgstr ""
+"악의를 가진 사람이 귀하의 로그인 신분을 사용하여 귀하 몰래 귀하의 위키의 내용"
+"을 변경할 수 있습니다."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
@@ -826,7 +860,9 @@ msgstr "본문과 제목 모두"
 msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
-msgstr "하지만 기존 양식 데이터가 손실됩니다 (토픽 기록을 통하여 이 테이터를 찾아 올 수 있습니다)"
+msgstr ""
+"하지만 기존 양식 데이터가 손실됩니다 (토픽 기록을 통하여 이 테이터를 찾아 올 "
+"수 있습니다)"
 
 #: core/data/Trash/WebHome.txt:7
 msgid ""
@@ -834,8 +870,9 @@ msgid ""
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
 "in WebPreferences."
 msgstr ""
-"기본으로, 휴지통 웹의 보기는 %1 에게만 제한되어 있습니다. 모든 사용자가 휴지통 웹을 보도록 허용하려면, WebPreference에서 "
-"=ALLOWWEBVIEW= 제한을 삭제하십시오."
+"기본으로, 휴지통 웹의 보기는 %1 에게만 제한되어 있습니다. 모든 사용자가 휴지"
+"통 웹을 보도록 허용하려면, WebPreference에서 =ALLOWWEBVIEW= 제한을 삭제하십시"
+"오."
 
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
@@ -853,7 +890,8 @@ msgstr "사용자 %1 님을 찾을 수 없습니다"
 
 #: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
-msgstr "(비밀번호 재설정을 위해 필수항목인) %1 님의 이메일 주소를 가져올 수 없습니다"
+msgstr ""
+"(비밀번호 재설정을 위해 필수항목인) %1 님의 이메일 주소를 가져올 수 없습니다"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
@@ -1003,7 +1041,9 @@ msgstr "모두 지우기"
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
-msgstr "토픽을 이전 장소로 이동하려면 클릭하십시오, 참조를 변경할 수 있는 옵션 포함됨."
+msgstr ""
+"토픽을 이전 장소로 이동하려면 클릭하십시오, 참조를 변경할 수 있는 옵션 포함"
+"됨."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:471
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
@@ -1036,7 +1076,9 @@ msgstr "이름변경 혹은 이동을 확인"
 msgid ""
 "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
 "(diff)]]."
-msgstr "Foswiki 의 [[%1][토픽 기록 비교 도구 (diff)]] 를 사용하여 변경내용을 확인하십시오."
+msgstr ""
+"Foswiki 의 [[%1][토픽 기록 비교 도구 (diff)]] 를 사용하여 변경내용을 확인하십"
+"시오."
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
@@ -1045,7 +1087,7 @@ msgstr "충돌"
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
 #: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
 #: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
 msgid "Contact %1 if you have any questions."
 msgstr "질문이 있으시면 %1 님에게 연락 하십시오."
 
@@ -1065,7 +1107,8 @@ msgstr "계속하여 새 페이지를 생성"
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr "토픽 내용때문에 WYSIWYG 편집을 위한 HTML 로의 변환이 비활성화 되었습니다."
+msgstr ""
+"토픽 내용때문에 WYSIWYG 편집을 위한 HTML 로의 변환이 비활성화 되었습니다."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
@@ -1245,7 +1288,9 @@ msgstr "별도 창에 상세내역"
 msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
-msgstr "토픽 이름의 철자를 바르게 적으셨습니까? 토픽 이름은 대소문자를 구분한다는 것을 명심하십시오."
+msgstr ""
+"토픽 이름의 철자를 바르게 적으셨습니까? 토픽 이름은 대소문자를 구분한다는 것"
+"을 명심하십시오."
 
 #: core/templates/messages.tmpl:294
 msgid "Did you want to [[%1][reset %2's password]]?"
@@ -1262,7 +1307,8 @@ msgstr "차이점:"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "Discover the details, and how to start your own site with Foswiki"
-msgstr "상세내역 및 포스위키로 귀하만의 사이트를 어떻게 시작하는 지를 발견하십시오"
+msgstr ""
+"상세내역 및 포스위키로 귀하만의 사이트를 어떻게 시작하는 지를 발견하십시오"
 
 #: core/templates/preview.tmpl:11
 msgid "Do not forget to save your changes"
@@ -1280,7 +1326,9 @@ msgstr "보이지 않기:"
 msgid ""
 "During deletion of attachment =%1= an error was found. Please notify your %2 "
 "administrator."
-msgstr "첨부파일 =%1= 을 삭제하는 동안 오류가 발견되었습니다. 관리자 %2 님께 알려주십시오."
+msgstr ""
+"첨부파일 =%1= 을 삭제하는 동안 오류가 발견되었습니다. 관리자 %2 님께 알려주십"
+"시오."
 
 #: core/templates/messages.tmpl:55
 msgid "During move of attachment =%1= to %2 an error was found."
@@ -1290,45 +1338,51 @@ msgstr "첨부파일 =%1= 을 %2 로 이동하는 중, 오류가 발견되었습
 msgid ""
 "During rename of topic %1 to %2 an error (%3) was found. Please notify your "
 "%4 administrator."
-msgstr "토픽 %1 을 %2 로 이름 변경하는 중, 오류 (%3) 가 발견되었습니다. 관리자 %4 님께 알려주십시오."
+msgstr ""
+"토픽 %1 을 %2 로 이름 변경하는 중, 오류 (%3) 가 발견되었습니다. 관리자 %4 님"
+"께 알려주십시오."
 
 #: core/templates/messages.tmpl:102
 msgid ""
 "During rename of web %1 to %2 an error (%3) was found. Please notify your %4 "
 "administrator."
-msgstr "웹 %1 을 %2 으로 변경하는 중, 오류 (%3) 이 발견되었습니다. 관리자 %4 님께 알려주십시오."
+msgstr ""
+"웹 %1 을 %2 으로 변경하는 중, 오류 (%3) 이 발견되었습니다. 관리자 %4 님께 알"
+"려주십시오."
 
 #: core/templates/messages.tmpl:433 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
-msgstr "%1 을 저장하는 중, 버전 컨트롤 시스템에 의하여 오류가 발견되었습니다. 관리자 %2 님께 알려주십시오."
+msgstr ""
+"%1 을 저장하는 중, 버전 컨트롤 시스템에 의하여 오류가 발견되었습니다. 관리자 "
+"%2 님께 알려주십시오."
 
 #: core/templates/messages.tmpl:214
 msgid "E-mail changed successfully!"
 msgstr "이메일 변경이 완료되었습니다!"
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE 실패 - =type= 은 =old= 및 =new= 와 함께 사용될 수 없습니다"
 
-#: core/templates/messages.tmpl:688
+#: core/templates/messages.tmpl:690
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE 실패 - =old= 와 =new= 가 함께 주어져야 합니다"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:691
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE 실패 - '%PARAM1%' 토큰이 =old= 내 에서 반복되고 있습니다 "
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:694
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND 실패 - '%PARAM1%' 로의 접근이 거부됨"
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND 실패 - 매크로 없음"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:693
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND 실패 - '%PARAM1%' 이란 토픽 없음"
 
@@ -1392,7 +1446,9 @@ msgstr "이름이 유효하지 않거나 존재하지 않는 토픽을 지정합
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
-msgstr "파일명을 지정하지 않았거나 업로드 하려는 파일 %1 에 내용이 없습니다. 빈 파일은 업로드 할 수 없습니다."
+msgstr ""
+"파일명을 지정하지 않았거나 업로드 하려는 파일 %1 에 내용이 없습니다. 빈 파일"
+"은 업로드 할 수 없습니다."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
 msgid "Email address"
@@ -1439,11 +1495,13 @@ msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
 msgstr ""
-"오류: 지원되지 않는 컨텐츠 유형: %1 (=text/html=, =text/plain= 혹은 =text/css= 중 하나이어야 함)"
+"오류: 지원되지 않는 컨텐츠 유형: %1 (=text/html=, =text/plain= 혹은 =text/"
+"css= 중 하나이어야 함)"
 
 #: core/templates/messages.tmpl:599
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
-msgstr "오류: 미지원 프로토콜.(반드시 'http://도메인/...' 과 같이 시작해야합니다)"
+msgstr ""
+"오류: 미지원 프로토콜.(반드시 'http://도메인/...' 과 같이 시작해야합니다)"
 
 #: core/templates/messages.tmpl:287
 msgid "Errors"
@@ -1504,8 +1562,8 @@ msgid ""
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 msgstr ""
-"사이트 간 요청 위조 및 귀하께서 직면할 수 있는 위험에 대하여 더 상세한 정보는 [[%1][위키피디아의 사이트 간 요청 위조]] 를 "
-"참고하십시오."
+"사이트 간 요청 위조 및 귀하께서 직면할 수 있는 위험에 대하여 더 상세한 정보"
+"는 [[%1][위키피디아의 사이트 간 요청 위조]] 를 참고하십시오."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1545,7 +1603,8 @@ msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
-"Foswiki 는 브라우저로부터 받는 모든 요청을 확인하고, 브라우저를 사용하는 사람이 의도적으로 보낸 요청인지를 확인하려 합니다."
+"Foswiki 는 브라우저로부터 받는 모든 요청을 확인하고, 브라우저를 사용하는 사람"
+"이 의도적으로 보낸 요청인지를 확인하려 합니다."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1568,7 +1627,7 @@ msgid "Globe"
 msgstr "국제"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
 msgid "Go back"
 msgstr "돌아가기"
 
@@ -1576,17 +1635,19 @@ msgstr "돌아가기"
 msgid ""
 "Go back in your browser and insert values for all mandatory fields before "
 "saving again"
-msgstr "브라우저에서 뒤로 가서 다시 저장하기 전에 모든 필수 항목에 값을 입력하십시오"
+msgstr ""
+"브라우저에서 뒤로 가서 다시 저장하기 전에 모든 필수 항목에 값을 입력하십시오"
 
 #: core/templates/messages.tmpl:439 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr "브라우저에서 뒤로 가서 변경을 로컬에 저장합니다."
 
-#: core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
-msgstr "이전 페이지로 돌아가서 다시 시도하기 전에 쿠키와 자바스크립트를 활성화 합니다"
+msgstr ""
+"이전 페이지로 돌아가서 다시 시도하기 전에 쿠키와 자바스크립트를 활성화 합니다"
 
 #: core/templates/messages.tmpl:311
 msgid "Good examples:"
@@ -1660,7 +1721,8 @@ msgid ""
 "may be a fraudulent registration.  The user '%1' could not be removed "
 "automatically."
 msgstr ""
-"하지만, %2 님에게 확인 이메일 전송에 실패하였으며, 허위등록 가능성이 있습니다. 사용자 '%1' 님은 자동 삭제 될 수 없습니다."
+"하지만, %2 님에게 확인 이메일 전송에 실패하였으며, 허위등록 가능성이 있습니"
+"다. 사용자 '%1' 님은 자동 삭제 될 수 없습니다."
 
 #: core/templates/registerfailedremoved.tmpl:12
 msgid ""
@@ -1668,8 +1730,9 @@ msgid ""
 "maye be a fraudulent registration.  The user '%1' was removed automatically. "
 "However you may have to remove the user's personal topic manually."
 msgstr ""
-"하지만, %2 님에게 확인 이메일 전송에 실패하였습니다, 이는 허위등록 가능성을 제기합니다. 사용자 '%1' 님은 자동적으로 "
-"제거되었습니다. 하지만, 이 사용자의 개인 토픽은 수동으로 삭제해야 할 수도 있습니다."
+"하지만, %2 님에게 확인 이메일 전송에 실패하였습니다, 이는 허위등록 가능성을 "
+"제기합니다. 사용자 '%1' 님은 자동적으로 제거되었습니다. 하지만, 이 사용자의 "
+"개인 토픽은 수동으로 삭제해야 할 수도 있습니다."
 
 #: core/templates/messages.tmpl:411
 msgid ""
@@ -1684,25 +1747,33 @@ msgstr "내 비밀번호를 잊어버렸습니다"
 #: core/data/System/DefaultPreferences.txt:40
 #: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
-msgstr "%1 관련 아이디어, 요청사항, 문제가 있습니까? <a href='%2'>의견을 보내주십시오k</a>"
+msgstr ""
+"%1 관련 아이디어, 요청사항, 문제가 있습니까? <a href='%2'>의견을 보내주십시오"
+"k</a>"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
 "page, then you are asked to confirm the request."
-msgstr "Foswiki 가 그러한 페이지에 전송되었을 수 있는 의심가는 요청을 감지하면, 그 요청을 확인하도록 문의드릴 것입니다."
+msgstr ""
+"Foswiki 가 그러한 페이지에 전송되었을 수 있는 의심가는 요청을 감지하면, 그 요"
+"청을 확인하도록 문의드릴 것입니다."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:20
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
-msgstr "만약 등록이 오류에 의하여 비활성화 되지 않았더라도 관리자가 %1 을 사용하여 이 사이트에 사용자를 등록할 수 있습니다."
+msgstr ""
+"만약 등록이 오류에 의하여 비활성화 되지 않았더라도 관리자가 %1 을 사용하여 "
+"이 사이트에 사용자를 등록할 수 있습니다."
 
 #: core/templates/messages.tmpl:466
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
-msgstr "만약 그 문제가 아니라면, 존재하지 않는 템플릿을 지정하는 %1 의 설정때문 일 수 있습니다."
+msgstr ""
+"만약 그 문제가 아니라면, 존재하지 않는 템플릿을 지정하는 %1 의 설정때문 일 "
+"수 있습니다."
 
 #: core/templates/messages.tmpl:395
 msgid "If this line isn't present see _upgrade_ section below"
@@ -1742,8 +1813,8 @@ msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
-"오류로 인하여 본 이메일을 수신 시: %2 사이트에 누군가 (%1) 귀하의 이메일 주소 %3 를 사용하여 등록하였습니다. 오류가 있다면 "
-"%4 님에게 연락하십시오."
+"오류로 인하여 본 이메일을 수신 시: %2 사이트에 누군가 (%1) 귀하의 이메일 주"
+"소 %3 를 사용하여 등록하였습니다. 오류가 있다면 %4 님에게 연락하십시오."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:31
 msgid "If you have any questions about registration, send an e-mail to %1."
@@ -1770,7 +1841,9 @@ msgstr "아직 비밀번호를 설정하지 않았거나 재설정 하려면, �
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
-msgstr "이 토픽으로의 링크를 받았거나, 혹은 단지 토픽을 살펴보려면, [[%1][저장 취소]] 하여 %2 로 가십시오."
+msgstr ""
+"이 토픽으로의 링크를 받았거나, 혹은 단지 토픽을 살펴보려면, [[%1][저장 취"
+"소]] 하여 %2 로 가십시오."
 
 #: core/templates/messages.tmpl:649
 msgid "If you want to create the topic"
@@ -1786,8 +1859,8 @@ msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
-"이전 이메일 주소가 모두 유효하지 않거나 (더 이상 그 주소로 이메일 수신이 불가능하다면) 비밀번호를 분실하였다면, %1 님에게 연락하여 "
-"도움을 요청하십시오."
+"이전 이메일 주소가 모두 유효하지 않거나 (더 이상 그 주소로 이메일 수신이 불가"
+"능하다면) 비밀번호를 분실하였다면, %1 님에게 연락하여 도움을 요청하십시오."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
 msgid ""
@@ -1795,8 +1868,9 @@ msgid ""
 "don't register an e-mail address using this form, then your user account "
 "could be hijacked by someone else."
 msgstr ""
-"사용자 토픽이 다른 사람들이 변경하는 것에 대하여 보호되지 않았고, 이 양식을 사용하여 이메일 주소를 등록하지 않았다면, 귀하의 사용자 "
-"계정은 다른 사람에 의하여 갈취될 수 있습니다."
+"사용자 토픽이 다른 사람들이 변경하는 것에 대하여 보호되지 않았고, 이 양식을 "
+"사용하여 이메일 주소를 등록하지 않았다면, 귀하의 사용자 계정은 다른 사람에 의"
+"하여 갈취될 수 있습니다."
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -1813,8 +1887,9 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
-"가능한 시나리오로는, 악의를 품은 사람이 http<nop>://crime.org 를 방문하도록 유인하려고 링크를 남겨놓았고 그 곳에 "
-"교묘한 자바스크립트가 탑재되어 있을 수 있습니다."
+"가능한 시나리오로는, 악의를 품은 사람이 http<nop>://crime.org 를 방문하도록 "
+"유인하려고 링크를 남겨놓았고 그 곳에 교묘한 자바스크립트가 탑재되어 있을 수 "
+"있습니다."
 
 #: PatternSkin/templates/attach.pattern.tmpl:51
 msgid "In case of a zip file, attach all included files to this topic"
@@ -1828,7 +1903,9 @@ msgstr "역방향 순"
 msgid ""
 "In some cases, Foswiki changes the name of the uploaded file to make it safe "
 "and accessible across all platforms:"
-msgstr "어떤 경우, Foswiki 는 모든 플랫폼 상에서 안전하고 접근가능하도록 업로드 된 파일의 이름을 변경합니다."
+msgstr ""
+"어떤 경우, Foswiki 는 모든 플랫폼 상에서 안전하고 접근가능하도록 업로드 된 파"
+"일의 이름을 변경합니다."
 
 #: core/templates/messages.tmpl:301 core/templates/messages.tmpl:308
 msgid "Incorrect %1"
@@ -1863,7 +1940,9 @@ msgstr "정보"
 msgid ""
 "International (8-bit) characters are removed (replaced by US-ASCII "
 "equivalents for Latin-1)"
-msgstr "국제화 문자(8-bit)가 삭제되었습니다(Latin-1에 해당하는 US-ASCII 코드로 변경되었습니다)"
+msgstr ""
+"국제화 문자(8-bit)가 삭제되었습니다(Latin-1에 해당하는 US-ASCII 코드로 변경되"
+"었습니다)"
 
 #: core/templates/messages.tmpl:350
 msgid "Invalid Activation Code"
@@ -1886,9 +1965,11 @@ msgid ""
 "data cannot easily be merged though, so in this case you are recommended to "
 "check with %1 first."
 msgstr ""
-"진행하여 편집하는 것이 괜찮을 수도 있습니다 - 하지만 이 토픽에 첨부된 양식의 데이터를 변경하려한다는 의도를 확인하셔야 합니다. 만약 "
-"귀하가 편집 중 %1 님이 토픽을 저장하면, 귀하의 변경내역은 병합이 되고, 손실되는 것은 없을 것입니다. 하지만 양식 데이터는 쉽게 "
-"병합되지 않으므로, 이러한 경우 %1 님과 먼저 확인을 하시라고 권해드립니다."
+"진행하여 편집하는 것이 괜찮을 수도 있습니다 - 하지만 이 토픽에 첨부된 양식의 "
+"데이터를 변경하려한다는 의도를 확인하셔야 합니다. 만약 귀하가 편집 중 %1 님"
+"이 토픽을 저장하면, 귀하의 변경내역은 병합이 되고, 손실되는 것은 없을 것입니"
+"다. 하지만 양식 데이터는 쉽게 병합되지 않으므로, 이러한 경우 %1 님과 먼저 확"
+"인을 하시라고 권해드립니다."
 
 #: core/templates/foswiki.tmpl:47
 msgid ""
@@ -1896,8 +1977,9 @@ msgid ""
 "linking may not work. Characters not allowed in topic names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"새로운 토픽의 이름으로 %1 을 선택하는 것이 보통 최상의 방법이며, 그렇지 않다면 자동 링크걸기는 동작하지 않을 수도 있습니다. "
-"스페이스와 같이 토픽 이름에 허용되지 않는 문자들은 자동으로 제거됩니다."
+"새로운 토픽의 이름으로 %1 을 선택하는 것이 보통 최상의 방법이며, 그렇지 않다"
+"면 자동 링크걸기는 동작하지 않을 수도 있습니다. 스페이스와 같이 토픽 이름에 "
+"허용되지 않는 문자들은 자동으로 제거됩니다."
 
 #: core/templates/renameweb.tmpl:16
 msgid ""
@@ -1905,8 +1987,9 @@ msgid ""
 "link to them later on. Characters not allowed in web names, such as spaces "
 "will automatically be removed."
 msgstr ""
-"일반적으로 새로운 웹을 위한 이름은 짧게 생성하는 것이 좋은데, 이는 짧은 웹명은 링크를 만드는 작업을 수월하기 때문입니다. 공백 "
-"문자처럼 웹명에 허용되지 않는 문자들은 자동으로 제거됩니다."
+"일반적으로 새로운 웹을 위한 이름은 짧게 생성하는 것이 좋은데, 이는 짧은 웹명"
+"은 링크를 만드는 작업을 수월하기 때문입니다. 공백 문자처럼 웹명에 허용되지 않"
+"는 문자들은 자동으로 제거됩니다."
 
 #: PatternSkin/data/System/WebLeftBarSearch.txt:3
 #: PatternSkin/data/System/WebTopBarExample.txt:7
@@ -2073,7 +2156,9 @@ msgstr "더 보기..."
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
-msgstr "추가: 이 토픽을 삭제하거나 이름 변경하기; 부모 토픽 설정; 수정본 보기 및 비교 (m)"
+msgstr ""
+"추가: 이 토픽을 삭제하거나 이름 변경하기; 부모 토픽 설정; 수정본 보기 및 비"
+"교 (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2230,8 +2315,9 @@ msgid ""
 "past this screen. This is normally the case, but if something doesn't work, "
 "this is where to look first."
 msgstr ""
-"주의: 이 화면에서 다음으로 넘어가려면 사용하시는 웹브라우저에 쿠키와 자바스크립트가 활성되어있어야만 합니다. 어떤 오작동이 있을 경우, "
-"일반적으로 이것부터 먼저 살펴보십시오."
+"주의: 이 화면에서 다음으로 넘어가려면 사용하시는 웹브라우저에 쿠키와 자바스크"
+"립트가 활성되어있어야만 합니다. 어떤 오작동이 있을 경우, 일반적으로 이것부터 "
+"먼저 살펴보십시오."
 
 #: core/data/System/VarMAKETEXT.txt:15
 msgid "Notes:"
@@ -2303,7 +2389,9 @@ msgstr "%1 웹에 연결된 토픽만 갱신"
 #: core/templates/login.tmpl:8
 msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
-msgstr "이런!: 귀화를 확인힐 수 없었습니다. 다시 시도하시거나 [[%1][비밀번호 재설정]] 하십시오."
+msgstr ""
+"이런!: 귀화를 확인힐 수 없었습니다. 다시 시도하시거나 [[%1][비밀번호 재설"
+"정]] 하십시오."
 
 #: core/templates/renamedelete.tmpl:20
 msgid "Optionally change attachment name:"
@@ -2409,8 +2497,8 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"브라우저에서 뒤로가서 [[%SYSTEMWEB%.WikiWord][위키워드]] 로 된 토픽명을 선택하거나 비-위키워드 허용 상자를 "
-"체크하십시오."
+"브라우저에서 뒤로가서 [[%SYSTEMWEB%.WikiWord][위키워드]] 로 된 토픽명을 선택"
+"하거나 비-위키워드 허용 상자를 체크하십시오."
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2429,9 +2517,11 @@ msgstr "브라우저에서 뒤로가서 다시 시도해 보십시오."
 msgid ""
 "Please make sure you spelled the %1 correctly and try again. If you get "
 "stuck, please mail %2."
-msgstr "%1 의 철자가 올바른지 확인하시고 다시 시도하십시오. 해결이 안되면, %2 님에게 이메일을 보내 주십시오."
+msgstr ""
+"%1 의 철자가 올바른지 확인하시고 다시 시도하십시오. 해결이 안되면, %2 님에게 "
+"이메일을 보내 주십시오."
 
-#: core/templates/messages.tmpl:696
+#: core/templates/messages.tmpl:698
 msgid "Please notify your %1 administrator."
 msgstr "관리자 %1 님에게 알려주세요."
 
@@ -2508,8 +2598,9 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
-"본 협업 플랫폼에 대한 간략한 개요을 보시려면 %1 를 읽어보십시오. 더 상세한 내용은 같은 링크에서 접근 가능한 "
-"TwentyMinuteTutorial -20분 학습- 을 통해 배워보십시오."
+"본 협업 플랫폼에 대한 간략한 개요을 보시려면 %1 를 읽어보십시오. 더 상세한 내"
+"용은 같은 링크에서 접근 가능한 TwentyMinuteTutorial -20분 학습- 을 통해 배워"
+"보십시오."
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
@@ -2563,8 +2654,8 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
-"등록의 비활성화는 구성 설정에 의한 것이거나 {EnableNewUserRegistration}, 비밀번호 시스템의 오류에 기인합니다. "
-"설정에서 오류를 확인하여 보십시오."
+"등록의 비활성화는 구성 설정에 의한 것이거나 {EnableNewUserRegistration}, 비밀"
+"번호 시스템의 오류에 기인합니다. 설정에서 오류를 확인하여 보십시오."
 
 #: core/data/System/WebSearch.txt:203
 msgid "Regular expression search"
@@ -2589,7 +2680,9 @@ msgstr "이 컴퓨터에서 로그인한 정보를 기억하기"
 msgid ""
 "Remember to update your user topic if you want your e-mail change to be "
 "reflected there as well."
-msgstr "이메일 변경이 사용자 토픽에서도 반영되길 원하시면, 사용자 토픽을 갱신하도록 하십시오."
+msgstr ""
+"이메일 변경이 사용자 토픽에서도 반영되길 원하시면, 사용자 토픽을 갱신하도록 "
+"하십시오."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
@@ -2620,8 +2713,9 @@ msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
 msgstr ""
-"이름변경이 완료되었으나, %1 으로의 안전하지 않은 리디렉션은 거절되었습니다.: 요청된 호스트는 %2 를 일치하지 않으며, "
-"{PermittedRedirectHostUrls} 에 있지 않습니다."
+"이름변경이 완료되었으나, %1 으로의 안전하지 않은 리디렉션은 거절되었습니다.: "
+"요청된 호스트는 %2 를 일치하지 않으며, {PermittedRedirectHostUrls} 에 있지 않"
+"습니다."
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2664,7 +2758,9 @@ msgstr "유효성 검사 요청하기"
 msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
-msgstr "요청된 수정 (%1) 은 불법이거나 유효하지 않습니다. 기록에 존재하지 않거나 현재 수정과 동일하거나 이후의 것입니다 (%2)"
+msgstr ""
+"요청된 수정 (%1) 은 불법이거나 유효하지 않습니다. 기록에 존재하지 않거나 현"
+"재 수정과 동일하거나 이후의 것입니다 (%2)"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2701,8 +2797,9 @@ msgid ""
 "can always revisit the revision you are replacing. Note that attachments "
 "will be left unchanged."
 msgstr ""
-"복원은 새 수정으로 선택하신 수정의 동일한 사본을 저장합니다. 각각의 수정이 토픽 기록에 보존되기 때문에, 교체하는 수정을 언제든지 다시 "
-"방문할 수 있습니다. 첨부파일은 변경되지 않은 상태로 남겨진다는 것을 주의하십시오."
+"복원은 새 수정으로 선택하신 수정의 동일한 사본을 저장합니다. 각각의 수정이 토"
+"픽 기록에 보존되기 때문에, 교체하는 수정을 언제든지 다시 방문할 수 있습니다. "
+"첨부파일은 변경되지 않은 상태로 남겨진다는 것을 주의하십시오."
 
 #: core/templates/more.tmpl:180
 msgid "Restoring is disabled because this topic is at revision 1."
@@ -2969,15 +3066,17 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
-"어떤 메일 도구는링크를 클릭하면 동일한 요청을 두번 전송을 야기하는 오류가 있습니다. 그렇다면 귀하께서 성공적으로 등록 *완료* 하였을 "
-"가능성이 큽니다."
+"어떤 메일 도구는링크를 클릭하면 동일한 요청을 두번 전송을 야기하는 오류가 있"
+"습니다. 그렇다면 귀하께서 성공적으로 등록 *완료* 하였을 가능성이 큽니다."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:140
 #: core/templates/registernotify.tmpl:14
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
 "work on, what help they'd like, etc."
-msgstr "어떤 이들은 선호하는 링크, 자신이 작업한 내용, 원하는 도움 등등으로 이를 개인화된 포탈로 변형시키기도 합니다."
+msgstr ""
+"어떤 이들은 선호하는 링크, 자신이 작업한 내용, 원하는 도움 등등으로 이를 개인"
+"화된 포탈로 변형시키기도 합니다."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:24
 msgid "Sorry, Registration has been temporarily disabled"
@@ -2986,7 +3085,8 @@ msgstr "죄송합니다만 등록이 잠시 비활성화 되어있습니다."
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:83
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
 msgid "Sorry, the password system is currently read only, please contact %1"
-msgstr "죄송합니다, 비밀번호 시스템이 현재 읽기 전용입니다, %1 님에게 연락하십시오"
+msgstr ""
+"죄송합니다, 비밀번호 시스템이 현재 읽기 전용입니다, %1 님에게 연락하십시오"
 
 #: core/data/System/WebSearch.txt:158
 msgid "Sort results by:"
@@ -2998,7 +3098,9 @@ msgstr "스페이스는 밑줄로 교체됩니다"
 
 #: core/data/System/SiteChanges.txt:73
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
-msgstr "모든 웹은 =all= 로 지정하거나, 또는 다음에서 웹을 쉼표로 구분된 목록을 지정하십시오: %1"
+msgstr ""
+"모든 웹은 =all= 로 지정하거나, 또는 다음에서 웹을 쉼표로 구분된 목록을 지정하"
+"십시오: %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3067,8 +3169,9 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"팁: =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"= 는 포함하지만, =\"shampoo\"= 는 포함하지 "
-"않는 모든 토픽을 검색하려면, 다음과 같이 작성하십시오:"
+"팁: =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"= 는 포함하지만, ="
+"\"shampoo\"= 는 포함하지 않는 모든 토픽을 검색하려면, 다음과 같이 작성하십시"
+"오:"
 
 #: core/templates/messages.tmpl:660
 msgid "Template %1 does not exist"
@@ -3087,7 +3190,9 @@ msgstr "등록해주셔서 감사합니다."
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
-msgstr "%1 협업 플랫폼에 등록해주셔서 감사합니다. 추후 참조를 위하여 이 이메일주소를 보관하십시오."
+msgstr ""
+"%1 협업 플랫폼에 등록해주셔서 감사합니다. 추후 참조를 위하여 이 이메일주소를 "
+"보관하십시오."
 
 #: core/templates/registerconfirm.tmpl:9
 msgid ""
@@ -3095,7 +3200,7 @@ msgid ""
 "verification code is %2."
 msgstr "%1 협업 플랫폼에 등록해주셔서 감사합니다. 인증 코드는 %2 입니다."
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:680
 msgid "That user has already been activated "
 msgstr "해당 사용자는 이미 활성화 되었습니다"
 
@@ -3104,11 +3209,13 @@ msgid ""
 "The %1 field must be your first and last name in %2, e.g. your capitalized "
 "first and last name with spaces removed."
 msgstr ""
-"%1 항목은 반드시 이름이고 %2 은 성입니다, 즉, 첫글자가 알파벳 대문자화된 성과 이름으로 그 사이의 공백은 제거 되어야 합니다."
+"%1 항목은 반드시 이름이고 %2 은 성입니다, 즉, 첫글자가 알파벳 대문자화된 성"
+"과 이름으로 그 사이의 공백은 제거 되어야 합니다."
 
 #: core/templates/messages.tmpl:303
 msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
-msgstr "%1 항목은 이 사이트의 {LoginNameFilterIn} 필터와 반드시 일치해야 합니다"
+msgstr ""
+"%1 항목은 이 사이트의 {LoginNameFilterIn} 필터와 반드시 일치해야 합니다"
 
 #: core/templates/messages.tmpl:68
 msgid "The %1 topic already exists"
@@ -3126,9 +3233,10 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"%1 웹은 시험용으로 사용할 수 있는 모래상자입니다. 누구나 참여하여 내용을 추가하고 삭제할 수 있습니다. %3 도구에 빨리 적응을 "
-"하려면 %2 를 살펴보는 것을 추천합니다. 권고해드리는 기본 규칙은 페이지 하단에 내용을 추가하는 것이며, 귀하의 %4 로 서명과 날짜를 "
-"추가하는 것입니다."
+"%1 웹은 시험용으로 사용할 수 있는 모래상자입니다. 누구나 참여하여 내용을 추가"
+"하고 삭제할 수 있습니다. %3 도구에 빨리 적응을 하려면 %2 를 살펴보는 것을 추"
+"천합니다. 권고해드리는 기본 규칙은 페이지 하단에 내용을 추가하는 것이며, 귀하"
+"의 %4 로 서명과 날짜를 추가하는 것입니다."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -3173,31 +3281,40 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
-"첨부파일은 만약 그 이림의 첨부파일이 대상 토픽의 이미 존재한다면 (이름뒤에 숫자를 붙이는 방식으로) 이름이 변경될 수 있습니다."
+"첨부파일은 만약 그 이림의 첨부파일이 대상 토픽의 이미 존재한다면 (이름뒤에 숫"
+"자를 붙이는 방식으로) 이름이 변경될 수 있습니다."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
 "The attachment may have to be renamed if an attachment called '%FILENAME%' "
 "already exists in the target topic."
-msgstr "첨부파일은 대상 토픽에 '%FILENAME%' 이라는 첨부파일이 이미 존재한다면 이름이 변경될 수 있습니다."
+msgstr ""
+"첨부파일은 대상 토픽에 '%FILENAME%' 이라는 첨부파일이 이미 존재한다면 이름이 "
+"변경될 수 있습니다."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "The attacker tries to use your rights to get things, like admin rights for "
 "the site."
-msgstr "공격자가 이 사이트의 관리 권한과 같은 귀하의 권한을 도용하여 물건을 취득하려 합니다."
+msgstr ""
+"공격자가 이 사이트의 관리 권한과 같은 귀하의 권한을 도용하여 물건을 취득하려 "
+"합니다."
 
 #: core/templates/messages.tmpl:588
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
-msgstr "%1 님이 저장하지 않고 편집 페이지에서 다른 페이지도 이동하였을 가능성이 큽니다."
+msgstr ""
+"%1 님이 저장하지 않고 편집 페이지에서 다른 페이지도 이동하였을 가능성이 큽니"
+"다."
 
 #: core/templates/renamebase.tmpl:73
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
-msgstr "체크마크 된 토픽은 업데이트 될 것입니다 (_결국엔_ 잠금된 토픽의 이름을 변경하도록 다른 양식이 보여질 것입니다)"
+msgstr ""
+"체크마크 된 토픽은 업데이트 될 것입니다 (_결국엔_ 잠금된 토픽의 이름을 변경하"
+"도록 다른 양식이 보여질 것입니다)"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:10
 msgid ""
@@ -3206,8 +3323,9 @@ msgid ""
 "after saving a page. Foswiki then uses the approach \"better safe than sorry"
 "\"."
 msgstr ""
-"포스위키가 수행하는 검사는 가끔 사용자가 완벽히 악의없는 행동을 할 때, 예를 들면 페이지를 저장한 후 뒤로 버튼을 클릭하였을 때, "
-"시작되기도 합니다. 포스위키는 \"나중에 후회보다 사전 조심\" 방식을 사용합니다."
+"포스위키가 수행하는 검사는 가끔 사용자가 완벽히 악의없는 행동을 할 때, 예를 "
+"들면 페이지를 저장한 후 뒤로 버튼을 클릭하였을 때, 시작되기도 합니다. 포스위"
+"키는 \"나중에 후회보다 사전 조심\" 방식을 사용합니다."
 
 #: core/templates/messages.tmpl:335
 msgid "The e-mail address for this account has been rejected."
@@ -3288,7 +3406,7 @@ msgstr "토픽이 이전 서식으로 작성되어 있스빈다."
 msgid "The two passwords you entered do not match."
 msgstr "입력된 두 비밀번호가 일치하지 않습니다."
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:682
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "사용자 %1 님은 이미 활성화 되었고, 로그인 할 수 있습니다."
 
@@ -3301,8 +3419,8 @@ msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
 msgstr ""
-"그들의 의도하는 바는 귀하의 브라우저와 귀하의 증명을 사용하여 귀하의 서버에 요청을 전송하여 자동적으로 변형된 데이터를 저장하려는 "
-"것입니다."
+"그들의 의도하는 바는 귀하의 브라우저와 귀하의 증명을 사용하여 귀하의 서버에 "
+"요청을 전송하여 자동적으로 변형된 데이터를 저장하려는 것입니다."
 
 #: core/templates/messages.tmpl:442
 msgid "There are problems with renaming this web:"
@@ -3316,7 +3434,9 @@ msgstr "비밀번호 시스템의 귀하의 사용자 id를 추가하는 데 문
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
-msgstr "누군가가 귀하 몰래 %1 상의 컨텐츠를 귀하의 신분을 사용하여 변경할 수 있는 위험이 있습니다."
+msgstr ""
+"누군가가 귀하 몰래 %1 상의 컨텐츠를 귀하의 신분을 사용하여 변경할 수 있는 위"
+"험이 있습니다."
 
 #: core/templates/messages.tmpl:394
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3345,8 +3465,10 @@ msgid ""
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
-"이 양식은 귀하의 등록된 이메일 주소를 변경하기 위하여 사용됩니다. Foswiki에서 등록된 주소는 비밀번호 변경 알림 등등을 위하여 "
-"이메일을 보내는 데 사용됩니다. 이 양식을 통해 등록한 주소는 비밀이 유지되며 이 사이트의 어디에도 표기 되지 않습니다."
+"이 양식은 귀하의 등록된 이메일 주소를 변경하기 위하여 사용됩니다. Foswiki에"
+"서 등록된 주소는 비밀번호 변경 알림 등등을 위하여 이메일을 보내는 데 사용됩니"
+"다. 이 양식을 통해 등록한 주소는 비밀이 유지되며 이 사이트의 어디에도 표기 되"
+"지 않습니다."
 
 #: core/data/Main/GroupViewTemplate.txt:121
 msgid "This group should not have members."
@@ -3363,8 +3485,10 @@ msgid ""
 "subscribe, please add a bullet with your %2 in alphabetical order to this "
 "list:"
 msgstr ""
-"이 %1 내부의 토픽 변경 시, 이메일로 자동알림되는 구독 서비스입니다. 유용한 서비스로써 어떤 것이 변경되었나를 확인하기 위하여 자주 "
-"돌아와서 확인할 필요가 없습니다. 구독하려면 이 목록에 알파벳 순서대로 귀하의 %2 를 글머리 기호에 추가하십시오:"
+"이 %1 내부의 토픽 변경 시, 이메일로 자동알림되는 구독 서비스입니다. 유용한 서"
+"비스로써 어떤 것이 변경되었나를 확인하기 위하여 자주 돌아와서 확인할 필요가 "
+"없습니다. 구독하려면 이 목록에 알파벳 순서대로 귀하의 %2 를 글머리 기호에 추"
+"가하십시오:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
@@ -3386,7 +3510,9 @@ msgstr "%1 내부의 사용자 등록의 자동화된 이메일 알림입니다.
 msgid ""
 "This is the Trash. Here you can undelete topics; deleted attachments are in "
 "TrashAttachment."
-msgstr "휴지통입니다. 여기에서 토픽을 복원할 수 있습니다; 삭제된 첨부파일은 TrashAttachment 에 있습니다."
+msgstr ""
+"휴지통입니다. 여기에서 토픽을 복원할 수 있습니다; 삭제된 첨부파일은 "
+"TrashAttachment 에 있습니다."
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
 msgid "This is why the conversion is disabled:"
@@ -3397,22 +3523,23 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"이것은 귀하의 성명이 !WikiWord 로 쓰여진 것입니다, 예를 들면: !JohnSmith. 아직 계정이 없으시다면 [[%1][등록]] "
-"하십시오."
+"이것은 귀하의 성명이 !WikiWord 로 쓰여진 것입니다, 예를 들면: !JohnSmith. 아"
+"직 계정이 없으시다면 [[%1][등록]] 하십시오."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
-msgstr "이 이름은 %1 웹에 이미 있는 다른 토픽과 충돌하지 않도록 선택되었습니다."
+msgstr ""
+"이 이름은 %1 웹에 이미 있는 다른 토픽과 충돌하지 않도록 선택되었습니다."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:3
 msgid ""
 "This page explains one of the security measures that Foswiki, the software "
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
-"이 페이지는 이 사이트에서 실행되는 소트프웨어인 Foswiki가 공격자들로부터 이 사이트를 보호하기 위하여 수행해야하는 보안장채 중 "
-"하나를 설명합니다."
+"이 페이지는 이 사이트에서 실행되는 소트프웨어인 Foswiki가 공격자들로부터 이 "
+"사이트를 보호하기 위하여 수행해야하는 보안장채 중 하나를 설명합니다."
 
 #: core/templates/messages.tmpl:399
 msgid "This requires the form definition to be present."
@@ -3437,9 +3564,10 @@ msgid ""
 "the other users changes. Please inspect the topic to make sure it is OK, "
 "especially if you made any changes to form fields."
 msgstr ""
-"변경내역들이 귀하의 변경내역과 병합되어 변경 %1 을 생성하였습니다. 텍스트 항목은 병합될 것이지만, 양식 항목과 같은 다른 데이터들은 "
-"타 사용자 변경내역을 덮어쓸 것입니다. 이게 괜찮은지 확인하기 위하여 토픽을 검토하십시오, 특히 양식 항목에 변경을 하였을 경우 더욱 "
-"주의하십시오."
+"변경내역들이 귀하의 변경내역과 병합되어 변경 %1 을 생성하였습니다. 텍스트 항"
+"목은 병합될 것이지만, 양식 항목과 같은 다른 데이터들은 타 사용자 변경내역을 "
+"덮어쓸 것입니다. 이게 괜찮은지 확인하기 위하여 토픽을 검토하십시오, 특히 양"
+"식 항목에 변경을 하였을 경우 더욱 주의하십시오."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
 msgid "Title"
@@ -3453,7 +3581,9 @@ msgstr "첨부파일로:"
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
-msgstr "토픽 내부에서 상위 검색 결과를 표기하려면, 다음 마크업을 복사-붙여넣기 하십시오:"
+msgstr ""
+"토픽 내부에서 상위 검색 결과를 표기하려면, 다음 마크업을 복사-붙여넣기 하십시"
+"오:"
 
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
@@ -3479,7 +3609,7 @@ msgstr "다음 웹으로"
 msgid "To web:"
 msgstr "다음 웹으로:"
 
-#: core/templates/messages.tmpl:695
+#: core/templates/messages.tmpl:697
 msgid "Too many recursions parsing template %1"
 msgstr "템플릿 %1 을 파싱 중 과도한 회귀공식"
 
@@ -3710,7 +3840,8 @@ msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
 msgstr ""
-"자동생성된 비밀번호를 소유한 사용자는 좀 더 기억에 수월한 비밀번호로 변경하도록 [[%1][비밀번호 변경]] 으로 즉각 보내져야 합니다."
+"자동생성된 비밀번호를 소유한 사용자는 좀 더 기억에 수월한 비밀번호로 변경하도"
+"록 [[%1][비밀번호 변경]] 으로 즉각 보내져야 합니다."
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
@@ -3794,12 +3925,14 @@ msgstr "경고: 'include' 토픽은 존재하지 않습니다!"
 
 #: core/templates/messages.tmpl:604
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
-msgstr "Warning: 반복적으로 INCLUDE %1 할 수 없음, 토픽은 이미 포함되어 있음. %2"
+msgstr ""
+"Warning: 반복적으로 INCLUDE %1 할 수 없음, 토픽은 이미 포함되어 있음. %2"
 
 #: core/templates/messages.tmpl:605
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
-msgstr "경고: INCLUDE '%1' 할 수 없음, 경로가 비어있거나 특수문자를 포함하고 있음."
+msgstr ""
+"경고: INCLUDE '%1' 할 수 없음, 경로가 비어있거나 특수문자를 포함하고 있음."
 
 #: core/templates/messages.tmpl:603
 msgid "Warning: Can't find named section %3 in topic %1.%2"
@@ -3908,8 +4041,9 @@ msgid ""
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1"
 msgstr ""
-"비밀번호를 재설정하기 위해서는 *반드시* 하나이상의 유효한 이메일을 가지고 있어야합니다. 유효한 이메일이 등록되지 않은 경우에 비밀번호를 "
-"분실하셨다면, %1 님에게 도움을 요청하세요."
+"비밀번호를 재설정하기 위해서는 *반드시* 하나이상의 유효한 이메일을 가지고 있"
+"어야합니다. 유효한 이메일이 등록되지 않은 경우에 비밀번호를 분실하셨다면, %1 "
+"님에게 도움을 요청하세요."
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
@@ -3931,9 +4065,10 @@ msgid ""
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
 msgstr ""
-"토픽에 첨부된 양식의 데이터를 변경하는 것이 아니라면 - 귀하께서 시작하고 편집하는 것을 적극 권장합니다. %1 님이 귀하께서 편집하는 "
-"동안 저장했다면, 귀하의 변경내역은 병합될 것이며, 손실되는 것은 없을 것입니다. 하지만 양식 데이터는 쉽게 병합되지 않습니다, 그러할 "
-"경우, %1 님과 먼저 확인하는 것을 추천합니다."
+"토픽에 첨부된 양식의 데이터를 변경하는 것이 아니라면 - 귀하께서 시작하고 편집"
+"하는 것을 적극 권장합니다. %1 님이 귀하께서 편집하는 동안 저장했다면, 귀하의 "
+"변경내역은 병합될 것이며, 손실되는 것은 없을 것입니다. 하지만 양식 데이터는 "
+"쉽게 병합되지 않습니다, 그러할 경우, %1 님과 먼저 확인하는 것을 추천합니다."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
 msgid "You are here:"
@@ -3947,8 +4082,10 @@ msgid ""
 "used as a base to create new webs) choose a name that starts with an "
 "underscore and has only alphanumeric characters."
 msgstr ""
-"알파벳 대문자로 시작하고 알파벳과 숫자만으로 된 짧은 이름 -10자 미만 선호- 을 선택하는 것을 권장합니다. 템플릿 웹 (새 웹을 "
-"생성하기 위해 베이스로만 사용되는 웹) 을 생성하려면, 밑줄로 시작하고 알파벳과 숫자로만 된 이름을 선택하십시오."
+"알파벳 대문자로 시작하고 알파벳과 숫자만으로 된 짧은 이름 -10자 미만 선호- "
+"을 선택하는 것을 권장합니다. 템플릿 웹 (새 웹을 생성하기 위해 베이스로만 사용"
+"되는 웹) 을 생성하려면, 밑줄로 시작하고 알파벳과 숫자로만 된 이름을 선택하십"
+"시오."
 
 #: core/templates/messages.tmpl:673
 msgid "You are trying to %1 an attachment that does not exist."
@@ -3972,7 +4109,9 @@ msgstr "존재하지 않는 토픽에 이름변경을 시도 중입니다."
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
-msgstr "권한이 있다면 [[%1][새 웹 생성]]을 할 수 있습니다. 질문이 있으면 %2 님에게 연락하십시오."
+msgstr ""
+"권한이 있다면 [[%1][새 웹 생성]]을 할 수 있습니다. 질문이 있으면 %2 님에게 연"
+"락하십시오."
 
 #: core/templates/messages.tmpl:147
 msgid ""
@@ -3980,8 +4119,9 @@ msgid ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 msgstr ""
-"표준 HTML 색상의 이름을 사용할 수도 있습니다 (black, silver, gray, white, maroon, red, "
-"purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, aqua)"
+"표준 HTML 색상의 이름을 사용할 수도 있습니다 (black, silver, gray, white, "
+"maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, "
+"aqua)"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:149
 #: core/templates/registernotify.tmpl:24
@@ -4001,7 +4141,18 @@ msgstr ""
 msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
-msgstr "귀하의 웹브라우저에서 쿠키 혹은 자바스크립트가 비활성화 되어있기때문에 이 변경내역을 수동으로 승인할 수 없습니다."
+msgstr ""
+"귀하의 웹브라우저에서 쿠키 혹은 자바스크립트가 비활성화 되어있기때문에 이 변"
+"경내역을 수동으로 승인할 수 없습니다."
+
+#: core/templates/messages.tmpl:700
+#, fuzzy
+msgid ""
+"You cannot proceed because either Cookies or Javascript are disabled in your "
+"browser."
+msgstr ""
+"귀하의 웹브라우저에서 쿠키 혹은 자바스크립트가 비활성화 되어있기때문에 이 변"
+"경내역을 수동으로 승인할 수 없습니다."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
@@ -4017,8 +4168,8 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
-"귀하의 사용자 토픽 내부의 이메일이라는 양식 항목을 설정하여 이메일 주소를 변경합니다. 양식 항목이 존재하지 않는다면, 다음과 같은 줄을 "
-"찾을 것입니다:"
+"귀하의 사용자 토픽 내부의 이메일이라는 양식 항목을 설정하여 이메일 주소를 변"
+"경합니다. 양식 항목이 존재하지 않는다면, 다음과 같은 줄을 찾을 것입니다:"
 
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
 #: core/templates/messages.tmpl:267
@@ -4029,9 +4180,10 @@ msgstr "*미등록* 상태입니다."
 msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
-msgstr "이 세팅이 귀하의 환경에 부적절하다면 위키 관리자가 변경할 수도 있을 것입니다."
+msgstr ""
+"이 세팅이 귀하의 환경에 부적절하다면 위키 관리자가 변경할 수도 있을 것입니다."
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:684
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4065,7 +4217,9 @@ msgstr "그룹에서 삭제하려면 유효한 사용자를 지정해야만 합�
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
-msgstr "이제 이메일 주소를 확인해야 합니다. 이 이메일이 전송되었을 때 제시된 양식에 %1 을 입력하거나 %2 를 방문하면 됩니다."
+msgstr ""
+"이제 이메일 주소를 확인해야 합니다. 이 이메일이 전송되었을 때 제시된 양식에 "
+"%1 을 입력하거나 %2 를 방문하면 됩니다."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 msgid ""
@@ -4074,8 +4228,10 @@ msgid ""
 "topic for a form field called Email. If this form field does not exist it "
 "will look for a line like this:"
 msgstr ""
-"유효한 이메일 주소를 등록하셔야 합니다. Foswiki 가 비밀 데이터베이스에서 귀하에 대한 등록된 이메일을 찾을 수 없다면, 사용자 "
-"토픽에서 이메일이라는 양식 항목을 찾아 보게 됩니다. 양식 항목이 존재하지 않으면, 다음과 같은 줄을 찾게 됩니다:"
+"유효한 이메일 주소를 등록하셔야 합니다. Foswiki 가 비밀 데이터베이스에서 귀하"
+"에 대한 등록된 이메일을 찾을 수 없다면, 사용자 토픽에서 이메일이라는 양식 항"
+"목을 찾아 보게 됩니다. 양식 항목이 존재하지 않으면, 다음과 같은 줄을 찾게 됩"
+"니다:"
 
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -4096,8 +4252,9 @@ msgid ""
 "e-mail or enter the code in the box below to activate your membership. (This "
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
-"귀하의 활성화 코드는 %1 으로 전송되었습니다. 귀하의 멤버십을 활성화하려면 받으신 이메일 안의 링크를 클릭하거나 아래의 상자에 코드를 "
-"입력하십시오. (이 코드는 \"YourName.xxxxxxxxxx\" 과 같은 형태로 되어있습니다)"
+"귀하의 활성화 코드는 %1 으로 전송되었습니다. 귀하의 멤버십을 활성화하려면 받"
+"으신 이메일 안의 링크를 클릭하거나 아래의 상자에 코드를 입력하십시오. (이 코"
+"드는 \"YourName.xxxxxxxxxx\" 과 같은 형태로 되어있습니다)"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Your email address will be kept confidential."
@@ -4108,8 +4265,8 @@ msgid ""
 "Your language will be changed to %1 from the next screen. You will be "
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
-"귀하의 언어는 다음 화면부터 %1 으로 변경됩니다. 지금 그 쪽으로 리디렉션 됩니다. 그렇지 않을 경우, [[%2][진행하려면 클릭]] "
-"하십시오."
+"귀하의 언어는 다음 화면부터 %1 으로 변경됩니다. 지금 그 쪽으로 리디렉션 됩니"
+"다. 그렇지 않을 경우, [[%2][진행하려면 클릭]] 하십시오."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 msgid ""
@@ -4117,8 +4274,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"온라인에서 표기되는 귀하의 이름. 이는 독특한 [[%SYSTEMWEB%.WikiName][위키 명]] 이어야만 한다는 점에 주의하십시오. "
-"기본적으로 귀하의 성과 이름에서 얻어집니다."
+"온라인에서 표기되는 귀하의 이름. 이는 독특한 [[%SYSTEMWEB%.WikiName][위키 "
+"명]] 이어야만 한다는 점에 주의하십시오. 기본적으로 귀하의 성과 이름에서 얻어"
+"집니다."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
 msgid "Your password"
@@ -4147,13 +4305,17 @@ msgstr "귀하의 개인 Foswiki 토픽 %1 이 생성되었습니다"
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
-msgstr "귀하의 등록된 이메일 주소(들)는 다음으로 갱신됩니다: <noautolink>%1</noautolink>."
+msgstr ""
+"귀하의 등록된 이메일 주소(들)는 다음으로 갱신됩니다: <noautolink>%1</"
+"noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
-msgstr "귀하의 등록된 이메일은 Foswiki 에서 비밀번호 변경 알림등을 내용을 포함한 이메일 전송에 사용됩니다."
+msgstr ""
+"귀하의 등록된 이메일은 Foswiki 에서 비밀번호 변경 알림등을 내용을 포함한 이메"
+"일 전송에 사용됩니다."
 
 #: core/templates/messages.tmpl:274
 msgid ""
@@ -4173,7 +4335,9 @@ msgstr "복사/붙여넣기 할 귀하의 서명:"
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
-msgstr "시스템이 Foswiki를 통하여 비밀번호를 변경하는 것을 지원하지 않을 수 있습니다. 위키 관리자와 확인하십시오."
+msgstr ""
+"시스템이 Foswiki를 통하여 비밀번호를 변경하는 것을 지원하지 않을 수 있습니"
+"다. 위키 관리자와 확인하십시오."
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
@@ -4190,7 +4354,9 @@ msgstr "[[%1][디버그 토픽 문구]]."
 #: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
-msgstr "[스페이스 3개의 배수] * [스페이스] 설정 [스페이스] VARIABLENAME [스페이스] = [값]"
+msgstr ""
+"[스페이스 3개의 배수] * [스페이스] 설정 [스페이스] VARIABLENAME [스페이스] = "
+"[값]"
 
 #: core/lib/Foswiki/I18N.pm:328
 msgid "_language_name"
@@ -4342,7 +4508,8 @@ msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
-"title='이 토픽을 삭제하거나 이름 변경; 부모 토픽 설정; 수정내역 보기 및 비교' accesskey='m'>추가 토픽 작업 &m"
+"title='이 토픽을 삭제하거나 이름 변경; 부모 토픽 설정; 수정내역 보기 및 비"
+"교' accesskey='m'>추가 토픽 작업 &m"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
@@ -4363,13 +4530,15 @@ msgstr "title='이 토픽의 인쇄 버전' accesskey='p'>인쇄 버전 &P"
 #: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
-msgstr "title='여기로 연결된 토픽에 대한 모든 웹 검색' accesskey='l'>모든 웹 &l"
+msgstr ""
+"title='여기로 연결된 토픽에 대한 모든 웹 검색' accesskey='l'>모든 웹 &l"
 
 #: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
-msgstr "title='여기에 연결된 토픽에 대한 %1 웹 검색' accesskey='b'>역방향 연결 &B"
+msgstr ""
+"title='여기에 연결된 토픽에 대한 %1 웹 검색' accesskey='b'>역방향 연결 &B"
 
 #: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""

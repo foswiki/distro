@@ -1107,7 +1107,7 @@ msgstr "Konflikt"
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
 #: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
 #: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
 msgid "Contact %1 if you have any questions."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
@@ -1386,27 +1386,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "E-mail-adressen er opdateret!"
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE fejlede - =type= can ikke bruges sammen med =old= og =new="
 
-#: core/templates/messages.tmpl:688
+#: core/templates/messages.tmpl:690
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE fejlede - både =old= og =new= skal angives"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:691
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE fejlede - værdien '%PARAM1%' er gentaget i =old= "
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:694
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND fejlede - adgang til '%PARAM1%' afvist"
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND fejlede - ingen macro"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:693
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND fejlede - ingen side '%PARAM1%'"
 
@@ -1655,7 +1655,7 @@ msgid "Globe"
 msgstr "Globe"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
 msgid "Go back"
 msgstr "Tilbage"
 
@@ -1671,7 +1671,7 @@ msgstr ""
 msgid "Go back in your browser and save your changes locally."
 msgstr "Gå tilbage i din browser, og gem dine opdateringer lokalt."
 
-#: core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -2564,7 +2564,7 @@ msgstr ""
 "Dobbelt-tjek venligst at du har stavet %1 korrekt og forsøg igen. Hvis du må "
 "opgive, send venligst en mail til %2."
 
-#: core/templates/messages.tmpl:696
+#: core/templates/messages.tmpl:698
 msgid "Please notify your %1 administrator."
 msgstr "Advisér venligst din %1-administrator."
 
@@ -3252,7 +3252,7 @@ msgstr ""
 "Tak fordi du registrerede dig som bruger i e-samarbejds-platformen %1. Din "
 "aktiveringskode er %2."
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:680
 msgid "That user has already been activated "
 msgstr "Denne bruger er allerede aktiveret"
 
@@ -3468,7 +3468,7 @@ msgstr "Siden er i et gammelt format"
 msgid "The two passwords you entered do not match."
 msgstr "De to adgangskoder du har indtastet er ikke ens."
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:682
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 "Brugeren %1 er allerede aktiveret, og skulle nu være godkendt til at logge "
@@ -3680,7 +3680,7 @@ msgstr "Til web"
 msgid "To web:"
 msgstr "Til web:"
 
-#: core/templates/messages.tmpl:695
+#: core/templates/messages.tmpl:697
 msgid "Too many recursions parsing template %1"
 msgstr "For mange rekursioner under gemmengang af skabelon %1"
 
@@ -4232,6 +4232,15 @@ msgstr ""
 "Du kan ikke manuelt bekræfte denne ændring fordi enten Cookies eller "
 "Javascript er deaktiveret i din browser."
 
+#: core/templates/messages.tmpl:700
+#, fuzzy
+msgid ""
+"You cannot proceed because either Cookies or Javascript are disabled in your "
+"browser."
+msgstr ""
+"Du kan ikke manuelt bekræfte denne ændring fordi enten Cookies eller "
+"Javascript er deaktiveret i din browser."
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
 msgstr "Du kan ikke registrere på denne site."
@@ -4264,7 +4273,7 @@ msgstr ""
 "aktuelle regler, hvis de forekommer uhensigtsmæssige eller synes for "
 "restriktive."
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:684
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."

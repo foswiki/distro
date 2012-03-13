@@ -1120,7 +1120,7 @@ msgstr "Conflicto"
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
 #: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
 #: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
 msgid "Contact %1 if you have any questions."
 msgstr "Comuníquese con %1 si tiene alguna consulta."
 
@@ -1399,27 +1399,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "¡Dirección de correo electrónico fue cambiada exitosamente!"
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE falló - =type= no puede ser usado junto a =old= y =new= "
 
-#: core/templates/messages.tmpl:688
+#: core/templates/messages.tmpl:690
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE falló - ambos =old= y =new= deben de ser proporcionados"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:691
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE falló - token '%PARAM1%' esta repetido en =old= "
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:694
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND falló - acceso a '%PARAM1%' denegado"
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND falló - no hay macro"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:693
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND - no existe tal tema '%PARAM1%'"
 
@@ -1671,7 +1671,7 @@ msgid "Globe"
 msgstr "Globo terraqueo"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
 msgid "Go back"
 msgstr "Regresar"
 
@@ -1687,7 +1687,7 @@ msgstr ""
 msgid "Go back in your browser and save your changes locally."
 msgstr "Presione atrás en su navegador y guarde sus cambios localmente."
 
-#: core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -2586,7 +2586,7 @@ msgstr ""
 "Por favor asegurese de que haya escrito correctamente el %1 e inténtelo de "
 "nuevo. Si se atora, por favor envie un correo electrónico a %2."
 
-#: core/templates/messages.tmpl:696
+#: core/templates/messages.tmpl:698
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -3288,7 +3288,7 @@ msgstr ""
 "Gracias por registrarse en la plataforma de colaboración %1. Su código de "
 "verificación es %2."
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:680
 msgid "That user has already been activated "
 msgstr "Este usuario ya fue activado "
 
@@ -3510,7 +3510,7 @@ msgstr "El tema está en un formato antiguo"
 msgid "The two passwords you entered do not match."
 msgstr "Las dos contraseñas que introdujo no coinciden."
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:682
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "El usuario %1 ya fue activado y debe poder iniciar su sesión."
 
@@ -3725,7 +3725,7 @@ msgstr "A la web"
 msgid "To web:"
 msgstr "A la web:"
 
-#: core/templates/messages.tmpl:695
+#: core/templates/messages.tmpl:697
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4292,6 +4292,15 @@ msgstr ""
 "Usted no puede confirmar manualmente este cambio porque ya sea que las "
 "Cookies o el Javascript no han sido habilitados en su navegador."
 
+#: core/templates/messages.tmpl:700
+#, fuzzy
+msgid ""
+"You cannot proceed because either Cookies or Javascript are disabled in your "
+"browser."
+msgstr ""
+"Usted no puede confirmar manualmente este cambio porque ya sea que las "
+"Cookies o el Javascript no han sido habilitados en su navegador."
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
 msgstr "Usted ya no se puede registrar en este sitio."
@@ -4324,7 +4333,7 @@ msgstr ""
 "Puede que convience a su administrador Wiki para cambiar la configuración si "
 "está inapropiada para su entorno."
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:684
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."

@@ -1120,7 +1120,7 @@ msgstr "Σύγκρουση"
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
 #: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
 #: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
 msgid "Contact %1 if you have any questions."
 msgstr "Επικοινωνήστε με τον %1, αν έχετε απορίες."
 
@@ -1400,29 +1400,29 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "To e-mail άλλαξε με επιτυχία!"
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 "Αποτυχία ENCODE - =type= δεν μπορεί να χρησιμοποιηθεί παράλληλα με =old= και "
 "=new= "
 
-#: core/templates/messages.tmpl:688
+#: core/templates/messages.tmpl:690
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "Αποτυχία ENCODE - και το =old= και το =new= πρέπει να καταχωρηθούν"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:691
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "Αποτυχία ENCODE -  η παράμετρος '%PARAM1%' επαναλαμβάνεται στο =old="
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:694
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "Αποτυχία EXPAND - άρνηση πρόσβασης στο '%PARAM1%'"
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - no macro"
 msgstr "Αποτυχία EXPAND - δεν υπάρχει μεταβλητή"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:693
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "Αποτυχία EXPAND - δεν υπάρχει το θέμα '%PARAM1%'"
 
@@ -1676,7 +1676,7 @@ msgid "Globe"
 msgstr "Υδρόγειος"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
 msgid "Go back"
 msgstr "Πηγαίνετε πίσω"
 
@@ -1694,7 +1694,7 @@ msgstr ""
 "Πηγαίνετε πίσω με το φυλομετρητή σας και να αποθηκεύστε τις αλλαγές σας σε "
 "τοπικό επίπεδο."
 
-#: core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -2603,7 +2603,7 @@ msgstr ""
 "Παρακαλώ βεβαιωθείτε ότι γράψατε το %1 σωστά και προσπαθήστε ξανά. Εάν έχετε "
 "κολλήσει, παρακαλώ στείλτε ένα e-mail στο %2."
 
-#: core/templates/messages.tmpl:696
+#: core/templates/messages.tmpl:698
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -3303,7 +3303,7 @@ msgstr ""
 "Ευχαριστούμε για την εγγραφή στην πλατφόρμας συνεργασίας %1. Ο κωδικός σας "
 "επαλήθευσης είναι ο %2."
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:680
 msgid "That user has already been activated "
 msgstr "Αυτός ο χρήστης έχει ήδη ενεργοποιηθεί "
 
@@ -3513,7 +3513,7 @@ msgstr "Το θέμα είναι σε ένα παλαιότερη μορφοπο
 msgid "The two passwords you entered do not match."
 msgstr "Οι δύο κωδικοί που δώσατε δεν ταιριάζουν."
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:682
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 "Ο χρήστης %1 έχει ήδη ενεργοποιηθεί, και θα πρέπει να είναι σε θέση να "
@@ -3727,7 +3727,7 @@ msgstr "Στον ιστό:"
 msgid "To web:"
 msgstr "Στον ιστό:"
 
-#: core/templates/messages.tmpl:695
+#: core/templates/messages.tmpl:697
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4295,6 +4295,12 @@ msgid ""
 "are disabled in your browser."
 msgstr ""
 
+#: core/templates/messages.tmpl:700
+msgid ""
+"You cannot proceed because either Cookies or Javascript are disabled in your "
+"browser."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 #, fuzzy
 msgid "You cannot register on this site."
@@ -4326,7 +4332,7 @@ msgstr ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:684
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."

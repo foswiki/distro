@@ -1107,7 +1107,7 @@ msgstr "一致しません"
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
 #: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
 #: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
 msgid "Contact %1 if you have any questions."
 msgstr "何か疑問がございましたら、 %1までご連絡ください"
 
@@ -1379,27 +1379,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "電子メールの変更に成功しました!"
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE故障 - =type= は=old=と=new=と共に使用ができません。"
 
-#: core/templates/messages.tmpl:688
+#: core/templates/messages.tmpl:690
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE故障 - =old=と=new=と一緒に提出しなければなりません。"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:691
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE 故障 - トークン '%PARAM1%' は =old=に群発です。 "
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:694
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "拡大故障 - '%PARAM1%'への接続は許されませんでした。"
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - no macro"
 msgstr "拡大故障 - マクロはありません。"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:693
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "拡大故障 -  '%PARAM1%'と呼ぶトピックは存在ではありません。"
 
@@ -1651,7 +1651,7 @@ msgid "Globe"
 msgstr "閉じる"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
 msgid "Go back"
 msgstr "戻る"
 
@@ -1666,7 +1666,7 @@ msgstr "前のページに戻って全ての必須項目を入力します"
 msgid "Go back in your browser and save your changes locally."
 msgstr "前のページに戻って全ての変更をローカルに保存します"
 
-#: core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -2567,7 +2567,7 @@ msgstr ""
 "%1が正確にスペルされていることをご確認してもう一度試してください。それでもだ"
 "めな場合は、%2にメールしてください。"
 
-#: core/templates/messages.tmpl:696
+#: core/templates/messages.tmpl:698
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr " %1 管理者 %2までご連絡ください"
@@ -3267,7 +3267,7 @@ msgstr ""
 " %1 コラボレーションプラットフォームをご登録してありがとうございました。あな"
 "たの検証コードは%2です。"
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:680
 msgid "That user has already been activated "
 msgstr ""
 
@@ -3468,7 +3468,7 @@ msgstr "トピックは古いフォーマットです"
 msgid "The two passwords you entered do not match."
 msgstr "二つのパスワードが一致しません。"
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:682
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
@@ -3668,7 +3668,7 @@ msgstr "ウェブへ:"
 msgid "To web:"
 msgstr "ウェブへ:"
 
-#: core/templates/messages.tmpl:695
+#: core/templates/messages.tmpl:697
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4228,6 +4228,12 @@ msgid ""
 "are disabled in your browser."
 msgstr ""
 
+#: core/templates/messages.tmpl:700
+msgid ""
+"You cannot proceed because either Cookies or Javascript are disabled in your "
+"browser."
+msgstr ""
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 #, fuzzy
 msgid "You cannot register on this site."
@@ -4256,7 +4262,7 @@ msgid ""
 msgstr ""
 "環境設定に不具合がある場合は、Wikiの管理者に変更してもらうことができます。"
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:684
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."

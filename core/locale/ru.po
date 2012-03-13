@@ -1124,7 +1124,7 @@ msgstr "Конфликт"
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
 #: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
 #: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:675 core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
 msgid "Contact %1 if you have any questions."
 msgstr "Свяжитесь с %1 если у вас есть вопросы."
 
@@ -1402,28 +1402,28 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Адрес электронной почты успешно изменён!"
 
-#: core/templates/messages.tmpl:687
+#: core/templates/messages.tmpl:689
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 "ENCODE не удался — =type= не может использоватся вместе с  =old= и =new= "
 
-#: core/templates/messages.tmpl:688
+#: core/templates/messages.tmpl:690
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE не удался — должны быть указаны и =old=, и =new="
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:691
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE не удался — токен '%PARAM1%' повторяется в =old= "
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:694
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND не удался — отсутствут доступ к '%PARAM1%'"
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:692
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND не удался — отсутствует макрос"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:693
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND не удался — нет такой темы '%PARAM1%'"
 
@@ -1675,7 +1675,7 @@ msgid "Globe"
 msgstr "Сфера"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
 msgid "Go back"
 msgstr "Вернуться"
 
@@ -1689,7 +1689,7 @@ msgstr "Вернитесь назад в вашем браузере и запо
 msgid "Go back in your browser and save your changes locally."
 msgstr "Вернитесь назад в вашем браузере и сохраните ваши изменения локально."
 
-#: core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -2590,7 +2590,7 @@ msgstr ""
 "Пожалуйста, проверьте правильность написания %1 и попробуйте еще раз. Если "
 "Вы в недоумении, пожалуйста, отправьте электронное письмо по адресу %2."
 
-#: core/templates/messages.tmpl:696
+#: core/templates/messages.tmpl:698
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -3290,7 +3290,7 @@ msgstr ""
 "Спасибо, что Вы зарегистрировались на информационном ресурсе %1, платформе "
 "для совместного творчества и работы. Ваш код подтверждения %2."
 
-#: core/templates/messages.tmpl:678
+#: core/templates/messages.tmpl:680
 msgid "That user has already been activated "
 msgstr "Этот пользователь уже был активирован "
 
@@ -3503,7 +3503,7 @@ msgstr "Тема в старом формате"
 msgid "The two passwords you entered do not match."
 msgstr "Два введенных пароля не совпадают."
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:682
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "Пользователь %1 уже активирован и должен иметь возможность войти."
 
@@ -3714,7 +3714,7 @@ msgstr "В раздел"
 msgid "To web:"
 msgstr "В раздел:"
 
-#: core/templates/messages.tmpl:695
+#: core/templates/messages.tmpl:697
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4278,6 +4278,15 @@ msgstr ""
 "Вы не можете подтвердить это изменение вручную, потому что в вашем браузере "
 "отключена поддржка Cookies или Javascript."
 
+#: core/templates/messages.tmpl:700
+#, fuzzy
+msgid ""
+"You cannot proceed because either Cookies or Javascript are disabled in your "
+"browser."
+msgstr ""
+"Вы не можете подтвердить это изменение вручную, потому что в вашем браузере "
+"отключена поддржка Cookies или Javascript."
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
 msgstr "Вы не можете зарегистрироваться на этом сайте."
@@ -4309,7 +4318,7 @@ msgstr ""
 "Вы можете попробовать попросить вашего администратора Wiki изменить "
 "настройки если они не подходят вашему окружению."
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:684
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
