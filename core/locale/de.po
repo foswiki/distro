@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2011-11-10 13:11+0200\n"
-"Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
+"Last-Translator: André <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr "%1 ist das Standard-Topic für gelöschte Anhänge."
 
 #: core/templates/messages.tmpl:584
 msgid "%1 may still be editing %2."
-msgstr "%2 wird noch von %1 bearbeitet."
+msgstr "%1 wird noch von %2 bearbeitet."
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"

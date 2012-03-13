@@ -426,26 +426,30 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
+"*titluri* 3 liniute, 1 pana la 6 plusuri, 1 spatiu: =---++&&nbsp;Titlul Tau="
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
-msgstr ""
+msgstr "*italic* pune cuvant/fraza in subliniere: =_<nop>cuvintele tale_="
 
 #: core/data/System/WikiSyntaxSummary.txt:15
 msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
 msgstr ""
+"*monospaced* pune cuvintele tale in semnul egal: =<nop>=cuvintele tale=="
 
 #: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*paragraphs* separate with blank line"
-msgstr ""
+msgstr "*paragrafe* separate cu linie goala"
 
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
+"*legaturi site* foloseste nume subiect: =%1= sau =[<nop>[%1][Pagina de "
+"Start]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:93
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: core/data/System/SiteChanges.txt:15
 msgid "1 hour ago"
@@ -559,14 +563,20 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3"
 msgstr ""
+"O noua parola generata de sistem pentru utillizatorul tau %1'(!WikiName %2) "
+"a fost trimisa la adresa cu care te-ai inregistrat. Daca adresa cu care te-"
+"ai inregistrat nu mai este valida te rugam sa contactezi %3"
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
 msgstr ""
+"Un sablon pentru subiect defineste continutul initial al unui subiect nou "
+"creat."
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
+"Un subiect cu acest nume exista deja, dar a fost redenumit sau mutat la %1."
 
 #: core/data/System/WebSearch.txt:91
 msgid "A-Z"
@@ -656,16 +666,20 @@ msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
 msgstr ""
+"Dupa ce trimiti acest formular email-ul tau va fi schimbat si vei fi intors "
+"la acest formular."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
-msgstr ""
+msgstr "Dupa trimiterea acestui formular parola ta va fi schimbata."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
+"Dupa trimiterea acestui formular, vei primi un e-mail cu noua ta parola "
+"autogenerata, si un link catre o pagina de unde o poti schimba."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
@@ -677,47 +691,56 @@ msgstr "Toate spatiile web publice"
 
 #: core/templates/foswiki.tmpl:45
 msgid "Allow non <nop>WikiWord for the new topic name"
-msgstr ""
+msgstr "Permite non <nop>WikiWord pentru a fi nume de subiecte noi"
 
 #: core/templates/messages.tmpl:296
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
 msgstr ""
+"Alternativ apasa inapoi la %SYSTEMWEB%.UserRegistration si alege un nume de "
+"utilizator diferit."
 
 #: core/lib/Foswiki/UI/Rename.pm:205
 msgid "An attachment with the same name already exists in this topic."
-msgstr ""
+msgstr "Un atasament cu acelasi nume deja exista pentru acest subiect."
 
 #: core/templates/messages.tmpl:283
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
+"E-mailul nu a putut fi livrat. Te rugam sa contactezi administratorul %1, %2"
 
 #: core/templates/moveattachment.tmpl:49
 msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
 msgstr ""
+"O eroare pentru pagina va fi afisata daca subiectele sunt blocate de catre "
+"alt utilizator."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
+"O persoana rau intentionata poate folosi datele de autentificare pentru a "
+"schimba continut pe wiki fara cunostinta ta."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
-msgstr ""
+msgstr "Si populate cu subiecte din spatiul web principal"
 
 #: core/templates/changeform.tmpl:27
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
+"Orice modificari faceti subiectului inainte de a veni pe aceasta pagina sunt "
+"pre-rezervate."
 
 #: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
-msgstr ""
+msgstr "Ataseaza"
 
 #: core/templates/attach.tmpl:9
 msgid "Attach a file"
@@ -728,6 +751,8 @@ msgstr "Ataseaza un fisier"
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
+"Ataseaza o imagine sau un document la acest subiect; administreaza "
+"atasamentul/atasamentele existen(e)."
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
@@ -831,11 +856,11 @@ msgstr "Backlink"
 
 #: core/templates/backlinksweb.tmpl:5
 msgid "Backlinks to %1 in %2 Web"
-msgstr ""
+msgstr "Baclinks la %1 in spatiul web %2"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Backlinks to %1 in all Webs"
-msgstr ""
+msgstr "Backlins la %1 in toate spatiile web"
 
 #: core/templates/messages.tmpl:320
 msgid "Bad password"
@@ -843,17 +868,19 @@ msgstr "Parola gresita"
 
 #: core/templates/messages.tmpl:134
 msgid "Base web %1 is missing or does not exist"
-msgstr ""
+msgstr "Spatiul de baza %1 lipseste sau nu exista"
 
 #: core/data/System/WebSearch.txt:115 core/data/System/WebSearch.txt:145
 msgid "Both body and title"
-msgstr ""
+msgstr "Atat titlu cat si continut"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
 msgstr ""
+"Dar datele existente for fi pierdute (poti oricand sa regasesti aceste date "
+"cu ajutorul istoricului subiectului)"
 
 #: core/data/Trash/WebHome.txt:7
 #, fuzzy
@@ -869,7 +896,7 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "Nu s-a gasit utilizatorul %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
@@ -883,6 +910,7 @@ msgstr "Nu s-a gasit utilizatorul %1"
 #: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
+"Nu pot primi o adresa de e-mail pentru %1 (este necesara resetarea parolei)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
@@ -900,19 +928,19 @@ msgstr "Anuleaza"
 
 #: PatternSkin/templates/edit.pattern.tmpl:41
 msgid "Cancel editing and discard changes"
-msgstr ""
+msgstr "Anuleaza editarea si ignora modificarile"
 
 #: core/templates/messages.tmpl:69
 msgid "Cannot create %1 because it already exists."
-msgstr ""
+msgstr "Nu pot crea %1 pentru ca deja exista."
 
 #: core/templates/messages.tmpl:130
 msgid "Cannot create web %1 because it already exists"
-msgstr ""
+msgstr "Nu pot crea spatiul web %1 pentru ca deja exista"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr ""
+msgstr "Nu pot redenumi %1 la %2 pentru ca deja exista."
 
 #: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
@@ -950,39 +978,45 @@ msgstr "Schimbare limba"
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
 msgstr ""
+"Schimba legaturile in subiectele care fac referire la !%1 in toate spatiile "
+"web"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
 msgstr ""
+"Schimba legaturile in subiectele care fac referire la !%1 in spatiul web %2:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
 msgstr ""
+"Schimba legaturile in subiectele care fac referire la %1 in toate spatiile "
+"web"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr ""
+"Schimba legaturile in subiectele care fac referire la %1 in spatiul web %2:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
-msgstr ""
+msgstr "Schimba parola"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Change properties only"
-msgstr ""
+msgstr "Schimba doar proprietati"
 
 #: core/templates/edit.tmpl:6
 msgid "Change topic"
-msgstr ""
+msgstr "Schimba subiect"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
 msgid "Changed by"
-msgstr ""
+msgstr "Schimbat de"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
-msgstr ""
+msgstr "Schimbat pe "
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
@@ -1006,42 +1040,49 @@ msgstr "Schimbari de la r%1 la r%2"
 #: core/templates/messages.tmpl:464
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
+"Verifica setarile de configurare pentru {TemplateDir} sau {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
 msgstr ""
+"Subiectele selectate vor fi actualizate pentru a face referire la o noua "
+"locatie a subiectului."
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
+"Subiectele selectate vor fi actualizate pentru a face legatura la numele "
+"noului spatiu web."
 
 #: core/templates/more.tmpl:207
 msgid "Child topics in %1 web"
-msgstr ""
+msgstr "Subiectul copil in spatiul web %1"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
-msgstr ""
+msgstr "Alege o noua forma pentru %1"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:105
 msgid "Clear all"
-msgstr ""
+msgstr "Curata tot"
 
 #: core/lib/Foswiki/Render.pm:238
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
 msgstr ""
+"Apasa sa muti subiectul inapoi la locatia anterioara, cu optiune sa schimbi "
+"referintele."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:471
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
 msgid "Close"
-msgstr ""
+msgstr "Inchide"
 
 #: core/templates/messages.tmpl:142
 msgid "Color %1 has an invalid format"
-msgstr ""
+msgstr "Culoarea %1 are un format invalid"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1102,7 +1143,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Copiaza acest subiect (si toate atasamentele) la un subiect nou."
 
 #: core/templates/more.tmpl:26
 msgid "Copy topic"
@@ -1130,11 +1171,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:152
 msgid "Could not create the new web %1"
-msgstr ""
+msgstr "Nu a putut crea noul spatiu web %1"
 
 #: core/templates/messages.tmpl:462
 msgid "Could not find template"
-msgstr ""
+msgstr "Nu a putut gasi sablonul"
 
 #: core/templates/messages.tmpl:613
 msgid "Could not perform search. Error was: %1"
@@ -1187,7 +1228,7 @@ msgstr ""
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
-msgstr ""
+msgstr "Creaza bara laterala personala"
 
 #: core/templates/messages.tmpl:650
 msgid "Create the topic"
@@ -1211,7 +1252,7 @@ msgstr "Creaza-ti cont pentru a edita paginile de pe acest site."
 
 #: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
-msgstr ""
+msgstr "Creaza un Formular Defitinie potrivit pentru subiect"
 
 #: core/templates/renameattachmentdelete.tmpl:9
 #: core/templates/renamedelete.tmpl:9
@@ -1316,28 +1357,36 @@ msgid ""
 "During deletion of attachment =%1= an error was found. Please notify your %2 "
 "administrator."
 msgstr ""
+"In timpul stergerii atasamentului =%1= a aparut o eroare. Te rugam notifica "
+"administratorul %2."
 
 #: core/templates/messages.tmpl:55
 msgid "During move of attachment =%1= to %2 an error was found."
-msgstr ""
+msgstr "In timpul mutarii atasamentului =%1= la %2 a aparut o eroare."
 
 #: core/templates/messages.tmpl:99
 msgid ""
 "During rename of topic %1 to %2 an error (%3) was found. Please notify your "
 "%4 administrator."
 msgstr ""
+"In timpul redenumirii subiectului %1 la %2 o eroare (%3) a aparut. Te rugam "
+"notifica administratorul %4."
 
 #: core/templates/messages.tmpl:102
 msgid ""
 "During rename of web %1 to %2 an error (%3) was found. Please notify your %4 "
 "administrator."
 msgstr ""
+"In timpul redenumirii subiectului %1 la %2 o eroare (%3) a aparut. Te rugam "
+"notifica administratorul %4."
 
 #: core/templates/messages.tmpl:433 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
 msgstr ""
+"In timpul salvarii %1 o eroare a fost depistata de catre sistemul de control "
+"al versiunior. Te rugam notifica administratorul %2."
 
 #: core/templates/messages.tmpl:214
 msgid "E-mail changed successfully!"
@@ -1345,15 +1394,15 @@ msgstr "Schimbarea e-mail s-a realizat cu succes!"
 
 #: core/templates/messages.tmpl:687
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
-msgstr ""
+msgstr "ENCODE a esuat - =type= nu poate fi folosita pe langa =old= si =new="
 
 #: core/templates/messages.tmpl:688
 msgid "ENCODE failed - both of =old= and =new= must be given"
-msgstr ""
+msgstr "ENCODE a esuat - ambele =old= si =new= trebuiesc date"
 
 #: core/templates/messages.tmpl:689
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
-msgstr ""
+msgstr "tpEncodare esuata - token '%PARAM1%' este repetat in =old="
 
 #: core/templates/messages.tmpl:692
 msgid "EXPAND failed - access to '%PARAM1%' denied"
@@ -1499,7 +1548,7 @@ msgstr "Persoana diabolica"
 
 #: core/lib/Foswiki/Plugins.pm:375
 msgid "Failed plugins"
-msgstr ""
+msgstr "Plugin-uri esuate"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
@@ -1524,15 +1573,15 @@ msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:12
 msgid "Find similar topics"
-msgstr ""
+msgstr "Gaseste subiecte similare"
 
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
-msgstr ""
+msgstr "Gaseste subiecte care se leaga la %1 ..."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
 msgid "First name"
-msgstr ""
+msgstr "Prenume"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -1543,24 +1592,24 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
-msgstr ""
+msgstr "Forteaza revizie noua"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:14
 msgid "Forgotten your password?"
-msgstr ""
+msgstr "Ai uitat parola?"
 
 #: core/templates/messages.tmpl:381
 msgid "Form Definition %1 missing"
-msgstr ""
+msgstr "Definitie Formular %1 lipsa"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:5 core/templates/form.tmpl:9
 #: core/templates/formtables.tmpl:6
 msgid "Form data"
-msgstr ""
+msgstr "Formular"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 msgid "Form definition"
-msgstr ""
+msgstr "Definitie formular"
 
 #: core/templates/messages.tmpl:378
 msgid "Form definition '%1' not found"
@@ -1572,7 +1621,7 @@ msgstr ""
 
 #: core/templates/login.tmpl:3
 msgid "Foswiki User Authentication"
-msgstr ""
+msgstr "Autentificare Utilizator Foswiki"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
 msgid ""
@@ -1598,12 +1647,12 @@ msgstr ""
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
 msgid "Globe"
-msgstr ""
+msgstr "Globe"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
 #: core/templates/messages.tmpl:500
 msgid "Go back"
-msgstr ""
+msgstr "Inapoi"
 
 #: core/templates/messages.tmpl:372
 msgid ""
@@ -1623,11 +1672,11 @@ msgstr ""
 
 #: core/templates/messages.tmpl:311
 msgid "Good examples:"
-msgstr ""
+msgstr "Exemple bune:"
 
 #: core/data/Main/WikiGroups.txt:62
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
 #: core/lib/Foswiki/UserMapping.pm:344
@@ -1636,7 +1685,7 @@ msgstr ""
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
-msgstr ""
+msgstr "Nume grup"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
 msgid "Group names must end in Group"
@@ -1645,29 +1694,29 @@ msgstr ""
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
 msgid "Groups"
-msgstr ""
+msgstr "Grupuri"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:6
 msgid "Hello %1"
-msgstr ""
+msgstr "Salut %1"
 
 #: core/templates/foswiki.tmpl:159
 msgid "Hello %1!"
-msgstr ""
+msgstr "Salut %1!"
 
 #: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
 #: core/templates/login.tmpl:45
 msgid "Help"
-msgstr ""
+msgstr "Ajutor"
 
 #: core/templates/attach.tmpl:43
 msgid "Hide file"
-msgstr ""
+msgstr "Ascunde fisier"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
 msgid "Hide help"
-msgstr ""
+msgstr "Ascunde ajutor"
 
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
@@ -1675,7 +1724,7 @@ msgstr ""
 
 #: core/data/System/ManagingTopics.txt:98
 msgid "History"
-msgstr ""
+msgstr "Istoric"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -3578,45 +3627,45 @@ msgstr ""
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
-msgstr ""
+msgstr "Actualizeaza"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
-msgstr ""
+msgstr "Actualizeaza atasament %1 pe %2"
 
 #: core/templates/renamebase.tmpl:49 core/templates/renamewebbase.tmpl:27
 msgid "Update links"
-msgstr ""
+msgstr "Updateaza legaturi"
 
 #: core/data/Main/GroupViewTemplate.txt:220
 msgid "Upgrade"
-msgstr ""
+msgstr "Actualizare"
 
 #: core/data/Main/GroupViewTemplate.txt:216
 msgid "Upgrade group topic"
-msgstr ""
+msgstr "Actualizare subiect grup"
 
 #: core/data/Main/GroupViewTemplate.txt:208
 msgid "Upgrade group topic..."
-msgstr ""
+msgstr "Actualizare subiect grup..."
 
 #: core/templates/messages.tmpl:523
 msgid "Upgraded group"
-msgstr ""
+msgstr "Grup actualizat"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:26
 #: PatternSkin/templates/attachnew.pattern.tmpl:5
 #: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
 msgid "Upload file"
-msgstr ""
+msgstr "Incarca fisier"
 
 #: PatternSkin/templates/attach.pattern.tmpl:50
 msgid "Upload multiple attachments in one zip file"
-msgstr ""
+msgstr "Incarca fisiere multiple intr-o arhiva zip"
 
 #: PatternSkin/templates/attach.pattern.tmpl:42
 msgid "Upload up to %1 KB."
-msgstr ""
+msgstr "Incarca pana la %1 KB."
 
 #: core/templates/messages.tmpl:429
 msgid "Uploaded file %1 exceeds limit of %2 KB"
@@ -3668,7 +3717,7 @@ msgstr ""
 #: PatternSkin/data/Main/WebLeftBarExample.txt:14
 #: PatternSkin/data/System/WebLeftBarExample.txt:6
 msgid "Users"
-msgstr ""
+msgstr "Utilizatori"
 
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
@@ -3688,75 +3737,75 @@ msgstr ""
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
-msgstr ""
+msgstr "Versiune"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:9
 msgid "Version history"
-msgstr ""
+msgstr "Istoric versiune"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:7
 msgid "Version history of %1"
-msgstr ""
+msgstr "Istoric versiune pentru %1"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
-msgstr ""
+msgstr "Vezi"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
-msgstr ""
+msgstr "Vezi diferenta"
 
 #: core/templates/more.tmpl:164
 msgid "View differences"
-msgstr ""
+msgstr "Vezi diferente;e"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "View earlier"
-msgstr ""
+msgstr "Vezi mai devreme"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:37
 msgid "View later"
-msgstr ""
+msgstr "Vezi mai tarziu"
 
 #: core/templates/more.tmpl:139
 msgid "View previous topic revision"
-msgstr ""
+msgstr "Vezi revizia pentru subiectul anterior"
 
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View raw text without formatting"
-msgstr ""
+msgstr "Vezi linia de text fara formatare"
 
 #: core/templates/more.tmpl:146
 msgid "View revision"
-msgstr ""
+msgstr "Vezi revizie"
 
 #: core/templates/more.tmpl:143
 msgid "View revision:"
-msgstr ""
+msgstr "Vezi revizie:"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "View sequential topic history"
-msgstr ""
+msgstr "Vezi istoricul subiectului secvential"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:62
 msgid "View templates"
-msgstr ""
+msgstr "Vezi sabloane"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View topic"
-msgstr ""
+msgstr "Vezi subiect"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
-msgstr ""
+msgstr "Vezi istoric topic intreg"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:18
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:19
 msgid "View without formatting (v)"
-msgstr ""
+msgstr "Vezi fara formatare (v)"
 
 #: core/templates/validate.tmpl:22
 msgid "Warning! Confirmation required"
@@ -3834,7 +3883,7 @@ msgstr ""
 
 #: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
 msgid "Welcome to the %1 web"
-msgstr ""
+msgstr "Bun venit la spatiul web %1"
 
 #: core/templates/messages.tmpl:272
 msgid "While attempting to email <noautolink>%1</noautolink>."
@@ -3842,15 +3891,15 @@ msgstr ""
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Who"
-msgstr ""
+msgstr "Cine"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Cine cere asta, de fapt? "
 
 #: HistoryPlugin/templates/oopshistory.tmpl:103
 msgid "Whole page"
-msgstr ""
+msgstr "Inreaga pagina"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
@@ -3970,7 +4019,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
-msgstr ""
+msgstr "Nu te poti inregistra pe acest site."
 
 #: core/templates/messages.tmpl:292
 msgid "You cannot register twice, the name %1 is already registered."
@@ -4011,14 +4060,19 @@ msgstr ""
 #: core/templates/messages.tmpl:498
 msgid "You need to specify a valid group name to add users to a group."
 msgstr ""
+"Trebuie sa mentionezi un nume de grup valid pentru a adauga utilizatorii la "
+"grup."
 
 #: core/templates/messages.tmpl:549
 msgid "You need to specify a valid group name to remove users from a group."
 msgstr ""
+"Trebuie sa mentionezi un nume de grup valid pentru a sterge utilizatorii din "
+"grup."
 
 #: core/templates/messages.tmpl:491
 msgid "You need to specify a valid user to add to a group."
 msgstr ""
+"Trebuie sa mentionezi un utilizator valid pentru a il putea adauga la grup."
 
 #: core/templates/messages.tmpl:532
 msgid "You need to specify a valid user to remove from a group."
@@ -4049,7 +4103,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your %1.LoginName"
-msgstr ""
+msgstr "Numele tau de login %1"
 
 #: core/templates/messages.tmpl:225
 msgid ""
@@ -4108,20 +4162,24 @@ msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Emailurie inregistrare sunt folosite de Foswiki pentru a trimite mesajele "
+"tale, inclusiv notificari si schimbari de parola."
 
 #: core/templates/messages.tmpl:274
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
 msgstr ""
+"Verificarea e-mail-ului cu care te-ai logat fie a esuat fie asteapta in "
+"coada sistemului de mail."
 
 #: PatternSkin/templates/edit.pattern.tmpl:52
 msgid "Your signature to copy/paste"
-msgstr ""
+msgstr "Semnatura ta pentru copiaza/lipeste"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
-msgstr ""
+msgstr "Semnatura ta pentru copiaza/lipeste:"
 
 #: core/templates/messages.tmpl:209
 msgid ""
@@ -4152,27 +4210,27 @@ msgstr ""
 
 #: core/lib/Foswiki/Meta.pm:1840
 msgid "access denied on root"
-msgstr ""
+msgstr "acces restrictionat pe root"
 
 #: core/lib/Foswiki/Meta.pm:1778
 msgid "access denied on topic"
-msgstr ""
+msgstr "acces restrictionat pe subiect"
 
 #: core/lib/Foswiki/Meta.pm:1813
 msgid "access denied on web"
-msgstr ""
+msgstr "acces restrictionat pe spatiu web"
 
 #: core/lib/Foswiki/Meta.pm:1850
 msgid "access not allowed on root"
-msgstr ""
+msgstr "accesul nu este permis pe root"
 
 #: core/lib/Foswiki/Meta.pm:1797
 msgid "access not allowed on topic"
-msgstr ""
+msgstr "accesul nu este permis pe subiect"
 
 #: core/lib/Foswiki/Meta.pm:1825
 msgid "access not allowed on web"
-msgstr ""
+msgstr "accesul nu este permis pe spatiul web"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
@@ -4180,11 +4238,11 @@ msgstr ""
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "and"
-msgstr ""
+msgstr "si"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "de catre %1"
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
@@ -4213,16 +4271,16 @@ msgstr ""
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
-msgstr ""
+msgstr "editeaza"
 
 #: core/templates/messages.tmpl:244
 msgid "fields are required."
-msgstr ""
+msgstr "campuri necesare."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "help"
-msgstr ""
+msgstr "ajutor"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "hints on good style"
@@ -4238,19 +4296,19 @@ msgstr ""
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
-msgstr ""
+msgstr "ultima modificare"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
-msgstr ""
+msgstr "administreaza"
 
 #: core/data/Trash/WebHome.txt:11
 msgid "more..."
-msgstr ""
+msgstr "mai mult"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
-msgstr ""
+msgstr "acum %1"
 
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
@@ -4262,17 +4320,17 @@ msgstr ""
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:37
 #: core/templates/renameweb.tmpl:32 core/templates/renamewebconfirm.tmpl:15
 msgid "or"
-msgstr ""
+msgstr "sau"
 
 #: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
 msgid "preview"
-msgstr ""
+msgstr "previzualizeaza"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
-msgstr ""
+msgstr "regasita la %1"
 
 #: core/templates/viewprint.tmpl:16
 #, fuzzy
@@ -4281,15 +4339,19 @@ msgstr "(revizie %1)"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
-msgstr ""
+msgstr "inceputul"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
+#, fuzzy
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
+"title='Ataseaza o imagine sau un document pentru acest subiect' "
+"accesskey='a'>&Ataseaza"
 
 #: core/templates/viewtopicactionbuttons.tmpl:4
+#, fuzzy
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr ""
+msgstr "title='Creaza subiect nou' accesskey='c'>&Creaza"
 
 #: core/templates/viewtopicactionbuttons.tmpl:18
 msgid ""
@@ -4357,35 +4419,41 @@ msgstr ""
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:31
 msgid "user list truncated"
-msgstr ""
+msgstr "lista de utilizatori trunchiata"
 
 #: PatternSkin/templates/edit.pattern.tmpl:41
+#, fuzzy
 msgid "value='Cancel' accesskey='c'"
-msgstr ""
+msgstr "value='Anuleaza' accesskey='c'"
 
 #: PatternSkin/templates/preview.pattern.tmpl:19
+#, fuzzy
 msgid "value='Discard' accesskey='d'"
-msgstr ""
+msgstr "value='Ignora' accesskey='d'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:39
+#, fuzzy
 msgid "value='Preview' accesskey='p'"
-msgstr ""
+msgstr "value='Previzualizeaza' accesskey='p'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:35
+#, fuzzy
 msgid "value='Quiet save' accesskey='q'"
-msgstr ""
+msgstr "value=Salveaza lent' accesskey='q'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:37
+#, fuzzy
 msgid "value='Save and Continue' accesskey='k'"
-msgstr ""
+msgstr "value='Salveaza si Continua' accesskey='k'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:33
+#, fuzzy
 msgid "value='Save' accesskey='s'"
-msgstr ""
+msgstr "value='Salveaza' accesskey='s'"
 
 #: core/templates/attachtables.tmpl:48
 msgid "view"
-msgstr ""
+msgstr "vizualizare"
 
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
