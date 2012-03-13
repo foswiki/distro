@@ -12,10 +12,9 @@ One line description, required for extensions repository catalog.
 ---++ Usage
 
 The icons are attached to the FamFamFamFlagIcons  FamFamFamMiniIcons  FamFamFamMintIcons  
-FamFamFamSilkIcons FamFamFamSilkCompanion1Icons topics - 
-be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
+FamFamFamSilkIcons FamFamFamSilkCompanion1Icons FamFamFamSilkGeoSilkIcons topics.
 
-At this point, the only way to access these Icons is using the url - see below.
+Some of these icons are used by the foswiki DocumentGraphics for the foswiki-wide =ICON= macro.
 
 __This Contrib is part of the foswiki 1.1 release__
 
@@ -53,6 +52,9 @@ eg
 ---+++ Silk preview FamFamFamSilkCompanion2Icons
 <img src="%ATTACHURLPATH%/silk-companion-II.png" alt="silk-companion-II.png"  />
 
+---+++ preview FamFamFamSilkGeoSilkIcons
+<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkGeoSilkIcons/geosilk.png" />
+
 ---+++ Foswiki Extra Icons FamFamFamFoswikiExtras
 %INCLUDE{%SYSTEMWEB%.FamFamFamFoswikiExtras}%
 
@@ -70,6 +72,7 @@ eg
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  13 Mar 2012 (1.5)   | added 119 GeoSilk icons |
 |  12 Dec 2011 (1.4.3) | Released with Foswiki 1.1.4. Foswikitask:Item11104 - Added =trash-small= icon to !DocumentGraphics.  Foswikitask:Item11016 - Print should pass through URL parameters. Foswikitask:Item11341 - Add a Cog icon. |
 |  03 May 2011 (1.4.1) | Foswikitask:Item10699 - Update METADATA for attachments |
 |  11 Apr 2011 (1.4): | New homepage for "Universal Wiki Edit Button". <br />\

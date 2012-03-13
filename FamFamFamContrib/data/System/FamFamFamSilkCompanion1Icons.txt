@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1232515575" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FamFamFamContrib"}%
 ---+ %TOPIC%
 
 Mark James created a great set of 1,022 silky-smooth 16x16 true-colour 
@@ -22,6 +23,6 @@ These Icons come from http://damieng.com/creative/icons/silk-companion-1-icons
 <img src="%ATTACHURLPATH%/SilkCompanion1Thumb.png" alt="index_abc.png" />
 </div>
 
-See also: FamFamFamContrib, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons, FamFamFamSilkGeoSilkIcons
 
 %META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h"  user="ProjectContributor" version="1"}%

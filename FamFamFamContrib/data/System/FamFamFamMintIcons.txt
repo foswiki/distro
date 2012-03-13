@@ -1,3 +1,5 @@
+%META:TOPICPARENT{name="FamFamFamContrib"}%
+
 ---+ %TOPIC%
 
 "Mint" icons are a small set of tiny PNG web icons, loosely-based on Shaun Inman's Mint  statistics software. 
@@ -30,4 +32,4 @@ These Icons come from http://www.famfamfam.com/lab/icons/mint/
 <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_spearmint.png" alt="sound_spearmint.png" title="sound_spearmint.png" />
 <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_white.png" alt="sound_white.png" title="sound_white.png" />
 
-See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons, FamFamFamSilkGeoSilkIcons

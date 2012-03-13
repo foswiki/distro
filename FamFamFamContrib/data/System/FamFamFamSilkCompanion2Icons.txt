@@ -1,16 +1,24 @@
 %META:TOPICINFO{author="ProjectContributor" date="1259999111" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FamFamFamContrib"}%
 ---+ %TOPIC%
 
 Mark James created a great set of 1,022 silky-smooth 16x16 true-colour 
 icons in PNG format, aptly named [[FamFamFamSilkIcons][Silk Icons]].
 
-Introducing the Silk Companion II Icon Pack. 
-While developing a new CKEditor skin for GetSimple, I had a need for some extra Silk icons developed by Mark James at FamFamFam. 
-Out came 64 new silk-inspired icons. These icons are released under the same Creative Commons Attribution 3.0 License as the originals. 
+---++ GeoSilk icon set by Rolando Peñate
+http://projects.opengeo.org/geosilk
+
+
+The GeoSilk icon set is derived from the Silk
+icon set by Mark James, the Silk Companion set
+by Damien Guard, and the uDig icons made by
+Jody Garnett of Refractions Research. It aims
+to extend the Silk icon set to address the
+needs of geospatial software.
 
 ---++ License
 This work is published under the
- [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] by Damien Guard.
+ [[http://creativecommons.org/licenses/by/3.0/][Creative Commons Attribution 3.0 License]] by Damien Guard.
 
 ---++ Source
 These Icons come from http://www.cagintranet.com/archive/download-famfamfam-silk-companion-2-icon-pack/
@@ -22,6 +30,6 @@ These Icons come from http://www.cagintranet.com/archive/download-famfamfam-silk
 <img src="%ATTACHURLPATH%/silk-companion-II.png" alt="index_abc.png" />
 </div>
 
-See also: FamFamFamContrib, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons, FamFamFamSilkGeoSilkIcons
 
 %META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h"  user="ProjectContributor" version="1"}%

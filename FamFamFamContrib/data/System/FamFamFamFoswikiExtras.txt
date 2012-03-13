@@ -1,9 +1,10 @@
+%META:TOPICPARENT{name="FamFamFamContrib"}%
 ---+ %TOPIC%
 %STARTINCLUDE%
 So far built by Foswiki:Main.SvenDowideit based on the Silk ones above, except for 
    1 the XML icon - which comes from http://commons.wikimedia.org/wiki/File:XML_icon.svg
    2 the targets which are based on - http://www.favicon.cc/?action=icon&file_id=37384
-   3 the Universal edit icons are based on the current (dec 2009) svg
+   3 the [[http://universaleditbutton.org/Universal_Edit_Button][Universal edit icons]] are based on the current (dec 2009) svg
    4 hand made done, closed, todo, updated icons - yes, ok, so i'm not an artist.
    5 external sites icons like skype are made using their favicons
 %STOPINCLUDE%
@@ -80,4 +81,4 @@ So far built by Foswiki:Main.SvenDowideit based on the Silk ones above, except f
 <img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/skype.png" />
 <img src="%PUBURLPATH%/%SYSTEMWEB%/%TOPIC%/bug.png" />
 
-See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons, FamFamFamSilkGeoSilkIcons

@@ -1,4 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1232515575" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FamFamFamContrib"}%
+
 ---+ %TOPIC%
 
 Silk is a smooth, free icon set, containing over 700  16-by-16 pixel icons in strokably-soft PNG format. 
@@ -26,6 +28,6 @@ These Icons come from http://www.famfamfam.com/lab/icons/silk/
 <img src="%ATTACHURLPATH%/index_abc.png" alt="index_abc.png" />
 </div>
 
-See also: FamFamFamContrib, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons, FamFamFamSilkGeoSilkIcons
 
 %META:FILEATTACHMENT{name="index_abc.png" attachment="index_abc.png" attr="h" comment="" date="1223754572" path="index_abc.png" size="963864"  user="ProjectContributor" version="1"}%

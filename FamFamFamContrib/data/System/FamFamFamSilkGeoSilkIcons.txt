@@ -1,0 +1,154 @@
+%META:TOPICINFO{author="ProjectContributor" date="1259999111" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FamFamFamContrib"}%
+---+ %TOPIC%
+
+Mark James created a great set of 1,022 silky-smooth 16x16 true-colour 
+icons in PNG format, aptly named [[FamFamFamSilkIcons][Silk Icons]].
+
+---++ !GeoSilk icon set by Rolando Pe&ntilde;ate
+http://projects.opengeo.org/geosilk
+
+
+The !GeoSilk icon set is derived from the Silk
+icon set by Mark James, the Silk Companion set
+by Damien Guard, and the uDig icons made by
+Jody Garnett of Refractions Research. It aims
+to extend the Silk icon set to address the
+needs of geospatial software.
+
+---++ License
+This work is published under the
+ [[http://creativecommons.org/licenses/by/3.0/][Creative Commons Attribution 3.0 License]] by Damien Guard.
+
+---++ Source
+These Icons come from http://projects.opengeo.org/geosilk
+
+[[%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkGeoSilkIcons/_readme.txt][_readme (txt)]]
+
+---++ Icons
+<div style="overflow:auto;padding:5px;border:1px solid #ddd">
+<img src="%ATTACHURL%/bullet_arrow_left.png" title="bullet_arrow_left" />
+<img src="%ATTACHURL%/bullet_arrow_right.png" title="bullet_arrow_right" />
+<img src="%ATTACHURL%/bullet_black_add.png" title="bullet_black_add" />
+<img src="%ATTACHURL%/bullet_black_delete.png" title="bullet_black_delete" />
+<img src="%ATTACHURL%/bullet_blue_add.png" title="bullet_blue_add" />
+<img src="%ATTACHURL%/bullet_blue_delete.png" title="bullet_blue_delete" />
+<img src="%ATTACHURL%/bullet_goback.png" title="bullet_goback" />
+<img src="%ATTACHURL%/bullet_green_add.png" title="bullet_green_add" />
+<img src="%ATTACHURL%/bullet_green_delete.png" title="bullet_green_delete" />
+<img src="%ATTACHURL%/bullet_map.png" title="bullet_map" />
+<img src="%ATTACHURL%/bullet_orange_add.png" title="bullet_orange_add" />
+<img src="%ATTACHURL%/bullet_orange_delete.png" title="bullet_orange_delete" />
+<img src="%ATTACHURL%/bullet_pink_add.png" title="bullet_pink_add" />
+<img src="%ATTACHURL%/bullet_pink_delete.png" title="bullet_pink_delete" />
+<img src="%ATTACHURL%/bullet_purple_add.png" title="bullet_purple_add" />
+<img src="%ATTACHURL%/bullet_purple_delete.png" title="bullet_purple_delete" />
+<img src="%ATTACHURL%/bullet_raster.png" title="bullet_raster" />
+<img src="%ATTACHURL%/bullet_red_add.png" title="bullet_red_add" />
+<img src="%ATTACHURL%/bullet_red_delete.png" title="bullet_red_delete" />
+<img src="%ATTACHURL%/bullet_start.png" title="bullet_start" />
+<img src="%ATTACHURL%/bullet_stop.png" title="bullet_stop" />
+<img src="%ATTACHURL%/bullet_vector.png" title="bullet_vector" />
+<img src="%ATTACHURL%/bullet_yellow_add.png" title="bullet_yellow_add" />
+<img src="%ATTACHURL%/bullet_yellow_delete.png" title="bullet_yellow_delete" />
+<img src="%ATTACHURL%/cog_pause.png" title="cog_pause" />
+<img src="%ATTACHURL%/cog_play.png" title="cog_play" />
+<img src="%ATTACHURL%/cog_stop.png" title="cog_stop" />
+<img src="%ATTACHURL%/compass.png" title="compass" />
+<img src="%ATTACHURL%/database_copy.png" title="database_copy" />
+<img src="%ATTACHURL%/database_oracle.png" title="database_oracle" />
+<img src="%ATTACHURL%/database_picture.png" title="database_picture" />
+<img src="%ATTACHURL%/database_raster.png" title="database_raster" />
+<img src="%ATTACHURL%/database_start.png" title="database_start" />
+<img src="%ATTACHURL%/database_stop.png" title="database_stop" />
+<img src="%ATTACHURL%/database_vector.png" title="database_vector" />
+<img src="%ATTACHURL%/database_wrench.png" title="database_wrench" />
+<img src="%ATTACHURL%/database_yellow.png" title="database_yellow" />
+<img src="%ATTACHURL%/database_yellow_start.png" title="database_yellow_start" />
+<img src="%ATTACHURL%/database_yellow_stop.png" title="database_yellow_stop" />
+<img src="%ATTACHURL%/decline.png" title="decline" />
+<img src="%ATTACHURL%/erase.png" title="erase" />
+<img src="%ATTACHURL%/folder_layer.png" title="folder_layer" />
+<img src="%ATTACHURL%/layers_delete.png" title="layers_delete" />
+<img src="%ATTACHURL%/line_blue.png" title="line_blue" />
+<img src="%ATTACHURL%/line_blue_add.png" title="line_blue_add" />
+<img src="%ATTACHURL%/line_blue_delete.png" title="line_blue_delete" />
+<img src="%ATTACHURL%/line_green.png" title="line_green" />
+<img src="%ATTACHURL%/line_green_add.png" title="line_green_add" />
+<img src="%ATTACHURL%/line_green_delete.png" title="line_green_delete" />
+<img src="%ATTACHURL%/line_orange.png" title="line_orange" />
+<img src="%ATTACHURL%/line_orange_add.png" title="line_orange_add" />
+<img src="%ATTACHURL%/line_orange_delete.png" title="line_orange_delete" />
+<img src="%ATTACHURL%/line_pink.png" title="line_pink" />
+<img src="%ATTACHURL%/line_pink_add.png" title="line_pink_add" />
+<img src="%ATTACHURL%/line_pink_delete.png" title="line_pink_delete" />
+<img src="%ATTACHURL%/line_purple.png" title="line_purple" />
+<img src="%ATTACHURL%/line_purple_add.png" title="line_purple_add" />
+<img src="%ATTACHURL%/line_purple_delete.png" title="line_purple_delete" />
+<img src="%ATTACHURL%/line_red.png" title="line_red" />
+<img src="%ATTACHURL%/line_red_add.png" title="line_red_add" />
+<img src="%ATTACHURL%/line_red_delete.png" title="line_red_delete" />
+<img src="%ATTACHURL%/line_yellow.png" title="line_yellow" />
+<img src="%ATTACHURL%/line_yellow_add.png" title="line_yellow_add" />
+<img src="%ATTACHURL%/line_yellow_delete.png" title="line_yellow_delete" />
+<img src="%ATTACHURL%/map_save.png" title="map_save" />
+<img src="%ATTACHURL%/map_wrench.png" title="map_wrench" />
+<img src="%ATTACHURL%/marker.png" title="marker" />
+<img src="%ATTACHURL%/page_white_goback.png" title="page_white_goback" />
+<img src="%ATTACHURL%/page_white_map.png" title="page_white_map" />
+<img src="%ATTACHURL%/page_white_palette.png" title="page_white_palette" />
+<img src="%ATTACHURL%/page_white_picture.png" title="page_white_picture" />
+<img src="%ATTACHURL%/page_white_raster.png" title="page_white_raster" />
+<img src="%ATTACHURL%/page_white_vector.png" title="page_white_vector" />
+<img src="%ATTACHURL%/palette_add.png" title="palette_add" />
+<img src="%ATTACHURL%/palette_remove.png" title="palette_remove" />
+<img src="%ATTACHURL%/pan.png" title="pan" />
+<img src="%ATTACHURL%/postgis.png" title="postgis" />
+<img src="%ATTACHURL%/raster.png" title="raster" />
+<img src="%ATTACHURL%/raster_add.png" title="raster_add" />
+<img src="%ATTACHURL%/raster_delete.png" title="raster_delete" />
+<img src="%ATTACHURL%/ruler.png" title="ruler" />
+<img src="%ATTACHURL%/ruler_square.png" title="ruler_square" />
+<img src="%ATTACHURL%/ruler_triangle.png" title="ruler_triangle" />
+<img src="%ATTACHURL%/server_feed.png" title="server_feed" />
+<img src="%ATTACHURL%/server_gear.png" title="server_gear" />
+<img src="%ATTACHURL%/server_map.png" title="server_map" />
+<img src="%ATTACHURL%/server_picture.png" title="server_picture" />
+<img src="%ATTACHURL%/server_raster.png" title="server_raster" />
+<img src="%ATTACHURL%/server_start.png" title="server_start" />
+<img src="%ATTACHURL%/server_stop.png" title="server_stop" />
+<img src="%ATTACHURL%/server_table.png" title="server_table" />
+<img src="%ATTACHURL%/server_vector.png" title="server_vector" />
+<img src="%ATTACHURL%/shape_square_blue.png" title="shape_square_blue" />
+<img src="%ATTACHURL%/shape_square_blue_add.png" title="shape_square_blue_add" />
+<img src="%ATTACHURL%/shape_square_blue_delete.png" title="shape_square_blue_delete" />
+<img src="%ATTACHURL%/shape_square_feed.png" title="shape_square_feed" />
+<img src="%ATTACHURL%/shape_square_green.png" title="shape_square_green" />
+<img src="%ATTACHURL%/shape_square_green_add.png" title="shape_square_green_add" />
+<img src="%ATTACHURL%/shape_square_green_delete.png" title="shape_square_green_delete" />
+<img src="%ATTACHURL%/shape_square_orange.png" title="shape_square_orange" />
+<img src="%ATTACHURL%/shape_square_orange_add.png" title="shape_square_orange_add" />
+<img src="%ATTACHURL%/shape_square_orange_delete.png" title="shape_square_orange_delete" />
+<img src="%ATTACHURL%/shape_square_pink.png" title="shape_square_pink" />
+<img src="%ATTACHURL%/shape_square_pink_add.png" title="shape_square_pink_add" />
+<img src="%ATTACHURL%/shape_square_pink_delete.png" title="shape_square_pink_delete" />
+<img src="%ATTACHURL%/shape_square_purple.png" title="shape_square_purple" />
+<img src="%ATTACHURL%/shape_square_purple_add.png" title="shape_square_purple_add" />
+<img src="%ATTACHURL%/shape_square_purple_delete.png" title="shape_square_purple_delete" />
+<img src="%ATTACHURL%/shape_square_red.png" title="shape_square_red" />
+<img src="%ATTACHURL%/shape_square_red_add.png" title="shape_square_red_add" />
+<img src="%ATTACHURL%/shape_square_red_delete.png" title="shape_square_red_delete" />
+<img src="%ATTACHURL%/shape_square_yellow.png" title="shape_square_yellow" />
+<img src="%ATTACHURL%/shape_square_yellow_add.png" title="shape_square_yellow_add" />
+<img src="%ATTACHURL%/shape_square_yellow_delete.png" title="shape_square_yellow_delete" />
+<img src="%ATTACHURL%/star_grey.png" title="star_grey" />
+<img src="%ATTACHURL%/star_half_grey.png" title="star_half_grey" />
+<img src="%ATTACHURL%/vector.png" title="vector" />
+<img src="%ATTACHURL%/vector_add.png" title="vector_add" />
+<img src="%ATTACHURL%/vector_delete.png" title="vector_delete" />
+</div>
+
+
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons, FamFamFamSilkGeoSilkIcons
+
+%META:FILEATTACHMENT{name="geosilk.png" attachment="geosilk.png" attr="h"  user="ProjectContributor" version="1"}%

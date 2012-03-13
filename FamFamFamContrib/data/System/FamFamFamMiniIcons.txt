@@ -1,3 +1,4 @@
+%META:TOPICPARENT{name="FamFamFamContrib"}%
 ---+ %TOPIC%
 
 "Mini" is a set of 144 GIF icons available for free use for any purpose.
@@ -156,4 +157,4 @@ These Icons come from These Icons come from http://www.famfamfam.com/lab/icons/f
 <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/table.gif" alt="table.gif" title="table.gif" />
 <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/tables.gif" alt="tables.gif" title="tables.gif" />
 
-See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMintIcons, FamFamFamSilkIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamFlagIcons, FamFamFamMintIcons, FamFamFamSilkIcons, FamFamFamSilkGeoSilkIcons

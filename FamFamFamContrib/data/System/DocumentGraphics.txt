@@ -1,4 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1315161866" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FamFamFamContrib"}%
 ---+!! Documentation Graphics and Filetype icons
 
 This is a Foswiki icon library. The graphics can be used in topics and by web applications. 
@@ -478,7 +479,7 @@ There are several other ways to put an image in a topic.
 
 Shorthand notation:
 <blockquote>
-In [[%USERSWEB%.SitePreferences!]] set a macro for an ICON, for example:
+In [[%USERSWEB%.SitePreferences]] set a macro for an ICON, for example:
 
 =<nop>   * Set H = %<nop>ICON{help}%=
 
@@ -512,7 +513,7 @@ and that will get rendered as: %ICONURL{"toggleopen"}%
 ---++ Customisation
 To create a _full_ new set of Icon's, you would need to duplicate this topic, 
 and then create a set of icon files matching these names as attachments to that copy. 
-This lengthy process is required to support direct URL usages of the iconsset 
+This lengthy process is required to support direct URL usages of the iconset 
 (its common for users to find out a url to an image, and then paste it into the editor - this 'just' works).
 
 If you only want to customise a small set of icons, or add some of your own, 
