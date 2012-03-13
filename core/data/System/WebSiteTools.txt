@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1239551007" format="1.1" version="1"}%
 ---+ Web Site Tools
 %STARTINCLUDE%
-<form action="%SCRIPTURLPATH{search}%/%BASEWEB%/SearchResult">
+<form name='WebSearchForm' action='%SCRIPTURLPATH{view}%/%BASEWEB%/WebSearch'>
 <noautolink>
    * <input type="text" name="search" size="32" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> &nbsp;&nbsp; (More options in [[%BASEWEB%.WebSearch][WebSearch]])
    * [[%BASEWEB%.WebChanges][WebChanges]]: Display recent changes to the %BASEWEB% web
