@@ -1888,7 +1888,8 @@ sub save {
 
     # Clear the reprev flag
     undef $this->get('TOPICINFO')->{reprev};
-    undef $this->get('TOPICINFO')->{comment} if ($this->get('TOPICINFO')->{comment} eq 'reprev');
+    undef $this->get('TOPICINFO')->{comment}
+      if ( $this->get('TOPICINFO')->{comment} eq 'reprev' );
 
     # Semantics inherited from Cairo. See
     # Foswiki:Codev.BugBeforeSaveHandlerBroken
@@ -3630,95 +3631,97 @@ sub setEmbeddedStoreForm {
         # when old code (e.g. old plugins) generated the meta.
         $ti->{version} = Foswiki::Store::cleanUpRevID( $ti->{version} );
         $ti->{rev} = $ti->{version};    # not used, maintained for compatibility
-   if ( defined $ti->{reprev} ) {
-       $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} );
-       unless ($ti->{reprev} &&
-              $ti->{version} &&
-              $ti->{reprev} == $ti->{version}) {
+        if ( defined $ti->{reprev} ) {
+            $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} );
+            unless ( $ti->{reprev}
+                && $ti->{version}
+                && $ti->{reprev} == $ti->{version} )
+            {
                 undef $ti->{reprev};
-                undef $ti->{comment} if ($ti->{comment} eq 'reprev');
-              }
-    }
-    else {
+                undef $ti->{comment} if ( $ti->{comment} eq 'reprev' );
+            }
+        }
+        else {
 
-        #defaults..
-    }
+            #defaults..
+        }
 
-    # Other meta-data
-    my $endMeta = 0;
-    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
-        require Foswiki::Compatibility;
-        if (
-            $text =~ s/^%META:([^{]+){(.*)}%\n/
+        # Other meta-data
+        my $endMeta = 0;
+        if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
+            require Foswiki::Compatibility;
+            if (
+                $text =~ s/^%META:([^{]+){(.*)}%\n/
               Foswiki::Compatibility::readSymmetricallyEncodedMETA(
                   $this, $1, $2 ); ''/gem
-          )
-        {
-            $endMeta = 1;
+              )
+            {
+                $endMeta = 1;
+            }
         }
-    }
-    else {
-        if (
-            $text =~ s/^(%META:([^{]+){(.*)}%\n)/
+        else {
+            if (
+                $text =~ s/^(%META:([^{]+){(.*)}%\n)/
 					if ($2 ne 'TOPICINFO') {
 							#TOPICINFO is only valid on the first line
         		      		$this->_readMETA($1, $2, $3)
 					} else {
 					    $1
 					}/gem
-          )
-        {
-            $endMeta = 1;
+              )
+            {
+                $endMeta = 1;
+            }
         }
-    }
 
-    # eat the extra newline put in to separate text from tail meta-data
-    $text =~ s/\n$//s if $endMeta;
+        # eat the extra newline put in to separate text from tail meta-data
+        $text =~ s/\n$//s if $endMeta;
 
-    # If there is no meta data then convert from old format
-    if ( !$this->count('TOPICINFO') ) {
+        # If there is no meta data then convert from old format
+        if ( !$this->count('TOPICINFO') ) {
 
-        # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiAttachment-->/ ) {
+            # The T-word string must remain unchanged for the compatibility
+            if ( $text =~ /<!--TWikiAttachment-->/ ) {
+                require Foswiki::Compatibility;
+                $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
+                    $this->{_session}, $this, $text );
+            }
+
+            # The T-word string must remain unchanged for the compatibility
+            if ( $text =~ /<!--TWikiCat-->/ ) {
+                require Foswiki::Compatibility;
+                $text = Foswiki::Compatibility::upgradeCategoryTable(
+                    $this->{_session}, $this->{_web}, $this->{_topic}, $this,
+                    $text );
+            }
+        }
+        elsif ( $format eq '1.0beta' ) {
             require Foswiki::Compatibility;
-            $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
-                $this->{_session}, $this, $text );
+
+            # This format used live at DrKW for a few months
+            # The T-word string must remain unchanged for the compatibility
+            if ( $text =~ /<!--TWikiCat-->/ ) {
+                $text = Foswiki::Compatibility::upgradeCategoryTable(
+                    $this->{_session}, $this->{_web}, $this->{_topic}, $this,
+                    $text );
+            }
+            Foswiki::Compatibility::upgradeFrom1v0beta( $this->{_session},
+                $this );
+            if ( $this->count('TOPICMOVED') ) {
+                my $moved = $this->get('TOPICMOVED');
+                $this->put( 'TOPICMOVED', $moved );
+            }
         }
 
-        # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiCat-->/ ) {
-            require Foswiki::Compatibility;
-            $text =
-              Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
-                $this->{_web}, $this->{_topic}, $this, $text );
+        if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
+
+            # compatibility; topics version 1.0 and earlier equivalenced tab
+            # with three spaces. Respect that.
+            $text =~ s/\t/   /g;
         }
+
+        $this->{_text} = $text;
     }
-    elsif ( $format eq '1.0beta' ) {
-        require Foswiki::Compatibility;
-
-        # This format used live at DrKW for a few months
-        # The T-word string must remain unchanged for the compatibility
-        if ( $text =~ /<!--TWikiCat-->/ ) {
-            $text =
-              Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
-                $this->{_web}, $this->{_topic}, $this, $text );
-        }
-        Foswiki::Compatibility::upgradeFrom1v0beta( $this->{_session}, $this );
-        if ( $this->count('TOPICMOVED') ) {
-            my $moved = $this->get('TOPICMOVED');
-            $this->put( 'TOPICMOVED', $moved );
-        }
-    }
-
-    if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
-
-        # compatibility; topics version 1.0 and earlier equivalenced tab
-        # with three spaces. Respect that.
-        $text =~ s/\t/   /g;
-    }
-
-    $this->{_text} = $text;
-}
 
 =begin TML
 
@@ -3737,77 +3740,77 @@ message explaining why.
 
 =cut
 
-sub isValidEmbedding {
-    my ( $this, $macro, $args ) = @_;
+    sub isValidEmbedding {
+        my ( $this, $macro, $args ) = @_;
 
-    my $validate = $VALIDATE{$macro};
-    return 1 unless $validate;    # not validated
+        my $validate = $VALIDATE{$macro};
+        return 1 unless $validate;    # not validated
 
-    if ( defined $validate->{function} ) {
-        unless ( &{ $validate->{function} }( $macro, $args ) ) {
-            $reason = "\%META:$macro validation failed";
-            return 0;
-        }
-
-        # Fall through to check other constraints
-    }
-
-    my %allowed;
-    if ( defined $validate->{require} ) {
-        map { $allowed{$_} = 1 } @{ $validate->{require} };
-        foreach my $p ( @{ $validate->{require} } ) {
-            if ( !defined $args->{$p} ) {
-                $reason = "$p was missing from \%META:$macro";
+        if ( defined $validate->{function} ) {
+            unless ( &{ $validate->{function} }( $macro, $args ) ) {
+                $reason = "\%META:$macro validation failed";
                 return 0;
             }
-        }
-    }
 
-    if ( defined $validate->{allow} ) {
-        map { $allowed{$_} = 1 } @{ $validate->{allow} };
-        foreach my $arg ( keys %$args ) {
-            if ( !$allowed{$arg} ) {
-                $reason = "$arg was present in \%META:$macro";
-                return 0;
+            # Fall through to check other constraints
+        }
+
+        my %allowed;
+        if ( defined $validate->{require} ) {
+            map { $allowed{$_} = 1 } @{ $validate->{require} };
+            foreach my $p ( @{ $validate->{require} } ) {
+                if ( !defined $args->{$p} ) {
+                    $reason = "$p was missing from \%META:$macro";
+                    return 0;
+                }
             }
         }
+
+        if ( defined $validate->{allow} ) {
+            map { $allowed{$_} = 1 } @{ $validate->{allow} };
+            foreach my $arg ( keys %$args ) {
+                if ( !$allowed{$arg} ) {
+                    $reason = "$arg was present in \%META:$macro";
+                    return 0;
+                }
+            }
+        }
+
+        return 1;
     }
 
-    return 1;
-}
+    sub _readMETA {
+        my ( $this, $expr, $type, $args ) = @_;
+        my $keys = _readKeyValues($args);
+        if ( $this->isValidEmbedding( $type, $keys ) ) {
+            if ( defined( $keys->{name} ) ) {
 
-sub _readMETA {
-    my ( $this, $expr, $type, $args ) = @_;
-    my $keys = _readKeyValues($args);
-    if ( $this->isValidEmbedding( $type, $keys ) ) {
-        if ( defined( $keys->{name} ) ) {
-
-            # save it keyed if it has a name
-            $this->putKeyed( $type, $keys );
+                # save it keyed if it has a name
+                $this->putKeyed( $type, $keys );
+            }
+            else {
+                $this->put( $type, $keys );
+            }
+            return '';
         }
         else {
-            $this->put( $type, $keys );
+            return $expr;
         }
-        return '';
     }
-    else {
-        return $expr;
-    }
-}
 
-# STATIC Build a hash by parsing name=value comma separated pairs
-# SMELL: duplication of Foswiki::Attrs, using a different
-# system of escapes :-(
-sub _readKeyValues {
-    my ($args) = @_;
-    my %res;
+    # STATIC Build a hash by parsing name=value comma separated pairs
+    # SMELL: duplication of Foswiki::Attrs, using a different
+    # system of escapes :-(
+    sub _readKeyValues {
+        my ($args) = @_;
+        my %res;
 
-    # Format of data is name='value' name1='value1' [...]
-    $args =~ s/\s*([^=]+)="([^"]*)"/
+        # Format of data is name='value' name1='value1' [...]
+        $args =~ s/\s*([^=]+)="([^"]*)"/
       $res{$1} = dataDecode( $2 ), ''/ge;
 
-    return \%res;
-}
+        return \%res;
+    }
 
 =begin TML
 
@@ -3825,12 +3828,12 @@ eliminate that....
 
 =cut
 
-sub dataEncode {
-    my $datum = shift;
+    sub dataEncode {
+        my $datum = shift;
 
-    $datum =~ s/([%"\r\n{}])/'%'.sprintf('%02x',ord($1))/ge;
-    return $datum;
-}
+        $datum =~ s/([%"\r\n{}])/'%'.sprintf('%02x',ord($1))/ge;
+        return $datum;
+    }
 
 =begin TML
 
@@ -3845,14 +3848,14 @@ eliminate that....
 
 =cut
 
-sub dataDecode {
-    my $datum = shift;
+    sub dataDecode {
+        my $datum = shift;
 
-    $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
-    return $datum;
-}
+        $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+        return $datum;
+    }
 
-1;
+    1;
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
