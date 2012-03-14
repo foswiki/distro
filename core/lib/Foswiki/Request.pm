@@ -279,6 +279,7 @@ sub url {
     my $queryString = $this->queryString();
     $url .= '?' . $queryString if $query && $queryString;
     $url = '' unless defined $url;
+
     return $url;
 }
 

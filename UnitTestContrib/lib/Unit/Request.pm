@@ -52,6 +52,18 @@ sub setUrl {
         $urlParams = $2;
     }
 
+    if ($path =~ /(https?):\/\/(.*?)\//) {
+        my $protocol = $1;
+        my $host = $2;
+        if ($protocol =~ /https/i) {
+         $this->secure(1);
+        } else {
+            $this->secure(0);
+        }
+        print STDERR "setting Host to $host\n";
+        $this->header(-name=>'Host', -value=>$host);
+    }
+
     my @pairs = split /[&;]/, $urlParams;
     my ( $param, $value, %params, @plist );
     foreach (@pairs) {
