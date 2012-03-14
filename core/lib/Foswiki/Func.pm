@@ -2439,11 +2439,21 @@ sub loadTemplate {
 ---+++ expandTemplate( $def ) -> $string
 
 Do a =%<nop>TMPL:P{$def}%=, only expanding the template (not expanding any variables other than =%TMPL%=.)
-   * =$def= - template name
+   * =$def= - template name or parameters (as a string)
 Return: the text of the expanded template
 
 A template is defined using a =%TMPL:DEF%= statement in a template
 file. See the [[System.SkinTemplates][documentation on Foswiki templates]] for more information.
+
+eg:
+    #load the templates (relying on the system-wide skin path.)
+    Foswiki::Func::loadTemplate('linkedin');
+    #get the 'profile' DEF section
+    my $tml = Foswiki::Func::expandTemplate('profile');
+    #get the 'profile' DEF section expanding the inline Template macros (such as %USER% and %TYPE%)
+    #NOTE: when using it this way, it is important to use the double quotes "" to delineate the values of the parameters.
+    my $tml = Foswiki::Func::expandTemplate(
+        '"profile" USER="' . $user . '" TYPE="' . $type . '"' );
 
 =cut
 
