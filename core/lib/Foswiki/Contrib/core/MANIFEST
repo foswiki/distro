@@ -138,6 +138,7 @@ data/System/PageCaching.txt 0644
 data/System/PerlDoc.txt 0644
 data/System/PlainSkin.txt 0644
 data/System/Plugins.txt 0644
+data/System/PublishedAPI.txt 0644
 data/System/PreferenceSettings.txt 0644
 data/System/PreviewBackground.txt 0644
 data/System/PrintSkin.txt 0644
