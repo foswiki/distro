@@ -1659,9 +1659,38 @@ $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 #############################################################################
 #---+ Extensions -- TABS
 
-#---++ Install and update extensions
-# <p>Consult online extensions repositories for new extensions, or check and manage updates.</p>
+#---++ Plugin Operation and Maintenance
+# <p>General configuration and maintenance of extensions.
+# <ul><li>Specify the plugin load order.
+# <li>Use the Extensions Repository to add, update or remove plugins.
+# <li>Enable and disable installed plugins.
+# </ul>
+
+#---+++ Configure how plugins are loaded by Foswiki
+# **STRING 80**
+# Plugins evaluation order. If set to a comma-separated list of plugin names,
+# will change the execution order of plugins so the listed subset of plugins
+# are executed first. The default execution order is alphabetical on plugin
+# name. <br/><br/>
 #
+# If TWiki compatibility is required, TWikiCompatibilityPlugin should be the first
+# Plugin in the list.  SpreadSheetPlugin should typically be next in the list for proper operation.<br/><br/>
+#
+# Note that some other general extension environment checks are made and reported here.  Plugins
+# that are enabled but not installed and duplicate plugins in the TWiki and Foswiki libraries
+# are reported here.  Also if a TWiki plugin is enabled and the Foswik version is installed, this
+# will also be reported here.  Expand the "Expert" options to find these issues.
+#
+$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
+
+# **STRING 80 EXPERT**
+# Search path (web names) for plugin topics. Note that the current web
+# is searched last, after this list.   Most modern foswiki plugins do not
+# use the plugin topic for settings, and this setting is ignored. It is
+# recommended that this setting not be changed.
+$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
+
+#---+++ Install, Update or Remove extensions
 # **STRING 80 EXPERT**
 # <b>Extensions Repositories Search List</b><br />
 # Foswiki extension repositories are just Foswiki webs that are organised in the
@@ -1695,37 +1724,16 @@ $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensi
 
 # *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
 
+#---+++ Enable or disable installed extensions
 
-#---++ Plugin operation (Enable / Disable)
 # *PLUGINS* Marker used by bin/configure script - do not remove!
 # <p>The plugins listed below were discovered by searching the <code>@INC</code>
 # path for modules that match the Foswiki standard e.g.
 # <code>Foswiki/Plugins/MyPlugin.pm</code> or the TWiki standard i.e.
-# <code>TWiki/Plugins/YourPlugin.pm</code></p>
+# <code>TWiki/Plugins/YourPlugin.pm</code> Note that this list
+# is only for Plugins. You cannot Enable/Disable Contribs, AddOns or Skins.</p>
 # <p>Any plugins enabled in the configuration but not found in the <code>@INC</code>
 # path are listed at the end and are flagged as errors in the PluginsOrder check.</p>
-# **STRING 80**
-# Plugins evaluation order. If set to a comma-separated list of plugin names,
-# will change the execution order of plugins so the listed subset of plugins
-# are executed first. The default execution order is alphabetical on plugin
-# name. <br/><br/>
-#
-# If TWiki compatibility is required, TWikiCompatibilityPlugin should be the first
-# Plugin in the list.  SpreadSheetPlugin should typically be next in the list for proper operation.<br/><br/>
-#
-# Note that some other general extension environment checks are made and reported here.  Plugins
-# that are enabled but not installed and duplicate plugins in the TWiki and Foswiki libraries
-# are reported here.  Also if a TWiki plugin is enabled and the Foswik version is installed, this
-# will also be reported here.  Expand the "Expert" options to find these issues.
-#
-$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
-
-# **STRING 80 EXPERT**
-# Search path (web names) for plugin topics. Note that the current web
-# is searched last, after this list.   Most modern foswiki plugins do not
-# use the plugin topic for settings, and this setting is ignored.
-$Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
-
 
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
