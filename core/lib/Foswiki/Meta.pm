@@ -1886,6 +1886,10 @@ sub save {
     # (side effect of getRevisionInfo)
     $this->getRevisionInfo();
 
+    # Clear the reprev flag
+    undef $this->get('TOPICINFO')->{reprev};
+    undef $this->get('TOPICINFO')->{comment} if ($this->get('TOPICINFO')->{comment} eq 'reprev');
+
     # Semantics inherited from Cairo. See
     # Foswiki:Codev.BugBeforeSaveHandlerBroken
     if ( $plugins->haveHandlerFor('beforeSaveHandler') ) {
@@ -3626,8 +3630,14 @@ sub setEmbeddedStoreForm {
         # when old code (e.g. old plugins) generated the meta.
         $ti->{version} = Foswiki::Store::cleanUpRevID( $ti->{version} );
         $ti->{rev} = $ti->{version};    # not used, maintained for compatibility
-        $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} )
-          if defined $ti->{reprev};
+   if ( defined $ti->{reprev} ) {
+       $ti->{reprev} = Foswiki::Store::cleanUpRevID( $ti->{reprev} );
+       unless ($ti->{reprev} &&
+              $ti->{version} &&
+              $ti->{reprev} == $ti->{version}) {
+                undef $ti->{reprev};
+                undef $ti->{comment} if ($ti->{comment} eq 'reprev');
+              }
     }
     else {
 
