@@ -2682,4 +2682,41 @@ NONNY
     return;
 }
 
+sub test_getUrlHost {
+    my ( $this ) = @_;
+
+    my $query;
+
+    require Unit::Request;
+    $query = Unit::Request->new("");
+    #$query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $Foswiki::cfg{DefaultUrlHost} = 'http://foswiki.org';
+
+    $query->setUrl('http://localhost/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals($Foswiki::cfg{DefaultUrlHost}, Foswiki::Func::getUrlHost());
+
+    $query->setUrl('http://localhost:8080/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals('http://localhost:8080', Foswiki::Func::getUrlHost());
+
+    $query->setUrl('https://localhost/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals('https://localhost', Foswiki::Func::getUrlHost());
+
+    $query->setUrl('https://localhost:8080/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals('https://localhost:8080', Foswiki::Func::getUrlHost());
+    
+    $Foswiki::cfg{RemovePortNumber} = 1;
+    $query->setUrl('http://localhost:8080/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals($Foswiki::cfg{DefaultUrlHost}, Foswiki::Func::getUrlHost());
+
+    $query->setUrl('https://localhost:8080/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals('https://localhost', Foswiki::Func::getUrlHost());
+
+}
+
 1;
