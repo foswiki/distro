@@ -1,6 +1,6 @@
 Foswiki::Plugins::JQueryPlugin,>=4.2,perl,Required.
 Foswiki::Plugins::SetVariablePlugin,>=4287,perl,Optional.
 Foswiki::Plugins::TopicInteractionPlugin,>=1,perl,Optional, require to be able to upload attachments from the editor.
-Foswiki::Plugins::RenderPlugin,>=3644,perl,Required.
+Foswiki::Plugins::RenderPlugin,>=3644,perl,Optional, can be used to obtain alternate dialogs from the server.
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
 Foswiki::Plugins::ZonePlugin,>=3.1,perl,Required. required for Foswiki < 1.1
