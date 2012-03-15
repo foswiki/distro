@@ -317,6 +317,7 @@ sub addUser {
         }
     }
 
+    $this->{CACHED} = 0;
     my $user = $this->_maintainUsersTopic( 'add', $login, $wikiname );
 
 #can't call setEmails here - user may be in the process of being registered
@@ -382,9 +383,13 @@ sub _maintainUsersTopic {
       Foswiki::Time::formatTime( time(), $Foswiki::cfg{DefaultDateFormat},
         'gmtime' );
 
-    # add to the mapping caches
-    my $user = _cacheUser( $this, $wikiname, $login );
-    ASSERT($user) if DEBUG;
+    my $user;
+
+    # add to the mapping caches unless removing a user
+    unless ( $action eq 'del' ) {
+        $user = _cacheUser( $this, $wikiname, $login );
+        ASSERT($user) if DEBUG;
+    }
 
     # add name alphabetically to list
 
@@ -451,6 +456,7 @@ sub _maintainUsersTopic {
         }
         $output .= $line . "\n";
     }
+
     if ( $entry && $action eq 'add' ) {
 
         # brand new file - add to end
@@ -488,20 +494,35 @@ Delete the users entry. Removes the user from the password
 manager and user mapping manager. Does *not* remove their personal
 topics, which may still be linked.
 
+Note that this must be called with the cUID.  If any doubt,  resolve the cUID
+by $this->{session}->{users}->getCanonicalUserID($identity).
+
 =cut
 
 sub removeUser {
     my ( $this, $cUID ) = @_;
+
     my $ln       = $this->getLoginName($cUID);
     my $wikiname = $this->getWikiName($cUID);
     $this->{passwords}->removeUser($ln) if ($ln);
 
+   # SMELL: If for some reason the login or wikiname is not found in the mapping
+   # Then the WikiUsers topic will not be maintained.
     $this->_maintainUsersTopic( 'del', $ln, $wikiname ) if ( $ln && $wikiname );
-
-    return 1;
 
     # SMELL: does not update the internal caches,
     # needs someone to implement it
+    # Brutal update - invalidate them all
+
+    $this->{CACHED}             = 0;
+    $this->{L2U}                = {};
+    $this->{U2W}                = {};
+    $this->{W2U}                = {};
+    $this->{eachGroupMember}    = {};
+    $this->{singleGroupMembers} = ();
+
+    return 1;
+
 }
 
 =begin TML
