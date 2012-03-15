@@ -9,6 +9,7 @@
 !include ../JSCalendarContrib/lib/Foswiki/Contrib/JSCalendarContrib
 !include ../JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin
 !include ../MailerContrib/lib/Foswiki/Contrib/MailerContrib
+!include ../NatEditPlugin/lib/Foswiki/Contrib/NatEditPlugin
 !include ../SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin
 !include ../TablePlugin/lib/Foswiki/Plugins/TablePlugin
 !include ../TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin

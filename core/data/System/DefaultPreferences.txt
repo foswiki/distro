@@ -213,7 +213,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---++ Extension Settings
 
    * Skin overriding the default templates: (can be overwritten by WebPreferences and user preferences)
-      * Set SKIN = pattern
+      * Set SKIN = natedit,pattern
 
    * *Note:* See SkinBrowser for currently installed skins
 
