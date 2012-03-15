@@ -238,6 +238,47 @@ sub verify_AddUsers {
     return;
 }
 
+sub verify_RemoveUsers {
+    my $this = shift;
+    my $me   = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
+
+    $this->assert( open( my $F, '>', $this->{ttpath} ),
+        "open $this->{ttpath} failed" );
+    print $F $initial;
+    $this->assert( close($F) );
+    chmod( 0777, $this->{ttpath} );
+
+    #my ( $this, $login, $wikiname, $password, $emails ) = @_;
+    $this->{session}->{users}->{mapping}->addUser( "guser", "GeorgeUser", $me );
+    $this->{session}->{users}->{mapping}->addUser( "auser", "AaronUser",  $me );
+    $this->{session}->{users}->{mapping}->addUser( "xuser", "XenonUser",  $me );
+    $this->{session}->{users}->{mapping}
+      ->addUser( "zuser", "ZebediahUser", $me );
+
+    $this->assert( open( $F, '<', $this->{ttpath} ) );
+    local $/ = undef;
+    my $text = <$F>;
+    $this->assert( close($F) );
+    $this->assert_matches(
+        qr/\n\s+\* GeorgeUser - guser - \d\d \w\w\w \d\d\d\d\n/s, $text );
+    $this->assert_matches( qr/Aaron.*George.*Xenon.*Zebediah/s, $text );
+
+    $this->{session}->{users}->{mapping}->removeUser(
+        $this->{session}->{users}->getCanonicalUserID("AaronUser") );
+    $this->{session}->{users}->{mapping}
+      ->removeUser( $this->{session}->{users}->getCanonicalUserID("zuser") );
+
+    $this->assert( open( $F, '<', $this->{ttpath} ) );
+    local $/ = undef;
+    $text = <$F>;
+    $this->assert( close($F) );
+    $this->assert_matches( qr/George.*Xenon/s, $text );
+    $this->assert_does_not_match( qr/AaronUser/, $text );
+    $this->assert_does_not_match( qr/zuser/,     $text );
+
+    return;
+}
+
 sub verify_Load {
     my $this = shift;
 
