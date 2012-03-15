@@ -341,6 +341,7 @@ table.configureExtensionsTable td.configureExtensionTitle a {
 table.configureExtensionsTable td.configureExtensionData {
 	border-top:none;
 	padding-bottom:.7em;
+    max-width:200px;
 }
 table.configureExtensionsTable td.configureExtensionDataFirst {
 	padding-left:3em;
