@@ -23,23 +23,23 @@
 %TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
-%TMPL:DEF{"content"}%<!-- -->
-%TMPL:P{"contenttitle"}%<!-- -->
-%TMPL:P{"messages"}%<!-- -->
-%TMPL:P{"formstart"}%<!-- -->
-%TMPL:P{"formattop"}%<!-- -->
-%TMPL:P{"tabpane"}%<!-- -->
-%TMPL:P{"bottomtopicactions"}%<!-- -->
-%TMPL:P{"formend"}%<!-- -->
-%TMPL:P{"dialogs"}%<!-- -->
-%JQREQUIRE{"natedit, blockui, form, ui::autocomplete" warn="off"}%<!-- -->
-%ADDTOZONE{"head"
+%TMPL:DEF{"content"}%%{
+}%%TMPL:P{"contenttitle"}%%{
+}%%TMPL:P{"messages"}%%{
+}%%TMPL:P{"formstart"}%%{
+}%%TMPL:P{"formattop"}%%{
+}%%TMPL:P{"tabpane"}%%{
+}%%TMPL:P{"bottomtopicactions"}%%{
+}%%TMPL:P{"formend"}%%{
+}%%TMPL:P{"dialogs"}%%{
+}%%JQREQUIRE{"natedit, blockui, form, ui::autocomplete" warn="off"}%%{
+}%%ADDTOZONE{"head"
   tag="NATEDIT::MATHMODEPLUGINENABLED"
   text="<meta name='foswiki.MathModePluginEnabled' content='%IF{"context MathModePluginEnabled" then="true" else="false"}%' />"
 }%%TMPL:END%
 
-%TMPL:DEF{"formstart"}%<!-- -->
-<div class="natEditContainer">
+%TMPL:DEF{"formstart"}%%{
+}%<div class="natEditContainer">
 <form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" validate="%TMPL:P{"validationrules"}%">
 <input type="submit" style="display:none" />
 <input type="hidden" name="action_addform" value="" />
@@ -61,39 +61,39 @@
 <input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
 <input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
 <input type="hidden" name="template" value="%URLPARAM{"template"}%" />
-<!-- -->%TMPL:END%
-
-%TMPL:DEF{"textarea"}%<!-- -->
-<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" wrap="virtual" name="text" rows="22" cols="70">%TEXT%</textarea>
-<!-- -->%TMPL:END%
-
+%{
+}%%TMPL:END%
+%TMPL:DEF{"textarea"}%%{
+}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215}" wrap="virtual" name="text" rows="22" cols="70">%TEXT%</textarea>
+%{
+}%%TMPL:END%
 %TMPL:DEF{"messages"}%<div id="natEditMessageContainer"></div>%TMPL:END%
 
-%TMPL:DEF{"formend"}%<!-- -->
-<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
+%TMPL:DEF{"formend"}%%{
+}%<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
 </form></div>
-<!-- -->%TMPL:END%
-
+%{
+}%%TMPL:END%
 %TMPL:DEF{"help"}%%TMPL:P{"edithelp"}%%TMPL:END%
 %TMPL:DEF{"pagehelp"}%
 %TMPL:P{"help"}%
 %TMPL:END%
 
-%TMPL:DEF{"tabpane"}%<!-- -->
-%TABPANE{automaxexpand="on" minheight="300" animate="on" select="%URLPARAM{"natedittab"}%"}%
-%TMPL:P{"firsttab"}%<!-- -->
-%TMPL:P{"formfields"}%<!-- -->
-%TMPL:P{"settingstab"}%<!-- -->
-%TMPL:P{context="SetVariablePluginEnabled" then="permissionstab"}%<!-- -->
-%TMPL:P{"moretabs"}%<!-- -->
-%TMPL:P{"helptab"}%<!-- -->
-%ENDTABPANE%
-<!-- -->%TMPL:END%
-
+%TMPL:DEF{"tabpane"}%%{
+}%%TABPANE{automaxexpand="on" minheight="300" animate="on" select="%URLPARAM{"natedittab"}%"}%
+%TMPL:P{"firsttab"}%%{
+}%%TMPL:P{"formfields"}%%{
+}%%TMPL:P{"settingstab"}%%{
+}%%TMPL:P{context="SetVariablePluginEnabled" then="permissionstab"}%%{
+}%%TMPL:P{"moretabs"}%%{
+}%%TMPL:P{"helptab"}%%{
+}%%ENDTABPANE%
+%{
+}%%TMPL:END%
 %TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%
 
-%TMPL:DEF{"topicmeta"}%<!-- -->
-<div class="natEditTopicInfo"><literal>
+%TMPL:DEF{"topicmeta"}%%{
+}%<div class="natEditTopicInfo"><literal>
   <table>
   <tr>
     <th>Title:</th>
@@ -101,24 +101,24 @@
   </tr>
   </table>
 </literal></div>
-<!-- -->%TMPL:END%
-
-%TMPL:DEF{"firsttab"}%<!-- -->
-%TAB{"%MAKETEXT{"Text"}%" id="text"}%
-%TMPL:P{"topicmeta"}%<!-- -->
-%TMPL:P{"textarea"}%<!-- -->
-%ENDTAB%
-<!-- -->%TMPL:END%
-
+%{
+}%%TMPL:END%
+%TMPL:DEF{"firsttab"}%%{
+}%%TAB{"%MAKETEXT{"Text"}%" id="text"}%
+%TMPL:P{"topicmeta"}%%{
+}%%TMPL:P{"textarea"}%%{
+}%%ENDTAB%
+%{
+}%%TMPL:END%
 %TMPL:DEF{"settingstab"}%%TAB{"%MAKETEXT{"Settings"}%" id="settings"}%%TMPL:P{"settings"}%%ENDTAB%%TMPL:END%
 
-%TMPL:DEF{"settings"}%<!-- -->
-%TMPL:P{"topicsettings"}%<!-- -->
-%TMPL:P{"moresettings"}%<!-- -->
-<!-- -->%TMPL:END%
-
-%TMPL:DEF{"topicsettings"}%<!-- -->
-<h2 style='margin-top:0'>%MAKETEXT{"Topic settings"}%</h2>
+%TMPL:DEF{"settings"}%%{
+}%%TMPL:P{"topicsettings"}%%{
+}%%TMPL:P{"moresettings"}%%{
+}%%{
+}%%TMPL:END%
+%TMPL:DEF{"topicsettings"}%%{
+}%<h2 style='margin-top:0'>%MAKETEXT{"Topic settings"}%</h2>
 <div class="foswikiFormSteps">
   <div class="foswikiFormStep">
     <table class="foswikiLayoutTable">
@@ -128,12 +128,12 @@
           <input class="foswikiInputField jqUIAutocomplete" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%"  />
         </td>
       </tr>
-      %TMPL:P{"moretopicsettings"}%<!-- -->
-    </table>
+      %TMPL:P{"moretopicsettings"}%%{
+}%    </table>
   </div>
 </div>
-<!-- -->%TMPL:END%
-
+%{
+}%%TMPL:END%
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%" 
   id="help"
   url="%SCRIPTURL{"view"}%/%IF{"defined NATEDIT_HELPTEXT" then="%NATEDIT_HELPTEXT%" else="%SYSTEMWEB%.NatEditHelpText"}%?skin=text;section=default"
@@ -147,8 +147,8 @@
 }%%TMPL:END%
 
 %{ ################################################################################ }%
-%TMPL:DEF{"permissionstab"}%<!-- -->
-%TAB{"%MAKETEXT{"Permissions"}%" id="permissions"}%
+%TMPL:DEF{"permissionstab"}%%{
+}%%TAB{"%MAKETEXT{"Permissions"}%" id="permissions"}%
 <noautolink>
 <h2 style='margin-top:0'>%MAKETEXT{"Permissions"}%</h2>
 <div class="foswikiFormSteps" id="permissionsForm">
@@ -236,4 +236,5 @@
 </div>
 </noautolink>
 %ENDTAB%
-<!-- -->%TMPL:END%
+%{
+}%%TMPL:END%

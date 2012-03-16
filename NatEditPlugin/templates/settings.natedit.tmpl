@@ -1,8 +1,8 @@
 %TMPL:INCLUDE{"settings"}%
 %TMPL:INCLUDE{"settingstoolbar"}%
-%TMPL:DEF{"content"}%<!-- -->
-%TMPL:P{"contenttitle"}%<!-- -->
-<form id="EditForm" name="EditForm" method="post" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%">
+%TMPL:DEF{"content"}%%{
+}%%TMPL:P{"contenttitle"}%%{
+}%<form id="EditForm" name="EditForm" method="post" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%">
 <input type="submit" style="display:none" />
 <input type="hidden" name="action_addform" value="" />
 <input type="hidden" name="action_cancel" value="" />
@@ -12,16 +12,16 @@
 <input type="hidden" name="action_save" value="" />
 <input type="hidden" name="action" value="saveSettings" />
 <input type="hidden" name="originalrev" value="%ORIGINALREV%" />
-%JQREQUIRE{"focus, natedit"}%<!-- -->
-%TABPANE%
+%JQREQUIRE{"focus, natedit"}%%{
+}%%TABPANE%
 %TAB{"%MAKETEXT{"Preferences"}%"}%
 <textarea class="foswikiTextArea jqFocus" name="text" id="topic" wrap="virtual" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
 %ENDTAB%
-%TMPL:P{"helptab"}%<!-- -->
-%ENDTABPANE%
+%TMPL:P{"helptab"}%%{
+}%%ENDTABPANE%
 %TMPL:P{"bottomtopicactions"}%
-%TMPL:P{"formend"}%<!-- -->
-</form>
-<!-- -->%TMPL:END%
-
+%TMPL:P{"formend"}%%{
+}%</form>
+%{
+}%%TMPL:END%
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"help"}% %ENDTAB%%TMPL:END%
