@@ -3,7 +3,4 @@
 ---+ %TOPIC%
 Help text for the NatEditPlugin editor
 
-%STARTINCLUDE%
-%INCLUDE{"%SYSTEMWEB%.EditingShorthand"}%
-%STOPINCLUDE%
-</verbatim>
+%STARTSECTION{"default"}%%INCLUDE{"%SYSTEMWEB%.EditingShorthand"}%%ENDSECTION{"default"}%

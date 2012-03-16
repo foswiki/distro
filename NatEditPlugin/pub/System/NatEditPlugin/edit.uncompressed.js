@@ -136,7 +136,8 @@ function fixHeightOfPane () { }
       var $editForm = $(this);
 
       function submitHandler() {
-        var topicParentField = $editForm.find("input[name=topicparent]");
+        var topicParentField = $editForm.find("input[name=topicparent]"),
+            actionValue = 'foobar';
 
         if (typeof(beforeSubmitHandler) == 'function') {
           if(beforeSubmitHandler("save", editAction) === false) {
@@ -152,13 +153,21 @@ function fixHeightOfPane () { }
         if (editAction === 'addform') {
           $editForm.find("input[name='submitChangeForm']").val(editAction);
         }
+
+        // the action_... field must be set to a specific value in newer foswikis
+        if (editAction === 'save') {
+          actionValue = 'Save';
+        } else if (editAction === 'cancel') {
+          actionValue = 'Cancel';
+        }
+
         $editForm.find("input[name='action_preview']").val('');
         $editForm.find("input[name='action_save']").val('');
         $editForm.find("input[name='action_checkpoint']").val('');
         $editForm.find("input[name='action_addform']").val('');
         $editForm.find("input[name='action_replaceform']").val('');
         $editForm.find("input[name='action_cancel']").val('');
-        $editForm.find("input[name='action_"+editAction+"']").val('foobar');
+        $editForm.find("input[name='action_"+editAction+"']").val(actionValue);
 
         if (typeof(foswikiStrikeOne) != 'undefined') {
           foswikiStrikeOne($editForm[0]);
@@ -188,7 +197,10 @@ function fixHeightOfPane () { }
       $("#save").click(function() {
         editAction = "save";
         if (submitHandler()) {
+          $.blockUI({message:'<h1> Saving ... </h1>'});
           $editForm.submit();
+        } else {
+          $.unblockUI();
         }
         return false;
       });
@@ -217,7 +229,7 @@ function fixHeightOfPane () { }
               success: function(data, textStatus, xhr) {
                 var nonce = xhr.getResponseHeader('X-Foswiki-Nonce');
                 // patch in new nonce
-                $("form input[name='validation_key']").each(function() {
+                $("input[name='validation_key']").each(function() {
                   $(this).val("?"+nonce);
                 });
                 $.unblockUI();

@@ -1,7 +1,7 @@
-%TMPL:INCLUDE{"settings"}%<!-- template: settings.natedit.tmpl -->
-%TMPL:INCLUDE{"settingstoolbar"}%<!-- settingstoolbar// -->
-%TMPL:DEF{"content"}%<!-- content -->
-%TMPL:P{"contenttitle"}%<!-- contenttitle// -->
+%TMPL:INCLUDE{"settings"}%
+%TMPL:INCLUDE{"settingstoolbar"}%
+%TMPL:DEF{"content"}%<!-- -->
+%TMPL:P{"contenttitle"}%<!-- -->
 <form id="EditForm" name="EditForm" method="post" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%">
 <input type="submit" style="display:none" />
 <input type="hidden" name="action_addform" value="" />
@@ -17,10 +17,11 @@
 %TAB{"%MAKETEXT{"Preferences"}%"}%
 <textarea class="foswikiTextArea jqFocus" name="text" id="topic" wrap="virtual" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
 %ENDTAB%
-%TMPL:P{"helptab"}%<!-- helptab// -->
+%TMPL:P{"helptab"}%<!-- -->
 %ENDTABPANE%
 %TMPL:P{"bottomtopicactions"}%
 %TMPL:P{"formend"}%<!-- -->
 </form>
-<!-- //content -->%TMPL:END%
+<!-- -->%TMPL:END%
+
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"help"}% %ENDTAB%%TMPL:END%

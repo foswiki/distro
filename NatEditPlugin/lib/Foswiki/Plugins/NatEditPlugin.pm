@@ -15,16 +15,13 @@ package Foswiki::Plugins::NatEditPlugin;
 use strict;
 use Foswiki::Func;
 
-use vars qw(
-  $VERSION $RELEASE $SHORTDESCRIPTION $NO_PREFS_IN_TOPIC
-  $baseWeb $baseTopic
-);
-
-$VERSION = '$Rev$';
-$RELEASE = '6.03';
-
-$NO_PREFS_IN_TOPIC = 1;
-$SHORTDESCRIPTION  = 'A Wikiwyg Editor';
+our $VERSION           = '$Rev$';
+our $RELEASE           = '6.04';
+our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
+our $baseWeb;
+our $baseTopic;
+our $doneNonce;
 
 use constant DEBUG => 0;    # toggle me
 use Foswiki::Func                  ();
@@ -46,6 +43,8 @@ sub initPlugin {
 
     Foswiki::Func::registerTagHandler( 'FORMBUTTON',  \&handleFORMBUTTON );
     Foswiki::Func::registerTagHandler( 'NATFORMLIST', \&handleNATFORMLIST );
+
+    $doneNonce = 0;
 
     return 1;
 }
@@ -221,7 +220,8 @@ s/((?:^|[\n\r])(?:\t|   )+\*\s+(?:Set|Local)\s+TOPICTITLE\s*=\s*)(.*)((?:$|[\r\n
 sub beforeEditHandler {
     my ( $text, $topic, $web, $error, $meta ) = @_;
 
-    my $nonce;
+    return if $doneNonce;
+    $doneNonce = 1;
 
     my $session  = $Foswiki::Plugins::SESSION;
     my $response = $session->{response};

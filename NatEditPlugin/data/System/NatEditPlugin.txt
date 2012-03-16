@@ -69,6 +69,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  21 Feb 2012 | only add one strikeone nonce to the http header |
 |  20 Feb 2012 | moved missing javascript code over from !NatSkin to !NatEditPlugin;\
                  fixed save+continue on a strikeone-protected foswiki; \
                  added compatibility wrapper for older APIs to Foswiki::Validate |

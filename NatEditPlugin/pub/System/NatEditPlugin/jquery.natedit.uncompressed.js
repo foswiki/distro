@@ -841,7 +841,7 @@ $.natedit = {
     italicMarkup: ['_', 'Italic text', '_'],
     monoMarkup: ['=', 'Monospace text', '='],
     underlineMarkup: ['<u>', 'Underlined text', '</u>'],
-    strikeMarkup: ['<strike>', 'Strike through text', '</strike>'],
+    strikeMarkup: ['<del>', 'Strike through text', '</del>'],
     leftMarkup: ['<p style="text-align:left">\n','Align left','\n</p>\n'],
     centerMarkup: ['<p style="text-align:center">\n','Center text','\n</p>\n'],
     rightMarkup: ['<p style="text-align:right">\n','Align right','\n</p>\n'],
