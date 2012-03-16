@@ -1,3 +1,118 @@
+/*	-----------------------------------------------------------
+	STYLE
+	Appearance: margins, padding, fonts, borders
+	-----------------------------------------------------------	*/
+	
+
+/*	----------------------------------------------------------------------------
+	CONSTANTS
+	
+	Sizes
+	----------------------------------------
+	S1 line-height											1.5em
+	S2 somewhat smaller font size							font-size:94%
+	S3 small font size, foswikiSmall						font-size:86%; line-height:110%;
+	S4 horizontal bar padding (h2, patternTop)				5px
+	S5 form and attachment padding							10px
+	S6 left margin left bar									1em
+
+	------------------------------------------------------------------------- */
+
+/* GENERAL HTML ELEMENTS */
+
+html body {
+	font-family:arial, verdana, sans-serif;
+	font-size:104%; /* to change the site's font size, change .foswikiPage below */
+	voice-family:"\"}\""; 
+	voice-family:inherit;
+	font-size:small;
+}
+html>body { /* Mozilla */
+	font-size:small;	
+}
+th {
+	line-height:1.15em;
+}
+label {
+	padding:.15em .3em .15em 0; /* same vertical padding as foswikiInputField */
+}
+hr {
+	height:1px;
+	border:none;
+}
+/* put overflow pre in a scroll area */
+pre {
+    width:auto;
+    margin:1em 0; /* Win IE tries to make this bigger otherwise */
+    border-style:solid;
+    border-width:1px;
+    padding:1em;
+}
+pre, code, tt {
+    font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+    font-size:86%;
+}
+
+/* IE behavior for pre is defined in css.pattern.tmpl in conditional comment */
+html>body pre { /* hide from IE */
+	/*\*/ overflow:auto !important; /* */ overflow:scroll; width:auto; /* for Mac Safari */
+}
+blockquote {
+	margin:0;
+	font-size:94%;
+	padding:.5em 1.25em;
+	border-style:solid none;
+	border-width:1px;
+}
+
+/* Text */
+h1, h2, h3, h4, h5, h6 {
+	font-weight:normal;
+	line-height:1.1em;
+}
+h1 {
+	margin-top:.5em;
+	font-size:190%;
+}
+h2 { font-size:165%; }
+h3 { font-size:145%; }
+h4 { font-size:127%; }
+h5 { font-size:117%; }
+h6 { font-size:107%; }
+h1.patternTemplateTitle {
+	font-size:170%;
+}
+h2.patternTemplateTitle {
+	margin-top:.5em;
+	background:none;
+	border:none;
+}
+/* Links */
+/* somehow the foswikiNewLink style have to be before the general link styles */
+.foswikiNewLink {
+	border-width:0 0 1px 0;
+	border-style:solid;
+}
+.foswikiNewLink a {
+	text-decoration:none;
+	margin-left:1px;
+}
+.foswikiNewLink a sup {
+	text-align:center;
+	padding:0 2px;
+	vertical-align:baseline;
+	font-size:100%;
+	text-decoration:none;
+}
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
+	border-width:1px;
+	border-style:solid;
+	text-decoration:none;
+}
+.foswikiNewLink a:hover sup {
+	text-decoration:none;
+}
 
 :link:focus,
 :visited:focus,
