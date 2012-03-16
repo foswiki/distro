@@ -116,9 +116,7 @@ s/\$link/<a href='\$url' accesskey='f' title='\$title'><span>\$acton<\/span><\/a
     $theFormat =~ s/\$title/$actionTitle/g;
     $theFormat =~ s/\$action/$actionText/g;
     $theFormat =~ s/\$id/$action/g;
-    $theFormat =
-      Foswiki::Func::expandCommonVariables( $theFormat, $theTopic, $theWeb )
-      if escapeParameter($theFormat);
+    escapeParameter($theFormat);
 
     return $theFormat;
 }
@@ -310,9 +308,7 @@ sub handleNATFORMLIST {
     $result =~ s/\$count/$index/g;
     $result =~ s/\$web/$theWeb/g;
     $result =~ s/\$topic/$theTopic/g;
-    $result =
-      Foswiki::Func::expandCommonVariables( $result, $theTopic, $theWeb )
-      if escapeParameter($result);
+    escapeParameter($result);
 
     return $result;
 }
