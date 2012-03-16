@@ -8,12 +8,26 @@
 
 ---++ Introduction
 
-There is already a defacto standard for presentations, why this plugin? This plugin makes sense for organizations that do already have lots of content in Foswiki: It is easy to create a web based presentation that contains many links to related content. The plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of Foswiki and other plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions/GaugePlugin, Foswiki:Extensions/SpreadSheetPlugin, Foswiki:Extensions/JHotDrawPlugin can be used to create appealing presentations.
+There is already a _de facto_ standard for presentations, so why this plugin?
+This plugin makes sense for organizations that already have lots of content in Foswiki:
+It is easy to create a web based presentation that contains many links to related content.
+The plugin does not try to compete with the bells and whistles of other presentation programs.
+However, the markup of Foswiki and other plugins such as Foswiki:Extensions/ChartPlugin, Foswiki:Extensions/GaugePlugin, Foswiki:Extensions/SpreadSheetPlugin, Foswiki:Extensions/JHotDrawPlugin can be used to create appealing presentations.
 
-Any topic with headings can be converted into a slideshow. Each slide starts with a ="---++"= heading. There are two modes to view a topic:
+Any topic with headings can be converted into a slideshow.
+Each slide starts with a ="---++"= heading.
+There are two modes to view a topic:
 
-   * Normal topic view mode: Headings and text is shown in the usual Foswiki rendering, representing the outline of the slideshow. This mode is useful to print handouts.
-   * Presentation mode: Each heading with text is shown as a slide; the format is based on a slide template. Navigation buttons are added to go to the "First", "Previous", and "Next" slide. Slide navigation is quick because it is done with anchor jumps to the same page. 
+   * Normal topic view mode:
+     Headings and text are shown in the usual Foswiki rendering,
+     representing the outline of the slideshow.
+     This mode is useful for printing handouts.
+
+   * Presentation mode:
+     Each heading with text is shown as a slide;
+     the format is based on a slide template.
+     Navigation buttons are added to go to the "First", "Previous", and "Next" slide.
+     Slide navigation is quick because it is done with anchor jumps to the same page. 
 
 You can start the presentation by clicking on the "Start presentation" button.
 
@@ -22,17 +36,27 @@ You can start the presentation by clicking on the "Start presentation" button.
 ---+++ How to create a slideshow
 
    * Start with =%<nop>SLIDESHOWSTART%=
-      * Use the optional =template= parameter to specify your own slide template topic, e.g. =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%=
-   * Create the slides. Start each slide with a ="---++"= heading and add text like paragraphs, bullets, tables and images.
-      * *Hint:* Make sure to keep each slide short enough so that you do not need to scroll to see all text of a slide during the presentation.
-      * *Note:* You can use any heading level you like, but use the same for all slides.
+      * Use the optional =template= parameter to specify your own slide template topic,
+        e.g. =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%=
+   * Create the slides.
+     Start each slide with a ="---++"= heading and add text
+     such as paragraphs, bullets, tables and images.
+      * *Hint:* Make sure to keep each slide short enough
+        that you do not need to scroll to see all text of a slide during the presentation.
+      * *Note:* You can use any heading levels you like,
+        but use the same levels for all slides.
    * End your slideshow with =%<nop>SLIDESHOWEND%=
 
 ---+++ How to create your own slide template
 
-To create your own template topic, copy the "Default Slide Template" section below into your own slide template topic and customize it to your needs. It can be activated as the default template in the plugin's =TEMPLATE= setting, or per slideshow with the =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%= setting.
+To create your own template topic,
+copy the "Default Slide Template" section below into your own slide template topic
+and customize it to your needs.
+It can be activated as the default template in the plugin's =TEMPLATE= setting,
+or per slideshow with the =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%= setting.
 
-   * Use a DIV or an HTML table that defines a slide. For example, create one row for the slide title, another one for the slide text.
+   * Use a DIV or an HTML table that defines a slide.
+     For example, create one row for the slide title, another one for the slide text.
    * These keywords can be used:
      | *Keyword* | *What it means* |
      | =%<nop>SLIDETITLE%= | The heading of the slide |
@@ -51,7 +75,8 @@ To create your own template topic, copy the "Default Slide Template" section bel
 
 ---++ Example
 
-This is a short example of a slideshow. You should see a "Start presentation" button if this plugin is installed:
+This is a short example of a slideshow.
+You should see a "Start presentation" button if this plugin is installed:
 
 %SLIDESHOWSTART%
 ---++ Introduction
@@ -60,32 +85,42 @@ This is slide one.
 %TOC%
 
 ---++ Hamlet meets his father's ghost
+
    * Hamlet learns that his father was killed by his brother Claudius and Queen Gertrude.
    * Claudius has quickly become king.
+
 ---++ This is rather upsetting
+
    * The ghost demands revenge.
    * Hamlet agrees.
    * His friends swear to keep what they have seen a secret.
+
 ---++ Meanwhile...
+
    * the King's advisor Polonius meets his daughter Ophelia. Hamlet has upset her.
    * Hamlet is acting mad
    
 ---+++ Comments
+
    * This text is not shown in the slide if HIDECOMMENTS is set to on.
    * It can have
    * many
    * more
    * bullets
+
 ---++ Please tune this template
-Tune the look of this template by using CSS ( slideshow.css attached to this document)
+
+Tune the look of this template by using CSS
+(=slideshow.css= attached to this document).
 
 %IF{"$'URLPARAM{skin}'='slideshow'" then="http://www.ibiblio.org/wm/paint/auth/durer/large-turf.jpg"}%
 
 ---+++ Comments
-One-liner: this text is not shown in the slide if HIDECOMMENTS is set to on.
+
+One-liner: this text is not shown in the slide if HIDECOMMENTS is set to "on".
 %SLIDESHOWEND%
 
-This text is not part of the slideshow
+This text is not part of the slideshow.
 
 ---++ <nop>%TOPIC% preferences
 
@@ -102,13 +137,18 @@ You can override the default settings for the plugin by defining the following [
 
 ---++ Default slide template
 
-You can create a new topic (!MyWeb.SlidesTemplate) somewhere and adding =STARTINCLUDE your template STOPINCLUDE= to it. Afterwards, you can add =%SLIDESHOWSTART{template="MyWeb.SlidesTemplate"}%= to show you presentations with this new template.
+You can create a new topic (!MyWeb.SlidesTemplate) somewhere
+and add =STARTINCLUDE &lt;your template&gt; STOPINCLUDE= to it.
+Afterwards, you can add =%SLIDESHOWSTART{template="MyWeb.SlidesTemplate"}%=
+to show your presentations with this new template.
 %BR%
 
----+++ Customizing the Look of you presentation
-Just customize the attached slideshow.css file to improve the view
+---+++ Customizing the look of your presentation
+
+Just customize the attached =slideshow.css= file to improve the view.
 
 ---+++ Current default template
+
 The part between the rulers defines the default format of a slide:
 <verbatim class="tml">
 %STARTINCLUDE%
@@ -146,12 +186,14 @@ The part between the rulers defines the default format of a slide:
    * Test above example if the installation was successful.
 
 ---++ Plugin info
+
 |  Author: | Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens |
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2010 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2012 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  16 Mar 2012: | 2.1.5: Foswiki:Main.RichMorin documentation cleanup |
 |  28 Aug 2011: | 2.1.4: URL encoding of query parameters did not include the parameter names |
 |  11 Apr 2011: | 2.1.3: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  24 Nov 2010: | 2.1.2: Changed the VarSLIDESHOWSTART so the example does not add to the TOC of the Macros listing |
