@@ -1,5 +1,4 @@
-%TMPL:INCLUDE{"dialog"}%<!-- template: editidialog.natedit.tmpl -->
-
+%TMPL:INCLUDE{"dialog"}%
 %{ ################################################################################ }%
 %TMPL:DEF{"inserttable"}%<div id="natEditInsertTable" class="foswikiDialog foswikiFormSteps" style="display:none">
   <div class="foswikiFormStep">
@@ -26,7 +25,7 @@
     %CLEAR%
   </div>
 </div>%TMPL:END%
-
+%{ ################################################################################ }%
 %TMPL:DEF{"insertlink"}%<div id="natEditInsertLink" class="foswikiDialog foswikiFormSteps" style="display:none">
   <input type="hidden" name="insertlinkflag" id="natEditInsertLinkFlag" value="topic" />
   <div class="foswikiFormStep">
@@ -68,7 +67,7 @@
     %CLEAR%
   </div>
 </div>%TMPL:END%
-
+%{ ################################################################################ }%
 %TMPL:DEF{"upload_tab"}%%{
 Only included if UploadPlugin is enabled
 }% %TAB{"%MAKETEXT{"Upload"}%" after="jQuery('#ok_button').hide();jQuery('#upload_button').show()"}%
@@ -81,7 +80,7 @@ Only included if UploadPlugin is enabled
       </div>
     %ENDTAB%
 %TMPL:END%
-
+%{ ################################################################################ }%
 %TMPL:DEF{"existing_attachments"}%%{
 Only included if UploadPlugin is enabled
 }%    <div class="foswikiFormStep">
@@ -91,7 +90,7 @@ Only included if UploadPlugin is enabled
         </div>
       </div>
 %TMPL:END%
-
+%{ ################################################################################ }%
 %TMPL:DEF{"insertattachment"}%<div id="natEditInsertAttachment" class="foswikiDialog foswikiFormSteps" style="display:none">
   <div class="foswikiFormStep">
     <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Attachment"}%:</h2>
@@ -130,12 +129,11 @@ Only included if UploadPlugin is enabled
     %CLEAR%
   </div>
 </div>%TMPL:END%
-
+%{ ################################################################################ }%
 %TMPL:DEF{"insertattachment::loadattachments"}%%ATTACHMENTS{
   "%URLPARAM{"baseweb" default="%BASEWEB%"}%.%URLPARAM{"basetopic" default="%BASETOPIC%"}%"
   warn="off"
   format="<label class=\"{web:'$web', topic:'$topic', fileName:'$name', url:'$url'}\"><input class='foswikiCheckbox' style='vertical-align:middle;' type='radio' name='attachment' value='$name' /><span class='imgContainer'><img src='$iconUrl' alt='$name' title='$name: version $version, uploaded by $user on $date' /></span> <span>$name</span></label>"
 }%%TMPL:END%
-
-
+%{ ################################################################################ }%
 %TMPL:DEF{"dialogs"}%%TMPL:P{"inserttable"}%%TMPL:P{"insertlink"}%%TMPL:P{"insertattachment"}%%TMPL:END%

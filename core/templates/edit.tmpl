@@ -1,35 +1,31 @@
-%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%%TMPL:INCLUDE{"messages"}%
-
-
+%{ This is a default template }%
+%TMPL:INCLUDE{"foswiki"}%%TMPL:INCLUDE{"messages"}%
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"webaction"}%%MAKETEXT{"Change topic"}%%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"pagetitle"}%<nop>%TOPIC% %MAKETEXT{"(edit)"}%%TMPL:END%
-
+%{----------------------------------------------------------------------}%
 %{ If an editor plugin sets EDITOR_HELP, then use it for help info }%
 %TMPL:DEF{"help"}%<div class='foswikiMakeVisible'>%INCLUDE{"%SYSTEMWEB%.%IF{"defined 'EDITOR_HELP'" then="%EDITOR_HELP%" else="WikiSyntaxSummary"}%"}%</div>%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %{ if an editor plugin sets EDITOR_MESSAGE, then use it }%
 %TMPL:DEF{"textarea"}%%IF{"{Validation}{Method}='strikeone'" then="<noscript>$percentTMPL:P{enable_js}$percent</noscript>"}%%IF{"defined 'EDITOR_MESSAGE'" then="<div class='foswikiAlert'>%EDITOR_MESSAGE%</div>"}%<div class="foswikiEditTextarea"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%'>%TEXT%</textarea></div>%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"form"}%%FORMFIELDS%%TMPL:END%
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"formtop"}%%TMPL:END%
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"formbottom"}%%TMPL:P{"form"}%%TMPL:END%
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"formstart"}%<div class="foswikiFormHolder" id="formHolder">
 <form name="main" id="main" class="foswikiEditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"formend"}%%TMPL:P{"formparameters"}%</form></div>%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"formparameters"}%%TMPL:P{"formparameters:edit"}%%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"formparameters:edit"}%<input type="hidden" name="originalrev" value="%ORIGINALREV%" />
 <input type="hidden" name="skin" value="%URLPARAM{"skin"}%" />
 <input type="hidden" name="cover" value="%URLPARAM{"cover"}%" />
@@ -44,17 +40,13 @@
 <input type="hidden" name="cmd" value="%CMD%" />
 <input type="hidden" name="nowysiwyg" value="%URLPARAM{"nowysiwyg"}%" />
 <input type="hidden" name="action" value="%URLPARAM{"action"}%" />%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"sig"}%<div><div class="foswikiLeft"><label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%SIGNATUREFORMAT%" /></div><div class="foswikiClear"></div></div>%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"footernote"}%%TMPL:P{"help"}%%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" name="action_cancel" value="Cancel" id="cancel" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="action_save" value="Save" id="save" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="action_preview" value="Preview" id="preview" />%TMPL:END%
-
-
+%{----------------------------------------------------------------------}%
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
 %TMPL:P{"textarea"}%
 %MAKETEXT{"See below for help in editing this page."}%
