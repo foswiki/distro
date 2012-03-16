@@ -229,6 +229,7 @@ sub beforeEditHandler {
     my $cgis     = $session->getCGISession();
     my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
     my $useStrikeOne = ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' );
+    my $nonce;
 
     if ( Foswiki::Validation->can('generateValidationKey') ) {
 
