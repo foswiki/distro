@@ -101,8 +101,6 @@ sub readTopic {
         for my $i (qw(author version date)) {
             $ri->{$i} = $truth->{$i};
         }
-       undef $ri->{reprev};
-       undef $ri->{comment} if ($ri->{comment} eq 'reprev');
     }
 
     my $gotRev = $version;
