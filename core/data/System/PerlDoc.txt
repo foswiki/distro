@@ -4,15 +4,18 @@
 <form class='foswikiForm' action='%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc'>
 <div class='foswikiFormSteps'>
   <div class='foswikiFormStep'>
+      See PublishedAPI for packages intended to be used by Plugin and Contrib authors, or [[PerlDoc?module=Foswiki][browse all packages]].<br>
+      See also [[DevelopingPlugins][Developing plugins]], [[Foswiki:Development.DevelopersBible][Developer's Bible]], [[Foswiki:Development.TechnicalOverview][Technical Overview]] 
+  </div>
+  <div class='foswikiFormStep'>
     <label for='module'><b>Perl Module:</b></label>
-    <input type='text' name='module' id='module' value='%URLPARAM{module}%' class='foswikiInputField' />
+    <input type='text' name='module' id='module' size='60' value='%URLPARAM{module}%' class='foswikiInputField' />
+<!--
+Commented this out right before 1.1.5 - we should distinguish between 'public' and 'published' classes.
     <label for='publicOnly'><b>Public Only:</b></label>
     <input type='checkbox' name='publicOnly' id='publicOnly' value='on' %IF{"$publicOnly = 'on'" then="checked='checked'"}% class='foswikiInputField' />
+-->
     <input type='submit' value='%MAKETEXT{"Submit"}%' class='foswikiSubmit' />
-    <div class="foswikiFormDescription">
-      Enter a module name that to extract the perl documentation, e.g. <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Func%IF{"$publicOnly = 'on'" then=";publicOnly=on"}%">Foswiki::Func</a> or, <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Meta%IF{"$publicOnly = 'on'" then=";publicOnly=on"}%">Foswiki::Meta</a>.<br/>
-      See also PublishedAPI, [[DevelopingPlugins][Developing plugins]], [[Foswiki:Development.DevelopersBible][Developer's Bible]], [[Foswiki:Development.TechnicalOverview][Technical Overview]] 
-    </div>
   </div>
   <div class='foswikiFormStep'>
     %TWISTY{link="Child packages" linkclass="foswikiButton" remember="on"}%
