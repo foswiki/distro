@@ -1,32 +1,15 @@
-| package | Foswiki |
-| package | Foswiki::Access |
-| package | Foswiki::AccessControlException |
-| package | Foswiki::AggregateIterator |
-| package | Foswiki::Attrs |
-| package | Foswiki::Engine |
-| package | Foswiki::Extensions |
-| package | Foswiki::Func |
-| package | Foswiki::Iterator |
-| package | Foswiki::LineIterator |
-| package | Foswiki::ListIterator |
-| package | Foswiki::LoginManager |
-| package | Foswiki::LoginManager::ApacheLogin |
-| package | Foswiki::LoginManager::TemplateLogin |
-| package | Foswiki::Meta |
-| package | Foswiki::OopsException |
-| package | Foswiki::PageCache |
-| package | Foswiki::Plugins |
-| package | Foswiki::Prefs |
-| package | Foswiki::Query |
-| package | Foswiki::Render |
-| package | Foswiki::Request |
-| package | Foswiki::Request::Upload |
-| package | Foswiki::Response |
-| package | Foswiki::Sandbox |
-| package | Foswiki::Search::InfoCache |
-| package | Foswiki::Time |
-| package | Foswiki::UI |
-| package | Foswiki::UI::Register |
-| package | Foswiki::Users |
-| package | Foswiki::Validation |
-| package | Foswiki::WebFilter |
+| *Name* | *First Published* | *Comment* |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func][Foswiki::Func]] | 1.1.5 | Main API. |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]] | 1.1.5 | Parameter passing for custom macros |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Request][Foswiki::Request]] | 1.1.5 | URL parameters |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Sandbox][Foswiki::Sandbox]] | 1.1.5 | Calls to external commands; untainting |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Meta][Foswiki::Meta]] | 1.1.5 | Metadata for webs or topics.  %X% This class may be changed after refactorings of the Foswiki internals, so please try to use Foswiki::Func instead if possible.  Incompatible changes will only be made during a major release. |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::AccessControlException][Foswiki::AccessControlException]] | 1.1.5 | Exception used raise an access control violation. |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]] | 1.1.5 | Exception used to raise a request to output a preformatted page. |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Iterator][Foswiki::Iterator]] | 1.1.5 | |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::AggregateIterator][Foswiki::AggregateIterator]] | 1.2.0 | |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::LineIterator][Foswiki::LineIterator]] | 1.2.0 | |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::ListIterator][Foswiki::ListIterator]] | 1.2.0 | |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Plugins][Foswiki::Plugins]] | 1.1.5 | Just to access $SESSION and $VERSION |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Time][Foswiki::Time]] | 1.1.5 | Time handling functions. |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Validation][Foswiki::Validation]] | 1.2.0 | The key validation methods here are useful to plugins - can we facade these via Func before 1.2.0 release? |
