@@ -11,7 +11,7 @@
     <input type='submit' value='%MAKETEXT{"Submit"}%' class='foswikiSubmit' />
     <div class="foswikiFormDescription">
       Enter a module name that to extract the perl documentation, e.g. <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Func%IF{"$publicOnly = 'on'" then=";publicOnly=on"}%">Foswiki::Func</a> or, <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?module=Foswiki::Meta%IF{"$publicOnly = 'on'" then=";publicOnly=on"}%">Foswiki::Meta</a>.<br/>
-      See also [[DevelopingPlugins][Developing plugins]], [[Foswiki:Development.DevelopersBible][Developer's Bible]], [[Foswiki:Development.TechnicalOverview][Technical Overview]] 
+      See also PublishedAPI, [[DevelopingPlugins][Developing plugins]], [[Foswiki:Development.DevelopersBible][Developer's Bible]], [[Foswiki:Development.TechnicalOverview][Technical Overview]] 
     </div>
   </div>
   <div class='foswikiFormStep'>
