@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-12-20 12:03+0200\n"
+"PO-Revision-Date: 2012-03-18 07:10+0200\n"
 "Last-Translator: Carlinhos <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt_BR\n"
@@ -69,9 +69,8 @@ msgstr "%1 foi adicionado ao grupo %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 removido do grupo %2."
+msgstr "%1 não pode ser removido de %2."
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -808,9 +807,8 @@ msgid "Attachments"
 msgstr "Anexo"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "Anexos de %1"
+msgstr "Anexos  %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -901,12 +899,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "CHANGE não permitido por %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "ALTERAÇÂO não permitida para %1 por %2"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
@@ -1222,7 +1220,7 @@ msgstr "Criar novo tópico"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Ação de criar não especificada e grupo não existente"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1554,7 +1552,7 @@ msgstr "Falhas em plugins"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr ""
+msgstr "Falha ao adicionar usuário: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1692,7 +1690,7 @@ msgstr "Grupo"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Grupo não existente e não permitido criar"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1700,7 +1698,7 @@ msgstr "Nome do grupo"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Nomes de grupo são melhores com terminação Group"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1992,7 +1990,7 @@ msgstr "Código de ativação inválido"
 
 #: core/templates/messages.tmpl:249
 msgid "Invalid Input"
-msgstr ""
+msgstr "Entrada inválida"
 
 #: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
 #: core/templates/messages.tmpl:342
