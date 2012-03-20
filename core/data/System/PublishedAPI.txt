@@ -1,4 +1,7 @@
-| *Name* | *First Published* | *Comment* |
+---++ Interface for Plugin, Contrib and Skin Developers
+
+See %SYSTEMWEB%.DevelopingPlugins for more information.
+| *Package* | *First Published* | *Comment* |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func][Foswiki::Func]] | 1.1.5 | Main API. |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]] | 1.1.5 | Parameter passing for custom macros |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Request][Foswiki::Request]] | 1.1.5 | URL parameters |
@@ -9,3 +12,12 @@
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Iterator][Foswiki::Iterator]] | 1.1.5 | |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Plugins][Foswiki::Plugins]] | 1.1.5 | Just to access $SESSION and $VERSION |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Time][Foswiki::Time]] | 1.1.5 | Time handling functions. |
+
+---++ Interface for Advanced Integration
+
+See %SYSTEMWEB%.UserAuthentication for more information.
+| *Package* | *First Published* | *Comment* | *LocalSite.cfg Setting* |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Users::Password][Foswiki::Users::Password]] | 1.1.5 | Custom Authentication. | $Foswiki::cfg{PasswordManager} |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::UserMapping][Foswiki::UserMapping]] | 1.1.5 | User mapping is the process by which Foswiki maps from a username (a login name) to a display name and back. It is also where groups are maintained. | $Foswiki::cfg{UserMappingManager} |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::LoginManager][Foswiki::LoginManager]] | 1.1.5 | How users login (i.e. HTML forms or Apache)  | $Foswiki::cfg{LoginManager} |
+| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Logger][Foswiki::Logger]] | 1.1.5 | Custom loggers. | $Foswiki::cfg{Log}{Implementation} |
