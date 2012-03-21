@@ -5,7 +5,7 @@
 
 <!-- Document writers. Please note that this document is distributed in HTML version in the root of the distribution. You cannot use WikiWord links or any other local linking. -->
 
-_This guide covers upgrading from a previous version of Foswiki or TWiki (such as Cairo or TWiki4.0) to Foswiki 1.0  (References to Cairo are for TWiki versions older than TWiki 4.0, such as !TWikiRelease04Sep2004)_
+_This guide covers upgrading from a previous version of Foswiki or TWiki (such as Cairo or TWiki4.0) to Foswiki 1.1  (References to Cairo are for TWiki versions older than TWiki 4.0, such as !TWikiRelease04Sep2004)_
 
 %TOC%
 
@@ -364,6 +364,9 @@ The currently used log file is always the same name. They are renamed to somehth
 #ManagingBrowserCache
 ---+++ Managing caches of static files during upgrade
 %INCLUDE{"%TOPIC%" section="cacheadvice"}%
+
+---++ Important changes for the upgrader - since Foswiki 1.1.4
+Due to fixes to the authentication session cookies when using =http= and =https=, your users may need to login again. This applies to both =TemplateLogin= and =ApacheLogin=.
 
 ---
 *Related Topics:* AdminDocumentationCategory, Foswiki:Support.InstallationGuide, Foswiki:Support.InstallingOnSpecificPlatforms, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix <!--, Foswiki:Support.UpgradingFromOlderTWikiReleases, Foswiki:Support.UpgradingFromTWiki4x2Releases, Foswiki:Support.UpgradingPatchReleases-->

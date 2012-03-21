@@ -60,6 +60,12 @@ Release 1.1.5 is a security focused release.  There are a number of fixes and sm
    * The ={Htpasswd}{AutoDetect}= option is enabled by default.  This ensures that an existing =.htpasswd= file cannot be accidentally corrupted due to the change in default encoding.
    * A new password encoding hash has been added. =bcrypt= encoding.  (Ref. http://yorickpeterse.com/articles/use-bcrypt-fool )
 
+---+++ Better session support for mixed http and https environments
+
+If your foswiki is set up to accept both https and http requests, your users may find themselves logged out much faster than desired.
+
+1.1.5 fixes this by using separate authentication session cookies when using =http= and =https=, but this may mean your users may need to login again. This applies to both =TemplateLogin= and =ApacheLogin=.
+
 ---+++ Changes to the =configure= password handling
 
 The encoding of the =bin/configure= and "sudo" =admin= user has been changed.  Sites should change their configure password as soon as possible. Note that this change is not backwards compatible.  Once the password has been changed, if fallback to 1.1.4 is required, the password will have to be reset by removing the password from =lib/LocalSite.cfg.=
