@@ -104,14 +104,14 @@ $code
 1;
 HERE
 
-# Dump the handler code with line numbers
-# To help with debugging failures in the plugin handlers
-#    my @tempCode = split /\n/, $code;
-#    my $codeCount = 1;
-#    foreach my $codeLine ( @tempCode ) {
-#        print "$codeCount: $codeLine\n";
-#        $codeCount++;
-#    }
+    # Dump the handler code with line numbers
+    # To help with debugging failures in the plugin handlers
+    #    my @tempCode = split /\n/, $code;
+    #    my $codeCount = 1;
+    #    foreach my $codeLine ( @tempCode ) {
+    #        print "$codeCount: $codeLine\n";
+    #        $codeCount++;
+    #    }
 
     $this->assert(
         open( my $F, ">$this->{plugin_pm}" ),
@@ -737,8 +737,22 @@ sub test_registrationHandler {
     my $this = shift;
     $this->makePlugin( 'registrationHandler', <<'HERE');
 sub registrationHandler {
-    my ( $web, $wikiName, $loginName ) = @_;
+    my ( $web, $wikiName, $loginName, $data ) = @_;
+    die unless $data && $data->{WikiName};
     $called->{registrationHandler}++;
+}
+HERE
+
+    return;
+}
+
+sub test_validateRegistrationHandler {
+    my $this = shift;
+    $this->makePlugin( 'validateRegistrationHandler', <<'HERE');
+sub validateRegistrationHandler {
+    my ( $data ) = @_;
+    die unless $data && $data->{WikiName};
+    $called->{validateRegistrationHandler}++;
 }
 HERE
 

@@ -263,9 +263,6 @@ sub _registerSingleBulkUser {
 
     my $log = "---++ Registering $row->{WikiName}\n";
 
-    #-- call to the registrationHandler (to amend fields) should
-    # really happen in here.
-
     #-- Ensure every required field exists
     # NB. LoginName is OPTIONAL
     if ( _missingElements( $fieldNames, \@requiredFields ) ) {
@@ -404,8 +401,7 @@ sub _innerRegister {
         \&Foswiki::Sandbox::validateTopicName );
     unless ( $data->{WikiName} ) {
         $session->logger->log( 'warning',
-"Registration rejected: validateTopicName failed for $oldName"
-        );
+            "Registration rejected: validateTopicName failed for $oldName" );
         throw Foswiki::OopsException(
             'attention',
             def    => 'bad_wikiname',
@@ -434,8 +430,7 @@ sub _requireVerification {
         \&Foswiki::Sandbox::validateTopicName );
     unless ( $data->{WikiName} ) {
         $session->logger->log( 'warning',
-"Verification rejected: validateTopicName failed for $oldName"
-        );
+            "Verification rejected: validateTopicName failed for $oldName" );
         throw Foswiki::OopsException(
             'attention',
             def    => 'bad_wikiname',
@@ -757,17 +752,18 @@ sub addUserToGroup {
     }
 
     my $url = $session->redirectto();
-    unless ( $url ) {
-	throw Foswiki::OopsException(
-	    'attention',
-	    status => 200,
-	    def    => 'added_users_to_group',
-	    web    => $web,
-	    topic  => $topic,
-	    params => [ join( ', ', @succeeded ), $groupName ]
-	    );
-    } else {
-	$session->redirect( $url );
+    unless ($url) {
+        throw Foswiki::OopsException(
+            'attention',
+            status => 200,
+            def    => 'added_users_to_group',
+            web    => $web,
+            topic  => $topic,
+            params => [ join( ', ', @succeeded ), $groupName ]
+        );
+    }
+    else {
+        $session->redirect($url);
     }
 }
 
@@ -845,17 +841,18 @@ sub removeUserFromGroup {
     }
 
     my $url = $session->redirectto();
-    unless ( $url ) {
-	throw Foswiki::OopsException(
-	    'attention',
-	    status => 200,
-	    def    => 'removed_users_from_group',
-	    web    => $web,
-	    topic  => $topic,
-	    params => [ join( ', ', @succeeded ), $groupName ]
-	    );
-    } else {
-	$session->redirect( $url );
+    unless ($url) {
+        throw Foswiki::OopsException(
+            'attention',
+            status => 200,
+            def    => 'removed_users_from_group',
+            web    => $web,
+            topic  => $topic,
+            params => [ join( ', ', @succeeded ), $groupName ]
+        );
+    }
+    else {
+        $session->redirect($url);
     }
 }
 
@@ -1004,6 +1001,7 @@ sub _complete {
 
     # Plugin to do some other post processing of the user.
     # for legacy, (callback to set cookies - now should use LoginHandler)
+    # DEPRECATED HANDLER. DO NOT USE!
     $session->{plugins}
       ->dispatch( 'registrationHandler', $session->{webName}, $data->{WikiName},
         $data->{LoginName}, $data );
@@ -1468,6 +1466,7 @@ sub _validateRegistration {
 
     # check valid email address
     if ( $data->{Email} !~ $Foswiki::regex{emailAddrRegex} ) {
+        $data->{Email} ||= '';
         $session->logger->log( 'warning',
 "Registration rejected: $data->{Email} failed the system email regex check."
         );
@@ -1483,8 +1482,9 @@ sub _validateRegistration {
     # Optional check email against filter
     # Case insensitive, and ignore whitespace.
     my $emailFilter;
-    $emailFilter = qr/$Foswiki::cfg{Register}{EmailFilter}/ix if ( length($Foswiki::cfg{Register}{EmailFilter}) );
-    if (   defined $emailFilter
+    $emailFilter = qr/$Foswiki::cfg{Register}{EmailFilter}/ix
+      if ( length( $Foswiki::cfg{Register}{EmailFilter} ) );
+    if ( defined $emailFilter
         && $data->{Email} =~ $emailFilter )
     {
         $session->logger->log( 'warning',
@@ -1516,39 +1516,61 @@ sub _validateRegistration {
         }
     }
 
-    return unless $requireForm;
+    if ($requireForm) {
 
-    # check if required fields are filled in
-    unless ( $data->{form} && ( $#{ $data->{form} } > 1 ) ) {
-        $session->logger->log( 'warning',
-            'Registration rejected: The submitted form was empty' );
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $data->{webName},
-            topic  => $session->{topicName},
-            def    => 'missing_fields',
-            params => ['form']
-        );
-    }
-    my @missing = ();
-    foreach my $fd ( @{ $data->{form} } ) {
-        if ( ( $fd->{required} ) && ( !$fd->{value} ) ) {
-            push( @missing, $fd->{name} );
+        # check if required fields are filled in
+        unless ( $data->{form} && ( $#{ $data->{form} } > 1 ) ) {
+            $session->logger->log( 'warning',
+                'Registration rejected: The submitted form was empty' );
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'missing_fields',
+                params => ['form']
+            );
+        }
+        my @missing = ();
+        foreach my $fd ( @{ $data->{form} } ) {
+            if ( ( $fd->{required} ) && ( !$fd->{value} ) ) {
+                push( @missing, $fd->{name} );
+            }
+        }
+
+        if ( scalar(@missing) ) {
+            $session->logger->log( 'warning',
+                'Registration rejected: missing required fields: '
+                  . join( ',', @missing ) );
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'missing_fields',
+                params => [ join( ', ', @missing ) ]
+            );
         }
     }
 
-    if ( scalar(@missing) ) {
-        $session->logger->log( 'warning',
-            'Registration rejected: missing required fields: '
-              . join( ',', @missing ) );
+    try {
+
+        # NOTE: calling the handler here allows the plugin to
+        # modify the fields in a way that may not pass the
+        # validation checks above. On the flip side, there will
+        # be no further validation of the plugins' work, so it
+        # better get it right!
+        $session->{plugins}->dispatch( 'validateRegistrationHandler', $data );
+    }
+    catch Error with {
+        my $e = shift;
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
             topic  => $session->{topicName},
-            def    => 'missing_fields',
-            params => [ join( ', ', @missing ) ]
+            def    => 'registration_disabled',
+            params => [ $e->stringify ]
         );
-    }
+
+    };
 }
 
 # Package private

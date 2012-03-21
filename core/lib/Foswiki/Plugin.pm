@@ -46,6 +46,7 @@ our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'renderFormFieldForEditHandler',    # ?
     'renderWikiWordHandler',            # 1.023
     'startRenderingHandler',            # 1.000 DEPRECATED
+    'validateRegistrationHandler',      # 2.3
     'writeHeaderHandler',               # 1.010 DEPRECATED
 );
 
