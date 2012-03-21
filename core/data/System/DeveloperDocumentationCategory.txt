@@ -57,8 +57,13 @@ Topics for programmers that which to design new skins and develop new extensions
    $ [[Contribs]] : A short introduction to Contribs. Contribs are Extensions to Foswiki that are not plugins
    $ [[ContributedAddOns]] : A short introduction to Add-Ons. Add-Ons add functionality with extensions that are not based on the Foswiki scripts
    $ [[Skins]] : An introduction to skins and skin development
-   $ [[PublishedAPI]] : The Perl API intended for use by plugin / contrib development, and advanced system integration.
+
+---+++ Perl API
+   $ [[PublishedAPI]] : The API intended for use by plugin / contrib development, and advanced system integration.
    $ [[PerlDoc]] : Perl package documentation dynamically generated from perl POD comments.  This includes internal classes, in addition to the [[PublishedAPI]].
+   $ [[ClassMethod]] : A ClassMethod is a method that must be called relative to the containing class object
+   $ [[ObjectMethod]] : An ObjectMethod is a method that must be called relative to a previous constructed object of the class type
+   $ [[StaticMethod]] : A StaticMethod is a method in a package that can be called without reference to an object of the package type
 
 ---+++ Background on functionalities
    $ [[AppendixEncodeURLsWithUTF8]] : Use internationalised characters within WikiWords and attachment names
@@ -66,9 +71,6 @@ Topics for programmers that which to design new skins and develop new extensions
    $ [[JavascriptFiles]] : Foswiki Javascript support comprises a number of base Javascript files, attached to this topic, that provide support for features in the basic screens, and are used by most skins. 
    $ [[SkinTemplates]] : Skin templates are used when composing the output from all actions, such as view, edit, and preview. This allows you to change the look and feel of all pages by editing just a few template files. This topic describes the special template directives. Both for Skin developers and for advanced wiki application development.
    $ [[MetaData]] : Additional data, Foswiki-generated or from [[DataForms][forms]], may be embedded in the topic text using =META:= macros
-   $ [[ClassMethod]] : A ClassMethod is a method that must be called relative to the containing class object
-   $ [[ObjectMethod]] : An ObjectMethod is a method that must be called relative to a previous constructed object of the class type
-   $ [[StaticMethod]] : A StaticMethod is a method in a package that can be called without reference to an object of the package type
 
 ---+++ Utilities
    $ [[InstalledPlugins]] : List of the plugins currently installed and enabled in this Foswiki site. Developers can see any code errors in the plugins which is very useful during development
