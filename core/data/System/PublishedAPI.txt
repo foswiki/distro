@@ -1,3 +1,6 @@
+%META:TOPICINFO{author="ProjectContributor" date="1332321859" format="1.1" version="1"}%
+%META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
+
 ---++ Interface for Plugin and Contrib Developers
 
 See %SYSTEMWEB%.DevelopingPlugins for more information.
