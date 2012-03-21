@@ -5328,7 +5328,7 @@ footer: \$web=$this->{test_web}", $result
   nonoise="on"
   format="   1 $topic"
   pager="on"
-  pagesize="10"
+  pagesize="4"
   pagerformat="pagerformat: $dollarweb=$web"
 }%'
     );
@@ -5338,7 +5338,6 @@ footer: \$web=$this->{test_web}", $result
    1 OkBTopic
    1 OkTopic
    1 TestTopicSEARCH
-   1 WebPreferences
 pagerformat: \$web=$this->{test_web}", $result
     );
 
