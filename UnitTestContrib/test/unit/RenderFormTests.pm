@@ -49,7 +49,11 @@ sub set_up {
     Foswiki::Func::saveTopic( $this->{test_web}, "WebPreferences", undef,
         <<'HERE' );
    * Set WEBFORMS = InitializationForm
+   * Set SKIN = pattern
 HERE
+
+    # Force reload to pick up WebPreferences
+    $this->createNewFoswikiSession( undef, $this->{session}->{cgiQuery} );
 
     my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
     $meta->put( 'FORM', { name => 'InitializationForm' } );
