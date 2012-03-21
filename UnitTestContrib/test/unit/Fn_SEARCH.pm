@@ -6034,7 +6034,6 @@ System.WebChanges
 System.WebHome
 System.WebIndex
 System.WebPreferences
-$pager
 THERE
 
     return;
@@ -6068,9 +6067,7 @@ System.WebChanges
 System.WebHome
 System.WebIndex
 System.WebPreferences
-FOOT(4,4)<div class="foswikiSearchResultsPager">
-   Page 1 of 1   
-</div>
+FOOT(4,4)
 THERE
 
     return;
