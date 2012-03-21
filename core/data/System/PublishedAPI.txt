@@ -1,4 +1,4 @@
----++ Interface for Plugin, Contrib and Skin Developers
+---++ Interface for Plugin and Contrib Developers
 
 See %SYSTEMWEB%.DevelopingPlugins for more information.
 | *Package* | *First Published* | *Comment* |

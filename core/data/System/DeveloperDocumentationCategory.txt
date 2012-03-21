@@ -57,7 +57,7 @@ Topics for programmers that which to design new skins and develop new extensions
    $ [[Contribs]] : A short introduction to Contribs. Contribs are Extensions to Foswiki that are not plugins
    $ [[ContributedAddOns]] : A short introduction to Add-Ons. Add-Ons add functionality with extensions that are not based on the Foswiki scripts
    $ [[Skins]] : An introduction to skins and skin development
-   $ [[PerlDoc]] : This topic is a helper topic that enables displaying the inline documentation of the Foswiki perl modules. It is used in the [[DevelopingPlugins]] topic
+   $ [[PublishedAPI]] / [[PerlDoc]] : The Perl API intended for use by plugin, developer, and advanced system integration.  The web pages are dynamically generated from perl POD comments.
 
 ---+++ Background on functionalities
    $ [[AppendixEncodeURLsWithUTF8]] : Use internationalised characters within WikiWords and attachment names
