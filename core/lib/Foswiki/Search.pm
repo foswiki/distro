@@ -666,10 +666,13 @@ sub formatResults {
           $this->formatCommon( $nextpagebutton, \%pager_formatting );
         $pager_formatting{'nextbutton'} = sub { return $nextpagebutton };
 
-        my $pager_control = $params->{pagerformat}
-          || $session->templates->expandTemplate('SEARCH:pager');
-        $pager_control =
-          $this->formatCommon( $pager_control, \%pager_formatting );
+        my $pager_control = '';
+        if ($numberofpages > 1) {
+            $pager_control = $params->{pagerformat}
+              || $session->templates->expandTemplate('SEARCH:pager');
+            $pager_control =
+              $this->formatCommon( $pager_control, \%pager_formatting );
+        }
         $pager_formatting{'pager'} = sub { return $pager_control; };
     }
 
