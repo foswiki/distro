@@ -2714,9 +2714,10 @@ sub spaceOutWikiWord {
     # Both could have the value 0 so we cannot use simple = || ''
     $word = defined($word) ? $word : '';
     $sep  = defined($sep)  ? $sep  : ' ';
-    $word =~
-s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/go;
+    $word =~ s/([$regex{upperAlpha}])([$regex{numeric}])/$1$sep$2/go;
     $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$sep$2/go;
+    $word =~ s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/go;
+    $word =~ s/([$regex{upperAlpha}])([$regex{upperAlpha}])(?=[$regex{lowerAlpha}])/$1$sep$2/go;
     return $word;
 }
 

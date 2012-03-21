@@ -278,7 +278,7 @@ sub do_test {
     my ( $this, $expected, $actual, $noHtml ) = @_;
     my $session = $this->{session};
 
-    $this->{test_topicObject}->expandMacros($actual);
+    $actual = $this->{test_topicObject}->expandMacros($actual);
     $actual = $this->{test_topicObject}->renderTML($actual);
     if ($noHtml) {
         $this->assert_equals( $expected, $actual );
@@ -327,6 +327,28 @@ EXPECTED
 
     my $actual = <<ACTUAL;
 $Foswiki::cfg{HomeTopicName}
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+# Item11671
+sub test_Item11671 {
+    my $this = shift;
+    my $expected = <<EXPECTED;
+Create A New Wiki Word
+Year 2012 A New Year
+A 100 Bottle Test
+Finishing A 100
+Test 100 A
+SOS Titanic
+EXPECTED
+    my $actual = <<ACTUAL;
+%SPACEOUT{"CreateANewWikiWord"}%
+%SPACEOUT{"Year2012ANewYear"}%
+%SPACEOUT{"A100BottleTest"}%
+%SPACEOUT{"FinishingA100"}%
+%SPACEOUT{"Test100A"}%
+%SPACEOUT{"SOSTitanic"}%
 ACTUAL
     $this->do_test( $expected, $actual );
 }
