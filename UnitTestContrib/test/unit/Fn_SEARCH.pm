@@ -6009,4 +6009,72 @@ HERE
     return $result;
 }
 
+sub test_pager_details_Item10350_one {
+    my $this = shift;
+
+    my $search = <<'HERE';
+%SEARCH{
+    "web"
+    type="text"
+    web="System"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text"
+    nonoise="on"
+    format="$web.$topic"
+    pager="on"
+}%
+HERE
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( $search );
+
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert_str_equals(<<'THERE', $result );
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+$pager
+THERE
+
+    return;
+}
+
+sub test_pager_details_Item10350_two {
+    my $this = shift;
+
+    my $search = <<'HERE';
+%SEARCH{
+    "web"
+    type="text"
+    web="System"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text"
+    nonoise="on"
+    format="$web.$topic"
+    showpage="1"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+    pager="on"
+}%
+HERE
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( $search );
+
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert_str_equals(<<'THERE', $result );
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)<div class="foswikiSearchResultsPager">
+   Page 1 of 1   
+</div>
+THERE
+
+    return;
+}
+
+
 1;
