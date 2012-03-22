@@ -12,6 +12,8 @@
 %STARTSECTION{"summary"}%
 !SimpleModal is a lightweight jQuery plugin that provides a simple
 interface to create a modal dialog.
+
+__Note:__ please consider using [[%SYSTEMWEB%.JQueryUIDialog][UI::Dialog]] instead.
 %ENDSECTION{"summary"}%
 
 ---++ Description
