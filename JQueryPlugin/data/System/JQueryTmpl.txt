@@ -15,10 +15,12 @@ jQuery templates contain markup with binding expressions ('Template tags'). Temp
 
 Documentation for the jQuery Templates plugin can be found on the jQuery documentation site: http://api.jquery.com/category/plugins/templates
 
-See also http://www.borismoore.com/2010/10/jquery-templates-is-now-official-jquery.html for more background.
+Note: The jQuery team has decided not to take this plugin past beta. It is no longer being actively developed or maintained. The docs remain here for the time being (for reference) until a suitable replacement template plugin is ready.
+
+For more on the history of this change, see [[http://blog.jquery.com/2011/04/16/official-plugins-a-change-in-the-roadmap/][Official Plugins: A Change in the Roadmap]] and [[http://www.borismoore.com/2011/10/jquery-templates-and-jsviews-roadmap.html][jQuery Templates and JsViews: The Roadmap]]
 %ENDSECTION{"summary"}%
 
-_Note: This plugin is currently in beta form and may change significantly before version 1.0 is released. See tagged versions for stable Beta releases. Requires jquery version 1.4.2._
+_Note: See tagged versions for stable Beta releases. Requires jquery version 1.4.2._
 
 ---++ Example
 %JQREQUIRE{"tmpl"}%
