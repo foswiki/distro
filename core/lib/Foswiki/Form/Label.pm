@@ -25,7 +25,9 @@ sub renderForEdit {
             -name  => $this->{name},
             -value => $value
           )
-          . CGI::div( {}, $renderedValue )
+          . CGI::div( {
+            -class   => 'foswikiFormLabel',          
+          }, $renderedValue )
     );
 }
 
