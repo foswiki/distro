@@ -9,13 +9,17 @@ our @ISA = qw( FoswikiTestCase );
 use Foswiki;
 
 sub set_up {
-
+    my ($this) = shift;
+    $this->SUPER::set_up(@_);
+    
     # Set up test fixture; e.g. create webs, topics
     # See EmptyTests for an example
 }
 
 sub tear_down {
+    my $this = shift;    # the Test::Unit::TestCase object
 
+    $this->SUPER::tear_down(@_);
     # Remove fixtures created in set_up
     # Do *not* leave fixtures lying around!
     # See EmptyTests for an example
