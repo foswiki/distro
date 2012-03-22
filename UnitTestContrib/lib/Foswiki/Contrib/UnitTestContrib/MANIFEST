@@ -84,6 +84,7 @@ test/unit/RESTTests.pm 0644
 test/unit/RegisterTests.pm 0644
 test/unit/RenameTests.pm 0644
 test/unit/RenderFormTests.pm 0644
+test/unit/RenderTests.pm 0644
 test/unit/RequestCacheTests.pm 0644
 test/unit/RequestTests.pm 0644
 test/unit/ResponseTests.pm 0644
