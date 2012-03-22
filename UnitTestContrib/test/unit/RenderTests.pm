@@ -118,23 +118,23 @@ sub test_TOOLTIPS_on {
 
     my $expected = <<'HERE';
  <ol>
-<li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkTopic" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE blah/matchme.blah">OkTopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkATopic" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE dontmatchme.blah">OkATopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkBTopic" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE dont.matchmeblah">Ok'Topic'</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;Link dont.matchmeblah">LunchLink</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;Link dont.matchmeblah">Lunch <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;nLearn dont.matchmeblah">OneSingleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;nLearn dont.matchmeblah">1 <nop>Sinlke <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#34;nLearn dont.matchmeblah">OneDoubleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#34;nLearn dont.matchmeblah">1 double <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;n&#39;Learn dont.matchmeblah">SingleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;n&#39;Learn dont.matchmeblah">Sinlke <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#34;n&#34;Learn dont.matchmeblah">DoubleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#34;n&#34;Learn dont.matchmeblah">double <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch n Learn dont.matchmeblah">NoTopicLink</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch n Learn dont.matchmeblah">no topic <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;n&#39;Learn dont.matchmeblah">QuoteNoTopicLink</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: &#60;nop&#62;BLEEGLE Lunch&#39;n&#39;Learn dont.matchmeblah">no topic <nop>Link</a>
+<li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkTopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE blah/matchme.blah">OkTopic</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkATopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE dontmatchme.blah">OkATopic</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkBTopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE dont.matchmeblah">Ok'Topic'</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>Link dont.matchmeblah">LunchLink</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>Link dont.matchmeblah">Lunch <nop>Link</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">OneSingleQuote</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">1 <nop>Sinlke <nop>Q <nop>Link</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">OneDoubleQuote</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">1 double <nop>Q <nop>Link</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">SingleQuote</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">Sinlke <nop>Q <nop>Link</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">DoubleQuote</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">double <nop>Q <nop>Link</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch n Learn dont.matchmeblah">NoTopicLink</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch n Learn dont.matchmeblah">no topic <nop>Link</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">QuoteNoTopicLink</a>
+</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">no topic <nop>Link</a>
 </li></ol> 
 <p></p>
 <p></p>
