@@ -67,9 +67,10 @@ sub new {
         if ( $name eq '-auto' ) {
 
             #build a name from major.minor.patch.-auto.svnrev
-            my $rev = ( $cvs eq 'svn' ) ? `svn info ..` : `git svn info`;
-            $rev =~ /Revision: (\d*)/m;
-            $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $1;
+            my $revlog = ( $cvs eq 'svn' ) ? `svn info ..` : `git svn info`;
+            my ($rev) = $revlog =~ /Revision: (\d*)/m;
+            $rev ||= 'LOCAL';
+            $name = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
             $autoBuild = 1;
         }
     }
