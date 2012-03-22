@@ -502,7 +502,8 @@ sub _linkToolTipInfo {
               ->inlineAlert( 'alerts', 'access_denied', "$web.$topic" );
         }
         $summary = $topicObject->summariseText();
-        $summary = Foswiki::entityEncode($summary);
+        $summary =~
+          s/[\"\']/<nop>/g;    # remove quotes (not allowed in title attribute)
         $tooltip =~ s/\$summary/$summary/g;
     }
     return $tooltip;
