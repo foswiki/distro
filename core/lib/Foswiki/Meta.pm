@@ -3178,6 +3178,9 @@ The =\%searchOptions= hash may contain the following options:
    
 TODO: should this really be in Meta? it seems like a rendering issue to me.
 
+warning: this will produce text that contains html entities - including quotes
+use         =$summary = Foswiki::entityEncode($summary);= to diffuse them
+
    
 =cut
 
