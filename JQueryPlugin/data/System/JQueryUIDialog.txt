@@ -98,6 +98,8 @@ In this case the dialog will alwas be fetched again from the backend using the g
 
 <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=text&section=dialog" class="jqUIDialogLink">Open Dialog</a>
 
+<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=text&section=dialog" class="jqUIDialogLink {cache:false}">Open Dialog (no cache)</a>
+
 <verbatim class="foswikiHidden">
 %STARTSECTION{"dialog"}%
 <div title="From Ajax call" class="jqUIDialog { modal:true, resizable:true, draggable:true, height:300, width:600}">
