@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-22 07:32+0200\n"
+"PO-Revision-Date: 2012-03-22 17:13+0200\n"
 "Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
 "Language: da\n"
@@ -1688,7 +1688,7 @@ msgstr "Gruppe"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Gruppe eksisterer ikke og oprettelse er ikke tilladt"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1696,7 +1696,7 @@ msgstr "Gruppenavn"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Gruppenavne skal ende med Group"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1987,7 +1987,7 @@ msgstr "Forkert aktiveringskode"
 
 #: core/templates/messages.tmpl:249
 msgid "Invalid Input"
-msgstr ""
+msgstr "Ugyldig værdi"
 
 #: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
 #: core/templates/messages.tmpl:342
@@ -2271,6 +2271,7 @@ msgstr "Ny adgangskode"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
 msgid "New password did not match existing password for this user"
 msgstr ""
+"Angivne adgangkode passede ikke med eksiterende adgangkode for denne bruger"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2479,9 +2480,8 @@ msgid "Password reset failed"
 msgstr "Nulstilling af adgangskoden fejlede"
 
 #: core/templates/messages.tmpl:174
-#, fuzzy
 msgid "Passwords disabled"
-msgstr "Nulstilling af adgangskoden fejlede"
+msgstr "Adgangskoder kan ikke ændres"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -3181,7 +3181,7 @@ msgstr "Tilføjet indhold:"
 
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonnér"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
@@ -3312,9 +3312,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "Administratoren for dette side har slået nye brugerregistreringer fra."
 
 #: core/templates/messages.tmpl:176
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr "Administratoren for dette side har slået nye brugerregistreringer fra."
+msgstr "Administratoren for dette site har slået adgangskode-håndtering fra."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
@@ -3381,15 +3380,15 @@ msgstr ""
 "bruger Foswiki forsigtighedsprincippet."
 
 #: core/templates/messages.tmpl:335
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "E-mail-adressen for dette brugernavn er ikke gyldig."
+msgstr "E-mail-adressen for dette brugernavn er blevet afvist."
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "E-mail-adressen for dette brugernavn er ikke gyldig."
+msgstr ""
+"E-mail-adressen for dette brugernavn er allerede registreret til en anden "
+"bruger."
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3474,7 +3473,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "Værdien givet for =%1= er blevet afvist."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
@@ -3507,9 +3506,8 @@ msgstr ""
 "Der formodes at være en linie der inkluderer %1, se efter %2 (eller %3)"
 
 #: core/templates/messages.tmpl:506
-#, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "Der opstod fejl ved tilføjelse af %1 til gruppen %2."
+msgstr "Der opstod fejl ved tilføjelse til %2 gruppen. %1"
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3871,14 +3869,13 @@ msgstr "Brug skabelon:"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "Brugeren %1 har ikke CHANGE rettigheder til %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
 #: core/lib/Foswiki/UserMapping.pm:364
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 er medlem af mindst en gruppe og kan ikke fjernes"
+msgstr "%1 er ikke medlem af gruppen og kan ikke fjernes"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -3901,12 +3898,12 @@ msgstr "Brugere"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "Brugere kan ikke tilføjes til %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "Brugere kan ikke fjernes fra %1"
 
 #: core/templates/messages.tmpl:192
 msgid ""
@@ -4017,9 +4014,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "Advarsel: Kan ikke finde siden %1.%2"
 
 #: core/templates/messages.tmpl:601
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Advarsel: Kan ikke finde siden %1.%2"
+msgstr "Advarsel: Kan ikke finde web %1 siden %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1018
 msgid "Warning: Could not send confirmation email"
@@ -4037,18 +4033,16 @@ msgstr ""
 "af URL'er"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
+msgstr "BEMÆRK: \\'incluce\\'-siden <nop>%1 findes ikke!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
+msgstr "BEMÆRK: tabel-definitionen i \\'incluce\\'-siden %1 findes ikke!"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Web"
@@ -4221,6 +4215,8 @@ msgstr "Du kan omdøbe dette web til et nyt navn."
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
+"Du kan ikke tilføje brugere til en manglende gruppe med mindre create er "
+"slået til."
 
 #: core/templates/validate.tmpl:28
 msgid ""
@@ -4231,13 +4227,12 @@ msgstr ""
 "Javascript er deaktiveret i din browser."
 
 #: core/templates/messages.tmpl:700
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
-"Du kan ikke manuelt bekræfte denne ændring fordi enten Cookies eller "
-"Javascript er deaktiveret i din browser."
+"Du kan ikke fortsætte fordi enten Cookies eller Javascript er deaktiveret i "
+"din browser."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
@@ -4385,9 +4380,8 @@ msgid "Your password has been changed to %1."
 msgstr "Din adgangskode er opdateret til %1."
 
 #: core/templates/messages.tmpl:180
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Din adgangskode er opdateret til %1."
+msgstr "Din adgangskode er ikke ændret."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
@@ -4590,9 +4584,8 @@ msgid "retrieved at %1"
 msgstr "fremsøgt %1"
 
 #: core/templates/viewprint.tmpl:16
-#, fuzzy
 msgid "revision %1"
-msgstr "(version %1)"
+msgstr "version %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
@@ -4659,14 +4652,12 @@ msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Ved siden af' accesskey='s'>Ved &siden af"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Editér denne side' accesskey='e'>&Editér"
+msgstr "title='Abonnér på denne side' accesskey='s'>Abonnér &Side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Printbar version af denne side' accesskey='p'>&Printable"
+msgstr "title='Stop abonnement af denne side' accesskey='s'>&Stop abonnement"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
