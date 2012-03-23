@@ -306,14 +306,19 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
                 &copy; 2010-2011 [[System.ProjectContributor][Foswiki Contributors]] |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|             | This package also includes the complete sources for version 3.4.6 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
+|             | This package also includes the complete sources for version 3.4.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Mar 2011 (1.2.6) | Foswikitask:Item11378: Strike-out =&lt;del&gt;=, =&lt;s&gt;= tags are lost in WYSIWYG transition %BR%\
+                         Foswikitask:Item11367: Add JS callbacks %BR%\
+                         Foswikitask:Item11368: Add WYSIWYG button %BR%\
+                         Foswikitask:Item11369: Add JS animiation when loading text %BR%\
+                         Foswikitask:Item11146: Cannot edit on IE8. |
 |  22 Dec 2011 (1.2.5) | Foswikitask:Item11382: Fix JS autosave error in IE7 when editing topics in nested webs |
 |  19 Dec 2011 (1.2.4) | Foswikitask:Item2516: Added support for indented plain paragraphs. NOTE: requires an update to TINYMCEPLUGIN_INIT, if you have customised it. |
 |  22 Nov 2011 (1.2.3) | Foswikitask:Item11272: Remove bogus dependency on !BehaviourContrib |
-|  08 Nov 2011 (1.2.2) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.7. |
+|  08 Nov 2011 (1.2.2) | Foswikitask:Item10724: Update to !TinyMCE 3.4.7. |
 |  24 Sep 2011 (1.2.1) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.6. %BR%\
                          Foswikitask:Item8981: Fixed in !TinyMCE 3.4 (copy and paste list items) |
 |  20 Aug 2011 (1.2.0) | Foswikitask:Item10724: Testing release of !TinyMCE 3.4.4 |
