@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-01-04 06:58+0200\n"
+"PO-Revision-Date: 2012-03-23 12:15+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -72,9 +72,8 @@ msgstr "%1 加入 %2 群組。"
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 由群組 %2 移出。"
+msgstr "%1 無法自 %2 內移出"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -763,9 +762,8 @@ msgid "Attachments"
 msgstr "附件 "
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "%1 的附件"
+msgstr "附件 %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -853,16 +851,16 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "不能改變 %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "%2 不能改變 %1"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
-msgstr "無法找到用戶%1"
+msgstr "無法找到用戶 %1"
 
 #: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
