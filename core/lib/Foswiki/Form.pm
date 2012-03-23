@@ -434,6 +434,7 @@ sub renderForEdit {
             my $extra = '';    # extras on col 0
 
             unless ( defined($value) ) {
+
                 my $dv = $fieldDef->getDefaultValue($value);
                 if ( defined($dv) ) {
                     $dv    = $topicObject->expandMacros($dv);
