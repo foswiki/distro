@@ -310,10 +310,10 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  08 Mar 2011 (1.2.6) | Foswikitask:Item11378: Strike-out =&lt;del&gt;=, =&lt;s&gt;= tags are lost in WYSIWYG transition %BR%\
-                         Foswikitask:Item11367: Add JS callbacks %BR%\
-                         Foswikitask:Item11368: Add WYSIWYG button %BR%\
-                         Foswikitask:Item11369: Add JS animiation when loading text %BR%\
+|  23 Mar 2012 (1.2.6) | Foswikitask:Item11378: Strike-out =&lt;del&gt;=, =&lt;s&gt;= tags are lost in WYSIWYG transition %BR%\
+                         Foswikitask:Item11367: Add Javascript callbacks to get notified after editor changes to/from Raw or WYSIWYG mode. %BR%\
+                         Foswikitask:Item11368: Allow templates to control WYSIWYG button placement. %BR%\
+                         Foswikitask:Item11369: "Please wait... retrieving page from server" looks too much like an error.  Change to "Loading" JS Animation %BR%\
                          Foswikitask:Item11146: Cannot edit on IE8. |
 |  22 Dec 2011 (1.2.5) | Foswikitask:Item11382: Fix JS autosave error in IE7 when editing topics in nested webs |
 |  19 Dec 2011 (1.2.4) | Foswikitask:Item2516: Added support for indented plain paragraphs. NOTE: requires an update to TINYMCEPLUGIN_INIT, if you have customised it. |
