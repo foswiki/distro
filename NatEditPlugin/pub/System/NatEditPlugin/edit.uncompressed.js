@@ -325,7 +325,7 @@ function fixHeightOfPane () { }
               $form = $(validator.currentForm);
 
           /* ignore a cancel action */
-          if ($form.find("input[name*=action_][value=foobar]").attr("name") == "action_cancel") {
+          if ($form.find("input[name*='action_'][value='Cancel']").attr("name") == "action_cancel") {
             validator.currentForm.submit();
             validator.errorList = [];
             return;
@@ -335,6 +335,7 @@ function fixHeightOfPane () { }
             var message = errors == 1
               ? 'There\'s an error. It has been highlighted below.'
               : 'There are ' + errors + ' errors. They have been highlighted below.';
+            $.unblockUI();
             showErrorMessage(message);
             $.each(validator.errorList, function() {
               var $errorElem = $(this.element);
