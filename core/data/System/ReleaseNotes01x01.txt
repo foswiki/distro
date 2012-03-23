@@ -1452,7 +1452,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11636][Item11636]] | You are trying to viewfile an attachment that does not exist. lacks a link to the topic. |
 | [[%BUGS%/Item11663][Item11663]] | All Form/element.pm's should have a css class on them.. especially Label! |
 | [[%BUGS%/Item11685][Item11685]] | We should not use simplemodal, but rather the much better jquery.ui.dialog. |
-</notautolink>
+</noautolink>
 
 ---
  <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
