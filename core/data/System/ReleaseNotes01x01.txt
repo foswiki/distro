@@ -32,7 +32,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
-   * Foswiki 1.1.5 Beta 2 was built 18 Mar 2012.  It is a release that fixes some very important issues including some security related issues. It contains 74 fixes and 18 enhancements.
+   * Foswiki 1.1.5-RC1 was built 22 Mar 2012.  It is a release that fixes some very important issues including some security related issues. It contains 77 fixes and 20 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1429,6 +1429,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11627][Item11627]] | Manage =editSettings= does not take a topic lease. |
 | [[%BUGS%/Item11635][Item11635]] | WebSiteTools was still using the deprecated search script |
 | [[%BUGS%/Item11655][Item11655]] | CommentPlugin types table is missing some shipped types. |
+| [[%BUGS%/Item11675][Item11675]] | Foswiki::Net reported incorrect sendmail return code |
+| [[%BUGS%/Item11680][Item11680]] | Mixed http and https sites get logged off too quickly |
+| [[%BUGS%/Item11682][Item11682]] | LINKTOOLTIPINFO html corrupted if text contained quotes and removal created a WikiWord |
 
 ---+++ Enhancements
 
@@ -1450,6 +1453,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11576][Item11576]] | Add support for redirectto to the addUserToGroup and removeUserFromGroup register actions. |
 | [[%BUGS%/Item11605][Item11605]] | Implement Development.AddOptionalRegistrationEmailValidation |
 | [[%BUGS%/Item11636][Item11636]] | You are trying to viewfile an attachment that does not exist. lacks a link to the topic. |
+| [[%BUGS%/Item11663][Item11663]] | All Form/element.pm's should have a css class on them.. especially Label! |
+| [[%BUGS%/Item11685][Item11685]] | We should not use simplemodal, but rather the much better jquery.ui.dialog. |
 </notautolink>
 
 ---
