@@ -41,7 +41,7 @@ sub writeDebug {
 sub initPlugin {
     ( $baseTopic, $baseWeb ) = @_;
 
-    Foswiki::Func::registerTagHandler( 'FORMBUTTON',  \&handleFORMBUTTON );
+    Foswiki::Func::registerTagHandler( 'NATFORMBUTTON',  \&handleNATFORMBUTTON );
     Foswiki::Func::registerTagHandler( 'NATFORMLIST', \&handleNATFORMLIST );
 
     $doneNonce = 0;
@@ -59,7 +59,7 @@ sub initPlugin {
 # there are no native means besides the "addform" template being used
 # to render the FORMFIELDS. but this is not what we need here at all. infact
 # we need an empty addform.nat.tmp to switch off this feature of FORMFIELDS
-sub handleFORMBUTTON {
+sub handleNATFORMBUTTON {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("natedit");
