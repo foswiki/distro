@@ -504,18 +504,35 @@ sub _checkSessionAuth {
         && ( $session->atime() - $session->ctime() ) > $SAVEEXP )
     {
         $session->clear('_SAVE_OK');
+
         #print STDERR "SAVE OKAY CLEARED\n";
     }
 
+    # Require validation when an update is requested and update session expired
     $validateAction = 1
       if ( $action ne 'Configure' && !$session->param( -name => '_SAVE_OK' ) );
 
-    if (   $validateAction
-        || $session->is_expired()
-        || !$Foswiki::cfg{Password}
-        || $query->param('changePassword')
-        || !defined $sid
-        || $sid ne $session->id() )
+# If the browser has authenticated, we don't need to check password for basic access.
+# unless password needs to be set or change is requested.
+    if (
+        $Foswiki::query->auth_type()    # Browser has authenticated with server
+        && !$validateAction             # and it's not an update
+        && $Foswiki::cfg{Password}      # and a password is set
+        && !$query->param('changePassword')    # and change not requested
+      )
+    {
+        _resetExpires();
+        return 1;
+    }
+
+    if (
+        $validateAction                        # An update is requested
+        || !$Foswiki::cfg{Password}            # Or no password set
+        || $query->param('changePassword')     # Or change is requested
+        || $session->is_expired()              # Or session is expired
+        || !defined $sid                       # Or there is no session
+        || $sid ne $session->id()              # Or it's a new session
+      )
     {
         my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
 
@@ -526,7 +543,7 @@ sub _checkSessionAuth {
             return 0;
         }
         else {
-            _resetExpires(1);
+            _resetExpires(1); # Reset session and also set the save allowed flag
 
 # messageType  4 = PW Changed,  8 = no PW,  16 = incorrect PW, 32 = PW Mismatch,  64 = Enter new PW
             if ( $messageType == 4 && $action eq 'Configure' ) {
