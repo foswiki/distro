@@ -49,11 +49,11 @@
 <#assign localEnterPassword>
 	<div class='foswikiFormSteps'>
 		<div class='foswikiFormStep'>
-			<h2>In order to save your changes, Configure requires that you type your password.</h2>
+			<h2>In order to proceed, Configure requires that you type your password.</h2>
 		</div>
 		<div class='foswikiFormStep'>
 			<p>Password: <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' />
-			&nbsp; <input type="submit" class='foswikiSubmit' value='Save changes' /></p>
+			&nbsp; <input type="submit" class='foswikiSubmit' value='Submit password' /></p>
 		</div>
 		<div class='foswikiFormStep configureFormStepOutside'>
 			${localNotePasswordForgotten}
@@ -152,6 +152,7 @@
 			<p>Go back in your browser if you want to make any changes.</p>
 		</div>
 	</#if>
+    <input type="hidden" name='confirmChanges' value='1' />
 	<form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
 		<#if params??>${params}</#if>
 		<#if hasPassword == 0>
@@ -222,9 +223,10 @@ ${extRemove}
 ${extAdd}
 </#if>
 
+<input type="hidden" name='confirmChanges' value='1' />
 <form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
     <#if params??>${params}</#if>
-	${extEnterPassword}
+    ${extEnterPassword}
 </#assign>
 
 <#assign testEmail>
@@ -233,6 +235,27 @@ ${extAdd}
 <form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
     <#if params??>${params}</#if>
 	${testEnterPassword}
+</#assign>
+
+<#assign cfgLogin>
+	<h2>Enter your password to access configuration
+		<#if changePassword??>
+			- and to change your password...
+		</#if>
+	</h2>
+
+	<form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
+		<#if params??>${params}</#if>
+		<#if hasPassword == 0>
+			${localSecurityWarning}
+			${localSetPassword}
+		</#if>
+		<#if hasPassword == 1 && changePassword??>
+			${localChangePassword}
+		</#if>
+    <#if hasPassword == 1 && !changePassword??>
+        ${localEnterPassword}
+    </#if>
 </#assign>
 
 
@@ -248,4 +271,5 @@ ${extAdd}
 <#if displayStatus == 4>${localNoUpdate}</#if>
 <#if displayStatus == 8>${extUpdate}</#if>
 <#if displayStatus == 16>${testEmail}</#if>
+<#if displayStatus == 32>${cfgLogin}</#if>
 

@@ -1,0 +1,98 @@
+<#-- CONFIRMATION TEMPLATE  -->
+
+<#assign localUpdate>
+	<h2>You are about to update 
+		<#if modifiedCount == 1>
+			${modifiedCount} setting
+		<#else>
+			${modifiedCount} settings
+		</#if>
+	</h2>
+	<#if changesList??>
+		<div class='configureChangeList'>
+			<table>
+				<#list changesList as i>
+					<tr><th>${i.key}</th><td>${i.value}</td></tr>
+				</#list>
+			</table>
+			<p>Go back in your browser if you want to make any changes.</p>
+		</div>
+	</#if>
+    <input type="hidden" name='confirmChanges' value='1' />
+	<div class='foswikiFormStep'>
+		<input type="submit" class='foswikiSubmit' value='Confirm changes' />
+	</div>
+	<form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
+		<#if params??>${params}</#if>
+</#assign>
+
+<#assign localNoUpdate>
+<h2>Nothing to do - you haven't made any changes yet</h2>
+
+<p>Go back in your browser to continue.</p>
+</#assign>
+
+<#assign extRemove>
+	<h3>
+		Removing 
+		<#if extRemoveCount == 1>
+			extension
+		<#else>
+			${extRemoveCount} extensions
+		</#if>
+    </h3>
+    <div class='configureChangeList'>
+        <table>
+            <#list extRemoveItems as i>
+               <tr>${i}</tr>
+            </#list>
+        </table>
+        <p>Go back in your browser if you want to make any changes.</p>
+    </div>
+</#assign>
+
+<#assign extAdd>
+	<h3>
+		Adding 
+		<#if extAddCount == 1>
+			extension
+		<#else>
+			${extAddCount} extensions
+		</#if> 
+    </h3>
+    <div class='configureChangeList'>
+        <table>
+            <#list extAddItems as i>
+                <tr>${i}</tr>
+            </#list>
+        </table>
+        <p>Go back in your browser if you want to make any changes.</p>
+    </div>
+</#assign>
+
+<#assign extUpdate>
+<h2>Configure extension installer will ${extAction}</h2>
+<#if extRemoveCount == 0>
+<#else>
+${extRemove}
+</#if>
+
+<#if extAddCount == 0>
+<#else>
+${extAdd}
+</#if>
+
+<input type="hidden" name='confirmChanges' value='1' />
+<div class='foswikiFormStep'>
+    <input type="submit" class='foswikiSubmit' value='Confirm changes' />
+</div>
+<form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
+    <#if params??>${params}</#if>
+</#assign>
+
+
+<#if displayStatus == 1>${localNoUpdate}</#if>
+<#if displayStatus == 2>${localUpdate}</#if>
+<#if displayStatus == 4>${localNoUpdate}</#if>
+<#if displayStatus == 8>${extUpdate}</#if>
+
