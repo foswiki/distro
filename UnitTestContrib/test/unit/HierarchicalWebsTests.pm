@@ -490,4 +490,109 @@ qr!<a href="$scripturl">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>
     return;
 }
 
+=pod
+
+---++ Pre nested web linking 
+
+twiki used to remove /'s without replacement, and 
+
+=cut
+
+sub test_PreNestedWebsLinking {
+    my $this = shift;
+    
+    Foswiki::Func::saveTopic( $testWeb, '6to4enronet', undef, "Some text" );
+    Foswiki::Func::saveTopic( $testWeb, 'Aou1aplpnet', undef, "Some text" );
+    Foswiki::Func::saveTopic( $testWeb, 'MemberFinance', undef, "Some text" );
+    Foswiki::Func::saveTopic( $testWeb, 'MyNNABugsfeatureRequests', undef, "Some text" );
+    Foswiki::Func::saveTopic( $testWeb, 'Transfermergerrestructure', undef, "Some text" );
+    Foswiki::Func::saveTopic( $testWeb, 'ArthsChecklist', undef, "Some text" );
+
+
+    my $source = <<END_SOURCE;
+SiteChanges
+[[6to4.nro.net]]
+[[Member/Finance]]
+[[MyNNA bugs/feature requests]]
+[[Transfer/merger/restructure]]
+[[Arth's checklist]]
+[[WebHome]]
+[[WebPreferences]]
+END_SOURCE
+
+    my $expected = <<"END_EXPECTED";
+[[System.SiteChanges][SiteChanges]]
+[[6to4.nro.net]]
+[[Member/Finance]]
+[[MyNNA bugs/feature requests]]
+[[Transfer/merger/restructure]]
+[[Arth's checklist]]
+[[System.WebHome][WebHome]]
+[[WebPreferences]]
+END_EXPECTED
+
+    _trimSpaces($source);
+    _trimSpaces($expected);
+
+    $source = Foswiki::Func::expandCommonVariables($source);
+    $source = Foswiki::Func::expandCommonVariables($source);
+    $source = Foswiki::Func::renderText($source, $testWeb, "TestTopic");
+    #print " RENDERED = $source \n";
+    $this->assert_str_not_equals( $expected, $source );
+
+#DO it without find elsewhere..
+#turned off.
+#turn off nested webs and add / into NameFilter
+$Foswiki::cfg{FindElsewherePlugin}{CairoLegacyLinking} = 0;
+$Foswiki::cfg{EnableHierarchicalWebs} = 0;
+$Foswiki::cfg{NameFilter} = $Foswiki::cfg{NameFilter} = '[\/\\s\\*?~^\\$@%`"\'&;|<>\\[\\]#\\x00-\\x1f]';
+    my $query = Unit::Request->new('');
+    $query->path_info("/$testWeb/TestTopic");
+    $this->createNewFoswikiSession( undef, $query );
+
+    $source = <<END_SOURCE;
+SiteChanges
+[[6to4.enro.net]]
+[[aou1.aplp.net]]
+[[Member/Finance]]
+[[MyNNA bugs/feature requests]]
+[[Transfer/merger/restructure]]
+[[Arth's checklist]]
+[[WebHome]]
+[[WebPreferences]]
+[[does.not.exist]]
+END_SOURCE
+
+    $expected = <<"END_EXPECTED";
+[[System.SiteChanges][SiteChanges]]
+[[6to4enronet][6to4.enro.net]]
+[[Aou1aplpnet][aou1.aplp.net]]
+[[MemberFinance][Member/Finance]]
+[[MyNNABugsfeatureRequests][MyNNA bugs/feature requests]]
+[[Transfermergerrestructure][Transfer/merger/restructure]]
+[[ArthsChecklist][Arth's checklist]]
+[[System.WebHome][WebHome]]
+[[WebPreferences]]
+[[does.not.exist]]
+END_EXPECTED
+
+    _trimSpaces($source);
+    _trimSpaces($expected);
+
+    $source = Foswiki::Func::expandCommonVariables($source);
+    $source = Foswiki::Func::expandCommonVariables($source);
+    $source = Foswiki::Func::renderText($source, $testWeb, "TestTopic");
+    #print " RENDERED = $source \n";
+    $this->assert_str_not_equals( $expected, $source );
+
+}
+
+sub _trimSpaces {
+
+    #my $text = $_[0]
+
+    $_[0] =~ s/^[[:space:]]+//s;    # trim at start
+    $_[0] =~ s/[[:space:]]+$//s;    # trim at end
+}
+
 1;
