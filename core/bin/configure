@@ -530,7 +530,9 @@ sub _screenAuthorize {
             push( @{$changesList}, { key => $key, value => $valueString } );
         }
         @items = sort keys %updated if $modified;
-        my $displayStatus = ($modified) ? 2 : 1;
+        my $displayStatus =
+          ( $modified || $Foswiki::query->param('changePassword') ) ? 2 : 1;
+
 
         Foswiki::Configure::UI::getTemplateParser()->parse(
             $contentTemplate,
@@ -1013,6 +1015,12 @@ sub _actionConfigure {
         $html .=
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('sanity');
     }
+
+    if ( !$isFirstTime && !$Foswiki::cfg{Password} ) {
+        $html .=
+          Foswiki::Configure::UI::getTemplateParser()->readTemplate('sanitypw');
+    }
+
     $html .= $contents;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
