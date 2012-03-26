@@ -607,6 +607,7 @@ lib/Foswiki/Configure/resources/warning.gif 0444
 lib/Foswiki/Configure/resources/welcome.html 0444
 lib/Foswiki/Configure/resources/yui.css 0444
 lib/Foswiki/Configure/templates/authorize.tmpl 0444
+lib/Foswiki/Configure/templates/confirm.tmpl 0444
 lib/Foswiki/Configure/templates/extensions.tmpl 0444
 lib/Foswiki/Configure/templates/feedback.tmpl 0444
 lib/Foswiki/Configure/templates/findextensionsintro.tmpl 0444
