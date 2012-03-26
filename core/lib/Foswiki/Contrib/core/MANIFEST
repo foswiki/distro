@@ -642,6 +642,7 @@ lib/Foswiki/Configure/templates/main.tmpl 0444
 lib/Foswiki/Configure/templates/pagebegin.tmpl 0444
 lib/Foswiki/Configure/templates/pageend.tmpl 0444
 lib/Foswiki/Configure/templates/sanity.tmpl 0444
+lib/Foswiki/Configure/templates/sanitypw.tmpl 0444
 lib/Foswiki/Configure/templates/section.tmpl 0444
 lib/Foswiki/Configure/templates/testemailintro.tmpl 0444
 lib/Foswiki/Contrib/core/DEPENDENCIES 0444
