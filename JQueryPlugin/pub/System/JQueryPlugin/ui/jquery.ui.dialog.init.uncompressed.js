@@ -43,20 +43,13 @@ jQuery(function($) {
     $this.find(".jqUIDialogButton").each(function() {
       var $button = $(this), 
           button = {},
-          href = $button.attr("href"),
-          onclick = $button.attr("onclick");
+          href = $button.attr("href");
 
       button.text = $button.text();
 
       if (typeof(href) !== 'undefined') {
         button.click = function() {
           window.location.href = href;
-        };
-      }
-
-      if (typeof(onclick) !== 'undefined') {
-        button.click = function() {
-          eval(onclick);
         };
       }
 
