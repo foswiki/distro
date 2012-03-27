@@ -38,7 +38,11 @@ The control strips at the top and/or bottom of the page have a collection of ico
    * ==[Print version]== - goes to a stripped down version of the page, good for printing
    * ==[History]== - topics are under revision control - =History= shows you the complete change history of the topic, for example, who changed what and when
    * ==[View wiki text]== - show the source text's WikiSyntax without editing the topic
-   * ==[More topic actions]== - additional controls, such as rename/move or setting the topic's parent.
+   * ==[More topic actions]== - topic additional controls, 
+      * view, compare or restore a topic revision
+      * rename/move
+      * setting the topic's parent.
+      * set a topic preference
 
 ---++ 6. Create a new topic and edit an existing one
 There are two different ways to create a new topic:
@@ -82,7 +86,7 @@ See also the following screenshot:
 </div>
 </form>
 
-   * The screen now changes to the edit mode. Just start entering some text, as if you wrote an e-mail.
+   * The screen now changes to the edit mode. Just start entering some text, like when writing an e-mail.
    * Click =[Save]= to save the page. The edit mode disappears and you will be redirected to the topic you just created. *Congratulations - you are now actively participating in Foswiki!* And it was really simple, wasn't it?
 
 Editing an existing topic is even more simple:
