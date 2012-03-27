@@ -80,6 +80,12 @@ to the =jqDialogLink= has been disabled:
 
 In this case the dialog will alwas be fetched again from the backend using the given url.
 
+---++ Button Click Actions
+When the button is clicked:
+   * If the &lt;a&gt; element has the =jqUIDialogClose= class, then the dialog box will close.
+   * If the &lt;a&gt; element has the =jqUIDialogSubmit= class, then a form defined in the dialog box will be submitted.
+   * If the &lt;a&gt; element has an href attribute, then the specified page will be loaded.
+
 ---++ Examples
 %JQREQUIRE{"ui::dialog, ui::button"}%
 
