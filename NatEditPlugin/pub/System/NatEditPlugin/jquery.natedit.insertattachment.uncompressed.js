@@ -10,26 +10,26 @@
     $inserter.find(".baseweb").each(function() {
       var val = $(this).val();
       if (!val) {
-        $(this).val(foswiki.web);
+        $(this).val(foswiki.getPreference('WEB'));
       }
     });
     
     $inserter.find(".basetopic").each(function() {
       var val = $(this).val();
       if (!val) {
-        $(this).val(foswiki.topic);
+        $(this).val(foswiki.getPreference('TOPIC'));
       }
     });
 
     $inserter.find("#natEditInsertAttachmentFile").val("");
 
     $("#natEditInsertAttachmentWeb").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=web&contenttype=text/plain&skin=text", {
+      foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference('SYSTEMWEB')+"/JQueryAjaxHelper?section=web&contenttype=text/plain&skin=text", {
         matchCase: true
     });
 
     $("#natEditInsertAttachmentTopic").autocomplete(
-      foswiki.scriptUrlPath+"/view/"+foswiki.systemWebName+"/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text", {
+      foswiki.getPreference('SCRIPTURLPATH')+"/view/"+foswiki.getPreference('SYSTEMWEB')+"/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text", {
         matchCase: true,
 	extraParams: {
 	  baseweb: function() { 
@@ -96,7 +96,7 @@
     nateditor._prevTopic = topic;
     $("#natEditInsertAttachments").empty().append("<span class='jqAjaxLoader'>&nbsp;</span>").css({overflow:'auto'});
     $("#natEditInsertAttachments").load(
-      foswiki.scriptUrlPath+"/rest/RenderPlugin/template?refresh=dbcache;name=editdialog;expand=insertattachment::loadattachments;baseweb="+web+";basetopic="+topic,
+      foswiki.getPreference('SCRIPTURLPATH')+"/rest/RenderPlugin/template?refresh=dbcache;name=editdialog;expand=insertattachment::loadattachments;baseweb="+web+";basetopic="+topic,
       function() {
         //var found = 0;
 	$("#natEditInsertAttachment label").each(function() {
@@ -106,7 +106,7 @@
 	  if (opts.fileName.match(/jpe?g|gif|png|bmp/i)) {
 	    var src = opts.url;
 	    if (foswiki.getPreference('ImagePluginEnabled')) {
-	      src = foswiki.scriptUrlPath+"/rest/ImagePlugin/resize?"+
+	      src = foswiki.getPreference('SCRIPTURLPATH')+"/rest/ImagePlugin/resize?"+
 		"topic="+opts.web+"."+opts.topic+";"+
 		"file="+opts.fileName+";"+
 		"width=70";
@@ -137,10 +137,12 @@
    * handles the submit action for the insert attachment dialog
    */
   $.natedit.handleInsertAttachment = function(nateditor) {
-    var markup;
-    var web = $("#natEditInsertAttachmentWeb").val();
-    var topic = $("#natEditInsertAttachmentTopic").val();
-    var fileName = $("#natEditInsertAttachmentFile").val();
+    var markup,
+        web = $("#natEditInsertAttachmentWeb").val(),
+        topic = $("#natEditInsertAttachmentTopic").val(),
+        fileName = $("#natEditInsertAttachmentFile").val(),
+        baseWeb = foswiki.getPreference('WEB'),
+        baseTopic = foswiki.getPreference('TOPIC');
 
     if (!fileName) {
       return;
@@ -148,12 +150,12 @@
 
     var linktext = $("#natEditInsertAttachmentText").val();
     var url = "%PUBURL%/"+web+"/"+topic+"/"+fileName;
-    if (web == foswiki.web && topic == foswiki.topic) {
+    if (web == baseWeb && topic == baseTopic) {
       url = "%ATTACHURL%/"+fileName;
     }
 
     if (foswiki.getPreference('ImagePluginEnabled') && fileName.match(/jpe?g|gif|png|bmp/i) && !linktext) {
-      if (web == foswiki.web && topic == foswiki.topic) {
+      if (web == baseWeb && topic == baseTopic) {
         markup = '%IMAGE{"'+fileName+'"';
       } else {
         markup = '%IMAGE{"'+web+"/"+topic+"/"+fileName+'"';

@@ -11,7 +11,7 @@
     $inserter.find(".baseweb").each(function() {
       var val = $(this).val();
       if (!val) {
-        $(this).val(foswiki.web);
+        $(this).val(foswiki.getPreference('WEB'));
       }
     });
 
@@ -52,26 +52,29 @@
    */
   $.natedit.handleInsertLink = function(nateditor) {
     //var [startPos, endPos] = nateditor.getSelectionRange(nateditor);
-    var flag = $("#natEditInsertLinkFlag").val();
-    var markup;
+    var flag = $("#natEditInsertLinkFlag").val(), 
+        markup,
+        baseWeb = foswiki.getPreference('WEB'),
+        web = $("#natEditInsertLinkWeb").val(),
+        topic = $("#natEditInsertLinkTopic").val(),
+        linktext = $("#natEditInsertLinkTextTopic").val(),
+        url = $("#natEditInsertLinkUrl").val();
+
     if (flag == "topic") {
-      var web = $("#natEditInsertLinkWeb").val();
-      var topic = $("#natEditInsertLinkTopic").val();
-      var linktext = $("#natEditInsertLinkTextTopic").val();
       if (linktext) {
-        if (web == foswiki.web) {
+        if (web == baseWeb) {
           markup = "[["+topic+"]["+linktext+"]]";
         } else {
           markup = "[["+web+"."+topic+"]["+linktext+"]]";
         }
-      } else if (web == foswiki.web) {
+      } else if (web == baseWeb) {
         markup = "[["+topic+"]]";
       } else {
-        markup = "[["+web+"."+topic+"]["+topic+"]]";
+        markup = "[["+web+"."+topic+"]]";
       }
     } else {
-      var url = $("#natEditInsertLinkUrl").val();
-      var linktext = $("#natEditInsertLinkTextExternal").val();
+      linktext = $("#natEditInsertLinkTextExternal").val();
+
       if (linktext) {
 	markup = "[["+url+"]["+linktext+"]]";
       } else {
