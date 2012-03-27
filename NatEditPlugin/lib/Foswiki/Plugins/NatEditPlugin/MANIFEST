@@ -5,6 +5,8 @@ data/System/NatEditWordHelpText.txt 0644
 lib/Foswiki/Plugins/NatEditPlugin/Config.spec 0644
 lib/Foswiki/Plugins/NatEditPlugin/NATEDIT.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin.pm 0644
+lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm 0644
+lib/Foswiki/Plugins/NatEditPlugin/FormList.pm 0644
 locale/NatEditPlugin/de.po 0644
 locale/NatEditPlugin/Foswiki.pot 0644
 pub/System/NatEditPlugin/default/btn_left.gif 0644

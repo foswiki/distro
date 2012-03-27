@@ -13,7 +13,11 @@
 package Foswiki::Plugins::NatEditPlugin;
 
 use strict;
-use Foswiki::Func;
+use warnings;
+
+use Foswiki::Func       ();
+use Foswiki::Plugins    ();
+use Foswiki::Validation ();
 
 our $VERSION           = '$Rev$';
 our $RELEASE           = '6.04';
@@ -24,10 +28,6 @@ our $baseTopic;
 our $doneNonce;
 
 use constant DEBUG => 0;    # toggle me
-use Foswiki::Func                  ();
-use Foswiki::Plugins               ();
-use Foswiki::Validation            ();
-use Foswiki::Plugins::JQueryPlugin ();
 
 ###############################################################################
 sub writeDebug {
@@ -41,84 +41,24 @@ sub writeDebug {
 sub initPlugin {
     ( $baseTopic, $baseWeb ) = @_;
 
-    Foswiki::Func::registerTagHandler( 'NATFORMBUTTON',  \&handleNATFORMBUTTON );
-    Foswiki::Func::registerTagHandler( 'NATFORMLIST', \&handleNATFORMLIST );
+    Foswiki::Func::registerTagHandler(
+        'NATFORMBUTTON',
+        sub {
+            require Foswiki::Plugins::NatEditPlugin::FormButton;
+            return Foswiki::Plugins::NatEditPlugin::FormButton::handle(@_);
+        }
+    );
+    Foswiki::Func::registerTagHandler(
+        'NATFORMLIST',
+        sub {
+            require Foswiki::Plugins::NatEditPlugin::FormList;
+            return Foswiki::Plugins::NatEditPlugin::FormList::handle(@_);
+        }
+    );
 
     $doneNonce = 0;
 
     return 1;
-}
-
-###############################################################################
-# render a button to add/change the form while editing
-# returns
-#    * the empty string if there's no WEBFORM
-#    * or "Add form" if there is no form attached to a topic yet
-#    * or "Change form" otherwise
-#
-# there are no native means besides the "addform" template being used
-# to render the FORMFIELDS. but this is not what we need here at all. infact
-# we need an empty addform.nat.tmp to switch off this feature of FORMFIELDS
-sub handleNATFORMBUTTON {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
-
-    Foswiki::Plugins::JQueryPlugin::createPlugin("natedit");
-
-    my $saveCmd = '';
-    my $request = Foswiki::Func::getCgiQuery();
-    $saveCmd = $request->param('cmd') || '' if $request;
-    return '' if $saveCmd eq 'repRev';
-
-    my $form = $request->param('formtemplate') || '';
-
-    unless ($form) {
-        my ( $meta, $dumy ) = Foswiki::Func::readTopic( $theWeb, $theTopic );
-        my $formMeta = $meta->get('FORM');
-        $form = $formMeta->{"name"} if $formMeta;
-    }
-
-    $form = '' if $form eq 'none';
-
-    my $action;
-    my $actionTitle;
-    my $actionText;
-
-    if ($form) {
-        $action = 'replaceform';
-    }
-    else {
-        $action = 'addform';
-    }
-
-    if ($form) {
-        $actionText = $session->{i18n}->maketext("Change form");
-        $actionTitle =
-          $session->{i18n}->maketext( "Change the current form of <nop>[_1]",
-            "$theWeb.$theTopic" );
-    }
-    elsif ( Foswiki::Func::getPreferencesValue( 'WEBFORMS', $theWeb ) ) {
-        $actionText = $session->{i18n}->maketext("Add form");
-        $actionTitle =
-          $session->{i18n}
-          ->maketext( "Add a new form to <nop>[_1]", "$theWeb.$theTopic" );
-    }
-    else {
-        return '';
-    }
-    $actionText  =~ s/&&/\&/g;
-    $actionTitle =~ s/&&/\&/g;
-
-    my $theFormat = $params->{_DEFAULT} || $params->{format} || '$link';
-    $theFormat =~
-s/\$link/<a href='\$url' accesskey='f' title='\$title'><span>\$acton<\/span><\/a>/g;
-    $theFormat =~ s/\$url/javascript:\$script/g;
-    $theFormat =~ s/\$script/submitEditForm('save', '$action');/g;
-    $theFormat =~ s/\$title/$actionTitle/g;
-    $theFormat =~ s/\$action/$actionText/g;
-    $theFormat =~ s/\$id/$action/g;
-    escapeParameter($theFormat);
-
-    return $theFormat;
 }
 
 ###############################################################################
@@ -248,87 +188,6 @@ sub beforeEditHandler {
     #print STDERR "nonce=$nonce\n";
 
     $response->pushHeader( 'X-Foswiki-Nonce', $nonce ) if defined $nonce;
-}
-
-###############################################################################
-# taken from Foswiki::UI::ChangeForm and leveraged to normal formatting standards
-sub handleNATFORMLIST {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
-
-    my $theFormat =
-         $params->{_DEFAULT}
-      || $params->{format}
-      || '<label><input type="radio" name="formtemplate" id="formtemplateelem$index" $checked value="$name">'
-      . '&nbsp;$formTopic</input></label>';
-
-    $theWeb   = $params->{web}   if defined $params->{web};
-    $theTopic = $params->{topic} if defined $params->{topic};
-    my $theSeparator = $params->{separator};
-    my $theHeader    = $params->{header} || '';
-    my $theFooter    = $params->{footer} || '';
-    my $theSelected  = $params->{selected};
-
-    my $request = Foswiki::Func::getCgiQuery();
-    $theSelected = $request->param('formtemplate') unless defined $theSelected;
-    $theSeparator = '<br />' unless defined $theSeparator;
-
-    unless ($theSelected) {
-        my ($meta) = Foswiki::Func::readTopic( $theWeb, $theTopic );
-        my $form = $meta->get('FORM');
-        $theSelected = $form->{name} if $form;
-    }
-    $theSelected = 'none' unless $theSelected;
-
-    my $legalForms = Foswiki::Func::getPreferencesValue( 'WEBFORMS', $theWeb );
-    $legalForms =~ s/^\s*//;
-    $legalForms =~ s/\s*$//;
-    my %forms = map { $_ => 1 } split( /[,\s]+/, $legalForms );
-    my @forms = sort keys %forms;
-    push @forms, 'none';
-
-    my @formList = '';
-    my $index    = 0;
-    foreach my $form (@forms) {
-        $index++;
-        my $text    = $theFormat;
-        my $checked = '';
-        $checked = 'checked' if $form eq $theSelected;
-        my ( $formWeb, $formTopic ) =
-          $session->normalizeWebTopicName( $theWeb, $form );
-
-        $text =~ s/\$index/$index/g;
-        $text =~ s/\$checked/$checked/g;
-        $text =~ s/\$name/$form/g;
-        $text =~ s/\$formWeb/$formWeb/g;
-        $text =~ s/\$formTopic/$formTopic/g;
-
-        push @formList, $text;
-    }
-    my $result = $theHeader . join( $theSeparator, @formList ) . $theFooter;
-    $result =~ s/\$count/$index/g;
-    $result =~ s/\$web/$theWeb/g;
-    $result =~ s/\$topic/$theTopic/g;
-    escapeParameter($result);
-
-    return $result;
-}
-
-###############################################################################
-sub escapeParameter {
-
-    return 0 unless $_[0];
-
-    my $found = 0;
-
-    $found = 1 if $_[0] =~ s/\$percnt/%/g;
-    $found = 1 if $_[0] =~ s/\$nop//g;
-    $found = 1 if $_[0] =~ s/\\n/\n/g;
-    $found = 1 if $_[0] =~ s/\$n/\n/g;
-    $found = 1 if $_[0] =~ s/\\%/%/g;
-    $found = 1 if $_[0] =~ s/\\"/"/g;
-    $found = 1 if $_[0] =~ s/\$dollar/\$/g;
-
-    return $found;
 }
 
 1;
