@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-23 12:15+0200\n"
+"PO-Revision-Date: 2012-03-28 08:23+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -1157,7 +1157,7 @@ msgstr "建立新主題"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "未指定建立且群組不存在"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1474,7 +1474,7 @@ msgstr "外掛失敗"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr ""
+msgstr "無法新增使用者："
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1606,7 +1606,7 @@ msgstr "群組"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "群組不存在且不準建立"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1614,7 +1614,7 @@ msgstr "群組名稱"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "群組名稱必需以 Group 結尾"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1876,7 +1876,7 @@ msgstr "啟動碼錯誤"
 
 #: core/templates/messages.tmpl:249
 msgid "Invalid Input"
-msgstr ""
+msgstr "輸入錯誤"
 
 #: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
 #: core/templates/messages.tmpl:342
@@ -2153,7 +2153,7 @@ msgstr "新密碼"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
 msgid "New password did not match existing password for this user"
-msgstr ""
+msgstr "使用者的新密碼與現存密碼不同"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2356,9 +2356,8 @@ msgid "Password reset failed"
 msgstr "密碼重設失敗"
 
 #: core/templates/messages.tmpl:174
-#, fuzzy
 msgid "Passwords disabled"
-msgstr "密碼重設失敗"
+msgstr "密碼禁用"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -3036,7 +3035,7 @@ msgstr "提交內容："
 
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "Subscribe"
-msgstr ""
+msgstr "訂閱"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
@@ -3157,9 +3156,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "系統管理員禁止新用戶註冊。"
 
 #: core/templates/messages.tmpl:176
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr "系統管理員禁止新用戶註冊。"
+msgstr "管理員禁止密碼變更。"
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
@@ -3214,15 +3212,13 @@ msgstr ""
 "到上頁」。Foswiki 會使用「較安全但比事後後悔好的方法」。"
 
 #: core/templates/messages.tmpl:335
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "這個帳號的電子郵件位址不合法。"
+msgstr "此帳號的電子郵件被退件。"
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "這個帳號的電子郵件位址不合法。"
+msgstr "此帳號的電子郵件已被另一個使用者註冊。"
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3300,7 +3296,7 @@ msgstr "使用者 %1 已啟動並可登入。"
 
 #: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "=%1= 的值已被退回。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
@@ -3328,9 +3324,8 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必須有一行包含 %1，參考 %2 (或 %3)"
 
 #: core/templates/messages.tmpl:506
-#, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "將 %1 加入 %2 群組時發生錯誤。"
+msgstr "加入 %2 群組時發生錯誤。%1"
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3675,14 +3670,13 @@ msgstr "使用範本:"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "使用者 ％1 無 %2 的變更權限。"
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
 #: core/lib/Foswiki/UserMapping.pm:364
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 至少需加入一個群組，無法刪除"
+msgstr "使用者 %1 不在群組中，無法被移除"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -3705,12 +3699,12 @@ msgstr "用戶"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "使用者無法加入 %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "使用者無法自 ％1 移除"
 
 #: core/templates/messages.tmpl:192
 msgid ""
