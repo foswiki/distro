@@ -144,7 +144,7 @@ sub load {
             my $here = tell $F;
             while ( my $l = <$F> ) {
                 last if $l =~ /^=/;
-                print STDERR "CACHE $uid< $l";
+                print STDERR "CACHE $uid< " . Foswiki::urlDecode($l);
             }
             seek( $F, $here, 0 );
         }
