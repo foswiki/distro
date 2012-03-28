@@ -2667,7 +2667,7 @@ Redirect to URL
    * =$query= - CGI query object. Ignored, only there for compatibility. The session CGI query object is used instead.
    * =$url=   - URL to redirect to
    * =$passthru= - enable passthrough.
-   * =$status= - HTTP status code (30x) to redirect with. Optional, defaults to 302.
+   * =$status= - HTTP status code (30x) to redirect with. Optional, defaults to 302. *Since* 2012-03-28
 
 Return:             none
 
