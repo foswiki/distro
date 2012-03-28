@@ -1,2 +1,2 @@
 JSON,>=2.17,cpan,Required. Available from the CPAN archive.
-JSON::XS,>=2.270,cpan,Required. Available from the CPAN archive.
+JSON::XS,>=2.27,cpan,Required. Available from the CPAN archive.
