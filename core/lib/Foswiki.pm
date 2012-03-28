@@ -1109,16 +1109,17 @@ sub splitAnchorFromUrl {
 
 =begin TML
 
----++ ObjectMethod redirect( $url, $passthrough )
+---++ ObjectMethod redirect( $url, $passthrough, $status )
 
    * $url - url or topic to redirect to
    * $passthrough - (optional) parameter to pass through current query
      parameters (see below)
+   * $status - HTTP status code (30x) to redirect with. Defaults to 302.
 
 Redirects the request to =$url=, *unless*
    1 It is overridden by a plugin declaring a =redirectCgiQueryHandler=
      (a dangerous, deprecated handler!)
-   1 =$session->{request}= is =undef= or
+   1 =$session->{request}= is =undef=
 Thus a redirect is only generated when in a CGI context.
 
 Normally this method will ignore parameters to the current query. Sometimes,
@@ -1138,7 +1139,7 @@ server.
 =cut
 
 sub redirect {
-    my ( $this, $url, $passthru ) = @_;
+    my ( $this, $url, $passthru, $status ) = @_;
     ASSERT( defined $url ) if DEBUG;
 
     return unless $this->{request};
@@ -1208,8 +1209,11 @@ sub redirect {
     # Foswiki::Response::redirect doesn't automatically pass on the cookies
     # for us, so we have to do it explicitly; otherwise the session cookie
     # won't get passed on.
-    $this->{response}
-      ->redirect( -url => $url, -cookies => $this->{response}->cookies() );
+    $this->{response}->redirect( 
+        -url => $url, 
+        -cookies => $this->{response}->cookies(),
+        -status => $status,
+    );
 }
 
 =begin TML
