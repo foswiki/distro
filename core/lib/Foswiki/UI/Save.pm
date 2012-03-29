@@ -483,7 +483,7 @@ WARN
                 \&Foswiki::Sandbox::validateTopicName );
             last if ( $session->topicExists( $w, $t ) );
         }
-        $session->redirect( $session->redirectto("$w.$t"), undef, 1 );
+        $session->redirect( $session->redirectto("$w.$t") );
 
         return;
     }
