@@ -2640,17 +2640,16 @@ sub writeHeader {
 
 =begin TML
 
----+++ redirectCgiQuery( $query, $url, $passthru, $status )
+---+++ redirectCgiQuery( $query, $url, $passthru )
 
 Redirect to URL
    * =$query= - CGI query object. Ignored, only there for compatibility. The session CGI query object is used instead.
    * =$url=   - URL to redirect to
    * =$passthru= - enable passthrough.
-   * =$status= - HTTP status code (30x) to redirect with. Optional, defaults to 302. *Since* 2012-03-28
 
 Return:             none
 
-Issue a =Location= HTTP header that will cause a redirect to a new URL.
+Print output to STDOUT that will cause a 302 redirect to a new URL.
 Nothing more should be printed to STDOUT after this method has been called.
 
 The =$passthru= parameter allows you to pass the parameters that were passed
@@ -2676,11 +2675,9 @@ Foswiki installation.
 =cut
 
 sub redirectCgiQuery {
-    my ( $query, $url, $passthru, $status ) = @_;
+    my ( $query, $url, $passthru ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    writeWarning("redirectCgiQuery: not a valid redirect status: $status")
-        if $status && $status !~ /^\s*3\d\d.*/;
-    return $Foswiki::Plugins::SESSION->redirect( $url, $passthru, $status );
+    return $Foswiki::Plugins::SESSION->redirect( $url, $passthru );
 }
 
 =begin TML
