@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-28 08:23+0200\n"
+"PO-Revision-Date: 2012-03-29 12:10+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -3810,9 +3810,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "警告: 找不到主題%1. %2"
 
 #: core/templates/messages.tmpl:601
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "警告: 找不到主題%1. %2"
+msgstr "警告: 找不到子網 %1 中的主題 %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1018
 msgid "Warning: Could not send confirmation email"
@@ -3827,18 +3826,16 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "警告: \\'include\\' 的主題不存在！"
+msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告: \\'include\\' 的主題不存在！"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "警告: \\'include\\' 的主題不存在！"
+msgstr "警告: \\'include\\' 主題 ％1的表格定義不存在！"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Web"
@@ -3999,7 +3996,7 @@ msgstr "您能為本子網改名。"
 #: core/templates/messages.tmpl:538 core/templates/messages.tmpl:544
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
-msgstr ""
+msgstr "你不能為遺失的群組增加使用者，除非設定建立選項。"
 
 #: core/templates/validate.tmpl:28
 msgid ""
@@ -4008,11 +4005,10 @@ msgid ""
 msgstr "因為您的瀏覽器未啟用 Cookies 或 Javascript，您將無法手動確認變更。"
 
 #: core/templates/messages.tmpl:700
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
-msgstr "因為您的瀏覽器未啟用 Cookies 或 Javascript，您將無法手動確認變更。"
+msgstr "因為您的瀏覽器未啟用 Cookies 或 Javascript，您將無法繼續。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
@@ -4142,9 +4138,8 @@ msgid "Your password has been changed to %1."
 msgstr "您的密碼已改成 %1。"
 
 #: core/templates/messages.tmpl:180
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "您的密碼已改成 %1。"
+msgstr "您的密碼未改變。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
@@ -4335,9 +4330,8 @@ msgid "retrieved at %1"
 msgstr "自 %1 找出"
 
 #: core/templates/viewprint.tmpl:16
-#, fuzzy
 msgid "revision %1"
-msgstr "(修訂版 %1)"
+msgstr "修訂版 %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
@@ -4361,7 +4355,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='編輯主題' accesskey='w'>編輯(&W)"
+msgstr "title='編輯主題' accesskey='w'>編輯(&w)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
@@ -4369,7 +4363,7 @@ msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='交織' accesskey='i'>交織(&I)"
+msgstr "title='交織' accesskey='i'>交織(&i)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4378,7 +4372,7 @@ msgstr "title='列印本主題' accesskey='p' >列印(&P)"
 #: core/templates/viewtopicactionbuttons.tmpl:29
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
-msgstr "title='搜尋所有子網中連結至此的主題' accesskey='l'>全站搜尋(&L)"
+msgstr "title='搜尋所有子網中連結至此的主題' accesskey='l'>全站搜尋(&l)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:31
 msgid ""
@@ -4389,21 +4383,19 @@ msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>反向連
 #: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
-msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網搜尋(&B)"
+msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網搜尋(&b)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='並列瀏覽' accesskey='s'>並列(&S)"
+msgstr "title='並列瀏覽' accesskey='s'>並列(&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
+msgstr "title='訂閱主題' accesskey='s'>訂閱(&S)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='列印本主題' accesskey='p' >列印(&P)"
+msgstr "title='退訂主題' accesskey='s' >退訂(&s)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
