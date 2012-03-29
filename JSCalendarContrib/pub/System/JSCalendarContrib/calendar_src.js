@@ -12,8 +12,6 @@
  * Read the entire license text here: http://www.gnu.org/licenses/lgpl.html
  */
 
-// $Id: /twiki.org/trunk/JSCalendarContrib/pub/TWiki/JSCalendarContrib/calendar.js 15976 2008-09-10T14:55:50.725566Z ArthurClemens  $
-
 // patched to make the calendar appear in the right position on IE7, using patch
 // http://sourceforge.net/tracker/index.php?func=detail&aid=1679433&group_id=75569&atid=544287
 
@@ -1628,6 +1626,7 @@ Date.parseDate = function(str, fmt) {
 			for (j = 0; j < 12; ++j) {
 				if (Calendar._MN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
 			}
+			if (m == -1) m = parseInt(a[i], 10) - 1;
 			break;
 
 		    case "%H":

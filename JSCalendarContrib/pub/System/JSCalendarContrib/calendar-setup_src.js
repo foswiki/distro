@@ -19,8 +19,6 @@
  * than modifying calendar.js itself).
  */
 
-// $Id: /twiki.org/trunk/JSCalendarContrib/pub/TWiki/JSCalendarContrib/calendar-setup.js 6477 2005-12-27T20:23:39.822415Z AndreUlrich  $
-
 /**
  *  This function "patches" an input field (or other element) to use a calendar
  *  widget for date selection.
