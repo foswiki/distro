@@ -1845,6 +1845,9 @@ sub test_sanity_link_tests {
 sub test_ampersand_querystring {
     my ($this) = shift;
 
+    $this->expect_failure( 'Test does\'t cater to ShortURL configurations',
+        using => 'ShortURLs' );
+
     $this->_check_rendered_linktext(
         "$this->{test_topic}?q=r&s=t",
         {
