@@ -116,25 +116,29 @@ sub tear_down {
 sub test_TOOLTIPS_on {
     my $this = shift;
 
-    my $expected = <<'HERE';
+    my $scriptUrlPath = Foswiki::Func::getScriptUrlPath($this->{test_web}, $this->{test_topic}, 'view');
+    $scriptUrlPath =~ s/$this->{test_topic}//;
+
+
+    my $expected = <<"HERE";
  <ol>
-<li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkTopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE blah/matchme.blah">OkTopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkATopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE dontmatchme.blah">OkATopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkBTopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE dont.matchmeblah">Ok'Topic'</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>Link dont.matchmeblah">LunchLink</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>Link dont.matchmeblah">Lunch <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">OneSingleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">1 <nop>Sinlke <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">OneDoubleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">1 double <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">SingleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">Sinlke <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">DoubleQuote</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">double <nop>Q <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch n Learn dont.matchmeblah">NoTopicLink</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch n Learn dont.matchmeblah">no topic <nop>Link</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">QuoteNoTopicLink</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">no topic <nop>Link</a>
+<li> <a href="${scriptUrlPath}OkTopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE blah/matchme.blah">OkTopic</a>
+</li> <li> <a href="${scriptUrlPath}OkATopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE dontmatchme.blah">OkATopic</a>
+</li> <li> <a href="${scriptUrlPath}OkBTopic" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE dont.matchmeblah">Ok'Topic'</a>
+</li> <li> <a href="${scriptUrlPath}LunchLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>Link dont.matchmeblah">LunchLink</a>
+</li> <li> <a href="${scriptUrlPath}LunchLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>Link dont.matchmeblah">Lunch <nop>Link</a>
+</li> <li> <a href="${scriptUrlPath}OneSingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">OneSingleQuote</a>
+</li> <li> <a href="${scriptUrlPath}OneSingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">1 <nop>Sinlke <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrlPath}OneDoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">OneDoubleQuote</a>
+</li> <li> <a href="${scriptUrlPath}OneDoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>nLearn dont.matchmeblah">1 double <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrlPath}SingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">SingleQuote</a>
+</li> <li> <a href="${scriptUrlPath}SingleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">Sinlke <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrlPath}DoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">DoubleQuote</a>
+</li> <li> <a href="${scriptUrlPath}DoubleQuote" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">double <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrlPath}NoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch n Learn dont.matchmeblah">NoTopicLink</a>
+</li> <li> <a href="${scriptUrlPath}NoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch n Learn dont.matchmeblah">no topic <nop>Link</a>
+</li> <li> <a href="${scriptUrlPath}QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">QuoteNoTopicLink</a>
+</li> <li> <a href="${scriptUrlPath}QuoteNoTopicLink" title="guest - DATE - TIME - r1.1: <nop>BLEEGLE Lunch<nop>n<nop>Learn dont.matchmeblah">no topic <nop>Link</a>
 </li></ol> 
 <p></p>
 <p></p>
@@ -196,14 +200,17 @@ HERE
     my $sessionlinktooltipinfo = $this->{session}->{prefs}->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals('on ', $sessionlinktooltipinfo);
 
+    my $scriptUrlPath = Foswiki::Func::getScriptUrlPath($this->{test_web}, $this->{test_topic}, 'view');
+    $scriptUrlPath =~ s/$this->{test_topic}//;
+
     my $ex1 = Foswiki::Func::expandCommonVariables( $topicObject->text(), $topicObject->topic, $topicObject->web, $topicObject );
     my $rendered = Foswiki::Func::renderText( $topicObject->text(), $topicObject->web, $topicObject->topic );
     _cut_the_crap(\$rendered);
-    $this->assert_str_equals(<<'EXPECTED', $rendered."\n");
+    $this->assert_str_equals(<<"EXPECTED", $rendered."\n");
  <ol>
-<li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkTopic" title="on ">OkTopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkATopic" title="on ">OkATopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkBTopic" title="on ">Ok'Topic'</a>
+<li> <a href="${scriptUrlPath}OkTopic" title="on ">OkTopic</a>
+</li> <li> <a href="${scriptUrlPath}OkATopic" title="on ">OkATopic</a>
+</li> <li> <a href="${scriptUrlPath}OkBTopic" title="on ">Ok'Topic'</a>
 </li></ol> 
 <p></p> <ul>
 <li> Set LINKTOOLTIPINFO = on 
@@ -214,11 +221,11 @@ EXPECTED
 
     my $tml = $topicObject->renderTML($topicObject->text());
     _cut_the_crap(\$tml);
-    $this->assert_str_equals(<<'EXPECTED', $tml."\n");
+    $this->assert_str_equals(<<"EXPECTED", $tml."\n");
  <ol>
-<li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkTopic" title="on ">OkTopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkATopic" title="on ">OkATopic</a>
-</li> <li> <a href="/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkBTopic" title="on ">Ok'Topic'</a>
+<li> <a href="${scriptUrlPath}OkTopic" title="on ">OkTopic</a>
+</li> <li> <a href="${scriptUrlPath}OkATopic" title="on ">OkATopic</a>
+</li> <li> <a href="${scriptUrlPath}OkBTopic" title="on ">Ok'Topic'</a>
 </li></ol> 
 <p></p> <ul>
 <li> Set LINKTOOLTIPINFO = on 
@@ -245,31 +252,34 @@ sub test_TOOLTIPS_other_topic_context {
     my $sessionlinktooltipinfo = $this->{session}->{prefs}->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals('off', $sessionlinktooltipinfo);
 
+    my $scriptUrl = Foswiki::Func::getScriptUrl($this->{test_web}, $this->{test_topic}, 'view');
+    $scriptUrl =~ s/$this->{test_topic}//;
+
     my $ex1 = Foswiki::Func::expandCommonVariables( $topicObject->text(), $topicObject->topic, $topicObject->web, $topicObject );
     my $rendered = Foswiki::Func::renderText( $topicObject->text(), $topicObject->web, $topicObject->topic );
 #    $this->assert_str_equals(<<'EXPECTED', $rendered);
 #EXPECTED
 
     my $tml = $topicObject->renderTML($topicObject->text());
-    $this->assert_str_equals(<<'EXPECTED', $tml."\n");
+    $this->assert_str_equals(<<"EXPECTED", $tml."\n");
  <ol>
-<li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkTopic">OkTopic</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkATopic">OkATopic</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OkBTopic">Ok'Topic'</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink">LunchLink</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/LunchLink">Lunch <nop>Link</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote">OneSingleQuote</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneSingleQuote">1 <nop>Sinlke <nop>Q <nop>Link</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote">OneDoubleQuote</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/OneDoubleQuote">1 double <nop>Q <nop>Link</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote">SingleQuote</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/SingleQuote">Sinlke <nop>Q <nop>Link</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote">DoubleQuote</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/DoubleQuote">double <nop>Q <nop>Link</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink">NoTopicLink</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/NoTopicLink">no topic <nop>Link</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink">QuoteNoTopicLink</a>
-</li> <li> <a href="http://your.domain.com/foswiki/bin/view/TemporaryRenderTestsTestWebRenderTests/QuoteNoTopicLink">no topic <nop>Link</a>
+<li> <a href="${scriptUrl}OkTopic">OkTopic</a>
+</li> <li> <a href="${scriptUrl}OkATopic">OkATopic</a>
+</li> <li> <a href="${scriptUrl}OkBTopic">Ok'Topic'</a>
+</li> <li> <a href="${scriptUrl}LunchLink">LunchLink</a>
+</li> <li> <a href="${scriptUrl}LunchLink">Lunch <nop>Link</a>
+</li> <li> <a href="${scriptUrl}OneSingleQuote">OneSingleQuote</a>
+</li> <li> <a href="${scriptUrl}OneSingleQuote">1 <nop>Sinlke <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrl}OneDoubleQuote">OneDoubleQuote</a>
+</li> <li> <a href="${scriptUrl}OneDoubleQuote">1 double <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrl}SingleQuote">SingleQuote</a>
+</li> <li> <a href="${scriptUrl}SingleQuote">Sinlke <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrl}DoubleQuote">DoubleQuote</a>
+</li> <li> <a href="${scriptUrl}DoubleQuote">double <nop>Q <nop>Link</a>
+</li> <li> <a href="${scriptUrl}NoTopicLink">NoTopicLink</a>
+</li> <li> <a href="${scriptUrl}NoTopicLink">no topic <nop>Link</a>
+</li> <li> <a href="${scriptUrl}QuoteNoTopicLink">QuoteNoTopicLink</a>
+</li> <li> <a href="${scriptUrl}QuoteNoTopicLink">no topic <nop>Link</a>
 </li></ol> 
 <p></p>
 <p></p>
