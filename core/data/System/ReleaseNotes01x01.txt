@@ -32,7 +32,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
-   * Foswiki 1.1.5-RC1 was built 22 Mar 2012.  It is a release that fixes some very important issues including some security related issues. It contains 80 fixes and 20 enhancements.
+   * Foswiki 1.1.5-RC1 was built 22 Mar 2012.  It is a release that fixes some very important issues including some security related issues. It contains 81 fixes and 20 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1435,6 +1435,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11675][Item11675]] | Foswiki::Net reported incorrect sendmail return code |
 | [[%BUGS%/Item11680][Item11680]] | Mixed http and https sites get logged off too quickly |
 | [[%BUGS%/Item11682][Item11682]] | LINKTOOLTIPINFO html corrupted if text contained quotes and removal created a WikiWord |
+| [[%BUGS%/Item11701][Item11701]] | JSCalendarContrib should fallback to numbers for month in case it is given a date like 1/12/2012 and format expects 1 Dec 2012. |
 | [[%BUGS%/Item11702][Item11702]] | Redirect call in Save and Rename have incorrect call to Foswiki::redirect() |
 | [[%BUGS%/Item11704][Item11704]] | Document use of %BR% to create linebreaks in FormattedSearch results |
 
