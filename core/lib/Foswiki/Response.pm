@@ -402,10 +402,13 @@ sub redirect {
         [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ], @p );
 
     return unless $url;
+
+    $status = 302 unless $status;
+    ASSERT( $status =~ /^30\d$/, "Not a valid redirect status: '$status'" ) if DEBUG;
     return if ( $status && $status !~ /^\s*3\d\d.*/ );
 
     my @headers = ( -Location => $url );
-    push @headers, '-Status' => ( $status || 302 );
+    push @headers, '-Status' => $status;
     push @headers, '-Cookie' => $cookies if $cookies;
     $this->header(@headers);
 }
