@@ -97,14 +97,11 @@ sub readTopic {
     }
     else {
         undef $version;  # if it's a non-numeric string, we need to return undef
-         # "...$version is defined but refers to a version that does not exist, then $rev is undef"
     }
 
+    return ( undef, undef ) unless $handler->storedDataExists();
+
     ( my $text, $isLatest ) = $handler->getRevision($version);
-    unless ( defined $text ) {
-        ASSERT( not $isLatest ) if DEBUG;
-        return ( undef, $isLatest );
-    }
 
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
@@ -311,13 +308,13 @@ sub getAttachmentVersionInfo {
 }
 
 sub getVersionInfo {
-    my ( $this, $topicObject ) = @_;
-    my $info = $this->askListenersVersionInfo($topicObject);
+    my ( $this, $topicObject, $rev, $attachment ) = @_;
+    my $info = $this->askListenersVersionInfo($topicObject, $rev, $attachment);
 
     if ( not defined $info ) {
         my $handler = $this->getHandler($topicObject);
 
-        $info = $handler->getInfo( $topicObject->getLoadedRev() );
+        $info = $handler->getInfo( $rev );
     }
 
     return $info;
@@ -371,8 +368,9 @@ sub repRev {
     ASSERT($cUID) if DEBUG;
     my $info    = $topicObject->getRevisionInfo();
     my $handler = $this->getHandler($topicObject);
-    $handler->replaceRevision( $topicObject->getEmbeddedStoreForm(),
-        'reprev', $cUID, $info->{date} );
+    $handler->replaceRevision(
+	$topicObject->getEmbeddedStoreForm(), 'reprev', $cUID,
+	defined $options{forcedate} ? $options{forcedate} : $info->{date} );
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
 

@@ -18,6 +18,7 @@ is analagous to the old =Foswiki::Store::RcsWrap=.
 package Foswiki::Store::VC::RcsWrapHandler;
 use strict;
 use warnings;
+use Assert;
 
 use Foswiki::Store::VC::Handler ();
 our @ISA = ('Foswiki::Store::VC::Handler');
@@ -116,12 +117,12 @@ sub ci {
 
     $comment = 'none' unless $comment;
 
-    my ( $cmd, $rcsOutput, $exit );
+    my ( $cmd, $rcsOutput, $exit, $stderr );
     if ( defined($date) ) {
         require Foswiki::Time;
         $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
         $cmd = $Foswiki::cfg{RCS}{ciDateCmd};
-        ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
+        ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
             USERNAME => $user,
             FILENAME => $this->{file},
@@ -131,7 +132,7 @@ sub ci {
     }
     else {
         $cmd = $Foswiki::cfg{RCS}{ciCmd};
-        ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
+        ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
             USERNAME => $user,
             FILENAME => $this->{file},
@@ -145,9 +146,9 @@ sub ci {
               . $this->hidePath( $this->{file} )
               . ' failed: '
               . $exit . ' '
-              . $rcsOutput );
+              . $rcsOutput
+			     . ((DEBUG) ? $stderr : ''));
     }
-
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }
 

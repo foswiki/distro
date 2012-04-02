@@ -594,6 +594,9 @@ most recent revision.
 Designed to be overridden by subclasses, which can call up to this method
 if the main file revision is required.
 
+Note: does *not* handle the case where the latest does not exist but a history
+does; that is regarded as a "non-topic".
+
 =cut
 
 sub getRevision {
@@ -601,7 +604,7 @@ sub getRevision {
     if ( defined $this->{file} && -e $this->{file} ) {
         return ( readFile( $this, $this->{file} ), 1 );
     }
-    return ( undef, 0 );
+    return ( undef, undef );
 }
 
 =begin TML

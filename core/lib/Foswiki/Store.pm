@@ -298,17 +298,19 @@ __END__
 ---++ ObjectMethod readTopic($topicObject, $version) -> ($rev, $isLatest)
    * =$topicObject= - Foswiki::Meta object
    * =$version= - revision identifier, or undef
-Reads the given version of a topic, and populates the $topicObject.
-If the =$version= is undef, then reads the most recent version. 
+Reads the given version of a topic, and populates the =$topicObject=.
+If the =$version= is =undef=, or there is no revision numbered =$version=, then
+reads the most recent version.
 
 Returns the version identifier of the topic that was actually read. If
-the topic does not exist in the store, or $version is defined but refers to a version
-that does not exist, then $rev is undef. $isLatest should be set to
-perl true if the version loaded (or not loaded) is the latest available
-version.
+the topic does not exist in the store, then =$rev= is =undef=. =$isLatest=
+will  be set to true if the version loaded (or not loaded) is the
+latest available version.
 
 =cut
 
+# SMELL: there is no way for a consumer of Store to determine if
+# a specific revision exists or not.
 sub readTopic {
     my( $this, $topicObject, $version ) = @_;
     die "Abstract base class";
@@ -571,7 +573,7 @@ Save a topic or attachment _without_ invoking plugin handlers.
    * =$options= - Ref to hash of options
 =$options= may include:
    * =forcenewrevision= - force a new revision even if one isn't needed
-   * =forcedate= - force the revision date to be this (epoch secs)
+   * =forcedate= - force the revision date to be this (epoch secs) *X* =forcedate= must be equal to or later than the date of the most recent revision already stored for the topic.
    * =minor= - True if this is a minor change (used in log)
    * =author= - cUID of author of the change
 
@@ -596,8 +598,7 @@ content is taken from the content currently loaded in $topicObject.
 Parameters and return value as saveTopic, except
    * =%options= - as for saveTopic, with the extra options:
       * =forcedate= - if we want to force the deposited revision
-        to look as much like the revision specified in =$rev= as possible by
-        reusing the original checkin date.
+        to have this specific epoch date, rather than the default time-of-save. *X* =forcedate= must be equal to or later than the date of the most recent revision already stored for the topic after the top revision has been removed.
       * =operation= - set to the name of the operation performing the save.
         This is used only in the log, and is normally =cmd= or =save=. It
         defaults to =save=.
