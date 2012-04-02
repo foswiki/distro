@@ -2901,7 +2901,7 @@ this.</code></pre>
 HERE
     },
     {
-        exec => $HTML2TML,
+        exec => $ROUNDTRIP,
         name => 'ttTableNewlineCorruptionItem11312',
         html => <<'HERE',
 <table border="1" cellpadding="0" cellspacing="1"> 
