@@ -119,7 +119,7 @@ sub wysiwygEditingDisabledForThisContent {
     my $exclusions = $_[1];
     unless ( defined($exclusions) ) {
         $exclusions = Foswiki::Func::getPreferencesValue('WYSIWYG_EXCLUDE')
-          || 'script,style';
+          || 'script,style,table';
     }
     
     # Check for explicit exclusions before generic, non-configurable
@@ -169,6 +169,11 @@ sub wysiwygEditingDisabledForThisContent {
             print STDERR "WYSIWYG_DEBUG: has style\n"
               if (WHY);
             return "Text contains style";
+        }
+        if ( $exclusions =~ /table/ && $_[0] =~ /<table\W/i ) {
+            print STDERR "WYSIWYG_DEBUG: has table\n"
+              if (WHY);
+            return "Text contains table";
         }
     }
 
