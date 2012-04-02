@@ -1,10 +1,10 @@
 # See bottom of file for default license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::Contrib::PlainFileStoreContrib
 
 =cut
-
 
 package Foswiki::Contrib::PlainFileStoreContrib;
 
@@ -13,7 +13,8 @@ use warnings;
 
 our $VERSION = '$Rev: 11239 $';
 our $RELEASE = '1.1.0';
-our $SHORTDESCRIPTION = 'A store implementation using plain text files for all versions of a topic;
+our $SHORTDESCRIPTION =
+  'A store implementation using plain text files for all versions of a topic;
 
 1;
 

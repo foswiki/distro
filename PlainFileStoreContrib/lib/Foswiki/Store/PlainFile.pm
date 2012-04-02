@@ -7,14 +7,15 @@
 Single-file implementation of =Foswiki::Store= that uses normal
 files in a standard directory structure to store versions.
 
-Webs map to directories
-Topics are stored in web/topic.txt
-Topic histories are in web/topic,pfv/
-Attachments are in web/topic/attachment
-Attachment histories are in web/topic/attachment,pfv/
-Histories consist of files numbered for the revision they store
-The latest rev also has a history file (note: this means that
-large attachments are stored twice; same as in the RCS stores)
+   * Webs map to directories; webs only "exist" if they contain a preferences topic.
+   * Topics are in topic.txt. If there is no .txt for a topic, the topics does not exist, even if there is a history.
+   * Topic histories are in web/topic,pfv/
+   * Attachments are in web/topic/attachment
+   * Attachment histories are in web/topic/attachment,pfv/
+   * Histories consist of files numbered for the revision they store
+   * The latest rev also has a history file (note: this means that large attachments are stored twice; same as in the RCS stores)
+   * META:TOPICINFO date and version fields are retrieved from file
+     modification dates; the =$meta= is ignored for these two fields.
 
 Note that this store is well-behaved; there is no confusion about
 the TOPICINFO, which is always up-to-date.
@@ -25,9 +26,9 @@ package Foswiki::Store::PlainFile;
 use strict;
 use warnings;
 
-use File::Copy ();
+use File::Copy            ();
 use File::Copy::Recursive ();
-use Fcntl qw( :DEFAULT :flock SEEK_SET );
+use Fcntl qw( :DEFAULT :flock );
 
 use Foswiki::Store ();
 our @ISA = ('Foswiki::Store');
@@ -35,15 +36,15 @@ our @ISA = ('Foswiki::Store');
 use Assert;
 use Error qw( :try );
 
-use Foswiki          ();
-use Foswiki::Meta    ();
-use Foswiki::Sandbox ();
+use Foswiki                                ();
+use Foswiki::Meta                          ();
+use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
-use Foswiki::Users::BaseUserMapping ();
+use Foswiki::Users::BaseUserMapping        ();
 
 BEGIN {
 
-    # Do a dynamic 'use locale' for this module
+    # Import the locale for sorting
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
@@ -61,30 +62,27 @@ sub finish {
 sub readTopic {
     my ( $this, $meta, $version ) = @_;
 
-    _saveDamage( $meta );
-
     my ( $gotRev, $isLatest ) = $this->askListeners( $meta, $version );
-
-    if ( defined($gotRev) and ( $gotRev > 0 or ($isLatest) ) ) {
+    if ( defined($gotRev) && ( $gotRev > 0 || $isLatest ) ) {
         return ( $gotRev, $isLatest );
     }
     ASSERT( not $isLatest ) if DEBUG;
-
     $isLatest = 0;
 
     # check that the requested revision actually exists
+    my $nr = _numRevisions($meta);
     if ( defined $version && $version =~ /^\d+$/ ) {
-	my $nr = _numRevisions($meta);
         $version = $nr if ( $version == 0 || $version > $nr );
     }
     else {
         undef $version;
-	# if it's a non-numeric string, we need to return undef
-	# "...$version is defined but refers to a version that does
-	# not exist, then $rev is undef"
+
+        # if it's a non-numeric string, we need to return undef
+        # "...$version is defined but refers to a version that does
+        # not exist, then $rev is undef"
     }
 
-    ( my $text, $isLatest ) = _getRevision($meta, undef, $version);
+    ( my $text, $isLatest ) = _getRevision( $meta, undef, $version );
 
     unless ( defined $text ) {
         ASSERT( not $isLatest ) if DEBUG;
@@ -92,32 +90,18 @@ sub readTopic {
     }
 
     $text =~ s/\r//g;    # Remove carriage returns
+                         # Parse meta-data out of the text
     $meta->setEmbeddedStoreForm($text);
 
-    $gotRev = $version;
-    unless ( defined $gotRev ) {
+    $version = $isLatest ? $nr : $version;
 
-        # First try the just-loaded for the revision.
-        my $ri = $meta->get('TOPICINFO');
-        $gotRev = $ri->{version} if defined $ri;
-    }
-    if ( !defined $gotRev ) {
+    # Patch up the revision info
+    $meta->setRevisionInfo(
+        version => $version,
+	date  => ( stat ( _latestFile($meta) ) )[9]
+    );
 
-        # No revision from any other source; must be latest
-        $gotRev = _numRevisions( $meta );
-        ASSERT( defined $gotRev ) if DEBUG;
-    }
-
-    # Add attachments that are new from reading the pub directory.
-    # Only check the currently requested topic.
-    if (   $Foswiki::cfg{RCS}{AutoAttachPubFiles}
-        && $meta->isSessionTopic() )
-    {
-	$this->_autoAttach($meta);
-    }
-
-    ASSERT( defined($gotRev) ) if DEBUG;
-    return ( $gotRev, $isLatest );
+    return ( $version, $isLatest );
 }
 
 # Implement Foswiki::Store
@@ -126,17 +110,17 @@ sub moveAttachment {
         $newAttachment, $cUID )
       = @_;
 
-    _saveDamage( $oldTopicObject );
-    _saveDamage( $newTopicObject );
+    # No need to save damage; we're not looking inside
 
-    my $oldbase = _getPub( $oldTopicObject );
-    if ( -e "$oldbase/$oldAttachment" ) {
-	my $newbase = _getPub($newTopicObject);
-	_moveFile(_latestFile($oldTopicObject, $oldAttachment),
-		  _latestFile($newTopicObject, $newAttachment));
-	_moveFile(_historyDir($oldTopicObject, $oldAttachment),
-		  _historyDir($newTopicObject, $newAttachment));
-	
+    my $oldLatest = _latestFile( $oldTopicObject, $oldAttachment );
+    if ( -e $oldLatest ) {
+        my $newLatest = _latestFile( $newTopicObject, $newAttachment );
+        _moveFile( $oldLatest, $newLatest );
+        _moveFile(
+            _historyDir( $oldTopicObject, $oldAttachment ),
+            _historyDir( $newTopicObject, $newAttachment )
+        );
+
         $this->tellListeners(
             verb          => 'update',
             oldmeta       => $oldTopicObject,
@@ -154,46 +138,52 @@ sub copyAttachment {
         $newAttachment, $cUID )
       = @_;
 
-    _saveDamage( $oldTopicObject );
-    _saveDamage( $newTopicObject );
+    # No need to save damage; we're not looking inside
 
-    my $oldbase = _getPub( $oldTopicObject );
+    my $oldbase = _getPub($oldTopicObject);
     if ( -e "$oldbase/$oldAttachment" ) {
-	my $newbase = _getPub($newTopicObject);
-	_copyFile(_latestFile($oldTopicObject, $oldAttachment),
-		  _latestFile($newTopicObject, $newAttachment));
-	_copyFile(_historyDir($oldTopicObject, $oldAttachment),
-		  _historyDir($newTopicObject, $newAttachment));
-	
+        my $newbase = _getPub($newTopicObject);
+        _copyFile(
+            _latestFile( $oldTopicObject, $oldAttachment ),
+            _latestFile( $newTopicObject, $newAttachment )
+        );
+        _copyFile(
+            _historyDir( $oldTopicObject, $oldAttachment ),
+            _historyDir( $newTopicObject, $newAttachment )
+        );
+
         $this->tellListeners(
             verb          => 'insert',
             newmeta       => $newTopicObject,
             newattachment => $newAttachment
         );
-	_recordChange( $oldTopicObject, $cUID, 0 );
+        _recordChange( $oldTopicObject, $cUID, 0 );
     }
 }
 
 # Implement Foswiki::Store
 sub attachmentExists {
     my ( $this, $meta, $att ) = @_;
-    return -e _latestFile( $meta, $att);
+
+    # No need to save damage; we're not looking inside
+    return -e _latestFile( $meta, $att )
+      || -e _historyFile( $meta, $att );
 }
 
 # Implement Foswiki::Store
 sub moveTopic {
     my ( $this, $oldTopicObject, $newTopicObject, $cUID ) = @_;
 
-    _saveDamage( $oldTopicObject );
+    _saveDamage($oldTopicObject);
 
-    my $rev = _numRevisions( $oldTopicObject );
+    my $rev = _numRevisions($oldTopicObject);
 
-    _moveFile( _latestFile( $oldTopicObject),
-	       _latestFile( $newTopicObject ));
-    _moveFile( _historyDir( $oldTopicObject),
-	       _historyDir( $newTopicObject ));
-    _moveFile( _getPub( $oldTopicObject ),
-	       _getPub( $newTopicObject ) );
+    _moveFile( _latestFile($oldTopicObject), _latestFile($newTopicObject) );
+    _moveFile( _historyDir($oldTopicObject), _historyDir($newTopicObject) );
+    my $pub = _getPub($oldTopicObject);
+    if ( -e $pub ) {
+	_moveFile( $pub,     _getPub($newTopicObject) );
+    }
 
     $this->tellListeners(
         verb    => 'update',
@@ -214,15 +204,19 @@ sub moveTopic {
 sub moveWeb {
     my ( $this, $oldWebObject, $newWebObject, $cUID ) = @_;
 
-    my $oldbase = _getData ($oldWebObject );
-    my $newbase = _getData ($newWebObject );
+    # No need to save damage; we're not looking inside
+
+    my $oldbase = _getData($oldWebObject);
+    my $newbase = _getData($newWebObject);
 
     _moveFile( $oldbase, $newbase );
 
-    $oldbase = _getPub ($oldWebObject );
-    $newbase = _getPub ($newWebObject );
+    $oldbase = _getPub($oldWebObject);
+    if (-e $oldbase) {
+	$newbase = _getPub($newWebObject);
 
-    _moveFile( $oldbase, $newbase );
+	_moveFile( $oldbase, $newbase );
+    }
 
     $this->tellListeners(
         verb    => 'update',
@@ -232,7 +226,8 @@ sub moveWeb {
 
     # We have to log in the new web, otherwise we would re-create the dir with
     # a useless .changes. See Item9278
-    _recordChange( $newWebObject, $cUID, 0, 'Moved from ' . $oldWebObject->web );
+    _recordChange( $newWebObject, $cUID, 0,
+        'Moved from ' . $oldWebObject->web );
 }
 
 # Implement Foswiki::Store
@@ -245,9 +240,6 @@ sub testAttachment {
 # Implement Foswiki::Store
 sub openAttachment {
     my ( $this, $meta, $att, $mode, @opts ) = @_;
-
-    _saveDamage( $meta, $att );
-
     return _openStream( $meta, $att, $mode, @opts );
 }
 
@@ -258,40 +250,34 @@ sub getRevisionHistory {
     my $itr = $this->askListenersRevisionHistory( $meta, $attachment );
     return $itr if defined($itr);
 
-    unless ( -e _historyDir($meta, $attachment) ) {
-	my @list = ();
-	require Foswiki::ListIterator;
-	if ( -e _latestFile($meta, $attachment) ) {
-	    push(@list, 1);
-	}
-	return Foswiki::ListIterator->new( \@list );
+    unless ( -e _historyDir( $meta, $attachment ) ) {
+        my @list = ();
+        require Foswiki::ListIterator;
+        if ( -e _latestFile( $meta, $attachment ) ) {
+            push( @list, 1 );
+        }
+        return Foswiki::ListIterator->new( \@list );
     }
 
-    _saveDamage( $meta );
-
     return Foswiki::Iterator::NumberRangeIterator->new(
-	_numRevisions( $meta, $attachment ), 1 );
+        _numRevisions( $meta, $attachment ), 1 );
 }
 
 # Implement Foswiki::Store
 sub getNextRevision {
     my ( $this, $meta ) = @_;
 
-    _saveDamage( $meta );
-
-    return _numRevisions( $meta ) + 1;
+    return _numRevisions($meta) + 1;
 }
 
 # Implement Foswiki::Store
 sub getRevisionDiff {
     my ( $this, $meta, $rev2, $contextLines ) = @_;
 
-    _saveDamage( $meta );
-
     my $rev1 = $meta->getLoadedRev();
     my @list;
-    my ($text1) = _getRevision($meta, undef, $rev1);
-    my ($text2) = _getRevision($meta, undef, $rev2);
+    my ($text1) = _getRevision( $meta, undef, $rev1 );
+    my ($text2) = _getRevision( $meta, undef, $rev2 );
 
     my $lNew = _split($text1);
     my $lOld = _split($text2);
@@ -308,27 +294,34 @@ sub getRevisionDiff {
 sub getVersionInfo {
     my ( $this, $meta, $rev, $attachment ) = @_;
 
-    _saveDamage( $meta, $attachment );
+    my $info = $this->askListenersVersionInfo( $meta, $rev, $attachment );
+    unless ($info) {
 
-    my $info = $this->askListenersVersionInfo($meta, $rev, $attachment);
-    unless ( $info ) {
-	$info = {};
-	my $df;
-	my $nr = _numRevisions( $meta, $attachment );
-	if ($rev && $rev > 0 && $rev < $nr) {
-	    $df = _historyFile($meta, $attachment, $rev);
-	} else  {
-	    $df = _latestFile( $meta, $attachment );
-	    $rev = $nr;
-	}
-	unless ($attachment) {
-	    # if it's a topic, try and retrieve TOPICINFO
-	    _getTOPICINFO($df, $info);
-	}
-	$info->{date}    = _getTimestamp($df) unless defined $info->{date};
-	$info->{version} = $rev || 1 unless defined $info->{version};
-	$info->{comment} = '' unless defined $info->{comment};
-	$info->{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+        $info = {};
+        my $df;
+        my $nr = _numRevisions( $meta, $attachment );
+        if ( $rev && $rev > 0 && $rev < $nr ) {
+            $df = _historyFile( $meta, $attachment, $rev );
+            unless ( -e $df ) {
+		# May arise if the history is not continuous, or if
+		# there is no history
+                $df = _latestFile( $meta, $attachment );
+                $rev = $nr;
+            }
+        }
+        else {
+            $df = _latestFile( $meta, $attachment );
+            $rev = $nr;
+        }
+        unless ($attachment) {
+
+            # if it's a topic, try and retrieve TOPICINFO
+            _getTOPICINFO( $df, $info );
+        }
+        $info->{date}    = _getTimestamp($df);
+        $info->{version} = $rev;
+        $info->{comment} = '' unless defined $info->{comment};
+        $info->{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
     }
 
     return $info;
@@ -340,65 +333,97 @@ sub saveAttachment {
 
     _saveDamage( $meta, $name );
 
-    my $currentRev = _numRevisions( $meta, $name );
-    my $nextRev    = $currentRev + 1;
+    my $rn = _numRevisions( $meta, $name ) + 1;
     my $verb = ( $meta->hasAttachment($name) ) ? 'update' : 'insert';
 
-    _ci( $meta, $name, 1, $stream, $comment, $cUID );
+    my $latest = _latestFile( $meta, $name );
+    _saveStream( $latest, $stream );
+    my $hf = _historyFile( $meta, $name, $rn );
+    _mkPathTo($hf);
+    File::Copy::copy( $latest, $hf )
+      or die "PlainFile: failed to copy $latest to $hf: $!";
+
+    _recordChange( $meta, $cUID, $rn );
 
     $this->tellListeners(
         verb          => $verb,
         newmeta       => $meta,
         newattachment => $name
     );
-    _recordChange( $meta, $cUID, $nextRev );
-    return $nextRev;
+
+    return $rn;
 }
 
 # Implement Foswiki::Store
 sub saveTopic {
     my ( $this, $meta, $cUID, $options ) = @_;
 
-    _saveDamage( $meta );
+    _saveDamage($meta);
 
-    my $verb = ( -e _latestFile( $meta ) ) ? 'update' : 'insert';
+    my $verb = ( -e _latestFile($meta) ) ? 'update' : 'insert';
+    my $rn = _numRevisions( $meta ) + 1;
 
-    # just in case they are not sequential
-    my $nextRev = _numRevisions( $meta ) + 1;
-    my $ti      = $meta->get('TOPICINFO');
-    $ti->{version} = $nextRev;
+    # Fix TOPICINFO
+    my $ti = $meta->get('TOPICINFO');
+    $ti->{version} = $rn;
+    $ti->{date}    = $options->{forcedate} || time;
     $ti->{author}  = $cUID;
 
-    _ci( $meta, undef, 0, $meta->getEmbeddedStoreForm(),
-	 'save topic', $cUID, $options->{forcedate} );
+    # Create new latest
+    my $latest = _latestFile( $meta );
+    _saveFile( $latest, $meta->getEmbeddedStoreForm() );
+    if ( $options->{forcedate} ) {
+        utime( $options->{forcedate}, $options->{forcedate}, $latest )    # touch
+          or die "PlainFile: could not touch $latest: $!";
+    }
+
+    # Create history file by copying latest (modification date
+    # doesn't matter, so long as it's >= $latest)
+    my $hf = _historyFile( $meta, undef, $rn );
+    _mkPathTo($hf);
+    File::Copy::copy( $latest, $hf )
+      or die "PlainFile: failed to copy $latest to $hf: $!";
 
     my $extra = $options->{minor} ? 'minor' : '';
-    _recordChange( $meta, $cUID, $nextRev, $extra );
+    _recordChange( $meta, $cUID, $rn, $extra );
 
     $this->tellListeners( verb => $verb, newmeta => $meta );
 
-    return $nextRev;
+    return $rn;
 }
 
 # Implement Foswiki::Store
 sub repRev {
     my ( $this, $meta, $cUID, %options ) = @_;
 
-    my $info    = $meta->getRevisionInfo();
-
     _saveDamage($meta);
 
     my $rn = _numRevisions($meta);
-    ASSERT($rn, $meta->getPath) if DEBUG;
-    unlink(_historyFile($meta, undef, $rn));
+    ASSERT( $rn, $meta->getPath ) if DEBUG;
+    my $latest = _latestFile($meta);
+    my $hf = _historyFile( $meta, undef, $rn );
+    my $t = ( stat $latest )[9]; # SMELL: use TOPICINFO?
+    unlink($hf);
 
-    my $ti      = $meta->get('TOPICINFO');
+    my $ti = $meta->get('TOPICINFO');
     $ti->{version} = $rn;
+    $ti->{date}    = $options{forcedate} || time;
     $ti->{author}  = $cUID;
-    _ci( $meta, undef, 0, $meta->getEmbeddedStoreForm(),
-	 'reprev', $cUID, $info->{date} );
 
-    _recordChange( $meta, $cUID, $rn, 'minor, reprev' );
+    _saveFile( $latest, $meta->getEmbeddedStoreForm() );
+    if ( $options{forcedate} ) {
+        utime( $options{forcedate}, $options{forcedate}, $latest )    # touch
+          or die "PlainFile: could not touch $latest: $!";
+    }
+
+    # Date on the history file doesn't matter so long as it's
+    # >= $latest
+    File::Copy::copy( $latest, $hf )
+      or die "PlainFile: failed to copy $latest to $hf: $!";
+
+    my @log = ( 'minor', 'reprev' );
+    unshift( @log, $options{operation} ) if $options{operation};
+    _recordChange( $meta, $cUID, $rn, join( ', ', @log ) );
 
     $this->tellListeners( verb => 'update', newmeta => $meta );
 
@@ -409,13 +434,13 @@ sub repRev {
 sub delRev {
     my ( $this, $meta, $cUID ) = @_;
 
-    _saveDamage( $meta );
+    _saveDamage($meta);
 
     my $rev = _numRevisions($meta);
     if ( $rev <= 1 ) {
         die 'PlainFile: Cannot delete initial revision of '
-	    . $meta->web . '.'
-	    . $meta->topic;
+          . $meta->web . '.'
+          . $meta->topic;
     }
 
     my $hf = _historyFile( $meta, undef, $rev );
@@ -424,13 +449,14 @@ sub delRev {
     # Get the new top rev - which may or may not be -1, depending if
     # the history is complete or not
     my $cur = _numRevisions($meta);
-    $hf = _historyFile( $meta, undef, $cur);
-    my $thf = _latestFile( $meta );
+    $hf = _historyFile( $meta, undef, $cur );
+    my $thf = _latestFile($meta);
+
     # Copy it up to the latest file, then refresh the time on the history
-    File::Copy::copy($hf, $thf)
-	or die "PlainFile: failed to copy to $thf: $!";
-    utime(undef, undef, $hf) # touch
-	or die "PlainFile: could not touch $hf: $!";
+    File::Copy::copy( $hf, $thf )
+      or die "PlainFile: failed to copy to $thf: $!";
+    utime( undef, undef, $hf )    # touch
+      or die "PlainFile: could not touch $hf: $!";
 
     # reload the topic object
     $meta->unload();
@@ -446,9 +472,9 @@ sub delRev {
 # Implement Foswiki::Store
 sub atomicLockInfo {
     my ( $this, $meta ) = @_;
-    my $filename = _getData( $meta ) . '.lock';
+    my $filename = _getData($meta) . '.lock';
     if ( -e $filename ) {
-        my $t = _readFile( $filename );
+        my $t = _readFile($filename);
         return split( /\s+/, $t, 2 );
     }
     return ( undef, undef );
@@ -458,7 +484,7 @@ sub atomicLockInfo {
 # (doesn't work on all platforms)
 sub atomicLock {
     my ( $this, $meta, $cUID ) = @_;
-    my $filename = _getData( $meta ) . '.lock';
+    my $filename = _getData($meta) . '.lock';
     _saveFile( $filename, $cUID . "\n" . time );
 }
 
@@ -466,9 +492,9 @@ sub atomicLock {
 sub atomicUnlock {
     my ( $this, $meta, $cUID ) = @_;
 
-    my $filename = _getData( $meta ) . '.lock';
+    my $filename = _getData($meta) . '.lock';
     unlink $filename
-	or die "PlainFile: failed to delete $filename: $!";
+      or die "PlainFile: failed to delete $filename: $!";
 }
 
 # Implement Foswiki::Store
@@ -478,16 +504,6 @@ sub webExists {
     return 0 unless defined $web;
     $web =~ s#\.#/#go;
 
-    # Foswiki ships with TWikiCompatibilityPlugin but if it is disabled we
-    # do not want the TWiki web to appear as a valid web to anyone.
-    if ( $web eq 'TWiki' ) {
-        unless ( exists $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
-            && defined $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
-            && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} == 1 )
-        {
-            return 0;
-        }
-    }
     return -e _latestFile( $web, $Foswiki::cfg{WebPrefsTopicName} );
 }
 
@@ -499,22 +515,22 @@ sub topicExists {
     $web =~ s#\.#/#go;
     return 0 unless defined $topic && $topic ne '';
 
-    return -e _latestFile($web, $topic) ||
-	-e _historyDir($web, $topic);
+    return -e _latestFile( $web, $topic )
+      || -e _historyDir( $web, $topic );
 }
 
 # Implement Foswiki::Store
 sub getApproxRevTime {
     my ( $this, $web, $topic ) = @_;
 
-    return (stat( _latestFile($web, $topic)))[9] || 0;
+    return ( stat( _latestFile( $web, $topic ) ) )[9] || 0;
 }
 
 # Implement Foswiki::Store
 sub eachChange {
-    my ( $this, $webObject, $since ) = @_;
+    my ( $this, $meta, $since ) = @_;
 
-    my $file = _getData( $webObject ) . '/.changes';
+    my $file = _getData($meta->web) . '/.changes';
     require Foswiki::ListIterator;
 
     if ( -r $file ) {
@@ -546,7 +562,7 @@ sub eachChange {
             my @row = split( /\t/, $_, 5 );
             \@row;
           }
-          reverse split( /[\r\n]+/, _readFile( $file ) );
+          reverse split( /[\r\n]+/, _readFile($file) );
 
         return Foswiki::ListIterator->new( \@changes );
     }
@@ -562,7 +578,7 @@ sub eachAttachment {
 
     my $dh;
     opendir( $dh, _getPub($meta) ) or return ();
-    my @list = grep { !/^[.*_]/ && !/,v$/ } readdir($dh);
+    my @list = grep { !/^[.*_]/ && !/,pfv$/ } readdir($dh);
     closedir($dh);
 
     require Foswiki::ListIterator;
@@ -571,10 +587,10 @@ sub eachAttachment {
 
 # Implement Foswiki::Store
 sub eachTopic {
-    my ( $this, $webObject ) = @_;
+    my ( $this, $meta ) = @_;
 
     my $dh;
-    opendir( $dh, _getData( $webObject ) )
+    opendir( $dh, _getData($meta->web) )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -591,13 +607,13 @@ sub eachTopic {
 
 # Implement Foswiki::Store
 sub eachWeb {
-    my ( $this, $webObject, $all ) = @_;
+    my ( $this, $meta, $all ) = @_;
 
     # Undocumented; this fn actually accepts a web name as well. This is
     # to make the recursion more efficient.
-    my $web = ref($webObject) ? $webObject->web : $webObject;
+    my $web = ref($meta) ? $meta->web : $meta;
 
-    my $dir  = $Foswiki::cfg{DataDir};
+    my $dir = $Foswiki::cfg{DataDir};
     $dir .= '/' . $web if defined $web;
     my @list;
     my $dh;
@@ -605,14 +621,14 @@ sub eachWeb {
     if ( opendir( $dh, $dir ) ) {
         @list = map {
             Foswiki::Sandbox::untaint( $_, \&Foswiki::Sandbox::validateWebName )
-	}
+          }
 
-	# The -e on the web preferences is used in preference to a
-	# -d to avoid having to validate the web name each time. Since
-	# the definition of a Web in this handler is "a directory with a
-	# WebPreferences.txt in it", this works.
-	grep { !/\./ && -e "$dir/$_/$Foswiki::cfg{WebPrefsTopicName}.txt" }
-	readdir($dh);
+          # The -e on the web preferences is used in preference to a
+          # -d to avoid having to validate the web name each time. Since
+          # the definition of a Web in this handler is "a directory with a
+          # WebPreferences.txt in it", this works.
+          grep { !/\./ && -e "$dir/$_/$Foswiki::cfg{WebPrefsTopicName}.txt" }
+          readdir($dh);
         closedir($dh);
     }
 
@@ -635,17 +651,18 @@ sub eachWeb {
 sub remove {
     my ( $this, $cUID, $meta, $attachment ) = @_;
     my $f;
-    if ($meta->topic) {
-	# Topic or attachment
-	unlink( _latestFile( $meta, $attachment ) );
-	_rmtree( _historyDir( $meta, $attachment ) );
-	unless ( $attachment ) {
-	    # topic
-	    _rmtree( _getPub( $meta ) );
-	}
-    } else {
-	# Web
-	_rmtree( _getData( $meta ) );
+    if ( $meta->topic ) {
+
+        # Topic or attachment
+        unlink( _latestFile( $meta, $attachment ) );
+        _rmtree( _historyDir( $meta, $attachment ) );
+	_rmtree( _getPub($meta) ) unless ($attachment); # topic only
+    }
+    else {
+
+        # Web
+        _rmtree( _getData($meta) );
+	_rmtree( _getPub($meta) );
     }
 
     $this->tellListeners(
@@ -657,12 +674,10 @@ sub remove {
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes.
     if ($attachment) {
-        _recordChange( $meta, $cUID, 0,
-		       'Deleted attachment ' . $attachment );
+        _recordChange( $meta, $cUID, 0, 'Deleted attachment ' . $attachment );
     }
     elsif ( my $topic = $meta->topic ) {
-        _recordChange( $meta, $cUID, 0,
-		       'Deleted ' . $topic );
+        _recordChange( $meta, $cUID, 0, 'Deleted ' . $topic );
     }
 }
 
@@ -704,14 +719,17 @@ sub query {
 sub getRevisionAtTime {
     my ( $this, $meta, $time ) = @_;
 
-    my $hd = _historyDir( $meta );
+    my $hd = _historyDir($meta);
     my $d;
-    opendir($d, $hd) or return undef;
+    unless (opendir( $d, $hd )) {
+	return 1 if ( $time >= ( stat(_latestFile($meta)) )[9] );
+	return 0;
+    }
     my @revs = reverse sort grep { /^[0-9]+$/ } readdir($d);
     closedir($d);
 
     foreach my $rev (@revs) {
-        return $rev if ( $time >= ( stat( "$hd/$rev" ) )[9] );
+        return $rev if ( $time >= ( stat("$hd/$rev") )[9] );
     }
     return undef;
 }
@@ -720,10 +738,10 @@ sub getRevisionAtTime {
 sub getLease {
     my ( $this, $meta ) = @_;
 
-    my $filename = _getData( $meta ) . '.lease';
+    my $filename = _getData($meta) . '.lease';
     my $lease;
     if ( -e $filename ) {
-        my $t = _readFile( $filename );
+        my $t = _readFile($filename);
         $lease = { split( /\r?\n/, $t ) };
     }
     return $lease;
@@ -733,7 +751,7 @@ sub getLease {
 sub setLease {
     my ( $this, $meta, $lease ) = @_;
 
-    my $filename = _getData( $meta ) . '.lease';
+    my $filename = _getData($meta) . '.lease';
     if ($lease) {
         _saveFile( $filename, join( "\n", %$lease ) );
     }
@@ -746,12 +764,12 @@ sub setLease {
 # Implement Foswiki::Store
 sub removeSpuriousLeases {
     my ( $this, $web ) = @_;
-    my $webdir = _getData( $web ) . '/';
+    my $webdir = _getData($web) . '/';
     if ( opendir( my $W, $webdir ) ) {
         foreach my $f ( readdir($W) ) {
-            my $file = $web . $f;
+            my $file = $webdir . $f;
             if ( $file =~ /^(.*)\.lease$/ ) {
-                if ( !-e "$1.txt,v" ) {
+                if ( !-e "$1,pfv" ) {
                     unlink($file);
                 }
             }
@@ -770,8 +788,8 @@ sub _getData {
     my ($what) = @_;
     my $path = "$Foswiki::cfg{DataDir}/";
     return "$path$what" unless ref($what);
-    return $path.$what->web unless $what->topic;
-    return $path.$what->web.'/'.$what->topic;
+    return $path . $what->web unless $what->topic;
+    return $path . $what->web . '/' . $what->topic;
 }
 
 # Get the absolute file path to a file in pub. $what can be a Meta or
@@ -780,8 +798,8 @@ sub _getPub {
     my ($what) = @_;
     my $path = "$Foswiki::cfg{PubDir}/";
     return "$path$what" unless ref($what);
-    return $path.$what->web unless $what->topic;
-    return $path.$what->web.'/'.$what->topic;
+    return $path . $what->web unless $what->topic;
+    return $path . $what->web . '/' . $what->topic;
 }
 
 # Get the absolute file path to the latest version of a topic or attachment
@@ -793,12 +811,12 @@ sub _latestFile {
     my $p1 = shift;
     my $p2 = shift;
 
-    unless (ref($p1)) {
-	$p1 = "$p1/$p2";
-	$p2 = shift;
+    unless ( ref($p1) ) {
+        $p1 = "$p1/$p2";
+        $p2 = shift;
     }
-    return _getPub( $p1 ) . "/$p2" if $p2;
-    return _getData( $p1 ) . ".txt";
+    return _getPub($p1) . "/$p2" if $p2;
+    return _getData($p1) . ".txt";
 }
 
 # Get the absolute file path to the history dir for a topic or attachment
@@ -810,12 +828,12 @@ sub _historyDir {
     my $p1 = shift;
     my $p2 = shift;
 
-    unless (ref($p1)) {
-	$p1 = "$p1/$p2";
-	$p2 = shift;
+    unless ( ref($p1) ) {
+        $p1 = "$p1/$p2";
+        $p2 = shift;
     }
-    return _getPub( $p1 ). "/${p2},pfv" if $p2;
-    return _getData( $p1 ) . ",pfv";
+    return _getPub($p1) . "/${p2},pfv" if $p2;
+    return _getData($p1) . ",pfv";
 }
 
 # Get the absolute file path to the history for a topic or attachment
@@ -825,24 +843,26 @@ sub _historyDir {
 #    - web and topic are strings
 sub _historyFile {
     my $ver = pop;
-    return _historyDir( @_ ) . "/$ver";
+    return _historyDir(@_) . "/$ver";
 }
 
 # Get the number of revisions for a topic or attachment
 sub _numRevisions {
-    my ($meta, $attachment) = @_;
-    my $dir = _historyDir($meta, $attachment);
+    my ( $meta, $attachment ) = @_;
 
-    # _saveDamage is always called before _numRevisions, so
-    # we know that if there is no history dir there can be no
-    # latest file.
-    return 0 unless -e $dir;
+    return 0 unless -e _latestFile( $meta, $attachment );
+
+    my $dir = _historyDir( $meta, $attachment );
+
+    # we know that if there is no history 
+    # then only rev 1 exists
+    return 1 unless -e $dir;
 
     my $d;
-    opendir($d, $dir) or die "PlainFile: '$dir': $!";
+    opendir( $d, $dir ) or die "PlainFile: '$dir': $!";
     my @revs = sort grep { /^[0-9]+$/ } readdir($d);
     closedir($d);
-    
+
     return 0 unless scalar @revs;
     return pop @revs;
 }
@@ -856,98 +876,83 @@ sub _getTOPICINFO {
     my $ti = <$f>;
     close($f);
     if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
-	require Foswiki::Attrs;
-	my $a = Foswiki::Attrs->new($1);
-	
-	# Default bad revs to 1, not 0, because this is coming from
-	# a topic on disk, so we know it's a "real" rev.
-	$info->{version} = Foswiki::Store::cleanUpRevID( $a->{version} )
-	    || 1;
-	$info->{date}    = $a->{date};
-	$info->{author}  = $a->{author};
-	$info->{comment} = $a->{comment};
+        require Foswiki::Attrs;
+        my $a = Foswiki::Attrs->new($1);
+
+        # Default bad revs to 1, not 0, because this is coming from
+        # a topic on disk, so we know it's a "real" rev.
+        $info->{version} = Foswiki::Store::cleanUpRevID( $a->{version} )
+          || 1;
+        $info->{date}    = $a->{date};
+        $info->{author}  = $a->{author};
+        $info->{comment} = $a->{comment};
     }
 }
 
 # If a latest file has a more recent file date than the corresponding
-# history, then save the damage
+# history, then save the damage.
+# This is required because in a filesystem store the latest file may
+# be modified by an external process, so that it is no longer
+# consistent with the history. This condition is detected by a history
+# file that is older than the latest file.
+# This could be made a NOP if we  treated the latest as the most recent
+# revision, and don't store a history for it until it is replaced.
+# However that would require moving meta-data out of band, because the
+# latest would still contain an author who was not the correct author.
+# Of course you may not care that the author is not modified by external
+# processes.....
 sub _saveDamage {
-    my ($meta, $attachment) = @_;
+    my ( $meta, $attachment ) = @_;
     my $d;
 
     my $latest = _latestFile( $meta, $attachment );
-    if (-e $latest) {
-	my $rev = 1;
-	my $hd = _historyDir( $meta, $attachment );
+    return unless ( -e $latest );
 
-	if (-e $hd) {
-	    # Is there a history?
-	    opendir($d, $hd) or die $!;
-	    my @revs = sort grep { /^[0-9]+$/ } readdir($d);
-	    closedir($d);
-	    my $topRev = 0;
-	    if (scalar(@revs)) {
-		my $topRev = $revs[$#revs];
-		my $hf = "$hd/$topRev";
-
-		# Check the time on the history file; is the .txt newer?
-		my $ht  = ( stat( $hf ) )[9] || time;
-		my $lt = ( stat( $latest ) )[9];
-		return if ( $ht >= $lt ); # up to date
-		$rev = $topRev + 1;
-	    }
-	}
-	# No existing revs; create
-	_forceCheckin($meta, $attachment, $rev);
-	ASSERT(-e $hd) if DEBUG;
-	return;
-    }
-
+    my $rev = 1;
     my $hd = _historyDir( $meta, $attachment );
-    if (-e $hd) {
-	# Is there a history? If so, grab the latest
-	opendir($d, $hd) or die($!);
-	my @revs = sort grep { /^[0-9]+$/ } readdir($d);
-	closedir($d);
-	if (scalar(@revs)) {
-	    my $topRev = $revs[$#revs];
-	    my $hf = "$hd/$topRev";
-	    File::Copy::copy($hf, $latest)
-		or die "PlainFile: failed to move $hf to $latest: $!";
-	    utime(undef, undef, $hf) # touch
-		or die "PlainFile: could not touch $hf: $!";
-	    ASSERT(-e $latest) if DEBUG;
-	}
-    }
-}
 
-# Checkin a pending change
-sub _forceCheckin {
-    my ($meta, $attachment, $rev) = @_;
-    $rev = _numRevisions($meta, $attachment) + 1 unless defined $rev;
+    if ( -e $hd ) {
 
-    my $latest = _latestFile( $meta, $attachment );
-    # If this is a topic, adjust the TOPICINFO
-    unless ( $attachment ) {
-	my $t = _readFile( $latest );
-		
-	$t =~ s/^%META:TOPICINFO{(.*)}%$//m;
-	$t =
-	    '%META:TOPICINFO{author="'
-	    . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
-	    . '" comment="autosave" date="'
-	    . time()
-	    . '" format="1.1" version="'
-	    . $rev . '"}%' . "\n$t";
-	_saveFile( $latest, $t );
+        # Is there a history?
+        opendir( $d, $hd ) or die $!;
+        my @revs = sort grep { /^[0-9]+$/ } readdir($d);
+        closedir($d);
+        my $topRev = 0;
+        if ( scalar(@revs) ) {
+            my $topRev = $revs[$#revs];
+            my $hf     = "$hd/$topRev";
+
+            # Check the time on the history file; is the .txt newer?
+            my $ht = ( stat($hf) )[9] || time;
+            my $lt = ( stat($latest) )[9];
+            return if ( $ht >= $lt );    # up to date
+            $rev = $topRev + 1;          # we must create this
+        }
     }
 
-    # Creating the history second ensures it is more recent than the
-    # latest.
+    # No existing revs; create
+    # If this is a topic, correct the TOPICINFO
+    unless ($attachment) {
+        my $t = _readFile($latest);
+
+        $t =~ s/^%META:TOPICINFO{(.*)}%$//m;
+        $t =
+            '%META:TOPICINFO{author="'
+          . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
+          . '" comment="autosave" date="'
+          . time()
+          . '" format="1.1" version="'
+          . $rev . '"}%' . "\n$t";
+        _saveFile( $latest, $t );
+
+        # Creating the history second ensures it is more recent than the
+        # latest.
+    }
+
     my $hf = _historyFile( $meta, $attachment, $rev );
-    _mkPathTo( $hf );
-    File::Copy::copy($latest, $hf)
-	or die "PlainFile: failed to copy to $hf: $!";
+    _mkPathTo($hf);
+    File::Copy::copy( $latest, $hf )
+      or die "PlainFile: failed to copy to $hf: $!";
 }
 
 # Record a change in the web history
@@ -958,19 +963,19 @@ sub _recordChange {
     my $file = _getData( $meta->web ) . '/.changes';
 
     my @changes = ();
-    if (-e $file ) {
-	@changes =
-	    map {
-		my @row = split( /\t/, $_, 5 );
-		\@row
-	}
-	split( /[\r\n]+/, _readFile( $file ) );
+    if ( -e $file ) {
+        @changes =
+          map {
+            my @row = split( /\t/, $_, 5 );
+            \@row
+          }
+          split( /[\r\n]+/, _readFile($file) );
 
-	# Forget old stuff
-	my $cutoff = time() - $Foswiki::cfg{Store}{RememberChangesFor};
-	while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
-	    shift(@changes);
-	}
+        # Forget old stuff
+        my $cutoff = time() - $Foswiki::cfg{Store}{RememberChangesFor};
+        while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
+            shift(@changes);
+        }
     }
 
     # Add the new change to the end of the file
@@ -989,7 +994,7 @@ sub _recordChange {
 
 # Read an entire file
 sub _readFile {
-    my ( $name ) = @_;
+    my ($name) = @_;
 
     my $data;
     my $IN_FILE;
@@ -1007,25 +1012,18 @@ sub _openStream {
     my ( $meta, $att, $mode, %opts ) = @_;
     my $stream;
 
-    if ( $mode eq '<' && $opts{version} ) {
-
-        # Bulk load the revision and tie a filehandle
-        require Symbol;
-        $stream = Symbol::gensym;    # create an anonymous glob
-        tie( *$stream, 'Foswiki::Store::_MemoryFile',
-            _getRevision( $meta, $att, $opts{version} ) );
+    my $path;
+    if ($opts{version} && $opts{version} < _numRevisions($meta, $att)) {
+	ASSERT($mode !~ />/) if DEBUG;
+	$path = _historyFile( $meta, $att, $opts{version} );
+    } else {
+	$path = _latestFile( $meta, $att );
+	_mkPathTo($path) if ( $mode =~ />/ );
     }
-    else {
-	ASSERT(!$opts{version}) if DEBUG;
-	my $path = _latestFile( $meta, $att );
-        if ( $mode =~ />/ ) {
-            _mkPathTo( $path );
-        }
-        unless ( open( $stream, $mode, $path ) ) {
-            die( "PlainFile: stream open '$path' failed: $!" );
-        }
-        binmode $stream;
+    unless ( open( $stream, $mode, $path ) ) {
+	die("PlainFile: open stream $mode '$path' failed: $!");
     }
+    binmode $stream;
     return $stream;
 }
 
@@ -1036,20 +1034,15 @@ sub _saveFile {
     _mkPathTo($file);
     my $fh;
     open( $fh, '>', $file )
-      or die(
-        "PlainFile: failed to create file $file: $!" );
+      or die("PlainFile: failed to create file $file: $!");
     flock( $fh, LOCK_EX )
-      or die(
-        "PlainFile: failed to lock file $file: $!" );
+      or die("PlainFile: failed to lock file $file: $!");
     binmode($fh)
-      or die(
-        "PlainFile: failed to binmode $file: $!" );
+      or die("PlainFile: failed to binmode $file: $!");
     print $fh $text
-      or die(
-        "PlainFile: failed to print into $file: $!" );
+      or die("PlainFile: failed to print into $file: $!");
     close($fh)
-      or die(
-        "PlainFile: failed to close file $file: $!" );
+      or die("PlainFile: failed to close file $file: $!");
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $file );
 
@@ -1060,7 +1053,7 @@ sub _saveFile {
 sub _saveStream {
     my ( $file, $fh ) = @_;
 
-    _mkPathTo( $file );
+    _mkPathTo($file);
     my $F;
     open( $F, '>', $file ) or die "PlainFile: open $file failed: $!";
     binmode($F) or die "PlainFile: failed to binmode $file: $!";
@@ -1080,11 +1073,12 @@ sub _moveFile {
     die "PlainFile: move target $to already exists" if -e $to;
     _mkPathTo($to);
     my $ok;
-    if (-d $from) {
-	$ok = File::Copy::Recursive::dirmove($from, $to);
-    } else {
-	ASSERT( -e $from ) if DEBUG;
-	$ok = File::Copy::move( $from, $to );
+    if ( -d $from ) {
+        $ok = File::Copy::Recursive::dirmove( $from, $to );
+    }
+    else {
+        ASSERT( -e $from, $from ) if DEBUG;
+        $ok = File::Copy::move( $from, $to );
     }
     $ok or die "PlainFile: move $from to $to failed: $!";
 }
@@ -1097,10 +1091,11 @@ sub _copyFile {
     die "PlainFile: move target $to already exists" if -e $to;
     _mkPathTo($to);
     my $ok;
-    if (-d $from) {
-	$ok = File::Copy::Recursive::dircopy($from, $to);
-    } else {
-	$ok = File::Copy::copy( $from, $to );
+    if ( -d $from ) {
+        $ok = File::Copy::Recursive::dircopy( $from, $to );
+    }
+    else {
+        $ok = File::Copy::copy( $from, $to );
     }
     $ok or die "PlainFile: copy $from to $to failed: $!";
 }
@@ -1129,7 +1124,6 @@ sub _mkPathTo {
 sub _rmtree {
     my $root = shift;
     my $D;
-
     if ( opendir( $D, $root ) ) {
         foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
             $entry =~ /^(.*)$/;
@@ -1181,123 +1175,43 @@ sub _getTimestamp {
 sub _getRevision {
     my ( $meta, $attachment, $version ) = @_;
 
-    my $nr = _numRevisions($meta, $attachment);
-    if ($nr && $version && $version <= $nr) {
-	my $fn = _historyDir( $meta, $attachment ) . "/$version";
-	if ( -e $fn ) {
-	    return ( _readFile( $fn ), $version == $nr);
-	}
-    }
-    my $latest = _latestFile($meta, $attachment);
-    return (undef, 0) unless -e $latest;
-    # no version given, give latest (may not be checked in yet)
-    return ( _readFile( $latest ), 1 );
-}
-
-# Look for possible attachments that have appeared in the attachments
-# dir an add them as attachments.
-sub _autoAttach {
-    my ($this, $meta ) = @_;
-
-    my @knownAttachments = $meta->find('FILEATTACHMENT');
-    my %filesListedInPub = ();
-    my $dir            = _getPub( $meta );
-    my $dh;
-    return unless opendir( $dh, $dir );
-
-    foreach my $attachment ( grep { !/^[.*_]/ && !/,v$/ } readdir($dh) ) {
-        my @stat = stat( "$dir/$attachment" );
-	if ( $#stat > 0 ) {
-	    $filesListedInPub{$attachment} = {
-		name    => $attachment,
-		version => '',
-		path    => $attachment,
-		size    => $stat[7],
-		date    => $stat[9],
-		comment      => '',
-		attr         => '',
-		autoattached => '1'
-	    };
-	} else {
-	    $filesListedInPub{$attachment} = undef;
-	}
-    }
-    closedir($dh);
-    my %filesListedInMeta = ();
-
-    # You need the following lines if you want metadata to supplement
-    # the filesystem
-    if ( scalar @knownAttachments ) {
-        %filesListedInMeta =
-	    map { $_->{name} => $_ } @knownAttachments;
-    }
-
-    foreach my $file ( keys %filesListedInPub ) {
-        if ( $filesListedInMeta{$file} ) {
-
-            # Bring forward any missing yet wanted attributes
-            foreach my $field (qw(comment attr user version)) {
-                if ( $filesListedInMeta{$file}{$field} ) {
-                    $filesListedInPub{$file}{$field} =
-                      $filesListedInMeta{$file}{$field};
-                }
-            }
+    my $nr = _numRevisions( $meta, $attachment );
+    if ( $nr && $version && $version <= $nr ) {
+        my $fn = _historyDir( $meta, $attachment ) . "/$version";
+        if ( -e $fn ) {
+            return ( _readFile($fn), $version == $nr );
         }
     }
+    my $latest = _latestFile( $meta, $attachment );
+    return ( undef, 0 ) unless -e $latest;
 
-    # A comparison of the keys of the $filesListedInMeta and %filesListedInPub
-    # would show files that were in Meta but have disappeared from Pub.
-    my @attachmentsFoundInPub = values(%filesListedInPub);
-
-    my @validAttachmentsFound;
-    foreach my $foundAttachment (@attachmentsFoundInPub) {
-
-	# test if the attachment filename is valid without having to
-	# be sanitized. If not, ignore it.
-	my $validated = Foswiki::Sandbox::validateAttachmentName(
-	    $foundAttachment->{name} );
-	unless ( defined $validated
-		 && $validated eq $foundAttachment->{name} )
-	{
-	    
-	    print STDERR 'AutoAttachPubFiles ignoring '
-		. $foundAttachment->{name} . ' in '
-		. $meta->getPath()
-		. ' - not a valid Foswiki Attachment filename';
-	}
-	else {
-	    push @validAttachmentsFound, $foundAttachment;
-	    $this->tellListeners(
-		verb          => 'autoattach',
-		newmeta       => $meta,
-		newattachment => $foundAttachment
-                );
-	}
-    }
-
-    $meta->putAll( 'FILEATTACHMENT', @validAttachmentsFound )
-	if @validAttachmentsFound;
+    # no version given, give latest (may not be checked in yet)
+    return ( _readFile($latest), 1 );
 }
 
-# Check in a new revision
-sub _ci {
-    my ( $meta, $att, $isStream, $data, $log, $author, $date ) = @_;
+# Split a string on \n making sure we have all newlines. If the string
+# ends with \n there will be a '' at the end of the split.
+sub _split {
 
-    my $latest = _latestFile( $meta, $att );
-    if ($isStream) {
-        _saveStream($latest, $data);
+    #my $text = shift;
+
+    my @list = ();
+    return \@list unless defined $_[0];
+
+    my $nl = 1;
+    foreach my $i ( split( /(\n)/o, $_[0] ) ) {
+        if ( $i eq "\n" ) {
+            push( @list, '' ) if $nl;
+            $nl = 1;
+        }
+        else {
+            push( @list, $i );
+            $nl = 0;
+        }
     }
-    else {
-        _saveFile( $latest, $data );
-    }
+    push( @list, '' ) if ($nl);
 
-    my $rn = _numRevisions($meta, $att) + 1;
-    my $hf = _historyFile( $meta, $att, $rn );
-    _mkPathTo( $hf );
-    File::Copy::copy( $latest, $hf )
-	or die "PlainFile: failed to copy $latest to $hf: $!";
-
-    return $rn;
+    return \@list;
 }
 
 1;
