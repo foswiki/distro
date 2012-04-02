@@ -10,6 +10,7 @@ The *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EXC
    * HTML =comments= (=&lt;!--= ... =--&gt;=)
    * =script= = inline HTML Script tags - _default_
    * =style= = inline Css style tags - _default_
+   * =table= = inline html tables (=&lt;table ..&gt;.  TML tables are not excluded)
 If the plugin detects an excluded construct in the topic, it will refuse to allow the edit and will redirect to the default editor.
 ---+++++ WYSIWYG_EDITABLE_CALLS - Exceptions to WYSIWYG_EXCLUDE
 If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
