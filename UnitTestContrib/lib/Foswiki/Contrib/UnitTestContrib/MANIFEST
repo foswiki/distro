@@ -92,6 +92,7 @@ test/unit/RobustnessTests.pm 0644
 test/unit/SaveScriptTests.pm 0644
 test/unit/SeleniumConfigTests.pm 0644
 test/unit/SemiAutomaticTestCaseTests.pm 0644
+test/unit/StoreImplementationTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TOCTests.pm 0644
 test/unit/TemplatesTests.pm 0644

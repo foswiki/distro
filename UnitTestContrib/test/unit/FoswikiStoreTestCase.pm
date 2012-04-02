@@ -32,8 +32,8 @@ sub rcs_is_installed {
 
 sub set_up {
     my $this = shift;
-
     $this->SUPER::set_up();
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 }
 
 sub tear_down {
@@ -74,6 +74,10 @@ sub fixture_groups {
             closedir(D);
         }
     }
+# Uncomment below to test one store in isolation
+#    return [ ref($this) . '_PlainFile' ];
+#    return [ ref($this) . '_RcsWrap' ];
+#    return [ ref($this) . '_RcsLite' ];
     return \@groups;
 }
 
