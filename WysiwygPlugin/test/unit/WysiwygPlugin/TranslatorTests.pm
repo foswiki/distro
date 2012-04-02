@@ -723,9 +723,8 @@ HERE
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         name => 'centeredTableItem5955',
         html => <<"HTML",
-$deleteme<p>
+$deleteme
 <table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
-</p>
 HTML
         tml => <<'TML',
 <table align="center" border="0"><tbody><tr><td> asdf</td><td>dddd <br /></td></tr><tr><td> next one empty<br /></td><td> </td></tr></tbody></table>
@@ -2919,16 +2918,17 @@ HERE
 HERE
         html => <<'HERE'
 <p class="foswikiDeleteMe">&nbsp;</p>
-<table border="1" cellpadding="0" cellspacing="1">
-    <tbody>
-        <tr>
-            <td>A</td>
-            <td>B
-                <p><span style="{encoded:'s12'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>C<span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></p>
-            </td>
-            <td>D</td>
-        </tr>
-    </tbody>
+<table border="1" cellpadding="0" cellspacing="1"> 
+   <tbody> 
+      <tr> 
+         <td>A</td> 
+         <td>B
+<p></p>         
+            C
+         </td>  
+         <td>D</td> 
+      </tr>   
+   </tbody> 
 </table>
 HERE
     }
