@@ -512,6 +512,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     # line-oriented stuff.
     my $inList      = 0;    # True when within a list type
     my $inTable     = 0;    # True when within a table type
+    my $inHTMLTable = 0;    # True when within a native HTML table
     my %table       = ();
     my $inParagraph = 0;    # True when within a P
     my $inDiv       = 0;    # True when within a foswikiTableAndMacros div
@@ -520,6 +521,26 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
     foreach my $line ( split( /\n/, $text ) ) {
         my $tableEnded = 0;
+
+        # Native HTML tables should pass through to editor unmodified as possible
+        # However need to preserve blank lines.   On save, table will be converted
+        # to TML if compatible.
+        if ( $inHTMLTable ) {
+            if ($line =~ m/<\/table>/i ) {
+                push( @result, $line );
+                $inHTMLTable = 0;
+                next;
+            }
+            $line = '<p></p>' if ( !$line || $line =~ m/^\s*$/);
+            push( @result, $line );
+            next;
+        }
+
+        if ( $line =~ m/<table/i ) {
+            $inHTMLTable = 1;
+            push( @result , $line );
+            next;
+        }
 
         # Table: | cell | cell |
         # allow trailing white space after the last |
