@@ -2899,6 +2899,25 @@ leaving an empty pre-tag</pre></code>
 this.</code></pre>
 </p>
 HERE
+    },
+    {
+        exec => $HTML2TML,
+        name => 'ttTableNewlineCorruptionItem11312',
+        html => <<'HERE',
+<table border="1" cellpadding="0" cellspacing="1"> 
+   <tbody> 
+      <tr> 
+         <td>A</td> 
+         <td>B
+         
+            C
+         </td>  
+         <td>D</td> 
+      </tr>   
+   </tbody> 
+</table>
+HERE
+        tml => '| A | B  C | D |'
     }
 ];
 
