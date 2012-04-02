@@ -160,6 +160,26 @@ foreach my $k (keys %$fileset) {
     writeFile("$def{MODULE}/$k", expandVars($data), $v->{mask});
 }
 
+# Kludge to fix Item11716
+
+my $fh;
+my $newcontent = '';
+
+if(open($fh, "<$def{MODULE}/lib/Foswiki/Plugins/$def{MODULE}/MANIFEST")) {
+    while(<$fh>) {
+        s/EmptyPlugin/$def{MODULE}/g;
+        $newcontent = $newcontent . $_; 
+    }
+    close($fh);
+}
+
+if(open($fh, ">$def{MODULE}/lib/Foswiki/Plugins/$def{MODULE}/MANIFEST")) {
+    print $fh $newcontent;
+    close($fh);
+}
+
+### Utility subs.
+
 sub populateFrom {
     my ($path, $root) = @_;
     my $dh;
