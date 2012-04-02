@@ -88,8 +88,12 @@ A member of the Super Admin Group has *unrestricted access* throughout the wiki,
 
 ---++ Restricting Access
 
-Access to webs and topics is controlled by setting the values of certain
-[[PreferenceSettings][preferences]]. These names of these preferences have the general form:
+Access to webs and topics is controlled by:
+
+   * the ={AuthScripts}= setting in [[%SCRIPTURLPATH{"configure"}%][configure]] -> Security and Authentication -> Login; and
+   * setting the values of certain [[PreferenceSettings][preferences]].
+
+These preferences have the general form:
 
 _permission_ _context_ _mode_
 
