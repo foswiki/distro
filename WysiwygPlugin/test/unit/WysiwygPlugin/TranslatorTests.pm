@@ -2901,9 +2901,9 @@ this.</code></pre>
 HERE
     },
     {
-        exec => $ROUNDTRIP,
+        exec => $TML2HTML,
         name => 'ttTableNewlineCorruptionItem11312',
-        html => <<'HERE',
+        tml  => <<'HERE',
 <table border="1" cellpadding="0" cellspacing="1"> 
    <tbody> 
       <tr> 
@@ -2917,7 +2917,20 @@ HERE
    </tbody> 
 </table>
 HERE
-        tml => '| A | B  C | D |'
+        html => <<'HERE'
+<p class="foswikiDeleteMe">&nbsp;</p>
+<table border="1" cellpadding="0" cellspacing="1">
+    <tbody>
+        <tr>
+            <td>A</td>
+            <td>B
+                <p><span style="{encoded:'s12'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>C<span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></p>
+            </td>
+            <td>D</td>
+        </tr>
+    </tbody>
+</table>
+HERE
     }
 ];
 
