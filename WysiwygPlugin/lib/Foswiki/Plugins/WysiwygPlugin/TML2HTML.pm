@@ -129,6 +129,15 @@ WARNING
             $this->{protectExistingTags}->{$tag} = 1;
         }
 
+        my $tagBlocksToProtect = Foswiki::Func::getPreferencesValue(
+            'WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS')
+          || 'script,style';
+        foreach my $tag ( split /[,\s]+/, $tagBlocksToProtect ) {
+            next unless $tag =~ /^\w+$/;
+            $this->{protectExistingTagBlocks}->{$tag} = 1;
+        }
+
+
         # Convert TML to HTML for wysiwyg editing
 
         $content =~ s/[$TT0$TT1$TT2]/?/go;
@@ -166,6 +175,7 @@ WARNING
 
 sub _liftOut {
     my ( $this, $text, $type ) = @_;
+
     my %options;
     if ( $type and $type =~ /^(?:PROTECTED|STICKY|VERBATIM)$/ ) {
         $options{protect} = 1;
@@ -385,6 +395,12 @@ sub _getRenderedVersion {
 
     # Remove PRE to prevent TML interpretation of text inside it
     $text = $this->_liftOutBlocks( $text, 'pre', {} );
+
+    # protect some automatic sticky tags.
+    foreach my $stickyTag ( keys %{$this->{protectExistingTagBlocks}} ) {
+        $text =~ s/(<(?i:$stickyTag)[^>]*>.*?<\/(?i:$stickyTag)>)/
+          $this->_liftOut($1, 'PROTECTED')/geis;
+    }
 
     # Protect comments
     $text =~ s/(<!--.*?-->)/$this->_liftOut($1, 'PROTECTED')/ges;

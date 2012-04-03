@@ -20,7 +20,8 @@ You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.Site
 ---++++ WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS - Protect specific tags originally in the topic text
 The =WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS= preference tells the translator 
 that certain HTML tags which were originally in the topic text should _remain_ as HTML tags;
-the translator will not try to convert them to TML.
+the translator will not try to convert them to TML.  This protects the tags
+themselves, and not the contents enclosed between the =&lt;tag>= and =&lt;/tag>=
 
 The default setting for this preference is defined within the plugin.
 It corresponds to =div, span=.
@@ -31,6 +32,22 @@ of HTML tags to TML markup remains subject to the other controls provided
 by the !WysiwygPlugin, including the =WYSIWYGPLUGIN_STICKYBITS= preference,
 =&lt;sticky&gt;= blocks, =&lt;literal&gt;= blocks and the rules applied 
 to tables and lists.
+
+---++++ WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS - Protect specific tag blocks originally in the topic text
+The =WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS= preference tells the translator
+that certain HTML tag blocks which were originally in the topic text should _remain_ as HTML blocks;
+the translator will not try to convert them to TML.
+
+The default setting for this preference is defined within the plugin.
+It corresponds to =script, style=.
+
+As an example, individual html tables can be protected by surrounding them
+with =&lt;sticky> .. &lt;/sticky> block.  However,if you want to have all
+=&lt;table> markup preserved as entered into topics by default, rather than subject to
+WYSIWYG editing,  add =table= to this list, and =&lt;table> markup will become
+automatically sticky.
+
+This feature may be disabled by setting the preference to a single comma.
 
 ---++++ WYSIWYGPLUGIN_STICKYBITS - Protect tags based upon their arguments
 You can define the global preference =WYSIWYGPLUGIN_STICKYBITS= to stop the
