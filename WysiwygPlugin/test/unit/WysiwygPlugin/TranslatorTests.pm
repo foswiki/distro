@@ -2948,7 +2948,7 @@ HERE
 HERE
     },
     {
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'protectStyleFromWysiwyg_Item11603',
         tml  => <<'HERE',
 <style type="text/css">
@@ -2964,6 +2964,24 @@ HERE
         html => <<'HERE'
 <p><span class="WYSIWYG_PROTECTED">&#60;style&nbsp;type=&#34;text/css&#34;&#62;<br />.pics&nbsp;&nbsp;{&nbsp;&nbsp;<br />&nbsp;width:232px;<br />&nbsp;height:272px;<br />&nbsp;padding:0;&nbsp;&nbsp;<br />&nbsp;margin:0;<br />&nbsp;text-align:center;<br />}<br />&#60;/style&#62;</span>
 </p>
+HERE
+    },
+    {
+        exec => $TML2HTML,
+        name => 'protectAnchorsFromWrap_Item10125',
+        tml  => <<'HERE',
+---++ Accepted
+TBD
+#ApprovedTerm
+---++ Approved
+blah
+HERE
+        html => <<'HERE'
+<h2 class="TML">  Accepted  </h2>
+<p>TBD <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span class="WYSIWYG_PROTECTED"><br />#ApprovedTerm</span> 
+</p>
+<h2 class="TML">  Approved  </h2>
+<p>blah</p>
 HERE
     },
 ];
