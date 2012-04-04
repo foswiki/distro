@@ -37,6 +37,7 @@ our $BR2NL         = 1 << 5;
 our $KEEP_WS       = 1 << 6;
 our $PROTECTED     = 1 << 7;
 our $KEEP_ENTITIES = 1 << 8;
+our $IN_TABLE      = 1 << 9;
 
 our $BLOCK_TML = $NO_BLOCK_TML;
 

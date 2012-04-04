@@ -950,7 +950,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten($options);
+            ( $flags, $text ) = $kid->_flatten($options | $WC::IN_TABLE);
             $text = _TDtrim($text);
             $text = "*$text*" if length($text);
         }
@@ -958,7 +958,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten($options);
+            ( $flags, $text ) = $kid->_flatten($options | $WC::IN_TABLE);
             $text = _TDtrim($text);
         }
         elsif ( !$kid->{tag} ) {
@@ -1131,7 +1131,8 @@ sub _deduceAlignment {
 sub _H {
     my ( $this, $options, $depth ) = @_;
     my ( $flags, $contents ) = $this->_flatten($options);
-    return ( 0, undef ) if ( $flags & $WC::BLOCK_TML );
+    return ( 0, undef ) if ( ($flags & $WC::BLOCK_TML)
+	|| ($flags & $WC::IN_TABLE));
     my $notoc = '';
     if ( $this->hasClass('notoc') ) {
         $notoc = '!!';
