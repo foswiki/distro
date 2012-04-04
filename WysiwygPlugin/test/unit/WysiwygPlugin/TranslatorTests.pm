@@ -2900,7 +2900,7 @@ this.</code></pre>
 HERE
     },
     {
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'ttTableNewlineCorruptionItem11312',
         tml  => <<'HERE',
 <table border="1" cellpadding="0" cellspacing="1"> 
@@ -2916,7 +2916,7 @@ HERE
    </tbody> 
 </table>
 HERE
-        html => <<'HERE'
+        html => <<'HERE',
 <p class="foswikiDeleteMe">&nbsp;</p>
 <table border="1" cellpadding="0" cellspacing="1"> 
    <tbody> 
@@ -2931,9 +2931,14 @@ HERE
    </tbody> 
 </table>
 HERE
+        # This table will convert from html to tml
+        # Durning the roundtrip
+        finaltml => <<'HERE'
+| A | B <p></p> C | D |
+HERE
     },
     {
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'protectScriptFromWysiwyg_Item11603',
         tml  => <<'HERE',
 <script option="blah">
@@ -2967,7 +2972,7 @@ HERE
 HERE
     },
     {
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'protectAnchorsFromWrap_Item10125',
         tml  => <<'HERE',
 ---++ Accepted
@@ -2976,12 +2981,21 @@ TBD
 ---++ Approved
 blah
 HERE
-        html => <<'HERE'
+        html => <<'HERE',
 <h2 class="TML">  Accepted  </h2>
 <p>TBD <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span class="WYSIWYG_PROTECTED"><br />#ApprovedTerm</span> 
 </p>
 <h2 class="TML">  Approved  </h2>
 <p>blah</p>
+HERE
+        finaltml => <<'HERE'
+---++ Accepted
+
+TBD
+#ApprovedTerm
+---++ Approved
+
+blah
 HERE
     },
 ];
