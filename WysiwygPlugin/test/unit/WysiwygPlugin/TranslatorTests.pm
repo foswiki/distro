@@ -2931,7 +2931,41 @@ HERE
     </tbody>
 </table>
 HERE
-    }
+    },
+    {
+        exec => $TML2HTML,
+        name => 'protectScriptFromWysiwyg_Item11603',
+        tml  => <<'HERE',
+<script option="blah">
+  * Some script stuff
+  <p>
+  *ToBeIgnored*
+</script>
+HERE
+        html => <<'HERE'
+<p><span class="WYSIWYG_PROTECTED">&#60;script&nbsp;option=&#34;blah&#34;&#62;<br />&nbsp;&nbsp;*&nbsp;Some&nbsp;script&nbsp;stuff<br />&nbsp;&nbsp;&#60;p&#62;<br />&nbsp;&nbsp;*ToBeIgnored*<br />&#60;/script&#62;</span>
+</p>
+HERE
+    },
+    {
+        exec => $TML2HTML,
+        name => 'protectStyleFromWysiwyg_Item11603',
+        tml  => <<'HERE',
+<style type="text/css">
+.pics  {  
+ width:232px;
+ height:272px;
+ padding:0;  
+ margin:0;
+ text-align:center;
+}
+</style>
+HERE
+        html => <<'HERE'
+<p><span class="WYSIWYG_PROTECTED">&#60;style&nbsp;type=&#34;text/css&#34;&#62;<br />.pics&nbsp;&nbsp;{&nbsp;&nbsp;<br />&nbsp;width:232px;<br />&nbsp;height:272px;<br />&nbsp;padding:0;&nbsp;&nbsp;<br />&nbsp;margin:0;<br />&nbsp;text-align:center;<br />}<br />&#60;/style&#62;</span>
+</p>
+HERE
+    },
 ];
 
 sub encodedWhitespace {
