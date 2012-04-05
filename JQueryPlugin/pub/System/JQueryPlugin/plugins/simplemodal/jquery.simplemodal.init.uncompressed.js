@@ -129,7 +129,7 @@
           }); 
         } else { 
           // inline
-          foswiki.openDialog(id, opts); 
+          foswiki.openDialog(opts.data, opts); 
         } 
         e.preventDefault();
         return false;
