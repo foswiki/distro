@@ -2647,14 +2647,28 @@ Mad Fish',
     },
     {
         name => 'Item5076',
-        exec => $HTML2TML,
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         html => <<HERE,
-<table border="0"><tbody><tr><td><h2>Argh</h2><ul><li>Ergh&nbsp;</li></ul></td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table>
+<p class="foswikiDeleteMe">&nbsp;</p><table border="0"><tbody><tr><td>
+<h2 class="TML">  Argh </h2>
+<ul>
+<li> Ergh 
+</li>
+</ul>
+</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
 HERE
-        tml => '<table border="0"><tbody><tr><td>
+        tml => <<'HERE',
+<table border="0"><tbody><tr><td>
 ---++ Argh
    * Ergh 
-</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>',
+</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
+HERE
+        finaltml => <<'HERE',
+<table border="0"><tbody><tr><td>
+---++ Argh
+   * Ergh 
+</td><td> </td></tr><tr><td> </td><td> </td></tr></tbody></table>
+HERE
     },
     {
         name => 'Item5132',
@@ -2900,7 +2914,7 @@ this.</code></pre>
 HERE
     },
     {
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'ttTableNewlineCorruptionItem11312',
         tml  => <<'HERE',
 <table border="1" cellpadding="0" cellspacing="1"> 
@@ -2916,20 +2930,23 @@ HERE
    </tbody> 
 </table>
 HERE
-        html => <<'HERE'
-<p class="foswikiDeleteMe">&nbsp;</p>
-<table border="1" cellpadding="0" cellspacing="1"> 
-   <tbody> 
-      <tr> 
-         <td>A</td> 
+        html => <<'HERE',
+<p class="foswikiDeleteMe">&nbsp;</p><table border="1" cellpadding="0" cellspacing="1"> <span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tbody> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tr> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>A</td> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>B
+<p></p><span style="{encoded:'ns12'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>C<span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></td><span style="{encoded:'s2'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>D</td> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></tr><span style="{encoded:'s3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></tbody> 
+</table>
+HERE
+        finaltml => <<'HERE'
+<table border="1" cellpadding="0" cellspacing="1">
+   <tbody>
+      <tr>
+         <td>A</td>
          <td>B
-<p></p>         
+
             C
          </td>  
-         <td>D</td> 
+         <td>D</td>
       </tr>   
-   </tbody> 
-</table>
+   </tbody> </table>
 HERE
     },
     {
@@ -2982,6 +2999,25 @@ HERE
 </p>
 <h2 class="TML">  Approved  </h2>
 <p>blah</p>
+HERE
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'protectHtmlHeadingsInTables_Item9259',
+        tml  => <<'HERE',
+<table> <tbody> 
+<tr> <td> <h3> b </h3> </td> </tr> 
+</tbody> </table>
+HERE
+        html => <<'HERE',
+<p class="foswikiDeleteMe">&nbsp;</p><table> <tbody> <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tr> <td> <h3> b </h3> </td> </tr> 
+</tbody> </table>
+HERE
+        finaltml => <<'HERE'
+<table> <tbody>
+<tr> <td>
+---+++ b
+</td> </tr> </tbody> </table>
 HERE
     },
 ];
