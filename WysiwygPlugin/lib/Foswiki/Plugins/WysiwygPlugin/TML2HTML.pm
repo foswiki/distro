@@ -129,14 +129,13 @@ WARNING
             $this->{protectExistingTags}->{$tag} = 1;
         }
 
-        my $tagBlocksToProtect = Foswiki::Func::getPreferencesValue(
-            'WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS')
+        my $tagBlocksToProtect =
+          Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS')
           || 'script,style';
         foreach my $tag ( split /[,\s]+/, $tagBlocksToProtect ) {
             next unless $tag =~ /^\w+$/;
             $this->{protectExistingTagBlocks}->{$tag} = 1;
         }
-
 
         # Convert TML to HTML for wysiwyg editing
 
@@ -397,7 +396,7 @@ sub _getRenderedVersion {
     $text = $this->_liftOutBlocks( $text, 'pre', {} );
 
     # protect some automatic sticky tags.
-    foreach my $stickyTag ( keys %{$this->{protectExistingTagBlocks}} ) {
+    foreach my $stickyTag ( keys %{ $this->{protectExistingTagBlocks} } ) {
         $text =~ s/(<(?i:$stickyTag)[^>]*>.*?<\/(?i:$stickyTag)>)/
           $this->_liftOut($1, 'PROTECTED')/geis;
     }
@@ -406,7 +405,8 @@ sub _getRenderedVersion {
     $text =~ s/(<!--.*?-->)/$this->_liftOut($1, 'PROTECTED')/ges;
 
     # Protect anchors
-    $text =~ s/^($Foswiki::regex{anchorRegex})/$this->_liftOut("\n$1", 'PROTECTED')/gems;
+    $text =~
+s/^($Foswiki::regex{anchorRegex})/$this->_liftOut("\n$1", 'PROTECTED')/gems;
 
     # Handle inline IMG tags specially
     $text =~ s/(<img [^>]*>)/$this->_takeOutIMGTag($1)/gei;
@@ -541,24 +541,28 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     foreach my $line ( split( /\n/, $text ) ) {
         my $tableEnded = 0;
 
-        # Native HTML tables should pass through to editor unmodified as possible
-        # However need to preserve blank lines.   On save, table will be converted
-        # to TML if compatible.
-        if ( $inHTMLTable ) {
-            if ($line =~ m/<\/table>/i ) {
-                push( @result, $line );
+        if ($inHTMLTable) {
+            if ( $line =~ m/<\/table>/i ) {
                 $inHTMLTable = 0;
+                $this->_addListItem( \@result, '', '', '' ) if $inList;
+                $inList = 0;
+                push( @result, $line );
                 next;
             }
-            $line = '<p></p>' if ( !$line || $line =~ m/^\s*$/);
-            push( @result, $line );
-            next;
+            elsif ( !$line || $line =~ m/^\s*$/ ) {
+                push( @result, '</p>' ) if ($inParagraph);
+                push( @result, '<p></p>' );
+                $inParagraph = 0;
+                next;
+            }
         }
 
         if ( $line =~ m/<table/i ) {
             $inHTMLTable = 1;
-            push( @result , $line );
-            next;
+            if ($inParagraph) {
+                push( @result, '</p>' );
+                $inParagraph = 0;
+            }
         }
 
         # Table: | cell | cell |
@@ -613,13 +617,19 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
 
-            $line = '<p' . $class . '>';
+            if ($inHTMLTable) {
+                $line = '<p' . $class . '></p>';
+                $this->_addListItem( \@result, '', '', '', '' ) if $inList;
+                $inList = 0;
+            }
+            else {
+                $line = '<p' . $class . '>';
 
-            $this->_addListItem( \@result, '', '', '', '' ) if $inList;
-            $inList = 0;
+                $this->_addListItem( \@result, '', '', '', '' ) if $inList;
+                $inList = 0;
 
-            $inParagraph = 1;
-
+                $inParagraph = 1;
+            }
         }
         elsif ( $line =~
             s/^((\t|   )+)\$\s(([^:]+|:[^\s]+)+?):\s/<dt> $3 <\/dt><dd> /o )
@@ -654,8 +664,9 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $line =~ s/^(<li>)\s*$/$1&nbsp;/;
 
         }
-        elsif ( $spi &&
-		$line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o ) {
+        elsif ($spi
+            && $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> /o )
+        {
 
             # Indent pseudo-list
             $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"',
@@ -718,7 +729,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # Other line
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
-            if (    $inParagraph
+            if (    ( $inParagraph or $inHTMLTable )
                 and @result
                 and $result[-1] !~ /<p(?: class='[^']+')?>$/ )
             {
@@ -740,12 +751,16 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                   if length($whitespace);
             }
             unless ( $inParagraph or $inDiv ) {
-                push( @result, '<p>' );
-                $inParagraph = 1;
+                unless ($inHTMLTable) {
+                    push( @result, '<p>' );
+                    $inParagraph = 1;
+                }
             }
             $line =~ s/(\s\s+)/$this->_hideWhitespace($1)/ge;
-            $result[-1] .= $line;
-            $line = '';
+            if ( defined $result[-1] ) {
+                $result[-1] .= $line;
+                $line = '';
+            }
         }
 
         push( @result, $line ) if length($line) > 0;
@@ -806,6 +821,7 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
         $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
     }
 
+    #print STDERR "DEBUG\n$text\n";
     return $text;
 }
 
