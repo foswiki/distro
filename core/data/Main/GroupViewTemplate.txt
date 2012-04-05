@@ -46,6 +46,7 @@
 -->
 %STARTSECTION{"groupactions"}%%ADDTOZONE{
 "head"
+id="WIKIGROUP::CSS"
 text="<style type='text/css' media='all'>
 .wikiGroupsTable {
 	width:100%;
