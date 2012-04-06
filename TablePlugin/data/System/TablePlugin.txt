@@ -190,12 +190,12 @@ Sort icons in the header are read from System.DocumentGraphics.
 ---++ Plugin Info
 
 %TABLE{columnwidths="10%,90%"}%
-|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2011 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2012 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  25 Feb 2012 | 1.140: Arthur Clemens: Foswikitask:Item11354 adds warning message when =include= parameter fails. |
+|  06 Apr 2012 | 1.140: Arthur Clemens: Foswikitask:Item11354 adds warning message when =include= parameter fails. |
 |  10 Jan 2012 | 1.139: Michael Daum: Foswikitask:Item11423 fixed disabling default table attributes when setting them to the empty string |
 |  12 Dec 2011 | 1.138: George Clark: Foswikitask:Item11350 TablePlugin issues a die if included table is not found. |
 |  05 Dec 2011 | 1.137: Paul Harvey: Foswikitask:Item11331: Further improvements for persistent perls. |
