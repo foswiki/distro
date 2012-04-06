@@ -322,6 +322,7 @@ sub test_opWHERE {
     $topicObject->text( <<'SMELL');
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
+%META:FILEATTACHMENT{name="asdf.pl.txt" attachment="asdf.pl.txt" attr="" comment="Wobble" date="1333656208" path="asdf.pl" size="984" user="BaseUserMapping_333" version="1"}%
 SMELL
     $topicObject->save();
 
@@ -331,6 +332,15 @@ PONG
     my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 Woo
+THIS
+
+    $this->expect_failure( 'Fix fails when only a single atachment exists' );
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring'/attachments[0].comment"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+Wobble
 THIS
     $topicObject->finish();
 }
