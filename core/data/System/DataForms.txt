@@ -105,7 +105,7 @@ Each form field is defined by these attributes:
 
 %TABLE{databg="#ffffff" columnwidths="20%,80%" sort="off"}%
 | Name | The name of the form field; must be unique for that form. |
-| Type | The data type: text, date, single or multi-value, read-only. The type also defines how form field data can be entered in the edit screen, such as text field or radio buttons. |
+| Type | The data type: text, date, single or multi-value, labels (read-only). The type also defines how form field data can be entered in the edit screen, such as text field or radio buttons. |
 | Size | The input size of the form field inputs on the edit screen. |
 | Values | For checkboxes, radio buttons and dropdown lists: predefined input to select from. More advanced: this can be a dynamically generated list of values. |
 | Tooltip message | (hardly used or useful anymore) A message that will be displayed when the cursor is hovered over the field in edit view. |
@@ -129,7 +129,7 @@ The name of the form field.
 
 #TypeTable
 ---++++ Type
-The data type defines the kind of input: text, date, single or multi-value, or read-only. This is done by setting the type of interface control on the edit screen: checkbox, radio button, text field, and so on.
+The data type defines the kind of input: text, date, single or multi-value, or labels (read-only). This is done by setting the type of interface control on the edit screen: checkbox, radio button, text field, and so on.
 
 The control appearance is also specified by size and (initial) value. More on those attributes below.
 
