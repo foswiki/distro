@@ -30,8 +30,8 @@ clashes with other extensions that may try to use the same name.
 
 ---++ Info
 
-|  Author: | %$AUTHOR% |
-|  Copyright: | &copy; 2011, Foswiki Contributors |
+|  Author: | Foswiki:Main.PluginAuthor |
+|  Copyright: | &copy; 2012, Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
