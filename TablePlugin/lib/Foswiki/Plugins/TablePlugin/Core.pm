@@ -421,6 +421,7 @@ sub _getIncludeParams {
         my $text = Foswiki::Func::readTopicText( $includeWeb, $includeTopic );
 
         if ( $text =~ m/$PATTERN_TABLE/s ) {
+            _debug("\t PATTERN_TABLE=$PATTERN_TABLE; 1=$1");
             my $paramString = $1;
 
             if (   $includeWeb ne $Foswiki::Plugins::TablePlugin::web
