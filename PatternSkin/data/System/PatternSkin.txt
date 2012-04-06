@@ -167,14 +167,16 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 
 ---++ Skin Info
 
-|  Copyright: | &copy; 2004-2011 Arthur Clemens |
+|  Copyright: | &copy; 2004-2012 Arthur Clemens |
 |  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.png" style="border:1px solid #eee;" alt="Click for full screen image" width="600" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
-|  29 Feb 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency |
+|  06 Apr 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency %BR%\
+                   Foswikitask:Item11622: Add &lt;div> to revision information%BR%\
+                   Foswikitask:Item11623: Improve linking of user topics for unknown but previously registered users. |
 |  02 Dec 2011: | v.5.4.18: Foswiki 1.1.4 release.  Minor changes for consistency |
 |  02 Oct 2011: | v.5.4.17: Update javascript for attachment counting. |
 |  26 Aug 2011: | v.5.4.15, v.5.4.16: Additional support for running Pattern Skin on Foswiki 1.0.x release. |

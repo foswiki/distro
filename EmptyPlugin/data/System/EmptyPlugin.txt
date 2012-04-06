@@ -32,7 +32,7 @@ One line description, required for extensions repository catalog.
 ---++ Plugin Info
 
 |  Author: | Foswiki:Main.PluginAuthor |
-|  Copyright: | &copy; 2011, Foswiki Contributors |
+|  Copyright: | &copy; 2012, Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |

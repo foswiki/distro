@@ -193,7 +193,8 @@ The part between the rulers defines the default format of a slide:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  16 Mar 2012: | 2.1.5: Foswiki:Main.RichMorin documentation cleanup |
+|  06 Apr 2012: | 2.1.5: Foswiki:Main.RichMorin documentation cleanup%BR%\
+                  Foswikitask:Item11649: SlideShowPlugin un-necessarily breaks jquery widgets (TABPANES for eg are just blank). |
 |  28 Aug 2011: | 2.1.4: URL encoding of query parameters did not include the parameter names |
 |  11 Apr 2011: | 2.1.3: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  24 Nov 2010: | 2.1.2: Changed the VarSLIDESHOWSTART so the example does not add to the TOC of the Macros listing |

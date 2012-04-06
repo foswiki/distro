@@ -11,7 +11,7 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 our $VERSION = '$Rev$';
-our $RELEASE = '10 Apr 2011';
+our $RELEASE = '1.1.5';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -64,7 +64,7 @@ sub beforeSaveHandler {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

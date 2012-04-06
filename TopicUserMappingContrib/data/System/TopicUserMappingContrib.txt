@@ -62,12 +62,13 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
 
-|  Contrib Author(s): | Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
+|  Contrib Author(s): | Copyright (C) 2007-2012 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  4.3.5 (29 Feb 2012) | Foswikitask:Item10238: Allow UI to create empty groups<br /> \
+|  4.3.5 (06 Apr 2012) | Foswikitask:Item652, Foswikitask:Item710, Foswikitask:Item2196: Cleanup partial registrations after failure.%BR%\
+                         Foswikitask:Item10238: Allow UI to create empty groups<br /> \
                          Foswikitask:Item11196: Add error messages translations for registraion and group UI errors<br /> \
                          Foswikitask:Item11501: Validate all registration fields<br /> \
                          Foswikitask:Item11349: Improve performance |
