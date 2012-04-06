@@ -326,6 +326,26 @@ sub test_opWHERE {
 SMELL
     $topicObject->save();
 
+    my ($topicObject2Att) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring2Att" );
+    $topicObject2Att->text( <<'SMELL');
+%META:FORM{name="BleaghForm"}%
+%META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
+%META:FILEATTACHMENT{name="asdf.pl.txt" attachment="asdf.pl.txt" attr="" comment="Wobble" date="1333656208" path="asdf.pl" size="984" user="BaseUserMapping_333" version="1"}%
+%META:FILEATTACHMENT{name="asdf.pl2.txt" attachment="asdf.pl2.txt" attr="" comment="Wobble2" date="1333656208" path="asdf2.pl" size="984" user="BaseUserMapping_333" version="1"}%
+SMELL
+    $topicObject2Att->save();
+
+    my ($topicObject0Att) =
+      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring0Att" );
+    $topicObject0Att->text( <<'SMELL');
+%META:FORM{name="BleaghForm"}%
+%META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
+SMELL
+    $topicObject0Att->save();
+
+
+
     my $text = <<PONG;
 %QUERY{ "'$this->{test_web}.DeadHerring'/META:FIELD[name='Wibble'].value"}%
 PONG
@@ -334,9 +354,56 @@ PONG
 Woo
 THIS
 
-    $this->expect_failure( 'Fix fails when only a single atachment exists - Item11730', 
-      with_dep => 'Foswiki,<,1.2'
-    );
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring'/attachments[comment='Wobble'].name"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+asdf.pl.txt
+THIS
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[comment='Wobble'].name"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+asdf.pl.txt
+THIS
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring0Att'/attachments[comment='Wobble'].name"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
+
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring'/attachments[comment='Wobble Trouble'].name"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[comment='Wobble Trouble'].name"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
+
+
+
+
+    ##################################################
+    # Array indexing tests - Item11730
+    ##################################################
+
     $text = <<PONG;
 %QUERY{"'$this->{test_web}.DeadHerring'/attachments[0].comment"}%
 PONG
@@ -344,7 +411,65 @@ PONG
     $this->assert_equals( <<THIS, $result );
 Wobble
 THIS
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring'/attachments[1].comment"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
+
+
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[0].comment"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+Wobble
+THIS
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[1].comment"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+Wobble2
+THIS
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[2].comment"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
+
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring0Att'/attachments[0].comment"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
+    $text = <<PONG;
+%QUERY{"'$this->{test_web}.DeadHerring0Att'/attachments[7].comment"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
+
+
     $topicObject->finish();
+    $topicObject0Att->finish();
+    $topicObject2Att->finish();
 }
 
 1;
