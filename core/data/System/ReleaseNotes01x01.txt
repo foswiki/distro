@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.5
+---+!! Foswiki Release 1.1.5 RC2
 
 %TOC%
 
@@ -32,7 +32,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
-   * Foswiki 1.1.5-RC1 was built 22 Mar 2012.  It is a release that fixes some very important issues including some security related issues. It contains 82 fixes and 20 enhancements.
+   * Foswiki 1.1.5-RC2 was built 06 Apr 2012.  It is a release that fixes some very important issues including some security related issues. It contains 99 fixes and 20 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -51,7 +51,7 @@ Release 1.1.5 is a security focused release.  There are a number of fixes and sm
 ---+++ API Change
 
 The Foswiki API version is incremented to version 2.2 in Foswiki 1.1.5 for the following changes:
-   * <code>Foswiki::Func::getScriptUrlPath()<code> has been removed from deprecation, and enhanced with a new calling convention to be consistent with <code>Foswiki::Func::getScriptUrl()</code>.
+   * <code>Foswiki::Func::getScriptUrlPath()</code> has been removed from deprecation, and enhanced with a new calling convention to be consistent with <code>Foswiki::Func::getScriptUrl()</code>.
 
 ---+++ Improvements to User Registration
 
@@ -1352,43 +1352,58 @@ to your =bin/LocalLib.cfg=.
 </noautolink>
 
 #Rel01x01x05Details
----++ Foswiki Patch Release 1.1.5 Beta Details
-
+---++ Foswiki Patch Release 1.1.5
 <noautolink>
+
 ---+++ Fixes
 
 | [[%BUGS%/Item652][Item652]] | Register can fail midway and leave the registration half done making re-registration impossible. |
-| [[%BUGS%/Item710][Item710]] | registration failure due to email created topics but loses the password (deferred to 1.1) |
+| [[%BUGS%/Item710][Item710]] | Registration failure due to email created topics but loses the password (deferred to 1.1) |
+| [[%BUGS%/Item2174][Item2174]] | WysiwygPlugin removes line breaks |
 | [[%BUGS%/Item2196][Item2196]] | Email errors not handled well during registration |
 | [[%BUGS%/Item4777][Item4777]] | {SafeEnvPath} deserves a decent default |
+| [[%BUGS%/Item8981][Item8981]] | Broken copy - paste of list items |
+| [[%BUGS%/Item9259][Item9259]] | Tables containing headings fail to roundtrip |
 | [[%BUGS%/Item9563][Item9563]] | pushTopicContext does not re-read preferences in afterSaveHandler |
 | [[%BUGS%/Item9569][Item9569]] | Macros are processed by commonTagsHandler within verbatim blocks of included topics |
 | [[%BUGS%/Item9647][Item9647]] | select+values formfields can lose their value mapping |
 | [[%BUGS%/Item10071][Item10071]] | select+values formfield doesn't display its mapped value |
 | [[%BUGS%/Item10172][Item10172]] | Error with Statistics |
-| [[%BUGS%/Item10238][Item10238]] | can't create empty groups with UI |
+| [[%BUGS%/Item10238][Item10238]] | Can't create empty groups with UI |
 | [[%BUGS%/Item10245][Item10245]] | Make TABPANE contents visible if no js |
+| [[%BUGS%/Item10350][Item10350]] | If search results are less than pagesize, unresolved token shows up |
+| [[%BUGS%/Item10383][Item10383]] | JQuerySimpleModal sample window isn't displayed properly in 1.1.2 (was good in 1.1.1) |
+| [[%BUGS%/Item10546][Item10546]] | Foswiki Func does not seem to have a way to expand tmpl parameters |
 | [[%BUGS%/Item10648][Item10648]] | Checking PATH for an insecure elements |
 | [[%BUGS%/Item10669][Item10669]] | Relax the check which assigns ={DefaultUrlHost}= as the urlHost, to detect localhost URL variants using https and custom port numbers |
 | [[%BUGS%/Item10937][Item10937]] | View iterates through the revs when a revision directive isn't present |
+| [[%BUGS%/Item11146][Item11146]] | Cannot edit on IE8 |
+| [[%BUGS%/Item11196][Item11196]] | Better error feedback from TopicUserMapper and UI::Register |
+| [[%BUGS%/Item11312][Item11312]] | TinyMCE Corrupting HTML Tables |
+| [[%BUGS%/Item11337][Item11337]] | Delete of a Heading 1 in WYSIWYG mangles the headings |
+| [[%BUGS%/Item11354][Item11354]] | TablePlugin doesn't report errors back to user |
 | [[%BUGS%/Item11366][Item11366]] | Ampersands in =[[squab?queries]]= are double-encoded |
-| [[%BUGS%/Item11378][Item11378]] | Strike-out =&lt;del&gt; &lt;s&gt;= tags are lost in WYSIWYG transition |
+| [[%BUGS%/Item11369][Item11369]] | The message ="Please wait... retrieving page from server"= looks too much like an error. Change to "Loading" JS Animation. |
+| [[%BUGS%/Item11378][Item11378]] | Strike-out =&lt;del>=, =&lt;s>= tags are lost in WYSIWYG transition |
 | [[%BUGS%/Item11382][Item11382]] | Javascript error with IE7 causes Format dropdown to fail on nested webs |
 | [[%BUGS%/Item11384][Item11384]] | =$Foswiki::cfg= references in other config variables not expanded within web Extensions installer |
 | [[%BUGS%/Item11385][Item11385]] | list iterator fails on undef lists |
 | [[%BUGS%/Item11386][Item11386]] | Upgrades to 1.1.x don't get the =OP_match= operator added to query search.  Breaks attachments table. |
 | [[%BUGS%/Item11395][Item11395]] | Statistics topic changes in Item11182 has issues if WebStatistics topic is renamed or archived. |
 | [[%BUGS%/Item11398][Item11398]] | Foswiki logger fails to rotate files other than events.log |
-| [[%BUGS%/Item11403][Item11403]] | properly remove spurious lease files |
+| [[%BUGS%/Item11403][Item11403]] | Properly remove spurious lease files |
 | [[%BUGS%/Item11409][Item11409]] | HtpasswdUser issues when shared between multiple Foswiki instances |
-| [[%BUGS%/Item11423][Item11423]] | can't disable default tableplugin settings |
+| [[%BUGS%/Item11410][Item11410]] | Implement USERINFOisTooRestrictive |
+| [[%BUGS%/Item11423][Item11423]] | Can't disable default tableplugin settings |
 | [[%BUGS%/Item11427][Item11427]] | @_lines redefined in I18N module |
-| [[%BUGS%/Item11440][Item11440]] | Inside =&lt;pre&gt;= formatted text, =&lt;b&gt;=, =&lt;strong&gt;= tags are lost in WYSIWYG transition |
+| [[%BUGS%/Item11436][Item11436]] | HtpasswdUser creates a cache,  make it a global cache |
+| [[%BUGS%/Item11440][Item11440]] | Inside =&lt;pre>= formatted text, =&lt;b>=, =&lt;strong>= tags are lost in WYSIWYG transition |
 | [[%BUGS%/Item11444][Item11444]] | Document {WarningsAreErrors} in EmptyPlugin |
 | [[%BUGS%/Item11445][Item11445]] | SANDBOXWEB macro is undefined. |
-| [[%BUGS%/Item11446][Item11446]] | rest script needs better endPoint handling |
+| [[%BUGS%/Item11446][Item11446]] | The rest script needs better endPoint handling |
 | [[%BUGS%/Item11450][Item11450]] | SpreadSheetPlugin $ABOVE() thinks rows are zero-based |
 | [[%BUGS%/Item11452][Item11452]] | MetaCache robustness: remove from cache on =$topicObject->finish()= |
+| [[%BUGS%/Item11453][Item11453]] | Convert RenderListPlugin to use preRenderingHandler |
 | [[%BUGS%/Item11458][Item11458]] | TopicUserMapping blocks registration if passwords are not writable - FAIL!! |
 | [[%BUGS%/Item11461][Item11461]] | beforeSaveHandler is passed an uncommitted meta object |
 | [[%BUGS%/Item11462][Item11462]] | Email debug messages need some improvements |
@@ -1396,71 +1411,73 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11467][Item11467]] | Need better documentation and handling of Perl dependencies |
 | [[%BUGS%/Item11468][Item11468]] | FORMAT{"0" type="string"... doesn't work |
 | [[%BUGS%/Item11478][Item11478]] | Statistics not generated for subwebs |
-| [[%BUGS%/Item11484][Item11484]] | statistics script updates topics with GET.  It should be restricted to POST |
+| [[%BUGS%/Item11484][Item11484]] | The statistics script updates topics with GET.  It should be restricted to POST |
 | [[%BUGS%/Item11490][Item11490]] | =geturl.pl= script needs POST capability to run statistics |
 | [[%BUGS%/Item11492][Item11492]] | rename computes the list of referring topics even though there's no LOCAL_SEARCH or GLOBAL_SEARCH on the rename template |
 | [[%BUGS%/Item11495][Item11495]] | ={AuthRealm}= checker doesn't detect htdigest-md5 encoding |
 | [[%BUGS%/Item11501][Item11501]] | User registration needs mechanism to validate form fields |
 | [[%BUGS%/Item11502][Item11502]] | %QUERY containing where clause can fail if only one item is being examined |
-| [[%BUGS%/Item11503][Item11503]] | spelling mistake in the installation guide |
+| [[%BUGS%/Item11503][Item11503]] | Spelling mistake in the installation guide |
+| [[%BUGS%/Item11506][Item11506]] | Value of GMTIME{"$week"} is not ISO8601 conform |
 | [[%BUGS%/Item11511][Item11511]] | Helper topics that return JSON should set content type application/json |
-| [[%BUGS%/Item11520][Item11520]] | extra slash in link throwing off google crawler |
+| [[%BUGS%/Item11520][Item11520]] | Extra slash in link throwing off google crawler |
 | [[%BUGS%/Item11523][Item11523]] | $dollarcomma token not used in SUBSTITUTE and other Spreadsheet macros |
-| [[%BUGS%/Item11526][Item11526]] | renderWikiWordHandler is called for things that are not WikiWord  links |
-| [[%BUGS%/Item11532][Item11532]] | Add link to StandardColors to web creation form |
+| [[%BUGS%/Item11526][Item11526]] | The renderWikiWordHandler is called for things that are not WikiWord  links |
 | [[%BUGS%/Item11533][Item11533]] | Argument "50" isn't numeric in multiplication, Search.pm line 279 |
 | [[%BUGS%/Item11540][Item11540]] | Documentation updates for SlideShowPlugin |
-| [[%BUGS%/Item11541][Item11541]] | resizing EditBox broken: enlarges a *lot*, shrink doesn't work |
+| [[%BUGS%/Item11541][Item11541]] | Resizing EditBox broken: enlarges a *lot*, shrink doesn't work |
 | [[%BUGS%/Item11545][Item11545]] | Excessive debug logging from Statistics runs |
 | [[%BUGS%/Item11553][Item11553]] | Configure Extensions tabs needs some usability help |
 | [[%BUGS%/Item11554][Item11554]] | Logs are not rolling on first of months. |
 | [[%BUGS%/Item11564][Item11564]] | AuthScripts checker could be a little more helpful |
 | [[%BUGS%/Item11567][Item11567]] | Manage and register needs some tlc |
-| [[%BUGS%/Item11582][Item11582]] | use style attributes instead of bgcolor |
+| [[%BUGS%/Item11582][Item11582]] | Use style attributes instead of bgcolor |
 | [[%BUGS%/Item11584][Item11584]] | Fn_MAKETEXT::test_underscore fails unless at least one language is enabled |
 | [[%BUGS%/Item11585][Item11585]] | Configure loads =DEPENDENCIES= from lib,  but file is in =lib/Foswiki/Contrib/core= |
 | [[%BUGS%/Item11586][Item11586]] | saveTopicText with embedded META:TOPICINFO doubles up. |
 | [[%BUGS%/Item11588][Item11588]] | Foswiki::inlineAlert()  reports missing template if resutls are empty.   Also wrong template name. |
 | [[%BUGS%/Item11591][Item11591]] | Don't try to view invalid rev |
-| [[%BUGS%/Item11600][Item11600]] | hitting cancel on the 'edit topic preferences' oopsmore UI saves the changes |
-| [[%BUGS%/Item11603][Item11603]] | protect inline script and style tags from wysiwyg |
+| [[%BUGS%/Item11600][Item11600]] | Hitting cancel on the 'edit topic preferences' oopsmore UI saves the changes |
+| [[%BUGS%/Item11603][Item11603]] | Protect inline script and style tags from wysiwyg |
 | [[%BUGS%/Item11606][Item11606]] | Documentation 'ifStatements ==> ingroup-Function' |
-| [[%BUGS%/Item11616][Item11616]] | top of the formatting help in edit seems to not be rendered right anymore |
-| [[%BUGS%/Item11622][Item11622]] | pattern's print skin adds path and author information to the output that is not in a separate div - so its impossible to hide with css |
-| [[%BUGS%/Item11623][Item11623]] | the pattern skin revision info has an odd failure mode when a TOPICINFO.author is a wikiname that isn't a valid cuid anymore |
+| [[%BUGS%/Item11616][Item11616]] | Top of the formatting help in edit seems to not be rendered right anymore |
+| [[%BUGS%/Item11622][Item11622]] | Pattern's print skin adds path and author information to the output that is not in a separate div - so its impossible to hide with css |
+| [[%BUGS%/Item11623][Item11623]] | The pattern skin revision info has an odd failure mode when a TOPICINFO.author is a wikiname that isn't a valid cuid anymore |
 | [[%BUGS%/Item11627][Item11627]] | Manage =editSettings= does not take a topic lease. |
 | [[%BUGS%/Item11635][Item11635]] | WebSiteTools was still using the deprecated search script |
 | [[%BUGS%/Item11655][Item11655]] | CommentPlugin types table is missing some shipped types. |
-| [[%BUGS%/Item11666][Item11666]] | Defaulting of checkboxes in dataforms is broken |
-| [[%BUGS%/Item11675][Item11675]] | Foswiki::Net reported incorrect sendmail return code |
+| [[%BUGS%/Item11666][Item11666]] | Looks like the defaulting of checkboxes in dataforms is broken (at least it is not doing what the docco says) |
+| [[%BUGS%/Item11675][Item11675]] | Correct boolean operator and comment |
 | [[%BUGS%/Item11680][Item11680]] | Mixed http and https sites get logged off too quickly |
 | [[%BUGS%/Item11682][Item11682]] | LINKTOOLTIPINFO html corrupted if text contained quotes and removal created a WikiWord |
 | [[%BUGS%/Item11701][Item11701]] | JSCalendarContrib should fallback to numbers for month in case it is given a date like 1/12/2012 and format expects 1 Dec 2012. |
 | [[%BUGS%/Item11702][Item11702]] | Redirect call in Save and Rename have incorrect call to Foswiki::redirect() |
 | [[%BUGS%/Item11704][Item11704]] | Document use of %BR% to create linebreaks in FormattedSearch results |
 | [[%BUGS%/Item11706][Item11706]] | Configure doesn't make it easy to set a missing admin password |
+| [[%BUGS%/Item11728][Item11728]] | GroupViewTemplate loads style definitions into head repeatedly |
+| [[%BUGS%/Item11730][Item11730]] | QUERY referencing the attachment fields can't access attachment 0 when there is only one attachment |
 
 ---+++ Enhancements
 
 | [[%BUGS%/Item8744][Item8744]] | Sandbox webname should be configurable in the same way that other default webs are configurable |
-| [[%BUGS%/Item10546][Item10546]] | Foswiki Func does not seem to have a way to expand tmpl parameters |
-| [[%BUGS%/Item11196][Item11196]] | Better error feedback from TopicUserMapper and UI::Register |
-| [[%BUGS%/Item11354][Item11354]] | TablePlugin doesn't report errors back to user |
+| [[%BUGS%/Item10724][Item10724]] | Update to WYSIWYG Editor to TinyMCE 3.4.7 |
 | [[%BUGS%/Item11365][Item11365]] | Un-deprecate, improve =Foswiki::Func::getScriptUrlPath()= API |
+| [[%BUGS%/Item11367][Item11367]] | Add Javascript callbacks to get notified after editor changes to/from Raw or WYSIWYG mode. |
+| [[%BUGS%/Item11368][Item11368]] | Alllow templates to better control placement of the WYSIWYG button. |
 | [[%BUGS%/Item11394][Item11394]] | Implement Development.ImproveStatisticsHandlingForMissingTopics |
-| [[%BUGS%/Item11410][Item11410]] | Implement USERINFOisTooRestrictive |
 | [[%BUGS%/Item11428][Item11428]] | add +values to radio and checkbox formfields |
-| [[%BUGS%/Item11436][Item11436]] | HtpasswdUser creates a cache,  make it a global cache |
-| [[%BUGS%/Item11453][Item11453]] | Convert RenderListPlugin to use preRenderingHandler |
+| [[%BUGS%/Item11437][Item11437]] | Add package navigation to Perl Doc |
 | [[%BUGS%/Item11517][Item11517]] | Use a better password method for configure |
 | [[%BUGS%/Item11518][Item11518]] | Add BCrypt encryption to =HtPasswdUser.pm= |
-| [[%BUGS%/Item11524][Item11524]] | Sync up SpreadSheetPlugin - FLOOR and CEILING |
-| [[%BUGS%/Item11563][Item11563]] | Implement ChangeDefaultHtpasswdEncoding |
+| [[%BUGS%/Item11524][Item11524]] | Enhance SpreadSheetPlugin with new functions FLOOR and CEILING |
+| [[%BUGS%/Item11532][Item11532]] | Add link to StandardColors to web creation form |
+| [[%BUGS%/Item11563][Item11563]] | Change default password encoding to apache-md5 and enable auto-detect of old crypt passwords by default |
 | [[%BUGS%/Item11568][Item11568]] | Re-introduce style option and new default calendar skin |
 | [[%BUGS%/Item11576][Item11576]] | Add support for redirectto to the addUserToGroup and removeUserFromGroup register actions. |
 | [[%BUGS%/Item11605][Item11605]] | Implement Development.AddOptionalRegistrationEmailValidation |
 | [[%BUGS%/Item11636][Item11636]] | You are trying to viewfile an attachment that does not exist. lacks a link to the topic. |
-| [[%BUGS%/Item11663][Item11663]] | All Form/element.pm's should have a css class on them.. especially Label! |
+| [[%BUGS%/Item11656][Item11656]] | pattern skin font definitions are too far into the html to work for JQDialogs |
+| [[%BUGS%/Item11663][Item11663]] | all Form/element.pm's should have a css class on them.. especially Label! |
 | [[%BUGS%/Item11685][Item11685]] | We should not use simplemodal, but rather the much better jquery.ui.dialog. |
 </noautolink>
 

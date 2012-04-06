@@ -4,6 +4,10 @@
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
+---++ Foswiki Release 1.1.5 - 06 Apr 2012
+
+Foswiki 1.1.5-RC2 was built 06 Apr 2012.  It is a release that fixes some very important issues including some security related issues. It contains 99 fixes and 20 enhancements.
+
 ---++ Foswiki Release 1.1.4 - 20 Dec 2011
 
 Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
