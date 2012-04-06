@@ -26,15 +26,21 @@ sub evaluate {
     my $a      = $node->{params}[0];
     my $lval   = $a->evaluate(@_);
     my $b      = $node->{params}[1];
-    if ( ref($lval) eq 'ARRAY' ) {
-        if ( $b->{op} == $Foswiki::Infix::Node::NUMBER ) {
 
-            # Special case; integer index responds with array el at that
-            # index.
+    # Special case; integer index responds with array el at that
+    # index.
+    if ( $b->{op} == $Foswiki::Infix::Node::NUMBER ) {
+        if ( ref($lval) eq 'ARRAY' ) {
             return $lval->[ int( $b->{params}[0] ) ];
         }
+        if (defined ($lval) && 0 == int( $b->{params}[0] )) {
+            return $lval;
+        }
+        return [];
+    }
 
-        # Otherwise evaluate the inner query
+    # Otherwise evaluate the inner query
+    if ( ref($lval) eq 'ARRAY' ) {
         my @res;
         foreach my $el (@$lval) {
             if ( $b->evaluate( data => $el, tom => $domain{tom} ) ) {
