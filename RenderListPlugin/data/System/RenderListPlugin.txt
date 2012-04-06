@@ -340,11 +340,12 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2011 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2012 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  06 Apr 2012: | 2.2.6: Foswiki 1.1.5 release.  Item11453: convert to preRenderingHandler. |
 |  05 Dec 2011: | 2.2.5: Foswiki 1.1.4 release.  Minor code and topic cleanup. |
 |  15 Jul 2011: | 2.2.4: fixed line parser - Foswikitask:Item10969 |
 |  11 Apr 2011: | 2.2.3: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
