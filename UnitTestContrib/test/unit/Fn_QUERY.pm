@@ -334,7 +334,9 @@ PONG
 Woo
 THIS
 
-    $this->expect_failure( 'Fix fails when only a single atachment exists' );
+    $this->expect_failure( 'Fix fails when only a single atachment exists - Item11730', 
+      with_dep => 'Foswiki,<,1.2'
+    );
     $text = <<PONG;
 %QUERY{"'$this->{test_web}.DeadHerring'/attachments[0].comment"}%
 PONG
