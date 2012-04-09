@@ -801,6 +801,14 @@ pub/System/JQueryPlugin/themes/foswiki/jquery-ui.css 0644
 pub/System/JQueryPlugin/themes/foswiki/jquery-ui.css.gz 0644
 pub/System/JQueryPlugin/themes/foswiki/jquery-ui.uncompressed.css 0644
 pub/System/JQueryPlugin/themes/foswiki/Makefile 0644
+pub/System/JQueryPlugin/themes/pattern/images/ui-bg_flat_0_aaaaaa_40x100.png 0644
+pub/System/JQueryPlugin/themes/pattern/images/ui-icons_666666_256x240.png 0644
+pub/System/JQueryPlugin/themes/pattern/images/ui-icons-famfamfam.png 0644
+pub/System/JQueryPlugin/themes/pattern/images/x.png 0644
+pub/System/JQueryPlugin/themes/pattern/jquery-ui.css 0644
+pub/System/JQueryPlugin/themes/pattern/jquery-ui.css.gz 0644
+pub/System/JQueryPlugin/themes/pattern/jquery-ui.uncompressed.css 0644
+pub/System/JQueryPlugin/themes/pattern/Makefile 0644
 pub/System/JQueryPlugin/themes/flickr/images/ui-bg_flat_0_aaaaaa_40x100.png 0644
 pub/System/JQueryPlugin/themes/flickr/images/ui-bg_flat_0_eeeeee_40x100.png 0644
 pub/System/JQueryPlugin/themes/flickr/images/ui-bg_flat_55_ffffff_40x100.png 0644
