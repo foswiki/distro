@@ -22,13 +22,21 @@
 
 html body {
 	font-family:arial, verdana, sans-serif;
-	font-size:104%; /* to change the site's font size, change .foswikiPage below */
+	font-size:104%;
 	voice-family:"\"}\""; 
 	voice-family:inherit;
 	font-size:small;
 }
 html>body { /* Mozilla */
 	font-size:small;	
+}
+body {
+	line-height:1.5em; /*S1*/
+	/* change font size here */
+	font-size:103%;
+}
+body font {
+	line-height:135%;
 }
 th {
 	line-height:1.15em;
@@ -333,18 +341,6 @@ h4.patternSearchResultsHeader {
 hr {
 	border:none;
 	height:1px;
-}
-
-html body {
-	border:0;
-	font-size:small;
-	margin:0;
-	padding:0;
-	voice-family:inherit;
-}
-
-html>body {
-	font-size:small;
 }
 
 img {

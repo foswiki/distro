@@ -167,7 +167,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 
 ---++ Skin Info
 
-|  Copyright: | &copy; 2004-2012 Arthur Clemens |
+|  Copyright: | &copy; 2004-2012 Arthur Clemens, Foswiki contributors |
 |  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.png" style="border:1px solid #eee;" alt="Click for full screen image" width="600" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
