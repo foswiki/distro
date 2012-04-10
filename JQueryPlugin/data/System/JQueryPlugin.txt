@@ -137,6 +137,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  10 Apr 2012: | (4.41) - Added !PatternSkin theme |
 |  10 Apr 2012: | (4.40) - Item11397, Item11742. \
                   use a JSON instead of &lt;meta> to export preferences to javascript; \
                   add jquery-1.7.2 (new default); \
