@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1264712966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1330025199" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"serialscroll"
@@ -19,20 +19,16 @@ It uses JQueryScrollTo to achieve the scrolling animation.
 <div id="screen1">
 <div id="slideshow">
 <ul>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9020" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=8430" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7898" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7894" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=3526" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7863" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7743" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7150" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7164" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=7149" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=4922" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9307" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9922" /></li>
-  <li><img width="225" height="300" src="http://www.stockvault.net/watermark.php?i=9976" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=1" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=2" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=3" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=4" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=5" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=6" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=7" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=8" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=9" /></li>
+  <li><img width="225" height="300" src="http://lorempixel.com/255/300/people?t=10" /></li>
 </ul>
 </div>
   <div id="buttons">

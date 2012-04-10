@@ -274,7 +274,7 @@ sub getIconUrlPath {
 
     unless (@iconSearchPath) {
         my $iconSearchPath = $Foswiki::cfg{JQueryPlugin}{IconSearchPath}
-          || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
+          || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamSilkGeoSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
         @iconSearchPath = split( /\s*,\s*/, $iconSearchPath );
     }
 

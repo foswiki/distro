@@ -31,7 +31,7 @@ Parameter are specified using JQueryMetadata, as in
 
 | *Parameter* | *Description* | *Default* |
 | url | the full url from where the content, e.g. =url:'%SCRIPTURL{"view"}%/MyWeb/MyTopic?section=mysection;skin=text'= | |
-| section | the ... | |
+| section | the section within the topic (see %SYSTEMWEB%.VarSTARTSECTION) | |
 | mode | specify whether the content is either loaded automatically or by clicking on the container; \
          possible values: =auto=, =manual= | =auto= |
 | placeholder | the image to be displayed as long as the content hasn't been loaded \

@@ -305,6 +305,9 @@ pub/System/JQueryPlugin/jquery-1.7.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.7.1.js 0644
 pub/System/JQueryPlugin/jquery-1.7.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.7.1.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.7.2.js 0644
+pub/System/JQueryPlugin/jquery-1.7.2.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.7.2.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644
@@ -556,6 +559,9 @@ pub/System/JQueryPlugin/plugins/rating/star.gif 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.js.gz 0644
 pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.init.js 0644
+pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.init.js.gz 0644
+pub/System/JQueryPlugin/plugins/scrollto/jquery.scrollTo.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/scrollto/Makefile 0644
 pub/System/JQueryPlugin/plugins/serialscroll/jquery.serialScroll.js 0644
 pub/System/JQueryPlugin/plugins/serialscroll/jquery.serialScroll.js.gz 0644
