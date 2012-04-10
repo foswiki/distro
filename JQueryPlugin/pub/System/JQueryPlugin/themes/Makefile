@@ -4,8 +4,7 @@ SUBDIRS=\
   lightness \
   redmond \
   flickr \
-  foswiki \
-  pattern
+  foswiki
 
 all: $(SUBDIRS)
 

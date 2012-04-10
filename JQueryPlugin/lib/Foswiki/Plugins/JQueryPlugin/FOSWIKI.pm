@@ -75,33 +75,19 @@ sub init {
             $Foswiki::cfg{NameFilter} );
     }
 
-    if ( $Foswiki::Plugins::VERSION < 2.1 ) {
-
-        # add exported preferences to head using META tags
-        my $text = '';
-        foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
-            $text .=
-                '<meta name="foswiki.' 
-              . $pref
-              . '" content="%ENCODE{"%'
-              . $pref
-              . '%"}%" />'
-              . " <!-- $pref -->\n";
-        }
-
-        Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::FOSWIKI::META",
-            $text );
+    # add exported preferences to head
+    my $text = '';
+    foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
+        $text .=
+            '<meta name="foswiki.' 
+          . $pref
+          . '" content="%ENCODE{"%'
+          . $pref
+          . '%"}%" />'
+          . " <!-- $pref -->\n";
     }
-    else {
-    
-        # add exported preferences to head using a JSON object
-        foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
-            my $jsonPreference =
-              '"' . $pref . '": "' . '%ENCODE{"%' . $pref . '%"}%"';
-            Foswiki::Func::addToZone( "jsonpreference", undef,
-                $jsonPreference );
-        }
-    }
+
+    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::FOSWIKI::META", $text );
 }
 
 1;
