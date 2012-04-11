@@ -70,7 +70,7 @@ div.wikiGroupsAction {
 .wikiGroupsNoAction {
 	color:#888;
 }
-</style>"
+</style><!-- /WIKIGROUP::CSS -->"
 }%<!-- --><div class='wikiGroupsAction'>
 %GROUPINFO{"%groupname%"
   expand="0"
@@ -110,16 +110,16 @@ div.wikiGroupsAction {
     groupname=\"%groupname%\"
     allowremove=\"1\"
   }$percnt"
-}%<!-- -->
-</div>
-<!-- -->%ENDSECTION{"groupactions"}%
+}%
+</div><!-- /groupactions -->
+%ENDSECTION{"groupactions"}%
 </verbatim>
 
 <verbatim>
 <!--
   parameters: username, groupname
 -->
-%STARTSECTION{"nochange"}%<!-- -->%IF{
+%STARTSECTION{"nochange"}%%IF{
    "'%groupname%' = 'NobodyGroup'"
    then="<span class='wikiGroupsNoAction'>%MAKETEXT{"This group should not have members."}%$n()</span>"
    else="%IF{
@@ -141,7 +141,7 @@ div.wikiGroupsAction {
 <!--
   parameters: groupname
 -->
-%STARTSECTION{"changegroup"}%<!-- -->%JQREQUIRE{"ui::dialog, textboxlist"}%
+%STARTSECTION{"changegroup"}%%JQREQUIRE{"ui::dialog, textboxlist"}%
 %IF{"'%BASEWEB%.%BASETOPIC%'='%USERSWEB%.%groupname%'"
 then='
 ---++ %MAKETEXT{"Administration"}%
@@ -157,7 +157,7 @@ then='
    "
    then='%BR%%ICON{"wrench"}% <a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=text;section=group_upgrade;groupname=%groupname%" alt="%MAKETEXT{"Upgrade group topic..."}%" title="%MAKETEXT{"Upgrade group topic..."}%" class="jqUIDialogLink {cache:false}">%MAKETEXT{"Upgrade group topic..."}%</a>'
 }%
-!-- -->%ENDSECTION{"changegroup"}%
+<!-- /changegroup -->%ENDSECTION{"changegroup"}%
 </verbatim>
 
 <verbatim>
@@ -165,7 +165,7 @@ then='
   parameters: groupname
 -->
 %STARTSECTION{"group_upgrade"}%
-<div id='manageGroup' title="Upgrade Group Topic" class="jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}">
+<div id='manageGroup' title="%MAKETEXT{"Upgrade"}% %URLPARAM{"groupname"}%" class="jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}">
 <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
 <input type="hidden" name="groupname" value="%URLPARAM{"groupname"}%"/>
 <input type="hidden" name="action" value="addUserToGroup"/>
@@ -178,7 +178,7 @@ then='
    <a id='cancelLink' class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
 </div>
 </form></div>
-<!-- -->%ENDSECTION{"group_upgrade"}%
+<!-- /group_upgrade -->%ENDSECTION{"group_upgrade"}%
 </verbatim>
 
 <verbatim>
@@ -186,7 +186,7 @@ then='
   parameters: groupname
 -->
 %STARTSECTION{"group_add"}%<!-- --><sticky>
-<div id='manageGroup' title="Add Group Members" class="jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}">
+<div id='manageGroup' title='%MAKETEXT{"Add Members to"}% %URLPARAM{"groupname"}%' class='jqUIDialog { modal:true, resizable:false, draggable:false, width:400, autoCenter:true, cache:false}'>
 <form id='addUser' action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'> 
 <input type='hidden' name='groupname' value='%URLPARAM{"groupname" default="%groupname%"}%'/> 
 <input type='hidden' name='action' value='addUserToGroup'/>
@@ -198,7 +198,7 @@ then='
    <a class="jqUIDialogButton jqUIDialogSubmit jqUIDialogClose {icon:'ui-icon-circle-check'}" >%MAKETEXT{"Add members"}%</a>
    <a id='cancelLink' class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
 </div>
-</form></div>
+</form></div><!-- /group_add -->
 </sticky>
 %ENDSECTION{"group_add"}%
 </verbatim>
@@ -208,7 +208,7 @@ then='
   parameters: groupname
 -->
 %STARTSECTION{"group_remove"}%<!-- -->
-<div id='manageGroup' title="Remove Group Members" class="jqUIDialog { modal:true, resizable:false, draggable:false,  width:400, autoCenter:true,  cache:false }">
+<div id='manageGroup' title='%MAKETEXT{"Remove Members from"}% %URLPARAM{"groupname"}%' class='jqUIDialog { modal:true, resizable:false, draggable:false,  width:400, autoCenter:true,  cache:false }'>
 %GROUPINFO{
    "%URLPARAM{"groupname"}%"
    expand="0"
@@ -229,7 +229,7 @@ then='
       </form>"
    separator="$n"
 }%</div>
-<!-- -->%ENDSECTION{"group_remove"}%
+<!-- /group_remove -->%ENDSECTION{"group_remove"}%
 </verbatim>
 
 %TMPL:END%
