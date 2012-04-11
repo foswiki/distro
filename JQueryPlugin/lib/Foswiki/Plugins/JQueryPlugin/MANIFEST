@@ -843,14 +843,6 @@ pub/System/JQueryPlugin/themes/lightness/jquery-ui.css.gz 0644
 pub/System/JQueryPlugin/themes/lightness/jquery-ui.uncompressed.css 0644
 pub/System/JQueryPlugin/themes/lightness/Makefile 0644
 pub/System/JQueryPlugin/themes/Makefile 0644
-pub/System/JQueryPlugin/themes/pattern/images/ui-bg_flat_0_aaaaaa_40x100.png 0644
-pub/System/JQueryPlugin/themes/pattern/images/ui-icons_666666_256x240.png 0644
-pub/System/JQueryPlugin/themes/pattern/images/ui-icons-famfamfam.png 0644
-pub/System/JQueryPlugin/themes/pattern/images/x.png 0644
-pub/System/JQueryPlugin/themes/pattern/jquery-ui.css 0644
-pub/System/JQueryPlugin/themes/pattern/jquery-ui.css.gz 0644
-pub/System/JQueryPlugin/themes/pattern/jquery-ui.uncompressed.css 0644
-pub/System/JQueryPlugin/themes/pattern/Makefile 0644
 pub/System/JQueryPlugin/themes/redmond/images/ui-bg_flat_0_aaaaaa_40x100.png 0644
 pub/System/JQueryPlugin/themes/redmond/images/ui-bg_flat_55_fbec88_40x100.png 0644
 pub/System/JQueryPlugin/themes/redmond/images/ui-bg_glass_75_d0e5f5_1x400.png 0644
