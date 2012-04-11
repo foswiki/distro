@@ -4,14 +4,14 @@ use strict;
 use warnings;
 
 our $VERSION          = '$Rev$';
-our $RELEASE          = '05 Dec 2011';
+our $RELEASE          = '06 Apr 2012';
 our $SHORTDESCRIPTION = 'Displays rotating list of "Tip-of-the-day"';
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

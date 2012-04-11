@@ -174,9 +174,10 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
-|  06 Apr 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency %BR%\
-                   Foswikitask:Item11622: Add &lt;div> to revision information%BR%\
-                   Foswikitask:Item11623: Improve linking of user topics for unknown but previously registered users. |
+|  06 Apr 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency. %BR%\
+                   Foswikitask:Item11622: Add &lt;div> to revision information.%BR%\
+                   Foswikitask:Item11623: Improve linking of user topics for unknown but previously registered users.%BR%\
+                   Foswikitask:Item11656: Pattern skin font definitions are too far into the html to work for JQDialogs. |
 |  02 Dec 2011: | v.5.4.18: Foswiki 1.1.4 release.  Minor changes for consistency |
 |  02 Oct 2011: | v.5.4.17: Update javascript for attachment counting. |
 |  26 Aug 2011: | v.5.4.15, v.5.4.16: Additional support for running Pattern Skin on Foswiki 1.0.x release. |

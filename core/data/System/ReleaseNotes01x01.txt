@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.5 RC2
+---+!! Foswiki Release 1.1.5
 
 %TOC%
 
@@ -32,7 +32,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
-   * Foswiki 1.1.5-RC2 was built 06 Apr 2012.  It is a release that fixes some very important issues including some security related issues. It contains 99 fixes and 20 enhancements.
+   * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1387,7 +1387,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11378][Item11378]] | Strike-out =&lt;del>=, =&lt;s>= tags are lost in WYSIWYG transition |
 | [[%BUGS%/Item11382][Item11382]] | Javascript error with IE7 causes Format dropdown to fail on nested webs |
 | [[%BUGS%/Item11384][Item11384]] | =$Foswiki::cfg= references in other config variables not expanded within web Extensions installer |
-| [[%BUGS%/Item11385][Item11385]] | list iterator fails on undef lists |
+| [[%BUGS%/Item11385][Item11385]] | List iterator fails on undef lists. |
 | [[%BUGS%/Item11386][Item11386]] | Upgrades to 1.1.x don't get the =OP_match= operator added to query search.  Breaks attachments table. |
 | [[%BUGS%/Item11395][Item11395]] | Statistics topic changes in Item11182 has issues if WebStatistics topic is renamed or archived. |
 | [[%BUGS%/Item11398][Item11398]] | Foswiki logger fails to rotate files other than events.log |
@@ -1413,7 +1413,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11478][Item11478]] | Statistics not generated for subwebs |
 | [[%BUGS%/Item11484][Item11484]] | The statistics script updates topics with GET.  It should be restricted to POST |
 | [[%BUGS%/Item11490][Item11490]] | =geturl.pl= script needs POST capability to run statistics |
-| [[%BUGS%/Item11492][Item11492]] | rename computes the list of referring topics even though there's no LOCAL_SEARCH or GLOBAL_SEARCH on the rename template |
+| [[%BUGS%/Item11492][Item11492]] | Rename computes the list of referring topics even though there's no LOCAL_SEARCH or GLOBAL_SEARCH on the rename template |
 | [[%BUGS%/Item11495][Item11495]] | ={AuthRealm}= checker doesn't detect htdigest-md5 encoding |
 | [[%BUGS%/Item11501][Item11501]] | User registration needs mechanism to validate form fields |
 | [[%BUGS%/Item11502][Item11502]] | %QUERY containing where clause can fail if only one item is being examined |
@@ -1434,7 +1434,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11582][Item11582]] | Use style attributes instead of bgcolor |
 | [[%BUGS%/Item11584][Item11584]] | Fn_MAKETEXT::test_underscore fails unless at least one language is enabled |
 | [[%BUGS%/Item11585][Item11585]] | Configure loads =DEPENDENCIES= from lib,  but file is in =lib/Foswiki/Contrib/core= |
-| [[%BUGS%/Item11586][Item11586]] | saveTopicText with embedded META:TOPICINFO doubles up. |
+| [[%BUGS%/Item11586][Item11586]] | Foswiki::Func::saveTopicText() with embedded META:TOPICINFO duplicates the TOPICINFO. |
 | [[%BUGS%/Item11588][Item11588]] | Foswiki::inlineAlert()  reports missing template if resutls are empty.   Also wrong template name. |
 | [[%BUGS%/Item11591][Item11591]] | Don't try to view invalid rev |
 | [[%BUGS%/Item11600][Item11600]] | Hitting cancel on the 'edit topic preferences' oopsmore UI saves the changes |
@@ -1445,6 +1445,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11623][Item11623]] | The pattern skin revision info has an odd failure mode when a TOPICINFO.author is a wikiname that isn't a valid cuid anymore |
 | [[%BUGS%/Item11627][Item11627]] | Manage =editSettings= does not take a topic lease. |
 | [[%BUGS%/Item11635][Item11635]] | WebSiteTools was still using the deprecated search script |
+| [[%BUGS%/Item11649][Item11649]] | Release 1.1 SlideShowPlugin breaks jquery widgets |
 | [[%BUGS%/Item11655][Item11655]] | CommentPlugin types table is missing some shipped types. |
 | [[%BUGS%/Item11666][Item11666]] | Looks like the defaulting of checkboxes in dataforms is broken (at least it is not doing what the docco says) |
 | [[%BUGS%/Item11675][Item11675]] | Correct boolean operator and comment |
@@ -1476,9 +1477,10 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11576][Item11576]] | Add support for redirectto to the addUserToGroup and removeUserFromGroup register actions. |
 | [[%BUGS%/Item11605][Item11605]] | Implement Development.AddOptionalRegistrationEmailValidation |
 | [[%BUGS%/Item11636][Item11636]] | You are trying to viewfile an attachment that does not exist. lacks a link to the topic. |
-| [[%BUGS%/Item11656][Item11656]] | pattern skin font definitions are too far into the html to work for JQDialogs |
-| [[%BUGS%/Item11663][Item11663]] | all Form/element.pm's should have a css class on them.. especially Label! |
+| [[%BUGS%/Item11656][Item11656]] | Pattern skin font definitions are too far into the html to work for JQDialogs |
+| [[%BUGS%/Item11663][Item11663]] | All Form/element.pm's should have a css class on them.. especially Label. |
 | [[%BUGS%/Item11685][Item11685]] | We should not use simplemodal, but rather the much better jquery.ui.dialog. |
+
 </noautolink>
 
 ---
