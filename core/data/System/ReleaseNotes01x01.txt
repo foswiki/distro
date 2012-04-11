@@ -1382,7 +1382,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11312][Item11312]] | TinyMCE Corrupting HTML Tables |
 | [[%BUGS%/Item11337][Item11337]] | Delete of a Heading 1 in WYSIWYG mangles the headings |
 | [[%BUGS%/Item11354][Item11354]] | TablePlugin doesn't report errors back to user |
-| [[%BUGS%/Item11366][Item11366]] | Ampersands in =[[squab?queries]]= are double-encoded |
+| [[%BUGS%/Item11366][Item11366]] | Ampersands in =[<nop>[Square Bracket?queries]]= are double-encoded |
 | [[%BUGS%/Item11369][Item11369]] | The message ="Please wait... retrieving page from server"= looks too much like an error. Change to "Loading" JS Animation. |
 | [[%BUGS%/Item11378][Item11378]] | Strike-out =&lt;del>=, =&lt;s>= tags are lost in WYSIWYG transition |
 | [[%BUGS%/Item11382][Item11382]] | Javascript error with IE7 causes Format dropdown to fail on nested webs |
@@ -1453,7 +1453,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11682][Item11682]] | LINKTOOLTIPINFO html corrupted if text contained quotes and removal created a WikiWord |
 | [[%BUGS%/Item11701][Item11701]] | JSCalendarContrib should fallback to numbers for month in case it is given a date like 1/12/2012 and format expects 1 Dec 2012. |
 | [[%BUGS%/Item11702][Item11702]] | Redirect call in Save and Rename have incorrect call to Foswiki::redirect() |
-| [[%BUGS%/Item11704][Item11704]] | Document use of %BR% to create linebreaks in FormattedSearch results |
+| [[%BUGS%/Item11704][Item11704]] | Document use of =%<nop>BR%= to create linebreaks in FormattedSearch results |
 | [[%BUGS%/Item11706][Item11706]] | Configure doesn't make it easy to set a missing admin password |
 | [[%BUGS%/Item11728][Item11728]] | GroupViewTemplate loads style definitions into head repeatedly |
 | [[%BUGS%/Item11730][Item11730]] | QUERY referencing the attachment fields can't access attachment 0 when there is only one attachment |
