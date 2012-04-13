@@ -13,13 +13,13 @@ package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
 use strict;
 use warnings;
 
-use Foswiki::UI;
-use Foswiki::Func;
-use Foswiki::Plugins;
+use Foswiki::UI ();
+use Foswiki::Func ();
+use Foswiki::Plugins ();
+use Encode;
 
-use HTML::TreeBuilder;
-use Algorithm::Diff;
-use Data::Dumper;
+use HTML::TreeBuilder ();
+use Algorithm::Diff ();
 
 my $HTMLElement = 'HTML::Element';
 my $class_add   = 'craCompareAdd';
@@ -330,10 +330,7 @@ sub _getTree {
     my $tree = new HTML::TreeBuilder;
     $tree->implicit_body_p_tag(1);
     $tree->p_strict(1);
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require Encode;
-        $text = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $text );
-    }
+    $text = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $text );
     $tree->parse($text);
     $tree->eof;
     $tree->elementify;
