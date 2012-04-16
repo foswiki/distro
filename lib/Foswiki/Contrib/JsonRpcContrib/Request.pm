@@ -184,14 +184,9 @@ sub fromUtf8 {
   my $string = shift;
 
   return $string unless $string;
-#  return $string if $Foswiki::Plugins::VERSION > 2.1;
+  return $string if $Foswiki::Plugins::VERSION > 2.1; # not required on "newer" foswikis, is it?
 
-  my $charset = $Foswiki::cfg{Site}{CharSet};
-  return $string if $charset =~ /^utf-?8$/i;
-
-  my $octets = $string;
-  $octets = Encode::decode('utf-8', $string) unless utf8::is_utf8($string);
-  return Encode::encode($charset, $octets);
+  return Encode::decode_utf8($string);
 }
 
 

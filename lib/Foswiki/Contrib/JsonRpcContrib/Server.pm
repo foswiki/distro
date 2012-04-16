@@ -16,6 +16,9 @@
 
 package Foswiki::Contrib::JsonRpcContrib::Server;
 
+use strict;
+use warnings;
+
 use Error qw( :try );
 use Foswiki::Func ();
 use Foswiki::Contrib::JsonRpcContrib::Error ();
