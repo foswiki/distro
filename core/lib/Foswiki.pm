@@ -765,7 +765,7 @@ sub writeCompletePage {
             # is conditionally loaded under the control of the
             # templates, and we have to be *sure* it gets loaded.
             my $src = $this->{prefs}->getPreference('FWSRC') || '';
-            $this->addToZone( 'head', 'JavascriptFiles/strikeone', <<JS );
+            $this->addToZone( 'script', 'JavascriptFiles/strikeone', <<JS );
 <script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone$src.js"></script>
 JS
             $usingStrikeOne = 1;
