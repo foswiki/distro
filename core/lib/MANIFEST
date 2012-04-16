@@ -5,6 +5,7 @@
 !include ../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin
 !include ../FamFamFamContrib/lib/Foswiki/Contrib/FamFamFamContrib
 !include ../HistoryPlugin/lib/Foswiki/Plugins/HistoryPlugin
+!include ../HomePagePlugin/lib/Foswiki/Plugins/HomePagePlugin
 !include ../InterwikiPlugin/lib/Foswiki/Plugins/InterwikiPlugin
 !include ../JSCalendarContrib/lib/Foswiki/Contrib/JSCalendarContrib
 !include ../JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin
