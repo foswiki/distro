@@ -7,35 +7,18 @@
 package Foswiki::Plugins::HomePagePlugin;
 
 use strict;
-require Foswiki::Func;       # The plugins API
-require Foswiki::Plugins;    # For the API version
+use warnings;
+
+use Foswiki::Func ();
+use Foswiki::Plugins ();
 
 our $VERSION          = '$Rev: 1340 $';
-our $RELEASE          = '$Date: 2008-12-15 04:49:56 +1100 (Mon, 15 Dec 2008) $';
+our $RELEASE          = '1.2.0';
 our $SHORTDESCRIPTION = 'Allow User specified home pages - on login';
 our $NO_PREFS_IN_TOPIC = 1;
 
-=begin TML
-
----++ initPlugin($topic, $web, $user) -> $boolean
-   * =$topic= - the name of the topic in the current CGI query
-   * =$web= - the name of the web in the current CGI query
-   * =$user= - the login name of the user
-   * =$installWeb= - the name of the web the plugin topic is in
-     (usually the same as =$Foswiki::cfg{SystemWebName}=)
-
-=cut
-
 sub initPlugin {
-    my ( $topic, $web, $user, $installWeb ) = @_;
-
-    # check for Plugins.pm versions
-    if ( $Foswiki::Plugins::VERSION < 2.0 ) {
-        Foswiki::Func::writeWarning( 'Version mismatch between ',
-            __PACKAGE__, ' and Plugins.pm' );
-        return 0;
-    }
-
+    #my ( $topic, $web, $user, $installWeb ) = @_;
     return 1;
 }
 
@@ -51,81 +34,82 @@ sub initializeUserHandler {
         my $test = $Foswiki::Plugins::SESSION->{request}->param('username');
         $loginName = $test if defined($test);
 
-#pre-load the origurl with the 'login' url which forces templatelogin to use the requested web&topic
+	# pre-load the origurl with the 'login' url which forces
+	# templatelogin to use the requested web&topic
         $Foswiki::Plugins::SESSION->{request}->param(
             -name  => 'origurl',
             -value => $Foswiki::Plugins::SESSION->{request}->url()
         );
     }
 
-  #we don't know the user at this point so can only set up the site wide default
+    # we don't know the user at this point so can only set up the
+    # site wide default
     my $path_info = $Foswiki::Plugins::SESSION->{request}->path_info();
 
-    if (   ( $path_info eq '' or $path_info eq '/' )
-        or ($gotoOnLogin) )
+    return undef unless ( ( $path_info eq '' or $path_info eq '/' )
+			  or ($gotoOnLogin) );
+
+    my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
+    
+    #$Foswiki::cfg{HomePagePlugin}{HostnameMapping}
+    my $hostName = lc( Foswiki::Func::getUrlHost() );
+    if (
+	defined(
+	    $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName}
+	)
+	)
     {
-        my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
-
-        #$Foswiki::cfg{HomePagePlugin}{HostnameMapping}
-        my $hostName = lc( Foswiki::Func::getUrlHost() );
-        if (
-            defined(
-                $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName}
-            )
-          )
-        {
-            $siteDefault =
-              $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
-        }
-
-        my $wikiName = Foswiki::Func::getWikiName($loginName);
-        if (
-            ( defined $wikiName )
-            and Foswiki::Func::topicExists(
-                $Foswiki::cfg{UsersWebName}, $wikiName
-            )
-          )
-        {
-            my ( $meta, $text ) =
-              Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-                Foswiki::Func::getWikiName($loginName) );
-
-            #TODO: make fieldname a setting.
-            my $field = $meta->get( 'FIELD', 'HomePage' );
-            my $userHomePage = $field->{value} if ( defined($field) );
-            $siteDefault = $userHomePage
-              if ( $userHomePage and ( $userHomePage ne '' ) );
-        }
-
-        if ( Foswiki::Func::webExists($siteDefault) ) {
-
-            #if they only set a webname, dwim
-            $siteDefault .= '.' . $Foswiki::cfg{HomeTopicName};
-        }
-        my ( $web, $topic ) =
-          $Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
-        $Foswiki::Plugins::SESSION->{webName}   = $web;
-        $Foswiki::Plugins::SESSION->{topicName} = $topic;
-
-        return undef;
+	$siteDefault =
+	    $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
     }
-
+    
+    my $wikiName = Foswiki::Func::getWikiName($loginName);
+    if (
+	( defined $wikiName )
+	and Foswiki::Func::topicExists(
+	    $Foswiki::cfg{UsersWebName}, $wikiName
+	)
+	)
+    {
+	my ( $meta, $text ) =
+	    Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+				      Foswiki::Func::getWikiName($loginName) );
+	
+	# TODO: make fieldname a setting.
+	my $field = $meta->get( 'FIELD', 'HomePage' );
+	my $userHomePage = $field->{value} if ( defined($field) );
+	$siteDefault = $userHomePage
+	    if ( $userHomePage and ( $userHomePage ne '' ) );
+    }
+    
+    if ( Foswiki::Func::webExists($siteDefault) ) {
+	
+	# if they only set a webname, dwim
+	$siteDefault .= '.' . $Foswiki::cfg{HomeTopicName};
+    }
+    my ( $web, $topic ) =
+	$Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
+    $Foswiki::Plugins::SESSION->{webName}   = $web;
+    $Foswiki::Plugins::SESSION->{topicName} = $topic;
+    
+    return undef;
 }
 
 1;
 __END__
-# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# (c) 2009-2011: Sven Dowideit, SvenDowideit@fosiki.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 3
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details, published at
-# http://www.gnu.org/copyleft/gpl.html
+Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (c) 2009-2011 Sven Dowideit, SvenDowideit@fosiki.com
+Copyright (c) 2012 Foswiki Contributors
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 3
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details, published at
+http://www.gnu.org/copyleft/gpl.html
 
