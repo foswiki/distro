@@ -118,20 +118,20 @@ sub parseTime {
     $date =~ s/^\s*//;    #remove leading spaces without de-tainting.
     $date =~ s/\s*$//;
 
-    require Time::Local;
+    use Time::Local qw( timelocal timegm timelocal_nocheck timegm_nocheck);
 
     # NOTE: This routine *will break* if input is not one of below formats!
     my $timelocal =
       $defaultLocal
-      ? \&Time::Local::timelocal
-      : \&Time::Local::timegm;
+      ? \&Time::Local::timelocal_nocheck
+      : \&Time::Local::timegm_nocheck;
 
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
     #TODO: allow /.: too
     if ( $date =~ /(\d+)[-\s]+([a-z]{3})[-\s]+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
         my $year = $3;
-        $year -= 1900 if ( $year > 1900 );
+        #$year -= 1900 if ( $year > 1900 );
 
         my $mon = $MON2NUM{ lc($2) };
         return undef unless defined $mon;
@@ -153,7 +153,7 @@ sub parseTime {
         my ( $Y, $M, $D, $h, $m, $s, $tz ) =
           ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
         $M--;
-        $Y -= 1900 if ( $Y > 1900 );
+        #$Y -= 1900 if ( $Y > 1900 );
         if ($tz) {
             my $tzadj = 0;
             if ( $tz eq 'Z' ) {
@@ -163,7 +163,7 @@ sub parseTime {
                 $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
                 $tzadj -= 0;
             }
-            return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
+            return Time::Local::timegm_nocheck( $s, $m, $h, $D, $M, $Y ) - $tzadj;
         }
         return &$timelocal( $s, $m, $h, $D, $M, $Y );
     }
@@ -200,7 +200,7 @@ sub parseTime {
     #$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
 
         #TODO: unhappily, this means 09 == 1909 not 2009
-        $year -= 1900 if ( $year > 1900 );
+        #$year -= 1900 if ( $year > 1900 );
 
         #range checks
         return undef if ( defined($M) && ( $M < 1 || $M > 12 ) );

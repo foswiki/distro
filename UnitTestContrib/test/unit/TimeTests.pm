@@ -12,7 +12,7 @@ our @ISA = qw( FoswikiTestCase );
 use strict;
 use Foswiki::Time;
 require POSIX;
-use Time::Local;
+use Time::Local qw( timelocal timegm timelocal_nocheck timegm_nocheck);
 use Config;    #used to detect if this is strawberry perl
 
 sub new {
@@ -71,11 +71,11 @@ sub showTime {
 
 sub checkTime {
     my ( $this, $s, $m, $h, $D, $M, $Y, $str, $dl ) = @_;
-    $Y -= 1900;
+    #$Y -= 1900;
     $M--;
 
     $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
-    my $gmt = timegm( $s, $m, $h, $D, $M, $Y );
+    my $gmt = timegm_nocheck( $s, $m, $h, $D, $M, $Y );
     my $tt = Foswiki::Time::parseTime( $str, $dl );
     my $a  = showTime($tt);
     my $b  = showTime($gmt);
@@ -85,8 +85,8 @@ sub checkTime {
     $Foswiki::cfg{DisplayTimeValues} = 'servertime';
     $gmt =
       $str =~ /(?:Z|[-+]\d\d(?::\d\d)?)/
-      ? timegm( $s, $m, $h, $D, $M, $Y )
-      : timelocal( $s, $m, $h, $D, $M, $Y );
+      ? timegm_nocheck( $s, $m, $h, $D, $M, $Y )
+      : timelocal_nocheck( $s, $m, $h, $D, $M, $Y );
     $tt = Foswiki::Time::parseTime( $str, $dl );
     $a  = showTime($tt);
     $b  = showTime($gmt);
@@ -116,6 +116,9 @@ sub test_parseTimeRCS {
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02 - 18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02-18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02.18:01:02" );
+    $this->checkTime( 2, 1,  18, 2, 12, 1902, "1902-12-02.18:01:02" );
+    $this->checkTime( 2, 1,  18, 2, 12, 1890, "1890-12-02.18:01:02" );
+    $this->checkTime( 7, 59, 6,  2, 7, 1730, "1730-07-02.06:59:07" );
 }
 
 sub test_parseTimeISO8601 {
@@ -130,6 +133,12 @@ sub test_parseTimeISO8601 {
     $this->checkTime( 7, 59, 5,  2, 7, 1995, "1995-07-02T06:59:07+01:00" );
     $this->checkTime( 7, 59, 5,  2, 7, 1995, "1995-07-02T06:59:07+01" );
     $this->checkTime( 7, 59, 6,  2, 7, 1995, "1995-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 1902, "1902-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 1890, "1890-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 1730, "1730-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 10, "2010-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 99, "1999-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 29, "2029-07-02T06:59:07Z" );
 
     if ( $^O eq 'MSWin32' ) {
         $ENV{TZ} = 'GMT-1';
