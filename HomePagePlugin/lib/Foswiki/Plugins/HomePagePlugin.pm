@@ -46,7 +46,7 @@ sub initializeUserHandler {
     # site wide default
     my $path_info = $Foswiki::Plugins::SESSION->{request}->path_info();
 
-    return undef unless ( ( $path_info eq '' or $path_info eq '/' )
+    return unless ( ( $path_info eq '' or $path_info eq '/' )
 			  or ($gotoOnLogin) );
 
     my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
@@ -87,12 +87,15 @@ sub initializeUserHandler {
 	# if they only set a webname, dwim
 	$siteDefault .= '.' . $Foswiki::cfg{HomeTopicName};
     }
+
+    return unless defined $siteDefault;
+
     my ( $web, $topic ) =
 	$Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
     $Foswiki::Plugins::SESSION->{webName}   = $web;
     $Foswiki::Plugins::SESSION->{topicName} = $topic;
     
-    return undef;
+    return;
 }
 
 1;
