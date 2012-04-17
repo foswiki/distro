@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-18 07:10+0200\n"
+"PO-Revision-Date: 2012-04-17 02:00+0200\n"
 "Last-Translator: Carlinhos <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt_BR\n"
@@ -2273,7 +2273,7 @@ msgstr "Nova senha"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
 msgid "New password did not match existing password for this user"
-msgstr ""
+msgstr "A nova senha não corresponde à senha existente para este usuário"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2481,9 +2481,8 @@ msgid "Password reset failed"
 msgstr "A ação de Restaurar senha falhou"
 
 #: core/templates/messages.tmpl:174
-#, fuzzy
 msgid "Passwords disabled"
-msgstr "A ação de Restaurar senha falhou"
+msgstr "Senhas desativadas"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -3186,7 +3185,7 @@ msgstr "Conteúdo enviado:"
 
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "Subscribe"
-msgstr ""
+msgstr "Assinar"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
@@ -3316,9 +3315,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "O Administrador desativou o registro de novos usuários."
 
 #: core/templates/messages.tmpl:176
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr "O Administrador desativou o registro de novos usuários."
+msgstr "O Administrador desativou alterações de senhas."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
@@ -3385,15 +3383,15 @@ msgstr ""
 "\"."
 
 #: core/templates/messages.tmpl:335
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "O endereço de e-mail para essa conta não é válido."
+msgstr "O endereço de e-mail para esta conta foi rejeitado."
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "O endereço de e-mail para essa conta não é válido."
+msgstr ""
+"O endereço de e-mail para essa conta já consta para outro usuário "
+"registrado."
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3477,7 +3475,7 @@ msgstr "O usuário %1 já foi ativado e já pode efetuar login"
 
 #: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "O valor fornecido por =%1%= foi rejeitado."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
@@ -3509,9 +3507,8 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Deveria haver uma linha que inclui %1, procure por %2 (ou %3)"
 
 #: core/templates/messages.tmpl:506
-#, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "Ocorreram erros ao adicionar %1 ao grupo %2.  "
+msgstr "Ocorreram erros ao adicionar ao grupo %2. %1   "
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3878,14 +3875,13 @@ msgstr "Modelo:"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "O usuário %1 não tem permissão de alterar (CHANGE) em %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
 #: core/lib/Foswiki/UserMapping.pm:364
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 está em pelo menos um grupo e não pode ser removido"
+msgstr "O Usuários %1 não está no grupo, não pode ser removido"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -3908,12 +3904,12 @@ msgstr "Usuários"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "Usuários não podem adicionar em %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "Usuários não podem ser removidos de %1"
 
 #: core/templates/messages.tmpl:192
 msgid ""
@@ -4025,9 +4021,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "Aviso: tópico %1.%2 não encontrado"
 
 #: core/templates/messages.tmpl:601
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Aviso: tópico %1.%2 não encontrado"
+msgstr "Aviso: Não é possível encontrar web %1 por tópico %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1018
 msgid "Warning: Could not send confirmation email"
@@ -4044,9 +4039,8 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Aviso: Esse sítio não permite %<nop>INCLUDE% de URLs"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "Atenção: o tópico em \\'include\\' não existe!"
+msgstr "Atenção: o tópico <nop>%1 em \\'include\\' não existe!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
