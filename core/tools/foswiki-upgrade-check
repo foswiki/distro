@@ -288,7 +288,7 @@ for element in $(doseq 0 $((${#file_list[@]} - 1))); do
                         dolist $i
                     else
                         if  [ "$autoresp" = "0" ] ; then
-                            diff $I/$i $U/$i
+                            diff $U/$i $I/$i
                             echo "How do you want to handle conflict: $U/$i ?"
                             select ans in "Merge files" "Keep original" "Use new file"
                             do
