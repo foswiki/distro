@@ -292,7 +292,7 @@ sub do_test {
 sub test_escapedWikwordFormfield {
     my $this     = shift;
 
-    $this->expect_failure();
+    $this->expect_failure( with_dep => 'Foswiki,<,1.2' );
     $this->annotate("Formatting in input field should not be rendered: Item11480");
  
     my $expected = <<EXPECTED;

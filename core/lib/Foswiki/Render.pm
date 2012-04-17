@@ -1225,6 +1225,11 @@ sub getRenderedVersion {
         $text = $rt;
     }
 
+    # Remove input fields: Item11480
+    $text =
+      $this->_takeOutProtected( $text, qr/<input\b.*?\/>/si, 'input',
+        $removed );
+
     # Escape rendering: Change ' !AnyWord' to ' <nop>AnyWord',
     # for final ' AnyWord' output
     $text =~ s/$STARTWW\!(?=[\w\*\=])/<nop>/gm;
@@ -1454,6 +1459,9 @@ sub getRenderedVersion {
            (_handleWikiWord( $this, $topicObject, $1, $2, $3))gexom;
         Foswiki::putBackBlocks( \$text, $removed, 'noautolink' );
     }
+
+    # Restore input fields before calling the end/post handlers
+    $this->_putBackProtected( \$text, 'input', $removed );
 
     Foswiki::putBackBlocks( \$text, $removed, 'pre' );
 
