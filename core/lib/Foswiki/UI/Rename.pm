@@ -391,6 +391,16 @@ sub _renameWeb {
         }
     }
 
+    if ( $oldWeb eq $Foswiki::cfg{SystemWebName} || $oldWeb eq $Foswiki::cfg{UsersWebName} ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $oldWeb,
+            topic  => '',
+            def    => 'rename_web_err',
+            params => [ "Rename is not permitted, it would damage the installation" , 'anything' ]
+        );
+    }
+
     # Determine the parent of the 'from' web
     my @tmp = split( /[\/\.]/, $oldWeb );
     pop(@tmp);
