@@ -112,7 +112,7 @@ Copy file =lib/Foswiki/Plugins/EmptyPlugin.pm= to =&lt;name&gt;Plugin.pm=. The E
 
 The plugin documentation topic contains usage instructions and version details. (The doc topic is also included _in_ the [[#CreatePluginPackage][distribution package]].) To create a documentation topic:
 
-   1. *Copy* the plugin topic template from [[System.EmptyPlugin?raw=on][EmptyPlugin]]
+   1. *Copy* the plugin topic template from [[%SYSTEMWEB%.EmptyPlugin?raw=on][EmptyPlugin]]
    1. *Customize* your plugin topic.
       * Important: In case you plan to publish your plugin on Foswiki.org, use Interwiki names for author names and links to Foswiki.org topics, such as Foswiki:Main/%WIKINAME%. This is important because links should work properly in a plugin topic installed on any Foswiki, not just on Foswiki.org.
    1. *Save* your topic, for use in [[#CreatePluginPackage][packaging]] and [[#PublishPlugin][publishing]] your plugin.
@@ -181,7 +181,7 @@ Thank you very much for sharing your plugin with the Foswiki community :-)
 ---++ Security
 
    * Badly written plugins can open security holes in Foswiki. This is especially true if care isn't taken to prevent execution of arbitrary commands on the server.
-   * Don't allow sensitive configuration data to be edited by users. Use the =%Foswiki::cfg= hash for configuration options. Don't ask installers to edit topics in the System web.
+   * Don't allow sensitive configuration data to be edited by users. Use the =%Foswiki::cfg= hash for configuration options. Don't ask installers to edit topics in the %SYSTEMWEB% web.
       * [[#ConfigSpec][Integrating with <code>configure</code>]] describes the steps
       * Foswiki:Extensions.MailInContrib has an example
       * Foswiki:Extensions.BuildContrib can help you with this

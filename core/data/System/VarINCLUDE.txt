@@ -42,5 +42,5 @@
      | ="doc:..."= | A full qualified Foswiki module, i.e. =%<nop>INCLUDE{"doc:Foswiki::Func"}%=.  The module must be found on the Foswiki lib path | |
      | =level="1"= | Override the root heading level to the specified number | |
      | =pattern="..."= |Include a subset of the module. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
-   * Examples: See [[System/PerlDoc?module=Foswiki::Func][System/PerlDoc?module=Foswiki::Func]]
+   * Examples: See [[%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][%SYSTEMWEB%/PerlDoc?module=Foswiki::Func]]
    * Related: [[#VarINCLUDE][INCLUDE("topic")]] [[#VarINCLUDEURL][INCLUDE("URL")]]

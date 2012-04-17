@@ -74,7 +74,7 @@ Foswiki is an open, programmable collaboration platform <br />
 %STARTSECTION{"col1"}%---++ Our pick of features
    * Runs on Linux, Mac OS X, Windows (even stand alone on a USB Stick), also available as easy-to-setup software appliance for VMware or !VirtualBox
    * Localized interfaces in 20 languages
-   * [[System.TinyMCEPlugin][Best in class WYSIWYG text editor]]
+   * [[%SYSTEMWEB%.TinyMCEPlugin][Best in class WYSIWYG text editor]]
    * [[Foswiki:About.Security][Best in class security]], including protection against Cross-Site Request Forgery
    * Modern architecture that supports fastcgi, modperl, httpd stand alone and load balancing
    * [[%SYSTEMWEB%.DevelopingPlugins][Powerful Plugin API]] enables a thriving community delivering [[Foswiki:Extensions][hundreds of extensions]]
@@ -103,7 +103,7 @@ Foswiki is supported by a large number of volunteers who enjoy creating the best
    * [[Foswiki:About.ProjectUpdate][Project update]] 
    * [[http://blog.foswiki.org][Foswiki Blog]]
    * [[Foswiki:About.FoswikiInTheNews][Foswiki in the news]]
-   * [[Foswiki:System.SiteChanges][Site activity of the last 24 hours]]
+   * [[Foswiki:%SYSTEMWEB%.SiteChanges][Site activity of the last 24 hours]]
    * [[http://trac.foswiki.org/timeline/][Overview of committed code changes]]
 %ENDSECTION{"col4"}%
 </verbatim>

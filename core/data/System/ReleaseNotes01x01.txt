@@ -119,13 +119,13 @@ In Foswiki 1.1.4 this problem has been fixed by [[%BUGS%/Item10874][Item10874]],
    * Your installation is using Foswiki:Extensions.NatEditPlugin </blockquote>
 
 ---++++ Description
-Any topics which have had a [[System.DataForms][DataForm]] added or changed using the "Add/change form" button on the edit screen while running Foswiki 1.1.3 will now have "fully-qualified" Web.Topic names in the =form.name= System.MetaData even if the =WEBFORMS= preference variable omitted web prefixes from [[%SYSTEMWEB%.DataForms][DataForm]] topic names. In other words, if you were using a =WEBFORMS= preference which looked like this:%JQREQUIRE{"chili"}%
+Any topics which have had a [[%SYSTEMWEB%.DataForms][DataForm]] added or changed using the "Add/change form" button on the edit screen while running Foswiki 1.1.3 will now have "fully-qualified" Web.Topic names in the =form.name= %SYSTEMWEB%.MetaData even if the =WEBFORMS= preference variable omitted web prefixes from [[%SYSTEMWEB%.DataForms][DataForm]] topic names. In other words, if you were using a =WEBFORMS= preference which looked like this:%JQREQUIRE{"chili"}%
 <verbatim class="tml">   * Set WEBFORMS = MyForm</verbatim>
 
 In Foswiki 1.1.3, the "Add/change form" button on the edit screen actually treats it like this:
 <verbatim class="tml">   * Set WEBFORMS = TheWeb/TheSubWeb.MyForm</verbatim>
 
-Having selected "MyForm", the =form.name= value is actually stored as =TheWeb/SomeSubWeb.MyForm=. This prevents System.QuerySearch type [[System.VarSEARCH][SEARCHes]] for an exact match on the topic-only value of =form.name= from working correctly, for example:
+Having selected "MyForm", the =form.name= value is actually stored as =TheWeb/SomeSubWeb.MyForm=. This prevents %SYSTEMWEB%.QuerySearch type [[%SYSTEMWEB%.VarSEARCH][SEARCHes]] for an exact match on the topic-only value of =form.name= from working correctly, for example:
 <verbatim class="tml">%SEARCH{"form.name='MyForm'" type="query" ...}%</verbatim>
 
 ... will not match these topics. Instead, a search on both possible values can be used:
@@ -336,7 +336,7 @@ The "Copy Topic" function in "More topic actions" now copies attachments as well
 
 ---+++ Tailoring of user registration made easier.
 
-The topic System.UserRegistration has been enhanced so it now determines whether a custom user registration page exists in %USERSWEB%, and includes it if it does; otherwise it includes DefaultUserRegistration.
+The topic %SYSTEMWEB%.UserRegistration has been enhanced so it now determines whether a custom user registration page exists in %USERSWEB%, and includes it if it does; otherwise it includes DefaultUserRegistration.
 
 This means that your tailored version in %USERSWEB% web will not be overwritten by future upgrades.
 
@@ -511,7 +511,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item660][Item660]] | "Running from configure, disabling CPAN" message needs clarification/fix |
 | [[%BUGS%/Item686][Item686]] | Add FLASHNOTE to default templates |
 | [[%BUGS%/Item758][Item758]] | Raw view break Chinese characters in UTF-8 |
-| [[%BUGS%/Item794][Item794]] | Information in System.ForceNewRevision is confusing |
+| [[%BUGS%/Item794][Item794]] | Information in %SYSTEMWEB%.ForceNewRevision is confusing |
 | [[%BUGS%/Item817][Item817]] | Malformed header anchors if header contains non A-Za-z0-9_ characters - advanced solution |
 | [[%BUGS%/Item935][Item935]] | Func::saveTopicText ignorepermissions is not working as advertised |
 | [[%BUGS%/Item986][Item986]] | Authen::SASL required by Net::SMTP for authentication |
@@ -530,7 +530,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item1448][Item1448]] | Change of the handling of unique anchor names in TOC |
 | [[%BUGS%/Item1470][Item1470]] | Be consistent and change "raw edit" to "edit wiki text" |
 | [[%BUGS%/Item1495][Item1495]] | Can't delete an attachment if the physical file is gone for some reason |
-| [[%BUGS%/Item1513][Item1513]] | FoswikiSiteSkin does not preview properly from the System.SkinBrowser |
+| [[%BUGS%/Item1513][Item1513]] | FoswikiSiteSkin does not preview properly from the %SYSTEMWEB%.SkinBrowser |
 | [[%BUGS%/Item1529][Item1529]] | "Wiki text" button broken before topic text loaded |
 | [[%BUGS%/Item1534][Item1534]] | Typewriter text icon stays shaded |
 | [[%BUGS%/Item1548][Item1548]] | Wysiwyg warns against data loss when you save from Wiki text mode |
@@ -546,7 +546,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item1770][Item1770]] | Protect other plugins' xml-like markup, including the tags |
 | [[%BUGS%/Item1773][Item1773]] | SEARCH separator between last result and the footer is troublesome. |
 | [[%BUGS%/Item1814][Item1814]] | ATTACHEDFILELINKFORMAT expands $name counter-intuitively |
-| [[%BUGS%/Item1846][Item1846]] | System.Plugins has duplicated content, and is mostly bollocks anyway |
+| [[%BUGS%/Item1846][Item1846]] | %SYSTEMWEB%.Plugins has duplicated content, and is mostly bollocks anyway |
 | [[%BUGS%/Item1855][Item1855]] | Internal Error on any operation when Foswiki::Logger implementation is set to none |
 | [[%BUGS%/Item1865][Item1865]] | username= and password= no longer work for REST handlers |
 | [[%BUGS%/Item1871][Item1871]] | Cannot disable registered tag handlers in rest handler or persistent environment |
@@ -557,14 +557,14 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item1903][Item1903]] | Unprocessed TML in {MailerContrib}{EmailFilterIn} help text |
 | [[%BUGS%/Item1904][Item1904]] | pre blocks truncated in TMCE in Firefox |
 | [[%BUGS%/Item1905][Item1905]] | Deprecated handlers in WysiwygPlugin |
-| [[%BUGS%/Item1920][Item1920]] | Add 'template' attribute to System.CommandAndCGIScripts#edit |
+| [[%BUGS%/Item1920][Item1920]] | Add 'template' attribute to %SYSTEMWEB%.CommandAndCGIScripts#edit |
 | [[%BUGS%/Item1942][Item1942]] | Plugin handlers for failed plugins called at startup  |
 | [[%BUGS%/Item1945][Item1945]] | CSRF uses relative location for redirect which violates HTTP specs |
 | [[%BUGS%/Item1951][Item1951]] | "Debug" topic diff should treat topic text as preformatted |
 | [[%BUGS%/Item1953][Item1953]] | Login manager generates an internal server error if the credentials can't be verified |
 | [[%BUGS%/Item1972][Item1972]] | PatternSkin Still relying on Twiki plugins yielding bad requests from configure? |
 | [[%BUGS%/Item1998][Item1998]] | Spreadsheet Plugin $RIGHT() is broken |
-| [[%BUGS%/Item2031][Item2031]] | System.CommandAndCGIScript save docco may be out of date |
+| [[%BUGS%/Item2031][Item2031]] | %SYSTEMWEB%.CommandAndCGIScript save docco may be out of date |
 | [[%BUGS%/Item2032][Item2032]] | Can set topicparent to non-wikiwords |
 | [[%BUGS%/Item2039][Item2039]] | TablePlugin: Create CSS only HTML |
 | [[%BUGS%/Item2074][Item2074]] | Sticky and Literal tags within custom XML Tags disables TMCE |
@@ -588,7 +588,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item2340][Item2340]] | METASEARCH - uses some very funky and untested bits of SEARCH, and the documentation is out of date |
 | [[%BUGS%/Item2356][Item2356]] | QUERY and IF are a little un-intuitive for simple queries |
 | [[%BUGS%/Item2367][Item2367]] | In a forced wiki link, if a url occurs within the "text" part, illegal html is generated |
-| [[%BUGS%/Item2393][Item2393]] | Documentation of System.TemplateTopics don't mention the <code>STARTSECTION{type="expandvariables"}</code> feature |
+| [[%BUGS%/Item2393][Item2393]] | Documentation of %SYSTEMWEB%.TemplateTopics don't mention the <code>STARTSECTION{type="expandvariables"}</code> feature |
 | [[%BUGS%/Item2429][Item2429]] | Deprecate AllowInlineScript |
 | [[%BUGS%/Item2465][Item2465]] | Documentation on Meta Data is incomplete |
 | [[%BUGS%/Item2473][Item2473]] | Clarify that mailnotify should not be run as root |
@@ -646,7 +646,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item8669][Item8669]] | Move MAINWEB definition to Site Prefs so people can disable the compatibility plugin |
 | [[%BUGS%/Item8682][Item8682]] | SEARCH summary is now more careful about removing '_' '=' and '*' characters - and will only do so if they are actually for the purpose of bold/italics. |
 | [[%BUGS%/Item8694][Item8694]] | [<nop>[*formatting*]] in links is a little broken |
-| [[%BUGS%/Item8699][Item8699]] | System.Contribs need a rewrite |
+| [[%BUGS%/Item8699][Item8699]] | %SYSTEMWEB%.Contribs need a rewrite |
 | [[%BUGS%/Item8700][Item8700]] | Sorting mixed data types gives unexpected results |
 | [[%BUGS%/Item8722][Item8722]] | TablePlugin sorts dates alphabetically if some cells are empty |
 | [[%BUGS%/Item8723][Item8723]] | Broken (?) Inclusion order of Skin Template Topics  |
@@ -701,9 +701,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9103][Item9103]] | Fix MSWindows problems shown up by the unit tests |
 | [[%BUGS%/Item9114][Item9114]] | Strikeone broken on IE |
 | [[%BUGS%/Item9130][Item9130]] | 'use bytes' causes a pregnant pause |
-| [[%BUGS%/Item9140][Item9140]] | Sandbox::sysCommand template parsing |
+| [[%BUGS%/Item9140][Item9140]] | =Sandbox::sysCommand= template parsing |
 | [[%BUGS%/Item9141][Item9141]] | URLPARAM encodes separator as well |
-| [[%BUGS%/Item9147][Item9147]] | Generating multiple checked="checked" attributes rendering System.DataForms |
+| [[%BUGS%/Item9147][Item9147]] | Generating multiple checked="checked" attributes rendering %SYSTEMWEB%.DataForms |
 | [[%BUGS%/Item9148][Item9148]] | HTML2TML eats some br tags inside macros |
 | [[%BUGS%/Item9155][Item9155]] | Fix foswiki integration since 3.3 upgrade |
 | [[%BUGS%/Item9156][Item9156]] | MailerContribPlugin does not compile |
@@ -826,8 +826,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item2350][Item2350]] | Result Sets to abstract search results for 1.1 |
 | [[%BUGS%/Item2369][Item2369]] | Add rowspan support to Wysiwyg editor |
 | [[%BUGS%/Item2378][Item2378]] | GROUPINFO needs a $allowschange format operator |
-| [[%BUGS%/Item2394][Item2394]] | System.SitePermissions improvement: implement EXPAND macro |
-| [[%BUGS%/Item2456][Item2456]] | Make a FamFamFamContrib replacement for System.DocumentGraphics |
+| [[%BUGS%/Item2394][Item2394]] | %SYSTEMWEB%.SitePermissions improvement: implement EXPAND macro |
+| [[%BUGS%/Item2456][Item2456]] | Make a FamFamFamContrib replacement for %SYSTEMWEB%.DocumentGraphics |
 | [[%BUGS%/Item2521][Item2521]] | Support early flush of some HTTP responses |
 | [[%BUGS%/Item2545][Item2545]] | Enhance TMPL:DEF to create previous version of template definition |
 | [[%BUGS%/Item2569][Item2569]] | Add strikeone protection for reset password and change email on 1.1 |
@@ -865,14 +865,14 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item8704][Item8704]] | Improvements for GROUPINFO |
 | [[%BUGS%/Item8746][Item8746]] | Clean up WebPreferences |
 | [[%BUGS%/Item8749][Item8749]] | Add beforeUploadHandler and afterUploadHandler, and deprecate beforeAttachementSaveHandler and afterAttachmentSaveHandler |
-| [[%BUGS%/Item8761][Item8761]] | Recode the search cgi to show view/System/WebSearch  |
+| [[%BUGS%/Item8761][Item8761]] | Recode the search cgi to show view/%SYSTEMWEB%.WebSearch  |
 | [[%BUGS%/Item8789][Item8789]] | Add default CSS properties for images |
 | [[%BUGS%/Item8817][Item8817]] | Support $comma in format tokens |
 | [[%BUGS%/Item8839][Item8839]] | Implement Integrate WebSearch, WebSearchAdvanced, Alphabetical search and Search Help |
 | [[%BUGS%/Item8842][Item8842]] | Refresh default colors |
 | [[%BUGS%/Item8860][Item8860]] | Add inlinemarkup setting to TablePlugin so we can still be able to paste topic into emails incl inline HTML table formatting |
 | [[%BUGS%/Item9003][Item9003]] | Add HTML standards compliance unit tests |
-| [[%BUGS%/Item9033][Item9033]] | Move CommentPluginExamples to Sandbox web |
+| [[%BUGS%/Item9033][Item9033]] | Move CommentPluginExamples to %SANDBOXWEB% web |
 | [[%BUGS%/Item9051][Item9051]] | Compress foswiki library JS |
 | [[%BUGS%/Item9052][Item9052]] | Remove newlines before and after TMPL:END and TMPL comments |
 | [[%BUGS%/Item9062][Item9062]] | Disable TWiki Compatibility Plugin by default |
@@ -915,7 +915,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9819][Item9819]] | Extensions with Topic names or directories with non-alphanumeric characters fail to install |
 | [[%BUGS%/Item9820][Item9820]] | DefaultUserRegistration broken If REGISTRATIONGROUPTYPE is  'multiple' or 'one' |
 | [[%BUGS%/Item9825][Item9825]] | DEPRECATE Foswiki::Func::searchInWebContent, and add Foswiki::Func::query |
-| [[%BUGS%/Item9826][Item9826]] | add ==~= to HoistRE so its not slower than using type='regex' - this limits its use to the documented System.RegularExpression |
+| [[%BUGS%/Item9826][Item9826]] | add ==~= to HoistRE so its not slower than using type='regex' - this limits its use to the documented %SYSTEMWEB%.RegularExpression |
 | [[%BUGS%/Item9827][Item9827]] | Foswiki::Meta interface change breaks plugins |
 | [[%BUGS%/Item9828][Item9828]] | ImageGalleryPlugin not working on Foswiki 1.1.0 because of bug in JQueryPlugin |
 | [[%BUGS%/Item9831][Item9831]] | !WikiGroups GUI broken if !PasswordManager is none |
@@ -1061,7 +1061,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10189][Item10189]] | sample bin/.htaccess should not have , in "Allow from" |
 | [[%BUGS%/Item10194][Item10194]] | Extraneous p elements in rename templates |
 | [[%BUGS%/Item10195][Item10195]] | Fix foswikiFormStep layout in css and templates |
-| [[%BUGS%/Item10199][Item10199]] | Broken links in System.Skins |
+| [[%BUGS%/Item10199][Item10199]] | Broken links in %SYSTEMWEB%.Skins |
 | [[%BUGS%/Item10200][Item10200]] | Pattern button style breaks jquery foswikiButtonCancel |
 | [[%BUGS%/Item10205][Item10205]] | HTML error in BeginnersStartHere |
 | [[%BUGS%/Item10207][Item10207]] | Update pattern js to work with ajax |
@@ -1102,7 +1102,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10401][Item10401]] | compare script doesn't call logEvent |
 | [[%BUGS%/Item10402][Item10402]] | compare script uses deleted oopsmissing template to report missing topic |
 | [[%BUGS%/Item10406][Item10406]] | hr lines in SEARCH pager makes it hard to skin |
-| [[%BUGS%/Item10408][Item10408]] | Temporary File Hazard in Sandbox.pm and FileCache.pm |
+| [[%BUGS%/Item10408][Item10408]] | Temporary File Hazard in =Sandbox.pm= and =FileCache.pm= |
 | [[%BUGS%/Item10412][Item10412]] | Subtle problem with fragments in login form |
 | [[%BUGS%/Item10413][Item10413]] | Fn_MAKETEXT tests fail with deprecated defined hash syntax |
 | [[%BUGS%/Item10415][Item10415]] | Document overriding effect of {AuthScripts} in AccessControl |
@@ -1133,7 +1133,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10513][Item10513]] | Configure dumping out garbage file list during install |
 | [[%BUGS%/Item10518][Item10518]] | Missing Submit button for renaming/deleting a web |
 | [[%BUGS%/Item10519][Item10519]] | Rename web generates error with uninitialized string |
-| [[%BUGS%/Item10536][Item10536]] | System.UserRegistration WikiName JS support for all skins |
+| [[%BUGS%/Item10536][Item10536]] | %SYSTEMWEB%.UserRegistration WikiName JS support for all skins |
 | [[%BUGS%/Item10545][Item10545]] | Webnotify for Abc*Xyz? doesn't send out news on change. |
 | [[%BUGS%/Item10558][Item10558]] | MailerContrib change emails are incorrect on 1.1.3beta2 |
 | [[%BUGS%/Item10564][Item10564]] | using : in an INCLUDE will crash your foswiki |
@@ -1176,7 +1176,7 @@ to your =bin/LocalLib.cfg=.
 ---+++ Fixes
 <noautolink>
 | [[%BUGS%/Item1200][Item1200]] | Unexpected result when link text contains email address  |
-| [[%BUGS%/Item1539][Item1539]] | Fields in System.UserRegistration still prefixed Twk## instead Fwk## |
+| [[%BUGS%/Item1539][Item1539]] | Fields in %SYSTEMWEB%.UserRegistration still prefixed Twk## instead Fwk## |
 | [[%BUGS%/Item8647][Item8647]] | TablePlugin generates empty tfoot, even when there are footer rows |
 | [[%BUGS%/Item9164][Item9164]] | The crypt-md5 encoding in HtPasswd.pm is not cross-platform compatible |
 | [[%BUGS%/Item9496][Item9496]] | Implement re-usable way to set default text of input fields |
@@ -1196,7 +1196,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10644][Item10644]] | bin/changes output is corrupted |
 | [[%BUGS%/Item10658][Item10658]] | SEARCHDEFAULTTTYPE no longer referenced |
 | [[%BUGS%/Item10660][Item10660]] | Some email address autolinking doesn't work  |
-| [[%BUGS%/Item10661][Item10661]] | Typo in System.ManagingUsers breaks site if following example |
+| [[%BUGS%/Item10661][Item10661]] | Typo in %SYSTEMWEB%.ManagingUsers breaks site if following example |
 | [[%BUGS%/Item10665][Item10665]] | can't copy attachments under a different user |
 | [[%BUGS%/Item10666][Item10666]] | can't save attachments with a "0" comment |
 | [[%BUGS%/Item10671][Item10671]] | rename not handling anchored links |
@@ -1206,7 +1206,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10692][Item10692]] | Offer no-column stylesheet for fatwilly theme |
 | [[%BUGS%/Item10699][Item10699]] | DocumentGraphics Metadata and Attachments inconsistent |
 | [[%BUGS%/Item10714][Item10714]] | Form fields of type date cannot be edited with pop-up calendar |
-| [[%BUGS%/Item10729][Item10729]] | Document all core tools scripts in System/CommandAndCGIScripts |
+| [[%BUGS%/Item10729][Item10729]] | Document all core tools scripts in %SYSTEMWEB%.CommandAndCGIScripts |
 | [[%BUGS%/Item10755][Item10755]] | Template login page heading and help text are not translated. |
 | [[%BUGS%/Item10758][Item10758]] | SiteMap SEARCH is needlessly inefficient (slow) |
 | [[%BUGS%/Item10779][Item10779]] | Core should not call =srand()= to seed =rand()= |
@@ -1232,7 +1232,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10883][Item10883]] | Windows-safe paths |
 | [[%BUGS%/Item10888][Item10888]] | FORMAT macro's =$web= token strips '/' char from web names |
 | [[%BUGS%/Item10889][Item10889]] | "Use of uninitialized" warnings in Foswiki::Query, Foswiki::Time |
-| [[%BUGS%/Item10891][Item10891]] | Use regular search output on Sandbox home |
+| [[%BUGS%/Item10891][Item10891]] | Use regular search output on %SANDBOXWEB% home |
 | [[%BUGS%/Item10893][Item10893]] | Setting none as databg or headerbg takes the preference color setting instead of no color |
 | [[%BUGS%/Item10895][Item10895]] | With query search I want to list fields that don't have the attribute hidden set |
 | [[%BUGS%/Item10896][Item10896]] | Insecure dependency in configure creating working directory under some environments |
@@ -1460,7 +1460,7 @@ to your =bin/LocalLib.cfg=.
 
 ---+++ Enhancements
 
-| [[%BUGS%/Item8744][Item8744]] | Sandbox webname should be configurable in the same way that other default webs are configurable |
+| [[%BUGS%/Item8744][Item8744]] | =Sandbox= webname should be configurable in the same way that other default webs are configurable |
 | [[%BUGS%/Item10724][Item10724]] | Update to WYSIWYG Editor to TinyMCE 3.4.7 |
 | [[%BUGS%/Item11365][Item11365]] | Un-deprecate, improve =Foswiki::Func::getScriptUrlPath()= API |
 | [[%BUGS%/Item11367][Item11367]] | Add Javascript callbacks to get notified after editor changes to/from Raw or WYSIWYG mode. |

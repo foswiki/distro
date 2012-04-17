@@ -34,7 +34,7 @@ By comparing the expanded list of users of !SomeGroup with the un-expanded list,
 The important thing to remember:  *If you need to hide the existance of users, protect their user topics.*  It is not enough to protect the group topic.
 
 
-%META:FORM{name="System.FAQForm"}%
+%META:FORM{name="FAQForm"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="HiddenUsersAndGroups"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="How to hide groups and users from common view"}%

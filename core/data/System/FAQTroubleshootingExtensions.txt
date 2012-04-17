@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Some questions to answer:
    * Perhaps the plugin is installed, but did you remember to enable it in configure?
-   * Did the installer mention any missing dependencies? Examine the Dependencies section of the plugin's System topic to determine if your environment has all the necessary dependencies: other Plugins/Contribs, perl libraries, 3rd-party software, etc.
+   * Did the installer mention any missing dependencies? Examine the Dependencies section of the plugin's %SYSTEMWEB% topic to determine if your environment has all the necessary dependencies: other Plugins/Contribs, perl libraries, 3rd-party software, etc.
       * Note that you can have the installer re-check dependencies by executing it with the "dependencies" option from the server:
       <verbatim class="bash">cd /path/to/my/foswiki/
 $  perl GenPDFAddOn_installer dependencies
@@ -37,7 +37,7 @@ htmldoc,0,external,Obtain from http://www.htmldoc.org/software.php
    * [[Foswiki:Support.WikiConsultants][Commercial (paid) support]]
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FORM{name="System.FAQForm"}%
+%META:FORM{name="FAQForm"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Troubleshooting Extensions"}%
 %META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="FrequentlyAskedQuestion"}%
 %META:FIELD{name="TopicSummary" attributes="" title="Topic Summary" value="A plugin I installed is not working. How can I troubleshoot it?"}%

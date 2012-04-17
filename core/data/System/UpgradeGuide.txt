@@ -268,7 +268,7 @@ The WYSIWYG button has been removed.
 
 ---+++ NEWTOPICLINKSYMBOL removed
 
-The NEWTOPICLINKSYMBOL preference that was deprecated in TWiki 4.1 is no longer supported. To control the appearance of new links, set the NEWLINKFORMAT preference in [[%USERSWEB%.SitePreferences]] (see [[System.DefaultPreferences]] for more information on NEWLINKFORMAT).
+The NEWTOPICLINKSYMBOL preference that was deprecated in TWiki 4.1 is no longer supported. To control the appearance of new links, set the NEWLINKFORMAT preference in [[%USERSWEB%.SitePreferences]] (see [[%SYSTEMWEB%.DefaultPreferences]] for more information on NEWLINKFORMAT).
 
 ---+++ !UserForm and !NewUserTemplate customization
 

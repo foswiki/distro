@@ -178,7 +178,7 @@ Information for programmers.
 |=.foswikiTableRow= + type + row number | Unique row identifier, for instance: =foswikiTableRowdataBg0= |
 
 ---+++ Images used by !TablePlugin
-Sort icons in the header are read from System.DocumentGraphics.
+Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 | <img src="%ICONURL{tablesortup}%" width="11" height="13" alt="Sort table ascending" border="0" />  | Sort ascending | 
 | <img src="%ICONURL{tablesortdown}%" width="11" height="13" alt="Sort table descending" border="0" />  | Sort descending | 
 | <img src="%ICONURL{tablesortdiamond}%" width="11" height="13" alt="Sort table" border="0" />  | Generic sort button if header label is a link, not a sort link |

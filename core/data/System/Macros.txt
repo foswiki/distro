@@ -58,7 +58,7 @@ The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
 #AnimatedExample
 ---+++++ Animated Example
 %JQREQUIRE{"CYCLE,EASING,CHILI"}%<!-- ids are appended with %INCLUDINGTOPIC%
-to avoid duplicates in System.CompleteDocumentation -->%ADDTOZONE{"script"
+to avoid duplicates in %SYSTEMWEB%.CompleteDocumentation -->%ADDTOZONE{"script"
   id="NestedSlideshow%INCLUDINGTOPIC%"
   text="<script type='text/javascript'>
 jQuery(document).ready(function($) {
@@ -177,7 +177,7 @@ The macros are expanded in this order: MACRO3, MACRO4, MACRO1, *MACRO2*.
 From the [[FormattedSearch#ConditionalOutputExample][conditional output example]]:
 
 %JQREQUIRE{"CYCLE,EASING,CHILI"}%<!-- ids are appended with %INCLUDINGTOPIC%
-to avoid duplicates in System.CompleteDocumentation -->%ADDTOZONE{"script"
+to avoid duplicates in %SYSTEMWEB%.CompleteDocumentation -->%ADDTOZONE{"script"
   id="DelayedSlideshow%INCLUDINGTOPIC%"
   text="<script type='text/javascript'>
 jQuery(document).ready(function($) {
