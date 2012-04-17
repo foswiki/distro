@@ -1,11 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1330381560" format="1.1" version="1"}%
----+ Admin Toggle
+---+ Group Member Toggle
 
 This topic implements a button that will turn Admin status on or off for the
 current user (!%WIKINAME%), by adding or removing the user from the
 !AdminGroup.  This new function is recommended to replace =sudo= login when
 possible.  It provides better security and allows changes to be tracked to the
 user making the change instead of the anonymous !AdminUser.
+
+%T% This is actually a generic capability.  Any group membership can be toggled using this function.
 
 <blockquote class="foswikiHelp"> 
   %T% Note: This feature is only usable if your User Mapper allows group membership to be modified from the Wiki.
@@ -22,37 +24,12 @@ user making the change instead of the anonymous !AdminUser.
 _If you (<nop>%WIKINAME%) has permission to change the %USERSWEB%.AdminGroup topic,  a button to add or remove yourself from the Admin Group will appear below:_ 
 Be sure that you have explicit CHANGE authority on the !AdminGroup or removing yourself from the group will be permanent.
 
-%IF{"{AdminUserWikiName}='%WIKINAME%'" then="
-   * Note that the !AdminUser is a permanent member of !AdminGroup, so the button will not appear."}%
+%STARTINCLUDE%%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="manageself" groupname="AdminGroup"}%%STOPINCLUDE%
 
-<verbatim class="foswikiHidden">
-%STARTSECTION{"ADD"}%%IF{"'%USERSWEB%.AdminGroup' allows 'CHANGE'" then="
-  <form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
-  <input type='hidden' name='groupname' value='AdminGroup'/>
-  <input type='hidden' name='action' value='addUserToGroup'/>
-  <input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
-  <input type='hidden' name='username' value='%WIKINAME%' />
-  %BUTTON{"%MAKETEXT{"Become Admin"}%" icon="add" type="submit"}%
-  %CLEAR%
-</form>
-"}%%ENDSECTION{"ADD"}%
+---+++ More ehnancements
 
-%STARTSECTION{"DEL"}%%IF{"'%USERSWEB%.AdminGroup' allows 'CHANGE'" then="
-  <form action='%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%' method='post'>
-  <input type='hidden' name='groupname' value='AdminGroup'/>
-  <input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
-  <input type='hidden' name='action' value='removeUserFromGroup'/>
-  <input type='hidden' name='username' value='%WIKINAME%' />
-  %BUTTON{"<b>%MAKETEXT{"Remove Admin"}%</b>" icon="delete" class="red" type="submit"}%
-  %CLEAR%
-</form>
-"}%%ENDSECTION{"DEL"}%
+You can add this button to your custom sidebar for any group, by using the following include macro:
+
+<verbatim>
+%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="manageself" groupname="AdminGroup"}%
 </verbatim>
-
-%STARTINCLUDE%%IF{"{AdminUserWikiName}='%WIKINAME%'" else="
-  $percntIF{
-    \"$USERNAME ingroup 'AdminGroup'\"
-      then=\"%INCLUDE{"%TOPIC%" section="DEL"}%\"
-      else=\"%INCLUDE{"%TOPIC%" section="ADD"}%\"
-  }$percnt
-"}%%STOPINCLUDE%

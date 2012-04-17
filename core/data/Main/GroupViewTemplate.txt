@@ -3,6 +3,18 @@
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
 %ADDTOZONE{"script" text="<script src='/pub/System/JavascriptFiles/strikeone.js'></script>"}%
 ---+!! %NOP%%TOPIC%
+%IF{
+  "'%USERSWEB%.%TOPIC%' allows 'change'
+  AND '%TOPIC%' != 'BaseGroup'
+  AND '%TOPIC%' != 'NobodyGroup'"
+  then="
+      $percntINCLUDE{
+       \"%USERSWEB%.GroupViewTemplate\"
+       section=\"manageself\"
+       groupname=\"%TOPIC%\"
+      }$percnt
+  "
+}%
 %TEXT%
 ---++ %MAKETEXT{"Members"}%
 %INCLUDE{
@@ -231,6 +243,38 @@ then='
 }%</div>
 <!-- /group_remove -->%ENDSECTION{"group_remove"}%
 </verbatim>
+
+%STARTSECTION{"addme"}%
+%IF{"'%USERSWEB%.%groupname%' allows 'CHANGE'" then="
+  <form name='addme' action='%SCRIPTURLPATH{"manage"}%/%USERSWEB%/%groupname%' method='post'>
+    <input type='hidden' name='groupname' value='%groupname%'/>
+    <input type='hidden' name='action' value='addUserToGroup'/>
+    <input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
+    <input type='hidden' name='username' value='%WIKINAME%' />
+    %BUTTON{"%MAKETEXT{"Join [_1]" args="<nop>%groupname%"}%" icon="add" type="submit"}%
+    %CLEAR%
+  </form>
+"}%
+%ENDSECTION{"addme"}%
+
+%STARTSECTION{"delme"}%
+  <form name='delme' action='%SCRIPTURLPATH{"manage"}%/%USERSWEB%/%groupname%' method='post'>
+    <input type='hidden' name='groupname' value='%groupname%'/>
+    <input type='hidden' name='action' value='removeUserFromGroup'/>
+    <input type='hidden' name='redirectto' value='%BASEWEB%.%BASETOPIC%'/>
+    <input type='hidden' name='username' value='%WIKINAME%' />
+    %BUTTON{"%MAKETEXT{"Leave [_1]" args="<nop>%groupname%"}%" icon="delete" class="red" type="submit"}%
+    %CLEAR%
+  </form>
+%ENDSECTION{"delme"}%
+
+%STARTSECTION{"manageself"}%
+%IF{
+    "'%GROUPINFO{"%groupname%" expand="0"}%'=~'\b%USERNAME%\b'"
+      then="%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="delme" groupname="%groupname%"}%"
+      else="%INCLUDE{"%USERSWEB%.GroupViewTemplate" section="addme" groupname="%groupname%"}%"
+}%
+%ENDSECTION{"manageself"}%
 
 %TMPL:END%
 
