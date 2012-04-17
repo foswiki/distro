@@ -172,7 +172,7 @@ sub rest {
         $res->print($err);
 
         $res->print(
-            "\nuseage: ./rest /PluginName/restHandler param=value\n\n" . join(
+            "\nusage: ./rest /PluginName/restHandler param=value\n\n" . join(
                 "\n",
                 map {
                     $_ . ' : '
