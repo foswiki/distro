@@ -1779,7 +1779,7 @@ $Foswiki::cfg{Plugins}{UpdatesPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} = 'Foswiki::Plugins::UpdatesPlugin';
 
 $Foswiki::cfg{Plugins}{HomePagePlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{HmoePagePlugin}{Module} = 'Foswiki::Plugins::HomePagePlugin';
+$Foswiki::cfg{Plugins}{HomePagePlugin}{Module} = 'Foswiki::Plugins::HomePagePlugin';
 
 1;
 __END__
