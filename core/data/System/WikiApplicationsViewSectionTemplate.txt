@@ -1,0 +1,23 @@
+%TMPL:INCLUDE{edit}%
+%TMPL:DEF{"content"}%
+ %TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+%TMPL:P{"formbottom"}%
+</div>
+</div>
+%TMPL:P{"button_save"}%%TMPL:P{"button_cancel"}%
+%TMPL:P{"formend"}%
+</div>%TMPL:END%
+%TMPL:DEF{"htmldoctype"}%<div title="%IF{"istopic '%WEB%.%BASETOPIC%'" then="Edit %BASETOPIC%" else="Create new"}%" class="jqUIDialog { modal:true, resizable:true, draggable:true, height:240, width:980}" nostyle="font-family: arial, verdana, sans-serif;background:white;">%TMPL:END%
+%TMPL:DEF{"head"}%%TMPL:END%%TMPL:END%
+%TMPL:DEF{"bodystart"}%%TMPL:END%
+%TMPL:DEF{"main"}%%TMPL:P{"content"}%%TMPL:END%
+%TMPL:DEF{"bodyend"}%%TMPL:END%
+%TMPL:DEF{"changeform"}%%TMPL:END%
+%{
+   * Set NOWYSIWYG = 1
+(need an IF button_cancel for edit, normal cancel for create)
+<a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
+}%
+

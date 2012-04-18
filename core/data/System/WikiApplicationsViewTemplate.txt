@@ -1,0 +1,26 @@
+%TMPL:INCLUDE{"view"}%
+%{
+}%%TMPL:DEF{"content"}%
+---++ %NOP%%TOPIC%
+%QUERY{"Description"}%
+%TABPANE%
+ %TAB{"Data Form Definiton"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="dataform"}%
+ %ENDTAB%
+ %TAB{"list %NOP%%TOPIC% items"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="listitems"}%
+ %ENDTAB%
+ %TAB{"Create new"}%
+%INCLUDE{"%WEB%.%TOPIC%" section="createpopup"}%
+ %ENDTAB%
+ %TAB{"Help"}%
+These Wiki Applications have some pre-defined INCLUDE sections that let you add your application to any topic.
+   * =listitem= - a list of items created in this app
+   * =createpopup= - a link to a popup dialog to create a new item
+ %ENDTAB%
+%ENDTABPANE%
+
+
+%TMPL:END%%{
+
+}%
