@@ -63,17 +63,28 @@ _This page will help you create new Wiki Applications that use DataForms_
    type="query"
    pager="on"
    nonoise="on"
-   format="   1 <a href='%SCRIPTURL{edit}%/$web/$topic?template=Sandbox.EditTodoDataForm&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%' class='jqUIDialogLink {cache:false}'>$formfield(Description)</a> - $percntJQICON{$quot$formfield(State)$quot alt=$quot$formfield(State)$quot}$percnt"
+   format="   1  $formfield(Description) - $percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotcreatepopup$quot ITEMWEB=$quot$web$quot ITEMTOPIC=$quot$topic$quot}$percnt"
    pager="on"
    pagesize="5"
 }%
 %ENDSECTION{"listitems"}%
 </verbatim>
 ---+++ createpopup
-
+parameters:
+   * ITEMWEB - (defaults to This web)
+   * ITEMTOPIC - (defaults to %PREFIX%AUTOINC001)
 <verbatim class="tml">
-%STARTSECTION{"createpopup"}%
-   * %JQREQUIRE{"ui::dialog, ui::button"}% <a href='%SCRIPTURL{edit}%/%WEB%/%PREFIX%AUTOINC001?template=System.WikiApplicationsViewSectionTemplate&formtemplate=%WEB%.%TOPIC%&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%' class='jqUIDialogLink {cache:false}'>%JQICON{"create"}% add New %PREFIX%</a>
+%STARTSECTION{"createpopup"}%<!--
+   * Set S_ITEMWEB = %IF{"defined ITEMWEB" then="%ITEMWEB%" else="%WEB%"}%
+   * Set S_ITEMTOPIC = %IF{"defined ITEMTOPIC" then="%ITEMTOPIC%" else="%PREFIX%AUTOINC001"}%
+-->%JQREQUIRE{
+        "ui::dialog, ui::button"
+}% %BUTTON{
+        text="%IF{"istopic '%S_ITEMWEB%.%S_ITEMTOPIC%'" then="edit %S_ITEMTOPIC%" else="add New %PREFIX%"}%"
+        href="%SCRIPTURL{edit}%/%S_ITEMWEB%/%S_ITEMTOPIC%?template=System.WikiApplicationsViewSectionTemplate&formtemplate=%WEB%.%TOPIC%&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%"
+        class="foswikiClear jqUIDialogLink {cache:false}"
+        icon="create"
+}% %CLEAR%
 %ENDSECTION{"createpopup"}%
 </verbatim>
 
