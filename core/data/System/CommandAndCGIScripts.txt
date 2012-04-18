@@ -112,7 +112,7 @@ __New topic creation %ICON{"wip"}%:__
 The string AUTOINC followed by one or more digits anywhere in the topic name will be converted to a number such that the resulting topic name is unique in the target web. However this doesn't happen until the topic is saved.
 
 When a new topic is created using edit, the topic isn't actually created until the edit is saved. The content of the new topic is initialised according to the parameters you pass.
-   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=.
+   * =templatetopic= - defines the full name (web.topic) of a topic to use as a template for the new topic. The template topic is copied and, unless =notemplateexpansion= is set, the following macros are expanded in the topic text: =URLPARAM=, =DATE=, =SERVERTIME=, =GMTIME=, =USERNAME=, =WIKINAME=, =WIKIUSERNAME=, =USERINFO=. (see %SYSTEMWEB%.TopicTemplates)
    * =text= - use this as the text of the topic. Macros are *not* expanded in this text. Overrides any text set in the =templatetopic=.
    * =formtemplate= - Overrides any form set in the =templatetopic=.
    * =notemplateexpansion= - given by =templatetopic=. Use this when you want a verbatim copy of a topic.
@@ -383,7 +383,7 @@ The =save= script performs a range of save-related functions.
 | =originalrev= | Revision on which the edit started. | |
 | =redirectto= | The save process will redirect to this topic or URL if it is successful. (Typically this would be the URL that was being viewed when edit was invoked). The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | _topic specified in URL path_ |
 | =template= | The template to use to re-edit the topic when action is =checkpoint= | |
-| =templatetopic= | Name of a topic to use as a template for the text and form (new topic _only_) | |
+| =templatetopic= | Name of a topic to use as a template for the text and form (new topic _only_) (see [[#NewTopicCreation][New topic creation]] above) | |
 | =text= | New text of the topic | |
 | =topicparent= | If 'none' remove any current topic parent. If the name of a topic, set the topic parent to this. | |
 | _&lt;any name&gt;_ | If the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. | |
@@ -500,7 +500,7 @@ This is a very simple script to get the content of a web site, either using GET 
    * Example:  =geturl.pl some.domain /some/dir/file.html 80=
    * Will get: =http://some.domain:80/some/dir/file.html=
    * Example:  =geturl.pl POST some.domain /bin/statistics?webs=Sandbox=
-   * Will post: =http://some.domain/bin/statistics?web=Sandbox= triggering a statistics run
+   * Will post: =http://some.domain/bin/statistics?webs=Sandbox= triggering a statistics run
 
 ---+++ =rewriteshebang.pl=
 Simple script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
