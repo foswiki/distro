@@ -4,6 +4,7 @@
 
 ---++ Test this theme
 <!--
+   * Local FAVICON=%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/favicon.ico
    * Local FOSWIKI_LAYOUT_URL = %URLPARAM{"layout" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/layout.css"}%
    * Local FOSWIKI_STYLE_URL = %URLPARAM{"style" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/style.css"}%
    * Local FOSWIKI_COLORS_URL = %URLPARAM{"colors" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/colors.css"}%
@@ -56,7 +57,8 @@
 %INCLUDE{"PatternSkin" section="copysettings"}%
 <noautolink>
 <form name="select_all">
-<textarea readonly="readonly" rows="15" cols="120" name="copypaste" class="foswikiInputFieldReadOnly foswikiSmallish" style="width:99%">The overall skin:
+<textarea readonly="readonly" rows="15" cols="120" name="copypaste" class="foswikiInputFieldReadOnly foswikiSmallish" style="width:99%">The overall skin: %SYSTEMWEB%.PatternSkinTheme2012
+
    * Set SKIN = famfamfam,pattern
 Skin styles:
    * Set FOSWIKI_LAYOUT_URL = %DISPLAY_FOSWIKI_LAYOUT_URL%
@@ -70,6 +72,9 @@ Navigation:
 Top bar:
    * Set WEBHEADERART =
    * Set WEBHEADERBGCOLOR =
+Favicon
+   * Set FAVICON=%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/favicon.ico
+
 </textarea><br />
 <input type="button" class="foswikiButton" value="Highlight text" onClick="javascript:this.form.copypaste.focus();this.form.copypaste.select();">
 </form>

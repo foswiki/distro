@@ -19,6 +19,7 @@ You may quickly change the appearance of this skin by setting a theme.
 Pattern skin has quite some flexibility out of the box. Try one of the provided themes or use them as inspiration for your own theme.
    * [[%SYSTEMWEB%.PatternSkinTheme][Foswiki (default)]]
    * [[%SYSTEMWEB%.PatternSkinTheme2009][Foswiki 2009]]
+   * [[%SYSTEMWEB%.PatternSkinTheme2012][Foswiki 2012]]
    * [[%SYSTEMWEB%.PatternSkinThemeFatWilly][Foswiki "Fat Willy" Site Skin]]
    
 <!--
