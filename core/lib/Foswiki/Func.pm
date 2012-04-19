@@ -2499,11 +2499,21 @@ Return: =$text=     Expanded text, e.g. ='Current user is <nop>WikiGuest'=
 
 See also: expandVariablesOnTopicCreation
 
+*Caution:* This function needs all the installed plugins to have gone through initialization.
+Never call this function from within an initPlugin handler,  bad things happen.
+
 =cut
 
 sub expandCommonVariables {
     my ( $text, $topic, $web, $meta ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+
+    if (DEBUG) {
+        for ( my $i = 4 ; $i <= 7 ; $i++ ) {
+            ASSERT( 0, "expandCommonVariables called during registration" )
+              if ( ( caller($i) )[3] eq 'Foswiki::Plugin::registerHandlers' );
+        }
+    }
 
     #ASSERT(!Foswiki::Func::webExists($topic)) if DEBUG;
 
