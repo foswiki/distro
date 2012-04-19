@@ -2492,8 +2492,10 @@ sub expandCommonVariables {
 
     if (DEBUG) {
         for ( my $i = 4 ; $i <= 7 ; $i++ ) {
+            my $caller = ( caller($i) )[3];
             ASSERT( 0, "expandCommonVariables called during registration" )
-              if ( ( caller($i) )[3] eq 'Foswiki::Plugin::registerHandlers' );
+              if ( defined $caller
+                && $caller eq 'Foswiki::Plugin::registerHandlers' );
         }
     }
 
@@ -3539,6 +3541,7 @@ sub saveTopicText {
             param1   => ( $caller[0] || 'unknown' )
         );
     }
+
     #see Tasks.Item11586 - saveTopicText is supposed to use the embedded meta
     $topicObject->setEmbeddedStoreForm($text);
 
