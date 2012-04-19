@@ -2510,8 +2510,10 @@ sub expandCommonVariables {
 
     if (DEBUG) {
         for ( my $i = 4 ; $i <= 7 ; $i++ ) {
+            my $caller = ( caller($i) )[3];
             ASSERT( 0, "expandCommonVariables called during registration" )
-              if ( ( caller($i) )[3] eq 'Foswiki::Plugin::registerHandlers' );
+              if ( defined $caller
+                && $caller eq 'Foswiki::Plugin::registerHandlers' );
         }
     }
 
@@ -2710,7 +2712,7 @@ sub redirectCgiQuery {
     my ( $query, $url, $passthru, $status ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     writeWarning("redirectCgiQuery: not a valid redirect status: $status")
-        if $status && $status !~ /^\s*3\d\d.*/;
+      if $status && $status !~ /^\s*3\d\d.*/;
     return $Foswiki::Plugins::SESSION->redirect( $url, $passthru, $status );
 }
 
@@ -3562,6 +3564,7 @@ sub saveTopicText {
             param1   => ( $caller[0] || 'unknown' )
         );
     }
+
     #see Tasks.Item11586 - saveTopicText is supposed to use the embedded meta
     $topicObject->setEmbeddedStoreForm($text);
 
