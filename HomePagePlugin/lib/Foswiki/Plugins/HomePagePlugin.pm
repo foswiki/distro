@@ -25,7 +25,10 @@ sub initPlugin {
 sub initializeUserHandler {
     my ( $loginName, $url, $pathInfo ) = @_;
 
-    return if ( $Foswiki::Plugins::SESSION->inContext('viewfile') );
+    return unless ( 
+      $Foswiki::Plugins::SESSION->inContext('view')  ||
+      $Foswiki::Plugins::SESSION->inContext('login')
+    );
 
     my $gotoOnLogin =
       (       $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin}
@@ -34,8 +37,8 @@ sub initializeUserHandler {
         my $test = $Foswiki::Plugins::SESSION->{request}->param('username');
         $loginName = $test if defined($test);
 
-	# pre-load the origurl with the 'login' url which forces
-	# templatelogin to use the requested web&topic
+        # pre-load the origurl with the 'login' url which forces
+        # templatelogin to use the requested web&topic
         $Foswiki::Plugins::SESSION->{request}->param(
             -name  => 'origurl',
             -value => $Foswiki::Plugins::SESSION->{request}->url()
@@ -46,55 +49,52 @@ sub initializeUserHandler {
     # site wide default
     my $path_info = $Foswiki::Plugins::SESSION->{request}->path_info();
 
-    return unless ( ( $path_info eq '' or $path_info eq '/' )
-			  or ($gotoOnLogin) );
+    return
+      unless ( ( $path_info eq '' or $path_info eq '/' )
+        or ($gotoOnLogin) );
 
     my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
-    
+
     #$Foswiki::cfg{HomePagePlugin}{HostnameMapping}
     my $hostName = lc( Foswiki::Func::getUrlHost() );
     if (
-	defined(
-	    $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName}
-	)
-	)
+        defined( $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName} ) )
     {
-	$siteDefault =
-	    $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
+        $siteDefault =
+          $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
     }
-    
+
     my $wikiName = Foswiki::Func::getWikiName($loginName);
-    if (
-	( defined $wikiName )
-	and Foswiki::Func::topicExists(
-	    $Foswiki::cfg{UsersWebName}, $wikiName
-	)
-	)
+    if ( ( defined $wikiName )
+        and Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $wikiName )
+      )
     {
-	my ( $meta, $text ) =
-	    Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-				      Foswiki::Func::getWikiName($loginName) );
-	
-	# TODO: make fieldname a setting.
-	my $field = $meta->get( 'FIELD', 'HomePage' );
-	my $userHomePage = $field->{value} if ( defined($field) );
-	$siteDefault = $userHomePage
-	    if ( $userHomePage and ( $userHomePage ne '' ) );
+        my ( $meta, $text ) =
+          Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, $wikiName );
+
+        # TODO: make fieldname a setting.
+        my $field = $meta->get( 'FIELD', 'HomePage' );
+        my $userHomePage = $field->{value} if ( defined($field) );
+        $siteDefault = $userHomePage
+          if ( $userHomePage and ( $userHomePage ne '' ) );
     }
-    
+
     if ( Foswiki::Func::webExists($siteDefault) ) {
-	
-	# if they only set a webname, dwim
-	$siteDefault .= '.' . $Foswiki::cfg{HomeTopicName};
+
+        # if they only set a webname, dwim
+        $siteDefault .= '.' . $Foswiki::cfg{HomeTopicName};
     }
 
     return unless defined $siteDefault;
 
     my ( $web, $topic ) =
-	$Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
+      $Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
+
+    return unless Foswiki::Func::topicExists( $web, $topic );
+
     $Foswiki::Plugins::SESSION->{webName}   = $web;
     $Foswiki::Plugins::SESSION->{topicName} = $topic;
-    
+
     return;
 }
 
