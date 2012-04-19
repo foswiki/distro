@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarQUERY
 ---+++ QUERY -- get the value of meta-data
-   * Uses the query syntax described in [[System.QuerySearch][QuerySearch]] to get information about meta-data.
+   * Uses the query syntax described in [[%SYSTEMWEB%.QuerySearch][QuerySearch]] to get information about meta-data.
       * supports formatted access to formfields and other meta-data in  topics using the same syntax as is used in =IF= and =SEARCH= statements,
       * gives access to *all* meta-data, including that added by extensions,
       * supports reporting values using JSON and other standards, simplifying the retrieval of meta-data for REST applications,
@@ -29,8 +29,8 @@
       %<nop>QUERY{"Firstname"}%
 
       Get a list of all the names of attachments on
-        the topic 'System.DocumentGraphics':
-      %<nop>QUERY{"'System.DocumentGraphics'/attachments.name"}%
+        the topic '%SYSTEMWEB%.DocumentGraphics':
+      %<nop>QUERY{"'%SYSTEMWEB%.DocumentGraphics'/attachments.name"}%
 
       Get configuration setting {NameFilter}:
       %<nop>QUERY{"{NameFilter}"}%</pre>

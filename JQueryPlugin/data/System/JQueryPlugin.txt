@@ -242,7 +242,7 @@ reduce bandwidth and speed up interactive performance.
                   deprecated jquery.nifty; disabled JQSCRIPT and JQSTYLE |
 |  11 Nov 2009: | added jqGrid library; reorganized documentation |
 |  07 Nov 2009: | updated Superfish to 1.4.8 and added examples topic, added\
-                  supersubs plugin, moved JQuery examples from Sandbox to System |
+                  supersubs plugin, moved JQuery examples from %SANDBOXWEB% to %SYSTEMWEB% |
 |  29 Oct 2009: | added SCRIPTSUFFIX to foswiki var set (CDot) |
 |  14 Sep 2009: | added perls tubs for jquery.ui, so that you can pull it in via JQREQUIRE now; \
                   reworked plugin initialization to allow elements to be init'ed when loaded via ajax; \

@@ -149,11 +149,11 @@ The rules defined by the out-of-the-box setting of ={TemplatePath}= are:
    1 =templates/$web/$name.$skin.tmpl=
    2 =templates/$name.$skin.tmpl=
    3 =$web.$skinSkin$nameTemplate=
-   4 =System.$skinSkin$nameTemplate=
+   4 =%SYSTEMWEB%.$skinSkin$nameTemplate=
    5 =templates/$web/$name.tmpl=
    6 =templates/$name.tmpl=
    7 =$web.$nameTemplate=
-   8 =System.$nameTemplate=
+   8 =%SYSTEMWEB%.$nameTemplate=
 For example, let's say we are viewing a topic in web =%SANDBOXWEB%= and are searching for the template called =function=. The skin path is set to =custom,pattern=. The following locations will be considered in turn, until a template is found:
    1 =templates/%SANDBOXWEB%/function.custom.tmpl= _(rule 1)_ :skull:
    1 =templates/%SANDBOXWEB%/function.pattern.tmpl= _(rule 1)_ :skull:
@@ -161,12 +161,12 @@ For example, let's say we are viewing a topic in web =%SANDBOXWEB%= and are sear
    2 =templates/function.pattern.tmpl= _(rule 2)_
    3 =%SANDBOXWEB%.CustomSkinFunctionTemplate= _(rule 3)_
    3 =%SANDBOXWEB%.PatternSkinFunctionTemplate= _(rule 3)_
-   4 =System.CustomSkinFunctionTemplate= _(rule 4)_
-   4 =System.PatternSkinFunctionTemplate= _(rule 4)_
+   4 =%SYSTEMWEB%.CustomSkinFunctionTemplate= _(rule 4)_
+   4 =%SYSTEMWEB%.PatternSkinFunctionTemplate= _(rule 4)_
    5 =templates/%SANDBOXWEB%/function.tmpl= _(rule 5)_ :skull:
    6 =templates/function.tmpl= _(rule 6)_
    7 =%SANDBOXWEB%.FunctionTemplate= _(rule 7)_
-   8 =System.FunctionTemplate= _(rule 8)_
+   8 =%SYSTEMWEB%.FunctionTemplate= _(rule 8)_
 <blockquote class="foswikiHelp">%X% :skull: This usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead. </blockquote>
 
 When a skin name or template name is used to build a topic name, the first character is automatically capitalised.

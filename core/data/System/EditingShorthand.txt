@@ -381,13 +381,13 @@ It's generally a good idea to use the [[%SYSTEMWEB%.Macros][macros]] %<nop>SYSTE
 <verbatim class="tml">
 ACRONYM
 
-System.ACRONYM
+%SYSTEMWEB%.ACRONYM
 </verbatim>
 </td><td>
 
 ACRONYM
 
-System.ACRONYM
+%SYSTEMWEB%.ACRONYM
 </td>
 </tr>
 <tr valign="top">

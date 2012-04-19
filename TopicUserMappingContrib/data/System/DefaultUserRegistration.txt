@@ -5,7 +5,7 @@
 <noautolink>
 ---+ %MAKETEXT{"Registration"}%
 <!--
-Read general customisation instructions in System.UserAuthentication
+Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
 -->
 <!--
 Registration enabled/disabled messages

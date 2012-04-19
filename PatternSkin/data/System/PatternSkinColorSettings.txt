@@ -220,7 +220,7 @@ Do not change the text below this line unless you know what you are doing!
 #patternTopBar {
    border-color:%SEPARATOR_BORDER%;
    background:%PAGE_BACKGROUND%;
-   /* color can be overridden with WEBHEADERBGCOLOR in System/DefaultPreferences */
+   /* color can be overridden with WEBHEADERBGCOLOR in %SYSTEMWEB%/DefaultPreferences */
 }
 #patternMain { /* don't set a background here; use patternOuter */ }
 #patternOuter {
@@ -796,7 +796,7 @@ tr.foswikiDiffDebug td {
 /* image positions are set here as well as these are dependent on the image */
 
 #patternTopBar {
-    /* image is defined as WEBHEADERART in System/DefaultPreferences */
+    /* image is defined as WEBHEADERART in %SYSTEMWEB%/DefaultPreferences */
 }
 .foswikiToc li {
    background-image:url(bullet-toc.gif);

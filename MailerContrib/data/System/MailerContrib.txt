@@ -100,7 +100,7 @@ Note that when using the "news mode" =!= or =?= specifiers the entire topic text
 In addition, the =%<nop>STARTPUBLISH%= and =%<nop>STOPPUBLISH%= markers used by Foswiki:Extensions.PublishPlugin to delimit the text to be published are respected in news mode.
 
 ---++ Foswiki/Contrib/MailerContrib code library
-The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to [[%SCRIPTURL{view}%/System/PerlDoc?module=Foswiki::Contrib::MailerContrib::WebNotify][the documentation for the !WebNotify class]] as their starting point.
+The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Contrib::MailerContrib::WebNotify][the documentation for the !WebNotify class]] as their starting point.
 
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%

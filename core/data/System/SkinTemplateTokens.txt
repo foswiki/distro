@@ -102,7 +102,7 @@ merely a placeholder that is replaced by the script.
    $ =registernotifyadmin.tmpl=: Email to %WIKIWEBMASTERNAME% that registration completed successfully
    $ =registernotify.tmpl=: Email to new user that registration completed successfully
 
-| %<nop>SPLIT% | Used to divide the System.NewUserTemplate topic into 3 sections: header, repeating keys, and footer.  Not referenced in skin templates |
+| %<nop>SPLIT% | Used to divide the %SYSTEMWEB%.NewUserTemplate topic into 3 sections: header, repeating keys, and footer.  Not referenced in skin templates |
 | %<nop>FIRSTLASTNAME% | First and last name of the user registering. |
 | %<nop>WIKINAME% | Wikiname of the new user |
 | %<nop>EMAILADDRESS% | Email address of the new user |

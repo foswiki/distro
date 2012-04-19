@@ -10,5 +10,5 @@
      | *Parameter:* | *Description:* | *Default:* |
      | "name" | name of theme: !JQueryPlugin knows the following themes =base=, =lightness=, =redmod=, =smoothness=; \
                 additional themes maybe created using the [[http://jqueryui.com/themeroller/][themeroller]] and installed to \
-                =%PUBURLPATH%/System/JQueryPlugin/$name= | base |
+                =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$name= | base |
    * Related: JQueryUI

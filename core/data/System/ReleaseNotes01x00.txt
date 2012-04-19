@@ -222,7 +222,7 @@ Two new parameters $ntopics and $nhits can be used in formatted searches to show
 An additional security feature has been added so that saving data now requires the http method POST. This means that it is no longer possible to store data via an "&lt;a href=..." link or img tag. It also means that if you have an application with an HTML form that creates new topics you must specify in the form tag method="post". This change is done to further tighten the security of Foswiki.
 
 <pre>
-&lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post"&gt;
+&lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/%SANDBOXWEB%/" method="post"&gt;
     ...
 &lt;/form&gt;
 </pre>
@@ -256,7 +256,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 ---+++ Fixes
 
 <noautolink>
-| [[%BUGS%/Item38][Item38]] | Replace backtick, exec and system calls to use Sandbox.. |
+| [[%BUGS%/Item38][Item38]] | Replace backtick, exec and system calls to use %SANDBOXWEB%.. |
 | [[%BUGS%/Item41][Item41]] | Remove the duplicate TAG topics - like VarREVINFO and VarREVINFO2 |
 | [[%BUGS%/Item42][Item42]] | SECURITY: REVINFO reveals info for a topic the user does not have permission to view. |
 | [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
@@ -305,7 +305,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item328][Item328]] | Rebranding SmiliesPlugin for Foswiki |
 | [[%BUGS%/Item347][Item347]] | Rebranding SpreadSheetPlugin |
 | [[%BUGS%/Item367][Item367]] | Rebranding RenderListPlugin |
-| [[%BUGS%/Item370][Item370]] | Replace the favicon to Foswiki - and make the default setting come from System.ProjectLogos |
+| [[%BUGS%/Item370][Item370]] | Replace the favicon to Foswiki - and make the default setting come from %SYSTEMWEB%.ProjectLogos |
 | [[%BUGS%/Item375][Item375]] | Eliminate use of URLPARAM in docs so it becomes an XSS trap |
 | [[%BUGS%/Item384][Item384]] | Improve function getElementsByClassName |
 | [[%BUGS%/Item385][Item385]] | Improve layout attachment button and form header. Add attachment counter |
@@ -419,7 +419,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 ---+++ Fixes
 
 <noautolink>
-| [[%BUGS%/Item707][Item707]] | System.InstallationGuide has incorrect link to list of users |
+| [[%BUGS%/Item707][Item707]] | %SYSTEMWEB%.InstallationGuide has incorrect link to list of users |
 | [[%BUGS%/Item714][Item714]] | Add a Legacy engine, so Contribs that add scripts to bin dir can work |
 | [[%BUGS%/Item727][Item727]] | Comment plugin loses data |
 | [[%BUGS%/Item736][Item736]] | Comment plugin doesn't know about Compare Revisions |
@@ -469,7 +469,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item980][Item980]] | Moving a topic doesn't update TOPICMOVED |
 | [[%BUGS%/Item990][Item990]] | Update graphics, html and css |
 | [[%BUGS%/Item995][Item995]] | When editing a form only, "Save and Continue" leads to the full edit screen |
-| [[%BUGS%/Item1002][Item1002]] | System.InstallationGuide doesn't mention Development.FoswikiStandAlone |
+| [[%BUGS%/Item1002][Item1002]] | %SYSTEMWEB%.InstallationGuide doesn't mention Development.FoswikiStandAlone |
 | [[%BUGS%/Item1010][Item1010]] | Configure opening and closing of panels is clunky |
 | [[%BUGS%/Item1011][Item1011]] | Configure fails with cryptic error in Configure/Checker.pm line 315 when RCS is not available on the system |
 | [[%BUGS%/Item1014][Item1014]] | Configure complains when extra spaces are added in data structure |
@@ -478,10 +478,10 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item1018][Item1018]] | Protect verbatim class="xxx" when editing |
 | [[%BUGS%/Item1020][Item1020]] | TemplateLogin corrupts origurl param |
 | [[%BUGS%/Item1022][Item1022]] | ?logout=1 ignores the requested topic and returns to original topic |
-| [[%BUGS%/Item1023][Item1023]] | System.CommandAndCGIScripts is missing docco on ?logout=1 url param |
+| [[%BUGS%/Item1023][Item1023]] | %SYSTEMWEB%.CommandAndCGIScripts is missing docco on ?logout=1 url param |
 | [[%BUGS%/Item1029][Item1029]] | TemplateLogin provides status 200 if no username is give, changed to 400 |
 | [[%BUGS%/Item1053][Item1053]] | Fix broken HTML |
-| [[%BUGS%/Item1070][Item1070]] | Line75 of Sandbox.pm has an excess $ |
+| [[%BUGS%/Item1070][Item1070]] | Line75 of =Sandbox.pm= has an excess $ |
 | [[%BUGS%/Item1073][Item1073]] | Configure should not load Plugins that are hidden - ie files starting with a dot |
 | [[%BUGS%/Item1074][Item1074]] | Remove link from data form table in preview |
 | [[%BUGS%/Item1078][Item1078]] | Remove unwanted spaces in default templates |
@@ -606,17 +606,17 @@ None
 | [[%BUGS%/Item1050][Item1050]] | Explanation at {ExtensionsRepositories} is not clear |
 | [[%BUGS%/Item1214][Item1214]] | In TablePlugin - Add 'px' if no size unit is passed |
 | [[%BUGS%/Item1343][Item1343]] | TinyMCEQuickHelp has bad META format, missing line feed causes it to show in topic text. |
-| [[%BUGS%/Item1349][Item1349]] | Sandbox executes "-"  instead of requested program on Strawberry perl on Windows XP |
+| [[%BUGS%/Item1349][Item1349]] | =Sandbox.pm= executes "-"  instead of requested program on Strawberry perl on Windows XP |
 | [[%BUGS%/Item1354][Item1354]] | SEARCHDEFAULTTYPE causes confusing and the misspelling means that people think this is the problem |
 | [[%BUGS%/Item1358][Item1358]] | EditTablePlugin deep recurses in many cases |
 | [[%BUGS%/Item1372][Item1372]] | Plugin installation fails on Windows - extender.pl can't find Archive::Tar |
 | [[%BUGS%/Item1384][Item1384]] | Creating webs with empty field values in the submit form fails |
 | [[%BUGS%/Item1388][Item1388]] | View topic since and other settings are not connected |
 | [[%BUGS%/Item1403][Item1403]] | Use of uninitialized value at lib/Foswiki.pm |
-| [[%BUGS%/Item1413][Item1413]] | System.WebLeftBarSearch search field javascript not blanking box when focused |
+| [[%BUGS%/Item1413][Item1413]] | %SYSTEMWEB%.WebLeftBarSearch search field javascript not blanking box when focused |
 | [[%BUGS%/Item1416][Item1416]] | TOC anchor links broken |
 | [[%BUGS%/Item1443][Item1443]] | We still have 1.0 format in distributed topics |
-| [[%BUGS%/Item1451][Item1451]] | Typos on System.TextFormattingRules |
+| [[%BUGS%/Item1451][Item1451]] | Typos on %SYSTEMWEB%.TextFormattingRules |
 | [[%BUGS%/Item1453][Item1453]] | Too hard to create new switchboard entries, doc is poor |
 | [[%BUGS%/Item1456][Item1456]] | Access viewfile without web/file results in oops |
 | [[%BUGS%/Item1458][Item1458]] | Don't allow saving data when http method is GET |
@@ -725,9 +725,9 @@ None
 | [[%BUGS%/Item1781][Item1781]] | Uploading files can trigger taint errors if certain plugins are installed |
 | [[%BUGS%/Item1782][Item1782]] | Errors in extender.pl, Archive::Tar not found  |
 | [[%BUGS%/Item1805][Item1805]] | Foswiki Validation Method 'none' doesn't work propperly |
-| [[%BUGS%/Item1818][Item1818]] | add "new" countries to System.UserRegistration |
+| [[%BUGS%/Item1818][Item1818]] | add "new" countries to %SYSTEMWEB%.UserRegistration |
 | [[%BUGS%/Item1822][Item1822]] | IF broken for numerical comparisons against zero |
-| [[%BUGS%/Item1825][Item1825]] | Wrong formatting of the Wikipedia InterWiki reference to Crontab article in System.SiteTools |
+| [[%BUGS%/Item1825][Item1825]] | Wrong formatting of the Wikipedia InterWiki reference to Crontab article in %SYSTEMWEB%.SiteTools |
 | [[%BUGS%/Item1847][Item1847]] | mailnotify doesn't expand BASEWEB properly |
 | [[%BUGS%/Item1878][Item1878]] | Numerical Sort in table columns broken |
 | [[%BUGS%/Item1897][Item1897]] | TinyMCEPlugin_installer: Version checking of dependency of WysiwygPlugin is confusing |
@@ -813,7 +813,7 @@ None
 | [[%BUGS%/Item2417][Item2417]] | Fix for horizontally compressed printing in Safari |
 | [[%BUGS%/Item5366][Item5366]] | !BulkResetPassword confirmation lacks an OK button |
 | [[%BUGS%/Item8084][Item8084]] | Confusing "Bad request" during upgrade when going 3048 => 3236 |
-| [[%BUGS%/Item8292][Item8292]] | System.MailerContrib in 1.07 and F.O needs URL typo to SubscribePlugin fixed |
+| [[%BUGS%/Item8292][Item8292]] | %SYSTEMWEB%.MailerContrib in 1.07 and F.O needs URL typo to SubscribePlugin fixed |
 
 </noautolink>
 
@@ -892,7 +892,7 @@ None
 | [[%BUGS%/Item1440][Item1440]] | =Form: get find category template twikicatitems= error in foswiki warning log file |
 | [[%BUGS%/Item1701][Item1701]] | Reset password doesn't work with =ApacheHtpasswdUser.pm= |
 | [[%BUGS%/Item1728][Item1728]] | Exclamation mark nop in !form fields are not removed when not in TEXT |
-| [[%BUGS%/Item1825][Item1825]] | Wrong formatting of the Wikipedia InterWiki reference to Crontab article in System.SiteTools |
+| [[%BUGS%/Item1825][Item1825]] | Wrong formatting of the Wikipedia InterWiki reference to Crontab article in %SYSTEMWEB%.SiteTools |
 | [[%BUGS%/Item1829][Item1829]] | Configure shouldn't crash if there is no LocalSite.cfg |
 | [[%BUGS%/Item2131][Item2131]] | All warnings causes Foswiki to throw message "Foswiki detected an internal error." with CGI 3.47 |
 | [[%BUGS%/Item2322][Item2322]] | Don't send Status 200 for non-existent pages |
@@ -909,9 +909,9 @@ None
 | [[%BUGS%/Item8483][Item8483]] | On Windows, unable to install files into bin due to incorrect path |
 | [[%BUGS%/Item8490][Item8490]] | TemplateLogin now returns 200 - Build.pm login checks for 400 |
 | [[%BUGS%/Item8500][Item8500]] | InterwikiPlugin not FastCGI safe |
-| [[%BUGS%/Item8525][Item8525]] | System.ManagingWebs does not provide defaulting of form field |
+| [[%BUGS%/Item8525][Item8525]] | %SYSTEMWEB%.ManagingWebs does not provide defaulting of form field |
 | [[%BUGS%/Item8538][Item8538]] | Unit tests run without taint checking, and miss taint issues  |
-| [[%BUGS%/Item8553][Item8553]] | System.ManagingWebs should explain that _empty is rarely a good choice. |
+| [[%BUGS%/Item8553][Item8553]] | %SYSTEMWEB%.ManagingWebs should explain that _empty is rarely a good choice. |
 | [[%BUGS%/Item8556][Item8556]] | Local Anchors don't use relative form |
 | [[%BUGS%/Item8566][Item8566]] | TinyMCEPlugin stops working in IE when JQueryPlugin and ZonePlugin is installed. |
 | [[%BUGS%/Item8583][Item8583]] | word search is labeled as 'topic name' in the WebSearchAdvanced topic |
@@ -935,7 +935,7 @@ None
 | [[%BUGS%/Item8820][Item8820]] | foswikiIcon missing from css documentation |
 | [[%BUGS%/Item8851][Item8851]] | TemplateLogin does not log failure and other events. |
 | [[%BUGS%/Item8865][Item8865]] | rdiff DIFFRENDERSTYLE does not work as expected |
-| [[%BUGS%/Item8874][Item8874]] | Topic System/LoginName references wrong Users list |
+| [[%BUGS%/Item8874][Item8874]] | Topic %SYSTEMWEB%.LoginName references wrong Users list |
 | [[%BUGS%/Item8886][Item8886]] | configure Extension installer and lister is not very forgiving of errors |
 | [[%BUGS%/Item8889][Item8889]] | UI for configure, Plugins is overwhelming and presents little-used configuration options in normal mode |
 | [[%BUGS%/Item8896][Item8896]] | SpreadSheetPlugin ignores SKIPINCLUDE option |

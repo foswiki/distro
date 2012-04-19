@@ -10,7 +10,7 @@ Once you have Foswiki installed and running, you can perform one or more of the 
 
 To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
-All of the Foswiki documentation can also be found online in the [[System.WebHome][Foswiki documentation section]] (the "System" web) of the Foswiki web site.
+All of the Foswiki documentation can also be found online in the [[%SYSTEMWEB%.WebHome][Foswiki documentation section]] (the "System" web) of the Foswiki web site.
 
 Note the =configure= page mentioned in this section is accessed by visiting =[[%SCRIPTURL{"configure"}%]]= your web browser.
 
@@ -91,7 +91,7 @@ If you are not using Foswiki to manage your users' passwords or email addresses,
 #TailorUsersTopic
 ---++++ Customize the user topic for new users
 
-When a new user registers on your Foswiki site, a topic with a name corresponding to the user's !WikiName is created in the %USERSWEB% web: this topic is the user's user topic. The user topic is based on the [[%USERSWEB%.NewUserTemplate]] topic; if it is not present, then [[%SYSTEMWEB%.NewUserTemplate]] (and its associated [[%SYSTEMWEB%.UserForm]]) is used as a default. If you want to customize the user topic for your users, copy [[%SYSTEMWEB%.NewUserTemplate]] to [[%USERSWEB%.NewUserTemplate]], and [[%SYSTEMWEB%.UserForm]] to [[%USERSWEB%.UserForm]], and make your changes to [[%USERSWEB%.NewUserTemplate]] and [[%USERSWEB%.UserForm]]. (See Foswiki:System.ManagingTopics#CopyTopic for instructions on copying a topic.)
+When a new user registers on your Foswiki site, a topic with a name corresponding to the user's !WikiName is created in the %USERSWEB% web: this topic is the user's user topic. The user topic is based on the [[%USERSWEB%.NewUserTemplate]] topic; if it is not present, then [[%SYSTEMWEB%.NewUserTemplate]] (and its associated [[%SYSTEMWEB%.UserForm]]) is used as a default. If you want to customize the user topic for your users, copy [[%SYSTEMWEB%.NewUserTemplate]] to [[%USERSWEB%.NewUserTemplate]], and [[%SYSTEMWEB%.UserForm]] to [[%USERSWEB%.UserForm]], and make your changes to [[%USERSWEB%.NewUserTemplate]] and [[%USERSWEB%.UserForm]]. (See %SYSTEMWEB%.ManagingTopics#CopyTopic for instructions on copying a topic.)
 
 You can edit these topics to suit your needs, such as the following:
    * Customize the user topic for your site.

@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="CommentPlugin"}%
 ---+!! Comments
 
-Example comment topic for [[Sandbox.CommentPluginExamples#return][CommentPluginExamples - "return"]]
+Example comment topic for [[%SANDBOXWEB%.CommentPluginExamples#return][CommentPluginExamples - "return"]]
 ---
 %STARTINCLUDE%
 

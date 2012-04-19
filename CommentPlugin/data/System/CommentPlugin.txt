@@ -7,7 +7,7 @@
 
 %TOC{title="On this page:"}%
 
-Related topics: CommentPluginTemplates, Sandbox.CommentPluginExamples
+Related topics: CommentPluginTemplates, %SANDBOXWEB%.CommentPluginExamples
 
 ---++ Features
 
@@ -107,7 +107,7 @@ You can also define a *comment template in a topic*, by passing the topic locati
 }%
 </verbatim>
 
-=templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[Sandbox.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+=templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[%SANDBOXWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
 </blockquote>
 
 
@@ -196,7 +196,7 @@ Example comment:
 %COMMENT{
    noform="on"
    type="example"
-   templatetopic="Sandbox.CommentPluginTemplateExample"
+   templatetopic="%SANDBOXWEB%.CommentPluginTemplateExample"
    target="%TOPIC%"
    button="Add comment"
 }%
@@ -259,7 +259,7 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  19 Nov 2010 | Foswikitask:Item10050 - CommentPlugin prompt must not add newlines that prevent COMMENT inside TML tables |
 |  21 Oct 2010 | Foswikitask:Item9857 - Restored the !CommentPluginTemplate to how it was before. All the changes done to make it look nice causes many errors. Never again add newlines, never again add trailing \ on existing templates. It does not always work. |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
-|  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 
+|  27 May 2010 | Moved example topic %SANDBOXWEB%.CommentPluginExamples to %SANDBOXWEB% web. | 
 |  24 Feb 2010 | Foswikitask:Item8611 - block comments resulting from calls to saveTopic from within an afterSaveHandler |
 |  12 Sep 2009 | Foswikitask:Item8269 - Targeting anchors broken by Item727 is fixed. |
 |  04 Jun 2009 | Foswikitask:Item1668 - The action template used with !ActionTrackerPlugin now uses new syntax ending with %ENDACTION. This makes each action item appear on a new line. Additionally new lines are now correctly saved as html br tags and not as html encoded br tag <br /> Foswikitask:Item1640 - Templates shipped with the plugin no longer encodes the user date entered when the date is saved so that it is possible for the user to use macros. |

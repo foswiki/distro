@@ -82,7 +82,7 @@ view
             %SYSTEMWEB%.WebBottomBar or %SYSTEMWEB%.WebBottomBarExample
 </verbatim>
 
-Note that =WebTopBar= is not used per web, but it's either pulled from System.WebTopBar, or, if it doesn't exist, from System.WebTopBarExample.
+Note that =WebTopBar= is not used per web, but it's either pulled from %SYSTEMWEB%.WebTopBar, or, if it doesn't exist, from %SYSTEMWEB%.WebTopBarExample.
 
 ---++ Logo
 
