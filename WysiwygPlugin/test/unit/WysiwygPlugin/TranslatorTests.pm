@@ -1349,7 +1349,7 @@ Inside
         exec => $ROUNDTRIP,
         name => "WikiTagsInHTMLParam",
         html => "${linkon}[[%!page!%/Burble/Barf][Burble]]${linkoff}",
-        tml  => '[[%!page!%/Burble/Barf][Burble]]',
+        tml  => '[[Burble.Barf][Burble]]',
     },
     {
         exec => $HTML2TML,
@@ -2521,11 +2521,55 @@ BLAH
         html => '<p>
 Blah'
           . encodedWhitespace('n')
-          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;</span>edit<span
-class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>'
+          . '<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>'
           . encodedWhitespace('n') . 'Blah
 </p>
 ',
+    },
+    {
+        name => 'Item1396_MacrosRemainSticky',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+[[%ATTACHURL%/LinkEditingInWysiwyg-4.patch][LinkEditingInWysiwyg-4.patch]]
+BLAH
+        finaltml  => <<'BLAH',
+[[%ATTACHURL%/LinkEditingInWysiwyg-4.patch][LinkEditingInWysiwyg-4.patch]]
+BLAH
+        html => <<'BLAH',
+<p><a href="%ATTACHURL%/LinkEditingInWysiwyg-4.patch">LinkEditingInWysiwyg-4.patch</a> 
+</p>
+BLAH
+    },
+    {
+        name => 'Item1396_TitleRemainSticky',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+<a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
+BLAH
+        finaltml  => <<'BLAH',
+<a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
+BLAH
+        html => <<'BLAH',
+<p><a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
+</p>
+BLAH
+    },
+    {
+        # Issue is that the <b> markup inserted by TinyMCE editor is converted to
+        # TML markup,  but on the next pass, the TML is NOT converted to HTML
+        # Reversing the order,  Starting with *Bold* does not show bold in TMCE
+        name => 'Item1396_BoldInLink_FAILS',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+[[Main/WebHome][A <b>BOLD</b> WebHome]]
+BLAH
+        finaltml  => <<'BLAH',
+[[Main/WebHome][A *BOLD* WebHome]]
+BLAH
+        html => <<'BLAH',
+<p><a href="Main/WebHome">A <b>BOLD</b> WebHome</a>
+</p>
+BLAH
     },
     {
         name => 'Item4903',

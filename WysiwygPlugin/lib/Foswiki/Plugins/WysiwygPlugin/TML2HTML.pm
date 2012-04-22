@@ -420,6 +420,17 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       _getNamedColour($1, $2)#oge;
 
+    # Handle [[]]
+    #$text =~ s/(\[\[([^\]]*)\]\])/$this->_liftOut($2, 'LINK', 'span', $2)/ge;
+
+    # Handle [[][]] links by letting the WYSIWYG handle them as standard links
+    $text =~
+s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutGeneral("<a href=\"$1\">$2<\/a>", { tag => 'NONE', protect => 0, tmltag => 0 } )/ge;
+
+    # let WYSIWYG-editable A tags untouched for the editor
+    $text =~
+s/(\<a(\s+(href|target|title|class)=("(?:[^"\\]++|\\.)*+"|'(?:[^'\\]++|\\.)*+'|\S+))+\s*\>.*?\<\/a\s*\>)/$this->_liftOutGeneral($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/gei;
+
     # Convert Foswiki tags to spans outside protected text
     $text = $this->_processTags($text);
 
@@ -797,12 +808,10 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     $text =~ s(${WC::STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$WC::ENDWW)
       (CGI::span({class => 'WYSIWYG_TT'}, $1))gem;
 
-    # Handle [[][]] and [[]] links
+    # Handle [[]] links
+    $text =~ s/(\[\[[^\]]*\]\])/$this->_liftOut($1, 'LINK')/ge;
 
     # We do _not_ support [[http://link text]] syntax
-
-    # [[][]]
-    $text =~ s/(\[\[[^\]]*\](\[[^\]]*\])?\])/$this->_liftOut($1, 'LINK')/ge;
 
     $text =~
 s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOut($1, 'LINK')/geom;

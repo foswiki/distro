@@ -950,7 +950,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten($options | $WC::IN_TABLE);
+            ( $flags, $text ) = $kid->_flatten( $options | $WC::IN_TABLE );
             $text = _TDtrim($text);
             $text = "*$text*" if length($text);
         }
@@ -958,7 +958,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten($options | $WC::IN_TABLE);
+            ( $flags, $text ) = $kid->_flatten( $options | $WC::IN_TABLE );
             $text = _TDtrim($text);
         }
         elsif ( !$kid->{tag} ) {
@@ -1131,8 +1131,9 @@ sub _deduceAlignment {
 sub _H {
     my ( $this, $options, $depth ) = @_;
     my ( $flags, $contents ) = $this->_flatten($options);
-    return ( 0, undef ) if ( ($flags & $WC::BLOCK_TML)
-	|| ($flags & $WC::IN_TABLE));
+    return ( 0, undef )
+      if ( ( $flags & $WC::BLOCK_TML )
+        || ( $flags & $WC::IN_TABLE ) );
     my $notoc = '';
     if ( $this->hasClass('notoc') ) {
         $notoc = '!!';
@@ -1408,6 +1409,13 @@ sub _handleA {
         if ( $text eq $href ) {
             return ( 0, $WC::CHECKw . '[' . $nop . '[' . $href . ']]' );
         }
+
+        # we must quote square brackets in [[...][...]] notation
+        $text =~ s/[[]/&#91;/g;
+        $text =~ s/[]]/&#93;/g;
+        $href =~ s/[[]/%5B/g;
+        $href =~ s/[]]/%5D/g;
+
         return ( 0,
             $WC::CHECKw . '[' . $nop . '[' . $href . '][' . $text . ']]' );
     }
@@ -1685,8 +1693,7 @@ sub _handlePRE {
     }
     unless ( $options & $WC::NO_BLOCK_TML ) {
         my ( $flags, $text ) =
-          $this->_flatten(
-            $options | $WC::NO_TML | $WC::BR2NL | $WC::KEEP_WS );
+          $this->_flatten( $options | $WC::NO_TML | $WC::BR2NL | $WC::KEEP_WS );
         my $p = _htmlParams( $this->{attrs}, $options );
         return ( $WC::BLOCK_TML, "<$tag$p>$text</$tag>" );
     }
