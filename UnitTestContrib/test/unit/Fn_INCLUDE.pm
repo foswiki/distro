@@ -29,10 +29,11 @@ sub tear_down {
     $this->SUPER::tear_down();
 }
 
-sub test_simple {
+sub run_test_simple {
     my $this = shift;
     my $includeTopic = shift || $this->{test_web}.'.FirstTopic';
     my $includeError = shift;
+    my $noSectionError = shift || $includeError;
     
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1');
     $this->assert_str_equals($includeError?"A $includeError B":'A 1 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'"}% B', 'WebHome', $this->{other_web}));
@@ -57,33 +58,50 @@ sub test_simple {
 
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
     $this->assert_str_equals($includeError?"A $includeError B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="_default"}% B', 'WebHome', $this->{other_web}));
+    
+    Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
+    $this->assert_str_equals($noSectionError?"A $noSectionError B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="notthere"}% B', 'WebHome', $this->{other_web}));
 
+    Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
+    $this->assert_str_equals($includeError?"A  B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="_default" warn="off"}% B', 'WebHome', $this->{other_web}));
+    
+    Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
+    $this->assert_str_equals($noSectionError?"A  B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="notthere" warn="off"}% B', 'WebHome', $this->{other_web}));
+
+}
+
+sub test_simple {
+    my $this = shift;
+    $this->run_test_simple(undef, undef,
+    "<span class='foswikiAlert'>
+    Warning: Can't find named section <nop>notthere in topic <nop>TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
+</span>");
 }
 
 sub test_simple_not_there {
     my $this = shift;
-    $this->test_simple('NotThere', "<span class='foswikiAlert'>
+    $this->run_test_simple('NotThere', "<span class='foswikiAlert'>
     Warning: Can't find topic <nop>TemporaryINCLUDETestWebINCLUDEother.<nop>NotThere 
 </span>");
 }
 
 sub test_not_there_commas {
     my $this = shift;
-    $this->test_simple('NotThere, System.NoTopic', "<span class='foswikiAlert'>
-    Warning: Can\'t find topic <nop>NotThere, System.<nop>NoTopic 
+    $this->run_test_simple('NotThere, System.NoTopic', "<span class='foswikiAlert'>
+    Warning: Can\'t find topic <nop>System.<nop>NoTopic 
 </span>");
 }
 
 sub test_not_there_spaces {
     my $this = shift;
-    $this->test_simple('NotThere System.NoTopic', "<span class='foswikiAlert'>
+    $this->run_test_simple('NotThere System.NoTopic', "<span class='foswikiAlert'>
     Warning: Can't find topic <nop>NotThere System.<nop>NoTopic 
 </span>");
 }
 
 sub test_not_there_newlines {
     my $this = shift;
-    $this->test_simple('NotThere
+    $this->run_test_simple('NotThere
 System.NoTopic', "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>NotThere
 System.NoTopic', path is empty or contains illegal characters. 
@@ -92,21 +110,21 @@ System.NoTopic', path is empty or contains illegal characters.
 
 sub test_first_not_there_commas {
     my $this = shift;
-    $this->test_simple('NotThere, '.$this->{test_web}.'.FirstTopic', "<span class='foswikiAlert'>
-    Warning: Can\'t find topic <nop>NotThere, TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
+    $this->run_test_simple('NotThere, '.$this->{test_web}.'.FirstTopic', undef, "<span class='foswikiAlert'>
+    Warning: Can't find named section <nop>notthere in topic <nop>TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
 </span>");
 }
 
 sub test_first_not_there_spaces {
     my $this = shift;
-    $this->test_simple('NotThere '.$this->{test_web}.'.FirstTopic', "<span class='foswikiAlert'>
+    $this->run_test_simple('NotThere '.$this->{test_web}.'.FirstTopic', "<span class='foswikiAlert'>
     Warning: Can't find topic <nop>NotThere TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
 </span>");
 }
 
 sub test_first_not_there_newlines {
     my $this = shift;
-    $this->test_simple('NotThere
+    $this->run_test_simple('NotThere
 '.$this->{test_web}.'.FirstTopic', "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>NotThere
 TemporaryINCLUDETestWebINCLUDE.FirstTopic', path is empty or contains illegal characters. 
@@ -118,27 +136,28 @@ sub test_simple_section {
     my $includeSection = shift || '';
     my $includeTopic = shift || $this->{test_web}.'.FirstTopic';
     my $includeError = shift;
+    my $noSectionError = shift || $includeError;
     
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1');
-    $this->assert_str_equals($includeError?"A $includeError B":'A 1 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals($noSectionError?"A $noSectionError B":'A 1 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
     
-    $this->assert_str_equals($includeError?"A  B":'A 1 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'" warn="off"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals(($includeError||$noSectionError)?"A  B":'A 1 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'" warn="off"}% B', 'WebHome', $this->{other_web}));
 
 
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTINCLUDE%2%STOPINCLUDE% 3');
-    $this->assert_str_equals($includeError?"A $includeError B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals($noSectionError?"A $noSectionError B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
 
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3');
-    $this->assert_str_equals($includeError?"A $includeError B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals($noSectionError?"A $noSectionError B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
 
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
-    $this->assert_str_equals($includeError?"A $includeError B":'A 24 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals($noSectionError?"A $noSectionError B":'A 24 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
 
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION%2%ENDSECTION% 3');
-    $this->assert_str_equals($includeError?"A $includeError B":'A 1 2 3 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals($noSectionError?"A $noSectionError B":'A 1 2 3 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
 
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3');
-    $this->assert_str_equals($includeError?"A $includeError B":'A 1 2 3 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals($noSectionError?"A $noSectionError B":'A 1 2 3 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'"}% B', 'WebHome', $this->{other_web}));
 
     Foswiki::Func::saveTopic($this->{test_web}, 'FirstTopic', undef, '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
     $this->assert_str_equals($includeError?"A $includeError B":'A 2 B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.$includeTopic.'" section="'.$includeSection.'" section="_default"}% B', 'WebHome', $this->{other_web}));
@@ -149,20 +168,40 @@ sub test_simple_section {
 sub test_select_first_that_defines_section {
     my $this = shift;
     $this->test_simple_section('section_name', 
+            join(', ', ('NoSuchTopic', $this->{test_web}.'.NoSuchTopic')),
+            "<span class='foswikiAlert'>
+    Warning: Can't find topic <nop>TemporaryINCLUDETestWebINCLUDE.<nop>NoSuchTopic 
+</span>"
+            );
+
+
+    $this->test_simple_section('section_name', 
             join(', ', ('NoSuchTopic', $this->{test_web}.'.FirstTopic')),
-"<span class='foswikiAlert'>
-    Warning: Can\'t find topic <nop>NoSuchTopic, TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
+            undef,
+            "<span class='foswikiAlert'>
+    Warning: Can't find named section <nop>section_name in topic <nop>TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
 </span>"
             );
 
     Foswiki::Func::saveTopic($this->{test_web}, 'NoSection', undef, '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
     $this->test_simple_section('section_name', 
             join(', ', ('NoSuchTopic', $this->{test_web}.'.NoSection', $this->{test_web}.'.FirstTopic')),
-"<span class='foswikiAlert'>
-    Warning: Can\'t find topic <nop>NoSuchTopic, TemporaryINCLUDETestWebINCLUDE/NoSection, TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
+            undef,
+            "<span class='foswikiAlert'>
+    Warning: Can't find named section <nop>section_name in topic <nop>TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
 </span>"
             );
 
+    Foswiki::Func::saveTopic($this->{test_web}, 'TheSection', undef, '1 %STARTSECTION{"section_name"}%::%ENDSECTION{"section_name"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5');
+    $this->assert_str_equals('A :: B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.
+                            join(', ', ($this->{test_web}.'.TheSection', 'NoSuchTopic', $this->{test_web}.'.FirstTopic'))
+                            .'" section="section_name"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals('A :: B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.
+                            join(', ', ('NoSuchTopic', $this->{test_web}.'.TheSection', $this->{test_web}.'.FirstTopic'))
+                            .'" section="section_name"}% B', 'WebHome', $this->{other_web}));
+    $this->assert_str_equals('A :: B', Foswiki::Func::expandCommonVariables( 'A %INCLUDE{"'.
+                            join(', ', ('NoSuchTopic', $this->{test_web}.'.FirstTopic', $this->{test_web}.'.TheSection'))
+                            .'" section="section_name"}% B', 'WebHome', $this->{other_web}));
 
 }
 

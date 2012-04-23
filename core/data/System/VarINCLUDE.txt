@@ -7,6 +7,7 @@
      | *Parameter:* | *Description:* | *Default:* |
      | ="SomeTopic"= | The name of a topic located in the current web, i.e. =%<nop>INCLUDE{"WebNotify"}%= | |
      | ="Web.Topic"= | A topic in another web, i.e. =%<nop>INCLUDE{"%SYSTEMWEB%.SiteMap"}%= | |
+     | ="Web.Topic, SomeOtherTopic, System.OrOtherTopic"= | A list of topics - =INCLUDE= will include the first topic that exists and the user has permission to VIEW. If a =section= is also specified, it will use the first topic that has that section defined in it. | |
      | =pattern="..."= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
      | =rev="2"= | Include a previous topic revision; N/A for URLs | top revision |
      | =warn="off"= | Warn if topic include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) | =%<nop>INCLUDEWARNING%= [[DefaultPreferences][preferences]] setting |
