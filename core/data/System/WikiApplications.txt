@@ -84,8 +84,7 @@ parameters:
         href="%SCRIPTURL{edit}%/%S_ITEMWEB%/%S_ITEMTOPIC%?template=System.WikiApplicationsViewSectionTemplate&formtemplate=%WEB%.%TOPIC%&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%"
         class="foswikiClear jqUIDialogLink {cache:false}"
         icon="create"
-}% %CLEAR%
-%ENDSECTION{"createpopup"}%
+}% %ENDSECTION{"createpopup"}%
 </verbatim>
 
 
