@@ -175,6 +175,7 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  23 Apr 2012: | v.5.5:  | Foswiki 1.2.0 release. Foswikitask:Item11783 - use new INCLUDE topic list feature |
 |  06 Apr 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency %BR%\
                    Foswikitask:Item11622: Add &lt;div> to revision information%BR%\
                    Foswikitask:Item11623: Improve linking of user topics for unknown but previously registered users. |
