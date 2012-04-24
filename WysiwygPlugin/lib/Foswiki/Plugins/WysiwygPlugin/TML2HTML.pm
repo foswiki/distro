@@ -420,12 +420,8 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       _getNamedColour($1, $2)#oge;
 
-    # Handle [[]]
-    #$text =~ s/(\[\[([^\]]*)\]\])/$this->_liftOut($2, 'LINK', 'span', $2)/ge;
-
     # Handle [[][]] links by letting the WYSIWYG handle them as standard links
-    $text =~
-s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutGeneral("<a href=\"$1\">$2<\/a>", { tag => 'NONE', protect => 0, tmltag => 0 } )/ge;
+    $text =~ s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2)/ge;
 
     # let WYSIWYG-editable A tags untouched for the editor
     $text =~
@@ -437,9 +433,6 @@ s/(\<a(\s+(href|target|title|class)=("(?:[^"\\]++|\\.)*+"|'(?:[^'\\]++|\\.)*+'|\
     # protect some HTML tags.
     $text =~ s/(<\/?(?!(?i:$PALATABLE_HTML)\b)[A-Z]+(\s[^>]*)?>)/
       $this->_liftOut($1, 'PROTECTED')/gei;
-
-# SMELL: This was just done, about 25 lines above! Commenting out to see what breaks...
-#$text =~ s/\\\n//gs;    # Join lines ending in '\'
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
@@ -796,17 +789,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     $text =~ s#^(\s*<p>\s*</p>)+##s;
     $text =~ s#(<p>\s*</p>\s*)+$##s;
 
-    $text =~ s(${WC::STARTWW}==([^\s]+?|[^\s].*?[^\s])==$WC::ENDWW)
-      (CGI::b(CGI::span({class => 'WYSIWYG_TT'}, $1)))gem;
-    $text =~ s(${WC::STARTWW}__([^\s]+?|[^\s].*?[^\s])__$WC::ENDWW)
-      (CGI::b(CGI::i($1)))gem;
-    $text =~ s(${WC::STARTWW}\*([^\s]+?|[^\s].*?[^\s])\*$WC::ENDWW)
-      (CGI::b($1))gem;
-
-    $text =~ s(${WC::STARTWW}\_([^\s]+?|[^\s].*?[^\s])\_$WC::ENDWW)
-      (CGI::i($1))gem;
-    $text =~ s(${WC::STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$WC::ENDWW)
-      (CGI::span({class => 'WYSIWYG_TT'}, $1))gem;
+    _handleMarkup($text);
 
     # Handle [[]] links
     $text =~ s/(\[\[[^\]]*\]\])/$this->_liftOut($1, 'LINK')/ge;
@@ -832,6 +815,38 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
 
     #print STDERR "DEBUG\n$text\n";
     return $text;
+}
+
+sub _liftOutSquab {
+    my $this = shift;
+    my $url  = shift;
+    my $text = shift;
+
+    # Handle colour tags specially (hack, hack, hackity-HACK!)
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
+    $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
+      _getNamedColour($1, $2)#oge;
+    _handleMarkup($text);
+
+    return $this->_liftOutGeneral( "<a href=\"$url\">$text<\/a>",
+        { tag => 'NONE', protect => 0, tmltag => 0 } );
+
+}
+
+sub _handleMarkup {
+
+    $_[0] =~ s(${WC::STARTWW}==([^\s]+?|[^\s].*?[^\s])==$WC::ENDWW)
+      (CGI::b(CGI::span({class => 'WYSIWYG_TT'}, $1)))gem;
+    $_[0] =~ s(${WC::STARTWW}__([^\s]+?|[^\s].*?[^\s])__$WC::ENDWW)
+      (CGI::b(CGI::i($1)))gem;
+    $_[0] =~ s(${WC::STARTWW}\*([^\s]+?|[^\s].*?[^\s])\*$WC::ENDWW)
+      (CGI::b($1))gem;
+
+    $_[0] =~ s(${WC::STARTWW}\_([^\s]+?|[^\s].*?[^\s])\_$WC::ENDWW)
+      (CGI::i($1))gem;
+    $_[0] =~ s(${WC::STARTWW}\=([^\s]+?|[^\s].*?[^\s])\=$WC::ENDWW)
+      (CGI::span({class => 'WYSIWYG_TT'}, $1))gem;
+
 }
 
 sub _encodeHr {
@@ -1084,7 +1099,8 @@ sub _getNamedColour {
     if (
         defined $epr
         && (   $epr =~ /color=["'](#?\w+)['"]/
-            || $epr =~ /color\s*:\s*(#?\w+)/ )
+            || $epr =~ /color\s*:\s*(#?\w+)/
+            || $epr =~ /class=["']foswiki(${name})FG['"]/i )
       )
     {
         return "<span class='WYSIWYG_COLOR' style='color:$1'>$t</span>";

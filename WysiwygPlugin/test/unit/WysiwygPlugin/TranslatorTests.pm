@@ -83,6 +83,9 @@ my $trailingSpace = ' ';
 # finaltml => optional expected tml from translating html. If not there,
 # will use tml. Only use where round-trip can't be closed because
 # we are testing deprecated syntax.
+# pref => 'VARIABLE=setting'  A single preference setting will be applied
+# when the test is initialized. Used in the %COLOR% tests to set older versions
+# of color encoding;  font, style or class.
 my $data = [
     {
         exec => $TML2HTML | $HTML2TML,
@@ -2532,7 +2535,7 @@ Blah'
         tml  => <<'BLAH',
 [[%ATTACHURL%/LinkEditingInWysiwyg-4.patch][LinkEditingInWysiwyg-4.patch]]
 BLAH
-        finaltml  => <<'BLAH',
+        finaltml => <<'BLAH',
 [[%ATTACHURL%/LinkEditingInWysiwyg-4.patch][LinkEditingInWysiwyg-4.patch]]
 BLAH
         html => <<'BLAH',
@@ -2546,7 +2549,7 @@ BLAH
         tml  => <<'BLAH',
 <a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
 BLAH
-        finaltml  => <<'BLAH',
+        finaltml => <<'BLAH',
 <a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
 BLAH
         html => <<'BLAH',
@@ -2555,19 +2558,74 @@ BLAH
 BLAH
     },
     {
-        # Issue is that the <b> markup inserted by TinyMCE editor is converted to
-        # TML markup,  but on the next pass, the TML is NOT converted to HTML
-        # Reversing the order,  Starting with *Bold* does not show bold in TMCE
-        name => 'Item1396_BoldInLink_FAILS',
+        name => 'Item1396_MarkupInLinkText',
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         tml  => <<'BLAH',
-[[Main/WebHome][A <b>BOLD</b> WebHome]]
+[[Main/WebHome][=A *BOLD* WebHome=]]
 BLAH
-        finaltml  => <<'BLAH',
-[[Main/WebHome][A *BOLD* WebHome]]
+        finaltml => <<'BLAH',
+[[Main/WebHome][ =A *BOLD* WebHome= ]]
 BLAH
         html => <<'BLAH',
-<p><a href="Main/WebHome">A <b>BOLD</b> WebHome</a>
+<p><a href="Main/WebHome"><span class="WYSIWYG_TT">A <b>BOLD</b> WebHome</span></a>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_114_ColorMarkup',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        pref => 'RED=<font color="#ff0000">',
+        tml  => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        finaltml => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        html => <<'BLAH',
+<p>=A <span class='WYSIWYG_COLOR' style='color:#ff0000'>Red text</span>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_115_ColorMarkup',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        pref => 'RED=<span class="foswikiRedFG">',
+        tml  => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        finaltml => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        html => <<'BLAH',
+<p>=A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_Default_ColorMarkup',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        finaltml => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        html => <<'BLAH',
+<p>=A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_ColorsInLinktext',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+[[Main/WebHome][=A %RED%Red text%ENDCOLOR% WebHome=]]
+BLAH
+        finaltml => <<'BLAH',
+[[Main/WebHome][ =A %RED%Red text%ENDCOLOR% WebHome= ]]
+BLAH
+        html => <<'BLAH',
+<p><a href="Main/WebHome"><span class="WYSIWYG_TT">A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span> WebHome</span></a>
 </p>
 BLAH
     },
@@ -3157,6 +3215,12 @@ sub compareTML_HTML {
     my $tml = $args->{tml} || '';
     $tml =~ s/%!page!%/$page/g;
 
+    my $pref = $args->{pref} || '';
+    if ($pref) {
+        my ( $name, $value ) = split( '=', $pref, 2 );
+        Foswiki::Func::setPreferencesValue( $name, $value );
+    }
+
     my $notEditable = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable($tml);
     $this->assert( !$notEditable, $notEditable );
 
@@ -3208,6 +3272,12 @@ sub compareRoundTrip {
 
     my $tml = $args->{tml} || '';
     $tml =~ s/%!page!%/$page/g;
+
+    my $pref = $args->{pref} || '';
+    if ($pref) {
+        my ( $name, $value ) = split( '=', $pref, 2 );
+        Foswiki::Func::setPreferencesValue( $name, $value );
+    }
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
 
@@ -3280,6 +3350,12 @@ sub compareHTML_TML {
     $tml =~ s/%!page!%/$page/g;
     my $finaltml = $args->{finaltml} || $tml;
     $finaltml =~ s/%!page!%/$page/g;
+
+    my $pref = $args->{pref} || '';
+    if ($pref) {
+        my ( $name, $value ) = split( '=', $pref, 2 );
+        Foswiki::Func::setPreferencesValue( $name, $value );
+    }
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     my $tx =
