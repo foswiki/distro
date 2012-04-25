@@ -174,7 +174,8 @@ sub mkPathTo {
 
 # SMELL:  Sites running Apache with SuexecUserGroup will have a forced "safe" umask
 #         Override umask here to allow correct dirPermissions to be applied
-    umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
+#         (This is now fixed in Engine.pm)
+#    umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
 
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
