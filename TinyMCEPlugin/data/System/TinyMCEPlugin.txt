@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="BaseUserMapping_333" comment="pending" date="1335534328" format="1.1" version="2"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -55,6 +56,9 @@ Below is the default configuration. If it is to be modified, it should be copied
 "editor_selector" : "foswikiWysiwygEdit",
 "save_on_tinymce_forms" : true,
 "cleanup" : true,
+"table_default_cellpadding" : 0,
+"table_default_cellspacing" : 1,
+"table_default_border" : 1,
 "theme" : "advanced",
 "convert_urls" : true,
 "relative_urls" : false,
@@ -310,6 +314,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.2.7 | Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |
 |  23 Mar 2012 (1.2.6) | Foswikitask:Item11378: Strike-out =&lt;del&gt;=, =&lt;s&gt;= tags are lost in WYSIWYG transition %BR%\
                          Foswikitask:Item11367: Add Javascript callbacks to get notified after editor changes to/from Raw or WYSIWYG mode. %BR%\
                          Foswikitask:Item11368: Allow templates to control WYSIWYG button placement. %BR%\
