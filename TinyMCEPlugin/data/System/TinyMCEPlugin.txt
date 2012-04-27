@@ -314,7 +314,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.2.7 | Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |
+|  1.2.7 | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
+           Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |
 |  23 Mar 2012 (1.2.6) | Foswikitask:Item11378: Strike-out =&lt;del&gt;=, =&lt;s&gt;= tags are lost in WYSIWYG transition %BR%\
                          Foswikitask:Item11367: Add Javascript callbacks to get notified after editor changes to/from Raw or WYSIWYG mode. %BR%\
                          Foswikitask:Item11368: Allow templates to control WYSIWYG button placement. %BR%\

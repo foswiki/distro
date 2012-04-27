@@ -586,6 +586,22 @@ tinyMCE.init({
    }
 });</example>
 </event>
+<event name="onLoad" summary="Fires when the onload event on the body occurs.">
+<description>Fires when the onload event on the body occurs.
+</description>
+<param name="sender" type="tinymce.Editor">
+<description>Editor instance.</description>
+</param>
+<example>// Adds an observer to the onLoad event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onLoad.add(function(ed, cm) {
+          console.debug('Document loaded: ' + ed.id);
+      });
+   }
+});</example>
+</event>
 <event name="onInit" summary="Fires after the initialization of the editor is done.">
 <description>Fires after the initialization of the editor is done.
 </description>
@@ -1179,6 +1195,22 @@ tinyMCE.init({
    }
 });</example>
 </event>
+<event name="onSetAttrib" summary="Fires after an attribute is set using setAttrib.">
+<description>Fires after an attribute is set using setAttrib.
+</description>
+<param name="sender" type="tinymce.Editor">
+<description>Editor instance.</description>
+</param>
+<example>// Adds an observer to the onSetAttrib event using tinyMCE.init
+tinyMCE.init({
+   ...
+   setup : function(ed) {
+      ed.onSetAttrib.add(function(ed, node, attribute, attributeValue) {
+           console.log('onSetAttrib tag');
+      });
+   }
+});</example>
+</event>
 <property name="settings" summary="Name/value collection with editor settings." type="Object">
 <description>Name/value collection with editor settings.
 </description>
@@ -1292,6 +1324,13 @@ tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('p')[0]);<
 </description>
 <example>// Undoes the last modification to the editor
 tinyMCE.activeEditor.undoManager.undo();</example>
+</property>
+<property name="initialized" summary="Is set to true after the editor instance has been initialized" type="Boolean">
+<description>Is set to true after the editor instance has been initialized
+</description>
+<example>function isEditorInitialized(editor) {
+    return editor &amp;&amp; editor.initialized;
+}</example>
 </property>
 <method name="setupContentEditable" summary="Sets up the contentEditable mode.">
 <description>Sets up the contentEditable mode.
