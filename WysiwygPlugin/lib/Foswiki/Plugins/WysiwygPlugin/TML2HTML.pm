@@ -227,8 +227,9 @@ sub _dropBack {
 sub _dropIn {
     my ( $this, $n, $protecting ) = @_;
     my $thing = $this->{refs}->[$n];
+    my $text  = $thing->{text};
 
-    my $text = $thing->{text};
+    #print STDERR "DROPPING IN $text\n";
 
     # Drop back recursively
     $text = $this->_dropBack( $text, $protecting || $thing->{protect} );
@@ -256,6 +257,8 @@ sub _dropIn {
     _addClass( $thing->{params}->{class}, $thing->{class} ) if $thing->{class};
 
     no strict 'refs';
+
+    #print STDERR "RETURNED ",&$method( $thing->{params}, $text );
     return &$method( $thing->{params}, $text );
     use strict 'refs';
 }
@@ -745,6 +748,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                     and $this->{refs}->[$1]->{text} =~ /^\n?%/ )
                 {
 
+                    #print STDERR "------- NEWLINE IS ALREADY PROTECTED\n";
                     # The newline is already protected
                     $whitespace = "";
                 }
@@ -756,6 +760,8 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             }
             unless ( $inParagraph or $inDiv ) {
                 unless ($inHTMLTable) {
+
+                    #print STDERR "pushed <p>\n";
                     push( @result, '<p>' );
                     $inParagraph = 1;
                 }
@@ -784,6 +790,8 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     }
 
     $text = join( "\n", @result );
+
+    #print STDERR "BEFORE DROPINS \n[",$text,"]\n";
 
     # Trim any extra Ps from the top and bottom.
     $text =~ s#^(\s*<p>\s*</p>)+##s;

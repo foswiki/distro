@@ -147,6 +147,8 @@ sub hasClass {
         return hasClass( $this->{attrs}, $class );
     }
     return 0 unless defined $this->{class};
+
+    #print STDERR "HASCLASS tests $this->{class} for $class\n";
     return $this->{class} =~ /\b$class\b/ ? 1 : 0;
 }
 
@@ -163,6 +165,8 @@ sub _removeClass {
         return _removeClass( $this->{attrs}, $class );
     }
     return 0 unless hasClass( $this, $class );
+
+    #print STDERR "DDDDDDD  DELETE $class from $this->{class}\n";
     $this->{class} =~ s/\b$class\b//;
     $this->{class} =~ s/\s+/ /g;
     $this->{class} =~ s/^\s+//;
@@ -289,12 +293,16 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
 
         # isolate $NBBR and convert to \n.
         unless ($protect) {
+
+            #print STDERR "NBBR START [",WC::debugEncode($tml),"]\n";
             $tml =~ s/\n$WC::NBBR/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/$WC::NBBR\n/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/$WC::NBBR( |$WC::NBSP)+$WC::NBBR/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/ +$WC::NBBR/$WC::NBBR/go;
             $tml =~ s/$WC::NBBR +/$WC::NBBR/go;
             $tml =~ s/$WC::NBBR$WC::NBBR+/$WC::NBBR$WC::NBBR/go;
+
+            #print STDERR "NBBR collapse [",WC::debugEncode($tml),"]\n";
 
             # Now convert adjacent NBBRs to recreate empty lines
             # 1 NBBR  -> 1 newline
@@ -308,6 +316,8 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
             $tml =~ s.($WC::NBBR$WC::NBBR$WC::NBBR$WC::NBBR+).
               "\n" x ((length($1) + 1) / 2 + 1)
                 .geo;
+
+            #print STDERR "NBBR done [",WC::debugEncode($tml),"]\n";
         }
 
         # isolate $CHECKn and convert to $NBBR
@@ -319,6 +329,8 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
 
         $tml =~ s/$WC::NBBR/\n/gos;
 
+        #print STDERR "Isolate CHECKn  done [",WC::debugEncode($tml),"]\n";
+
         # Convert tabs to NBSP
         $tml =~ s/$WC::TAB/$WC::NBSP$WC::NBSP$WC::NBSP/go;
 
@@ -328,6 +340,8 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
             $tml =~ s/$WC::NBSP +/$WC::NBSP/go;
         }
         $tml =~ s/$WC::NBSP/ /go;
+
+        #print STDERR "Tabs and NBSP  done [",WC::debugEncode($tml),"]\n";
 
         $tml =~ s/$WC::CHECK1$WC::CHECK1+/$WC::CHECK1/go;
         $tml =~ s/$WC::CHECK2$WC::CHECK2+/$WC::CHECK2/go;
@@ -347,15 +361,20 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
             $tml =~ s/<br( \/)?>\n/\n/g;
         }
 
-        #print STDERR WC::debugEncode($before);
-        #print STDERR " -> '",WC::debugEncode($tml),"'\n";
+        #print STDERR " -> [",WC::debugEncode($tml),"]\n";
         $text .= $tml;
     }
 
     # Collapse adjacent tags
-    foreach my $tag (qw(noautolink verbatim literal)) {
-        $text =~ s#</$tag>(\s*)<$tag>#$1#gs;
+    #print STDERR "before Collapse [",WC::debugEncode($text),"]\n";
+    # SMELL:  Can't collapse verbatim based upon simple close/open compare
+    # because the previous opening verbatim tag might have different
+    # class from the next one.
+    foreach my $tag (qw(noautolink literal)) {
+        $text =~ s#</$tag>(\h*)<$tag>#$1#gs;
     }
+
+    #print STDERR "After Collapse [",WC::debugEncode($text),"]\n";
 
     # Top and tail, and terminate with a single newline
     $text =~ s/^\n*//s;
@@ -364,6 +383,17 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     #print STDERR "TML       [",WC::debugEncode($text),"]\n";
 
     return $text;
+}
+
+sub _compareClass {
+    my ( $node1, $node2 ) = @_;
+
+    my $n1Class = $node1->{attrs}->{class} || '';
+    my $n1Sort = join( ' ', sort( split( / /, $n1Class ) ) );
+    my $n2Class = $node2->{attrs}->{class} || '';
+    my $n2Sort = join( ' ', sort( split( / /, $n2Class ) ) );
+
+    return ( $n1Sort eq $n2Sort );
 }
 
 # collapse adjacent nodes together, if they share the same class
@@ -379,11 +409,14 @@ sub _collapseOneClass {
             && (
                 ( !$next->{tag} && $next->{text} =~ /^\s*$/ )
                 || (   $node->{tag} eq $next->{tag}
-                    && $next->hasClass($class) )
+                    && $next->hasClass($class)
+                    && ( _compareClass( $node, $next ) ) )
             )
           )
         {
             push( @edible, $next );
+
+            #print STDERR "Added $next->{tag} to edible\n";
             $collapsible ||= $next->hasClass($class);
             $next = $next->{next};
         }
@@ -414,6 +447,10 @@ sub _collapse {
     my @jobs = ($this);
     while ( scalar(@jobs) ) {
         my $node = shift(@jobs);
+
+     # SMELL: Not sure if we really still have to collapse consecutive verbatim.
+     # Extra whitespace to separate verbatim blocks is removed, and they will
+     # still eventually be merged.
         _collapseOneClass( $node, 'TMLverbatim' );
         _collapseOneClass( $node, 'WYSIWYG_STICKY' );
         if (   $node->{tag} eq 'p'
@@ -629,16 +666,27 @@ sub _htmlParams {
             my @classes;
             $v =~ s/^\s*(.*?)\s*$/$1/;
           CLASS: for my $class ( split /\s+/, $v ) {
+
+                #print STDERR "_htmlParams considering CLASS $class\n";
                 next CLASS unless $class =~ /\S/;
+
+                #print STDERR " .. passed S test\n";
                 next CLASS if $tml2htmlClass{$class};
+
+                #print STDERR " .. passed tml2htmlClass test\n";
 
                 # if cleaning aggressively, remove class attributes
                 # except for the JQuery "Chili" classes
                 next CLASS
-                  if ( $options & $WC::VERY_CLEAN
-                    and not $jqueryChiliClass{$class} );
+                  if (  $options & $WC::VERY_CLEAN
+                    and not $jqueryChiliClass{$class}
+                    and not $class =~ /^foswiki/ );
+
+                #print STDERR " .. passed VERY_CLEAN test\n";
 
                 push @classes, $class;
+
+                #print STDERR "Accepted CLASS $class\n";
             }
             next ATTR unless @classes;
 
@@ -1281,6 +1329,8 @@ sub _verbatim {
     # &nbsp; decodes to \240, which we want to make a space.
     $text =~ s/\240/$WC::NBSP/g;
     my $p = _htmlParams( $this->{attrs}, $options );
+
+    #print STDERR "BUILT VERBATIM: <$tag$p>$text</$tag>";
     return ( $flags, "<$tag$p>$text</$tag>" );
 }
 
@@ -1806,11 +1856,10 @@ sub _handleSPAN {
         delete $atts{class};
     }
 
-    if ( $options & $WC::VERY_CLEAN ) {
-
-        # remove style attribute if cleaning aggressively.
-        #        delete $atts{style} if defined $atts{style};
-    }
+    #    if ( $options & $WC::VERY_CLEAN ) {
+    # remove style attribute if cleaning aggressively.
+    #        delete $atts{style} if defined $atts{style};
+    #    }
 
     # ignore the span tag if there are no other attrs
     if ( scalar( keys %atts ) == 0 ) {

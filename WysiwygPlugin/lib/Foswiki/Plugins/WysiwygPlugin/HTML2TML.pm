@@ -103,6 +103,8 @@ sub debugEncode {
 sub convert {
     my ( $this, $text, $options ) = @_;
 
+    #print STDERR "++++++++ CONVERT ENTERED [\n",$text,"\n]--------\n";
+
     $this->{opts} = $options;
 
     my $opts = 0;
@@ -197,6 +199,7 @@ sub convert {
     }
 
     # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
+    #print STDERR "++++++++ CONVERT DONE [\n",$text,"\n]--------\n";
     return $text;
 }
 

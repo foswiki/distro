@@ -352,6 +352,62 @@ _mixing_ *them* _should_ *work*
 HERE
     },
     {
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'hiddenVerbatim',
+        tml  => <<'HERE',
+<verbatim class="foswikiHidden">
+hidden verbatim
+</verbatim>
+HERE
+        html => <<'HERE',
+<p><pre class="foswikiHidden TMLverbatim"><br />hidden&nbsp;verbatim<br /></pre>
+</p>
+HERE
+    },
+    {
+
+        # SMELL: This test will fail if run through TMCE Editor.
+        # TMCE removes the surrounding <p>..</p> tags which
+        # looses the whitespace, and the tags are merged by HTML2TML.
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'consecutiveVerbatim',
+        tml  => <<'HERE',
+<verbatim>
+verbatim 1
+</verbatim>
+
+<verbatim>
+verbatim 2
+</verbatim>
+HERE
+        html => <<'HERE',
+<p><pre class="TMLverbatim"><br />verbatim&nbsp;1<br /></pre>
+</p>
+<p><pre class="TMLverbatim"><br />verbatim&nbsp;2<br /></pre>
+</p>
+HERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'preserveClass',
+        html => <<'HERE',
+<p><pre class="foswikiHidden TMLverbatim"><br />Verbatim&nbsp;1<br />Line&nbsp;2<br />Line&nbsp;3</pre> <pre class="html tml TMLverbatim"><br />Verbatim&nbsp;2<br /><br /></pre><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><pre class="tml html TMLverbatim"><br /><br />Verbatim&nbsp;3</pre>
+</p>
+HERE
+        tml => <<'HERE',
+<verbatim class="foswikiHidden">
+Verbatim 1
+Line 2
+Line 3</verbatim> <verbatim class="html tml">
+Verbatim 2
+
+</verbatim>
+<verbatim class="tml html">
+
+Verbatim 3</verbatim>
+HERE
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'simpleVerbatim',
         html => <<'HERE',
