@@ -42,3 +42,9 @@
 	padding:.25em;
 	min-width:1em;
 }
+
+.mceContentBody .foswikiHidden {
+	background-image:url("watermark_hidden.gif");
+	white-space:pre nowrap;
+    display: block;
+}
