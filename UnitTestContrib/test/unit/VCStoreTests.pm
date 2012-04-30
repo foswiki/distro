@@ -173,7 +173,8 @@ sub verify_NoHistory_NoTOPICINFO_getRevisionInfo {
     if ($ti) {
         $this->assert_num_equals( 1, $ti->{version} );
         $this->assert_str_equals( $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $ti->{author} );
-	#$this->assert_num_equals( 9876543210, $ti->{date} );
+	# A 1-minute window for completion of the tests is generous
+	$this->assert( time-9876543210 < 60, $ti->{date} );
     }
 
     # 5
@@ -218,9 +219,9 @@ sub verify_NoHistory_TOPICINFO_getRevisionInfo {
     if ($ti) {
         $this->assert_num_equals( 1, $ti->{version} );
 	# If we want to retain the author from the META, then
-        #$this->assert_str_equals( 'LewisCarroll', $ti->{author} );
+        $this->assert_str_equals( 'LewisCarroll', $ti->{author} );
 	# otherwise
-        $this->assert_str_equals( $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $ti->{author} );
+        #$this->assert_str_equals( $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $ti->{author} );
 
         #$this->assert_num_equals( 9876543210, $ti->{date} );
     }
@@ -232,13 +233,12 @@ sub verify_NoHistory_TOPICINFO_getRevisionInfo {
     # 17
     my $info = $this->{session}->{store}->getVersionInfo($meta);
 
-# the TOPICINFO{version} should be ignored if the ,v does not exist, and the rev
-# number reverted to 1
+    # the TOPICINFO{version} should be ignored if the ,v does not exist,
+    # and the rev number reverted to 1
     $this->assert_num_equals( 1, $info->{version} );
     #$this->assert_num_equals( 9876543210, $info->{date} );
 
-    # the author will be reverted to the unknown user
-    $this->assert_str_equals( $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $info->{author} );
+    $this->assert_str_equals( 'LewisCarroll', $info->{author} );
     $meta->finish();
 
     return;
