@@ -29,7 +29,7 @@ use File::Path ();
 # and populated with the known minimum requirements. This is then
 # enhanced with other files found in the template. Then each
 # file is processed, importing it using renaming rules to map
-# from the name of the template (e.g. EmptyContrib) to a 
+# from the name of the template (e.g. EmptyContrib) to a
 # symbolic name (e.g. %$MODULE%). This processed form is then
 # output to the target directory after processing to expand
 # all the known %$VARIABLES%.
@@ -47,12 +47,13 @@ usage() unless $def{TYPE};
 $def{STUBS} = $def{TYPE} =~ /Plugin$/ ? 'Plugins' : 'Contrib';
 
 our $templateModule;
-if ($#ARGV >= 1) {
+if ( $#ARGV >= 1 ) {
     $templateModule = $ARGV[1];
-    unless ($templateModule && -d $templateModule) {
-	usage(error => "Template directory does not exist");
+    unless ( $templateModule && -d $templateModule ) {
+        usage( error => "Template directory does not exist" );
     }
-} else {
+}
+else {
     $templateModule = "Empty$def{TYPE}";
 }
 
@@ -68,34 +69,29 @@ $def{AUTHOR} =
 my $modPath = "lib/Foswiki/$def{STUBS}/$def{MODULE}";
 
 my $fileset = {
-    "$modPath/DEPENDENCIES" =>
-    {
-	template => "lib/Foswiki/$def{STUBS}/$templateModule/DEPENDENCIES",
-	extract => \&commonEmptyExtract,
-	unmanifest => 1
+    "$modPath/DEPENDENCIES" => {
+        template   => "lib/Foswiki/$def{STUBS}/$templateModule/DEPENDENCIES",
+        extract    => \&commonEmptyExtract,
+        unmanifest => 1
     },
-    "$modPath/build.pl" =>
-    {
-	template => "lib/Foswiki/$def{STUBS}/$templateModule/build.pl",
-	extract => \&commonEmptyExtract,
-	unmanifest => 1,
-	mask => 0555
+    "$modPath/build.pl" => {
+        template   => "lib/Foswiki/$def{STUBS}/$templateModule/build.pl",
+        extract    => \&commonEmptyExtract,
+        unmanifest => 1,
+        mask       => 0555
     },
-    "$modPath/Config.spec" =>
-    {
-	template => "lib/Foswiki/$def{STUBS}/$templateModule/Config.spec",
-	extract => \&commonEmptyExtract
+    "$modPath/Config.spec" => {
+        template => "lib/Foswiki/$def{STUBS}/$templateModule/Config.spec",
+        extract  => \&commonEmptyExtract
     },
-    "$modPath/MANIFEST" =>
-    {
-	template => "lib/Foswiki/$def{STUBS}/$templateModule/MANIFEST",
-	expand => \&manifest,
-	unmanifest => 1
+    "$modPath/MANIFEST" => {
+        template   => "lib/Foswiki/$def{STUBS}/$templateModule/MANIFEST",
+        expand     => \&manifest,
+        unmanifest => 1
     },
-    "data/System/$def{MODULE}.txt" =>
-    {
-	template => "data/System/$templateModule.txt",
-	extract => \&commonEmptyExtract
+    "data/System/$def{MODULE}.txt" => {
+        template => "data/System/$templateModule.txt",
+        extract  => \&commonEmptyExtract
     }
 };
 
@@ -108,56 +104,60 @@ my $fileset = {
 # from the fileset
 if ( $def{TYPE} eq 'JQueryPlugin' ) {
     $def{JQUERYPLUGIN} =
-	prompt( "Enter the name of the JQuery plugin you're wrapping: ", '' );
+      prompt( "Enter the name of the JQuery plugin you're wrapping: ", '' );
 
     $def{JQUERYPLUGIN} =~ s/'/\\'/g;
-    $def{JQUERYPLUGINMODULE} = uc($def{JQUERYPLUGIN});
-    $def{JQUERYPLUGINMODULELC} = lc($def{JQUERYPLUGIN});
+    $def{JQUERYPLUGINMODULE}   = uc( $def{JQUERYPLUGIN} );
+    $def{JQUERYPLUGINMODULELC} = lc( $def{JQUERYPLUGIN} );
 
     # Add in the extra files a JQuery plugin requires
-    $fileset->{"$modPath/$def{JQUERYPLUGINMODULE}.pm"} =
-    { template => "lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm",
-      extract => \&jqpPMExtract };
+    $fileset->{"$modPath/$def{JQUERYPLUGINMODULE}.pm"} = {
+        template => "lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm",
+        extract  => \&jqpPMExtract
+    };
 
-    $fileset->{"data/System/JQuery$def{JQUERYPLUGIN}.txt"} =
-    { template => "data/System/JQueryYour.txt",
-      extract => \&jqpExtract };
+    $fileset->{"data/System/JQuery$def{JQUERYPLUGIN}.txt"} = {
+        template => "data/System/JQueryYour.txt",
+        extract  => \&jqpExtract
+    };
 
     $fileset->{"pub/System/$def{MODULE}/jquery.$def{JQUERYPLUGINMODULELC}.js"} =
-    { template => "pub/System/EmptyJQueryPlugin/jquery.your.js",
-      extract => \&jqpPMExtract };
+      {
+        template => "pub/System/EmptyJQueryPlugin/jquery.your.js",
+        extract  => \&jqpPMExtract
+      };
 }
 
 # If we have a template dir, override the default files with those from the template
 # and add any missing.
 if ($templateModule) {
-    populateFrom('', $templateModule);
+    populateFrom( '', $templateModule );
 }
 
 # Expand the file set
-foreach my $k (keys %$fileset) {
+foreach my $k ( keys %$fileset ) {
     my $v = $fileset->{$k};
-    if ($v->{expand}) {
-	my $data = getTemplate($v->{template});
-	&{$v->{expand}}($data);
+    if ( $v->{expand} ) {
+        my $data = getTemplate( $v->{template} );
+        &{ $v->{expand} }($data);
     }
 }
 
 if (MONITOR) {
-    foreach my $k (sort keys %$fileset) {
-	my $v = $fileset->{$k};
-	print STDERR "$k <= $v->{template}\n";
+    foreach my $k ( sort keys %$fileset ) {
+        my $v = $fileset->{$k};
+        print STDERR "$k <= $v->{template}\n";
     }
 }
 
-foreach my $k (keys %$fileset) {
-    my $v = $fileset->{$k};
-    my $data = getTemplate($v->{template});
+foreach my $k ( keys %$fileset ) {
+    my $v    = $fileset->{$k};
+    my $data = getTemplate( $v->{template} );
     die "No such template $v->{template}" unless defined $data;
-    if ($v->{extract}) {
-	$data = &{$v->{extract}}($data);
+    if ( $v->{extract} ) {
+        $data = &{ $v->{extract} }($data);
     }
-    writeFile("$def{MODULE}/$k", expandVars($data), $v->{mask});
+    writeFile( "$def{MODULE}/$k", expandVars($data), $v->{mask} );
 }
 
 # Kludge to fix Item11716
@@ -165,15 +165,15 @@ foreach my $k (keys %$fileset) {
 my $fh;
 my $newcontent = '';
 
-if(open($fh, "<$def{MODULE}/lib/Foswiki/Plugins/$def{MODULE}/MANIFEST")) {
-    while(<$fh>) {
+if ( open( $fh, "<$def{MODULE}/lib/Foswiki/Plugins/$def{MODULE}/MANIFEST" ) ) {
+    while (<$fh>) {
         s/EmptyPlugin/$def{MODULE}/g;
-        $newcontent = $newcontent . $_; 
+        $newcontent = $newcontent . $_;
     }
     close($fh);
 }
 
-if(open($fh, ">$def{MODULE}/lib/Foswiki/Plugins/$def{MODULE}/MANIFEST")) {
+if ( open( $fh, ">$def{MODULE}/lib/Foswiki/Plugins/$def{MODULE}/MANIFEST" ) ) {
     print $fh $newcontent;
     close($fh);
 }
@@ -181,33 +181,37 @@ if(open($fh, ">$def{MODULE}/lib/Foswiki/Plugins/$def{MODULE}/MANIFEST")) {
 ### Utility subs.
 
 sub populateFrom {
-    my ($path, $root) = @_;
+    my ( $path, $root ) = @_;
     my $dh;
-    if (opendir($dh, "$root/$path")) {
-	foreach my $e (readdir($dh)) {
-	    next if ($e =~ /^\./);
-	    next if ($e =~ /~$/);
-	    my $f = $path ? "$path/$e" : $e;
-	    if (-d "$root/$f") {
-		populateFrom($f, $root);
-	    } else {
-		my $mask = (stat("$root/$f"))[2];
-		# Already known?
-		my $found = 0;
-		while (my ($k, $v) = each %$fileset) {
-		    if ($v->{template} eq $f) {
-			if ($mask && (!defined $v->{mask} || $v->{mask} != $mask)) {
-			    $v->{mask} = $mask;
-			}
-			$found = 1;
-		    }
-		}
-		unless ($found) {
-		    add2Manifest("template", $f, $mask, '');
-		}
-	    }
-	}
-	closedir($dh);
+    if ( opendir( $dh, "$root/$path" ) ) {
+        foreach my $e ( readdir($dh) ) {
+            next if ( $e =~ /^\./ );
+            next if ( $e =~ /~$/ );
+            my $f = $path ? "$path/$e" : $e;
+            if ( -d "$root/$f" ) {
+                populateFrom( $f, $root );
+            }
+            else {
+                my $mask = ( stat("$root/$f") )[2];
+
+                # Already known?
+                my $found = 0;
+                while ( my ( $k, $v ) = each %$fileset ) {
+                    if ( $v->{template} eq $f ) {
+                        if ( $mask
+                            && ( !defined $v->{mask} || $v->{mask} != $mask ) )
+                        {
+                            $v->{mask} = $mask;
+                        }
+                        $found = 1;
+                    }
+                }
+                unless ($found) {
+                    add2Manifest( "template", $f, $mask, '' );
+                }
+            }
+        }
+        closedir($dh);
     }
 }
 
@@ -227,32 +231,33 @@ sub expandVar {
 sub writeFile {
     my ( $filepath, $content, $mask ) = @_;
     $filepath =~ m#(.*)/(.*?)#;
-    my ($path, $file) = ($1, $2);
+    my ( $path, $file ) = ( $1, $2 );
     unless ( -d $path ) {
         File::Path::mkpath($path) || die "Failed to mkdir $path: $!";
     }
-    if (-e $filepath ) {
-	# existing file
-	my ($edata, $fh) = '';
-	if (open($fh, "<$filepath")) {
-	    local $/ = undef;
-	    $edata = <$fh>;
-	}
-	if ($content eq $edata) {
-	    print "Skipping unchanged $filepath\n";
-	    return;
-	}
-	unless ($content eq $edata || ask("Overwrite $filepath")) {
-	    print "Skipping $filepath";
-	    return;
-	}
+    if ( -e $filepath ) {
+
+        # existing file
+        my ( $edata, $fh ) = '';
+        if ( open( $fh, "<$filepath" ) ) {
+            local $/ = undef;
+            $edata = <$fh>;
+        }
+        if ( $content eq $edata ) {
+            print "Skipping unchanged $filepath\n";
+            return;
+        }
+        unless ( $content eq $edata || ask("Overwrite $filepath") ) {
+            print "Skipping $filepath";
+            return;
+        }
     }
     print "Writing $filepath\n";
     open( F, ">$filepath" ) || die "Failed to create $filepath: $!";
     print F $content;
     close(F);
-    $mask |= 0200; # make sure creator can write
-    chmod($mask, "$filepath") if defined $mask;
+    $mask |= 0200;    # make sure creator can write
+    chmod( $mask, "$filepath" ) if defined $mask;
 }
 
 sub getFile {
@@ -270,22 +275,31 @@ sub getTemplate {
 
     my $found;
 
-    if ($templateModule && -e "$templateModule/$path") {
-	# Found in user specified template dir
-	$found = "$templateModule/$path";
-    } elsif (-e "$def{MODULE}/$path") {
+    if ( $templateModule && -e "$templateModule/$path" ) {
+
+        # Found in user specified template dir
+        $found = "$templateModule/$path";
+    }
+    elsif ( -e "$def{MODULE}/$path" ) {
+
         # probably in a checkout
         $found = "$def{MODULE}/$path";
-    } elsif (-e "core/$path") {
+    }
+    elsif ( -e "core/$path" ) {
+
         # core subdir in a new-style checkout
         $found = "core/$path";
-    } elsif (-e $path) {
+    }
+    elsif ( -e $path ) {
+
         # in an install? Maybe?
         $found = $path;
-    } elsif ($ENV{FOSWIKI_HOME} && -e "$ENV{FOSWIKI_HOME}/$path") {
-	$found = "$ENV{FOSWIKI_HOME}/$path";
-    } elsif ($ENV{FOSWIKI_LIBS} && -e "$ENV{FOSWIKI_LIBS}/$path") {
-	$found = "$ENV{FOSWIKI_LIBS}/$path"
+    }
+    elsif ( $ENV{FOSWIKI_HOME} && -e "$ENV{FOSWIKI_HOME}/$path" ) {
+        $found = "$ENV{FOSWIKI_HOME}/$path";
+    }
+    elsif ( $ENV{FOSWIKI_LIBS} && -e "$ENV{FOSWIKI_LIBS}/$path" ) {
+        $found = "$ENV{FOSWIKI_LIBS}/$path";
     }
     die "Template '$path' not found in $templateModule" unless $found;
     return getFile($found);
@@ -295,53 +309,54 @@ sub getTemplate {
 
 sub manifest {
     my $s = shift;
+
     # If any paths in the manifest are missing from the fileset, add them
-    foreach my $m (split(/\n/, $s)) {
-	if ($m =~ /^(\w\S+)(.*)$/) {
-	    my ($f, $e) = ($1, $2);
-	    my $mask = 0444;
-	    if ($e && $e =~ /^\s*(\d+)\s+(.*)$/) {
-		$mask = eval $1;
-		$e = $2;
-	    }
-	    if ($fileset->{$f}) {
-		$fileset->{$f}->{extra} = $e if $e;
-		$fileset->{$f}->{mask} = $mask;
-	    } else {
-		add2Manifest("manifest", $f, $mask, $e)
-	    }
-	}
+    foreach my $m ( split( /\n/, $s ) ) {
+        if ( $m =~ /^(\w\S+)(.*)$/ ) {
+            my ( $f, $e ) = ( $1, $2 );
+            my $mask = 0444;
+            if ( $e && $e =~ /^\s*(\d+)\s+(.*)$/ ) {
+                $mask = eval $1;
+                $e    = $2;
+            }
+            if ( $fileset->{$f} ) {
+                $fileset->{$f}->{extra} = $e if $e;
+                $fileset->{$f}->{mask} = $mask;
+            }
+            else {
+                add2Manifest( "manifest", $f, $mask, $e );
+            }
+        }
     }
     $s = "!noci\n";
-    while (my ($k, $v) = each %$fileset) {
-	next if $v->{unmanifest};
-	$v->{extra} = '' unless defined $v->{extra};
-	$v->{mask} = 0444 unless defined $v->{mask};
-	$s .= "$k $v->{mask} $v->{extra}\n";
+    while ( my ( $k, $v ) = each %$fileset ) {
+        next if $v->{unmanifest};
+        $v->{extra} = ''   unless defined $v->{extra};
+        $v->{mask}  = 0444 unless defined $v->{mask};
+        $s .= "$k $v->{mask} $v->{extra}\n";
     }
     return $s;
 }
 
 sub add2Manifest {
-    my ($what, $f, $mask, $e) = @_;
+    my ( $what, $f, $mask, $e ) = @_;
     my $rw = \&commonEmptyExtract;
-    if ($f =~ /\.(\w+)/) {
-	my $fn = "${1}EmptyExtract";
-	$rw = eval "\\&$fn" if (defined(&$fn));
+    if ( $f =~ /\.(\w+)/ ) {
+        my $fn = "${1}EmptyExtract";
+        $rw = eval "\\&$fn" if ( defined(&$fn) );
     }
     print STDERR "$f ======= $rw\n";
-    my $to = expandVars(manifestExtract($f));
-    $fileset->{$to} =
-    {
-	template => $f,
-	extract => $rw,
-	extra => $e,
-	mask => $mask,
-	unmanifest => ($f =~ m#^test/# ? 1 : 0)
+    my $to = expandVars( manifestExtract($f) );
+    $fileset->{$to} = {
+        template   => $f,
+        extract    => $rw,
+        extra      => $e,
+        mask       => $mask,
+        unmanifest => ( $f =~ m#^test/# ? 1 : 0 )
     };
     if (MONITOR) {
-	print STDERR "Adding $what path $f => $to ",
-	($fileset->{$to}->{unmanifest} ? "\n" : "to MANIFEST\n");
+        print STDERR "Adding $what path $f => $to ",
+          ( $fileset->{$to}->{unmanifest} ? "\n" : "to MANIFEST\n" );
     }
 }
 
@@ -363,7 +378,7 @@ sub manifestExtract {
 
 sub pmEmptyExtract {
     my $s = commonEmptyExtract(shift);
-    $s =~ s/^# change the package name.*$//m; # we're doing it!
+    $s =~ s/^# change the package name.*$//m;    # we're doing it!
     $s =~ s/(\$SHORTDESCRIPTION = ').*?'/$1.'%$SHORTDESCRIPTION%'."';"/e;
     return $s;
 }
@@ -461,8 +476,8 @@ will generate "MyNewPlugin" using sources from ExistingPlugin as a
 template.
 
 HERE
-    print STDERR "\n\nERROR: $param{error}\n\n" if (defined($param{error}));
-    exit 1
+    print STDERR "\n\nERROR: $param{error}\n\n" if ( defined( $param{error} ) );
+    exit 1;
 }
 
 1;

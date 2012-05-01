@@ -22,9 +22,10 @@ sub _findRelativeTo {
 }
 
 BEGIN {
-    if ( not defined $ENV{FOSWIKI_ASSERTS} or $ENV{FOSWIKI_ASSERTS} eq 'soft' ) {
+    if ( not defined $ENV{FOSWIKI_ASSERTS} or $ENV{FOSWIKI_ASSERTS} eq 'soft' )
+    {
         print
-    "exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0\n";
+"exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0\n";
         $ENV{FOSWIKI_ASSERTS} = 1;
     }
 

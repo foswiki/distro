@@ -399,8 +399,10 @@ sub _install {
 
         if ($moduleVersion) {
             return 0
-              unless ask( "$MODULE version $moduleVersion is already installed."
-                  . " Are you sure you want to re-install this module?" );
+              unless ask(
+                          "$MODULE version $moduleVersion is already installed."
+                        . " Are you sure you want to re-install this module?"
+              );
         }
     }
 
@@ -506,16 +508,20 @@ sub getScriptDir {
     $cfgfile =~ m/$reBinDir/ms;
 
     my $val = $1 || $2;
-    if ($val =~ /\$Foswiki::cfg/) {
-	# if there's at least one unexpanded cfg var in the value,
-	# slurp LSC and expand
-	local %Foswiki::cfg; # local namespace, won't pollute anything else
-	eval $cfgfile;
-	unless ($@) {
-	    while ($val =~ s<(\$Foswiki::cfg{[A-Za-z0-9{}]+})>
-                             <eval $1>gex) {
-	    }
-	}
+    if ( $val =~ /\$Foswiki::cfg/ ) {
+
+        # if there's at least one unexpanded cfg var in the value,
+        # slurp LSC and expand
+        local %Foswiki::cfg;    # local namespace, won't pollute anything else
+        eval $cfgfile;
+        unless ($@) {
+            while (
+                $val =~ s<(\$Foswiki::cfg{[A-Za-z0-9{}]+})>
+                             <eval $1>gex
+              )
+            {
+            }
+        }
     }
     return $val;
 
