@@ -112,17 +112,24 @@ my %data     = @DATA;
 my $stubPath = "$def{MODULE}/lib/Foswiki/$def{STUBS}";
 if ( $def{TYPE} eq 'Plugin' ) {
     my $rewrite;
+
     # Look in all the possible places for EmptyPlugin
-    if (-e "EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
+    if ( -e "EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm" ) {
+
         # probably running in a checkout
         $rewrite = getFile("EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
-    } elsif (-e "../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
+    }
+    elsif ( -e "../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm" ) {
+
         # core subdir in a new-style checkout
         $rewrite = getFile("../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
-    } elsif (-e "lib/Foswiki/Plugins/EmptyPlugin.pm") {
+    }
+    elsif ( -e "lib/Foswiki/Plugins/EmptyPlugin.pm" ) {
+
         # last ditch, get it from the install
         $rewrite = getFile("lib/Foswiki/Plugins/EmptyPlugin.pm");
     }
+
     # Tidy up
     $rewrite =~ s/Copyright .*(# This program)/$1/s;
     $rewrite =~ s/^.*?__NOTE:__ /$data{PLUGIN_HEADER}/s;

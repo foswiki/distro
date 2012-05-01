@@ -17,7 +17,7 @@ my $trace = 0;
 my ( @files, @modules );
 File::Find::find(
     sub {
-             /\.pm\z/
+        /\.pm\z/
           && !m#/CPAN/#
           && push( @files,   $File::Find::name )
           && push( @modules, $File::Find::name );
