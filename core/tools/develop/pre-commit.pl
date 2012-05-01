@@ -12,7 +12,8 @@ my $REPOS   = $ARGV[0];
 my $TXN     = $ARGV[1];
 my $dataDir = '/home/foswiki.org/public_html/data';
 
-my $logmsg = `/usr/local/bin/svnlook log -t $TXN $REPOS`;
+my $SNVLOOK = '/usr/local/bin/svnlook';
+my $logmsg  = `$SVNLOOK log -t $TXN $REPOS`;
 
 sub fail {
     my $message = shift;
@@ -54,7 +55,7 @@ foreach my $item (@items) {
 }
 
 # Verify that code is cleanly formatted
-my $changed = `/usr/local/bin/svnlook changed -t $TXN $REPOS`;
+my $changed = `$SVNLOOK changed -t $TXN $REPOS`;
 my @files = map { $_ =~ /^\S+\s+(.+?)$/; $1 } split( /\n/, $changed );
 foreach my $file (@files) {
     if ( $file =~ /\.p[ml]$/ ) {
@@ -66,14 +67,14 @@ sub perltidy {
     my $file = shift;
     my $id   = "svn$TXN";
 
-    my $mess = `svnlook cat $REPOS $file > /tmp/$id.pl`;
+    my $mess = `$SVNLOOK cat -t $TXN $REPOS $file > /tmp/$id.pl`;
     fail "$?: $mess" if $?;
-    `perltidy -b /tmp/$id.pl`;
+    $mess = `perltidy -b /tmp/$id.pl`;
     fail "$?: $mess" if $?;
-    `diff -q /tmp/$id.pl.bak /tmp/$id.pl`;
+    $mess = `diff -q /tmp/$id.pl.bak /tmp/$id.pl`;
     my $tidy = !$?;
     unlink '/tmp/$id.pl', '/tmp/$id.pl.bak';
-    fail("$file is not tidy; cannot check in") unless ($tidy);
+    fail("$file is not tidy; cannot check in:\n$mess") unless ($tidy);
 }
 
 exit 0;
