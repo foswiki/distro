@@ -25,6 +25,9 @@ Log message must start with one or more names of Item
 topics in the Tasks web
 eg. Item12345: Item12346: example commit log
 The topics *must* exist.
+
+.pl and .pm files must have been run through perltidy
+(perltidy must be run without any formatting options)
 --------------------------------------------------------------
 EOF
     exit 1;
@@ -48,6 +51,29 @@ foreach my $item (@items) {
     if ( $state =~ /^(Waiting for Release|Closed|No Action Required)$/ ) {
         fail("$item is in $state state; cannot check in");
     }
+}
+
+# Verify that code is cleanly formatted
+my $changed = `/usr/local/bin/svnlook changed -t $TXN $REPOS`;
+my @files = map { $_ =~ /^\S+\s+(.+?)$/; $1 } split( /\n/, $changed );
+foreach my $file (@files) {
+    if ( $file =~ /\.p[ml]$/ ) {
+        perltidy($file);
+    }
+}
+
+sub perltidy {
+    my $file = shift;
+    my $id   = "svn$TXN";
+
+    my $mess = `svnlook cat $REPOS $file > /tmp/$id.pl`;
+    fail "$?: $mess" if $?;
+    `perltidy -b /tmp/$id.pl`;
+    fail "$?: $mess" if $?;
+    `diff -q /tmp/$id.pl.bak /tmp/$id.pl`;
+    my $tidy = !$?;
+    unlink '/tmp/$id.pl', '/tmp/$id.pl.bak';
+    fail("$file is not tidy; cannot check in") unless ($tidy);
 }
 
 exit 0;
