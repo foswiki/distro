@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 use strict;
+use warnings;
+use Perl::Tidy;
+use Text::Diff;
 
 # PRE-COMMIT HOOK for Foswiki Subversion
 #
@@ -12,7 +15,7 @@ my $REPOS   = $ARGV[0];
 my $TXN     = $ARGV[1];
 my $dataDir = '/home/foswiki.org/public_html/data';
 
-my $SNVLOOK = '/usr/local/bin/svnlook';
+my $SVNLOOK = '/usr/local/bin/svnlook';
 my $logmsg  = `$SVNLOOK log -t $TXN $REPOS`;
 
 sub fail {
@@ -54,27 +57,25 @@ foreach my $item (@items) {
     }
 }
 
-# Verify that code is cleanly formatted
-my $changed = `$SVNLOOK changed -t $TXN $REPOS`;
-my @files = map { $_ =~ /^\S+\s+(.+?)$/; $1 } split( /\n/, $changed );
+# Verify that code is cleanly formatted, but only for files which were not
+# removed, and end in .pm or .pl
+my @files =
+  map { /^\S+\s+(.+)$/; $1 }
+  grep { !/^D/ && /\.p[lm]$/ } `$SVNLOOK changed -t $TXN $REPOS`;
 foreach my $file (@files) {
-    if ( $file =~ /\.p[ml]$/ ) {
-        perltidy($file);
-    }
+    check_perltidy($file);
 }
 
-sub perltidy {
+sub check_perltidy {
     my $file = shift;
-    my $id   = "svn$TXN";
 
-    my $mess = `$SVNLOOK cat -t $TXN $REPOS $file > /tmp/$id.pl`;
-    fail "$?: $mess" if $?;
-    $mess = `perltidy -b /tmp/$id.pl`;
-    fail "$?: $mess" if $?;
-    $mess = `diff -q /tmp/$id.pl.bak /tmp/$id.pl`;
-    my $tidy = !$?;
-    unlink '/tmp/$id.pl', '/tmp/$id.pl.bak';
-    fail("$file is not tidy; cannot check in:\n$mess") unless ($tidy);
+    my @input = `$SVNLOOK cat -t $TXN $REPOS $file`;
+    fail "$?: $SVNLOOK cat -t $TXN $REPOS $file;\n" . join( "\n", @input )
+      if $?;
+    my @tidyed;
+    perltidy( \@input, \@tidyed );
+    my $diff = diff( \@input, \@tidyed );
+    fail("$file is not tidy; cannot check in:\n$diff") if $diff;
 }
 
 exit 0;
