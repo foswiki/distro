@@ -468,7 +468,7 @@ sub _action_saveSettings {
     my $query   = $session->{request};
 
     if ( defined $query->param('action_cancel')
-        && $query->param('action_cancel') eq 'Cancel' )
+        && $query->param('action_cancel') ne '' )
     {
         my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
@@ -478,7 +478,7 @@ sub _action_saveSettings {
         }
     }
     elsif ( defined $query->param('action_save')
-        && $query->param('action_save') eq 'Save' )
+        && $query->param('action_save') ne '' )
     {
 
         # set up editing session
