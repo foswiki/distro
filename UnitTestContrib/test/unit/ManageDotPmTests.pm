@@ -1091,7 +1091,7 @@ TEXT
     my $query = Unit::Request->new(
         {
             'action'      => ['saveSettings'],
-            'action_save' => ['Save'],
+            'action_save' => ['x'],
             'text' =>
 "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\nIgnore that line",
             'originalrev' => 1
@@ -1263,7 +1263,7 @@ TEXT
     my $query = Unit::Request->new(
         {
             'action'      => ['saveSettings'],
-            'action_save' => ['blah'],
+            'action_save' => [''],
             'text' =>
 "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\nIgnore that line",
             'originalrev' => 1
