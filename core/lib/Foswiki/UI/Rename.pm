@@ -71,7 +71,7 @@ sub rename {
         $new_url = $session->redirectto($redirectto_param);
     }
 
-    $session->redirect( $new_url ) if $new_url;
+    $session->redirect($new_url) if $new_url;
 }
 
 # Rename a topic

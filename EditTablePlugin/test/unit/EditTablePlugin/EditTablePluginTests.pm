@@ -17,7 +17,7 @@ use Foswiki::Plugins::EditTablePlugin::EditTableData();
 use Error qw( :try );
 
 sub new {
-    my ($class, @args) = @_;
+    my ( $class, @args ) = @_;
     return $class->SUPER::new( 'EditTableFunctions', @args );
 }
 
@@ -32,7 +32,7 @@ sub set_up {
     $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} =
 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
 
-    local $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
+    local $ENV{SCRIPT_NAME} = ''; #  required by fake sort URLs in expected text
 
     return;
 }
@@ -1835,7 +1835,8 @@ sub test_INCLUDE_view {
 
     # Create topic to include
     my $includedTopic = "TopicToInclude";
-    Foswiki::Func::saveTopic( $this->{test_web}, $includedTopic, undef, <<'THIS');
+    Foswiki::Func::saveTopic( $this->{test_web}, $includedTopic, undef,
+        <<'THIS');
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | checkbox, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
 | *URL* | *Name* | *By* | *Comment* | *Timestamp* |
 | 1 | Unified field theory | not started | :-) , :-I , :-( | 1 Apr 2012 |
@@ -1921,12 +1922,14 @@ sub test_INCLUDE_include {
 
     # Create topic with table definition
     my $tableDefTopic = "QmsCommentTable";
-    Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef, <<'THIS');
+    Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef,
+        <<'THIS');
 %EDITTABLE{ header="|* Section *|* Description *|* Severity *|*  Status *|* Originator & Date *|" format="| text, 10 | textarea, 10x60  | select, 1, Major, Minor, Note | select, 1, Originated, Assessed, Performed, Rejected | text, 20 |" changerows="on" }%
 THIS
 
     my $includeTopic = "ProcedureSysarch000Comments";
-    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic, undef, <<'THIS');
+    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic, undef,
+        <<'THIS');
 %EDITTABLE{ include="QmsCommentTable" }%
 |*Section*|*Description*|*Severity*|*Status*|*Originator & Date*|
 THIS

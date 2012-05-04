@@ -8,9 +8,7 @@
 # rights and limitations under the License.
 ######################################################################
 
-
 package Cache::SizeAwareFileCache;
-
 
 use strict;
 use vars qw( @ISA );
@@ -19,128 +17,94 @@ use Cache::CacheUtils qw( Static_Params );
 use Cache::FileCache;
 use Cache::SizeAwareCache qw( $NO_MAX_SIZE );
 
-
 @ISA = qw ( Cache::FileCache Cache::SizeAwareCache );
-
 
 my $DEFAULT_MAX_SIZE = $NO_MAX_SIZE;
 
+sub Clear {
+    my ($p_optional_cache_root) = Static_Params(@_);
 
-sub Clear
-{
-  my ( $p_optional_cache_root ) = Static_Params( @_ );
-
-  Cache::FileCache::Clear( $p_optional_cache_root );
+    Cache::FileCache::Clear($p_optional_cache_root);
 }
 
+sub Purge {
+    my ($p_optional_cache_root) = Static_Params(@_);
 
-sub Purge
-{
-  my ( $p_optional_cache_root ) = Static_Params( @_ );
-
-  Cache::FileCache::Purge( $p_optional_cache_root );
+    Cache::FileCache::Purge($p_optional_cache_root);
 }
 
+sub Size {
+    my ($p_optional_cache_root) = Static_Params(@_);
 
-sub Size
-{
-  my ( $p_optional_cache_root ) = Static_Params( @_ );
-
-  return Cache::FileCache::Size( $p_optional_cache_root );
+    return Cache::FileCache::Size($p_optional_cache_root);
 }
 
-
-sub new
-{
-  my ( $self ) = _new( @_ );
-  $self->_complete_initialization( );
-  return $self;
+sub new {
+    my ($self) = _new(@_);
+    $self->_complete_initialization();
+    return $self;
 }
 
+sub get {
+    my ( $self, $p_key ) = @_;
 
-sub get
-{
-  my ( $self, $p_key ) = @_;
-
-  $self->_get_cache_sizer( )->update_access_time( $p_key );
-  return $self->SUPER::get( $p_key );
+    $self->_get_cache_sizer()->update_access_time($p_key);
+    return $self->SUPER::get($p_key);
 }
 
+sub limit_size {
+    my ( $self, $p_new_size ) = @_;
 
-sub limit_size
-{
-  my ( $self, $p_new_size ) = @_;
-
-  $self->_get_cache_sizer( )->limit_size( $p_new_size );
+    $self->_get_cache_sizer()->limit_size($p_new_size);
 }
 
+sub set {
+    my ( $self, $p_key, $p_data, $p_expires_in ) = @_;
 
-
-sub set
-{
-  my ( $self, $p_key, $p_data, $p_expires_in ) = @_;
-
-  $self->SUPER::set( $p_key, $p_data, $p_expires_in );
-  $self->_get_cache_sizer( )->limit_size( $self->get_max_size( ) );
+    $self->SUPER::set( $p_key, $p_data, $p_expires_in );
+    $self->_get_cache_sizer()->limit_size( $self->get_max_size() );
 }
 
-
-
-sub _new
-{
-  my ( $proto, $p_options_hash_ref ) = @_;
-  my $class = ref( $proto ) || $proto;
-  my $self  =  $class->SUPER::_new( $p_options_hash_ref );
-  $self->_initialize_cache_sizer( );
-  return $self;
+sub _new {
+    my ( $proto, $p_options_hash_ref ) = @_;
+    my $class = ref($proto) || $proto;
+    my $self = $class->SUPER::_new($p_options_hash_ref);
+    $self->_initialize_cache_sizer();
+    return $self;
 }
 
+sub _initialize_cache_sizer {
+    my ($self) = @_;
 
-sub _initialize_cache_sizer
-{
-  my ( $self ) = @_;
-
-  my $max_size = $self->_read_option( 'max_size', $DEFAULT_MAX_SIZE );
-  $self->_set_cache_sizer( new Cache::CacheSizer( $self, $max_size ) );
+    my $max_size = $self->_read_option( 'max_size', $DEFAULT_MAX_SIZE );
+    $self->_set_cache_sizer( new Cache::CacheSizer( $self, $max_size ) );
 }
 
+sub get_max_size {
+    my ($self) = @_;
 
-sub get_max_size
-{
-  my ( $self ) = @_;
-
-  return $self->_get_cache_sizer( )->get_max_size( );
+    return $self->_get_cache_sizer()->get_max_size();
 }
 
+sub set_max_size {
+    my ( $self, $p_max_size ) = @_;
 
-sub set_max_size
-{
-  my ( $self, $p_max_size ) = @_;
-
-  $self->_get_cache_sizer( )->set_max_size( $p_max_size );
+    $self->_get_cache_sizer()->set_max_size($p_max_size);
 }
 
+sub _get_cache_sizer {
+    my ($self) = @_;
 
-sub _get_cache_sizer
-{
-  my ( $self ) = @_;
-
-  return $self->{_Cache_Sizer};
+    return $self->{_Cache_Sizer};
 }
 
+sub _set_cache_sizer {
+    my ( $self, $p_cache_sizer ) = @_;
 
-sub _set_cache_sizer
-{
-  my ( $self, $p_cache_sizer ) = @_;
-
-  $self->{_Cache_Sizer} = $p_cache_sizer;
+    $self->{_Cache_Sizer} = $p_cache_sizer;
 }
-
-
-
 
 1;
-
 
 __END__
 

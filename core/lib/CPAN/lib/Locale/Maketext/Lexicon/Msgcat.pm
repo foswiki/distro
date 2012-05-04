@@ -38,7 +38,7 @@ calls to this lexicon will I<not> take any additional arguments.
 sub parse {
     my $set = 0;
     my $msg = undef;
-    my ($qr, $qq, $qc) = (qr//, '', '');
+    my ( $qr, $qq, $qc ) = ( qr//, '', '' );
     my @out;
 
     # Set up the msgcat handler
@@ -74,20 +74,20 @@ sub parse {
                 $msg = $3;
             }
             else {
-                push @out, unescape($qq, $qc, $3);
+                push @out, unescape( $qq, $qc, $3 );
                 undef $msg;
             }
           }
           :
 
-          (defined $msg and /^($qr)(.*?)\1(\\?)$/)
+          ( defined $msg and /^($qr)(.*?)\1(\\?)$/ )
           ? do {    # continued string
             local $^W;
             if ($3) {
                 $msg .= $2;
             }
             else {
-                push @out, unescape($qq, $qc, $msg . $2);
+                push @out, unescape( $qq, $qc, $msg . $2 );
                 undef $msg;
             }
           }
@@ -100,12 +100,12 @@ sub parse {
 }
 
 sub _msgcat {
-    my ($self, $set_id, $msg_id, @args) = @_;
-    return $self->maketext(int($set_id) . ',' . int($msg_id), @args);
+    my ( $self, $set_id, $msg_id, @args ) = @_;
+    return $self->maketext( int($set_id) . ',' . int($msg_id), @args );
 }
 
 sub unescape {
-    my ($qq, $qc, $str) = @_;
+    my ( $qq, $qc, $str ) = @_;
     $str =~ s/(\\([ntvbrf\\$qq]))/($2 eq $qc) ? $qc : eval qq("$1")/e;
     $str =~ s/([\~\[\]])/~$1/g;
     return $str;

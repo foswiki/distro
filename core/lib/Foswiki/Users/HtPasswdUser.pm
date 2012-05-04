@@ -566,11 +566,11 @@ sub encrypt {
                   % ( $#saltchars + 1 )
                 ];
             }
-         $salt = Crypt::Eksblowfish::Bcrypt::en_base64($salt);
-         $salt = '$2a$08$'.$salt;
+            $salt = Crypt::Eksblowfish::Bcrypt::en_base64($salt);
+            $salt = '$2a$08$' . $salt;
         }
         $salt = substr( $salt, 0, 29 );
-        return Crypt::Eksblowfish::Bcrypt::bcrypt($passwd, $salt);
+        return Crypt::Eksblowfish::Bcrypt::bcrypt( $passwd, $salt );
     }
     die 'Unsupported password encoding ' . $enc;
 }

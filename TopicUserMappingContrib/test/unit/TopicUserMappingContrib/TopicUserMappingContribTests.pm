@@ -297,9 +297,9 @@ sub std_tests {
 | %ICON{"home.org.au.png" default="else"}%<span class="foswikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%"><noautolink>home.org.au.png</noautolink></a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4 K|<span class="foswikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |  |
 </div>
 THIS
-   }
-   else {
-       $output = <<'THIS';
+    }
+    else {
+        $output = <<'THIS';
 %TMPL:P{"settmltablesummary" 
    SUMMARY="%MAKETEXT{"Attachments"}%"
 }%<div class="foswikiAttachments">
@@ -307,11 +307,7 @@ THIS
 | %ICON{"home.org.au.png" default="else"}%<span class="foswikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%"><noautolink>home.org.au.png</noautolink></a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1&nbsp;K|<span class="foswikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |&nbsp;  |
 </div>
 THIS
-   }
-
-
-
-
+    }
 
     $output =~ s/UUUUUUUUUU/$displayedName/e;
     $output =~ s/%PUBURLPATH%/$Foswiki::cfg{PubUrlPath}/e;

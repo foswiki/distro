@@ -33,7 +33,7 @@ sub evaluate {
         if ( ref($lval) eq 'ARRAY' ) {
             return $lval->[ int( $b->{params}[0] ) ];
         }
-        if (defined ($lval) && 0 == int( $b->{params}[0] )) {
+        if ( defined($lval) && 0 == int( $b->{params}[0] ) ) {
             return $lval;
         }
         return [];

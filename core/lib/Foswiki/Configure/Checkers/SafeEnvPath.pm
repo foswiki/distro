@@ -43,7 +43,8 @@ sub check {
                 next if ( tainted($component) );    # Tainted
                 next if ( $component eq '.' );      # current directory insecure
                 next if ( $component =~ /^~/ );     # Userdir insecure
-                next if ( $component =~ /^\.\.[\\\/]/ ); # relative path insecure
+                next
+                  if ( $component =~ /^\.\.[\\\/]/ );   # relative path insecure
                 push @safePath, $component;
             }
             $Foswiki::cfg{SafeEnvPath} = join( $pathSep, @safePath );

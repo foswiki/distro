@@ -65,7 +65,7 @@ sub loadExtraConfig {
     $Foswiki::cfg{Store}{Implementation}    = "Foswiki::Store::RcsLite";
     $Foswiki::cfg{RCS}{AutoAttachPubFiles}  = 0;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
-    $Foswiki::cfg{Htpasswd}{FileName}    = "$Foswiki::cfg{WorkingDir}/htpasswd";
+    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{WorkingDir}/htpasswd";
     unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
         my $fh;
         open( $fh, ">", $Foswiki::cfg{Htpasswd}{FileName} ) || die $!;

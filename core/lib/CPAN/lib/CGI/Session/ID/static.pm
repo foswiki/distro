@@ -10,7 +10,7 @@ $CGI::Session::ID::static::VERSION = '4.38';
 @::CGI::Session::ID::static::ISA   = qw( CGI::Session::ErrorHandler );
 
 sub generate_id {
-    my ($self, $args, $claimed_id ) = @_;
+    my ( $self, $args, $claimed_id ) = @_;
     unless ( defined $claimed_id ) {
         croak "'CGI::Session::ID::Static::generate_id()' requires static id";
     }

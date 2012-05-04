@@ -8,7 +8,6 @@
 # rights and limitations under the License.
 ######################################################################
 
-
 package Cache::NullCache;
 
 use strict;
@@ -18,126 +17,83 @@ use Cache::Cache qw( $EXPIRES_NOW  );
 
 @ISA = qw ( Cache::BaseCache );
 
-
-sub Clear
-{
+sub Clear {
 }
 
-
-sub Purge
-{
+sub Purge {
 }
 
-
-sub Size
-{
-  return 0;
+sub Size {
+    return 0;
 }
 
+sub new {
+    my ($proto) = @_;
 
-sub new
-{
-  my ( $proto ) = @_;
-
-  return bless( {}, ref( $proto ) || $proto );
+    return bless( {}, ref($proto) || $proto );
 }
 
-
-sub clear
-{
+sub clear {
 }
 
-
-sub get
-{
-  return undef;
+sub get {
+    return undef;
 }
 
-
-sub get_object
-{
-  return undef;
+sub get_object {
+    return undef;
 }
 
-
-sub purge
-{
+sub purge {
 }
 
-
-sub remove
-{
+sub remove {
 }
 
-
-sub set
-{
+sub set {
 }
 
-
-sub set_object
-{
+sub set_object {
 }
 
-
-sub size
-{
-  return 0;
+sub size {
+    return 0;
 }
 
-
-sub get_default_expires_in
-{
-  return $EXPIRES_NOW;
+sub get_default_expires_in {
+    return $EXPIRES_NOW;
 }
 
-
-sub get_keys
-{
-  return ( );
+sub get_keys {
+    return ();
 }
 
+sub get_identifiers {
+    warn("get_identifiers has been marked deprepricated.  use get_keys");
 
-sub get_identifiers
-{
-  warn( "get_identifiers has been marked deprepricated.  use get_keys" );
-
-  return ( );
+    return ();
 }
 
-
-sub get_auto_purge_interval
-{
-  return 0;
+sub get_auto_purge_interval {
+    return 0;
 }
 
-
-sub set_auto_purge_interval
-{
+sub set_auto_purge_interval {
 }
 
-
-sub get_auto_purge_on_set
-{
-  return 0;
+sub get_auto_purge_on_set {
+    return 0;
 }
 
-
-sub set_auto_purge_on_set
-{
+sub set_auto_purge_on_set {
 }
 
-
-sub get_auto_purge_on_get
-{
-  return 0;
+sub get_auto_purge_on_get {
+    return 0;
 }
 
-
-sub set_auto_purge_on_get
-{
+sub set_auto_purge_on_get {
 }
-
 
 __END__
 

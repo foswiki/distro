@@ -490,8 +490,8 @@ BEGIN {
 
     # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
     # Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC
-    my $validTLD = $Foswiki::cfg{Email}{ValidTLD} ||
-qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
+    my $validTLD = $Foswiki::cfg{Email}{ValidTLD}
+      || qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
 
     $regex{emailAddrRegex} = qr(
        (?:                            # LEFT Side of Email address
@@ -803,10 +803,11 @@ JS
     # any other information might become bogus later anyway
     # Validate format of content-type (defined in rfc2616)
     my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/o;
-    if ($contentType =~ /($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/oi) {
-	$contentType = $1;
-    } else {
-	$contentType = "text/plain;contenttype=invalid";
+    if ( $contentType =~ /($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/oi ) {
+        $contentType = $1;
+    }
+    else {
+        $contentType = "text/plain;contenttype=invalid";
     }
     my $hdr = "Content-type: " . $1 . "\r\n";
 
@@ -1075,7 +1076,7 @@ sub redirectto {
 
         # assuming URL
         return $redirecturl if _isRedirectSafe($redirecturl);
-	return;
+        return;
     }
 
     # assuming 'web.topic' or 'topic'
@@ -1738,14 +1739,16 @@ sub new {
         if ( $Foswiki::cfg{RemovePortNumber} ) {
             $this->{urlHost} =~ s/\:[0-9]+$//;
         }
+
         # If the urlHost in the url is localhost, this is a lot less
         # useful than the default url host. This is because new CGI("")
         # assigns this host by default - it's a default setting, used
         # when there is nothing better available.
         if ( $this->{urlHost} =~ /^(https?:\/\/)localhost$/i ) {
             my $protocol = $1;
-            #only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
-            if ($Foswiki::cfg{DefaultUrlHost} =~ /^$protocol/i ) {
+
+#only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
+            if ( $Foswiki::cfg{DefaultUrlHost} =~ /^$protocol/i ) {
                 $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
             }
         }

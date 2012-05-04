@@ -126,7 +126,8 @@ sub renderForEdit {
 
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
     foreach my $item ( @{ $this->getOptions() } ) {
-        my $option = $item; # Item9647: make a copy not to modify the original value in the array
+        my $option = $item
+          ; # Item9647: make a copy not to modify the original value in the array
         my %params = ( class => 'foswikiOption', );
         $params{selected} = 'selected' if $isSelected{$option};
         if ( $this->{_descriptions}{$option} ) {

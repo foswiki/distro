@@ -159,7 +159,8 @@ sub new {
     $session->leaveContext('can_login');
     map { $this->{_authScripts}{$_} = 1; }
       split( /[\s,]+/, $Foswiki::cfg{AuthScripts} );
-    #Item 11564: ensure that the user adding the login script to AuthScripts does not result in infinite loops
+
+#Item 11564: ensure that the user adding the login script to AuthScripts does not result in infinite loops
     delete $this->{_authScripts}{login};
     delete $this->{_authScripts}{logon};
 

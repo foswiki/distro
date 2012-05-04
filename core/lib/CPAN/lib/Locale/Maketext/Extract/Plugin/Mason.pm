@@ -42,7 +42,6 @@ sub file_types {
     return qw( * );
 }
 
-
 sub extract {
     my $self = shift;
     local $_ = shift;
@@ -52,9 +51,9 @@ sub extract {
     # HTML::Mason
 
     while (m!\G(.*?<&\|/l(?:oc)?(.*?)&>(.*?)</&>)!sg) {
-        my ($vars, $str) = ($2, $3);
-        $line += ( () = ($1 =~ /\n/g) ); # cryptocontext!
-        $self->add_entry($str,  $line, $vars );
+        my ( $vars, $str ) = ( $2, $3 );
+        $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
+        $self->add_entry( $str, $line, $vars );
     }
 
 }
@@ -117,6 +116,5 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 =cut
-
 
 1;

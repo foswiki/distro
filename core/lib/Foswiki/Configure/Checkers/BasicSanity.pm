@@ -164,9 +164,10 @@ HERE
     $Foswiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';
 
     if ( $Foswiki::cfg{SafeEnvPath} eq 'NOT SET' ) {
+
         # SMELL:  Untaint to get past the first run.  It will be
         # Overridden to the SafeEnvPath after first save
-        ($ENV{PATH}) = $ENV{PATH} =~ m/^(.*)$/;
+        ( $ENV{PATH} ) = $ENV{PATH} =~ m/^(.*)$/;
     }
     else {
         $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};

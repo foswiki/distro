@@ -667,7 +667,7 @@ sub _action_restoreRevision {
 
     $session->{cgiQuery}->delete('action');
 
-    $session->redirect( $session->redirectto( "$web.$topic" ) );
+    $session->redirect( $session->redirectto("$web.$topic") );
 
 }
 

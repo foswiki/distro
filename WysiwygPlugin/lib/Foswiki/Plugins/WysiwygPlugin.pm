@@ -121,7 +121,7 @@ sub wysiwygEditingDisabledForThisContent {
         $exclusions = Foswiki::Func::getPreferencesValue('WYSIWYG_EXCLUDE')
           || '';
     }
-    
+
     # Check for explicit exclusions before generic, non-configurable
     # purely content-related reasons for exclusion
     if ($exclusions) {

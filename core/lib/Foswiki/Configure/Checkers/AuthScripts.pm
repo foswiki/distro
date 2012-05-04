@@ -73,8 +73,9 @@ HERE
             && $script !~ /^configure/
             && $Foswiki::cfg{AuthScripts} !~ m/\b$script\b/ )
         {
+
             #use commas so users can 'just cut and paste'
-            $unauth .= ', ' if ($unauth ne '');
+            $unauth .= ', ' if ( $unauth ne '' );
             $unauth .= $script;
         }
     }

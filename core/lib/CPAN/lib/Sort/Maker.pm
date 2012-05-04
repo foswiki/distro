@@ -3,146 +3,142 @@ package Sort::Maker;
 use strict;
 use base qw(Exporter);
 
-use Data::Dumper ;
+use Data::Dumper;
 
-our @EXPORT = qw( make_sorter );
+our @EXPORT      = qw( make_sorter );
 our %EXPORT_TAGS = ( 'all' => [ qw( sorter_source ), @EXPORT ] );
-our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
+our @EXPORT_OK   = ( @{ $EXPORT_TAGS{'all'} } );
 
 our $VERSION = '0.06';
 
-
 # get integer and float sizes endian order
 
-my $FLOAT_LEN = length pack "d", 1 ;
-my $INT_LEN   = length pack "N", 1 ;
-my $INT_BIT_LEN = $INT_LEN * 8 ;
-my $IS_BIG_ENDIAN = pack('N', 1) eq pack('L', 1) ;
+my $FLOAT_LEN = length pack "d", 1;
+my $INT_LEN   = length pack "N", 1;
+my $INT_BIT_LEN = $INT_LEN * 8;
+my $IS_BIG_ENDIAN = pack( 'N', 1 ) eq pack( 'L', 1 );
 
 my @boolean_attrs = qw(
-	ascending
-	descending
-	case
-	no_case
-	signed
-	unsigned
-	signed_float
-	unsigned_float
-	varying
-	closure
-) ;
+  ascending
+  descending
+  case
+  no_case
+  signed
+  unsigned
+  signed_float
+  unsigned_float
+  varying
+  closure
+);
 
 my @value_attrs = qw(
-	fixed
-) ;
+  fixed
+);
 
 my @grt_num_attrs = qw(
-	signed
-	unsigned
-	signed_float
-	unsigned_float
-) ;
+  signed
+  unsigned
+  signed_float
+  unsigned_float
+);
 
 my @grt_string_attrs = qw(
-	varying
-	fixed
-) ;
+  varying
+  fixed
+);
 
 # these key attributes set are mutually exclusive
 # only one can be set in the defaults or in any given key
 
 my @mutex_attrs = (
-	[qw(case no_case)],
-	[qw(ascending descending)],
-	\@grt_num_attrs,
-	\@grt_string_attrs,
-) ;
-
+    [qw(case no_case)], [qw(ascending descending)],
+    \@grt_num_attrs, \@grt_string_attrs,
+);
 
 # code can only be an attribute and not a default attribute argument
 
-my %is_boolean_attr = map { $_ => 1 } @boolean_attrs ;
-my %is_value_attr = map { $_ => 1 } @value_attrs, 'code' ;
+my %is_boolean_attr = map { $_ => 1 } @boolean_attrs;
+my %is_value_attr = map { $_ => 1 } @value_attrs, 'code';
 
 my @boolean_args = qw(
-	ref_in
-	ref_out
-	string_data
-) ;
+  ref_in
+  ref_out
+  string_data
+);
 
 my @value_args = qw(
-	name
-	init_code
-) ;
+  name
+  init_code
+);
 
 # all the attributes can be set with defaults
 
-my %is_boolean_arg = map { $_ => 1 } @boolean_args, @boolean_attrs ;
-my %is_value_arg = map { $_ => 1 } @value_args, @value_attrs ;
+my %is_boolean_arg = map { $_ => 1 } @boolean_args, @boolean_attrs;
+my %is_value_arg   = map { $_ => 1 } @value_args,   @value_attrs;
 
 my @key_types = qw(
-	string
-	number
-) ;
+  string
+  number
+);
 
-my %is_key_arg = map { $_ => 1 } @key_types ;
+my %is_key_arg = map { $_ => 1 } @key_types;
 
 my %sort_makers = (
 
-	plain	=> \&_make_plain_sort,
-	orcish	=> \&_make_orcish_sort,
-	ST	=> \&_make_ST_sort,
-	GRT	=> \&_make_GRT_sort,
-) ;
+    plain  => \&_make_plain_sort,
+    orcish => \&_make_orcish_sort,
+    ST     => \&_make_ST_sort,
+    GRT    => \&_make_GRT_sort,
+);
 
-my %is_arg = ( %is_key_arg, %sort_makers, %is_value_arg, %is_boolean_arg ) ;
+my %is_arg = ( %is_key_arg, %sort_makers, %is_value_arg, %is_boolean_arg );
 
-my %sources ;
+my %sources;
 
 # this is a file lexical so the WARN handler sub can see it.
 
-my $eval_warnings = '' ;
+my $eval_warnings = '';
 
 sub make_sorter {
 
-# clear any leftover errors
+    # clear any leftover errors
 
-	$@ = '' ;
+    $@ = '';
 
-# process @_ without copying it (&sub with no args)
+    # process @_ without copying it (&sub with no args)
 
-	my( $options, $keys, $closures ) = &_process_arguments ;
-	return unless $keys ;
+    my ( $options, $keys, $closures ) = &_process_arguments;
+    return unless $keys;
 
-	my @closures = _get_extractor_code( $options, $keys ) ;
+    my @closures = _get_extractor_code( $options, $keys );
 
-	return if $@ ;
+    return if $@;
 
-# get the sort maker for this style and build the sorter
+    # get the sort maker for this style and build the sorter
 
-	my $sort_maker = $sort_makers{ $options->{style} } ;
-	my $source = $sort_maker->( $options, $keys ) ;
-	return unless $source ;
+    my $sort_maker = $sort_makers{ $options->{style} };
+    my $source = $sort_maker->( $options, $keys );
+    return unless $source;
 
-# prepend code to access any closures 
+    # prepend code to access any closures
 
-	if ( @closures ) {
+    if (@closures) {
 
-		my $closure_text = join '', map <<CLOSURE, 0 .. $#closures ;
+        my $closure_text = join '', map <<CLOSURE, 0 .. $#closures;
 my \$closure$_ = \$closures[$_] ;
 CLOSURE
 
-		$source = "use strict ;\n$closure_text\n$source" ;
-	}
+        $source = "use strict ;\n$closure_text\n$source";
+    }
 
-	my $sorter = do {
-		local( $SIG{__WARN__} ) = sub { $eval_warnings .= $_[0] } ;
-		eval $source ;
-	} ;
+    my $sorter = do {
+        local ( $SIG{__WARN__} ) = sub { $eval_warnings .= $_[0] };
+        eval $source;
+    };
 
-	$sources{ $sorter || '' } = $source ;
+    $sources{ $sorter || '' } = $source;
 
-	$@ = <<ERR, return unless $sorter ;
+    $@ = <<ERR, return unless $sorter;
 
 sort_maker: Can't compile this source for style $options->{style}.
 Check the key extraction code for errors.
@@ -152,346 +148,341 @@ $eval_warnings
 $@
 ERR
 
-# install the sorter sub in the caller's package if a name was set
+    # install the sorter sub in the caller's package if a name was set
 
-	if ( my $name = $options->{name} ) {
+    if ( my $name = $options->{name} ) {
 
-		no strict 'refs' ;
+        no strict 'refs';
 
-		my $package = (caller())[0] ;
+        my $package = ( caller() )[0];
 
-		*{"${package}::$name"} = $sorter ;
-	}
+        *{"${package}::$name"} = $sorter;
+    }
 
-	return $sorter ;
+    return $sorter;
 }
 
 sub _process_arguments {
 
-	my( %options, @keys ) ;
+    my ( %options, @keys );
 
-	while( @_ ) {
+    while (@_) {
 
-		my $opt = shift ;
+        my $opt = shift;
 
-		if ( $sort_makers{ $opt } ) {
+        if ( $sort_makers{$opt} ) {
 
-			$@ = 
-		"make_sorter: Style was already set to '$options{ style }'",
-				return if $options{ style } ;
+            $@ =
+              "make_sorter: Style was already set to '$options{ style }'",
+              return
+              if $options{style};
 
-# handle optional boolean => 1
-			shift if @_ && $_[0] eq '1' ;
-			$options{ style } = $opt ;
-			$options{ $opt } = 1 ;
+            # handle optional boolean => 1
+            shift if @_ && $_[0] eq '1';
+            $options{style} = $opt;
+            $options{$opt} = 1;
 
-			next ;
-		}
+            next;
+        }
 
-		if ( $is_boolean_arg{ $opt } ) {
+        if ( $is_boolean_arg{$opt} ) {
 
-# handle optional boolean => 1
-			shift if @_ && $_[0] eq '1' ;
-			$options{ $opt } = 1 ;
-			next ;
-		}
+            # handle optional boolean => 1
+            shift if @_ && $_[0] eq '1';
+            $options{$opt} = 1;
+            next;
+        }
 
-		if ( $is_value_arg{ $opt } ) {
+        if ( $is_value_arg{$opt} ) {
 
-			$@ = "make_sorter: No value for argument '$opt'\n",
-				return unless @_ ;
+            $@ = "make_sorter: No value for argument '$opt'\n", return
+              unless @_;
 
-			$options{ $opt } = shift ;
-			next ;
-		}
+            $options{$opt} = shift;
+            next;
+        }
 
-		if ( $is_key_arg{ $opt } ) {
+        if ( $is_key_arg{$opt} ) {
 
-			my $key_desc = $_[0] ;
+            my $key_desc = $_[0];
 
-# if we have no key value or it is an option, we just have a single key. 
+        # if we have no key value or it is an option, we just have a single key.
 
-			if ( !defined( $key_desc ) || $is_arg{ $key_desc } ) {
+            if ( !defined($key_desc) || $is_arg{$key_desc} ) {
 
-				push( @keys, {
-					type	=> $opt,
-					}
-				) ;
+                push( @keys, { type => $opt, } );
 
-				next ;
-			}
+                next;
+            }
 
-# if we have a hash ref for the value, it is the description for this key
+       # if we have a hash ref for the value, it is the description for this key
 
-			if( ref $key_desc eq 'HASH' ) {
+            if ( ref $key_desc eq 'HASH' ) {
 
-				shift @_ ;
-				$key_desc->{type} = $opt ;
-				push( @keys, $key_desc ) ;
-				next ;
-			}
+                shift @_;
+                $key_desc->{type} = $opt;
+                push( @keys, $key_desc );
+                next;
+            }
 
-# if we have an array ref for the value, it is the description for this key
+     # if we have an array ref for the value, it is the description for this key
 
-			if( ref $key_desc eq 'ARRAY' ) {
+            if ( ref $key_desc eq 'ARRAY' ) {
 
-				$key_desc = _process_array_attrs(@{$key_desc}) ;
-				return unless $key_desc ;
+                $key_desc = _process_array_attrs( @{$key_desc} );
+                return unless $key_desc;
 
-				shift @_ ;
-				$key_desc->{type} = $opt ;
-				push( @keys, $key_desc ) ;
-				next ;
-			}
+                shift @_;
+                $key_desc->{type} = $opt;
+                push( @keys, $key_desc );
+                next;
+            }
 
-# not a hash ref or an option/key so it must be code for the key
+            # not a hash ref or an option/key so it must be code for the key
 
-			shift ;
-			push( @keys, {
-				type	=> $opt,
-				code	=> $key_desc,
-				}
-			) ;
-			next ;
-		}
+            shift;
+            push(
+                @keys,
+                {
+                    type => $opt,
+                    code => $key_desc,
+                }
+            );
+            next;
+        }
 
-		$@ = "make_sorter: Unknown option or key '$opt'\n" ;
-		return ;
-	}
+        $@ = "make_sorter: Unknown option or key '$opt'\n";
+        return;
+    }
 
-	unless( @keys ) {
-		$@ = 'make_sorter: No keys specified' ;
-		return ;
-	}
-		
-	unless( $options{style} ) {
-		$@ = 'make_sorter: No sort style selected' ;
-		return ;
-	}
+    unless (@keys) {
+        $@ = 'make_sorter: No keys specified';
+        return;
+    }
 
-	return unless _process_defaults( \%options, \@keys ) ;
+    unless ( $options{style} ) {
+        $@ = 'make_sorter: No sort style selected';
+        return;
+    }
 
-	return( \%options, \@keys ) ;
+    return unless _process_defaults( \%options, \@keys );
+
+    return ( \%options, \@keys );
 }
 
 sub _process_defaults {
 
-	my( $opts, $keys ) = @_ ;
+    my ( $opts, $keys ) = @_;
 
-	return if _has_mutex_attrs( $opts, 'defaults have' ) ;
+    return if _has_mutex_attrs( $opts, 'defaults have' );
 
-	$opts->{init_code} ||= '' ;
+    $opts->{init_code} ||= '';
 
-	foreach my $key ( @{$keys} ) {
+    foreach my $key ( @{$keys} ) {
 
-		return if _has_mutex_attrs( $key, 'key has' ) ;
+        return if _has_mutex_attrs( $key, 'key has' );
 
-# set descending if it is not ascending and the default is descending.
+        # set descending if it is not ascending and the default is descending.
 
-		$key->{'descending'} ||=
-			!$key->{'ascending'} && $opts->{'descending'} ;
+        $key->{'descending'} ||= !$key->{'ascending'} && $opts->{'descending'};
 
-# set no_case if it is not case and the default is no_case.
+        # set no_case if it is not case and the default is no_case.
 
-		$key->{'no_case'} ||=
-			!$key->{'case'} && $opts->{'no_case'} ;
+        $key->{'no_case'} ||= !$key->{'case'} && $opts->{'no_case'};
 
-# handle GRT default attrs, both number and string
-# don't use the default if an attribute is set in the key
+        # handle GRT default attrs, both number and string
+        # don't use the default if an attribute is set in the key
 
-		unless( grep( $key->{$_}, @grt_num_attrs ) ) {
+        unless ( grep( $key->{$_}, @grt_num_attrs ) ) {
 
-			@{$key}{@grt_num_attrs} = @{$opts}{@grt_num_attrs} ;
-		}
+            @{$key}{@grt_num_attrs} = @{$opts}{@grt_num_attrs};
+        }
 
-		unless( grep( $key->{$_}, @grt_string_attrs ) ) {
+        unless ( grep( $key->{$_}, @grt_string_attrs ) ) {
 
-			@{$key}{@grt_string_attrs} =
-				@{$opts}{@grt_string_attrs} ;
-		}
-	}
+            @{$key}{@grt_string_attrs} = @{$opts}{@grt_string_attrs};
+        }
+    }
 
-	return 1 ;
+    return 1;
 }
-
 
 sub _get_extractor_code {
 
-	my( $opts, $keys ) = @_ ;
+    my ( $opts, $keys ) = @_;
 
-	my( @closures, $deparser ) ;
+    my ( @closures, $deparser );
 
-	foreach my $key ( @{$keys} ) {
+    foreach my $key ( @{$keys} ) {
 
-		my $extract_code = $key->{code} ;
+        my $extract_code = $key->{code};
 
-# default extract code is $_
+        # default extract code is $_
 
-		unless( $extract_code ) {
+        unless ($extract_code) {
 
-			$key->{code} = '$_' ;
-			next ;
-		}
+            $key->{code} = '$_';
+            next;
+        }
 
-		my $extractor_type = ref $extract_code ;
+        my $extractor_type = ref $extract_code;
 
-# leave the extractor code alone if it is a string
+        # leave the extractor code alone if it is a string
 
-		next unless $extractor_type ;
+        next unless $extractor_type;
 
-# wrap regexes in m() 
+        # wrap regexes in m()
 
-		if( $extractor_type eq 'Regexp' ) {
+        if ( $extractor_type eq 'Regexp' ) {
 
-			$key->{code} = "m($extract_code)" ;
-			next ;
-		}
+            $key->{code} = "m($extract_code)";
+            next;
+        }
 
-# return an error if it is not a CODE ref
+        # return an error if it is not a CODE ref
 
-		unless( $extractor_type eq 'CODE' ) {
+        unless ( $extractor_type eq 'CODE' ) {
 
-			$@ = "$extract_code is not a CODE or Regexp reference" ;
-			return ;
-		}
+            $@ = "$extract_code is not a CODE or Regexp reference";
+            return;
+        }
 
-# must be a code reference
-# see if it is a closure
+        # must be a code reference
+        # see if it is a closure
 
-		if ( $opts->{closure} || $key->{closure} ) {
+        if ( $opts->{closure} || $key->{closure} ) {
 
-# generate the code that will call this closure
+            # generate the code that will call this closure
 
-			my $n = @closures ;
-			$key->{code} = "\$closure$n->()" ;
+            my $n = @closures;
+            $key->{code} = "\$closure$n->()";
 
-#print "CODE $key->{code}\n" ;
+            #print "CODE $key->{code}\n" ;
 
-# copy the closure so we can process them later
+            # copy the closure so we can process them later
 
-			push @closures, $extract_code ;
-			next ;
-		}
+            push @closures, $extract_code;
+            next;
+        }
 
-# Otherwise, try to decompile the code ref with B::Deparse...
+        # Otherwise, try to decompile the code ref with B::Deparse...
 
-		unless( require B::Deparse ) {
+        unless ( require B::Deparse ) {
 
-			$@ = <<ERR ;
+            $@ = <<ERR ;
 Can't use CODE as key extractor unless B::Deparse module installed
 ERR
-			return ;
-		}
+            return;
+        }
 
-		$deparser ||= B::Deparse->new("-p", "-sC");
+        $deparser ||= B::Deparse->new( "-p", "-sC" );
 
-		my $source = eval { $deparser->coderef2text( $extract_code ) } ;
+        my $source = eval { $deparser->coderef2text($extract_code) };
 
-		unless( $source ) {
+        unless ($source) {
 
-			$@ = "Can't use [$extract_code] as key extractor";
-			return ;
-		}
+            $@ = "Can't use [$extract_code] as key extractor";
+            return;
+        }
 
-	#print "S [$source]\n" ;
+        #print "S [$source]\n" ;
 
-# use just the juicy pulp inside the braces...
+        # use just the juicy pulp inside the braces...
 
-		$key->{code} = "do $source" ;
-	}
+        $key->{code} = "do $source";
+    }
 
-	return @closures ;
+    return @closures;
 }
-
 
 # this is used to check for any mutually exclusive attribute in
 # defaults or keys
 
 sub _has_mutex_attrs {
 
-	my( $href, $name ) = @_ ;
+    my ( $href, $name ) = @_;
 
-	foreach my $mutex ( @mutex_attrs ) {
+    foreach my $mutex (@mutex_attrs) {
 
-		my @bad_attrs = grep $href->{$_}, @{$mutex} ;
+        my @bad_attrs = grep $href->{$_}, @{$mutex};
 
-		next if @bad_attrs <= 1 ;
+        next if @bad_attrs <= 1;
 
-		$@ = "make_sorter: Key attribute conflict: '$name @bad_attrs'";
-		return 1 ;
-	}
+        $@ = "make_sorter: Key attribute conflict: '$name @bad_attrs'";
+        return 1;
+    }
 
-	return ;
+    return;
 }
 
 sub _process_array_attrs {
 
-	my( @attrs ) = @_ ;
+    my (@attrs) = @_;
 
-	my $desc ;
+    my $desc;
 
-	while( @attrs ) {
+    while (@attrs) {
 
-		my $attr = shift @attrs ;
+        my $attr = shift @attrs;
 
-#print "ATTR $attr\n" ;
+        #print "ATTR $attr\n" ;
 
-		if ( $is_boolean_attr{ $attr } ) {
+        if ( $is_boolean_attr{$attr} ) {
 
-			shift @attrs if $attrs[0] eq '1' ;
-			$desc->{ $attr } = 1 ;
-			next ;
-		}
+            shift @attrs if $attrs[0] eq '1';
+            $desc->{$attr} = 1;
+            next;
+        }
 
-		if ( $is_value_attr{ $attr } ) {
+        if ( $is_value_attr{$attr} ) {
 
-			$@ = "make_sorter: No value for attribute '$attr'",
-				return unless @attrs ;
+            $@ = "make_sorter: No value for attribute '$attr'", return
+              unless @attrs;
 
-			$desc->{ $attr } = shift @attrs ;
-			next ;
-		}
+            $desc->{$attr} = shift @attrs;
+            next;
+        }
 
-		$@ = "make_sorter: Unknown attribute '$attr'" ;
-		return ;
-	}
+        $@ = "make_sorter: Unknown attribute '$attr'";
+        return;
+    }
 
-	return( $desc ) ;
+    return ($desc);
 }
 
 sub _make_plain_sort {
 
-	my( $options, $keys ) = @_ ;
+    my ( $options, $keys ) = @_;
 
-	my( @plain_compares ) ;
+    my (@plain_compares);
 
-	foreach my $key ( @{$keys} ) {
+    foreach my $key ( @{$keys} ) {
 
-		my $plain_compare = <<CMP ;
+        my $plain_compare = <<CMP ;
 	do{ my( \$left, \$right ) = map { EXTRACT } \$a, \$b;
 		uc \$left cmp uc \$right }
 CMP
 
-		$plain_compare =~ s/\$a, \$b/\$b, \$a/ if $key->{descending} ;
-		$plain_compare =~ s/cmp/<=>/ if $key->{type} eq 'number' ;
-		$plain_compare =~ s/uc //g
-			unless $key->{type} eq 'string' && $key->{no_case} ;
-		$plain_compare =~ s/EXTRACT/$key->{code}/ ;
+        $plain_compare =~ s/\$a, \$b/\$b, \$a/ if $key->{descending};
+        $plain_compare =~ s/cmp/<=>/ if $key->{type} eq 'number';
+        $plain_compare =~ s/uc //g
+          unless $key->{type} eq 'string' && $key->{no_case};
+        $plain_compare =~ s/EXTRACT/$key->{code}/;
 
-		push( @plain_compares, $plain_compare ) ;
-	}
+        push( @plain_compares, $plain_compare );
+    }
 
-# build the full compare block
+    # build the full compare block
 
-	my $compare_source = join "\t\t||\n", @plain_compares ;
+    my $compare_source = join "\t\t||\n", @plain_compares;
 
-# handle the in/out as ref options
+    # handle the in/out as ref options
 
-	my $input = $options->{ref_in} ? '@{$_[0]}' : '@_' ;
-	my( $open_bracket, $close_bracket ) = $options->{ref_out} ?
-		qw( [ ] ) : ( '', '' ) ;
+    my $input = $options->{ref_in} ? '@{$_[0]}' : '@_';
+    my ( $open_bracket, $close_bracket ) =
+      $options->{ref_out} ? qw( [ ] ) : ( '', '' );
 
-	my $source = <<SUB ;
+    my $source = <<SUB ;
 sub {
 use strict ;
 use warnings ;
@@ -503,22 +494,22 @@ $compare_source
 }
 SUB
 
-	return $source ;
+    return $source;
 }
 
 sub _make_orcish_sort {
 
-	my( $options, $keys ) = @_ ;
+    my ( $options, $keys ) = @_;
 
-	my( @orcish_compares ) ;
+    my (@orcish_compares);
 
-	my $orc_ind = '1' ;
+    my $orc_ind = '1';
 
-	foreach my $key ( @{$keys} ) {
+    foreach my $key ( @{$keys} ) {
 
-		my( $l, $r ) = $key->{descending} ? qw( $b $a ) : qw( $a $b ) ;
+        my ( $l, $r ) = $key->{descending} ? qw( $b $a ) : qw( $a $b );
 
-		my $orcish_compare = <<CMP ;
+        my $orcish_compare = <<CMP ;
 	(
 	  ( \$or_cache$orc_ind\{$l} ||=
 		do{ my (\$val) = map { EXTRACT } $l ; uc \$val } )
@@ -528,32 +519,32 @@ sub _make_orcish_sort {
 	)
 CMP
 
-		$orc_ind++ ;
+        $orc_ind++;
 
-# 		$orcish_compare =~ s/\$([ab])/$1 eq 'a' ? 'b' : 'a'/ge
-# 			if $key->{descending} ;
-		$orcish_compare =~ s/cmp/<=>/ if $key->{type} eq 'number' ;
-		$orcish_compare =~ s/uc //g
-			unless $key->{type} eq 'string' && $key->{no_case} ;
+        # 		$orcish_compare =~ s/\$([ab])/$1 eq 'a' ? 'b' : 'a'/ge
+        # 			if $key->{descending} ;
+        $orcish_compare =~ s/cmp/<=>/ if $key->{type} eq 'number';
+        $orcish_compare =~ s/uc //g
+          unless $key->{type} eq 'string' && $key->{no_case};
 
-		$orcish_compare =~ s/EXTRACT/$key->{code}/g ;
+        $orcish_compare =~ s/EXTRACT/$key->{code}/g;
 
-		push( @orcish_compares, $orcish_compare ) ;
-	}
+        push( @orcish_compares, $orcish_compare );
+    }
 
-# build the full compare block
+    # build the full compare block
 
-	my $compare_source = join "\t\t||\n", @orcish_compares ;
+    my $compare_source = join "\t\t||\n", @orcish_compares;
 
-# handle the in/out as ref options
+    # handle the in/out as ref options
 
-	my $input = $options->{ref_in} ? '@{$_[0]}' : '@_' ;
-	my( $open_bracket, $close_bracket ) = $options->{ref_out} ?
-		qw( [ ] ) : ( '', '' ) ;
+    my $input = $options->{ref_in} ? '@{$_[0]}' : '@_';
+    my ( $open_bracket, $close_bracket ) =
+      $options->{ref_out} ? qw( [ ] ) : ( '', '' );
 
-	my $cache_dcl = join( ',', map "%or_cache$_", 1 .. @{$keys} ) ;
+    my $cache_dcl = join( ',', map "%or_cache$_", 1 .. @{$keys} );
 
-	my $source = <<SUB ;
+    my $source = <<SUB ;
 sub {
 	$options->{init_code}
 	my ( $cache_dcl ) ;
@@ -565,58 +556,58 @@ $compare_source
 }
 SUB
 
-	return $source ;
+    return $source;
 }
 
 sub _make_ST_sort {
 
-	my( $options, $keys ) = @_ ;
+    my ( $options, $keys ) = @_;
 
-	my( @st_compares, @st_extracts ) ;
-	my $st_ind = '1' ;
+    my ( @st_compares, @st_extracts );
+    my $st_ind = '1';
 
-	foreach my $key ( @{$keys} ) {
+    foreach my $key ( @{$keys} ) {
 
-#print Dumper $key ;
+        #print Dumper $key ;
 
-		my $st_compare = <<CMP ;
+        my $st_compare = <<CMP ;
 	\$a->[$st_ind] cmp \$b->[$st_ind]
 CMP
 
-		$st_compare =~ tr/ab/ba/ if $key->{descending} ;
-		$st_compare =~ s/cmp/<=>/ if $key->{type} eq 'number' ;
+        $st_compare =~ tr/ab/ba/ if $key->{descending};
+        $st_compare =~ s/cmp/<=>/ if $key->{type} eq 'number';
 
-		$st_ind++ ;
+        $st_ind++;
 
-		push( @st_compares, $st_compare ) ;
+        push( @st_compares, $st_compare );
 
-		my $st_extract = <<EXT ;
+        my $st_extract = <<EXT ;
 		do{ my (\$val) = EXTRACT ; uc \$val }
 EXT
 
-		$st_extract =~ s/uc //
-			unless $key->{type} eq 'string' && $key->{no_case} ;
-		$st_extract =~ s/EXTRACT/$key->{code}/ ;
+        $st_extract =~ s/uc //
+          unless $key->{type} eq 'string' && $key->{no_case};
+        $st_extract =~ s/EXTRACT/$key->{code}/;
 
-		chomp( $st_extract ) ;
-		push( @st_extracts, $st_extract ) ;
-	}
+        chomp($st_extract);
+        push( @st_extracts, $st_extract );
+    }
 
-# build the full compare block
+    # build the full compare block
 
-	my $compare_source = join "\t\t||\n", @st_compares ;
+    my $compare_source = join "\t\t||\n", @st_compares;
 
-# build the full code for the key extracts
+    # build the full code for the key extracts
 
-	my $extract_source = join ",\n", @st_extracts ;
+    my $extract_source = join ",\n", @st_extracts;
 
-# handle the in/out as ref options
+    # handle the in/out as ref options
 
-	my $input = $options->{ref_in} ? '@{$_[0]}' : '@_' ;
-	my( $open_bracket, $close_bracket ) = $options->{ref_out} ?
-		qw( [ ] ) : ( '', '' ) ;
+    my $input = $options->{ref_in} ? '@{$_[0]}' : '@_';
+    my ( $open_bracket, $close_bracket ) =
+      $options->{ref_out} ? qw( [ ] ) : ( '', '' );
 
-	my $source = <<SUB ;
+    my $source = <<SUB ;
 sub {
 	$options->{init_code}
 	return $open_bracket
@@ -634,69 +625,68 @@ SUB
 
 sub _make_GRT_sort {
 
-	my( $options, $keys ) = @_ ;
+    my ( $options, $keys ) = @_;
 
-	my( $pack_format, @grt_extracts ) ;
+    my ( $pack_format, @grt_extracts );
 
-	my $init_code = $options->{init_code} ;
+    my $init_code = $options->{init_code};
 
-# select the input as a list - either an array ref or plain @_
+    # select the input as a list - either an array ref or plain @_
 
-	my $input = $options->{ref_in} ? '@{$_[0]}' : '@_' ;
+    my $input = $options->{ref_in} ? '@{$_[0]}' : '@_';
 
-# use this to count keys so we can generate init_code for each key
+    # use this to count keys so we can generate init_code for each key
 
-	my $key_ind = '0' ;
+    my $key_ind = '0';
 
-	foreach my $key ( @{$keys} ) {
+    foreach my $key ( @{$keys} ) {
 
-#print Dumper $key ;
+        #print Dumper $key ;
 
-		my( $key_pack_format, $grt_extract, $key_init_code ) =
-			$key->{type} eq 'number' ?
-				_make_GRT_number_key( $key ) :
-				_make_GRT_string_key( $key, $key_ind++ ) ;
+        my ( $key_pack_format, $grt_extract, $key_init_code ) =
+          $key->{type} eq 'number'
+          ? _make_GRT_number_key($key)
+          : _make_GRT_string_key( $key, $key_ind++ );
 
-#print "[$key_pack_format] [$grt_extract] [$key_init_code]\n" ;
+        #print "[$key_pack_format] [$grt_extract] [$key_init_code]\n" ;
 
-		return unless $key_pack_format ;
+        return unless $key_pack_format;
 
-		$pack_format .= $key_pack_format ;
+        $pack_format .= $key_pack_format;
 
-		if ( $key_init_code ) {
+        if ($key_init_code) {
 
-# fix generated init_code that scans input to use the proper input
+            # fix generated init_code that scans input to use the proper input
 
-			$key_init_code =~ s/INPUT$/$input/m ;
-			$init_code .= $key_init_code ;
-		}
+            $key_init_code =~ s/INPUT$/$input/m;
+            $init_code .= $key_init_code;
+        }
 
-		chomp( $grt_extract ) ;
-		push( @grt_extracts, $grt_extract ) ;
-	}
+        chomp($grt_extract);
+        push( @grt_extracts, $grt_extract );
+    }
 
 ############
-# pack the record index.
-# SKIP for 'string_data' attribute
+    # pack the record index.
+    # SKIP for 'string_data' attribute
 ##########
 
-	$pack_format .= 'N' unless $options->{string_data} ;
+    $pack_format .= 'N' unless $options->{string_data};
 
-	my $extract_source = join ",\n", @grt_extracts ;
-	chomp( $extract_source ) ;
+    my $extract_source = join ",\n", @grt_extracts;
+    chomp($extract_source);
 
-# handle the in/out as ref options
+    # handle the in/out as ref options
 
-	my( $open_bracket, $close_bracket ) = $options->{ref_out} ?
-		qw( [ ] ) : ( '', '' ) ;
+    my ( $open_bracket, $close_bracket ) =
+      $options->{ref_out} ? qw( [ ] ) : ( '', '' );
 
-
-	my $get_index_code = <<INDEX ;
+    my $get_index_code = <<INDEX ;
 unpack( 'N', substr( \$_, -$INT_LEN ) )
 INDEX
-	chomp $get_index_code ;
+    chomp $get_index_code;
 
-	my $source = $options->{string_data} ? <<STRING_DATA : <<REF_DATA ;
+    my $source = $options->{string_data} ? <<STRING_DATA : <<REF_DATA ;
 sub {
 
 $init_code
@@ -724,166 +714,166 @@ $extract_source,
 }
 REF_DATA
 
-#print $source ;
+    #print $source ;
 
-	return $source ;
+    return $source;
 }
 
 # code string to pack a float key value.
 
-my $FLOAT_PACK = $IS_BIG_ENDIAN ?
-		q{pack( 'd', $val )} :
-		q{reverse( pack( 'd', $val ) )} ;
+my $FLOAT_PACK =
+  $IS_BIG_ENDIAN
+  ? q{pack( 'd', $val )}
+  : q{reverse( pack( 'd', $val ) )};
 
 # bit mask to xor a packed float
 
-my $XOR_NEG = '\xFF' x $FLOAT_LEN ;
+my $XOR_NEG = '\xFF' x $FLOAT_LEN;
 
 sub _make_GRT_number_key {
 
-	my( $key ) = @_ ;
+    my ($key) = @_;
 
-	my( $pack_format, $val_code, $negate_code ) ;
+    my ( $pack_format, $val_code, $negate_code );
 
-	if ( $key->{descending} ) {
+    if ( $key->{descending} ) {
 
-# negate the key values so they sort in descending order
+        # negate the key values so they sort in descending order
 
-		$negate_code = '$val = -$val; ' ;
+        $negate_code = '$val = -$val; ';
 
-# descending GRT number sorts must be signed to handle the negated values
+       # descending GRT number sorts must be signed to handle the negated values
 
-		$key->{signed} = 1 if delete $key->{unsigned} ;
-		$key->{signed_float} = 1 if delete $key->{unsigned_float} ;
-	}
-	else {
+        $key->{signed}       = 1 if delete $key->{unsigned};
+        $key->{signed_float} = 1 if delete $key->{unsigned_float};
+    }
+    else {
 
-		$negate_code = '' ;
-	}
+        $negate_code = '';
+    }
 
-	if ( $key->{unsigned} ) {
+    if ( $key->{unsigned} ) {
 
-		$pack_format = 'N' ;
-		$val_code = '$val' ;
-	}
-	elsif ( $key->{signed} ) {
+        $pack_format = 'N';
+        $val_code    = '$val';
+    }
+    elsif ( $key->{signed} ) {
 
-# convert the signed integer to unsigned by flipping the sign bit
+        # convert the signed integer to unsigned by flipping the sign bit
 
-		$pack_format = 'N' ;
-		$val_code = "\$val ^ (1 << ($INT_BIT_LEN - 1))"
-	}
-	elsif ( $key->{unsigned_float} ) {
+        $pack_format = 'N';
+        $val_code    = "\$val ^ (1 << ($INT_BIT_LEN - 1))";
+    }
+    elsif ( $key->{unsigned_float} ) {
 
-# pack into A format with a length of a float
+        # pack into A format with a length of a float
 
-		$pack_format = "A$FLOAT_LEN" ;
-		$val_code =  qq{ $FLOAT_PACK ^ "\\x80" } ;
-	}
-	else {
+        $pack_format = "A$FLOAT_LEN";
+        $val_code    = qq{ $FLOAT_PACK ^ "\\x80" };
+    }
+    else {
 
-# must be a signed float
+        # must be a signed float
 
-		$pack_format = "A$FLOAT_LEN" ;
+        $pack_format = "A$FLOAT_LEN";
 
-# debug code that can be put in to dump what is being packed.
-#		print "V [\$val]\\n" ;
-#		 print unpack( 'H*', pack 'd', \$val ), "\\n" ;
+        # debug code that can be put in to dump what is being packed.
+        #		print "V [\$val]\\n" ;
+        #		 print unpack( 'H*', pack 'd', \$val ), "\\n" ;
 
+        # only negate float numbers other than 0. in some odd cases a float 0
+        # gets converted to a -0 (which is a legal ieee float) and the GRT
+        # packs it as 0x80000.. instead of 0x00000....)
 
-# only negate float numbers other than 0. in some odd cases a float 0
-# gets converted to a -0 (which is a legal ieee float) and the GRT
-# packs it as 0x80000.. instead of 0x00000....)
+        # it happens on sparc and perl 5.6.1. it needs a math op (the tests
+        # runs the gold sort which does <=> on it) and then negation for -0 to
+        # show up. 5.8 on sparc is fine and all perl versions on intel are
+        # fine
 
-# it happens on sparc and perl 5.6.1. it needs a math op (the tests
-# runs the gold sort which does <=> on it) and then negation for -0 to
-# show up. 5.8 on sparc is fine and all perl versions on intel are
-# fine
+        # the 'signed float edge case descending' test in t/numbers.t
+        # looks for this.
 
-# the 'signed float edge case descending' test in t/numbers.t 
-# looks for this.
+        $negate_code =~ s/;/ if \$val;/;
 
-		$negate_code =~ s/;/ if \$val;/ ;
-
-		$val_code = qq{ $FLOAT_PACK ^
+        $val_code = qq{ $FLOAT_PACK ^
 					( \$val < 0 ? "$XOR_NEG" : "\\x80" )
-		} ;
-	}
+		};
+    }
 
-	my $grt_extract = <<CODE ;
+    my $grt_extract = <<CODE ;
 		do{ my (\$val) = $key->{code} ; $negate_code$val_code }
 CODE
 
-	return( $pack_format, $grt_extract, '' ) ;
+    return ( $pack_format, $grt_extract, '' );
 }
 
 sub _make_GRT_string_key {
 
-	my( $key, $key_ind ) = @_ ;
+    my ( $key, $key_ind ) = @_;
 
-	my( $init_code, $pack_format ) ;
+    my ( $init_code, $pack_format );
 
-	if ( my $fix_len = $key->{fixed} ) {
+    if ( my $fix_len = $key->{fixed} ) {
 
-# create the xor string to invert the key for a descending sort.
-		$init_code = <<CODE if $key->{descending} ;
+        # create the xor string to invert the key for a descending sort.
+        $init_code = <<CODE if $key->{descending};
 	my \$_xor$key_ind = "\\xFF" x $fix_len ;
 CODE
-		$pack_format = "a$fix_len" ;
+        $pack_format = "a$fix_len";
 
-	}
-	elsif ( $key->{varying} ) {
+    }
+    elsif ( $key->{varying} ) {
 
-# create the code to scan for the maximum length of the values for this key
-# the INPUT will be changed later to handle a list or a ref as input
+     # create the code to scan for the maximum length of the values for this key
+     # the INPUT will be changed later to handle a list or a ref as input
 
-		$init_code = <<CODE ;
+        $init_code = <<CODE ;
 	use List::Util qw( max ) ;
 	my \$len$key_ind = max(
 		map { my (\$val) = $key->{code} ; length \$val } INPUT
 	) ;
 CODE
 
-#  create the xor string to invert the key for a descending sort.
+        #  create the xor string to invert the key for a descending sort.
 
-		$init_code .= <<CODE if $key->{descending} ;
+        $init_code .= <<CODE if $key->{descending};
 	my \$_xor$key_ind = "\\xFF" x \$len$key_ind ;
 CODE
 
-# we pack as a null padded string. its length is in the 
+        # we pack as a null padded string. its length is in the
 
-		$pack_format = "a\${len$key_ind}" ;
-	}
-	else {
+        $pack_format = "a\${len$key_ind}";
+    }
+    else {
 
-# we can't sort plain (null terminated) strings in descending order 
+        # we can't sort plain (null terminated) strings in descending order
 
-		$@ = <<ERR, return if $key->{descending} ;
+        $@ = <<ERR, return if $key->{descending};
 make_sorter: A GRT descending string needs to select either the
 'fixed' or 'varying' attributes
 ERR
 
-		$pack_format = 'Z*' ;
-	}
+        $pack_format = 'Z*';
+    }
 
-	my $descend_code = $key->{descending} ? " . '' ^ \$_xor$key_ind" : '' ;
+    my $descend_code = $key->{descending} ? " . '' ^ \$_xor$key_ind" : '';
 
-	my $grt_extract = <<CODE ;
+    my $grt_extract = <<CODE ;
 		do{ my( \$val ) = EXTRACT ; uc( \$val )$descend_code }
 CODE
 
-	$grt_extract =~ s/uc// unless $key->{no_case} ;
-	$grt_extract =~ s/EXTRACT/$key->{code}/ ;
+    $grt_extract =~ s/uc// unless $key->{no_case};
+    $grt_extract =~ s/EXTRACT/$key->{code}/;
 
-	return( $pack_format, $grt_extract, $init_code ) ;
+    return ( $pack_format, $grt_extract, $init_code );
 }
 
 sub sorter_source {
 
-	$sources{ +shift || '' } ;
+    $sources{ +shift || '' };
 }
 
-1 ;
+1;
 
 __END__
 

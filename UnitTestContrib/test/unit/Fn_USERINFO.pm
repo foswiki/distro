@@ -232,7 +232,8 @@ HERE
    * USERINFO for !RegistrationAgent: this is user TemporaryUSERINFOUsersWeb.RegistrationAgent
    * USERINFO for !ProjectContributor: this is user TemporaryUSERINFOUsersWeb.ProjectContributor
 RESULT
-        $ui );
+        $ui
+    );
 }
 
 1;

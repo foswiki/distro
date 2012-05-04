@@ -23,17 +23,20 @@ sub check {
     my $f = $Foswiki::cfg{Htpasswd}{LockFileName};
     Foswiki::Configure::Load::expandValue($f);
 
-    ($f) = $f =~ m/(.*)/;     # Untaint needed to prevent a failure.
+    ($f) = $f =~ m/(.*)/;    # Untaint needed to prevent a failure.
 
     unless ( -e $f ) {
-	# lock file does not exist; check it can be created
-	my $fh;
-	if (!open($fh, ">", $f) || !close($fh)) {
-	    $e .= $this->ERROR("$f could not be created: $!");
-	}
-    } elsif ( ! -f $f || ! -w $f ) {
-	# lock file exists but is a directory or is not writable
-	$e .= $this->ERROR( "$f is not a writable plain file. ")
+
+        # lock file does not exist; check it can be created
+        my $fh;
+        if ( !open( $fh, ">", $f ) || !close($fh) ) {
+            $e .= $this->ERROR("$f could not be created: $!");
+        }
+    }
+    elsif ( !-f $f || !-w $f ) {
+
+        # lock file exists but is a directory or is not writable
+        $e .= $this->ERROR("$f is not a writable plain file. ");
     }
     unlink $f;
 

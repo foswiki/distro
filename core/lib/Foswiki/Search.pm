@@ -270,7 +270,10 @@ sub searchWeb {
     $params{pager_urlparam_id} = $paging_ID;
 
     # 1-based system; 0 is not a valid page number
-    my $showpage = $session->{request}->param($paging_ID) || $params{showpage} || (Foswiki::isTrue($params{pager})?1:undef);
+    my $showpage =
+         $session->{request}->param($paging_ID)
+      || $params{showpage}
+      || ( Foswiki::isTrue( $params{pager} ) ? 1 : undef );
 
     if ( defined( $params{pagesize} ) or defined($showpage) ) {
         if ( !defined($showpage) ) {
@@ -666,7 +669,7 @@ sub formatResults {
         $pager_formatting{'\$nextbutton'} = sub { return $nextpagebutton };
 
         my $pager_control = '';
-        if ($numberofpages > 1) {
+        if ( $numberofpages > 1 ) {
             $pager_control = $params->{pagerformat}
               || $session->templates->expandTemplate('SEARCH:pager');
             $pager_control =

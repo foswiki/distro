@@ -11,6 +11,7 @@ our $VERSION = '$Rev: 1340 $';
 # of the version number in PLUGINDESCRIPTIONS.
 our $RELEASE = '27 Nov 2010';
 
-our $SHORTDESCRIPTION = 'Automates build and packaging process, including installer generation, for extension modules.';
+our $SHORTDESCRIPTION =
+'Automates build and packaging process, including installer generation, for extension modules.';
 
 1;

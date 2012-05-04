@@ -85,11 +85,12 @@ sub generate {
     $page =~ s/%FORMLIST%/$formList/go;
 
     my $parent = $q->param('topicparent') || '';
-    $parent = Foswiki::Sandbox::untaint(
-	$parent,
-	\&Foswiki::Sandbox::validateTopicName ) if $parent;
+    $parent =
+      Foswiki::Sandbox::untaint( $parent,
+        \&Foswiki::Sandbox::validateTopicName )
+      if $parent;
     $page =~ s/%TOPICPARENT%/$parent/go;
- 
+
     my $redirectTo = $session->redirectto() || '';
     $page =~ s/%REDIRECTTO%/$redirectTo/g;
 

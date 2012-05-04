@@ -127,13 +127,15 @@ sub _readPluginSettings {
       Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
 
     debug( 'TablePlugin', "\t configureAttrStr=$configureAttrStr" )
-     if defined $configureAttrStr;
-    debug( 'TablePlugin', "\t pluginAttrStr=$pluginAttrStr" ) if defined $pluginAttrStr;
+      if defined $configureAttrStr;
+    debug( 'TablePlugin', "\t pluginAttrStr=$pluginAttrStr" )
+      if defined $pluginAttrStr;
     debug( 'TablePlugin',
         "\t no settings from configure could be read; using default values" )
       unless defined $configureAttrStr;
 
-    $configureAttrStr = $DEFAULT_TABLE_SETTINGS unless defined $configureAttrStr;
+    $configureAttrStr = $DEFAULT_TABLE_SETTINGS
+      unless defined $configureAttrStr;
 
     $configureAttrStr = Foswiki::Func::expandCommonVariables( $configureAttrStr,
         $topic, $web, undef )

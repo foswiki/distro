@@ -107,8 +107,9 @@ sub register_cgi {
                 web   => $session->{webName},
                 topic => $session->{topicName},
                 def   => 'passwords_disabled'
-		);
-	}
+            );
+        }
+
         # resetpasswd calls checkValidationKey - don't check it here
         require Foswiki::UI::Passwords;
         Foswiki::UI::Passwords::resetpasswd($session);
@@ -304,9 +305,12 @@ sub _registerSingleBulkUser {
 
         # Add the user to the user management system. May throw an exception
         my $cUID = $users->addUser(
-            $row->{LoginName}, $row->{WikiName},
-            $session->inContext("passwords_modifyable") ? $row->{Password} : undef,
-	    $row->{Email}
+            $row->{LoginName},
+            $row->{WikiName},
+            $session->inContext("passwords_modifyable")
+            ? $row->{Password}
+            : undef,
+            $row->{Email}
         );
         $log .=
 "$b1 $row->{WikiName} has been added to the password and user mapping managers\n";
@@ -401,8 +405,7 @@ sub _innerRegister {
         \&Foswiki::Sandbox::validateTopicName );
     unless ( $data->{WikiName} ) {
         $session->logger->log( 'warning',
-"Registration rejected: validateTopicName failed for $oldName"
-        );
+            "Registration rejected: validateTopicName failed for $oldName" );
         throw Foswiki::OopsException(
             'attention',
             def    => 'bad_wikiname',
@@ -431,8 +434,7 @@ sub _requireVerification {
         \&Foswiki::Sandbox::validateTopicName );
     unless ( $data->{WikiName} ) {
         $session->logger->log( 'warning',
-"Verification rejected: validateTopicName failed for $oldName"
-        );
+            "Verification rejected: validateTopicName failed for $oldName" );
         throw Foswiki::OopsException(
             'attention',
             def    => 'bad_wikiname',
@@ -754,17 +756,18 @@ sub addUserToGroup {
     }
 
     my $url = $session->redirectto();
-    unless ( $url ) {
-	throw Foswiki::OopsException(
-	    'attention',
-	    status => 200,
-	    def    => 'added_users_to_group',
-	    web    => $web,
-	    topic  => $topic,
-	    params => [ join( ', ', @succeeded ), $groupName ]
-	    );
-    } else {
-	$session->redirect( $url );
+    unless ($url) {
+        throw Foswiki::OopsException(
+            'attention',
+            status => 200,
+            def    => 'added_users_to_group',
+            web    => $web,
+            topic  => $topic,
+            params => [ join( ', ', @succeeded ), $groupName ]
+        );
+    }
+    else {
+        $session->redirect($url);
     }
 }
 
@@ -842,17 +845,18 @@ sub removeUserFromGroup {
     }
 
     my $url = $session->redirectto();
-    unless ( $url ) {
-	throw Foswiki::OopsException(
-	    'attention',
-	    status => 200,
-	    def    => 'removed_users_from_group',
-	    web    => $web,
-	    topic  => $topic,
-	    params => [ join( ', ', @succeeded ), $groupName ]
-	    );
-    } else {
-	$session->redirect( $url );
+    unless ($url) {
+        throw Foswiki::OopsException(
+            'attention',
+            status => 200,
+            def    => 'removed_users_from_group',
+            web    => $web,
+            topic  => $topic,
+            params => [ join( ', ', @succeeded ), $groupName ]
+        );
+    }
+    else {
+        $session->redirect($url);
     }
 }
 
@@ -891,8 +895,9 @@ sub _complete {
 
     my $users = $session->{users};
     try {
-        unless ( !$session->inContext("passwords_modifyable") ||
-		 defined( $data->{Password} ) ) {
+        unless ( !$session->inContext("passwords_modifyable")
+            || defined( $data->{Password} ) )
+        {
 
             # SMELL: should give consideration to disabling
             # $Foswiki::cfg{Register}{HidePasswd} though that may
@@ -909,9 +914,12 @@ sub _complete {
         }
 
         my $cUID = $users->addUser(
-            $data->{LoginName}, $data->{WikiName},
-            $session->inContext("passwords_modifyable") ? $data->{Password} : undef,
-	    $data->{Email}
+            $data->{LoginName},
+            $data->{WikiName},
+            $session->inContext("passwords_modifyable")
+            ? $data->{Password}
+            : undef,
+            $data->{Email}
         );
         my $log = _createUserTopic( $session, $data );
         $users->setEmails( $cUID, $data->{Email} );
@@ -1476,8 +1484,9 @@ sub _validateRegistration {
     # Optional check email against filter
     # Case insensitive, and ignore whitespace.
     my $emailFilter;
-    $emailFilter = qr/$Foswiki::cfg{Register}{EmailFilter}/ix if ( length($Foswiki::cfg{Register}{EmailFilter}) );
-    if (   defined $emailFilter
+    $emailFilter = qr/$Foswiki::cfg{Register}{EmailFilter}/ix
+      if ( length( $Foswiki::cfg{Register}{EmailFilter} ) );
+    if ( defined $emailFilter
         && $data->{Email} =~ $emailFilter )
     {
         $session->logger->log( 'warning',

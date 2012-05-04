@@ -72,7 +72,8 @@ my %subnames = map { $_ => 1 } qw (translate maketext gettext loc x __);
 
 #===================================
 sub extract {
-#===================================
+
+    #===================================
     my $self = shift;
     my $text = shift;
 
@@ -83,16 +84,16 @@ sub extract {
 
         while ( my $child = shift @children ) {
             next
-                unless @children
-                    && (    $child->isa('PPI::Token::Word')
-                         && $subnames{ $child->content }
-                         || $child->isa('PPI::Token::Magic')
-                         && $child->content eq '_' );
+              unless @children
+                  && (   $child->isa('PPI::Token::Word')
+                      && $subnames{ $child->content }
+                      || $child->isa('PPI::Token::Magic')
+                      && $child->content eq '_' );
 
             my $list = shift @children;
             next
-                unless $list->isa('PPI::Structure::List')
-                    && $list->schildren;
+              unless $list->isa('PPI::Structure::List')
+                  && $list->schildren;
 
             $self->_check_arg_list($list);
         }
@@ -101,7 +102,8 @@ sub extract {
 
 #===================================
 sub _check_arg_list {
-#===================================
+
+    #===================================
     my $self = shift;
     my $list = shift;
     my @args = ( $list->schildren )[0]->schildren;
@@ -111,30 +113,30 @@ sub _check_arg_list {
 
     while ( my $string_el = shift @args ) {
         return
-            unless $string_el->isa('PPI::Token::Quote')
-                || $string_el->isa('PPI::Token::HereDoc');
+          unless $string_el->isa('PPI::Token::Quote')
+              || $string_el->isa('PPI::Token::HereDoc');
         $line ||= $string_el->location->[0];
         my $string;
         if ( $string_el->isa('PPI::Token::HereDoc') ) {
             $string = join( '', $string_el->heredoc );
-            $mode
-                = $string_el->{_mode} eq 'interpolate'
-                ? 'double'
-                : 'literal';
+            $mode =
+              $string_el->{_mode} eq 'interpolate'
+              ? 'double'
+              : 'literal';
         }
         else {
             $string = $string_el->string;
-            $mode
-                = $string_el->isa('PPI::Token::Quote::Literal') ? 'literal'
-                : (    $string_el->isa('PPI::Token::Quote::Double')
-                    || $string_el->isa('PPI::Token::Quote::Interpolate') )
-                ? 'double'
-                : 'single';
+            $mode =
+              $string_el->isa('PPI::Token::Quote::Literal') ? 'literal'
+              : (    $string_el->isa('PPI::Token::Quote::Double')
+                  || $string_el->isa('PPI::Token::Quote::Interpolate') )
+              ? 'double'
+              : 'single';
         }
 
         if ( $mode eq 'double' ) {
             return
-                if !!( $string =~ /(?<!\\)(?:\\\\)*[\$\@]/ );
+              if !!( $string =~ /(?<!\\)(?:\\\\)*[\$\@]/ );
             $string = eval qq("$string");
         }
         elsif ( $mode eq 'single' ) {
@@ -150,9 +152,9 @@ sub _check_arg_list {
 
         my $next_op = shift @args;
         last
-            unless $next_op
-                && $next_op->isa('PPI::Token::Operator')
-                && $next_op->content eq '.';
+          unless $next_op
+              && $next_op->isa('PPI::Token::Operator')
+              && $next_op->content eq '.';
     }
     return unless $final_string;
 

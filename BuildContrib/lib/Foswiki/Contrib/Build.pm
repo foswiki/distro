@@ -1102,9 +1102,10 @@ sub filter_txt {
         sub {
             my ( $this, $text ) = @_;
 
-            # Replace the version (SVN Rev or wrongly saved number) with rev 1.
-            # Item10629: Must preserve version for CompareRevisionAddOnDemoTopic, or nothing to demo
-            $text =~ s/^(%META:TOPICINFO{.*version=").*?(".*}%)$/${1}1$2/m unless $from =~ m/CompareRevisionsAddOnDemoTopic.txt$/;
+# Replace the version (SVN Rev or wrongly saved number) with rev 1.
+# Item10629: Must preserve version for CompareRevisionAddOnDemoTopic, or nothing to demo
+            $text =~ s/^(%META:TOPICINFO{.*version=").*?(".*}%)$/${1}1$2/m
+              unless $from =~ m/CompareRevisionsAddOnDemoTopic.txt$/;
             $text =~ s/%\$(\w+)%/&_expand($this,$1)/geo;
             return $text;
         }

@@ -8,9 +8,7 @@
 # rights and limitations under the License.
 ######################################################################
 
-
 package Cache::SharedMemoryCache;
-
 
 use strict;
 use vars qw( @ISA );
@@ -20,87 +18,63 @@ use Cache::CacheUtils qw( Assert_Defined Static_Params );
 use Cache::SharedMemoryBackend;
 use Error;
 
-
 @ISA = qw ( Cache::MemoryCache );
 
-
-sub Clear
-{
-  foreach my $namespace ( _Namespaces( ) )
-  {
-    _Get_Backend( )->delete_namespace( $namespace );
-  }
+sub Clear {
+    foreach my $namespace ( _Namespaces() ) {
+        _Get_Backend()->delete_namespace($namespace);
+    }
 }
 
-
-sub Purge
-{
-  foreach my $namespace ( _Namespaces( ) )
-  {
-    _Get_Cache( $namespace )->purge( );
-  }
+sub Purge {
+    foreach my $namespace ( _Namespaces() ) {
+        _Get_Cache($namespace)->purge();
+    }
 }
 
+sub Size {
+    my $size = 0;
 
-sub Size
-{
-  my $size = 0;
+    foreach my $namespace ( _Namespaces() ) {
+        $size += _Get_Cache($namespace)->size();
+    }
 
-  foreach my $namespace ( _Namespaces( ) )
-  {
-    $size += _Get_Cache( $namespace )->size( );
-  }
-
-  return $size;
+    return $size;
 }
 
-
-sub _Namespaces
-{
-  return _Get_Backend( )->get_namespaces( );
+sub _Namespaces {
+    return _Get_Backend()->get_namespaces();
 }
 
-
-
-sub _Get_Backend
-{
-  return new Cache::SharedMemoryBackend( );
+sub _Get_Backend {
+    return new Cache::SharedMemoryBackend();
 }
 
+sub _Get_Cache {
+    my ($p_namespace) = Static_Params(@_);
 
-sub _Get_Cache
-{
-  my ( $p_namespace ) = Static_Params( @_ );
+    Assert_Defined($p_namespace);
 
-  Assert_Defined( $p_namespace );
-
-  return new Cache::SharedMemoryCache( { 'namespace' => $p_namespace } );
+    return new Cache::SharedMemoryCache( { 'namespace' => $p_namespace } );
 }
 
+sub new {
+    my ($self) = _new(@_);
 
-sub new
-{
-  my ( $self ) = _new( @_ );
+    $self->_complete_initialization();
 
-  $self->_complete_initialization( );
-
-  return $self;
+    return $self;
 }
 
-
-sub _new
-{
-  my ( $proto, $p_options_hash_ref ) = @_;
-  my $class = ref( $proto ) || $proto;
-  my $self = $class->SUPER::_new( $p_options_hash_ref );
-  $self->_set_backend( new Cache::SharedMemoryBackend( ) );
-  return $self;
+sub _new {
+    my ( $proto, $p_options_hash_ref ) = @_;
+    my $class = ref($proto) || $proto;
+    my $self = $class->SUPER::_new($p_options_hash_ref);
+    $self->_set_backend( new Cache::SharedMemoryBackend() );
+    return $self;
 }
-
 
 1;
-
-
 
 =pod
 

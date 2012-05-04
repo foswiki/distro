@@ -18,65 +18,75 @@ use DBD::Pg qw(PG_BYTEA PG_TEXT);
 $CGI::Session::Driver::postgresql::VERSION = '4.38';
 @CGI::Session::Driver::postgresql::ISA     = qw( CGI::Session::Driver::DBI );
 
-
 sub init {
     my $self = shift;
-    my $ret = $self->SUPER::init(@_);
+    my $ret  = $self->SUPER::init(@_);
 
     # Translate external ColumnType into internal value. See POD for details.
-    $self->{PgColumnType} ||= (defined $self->{ColumnType} and (lc $self->{ColumnType} eq 'binary'))
-        ? PG_BYTEA
-        : PG_TEXT
-        ;
+    $self->{PgColumnType} ||=
+      ( defined $self->{ColumnType} and ( lc $self->{ColumnType} eq 'binary' ) )
+      ? PG_BYTEA
+      : PG_TEXT;
 
     return $ret;
 }
 
 sub store {
     my $self = shift;
-    my ($sid, $datastr) = @_;
+    my ( $sid, $datastr ) = @_;
     croak "store(): usage error" unless $sid && $datastr;
 
-    my $dbh = $self->{Handle};
+    my $dbh  = $self->{Handle};
     my $type = $self->{PgColumnType};
 
-    if ($type == PG_TEXT && $datastr =~ tr/\x00//) {
-        croak "Unallowed characters used in session data. Please see CGI::Session::Driver::postgresql ".
-            "for more information about null characters in text columns.";
+    if ( $type == PG_TEXT && $datastr =~ tr/\x00// ) {
+        croak
+"Unallowed characters used in session data. Please see CGI::Session::Driver::postgresql "
+          . "for more information about null characters in text columns.";
     }
 
     local $dbh->{RaiseError} = 1;
     eval {
-        # There is a race condition were two clients could run this code concurrently,
-        # and both end up trying to insert. That's why we check for "duplicate" below
-        my $sth = $dbh->prepare(
-             "INSERT INTO " . $self->table_name . " ($self->{DataColName},$self->{IdColName})  SELECT ?, ? 
-                WHERE NOT EXISTS (SELECT 1 FROM " . $self->table_name . " WHERE $self->{IdColName}=? LIMIT 1)");
 
-        $sth->bind_param(1,$datastr,{ pg_type => $type });
-        $sth->bind_param(2, $sid);
-        $sth->bind_param(3, $sid); # in the SELECT statement
+  # There is a race condition were two clients could run this code concurrently,
+  # and both end up trying to insert. That's why we check for "duplicate" below
+        my $sth = $dbh->prepare(
+                "INSERT INTO "
+              . $self->table_name
+              . " ($self->{DataColName},$self->{IdColName})  SELECT ?, ? 
+                WHERE NOT EXISTS (SELECT 1 FROM "
+              . $self->table_name
+              . " WHERE $self->{IdColName}=? LIMIT 1)"
+        );
+
+        $sth->bind_param( 1, $datastr, { pg_type => $type } );
+        $sth->bind_param( 2, $sid );
+        $sth->bind_param( 3, $sid );    # in the SELECT statement
         my $rv = '';
         eval { $rv = $sth->execute(); };
-        if ( $rv eq '0E0' or (defined $@ and $@ =~ m/duplicate/i) ) {
-            my $sth = $dbh->prepare("UPDATE " . $self->table_name . " SET $self->{DataColName}=? WHERE $self->{IdColName}=?");
-            $sth->bind_param(1,$datastr,{ pg_type => $type });
-            $sth->bind_param(2,$sid);
+        if ( $rv eq '0E0' or ( defined $@ and $@ =~ m/duplicate/i ) ) {
+            my $sth =
+              $dbh->prepare( "UPDATE "
+                  . $self->table_name
+                  . " SET $self->{DataColName}=? WHERE $self->{IdColName}=?" );
+            $sth->bind_param( 1, $datastr, { pg_type => $type } );
+            $sth->bind_param( 2, $sid );
             $sth->execute;
-        } 
+        }
         else {
+
             # Nothing. Our insert has already happened
         }
     };
-    if ($@) { 
-      return $self->set_error( "store(): failed with message: $@ " . $dbh->errstr );
+    if ($@) {
+        return $self->set_error(
+            "store(): failed with message: $@ " . $dbh->errstr );
 
-    } 
+    }
     else {
         return 1;
 
     }
-
 
 }
 
