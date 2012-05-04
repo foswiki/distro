@@ -453,7 +453,8 @@ sub test_simple_textfile {
       $this->viewfile( "/$this->{test_web}/TestTopic1/one.txt", 1 );
 
     $this->assert_equals( "Test attachment one.txt\n", $text );
-    $this->assert_matches( qr/Content-Type: text\/plain; charset=$Foswiki::cfg{Site}{CharSet}/i,
+    $this->assert_matches(
+        qr/Content-Type: text\/plain; charset=$Foswiki::cfg{Site}{CharSet}/i,
         $headers );
     $this->assert_matches( 'Content-Disposition: inline; filename=one.txt',
         $headers );

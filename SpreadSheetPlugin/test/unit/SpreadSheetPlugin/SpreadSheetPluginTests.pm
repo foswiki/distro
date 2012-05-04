@@ -862,8 +862,10 @@ sub test_REPEAT {
 sub test_REPLACE {
     my ($this) = @_;
     $this->assert( $this->CALC('$REPLACE(abcdefghijk, 6, 5, *)') eq 'abcde*k' );
-    $this->assert_equals( $this->CALC('$REPLACE(abcdefghijk, 6, 5, $comma)'), 'abcde,k' );
-    $this->assert_equals( $this->CALC('$REPLACE(abcdefghijk, 6, 5, $sp)'), 'abcde k' );
+    $this->assert_equals( $this->CALC('$REPLACE(abcdefghijk, 6, 5, $comma)'),
+        'abcde,k' );
+    $this->assert_equals( $this->CALC('$REPLACE(abcdefghijk, 6, 5, $sp)'),
+        'abcde k' );
 }
 
 sub test_RIGHT {
@@ -1052,8 +1054,10 @@ sub test_SUBSTITUTE {
         $this->CALC('$SUBSTITUTE(Good morning, morning, day)') eq 'Good day' );
     $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002, 2, 3)')   eq 'Q3-3003' );
     $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002,2, 3, 3)') eq 'Q2-2003' );
-    $this->assert_equals( $this->CALC('$SUBSTITUTE(Q2-2003-2, -, $comma)'), 'Q2,2003,2' );
-    $this->assert_equals( $this->CALC('$SUBSTITUTE(Q2 2003 2, $sp, $comma)'), 'Q2,2003,2' );
+    $this->assert_equals( $this->CALC('$SUBSTITUTE(Q2-2003-2, -, $comma)'),
+        'Q2,2003,2' );
+    $this->assert_equals( $this->CALC('$SUBSTITUTE(Q2 2003 2, $sp, $comma)'),
+        'Q2,2003,2' );
     $this->assert(
         $this->CALC('$SUBSTITUTE(abc123def, [0-9], 9, , r)') eq 'abc999def' );
 }

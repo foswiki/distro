@@ -98,7 +98,7 @@ sub readTopic {
     # Patch up the revision info
     $meta->setRevisionInfo(
         version => $version,
-	date  => ( stat ( _latestFile($meta) ) )[9]
+        date    => ( stat( _latestFile($meta) ) )[9]
     );
 
     return ( $version, $isLatest );
@@ -182,7 +182,7 @@ sub moveTopic {
     _moveFile( _historyDir($oldTopicObject), _historyDir($newTopicObject) );
     my $pub = _getPub($oldTopicObject);
     if ( -e $pub ) {
-	_moveFile( $pub,     _getPub($newTopicObject) );
+        _moveFile( $pub, _getPub($newTopicObject) );
     }
 
     $this->tellListeners(
@@ -212,10 +212,10 @@ sub moveWeb {
     _moveFile( $oldbase, $newbase );
 
     $oldbase = _getPub($oldWebObject);
-    if (-e $oldbase) {
-	$newbase = _getPub($newWebObject);
+    if ( -e $oldbase ) {
+        $newbase = _getPub($newWebObject);
 
-	_moveFile( $oldbase, $newbase );
+        _moveFile( $oldbase, $newbase );
     }
 
     $this->tellListeners(
@@ -303,8 +303,9 @@ sub getVersionInfo {
         if ( $rev && $rev > 0 && $rev < $nr ) {
             $df = _historyFile( $meta, $attachment, $rev );
             unless ( -e $df ) {
-		# May arise if the history is not continuous, or if
-		# there is no history
+
+                # May arise if the history is not continuous, or if
+                # there is no history
                 $df = _latestFile( $meta, $attachment );
                 $rev = $nr;
             }
@@ -361,7 +362,7 @@ sub saveTopic {
     _saveDamage($meta);
 
     my $verb = ( -e _latestFile($meta) ) ? 'update' : 'insert';
-    my $rn = _numRevisions( $meta ) + 1;
+    my $rn = _numRevisions($meta) + 1;
 
     # Fix TOPICINFO
     my $ti = $meta->get('TOPICINFO');
@@ -370,10 +371,10 @@ sub saveTopic {
     $ti->{author}  = $cUID;
 
     # Create new latest
-    my $latest = _latestFile( $meta );
+    my $latest = _latestFile($meta);
     _saveFile( $latest, $meta->getEmbeddedStoreForm() );
     if ( $options->{forcedate} ) {
-        utime( $options->{forcedate}, $options->{forcedate}, $latest )    # touch
+        utime( $options->{forcedate}, $options->{forcedate}, $latest )   # touch
           or die "PlainFile: could not touch $latest: $!";
     }
 
@@ -401,8 +402,8 @@ sub repRev {
     my $rn = _numRevisions($meta);
     ASSERT( $rn, $meta->getPath ) if DEBUG;
     my $latest = _latestFile($meta);
-    my $hf = _historyFile( $meta, undef, $rn );
-    my $t = ( stat $latest )[9]; # SMELL: use TOPICINFO?
+    my $hf     = _historyFile( $meta, undef, $rn );
+    my $t      = ( stat $latest )[9];                 # SMELL: use TOPICINFO?
     unlink($hf);
 
     my $ti = $meta->get('TOPICINFO');
@@ -530,7 +531,7 @@ sub getApproxRevTime {
 sub eachChange {
     my ( $this, $meta, $since ) = @_;
 
-    my $file = _getData($meta->web) . '/.changes';
+    my $file = _getData( $meta->web ) . '/.changes';
     require Foswiki::ListIterator;
 
     if ( -r $file ) {
@@ -590,7 +591,7 @@ sub eachTopic {
     my ( $this, $meta ) = @_;
 
     my $dh;
-    opendir( $dh, _getData($meta->web) )
+    opendir( $dh, _getData( $meta->web ) )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -656,13 +657,13 @@ sub remove {
         # Topic or attachment
         unlink( _latestFile( $meta, $attachment ) );
         _rmtree( _historyDir( $meta, $attachment ) );
-	_rmtree( _getPub($meta) ) unless ($attachment); # topic only
+        _rmtree( _getPub($meta) ) unless ($attachment);    # topic only
     }
     else {
 
         # Web
         _rmtree( _getData($meta) );
-	_rmtree( _getPub($meta) );
+        _rmtree( _getPub($meta) );
     }
 
     $this->tellListeners(
@@ -721,9 +722,9 @@ sub getRevisionAtTime {
 
     my $hd = _historyDir($meta);
     my $d;
-    unless (opendir( $d, $hd )) {
-	return 1 if ( $time >= ( stat(_latestFile($meta)) )[9] );
-	return 0;
+    unless ( opendir( $d, $hd ) ) {
+        return 1 if ( $time >= ( stat( _latestFile($meta) ) )[9] );
+        return 0;
     }
     my @revs = reverse sort grep { /^[0-9]+$/ } readdir($d);
     closedir($d);
@@ -854,7 +855,7 @@ sub _numRevisions {
 
     my $dir = _historyDir( $meta, $attachment );
 
-    # we know that if there is no history 
+    # we know that if there is no history
     # then only rev 1 exists
     return 1 unless -e $dir;
 
@@ -1013,15 +1014,16 @@ sub _openStream {
     my $stream;
 
     my $path;
-    if ($opts{version} && $opts{version} < _numRevisions($meta, $att)) {
-	ASSERT($mode !~ />/) if DEBUG;
-	$path = _historyFile( $meta, $att, $opts{version} );
-    } else {
-	$path = _latestFile( $meta, $att );
-	_mkPathTo($path) if ( $mode =~ />/ );
+    if ( $opts{version} && $opts{version} < _numRevisions( $meta, $att ) ) {
+        ASSERT( $mode !~ />/ ) if DEBUG;
+        $path = _historyFile( $meta, $att, $opts{version} );
+    }
+    else {
+        $path = _latestFile( $meta, $att );
+        _mkPathTo($path) if ( $mode =~ />/ );
     }
     unless ( open( $stream, $mode, $path ) ) {
-	die("PlainFile: open stream $mode '$path' failed: $!");
+        die("PlainFile: open stream $mode '$path' failed: $!");
     }
     binmode $stream;
     return $stream;

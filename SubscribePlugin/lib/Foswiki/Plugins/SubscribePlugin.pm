@@ -25,16 +25,16 @@ sub initPlugin {
 
     # LocalSite.cfg takes precedence.  Give admin most control.
     $activeWebs = $Foswiki::cfg{Plugins}{SubscribePlugin}{ActiveWebs}
-      || Foswiki::Func::getPreferencesValue(
-        "SUBSCRIBEPLUGIN_ACTIVEWEBS");
+      || Foswiki::Func::getPreferencesValue("SUBSCRIBEPLUGIN_ACTIVEWEBS");
 
-    if ( $activeWebs ) {
+    if ($activeWebs) {
         $activeWebs =~ s/\s*\,\s*/\|/go;    # Change comma's to "or"
-        $activeWebs =~ s/^\s*//o;        # Drop leading spaces
-        $activeWebs =~ s/\s*$//o;        # Drop trailing spaces
-        #$activeWebs =~ s/[^$Foswiki::regex{mixedAlphaNum}\|]//go
-        #  ;    # Filter any characters not valid in WikiWords
-        Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 0 unless ( $WEB =~ qr/^($activeWebs)$/ );
+        $activeWebs =~ s/^\s*//o;           # Drop leading spaces
+        $activeWebs =~ s/\s*$//o;           # Drop trailing spaces
+             #$activeWebs =~ s/[^$Foswiki::regex{mixedAlphaNum}\|]//go
+             #  ;    # Filter any characters not valid in WikiWords
+        Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 0
+          unless ( $WEB =~ qr/^($activeWebs)$/ );
     }
 
     Foswiki::Func::registerTagHandler( 'SUBSCRIBE', \&_SUBSCRIBE );
@@ -47,7 +47,8 @@ sub initPlugin {
 sub _SUBSCRIBE {
     my ( $session, $params, $topic, $web ) = @_;
 
-    return '' unless ( Foswiki::Func::getContext()->{'SubscribePluginAllowed'} );
+    return ''
+      unless ( Foswiki::Func::getContext()->{'SubscribePluginAllowed'} );
 
     my $query = Foswiki::Func::getCgiQuery();
     my $form;

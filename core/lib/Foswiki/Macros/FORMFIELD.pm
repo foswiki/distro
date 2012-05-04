@@ -19,7 +19,8 @@ sub FORMFIELD {
         my $query = $this->{request};
         my $cgiRev;
         $cgiRev = $query->param('rev') if ($query);
-        $args->{rev} = Foswiki::Store::cleanUpRevID( $args->{rev} || $cgiRev ) || '';
+        $args->{rev} =
+          Foswiki::Store::cleanUpRevID( $args->{rev} || $cgiRev ) || '';
     }
     return $this->renderer->renderFORMFIELD( $args, $topicObject );
 }

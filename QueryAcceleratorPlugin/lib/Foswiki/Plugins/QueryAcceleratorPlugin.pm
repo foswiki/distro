@@ -17,9 +17,9 @@ use Assert;
 use Foswiki::Contrib::DBCacheContrib ();
 
 our $NO_PREFS_IN_TOPIC = 1;
-our $SHORTDESCRIPTION = 'Accelerate standard queries in large webs';
-our $RELEASE = '5 Jun 2009';
-our $VERSION = '$Rev$';
+our $SHORTDESCRIPTION  = 'Accelerate standard queries in large webs';
+our $RELEASE           = '5 Jun 2009';
+our $VERSION           = '$Rev$';
 
 # Cache of DBs, one per web
 our %cache;
@@ -33,8 +33,8 @@ sub afterSaveHandler {
     my ( $text, $topic, $web, $error, $meta ) = @_;
 
     # force update
-    my $db = getDB( $web );
-    $db->load( 1 );
+    my $db = getDB($web);
+    $db->load(1);
 }
 
 # Look up the web cache and get the DB for the web, loading from disk
@@ -42,9 +42,9 @@ sub afterSaveHandler {
 sub getDB {
     my $web = shift;
 
-    unless ($cache{$web}) {
-        $cache{$web} = new Foswiki::Contrib::DBCacheContrib(
-            $web, '_DBCache_standard', 1 );
+    unless ( $cache{$web} ) {
+        $cache{$web} =
+          new Foswiki::Contrib::DBCacheContrib( $web, '_DBCache_standard', 1 );
         $cache{$web}->load();
     }
 

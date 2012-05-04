@@ -26,7 +26,7 @@ use Foswiki       ();
 use Foswiki::Meta ();
 use Error qw( :try );
 
-my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
+my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
 my $data2 = "$data XXX $data";
 
 sub set_up {
@@ -108,13 +108,13 @@ sub verify_simpleTopic {
     $meta->finish();
 
     $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
-    $this->{sut}->readTopic($meta, 1);
-    $this->assert_equals("1 2 3", $meta->text());
+    $this->{sut}->readTopic( $meta, 1 );
+    $this->assert_equals( "1 2 3", $meta->text() );
     $meta->finish();
 
     $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
-    $this->{sut}->readTopic($meta, 2);
-    $this->assert_equals("4 5 6", $meta->text());
+    $this->{sut}->readTopic( $meta, 2 );
+    $this->assert_equals( "4 5 6", $meta->text() );
     $meta->finish();
 
     return;
@@ -202,7 +202,7 @@ sub verify_getRevisionDiff {
     }
     else {
         $expect = [
-	    [ 'l', '1', '1' ],
+            [ 'l', '1',                      '1' ],
             [ 'u', 'This is some test text', 'This is some test text' ],
             [ 'u', '   * some list',         '   * some list' ],
             [ '-', '   * maladjusted',       '' ],
@@ -467,15 +467,17 @@ sub verify_openAttachment {
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
 
     local $/;
-    my $f = $this->{sut}->openAttachment($meta, "testfile.gif", "<");
-    $this->assert_equals($data2, <$f>);
+    my $f = $this->{sut}->openAttachment( $meta, "testfile.gif", "<" );
+    $this->assert_equals( $data2, <$f> );
     close($f);
 
-    $f = $this->{sut}->openAttachment($meta, "testfile.gif", "<", version => 1);
-    $this->assert_equals($data, <$f>);
+    $f =
+      $this->{sut}->openAttachment( $meta, "testfile.gif", "<", version => 1 );
+    $this->assert_equals( $data, <$f> );
     close($f);
-    $f = $this->{sut}->openAttachment($meta, "testfile.gif", "<", version => 2);
-    $this->assert_equals($data2, <$f>);
+    $f =
+      $this->{sut}->openAttachment( $meta, "testfile.gif", "<", version => 2 );
+    $this->assert_equals( $data2, <$f> );
     close($f);
 
     return;

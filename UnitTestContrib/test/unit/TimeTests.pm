@@ -71,6 +71,7 @@ sub showTime {
 
 sub checkTime {
     my ( $this, $s, $m, $h, $D, $M, $Y, $str, $dl ) = @_;
+
     #$Y -= 1900;
     $M--;
 
@@ -118,7 +119,7 @@ sub test_parseTimeRCS {
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02.18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 1902, "1902-12-02.18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 1890, "1890-12-02.18:01:02" );
-    $this->checkTime( 7, 59, 6,  2, 7, 1730, "1730-07-02.06:59:07" );
+    $this->checkTime( 7, 59, 6,  2, 7,  1730, "1730-07-02.06:59:07" );
 }
 
 sub test_parseTimeISO8601 {
@@ -136,9 +137,9 @@ sub test_parseTimeISO8601 {
     $this->checkTime( 7, 59, 6,  2, 7, 1902, "1902-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 1890, "1890-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 1730, "1730-07-02T06:59:07Z" );
-    $this->checkTime( 7, 59, 6,  2, 7, 10, "2010-07-02T06:59:07Z" );
-    $this->checkTime( 7, 59, 6,  2, 7, 99, "1999-07-02T06:59:07Z" );
-    $this->checkTime( 7, 59, 6,  2, 7, 29, "2029-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 10,   "2010-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 99,   "1999-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6,  2, 7, 29,   "2029-07-02T06:59:07Z" );
 
     if ( $^O eq 'MSWin32' ) {
         $ENV{TZ} = 'GMT-1';

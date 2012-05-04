@@ -100,15 +100,16 @@ sub view {
 
     my $requestedRev;
     if ( defined $query->param('rev') ) {
-        $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev'));
-        unless ( $requestedRev ) {
-            # Invalid request, remove it from the query. 
+        $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+        unless ($requestedRev) {
+
+            # Invalid request, remove it from the query.
             $requestedRev = undef;
             $query->delete('rev');
         }
     }
 
-    my $showLatest   = !$requestedRev;
+    my $showLatest = !$requestedRev;
     my $showRev;
 
     my $topicObject;    # the stub of the topic we are to display

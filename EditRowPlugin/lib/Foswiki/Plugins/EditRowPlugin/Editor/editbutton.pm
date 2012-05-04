@@ -6,7 +6,7 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor::label ();
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::label' );
+our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor::label');
 
 # Uneditable row index label
 sub htmlEditor {

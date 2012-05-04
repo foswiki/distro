@@ -22,31 +22,28 @@ sub loadExtraConfig {
     $this->SUPER::loadExtraConfig();
 
     $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic} =
-	"$this->{test_web}.$this->{test_topic}";
+      "$this->{test_web}.$this->{test_topic}";
     $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin} = 1;
-    $Foswiki::cfg{HomePagePlugin}{HostnameMapping} = {
-	'http://home.org' => 'Home',
-	'http://www.home.org' => 'Home.Www',
-	'http://blog.org' => 'Blog',
-	'http://www.blog.org' => 'Blog.Www',
+    $Foswiki::cfg{HomePagePlugin}{HostnameMapping}     = {
+        'http://home.org'     => 'Home',
+        'http://www.home.org' => 'Home.Www',
+        'http://blog.org'     => 'Blog',
+        'http://www.blog.org' => 'Blog.Www',
     };
 }
 
 sub test_siteDefaultTopic {
     my $this = shift;
 
-    my $query = Unit::Request->new(
-        {
-        }
-    );
+    my $query = Unit::Request->new( {} );
     $query->path_info("");
 
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
 
-    $this->assert_equals($this->{test_topic},
-			 $Foswiki::Plugins::SESSION->{topicName});
-    $this->assert_equals($this->{test_web},
-			 $Foswiki::Plugins::SESSION->{webName});
+    $this->assert_equals( $this->{test_topic},
+        $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( $this->{test_web},
+        $Foswiki::Plugins::SESSION->{webName} );
 }
 
 sub test_login {
@@ -54,22 +51,20 @@ sub test_login {
 
     my $query = Unit::Request->new(
         {
-	    username => ['dogbert'],
-	    origurl => ['spam']
+            username => ['dogbert'],
+            origurl  => ['spam']
         }
     );
     $query->path_info("");
-    $query->header('Host' => 'www.home.org');
+    $query->header( 'Host' => 'www.home.org' );
 
-    $this->{test_topicObject}->finish()           if $this->{test_topicObject};
-    $this->{session}->finish()                    if $this->{session};
-    $this->{session} = Foswiki->new( $this->{test_user_login}, $query,
-				     { login => 1 } );
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    $this->{session}->finish()          if $this->{session};
+    $this->{session} =
+      Foswiki->new( $this->{test_user_login}, $query, { login => 1 } );
 
-    $this->assert_equals('Www',
-			 $Foswiki::Plugins::SESSION->{topicName});
-    $this->assert_equals('Home',
-			 $Foswiki::Plugins::SESSION->{webName});
+    $this->assert_equals( 'Www',  $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
 }
 
 1;

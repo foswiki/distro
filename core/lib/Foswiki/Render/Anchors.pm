@@ -186,7 +186,7 @@ sub makeHTMLTarget {
 
     my $goodAnchor = make($name);
     my $id = $this->addUnique( $goodAnchor, 1 );
-    
+
     if ( $Foswiki::cfg{RequireCompatibleAnchors} ) {
 
         # Add in extra anchors compatible with old formats, as required

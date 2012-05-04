@@ -23,22 +23,26 @@ Constructor
 =cut
 
 sub new {
-  my $class = shift;
-  my $session = shift || $Foswiki::Plugins::SESSION;
+    my $class = shift;
+    my $session = shift || $Foswiki::Plugins::SESSION;
 
-  my $this = bless($class->SUPER::new( 
-    $session,
-    name => 'your',
-    version => '0.0.1',
-    author => 'The Author of the JQuery plugin',
-    homepage => 'jq module\'s URL',
-    documentation => "$Foswiki::cfg{SystemWebName}.JQueryYour",
-    puburl => '%PUBURLPATH%/%SYSTEMWEB%/EmptyJQueryPlugin/your',
-    javascript => ['jquery.your.js']
-#    ,css => ['jquery.your.js']
-  ), $class);
+    my $this = bless(
+        $class->SUPER::new(
+            $session,
+            name          => 'your',
+            version       => '0.0.1',
+            author        => 'The Author of the JQuery plugin',
+            homepage      => 'jq module\'s URL',
+            documentation => "$Foswiki::cfg{SystemWebName}.JQueryYour",
+            puburl        => '%PUBURLPATH%/%SYSTEMWEB%/EmptyJQueryPlugin/your',
+            javascript    => ['jquery.your.js']
 
-  return $this;
+              #    ,css => ['jquery.your.js']
+        ),
+        $class
+    );
+
+    return $this;
 }
 
 1;

@@ -144,14 +144,14 @@ HERE
     }
 
     if (TRACE) {
-      writeDebug("   contenttype=".$variation->{contenttype});
-      writeDebug("   lastmodified=".$variation->{lastmodified});
-      writeDebug("   etag=".$variation->{etag});
-      writeDebug("   status=".$variation->{status});
-      writeDebug("   location=".($variation->{location}||''));
-      writeDebug("   expire=".($variation->{expire}||''));
-      writeDebug("   isdirty=".$variation->{isdirty});
-      writeDebug("   md5=".$variation->{md5});
+        writeDebug( "   contenttype=" . $variation->{contenttype} );
+        writeDebug( "   lastmodified=" . $variation->{lastmodified} );
+        writeDebug( "   etag=" . $variation->{etag} );
+        writeDebug( "   status=" . $variation->{status} );
+        writeDebug( "   location=" . ( $variation->{location} || '' ) );
+        writeDebug( "   expire=" .   ( $variation->{expire}   || '' ) );
+        writeDebug( "   isdirty=" . $variation->{isdirty} );
+        writeDebug( "   md5=" . $variation->{md5} );
     }
 
     $this->{_insert_page}->execute(
@@ -248,7 +248,7 @@ See Foswiki::PageCache::deletePage() for more information.
 =cut
 
 sub deletePage {
-    my ( $this, $web, $topic, $variationKey) = @_;
+    my ( $this, $web, $topic, $variationKey ) = @_;
 
     #writeDebug("called deletePage($web, $topic)");
 
@@ -263,7 +263,8 @@ sub deletePage {
     if ( defined $variationKey ) {
         writeDebug( "DELETE page $webTopic variation=" . $variationKey );
         my $md5 = Digest::MD5::md5_hex( $web, $topic, $variationKey );
-        my $fileName = Foswiki::Sandbox::normalizeFileName($this->{cacheDir} . '/' . $md5);
+        my $fileName =
+          Foswiki::Sandbox::normalizeFileName( $this->{cacheDir} . '/' . $md5 );
         writeDebug("deleting $fileName for $webTopic");
         unlink $fileName;
 
@@ -288,10 +289,11 @@ HERE
         }
 
         writeDebug("DELETE page $webTopic");
-        $this->{dbh}->do("delete from $this->{pagesTable} where topic = '$webTopic'");
+        $this->{dbh}
+          ->do("delete from $this->{pagesTable} where topic = '$webTopic'");
     }
 
-    $this->deleteDependencies( $web, $topic, $variationKey);
+    $this->deleteDependencies( $web, $topic, $variationKey );
 
     $this->{dbh}->commit;
 }
@@ -323,7 +325,8 @@ HERE
     else {
 
         #writeDebug("DELETE dependencies of $webTopic");
-        $this->{dbh}->do("delete from $this->{depsTable} where from_topic = '$webTopic'");
+        $this->{dbh}
+          ->do("delete from $this->{depsTable} where from_topic = '$webTopic'");
     }
 }
 
@@ -352,7 +355,8 @@ HERE
 
     foreach my $toWebTopic (@topicDeps) {
         next if $toWebTopic eq $fromWebTopic;
-        writeDebug("INSERT dependency $fromWebTopic, $variationKey, $toWebTopic");
+        writeDebug(
+            "INSERT dependency $fromWebTopic, $variationKey, $toWebTopic");
         $this->{_insert_dep}
           ->execute( $fromWebTopic, $variationKey, $toWebTopic )
           or die( "Can't execute statement: " . $this->{_insert_dep}->errstr );
@@ -453,9 +457,9 @@ HERE
       )
 HERE
 
-    # (3) delete the deps of topics that we just removed
-    # SMELL: yes, I know cascaded deletes would have been better, but that
-    # doesn't seem to work on mysql and sqlite. postgresql is fine, but the rest is ...
+# (3) delete the deps of topics that we just removed
+# SMELL: yes, I know cascaded deletes would have been better, but that
+# doesn't seem to work on mysql and sqlite. postgresql is fine, but the rest is ...
     $this->{dbh}->do(<<HERE);
       delete from $this->{depsTable} where 
         from_topic not in ( select distinct topic from $this->{pagesTable} )
@@ -495,7 +499,8 @@ sub connect {
             }
         );
 
-        throw Error::Simple( "Can't open database $this->{dsn}: " . $DBI::errstr )
+        throw Error::Simple(
+            "Can't open database $this->{dsn}: " . $DBI::errstr )
           unless defined $this->{dbh};
     }
 
@@ -515,12 +520,12 @@ sub createTables {
 
     # test whether the table exists
     eval { $this->{dbh}->do("select topic from $this->{pagesTable} limit 1"); };
- 
+
     if ($@) {
         writeDebug("test result: $@");
     }
     else {
- 
+
         # when this doesn't error out, the tables are there
         return;
     }
@@ -542,7 +547,8 @@ sub createTables {
   )
 HERE
 
-    $this->{dbh}->do("create index $this->{pagesIndex} on $this->{pagesTable} (topic)");
+    $this->{dbh}
+      ->do("create index $this->{pagesIndex} on $this->{pagesTable} (topic)");
 
     $this->{dbh}->do(<<HERE);
         create table $this->{depsTable} (
@@ -551,11 +557,14 @@ HERE
           to_topic varchar(255)
         )
 HERE
+
     # SMELL: this would have been nice to auto-delete deps while deleting pages.
     # works fine in postgresql, not so in sqlite and mysql.
     # foreign key (from_topic) references pages (topic) on delete cascade
 
-    $this->{dbh}->do("create index $this->{depsIndex} on $this->{depsTable} (from_topic, to_topic)");
+    $this->{dbh}->do(
+"create index $this->{depsIndex} on $this->{depsTable} (from_topic, to_topic)"
+    );
 
 }
 
@@ -578,7 +587,7 @@ sub rebuild {
     };
 
     if ($@) {
-      print STDERR "ERROR when dropping tables: $@\n";
+        print STDERR "ERROR when dropping tables: $@\n";
     }
 
     $this->createTables;

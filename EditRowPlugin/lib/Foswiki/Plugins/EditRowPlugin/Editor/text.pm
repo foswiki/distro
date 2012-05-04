@@ -13,12 +13,13 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
+our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
 
 sub new {
-    my ($class, $type) = @_;
+    my ( $class, $type ) = @_;
+
     # Subclasses may specify a different type
-    return $class->SUPER::new($type || 'text');
+    return $class->SUPER::new( $type || 'text' );
 }
 
 sub jQueryMetadata {
@@ -27,10 +28,12 @@ sub jQueryMetadata {
     my $data = $this->SUPER::jQueryMetadata(@_);
 
     # URL of rest handler that provides text
-    $data->{loadurl} = Foswiki::Func::getScriptUrl('EditRowPlugin', 'get', 'rest',
-						   %{$cell->{row}->{table}->getURLParams()},
-						   %{$cell->{row}->getURLParams()},
-						   %{$cell->getURLParams()});
+    $data->{loadurl} = Foswiki::Func::getScriptUrl(
+        'EditRowPlugin', 'get', 'rest',
+        %{ $cell->{row}->{table}->getURLParams() },
+        %{ $cell->{row}->getURLParams() },
+        %{ $cell->getURLParams() }
+    );
 
     # JEditable "text" type requires "width" not "size"
     $data->{width} = $data->{size} . "em";

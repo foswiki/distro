@@ -197,7 +197,8 @@ sub test_compatibility1 {
     # The wikiname must be for a user who is in WikiUsers.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if ( $Foswiki::cfg{Store}{Implementation} !~ /(Rcs(Lite|Wrap)|PlainFile)$/ ) {
+    if ( $Foswiki::cfg{Store}{Implementation} !~ /(Rcs(Lite|Wrap)|PlainFile)$/ )
+    {
         return;
     }
     my ($topicObject) =

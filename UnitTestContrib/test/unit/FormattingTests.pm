@@ -290,11 +290,12 @@ sub do_test {
 
 # Formatting and WikiWord in Input Field
 sub test_escapedWikwordFormfield {
-    my $this     = shift;
+    my $this = shift;
 
     $this->expect_failure( with_dep => 'Foswiki,<,1.2' );
-    $this->annotate("Formatting in input field should not be rendered: Item11480");
- 
+    $this->annotate(
+        "Formatting in input field should not be rendered: Item11480");
+
     my $expected = <<EXPECTED;
 <input type="text" value="!WikiWord !WikiWord !WikiWord *bold* __boldItalic__ " />
 EXPECTED
@@ -333,7 +334,7 @@ ACTUAL
 
 # Item11671
 sub test_Item11671 {
-    my $this = shift;
+    my $this     = shift;
     my $expected = <<EXPECTED;
 Create A New Wiki Word
 Year 2012 A New Year

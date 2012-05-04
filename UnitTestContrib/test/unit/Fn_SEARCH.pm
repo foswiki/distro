@@ -6023,12 +6023,10 @@ sub test_pager_details_Item10350_one {
     pager="on"
 }%
 HERE
-    my $result =
-      $this->{test_topicObject}
-      ->expandMacros( $search );
+    my $result = $this->{test_topicObject}->expandMacros($search);
 
     # Should get the default search order (or an error message, perhaps?)
-    $this->assert_str_equals(<<'THERE', $result );
+    $this->assert_str_equals( <<'THERE', $result );
 System.WebChanges
 System.WebHome
 System.WebIndex
@@ -6056,12 +6054,10 @@ sub test_pager_details_Item10350_two {
     pager="on"
 }%
 HERE
-    my $result =
-      $this->{test_topicObject}
-      ->expandMacros( $search );
+    my $result = $this->{test_topicObject}->expandMacros($search);
 
     # Should get the default search order (or an error message, perhaps?)
-    $this->assert_str_equals(<<'THERE', $result );
+    $this->assert_str_equals( <<'THERE', $result );
 System.WebChanges
 System.WebHome
 System.WebIndex
@@ -6071,6 +6067,5 @@ THERE
 
     return;
 }
-
 
 1;

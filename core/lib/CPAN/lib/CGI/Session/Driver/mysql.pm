@@ -6,32 +6,31 @@ use strict;
 use Carp;
 use CGI::Session::Driver::DBI;
 
-@CGI::Session::Driver::mysql::ISA       = qw( CGI::Session::Driver::DBI );
-$CGI::Session::Driver::mysql::VERSION   = '4.38';
+@CGI::Session::Driver::mysql::ISA     = qw( CGI::Session::Driver::DBI );
+$CGI::Session::Driver::mysql::VERSION = '4.38';
 
 sub _mk_dsnstr {
-    my ($class, $dsn) = @_;
-    unless ( $class && $dsn && ref($dsn) && (ref($dsn) eq 'HASH')) {
+    my ( $class, $dsn ) = @_;
+    unless ( $class && $dsn && ref($dsn) && ( ref($dsn) eq 'HASH' ) ) {
         croak "_mk_dsnstr(): usage error";
     }
 
     my $dsnstr = $dsn->{DataSource};
     if ( $dsn->{Socket} ) {
-        $dsnstr .= sprintf(";mysql_socket=%s", $dsn->{Socket});
+        $dsnstr .= sprintf( ";mysql_socket=%s", $dsn->{Socket} );
     }
     if ( $dsn->{Host} ) {
-        $dsnstr .= sprintf(";host=%s", $dsn->{Host});
+        $dsnstr .= sprintf( ";host=%s", $dsn->{Host} );
     }
     if ( $dsn->{Port} ) {
-        $dsnstr .= sprintf(";port=%s", $dsn->{Port});
+        $dsnstr .= sprintf( ";port=%s", $dsn->{Port} );
     }
     return $dsnstr;
 }
 
-
 sub init {
     my $self = shift;
-    if ( $self->{DataSource} && ($self->{DataSource} !~ /^dbi:mysql/i) ) {
+    if ( $self->{DataSource} && ( $self->{DataSource} !~ /^dbi:mysql/i ) ) {
         $self->{DataSource} = "dbi:mysql:database=" . $self->{DataSource};
     }
 
@@ -43,22 +42,27 @@ sub init {
 
 sub store {
     my $self = shift;
-    my ($sid, $datastr) = @_;
+    my ( $sid, $datastr ) = @_;
     croak "store(): usage error" unless $sid && $datastr;
 
     my $dbh = $self->{Handle};
-    $dbh->do("INSERT INTO " . $self->table_name .
-			 " ($self->{IdColName}, $self->{DataColName}) VALUES(?, ?) ON DUPLICATE KEY UPDATE $self->{DataColName} = ?",
-			 undef, $sid, $datastr, $datastr)
-        or return $self->set_error( "store(): \$dbh->do failed " . $dbh->errstr );
+    $dbh->do(
+        "INSERT INTO "
+          . $self->table_name
+          . " ($self->{IdColName}, $self->{DataColName}) VALUES(?, ?) ON DUPLICATE KEY UPDATE $self->{DataColName} = ?",
+        undef,
+        $sid,
+        $datastr,
+        $datastr
+      )
+      or return $self->set_error( "store(): \$dbh->do failed " . $dbh->errstr );
     return 1;
 }
-
 
 sub table_name {
     my $self = shift;
 
-    return  $self->SUPER::table_name(@_);
+    return $self->SUPER::table_name(@_);
 }
 
 1;

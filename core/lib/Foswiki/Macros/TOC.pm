@@ -221,7 +221,8 @@ sub TOC {
         }
 
         # add a anchor to be able to jump to the toc and add a outer div
-        return CGI::div( { -class => 'foswikiToc', -id => $tocId }, "$title$result\n" );
+        return CGI::div( { -class => 'foswikiToc', -id => $tocId },
+            "$title$result\n" );
 
     }
     else {

@@ -12,7 +12,7 @@ package Foswiki::Plugins::EmptyJQueryPlugin;
 use strict;
 use warnings;
 
-use Foswiki::Func ();       # The plugins API
+use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 our $VERSION = '$Rev$';
@@ -45,10 +45,10 @@ sub initPlugin {
             __PACKAGE__, ' and Plugins.pm' );
         return 0;
     }
-    if ($Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled}) {
+    if ( $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} ) {
         require Foswiki::Plugins::JQueryPlugin;
-        Foswiki::Plugins::JQueryPlugin::registerPlugin("Your",
-        'Foswiki::Plugins::EmptyJQueryPlugin::YOUR');
+        Foswiki::Plugins::JQueryPlugin::registerPlugin( "Your",
+            'Foswiki::Plugins::EmptyJQueryPlugin::YOUR' );
     }
 
     # Plugin correctly initialized

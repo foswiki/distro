@@ -404,7 +404,10 @@ sub redirect {
     return unless $url;
 
     $status = 302 unless $status;
-    ASSERT( $status =~ /^30\d( [^\r\n]*)?$/, "Not a valid redirect status: '$status'" ) if DEBUG;
+    ASSERT(
+        $status =~ /^30\d( [^\r\n]*)?$/,
+        "Not a valid redirect status: '$status'"
+    ) if DEBUG;
     return if ( $status && $status !~ /^\s*3\d\d.*/ );
 
     my @headers = ( -Location => $url );

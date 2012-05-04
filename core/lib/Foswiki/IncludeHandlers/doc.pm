@@ -237,7 +237,8 @@ sub _loadPublishedAPI {
         PUBLISHED_API_TOPIC );
     my @ret;
     for my $line ( split /\r?\n/, $text ) {
-        #| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func][Foswiki::Func]] | 1.1.5 | Main API. |
+
+#| [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func][Foswiki::Func]] | 1.1.5 | Main API. |
         $line =~ /^\|\s*\[\[.*?PerlDoc.*?\]\[(.*?)\]\]/
           and push @ret, $1;
     }

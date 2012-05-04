@@ -89,40 +89,40 @@ sub extract {
     local $SIG{__WARN__} = sub { die @_ };
 
     # Perl code:
-    my ( $state, $line_offset, $str, $str_part, $vars, $quo, $heredoc )
-        = ( 0, 0 );
+    my ( $state, $line_offset, $str, $str_part, $vars, $quo, $heredoc ) =
+      ( 0, 0 );
     my $orig = 1 + ( () = ( ( my $__ = $_ ) =~ /\n/g ) );
 
-PARSER: {
+  PARSER: {
         $_ = substr( $_, pos($_) ) if ( pos($_) );
         my $line = $orig - ( () = ( ( my $__ = $_ ) =~ /\n/g ) );
 
         # various ways to spell the localization function
         $state == NUL
-            && m/\b(translate|maketext|gettext|__?|loc(?:ali[sz]e)?|x)/gc
-            && do { $state = BEG; redo };
+          && m/\b(translate|maketext|gettext|__?|loc(?:ali[sz]e)?|x)/gc
+          && do { $state = BEG; redo };
         $state == BEG && m/^([\s\t\n]*)/gc && redo;
 
         # begin ()
         $state == BEG
-            && m/^([\S\(])\s*/gc
-            && do { $state = ( ( $1 eq '(' ) ? PAR : NUL ); redo };
+          && m/^([\S\(])\s*/gc
+          && do { $state = ( ( $1 eq '(' ) ? PAR : NUL ); redo };
 
         # concat
         $state == PAR
-            && defined($str)
-            && m/^(\s*\.\s*)/gc
-            && do { $line_offset += ( () = ( ( my $__ = $1 ) =~ /\n/g ) ); redo };
+          && defined($str)
+          && m/^(\s*\.\s*)/gc
+          && do { $line_offset += ( () = ( ( my $__ = $1 ) =~ /\n/g ) ); redo };
 
         # str_part
         $state == PAR && defined($str_part) && do {
             if ( ( $quo == QUO1 ) || ( $quo == QUO5 ) ) {
                 $str_part =~ s/\\([\\'])/$1/g
-                    if ($str_part);    # normalize q strings
+                  if ($str_part);    # normalize q strings
             }
             elsif ( $quo != QUO6 ) {
                 $str_part =~ s/(\\(?:[0x]..|c?.))/"qq($1)"/eeg
-                    if ($str_part);    # normalize qq / qx strings
+                  if ($str_part);    # normalize qq / qx strings
             }
             $str .= $str_part;
             undef $str_part;
@@ -156,33 +156,33 @@ PARSER: {
         # find heredoc terminator, then get the
         #heredoc and go back to current position
         $state == PAR
-            && m/^<<\s*\'/gc
-            && do { $state = $quo = QUO6; $heredoc = ''; redo };
+          && m/^<<\s*\'/gc
+          && do { $state = $quo = QUO6; $heredoc = ''; redo };
         $state == QUO6 && m/^([^'\\\n]+)/gc && do { $heredoc .= $1; redo };
         $state == QUO6 && m/^((?:\\.)+)/gc  && do { $heredoc .= $1; redo };
         $state == QUO6
-            && m/^\'/gc
-            && do { $state = HERE; $heredoc =~ s/\\\'/\'/g; redo };
+          && m/^\'/gc
+          && do { $state = HERE; $heredoc =~ s/\\\'/\'/g; redo };
 
         $state == PAR
-            && m/^<<\s*\"/gc
-            && do { $state = $quo = QUO7; $heredoc = ''; redo };
+          && m/^<<\s*\"/gc
+          && do { $state = $quo = QUO7; $heredoc = ''; redo };
         $state == QUO7 && m/^([^"\\\n]+)/gc && do { $heredoc .= $1; redo };
         $state == QUO7 && m/^((?:\\.)+)/gc  && do { $heredoc .= $1; redo };
         $state == QUO7
-            && m/^\"/gc
-            && do { $state = HERE; $heredoc =~ s/\\\"/\"/g; redo };
+          && m/^\"/gc
+          && do { $state = HERE; $heredoc =~ s/\\\"/\"/g; redo };
 
         $state == PAR
-            && m/^<<(\w*)/gc
-            && do { $state = HERE; $quo = QUO7; $heredoc = $1; redo };
+          && m/^<<(\w*)/gc
+          && do { $state = HERE; $quo = QUO7; $heredoc = $1; redo };
 
         # jump ahaid and get the heredoc, then s/// also
         # resets the pos and we are back at the current pos
         $state == HERE
-            && m/^.*\r?\n/gc
-            && s/\G(.*?\r?\n)$heredoc(\r?\n)//s
-            && do { $state = PAR; $str_part .= $1; $line_offset++; redo };
+          && m/^.*\r?\n/gc
+          && s/\G(.*?\r?\n)$heredoc(\r?\n)//s
+          && do { $state = PAR; $str_part .= $1; $line_offset++; redo };
 
         # end ()
         #
@@ -191,15 +191,15 @@ PARSER: {
             $state = NUL;
             $vars =~ s/[\n\r]//g if ($vars);
             $self->add_entry( $str,
-                              $line - ( () = $str =~ /\n/g ) - $line_offset,
-                              $vars )
-                if $str;
+                $line - ( () = $str =~ /\n/g ) - $line_offset, $vars )
+              if $str;
             undef $str;
             undef $vars;
             undef $heredoc;
             $line_offset = 0;
             redo;
         };
+
         # a line of vars
         $state == PAR && m/^([^\)]*)/gc && do { $vars .= "$1\n"; redo };
     }

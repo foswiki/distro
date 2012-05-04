@@ -4,8 +4,9 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '1.7.1'; # keep in synch with jquery.jeditable.js
-our $SHORTDESCRIPTION = 'The JQuery "JEditable" plugin, packaged for use in Foswiki';
+our $RELEASE = '1.7.1';    # keep in synch with jquery.jeditable.js
+our $SHORTDESCRIPTION =
+  'The JQuery "JEditable" plugin, packaged for use in Foswiki';
 
 =begin TML
 
@@ -18,13 +19,16 @@ Foswiki::Contrib::JEditableContrib::init();
 =cut
 
 sub init {
-    unless (Foswiki::Plugins::JQueryPlugin::registerPlugin(
-		'JEditable',
-		'Foswiki::Contrib::JEditableContrib::JEDITABLE')) {
-	die 'Failed to register JEditable plugin';
+    unless (
+        Foswiki::Plugins::JQueryPlugin::registerPlugin(
+            'JEditable', 'Foswiki::Contrib::JEditableContrib::JEDITABLE'
+        )
+      )
+    {
+        die 'Failed to register JEditable plugin';
     }
-    unless ( Foswiki::Plugins::JQueryPlugin::createPlugin( "JEditable" )) {
-	die 'Failed to create JEditable plugin';
+    unless ( Foswiki::Plugins::JQueryPlugin::createPlugin("JEditable") ) {
+        die 'Failed to create JEditable plugin';
     }
     return 1;
 }

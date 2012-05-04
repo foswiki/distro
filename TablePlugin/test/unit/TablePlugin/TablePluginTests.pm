@@ -1306,11 +1306,12 @@ sub test_include_missing_definition {
 END
 
     # include this in our test topic
-    my $topicName       = $this->{test_topic};
-    my $webName         = $this->{test_web};
-    my $cgi             = $this->{request};
-    my $url             = $cgi->url( -absolute => 1 );
-    my $defTopicViewUrl         = Foswiki::Func::getScriptUrlPath($webName, $tableDefTopic, 'view');
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $cgi       = $this->{request};
+    my $url       = $cgi->url( -absolute => 1 );
+    my $defTopicViewUrl =
+      Foswiki::Func::getScriptUrlPath( $webName, $tableDefTopic, 'view' );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
 
     my $input = <<END;

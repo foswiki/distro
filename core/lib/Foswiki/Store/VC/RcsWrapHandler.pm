@@ -147,7 +147,7 @@ sub ci {
               . ' failed: '
               . $exit . ' '
               . $rcsOutput
-			     . ((DEBUG) ? $stderr : ''));
+              . ( (DEBUG) ? $stderr : '' ) );
     }
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }

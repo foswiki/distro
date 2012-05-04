@@ -890,8 +890,9 @@ sub verify_rejectDuplicateEmail {
     my $this = shift;
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     $Foswiki::cfg{Register}{UniqueEmail}      = 1;
+
     #$Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName}   = 0;
+    $Foswiki::cfg{Register}{AllowLoginName} = 0;
     my $query = Unit::Request->new(
         {
             'TopicName'     => ['UserRegistration'],
@@ -1004,6 +1005,7 @@ sub verify_rejectFilteredEmail {
     my $this = shift;
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     $Foswiki::cfg{Register}{UniqueEmail}      = 0;
+
     # Include a trailing and other whitespace - a common config error
     $Foswiki::cfg{Register}{EmailFilter} =
       '@(?!( gooddomain\.com | gooddomain\.net )$) ';

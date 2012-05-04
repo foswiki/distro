@@ -57,8 +57,8 @@ package Foswiki::PageCache;
 
 use strict;
 use warnings;
-use Foswiki::Time  ();
-use Foswiki::Attrs ();
+use Foswiki::Time    ();
+use Foswiki::Attrs   ();
 use Foswiki::Plugins ();
 use Error qw( :try );
 use CGI::Util ();
@@ -79,7 +79,7 @@ Construct a new page cache
 =cut
 
 sub new {
-    my ( $class ) = @_;
+    my ($class) = @_;
 
     return bless( {}, $class );
 }
@@ -137,7 +137,7 @@ sub genVariationKey {
     my $sessionValues = $session->getLoginManager()->getSessionValues();
     foreach my $key ( sort keys %$sessionValues ) {
 
-        # SMELL: add a setting to make exclusion of session variables configurable 
+      # SMELL: add a setting to make exclusion of session variables configurable
         next
           if $key =~
 /^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|DGP_hash)$/o;
@@ -167,8 +167,8 @@ sub genVariationKey {
         next if $key =~ /^($ignoreParams)$/;
         my @vals = $request->param($key);
         foreach my $val (@vals) {
-          $variationKey .= '::' . $key . '=' . $val;
-          writeDebug("adding urlparam key=$key val=$val");
+            $variationKey .= '::' . $key . '=' . $val;
+            writeDebug("adding urlparam key=$key val=$val");
         }
     }
 
@@ -210,10 +210,10 @@ sub cachePage {
 
     # remove old entries
     if ( $refresh =~ /^(on|cache|all)$/o ) {
-        $this->deletePage( $web, $topic);    # removes all variations
+        $this->deletePage( $web, $topic );    # removes all variations
     }
     else {
-        $this->deletePage( $web, $topic, $variationKey);
+        $this->deletePage( $web, $topic, $variationKey );
     }
 
     # prepair page variation
@@ -250,7 +250,8 @@ sub cachePage {
 
     # get cache-expiry preferences and add it to the bucket if available
     my $expire = $request->param("cache_expire");
-    $expire = $session->{prefs}->getPreference('CACHEEXPIRE') unless defined $expire;
+    $expire = $session->{prefs}->getPreference('CACHEEXPIRE')
+      unless defined $expire;
     $variation->{expire} = CGI::Util::expire_calc($expire)
       if defined $expire;
 
@@ -367,9 +368,10 @@ sub isCacheable {
     $isCacheable = 0 if $request->method eq 'POST';
 
     if ($isCacheable) {
-      # check prefs value
-      my $flag = $session->{prefs}->getPreference('CACHEABLE');
-      $isCacheable = 0 if defined $flag && !Foswiki::isTrue($flag);
+
+        # check prefs value
+        my $flag = $session->{prefs}->getPreference('CACHEABLE');
+        $isCacheable = 0 if defined $flag && !Foswiki::isTrue($flag);
     }
 
     # TODO: give plugins a chance - create a callback to intercept cacheability
@@ -402,7 +404,8 @@ sub addDependency {
 
     # exclude unwanted dependencies
     if ( $depWebTopic =~ /^($Foswiki::cfg{Cache}{DependencyFilter})$/o ) {
-        #writeDebug( "dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}");
+
+#writeDebug( "dependency on $depWebTopic ignored by filter $Foswiki::cfg{Cache}{DependencyFilter}");
         return;
     }
     else {
@@ -574,12 +577,9 @@ sub renderDirtyAreas {
     $session->enterContext('dirtyarea');
 
     # remember the current page length to recompute the content length below
-    my $found    = 0;
-    my $topicObj = new Foswiki::Meta(
-        $session,
-        $session->{webName},
-        $session->{topicName}
-    );
+    my $found = 0;
+    my $topicObj =
+      new Foswiki::Meta( $session, $session->{webName}, $session->{topicName} );
 
     # expand dirt
     while ( $$text =~
@@ -606,9 +606,9 @@ sub _handleDirtyArea {
     writeDebug("_handleDirtyArea($args) called in text='$text'");
 
     # add dirtyarea params
-    my $params = new Foswiki::Attrs($args);
+    my $params  = new Foswiki::Attrs($args);
     my $session = $Foswiki::Plugins::SESSION;
-    my $prefs  = $session->{prefs};
+    my $prefs   = $session->{prefs};
 
     $prefs->pushTopicContext( $topicObj->web, $topicObj->topic );
     $params->remove('_RAW');

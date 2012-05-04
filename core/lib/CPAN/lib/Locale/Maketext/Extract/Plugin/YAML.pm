@@ -93,7 +93,6 @@ or use the file_types to exclude that file.
 
 =cut
 
-
 sub file_types {
     return qw( yaml yml conf );
 }
@@ -105,12 +104,11 @@ sub extract {
     my $y = Locale::Maketext::Extract::Plugin::YAML::Extractor->new();
     $y->load($data);
 
-    foreach my $entry (@{$y->found}) {
-        $self->add_entry(@$entry)
+    foreach my $entry ( @{ $y->found } ) {
+        $self->add_entry(@$entry);
     }
 
 }
-
 
 package Locale::Maketext::Extract::Plugin::YAML::Extractor;
 
@@ -118,7 +116,8 @@ use base qw(YAML::Loader);
 
 #===================================
 sub new {
-#===================================
+
+    #===================================
     my $class = shift;
     my $self  = $class->SUPER::new(@_);
     $self->{found} = [];
@@ -127,7 +126,8 @@ sub new {
 
 #===================================
 sub check_scalar {
-#===================================
+
+    #===================================
     my $self = shift;
     my $node = $_[0];
     if ( defined $node && !ref $node && $node =~ /^__?(["'])(.+)\1$/s ) {
@@ -140,15 +140,16 @@ sub check_scalar {
 
 sub _parse_node {
     my $self = shift;
-    my $line = $self->{_start_line}||=length($self->preface) ? $self->line - 1 : $self->line;
+    my $line = $self->{_start_line} ||=
+      length( $self->preface ) ? $self->line - 1 : $self->line;
     my $node = $self->SUPER::_parse_node(@_);
     $self->{start_line} = 0;
-    return $self->check_scalar($node,$line);
+    return $self->check_scalar( $node, $line );
 }
 
 sub _parse_inline_seq {
     my $self = shift;
-    my $line = $self->{_start_line}||=$self->line;
+    my $line = $self->{_start_line} ||= $self->line;
     my $node = $self->SUPER::_parse_inline_seq(@_);
     foreach (@$node) {
         $self->check_scalar( $_, $line );
@@ -159,7 +160,7 @@ sub _parse_inline_seq {
 
 sub _parse_inline_mapping {
     my $self = shift;
-    my $line = $self->{_start_line}||=$self->line;
+    my $line = $self->{_start_line} ||= $self->line;
     my $node = $self->SUPER::_parse_inline_mapping(@_);
     foreach ( values %$node ) {
         $self->check_scalar( $_, $line );
@@ -170,10 +171,11 @@ sub _parse_inline_mapping {
 
 #===================================
 sub _parse_next_line {
-#===================================
+
+    #===================================
     my $self = shift;
-    $self->{_start_line}  = $self->line
-        if $_[0] == YAML::Loader::COLLECTION;
+    $self->{_start_line} = $self->line
+      if $_[0] == YAML::Loader::COLLECTION;
     $self->SUPER::_parse_next_line(@_);
 }
 
@@ -242,6 +244,5 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 =cut
-
 
 1;

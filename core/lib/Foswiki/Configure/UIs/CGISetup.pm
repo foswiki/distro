@@ -362,7 +362,7 @@ sub _loadDEPENDENCIES {
     my $from = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec');
     my @dir  = File::Spec->splitdir($from);
     pop(@dir);    # Cutting off trailing Foswiki.spec gives us lib dir
-    push(@dir, 'Foswiki', 'Contrib', 'core');
+    push( @dir, 'Foswiki', 'Contrib', 'core' );
     $from = File::Spec->catfile( @dir, 'DEPENDENCIES' );
     my $d;
     open( $d, '<', $from ) || return 'Failed to load DEPENDENCIES: ' . $!;

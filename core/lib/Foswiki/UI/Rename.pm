@@ -71,7 +71,7 @@ sub rename {
         $new_url = $session->redirectto($redirectto_param);
     }
 
-    $session->redirect( $new_url ) if $new_url;
+    $session->redirect($new_url) if $new_url;
 }
 
 # Rename a topic
@@ -391,13 +391,18 @@ sub _renameWeb {
         }
     }
 
-    if ( $oldWeb eq $Foswiki::cfg{SystemWebName} || $oldWeb eq $Foswiki::cfg{UsersWebName} ) {
+    if (   $oldWeb eq $Foswiki::cfg{SystemWebName}
+        || $oldWeb eq $Foswiki::cfg{UsersWebName} )
+    {
         throw Foswiki::OopsException(
             'attention',
             web    => $oldWeb,
             topic  => '',
             def    => 'rename_web_err',
-            params => [ "Rename is not permitted, it would damage the installation" , 'anything' ]
+            params => [
+                "Rename is not permitted, it would damage the installation",
+                'anything'
+            ]
         );
     }
 

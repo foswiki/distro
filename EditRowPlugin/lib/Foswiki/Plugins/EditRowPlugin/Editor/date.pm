@@ -6,7 +6,7 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
+our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
 
 use Foswiki::Contrib::JSCalendarContrib ();
 
@@ -19,10 +19,11 @@ sub new {
 sub jQueryMetadata {
     my ( $this, $cell, $colDef, $text ) = @_;
     my $data = $this->SUPER::jQueryMetadata( $cell, $colDef, $text );
-    my $format = $colDef->{values}->[0]
-	|| Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
-	|| $Foswiki::cfg{JSCalendarContrib}{format}
-        || '%e %b %Y';
+    my $format =
+         $colDef->{values}->[0]
+      || Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
+      || $Foswiki::cfg{JSCalendarContrib}{format}
+      || '%e %b %Y';
     $data->{format} = $format;
     return $data;
 }
@@ -32,9 +33,9 @@ sub htmlEditor {
 
     # NOTE: old versions of JSCalendarContrib won't fire onchange
     return Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
-	$cell->getCellName(), $unexpandedValue,
-	$colDef->{values}->[0],
-	{ class => 'erpJS_input' });
+        $cell->getCellName(), $unexpandedValue,
+        $colDef->{values}->[0], { class => 'erpJS_input' }
+    );
 }
 
 1;

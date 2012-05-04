@@ -8,11 +8,10 @@ use Foswiki::Configure::Checker ();
 our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {
-    my $this      = shift;
-    my $e         = '';
+    my $this = shift;
+    my $e    = '';
 
-    if ( $Foswiki::cfg{MergeHeadAndScriptZones}   )
-    {
+    if ( $Foswiki::cfg{MergeHeadAndScriptZones} ) {
         $e .= $this->WARN(<<'MESSAGE');
 This feature will be removed from a future version of Foswiki.
 Please update any extensions that rely on this behaviour. See

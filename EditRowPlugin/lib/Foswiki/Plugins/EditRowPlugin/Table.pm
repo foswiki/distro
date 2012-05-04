@@ -4,10 +4,10 @@ package Foswiki::Plugins::EditRowPlugin::Table;
 use strict;
 use Assert;
 
-use Foswiki::Attrs ();
-use Foswiki::Func ();
+use Foswiki::Attrs                            ();
+use Foswiki::Func                             ();
 use Foswiki::Plugins::EditRowPlugin::TableRow ();
-use Foswiki::Plugins::EditRowPlugin::Editor ();
+use Foswiki::Plugins::EditRowPlugin::Editor   ();
 
 use constant {
     ADD_ROW    => 'Add new row after this row / at the end',
@@ -73,11 +73,15 @@ sub new {
     $attrs->{quietsave} = Foswiki::Func::isTrue($q);
 
     $attrs->{js} ||= Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_JS');
-    if (!defined $attrs->{js}) {
-	$attrs->{require_js} ||= Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS');
-	if (defined $attrs->{require_js}) {
-	    $attrs->{js} = Foswiki::Func::isTrue($attrs->{require_js}) ? 'assumed' : 'preferred';
-	}
+    if ( !defined $attrs->{js} ) {
+        $attrs->{require_js} ||=
+          Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS');
+        if ( defined $attrs->{require_js} ) {
+            $attrs->{js} =
+              Foswiki::Func::isTrue( $attrs->{require_js} )
+              ? 'assumed'
+              : 'preferred';
+        }
     }
     $attrs->{js} ||= 'preferred';
 
@@ -198,7 +202,8 @@ sub getLabelRow() {
     foreach my $row ( @{ $this->{rows} } ) {
         if ( $row->isHeader() ) {
             $labelRow = $row;
-        } else {
+        }
+        else {
 
             # the last header row is always taken as the label row
             last;
@@ -223,143 +228,184 @@ sub render {
 
     $this->_finalise();
 
-    my $editing = ($opts->{for_edit} && $this->can_edit());
-    my $wholeTable  = ( defined $opts->{active_row} && $opts->{active_row} <= 0 );
+    my $editing = ( $opts->{for_edit} && $this->can_edit() );
+    my $wholeTable =
+      ( defined $opts->{active_row} && $opts->{active_row} <= 0 );
 
-    push(@out, "<a name='erp_$this->{id}'></a>")
-	unless $this->{attrs}->{js} eq 'assumed';
+    push( @out, "<a name='erp_$this->{id}'></a>" )
+      unless $this->{attrs}->{js} eq 'assumed';
 
     my $orientation = $this->{attrs}->{orientrowedit} || 'horizontal';
+
     # Disallow vertical display for whole table edits
     $orientation = 'horizontal' if $wholeTable;
 
-    if ($editing && $this->{attrs}->{js} ne 'assumed') {
-	my $format = $attrs->{format} || '';
-	# SMELL: Have to double-encode the format param to defend it
-	# against the rest of Foswiki. We use the escape char '-' as it
-	# isn't used by Foswiki.
-	$format =~ s/([][@\s%!:-])/sprintf('-%02x',ord($1))/ge;
-	push( @out, CGI::hidden( "erp_$this->{id}_format", $format ) );
-	if ( $attrs->{headerrows} ) {
-	    push( @out, CGI::hidden( "erp_$this->{id}_headerrows",
-				     $attrs->{headerrows} ) );
-	}
-	if ( $attrs->{footerrows} ) {
-	    push( @out, CGI::hidden( "erp_$this->{id}_footerrows",
-				     $attrs->{footerrows} ) );
-	}
+    if ( $editing && $this->{attrs}->{js} ne 'assumed' ) {
+        my $format = $attrs->{format} || '';
+
+        # SMELL: Have to double-encode the format param to defend it
+        # against the rest of Foswiki. We use the escape char '-' as it
+        # isn't used by Foswiki.
+        $format =~ s/([][@\s%!:-])/sprintf('-%02x',ord($1))/ge;
+        push( @out, CGI::hidden( "erp_$this->{id}_format", $format ) );
+        if ( $attrs->{headerrows} ) {
+            push(
+                @out,
+                CGI::hidden(
+                    "erp_$this->{id}_headerrows", $attrs->{headerrows}
+                )
+            );
+        }
+        if ( $attrs->{footerrows} ) {
+            push(
+                @out,
+                CGI::hidden(
+                    "erp_$this->{id}_footerrows", $attrs->{footerrows}
+                )
+            );
+        }
     }
 
-    my $n           = 0;                # displayed row index
-    my $r           = 0;                # real row index
+    my $n        = 0;    # displayed row index
+    my $r        = 0;    # real row index
     my %row_opts = (
-	col_defs => $this->{colTypes},
-	js => $this->{attrs}->{js},
-	with_controls => $this->can_edit()
-	&& (($editing && !$wholeTable)
-	    || (!$editing &&
-		$opts->{with_controls} && $this->{attrs}->{disable} !~ /row/ ) ) );
+        col_defs      => $this->{colTypes},
+        js            => $this->{attrs}->{js},
+        with_controls => $this->can_edit()
+          && (
+            ( $editing && !$wholeTable )
+            || (  !$editing
+                && $opts->{with_controls}
+                && $this->{attrs}->{disable} !~ /row/ )
+          )
+    );
 
-    my %render_opts = (	need_tabledata => 1	);
+    my %render_opts = ( need_tabledata => 1 );
 
     foreach my $row ( @{ $this->{rows} } ) {
-	my $isLard = ( $row->{isHeader} || $row->{isFooter} );
-	$n++ unless $isLard;
+        my $isLard = ( $row->{isHeader} || $row->{isFooter} );
+        $n++ unless $isLard;
 
-	my $rowtext;
-	if ( $editing && (++$r == $opts->{active_row} || $wholeTable && !$isLard ) ) {
-	    # Render an editable row
-	    # Get the row from the real_table, read raw from the topic
-	    my $real_row = $opts->{real_table} ?
-		$opts->{real_table}->{rows}->[ $r - 1 ] : $row;
-	    if ( $real_row ) {
-		push( @out,
-		      $real_row->render({ %row_opts,
-					  for_edit => 1,
-					  orient => $orientation},
-					\%render_opts));
-	    }
-	}
-	else {
-	    push( @out, $row->render(\%row_opts, \%render_opts));
-	}
+        my $rowtext;
+        if ( $editing
+            && ( ++$r == $opts->{active_row} || $wholeTable && !$isLard ) )
+        {
+
+            # Render an editable row
+            # Get the row from the real_table, read raw from the topic
+            my $real_row =
+                $opts->{real_table}
+              ? $opts->{real_table}->{rows}->[ $r - 1 ]
+              : $row;
+            if ($real_row) {
+                push(
+                    @out,
+                    $real_row->render(
+                        {
+                            %row_opts,
+                            for_edit => 1,
+                            orient   => $orientation
+                        },
+                        \%render_opts
+                    )
+                );
+            }
+        }
+        else {
+            push( @out, $row->render( \%row_opts, \%render_opts ) );
+        }
     }
     if ($editing) {
-	if ($wholeTable && $this->{attrs}->{js} ne 'assumed') {
-	    # JS is ignored or preferred, need manual edit controls
-	    push( @out, $this->generateEditButtons( 0, 0, 1 ) );
-	    my $help = $this->generateHelp();
-	    push( @out, $help ) if $help;
-	}
-    } elsif ($opts->{with_controls} && $this->can_edit() &&
-	     $this->{attrs}->{js} ne 'assumed'&&
-	     $this->{attrs}->{js} ne 'rowmoved') {
-	# Generate the buttons at the bottom of the table
+        if ( $wholeTable && $this->{attrs}->{js} ne 'assumed' ) {
 
-	# A  bit of a hack. If the user isn't logged in, then show the
-	# table edit button anyway, but redirect them to viewauth to force
-	# login.
-	my $script = ( Foswiki::Func::getContext()->{authenticated} ?
-		       'view' : 'viewauth' );
+            # JS is ignored or preferred, need manual edit controls
+            push( @out, $this->generateEditButtons( 0, 0, 1 ) );
+            my $help = $this->generateHelp();
+            push( @out, $help ) if $help;
+        }
+    }
+    elsif ($opts->{with_controls}
+        && $this->can_edit()
+        && $this->{attrs}->{js} ne 'assumed'
+        && $this->{attrs}->{js} ne 'rowmoved' )
+    {
 
-	# Show full-table-edit control
-	my $active_topic = "$this->{web}.$this->{topic}";
-	if ( $this->{attrs}->{disable} !~ /full/ ) {
+        # Generate the buttons at the bottom of the table
 
-	    # Full table editing is not disabled
-	    my $title  = "Edit full table";
-	    my $button = CGI::img(
-		{
-		    -name   => "erp_edit_$this->{id}",
-		    -border => 0,
-		    -src =>
-			'%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.png',
-			-title => $title,
-		});
-	    my $url = Foswiki::Func::getScriptUrl(
-		$this->{web}, $this->{topic}, $script,
-		erp_active_topic => $active_topic,
-		erp_active_table => $this->{id},
-		erp_active_row   => -1,
-		'#'              => 'erp_' . $this->{id}
-		);
+        # A  bit of a hack. If the user isn't logged in, then show the
+        # table edit button anyway, but redirect them to viewauth to force
+        # login.
+        my $script = (
+            Foswiki::Func::getContext()->{authenticated}
+            ? 'view'
+            : 'viewauth'
+        );
 
-	    push( @out,
-		  "<a name='erp_$this->{id}'></a>"
-		  . "<a href='$url' title='$title'>"
-		  . $button
-		  . '</a><br />' );
-	}
-	elsif (Foswiki::Func::isTrue($this->{attrs}->{changerows})
-	       && $this->{attrs}->{disable} !~ /row/ )
-	{
-	    # We are going into single row editing mode
-	    my $title  = "Add row to end of table";
-	    my $button = CGI::img(
-		{
-		    -name   => "erp_edit_$this->{id}",
-		    -border => 0,
-		    -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.png',
-		    -title => $title,
-		},
-		''
-		);
-	    my $url;
+        # Show full-table-edit control
+        my $active_topic = "$this->{web}.$this->{topic}";
+        if ( $this->{attrs}->{disable} !~ /full/ ) {
 
-	    # erp_unchanged=1 prevents addRow from trying to
-	    # save changes in the table. erp_active_row is set to -2
-	    # so that addRow enters single row editing mode (see sub addRow)
-	    $url = Foswiki::Func::getScriptUrl(
-		'EditRowPlugin', 'save', 'rest',
-		%{$this->getURLParams(
-		      erp_active_row => -2,
-		      erp_unchanged  => 1,
-		      erp_action     => 'addRow',
-		      '#'            => 'erp_' . $this->{id})});
+            # Full table editing is not disabled
+            my $title  = "Edit full table";
+            my $button = CGI::img(
+                {
+                    -name   => "erp_edit_$this->{id}",
+                    -border => 0,
+                    -src =>
+                      '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.png',
+                    -title => $title,
+                }
+            );
+            my $url = Foswiki::Func::getScriptUrl(
+                $this->{web}, $this->{topic}, $script,
+                erp_active_topic => $active_topic,
+                erp_active_table => $this->{id},
+                erp_active_row   => -1,
+                '#'              => 'erp_' . $this->{id}
+            );
 
-	    # Full table disabled, but not row
-	    push( @out, "<a href='$url' title='$title'>$button</a><br />" );
-	}
+            push( @out,
+                    "<a name='erp_$this->{id}'></a>"
+                  . "<a href='$url' title='$title'>"
+                  . $button
+                  . '</a><br />' );
+        }
+        elsif ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} )
+            && $this->{attrs}->{disable} !~ /row/ )
+        {
+
+            # We are going into single row editing mode
+            my $title  = "Add row to end of table";
+            my $button = CGI::img(
+                {
+                    -name   => "erp_edit_$this->{id}",
+                    -border => 0,
+                    -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.png',
+                    -title => $title,
+                },
+                ''
+            );
+            my $url;
+
+            # erp_unchanged=1 prevents addRow from trying to
+            # save changes in the table. erp_active_row is set to -2
+            # so that addRow enters single row editing mode (see sub addRow)
+            $url = Foswiki::Func::getScriptUrl(
+                'EditRowPlugin',
+                'save', 'rest',
+                %{
+                    $this->getURLParams(
+                        erp_active_row => -2,
+                        erp_unchanged  => 1,
+                        erp_action     => 'addRow',
+                        '#'            => 'erp_' . $this->{id}
+                    )
+                  }
+            );
+
+            # Full table disabled, but not row
+            push( @out, "<a href='$url' title='$title'>$button</a><br />" );
+        }
     }
     return join( "\n", @out ) . "\n";
 }
@@ -370,32 +416,35 @@ sub can_edit {
 }
 
 sub getURLParams {
-    my ($this, %more) = @_;
+    my ( $this, %more ) = @_;
+
     # Get the active (most recent) version number for the topic with this table
-    my @ri = Foswiki::Func::getRevisionInfo($this->{web}, $this->{topic});
+    my @ri = Foswiki::Func::getRevisionInfo( $this->{web}, $this->{topic} );
     return {
-	erp_active_topic => "$this->{web}.$this->{topic}",
-	erp_active_version => "$ri[2]_$ri[0]",
-	erp_active_table => $this->{id},
-	%more };
+        erp_active_topic   => "$this->{web}.$this->{topic}",
+        erp_active_version => "$ri[2]_$ri[0]",
+        erp_active_table   => $this->{id},
+        %more
+    };
 }
 
 # Get the "type object" for this column definition (one of the Editor classes)
 sub getEditor {
     my $colDef = shift;
-    my $editor = $editors{$colDef->{type}};
+    my $editor = $editors{ $colDef->{type} };
     unless ($editor) {
-	my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
-	eval("require $class");
-	ASSERT(!$@, $@) if DEBUG;
-	if ($@) {
-	    Foswiki::Func::writeWarning(
-		"EditRowPlugin could not load cell type $class: $@" );
-	    $editor = $editors{_default};
-	} else {
-	    $editor = $class->new();
-	}
-	$editors{$colDef->{type}} = $editor;
+        my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
+        eval("require $class");
+        ASSERT( !$@, $@ ) if DEBUG;
+        if ($@) {
+            Foswiki::Func::writeWarning(
+                "EditRowPlugin could not load cell type $class: $@");
+            $editor = $editors{_default};
+        }
+        else {
+            $editor = $class->new();
+        }
+        $editors{ $colDef->{type} } = $editor;
     }
     return $editor;
 }
@@ -415,21 +464,20 @@ sub _getCols {
         my $cellName =
           'erp_cell_' . $this->{id} . '_' . $row . '_' . ( $i + 1 );
         my $cell = $this->{rows}->[ $row - 1 ]->{cols}->[$i];
-	my $val = $urps->{$cellName};
+        my $val  = $urps->{$cellName};
 
         # Check current value for format-overriding EDITCELL
         if ( $cell->{text} =~ /%EDITCELL{(.*?)}%/ ) {
-	    my %p = Foswiki::Func::extractParameters($1);
-            my $cd = $this->parseFormat($p{_DEFAULT});
+            my %p  = Foswiki::Func::extractParameters($1);
+            my $cd = $this->parseFormat( $p{_DEFAULT} );
             $colDef = $cd->[0];
-	}
+        }
 
-	if ($colDef && defined $colDef->{type}) {
-	    my $editor = getEditor($colDef);
-	    if ($editor && $editor->can('forceValue')) {
-		$val = $editor->forceValue(
-		    $colDef, $cell, $row - $headRows);
-	    }
+        if ( $colDef && defined $colDef->{type} ) {
+            my $editor = getEditor($colDef);
+            if ( $editor && $editor->can('forceValue') ) {
+                $val = $editor->forceValue( $colDef, $cell, $row - $headRows );
+            }
         }
         push( @cols, defined $val ? $val : '' );
     }
@@ -443,7 +491,7 @@ sub saveTable {
     # Whole table (sans header and footer rows)
     my $end = scalar( @{ $this->{rows} } ) - $this->{attrs}->{footerrows};
     for ( my $i = $this->{attrs}->{headerrows} ; $i < $end ; $i++ ) {
-	$this->{rows}->[$i]->setRow( $this->_getCols( $urps, $i + 1 ) );
+        $this->{rows}->[$i]->setRow( $this->_getCols( $urps, $i + 1 ) );
     }
 }
 
@@ -452,8 +500,8 @@ sub saveRow {
     my ( $this, $urps ) = @_;
     my $row = $urps->{erp_active_row};
     if ( $row > 0 ) {
-	my $cols = $this->_getCols( $urps, $row );
-        $this->{rows}->[ $row - 1 ]->setRow( $cols );
+        my $cols = $this->_getCols( $urps, $row );
+        $this->{rows}->[ $row - 1 ]->setRow($cols);
     }
 }
 
@@ -463,12 +511,14 @@ sub saveCell {
 
     my $row = $urps->{erp_active_row};
     my $col = $urps->{erp_active_col};
-    my $ot = $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text};
-    my $nt = $urps->{CELLDATA};
-    if ($ot =~ /(%EDITCELL{.*?}%)/) {
-	# Restore the %EDITCELL
-	$nt = $1 . $nt;
+    my $ot  = $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text};
+    my $nt  = $urps->{CELLDATA};
+    if ( $ot =~ /(%EDITCELL{.*?}%)/ ) {
+
+        # Restore the %EDITCELL
+        $nt = $1 . $nt;
     }
+
     # Remove padding spaces added to allow cells to expand TML
     $nt =~ s/^ (.*) $/$1/s;
     $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text} = $nt;
@@ -477,54 +527,61 @@ sub saveCell {
 
 # Get cell, row, column or entire table, depending on params
 sub getCellData {
-    my ($this, $urps) = @_;
+    my ( $this, $urps ) = @_;
     my $row = $urps->{erp_active_row};
     my $col = $urps->{erp_active_col};
     my $d;
-    if (defined $row) {
-	if (defined $col) {
-	    $d = $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text};
-	} else {
-	    # This entire row
-	    $d = [];
-	    foreach my $col ( @{$this->{rows}->[ $row - 1 ]->{cols}} ) {
-		push(@$d, $col->{text});
-	    }
-	}
-    } elsif (defined $col) {
-	# This entire col
-	$d = [];
-	foreach my $row ( @{$this->{rows}} ) {
-	    push(@$d, $row->{cols}->[ $col - 1]->{text});
-	}
-    } else {
-	# Entire table (row major)
-	$d = [];
-	foreach my $row ( @{$this->{rows}} ) {
-	    my $c = [];
-	    foreach my $col ( @{$row->{cols}} ) {
-		push(@$c, $col->{text});
-	    }
-	    push(@$d, $c);
-	}
+    if ( defined $row ) {
+        if ( defined $col ) {
+            $d = $this->{rows}->[ $row - 1 ]->{cols}->[ $col - 1 ]->{text};
+        }
+        else {
+
+            # This entire row
+            $d = [];
+            foreach my $col ( @{ $this->{rows}->[ $row - 1 ]->{cols} } ) {
+                push( @$d, $col->{text} );
+            }
+        }
+    }
+    elsif ( defined $col ) {
+
+        # This entire col
+        $d = [];
+        foreach my $row ( @{ $this->{rows} } ) {
+            push( @$d, $row->{cols}->[ $col - 1 ]->{text} );
+        }
+    }
+    else {
+
+        # Entire table (row major)
+        $d = [];
+        foreach my $row ( @{ $this->{rows} } ) {
+            my $c = [];
+            foreach my $col ( @{ $row->{cols} } ) {
+                push( @$c, $col->{text} );
+            }
+            push( @$d, $c );
+        }
     }
     return $d;
 }
 
 # Save row (or table)
 sub saveData {
-    my ($this, $urps ) = @_;
+    my ( $this, $urps ) = @_;
     if ( $urps->{erp_active_row} < 0 ) {
-	$this->saveTable( $urps );
-    } else {
-	$this->saveRow( $urps );
+        $this->saveTable($urps);
+    }
+    else {
+        $this->saveRow($urps);
     }
 }
 
 # Action on move up; save and shift row
 sub upRow {
     my ( $this, $urps ) = @_;
-    $this->saveData( $urps );
+    $this->saveData($urps);
     my $row = $urps->{erp_active_row};
     my $tmp = $this->{rows}->[ $row - 1 ];
     $this->{rows}->[ $row - 1 ] = $this->{rows}->[ $row - 2 ];
@@ -535,7 +592,7 @@ sub upRow {
 # Action on move down; save and shift row
 sub downRow {
     my ( $this, $urps ) = @_;
-    $this->saveData( $urps );
+    $this->saveData($urps);
     my $row = $urps->{erp_active_row};
     my $tmp = $this->{rows}->[ $row - 1 ];
     $this->{rows}->[ $row - 1 ] = $this->{rows}->[$row];
@@ -550,7 +607,7 @@ sub addRow {
     my $row = $urps->{erp_active_row};
 
     unless ( $urps->{erp_unchanged} ) {
-        $this->saveData( $urps );    # in case data has changed
+        $this->saveData($urps);    # in case data has changed
     }
 
     if ( $row < 0 ) {
@@ -616,19 +673,20 @@ sub deleteRow {
 
 sub moveRow {
     my ( $this, $urps ) = @_;
-    my $from = $urps->{old_pos} - 1;
-    my $to = $urps->{new_pos} - 1;
+    my $from   = $urps->{old_pos} - 1;
+    my $to     = $urps->{new_pos} - 1;
     my @moving = splice( @{ $this->{rows} }, $from, 1 );
-    if ($from < $to) {
-	# from is below to, so decrement the $to row
-	$to--;
+    if ( $from < $to ) {
+
+        # from is below to, so decrement the $to row
+        $to--;
     }
     splice( @{ $this->{rows} }, $to, 0, @moving );
-    for (my $i = 0; $i < scalar( @{ $this->{rows} } ); $i++) {
-	$this->{rows}->[$i]->{number} = $i + 1;
+    for ( my $i = 0 ; $i < scalar( @{ $this->{rows} } ) ; $i++ ) {
+        $this->{rows}->[$i]->{number} = $i + 1;
     }
     $this->{attrs}->{js} = 'rowmoved';
-    return $this->render({with_controls => 1}, {});
+    return $this->render( { with_controls => 1 }, {} );
 }
 
 # Action on edit cancelled
@@ -678,10 +736,11 @@ sub parseFormat {
         my $initial = '';
         if ( $type =~ /^(text|label)/ ) {
             $initial = join( ',', @values );
-        } elsif ( $type eq 'date' ) {
-	    $initial = shift @values;
-	}
-	$initial = '' unless defined $initial;
+        }
+        elsif ( $type eq 'date' ) {
+            $initial = shift @values;
+        }
+        $initial = '' unless defined $initial;
 
         @values = map { s/^\s*//; s/\s*$//; $_ } @values;
         push(
@@ -718,25 +777,29 @@ sub generateHelp {
 }
 
 sub _makeButton {
-    my ($action, $icon, $title, $attrs, $willDiscard) = @_;
-    if ($attrs->{js} eq 'ignored') {
-	return CGI::submit(
-	    {
-		name => 'erp_action',
-		value => $action,
-		title => $title,
-		class=> "erpNoJS_button ui-icon ui-icon-$icon"
-	    });
-    } else {
-	# The action will be written by JS
-	return CGI::a(
-	    {
-		href  => "#$action",
-		title => $title,
-		class => "erpJS_submit ui-icon ui-icon-$icon"
-		    . ($willDiscard ? ' erpJS_willDiscard' : '')
-	    },
-	    $title);
+    my ( $action, $icon, $title, $attrs, $willDiscard ) = @_;
+    if ( $attrs->{js} eq 'ignored' ) {
+        return CGI::submit(
+            {
+                name  => 'erp_action',
+                value => $action,
+                title => $title,
+                class => "erpNoJS_button ui-icon ui-icon-$icon"
+            }
+        );
+    }
+    else {
+
+        # The action will be written by JS
+        return CGI::a(
+            {
+                href  => "#$action",
+                title => $title,
+                class => "erpJS_submit ui-icon ui-icon-$icon"
+                  . ( $willDiscard ? ' erpJS_willDiscard' : '' )
+            },
+            $title
+        );
     }
 }
 
@@ -751,37 +814,41 @@ sub generateEditButtons {
     # TODO: action when JS ignored
     my $buttons = '';
 
-    $buttons = CGI::hidden(-name => 'erp_action', -value => '')
-	unless $attrs->{js} eq 'ignored';
+    $buttons = CGI::hidden( -name => 'erp_action', -value => '' )
+      unless $attrs->{js} eq 'ignored';
 
-    $buttons .= _makeButton($wholeTable ? 'saveTable' : 'saveRow', 'disk', NOISY_SAVE, $attrs, 0);
+    $buttons .= _makeButton( $wholeTable ? 'saveTable' : 'saveRow',
+        'disk', NOISY_SAVE, $attrs, 0 );
 
     if ( $attrs->{quietsave} ) {
-	$buttons .= _makeButton($wholeTable ? 'saveTableQuietly' : 'saveRowQuietly',
-				'quietsave', QUIET_SAVE, $attrs, 0);
+        $buttons .=
+          _makeButton( $wholeTable ? 'saveTableQuietly' : 'saveRowQuietly',
+            'quietsave', QUIET_SAVE, $attrs, 0 );
     }
 
-    $buttons .= _makeButton('cancel', 'cancel', CANCEL_ROW, $attrs, 1);
+    $buttons .= _makeButton( 'cancel', 'cancel', CANCEL_ROW, $attrs, 1 );
 
-    if ( Foswiki::Func::isTrue($this->{attrs}->{changerows}) ) {
+    if ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} ) ) {
         $buttons .= '<br />' if $multirow;
-	unless ($wholeTable) {
-	    if ($id) {
-		if ( !$topRow ) {
-		    $buttons .= _makeButton('upRow', 'arrow-1-n',
-					    UP_ROW, $attrs, 0);
-		}
-		if ( !$bottomRow ) {
-		    $buttons .= _makeButton('downRow', 'arrow-1-s',
-					    DOWN_ROW, $attrs, 0);
-		}
-	    }
-	}
-        $buttons .= _makeButton('addRow', 'plusthick', ADD_ROW, $attrs, 0);
+        unless ($wholeTable) {
+            if ($id) {
+                if ( !$topRow ) {
+                    $buttons .=
+                      _makeButton( 'upRow', 'arrow-1-n', UP_ROW, $attrs, 0 );
+                }
+                if ( !$bottomRow ) {
+                    $buttons .=
+                      _makeButton( 'downRow', 'arrow-1-s', DOWN_ROW, $attrs,
+                        0 );
+                }
+            }
+        }
+        $buttons .= _makeButton( 'addRow', 'plusthick', ADD_ROW, $attrs, 0 );
 
-	unless ($this->{attrs}->{changerows} eq 'add') {
-	    $buttons .= _makeButton('deleteRow', 'minusthick', DELETE_ROW, $attrs, 0);
-	}
+        unless ( $this->{attrs}->{changerows} eq 'add' ) {
+            $buttons .=
+              _makeButton( 'deleteRow', 'minusthick', DELETE_ROW, $attrs, 0 );
+        }
     }
     return $buttons;
 }

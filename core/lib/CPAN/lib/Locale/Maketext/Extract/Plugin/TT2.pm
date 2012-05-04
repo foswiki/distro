@@ -124,14 +124,15 @@ use the following wrapper script:
 =cut
 
 # import strip_quotes
-*strip_quotes
-    = \&Locale::Maketext::Extract::Plugin::TT2::Directive::strip_quotes;
+*strip_quotes =
+  \&Locale::Maketext::Extract::Plugin::TT2::Directive::strip_quotes;
 
 our %PARSER_OPTIONS;
 
 #===================================
 sub file_types {
-#===================================
+
+    #===================================
     return ( qw( tt tt2 html ), qr/\.tt2?\./ );
 }
 
@@ -139,30 +140,29 @@ my %Escapes = map { ( "\\$_" => eval("qq(\\$_)") ) } qw(t n r f b a e);
 
 #===================================
 sub extract {
-#===================================
+
+    #===================================
     my $self = shift;
     my $data = shift;
 
     $Template::Directive::PRETTY = 1;
-    my $parser =
-        Locale::Maketext::Extract::Plugin::TT2::Parser->new(
-               %PARSER_OPTIONS,
-               FACTORY => 'Locale::Maketext::Extract::Plugin::TT2::Directive',
-               FILE_INFO => 0,
-        );
+    my $parser = Locale::Maketext::Extract::Plugin::TT2::Parser->new(
+        %PARSER_OPTIONS,
+        FACTORY   => 'Locale::Maketext::Extract::Plugin::TT2::Directive',
+        FILE_INFO => 0,
+    );
     _init_overrides($parser);
 
     $parser->{extracted} = [];
 
-    $Locale::Maketext::Extract::Plugin::TT2::Directive::PARSER
-        = $parser;    # hack
+    $Locale::Maketext::Extract::Plugin::TT2::Directive::PARSER = $parser; # hack
     $parser->parse($data)
-        || die $parser->error;
+      || die $parser->error;
 
     foreach my $entry ( @{ $parser->{extracted} } ) {
         $entry->[2] =~ s/^\((.*)\)$/$1/s;    # Remove () from vars
         $_ =~ s/\\'/'/gs                     # Unescape \'
-            for @{$entry}[ 0, 2 ];
+          for @{$entry}[ 0, 2 ];
         $entry->[2] =~ s/\\(?!")/\\\\/gs;    # Escape all \ not followed by "
                                              # Escape argument lists correctly
         while ( my ( $char, $esc ) = each %Escapes ) {
@@ -175,15 +175,16 @@ sub extract {
 
 #===================================
 sub _init_overrides {
-#===================================
+
+    #===================================
     my $parser = shift;
 
     # Override the concatenation sub to return _ instead of .
     my $states = $parser->{STATES};
     foreach my $state ( @{$states} ) {
         if ( my $CAT_no = $state->{ACTIONS}{CAT} ) {
-            my $CAT_rule_no
-                = $states->[ $states->[$CAT_no]{GOTOS}{expr} ]->{DEFAULT};
+            my $CAT_rule_no =
+              $states->[ $states->[$CAT_no]{GOTOS}{expr} ]->{DEFAULT};
 
             # override the TT::Grammar sub which cats two args
             $parser->{RULES}[ -$CAT_rule_no ][2] = sub {
@@ -208,6 +209,7 @@ sub _init_overrides {
 #===================================
 #===================================
 package Locale::Maketext::Extract::Plugin::TT2::Parser;
+
 #===================================
 #===================================
 
@@ -216,7 +218,8 @@ use base 'Template::Parser';
 # disabled location() because it was adding unneccessary text
 # to filter blocks
 #===================================
-sub location {''}
+sub location { '' }
+
 #===================================
 
 # Custom TT parser for Locale::Maketext::Lexicon
@@ -234,6 +237,7 @@ sub location {''}
 #===================================
 #===================================
 package Locale::Maketext::Extract::Plugin::TT2::Directive;
+
 #===================================
 #===================================
 
@@ -243,7 +247,8 @@ our $PARSER;
 
 #===================================
 sub textblock {
-#===================================
+
+    #===================================
     my ( $class, $text ) = @_;
     $text =~ s/([\\'])/\\$1/g;
     return "'$text'";
@@ -251,7 +256,8 @@ sub textblock {
 
 #===================================
 sub ident {
-#===================================
+
+    #===================================
     my ( $class, $ident ) = @_;
     return "NULL" unless @$ident;
     if ( scalar @$ident <= 2 && !$ident->[1] ) {
@@ -279,14 +285,14 @@ sub ident {
             push( @dotted, $name );
         }
         if ( $first_literal
-             && ( $ident->[0] eq "'l'" or $ident->[0] eq "'loc'" ) )
+            && ( $ident->[0] eq "'l'" or $ident->[0] eq "'loc'" ) )
         {
             my $string = shift @{ $ident->[1] };
             strip_quotes($string);
             $string =~ s/\\\\/\\/g;
             my $args = join_args( $ident->[1] );
             push @{ $PARSER->{extracted} },
-                [ $string, ${ $PARSER->{LINE} }, $args ];
+              [ $string, ${ $PARSER->{LINE} }, $args ];
         }
         return join( '.', @dotted );
     }
@@ -294,7 +300,8 @@ sub ident {
 
 #===================================
 sub text {
-#===================================
+
+    #===================================
     my ( $class, $text ) = @_;
     $text =~ s/\\/\\\\/g;
     return "'$text'";
@@ -302,7 +309,8 @@ sub text {
 
 #===================================
 sub quoted {
-#===================================
+
+    #===================================
     my ( $class, $items ) = @_;
     return '' unless @$items;
     return ( $items->[0] ) if scalar @$items == 1;
@@ -311,30 +319,33 @@ sub quoted {
 
 #===================================
 sub args {
-#===================================
+
+    #===================================
     my ( $class, $args ) = @_;
     my $hash = shift @$args;
     push( @$args, '{ ' . join( ', ', @$hash ) . ' }' )    # named params
-        if @$hash;
+      if @$hash;
     return $args;
 }
 
 #===================================
 sub get {
-#===================================
+
+    #===================================
     my ( $class, $expr ) = @_;
     return $expr;
 }
 
 #===================================
 sub filter {
-#===================================
+
+    #===================================
     my ( $class, $lnameargs, $block ) = @_;
     my ( $name,  $args,      $alias ) = @$lnameargs;
     $name = $name->[0];
     return ''
-        unless $name eq "'l'"
-            or $name eq "'loc'";
+      unless $name eq "'l'"
+          or $name eq "'loc'";
     if ( strip_quotes($block) ) {
         $block =~ s/\\\\/\\/g;
         $args = join_args( $class->args($args) );
@@ -356,13 +367,15 @@ sub filter {
 # returns true if stripped, or false
 #===================================
 sub strip_quotes {
-#===================================
+
+    #===================================
     return scalar $_[0] =~ s/^'(.*)'$/$1/s;
 }
 
 #===================================
 sub join_args {
-#===================================
+
+    #===================================
     my $args = shift;
     return '' unless $args && @$args;
     my @new_args = (@$args);

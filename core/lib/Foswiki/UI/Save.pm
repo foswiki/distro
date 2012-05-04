@@ -540,9 +540,9 @@ WARN
     }
     else {
 
-	# redirect to topic view or any other redirectto
-	# specified as an url param
-        $redirecturl = $session->redirectto( "$web.$topic" );
+        # redirect to topic view or any other redirectto
+        # specified as an url param
+        $redirecturl = $session->redirectto("$web.$topic");
     }
 
     if ( $saveaction eq 'quietsave' ) {

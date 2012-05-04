@@ -80,7 +80,10 @@ sub parseTables {
         if ( !$disable && $line =~ s/(%$macro(?:{(.*)})?%)// ) {
             my $spec  = $1;
             my $attrs = Foswiki::Attrs->new(
-                Foswiki::Func::expandCommonVariables( defined $2 ? $2 : '', $web, $topic )
+                Foswiki::Func::expandCommonVariables(
+                    defined $2 ? $2 : '',
+                    $web, $topic
+                )
             );
             push( @tables, $line ) if $line =~ /\S/;
 
@@ -160,15 +163,17 @@ sub parseTables {
             # Note use of LIMIT=-1 on the split so we don't lose empty columns
             my @cols;
             if ( length($line) ) {
-		# Expand comments again after we split
-		@cols = map { $_ =~ s/\001-(\d+)-\001/$comments[$1 - 1]/ges; $_ }
-		    split( /\|/, $line, -1 );
+
+                # Expand comments again after we split
+                @cols =
+                  map { $_ =~ s/\001-(\d+)-\001/$comments[$1 - 1]/ges; $_ }
+                  split( /\|/, $line, -1 );
             }
             else {
 
                 # Splitting an EXPR that evaluates to the empty string always
                 # returns the empty list, regardless of the LIMIT specified.
-                @cols = ( '' );
+                @cols = ('');
             }
             my $row =
               $active_table->newRow( scalar( @{ $active_table->{rows} } ) + 1,

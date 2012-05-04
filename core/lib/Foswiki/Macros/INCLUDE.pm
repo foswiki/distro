@@ -137,14 +137,17 @@ sub _includeTopic {
         $includedTopic );
 
     if ( !Foswiki::isValidTopicName( $includedTopic, 1 ) ) {
-        return $this->_includeWarning( $control->{warn}, 'bad_include_path',
-            $control->{_DEFAULT} ), 'bad_include_path';
+        return $this->_includeWarning(
+            $control->{warn}, 'bad_include_path', $control->{_DEFAULT}
+          ),
+          'bad_include_path';
     }
 
     # See Codev.FailedIncludeWarning for the history.
     unless ( $this->{store}->topicExists( $includedWeb, $includedTopic ) ) {
         return _includeWarning( $this, $control->{warn}, 'topic_not_found',
-            $includedWeb, $includedTopic ), 'topic_not_found';
+            $includedWeb, $includedTopic ),
+          'topic_not_found';
     }
 
     # prevent recursive includes. Note that the inclusion of a topic into
@@ -155,7 +158,8 @@ sub _includeTopic {
     $key .= $control->{_sArgs};
     if ( $this->{_INCLUDES}->{$key} || $count > 99 ) {
         return _includeWarning( $this, $control->{warn}, 'already_included',
-            "$includedWeb.$includedTopic", '' ), 'already_included';
+            "$includedWeb.$includedTopic", '' ),
+          'already_included';
     }
 
     # Push the topic context to the included topic, so we can create
@@ -171,15 +175,16 @@ sub _includeTopic {
     unless ( $includedTopicObject->haveAccess('VIEW') ) {
         if ( isTrue( $control->{warn} ) ) {
             return $this->inlineAlert( 'alerts', 'access_denied',
-                "[[$includedWeb.$includedTopic]]" ), 'access_denied';
+                "[[$includedWeb.$includedTopic]]" ),
+              'access_denied';
         }    # else fail silently
         return '', 'access_denied';
     }
     my $memWeb   = $this->{prefs}->getPreference('INCLUDINGWEB');
     my $memTopic = $this->{prefs}->getPreference('INCLUDINGTOPIC');
 
-    my $text = '';
-    my $error = '';
+    my $text       = '';
+    my $error      = '';
     my $verbatim   = {};
     my $dirtyAreas = {};
     try {
@@ -315,7 +320,7 @@ sub _includeTopic {
           $this->{prefs}->popTopicContext();
     };
 
-    return ($text, $error);
+    return ( $text, $error );
 }
 
 # Processes a specific instance %<nop>INCLUDE{...}% syntax.
@@ -367,14 +372,15 @@ sub INCLUDE {
             $text = $this->_includeProtocol( $1, \%control, $params );
         }
         else {
-            my @topics = split(/,\s*/, $control{_DEFAULT});
+            my @topics = split( /,\s*/, $control{_DEFAULT} );
             my $error;
             foreach my $t (@topics) {
                 $control{_DEFAULT} = $t;
-                ($text, $error) =
-                  $this->_includeTopic( $includingTopicObject, \%control, $params );
-                last if ($error eq '');
-            } 
+                ( $text, $error ) =
+                  $this->_includeTopic( $includingTopicObject, \%control,
+                    $params );
+                last if ( $error eq '' );
+            }
         }
     }
 

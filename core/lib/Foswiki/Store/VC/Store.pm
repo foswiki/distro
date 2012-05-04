@@ -309,12 +309,13 @@ sub getAttachmentVersionInfo {
 
 sub getVersionInfo {
     my ( $this, $topicObject, $rev, $attachment ) = @_;
-    my $info = $this->askListenersVersionInfo($topicObject, $rev, $attachment);
+    my $info =
+      $this->askListenersVersionInfo( $topicObject, $rev, $attachment );
 
     if ( not defined $info ) {
         my $handler = $this->getHandler($topicObject);
 
-        $info = $handler->getInfo( $rev );
+        $info = $handler->getInfo($rev);
     }
 
     return $info;
@@ -368,9 +369,9 @@ sub repRev {
     ASSERT($cUID) if DEBUG;
     my $info    = $topicObject->getRevisionInfo();
     my $handler = $this->getHandler($topicObject);
-    $handler->replaceRevision(
-	$topicObject->getEmbeddedStoreForm(), 'reprev', $cUID,
-	defined $options{forcedate} ? $options{forcedate} : $info->{date} );
+    $handler->replaceRevision( $topicObject->getEmbeddedStoreForm(),
+        'reprev', $cUID,
+        defined $options{forcedate} ? $options{forcedate} : $info->{date} );
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
 

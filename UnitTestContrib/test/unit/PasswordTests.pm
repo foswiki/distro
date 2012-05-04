@@ -24,11 +24,11 @@ sub set_up {
     $this->{users1} = {
         alligator => { pass => 'hissss', emails => 'ally@masai.mara' },
         bat => { pass => 'ultrasonic squeal', emails => 'bat@belfry' },
-        budgie => { pass => 'tweet',    emails => 'budgie@flock;budge@oz' },
-        lion   => { pass => 'roar',     emails => 'lion@pride' },
-        dodo   => { pass => '3zmVlgI9', emails => 'dodo@extinct' },
-        tortise   => { pass => 'slowone', emails => 'turtle@soup' },
-        mole   => { pass => '',         emails => 'mole@hill' }
+        budgie  => { pass => 'tweet',    emails => 'budgie@flock;budge@oz' },
+        lion    => { pass => 'roar',     emails => 'lion@pride' },
+        dodo    => { pass => '3zmVlgI9', emails => 'dodo@extinct' },
+        tortise => { pass => 'slowone',  emails => 'turtle@soup' },
+        mole    => { pass => '',         emails => 'mole@hill' }
     };
 
     $this->{users2} = {
@@ -40,7 +40,8 @@ sub set_up {
         lion =>
           { pass => 'antelope', emails => $this->{users1}->{lion}->{emails} },
         dodo => { pass => 'b2rd', emails => $this->{users1}->{dodo}->{emails} },
-        tortise   => { pass => 'slower', emails => $this->{users1}->{tortise}->{emails} },
+        tortise =>
+          { pass => 'slower', emails => $this->{users1}->{tortise}->{emails} },
         mole =>
           { pass => 'earthworm', emails => $this->{users1}->{mole}->{emails} },
     };
@@ -95,6 +96,7 @@ sub doTests {
             join( ";", $impl->getEmails($user) )
         );
     }
+
     # check it
     foreach my $user ( sort keys %{ $this->{users1} } ) {
         $this->assert(
@@ -237,15 +239,15 @@ sub skip {
                   'Missing Crypt::Eksblowfish::Bcrypt',
                 'PasswordTests::test_htpasswd_auto' =>
                   'Missing Crypt::Eksblowfish::Bcrypt',
-           }
-       },
-       {
+            }
+        },
+        {
             condition => { without_dep => 'Apache::Htpasswd' },
             tests     => {
                 'PasswordTests::test_ApacheHtpasswdUser_crypt' =>
                   'Missing Apache::Htpasswd',
-           }
-       }
+            }
+        }
     );
 }
 
@@ -677,9 +679,10 @@ sub test_htpasswd_htdigest_preserves_email {
     $impl->ClearCache() if $impl->can('ClearCache');
 
     my @users = keys %{ $this->{users1} };
-    foreach
-      my $algo ( 'apache-md5', 'htdigest-md5', 'crypt', 'sha1', 'crypt-md5',
-        'md5', 'bcrypt' )
+    foreach my $algo (
+        'apache-md5', 'htdigest-md5', 'crypt', 'sha1',
+        'crypt-md5',  'md5',          'bcrypt'
+      )
     {
         my $user = pop @users;
         $Foswiki::cfg{Htpasswd}{Encoding} = $algo;

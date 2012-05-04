@@ -1,12 +1,12 @@
 package Foswiki::Plugins::JEditableContribPlugin;
 use strict;
 use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugins ();
+use Foswiki::Plugins::JQueryPlugin::Plugins       ();
 use Foswiki::Contrib::JEditableContrib::JEDITABLE ();
 
 sub initPlugin {
-    Foswiki::Plugins::JQueryPlugin::registerPlugin(
-	'JEditable', 'Foswiki::Contrib::JEditableContrib::JEDITABLE');
+    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'JEditable',
+        'Foswiki::Contrib::JEditableContrib::JEDITABLE' );
     Foswiki::Plugins::JQueryPlugin::createPlugin('JEditable');
 }
 

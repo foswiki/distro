@@ -667,7 +667,7 @@ sub formatResults {
         $pager_formatting{'nextbutton'} = sub { return $nextpagebutton };
 
         my $pager_control = '';
-        if ($numberofpages > 1) {
+        if ( $numberofpages > 1 ) {
             $pager_control = $params->{pagerformat}
               || $session->templates->expandTemplate('SEARCH:pager');
             $pager_control =

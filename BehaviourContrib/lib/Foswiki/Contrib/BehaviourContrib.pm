@@ -28,10 +28,9 @@ sub commonTagsHandler {
 =cut
 
 sub addHEAD {
-    Foswiki::Func::addToZone(
-        'script', 'BehaviourContrib/behaviour',
-        '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour%FWSRC%.js"></script>'
-       );
+    Foswiki::Func::addToZone( 'script', 'BehaviourContrib/behaviour',
+'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour%FWSRC%.js"></script>'
+    );
 }
 
 1;

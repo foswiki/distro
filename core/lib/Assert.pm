@@ -50,8 +50,8 @@ sub import {
         *DEBUG = *ASSERTS_ON;
         Assert->export_to_level( 1, @_ );
 
-	$SIG{'__WARN__'} = sub { die @_ };
-   }
+        $SIG{'__WARN__'} = sub { die @_ };
+    }
     else {
         my $caller = caller;
         *{ $caller . '::ASSERT' }    = \&dummyASSERT;

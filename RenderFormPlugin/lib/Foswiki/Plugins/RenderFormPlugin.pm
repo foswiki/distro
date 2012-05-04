@@ -14,7 +14,7 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 #
-# As per the GPL, removal of this notice is prohibited. 
+# As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Plugins::RenderFormPlugin;
 
@@ -26,7 +26,9 @@ $VERSION = '$Rev$';
 
 $RELEASE = '1.007 (18 Aug 2010)';
 
-$REVISION = '1.007'; #Paul Harvey# fix plugin code to only require JSCalendarContrib once
+$REVISION =
+  '1.007';  #Paul Harvey# fix plugin code to only require JSCalendarContrib once
+
 #$REVISION = '1.006'; #Paul Harvey# added redirectto parameter
 #$REVISION = '1.005'; #Daniel Rohde# fixed performance problem
 #$REVISION = '1.004'; #Kenneth Lavrsen# Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar.
@@ -38,11 +40,12 @@ $REVISION = '1.007'; #Paul Harvey# fix plugin code to only require JSCalendarCon
 $pluginName = 'RenderFormPlugin';
 
 sub initPlugin {
-    my( $topic, $web, $user, $installWeb ) = @_;
+    my ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
+    if ( $Foswiki::Plugins::VERSION < 1.026 ) {
+        Foswiki::Func::writeWarning(
+            "Version mismatch between $pluginName and Plugins.pm");
         return 0;
     }
     _requireJSCalendarContrib();
@@ -52,25 +55,30 @@ sub initPlugin {
 }
 
 sub commonTagsHandler {
+
     # do not uncomment, use $_[0], $_[1]... instead
     ### my ( $text, $topic, $web ) = @_;
 
-    Foswiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
+    Foswiki::Func::writeDebug(
+        "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )")
+      if $debug;
 
-	use Foswiki::Plugins::RenderFormPlugin::Core;
-	$_[0] =~ s/\%RENDERFORM{(.*?)}\%/Foswiki::Plugins::RenderFormPlugin::Core::render($1,$_[1],$_[2])/ge;
-	$_[0] =~ s/\%STARTRENDERFORMLAYOUT(.*?)STOPRENDERFORMLAYOUT\%//sg;
+    use Foswiki::Plugins::RenderFormPlugin::Core;
+    $_[0] =~
+s/\%RENDERFORM{(.*?)}\%/Foswiki::Plugins::RenderFormPlugin::Core::render($1,$_[1],$_[2])/ge;
+    $_[0] =~ s/\%STARTRENDERFORMLAYOUT(.*?)STOPRENDERFORMLAYOUT\%//sg;
 }
 
 sub _requireJSCalendarContrib {
+
     # do not uncomment, use $_[0], $_[1]... instead
     #my $text = shift;
     #
     #
     eval {
         require Foswiki::Contrib::JSCalendarContrib;
-        unless( $@ ) {
-            Foswiki::Contrib::JSCalendarContrib::addHEAD( 'foswiki' );
+        unless ($@) {
+            Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
         }
     };
 }

@@ -6,7 +6,7 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
+our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
 
 sub new {
     my $class = shift;
@@ -15,6 +15,7 @@ sub new {
 
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
+
     # Labels are not editable.
     return $unexpandedValue;
 }
@@ -26,11 +27,12 @@ sub jQueryMetadata {
 # Called when a value is being loaded into the internal table from url
 # params; gives an opportunity for the type to override the value
 sub forceValue {
-    my ($this, $colDef, $cell, $row) = @_;
+    my ( $this, $colDef, $cell, $row ) = @_;
+
     # Label cells are uneditable, so we have to keep any existing
     # value for them. If there is no value in the cell, restore
     # the initial value.
-     return (defined $cell->{text} ? $cell->{text} : $colDef->{initial_value} );
+    return ( defined $cell->{text} ? $cell->{text} : $colDef->{initial_value} );
 }
 
 1;

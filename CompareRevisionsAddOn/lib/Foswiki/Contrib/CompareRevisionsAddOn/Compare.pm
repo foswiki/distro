@@ -13,13 +13,13 @@ package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
 use strict;
 use warnings;
 
-use Foswiki::UI ();
-use Foswiki::Func ();
+use Foswiki::UI      ();
+use Foswiki::Func    ();
 use Foswiki::Plugins ();
 use Encode;
 
 use HTML::TreeBuilder ();
-use Algorithm::Diff ();
+use Algorithm::Diff   ();
 
 my $HTMLElement = 'HTML::Element';
 my $class_add   = 'craCompareAdd';

@@ -98,7 +98,7 @@ s/${translationToken}RENDERZONE{(.*?)}${translationToken}/renderZoneById($1)/ge;
 sub ADDTOHEAD {
     my ( $sessions, $params, $theTopic, $theWeb ) = @_;
 
-    my $id      = $params->{_DEFAULT} || '';
+    my $id       = $params->{_DEFAULT} || '';
     my $topic    = $params->{topic}    || '';
     my $text     = $params->{text}     || '';
     my $requires = $params->{requires} || '';
@@ -137,7 +137,8 @@ sub ADDTOZONE {
 
     foreach my $zone ( split( /\s*,\s*/, $zones ) ) {
         if ( $zone eq 'body' ) {
-            #print STDERR "WARNING: ADDTOZONE was called for zone 'body' ... rerouting it to zone 'script' ... please fix your templates\n";
+
+#print STDERR "WARNING: ADDTOZONE was called for zone 'body' ... rerouting it to zone 'script' ... please fix your templates\n";
             $zone = 'script';
         }
         addToZone( $zone, $id, $text, $requires );
@@ -187,7 +188,7 @@ sub addToZone {
     foreach my $req ( split( /\s*,\s*/, $requires ) ) {
         unless ( $thisZone->{$req} ) {
             $thisZone->{$req} = {
-                id      => $req,
+                id       => $req,
                 requires => [],
                 text     => '',
             };

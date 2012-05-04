@@ -35,21 +35,22 @@ BEGIN {
                 require JSON;
                 my ( $self, $conf ) = @_;
                 my @params = qw(
-                    autoconv
-                    skipinvalid
-                    execcoderef
-                    pretty
-                    indent
-                    delimiter
-                    keysort
-                    convblessed
-                    selfconvert
-                    singlequote
-                    quoteapos
-                    unmapping
-                    barekey
+                  autoconv
+                  skipinvalid
+                  execcoderef
+                  pretty
+                  indent
+                  delimiter
+                  keysort
+                  convblessed
+                  selfconvert
+                  singlequote
+                  quoteapos
+                  unmapping
+                  barekey
                 );
-                my $obj = $handler->new( utf8 => $conf->{utf8} ); ## constructor only
+                my $obj =
+                  $handler->new( utf8 => $conf->{utf8} );    ## constructor only
 
                 for my $mutator (@params) {
                     next unless exists $conf->{$mutator};
@@ -70,31 +71,31 @@ BEGIN {
                 JSON->import( '-support_by_pp', '-no_export' );
                 my ( $self, $conf ) = @_;
                 my @params = qw(
-                    ascii
-                    latin1
-                    utf8
-                    pretty
-                    indent
-                    space_before
-                    space_after
-                    relaxed
-                    canonical
-                    allow_nonref
-                    allow_blessed
-                    convert_blessed
-                    filter_json_object
-                    shrink
-                    max_depth
-                    max_size
-                    loose
-                    allow_bignum
-                    allow_barekey
-                    allow_singlequote
-                    escape_slash
-                    indent_length
-                    sort_by
+                  ascii
+                  latin1
+                  utf8
+                  pretty
+                  indent
+                  space_before
+                  space_after
+                  relaxed
+                  canonical
+                  allow_nonref
+                  allow_blessed
+                  convert_blessed
+                  filter_json_object
+                  shrink
+                  max_depth
+                  max_size
+                  loose
+                  allow_bignum
+                  allow_barekey
+                  allow_singlequote
+                  escape_slash
+                  indent_length
+                  sort_by
                 );
-                local $conf->{utf8} = !$conf->{utf8};  # it means the opposite
+                local $conf->{utf8} = !$conf->{utf8};    # it means the opposite
                 my $obj = $handler->new;
 
                 for my $mutator (@params) {
@@ -118,8 +119,8 @@ BEGIN {
                 croak "JSON::DWIW does not support utf8" if $conf->{utf8};
                 $self->[ENCODER] = 'to_json';
                 $self->[DECODER] = 'from_json';
-                $self->[HANDLER]
-                    = $handler->new( { map { $_ => $conf->{$_} } @params } );
+                $self->[HANDLER] =
+                  $handler->new( { map { $_ => $conf->{$_} } @params } );
             },
         },
         json_xs_1 => {
@@ -131,16 +132,16 @@ BEGIN {
                 my ( $self, $conf ) = @_;
 
                 my @params = qw(
-                    ascii
-                    utf8
-                    pretty
-                    indent
-                    space_before
-                    space_after
-                    canonical
-                    allow_nonref
-                    shrink
-                    max_depth
+                  ascii
+                  utf8
+                  pretty
+                  indent
+                  space_before
+                  space_after
+                  canonical
+                  allow_nonref
+                  shrink
+                  max_depth
                 );
 
                 my $obj = $handler->new;
@@ -162,25 +163,25 @@ BEGIN {
                 my ( $self, $conf ) = @_;
 
                 my @params = qw(
-                    ascii
-                    latin1
-                    utf8
-                    pretty
-                    indent
-                    space_before
-                    space_after
-                    relaxed
-                    canonical
-                    allow_nonref
-                    allow_blessed
-                    convert_blessed
-                    filter_json_object
-                    shrink
-                    max_depth
-                    max_size
+                  ascii
+                  latin1
+                  utf8
+                  pretty
+                  indent
+                  space_before
+                  space_after
+                  relaxed
+                  canonical
+                  allow_nonref
+                  allow_blessed
+                  convert_blessed
+                  filter_json_object
+                  shrink
+                  max_depth
+                  max_size
                 );
 
-                local $conf->{utf8} = !$conf->{utf8};  # it means the opposite
+                local $conf->{utf8} = !$conf->{utf8};    # it means the opposite
 
                 my $obj = $handler->new;
                 for my $mutator (@params) {
@@ -207,7 +208,7 @@ BEGIN {
                 $self->[ENCODER] = sub { Dump(@_) };
                 $self->[DECODER] = sub { Load(@_) };
                 $self->[HANDLER] = 'JSON::Syck';
-                }
+              }
         },
     );
 }
@@ -249,14 +250,15 @@ sub import {
     ( $handler, $encoder, $decoder ) = ();
 
     @order = split /\s/, $ENV{JSON_ANY_ORDER}
-        if !@order and $ENV{JSON_ANY_ORDER};
+      if !@order and $ENV{JSON_ANY_ORDER};
 
     if (@order) {
         ( $handler, $encoder, $decoder ) = _try_loading(@order);
         if ( $handler && grep { "JSON::$_" eq $handler } @deprecated ) {
             my $last = pop @default;
             carp "Found deprecated package $handler. Please upgrade to ",
-                join ', ' => @default, "or $last";
+              join ', ' => @default,
+              "or $last";
         }
     }
     else {
@@ -266,14 +268,15 @@ sub import {
             if ($handler) {
                 my $last = pop @default;
                 carp "Found deprecated package $handler. Please upgrade to ",
-                    join ', ' => @default, "or $last";
+                  join ', ' => @default,
+                  "or $last";
             }
         }
     }
     unless ($handler) {
         my $last = pop @default;
         croak "Couldn't find a JSON package. Need ", join ', ' => @default,
-            "or $last";
+          "or $last";
     }
     croak "Couldn't find a decoder method." unless $decoder;
     croak "Couldn't find a encoder method." unless $encoder;
@@ -391,7 +394,7 @@ sub new {
         my @config = @_;
         if ( $ENV{JSON_ANY_CONFIG} ) {
             push @config, map { split /=/, $_ } split /,\s*/,
-                $ENV{JSON_ANY_CONFIG};
+              $ENV{JSON_ANY_CONFIG};
         }
         $creator->( $self, my $conf = {@config} );
         $self->[UTF8] = $conf->{utf8};
@@ -488,7 +491,7 @@ sub objToJson {
         my $method;
         unless ( ref $self->[ENCODER] ) {
             croak "No $handler Object created!"
-                unless exists $self->[HANDLER];
+              unless exists $self->[HANDLER];
             $method = $self->[HANDLER]->can( $self->[ENCODER] );
             croak "$handler can't execute $self->[ENCODER]" unless $method;
         }
@@ -502,9 +505,9 @@ sub objToJson {
     }
 
     utf8::decode($json)
-        if ( ref $self ? $self->[UTF8] : $UTF8 )
-        and !utf8::is_utf8($json)
-        and utf8::valid($json);
+      if ( ref $self ? $self->[UTF8] : $UTF8 )
+      and !utf8::is_utf8($json)
+      and utf8::valid($json);
     return $json;
 }
 
@@ -552,7 +555,7 @@ sub jsonToObj {
         my $method;
         unless ( ref $self->[DECODER] ) {
             croak "No $handler Object created!"
-                unless exists $self->[HANDLER];
+              unless exists $self->[HANDLER];
             $method = $self->[HANDLER]->can( $self->[DECODER] );
             croak "$handler can't execute $self->[DECODER]" unless $method;
         }

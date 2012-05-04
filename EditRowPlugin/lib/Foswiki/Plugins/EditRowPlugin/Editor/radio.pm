@@ -6,11 +6,11 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
+our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new('radio');
+    my $this  = $class->SUPER::new('radio');
     $this->{css_class} = 'foswikiRadioButton';
     return $this;
 }
@@ -18,15 +18,16 @@ sub new {
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
 
-    my ($attrs, $defaults, $options) = $this->_tickbox($cell, $colDef, $unexpandedValue);
+    my ( $attrs, $defaults, $options ) =
+      $this->_tickbox( $cell, $colDef, $unexpandedValue );
 
     return CGI::radio_group(
-	-name       => $cell->getCellName(),
-	-values     => $options,
-	-default    => $defaults->[0],
-	-columns    => $colDef->{size},
-	-attributes => $attrs
-	);
+        -name       => $cell->getCellName(),
+        -values     => $options,
+        -default    => $defaults->[0],
+        -columns    => $colDef->{size},
+        -attributes => $attrs
+    );
 }
 
 sub jQueryMetadata {
@@ -34,13 +35,15 @@ sub jQueryMetadata {
     my ( $cell, $colDef, $text ) = @_;
     my $data = $this->SUPER::jQueryMetadata(@_);
 
-    if ($colDef->{values} && scalar(@{$colDef->{values}})) {
-	# Format suitable for passing to a "select" type
-	$data->{data} = {};
-	map {
-	    $data->{data}->{$_} =
-		Foswiki::Func::renderText(Foswiki::Func::expandCommonVariables($_))
-	} @{$colDef->{values}};
+    if ( $colDef->{values} && scalar( @{ $colDef->{values} } ) ) {
+
+        # Format suitable for passing to a "select" type
+        $data->{data} = {};
+        map {
+            $data->{data}->{$_} =
+              Foswiki::Func::renderText(
+                Foswiki::Func::expandCommonVariables($_) )
+        } @{ $colDef->{values} };
     }
     $this->_addSaveButton($data);
     $this->_addCancelButton($data);

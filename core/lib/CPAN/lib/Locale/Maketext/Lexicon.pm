@@ -197,11 +197,10 @@ sub encoding {
         require I18N::Langinfo;
         $locale_encoding =
           I18N::Langinfo::langinfo( I18N::Langinfo::CODESET() );
-      }
-      or eval {
+    } or eval {
         require Win32::Console;
         $locale_encoding = 'cp' . Win32::Console::OutputCP();
-      };
+    };
     if ( !$locale_encoding ) {
         foreach my $key (qw( LANGUAGE LC_ALL LC_MESSAGES LANG )) {
             $ENV{$key} =~ /^([^.]+)\.([^.:]+)/ or next;

@@ -1,3 +1,4 @@
+
 =pod
 
 ---+ package Foswiki::Plugins::HomePagePlugin
@@ -9,15 +10,16 @@ package Foswiki::Plugins::HomePagePlugin;
 use strict;
 use warnings;
 
-use Foswiki::Func ();
+use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-our $VERSION          = '$Rev: 1340 $';
-our $RELEASE          = '1.2.0';
-our $SHORTDESCRIPTION = 'Allow User specified home pages - on login';
+our $VERSION           = '$Rev: 1340 $';
+our $RELEASE           = '1.2.0';
+our $SHORTDESCRIPTION  = 'Allow User specified home pages - on login';
 our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
+
     #my ( $topic, $web, $user, $installWeb ) = @_;
     return 1;
 }
@@ -25,10 +27,9 @@ sub initPlugin {
 sub initializeUserHandler {
     my ( $loginName, $url, $pathInfo ) = @_;
 
-    return unless ( 
-      $Foswiki::Plugins::SESSION->inContext('view')  ||
-      $Foswiki::Plugins::SESSION->inContext('login')
-    );
+    return
+      unless ( $Foswiki::Plugins::SESSION->inContext('view')
+        || $Foswiki::Plugins::SESSION->inContext('login') );
 
     my $gotoOnLogin =
       (       $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin}

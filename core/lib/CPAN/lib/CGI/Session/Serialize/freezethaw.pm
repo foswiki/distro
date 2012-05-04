@@ -1,23 +1,22 @@
 package CGI::Session::Serialize::freezethaw;
 
-# $Id: freezethaw.pm 447 2008-11-01 03:46:08Z markstos $ 
+# $Id: freezethaw.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
 use FreezeThaw;
 use CGI::Session::ErrorHandler;
 
 $CGI::Session::Serialize::freezethaw::VERSION = 4.38;
-@CGI::Session::Serialize::freezethaw::ISA     = ( "CGI::Session::ErrorHandler" );
+@CGI::Session::Serialize::freezethaw::ISA     = ("CGI::Session::ErrorHandler");
 
 sub freeze {
-    my ($self, $data) = @_;
+    my ( $self, $data ) = @_;
     return FreezeThaw::freeze($data);
 }
 
-
 sub thaw {
-    my ($self, $string) = @_;
-    return (FreezeThaw::thaw($string))[0];
+    my ( $self, $string ) = @_;
+    return ( FreezeThaw::thaw($string) )[0];
 }
 
 1;

@@ -620,18 +620,18 @@ sub _doFunc {
         $result = $arr[0];
 
     }
-    elsif( $theFunc eq "FLOOR" ) {
-        $i = _getNumber( $theAttr );
-        $result = int( $i );
-        if( $i < 0 && $i != $result ) {
+    elsif ( $theFunc eq "FLOOR" ) {
+        $i      = _getNumber($theAttr);
+        $result = int($i);
+        if ( $i < 0 && $i != $result ) {
             $result -= 1;
         }
 
     }
-    elsif( $theFunc eq "CEILING" ) {
-        $i = _getNumber( $theAttr );
-        $result = int( $i );
-        if( $i > 0 && $i != $result ) {
+    elsif ( $theFunc eq "CEILING" ) {
+        $i      = _getNumber($theAttr);
+        $result = int($i);
+        if ( $i > 0 && $i != $result ) {
             $result += 1;
         }
 
@@ -837,8 +837,8 @@ sub _doFunc {
         $from   = "" unless ( defined $from );
         $from =~ s/\$comma/,/g;
         $from =~ s/\$sp/ /g;
-        $from   = quotemeta($from) unless ( $options && $options =~ /r/i );
-        $to     = "" unless ( defined $to );
+        $from = quotemeta($from) unless ( $options && $options =~ /r/i );
+        $to = "" unless ( defined $to );
         $to =~ s/\$comma/,/g;
         $to =~ s/\$sp/ /g;
 

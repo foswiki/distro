@@ -344,8 +344,6 @@ SMELL
 SMELL
     $topicObject0Att->save();
 
-
-
     my $text = <<PONG;
 %QUERY{ "'$this->{test_web}.DeadHerring'/META:FIELD[name='Wibble'].value"}%
 PONG
@@ -378,8 +376,6 @@ PONG
 
 THIS
 
-
-
     $text = <<PONG;
 %QUERY{"'$this->{test_web}.DeadHerring'/attachments[comment='Wobble Trouble'].name"}%
 PONG
@@ -395,10 +391,6 @@ PONG
     $this->assert_equals( <<THIS, $result );
 
 THIS
-
-
-
-
 
     ##################################################
     # Array indexing tests - Item11730
@@ -419,9 +411,6 @@ PONG
     $this->assert_equals( <<THIS, $result );
 
 THIS
-
-
-
 
     $text = <<PONG;
 %QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[0].comment"}%
@@ -447,8 +436,6 @@ PONG
 
 THIS
 
-
-
     $text = <<PONG;
 %QUERY{"'$this->{test_web}.DeadHerring0Att'/attachments[0].comment"}%
 PONG
@@ -464,8 +451,6 @@ PONG
     $this->assert_equals( <<THIS, $result );
 
 THIS
-
-
 
     $topicObject->finish();
     $topicObject0Att->finish();
