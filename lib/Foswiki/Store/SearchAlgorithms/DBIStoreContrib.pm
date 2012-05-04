@@ -12,13 +12,12 @@ DBI implementation of search.
 
 use strict;
 use Assert;
-use Foswiki::Search::InfoCache ();
-use Foswiki::Query::Parser ();
+use Foswiki::Search::InfoCache                       ();
+use Foswiki::Query::Parser                           ();
 use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
 use Foswiki::Store::Interfaces::QueryAlgorithm();
 
-@ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
-
+@ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
 =begin TML
 
@@ -31,7 +30,6 @@ sub new {
     return $self;
 }
 
-
 # Analyse the requirements of the search, and redirect to the query
 # algorithm. This is kinda like the reverse of hoisting regexes :-)
 # Implements Foswiki::Store::Interfaces::SearchAlgorithm
@@ -39,10 +37,10 @@ sub query {
     my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
 
     if ( $query->isEmpty() ) {
-        return new Foswiki::Search::InfoCache($session, '');
+        return new Foswiki::Search::InfoCache( $session, '' );
     }
 
-    print STDERR "Search ".$query->stringify()."\n"
+    print STDERR "Search " . $query->stringify() . "\n"
       if Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
 
     # Convert the search to a query
@@ -51,50 +49,50 @@ sub query {
     foreach my $token ( @{ $query->tokens() } ) {
 
         my $tokenCopy = $token;
-        
+
         # flag for AND NOT search
         my $invert = ( $tokenCopy =~ s/^\!// ) ? 'NOT ' : '';
 
         # scope can be 'topic', 'text' or "all"
         # scope='topic', e.g. Perl search on topic name:
         $options->{scope} = 'text' unless defined $options->{'scope'};
-        $options->{type} ||= 'literal';
+        $options->{type}          ||= 'literal';
         $options->{casesensitive} ||= 0;
 
         $tokenCopy = "\\b$tokenCopy\\b" if $options->{wordboundaries};
 
         my %topicMatches;
         my @ors;
-        if ( $options->{scope} ne 'text' ) { # topic or all
+        if ( $options->{scope} ne 'text' ) {    # topic or all
             my $expr = $tokenCopy;
 
             $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
             $expr = "(?i:$expr)" unless $options->{casesensitive};
-            push(@ors, "${invert}name =~ '$expr'");
+            push( @ors, "${invert}name =~ '$expr'" );
         }
 
         # scope='text', e.g. grep search on topic text:
-        if ( $options->{scope} ne 'topic' ) { # text or all
+        if ( $options->{scope} ne 'topic' ) {    # text or all
             my $expr = $tokenCopy;
 
             $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
             $expr = "(?i:$expr)" unless $options->{casesensitive};
 
-            push(@ors, "${invert}raw =~ '$expr'");
+            push( @ors, "${invert}raw =~ '$expr'" );
         }
-        push(@ands, '(' . join($invert ? ' AND ' : ' OR ', @ors) . ')');
-        
+        push( @ands, '(' . join( $invert ? ' AND ' : ' OR ', @ors ) . ')' );
+
     }
     my $queryParser = Foswiki::Query::Parser->new();
-    my $search = join(' AND ', @ands);
+    my $search = join( ' AND ', @ands );
     print STDERR "Search generated query $search\n"
       if Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
 
     $query = $queryParser->parse($search);
 
     #NEED TO RECODE THIS TO USE THE Algo OBJECT..
-    return Foswiki::Store::QueryAlgorithms::DBIStoreContrib::query(undef, 
-        $query, $inputTopicSet, $session, $options);
+    return Foswiki::Store::QueryAlgorithms::DBIStoreContrib::query( undef,
+        $query, $inputTopicSet, $session, $options );
 }
 
 1;

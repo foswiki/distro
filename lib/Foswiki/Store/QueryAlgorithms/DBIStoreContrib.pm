@@ -14,69 +14,77 @@ use warnings;
 
 #use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Store::Interfaces::QueryAlgorithm ();
-our @ISA = ( 'Foswiki::Store::Interfaces::QueryAlgorithm' );
+our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
-use Foswiki::Search::Node      ();
-use Foswiki::Meta              ();
-use Foswiki::Search::InfoCache ();
-use Foswiki::Search::ResultSet ();
-use Foswiki::MetaCache         ();
-use Foswiki::Query::Node       ();
+use Foswiki::Search::Node                       ();
+use Foswiki::Meta                               ();
+use Foswiki::Search::InfoCache                  ();
+use Foswiki::Search::ResultSet                  ();
+use Foswiki::MetaCache                          ();
+use Foswiki::Query::Node                        ();
 use Foswiki::Contrib::DBIStoreContrib::Listener ();
 
 BEGIN {
     eval 'require  Foswiki::Store::Interfaces::SearchAlgorithm';
     if ($@) {
-	# Foswiki 1,1 or earlier
-	require Foswiki::Search::InfoCache;
-	*getListOfWebs = \&Foswiki::Search::InfoCache::_getListOfWebs;
-	*getOptionFilter = sub {
-	    my ($options) = @_;
 
-	    my $casesensitive =
-		defined( $options->{casesensitive} ) ? $options->{casesensitive} : 1;
+        # Foswiki 1,1 or earlier
+        require Foswiki::Search::InfoCache;
+        *getListOfWebs   = \&Foswiki::Search::InfoCache::_getListOfWebs;
+        *getOptionFilter = sub {
+            my ($options) = @_;
 
-	    # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
-	    my $includeTopics;
-	    my $topicFilter;
-	    my $excludeTopics;
-	    $excludeTopics =
-		Foswiki::Search::InfoCache::convertTopicPatternToRegex( $options->{excludeTopics} )
-		if ( $options->{excludeTopics} );
+            my $casesensitive =
+              defined( $options->{casesensitive} )
+              ? $options->{casesensitive}
+              : 1;
 
-	    if ( $options->{includeTopics} ) {
-		# E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
-		$includeTopics =
-		    Foswiki::Search::InfoCache::convertTopicPatternToRegex( $options->{includeTopics} );
+            # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
+            my $includeTopics;
+            my $topicFilter;
+            my $excludeTopics;
+            $excludeTopics =
+              Foswiki::Search::InfoCache::convertTopicPatternToRegex(
+                $options->{excludeTopics} )
+              if ( $options->{excludeTopics} );
 
-		if ( $casesensitive ) {
-		    $topicFilter = qr/$includeTopics/;
-		}
-		else {
-		    $topicFilter = qr/$includeTopics/i;
-		}
-	    }
+            if ( $options->{includeTopics} ) {
 
-	    return sub {
-		my $item = shift;
-		return 0 unless !$topicFilter || $item =~ /$topicFilter/;
-		if ( defined $excludeTopics ) {
-		    return 0 if $item =~ /$excludeTopics/;
-		    return 0 if !$casesensitive && $item =~ /$excludeTopics/i;
-		}
-		return 1;
-	    }
-	}
-    } else {
-	# Foswiki > 1.1
-	*getListOfWebs = \&Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs;
-	*getOptionFilter = \&Foswiki::Search::InfoCache::getOptionFilter;
+                # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
+                $includeTopics =
+                  Foswiki::Search::InfoCache::convertTopicPatternToRegex(
+                    $options->{includeTopics} );
+
+                if ($casesensitive) {
+                    $topicFilter = qr/$includeTopics/;
+                }
+                else {
+                    $topicFilter = qr/$includeTopics/i;
+                }
+            }
+
+            return sub {
+                my $item = shift;
+                return 0 unless !$topicFilter || $item =~ /$topicFilter/;
+                if ( defined $excludeTopics ) {
+                    return 0 if $item =~ /$excludeTopics/;
+                    return 0 if !$casesensitive && $item =~ /$excludeTopics/i;
+                }
+                return 1;
+              }
+          }
+    }
+    else {
+
+        # Foswiki > 1.1
+        *getListOfWebs =
+          \&Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs;
+        *getOptionFilter = \&Foswiki::Search::InfoCache::getOptionFilter;
     }
 }
 
 # Debug prints
 use constant MONITOR => 0;
-
 
 =begin TML
 
@@ -89,17 +97,18 @@ sub new {
     return $self;
 }
 
-
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
     my ( $this, $query, $interestingTopics, $session, $options ) = @_;
-    ASSERT(defined($this));#Sven changed the API to OO based to allow re-use of boilerplate version of query sub()
+    ASSERT( defined($this) )
+      ; #Sven changed the API to OO based to allow re-use of boilerplate version of query sub()
 
-    print STDERR "Initial query: ".$query->stringify()."\n" if MONITOR;
+    print STDERR "Initial query: " . $query->stringify() . "\n" if MONITOR;
+
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
     $query->simplify( tom => $context, data => $context );
-    print STDERR "Simplified to: ". $query->stringify() . "\n" if MONITOR;
+    print STDERR "Simplified to: " . $query->stringify() . "\n" if MONITOR;
 
     my $isAdmin = $session->{users}->isAdmin( $session->{user} );
 
@@ -137,15 +146,16 @@ sub query {
     # can use to refine the topic set
 
     require Foswiki::Contrib::DBIStoreContrib::HoistSQL;
-    my $hoistedSQL = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist(
-        $query) || 1;
+    my $hoistedSQL = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist($query)
+      || 1;
 
     if ($hoistedSQL) {
         print STDERR "Hoisted '$hoistedSQL', remaining query: "
-          . $query->stringify . "\n" if MONITOR;
+          . $query->stringify . "\n"
+          if MONITOR;
 
         # Did hoisting eliminate the dynamic query?
-        if ($query->evaluatesToConstant()) {
+        if ( $query->evaluatesToConstant() ) {
             print STDERR "\t...eliminated static query\n" if MONITOR;
             $query = undef;
         }
@@ -159,14 +169,14 @@ sub query {
     if ( $interestingTopics && $interestingTopics->hasNext() ) {
         $sql .= " AND topic.name IN ("
           . join( ',', map { "'$_'" } $interestingTopics->all() ) . ')';
-    } # otherwise there is no topic name filter
+    }    # otherwise there is no topic name filter
 
     $sql .= ' ORDER BY web,name';
 
     print STDERR "Generated SQL: $sql\n" if MONITOR;
 
-    my $topicSet = Foswiki::Contrib::DBIStoreContrib::Listener::query(
-        $session, $sql );
+    my $topicSet =
+      Foswiki::Contrib::DBIStoreContrib::Listener::query( $session, $sql );
     my $filter = getOptionFilter($options);
 
     # Collate results into one-per-web result sets to mimic the old
@@ -174,8 +184,7 @@ sub query {
     my %results;
     foreach my $webtopic (@$topicSet) {
         my ( $Iweb, $topic ) =
-          $Foswiki::Plugins::SESSION->normalizeWebTopicName(
-              undef, $webtopic );
+          $Foswiki::Plugins::SESSION->normalizeWebTopicName( undef, $webtopic );
 
         my $cache =
           $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb, $topic );
@@ -209,19 +218,17 @@ sub query {
 
     # We have to pre-sort the result sets by web name to mimic the
     # behaviour of default search.
-    my $resultset =
-      new Foswiki::Search::ResultSet(
-          [ map { $results{$_} } sort( keys( %results )) ],
-          $options->{groupby},
-          $options->{order},
-          Foswiki::isTrue( $options->{reverse} ) );
+    my $resultset = new Foswiki::Search::ResultSet(
+        [ map { $results{$_} } sort( keys(%results) ) ],
+        $options->{groupby}, $options->{order},
+        Foswiki::isTrue( $options->{reverse} ) );
 
     #TODO: $options should become redundant
     $resultset->sortResults($options);
-        
+
     #add permissions check
     $resultset = $this->addACLFilter( $resultset, $options );
-    
+
     #add paging if applicable.
     return $this->addPager( $resultset, $options );
 }

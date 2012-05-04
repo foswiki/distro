@@ -62,13 +62,14 @@ use constant {
 };
 
 BEGIN {
+
     # Foswiki 1.1 doesn't have makeConstant; monkey-patch it
-    unless (defined &Foswiki::Infix::Node::makeConstant) {
-	*Foswiki::Infix::Node::makeConstant = sub {
-	    my ($this, $type, $val) = @_;
-	    $this->{op} = $type;
-	    $this->{params} = [ $val ];
-	}
+    unless ( defined &Foswiki::Infix::Node::makeConstant ) {
+        *Foswiki::Infix::Node::makeConstant = sub {
+            my ( $this, $type, $val ) = @_;
+            $this->{op}     = $type;
+            $this->{params} = [$val];
+          }
     }
 }
 
@@ -89,7 +90,7 @@ the hoisted expressions with constants.
 =cut
 
 sub hoist {
-    my ($node, $indent) = @_;
+    my ( $node, $indent ) = @_;
 
     return undef unless ref( $node->{op} );
 
@@ -104,25 +105,25 @@ sub hoist {
         my $lhs = hoist( $node->{params}[0], "${indent}l" );
         my $rhs = _hoistB( $node->{params}[1], "${indent}r" );
         if ( $lhs && $rhs ) {
-            $node->makeConstant(NUMBER, 1);
+            $node->makeConstant( NUMBER, 1 );
             print STDERR "${indent}L&R\n" if MONITOR;
             return "($lhs) AND ($rhs)";
         }
-        elsif ( $lhs ) {
-            $node->{params}[0]->makeConstant(NUMBER, 1);
+        elsif ($lhs) {
+            $node->{params}[0]->makeConstant( NUMBER, 1 );
             print STDERR "${indent}L\n" if MONITOR;
             return $lhs;
         }
         elsif ($rhs) {
-            $node->{params}[1]->makeConstant(NUMBER, 1);
+            $node->{params}[1]->makeConstant( NUMBER, 1 );
             print STDERR "${indent}R\n" if MONITOR;
             return $rhs;
         }
     }
     else {
-        my $or = _hoistB($node, "${indent}|");
+        my $or = _hoistB( $node, "${indent}|" );
         if ($or) {
-            $node->makeConstant(NUMBER, 1);
+            $node->makeConstant( NUMBER, 1 );
             return $or;
         }
     }
@@ -132,7 +133,7 @@ sub hoist {
 }
 
 sub _hoistB {
-    my ($node, $indent) = @_;
+    my ( $node, $indent ) = @_;
 
     return unless ref( $node->{op} );
 
@@ -151,34 +152,35 @@ sub _hoistB {
         }
     }
     else {
-        return _hoistC($node, "${indent}|", 0);
+        return _hoistC( $node, "${indent}|", 0 );
     }
 
     return undef;
 }
 
 sub _hoistC {
-    my ($node, $indent, $negated) = @_;
+    my ( $node, $indent, $negated ) = @_;
 
     return undef unless ref( $node->{op} );
 
-    my $op = $node->{op}->{name}; 
+    my $op = $node->{op}->{name};
     if ( $op eq '(' ) {
         return _hoistC( $node->{params}[0], "${indent}(", $negated );
     }
 
     print STDERR "${indent}EQ ", $node->stringify(), "\n" if MONITOR;
-    my ($lhs, $rhs, $table, $test);
+    my ( $lhs, $rhs, $table, $test );
 
     if ( $op eq 'not' ) {
         return _hoistC( $node->{params}[0], "${indent}(", !$negated );
     }
     elsif ( $op eq '=' || $op eq '!=' ) {
-        ($lhs, $table) = _hoistValue( $node->{params}[0], "${indent}l" );
+        ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}l" );
         $rhs = _hoistConstant( $node->{params}[1] );
         if ( !$lhs || !$rhs ) {
+
             # = and != are symmetric, so try the other order
-            ($lhs, $table) = _hoistValue( $node->{params}[1], "${indent}r" );
+            ( $lhs, $table ) = _hoistValue( $node->{params}[1], "${indent}r" );
             $rhs = _hoistConstant( $node->{params}[0] );
         }
         if ( $lhs && $rhs ) {
@@ -188,12 +190,12 @@ sub _hoistC {
         }
     }
     elsif ( $op eq '~' ) {
-        ($lhs, $table) = _hoistValue( $node->{params}[0], "${indent}l" );
+        ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}l" );
         $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && $rhs ) {
             my $escape = '';
             $rhs = quotemeta($rhs);
-            if ($rhs =~ /'/) {
+            if ( $rhs =~ /'/ ) {
                 $rhs =~ s/([s'])/s$1/g;
                 $escape = " ESCAPE 's'";
             }
@@ -205,11 +207,11 @@ sub _hoistC {
         }
     }
     elsif ( $op eq '=~' ) {
-        ($lhs, $table) = _hoistValue( $node->{params}[0], "${indent}l" );
+        ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}l" );
         $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && $rhs ) {
             my $escape = '';
-            if ($rhs =~ /'/) {
+            if ( $rhs =~ /'/ ) {
                 $rhs =~ s/([s'])/s$1/g;
                 $escape = " ESCAPE 's'";
             }
@@ -218,13 +220,15 @@ sub _hoistC {
             $test = "NOT($test)" if $negated;
         }
     }
-    if ($table && $test) {
-        if ($table ne 'topic') {
+    if ( $table && $test ) {
+        if ( $table ne 'topic' ) {
+
             # Have to use an EXISTS if the sub-test refers to another table
             return <<SQL;
 EXISTS(SELECT * FROM $table WHERE $table.tid=topic.tid AND $test)
 SQL
-        } else {
+        }
+        else {
             return $test;
         }
     }
@@ -239,33 +243,39 @@ SQL
 # <rootfield> may be aliased
 # Returns a partial SQL statement that can be followed by a condition for
 # testing the value.
-# A limited set of functions - UPPER, LOWER, 
+# A limited set of functions - UPPER, LOWER,
 sub _hoistValue {
-    my ($node, $indent) = @_;
-    my $op = ref( $node->{op}) ? $node->{op}->{name} : '';
+    my ( $node, $indent ) = @_;
+    my $op = ref( $node->{op} ) ? $node->{op}->{name} : '';
 
     print STDERR "${indent}V ", $node->stringify(), "\n" if MONITOR;
 
     if ( $op eq '(' ) {
         return _hoistValue( $node->{params}[0] );
     }
- 
+
     if ( $op eq 'lc' ) {
-        my ($lhs, $table) = _hoistValue( $node->{params}[0], "${indent}$op" );
-        return ("LOWER($lhs)", $table) if $lhs;
-    } elsif ( $op eq 'uc' ) {
-        my ($lhs, $table) = _hoistValue( $node->{params}[0], "${indent}$op" );
-        return ("UPPER($lhs)", $table) if $lhs;
-    } elsif ( $op eq 'length' ) {
+        my ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}$op" );
+        return ( "LOWER($lhs)", $table ) if $lhs;
+    }
+    elsif ( $op eq 'uc' ) {
+        my ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}$op" );
+        return ( "UPPER($lhs)", $table ) if $lhs;
+    }
+    elsif ( $op eq 'length' ) {
+
         # This is slightly risky, because 'length' also works on array
         # values, but SQL LEN only works on text values.
-        my ($lhs, $table) = _hoistValue( $node->{params}[0], "${indent}$op" );
-        return ("LENGTH($lhs)", $table) if $lhs;
-    } elsif ( $op eq '.' ) {
+        my ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}$op" );
+        return ( "LENGTH($lhs)", $table ) if $lhs;
+    }
+    elsif ( $op eq '.' ) {
         my $lhs = $node->{params}[0];
         my $rhs = $node->{params}[1];
-        if (   !ref( $lhs->{op} ) && !ref( $rhs->{op} )
-            && $lhs->{op} == NAME && $rhs->{op} == NAME )
+        if (   !ref( $lhs->{op} )
+            && !ref( $rhs->{op} )
+            && $lhs->{op} == NAME
+            && $rhs->{op} == NAME )
         {
             $lhs = $lhs->{params}[0];
             $rhs = $rhs->{params}[0];
@@ -274,39 +284,44 @@ sub _hoistValue {
             }
             if ( $lhs =~ /^META:(\w+)/ ) {
 
-                return ("$1.$rhs", $1);
+                return ( "$1.$rhs", $1 );
             }
 
             if ( $rhs eq 'text' ) {
+
                 # Special case for the text body
-                return ('topic.text', 'topic');
+                return ( 'topic.text', 'topic' );
             }
 
             if ( $rhs eq 'raw' ) {
+
                 # Special case for the text body
-                return ('topic.raw', 'topic');
+                return ( 'topic.raw', 'topic' );
             }
 
             # Otherwise assume the term before the dot is the form name
-            return ("EXISTS(SELECT * FROM FORM WHERE FORM.tid=topic.tid AND FORM.name='$lhs') AND FIELD.name='$rhs' AND FIELD.value",
-                    "FIELD")
+            return (
+"EXISTS(SELECT * FROM FORM WHERE FORM.tid=topic.tid AND FORM.name='$lhs') AND FIELD.name='$rhs' AND FIELD.value",
+                "FIELD"
+            );
         }
     }
     elsif ( !ref( $node->{op} ) && $node->{op} == NAME ) {
+
         # A simple name
         if ( $node->{params}[0] =~ /^(name|web|text|raw)$/ ) {
 
             # Special case for the topic name, web or text body
-            return ("topic.$1", 'topic');
+            return ( "topic.$1", 'topic' );
         }
         else {
-            return ("FIELD.name='$node->{params}[0]' AND FIELD.value",
-                    'FIELD');
+            return ( "FIELD.name='$node->{params}[0]' AND FIELD.value",
+                'FIELD' );
         }
     }
 
     print STDERR "\tFAILED\n" if MONITOR;
-    return (undef, undef);
+    return ( undef, undef );
 }
 
 # Expecting a constant
