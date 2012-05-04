@@ -19,17 +19,17 @@ use Error ();
 our @ISA = ('Error');    # base class
 
 sub new {
-  my ($class, $code, $message) = @_;
+    my ( $class, $code, $message ) = @_;
 
-  return $class->SUPER::new(
-    code => $code,
-    message => $message,
-  );
+    return $class->SUPER::new(
+        code    => $code,
+        message => $message,
+    );
 }
 
 sub stringify {
-  my $this = shift;
-  return "Error($this->{code}): $this->{message}";
+    my $this = shift;
+    return "Error($this->{code}): $this->{message}";
 }
 
 1;

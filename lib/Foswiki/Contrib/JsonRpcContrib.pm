@@ -24,28 +24,28 @@ use warnings;
 
 =cut
 
-our $VERSION = '$Rev$';
-our $RELEASE = '1.21';
-our $SHORTDESCRIPTION = 'JSON-RPC interface for Foswiki';
+our $VERSION           = '$Rev$';
+our $RELEASE           = '1.21';
+our $SHORTDESCRIPTION  = 'JSON-RPC interface for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SERVER;
 
 sub registerMethod {
-  getServer()->registerMethod(@_);
+    getServer()->registerMethod(@_);
 }
 
 sub dispatch {
-  getServer()->dispatch(@_);
+    getServer()->dispatch(@_);
 }
 
 sub getServer {
 
-  unless (defined $SERVER) {
-    require Foswiki::Contrib::JsonRpcContrib::Server;
-    $SERVER = new Foswiki::Contrib::JsonRpcContrib::Server();
-  }
+    unless ( defined $SERVER ) {
+        require Foswiki::Contrib::JsonRpcContrib::Server;
+        $SERVER = new Foswiki::Contrib::JsonRpcContrib::Server();
+    }
 
-  return $SERVER;
+    return $SERVER;
 }
 
 1;
