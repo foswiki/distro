@@ -41,7 +41,7 @@ sub sig_manager {
 
 sub pm_die {
     my $this = shift;
-    if ( $Foswiki::Engine::FastCGI::hupRecieved ) {
+    if ($Foswiki::Engine::FastCGI::hupRecieved) {
         Foswiki::Engine::FastCGI::reExec();
     }
     else {

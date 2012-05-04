@@ -110,7 +110,7 @@ sub run {
             );
             $manager->pm_manage();
         }
-        else { # No ProcManager
+        else {    # No ProcManager
 
             # ProcManager is in charge SIGHUP handling. If there is no manager,
             # we handle SIGHUP ourslves.
@@ -124,7 +124,8 @@ sub run {
     }
 
     my $localSiteCfg = $INC{'LocalSite.cfg'};
-    die "LocalSite.cfg is not loaded - Check permissions or run configure\n" unless defined $localSiteCfg;
+    die "LocalSite.cfg is not loaded - Check permissions or run configure\n"
+      unless defined $localSiteCfg;
 
     my $lastMTime = ( stat $localSiteCfg )[9];
 
@@ -140,7 +141,7 @@ sub run {
 
         my $mtime = ( stat $localSiteCfg )[9];
         $maxRequests--;
-        if ( $mtime > $lastMTime || $hupRecieved || $maxRequests == 0) {
+        if ( $mtime > $lastMTime || $hupRecieved || $maxRequests == 0 ) {
             $r->LastCall();
             if ($manager) {
                 kill SIGHUP, $manager->pm_parameter('MANAGER_PID');
