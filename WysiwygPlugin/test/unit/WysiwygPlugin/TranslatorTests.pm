@@ -391,7 +391,7 @@ HERE
         exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'preserveClass',
         html => <<'HERE',
-<p><pre class="foswikiHidden TMLverbatim"><br />Verbatim&nbsp;1<br />Line&nbsp;2<br />Line&nbsp;3</pre> <pre class="html tml TMLverbatim"><br />Verbatim&nbsp;2<br /><br /></pre><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><pre class="tml html TMLverbatim"><br /><br />Verbatim&nbsp;3</pre>
+<p><pre class="foswikiHidden TMLverbatim"><br />Verbatim&nbsp;1<br />Line&nbsp;2<br />Line&nbsp;3</pre> <pre class="html tml TMLverbatim"><br />Verbatim&nbsp;2<br /><br /></pre><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><pre class="tml html TMLverbatim"><br /><br />Verbatim&nbsp;3</pre>
 </p>
 HERE
         tml => <<'HERE',
@@ -822,23 +822,30 @@ TML
 HERE
         tml => '%<nop>MAINWEB%'
     },
+
     {
-        exec => $HTML2TML,      #|$TML2HTML|$ROUNDTRIP,
+        exec => $HTML2TML | $TML2HTML | $ROUNDTRIP,
+        name => 'setNOAUTOLINK',
+        pref => 'NOAUTOLINK=1',
+        tml  => <<'HERE',
+RedHat & SuSE
+HERE
+        html => <<'HERE',
+<p>RedHat & SuSE
+</p>
+HERE
+    },
+    {
+        exec => $HTML2TML | $TML2HTML | $ROUNDTRIP,
         name => 'noAutoLunk',
         html => <<'HERE',
-<p>
-<span class="WYSIWYG_PROTECTED">&lt;noautolink&gt;</span>
-<span class="WYSIWYG_LINK">RedHat</span> & <span class="WYSIWYG_LINK">SuSE</span>
-<span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
+<p><span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>RedHat & SuSE<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span>
 </p>
 HERE
         tml => <<'HERE',
 <noautolink>
 RedHat & SuSE
 </noautolink>
-HERE
-        finaltml => <<'HERE',
-<noautolink> RedHat & SuSE </noautolink>
 HERE
     },
     {
@@ -902,10 +909,24 @@ HERE
 EVERYWHERE
     },
     {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'noautolinkBlock',
+        html => <<HERE,
+<p><span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>WebHome<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><a href="LinkingTopic">LinkingTopic</a>
+</p>
+HERE
+        tml => <<'EVERYWHERE',
+<noautolink>
+WebHome
+</noautolink>
+LinkingTopic
+EVERYWHERE
+    },
+    {
         exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'squabsWithVars2',
         html => <<HERE,
-<p><span class="WYSIWYG_LINK">[[wiki syntax]]</span><span class="WYSIWYG_LINK">[[%MAINWEB%.Wiki users]]</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>escaped:<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>!<span class="WYSIWYG_LINK">[[wiki syntax]]</span>
+<p><span class="WYSIWYG_LINK">[[wiki syntax]]</span><span class="WYSIWYG_LINK">[[%MAINWEB%.Wiki users]]</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>escaped:<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>!<span class="WYSIWYG_LINK">[[wiki syntax]]</span>
 </p>
 HERE
         tml => <<'THERE',
@@ -3097,8 +3118,8 @@ HERE
 </table>
 HERE
         html => <<'HERE',
-<p class="foswikiDeleteMe">&nbsp;</p><table border="1" cellpadding="0" cellspacing="1"> <span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tbody> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tr> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>A</td> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>B
-<p></p><span style="{encoded:'ns12'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>C<span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></td><span style="{encoded:'s2'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>D</td> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></tr><span style="{encoded:'s3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></tbody> 
+<p class="foswikiDeleteMe">&nbsp;</p><table border="1" cellpadding="0" cellspacing="1"> <span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><tbody> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><tr> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><td>A</td> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><td>B
+<p></p><span style="{encoded:'ns12'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>C<span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></td><span style="{encoded:'s2'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><td>D</td> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></tr><span style="{encoded:'s3'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></tbody> 
 </table>
 HERE
         finaltml => <<'HERE'
@@ -3161,7 +3182,7 @@ blah
 HERE
         html => <<'HERE'
 <h2 class="TML">  Accepted  </h2>
-<p>TBD <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span class="WYSIWYG_PROTECTED"><br />#ApprovedTerm</span> 
+<p>TBD <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED"><br />#ApprovedTerm</span> 
 </p>
 <h2 class="TML">  Approved  </h2>
 <p>blah</p>
@@ -3176,7 +3197,7 @@ HERE
 </tbody> </table>
 HERE
         html => <<'HERE',
-<p class="foswikiDeleteMe">&nbsp;</p><table> <tbody> <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tr> <td> <h3> b </h3> </td> </tr> 
+<p class="foswikiDeleteMe">&nbsp;</p><table> <tbody> <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><tr> <td> <h3> b </h3> </td> </tr> 
 </tbody> </table>
 HERE
         finaltml => <<'HERE'
@@ -3193,7 +3214,7 @@ sub encodedWhitespace {
     return
         '<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'
       . "'$encoded'"
-      . '}"> </span>';
+      . '}">&nbsp;</span>';
 }
 
 # Run from BEGIN

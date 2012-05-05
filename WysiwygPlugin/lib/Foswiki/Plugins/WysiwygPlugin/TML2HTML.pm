@@ -32,7 +32,7 @@ use warnings;
 my $TT0 = chr(0);
 my $TT1 = chr(1);
 my $TT2 = chr(2);
-my $TT3 = chr(3);
+my $TT3 = chr(3);    # Temporarily hides noautolink %macros at various points
 
 # HTML elements that are palatable to editors. Other HTML tags will be
 # rendered in 'protected' regions to prevent the WYSIWYG editor mussing
@@ -428,8 +428,6 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
     $text =~
 s/(\<a(\s+(href|target|title|class)=("(?:[^"\\]++|\\.)*+"|'(?:[^'\\]++|\\.)*+'|\S+))+\s*\>.*?\<\/a\s*\>)/$this->_liftOutGeneral($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/gei;
 
-# SMELL:  Links inside protected tags like %SEARCH  should not be treated as links...
-#    BUT  %TAGS inside links must not be protected.  Treat them as literal text.
     $text =~
       s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
     $text =~ s/\[\[([^\]]*)\]\]/$this->_protectMacrosInSquab($1)/ge;
@@ -446,9 +444,12 @@ s/(\<a(\s+(href|target|title|class)=("(?:[^"\\]++|\\.)*+"|'(?:[^'\\]++|\\.)*+'|\
     # Handle [[]] links
     $text =~ s/\[\[([^\]]*)\]\]/$this->_liftOutSquab($1,$1,'TMLlink')/ge;
 
-    # protect some HTML tags.
-    $text =~ s/(<\/?(?!(?i:$PALATABLE_HTML)\b)[A-Z]+(\s[^>]*)?>)/
+    # protect some HTML tags, excluding noautolink.
+    $text =~ s/(<\/?(?!(?i:$PALATABLE_HTML|NOAUTOLINK)\b)[A-Z]+(\s[^>]*)?>)/
       $this->_liftOut($1, 'PROTECTED')/gei;
+
+    # hide NOAUTOLINK
+    $text =~ s/<(\/?noautolink)>/$TT3$1$TT3/gi;
 
     # Blockquoted email (indented with '> ')
     # Could be used to provide different colours for different numbers of '>'
@@ -812,8 +813,25 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
     _handleMarkup($text);
 
-    $text =~
-s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOutSquab($1,$1)/geom;
+    # restore NOAUTOLINK
+    $text =~ s/$TT3(\/?noautolink)$TT3/<$1>/gi;
+
+    unless (
+        Foswiki::isTrue( Foswiki::Func::getPreferencesValue('NOAUTOLINK') ) )
+    {
+        my $removed = {};
+        $text = Foswiki::takeOutBlocks( $text, 'noautolink', $removed );
+
+# Need to also include protected white-space marker as part of start wikiword delim
+        my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
+        $text =~
+s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOutSquab($1,$1)/geom;
+        Foswiki::putBackBlocks( \$text, $removed, 'noautolink' );
+    }
+
+    # protect NOAUTOLINK.
+    $text =~ s/(<\/?(?i:noautolink\b)(\s[^>]*)?>)/
+      $this->_liftOut($1, 'PROTECTED')/gei;
 
     $text =~ s/(<nop>)/$this->_liftOut($1, 'PROTECTED')/ge;
 
@@ -910,7 +928,7 @@ sub _hideWhitespace {
     $whitespace =~ s/( +)/'s' . length($1)/ge;
 
     return $this->_liftOutGeneral(
-        " ",
+        "&nbsp;",
         {
             tag    => 'span',
             class  => "WYSIWYG_HIDDENWHITESPACE",

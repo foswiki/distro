@@ -1825,7 +1825,7 @@ sub _handleSPAN {
               $this->_flatten( $options | $WC::KEEP_WS | $WC::KEEP_ENTITIES );
 
             #die Data::Dumper::Dumper($kids);
-            if ( $kids eq ' ' ) {
+            if ( $kids eq '&nbsp;' ) {
 
                 # The space was not changed
                 # So restore the encoded whitespace
