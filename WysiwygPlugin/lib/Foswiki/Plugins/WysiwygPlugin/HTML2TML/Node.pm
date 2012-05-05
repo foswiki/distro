@@ -1465,7 +1465,8 @@ sub _handleA {
             return ( 0, $WC::CHECK1 . $nop . $text . $WC::CHECK2 );
         }
         if ( $text eq $href ) {
-            return ( 0, $WC::CHECKw . '[' . $nop . '[' . $href . ']]' );
+            return ( 0,
+                $WC::CHECKw . '[' . $nop . '[' . $this->{attrs}{href} . ']]' );
         }
 
         # we must quote square brackets in [[...][...]] notation
@@ -1475,7 +1476,11 @@ sub _handleA {
         $href =~ s/[]]/%5D/g;
 
         return ( 0,
-            $WC::CHECKw . '[' . $nop . '[' . $href . '][' . $text . ']]' );
+                $WC::CHECKw . '[' 
+              . $nop . '['
+              . $this->{attrs}{href} . ']['
+              . $text
+              . ']]' );
     }
     elsif ( $this->{attrs}->{name} ) {
 
