@@ -675,7 +675,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
@@ -694,7 +694,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>

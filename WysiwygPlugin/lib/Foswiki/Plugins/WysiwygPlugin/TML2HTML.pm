@@ -32,6 +32,7 @@ use warnings;
 my $TT0 = chr(0);
 my $TT1 = chr(1);
 my $TT2 = chr(2);
+my $TT3 = chr(3);
 
 # HTML elements that are palatable to editors. Other HTML tags will be
 # rendered in 'protected' regions to prevent the WYSIWYG editor mussing
@@ -423,15 +424,27 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       _getNamedColour($1, $2)#oge;
 
-    # Handle [[][]] links by letting the WYSIWYG handle them as standard links
-    $text =~ s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2)/ge;
-
     # let WYSIWYG-editable A tags untouched for the editor
     $text =~
 s/(\<a(\s+(href|target|title|class)=("(?:[^"\\]++|\\.)*+"|'(?:[^'\\]++|\\.)*+'|\S+))+\s*\>.*?\<\/a\s*\>)/$this->_liftOutGeneral($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/gei;
 
+
+    # SMELL:  Links inside protected tags like %SEARCH  should not be treated as links...
+    #    BUT  %TAGS inside links must not be protected.  Treat them as literal text.
+    $text =~ s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
+    $text =~ s/\[\[([^\]]*)\]\]/$this->_protectMacrosInSquab($1)/ge;
+
     # Convert Foswiki tags to spans outside protected text
     $text = $this->_processTags($text);
+
+    # Unprotect the macros.
+    $text =~ s/$TT3/%/g;
+
+    # Handle [[][]] links by letting the WYSIWYG handle them as standard links
+    $text =~ s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2)/ge;
+
+    # Handle [[]] links
+    $text =~ s/\[\[([^\]]*)\]\]/$this->_liftOutSquab($1,$1,'TMLlink')/ge;
 
     # protect some HTML tags.
     $text =~ s/(<\/?(?!(?i:$PALATABLE_HTML)\b)[A-Z]+(\s[^>]*)?>)/
@@ -799,13 +812,8 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
 
     _handleMarkup($text);
 
-    # Handle [[]] links
-    $text =~ s/(\[\[[^\]]*\]\])/$this->_liftOut($1, 'LINK')/ge;
-
-    # We do _not_ support [[http://link text]] syntax
-
     $text =~
-s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOut($1, 'LINK')/geom;
+s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/$this->_liftOutSquab($1,$1)/geom;
 
     $text =~ s/(<nop>)/$this->_liftOut($1, 'PROTECTED')/ge;
 
@@ -829,16 +837,39 @@ sub _liftOutSquab {
     my $this = shift;
     my $url  = shift;
     my $text = shift;
+    my $class = shift || '';
 
-    # Handle colour tags specially (hack, hack, hackity-HACK!)
+    # Treat as old style link if embedded spaces in the url
+    return $this->_liftOut('[['.$url.']]', 'LINK') if ( $class eq 'TMLlink' &&  $url =~ m/\s/ );
+
+    # Handle colour tags specially (hack, hack, hackity-HACK!
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
     $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
       _getNamedColour($1, $2)#oge;
     _handleMarkup($text);
 
-    return $this->_liftOutGeneral( "<a href=\"$url\">$text<\/a>",
+    if ( $class ) {
+        $class = " class='$class'";
+    }
+
+    return $this->_liftOutGeneral( "<a$class href=\"$url\">$text<\/a>",
         { tag => 'NONE', protect => 0, tmltag => 0 } );
 
+}
+
+sub _protectMacrosInSquab {
+    my $this = shift;
+    my $url  = shift;
+    my $text = shift;
+
+    $url =~ s/%/$TT3/g;
+
+    if ( $text ) {
+        return "[[$url][$text]]";
+    }
+    else {
+        return "[[$url]]";
+    }
 }
 
 sub _handleMarkup {

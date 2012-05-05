@@ -93,7 +93,7 @@ my $data = [
         tml  => 'Move !ItTest/site/ToWeb5 leaving web5 as !MySQL host',
         html => <<HERE,
 <p>
-Move !<span class="WYSIWYG_LINK">ItTest</span>/site/ToWeb5 leaving web5 as !<span class="WYSIWYG_LINK">MySQL</span> host
+Move !ItTest/site/ToWeb5 leaving web5 as !MySQL host
 </p>
 HERE
     },
@@ -804,7 +804,7 @@ TML
     {
         exec     => $TML2HTML | $ROUNDTRIP,
         name     => 'noppedWikiword',
-        html     => '<p>!<span class="WYSIWYG_LINK">SunOS</span></p>',
+        html     => '<p>!SunOS</p>',
         tml      => '!SunOS',
         finaltml => '!SunOS',
     },
@@ -861,8 +861,16 @@ HERE
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'variousWikiWords',
-        html =>
-"<p>${linkon}WebPreferences${linkoff}</p><p>$protecton<br />%MAINWEB%$protectoff.WikiUsers</p><p>${linkon}CompleteAndUtterNothing${linkoff}</p><p>${linkon}LinkBox$linkoff${linkon}LinkBoxs${linkoff}${linkon}LinkBoxies${linkoff}${linkon}LinkBoxess${linkoff}${linkon}LinkBoxesses${linkoff}${linkon}LinkBoxes${linkoff}</p>",
+        html => <<"XXX",
+<p><a href="WebPreferences">WebPreferences</a>
+</p>
+<p><span class="WYSIWYG_PROTECTED"><br />%MAINWEB%</span>.WikiUsers
+</p>
+<p><a href="CompleteAndUtterNothing">CompleteAndUtterNothing</a>
+</p>
+<p><a href="LinkBox">LinkBox</a> <a href="LinkBoxs">LinkBoxs</a> <a href="LinkBoxies">LinkBoxies</a> <a href="LinkBoxess">LinkBoxess</a> <a href="LinkBoxesses">LinkBoxesses</a> <a href="LinkBoxes">LinkBoxes</a>
+</p>
+XXX
         tml => <<'YYY',
 WebPreferences
 
@@ -894,12 +902,11 @@ HERE
 EVERYWHERE
     },
     {
-        exec => $ROUNDTRIP,
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'squabsWithVars2',
         html => <<HERE,
-${linkon}[[wiki syntax]]$linkoff$linkon\[[%MAINWEB%.Wiki users]]${linkoff}
-escaped:
-[<nop>[wiki syntax]]
+<p><span class="WYSIWYG_LINK">[[wiki syntax]]</span><span class="WYSIWYG_LINK">[[%MAINWEB%.Wiki users]]</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>escaped:<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>!<span class="WYSIWYG_LINK">[[wiki syntax]]</span>
+</p>
 HERE
         tml => <<'THERE',
 [[wiki syntax]][[%MAINWEB%.Wiki users]]
@@ -1548,12 +1555,13 @@ HERE
     {
         exec => $ROUNDTRIP,
         name => 'twikiWebSnarf',
-        html => $linkon . '[[%SYSTEMWEB%.TopicName][bah]]' . $linkoff,
+        html => '<a href="%SYSTEMWEB%.TopicName">bah</a>',
         tml  => '[[%SYSTEMWEB%.TopicName][bah]]',
     },
     {
         exec => $ROUNDTRIP,
         name => 'mainWebSnarf',
+        html => '<a href="%MAINWEB%.TopicName>bah</a>',
         html => "${linkon}\[[%MAINWEB%.TopicName][bah]]$linkoff",
         tml  => '[[%MAINWEB%.TopicName][bah]]',
     },
@@ -2528,7 +2536,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
@@ -2545,7 +2553,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>
@@ -2561,11 +2569,11 @@ Main.SomeGuy
 HERE
         html => <<"THERE",
 $deleteme<table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
-<tr><td> - <span class="WYSIWYG_LINK">Main.SomeGuy</span> - </td></tr>
+<tr><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
+<tr><td> - <a href="Main.SomeGuy">Main.SomeGuy</a> - </td></tr>
 </table>
 <p>
-<span class="WYSIWYG_LINK">Main.SomeGuy</span>
+<a href="Main.SomeGuy">Main.SomeGuy</a>
 </p>
 THERE
     },
