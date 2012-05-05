@@ -1470,8 +1470,8 @@ sub _handleA {
         }
 
         # we must quote square brackets in [[...][...]] notation
-        $text =~ s/[[]/&#91;/g;
-        $text =~ s/[]]/&#93;/g;
+        $text                =~ s/[[]/&#91;/g;
+        $text                =~ s/[]]/&#93;/g;
         $this->{attrs}{href} =~ s/[[]/%5B/g;
         $this->{attrs}{href} =~ s/[]]/%5D/g;
 
