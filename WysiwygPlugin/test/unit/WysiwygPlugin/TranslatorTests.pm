@@ -874,6 +874,20 @@ HERE
 HERE
     },
     {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'mailtoLink_Item11814b',
+        tml  => <<'HERE',
+<a href="mailto:a@example.org?subject=Hi[joe]&body=Hi%21%0A%0ABye%21">hi</a>
+HERE
+        html => <<'HERE',
+<p><a href="mailto:a@example.org?subject=Hi[joe]&body=Hi%21%0A%0ABye%21">hi</a>
+</p>
+HERE
+        finaltml => <<'HERE',
+[[mailto:a@example.org?subject=Hi%5Bjoe%5D&body=Hi%21%0A%0ABye%21][hi]]
+HERE
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'mailtoLink2',
         html => ' a@z.com ',

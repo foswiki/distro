@@ -1472,8 +1472,8 @@ sub _handleA {
         # we must quote square brackets in [[...][...]] notation
         $text =~ s/[[]/&#91;/g;
         $text =~ s/[]]/&#93;/g;
-        $href =~ s/[[]/%5B/g;
-        $href =~ s/[]]/%5D/g;
+        $this->{attrs}{href} =~ s/[[]/%5B/g;
+        $this->{attrs}{href} =~ s/[]]/%5D/g;
 
         return ( 0,
                 $WC::CHECKw . '[' 
