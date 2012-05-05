@@ -428,10 +428,10 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
     $text =~
 s/(\<a(\s+(href|target|title|class)=("(?:[^"\\]++|\\.)*+"|'(?:[^'\\]++|\\.)*+'|\S+))+\s*\>.*?\<\/a\s*\>)/$this->_liftOutGeneral($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/gei;
 
-
-    # SMELL:  Links inside protected tags like %SEARCH  should not be treated as links...
-    #    BUT  %TAGS inside links must not be protected.  Treat them as literal text.
-    $text =~ s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
+# SMELL:  Links inside protected tags like %SEARCH  should not be treated as links...
+#    BUT  %TAGS inside links must not be protected.  Treat them as literal text.
+    $text =~
+      s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
     $text =~ s/\[\[([^\]]*)\]\]/$this->_protectMacrosInSquab($1)/ge;
 
     # Convert Foswiki tags to spans outside protected text
@@ -834,13 +834,14 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
 }
 
 sub _liftOutSquab {
-    my $this = shift;
-    my $url  = shift;
-    my $text = shift;
+    my $this  = shift;
+    my $url   = shift;
+    my $text  = shift;
     my $class = shift || '';
 
     # Treat as old style link if embedded spaces in the url
-    return $this->_liftOut('[['.$url.']]', 'LINK') if ( $class eq 'TMLlink' &&  $url =~ m/\s/ );
+    return $this->_liftOut( '[[' . $url . ']]', 'LINK' )
+      if ( $class eq 'TMLlink' && $url =~ m/\s/ );
 
     # Handle colour tags specially (hack, hack, hackity-HACK!
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
@@ -848,12 +849,14 @@ sub _liftOutSquab {
       _getNamedColour($1, $2)#oge;
     _handleMarkup($text);
 
-    if ( $class ) {
+    if ($class) {
         $class = " class='$class'";
     }
 
-    return $this->_liftOutGeneral( "<a$class href=\"$url\">$text<\/a>",
-        { tag => 'NONE', protect => 0, tmltag => 0 } );
+    return $this->_liftOutGeneral(
+        "<a$class href=\"$url\">$text<\/a>",
+        { tag => 'NONE', protect => 0, tmltag => 0 }
+    );
 
 }
 
@@ -864,7 +867,7 @@ sub _protectMacrosInSquab {
 
     $url =~ s/%/$TT3/g;
 
-    if ( $text ) {
+    if ($text) {
         return "[[$url][$text]]";
     }
     else {

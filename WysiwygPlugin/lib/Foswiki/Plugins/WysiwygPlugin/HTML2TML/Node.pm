@@ -1425,7 +1425,9 @@ sub _handleA {
         # there's text and an href
         my $href = $this->{attrs}->{href};
 
-        my $forceTML = ( $this->{attrs}->{class} && $this->{attrs}->{class} =~ m/\bTMLlink\b/ );
+        my $forceTML =
+          (      $this->{attrs}->{class}
+              && $this->{attrs}->{class} =~ m/\bTMLlink\b/ );
 
         # decode URL params in the href
         $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
@@ -1445,7 +1447,8 @@ sub _handleA {
 
             # if the clean text is the known topic we can ignore it
             if ( ( $cleantext eq $href || $href =~ /\.$cleantext$/ )
-                && !$forceTML ) {
+                && !$forceTML )
+            {
                 return ( 0,
                         $WC::CHECK1 
                       . $nop 
@@ -1455,8 +1458,10 @@ sub _handleA {
                       . $WC::CHECK2 );
             }
         }
-        if ( $href =~ /${WC::PROTOCOL}[^?]*$/ && $text eq $href 
-            && !$forceTML ) {
+        if (   $href =~ /${WC::PROTOCOL}[^?]*$/
+            && $text eq $href
+            && !$forceTML )
+        {
             return ( 0, $WC::CHECK1 . $nop . $text . $WC::CHECK2 );
         }
         if ( $text eq $href ) {
