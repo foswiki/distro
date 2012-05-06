@@ -295,18 +295,19 @@ sub _processTags {
             if ( $token eq '%' && $stackTop =~ /}$/ ) {
                 while ( scalar(@stack)
                     && $stackTop !~
-                    /^\n?%($Foswiki::regex{tagNameRegex}){.*}$/os )
+                    /^\n?%(?:~~ )?($Foswiki::regex{tagNameRegex}){.*}$/os )
                 {
                     $stackTop = pop(@stack) . $stackTop;
                 }
             }
             if (   $token eq '%'
                 && $stackTop =~
-                m/^(\n?)%($Foswiki::regex{tagNameRegex})({.*})?$/os )
+                m/^(\n?)%(~~ )?($Foswiki::regex{tagNameRegex})({.*})?$/os )
             {
-                my $nl = $1;
-                my $tag = $2 . ( $3 || '' );
-                $tag = "$nl%$tag%";
+                my $nl   = $1;
+                my $glue = $2 || '';
+                my $tag  = $3 . ( $4 || '' );
+                $tag = "$nl%$glue$tag%";
 
               # The commented out lines disable PROTECTED for %SIMPLE% vars. See
               # Bugs: Item4828 for the sort of problem this would help to avert.

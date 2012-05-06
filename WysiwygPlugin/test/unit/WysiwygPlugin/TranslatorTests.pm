@@ -888,6 +888,21 @@ HERE
 HERE
     },
     {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'protect_glue',
+        tml  => <<'HERE',
+%~~ SEARCH{
+~~~ search="META:FORM.*?ApplicationForm" 
+~~~ topic="XYZ*" nosearch="on" nototal="on" regex="on" noheader="on" 
+~~~ excludetopic="%TOPIC%"
+~~~ }%
+HERE
+        html => <<'HERE',
+<p><span class="WYSIWYG_PROTECTED">%~~&nbsp;SEARCH{<br />~~~&nbsp;search=&#34;META:FORM.*?ApplicationForm&#34;&nbsp;<br />~~~&nbsp;topic=&#34;XYZ*&#34;&nbsp;nosearch=&#34;on&#34;&nbsp;nototal=&#34;on&#34;&nbsp;regex=&#34;on&#34;&nbsp;noheader=&#34;on&#34;&nbsp;<br />~~~&nbsp;excludetopic=&#34;%TOPIC%&#34;<br />~~~&nbsp;}%</span>
+</p>
+HERE
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'mailtoLink2',
         html => ' a@z.com ',
