@@ -188,6 +188,15 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  1.1.6 | Foswikitask:Item1396: Process TML links as HTML links %BR%\
+                   Foswikitask:Item9305: TMCE should honor NOAUTOLINK preference and noautolink blocks. %BR%\
+                   Foswikitask:Item10089: Allow TMCE to recognize TML links as HTML links. %BR%\
+                   Foswikitask:Item11592: Protect Glue format markup in macros. %BR%\
+                   Foswikitask:Item11722: Don't merge verbatim blocks if they have different classes. %BR%\
+                   Foswikitask:Item11784: Handle colors implemented using CSS classes. %BR%\
+                   Foswikitask:Item11814: Preserve URI Encoding in links.  %BR%\
+                   Foswikitask:Item11818: !WikiWords escaped with ! are show as linking. %BR%\
+                   Foswikitask:Item11819: TMCE is failing to protect newlines. |
 |  1.1.5 (06 Apr 2012) | Foswikitask:Item11603: protect inline script and style tags from wysiwyg. %BR%\
                          Foswikitask:Item11440: protect tags inside pre.%BR%\
                          Foswikitask:Item9259: Protect TML tables from corrupting embedded html markup.%BR%\
