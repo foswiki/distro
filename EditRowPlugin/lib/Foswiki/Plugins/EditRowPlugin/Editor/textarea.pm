@@ -6,7 +6,7 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor::text ();
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor::text');
+our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::text' );
 
 sub new {
     my $class = shift;
@@ -28,14 +28,13 @@ sub htmlEditor {
     $tmptext =~ s/%BR%/\r\n/gi;
 
     return CGI::textarea(
-        {
-            class   => 'erpJS_input',
-            rows    => $rows,
-            columns => $cols,
-            name    => $cell->getCellName(),
-            value   => $tmptext
-        }
-    );
+	{
+	    class   => 'erpJS_input',
+	    rows    => $rows,
+	    columns => $cols,
+	    name    => $cell->getCellName(),
+	    value   => $tmptext
+	});
 }
 
 sub jQueryMetadata {
@@ -44,13 +43,14 @@ sub jQueryMetadata {
     my $data = $this->SUPER::jQueryMetadata(@_);
     $data->{rows} = 3;
     $data->{cols} = 30;
-    if ( $data->{size} =~ /^(\d+)[xX](\d+)$/ ) {
-        $data->{rows} = $1 if $1 > 0;
-        $data->{cols} = $2 if $2 > 0;
+    if ($data->{size} =~ /^(\d+)[xX](\d+)$/) {
+	$data->{rows} = $1 if $1 > 0;
+	$data->{cols} = $2 if $2 > 0;
     }
     delete $data->{size};
     return $data;
 }
+
 
 1;
 __END__

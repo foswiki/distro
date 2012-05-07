@@ -6,7 +6,7 @@ use warnings;
 use Assert;
 use Error ':try';
 
-use Foswiki       ();
+use Foswiki ();
 use Foswiki::Func ();
 
 # REST handler for table row edit get. Gets the raw content of a
@@ -25,23 +25,22 @@ sub process {
     my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $1 );
 
     my $ri = $query->param('erp_active_version');
-    my ( $active_version, $active_date );
-    if ( $ri && $ri =~ /(\d+)_(\d+)$/ ) {
-        ( $active_version, $active_date ) = ( $1, $2 );
+    my ($active_version, $active_date);
+    if ($ri && $ri =~ /(\d+)_(\d+)$/) {
+	($active_version, $active_date) = ($1, $2);
     }
     my $active_user = Foswiki::Func::getWikiName();
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     my ( $url, $mess, $result );
 
-    my ( $curr_date, $curr_user, $curr_rev );
+    my ($curr_date, $curr_user, $curr_rev);
     if ($active_version) {
-        ( $curr_date, $curr_user, $curr_rev ) =
-          Foswiki::Func::getRevisionInfo( $web, $topic );
+	($curr_date, $curr_user, $curr_rev) =
+	    Foswiki::Func::getRevisionInfo($web, $topic);
     }
 
-    if (
-        !Foswiki::Func::checkAccessPermission(
+    if ( !Foswiki::Func::checkAccessPermission(
             'VIEW', $active_user, $text, $topic, $web, $meta
         )
       )
@@ -54,14 +53,12 @@ sub process {
             param2   => 'access not allowed to topic'
         );
         $result = $mess = "ACCESS DENIED";
-    }
-    else {
+    } else {
         $text =~ s/\\\n//gs;
         my @ps   = $query->param();
-        my $urps = {};
+	my $urps = {};
         foreach my $p (@ps) {
             my @vals = $query->param($p);
-
             # We interpreted multi-value parameters as comma-separated
             # lists. This is what checkboxes, select+multi etc. use.
             $urps->{$p} = join( ',', grep { defined $_ } @vals );
@@ -73,38 +70,31 @@ sub process {
             $web, $topic, $meta, $urps );
 
       LINE:
-        foreach my $table (@$content) {
-            if (
-                UNIVERSAL::isa( $table,
-                    'Foswiki::Plugins::EditRowPlugin::Table' )
-                && $table->{id} eq $urps->{erp_active_table}
-              )
-            {
-                $result = $table->getCellData($urps);
-                $table->finish();
-                last LINE;
-            }
-        }
+	foreach my $table (@$content) {
+            if ( UNIVERSAL::isa( $table, 'Foswiki::Plugins::EditRowPlugin::Table' )
+		 && $table->{id} eq $urps->{erp_active_table} ) {
+		$result = $table->getCellData($urps);
+		$table->finish();
+		last LINE;
+	    }
+	}
     }
 
     # $mess will be set if there's been an error
     my $status = $mess ? 500 : 200;
     $response->header(
-        -status  => $status,
-        -type    => 'application/json',
-        -charset => $Foswiki::cfg{Site}{CharSet},
-
+	-status  => $status,
+	-type    => 'application/json',
+	-charset => $Foswiki::cfg{Site}{CharSet},
         # HTTP/1.0
-        -Pragma => 'no-cache',
-
+        -Pragma        => 'no-cache',
         # HTTP/1.1
-        -Cache_Control =>
-          'no-store,no-cache,must-revalidate,post-check=0,pre-check=0'
-    );
-    if ( !defined $result ) {
-        $result = $mess || '';
+        -Cache_Control => 'no-store,no-cache,must-revalidate,post-check=0,pre-check=0'
+	);
+    if (!defined $result) {
+	$result = $mess || '';
     }
-    $response->body( JSON->new->allow_nonref->encode($result) );
+    $response->body(JSON->new->allow_nonref->encode ($result));
 
     return undef;
 }

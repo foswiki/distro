@@ -4,8 +4,8 @@ package Foswiki::Plugins::EditRowPlugin::TableCell;
 use strict;
 use Assert;
 
-use Foswiki::Func                           ();
-use JSON                                    ();
+use Foswiki::Func ();
+use JSON ();
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
 # Default format if no other format is defined for a cell
@@ -15,7 +15,7 @@ sub new {
     my ( $class, $row, $text, $number ) = @_;
     my $this = bless( {}, $class );
     $this->{row}    = $row;
-    $this->{number} = $number;    # index of the column in the *raw* table
+    $this->{number} = $number; # index of the column in the *raw* table
     if ( $text =~ /\S/ ) {
         $text =~ s/^(\s*)//;
         $this->{precruft} = defined $1 ? $1 : '';
@@ -51,7 +51,6 @@ sub stringify {
     # replace linefeeds with breaks to support multiline textareas
     my $text = $this->{text};
     $text =~ s# *[\r\n]+ *# <br \/> #g;
-
     # Remove tactical spaces
     $text =~ s/^\s+(.*)\s*$/$1/s;
     return $this->{precruft} . $text . $this->{postcruft};
@@ -85,93 +84,77 @@ sub render {
     my $colDef = $opts->{col_defs}->[ $this->{number} - 1 ] || $defCol;
     my $text = $this->{text};
     if ( $text =~ s/%EDITCELL{(.*?)}%// ) {
-        my %p  = Foswiki::Func::extractParameters($1);
-        my $cd = $this->{row}->{table}->parseFormat( $p{_DEFAULT} );
-        $colDef = $cd->[0];
+	my %p = Foswiki::Func::extractParameters($1);
+	my $cd = $this->{row}->{table}->parseFormat($p{_DEFAULT});
+	$colDef = $cd->[0];
     }
-
+    
     my $editor = Foswiki::Plugins::EditRowPlugin::Table::getEditor($colDef);
 
-    if ( $opts->{for_edit} && $opts->{js} ne 'assumed' ) {
+    if ($opts->{for_edit} && $opts->{js} ne 'assumed') {
+	# JS is ignored or preferred, need manual edit controls
+	$text = $editor->htmlEditor($this, $colDef, $opts->{in_row}, defined $text ? $text : '');
+	$text = Foswiki::Plugins::EditRowPlugin::defend($text);
+    } else {
+	# Not for edit or JS is assumed
+	$text = '-' unless defined($text);
 
-        # JS is ignored or preferred, need manual edit controls
-        $text =
-          $editor->htmlEditor( $this, $colDef, $opts->{in_row},
-            defined $text ? $text : '' );
-        $text = Foswiki::Plugins::EditRowPlugin::defend($text);
-    }
-    else {
-
-        # Not for edit or JS is assumed
-        $text = '-' unless defined($text);
-
-        unless ( $this->{isHeader} || $this->{isFooter} ) {
-            if ( $colDef->{type} eq 'row' ) {
-
-               # Special case for our "row" type - text is always the row number
-                $text = $this->rowIndex($colDef);
-            }
-            else {
-
-                # Chop out meta-text
-                $text =~ s/%EDITCELL{(.*?)}%\s*$//;
-            }
-        }
-        if ( $this->{isHeader} ) {
-            my $attrs = {};
-            unless ( $opts->{js} eq 'ignored' ) {
-
-                # head and foot sizes passed in metadata
-                $attrs->{class} =
-                    'erpJS_sort {headrows: '
-                  . $this->{row}->{table}->getHeaderRows()
-                  . ',footrows:'
-                  . $this->{row}->{table}->getFooterRows() . '}';
-            }
-            $text = CGI::span( $attrs, $text );
-        }
-        else {
-            my $sopts   = {};
-            my $trigger = '';
-            if ( $this->can_edit() ) {
-                my $data = $editor->jQueryMetadata( $this, $colDef, $text );
-
-             # Editors can set "uneditable" if the cell is not to have an editor
-                unless ( $data->{uneditable} ) {
-
-                    #if ($opts->{js} ne 'ignored') {
-                    # add any edit-specific HTML here
-                    #}
-                    my @css_classes = ('erpJS_cell');
-
-    # Because we generate a TML table, we have no way to attach table meta-data
-    # and row meta-data. So we attach it to the first cell in the table/row, and
-    # move it to the right place when JS loads.
-                    if ( $render_opts->{need_tabledata} ) {
-                        my $tabledata = $this->{row}->{table}->getURLParams();
-                        $data->{tabledata} = $tabledata;
-                        push( @css_classes, 'erpJS_tabledata' );
-                        $render_opts->{need_tabledata} = 0;
-                    }
-                    if ( $render_opts->{need_trdata} ) {
-                        $data->{trdata} = $this->{row}->getURLParams();
-                        push( @css_classes, 'erpJS_trdata' );
-                        $render_opts->{need_trdata} = 0;
-                    }
-
-                    # Add the cell data
-                    $data = $this->getURLParams(%$data);
-
-    # Note: Any table row that has a cell with erpJS_cell will be made draggable
-                    if ( $opts->{js} ne 'ignored' ) {
-                        $sopts->{class} =
-                          join( ' ', @css_classes ) . ' '
-                          . JSON::to_json($data);
-                    }
-                }
-            }
-            $text = CGI::span( $sopts, " $text " );
-        }
+	unless ( $this->{isHeader} || $this->{isFooter} ) {
+	    if ( $colDef->{type} eq 'row' ) {
+		# Special case for our "row" type - text is always the row number
+		$text = $this->rowIndex($colDef);
+	    }
+	    else {
+		# Chop out meta-text
+		$text =~ s/%EDITCELL{(.*?)}%\s*$//;
+	    }
+	}
+	if ( $this->{isHeader} ) {
+	    my $attrs = {};
+	    unless ($opts->{js} eq 'ignored') {
+		# head and foot sizes passed in metadata
+		$attrs->{class} =
+		    'erpJS_sort {headrows: '
+		    . $this->{row}->{table}->getHeaderRows()
+		    . ',footrows:'
+		    . $this->{row}->{table}->getFooterRows() . '}';
+	    }
+	    $text = CGI::span($attrs, $text);
+	} else {
+	    my $sopts = {};
+	    my $trigger = '';
+	    if ($this->can_edit()) {
+		my $data = $editor->jQueryMetadata($this, $colDef, $text);
+		# Editors can set "uneditable" if the cell is not to have an editor
+		unless ($data->{uneditable}) {
+		    #if ($opts->{js} ne 'ignored') {
+		    # add any edit-specific HTML here
+		    #}
+		    my @css_classes = ('erpJS_cell');
+		    # Because we generate a TML table, we have no way to attach table meta-data
+		    # and row meta-data. So we attach it to the first cell in the table/row, and
+		    # move it to the right place when JS loads.
+		    if ($render_opts->{need_tabledata}) {
+			my $tabledata = $this->{row}->{table}->getURLParams();
+			$data->{tabledata} = $tabledata;
+			push( @css_classes, 'erpJS_tabledata' );
+			$render_opts->{need_tabledata} = 0;
+		    }
+		    if ($render_opts->{need_trdata}) {
+			$data->{trdata} = $this->{row}->getURLParams();
+			push( @css_classes, 'erpJS_trdata' );
+			$render_opts->{need_trdata} = 0;
+		    }
+		    # Add the cell data
+		    $data = $this->getURLParams(%$data);
+		    # Note: Any table row that has a cell with erpJS_cell will be made draggable
+		    if ( $opts->{js} ne 'ignored' ) {
+			$sopts->{class} = join(' ', @css_classes) . ' ' . JSON::to_json($data);
+		    }
+		}
+	    }
+	    $text = CGI::span( $sopts, " $text ");
+	}
     }
     return $this->{precruft} . $text . $this->{postcruft};
 }
@@ -182,8 +165,10 @@ sub can_edit {
 }
 
 sub getURLParams {
-    my ( $this, %more ) = @_;
-    return { %more, erp_active_col => $this->{number} };
+    my ($this, %more) = @_;
+    return {
+	%more,
+	erp_active_col => $this->{number} };
 }
 
 1;

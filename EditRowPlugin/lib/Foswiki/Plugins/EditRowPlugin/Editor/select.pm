@@ -6,7 +6,7 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
+our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
 
 sub new {
     my $class = shift;
@@ -21,19 +21,17 @@ sub htmlEditor {
 
     # Explicit HTML used because CGI gets it wrong
     my $text =
-        "<select name='"
-      . $cell->getCellName()
-      . "' size='"
-      . $colDef->{size}
-      . "' class='erpJS_input'>";
+	"<select name='".$cell->getCellName()."' size='"
+	. $colDef->{size}
+    . "' class='erpJS_input'>";
     foreach my $option ( @{ $colDef->{values} } ) {
-        my $expandedOption = Foswiki::Func::expandCommonVariables($option);
-        $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
-        my %opts;
-        if ( $expandedOption eq $expandedValue ) {
-            $opts{selected} = 'selected';
-        }
-        $text .= CGI::option( \%opts, $option );
+	my $expandedOption = Foswiki::Func::expandCommonVariables($option);
+	$expandedOption =~ s/^\s*(.*?)\s*$/$1/;
+	my %opts;
+	if ( $expandedOption eq $expandedValue ) {
+	    $opts{selected} = 'selected';
+	}
+	$text .= CGI::option( \%opts, $option );
     }
     $text .= "</select>";
     return $text;
@@ -44,20 +42,18 @@ sub jQueryMetadata {
     my ( $cell, $colDef, $text ) = @_;
     my $data = $this->SUPER::jQueryMetadata(@_);
 
-    if ( $colDef->{values} && scalar( @{ $colDef->{values} } ) ) {
-
-        # Format suitable for passing to an "erpselect" type
-        my %d = (
-            order    => [ @{ $colDef->{values} } ],
-            selected => $cell->{text},
-            keys     => {}
-        );
-        map {
-            $d{keys}->{$_} =
-              Foswiki::Func::renderText(
-                Foswiki::Func::expandCommonVariables($_) );
-        } @{ $colDef->{values} };
-        $data->{data} = \%d;
+    if ($colDef->{values} && scalar(@{$colDef->{values}})) {
+	# Format suitable for passing to an "erpselect" type
+	my %d = (
+	    order => [ @{$colDef->{values}} ],
+	    selected => $cell->{text},
+	    keys => {}
+	);
+	map {
+	    $d{keys}->{$_} =
+		Foswiki::Func::renderText(Foswiki::Func::expandCommonVariables($_));
+	} @{$colDef->{values}};
+	$data->{data} = \%d;
     }
     $this->_addSaveButton($data);
     return $data;

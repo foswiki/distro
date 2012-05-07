@@ -6,7 +6,7 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor::label ();
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor::label');
+our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::label' );
 
 # Uneditable row index label
 sub htmlEditor {
@@ -15,7 +15,7 @@ sub htmlEditor {
 }
 
 sub getInitialValue {
-    my ( $this, $colDef, $cell, $row ) = @_;
+    my ($this, $colDef, $cell, $row) = @_;
     return $row + $colDef->{size};
 }
 

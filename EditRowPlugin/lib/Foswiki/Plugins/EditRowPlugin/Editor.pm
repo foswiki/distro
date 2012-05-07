@@ -10,8 +10,8 @@ use Foswiki::Func ();
 
 # Subclasses only
 sub new {
-    my ( $class, $editableType ) = @_;
-    return bless( { type => $editableType || 'text' }, $class );
+    my ($class, $editableType) = @_;
+    return bless({ type => $editableType || 'text' }, $class);
 }
 
 # Shared code used by radio buttons and checkboxes
@@ -27,18 +27,18 @@ sub _tickbox {
 
     my $i = 0;
     foreach my $option ( @{ $colDef->{values} } ) {
-        push( @options, $option );
-        my $expandedOption = Foswiki::Func::expandCommonVariables($option);
-        $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
-        $expandedOption =~ s/(\W)/\\$1/g;
-        $attrs{$option}{label} = $expandedOption;
-        $attrs{$option}{class} = "$this->{css_class} erpJS_input";
-        if ( $expandedValue =~ /,\s*$expandedOption\s*,/ ) {
-            $attrs{$option}{checked} = 'checked';
-            push( @defaults, $option );
-        }
+	push( @options, $option );
+	my $expandedOption = Foswiki::Func::expandCommonVariables($option);
+	$expandedOption =~ s/^\s*(.*?)\s*$/$1/;
+	$expandedOption =~ s/(\W)/\\$1/g;
+	$attrs{$option}{label} = $expandedOption;
+	$attrs{$option}{class} = "$this->{css_class} erpJS_input";
+	if ( $expandedValue =~ /,\s*$expandedOption\s*,/ ) {
+	    $attrs{$option}{checked} = 'checked';
+	    push( @defaults, $option );
+	}
     }
-    return ( \%attrs, \@defaults, \@options );
+    return (\%attrs, \@defaults, \@options);
 }
 
 =begin TML
@@ -51,13 +51,12 @@ Generate an HTML editor for the cell
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
     return CGI::textfield(
-        {
-            class => 'erpJS_input',
-            name  => $cell->getCellName(),
-            size  => $colDef->{size} || 10,
-            value => $unexpandedValue
-        }
-    );
+	{
+	    class => 'erpJS_input',
+	    name  => $cell->getCellName(),
+	    size  => $colDef->{size} || 10,
+	    value => $unexpandedValue
+	});
     return '';
 }
 
@@ -72,28 +71,25 @@ sub jQueryMetadata {
     my ( $this, $cell, $colDef, $text ) = @_;
     my $data = {};
     $data->{type} = $this->{type};
-    $data->{name} = "CELLDATA";      #$cell->getCellName();
-    if ( defined $colDef->{size} ) {
-        $data->{size} = $colDef->{size};
-    }
-    else {
-        $data->{size} = 10;          # chars, must convert to px
+    $data->{name} = "CELLDATA"; #$cell->getCellName();
+    if (defined $colDef->{size}) {
+	$data->{size} = $colDef->{size};
+    } else {
+	$data->{size} = 10; # chars, must convert to px
     }
     return $data;
 }
 
 sub _addSaveButton {
-    my ( $this, $data ) = @_;
+    my ($this, $data) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
-
     # JS will rewrite this URL to some HTML
     $data->{submitimg} = "save.png";
 }
 
 sub _addCancelButton {
-    my ( $this, $data ) = @_;
+    my ($this, $data) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
-
     # JS will rewrite this URL to some HTML
     $data->{cancelimg} = "stop.png";
 }
@@ -106,7 +102,7 @@ params; gives an opportunity for the type to override the value (e.g. for
 a generated value, or for a label)
 
 =cut
-
+ 
 1;
 __END__
 
