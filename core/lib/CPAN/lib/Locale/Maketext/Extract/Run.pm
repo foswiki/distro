@@ -36,14 +36,19 @@ sub run {
 
     my %opts;
     Getopt::Long::Configure("no_ignore_case");
-    Getopt::Long::GetOptions(
-        \%opts,               'f|files-from:s@',
-        'D|directory:s@',     'u|use-gettext-style|unescaped',
-        'g|gnu-gettext',      'o|output:s@',
-        'd|default-domain:s', 'p|output-dir:s@',
-        'P|plugin:s@',        'W|wrap!',
-        'w|warnings!',        'v|verbose+',
-        'h|help',
+    Getopt::Long::GetOptions( \%opts,
+                              'f|files-from:s@',
+                              'D|directory:s@',
+                              'u|use-gettext-style|unescaped',
+                              'g|gnu-gettext',
+                              'o|output:s@',
+                              'd|default-domain:s',
+                              'p|output-dir:s@',
+                              'P|plugin:s@',
+                              'W|wrap!',
+                              'w|warnings!',
+                              'v|verbose+',
+                              'h|help',
     ) or help();
 
     help() if $opts{h};
@@ -61,20 +66,19 @@ sub run {
     }
 
     foreach my $dir ( @{ $opts{D} || [] } ) {
-        File::Find::find(
-            {
-                wanted => sub {
-                    if (-d) {
-                        $File::Find::prune =
-                          /^(\.svn|blib|autogen|var|m4|local|CVS)$/;
-                        return;
-                    }
-                    return
-                      if (/\.po$|\.bak$|~|,D|,B$/i)
-                      || (/^[\.#]/);
-                    push @ARGV, $File::Find::name;
-                },
-                follow => HAS_SYMLINK,
+        File::Find::find( {
+               wanted => sub {
+                   if (-d) {
+                       $File::Find::prune
+                           = /^(\.svn|blib|autogen|var|m4|local|CVS)$/;
+                       return;
+                   }
+                   return
+                       if (/\.po$|\.bak$|~|,D|,B$/i)
+                       || (/^[\.#]/);
+                   push @ARGV, $File::Find::name;
+               },
+               follow => HAS_SYMLINK,
             },
             $dir
         );
@@ -104,7 +108,8 @@ sub _parse_extract_options {
     # plus their default list of file extensionse
     # and warnings enabled by default
 
-    my %extract_options = ( verbose => $opts->{v}, wrap => $opts->{W} || 0 );
+    my %extract_options
+        = ( verbose => $opts->{v}, wrap => $opts->{W} || 0 );
 
     if ( my $plugin_args = $opts->{P} ) {
 
@@ -112,10 +117,10 @@ sub _parse_extract_options {
         my %plugins;
 
         foreach my $param (@$plugin_args) {
-            my ( $plugin, $args ) =
-              ( $param =~ /^([a-z_]\w+(?:::\w+)*)(?:=(.+))?$/i );
+            my ( $plugin, $args )
+                = ( $param =~ /^([a-z_]\w+(?:::\w+)*)(?:=(.+))?$/i );
             die "Couldn't understand plugin option '$param'"
-              unless $plugin;
+                unless $plugin;
             my @extensions;
             if ($args) {
                 foreach my $arg ( split /,/, $args ) {
@@ -125,7 +130,7 @@ sub _parse_extract_options {
                     }
                     my ($extension) = ( $arg =~ /^\.?(\w+(?:\.\w+)*)$/ );
                     die "Couldn't understand '$arg' in plugin '$param'"
-                      unless defined $extension;
+                        unless defined $extension;
                     push @extensions, $extension;
                 }
             }

@@ -54,7 +54,9 @@ as shown above.
 
 sub new {
     my $class = shift;
-    my $self = bless { entries => [], }, $class;
+    my $self = bless {
+        entries => [],
+    }, $class;
 
     $self->_compile_file_types(@_);
     return $self;
@@ -68,7 +70,7 @@ sub new {
 
 sub add_entry {
     my $self = shift;
-    push @{ $self->{entries} }, [@_];
+    push @{$self->{entries}},[@_];
 }
 
 =item C<entries()>
@@ -79,8 +81,7 @@ sub add_entry {
 
 #===================================
 sub entries {
-
-    #===================================
+#===================================
     my $self = shift;
     return $self->{entries};
 }
@@ -95,10 +96,9 @@ Clears all stored entries.
 
 #===================================
 sub clear {
-
-    #===================================
+#===================================
     my $self = shift;
-    $self->{entries} = [];
+    $self->{entries}=[];
 }
 
 =item file_types()
@@ -131,7 +131,7 @@ Each file type can be one of:
 
 sub file_types {
     die "Please override sub file_types() to return "
-      . "a list of recognised file extensions, or regexes";
+        . "a list of recognised file extensions, or regexes";
 }
 
 =item extract()
@@ -165,16 +165,16 @@ sub extract {
 
 sub _compile_file_types {
     my $self = shift;
-    my @file_types =
-      ref $_[0] eq 'ARRAY'
-      ? @{ shift @_ }
-      : @_;
+    my @file_types
+        = ref $_[0] eq 'ARRAY'
+            ? @{ shift @_ }
+            : @_;
     @file_types = $self->file_types
-      unless @file_types;
+        unless @file_types;
 
     my @checks;
     if ( grep { $_ eq '*' } @file_types ) {
-        $self->{file_checks} = [ sub { 1 } ];
+        $self->{file_checks} = [ sub {1} ];
         return;
     }
     foreach my $type (@file_types) {
@@ -183,10 +183,10 @@ sub _compile_file_types {
             next;
         }
         else {
-            my $regex =
-              ref $type
-              ? $type
-              : qr/^.*\.\Q$type\E$/;
+            my $regex
+                = ref $type
+                ? $type
+                : qr/^.*\.\Q$type\E$/;
             push @checks, sub { $_[0] =~ m/$regex/ };
         }
     }

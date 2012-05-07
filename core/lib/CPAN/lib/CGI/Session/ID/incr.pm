@@ -11,27 +11,25 @@ use CGI::Session::ErrorHandler;
 $CGI::Session::ID::incr::VERSION = '4.38';
 @CGI::Session::ID::incr::ISA     = qw( CGI::Session::ErrorHandler );
 
+
 sub generate_id {
-    my ( $self, $args ) = @_;
+    my ($self, $args) = @_;
 
     my $IDFile = $args->{IDFile} or croak "Don't know where to store the id";
     my $IDIncr = $args->{IDIncr} || 1;
     my $IDInit = $args->{IDInit} || 0;
 
-    sysopen( FH, $IDFile, O_RDWR | O_CREAT, 0666 )
-      or return $self->set_error("Couldn't open IDFile=>$IDFile: $!");
-    flock( FH, LOCK_EX )
-      or return $self->set_error("Couldn't lock IDFile=>$IDFile: $!");
+    sysopen(FH, $IDFile, O_RDWR|O_CREAT, 0666) or return $self->set_error("Couldn't open IDFile=>$IDFile: $!");
+    flock(FH, LOCK_EX) or return $self->set_error("Couldn't lock IDFile=>$IDFile: $!");
     my $ID = <FH> || $IDInit;
-    seek( FH, 0, 0 )
-      or return $self->set_error("Couldn't seek IDFile=>$IDFile: $!");
-    truncate( FH, 0 )
-      or return $self->set_error("Couldn't truncate IDFile=>$IDFile: $!");
+    seek(FH, 0, 0) or return $self->set_error("Couldn't seek IDFile=>$IDFile: $!");
+    truncate(FH, 0) or return $self->set_error("Couldn't truncate IDFile=>$IDFile: $!");
     $ID += $IDIncr;
     print FH $ID;
     close(FH) or return $self->set_error("Couldn't close IDFile=>$IDFile: $!");
     return $ID;
 }
+
 
 1;
 

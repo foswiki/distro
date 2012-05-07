@@ -25,121 +25,156 @@ use Cache::Cache qw( $EXPIRES_NOW $EXPIRES_NEVER );
 #
 
 my $_EXPIRES_AT_OFFSET = 0;
-my $_ACCESS_AT_OFFSET  = 1;
-my $_SIZE_OFFSET       = 2;
+my $_ACCESS_AT_OFFSET = 1;
+my $_SIZE_OFFSET = 2;
 
-sub new {
-    my ($proto) = @_;
-    my $class = ref($proto) || $proto;
-    my $self = {};
-    bless( $self, $class );
-    $self->_set_meta_data_hash_ref( {} );
-    $self->_set_cache_size(0);
-    return $self;
+
+sub new
+{
+  my ( $proto ) = @_;
+  my $class = ref( $proto ) || $proto;
+  my $self  = {};
+  bless( $self, $class );
+  $self->_set_meta_data_hash_ref( { } );
+  $self->_set_cache_size( 0 );
+  return $self;
 }
 
-sub insert {
-    my ( $self, $p_object ) = @_;
 
-    $self->_insert_object_expires_at($p_object);
-    $self->_insert_object_accessed_at($p_object);
-    $self->_insert_object_size($p_object);
-    $self->_set_cache_size( $self->get_cache_size() + $p_object->get_size() );
+sub insert
+{
+  my ( $self, $p_object ) = @_;
+
+  $self->_insert_object_expires_at( $p_object );
+  $self->_insert_object_accessed_at( $p_object );
+  $self->_insert_object_size( $p_object );
+  $self->_set_cache_size( $self->get_cache_size( ) + $p_object->get_size( ) );
 }
 
-sub remove {
-    my ( $self, $p_key ) = @_;
 
-    $self->_set_cache_size(
-        $self->get_cache_size() - $self->build_object_size($p_key) );
+sub remove
+{
+  my ( $self, $p_key ) = @_;
 
-    delete $self->_get_meta_data_hash_ref()->{$p_key};
+  $self->_set_cache_size( $self->get_cache_size( ) -
+                          $self->build_object_size( $p_key ) );
+
+  delete $self->_get_meta_data_hash_ref( )->{ $p_key };
 }
 
-sub build_removal_list {
-    my ($self) = @_;
 
-    my $meta_data_hash_ref = $self->_get_meta_data_hash_ref();
+sub build_removal_list
+{
+  my ( $self ) = @_;
 
-    return sort {
-        my $a_expires_at  = $meta_data_hash_ref->{$a}->[$_EXPIRES_AT_OFFSET];
-        my $b_expires_at  = $meta_data_hash_ref->{$b}->[$_EXPIRES_AT_OFFSET];
-        my $a_accessed_at = $meta_data_hash_ref->{$a}->[$_ACCESS_AT_OFFSET];
-        my $b_accessed_at = $meta_data_hash_ref->{$b}->[$_ACCESS_AT_OFFSET];
+  my $meta_data_hash_ref = $self->_get_meta_data_hash_ref( );
 
-        if ( $a_expires_at eq $b_expires_at ) {
-            return ( $a_accessed_at <=> $b_accessed_at );
-        }
+  return
+    sort
+    {
+      my $a_expires_at  = $meta_data_hash_ref->{ $a }->[ $_EXPIRES_AT_OFFSET ];
+      my $b_expires_at  = $meta_data_hash_ref->{ $b }->[ $_EXPIRES_AT_OFFSET ];
+      my $a_accessed_at = $meta_data_hash_ref->{ $a }->[ $_ACCESS_AT_OFFSET  ];
+      my $b_accessed_at = $meta_data_hash_ref->{ $b }->[ $_ACCESS_AT_OFFSET  ];
 
-        return -1 if $a_expires_at eq $EXPIRES_NOW;
-        return 1  if $b_expires_at eq $EXPIRES_NOW;
-        return 1  if $a_expires_at eq $EXPIRES_NEVER;
-        return -1 if $b_expires_at eq $EXPIRES_NEVER;
+      if ( $a_expires_at eq $b_expires_at )
+      {
+        return ( $a_accessed_at <=> $b_accessed_at );
+      }
 
-        return ( $a_expires_at <=> $b_expires_at );
+      return -1 if $a_expires_at eq $EXPIRES_NOW;
+      return  1 if $b_expires_at eq $EXPIRES_NOW;
+      return  1 if $a_expires_at eq $EXPIRES_NEVER;
+      return -1 if $b_expires_at eq $EXPIRES_NEVER;
+
+      return ( $a_expires_at <=> $b_expires_at );
 
     } keys %$meta_data_hash_ref;
 }
 
-sub build_object_size {
-    my ( $self, $p_key ) = @_;
 
-    return $self->_get_meta_data_hash_ref()->{$p_key}->[$_SIZE_OFFSET];
+
+sub build_object_size
+{
+  my ( $self, $p_key  ) = @_;
+
+  return $self->_get_meta_data_hash_ref( )->{ $p_key }->[ $_SIZE_OFFSET ];
 }
 
-sub _insert_object_meta_data {
-    my ( $self, $p_object, $p_offset, $p_value ) = @_;
 
-    $self->_get_meta_data_hash_ref()->{ $p_object->get_key() }->[$p_offset] =
-      $p_value;
+sub _insert_object_meta_data
+{
+  my ( $self, $p_object, $p_offset, $p_value ) = @_;
+
+  $self->_get_meta_data_hash_ref( )->{ $p_object->get_key( ) }->[ $p_offset ] =
+    $p_value;
 }
 
-sub _insert_object_expires_at {
-    my ( $self, $p_object ) = @_;
 
-    $self->_insert_object_meta_data( $p_object, $_EXPIRES_AT_OFFSET,
-        $p_object->get_expires_at() );
+sub _insert_object_expires_at
+{
+  my ( $self, $p_object ) = @_;
+
+  $self->_insert_object_meta_data( $p_object,
+                                   $_EXPIRES_AT_OFFSET,
+                                   $p_object->get_expires_at( ) );
 }
 
-sub _insert_object_accessed_at {
-    my ( $self, $p_object ) = @_;
 
-    $self->_insert_object_meta_data( $p_object, $_ACCESS_AT_OFFSET,
-        $p_object->get_accessed_at() );
+sub _insert_object_accessed_at
+{
+  my ( $self, $p_object ) = @_;
+
+  $self->_insert_object_meta_data( $p_object,
+                                   $_ACCESS_AT_OFFSET,
+                                   $p_object->get_accessed_at( ) );
 }
 
-sub _insert_object_size {
-    my ( $self, $p_object ) = @_;
 
-    $self->_insert_object_meta_data( $p_object, $_SIZE_OFFSET,
-        $p_object->get_size() );
+sub _insert_object_size
+{
+  my ( $self, $p_object ) = @_;
+
+  $self->_insert_object_meta_data( $p_object,
+                                   $_SIZE_OFFSET,
+                                   $p_object->get_size( ) );
 }
 
-sub get_cache_size {
-    my ($self) = @_;
 
-    return $self->{_Cache_Size};
+sub get_cache_size
+{
+  my ( $self ) = @_;
+
+  return $self->{_Cache_Size};
 }
 
-sub _set_cache_size {
-    my ( $self, $cache_size ) = @_;
 
-    $self->{_Cache_Size} = $cache_size;
+sub _set_cache_size
+{
+  my ( $self, $cache_size ) = @_;
+
+  $self->{_Cache_Size} = $cache_size;
 }
 
-sub _get_meta_data_hash_ref {
-    my ($self) = @_;
 
-    return $self->{_Meta_Data_Hash_Ref};
+sub _get_meta_data_hash_ref
+{
+  my ( $self ) = @_;
+
+  return $self->{_Meta_Data_Hash_Ref};
 }
 
-sub _set_meta_data_hash_ref {
-    my ( $self, $meta_data_hash_ref ) = @_;
 
-    $self->{_Meta_Data_Hash_Ref} = $meta_data_hash_ref;
+sub _set_meta_data_hash_ref
+{
+  my ( $self, $meta_data_hash_ref ) = @_;
+
+  $self->{_Meta_Data_Hash_Ref} = $meta_data_hash_ref;
 }
+
 
 1;
+
 
 __END__
 

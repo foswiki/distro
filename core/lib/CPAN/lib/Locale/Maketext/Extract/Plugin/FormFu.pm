@@ -83,18 +83,16 @@ use base qw(YAML::Loader);
 
 #===================================
 sub new {
-
-    #===================================
+#===================================
     my $class = shift;
     my $self  = $class->SUPER::new(@_);
-    $self->{found} = [];
+    $self->{found}       = [];
     return $self;
 }
 
 #===================================
 sub _check_key {
-
-    #===================================
+#===================================
     my $self = shift;
     my ( $key, $value, $line ) = @_;
     if ( $key && $key =~ /_loc$/ && defined $value && !ref $value ) {
@@ -106,15 +104,14 @@ sub _check_key {
 
 #===================================
 sub _parse_mapping {
-
-    #===================================
+#===================================
     my $self     = shift;
     my ($anchor) = @_;
     my $mapping  = {};
     $self->anchor2node->{$anchor} = $mapping;
     my $key;
     while ( not $self->done
-        and $self->indent == $self->offset->[ $self->level ] )
+            and $self->indent == $self->offset->[ $self->level ] )
     {
 
         # If structured key:
@@ -164,8 +161,7 @@ sub _parse_mapping {
 
 #===================================
 sub _parse_inline_mapping {
-
-    #===================================
+#===================================
     my $self       = shift;
     my ($anchor)   = @_;
     my $node       = {};
@@ -174,11 +170,11 @@ sub _parse_inline_mapping {
     $self->anchor2node->{$anchor} = $node;
 
     $self->die('YAML_PARSE_ERR_INLINE_MAP')
-      unless $self->{inline} =~ s/^\{\s*//;
+        unless $self->{inline} =~ s/^\{\s*//;
     while ( not $self->{inline} =~ s/^\s*\}// ) {
         my $key = $self->_parse_inline();
         $self->die('YAML_PARSE_ERR_INLINE_MAP')
-          unless $self->{inline} =~ s/^\: \s*//;
+            unless $self->{inline} =~ s/^\: \s*//;
         my $value = $self->_parse_inline();
         if ( exists $node->{$key} ) {
             $self->warn('YAML_LOAD_WARN_DUPLICATE_KEY');
@@ -189,24 +185,22 @@ sub _parse_inline_mapping {
         }
         next if $self->inline =~ /^\s*\}/;
         $self->die('YAML_PARSE_ERR_INLINE_MAP')
-          unless $self->{inline} =~ s/^\,\s*//;
+            unless $self->{inline} =~ s/^\,\s*//;
     }
     return $node;
 }
 
 #===================================
 sub _parse_next_line {
-
-    #===================================
+#===================================
     my $self = shift;
-    $self->{_start_line} = $self->line;
+    $self->{_start_line}  = $self->line;
     $self->SUPER::_parse_next_line(@_);
 }
 
 #===================================
 sub found {
-
-    #===================================
+#===================================
     my $self = shift;
     return $self->{found};
 }

@@ -8,27 +8,27 @@ use DBI;
 use Carp;
 use CGI::Session::Driver;
 
-@CGI::Session::Driver::DBI::ISA     = ("CGI::Session::Driver");
+@CGI::Session::Driver::DBI::ISA = ( "CGI::Session::Driver" );
 $CGI::Session::Driver::DBI::VERSION = '4.38';
+
 
 sub init {
     my $self = shift;
-    if ( defined $self->{Handle} ) {
-        if ( ref $self->{Handle} eq 'CODE' ) {
+    if ( defined $self->{Handle} )  {
+        if (ref $self->{Handle} eq 'CODE') {
             $self->{Handle} = $self->{Handle}->();
         }
         else {
-
-            # We assume the handle is working, and there is nothing to do.
+            # We assume the handle is working, and there is nothing to do. 
         }
     }
     else {
-        $self->{Handle} =
-          DBI->connect( $self->{DataSource}, $self->{User}, $self->{Password},
-            { RaiseError => 1, PrintError => 1, AutoCommit => 1 } );
+        $self->{Handle} = DBI->connect( 
+            $self->{DataSource}, $self->{User}, $self->{Password}, 
+            { RaiseError=>1, PrintError=>1, AutoCommit=>1 }
+        );
         unless ( $self->{Handle} ) {
-            return $self->set_error(
-                "init(): couldn't connect to database: " . DBI->errstr );
+            return $self->set_error( "init(): couldn't connect to database: " . DBI->errstr );
         }
         $self->{_disconnect} = 1;
     }
@@ -39,45 +39,37 @@ sub init {
 
 sub table_name {
     my $self = shift;
-    my $class = ref($self) || $self;
+    my $class = ref( $self ) || $self;
 
-    if ( ( @_ == 0 ) && ref($self) && ( $self->{TableName} ) ) {
+    if ( (@_ == 0) && ref($self) && ($self->{TableName}) ) {
         return $self->{TableName};
     }
 
     no strict 'refs';
-    if (@_) {
+    if ( @_ ) {
         $self->{TableName} = shift;
     }
 
-    unless ( defined $self->{TableName} ) {
+    unless (defined $self->{TableName}) {
         $self->{TableName} = "sessions";
     }
 
     return $self->{TableName};
 }
 
+
 sub retrieve {
     my $self = shift;
     my ($sid) = @_;
     croak "retrieve(): usage error" unless $sid;
 
+
     my $dbh = $self->{Handle};
-    my $sth = $dbh->prepare_cached(
-        "SELECT $self->{DataColName} FROM "
-          . $self->table_name
-          . " WHERE $self->{IdColName}=?",
-        undef, 3
-    );
-    unless ($sth) {
-        return $self->set_error(
-            "retrieve(): DBI->prepare failed with error message "
-              . $dbh->errstr );
+    my $sth = $dbh->prepare_cached("SELECT $self->{DataColName} FROM " . $self->table_name . " WHERE $self->{IdColName}=?", undef, 3);
+    unless ( $sth ) {
+        return $self->set_error( "retrieve(): DBI->prepare failed with error message " . $dbh->errstr );
     }
-    $sth->execute($sid)
-      or return $self->set_error(
-        "retrieve(): \$sth->execute failed with error message "
-          . $sth->errstr );
+    $sth->execute( $sid ) or return $self->set_error( "retrieve(): \$sth->execute failed with error message " . $sth->errstr);
 
     my ($row) = $sth->fetchrow_array();
 
@@ -87,86 +79,64 @@ sub retrieve {
     return $row;
 }
 
-sub store {
 
-    #    die;
+sub store {
+#    die;
     my $self = shift;
-    my ( $sid, $datastr ) = @_;
+    my ($sid, $datastr) = @_;
     croak "store(): usage error" unless $sid && $datastr;
 
+
     my $dbh = $self->{Handle};
-    my $sth = $dbh->prepare_cached(
-        "SELECT $self->{IdColName} FROM "
-          . $self->table_name
-          . " WHERE $self->{IdColName}=?",
-        undef, 3
-    );
+    my $sth = $dbh->prepare_cached("SELECT $self->{IdColName} FROM " . $self->table_name . " WHERE $self->{IdColName}=?", undef, 3);
     unless ( defined $sth ) {
-        return $self->set_error(
-            "store(): \$dbh->prepare failed with message " . $sth->errstr );
+        return $self->set_error( "store(): \$dbh->prepare failed with message " . $sth->errstr );
     }
 
-    $sth->execute($sid)
-      or return $self->set_error(
-        "store(): \$sth->execute failed with message " . $sth->errstr );
+    $sth->execute( $sid ) or return $self->set_error( "store(): \$sth->execute failed with message " . $sth->errstr );
     my $rc = $sth->fetchrow_array;
     $sth->finish;
 
     my $action_sth;
-    if ($rc) {
-        $action_sth = $dbh->prepare_cached(
-            "UPDATE "
-              . $self->table_name
-              . " SET $self->{DataColName}=? WHERE $self->{IdColName}=?",
-            undef, 3
-        );
+    if ( $rc ) {
+        $action_sth = $dbh->prepare_cached("UPDATE " . $self->table_name . " SET $self->{DataColName}=? WHERE $self->{IdColName}=?", undef, 3);
+    } else {
+        $action_sth = $dbh->prepare_cached("INSERT INTO " . $self->table_name . " ($self->{DataColName}, $self->{IdColName}) VALUES(?, ?)", undef, 3);
     }
-    else {
-        $action_sth = $dbh->prepare_cached(
-            "INSERT INTO "
-              . $self->table_name
-              . " ($self->{DataColName}, $self->{IdColName}) VALUES(?, ?)",
-            undef, 3
-        );
-    }
-
+    
     unless ( defined $action_sth ) {
-        return $self->set_error(
-            "store(): \$dbh->prepare failed with message " . $dbh->errstr );
+        return $self->set_error( "store(): \$dbh->prepare failed with message " . $dbh->errstr );
     }
-    $action_sth->execute( $datastr, $sid )
-      or return $self->set_error(
-        "store(): \$action_sth->execute failed " . $action_sth->errstr );
+    $action_sth->execute($datastr, $sid)
+        or return $self->set_error( "store(): \$action_sth->execute failed " . $action_sth->errstr );
 
     $action_sth->finish;
 
     return 1;
 }
 
+
 sub remove {
     my $self = shift;
     my ($sid) = @_;
     croak "remove(): usage error" unless $sid;
 
-    my $rc =
-      $self->{Handle}
-      ->do( 'DELETE FROM ' . $self->table_name . " WHERE $self->{IdColName}= ?",
-        {}, $sid );
-    unless ($rc) {
+   my $rc = $self->{Handle}->do( 'DELETE FROM ' . $self->table_name . " WHERE $self->{IdColName}= ?", {}, $sid );
+    unless ( $rc ) {
         croak "remove(): \$dbh->do failed!";
     }
-
+    
     return 1;
 }
+
 
 sub DESTROY {
     my $self = shift;
 
-    unless ( defined $self->{Handle} && $self->{Handle}->ping ) {
-        $self->set_error(
-            __PACKAGE__ . '::DESTROY(). Database handle has gone away' );
+    unless ( defined $self->{Handle} && $self->{Handle} -> ping ) {
+        $self->set_error(__PACKAGE__ . '::DESTROY(). Database handle has gone away');
         return;
-    }
+	}
 
     unless ( $self->{Handle}->{AutoCommit} ) {
         $self->{Handle}->commit;
@@ -176,24 +146,19 @@ sub DESTROY {
     }
 }
 
+
 sub traverse {
     my $self = shift;
     my ($coderef) = @_;
 
-    unless ( $coderef && ref($coderef) && ( ref $coderef eq 'CODE' ) ) {
+    unless ( $coderef && ref( $coderef ) && (ref $coderef eq 'CODE') ) {
         croak "traverse(): usage error";
     }
 
     my $tablename = $self->table_name();
-    my $sth =
-      $self->{Handle}
-      ->prepare_cached( "SELECT $self->{IdColName} FROM $tablename", undef, 3 )
-      or return $self->set_error( "traverse(): couldn't prepare SQL statement. "
-          . $self->{Handle}->errstr );
-    $sth->execute()
-      or return $self->set_error(
-        "traverse(): couldn't execute statement $sth->{Statement}. "
-          . $sth->errstr );
+    my $sth = $self->{Handle}->prepare_cached("SELECT $self->{IdColName} FROM $tablename", undef, 3) 
+        or return $self->set_error("traverse(): couldn't prepare SQL statement. " . $self->{Handle}->errstr);
+    $sth->execute() or return $self->set_error("traverse(): couldn't execute statement $sth->{Statement}. " . $sth->errstr);
 
     while ( my ($sid) = $sth->fetchrow_array ) {
         $coderef->($sid);
@@ -203,6 +168,7 @@ sub traverse {
 
     return 1;
 }
+
 
 1;
 

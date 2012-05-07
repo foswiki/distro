@@ -45,39 +45,34 @@ sub file_types {
     return qw( * );
 }
 
+
 sub extract {
     my $self = shift;
     local $_ = shift;
 
-    my $line = 1;
-    pos($_) = 0;
+    my $line = 1; pos($_) = 0;
 
     # Text::Template
-    if ( $_ =~ /^STARTTEXT$/m and $_ =~ /^ENDTEXT$/m ) {
+    if ($_=~/^STARTTEXT$/m and $_=~ /^ENDTEXT$/m) {
         require HTML::Parser;
         require Lingua::EN::Sentence;
 
         {
-
             package Locale::Maketext::Extract::Plugin::TextTemplate::Parser;
             our @ISA = 'HTML::Parser';
             *{'text'} = sub {
-                my ( $self, $str, $is_cdata ) = @_;
-                my $sentences = Lingua::EN::Sentence::get_sentences($str)
-                  or return;
-                $str =~ s/\n/ /g;
-                $str =~ s/^\s+//;
-                $str =~ s/\s+$//;
-                $self->add_entry( $str, $line );
+                my ($self, $str, $is_cdata) = @_;
+                my $sentences = Lingua::EN::Sentence::get_sentences($str) or return;
+                $str =~ s/\n/ /g; $str =~ s/^\s+//; $str =~ s/\s+$//;
+                $self->add_entry($str , $line);
             };
         }
 
         my $p = Locale::Maketext::Extract::Plugin::TextTemplate::Parser->new;
         while (m/\G((.*?)^(?:START|END)[A-Z]+$)/smg) {
             my ($str) = ($2);
-            $line += ( () = ( $1 =~ /\n/g ) );    # cryptocontext!
-            $p->parse($str);
-            $p->eof;
+            $line += ( () = ($1 =~ /\n/g) ); # cryptocontext!
+            $p->parse($str); $p->eof;
         }
         $_ = '';
     }
@@ -142,5 +137,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 =cut
+
 
 1;

@@ -8,7 +8,9 @@
 # rights and limitations under the License.
 ######################################################################
 
+
 package Cache::FileCache;
+
 
 use strict;
 use vars qw( @ISA );
@@ -20,17 +22,21 @@ use Cache::Object;
 use Error;
 use File::Spec::Functions;
 
+
 @ISA = qw ( Cache::BaseCache );
+
 
 # by default, the cache nests all entries on the filesystem three
 # directories deep
 
 my $DEFAULT_CACHE_DEPTH = 3;
 
+
 # by default, the root of the cache is located in 'FileCache'.  On a
 # UNIX system, this will appear in "/tmp/FileCache/"
 
 my $DEFAULT_CACHE_ROOT = "FileCache";
+
 
 # by default, the directories in the cache on the filesystem should
 # be globally writable to allow for multiple users.  While this is a
@@ -39,173 +45,217 @@ my $DEFAULT_CACHE_ROOT = "FileCache";
 
 my $DEFAULT_DIRECTORY_UMASK = 000;
 
-sub Clear {
-    my ($p_optional_cache_root) = Static_Params(@_);
 
-    foreach my $namespace ( _Namespaces($p_optional_cache_root) ) {
-        _Get_Cache( $namespace, $p_optional_cache_root )->clear();
-    }
+sub Clear
+{
+  my ( $p_optional_cache_root ) = Static_Params( @_ );
+
+  foreach my $namespace ( _Namespaces( $p_optional_cache_root ) )
+  {
+    _Get_Cache( $namespace, $p_optional_cache_root )->clear( );
+  }
 }
 
-sub Purge {
-    my ($p_optional_cache_root) = Static_Params(@_);
 
-    foreach my $namespace ( _Namespaces($p_optional_cache_root) ) {
-        _Get_Cache( $namespace, $p_optional_cache_root )->purge();
-    }
+sub Purge
+{
+  my ( $p_optional_cache_root ) = Static_Params( @_ );
+
+  foreach my $namespace ( _Namespaces( $p_optional_cache_root ) )
+  {
+    _Get_Cache( $namespace, $p_optional_cache_root )->purge( );
+  }
 }
 
-sub Size {
-    my ($p_optional_cache_root) = Static_Params(@_);
 
-    my $size = 0;
+sub Size
+{
+  my ( $p_optional_cache_root ) = Static_Params( @_ );
 
-    foreach my $namespace ( _Namespaces($p_optional_cache_root) ) {
-        $size += _Get_Cache( $namespace, $p_optional_cache_root )->size();
-    }
+  my $size = 0;
 
-    return $size;
+  foreach my $namespace ( _Namespaces( $p_optional_cache_root ) )
+  {
+    $size += _Get_Cache( $namespace, $p_optional_cache_root )->size( );
+  }
+
+  return $size;
 }
 
-sub new {
-    my ($self) = _new(@_);
 
-    $self->_complete_initialization();
+sub new
+{
+  my ( $self ) = _new( @_ );
 
-    return $self;
+  $self->_complete_initialization( );
+
+  return $self;
 }
 
-sub _Get_Backend {
-    my ($p_optional_cache_root) = Static_Params(@_);
 
-    return new Cache::FileBackend( _Build_Cache_Root($p_optional_cache_root) );
+sub _Get_Backend
+{
+  my ( $p_optional_cache_root ) = Static_Params( @_ );
+
+  return new Cache::FileBackend( _Build_Cache_Root( $p_optional_cache_root ) );
 
 }
+
 
 # return the OS default temp directory
 
-sub _Get_Temp_Directory {
-    my $tmpdir = File::Spec->tmpdir()
-      or throw Error::Simple("No tmpdir on this system.  Upgrade File::Spec?");
+sub _Get_Temp_Directory
+{
+  my $tmpdir = File::Spec->tmpdir( ) or
+    throw Error::Simple( "No tmpdir on this system.  Upgrade File::Spec?" );
 
-    return $tmpdir;
+  return $tmpdir;
 }
 
-sub _Build_Cache_Root {
-    my ($p_optional_cache_root) = Static_Params(@_);
 
-    if ( defined $p_optional_cache_root ) {
-        return $p_optional_cache_root;
-    }
-    else {
-        return Build_Path( _Get_Temp_Directory(), $DEFAULT_CACHE_ROOT );
-    }
+sub _Build_Cache_Root
+{
+  my ( $p_optional_cache_root ) = Static_Params( @_ );
+
+  if ( defined $p_optional_cache_root )
+  {
+    return $p_optional_cache_root;
+  }
+  else
+  {
+    return Build_Path( _Get_Temp_Directory( ), $DEFAULT_CACHE_ROOT );
+  }
 }
 
-sub _Namespaces {
-    my ($p_optional_cache_root) = Static_Params(@_);
 
-    return _Get_Backend($p_optional_cache_root)->get_namespaces();
+sub _Namespaces
+{
+  my ( $p_optional_cache_root ) = Static_Params( @_ );
+
+  return _Get_Backend( $p_optional_cache_root )->get_namespaces( );
 }
 
-sub _Get_Cache {
-    my ( $p_namespace, $p_optional_cache_root ) = Static_Params(@_);
 
-    Assert_Defined($p_namespace);
+sub _Get_Cache
+{
+  my ( $p_namespace, $p_optional_cache_root ) = Static_Params( @_ );
 
-    if ( defined $p_optional_cache_root ) {
-        return new Cache::FileCache(
-            {
-                'namespace'  => $p_namespace,
-                'cache_root' => $p_optional_cache_root
-            }
-        );
-    }
-    else {
-        return new Cache::FileCache( { 'namespace' => $p_namespace } );
-    }
+  Assert_Defined( $p_namespace );
+
+  if ( defined $p_optional_cache_root )
+  {
+    return new Cache::FileCache( { 'namespace' => $p_namespace,
+                                   'cache_root' => $p_optional_cache_root } );
+  }
+  else
+  {
+    return new Cache::FileCache( { 'namespace' => $p_namespace } );
+  }
 }
 
-sub _new {
-    my ( $proto, $p_options_hash_ref ) = @_;
-    my $class = ref($proto) || $proto;
 
-    my $self = $class->SUPER::_new($p_options_hash_ref);
-    $self->_initialize_file_backend();
-    return $self;
+sub _new
+{
+  my ( $proto, $p_options_hash_ref ) = @_;
+  my $class = ref( $proto ) || $proto;
+
+  my $self  =  $class->SUPER::_new( $p_options_hash_ref );
+  $self->_initialize_file_backend( );
+  return $self;
 }
 
-sub _initialize_file_backend {
-    my ($self) = @_;
 
-    $self->_set_backend(
-        new Cache::FileBackend(
-            $self->_get_initial_root(), $self->_get_initial_depth(),
-            $self->_get_initial_umask()
-        )
-    );
+sub _initialize_file_backend
+{
+  my ( $self ) = @_;
+
+  $self->_set_backend( new Cache::FileBackend( $self->_get_initial_root( ),
+                                               $self->_get_initial_depth( ),
+                                               $self->_get_initial_umask( ) ));
 }
 
-sub _get_initial_root {
-    my ($self) = @_;
 
-    if ( defined $self->_read_option('cache_root') ) {
-        return $self->_read_option('cache_root');
-    }
-    else {
-        return Build_Path( _Get_Temp_Directory(), $DEFAULT_CACHE_ROOT );
-    }
+sub _get_initial_root
+{
+  my ( $self ) = @_;
+
+  if ( defined $self->_read_option( 'cache_root' ) )
+  {
+    return $self->_read_option( 'cache_root' );
+  }
+  else
+  {
+    return Build_Path( _Get_Temp_Directory( ), $DEFAULT_CACHE_ROOT );
+  }
 }
 
-sub _get_initial_depth {
-    my ($self) = @_;
 
-    return $self->_read_option( 'cache_depth', $DEFAULT_CACHE_DEPTH );
+sub _get_initial_depth
+{
+  my ( $self ) = @_;
+
+  return $self->_read_option( 'cache_depth', $DEFAULT_CACHE_DEPTH );
 }
 
-sub _get_initial_umask {
-    my ($self) = @_;
 
-    return $self->_read_option( 'directory_umask', $DEFAULT_DIRECTORY_UMASK );
+sub _get_initial_umask
+{
+  my ( $self ) = @_;
+
+  return $self->_read_option( 'directory_umask', $DEFAULT_DIRECTORY_UMASK );
 }
 
-sub get_cache_depth {
-    my ($self) = @_;
 
-    return $self->_get_backend()->get_depth();
+sub get_cache_depth
+{
+  my ( $self ) = @_;
+
+  return $self->_get_backend( )->get_depth( );
 }
 
-sub set_cache_depth {
-    my ( $self, $p_cache_depth ) = @_;
 
-    $self->_get_backend()->set_depth($p_cache_depth);
+sub set_cache_depth
+{
+  my ( $self, $p_cache_depth ) = @_;
+
+  $self->_get_backend( )->set_depth( $p_cache_depth );
 }
 
-sub get_cache_root {
-    my ($self) = @_;
 
-    return $self->_get_backend()->get_root();
+sub get_cache_root
+{
+  my ( $self ) = @_;
+
+  return $self->_get_backend( )->get_root( );
 }
 
-sub set_cache_root {
-    my ( $self, $p_cache_root ) = @_;
 
-    $self->_get_backend()->set_root($p_cache_root);
+sub set_cache_root
+{
+  my ( $self, $p_cache_root ) = @_;
+
+  $self->_get_backend( )->set_root( $p_cache_root );
 }
 
-sub get_directory_umask {
-    my ($self) = @_;
 
-    return $self->_get_backend()->get_directory_umask();
+sub get_directory_umask
+{
+  my ( $self ) = @_;
+
+  return $self->_get_backend( )->get_directory_umask( );
 }
 
-sub set_directory_umask {
-    my ( $self, $p_directory_umask ) = @_;
 
-    $self->_get_backend()->set_directory_umask($p_directory_umask);
+sub set_directory_umask
+{
+  my ( $self, $p_directory_umask ) = @_;
+
+  $self->_get_backend( )->set_directory_umask( $p_directory_umask );
 }
+
 
 1;
+
 
 __END__
 

@@ -8,7 +8,9 @@
 # rights and limitations under the License.
 ######################################################################
 
+
 package Cache::Cache;
+
 
 use strict;
 use vars qw( @ISA @EXPORT_OK $VERSION $EXPIRES_NOW $EXPIRES_NEVER );
@@ -18,9 +20,10 @@ use Exporter;
 
 @EXPORT_OK = qw( $VERSION $EXPIRES_NOW $EXPIRES_NEVER );
 
-$VERSION       = "1.06";
-$EXPIRES_NOW   = 'now';
+$VERSION = "1.06";
+$EXPIRES_NOW = 'now';
 $EXPIRES_NEVER = 'never';
+
 
 sub Clear;
 
@@ -64,9 +67,11 @@ sub set_auto_purge_on_set;
 
 sub get_namespaces;
 
-sub get_identifiers;    # deprecated
+sub get_identifiers;  # deprecated
+
 
 1;
+
 
 __END__
 

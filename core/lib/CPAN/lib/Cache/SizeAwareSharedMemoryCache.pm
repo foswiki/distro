@@ -8,7 +8,9 @@
 # rights and limitations under the License.
 ######################################################################
 
+
 package Cache::SizeAwareSharedMemoryCache;
+
 
 use strict;
 use vars qw( @ISA @EXPORT_OK $NO_MAX_SIZE );
@@ -18,41 +20,58 @@ use Cache::SizeAwareMemoryCache;
 use Cache::SharedMemoryCache;
 use Exporter;
 
+
 @ISA = qw ( Cache::SizeAwareMemoryCache Exporter );
+
 
 @EXPORT_OK = qw( $NO_MAX_SIZE );
 
+
 $NO_MAX_SIZE = $Cache::SizeAwareMemoryCache::NO_MAX_SIZE;
 
-sub Clear {
-    return Cache::SharedMemoryCache::Clear();
+
+sub Clear
+{
+  return Cache::SharedMemoryCache::Clear( );
 }
 
-sub Purge {
-    return Cache::SharedMemoryCache::Purge();
+
+sub Purge
+{
+  return Cache::SharedMemoryCache::Purge( );
 }
 
-sub Size {
-    return Cache::SharedMemoryCache::Size();
+
+sub Size
+{
+  return Cache::SharedMemoryCache::Size( );
 }
 
-sub new {
-    my ($self) = _new(@_);
 
-    $self->_complete_initialization();
+sub new
+{
+  my ( $self ) = _new( @_ );
 
-    return $self;
+  $self->_complete_initialization( );
+
+  return $self;
 }
 
-sub _new {
-    my ( $proto, $p_options_hash_ref ) = @_;
-    my $class = ref($proto) || $proto;
-    my $self = $class->SUPER::_new($p_options_hash_ref);
-    $self->_set_backend( new Cache::SharedMemoryBackend() );
-    return $self;
+
+sub _new
+{
+  my ( $proto, $p_options_hash_ref ) = @_;
+  my $class = ref( $proto ) || $proto;
+  my $self = $class->SUPER::_new( $p_options_hash_ref );
+  $self->_set_backend( new Cache::SharedMemoryBackend( ) );
+  return $self;
 }
+
 
 1;
+
+
+
 
 __END__
 

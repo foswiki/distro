@@ -250,38 +250,36 @@ is not listed:
 =cut
 
 our %Known_Plugins = (
-    perl    => 'Locale::Maketext::Extract::Plugin::Perl',
-    yaml    => 'Locale::Maketext::Extract::Plugin::YAML',
-    tt2     => 'Locale::Maketext::Extract::Plugin::TT2',
-    text    => 'Locale::Maketext::Extract::Plugin::TextTemplate',
-    mason   => 'Locale::Maketext::Extract::Plugin::Mason',
-    generic => 'Locale::Maketext::Extract::Plugin::Generic',
-    formfu  => 'Locale::Maketext::Extract::Plugin::FormFu',
+                    perl => 'Locale::Maketext::Extract::Plugin::Perl',
+                    yaml => 'Locale::Maketext::Extract::Plugin::YAML',
+                    tt2  => 'Locale::Maketext::Extract::Plugin::TT2',
+                    text => 'Locale::Maketext::Extract::Plugin::TextTemplate',
+                    mason   => 'Locale::Maketext::Extract::Plugin::Mason',
+                    generic => 'Locale::Maketext::Extract::Plugin::Generic',
+                    formfu  => 'Locale::Maketext::Extract::Plugin::FormFu',
 );
 
 sub new {
     my $class   = shift;
     my %params  = @_;
     my $plugins = delete $params{plugins}
-      || { map { $_ => '*' } keys %Known_Plugins };
+        || { map { $_ => '*' } keys %Known_Plugins };
 
     Locale::Maketext::Lexicon::set_option( 'keep_fuzzy' => 1 );
-    my $self = bless(
-        {
-            header           => '',
-            entries          => {},
-            compiled_entries => {},
-            lexicon          => {},
-            warnings         => 0,
-            verbose          => 0,
-            wrap             => 0,
-            %params,
-        },
-        $class
+    my $self = bless( {  header           => '',
+                         entries          => {},
+                         compiled_entries => {},
+                         lexicon          => {},
+                         warnings         => 0,
+                         verbose          => 0,
+                         wrap             => 0,
+                         %params,
+                      },
+                      $class
     );
     $self->{verbose} ||= 0;
     die "No plugins defined in new()"
-      unless $plugins;
+        unless $plugins;
     $self->plugins($plugins);
     return $self;
 }
@@ -360,7 +358,7 @@ sub clear {
 sub read_po {
     my ( $self, $file ) = @_;
     print STDERR "READING PO FILE : $file\n"
-      if $self->{verbose};
+        if $self->{verbose};
 
     my $header = '';
 
@@ -381,8 +379,8 @@ sub read_po {
     $self->set_compiled_entries( {} );
 
     if ( defined($_) ) {
-        ( $lexicon, $comments, $fuzzy ) =
-          Locale::Maketext::Lexicon::Gettext->parse( $_, <LEXICON> );
+        ( $lexicon, $comments, $fuzzy )
+            = Locale::Maketext::Lexicon::Gettext->parse( $_, <LEXICON> );
     }
 
     # Internally the lexicon is in gettext format already.
@@ -401,7 +399,7 @@ sub msg_comment {
 }
 
 sub msg_fuzzy {
-    return $_[0]->{fuzzy}{ $_[1] } ? ', fuzzy' : '';
+    return $_[0]->{fuzzy}{$_[1]} ? ', fuzzy' : '';
 }
 
 sub set_comments {
@@ -419,7 +417,7 @@ sub set_fuzzy {
 sub write_po {
     my ( $self, $file, $add_format_marker ) = @_;
     print STDERR "WRITING PO FILE : $file\n"
-      if $self->{verbose};
+        if $self->{verbose};
 
     local *LEXICON;
     open LEXICON, ">$file" or die "Can't write to $file$!\n";
@@ -431,18 +429,18 @@ sub write_po {
         print LEXICON "\n";
         if ( my $comment = $self->msg_comment($msgid) ) {
             my @lines = split "\n", $comment;
-            print LEXICON map { "# $_\n" } @lines;
+            print LEXICON map {"# $_\n"} @lines;
         }
         print LEXICON $self->msg_variables($msgid);
         print LEXICON $self->msg_positions($msgid);
         my $flags = $self->msg_fuzzy($msgid);
-        $flags .= $self->msg_format($msgid) if $add_format_marker;
+        $flags.= $self->msg_format($msgid) if $add_format_marker;
         print LEXICON "#$flags\n" if $flags;
         print LEXICON $self->msg_out($msgid);
     }
 
     print STDERR "DONE\n\n"
-      if $self->{verbose};
+        if $self->{verbose};
 
 }
 
@@ -471,10 +469,10 @@ sub extract {
                 my $entries = $plugin->entries;
                 if ( $verbose > 1 && @$entries ) {
                     push @messages,
-                        "     - "
-                      . ref($plugin)
-                      . ' - Strings extracted : '
-                      . ( scalar @$entries );
+                          "     - "
+                        . ref($plugin)
+                        . ' - Strings extracted : '
+                        . ( scalar @$entries );
                 }
                 for my $entry (@$entries) {
                     my ( $string, $line, $vars ) = @$entry;
@@ -485,12 +483,11 @@ sub extract {
                         # pad string
                         $string =~ s/\n/\n               /g;
                         push @messages,
-                          sprintf(
-                            qq[       - %-8s "%s" (%s)],
-                            $line . ':',
-                            $string, $vars
-                          ),
-                          ;
+                            sprintf( qq[       - %-8s "%s" (%s)],
+                                     $line . ':',
+                                     $string, $vars
+                            ),
+                            ;
                     }
                 }
                 $total += @$entries;
@@ -499,9 +496,9 @@ sub extract {
                 $error_found++;
                 if ( $self->{warnings} ) {
                     push @messages,
-                        "Error parsing '$file' with plugin "
-                      . ( ref $plugin )
-                      . ": \n $@\n";
+                          "Error parsing '$file' with plugin "
+                        . ( ref $plugin )
+                        . ": \n $@\n";
                 }
             }
             $plugin->clear;
@@ -509,11 +506,11 @@ sub extract {
     }
 
     print STDERR " * $file\n   - Total strings extracted : $total"
-      . ( $error_found ? ' [ERROR ] ' : '' ) . "\n"
-      if $verbose
-          && ( $total || $error_found );
+        . ( $error_found ? ' [ERROR ] ' : '' ) . "\n"
+        if $verbose
+            && ( $total || $error_found );
     print STDERR join( "\n", @messages ) . "\n"
-      if @messages;
+        if @messages;
 
 }
 
@@ -553,14 +550,13 @@ sub compile {
     my $comp    = $self->compiled_entries;
 
     while ( my ( $k, $v ) = each %$entries ) {
-        my $compiled_key = (
-            ($entries_are_in_gettext_style)
-            ? $k
-            : _maketext_to_gettext($k)
+        my $compiled_key = ( ($entries_are_in_gettext_style)
+                             ? $k
+                             : _maketext_to_gettext($k)
         );
         $comp->{$compiled_key}    = $v;
         $lexicon->{$compiled_key} = ''
-          unless exists $lexicon->{$compiled_key};
+            unless exists $lexicon->{$compiled_key};
     }
 
     return %$lexicon;
@@ -578,10 +574,10 @@ sub normalize_space {
     $nospace =~ s/ +$//;
 
     return
-      unless ( !$self->has_msgid($msgid) and $self->has_msgid($nospace) );
+        unless ( !$self->has_msgid($msgid) and $self->has_msgid($nospace) );
 
     $self->set_msgstr( $msgid => $self->msgstr($nospace)
-          . ( ' ' x ( length($msgid) - length($nospace) ) ) );
+                       . ( ' ' x ( length($msgid) - length($nospace) ) ) );
 }
 
 =head2 Lexicon accessors
@@ -597,11 +593,11 @@ sub has_msgid { length $_[0]->msgstr( $_[1] ) }
 
 sub msg_positions {
     my ( $self, $msgid ) = @_;
-    my %files =
-      ( map { ( " $_->[0]:$_->[1]" => 1 ) } $self->compiled_entry($msgid) );
+    my %files = ( map { ( " $_->[0]:$_->[1]" => 1 ) }
+                  $self->compiled_entry($msgid) );
     return $self->{wrap}
-      ? join( "\n", ( map { '#:' . $_ } sort( keys %files ) ), '' )
-      : join( '', '#:', sort( keys %files ), "\n" );
+        ? join( "\n", ( map { '#:' . $_ } sort( keys %files ) ), '' )
+        : join( '', '#:', sort( keys %files ), "\n" );
 }
 
 sub msg_variables {
@@ -622,7 +618,7 @@ sub msg_variables {
 sub msg_format {
     my ( $self, $msgid ) = @_;
     return ", perl-maketext-format"
-      if $msgid =~ /%(?:[1-9]\d*|\w+\([^\)]*\))/;
+        if $msgid =~ /%(?:[1-9]\d*|\w+\([^\)]*\))/;
     return '';
 }
 

@@ -12,103 +12,135 @@ package Cache::Object;
 
 use strict;
 
-sub new {
-    my ($proto) = @_;
-    my $class = ref($proto) || $proto;
-    my $self = {};
-    bless( $self, $class );
-    return $self;
+
+sub new
+{
+  my ( $proto ) = @_;
+  my $class = ref( $proto ) || $proto;
+  my $self  = {};
+  bless ( $self, $class );
+  return $self;
 }
 
-sub get_created_at {
-    my ($self) = @_;
 
-    return $self->{_Created_At};
+sub get_created_at
+{
+  my ( $self ) = @_;
+
+  return $self->{_Created_At};
 }
 
-sub set_created_at {
-    my ( $self, $p_created_at ) = @_;
+sub set_created_at
+{
+  my ( $self, $p_created_at ) = @_;
 
-    $self->{_Created_At} = $p_created_at;
+  $self->{_Created_At} = $p_created_at;
 }
 
-sub get_accessed_at {
-    my ($self) = @_;
 
-    return $self->{_Accessed_At};
+sub get_accessed_at
+{
+  my ( $self ) = @_;
+
+  return $self->{_Accessed_At};
 }
 
-sub set_accessed_at {
-    my ( $self, $p_accessed_at ) = @_;
+sub set_accessed_at
+{
+  my ( $self, $p_accessed_at ) = @_;
 
-    $self->{_Accessed_At} = $p_accessed_at;
+  $self->{_Accessed_At} = $p_accessed_at;
 }
 
-sub get_data {
-    my ($self) = @_;
 
-    return $self->{_Data};
+sub get_data
+{
+  my ( $self ) = @_;
+
+  return $self->{_Data};
 }
 
-sub set_data {
-    my ( $self, $p_data ) = @_;
+sub set_data
+{
+  my ( $self, $p_data ) = @_;
 
-    $self->{_Data} = $p_data;
+  $self->{_Data} = $p_data;
 }
 
-sub get_expires_at {
-    my ($self) = @_;
 
-    return $self->{_Expires_At};
+sub get_expires_at
+{
+  my ( $self ) = @_;
+
+  return $self->{_Expires_At};
 }
 
-sub set_expires_at {
-    my ( $self, $p_expires_at ) = @_;
 
-    $self->{_Expires_At} = $p_expires_at;
+sub set_expires_at
+{
+  my ( $self, $p_expires_at ) = @_;
+
+  $self->{_Expires_At} = $p_expires_at;
 }
 
-sub get_key {
-    my ($self) = @_;
 
-    return $self->{_Key};
+sub get_key
+{
+  my ( $self ) = @_;
+
+  return $self->{_Key};
 }
 
-sub set_key {
-    my ( $self, $p_key ) = @_;
 
-    $self->{_Key} = $p_key;
+sub set_key
+{
+  my ( $self, $p_key ) = @_;
+
+  $self->{_Key} = $p_key;
 }
 
-sub get_size {
-    my ($self) = @_;
 
-    return $self->{_Size};
+
+sub get_size
+{
+  my ( $self ) = @_;
+
+  return $self->{_Size};
 }
 
-sub set_size {
-    my ( $self, $p_size ) = @_;
 
-    $self->{_Size} = $p_size;
+sub set_size
+{
+  my ( $self, $p_size ) = @_;
+
+  $self->{_Size} = $p_size;
 }
 
-sub get_identifier {
-    my ($self) = @_;
 
-    warn("get_identifier has been marked deprepricated.  use get_key");
+sub get_identifier
+{
+  my ( $self ) = @_;
 
-    return $self->get_key();
+  warn( "get_identifier has been marked deprepricated.  use get_key" );
+
+  return $self->get_key( );
 }
 
-sub set_identifier {
-    my ( $self, $p_identifier ) = @_;
 
-    warn("set_identifier has been marked deprepricated.  use set_key");
+sub set_identifier
+{
+  my ( $self, $p_identifier ) = @_;
 
-    return $self->set_key($p_identifier);
+  warn( "set_identifier has been marked deprepricated.  use set_key" );
+
+  return $self->set_key( $p_identifier );
 }
+
+
+
 
 1;
+
 
 __END__
 

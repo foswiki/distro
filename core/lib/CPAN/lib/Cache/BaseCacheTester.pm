@@ -8,72 +8,90 @@
 # rights and limitations under the License.
 ######################################################################
 
+
 package Cache::BaseCacheTester;
+
 
 use strict;
 
-sub new {
-    my ( $proto, $base_test_count ) = @_;
-    my $class = ref($proto) || $proto;
-    my $self = {};
-    bless( $self, $class );
 
-    $base_test_count = defined $base_test_count ? $base_test_count : 0;
+sub new
+{
+  my ( $proto, $base_test_count ) = @_;
+  my $class = ref( $proto ) || $proto;
+  my $self  = {};
+  bless ( $self, $class );
 
-    $self->_set_test_count($base_test_count);
+  $base_test_count = defined $base_test_count ? $base_test_count : 0 ;
 
-    return $self;
+  $self->_set_test_count( $base_test_count );
+
+  return $self;
 }
 
-sub ok {
-    my ($self) = @_;
 
-    my $test_count = $self->_get_test_count();
+sub ok
+{
+  my ( $self ) = @_;
 
-    print "ok $test_count\n";
+  my $test_count = $self->_get_test_count( );
 
-    $self->_increment_test_count();
+  print "ok $test_count\n";
+
+  $self->_increment_test_count( );
 }
 
-sub not_ok {
-    my ( $self, $message ) = @_;
 
-    my $test_count = $self->_get_test_count();
+sub not_ok
+{
+  my ( $self, $message ) = @_;
 
-    print "not ok $test_count # failed '$message'\n";
+  my $test_count = $self->_get_test_count( );
 
-    $self->_increment_test_count();
+  print "not ok $test_count # failed '$message'\n";
+
+  $self->_increment_test_count( );
 }
 
-sub skip {
-    my ( $self, $message ) = @_;
 
-    my $test_count = $self->_get_test_count();
+sub skip
+{
+  my ( $self, $message ) = @_;
 
-    print "ok $test_count # skipped $message \n";
+  my $test_count = $self->_get_test_count( );
 
-    $self->_increment_test_count();
+  print "ok $test_count # skipped $message \n";
+
+  $self->_increment_test_count( );
 }
 
-sub _set_test_count {
-    my ( $self, $test_count ) = @_;
 
-    $self->{_Test_Count} = $test_count;
+sub _set_test_count
+{
+  my ( $self, $test_count ) = @_;
+
+  $self->{_Test_Count} = $test_count;
 }
 
-sub _get_test_count {
-    my ($self) = @_;
 
-    return $self->{_Test_Count};
+sub _get_test_count
+{
+  my ( $self ) = @_;
+
+  return $self->{_Test_Count};
 }
 
-sub _increment_test_count {
-    my ($self) = @_;
 
-    $self->{_Test_Count}++;
+sub _increment_test_count
+{
+  my ( $self ) = @_;
+
+  $self->{_Test_Count}++;
 }
+
 
 1;
+
 
 __END__
 

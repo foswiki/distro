@@ -10,12 +10,12 @@ $CGI::Session::ID::md5::VERSION = '4.33';
 @CGI::Session::ID::md5::ISA     = qw( CGI::Session::ErrorHandler );
 
 *generate = \&generate_id;
-
 sub generate_id {
     my $md5 = new Digest::MD5();
-    $md5->add( $$, time(), rand(time) );
+    $md5->add($$ , time() , rand(time) );
     return $md5->hexdigest();
 }
+
 
 1;
 

@@ -18,180 +18,185 @@ use vars qw( @ISA );
 
 @ISA = qw ( Cache::BaseCacheTester );
 
-sub test {
-    my ( $self, $cache ) = @_;
 
-    $self->_test_one($cache);
-    $self->_test_two($cache);
-    $self->_test_three($cache);
+sub test
+{
+  my ( $self, $cache ) = @_;
+
+  $self->_test_one( $cache );
+  $self->_test_two( $cache );
+  $self->_test_three( $cache );
 }
+
 
 # Test the limit_size( ) method, which should automatically purge the
 # first object added (with the closer expiration time)
 
-sub _test_one {
-    my ( $self, $cache ) = @_;
+sub _test_one
+{
+  my ( $self, $cache ) = @_;
 
-    $cache
-      or croak("cache required");
+  $cache or
+    croak( "cache required" );
 
-    $cache->clear();
+  $cache->clear( );
 
-    my $empty_size = $cache->size();
+  my $empty_size = $cache->size( );
 
-    ( $empty_size == 0 ) ? $self->ok() : $self->not_ok('$empty_size == 0');
+  ( $empty_size == 0 ) ?
+    $self->ok( ) : $self->not_ok( '$empty_size == 0' );
 
-    my $first_key = 'Key 1';
+  my $first_key = 'Key 1';
 
-    my $first_expires_in = '10';
+  my $first_expires_in = '10';
 
-    my $value = $self;
+  my $value = $self;
 
-    $cache->set( $first_key, $value, $first_expires_in );
+  $cache->set( $first_key, $value, $first_expires_in );
 
-    my $first_size = $cache->size();
+  my $first_size = $cache->size( );
 
-    ( $first_size > $empty_size )
-      ? $self->ok()
-      : $self->not_ok('$first_size > $empty_size');
+  ( $first_size > $empty_size ) ?
+    $self->ok( ) : $self->not_ok( '$first_size > $empty_size' );
 
-    my $size_limit = $first_size;
+  my $size_limit = $first_size;
 
-    my $second_key = 'Key 2';
+  my $second_key = 'Key 2';
 
-    my $second_expires_in = $first_expires_in * 2;
+  my $second_expires_in = $first_expires_in * 2;
 
-    $cache->set( $second_key, $value, $second_expires_in );
+  $cache->set( $second_key, $value, $second_expires_in );
 
-    my $second_size = $cache->size();
+  my $second_size = $cache->size( );
 
-    ( $second_size > $first_size )
-      ? $self->ok()
-      : $self->not_ok('$second_size > $first_size');
+  ( $second_size > $first_size ) ?
+    $self->ok( ) : $self->not_ok( '$second_size > $first_size' );
 
-    $cache->limit_size($size_limit);
+  $cache->limit_size( $size_limit );
 
-    my $first_value = $cache->get($first_key);
+  my $first_value = $cache->get( $first_key );
 
-    ( not defined $first_value )
-      ? $self->ok()
-      : $self->not_ok('not defined $first_value');
+  ( not defined $first_value ) ?
+    $self->ok( ) : $self->not_ok( 'not defined $first_value' );
 
-    my $third_size = $cache->size();
+  my $third_size = $cache->size( );
 
-    ( $third_size <= $size_limit )
-      ? $self->ok()
-      : $self->not_ok('$third_size <= $size_limit');
+  ( $third_size <= $size_limit ) ?
+    $self->ok( ) : $self->not_ok( '$third_size <= $size_limit' );
 }
+
+
 
 # Test the limit_size method when a number of objects can expire
 # simultaneously
 
-sub _test_two {
-    my ( $self, $cache ) = @_;
+sub _test_two
+{
+  my ( $self, $cache ) = @_;
 
-    $cache
-      or croak("cache required");
+  $cache or
+    croak( "cache required" );
 
-    $cache->clear();
+  $cache->clear( );
 
-    my $empty_size = $cache->size();
+  my $empty_size = $cache->size( );
 
-    ( $empty_size == 0 ) ? $self->ok() : $self->not_ok('$empty_size == 0');
+  ( $empty_size == 0 ) ?
+    $self->ok( ) : $self->not_ok( '$empty_size == 0' );
 
-    my $value = "A very short string";
+  my $value = "A very short string";
 
-    my $first_key = 'Key 0';
+  my $first_key = 'Key 0';
 
-    my $first_expires_in = 20;
+  my $first_expires_in = 20;
 
-    $cache->set( $first_key, $value, $first_expires_in );
+  $cache->set( $first_key, $value, $first_expires_in );
 
-    my $first_size = $cache->size();
+  my $first_size = $cache->size( );
 
-    ( $first_size > $empty_size )
-      ? $self->ok()
-      : $self->not_ok('$first_size > $empty_size');
+  ( $first_size > $empty_size ) ?
+    $self->ok( ) : $self->not_ok( '$first_size > $empty_size' );
 
-    my $second_expires_in = $first_expires_in / 2;
+  my $second_expires_in = $first_expires_in / 2;
 
-    my $num_keys = 5;
+  my $num_keys = 5;
 
-    for ( my $i = 1 ; $i <= $num_keys ; $i++ ) {
-        my $key = 'Key ' . $i;
+  for ( my $i = 1; $i <= $num_keys; $i++ )
+  {
+    my $key = 'Key ' . $i;
 
-        sleep(1);
+    sleep ( 1 );
 
-        $cache->set( $key, $value, $second_expires_in );
-    }
+    $cache->set( $key, $value, $second_expires_in );
+  }
 
-    my $second_size = $cache->size();
+  my $second_size = $cache->size( );
 
-    ( $second_size > $first_size )
-      ? $self->ok()
-      : $self->not_ok('$second_size > $first_size');
+  ( $second_size > $first_size ) ?
+    $self->ok( ) : $self->not_ok( '$second_size > $first_size' );
 
-    my $size_limit = $first_size;
+  my $size_limit = $first_size;
 
-    $cache->limit_size($size_limit);
+  $cache->limit_size( $size_limit );
 
-    my $third_size = $cache->size();
+  my $third_size = $cache->size( );
 
-    ( $third_size <= $size_limit )
-      ? $self->ok()
-      : $self->not_ok('$third_size <= $size_limit');
+  ( $third_size <= $size_limit ) ?
+    $self->ok( ) : $self->not_ok( '$third_size <= $size_limit' );
 
-    my $first_value = $cache->get($first_key);
+  my $first_value = $cache->get( $first_key );
 
-    ( $first_value eq $value )
-      ? $self->ok()
-      : $self->not_ok('$first_value eq $value');
+  ( $first_value eq $value ) ?
+    $self->ok( ) : $self->not_ok( '$first_value eq $value' );
 
 }
+
 
 # Test the max_size( ) method, which should keep the cache under
 # the given size
 
-sub _test_three {
-    my ( $self, $cache ) = @_;
+sub _test_three
+{
+  my ( $self, $cache ) = @_;
 
-    $cache
-      or croak("cache required");
+  $cache or
+    croak( "cache required" );
 
-    $cache->clear();
+  $cache->clear( );
 
-    my $empty_size = $cache->size();
+  my $empty_size = $cache->size( );
 
-    ( $empty_size == 0 ) ? $self->ok() : $self->not_ok('$empty_size == 0');
+  ( $empty_size == 0 ) ?
+    $self->ok( ) : $self->not_ok( '$empty_size == 0' );
 
-    my $first_key = 'Key 1';
+  my $first_key = 'Key 1';
 
-    my $value = $self;
+  my $value = $self;
 
-    $cache->set( $first_key, $value );
+  $cache->set( $first_key, $value );
 
-    my $first_size = $cache->size();
+  my $first_size = $cache->size( );
 
-    ( $first_size > $empty_size )
-      ? $self->ok()
-      : $self->not_ok('$first_size > $empty_size');
+  ( $first_size > $empty_size ) ?
+    $self->ok( ) : $self->not_ok( '$first_size > $empty_size' );
 
-    my $max_size = $first_size;
+  my $max_size = $first_size;
 
-    $cache->set_max_size($max_size);
+  $cache->set_max_size( $max_size );
 
-    my $second_key = 'Key 2';
+  my $second_key = 'Key 2';
 
-    $cache->set( $second_key, $value );
+  $cache->set( $second_key, $value );
 
-    my $second_size = $cache->size();
+  my $second_size = $cache->size( );
 
-    ( $second_size <= $max_size )
-      ? $self->ok()
-      : $self->not_ok('$second_size <= $max_size');
+  ( $second_size <= $max_size ) ?
+    $self->ok( ) : $self->not_ok( '$second_size <= $max_size' );
 }
 
+
 1;
+
 
 __END__
 

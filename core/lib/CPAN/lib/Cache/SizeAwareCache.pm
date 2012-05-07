@@ -8,7 +8,9 @@
 # rights and limitations under the License.
 ######################################################################
 
+
 package Cache::SizeAwareCache;
+
 
 use strict;
 use Cache::Cache;
@@ -19,9 +21,10 @@ use Exporter;
 
 @EXPORT_OK = qw( $EXPIRES_NOW $EXPIRES_NEVER $NO_MAX_SIZE );
 
-$EXPIRES_NOW   = $Cache::Cache::EXPIRES_NOW;
+$EXPIRES_NOW = $Cache::Cache::EXPIRES_NOW;
 $EXPIRES_NEVER = $Cache::Cache::EXPIRES_NEVER;
-$NO_MAX_SIZE   = -1;
+$NO_MAX_SIZE = -1;
+
 
 sub limit_size;
 
@@ -29,7 +32,9 @@ sub get_max_size;
 
 sub set_max_size;
 
+
 1;
+
 
 __END__
 
