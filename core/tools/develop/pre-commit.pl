@@ -38,30 +38,31 @@ EOF
 }
 
 fail("No Bug item in log message") unless ( $logmsg =~ /\bItem\d+\s*:/ );
-local $/;
 
 my @items;
 $logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
 foreach my $item (@items) {
     fail "Bug item $item does not exist"
       unless ( -f "$dataDir/Tasks/$item.txt" );
-    open( F, '<', "$dataDir/Tasks/$item.txt" ) || die "Cannot open $item";
-    my $text  = <F>;
+    open( my $file, '<', "$dataDir/Tasks/$item.txt" )
+      || die "Cannot open $item";
+    my $text = do { local $/; <$file> };
     my $state = "Closed";
     if ( $text =~ /^%META:FIELD{name="CurrentState".*value="(.*?)"/m ) {
         $state = $1;
     }
-    close(F);
+    close($file);
     if ( $state =~ /^(Waiting for Release|Closed|No Action Required)$/ ) {
         fail("$item is in $state state; cannot check in");
     }
 }
 
 # Verify that code is cleanly formatted, but only for files which were not
-# removed, and end in .pm or .pl
+# removed, and end in .pm or .pl, and are not CPAN librairies
 my @files =
   map { /^\S+\s+(.+)$/; $1 }
-  grep { !/^D/ && /\.p[lm]$/ } `$SVNLOOK changed -t $TXN $REPOS`;
+  grep { !/^D/ && !m{/lib/CPAN/lib/} && /\.p[lm]$/ }
+  `$SVNLOOK changed -t $TXN $REPOS`;
 foreach my $file (@files) {
     check_perltidy($file);
 }
@@ -73,7 +74,8 @@ sub check_perltidy {
     fail "$?: $SVNLOOK cat -t $TXN $REPOS $file;\n" . join( "\n", @input )
       if $?;
     my @tidyed;
-    perltidy( \@input, \@tidyed );
+    local @ARGV;    # Otherwise perltidy thinks it is for it
+    perltidy( source => \@input, destination => \@tidyed );
     my $diff = diff( \@input, \@tidyed );
     fail("$file is not tidy; cannot check in:\n$diff") if $diff;
 }
