@@ -385,6 +385,7 @@ index.html 0444
 lib/Assert.pm 0444
 lib/MANIFEST 0444
 lib/CPAN/lib/Algorithm/Diff.pm 0444
+lib/CPAN/lib/Crypt/PasswdMD5.pm 0444
 lib/CPAN/lib/CGI/Session.pm 0444
 lib/CPAN/lib/CGI/Session/Driver.pm 0444
 lib/CPAN/lib/CGI/Session/Driver/DBI.pm 0444
