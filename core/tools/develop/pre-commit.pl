@@ -11,9 +11,13 @@ use Text::Diff;
 #
 # STDERR ends up on the users' terminal
 
-my $REPOS   = $ARGV[0];
-my $TXN     = $ARGV[1];
-my $dataDir = '/home/foswiki.org/public_html/data';
+my $REPOS     = $ARGV[0];
+my $TXN       = $ARGV[1];
+my $dataDir   = '/home/foswiki.org/public_html/data';
+my $JsonCache = '/home/svn/CoordinateWithAuthor.json';
+my $cacheExpire = 24 * 3600;    # Refresh cache if older than 1 day
+my $JsonUrl =
+  'http://foswiki.org/Extensions/CoordinateWithAuthorToJSON?skin=text';
 
 my $SVNLOOK = '/usr/local/bin/svnlook';
 my $logmsg  = `$SVNLOOK log -t $TXN $REPOS`;
@@ -67,9 +71,42 @@ foreach my $file (@files) {
     check_perltidy($file);
 }
 
+my $cache;
+
+sub isCoordinateWithAuthor {
+    my $file = shift;
+
+    unless ($cache) {
+        my $json;
+        if ( !-e $JsonCache || -M _ > $cacheExpire ) {
+            require LWP::Simple;
+            $json = LWP::Simple::get($JsonUrl);
+            fail("Could not get $JsonUrl") unless defined $json;
+            open my $jsonFH, '>', $JsonCache
+              or fail "Cannot read $JsonCache: $!";
+            print $jsonFH $json;
+            close $jsonFH;
+        }
+        else {
+            open my $jsonFH, '<', $JsonCache
+              or fail "Cannot read $JsonCache: $!";
+            $json = do { local $/; <$jsonFH> };
+            close $jsonFH;
+        }
+        require JSON;
+        my $list = JSON::decode_json($json);
+        require Regexp::Assemble;
+        my $ra = Regexp::Assemble->new;
+        $ra->add($_) for @{ $list->{topics} };
+        $cache = $ra->re;
+    }
+    return $file =~ /$cache/;
+}
+
 sub check_perltidy {
     my $file = shift;
 
+    next if isCoordinateWithAuthor($file);
     my @input = `$SVNLOOK cat -t $TXN $REPOS $file`;
     fail "$?: $SVNLOOK cat -t $TXN $REPOS $file;\n" . join( "\n", @input )
       if $?;
