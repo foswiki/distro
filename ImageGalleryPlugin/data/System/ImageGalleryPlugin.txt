@@ -176,7 +176,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  14 Nov 2008 | made format string for galleries more flexible |
 |  16 Jul 2008 | don't crash on images that start with a digits pattern |
 |  07 Jul 2008 | fixing use of string as hash |
-|  03 Jul 2008 | applying patch by Aurélio A. Heckert (see Bugs:Item5753); \
+|  03 Jul 2008 | applying patch by AurÃ©lio A. Heckert (see Bugs:Item5753); \
                  using =Resize= instead of =Scale= for higher quality thumbnails; \
                  hiding reddot when the user has no edit access to the target topic |
 |  03 Mar 2008 | make implementation of image mage configurable, \
