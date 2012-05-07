@@ -36,11 +36,12 @@ or
     'http://CarlSagan.foswiki.org' => 'Main.CarlSagan,
 </verbatim>
 
----++ !TemplateLogin configurable !HomePage on login
-The Admin can also =configure= ={HomePagePlugin}{GotoHomePageOnLogin}= so Foswiki shows user's 
-!HomePage (from the UserForm field in their User topic. (%WIKIUSERNAME% is set to : %FORMFIELD{"HomePage" alttext="nothing" efault="nothing" topic="%WIKIUSERNAME%"}%)) when they log in (makes sense if users have personalised home pages.) 
-__Note__ that this means that any URL's emailed to them will only be useful after login.
-
+---++ !TemplateLogin individual configurable !HomePage on login
+The Admin can also =configure= ={HomePagePlugin}{GotoHomePageOnLogin}=, to default
+to an individual !HomePage defined in a UserForm field in the users personal topic.
+(the current user - %WIKIUSERNAME% - has !HomePage set to : %FORMFIELD{"HomePage" alttext="nothing" efault="nothing" topic="%WIKIUSERNAME%"}%)
+ 
+__Note__ that this means that any URLs emailed to them will only be useful after login.
 
 ---++ Installation Instructions
 

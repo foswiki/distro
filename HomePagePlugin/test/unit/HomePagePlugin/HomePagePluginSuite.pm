@@ -38,7 +38,8 @@ sub test_siteDefaultTopic {
     my $query = Unit::Request->new( {} );
     $query->path_info("");
 
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login},
+        $query, { view => 1 } );
 
     $this->assert_equals( $this->{test_topic},
         $Foswiki::Plugins::SESSION->{topicName} );
@@ -65,6 +66,48 @@ sub test_login {
 
     $this->assert_equals( 'Www',  $Foswiki::Plugins::SESSION->{topicName} );
     $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
+}
+
+sub test_view {
+    my $this = shift;
+
+    my $query = Unit::Request->new(
+        {
+            username => ['dogbert'],
+            origurl  => ['spam']
+        }
+    );
+    $query->path_info("");
+    $query->header( 'Host' => 'www.home.org' );
+
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    $this->{session}->finish()          if $this->{session};
+    $this->{session} =
+      Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
+
+    $this->assert_equals( 'Www',  $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
+}
+
+sub test_save {
+    my $this = shift;
+
+    my $query = Unit::Request->new(
+        {
+            username => ['dogbert'],
+            origurl  => ['spam']
+        }
+    );
+    $query->path_info("/System/WebHome");
+    $query->header( 'Host' => 'www.home.org' );
+
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    $this->{session}->finish()          if $this->{session};
+    $this->{session} =
+      Foswiki->new( $this->{test_user_login}, $query, { save => 1 } );
+
+    $this->assert_equals( 'WebHome', $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( 'System',  $Foswiki::Plugins::SESSION->{webName} );
 }
 
 1;

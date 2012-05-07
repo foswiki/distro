@@ -91,8 +91,6 @@ sub initializeUserHandler {
     my ( $web, $topic ) =
       $Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
 
-    return unless Foswiki::Func::topicExists( $web, $topic );
-
     $Foswiki::Plugins::SESSION->{webName}   = $web;
     $Foswiki::Plugins::SESSION->{topicName} = $topic;
 
