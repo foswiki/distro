@@ -209,7 +209,7 @@ sub renderHidden {
 
 =begin TML
 
----++ populateMetaDataFromQuery( $query, $meta, $old ) -> ($bValid, $bPresent)
+---++ ObjectMethod populateMetaDataFromQuery( $query, $meta, $old ) -> ($bValid, $bPresent)
 
 Given a CGI =$query=, a =$meta= object, and an array of =$old= field entries,
 then populate the $meta with a row for this field definition, taking the
@@ -300,12 +300,15 @@ sub populateMetaFromQueryData {
         if ( $this->{definingTopic} ) {
             $title = '[[' . $this->{definingTopic} . '][' . $title . ']]';
         }
-        $def = {
-            name       => $this->{name},
-            title      => $title,
-            value      => $value,
-            attributes => $this->{attributes},
-        };
+        $def = $this->createMetaKeyValues(
+            $query, $meta,
+            {
+                name       => $this->{name},
+                title      => $title,
+                value      => $value,
+                attributes => $this->{attributes},
+            }
+        );
     }
     elsif ($preDef) {
         $def = $preDef;
@@ -317,6 +320,22 @@ sub populateMetaFromQueryData {
     $meta->putKeyed( 'FIELD', $def ) if $def;
 
     return ( 1, $bPresent );
+}
+
+=begin TML
+
+---++ ObjectMethod createMetaKeyValues( $query, $meta, $keyvalues ) -> $keyvalues
+
+Create meta key/value pairs hash, to be overridden by subclasses.
+Default implementation passes all inputs unchanged.
+
+=cut
+
+sub createMetaKeyValues {
+
+    #my ( $this, $query, $meta, $keyvalues ) = @_;
+
+    return $_[3];
 }
 
 =begin TML
@@ -347,7 +366,7 @@ sub renderForDisplay {
     $value = Foswiki::Render::protectFormFieldValue( $value, $attrs );
 
     $format =~ s/\$title/$this->{title}/g;
-    $format =~ s/\$value/$value/g;
+    $format =~ s/\$value/$this->renderValueForDisplay($value)/ge;
     $format =~ s/\$name/$this->{name}/g;
     $format =~ s/\$attributes/$this->{attributes}/g;
     $format =~ s/\$type/$this->{type}/g;
@@ -356,6 +375,22 @@ sub renderForDisplay {
     $format =~ s/\$definingTopic/$definingTopic/g;
 
     return $format;
+}
+
+=begin TML
+
+---++ ObjectMethod renderValueForDisplay($value) -> $html
+
+Render the field value for display, to be overridden by subclasses.
+Default implementation passes the value unchanged.
+
+=cut
+
+sub renderValueForDisplay {
+
+    # my ( $this, $value ) = @_;
+
+    return $_[1];
 }
 
 # Debug
@@ -373,7 +408,7 @@ sub stringify {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
