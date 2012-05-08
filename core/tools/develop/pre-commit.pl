@@ -11,16 +11,14 @@ use Text::Diff;
 #
 # STDERR ends up on the users' terminal
 
-my $REPOS     = $ARGV[0];
-my $TXN       = $ARGV[1];
-my $dataDir   = '/home/foswiki.org/public_html/data';
-my $JsonCache = '/home/svn/CoordinateWithAuthor.json';
-my $cacheExpire = 24 * 3600;    # Refresh cache if older than 1 day
-my $JsonUrl =
-  'http://foswiki.org/Extensions/CoordinateWithAuthorToJSON?skin=text';
+my $REPOS   = $ARGV[0];
+my $TXN     = $ARGV[1];
+my $dataDir = "/home/foswiki.org/public_html/data";
+my $rev     = "-t $TXN";
+$rev = '';
 
 my $SVNLOOK = '/usr/local/bin/svnlook';
-my $logmsg  = `$SVNLOOK log -t $TXN $REPOS`;
+my $logmsg  = `$SVNLOOK log $rev $REPOS`;
 
 sub fail {
     my $message = shift;
@@ -62,53 +60,56 @@ foreach my $item (@items) {
 }
 
 # Verify that code is cleanly formatted, but only for files which were not
-# removed, and end in .pm or .pl, and are not CPAN librairies
-my @files =
-  map { /^\S+\s+(.+)$/; $1 }
-  grep { !/^D/ && !m{/lib/CPAN/lib/} && /\.p[lm]$/ }
-  `$SVNLOOK changed -t $TXN $REPOS`;
-foreach my $file (@files) {
-    check_perltidy($file);
+# removed, and end in .pm or .pl, and are not CPAN libraries
+my %excludeDir;
+
+sub isExcluded {
+    my $file = shift;
+    return 1 unless $file =~ /\.p[ml]$/;
+    return 1 if $file =~ m#/lib/CPAN/lib/#;
+
+    #print "Check $file\n";
+    my $path = "/$file";
+    while ($path) {
+        $path =~ s#/+[^/]*$##;
+        if ( $excludeDir{$path} ) {
+
+            #print "Excluded $path\n";
+            return 1;
+        }
+        my $mess = `svnlook history $REPOS $path/TIDY 2>/dev/null`;
+        if ( $? == 0 ) {
+
+            #print "Force-include because of $path/TIDY\n";
+            return 0;
+        }
+    }
+
+    # If TIDY is not found, exclude the path
+    $path = "/$file";
+    while ($path) {
+        $path =~ s#/+[^/]*$##;
+        $excludeDir{$path} = 1;
+    }
+
+    #print "EXCLUDE $file\n";
+    return 1;
 }
 
-my $cache;
+my @files =
+  map { $_->[1] }
+  grep { $_->[0] !~ /^D/ && !isExcluded( $_->[1] ) }
+  map { [ split( /\s+/, $_, 2 ) ] } `$SVNLOOK changed $rev $REPOS`;
 
-sub isCoordinateWithAuthor {
-    my $file = shift;
-
-    unless ($cache) {
-        my $json;
-        if ( !-e $JsonCache || -M _ > $cacheExpire ) {
-            require LWP::Simple;
-            $json = LWP::Simple::get($JsonUrl);
-            fail("Could not get $JsonUrl") unless defined $json;
-            open my $jsonFH, '>', $JsonCache
-              or fail "Cannot read $JsonCache: $!";
-            print $jsonFH $json;
-            close $jsonFH;
-        }
-        else {
-            open my $jsonFH, '<', $JsonCache
-              or fail "Cannot read $JsonCache: $!";
-            $json = do { local $/; <$jsonFH> };
-            close $jsonFH;
-        }
-        require JSON;
-        my $list = JSON::decode_json($json);
-        require Regexp::Assemble;
-        my $ra = Regexp::Assemble->new;
-        $ra->add($_) for @{ $list->{topics} };
-        $cache = $ra->re;
-    }
-    return $file =~ /$cache/;
+foreach my $file (@files) {
+    check_perltidy($file);
 }
 
 sub check_perltidy {
     my $file = shift;
 
-    next if isCoordinateWithAuthor($file);
-    my @input = `$SVNLOOK cat -t $TXN $REPOS $file`;
-    fail "$?: $SVNLOOK cat -t $TXN $REPOS $file;\n" . join( "\n", @input )
+    my @input = `$SVNLOOK cat $rev $REPOS $file`;
+    fail "$?: $SVNLOOK cat $rev $REPOS $file;\n" . join( "\n", @input )
       if $?;
     my @tidyed;
     local @ARGV;    # Otherwise perltidy thinks it is for it
