@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Perl::Tidy;
 use Text::Diff;
+use File::Spec;
 
 # PRE-COMMIT HOOK for Foswiki Subversion
 #
@@ -15,7 +16,6 @@ my $REPOS   = $ARGV[0];
 my $TXN     = $ARGV[1];
 my $dataDir = "/home/foswiki.org/public_html/data";
 my $rev     = "-t $TXN";
-$rev = '';
 
 my $SVNLOOK = '/usr/local/bin/svnlook';
 my $logmsg  = `$SVNLOOK log $rev $REPOS`;
@@ -61,45 +61,54 @@ foreach my $item (@items) {
 
 # Verify that code is cleanly formatted, but only for files which were not
 # removed, and end in .pm or .pl, and are not CPAN libraries
-my %excludeDir;
+my %tidyOption;
 
-sub isExcluded {
+# Returns undef when file should be skipped,
+# otherwise returns perltidy options to be used (can be empty for defaults)
+sub getTidyOptions {
     my $file = shift;
-    return 1 unless $file =~ /\.p[ml]$/;
-    return 1 if $file =~ m#/lib/CPAN/lib/#;
+    return undef unless $file =~ /\.p[ml]$/;    # Only perl files
+    return undef if $file =~ m#/lib/CPAN/lib/#; # Not CPAN modules
+    return $tidyOption{$file} if exists $tidyOption{$file};
 
-    #print "Check $file\n";
-    my $path = "/$file";
-    while ($path) {
-        $path =~ s#/+[^/]*$##;
-        if ( $excludeDir{$path} ) {
-
-            #print "Excluded $path\n";
-            return 1;
-        }
-        my $mess = `svnlook history $REPOS $path/TIDY 2>/dev/null`;
-        if ( $? == 0 ) {
-
-            #print "Force-include because of $path/TIDY\n";
-            return 0;
+    my $tidyOptions = undef;                    # Defaults to skip
+    my ( $volume, $directory ) = File::Spec->splitpath($file);
+    my @pathList;    # Save examined hierarchy to update cache
+    my @path = File::Spec->splitdir($directory);
+    while ( defined pop @path ) {
+        my $path = File::Spec->catdir(@path);
+        $tidyOptions = $tidyOption{$path} and last if exists $tidyOption{$path};
+        push @pathList, $path;    # To update cache hierachy
+        my $tidyFile = File::Spec->catpath( $volume, $path, 'TIDY' );
+        my @tidyOptions = `$SVNLOOK cat $rev $REPOS $tidyFile 2>/dev/null`;
+        if ( $? == 0 ) {          # Found a TIDY file, check its content
+            $tidyOptions = '';    # Defaults to check
+            for (@tidyOptions) {
+                if (/^(?:perl\s+)OFF$/) {
+                    $tidyOptions = undef;
+                    last;
+                }
+                if (/^perl\s*(.*)$/) {
+                    $tidyOptions = $1;
+                    last;
+                }
+            }
+            last;
         }
     }
 
-    # If TIDY is not found, exclude the path
-    $path = "/$file";
-    while ($path) {
-        $path =~ s#/+[^/]*$##;
-        $excludeDir{$path} = 1;
+    # Update cache for the entire paths
+    for my $path (@pathList) {
+        $tidyOption{$path} = $tidyOptions;
     }
 
-    #print "EXCLUDE $file\n";
-    return 1;
+    return $tidyOption{$file} = $tidyOptions;
 }
 
 my @files =
   map { $_->[1] }
-  grep { $_->[0] !~ /^D/ && !isExcluded( $_->[1] ) }
-  map { [ split( /\s+/, $_, 2 ) ] } `$SVNLOOK changed $rev $REPOS`;
+  grep { $_->[0] !~ /^D/ && defined getTidyOptions( $_->[1] ) }
+  map { chomp; [ split( /\s+/, $_, 2 ) ] } `$SVNLOOK changed $rev2 $REPOS`;
 
 foreach my $file (@files) {
     check_perltidy($file);
@@ -111,9 +120,15 @@ sub check_perltidy {
     my @input = `$SVNLOOK cat $rev $REPOS $file`;
     fail "$?: $SVNLOOK cat $rev $REPOS $file;\n" . join( "\n", @input )
       if $?;
+
+    # Function should get it from the cache anyway
+    my $tidyOptions = getTidyOptions($file);
     my @tidyed;
-    local @ARGV;    # Otherwise perltidy thinks it is for it
-    perltidy( source => \@input, destination => \@tidyed );
+    perltidy(
+        source      => \@input,
+        destination => \@tidyed,
+        argv        => $tidyOptions,
+    );
     my $diff = diff( \@input, \@tidyed );
     fail("$file is not tidy; cannot check in:\n$diff") if $diff;
 }
