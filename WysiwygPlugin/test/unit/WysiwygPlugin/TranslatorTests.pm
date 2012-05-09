@@ -875,6 +875,20 @@ HERE
     },
     {
         exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'obsoleteSquabLink',
+        tml  => <<'HERE',
+[[https://example.com Link *text* here]]
+HERE
+        html => <<'HERE',
+<p><a class='TMLlink' href="https://example.com">Link <b>text</b> here</a>
+</p>
+HERE
+        finaltml => <<'HERE',
+[[https://example.com][Link *text* here]]
+HERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'mailtoLink_Item11814b',
         tml  => <<'HERE',
 <a href="mailto:a@example.org?subject=Hi[joe]&body=Hi%21%0A%0ABye%21">hi</a>
