@@ -108,7 +108,7 @@ sub getTidyOptions {
 my @files =
   map { $_->[1] }
   grep { $_->[0] !~ /^D/ && defined getTidyOptions( $_->[1] ) }
-  map { chomp; [ split( /\s+/, $_, 2 ) ] } `$SVNLOOK changed $rev2 $REPOS`;
+  map { chomp; [ split( /\s+/, $_, 2 ) ] } `$SVNLOOK changed $rev $REPOS`;
 
 foreach my $file (@files) {
     check_perltidy($file);
