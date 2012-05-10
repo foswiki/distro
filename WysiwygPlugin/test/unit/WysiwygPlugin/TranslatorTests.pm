@@ -803,10 +803,20 @@ TML
     },
     {
         exec     => $TML2HTML | $ROUNDTRIP,
-        name     => 'noppedWikiword',
+        name     => 'escapedWikiword',
         html     => '<p>!SunOS</p>',
         tml      => '!SunOS',
         finaltml => '!SunOS',
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'noppedWikiword',
+        html => <<HERE,
+<p><span class="WYSIWYG_PROTECTED">&#60;nop&#62;</span>SunOS
+</p>
+HERE
+        tml      => '<nop>SunOS',
+        finaltml => '<nop>SunOS',
     },
     {
         exec => $HTML2TML,
