@@ -237,3 +237,10 @@ function type(chr) {
 
 	fakeEvent(startElm, 'keyup', evt);
 }
+
+function cleanHtml(html) {
+	html = html.toLowerCase().replace(/[\r\n]+/g, '');
+	html = html.replace(/ (sizcache|nodeindex|sizset)="[^"]*"/g, '');
+
+	return html;
+}
