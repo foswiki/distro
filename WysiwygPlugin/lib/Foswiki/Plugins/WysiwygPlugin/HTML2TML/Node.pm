@@ -148,7 +148,6 @@ sub hasClass {
     }
     return 0 unless defined $this->{class};
 
-    #print STDERR "HASCLASS tests $this->{class} for $class\n";
     return $this->{class} =~ /\b$class\b/ ? 1 : 0;
 }
 
@@ -166,7 +165,6 @@ sub _removeClass {
     }
     return 0 unless hasClass( $this, $class );
 
-    #print STDERR "DDDDDDD  DELETE $class from $this->{class}\n";
     $this->{class} =~ s/\b$class\b//;
     $this->{class} =~ s/\s+/ /g;
     $this->{class} =~ s/^\s+//;
@@ -294,15 +292,12 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
         # isolate $NBBR and convert to \n.
         unless ($protect) {
 
-            #print STDERR "NBBR START [",WC::debugEncode($tml),"]\n";
             $tml =~ s/\n$WC::NBBR/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/$WC::NBBR\n/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/$WC::NBBR( |$WC::NBSP)+$WC::NBBR/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/ +$WC::NBBR/$WC::NBBR/go;
             $tml =~ s/$WC::NBBR +/$WC::NBBR/go;
             $tml =~ s/$WC::NBBR$WC::NBBR+/$WC::NBBR$WC::NBBR/go;
-
-            #print STDERR "NBBR collapse [",WC::debugEncode($tml),"]\n";
 
             # Now convert adjacent NBBRs to recreate empty lines
             # 1 NBBR  -> 1 newline
@@ -317,7 +312,6 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
               "\n" x ((length($1) + 1) / 2 + 1)
                 .geo;
 
-            #print STDERR "NBBR done [",WC::debugEncode($tml),"]\n";
         }
 
         # isolate $CHECKn and convert to $NBBR
@@ -329,8 +323,6 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
 
         $tml =~ s/$WC::NBBR/\n/gos;
 
-        #print STDERR "Isolate CHECKn  done [",WC::debugEncode($tml),"]\n";
-
         # Convert tabs to NBSP
         $tml =~ s/$WC::TAB/$WC::NBSP$WC::NBSP$WC::NBSP/go;
 
@@ -340,8 +332,6 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
             $tml =~ s/$WC::NBSP +/$WC::NBSP/go;
         }
         $tml =~ s/$WC::NBSP/ /go;
-
-        #print STDERR "Tabs and NBSP  done [",WC::debugEncode($tml),"]\n";
 
         $tml =~ s/$WC::CHECK1$WC::CHECK1+/$WC::CHECK1/go;
         $tml =~ s/$WC::CHECK2$WC::CHECK2+/$WC::CHECK2/go;
@@ -366,15 +356,12 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     }
 
     # Collapse adjacent tags
-    #print STDERR "before Collapse [",WC::debugEncode($text),"]\n";
     # SMELL:  Can't collapse verbatim based upon simple close/open compare
     # because the previous opening verbatim tag might have different
     # class from the next one.
     foreach my $tag (qw(noautolink literal)) {
         $text =~ s#</$tag>(\h*)<$tag>#$1#gs;
     }
-
-    #print STDERR "After Collapse [",WC::debugEncode($text),"]\n";
 
     # Top and tail, and terminate with a single newline
     $text =~ s/^\n*//s;
@@ -416,7 +403,6 @@ sub _collapseOneClass {
         {
             push( @edible, $next );
 
-            #print STDERR "Added $next->{tag} to edible\n";
             $collapsible ||= $next->hasClass($class);
             $next = $next->{next};
         }
@@ -667,13 +653,9 @@ sub _htmlParams {
             $v =~ s/^\s*(.*?)\s*$/$1/;
           CLASS: for my $class ( split /\s+/, $v ) {
 
-                #print STDERR "_htmlParams considering CLASS $class\n";
                 next CLASS unless $class =~ /\S/;
 
-                #print STDERR " .. passed S test\n";
                 next CLASS if $tml2htmlClass{$class};
-
-                #print STDERR " .. passed tml2htmlClass test\n";
 
                 # if cleaning aggressively, remove class attributes
                 # except for the JQuery "Chili" classes
@@ -682,11 +664,7 @@ sub _htmlParams {
                     and not $jqueryChiliClass{$class}
                     and not $class =~ /^foswiki/ );
 
-                #print STDERR " .. passed VERY_CLEAN test\n";
-
                 push @classes, $class;
-
-                #print STDERR "Accepted CLASS $class\n";
             }
             next ATTR unless @classes;
 
@@ -1330,7 +1308,6 @@ sub _verbatim {
     $text =~ s/\240/$WC::NBSP/g;
     my $p = _htmlParams( $this->{attrs}, $options );
 
-    #print STDERR "BUILT VERBATIM: <$tag$p>$text</$tag>";
     return ( $flags, "<$tag$p>$text</$tag>" );
 }
 
