@@ -147,6 +147,7 @@ sub hasClass {
         return hasClass( $this->{attrs}, $class );
     }
     return 0 unless defined $this->{class};
+
     return $this->{class} =~ /\b$class\b/ ? 1 : 0;
 }
 
@@ -163,6 +164,7 @@ sub _removeClass {
         return _removeClass( $this->{attrs}, $class );
     }
     return 0 unless hasClass( $this, $class );
+
     $this->{class} =~ s/\b$class\b//;
     $this->{class} =~ s/\s+/ /g;
     $this->{class} =~ s/^\s+//;
@@ -289,6 +291,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
 
         # isolate $NBBR and convert to \n.
         unless ($protect) {
+
             $tml =~ s/\n$WC::NBBR/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/$WC::NBBR\n/$WC::NBBR$WC::NBBR/go;
             $tml =~ s/$WC::NBBR( |$WC::NBSP)+$WC::NBBR/$WC::NBBR$WC::NBBR/go;
@@ -308,6 +311,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
             $tml =~ s.($WC::NBBR$WC::NBBR$WC::NBBR$WC::NBBR+).
               "\n" x ((length($1) + 1) / 2 + 1)
                 .geo;
+
         }
 
         # isolate $CHECKn and convert to $NBBR
@@ -347,14 +351,16 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
             $tml =~ s/<br( \/)?>\n/\n/g;
         }
 
-        #print STDERR WC::debugEncode($before);
-        #print STDERR " -> '",WC::debugEncode($tml),"'\n";
+        #print STDERR " -> [",WC::debugEncode($tml),"]\n";
         $text .= $tml;
     }
 
     # Collapse adjacent tags
-    foreach my $tag (qw(noautolink verbatim literal)) {
-        $text =~ s#</$tag>(\s*)<$tag>#$1#gs;
+    # SMELL:  Can't collapse verbatim based upon simple close/open compare
+    # because the previous opening verbatim tag might have different
+    # class from the next one.
+    foreach my $tag (qw(noautolink literal)) {
+        $text =~ s#</$tag>(\h*)<$tag>#$1#gs;
     }
 
     # Top and tail, and terminate with a single newline
@@ -364,6 +370,17 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     #print STDERR "TML       [",WC::debugEncode($text),"]\n";
 
     return $text;
+}
+
+sub _compareClass {
+    my ( $node1, $node2 ) = @_;
+
+    my $n1Class = $node1->{attrs}->{class} || '';
+    my $n1Sort = join( ' ', sort( split( / /, $n1Class ) ) );
+    my $n2Class = $node2->{attrs}->{class} || '';
+    my $n2Sort = join( ' ', sort( split( / /, $n2Class ) ) );
+
+    return ( $n1Sort eq $n2Sort );
 }
 
 # collapse adjacent nodes together, if they share the same class
@@ -379,11 +396,13 @@ sub _collapseOneClass {
             && (
                 ( !$next->{tag} && $next->{text} =~ /^\s*$/ )
                 || (   $node->{tag} eq $next->{tag}
-                    && $next->hasClass($class) )
+                    && $next->hasClass($class)
+                    && ( _compareClass( $node, $next ) ) )
             )
           )
         {
             push( @edible, $next );
+
             $collapsible ||= $next->hasClass($class);
             $next = $next->{next};
         }
@@ -414,6 +433,10 @@ sub _collapse {
     my @jobs = ($this);
     while ( scalar(@jobs) ) {
         my $node = shift(@jobs);
+
+     # SMELL: Not sure if we really still have to collapse consecutive verbatim.
+     # Extra whitespace to separate verbatim blocks is removed, and they will
+     # still eventually be merged.
         _collapseOneClass( $node, 'TMLverbatim' );
         _collapseOneClass( $node, 'WYSIWYG_STICKY' );
         if (   $node->{tag} eq 'p'
@@ -629,14 +652,17 @@ sub _htmlParams {
             my @classes;
             $v =~ s/^\s*(.*?)\s*$/$1/;
           CLASS: for my $class ( split /\s+/, $v ) {
+
                 next CLASS unless $class =~ /\S/;
+
                 next CLASS if $tml2htmlClass{$class};
 
                 # if cleaning aggressively, remove class attributes
                 # except for the JQuery "Chili" classes
                 next CLASS
-                  if ( $options & $WC::VERY_CLEAN
-                    and not $jqueryChiliClass{$class} );
+                  if (  $options & $WC::VERY_CLEAN
+                    and not $jqueryChiliClass{$class}
+                    and not $class =~ /^foswiki/ );
 
                 push @classes, $class;
             }
@@ -1281,6 +1307,7 @@ sub _verbatim {
     # &nbsp; decodes to \240, which we want to make a space.
     $text =~ s/\240/$WC::NBSP/g;
     my $p = _htmlParams( $this->{attrs}, $options );
+
     return ( $flags, "<$tag$p>$text</$tag>" );
 }
 
@@ -1375,6 +1402,10 @@ sub _handleA {
         # there's text and an href
         my $href = $this->{attrs}->{href};
 
+        my $forceTML =
+          (      $this->{attrs}->{class}
+              && $this->{attrs}->{class} =~ m/\bTMLlink\b/ );
+
         # decode URL params in the href
         $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
         if ( $this->{context} && $this->{context}->{rewriteURL} ) {
@@ -1392,7 +1423,9 @@ sub _handleA {
             $cleantext =~ s/^$this->{context}->{web}\.//;
 
             # if the clean text is the known topic we can ignore it
-            if ( ( $cleantext eq $href || $href =~ /\.$cleantext$/ ) ) {
+            if ( ( $cleantext eq $href || $href =~ /\.$cleantext$/ )
+                && !$forceTML )
+            {
                 return ( 0,
                         $WC::CHECK1 
                       . $nop 
@@ -1402,15 +1435,29 @@ sub _handleA {
                       . $WC::CHECK2 );
             }
         }
-
-        if ( $href =~ /${WC::PROTOCOL}[^?]*$/ && $text eq $href ) {
+        if (   $href =~ /${WC::PROTOCOL}[^?]*$/
+            && $text eq $href
+            && !$forceTML )
+        {
             return ( 0, $WC::CHECK1 . $nop . $text . $WC::CHECK2 );
         }
         if ( $text eq $href ) {
-            return ( 0, $WC::CHECKw . '[' . $nop . '[' . $href . ']]' );
+            return ( 0,
+                $WC::CHECKw . '[' . $nop . '[' . $this->{attrs}{href} . ']]' );
         }
+
+        # we must quote square brackets in [[...][...]] notation
+        $text                =~ s/[[]/&#91;/g;
+        $text                =~ s/[]]/&#93;/g;
+        $this->{attrs}{href} =~ s/[[]/%5B/g;
+        $this->{attrs}{href} =~ s/[]]/%5D/g;
+
         return ( 0,
-            $WC::CHECKw . '[' . $nop . '[' . $href . '][' . $text . ']]' );
+                $WC::CHECKw . '[' 
+              . $nop . '['
+              . $this->{attrs}{href} . ']['
+              . $text
+              . ']]' );
     }
     elsif ( $this->{attrs}->{name} ) {
 
@@ -1760,7 +1807,7 @@ sub _handleSPAN {
               $this->_flatten( $options | $WC::KEEP_WS | $WC::KEEP_ENTITIES );
 
             #die Data::Dumper::Dumper($kids);
-            if ( $kids eq ' ' ) {
+            if ( $kids eq '&nbsp;' ) {
 
                 # The space was not changed
                 # So restore the encoded whitespace
@@ -1799,11 +1846,10 @@ sub _handleSPAN {
         delete $atts{class};
     }
 
-    if ( $options & $WC::VERY_CLEAN ) {
-
-        # remove style attribute if cleaning aggressively.
-        #        delete $atts{style} if defined $atts{style};
-    }
+    #    if ( $options & $WC::VERY_CLEAN ) {
+    # remove style attribute if cleaning aggressively.
+    #        delete $atts{style} if defined $atts{style};
+    #    }
 
     # ignore the span tag if there are no other attrs
     if ( scalar( keys %atts ) == 0 ) {

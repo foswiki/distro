@@ -15,7 +15,9 @@ our %ALWAYS_BLOCK = map { $_ => 1 }
   HR ISINDEX MENU NOFRAMES NOSCRIPT OL P PRE TABLE UL );
 our $ALWAYS_BLOCK_S = join( '|', keys %ALWAYS_BLOCK );
 
-our $STARTWW  = qr/^|(?<=[ \t\n\(\!])|(?<=<p>)|(?<= <\/span>)/om;
+# STARTWW should match Foswiki::Render, execpt need to include protected whitespace spans.
+our $STARTWW =
+  qr/^|(?<=[ \t\n\(])|(?<=<p>)|(?<=nbsp;<\/span>)|(?<=160;<\/span>)/om;
 our $ENDWW    = qr/$|(?=[ \t\n\,\.\;\:\!\?\)])|(?=<\/p>)|(?=<span\b[^>]*> )/om;
 our $PROTOCOL = qr/^(file|ftp|gopher|https?|irc|news|nntp|telnet|mailto):/;
 

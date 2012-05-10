@@ -83,6 +83,9 @@ my $trailingSpace = ' ';
 # finaltml => optional expected tml from translating html. If not there,
 # will use tml. Only use where round-trip can't be closed because
 # we are testing deprecated syntax.
+# pref => 'VARIABLE=setting'  A single preference setting will be applied
+# when the test is initialized. Used in the %COLOR% tests to set older versions
+# of color encoding;  font, style or class.
 my $data = [
     {
         exec => $TML2HTML | $HTML2TML,
@@ -90,7 +93,7 @@ my $data = [
         tml  => 'Move !ItTest/site/ToWeb5 leaving web5 as !MySQL host',
         html => <<HERE,
 <p>
-Move !<span class="WYSIWYG_LINK">ItTest</span>/site/ToWeb5 leaving web5 as !<span class="WYSIWYG_LINK">MySQL</span> host
+Move !ItTest/site/ToWeb5 leaving web5 as !MySQL host
 </p>
 HERE
     },
@@ -346,6 +349,62 @@ _this_ _should_ _italicise_ _each_ _word_
 *and* *this* *should* *embolden* *each* *word*
 
 _mixing_ *them* _should_ *work*
+HERE
+    },
+    {
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'hiddenVerbatim',
+        tml  => <<'HERE',
+<verbatim class="foswikiHidden">
+hidden verbatim
+</verbatim>
+HERE
+        html => <<'HERE',
+<p><pre class="foswikiHidden TMLverbatim"><br />hidden&nbsp;verbatim<br /></pre>
+</p>
+HERE
+    },
+    {
+
+        # SMELL: This test will fail if run through TMCE Editor.
+        # TMCE removes the surrounding <p>..</p> tags which
+        # looses the whitespace, and the tags are merged by HTML2TML.
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'consecutiveVerbatim',
+        tml  => <<'HERE',
+<verbatim>
+verbatim 1
+</verbatim>
+
+<verbatim>
+verbatim 2
+</verbatim>
+HERE
+        html => <<'HERE',
+<p><pre class="TMLverbatim"><br />verbatim&nbsp;1<br /></pre>
+</p>
+<p><pre class="TMLverbatim"><br />verbatim&nbsp;2<br /></pre>
+</p>
+HERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'preserveClass',
+        html => <<'HERE',
+<p><pre class="foswikiHidden TMLverbatim"><br />Verbatim&nbsp;1<br />Line&nbsp;2<br />Line&nbsp;3</pre> <pre class="html tml TMLverbatim"><br />Verbatim&nbsp;2<br /><br /></pre><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><pre class="tml html TMLverbatim"><br /><br />Verbatim&nbsp;3</pre>
+</p>
+HERE
+        tml => <<'HERE',
+<verbatim class="foswikiHidden">
+Verbatim 1
+Line 2
+Line 3</verbatim> <verbatim class="html tml">
+Verbatim 2
+
+</verbatim>
+<verbatim class="tml html">
+
+Verbatim 3</verbatim>
 HERE
     },
     {
@@ -744,10 +803,20 @@ TML
     },
     {
         exec     => $TML2HTML | $ROUNDTRIP,
-        name     => 'noppedWikiword',
-        html     => '<p>!<span class="WYSIWYG_LINK">SunOS</span></p>',
+        name     => 'escapedWikiword',
+        html     => '<p>!SunOS</p>',
         tml      => '!SunOS',
         finaltml => '!SunOS',
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'noppedWikiword',
+        html => <<HERE,
+<p><span class="WYSIWYG_PROTECTED">&#60;nop&#62;</span>SunOS
+</p>
+HERE
+        tml      => '<nop>SunOS',
+        finaltml => '<nop>SunOS',
     },
     {
         exec => $HTML2TML,
@@ -763,23 +832,30 @@ TML
 HERE
         tml => '%<nop>MAINWEB%'
     },
+
     {
-        exec => $HTML2TML,      #|$TML2HTML|$ROUNDTRIP,
+        exec => $HTML2TML | $TML2HTML | $ROUNDTRIP,
+        name => 'setNOAUTOLINK',
+        pref => 'NOAUTOLINK=1',
+        tml  => <<'HERE',
+RedHat & SuSE
+HERE
+        html => <<'HERE',
+<p>RedHat & SuSE
+</p>
+HERE
+    },
+    {
+        exec => $HTML2TML | $TML2HTML | $ROUNDTRIP,
         name => 'noAutoLunk',
         html => <<'HERE',
-<p>
-<span class="WYSIWYG_PROTECTED">&lt;noautolink&gt;</span>
-<span class="WYSIWYG_LINK">RedHat</span> & <span class="WYSIWYG_LINK">SuSE</span>
-<span class="WYSIWYG_PROTECTED">&lt;/noautolink&gt;</span>
+<p><span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>RedHat & SuSE<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span>
 </p>
 HERE
         tml => <<'HERE',
 <noautolink>
 RedHat & SuSE
 </noautolink>
-HERE
-        finaltml => <<'HERE',
-<noautolink> RedHat & SuSE </noautolink>
 HERE
     },
     {
@@ -794,6 +870,63 @@ HERE
 HERE
     },
     {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'mailtoLink_Item11814',
+        tml  => <<'HERE',
+<a href="mailto:a@example.org?subject=Hi&body=Hi%21%0A%0ABye%21">hi</a>
+HERE
+        html => <<'HERE',
+<p><a href="mailto:a@example.org?subject=Hi&body=Hi%21%0A%0ABye%21">hi</a>
+</p>
+HERE
+        finaltml => <<'HERE',
+[[mailto:a@example.org?subject=Hi&body=Hi%21%0A%0ABye%21][hi]]
+HERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'obsoleteSquabLink',
+        tml  => <<'HERE',
+[[https://example.com Link *text* here]]
+HERE
+        html => <<'HERE',
+<p><a class='TMLlink' href="https://example.com">Link <b>text</b> here</a>
+</p>
+HERE
+        finaltml => <<'HERE',
+[[https://example.com][Link *text* here]]
+HERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'mailtoLink_Item11814b',
+        tml  => <<'HERE',
+<a href="mailto:a@example.org?subject=Hi[joe]&body=Hi%21%0A%0ABye%21">hi</a>
+HERE
+        html => <<'HERE',
+<p><a href="mailto:a@example.org?subject=Hi[joe]&body=Hi%21%0A%0ABye%21">hi</a>
+</p>
+HERE
+        finaltml => <<'HERE',
+[[mailto:a@example.org?subject=Hi%5Bjoe%5D&body=Hi%21%0A%0ABye%21][hi]]
+HERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'protect_glue',
+        tml  => <<'HERE',
+%~~ SEARCH{
+~~~ search="META:FORM.*?ApplicationForm" 
+~~~ topic="XYZ*" nosearch="on" nototal="on" regex="on" noheader="on" 
+~~~ excludetopic="%TOPIC%"
+~~~ }%
+HERE
+        html => <<'HERE',
+<p><span class="WYSIWYG_PROTECTED">%~~&nbsp;SEARCH{<br />~~~&nbsp;search=&#34;META:FORM.*?ApplicationForm&#34;&nbsp;<br />~~~&nbsp;topic=&#34;XYZ*&#34;&nbsp;nosearch=&#34;on&#34;&nbsp;nototal=&#34;on&#34;&nbsp;regex=&#34;on&#34;&nbsp;noheader=&#34;on&#34;&nbsp;<br />~~~&nbsp;excludetopic=&#34;%TOPIC%&#34;<br />~~~&nbsp;}%</span>
+</p>
+HERE
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'mailtoLink2',
         html => ' a@z.com ',
@@ -802,8 +935,16 @@ HERE
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'variousWikiWords',
-        html =>
-"<p>${linkon}WebPreferences${linkoff}</p><p>$protecton<br />%MAINWEB%$protectoff.WikiUsers</p><p>${linkon}CompleteAndUtterNothing${linkoff}</p><p>${linkon}LinkBox$linkoff${linkon}LinkBoxs${linkoff}${linkon}LinkBoxies${linkoff}${linkon}LinkBoxess${linkoff}${linkon}LinkBoxesses${linkoff}${linkon}LinkBoxes${linkoff}</p>",
+        html => <<"XXX",
+<p><a href="WebPreferences">WebPreferences</a>
+</p>
+<p><span class="WYSIWYG_PROTECTED"><br />%MAINWEB%</span>.WikiUsers
+</p>
+<p><a href="CompleteAndUtterNothing">CompleteAndUtterNothing</a>
+</p>
+<p><a href="LinkBox">LinkBox</a> <a href="LinkBoxs">LinkBoxs</a> <a href="LinkBoxies">LinkBoxies</a> <a href="LinkBoxess">LinkBoxess</a> <a href="LinkBoxesses">LinkBoxesses</a> <a href="LinkBoxes">LinkBoxes</a>
+</p>
+XXX
         tml => <<'YYY',
 WebPreferences
 
@@ -835,12 +976,25 @@ HERE
 EVERYWHERE
     },
     {
-        exec => $ROUNDTRIP,
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'noautolinkBlock',
+        html => <<HERE,
+<p><span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>WebHome<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><a href="LinkingTopic">LinkingTopic</a>
+</p>
+HERE
+        tml => <<'EVERYWHERE',
+<noautolink>
+WebHome
+</noautolink>
+LinkingTopic
+EVERYWHERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'squabsWithVars2',
         html => <<HERE,
-${linkon}[[wiki syntax]]$linkoff$linkon\[[%MAINWEB%.Wiki users]]${linkoff}
-escaped:
-[<nop>[wiki syntax]]
+<p><span class="WYSIWYG_LINK">[[wiki syntax]]</span><span class="WYSIWYG_LINK">[[%MAINWEB%.Wiki users]]</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>escaped:<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>!<span class="WYSIWYG_LINK">[[wiki syntax]]</span>
+</p>
 HERE
         tml => <<'THERE',
 [[wiki syntax]][[%MAINWEB%.Wiki users]]
@@ -1349,7 +1503,7 @@ Inside
         exec => $ROUNDTRIP,
         name => "WikiTagsInHTMLParam",
         html => "${linkon}[[%!page!%/Burble/Barf][Burble]]${linkoff}",
-        tml  => '[[%!page!%/Burble/Barf][Burble]]',
+        tml  => '[[Burble.Barf][Burble]]',
     },
     {
         exec => $HTML2TML,
@@ -1489,12 +1643,13 @@ HERE
     {
         exec => $ROUNDTRIP,
         name => 'twikiWebSnarf',
-        html => $linkon . '[[%SYSTEMWEB%.TopicName][bah]]' . $linkoff,
+        html => '<a href="%SYSTEMWEB%.TopicName">bah</a>',
         tml  => '[[%SYSTEMWEB%.TopicName][bah]]',
     },
     {
         exec => $ROUNDTRIP,
         name => 'mainWebSnarf',
+        html => '<a href="%MAINWEB%.TopicName>bah</a>',
         html => "${linkon}\[[%MAINWEB%.TopicName][bah]]$linkoff",
         tml  => '[[%MAINWEB%.TopicName][bah]]',
     },
@@ -2469,7 +2624,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
@@ -2486,7 +2641,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">[[LegacyTopic1]]</span></td><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
+<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>
@@ -2502,11 +2657,11 @@ Main.SomeGuy
 HERE
         html => <<"THERE",
 $deleteme<table cellspacing="1" cellpadding="0" border="1">
-<tr><td><span class="WYSIWYG_LINK">Main.SomeGuy</span></td></tr>
-<tr><td> - <span class="WYSIWYG_LINK">Main.SomeGuy</span> - </td></tr>
+<tr><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
+<tr><td> - <a href="Main.SomeGuy">Main.SomeGuy</a> - </td></tr>
 </table>
 <p>
-<span class="WYSIWYG_LINK">Main.SomeGuy</span>
+<a href="Main.SomeGuy">Main.SomeGuy</a>
 </p>
 THERE
     },
@@ -2521,11 +2676,110 @@ BLAH
         html => '<p>
 Blah'
           . encodedWhitespace('n')
-          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;</span>edit<span
-class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>'
+          . '<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>'
           . encodedWhitespace('n') . 'Blah
 </p>
 ',
+    },
+    {
+        name => 'Item1396_MacrosRemainSticky',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+[[%ATTACHURL%/LinkEditingInWysiwyg-4.patch][LinkEditingInWysiwyg-4.patch]]
+BLAH
+        finaltml => <<'BLAH',
+[[%ATTACHURL%/LinkEditingInWysiwyg-4.patch][LinkEditingInWysiwyg-4.patch]]
+BLAH
+        html => <<'BLAH',
+<p><a href="%ATTACHURL%/LinkEditingInWysiwyg-4.patch">LinkEditingInWysiwyg-4.patch</a> 
+</p>
+BLAH
+    },
+    {
+        name => 'Item1396_TitleRemainSticky',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+<a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
+BLAH
+        finaltml => <<'BLAH',
+<a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
+BLAH
+        html => <<'BLAH',
+<p><a href="http://some.website.org/" target="_blank" title="Test">Another html link</a>
+</p>
+BLAH
+    },
+    {
+        name => 'Item1396_MarkupInLinkText',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+[[Main/WebHome][=A *BOLD* WebHome=]]
+BLAH
+        finaltml => <<'BLAH',
+[[Main/WebHome][ =A *BOLD* WebHome= ]]
+BLAH
+        html => <<'BLAH',
+<p><a href="Main/WebHome"><span class="WYSIWYG_TT">A <b>BOLD</b> WebHome</span></a>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_114_ColorMarkup',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        pref => 'RED=<font color="#ff0000">',
+        tml  => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        finaltml => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        html => <<'BLAH',
+<p>=A <span class='WYSIWYG_COLOR' style='color:#ff0000'>Red text</span>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_115_ColorMarkup',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        pref => 'RED=<span class="foswikiRedFG">',
+        tml  => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        finaltml => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        html => <<'BLAH',
+<p>=A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_Default_ColorMarkup',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        finaltml => <<'BLAH',
+=A %RED%Red text%ENDCOLOR%
+BLAH
+        html => <<'BLAH',
+<p>=A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span>
+</p>
+BLAH
+    },
+    {
+        name => 'Item11784_ColorsInLinktext',
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+[[Main/WebHome][=A %RED%Red text%ENDCOLOR% WebHome=]]
+BLAH
+        finaltml => <<'BLAH',
+[[Main/WebHome][ =A %RED%Red text%ENDCOLOR% WebHome= ]]
+BLAH
+        html => <<'BLAH',
+<p><a href="Main/WebHome"><span class="WYSIWYG_TT">A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span> WebHome</span></a>
+</p>
+BLAH
     },
     {
         name => 'Item4903',
@@ -2931,8 +3185,8 @@ HERE
 </table>
 HERE
         html => <<'HERE',
-<p class="foswikiDeleteMe">&nbsp;</p><table border="1" cellpadding="0" cellspacing="1"> <span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tbody> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tr> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>A</td> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>B
-<p></p><span style="{encoded:'ns12'}" class="WYSIWYG_HIDDENWHITESPACE"> </span>C<span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></td><span style="{encoded:'s2'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><td>D</td> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></tr><span style="{encoded:'s3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE"> </span></tbody> 
+<p class="foswikiDeleteMe">&nbsp;</p><table border="1" cellpadding="0" cellspacing="1"> <span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><tbody> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><tr> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><td>A</td> <span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><td>B
+<p></p><span style="{encoded:'ns12'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>C<span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></td><span style="{encoded:'s2'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span style="{encoded:'ns9'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><td>D</td> <span style="{encoded:'ns6'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></tr><span style="{encoded:'s3'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span style="{encoded:'ns3'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></tbody> 
 </table>
 HERE
         finaltml => <<'HERE'
@@ -2995,7 +3249,7 @@ blah
 HERE
         html => <<'HERE'
 <h2 class="TML">  Accepted  </h2>
-<p>TBD <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><span class="WYSIWYG_PROTECTED"><br />#ApprovedTerm</span> 
+<p>TBD <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED"><br />#ApprovedTerm</span> 
 </p>
 <h2 class="TML">  Approved  </h2>
 <p>blah</p>
@@ -3010,7 +3264,7 @@ HERE
 </tbody> </table>
 HERE
         html => <<'HERE',
-<p class="foswikiDeleteMe">&nbsp;</p><table> <tbody> <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE"> </span><tr> <td> <h3> b </h3> </td> </tr> 
+<p class="foswikiDeleteMe">&nbsp;</p><table> <tbody> <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><tr> <td> <h3> b </h3> </td> </tr> 
 </tbody> </table>
 HERE
         finaltml => <<'HERE'
@@ -3027,7 +3281,7 @@ sub encodedWhitespace {
     return
         '<span class="WYSIWYG_HIDDENWHITESPACE" style="{encoded:'
       . "'$encoded'"
-      . '}"> </span>';
+      . '}">&nbsp;</span>';
 }
 
 # Run from BEGIN
@@ -3113,6 +3367,12 @@ sub compareTML_HTML {
     my $tml = $args->{tml} || '';
     $tml =~ s/%!page!%/$page/g;
 
+    my $pref = $args->{pref} || '';
+    if ($pref) {
+        my ( $name, $value ) = split( '=', $pref, 2 );
+        Foswiki::Func::setPreferencesValue( $name, $value );
+    }
+
     my $notEditable = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable($tml);
     $this->assert( !$notEditable, $notEditable );
 
@@ -3164,6 +3424,12 @@ sub compareRoundTrip {
 
     my $tml = $args->{tml} || '';
     $tml =~ s/%!page!%/$page/g;
+
+    my $pref = $args->{pref} || '';
+    if ($pref) {
+        my ( $name, $value ) = split( '=', $pref, 2 );
+        Foswiki::Func::setPreferencesValue( $name, $value );
+    }
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
 
@@ -3236,6 +3502,12 @@ sub compareHTML_TML {
     $tml =~ s/%!page!%/$page/g;
     my $finaltml = $args->{finaltml} || $tml;
     $finaltml =~ s/%!page!%/$page/g;
+
+    my $pref = $args->{pref} || '';
+    if ($pref) {
+        my ( $name, $value ) = split( '=', $pref, 2 );
+        Foswiki::Func::setPreferencesValue( $name, $value );
+    }
 
     my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     my $tx =
