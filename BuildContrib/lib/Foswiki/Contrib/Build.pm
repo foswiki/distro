@@ -391,9 +391,8 @@ sub new {
     $this->{DATE} ||= Foswiki::Time::formatTime( time(), '$iso', 'gmtime' );
 
     local $/ = undef;
-    my $stage;
-    foreach $stage ( 'PREINSTALL', 'POSTINSTALL', 'PREUNINSTALL',
-        'POSTUNINSTALL' )
+    foreach
+      my $stage ( 'PREINSTALL', 'POSTINSTALL', 'PREUNINSTALL', 'POSTUNINSTALL' )
     {
         $this->{$stage} = '# No ' . $stage . ' script';
         my $file = findRelative( $buildpldir, $stage );
