@@ -1598,11 +1598,11 @@ $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defi
 
 #---+ Extensions -- TABS
 
-#---++ Plugin Operation and Maintenance
-# <p>General configuration and maintenance of extensions.
-# <ul><li>Specify the plugin load order.
-# <li>Use the Extensions Repository to add, update or remove plugins.
-# <li>Enable and disable installed plugins.
+#---++ Extension operation and maintenance
+# <ul>
+# <li>Specify the plugin load order.</li>
+# <li>Use the Extensions Repository to add, update or remove plugins.</li>
+# <li>Enable and disable installed plugins.</li>
 # </ul>
 
 #---+++ Configure how plugins are loaded by Foswiki
