@@ -463,7 +463,7 @@ $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 # use Foswiki to manually rename the existing topic</b>
 $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 
-#---++ User Mapping
+#---++ User mapping
 # The user mapping is used to equate login names, used with external
 # authentication systems, with Foswiki user identities. 
 # **SELECTCLASS Foswiki::Users::*UserMapping**
@@ -772,7 +772,7 @@ $Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
 # '^.*$' to allow all environment variables to be seen (not recommended).
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION|PATH_INFO)$';
 
-#---++ Anti-Spam
+#---++ Anti-spam
 # <p>Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
 # should be enough to handle intranet requirements. Administrators of
@@ -1360,7 +1360,7 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 # <p>Settings controlling if and how Foswiki sends email, and the proxies used
 # to access external web pages.</p>
 
-#---++ Email General
+#---++ Email general
 # <p>Settings controlling if and how Foswiki handles email including the identity of the sender
 # and other expert settings controlling the email process.</p>
 # **BOOLEAN**
@@ -1403,7 +1403,7 @@ $Foswiki::cfg{Email}{Servertime} = $FALSE;
 # Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC</code>
 $Foswiki::cfg{Email}{ValidTLD} = qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
 
-#---++ Email Server
+#---++ Email server
 # <p>Settings to select the destination mail server or local email agent used for forwarding email.</p>
 
 # **SELECT Net::SMTP,Net::SMTP::SSL,MailProgram **
@@ -1499,7 +1499,7 @@ $Foswiki::cfg{PROXY}{HOST} = '';
 # are using a SitePreferences topic from a previous release of Foswiki.
 $Foswiki::cfg{PROXY}{PORT} = '';
 
-#---++ Email Test
+#---++ Email test
 # <p> This section provides a test facility to verify your configuration before
 # enabling email or testing user registration.
 
