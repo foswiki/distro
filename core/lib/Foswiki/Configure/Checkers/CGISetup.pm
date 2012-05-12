@@ -20,7 +20,7 @@ our @ISA = ('Foswiki::Configure::Section');
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new( 'Web Server Environment', '' );
+    return $class->SUPER::new( 'Web server environment', '' );
 }
 
 1;
