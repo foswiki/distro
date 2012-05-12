@@ -271,7 +271,7 @@ sub checkTreePerms {
         && -d $path )
     {
         unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt" ) {
-            $permErrs .= " $path missing $Foswiki::cfg{WebPrefsTopicName} Topic"
+            $permErrs .= " $path missing $Foswiki::cfg{WebPrefsTopicName} topic"
               . CGI::br();
             $this->{missingFile}++;
         }
