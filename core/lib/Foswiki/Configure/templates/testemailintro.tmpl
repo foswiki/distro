@@ -10,13 +10,17 @@
 
 <#assign localOkMessage>
 	<div class='foswikiNotification enableWhenSomethingChanged foswikiHidden'>
-		<span class="foswikiAlert"><strong>You made some changes! Consider saving them first.  If you proceed, changes will be lost!</strong></span>
-		Click <a href='${scriptName}?action=TestEmail' class='foswikiButton'>Test Email configuration</a> to proceed anyway and loose your changes.
+		<p>
+			<span class="foswikiAlert"><strong>You've made some changes! Consider saving them first. If you proceed, changes will be lost!</strong></span>
+		</p>
 	</div>
-    <div class='foswikiNotification showWhenNothingChanged'>
-        <p>Click the test button to verify that your email configuration is functional.  This is important to verify before attempting to register any users to Foswiki.</p>
-	    <a href='${scriptName}?action=TestEmail' class='foswikiButton'>Test Email Configuration</a>  This action will temporarily enable Email along with the Email
-        debugging flag and will attempt to send an email to the admin email address.  Errors will be reported back to the web interface instead of to the server logs.
+    <div class='foswikiNotification'>
+	    <p>
+	    	This action will temporarily enable email along with the email debugging flag and will attempt to send an email to the admin email address. Errors will be reported back to the web interface instead of to the server logs.
+        </p>
+        <p>
+        	<a href='${scriptName}?action=TestEmail' class='foswikiButton'>Start test</a>
+        </p>
     </div>
 </#assign>
 

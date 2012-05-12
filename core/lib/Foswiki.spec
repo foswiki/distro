@@ -1500,13 +1500,10 @@ $Foswiki::cfg{PROXY}{HOST} = '';
 $Foswiki::cfg{PROXY}{PORT} = '';
 
 #---++ Email test
-# <p> This section provides a test facility to verify your configuration before
-# enabling email or testing user registration.
+# IMPORTANT: Verify your configuration before enabling email or testing user registration, before attempting to register any users to Foswiki.
 
 # *TESTEMAIL* Marker used by bin/configure script - do not remove!
 
-
-#############################################################################
 #---+ Miscellaneous -- EXPERT
 # <p>Miscellaneous expert options.</p>
 
