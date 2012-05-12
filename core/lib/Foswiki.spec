@@ -656,7 +656,7 @@ $Foswiki::cfg{AccessibleCFG} = [ '{ScriptSuffix}', '{LoginManager}', '{AuthScrip
 # a high risk.
 # <p /> You may also need to configure the proxy settings ({PROXY}{HOST} and
 # {PROXY}{PORT}) if your server is behind a firewall and you allow %INCLUDE of
-# external webpages (see Mail and Proxies).
+# external webpages (see Proxies).
 $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
 
 # **BOOLEAN**
@@ -748,6 +748,26 @@ $Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
 # '^.*$' to allow all environment variables to be seen (not recommended).
 $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION|PATH_INFO)$';
 
+#---++ Proxies
+# Some environments require outbound HTTP traffic to go through a proxy
+# server. (e.g. http://proxy.your.company).
+# **STRING 30**
+# Hostname or address of the proxy server.
+# <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
+# in SitePreferences. Make sure you delete the setting from there if
+# you are using a SitePreferences topic from a previous release of Foswiki.
+# If your proxy requires authentication, simply put it in the URL, as in:
+# http://username:password@proxy.your.company.
+$Foswiki::cfg{PROXY}{HOST} = '';
+
+# **STRING 30**
+# Some environments require outbound HTTP traffic to go through a proxy
+# server. Set the port number here (e.g: 8080).
+# <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
+# in SitePreferences. Make sure you delete the setting from there if you
+# are using a SitePreferences topic from a previous release of Foswiki.
+$Foswiki::cfg{PROXY}{PORT} = '';
+
 #---++ Anti-spam
 # <p>Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
@@ -791,6 +811,8 @@ $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
 # Note that for full protection from robots you should also use robots.txt
 # (there is an example in the root of your Foswiki installation).
 $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
+
+
 
 #---+ Logging and Statistics
 
@@ -1281,7 +1303,7 @@ $Foswiki::cfg{Cache}{MaxSize} = 1000;
 # <code>Memcached</code>. This setting won't have any effect on other CacheManagers.
 $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 
-#---+ Mail and Proxies -- TABS
+#---+ Mail -- TABS
 # <p>Settings controlling if and how Foswiki sends email, and the proxies used
 # to access external web pages.</p>
 
@@ -1405,25 +1427,6 @@ $Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/cert.pem';
 # Foswiki software; it must NOT be readable by users!</em>
 $Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/key.pem';
 
-#---++ Proxy
-# Some environments require outbound HTTP traffic to go through a proxy
-# server. (e.g. http://proxy.your.company).
-# **STRING 30**
-# Hostname or address of the proxy server.
-# <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
-# in SitePreferences. Make sure you delete the setting from there if
-# you are using a SitePreferences topic from a previous release of Foswiki.
-# If your proxy requires authentication, simply put it in the URL, as in:
-# http://username:password@proxy.your.company.
-$Foswiki::cfg{PROXY}{HOST} = '';
-
-# **STRING 30**
-# Some environments require outbound HTTP traffic to go through a proxy
-# server. Set the port number here (e.g: 8080).
-# <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
-# in SitePreferences. Make sure you delete the setting from there if you
-# are using a SitePreferences topic from a previous release of Foswiki.
-$Foswiki::cfg{PROXY}{PORT} = '';
 
 #---++ Email test
 # IMPORTANT: Verify your configuration before enabling email or testing user registration, before attempting to register any users to Foswiki.
