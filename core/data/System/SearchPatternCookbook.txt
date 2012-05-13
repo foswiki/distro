@@ -14,7 +14,7 @@ Most people not familiar (enough) with Regular Expressions mostly cut and paste 
 
 ---+++ Problem definition
 
-Suppose there is a topic with a table defining entries in a [[data form]]. I.e. they define select menu items in a form definition. They are then formatted like:
+Suppose there is a topic with a table defining entries in a [[DataForms][data form]]. I.e. they define select menu items in a form definition. They are then formatted like:
 
 <verbatim class="tml">
 | *Name*  | *Type* | *Tooltip message* |
