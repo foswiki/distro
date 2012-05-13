@@ -271,7 +271,9 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     $text =~ s/$WC::CHECKs( |$WC::NBSP)/$1/go;
     $text =~ s/($WC::CHECKs)+/$WC::NBSP/go;
 
-    $text =~ s/<br( \/)?>$WC::NBBR/$WC::NBBR/g;    # Remove BR before P
+    # SMELL:   Removed per Item11859.   This was done because TMCE used to
+    # insert a <br /> before <p>  ...   It doesn't do that in 3.4.9
+    #$text =~ s/<br( \/)?>$WC::NBBR/$WC::NBBR/g;    # Remove BR before P
 
     #die "Converted ",WC::debugEncode($text),"\n";
     #print STDERR "Conv2     [",WC::debugEncode($text),"]\n";
@@ -346,10 +348,12 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
         $tml =~ s/$WC::CHECK1/ /go;
         $tml =~ s/$WC::CHECK2/ /go;
 
+        # SMELL:   Removed per Item11859.   This was done because TMCE used to
+        # insert a <br /> before <p>  ...   It doesn't do that in 3.4.9
         # Item5127: Remove BR just before EOLs
-        unless ($protect) {
-            $tml =~ s/<br( \/)?>\n/\n/g;
-        }
+        #unless ($protect) {
+        #    $tml =~ s/<br( \/)?>\n/\n/g;
+        #}
 
         #print STDERR " -> [",WC::debugEncode($tml),"]\n";
         $text .= $tml;

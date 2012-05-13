@@ -353,6 +353,22 @@ HERE
     },
     {
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        name => 'embeddedBR_Item11859',
+        tml  => <<'HERE',
+Line 1<br>Line 2<br />
+Line 3
+HERE
+        finaltml => <<'HERE',
+Line 1<br />Line 2<br />
+Line 3
+HERE
+        html => <<'HERE',
+<p>Line 1<br>Line 2<br /><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>Line 3
+</p>
+HERE
+    },
+    {
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         name => 'hiddenVerbatim',
         tml  => <<'HERE',
 <verbatim class="foswikiHidden">
@@ -1953,21 +1969,25 @@ HERE
    * The =<noautolink>...</noautolink>= syntax
 ',
     },
-    {
-        exec => $HTML2TML,
-        name => 'losethatdamnBR',
-        html => <<'JUNK',
-TinyMCE sticks in a BR where it isn't wanted before a P<br>
-<p>
-We should only have a P.
-</p>
-JUNK
-        tml => <<JUNX,
-TinyMCE sticks in a BR where it isn't wanted before a P
-
-We should only have a P.
-JUNX
-    },
+#<<<
+# SMELL:  Removed by Item11859.  This issue does not appear to happen
+# in recent TInyMCE releases  (Tested 3.4.9)
+#    {
+#        exec => $HTML2TML,
+#        name => 'losethatdamnBR',
+#        html => <<'JUNK',
+#TinyMCE sticks in a BR where it isn't wanted before a P<br>
+#<p>
+#We should only have a P.
+#</p>
+#JUNK
+#        tml => <<JUNX,
+#TinyMCE sticks in a BR where it isn't wanted before a P
+#
+#We should only have a P.
+#JUNX
+#    },
+#>>>
     {
         exec => $HTML2TML,
         name => 'tableInnaBun',
