@@ -41,7 +41,7 @@ This is the plugin's initializer reading the metadata:
 <verbatim class="js">
 jQuery(function($) {
 
-  var defaults {
+  var defaults = {
     key1: 'default1',
     key2: 'default2',
     key3: 'default3'
