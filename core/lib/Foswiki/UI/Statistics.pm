@@ -119,13 +119,9 @@ sub statistics {
       $Foswiki::Time::ISOMONTH[ $logMonth - 1 ] . ' ' . $logYear;
     _printMsg( $session, "* Statistics for $logMonthYear" );
 
-    # Copy the log file to temp file, since analysis could take some time
-
-    my $randNo = int( rand 1000 );    # For mod_perl with threading...
-
     # Do a single data collection pass on the temporary copy of logfile,
     # then process each web once.
-    my $data = _collectLogData( $session, "1 $logMonthYear" );
+    my $data = _collectLogData( $session, $logMonth, $logYear );
 
     my @weblist;
 
@@ -244,7 +240,7 @@ sub _debugPrintHash {
 #   $contrib{$web}{"Main.".$WikiName} == number of saves/uploads, by user
 
 sub _collectLogData {
-    my ( $session, $start ) = @_;
+    my ( $session, $startMonth, $startYear ) = @_;
 
     # Log file contains: $user, $action, $webTopic, $extra, $remoteAddr
     # $user - cUID of user - default current user,
@@ -253,7 +249,12 @@ sub _collectLogData {
     # $webTopic - what it happened to
     # $extra - extra info, such as minor flag
     # $remoteAddr = e.g. 127.0.0.5
-    $start = Foswiki::Time::parseTime($start);
+    my $start = Foswiki::Time::parseTime("$startYear-$startMonth-01");
+    my $end   = Foswiki::Time::parseTime(
+        $startMonth == 12
+        ? ( $startYear + 1 ) . "-01-01"
+        : "$startYear-" . ( $startMonth + 1 ) . "-01"
+    );
 
     my $data = {
         viewRef    => {},  # Hash of hashes, counts topic views by (web, topic)
@@ -270,7 +271,8 @@ sub _collectLogData {
     while ( $it->hasNext() ) {
         my $line = $it->next();
         my $date = shift(@$line);
-        my ($logFileUserName);
+        last if $date > $end;    # Stop processing when we've done one month
+        my $logFileUserName;
 
         while ( !$logFileUserName && scalar(@$line) ) {
             $logFileUserName = shift @$line;
