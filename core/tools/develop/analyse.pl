@@ -55,8 +55,11 @@ foreach
         my $y = $d[5];          # current year
 
         if ( $date =~ /(\S+)\s+(\d+)(?:\s+(\d+))?/ ) {
-            $date = Time::Local::timegm( 0, 0, 0, $2, $monthnames{ lc($1) },
-                $3 || $y );
+            $date = Time::Local::timegm(
+                0, 0, 0, $2,
+                $monthnames{ lc($1) },
+                $3 || ( $monthnames{ lc($1) } > $d[4] ? $y - 1 : $y )
+            );
         }
         else {
             $date = 0;
