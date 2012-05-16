@@ -89,6 +89,31 @@ sub test_view {
     $this->assert_equals( 'Home', $Foswiki::Plugins::SESSION->{webName} );
 }
 
+sub test_invalid_redirect {
+    my $this = shift;
+
+    $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic} = "http://foswiki.com";
+
+    my $query = Unit::Request->new(
+        {
+            username => ['dogbert'],
+            origurl  => ['spam']
+        }
+    );
+    $query->path_info("");
+
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    $this->{session}->finish()          if $this->{session};
+
+    $this->{session} =
+      Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
+
+    $this->assert_equals( $Foswiki::cfg{HomeTopicName},
+        $Foswiki::Plugins::SESSION->{topicName} );
+    $this->assert_equals( $Foswiki::cfg{UsersWebName},
+        $Foswiki::Plugins::SESSION->{webName} );
+}
+
 sub test_save {
     my $this = shift;
 
