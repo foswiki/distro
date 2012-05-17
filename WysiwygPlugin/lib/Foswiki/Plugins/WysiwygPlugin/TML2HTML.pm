@@ -747,6 +747,11 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # and it must be removed to prevent it ending up in TML
             $line = '</div>';
         }
+        elsif ( $line =~ m/<div/i ) {
+            $inDiv = 1;
+            push( @result, '</p>' ) if $inParagraph;
+            $inParagraph = 0;
+        }
         else {
 
             # Other line
@@ -781,6 +786,9 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                     push( @result, '<p>' );
                     $inParagraph = 1;
                 }
+            }
+            if ( $line =~ m/<\/div/i ) {
+                $inDiv = 0;
             }
             $line =~ s/(\s\s+)/$this->_hideWhitespace($1)/ge;
             if ( defined $result[-1] ) {
