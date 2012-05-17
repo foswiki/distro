@@ -188,7 +188,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  1.1.7 (13 May 2012) | Foswikitask:Item11859: Wysiwyg removes &lt;br /> tags at end of lines. |
+|  1.1.8 (17 May 2012) | Foswikitask:Item11862: Fix for Item11814 breaks %<nop>ATTACHURL macro in link. |
+|  1.1.7 (test release) | Foswikitask:Item11859: Wysiwyg removes &lt;br /> tags at end of lines. |
 |  1.1.6 (test release) | Foswikitask:Item1396: Process TML links as HTML links %BR%\
                          Foswikitask:Item9305: TMCE should honor NOAUTOLINK preference and noautolink blocks. %BR%\
                          Foswikitask:Item10089: Allow TMCE to recognize TML links as HTML links. %BR%\
