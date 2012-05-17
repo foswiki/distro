@@ -1410,9 +1410,12 @@ sub _handleA {
           (      $this->{attrs}->{class}
               && $this->{attrs}->{class} =~ m/\bTMLlink\b/ );
 
-# SMELL:  Item11814 - this corrupts URL's that must be encoded,  ex. embedded Newline
-# decode URL params in the href
-#$href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
+# SMELL:  Item11814 - decoding corrupts URL's that must be encoded,  ex. embedded Newline
+# No unit test covers why the decode is required.  However restricting it to known
+# protocols fixes Item11814.  Need to figure out if this can just be removed?
+        if ( $href !~ /${WC::PROTOCOL}[^?]*/ ) {
+            $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
+        }
 
         if ( $this->{context} && $this->{context}->{rewriteURL} ) {
             $href = $this->{context}->{rewriteURL}->( $href, $this->{context} );

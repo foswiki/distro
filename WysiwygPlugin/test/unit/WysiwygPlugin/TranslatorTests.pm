@@ -885,6 +885,22 @@ HERE
 [[mailto:a@z.com][Mail]] [[mailto:?subject=Hi][Hi]]
 HERE
     },
+
+    # SMELL: No idea why we decode links,  but verify that it works anyway.
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'decodeWebTopic_Item11814',
+        tml  => <<'HERE',
+<a href="Main.WebHom%65">hi</a>
+HERE
+        html => <<'HERE',
+<p><a href="Main.WebHom%65">hi</a>
+</p>
+HERE
+        finaltml => <<'HERE',
+[[Main.WebHome][hi]]
+HERE
+    },
     {
         exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'mailtoLink_Item11814',
