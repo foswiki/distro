@@ -875,6 +875,41 @@ RedHat & SuSE
 HERE
     },
     {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'jqTreeview_Item11872',
+        tml  => <<HERE,
+<div class="jqTreeview">
+   * list
+      * item
+      * item
+      * item
+</div>
+HERE
+        html => <<HERE,
+<div class="jqTreeview TMLhtml">
+<ul>
+<li> list
+<ul>
+<li> item
+</li>
+<li> item
+</li>
+<li> item
+</li>
+</ul>
+</li>
+</ul></div>
+HERE
+        finaltml => <<'HERE',
+<div class="jqTreeview">
+   * list
+      * item
+      * item
+      * item
+</div>
+HERE
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'mailtoLink',
         html => <<HERE,
