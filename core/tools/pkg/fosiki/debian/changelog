@@ -1,3 +1,9 @@
+foswiki (1.1.5-2) stable; urgency=high
+
+  * remove dependency on Digest::SHA1 - its only used by the non-recomended FileCache.
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Sat, 19 May 2012 12:00:00 +1000 
+
 foswiki (1.1.5-1) stable; urgency=high
 
   * upgrade to 1.1.5

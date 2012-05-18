@@ -7,7 +7,7 @@ Standards-Version: 3.8.2
 
 Package: foswiki
 Architecture: all
-Depends: ${perl:Depends}, ${misc:Depends}, libnet-perl, libmime-base64-perl, rcs (>= 5.7), apache | apache2 | apache2.2, debconf (>=  0.5) | debconf-2.0, libalgorithm-diff-perl, liberror-perl, libdigest-sha1-perl, libtext-diff-perl, liblocale-maketext-lexicon-perl, libcgi-session-perl, liburi-perl, libhtml-parser-perl, libcrypt-passwdmd5-perl, libhtml-tree-perl
+Depends: ${perl:Depends}, ${misc:Depends}, libnet-perl, libmime-base64-perl, rcs (>= 5.7), apache | apache2 | apache2.2, debconf (>=  0.5) | debconf-2.0, libalgorithm-diff-perl, liberror-perl, libtext-diff-perl, liblocale-maketext-lexicon-perl, libcgi-session-perl, liburi-perl, libhtml-parser-perl, libcrypt-passwdmd5-perl, libhtml-tree-perl
 Suggests: libunicode-maputf8-perl, libapache-mod-perl, libapache2-mod-perl2, libapache2-mod-auth-plain
 Description: A Web Based Collaboration Platform
  Foswiki is a modern CGI-based implementation of the Wiki collaboration platform
