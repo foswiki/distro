@@ -400,8 +400,7 @@ sub _install {
         if ($moduleVersion) {
             return 0
               unless ask(
-                          "$MODULE version $moduleVersion is already installed."
-                        . " Are you sure you want to re-install this module?"
+"$MODULE version $moduleVersion is already installed. Are you sure you want to re-install this module?"
               );
         }
     }
@@ -411,11 +410,13 @@ sub _install {
     _inform $installed;
     _inform $missing;
 
-    my $instmsg = "$MODULE ready to be installed ";
-    $instmsg .= "along with Foswiki dependencies identified above\n"
+    my $instmsg = "$MODULE ready to be installed";
+    $instmsg .=
+        " along with Foswiki dependencies identified above\n"
+      . "(you will be asked later about any CPAN dependencies)"
       if ($missing);
-    $instmsg .= "(you will be asked later about any CPAN dependencies)\n"
-      if ($missing);
+    $instmsg .= ".\n";
+
     $instmsg .= "Do you want to proceed with installation of $MODULE";
     $instmsg .= " and Dependencies" if ($missing);
     $instmsg .= '?';
@@ -595,7 +596,7 @@ Author: Crawford Currie http://wikiring.com
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
