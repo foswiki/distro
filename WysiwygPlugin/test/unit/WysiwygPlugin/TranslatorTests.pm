@@ -876,17 +876,20 @@ HERE
     },
     {
         exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
-        name => 'jqTreeview_Item11872',
+        name => 'nestedDiv_Item11872',
         tml  => <<HERE,
+<div class="foswikiHelp">
 <div class="jqTreeview">
    * list
       * item
       * item
       * item
 </div>
+</div>
 HERE
         html => <<HERE,
-<div class="jqTreeview TMLhtml">
+<div class="foswikiHelp TMLhtml"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<div class="jqTreeview TMLhtml"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
 <ul>
 <li> list
 <ul>
@@ -898,7 +901,37 @@ HERE
 </li>
 </ul>
 </li>
-</ul></div>
+</ul><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></div><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></div>
+HERE
+    },
+    {
+        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+        name => 'jqTreeview_Item11872',
+        tml  => <<HERE,
+<div class="jqTreeview">
+   * list
+      * item
+      * item
+      * item
+</div>
+blah
+HERE
+        html => <<HERE,
+<div class="jqTreeview TMLhtml"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<ul>
+<li> list
+<ul>
+<li> item
+</li>
+<li> item
+</li>
+<li> item
+</li>
+</ul>
+</li>
+</ul><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span></div>
+<p>blah
+</p>
 HERE
         finaltml => <<'HERE',
 <div class="jqTreeview">
@@ -907,6 +940,8 @@ HERE
       * item
       * item
 </div>
+
+blah
 HERE
     },
     {
