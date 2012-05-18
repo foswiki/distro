@@ -38,50 +38,45 @@ install: build
 
 	echo `pwd`
 
+	#copy the files into the debian dir for packaging
+	cp -r tools debian/foswiki/var/lib/foswiki/
+	cp -Rp pub debian/foswiki/var/lib/foswiki/
+	cp -pR templates debian/foswiki/var/lib/foswiki/
+	cp -pR locale debian/foswiki/var/lib/foswiki/
+	cp -pR data debian/foswiki/var/lib/foswiki/
 	cp -Rp bin debian/foswiki/var/lib/foswiki/
 	cp debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg.txt debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
+	cp -pR lib debian/foswiki/var/lib/foswiki/
 
+	#/etc/foswiki
+	cp -p debian/apache.conf debian/foswiki/etc/foswiki/
+	cp -p debian/ShorterUrl.conf debian/foswiki/etc/foswiki/
+	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
+
+	#set up the permissions we want
 	chmod 755 debian/foswiki/var/lib/foswiki/bin/*
 	chmod 644 debian/foswiki/var/lib/foswiki/bin/setlib.cfg
 	chmod 644 debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 	chmod 644 debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg.txt
+
+	chmod -R 644 debian/foswiki/var/lib/foswiki/templates/*
+	chmod -R 777 debian/foswiki/var/lib/foswiki/tools/*
 
 	# Make dir group WIKI_OWNER, g+rw, +t so extensions may be added
 	# without overwriting existing files
 	chgrp $(WIKI_OWNER) debian/foswiki/var/lib/foswiki/bin
 	chmod 1775 debian/foswiki/var/lib/foswiki/bin
 
-	cp -Rp pub debian/foswiki/var/lib/foswiki/
-	cp -pR templates debian/foswiki/var/lib/foswiki/
-	cp -pR locale debian/foswiki/var/lib/foswiki/
-	cp -pR data debian/foswiki/var/lib/foswiki/
-
-    #move configure's logos and css to /var/lib/foswiki/pub/logos
-#	mv debian/foswiki/var/lib/foswiki/bin/logos debian/foswiki/var/lib/foswiki/pub/
-
 	#create mailnotify timestamps
 	date +%s > debian/foswiki/var/lib/foswiki/data/System/.mailnotify
 	date +%s > debian/foswiki/var/lib/foswiki/data/Main/.mailnotify
 	date +%s > debian/foswiki/var/lib/foswiki/data/Sandbox/.mailnotify
 
-# change the unix owners -- don't bother, tar --owner does it
-# so now we don't even care if WIKI_OWNER exists at build time
-#	chown -R $(WIKI_OWNER) debian/foswiki/var/lib/foswiki/data
-# and change the RCS lock owners to match
-
-	mkdir debian/foswiki/var/lib/foswiki/tools
-	cp -r tools/* debian/foswiki/var/lib/foswiki/tools/
-	chmod -R 777 debian/foswiki/var/lib/foswiki/tools/*
-
-
-    #SVEN - you should probably make this a patch file.
+	#SVEN - you should probably make this a patch file.
 	perl -piOLD -e 's{#! perl}{#!/usr/bin/perl}g;' debian/foswiki/var/lib/foswiki/tools/rewriteshbang.pl
 	perl -piOLD -e 's{#!perl}{#!/usr/bin/perl}g;' debian/foswiki/var/lib/foswiki/tools/upgrade_emails.pl
 
 	rm debian/foswiki/var/lib/foswiki/tools/*OLD
-
-	chmod -R 644 debian/foswiki/var/lib/foswiki/templates/*
-
 
 	find debian/foswiki/var/lib/foswiki/data -type f -name '*,v' | \
 	  xargs -n1 perl -pi -e 's/^(\s)nobody:/\1$(WIKI_OWNER):/ unless $$done; $$done=1 if /^\n$$/;'
@@ -99,13 +94,6 @@ install: build
 		| gzip -c -9 > debian/foswiki/usr/share/foswiki/foswiki-pub.tar.gz
 	rm -rf debian/foswiki/var/lib/foswiki/pub
 
-	mkdir debian/foswiki/var/lib/foswiki/lib/
-	cp -pR lib/* debian/foswiki/var/lib/foswiki/lib/
-
-	cp -p debian/apache.conf debian/foswiki/etc/foswiki/
-	cp -p debian/ShorterUrl.conf debian/foswiki/etc/foswiki/
-#move LocalSite.cfg to /etc/foswiki
-	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 
 	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/var/lib/foswiki/lib\";|;' debian/foswiki/var/lib/foswiki/bin/LocalLib.cfg
 	#enable /var/lib/foswiki/lib as an extra lib dir for plugin installers (configure, fosiki extras and unziping)
