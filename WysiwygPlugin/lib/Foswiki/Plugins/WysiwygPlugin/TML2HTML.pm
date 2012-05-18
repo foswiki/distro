@@ -736,19 +736,20 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             $inParagraph = 0;
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
-            $inDiv  = 1;
+            $inDiv++;
         }
         elsif ( $line eq $tableAndMacrosDivEnd ) {
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
-            $inDiv  = 0;
+            $inDiv--;
 
             # The comment was only needed for this test,
             # and it must be removed to prevent it ending up in TML
             $line = '</div>';
         }
         elsif ( $line =~ m/<div/i ) {
-            $inDiv = 1;
+            $inDiv++;
+            $line .= $this->_hideWhitespace("\n");
             push( @result, '</p>' ) if $inParagraph;
             $inParagraph = 0;
         }
@@ -788,7 +789,12 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                 }
             }
             if ( $line =~ m/<\/div/i ) {
-                $inDiv = 0;
+
+                # Don't let the close div auto-wrap onto the prior line
+                if ( defined $result[-1] && $line =~ /^<\/div/i ) {
+                    $result[-1] .= $this->_hideWhitespace("\n");
+                }
+                $inDiv--;
             }
             $line =~ s/(\s\s+)/$this->_hideWhitespace($1)/ge;
             if ( defined $result[-1] ) {
@@ -807,9 +813,13 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         $this->_addListItem( \@result, '', '', '' );
     }
     elsif ($inParagraph) {
+
+        #print STDERR "autoClosing a p\n";
         push( @result, '</p>' );
     }
     elsif ($inDiv) {
+
+        #print STDERR "autoClosing a div\n";
         push( @result, '</div>' );
     }
 
