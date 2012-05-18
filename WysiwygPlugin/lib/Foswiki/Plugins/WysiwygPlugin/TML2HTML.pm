@@ -557,8 +557,10 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     my $inHTMLTable = 0;    # True when within a native HTML table
     my %table       = ();
     my $inParagraph = 0;    # True when within a P
-    my $inDiv       = 0;    # True when within a foswikiTableAndMacros div
-    my @result      = ();
+
+    # SMELL This next one should probably be split
+    my $inDiv  = 0;         # True when within a div or blockquote
+    my @result = ();
     my $spi = Foswiki::Func::getContext->{SUPPORTS_PARA_INDENT};
 
     foreach my $line ( split( /\n/, $text ) ) {
@@ -747,24 +749,39 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
             # and it must be removed to prevent it ending up in TML
             $line = '</div>';
         }
-        elsif ( $line =~ m/<div/i ) {
-            $inDiv++;
-            $line .= $this->_hideWhitespace("\n");
-            push( @result, '</p>' ) if $inParagraph;
-            $inParagraph = 0;
+        elsif ( $line =~ m/<div|<blockquote/i ) {
+
+            # If open/close on same line,  then don't increment $inDiv
+            # SMELL:  This is really lame.
+            unless ( $line =~ m/<(div|blockquote).*<\/\1/ ) {
+                $inDiv++;
+            }
+            if ($inParagraph) {
+                push( @result, '</p>' );
+                $inParagraph = 0;
+            }
+            elsif (@result) {
+
+                # Don't double-up the whitespace.
+                unless ($result[-1] =~ m/$TT1(\d+)$TT2/
+                    and $this->{refs}->[$1]->{params} =~ /encoded:'n'/ )
+                {
+                    $line = $this->_hideWhitespace("\n") . $line;
+                }
+            }
         }
         else {
 
+            #print STDERR "Fallthru processing $line\n";
             # Other line
             $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inList = 0;
-            if (    ( $inParagraph or $inHTMLTable )
+            if (    ( $inParagraph or $inHTMLTable or $inDiv )
                 and @result
                 and $result[-1] !~ /<p(?: class='[^']+')?>$/ )
             {
 
                 # This is the second (or later) line of a paragraph
-
                 my $whitespace = "\n";
                 if (    $line =~ m/^$TT1(\d+)$TT2/
                     and $this->{refs}->[$1]->{text} =~ /^\n?%/ )
@@ -774,9 +791,14 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                     # The newline is already protected
                     $whitespace = "";
                 }
+
+                # Closing div or blockquote already had whitespace handled
+                $whitespace = '' if ( $line =~ m/<\/div|<\/blockquote/i );
                 if ( $line =~ s/^(\s+)// ) {
                     $whitespace .= $1;
                 }
+
+                #print STDERR "Hiding whitespace ($whitespace)\n";
                 $line = $this->_hideWhitespace($whitespace) . $line
                   if length($whitespace);
             }
@@ -788,10 +810,18 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
                     $inParagraph = 1;
                 }
             }
-            if ( $line =~ m/<\/div/i ) {
+            if ( $line =~ m/<\/div|<\/blockquote/i ) {
+                if ($inParagraph) {
+
+                    #print STDERR "Closing para before close blockquote/div\n";
+                    push( @result, '</p>' );
+                    $inParagraph = 0;
+                }
 
                 # Don't let the close div auto-wrap onto the prior line
-                if ( defined $result[-1] && $line =~ /^<\/div/i ) {
+                elsif ( defined $result[-1]
+                    && $line =~ /^<\/div|<\/blockquote/i )
+                {
                     $result[-1] .= $this->_hideWhitespace("\n");
                 }
                 $inDiv--;
@@ -819,6 +849,7 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
     }
     elsif ($inDiv) {
 
+        # SMELL: This could also be an unclosed blockquote  :(
         #print STDERR "autoClosing a div\n";
         push( @result, '</div>' );
     }
