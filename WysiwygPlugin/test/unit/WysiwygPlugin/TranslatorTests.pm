@@ -888,8 +888,8 @@ HERE
 </div>
 HERE
         html => <<HERE,
-<div class="foswikiHelp TMLhtml"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
-<div class="jqTreeview TMLhtml"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<div class="foswikiHelp TMLhtml">
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><div class="jqTreeview TMLhtml">
 <ul>
 <li> list
 <ul>
@@ -917,7 +917,7 @@ HERE
 blah
 HERE
         html => <<HERE,
-<div class="jqTreeview TMLhtml"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<div class="jqTreeview TMLhtml">
 <ul>
 <li> list
 <ul>
@@ -2017,10 +2017,27 @@ pilf<br />flip
 </p>',
     },
     {
+        name => 'advBlockquote',
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => <<HERE,
+<blockquote style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 40px; border-width: initial; border-color: initial; border-image: initial; border-style: none; padding: 0px">
+blah
+blah
+
+blah
+</blockquote>
+HERE
+        html => <<HERE,
+<blockquote style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 40px; border-width: initial; border-color: initial; border-image: initial; border-style: none; padding: 0px"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah
+<p class='WYSIWYG_NBNL'>blah
+</p></blockquote>
+HERE
+    },
+    {
         name => 'Item4481',
         exec => $TML2HTML | $ROUNDTRIP,
         tml  => '<blockquote>pilf<br />flip</blockquote>',
-        html => '<p><blockquote>pilf<br />flip</blockquote></p>',
+        html => '<blockquote>pilf<br />flip</blockquote>',
     },
     {
         exec => $ROUNDTRIP,
