@@ -35,7 +35,6 @@ Modules marked as Required may still be optional if certain default core feature
 | LWP | Required | Used by the Configure Extensions Installer, and for external URL based INCLUDEs |
 | Digest::SHA | Optional | Required to use SHA1 password encoding, since Perl 5.9.3 part of core |
 | Crypt::PasswdMD5 | Optional | Required to use Apache or Crypt MD5 password encoding, and crypt encoding on Windows |
-| Digest::SHA1 | Optional | Required by the Foswiki FileCache feature |
 | Win32::Console | Optional | May be required for I18N on Windows |
 | Archive::Tar | Optional | Required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
 | Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
