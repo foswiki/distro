@@ -11,8 +11,7 @@
 
 %TMPL:DEF{"topicpathseparator"}%<span class='foswikiSeparator'>&nbsp;&gt;&nbsp;</span>%TMPL:END%
 
-%TMPL:DEF{"topicinfo"}%---
-%MAKETEXT{"This topic:"}% <nop>%WEB%%META{"parent" prefix="%TMPL:P{"topicpathseparator"}%" suffix=""}%%TMPL:P{"topicpathseparator"}%%TOPIC% %BR%
+%TMPL:DEF{"topicinfo"}%%MAKETEXT{"This topic:"}% <nop>%WEB%%META{"parent" prefix="%TMPL:P{"topicpathseparator"}%" suffix=""}%%TMPL:P{"topicpathseparator"}%%TOPIC% %BR%
 %MAKETEXT{"Topic revision:"}% %IF{"defined rev" then=" %MAKETEXT{"revision [_1]" args="%URLPARAM{"rev"}%"}%" else=" <span class='patternRevInfo'>%REVINFO{format="$date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot!$wikiname$quot}$percnt"}%</span>"}%%IF{"defined raw" then=" %MAKETEXT{"(raw view)"}%"}%%TMPL:END%
 
 %TMPL:DEF{"content"}%%TEXT%
