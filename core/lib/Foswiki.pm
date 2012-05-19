@@ -840,6 +840,9 @@ BOGUS
         }
     }
 
+    $this->{response}->pushHeader( 'X-Foswiki-Monitor-renderTime',
+        $this->{request}->getTime() );
+
     $this->generateHTTPHeaders( $pageType, $contentType, $text, $cachedPage );
 
     # SMELL: null operation. the http headers are written out
