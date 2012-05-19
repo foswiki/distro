@@ -12,7 +12,7 @@ package Cache::FileBackend;
 
 use strict;
 use Cache::CacheUtils qw( Assert_Defined Build_Path Freeze_Data Thaw_Data );
-use Digest::SHA1 qw( sha1_hex );
+use Digest::SHA qw( sha1_hex );
 use Error;
 use File::Path qw( mkpath );
 use File::Temp qw( tempfile );
