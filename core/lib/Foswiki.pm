@@ -50,7 +50,8 @@ use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
 
-require 5.005;                    # For regex objects and internationalisation
+use 5.006;         # First version to accept v-numbers.
+require v5.8.8;    # see http://foswiki.org/Development/RequirePerl588
 
 # Site configuration constants
 our %cfg;
