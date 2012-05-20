@@ -342,4 +342,40 @@ sub test_TOC_makeAnchorName {
     }
 }
 
+sub test_TOC_params {
+    my $this = shift;
+    my $text = <<'HERE';
+%TOC{title="Table of Contents" align="right" depth="2" id="Qwerty"}%
+---+ A level 1 headline
+---++ Followed by a level 2 headline
+---++ Another level 2 headline
+---+++ Level 3 headline
+---++++ Level 4 headline
+---+++ Another level 3 headline
+HERE
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text($text);
+    $topicObject->save();
+    my $res = $topicObject->expandMacros($text);
+    $res = $topicObject->renderTML($res);
+
+    $this->assert_html_equals( <<HTML, $res );
+<div class="foswikiToc foswikiRight" id="Qwerty"><span class="foswikiTocTitle">Table of Contents</span> <ul>
+<li> <a href="#A_level_1_headline"> A level 1 headline </a> <ul>
+<li> <a href="#Followed_by_a_level_2_headline"> Followed by a level 2 headline </a>
+</li> <li> <a href="#Another_level_2_headline"> Another level 2 headline </a>
+</li></ul> 
+</li></ul> 
+</div>
+<nop><h1 id="A_level_1_headline">  A level 1 headline </h1>
+<nop><h2 id="Followed_by_a_level_2_headline">  Followed by a level 2 headline </h2>
+<nop><h2 id="Another_level_2_headline">  Another level 2 headline </h2>
+<nop><h3 id="Level_3_headline">  Level 3 headline </h3>
+<nop><h4 id="Level_4_headline">  Level 4 headline </h4>
+<nop><h3 id="Another_level_3_headline">  Another level 3 headline </h3>
+HTML
+    $topicObject->finish();
+}
+
 1;
