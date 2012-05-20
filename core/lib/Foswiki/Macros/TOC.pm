@@ -39,6 +39,7 @@ sub TOC {
     my $tocTopic = $params->{_DEFAULT};
     my $tocWeb   = $params->{web};
     my $tocId    = $params->{id} || 'foswikiTOC';
+    my $align    = $params->{align};
 
     if ( $tocTopic || $tocWeb ) {
         $tocWeb   ||= $topicObject->web;
@@ -219,9 +220,14 @@ sub TOC {
             $highest--;
             $result =~ s/^\t{$highest}//gm;
         }
+        my $tocClass = 'foswikiToc';
+        if ($align) {
+            $tocClass .= ' foswikiRight' if $align =~ m/right/;
+            $tocClass .= ' foswikiLeft'  if $align =~ m/left/;
+        }
 
         # add a anchor to be able to jump to the toc and add a outer div
-        return CGI::div( { -class => 'foswikiToc', -id => $tocId },
+        return CGI::div( { -class => $tocClass, -id => $tocId },
             "$title$result\n" );
 
     }

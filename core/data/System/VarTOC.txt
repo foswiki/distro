@@ -5,16 +5,26 @@
    * Table of Contents. Shows a TOC that is generated automatically based on headings of a topic. Headings in WikiSyntax (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
    * Syntax: =%<nop>TOC%= OR =%<nop>TOC{"SomeTopic" ...}%=
    * Supported parameters:
+    %TABLE{columnwidths="30%,50%,20%"}%
     | *Parameter:* | *Description:* | *Default:* |
     | ="TopicName"= | topic name | Current topic |
     | =web="Name"= | Name of web | Current web |
     | =depth="2"= | Limit depth of headings shown in TOC | 6 |
     | =title="Some text"= | Title to appear at top of TOC | none |
+    | =align="..."= | Align at =left= or =right= side of the page | none |
     | =id="Some_id"= | Optional ID in case multiple TOCs are on the page and each TOC needs to be addressable with an anchor link. Allowed characters: =a-zA-Z0-9-_=, no spaces. %BR% \
 If you don't specify an id, the anchor =foswikiTOC= can be used in a link: =[<nop>[#foswikiTOC][Back to TOC]]= creates [[#foswikiTOC][Back to TOC]]. | "foswikiTOC" |
-   * Default settings are defined in %SYSTEMWEB%.DefaultPreferences, and can be overridden in %USERSWEB%.SitePreferences
+   * Default settings are defined in %SYSTEMWEB%.DefaultPreferences, and can be overridden in %USERSWEB%.SitePreferences:
+    <noautolink>
+    %TABLE{columnwidths="30%,50%,20%"}%
+    | *Setting* | *Description* | *Value* |
+    | =TOC_MIN_DEPTH= | The first header level to appear in the TOC | %TOC_MIN_DEPTH% |
+    | =TOC_MAX_DEPTH= | The last header level to appear in the TOC | %TOC_MAX_DEPTH% |
+    | =TOC_TITLE=     | The default TOC title | %TOC_TITLE% |
+    | =TOC_HIDE_IF_INCLUDED= | Do not show a TOC if the topic it contains is included in another topic | %TOC_HIDE_IF_INCLUDED% |
+    </noautolink>
    * Examples: <pre class="tml">%<nop>TOC{depth="2"}%
- %<nop>TOC{"CompleteDocumentation" web="%<nop>SYSTEMWEB%" title="Contents:"}%</pre>
+%<nop>TOC{"CompleteDocumentation" web="%<nop>SYSTEMWEB%" title="Contents:"}%</pre>
    See also: Foswiki:Support/HowToCreateATableOfContents
    <blockquote class="foswikiHelp">%T% If multiple headers have the exact same text, the anchors for the 2nd, 3rd etc will be suffixed by _AN1, _AN2 etc so the anchors become unique.</blockquote>
 <!--%JQREQUIRE{"chili"}%-->

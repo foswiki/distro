@@ -209,6 +209,18 @@ img {
 	padding-left: 3em;
 }
 
+.foswikiToc.foswikiRight {
+	margin: 0 0 1em 2em;
+	max-width: 40%;
+}
+.foswikiToc.foswikiLeft {
+	margin: 0 2em 1em 0;
+	max-width: 40%;
+}
+.foswikiToc .foswikiTocTitle {
+	font-weight: bold;
+}
+
 /* colors */
 .foswikiYellowFG { color:#ffff00; }
 .foswikiOrangeFG { color:#ff6600; }
