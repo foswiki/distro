@@ -457,6 +457,14 @@ sub _collapse {
             }
         }
 
+        if (   $node->{tag} eq 'p'
+            && $node->hasClass('foswikiDeleteMe')
+            && $node->{parent}
+            && $node->{parent}->{tag} eq 'blockquote' )
+        {
+            $node->_inline();
+        }
+
         # If this is an emphasis (b, i, code, tt, strong) then
         # flatten out any child nodes that express the same emphasis.
         # This has to be done because Foswiki emphases are single level.

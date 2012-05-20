@@ -55,7 +55,9 @@ my @tagsBeforeTable = (
     '<p>',    # from HTML tables not in sticky or literal blocks
 );
 my $tagsBeforeFirstTablePattern =
-  '^\\s*(?:' . join( '|', map { $_ . '\\s*' } @tagsBeforeTable ) . ')?<table';
+    '^\\s*(?:'
+  . join( '|', map { $_ . '\\s*' } @tagsBeforeTable )
+  . ')?<(?:table|blockquote)';
 
 =pod
 
@@ -899,6 +901,11 @@ s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
     if ( $text =~ /$tagsBeforeFirstTablePattern/o ) {
         $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
     }
+
+# SMELL: "Enter" in TMCE will split a blockquote into multiple blockquote elements.
+# This wraps the contents in a paragraph, and avoids the split.  It will be removed on save.
+    $text =~
+s/(<blockquote.*?>)(.*?)(<\/blockquote)/$1<p class="foswikiDeleteMe">$2<\/p>$3/sgi;
 
     #print STDERR "DEBUG\n$text\n";
     return $text;

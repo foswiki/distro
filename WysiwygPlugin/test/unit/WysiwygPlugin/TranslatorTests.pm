@@ -2028,16 +2028,17 @@ blah
 </blockquote>
 HERE
         html => <<HERE,
-<blockquote style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 40px; border-width: initial; border-color: initial; border-image: initial; border-style: none; padding: 0px"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah
+<p class="foswikiDeleteMe">&nbsp;</p><blockquote style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 40px; border-width: initial; border-color: initial; border-image: initial; border-style: none; padding: 0px"><p class="foswikiDeleteMe"><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>blah
 <p class='WYSIWYG_NBNL'>blah
-</p></blockquote>
+</p></p></blockquote>
 HERE
     },
     {
         name => 'Item4481',
         exec => $TML2HTML | $ROUNDTRIP,
         tml  => '<blockquote>pilf<br />flip</blockquote>',
-        html => '<blockquote>pilf<br />flip</blockquote>',
+        html =>
+"$deleteme<blockquote><p class=\"foswikiDeleteMe\">pilf<br />flip</p></blockquote>",
     },
     {
         exec => $ROUNDTRIP,
