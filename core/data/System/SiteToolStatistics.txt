@@ -1,12 +1,14 @@
 %META:TOPICINFO{author="ProjectContributor" date="1327969587" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Site Statistics
+%TOC%
 %STARTSECTION{"SiteTools"}%
+---+++ Introduction
 Statistics of visits to pages in a web can be generated manually or automatically, on a per-web basis. Statistics are compiled as a running total for each month.They include totals for Topic Views, Topic Saves, Attachment Uploads, Most Popular Topics with number of views, and Top Contributors showing total of saves and attachment uploads. Statistics from previous months are saved, and a new row is written to the table at the beginning of each month.
 
-   * You can create a %STATISTICSTOPIC% link using ==%<nop>STATISTICSTOPIC%==
+   * You can create a <nop>%STATISTICSTOPIC% link using ==%<nop>STATISTICSTOPIC%==
 
-Statistics are compiled by a script that processes the Foswiki event log.  The script can be run two ways:
+Statistics are compiled by a script that processes the Foswiki event log. The script can be run two ways:
    * Manually, by an authorized user from a browser URL
    * Automatically by a shell script, usually run as a =cron= job
 
@@ -18,7 +20,7 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
 <form name="stats" action="%SCRIPTURLPATH{statistics}%" method="post">
 	<div id="runStats" class="foswikiFormSteps">
 		<div class="foswikiFormStep">
-            <h3>Run statistics on a list of one or more webs.</h3>
+            <h3>Run statistics on a list of one or more webs</h3>
 			<div class="col1">
 				<p>
                     <input name="webs" class="foswikiInputField" type="text" value="%URLPARAM{"webs"}%" size="80" />
@@ -26,7 +28,7 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
 			</div><!--//col1-->
 			<div class="col2">
 				<p>
-					Enter a comma separated list of webnames.  Enter a subweb by specifying =ParentWeb/SubWeb/=  Web names must follow web naming rules and start with an upper case letter.
+					Enter a comma separated list of webnames. Enter a subweb by specifying =ParentWeb/SubWeb/=  Web names must follow web naming rules and start with an upper case letter.
 				</p>
 			</div><!--//col2-->
 			<div class="foswikiClear"></div>
@@ -36,7 +38,7 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
             <div class="additionalSettings">
 				<div class="foswikiFormSteps">
                     <div class="foswikiFormStep">
-                        <h3>Autocreate missing %STATISTICSTOPIC%</h3>
+                        <h3>Autocreate missing <nop>%STATISTICSTOPIC%</h3>
                         <div class="col1">
                             <p>
                                 <input type="checkbox" name="autocreate" value="1" />
@@ -44,7 +46,7 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
                         </div><!--//col1-->
                         <div class="col2">
                             <p>
-                                Select this option if you want the Statistics script to auto-create the %STATISTICSTOPIC% if it is missing. (Note: this operation must be enabled in the configuration).
+                                Select this option if you want the Statistics script to auto-create the <nop>%STATISTICSTOPIC% if it is missing. (Note: this operation must be enabled in the configuration).
                             </p>
                         </div><!--//col2-->
                         <div class="foswikiClear"></div>
@@ -58,7 +60,7 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Process any subwebs of the requested webs.  If this is not selected, then sub-webs must be explicitly listed in the list of webs.
+								Process any subwebs of the requested webs. If this is not selected, then sub-webs must be explicitly listed in the list of webs.
 							</p>
 						</div><!--//col2-->
                     </div><!--//foswikiFormStep-->
@@ -66,12 +68,12 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
 						<h3>Specify date to process</h3>
 						<div class="col1">
 							<p>
-                                <input class=foswikiInputField" type="text" name="logdate" value="" />
+                                <input class="foswikiInputField" type="text" name="logdate" value="" />
 							</p>
 						</div><!--//col1-->
 						<div class="col2">
 							<p>
-								Specify the date of the logs to process in =YYYYMM= format.  Example: =201203= to request March 2012.
+								Specify the date of the logs to process in =YYYYMM= format. Example: =201203= to request March 2012.
 							</p>
 						</div><!--//col2-->
                         <div class="foswikiClear"></div>
@@ -89,27 +91,28 @@ Note:  The current user - %WIKIUSERNAME% must have access rights to read/write t
 %ENDSECTION{"SiteTools"}%
 
 ---+++ Controlling access to the statistics script
-By default, the statistics script may be run by anyone, however the user must have CHANGE permission on the %STATISTICSTOPIC% topic.  Statistics generation can create a significant workload on the server.  In order to further restrict statistics generation
-   * Add =statistics= to the [[%SCRIPTURL{"statistics"}%#Login$SecurityAndAuthentication][ ={AuthScripts}= list]] (This is now the default on Foswiki 1.1.4).  This is required to prevent unauthenticated guest users from running =statistics=.
+By default, the statistics script may be run by anyone, however the user must have =CHANGE= permission on the <nop>%STATISTICSTOPIC% topic. Statistics generation can create a significant workload on the server. In order to further restrict statistics generation:
+
+   * Add =statistics= to the [[%SCRIPTURL{"statistics"}%#Login$SecurityAndAuthentication][ ={AuthScripts}= list]] (This is now the default on Foswiki 1.1.4). This is required to prevent unauthenticated guest users from running =statistics=.
       * If using Apache authentication, be sure to add it to the Apache configuration.
-   * If desired, create a Group for users that should be permitted to run the statistics script, or use the AdminGroup.
-   * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{StatisticsGroup}= to the group permitted to run statistics.
-      * Note: Regardless of this setting, members of the AdminGroup can always run statistics.
+   * If desired, create a Group for users that should be permitted to run the statistics script, or use the !AdminGroup.
+   * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics][Configure: Logging and Statistics]] and set ={Stats}{StatisticsGroup}= to the group permitted to run statistics.
+      * Note: Regardless of this setting, members of the !AdminGroup can always run statistics.
 
 ---+++ Configuring for automatic operation
 You can automatically generate usage statistics for all webs. To enable this:
 
-   * The %STATISTICSTOPIC% topic must be present in all webs where you want to have statistics. See below for how to create the %STATISTICSTOPIC% topic.
-   * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the %STATISTICSTOPIC% topics in all top level webs.  (Sub-webs are not processed by default).
+   * The <nop>%STATISTICSTOPIC% topic must be present in all webs where you want to have statistics. See below for how to create the <nop>%STATISTICSTOPIC% topic.
+   * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the <nop>%STATISTICSTOPIC% topics in all top level webs. (Sub-webs are not processed by default).
    * The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems.
    * Example crontab entry: %BR% =0 0 * * * (cd /path/to/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
 <blockquote class="foswikiHelp">
-%T% There is a workaround in case you can't run the script as the CGI user. Use the =curl= or =wget= tools available on most distributions.  These two examples perform the same function using curl and wget in the crontab.  You should only use one of them.
+%T% There is a workaround in case you can't run the script as the CGI user. Use the =curl= or =wget= tools available on most distributions. These two examples perform the same function using curl and wget in the crontab. You should only use one of them.
 <verbatim>
  0 0 * * * (curl -F webs=Sandbox -F subwebs=1 your.host.com/bin/statistics >/dev/null 2>&1)
  0 0 * * * (wget --post-data 'webs=Sandbox&subwebs=1' -O - your.host.com/bin/statistics >dev/null 2>&1)
 </verbatim>
-Both =curl= and =wget= can perform =http= authentication, and can log in if you are using Apache login.  See the platform documentation for =wget= or =curl= for more information. If using Template login, authentication will not be possible, and the CGI request will run as the <nop>WikiGuest user.  If you use this workaround, the %STATISTICSTOPIC% topics you are updating will have to be writable by <nop>WikiGuest, and you cannot add =statistics= to the ={AuthScripts}= list
+Both =curl= and =wget= can perform =http= authentication, and can log in if you are using Apache login. See the platform documentation for =wget= or =curl= for more information. If using Template login, authentication will not be possible, and the CGI request will run as the <nop>WikiGuest user. If you use this workaround, the <nop>%STATISTICSTOPIC% topics you are updating will have to be writable by <nop>WikiGuest, and you cannot add =statistics= to the ={AuthScripts}= list
 
 If you do not have =curl= or =wget= available on your platform, Foswiki provides a very simple script that can post to or get from a web server. It has no authentication capabilities. %X% *Deprecated!* This script is deprecated and may be removed in a future release.<br />
 Run the utility =tools/geturl.pl= in your cron job and specify the URL of the =bin/statistics= script as a parameter as shown here:
@@ -128,8 +131,7 @@ When running from the command line or a cron job, you can pass parameters to the
 | =-autocreate= | 1 to enable inclusion of subwebs | =disabled=. Subwebs must be explicitly listed in =-webs= to be processed. |
 
 ---+++ Creating the <nop>%STATISTICSTOPIC% topics
-
-As of release 1.1.4 of Foswiki, the !WebStatistics topics are no longer shipped by default.  The =bin/statistics= script can automatically create the required topics when enabled in the configuration, or when requested by URL Parameter =autocreate=1=.
+As of release 1.1.4 of Foswiki, the !WebStatistics topics are no longer shipped by default. The =bin/statistics= script can automatically create the required topics when enabled in the configuration, or when requested by URL Parameter =autocreate=1=.
 
    * If you want the Statistics topic to be automatically created whenever needed, in every web
       * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Always=
@@ -137,33 +139,31 @@ As of release 1.1.4 of Foswiki, the !WebStatistics topics are no longer shipped 
    * If you want to manually add the <nop>%STATISTICSTOPIC% topic to a subset of webs
       * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Permitted=
       * Use the below form to run =statistics= on one or more webs.
-      * or  Add =-autocreate 1= to the statistics script as shown above..
+      * or add =-autocreate 1= to the statistics script as shown above.
 
    * If yow want to prohibit autocreate of <nop>%STATISTICSTOPIC% topics
       * Visit [[%SCRIPTURL{"configure"}%#LoggingAndStatistics]] and set ={Stats}{AutoCreateTopic}= to =Prohibited=
       * Note:  This is the default behavior.
 
 ---+++ Generating statistics manually by URL
-
 The =bin/statistics= script can also be executed as a CGI script, Use the form at the top of this topic to run statistics.
 
-<blockquote style="foswikiAlert">%X%As of Foswiki 1.1.5, the statistics script must be run using the "post" method.  Direct entry of a URL is no longer allowed.</blockquote>
+<blockquote style="foswikiAlert">%X% As of Foswiki 1.1.5, the statistics script must be run using the "post" method. Direct entry of a URL is no longer allowed.</blockquote>
 
 ---+++ Tailoring the <nop>%STATISTICSTOPIC% layout
-
-The <nop>%STATISTICSTOPIC% topics are not shipped with Foswiki by default.  The topics are created on demand by the statistics script when requested by configuration.  The topics are created as follows:
+The <nop>%STATISTICSTOPIC% topics are not shipped with Foswiki by default. The topics are created on demand by the statistics script when requested by configuration. The topics are created as follows:
    1 The %USERSWEB% web is searched for [[%USERSWEB%.WebStatisticsTemplate]] - if this topic does not exist
-      * The %SYSTEMWEB% web is searched for [[%SYSTEMWEB%.WebStatisticsTemplate]].   (This topic is shipped with Foswiki by default)
+      * The %SYSTEMWEB% web is searched for [[%SYSTEMWEB%.WebStatisticsTemplate]]. (This topic is shipped with Foswiki by default)
    1 If ={Stats}{AutoCreateTopic}= is enabled in the configuration, or the =autocreate= parameter is passed to the =statistics= script, then a new <nop>%STATISTICSTOPIC% is created using the !WebStatisticsTemplate topic found in the first step.
       * If =autocreate= is not requested, and the <nop>%STATISTICSTOPIC% topic does not exist, then statistics will not be computed for the web.
 
-The template topic contains an =%<nop>INCLUDE%= for help text and table headings, and a critical =marker line= that defines the columns to be recorded by the statistics script.   (This allows the help text or headings to be modified without needing to edit every <nop>%STATISTICSTOPIC% topic.)
-   * The <nop>%STATISTICSTOPIC% topic looks for [[%USERSWEB%.Default%STATISTICSTOPIC%]] - if this topic does not exist ..
+The template topic contains an =%<nop>INCLUDE%= for help text and table headings, and a critical =marker line= that defines the columns to be recorded by the statistics script. (This allows the help text or headings to be modified without needing to edit every <nop>%STATISTICSTOPIC% topic.)
+   * The <nop>%STATISTICSTOPIC% topic looks for [[%USERSWEB%.Default%STATISTICSTOPIC%]] - if this topic does not exist.
       * The [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] is included. (This topic is shipped with Foswiki by default).
 
-To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%USERSWEB%.Default%STATISTICSTOPIC%]] and tailor as desired.  This prevents your changes from being lost when Foswiki is updated.
+To tailor the help text or column heading, copy [[%SYSTEMWEB%.Default%STATISTICSTOPIC%]] to [[%USERSWEB%.Default%STATISTICSTOPIC%]] and tailor as desired. This prevents your changes from being lost when Foswiki is updated.
 
-To tailor the actual columns recorded and the order of the columns, copy [[%SYSTEMWEB%.WebStatisticsTemplate]] to [[%USERSWEB%.WebStatisticsTemplate]] and tailor as desired.  Then remove the previous <nop>%STATISTICSTOPIC% and allow the statistics script to auto-create a new topic based upon the new template.
+To tailor the actual columns recorded and the order of the columns, copy [[%SYSTEMWEB%.WebStatisticsTemplate]] to [[%USERSWEB%.WebStatisticsTemplate]] and tailor as desired. Then remove the previous <nop>%STATISTICSTOPIC% and allow the statistics script to auto-create a new topic based upon the new template.
 Alternatively you can edit the <nop>%STATISTICSTOPIC% in each web.
 
 Statistics are written into the <nop>%STATISTICSTOPIC% in the following order.
@@ -171,16 +171,27 @@ Statistics are written into the <nop>%STATISTICSTOPIC% in the following order.
    * If no =marker line= is present, but the topic contains existing statistics,  the current month is update, or a new month is written _after_ the previous month.
    * If no =marker line= is present and no previous statistics exist, a new line is added to the end of the topic.
 
-Removal of the marker line causes statistics to be gathered in chronological order (oldest first).  By default, statistics are reported in reverse chronological order.
+Removal of the marker line causes statistics to be gathered in chronological order (oldest first). By default, statistics are reported in reverse chronological order.
 
-The =marker line= defines the order of the columns collected by the =statistics= script. The order of the columns should correspond to the table heading in the Default%STATISTICSTOPIC%.  Default marker line is:
+The =marker line= defines the order of the columns collected by the =statistics= script. The order of the columns should correspond to the table heading in the Default%STATISTICSTOPIC%. Default marker line is:
 <verbatim>
 | <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |
 </verbatim>
 
----+++ Managing the <nop>%STATISTICSTOPIC% Topics
+---++++ Restricting access to statistics topics
+<nop>%STATISTICSTOPIC% topics can have access controls like other topics.
 
-Each <nop>%STATISTICSTOPIC% topic will continue to grow, a new row added every month.  In addition, every update of the statistics topic will create a new entry in the <nop>%STATISTICSTOPIC% topic revision history. These can become extremely large over time and Foswiki does not provide any mechanism for automatically archiving statistics topics.  For good ongoing performance, it is recommended to archive statistics annually:
+If you want to have these access settings copied to new <nop>%STATISTICSTOPIC% topics, follow these steps:
+   1 Copy topic !WebStatisticsTemplate from %SYSTEMWEB% web to %USERSWEB% web
+   1 Edit the topic settings (via the "More" link) and write (if you want to restrict topics views to logged in users):
+   <pre>
+      * Set DENYTOPICVIEW = WikiGuest
+</pre>
+
+For existing <nop>%STATISTICSTOPIC% topics you will need to write these settings manually.
+
+---+++ Managing the <nop>%STATISTICSTOPIC% topics
+Each <nop>%STATISTICSTOPIC% topic will continue to grow, a new row added every month. In addition, every update of the statistics topic will create a new entry in the <nop>%STATISTICSTOPIC% topic revision history. These can become extremely large over time and Foswiki does not provide any mechanism for automatically archiving statistics topics. For good ongoing performance, it is recommended to archive statistics annually:
    * Enable ={Stats}{AutoCreateTopic}= or add  =-autocreate 1= to the cron job that runs the statistics script.
    * Rename the <nop>%STATISTICSTOPIC% to =%STATISTICSTOPIC%YYYY= at year end.
    * Optional: Tailor the DefaultWebStatistics topic, adding a search for archived statistics, for example:
