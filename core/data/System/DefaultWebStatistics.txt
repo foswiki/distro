@@ -1,21 +1,22 @@
 %META:TOPICINFO{author="ProjectContributor" date="1239551007" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
----+ Statistics Documentation
-The following section, consisting of help txt and the statistics table headings is included into each %STATISTICSTOPIC% topic.  If you want to tailor the help text, copy the first section of this topic into [[%USERSWEB%.Default%STATISTICSTOPIC%]] so that your changes are not lost after upgrading Foswiki to a new release..
+---+ Statistics documentation
+The following section - namely the help text and the statistics table headings -  is included into each <nop>%STATISTICSTOPIC% topic. If you want to tailor the help text, copy the first section of this topic into [[%USERSWEB%.Default%STATISTICSTOPIC%]] so that your changes are not lost after upgrading Foswiki to a new release.
+
 <!--
 *Caution:* The =STOPINCLUDE= macro must be on the same line as the table headings for the statistics tables to render correctly.
 -->
-<blockquote>
+
 %STARTINCLUDE%
 ---++ <nop>%BASEWEB% %SPACEOUT{%BASETOPIC%}%
 %TWISTYBUTTON{id="infoOnStatistics" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about Statistics ..." hidelink="Close info" remember="on" firststart="hide"}%
 %TWISTYTOGGLE{id="infoOnStatistics"}%<div class="foswikiHelp">
 <h4>About Web Statistics</h4>
 *Notes:*
-   * Do not edit this topic, it is updated automatically. (You can also <form name="forceStats" action="%SCRIPTURLPATH{"statistics"}%/%BASEWEB%/" method="post"><input type="submit" class="foswikiButton" value="force" /></form> an update if authorized).
-   * [[%SYSTEMWEB%.SiteTools#WebStatistics][Site tools]] provides further documentation on this topic.
-   * [[%SYSTEMWEB%.SiteToolStatistics]] provides detailed documentation on customizing statistics for your site and tells you how to enable the automatic updates of the statistics.
+   * Do not edit this topic, it is updated automatically
+   * If you're authorized, you can also <form name="forceStats" action="%SCRIPTURLPATH{"statistics"}%/%BASEWEB%/" method="post"><input type="submit" class="foswikiButton" value="force an update" /></form>
+   * [[%SYSTEMWEB%.SiteTools#WebStatistics][Site tools]] provides further documentation on this topic
+   * [[%SYSTEMWEB%.SiteToolStatistics]] provides detailed documentation on customizing statistics for your site and tells you how to enable the automatic updates of the statistics
 </div>%ENDTWISTYTOGGLE%
 
 | *Month:* | *Topic <br /> views:* | *Topic <br /> saves:* | *File <br /> uploads:* | *Most popular <br /> topic views:* | *Top contributors for <br /> topic save and uploads:* | %STOPINCLUDE%
-</blockquote>
