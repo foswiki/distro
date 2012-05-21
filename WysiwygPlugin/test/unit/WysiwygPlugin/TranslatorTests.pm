@@ -888,7 +888,7 @@ HERE
 </div>
 HERE
         html => <<HERE,
-<div class="foswikiHelp TMLhtml">
+$deleteme<div class="foswikiHelp TMLhtml">
 <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><div class="jqTreeview TMLhtml">
 <ul>
 <li> list
@@ -917,7 +917,7 @@ HERE
 blah
 HERE
         html => <<HERE,
-<div class="jqTreeview TMLhtml">
+$deleteme<div class="jqTreeview TMLhtml">
 <ul>
 <li> list
 <ul>
@@ -2468,7 +2468,7 @@ nested <sticky> block </sticky>
  456
 </pre></sticky>
 GLUED
-        html => '<p>'
+        html => $deleteme . '<p>'
           . '<div class="WYSIWYG_STICKY">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'
           . '<br />'
           . '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'
@@ -2597,7 +2597,7 @@ http://google.com/#q=foswiki WikiWord [[some link]]
 </literal>
 HERE
         html => <<"HERE",
-<p>
+$deleteme<p>
 <div class="WYSIWYG_LITERAL">
 <font color="blue"> *|B|* </font>
 http://google.com/#q=foswiki WikiWord [[some link]]
@@ -2662,7 +2662,7 @@ GLUED
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
         name => 'selfClosingTagsInsideLiteral',
         html => <<HTML,
-<p>
+$deleteme<p>
 <div class="WYSIWYG_LITERAL">X<br />Y<img alt='' src='foo' /></div>
 </p>
 HTML
@@ -2688,9 +2688,9 @@ TML
         tml  => <<'GLUED',
 <sticky>&#9792;</sticky>
 GLUED
-        html => <<'STUCK'
-<p>
-<div class="WYSIWYG_STICKY">&#38;&#35;9792;</div>
+        html => <<"STUCK"
+$deleteme<p>
+<div class=\"WYSIWYG_STICKY\">&#38;&#35;9792;</div>
 </p>
 STUCK
     },

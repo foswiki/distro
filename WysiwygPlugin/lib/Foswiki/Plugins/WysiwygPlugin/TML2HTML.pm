@@ -899,7 +899,7 @@ s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
     if ( $text =~ /$tagsBeforeFirstTablePattern/o ) {
         $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
     }
-    elsif ( $text =~ /^\s*(?:<p>)?\s*<(?:pre|blockquote)/o ) {
+    elsif ( $text =~ /^\s*(?:<p>)?\s*<(?:pre|blockquote|div)/o ) {
         $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
     }
 

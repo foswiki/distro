@@ -263,7 +263,7 @@ DOT
         },
         tml =>
 "<sticky><customtag>this & that\n >   the other </customtag></sticky>",
-        html => '<p>'
+        html => $deleteme . '<p>'
           . '<div class="WYSIWYG_STICKY">'
           . '&lt;customtag&gt;'
           . 'this&nbsp;&amp;&nbsp;that<br />&nbsp;&gt;&nbsp;&nbsp;&nbsp;the&nbsp;other&nbsp;'
@@ -333,7 +333,7 @@ DOT
         },
         tml =>
 '<literal><customtag>this & that >   the other </customtag></literal>',
-        html => '<p>'
+        html => $deleteme . '<p>'
           . '<div class="WYSIWYG_LITERAL">'
           . '<customtag>this & that >   the other </customtag>'
           . '</div>' . '</p>'
@@ -347,7 +347,7 @@ DOT
         },
         tml =>
 '<literal><customtag>this & that >   the other </customtag></literal>',
-        html => '<p>'
+        html => $deleteme . '<p>'
           . '<div class="WYSIWYG_LITERAL">'
           . '<customtag>this & that >   the other </customtag>'
           . '</div>' . '</p>'
