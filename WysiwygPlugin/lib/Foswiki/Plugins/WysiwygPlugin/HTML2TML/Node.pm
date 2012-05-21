@@ -457,11 +457,24 @@ sub _collapse {
             }
         }
 
+ # Pressing return in a "foswikiDeleteMe" paragraph will cause the paragraph
+ # to be split into a 2nd paragraph with the same class.   We only want to clean
+ # the first one in the blockquote, and preserve the rest without the class.
         if (   $node->{tag} eq 'p'
             && $node->hasClass('foswikiDeleteMe')
             && $node->{parent}
             && $node->{parent}->{tag} eq 'blockquote' )
         {
+            my $next = $node->{next};
+            while ($next) {
+                if (   $next
+                    && $next->{tag} eq 'p'
+                    && $next->hasClass('foswikiDeleteMe') )
+                {
+                    $next->_removeClass('foswikiDeleteMe');
+                }
+                $next = $next->{next};
+            }
             $node->_inline();
         }
 

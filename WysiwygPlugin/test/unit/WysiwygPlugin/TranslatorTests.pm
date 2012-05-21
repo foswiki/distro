@@ -375,8 +375,8 @@ HERE
 hidden verbatim
 </verbatim>
 HERE
-        html => <<'HERE',
-<p><pre class="foswikiHidden TMLverbatim"><br />hidden&nbsp;verbatim<br /></pre>
+        html => <<"HERE",
+$deleteme<p><pre class=\"foswikiHidden TMLverbatim\"><br />hidden&nbsp;verbatim<br /></pre>
 </p>
 HERE
     },
@@ -396,18 +396,18 @@ verbatim 1
 verbatim 2
 </verbatim>
 HERE
-        html => <<'HERE',
-<p><pre class="TMLverbatim"><br />verbatim&nbsp;1<br /></pre>
+        html => <<"HERE",
+$deleteme<p><pre class=\"TMLverbatim\"><br />verbatim&nbsp;1<br /></pre>
 </p>
-<p><pre class="TMLverbatim"><br />verbatim&nbsp;2<br /></pre>
+<p><pre class=\"TMLverbatim\"><br />verbatim&nbsp;2<br /></pre>
 </p>
 HERE
     },
     {
         exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'preserveClass',
-        html => <<'HERE',
-<p><pre class="foswikiHidden TMLverbatim"><br />Verbatim&nbsp;1<br />Line&nbsp;2<br />Line&nbsp;3</pre> <pre class="html tml TMLverbatim"><br />Verbatim&nbsp;2<br /><br /></pre><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><pre class="tml html TMLverbatim"><br /><br />Verbatim&nbsp;3</pre>
+        html => <<"HERE",
+$deleteme<p><pre class=\"foswikiHidden TMLverbatim\"><br />Verbatim&nbsp;1<br />Line&nbsp;2<br />Line&nbsp;3</pre> <pre class=\"html tml TMLverbatim\"><br />Verbatim&nbsp;2<br /><br /></pre><span style=\"{encoded:'n'}\" class=\"WYSIWYG_HIDDENWHITESPACE\">&nbsp;</span><pre class=\"tml html TMLverbatim\"><br /><br />Verbatim&nbsp;3</pre>
 </p>
 HERE
         tml => <<'HERE',
@@ -1331,7 +1331,7 @@ THERE
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'verbatimWithNbsp1554',
-        html => '<p><pre class="TMLverbatim">&amp;nbsp;</pre></p>',
+        html => $deleteme . '<p><pre class="TMLverbatim">&amp;nbsp;</pre></p>',
         tml  => "<verbatim>&nbsp;</verbatim>"
     },
     {
@@ -1344,8 +1344,8 @@ test
 test
 </pre>
 HERE
-        html => <<'HERE',
-<p>
+        html => <<"HERE",
+$deleteme<p>
 <pre>
 test
 test
@@ -2041,6 +2041,23 @@ HERE
 "$deleteme<blockquote><p class=\"foswikiDeleteMe\">pilf<br />flip</p></blockquote>",
     },
     {
+
+# If Wysiwyg user "splits" a foswikiDeleteMe paragraph, then only the first
+# paragraph should actually be deleted.  Subsequent paragraphs should be preserved.
+        name => 'blockquoteSplitPara',
+        exec => $HTML2TML,
+        tml  => <<HERE,
+<blockquote>para1
+
+para2
+
+para3
+</blockquote>
+HERE
+        html =>
+"$deleteme<blockquote><p class=\"foswikiDeleteMe\">para1</p><p class=\"foswikiDeleteMe\">para2</p><p class=\"foswikiDeleteMe\">para3</p></blockquote>",
+    },
+    {
         exec => $ROUNDTRIP,
         name => 'wtf',
         html => <<"HERE",
@@ -2494,7 +2511,7 @@ nested <verbatim class="tml">%H%<!--?--></verbatim>
  456
 </pre></verbatim>
 GLUED
-        html => '<p>'
+        html => "$deleteme<p>"
           . '<pre class="TMLverbatim">&#60;font&nbsp;color="blue"&#62;&nbsp;*|B|*&nbsp;&#60;/font&#62;<br />'
           . '<br />'
           . '&lt;!--&nbsp;hidden&nbsp;--&gt;<br />'
@@ -3089,7 +3106,7 @@ there
 </pre>
 HERE
         html => <<HERE,
-<p>
+$deleteme<p>
 <pre>
 hello
 there
@@ -3123,9 +3140,8 @@ line1\
 line2
 </verbatim>
 ZIS
-        html => <<'ZAT',
-<p>
-<pre class="TMLverbatim"><br />line1\<br />line2<br /></pre>
+        html => <<"ZAT",
+$deleteme<p><pre class=\"TMLverbatim\"><br />line1\\<br />line2<br /></pre>
 </p>
 ZAT
     },
@@ -3273,8 +3289,8 @@ leaving an empty pre-tag</pre></code>
 <pre><code>As will
 this.</code></pre>
 HERE
-        html => <<'HERE',
-<p>
+        html => <<"HERE",
+$deleteme<p>
 <pre><b>this will
 disappear.</b>
  and

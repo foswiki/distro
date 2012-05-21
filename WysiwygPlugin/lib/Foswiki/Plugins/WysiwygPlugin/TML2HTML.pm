@@ -55,9 +55,7 @@ my @tagsBeforeTable = (
     '<p>',    # from HTML tables not in sticky or literal blocks
 );
 my $tagsBeforeFirstTablePattern =
-    '^\\s*(?:'
-  . join( '|', map { $_ . '\\s*' } @tagsBeforeTable )
-  . ')?<(?:table|blockquote)';
+  '^\\s*(?:' . join( '|', map { $_ . '\\s*' } @tagsBeforeTable ) . ')?<table';
 
 =pod
 
@@ -899,6 +897,9 @@ s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
     # The paragraph is removed automatically if it is empty, when converting
     # back to TML.
     if ( $text =~ /$tagsBeforeFirstTablePattern/o ) {
+        $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
+    }
+    elsif ( $text =~ /^\s*(?:<p>)?\s*<(?:pre|blockquote)/o ) {
         $text = '<p class="foswikiDeleteMe">&nbsp;</p>' . $text;
     }
 
