@@ -42,7 +42,7 @@ First follow the installation instructions to install the Plugin:
 The default configuration of TinyMCEPlugin should prove sufficient for most users. The !TinyMCE editor itself is customised through a Javascript object holding a substantial number of initialisation parameters. In previous versions of TinyMCEPlugin, a text string making up the Javascript object was held in an ordinary Foswiki [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT= which should be removed and replaced with =TINYMCEPLUGIN_INIT_TOPIC= (described below) in most circumstances.
 
 ---+++ TINYMCEPLUGIN_INIT_TOPIC
-To make configuration easier and less error-prone, configuration is held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used. =TINYMCEPLUGIN_INIT_TOPIC= is currently set to %=TINYMCEPLUGIN_INIT_TOPIC%.
+To make configuration easier and less error-prone, configuration is held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used. =TINYMCEPLUGIN_INIT_TOPIC= is currently set to =%TINYMCEPLUGIN_INIT_TOPIC%=.
 
 For a full explanation and guidance on configuration of available !TinyMCE options, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
 
@@ -310,13 +310,13 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
                 &copy; 2010-2012 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|             | This package also includes the complete sources for version 3.4.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
+|             | This package also includes the complete sources for version 3.4.9 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.2.7 | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
-           Foswikitaks:Item11722: Add watermark for hidden blocks%BR%\
-           Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |
+|  22 May 2012 (1.2.7) | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
+                         Foswikitask:Item11722: Add watermark for hidden blocks%BR%\
+                         Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |
 |  23 Mar 2012 (1.2.6) | Foswikitask:Item11378: Strike-out =&lt;del&gt;=, =&lt;s&gt;= tags are lost in WYSIWYG transition %BR%\
                          Foswikitask:Item11367: Add Javascript callbacks to get notified after editor changes to/from Raw or WYSIWYG mode. %BR%\
                          Foswikitask:Item11368: Allow templates to control WYSIWYG button placement. %BR%\
