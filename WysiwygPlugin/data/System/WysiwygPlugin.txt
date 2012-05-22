@@ -188,7 +188,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
-|  1.1.10 (20 May 2012) | Foswikitask:Item11872: Better fix for &lt;div tags, also cover &lt;blockquote tags. %BR%\
+|  1.1.10 (21 May 2012) | Foswikitask:Item11872: Better fix for &lt;div tags, also cover &lt;blockquote tags. %BR%\
+                          Foswikitask:Item11884: Unable to position cursor above initial verbatim, pre and blockquote blocks %BR%\
                           Foswikitask:Item2516: Syntax for indent was added earlier, but missed from release notes. |
 |  1.1.9 (test release) | Foswikitask:Item11872: &lt;div> tags are wrapped in &lt;p> tags. TMCE auto closes them. |
 |  1.1.8 (test release) | Foswikitask:Item11862: Fix for Item11814 breaks %<nop>ATTACHURL macro in link. |
