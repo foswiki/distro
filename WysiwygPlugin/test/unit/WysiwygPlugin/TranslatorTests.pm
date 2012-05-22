@@ -2807,6 +2807,39 @@ $deleteme<table cellspacing="1" cellpadding="0" border="1">
 THERE
     },
     {
+        name => 'Item11890',
+        exec => $TML2HTML | $ROUNDTRIP,
+        tml  => <<'BLAH',
+Blah
+<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
+Blah
+<a href="blah.com" qwerty='oops'>Unsupported attr</a>
+<a href='blah.com' target="_blank">Target supported</a>
+<a href=blah.com target=_blank>Space delimited</a>
+BLAH
+        html => '<p>
+Blah'
+          . encodedWhitespace('n')
+          . '<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>'
+          . encodedWhitespace('n') . 'Blah'
+          . encodedWhitespace('n')
+          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;blah.com&#34;&nbsp;qwerty=&#39;oops&#39;&#62;</span>Unsupported attr<span class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>'
+          . encodedWhitespace('n')
+          . '<a href=\'blah.com\' target="_blank">Target supported</a>'
+          . encodedWhitespace('n')
+          . '<a href=blah.com target=_blank>Space delimited</a>' . '
+</p>
+',
+        finaltml => <<'HERE',
+Blah
+<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit
+Blah
+<a href="blah.com" qwerty='oops'>Unsupported attr</a>
+<a href="blah.com" target="_blank">Target supported</a>
+<a href="blah.com" target="_blank">Space delimited</a>
+HERE
+    },
+    {
         name => 'Item4871',
         exec => $TML2HTML,
         tml  => <<'BLAH',
