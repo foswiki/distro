@@ -35,7 +35,7 @@
 
 %TMPL:DEF{"breadcrumb:title"}%<span class="patternHomePathTitle">%MAKETEXT{"You are here:"}% </span>%TMPL:END%
 
-%TMPL:DEF{"breadcrumb:wikitoolname"}%[[%USERSWEB%.%HOMETOPIC%][%WIKITOOLNAME%]]%TMPL:END%
+%TMPL:DEF{"breadcrumb:wikitoolname"}%[[%WIKIHOMEURL%][%WIKITOOLNAME%]]%TMPL:END%
 
 %TMPL:DEF{"breadcrumb:currentweb"}%%TMPL:P{"breadcrumb:separator"}%<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%MAKETEXT{"[_1] Web" args="<nop>%WEB%"}%</a>%TMPL:END%
 
