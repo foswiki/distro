@@ -426,8 +426,16 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
       _getNamedColour($1, $2)#oge;
 
     # let WYSIWYG-editable A tags untouched for the editor
-    $text =~
-s/(\<a(\s+(href|target|title|class)=("(?:[^"\\]++|\\.)*+"|'(?:[^'\\]++|\\.)*+'|\S+))+\s*\>.*?\<\/a\s*\>)/$this->_liftOutGeneral($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/gei;
+    $text =~ s/(\<a
+         (?:\s+
+           (?: href|target|title|class )=                 # Supported attribute
+           (?: \'[^\']*\' | \"[^\"]*\" | [^\'\"\s]+ )+    # One or more SQ, DQ or space delimited strings
+         )+                                               # One or more attributes - href is required
+         \s*\>
+         .*?                                              # the link text
+         \<\/a\s*\>                                       # closing tag
+         )/
+         $this->_liftOutGeneral($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/geixo;
 
     $text =~
       s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;

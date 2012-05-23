@@ -364,7 +364,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     # because the previous opening verbatim tag might have different
     # class from the next one.
     foreach my $tag (qw(noautolink literal)) {
-        $text =~ s#</$tag>(\h*)<$tag>#$1#gs;
+        $text =~ s#</$tag>(\s*)<$tag>#$1#gs;
     }
 
     # Top and tail, and terminate with a single newline
