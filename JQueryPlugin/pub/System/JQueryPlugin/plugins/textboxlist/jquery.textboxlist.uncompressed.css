@@ -8,13 +8,16 @@
   margin:2px 0px;
 }
 .jqTextboxListValue {
-  padding:1px 15px 1px 5px;
+  padding:1px 5px;
   border:1px solid #CAD8F3;
   margin:2px 5px 2px 0px;
   background:#DEE7F8;
   position:relative;
   _float:left; /* IE6 doesn't know inline-block*/
   display:inline-block;
+}
+.jqTextboxListEnableClose .jqTextboxListValue {
+  padding-right:15px;
 }
 a.jqTextboxListClose:hover,
 a.jqTextboxListClose {
