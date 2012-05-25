@@ -1,0 +1,52 @@
+%META:TOPICINFO{author="ProjectContributor" date="1337979799" format="1.1" version="1"}%
+---+!! Parent list
+Generated list of (potential) parent topics.
+
+---++ select
+To use this list in Foswiki applications, use:
+<verbatim>
+%INCLUDE{
+    "%SYSTEMWEB%.ParentList"
+    section="select"
+}%
+</verbatim>
+
+---+++ Parameters
+| *Parameter* | *Effect* | *Default value* |
+| =size=      | Size of the select box | 10 |
+| =web=       | Topics from which web | current web |
+| =selected=  | The currently selected topic | none |
+
+---+++ Result
+Using default settings
+%INCLUDE{
+    "%SYSTEMWEB%.ParentList"
+    section="select"
+}%
+
+
+<verbatim class='foswikiHidden'>
+%STARTSECTION{"select"}%<select name='topicparent' size='%IF{
+    "defined size AND $size"
+    then="%URLPARAM{"size" default="%size%"}%"
+    else="10"
+    }%' class='foswikiSelect'>
+    %TOPICLIST{
+	"<option $marker value='$name'>$name</option>"
+	web="%IF{
+	    "defined web AND $web"
+		then="%URLPARAM{"web" default="%web%"}%"
+		else="%WEB%"
+	    }%"
+	marker="selected=\"selected\""
+	separator=""
+	selection="%IF{
+	    "defined selected AND $selected"
+		then="%URLPARAM{"selected" default="%selected%"}%"
+		else="%MAKETEXT{"(no parent, orphaned topic)"
+	    }%"
+	}%"
+}%
+<option value="">%MAKETEXT{"(no parent, orphaned topic)"}%</option>
+</select>%ENDSECTION{"select"}%
+</verbatim>
