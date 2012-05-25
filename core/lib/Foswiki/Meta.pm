@@ -1917,11 +1917,9 @@ sub save {
         $signal = shift;
     };
 
-    ASSERT( $newRev, $this->{loadedRev} ) if DEBUG;
-
     # Semantics inherited from TWiki. See
     # TWiki:Codev.BugBeforeSaveHandlerBroken
-    if ( $plugins->haveHandlerFor('afterSaveHandler') ) {
+    if ( !defined $signal && $plugins->haveHandlerFor('afterSaveHandler') ) {
         my $text = $this->getEmbeddedStoreForm();
         delete $this->{_preferences};    # Make sure handler has changed prefs
         my $error = $signal ? $signal->{-text} : undef;
@@ -1930,6 +1928,8 @@ sub save {
     }
 
     throw $signal if $signal;
+
+    ASSERT( $newRev, $this->{loadedRev} ) if DEBUG;
 
     my @extras = ();
     push( @extras, 'minor' )   if $opts{minor};      # don't notify
