@@ -22,7 +22,6 @@ data/System/PatternSkinTheme.txt 0644
 data/System/PatternSkinTheme2009.txt 0644
 data/System/PatternSkinThemeFatWilly.txt 0644
 data/System/PatternSkinThemeFatWillyNavigation.txt 0644
-data/System/PatternSkinWebCreateNewTopicTemplate.txt 0644
 data/System/WebBottomBarExample.txt 0644
 data/System/WebLeftBarCookbook.txt 0644
 data/System/WebLeftBarExample.txt 0644
@@ -52,8 +51,6 @@ pub/System/PatternSkin/patternskin_screenshot.png 0644
 pub/System/PatternSkin/print_src.css 0644
 pub/System/PatternSkin/print.css 0644
 pub/System/PatternSkin/print.css.gz 0644
-pub/System/PatternSkin/webtopiccreator_src.js 0644
-pub/System/PatternSkin/webtopiccreator.js 0644
 pub/System/PatternSkinCss/CSS_element_layout_view.pattern.tmpl.png 0644
 pub/System/PatternSkinCssCookbookCenterPage/centerpage.css 0644
 pub/System/PatternSkinCssCookbookCenterPageBorder/centerpageborder.css 0644
