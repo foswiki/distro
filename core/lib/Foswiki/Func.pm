@@ -306,7 +306,7 @@ sub getExternalResource {
 
 Get the request object. This is a subclass of =Foswiki::Request=. The request
 object can be used to get the parameters passed to the request, either
-via CGI or on the command ine (depending on how the script was called).
+via CGI or on the command line (depending on how the script was called).
 
 A =Foswiki::Request= object is largely compatible with a CPAN:CGI object.
 Most of the time, documentation for that class applies directly to

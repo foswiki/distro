@@ -1477,7 +1477,7 @@ Merge the data in the other meta block.
    * Form field values that are different in each set are text-merged
    * We don't merge for field attributes or title
    * Topic info is not touched
-   * The =mergeable= method on the form def is used to determine if that field is mergeable. If it isn't, the value currently in meta will _not_ be changed.
+   * The =isTextMergeable= method on the form def is used to determine if that field is mergeable. If it isn't, the value currently in meta will _not_ be changed.
 
 =cut
 
