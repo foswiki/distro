@@ -51,6 +51,7 @@ sub do_upload {
         my $v = shift(@arga);
         $args{$k} = [$v];
     }
+
     my $query = Unit::Request->new( \%args );
     $query->method('POST');
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
@@ -73,6 +74,10 @@ sub do_upload {
     seek( $stream, 0, 0 );
 
     $this->createNewFoswikiSession( $cuid, $query );
+
+    Foswiki::Func::setPreferencesValue( 'ATTACHEDFILELINKFORMAT',
+        $params{linkformat} )
+      if ( defined $params{linkformat} );
 
     my ($text) = $this->captureWithKey(
         'upload',
@@ -306,7 +311,8 @@ sub test_illegal_propschange {
 sub test_propschanges {
     my $this = shift;
     local $/ = undef;
-    my $data   = '';
+    my $data = '';
+
     my $result = $this->do_upload(
         'Flappadoodle.txt',
         "BLAH",
@@ -328,9 +334,10 @@ sub test_propschanges {
         'Flappadoodle.txt',
         $data,
         undef,
-        hidefile         => 1,
-        filecomment      => 'Educate the hedgehog',
-        createlink       => 1,
+        hidefile    => 1,
+        filecomment => 'Educate the hedgehog',
+        createlink  => 1,
+        linkformat  => '\n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment',
         changeproperties => 1
     );
     $this->assert_matches( qr/^Status: 302/, $result );
@@ -348,6 +355,67 @@ qr/\[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedg
     $this->assert($at);
     $this->assert_matches( qr/h/i, $at->{attr} );
     $this->assert_str_equals( 'Educate the hedgehog', $at->{comment} );
+
+    return;
+}
+
+sub test_linkformat {
+    my $this = shift;
+    local $/ = undef;
+    my $data = '';
+
+    my $result = $this->do_upload(
+        'Flappadoodle.txt',
+        "BLAH",
+        undef,
+        hidefile         => 0,
+        filecomment      => 'Grease the stoat',
+        createlink       => 0,
+        changeproperties => 0,
+    );
+    $result = $this->do_upload(
+        'Flappadoodle.txt',
+        $data,
+        undef,
+        hidefile    => 1,
+        filecomment => 'Educate the hedgehog',
+        createlink  => 1,
+        linkformat  => '\n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment',
+        changeproperties => 1
+    );
+    $this->assert_matches( qr/^Status: 302/, $result );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
+    # This tests the original default link format
+    $this->assert_matches(
+qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate the hedgehog/ms,
+        $text
+    );
+
+    # Test a formatted link using standard escapes, and time tokens.
+    $result = $this->do_upload(
+        'Flappadoodle.txt',
+        $data,
+        undef,
+        hidefile    => 1,
+        filecomment => 'Wikiworld',
+        createlink  => 1,
+        linkformat =>
+'$n |$year-$mo $wday|Effort $lt--        |[[%ATTACHURL%/$name][%ICON{$fileext}% $name]]| received from $comment |',
+        changeproperties => 1
+    );
+    $this->assert_matches( qr/^Status: 302/, $result );
+    ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
+    my $format = '$year-$mo $wday';
+    my $formatted = Foswiki::Time::formatTime( time, $format );
+
+    $this->assert_matches(
+qr#^\Q |$formatted|Effort <--        |[[%ATTACHURL%/Flappadoodle.txt][%ICON{txt}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
+        $text
+    );
 
     return;
 }

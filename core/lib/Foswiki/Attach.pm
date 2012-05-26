@@ -309,9 +309,12 @@ Build a link to the attachment, suitable for insertion in the topic.
 sub getAttachmentLink {
     my ( $this, $topicObject, $attName ) = @_;
 
-    my $att = $topicObject->get( 'FILEATTACHMENT', $attName );
+    my $att         = $topicObject->get( 'FILEATTACHMENT', $attName );
     my $fileComment = $att->{comment};
+    my $fileTime    = $att->{date} || 0;
     $fileComment = $attName unless ($fileComment);
+    my ($fileExt) = $attName =~ m/(?:.*\.)*([^.]*)/;
+    $fileExt ||= '';
 
     my $fileLink = '';
     my $imgSize  = '';
@@ -363,6 +366,7 @@ sub getAttachmentLink {
     $fileLink =~ s/\$name/$attName/;        # deprecated, see Item1814
     $fileLink =~ s/\$filename/$attName/g;
     $fileLink =~ s/\$fileurl/$fileURL/g;
+    $fileLink =~ s/\$fileext/$fileExt/;
 
     # Expand \t and \n early (only in the format, not
     # in the comment) - TWikibug:Item4581
@@ -371,6 +375,10 @@ sub getAttachmentLink {
     $fileLink =~ s/\$comment/$fileComment/g;
     $fileLink =~ s/\$size/$imgSize/g;
     $fileLink =~ s/([^\n])$/$1\n/;
+
+    require Foswiki::Time;
+    $fileLink = Foswiki::Time::formatTime( $fileTime, $fileLink );
+    $fileLink = Foswiki::expandStandardEscapes($fileLink);
 
     return $fileLink;
 }

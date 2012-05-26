@@ -83,9 +83,12 @@ Attachment names are stored directly in the server native file system, so filena
       * Checking the "Create a link to the attached file" appends a link at the end of the topic. The format can be modified with the =%<nop>ATTACHEDFILELINKFORMAT%= [[%SYSTEMWEB%.PreferenceSettings][preference setting]]. Images (files ending in gif, jpg, jpeg or png) are handled by =%<nop>ATTACHEDIMAGEFORMAT%=.
       * The two named preference settings may use the following variables:
          * =$filename=: the name of the file
+         * =$fileext=: the filename extension (string following the last period, if present) or an empty string.
          * =$fileurl=: URL encoded version of the filename
          * =$comment=: the file comment from the upload dialog
          * =$size=: the filesize (=%<nop>ATTACHEDIMAGEFORMAT%= only)
+         * Any standard [[FormatTokens][formatting tokens]]: =$n=, =$comma=, =$lt=, etc.
+         * Any standard [[VarGMTIME][time format specifiers]]: =$year=, =$hours=, etc. 
          * =$name=: (deprecated, should no longer be used)
 
 ---++ Downloading files
