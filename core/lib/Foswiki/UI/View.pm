@@ -38,6 +38,7 @@ The view is controlled by CGI parameters as follows:
 | =raw= | no format body text if set |
 | =skin= | comma-separated list of skin(s) to use |
 | =contenttype= | Allows you to specify an alternate content type |
+| =release_lock= | Set to non-blank to release any edit locks held by the current user. |
 
 =cut
 
@@ -47,6 +48,19 @@ sub view {
     my $query = $session->{request};
     my $web   = $session->{webName};
     my $topic = $session->{topicName};
+
+    if ( defined $query->param('release_lock')
+        && $query->param('release_lock') ne '' )
+    {
+        $query->delete('release_lock');
+        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+
+        my $lease = $topicObject->getLease();
+        if ( $lease && $lease->{user} eq $session->{user} ) {
+            $topicObject->clearLease();
+        }
+        $topicObject->finish();
+    }
 
     my $cache = $session->{cache};
     my $cachedPage;

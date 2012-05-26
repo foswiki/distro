@@ -38,7 +38,7 @@
 
 %TMPL:DEF{"button_preview"}%<input type="submit" class="foswikiButton" name="action_preview" id="preview" %MAKETEXT{"value='Preview' accesskey='p'"}% />%TMPL:END%
 
-%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% />%TMPL:END%
+%TMPL:DEF{"button_cancel"}%<a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?release_lock=1' id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' class="foswikiButton foswikiButtonCancel" >%MAKETEXT{"Cancel"}%</a>%TMPL:END%
 
 
 %TMPL:DEF{"topicinfo"}%%TMPL:P{"revCommentPluginOptions"}%%TMPL:P{"saveoptions"}%<div class="patternTopicActions foswikiFormStep"><div class="patternActionButtons">%TMPL:P{"action_buttons"}%<div class="foswikiClear"></div></div></div>%TMPL:END%

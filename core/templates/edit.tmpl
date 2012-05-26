@@ -45,7 +45,7 @@
 %{----------------------------------------------------------------------}%
 %TMPL:DEF{"footernote"}%%TMPL:P{"help"}%%TMPL:END%
 %{----------------------------------------------------------------------}%
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" name="action_cancel" value="Cancel" id="cancel" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="action_save" value="Save" id="save" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="action_preview" value="Preview" id="preview" />%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<a href='%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?release_lock=1' id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%'>%MAKETEXT{"Cancel"}%</a>%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="action_save" value="Save" id="save" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="action_preview" value="Preview" id="preview" />%TMPL:END%
 %{----------------------------------------------------------------------}%
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
 %TMPL:P{"textarea"}%
