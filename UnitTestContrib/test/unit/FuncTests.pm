@@ -2700,7 +2700,8 @@ sub test_getUrlHost {
     $query = Unit::Request->new("");
 
     #$query->path_info("/$this->{test_web}/$this->{test_topic}");
-    $Foswiki::cfg{DefaultUrlHost} = 'http://foswiki.org';
+    $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
+    $Foswiki::cfg{ForceDefaultUrlHost} = 0;
 
     $query->setUrl('http://localhost/Main/SvenDowideit');
     $this->createNewFoswikiSession( undef, $query );
@@ -2731,6 +2732,29 @@ sub test_getUrlHost {
     $query->setUrl('https://localhost:8080/Main/SvenDowideit');
     $this->createNewFoswikiSession( undef, $query );
     $this->assert_str_equals( 'https://localhost',
+        Foswiki::Func::getUrlHost() );
+
+    # Item11900 Force override to DefaultUrlHost
+    $Foswiki::cfg{ForceDefaultUrlHost} = 1;
+
+    $query->setUrl('http://localhost/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+        Foswiki::Func::getUrlHost() );
+
+    $query->setUrl('http://localhost:8080/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+        Foswiki::Func::getUrlHost() );
+
+    $query->setUrl('https://www.foswiki.org/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+        Foswiki::Func::getUrlHost() );
+
+    $query->setUrl('https:8443//www.foswiki.org/Main/SvenDowideit');
+    $this->createNewFoswikiSession( undef, $query );
+    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
 }

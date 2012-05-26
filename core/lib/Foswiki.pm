@@ -1724,7 +1724,10 @@ sub new {
 
     #{urlHost}  is needed by loadSession..
     my $url = $query->url();
-    if ( $url && $url =~ m{^([^:]*://[^/]*).*$} ) {
+    if (   $url
+        && !$Foswiki::cfg{ForceDefaultUrlHost}
+        && $url =~ m{^([^:]*://[^/]*).*$} )
+    {
         $this->{urlHost} = $1;
 
         if ( $Foswiki::cfg{RemovePortNumber} ) {

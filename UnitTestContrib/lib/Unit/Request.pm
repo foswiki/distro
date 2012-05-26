@@ -61,7 +61,8 @@ sub setUrl {
         else {
             $this->secure(0);
         }
-        print STDERR "setting Host to $host\n";
+
+        #print STDERR "setting Host to $host\n";
         $this->header( -name => 'Host', -value => $host );
     }
 
