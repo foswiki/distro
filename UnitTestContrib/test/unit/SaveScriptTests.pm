@@ -325,7 +325,7 @@ HERE
 <a target="_blank" href="blah.com">no target</a>
 <a href='bloo.com' target="_blank">self undelim</a>
 <a href='blerg.com' target="_blank" asdf="what">self SQ</a>
-<a target="_blank" href="/$this->{test_web}/$this->{test_topic}">$this->{test_web}.$this->{test_topic}</a>
+<a target="_blank" href="$Foswiki::cfg{ScriptUrlPaths}{view}/$this->{test_web}/$this->{test_topic}">$this->{test_web}.$this->{test_topic}</a>
 <a href='blerg.com' target="_blank" asdf="what">messed up</a>
 HERE
     $this->assert( !$stdout );
