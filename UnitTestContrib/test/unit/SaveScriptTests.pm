@@ -298,6 +298,42 @@ sub test_emptySave {
     return;
 }
 
+sub test_simpleTextPreview {
+    my $this  = shift;
+    my $query = Unit::Request->new(
+        {
+            text => [<<HERE],
+CUT##
+<a href="blah.com">no target</a>
+<a href='bloo.com' target=_self>self undelim</a>
+<a href='blerg.com' target='_self' asdf="what">self SQ</a>
+[[$this->{test_web}.$this->{test_topic}]]
+<a href='blerg.com' target="your'_self'" asdf="what">messed up</a>
+##CUT
+HERE
+            action => ['preview'],
+            topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic' ]
+        }
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ( $results, $stdout, $stderr ) =
+      $this->captureWithKey( save => $UI_FN, $this->{session} );
+
+    $results =~ s/.*CUT##(.*?)##CUT.*/$1/ms;
+
+    $this->assert_html_equals( <<HERE, $results );
+<a target="_blank" href="blah.com">no target</a>
+<a href='bloo.com' target="_blank">self undelim</a>
+<a href='blerg.com' target="_blank" asdf="what">self SQ</a>
+<a target="_blank" href="/$this->{test_web}/$this->{test_topic}">$this->{test_web}.$this->{test_topic}</a>
+<a href='blerg.com' target="_blank" asdf="what">messed up</a>
+HERE
+    $this->assert( !$stdout );
+    $this->assert( !$stderr );
+
+    return;
+}
+
 sub test_simpleTextSave {
     my $this  = shift;
     my $query = Unit::Request->new(
