@@ -147,7 +147,7 @@ select {
    background-color:#e2e3e3;
 }
 .foswikiButtonCancel {
-   color:#000;
+   color:#fff;
    background-color:#f2d5d0;
 }
 .foswikiSubmitDisabled,
@@ -416,11 +416,6 @@ a:hover .foswikiAccessKey {
 .patternViewPage .patternTopicActions {
    background-color:#fff;
 }
-.patternActionButtons a:link,
-.patternActionButtons a:visited,
-.patternActionButtons a:hover {
-   color:#06c;
-}
 .patternTopicActions s,
 .patternTopicActions strike {
    color:#aaa;
@@ -663,7 +658,8 @@ a.foswikiButton:active {
    background-color:#dd724d;
    color:#fff;
 }
-.foswikiButtonCancel:hover {
+.foswikiButtonCancel:hover,
+a.foswikiButtonCancel:hover {
    background-position:0px -80px;
    border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
    background-color:#dd724d;
