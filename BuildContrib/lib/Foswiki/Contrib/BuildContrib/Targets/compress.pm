@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+my %minifiers;    # functions used to minify
+
 my @compressFilters = (
     { RE => qr/\.js$/,  filter => '_build_js' },
     { RE => qr/\.css$/, filter => '_build_css' },

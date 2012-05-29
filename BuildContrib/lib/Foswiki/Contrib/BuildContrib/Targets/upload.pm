@@ -18,6 +18,12 @@ package Foswiki::Contrib::Build;
 use LWP;
 use LWP::UserAgent;
 
+# number of seconds to sleep between uploads,
+# to reduce average load on server
+use constant GLACIERMELT => 10;
+
+my $lastUpload = 0;    # time of last upload (0 means none yet)
+
 {
 
     package Foswiki::Contrib::Build::UserAgent;
@@ -447,7 +453,7 @@ sub _strikeone {
 sub _postForm {
     my ( $this, $userAgent, $user, $pass, $url, $form ) = @_;
 
-    my $pause = $GLACIERMELT - ( time - $lastUpload );
+    my $pause = GLACIERMELT - ( time - $lastUpload );
     if ( $pause > 0 ) {
         print "Taking a ${pause}s breather after the last upload...\n";
         sleep($pause);

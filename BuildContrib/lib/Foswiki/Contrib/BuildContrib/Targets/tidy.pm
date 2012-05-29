@@ -16,6 +16,7 @@
 package Foswiki::Contrib::Build;
 
 my @tidyFilters = ( { RE => qr/\.pl$/ }, { RE => qr/\.pm$/ }, );
+my $collector;
 
 =begin TML
 

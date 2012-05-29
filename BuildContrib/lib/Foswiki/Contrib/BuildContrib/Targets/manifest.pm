@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+my $collector;
+
 =begin TML
 
 ---++++ target_manifest
