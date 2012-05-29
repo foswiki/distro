@@ -454,34 +454,7 @@ sub loadSession {
             $authUser = $sudoUser;
         }
         else {
-            _trace( $this, "User is logging out" );
-            $session->logEvent( 'logout', ' ',
-                "AUTHENTICATION LOGOUT - $authUser - " );
-
-            #TODO: consider if we should risk passing on the urlparams on logout
-            my $path_info = $session->{request}->path_info();
-            if ( my $topic = $session->{request}->param('topic') )
-            {    #we should at least respect the ?topic= request
-                my $topicRequest = Foswiki::Sandbox::untaintUnchecked(
-                    $session->{request}->param('topic') );
-                my ( $web, $topic ) =
-                  $this->{session}
-                  ->normalizeWebTopicName( undef, $topicRequest );
-                $path_info = '/' . $web . '/' . $topic;
-            }
-
-            my $redirectUrl;
-            if ($path_info) {
-                $redirectUrl = $session->{request}->url() . $path_info;
-            }
-            else {
-                $redirectUrl = $session->{request}->referer();
-            }
-
-            #lets avoid infinite loops
-            $session->{request}->delete('logout');
-            $authUser = $defaultUser;
-            $session->redirect( $redirectUrl, 0 );
+            $authUser = $this->_logout( $authUser, $defaultUser );
         }
     }
     $session->{request}->delete('logout');
@@ -507,6 +480,49 @@ sub loadSession {
         # new response object.
         $this->_addSessionCookieToResponse();
     }
+
+    return $authUser;
+}
+
+=begin TML
+
+---++ ObjectMethod _logout($defaultUser)
+
+=cut
+
+sub _logout {
+    my ( $this, $authUser, $defaultUser ) = @_;
+    _trace( $this, "User is logging out" );
+
+    my $session = $this->{session};
+    $defaultUser = $Foswiki::cfg{DefaultUserLogin}
+      unless ( defined($defaultUser) );
+
+    $session->logEvent( 'logout', ' ', "AUTHENTICATION LOGOUT - $authUser - " );
+
+    #TODO: consider if we should risk passing on the urlparams on logout
+    my $path_info = $session->{request}->path_info();
+    if ( my $topic = $session->{request}->param('topic') )
+    {    #we should at least respect the ?topic= request
+        my $topicRequest = Foswiki::Sandbox::untaintUnchecked(
+            $session->{request}->param('topic') );
+        my ( $web, $topic ) =
+          $this->{session}->normalizeWebTopicName( undef, $topicRequest );
+        $path_info = '/' . $web . '/' . $topic;
+    }
+
+    my $redirectUrl;
+    if ($path_info) {
+        $redirectUrl = $session->{request}->url() . $path_info;
+    }
+    else {
+        $redirectUrl = $session->{request}->referer();
+    }
+
+    #lets avoid infinite loops
+    $session->{request}->delete('logout');
+    $authUser = $defaultUser;
+    $session->redirect( $redirectUrl, 0 );
 
     return $authUser;
 }
@@ -1264,7 +1280,7 @@ sub _skinSelect {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
