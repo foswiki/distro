@@ -1,8 +1,18 @@
 %META:TOPICINFO{author="ProjectContributor" date="1316812706" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebTopicEditTemplate"}%
----+!! %MAKETEXT{"Topic templates in [_1] Web" args="%URLPARAM{"web" default="%WEB%"}%"}%
+---+!! %MAKETEXT{"Topic templates in [_1] Web" args="%URLPARAM{"web" default="%BASEWEB%"}%"}%
 
 *%MAKETEXT{"A topic template defines the initial content of a newly created topic."}%*
 
 %MAKETEXT{"Available templates in [_1] Web:" args="%URLPARAM{"web" default="%WEB%"}%"}%
-%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%URLPARAM{"web" default="%WEB%"}%" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nosearch="on" nonoise="on" format="   * [[$web.$topic][$topic]]"}%
+%SEARCH{
+   "'1'"
+   type="query"
+   topic="*Template"
+   excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate"
+   scope="topic"
+   web="%URLPARAM{"web" default="%BASEWEB%"}%"
+   nosearch="on"
+   nonoise="on"
+   format="   * [[$web.$topic][$topic]]"
+}%
