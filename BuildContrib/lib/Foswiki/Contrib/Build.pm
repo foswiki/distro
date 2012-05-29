@@ -43,12 +43,12 @@ use warnings;
 use Foswiki::Time;
 use Foswiki::Contrib::BuildContrib;
 
-our $basedir;
-our $buildpldir;
-our $libpath;
+our $basedir;       # Calculated root i.e one above 'lib'
+our $buildpldir;    # Calculated location of build.pl
+our $libpath;       # $basedir/lib/
 
-my $VERSION;
-my $RELEASE;
+our $VERSION;       # Version of BuildContrib
+our $RELEASE;       # Release of BuildContrib
 
 my $UPLOADSITEPUB           = 'http://foswiki.org/pub';
 my $UPLOADSITESCRIPT        = 'http://foswiki.org/bin';
@@ -58,15 +58,7 @@ my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 my $DEFAULTCUSTOMERDB       = "$ENV{HOME}/customerDB";
 my $FOSWIKIAUTHORSFILE      = 'core/AUTHORS';
 
-my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
-                         # to reduce average load on server
-my $lastUpload  = 0;     # time of last upload (0 means none yet)
-
-my $targetProject;       # Foswiki or TWiki
-
-my $collector;           # general purpose handle for collecting stuff
-
-my %minifiers;           # functions used to minify
+my $targetProject;    # Foswiki or TWiki
 
 # use diagnostics;
 # use Carp ();
