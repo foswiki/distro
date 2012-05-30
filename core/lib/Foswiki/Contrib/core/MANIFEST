@@ -582,6 +582,7 @@ lib/Foswiki/Configure/resources/ajaxLoader.gif 0444
 lib/Foswiki/Configure/resources/base.css 0444
 lib/Foswiki/Configure/resources/bg_button_gradient.gif 0444
 lib/Foswiki/Configure/resources/bg_buttoncancel_gradient.gif 0444
+lib/Foswiki/Configure/resources/bg_expert.gif 0444
 lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
 lib/Foswiki/Configure/resources/close.gif 0444
 lib/Foswiki/Configure/resources/favicon.ico 0444

@@ -402,13 +402,15 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.configureExtension
 /* --- EXPERT ---*/
 
 /* Settings and other stuff only shown in expert mode */
-table.configureSectionValues th.configureExpert {
-	border-left:5px solid #c3a13f;
+table.configureSectionValues tr.configureExpert th {
+	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_expert.gif);
+	background-repeat: repeat-y;
 	color:#7a6210;
 }
 
 li.configureExpert { /* menu item */
-	border-left:5px solid #c3a13f;
+	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_expert.gif);
+	background-repeat: repeat-y;
 	color:#7a6210;
 }
 
@@ -586,8 +588,8 @@ div.configureMessageBox {
 }
 
 .configureLegend table div.configureExpertExample {
-	border-left:5px solid #c3a13f;
-	padding-left:.5em;
+	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_expert.gif);
+	background-repeat: repeat-y;
 	color:#7a6210;
 	display:block;
 }
