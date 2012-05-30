@@ -65,6 +65,8 @@ our $M3 = chr(7);
 our %secretSK = ( STRIKEONESECRET => 1, VALID_ACTIONS => 1 );
 our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
 
+use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
+
 =begin TML
 
 ---++ StaticMethod makeLoginManager( $session ) -> $Foswiki::LoginManager
@@ -212,7 +214,7 @@ sub _real_trace {
     print STDERR "$id: $mess\n";
 }
 
-if ( $Foswiki::cfg{Trace}{LoginManager} ) {
+if (TRACE) {
     *_trace = \&_real_trace;
 }
 else {
@@ -279,7 +281,7 @@ sub loadSession {
     my ( $this, $defaultUser, $pwchecker ) = @_;
     my $session = $this->{session};
 
-    _trace( $this, "LOAD SESSION\n" );
+    _trace( $this, "loadSession\n" );
 
     $defaultUser = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined($defaultUser) );
@@ -294,6 +296,7 @@ sub loadSession {
     # do not create the session. This might be defined if the request
     # is made by a search engine bot, depending on how the web server
     # is configured
+
     return $authUser if $ENV{NO_FOSWIKI_SESSION};
 
     if ( $Foswiki::cfg{UseClientSessions}
@@ -372,7 +375,6 @@ sub loadSession {
           if ( !defined($authUser)
             || $sessionUser && $sessionUser eq $Foswiki::cfg{AdminUserLogin} );
     }
-
     if ( !$authUser ) {
 
         # if we couldn't get the login manager or the http session to tell
