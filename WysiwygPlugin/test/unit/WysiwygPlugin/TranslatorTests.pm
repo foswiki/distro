@@ -956,21 +956,42 @@ HERE
 HERE
     },
 
-    # SMELL: No idea why we decode links,  but verify that it works anyway.
     {
-        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
-        name => 'decodeWebTopic_Item11814',
+        exec => $ROUNDTRIP | $TML2HTML,
+        name => 'corruptedLinks_Item11906',
         tml  => <<'HERE',
-<a href="Main.WebHom%65">hi</a>
+   * [[%WIKIUSERNAME%][My home page]]
+   * [[%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on][My %BASEWEB% activities]]
+
+<a class="foswikiSmallish" href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
 HERE
         html => <<'HERE',
-<p><a href="Main.WebHom%65">hi</a>
+<ul>
+<li> <a href="%WIKIUSERNAME%">My home page</a>
+</li>
+<li> <a href="%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on">My <span class="WYSIWYG_PROTECTED WYSIWYG_PROTECTED">%BASEWEB%</span> activities</a>
+</li>
+</ul>
+<p class='WYSIWYG_NBNL'><span class="WYSIWYG_PROTECTED">&#60;a&nbsp;class=&#34;foswikiSmallish&#34;&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;edit&#60;/a&#62;</span>
 </p>
 HERE
-        finaltml => <<'HERE',
-[[Main.WebHome][hi]]
-HERE
     },
+
+    # SMELL: No idea why we decode links,  but verify that it works anyway.
+    #    {
+    #        exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
+    #        name => 'decodeWebTopic_Item11814',
+    #        tml  => <<'HERE',
+    #<a href="Main.WebHom%65">hi</a>
+    #HERE
+    #        html => <<'HERE',
+    #<p><a href="Main.WebHom%65">hi</a>
+    #</p>
+    #HERE
+    #        finaltml => <<'HERE',
+    #[[Main.WebHome][hi]]
+    #HERE
+    #    },
     {
         exec => $ROUNDTRIP | $TML2HTML | $HTML2TML,
         name => 'mailtoLink_Item11814',
@@ -2820,7 +2841,7 @@ BLAH
         html => '<p>
 Blah'
           . encodedWhitespace('n')
-          . '<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>'
+          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;edit&#60;/a&#62;</span>'
           . encodedWhitespace('n') . 'Blah'
           . encodedWhitespace('n')
           . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;blah.com&#34;&nbsp;qwerty=&#39;oops&#39;&#62;</span>Unsupported attr<span class="WYSIWYG_PROTECTED">&#60;/a&#62;</span>'
@@ -2832,7 +2853,7 @@ Blah'
 ',
         finaltml => <<'HERE',
 Blah
-<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit
+<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
 Blah
 <a href="blah.com" qwerty='oops'>Unsupported attr</a>
 <a href="blah.com" target="_blank">Target supported</a>
@@ -2841,7 +2862,7 @@ HERE
     },
     {
         name => 'Item4871',
-        exec => $TML2HTML,
+        exec => $TML2HTML | $ROUNDTRIP,
         tml  => <<'BLAH',
 Blah
 <a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
@@ -2850,11 +2871,12 @@ BLAH
         html => '<p>
 Blah'
           . encodedWhitespace('n')
-          . '<a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>'
+          . '<span class="WYSIWYG_PROTECTED">&#60;a&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;edit&#60;/a&#62;</span>'
           . encodedWhitespace('n') . 'Blah
 </p>
 ',
     },
+
     {
         name => 'Item1396_MacrosRemainSticky',
         exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,

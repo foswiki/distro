@@ -184,6 +184,21 @@ sub _liftOut {
     return $this->_liftOutGeneral( $text, \%options );
 }
 
+sub _liftOutLink {
+    my ( $this, $text ) = @_;
+
+    my $options = {};
+
+    # If link has some embedded macros, just protect it
+    if ( $text =~ m/%[A-Z]+(\{.*?\})?%/ ) {
+        return $this->_liftOut( $text, 'PROTECTED' );
+    }
+    else {
+        return $this->_liftOutGeneral( $text,
+            { tag => 'NONE', protect => 0, tmltag => 0 } );
+    }
+}
+
 sub _liftOutGeneral {
     my ( $this, $text, $options ) = @_;
 
@@ -435,7 +450,7 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
          .*?                                              # the link text
          \<\/a\s*\>                                       # closing tag
          )/
-         $this->_liftOutGeneral($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/geixo;
+         $this->_liftOutLink($1, { tag => 'NONE', protect => 0, tmltag => 0 } )/geixo;
 
     $text =~
       s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_protectMacrosInSquab($1,$2)/ge;
@@ -937,6 +952,14 @@ sub _liftOutSquab {
     # Treat as old style link if embedded spaces in the url
     return $this->_liftOut( '[[' . $url . ']]', 'LINK' )
       if ( $class eq 'TMLlink' && $url =~ m/\s/ );
+
+    # Treat as old link if embedded quotes, which will break href=
+    if ( $url =~ m/"/ ) {
+
+        #print STDERR "protecting due to embedded quotes - $url\n";
+        my $linktext = ($text) ? "[$text]" : '';
+        return $this->_liftOut( '[[' . $url . ']' . $linktext . ']', 'LINK' );
+    }
 
     # Handle colour tags specially (hack, hack, hackity-HACK!
     my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
