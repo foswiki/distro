@@ -405,6 +405,10 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 # </li></ol>
 $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 
+# **BOOLEAN EXPERT**
+# Write debugging output to the webserver error log.
+$Foswiki::cfg{Trace}{LoginManager} = 0;
+
 # **STRING 100 DISPLAY_IF {LoginManager}=='Foswiki::LoginManager::TemplateLogin'**
 # Comma-separated list of scripts in the bin directory that require the user to
 # authenticate. This setting is used with TemplateLogin; any time an

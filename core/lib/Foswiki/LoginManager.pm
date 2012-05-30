@@ -65,7 +65,7 @@ our $M3 = chr(7);
 our %secretSK = ( STRIKEONESECRET => 1, VALID_ACTIONS => 1 );
 our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
 
-use constant TRACE => 0;
+use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
 
 =begin TML
 
@@ -277,7 +277,7 @@ sub loadSession {
     my ( $this, $defaultUser, $pwchecker ) = @_;
     my $session = $this->{session};
 
-    _trace( $this, "LOAD\n" );
+    _trace( $this, "loadSession\n" );
 
     $defaultUser = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined($defaultUser) );
