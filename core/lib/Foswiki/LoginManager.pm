@@ -262,7 +262,7 @@ sub _IP2SID {
 ---++ ObjectMethod loadSession($defaultUser, $pwchecker) -> $login
 
 Get the client session data, using the cookie and/or the request URL.
-Set up appropriate session variables in the twiki object and return
+Set up appropriate session variables in the session object and return
 the login name.
 
 $pwchecker is a pointer to an object that implements checkPassword
@@ -288,7 +288,7 @@ sub loadSession {
     my $authUser = $this->getUser($this);
     _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
 
-    # If the NO_FOSWIKI_SESSION environment varaible is defined, then
+    # If the NO_FOSWIKI_SESSION environment variable is defined, then
     # do not create the session. This might be defined if the request
     # is made by a search engine bot, depending on how the web server
     # is configured
@@ -454,7 +454,8 @@ sub loadSession {
             $authUser = $sudoUser;
         }
         else {
-            $authUser = $this->_logout( $authUser, $defaultUser );
+            $authUser =
+              $this->redirectToLoggedOutUrl( $authUser, $defaultUser );
         }
     }
     $session->{request}->delete('logout');
@@ -486,11 +487,19 @@ sub loadSession {
 
 =begin TML
 
----++ ObjectMethod _logout($defaultUser)
+---++ ObjectMethod redirectToLoggedOutUrl($authUser, $defaultUser)
+
+Helper method, called by loadSession, to redirect to the non-authenticated url and return the non-authenticated "default user" login name.
+
+$authUser is the currently logged in user, derived from the request's username.
+
+$defaultUser is a username to use if one is not available from other
+sources. The username passed when you create a Foswiki instance is
+passed in here.
 
 =cut
 
-sub _logout {
+sub redirectToLoggedOutUrl {
     my ( $this, $authUser, $defaultUser ) = @_;
     _trace( $this, "User is logging out" );
 
@@ -1210,7 +1219,6 @@ sub _SESSION_VARIABLE {
 =begin TML
 
 ---++ ObjectMethod _LOGINURL ($thisl)
-
 
 =cut
 
