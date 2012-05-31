@@ -137,6 +137,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  01 Jun 2012: | (4.42) - simplemodal updated to 1.4.2. |
 |  23 May 2012: | (4.41) - Item11889. \
                   added means to hide the close button on textboxlist values; \
                   docu improvements to textboxlixst and pnotify | 
