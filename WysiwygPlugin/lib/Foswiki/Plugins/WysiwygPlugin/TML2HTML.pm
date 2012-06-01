@@ -410,7 +410,7 @@ sub _getRenderedVersion {
     $text = $this->_takeOutCustomTags($text);
 
     $text =~ s/\t/   /g;
-    $text =~ s/( +\\\n)/$this->_hideWhitespace($1)/ge;
+    $text =~ s/(\\\n)/$this->_hideWhitespace($1)/ge;
 
     # Remove PRE to prevent TML interpretation of text inside it
     $text = $this->_liftOutBlocks( $text, 'pre', {} );
