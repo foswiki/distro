@@ -24,9 +24,8 @@ your web pages."
 </table>
 
 Besides jQuery itself, !JQueryPlugin comes with a selection of third party plugins that are thought to be essential for modern web applications.
-These are integrated into Foswiki either by means of a special [[#Macros][macro]], by means of "minimal markup", or initialized using
-a custom javascript initializer. This way the set of Foswiki macros that comes with !JQueryPlugin is kept rather low compared to the features available
-in third party plugins. "Minimal markup" is a way to avoid the need to write javascript code to initialize the interface. Instead, a special
+These are integrated into Foswiki either by means of a special [[#Macros][macro]], by "minimal markup", or custom javascript initializer.  "Minimal markup" 
+is a way to avoid the need to write javascript code to initialize the interface. Instead, a special
 css class is added to an html element that triggers its initialization. See %SYSTEMWEB%.JQueryMetadata for an example.
 
 Use [[#VarJQREQUIRE][JQREQUIRE]] to make use of a specific jQuery plugin on a page. This will prepare the page by loading the required javascript
@@ -137,7 +136,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  01 Jun 2012: | (4.42) - simplemodal updated to 1.4.2. |
+|  01 Jun 2012: | (4.42) - Item11917. simplemodal updated to 1.4.2. fixed upstream bug computing dialog heights |
 |  23 May 2012: | (4.41) - Item11889. \
                   added means to hide the close button on textboxlist values; \
                   docu improvements to textboxlixst and pnotify | 
