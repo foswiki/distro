@@ -188,6 +188,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  TBD | Foswikitask:Item11915: Backslash line continuation incorrectly requires a space dlimitier. |
 |  1.1.12 (30 May 2012) | Foswikitask:Item11906: Fix for Item10089 caused link corruption in certain cases. |
 |  1.1.11 (22 May 2012) | Foswikitask:Item11890: Compile errors with perl 5.8.8 due to use of new regular expression features. |
 |  1.1.10 (21 May 2012) | Foswikitask:Item11872: Better fix for &lt;div tags, also cover &lt;blockquote tags. %BR%\
@@ -210,7 +211,7 @@ Many thanks to the following sponsors for supporting this work:
                          Foswikitask:Item9259: Protect TML tables from corrupting embedded html markup.%BR%\
                          Foswikitask:Item10125: Prevent #Anchors from being wrapped to the previous line.%BR%\
                          Foswikitask:Item11312: Prevent corruption of HTML tables containin blank lines. |
-|  1.1.4               | Foswikitask:Item11378: support pass-through of DEL and INS tags |
+|  1.1.4 | Foswikitask:Item11378: support pass-through of DEL and INS tags |
 |  1.1.3 (08 Nov 2011) | Foswikitask:Item2174: Fix WysiwygPlugin eating newlines inside =%MACRO{...}= expressions (Michael Tempest) |
 |  1.1.2 (11 Apr 2011) | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  1.1.1 (19 Jan 2011) | Foswikitask:Item10271: Switch to x.y.z release numbering %BR% \

@@ -958,6 +958,30 @@ HERE
 
     {
         exec => $ROUNDTRIP | $TML2HTML,
+        name => 'corruptedTable_Item11915',
+        tml  => <<'HERE',
+|  A | B |
+|  A1 | B1 %BR%\
+        C1  |
+|  A2 | B2 |
+HERE
+        html => <<'HERE',
+<p class="foswikiDeleteMe">&nbsp;</p><table cellspacing="1" cellpadding="0" border="1">
+<tr><td style="text-align: right" class="align-right"> A </td><td> B </td></tr>
+<tr><td style="text-align: right" class="align-right"> A1 </td><td style="text-align: left" class="align-left"> B1 <span class="WYSIWYG_PROTECTED">%BR%</span><span style="{encoded:'bn'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>        C1 </td></tr>
+<tr><td style="text-align: right" class="align-right"> A2 </td><td> B2 </td></tr>
+</table>
+HERE
+        finaltml => <<'HERE',
+|  A | B |
+|  A1 | B1 %BR%\
+C1  |
+|  A2 | B2 |
+HERE
+    },
+
+    {
+        exec => $ROUNDTRIP | $TML2HTML,
         name => 'corruptedLinks_Item11906',
         tml  => <<'HERE',
    * [[%WIKIUSERNAME%][My home page]]
