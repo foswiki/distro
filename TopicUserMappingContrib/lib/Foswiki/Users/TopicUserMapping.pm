@@ -969,6 +969,9 @@ sub addUserToGroup {
         $membersString .= $wikiName;
     }
 
+    Foswiki::Func::writeEvent( 'addUserToGroup',
+        "$groupName: $wikiName added by $user" );
+
     $this->_clearGroupCache($groupName);
 
     $this->_writeGroupTopic(
@@ -1057,7 +1060,13 @@ sub _writeGroupTopic {
 
     #TODO: should also consider securing the new topic?
     my $user = $this->{session}->{user};
-    $groupTopicObject->saveAs( $groupWeb, $groupName, -author => $user );
+    $groupTopicObject->saveAs(
+        $groupWeb, $groupName,
+        author           => $user,
+        forcenewrevision => ( $groupName eq $Foswiki::cfg{SuperAdminGroup} )
+        ? 1
+        : 0
+    );
 
 }
 
@@ -1135,6 +1144,9 @@ sub removeUserFromGroup {
             push( @l, $ident );
         }
         $membersString = join( ', ', @l );
+
+        Foswiki::Func::writeEvent( 'removeUserFromGroup',
+            "$groupTopic: $WikiName removed by $user" );
 
         $this->_writeGroupTopic( $groupTopicObject, $groupWeb, $groupTopic,
             $membersString );
