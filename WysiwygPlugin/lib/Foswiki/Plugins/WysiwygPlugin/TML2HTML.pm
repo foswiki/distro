@@ -29,6 +29,8 @@ use Foswiki::Plugins::WysiwygPlugin::Handlers;
 use strict;
 use warnings;
 
+# SMELL: If special characters are added here, they must also be accounted
+# for in the sub _protectVerbatimChars
 my $TT0 = chr(0);
 my $TT1 = chr(1);
 my $TT2 = chr(2);
@@ -914,6 +916,10 @@ s/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
     # Substitute back in protected elements
     $text = $this->_dropBack($text);
 
+    # Restore any missed protected % tags
+    # (They are only restored in outer level of nested tags)
+    $text =~ s/$TT3/%/g;
+
     # Item1417: Insert a paragraph at the start of the document if the first tag
     # is a table (possibly preceded one of several specific tags) so that it is
     # possible to place the cursor *above* the table.
@@ -1283,9 +1289,9 @@ sub _addClass {
 sub _protectVerbatimChars {
     my $text = shift;
 
-    # $TT0, $TT1 and $TT2 are chr(0), chr(1) and chr(2), respectively.
-    # They are handled specially, elsewhere
-    $text =~ s/([\003-\011\013-\037<&>'"])/'&#'.ord($1).';'/ges;
+# $TT0, $TT1, $TT2 and $TT3 are chr(0), chr(1), chr(2) and chr(3), respectively.
+# They are used as markers during the conversion and are handled specially, elsewhere
+    $text =~ s/([\004-\011\013-\037<&>'"])/'&#'.ord($1).';'/ges;
     $text =~ s/ /&nbsp;/g;
     $text =~ s/\n/<br \/>/gs;
     return $text;

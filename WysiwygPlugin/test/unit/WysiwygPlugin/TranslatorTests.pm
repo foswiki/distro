@@ -279,6 +279,25 @@ BLAH
     },
     {
         exec => $TML2HTML | $ROUNDTRIP,
+        name => 'Item11925_spuriousTT3',
+        tml  => <<'HERE',
+   * %IF{"%CALC{"$EXISTS(%TOPIC%Checklist)"}% " then= '[[%TOPIC%Checklist][Checklist]]' else= ' <form name="new" action="%SCRIPTURLPATH{"edit"}%/%WEB%/">
+<input type="hidden" name="topic" value="%TOPIC%Checklist"  />
+<input type="hidden" name="templatetopic" value="BracketTestTopicTemplate" />
+<input type="hidden" name="onlywikiname" value="on" />
+<input type="hidden" name="onlynewtopic" value="on" /> 
+<input type="submit"  class="foswikiSubmit"  value="Create" />
+</form> Checklist' "}%
+HERE
+        html => <<'HERE',
+<ul>
+<li> <span class="WYSIWYG_PROTECTED">%IF{&#34;%CALC{&#34;$EXISTS(%TOPIC%Checklist)&#34;}%&nbsp;&#34;&nbsp;then=&nbsp;&#39;[[%TOPIC%Checklist][Checklist]]&#39;&nbsp;else=&nbsp;&#39;&nbsp;&#60;form&nbsp;name=&#34;new&#34;&nbsp;action=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/&#34;&#62;<br />&#60;input&nbsp;type=&#34;hidden&#34;&nbsp;name=&#34;topic&#34;&nbsp;value=&#34;%TOPIC%Checklist&#34;&nbsp;&nbsp;/&#62;<br />&#60;input&nbsp;type=&#34;hidden&#34;&nbsp;name=&#34;templatetopic&#34;&nbsp;value=&#34;BracketTestTopicTemplate&#34;&nbsp;/&#62;<br />&#60;input&nbsp;type=&#34;hidden&#34;&nbsp;name=&#34;onlywikiname&#34;&nbsp;value=&#34;on&#34;&nbsp;/&#62;<br />&#60;input&nbsp;type=&#34;hidden&#34;&nbsp;name=&#34;onlynewtopic&#34;&nbsp;value=&#34;on&#34;&nbsp;/&#62;&nbsp;<br />&#60;input&nbsp;type=&#34;submit&#34;&nbsp;&nbsp;class=&#34;foswikiSubmit&#34;&nbsp;&nbsp;value=&#34;Create&#34;&nbsp;/&#62;<br />&#60;/form&#62;&nbsp;Checklist&#39;&nbsp;&#34;}%</span>
+</li>
+</ul>
+HERE
+    },
+    {
+        exec => $TML2HTML | $ROUNDTRIP,
         name => 'tmlInTable',
         html => <<"BLAH",
 $deleteme<table cellspacing="1" cellpadding="0" border="1">
