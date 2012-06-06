@@ -225,7 +225,8 @@ sub _renameTopicOrAttachment {
         }
     }
 
-    if ( $newWeb || $newTopic ) {
+    # Only check RENAME authority if the topic itself is being renamed.
+    if ( ( $newWeb || $newTopic ) && !( $newAttachment || $attachment ) ) {
         Foswiki::UI::checkAccess( $session, 'RENAME', $old );
     }
     else {
