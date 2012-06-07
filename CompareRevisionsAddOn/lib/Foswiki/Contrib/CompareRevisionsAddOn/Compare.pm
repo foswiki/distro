@@ -27,7 +27,6 @@ my $class_del   = 'craCompareDelete';
 my $class_c1    = 'craCompareChange1';
 my $class_c2    = 'craCompareChange2';
 my $interweave;
-my $context;
 my $scripturl;
 
 sub compare {
@@ -51,14 +50,14 @@ sub compare {
 
     my $renderStyle =
          $query->param('render')
-      || &Foswiki::Func::getPreferencesValue( "COMPARERENDERSTYLE", $webName )
+      || Foswiki::Func::getPreferencesValue("COMPARERENDERSTYLE")
       || 'interweave';
     $interweave = $renderStyle eq 'interweave';
 
     # Check context
 
-    $context = $query->param('context');
-    $context = &Foswiki::Func::getPreferencesValue( "COMPARECONTEXT", $webName )
+    my $context = $query->param('context');
+    $context = Foswiki::Func::getPreferencesValue("COMPARECONTEXT")
       unless defined($context);
     $context = -1 unless defined($context) && $context =~ /^\d+$/;
 
