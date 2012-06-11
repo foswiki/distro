@@ -336,7 +336,7 @@ sub loadSession {
             if ($sid) {
                 $this->{_cgisession} =
                   Foswiki::LoginManager::Session->new( undef, $sid,
-                    { Directory => $sessionDir } );
+                    { Directory => $sessionDir, UMask => 0660 } );
             }
             else {
 
@@ -344,7 +344,7 @@ sub loadSession {
 
                 $this->{_cgisession} =
                   Foswiki::LoginManager::Session->new( undef, undef,
-                    { Directory => $sessionDir } );
+                    { Directory => $sessionDir, UMask => 0660 } );
                 _trace( $this, "New IP2SID session" );
                 $this->_IP2SID( $this->{_cgisession}->id() );
             }
@@ -355,7 +355,7 @@ sub loadSession {
 
             $this->{_cgisession} =
               Foswiki::LoginManager::Session->new( undef, $session->{request},
-                { Directory => $sessionDir } );
+                { Directory => $sessionDir, UMask => 0660 } );
         }
 
         die Foswiki::LoginManager::Session->errstr()
@@ -649,9 +649,14 @@ sub userLoggedIn {
 
         # create new session if necessary
         unless ( $this->{_cgisession} ) {
-            $this->{_cgisession} =
-              Foswiki::LoginManager::Session->new( undef, $session->{request},
-                { Directory => "$Foswiki::cfg{WorkingDir}/tmp" } );
+            $this->{_cgisession} = Foswiki::LoginManager::Session->new(
+                undef,
+                $session->{request},
+                {
+                    Directory => "$Foswiki::cfg{WorkingDir}/tmp",
+                    UMask     => 0660
+                }
+            );
             die Foswiki::LoginManager::Session->errstr()
               unless $this->{_cgisession};
         }
