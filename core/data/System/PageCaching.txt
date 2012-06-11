@@ -336,6 +336,4 @@ generated for the first time.
 
 You will need either of one the DBD:: drivers to make use of page caching.
 
-<!-- %JQREQUIRE{"chili"}% -->
-
-%META:PREFERENCE{name="NATSKIN_STYLE" title="NATSKIN_STYLE" type="Local" value="jazzynote"}%
+%JQREQUIRE{"chili" warn="off"}% 
