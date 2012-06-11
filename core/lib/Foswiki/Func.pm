@@ -1171,7 +1171,7 @@ groups. The iterator will return each wiki name in turn (e.g. 'FredBloggs').
 
 Use it as follows:
 <verbatim>
-    my $iterator = Foswiki::Func::eachUser();
+    my $it = Foswiki::Func::eachUser();
     while ($it->hasNext()) {
         my $user = $it->next();
         # $user is a wikiname
