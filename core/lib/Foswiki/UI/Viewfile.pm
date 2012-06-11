@@ -184,7 +184,7 @@ sub viewfile {
 # write the file as "inline", so graphics would get a File Save dialog instead of displayed.
     $session->{response}->header(
         -type                => $type,
-        -content_disposition => "inline; filename=$fileName"
+        -content_disposition => "inline; filename=\"$fileName\""
     );
 
     local $/;
