@@ -167,6 +167,7 @@ sub genVariationKey {
         next if $key =~ /^($ignoreParams)$/;
         my @vals = $request->param($key);
         foreach my $val (@vals) {
+            next unless defined $val;    # wtf?
             $variationKey .= '::' . $key . '=' . $val;
             writeDebug("adding urlparam key=$key val=$val");
         }
