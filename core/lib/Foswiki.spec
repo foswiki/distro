@@ -309,6 +309,14 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 0;
 # <i>off</i>.
 $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 
+# **OCTAL EXPERT**
+# File security for new session objects created by the login manager. 
+# You may have to adjust these permissions to allow (or deny) users other than the webserver 
+# user access session objects that Foswiki creates in the filesystem. 
+# This is an <strong>octal</strong> number representing the standard UNIX permissions 
+# (e.g. 0640 == rw-r-----)
+$Foswiki::cfg{Session}{filePermission}= 0600;
+
 # **STRING 20 EXPERT**
 # By default the Foswiki session cookie is only accessible by the host which
 # sets it. To change the scope of this cookie you can set this to any other
