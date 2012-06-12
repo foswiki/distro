@@ -456,7 +456,7 @@ sub test_simple_textfile {
     $this->assert_matches(
         qr/Content-Type: text\/plain; charset=$Foswiki::cfg{Site}{CharSet}/i,
         $headers );
-    $this->assert_matches( 'Content-Disposition: inline; filename=one.txt',
+    $this->assert_matches( 'Content-Disposition: inline; filename="one.txt"',
         $headers );
 
     return;
@@ -475,7 +475,7 @@ sub test_case_sensitivity {
         "Test\nAttach\rment\r\nEmbed\cZEOF\r\nCasePreserved.bin\n", $text );
     $this->assert_matches( "Content-Type: application/octet-stream", $headers );
     $this->assert_matches(
-        "Content-Disposition: inline; filename=CasePreserved.bin", $headers );
+        'Content-Disposition: inline; filename="CasePreserved.bin"', $headers );
 
     return;
 }
