@@ -331,6 +331,14 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 0;
 # <i>off</i>.
 $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 
+# **OCTAL EXPERT**
+# File security for new session objects created by the login manager. 
+# You may have to adjust these permissions to allow (or deny) users other than the webserver 
+# user access session objects that Foswiki creates in the filesystem. 
+# This is an <strong>octal</strong> number representing the standard UNIX permissions 
+# (e.g. 0640 == rw-r-----)
+$Foswiki::cfg{Session}{filePermission}= 0600;
+
 #---++ Validation
 # Validation is the process by which Foswiki validates that a request is
 # allowed by the site, and is not part of an attack on the site.

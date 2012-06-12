@@ -158,6 +158,10 @@ sub new {
         $class
     );
 
+    # make sure the filePermission setting has got a sensible default
+    $Foswiki::cfg{Session}{filePermission} = 0600
+      unless defined $Foswiki::cfg{Session}{filePermission};
+
     $session->leaveContext('can_login');
     map { $this->{_authScripts}{$_} = 1; }
       split( /[\s,]+/, $Foswiki::cfg{AuthScripts} );
@@ -322,6 +326,17 @@ sub loadSession {
             }
         }
 
+        # force an appropriate umask
+        my $oldUmask =
+          umask(
+            oct(777) - ( ( $Foswiki::cfg{Session}{filePermission} + 0 ) ) &
+              oct(777) );
+
+     #my $umask = sprintf('%04o', umask() );
+     #$oldUmask = sprintf('%04o', $oldUmask );
+     #my $filePerm = sprintf('%04o', $Foswiki::cfg{Session}{filePermission}+0 );
+     #print STDERR "login manager changes $oldUmask to $umask from $filePerm\n";
+
         # First, see if there is a cookied session, creating a new session
         # if necessary.
         if ( $Foswiki::cfg{Sessions}{MapIP2SID} ) {
@@ -330,17 +345,25 @@ sub loadSession {
 
             my $sid = $this->_IP2SID();
             if ($sid) {
-                $this->{_cgisession} =
-                  Foswiki::LoginManager::Session->new( undef, $sid,
-                    { Directory => $sessionDir, UMask => 0660 } );
+                $this->{_cgisession} = Foswiki::LoginManager::Session->new(
+                    undef, $sid,
+                    {
+                        Directory => $sessionDir,
+                        UMask     => $Foswiki::cfg{Session}{filePermission}
+                    }
+                );
             }
             else {
 
                 # The IP address was not mapped; create a new session
 
-                $this->{_cgisession} =
-                  Foswiki::LoginManager::Session->new( undef, undef,
-                    { Directory => $sessionDir, UMask => 0660 } );
+                $this->{_cgisession} = Foswiki::LoginManager::Session->new(
+                    undef, undef,
+                    {
+                        Directory => $sessionDir,
+                        UMask     => $Foswiki::cfg{Session}{filePermission}
+                    }
+                );
                 _trace( $this, "New IP2SID session" );
                 $this->_IP2SID( $this->{_cgisession}->id() );
             }
@@ -349,10 +372,18 @@ sub loadSession {
 
             # IP mapping is off; use the request cookie
 
-            $this->{_cgisession} =
-              Foswiki::LoginManager::Session->new( undef, $session->{request},
-                { Directory => $sessionDir, UMask => 0660 } );
+            $this->{_cgisession} = Foswiki::LoginManager::Session->new(
+                undef,
+                $session->{request},
+                {
+                    Directory => $sessionDir,
+                    UMask     => $Foswiki::cfg{Session}{filePermission}
+                }
+            );
         }
+
+        # restore old umask
+        umask($oldUmask);
 
         die Foswiki::LoginManager::Session->errstr()
           unless $this->{_cgisession};
@@ -671,14 +702,25 @@ sub userLoggedIn {
 
         # create new session if necessary
         unless ( $this->{_cgisession} ) {
+
+            # force an appropriate umask
+            my $oldUmask =
+              umask(
+                oct(777) - ( ( $Foswiki::cfg{Session}{filePermission} + 0 ) ) &
+                  oct(777) );
+
             $this->{_cgisession} = Foswiki::LoginManager::Session->new(
                 undef,
                 $session->{request},
                 {
                     Directory => "$Foswiki::cfg{WorkingDir}/tmp",
-                    UMask     => 0660
+                    UMask     => $Foswiki::cfg{Session}{filePermission}
                 }
             );
+
+            # restore old umask
+            umask($oldUmask);
+
             die Foswiki::LoginManager::Session->errstr()
               unless $this->{_cgisession};
         }
