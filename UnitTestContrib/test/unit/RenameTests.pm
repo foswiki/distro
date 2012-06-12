@@ -873,6 +873,7 @@ sub test_renameTopic_same_web_new_topic_name {
 # that it is more important to rename those quoted topics than to be 100% correct
 # and renaming only references that result in a link, and missing the references used on
 # line 22 and 23.
+    # SMELL: Line 37 - Slash separated Web/Topic is not renamed.  Item11555
     #
     $this->check( $this->{test_web}, 'NewTopic', undef, <<"THIS", 1 );
 1 $this->{test_web}.NewTopic
@@ -1046,7 +1047,7 @@ THIS
 }
 
 # Test rename with slash delim
-# SMELL: slash delimititers only work as part of an url but not as part of a bracket link
+# SMELL: Item11555 - slash delimititers only work as part of an url but not as part of a bracket link
 sub test_renameTopic_same_web_new_topic_name_slash_delim {
     my $this = shift;
 
@@ -1054,7 +1055,7 @@ sub test_renameTopic_same_web_new_topic_name_slash_delim {
     # in test_renameTopic_same_web_new_topic_name.
 
     $this->expect_failure();
-    $this->annotate("[[Web/Topic]] fails");
+    $this->annotate("[[Web/Topic]] fails due to Item11555");
 
     $this->_reset_session(
         {

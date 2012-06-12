@@ -252,10 +252,17 @@ sub _renameTopicOrAttachment {
 
     }
 
-    return
-      if ( $query
-        && $query->method()
-        && uc( $query->method() ) ne 'POST' );
+    unless ( $session->inContext('command_line') ) {
+        if ( uc( $session->{request}->method() ) ne 'POST' ) {
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $session->{webName},
+                topic  => $session->{topicName},
+                def    => 'post_method_only',
+                params => ['rename']
+            );
+        }
+    }
 
     Foswiki::UI::checkValidationKey($session);
 
@@ -311,11 +318,13 @@ sub _renameTopicOrAttachment {
         }
     }
     else {
+        unless ( $session->inContext('command_line') ) {
 
-        # redirect to new topic
-        $new_url = $session->getScriptUrl( 0, 'view', $newWeb, $newTopic );
-        $session->{webName}   = $newWeb;
-        $session->{topicName} = $newTopic;
+            # redirect to new topic
+            $new_url = $session->getScriptUrl( 0, 'view', $newWeb, $newTopic );
+            $session->{webName}   = $newWeb;
+            $session->{topicName} = $newTopic;
+        }
     }
 
     return $new_url;
