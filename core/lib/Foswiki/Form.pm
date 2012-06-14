@@ -74,11 +74,12 @@ in the database is protected against view.
 sub new {
     my ( $class, $session, $web, $form, $def ) = @_;
 
-    my $this = $session->{forms}->{"$web.$form"};
+    my ( $vweb, $vtopic ) = $session->normalizeWebTopicName( $web, $form );
+    my $this = $session->{forms}->{"$vweb.$vtopic"};
+
     unless ($this) {
 
         # A form name has to be a valid topic name after normalisation
-        my ( $vweb, $vtopic ) = $session->normalizeWebTopicName( $web, $form );
         $vweb = Foswiki::Sandbox::untaint( $vweb,
             \&Foswiki::Sandbox::validateWebName );
         $vtopic = Foswiki::Sandbox::untaint( $vtopic,
@@ -105,18 +106,16 @@ sub new {
         }
 
         $this = $class->SUPER::new( $session, $vweb, $vtopic );
-        $session->{forms}->{"$web.$form"} = $this;
 
         unless ( $def || $this->haveAccess('VIEW') ) {
             throw Foswiki::AccessControlException( 'VIEW', $session->{user},
-                $web, $form, $Foswiki::Meta::reason );
+                $vweb, $vtopic, $Foswiki::Meta::reason );
         }
 
         if ( ref($this) ne 'Foswiki::Form' ) {
 
             #recast if we have to - allowing the cache to work its magic
             $this = bless( $this, 'Foswiki::Form' );
-            $session->{forms}->{"$web.$form"} = $this;
         }
 
         unless ($def) {
@@ -130,6 +129,9 @@ sub new {
             # Foswiki::Meta object
             $this->{fields} = $this->_extractPseudoFieldDefs($def);
         }
+
+        # cache the  object when properly build
+        $session->{forms}->{"$vweb.$vtopic"} = $this;
     }
 
     return $this;
@@ -314,6 +316,8 @@ sub createField {
     );
     eval 'require ' . $class;
     if ($@) {
+        $this->session->logger->log( 'error',
+            "error compiling class $class: $@" );
 
         # Type not available; use base type
         require Foswiki::Form::FieldDefinition;
