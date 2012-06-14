@@ -216,50 +216,70 @@ sub fieldTitle2FieldName {
 sub _parseFormDefinition {
     my $this = shift;
 
-    my @fields  = ();
-    my $inBlock = 0;
-    my $text    = $this->text();
+    require Foswiki::Tables::Parser;
+    ASSERT( !$@ ) if DEBUG;
+
+    my @fields = ();
+    my $text   = $this->text();
     $text = '' unless defined $text;
 
-    $text =~ s/\\\n//g;    # remove trailing '\' and join continuation lines
+    {
 
-# | *Name:* | *Type:* | *Size:* | *Value:*  | *Tooltip message:* | *Attributes:* |
-# Tooltip and attributes are optional
-    foreach my $line ( split( /\n/, $text ) ) {
-        if ( $line =~ /^\s*\|.*Name[^|]*\|.*Type[^|]*\|.*Size[^|]*\|/ ) {
-            $inBlock = 1;
-            next;
+        package Foswiki::Form::ParseFinished;
+        our @ISA = ('Error');
+    }
+
+    # Support column reordering
+    my %indices = (
+        name       => 0,
+        type       => 1,
+        size       => 2,
+        value      => 3,
+        tooltip    => 3,
+        attributes => 4
+    );
+    my $col       = 0;
+    my $have_head = 0;
+    my @field     = ();
+    my $handler   = sub {
+        my $event = shift;
+        if ( $event eq 'close_table' ) {
+
+            # Abort the parse after the first table has been read
+            throw Foswiki::Form::ParseFinished;
         }
+        elsif ( $event eq 'th' ) {
+            my ( $pre, $data, $post ) = @_;
+            $data = lc($data);
+            $data =~ s/[\s:]//g;
+            $data = 'tooltip' if $data eq 'tooltipmessage';
+            $indices{$data} = $col++;
+        }
+        elsif ( $event eq 'close_tr' ) {
+            unless ($have_head) {
+                $have_head = 1;
+                return;
+            }
+            my $title = $field[ $indices{name} ] || '';
+            my $type = lc( $field[ $indices{type} ] || 'text' );
+            my $size       = $field[ $indices{size} ]       || '';
+            my $vals       = $field[ $indices{value} ]      || '';
+            my $tooltip    = $field[ $indices{tooltip} ]    || '';
+            my $attributes = $field[ $indices{attributes} ] || '';
+            @field = ();
 
-       # Only insist on first field being present FIXME - use oops page instead?
-        if ( $inBlock && $line =~ s/^\s*\|\s*// ) {
-            $line =~ s/\\\|/\007/g;    # protect \| from split
-            my ( $title, $type, $size, $vals, $tooltip, $attributes ) =
-              map { s/\007/|/g; $_ } split( /\s*\|\s*/, $line );
+            if ( $vals =~ /%/ ) {
+                $vals = $this->expandMacros($vals);
+            }
+            $vals =~ s/<\/?(!|nop|noautolink)\/?>//g;
 
-            $title ||= '';
-
-            $type ||= '';
-            $type = lc($type);
-            $type =~ s/^\s*//go;
-            $type =~ s/\s*$//go;
-            $type = 'text' if ( !$type );
-
-            $size ||= '';
-
-            $vals ||= '';
-            $vals = $this->expandMacros($vals);
-            $vals =~ s/<\/?(!|nop|noautolink)\/?>//go;
+            # Trim again in case macro expansion has added spaces
             $vals =~ s/^\s+//g;
             $vals =~ s/\s+$//g;
 
-            $tooltip ||= '';
+            $attributes =~ s/\s*//g;
 
-            $attributes ||= '';
-            $attributes =~ s/\s*//go;
-            $attributes = '' if ( !$attributes );
-
-            my $definingTopic = "";
+            my $definingTopic = '';
             if ( $title =~ /\[\[(.+)\]\[(.+)\]\]/ ) {
 
                 # use common defining topics with different field titles
@@ -289,10 +309,19 @@ sub _parseFormDefinition {
 
             $this->{mandatoryFieldsPresent} ||= $fieldDef->isMandatory();
         }
-        else {
-            $inBlock = 0;
+        elsif ( $event eq 'td' ) {
+            my ( $pre, $data, $post ) = @_;
+            push( @field, $data );
         }
+    };
+
+    try {
+        Foswiki::Tables::Parser::parse( $text, $handler );
     }
+    catch Foswiki::Form::ParseFinished with {
+
+        # clean exit, fired when first table has been parsed
+    };
 
     return \@fields;
 }

@@ -108,8 +108,8 @@ sub parse {
 # This is recorded as "pending" so it can be applied to the next table read.
 sub early_line {
     my ( $this, $line ) = @_;
-    return 1 unless $this->{meta};
-    return 1 unless $line =~ s/(%$this->{macro}(?:{(.*?)})?%)//s;
+    return 0 unless $this->{meta};
+    return 0 unless $line =~ s/(%$this->{macro}(?:{(.*?)})?%)//s;
 
     my $spec  = $1;
     my $as    = $2;
@@ -148,7 +148,7 @@ sub early_line {
     # created.
     $this->{pending_spec} = [ $spec, $attrs ];
 
-    return 0;    # processing complete, goto next line
+    return 1;    # processing complete, goto next line
 }
 
 # Intended to be implemented by subclasses

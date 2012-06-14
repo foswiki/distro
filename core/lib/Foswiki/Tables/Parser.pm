@@ -124,8 +124,8 @@ sub parse {
 
         # Call the per-line event
         if ( _enabled( \%scope ) ) {
-            unless ( &$dispatch( 'early_line', $line ) ) {
-                print STDERR "early_line returned 0\n" if TRACE;
+            if ( &$dispatch( 'early_line', $line, $in_table ) ) {
+                print STDERR "early_line returned 1\n" if TRACE;
                 if ($in_table) {
                     print STDERR "Close TABLE\n" if TRACE;
 
@@ -164,9 +164,11 @@ sub parse {
 
                 if ( length($line) ) {
 
-                    # Expand comments again after we split
+                    $line =~ s/\\\|/\007/g;    # protect \| from split
+                         # Expand comments again after we split
                     my @cols =
                       map { _rewrite( $_, \@comments ) }
+                      map { s/\007/|/g; $_ }
                       split( /\|/, $line, -1 );
 
                     # Note use of LIMIT=-1 on the split so we don't lose
