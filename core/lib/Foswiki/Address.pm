@@ -68,14 +68,16 @@ use Foswiki::Func();
 use Foswiki::Meta();
 
 #use Data::Dumper;
-use constant TRACE       => 0;    # Don't forget to uncomment dumper
-use constant TRACE2      => 0;
-use constant TRACEVALID  => 0;
-use constant TRACEATTACH => 0;
+use constant TRACE                     => 0;  # Don't forget to uncomment dumper
+use constant TRACE2                    => 0;
+use constant TRACEVALID                => 0;
+use constant TRACEATTACH               => 0;
+use constant STRINGIFIED_WEB_SEPARATOR => '/';
+use constant STRINGIFIED_TOPIC_SEPARATOR => '.';
 
-#our @THESE;
-
-my %atomiseAs = (
+my $EXISTASLIST_DEFAULT = [qw(attachment topic)];
+my $EXISTAS_DEFAULT     = { attachment => 1, topic => 1 };
+my %atomiseAs           = (
     root       => \&_atomiseAsRoot,
     web        => \&_atomiseAsWeb,
     topic      => \&_atomiseAsTopic,
@@ -263,37 +265,22 @@ sub new {
         #ASSERT( not $opts{topic} or ( $opts{webpath} and $opts{topic} ) )
         #  if DEBUG;
 
-        #        $this->{parseopts} = {
-        #            web        => $opts{web},
-        #            webpath    => $opts{webpath},
-        #            topic      => $opts{topic},
-        #            rev        => $opts{rev},
-        #            isA        => $opts{isA},
-        #            existAs    => undef,
-        #            catchAs    => $opts{catchAs},
-        #            existHints => $opts{existHints},
-        #            string     => $opts{string}
-        #        };
-        # 15% faster if we do it like this...
-        $this->{parseopts} = \%opts;
-
         if ( not $opts{isA} ) {
 
             # transpose the existAs array into hash keys
             if ( $opts{existAs} ) {
                 ASSERT( ref( $opts{existAs} ) eq 'ARRAY' ) if DEBUG;
                 ASSERT( scalar( @{ $opts{existAs} } ) ) if DEBUG;
-                $this->{parseopts}->{existAsList} = $opts{existAs};
-                $this->{parseopts}->{existAs} =
-                  { map { $_ => 1 } @{ $opts{existAs} } };
+                $opts{existAsList} = $opts{existAs};
+                $opts{existAs} = { map { $_ => 1 } @{ $opts{existAs} } };
             }
             else {
-                $this->{parseopts}->{existAsList} = [qw(attachment topic)];
-                $this->{parseopts}->{existAs} = { attachment => 1, topic => 1 };
+                $opts{existAsList} = $EXISTASLIST_DEFAULT;
+                $opts{existAs}     = $EXISTAS_DEFAULT;
             }
         }
-        $this = bless( $this, $class );
-        $this->parse( $opts{string} );
+        $this = bless( {}, $class );
+        $this->_parse( $opts{string}, \%opts );
     }
     else {
 
@@ -335,7 +322,7 @@ sub new {
             ) if DEBUG;
         }
 
-        #$this->parse( $_[0]->{string} );
+        #$this->_parse( $_[0]->{string} );
         $this = bless( \%opts, $class );
     }
 
@@ -355,29 +342,26 @@ Clean up the object, releasing any memory stored in it.
 sub finish {
     my ($this) = @_;
 
-    $this->{root}                = undef;
-    $this->{web}                 = undef;
-    $this->{webpath}             = undef;
-    $this->{topic}               = undef;
-    $this->{rev}                 = undef;
-    $this->{tompath}             = undef;
-    $this->{attachment}          = undef;
-    $this->{isA}                 = undef;
-    $this->{type}                = undef;
-    $this->{parseopts}           = undef;
-    $this->{stringified}         = undef;
-    $this->{stringifiedwebsep}   = undef;
-    $this->{stringifiedtopicsep} = undef;
+    $this->{root}        = undef;
+    $this->{web}         = undef;
+    $this->{webpath}     = undef;
+    $this->{topic}       = undef;
+    $this->{rev}         = undef;
+    $this->{tompath}     = undef;
+    $this->{attachment}  = undef;
+    $this->{isA}         = undef;
+    $this->{type}        = undef;
+    $this->{stringified} = undef;
 
     return;
 }
 
 =begin TML
 
----++ ClassMethod parse( $string, %opts ) -> $success
+---++ PRIVATE ClassMethod _parse( $string, \%opts ) -> $success
 
-Parse the given string (using options provided at instantiation, unless =%opts=
-overrides them) and update the instance with the resulting address.
+Parse the given string using options provided and update the instance with the
+resulting address.
 
 Examples of valid path strings include:
 
@@ -501,73 +485,73 @@ and resolved.
 
 =cut
 
-sub parse {
-    my ( $this, $path, %opts ) = @_;
+sub _parse {
+    my ( $this, $path, $opts ) = @_;
 
     print STDERR "parse(): parsing '$path'\n" if TRACE2;
     $this->_invalidate();
-    if ( not $this->{parseopts} ) {
-        $this->{parseopts} = {
-            web         => $opts{web},
-            webpath     => $opts{webpath},
-            topic       => $opts{topic},
-            rev         => $opts{rev},
+    if ( not defined $opts ) {
+        $opts = {
+            web         => $opts->{web},
+            webpath     => $opts->{webpath},
+            topic       => $opts->{topic},
+            rev         => $opts->{rev},
             existAsList => [qw(attachment topic)],
             existAs     => { attachment => 1, topic => 1 }
         };
     }
-    %opts = ( %{ $this->{parseopts} }, %opts );
     ASSERT(
-        ( !defined $opts{rev} || $opts{rev} =~ /^[-\+]?\d+$/ ),
+        ( !defined $opts->{rev} || $opts->{rev} =~ /^[-\+]?\d+$/ ),
         "rev: '"
-          . ( defined $opts{rev} ? $opts{rev} : 'undef' )
+          . ( defined $opts->{rev} ? $opts->{rev} : 'undef' )
           . "' is numeric"
     ) if DEBUG;
-    ASSERT( $opts{isA} or defined $opts{existAs} ) if DEBUG;
+    ASSERT( $opts->{isA} or defined $opts->{existAs} ) if DEBUG;
     if ( $path =~ s/\@([-\+]?\d+)$// ) {
         $this->{rev} = $1;
     }
 
     # if necessary, populate webpath from web parameter
-    if ( not $opts{webpath} and $opts{web} ) {
-        $opts{webpath} = [ split( /[\/\.]/, $opts{web} ) ];
+    if ( not $opts->{webpath} and $opts->{web} ) {
+        $opts->{webpath} = [ split( /[\/\.]/, $opts->{web} ) ];
     }
 
-    ASSERT( not $opts{webpath} or ref( $opts{webpath} ) eq 'ARRAY' ) if DEBUG;
+    ASSERT( not $opts->{webpath} or ref( $opts->{webpath} ) eq 'ARRAY' )
+      if DEBUG;
 
     # Because of the way we split, 'Foo/' causes final element to be empty
-    if ( $opts{webpath} and not $opts{webpath}->[-1] ) {
-        pop( @{ $opts{webpath} } );
+    if ( $opts->{webpath} and not $opts->{webpath}->[-1] ) {
+        pop( @{ $opts->{webpath} } );
     }
 
     # pre-compute web's string form (avoid unnecessary join()s)
-    if ( not $opts{web} and $opts{webpath} ) {
-        $opts{web} = join( '/', @{ $opts{webpath} } );
+    if ( not $opts->{web} and $opts->{webpath} ) {
+        $opts->{web} = join( '/', @{ $opts->{webpath} } );
     }
 
     # Is the path explicit?
-    if ( not $opts{isA} ) {
+    if ( not $opts->{isA} ) {
         if ( substr( $path, -1, 1 ) eq '/' ) {
             if ( length($path) > 1 ) {
-                $opts{isA} = 'web';
+                $opts->{isA} = 'web';
             }
             else {
 
                 # $path eq '/' - the mythical "root" path
-                $opts{isA} = 'root';
+                $opts->{isA} = 'root';
             }
         }
         elsif ( substr( $path, 0, 1 ) eq '\'' or $path =~ /\[/ ) {
-            $opts{isA} = '*';
+            $opts->{isA} = '*';
         }
     }
 
     # Here we go... short-circuit testing if we already have an isA spec
-    if ( $opts{isA} ) {
+    if ( $opts->{isA} ) {
 
-        print STDERR "parse(): isA: $opts{isA}\n" if TRACE2;
-        ASSERT( $atomiseAs{ $opts{isA} } ) if DEBUG;
-        $atomiseAs{ $opts{isA} }->( $this, $this, $path, \%opts );
+        print STDERR "parse(): isA: $opts->{isA}\n" if TRACE2;
+        ASSERT( $atomiseAs{ $opts->{isA} } ) if DEBUG;
+        $atomiseAs{ $opts->{isA} }->( $this, $this, $path, $opts );
     }
     else {
         my @separators = ( $path =~ m/([\.\/])/g );
@@ -581,7 +565,7 @@ sub parse {
         my %typescores;
         my $parsed;
 
-        ASSERT( ref( $opts{existAsList} ) eq 'ARRAY' ) if DEBUG;
+        ASSERT( ref( $opts->{existAsList} ) eq 'ARRAY' ) if DEBUG;
 
         if ( scalar(@separators) ) {
 
@@ -614,21 +598,21 @@ sub parse {
         if ($plaus) {
 
             # Default to exist hinting enabled
-            if ( not defined $opts{existHints} ) {
-                $opts{existHints} = 1;
+            if ( not defined $opts->{existHints} ) {
+                $opts->{existHints} = 1;
             }
 
             # (ab)using %opts to match values from the plausible table
-            $opts{1} = 1;
-            $opts{2} = 1;
+            $opts->{1} = 1;
+            $opts->{2} = 1;
 
             # @trylist is the intersection of existAs list and the plausible
             # list. existAs ordering is used unless string is "unambiguous"
             # form, in which case that type is positioned first.
-            foreach my $type ( @{ $opts{existAsList} } ) {
+            foreach my $type ( @{ $opts->{existAsList} } ) {
 
                 # If the type is plausible, and the options support it
-                if ( $plaus->{$type} and $opts{ $plaus->{$type} } ) {
+                if ( $plaus->{$type} and $opts->{ $plaus->{$type} } ) {
 
                     # If an "unambiguous" form, put it first in the @trylist.
                     if ( $plaus->{$type} eq 2 ) {
@@ -637,7 +621,7 @@ sub parse {
 
                      # If existHints are allowed, add the plausible type to list
                     }
-                    elsif ( $opts{existHints} ) {
+                    elsif ( $opts->{existHints} ) {
                         push( @trylist, $type );
                     }
                 }
@@ -647,7 +631,7 @@ sub parse {
             # the most (out of the existAsList, Eg.: attachment, topic, web)
             # wins. The former should naturally fall out of the latter, unless
             # the existAs list is not ordered smallestthing-first
-            if ( $opts{existHints} ) {
+            if ( $opts->{existHints} ) {
                 my $i        = 0;
                 my $ntrylist = scalar(@trylist);
                 my $besttype;
@@ -664,7 +648,7 @@ sub parse {
                       if TRACE;
                     ASSERT( $atomiseAs{$type} ) if DEBUG;
                     $typeatoms{$type} =
-                      $atomiseAs{$type}->( $this, {}, $path, \%opts );
+                      $atomiseAs{$type}->( $this, {}, $path, $opts );
                     print STDERR "Atomised $path as $type, result: "
                       . Data::Dumper->Dump( [ $typeatoms{$type} ] )
                       if TRACE;
@@ -704,12 +688,12 @@ sub parse {
             }
         }
         if ( not $parsed ) {
-            my $type = $normalform || $opts{catchAs};
+            my $type = $normalform || $opts->{catchAs};
 
             if ($type) {
                 ASSERT( $atomiseAs{$type} ) if DEBUG;
                 $typeatoms{$type} =
-                  $atomiseAs{$type}->( $this, $this, $path, \%opts );
+                  $atomiseAs{$type}->( $this, $this, $path, $opts );
             }
         }
     }
@@ -1069,43 +1053,28 @@ sub _existScore {
 
 =begin TML
 
----++ ClassMethod stringify ( %opts ) => $string
+---++ ClassMethod stringify => $string
 
 Return a string representation of the address.
 
-=%opts=:
-   * =webseparator= - '/' or '.'; default: '/'
-   * =topicseparator= - '/' or '.'; default: '.'
-
-The output of =stringify()= is understood by =parse()=, and vice versa.
+The output of =stringify()= is understood by =_parse()=, and vice versa.
 
 =cut
 
 sub stringify {
-    my ( $this, %opts ) = @_;
+    my ($this) = @_;
 
     ASSERT( $this->isValid(), 'valid address' ) if DEBUG;
 
     # If there's a valid address; and check that we haven't already computed
-    # the stringification before with the same opts
-    if (
-        not $this->{stringified}
-        or (    $opts{webseparator}
-            and $opts{webseparator} ne $this->{stringifiedwebsep} )
-        or (    $opts{topicseparator}
-            and $opts{topicseparator} ne $this->{stringifiedtopicsep} )
-      )
-    {
-        $this->{stringifiedwebsep} = $opts{webseparator}
-          || '/';
-        $this->{stringifiedtopicsep} = $opts{topicseparator}
-          || '.';
+    # the stringification before
+    if ( !defined $this->{stringified} ) {
         if ( $this->{webpath} ) {
             $this->{stringified} =
-              join( $this->{stringifiedwebsep}, @{ $this->{webpath} } );
+              join( STRINGIFIED_WEB_SEPARATOR, @{ $this->{webpath} } );
             if ( $this->{topic} ) {
                 $this->{stringified} .=
-                  $this->{stringifiedtopicsep} . $this->{topic};
+                  STRINGIFIED_TOPIC_SEPARATOR . $this->{topic};
                 if ( $this->{tompath} ) {
                     ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
                           and scalar( @{ $this->{tompath} } ) )
@@ -1182,7 +1151,7 @@ sub stringify {
                 }
             }
             else {
-                $this->{stringified} .= $this->{stringifiedwebsep};
+                $this->{stringified} .= STRINGIFIED_WEB_SEPARATOR;
             }
         }
         else {
