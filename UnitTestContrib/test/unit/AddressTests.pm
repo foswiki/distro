@@ -738,10 +738,12 @@ sub test_timing_reparse_default {
     my $benchmark = timeit(
         15000,
         sub {
-            $addr->parse(
+            $addr->_parse(
                 'AnotherTopic',
-                isA     => 'topic',
-                webpath => [qw(OtherWeb OtherSubWeb)]
+                {
+                    isA     => 'topic',
+                    webpath => [qw(OtherWeb OtherSubWeb)]
+                }
             );
         }
     );
@@ -758,8 +760,8 @@ sub test_timing_reparse {
     my $benchmark = timeit(
         15000,
         sub {
-            $addr->parse( 'AnotherWeb/AnotherSubWeb.AnotherTopic',
-                isA => 'topic', );
+            $addr->_parse( 'AnotherWeb/AnotherSubWeb.AnotherTopic',
+                { isA => 'topic', } );
         }
     );
 
