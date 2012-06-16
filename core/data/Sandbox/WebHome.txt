@@ -2,27 +2,51 @@
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 %MAKETEXT{"The [_1] web is the sandbox you can use for testing. Everybody is welcome to add or delete some stuff. It is recommended to walk through the [_2] to get a jumpstart on the [_3] tool. A good rule of thumb is to add at the end of the page and sign and date it with your [_4]." args="<b><nop>%WEB%</b>,%SYSTEMWEB%.TwentyMinuteTutorial,<nop>%WIKITOOLNAME%,%SYSTEMWEB%.WikiName"}%
 
+<!--
+To include a custom "create new topic" form on a page, see System.WebCreateNewTopicComponents
+-->
 %TWISTY{
-  link="%BUTTON{"Create a new topic" icon="add"}%%CLEAR%" 
+  link="%BUTTON{"%MAKETEXT{"Create New Topic"}%" icon="add"}%%CLEAR%" 
   mode="div"
 }%
-
-<form action='%SCRIPTURLPATH{"edit"}%/%WEB%/'> 
-  <input type="hidden" name="onlywikiname" value="on" />
-  <input type="hidden" name="t" value="%GMTIME{"$epoch"}%" />
-  <div class="foswikiFormSteps">
-    <div class="foswikiFormStep">
-      <h3 >%MAKETEXT{"Topic name"}% </h3>
-      <table cellpadding="0" cellspacing="0"><tr><td>
-      <input class="foswikiInputField" type="text" name="topic" id="topic" size="32" value="TestTopicAUTOINC0" />&nbsp;
-      </td><td>
-      %BUTTON{"%MAKETEXT{"Create topic"}%" type="submit"}%
-      %CLEAR%
-      </td></tr></table>
-      <div class="foswikiFormDescription">%MAKETEXT{"Use a topic name in %SYSTEMWEB%.WikiNotation"}% </div>
-    </div>
-  </div>
-</form>
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="js"
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="formstart"
+}%
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicname"
+    newtopic=""
+    placeholder=""
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicnamefeedback"
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="wikiword"
+}%
+<div>%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="errorfeedback"
+}%</div>
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="submit"
+}%
+</div>
+</div>
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="formend"
+}%
 %ENDTWISTY%
 
 ---++ %MAKETEXT{"Recently changed topics"}%
