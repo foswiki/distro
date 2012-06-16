@@ -257,6 +257,8 @@ sub verify_getRevisionInfo {
     my $info = $this->{sut}->getVersionInfo($readMeta);
     $this->assert_num_equals( 2, $info->{version} );
     $info = $this->{sut}->getVersionInfo( $readMeta, 1 );
+    $this->expect_failure( 'Item11708 Store API fixed in Foswiki 1.2+',
+        with_dep => 'Foswiki,<,1.2' );
     $this->assert_num_equals( 1, $info->{version} );
 
     $this->removeFromStore($web);
@@ -369,8 +371,10 @@ sub verify_repRevTopic {
     # with the date - there's can't be an earlier rev.
     $this->{sut}->repRev( $meta, $this->{test_user_cuid}, forcedate => 1000 );
     my $info = $this->{sut}->getVersionInfo($meta);
-    $this->assert( $info->{date} - 1000 < 5, $info->{date} );
     $this->assert_num_equals( 1, $info->{version} );
+    $this->expect_failure( 'Item11708 Store API fixed in Foswiki 1.2+',
+        with_dep => 'Foswiki,<,1.2' );
+    $this->assert( $info->{date} - 1000 < 5, $info->{date} );
 
 # SMELL: Following test commented out because RcsWrap and RcsLite both fail when
 # forcedate is used
