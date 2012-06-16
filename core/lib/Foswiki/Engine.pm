@@ -96,7 +96,7 @@ sub prepare {
         my $mess =
             $e->can('stringify')
           ? $e->stringify()
-          : 'Unknown exception "' . ref($e) . '"';
+          : 'Unknown ' . ref($e) . ' exception: ' . $@;
         $res->header( -type => 'text/plain' );
         if (DEBUG) {
 
