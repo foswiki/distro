@@ -34,14 +34,6 @@ data/System/WebLeftBarWebsList.txt 0644
 data/System/WebTopBarExample.txt 0644
 data/Trash/WebLeftBarExample.txt 0644
 lib/Foswiki/Contrib/PatternSkin.pm 0444
-lib/Foswiki/Contrib/PatternSkin/Config.spec 0644
-pub/System/PatternSkinTheme/jquery-images/images/ui-bg_flat_0_aaaaaa_40x100.png 0644
-pub/System/PatternSkinTheme/jquery-images/images/ui-icons_666666_256x240.png 0644
-pub/System/PatternSkinTheme/jquery-images/images/ui-icons-famfamfam.png 0644
-pub/System/PatternSkinTheme/jquery-images/images/x.png 0644
-pub/System/PatternSkinTheme/jquery-ui.css 0644
-pub/System/PatternSkinTheme/jquery-ui.css.gz 0644
-pub/System/PatternSkinTheme/jquery-ui.uncompressed.css 0644
 pub/System/PatternSkin/foswiki_edit_01x01_src.js 0644
 pub/System/PatternSkin/foswiki_edit_01x01.js 0644
 pub/System/PatternSkin/foswiki_edit_01x01.js.gz 0644
@@ -193,7 +185,6 @@ pub/System/PatternSkinThemeFatWilly/style_src.css 0644
 pub/System/PatternSkinThemeFatWilly/style.css 0644
 pub/System/PatternSkinThemeFatWilly/style.css.gz 0644
 pub/System/PatternSkinThemeFatWilly/topicactions_background.gif 0644
-pub/System/PatternSkinWebCreateNewTopicTemplate/js.js 0644
 templates/attach.pattern.tmpl 0444
 templates/attachagain.pattern.tmpl 0444
 templates/attachnew.pattern.tmpl 0444
