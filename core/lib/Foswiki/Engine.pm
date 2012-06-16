@@ -93,14 +93,17 @@ sub prepare {
     otherwise {
         my $e   = shift;
         my $res = Foswiki::Response->new();
+        my $mess =
+            $e->can('stringify')
+          ? $e->stringify()
+          : 'Unknown exception "' . ref($e) . '"';
         $res->header( -type => 'text/plain' );
         if (DEBUG) {
 
             # output the full message and stacktrace to the browser
-            $res->print( $e->stringify() );
+            $res->print($mess);
         }
         else {
-            my $mess = $e->stringify();
             print STDERR $mess;
 
             # tell the browser where to look for more help
