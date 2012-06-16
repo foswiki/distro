@@ -327,6 +327,7 @@ data/System/WebAtomBase.txt 0644
 data/System/WebChanges.txt 0644
 data/System/WebChangesAlert.txt 0644
 data/System/WebCreateNewTopic.txt 0644
+data/System/WebCreateNewTopicComponents.txt 0644
 data/System/WebCreateNewTopicTemplate.txt 0644
 data/System/WebHome.txt 0644
 data/System/WebIndex.txt 0644

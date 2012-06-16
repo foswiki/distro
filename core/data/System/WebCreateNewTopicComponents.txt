@@ -1,0 +1,157 @@
+%META:TOPICINFO{author="ProjectContributor" date="1252413407" format="1.1" version="1"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! <nop>%TOPIC%
+This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.
+
+%TOC%
+
+---++ Usage
+---+++ Including the form (simple)
+Create a form with an empty name field:
+<verbatim>
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="newtopic"
+    newtopic=""
+}%
+</verbatim>
+
+Create a form with an "auto increment" name:
+<verbatim>
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="newtopic"
+    newtopic="TestTopicAUTOINC0"
+}%
+</verbatim>
+
+---+++ Customizing the order and layout
+See the component table below what parts you can use to construct a form.
+
+This is the code used in the [[Sandbox.WebHome]] form:
+<verbatim>
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="js"
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="formstart"
+}%
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicname"
+    newtopic=""
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicnamefeedback"
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="wikiword"
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="errorfeedback"
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="submit"
+}%
+</div>
+</div>
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="formend"
+}%
+</verbatim>
+
+---++ List of components
+| *Component* | *Description* |
+| =js= | Includes necessary Javascript files |
+| =formstart= | Opens the form |
+| =topicname= | Topic name field |
+| =topicnamefeedback= | Provides feedback on the automatically constructed topic name |
+| =topicparent= | Input field with toggle to select list of topics in the current web to select as topic parent |
+| =templatetopic= | Select list of template topics |
+| =errorfeedback= | Provides feedback on why the submit button is disabled |
+| =submit= | The submit button |
+| =formend= | Closes the form |
+
+<verbatim class="foswikiHidden">
+
+%STARTSECTION{"newtopic"}%%INCLUDE{
+    "%TOPIC%"
+    section="js"
+}%%INCLUDE{
+    "%TOPIC%"
+    section="formstart"
+}%%INCLUDE{
+    "%TOPIC%"
+    section="topicname"
+}%%INCLUDE{
+    "%TOPIC%"
+    section="submit"
+}% %INCLUDE{
+    "%TOPIC%"
+    section="topicnamefeedback"
+}%%INCLUDE{
+    "%TOPIC%"
+    section="errorfeedback"
+}%%INCLUDE{
+    "%TOPIC%"
+    section="formend"
+}%%ENDSECTION{"newtopic"}%
+
+
+%STARTSECTION{"js"}%%TMPL:P{"JavascriptFiles/foswikiString"}%%TMPL:P{
+	"LIBJS"
+	id="JavascriptFiles/foswikiStringUnicodeChars"
+	requires="JavascriptFiles/foswikiString"
+}%%TMPL:P{
+	"LIBJS"
+	id="JavascriptFiles/foswikiWebTopicCreator"
+	requires="JavascriptFiles/foswikiStringUnicodeChars"
+}%%ADDTOZONE{"head" 
+	tag="WebCreateNewTopicTemplate:META" 
+	text="<noautolink><meta name='foswiki.webTopicCreator.nameFeedback' content='%MAKETEXT{"Topic will be named: "}%' />
+<meta name='foswiki.webTopicCreator.errorFeedbackNoWikiName' content='<p class=\"foswikiGrayText\">%MAKETEXT{"Enter the topic name as WikiWord or check the allow non-Wiki Word box."}%</p>' />"
+	requires=""
+}%%ENDSECTION{"js"}%
+
+%STARTSECTION{"formstart"}%<form name="newtopicform" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/" method="post">
+<input type="hidden" name="action" value="create" />
+<input type="hidden" name="onlynewtopic" value="on" />%ENDSECTION{"formstart"}%
+
+%STARTSECTION{"topicname"}%<input type="text" class="foswikiInputField" name="topic" size="40" placeholder="%IF{
+    "defined placeholder"
+    then="%URLPARAM{"placeholder" default="%placeholder%"}%"
+}%" value="%IF{
+    "defined newtopic"
+    then="%URLPARAM{"newtopic" default="%newtopic%"}%"
+    else="%BASETOPIC%"
+}%" />%ENDSECTION{"topicname"}%
+
+%STARTSECTION{"wikiword"}%%TMPL:P{"nonwikiword"}%%ENDSECTION{"wikiword"}%
+
+%STARTSECTION{"topicnamefeedback"}%<span class="webTopicCreatorFeedback foswikiGrayText"><!--generated name will be put here--></span>%ENDSECTION{"topicnamefeedback"}%
+
+%STARTSECTION{"topicparent"}%<input type='text' size='40' name='topicparent' class='foswikiInputField' value='%URLPARAM{topicparent}%' />&nbsp;<span class='foswikiUnvisited'><a href='#' class='pickparent'>%MAKETEXT{"Pick from a list"}%</a> <img src='%ICONURLPATH{"processing-bg"}%' alt='' class='foswikiHidden processing' /></span>%ENDSECTION{"topicparent"}%
+
+%STARTSECTION{"templatetopic"}%<select name="templatetopic" class="foswikiSelect">%IF{"'%URLPARAM{"templatetopic"}%'" then='<option selected="selected">%URLPARAM{"templatetopic"}%</option>'}%<option value="">%MAKETEXT{"Default template"}%</option>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" excludetopic="*EditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format="<option value=\"$web.$topic\">$topic</option>"}%</select>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" limit="1" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format=" <span class='foswikiUnvisited'>%POPUPWINDOW{
+url="%SCRIPTURL{view}%/%SYSTEMWEB%/WebTemplateTopics?web=%BASEWEB%;template=viewplain"
+template="viewplain"
+toolbar="1"
+label="%MAKETEXT{"View templates"}%"
+}%</span>"}%%JQREQUIRE{"popupwindow"}%%ENDSECTION{"templatetopic"}%
+
+%STARTSECTION{"errorfeedback"}%<div class='webTopicCreatorError'><!--generated name will be put here--></div>%ENDSECTION{"errorfeedback"}%<
+
+%STARTSECTION{"submit"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Create this topic"}%' />%ENDSECTION{"submit"}%
+
+%STARTSECTION{"formend"}%</form>%ENDSECTION{"formend"}%
+
+</verbatim>

@@ -2,6 +2,7 @@
 %{<verbatim class="tml">
 ===================================================
 	Create new topic template
+	This template uses parts from System.WebCreateNewTopicComponents.
 ===================================================
 }%%TMPL:INCLUDE{"view"}%%{
 ---------------------------------------------------
@@ -23,19 +24,9 @@
 ---------------------------------------------------
 	script:topictemplate
 ---------------------------------------------------
-}%%TMPL:DEF{"script:topictemplate"}%%TMPL:P{"JavascriptFiles/foswikiString"}%%TMPL:P{
-	"LIBJS"
-	id="JavascriptFiles/foswikiStringUnicodeChars"
-	requires="JavascriptFiles/foswikiString"
-}%%TMPL:P{
-	"LIBJS"
-	id="JavascriptFiles/foswikiWebTopicCreator"
-	requires="JavascriptFiles/foswikiStringUnicodeChars"
-}%%ADDTOZONE{"head" 
-	tag="WebCreateNewTopicTemplate:META" 
-	text="<noautolink><meta name='foswiki.webTopicCreator.nameFeedback' content='%MAKETEXT{"Topic will be named: "}%' />
-<meta name='foswiki.webTopicCreator.errorFeedbackNoWikiName' content='%MAKETEXT{"Enter the topic name as WikiWord or check the allow non-Wiki Word box."}%' />"
-	requires=""
+}%%TMPL:DEF{"script:topictemplate"}%%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="js"
 }%%TMPL:END%%{
 ---------------------------------------------------
 	createform
@@ -86,34 +77,55 @@
 	formstart
 ---------------------------------------------------
 }%%TMPL:DEF{"formstart"}%#NewTopic
-<form name="newtopicform" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/" method="post">
-<input type="hidden" name="action" value="create" />
-<input type="hidden" name="onlynewtopic" value="on" />%TMPL:END%%{
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="formstart"
+}%%TMPL:END%%{
 ---------------------------------------------------
 	topicname
 ---------------------------------------------------
-}%%TMPL:DEF{"topicname"}%<p><input type="text" class="foswikiInputField" name="topic" size="40" value="%IF{"defined 'newtopic'" then="%URLPARAM{"newtopic"}%" else="$percentIF{$quot $ TOPIC='WebCreateNewTopic'$quot then=$quot$quot else=$quot%TOPIC%$quot}$percent"}%" /> <span class="webTopicCreatorFeedback foswikiGrayText"><!--generated name will be put here--></span></p>%TMPL:END%%{
+}%%TMPL:DEF{"topicname"}%<p>%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicname"
+}% %INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicnamefeedback"
+}%</p>%TMPL:END%%{
 ---------------------------------------------------
 	topicparent
 ---------------------------------------------------
-}%%TMPL:DEF{"topicparent"}%<p><input type='text' size='40' name='topicparent' class='foswikiInputField' value='%URLPARAM{topicparent}%' />&nbsp;<span class='foswikiUnvisited'><a href='#' class='pickparent'>%MAKETEXT{"Pick from a list"}%</a> <img src='%ICONURLPATH{"processing-bg"}%' alt='' class='foswikiHidden processing' /></span></p>%TMPL:END%%{
+}%%TMPL:DEF{"topicparent"}%<p>%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicname"
+}%</p>%TMPL:END%%{
 ---------------------------------------------------
 	topictemplate
 ---------------------------------------------------
-}%%TMPL:DEF{"topictemplate"}%<p><select name="templatetopic" class="foswikiSelect">%IF{"'%URLPARAM{"templatetopic"}%'" then='<option selected="selected">%URLPARAM{"templatetopic"}%</option>'}%<option value="">%MAKETEXT{"Default template"}%</option>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" excludetopic="*EditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format="<option value=\"$web.$topic\">$topic</option>"}%</select>%SEARCH{"name~'*Template'" scope="topic" topic="*Template" web="%BASEWEB%" limit="1" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format=" <span class='foswikiUnvisited'>%POPUPWINDOW{
-url="%SCRIPTURL{view}%/%SYSTEMWEB%/WebTemplateTopics?web=%BASEWEB%;template=viewplain"
-template="viewplain"
-toolbar="1"
-label="%MAKETEXT{"View templates"}%"
-}%</span>"}%</p>%JQREQUIRE{"popupwindow"}%%TMPL:END%%{
+}%%TMPL:DEF{"topictemplate"}%<p>%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="templatetopic"
+}%</p>%TMPL:END%%{
+---------------------------------------------------
+	errorfeedback
+---------------------------------------------------
+}%%TMPL:DEF{"errorfeedback"}%<p>%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="errorfeedback"
+}%</p>%TMPL:END%%{
 ---------------------------------------------------
 	submit
 ---------------------------------------------------
-}%%TMPL:DEF{"submit"}%<p class="webTopicCreatorError foswikiGrayText"><!--generated name will be put here--></p>
-<p><input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Create this topic"}%' /></p>%TMPL:END%%{
+}%%TMPL:DEF{"submit"}%%TMPL:P{"errorfeedback"}%
+<p>%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="submit"
+}%</p>%TMPL:END%%{
 ---------------------------------------------------
 	formend
 ---------------------------------------------------
-}%%TMPL:DEF{"formend"}%</form>%TMPL:END%%{
+}%%TMPL:DEF{"formend"}%%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="formend"
+}%%TMPL:END%%{
 ===================================================
 </verbatim>}%
