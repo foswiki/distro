@@ -203,8 +203,16 @@ sub call_UI_FN {
     $this->assert_matches( qr/^1?$/, $result,
         "$SCRIPT_NAME returned '$result'" )
       if defined $result;
-    $this->assert_equals( '', $stderr, "$SCRIPT_NAME errored: '$stderr'" )
-      if defined $stderr;
+
+    # Item11945: Foswiki now logs when bad or missing form types are used, so
+    # check STDERR is only a single line & that it contains that warning
+    $this->assert(
+        (
+            !$stderr || ( scalar( $stderr =~ /([\r\n]+)/g ) == 1
+                && $stderr =~ /error compiling class Foswiki::Form::Nuffin/ )
+        ),
+        "$SCRIPT_NAME errored: '$stderr'"
+    ) if defined $stderr;
 
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
