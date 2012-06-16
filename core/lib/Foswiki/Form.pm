@@ -235,8 +235,8 @@ sub _parseFormDefinition {
         type       => 1,
         size       => 2,
         value      => 3,
-        tooltip    => 3,
-        attributes => 4
+        tooltip    => 4,
+        attributes => 5,
     );
     my $col       = 0;
     my $have_head = 0;
