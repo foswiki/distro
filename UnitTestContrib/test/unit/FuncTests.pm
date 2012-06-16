@@ -15,6 +15,21 @@ use Foswiki::Func();
 
 sub TRACE { return 0 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'FuncTests::test_getUrlHost_ForceDefaultUrlHost' =>
+                  'ForceDefaultUrlHost is Foswiki 1.2+ only, Item11900',
+            }
+        }
+    );
+}
+
 my $MrWhite;
 
 # The second word in the string below consists only of two _graphemes_
@@ -2734,7 +2749,18 @@ sub test_getUrlHost {
     $this->assert_str_equals( 'https://localhost',
         Foswiki::Func::getUrlHost() );
 
-    # Item11900 Force override to DefaultUrlHost
+    return;
+}
+
+# Item11900 Force override to DefaultUrlHost
+sub test_getUrlHost_ForceDefaultUrlHost {
+    my ($this) = @_;
+
+    my $query;
+
+    require Unit::Request;
+    $query = Unit::Request->new("");
+
     $Foswiki::cfg{ForceDefaultUrlHost} = 1;
 
     $query->setUrl('http://localhost/Main/SvenDowideit');
@@ -2746,6 +2772,10 @@ sub test_getUrlHost {
     $this->createNewFoswikiSession( undef, $query );
     $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
+
+    #$query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
+    $Foswiki::cfg{ForceDefaultUrlHost} = 0;
 
     $query->setUrl('https://www.foswiki.org/Main/SvenDowideit');
     $this->createNewFoswikiSession( undef, $query );
