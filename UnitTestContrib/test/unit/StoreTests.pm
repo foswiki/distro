@@ -3,6 +3,11 @@
 # Tests for the Foswiki::Store API used by the Foswiki::Meta class to
 # interact with the store.
 #
+# Note: these are not really Store tests; they are actually tests for
+# store functionality that resides in Foswiki::Meta. If you were
+# looking for the unit tests for the actual Store API, see
+# StoreImplementationTests.pm
+#
 # These tests must be independent of the actual store implementation.
 
 package StoreTests;
