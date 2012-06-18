@@ -15,9 +15,6 @@
   As per the GPL, removal of this notice is prohibited.
 */
 
-// Top level setup for tiny MCE editor. Requires tiny_mce.js and foswiki_tiny.js
-FoswikiTiny.install();
-
 // Item10288:  Prevent save while in Full Screen
 jQuery(document).ready(function($) {
     $("#save").closest('form').bind('submit', function(event) {

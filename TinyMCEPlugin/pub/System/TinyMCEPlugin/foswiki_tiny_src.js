@@ -414,7 +414,7 @@ var FoswikiTiny = {
 	    });
         } else {
             alert(
-'Unable to install TinyMCE: could not read "TINYMCEPLUGIN_INIT" from FoswikiTiny.init');
+'Unable to install TinyMCE: could not read "TINYMCEPLUGIN_INIT" from init parameters');
         }
     },
 

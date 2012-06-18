@@ -116,6 +116,31 @@ sub beforeEditHandler {
         return;
     }
 
+    # Inline JS to set config? Heresy! Well, we were encoding into <meta tags
+    # but this caused problems with non-8bit encodings (See Item9973). Given
+    # that we blindly eval'd the unescaped TINYMCEPLUGIN_INIT anyway, PaulHarvey
+    # doesn't think it was any more secure anyway. Alternative is to use
+    # https://github.com/douglascrockford/JSON-js lib
+    requireTinyMCESource();
+    my $scripts = <<"SCRIPT";
+<script type="text/javascript">
+init = {
+  $init
+};
+FoswikiTiny.install(init);
+</script>
+SCRIPT
+
+    Foswiki::Func::addToZone( 'script', 'TinyMCEPluginTextArea', $scripts,
+        'TinyMCEPlugin' );
+
+    # See %SYSTEMWEB%.IfStatements for a description of this context id.
+    Foswiki::Func::getContext()->{textareas_hijacked} = 1;
+
+    return;
+}
+
+sub requireTinyMCESource {
     my $USE_SRC = '';
     if ( Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_DEBUG') ) {
         $USE_SRC = '_src';
@@ -145,20 +170,11 @@ sub beforeEditHandler {
     my $scripts = <<"SCRIPT";
 <script type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js?v=$encodedVersion"></script>
 <script type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
-<script type="text/javascript">
-FoswikiTiny.init = {
-  $init
-};</script>
 <script type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
 SCRIPT
 
     Foswiki::Func::addToZone( 'script', 'TinyMCEPlugin', $scripts,
         'JQUERYPLUGIN::FOSWIKI' );
-
-    # See %SYSTEMWEB%.IfStatements for a description of this context id.
-    Foswiki::Func::getContext()->{textareas_hijacked} = 1;
-
-    return;
 }
 
 1;
