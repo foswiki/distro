@@ -46,11 +46,12 @@ sub WHY { 0 }
 
 #simple Browser detection.
 our %defaultINIT_BROWSER = (
-    MSIE   => '',
-    OPERA  => '',
-    GECKO  => '"gecko_spellcheck" : true',
-    SAFARI => '',
-    CHROME => '',
+    MSIE    => '',
+    OPERA   => '',
+    GECKO   => '"gecko_spellcheck" : true',
+    SAFARI  => '',
+    CHROME  => '',
+    UNKNOWN => '',
 );
 my $query;
 
@@ -131,6 +132,9 @@ sub getBrowserName {
     }
     elsif ( $browserInfo{isMSIE} ) {
         $browser = 'MSIE';
+    }
+    else {
+        $browser = 'UNKNOWN';
     }
 
     return ( $browser, $defaultINIT_BROWSER{$browser} );
