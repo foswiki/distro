@@ -2005,7 +2005,9 @@ sub test_checkRCSProgram {
 
     $this->assert( !exists $Foswiki::cfg{RCS}{foo} );
     local $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
-    local $Foswiki::cfg{RCS}{foo}              = 'rcs (GNU RCS) 5.8.1';
+
+    # Don't forget that the cmd is sanitized/untainted...
+    local $Foswiki::cfg{RCS}{foo} = 'rcs';
     $this->assert( !$checkerObj->checkRCSProgram('foo') );
 
     return;
