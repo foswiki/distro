@@ -215,7 +215,7 @@ Example:
 | =TINYMCEPLUGIN_MCESKIN_VARIANT= | %INCLUDE{"%TOPIC%" section="MCESKIN_VARIANT"}% | A !TinyMCE skin may have _variants_. =o2k7= skin has =silver= and =black= variants. |
 
 ---+++ Browser Specific Settings
-Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
+Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO, UNKNOWN and SAFARI. For example,
 <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_MSIE = "paste_auto_cleanup_on_paste" : false </verbatim>
 The defaults are:
 <verbatim class="perl">
@@ -223,7 +223,8 @@ The defaults are:
     OPERA => '',
     GECKO => '"gecko_spellcheck" : true',
     SAFARI => '',
-    CHROME => ''
+    CHROME => '',
+    UNKNOWN => '',
 </verbatim>
 
 ---++ !TinyMCE Plugins & Toolbar Buttons
