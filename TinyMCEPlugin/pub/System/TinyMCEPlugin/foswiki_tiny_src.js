@@ -106,16 +106,16 @@ var FoswikiTiny = {
 
     // Set up content for the initial edit
     setUpContent: function(editor_id, body, doc) {
+        var editor = tinyMCE.getInstanceById(editor_id);
         // If we haven't done it before, then transform from TML
         // to HTML. We need this test so that pressing the 'back'
         // button from a failed save doesn't banjax the old content.
-        if (FoswikiTiny.initialisedFromServer) return;
-        var editor = tinyMCE.getInstanceById(editor_id);
+        if (editor.initialisedFromServer) return;
         FoswikiTiny.switchToWYSIWYG(editor);
 
         // Also add the handler for cleaning up after force_root_blocks
         editor.onGetContent.add(FoswikiTiny.removeErasedSpans);
-        FoswikiTiny.initialisedFromServer = true;
+        editor.initialisedFromServer = true;
     },
 
     cleanBeforeSave: function(eid, buttonId) {
