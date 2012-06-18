@@ -20,12 +20,12 @@ sub early_line {
     my $this = shift;
     if ( $_[0] =~ /EARLY_LINE_TRAP/ ) {
         $this->{out} .= "EL $_[0]\n";
-        return 0;
+        return 1;
     }
     if ( $_[0] =~ s/EARLY_LINE_EXCISE// ) {
         $this->{out} .= "ELE\n";
     }
-    return 1;
+    return 0;
 }
 
 sub line {
