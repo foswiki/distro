@@ -18,6 +18,7 @@ use warnings;
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 
+use Assert;
 use File::Spec               ();
 use CGI                      ();
 use Foswiki::Configure::Load ();
@@ -515,7 +516,12 @@ sub checkRCSProgram {
             $err .= $this->ERROR( $prog
                   . ' did not return a version number (or might not exist..)' );
         }
-        if ( $version =~ /^\d/ && $version < $rcsverRequired ) {
+
+        # Item11955 - '5.8.1' < 5.7 results in a warning (non-numeric compare)
+        # Best practice is to use CPAN:version, but isn't core until perl 5.10.
+        # So instead let's make the comparison work by stripping out sub-decimal
+        ASSERT( $rcsverRequired =~ /^\d+(\.\d+)?$/ ) if DEBUG;
+        if ( $version =~ /\D(\d+(\.\d+)?)/ && $1 < $rcsverRequired ) {
 
             # RCS too old
             $err .=
