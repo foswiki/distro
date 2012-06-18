@@ -2000,24 +2000,24 @@ DONE
 #Item11955
 sub test_checkRCSProgram {
     my ($this) = @_;
-    {
-
-        package Test::Foswiki::Configure::Dummy;
-        use Foswiki::Configure::UIs::Value();
-        our @ISA = 'Foswiki::Configure::UIs::Value';
-
-        sub inc { }
-    }
     my $checkerObj =
       Foswiki::Configure::Checker->new('Test::Foswiki::Configure::Dummy');
 
-    require Foswiki::Configure::Value;
     $this->assert( !exists $Foswiki::cfg{RCS}{foo} );
-    $Foswiki::cfg{RCS}{foo} = 'rcs (GNU RCS) 5.8.1';
+    local $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
+    local $Foswiki::cfg{RCS}{foo}              = 'rcs (GNU RCS) 5.8.1';
     $this->assert( !$checkerObj->checkRCSProgram('foo') );
-    delete $Foswiki::cfg{RCS}{foo};
 
     return;
+}
+
+{
+
+    package Test::Foswiki::Configure::Dummy;
+    use Foswiki::Configure::UIs::Value();
+    local our @ISA = 'Foswiki::Configure::UIs::Value';
+
+    sub inc { }
 }
 
 1;
