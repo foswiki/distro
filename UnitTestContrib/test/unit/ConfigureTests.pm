@@ -16,6 +16,7 @@ use Foswiki::Configure::FoswikiCfg     ();
 use Foswiki::Configure::Root           ();
 use Foswiki::Configure::Valuer         ();
 use Foswiki::Configure::UI             ();
+use Foswiki::Configure::Checker        ();
 use Foswiki::Configure::GlobalControls ();
 
 sub skip {
@@ -1992,6 +1993,29 @@ DONE
     unlink $tempdir . "/MyPlugin.tgz";
     $pkg->finish();
     undef $pkg;
+
+    return;
+}
+
+#Item11955
+sub test_checkRCSProgram {
+    my ($this) = @_;
+    {
+
+        package Test::Foswiki::Configure::Dummy;
+        use Foswiki::Configure::UIs::Value();
+        our @ISA = 'Foswiki::Configure::UIs::Value';
+
+        sub inc { }
+    }
+    my $checkerObj =
+      Foswiki::Configure::Checker->new('Test::Foswiki::Configure::Dummy');
+
+    require Foswiki::Configure::Value;
+    $this->assert( !exists $Foswiki::cfg{RCS}{foo} );
+    $Foswiki::cfg{RCS}{foo} = 'rcs (GNU RCS) 5.8.1';
+    $this->assert( !$checkerObj->checkRCSProgram('foo') );
+    delete $Foswiki::cfg{RCS}{foo};
 
     return;
 }
