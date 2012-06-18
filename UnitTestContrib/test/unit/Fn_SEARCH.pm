@@ -3150,6 +3150,183 @@ EXPECT
     return;
 }
 
+#Item11860: SEARCH paging with zeroresults
+#-----------------------------------
+sub test_paging_three_webs_first_page_zeroresultsset {
+    my $this   = shift;
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = $this->_expect_with_deps(
+        <<'FOSWIKI12',
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(4,4)Sandbox.WebChanges
+FOOT(1,1)
+FOSWIKI12
+        'Foswiki,<,1.2' => <<'FOSWIKI11');
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)Main.WebChanges
+FOOT(1,1)
+FOSWIKI11
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_second_page_zeroresultsset {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = $this->_expect_with_deps(
+        <<'FOSWIKI12',
+Sandbox.WebHome
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(3,3)System.WebChanges
+System.WebHome
+FOOT(2,2)
+FOSWIKI12
+        'Foswiki,<,1.2' => <<'FOSWIKI11');
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(3,3)Sandbox.WebChanges
+Sandbox.WebHome
+FOOT(2,2)
+FOSWIKI11
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_third_page_zeroresultsset {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="3"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = $this->_expect_with_deps(
+        <<'FOSWIKI12',
+System.WebIndex
+System.WebPreferences
+FOOT(2,2)
+FOSWIKI12
+        'Foswiki,<,1.2' => <<'FOSWIKI11');
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(2,2)
+FOSWIKI11
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_fourth_page_zeroresultsset {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="4"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = <<'EXPECT';
+Empty
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_way_too_far_zeroresultsset {
+    my $this = shift;
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="99"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = <<'EXPECT';
+Empty
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
 # Item10471
 #------------------------------------
 # non-PAGING with limit= should apply a per-web limit
