@@ -2761,6 +2761,7 @@ sub test_getUrlHost_ForceDefaultUrlHost {
     require Unit::Request;
     $query = Unit::Request->new("");
 
+    $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
     $Foswiki::cfg{ForceDefaultUrlHost} = 1;
 
     $query->setUrl('http://localhost/Main/SvenDowideit');
@@ -2772,10 +2773,6 @@ sub test_getUrlHost_ForceDefaultUrlHost {
     $this->createNewFoswikiSession( undef, $query );
     $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
-
-    #$query->path_info("/$this->{test_web}/$this->{test_topic}");
-    $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
-    $Foswiki::cfg{ForceDefaultUrlHost} = 0;
 
     $query->setUrl('https://www.foswiki.org/Main/SvenDowideit');
     $this->createNewFoswikiSession( undef, $query );
