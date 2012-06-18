@@ -8,27 +8,17 @@ use warnings;
 use Assert;
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '1.2.7';
+our $RELEASE           = '1.2.8';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
 use Foswiki::Func ();
-
-our %defaultINIT_BROWSER = (
-    MSIE   => '',
-    OPERA  => '',
-    GECKO  => '"gecko_spellcheck" : true',
-    SAFARI => '',
-    CHROME => '',
-);
 my $query;
-
-# Info about browser type
-my %browserInfo;
 
 sub initPlugin {
     $query = Foswiki::Func::getCgiQuery();
     return 0 unless $query;
+
     unless ( $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} ) {
         Foswiki::Func::writeWarning(
 "TinyMCEPlugin is enabled but WysiwygPlugin is not. Both must be installed and enabled for TinyMCE."
@@ -40,24 +30,6 @@ sub initPlugin {
 "TinyMCEPlugin is enabled but JQueryPlugin is not. Both must be installed and enabled for TinyMCE."
         );
         return 0;
-    }
-
-    # Identify the browser from the user agent string
-    my $ua = $query->user_agent();
-    if ($ua) {
-        $browserInfo{isMSIE} = $ua =~ /MSIE/;
-        $browserInfo{isMSIE5}   = $browserInfo{isMSIE} && ( $ua =~ /MSIE 5/ );
-        $browserInfo{isMSIE5_0} = $browserInfo{isMSIE} && ( $ua =~ /MSIE 5.0/ );
-        $browserInfo{isMSIE6} = $browserInfo{isMSIE} && $ua =~ /MSIE 6/;
-        $browserInfo{isMSIE7} = $browserInfo{isMSIE} && $ua =~ /MSIE 7/;
-        $browserInfo{isMSIE8} = $browserInfo{isMSIE} && $ua =~ /MSIE 8/;
-        $browserInfo{isGecko}  = $ua =~ /Gecko/;   # Will also be true on Safari
-        $browserInfo{isSafari} = $ua =~ /Safari/;  # Will also be true on Chrome
-        $browserInfo{isOpera}  = $ua =~ /Opera/;
-        $browserInfo{isChrome} = $ua =~ /Chrome/;
-        $browserInfo{isMac}    = $ua =~ /Mac/;
-        $browserInfo{isNS7}  = $ua =~ /Netscape\/7/;
-        $browserInfo{isNS71} = $ua =~ /Netscape\/7.1/;
     }
 
     return 1;
@@ -119,36 +91,20 @@ sub beforeEditHandler {
           . '" section="TINYMCEPLUGIN_INIT" warn="off"}%',
         $topic, $web
       );
-    my $browser = '';
 
-    # The order of these conditions is important, because browsers
-    # spoof eachother
-    if ( $browserInfo{isChrome} ) {
-        $browser = 'CHROME';
-    }
-    elsif ( $browserInfo{isSafari} ) {
-        $browser = 'SAFARI';
-    }
-    elsif ( $browserInfo{isOpera} ) {
-        $browser = 'OPERA';
-    }
-    elsif ( $browserInfo{isGecko} ) {
-        $browser = 'GECKO';
-    }
-    elsif ( $browserInfo{isMSIE} ) {
-        $browser = 'MSIE';
-    }
+    require Foswiki::Plugins::WysiwygPlugin;
+    my ( $browser, $defaultINIT_BROWSER ) =
+      Foswiki::Plugins::WysiwygPlugin::getBrowserName();
+
     if ($browser) {
         my $settings =
           Foswiki::Func::getPreferencesValue( 'TINYMCEPLUGIN_INIT_' . $browser )
-          || $defaultINIT_BROWSER{$browser};
+          || $defaultINIT_BROWSER;
         if ($settings) {
             $init =
               join( ',', ( split( ',', $init ), split( ',', $settings ) ) );
         }
     }
-
-    require Foswiki::Plugins::WysiwygPlugin;
 
     $mess = Foswiki::Plugins::WysiwygPlugin::notWysiwygEditable($text);
     if ($mess) {

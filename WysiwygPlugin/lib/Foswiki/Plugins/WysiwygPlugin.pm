@@ -31,7 +31,7 @@ our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 our $VERSION           = '$Rev$';
 
-our $RELEASE = '1.1.13';
+our $RELEASE = '1.1.14';
 
 our %xmltag;
 
@@ -43,6 +43,20 @@ our %FoswikiCompatibility;
 
 # Set to 1 for reasons for rejection
 sub WHY { 0 }
+
+#simple Browser detection.
+our %defaultINIT_BROWSER = (
+    MSIE   => '',
+    OPERA  => '',
+    GECKO  => '"gecko_spellcheck" : true',
+    SAFARI => '',
+    CHROME => '',
+);
+my $query;
+
+# Info about browser type
+my %browserInfo;
+my $browser;
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
@@ -75,6 +89,51 @@ sub initPlugin {
 
     # Plugin correctly initialized
     return 1;
+}
+
+sub getBrowserName {
+    return $browser if ( defined($browser) );
+
+    $query = Foswiki::Func::getCgiQuery();
+    return unless ($query);
+
+    # Identify the browser from the user agent string
+    my $ua = $query->user_agent();
+    if ($ua) {
+        $browserInfo{isMSIE} = $ua =~ /MSIE/;
+        $browserInfo{isMSIE5}   = $browserInfo{isMSIE} && ( $ua =~ /MSIE 5/ );
+        $browserInfo{isMSIE5_0} = $browserInfo{isMSIE} && ( $ua =~ /MSIE 5.0/ );
+        $browserInfo{isMSIE6} = $browserInfo{isMSIE} && $ua =~ /MSIE 6/;
+        $browserInfo{isMSIE7} = $browserInfo{isMSIE} && $ua =~ /MSIE 7/;
+        $browserInfo{isMSIE8} = $browserInfo{isMSIE} && $ua =~ /MSIE 8/;
+        $browserInfo{isGecko}  = $ua =~ /Gecko/;   # Will also be true on Safari
+        $browserInfo{isSafari} = $ua =~ /Safari/;  # Will also be true on Chrome
+        $browserInfo{isOpera}  = $ua =~ /Opera/;
+        $browserInfo{isChrome} = $ua =~ /Chrome/;
+        $browserInfo{isMac}    = $ua =~ /Mac/;
+        $browserInfo{isNS7}  = $ua =~ /Netscape\/7/;
+        $browserInfo{isNS71} = $ua =~ /Netscape\/7.1/;
+    }
+
+    # The order of these conditions is important, because browsers
+    # spoof eachother
+    if ( $browserInfo{isChrome} ) {
+        $browser = 'CHROME';
+    }
+    elsif ( $browserInfo{isSafari} ) {
+        $browser = 'SAFARI';
+    }
+    elsif ( $browserInfo{isOpera} ) {
+        $browser = 'OPERA';
+    }
+    elsif ( $browserInfo{isGecko} ) {
+        $browser = 'GECKO';
+    }
+    elsif ( $browserInfo{isMSIE} ) {
+        $browser = 'MSIE';
+    }
+
+    return ( $browser, $defaultINIT_BROWSER{$browser} );
 }
 
 sub _execute {

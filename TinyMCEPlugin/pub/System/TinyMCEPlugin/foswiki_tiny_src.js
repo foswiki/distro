@@ -90,8 +90,6 @@ var FoswikiTiny = {
         })
     },
 
-    initialisedFromServer: false,
-
     removeErasedSpans: function(ed, o) {
         // forced_root_block makes TMCE insert &nbsp; into empty spans.
         // TML2HTML emits spans with the WYSIWYG_HIDDENWHITESPACE class
@@ -398,15 +396,18 @@ var FoswikiTiny = {
         return FoswikiTiny.metaTags[inKey];
     },
 
-    install: function() {
+    install: function(init) {
+        if (! init) {
+            init = FoswikiTiny.init;
+        }
         // find the TINYMCEPLUGIN_INIT preference
-        if (FoswikiTiny.init) {
-            tinyMCE.init(FoswikiTiny.init);
+        if (init) {
+            tinyMCE.init(init);
 	    // Load plugins
-	    tinyMCE.each(tinyMCE.explode(FoswikiTiny.init.plugins), function(p) {
+	    tinyMCE.each(tinyMCE.explode(init.plugins), function(p) {
 		if (p.charAt(0) == '-') {
 		    p = p.substr(1, p.length);
-		    var url = FoswikiTiny.init.foswiki_plugin_urls[p];
+		    var url = init.foswiki_plugin_urls[p];
 		    if (url)
 			tinyMCE.PluginManager.load(p, url);
 		}
