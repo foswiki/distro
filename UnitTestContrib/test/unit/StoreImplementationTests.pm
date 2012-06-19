@@ -29,6 +29,23 @@ use Error qw( :try );
 my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
 my $data2 = "$data XXX $data";
 
+sub skip {
+    my ( $this, $test ) = @_;
+    my $Item11708 = 'Item11708 Store API fixed in Foswiki 1.2+';
+    my $suite     = __PACKAGE__;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                __PACKAGE__ . '::verify_getRevisionInfo' => $Item11708,
+                __PACKAGE__ . '::verify_repRevTopic'     => $Item11708,
+            }
+        }
+    );
+}
+
 sub set_up {
     my $this = shift;
 
