@@ -39,6 +39,7 @@ sub new {
             number_of_asserts   => 0,
             unexpected_result   => {},
             tests_per_module    => {},
+            failed_suites       => {},
             skipped_suites      => {},
             skipped_tests       => {},
             annotations         => {},
@@ -72,8 +73,8 @@ sub start {
             push( @INC, $1 ) if $1 && -d $1;
         }
         ($suite) = $suite =~ /^(.*)$/;
-        eval "use $suite";
-        if ($@) {
+
+        if ( !eval "require $suite; 1;" ) {
             my $useError = $@;
             my $bad;
 
@@ -130,9 +131,8 @@ sub start {
                 }
                 next if @found;
             }
-            my $m = "*** Failed to use $suite: $useError";
-            print $m;
-            push( @{ $this->{failures} }, $m );
+            print "*** Failed to use $suite: $useError";
+            $this->{failed_suites}{$suite} = $useError;
             next;
         }
         print "Running $suite\n";
@@ -175,7 +175,6 @@ sub start {
     my $actual_incorrect_failures = 0;
     my $actual_incorrect_passes   = 0;
     my $skipped_tests_total       = 0;
-    my $skipped_suites_total      = 0;
     my $actual_correct_failures   = 0;
     my $expected_passes;
     my $expected_correct;
@@ -243,7 +242,11 @@ sub start {
             print "\t$suite ($detail->{tests}) - $detail->{reason}\n";
             $skipped_tests_total += $detail->{tests};
         }
-        $skipped_suites_total = $skipped_suites;
+    }
+    if ( my $failed_suites = scalar( keys %{ $this->{failed_suites} } ) ) {
+        while ( my ( $suite, $detail ) = each %{ $this->{failed_suites} } ) {
+            $actual_incorrect_failures += 1;
+        }
     }
 
     $total =
@@ -262,6 +265,16 @@ sub start {
 ----------------------------
 ---++ Module Failure summary
 HERE
+        if ( my $failed_suites = scalar( keys %{ $this->{failed_suites} } ) ) {
+            print "\n$failed_suites suite"
+              . ( $failed_suites > 1 ? 's' : '' )
+              . " FAILED to compile at all:\n";
+            while ( my ( $suite, $detail ) = each %{ $this->{failed_suites} } )
+            {
+                $detail = substr( $detail, 0, 50 ) . '...';
+                print "   * F: $suite - $detail\n";
+            }
+        }
         foreach my $module (
             sort {
                 $this->{unexpected_result}->{$a} <=> $this->{unexpected_result}
