@@ -32,8 +32,8 @@ use Unit::Request();
 use Unit::Response();
 use Error qw( :try );
 
-sub SINGLE_SINGLETONS { 0 }
-sub TRACE             { 0 }
+use constant SINGLE_SINGLETONS => 0;
+use constant TRACE             => 0;
 
 BEGIN {
 
@@ -76,6 +76,45 @@ return =$reason= string if the test should be skipped, undef otherwise.
       * =condition= - value is a hashref understood by =check_conditions_met=
       * =tests=     - =$test => $reason= key/value pairs.
 
+Example:
+<verbatim>
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            # This condition matches on Foswiki versions < 1.2
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                # All permutations of verify_TableParser are skipped
+                'TestSuite::verify_TableParser' =>
+                  'TableParser not implemented until Foswiki 1.2',
+            }
+        },
+        {
+            # This condition matches on Foswikis 1.2+ with ShortURL config
+            condition => {
+                with_dep => 'Foswiki,>=,1.2',
+                using    => 'ShortURLs',
+            },
+            tests => {
+                # Only this permutation of verify_request is skipped
+                'TestSuite::verify_request_redirect' =>
+                  'This test makes no sense on Foswiki 1.2+ w/ShortURLs',
+            },
+        },
+        {
+            # This condition matches when Webservice::Solr is missing
+            condition => { without_dep => 'Webservice::Solr' },
+            tests     => {
+                # Example of skipping an individual test
+                'TestSuite::test_solr_thing' => 'Solr perl library missing',
+            },
+        }
+    );
+}
+</verbatim>
 =cut
 
 sub skip_test_if {
@@ -90,12 +129,15 @@ sub skip_test_if {
             if ( $this->check_conditions_met( %{ $item->{condition} } ) ) {
                 my $verify_name = $this->{verify_permutations}{$test};
 
-                if ($verify_name) {
-                    $skip_reason = $item->{tests}{$verify_name};
-                }
-                else {
+                if ( defined $item->{tests}{$test} ) {
                     $skip_reason = $item->{tests}{$test};
                 }
+                elsif ( $verify_name && defined $item->{tests}{$verify_name} ) {
+                    $skip_reason = $item->{tests}{$verify_name};
+                }
+            }
+            elsif (TRACE) {
+                print STDERR "Condition not met: " . Dump( $item->{condition} );
             }
         }
     }
