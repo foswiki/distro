@@ -32,7 +32,6 @@ my $data2 = "$data XXX $data";
 sub skip {
     my ( $this, $test ) = @_;
     my $Item11708 = 'Item11708 Store API fixed in Foswiki 1.2+';
-    my $suite     = __PACKAGE__;
 
     return $this->SUPER::skip_test_if(
         $test,
