@@ -2492,7 +2492,7 @@ sub expandTemplate {
 
 Expand all common =%<nop>VARIABLES%=
    * =$text=  - Text with variables to expand, e.g. ='Current user is %<nop>WIKIUSER%'=
-   * =$topic= - Current topic name, e.g. ='WebNotify'=
+   * =$topic= - Current topic name, optional, e.g. ='WebNotify'=
    * =$web=   - Web name, optional, e.g. ='Main'=. The current web is taken if missing
    * =$meta=  - topic meta-data to use while expanding
 Return: =$text=     Expanded text, e.g. ='Current user is <nop>WikiGuest'=
@@ -2574,7 +2574,7 @@ Render text from TML into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]
    * =$topic= - topic name, optional, defaults to web home
 Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&lt;/code>'=
 
-NOTE: renderText expects that all %MACROS% have already been expanded - it does not expand them for you.
+NOTE: renderText expects that all %MACROS% have already been expanded - it does not expand them for you (call expandCommonVariables above).
 
 =cut
 
