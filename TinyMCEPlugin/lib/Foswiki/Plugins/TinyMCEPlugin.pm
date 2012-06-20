@@ -121,9 +121,9 @@ sub beforeEditHandler {
     # that we blindly eval'd the unescaped TINYMCEPLUGIN_INIT anyway, PaulHarvey
     # doesn't think it was any more secure anyway. Alternative is to use
     # https://github.com/douglascrockford/JSON-js lib
-    requireTinyMCESource();
+    #TODO: move this into a tmpl file
     my $scripts = <<"SCRIPT";
-<script type="text/javascript">
+%JQREQUIRE{"TinyMCE"}%<script type="text/javascript">
 init = {
   $init
 };
@@ -131,50 +131,14 @@ FoswikiTiny.install(init);
 </script>
 SCRIPT
 
-    Foswiki::Func::addToZone( 'script', 'TinyMCEPluginTextArea', $scripts,
-        'TinyMCEPlugin' );
+    Foswiki::Func::addToZone( 'script', 'TinyMCEPluginTextArea',
+        Foswiki::Func::expandCommonVariables($scripts),
+        'JQUERYPLUGIN::TINYMCE' );
 
     # See %SYSTEMWEB%.IfStatements for a description of this context id.
     Foswiki::Func::getContext()->{textareas_hijacked} = 1;
 
     return;
-}
-
-sub requireTinyMCESource {
-    my $USE_SRC = '';
-    if ( Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_DEBUG') ) {
-        $USE_SRC = '_src';
-    }
-
-    # Add the Javascript for the editor. When it starts up the editor will
-    # use a REST call to the WysiwygPlugin tml2html REST handler to convert
-    # the textarea content from TML to HTML.
-    my $pluginURL = '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin';
-    my $tmceURL   = $pluginURL . '/tinymce/jscripts/tiny_mce';
-
-    # URL-encode the version number to include in the .js URLs, so that
-    # the browser re-fetches the .js when this plugin is upgraded.
-    my $encodedVersion = $VERSION;
-
-    # SMELL: This regex (and the one applied to $metainit, above)
-    # duplicates Foswiki::urlEncode(), but Foswiki::Func.pm does not
-    # expose that function, so plugins may not use it
-    $encodedVersion =~
-      s/([^0-9a-zA-Z-_.:~!*'\/%])/'%'.sprintf('%02x',ord($1))/ge;
-
-    # Inline JS to set config? Heresy! Well, we were encoding into <meta tags
-    # but this caused problems with non-8bit encodings (See Item9973). Given
-    # that we blindly eval'd the unescaped TINYMCEPLUGIN_INIT anyway, PaulHarvey
-    # doesn't think it was any more secure anyway. Alternative is to use
-    # https://github.com/douglascrockford/JSON-js lib
-    my $scripts = <<"SCRIPT";
-<script type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js?v=$encodedVersion"></script>
-<script type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js?v=$encodedVersion"></script>
-<script type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js?v=$encodedVersion"></script>
-SCRIPT
-
-    Foswiki::Func::addToZone( 'script', 'TinyMCEPlugin', $scripts,
-        'JQUERYPLUGIN::FOSWIKI' );
 }
 
 1;
