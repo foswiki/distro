@@ -34,8 +34,6 @@
 #  getRevisionDiff no history
 #  getRevisionDiff inconsistent
 #
-# Note that the NoHistory behaviour has a special case where the topic is sourced
-# from the System web. in this case the TOPICINFO is used.
 
 package VCStoreTests;
 use strict;
@@ -49,25 +47,37 @@ use Foswiki();
 use Foswiki::Func();
 
 my $TEXT1 = <<'DONE';
-He had bought a large map representing the sea,
-Without the least vestige of land:
-And the crew were much pleased when they found it to be
-A map they could all understand.
+Fit the first
 DONE
 
 my $TEXT2 = <<'DONE';
-They sought it with thimbles, they sought it with care;
-They pursued it with forks and hope;
-They threatened its life with a railway-share;
-They charmed it with smiles and soap. 
+Second fit
 DONE
 
 my $TEXT3 = <<'DONE';
-Erect and sublime, for one moment of time.
-In the next, that wild figure they saw
-(As if stung by a spasm) plunge into a chasm,
-While they waited and listened in awe. 
+Fit for nothing
 DONE
+
+# Compare two dates
+sub assert_nearly {
+    my ( $this, $d1, $d2 ) = @_;
+
+    # A 1-minute window for completion of the tests is generous
+    $this->assert( abs( $d1 - $d2 ) < 60, "Times too far apart $d1 $d2" );
+}
+
+# Check version info structure against expected data. Defaults to
+# version 1 and unknown user is $version, $author not given.
+sub assert_version_info {
+    my ( $this, $info, $time, $version, $author ) = @_;
+
+    $version ||= 1;
+    $author  ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+
+    $this->assert_num_equals( $version, $info->{version} );
+    $this->assert_str_equals( $author, $info->{author} );
+    $this->assert_nearly( $time, $info->{date} );
+}
 
 sub set_up_for_verify {
     my $this = shift;
@@ -167,38 +177,30 @@ sub verify_NoHistory_NoTOPICINFO_getRevisionInfo {
     # 1
     $this->assert_matches( qr/^\s*\Q$TEXT1\E\s*$/s, $meta->text() );
 
-    # The TOPICINFO should be re-populated approrpiately - if it exists (it may
-    # only be created when the topic is saved)
+    # If it exists, the TOPICINFO should be re-populated appropriately.
+    # (A store may only create it when the topic is saved)
     my $ti = $meta->get('TOPICINFO');
     if ($ti) {
-        $this->assert_num_equals( 1, $ti->{version} );
-        $this->assert_str_equals(
-            $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
-            $ti->{author} );
-
-        # A 1-minute window for completion of the tests is generous
-        $this->assert( time - 9876543210 < 60, $ti->{date} );
+        $this->assert_version_info( $ti, $date );
     }
+
+    # 17
+    my $info = $this->{session}->{store}->getVersionInfo($meta);
+
+    $this->assert_version_info( $info, $date );
 
     # 5
     $this->assert_num_equals( 2,
         $this->{session}->{store}->getNextRevision($meta) );
 
-    # 17
-    my $info = $this->{session}->{store}->getVersionInfo($meta);
-
-# the TOPICINFO{version} should be ignored if the ,v does not exist, and the rev
-# number reverted to 1
-    $this->assert_num_equals( 1, $info->{version} );
-
-    # date should be the filestamp of the .txt file
-    $this->assert_num_equals( $date, $info->{date} );
     $meta->finish();
 
     return;
 }
 
-# Get revision info where there is no history (,v file)
+# Get revision info where there is no history
+# Revision info must be consistent when retrieved from three places:
+# TOPICINFO, getVersionInfo and getRevisionHistory
 sub verify_NoHistory_TOPICINFO_getRevisionInfo {
     my $this = shift;
 
@@ -217,19 +219,11 @@ sub verify_NoHistory_TOPICINFO_getRevisionInfo {
     # 1
     $this->assert_matches( qr/^\s*\Q$TEXT1\E\s*$/s, $meta->text() );
 
-    # The TOPICINFO should be re-populated appropriately
+    # The TOPICINFO should exist and should be re-populated appropriately
     my $ti = $meta->get('TOPICINFO');
-    if ($ti) {
-        $this->assert_num_equals( 1, $ti->{version} );
+    $this->assert($ti);
 
-        # If we want to retain the author from the META, then
-        $this->assert_str_equals( 'LewisCarroll', $ti->{author} );
-
-# otherwise
-#$this->assert_str_equals( $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $ti->{author} );
-
-        #$this->assert_num_equals( 9876543210, $ti->{date} );
-    }
+    $this->assert_version_info( $ti, $date );
 
     # 5
     $this->assert_num_equals( 2,
@@ -238,18 +232,15 @@ sub verify_NoHistory_TOPICINFO_getRevisionInfo {
     # 17
     my $info = $this->{session}->{store}->getVersionInfo($meta);
 
-    # the TOPICINFO{version} should be ignored if the ,v does not exist,
-    # and the rev number reverted to 1
-    $this->assert_num_equals( 1, $info->{version} );
+    $this->assert_version_info( $info, $date );
 
-    #$this->assert_num_equals( 9876543210, $info->{date} );
-
-    $this->assert_str_equals( 'LewisCarroll', $info->{author} );
     $meta->finish();
 
     return;
 }
 
+# Revision info must be consistent when retrieved from three places:
+# TOPICINFO, getVersionInfo and getRevisionHistory
 sub verify_InconsistentTopic_getRevisionInfo {
     my $this = shift;
 
@@ -261,6 +252,8 @@ sub verify_InconsistentTopic_getRevisionInfo {
     # 4
     my $it = $this->{session}->{store}->getRevisionHistory($meta);
     $this->assert( $it->hasNext() );
+
+# Inconsistent topic should declare 2 versions; one in history, and one not checked in yet
     $this->assert_num_equals( 2, $it->next() );
 
     # 6
@@ -271,14 +264,18 @@ sub verify_InconsistentTopic_getRevisionInfo {
     # 2
     $this->assert_matches( qr/^\s*\Q$TEXT2\E\s*$/s, $meta->text() );
 
-# The TOPICINFO *will be wrong* in this case, because it is read from the not-yet-checked-in file. We can't
-# force-checkin when simply doing a getVersionInfo, as that would result in inconsistent topics always
-# getting checked in, which is very, very expensive.
-#    my $ti = $meta->get('TOPICINFO');
-#    $this->assert_num_equals(2, $ti->{version});
-#    $this->assert_str_equals($Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, $ti->{author});
+    # TOPICINFO must be corrected
+    my $ti = $meta->get('TOPICINFO');
+    $this->assert_num_equals( 2, $ti->{version} );
+    $this->assert_str_equals(
+        $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
+        $ti->{author} );
+
+    # and must be consistent with getVersionInfo
     my $info = $this->{session}->{store}->getVersionInfo($meta);
     $this->assert_num_equals( 2, $info->{version} );
+
+    # If we ignore the author in TOPICINFO, this will be unknownuser
     $this->assert_str_equals(
         $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
         $info->{author} );
@@ -404,7 +401,6 @@ sub verify_NoHistory_repRev {
     my $this = shift;
 
     my $date = $this->_createNoHistoryTopic();
-
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     $meta->text($TEXT2);

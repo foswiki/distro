@@ -8,12 +8,14 @@ Single-file implementation of =Foswiki::Store= that uses normal
 files in a standard directory structure to store versions.
 
    * Webs map to directories; webs only "exist" if they contain a preferences topic.
-   * Topics are in topic.txt. If there is no .txt for a topic, the topics does not exist, even if there is a history.
+   * Topics are in topic.txt. If there is no .txt for a topic, the topics does not exist,
+     even if there is a history.
    * Topic histories are in web/topic,pfv/
    * Attachments are in web/topic/attachment
    * Attachment histories are in web/topic/attachment,pfv/
    * Histories consist of files numbered for the revision they store
-   * The latest rev also has a history file (note: this means that large attachments are stored twice; same as in the RCS stores)
+   * The latest rev also has a history file (note: this means that large attachments are
+     stored twice; same as in the RCS stores)
    * META:TOPICINFO date and version fields are retrieved from file
      modification dates; the =$meta= is ignored for these two fields.
 
@@ -96,10 +98,35 @@ sub readTopic {
     $version = $isLatest ? $nr : $version;
 
     # Patch up the revision info
-    $meta->setRevisionInfo(
+    my %ri = (
         version => $version,
         date    => ( stat( _latestFile($meta) ) )[9]
     );
+    my $ti = $meta->get('TOPICINFO');
+    if ( !$ti || !$ti->{author} ) {
+
+        # There's no author in the TOPICINFO
+        $ri{author} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+    }
+    else {
+        if ( _latestIsNewer($meta) ) {
+
+            # Latest has been touched. We
+            # can't know who authored the change; but we do know the
+            # unknown user will check it in when the time comes.
+            $ri{author} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+        }
+        else {
+
+            # otherwise retain the author from META:TOPICINFO
+            $ri{author} = $ti->{author};
+        }
+    }
+    $meta->setRevisionInfo(%ri);
+
+    # If there is a history, but the latest version of the topic
+    # is out-of-date, then the author must be unknown to reflect
+    # what happens on checking
 
     return ( $version, $isLatest );
 }
@@ -258,9 +285,9 @@ sub getRevisionHistory {
         }
         return Foswiki::ListIterator->new( \@list );
     }
+    my $n = _numRevisions( $meta, $attachment );
 
-    return Foswiki::Iterator::NumberRangeIterator->new(
-        _numRevisions( $meta, $attachment ), 1 );
+    return Foswiki::Iterator::NumberRangeIterator->new( $n, 1 );
 }
 
 # Implement Foswiki::Store
@@ -300,23 +327,26 @@ sub getVersionInfo {
         $info = {};
         my $df;
         my $nr = _numRevisions( $meta, $attachment );
+        my $is_latest = 0;
         if ( $rev && $rev > 0 && $rev < $nr ) {
             $df = _historyFile( $meta, $attachment, $rev );
             unless ( -e $df ) {
 
                 # May arise if the history is not continuous, or if
                 # there is no history
-                $df = _latestFile( $meta, $attachment );
-                $rev = $nr;
+                $df        = _latestFile( $meta, $attachment );
+                $rev       = $nr;
+                $is_latest = 1;
             }
         }
         else {
-            $df = _latestFile( $meta, $attachment );
-            $rev = $nr;
+            $df        = _latestFile( $meta, $attachment );
+            $rev       = $nr;
+            $is_latest = 1;
         }
-        unless ($attachment) {
+        unless ( $attachment || $is_latest && _latestIsNewer($meta) ) {
 
-            # if it's a topic, try and retrieve TOPICINFO
+  # if it's a topic and the TOPICINFO can be trusted, try and retrieve TOPICINFO
             _getTOPICINFO( $df, $info );
         }
         $info->{date}    = _getTimestamp($df);
@@ -373,6 +403,7 @@ sub saveTopic {
     # Create new latest
     my $latest = _latestFile($meta);
     _saveFile( $latest, $meta->getEmbeddedStoreForm() );
+
     if ( $options->{forcedate} ) {
         utime( $options->{forcedate}, $options->{forcedate}, $latest )   # touch
           or die "PlainFile: could not touch $latest: $!";
@@ -419,6 +450,7 @@ sub repRev {
 
     # Date on the history file doesn't matter so long as it's
     # >= $latest
+    _mkPathTo($hf);
     File::Copy::copy( $latest, $hf )
       or die "PlainFile: failed to copy $latest to $hf: $!";
 
@@ -724,10 +756,14 @@ sub getRevisionAtTime {
     my $d;
     unless ( opendir( $d, $hd ) ) {
         return 1 if ( $time >= ( stat( _latestFile($meta) ) )[9] );
-        return 0;
+        return undef;
     }
     my @revs = reverse sort grep { /^[0-9]+$/ } readdir($d);
     closedir($d);
+
+    if ( _latestIsNewer($meta) ) {
+        return $revs[0] + 1 if ( $time >= ( stat( _latestFile($meta) ) )[9] );
+    }
 
     foreach my $rev (@revs) {
         return $rev if ( $time >= ( stat("$hd/$rev") )[9] );
@@ -861,11 +897,17 @@ sub _numRevisions {
 
     my $d;
     opendir( $d, $dir ) or die "PlainFile: '$dir': $!";
-    my @revs = sort grep { /^[0-9]+$/ } readdir($d);
+    my @revs = reverse sort grep { /^[0-9]+$/ } readdir($d);
     closedir($d);
 
-    return 0 unless scalar @revs;
-    return pop @revs;
+    return 1 unless scalar @revs;    # one implicit revision
+         # If the head revision is inconsistent with the history,
+         # then there's another implicit revision
+    if ( _latestIsNewer( $meta, $attachment ) ) {
+        unshift( @revs, $revs[0] + 1 );
+    }
+
+    return $revs[0];
 }
 
 # Read the TOPICINFO in a file and populate a record with it
@@ -909,27 +951,8 @@ sub _saveDamage {
     my $latest = _latestFile( $meta, $attachment );
     return unless ( -e $latest );
 
-    my $rev = 1;
-    my $hd = _historyDir( $meta, $attachment );
-
-    if ( -e $hd ) {
-
-        # Is there a history?
-        opendir( $d, $hd ) or die $!;
-        my @revs = sort grep { /^[0-9]+$/ } readdir($d);
-        closedir($d);
-        my $topRev = 0;
-        if ( scalar(@revs) ) {
-            my $topRev = $revs[$#revs];
-            my $hf     = "$hd/$topRev";
-
-            # Check the time on the history file; is the .txt newer?
-            my $ht = ( stat($hf) )[9] || time;
-            my $lt = ( stat($latest) )[9];
-            return if ( $ht >= $lt );    # up to date
-            $rev = $topRev + 1;          # we must create this
-        }
-    }
+    my $rev = _latestIsNewer( $meta, $attachment, $latest );
+    return unless $rev;
 
     # No existing revs; create
     # If this is a topic, correct the TOPICINFO
@@ -954,6 +977,36 @@ sub _saveDamage {
     _mkPathTo($hf);
     File::Copy::copy( $latest, $hf )
       or die "PlainFile: failed to copy to $hf: $!";
+}
+
+# Return 0 if the latest is consistent with the history or
+# there is no history. If there is a history and the working
+# file is newer, then return the rev that would be created
+# if we checked in.
+sub _latestIsNewer {
+    my ( $meta, $attachment, $latest ) = @_;
+
+    $latest ||= _latestFile( $meta, $attachment );
+
+    my $hd = _historyDir( $meta, $attachment );
+
+    return 1 unless ( -e $hd );
+
+    # Is there a history?
+    my $d;
+    opendir( $d, $hd ) or die $!;
+    my @revs = sort grep { /^[0-9]+$/ } readdir($d);
+    closedir($d);
+    return 0 unless scalar(@revs);    # no history
+
+    my $topRev = $revs[$#revs];
+    my $hf     = "$hd/$topRev";
+
+    # Check the time on the history file; is the .txt newer?
+    my $ht = ( stat($hf) )[9] || time;
+    my $lt = ( stat($latest) )[9];
+    return 0 if ( $ht >= $lt );       # up to date
+    return $topRev + 1;               # we must create this
 }
 
 # Record a change in the web history
@@ -985,7 +1038,7 @@ sub _recordChange {
     # Doing this using a Schwartzian transform sometimes causes a mysterious
     # undefined value, so had to unwrap it to a for loop.
     for ( my $i = 0 ; $i <= $#changes ; $i++ ) {
-        $changes[$i] = join( "\t", @{ $changes[$i] } );
+        $changes[$i] = join( "\t", grep { $_ } @{ $changes[$i] } );
     }
 
     my $text = join( "\n", @changes );

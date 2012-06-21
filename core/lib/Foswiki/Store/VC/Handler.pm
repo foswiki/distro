@@ -245,8 +245,7 @@ sub getInfo {
     }
     else {
 
-# There is a checkin pending, but no RCS file. Make the best we can of TOPICINFO.
-        $this->_getTOPICINFO($info);
+        # There is a checkin pending, but no RCS file.
         $info->{version} = 1;
         $info->{comment} = "pending";
     }
