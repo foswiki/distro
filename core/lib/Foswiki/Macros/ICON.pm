@@ -177,8 +177,12 @@ sub ICON {
     #fall back to using the traditional brute force attachment method.
     my ($path) = $this->_findIcon($params);
 
-    return $this->renderer->renderIconImage( $this->_getIconUrl( 0, $path ),
-        $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else' );
+    require Foswiki::Render::IconImage;
+    return Foswiki::Render::IconImage::render(
+        $this,
+        $this->_getIconUrl( 0, $path ),
+        $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else'
+    );
 }
 
 1;

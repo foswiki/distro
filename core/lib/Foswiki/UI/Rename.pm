@@ -816,9 +816,9 @@ sub _moveTopicOrAttachment {
             inWeb     => $to->web,
             fullPaths => 0,
 
-            # Process noautolink blocks. forEachLine will set in_noautolink when
-            # processing links in a noautolink block.  getReferenceRE will force
-            # squabbed links when in_noautolink is set.
+           # Process noautolink blocks. forEachLine will set in_noautolink when
+           # processing links in a noautolink block.  _getReferenceRE will force
+           # squabbed links when in_noautolink is set.
             noautolink => 1,
         };
         $text =
@@ -880,7 +880,7 @@ sub _replaceTopicReferences {
         $repl = $newWeb . '.' . $repl;
     }
 
-    my $re = Foswiki::Render::getReferenceRE( $oldWeb, $oldTopic, %$args );
+    my $re = _getReferenceRE( $oldWeb, $oldTopic, %$args );
     $text =~ s/($re)/_doReplace($1, $newWeb, $repl)/ge;
 
     # Do any references for Templates
@@ -897,13 +897,12 @@ sub _replaceTopicReferences {
                 && $args->{_type} eq 'PREFERENCE'
                 && $args->{_key}  eq 'value' )
             {
-                $re =
-                  Foswiki::Render::getReferenceRE( $oldWeb, $ot, nosot => 1 );
+                $re = _getReferenceRE( $oldWeb, $ot, nosot => 1 );
                 $text =~ s/($re)/_doReplace($1, $newWeb, $nt)/ge;
             }
 
             # Handle Set/Local statements inline
-            $re = Foswiki::Render::getReferenceRE(
+            $re = _getReferenceRE(
                 $oldWeb, $ot,
                 nosot    => 1,
                 template => 1
@@ -917,7 +916,7 @@ sub _replaceTopicReferences {
 
     # Now URL form
     $repl = "/$newWeb/$newTopic";
-    $re = Foswiki::Render::getReferenceRE( $oldWeb, $oldTopic, url => 1 );
+    $re = _getReferenceRE( $oldWeb, $oldTopic, url => 1 );
     $text =~ s/$re/$repl/g;
 
     return $text;
@@ -956,12 +955,12 @@ sub _replaceWebReferences {
 
     # Replace stand-alone web references with $MARKER, to
     # prevent matching $newWeb as a URL fragment in the second RE
-    my $re = Foswiki::Render::getReferenceRE( $oldWeb, undef, %$args );
+    my $re = _getReferenceRE( $oldWeb, undef, %$args );
     $text =~ s/$re/$MARKER$1/g;
 
     # Now do URLs.
     $args->{url} = 1;
-    $re = Foswiki::Render::getReferenceRE( $oldWeb, undef, %$args );
+    $re = _getReferenceRE( $oldWeb, undef, %$args );
     $text =~ s#$re#/$newWeb/#g;
     $args->{url} = 0;
 
@@ -1245,6 +1244,228 @@ sub _getReferringTopicsListFromURL {
         push @result, "$itemWeb.$itemTopic";
     }
     return \@result;
+}
+
+# _getReferenceRE($web, $topic, %options) -> $re
+#
+#    * $web, $topic - specify the topic being referred to, or web if $topic is
+#      undef.
+#    * %options - the following options are available
+#       * =interweb= - if true, then fully web-qualified references are required.
+#       * =grep= - if true, generate a GNU-grep compatible RE instead of the
+#         default Perl RE.
+#       * =nosot= - If true, do not generate "Spaced out text" match
+#       * =template= - If true, match for template setting in Set/Local statement
+#       * =in_noautolink= - Only match explicit (squabbed) WikiWords.   Used in <noautolink> blocks
+#       * =inMeta= - Re should match exact string. No delimiters needed.
+#       * =url= - if set, generates an expression that will match a Foswiki
+#         URL that points to the web/topic, instead of the default which
+#         matches topic links in plain text.
+# Generate a regular expression that can be used to match references to the
+# specified web/topic. Note that the resultant RE will only match fully
+# qualified (i.e. with web specifier) topic names and topic names that
+# are wikiwords in text. Works for spaced-out wikiwords for topic names.
+#
+# The RE returned is designed to be used with =s///=
+
+sub _getReferenceRE {
+    my ( $web, $topic, %options ) = @_;
+
+    my $matchWeb = $web;
+
+    # Convert . and / to [./] (subweb separators) and quote
+    # special characters
+    $matchWeb =~ s#[./]#\0#g;
+    $matchWeb = quotemeta($matchWeb);
+
+# SMELL: Item10176 -  Adding doublequote as a WikiWord delimiter.   This causes non-linking quoted
+# WikiWords in tml to be incorrectly renamed.   But does handle quoted topic names inside macro parameters.
+# But this doesn't really fully fix the issue - $quotWikiWord for example.
+    my $reSTARTWW = qr/^|(?<=[\s"\*=_\(])/m;
+    my $reENDWW   = qr/$|(?=[\s"\*#=_,.;:!?)])/m;
+
+    # \0 is escaped by quotemeta so we need to match the escape
+    $matchWeb =~ s#\\\0#[./]#g;
+
+    # Item1468/5791 - Quote special characters
+    $topic = quotemeta($topic) if defined $topic;
+
+    # Note use of \b to match the empty string at the
+    # edges of a word.
+    my ( $bow, $eow, $forward, $back ) = ( '\b_?', '_?\b', '?=', '?<=' );
+    if ( $options{grep} ) {
+        $bow     = '\b_?';
+        $eow     = '_?\b';
+        $forward = '';
+        $back    = '';
+    }
+    my $squabo = "($back\\[\\[)";
+    my $squabc = "($forward(?:#.*?)?\\][][])";
+
+    my $re = '';
+
+    if ( $options{url} ) {
+
+        # URL fragment. Assume / separator (while . is legal, it's
+        # undocumented and is not common usage)
+        $re = "/$web/";
+        $re .= $topic . $eow if $topic;
+    }
+    else {
+        if ( defined($topic) ) {
+
+            my $sot;
+            unless ( $options{nosot} ) {
+
+                # Work out spaced-out version (allows lc first chars on words)
+                $sot = Foswiki::spaceOutWikiWord( $topic, ' *' );
+                if ( $sot ne $topic ) {
+                    $sot =~ s/\b([a-zA-Z])/'['.uc($1).lc($1).']'/ge;
+                }
+                else {
+                    $sot = undef;
+                }
+            }
+
+            if ( $options{interweb} ) {
+
+                # Require web specifier
+                if ( $options{grep} ) {
+                    $re = "$bow$matchWeb\\.$topic$eow";
+                }
+                elsif ( $options{template} ) {
+
+# $1 is used in replace.  Can't use lookbehind because of variable length restriction
+                    $re = '('
+                      . $Foswiki::regex{setRegex}
+                      . '(?:VIEW|EDIT)_TEMPLATE\s*=\s*)('
+                      . $matchWeb . '\\.'
+                      . $topic . ')\s*$';
+                }
+                elsif ( $options{in_noautolink} ) {
+                    $re = "$squabo$matchWeb\\.$topic$squabc";
+                }
+                else {
+                    $re = "$reSTARTWW$matchWeb\\.$topic$reENDWW";
+                }
+
+                # Matching of spaced out topic names.
+                if ($sot) {
+
+                    # match spaced out in squabs only
+                    $re .= "|$squabo$matchWeb\\.$sot$squabc";
+                }
+            }
+            else {
+
+                # Optional web specifier - but *only* if the topic name
+                # is a wikiword
+                if ( $topic =~ /$Foswiki::regex{wikiWordRegex}/ ) {
+
+                    # Bit of jigger-pokery at the front to avoid matching
+                    # subweb specifiers
+                    if ( $options{grep} ) {
+                        $re = "(($back\[^./])|^)$bow($matchWeb\\.)?$topic$eow";
+                    }
+                    elsif ( $options{template} ) {
+
+# $1 is used in replace.  Can't use lookbehind because of variable length restriction
+                        $re = '('
+                          . $Foswiki::regex{setRegex}
+                          . '(?:VIEW|EDIT)_TEMPLATE\s*=\s*)'
+                          . "($matchWeb\\.)?$topic" . '\s*$';
+                    }
+                    elsif ( $options{in_noautolink} ) {
+                        $re = "$squabo($matchWeb\\.)?$topic$squabc";
+                    }
+                    else {
+                        $re = "$reSTARTWW($matchWeb\\.)?$topic$reENDWW";
+                    }
+
+                    if ($sot) {
+
+                        # match spaced out in squabs only
+                        $re .= "|$squabo($matchWeb\\.)?$sot$squabc";
+                    }
+                }
+                else {
+                    if ( $options{inMeta} ) {
+                        $re = "^($matchWeb\\.)?$topic\$"
+                          ;  # Updating a META item,  Exact match, no delimiters
+                    }
+                    else {
+
+                        # Non-wikiword; require web specifier or squabs
+                        $re = "$squabo$topic$squabc";    # Squabbed topic
+                        $re .= "|\"($matchWeb\\.)?$topic\""
+                          ;    # Quoted string in Meta and Macros
+                        $re .= "|(($back\[^./])|^)$bow$matchWeb\\.$topic$eow"
+                          unless ( $options{in_noautolink} )
+                          ;    # Web qualified topic outside of autolink blocks.
+                    }
+                }
+            }
+        }
+        else {
+
+            # Searching for a web
+            # SMELL:  Does this web search also need to allow for quoted
+            # "Web.Topic" strings found in macros and META usage?
+
+            if ( $options{interweb} ) {
+
+                if ( $options{in_noautolink} ) {
+
+                    # web name used to refer to a topic
+                    $re =
+                        $squabo
+                      . $matchWeb
+                      . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . $squabc;
+                }
+                else {
+                    $re =
+                        $bow
+                      . $matchWeb
+                      . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
+                      . $eow;
+                }
+            }
+            else {
+
+                # most general search for a reference to a topic or subweb
+                # note that Foswiki::UI::Rename::_replaceWebReferences()
+                # uses $1 from this regex
+                if ( $options{in_noautolink} ) {
+                    $re =
+                        $squabo
+                      . $matchWeb
+                      . "(([\/\.][$Foswiki::regex{upperAlpha}]"
+                      . "[$Foswiki::regex{mixedAlphaNum}_]*)+"
+                      . "\.[$Foswiki::regex{mixedAlphaNum}]*)"
+                      . $squabc;
+                }
+                else {
+                    $re =
+                        $bow
+                      . $matchWeb
+                      . "(([\/\.][$Foswiki::regex{upperAlpha}]"
+                      . "[$Foswiki::regex{mixedAlphaNum}_]*)+"
+                      . "\.[$Foswiki::regex{mixedAlphaNum}]*)"
+                      . $eow;
+                }
+            }
+        }
+    }
+
+#my $optsx = '';
+#$optsx .= "NOSOT=$options{nosot} " if ($options{nosot});
+#$optsx .= "GREP=$options{grep} " if ($options{grep});
+#$optsx .= "URL=$options{url} " if ($options{url});
+#$optsx .= "INNOAUTOLINK=$options{in_noautolink} " if ($options{in_noautolink});
+#$optsx .= "INTERWEB=$options{interweb} " if ($options{interweb});
+#print STDERR "ReferenceRE returns $re $optsx  \n";
+    return $re;
 }
 
 #   * =$session= - the session

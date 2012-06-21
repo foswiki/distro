@@ -132,8 +132,13 @@ sub guessMajorDir {
         $Foswiki::cfg{$cfg} =~ s|\\|/|g;
         $msg = $this->guessed();
     }
-    unless ( $silent || -d $Foswiki::cfg{$cfg} ) {
-        $msg .= $this->ERROR("Directory '$Foswiki::cfg{$cfg}'  does not exist");
+    $val = $Foswiki::cfg{$cfg};
+    Foswiki::Configure::Load::expandValue($val);
+    unless ( $silent || -d $val ) {
+        $msg .=
+          $this->ERROR( "Directory '$Foswiki::cfg{$cfg}'"
+              . ( $val eq $Foswiki::cfg{$cfg} ? '' : " ($val)" )
+              . "  does not exist" );
     }
     return $msg;
 }

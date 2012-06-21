@@ -25,7 +25,7 @@ topic definition of the variable is always taken when it is referenced in the
 topic where it is defined. This is a special case to deal with the case where a
 preference has to have a different value in the defining topic.
 
-Values in global and local scope are accessed using =getPreference=/
+Values in global and local scope are accessed using =getPreference=
 
 _Web_ scope is used by web access controls. Subwebs inherint access controls
 from parent webs and only from parent webs. Global and Local scopes are

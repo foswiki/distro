@@ -4,6 +4,9 @@ package Foswiki;
 use strict;
 use warnings;
 
+use Foswiki::Store ();
+use Foswiki::Meta  ();
+
 sub FORMFIELD {
     my ( $this, $args, $topicObject ) = @_;
     if ( $args->{topic} ) {
@@ -22,7 +25,8 @@ sub FORMFIELD {
         $args->{rev} =
           Foswiki::Store::cleanUpRevID( $args->{rev} || $cgiRev ) || '';
     }
-    return $this->renderer->renderFORMFIELD( $args, $topicObject );
+    require Foswiki::Render::FormField;
+    return Foswiki::Render::FormField::render( $this, $args, $topicObject );
 }
 
 1;
@@ -30,7 +34,7 @@ sub FORMFIELD {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

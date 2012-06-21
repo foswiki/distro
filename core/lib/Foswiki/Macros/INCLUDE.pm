@@ -219,7 +219,7 @@ sub _includeTopic {
           if $Foswiki::cfg{Cache}{Enabled};
 
         # handle sections
-        my ( $ntext, $sections ) = parseSections($text);
+        my ( $ntext, $sections ) = Foswiki::parseSections($text);
 
         my $interesting = ( defined $control->{section} );
         if ( $interesting || scalar(@$sections) ) {

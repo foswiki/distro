@@ -33,13 +33,15 @@ sub META {
         return $this->attach->renderMetaData( $topicObject, $params );
     }
     elsif ( $option eq 'moved' ) {
-        return $this->renderer->renderMoved( $topicObject, $params );
+        require Foswiki::Render::Moved;
+        return Foswiki::Render::Moved::render( $this, $topicObject, $params );
     }
     elsif ( $option eq 'parent' ) {
 
         # Only parent parameter has the format option and should do std escapes
+        require Foswiki::Render::Parent;
         return expandStandardEscapes(
-            $this->renderer->renderParent( $topicObject, $params ) );
+            Foswiki::Render::Parent::render( $this, $topicObject, $params ) );
     }
 
     # return nothing if invalid parameter
