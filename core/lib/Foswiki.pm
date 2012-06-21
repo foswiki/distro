@@ -1667,8 +1667,9 @@ sub new {
     # Set command_line context if there is no query
     $initialContext ||= defined($query) ? {} : { command_line => 1 };
 
-    # This foswiki supports : paragraph indent
-    $initialContext->{SUPPORTS_PARA_INDENT} = 1;
+    # This foswiki supports:
+    $initialContext->{SUPPORTS_PARA_INDENT}   = 1;    #  paragraph indent
+    $initialContext->{SUPPORTS_PREF_SET_URLS} = 1;    # ?Set+, ?Local+ etc URLs
 
     $query ||= new Foswiki::Request();
     my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
