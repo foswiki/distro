@@ -610,7 +610,7 @@ sub eachAttachment {
     my ( $this, $meta ) = @_;
 
     my $dh;
-    opendir( $dh, _getPub($meta) ) or return ();
+    opendir( $dh, _getPub($meta) ) or return new Foswiki::ListIterator( [] );
     my @list = grep { !/^[.*_]/ && !/,pfv$/ } readdir($dh);
     closedir($dh);
 

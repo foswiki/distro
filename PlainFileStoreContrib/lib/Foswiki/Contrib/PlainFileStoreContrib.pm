@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 our $VERSION = '$Rev: 11239 $';
-our $RELEASE = '1.1.0';
+our $RELEASE = '1.2.0';
 our $SHORTDESCRIPTION =
   'A store implementation using plain text files for all versions of a topic;
 
