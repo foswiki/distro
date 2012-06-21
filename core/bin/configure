@@ -288,6 +288,8 @@ our $time = time();
 my $url = $query->url();
 my $action = $query->param('action') || 'Configure';
 
+#print STDERR "\nNEW TRANSACTION: $action \n";
+
 our $DEFAULT_FIELD_WIDTH_NO_CSS = '70';
 
 # Handle serving an resource embedded in the configure page, before generating
@@ -508,6 +510,16 @@ sub _checkSessionAuth {
         #print STDERR "SAVE OKAY CLEARED\n";
     }
 
+    if ( $session->is_expired() ) {
+        $session->clear('_PASSWD_OK');
+
+        #print STDERR "Session is expired, clear _PASSWD_OK\n";
+    }
+    else {
+        $session->param( -name => '_PASSWD_OK', -value => 1 )
+          if ( $Foswiki::query->auth_type() );
+    }
+
     # Require validation when an update is requested and update session expired
     $validateAction = 1
       if ( $action ne 'Configure' && !$session->param( -name => '_SAVE_OK' ) );
@@ -519,8 +531,11 @@ sub _checkSessionAuth {
         && !$validateAction             # and it's not an update
         && $Foswiki::cfg{Password}      # and a password is set
         && !$query->param('changePassword')    # and change not requested
+        && $session->param( -name => '_PASSWD_OK' )
       )
     {
+
+        #print STDERR "Validate required\n";
         _resetExpires();
         return 1;
     }
@@ -532,9 +547,14 @@ sub _checkSessionAuth {
         || $session->is_expired()              # Or session is expired
         || !defined $sid                       # Or there is no session
         || $sid ne $session->id()              # Or it's a new session
+        || !$session->param( -name => '_PASSWD_OK' )
       )
     {
+
+        #print STDERR "Doing Validate\n";
         my ( $authorised, $messageType ) = Foswiki::Configure::UI::authorised();
+
+        #print STDERR "Authorized = true\n" if $authorised;
 
         #print STDERR "MESSAGE TYPE $messageType\n";
         unless ($authorised) {
@@ -558,7 +578,15 @@ sub _checkSessionAuth {
 
 sub _resetExpires {
     my $saveOK = shift;
-    $session->expire($SESSIONEXP);
+
+    #print STDERR "_resetExpires called\n";
+
+    unless ( $session->is_expired() ) {
+
+        #print STDERR "Renewing session\n";
+        $session->param( -name => '_PASSWD_OK', -value => 1 );
+        $session->expire($SESSIONEXP);
+    }
 
 # Save password caching has a smaller lifetime than the overall configure session.  As long as configure
 # has been accessed successfully in the past $SESSIONEXP seconds, the general access session is valid.  However the ability
@@ -790,7 +818,7 @@ sub _screenAuthorize {
 sub _screenFeedback {
     my ($messageType) = @_;
 
-    #print STDERR "ScreenFeedback entered - type $messageType\n";
+    print STDERR "ScreenFeedback entered - type $messageType\n";
 
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );

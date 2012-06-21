@@ -21,6 +21,7 @@ use warnings;
 use File::Spec ();
 use FindBin    ();
 use Digest::MD5 qw(md5_hex);
+use File::Spec qw(splitpath catpath splitdir catdir);
 
 our $totwarnings;
 our $toterrors;
@@ -150,7 +151,7 @@ sub loadUI {
 
 ---++ StaticMethod loadChecker($id, $item) -> $checker
 
-Loads the Foswiki::Configure::Checker subclass for the 
+Loads the Foswiki::Configure::Checker subclass for the
 given $id. For example, given the id '{Beans}{Mung}', it
 will try and load Foswiki::Configure::Checkers::Beans::Mung
 
@@ -363,6 +364,8 @@ sub authorised {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_CONFIRM_NO_MATCH} );
         }
         $Foswiki::cfg{Password} = _encode_MD5($newPass);
+
+        _encode_Digest($newPass);
         return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
     }
 
@@ -378,6 +381,9 @@ sub authorised {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
         }
         $Foswiki::cfg{Password} = _encode_MD5($newPass);
+
+        _encode_Digest($newPass);
+
         return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
     }
 
@@ -462,6 +468,69 @@ sub _encode_MD5 {
         $salt .= '$';
     }
     return $salt . Digest::MD5::md5_hex( $salt . $pass );
+}
+
+sub _encode_Digest {
+    my $pass  = shift;                            # Password to encode
+    my $realm = 'Foswiki System Configuration';
+
+    my $oldMask = umask(077);                     # Access only by owner
+    my $fh;
+
+    # On very first run, pull this from url param, as config has not been saved.
+    my $WorkingDir =
+      ( defined $Foswiki::cfg{WorkingDir} )
+      ? $Foswiki::cfg{WorkingDir}
+      : $Foswiki::query->param('{WorkingDir}');
+    ($WorkingDir) = $WorkingDir =~ m/(.*)/;    # Untaint, Hope admin knows best
+    $WorkingDir =~ s#[/\\]+$##;                # Remove any trailing slash
+
+    my ( $vol, $workdirs, $file ) = File::Spec->splitpath( $WorkingDir, 1 );
+    my @wDirs = File::Spec->splitdir($workdirs);
+    push( @wDirs, 'configure' );
+    $workdirs = File::Spec->catdir(@wDirs);
+    my $fqDigest =
+      File::Spec->catpath( $vol, $workdirs, '.htdigest-configure' );
+
+    my $data = '';
+
+    # Read in existing file if any
+    if ( -e $fqDigest ) {
+        if ( open( $fh, '<', $fqDigest ) ) {
+            local $/ = undef;
+            $data = <$fh>;
+            close($fh);
+        }
+    }
+
+    # Recover existing realm if any
+    if ( $data =~ m/^admin:([^:]+):.*$/m ) {
+        $realm = $1;
+
+        #print STDERR "Reset realm to $realm\n";
+    }
+
+    my $toEncode = "admin:$realm:$pass";
+    my $encoded  = Digest::MD5::md5_hex($toEncode);
+
+    if ( $data =~ m/^admin:$realm/m ) {
+        $data =~ s/^admin:$realm:.*+$/admin:$realm:$encoded/m;
+
+        #print STDERR "replaced file with $data\n";
+    }
+    else {
+        $data .= "admin:$realm:$encoded\n";
+
+        #print STDERR "Appending file with $data\n";
+    }
+
+    open( $fh, '>', $fqDigest )
+      || die "$fqDigest open failed: $!";
+    print $fh $data;
+
+    close($fh);
+    umask($oldMask);    # Restore original umask
+    return;
 }
 
 # Return a string of settingBlocks giving the status of various

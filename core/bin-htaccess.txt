@@ -1,13 +1,16 @@
 # Sample bin/.htaccess file.   If you require .htaccess files for your apache
 # configuration, tailor this file using the below instructions.
 #
-# Controls access to Foswiki scripts - to make Apache use it, rename this
+############### TAILORING INSTRUCTIONS #################
+#
+# This file controls access to Foswiki scripts - to make Apache use it, rename this
 # file to 'bin/.htaccess' and REPLACE THE FOLLOWING STRINGS WHEREVER YOU SEE
 # THEM IN THIS FILE WITH PATHS SPECIFIC TO YOUR INSTALLATION.
 # Most required values have corresponding items in the  Path Settings section of
-# configure.   The following 4 strings must be updated:
+# configure.   The following 5 strings must be updated:
 #
 # {DataDir}
+# {WorkingDir}
 # {DefaultUrlHost}
 # {ScriptUrlPath}
 # {Administrators}
@@ -19,6 +22,10 @@
 # Example:   "Change all"  {DataDir} /var/www/foswiki/data
 #   AuthUserFile {DataDir}/.htpasswd      becomes
 #   AuthUserFile /var/www/foswiki/data/.htpasswd
+#
+# Replace {WorkingDir} with the full path of a workarea directory (file path,
+# no URL)  e.g. /usr/local/foswiki/working   Do not include a trailing slash.
+# This directory MUST NOT BE ACCESSIBLE VIA THE WEB!
 #
 # Replace {DefaultUrlHost} with the root of all Foswiki URLs e.g.
 # http://myhost.com:123.  This is only used for htdigest authentication and
@@ -35,11 +42,17 @@
 # Replace {Administrators} with a space-separated list of the login
 # name(s) of the person(s) allowed to run the configure script
 # e.g. admin configure root superhero
-# Note that these users must typically be added to .htpasswd manually if
-# Foswiki is not operational enough to register the users.
+# Foswiki ships an example .htdigest file containing just the "admin" user.
+# Other users must be added to .htdigest manually.  See the "htdigest" shell
+# command provided by apache.
+#
+# Previous versions of Foswiki shared a common .htpasswd file between Wiki users and the
+# configure admin user.  It is recommented to separate these roles.
 #
 # When this file has been completely tailored, complete your configuration at:
 # {DefaultUrlHost}{ScriptUrlPath}/configure
+
+##################################
 
 # We set an environment variable called anonymous_spider
 # Setting a BrowserMatchNoCase to ^$ is important. It prevents Foswiki from
@@ -98,10 +111,13 @@ AuthType Basic
 # to register with the Foswiki. Apache requires this to be a *local* path.
 # Comment this out if you setup Foswiki to completely deny access to WikiGuest
 # in all webs or change the path to a static html page.
-ErrorDocument 401 {ScriptUrlPath}/view/System/UserRegistration
+
 # Alternatively if your users are all known to be registered you may want
-# to redirect them to the ResetPassword page.
-# ErrorDocument 401 {ScriptUrlPath}/view/System/ResetPassword 
+# to redirect them to the ResetPassword page. Only uncomment one of these
+# lines:
+
+ErrorDocument 401 {ScriptUrlPath}/view/System/UserRegistration
+# ErrorDocument 401 {ScriptUrlPath}/view/System/ResetPassword
 
 # Set options for excuting CGI and allow symlinks for e.g. viewauth
 # This also unsets any options allowing directory indexing etc.
@@ -114,16 +130,37 @@ Options ExecCGI FollowSymLinks
 # The configure script is designed for administrators only.
 # The script itself and the information it reveals can be abused by
 # attackers if not properly protected against public access.
-#  - ErrorDocument should point to apache default - redirecting to a Foswiki 
+#  - ErrorDocument should point to apache default - redirecting to a Foswiki
 #    script may not be functional yet.
 <FilesMatch "configure.*">
-	SetHandler cgi-script
-	Order Deny,Allow
-	Deny from all
-	Allow from 127.0.0.1 192.168.1.10
-	Require user {Administrators}
-	Satisfy Any
-	ErrorDocument 401 default
+    SetHandler cgi-script
+    ErrorDocument 401 default
+    ErrorDocument 404 default
+    Order Deny,Allow
+    Deny from all
+    # Set the next line as follows:
+    #  - All, then both the required usesr AND the client ip address must match
+    #  - Any, then either the required user, OR the client ip address must match
+    Satisfy All
+    Require user {Administrators}
+    Allow from 127.0.0.1 192.168.1.10
+    #
+    # The following optional configuration will further protect your
+    # configuration.  "admin" is default super user identification.
+    # An initial htdigest file is shipped with Foswiki in the working/configure directory.
+    # It contains a single Userid "admin" with no password set.  For the initial login
+    # to configure, enter user admin, with no password.
+    #
+    # When the admin password is saved in configure, this file password will be synchronized.
+    # Note that only this specific file in the {WorkingDir}/configure is updated,  and if
+    # you choose to use it, it should be kept separate from the .htpasswd file
+    # in the data directory.
+    #
+    #AuthType Digest
+    #AuthDigestProvider file
+    #AuthUserFile {WorkingDir}/configure/.htdigest-configure
+    #AuthName 'Foswiki System Configuration'
+    #BrowserMatch "MSIE" AuthDigestEnableQueryStringHack=On
 </FilesMatch>
 
 # These are scripts that might change content. The regular expression uses ".*"

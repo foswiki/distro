@@ -1043,3 +1043,4 @@ working/registration_approvals/README 0444
 working/tmp/README 0444
 working/work_areas/README 0444
 working/logs/README 0444
+working/configure/.htdigest-configure 0640 Htdigest file protects configure
