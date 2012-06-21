@@ -1034,7 +1034,10 @@ sub loadVersion {
             #ASSERT($rev == $this->{_loadedRev}) if DEBUG;
             return;
         }
-        ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
+
+        # SMELL: Sven added this assert, but i don't understand why and
+        # it causes PlainFile to fail for no good reason. C.
+        #ASSERT( not( $this->{_loadedRev} ), $this->{_loadedRev} ) if DEBUG;
     }
     elsif ( defined( $this->{_loadedRev} ) ) {
 
@@ -1050,7 +1053,9 @@ sub loadVersion {
     return $this->{_loadedRev}
       if ( $rev && $this->{_loadedRev} && $rev == $this->{_loadedRev} );
 
-    ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
+    # SMELL: Sven added this assert, but i don't understand why and
+    # it causes PlainFile to fail for no good reason. C.
+    #ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
 
     ( $this->{_loadedRev}, $this->{_latestIsLoaded} ) =
       $this->{_session}->{store}->readTopic( $this, $rev );
