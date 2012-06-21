@@ -15,10 +15,11 @@ use warnings;
 use Error qw( :try );
 use Assert;
 
-use Foswiki                ();
-use Foswiki::UI            ();
-use Foswiki::Meta          ();
-use Foswiki::OopsException ();
+use Foswiki                 ();
+use Foswiki::UI             ();
+use Foswiki::Meta           ();
+use Foswiki::OopsException  ();
+use Foswiki::Prefs::Request ();
 
 # Used by save and preview
 sub buildNewTopic {
@@ -209,6 +210,9 @@ sub buildNewTopic {
                 { 'name' => Foswiki::Sandbox::untaintUnchecked($newParent) } );
         }
     }
+
+    # Set preference values from query
+    Foswiki::Prefs::Request::set( $query, $topicObject );
 
     my $formName = $query->param('formtemplate');
     my $formDef;
