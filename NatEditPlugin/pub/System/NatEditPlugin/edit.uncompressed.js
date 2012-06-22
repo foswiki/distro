@@ -200,11 +200,11 @@ function fixHeightOfPane () { }
           if (!submitHandler()) {
             return false;
           }
-          if (topicName.match(/AUTOINC|XXXXXXXXXX/) || (typeof(tinyMCE) === 'object' && typeof(tinyMCE.activeEditor === 'object'))) {
-            // don't ajax for raw?
+          if (topicName.match(/AUTOINC|XXXXXXXXXX/)) {// || (typeof(tinyMCE) !== 'object')) {
+            // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
             $editForm.submit();
           } else {
-            // only ajax for wyswyg, where 302 response is useful
+            //TODO: should add a param that tells the server not to render a 302/view or edit, because we're just going to ignore it anyway
             $editForm.ajaxSubmit({
               beforeSubmit: function() {
                 hideErrorMessage();
@@ -216,11 +216,15 @@ function fixHeightOfPane () { }
                 showErrorMessage(message);
               },
               success: function(data, textStatus, xhr) {
-                var nonce = xhr.getResponseHeader('X-Foswiki-Nonce');
-                // patch in new nonce
-                $("input[name='validation_key']").each(function() {
-                  $(this).val("?"+nonce);
-                });
+                if (editAction === 'save') {
+                    window.location = $("#cancel")[0].href;
+                } else {
+                    var nonce = xhr.getResponseHeader('X-Foswiki-Nonce');
+                    // patch in new nonce
+                    $("input[name='validation_key']").each(function() {
+                      $(this).val("?"+nonce);
+                    });
+                }
                 $.unblockUI();
               }
             });
