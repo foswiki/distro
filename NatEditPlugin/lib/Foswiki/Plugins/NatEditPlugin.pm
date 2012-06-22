@@ -165,6 +165,7 @@ sub beforeEditHandler {
     my $response = $session->{response};
     my $request  = $session->{request};
     my $cgis     = $session->getCGISession();
+    return unless ($cgis);
     my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
     my $useStrikeOne = ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' );
     my $nonce;
