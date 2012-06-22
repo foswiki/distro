@@ -304,7 +304,7 @@ sub _ensureProcessed {
         }
         elsif ( $state eq 'delta.author' ) {
             if (/^author\s+(.*);$/) {
-                $revs[$num]->{author} = $1;
+                $revs[$num]->{author} = $1 || '';
                 if ( $num == 1 ) {
                     $state = 'desc';
                     $term  = '@';
@@ -446,6 +446,9 @@ sub _numRevisions {
 
 sub ci {
     my ( $this, $isStream, $data, $log, $author, $date ) = @_;
+
+    # If the author is null, then we get a corrupt ,v
+    ASSERT($author) if DEBUG;
 
     _ensureProcessed($this);
 
