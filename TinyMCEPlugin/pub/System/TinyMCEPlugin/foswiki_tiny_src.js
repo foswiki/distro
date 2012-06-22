@@ -155,7 +155,7 @@ var FoswikiTiny = {
         editor.getElement().value = "Please wait... retrieving page from server.";
         FoswikiTiny.transform(
         editor, "html2tml", text, function(text, req, o) {
-            this.getElement().value = text;
+            editor.getElement().value = text;
             FoswikiTiny.enableSaveButton(true);
             // Call post-transform callbacks attached from plugins
 			for (var i = 0; i < FoswikiTiny.transformCbs.length; i++) {
@@ -164,7 +164,7 @@ var FoswikiTiny = {
 			}
         },
         function(type, req, o) {
-            this.setContent("<div class='foswikiAlert'>" + 
+            editor.setContent("<div class='foswikiAlert'>" + 
                 "There was a problem retrieving " + o.url + ": " + type + " " +
                 req.status + "</div>");
             //FoswikiTiny.enableSaveButton(true); leave save disabled
@@ -220,14 +220,14 @@ var FoswikiTiny = {
         // that would otherwise wipe out the content of the
         // textarea with the DOM. We'd better make damn sure we
         // remove this handler when we switch back!
-        this.onSubmitHandler = function(ed, e) {
+        editor.onSubmitHandler = function(ed, e) {
             // SMELL: Editor.initialized is undocumented and liable
             // to break when we upgrade TMCE
             editor.initialized = false;
         };
         // SMELL: Event.addToTop() is undocumented and liable
         // to break when we upgrade TMCE
-        editor.onSubmit.addToTop(this.onSubmitHandler);
+        editor.onSubmit.addToTop(editor.onSubmitHandler);
         // Make the save buttons mark the text as not-dirty 
         // to avoid the popup that says "Are you sure? The changes you have
         // made will be lost"
@@ -251,9 +251,9 @@ var FoswikiTiny = {
         // Get the textarea content
         var text = editor.getElement().value;
 
-        if (this.onSubmitHandler) {
-            editor.onSubmit.remove(this.onSubmitHandler);
-            this.onSubmitHandler = null;
+        if (editor.onSubmitHandler) {
+            editor.onSubmit.remove(editor.onSubmitHandler);
+            editor.onSubmitHandler = null;
         }
         FoswikiTiny.enableSaveButton(false);
         
@@ -273,12 +273,12 @@ var FoswikiTiny = {
                    2 seconds, so users always see a wordcount of 6 (Please
                    wait... retrieving page from server) when they first edit a
                    document. So remove lock before setContent() */
-            if (this.plugins.wordcount !== undefined && 
-                this.plugins.wordcount.block !== undefined) {
-                this.plugins.wordcount.block = 0;
+            if (editor.plugins.wordcount !== undefined && 
+                editor.plugins.wordcount.block !== undefined) {
+                editor.plugins.wordcount.block = 0;
             }
-            this.setContent(text);
-            this.isNotDirty = true;
+            editor.setContent(text);
+            editor.isNotDirty = true;
             FoswikiTiny.enableSaveButton(true);
             
             // Hide the conversion button, if it exists
@@ -301,7 +301,7 @@ var FoswikiTiny = {
         },
         function(type, req, o) {
             // Handle a failure
-            this.setContent("<div class='foswikiAlert'>" + 
+            editor.setContent("<div class='foswikiAlert'>" + 
                     "There was a problem retrieving " + o.url + ": " + type + 
                     " " + req.status + "</div>");
             //FoswikiTiny.enableSaveButton(true); leave save disabled

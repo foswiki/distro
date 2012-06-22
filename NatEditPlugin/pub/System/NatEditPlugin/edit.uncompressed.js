@@ -173,10 +173,9 @@ function fixHeightOfPane () { }
           foswikiStrikeOne($editForm[0]);
         }
 
-        if ((typeof(tinyMCE) === 'object') && 
-          (typeof(tinyMCE.activeEditor) === 'object') &&
-          (tinyMCE.activeEditor !== null)) {
-          tinyMCE.activeEditor.onSubmit.dispatch();
+        if ((typeof(tinyMCE) === 'object') && (typeof(tinyMCE.editors) === 'object')) {
+          $.each(tinyMCE.editors, function(index, editor) {
+              editor.onSubmit.dispatch();});
         }
 
         return true;
@@ -202,10 +201,10 @@ function fixHeightOfPane () { }
             return false;
           }
           if (topicName.match(/AUTOINC|XXXXXXXXXX/) || (typeof(tinyMCE) === 'object' && typeof(tinyMCE.activeEditor === 'object'))) {
-            // don't ajax using wysiwyg 
+            // don't ajax for raw?
             $editForm.submit();
           } else {
-            // only ajax using raw 
+            // only ajax for wyswyg, where 302 response is useful
             $editForm.ajaxSubmit({
               beforeSubmit: function() {
                 hideErrorMessage();
