@@ -4,7 +4,13 @@
 use strict;
 use warnings;
 
-use Foswiki;
+use Assert;
+
+use Foswiki                         ();
+use Foswiki::Users::BaseUserMapping ();
+
+# Debug only
+#use Data::Dumper ();
 
 sub bad_args {
     my $ess = shift;
@@ -180,12 +186,14 @@ while ( $wit->hasNext() ) {
         foreach my $tri ( reverse @top_rev_list ) {
 
             # transfer the topic
-            print "... copy $top_name rev $tri\n" if $verbose;
             $source_store->readTopic( $top_meta, $tri );
             switch_dirs(1);
 
             # Save topic
             my $info = $top_meta->getRevisionInfo();
+
+            print "... copy $top_name rev $tri as $info->{author}\n"
+              if $verbose;
 
             # Don't forget to force the file date
             $target_store->saveTopic(
@@ -198,9 +206,11 @@ while ( $wit->hasNext() ) {
             );
             switch_dirs(0);
 
-            # transfer attachments. We use eachAttachment because it
-            # won't stumble over deleted attachments which may still
-            # have META:FILEATTACHMENT in the topic.
+            # Transfer attachments. We use eachAttachment rather than
+            # META:FILEATTACHMENT because it won't stumble over deleted
+            # attachments. An attachment, and its history, can be
+            # completely removed from some stores, leaving
+            # META:FILEATTACHMENT still in older revs of the topic.
             my $att_it = $source_store->eachAttachment($top_meta);
             die $source_store unless defined $att_it;
             while ( $att_it->hasNext() ) {
@@ -210,13 +220,33 @@ while ( $wit->hasNext() ) {
                 # Is there info about this attachment in this rev of the
                 # topic? If not, we can't do anything useful.
                 next unless $att_info;
-                my $att_version = $att_info->{version} || 1;
+                my $att_version = $att_info->{version};
+                my $att_user    = $att_info->{author};
+
+                unless ( $att_user && $att_version ) {
+
+                    # Something is missing from META:FILEATTACHMENT.
+                    # Get missing info from the store. If $att_version
+                    # is not set, we default to using the latest rev
+                    # of the attachment. This could lead to an attachment
+                    # having a revision date more recent than the topic
+                    # revision it is attached to. Unfortunately the store
+                    # does not support getRevisionAtTime for attachments.
+                    my $info =
+                      $source_store->getVersionInfo( $top_meta, $att_version,
+                        $att_name );
+
+                    $att_version ||= $info->{version};
+                    $att_user ||= $info->{user}
+                      || $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+                }
 
                 # avoid copying the same rev twice
                 next if $att_tx{"$att_name:$att_version"};
                 $att_tx{"$att_name:$att_version"} = 1;
 
-                print "... copy attachment $att_name rev $att_version\n"
+                print
+"... copy attachment $att_name rev $att_version as $att_user\n"
                   if $verbose;
                 my $stream =
                   $source_store->openAttachment( $top_meta, $att_name, '<',
@@ -228,7 +258,7 @@ while ( $wit->hasNext() ) {
                 # SMELL: there's no way to set the date of the
                 # copied attachment
                 $target_store->saveAttachment( $top_meta, $att_name, $stream,
-                    $att_info->{user} );
+                    $att_user );
                 switch_dirs(0);
             }
         }
