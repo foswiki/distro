@@ -233,12 +233,7 @@ $.NatEditor.prototype.initGui = function() {
   $toggleTools = $('<ul class="natEditButtonBox natEditButtonBoxToggles"></ul>');
   if (self.opts.showWysiwyg) {
     $toggleTools.append(
-      $(self.opts.wysiwygButton).click(function() {
-        var editor = tinyMCE.getInstanceById("topic");
-        tinyMCE.execCommand("mceToggleEditor", null, "topic");
-        FoswikiTiny.switchToWYSIWYG(editor);
-        return false;
-      }));
+      $(self.opts.wysiwygButton));
   }
 
   $toolbar = $('<div class="natEditToolBar"></div>');
