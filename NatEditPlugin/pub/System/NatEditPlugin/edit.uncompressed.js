@@ -284,16 +284,6 @@ function fixHeightOfPane () { }
         }
         return false;
       });
-      $("#cancel").click(function() {
-        editAction = "cancel";
-        hideErrorMessage();
-        $("label.error").hide();
-        $("input.error").removeClass("error");
-        $(".jqTabGroup a.error").removeClass("error");
-        submitHandler();
-        $editForm.submit();
-        return false;
-      });
       $("#replaceform").click(function() {
         editAction = "replaceform";
         submitHandler();
