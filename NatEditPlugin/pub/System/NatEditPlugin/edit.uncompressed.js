@@ -194,19 +194,9 @@ function fixHeightOfPane () { }
       $("input[name='Summary']:eq(1)").parents(".foswikiFormStep").remove();
     
       /* add click handler */
-      $("#save").click(function() {
-        editAction = "save";
-        if (submitHandler()) {
-          $.blockUI({message:'<h1> Saving ... </h1>'});
-          $editForm.submit();
-        } else {
-          $.unblockUI();
-        }
-        return false;
-      });
-      $("#checkpoint").click(function() {
+      $("#save,#checkpoint").click(function(el) {
         var topicName = foswiki.getPreference("TOPIC") || '';
-        editAction = "checkpoint";
+        editAction = el.currentTarget.id;
         if ($editForm.validate().form()) {
           if (!submitHandler()) {
             return false;
