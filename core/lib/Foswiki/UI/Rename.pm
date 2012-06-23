@@ -1495,13 +1495,13 @@ sub _getReferringTopics {
         next unless $webObject->haveAccess('VIEW');
 
         # Search for both the foswiki form and the URL form
-        my $searchString = Foswiki::Render::getReferenceRE(
+        my $searchString = _getReferenceRE(
             $om->web(), $om->topic(),
             grep     => 1,
             interweb => $interWeb
         );
         $searchString .= '|'
-          . Foswiki::Render::getReferenceRE(
+          . _getReferenceRE(
             $om->web(), $om->topic(),
             grep     => 1,
             interweb => $interWeb,
@@ -1511,7 +1511,7 @@ sub _getReferringTopics {
         # If the topic is a Template,  search for set or meta that references it
         if ( $om->topic() && $om->topic() =~ m/(.*)Template$/ ) {
             my $refre = '(VIEW|EDIT)_TEMPLATE.*';
-            $refre .= Foswiki::Render::getReferenceRE(
+            $refre .= _getReferenceRE(
                 $om->web(), $1,
                 grep     => 1,
                 nosot    => 1,
