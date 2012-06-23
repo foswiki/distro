@@ -1341,9 +1341,9 @@ sub _renderExistingWikiWord {
     if ( defined $this->{LINKTOOLTIPINFO}
         && $this->{session}->inContext('view') )
     {
-        require Foswiki::Render::TopicTip;
+        require Foswiki::Render::ToolTip;
         my $tooltip =
-          Foswiki::Render::TopicTip::render( $this->{session}, $web, $topic,
+          Foswiki::Render::ToolTip::render( $this->{session}, $web, $topic,
             $this->{LINKTOOLTIPINFO} );
         $attrs{title} = $tooltip if $tooltip;
     }

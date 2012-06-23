@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Render::TopicTip;
+package Foswiki::Render::ToolTip;
 
 use strict;
 use warnings;
