@@ -4,6 +4,9 @@ package Foswiki;
 use strict;
 use warnings;
 
+use Foswiki::Address ();
+use Foswiki::Meta    ();
+
 # See System.VarMETA
 # Before calling, ensure the topicObject is loaded with the version of the
 # topic you intend to display!
@@ -11,6 +14,17 @@ sub META {
     my ( $this, $params, $topicObject ) = @_;
 
     my $option = $params->{_DEFAULT} || '';
+    if ( defined( $params->{topic} ) ) {
+        my $addrObj = Foswiki::Address->new(
+            web    => $topicObject->web,
+            string => $params->{topic}
+        );
+        if ( !$addrObj->equiv($topicObject) ) {
+            my $meta =
+              new Foswiki::Meta( $this, $addrObj->web, $addrObj->topic );
+            $topicObject = $meta;
+        }
+    }
 
     # make sure the topicObject is loaded
     my $loadedRev = $topicObject->getLoadedRev();

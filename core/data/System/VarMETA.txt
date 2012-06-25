@@ -8,6 +8,7 @@ the topic view that relate to meta-data (attachments, forms etc.).
 Syntax: =%<nop>META{ "item" ...}%=
 
 Parameters:
+   * =topic="Main.WebPreferences"= - optional parameter to select whic topic to get thie meta-data from.
    * ="form"= - generates the table showing the form fields. See
      [[CompleteDocumentation#FormDefinition][Form Definition]].
    * ="attachments"= - generate a table of attachments
