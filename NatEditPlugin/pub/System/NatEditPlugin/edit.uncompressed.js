@@ -191,9 +191,20 @@ function fixHeightOfPane () { }
 
       /* remove the second Summary */
       $("input[name='Summary']:eq(1)").parents(".foswikiFormStep").remove();
-    
+
       /* add click handler */
-      $("#save,#checkpoint").click(function(el) {
+      $("#save").click(function() {
+        editAction = "save";
+        if (submitHandler()) {
+          $.blockUI({message:'<h1> Saving ... </h1>'});
+          $editForm.submit();
+        } else {
+          $.unblockUI();
+        }
+        return false;
+      });
+    
+      $("#checkpoint").click(function(el) {
         var topicName = foswiki.getPreference("TOPIC") || '';
         editAction = el.currentTarget.id;
         if ($editForm.validate().form()) {
@@ -216,15 +227,11 @@ function fixHeightOfPane () { }
                 showErrorMessage(message);
               },
               success: function(data, textStatus, xhr) {
-                if (editAction === 'save') {
-                    window.location = $("#cancel")[0].href;
-                } else {
-                    var nonce = xhr.getResponseHeader('X-Foswiki-Nonce');
-                    // patch in new nonce
-                    $("input[name='validation_key']").each(function() {
-                      $(this).val("?"+nonce);
-                    });
-                }
+                var nonce = xhr.getResponseHeader('X-Foswiki-Nonce');
+                // patch in new nonce
+                $("input[name='validation_key']").each(function() {
+                  $(this).val("?"+nonce);
+                });
                 $.unblockUI();
               }
             });
@@ -277,6 +284,7 @@ function fixHeightOfPane () { }
         }
         return false;
       });
+
 
       // TODO: only use this for foswiki engines < 1.20
       $("#cancel").click(function() {
