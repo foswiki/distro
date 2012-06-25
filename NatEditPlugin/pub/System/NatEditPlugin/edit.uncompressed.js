@@ -70,7 +70,7 @@ function fixHeightOfPane () { }
         switchOffDetails("change");
         setPermission("change", {
           allow: 'AdminUser',
-          deny: undefined
+          deny: 'undefined'
         });
         break;
       case 'registered_users_change':
@@ -104,7 +104,7 @@ function fixHeightOfPane () { }
         switchOffDetails("view");
         setPermission("view", {
           allow: 'AdminUser',
-          deny: undefined
+          deny: 'undefined'
         });
         break;
       case 'registered_users_view':
@@ -277,6 +277,19 @@ function fixHeightOfPane () { }
         }
         return false;
       });
+
+      // TODO: only use this for foswiki engines < 1.20
+      $("#cancel").click(function() {
+        editAction = "cancel";
+        hideErrorMessage();
+        $("label.error").hide();
+        $("input.error").removeClass("error");
+        $(".jqTabGroup a.error").removeClass("error");
+        submitHandler();
+        $editForm.submit();
+        return false;
+      });
+
       $("#replaceform").click(function() {
         editAction = "replaceform";
         submitHandler();
