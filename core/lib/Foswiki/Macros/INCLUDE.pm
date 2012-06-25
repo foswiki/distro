@@ -240,6 +240,7 @@ sub _includeTopic {
                     $text .=
                       substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                     $interesting = 1;
+                    $this->{prefs}->popTopicContext();
                     last;
                 }
                 elsif ( $s->{type} eq 'include' && !$control->{section} ) {
