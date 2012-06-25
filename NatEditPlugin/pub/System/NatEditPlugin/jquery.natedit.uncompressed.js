@@ -209,7 +209,7 @@ $.NatEditor.prototype.initGui = function() {
         }));
     }
 
-  if (foswiki.getPreference("MathModePluginEnabled") == 'true') {
+  if (foswiki.getPreference("MathModePluginEnabled")) {
     $objectTools.
       append(
         $(self.opts.mathButton).click(function() {
@@ -232,13 +232,7 @@ $.NatEditor.prototype.initGui = function() {
 
   $toggleTools = $('<ul class="natEditButtonBox natEditButtonBoxToggles"></ul>');
   if (self.opts.showWysiwyg) {
-    $toggleTools.append(
-      $(self.opts.wysiwygButton).click(function() {
-        var editor = tinyMCE.getInstanceById("topic");
-        tinyMCE.execCommand("mceToggleEditor", null, "topic");
-        FoswikiTiny.switchToWYSIWYG(editor);
-        return false;
-      }));
+    $toggleTools.append($(self.opts.wysiwygButton));
   }
 
   $toolbar = $('<div class="natEditToolBar"></div>');
