@@ -227,6 +227,12 @@ sub _includeTopic {
             # Rebuild the text from the interesting sections
             $text = '';
             foreach my $s (@$sections) {
+
+                $this->{prefs}
+                  ->pushTopicContext( $this->{webName}, $this->{topicName} );
+                $this->{prefs}->setSessionPreferences(%$s);
+                $this->{prefs}->setSessionPreferences(%$params);
+
                 if (   $control->{section}
                     && $s->{type} eq 'section'
                     && $s->{name} eq $control->{section} )
@@ -241,6 +247,8 @@ sub _includeTopic {
                       substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                     $interesting = 1;
                 }
+
+                $this->{prefs}->popTopicContext();
             }
         }
 
