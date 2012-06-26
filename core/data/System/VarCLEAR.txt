@@ -1,0 +1,3 @@
+#VarCLEAR
+---+++ CLEAR -- a proper clear for floating elements
+   * =%<nop>CLEAR%= will create a proper clear for css floating elements. (often from using =foswikiRight= and =foswikiLeft= css classes)
