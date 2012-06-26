@@ -340,6 +340,18 @@ sub test_urlparsing {
     $this->urltest( '',  $this->{users_web}, 'WebHome' );
     $this->urltest( '/', $this->{users_web}, 'WebHome' );
 
+#SMELL: This has always been the case - sven recals changing it once and that causing issues?
+    $this->urltest( '/?topic=WebChanges', '', 'WebChanges' );
+
+    $this->urltest( '/?topic=System.WebChanges', 'System', 'WebChanges' );
+
+    $this->urltest( '/?topic=System.WebChanges;defaultweb=Sandbox',
+        'System', 'WebChanges' );
+    $this->urltest( '/?topic=WebChanges;defaultweb=Sandbox',
+        'Sandbox', 'WebChanges' );
+    $this->urltest( '/System?topic=WebChanges;defaultweb=Sandbox',
+        'System', 'WebChanges' );
+
     #    $this->urltest('Sandbox', 'Sandbox', 'WebHome');
     $this->urltest( '/Sandbox',           'Sandbox',         'WebHome' );
     $this->urltest( '/Sandbox/',          'Sandbox',         'WebHome' );

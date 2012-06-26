@@ -1835,6 +1835,10 @@ sub new {
         # implicit untaint OK - validated later
         $web = $1 unless $web;
     }
+
+#Development.AddWebParamToAllCgiScripts: enables bin/script?topic=WebPreferences;defaultweb=Sandbox
+    $web = $query->param('defaultweb') unless $web;
+
     my $topicNameTemp = $this->UTF82SiteCharSet($topic);
     if ($topicNameTemp) {
         $topic = $topicNameTemp;
