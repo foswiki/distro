@@ -227,29 +227,42 @@ sub _includeTopic {
             # Rebuild the text from the interesting sections
             $text = '';
             foreach my $s (@$sections) {
-
-                $this->{prefs}
-                  ->pushTopicContext( $this->{webName}, $this->{topicName} );
-                $this->{prefs}->setSessionPreferences(%$s);
-                $this->{prefs}->setSessionPreferences(%$params);
-
+                my $process_this_section;
                 if (   $control->{section}
                     && $s->{type} eq 'section'
                     && $s->{name} eq $control->{section} )
                 {
-                    $text .=
-                      substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
-                    $interesting = 1;
-                    $this->{prefs}->popTopicContext();
-                    last;
+                    $interesting          = 1;
+                    $process_this_section = 1;
                 }
                 elsif ( $s->{type} eq 'include' && !$control->{section} ) {
-                    $text .=
-                      substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
-                    $interesting = 1;
+                    $interesting          = 1;
+                    $process_this_section = 1;
                 }
 
-                $this->{prefs}->popTopicContext();
+                if ($process_this_section) {
+                    $text .=
+                      substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
+
+                    my %defaults;
+                    foreach my $key ( keys(%$s) ) {
+
+    #remove the section parsing specific keys (probably should add a _ to them?)
+                        next
+                          if ( ( $key eq 'name' )
+                            || ( $key eq 'type' )
+                            || ( $key eq 'start' )
+                            || ( $key eq 'stop' ) );
+
+#don't over-ride existing INCLUDE params and settings (so that nested INCLUDEs pass on their values as they used to), and to avoid FINALISE issues
+                        next if ( $this->{prefs}->getPreference($key) );
+                        $defaults{$key} = $s->{$key};
+                    }
+                    $this->{prefs}->setSessionPreferences(%defaults);
+
+                    #we only process the first named section
+                    last if ( $control->{section} );
+                }
             }
         }
 

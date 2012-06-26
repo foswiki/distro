@@ -885,4 +885,84 @@ EXPECT
     $this->assert_html_equals( $expect, $text );
 }
 
+sub test_SECTION_defaults {
+    my $this = shift;
+    my $includeTopic = shift || 'FirstTopic';
+
+    my $includeWebTopic = $this->{test_web} . '.' . $includeTopic;
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic, undef,
+        <<'HERE' );
+PPPPPP %STARTSECTION{"one" one="1" two="2"}% %one% %two% %TOPIC% %three% %last% %ENDSECTION{"one" last="999"}% OOOOOOO
+HERE
+
+    $this->assert_str_equals(
+        'A  1 2 TemporaryINCLUDETestWebINCLUDE.FirstTopic %three% %last%  B',
+        Foswiki::Func::expandCommonVariables(
+            'A %INCLUDE{"' . $includeWebTopic . '" section="one"}% B',
+            'WebHome', $this->{other_web}
+        )
+    );
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic . 'Next',
+        undef, <<'HERE' );
+%STARTSECTION{"one" one="_"}% %one% %two% - %INCLUDE{"%nest%" section="one"}% - %three% %last% %ENDSECTION{"one" last="999"}%
+HERE
+
+    $this->assert_str_equals(
+'A  bibble %two% -  bibble 2 TemporaryINCLUDETestWebINCLUDE.FirstTopic ONCELER %last%  - ONCELER %last%  B',
+        Foswiki::Func::expandCommonVariables(
+            'A %INCLUDE{"'
+              . $includeWebTopic
+              . 'Next" section="one" nest="'
+              . $includeWebTopic
+              . '" one="bibble" three="ONCELER" TOPIC="notlikely"}% B',
+            'WebHome',
+            $this->{other_web}
+        )
+    );
+
+    $this->assert_str_equals(
+'A  _ %two% -  _ 2 TemporaryINCLUDETestWebINCLUDE.FirstTopic %three% %last%  - %three% %last%  B',
+        Foswiki::Func::expandCommonVariables(
+            'A %INCLUDE{"'
+              . $includeWebTopic
+              . 'Next" section="one" nest="'
+              . $includeWebTopic . '"}% B',
+            'WebHome',
+            $this->{other_web}
+        )
+    );
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic . 'Next',
+        undef, <<'HERE' );
+%STARTSECTION{"one" one="_"}% %one% %two% - %INCLUDE{"%nest%" section="one" one="%one%"}% - %three% %last% %ENDSECTION{"one" last="999"}%
+HERE
+
+    $this->assert_str_equals(
+'A  _ %two% -  _ 2 TemporaryINCLUDETestWebINCLUDE.FirstTopic %three% %last%  - %three% %last%  B',
+        Foswiki::Func::expandCommonVariables(
+            'A %INCLUDE{"'
+              . $includeWebTopic
+              . 'Next" section="one" nest="'
+              . $includeWebTopic . '"}% B',
+            'WebHome',
+            $this->{other_web}
+        )
+    );
+    $this->assert_str_equals(
+'A  bibble %two% -  bibble 2 TemporaryINCLUDETestWebINCLUDE.FirstTopic ONCELER %last%  - ONCELER %last%  B',
+        Foswiki::Func::expandCommonVariables(
+            'A %INCLUDE{"'
+              . $includeWebTopic
+              . 'Next" section="one" nest="'
+              . $includeWebTopic
+              . '" one="bibble" three="ONCELER"}% B',
+            'WebHome',
+            $this->{other_web}
+        )
+    );
+
+}
+
 1;

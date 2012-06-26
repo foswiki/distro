@@ -169,8 +169,8 @@ Pre-INCLUDEable %STARTINCLUDE% In-the-INCLUDEable bit $junk
 %STARTSECTION{"21"}% 2.1 content $junk%ENDSECTION{"21"}%
 %STARTSECTION{"22"}% 2.2 content
 %STARTSECTION{"221"}% 2.2.1 content $junk%ENDSECTION{"221"}%
-%STARTSECTION{"222"}% 2.2.2 content $junk%ENDSECTION{"222"}%
-%STARTSECTION{"223"}% 2.2.3 content $junk%ENDSECTION{"223"}%
+%STARTSECTION{"222" ignored="asd"}% 2.2.2 content $junk%ENDSECTION{"222"}%
+%STARTSECTION{"223"}% 2.2.3 content $junk%ENDSECTION{"223" ignoreend="oooooo"}%
 %STARTSECTION{"224"}% 2.2.4 start continued content $junk%ENDSECTION{"224"}%
 %STARTSECTION{"224"}% 2.2.4b continue continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"22"}%
 %STARTSECTION{"23"}% 2.3 content %STARTSECTION{"224"}% 2.2.4c continue again continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"23"}%
