@@ -106,6 +106,9 @@ var FoswikiTiny = {
 
     // Set up content for the initial edit
     setUpContent: function(editor_id, body, doc) {
+        //the fullscreenEditor is initialised from its parent, so the initialisedFromServer flag isn't useful
+        if (editor_id == 'mce_fullscreen') return;
+
         var editor = tinyMCE.getInstanceById(editor_id);
         // If we haven't done it before, then transform from TML
         // to HTML. We need this test so that pressing the 'back'
