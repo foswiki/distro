@@ -23,13 +23,13 @@ _This page will help you create new Wiki Applications that use DataForms_
 
 ---+++ TODO:
    * add a 'topic exists' warning js to the WebCreateNewTopicComponents sections
+       * use js to test that the selected App topic name is not already used
    * fix http://foswiki.org/Tasks/Item11765
    * http://foswiki.org/Tasks/Item11766 so I can put back the =createform= section
    * extract the EDITTABLE definition so that its dynamic to allow for pluggable datatypes
    * want to have INCLUDE section from dataform topic or from the default topic if not defined - so the created dataform topic is as simple as possible. (mmm, might not work - want INCLUDE{dataformtopic section=items} to work. - basically, I want the sections to come from a shipped default unless the user explicitly customises it. **for now, just put inline, extract later**
    * jqDialog has no error feedback.
    * how to make Web selector based on webs that the user has 'change' (create) permission and topic does not exist...
-   * use js to test that the selected App topic name is not already used
    * use the SetPref feature to add Forms to WebPreferences:WEBFORMS - in any web we want to install it to!
 ---
 *Related Topics:* %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.TemplateTopics, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.FAQAnApplicationWithWikiForm
