@@ -6,37 +6,31 @@ _This page will help you create new Wiki Applications that use DataForms_
 
 %TOC%
 
----++ Create a new [[%SYSTEMWEB%.DataForms][Data Form]] definition topic
-<form method="post" action="%SCRIPTURL{save}%/Sandbox" name="fastCreateDataForm" id="fastCreateDataForm">
-<input type="hidden" name="topicparent" value="%SYSTEMWEB%.WikiApplications" />
-<input type="hidden" name="formtemplate" value="%SYSTEMWEB%.WikiApplications" />
-<input type="hidden" name="templatetopic" value="%SYSTEMWEB%.WikiApplications" />
- <select disabled name="web" class="foswikiSelect"> 
- <option>Sandbox</option>
-%SEARCH{
-    type="query"
-    web="all,-Sandbox"
-    topic="%WEBPREFSTOPIC%"
-    "1"
-    format="<option>$web</option>"
-    nonoise="on"
-}% </select>
-<input type="text" name="topic" value="WikiAppAUTOINC1" />
-<input type="text" name="PREFIX" value="Prefix" />
-<input type="text" name="Description" value="" />
-<input  type="submit" value="Create topic" class="foswikiSubmit" />
-</form>
+---
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+---++ Create a wiki application
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    override="%WEB%.%TOPIC%"
+    section="newtopic"
+    newtopic="WikiAppAUTOINC0"
+}%
+</div></div>
+---
+
 
 
 ---+++ TODO:
-   * add the topic-name js to the topic textbox
-   * remove Sandbox and implement http://foswiki.org/Development/AddWebParamToAllCgiScripts
+   * add a 'topic exists' warning js to the WebCreateNewTopicComponents sections
    * fix http://foswiki.org/Tasks/Item11765
    * http://foswiki.org/Tasks/Item11766 so I can put back the =createform= section
    * extract the EDITTABLE definition so that its dynamic to allow for pluggable datatypes
    * want to have INCLUDE section from dataform topic or from the default topic if not defined - so the created dataform topic is as simple as possible. (mmm, might not work - want INCLUDE{dataformtopic section=items} to work. - basically, I want the sections to come from a shipped default unless the user explicitly customises it. **for now, just put inline, extract later**
    * jqDialog has no error feedback.
-
+   * how to make Web selector based on webs that the user has 'change' (create) permission and topic does not exist...
+   * use js to test that the selected App topic name is not already used
+   * use the SetPref feature to add Forms to WebPreferences:WEBFORMS - in any web we want to install it to!
 ---
 *Related Topics:* %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.TemplateTopics, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.FAQAnApplicationWithWikiForm
 %ENDSECTION{"exclude" type="templateonly"}%
@@ -51,14 +45,15 @@ _This page will help you create new Wiki Applications that use DataForms_
    * Set PREFIX = %URLPARAM{"PREFIX" default="Default"}%
 %ENDSECTION{type="expandvariables"}%
 
+%STARTSECTION{"exclude" type="templateonly"}%
 
 ---+++ listitems
 
 <verbatim class="tml">
-%STARTSECTION{"listitems"}%
+%STARTSECTION{"listitems"  PREFIX="Prefix" }%
 %SEARCH{
-    "form.name = '%WEB%.%TOPIC%'"
-   web="%WEB%"
+   "form.name = '%INCLUDINGWEB%.%INCLUDINGTOPIC%'"
+   web="%INCLUDINGWEB%"
    topic="%PREFIX%*"
    type="query"
    pager="on"
@@ -74,18 +69,58 @@ parameters:
    * ITEMWEB - (defaults to This web)
    * ITEMTOPIC - (defaults to %PREFIX%AUTOINC001)
 <verbatim class="tml">
-%STARTSECTION{"createpopup"}%<!--
-   * Set S_ITEMWEB = %IF{"defined ITEMWEB" then="%ITEMWEB%" else="%WEB%"}%
-   * Set S_ITEMTOPIC = %IF{"defined ITEMTOPIC" then="%ITEMTOPIC%" else="%PREFIX%AUTOINC001"}%
--->%JQREQUIRE{
+%STARTSECTION{"createpopup" PREFIX="Prefix" ITEMWEB="%BASEWEB%" ITEMTOPIC="%PREFIX%AUTOINC001"}%%JQREQUIRE{
         "ui::dialog, ui::button"
 }% %BUTTON{
-        text="%IF{"istopic '%S_ITEMWEB%.%S_ITEMTOPIC%'" then="edit %S_ITEMTOPIC%" else="add New %PREFIX%"}%"
-        href="%SCRIPTURL{edit}%/%S_ITEMWEB%/%S_ITEMTOPIC%?template=System.WikiApplicationsViewSectionTemplate&formtemplate=%WEB%.%TOPIC%&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%"
+        text="%IF{"istopic '%ITEMWEB%.%ITEMTOPIC%'" then="edit %ITEMTOPIC%" else="add New %PREFIX%"}%"
+        href="%SCRIPTURL{edit}%/%ITEMWEB%/%ITEMTOPIC%?template=System.WikiApplicationsViewSectionTemplate&formtemplate=%INCLUDINGWEB%.%INCLUDINGTOPIC%&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%"
         class="foswikiClear jqUIDialogLink {cache:false}"
         icon="create"
 }% %ENDSECTION{"createpopup"}%
 </verbatim>
 
+---+++ form elements customised from System.WebCreateNewTopicComponents
+<verbatim>
+%STARTSECTION{"formstart"}%<form name="newtopicform" action="%SCRIPTURLPATH{save}%/" method="post">
+<input type="hidden" name="topicparent" value="%SYSTEMWEB%.WikiApplications" />
+<input type="hidden" name="formtemplate" value="%SYSTEMWEB%.WikiApplications" />
+<input type="hidden" name="templatetopic" value="%SYSTEMWEB%.WikiApplications" />
+<div class="foswikiFormStep">
+Select web to place the Wiki Application definition into: 
+    <select name="defaultweb" class="foswikiSelect"> 
+     <option>Sandbox</option>
+    %SEARCH{
+        type="query"
+        web="all,-Sandbox"
+        topic="%WEBPREFSTOPIC%"
+        "1"
+        format="<option>$web</option>"
+        nonoise="on"
+    }% </select>
+</div>
+<div class="foswikiFormStep">
+    Choose a topic prefix to use when creating new application data entries
+    <input type="text" name="PREFIX" value="Item" />
+</div>
+<div class="foswikiFormStep">
+    Description:
+    <input type="text" name="Description" value="" />
+</div>
+%ENDSECTION{"formstart"}%
+</verbatim>
 
+<verbatim>
+%STARTSECTION{"topicname"}%
+Enter the name of the Wiki Application
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="topicname"
+}%
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    section="wikiword"
+}%
+%ENDSECTION{"topicname"}%
+</verbatim>
+%ENDSECTION{"exclude" type="templateonly"}%
 
