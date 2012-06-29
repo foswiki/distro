@@ -16,12 +16,13 @@ Create a form with an empty name field:
 }%
 </verbatim>
 
-Create a form with an "auto increment" name:
+Create a form with an "auto increment" name, and with customised INCLUDE sections in topics listed in =override= param:
 <verbatim>
 %INCLUDE{
     "%SYSTEMWEB%.WebCreateNewTopicComponents"
     section="newtopic"
     newtopic="TestTopicAUTOINC0"
+    override="Main.TopicFields,%BASEWEB%.TopicFieldsForWeb"
 }%
 </verbatim>
 
@@ -74,6 +75,7 @@ This is the code used in the [[Sandbox.WebHome]] form:
 | =js= | Includes necessary Javascript files |
 | =formstart= | Opens the form |
 | =topicname= | Topic name field |
+| =wikiword= | Javascript to automatically construct topicname text to %SYSTEMWEB%.WikiWord and tickbox to allow non-WikiWords |
 | =topicnamefeedback= | Provides feedback on the automatically constructed topic name |
 | =topicparent= | Input field with toggle to select list of topics in the current web to select as topic parent |
 | =templatetopic= | Select list of template topics |
@@ -83,26 +85,26 @@ This is the code used in the [[Sandbox.WebHome]] form:
 
 <verbatim class="foswikiHidden">
 
-%STARTSECTION{"newtopic"}%%INCLUDE{
-    "%TOPIC%"
+%STARTSECTION{"newtopic" override=""}%%INCLUDE{
+    "%override%,%TOPIC%"
     section="js"
 }%%INCLUDE{
-    "%TOPIC%"
+    "%override%,%TOPIC%"
     section="formstart"
 }%%INCLUDE{
-    "%TOPIC%"
+    "%override%,%TOPIC%"
     section="topicname"
 }%%INCLUDE{
-    "%TOPIC%"
+    "%override%,%TOPIC%"
     section="submit"
 }% %INCLUDE{
-    "%TOPIC%"
+    "%override%,%TOPIC%"
     section="topicnamefeedback"
 }%%INCLUDE{
-    "%TOPIC%"
+    "%override%,%TOPIC%"
     section="errorfeedback"
 }%%INCLUDE{
-    "%TOPIC%"
+    "%override%,%TOPIC%"
     section="formend"
 }%%ENDSECTION{"newtopic"}%
 
@@ -122,7 +124,7 @@ This is the code used in the [[Sandbox.WebHome]] form:
 	requires=""
 }%%ENDSECTION{"js"}%
 
-%STARTSECTION{"formstart"}%<form name="newtopicform" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/" method="post">
+%STARTSECTION{"formstart"}%<form name="newtopicform" action="%SCRIPTURLPATH{manage}%/%defaultweb%/" method="post">
 <input type="hidden" name="action" value="create" />
 <input type="hidden" name="onlynewtopic" value="on" />%ENDSECTION{"formstart"}%
 
