@@ -127,6 +127,14 @@ W$Foswiki::cfg{UsersWebName}.WikiGuestUWikiGuestNEGAIAIGfalseE\$bogustoken nopno
 ewline < > & \$
 HERE
 
+ # Item11981: Prior request "cloaked" the user info.  Cloak was getting "stuck".
+    $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+%USERINFO%
+HERE
+    $this->assert_str_equals( <<"HERE", $ui );
+scum, $Foswiki::cfg{UsersWebName}.ScumBag, scumbag\@example.com
+HERE
+
     # Admin user should see everything
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
     $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
