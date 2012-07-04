@@ -116,6 +116,9 @@ sub USERINFO {
               && !$this->{users}->isAdmin( $this->{user} )
               && $user ne $this->{user} );
     }
+    else {
+        $USERINFO_cloak = 0;
+    }
 
     return '' unless $user;
 
