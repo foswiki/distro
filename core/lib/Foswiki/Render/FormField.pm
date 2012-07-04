@@ -7,12 +7,6 @@ use warnings;
 use Foswiki       ();
 use Foswiki::Meta ();
 
-# SMELL: this local creation of a cache looks very suspicious. Suspect
-# this may have been a one-off optimisation. It may be SNAFU with
-# CGI accelerators, as there doesn't seem to be any way to expire the
-# cache.
-our %ffCache;
-
 =begin TML
 
 ---++ ObjectMethod render ( $session, %params, $topic, $web ) -> $html
@@ -38,7 +32,9 @@ sub render {
         $format = '$value';
     }
 
-    my $formTopicObject = $ffCache{ $topicObject->getPath() . $rev };
+    my $formTopicObject =
+      $session->{_ffCache}{ $topicObject->getPath() . $rev };
+
     unless ($formTopicObject) {
         $formTopicObject =
           Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
@@ -50,7 +46,9 @@ sub render {
             $formTopicObject = Foswiki::Meta->new( $session, $topicObject->web,
                 $topicObject->topic, '' );
         }
-        $ffCache{ $formTopicObject->getPath() . $rev } = $formTopicObject;
+
+        $session->{_ffCache}{ $formTopicObject->getPath() . $rev } =
+          $formTopicObject;
     }
 
     my $text   = $format;
