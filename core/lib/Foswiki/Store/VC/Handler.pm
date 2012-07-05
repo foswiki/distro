@@ -446,7 +446,16 @@ been no revisions committed to the store.
 sub getLatestRevisionID {
     my $this = shift;
     return 0 unless -e $this->{file};
-    my $rev = $this->_numRevisions() || 1;
+
+    my $info = {};
+    my $rev;
+
+    $this->_getTOPICINFO($info);
+    $rev = $info->{version};
+
+    unless ( defined $rev ) {
+        $rev = $this->_numRevisions() || 1;
+    }
 
     # If there is a pending pseudo-revision, need n+1, but only if there is
     # an existing history

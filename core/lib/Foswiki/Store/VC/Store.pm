@@ -106,15 +106,16 @@ sub readTopic {
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
 
-    unless ( $handler->noCheckinPending() ) {
-
-        # If a checkin is pending, fix the TOPICINFO
-        my $ri    = $topicObject->get('TOPICINFO');
-        my $truth = $handler->getInfo($version);
-        for my $i (qw(author version date)) {
-            $ri->{$i} = $truth->{$i};
-        }
-    }
+    #   Item11983 - switched off for performance reasons
+    #   unless ( $handler->noCheckinPending() ) {
+    #
+    #        # If a checkin is pending, fix the TOPICINFO
+    #        my $ri    = $topicObject->get('TOPICINFO');
+    #        my $truth = $handler->getInfo($version);
+    #        for my $i (qw(author version date)) {
+    #            $ri->{$i} = $truth->{$i};
+    #        }
+    #    }
 
     $gotRev = $version;
     unless ( defined $gotRev ) {
@@ -311,6 +312,11 @@ sub getVersionInfo {
     my ( $this, $topicObject, $rev, $attachment ) = @_;
     my $info =
       $this->askListenersVersionInfo( $topicObject, $rev, $attachment );
+
+    if ( not defined $info ) {
+        $topicObject->loadVersion();
+        $info = $topicObject->get('TOPICINFO');
+    }
 
     if ( not defined $info ) {
         my $handler = $this->getHandler($topicObject);
