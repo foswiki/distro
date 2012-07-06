@@ -10,7 +10,7 @@ use Foswiki                         ();
 use Foswiki::Users::BaseUserMapping ();
 
 # Debug only
-#use Data::Dumper ();
+use Data::Dumper ();
 
 sub bad_args {
     my $ess = shift;
@@ -19,6 +19,9 @@ Usage: $0 <opts> <from> <to>
 <from> is the source store implementation e.g. 'RcsLite'
 <to> is the target store implementation e.g. 'PlainFile'
 <opts> may include:
+
+Selecting Webs and Topics
+
 -w <webs>    Hierarchical pathname of a web to convert. Conversion of a web
              automatically implies conversion of all its subwebs. You can
 	     have as many -w options as you want. If there are no -w options
@@ -34,21 +37,34 @@ Usage: $0 <opts> <from> <to>
 	     excess working, you are recommended to =-x WebStatistics= (and
 	     any other file that has many auto-generated versions that don't
              really need to be kept)
+
+Data directories
+
+Some store implementations use data directories on disk that are pointed at
+by $Foswiki::cfg{DataDir} and {PubDir}. These options let you control where
+these directories are for the two stores.
+
 -s <dir>     Root dir for source; must contain data and pub subdirs.
              Only applicable if source implementation stores files on disc.
-             Defaults to $Foswiki::cfg{DataDir}/{PubDir} settings.
--t <dir>     Root dir for target; data and pub subdirs will be created.
-             Only applicable if target format stores files on disc.
              Defaults to $Foswiki::cfg{DataDir}/{PubDir} settings.
 -sdata <dir> Like -s for the /data subdir. Must be paired with an earlier -s or
              -spub
 -spub <dir>  Like -s for the /pub subdir. Must be paired with an earlier -s or
              -sdata
+
+-t <dir>     Root dir for target; data and pub subdirs will be created.
+             Only applicable if target format stores files on disc.
+             Defaults to $Foswiki::cfg{DataDir}/{PubDir} settings.
 -tdata <dir> Like -t for the /data subdir. Must be paired with an earlier -t or
              -tpub
 -tpub <dir>  Like -t for the /pub subdir. Must be paired with an earlier -t or
              -tdata
+
+Miscellaneous
+
 -q           Run quietly, without printing progress messages
+-v           Validate. Check the consistency of two previously synchronised
+             stores, without performing any transfers. Used for testing.
 USAGE
 }
 
@@ -63,14 +79,45 @@ sub switch_dirs {
     $Foswiki::cfg{PubDir}  = $pubdir[ $_[0] ];
 }
 
+sub validate_info {
+    my ( $sp, $source, $target ) = @_;
+
+    return if ( !$source && !$target );
+
+    unless ($source) {
+        print STDERR "$sp: Source is null\n";
+        return;
+    }
+    unless ($target) {
+        print STDERR "$sp: Target is null\n";
+        return;
+    }
+    print STDERR
+      "$sp: Authors differ: $source->{author} and $target->{author}\n"
+      unless $source->{author} eq $target->{author};
+    print STDERR "$sp: Dates differ: $source->{date} and $target->{date}\n"
+      unless $source->{date} == $target->{date};
+}
+
 my $session = new Foswiki();
 
 # Class names of the source and destination store engines
 my ( $source, $target );
+
+# List of webs to transfer
 my @webs;
+
+# List of topic names for which we will ignore histories
 my @ignore_history;
+
+# List of the only topics to transfer
 my @only_topics;
+
+# Make a lot of noise?
 my $verbose = 1;
+
+# Validate only
+my $validate = 0;
 
 while ( my $arg = shift @ARGV ) {
     if ( $arg eq '-s' ) {
@@ -107,6 +154,9 @@ while ( my $arg = shift @ARGV ) {
     elsif ( $arg eq '-q' ) {
         $verbose = 0;
     }
+    elsif ( $arg eq '-v' ) {
+        $validate = 1;
+    }
     elsif ( $arg =~ /^-/ ) {
         bad_args "Unrecognised option '$arg'";
     }
@@ -125,7 +175,6 @@ while ( my $arg = shift @ARGV ) {
 
 bad_args 'Must specify source and target store implementations'
   unless $source && $target;
-bad_args 'Target format must differ from source format' if $source eq $target;
 
 if ( $datadir[0] eq $datadir[1] && $uses_files[0] && $uses_files[1] ) {
     bad_args
@@ -183,28 +232,53 @@ while ( $wit->hasNext() ) {
             # No history, only do most recent rev
             @top_rev_list = ( shift @top_rev_list );
         }
-        foreach my $tri ( reverse @top_rev_list ) {
+        foreach my $topic_version ( reverse @top_rev_list ) {
 
             # transfer the topic
-            $source_store->readTopic( $top_meta, $tri );
-            switch_dirs(1);
-
-            # Save topic
+            $source_store->readTopic( $top_meta, $topic_version );
             my $info = $top_meta->getRevisionInfo();
 
-            print "... copy $top_name rev $tri as $info->{author}\n"
-              if $verbose;
+            if ($validate) {
+                my $path = $top_meta->getPath() . ":$topic_version";
 
-            # Don't forget to force the file date
-            $target_store->saveTopic(
-                $top_meta,
-                $info->{author},
-                {
-                    forcenewrevision => 1,
-                    forcedate        => $info->{date}
-                }
-            );
-            switch_dirs(0);
+                # Ensure getVersionInfo and META:TOPICINFO are consistent
+                my $source_topicinfo = ( $top_meta->find('TOPICINFO') )[0];
+                my $source_info =
+                  $source_store->getVersionInfo( $top_meta, $topic_version );
+                $top_meta->unload();
+
+                # Reread the meta from the target store
+                switch_dirs(1);
+                $target_store->readTopic( $top_meta, $topic_version );
+                my $target_topicinfo = ( $top_meta->find('TOPICINFO') )[0];
+                my $target_info =
+                  $target_store->getVersionInfo( $top_meta, $topic_version );
+                switch_dirs(0);
+
+                print "... validate $top_name:$topic_version\n" if $verbose;
+                validate_info( "$path(T)", $source_topicinfo,
+                    $target_topicinfo );
+                validate_info( $path, $source_info, $target_info );
+
+                $top_meta->unload();
+                $source_store->readTopic( $top_meta, $topic_version );
+            }
+            else {
+
+                print "... copy $top_name:$topic_version\n"
+                  if $verbose;
+
+                switch_dirs(1);
+                $target_store->saveTopic(
+                    $top_meta,
+                    $info->{author},
+                    {
+                        forcenewrevision => 1,
+                        forcedate        => $info->{date}
+                    }
+                );
+                switch_dirs(0);
+            }
 
             # Transfer attachments. We use eachAttachment rather than
             # META:FILEATTACHMENT because it won't stumble over deleted
@@ -245,21 +319,49 @@ while ( $wit->hasNext() ) {
                 next if $att_tx{"$att_name:$att_version"};
                 $att_tx{"$att_name:$att_version"} = 1;
 
-                print
-"... copy attachment $att_name rev $att_version as $att_user\n"
-                  if $verbose;
                 my $stream =
                   $source_store->openAttachment( $top_meta, $att_name, '<',
                     version => $att_version );
 
-                switch_dirs(1);
+                if ($validate) {
+                    my $path = $top_meta->getPath() . ":$topic_version";
+                    $path .= "/$att_name:$att_version";
 
-                # Save attachment
-                # SMELL: there's no way to set the date of the
-                # copied attachment
-                $target_store->saveAttachment( $top_meta, $att_name, $stream,
-                    $att_user );
-                switch_dirs(0);
+                    # Ensure getVersionInfo are consistent
+                    my $source_info =
+                      $source_store->getVersionInfo( $top_meta, $att_version,
+                        $att_name );
+
+                   # The META:FILEATTACHMENT carries date and author fields.
+                   # However these can drift from the history due
+                   # to changes to attachments not reflected in the topic
+                   # meta-data. So the only source we trust is
+                   # getVersionInfo().
+                   #validate_info("Source META $path", $att_info, $source_info);
+                    switch_dirs(1);
+
+                    # Reread the meta from the target store
+                    my $target_info =
+                      $target_store->getVersionInfo( $top_meta, $att_version,
+                        $att_name );
+                    switch_dirs(0);
+                    validate_info( $path, $source_info, $target_info );
+
+                }
+                else {
+                    switch_dirs(1);
+
+                    # Save attachment
+                    print "... copy attachment $att_name rev $att_version"
+                      . " as $att_user\n"
+                      if $verbose;
+
+                    # SMELL: there's no way to force the date of the
+                    # copied attachment
+                    $target_store->saveAttachment( $top_meta, $att_name,
+                        $stream, $att_user );
+                    switch_dirs(0);
+                }
             }
         }
     }
