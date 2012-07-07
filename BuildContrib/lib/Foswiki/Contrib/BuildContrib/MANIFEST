@@ -20,7 +20,6 @@ lib/Foswiki/Contrib/BuildContrib/Targets/uninstall.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/handsoff_install.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/dependencies.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/installer.pm 0444
-lib/Foswiki/Contrib/BuildContrib/Targets/pod.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/POD.pm 0444
 lib/Foswiki/Contrib/BuildContrib/TEMPLATE_installer.pl 0444 Installer template
 pub/System/BuildContrib/logo.gif 0444 Image

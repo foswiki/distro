@@ -1071,6 +1071,27 @@ sub target_build {
 
 =begin TML
 
+---++++ target_pod
+
+Print POD documentation. This target does not modify any files, it simply
+prints the (TML format) POD.
+
+POD text in =.pm= files should use TML syntax or HTML. Packages should be
+introduced with a level 1 header, ---+, and each method in the package by
+a level 2 header, ---++. Make sure you document any global variables used
+by the module.
+
+=cut
+
+# Defined here to work around naming clash on case-insensitive file systems
+sub target_pod {
+    my $this = shift;
+    $this->build('POD');
+    print $this->{POD} . "\n";
+}
+
+=begin TML
+
 ---++++ build($target)
 Build the given target
 
