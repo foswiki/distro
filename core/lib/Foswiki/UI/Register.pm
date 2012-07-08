@@ -1504,10 +1504,12 @@ sub _validateRegistration {
     # Optional check if email address is already registered
     if ( $Foswiki::cfg{Register}{UniqueEmail} ) {
         my @existingNames = Foswiki::Func::emailToWikiNames( $data->{Email} );
+        my @pending       = _checkPendingRegEmail( $data->{Email} );
+        push @existingNames, @pending if scalar @pending;
         if ( scalar(@existingNames) ) {
             $session->logger->log( 'warning',
                 "Registration rejected: $data->{Email} already registered by: "
-                  . join( ',', @existingNames ) );
+                  . join( ', ', @existingNames ) );
             throw Foswiki::OopsException(
                 'attention',
                 web    => $data->{webName},
@@ -1729,6 +1731,24 @@ sub _deleteKey {
             last;
         }
     }
+}
+
+# Check pending registrations for duplicate email
+sub _checkPendingRegEmail {
+    my $check   = shift;
+    my $dir     = "$Foswiki::cfg{WorkingDir}/registration_approvals/";
+    my @pending = ();
+    if ( opendir( my $d, "$dir" ) ) {
+        foreach my $f ( grep { /^.*\.[0-9]{8,8}$/ } readdir $d ) {
+            my $regFile = Foswiki::Sandbox::untaintUnchecked("$dir$f");
+            eval 'do $regFile';
+            next unless defined $data;
+            push @pending, $data->{WikiName} . '(pending)'
+              if ( $check eq $data->{Email} );
+        }
+        closedir($d);
+    }
+    return @pending;
 }
 
 1;
