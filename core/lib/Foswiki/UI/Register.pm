@@ -1502,8 +1502,10 @@ sub _validateRegistration {
     # Optional check if email address is already registered
     if ( $Foswiki::cfg{Register}{UniqueEmail} ) {
         my @existingNames = Foswiki::Func::emailToWikiNames( $data->{Email} );
-        my @pending       = _checkPendingRegEmail( $data->{Email} );
-        push @existingNames, @pending if scalar @pending;
+        if ( $Foswiki::cfg{Register}{NeedVerification} ) {
+            my @pending = _checkPendingRegEmail( $data->{Email} );
+            push @existingNames, @pending if scalar @pending;
+        }
         if ( scalar(@existingNames) ) {
             $session->logger->log( 'warning',
                 "Registration rejected: $data->{Email} already registered by: "
