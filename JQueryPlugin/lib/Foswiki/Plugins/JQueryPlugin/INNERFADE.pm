@@ -31,7 +31,6 @@ sub new {
             version    => '20080214',
             author     => 'Torsten Baldes',
             homepage   => 'http://medienfreunde.com/lab/innerfade',
-            css        => ['jquery.innerfade.css'],
             javascript => [ 'jquery.innerfade.js', 'jquery.innerfade.init.js' ],
             dependencies => [ 'metadata', 'livequery' ],
         ),
