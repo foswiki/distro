@@ -314,7 +314,7 @@ sub getVersionInfo {
       $this->askListenersVersionInfo( $topicObject, $rev, $attachment );
 
     if ( not defined $info ) {
-        $topicObject->loadVersion();
+        $topicObject->loadVersion() unless $topicObject->latestIsLoaded();
         $info = $topicObject->get('TOPICINFO');
     }
 
