@@ -35,8 +35,9 @@
 }%%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<div class="natEditContainer">
-<form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" validate="%TMPL:P{"validationrules"}%">
+<form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%" method="post" validate="%TMPL:P{"validationrules"}%">
 <input type="submit" style="display:none" />
+<input type="hidden" name="topic" value="%WEB%.%TOPIC%" />
 <input type="hidden" name="action_addform" value="" />
 <input type="hidden" name="action_cancel" value="" />
 <input type="hidden" name="action_checkpoint" value="" />

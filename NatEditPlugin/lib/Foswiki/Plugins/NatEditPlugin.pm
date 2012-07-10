@@ -20,7 +20,7 @@ use Foswiki::Plugins    ();
 use Foswiki::Validation ();
 
 our $VERSION           = '$Rev$';
-our $RELEASE           = '6.04';
+our $RELEASE           = '6.10';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
@@ -53,6 +53,16 @@ sub initPlugin {
         sub {
             require Foswiki::Plugins::NatEditPlugin::FormList;
             return Foswiki::Plugins::NatEditPlugin::FormList::handle(@_);
+        }
+    );
+
+    # SMELL: wrapper around normal save not being able to handle
+    # utf8->sitecharset conversion.
+    Foswiki::Func::registerRESTHandler(
+        'save',
+        sub {
+            require Foswiki::Plugins::NatEditPlugin::RestSave;
+            return Foswiki::Plugins::NatEditPlugin::RestSave::handle(@_);
         }
     );
 

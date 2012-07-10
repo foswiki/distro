@@ -215,8 +215,8 @@ function fixHeightOfPane () { }
             // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
             $editForm.submit();
           } else {
-            //TODO: should add a param that tells the server not to render a 302/view or edit, because we're just going to ignore it anyway
             $editForm.ajaxSubmit({
+              url: foswiki.getPreference('SCRIPTURL')+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
               beforeSubmit: function() {
                 hideErrorMessage();
                 $.blockUI({message:'<h1> Saving ... </h1>'});
