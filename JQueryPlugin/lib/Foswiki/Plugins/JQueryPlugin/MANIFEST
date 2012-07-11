@@ -696,6 +696,7 @@ pub/System/JQueryPlugin/plugins/validate/localization/messages_da.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_de.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_el.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_es.js 0644
+pub/System/JQueryPlugin/plugins/validate/localization/messages_eu.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_fa.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_fi.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_fr.js 0644
@@ -717,6 +718,7 @@ pub/System/JQueryPlugin/plugins/validate/localization/messages_ru.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_se.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_si.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_sk.js 0644
+pub/System/JQueryPlugin/plugins/validate/localization/messages_sl.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_sr.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_th.js 0644
 pub/System/JQueryPlugin/plugins/validate/localization/messages_tr.js 0644

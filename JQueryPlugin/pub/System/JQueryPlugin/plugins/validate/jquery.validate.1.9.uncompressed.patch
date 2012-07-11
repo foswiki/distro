@@ -1,0 +1,10 @@
+--- jquery.validate.uncompressed.js.orig	2012-07-11 12:26:44.873391681 +0200
++++ jquery.validate.uncompressed.js	2012-07-11 12:26:03.741391195 +0200
+@@ -979,6 +979,7 @@
+ 						validator.prepareElement(element);
+ 						validator.formSubmitted = submitted;
+ 						validator.successList.push(element);
++ 						delete validator.invalid[element.name];
+ 						validator.showErrors();
+ 					} else {
+ 						var errors = {};
