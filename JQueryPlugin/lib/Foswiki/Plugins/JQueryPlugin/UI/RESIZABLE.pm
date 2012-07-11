@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'UI::Resizable',
-            version      => '1.8.16',
+            version      => '1.8.21',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author       => 'see http://jqueryui.com/about',
             homepage     => 'http://docs.jquery.com/UI',
