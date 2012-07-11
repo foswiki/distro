@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1319629237" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" date="1342000594" format="1.1" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"textboxlist"
@@ -80,7 +80,6 @@ jQuery(function($) {
 | <nop>SelectValue | value | triggered when a value is selected |
 | <nop>DeleteValue | value | triggered when a value is deselected |
 
-
 ---++ Examples
 %JQREQUIRE{"textboxlist"}%
 
@@ -147,7 +146,7 @@ Note, that you will need Foswiki:Extensions.FilterPlugin to run the example succ
   header="["
   format="{\"value\":\"$1\"} "
   footer="]"
-  separator="$n"
+  separator=",$n"
   include="\s*%URLPARAM{"term"}%.*"
 }%%ENDSECTION{"data"}%
 </verbatim>
