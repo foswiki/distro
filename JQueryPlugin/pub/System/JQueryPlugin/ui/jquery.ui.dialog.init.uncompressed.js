@@ -91,19 +91,25 @@ jQuery(function($) {
 
     if (href.match(/^https?:/)) {
       // this is a link to remote data
-      $.get(href, function(content) { 
-        var $content = $(content),
-            id = $content.attr('id');
-        if (!id) {
-          id = 'dialog-'+foswiki.getUniqueID();
-          $content.attr('id', id);
+      $.ajax({
+        url: href, 
+        success: function(content) { 
+          var $content = $(content),
+              id = $content.attr('id');
+          if (!id) {
+            id = 'dialog-'+foswiki.getUniqueID();
+            $content.attr('id', id);
+          }
+          if (opts.cache) {
+            $this.attr("href", "#"+id);
+          } 
+          $content.hide();
+          $("body").append($content);
+          $content.data("autoOpen", true);
+        },
+        error: function(xhr) {
+          alert("Error "+xhr.status+": "+xhr.statusText);
         }
-        if (opts.cache) {
-          $this.attr("href", "#"+id);
-        } 
-        $content.hide();
-        $("body").append($content);
-        $content.data("autoOpen", true);
       }); 
     } else {
       // this is a selector
