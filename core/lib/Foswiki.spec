@@ -270,7 +270,8 @@ $Foswiki::cfg{UseClientSessions} = 1;
 # up expired sessions using CGI processes. Instead you should use a cron
 # job to clean up expired sessions. The standard maintenance cron script
 # <tt>tools/tick_foswiki.pl</tt> includes this function.
-# <p /> Session files are stored in the <tt>{WorkingDir}/tmp</tt> directory.
+# <p> Session files are stored in the <tt>{WorkingDir}/tmp</tt> directory.</p>
+# <p> This setting is also used to set a lifetime for registration requests.</p>
 $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 
 # **NUMBER EXPERT DISPLAY_IF {UseClientSessions} && {LoginManager}=='Foswiki::LoginManager::TemplateLogin'**

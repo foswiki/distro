@@ -34,10 +34,18 @@ use Foswiki ();
 # This will expire sessions that have not been used for
 # |{Sessions}{ExpireAfter}| seconds i.e. if you set {Sessions}{ExpireAfter}
 # to -36000 or 36000 it will expire sessions that have not been used for
-# more than 100 hours,
+# more than 10 hours,
 
 use Foswiki::LoginManager ();
 Foswiki::LoginManager::expireDeadSessions();
+
+# This will expire pending registrations that have not been used for
+# |{Sessions}{ExpireAfter}| seconds i.e. if you set {Sessions}{ExpireAfter}
+# to -36000 or 36000 it will expire registrations that have not been verified for
+# more than 10 hours,
+
+use Foswiki::UI::Register ();
+Foswiki::UI::Register::expirePendingRegistrations();
 
 # This will expire the caches that are used to store query parameters through
 # a validation confirmation process. By default these are expired if they
@@ -55,7 +63,7 @@ $root->onTick( time() );
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2009-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2009-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
