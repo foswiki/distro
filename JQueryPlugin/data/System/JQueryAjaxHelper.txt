@@ -1,13 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1320871779" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
-<div class="foswikiHidden">
-Hidden form definition
-|*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
-| Example | text | 40 | | | |
-
-%JQREQUIRE{"chili, ui, ui::autocomplete"}%
-</div>
+%JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
 
 This page contains a set of example JQueryPlugin helpers that can be used in
 wiki applications. The examples demonstrate how you can
@@ -287,11 +281,11 @@ or later).
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
-     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text',
+     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;topic=%SOURCE%;query=%QUERY%;skin=text',
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
-             alert(\"%QUERY% is '\" + data + \"'\");
+             alert('%QUERY% is ' + data);
          });
   });
 });
@@ -306,13 +300,12 @@ jQuery(function($){
 <verbatim class="tml">
 %STARTSECTION{"query"}%<noautolink>%QUERY{
   "%URLPARAM{"query" default="query missing"}%"
-  topic="%URLPARAM{"source" default="source missing"
-  style="json"}%"
+  style="json"
 }%</noautolink>%ENDSECTION{"query"}%
 </verbatim>
 
 ---+++ Example
-%INCLUDE{"%TOPIC%" section="queryfetcher" ID="jqQueryExample" SOURCE="%TOPIC%" QUERY="parent.name"}%
+%INCLUDE{"%TOPIC%" section="queryfetcher" ID="jqQueryExample" SOURCE="%WEB%.%TOPIC%" QUERY="parent.name"}%
 <input type="button" class="foswikiButton" id="jqQueryExample" value="Click here" /> to get the parent of this topic asynchronously (should be '%QUERY{"parent.name"}%')
 
 ---++ Other selectors
@@ -357,6 +350,3 @@ expand a TML expression in the given scope
 <verbatim class="tml">
 %STARTSECTION{"expand"}%%EXPAND{"$percnt%URLPARAM{"expression"}%$percnt" scope="%URLPARAM{"scope" default="%BASEWEB%.%BASETOPIC%"}%"}%%ENDSECTION{"expand"}%
 </verbatim>
-
-%META:FORM{name="JQueryAjaxHelper"}%
-%META:FIELD{name="Example" attributes="" title="Example" value="example field value"}%
