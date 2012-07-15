@@ -4,9 +4,10 @@
 ---+!! Wiki Applications
 _This page will help you create new Wiki Applications that use DataForms_
 
-%TOC%
 
----
+%TABPANE%
+ %TAB{"Create" id="create"}%
+ 
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 ---++ Create a wiki application
@@ -17,6 +18,13 @@ _This page will help you create new Wiki Applications that use DataForms_
     newtopic="WikiAppAUTOINC0"
 }%
 </div></div>
+
+ %ENDTAB%
+ %TAB{"List" id="list" url="%SCRIPTURL{view}%/%SYSTEMWEB%/WebSearch?skin=plain;search=form.name+%3D+%27System.WikiApplications%27&scope=all&web=all&recurse=on&order=topic&type=query&limit="}%
+
+ %ENDTAB%
+%ENDTABPANE%
+
 ---
 
 
