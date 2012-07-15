@@ -387,10 +387,10 @@ The =save= script performs a range of save-related functions.
 | =templatetopic= | Name of a topic to use as a template for the text and form (new topic _only_) (see [[#NewTopicCreation][New topic creation]] above) | |
 | =text= | New text of the topic | |
 | =topicparent= | If 'none' remove any current topic parent. If the name of a topic, set the topic parent to this. | |
-| =Local+name= | create/set a local META:PREFERENCE called =name= |
-| =Set+name= |  create/set a normal topic META:PREFERENCE called =name= |
-| =Unset+name= | remove a META:PREFERENCE call =name= |
-| =Default+name= | gives a default for =name=. If =name= is set to this value, then the preference will be removed. %X% Requires a corresponding =Set+name= or =Local+name= to work. |
+| =Local+name= | create/set a local META:PREFERENCE called =name= | |
+| =Set+name= |  create/set a normal topic META:PREFERENCE called =name= | |
+| =Unset+name= | remove a META:PREFERENCE call =name= | |
+| =Default+name= | gives a default for =name=. If =name= is set to this value, then the preference will be removed. %X% Requires a corresponding =Set+name= or =Local+name= to work. | |
 | _&lt;any name&gt;_ | If the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. | |
 
 Any errors will cause a redirect to another page, either an =oops= page to report the error, or a =login= if the save is not authorized.
