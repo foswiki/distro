@@ -50,7 +50,8 @@ _This page will help you create new Wiki Applications that use DataForms_
 ---+++ listitems
 
 <verbatim class="tml">
-%STARTSECTION{"listitems"  PREFIX="Prefix" }%
+%STARTSECTION{"listitems"  PREFIX="Prefix" FUNNIN="%INCLUDINGTOPIC%"}%
+---++ %FUNNIN% - %INCLUDINGTOPIC%
 %SEARCH{
    "form.name = '%INCLUDINGWEB%.%INCLUDINGTOPIC%'"
    web="%INCLUDINGWEB%"
@@ -58,7 +59,7 @@ _This page will help you create new Wiki Applications that use DataForms_
    type="query"
    pager="on"
    nonoise="on"
-   format="   1  $formfield(Description) - $percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotcreatepopup$quot ITEMWEB=$quot$web$quot ITEMTOPIC=$quot$topic$quot}$percnt"
+   format="   1  $formfield(Description) - $percntINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotcreatepopup$quot ITEMWEB=$quot$web$quot ITEMTOPIC=$quot$topic$quot FORMTEMPLATE=$quot$formname$quot}$percnt"
    pager="on"
    pagesize="5"
 }%
@@ -69,11 +70,11 @@ parameters:
    * ITEMWEB - (defaults to This web)
    * ITEMTOPIC - (defaults to %PREFIX%AUTOINC001)
 <verbatim class="tml">
-%STARTSECTION{"createpopup" PREFIX="Prefix" ITEMWEB="%BASEWEB%" ITEMTOPIC="%PREFIX%AUTOINC001"}%%JQREQUIRE{
+%STARTSECTION{"createpopup" PREFIX="Prefix" ITEMWEB="%BASEWEB%" ITEMTOPIC="%PREFIX%AUTOINC001" FORMTEMPLATE="%INCLUDINGWEB%.%INCLUDINGTOPIC%"}%%JQREQUIRE{
         "ui::dialog, ui::button"
 }% %BUTTON{
         text="%IF{"istopic '%ITEMWEB%.%ITEMTOPIC%'" then="edit %ITEMTOPIC%" else="add New %PREFIX%"}%"
-        href="%SCRIPTURL{edit}%/%ITEMWEB%/%ITEMTOPIC%?template=System.WikiApplicationsViewSectionTemplate&formtemplate=%INCLUDINGWEB%.%INCLUDINGTOPIC%&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%"
+        href="%SCRIPTURL{edit}%/%ITEMWEB%/%ITEMTOPIC%?template=System.WikiApplicationsViewSectionTemplate&formtemplate=%FORMTEMPLATE%&_t=%GMTIME{"$day$mon$hour$min$sec"}%&redirectto=%BASEWEB%.%BASETOPIC%"
         class="foswikiClear jqUIDialogLink {cache:false}"
         icon="create"
 }% %ENDSECTION{"createpopup"}%
