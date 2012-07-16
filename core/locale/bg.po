@@ -1956,11 +1956,11 @@ msgid "Literal search"
 msgstr "Буквално търсене"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Вход"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Изход"
 
 #: core/templates/login.tmpl:12

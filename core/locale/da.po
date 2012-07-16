@@ -1985,11 +1985,11 @@ msgid "Literal search"
 msgstr "Simpel søgning"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Log ind"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Log ud"
 
 #: core/templates/login.tmpl:12

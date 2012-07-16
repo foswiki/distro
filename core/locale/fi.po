@@ -1961,11 +1961,11 @@ msgid "Literal search"
 msgstr "Tarkka sanahaku"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Kirjaudu sisään"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Kirjaudu ulos"
 
 #: core/templates/login.tmpl:12

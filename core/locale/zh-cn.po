@@ -1888,11 +1888,11 @@ msgid "Literal search"
 msgstr "简单搜寻"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "登录"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "登出"
 
 #: core/templates/login.tmpl:12

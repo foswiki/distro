@@ -1953,11 +1953,11 @@ msgid "Literal search"
 msgstr "Písmenné hledání"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Přihlásit"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Odhlásit"
 
 #: core/templates/login.tmpl:12

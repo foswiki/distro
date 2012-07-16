@@ -1950,11 +1950,11 @@ msgid "Literal search"
 msgstr "Búsqueda literal"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Iniciar sesión"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Cerrar sesión"
 
 #: core/templates/login.tmpl:12

@@ -1568,11 +1568,11 @@ msgid "Local customisations of site-wide preferences"
 msgstr "Τοπικές τροποποιήσεις γενικών προτιμήσεων της σελίδας"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:4
-msgid "Log In"
+msgid "Login"
 msgstr "Σύνδεση"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:5
-msgid "Log Out"
+msgid "Logout"
 msgstr "Αποσύνδεση"
 
 #: core/templates/mailresetpassword.tmpl:12

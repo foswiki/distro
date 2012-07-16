@@ -1823,11 +1823,11 @@ msgid "Literal search"
 msgstr "簡單搜尋"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "登入"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "登出"
 
 #: core/templates/login.tmpl:12

@@ -1976,12 +1976,12 @@ msgid "Literal search"
 msgstr "Ricerca semplice"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
-msgstr "Log In"
+msgid "Login"
+msgstr "Login"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
-msgstr "Log Out"
+msgid "Logout"
+msgstr "Logout"
 
 #: core/templates/login.tmpl:12
 #, fuzzy

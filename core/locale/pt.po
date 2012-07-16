@@ -1994,11 +1994,11 @@ msgid "Literal search"
 msgstr "Busca simples (literal)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Iniciar sessão"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Encerrar sessão"
 
 #: core/templates/login.tmpl:12

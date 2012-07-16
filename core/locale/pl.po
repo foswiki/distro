@@ -1969,11 +1969,11 @@ msgid "Literal search"
 msgstr "Wyszukiwanie proste"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Zaloguj"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Wyloguj"
 
 #: core/templates/login.tmpl:12

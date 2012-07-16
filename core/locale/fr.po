@@ -2012,11 +2012,11 @@ msgid "Literal search"
 msgstr "Recherche littérale"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Connexion"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Déconnexion"
 
 #: core/templates/login.tmpl:12

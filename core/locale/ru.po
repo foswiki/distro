@@ -1997,11 +1997,11 @@ msgid "Literal search"
 msgstr "Буквальный поиск"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "Войти"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "Выйти"
 
 #: core/templates/login.tmpl:12

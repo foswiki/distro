@@ -1778,11 +1778,11 @@ msgid "Literal search"
 msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr ""
 
 #: core/templates/login.tmpl:12

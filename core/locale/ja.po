@@ -1955,11 +1955,11 @@ msgid "Literal search"
 msgstr "簡単な検索"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
-msgid "Log In"
+msgid "Login"
 msgstr "ログイン"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
-msgid "Log Out"
+msgid "Logout"
 msgstr "ログアウト"
 
 #: core/templates/login.tmpl:12
