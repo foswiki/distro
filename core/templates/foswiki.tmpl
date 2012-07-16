@@ -34,15 +34,15 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 ---------------------------------------------------
 }%%TMPL:INCLUDE{"css"}%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"sep"}%<span class="foswikiSeparator"> | </span>%TMPL:END%%{
+}%%TMPL:DEF{"sep"}%<span class='foswikiSeparator'> | </span>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"titlesep"}% &lt; %TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"LOG_IN"}%Log In%TMPL:END%%{
+}%%TMPL:DEF{"LOG_IN"}%%MAKETEXT{"Login"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"LOG_OUT"}%Log Out%TMPL:END%%{
+}%%TMPL:DEF{"LOG_OUT"}%%MAKETEXT{"Logout"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"nonwikiwordwarning"}%<p class="foswikiAllowNonWikiWord"><label><input type="checkbox" name="nonwikiword" %IF{"$ 'URLPARAM{nonwikiword}'='on'" then="checked=\"checked\""}% />%MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label>%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%%{
+}%%TMPL:DEF{"nonwikiwordwarning"}%<p class="foswikiAllowNonWikiWord"><label><input type="checkbox" name="nonwikiword" %IF{"$ 'URLPARAM{nonwikiword}'='on'" then="checked=\"checked\""}% /> %MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label>%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"nonwikiwordhelp"}%%TWISTY{mode="span"}% %MAKETEXT{"It's usually best to choose a [_1] for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed." args="%POPUPWINDOW{"%SYSTEMWEB%.WikiWord" label="WikiWord"}%"}%%JQREQUIRE{"popupwindow"}%%ENDTWISTY%%TMPL:END%%{
 ---------------------------------------------------
@@ -172,7 +172,7 @@ webListIndent - used in WEBLIST
 }%%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%%{
 ---------------------------------------------------
 icon:image - uses double quotes required for legacy reasons :/ 
-}%%TMPL:DEF{"icon:image"}%<span class="foswikiIcon"><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%%{
+}%%TMPL:DEF{"icon:image"}%<span class='foswikiIcon'><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%%{
 ---------------------------------------------------
@@ -184,9 +184,13 @@ support for default skin's webtopiclist
   else="$percntTMPL:P{\"defaultwebtopiclist\"}$percnt"
 }%%TMPL:END%%{
 ---------------------------------------------------
+The complete document
+---------------------------------------------------
+}%%TMPL:DEF{"document"}%%TMPL:P{"htmldoctype"}%%TMPL:P{"htmlstart"}%
+%TMPL:P{"head"}%
+%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%%TMPL:P{"htmlend"}%%TMPL:END%%{
+---------------------------------------------------
 The bit that controls the output _SHOULD_ be last in the foswiki.SKIN.tmpl
 file.
-}%%TMPL:P{"htmldoctype"}%
-%TMPL:P{"head"}%
-%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%
+}%%TMPL:P{"document"}%
 %{ REQUIRED: comment after output definition to filter out newlines }%
