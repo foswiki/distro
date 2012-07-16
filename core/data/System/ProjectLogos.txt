@@ -21,7 +21,7 @@ If you use the official artwork on your own site you must link back to Foswiki.o
 
 <verbatim class="tml">
 <a href="http://foswiki.org/">
-<img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif"\
+<img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif"\
     alt="This site is powered by Foswiki"\
     title="This site is powered by Foswiki"\
     border="0" />
