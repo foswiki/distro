@@ -137,7 +137,6 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  01 Jun 2012: | (4.34) - simplemodal updated to 1.4.2. |
 |  06 Apr 2012: | (4.33) - Item11511, Item11512.  Minor changes to improve JSON output and Javascript validations.%BR%\
                    Item11685: deprecate simmplemodal, replace by jquery.ui.dialog.%BR%\
                    Item11654: JQueryTmpl is discontinued upstream.%BR%\

@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name     => 'SimpleModal',
-            version  => '1.4.2',
+            version  => '1.2.3',
             author   => 'Eric Martin',
             homepage => 'http://www.ericmmartin.com/projects/simplemodal',
             css      => ['jquery.simplemodal.css'],
