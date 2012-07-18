@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284862749" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1342561107" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 <blockquote class="foswikiHelp">%X% Under normal circumstances, there should be no need to rebuild your %USERSWEB%.WikiUsers topic.</blockquote>
 
@@ -7,6 +7,12 @@ Sometimes, the %USERSWEB%.WikiUsers topic maintained by %SYSTEMWEB%.TopicUserMap
    * You migrated a TWiki installation and accumulated new registrations on the new %USERSWEB%.WikiUsers topic before you had a chance to initialise it with the old list from the old !TWikiUsers topic.
 
 Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the script below should refresh your %USERSWEB%.WikiUsers topic with an accurate list of users. It uses the [[%SYSTEMWEB%.VarUSERINFO][USERINFO]] macro, which protects user information from ordinary users - so this topic needs to be viewed with [[%SYSTEMWEB%.AccessControl#The_Super_Admin_Group][admin privileges]] in order for it to be useful.
+
+Usage Notes:
+   * The data is populated by searching for topics in %USERSWEB% containing a UserForm.
+   * "User Topics" that are unknown to the password manager will be added, appearing as a line with the !WikiName but no username.  These lines can be deleted.
+      * Ex: =BadRegistration - - 02 Mar 2012 - 23:50=
+   * There must not be any embedded blank lines in the list.  The Mapper will detect the first blank line as the end of the list, adding entries after that line.
 
 %TWISTY{showlink="Show code..."}%
 <!--%JQREQUIRE{"chili"}%-->
@@ -27,10 +33,11 @@ Assuming your wiki is configured to use %SYSTEMWEB%.TopicUserMappingContrib, the
     type="query"
     web="%USERSWEB%"
     nonoise="on"
+    separator="$n"
     header="$n"
-    format="   * $percentUSERINFO{
+    format="   * $topic - $percentUSERINFO{
         \"$topic\"
-        format=\"$dollarwikiname - $dollarusername\"
+        format=\"$dollarusername\"
     }$percent - $createdate"
 }%%ENDSECTION{"USERS"}% 
 </verbatim>
