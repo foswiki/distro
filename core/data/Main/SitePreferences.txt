@@ -35,9 +35,6 @@ Customize your top bar background image and color
    * Set WEBHEADERART = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/header5.gif
    * Set WEBHEADERBGCOLOR = #ffffff
       
-   * Set REGISTRATIONGROUPTYPE = automatic
-   * Set REGISTRATIONGROUPS = NewUserGroup
-
 ---++ Finalisation
 =FINALPREFERENCES= locks site-level preferences that are *not* allowed to be overridden by [[%WEBPREFSTOPIC%]] or user preferences:
 
