@@ -840,13 +840,15 @@ sub groupAllowsChange {
     my $user  = shift;
     ASSERT( defined $user ) if DEBUG;
 
-    return 1 if $this->{session}->{users}->isAdmin($user);
-
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
       $this->{session}
       ->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
+
+    # SMELL: Should NobodyGroup be configurable?
+    return 0 if $groupName eq 'NobodyGroup';
+    return 1 if $this->{session}->{users}->isAdmin($user);
 
 # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
     $groupWeb = $Foswiki::cfg{UsersWebName};

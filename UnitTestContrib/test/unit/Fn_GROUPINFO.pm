@@ -32,6 +32,11 @@ sub set_up {
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, "NobodyGroup" );
+    $topicObject->text("   * Set GROUP = \n");
+    $topicObject->save();
+    $topicObject->finish();
+    ($topicObject) =
       Foswiki::Func::readTopic( $this->{users_web}, "NestingGroup" );
     $topicObject->text("   * Set GROUP = GropeGroup\n");
     $topicObject->save();
@@ -90,8 +95,32 @@ sub test_withName {
     $this->assert_matches( qr/\b$this->{users_web}.ScumBag\b/,   $ui );
     $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui );
     my @u = split( /,/, $ui );
-    $this->assert( 2, scalar(@u) );
+    $this->assert_equals( 2, scalar(@u) );
 
+    return;
+}
+
+sub test_withShow {
+    my $this = shift;
+
+    my $ui =
+      $this->{test_topicObject}
+      ->expandMacros('%GROUPINFO{ show="allowchange"}%');
+    $this->assert_does_not_match( qr/NobodyGroup/, $ui );
+    my @u = split( /,/, $ui );
+    $this->assert_equals( 7, scalar(@u) );
+
+    $ui =
+      $this->{test_topicObject}
+      ->expandMacros('%GROUPINFO{ show="denychange"}%');
+    $this->assert_matches( qr/NobodyGroup/, $ui );
+    $this->assert_matches( qr/BaseGroup/,   $ui );
+    @u = split( /,/, $ui );
+    $this->assert_equals( 2, scalar(@u) );
+
+    $ui = $this->{test_topicObject}->expandMacros('%GROUPINFO{ show="all"}%');
+    @u = split( /,/, $ui );
+    $this->assert_equals( 9, scalar(@u) );
     return;
 }
 
@@ -108,7 +137,7 @@ sub test_noExpand {
     $this->assert_matches( qr/\b$this->{users_web}.ScumBag\b/,   $ui );
     $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui );
     my @u = split( /,/, $ui );
-    $this->assert( 2, scalar(@u) );
+    $this->assert_equals( 2, scalar(@u) );
 
     return;
 }
@@ -122,7 +151,7 @@ sub test_noExpandHidden {
     $this->assert_matches( qr/\b$this->{users_web}.WikiGuest\b/, $ui );
     $this->assert_does_not_match( qr/\b$this->{users_web}.HiddenGroup\b/, $ui );
     my @u = split( /,/, $ui );
-    $this->assert( 1, scalar(@u) );
+    $this->assert_equals( 1, scalar(@u) );
 
     return;
 }
@@ -144,7 +173,7 @@ sub test_expandHidden {
         $ui, 'ScumBag revealed' );
 
     my @u = split( /,/, $ui );
-    $this->assert( 1, scalar(@u) );
+    $this->assert_equals( 2, scalar(@u) );
 
     return;
 }
@@ -160,7 +189,7 @@ sub test_expandHiddenUser {
     $this->assert_does_not_match( qr/\b$this->{users_web}.HidemeGood\b/,
         $ui, 'HidemeGood revealed' );
     my @u = split( /,/, $ui );
-    $this->assert( 1, scalar(@u) );
+    $this->assert_equals( 1, scalar(@u) );
 
     return;
 }
@@ -181,7 +210,7 @@ sub test_expandHiddenUserAsAdmin {
     $this->assert_matches( qr/$this->{users_web}.ScumBag/,    $ui );
     $this->assert_matches( qr/$this->{users_web}.HidemeGood/, $ui );
     my @u = split( /,/, $ui );
-    $this->assert( 2, scalar(@u) );
+    $this->assert_equals( 2, scalar(@u) );
     $this->{test_topicObject}->finish();
 
     return;
