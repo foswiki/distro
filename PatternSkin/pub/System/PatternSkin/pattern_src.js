@@ -39,13 +39,13 @@ jQuery(document).ready(function ($) {
 		$(this).focus();
 	});
 
-	$('input.foswikiChangeFormButton').livequery('click', function () {
+	$('input.foswikiChangeFormButton').live('click', function () {
 		if (foswiki.Edit) {
 			foswiki.Edit.validateSuppressed = true;
 		}
 	});
 
-	$('body.patternEditPage input').livequery('keydown', function (event) {
+	$('body.patternEditPage input').live('keydown', function (event) {
 		if (event.keyCode === 13) {
 			return false;
 		}
