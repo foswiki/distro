@@ -43,13 +43,16 @@ The default =lang= is =en=, the default =style= is =large=.
 To display a calendar icon next to a text input field:
 <verbatim class="tml">
 <input type="text" class="foswikiInputField" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y %H:%M:%S ')" />
+<img src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
+  class="foswikiButton foswikiEditFormCalendarButton" \
+  onclick="return showCalendar('cal_val_here','%e %B %Y %H:%M:%S ')" />
 </verbatim>
 If the contrib is installed, you will see such a field here:
 %INCLUDE{"%SYSTEMWEB%.JSCalendarContribInline" style="large"}%
 <input type="text" class="foswikiInputField" id="cal_val_here" />
-<img src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" class="foswikiButton foswikiEditFormCalendarButton" onclick="return showCalendar('cal_val_here','%e %B %Y %H:%M:%S')" />
+<img src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" \
+  class="foswikiButton foswikiEditFormCalendarButton" \
+  onclick="return showCalendar('cal_val_here','%e %B %Y %H:%M:%S')" />
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
