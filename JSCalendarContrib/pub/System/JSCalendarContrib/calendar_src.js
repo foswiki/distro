@@ -1742,6 +1742,10 @@ Date.prototype.setDateOnly = function(date) {
 	this.setFullYear(tmp.getFullYear());
 	this.setMonth(tmp.getMonth());
 	this.setDate(tmp.getDate());
+	// keep existing time
+	this.setHours(date.getHours());
+	this.setMinutes(date.getMinutes());
+	this.setSeconds(date.getSeconds());
 };
 
 Date.prototype.setDateAndTime = function(date) {
