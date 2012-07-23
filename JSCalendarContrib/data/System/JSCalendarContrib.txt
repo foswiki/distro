@@ -31,17 +31,11 @@ You can also use the calendar directly in your own hand-built forms.
 ---++++ Preparation
 Just add this inline in the topic text:
 <verbatim class="tml">
-%INCLUDE{
-	"%SYSTEMWEB%/JSCalendarContribInline"
-}%
+%INCLUDE{"%SYSTEMWEB%.JSCalendarContribInline"}%
 </verbatim>
 You may pass language and style options:
 <verbatim class="tml">
-%INCLUDE{
-	"%SYSTEMWEB%/JSCalendarContribInline"
-	lang="nl"
-	style="blue"
-}%
+%INCLUDE{"%SYSTEMWEB%.JSCalendarContribInline" lang="nl" style="blue"}%
 </verbatim>
 The default =lang= is =en=, the default =style= is =large=.
 
@@ -53,13 +47,9 @@ To display a calendar icon next to a text input field:
        onclick="javascript: return showCalendar('cal_val_here','%e %B %Y %H:%M:%S ')" />
 </verbatim>
 If the contrib is installed, you will see such a field here:
-%INCLUDE{
-	"%SYSTEMWEB%/JSCalendarContribInline"
-	style="large"
-}%
+%INCLUDE{"%SYSTEMWEB%.JSCalendarContribInline" style="large"}%
 <input type="text" class="foswikiInputField" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif"\
-       onclick="javascript: return showCalendar('cal_val_here','%e %B %Y %H:%M:%S')" />
+<img src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" class="foswikiButton foswikiEditFormCalendarButton" onclick="return showCalendar('cal_val_here','%e %B %Y %H:%M:%S')" />
 
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
