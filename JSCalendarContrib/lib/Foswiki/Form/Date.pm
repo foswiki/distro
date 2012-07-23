@@ -49,14 +49,15 @@ sub renderForEdit {
       || $Foswiki::cfg{JSCalendarContrib}{format}
       || '%e %b %Y';
     Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
-    my $button .= CGI::image_button(
-        -name    => 'calendar',
-        -onclick => "return showCalendar('id$this->{name}','$ifFormat')",
-        -src     => $Foswiki::cfg{PubUrlPath} . '/'
-          . $Foswiki::cfg{SystemWebName}
-          . '/JSCalendarContrib/img.gif',
-        -alt   => 'Calendar',
-        -class => 'foswikiButton foswikiEditFormCalendarButton'
+    my $button = CGI::img(
+        {
+            onclick => "return showCalendar('id$this->{name}','$ifFormat')",
+            src     => $Foswiki::cfg{PubUrlPath} . '/'
+              . $Foswiki::cfg{SystemWebName}
+              . '/JSCalendarContrib/img.gif',
+            alt   => 'Calendar',
+            class => 'foswikiButton foswikiEditFormCalendarButton'
+        }
     );
     $value .=
       CGI::span( { -class => 'foswikiMakeVisible' }, '&nbsp;' . $button );

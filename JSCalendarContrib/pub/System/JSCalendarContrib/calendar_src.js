@@ -1233,6 +1233,9 @@ Calendar.prototype.setDateToolTipHandler = function (unaryFunction) {
  *  date is different than the currently selected one).
  */
 Calendar.prototype.setDate = function (date) {
+	if (date === undefined || date === null || !(new Date(date))) {
+		return;
+	}
 	if (!date.equalsTo(this.date)) {
 		this._init(this.firstDayOfWeek, date);
 	}
