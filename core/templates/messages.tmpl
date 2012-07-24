@@ -198,6 +198,20 @@
 %MAKETEXT{"You have *not* been registered."}%
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"registration_invalid"}%
+---+++ %MAKETEXT{"New User Registration failed"}%
+
+%MAKETEXT{"Your user registration failed because they did not pass the validation tests."}%
+
+<noautolink>
+%PARAM1%
+</noautolink>
+
+%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
+
+%MAKETEXT{"You have *not* been registered."}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"passwords_disabled"}%
 ---+++ %MAKETEXT{"Passwords disabled"}%
 

@@ -1583,7 +1583,7 @@ sub _validateRegistration {
             'attention',
             web    => $data->{webName},
             topic  => $session->{topicName},
-            def    => 'registration_disabled',
+            def    => 'registration_invalid',
             params => [ $e->stringify ]
         );
 
