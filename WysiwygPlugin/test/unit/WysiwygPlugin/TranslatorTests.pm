@@ -3512,6 +3512,24 @@ HERE
 </td> </tr> </tbody> </table>
 HERE
     },
+    {
+
+# Unmatched ( in regex; marked by <-- HERE in m/\
+# .^V%N%^W^V%ICON{connections}%^W  ==I change text== ( <-- HERE == $/ at /usr/local/ww
+# w/foswiki/lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm line 1456.
+#  at /usr/local/www/foswiki/lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm line 1456
+        name => "regexQuotingProblem_Item12011",
+        exec => $TML2HTML | $HTML2TML | $ROUNDTRIP,
+        tml  => <<'HERE',
+%N%
+%ICON{connections}%
+  ==I change text== (
+HERE
+        html => <<'HERE',
+<p><span class="WYSIWYG_PROTECTED">%N%</span><span class="WYSIWYG_PROTECTED"><br />%ICON{connections}%</span><span style="{encoded:'ns2'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>==I change text== (
+</p>
+HERE
+    },
 ];
 
 sub encodedWhitespace {
