@@ -292,6 +292,9 @@ sub init_edit {
         # Copy preference values
         $topicObject->copyFrom( $ttom, 'PREFERENCE' );
 
+        # Copy topic parent value
+        $topicObject->copyFrom( $ttom, 'TOPICPARENT' );
+
         # Copy the text
         $topicObject->text( $ttom->text() );
 
