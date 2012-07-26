@@ -136,17 +136,18 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  01 Jun 2012: | (4.42) - Item11917. simplemodal updated to 1.4.2. fixed upstream bug computing dialog heights |
-|  23 May 2012: | (4.41) - Item11889. \
+|  09 Jul 2012: | (4.42) - Item11742: removed all jquery prior to 1.7.1 |
+|  01 Jun 2012: | (4.42) - Item11917: simplemodal updated to 1.4.2. fixed upstream bug computing dialog heights |
+|  23 May 2012: | (4.41) - Item11889: \
                   added means to hide the close button on textboxlist values; \
                   docu improvements to textboxlixst and pnotify | 
-|  10 Apr 2012: | (4.40) - Item11397, Item11742. \
+|  10 Apr 2012: | (4.40) - Item11397, Item11742: \
                   use a JSON instead of &lt;meta> to export preferences to javascript; \
                   add jquery-1.7.2 (new default); \
                   deprecate all jquery versions prior to 1.7.1 \
                   improve docu and integration of scrollto and serialscroll; \
                   removed deprecated foswiki.web, foswiki.topic etc properties |
-|  06 Apr 2012: | (4.33) - Item11511, Item11512.  Minor changes to improve JSON output and Javascript validations.%BR%\
+|  06 Apr 2012: | (4.33) - Item11511, Item11512:  Minor changes to improve JSON output and Javascript validations.%BR%\
                    Item11685: deprecate simmplemodal, replace by jquery.ui.dialog.%BR%\
                    Item11654: JQueryTmpl is discontinued upstream.%BR%\
                    Item11383: Document jqUIDialogSubmit.%BR%\
