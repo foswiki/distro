@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1320084362" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" date="1341832780" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -86,18 +86,78 @@ When the button is clicked:
    * If the &lt;a&gt; element has the =jqUIDialogSubmit= class, then a form defined in the dialog box will be submitted.
    * If the &lt;a&gt; element has an href attribute, then the specified page will be loaded.
 
+---++ Parameters 
+
+Parameters can be set using JQueryMetadata.
+
+| *Name* | *Description* | *Default* |
+| width | width of the dialog | 300 |
+| height | height of the dialog | auto |
+| autoOpen | boolean flag to either open the dialog when loaded (true) or delay opening it until the user says so (false) | false |
+| draggable | boolean flag to make the dialog draggable | false |
+| resizable | boolean flag to make the dialog resizable | false |
+| closeOnEscape | boolean flag to let the user close the dialog using the ESC key | false |
+| show | animation to be used to display the dialog | fade |
+| hide | animation to be used to hide the dialog |  |
+| modal | If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements. | false |
+| position | Specifies where the dialog should be displayed, e.g.  'center', 'left', 'right', 'top', 'bottom', [350,100], ['right','top'] | center |
+
+See the plugin's homepage for more.
+
+---++ Events
+
+Events are fired on different occasions during the lifetime of a dialog. 
+
+| *Name* | *Event* | *Description* | 
+| create | dialogcreate | This event is triggered when dialog is created |
+| open | dialogopen | This event is triggered when the dialog is opened. |
+| beforeClose | dialogbeforeclose | This event is triggered when a dialog attempts to close. If the beforeClose event handler (callback function) returns false, the close will be prevented. |
+| focus | dialogfocus | This event is triggered when the dialog gains focus. |
+| dragStart | dialogdragstart | This event is triggered at the beginning of the dialog being dragged. |
+| drag | dialogdrag | This event is triggered when the dialog is dragged. |
+| dragStop | dialogdragstop | This event is triggered after the dialog has been dragged. |
+| resizeStart | dialogresizestart | This event is triggered at the beginning of the dialog being resized. |
+| resize | dialogresize | This event is triggered when the dialog is resized. |
+| resizeStop | dialogresizestop | This event is triggered after the dialog has been resized. |
+| close | dialogclose | This event is triggered when the dialog is closed. |
+
+A custom event handler can either be registered when creating the dialog:
+
+<verbatim class="tml">
+<div class="jqUIDialog {open: functon() {myOpen.call(this);}}"></div>
+</verbatim>
+
+... or by binding it afterwards using a jQuery way like =$("selector").bind(event, function)=
+to register an event to a dom node.
+
+<verbatim class="js">
+<script>
+$("#mydialog").bind("dialogclose", function() {
+  alert("got a dialogclose event");
+});
+</script>
+</verbatim>
+
 ---++ Examples
 %JQREQUIRE{"ui::dialog, ui::button"}%
 
----+++ Dialog defined inline
-<a href="#dialog" class="jqUIDialogLink">Open Dialog</a>
+---+++ Drop-down login dialog
+<a href="#dialog" class="jqUIDialogLink">Login</a>
 
-<div id="dialog" title="Inline Dialog" class="jqUIDialog {draggable:true}">
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-  et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-  ex ea commodo consequat.
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
+<div id="dialog" title="%MAKETEXT{"Login"}%" class="jqUIDialog {modal:true, position:'center', width:'auto', show: {effect: 'drop', direction: 'up', duration:'fast'}, hide:{ effect: 'drop', direction: 'up', duration:'fast' }}">
+<!-- position:'top' would be nicer but doesn't work for some reasons -->
+  <table class='foswikiLayoutTable'>
+    <tr>
+      <th>%MAKETEXT{"Name"}%:</th>
+      <td><input type="text" size="50" name="name" class="foswikiInputField" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Password"}%:</th>
+      <td><input type="password" size="50" name="password" class="foswikiInputField" /></td>
+    </tr>
+  </table>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Come on in"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Never mind"}%</a>
 </div>
 
 ---+++ Dialog fetched asynchronously

@@ -109,7 +109,7 @@ function getMovies(genre, skip, top) {
     jsonp: "$callback",
     error: function(xhr, msg) {
       $.unblockUI();
-      $("#errorMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
+      $("#movieMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
     },
     success: function( data ) {
       var movies = data.d; 
@@ -136,7 +136,7 @@ function getGenres() {
     },
     jsonp: "$callback",
     error: function(xhr, msg) {
-      $("#errorMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
+      $("#movieMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
     },
     success: function( data ) {
       var genres = data.d; 

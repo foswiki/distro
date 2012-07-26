@@ -7,23 +7,7 @@ jQuery(function($) {
     draggable:false,
     resizable:false,
     closeOnEscape:false,
-    show:'fade',
-    open:function() {
-      var $container = $(this).parent();
-
-      // remove focus marker from first button
-      $container.find(".ui-dialog-buttonpane .ui-state-focus").removeClass("ui-state-focus");
-
-      // support icons for buttons
-      $container.find(".ui-dialog-buttonpane button[icon]").each(function() {
-        var $btn = $(this), icon = $btn.attr("icon");
-        $btn
-        .removeAttr("icon")
-        .removeClass('ui-button-text-only')
-        .addClass('ui-button-text-icon-primary ui-button-text-icon')
-        .prepend('<span class="ui-button-icon-primary ui-icon '+icon+'"></span>');
-      });
-    }
+    show:'fade'
   }, 
 
   dialogLinkDefaults = {
@@ -79,8 +63,24 @@ jQuery(function($) {
       opts.draggable = false;
     }
 
-    $this.removeClass("jqUIDialog").dialog(opts);
+    $this.bind("dialogopen", function() {
+      var $container = $(this).parent();
 
+      // remove focus marker from first button
+      $container.find(".ui-dialog-buttonpane .ui-state-focus").removeClass("ui-state-focus");
+
+      // support icons for buttons
+      $container.find(".ui-dialog-buttonpane button[icon]").each(function() {
+        var $btn = $(this), icon = $btn.attr("icon");
+        $btn
+        .removeAttr("icon")
+        .removeClass('ui-button-text-only')
+        .addClass('ui-button-text-icon-primary ui-button-text-icon')
+        .prepend('<span class="ui-button-icon-primary ui-icon '+icon+'"></span>');
+      });
+    });
+
+    $this.removeClass("jqUIDialog").dialog(opts);
   });
 
   // dialog link
