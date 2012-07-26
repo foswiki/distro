@@ -55,9 +55,6 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 1;
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Foswiki}{Enabled} = 1;
 
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Themes}{Pattern}{Enabled} = 1;
-
 # ---+++ Default plugins
 # **BOOLEAN**
 # Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
