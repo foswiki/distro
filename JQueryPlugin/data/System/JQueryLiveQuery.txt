@@ -14,33 +14,16 @@
 ---++ How to use it
 
 %STARTSECTION{"summary"}%
-Live Query utilizes the power of jQuery selectors by binding events or firing callbacks for matched elements auto-magically, even after the page has been loaded and the DOM updated. 
+Live Query utilizes the power of jQuery selectors by firing callbacks for
+matched elements auto-magically, even after the page has been loaded and the
+DOM updated.
 %ENDSECTION{"summary"}%
 
-For example you could use the following code to bind a click event to all A tags, even any A tags you might add via AJAX.
-
-<verbatim class="js">
-$('a') 
-    .livequery('click', function(event) { 
-        alert('clicked'); 
-        return false; 
-    }); 
-</verbatim>
-
-Once you add new A tags to your document, Live Query will bind the click event and there is nothing else that needs to be called or done.
-
-When an element no longer matches a selector the events Live Query bound to it are unbound. The Live Query can be expired which will no longer bind anymore events and unbind all the events it previously bound.
-
-Live Query can even be used with the more powerful jQuery selectors. The following Live Query will match and bind a click event to all A tags that have a rel attribute with the word "friend" in it. If one of the A tags is modified by removing the word "friend" from the rel attribute, the click event will be unbound since it is no longer matched by the Live Query.
-
-<verbatim class="js">
-$('a[rel*=friend]') 
-    .livequery('click', function(event) { 
-        doSomething(); 
-    });
-</verbatim>
-
-Live Query also has the ability to fire a function (callback) when it matches a new element and another function (callback) for when an element is no longer matched. This provides ultimate flexibility and untold use-cases. For example the following code uses a function based Live Query to implement the jQuery hover helper method and remove it when the element is no longer matched.
+Live Query fires a function (callback) when it matches a new element and
+another function (callback) for when an element is no longer matched. This
+provides ultimate flexibility and untold use-cases. For example the following
+code uses a function based Live Query to implement the jQuery hover helper
+method and remove it when the element is no longer matched.
 
 <verbatim class="js">
 $('li') 
@@ -64,17 +47,14 @@ $('li')
 
 ---+++ =livequery= signatures
 
-The =livequery= method has 3 different signatures or ways to call it.
+The =livequery= method has 2 different signatures or ways to call it.
 
-The first, and most typical usage, is to pass an event type and an event handler:
-
-<verbatim class="js">
-// eventType: such as click or submit
-// eventHandler: the function to execute when the event happens
-$(selector).livequery( eventType, eventHandler );
-</verbatim>
-
-The second and third signature is to pass one or two functions to =livequery=. Doing this, =livequery= will call the first passed function when an element is newly matched and will call the second passed function when an element is removed or no longer matched. The second function is optional. The =this= or context of the first function will be the newly matched element. For the second function it will be the element that is no longer matched.
+Pass one or two functions to =livequery=. Doing this, =livequery= will call the
+first passed function when an element is newly matched and will call the second
+passed function when an element is removed or no longer matched. The second
+function is optional. The =this= or context of the first function will be the
+newly matched element. For the second function it will be the element that is
+no longer matched.
 
 <verbatim class="js">
 // matchedFn: the function to execute when a new element is matched
@@ -87,7 +67,7 @@ $(selector).livequery( matchedFn, unmatchFn );
 
 ---+++ =expire= signatures
 
-The =expire= method has 5 different signatures or ways to call it.
+The =expire= method has 3 different signatures or ways to call it.
 
 The first way will stop/expire all live queries associated with the selector.
 
@@ -95,29 +75,14 @@ The first way will stop/expire all live queries associated with the selector.
 $(selector).expire();
 </verbatim>
 
-The second way will stop/expire all live queries associated with the selector and event type.
-
-<verbatim class="js">
-// eventType: such as click or submit
-$(selctor).expire( eventType );
-</verbatim>
-
-The third way will stop/expire all live queries associated with the selector, event type, and event handler reference.
-
-<verbatim class="js">
-// eventType: such as click or submit
-// eventHandler: the function to execute when the event happens
-$(selector).expire( eventType, eventHandler );
-</verbatim>
-
-The fourth way will stop/expire all live queries associated with the selector and matchedFn.
+The second way will stop/expire all live queries associated with the selector and matchedFn.
 
 <verbatim class="js">
 // matchedFn: the function to execute when a new element is matched
 $(selector).expire( matchedFn );
 </verbatim>
 
-The fifth way will stop/expire all live queries associated with the selector, matchedFn, and unmatchedFn.
+The third way will stop/expire all live queries associated with the selector, matchedFn, and unmatchedFn.
 
 <verbatim class="js">
 // matchedFn: the function to execute when a new element is matched
@@ -143,40 +108,63 @@ if (jQuery.livequery)
 
 ---++ Example
 
-%TABPANE%
-%TAB{"First"}%
-This tab is loaded on page load. The second and third will be reloaded using ajax. livequery will make sure
-that the jQuery elements inside are initialized correctly as soon as they are added to the DOM tree.
-%ENDTAB%
-%TAB{"Second" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=second;skin=text"}%
-<span class="jqAjaxLoader">&nbsp;</span>
-<verbatim style="display:none">
-%STARTSECTION{"second"}%
-This button has been loaded async-ly 
+%JQREQUIRE{"loader, livequery"}%
 
-%BUTTON{"Hello" icon="emoticon_smile" onclick="alert('The callback for this button was properly initialized')"}%
-%CLEAR%
+This is the =livequery= code to prepare the page to process any dom element of class =trigger= when no matter when it appears.
 
-Click on the button to see if it is properly initialized.
-%ENDSECTION{"second"}%
-</verbatim>
-%ENDTAB%
-%TAB{"Third" url="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?section=third;skin=text"}%
-%JQREQUIRE{"chili"}%
-<span class="jqAjaxLoader">&nbsp;</span>
-<verbatim style="display:none">
-%STARTSECTION{"third"}%
-<verbatim class="html">
-<body>
-  <h1 style="border-bottom:1px solid #eee">Hello world</h1>
+<verbatim class="js">
+%STARTSECTION{"javascript"}% <litreral>
+<script>
 
-  <strong>If this is coloured, then livequery worked out fine.</strong>
-</body>
+jQuery(function($) {
+  $(".trigger").livequery(
+    function() {
+      var $this = $(this);
+
+      $this.css({
+        color:'#fff',
+        background:'#b20000',
+        display:'inline-block',
+        padding:'0.5em'
+      });
+
+      //alert("there's a new trigger");
+    },
+    function() {
+      //alert("there's a trigger going offline");
+    }
+  );
+
+  // adds the refresh behavior
+  $(".refresh").click(function() {
+    $("#loader").trigger("refresh");
+    return false;
+  });
+});
+
+
+</script>
+</literal> %ENDSECTION{"javascript"}%
 </verbatim>
-%IF{"context ChiliEnabled" else='
-_Note: This example requires that the JQuery "chili" plugin be enabled. It is disabled by default due to some recent browser compatbility issues. Administrators: See the [[%SCRIPTURL{"configure"}%#JQueryPlugin$Extensions][configure JQuery tab]]_
-'}%
-%ENDSECTION{"third"}%
+
+%ADDTOZONE{
+  "script"
+  section="javascript"
+  requires="JQUERYPLUGIN::LIVEQUERY"
+}%
+
+This is the content to be loaded asynchronously. It contains a div element with a =trigger= class. This div will be 
+processed by an event handler registered using =livequery=.
+
+<verbatim class="tml">
+%STARTSECTION{"loadme"}% <div class="trigger">hello world</div> %ENDSECTION{"loadme"}%
 </verbatim>
-%ENDTAB%
-%ENDTAB%
+
+
+This is a JQueryLoader that will load the content of the =loadme= section below one with a delay of two second.
+
+<div id="loader" class="jqLoader {section:'loadme', delay:2000}">
+%ICON{"processing"}%
+</div>
+
+Click <a href="#" class="refresh">refresh</a> to do it again.
