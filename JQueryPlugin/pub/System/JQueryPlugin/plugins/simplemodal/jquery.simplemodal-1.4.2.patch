@@ -1,0 +1,13 @@
+Index: jquery.simplemodal.uncompressed.js
+===================================================================
+--- jquery.simplemodal.uncompressed.js	(revision 14942)
++++ jquery.simplemodal.uncompressed.js	(working copy)
+@@ -582,7 +582,7 @@
+ 				cw = s.o.autoResize && cw > mw ? mw : cw < mow ? mow : cw;
+ 			}
+ 
+-			s.d.container.css({height: ch, width: cw});
++			s.d.container.css({width: cw});
+ 			s.d.wrap.css({overflow: (dh > ch || dw > cw) ? 'auto' : 'visible'});
+ 			s.o.autoPosition && s.setPosition();
+ 		},

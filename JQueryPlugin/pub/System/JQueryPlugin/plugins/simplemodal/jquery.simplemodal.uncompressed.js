@@ -582,7 +582,7 @@
 				cw = s.o.autoResize && cw > mw ? mw : cw < mow ? mow : cw;
 			}
 
-			s.d.container.css({height: ch, width: cw});
+			s.d.container.css({width: cw});
 			s.d.wrap.css({overflow: (dh > ch || dw > cw) ? 'auto' : 'visible'});
 			s.o.autoPosition && s.setPosition();
 		},
