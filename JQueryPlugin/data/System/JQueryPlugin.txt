@@ -136,7 +136,6 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  16 Jul 2012: | (4.44) - Item12002: Revert JQueryLiveQuery, and sync from trunk. |
 |  11 Jul 2012: | (4.43) - Item11993: upgraded JQueryLiveQuery to 1.3.1 ; reworked documentation and examples; %BR% \
                   Item11175: upgrade JQueryValidate to 1.9.0; %BR% \
                   Item11994: upgraded JQueryUI to 1.8.21 |
