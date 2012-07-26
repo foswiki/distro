@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1296208856" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1336982694" format="1.1" reprev="4" version="4"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"pnotify"
@@ -56,42 +56,57 @@ The plugin uses the jQuery UI CSS library for styling, which means it is fully a
 
 ---++ Examples
 %JQREQUIRE{"pnotify"}%
-%JQTHEME{"lightness"}%
-%ADDTOZONE{
-"script"
-id="PNotifyDemoScript"
-text="<literal><script type='text/javascript'>
-// example with a message stack
-var stack_topleft = {'dir1': 'down', 'dir2': 'right', 'push': 'top'};
-function showMessage(title, text, err) {
-	var err = Math.round(Math.random());
-	var opts = {
-		pnotify_title: title,
-		pnotify_text: text,
-		pnotify_addclass: 'stack-topleft',
-		pnotify_stack: stack_topleft,
-		pnotify_closer: false,
-		pnotify_delay: 4000,
-		pnotify_nonblock: true,
-		pnotify_opacity: 0.9
-	};
-	if (err) {
-		opts.pnotify_type = 'error';
-	}
-	jQuery.pnotify(opts);
-};
-</script></literal>"
-require="JQUERYPLUGIN::PNOTIFY"
-}%
-%ADDTOZONE{
-"head"
-id="PNotifyDemoStyle"
-text="<literal><style type='text/css' media='all'>
+
+---++ A simple notice
+<a href="#" class="pnotifyHelloWorld">click me</a>
+
+%ADDTOZONE{"script" require="JQUERYPLUGIN::PNOTIFY" text="<literal>
+<script>
+jQuery(function($) {
+  $('.pnotifyHelloWorld').click(function() {
+    $.pnotify({
+       pnotify_text: 'Hello World',
+       pnotify_delay: 1000,
+       pnotify_closer: false,
+       pnotify_history: false
+    });
+    return false;
+  });
+});
+</script></literal>"}%
+
+---++ A customized one
+%ADDTOZONE{"script" require="JQUERYPLUGIN::PNOTIFY" text="<literal>
+<script>
+   // example with a message stack
+   var stack_topleft = {'dir1': 'down', 'dir2': 'right', 'push': 'top'};
+   function showMessage(title, text, err) {
+   	var err = Math.round(Math.random());
+   	var opts = {
+   		pnotify_title: title,
+   		pnotify_text: text,
+   		pnotify_addclass: 'stack-topleft',
+   		pnotify_stack: stack_topleft,
+   		pnotify_closer: false,
+   		pnotify_delay: 4000,
+   		pnotify_nonblock: true,
+   		pnotify_opacity: 0.9
+   	};
+   	if (err) {
+   		opts.pnotify_type = 'error';
+   	}
+   	jQuery.pnotify(opts);
+   };
+</script></literal>"}%
+
+%ADDTOZONE{"head" text="<literal>
+<style>
 .ui-pnotify.stack-topleft {
 	top: 15px;
 	left: 15px;
 	right: auto;
 }
 </style></literal>"}%
+
 %BUTTON{"Show message" onclick="showMessage('Note', 'This is a notification. Click again to see more.')"}%
 %CLEAR%

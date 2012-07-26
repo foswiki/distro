@@ -9,10 +9,77 @@
   "
 }%
 
+%TOC%
+
+---++ Description
 %STARTSECTION{"summary"}%
 Turns a text input into a Facebook like list widget with autocompletion.
 This plugin adds a new formfield type =textboxlist= to DataForms.
 %ENDSECTION{"summary"}%
+
+---++ Usage
+
+An html input field can be turned into a textboxlist widget either using javascript or using the =jqTextboxList= css class.
+
+Using javascript:
+
+<verbatim class="html">
+<input type="text" name="tags" />
+
+<script>
+jQuery(function($) {
+  $("input[name='tags']").textboxlist(options);
+});
+</script>
+</verbatim>
+
+Using css:
+
+<verbatim class="html">
+<input type="text" name="tags" class="jqTextboxList {options}" />
+</verbatim>
+
+In both cases =options= is a json object to customized the textboxlist to your needs.
+
+---++ Options
+
+| *Name* | *Description* | *Default* |
+| containerClass | css class of the widget container | jqTextboxListContainer |
+| listValueClass | css class of values in the list | jqTextboxListValue |
+| closeClass | css class of the close button of a list value | jqTextboxListClose |
+| enableClose | boolean flag toggling the display of a close button on a list value | true |
+| doSort | boolean flag enabling to sort list values when displaying them | false |
+| inputName | name of the input element used for list values; equals to the name of the original input field if undefined | undefined |
+| resetControl | jquery selector to specify a reset button; will revert changes to the initial list of values | undefined |
+| clearControl | jquery selector to specify a clear button that will empty the textboxlist | undefined |
+| autocomplete | defines the source for tag suggestions displayed using a %SYSTEMWEB.JQueryUIAutocomplete widget; e.g. this can be an array or an url | undefined |
+| onClear | method called when the list is cleared | undefined |
+| onReset | method called when the list is resetted | undefined |
+| onSelect | method called when a value is selected | undefined |
+| onDeselect | method called when a value is removed from the list | undefined |
+
+----++ Events
+
+Instead of specifying callbacks using the =onSelect= or =onDeselect= options, custom events are emitted by the textboxlist widget
+that your own code can be bound to.
+
+Example:
+
+<verbatim class="html">
+<input type="text" class="jqTextboxList" id="mylist" />
+<script>
+jQuery(function($) {
+  $("#mylist").bind("SelectValue", function(value) {
+    ...
+  });
+});
+</script>
+</verbatim>
+
+| *Event* | *Parameters* | *Description* |
+| <nop>SelectValue | value | triggered when a value is selected |
+| <nop>DeleteValue | value | triggered when a value is deselected |
+
 
 ---++ Examples
 %JQREQUIRE{"textboxlist"}%

@@ -1,7 +1,7 @@
 /*
- * jQuery textbox list plugin 2.0
+ * jQuery textbox list plugin 2.1
  *
- * Copyright (c) 2009-2011 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2009-2012 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -45,8 +45,14 @@
     }
 
     // wrap
-    self.container = self.input.wrap("<div class="+self.opts.containerClass+"></div>")
-      .parent().append("<span class='foswikiClear'></span>");
+    self.container = self.input.wrap("<div />")
+      .parent()
+      .addClass(self.opts.containerClass)
+      .append("<span class='foswikiClear'></span>");
+
+    if (self.opts.enableClose) {
+      self.container.addClass("jqTextboxListEnableClose");
+    }
 
     // clear button
     if (self.opts.clearControl) {
@@ -236,13 +242,15 @@
       $.log("TEXTBOXLIST: val="+val+" title="+title);
       className = "tag_"+title.replace(/["' ]/, "_");
       input = "<input type='hidden' name='"+self.opts.inputName+"' value='"+val+"' title='"+title+"' />";
-      close = $("<a href='#' title='remove "+title+"'></a>").
-        addClass(self.opts.closeClass).
-        click(function(e) {
-          e.preventDefault();
-          self.input.trigger("DeleteValue", $(this).parent().find("input").val());
-          return false;
-        });
+      if (self.opts.enableClose) {
+        close = $("<a href='#' title='remove "+title+"'></a>").
+          addClass(self.opts.closeClass).
+          click(function(e) {
+            e.preventDefault();
+            self.input.trigger("DeleteValue", $(this).parent().find("input").val());
+            return false;
+          });
+      }
       $("<span></span>").addClass(self.opts.listValueClass+" "+className).
         append(input).
         append(close).
@@ -307,6 +315,7 @@
     containerClass: 'jqTextboxListContainer',
     listValueClass: 'jqTextboxListValue',
     closeClass: 'jqTextboxListClose',
+    enableClose: true,
     doSort: false,
     inputName: undefined,
     resetControl: undefined,
@@ -315,12 +324,7 @@
     onClear: undefined,
     onReset: undefined,
     onSelect: undefined,
-    onDeselect: undefined,
-    selectFirst:false,
-    autoFill:false,
-    matchCase:false,
-    matchContains:false,
-    matchSubset:true
+    onDeselect: undefined
   };
  
 })(jQuery);
