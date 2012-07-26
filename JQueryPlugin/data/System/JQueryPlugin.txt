@@ -27,7 +27,7 @@ Besides jQuery itself, !JQueryPlugin comes with a selection of third party plugi
 These are integrated into Foswiki either by means of a special [[#Macros][macro]], by means of "minimal markup", or initialized using
 a custom javascript initializer. This way the set of Foswiki macros that comes with !JQueryPlugin is kept rather low compared to the features available
 in third party plugins. "Minimal markup" is a way to avoid the need to write javascript code to initialize the interface. Instead, a special
-css class is added to an html element that triggers its initialization. See JQueryMetadata for an example.
+css class is added to an html element that triggers its initialization. See %SYSTEMWEB%.JQueryMetadata for an example.
 
 Use [[#VarJQREQUIRE][JQREQUIRE]] to make use of a specific jQuery plugin on a page. This will prepare the page by loading the required javascript
 and css components. If you need to make a feature available on each and every page of your site, you may add this plugin to the list of default plugins
@@ -45,7 +45,7 @@ them at Foswiki:Development.UsingJQueryWithFoswiki#adding_plugins.
 ---++ Writing your own Javascript
 
 Whether writing your own plugins or writing Javascript code in topics, you should observe the
-Foswiki JQueryCodingStandards.
+Foswiki %SYSTEMWEB%.JQueryCodingStandards.
 
 ---++ jQuery References and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
@@ -138,6 +138,12 @@ reduce bandwidth and speed up interactive performance.
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  01 Jun 2012: | (4.34) - simplemodal updated to 1.4.2. |
+|  10 Apr 2012: | (4.40) - Item11397, Item11742. \
+                  use a JSON instead of &lt;meta> to export preferences to javascript; \
+                  add jquery-1.7.2 (new default); \
+                  deprecate all jquery versions prior to 1.7.1 \
+                  improve docu and integration of scrollto and serialscroll; \
+                  removed deprecated foswiki.web, foswiki.topic etc properties |
 |  06 Apr 2012: | (4.33) - Item11511, Item11512.  Minor changes to improve JSON output and Javascript validations.%BR%\
                    Item11685: deprecate simmplemodal, replace by jquery.ui.dialog.%BR%\
                    Item11654: JQueryTmpl is discontinued upstream.%BR%\

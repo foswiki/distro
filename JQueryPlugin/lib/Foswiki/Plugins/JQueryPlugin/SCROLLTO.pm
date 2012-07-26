@@ -31,7 +31,7 @@ sub new {
             version      => '1.4.2',
             author       => 'Ariel Flesler',
             homepage     => 'http://plugins.jquery.com/project/ScrollTo',
-            javascript   => ['jquery.scrollTo.js'],
+            javascript   => ['jquery.scrollTo.js', 'jquery.scrollTo.init.js'],
             dependencies => ['easing'],
         ),
         $class
@@ -52,7 +52,7 @@ NOTE: Please extend that file, not this notice.
 Additional copyrights apply to some or all of the code in this
 file as follows:
 
-Copyright (C) 2006-2010 Michael Daum http://michaeldaumconsulting.com
+Copyright (C) 2006-2012 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

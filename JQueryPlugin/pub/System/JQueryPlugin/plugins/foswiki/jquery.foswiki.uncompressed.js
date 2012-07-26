@@ -3,15 +3,12 @@
  *
  * $Rev$
 */
-var foswiki;
-if (typeof(foswiki) === 'undefined') {
-  foswiki = {};
-}
-if (foswiki.preferences === undefined) {
-  foswiki.preferences = {};
-}
-
+var foswiki = foswiki || {
+  preferences: {}
+};
+  
 (function($) {
+
   /**
    * dummy to be overridden by jquery.debug 
    */
@@ -47,16 +44,17 @@ if (foswiki.preferences === undefined) {
    * of the preloaded preferences hash under the control of Foswiki plugins.
    */
   foswiki.getPreference = function(key, useServer) {
+    var metaVal, scriptSuffix, restUrl;
 
     // Check the preloaded foswiki hash. This is populated with the values
     // listed in the %EXPORTEDPREFERENCES% foswiki preference
-    if (foswiki.preferences[key] !== undefined) {
+    if (typeof(foswiki.preferences[key]) !== 'undefined') {
       return foswiki.preferences[key];
     }
       
     // Check for a preference passed in a meta tag (this is the classical method)
-    var metaVal = $("meta[name=\"foswiki."+key+"\"]").attr("content");
-    if (metaVal !== undefined) {
+    metaVal = $("meta[name=\"foswiki."+key+"\"]").attr("content");
+    if (typeof(metaVal) !== 'undefined') {
       metaVal = unescape(metaVal);
       // Cache it for future reference
       foswiki.preferences[key] = metaVal;
@@ -68,8 +66,8 @@ if (foswiki.preferences === undefined) {
     // handler on the server, so has not been implemented yet.
     if (useServer) {
 
-      var scriptSuffix = foswiki.getPreference('SCRIPTSUFFIX');
-      var restUrl = foswiki.getPreference('SCRIPTURL') + '/view' +
+      scriptSuffix = foswiki.getPreference('SCRIPTSUFFIX');
+      restUrl = foswiki.getPreference('SCRIPTURL') + '/view' +
         (scriptSuffix?scriptSuffix:'') + '/' +
         foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper';
 
@@ -127,31 +125,9 @@ if (foswiki.preferences === undefined) {
     return $(inRootElem).find(tag+"."+inClassName).get();
   };
 
-  // WARNING: the following list of properties are DEPRECATED and only provided for compatibility reasons.
-  // please use the upper case names, e.g. foswiki.getPreference("WEB") instead of foswiki.web
-  var mapping = {
-    'WEB': 'web',
-    'TOPIC': 'topic', 
-    'SCRIPTURL': 'scriptUrl', 
-    'SCRIPTURLPATH': 'scriptUrlPath', 
-    'SCRIPTSUFFIX': 'scriptSuffix', 
-    'PUBURL': 'pubUrl',
-    'PUBURLPATH': 'pubUrlPath', 
-    'SYSTEMWEB': 'systemWebName', 
-    'USERSWEB': 'usersWebName', 
-    'WIKINAME': 'wikiName', 
-    'USERNAME': 'loginName',
-    'WIKIUSERNAME': 'wikiUserName', 
-    'SERVERTIME': 'serverTime'
-  };
-  $.each(mapping, function(index, elem) {
-    foswiki[mapping[elem]] = foswiki.getPreference(elem);
-  });
-
   /**
    * document ready handler 
    */
-
   $(function() {
     /* Remove 'has no javascript' class from body element (written in template). */
     $('body').removeClass('foswikiNoJs').addClass("foswikiJs");

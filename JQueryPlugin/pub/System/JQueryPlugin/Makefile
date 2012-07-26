@@ -12,5 +12,6 @@ TARGET=\
   jquery-1.6.4.js \
   jquery-1.7.js \
   jquery-1.7.1.js \
+  jquery-1.7.2.js \
 
 -include Makefile.include

@@ -14,7 +14,7 @@ $Foswiki::cfg{JQueryPlugin}{MemoryCache} = 1;
 
 # **STRING**
 # search path for JQICONs
-$Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
+$Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamSilkCompanion2Icons, FamFamFamSilkGeoSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
 
 # **BOOLEAN**
 # Enable this switch to prevent name conflicts with other javascript frameworks that
@@ -26,8 +26,12 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # **STRING**
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.4.3, jquery-1.4.4, jquery-1.5, jquery-1.5.1, jquery-1.5.2, jquery-1.6.1, jquery-1.6.2, jquery-1.6.3, jquery-1.6.4, jquery-1.7, jquery-1.7.1**
-$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.7.1';
+# **SELECT jquery-1.7.2, jquery-1.7.1**
+# Foswiki also ships jquery-1.4.3, jquery-1.4.4, jquery-1.5, jquery-1.5.1,
+# jquery-1.5.2, jquery-1.6.1, jquery-1.6.2, jquery-1.6.3, jquery-1.6.4,
+# jquery-1.7. However these older versions are deprecated and will be removed
+# from the JQueryPlugin package soon.
+$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.7.2';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';

@@ -76,18 +76,13 @@ sub init {
     }
 
     # add exported preferences to head
-    my $text = '';
+    my @prefs = ();
     foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
-        $text .=
-            '<meta name="foswiki.' 
-          . $pref
-          . '" content="%ENCODE{"%'
-          . $pref
-          . '%"}%" />'
-          . " <!-- $pref -->\n";
+        push @prefs, '    "'.$pref.'": "%ENCODE{"%'.$pref.'%" type="quote"}%"';
     }
+    my $text = "<script type='text/javascript'>\njQuery.extend(foswiki, {\n \"preferences\": {\n".join(",\n", @prefs)."\n}});\n</script>";
 
-    Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::FOSWIKI::META", $text );
+    Foswiki::Func::addToZone( "script", "JQUERYPLUGIN::FOSWIKI::PREFERENCES", $text, "JQUERYPLUGIN::FOSWIKI");
 }
 
 1;
