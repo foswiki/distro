@@ -55,7 +55,7 @@ Dialogs can be created inline or loaded on demand. The basic skeleton of a dialo
 ... which is activated by something like this:
 
 <verbatim class="tml">
-<a href="#mydialog" class="jqDialogLink">Open Dialog</a>
+<a href="#mydialog" class="jqUIDialogLink">Open Dialog</a>
 </verbatim>
 
 A dialog can also be opened using <nop>JavaScript:
@@ -67,15 +67,15 @@ jQuery("#mydialog").dialog("open");
 To load a dialog asynchronously use a fully quallified hyperref as in
 
 <verbatim class="tml">
-<a href="http://...." class="jqDialogLink">Open Dialog</a>
+<a href="http://...." class="jqUIDialogLink">Open Dialog</a>
 </verbatim>
 
 This will fetch the content of the dialog from the given url and add it to the page before opening it.
 Once the dialog has been loaded it will be cached as part of the current page unless the =cache= option
-to the =jqDialogLink= has been disabled:
+to the =jqUIDialogLink= has been disabled:
 
 <verbatim class="tml">
-<a href="http://...." class="jqDialogLink {cache:false}">Open Dialog</a>
+<a href="http://...." class="jqUIDialogLink {cache:false}">Open Dialog</a>
 </verbatim>
 
 In this case the dialog will alwas be fetched again from the backend using the given url.
