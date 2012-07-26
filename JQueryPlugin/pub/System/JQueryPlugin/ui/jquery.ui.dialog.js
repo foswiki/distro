@@ -1,7 +1,7 @@
-/*
- * jQuery UI Dialog 1.8.16
+/*!
+ * jQuery UI Dialog 1.8.21
  *
- * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -329,9 +329,9 @@ $.widget("ui.dialog", {
 		self.moveToTop(true);
 
 		// prevent tabbing out of modal dialogs
-		if (options.modal) {
-			uiDialog.bind('keypress.ui-dialog', function(event) {
-				if (event.keyCode !== $.ui.keyCode.TAB) {
+		if ( options.modal ) {
+			uiDialog.bind( "keydown.ui-dialog", function( event ) {
+				if ( event.keyCode !== $.ui.keyCode.TAB ) {
 					return;
 				}
 
@@ -470,7 +470,7 @@ $.widget("ui.dialog", {
 		self.uiDialog.resizable({
 			cancel: '.ui-dialog-content',
 			containment: 'document',
-			alsoResize: options.alsoResize?[self.uiDialog.find(options.alsoResize), self.element]:self.element,
+			alsoResize: self.element,
 			maxWidth: options.maxWidth,
 			maxHeight: options.maxHeight,
 			minWidth: options.minWidth,
@@ -702,7 +702,7 @@ $.widget("ui.dialog", {
 });
 
 $.extend($.ui.dialog, {
-	version: "1.8.16",
+	version: "1.8.21",
 
 	uuid: 0,
 	maxZ: 0,

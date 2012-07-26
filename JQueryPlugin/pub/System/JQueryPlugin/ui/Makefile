@@ -18,11 +18,20 @@ SOURCES=\
   jquery.ui.core.js\
   jquery.ui.widget.js\
   jquery.ui.mouse.js\
+  jquery.ui.position.js\
   jquery.ui.draggable.js\
   jquery.ui.droppable.js\
   jquery.ui.resizable.js\
   jquery.ui.selectable.js\
   jquery.ui.sortable.js\
+  jquery.ui.accordion.js\
+  jquery.ui.autocomplete.js\
+  jquery.ui.button.js\
+  jquery.ui.dialog.js\
+  jquery.ui.slider.js\
+  jquery.ui.tabs.js\
+  jquery.ui.datepicker.js\
+  jquery.ui.progressbar.js\
   jquery.effects.core.js\
   jquery.effects.blind.js\
   jquery.effects.bounce.js\
@@ -36,16 +45,8 @@ SOURCES=\
   jquery.effects.scale.js\
   jquery.effects.shake.js\
   jquery.effects.slide.js\
-  jquery.effects.transfer.js\
-  jquery.ui.accordion.js\
-  jquery.ui.autocomplete.js\
-  jquery.ui.button.js\
-  jquery.ui.datepicker.js\
-  jquery.ui.dialog.js\
-  jquery.ui.position.js\
-  jquery.ui.progressbar.js\
-  jquery.ui.slider.js\
-  jquery.ui.tabs.js
+  jquery.effects.transfer.js
+
 
 -include ../Makefile.include
 
