@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1320871779" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
-<!--
+<div class="foswikiHidden">
 Hidden form definition
 |*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
 | Example | text | 40 | | | |
 
 %JQREQUIRE{"chili, ui, ui::autocomplete"}%
--->
+</div>
 
 This page contains a set of example JQueryPlugin helpers that can be used in
 wiki applications. The examples demonstrate how you can
