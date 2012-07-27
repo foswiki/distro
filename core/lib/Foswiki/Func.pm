@@ -408,8 +408,10 @@ during specific phases of processing. For example, each of
 the standard scripts in the 'bin' directory each has a context
 identifier - the view script has 'view', the edit script has 'edit'
 etc. So you can easily tell what 'type' of script your Plugin is
-being called within. The core context identifiers are listed
-in the %SYSTEMWEB%.IfStatements topic. Please be careful not to
+being called within. 
+
+A comprehensive list of core context identifiers used by Foswiki is found in
+%SYSTEMWEB%.IfStatements#Context_identifiers. Please be careful not to
 overwrite any of these identifiers!
 
 Context identifiers can be used to communicate between Plugins, and between

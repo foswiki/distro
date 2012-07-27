@@ -36,7 +36,15 @@ $ cd bin
 $ ../tools/mailnotify -q -nonews -nochanges -Main -System
 </verbatim>
 
----++++ Common parameters
+---++++ Context
+
+Each script sets a Foswiki =context= to signal to plugins and other components the environment that they are running.  In addition to the per-script context, two additional contexts are optionally set:
+   * =command_line= is set if there is no CGI query object available.
+   * =static= is set by scripts that render static content like PDF or other offline publishing tools
+
+A comprehensive list of core context identifiers used by Foswiki is found in the %SYSTEMWEB%.IfStatements#Context_identifiers.
+
+---+++ Common parameters
 All the scripts accept a number of common parameters. The first two components of the URL after the script name are taken as the web and the topic, respectively. Standard URL parameters are:
 
 | *Parameter* | *Description* | *Default* |
