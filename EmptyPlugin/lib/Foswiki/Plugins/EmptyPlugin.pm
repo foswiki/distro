@@ -851,7 +851,13 @@ my $web = $query->{param}->{web}[0];
 
 If your rest handler adds or replaces equivalent functionality to a standard script
 provided with Foswiki, it should set the appropriate context in its switchboard entry.
-A list of contexts are defined in %SYSTEMWEB%.IfStatements#Context_identifiers.
+In addition to the obvous contexts:  =view=, =diff=,  etc. the =static= context is used
+to indicate that the resulting output will be read offline, such as in a PDF,  and 
+dynamic links (edit, sorting, etc) should not be rendered.
+
+A comprehensive list of core context identifiers used by Foswiki is found in
+%SYSTEMWEB%.IfStatements#Context_identifiers. Please be careful not to
+overwrite any of these identifiers!
 
 For more information, check %SYSTEMWEB%.CommandAndCGIScripts#rest
 
