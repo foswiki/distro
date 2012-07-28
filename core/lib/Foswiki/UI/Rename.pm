@@ -790,14 +790,6 @@ sub _moveTopicOrAttachment {
         $to->unload();
         $to->load();
 
-        if ( $from->web ne $to->web ) {
-
-            # If the web changed, replace local refs to the topics
-            # in $from->web with full $from->web.topic references so that
-            # they still work.
-            _replaceWebInternalReferences( $session, $from, $to );
-        }
-
         # Now let's replace all self-referential links:
         require Foswiki::Render;
         my $text    = $to->text();
@@ -961,112 +953,6 @@ sub _replaceWebReferences {
     # Finally do the marker.
     $text =~ s/$MARKER/$newWeb/g;
 
-    return $text;
-}
-
-# _replaceWebInternalReferences( $from, $to )
-#
-# Change within-web wikiwords that refer to the topic $from so they
-# point to $to. $from and $to are Foswiki::Meta.
-sub _replaceWebInternalReferences {
-    my ( $session, $from, $to ) = @_;
-
-    my $renderer  = $session->renderer;
-    my $webObject = Foswiki::Meta->new( $session, $from->web() );
-    my $it        = $webObject->eachTopic();
-    my $oldTopic  = $from->topic();
-
-    my $options = {
-
-        # exclude this topic from the list
-        topics => [ grep { !/^$oldTopic$/ } $it->all() ],
-
-        inWeb   => $from->web,
-        inTopic => $from->topic,
-
-        oldWeb => $from->web,
-
-        #oldTopic => will be filled in by _replaceInternalRefs
-
-        newWeb => $from->web,
-
-        #newTopic => will be filled in by _replaceInternalRefs
-
-        # Process noautolink blocks. forEachLine will set in_noautolink when
-        # processing links in a noautolink block.  getReferenceRE will force
-        # squabbed links when in_noautolink is set.
-        autolink => 1,
-    };
-
-    my $text = $to->text();
-
-    # Replace references that were internal to the source web; they are
-    # now inter-web
-    $text =
-      $renderer->forEachLine( $text || '', \&_replaceInternalRefs, $options );
-
-    $options->{inMeta} = 1;
-    $to->forEachSelectedValue( qw/^(FIELD|TOPICPARENT)$/, undef,
-        \&_replaceInternalRefs, $options );
-    $to->forEachSelectedValue( qw/^TOPICMOVED$/, qw/^by$/,
-        \&_replaceInternalRefs, $options );
-    $options->{inMeta} = 0;
-    $to->forEachSelectedValue( qw/^FILEATTACHMENT$/, qw/^user$/,
-        \&_replaceInternalRefs, $options );
-
-    # Ok, let's look for links to topics in the
-    # new web and remove their web qualifiers
-    $webObject = Foswiki::Meta->new( $session, $to->web() );
-    $it = $webObject->eachTopic();
-
-    $options = {
-
-        # exclude this topic from the list
-        topics    => [ $it->all() ],
-        fullPaths => 0,
-
-        inWeb   => $to->web,
-        inTopic => $to->topic,
-
-        oldWeb => $to->web,
-
-        #oldTopic => will be filled in by _replaceInternalRefs
-
-        newWeb => $to->web,
-
-        #newTopic => will be filled in by _replaceInternalRefs
-    };
-
-    $text = $renderer->forEachLine( $text, \&_replaceInternalRefs, $options );
-
-    $to->text($text);
-
-    $options->{inMeta} = 1;
-    $to->forEachSelectedValue( qw/^(FIELD|TOPICPARENT)$/, undef,
-        \&_replaceInternalRefs, $options );
-    $to->forEachSelectedValue( qw/^TOPICMOVED$/, qw/^by$/,
-        \&_replaceInternalRefs, $options );
-    $options->{inMeta} = 0;
-    $to->forEachSelectedValue( qw/^FILEATTACHMENT$/, qw/^user$/,
-        \&_replaceInternalRefs, $options );
-
-}
-
-# callback used by _replaceWebInternalReferences to correct references
-# to topics that were in the same web previously, but are now in a
-# different web because the topic has moved. $args should be populated
-# with oldWeb and newWeb already, so just need to add each topic as we
-# process it.
-sub _replaceInternalRefs {
-    my ( $text, $args ) = @_;
-
-    foreach my $topic ( @{ $args->{topics} } ) {
-        $args->{fullPaths} = ( $topic ne $args->{inTopic} )
-          if ( !defined( $args->{fullPaths} ) );
-        $args->{oldTopic} = $topic;
-        $args->{newTopic} = $topic;
-        $text = _replaceTopicReferences( $text, $args );
-    }
     return $text;
 }
 
