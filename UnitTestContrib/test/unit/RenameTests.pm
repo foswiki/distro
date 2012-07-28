@@ -1136,7 +1136,7 @@ OldTopic 4
 11 [[OldTopic][the text]]
 12 $this->{test_web}.NewTopic
 13 $this->{new_web}.OldTopic
-14 $this->{test_web}.OtherTopic
+14 OtherTopic
 15 $this->{test_web}.OtherTopic
 16 $this->{new_web}.OtherTopic
 17 MeMeOldTopicpick$this->{test_web}.OldTopicme
