@@ -111,7 +111,12 @@ Different script execution mechanisms are disabled in different ways; see your w
 #ProtectConfigure
 ---+++  Step 5: Protect the configure script
 
-*You should never leave the =configure= script open to the public.* Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin-htaccess.txt= file for an example of the setting required to protect the =configure= script.
+<blockquote class="foswikiHelp"> %X% *You should never leave the =configure= script open to the public.* Limit access to the =bin/configure= script to either localhost, an IP address or a specific user, using Apache basic or preferably digest  authentication. The Foswiki:Support.ApacheConfigGenerator lets you set up who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin-htaccess.txt= file for an example of the setting required to protect the =configure= script.</blockquote>
+
+*NEW with Foswiki 1.2:* Foswiki now  ships with a default =foswiki/working/configure/.htdigest-configure= file, along with sample Foswiki configuration that uses this file to protect configure.   The default file ships with
+   * *Userid:* =admin=
+   * *Password:* _(no password)_ - just press enter.
+When you run configure and save for the first time, you are prompted for a password.   This password will be recorded into both the =.htdigest-configure= file and the =lib/LocalSite.cfg=.
 
 For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
 
@@ -120,7 +125,6 @@ For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
 
 *Run the [[%SCRIPTURLPATH{"configure"}%][configure]] script* from your browser: enter =http://yourdomain/url/to/foswiki/bin/configure= into your browser address bar.
    * When you access the =configure= web page for the first time, you can only edit the section =General Path Settings=. Make any required changes, and save the settings, whether or not you needed to make any changes. You will be prompted to set a password for the =configure= page: this password must be entered for all subsequent configuration changes, and is also used to log in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]").
-   <blockquote class="foswikiHelp"> %I% *Note:* The =configure= password is remembered by =configure=, separate to web server access controls mentioned in "[[#ProtectConfigure][Protect the configure script]]".</blockquote>
    * After saving the =General Path Settings=, continue configuring Foswiki. Configuration items which may require further attention will be highlighted.
    * If the Foswiki installation can be accessed by more than one !protocol://domain, ensure the additional alternative URLs are set in ={PermittedRedirectHostUrls}=.
    <blockquote class="foswikiHelp"> %T% *Example:* if ={DefaultUrlHost}= is set to =https://wiki.company.com=, an example ={PermittedRedirectHostUrls}= might contain: <verbatim class="html">https://company.com, http://111.222.123.234</verbatim></blockquote>
