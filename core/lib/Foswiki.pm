@@ -744,18 +744,10 @@ sub writeCompletePage {
           unless ( $this->{request}->action() eq 'login'
             or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
 
-        my $usingStrikeOne = 0;
-        if (
-            $Foswiki::cfg{Validation}{Method} eq 'strikeone'
+        my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+        if ($usingStrikeOne) {
 
-            # Add the onsubmit handler to the form
-            && $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-                Foswiki::Validation::addOnSubmit($1)/gei
-          )
-        {
-
-            # At least one form has been touched; add the validation
-            # cookie
+            # add the validation cookie
             my $valCookie = Foswiki::Validation::getCookie($cgis);
             $valCookie->secure( $this->{request}->secure );
             $this->{response}
@@ -769,15 +761,27 @@ sub writeCompletePage {
             $this->addToZone( 'script', 'JavascriptFiles/strikeone', <<JS );
 <script type="text/javascript" src="$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/JavascriptFiles/strikeone$src.js"></script>
 JS
-            $usingStrikeOne = 1;
+
+            # Add the onsubmit handler to the form
+            $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+                Foswiki::Validation::addOnSubmit($1)/gei;
         }
 
-        # Inject validation key in HTML forms
         my $context =
           $this->{request}->url( -full => 1, -path => 1, -query => 1 ) . time();
+
+        # Inject validation key in HTML forms
         $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
           $1 . Foswiki::Validation::addValidationKey(
               $cgis, $context, $usingStrikeOne )/gei;
+
+        #add validation key to HTTP header so we can update it for ajax use
+        $this->{response}->pushHeader(
+            'X-Foswiki-Validation',
+            Foswiki::Validation::generateValidationKey(
+                $cgis, $context, $usingStrikeOne
+            )
+        );
     }
 
     if ( $contentType ne 'text/plain' ) {

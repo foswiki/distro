@@ -126,6 +126,49 @@ var foswiki = foswiki || {
   };
 
   /**
+   * simplify ajax posting with Strikeone, embedded or no validation
+   * @param script: foswiki script name
+   * @param postData: data to be POSTed to script (don't forget data.web and data.topic)
+   *
+   */
+    foswiki.post = function (script, hash) {
+        var scripturl = foswiki.getPreference('SCRIPTURLPATH');
+        var scriptsuffix = foswiki.getPreference('SCRIPTSUFFIX');
+
+        //try to get a validation key from a form
+        //we can do this only because all forms on a page get the same validation key
+        var inputs = $("input[name=validation_key]")[0];
+        if (inputs) {
+            hash.validation_key = inputs.value;
+        } else {
+            //DO this only if there is no form we can grab one from
+            var req = new XMLHttpRequest();
+            req.open('GET', document.location, false);
+            req.send(null);
+            var headers = req.getAllResponseHeaders().toLowerCase();
+            //alert(headers);
+            hash.validation_key = req.getResponseHeader('X-Foswiki-Validation');
+        }
+
+        //call strikeone code if its loaded (wrongly assume we're not using strikeone if its not)
+        if (typeof(StrikeOne) === 'object') {
+            var calculateNewKey = StrikeOne['calculateNewKey'];
+            if (typeof(calculateNewKey) === 'function') {
+                hash.validation_key = calculateNewKey(hash.validation_key);
+            }
+        }
+        //TODO: sven would prefer not to use the web*topic in the url, and rather use the hash
+        return $.post( scripturl + '/'+script+scriptsuffix+ '/'+hash.web+ '/'+hash.topic, hash )
+        .complete(function(jqXHR, status) {
+            // distribute this new validation key to all input fields in the current DOM
+            var newKey = jqXHR.getResponseHeader('X-Foswiki-Validation');
+            if (newKey) {
+                $("input[name=validation_key]").attr( "value", '?'+newKey );
+            }
+        });
+    };  
+
+  /**
    * document ready handler 
    */
   $(function() {
