@@ -129,7 +129,7 @@ var foswiki = foswiki || {
    * simplify ajax posting with Strikeone, embedded or no validation
    * @param script: foswiki script name
    * @param postData: data to be POSTed to script (don't forget data.web and data.topic)
-   *
+   * returns the $.ajax Promise object, so you can then chain the events onto it
    */
     foswiki.post = function (script, hash) {
         var scripturl = foswiki.getPreference('SCRIPTURLPATH');
@@ -164,6 +164,21 @@ var foswiki = foswiki || {
             var newKey = jqXHR.getResponseHeader('X-Foswiki-Validation');
             if (newKey) {
                 $("input[name=validation_key]").attr( "value", '?'+newKey );
+            }
+        })
+        .error(function(event, data) {
+            if (event.status == 419) {
+                //the payload is a strikeone validation request, so try popping it up in a jqDialog
+                var entirehtml = jQuery(event.responseText).filter('.foswikiMain');
+                var last = entirehtml[0];
+                var message = jQuery(last.innerHTML).filter('.container-fluid');
+                message.dialog({
+                    height: 410,
+                    width: 600,
+                    modal: true,
+                    title: 'confirm change'
+                });
+                jQuery('.s1js_available').show();
             }
         });
     };  
