@@ -329,17 +329,25 @@ sub _rotate {
               if (TRACE);
             next;
         }
-        my $eventTime = Foswiki::Time::parseTime( $event[1] );
 
-        if ( !$eventTime ) {
+        #Item12022: parseTime bogs the CPU down here, so try a dumb regex first
+        # (assuming ISO8601 format Eg. 2000-01-31T23:59:00Z). Result: 4x speedup
+        my $eventMonth;
+        if ( $event[1] =~ /^(\d{4})-(\d{2})-\d{2}T[0-9:]+Z\b/ ) {
+            $eventMonth = $1 . $2;
+        }
+        else {
+            print STDERR ">> Non-ISO date string encountered\n" if (TRACE);
+            $eventMonth = _time2month( Foswiki::Time::parseTime( $event[1] ) );
+        }
+
+        if ( !defined $eventMonth ) {
 
             print STDERR
               ">> Bad time in log - skip: $line - line $linecount in $log\n"
               if (TRACE);
             next;
         }
-
-        my $eventMonth = _time2month($eventTime);
 
         if ( $eventMonth < $curMonth ) {
             push( @{ $months{$eventMonth} }, $stashline );
