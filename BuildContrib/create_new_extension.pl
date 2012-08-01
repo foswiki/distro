@@ -49,12 +49,13 @@ $def{STUBS} = $def{TYPE} =~ /Plugin$/ ? 'Plugins' : 'Contrib';
 our $templateModule;
 if ( $#ARGV >= 1 ) {
     $templateModule = $ARGV[1];
-    unless ( $templateModule && -d $templateModule ) {
-        usage( error => "Template directory does not exist" );
-    }
 }
 else {
     $templateModule = "Empty$def{TYPE}";
+}
+
+unless ( $templateModule && -d $templateModule ) {
+    usage( error => "Template directory ($templateModule) does not exist" );
 }
 
 print "Creating $def{MODULE} from templates in $templateModule\n";
