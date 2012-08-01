@@ -379,6 +379,8 @@ sub verify_timing_rotate_events {
    #
    # On my Xeon 3.0GHz PC, this test reports (prior to Item12022 fixes):
    # 0.440275 wallclock secs ( 0.44 usr +  0.00 sys =  0.44 CPU) @  2.27/s (n=1)
+   # After Foswikirev:15248:
+   # 0.117118 wallclock secs ( 0.11 usr +  0.00 sys =  0.11 CPU) @  9.09/s (n=1)
     return $this->verify_rotate_events(15000);
 }
 
