@@ -6,6 +6,7 @@ use warnings;
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
 
+use Benchmark qw(:hireswallclock);
 use File::Temp();
 use File::Path();
 use Foswiki::Logger::PlainFile();
@@ -254,7 +255,7 @@ sub PlainFileTestStat {
 }
 
 sub verify_rotate_events {
-    my $this = shift;
+    my ( $this, $num_events ) = @_;
 
     return
       unless $Foswiki::cfg{Log}{Implementation} =~
@@ -284,7 +285,20 @@ sub verify_rotate_events {
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
     $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
-    $logger->log( 'info',      'Nil carborundum illegitami' );
+
+    # If perf testing, log $num_events
+    if ($num_events) {
+        my $loops = $num_events;
+
+        while ($loops) {
+            $logger->log( 'info', 'Nil carborundum illegitami' );
+
+            $loops -= 1;
+        }
+    }
+    else {
+        $logger->log( 'info', 'Nil carborundum illegitami' );
+    }
     $logger->log( 'warning',   'Nil carborundum illegitami' );
     $logger->log( 'critical',  'Nil carborundum illegitami' );
     $logger->log( 'emergency', 'Nil carborundum illegitami' );
@@ -303,7 +317,21 @@ sub verify_rotate_events {
     # now advance the clock to this month, and add another log entry. This
     # should rotate the log.
     $plainFileTestTime = $then;
-    $logger->log( 'info',      'Salve nauta' );
+
+    # If perf testing, report how long the next log event takes
+    if ($num_events) {
+        my $benchmark = timeit(
+            1,
+            sub {
+                $logger->log( 'info', 'Salve nauta' );
+            }
+        );
+
+        print timestr($benchmark) . "\n";
+    }
+    else {
+        $logger->log( 'info', 'Salve nauta' );
+    }
     $logger->log( 'warning',   'Salve nauta' );
     $logger->log( 'critical',  'Salve nauta' );
     $logger->log( 'emergency', 'Salve nauta' );
@@ -324,11 +352,15 @@ sub verify_rotate_events {
     $backup =~ s/log$/200001/;
     $this->assert( -e $backup );
 
-    $this->assert( open( $F, '<', $backup ) );
-    $e = <$F>;
-    $this->assert_equals(
-        "| 2000-01-31T23:59:00Z info | Nil carborundum illegitami |\n", $e );
-    $this->assert( close($F) );
+    # Skip this check if we're perf timing for num_events
+    if ( !defined $num_events ) {
+        $this->assert( open( $F, '<', $backup ) );
+        $e = <$F>;
+        $this->assert_equals(
+            "| 2000-01-31T23:59:00Z info | Nil carborundum illegitami |\n",
+            $e );
+        $this->assert( close($F) );
+    }
 
     no warnings 'redefine';
     *Foswiki::Logger::PlainFile::_time = $timecache;
@@ -336,6 +368,18 @@ sub verify_rotate_events {
     use warnings 'redefine';
 
     return;
+}
+
+# Item12022
+sub verify_timing_rotate_events {
+    my ($this) = @_;
+
+   # On PH's 2.0GHz VMs, rotating logs ~500k rows takes around a minute,
+   # exceeding 30s mod_fcgid timeout.
+   #
+   # On my Xeon 3.0GHz PC, this test reports (prior to Item12022 fixes):
+   # 0.440275 wallclock secs ( 0.44 usr +  0.00 sys =  0.44 CPU) @  2.27/s (n=1)
+    return $this->verify_rotate_events(15000);
 }
 
 sub verify_rotate_debug {
