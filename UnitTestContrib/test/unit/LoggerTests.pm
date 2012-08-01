@@ -71,19 +71,19 @@ sub ObfuscatingLogger {
 sub fixture_groups {
     my %algs;
     foreach my $dir (@INC) {
-        if ( opendir( D, "$dir/Foswiki/Logger" ) ) {
-            foreach my $alg ( readdir D ) {
+        if ( opendir( my $D, "$dir/Foswiki/Logger" ) ) {
+            foreach my $alg ( readdir $D ) {
                 next unless $alg =~ /^(\w+)\.pm$/;
                 $algs{$1} = 1;
             }
-            closedir(D);
+            closedir($D);
         }
-        if ( opendir( D, "$dir/Foswiki/Logger/PlainFile" ) ) {
-            foreach my $alg ( readdir D ) {
+        if ( opendir( my $D, "$dir/Foswiki/Logger/PlainFile" ) ) {
+            foreach my $alg ( readdir $D ) {
                 next unless $alg =~ /^(\w+)\.pm$/;
                 $algs{$1} = 1;
             }
-            closedir(D);
+            closedir($D);
         }
     }
     my @groups;
