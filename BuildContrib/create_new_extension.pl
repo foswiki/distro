@@ -349,7 +349,7 @@ sub add2Manifest {
 sub commonEmptyExtract {
     my $s = shift;
     die unless defined $s;
-    $s =~ s/$templateModule/'%\$MODULE%'/g;
+    $s =~ s/$templateModule/%\$MODULE%/g;
     return $s;
 }
 
