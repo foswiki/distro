@@ -57,7 +57,7 @@ sub init {
   $this->SUPER::init();
 
   my $text =
-"<literal><!-- [if lte IE 7]>\n".
+"<literal><!--[if lte IE 7]>\n".
 $this->renderJS("json2.js").
 "<![endif]--></literal>";
 
