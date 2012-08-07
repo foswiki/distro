@@ -150,7 +150,7 @@ sub init {
 
     return unless $this->{topic};
 
-    unless ( -e $this->{file} ) {
+    unless ( $this->storedDataExists() ) {
         if ( $this->{attachment} && !$this->isAsciiDefault() ) {
             $this->initBinary();
         }
@@ -236,7 +236,7 @@ sub getInfo {
         # TOPICINFO may be OK
         $this->_getTOPICINFO($info);
     }
-    elsif ( -e $this->{rcsFile} ) {
+    elsif ( $this->revisionHistoryExists() ) {
 
         # There is a checkin pending, and there is an rcs file.
         # Ignore TOPICINFO
@@ -288,11 +288,11 @@ sub noCheckinPending {
     my $this    = shift;
     my $isValid = 0;
 
-    if ( !-e $this->{file} ) {
+    if ( !$this->storedDataExists() ) {
         $isValid = 1;    # Hmmmm......
     }
     else {
-        if ( -e $this->{rcsFile} ) {
+        if ( $this->revisionHistoryExists() ) {
 
 # Check the time on the rcs file; is the .txt newer?
 # Danger, Will Robinson! stat isn't reliable on all file systems, though [9] is claimed to be OK
@@ -324,7 +324,8 @@ sub _saveDamage {
 
     # If this is a topic, adjust the TOPICINFO
     if ( defined $this->{topic} && !defined $this->{attachment} ) {
-        my $rev = -e $this->{rcsFile} ? $this->getLatestRevisionID() : 1;
+        my $rev =
+          $this->revisionHistoryExists() ? $this->getLatestRevisionID() : 1;
         $t =~ s/^%META:TOPICINFO{(.*)}%$//m;
         $t =
             '%META:TOPICINFO{author="'
@@ -419,9 +420,9 @@ an empty iterator if the file does not exist.
 sub getRevisionHistory {
     my $this = shift;
     ASSERT( $this->{file} ) if DEBUG;
-    unless ( -e $this->{rcsFile} ) {
+    unless ( $this->revisionHistoryExists() ) {
         require Foswiki::ListIterator;
-        if ( -e $this->{file} ) {
+        if ( $this->storedDataExists() ) {
             return Foswiki::ListIterator->new( [1] );
         }
         else {
@@ -445,13 +446,17 @@ been no revisions committed to the store.
 
 sub getLatestRevisionID {
     my $this = shift;
-    return 0 unless -e $this->{file};
+    return 0 unless $this->storedDataExists();
 
     my $info = {};
     my $rev;
 
-    $this->_getTOPICINFO($info);
-    $rev = $info->{version};
+    my $noCheckinPending = $this->noCheckinPending();
+
+    if ($noCheckinPending) {
+        $this->_getTOPICINFO($info);
+        $rev = $info->{version};
+    }
 
     unless ( defined $rev ) {
         $rev = $this->_numRevisions() || 1;
@@ -459,7 +464,7 @@ sub getLatestRevisionID {
 
     # If there is a pending pseudo-revision, need n+1, but only if there is
     # an existing history
-    $rev++ unless $this->noCheckinPending() || !-e $this->{rcsFile};
+    $rev++ unless $noCheckinPending || !$this->revisionHistoryExists();
     return $rev;
 }
 
@@ -610,7 +615,7 @@ does; that is regarded as a "non-topic".
 
 sub getRevision {
     my ($this) = @_;
-    if ( defined $this->{file} && -e $this->{file} ) {
+    if ( $this->storedDataExists() ) {
         return ( readFile( $this, $this->{file} ), 1 );
     }
     return ( undef, undef );
@@ -632,6 +637,20 @@ sub storedDataExists {
 
 =begin TML
 
+---++ ObjectMethod revisionHistoryExists() -> $boolean
+
+Establishes if htere is history data associated with this handler.
+
+=cut
+
+sub revisionHistoryExists {
+    my $this = shift;
+    return 0 unless $this->{rcsFile};
+    return -e $this->{rcsFile};
+}
+
+=begin TML
+
 ---++ ObjectMethod restoreLatestRevision( $cUID )
 
 Restore the plaintext file from the revision at the head.
@@ -645,7 +664,7 @@ sub restoreLatestRevision {
     my ($text) = $this->getRevision($rev);
 
     # If there is no ,v, create it
-    unless ( -e $this->{rcsFile} ) {
+    unless ( $this->revisionHistoryExists() ) {
         $this->addRevisionFromText( $text, "restored", $cUID, time() );
     }
     else {
@@ -707,7 +726,7 @@ sub moveTopic {
 
     # Move history
     $this->mkPathTo( $new->{rcsFile} );
-    if ( -e $this->{rcsFile} ) {
+    if ( $this->revisionHistoryExists() ) {
         $this->moveFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 
@@ -739,7 +758,7 @@ sub copyTopic {
     my $new = $store->getHandler( $newWeb, $newTopic );
 
     $this->copyFile( $this->{file}, $new->{file} );
-    if ( -e $this->{rcsFile} ) {
+    if ( $this->revisionHistoryExists() ) {
         $this->copyFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 
@@ -775,7 +794,7 @@ sub moveAttachment {
 
     $this->moveFile( $this->{file}, $new->{file} );
 
-    if ( -e $this->{rcsFile} ) {
+    if ( $this->revisionHistoryExists() ) {
         $this->moveFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 }
@@ -802,7 +821,7 @@ sub copyAttachment {
 
     $this->copyFile( $this->{file}, $new->{file} );
 
-    if ( -e $this->{rcsFile} ) {
+    if ( $this->revisionHistoryExists() ) {
         $this->copyFile( $this->{rcsFile}, $new->{rcsFile} );
     }
 }
@@ -1461,7 +1480,7 @@ sub getTimestamp {
     ASSERT( $this->{file} ) if DEBUG;
 
     my $date = 0;
-    if ( -e $this->{file} ) {
+    if ( $this->storedDataExists() ) {
 
         # If the stat fails, stamp it with some arbitrary static
         # time in the past (00:40:05 on 5th Jan 1989)

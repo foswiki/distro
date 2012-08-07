@@ -53,7 +53,7 @@ sub initBinary {
 
     $this->mkPathTo( $this->{file} );
 
-    return if -e $this->{rcsFile};
+    return if $this->revisionHistoryExists();
 
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initBinaryCmd},
@@ -64,7 +64,7 @@ sub initBinary {
               . ' failed: '
               . $rcsOutput );
     }
-    elsif ( !-e $this->{rcsFile} ) {
+    elsif ( !$this->revisionHistoryExists() ) {
 
         # Sometimes (on Windows?) rcs file not formed, so check for it
         throw Error::Simple( $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
@@ -80,7 +80,7 @@ sub initText {
 
     $this->mkPathTo( $this->{file} );
 
-    return if -e $this->{rcsFile};
+    return if $this->revisionHistoryExists();
 
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initTextCmd},
@@ -92,7 +92,7 @@ sub initText {
               . ' failed: '
               . $rcsOutput );
     }
-    elsif ( !-e $this->{rcsFile} ) {
+    elsif ( !$this->revisionHistoryExists() ) {
 
         # Sometimes (on Windows?) rcs file not formed, so check for it
         throw Error::Simple( $Foswiki::cfg{RCS}{initTextCmd} . ' of '
@@ -245,7 +245,7 @@ sub _deleteRevision {
 sub getRevision {
     my ( $this, $version ) = @_;
 
-    unless ( $version && -e $this->{rcsFile} ) {
+    unless ( $version && $this->revisionHistoryExists() ) {
 
         # Get the latest rev from the cache
         return ( $this->SUPER::getRevision($version) );
@@ -357,10 +357,10 @@ sub getInfo {
 sub _numRevisions {
     my $this = shift;
 
-    unless ( -e $this->{rcsFile} ) {
+    unless ( $this->revisionHistoryExists() ) {
 
         # If there is no history, there can only be one.
-        return 1 if -e $this->{file};
+        return 1 if $this->storedDataExists();
         return 0;
     }
 
@@ -488,7 +488,7 @@ sub parseRevisionDiff {
 sub _lock {
     my $this = shift;
 
-    return unless -e $this->{rcsFile};
+    return unless $this->revisionHistoryExists();
 
     # Try and get a lock on the file
     my ( $rcsOutput, $exit ) =
@@ -525,7 +525,7 @@ sub _lock {
 sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
-    unless ( -e $this->{rcsFile} ) {
+    unless ( $this->revisionHistoryExists() ) {
         return ( $date >= ( stat( $this->{file} ) )[9] ) ? 1 : undef;
     }
 

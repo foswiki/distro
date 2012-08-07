@@ -117,6 +117,11 @@ sub readTopic {
     #        }
     #    }
 
+    # downgrade to first revision when there's no history
+    unless ( $handler->revisionHistoryExists() ) {
+        $version = 1;
+    }
+
     $gotRev = $version;
     unless ( defined $gotRev ) {
 

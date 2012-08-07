@@ -213,7 +213,7 @@ sub _ensureProcessed {
 
     return if $this->{state};
 
-    if ( !-e $this->{rcsFile} ) {
+    if ( !$this->revisionHistoryExists() ) {
         $this->{state} = 'nocommav';
         return;
     }
@@ -438,7 +438,7 @@ sub _numRevisions {
 
     # if state is nocommav, and the file exists, there is only one revision
     if ( $this->{state} eq 'nocommav' ) {
-        return 1 if ( -e $this->{file} );
+        return 1 if $this->storedDataExists();
         return 0;
     }
     return $this->{head};
