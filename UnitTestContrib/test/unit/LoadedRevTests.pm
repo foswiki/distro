@@ -177,6 +177,13 @@ SICK
 
     # Stomp the cache
     my $f;
+
+    # Wait for the clock to tick
+    my $x = time;
+    while ( time == $x ) {
+        sleep 1;
+    }
+
     open( $f, '>',
         "$Foswiki::cfg{DataDir}/$this->{test_web}/BorkedTOPICINFO.txt" )
       || return;
