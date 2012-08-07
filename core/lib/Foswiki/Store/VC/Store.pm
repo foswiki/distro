@@ -169,7 +169,8 @@ sub readTopic {
           if @validAttachmentsFound;
     }
 
-    ASSERT( defined($gotRev) ) if DEBUG;
+    $gotRev ||= 1;    # anything going out here must be > 0
+
     return ( $gotRev, $isLatest );
 }
 
