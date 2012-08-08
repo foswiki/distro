@@ -314,9 +314,10 @@ sub ci {
 
 # Protected for use only in subclasses. Check that the object has a history
 # and the .txt is consistent with that history.
+# returns true when damage was saved, returns false when there's no checkin pending
 sub _saveDamage {
     my $this = shift;
-    return if $this->noCheckinPending();
+    return 0 if $this->noCheckinPending();
 
     # the version in the TOPICINFO may not be correct. We need
     # to check the change in and update the TOPICINFO accordingly
@@ -326,6 +327,7 @@ sub _saveDamage {
     if ( defined $this->{topic} && !defined $this->{attachment} ) {
         my $rev =
           $this->revisionHistoryExists() ? $this->getLatestRevisionID() : 1;
+
         $t =~ s/^%META:TOPICINFO{(.*)}%$//m;
         $t =
             '%META:TOPICINFO{author="'
@@ -337,23 +339,29 @@ sub _saveDamage {
     }
     $this->ci( 0, $t, 'autosave',
         $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, time() );
+
+    return 1;
 }
 
 # update the topicinfo cache
 sub _cacheMetaInfo {
-    my ( $this, $text, $comment, $user, $date ) = @_;
+    my ( $this, $text, $comment, $user, $date, $rev ) = @_;
 
     $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
       unless defined $user;
     $comment = ""     unless defined $comment;
     $date    = time() unless defined $date;
 
-    # keep the rev id as is
-    my $rev;
+    # remove the previous record
     if ( $text =~ s/^%META:TOPICINFO{(.*)}%\n//m ) {
-        my $info = Foswiki::Attrs->new($1);
-        $rev = $info->{version};
+        unless ( defined $rev ) {
+
+            # keep the rev id as is unless specified as parameter
+            my $info = Foswiki::Attrs->new($1);
+            $rev = $info->{version};
+        }
     }
+
     $rev ||= 1;
 
     $text =
@@ -387,8 +395,15 @@ sub addRevisionFromText {
     $this->init();
 
     # Commit any out-of-band damage to .txt
-    $this->_saveDamage();
-    $text = $this->_cacheMetaInfo( $text, $comment, $user, $date );
+    my $rev;
+
+    # get a new rev id when we saved damage
+    if ( $this->_saveDamage() ) {
+        $rev = $this->getNextRevisionID();
+    }
+
+    $text = $this->_cacheMetaInfo( $text, $comment, $user, $date, $rev );
+
     $this->ci( 0, $text, $comment, $user, $date );
 }
 
@@ -429,7 +444,9 @@ sub replaceRevision {
     my ( $this, $text, $comment, $user, $date ) = @_;
 
     $this->_saveDamage();
-    $text = $this->_cacheMetaInfo( $text, $comment, $user, $date );
+
+    my $rev = $this->getLatestRevisionID();
+    $text = $this->_cacheMetaInfo( $text, $comment, $user, $date, $rev );
 
     $this->repRev( $text, $comment, $user, $date );
 }

@@ -341,18 +341,21 @@ sub getVersionInfo {
 
 sub saveAttachment {
     my ( $this, $topicObject, $name, $stream, $cUID, $comment ) = @_;
-    my $handler    = $this->getHandler( $topicObject, $name );
-    my $currentRev = $handler->getLatestRevisionID();
-    my $nextRev    = $currentRev + 1;
+
+    my $handler = $this->getHandler( $topicObject, $name );
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
+
     $handler->addRevisionFromStream( $stream, $comment, $cUID );
     $this->tellListeners(
         verb          => $verb,
         newmeta       => $topicObject,
         newattachment => $name
     );
-    $handler->recordChange( $cUID, $nextRev );
-    return $nextRev;
+
+    my $rev = $handler->getLatestRevisionID();
+    $handler->recordChange( $cUID, $rev );
+
+    return $rev;
 }
 
 sub saveTopic {
@@ -361,7 +364,6 @@ sub saveTopic {
     ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler($topicObject);
-
     my $verb = ( $topicObject->existsInStore() ) ? 'update' : 'insert';
 
     # just in case they are not sequential
@@ -387,6 +389,7 @@ sub saveTopic {
 
 sub repRev {
     my ( $this, $topicObject, $cUID, %options ) = @_;
+
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     ASSERT($cUID) if DEBUG;
     my $info    = $topicObject->getRevisionInfo();
