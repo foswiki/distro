@@ -221,22 +221,39 @@ SICK
     $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 3 );
-    $this->assert_equals( 2, $topicObject->getLoadedRev() );
+    $this->assert_equals( 3, $topicObject->getLoadedRev() )
+      ;    # that's 3 because there's a checkin pending
     $this->assert_matches( qr/lovely muck/, $topicObject->text() );
 
+    # load out of range rev
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 0 );
+      Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 4 );
+    $this->assert_equals( 3, $topicObject->getLoadedRev() );
+    $this->assert_matches( qr/lovely muck/, $topicObject->text() );
 
-    # Should ignore the TOPICINFO and return the "true" revision
-    $this->assert_equals( 2, $topicObject->getLoadedRev() );
+    #  commit the pending checkin
+    $topicObject->save( forcenewrevision => 1 );
+    $topicObject->finish();
+
+    # testing rev info
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 0 );
+    $this->assert_equals( 3, $topicObject->getLoadedRev() )
+      ;    # that's the real revision now
+
+    my $info = $topicObject->getRevisionInfo();
+    $this->assert_equals( $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
+        $info->{author} );
+    $this->assert( $info->{date} );
+    $this->assert_equals( 3, $info->{version} );
 
     # If we now save it, we should be back to corrected rev nos
     $topicObject->save( forcenewrevision => 1 );
     $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "BorkedTOPICINFO", 0 );
-    $this->assert_equals( 3, $topicObject->getLoadedRev() );
+    $this->assert_equals( 4, $topicObject->getLoadedRev() );
 }
 
 1;
