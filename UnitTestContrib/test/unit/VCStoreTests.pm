@@ -421,7 +421,10 @@ sub verify_NoHistory_repRev {
       ->repRev( $meta, $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID );
     my $info = $this->{session}->{store}->getVersionInfo($meta);
 
-    $this->assert_num_equals( 1, $info->{version} );
+  # repRev degrades to a normal addRev when there's an implicit save triggered
+  # by inconsistent topic data. so rev 1 is associated to the oob change and now
+  # we are at rev 2.
+    $this->assert_num_equals( 2, $info->{version} );
     $this->assert_str_equals(
         $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
         $info->{author} );
@@ -451,7 +454,8 @@ sub verify_Inconsistent_repRev {
       ->repRev( $meta, $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID );
 
     my $info = $this->{session}->{store}->getVersionInfo($meta);
-    $this->assert_num_equals( 2, $info->{version} );
+    $this->assert_num_equals( 3, $info->{version} )
+      ;    # rev 2 has been used for the oob changes
     $this->assert_str_equals(
         $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
         $info->{author} );
