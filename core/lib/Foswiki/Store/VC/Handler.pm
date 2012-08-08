@@ -349,16 +349,19 @@ sub _cacheMetaInfo {
 
     $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
       unless defined $user;
-    $comment = ""     unless defined $comment;
-    $date    = time() unless defined $date;
+    $date = time() unless defined $date;
 
     # remove the previous record
     if ( $text =~ s/^%META:TOPICINFO{(.*)}%\n//m ) {
-        unless ( defined $rev ) {
+        my $info = Foswiki::Attrs->new($1);
 
-            # keep the rev id as is unless specified as parameter
-            my $info = Foswiki::Attrs->new($1);
+        # keep the rev id as is unless specified as parameter
+        unless ( defined $rev ) {
             $rev = $info->{version};
+        }
+
+        unless ($comment) {
+            $comment = $info->{comment};
         }
     }
 
@@ -443,7 +446,13 @@ Replace the top revision.
 sub replaceRevision {
     my ( $this, $text, $comment, $user, $date ) = @_;
 
-    $this->_saveDamage();
+    unless ( $this->noCheckinPending() ) {
+
+# As this will check in a new revision, we dump the $date and use the current time.
+# Otherwise rcs will barf at us when $date is older than the last release in the revision
+# history.
+        return $this->addRevisionFromText( $text, $comment, $user, time() );
+    }
 
     my $rev = $this->getLatestRevisionID();
     $text = $this->_cacheMetaInfo( $text, $comment, $user, $date, $rev );
