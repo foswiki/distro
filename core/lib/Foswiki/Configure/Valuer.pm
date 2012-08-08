@@ -114,8 +114,17 @@ sub loadCGIParams {
         my $typename = $query->param($param);
         Carp::confess "Bad typename '$typename'" unless $typename =~ /(\w+)/;
         $typename = $1;    # check and untaint
-        my $type   = Foswiki::Configure::Type::load( $typename, $keys );
-        my $newval = $type->string2value( $query->param($keys) );
+        my $type = Foswiki::Configure::Type::load( $typename, $keys );
+
+        my $newval = '';
+        if ( $typename =~ m/GROUP/ ) {
+            print "handling $typename\n";
+            my @values = $query->param($keys);
+            $newval = $type->string2value(@values);
+        }
+        else {
+            $newval = $type->string2value( $query->param($keys) );
+        }
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {
@@ -133,7 +142,7 @@ sub loadCGIParams {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

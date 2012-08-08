@@ -272,6 +272,7 @@ The =Config.spec= file is read by configure, and =configure= then writes =LocalS
 A range of types are available for use in =Config.spec= files:
 
 | =BOOLEAN= | A true/false value, represented as a checkbox |
+| =BOOLGROUP= _choices_ | A group of related checkboxes to toggle on/off from a list of choices. Stored as a simple list, =BOOLGROUP fee,fie,foe,fum= selected items stored as ='fee,fie,foe'= |
 | =COMMAND= _length_ | A shell command |
 | =LANGUAGE= | A language (selected from ={LocalesDir}= |
 | =NUMBER= | A number |
