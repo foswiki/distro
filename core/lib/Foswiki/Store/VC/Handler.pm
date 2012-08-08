@@ -36,6 +36,7 @@ use Fcntl qw( :DEFAULT :flock SEEK_SET );
 use Foswiki::Store                         ();
 use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
+use Foswiki::Attrs                         ();
 
 # use the locale if required to ensure sort order is correct
 BEGIN {
@@ -266,7 +267,6 @@ sub _getTOPICINFO {
         my $ti = <$f>;
         close($f);
         if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
-            require Foswiki::Attrs;
             my $a = Foswiki::Attrs->new($1);
 
             # Default bad revs to 1, not 0, because this is coming from
@@ -301,7 +301,7 @@ sub noCheckinPending {
               1;         # don't need to open the file on Win32
             my $rcsTime  = ( stat( $this->{rcsFile} ) )[9];
             my $fileTime = ( stat( $this->{file} ) )[9];
-            $isValid = ( $rcsTime < $fileTime ) ? 0 : 1;
+            $isValid = ( $fileTime > $rcsTime ) ? 0 : 1;
         }
     }
     return $isValid;
@@ -339,6 +339,37 @@ sub _saveDamage {
         $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID, time() );
 }
 
+# update the topicinfo cache
+sub _cacheMetaInfo {
+    my ( $this, $text, $comment, $user, $date ) = @_;
+
+    $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
+      unless defined $user;
+    $comment = ""     unless defined $comment;
+    $date    = time() unless defined $date;
+
+    # keep the rev id as is
+    my $rev;
+    if ( $text =~ s/^%META:TOPICINFO{(.*)}%\n//m ) {
+        my $info = Foswiki::Attrs->new($1);
+        $rev = $info->{version};
+    }
+    $rev ||= 1;
+
+    $text =
+        '%META:TOPICINFO{author="' 
+      . $user
+      . '" comment="'
+      . $comment
+      . '" date="'
+      . $date
+      . '" format="1.1" version="'
+      . $rev . '"}%'
+      . "\n$text";
+
+    return $text;
+}
+
 =begin TML
 
 ---++ ObjectMethod addRevisionFromText($text, $comment, $cUID, $date)
@@ -357,6 +388,7 @@ sub addRevisionFromText {
 
     # Commit any out-of-band damage to .txt
     $this->_saveDamage();
+    $text = $this->_cacheMetaInfo( $text, $comment, $user, $date );
     $this->ci( 0, $text, $comment, $user, $date );
 }
 
@@ -383,20 +415,23 @@ sub addRevisionFromStream {
 
 =begin TML
 
----++ ObjectMethod replaceRevision($text, $comment, $cUID, $date)
+---++ ObjectMethod replaceRevision($text, $comment, $user, $date)
 
 Replace the top revision.
    * =$text= is the new revision
    * =$date= is in epoch seconds.
-   * =$cUID= is a cUID.
+   * =$user= is a cUID.
    * =$comment= is a string
 
 =cut
 
 sub replaceRevision {
-    my $this = shift;
+    my ( $this, $text, $comment, $user, $date ) = @_;
+
     $this->_saveDamage();
-    $this->repRev(@_);
+    $text = $this->_cacheMetaInfo( $text, $comment, $user, $date );
+
+    $this->repRev( $text, $comment, $user, $date );
 }
 
 # Signature as for replaceRevision
@@ -451,9 +486,8 @@ sub getLatestRevisionID {
     my $info = {};
     my $rev;
 
-    my $noCheckinPending = $this->noCheckinPending();
-
-    if ($noCheckinPending) {
+    my $checkinPending = $this->noCheckinPending() ? 0 : 1;
+    unless ($checkinPending) {
         $this->_getTOPICINFO($info);
         $rev = $info->{version};
     }
@@ -464,7 +498,7 @@ sub getLatestRevisionID {
 
     # If there is a pending pseudo-revision, need n+1, but only if there is
     # an existing history
-    $rev++ unless $noCheckinPending || !$this->revisionHistoryExists();
+    $rev++ if $checkinPending && $this->revisionHistoryExists();
     return $rev;
 }
 
@@ -484,7 +518,11 @@ doesn't get merged into rev 1.
 
 sub getNextRevisionID {
     my $this = shift;
-    return $this->getLatestRevisionID() + 1;
+
+    my $rev = $this->getLatestRevisionID();
+    return $rev + 1
+      if $this->noCheckinPending() || !$this->revisionHistoryExists();
+    return $rev;
 }
 
 =begin TML

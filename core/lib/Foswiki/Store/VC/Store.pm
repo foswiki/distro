@@ -330,6 +330,12 @@ sub getVersionInfo {
         $info = $handler->getInfo($rev);
     }
 
+    # make sure there's at least author, date and version
+    $info->{author} = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
+      unless defined $info->{author};
+    $info->{date}    = time() unless defined $info->{date};
+    $info->{version} = 1      unless defined $info->{version};
+
     return $info;
 }
 
@@ -367,6 +373,10 @@ sub saveTopic {
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
 
+    # reload the topic object
+    $topicObject->unload();
+    $topicObject->loadVersion();
+
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
 
@@ -384,6 +394,11 @@ sub repRev {
     $handler->replaceRevision( $topicObject->getEmbeddedStoreForm(),
         'reprev', $cUID,
         defined $options{forcedate} ? $options{forcedate} : $info->{date} );
+
+    # reload the topic object
+    $topicObject->unload();
+    $topicObject->loadVersion();
+
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
 
