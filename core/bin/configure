@@ -668,7 +668,7 @@ sub _screenAuthorize {
         my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
         my $changesList = ();
         foreach my $key ( sort keys %updated ) {
-            my $valueString = $query->param($key);
+            my $valueString = join( ',', $query->param($key) );
             push( @{$changesList}, { key => $key, value => $valueString } );
         }
         @items = sort keys %updated if $modified;
@@ -843,7 +843,7 @@ sub _screenFeedback {
     # once in commitChanges()
     my $changesList = ();
     foreach my $key ( sort keys %updated ) {
-        my $valueString = $query->param($key);
+        my $valueString = join( ',', $query->param($key) );
         push( @{$changesList}, { key => $key, value => $valueString } );
     }
 

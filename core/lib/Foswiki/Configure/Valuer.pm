@@ -118,7 +118,6 @@ sub loadCGIParams {
 
         my $newval = '';
         if ( $typename =~ m/GROUP/ ) {
-            print "handling $typename\n";
             my @values = $query->param($keys);
             $newval = $type->string2value(@values);
         }
