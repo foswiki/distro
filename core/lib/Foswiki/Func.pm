@@ -3132,6 +3132,10 @@ between =$time= and now. Events are written to the event log using
 =writeEvent=. The Foswiki core will write other events that will
 also be returned.
 
+If the chosen Logger does not support querying the logs, an empty
+iterator will be returned.  The supplied PlainFile and Compatibility loggers
+will return events only if the log files have not been archived.
+
 Events are returned in *oldest-first* order.
 
 Each event is returned as a reference to an array. The elements are:
