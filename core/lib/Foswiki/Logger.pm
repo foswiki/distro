@@ -67,6 +67,7 @@ requested level will be returned if any of the collapsed levels is selected.
 
 # Default behaviour is an empty iteration
 sub eachEventSince {
+    require Foswiki::ListIterator;
     return new Foswiki::ListIterator( [] );
 }
 
