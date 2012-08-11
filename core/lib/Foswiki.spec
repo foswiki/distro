@@ -899,7 +899,9 @@ $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = $FALSE;
 # **PERL EXPERT**
 # Whether or not to log different actions in the events log.
 # Information in the events log is used in gathering web statistics,
-# and is useful as an audit trail of Foswiki activity.
+# and is useful as an audit trail of Foswiki activity. Actions
+# not listed here will be logged by default.  To disable logging of an action,
+# add it to this list if not already present, and set value to <code>0</code>.
 $Foswiki::cfg{Log}{Action} = {
     view     => 1,
     search   => 1,
