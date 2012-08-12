@@ -31,6 +31,9 @@ sub initializeUserHandler {
       unless ( $Foswiki::Plugins::SESSION->inContext('view')
         || $Foswiki::Plugins::SESSION->inContext('login') );
 
+    return
+      if ( $Foswiki::Plugins::SESSION->inContext('command_line') );
+
     my $gotoOnLogin =
       (       $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin}
           and $Foswiki::Plugins::SESSION->inContext('login') );
