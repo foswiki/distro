@@ -46,7 +46,8 @@ sub string2value {
 
 sub equals {
     my ( $this, $val, $def ) = @_;
-
+    return 1 if ( !defined $val && !defined $def );
+    return 0 unless ( defined $val && defined $def );
     return ( $val eq $def );
 }
 
