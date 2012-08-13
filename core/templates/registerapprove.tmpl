@@ -1,0 +1,13 @@
+From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+To: %EMAILADDRESS%
+Subject: %MAKETEXT{"[_1] registration approval required" args="%WIKITOOLNAME%"}%
+MIME-Version: 1.0
+Content-Type: text/plain; charset=%CHARSET%
+Content-Transfer-Encoding: 8bit
+
+%MAKETEXT{"A user requires your approval to complete their registration"}%
+%REGISTRATION_DATA%
+
+%MAKETEXT{"To approve this registration, visit [_2]" args="'%APPROVALCODE%', %SCRIPTURL{"register"}%?action=approve;code=%APPROVALCODE%;referee=%REFEREE%"}%
+
+%MAKETEXT{"To block this registration,  visit [_2]" args="'%APPROVALCODE%', %SCRIPTURL{"register"}%?action=disapprove;code=%APPROVALCODE%;referee=%REFEREE%"}%

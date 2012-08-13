@@ -6,16 +6,11 @@
    ALSO ADDED TO THE RELEVANT TESTCASE IN THE TestCases WEB
    (e.g. TestCases.TestCaseOopsAttention)!
 
+Messages involved in registration and password management are in 
+registermessages.tmpl
 ================================================================================
      Messages for oopsattention
 ================================================================================}%
-%TMPL:DEF{"remove_user_done"}%
----+++ %MAKETEXT{"User Account [_1] Deleted" args="%PARAM1%"}%
-%MAKETEXT{"Your user name has been removed from the Authentication System."}%
-
-%MAKETEXT{"Your user topic has not been renamed. Please e-mail [_1] to request this." args="<a href='mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%WIKITOOLNAME% Delete User"}%&&body=%ENCODE{"%PARAM1%"}%'>%WIKIWEBMASTER%</a>"}%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"created_web"}%
 ---+++ %MAKETEXT{"The new web has been created"}%
 %MAKETEXT{"And populated with topics from the base web"}%
@@ -46,18 +41,6 @@
 %TMPL:DEF{"unrecognized_action"}%
 ---+++ %MAKETEXT{"Unrecognized action command [_1]" args="%PARAM1%"}%
 %MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"not_a_user"}%
----+++ %MAKETEXT{"Can't find user [_1]" args="%PARAM1%"}%
-%MAKETEXT{"Please make sure you spelled the [_1] correctly and try again. If you get stuck, please mail [_2]." args="%SYSTEMWEB%.LoginName, %WIKIWEBMASTER%"}%
-
-%MAKETEXT{"See [_1] for a list of existing users or register as new user in [_2]." args="%USERSWEB%.%WIKIUSERSTOPIC%, %SYSTEMWEB%.UserRegistration"}% %TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"in_a_group"}%
----+++ %MAKETEXT{"[_1] is in at least one group and cannot be removed" args="%PARAM1%"}%
-
-%MAKETEXT{"Remove the member from the group(s) [_1] first." args="%PARAM2%"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"move_err"}%
@@ -117,13 +100,6 @@
 %MAKETEXT{"During rename of web [_1] to [_2] an error ([_3]) was found. Please notify your [_4] administrator." args="<nop>%WEB%,<nop>%PARAM2%,%PARAM1%,%WIKITOOLNAME%"}%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"wrong_password"}%
----+++ %MAKETEXT{"Incorrect Password"}%
-%MAKETEXT{"The password you entered in the *old password* field is incorrect."}%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"web_missing"}%
 ---+++ %MAKETEXT{"Name of new web is missing"}%
 %MAKETEXT{"Please go back in your browser and try again."}% %TMPL:END%
@@ -178,118 +154,6 @@
 %PARAM2%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"registration_not_supported"}%
----+++ %MAKETEXT{"New User Registration not supported"}%
-
-%MAKETEXT{"The selected User System does not support new user registration."}%
-
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-%MAKETEXT{"You have *not* been registered."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"registration_disabled"}%
----+++ %MAKETEXT{"New User Registration disabled"}%
-
-%MAKETEXT{"The Administrator has disabled new user registration."}%
-
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-%MAKETEXT{"You have *not* been registered."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"registration_invalid"}%
----+++ %MAKETEXT{"New User Registration failed"}%
-
-%MAKETEXT{"Your user registration failed because it did not pass the validation tests."}%
-
-<noautolink>
-%PARAM1%
-</noautolink>
-
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-%MAKETEXT{"You have *not* been registered."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"passwords_disabled"}%
----+++ %MAKETEXT{"Passwords disabled"}%
-
-%MAKETEXT{"The Administrator has disabled password changes."}%
-
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-%MAKETEXT{"Your password has not been changed."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"thanks"}%
----+++ %MAKETEXT{"Thank you for registering"}%
-   * %MAKETEXT{"Your personal Foswiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />
-     %MAKETEXT{"(*Suggestion:* How about uploading your picture to your topic?)"}%
-   * %MAKETEXT{"You are also listed in the [_1] topic" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
-<noautolink>%PARAM1%</noautolink>
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"reset_ok"}%
-%PARAM1%
-
-%MAKETEXT{"Users with automatically generated passwords should proceed immediately to ~[~[[_1]~]~[change password~]~] to change their password to something memorable." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/ChangePassword"}%
-
-*[[%BASEWEB%.%BASETOPIC%][%MAKETEXT{"OK"}%]]*
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"password_changed"}%
----+++ %MAKETEXT{"Password changed successfully!"}%
-
-%IF{
-  "{LoginManager} = 'Foswiki::LoginManager::ApacheLogin'"
-  then="%MAKETEXT{"You may need to close your browser to make this change take effect."}%"
-}%
-
-*[[%USERSWEB%.%HOMETOPIC%][%MAKETEXT{"OK"}%]]*
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"password_not_changed"}%
----+++ %MAKETEXT{"Password could not be changed"}%
-
-%MAKETEXT{"Your system may not support changing passwords through Foswiki. Check with your Wiki administrator."}%
-
-*[[%TOPIC%][%MAKETEXT{"OK"}%]]*
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"email_changed"}%
----+++ %MAKETEXT{"E-mail changed successfully!"}%
-
-%MAKETEXT{"Remember to update your user topic if you want your e-mail change to be reflected there as well."}%
-
-%MAKETEXT{"Your registered e-mail address(es) are updated to: <noautolink>[_1]</noautolink>." args="%PARAM1%"}%
-
-%MAKETEXT{"Return to [_1]." args="%SYSTEMWEB%.ChangeEmailAddress"}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"confirm"}%
----+++ %MAKETEXT{"Thank you for registering"}%
-
-%MAKETEXT{"Your activation code has been sent to [_1].  Either click on the link in your e-mail or enter the code in the box below to activate your membership. (This code is of the form \"YourName.xxxxxxxxxx\")" args="%PARAM1%"}%
-
-<form action="%SCRIPTURLPATH{"register"}%" method="post">
-<input type="hidden" name="action" value="verify" size="20" />
-<input type="text" name="code" size="20" class="foswikiInputField" />
-<input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Submit"}% ' />
-</form>
-
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"no_users_to_reset"}%
----+++ %MAKETEXT{"Password reset failed"}%
-%MAKETEXT{"No users to reset passwords for."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"reset_bad"}%
----+++ %MAKETEXT{"Password reset failed"}%
-%PARAM1%
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"missing_fields"}%
 ---+++ %MAKETEXT{"Missing Fields"}%
 =<font color="red">**</font>= %PARAM1% %MAKETEXT{"fields are required."}%
@@ -304,36 +168,6 @@
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
-%TMPL:DEF{"password_mismatch"}%
----+++ %MAKETEXT{"Passwords do not match"}%
-%MAKETEXT{"The two passwords you entered do not match."}%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"problem_adding"}%
----+++ %MAKETEXT{"Error registering user [_1]" args="%PARAM1%"}%
-
-%MAKETEXT{"There has been a problem adding your user id to the Password system."}%
-
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-%MAKETEXT{"You have *not* been registered."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"registration_mail_failed"}%
----+++ %MAKETEXT{"Error registering new user"}%
-
-%MAKETEXT{"While attempting to email <noautolink>[_1]</noautolink>." args="%PARAM1%"}%
-
-%MAKETEXT{"Your registration verification email has either failed, or is queued in the mail system."}%
-
-%MAKETEXT{"If you don't receive a verification email within the next hour, "}%
-%MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
-
-
-%TMPL:END%
-%{==============================================================================}%
 %TMPL:DEF{"send_mail_error"}%
 ---+++ Mail Error
 %MAKETEXT{"An e-mail could not be delivered. Please notify your [_1] administrator, [_2]" args="%WIKITOOLNAME%,<a href='mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%WIKITOOLNAME% Send Mail Error"}%'>%WIKIWEBMASTER%</a>"}%
@@ -342,90 +176,6 @@
 
 *%MAKETEXT{"Errors"}%*: %PARAM2%
 
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"already_exists"}%
----+++ %MAKETEXT{"You are already registered"}%
-%MAKETEXT{"You cannot register twice, the name [_1] is already registered." args="'%PARAM1%'"}%
-
-%MAKETEXT{"Did you want to ~[~[[_1]~]~[reset [_2]'s password~]~]?" args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%.ResetPassword?username=%PARAM1%,%PARAM1%"}%
-
-%MAKETEXT{"Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose a different username."}%
-
-%MAKETEXT{"Please contact [_1] if you have any questions." args="<a href='mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%WIKITOOLNAME% Registration Question"}%'>%WIKIWEBMASTER%</a>"}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"bad_loginname"}%
----+++ %MAKETEXT{"Incorrect [_1]" args="%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"'[_1]' is not a valid [_2] " args="%PARAM1%,%SYSTEMWEB%.LoginName"}%
-%MAKETEXT{"The [_1] field must match the {LoginNameFilterIn} filter for this site" args="%PARAM1%,%SYSTEMWEB%.LoginName"}%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"bad_wikiname"}%
----+++ %MAKETEXT{"Incorrect [_1]" args="%SYSTEMWEB%.WikiName"}%
-%MAKETEXT{"The [_1] field must be your first and last name in [_2], e.g. your capitalized first and last name with spaces removed." args="%SYSTEMWEB%.WikiName,%SYSTEMWEB%.WikiNotation"}%
-
-| *%MAKETEXT{"Good examples:"}%* | *%MAKETEXT{"Incorrect [_1].WikiNames:" args="%SYSTEMWEB%"}%* |
-| =JohnSmith= | =John M. Smith= |
-| =RjMiller= | =RJ Miller= |
-| =RickO= | =Rick O= %MAKETEXT{"(single character last name)"}% |
-| =KellerF= | =FKeller= %MAKETEXT{"(single character first name)"}% |
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"bad_password"}%
----+++ %MAKETEXT{"Bad password"}%
-%MAKETEXT{"This site requires at least [_1] character passwords" args="%PARAM1%"}%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"bad_email"}%
----+++ %MAKETEXT{"Invalid e-mail address"}%
-%MAKETEXT{"The e-mail address for this account is not valid."}%
-
-%PARAM1%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"rej_email"}%
----+++ %MAKETEXT{"Invalid e-mail address"}%
-%MAKETEXT{"The e-mail address for this account has been rejected."}%
-
-%PARAM1%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"dup_email"}%
----+++ %MAKETEXT{"Invalid e-mail address"}%
-%MAKETEXT{"The e-mail address for this account is already registered to another user."}%
-
-%PARAM1%
-
-%MAKETEXT{"Please go back in your browser and try again."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"bad_ver_code"}%
----+++ %MAKETEXT{"Invalid Activation Code"}%
-%MAKETEXT{"The activation code [_1] is invalid." args="==%PARAM1%=="}% %PARAM2%
-
-%MAKETEXT{"Either the code is not valid, or you have already confirmed your registration using it."}% %MAKETEXT{"Registration codes can only be used once."}%
-
-*%MAKETEXT{"Note:"}%*
-%MAKETEXT{"Some mail tools have an error that causes them to send the same request twice when you click on a link. It you did this, it is possible that you actually *have* registered successfully."}%
-
-<form action="%SCRIPTURLPATH{"register"}%" method="post">
-<input type="hidden" name="action" value="verify" size="20" />
-<input type="text" name="code" class="foswikiInputField" size="20" />
-<input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Submit"}% ' />
-</form>
-
-%MAKETEXT{"Please contact [_1] if you have any questions." args="<a href='mailto:%WIKIWEBMASTER%'>%WIKIWEBMASTER%</a>"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"mandatory_field"}%
@@ -562,81 +312,6 @@
 
 <a href='%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%?groupname=%PARAM1%;expand=1'>%MAKETEXT{"Go back"}%</a>
 %TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"no_group_specified_for_add_to_group"}%
----+++ %MAKETEXT{"No group name specified"}%
-%MAKETEXT{"You need to specify a valid group name to add members to a group."}%
-
-<a href='%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%?username=%PARAM1%;expand=1'>%MAKETEXT{"Go back"}%</a>
-%TMPL:END%
-%{==============================================================================}%
-
-%TMPL:DEF{"problem_adding_to_group"}%
----+++ %MAKETEXT{"Errors adding members to group"}%
-
-%MAKETEXT{"There were errors adding to the [_2] group. [_1] " args="%PARAM1%, %PARAM2%"}%
-
-%MAKETEXT{"Please check to ensure you have permission to modify the group."}%
-
-%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%
-
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"added_users_to_group"}%
----+++ %MAKETEXT{"Success adding members to group"}%
-
-%MAKETEXT{"[_1] added to the [_2] group. " args="%PARAM1%, %PARAM2%"}%
-
-%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"group_upgraded"}%
----+++ %MAKETEXT{"Upgraded group"}%
-
-%MAKETEXT{"[_1] group topic upgraded. " args="%PARAM1%"}%
-
-%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"no_users_to_remove_from_group"}%
----+++ %MAKETEXT{"No username specified"}%
-
-%MAKETEXT{"You need to specify a valid member to remove from a group."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"no_group_and_no_create"}%
----+++ %MAKETEXT{"Create not specified and group does not exist"}%
-
-%MAKETEXT{"You cannot add users to a missing group unless the create option is set."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"no_group_and_no_create"}%
----+++ %MAKETEXT{"Create not specified and group does not exist"}%
-
-%MAKETEXT{"You cannot add users to a missing group unless the create option is set."}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"no_group_specified_for_remove_from_group"}%
----+++ %MAKETEXT{"No group name specified"}%
-%MAKETEXT{"You need to specify a valid group name to remove members from a group."}%
-
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"problem_removing_from_group"}%
----+++ %MAKETEXT{"Errors removing members from groups"}%
-
-%MAKETEXT{"There were errors removing [_1] from the [_2] group. " args="%PARAM1%, %PARAM2%"}%
-
-%MAKETEXT{"Please check to ensure you have permission to modify the group."}%
-
-%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%
-
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"removed_users_from_group"}%
----+++ %MAKETEXT{"Success removing members from group"}%
-
-%MAKETEXT{"[_1] removed from the [_2] group. " args="%PARAM1%, %PARAM2%"}%
-
-%MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
 %{==============================================================================
     Messages for oopsleaseconflict
 ================================================================================}%
@@ -767,17 +442,6 @@
 <a href='%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%'>%MAKETEXT{"Go back"}%</a>
 
 %MAKETEXT{"Contact [_1] if you have any questions." args="%WIKIWEBMASTER%"}%
-%TMPL:END%
-%{==============================================================================}%
-%TMPL:DEF{"duplicate_activation"}%
----+++ %MAKETEXT{"That user has already been activated "}%
-
-%MAKETEXT{"The user [_1] has already been activated, and should be able to log in." args="%PARAM1%"}%
-
-%MAKETEXT{"You may have clicked a registration verification link that you had already visited."}%
-
-%MAKETEXT{"Contact [_1] if you have any questions." args="%WIKIWEBMASTER%"}%
-
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"ENCODE_bad_1"}%%MAKETEXT{"ENCODE failed - =type= cannot be used alongside =old= and =new= "}%%TMPL:END%

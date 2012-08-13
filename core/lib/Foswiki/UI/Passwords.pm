@@ -4,6 +4,7 @@
 
 ---+ package Foswiki::UI::Passwords
 UI methods for password management.
+Shares a message template with Register.pm (registermessages.tmpl)
 
 =cut
 
@@ -38,7 +39,7 @@ sub resetPassword {
         my $err = $session->i18n->maketext(
             'Email has been disabled for this Foswiki installation');
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_bad',
             params => [$err]
@@ -47,7 +48,7 @@ sub resetPassword {
 
     my @userNames = $query->param('LoginName');
     unless (@userNames) {
-        throw Foswiki::OopsException( 'attention', def => 'no_users_to_reset' );
+        throw Foswiki::OopsException( 'register', def => 'no_users_to_reset' );
     }
     my $introduction = $query->param('Introduction') || '';
 
@@ -101,7 +102,7 @@ sub resetPassword {
         }
 
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             status => 200,
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_ok',
@@ -110,7 +111,7 @@ sub resetPassword {
     }
     else {
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_bad',
             params => [$message]
@@ -164,18 +165,15 @@ sub _resetUsersPassword {
         my $wn = $users->getWikiName($user);
         foreach my $email (@em) {
             require Foswiki::UI::Register;
-            my $err = Foswiki::UI::Register::sendEmail(
+            my $err = _sendEmail(
                 $session,
-                'mailresetpassword',
-                {
-                    webName      => $Foswiki::cfg{UsersWebName},
-                    LoginName    => $ln,
-                    Name         => Foswiki::spaceOutWikiWord($wn),
-                    WikiName     => $wn,
-                    Email        => $email,
-                    PasswordA    => $password,
-                    Introduction => $introduction,
-                }
+                webName       => $Foswiki::cfg{UsersWebName},
+                LoginName     => $ln,
+                FirstLastName => Foswiki::spaceOutWikiWord($wn),
+                WikiName      => $wn,
+                EmailAddress  => $email,
+                Password      => $password,
+                Introduction  => $introduction,
             );
 
             if ($err) {
@@ -199,6 +197,23 @@ sub _resetUsersPassword {
     }
 
     return $sent;
+}
+
+# sends $p->{template} with substitutions from $data
+sub _sendEmail {
+    my ( $session, %data ) = @_;
+
+    my $text = $session->templates->readTemplate('mailresetpassword');
+    foreach my $field ( keys %data ) {
+        my $f = uc($field);
+        $text =~ s/\%$f\%/$data{$field}/g;
+    }
+
+    my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
+        $data{WikiName} );
+    $text = $topicObject->expandMacros($text);
+
+    return $session->net->sendEmail($text);
 }
 
 =begin TML
@@ -240,7 +255,7 @@ sub changePasswordAndOrEmail {
 
     unless ($login) {
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             web    => $webName,
             topic  => $topic,
             def    => 'not_a_user',
@@ -263,7 +278,7 @@ sub changePasswordAndOrEmail {
         # check if passwords are identical
         if ( $passwordA ne $passwordB ) {
             throw Foswiki::OopsException(
-                'attention',
+                'register',
                 web   => $webName,
                 topic => $topic,
                 def   => 'password_mismatch'
@@ -287,7 +302,7 @@ sub changePasswordAndOrEmail {
         || $users->checkPassword( $login, $oldpassword ) )
     {
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             web   => $webName,
             topic => $topic,
             def   => 'wrong_password'
@@ -299,7 +314,7 @@ sub changePasswordAndOrEmail {
     # Determine that the cUID exists.
     unless ( defined $cUID ) {
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             web    => $webName,
             topic  => $topic,
             def    => 'not_a_user',
@@ -312,7 +327,7 @@ sub changePasswordAndOrEmail {
         && $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ )
     {
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             web    => $webName,
             topic  => $topic,
             def    => 'bad_email',
@@ -324,7 +339,7 @@ sub changePasswordAndOrEmail {
         && length($passwordA) < $Foswiki::cfg{MinPasswordLength} )
     {
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             web    => $webName,
             topic  => $topic,
             def    => 'bad_password',
@@ -351,7 +366,7 @@ sub changePasswordAndOrEmail {
 
         unless ( $users->setPassword( $cUID, $passwordA, $oldpassword ) ) {
             throw Foswiki::OopsException(
-                'attention',
+                'register',
                 web   => $webName,
                 topic => $topic,
                 def   => 'password_not_changed'
@@ -363,7 +378,7 @@ sub changePasswordAndOrEmail {
 
         # OK - password changed
         throw Foswiki::OopsException(
-            'attention',
+            'register',
             status => 200,
             web    => $webName,
             topic  => $topic,
@@ -373,7 +388,7 @@ sub changePasswordAndOrEmail {
 
     # must be just email
     throw Foswiki::OopsException(
-        'attention',
+        'register',
         status => 200,
         web    => $webName,
         topic  => $topic,

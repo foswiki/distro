@@ -999,12 +999,16 @@ templates/oopsgeneric.tmpl 0444
 templates/oopslanguagechanged.tmpl 0444
 templates/oopsleaseconflict.tmpl 0444
 templates/oopsredirectdenied.tmpl
+templates/oopsregister.tmpl
 templates/oopssaveerr.tmpl 0444
 templates/preview.tmpl 0444
 templates/rdiff.tmpl 0444
+templates/registerapprove.tmpl 0444
 templates/registerconfirm.tmpl 0444
+templates/registerdenied.tmpl 0444
 templates/registerfailednotremoved.tmpl 0444
 templates/registerfailedremoved.tmpl 0444
+templates/registermessages.tmpl 0444
 templates/registernotify.tmpl 0444
 templates/registernotifyadmin.tmpl 0444
 templates/rename.tmpl 0444

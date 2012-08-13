@@ -18,14 +18,8 @@
       * With formatted output, using tokens:
          <verbatim class="tml">%USERINFO{ format="$username is really $wikiname" }%</verbatim>
          Expands to: =%USERINFO{ format="$username is really !$wikiname" }%=
-      * Retrieve information about another user:
+      * Retrieve information about another user. You can use either a wikiname or a login name to identify the user. You can only see information about another user if you are an admin, or the ={AntiSpam}{HideUserDetails}= configuration option is not enabled. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden on this site)_ "}%:
          <verbatim class="tml">%USERINFO{ "WikiGuest" format="$username is really $wikiname" }%</verbatim>
          Expands to: <code>%USERINFO{ "WikiGuest" format="$username is really !$wikiname" }%</code>
-         %IF{
-           "{AntiSpam}{HideUserDetails} AND NOT '%WIKIUSER%' ingroup 'AdminGroup'"
-           then="<blockquote class='foswikiHelp'>$percentT$percent You need to be a member of %USERSWEB%.AdminGroup for the =USERINFO= macro to display details about other users</blockquote>"
-         }%
-   * Notes
-   <blockquote class="foswikiHelp">%H% Use wikinames when specifying a =name=. You can also pass a login name. You can only see information about another user if you are an admin, or the ={AntiSpam}{HideUserDetails}= configuration option is not enabled. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden on this site)_ "}%</blockquote>
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKINAME][WIKINAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERNAME][WIKIUSERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGROUPINFO][GROUPINFO]], UserAuthentication, ChangeEmailAddress
 <!--%JQREQUIRE{"chili"}%-->

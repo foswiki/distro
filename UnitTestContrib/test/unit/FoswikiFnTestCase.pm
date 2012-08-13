@@ -198,9 +198,8 @@ sub registerUser {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "attention", $e->{template},
-            $e->stringify() );
-        $this->assert_str_equals( "thanks", $e->{def}, $e->stringify() );
+        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",   $e->{def},      $e->stringify() );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;

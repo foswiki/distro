@@ -257,21 +257,78 @@ context diffs.
 ---+++ =register=
 
 | *Parameter* | *Description* | *Default* |
-| =action= | =register= or =verify= or =approve= | _required_ |
+| =action= | =register= or =verify= or =approve= or =disapprove= | _required_ |
 
 <blockquote class="foswikiHelp"> *%X% Note:* The =register= script can only be called via the HTTP POST method except when the action is =verify=. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;a href ...&gt;= link. The =verify= action is an exception as it is used to verify registration by clicking a href link from an email.</blockquote>
 
+---++++ =action=register=
+
+Starts the registration process for a new user.
+
+User data is passed in 0 or more parameters of the format =FwkNname= where =Fwk= is a standard prefix, =N= is =0= for an optional parameter and =1= for a required parameter, and =name= is the parameter name. The following standard =Fwk= parameters are predefined:
+
 | *Parameter* | *Description* | *Default* |
-| =addtogroups= | Accepts a comma-separated list of group names to add the user to. | |
-| =code= | (verify= only) Activation code, verifies a pending registration  |
-| =create= | If =on=, and a group being added to does not exist, create it. | |
-| =email= | New user's email address | _required_ |
-| =firstname= | New user's first name | _required_ |
-| =lastname= | New user's surname | _required_ |
-| =loginname= | New user's login name | _required_ |
-| =password= | New user's password | |
-| =wikiname= | Wikiname of user being registered | _required_ |
-| &lt;any name&gt; | Any other parameter passed during registration will normally be passed on into the new user's home topic, or ignored. |
+| =Fwk1Email= | New user's email address | _required_ |
+| =Fwk1FirstName= | New user's first name | _required_ |
+| =Fwk1LastName= | New user's surname | _required_ |
+| =Fwk1WikiName= | Wikiname of user being registered | _required_ |
+| =Fwk1LoginName= | New user's login name | _required_ |
+| =Fwk1Password= | New user's password | |
+| =Fwk0Confirm= | Password confirmation (if enabled) | |
+| =Fwk0Name= | User's name. Defaults to =FirstName LastName= | |
+| =Fwk0AddToGroups= | Accepts a comma-separated list of group names to add the new user to. | |
+
+Any additional =Fwk= parameters will be written to the user topic (_except_ 
+=Photo= and =Confirm=).
+
+If registration verification (or registration approval) is enabled in
+=configure=, a pending registration record will be created and the
+registrant (or the approver) will be emailed with the verification code.
+
+If all goes well, then:
+   * If verification is required, outputs the registration confirmation screen.
+   * If approval is required, outputs the pending approval screen.
+   * Otherwise outputs the welcome screen.
+
+When called from CGI, this method requires a POST request.
+
+---++++ =action=verify=
+
+Sent to activate a user's pending registration. Only applicable if
+registration verification is enabled.
+
+| *Parameter* | *Description* | *Default* |
+| =code= | Activation code, verifies a pending registration  |
+
+If the verification is successful:
+   * If approval is required, outputs the pending approval screen.
+   * Otherwise outputs the welcome screen.
+
+---++++ =action=approve=
+Sent to activate a pending registration. Only applicable if
+registration approval is enabled.
+
+| *Parameter* | *Description* | *Default* |
+| =code= | Approval code for the pending registration  |
+
+Outputs the welcome screen and mails the successful registrant.
+
+---++++ =action=disapprove=
+Sent to deny a pending registration. Only applicable if
+registration approval is enabled.
+
+| *Parameter* | *Description* | *Default* |
+| =code= | Approval code for the pending registration  |
+
+Presents a screen where the admin can optionally enter an email
+message to be sent to the failed registrant. NOTE: the registration
+fails even if this mail is _not_ sent.
+
+If the =code= has the value =DENIED= then the request is interpreted as
+the second stage of an approval denial. Registration parameters are
+passed in the URL parameters =email=, =referee=, =wikiname= and =feedback.
+These parameters are used to compose a feedback mail for the failed
+registrant.
 
 ---+++ =rename=
 Used for renaming webs, topics and attachments.
