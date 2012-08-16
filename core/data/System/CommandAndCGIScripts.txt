@@ -362,11 +362,11 @@ Rename a topic or an attachment.
 This script is _deprecated_. Its functions are covered by the =manage= script.
 
 ---+++ =rest=
-This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =Foswiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endPoint= parameter is specified, in which case it will output a redirect to the given topic.
+This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =Foswiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endpoint= parameter is specified, in which case it will output a redirect to the given topic or url.
 
 The =rest= script supports the following parameters:
 | *Parameter* | *Description* | *Default* |
-| =endPoint= | Where to redirect the response once the request is served, in the form "Web.Topic". If not given, the REST script must generate a valid response. | |
+| =redirectto= | Redirect to this topic or URL after successfully running the rest function. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | None. |
 | =password= | See =username= | |
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you can pass a username and password to the server (though see below for a preferred way to pass authentication information). |
 

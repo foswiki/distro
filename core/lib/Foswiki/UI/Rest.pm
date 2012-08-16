@@ -30,12 +30,22 @@ for a given subject. See System.CommandAndCGIScripts#rest for more info.
 
 The handler function must be of the form:
 <verbatim>
-sub handler(\%session, $subject, $verb) -> $text
+sub handler(\%session, $subject, $verb, $response) -> $text
 </verbatim>
 where:
    * =\%session= - a reference to the Foswiki session object (may be ignored)
    * =$subject= - The invoked subject (may be ignored)
    * =$verb= - The invoked verb (may be ignored)
+   * =$response= reference to the Foswiki::Response object that is used to compose a reply to the request
+
+If the =redirectto= parameter is not present on the REST request, then the return
+value from the handler is used to determine the endpoint for the
+request. It can be:
+   * =undef= - causes the core to assume the handler handled the complete
+     request i.e. the core will not generate any response to the request
+   * =text= - any other non-undef value will be written out as the content
+     of an HTTP 200 response. Only the standard headers in the response are
+     written.
 
 Additional options are set in the =%options= hash. These options are important
 to ensuring that requests to your handler can't be used in cross-scripting
@@ -250,52 +260,47 @@ sub rest {
     $session->logEvent( 'rest',
         $session->{webName} . '.' . $session->{topicName} );
 
-    no strict 'refs';
     my $function = $record->{function};
-    my $result = &$function( $session, $subject, $verb, $session->{response} );
-    use strict 'refs';
+    my $result;
+    my $error = 0;
+
+    try {
+        no strict 'refs';
+        $result = &$function( $session, $subject, $verb, $session->{response} );
+        use strict 'refs';
+    }
+    catch Error::Simple with {
+        $session->{response}->header(
+            -status  => 500,
+            -type    => 'text/plain',
+            -charset => 'UTF-8'
+        );
+        $session->{response}->print(
+            'ERROR: (500) Internal server error - ' . shift->stringify() );
+        $error = 1;
+    };
 
 # Used by CommentPlugin rest handler to redirect to an alternate topic.
 # Note that this might be better validated before dispatching the rest handler
 # however the CommentPlugin handler modifies the endPoint and validating it early
 # fails.
 
-    my $endPoint = $req->param('endPoint');
-    my $nurl;
+    # endPoint still supported for compatibility
+    my $target = $session->redirectto( $req->param('endPoint') );
 
-    if ($endPoint) {
-        my $epParms = '';
-
-        # Strip off any anchors or query string
-        if ( $endPoint =~ s/([#\?].*$)// ) {
-            $epParms = $1;
-        }
-
-        my ( $web, $topic ) =
-          Foswiki::Func::normalizeWebTopicName( undef, $endPoint );
-
-        $web = Foswiki::Sandbox::untaint( $web,
-            \&Foswiki::Sandbox::validateWebName );
-
-        $topic = Foswiki::Sandbox::untaint( $topic,
-            \&Foswiki::Sandbox::validateTopicName );
-
-        unless ( Foswiki::Func::topicExists( $web, $topic ) ) {
-            $res->header( -type => 'text/html', -status => '404' );
-            $err =
-                'ERROR: (404) Invalid REST invocation - '
-              . $req->param('endPoint')
-              . ' does not refer to an existing topic';
-            $res->print($err);
-            throw Foswiki::EngineException( 404, $err, $res );
-        }
-
-        $nurl = $session->getScriptUrl( 1, 'view', $web, $topic );
-        $nurl .= $epParms if ($epParms);
+    if ( !$error && defined($target) ) {
+        $session->redirect($target);
     }
-
-    if ( defined($nurl) ) {
-        $session->redirect($nurl);
+    elsif ( !$error && defined $req->param('redirectto')
+        || defined $req->param('endPoint') )
+    {
+        $session->{response}->header(
+            -status  => 403,
+            -type    => 'text/plain',
+            -charset => 'UTF-8'
+        );
+        $session->{response}->print( 'ERROR: (404) Invalid REST invocation - '
+              . ' redirectto does not refer to a valid redirect target' );
     }
     elsif ($result) {
 
@@ -311,7 +316,7 @@ sub rest {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

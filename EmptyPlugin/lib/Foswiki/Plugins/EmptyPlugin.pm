@@ -136,7 +136,7 @@ sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if ( $Foswiki::Plugins::VERSION < 2.0 ) {
+    if ( $Foswiki::Plugins::VERSION < 2.3 ) {
         Foswiki::Func::writeWarning( 'Version mismatch between ',
             __PACKAGE__, ' and Plugins.pm' );
         return 0;
@@ -247,6 +247,31 @@ e.g. mod_perl.
 
 =begin TML
 
+---++ validateRegistrationHandler($data)
+   * =$data= - a hashref containing all the formfields POSTed to the registration script
+
+Called when a new user registers with this Foswiki. The handler is called after the
+user data has been validated by the core, but *before* the user is created and *before*
+any validation mail is sent out. The handler will be called on all plugins that implement
+it.
+
+Note that the handler may modify fields in the $data record, but must be aware that
+these fields have already been checked and validated before the handler is called,
+so modifying them is dangerous, and strictly at the plugin author's own risk.
+
+If the handler needs to abort the registration for any reason it can do so by raising
+an exception ( e.g. using =die= )
+
+*Since:* Foswiki::Plugins::VERSION = '2.0'
+
+=cut
+
+#sub validateRegistrationHandler {
+#    my ( $data ) = @_;
+#}
+
+=begin TML
+
 ---++ registrationHandler($web, $wikiName, $loginName, $data )
    * =$web= - the name of the web in the current CGI query
    * =$wikiName= - users wiki name
@@ -255,11 +280,17 @@ e.g. mod_perl.
 
 Called when a new user registers with this Foswiki.
 
-Note that the handler is not called when the user submits the registration
-form if {Register}{NeedVerification} is enabled. It is then called when
-the user submits the activation code.
+Note that the handler is *not* called when the user submits the registration
+form if {Register}{NeedVerification} is enabled. In this case it is called when
+the user submits the activation code. The handler is only called once, on the first
+plugin seen that implements it.
 
-*Since:* Foswiki::Plugins::VERSION = '2.0'
+*WARNING* The handler is called *after* the user has been created, and is really
+designed for nothing more sophisticated than adding a cookie at registration
+time. For most purposes it is useless, and you really wanted to implement the
+validateRegistrationHandler instead.
+
+*Deprecated in:* Foswiki::Plugins::VERSION 2.3
 
 =cut
 
@@ -839,10 +870,20 @@ cache and security plugins.
 
 =begin TML
 
----++ restExample($session) -> $text
+---++ restExample($session, $subject, $verb, $response) -> $text
+   * =$session= - The Foswiki object associated with this request.
+   * =$subject= - The invoked subject (may be ignored)
+   * =$verb= - The invoked verb (may be ignored)
+   * =$response= reference to the Foswiki::Response object that is used to compose a reply to the request
 
-This is an example of a sub to be called by the =rest= script. The parameter is:
-   * =$session= - The Foswiki object associated to this session.
+If the =redirectto= parameter is not present on the request, then the return
+value from the handler is used to determine the endpoint for the
+request. It can be:
+   * =undef= - causes the core to assume the handler handled the complete
+     request i.e. the core will not generate any response to the request.
+   * =text= - any other non-undef value will be written out as the content
+     of an HTTP 200 response. Only the standard headers in the response are
+     written.
 
 Additional parameters can be recovered via the query object in the $session, for example:
 
@@ -941,7 +982,7 @@ Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Author: %$AUTHOR%
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
