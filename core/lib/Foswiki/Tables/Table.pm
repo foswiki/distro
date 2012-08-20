@@ -300,7 +300,7 @@ sub addRow {
     if ( $row < 0 ) {
 
         # row < 0 == add to end of live rows
-        $row = $this->getLastLiveRow();
+        $row = $this->getLastBodyRow();
     }
 
     my @vals = map { $_->{initial_value} } @{ $this->{colTypes} };
@@ -313,7 +313,7 @@ sub addRow {
             push( @vals, '' );
         }
     }
-    my $newRow = $this->newRow( $row, '|', '|', \@vals );
+    my $newRow = $this->row_class->new( $this, '', '', \@vals );
     splice( @{ $this->{rows} }, $row, 0, $newRow );
 
     # renumber lower rows
@@ -349,10 +349,10 @@ Delete the given row
 sub deleteRow {
     my ( $this, $row ) = @_;
 
-    if ( $row < $this->getFirstLiveRow() ) {
-        $row = $this->getLastLiveRow();
+    if ( $row < $this->getFirstBodyRow() ) {
+        $row = $this->getLastBodyRow();
     }
-    return 0 unless $row >= $this->getFirstLiveRow();
+    return 0 unless $row >= $this->getFirstBodyRow();
     my @dead = splice( @{ $this->{rows} }, $row - 1, 1 );
     map { $_->finish() } @dead;
     return 1;
@@ -468,7 +468,6 @@ sub parseFormat {
             }
         );
     }
-
     return \@cols;
 }
 
