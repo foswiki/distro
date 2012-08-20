@@ -48,8 +48,8 @@ jQuery(function($) {
           $(this).find("form:first").submit();
         };
       }
-          
-      buttons.push($.extend(button, $button.metadata()));
+      $.extend(button, $button.metadata());
+      buttons.push(button);
     }).remove();
 
     if (buttons.length) {

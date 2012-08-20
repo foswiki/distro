@@ -28,7 +28,7 @@ jQuery(function($) {
     $("<span>"+val+"</span>").addClass('jqRatingValue').appendTo($this);
 
     // init
-    $this.addClass("jqInitedRating").find("input:[type=radio]").rating(opts);
+    $this.addClass("jqInitedRating").find('[type=radio]').rating(opts);
     
     // add hover to cancel button 
     $this.find(".rating-cancel").hover(
