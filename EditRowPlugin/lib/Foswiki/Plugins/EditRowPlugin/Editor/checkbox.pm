@@ -6,11 +6,11 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor' );
+our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new('checkbox');
+    my $this  = $class->SUPER::new('checkbox');
     $this->{css_class} = 'foswikiCheckBox';
     return $this;
 }
@@ -18,15 +18,16 @@ sub new {
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
 
-    my ($attrs, $defaults, $options) = $this->_tickbox($cell, $colDef, $unexpandedValue);
+    my ( $attrs, $defaults, $options ) =
+      $this->_tickbox( $cell, $colDef, $unexpandedValue );
 
     return CGI::checkbox_group(
-	-name       => $cell->getCellName(),
-	-values     => $options,
-	-defaults   => $defaults,
-	-columns    => $colDef->{size},
-	-attributes => $attrs
-	);
+        -name       => $cell->getElementName(),
+        -values     => $options,
+        -defaults   => $defaults,
+        -columns    => $colDef->{size},
+        -attributes => $attrs
+    );
 }
 
 sub jQueryMetadata {
@@ -35,12 +36,13 @@ sub jQueryMetadata {
     my $data = $this->SUPER::jQueryMetadata(@_);
     $data->{text} = $text;
 
-    if ($colDef->{values} && scalar(@{$colDef->{values}})) {
-	$data->{data} = {};
-	map {
-	    $data->{data}->{$_} =
-		Foswiki::Func::renderText(Foswiki::Func::expandCommonVariables($_))
-	} @{$colDef->{values}};
+    if ( $colDef->{values} && scalar( @{ $colDef->{values} } ) ) {
+        $data->{data} = {};
+        map {
+            $data->{data}->{$_} =
+              Foswiki::Func::renderText(
+                Foswiki::Func::expandCommonVariables($_) )
+        } @{ $colDef->{values} };
     }
     $this->_addSaveButton($data);
     $this->_addCancelButton($data);

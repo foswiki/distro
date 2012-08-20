@@ -21,6 +21,7 @@
  */
 (function($) {
     var instrument;
+    var editing_element;
 
     // Date editable
     $.editable.addInputType('datepicker', {
@@ -101,6 +102,7 @@
             return(select);
         },
         content: function(data, settings, original) {
+	    console.debug("content");
             /* If it is string assume it is json. */
             if (String == data.constructor) {      
                 eval ('var json = ' + data);
@@ -187,8 +189,8 @@
         // dragee and target are both TRs
         var target_data = target.data('erp_data');
         var dragee_data = dragee.data('erp_data');
-        var old_pos = dragee_data.erp_active_row;
-        var new_pos = target_data.erp_active_row;
+        var old_pos = dragee_data.erp_row;
+        var new_pos = target_data.erp_row;
 	var table = container.closest('table');
         var move_data = $.extend({ noredirect: 1 }, target_data,
 				 table.data('erp_data'));
@@ -202,7 +204,7 @@
         dragee.fadeTo("slow", 0.0); // to show it's being moved
         container.css("cursor", "wait");
 
-        move_data.erp_action = 'moveRow';
+        move_data.erp_action = 'moveRowCmd';
         move_data.old_pos = old_pos;
         move_data.new_pos = new_pos;
         // Tell the server *not* to return us to edit mode
@@ -310,7 +312,7 @@
         // because the row index may change if rows are moved/added/deleted
         submitdata: function(value, settings) {
             var sd = $.extend(
-		{ erp_action: "saveCell",
+		{ erp_action: "saveCellCmd",
 		  noredirect: 1 },
 		$(this).data('erp_data'),
 		$(this).closest('tr').data('erp_data'),
@@ -397,6 +399,7 @@
         // Action on edit cell
         button.click(function() {
             // Send the event to the span
+	    editing_element = el;
             el.triggerHandler('erp_edit');
         });
 
@@ -549,8 +552,12 @@
 		}
 	    });
     };
-
-    $(document).ready(function() {
+    $.ajaxSetup({
+	error: function (jqXHR, textStatus, errorThrown) {
+	    if (jqXHR.status == 401)
+		alert("Please log in before editing");
+	}});
+    $(function() {
         instrument($(document));
     });
 })(jQuery);

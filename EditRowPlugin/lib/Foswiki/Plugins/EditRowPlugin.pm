@@ -3,16 +3,20 @@ package Foswiki::Plugins::EditRowPlugin;
 
 use strict;
 
-our $VERSION          = '$Rev$';
-our $RELEASE          = '3.0.1';
-our $SHORTDESCRIPTION = 'Inline edit for tables';
+our $VERSION           = '$Rev$';
+our $RELEASE           = '3.0.1';
+our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
+
+# Replace content with a marker to prevent it being munged by Foswiki
+our @refs;
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
-    Foswiki::Func::registerRESTHandler( 'get', \&get );
+    Foswiki::Func::registerRESTHandler( 'get',  \&get );
     Foswiki::Func::registerRESTHandler( 'save', \&save );
+    @refs = ();
 
     return 1;
 }
@@ -38,8 +42,12 @@ sub initPlugin {
 sub commonTagsHandler {
     my ( $text, $topic, $web, $included, $meta ) = @_;
     require Foswiki::Plugins::EditRowPlugin::View;
-    if ( Foswiki::Plugins::EditRowPlugin::View::process(
-        $text, $web, $topic, $meta ) ) {
+    if (
+        Foswiki::Plugins::EditRowPlugin::View::process(
+            $text, $web, $topic, $meta
+        )
+      )
+    {
         $_[0] = $text;
     }
 }
@@ -54,12 +62,9 @@ sub get {
     Foswiki::Plugins::EditRowPlugin::Get::process(@_);
 }
 
-# Replace content with a marker to prevent it being munged by Foswiki
-our @refs;
-
 # $dequote is true if the result is to be embedded in double-quotes
 sub defend {
-    my ($text, $dequote) = @_;
+    my ( $text, $dequote ) = @_;
     my $n = scalar(@refs);
     $text =~ s/"/&#34;/g if $dequote;
     push( @refs, $text );

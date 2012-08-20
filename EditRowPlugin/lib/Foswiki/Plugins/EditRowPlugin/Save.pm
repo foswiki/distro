@@ -6,7 +6,7 @@ use warnings;
 use Assert;
 use Error ':try';
 
-use Foswiki ();
+use Foswiki       ();
 use Foswiki::Func ();
 
 # REST handler for table row edit save with redirect on completion.
@@ -14,6 +14,14 @@ use Foswiki::Func ();
 # the redirection. If it is set, the request will respond with a 500
 # status code with a human readable message. This allows the handler
 # to be used by Javascript table editors.
+# URL params:
+#    * erp_action - save command e.g "saveTableCmd"
+#    * erp_topic
+#    * erp_table
+#    * erp_row
+#    * erp_version - encoded unique version identifier; if it doesn't
+#      match the latest rev of the topic, the save will be aborted.
+#    * erp_stop_edit - if true, stop editing after save complete
 sub process {
     my ( $session, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
@@ -25,48 +33,49 @@ sub process {
 
     my $ajax = $query->param('noredirect');
 
-    my $active_topic = $query->param('erp_active_topic');
+    my $active_topic = $query->param('erp_topic');
     $active_topic =~ /(.*)/;
     my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( undef, $1 );
 
-    my $ri = $query->param('erp_active_version');
-    my ($active_version, $active_date);
-    if ($ri && $ri =~ /(\d+)_(\d+)$/) {
-	($active_version, $active_date) = ($1, $2);
+    my $ri = $query->param('erp_version');
+    my ( $active_version, $active_date );
+    if ( $ri && $ri =~ /(\d+)_(\d+)$/ ) {
+        ( $active_version, $active_date ) = ( $1, $2 );
     }
     my $active_user = Foswiki::Func::getWikiName();
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     my ( $url, $mess, $result );
 
-    my ($curr_date, $curr_user, $curr_rev);
+    my ( $curr_date, $curr_user, $curr_rev );
     if ($active_version) {
-	($curr_date, $curr_user, $curr_rev) =
-	    Foswiki::Func::getRevisionInfo($web, $topic);
+        ( $curr_date, $curr_user, $curr_rev ) =
+          Foswiki::Func::getRevisionInfo( $web, $topic );
     }
 
     # Find the action
     my $action;
-    my $minor        = 0;          # If true, this is a quiet save
-    my $no_return = 0; # if true, we want to finish editing after the action
-    my $no_save      = 0;          # if true, we are cancelling
+    my $minor     = 0;    # If true, this is a quiet save
+    my $no_return = 0;    # if true, we want to finish editing after the action
+    my $no_save   = 0;    # if true, we are cancelling
     my $clicked = $query->param('erp_action') || '';
-    if ( $clicked =~ /^#?(save(Table|Row|Cell))(Quietly)?$/ ) {
-	$action    = $1;
-	$minor     = ($3 && $3 eq 'Quietly');
-	$no_return = 1;
+    if ( $clicked =~ /^#?(quiet)?(save(Table|Row|Cell)Cmd)$/ ) {
+        $action    = $2;
+        $minor     = $1 ? 1 : 0;
+        $no_return = 1;
     }
-    elsif ( $clicked =~ /^#?((up|down|add|move|delete)Row)$/ ) {
-	$action = $1;
+    elsif ( $clicked =~ /^#?((up|down|add|move|delete)RowCmd)$/ ) {
+        $action = $1;
     }
     else {
-	$action = 'cancel';
-	$no_save   = 1;
-	$no_return = 1;
+        $action    = 'cancelCmd';
+        $no_save   = 1;
+        $no_return = 1;
     }
 
-    if ( $action ne 'cancel' &&
-        !Foswiki::Func::checkAccessPermission(
+    if (
+        $action ne 'cancelCmd'
+        && !Foswiki::Func::checkAccessPermission(
             'CHANGE', $active_user, $text, $topic, $web, $meta
         )
       )
@@ -80,11 +89,15 @@ sub process {
         );
         $result = $mess = "ACCESS DENIED";
     }
-    elsif ($action ne 'cancel' &&
-	   (!$active_user || !$curr_user || $active_user ne $curr_user)
-	   && ($active_version && $curr_rev && $curr_rev ne $active_version
-	       || $active_date && $curr_date && $curr_date ne $active_date)) {
-        $mess = "Cannot save because it would overwrite changes made by $curr_user (revision $curr_rev).\nRefresh the view and try again.";
+    elsif (
+           $action ne 'cancelCmd'
+        && ( !$active_user || !$curr_user || $active_user ne $curr_user )
+        && (   $active_version && $curr_rev && $curr_rev ne $active_version
+            || $active_date && $curr_date && $curr_date ne $active_date )
+      )
+    {
+        $mess =
+"Cannot save because it would overwrite changes made by $curr_user (revision $curr_rev).\nRefresh the view and try again.";
         $url = Foswiki::Func::getScriptUrl(
             $web, $topic, 'oops',
             template => 'oopsaccessdenied',
@@ -92,34 +105,35 @@ sub process {
             param1   => 'CHANGE',
             param2   => $mess
         );
-     } else {
+    }
+    else {
         $text =~ s/\\\n//gs;
         my @ps   = $query->param();
-	my $urps = {};
+        my $urps = {};
         foreach my $p (@ps) {
             my @vals = $query->param($p);
+
             # We interpreted multi-value parameters as comma-separated
             # lists. This is what checkboxes, select+multi etc. use.
             $urps->{$p} = join( ',', grep { defined $_ } @vals );
         }
-	#die join(' ',map { "'$_'=>'$urps->{$_}'"} keys %$urps);
-        require Foswiki::Plugins::EditRowPlugin::TableParser;
-        ASSERT( !$@ ) if DEBUG;
-        my $content =
-          Foswiki::Plugins::EditRowPlugin::TableParser::parseTables( $text,
-            $web, $topic, $meta, $urps );
 
-        my $nlines       = '';
-        my $table        = undef;
-        my $active_table = 0;
-        my $macro = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
+        #die join(' ',map { "'$_'=>'$urps->{$_}'"} keys %$urps);
+        require Foswiki::Plugins::EditRowPlugin::TableParser;
+        ASSERT( !$@, $@ ) if DEBUG;
+        my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
+        my $content = $parser->parse( $text, $meta, $urps );
+
+        my $nlines = '';
+        my $table  = undef;
+        my $macro  = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
           || 'EDITTABLE';
 
-	# Turn off editing if the erp_stop_edit flag is set in the request
-	$no_return = 1 if $query->param('erp_stop_edit');
+        # Turn off editing if the erp_stop_edit flag is set in the request
+        $no_return = 1 if $query->param('erp_stop_edit');
 
       LINE:
-	foreach my $line (@$content) {
+        foreach my $line (@$content) {
             if (
                 UNIVERSAL::isa(
                     $line, 'Foswiki::Plugins::EditRowPlugin::Table'
@@ -127,19 +141,16 @@ sub process {
               )
             {
                 $table = $line;
-                $active_table++;
-                if (   $active_topic eq $urps->{erp_active_topic}
-                    && $urps->{erp_active_table} eq "${macro}_$active_table" )
+                if (   $active_topic eq $urps->{erp_topic}
+                    && $urps->{erp_table} eq $table->getID() )
                 {
-		    eval {
-			$result = $table->$action($urps);
-		    };
-		    if ($@) {
-			throw Error::Simple $@ unless $ajax;
-			$mess = $@;
-			$no_save = 1;
-			last LINE;
-		    }
+                    eval { $result = $table->$action($urps); };
+                    if ($@) {
+                        throw Error::Simple $@ unless $ajax;
+                        $mess    = $@;
+                        $no_save = 1;
+                        last LINE;
+                    }
                 }
                 $line = $table->stringify();
                 $table->finish();
@@ -153,50 +164,57 @@ sub process {
             Foswiki::Func::saveTopic( $web, $topic, $meta, $nlines,
                 { minor => $minor } );
         }
-	# $url will be set if there's been an error
-	# Use a row anchor within range of the row being edited as
-	# the goto target
-	my $anchor = 'erp_' . $urps->{erp_active_table};
-	if ( $urps->{erp_active_row} > 5 ) {
-	    my $before = $urps->{erp_active_row} - 1;
-	    $anchor .= '_' . $before;
-	}
-	else {
-	    $anchor .= '_1';
-	}
-	my @p = ( '#' => $anchor );
-	unless ($no_return) {
-	    push( @p, erp_active_topic => $urps->{erp_active_topic} );
-	    push( @p, erp_active_table => $urps->{erp_active_table} );
-	    push( @p, erp_active_row   => $urps->{erp_active_row} );
-	}
-	$url = Foswiki::Func::getScriptUrl( $web, $topic, 'view', @p );
+
+        # $url will be set if there's been an error
+        # Use a row anchor within range of the row being edited as
+        # the goto target
+        my $anchor = 'erp_' . $urps->{erp_table};
+        if ( $urps->{erp_row} > 5 ) {
+            my $before = $urps->{erp_row} - 1;
+            $anchor .= '_' . $before;
+        }
+        else {
+            $anchor .= '_1';
+        }
+        my @p = ( '#' => $anchor );
+        unless ($no_return) {
+            push( @p, erp_topic => $urps->{erp_topic} );
+            push( @p, erp_table => $urps->{erp_table} );
+            push( @p, erp_row   => $urps->{erp_row} );
+        }
+        $url = Foswiki::Func::getScriptUrl( $web, $topic, 'view', @p );
     }
 
-    if ( $ajax ) {
-	# $mess will be set if there's been an error
-	my $status = $mess ? 500 : 200;
-	$response->header(
-	    -status  => $status,
-	    -type    => 'text/html',
-	    -charset => 'UTF-8'
-	    );
-	if (defined $result) {
-	    if ($result) {
-		# renderText("0") clears the output, so don't do it.
-		$result = Foswiki::Func::expandCommonVariables($result, $topic, $web);
-		$result = Foswiki::Func::renderText($result, $web, $topic);
-		$result =~ s/<nop>//gs;
-		$result =~ s/\s+/ /gs;
-	    }
-	} else {
-	    $result = $mess || '';
-	}
-	# The leading text RESPONSE is done so that a single 0 value can
-	# be returned - see Item10794
-	$response->body("RESPONSE$result");
+    if ($ajax) {
 
-    } else {
+        # $mess will be set if there's been an error
+        my $status = $mess ? 500 : 200;
+        $response->header(
+            -status  => $status,
+            -type    => 'text/html',
+            -charset => 'UTF-8'
+        );
+        if ( defined $result ) {
+            if ($result) {
+
+                # renderText("0") clears the output, so don't do it.
+                $result =
+                  Foswiki::Func::expandCommonVariables( $result, $topic, $web );
+                $result = Foswiki::Func::renderText( $result, $web, $topic );
+                $result =~ s/<nop>//gs;
+                $result =~ s/\s+/ /gs;
+            }
+        }
+        else {
+            $result = $mess || '';
+        }
+
+        # The leading text RESPONSE is done so that a single 0 value can
+        # be returned - see Item10794
+        $response->body("RESPONSE$result");
+
+    }
+    else {
         Foswiki::Func::redirectCgiQuery( undef, $url );
     }
     return undef;

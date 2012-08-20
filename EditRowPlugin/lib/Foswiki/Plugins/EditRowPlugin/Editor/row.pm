@@ -6,16 +6,16 @@ use Assert;
 
 use Foswiki::Plugins::EditRowPlugin::Editor::label ();
 
-our @ISA = ( 'Foswiki::Plugins::EditRowPlugin::Editor::label' );
+our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor::label');
 
 # Uneditable row index label
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
-    return $inRow->{isHeader} ? '<nop>' : $cell->rowIndex($colDef);
+    return $inRow->isHeader ? '<nop>' : $cell->rowIndex($colDef);
 }
 
 sub getInitialValue {
-    my ($this, $colDef, $cell, $row) = @_;
+    my ( $this, $colDef, $cell, $row ) = @_;
     return $row + $colDef->{size};
 }
 
