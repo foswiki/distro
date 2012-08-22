@@ -69,6 +69,30 @@ sub ObfuscatingLogger {
     return;
 }
 
+sub LogDispatchFileLogger {
+    my $this = shift;
+    require Foswiki::Logger::LogDispatch;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+
+    return;
+}
+
+sub LogDispatchFileRollingLogger {
+    my $this = shift;
+    require Foswiki::Logger::LogDispatch;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+
+    return;
+}
+
 sub fixture_groups {
     my %algs;
     foreach my $dir (@INC) {
@@ -89,8 +113,17 @@ sub fixture_groups {
     }
     my @groups;
     foreach my $alg ( keys %algs ) {
-        my $fn = $alg . 'Logger';
-        push( @groups, $fn );
+        my $fn;
+        if ( $alg eq 'LogDispatch' ) {
+            foreach my $lt qw(File FileRolling) {
+                $fn = $alg . $lt . 'Logger';
+                push( @groups, $fn );
+            }
+        }
+        else {
+            $fn = $alg . 'Logger';
+            push( @groups, $fn );
+        }
     }
 
     return \@groups;
