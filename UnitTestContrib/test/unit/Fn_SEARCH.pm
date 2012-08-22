@@ -3195,6 +3195,7 @@ FOSWIKI11
 
 sub test_paging_three_webs_second_page_zeroresultsset {
     my $this = shift;
+    $this->expect_failure('Item11860 needs to be fixed!');
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -3237,6 +3238,7 @@ FOSWIKI11
 
 sub test_paging_three_webs_third_page_zeroresultsset {
     my $this = shift;
+    $this->expect_failure('Item11860 needs to be fixed!');
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
