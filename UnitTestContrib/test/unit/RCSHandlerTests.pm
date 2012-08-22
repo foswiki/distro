@@ -136,61 +136,101 @@ sub verify_RepRev {
     my ($this) = @_;
     my $topic = "RcsRepRev";
 
-    my $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
-    $rcs->addRevisionFromText( "there was a man\n\n",
-        "in once", "JohnTalintyre" );
-    my ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a man\n\n", $text );
-    $this->assert_equals( 1,                     $rcs->_numRevisions() );
+    my $time    = time();
+    my $string1 = <<HERE;
+%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+there was a man
+HERE
 
-    $rcs->replaceRevision( "there was a cat\n",
-        "1st replace", "NotJohnTalintyre", time() );
+    my $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
+    $rcs->addRevisionFromText( $string1, "in once", "JohnTalintyre" );
+    my ($text) = $rcs->getRevision(1);
+    $this->assert_equals( $string1, $text );
+    $this->assert_equals( 1,        $rcs->_numRevisions() );
+    return;
+
+    my $string2 = <<HERE;
+%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+there was a cat
+HERE
+    $rcs->replaceRevision( $string2, "1st replace", "NotJohnTalintyre",
+        time() );
     $this->assert_equals( 1, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a cat\n", $text );
-    $rcs->addRevisionFromText( "and now this\n\n\n", "2nd entry", "J1" );
+    $this->assert_equals( $string2, $text );
+
+    my $string3 = <<HERE;
+%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+and now this
+HERE
+
+    $rcs->addRevisionFromText( $string3, "2nd entry", "J1" );
     $this->assert_equals( 2, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a cat\n", $text );
+    $this->assert_equals( $string1, $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "and now this\n\n\n", $text );
+    $this->assert_equals( $string3, $text );
 
-    $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
+    my $string4 = <<HERE;
+%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+then this
+HERE
+
+    $rcs->replaceRevision( $string4, "2nd replace", "J2", time() );
     $this->assert_equals( 2, $rcs->_numRevisions );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a cat\n", $text );
+    $this->assert_equals( $string1, $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "then this", $text );
+    $this->assert_equals( $string4, $text );
 }
 
 sub verify_RepRev2839 {
     my ($this) = @_;
     my $topic = "RcsRepRev";
 
-    my $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
-    $rcs->addRevisionFromText( "there was a man", "in once", "JohnTalintyre" );
+    my $rcs     = $class->new( new StoreStub, $testWeb, $topic, "" );
+    my $time    = time();
+    my $string1 = <<HERE;
+%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+there was a man
+HERE
+    $rcs->addRevisionFromText( $string1, "in once", "JohnTalintyre" );
     my ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a man", $text );
-    $this->assert_equals( 1,                 $rcs->_numRevisions() );
+    $this->assert_equals( $string1, $text );
+    $this->assert_equals( 1,        $rcs->_numRevisions() );
 
-    $rcs->replaceRevision( "there was a cat",
-        "1st replace", "NotJohnTalintyre", time() );
+    my $string2 = <<HERE;
+%META:TOPICINFO{author="NotJohnTalintyre" comment="1st replace" date="$time" format="1.1" version="1"}%
+there was a cat
+HERE
+
+    $rcs->replaceRevision( $string2, "1st replace", "NotJohnTalintyre", $time );
     $this->assert_equals( 1, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a cat", $text );
-    $rcs->addRevisionFromText( "and now this", "2nd entry", "J1" );
+    $this->assert_equals( $string2, $text );
+
+    my $string3 = <<HERE;
+%META:TOPICINFO{author="J1" comment="2nd entry" date="$time" format="1.1" version="1"}%
+and now this
+HERE
+    $rcs->addRevisionFromText( $string3, "2nd entry", "J1" );
     $this->assert_equals( 2, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a cat", $text );
+    $this->assert_equals( $string2, $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "and now this", $text );
+    $this->assert_equals( $string3, $text );
 
-    $rcs->replaceRevision( "then this", "2nd replace", "J2", time() );
+    my $string4 = <<HERE;
+%META:TOPICINFO{author="J2" comment="2nd replace" date="$time" format="1.1" version="1"}%
+then this
+HERE
+
+    $rcs->replaceRevision( $string4, "2nd replace", "J2", time() );
     $this->assert_equals( 2, $rcs->_numRevisions );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "there was a cat", $text );
+    $this->assert_equals( $string2, $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "then this", $text );
+    $this->assert_equals( $string4, $text );
 }
 
 # Tests locking - Wrap only
@@ -386,12 +426,13 @@ sub checkGetRevision {
 
     my $rcs = $class->new( new StoreStub, $testWeb, $topic );
 
+    my $time = time();
     for ( my $i = 0 ; $i < scalar(@$revs) ; $i++ ) {
         my $text = $revs->[$i];
         $rcs->addRevisionFromText(
             $text,
             "rev" . ( $i + 1 ),
-            "UserForRev" . ( $i + 1 )
+            "UserForRev" . ( $i + 1 ), $time
         );
     }
 
@@ -400,8 +441,13 @@ sub checkGetRevision {
     $this->assert_equals( scalar(@$revs), $rcs->_numRevisions() );
     for ( my $i = 1 ; $i <= scalar(@$revs) ; $i++ ) {
         my ($text) = $rcs->getRevision($i);
-        $this->assert_str_equals( $revs->[ $i - 1 ],
-            $text, "rev " . $i . ": expected '$revs->[$i-1]', got '$text'" );
+        my $expected = <<HERE;
+%META:TOPICINFO{author="UserForRev$i" comment="rev$i" date="$time" format="1.1" version="1"}%
+$revs->[$i - 1]
+HERE
+        chomp($expected);
+        $this->assert_str_equals( $expected, $text,
+            "rev " . $i . ": expected\n'$expected'\ngot\n'$text'" );
     }
 }
 
@@ -438,8 +484,14 @@ sub verify_GetBinaryRevision {
 sub verify_Keywords {
     my ($this) = @_;
     my $topic = "TestRcsTopic";
-    my $check =
+
+    my $time  = time();
+    my $check = <<HERE;
+%META:TOPICINFO{author="UserForRev0" comment="comment" date="$time" format="1.1" version="1"}%
+HERE
+    $check .=
 '$Author$ $Date$ $Header$ $Id$ $Locker$ $Log$ $Name$ $RCSfile$ $Revision$ $Source$ $State$';
+
     my $rcs = $class->new( new StoreStub, $testWeb, $topic, undef );
     $rcs->addRevisionFromText( $check, "comment", "UserForRev0" );
     open( F, "<$rcs->{file}" ) || die "Failed to open $rcs->{file}";
@@ -457,6 +509,9 @@ sub checkDifferences {
     $rcs->addRevisionFromText( $from, "num 0", "RcsWrapper" );
     $rcs->addRevisionFromText( $to,   "num 1", "RcsWrapper" );
 
+    ($from) = $rcs->getRevision(1);
+    ($to)   = $rcs->getRevision(2);
+
     $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
 
     my $diff = $rcs->revisionDiff( 1, 2 );
@@ -465,7 +520,7 @@ sub checkDifferences {
     my $data = Foswiki::Store::VC::RcsLiteHandler::_split($from);
     my $l    = 0;
 
-    #print "\nStart: ",join('\n',@$data),"\n";
+    #print STDERR "\nStart: ",join('\n',@$data),"\n";
     foreach my $e (@$diff) {
 
         #print STDERR "    $e->[0] $l: ";
@@ -685,7 +740,7 @@ sub verify_MissingVrestoreRev {
     $this->assert( -e "$file,v" );
 
     ($text) = $rcs->getRevision(0);
-    $this->assert_matches( qr/^Rev 1/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\nRev 1/, $text );
 
     unlink($file);
     unlink("$file,v");
@@ -713,12 +768,17 @@ sub verify_MissingVrepRev {
     ($text) = $rcs->getRevision(1);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $rcs->replaceRevision( "2", "no way", "me", time() );
+    my $time = time();
+    my $rev  = <<HERE;
+%META:TOPICINFO{author="me" comment="no way" date="$time" format="1.1" version="2"}%
+2
+HERE
+    $rcs->replaceRevision( $rev, "no way", "me", $time );
 
     $this->assert( -e "$file,v" );
 
     ($text) = $rcs->getRevision(0);
-    $this->assert_matches( qr/^2/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\n2/, $text );
 
     unlink($file);
     unlink("$file,v");
@@ -747,17 +807,22 @@ sub verify_MissingVdelRev {
     ($text) = $rcs->getRevision(2);
     $this->assert_matches( qr/^Rev 1/, $text );
 
-    $rcs->addRevisionFromText( "Rev 2", "more", "idiot", time() );
+    my $time = time();
+    my $rev2 = <<HERE;
+%META:TOPICINFO{author="idiot" comment="more" date="$time" format="1.1" version="2"}%
+Rev 2 text
+HERE
+    $rcs->addRevisionFromText( $rev2, "more", "idiot", time() );
     $this->assert( -e "$file,v" );
 
     ($text) = $rcs->getRevision(1);
     $this->assert_matches( qr/^Rev 1/, $text );
 
     ($text) = $rcs->getRevision(2);
-    $this->assert_matches( qr/^Rev 2/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\nRev 2/, $text );
 
     ($text) = $rcs->getRevision(0);
-    $this->assert_matches( qr/^Rev 2/, $text );
+    $this->assert_matches( qr/^%META:TOPICINFO{.*?}%\nRev 2/, $text );
 
     $rcs->deleteRevision();
 
@@ -778,7 +843,10 @@ sub verify_MissingVdelRev {
 
 sub verify_Item2957 {
     my ($this) = @_;
+
+    my $time = time();
     my $rev1 = <<HERE;
+%META:TOPICINFO{author="idiot" comment="more" date="$time" format="1.1" version="1"}%
 A
 C
 
@@ -787,6 +855,7 @@ E
 B
 HERE
     my $rev2 = <<HERE;
+%META:TOPICINFO{author="idiot" comment="more" date="$time" format="1.1" version="2"}%
 A
 C
 
@@ -796,6 +865,7 @@ D
 B
 HERE
     my $rev3 = <<HERE;
+%META:TOPICINFO{author="idiot" comment="more" date="$time" format="1.1" version="3"}%
 A
 F
 B
@@ -806,16 +876,16 @@ HERE
     close(F);
 
     my $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
-    $rcs->addRevisionFromText( $rev2, "more", "idiot", time() );
+    $rcs->addRevisionFromText( $rev2, "more", "idiot", $time );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
-    $rcs->addRevisionFromText( $rev3, "more", "idiot", time() );
-
+    $rcs->addRevisionFromText( $rev3, "more", "idiot", $time );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
     my ($text) = $rcs->getRevision(1);
     if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
         $text =~ s/\r\n/\n/sg;
     }
     $this->assert_equals( $rev1, $text );
+
     $rcs = $class->new( new StoreStub, $testWeb, 'Item2957', '' );
     ($text) = $rcs->getRevision(2);
     $this->assert_equals( $rev2, $text );
@@ -827,19 +897,29 @@ HERE
 sub verify_Item3122 {
     my ($this) = @_;
 
+    my $time = time();
+    my $rev1 = <<HERE;
+%META:TOPICINFO{author="idiot" comment="more" date="$time" format="1.1" version="1"}%
+new
+HERE
+
     my $rcs = $class->new( new StoreStub, $testWeb, 'Item3122', 'itme3122' );
-    $rcs->addRevisionFromText( "new", "more", "idiot", time() );
+    $rcs->addRevisionFromText( $rev1, "more", "idiot", $time );
     my ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "new", $text );
+    $this->assert_equals( $rev1, $text );
     $rcs = $class->new( new StoreStub, $testWeb, 'Item3122', 'itme3122' );
+
+    sleep(1);
+
     my $fh;
     $this->assert( open( $fh, "<$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
-    $rcs->addRevisionFromStream( $fh, "more", "idiot", time() );
+    $rcs->addRevisionFromStream( $fh, "more", "idiot", $time );
     close($fh);
+
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( "new", $text );
+    $this->assert_equals( $rev1, $text );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( "old", $text );
+    $this->assert_equals( 'old', $text );
 }
 
 # Verify data compatibility between RcsLite and RcsWrap
