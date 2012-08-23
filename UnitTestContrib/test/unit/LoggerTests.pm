@@ -37,6 +37,60 @@ sub tear_down {
     return;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { without_dep => 'Log::Log4perl::DateFormat' },
+            tests     => {
+'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Log4perl::DateFormat',
+'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Log4perl::DateFormat',
+            }
+        },
+        {
+            condition => { without_dep => 'Log::Dispatch' },
+            tests     => {
+'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileLogger'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::verify_eachEventSinceOnSeveralLogs_LogDispatchFileLogger'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::verify_eachEventSinceOnSeveralLogs_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+                'LoggerTests::verify_filter_LogDispatchFileLogger' =>
+                  'Missing Log::Dispatch',
+                'LoggerTests::verify_filter_LogDispatchFileRollingLogger' =>
+                  'Missing Log::Dispatch',
+                'LoggerTests::verify_rotate_debug_LogDispatchFileLogger' =>
+                  'Missing Log::Dispatch',
+                'LoggerTests::verify_rotate_debug_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+                'LoggerTests::verify_rotate_error_LogDispatchFileLogger' =>
+                  'Missing Log::Dispatch',
+                'LoggerTests::verify_rotate_error_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+                'LoggerTests::verify_rotate_events_LogDispatchFileLogger' =>
+                  'Missing Log::Dispatch',
+                'LoggerTests::verify_rotate_events_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+                'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileLogger'
+                  => 'Missing Log::Dispatch',
+                'LoggerTests::verify_timing_rotate_events_LogDispatchFileLogger'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::verify_timing_rotate_events_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+            }
+        },
+    );
+}
+
 sub CompatibilityLogger {
     my $this = shift;
     require Foswiki::Logger::Compatibility;
@@ -69,6 +123,31 @@ sub ObfuscatingLogger {
     return;
 }
 
+sub LogDispatchFileLogger {
+    my $this = shift;
+    require Foswiki::Logger::LogDispatch;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+
+    return;
+}
+
+sub LogDispatchFileRollingLogger {
+    my $this = shift;
+    require Foswiki::Logger::LogDispatch;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Pattern} = '-%d{yyyy-MM}.log';
+    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+
+    return;
+}
+
 sub fixture_groups {
     my %algs;
     foreach my $dir (@INC) {
@@ -89,8 +168,17 @@ sub fixture_groups {
     }
     my @groups;
     foreach my $alg ( keys %algs ) {
-        my $fn = $alg . 'Logger';
-        push( @groups, $fn );
+        my $fn;
+        if ( $alg eq 'LogDispatch' ) {
+            foreach my $lt qw(File FileRolling) {
+                $fn = $alg . $lt . 'Logger';
+                push( @groups, $fn );
+            }
+        }
+        else {
+            $fn = $alg . 'Logger';
+            push( @groups, $fn );
+        }
     }
 
     return \@groups;
