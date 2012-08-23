@@ -1104,14 +1104,14 @@ sub test_mailWithoutMailto {
         '8 def!xyz%abc@example.com' =>
 '8 <a href="mailto:def!xyz%25abc@exampleSTUFFED.com">def!xyz%abc@exampleSTUFFED.com</a>',
         '9 customer/department=shipping@example.com' =>
-'9 <a href="mailto:customer/department%3Dshipping@exampleSTUFFED.com">customer/department=shipping@exampleSTUFFED.com</a>',
+'9 <a href="mailto:customer/department%3dshipping@exampleSTUFFED.com">customer/department=shipping@exampleSTUFFED.com</a>',
         '10 user+mailbox@example.com' =>
 '10 <a href="mailto:user+mailbox@exampleSTUFFED.com">user+mailbox@exampleSTUFFED.com</a>',
         '11 "colon:name"@blah.com' =>
 '11 <a href="mailto:%22colon:name%22@blahSTUFFED.com">"colon:name"@blahSTUFFED.com</a>',
         '12 "Folding White
 Space"@blah.com' =>
-'12 <a href="mailto:%22Folding%20White%20Space%22@blahSTUFFED.com">"Folding White
+'12 <a href="mailto:%22Folding%20White%0aSpace%22@blahSTUFFED.com">"Folding White
 Space"@blahSTUFFED.com</a>',
 
         # Total exactly 254
@@ -1166,6 +1166,12 @@ Space"@blahSTUFFED.com</a>',
         my $actual = <<ACTUAL;
 $url
 ACTUAL
+        if ( $this->check_dependency('Foswiki,<,1.2') ) {
+
+            # URL encoding of whitespace was borked before 1.2
+            $expected =~ s/%0a/%20/g;
+            $expected =~ s/%([A-Za-z0-9]{2})/%\U$1\E/g;
+        }
 
         #print STDERR "EXPECTED $expected from $actual\n";
         $this->do_test( $expected, $actual );
