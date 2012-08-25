@@ -412,10 +412,20 @@ qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate t
     my $format = '$year-$mo $wday';
     my $formatted = Foswiki::Time::formatTime( time, $format );
 
-    $this->assert_matches(
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $this->assert_matches(
+qr#^\$n\Q |$format|Effort \E\$\Qlt--        |[[%ATTACHURL%/Flappadoodle.txt][%ICON{\E\$\Qfileext}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
+            $text
+        );
+    }
+    else {
+
+# Item5935 added time and standard tokens to the attachment link text to version 1.2
+        $this->assert_matches(
 qr#^\Q |$formatted|Effort <--        |[[%ATTACHURL%/Flappadoodle.txt][%ICON{txt}% Flappadoodle.txt]]| received from Wikiworld |\E#ms,
-        $text
-    );
+            $text
+        );
+    }
 
     return;
 }
