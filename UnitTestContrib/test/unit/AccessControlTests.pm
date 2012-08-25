@@ -724,6 +724,9 @@ THIS
     my $loginUrl =
       $this->{session}
       ->getScriptUrl( 0, 'login', $this->{test_web}, $test_topic );
+    my $fullViewUrl =
+      $this->{session}
+      ->getScriptUrl( 1, 'view', $this->{test_web}, $test_topic );
 
     # Item11121: the test doesn't tolerate ShortURLs, for example.
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
@@ -732,18 +735,45 @@ THIS
     $this->expect_failure( 'Test does\'t cater to ShortURL configurations',
         using => 'ShortURLs' );
 
-    # Extract what we've been redirected to
-    my ($redirect_to) = $text =~ /^Location: (.*?)\r?$/m;
-    $this->assert_not_null( $redirect_to,
-            "Request should have return a 302 to $loginUrl\n"
-          . "But it returned:\n$text" );
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
 
-    # Check the redirect contains the login url + view to this topic
-    my $regex = qr#^\Q$loginUrl\E.*/view/$this->{test_web}/$test_topic$#;
-    $this->assert_matches( $regex, $redirect_to,
-            "Login did not redirect to a page with the proper anchor:\n"
-          . "Location: $redirect_to\n"
-          . "Expected: $regex" );
+        # Extract what we've been redirected to
+        my ($redirect_to) = $text =~ /^Location: (.*?)\r?$/m;
+        $this->assert_not_null( $redirect_to,
+                "Request should have return a 302 to $loginUrl\n"
+              . "But it returned:\n$text" );
+
+        # Check the redirect contains the login url + view to this topic
+        my $regex = qr#^\Q$loginUrl\E.*/view/$this->{test_web}/$test_topic$#;
+        $this->assert_matches( $regex, $redirect_to,
+                "Login did not redirect to a page with the proper anchor:\n"
+              . "Location: $redirect_to\n"
+              . "Expected: $regex" );
+    }
+    else {
+
+        # Check we got a 401
+        my ($status) = $text =~ /^Status: (\d+)\r?$/m;
+        $this->assert_not_null( $status,
+            "Request did not return a Status header" );
+        $this->assert_equals( 401, $status,
+            "Request should have returned a 401, not a $status" );
+
+        # Extract what we've been redirected to
+        my ($formAction) =
+          $text =~ /<form action='(.*?)' name='loginform' method='post'/m;
+        $this->assert_not_null( $formAction,
+                "Request should have returned a 401 to $loginUrl\n"
+              . "But it returned:\n$text" );
+        $this->assert_equals( $loginUrl, $formAction );
+
+        # Check the foswiki_origin contains the view URL to this topic
+        my ($origin) = $text =~
+/^<input type="hidden" name="foswiki_origin" value="([^"]+)" \/>\r?$/m;
+        $this->assert_not_null( $origin,
+            "No viewUrl (GET,view,$viewUrl) in foswiki_origin, got:\n$text" );
+        $this->assert_equals( "GET,view,$viewUrl", $origin );
+    }
 
     # Get the redirected page after login
 
