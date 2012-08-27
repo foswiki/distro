@@ -292,10 +292,6 @@ sub do_test {
 sub test_escapedWikwordFormfield {
     my $this = shift;
 
-    $this->expect_failure();
-    $this->annotate(
-        "Formatting in input field should not be rendered: Item11480");
-
     my $expected = <<EXPECTED;
 <input type="text" value="!WikiWord !WikiWord !WikiWord *bold* __boldItalic__ " />
 EXPECTED
