@@ -278,7 +278,7 @@ sub do_test {
     my ( $this, $expected, $actual, $noHtml ) = @_;
     my $session = $this->{session};
 
-    $this->{test_topicObject}->expandMacros($actual);
+    $actual = $this->{test_topicObject}->expandMacros($actual);
     $actual = $this->{test_topicObject}->renderTML($actual);
     if ($noHtml) {
         $this->assert_equals( $expected, $actual );
@@ -328,6 +328,32 @@ EXPECTED
 
     my $actual = <<ACTUAL;
 $Foswiki::cfg{HomeTopicName}
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+# Item11671
+sub test_Item11671 {
+    my $this = shift;
+
+    $this->expect_failure("Item11671: Not yet fixed on Release 1.1")
+      if ( $this->check_dependency('Foswiki,<,1.2') );
+
+    my $expected = <<EXPECTED;
+Create A New Wiki Word
+Year 2012 A New Year
+A 100 Bottle Test
+Finishing A 100
+Test 100 A
+SOS Titanic
+EXPECTED
+    my $actual = <<ACTUAL;
+%SPACEOUT{"CreateANewWikiWord"}%
+%SPACEOUT{"Year2012ANewYear"}%
+%SPACEOUT{"A100BottleTest"}%
+%SPACEOUT{"FinishingA100"}%
+%SPACEOUT{"Test100A"}%
+%SPACEOUT{"SOSTitanic"}%
 ACTUAL
     $this->do_test( $expected, $actual );
 }
@@ -1048,9 +1074,17 @@ sub test_USInHeader {
 
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
-    my $expected = <<EXPECTED;
+    my $expected;
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $expected = <<EXPECTED;
 <nop><h3><a name="Test_with_link_in_header:_Underscore_topic"></a>Test with link in header: Underscore_topic</h3>
 EXPECTED
+    }
+    else {
+        $expected = <<EXPECTED;
+nop><h3 id="Test_with_link_in_header:_Underscore_topic">Test with link in header: Underscore_topic</h3>
+EXPECTED
+    }
 
     my $actual = <<ACTUAL;
 ---+++ Test with link in header: Underscore_topic
@@ -1082,14 +1116,14 @@ sub test_mailWithoutMailto {
         '8 def!xyz%abc@example.com' =>
 '8 <a href="mailto:def!xyz%25abc@exampleSTUFFED.com">def!xyz%abc@exampleSTUFFED.com</a>',
         '9 customer/department=shipping@example.com' =>
-'9 <a href="mailto:customer/department%3Dshipping@exampleSTUFFED.com">customer/department=shipping@exampleSTUFFED.com</a>',
+'9 <a href="mailto:customer/department%3dshipping@exampleSTUFFED.com">customer/department=shipping@exampleSTUFFED.com</a>',
         '10 user+mailbox@example.com' =>
 '10 <a href="mailto:user+mailbox@exampleSTUFFED.com">user+mailbox@exampleSTUFFED.com</a>',
         '11 "colon:name"@blah.com' =>
 '11 <a href="mailto:%22colon:name%22@blahSTUFFED.com">"colon:name"@blahSTUFFED.com</a>',
         '12 "Folding White
 Space"@blah.com' =>
-'12 <a href="mailto:%22Folding%20White%20Space%22@blahSTUFFED.com">"Folding White
+'12 <a href="mailto:%22Folding%20White%0aSpace%22@blahSTUFFED.com">"Folding White
 Space"@blahSTUFFED.com</a>',
 
         # Total exactly 254
@@ -1144,6 +1178,12 @@ Space"@blahSTUFFED.com</a>',
         my $actual = <<ACTUAL;
 $url
 ACTUAL
+        if ( $this->check_dependency('Foswiki,<,1.2') ) {
+
+            # URL encoding of whitespace was borked before 1.2
+            $expected =~ s/%0a/%20/g;
+            $expected =~ s/%3d/%3D/g;
+        }
 
         #print STDERR "EXPECTED $expected from $actual\n";
         $this->do_test( $expected, $actual );
