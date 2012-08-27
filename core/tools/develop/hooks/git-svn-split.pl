@@ -68,20 +68,13 @@ sub createSubModule {
     my $masterRepo = shift;
     my $module     = shift;
 
-    warn "Creating github module $module..." if $verbose;
+    warn "Creating github module $module...";
     require Net::GitHub;
-    my $token  = getGitHubToken;
-    my $github = Net::GitHub->new(
-
-        # V3 no longer support application tokens. Using user + pass as fallback
-        # owner => 'foswiki',
-        # repo  => $module,
-        # token => $token,
-        login => 'foswiki',
-        pass  => $token,
-    );
+    my $token = getGitHubToken;
+    my $github = Net::GitHub->new( access_token => $token, );
     $github->repos->create(
         {
+            org         => 'foswiki',
             name        => $module,
             description => "Foswiki module $module",
             homepage    => "http://foswiki.org/Extensions/$module"
@@ -108,7 +101,7 @@ sub getSubModule {
     my $moduleDir = $masterRepo->work_tree() . '/' . $module;
     my $submodule = eval { Git::Repository->new( work_tree => $moduleDir ) };
     createSubModule( $masterRepo, $module ) unless $submodule;
-    $submodule = Git::Repository->new( work_tree => $moduleDir );
+    $submodule ||= Git::Repository->new( work_tree => $moduleDir );
 
     # Ensute subversion configuration is consistent
     unless ( eval { $submodule->run( svn => "log" ) } ) {
