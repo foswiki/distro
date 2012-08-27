@@ -292,10 +292,6 @@ sub do_test {
 sub test_escapedWikwordFormfield {
     my $this = shift;
 
-    $this->expect_failure( with_dep => 'Foswiki,<,1.2' );
-    $this->annotate(
-        "Formatting in input field should not be rendered: Item11480");
-
     my $expected = <<EXPECTED;
 <input type="text" value="!WikiWord !WikiWord !WikiWord *bold* __boldItalic__ " />
 EXPECTED
@@ -334,7 +330,11 @@ ACTUAL
 
 # Item11671
 sub test_Item11671 {
-    my $this     = shift;
+    my $this = shift;
+
+    $this->expect_failure("Item11671: Not yet fixed on Release 1.1")
+      if ( $this->check_dependency('Foswiki,<,1.2') );
+
     my $expected = <<EXPECTED;
 Create A New Wiki Word
 Year 2012 A New Year
@@ -1070,9 +1070,17 @@ sub test_USInHeader {
 
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
-    my $expected = <<EXPECTED;
+    my $expected;
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $expected = <<EXPECTED;
+<nop><h3><a name="Test_with_link_in_header:_Underscore_topic"></a>Test with link in header: Underscore_topic</h3>
+EXPECTED
+    }
+    else {
+        $expected = <<EXPECTED;
 <nop><h3 id="Test_with_link_in_header:_Underscore_topic">Test with link in header: Underscore_topic</h3>
 EXPECTED
+    }
 
     my $actual = <<ACTUAL;
 ---+++ Test with link in header: Underscore_topic
@@ -1170,7 +1178,7 @@ ACTUAL
 
             # URL encoding of whitespace was borked before 1.2
             $expected =~ s/%0a/%20/g;
-            $expected =~ s/%([A-Za-z0-9]{2})/%\U$1\E/g;
+            $expected =~ s/%3d/%3D/g;
         }
 
         #print STDERR "EXPECTED $expected from $actual\n";

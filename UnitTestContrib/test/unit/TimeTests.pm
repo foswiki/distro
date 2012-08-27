@@ -117,9 +117,12 @@ sub test_parseTimeRCS {
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02 - 18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02-18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02.18:01:02" );
-    $this->checkTime( 2, 1,  18, 2, 12, 1902, "1902-12-02.18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 1890, "1890-12-02.18:01:02" );
     $this->checkTime( 7, 59, 6,  2, 7,  1730, "1730-07-02.06:59:07" );
+    $this->expect_failure(
+        "Item19308: Support for dates < 1970 added to Rel 1.2")
+      if ( $this->check_dependency('Foswiki,<,1.2') );
+    $this->checkTime( 2, 1, 18, 2, 12, 1902, "1902-12-02.18:01:02" );
 }
 
 sub test_parseTimeISO8601 {
@@ -134,7 +137,6 @@ sub test_parseTimeISO8601 {
     $this->checkTime( 7, 59, 5,  2, 7, 1995, "1995-07-02T06:59:07+01:00" );
     $this->checkTime( 7, 59, 5,  2, 7, 1995, "1995-07-02T06:59:07+01" );
     $this->checkTime( 7, 59, 6,  2, 7, 1995, "1995-07-02T06:59:07Z" );
-    $this->checkTime( 7, 59, 6,  2, 7, 1902, "1902-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 1890, "1890-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 1730, "1730-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 10,   "2010-07-02T06:59:07Z" );
@@ -153,6 +155,11 @@ sub test_parseTimeISO8601 {
     $this->checkTime( 7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07" );
     $this->checkTime( 7, 59, 4, 2, 4, 1995, "1995-04-02T06:59:07", 1 );
     $this->checkTime( 7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07Z", 1 );
+
+    $this->expect_failure(
+        "Item19308: Support for dates < 1970 added to Rel 1.2")
+      if ( $this->check_dependency('Foswiki,<,1.2') );
+    $this->checkTime( 7, 59, 6, 2, 7, 1902, "1902-07-02T06:59:07Z" );
 
 }
 

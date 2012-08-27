@@ -448,6 +448,9 @@ Defect</textarea></td></tr>
 <tr><th>Form definition</th><td><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></td></tr></table></div>
 HERE
 
+    $expected =~ s/id="Example_problem">/><a name="Example_problem"><\/a>/g
+      if ( $this->check_dependency('Foswiki,<,1.2') );
+
     #Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
 
     my $viewUrl = $this->{session}->getScriptUrl( 0, 'view' );
@@ -609,6 +612,9 @@ HERE
 # Item11527 - test that %macros in the WEBFORMS pref are expanded
 sub test_getAvailableForms {
     my ($this) = @_;
+    $this->expect_failure( 'Item11527 needs to be fixed!',
+        with_dep => 'Foswiki,<,1.2' );
+
     $this->createNewFoswikiSession();
     my ($topicObj) =
       Foswiki::Func::readTopic( $this->{test_web},

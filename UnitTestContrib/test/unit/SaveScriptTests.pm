@@ -66,6 +66,23 @@ sub new {
     return $class->SUPER::new( 'Save', @args );
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'SaveScriptTests::test_preferenceSave' =>
+                  'Preference setting from save is new in 1.2',
+                'SaveScriptTests::test_simpleTextPreview' =>
+                  'Links in preview is new in 1.2',
+            }
+        }
+    );
+}
+
 # Set up the test fixture
 sub set_up {
     my $this = shift;

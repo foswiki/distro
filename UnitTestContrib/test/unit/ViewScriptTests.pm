@@ -32,7 +32,8 @@ HERE
 
 #Sven is curious why the comment="" is in the meta - I thought that was dead and buried.
 my $topic2meta =
-'%META:TOPICINFO{author="BaseUserMapping_666"( comment="")? date="[0-9]{10,10}" format="1.1" version="1"}%\n';
+'%META:TOPICINFO{author="BaseUserMapping_666"( comment="save topic")? date="[0-9]{10,10}" format="1.1" version="1"}%'
+  . "\n";
 my $topic2metaQ = $topic2meta;
 $topic2metaQ =~ s/"/&quot;/g;
 
@@ -345,12 +346,16 @@ sub test_urlparsing {
 
     $this->urltest( '/?topic=System.WebChanges', 'System', 'WebChanges' );
 
-    $this->urltest( '/?topic=System.WebChanges;defaultweb=Sandbox',
-        'System', 'WebChanges' );
-    $this->urltest( '/?topic=WebChanges;defaultweb=Sandbox',
-        'Sandbox', 'WebChanges' );
-    $this->urltest( '/System?topic=WebChanges;defaultweb=Sandbox',
-        'System', 'WebChanges' );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+
+        # the defaultweb parameter is new in 1.2
+        $this->urltest( '/?topic=System.WebChanges;defaultweb=Sandbox',
+            'System', 'WebChanges' );
+        $this->urltest( '/?topic=WebChanges;defaultweb=Sandbox',
+            'Sandbox', 'WebChanges' );
+        $this->urltest( '/System?topic=WebChanges;defaultweb=Sandbox',
+            'System', 'WebChanges' );
+    }
 
     #    $this->urltest('Sandbox', 'Sandbox', 'WebHome');
     $this->urltest( '/Sandbox',           'Sandbox',         'WebHome' );

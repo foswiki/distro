@@ -77,6 +77,21 @@ sub set_up {
     return;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'Fn_SEARCH::test_headingoffset' =>
+                  'Heading offset is new in 1.2',
+            }
+        }
+    );
+}
+
 #TODO: figure out how to bomb out informativly if a dependency for one of the algo's isn't met - like no grep...
 sub fixture_groups {
     my ( %salgs, %qalgs );
@@ -3195,7 +3210,8 @@ FOSWIKI11
 
 sub test_paging_three_webs_second_page_zeroresultsset {
     my $this = shift;
-    $this->expect_failure('Item11860 needs to be fixed!');
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,>=,1.2' );
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -3238,7 +3254,8 @@ FOSWIKI11
 
 sub test_paging_three_webs_third_page_zeroresultsset {
     my $this = shift;
-    $this->expect_failure('Item11860 needs to be fixed!');
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,>=,1.2' );
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -3275,6 +3292,8 @@ FOSWIKI11
 
 sub test_paging_three_webs_fourth_page_zeroresultsset {
     my $this = shift;
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,<,1.2' );
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -3303,6 +3322,8 @@ EXPECT
 
 sub test_paging_three_webs_way_too_far_zeroresultsset {
     my $this = shift;
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,<,1.2' );
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
