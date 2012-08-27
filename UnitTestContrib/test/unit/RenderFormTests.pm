@@ -49,7 +49,11 @@ sub set_up {
     Foswiki::Func::saveTopic( $this->{test_web}, "WebPreferences", undef,
         <<'HERE' );
    * Set WEBFORMS = InitializationForm
+   * Set SKIN = pattern
 HERE
+
+    # Force reload to pick up WebPreferences
+    $this->createNewFoswikiSession( undef, $this->{session}->{cgiQuery} );
 
     my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
     $meta->put( 'FORM', { name => 'InitializationForm' } );
@@ -430,8 +434,8 @@ sub test_render_for_edit {
 
 <tr><th>Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField" /></td></tr>
 <tr><th>State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  title="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
-<tr><th>Issue Description</th><td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><div class="foswikiFormLabel"><nop><h1>
-<a name="Example_problem"> </a> Example problem </h1></div></td></tr>
+<tr><th>Issue Description</th><td align="left"><input type="hidden"
+name="IssueDescription" value="---+ Example problem"  /><div class="foswikiFormLabel"><nop><h1 id="Example_problem"> Example problem </h1></div></td></tr>
 <tr><th>Issue 1</th><td align="left"><select name="Issue1" class="foswikiSelect" size="1"></select></td></tr>
 <tr><th>Issue 2EXTRA</th><td align="left">SWEET</td></tr>
 <tr><th>Issue 3</th><td align="left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
@@ -443,6 +447,9 @@ Defect</textarea></td></tr>
 <tr><th>Issue 8</th><td align="left"><table><tr><td><label><input type="radio" name="Issue8" value="1"  title="1" class="foswikiRadioButton"/>One</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="2" checked="checked" title="2" class="foswikiRadioButton"/>Two</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="3"  title="3" class="foswikiRadioButton"/>Three</label></td></tr><tr><td><label><input type="radio" name="Issue8" value="4"  title="4" class="foswikiRadioButton"/>Four</label></td></tr></table></td></tr> 
 <tr><th>Form definition</th><td><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></td></tr></table></div>
 HERE
+
+    $expected =~ s/id="Example_problem">/><a name="Example_problem"><\/a>/g
+      if ( $this->check_dependency('Foswiki,<,1.2') );
 
     #Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
 
@@ -598,6 +605,31 @@ HERE
 Timing for $numcycles cycles of %META{"form"}%
     $timestr
 HERE
+
+    return;
+}
+
+# Item11527 - test that %macros in the WEBFORMS pref are expanded
+sub test_getAvailableForms {
+    my ($this) = @_;
+    $this->expect_failure( 'Item11527 needs to be fixed!',
+        with_dep => 'Foswiki,<,1.2' );
+
+    $this->createNewFoswikiSession();
+    my ($topicObj) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    my $pref         = '%SYSTEMWEB%.UserForm';
+    my $expandedpref = Foswiki::Func::expandCommonVariables($pref);
+
+    $topicObj->text( $topicObj->text() . "\n    * Set WEBFORMS = $pref\n" );
+    $topicObj->putKeyed( 'PREFERENCE',
+        { name => 'WEBFORMS', type => 'Set', value => $pref } );
+    $topicObj->save();
+    require Foswiki::Form;
+    my @forms = Foswiki::Form::getAvailableForms($topicObj);
+    $this->assert_str_equals( $expandedpref, join( ',', @forms ) );
+    $topicObj->finish();
 
     return;
 }

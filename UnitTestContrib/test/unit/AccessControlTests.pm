@@ -720,7 +720,7 @@ THIS
         }
     );
 
-    # Get the login URL to compare
+    # Get the login and view URLs to compare
     my $loginUrl =
       $this->{session}
       ->getScriptUrl( 0, 'login', $this->{test_web}, $test_topic );

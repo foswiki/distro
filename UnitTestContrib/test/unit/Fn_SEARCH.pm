@@ -77,6 +77,21 @@ sub set_up {
     return;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'Fn_SEARCH::test_headingoffset' =>
+                  'Heading offset is new in 1.2',
+            }
+        }
+    );
+}
+
 #TODO: figure out how to bomb out informativly if a dependency for one of the algo's isn't met - like no grep...
 sub fixture_groups {
     my ( %salgs, %qalgs );
@@ -783,6 +798,60 @@ OkTopic
 EXPECT
 
     return;
+}
+
+sub test_headingoffset {
+    my ( $this, $query, $web ) = @_;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestHINC' );
+    $topicObject->text(<<HERE);
+---+ H4
+<ho off="1">
+---+ H5
+<h1>H2</h1>
+<ho off="+2">
+---+ H6
+<h1>H6</h1>
+<ho off="-3">
+---+ H4
+HERE
+    $topicObject->save();
+    $topicObject->finish();
+    my $result = $this->{test_topicObject}->expandMacros(<<HERE);
+%SEARCH{"---+" web="$this->{test_web}" topic="TestHINC" format="\$text" headingoffset="3"}%
+###
+%SEARCH{"---+" multiple="on" web="$this->{test_web}" topic="TestHINC" format="\$text" headingoffset="3"}%
+HERE
+
+    $this->assert_str_equals( <<EXPECT, $result );
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>---+</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<ho off="3">
+---+ H4
+<ho off="1">
+---+ H5
+<h1>H2</h1>
+<ho off="+2">
+---+ H6
+<h1>H6</h1>
+<ho off="-3">
+---+ H4
+
+<ho off="-3"/>
+<div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
+###
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>---+</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+---+ H4
+<ho off="1">
+---+ H5
+<h1>H2</h1>
+<ho off="+2">
+---+ H6
+<h1>H6</h1>
+<ho off="-3">
+---+ H4
+
+<div class="foswikiSearchResultCount">Number of topics: <span>1</span></div>
+EXPECT
 }
 
 sub verify_regex_match {
@@ -3089,6 +3158,191 @@ sub test_paging_three_webs_way_too_far {
     );
 
     my $expected = <<'EXPECT';
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+#Item11860: SEARCH paging with zeroresults
+#-----------------------------------
+sub test_paging_three_webs_first_page_zeroresultsset {
+    my $this   = shift;
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="1"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = $this->_expect_with_deps(
+        <<'FOSWIKI12',
+Main.WebChanges
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(4,4)Sandbox.WebChanges
+FOOT(1,1)
+FOSWIKI12
+        'Foswiki,<,1.2' => <<'FOSWIKI11');
+System.WebChanges
+System.WebHome
+System.WebIndex
+System.WebPreferences
+FOOT(4,4)Main.WebChanges
+FOOT(1,1)
+FOSWIKI11
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_second_page_zeroresultsset {
+    my $this = shift;
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,>=,1.2' );
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="2"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = $this->_expect_with_deps(
+        <<'FOSWIKI12',
+Sandbox.WebHome
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(3,3)System.WebChanges
+System.WebHome
+FOOT(2,2)
+FOSWIKI12
+        'Foswiki,<,1.2' => <<'FOSWIKI11');
+Main.WebHome
+Main.WebIndex
+Main.WebPreferences
+FOOT(3,3)Sandbox.WebChanges
+Sandbox.WebHome
+FOOT(2,2)
+FOSWIKI11
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_third_page_zeroresultsset {
+    my $this = shift;
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,>=,1.2' );
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="3"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = $this->_expect_with_deps(
+        <<'FOSWIKI12',
+System.WebIndex
+System.WebPreferences
+FOOT(2,2)
+FOSWIKI12
+        'Foswiki,<,1.2' => <<'FOSWIKI11');
+Sandbox.WebIndex
+Sandbox.WebPreferences
+FOOT(2,2)
+FOSWIKI11
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_fourth_page_zeroresultsset {
+    my $this = shift;
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,<,1.2' );
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="4"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = <<'EXPECT';
+Empty
+EXPECT
+    $expected =~ s/\n$//s;
+    $this->assert_str_equals( $expected, $result );
+
+    return;
+}
+
+sub test_paging_three_webs_way_too_far_zeroresultsset {
+    my $this = shift;
+    $this->expect_failure( 'Item11860 needs to be fixed!',
+        with_dep => 'Foswiki,<,1.2' );
+
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{
+    "web" 
+    type="text"
+    web="System,Main,Sandbox"
+    topic="WebHome,WebChanges,WebIndex,WebPreferences"
+    scope="text" 
+    nonoise="on" 
+    format="$web.$topic"
+    showpage="99"
+    zeroresults="Empty"
+    pagesize="5"
+    footer="FOOT($ntopics,$nhits)"
+}%'
+    );
+
+    my $expected = <<'EXPECT';
+Empty
 EXPECT
     $expected =~ s/\n$//s;
     $this->assert_str_equals( $expected, $result );

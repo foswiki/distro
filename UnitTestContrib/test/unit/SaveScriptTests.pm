@@ -58,10 +58,29 @@ A guest of this Foswiki web, not unlike yourself. You can leave your trace behin
 
 HERE
 
+#"
+
 sub new {
     my ( $class, @args ) = @_;
 
     return $class->SUPER::new( 'Save', @args );
+}
+
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'SaveScriptTests::test_preferenceSave' =>
+                  'Preference setting from save is new in 1.2',
+                'SaveScriptTests::test_simpleTextPreview' =>
+                  'Links in preview is new in 1.2',
+            }
+        }
+    );
 }
 
 # Set up the test fixture
@@ -294,6 +313,42 @@ sub test_emptySave {
     $this->assert_matches( qr/^\s*$/, $text );
     $this->assert_null( $meta->get('FORM') );
     $meta->finish();
+
+    return;
+}
+
+sub test_simpleTextPreview {
+    my $this  = shift;
+    my $query = Unit::Request->new(
+        {
+            text => [<<HERE],
+CUT##
+<a href="blah.com">no target</a>
+<a href='bloo.com' target=_self>self undelim</a>
+<a href='blerg.com' target='_self' asdf="what">self SQ</a>
+[[$this->{test_web}.$this->{test_topic}]]
+<a href='blerg.com' target="your'_self'" asdf="what">messed up</a>
+##CUT
+HERE
+            action => ['preview'],
+            topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic' ]
+        }
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ( $results, $stdout, $stderr ) =
+      $this->captureWithKey( save => $UI_FN, $this->{session} );
+
+    $results =~ s/.*CUT##(.*?)##CUT.*/$1/ms;
+
+    $this->assert_html_equals( <<HERE, $results );
+<a target="_blank" href="blah.com">no target</a>
+<a href='bloo.com' target="_blank">self undelim</a>
+<a href='blerg.com' target="_blank" asdf="what">self SQ</a>
+<a target="_blank" href="$Foswiki::cfg{ScriptUrlPaths}{view}/$this->{test_web}/$this->{test_topic}">$this->{test_web}.$this->{test_topic}</a>
+<a href='blerg.com' target="_blank" asdf="what">messed up</a>
+HERE
+    $this->assert( !$stdout );
+    $this->assert( !$stderr );
 
     return;
 }
@@ -1246,6 +1301,61 @@ sub test_get {
         $this->assert_matches( qr/^Status: 403.*$/m, $text );
     }
     catch Error::Simple with {};
+
+    return;
+}
+
+sub test_preferenceSave {
+    my $this  = shift;
+    my $query = Unit::Request->new(
+        {
+            text             => ["CORRECT\n   * Set UNSETME = x\n"],
+            action           => ['save'],
+            topic            => [ $this->{test_web} . '.PrefTopic' ],
+            "Set+SETME"      => ['set me'],
+            "Set+SETME2"     => ['set me 2'],
+            "Local+LOCALME"  => ['local me'],
+            "Local+LOCALME2" => ['local me 2']
+        }
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'PrefTopic' );
+    my $text = $meta->text;
+    $this->assert_equals( 'local me',
+        $meta->get( 'PREFERENCE', 'LOCALME' )->{value} );
+    $this->assert_equals( 'local me 2',
+        $meta->get( 'PREFERENCE', 'LOCALME2' )->{value} );
+    $this->assert_equals( 'set me',
+        $meta->get( 'PREFERENCE', 'SETME' )->{value} );
+    $this->assert_equals( 'set me 2',
+        $meta->get( 'PREFERENCE', 'SETME2' )->{value} );
+    $meta->finish();
+
+    $query = Unit::Request->new(
+        {
+            text             => ["CORRECT\n   * Set UNSETME = x\n"],
+            action           => ['save'],
+            topic            => [ $this->{test_web} . '.PrefTopic' ],
+            "Unset+SETME"    => [1],
+            "Unset+LOCALME2" => [1],
+
+            # Default+ does nothing without a corresponding Set+ or Local+
+            "Set+SETME2"      => ['set me 2'],
+            "Local+LOCALME"   => ['local me'],
+            "Default+LOCALME" => ['local me'],
+            "Default+SETME2"  => ['set me 2']
+        }
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'PrefTopic' );
+    $text = $meta->text;
+    $this->assert_null( $meta->get( 'PREFERENCE', 'SETME' ) );
+    $this->assert_null( $meta->get( 'PREFERENCE', 'LOCALME' ) );
+    $this->assert_null( $meta->get( 'PREFERENCE', 'SETME2' ) );
+    $this->assert_null( $meta->get( 'PREFERENCE', 'LOCALME2' ) );
+    $meta->finish();
 
     return;
 }
