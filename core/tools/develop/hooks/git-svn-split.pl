@@ -71,7 +71,7 @@ sub createSubModule {
     warn "Creating github module $module...";
     require Net::GitHub;
     my $token = getGitHubToken;
-    my $github = Net::GitHub->new( access_token => $token, );
+    my $github = Net::GitHub->new( login => 'FoswikiBot', pass => $token, );
     $github->repos->create(
         {
             org         => 'foswiki',
