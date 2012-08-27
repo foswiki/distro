@@ -360,7 +360,7 @@ sub _cacheMetaInfo {
             $rev = $info->{version};
         }
 
-        unless ($comment) {
+        unless ( defined $comment ) {
             $comment = $info->{comment};
         }
     }
