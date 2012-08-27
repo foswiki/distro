@@ -360,21 +360,30 @@ sub _cacheMetaInfo {
             $rev = $info->{version};
         }
 
+        # keep comment as is unless specified otherwise
         unless ( defined $comment ) {
             $comment = $info->{comment};
         }
     }
 
+    # only store a comment attr when there is one
+    if ( defined $comment && $comment ne '' ) {
+        $comment = ' comment="' . $comment . '"';
+    }
+    else {
+        $comment = '';
+    }
+
     $rev ||= 1;
 
     $text =
-        '%META:TOPICINFO{author="' 
-      . $user
-      . '" comment="'
+        '%META:TOPICINFO{'
+      . 'author="'
+      . $user . '"'
       . $comment
-      . '" date="'
-      . $date
-      . '" format="1.1" version="'
+      . 'date="'
+      . $date . '"'
+      . 'format="1.1" version="'
       . $rev . '"}%'
       . "\n$text";
 
