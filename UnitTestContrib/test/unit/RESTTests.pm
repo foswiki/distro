@@ -158,7 +158,7 @@ sub test_endPoint_Query {
     my $query = Unit::Request->new(
         {
             action   => ['rest'],
-            endPoint => "$this->{test_web}/$this->{test_topic}?blah1=;q=2&y=3",
+            endPoint => "$this->{test_web}/$this->{test_topic}?blah1=;q=2;y=3",
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
@@ -167,7 +167,7 @@ sub test_endPoint_Query {
     my ($text) = $this->capture( $UI_FN, $this->{session} );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
-qr#^Location:.*$this->{test_web}/$this->{test_topic}%3fblah1%3d%3bq%3d2%26y%3d3\s*$#m,
+qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
         $text
     );
 
@@ -183,7 +183,7 @@ sub test_redirectto_Query {
         {
             action => ['rest'],
             redirectto =>
-              "$this->{test_web}/$this->{test_topic}?blah1=;q=2&y=3",
+              "$this->{test_web}/$this->{test_topic}?blah1=;q=2;y=3",
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
@@ -192,7 +192,7 @@ sub test_redirectto_Query {
     my ($text) = $this->capture( $UI_FN, $this->{session} );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
-qr#^Location:.*$this->{test_web}/$this->{test_topic}%3fblah1%3d%3bq%3d2%26y%3d3\s*$#m,
+qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
         $text
     );
 

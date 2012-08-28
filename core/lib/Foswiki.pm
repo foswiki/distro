@@ -1072,15 +1072,21 @@ sub redirectto {
         return;
     }
 
+    my @attrs = ();
+
+    # capture anchor
+    if ( $redirecturl =~ s/#(.*)// ) {
+        push( @attrs, '#' => $1 );
+    }
+
+    # capture params
+    if ( $redirecturl =~ s/\?(.*)// ) {
+        push( @attrs, map { split( '=', $_, 2 ) } split( /[;&]/, $1 ) );
+    }
+
     # assuming 'web.topic' or 'topic'
     my ( $w, $t ) =
       $this->normalizeWebTopicName( $this->{webName}, $redirecturl );
-
-    # capture anchor
-    my ( $topic, $anchor ) = split( '#', $t, 2 );
-    $t = $topic if $topic;
-    my @attrs = ();
-    push( @attrs, '#' => $anchor ) if $anchor;
 
     return $this->getScriptUrl( 0, 'view', $w, $t, @attrs );
 }

@@ -291,8 +291,11 @@ sub rest {
     if ( !$error && defined($target) ) {
         $session->redirect($target);
     }
-    elsif ( !$error && defined $req->param('redirectto')
-        || defined $req->param('endPoint') )
+    elsif (
+        !$error
+        && (   defined $req->param('redirectto')
+            || defined $req->param('endPoint') )
+      )
     {
         $session->{response}->header(
             -status  => 403,
