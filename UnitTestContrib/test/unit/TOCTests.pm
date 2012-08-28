@@ -45,6 +45,21 @@ With a few words of text.
 
 HERE
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'TOCTests::test_TOC_params' =>
+                  'TOC params are Foswiki 1.2+ only',
+            }
+        }
+    );
+}
+
 sub setup_TOCtests {
     my ( $this, $text, $params, $tocparams ) = @_;
 
@@ -140,7 +155,7 @@ HERE
     my $res = $topicObject->expandMacros($text);
     $res = $topicObject->renderTML($res);
 
-    $this->assert_html_equals( <<HTML, $res );
+    my $expected = <<HTML;
 <div class="foswikiToc" id="foswikiTOC"> <ul>
   <li> <a href="#A_level_1_head_33line">A level 1 head!line</a>
    <ul>
@@ -157,6 +172,13 @@ HERE
 <nop><h2 id="Another_level_2_headline">
  Another level 2 headline </h2>
 HTML
+
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $expected =~
+s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class="foswikiToc">/;
+        $expected =~ s/<h([1-6]) id="([^"]+)">/<h$1><a name="$2"><\/a>/g;
+    }
+    $this->assert_html_equals( $expected, $res );
     $topicObject->finish();
 }
 
@@ -188,7 +210,7 @@ HERE
 
     #return;
 
-    $this->assert_html_equals( <<HTML, $res2 );
+    my $expected = <<HTML;
 <div class="foswikiToc" id="foswikiTOC"> <ul> 
 <li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#A_level_1_head_33line">A level 1 head!line</a> <ul>
 <li> <a href="$url/TemporaryTOCTestsTestWebTOCTests/TestTopicTOCTests#Followed_by_a_level_2_33_headline">Followed by a level 2! headline</a>
@@ -196,6 +218,12 @@ HERE
 </li></ul>                                                                                                                              
 </div>
 HTML
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $expected =~
+s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class="foswikiToc">/;
+        $expected =~ s/<h([1-6]) id="([^"]+)">/<h$1><a name="$2"><\/a>/g;
+    }
+    $this->assert_html_equals( $expected, $res2 );
 }
 
 sub test_Item2458 {
@@ -214,13 +242,19 @@ HERE
     my $res = $topicObject->expandMacros($text);
     $res = $topicObject->renderTML($res);
 
-    $this->assert_html_equals( <<HTML, $res );
+    my $expected = <<HTML;
 <div class="foswikiToc" id="foswikiTOC"> <ul>
 <li> <a href="#WikiWord"> <nop>WikiWord</a>
 </li></ul> 
 </div>
 <nop><h1 id="WikiWord">  <nop>WikiWord </h1>
 HTML
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $expected =~
+s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class="foswikiToc">/;
+        $expected =~ s/<h([1-6]) id="([^"]+)">/<h$1><a name="$2"><\/a>/g;
+    }
+    $this->assert_html_equals( $expected, $res );
     $topicObject->finish();
 }
 
@@ -269,6 +303,8 @@ sub test_TOC_SpecialCharacters {
         ],
     );
 
+    my $id = ( $this->check_dependency('Foswiki,<,1.2') ) ? 'name' : 'id';
+
     foreach my $set (@comparisons) {
         my $expected = $set->[0];
         my $wikitext = <<HERE;
@@ -284,7 +320,7 @@ HERE
         $topicObject->finish();
 
         # print "RES:$res \n\nEXPECTED:$expected\n\n";
-        $this->assert_matches( qr/href="#$expected".*id="$expected"/sm, $res,
+        $this->assert_matches( qr/href="#$expected".*$id="$expected"/sm, $res,
 "$set->[2] - Expected Anchor/Link =  $expected  Actual HTML\n====\n$res\n====\n"
         );
     }
