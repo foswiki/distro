@@ -5,11 +5,18 @@ use strict;
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki::Tables::Reader;
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->check_dependency('Foswiki,<,1.2')
+      ? 'Foswiki 1.1 has no Foswiki::Tables'
+      : undef;
+}
 
 sub test_reader {
     my $this = shift;
-    my $in   = <<INPUT;
+    require Foswiki::Tables::Reader;
+    my $in = <<INPUT;
 | A | B |
 %TABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"

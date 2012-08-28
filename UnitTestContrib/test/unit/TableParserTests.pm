@@ -1,19 +1,26 @@
 package TableParserTests;
 
 use strict;
-use Unit::TestCase;
-our @ISA = qw( Unit::TestCase );
-
-use Foswiki::Tables::Parser;
+use FoswikiFnTestCase;
+our @ISA = qw( FoswikiFnTestCase );
 
 sub set_up {
     my $this = shift;
+    require Foswiki::Tables::Parser;
     $this->SUPER::set_up();
     $this->{out}      = "";
     $this->{dispatch} = sub {
         my $event = shift;
         $this->$event(@_);
     };
+}
+
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->check_dependency('Foswiki,<,1.2')
+      ? 'Foswiki 1.1 has no Foswiki::Tables'
+      : undef;
 }
 
 sub early_line {
