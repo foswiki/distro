@@ -24,6 +24,30 @@ sub set_up {
     return;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'RESTTests::test_redirectto' =>
+                  'redirectto  is Foswiki 1.2+ only',
+                'RESTTests::test_redirectto_Anchor' =>
+                  'redirectto  is Foswiki 1.2+ only',
+                'RESTTests::test_redirectto_Query' =>
+                  'redirectto  is Foswiki 1.2+ only',
+                'RESTTests::test_redirectto_URL' =>
+                  'redirectto  is Foswiki 1.2+ only',
+                'RESTTests::test_redirectto_badURL' =>
+                  'redirectto  is Foswiki 1.2+ only',
+                'RESTTests::test_500' => 'redirectto  is Foswiki 1.2+ only',
+            }
+        }
+    );
+}
+
 # A simple REST handler
 sub rest_handler {
     my ( $session, $subject, $verb ) = @_;
@@ -350,6 +374,8 @@ sub test_authenticate {
 # Test the endPoint parameter with a URL
 sub test_endPoint_URL {
     my $this = shift;
+    $this->expect_failure( 'Redirect to a URL is new in 1.2',
+        with_dep => 'Foswiki,<,1.2' );
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
 
@@ -398,6 +424,8 @@ sub test_redirectto_URL {
 # Test the endPoint parameter with a bad URL
 sub test_endPoint_badURL {
     my $this = shift;
+    $this->expect_failure( 'Redirect to a URL is new in 1.2',
+        with_dep => 'Foswiki,<,1.2' );
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
     my $query = Unit::Request->new(
@@ -437,7 +465,7 @@ sub test_redirectto_badURL {
     return;
 }
 
-# Test the redirectto parameter with a bad URL
+# Test the redirectto with handler that dies
 sub test_500 {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_and_be_thankful );
