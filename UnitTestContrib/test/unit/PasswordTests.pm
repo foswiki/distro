@@ -147,6 +147,18 @@ sub doTests {
     $this->assert( !$impl->removeUser('notauser') );
     $this->assert_not_null( $impl->error() );
 
+    #findUserByEmail
+    {
+        my $login = $impl->findUserByEmail( $this->{users1}->{lion}->{emails} );
+        $this->assert_str_equals( 'lion', $login->[0] );
+
+#emails are case insensitive (in practice, the rfc allows it but discourages it)
+        $login =
+          $impl->findUserByEmail( uc( $this->{users1}->{lion}->{emails} ) );
+        $this->assert_str_equals( 'lion', $login->[0] );
+
+    }
+
     # delete first
     $this->assert( $impl->removeUser('alligator') );
     $this->assert_null( $impl->error() );
@@ -851,4 +863,5 @@ sub DISABLE_test_ApacheHtpasswdUser_plain {
 
     return;
 }
+
 1;

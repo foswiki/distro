@@ -768,10 +768,12 @@ sub findUserByEmail {
     my ( $this, $email ) = @_;
     my $logins = [];
 
+    $email = lc($email);
+
     # read passwords with shared lock
     my $db = $this->_readPasswd(1);
     while ( my ( $k, $v ) = each %$db ) {
-        my %ems = map { $_ => 1 } split( ';', $v->{emails} );
+        my %ems = map { lc($_) => 1 } split( ';', $v->{emails} );
         if ( $ems{$email} ) {
             push( @$logins, $k );
         }
