@@ -539,7 +539,7 @@ HERE
     }
     else {
         print STDERR <<"HERE";
-Couldn't find $module at $svninfo->{url} in any branch paths,
+Could not find $module at $svninfo->{url} in any branch paths,
 module is not configured for git-svn
 HERE
     }
@@ -760,13 +760,29 @@ sub installFromMANIFEST {
                 }
                 next unless $dep =~ /^\w+/;
 
-                # We skip the next line if we each an ONLYIF assuming these
-                # are dependencies only for old versions of Foswiki
-                # and not something a developer needs to worry about
-                # Otherwise we get a lot of false warnings about
-                # ZonePlugin missing
-                if ( $dep =~ /^ONLYIF/ ) {
-                    $skipnext = 1;
+                # Evaluate the ONLYIF. It applies to the next dependency line.
+                if ( $dep =~ /^ONLYIF\s+(.+)$/ ) {
+                    my $cond = untaint($1);
+
+                    # We may need to require to check if modules are
+                    # already installed.
+                    unshift( @INC, 'lib' );
+
+                    # Hack to require a referenced Foswiki:: module.
+                    # Required for $Foswiki::Plugins::VERSION type references
+                    if ( $cond =~ /\$(Foswiki[\w:]*)::\w+/ ) {
+                        my $p = $1;
+                        unless ( eval "require $p" ) {
+                            print STDERR
+                              "require '$p' for ONLYIF $cond failed: $@\n";
+                            $skipnext = 1;
+                            next;
+                        }
+                    }
+                    unless ( eval $cond ) {
+                        $skipnext = 1;
+                        next;
+                    }
                     next;
                 }
                 satisfyDependency( split( /\s*,\s*/, $dep ) );
@@ -777,6 +793,7 @@ sub installFromMANIFEST {
             error "*** Could not open $deps\n";
         }
     }
+
     if ( $installing && $autoconf ) {
 
         # Read current LocalSite.cfg to see if the current module is enabled
