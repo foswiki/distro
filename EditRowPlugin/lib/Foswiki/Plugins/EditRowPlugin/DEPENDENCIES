@@ -1,3 +1,5 @@
 Foswiki::Contrib::JSCalendarContrib,>=14754,perl,Javascript calendar module
 Foswiki::Plugins::JQueryPlugin,>=4.00,perl,JQuery
 Foswiki::Contrib::JEditableContrib,>1.7.1,perl,Required, JQuery plugin
+ONLYIF not(eval('require Foswiki::Tables::Table'))
+Foswiki::Contrib::TablesContrib,>=1.0.0,perl,Required for Foswiki < 1.2.0
