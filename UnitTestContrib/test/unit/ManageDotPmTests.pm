@@ -18,6 +18,7 @@ use Error qw(:try);
 
 my $REG_UI_FN;
 my $MAN_UI_FN;
+my $REG_TMPL;
 
 # Set up the test fixture
 sub set_up {
@@ -26,6 +27,8 @@ sub set_up {
 
     $REG_UI_FN ||= $this->getUIFn('register');
     $MAN_UI_FN ||= $this->getUIFn('manage');
+    $REG_TMPL =
+      ( $this->check_dependency('Foswiki,<,1.2') ) ? 'attention' : 'register';
 
     @FoswikiFnTestCase::mails = ();
 
@@ -187,7 +190,7 @@ sub _registerUserException {
     }
     catch Foswiki::OopsException with {
         $exception = shift;
-        if (   ( "attention" eq $exception->{template} )
+        if (   ( $REG_TMPL eq $exception->{template} )
             && ( "thanks" eq $exception->{def} ) )
         {
 
@@ -239,7 +242,7 @@ sub addUserToGroup {
         $exception = shift;
         print STDERR "---------" . $exception->stringify() . "\n"
           if ($Error::Debug);
-        if (   ( "attention" eq $exception->{template} )
+        if (   ( $REG_TMPL eq $exception->{template} )
             && ( "added_users_to_group" eq $exception->{def} ) )
         {
 
@@ -288,7 +291,7 @@ sub removeUserFromGroup {
         $exception = shift;
         print STDERR "---------" . $exception->stringify() . "\n"
           if ($Error::Debug);
-        if (   ( "attention" eq $exception->{template} )
+        if (   ( $REG_TMPL eq $exception->{template} )
             && ( "removed_users_from_group" eq $exception->{def} ) )
         {
 
@@ -372,6 +375,7 @@ sub test_DoubleAddToNewGroupCreate {
             'action'    => ['addUserToGroup']
         }
     );
+
     $this->assert_null( $ret, "Simple add to new group" );
 
     $this->assert(
@@ -673,7 +677,7 @@ sub test_RemoveFromNonExistantGroup {
         }
     );
     $this->assert_not_null( $ret, "there ain't any such group" );
-    $this->assert_equals( $ret->{template}, "attention" );
+    $this->assert_equals( $ret->{template}, $REG_TMPL );
     $this->assert_equals( $ret->{def},      "problem_removing_from_group" );
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
@@ -708,7 +712,7 @@ sub test_RemoveNoUserFromExistantGroup {
         }
     );
     $this->assert_not_null( $ret, "no user.." );
-    $this->assert_equals( $ret->{template}, "attention" );
+    $this->assert_equals( $ret->{template}, $REG_TMPL );
     $this->assert_equals( $ret->{def},      "no_users_to_remove_from_group" );
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
@@ -769,8 +773,7 @@ sub verify_resetEmailOkay {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "attention", $e->{template},
-            $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "email_changed", $e->{def}, $e->stringify() );
         $this->assert_str_equals(
             $newEmail,
@@ -956,8 +959,7 @@ sub verify_deleteUser {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "attention", $e->{template},
-            $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "remove_user_done", $e->{def},
             $e->stringify() );
         my $johndoe = 'eric';
@@ -1016,7 +1018,7 @@ sub test_createDefaultWeb {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "attention", $e->{template},
+        $this->assert_str_equals( 'attention', $e->{template},
             $e->stringify() );
         $this->assert_str_equals( "created_web", $e->{def}, $e->stringify() );
         print STDERR "captured STDERR: " . $this->{stderr} . "\n"
@@ -1281,7 +1283,7 @@ TEXT
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "attention", $e->{template},
+        $this->assert_str_equals( 'attention', $e->{template},
             $e->stringify() );
         $this->assert_str_equals( "invalid_field", $e->{def}, $e->stringify() );
     };
