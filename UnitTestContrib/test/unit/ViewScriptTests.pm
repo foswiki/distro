@@ -233,18 +233,21 @@ sub test_render_raw {
         $hdr, "raw=text should return text/plain - got $hdr" );
 
     ( $text, $hdr ) =
-      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all' );
-    $this->assert_matches( qr#$topic2meta$topic2#, $text,
-        "Unexpected output from raw=all" );
-    $this->assert_matches( qr#^Content-Type: text/plain#ms,
-        $hdr, "raw=all should return text/plain - got $hdr" );
-
-    ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on' );
     $this->assert_matches( qr#.*$topic2txtarea$topic2rawON.*#,
         $text, "Unexpected output from raw=on" );
     $this->assert_matches( qr#^Content-Type: text/html#ms,
         $hdr, "raw=on should return text/html - got $hdr" );
+
+    $this->expect_failure( 'Item11983 needs merge to 1.1',
+        with_dep => ('Foswiki,<,1.2') );
+
+    ( $text, $hdr ) =
+      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all' );
+    $this->assert_matches( qr#$topic2meta$topic2#, $text,
+        "Unexpected output from raw=all" );
+    $this->assert_matches( qr#^Content-Type: text/plain#ms,
+        $hdr, "raw=all should return text/plain - got $hdr" );
 
     ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug' );

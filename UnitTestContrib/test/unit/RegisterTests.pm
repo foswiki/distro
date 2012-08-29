@@ -41,6 +41,28 @@ sub new {
 
 my $REG_UI_FN;
 my $RP_UI_FN;
+my $REG_TMPL;
+
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'RegisterTests::test_PendingRegistrationManualCleanup' =>
+                  'Registration cleanup is Foswiki 1.2+ only',
+                'RegisterTests::test_PendingRegistrationAutoCleanup' =>
+                  'Registration cleanup is Foswiki 1.2+ only',
+                'RegisterTests::verify_registerVerifyOKApproved', =>
+                  'Registration approval is Foswiki 1.2+ only',
+                'RegisterTests::verify_registerVerifyOKDisapproved', =>
+                  'Registration approval is Foswiki 1.2+ only',
+            }
+        }
+    );
+}
 
 sub set_up {
     my $this = shift;
@@ -48,6 +70,8 @@ sub set_up {
 
     $REG_UI_FN ||= $this->getUIFn('register');
     $RP_UI_FN  ||= $this->getUIFn('resetpasswd');
+    $REG_TMPL =
+      ( $this->check_dependency('Foswiki,<,1.2') ) ? 'attention' : 'register';
 
     $this->{new_user_login} = 'sqwauk';
     $this->{new_user_fname} = 'Walter';
@@ -156,12 +180,17 @@ sub registerAccount {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        Foswiki::UI::Register::_verify( $this->{session} );
+        if ( $this->check_dependency('Foswiki,<,1.2') ) {
+            Foswiki::UI::Register::_complete( $this->{session} );
+        }
+        else {
+            Foswiki::UI::Register::_verify( $this->{session} );
+        }
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "thanks",   $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",  $e->{def},      $e->stringify() );
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
@@ -576,8 +605,8 @@ sub registerVerifyOk {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "confirm",  $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "confirm", $e->{def},      $e->stringify() );
         $this->assert_matches(
             $this->{new_user_email},
             $e->{params}->[0],
@@ -683,8 +712,8 @@ sub _registerBadVerify {
             $e->{params}->[0],
             $e->stringify()
         );
-        $this->assert_str_equals( "register", $e->{template} );
-        $this->assert_str_equals( "confirm",  $e->{def} );
+        $this->assert_str_equals( $REG_TMPL, $e->{template} );
+        $this->assert_str_equals( "confirm", $e->{def} );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -710,7 +739,12 @@ sub _registerBadVerify {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        Foswiki::UI::Register::_verify( $this->{session} );
+        if ( $this->check_dependency('Foswiki,<,1.2') ) {
+            Foswiki::UI::Register::_complete( $this->{session} );
+        }
+        else {
+            Foswiki::UI::Register::_verify( $this->{session} );
+        }
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -719,7 +753,7 @@ sub _registerBadVerify {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "bad_ver_code", $e->{def}, $e->stringify() );
     }
     catch Error::Simple with {
@@ -789,8 +823,8 @@ sub _registerNoVerifyOk {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "thanks",   $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",  $e->{def},      $e->stringify() );
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
@@ -861,7 +895,7 @@ sub verify_rejectShortPassword {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "bad_password", $e->{def}, $e->stringify() );
         $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
         @FoswikiFnTestCase::mails = ();
@@ -913,8 +947,8 @@ sub verify_rejectDuplicateEmail {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "thanks",   $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",  $e->{def},      $e->stringify() );
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
@@ -974,7 +1008,7 @@ qr/To: $Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "dup_email", $e->{def}, $e->stringify() );
         $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
         @FoswikiFnTestCase::mails = ();
@@ -1028,8 +1062,8 @@ sub verify_rejectDuplicatePendingEmail {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "confirm",  $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "confirm", $e->{def},      $e->stringify() );
         $this->assert_matches( 'joe@dupdomain.net', $e->{params}->[0],
             $e->stringify() );
         @FoswikiFnTestCase::mails = ();
@@ -1075,7 +1109,7 @@ sub verify_rejectDuplicatePendingEmail {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "dup_email", $e->{def}, $e->stringify() );
         $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
         @FoswikiFnTestCase::mails = ();
@@ -1130,7 +1164,7 @@ sub verify_rejectFilteredEmail {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "rej_email", $e->{def}, $e->stringify() );
         $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
         @FoswikiFnTestCase::mails = ();
@@ -1172,8 +1206,8 @@ sub verify_rejectFilteredEmail {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "thanks",   $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",  $e->{def},      $e->stringify() );
         $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
         my $done = '';
         foreach my $mail (@FoswikiFnTestCase::mails) {
@@ -1316,7 +1350,7 @@ sub verify_shortPassword {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "bad_password", $e->{def}, $e->stringify() );
         $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
 
@@ -1369,8 +1403,8 @@ sub verify_duplicateActivation {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "confirm",  $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "confirm", $e->{def},      $e->stringify() );
         $this->assert_matches(
             $this->{new_user_email},
             $e->{params}->[0],
@@ -1410,8 +1444,8 @@ sub verify_duplicateActivation {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "thanks",   $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",  $e->{def},      $e->stringify() );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1442,7 +1476,7 @@ sub verify_duplicateActivation {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "duplicate_activation", $e->{def},
             $e->stringify() );
         $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
@@ -1506,7 +1540,7 @@ sub verify_resetPasswordOkay {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL,  $e->{template}, $e->stringify() );
         $this->assert_str_equals( "reset_ok", $e->{def},      $e->stringify() );
     }
     catch Error::Simple with {
@@ -1559,7 +1593,7 @@ sub verify_resetPasswordNoSuchUser {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "reset_bad", $e->{def}, $e->stringify() );
     }
     catch Error::Simple with {
@@ -1650,7 +1684,7 @@ sub verify_resetPasswordNoPassword {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "reset_bad", $e->{def}, $e->stringify() );
     }
     catch Error::Simple with {
@@ -1860,7 +1894,7 @@ sub verify_disabled_registration {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "registration_disabled", $e->{def},
             $e->stringify() );
     }
@@ -1915,8 +1949,8 @@ sub test_PendingRegistrationManualCleanup {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "confirm",  $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "confirm", $e->{def},      $e->stringify() );
         $this->assert_matches(
             $this->{new_user_email},
             $e->{params}->[0],
@@ -1980,8 +2014,8 @@ sub test_PendingRegistrationAutoCleanup {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "confirm",  $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "confirm", $e->{def},      $e->stringify() );
         $this->assert_matches(
             $this->{new_user_email},
             $e->{params}->[0],
@@ -2017,8 +2051,8 @@ sub test_PendingRegistrationAutoCleanup {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "confirm",  $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "confirm", $e->{def},      $e->stringify() );
         $this->assert_matches(
             $this->{new_user_email},
             $e->{params}->[0],
@@ -2078,8 +2112,8 @@ sub test_3951 {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "thanks",   $e->{def},      $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",  $e->{def},      $e->stringify() );
         $this->assert_matches(
             $this->{new_user_email},
             $e->{params}->[0],
@@ -2145,7 +2179,7 @@ sub test_4061 {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "problem_adding", $e->{def},
             $e->stringify() );
 
@@ -2250,7 +2284,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL,  $e->{template}, $e->stringify() );
         $this->assert_str_equals( "reset_ok", $e->{def},      $e->stringify() );
     }
     catch Error::Simple with {
@@ -2305,7 +2339,7 @@ sub registerUserException {
     }
     catch Foswiki::OopsException with {
         $exception = shift;
-        if (   ( "register" eq $exception->{template} )
+        if (   ( $REG_TMPL eq $exception->{template} )
             && ( "thanks" eq $exception->{def} ) )
         {
 
@@ -2352,7 +2386,7 @@ sub verify_Default_LoginNameFilterIn {
     $ret = $this->registerUserException( 'asdf2@example.com', 'Asdf2', 'Poiu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "email as logon should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "email as logon should fail" );
     $this->assert_equals( 'bad_loginname', $ret->{def},
         "email as logon should fail" );
@@ -2365,7 +2399,7 @@ sub verify_Default_LoginNameFilterIn {
     $ret = $this->registerUserException( 'some space', 'Asdf2', 'Poiu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "space logon should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "space logon should fail" );
     $this->assert_equals( 'bad_loginname', $ret->{def},
         "space logon should fail" );
@@ -2378,7 +2412,7 @@ sub verify_Default_LoginNameFilterIn {
     $ret = $this->registerUserException( 'question?', 'Asdf2', 'Poiu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "question?logon should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "question logon should fail" );
     $this->assert_equals( 'bad_loginname', $ret->{def},
         "question logon should fail" );
@@ -2409,7 +2443,7 @@ sub verify_Modified_LoginNameFilterIn_At {
     $ret = $this->registerUserException( 'some space', 'Asdf4', 'Poiu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "space logon should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "space logon should fail" );
     $this->assert_equals( 'bad_loginname', $ret->{def},
         "space logon should fail" );
@@ -2422,7 +2456,7 @@ sub verify_Modified_LoginNameFilterIn_At {
     $ret = $this->registerUserException( 'question?', 'Asdf5', 'Poiu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "question?logon should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "question logon should fail" );
     $this->assert_equals( 'bad_loginname', $ret->{def},
         "question logon should fail" );
@@ -2482,7 +2516,7 @@ sub verify_Default_NameFilter {
     $ret = $this->registerUserException( 'asdf2', 'Asdf@', 'Poiu',
         'asdf@example.com' );
     $this->assert_not_null( $ret, "@ in wikiname should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "@ in wikiname should oops: " . $ret->stringify );
     $this->assert_equals( 'bad_wikiname', $ret->{def},
         "@ in wikiname should fail" );
@@ -2495,7 +2529,7 @@ sub verify_Default_NameFilter {
     $ret = $this->registerUserException( 'asdf3', 'Mac Asdf', 'Poiu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "space in name should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "space in name should fail" );
     $this->assert_equals( 'bad_wikiname', $ret->{def},
         "space in name should fail" );
@@ -2508,7 +2542,7 @@ sub verify_Default_NameFilter {
     $ret = $this->registerUserException( 'asdf4', 'Asd`f2', 'Poiu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "` name should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "space logon should fail" );
     $this->assert_equals( 'bad_wikiname', $ret->{def},
         "space logon should fail" );
@@ -2521,7 +2555,7 @@ sub verify_Default_NameFilter {
     $ret = $this->registerUserException( 'asdf5', 'Asdf2', 'Po?iu',
         'asdf2@example.com' );
     $this->assert_not_null( $ret, "question?logon should fail" );
-    $this->assert_equals( 'register', $ret->{template},
+    $this->assert_equals( $REG_TMPL, $ret->{template},
         "question logon should fail" );
     $this->assert_equals( 'bad_wikiname', $ret->{def},
         "question logon should fail" );
@@ -2556,11 +2590,16 @@ sub verify_registerVerifyOKApproved {
     $Foswiki::cfg{Register}{NeedApproval} = 1;
     $Foswiki::cfg{Register}{Approvers}    = 'ScumBag';
     try {
-        Foswiki::UI::Register::_verify( $this->{session} );
+        if ( $this->check_dependency('Foswiki,<,1.2') ) {
+            Foswiki::UI::Register::_complete( $this->{session} );
+        }
+        else {
+            Foswiki::UI::Register::_verify( $this->{session} );
+        }
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "approve", $e->{def} );
         $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
         foreach my $mail (@FoswikiFnTestCase::mails) {
@@ -2620,7 +2659,7 @@ sub verify_registerVerifyOKApproved {
         my $e = shift;
 
         # verify that we are sending mail to the registrant
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "rego_approved", $e->{def} );
 
        # Make sure the confirmations are sent; one to the user, one to the admin
@@ -2681,11 +2720,16 @@ sub verify_registerVerifyOKDisapproved {
     $Foswiki::cfg{Register}{NeedApproval} = 1;
     $Foswiki::cfg{Register}{Approvers}    = 'ScumBag';
     try {
-        Foswiki::UI::Register::_verify( $this->{session} );
+        if ( $this->check_dependency('Foswiki,<,1.2') ) {
+            Foswiki::UI::Register::_complete( $this->{session} );
+        }
+        else {
+            Foswiki::UI::Register::_verify( $this->{session} );
+        }
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "approve", $e->{def} );
         $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
         foreach my $mail (@FoswikiFnTestCase::mails) {
@@ -2736,7 +2780,7 @@ sub verify_registerVerifyOKDisapproved {
         my $e = shift;
 
         # verify that we are sending mail to the registrant
-        $this->assert_str_equals( "register", $e->{template}, $e->stringify() );
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "rego_denied", $e->{def} );
 
         # Make sure no mails are sent (yet)
