@@ -435,6 +435,11 @@ $Foswiki::cfg{AuthScripts} = 'attach,compareauth,edit,manage,previewauth,rdiffau
 # every time.
 $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} = 0;
 
+# **BOOLEAN EXPERT DISPLAY_IF {LoginManager}=='Foswiki::LoginManager::TemplateLogin'**
+# Allow a user to log in to foswiki using the email addresses known to the password 
+# system.
+$Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} = 0;
+
 # **REGEX EXPERT**
 # The perl regular expression used to constrain user login names. Some
 # environments may require funny characters in login names, such as \.

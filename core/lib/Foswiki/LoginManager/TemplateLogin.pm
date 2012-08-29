@@ -184,6 +184,27 @@ sub login {
         my $validation = $users->checkPassword( $loginName, $loginPass );
         $error = $users->passwordError();
 
+        if (  !$validation
+            && $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress}
+            && ( $loginName =~ $Foswiki::regex{emailAddrRegex} ) )
+        {
+
+            #try email addresses if it is one
+            my $cuidList = $users->findUserByEmail($loginName);
+            foreach my $cuid (@$cuidList) {
+                my $login = $users->getLoginName($cuid);
+
+                $validation = $users->checkPassword( $login, $loginPass );
+                if ($validation) {
+                    $loginName = $login;
+                    last;
+                }
+
+#this might reveal someone else's username, so using the original failure message
+#$error = $users->passwordError();
+            }
+        }
+
         if ($validation) {
 
             # SUCCESS our user is authenticated. Note that we may already
