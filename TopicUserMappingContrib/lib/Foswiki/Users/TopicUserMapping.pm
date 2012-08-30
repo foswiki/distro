@@ -1255,7 +1255,8 @@ sub findUserByEmail {
                   $this->getEmails($uo);
             }
         }
-        push( @users, @{ $this->{_MAP_OF_EMAILS}->{$email} } );
+        push( @users, @{ $this->{_MAP_OF_EMAILS}->{$email} } )
+          if ( $this->{_MAP_OF_EMAILS}->{$email} );
     }
     return \@users;
 }
@@ -1369,7 +1370,7 @@ sub mapper_getEmails {
     if ($entry) {
         push( @addresses, split( /;/, $entry->{value} ) );
     }
-    else {
+    elsif ( defined $topicObject->text ) {
 
         # Now try the topic text
         foreach my $l ( split( /\r?\n/, $topicObject->text ) ) {

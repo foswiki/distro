@@ -112,6 +112,7 @@ sub set_up_user {
         $this->annotate(
 "create $userLogin user - cUID = $user_id , login $userLogin , wikiname: $userWikiName\n"
         );
+        $this->{session}->{users}->setEmails( $user_id, 'email@home.org.au' );
     }
     else {
         $userLogin = $Foswiki::cfg{AdminUserLogin};
@@ -391,6 +392,34 @@ sub verify_BaseMapping_handleUser {
 
     #TODO: users not in any mapping, and ones in the main mapping
     return;
+}
+
+sub verify_findUserByEmail {
+    my $this = shift;
+
+    $this->setup_new_session();
+    $this->set_up_user();
+
+    my $u = $this->{session}->{users}->findUserByEmail('email@home.org.au');
+    $this->assert_matches( qr/JoeDoe/, join( ' ', @$u ) );
+    $u = $this->{session}->{users}->findUserByEmail('dont@be.silly');
+    $this->assert_equals( "", join( ' ', @$u ) );
+}
+
+sub verify_findUserByEmail_no_pwm {
+    my $this = shift;
+
+    # Force a PW manager that does not handle emails
+    $Foswiki::cfg{PasswordManager} = "Foswiki::Users::Password";
+
+    $this->setup_new_session();
+    $this->set_up_user();
+
+    # emails have to come from the user topic
+    my $u = $this->{session}->{users}->findUserByEmail('email@home.org.au');
+    $this->assert_matches( qr/JoeDoe/, join( ' ', @$u ) );
+    $u = $this->{session}->{users}->findUserByEmail('dont@be.silly');
+    $this->assert_equals( "", join( ' ', @$u ) );
 }
 
 1;
