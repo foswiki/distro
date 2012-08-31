@@ -68,6 +68,21 @@ sub rest_and_be_thankful {
     return;
 }
 
+# A REST handler for checking context
+sub rest_context {
+    my ( $session, $subject, $verb ) = @_;
+
+    my $web   = $session->{webName};
+    my $topic = $session->{topicName};
+
+    Foswiki::Func::pushTopicContext( $web, $Foswiki::cfg{NotifyTopicName} );
+    Foswiki::Func::popTopicContext();
+
+    my $newweb = $session->{webName};
+
+    return "$newweb";
+}
+
 # Simple no-options REST call
 sub test_simple {
     my $this = shift;
@@ -477,6 +492,26 @@ sub test_500 {
     &$UI_FN( $this->{session} );
     my ($text) = $this->capture( $UI_FN, $this->{session} );
     $this->assert_matches( qr#^Status: 500#m, $text );
+    return;
+}
+
+# Test the topic context
+#  - Item12055: PopTopicContext in rest handler looses default context.
+sub test_topic_context {
+    my $this = shift;
+    Foswiki::Func::registerRESTHandler( 'context', \&rest_context );
+
+    $this->expect_failure(
+        "Item12055: PopTopicContext in rest handler looses default context");
+
+    my $query = Unit::Request->new( { action => ['rest'], } );
+    $query->path_info( '/' . __PACKAGE__ . '/context' );
+    $query->method('post');
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ($text) = $this->capture( $UI_FN, $this->{session} );
+
+    $this->assert_matches( qr#$Foswiki::cfg{UsersWebName}#,
+        $text, "Users web context was lost" );
     return;
 }
 
