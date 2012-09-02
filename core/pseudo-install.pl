@@ -772,14 +772,20 @@ sub installFromMANIFEST {
                     # Required for $Foswiki::Plugins::VERSION type references
                     if ( $cond =~ /\$(Foswiki[\w:]*)::\w+/ ) {
                         my $p = $1;
-                        unless ( eval "require $p" ) {
+                        unless (
+                            do { local $SIG{__WARN__}; eval "require $p; 1" }
+                          )
+                        {
                             print STDERR
                               "require '$p' for ONLYIF $cond failed: $@\n";
                             $skipnext = 1;
                             next;
                         }
                     }
-                    unless ( eval $cond ) {
+                    unless (
+                        do { local $SIG{__WARN__}; eval $cond }
+                      )
+                    {
                         $skipnext = 1;
                         next;
                     }
