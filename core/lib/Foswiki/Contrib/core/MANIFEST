@@ -845,7 +845,6 @@ lib/Foswiki/Users/Password.pm 0444
 lib/Foswiki/Validation.pm 0444
 lib/Foswiki/ValidationException.pm 0444
 lib/Foswiki/WebFilter.pm 0444
-lib/MANIFEST 0444
 lib/Monitor.pm 0444
 locale/Foswiki.pot 0444
 locale/bg.po 0444
