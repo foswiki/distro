@@ -32,9 +32,9 @@ bin/view 0555
 bin/viewauth 0555
 bin/viewfile 0555
 bin/viewfileauth 0555
+data/Main/AdminGroup.txt 0644
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
-data/Main/AdminGroup.txt 0644
 data/Main/GroupViewTemplate.txt 0644
 data/Main/ProjectContributor.txt 0644
 data/Main/SitePreferences.txt 0644
@@ -159,8 +159,8 @@ data/System/ShortcutMacros.txt 0644
 data/System/SiteChanges.txt 0644
 data/System/SiteMap.txt 0644
 data/System/SitePermissions.txt 0644
-data/System/SiteTools.txt 0644
 data/System/SiteToolStatistics.txt 0644
+data/System/SiteTools.txt 0644
 data/System/SkinBrowser.txt 0644
 data/System/SkinTemplateTokens.txt 0644
 data/System/SkinTemplateViewTemplate.txt 0644
@@ -349,8 +349,8 @@ data/System/WebTopicList.txt 0644
 data/System/WebsTable.txt 0644
 data/System/WelcomeGuest.txt 0644
 data/System/WikiApplications.txt 0644
-data/System/WikiApplicationsViewTemplate.txt 0644
 data/System/WikiApplicationsViewSectionTemplate.txt 0644
+data/System/WikiApplicationsViewTemplate.txt 0644
 data/System/WikiCulture.txt 0644
 data/System/WikiName.txt 0644
 data/System/WikiNotation.txt 0644
@@ -387,9 +387,7 @@ data/mime.types 0644
 foswiki_httpd_conf.txt 0444
 index.html 0444
 lib/Assert.pm 0444
-lib/MANIFEST 0444 #submodules that make up a full foswiki release
 lib/CPAN/lib/Algorithm/Diff.pm 0444
-lib/CPAN/lib/Crypt/PasswdMD5.pm 0444
 lib/CPAN/lib/CGI/Session.pm 0444
 lib/CPAN/lib/CGI/Session/Driver.pm 0444
 lib/CPAN/lib/CGI/Session/Driver/DBI.pm 0444
@@ -408,16 +406,11 @@ lib/CPAN/lib/CGI/Session/Serialize/storable.pm 0444
 lib/CPAN/lib/CGI/Session/Test/Default.pm 0444
 lib/CPAN/lib/CGI/Session/Tutorial.pm 0444
 lib/CPAN/lib/CSS/Minifier.pm 0644
+lib/CPAN/lib/Crypt/PasswdMD5.pm 0444
 lib/CPAN/lib/Error.pm 0444
 lib/CPAN/lib/JSON/Any.pm 0444
 lib/CPAN/lib/JavaScript/Minifier.pm 0644
 lib/CPAN/lib/Locale/Maketext/Extract.pm 0444
-lib/CPAN/lib/Locale/Maketext/Extract/Run.pm 0444
-lib/CPAN/lib/Locale/Maketext/Lexicon.pm 0444
-lib/CPAN/lib/Locale/Maketext/Lexicon/Auto.pm 0444
-lib/CPAN/lib/Locale/Maketext/Lexicon/Gettext.pm 0444
-lib/CPAN/lib/Locale/Maketext/Lexicon/Msgcat.pm 0444
-lib/CPAN/lib/Locale/Maketext/Lexicon/Tie.pm 0444
 lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Base.pm 444
 lib/CPAN/lib/Locale/Maketext/Extract/Plugin/FormFu.pm 444
 lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Generic.pm 444
@@ -427,6 +420,12 @@ lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Perl.pm 444
 lib/CPAN/lib/Locale/Maketext/Extract/Plugin/TT2.pm 444
 lib/CPAN/lib/Locale/Maketext/Extract/Plugin/TextTemplate.pm 444
 lib/CPAN/lib/Locale/Maketext/Extract/Plugin/YAML.pm 444
+lib/CPAN/lib/Locale/Maketext/Extract/Run.pm 0444
+lib/CPAN/lib/Locale/Maketext/Lexicon.pm 0444
+lib/CPAN/lib/Locale/Maketext/Lexicon/Auto.pm 0444
+lib/CPAN/lib/Locale/Maketext/Lexicon/Gettext.pm 0444
+lib/CPAN/lib/Locale/Maketext/Lexicon/Msgcat.pm 0444
+lib/CPAN/lib/Locale/Maketext/Lexicon/Tie.pm 0444
 lib/CPAN/lib/Locale/Msgfmt.pm 444
 lib/CPAN/lib/Locale/Msgfmt/Utils.pm 444
 lib/CPAN/lib/Locale/Msgfmt/mo.pm 444
@@ -603,8 +602,8 @@ lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
 lib/Foswiki/Configure/resources/icon_world.gif 0444
 lib/Foswiki/Configure/resources/intro.html 0444
 lib/Foswiki/Configure/resources/jquery-1.3.2.js 0444
-lib/Foswiki/Configure/resources/jquery.nyroModal-1.6.2.min.js 0444
 lib/Foswiki/Configure/resources/jquery.nyroModal-1.6.2.css 0444
+lib/Foswiki/Configure/resources/jquery.nyroModal-1.6.2.min.js 0444
 lib/Foswiki/Configure/resources/legend.html 0444
 lib/Foswiki/Configure/resources/next.gif 0444
 lib/Foswiki/Configure/resources/pattern.css 0444
@@ -626,8 +625,8 @@ lib/Foswiki/Configure/templates/pageend.tmpl 0444
 lib/Foswiki/Configure/templates/sanity.tmpl 0444
 lib/Foswiki/Configure/templates/section.tmpl 0444
 lib/Foswiki/Configure/templates/testemailintro.tmpl 0444
-lib/Foswiki/Contrib/core/MANIFEST 0444 #just the foswiki core module files
 lib/Foswiki/Contrib/core/DEPENDENCIES 0444
+lib/Foswiki/Contrib/core/MANIFEST 0444 #just the foswiki core module files
 lib/Foswiki/Engine.pm 0444
 lib/Foswiki/Engine/CGI.pm 0444
 lib/Foswiki/Engine/CLI.pm 0444
@@ -730,11 +729,11 @@ lib/Foswiki/Net/HTTPResponse.pm 0444
 lib/Foswiki/Net/UserCredAgent.pm 0444
 lib/Foswiki/OopsException.pm 0444
 lib/Foswiki/PageCache.pm 0444
-lib/Foswiki/PageCache/DBI/PostgreSQL.pm 0444
+lib/Foswiki/PageCache/DBI.pm 0444
 lib/Foswiki/PageCache/DBI/Generic.pm 0444
 lib/Foswiki/PageCache/DBI/MySQL.pm 0444
+lib/Foswiki/PageCache/DBI/PostgreSQL.pm 0444
 lib/Foswiki/PageCache/DBI/SQLite.pm 0444
-lib/Foswiki/PageCache/DBI.pm 0444
 lib/Foswiki/Plugin.pm 0444
 lib/Foswiki/Plugins.pm 0444
 lib/Foswiki/Plurals.pm 0444
@@ -768,8 +767,8 @@ lib/Foswiki/Query/OP_lt.pm 0444
 lib/Foswiki/Query/OP_lte.pm 0444
 lib/Foswiki/Query/OP_match.pm 0444
 lib/Foswiki/Query/OP_minus.pm 0444
-lib/Foswiki/Query/OP_neg.pm 0444
 lib/Foswiki/Query/OP_ne.pm 0444
+lib/Foswiki/Query/OP_neg.pm 0444
 lib/Foswiki/Query/OP_not.pm 0444
 lib/Foswiki/Query/OP_ob.pm 0444
 lib/Foswiki/Query/OP_or.pm 0444
@@ -845,6 +844,7 @@ lib/Foswiki/Users/Password.pm 0444
 lib/Foswiki/Validation.pm 0444
 lib/Foswiki/ValidationException.pm 0444
 lib/Foswiki/WebFilter.pm 0444
+lib/MANIFEST 0444 #submodules that make up a full foswiki release
 lib/Monitor.pm 0444
 locale/Foswiki.pot 0444
 locale/bg.po 0444
@@ -906,10 +906,10 @@ pub/System/JavascriptFiles/foswikiPref.js.gz 0644
 pub/System/JavascriptFiles/foswikiPref_src.js 0644
 pub/System/JavascriptFiles/foswikiString.js 0644
 pub/System/JavascriptFiles/foswikiString.js.gz 0644
-pub/System/JavascriptFiles/foswikiString_src.js 0644
 pub/System/JavascriptFiles/foswikiStringUnicodeChars.js 0644
 pub/System/JavascriptFiles/foswikiStringUnicodeChars.js.gz 0644
 pub/System/JavascriptFiles/foswikiStringUnicodeChars_src.js 0644
+pub/System/JavascriptFiles/foswikiString_src.js 0644
 pub/System/JavascriptFiles/foswikiStyles.js 0644
 pub/System/JavascriptFiles/foswikiStyles.js.gz 0644
 pub/System/JavascriptFiles/foswikiStyles_src.js 0644
@@ -1043,8 +1043,8 @@ tools/geturl.pl 0555
 tools/rewriteshebang.pl 0555
 tools/tick_foswiki.pl 0555
 working/README 0444
+working/configure/.htdigest-configure 0640 Htdigest file protects configure
+working/logs/README 0444
 working/registration_approvals/README 0444
 working/tmp/README 0444
 working/work_areas/README 0444
-working/logs/README 0444
-working/configure/.htdigest-configure 0640 Htdigest file protects configure
