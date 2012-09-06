@@ -1281,18 +1281,18 @@ sub Manifest {
 
     foreach my $file ( sort keys( %{ $this->{_manifest} } ) ) {
         next if ( $file eq 'ATTACH' );
-        $rslt .=
-"$file $this->{_manifest}->{$file}->{perms} $this->{_manifest}->{$file}->{md5} $this->{_manifest}->{$file}->{desc}\n";
+        $rslt .= join( " ",
+            $file,
+            map { $this->{_manifest}->{$file}->{$_} } qw( perms md5 desc ) )
+          . "\n";
     }
     return $rslt;
 }
 
 =begin TML
 
----++ _parseManifest ( $line, $v2)
-Parse the manifest line into the manifest hash.  If $v2 is
-true, use the version 2 format containing the MD5 sum of
-the file.
+---++ _parseManifest ( $line )
+Parse the manifest line into the manifest hash.
 
 ->{filename}->{ci}      Flag if file should be "checked in"
 ->{filename}->{perms}   File permissions
@@ -1303,11 +1303,16 @@ the file.
 sub _parseManifest {
     my ( $this, $line ) = @_;
 
-    warn $line;
-    my ( $file, $perms, $md5, $desc ) =
-      $line =~ /^(\S+)(?:\s+(\S+)(?:\s+([a-f0-9]{32}))?\s*(.*))?$/;
+    my ( $file, $perms, $md5, $desc ) =    # New format
+      $line =~ /^(".+"|\S+)\s+(\d+)(?:\s+([a-f0-9]{32}))?\s+(.*)$/;
+
+    unless ($file) {                       # Old format, for legacy
+        ( $file, $perms, $md5, $desc ) =
+          /^([^,]+)(?:,([^,]+)(?:,([a-f0-9]{32}))?,(.*))?$/;
+    }
 
     return "No file found in $line - line bypassed" unless $file;
+    $file =~ s/^"(.+)"$/$1/;
 
     my $tweb    = '';
     my $ttopic  = '';

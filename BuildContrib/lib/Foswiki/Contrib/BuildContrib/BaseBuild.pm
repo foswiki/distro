@@ -15,6 +15,8 @@
 package Foswiki::Contrib::BuildContrib::BaseBuild;
 
 use strict;
+use warnings;
+use Digest::MD5;
 
 =begin foswiki
 
@@ -69,7 +71,8 @@ sub readManifest {
 
     #print STDERR "---- $baseDir, $path, $file\n";
 
-    unless ( $file && open( PF, '<' . $file ) ) {
+    my $pf;
+    unless ( $file && open( $pf, '<', $file ) ) {
         print STDERR 'COULD NOT OPEN MANIFEST FILE ', $file, $NL;
         &$noManifestFileHook()
           if defined($noManifestFileHook)
@@ -81,7 +84,8 @@ sub readManifest {
     my $line;
     my $noci = 0;
     my %options;
-    while ( $line = <PF> ) {
+    my $md5 = Digest::MD5->new;
+    while ( $line = <$pf> ) {
         next if $line =~ /^\s*(?:#|$)/;
         if ( $line =~ /^!include\s+(\S+)\s*$/ ) {
             push( @otherModules, $1 );
@@ -96,10 +100,10 @@ sub readManifest {
             $noci = 0;
         }
         elsif ( $line =~ /^(".*"|\S+)\s+(0?\d\d\d)?\s*(\S.*)?\s*$/o ) {
-            my $name = $1;
-            $name =~ s/^"(.*)"$/$1/;
+            my ( $name, $quotedName ) = ( $1, $1 );
             my $permissions = $2;
             my $desc = $3 || '';
+            $name =~ s/^"(.*)"$/$1/;
             if ( $noci && $desc !~ /\(noci\)/ ) {
                 $desc .= " (noci)";
             }
@@ -133,13 +137,27 @@ sub readManifest {
             $permissions =~ s/^0+/0/;
             my $n = {
                 name        => $name,
+                quotedName  => $quotedName,
                 description => ( $desc || '' ),
-                permissions => $permissions
+                permissions => $permissions,
+                md5         => '',
             };
+            if ( -f "$baseDir/$name" ) {
+                $md5->new;
+                open my $fh, '<', "$baseDir/$name"
+                  or die "Can't open $baseDir/$name: $!";
+                binmode $fh;
+                $md5->addfile($fh);
+                close $fh;
+                $n->{md5} = $md5->hexdigest;
+            }
+            else {
+                warn "File $name does not exist on disk!";
+            }
             push( @files, $n );
         }
     }
-    close(PF);
+    close $pf;
     return ( \@files, \@otherModules, \%options );
 }
 

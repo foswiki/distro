@@ -1,6 +1,6 @@
 #
 # Copyright (C) 2004-2012 C-Dot Consultants - All rights reserved
-# Copyright (C) 2008-2010 Foswiki Contributors
+# Copyright (C) 2008-2012 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -302,7 +302,10 @@ sub new {
     my $rawman    = '';
     my $hashtable = '';
     foreach my $file ( @{ $this->{files} } ) {
-        $rawman .= "$file->{name},$file->{permissions},$file->{description}\n";
+        $rawman .= join( ' ',
+            map { $file->{$_} || '' }
+              qw{quotedName permissions md5 description} )
+          . "\n";
         $mantable .=
             "   | =="
           . $file->{name} . '== | '
