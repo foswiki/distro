@@ -465,7 +465,8 @@ s/<([A-Za-z]+[^>]*?)((?:\s+\/)?)>/"<" . $this->_appendClassToTag($1, 'TMLhtml') 
     $text =~ s/$TT3/%/g;
 
     # Handle [[][]] links by letting the WYSIWYG handle them as standard links
-    $text =~ s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2)/ge;
+    $text =~
+      s/\[\[([^]]*)\]\[([^]]*)\]\]/$this->_liftOutSquab($1,$2,'TMLlink')/ge;
 
     # Handle [[]] links
     $text =~ s/\[\[([^\]]*)\]\]/$this->_liftOutSquab($1,$1,'TMLlink')/ge;
