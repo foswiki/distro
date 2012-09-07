@@ -1010,9 +1010,9 @@ HERE
 HERE
         html => <<'HERE',
 <ul>
-<li> <a href="%WIKIUSERNAME%">My home page</a>
+<li> <a class="TMLlink" href="%WIKIUSERNAME%">My home page</a>
 </li>
-<li> <a href="%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on">My <span class="WYSIWYG_PROTECTED WYSIWYG_PROTECTED">%BASEWEB%</span> activities</a>
+<li> <a class="TMLlink" href="%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on">My <span class="WYSIWYG_PROTECTED WYSIWYG_PROTECTED">%BASEWEB%</span> activities</a>
 </li>
 </ul>
 <p class='WYSIWYG_NBNL'><span class="WYSIWYG_PROTECTED">&#60;a&nbsp;class=&#34;foswikiSmallish&#34;&nbsp;href=&#34;%SCRIPTURLPATH{&#34;edit&#34;}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{&#34;$epoch&#34;}%&#34;&#62;edit&#60;/a&#62;</span>
@@ -1151,6 +1151,43 @@ HERE
         tml => <<'EVERYWHERE',
 <noautolink>
 WebHome
+</noautolink>
+LinkingTopic
+EVERYWHERE
+    },
+    {
+
+        # Item12043: Preserve all squabs in noautolink.
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'noautolinkSquabBlock',
+        html => <<HERE,
+<p>
+<span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink' href="WebHome">WebHome</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink' href="WebHome">WebHome</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink' href="WebHome">HomeTopic</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a href="LinkingTopic">LinkingTopic</a>
+</p>
+HERE
+        tml => <<'EVERYWHERE',
+<noautolink>
+[[WebHome]]
+[[WebHome][WebHome]]
+[[WebHome][HomeTopic]]
+</noautolink>
+LinkingTopic
+EVERYWHERE
+        finaltml => <<'EVERYWHERE',
+<noautolink>
+[[WebHome]]
+[[WebHome]]
+[[WebHome][HomeTopic]]
 </noautolink>
 LinkingTopic
 EVERYWHERE
@@ -2930,7 +2967,7 @@ BLAH
 [[%ATTACHURL%/LinkEditingInWysiwyg-4.patch][LinkEditingInWysiwyg-4.patch]]
 BLAH
         html => <<'BLAH',
-<p><a href="%ATTACHURL%/LinkEditingInWysiwyg-4.patch">LinkEditingInWysiwyg-4.patch</a> 
+<p><a class="TMLlink" href="%ATTACHURL%/LinkEditingInWysiwyg-4.patch">LinkEditingInWysiwyg-4.patch</a> 
 </p>
 BLAH
     },
@@ -2958,7 +2995,7 @@ BLAH
 [[Main/WebHome][ =A *BOLD* WebHome= ]]
 BLAH
         html => <<'BLAH',
-<p><a href="Main/WebHome"><span class="WYSIWYG_TT">A <b>BOLD</b> WebHome</span></a>
+<p><a class="TMLlink" href="Main/WebHome"><span class="WYSIWYG_TT">A <b>BOLD</b> WebHome</span></a>
 </p>
 BLAH
     },
@@ -3016,7 +3053,7 @@ BLAH
 [[Main/WebHome][ =A %RED%Red text%ENDCOLOR% WebHome= ]]
 BLAH
         html => <<'BLAH',
-<p><a href="Main/WebHome"><span class="WYSIWYG_TT">A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span> WebHome</span></a>
+<p><a class="TMLlink" href="Main/WebHome"><span class="WYSIWYG_TT">A <span class='WYSIWYG_COLOR' style='color:Red'>Red text</span> WebHome</span></a>
 </p>
 BLAH
     },
