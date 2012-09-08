@@ -96,9 +96,9 @@ sub skip {
 'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileRollingLogger'
                   => 'Missing Log::Dispatch',
                 'LoggerTests::test_LogDispatchFileEachEventSinceOnSeveralLogs'
-                  => => 'Missing Log::Dispatch',
+                  => 'Missing Log::Dispatch',
 'LoggerTests::test_LogDispatchFileRollingEachEventSinceOnSeveralLogs'
-                  => => 'Missing Log::Dispatch',
+                  => 'Missing Log::Dispatch',
 'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileRollingLogger'
                   => 'Missing Log::Log4perl::DateFormat',
 'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileRollingLogger'
