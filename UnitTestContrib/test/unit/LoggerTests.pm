@@ -40,6 +40,28 @@ sub tear_down {
 sub skip {
     my ( $this, $test ) = @_;
 
+    my %skip_tests = (
+        'LoggerTests::verify_timing_rotate_events_LogDispatchFileLogger' =>
+          'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_timing_rotate_events_LogDispatchFileRollingLogger'
+          => 'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_rotate_events_LogDispatchFileLogger' =>
+          'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_rotate_events_LogDispatchFileRollingLogger' =>
+          'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_rotate_debug_LogDispatchFileLogger' =>
+          'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_rotate_debug_LogDispatchFileRollingLogger' =>
+          'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_rotate_error_LogDispatchFileLogger' =>
+          'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_rotate_error_LogDispatchFileRollingLogger' =>
+          'Log::Dispatch does not perform file rotation',
+    );
+
+    return $skip_tests{$test}
+      if ( defined $test && defined $skip_tests{$test} );
+
     return $this->SUPER::skip_test_if(
         $test,
         {
@@ -64,23 +86,7 @@ sub skip {
                   'Missing Log::Dispatch',
                 'LoggerTests::verify_filter_LogDispatchFileRollingLogger' =>
                   'Missing Log::Dispatch',
-                'LoggerTests::verify_rotate_debug_LogDispatchFileLogger' =>
-                  'Missing Log::Dispatch',
-                'LoggerTests::verify_rotate_debug_LogDispatchFileRollingLogger'
-                  => 'Missing Log::Dispatch',
-                'LoggerTests::verify_rotate_error_LogDispatchFileLogger' =>
-                  'Missing Log::Dispatch',
-                'LoggerTests::verify_rotate_error_LogDispatchFileRollingLogger'
-                  => 'Missing Log::Dispatch',
-                'LoggerTests::verify_rotate_events_LogDispatchFileLogger' =>
-                  'Missing Log::Dispatch',
-                'LoggerTests::verify_rotate_events_LogDispatchFileRollingLogger'
-                  => 'Missing Log::Dispatch',
                 'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileLogger'
-                  => 'Missing Log::Dispatch',
-                'LoggerTests::verify_timing_rotate_events_LogDispatchFileLogger'
-                  => 'Missing Log::Dispatch',
-'LoggerTests::verify_timing_rotate_events_LogDispatchFileRollingLogger'
                   => 'Missing Log::Dispatch',
 'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileRollingLogger'
                   => 'Missing Log::Dispatch',
@@ -130,6 +136,11 @@ sub LogDispatchFileLogger {
     $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
     $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
     $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+        'events' => 'info:info',
+        'error'  => 'notice:emergency',
+        'debug'  => 'debug:debug',
+    };
     $this->{logger} = Foswiki::Logger::LogDispatch->new();
 
     return;
@@ -247,7 +258,7 @@ sub PlainFileTestTime {
 }
 
 # Test specific to PlainFile logger
-sub verify_eachEventSinceOnSeveralLogs {
+sub test_PlainFileEachEventSinceOnSeveralLogs {
     my $this   = shift;
     my $logger = Foswiki::Logger::PlainFile->new();
     my $cache  = \&Foswiki::Logger::PlainFile::_time;
@@ -306,11 +317,151 @@ sub verify_eachEventSinceOnSeveralLogs {
     return;
 }
 
+# Test specific to LogDispatch File logger
+sub test_LogDispatchFileEachEventSinceOnSeveralLogs {
+    my $this = shift;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+        'events' => 'info:info',
+        'error'  => 'notice:emergency',
+        'debug'  => 'debug:debug',
+    };
+    require Foswiki::Logger::LogDispatch;
+    my $logger = Foswiki::Logger::LogDispatch->new();
+    my $cache  = \&Foswiki::Logger::LogDispatch::_time;
+    no warnings 'redefine';
+    *Foswiki::Logger::LogDispatch::_time = \&PlainFileTestTime;
+    use warnings 'redefine';
+
+    $plainFileTestTime = 3600;
+    $logger->log( 'info', "Seal" );
+    my $firstTime = time - 2 * 32 * 24 * 60 * 60;
+    $plainFileTestTime = $firstTime;    # 2 months ago
+    $logger->log( 'info', "Dolphin" );
+    $plainFileTestTime += 32 * 24 * 60 * 60;    # 1 month ago
+    $logger->log( 'info', "Whale" );
+    $plainFileTestTime = time;                  # today
+    $logger->log( 'info', "Porpoise" );
+
+    my $it = $logger->eachEventSince( 0, 'info' );
+    my $data;
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( 3600, $data->[0] );
+    $this->assert_str_equals( "Seal", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $firstTime, $data->[0] );
+    $this->assert_str_equals( "Dolphin", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_str_equals( "Whale", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $plainFileTestTime, $data->[0] );
+    $this->assert_str_equals( "Porpoise", $data->[1] );
+    $this->assert( !$it->hasNext() );
+
+    # Check the date filter
+    $it = $logger->eachEventSince( $firstTime, 'info' );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $firstTime, $data->[0] );
+    $this->assert_str_equals( "Dolphin", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_str_equals( "Whale", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $plainFileTestTime, $data->[0] );
+    $this->assert_str_equals( "Porpoise", $data->[1] );
+    $this->assert( !$it->hasNext() );
+
+    no warnings 'redefine';
+    *Foswiki::Logger::LogDispatch::_time = $cache;
+    use warnings 'redefine';
+
+    return;
+}
+
+# Test specific to LogDispatch FileRolling logger
+sub test_LogDispatchFileRollingEachEventSinceOnSeveralLogs {
+    my $this = shift;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}           = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled}    = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}         = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{FileLevels} = {
+        'events' => 'info:info',
+        'error'  => 'notice:emergency',
+        'debug'  => 'debug:debug',
+    };
+    require Foswiki::Logger::LogDispatch;
+    my $logger = Foswiki::Logger::LogDispatch->new();
+    my $cache  = \&Foswiki::Logger::LogDispatch::_time;
+    no warnings 'redefine';
+    *Foswiki::Logger::LogDispatch::_time = \&PlainFileTestTime;
+    use warnings 'redefine';
+
+    $plainFileTestTime = 3600;
+    $logger->log( 'info', "Seal" );
+    my $firstTime = time - 2 * 32 * 24 * 60 * 60;
+    $plainFileTestTime = $firstTime;    # 2 months ago
+    $logger->log( 'info', "Dolphin" );
+    $plainFileTestTime += 32 * 24 * 60 * 60;    # 1 month ago
+    $logger->log( 'info', "Whale" );
+    $plainFileTestTime = time;                  # today
+    $logger->log( 'info', "Porpoise" );
+
+    my $it = $logger->eachEventSince( 0, 'info' );
+    my $data;
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( 3600, $data->[0] );
+    $this->assert_str_equals( "Seal", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $firstTime, $data->[0] );
+    $this->assert_str_equals( "Dolphin", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_str_equals( "Whale", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $plainFileTestTime, $data->[0] );
+    $this->assert_str_equals( "Porpoise", $data->[1] );
+    $this->assert( !$it->hasNext() );
+
+    # Check the date filter
+    $it = $logger->eachEventSince( $firstTime, 'info' );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $firstTime, $data->[0] );
+    $this->assert_str_equals( "Dolphin", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_str_equals( "Whale", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_equals( $plainFileTestTime, $data->[0] );
+    $this->assert_str_equals( "Porpoise", $data->[1] );
+    $this->assert( !$it->hasNext() );
+
+    no warnings 'redefine';
+    *Foswiki::Logger::LogDispatch::_time = $cache;
+    use warnings 'redefine';
+
+    return;
+}
+
 sub verify_filter {
 
     # with PlainFile, warning up are all crammed into one logfile
     my $this   = shift;
-    my $logger = Foswiki::Logger::PlainFile->new();
+    my $logger = $this->{logger};
     $logger->log( 'warning',  "Shark" );
     $logger->log( 'error',    "Dolphin" );
     $logger->log( 'critical', "Injury" );
