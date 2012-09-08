@@ -74,8 +74,11 @@ sub skip {
             }
         },
         {
-            condition => { without_dep => 'Log::Dispatch' },
-            tests     => {
+            condition => {
+                without_dep => 'Log::Dispatch',
+                without_dep => 'Foswiki::Logger::LogDispatch'
+            },
+            tests => {
 'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileLogger'
                   => 'Missing Log::Dispatch',
 'LoggerTests::verify_eachEventSinceOnSeveralLogs_LogDispatchFileLogger'
@@ -87,6 +90,14 @@ sub skip {
                 'LoggerTests::verify_filter_LogDispatchFileRollingLogger' =>
                   'Missing Log::Dispatch',
                 'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileLogger'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::verify_simpleWriteAndReplay_LogDispatchFileRollingLogger'
+                  => 'Missing Log::Dispatch',
+                'LoggerTests::test_LogDispatchFileEachEventSinceOnSeveralLogs'
+                  => 'Missing Log::Dispatch',
+'LoggerTests::test_LogDispatchFileRollingEachEventSinceOnSeveralLogs'
                   => 'Missing Log::Dispatch',
 'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileRollingLogger'
                   => 'Missing Log::Dispatch',
