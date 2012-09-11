@@ -117,12 +117,11 @@ The mailer can be invoked from the command line by the =tools/mailnotify=
 script.
 
 The script is used as follows:%BR%
-<code>perl -I _bin_ mailnotify [-q] [-user <i>UserName</i>] [-nonews] [-nochanges] [ <i>web1 web2 ... webN</i> ]</code>
+<code>perl -I _bin_ mailnotify [-q] [-nonews] [-nochanges] [ <i>web1 web2 ... webN</i> ]</code>
 | _bin_ | path to the Foswiki =bin= directory, so that the script can find the rest of Foswiki |
 | =-q= | Don't print progress information |
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
-| =-user= | Process the webs and topics as the specified user; defaults to =AdminUser=.%BR%__%X% Note:__ A bug present in versions of Foswiki through 1.0.10 default this to the wrong value.  Therefore, always explicitly specify =-user <nop>AdminUser= as shown in the examples below`. |
 | <code style="white-space:nowrap"><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
 <blockquote class="foswikiHelp">%X% Be careful what user you use to run this script. It will write the
@@ -150,19 +149,19 @@ If you choose to setup the cron by editing the system-wide =/etc/crontab= file, 
 
 For example, assuming Foswiki was installed at =/usr/local/foswiki=, this cron entry:
 <verbatim class="bash">
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -q Public Private
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q Public Private
 </verbatim>
 will generate change notifications for the =Public= and =Private= webs every night at midnight.
 <verbatim class="bash">
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -q -Sandbox
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -q -Sandbox
 </verbatim>
 will generate change notifications for all webs, except the =Sandbox= web.
 <verbatim class="bash">
-0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -nochanges
+0 0 * * 0 cd /usr/local/foswiki && perl -I bin tools/mailnotify -nochanges
 </verbatim>
 will generate newsletters from *all* webs every week on midnight Saturday but will not process the non-newsletter subscriptions.
 <verbatim class="bash">
-0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -user AdminUser -nonews
+0 0 * * * cd /usr/local/foswiki && perl -I bin tools/mailnotify -nonews
 </verbatim>
 will generate change notifications for all webs every night at midnight but will not process the newsletter subscriptions.
 
@@ -253,6 +252,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  2.5.3 (11 Sep 2011) | Foswiki:Tasks/Item12072: undocument non-existent =-user= parameter and update faulty examples |
 |  | Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics |
 |  2.5.2 (2 Dec 2011) | Foswiki 1.1.4 Release:  Foswiki:Tasks/Item11138: Foswiki:Tasks/Item11131: Document behavior with group subscriptions, Resolve issue with trailing spaces impacting subscriptions |
 |  2.5.1 (25 Jul 2011) | Foswiki:Tasks/Item10980: fix case where interaction with SubscribePlugin could potentially break cached CGI (fcgid/mod_perl) |
