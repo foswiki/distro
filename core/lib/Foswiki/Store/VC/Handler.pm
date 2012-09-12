@@ -381,9 +381,9 @@ sub _cacheMetaInfo {
       . 'author="'
       . $user . '"'
       . $comment
-      . 'date="'
+      . ' date="'
       . $date . '"'
-      . 'format="1.1" version="'
+      . ' format="1.1" version="'
       . $rev . '"}%'
       . "\n$text";
 
