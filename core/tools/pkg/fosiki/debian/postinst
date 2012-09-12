@@ -132,7 +132,8 @@ case "$1" in
 			    touch /var/lib/foswiki/data/.htpasswd
 			    chmod 660 /var/lib/foswiki/data/.htpasswd
 			fi
-		       	$HTPASSWDCMD -b /var/lib/foswiki/data/.htpasswd "$configuser" "$configpassword"
+			#quick hack to force htpasswrd to use crypt - in 1.1.6 configure will cope with md5
+		       	$HTPASSWDCMD -bd /var/lib/foswiki/data/.htpasswd "$configuser" "$configpassword"
 			chown $WIKI_OWNER.www-data /var/lib/foswiki/data/.htpasswd
 			#add the same password into the LocalLib.cfg
 			passwordhash=`grep "$configuser" /var/lib/foswiki/data/.htpasswd | sed "s/$configuser://"`
