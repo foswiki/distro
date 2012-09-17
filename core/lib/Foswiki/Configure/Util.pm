@@ -440,6 +440,7 @@ sub _unzip {
             1;
         } or do {
             $error = "unzip failed $@ \n";
+            $@     = '';
         };
     }
 
@@ -489,6 +490,7 @@ sub _untar {
             1;
         } or do {
             $error = "tar failed: $@\n";
+            $@     = '';
           }
     }
 
