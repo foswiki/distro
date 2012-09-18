@@ -3734,7 +3734,7 @@ GNURF
     #order by modified, limit=2, with groupby=none
     # As order is last modification time, we need to ensure they're different
     # and that the order is fixed. So creating a buch of test topics
-    my %testWebs = ( Main => 0, System => 10, Sandbox => 100 );
+    my %testWebs = ( Main => 0, System => 60, Sandbox => 120 );
     while ( my ( $web, $delay ) = each %testWebs ) {
         my ($ltopicObject) = Foswiki::Func::readTopic( "$web", 'TheTopic' );
         $ltopicObject->text(<<'CRUD');
@@ -3760,7 +3760,7 @@ CRUD
  limit="2"
 }%
 GNURF
-    $this->assert_equals( "HEADERSystem TheTopic, Sandbox TheTopicFOOTER\n",
+    $this->assert_equals( "HEADERMain TheTopic, System TheTopicFOOTER\n",
         $result );
 
     return;
