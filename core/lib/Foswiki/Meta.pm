@@ -1934,7 +1934,7 @@ sub save {
 
     throw $signal if $signal;
 
-    ASSERT( $newRev, $this->{loadedRev} ) if DEBUG;
+    ASSERT( $newRev, $this->{_loadedRev} ) if DEBUG;
 
     my @extras = ();
     push( @extras, 'minor' )   if $opts{minor};      # don't notify
@@ -3596,8 +3596,8 @@ sub setEmbeddedStoreForm {
         }
     }
 
-    # eat the extra newline put in to separate text from tail meta-data
-    $text =~ s/\n$//s if $endMeta;
+    # eat extra newlines put in to separate text from tail meta-data
+    $text =~ s/\n+$/\n/s if $endMeta;
 
     # If there is no meta data then convert from old format
     if ( !$this->count('TOPICINFO') ) {

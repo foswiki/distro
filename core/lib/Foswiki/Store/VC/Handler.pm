@@ -351,41 +351,25 @@ sub _cacheMetaInfo {
       unless defined $user;
     $date = time() unless defined $date;
 
+    my $info;
+
     # remove the previous record
     if ( $text =~ s/^%META:TOPICINFO{(.*)}%\n//m ) {
-        my $info = Foswiki::Attrs->new($1);
+        $info = Foswiki::Attrs->new($1);
 
-        # keep the rev id as is unless specified as parameter
-        unless ( defined $rev ) {
-            $rev = $info->{version};
-        }
-
-        # keep comment as is unless specified otherwise
-        unless ( defined $comment ) {
-            $comment = $info->{comment};
-        }
-    }
-
-    # only store a comment attr when there is one
-    if ( defined $comment && $comment ne '' ) {
-        $comment = ' comment="' . $comment . '"';
     }
     else {
-        $comment = '';
+        $info = Foswiki::Attrs->new();
     }
 
-    $rev ||= 1;
+    $info->{comment} = $comment if defined $comment && $comment ne '';
+    $info->{author}  = $user;
+    $info->{date}    = $date;
+    $info->{version} = ( $rev || 1 ) if defined $rev;
+    $info->{version} ||= 1;
+    $info->{format} = '1.1';
 
-    $text =
-        '%META:TOPICINFO{'
-      . 'author="'
-      . $user . '"'
-      . $comment
-      . ' date="'
-      . $date . '"'
-      . ' format="1.1" version="'
-      . $rev . '"}%'
-      . "\n$text";
+    $text = "%META:TOPICINFO{" . $info->stringify . "}%\n" . $text;
 
     return $text;
 }

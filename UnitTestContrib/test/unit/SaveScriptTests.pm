@@ -1166,7 +1166,7 @@ sub test_1897 {
       ( $info->{date}, $info->{author}, $info->{version} );
 
     $this->assert_equals( 1, $orgRev );
-    $this->assert_str_equals( "Smelly\ncat", $text );
+    $this->assert_str_equals( "Smelly\ncat\n", $text );
 
     my $original = "${orgRev}_$orgDate";
     sleep(1);    # tick the clock to ensure the date changes
@@ -1223,7 +1223,7 @@ sub test_1897 {
       ( $info->{date}, $info->{author}, $info->{version} );
     $this->assert_equals( 2, $mergeRev );
     $this->assert_str_equals(
-"<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>",
+"<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>\n",
         $text
     );
     $meta->finish();
