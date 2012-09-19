@@ -365,7 +365,7 @@ sub _cacheMetaInfo {
     $info->{comment} = $comment if defined $comment && $comment ne '';
     $info->{author}  = $user;
     $info->{date}    = $date;
-    $info->{version} = ( $rev || 1 ) if defined $rev;
+    $info->{version} = $rev if defined $rev;
     $info->{version} ||= 1;
     $info->{format} = '1.1';
 
