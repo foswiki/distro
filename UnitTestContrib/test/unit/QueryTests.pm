@@ -531,8 +531,8 @@ sub verify_string_uops {
     $this->check( "length attachments",     eval => 2 );
     $this->check( "length META:PREFERENCE", eval => 5 );
     $this->check( "length 'five'",          eval => 4, simpler => 4 );
-    $this->check( "length info",            eval => 5 );
-    $this->check( "length (info)",          eval => 5 );
+    $this->check( "length info",            eval => 6 );
+    $this->check( "length (info)",          eval => 6 );
     $this->check( "length notafield",       eval => 0 );
 
     $this->check( "brace",         eval => 'Some text (really) we have text' );
