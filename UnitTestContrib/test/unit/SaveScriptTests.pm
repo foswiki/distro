@@ -39,7 +39,7 @@ my $testform4 = $testform1 . <<'HERE';
 HERE
 
 my $testtext1 = <<'HERE';
-%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.1" version="0"}%
 
 A guest of this Foswiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
 
@@ -1153,18 +1153,19 @@ sub test_1897 {
     my $query;
     $oldmeta->setEmbeddedStoreForm($oldtext);
 
+    $this->assert_str_equals( $testtext1, $oldmeta->getEmbeddedStoreForm() );
+
     # First, user A saves to create rev 1
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
     $meta->copyFrom($oldmeta);
     $meta->text("Smelly\ncat");
     $meta->save();
     $meta->finish();
 
-    my $rawFirst =
-      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+    ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
 
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
-    my $text = $meta->text();
     my $info = $meta->getRevisionInfo();
     my ( $orgDate, $orgAuth, $orgRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
@@ -1186,18 +1187,17 @@ sub test_1897 {
     );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
-    my $rawSecond =
-      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
-    $this->assert_equals( $rawFirst, $rawSecond );
 
     # make sure it's still rev 1 as expected
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
-    $text = $meta->text();
+    my $text2;
+    ( $meta, $text2 ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+
     $info = $meta->getRevisionInfo();
     my ( $repRevDate, $repRevAuth, $repRevRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
     $this->assert_equals( 1, $repRevRev );
-    $this->assert_str_equals( "Sweaty\ncat", $text );
+    $this->assert_str_equals( "Sweaty\ncat", $text2 );
     $this->assert( $repRevDate != $orgDate );
 
     # User B saves; make sure we get a merge notice.
@@ -1230,7 +1230,7 @@ sub test_1897 {
       ( $info->{date}, $info->{author}, $info->{version} );
     $this->assert_equals( 2, $mergeRev );
     $this->assert_str_equals(
-"<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>\n",
+"<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>",
         $text
     );
     $meta->finish();

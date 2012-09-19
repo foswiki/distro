@@ -490,8 +490,6 @@ sub test_saveTopicRoundTrip {
 'Tis some text
 and a trailing newline
 
-
-
 %META:FILEATTACHMENT{name="IMG_0608.JPG" attr="" autoattached="1" comment="A Comment" date="1162233146" size="762004" user="Main.AUser" version="1"}%
 NONNY
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
@@ -504,7 +502,7 @@ NONNY
     my $text2 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
 
     my $matchText =
-'%META:TOPICINFO{author="BaseUserMapping_666" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%'
+'%META:TOPICINFO{author="BaseUserMapping_666" comment="reprev" date=".*?" format="1.1" reprev="1" version="1"}%'
       . "\n"
       . $origtext;
     $this->assert_matches( qr/$matchText/, $text2 );
