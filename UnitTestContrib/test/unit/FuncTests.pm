@@ -490,6 +490,8 @@ sub test_saveTopicRoundTrip {
 'Tis some text
 and a trailing newline
 
+
+
 %META:FILEATTACHMENT{name="IMG_0608.JPG" attr="" autoattached="1" comment="A Comment" date="1162233146" size="762004" user="Main.AUser" version="1"}%
 NONNY
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, $origtext );
