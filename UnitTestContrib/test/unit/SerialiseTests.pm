@@ -162,6 +162,58 @@ sub test_SimpleTopicSave {
       Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic' );
     $this->assert_equals( $text, $newmeta->text() );
 
+    $newmeta->save();
+    $newmeta->finish();
+
+    my ( $three, $t3 ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic' );
+    $this->assert_equals( $text, $three->text() );
+
+    return;
+}
+
+#extracted and simplified from SaveScriptTests::test_1897
+sub test_Meta_CopyAll {
+    my $this = shift;
+
+    my $query;
+
+    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    $meta->text("Smelly\ncat");
+    $meta->save();
+    $meta->finish();
+
+    my $rawFirst =
+      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    my $text = $meta->text();
+    $this->assert_equals( $text, "Smelly\ncat" );
+
+    # A saves again, reprev triggers to create rev 1 again
+    $query = Unit::Request->new(
+        {
+            action => ['save'],
+            text   => ["Sweaty\ncat"],
+            topic  => [ $this->{test_web} . '.MergeSave' ]
+        }
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my $UI_FN ||= $this->getUIFn('save');
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+
+    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    $text = $meta->text();
+
+    #looks like its not the setEmbeddedStoreForm, its much worse.
+    $this->assert_equals( $text, "Smelly\ncat" );
+
+    my $rawSecond =
+      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+
+    #make the raw text differences obvious for debugging
+    $this->assert_equals( $rawFirst, $rawSecond );
+
     return;
 }
 
