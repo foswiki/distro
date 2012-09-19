@@ -1166,7 +1166,7 @@ sub test_1897 {
       ( $info->{date}, $info->{author}, $info->{version} );
 
     $this->assert_equals( 1, $orgRev );
-    $this->assert_str_equals( "Smelly\ncat\n", $text );
+    $this->assert_str_equals( "Smelly\ncat", $text );
 
     my $original = "${orgRev}_$orgDate";
     sleep(1);    # tick the clock to ensure the date changes
@@ -1190,7 +1190,7 @@ sub test_1897 {
     my ( $repRevDate, $repRevAuth, $repRevRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
     $this->assert_equals( 1, $repRevRev );
-    $this->assert_str_equals( "Sweaty\ncat\n", $text );
+    $this->assert_str_equals( "Sweaty\ncat", $text );
     $this->assert( $repRevDate != $orgDate );
 
     # User B saves; make sure we get a merge notice.
