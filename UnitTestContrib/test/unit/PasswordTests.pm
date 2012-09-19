@@ -147,8 +147,8 @@ sub doTests {
     $this->assert( !$impl->removeUser('notauser') );
     $this->assert_not_null( $impl->error() );
 
-    #findUserByEmail
-    {
+    #findUserByEmail - new API method added in 2012 (1.2.0
+    if ( $impl->isManagingEmails() ) {
         my $login = $impl->findUserByEmail( $this->{users1}->{lion}->{emails} );
         $this->assert_str_equals( 'lion', $login->[0] );
 

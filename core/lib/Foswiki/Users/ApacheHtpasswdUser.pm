@@ -266,6 +266,24 @@ sub setEmails {
     return $r;
 }
 
+# Searches the password DB for users who have set this email.
+sub findUserByEmail {
+    my ( $this, $email ) = @_;
+    my $logins = [];
+
+    $email = lc($email);
+
+    # read passwords with shared lock
+    my @users = $this->{apache}->fetchUsers();
+    foreach my $login (@users) {
+        my %ems = map { lc($_) => 1 } $this->getEmails($login);
+        if ( $ems{$email} ) {
+            push( @$logins, $login );
+        }
+    }
+    return $logins;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
