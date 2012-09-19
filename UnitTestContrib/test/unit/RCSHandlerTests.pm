@@ -225,7 +225,7 @@ HERE
 then this
 HERE
 
-    $rcs->replaceRevision( $string4, "2nd replace", "J2", time() );
+    $rcs->replaceRevision( $string4, "2nd replace", "J2", $time );
     $this->assert_equals( 2, $rcs->_numRevisions );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( $string2, $text );
