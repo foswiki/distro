@@ -512,6 +512,10 @@ sub checkDifferences {
     ($from) = $rcs->getRevision(1);
     ($to)   = $rcs->getRevision(2);
 
+    # strip off all topic info
+    $from =~ s/^%META:TOPICINFO{(.*)}%\n//m;
+    $to   =~ s/^%META:TOPICINFO{(.*)}%\n//m;
+
     $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
 
     my $diff = $rcs->revisionDiff( 1, 2 );
