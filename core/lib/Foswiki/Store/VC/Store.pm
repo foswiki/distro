@@ -319,7 +319,9 @@ sub getVersionInfo {
     my $info =
       $this->askListenersVersionInfo( $topicObject, $rev, $attachment );
 
-    if ( not defined $info ) {
+    my $loadedRev = $topicObject->getLoadedRev();
+
+    if ( !defined($info) && ( !defined($rev) || $loadedRev eq $rev ) ) {
         $topicObject->loadVersion() unless $topicObject->latestIsLoaded();
         $info = $topicObject->get('TOPICINFO');
     }
@@ -369,8 +371,17 @@ sub saveTopic {
     # just in case they are not sequential
     my $nextRev = $handler->getNextRevisionID();
     my $ti      = $topicObject->get('TOPICINFO');
-    $ti->{version} = $nextRev;
-    $ti->{author}  = $cUID;
+
+    if ( defined $ti ) {
+        $ti->{version} = $nextRev;
+        $ti->{author}  = $cUID;
+    }
+    else {
+        $topicObject->setRevisionInfo(
+            version => $nextRev,
+            author  => $cUID,
+        );
+    }
 
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
