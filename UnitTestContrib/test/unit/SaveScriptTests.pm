@@ -1159,6 +1159,10 @@ sub test_1897 {
     $meta->text("Smelly\ncat");
     $meta->save();
     $meta->finish();
+
+    my $rawFirst =
+      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+
     ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
     my $text = $meta->text();
     my $info = $meta->getRevisionInfo();
@@ -1182,6 +1186,9 @@ sub test_1897 {
     );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
+    my $rawSecond =
+      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+    $this->assert_equals( $rawFirst, $rawSecond );
 
     # make sure it's still rev 1 as expected
     ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );

@@ -114,4 +114,55 @@ sub test_SimpleMetaTopic {
     return;
 }
 
+# Create a simple topic containing meta-data
+sub test_SimpleTopic {
+    my $this = shift;
+
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+
+    $meta->text("Onceler\njumped");
+
+    my $text = $meta->getEmbeddedStoreForm();
+
+    my $metaFromSerialised =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+    $metaFromSerialised->setEmbeddedStoreForm($text);
+
+    my $textAgain = $metaFromSerialised->getEmbeddedStoreForm();
+
+    $this->assert_equals( $text, $textAgain );
+
+    return;
+}
+
+# Create a simple topic containing meta-data
+sub test_SimpleTopicSave {
+    my $this = shift;
+
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+
+    $meta->text("Onceler\njumped");
+
+    my $text = $meta->getEmbeddedStoreForm();
+
+    $meta->save();
+    $meta->finish();
+
+    my $rawFirst =
+      Foswiki::Func::readTopicText( $this->{test_web}, 'TestTopic' );
+
+    #remove the TOPICINFO
+    $rawFirst =~ s/^%META:TOPICINFO{.*?}%\n//m;
+
+    $this->assert_equals( $text, $rawFirst );
+
+    my ( $newmeta, $t ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic' );
+    $this->assert_equals( $text, $newmeta->text() );
+
+    return;
+}
+
 1;
