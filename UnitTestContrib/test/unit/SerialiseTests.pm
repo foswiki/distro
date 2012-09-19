@@ -178,17 +178,18 @@ sub test_Meta_CopyAll {
 
     my $query;
 
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
     $meta->text("Smelly\ncat");
     $meta->save();
     $meta->finish();
 
-    my $rawFirst =
-      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+    #my $rawFirst =
+    #  Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
 
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
-    my $text = $meta->text();
-    $this->assert_equals( $text, "Smelly\ncat" );
+    ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    $this->assert_equals( "Smelly\ncat", $text );
 
     # A saves again, reprev triggers to create rev 1 again
     $query = Unit::Request->new(
@@ -202,17 +203,19 @@ sub test_Meta_CopyAll {
     my $UI_FN ||= $this->getUIFn('save');
     $this->captureWithKey( save => $UI_FN, $this->{session} );
 
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
-    $text = $meta->text();
+    #my $rawSecond =
+    #  Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
 
-    #looks like its not the setEmbeddedStoreForm, its much worse.
-    $this->assert_equals( $text, "Smelly\ncat" );
+    ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
 
-    my $rawSecond =
-      Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+    # Foswiki::UI::buildNewTopic explicitly makes sure there is
+    # one \n at the end of each text submitted
+    $this->assert_equals( "Sweaty\ncat\n", $text );
 
-    #make the raw text differences obvious for debugging
-    $this->assert_equals( $rawFirst, $rawSecond );
+    # make the raw text differences obvious for debugging
+    # this can't ever be equal
+    #$this->assert_equals( $rawFirst, $rawSecond );
 
     return;
 }
