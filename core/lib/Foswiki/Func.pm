@@ -3574,6 +3574,9 @@ sub saveTopicText {
     #see Tasks.Item11586 - saveTopicText is supposed to use the embedded meta
     $topicObject->setEmbeddedStoreForm($text);
 
+# SMELL: set the {_latestIsLoaded} flag manually as is done in Foswiki::Meta::new()
+    $topicObject->{_latestIsLoaded} = 1;
+
     try {
         $topicObject->save( minor => $dontNotify );
     }
