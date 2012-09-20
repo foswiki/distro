@@ -246,7 +246,7 @@ sub filterByDate {
     $this->{list} = \@resultList;
 
     # use this hack until numberOfTopics reads the length of list
-    $this->{count} = length @{ $this->{list} };
+    $this->{count} = scalar @{ $this->{list} };
 }
 
 ######OLD methods
