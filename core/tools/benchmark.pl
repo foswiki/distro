@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
 use strict;
 
 # Benchmark script for TWiki

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
 # Copyright (C) WikiRing 2007
 # Author: Crawford Currie
 # Generate large test data. This script is primarily designed for running

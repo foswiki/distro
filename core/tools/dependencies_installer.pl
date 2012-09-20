@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#! /usr/bin/perl -w
 # See bottom of file for default license and copyright information
 
 # Check which Foswiki Perl modules are available and offer installation

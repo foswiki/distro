@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
 
 # -----------------------------------------------------------------------
 # perlmod2www.pl - convert Perl mdoules tree to equivalent www tree with HTML format documentation.

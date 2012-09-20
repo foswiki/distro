@@ -1,4 +1,4 @@
-#!/usr/bin/perl;
+#! /usr/bin/perl
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #

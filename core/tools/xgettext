@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
 #
 # Script to extract strings from Foswiki sources and templates
 
