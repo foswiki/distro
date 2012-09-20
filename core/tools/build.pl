@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#! /usr/bin/perl -w
 #
 # Build for Foswiki
 # Crawford Currie & Sven Dowideit

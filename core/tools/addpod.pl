@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#! /usr/bin/perl -w
 
 # addpod.pl - tool to add TWiki-style POD function doc headers
 #
