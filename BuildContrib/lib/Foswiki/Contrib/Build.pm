@@ -302,7 +302,7 @@ sub new {
     my $rawman    = '';
     my $hashtable = '';
     foreach my $file ( @{ $this->{files} } ) {
-        $rawman .= join( ' ',
+        $rawman .= join( ',',
             map { $file->{$_} || '' }
               qw{quotedName permissions md5 description} )
           . "\n";
