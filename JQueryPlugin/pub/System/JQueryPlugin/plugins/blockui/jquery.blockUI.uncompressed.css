@@ -30,7 +30,6 @@
   width: 20%;
   top: 40%;
   left: 40%;
-  font-size:90%;
 }
 
 .growlUI {
@@ -60,5 +59,9 @@
 .blockUI h3 {
   border:0px;
   color:#fff;
+}
+.blockUI h2,
+.blockUI h3 {
+  margin-top:0;
 }
 

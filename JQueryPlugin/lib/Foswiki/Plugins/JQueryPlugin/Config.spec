@@ -26,7 +26,7 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # **STRING**
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.7.2, jquery-1.7.1, jquery-1.8.0**
+# **SELECT jquery-1.7.2, jquery-1.7.1, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2**
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.7.2';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness**

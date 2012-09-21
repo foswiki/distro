@@ -211,7 +211,6 @@ pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-vi.js 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-zh-CN.js 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-zh-HK.js 0644
 pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-zh-TW.js 0644
-pub/System/JQueryPlugin/i18n/Makefile 0644
 pub/System/JQueryPlugin/images/nobody.gif 0644
 pub/System/JQueryPlugin/images/spinner_arrows.gif 0644
 pub/System/JQueryPlugin/images/spinner.gif 0644
@@ -224,6 +223,12 @@ pub/System/JQueryPlugin/jquery-1.7.2.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.8.0.js 0644
 pub/System/JQueryPlugin/jquery-1.8.0.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.8.0.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.8.1.js 0644
+pub/System/JQueryPlugin/jquery-1.8.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.8.1.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.8.2.js 0644
+pub/System/JQueryPlugin/jquery-1.8.2.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.8.2.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644

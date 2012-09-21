@@ -121,15 +121,19 @@ ul.jqTabGroup a {
 }
 
 /* simple theme */
+.jqTabPanePlain > .jqTabGroup li,
 .jqTabPaneSimple > .jqTabGroup li {
   background:transparent;
   margin:0px 0.4615em -1px 0; /* 0px 6px ... */
   *height:2.3077em; /* IE7 ... 30px */
 }
+.jqTabPanePlain > .jqTabGroup li.current a,
 .jqTabPaneSimple > .jqTabGroup li.current a {
   background:#fff;
   border-bottom:1px solid #fff;
 }
+.jqTabPanePlain > .jqTabGroup a:hover,
+.jqTabPanePlain > .jqTabGroup a,
 .jqTabPaneSimple > .jqTabGroup a:hover,
 .jqTabPaneSimple > .jqTabGroup a {
   background:#eee;
@@ -138,31 +142,12 @@ ul.jqTabGroup a {
   *color:#111; /* IE7 */
   padding:5px 10px;
 }
+.jqTabPanePlain > .jqTabGroup a:hover,
 .jqTabPaneSimple > .jqTabGroup a:hover {
   color:#C60206;
 }
 
 /* plain theme */
-.jqTabPanePlain > .jqTabGroup li {
-  background:transparent;
-  margin:0px 0.4615em -1px 0; /* 0px 6px ... */
-  *height:2.3077em; /* IE7 ... 30px */
-}
-.jqTabPanePlain > .jqTabGroup li.current a {
-  background:#fff;
-  border-bottom:1px solid #fff;
-}
-.jqTabPanePlain > .jqTabGroup a:hover,
-.jqTabPanePlain > .jqTabGroup a {
-  background:#eee;
-  border: 1px solid #ccc;
-  color:inherit;
-  *color:#111; /* IE7 */
-  padding:5px 10px;
-}
-.jqTabPanePlain > .jqTabGroup a:hover {
-  color:#C60206;
-}
 .jqTabPanePlain .jqTab {
   border-left:0px;
   border-right:0px;
