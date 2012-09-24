@@ -142,46 +142,65 @@ sub verify_RepRev {
 there was a man
 HERE
 
+    # Add the initial revsion and verify it is as expected
     my $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( $string1, "in once", "JohnTalintyre" );
     my ($text) = $rcs->getRevision(1);
     $this->assert_equals( $string1, $text );
-    $this->assert_equals( 1,        $rcs->_numRevisions() );
-    return;
+    $this->assert_equals( 1, $rcs->_numRevisions(),
+        'only initial revision should exist' );
 
+    # replace the revision, keeping the same revision number
+    $time = time();
     my $string2 = <<HERE;
-%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+%META:TOPICINFO{author="NotJohnTalintyre" comment="1st replace" date="$time" format="1.1" version="1"}%
 there was a cat
 HERE
-    $rcs->replaceRevision( $string2, "1st replace", "NotJohnTalintyre",
-        time() );
-    $this->assert_equals( 1, $rcs->_numRevisions() );
+    $rcs->replaceRevision( $string2, "1st replace", "NotJohnTalintyre", $time );
+    $this->assert_equals( 1, $rcs->_numRevisions(),
+        'Still should only be single revision after reprev' );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( $string2, $text );
+    $this->assert_equals( $string2, $text,
+"Rev 1 did not return the original text\nExpected:\n ($string2)\n Actual\n ($text)"
+    );
 
+    # Add another revision and verify them all
+    $time = time();
     my $string3 = <<HERE;
-%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+%META:TOPICINFO{author="J1" comment="2nd entry" date="$time" format="1.1" version="1"}%
 and now this
 HERE
 
     $rcs->addRevisionFromText( $string3, "2nd entry", "J1" );
-    $this->assert_equals( 2, $rcs->_numRevisions() );
+    $this->assert_equals( 2, $rcs->_numRevisions(),
+        'There should have been 2 revisions' );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( $string1, $text );
+    $this->assert_equals( $string2, $text,
+"1st revision should still have been changed by reprev\nExpected:\n ($string2)\n Actual\n ($text)"
+    );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( $string3, $text );
+    $this->assert_equals( $string3, $text,
+"2nd revision should have been modified\nExpected:\n ($string3)\n Actual\n ($text)"
+    );
 
+    # Now replace the 2nd revision and verify them all
+    $time = time();
     my $string4 = <<HERE;
-%META:TOPICINFO{author="JohnTalintyre" comment="in once" date="$time" format="1.1" version="1"}%
+%META:TOPICINFO{author="J2" comment="2nd replace" date="$time" format="1.1" version="1"}%
 then this
 HERE
 
-    $rcs->replaceRevision( $string4, "2nd replace", "J2", time() );
-    $this->assert_equals( 2, $rcs->_numRevisions );
+    $rcs->replaceRevision( $string4, "2nd replace", "J2", $time );
+    $this->assert_equals( 2, $rcs->_numRevisions,
+        'still should have only been 2 revisions' );
     ($text) = $rcs->getRevision(1);
-    $this->assert_equals( $string1, $text );
+    $this->assert_equals( $string2, $text,
+"1st rev should have contained the initial reprev changes\nExpected:\n ($string2)\n Actual\n ($text)"
+    );
     ($text) = $rcs->getRevision(2);
-    $this->assert_equals( $string4, $text );
+    $this->assert_equals( $string4, $text,
+"2nd rev should have contained the 2nd reprev changes\nExpected:\n ($string4)\n Actual\n ($text)"
+    );
 }
 
 sub verify_RepRev2839 {
@@ -199,16 +218,19 @@ HERE
     $this->assert_equals( $string1, $text );
     $this->assert_equals( 1,        $rcs->_numRevisions() );
 
+    $time = time();
     my $string2 = <<HERE;
 %META:TOPICINFO{author="NotJohnTalintyre" comment="1st replace" date="$time" format="1.1" version="1"}%
 there was a cat
 HERE
 
+    # Refresh time to avoid off-by-1 failures
     $rcs->replaceRevision( $string2, "1st replace", "NotJohnTalintyre", $time );
     $this->assert_equals( 1, $rcs->_numRevisions() );
     ($text) = $rcs->getRevision(1);
     $this->assert_equals( $string2, $text );
 
+    $time = time();
     my $string3 = <<HERE;
 %META:TOPICINFO{author="J1" comment="2nd entry" date="$time" format="1.1" version="1"}%
 and now this
@@ -220,6 +242,7 @@ HERE
     ($text) = $rcs->getRevision(2);
     $this->assert_equals( $string3, $text );
 
+    $time = time();
     my $string4 = <<HERE;
 %META:TOPICINFO{author="J2" comment="2nd replace" date="$time" format="1.1" version="1"}%
 then this
