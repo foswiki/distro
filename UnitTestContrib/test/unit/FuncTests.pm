@@ -1708,17 +1708,20 @@ END
       Foswiki::Func::checkAccessPermission( 'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
         undef, $topic, $this->{test_web} );
-    $this->assert( !$access );
+    $this->assert( !$access );    # no access because the text says DENY
+
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
         '', $topic, $this->{test_web} );
-    $this->assert( !$access );
+    $this->assert( !$access );    # no access still
+
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
         0, $topic, $this->{test_web} );
-    $this->assert( !$access );
+    $this->assert( !$access );    # no access still
+
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
@@ -1727,7 +1730,8 @@ END
     );
 
     # Supplied text should override text from topic
-    $this->assert($access);
+    $this->assert($access)
+      ;    # the text has been removed temporarily, so guest has got access now
 
     # make sure meta overrides text, as documented - Item2953
     my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
@@ -1740,13 +1744,16 @@ END
             value => $Foswiki::cfg{DefaultUserWikiName}
         }
     );
+
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
         $Foswiki::cfg{DefaultUserWikiName},
         "   * Set ALLOWTOPICVIEW = NotASoul\n",
         $topic, $this->{test_web}, $meta
     );
-    $this->assert( !$access );
+    $this->assert($access)
+      ;    # got access now as META's ALLOW overrides the text's ALLOW
+
     $meta->finish();
     ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(
@@ -1767,7 +1774,7 @@ END
         $meta
     );
     $meta->finish();
-    $this->assert( !$access );
+    $this->assert( !$access );    # no access as META overrides text
 
     #I'm not clear from the docco so...
     #what happens if we check the perms on a topic that doesn't exist.
@@ -1777,11 +1784,13 @@ END
         $Foswiki::cfg{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', $this->{test_web} );
     $this->assert($access);
+
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
         $Foswiki::cfg{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', $this->{test_web} );
     $this->assert($access);
+
     $access =
       Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
         $Foswiki::cfg{DefaultUserWikiName},
@@ -1794,11 +1803,13 @@ END
         $Foswiki::cfg{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
     $this->assert($access);
+
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
         $Foswiki::cfg{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
     $this->assert( !$access );
+
     $access =
       Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
         $Foswiki::cfg{DefaultUserWikiName},
@@ -1906,7 +1917,8 @@ END
         "   * Set ALLOWTOPICVIEW = NotASoul\n",
         $topic, $this->{test_web}, $meta
     );
-    $this->assert( !$access );
+    $this->assert($access);  # ACCESS as META's ALLOW overrides the text's ALLOW
+
     $meta->finish();
     ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     $meta->putKeyed(

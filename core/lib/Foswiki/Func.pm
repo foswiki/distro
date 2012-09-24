@@ -1405,11 +1405,17 @@ sub checkAccessPermission {
               Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
         }
     }
-    elsif ( $text && !defined( $meta->text() ) ) {
+    elsif ($text) {
 
-        # Ouch!
-        $meta->text($text);
+        # don't alter an existing $meta using the provided text;
+        # use a temporary clone instead
+        my $tmpMeta =
+          Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic, $text );
+        $tmpMeta->copyFrom($meta);
+        $meta = $tmpMeta;
+
     }    # Otherwise meta overrides text - Item2953
+
     return $meta->haveAccess( $type, $cUID );
 }
 
