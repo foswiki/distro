@@ -95,13 +95,13 @@ sub new {
         if ($attachment) {
             ASSERT( UNTAINTED($attachment) ) if DEBUG;
             $this->{file} =
-                $Foswiki::cfg{PubDir} . '/' 
-              . $web . '/' 
+                $Foswiki::cfg{PubDir} . '/'
+              . $web . '/'
               . $topic . '/'
               . $attachment;
             $this->{rcsFile} =
-                $Foswiki::cfg{PubDir} . '/' 
-              . $web . '/' 
+                $Foswiki::cfg{PubDir} . '/'
+              . $web . '/'
               . $topic
               . $rcsSubDir . '/'
               . $attachment . ',v';
@@ -111,7 +111,7 @@ sub new {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
             $this->{rcsFile} =
-                $Foswiki::cfg{DataDir} . '/' 
+                $Foswiki::cfg{DataDir} . '/'
               . $web
               . $rcsSubDir . '/'
               . $topic
@@ -298,7 +298,7 @@ sub noCheckinPending {
 # Danger, Will Robinson! stat isn't reliable on all file systems, though [9] is claimed to be OK
 # See perldoc perlport for more on this.
             local ${^WIN32_SLOPPY_STAT} =
-              1;         # don't need to open the file on Win32
+              1;    # don't need to open the file on Win32
             my $rcsTime  = ( stat( $this->{rcsFile} ) )[9];
             my $fileTime = ( stat( $this->{file} ) )[9];
             $isValid = ( $fileTime > $rcsTime ) ? 0 : 1;
@@ -1172,7 +1172,7 @@ sub _rmtree {
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                    throw Error::Simple( 'VC::Handler: Failed to delete file ' 
+                    throw Error::Simple( 'VC::Handler: Failed to delete file '
                           . $entry . ': '
                           . $! );
                 }
