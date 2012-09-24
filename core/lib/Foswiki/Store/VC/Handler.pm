@@ -1006,7 +1006,7 @@ sub removeSpuriousLeases {
             my $file = $web . $f;
             if ( $file =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
-                    unlink($file);
+                    unlink("$1.lease");    # $file is tainted
                 }
             }
         }
