@@ -29,6 +29,23 @@ sub tear_down {
     $this->SUPER::tear_down();
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'Fn_INCLUDE::test_hassleFreeHoff' =>
+                  'Heading offset is 1.2 feature',
+                'Fn_INCLUDE::test_SECTION_defaults' =>
+                  'SECTION defaults are new to 1.2',
+            }
+        }
+    );
+}
+
 sub run_test_simple {
     my $this           = shift;
     my $includeTopic   = shift || $this->{test_web} . '.FirstTopic';
