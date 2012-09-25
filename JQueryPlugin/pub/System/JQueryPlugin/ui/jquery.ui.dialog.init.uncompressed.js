@@ -31,7 +31,7 @@ jQuery(function($) {
 
       button.text = $button.text();
 
-      if (typeof(href) !== 'undefined') {
+      if (typeof(href) !== 'undefined' && href !== '#') {
         button.click = function() {
           window.location.href = href;
         };
