@@ -943,9 +943,15 @@ pub/System/PreviewBackground/preview2bg.gif 0644
 pub/System/PreviewBackground/previewbg.gif 0644
 pub/System/PrintSkin/fullscreen.gif 0644
 pub/System/PrintSkin/screenshot.gif 0644
+pub/System/ProjectLogos/favicon-f.ico 0644
 pub/System/ProjectLogos/favicon.ico 0644
 pub/System/ProjectLogos/foswiki-badge.gif 0644
-pub/System/ProjectLogos/foswiki-logo.gif 0644
+pub/System/ProjectLogos/foswiki-logo-site.png 0644
+pub/System/ProjectLogos/foswiki-logo.png 0644
+pub/System/ProjectLogos/favicon-logo.ico 0644
+pub/System/ProjectLogos/favicon.ico 0644
+pub/System/ProjectLogos/foswiki-badge.gif 0644
+pub/System/ProjectLogos/foswiki-logo-large.png 0644
 pub/System/ProjectLogos/foswiki-logo.png 0644
 pub/System/SkinTemplates/base.css 0644
 pub/System/SkinTemplates/base.css.gz 0644

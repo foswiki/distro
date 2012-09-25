@@ -47,3 +47,4 @@ Customize your top bar background image and color
    * Set ALLOWTOPICCHANGE = AdminGroup
    * Set ALLOWTOPICRENAME = AdminGroup
 -->
+
