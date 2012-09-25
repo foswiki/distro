@@ -38,9 +38,17 @@ sub tear_down {
     return;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->check_dependency('Foswiki,<,1.2')
+      ? 'Foswiki 1.1 has no Foswiki::Serialize::Embedded'
+      : undef;
+}
+
 sub set_up_for_verify {
 
-    use Foswiki::Serialise::Embedded;
+    require Foswiki::Serialise::Embedded;
 
     return;
 }
