@@ -10,8 +10,8 @@ sub ENV {
     my $key = $params->{_DEFAULT};
     return ''
       unless $key
-          && defined $Foswiki::cfg{AccessibleENV}
-          && $key =~ /$Foswiki::cfg{AccessibleENV}/o;
+      && defined $Foswiki::cfg{AccessibleENV}
+      && $key =~ /$Foswiki::cfg{AccessibleENV}/o;
     my $val;
     if ( $key =~ /^HTTPS?_(\w+)/ ) {
         $val = $this->{request}->header($1);

@@ -254,8 +254,8 @@ sub compare {
 
         last
           if $i == 1
-              || (   $Foswiki::cfg{NumberOfRevisions} > 0
-                  && $i == $maxrev - $Foswiki::cfg{NumberOfRevisions} + 1 );
+          || ( $Foswiki::cfg{NumberOfRevisions} > 0
+            && $i == $maxrev - $Foswiki::cfg{NumberOfRevisions} + 1 );
         if ( $i == $rev2 && $i - 1 == $rev1 ) {
             $revisions .= "  &lt;";
         }

@@ -294,14 +294,14 @@ sub getIconUrlPath {
             # SMELL: store violation assumes the we have got file-level access
             # better use store api
             my $iconDir =
-                $Foswiki::cfg{PubDir} . '/' 
-              . $web . '/' 
+                $Foswiki::cfg{PubDir} . '/'
+              . $web . '/'
               . $topic . '/'
               . $iconName . '.png';
             if ( -f $iconDir ) {
                 $iconPath =
-                    Foswiki::Func::getPubUrlPath() . '/' 
-                  . $web . '/' 
+                    Foswiki::Func::getPubUrlPath() . '/'
+                  . $web . '/'
                   . $topic . '/'
                   . $iconName . '.png';
                 last;    # first come first serve

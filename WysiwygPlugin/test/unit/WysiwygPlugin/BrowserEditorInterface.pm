@@ -105,8 +105,8 @@ sub editorMode {
     my $this = shift;
     print STDERR "BrowserEditorInterface::editorMode()\n" if _DEBUG;
     if (
-        exists $this->{_editorModeForBrowser}
-        ->{ $this->{_test}->browserName() } )
+        exists $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() }
+      )
     {
         return $this->{_editorModeForBrowser}
           ->{ $this->{_test}->browserName() };
@@ -125,8 +125,8 @@ sub openWysiwygEditor {
     $this->{_topic} = $topic;
 
     $this->cancelEdit()
-      if exists $this->{_editorModeForBrowser}
-          ->{ $this->{_test}->browserName() };
+      if
+      exists $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() };
 
     $this->{_test}->selenium->open_ok(
         Foswiki::Func::getScriptUrl( $web, $topic, 'edit' ) );
@@ -148,8 +148,8 @@ sub cancelEdit {
     print STDERR "BrowserEditorInterface::cancelEdit()\n" if _DEBUG;
 
     return
-      unless exists $this->{_editorModeForBrowser}
-          ->{ $this->{_test}->browserName() };
+      unless
+      exists $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() };
 
     $this->selectTopFrame();
     $this->{_test}->selenium->click($editCancelButtonLocator);
@@ -164,8 +164,8 @@ sub save {
     print STDERR "BrowserEditorInterface::save()\n" if _DEBUG;
 
     $this->{_test}->assert( 0, "editor not open" )
-      unless exists $this->{_editorModeForBrowser}
-          ->{ $this->{_test}->browserName() };
+      unless
+      exists $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() };
 
     $this->selectTopFrame();
     $this->{_test}->selenium->click_ok($editSaveButtonLocator);
@@ -187,8 +187,8 @@ sub saveAndContinue {
     print STDERR "BrowserEditorInterface::saveAndContinue()\n" if _DEBUG;
 
     $this->{_test}->assert( 0, "editor not open" )
-      unless exists $this->{_editorModeForBrowser}
-          ->{ $this->{_test}->browserName() };
+      unless
+      exists $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() };
 
     $this->selectTopFrame();
     $this->{_test}->selenium->click_ok($editSaveContinueButtonLocator);
@@ -282,7 +282,7 @@ sub selectWikitextMode {
     print STDERR "BrowserEditorInterface::selectWikitextMode()\n" if _DEBUG;
     return
       if $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() } eq
-          'wikitext';
+      'wikitext';
     if ( $this->{_test}->selenium->is_element_present($wysiwygLocator) ) {
 
         # SMELL: I can't see this button, but the assert fails. Dunno why.
@@ -318,7 +318,7 @@ sub selectWysiwygMode {
     print STDERR "BrowserEditorInterface::selectWysiwygMode()\n" if _DEBUG;
     return
       if $this->{_editorModeForBrowser}->{ $this->{_test}->browserName() } eq
-          'wysiwyg';
+      'wysiwyg';
     $this->{_test}->assertElementIsPresent($wysiwygLocator);
     $this->{_test}->assertElementIsVisible($wysiwygLocator);
     $this->{_test}->selenium->click_ok($wysiwygLocator);

@@ -396,9 +396,8 @@ sub _install {
         if ($moduleVersion) {
             return 0
               unless ask(
-                          "$MODULE version $moduleVersion is already installed."
-                        . " Are you sure you want to re-install this module?"
-              );
+                    "$MODULE version $moduleVersion is already installed."
+                  . " Are you sure you want to re-install this module?" );
         }
     }
 

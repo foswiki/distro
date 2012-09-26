@@ -256,7 +256,7 @@ sub _GETUsingLWP {
     $request = HTTP::Request->new( GET => $url );
     '$Rev$' =~ /([0-9]+)/;
     my $revstr = $1;
-    $request->header( 'User-Agent' => 'Foswiki::Net/' 
+    $request->header( 'User-Agent' => 'Foswiki::Net/'
           . $revstr
           . " libwww-perl/$LWP::VERSION" );
     require Foswiki::Net::UserCredAgent;

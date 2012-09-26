@@ -277,8 +277,8 @@ HERE
         }
         foreach my $module (
             sort {
-                $this->{unexpected_result}->{$a} <=> $this->{unexpected_result}
-                  ->{$b}
+                $this->{unexpected_result}->{$a}
+                  <=> $this->{unexpected_result}->{$b}
             } keys( %{ $this->{unexpected_result} } )
           )
         {
@@ -383,7 +383,7 @@ sub runOneInNewProcess {
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
         return
-            'push( @{ $this->{failures} }, "' 
+            'push( @{ $this->{failures} }, "'
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -393,7 +393,7 @@ sub runOneInNewProcess {
             print "*** Error trying to run $suite\n";
             unlink $tempfilename;
             return
-                'push( @{ $this->{failures} }, "Process for ' 
+                'push( @{ $this->{failures} }, "Process for '
               . $suite
               . ' returned '
               . $returnCode . '" );';

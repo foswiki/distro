@@ -444,7 +444,7 @@ sub _makeAnchorHeading {
     $text =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
 
     my $html =
-        '<nop><h' 
+        '<nop><h'
       . $level . '>'
       . $anchors->makeHTMLTarget($text) . ' '
       . $text . ' </h'

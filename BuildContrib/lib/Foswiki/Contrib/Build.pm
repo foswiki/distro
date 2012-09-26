@@ -874,8 +874,8 @@ sub cp {
         }
         else {
             File::Copy::copy( $from, $to )
-              || warn 'Warning: Failed to copy ' 
-              . $from . ' to ' 
+              || warn 'Warning: Failed to copy '
+              . $from . ' to '
               . $to . ': '
               . $!;
         }
@@ -1614,7 +1614,7 @@ sub target_archive {
     $this->apply_perms( $this->{files}, $this->{tmpDir} );
 
     $this->sys_action( 'zip', '-r', '-q', $project . '.zip', '*' );
-    $this->perl_action( 'File::Copy::move("' 
+    $this->perl_action( 'File::Copy::move("'
           . $project
           . '.zip", "'
           . $this->{basedir} . '/'
@@ -1635,7 +1635,7 @@ sub target_archive {
             $project . '.tgz', '*' );
     }
 
-    $this->perl_action( 'File::Copy::move("' 
+    $this->perl_action( 'File::Copy::move("'
           . $project
           . '.tgz", "'
           . $this->{basedir} . '/'
@@ -2187,7 +2187,7 @@ sub _login {
       . $response->status_line . "\n"
       . 'Aborting' . "\n"
       unless $response->is_redirect
-          && $response->headers->header('Location') !~ m{/oops};
+      && $response->headers->header('Location') !~ m{/oops};
 }
 
 sub _strikeone {
@@ -2314,7 +2314,7 @@ sub _postForm {
       ' -- ', $response->status_line, "\n", 'Aborting', "\n",
       $response->as_string
       unless $response->is_redirect
-          && $response->headers->header('Location') !~ m{/oops|/log.n/};
+      && $response->headers->header('Location') !~ m{/oops|/log.n/};
 }
 
 sub _unhtml {
@@ -2422,7 +2422,7 @@ sub target_installer {
 
     return
       if defined $this->{options}->{installers}
-          && $this->{options}->{installers} =~ /none/;
+      && $this->{options}->{installers} =~ /none/;
 
     # Add the install script to the manifest, unless it is already there
     unless (
@@ -2565,7 +2565,7 @@ sub _manicollect {
         $File::Find::prune = 1;
     }
     elsif (
-           !-d 
+           !-d
         && /^\w.*\w$/
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
         && !/\.bak$/

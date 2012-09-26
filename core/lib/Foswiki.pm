@@ -648,7 +648,7 @@ sub UTF82SiteCharSet {
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
             $this->logger->log( 'warning',
-                    'UTF-8 not remotely supported on Perl ' 
+                    'UTF-8 not remotely supported on Perl '
                   . $]
                   . ' - use Perl 5.8 or higher..' );
         }
@@ -923,9 +923,9 @@ sub generateHTTPHeaders {
     $contentType = 'text/html' unless $contentType;
     $contentType .= '; charset=' . $Foswiki::cfg{Site}{CharSet}
       if $contentType ne ''
-          && $contentType =~ m!^text/!
-          && $contentType !~ /\bcharset\b/
-          && $Foswiki::cfg{Site}{CharSet};
+      && $contentType =~ m!^text/!
+      && $contentType !~ /\bcharset\b/
+      && $Foswiki::cfg{Site}{CharSet};
 
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
@@ -2481,7 +2481,7 @@ sub expandMacrosOnTopicCreation {
                       substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                     $this->innerExpandMacros( \$etext, $topicObject );
                     $ntext =
-                        substr( $ntext, 0, $s->{start} ) 
+                        substr( $ntext, 0, $s->{start} )
                       . $etext
                       . substr( $ntext, $s->{end}, length($ntext) );
                 }
@@ -3146,7 +3146,7 @@ sub _expandMacroOnTopicCreation {
     # tags expanded here.
     return
       unless $_[0] =~
-/^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
+      /^(URLPARAM|DATE|(SERVER|GM)TIME|(USER|WIKI)NAME|WIKIUSERNAME|USERINFO)$/;
 
     return $this->_expandMacroOnTopicRendering(@_);
 }

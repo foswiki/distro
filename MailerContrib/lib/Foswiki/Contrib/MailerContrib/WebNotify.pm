@@ -233,7 +233,7 @@ sub processChange {
         Foswiki::Contrib::MailerContrib::Subscriber::getEmailAddressesForUser(
             $change->{author}
         )
-      };
+    };
 
     foreach my $name ( keys %{ $this->{subscribers} } ) {
         my $subscriber = $this->{subscribers}{$name};

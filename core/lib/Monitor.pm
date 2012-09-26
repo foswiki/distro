@@ -162,7 +162,7 @@ sub END {
     print STDERR
 "\n\n| Count  |  Time (Min/Max) | Memory(Min/Max) | Total      | Method |";
     foreach my $method ( sort keys %methods ) {
-        print STDERR "\n| " 
+        print STDERR "\n| "
           . sprintf( '%6u', $methods{$method}{count} ) . ' | '
           . sprintf( '%6.3f / %6.3f',
             $methods{$method}{min},

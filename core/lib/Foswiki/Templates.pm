@@ -388,7 +388,7 @@ sub _readTemplateFile {
             $text = '' unless defined $text;
 
             $text =
-                "<!--$userdirweb/$userdirname-->" 
+                "<!--$userdirweb/$userdirname-->"
               . $text
               . "<!--/$userdirweb/$userdirname-->"
               if (TRACE);

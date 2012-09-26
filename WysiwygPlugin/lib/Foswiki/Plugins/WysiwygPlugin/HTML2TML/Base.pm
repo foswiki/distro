@@ -137,7 +137,7 @@ sub isInline {
     my $this = shift;
     return 0
       if $Foswiki::Plugins::WysiwygPlugin::Constants::ALWAYS_BLOCK{
-              uc( $this->{tag} ) };
+        uc( $this->{tag} ) };
     my $kid = $this->{head};
     while ($kid) {
         return 0 unless $kid->isInline();
@@ -152,7 +152,7 @@ sub isLeftInline {
     my $this = shift;
     return 0
       if $Foswiki::Plugins::WysiwygPlugin::Constants::ALWAYS_BLOCK{
-              uc( $this->{tag} ) };
+        uc( $this->{tag} ) };
     return 1 unless ( $this->{head} );
     return 0 unless $this->{head}->isInline();
     return 1;
@@ -162,7 +162,7 @@ sub isRightInline {
     my $this = shift;
     return 0
       if $Foswiki::Plugins::WysiwygPlugin::Constants::ALWAYS_BLOCK{
-              uc( $this->{tag} ) };
+        uc( $this->{tag} ) };
     return 1 unless $this->{tail};
     return 0 unless $this->{tail}->isInline();
     return 1;

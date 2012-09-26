@@ -256,9 +256,9 @@ sub _hoistDOT {
                 # \000RHS\001 is a placholder for the RHS term
                 return {
                     node  => 'text',
-                    regex => '^%' 
-                      . $lhs 
-                      . '{.*\\b' 
+                    regex => '^%'
+                      . $lhs
+                      . '{.*\\b'
                       . $rhs
                       . "=\\\"\000RHS\001\\\""
                 };

@@ -169,8 +169,8 @@ sub _loadSeleniumBrowsers {
             keys %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers} } )
         {
             my %config =
-              %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}
-                  {$browser} };
+              %{ $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}{$browser}
+              };
             $config{host}        ||= 'localhost';
             $config{port}        ||= 4444;
             $config{browser}     ||= '*firefox';

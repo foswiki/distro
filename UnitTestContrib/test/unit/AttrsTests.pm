@@ -187,7 +187,7 @@ sub extractParameters {
         # or: %VAR{ "value" param="etc" ... }%
         # Note: "value" may contain embedded double quotes
         $params{"_DEFAULT"} = $1
-          if defined $1;      # distinguish between "" and "0";
+          if defined $1;    # distinguish between "" and "0";
         if ($2) {
             while ( $str =~ s/^\s*(\w+)\s*=\s*\"([^\"]*)\"// ) {
                 $params{"$1"} = $2 if defined $2;

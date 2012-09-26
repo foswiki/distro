@@ -636,8 +636,8 @@ sub _processTableRow {
                     my $nRows = scalar(@curTable);
                     my $rspan = $rowspan[$col] + 1;
                     if ( $rspan > 1 ) {
-                        $curTable[ $nRows - $rspan ][$col]->{attrs}->{rowspan} =
-                          $rspan;
+                        $curTable[ $nRows - $rspan ][$col]->{attrs}->{rowspan}
+                          = $rspan;
                     }
                     undef( $rowspan[$col] );
                 }

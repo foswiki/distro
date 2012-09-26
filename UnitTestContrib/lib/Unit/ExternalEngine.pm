@@ -98,7 +98,7 @@ sub _req2http {
             map {
                     Foswiki::urlEncode($_) . '='
                   . Foswiki::urlEncode( $req->cookies->{$_}->value )
-              } keys %{ $req->cookies }
+            } keys %{ $req->cookies }
         )
     ) if scalar %{ $req->cookies };
     my $ua = $req->userAgent || $req->header('User-Agent');

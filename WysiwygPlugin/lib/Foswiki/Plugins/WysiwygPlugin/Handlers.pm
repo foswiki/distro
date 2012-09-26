@@ -130,7 +130,7 @@ sub afterEditHandler {
 
     return
       unless defined( $query->param('wysiwyg_edit') )
-          || $text =~ s/<!--$SECRET_ID-->//go;
+      || $text =~ s/<!--$SECRET_ID-->//go;
 
     # Switch off wysiwyg_edit so it doesn't try to transform again in
     # the beforeSaveHandler
@@ -923,7 +923,7 @@ sub _restAttachments {
                         '"'
                       . _unquote($_) . '":"'
                       . _unquote( $att->{$_} ) . '"'
-                  } keys %$att
+                } keys %$att
               )
               . '}'
         );

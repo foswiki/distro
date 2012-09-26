@@ -297,7 +297,7 @@ sub log {
         }
 
         # die to force the admin to get permissions correct
-        die 'ERROR: Could not write ' 
+        die 'ERROR: Could not write '
           . $message . ' to '
           . $this->logfile()
           . ": $!\n";
@@ -809,7 +809,7 @@ sub createBackup {
               ;    # Filename relative to root of Foswiki installation
             next
               unless $tofile
-            ;    # Unit tests use a tmp working directory which fails the match
+              ;   # Unit tests use a tmp working directory which fails the match
             my @path = split( /[\/\\]+/, "$pkgstore/$tofile", -1 )
               ;    # -1 allows directories
             pop(@path);
@@ -1427,7 +1427,7 @@ sub _parseDependency {
         }
         else {
             $warn .=
-                'This ' 
+                'This '
               . $trigger
               . ' condition does not look safe and is being disabled.' . "\n";
             $warn .=

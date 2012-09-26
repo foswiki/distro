@@ -270,8 +270,8 @@ sub processText {
         # ========================================
         # START FOOTER AND HEADER ROW COUNT
 
-        ( $editTableData->{headerRowCount}, $editTableData->{footerRowCount} ) =
-          getHeaderAndFooterCount($editTableTag);
+        ( $editTableData->{headerRowCount}, $editTableData->{footerRowCount} )
+          = getHeaderAndFooterCount($editTableTag);
 
         _debug(
 "EditTablePlugin::Core::processText; headerRowCount=$editTableData->{headerRowCount}; footerRowCount=$editTableData->{footerRowCount}; tableText="

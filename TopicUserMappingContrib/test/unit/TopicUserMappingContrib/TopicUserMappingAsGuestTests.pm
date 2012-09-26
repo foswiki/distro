@@ -293,7 +293,7 @@ sub verify_eachGroupMember {
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
     $this->assert_str_equals(
-        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID 
+        $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID
           . 'auser,'
           . $Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID
           . 'guser,'

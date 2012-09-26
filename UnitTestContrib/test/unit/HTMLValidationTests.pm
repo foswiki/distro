@@ -223,7 +223,7 @@ sub call_UI_FN {
 
         # Response can be in stdout if the request is split, like for
         # statistics
-        $header = $1;         # untaint is OK, it's a test
+        $header = $1;    # untaint is OK, it's a test
         $body   = $2;
     }
     else {

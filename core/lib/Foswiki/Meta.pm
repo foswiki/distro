@@ -554,9 +554,9 @@ sub isSessionTopic {
     my $this = shift;
     return 0
       unless defined $this->{_web}
-          && defined $this->{_topic}
-          && defined $this->{_session}->{webName}
-          && defined $this->{_session}->{topicName};
+      && defined $this->{_topic}
+      && defined $this->{_session}->{webName}
+      && defined $this->{_session}->{topicName};
     return $this->{_web} eq $this->{_session}->{webName}
       && $this->{_topic} eq $this->{_session}->{topicName};
 }
@@ -3016,7 +3016,7 @@ sub moveAttachment {
 
     $this->{_session}->logEvent(
         'move',
-        $this->getPath() . '.' 
+        $this->getPath() . '.'
           . $name
           . ' moved to '
           . $to->getPath() . '.'
@@ -3096,7 +3096,7 @@ sub copyAttachment {
 
     $this->{_session}->logEvent(
         'copy',
-        $this->getPath() . '.' 
+        $this->getPath() . '.'
           . $name
           . ' copied to '
           . $to->getPath() . '.'

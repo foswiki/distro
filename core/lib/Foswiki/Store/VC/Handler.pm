@@ -298,7 +298,7 @@ sub noCheckinPending {
 # Danger, Will Robinson! stat isn't reliable on all file systems, though [9] is claimed to be OK
 # See perldoc perlport for more on this.
             local ${^WIN32_SLOPPY_STAT} =
-              1;         # don't need to open the file on Win32
+              1;    # don't need to open the file on Win32
             my $rcsTime  = ( stat( $this->{rcsFile} ) )[9];
             my $fileTime = ( stat( $this->{file} ) )[9];
             $isValid = ( $rcsTime < $fileTime ) ? 0 : 1;

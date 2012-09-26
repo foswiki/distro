@@ -340,8 +340,10 @@ sub test_EXISTS {
     my ($this) = @_;
     $this->assert(
         $this->CALC(
-            '$EXISTS(' . $this->{target_web} . '.' . $this->{target_topic} . ')'
-          ) != 0
+                '$EXISTS('
+              . $this->{target_web} . '.'
+              . $this->{target_topic} . ')'
+        ) != 0
     );
     $this->assert( $this->CALC('$EXISTS(NonExistWeb.NonExistTopic)') == 0 );
 }

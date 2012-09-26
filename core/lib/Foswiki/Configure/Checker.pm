@@ -100,7 +100,7 @@ sub warnAboutWindowsBackSlashes {
     my ( $this, $path ) = @_;
     if ( $path =~ /\\/ ) {
         return $this->WARN(
-                'You should use c:/path style slashes, not c:\path in "' 
+                'You should use c:/path style slashes, not c:\path in "'
               . $path
               . '"' );
     }
@@ -288,7 +288,7 @@ sub checkTreePerms {
     return $permErrs unless -d $path;
 
     return
-        $permErrs 
+        $permErrs
       . $path
       . ' directory is missing \'x\' permission - not readable'
       . CGI::br()

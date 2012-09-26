@@ -198,7 +198,7 @@ HERE
 
     $contents .= $this->setting(
         "Perl modules",
-        CGI::start_table( { class => 'configureNestedTable' } ) 
+        CGI::start_table( { class => 'configureNestedTable' } )
           . $set
           . CGI::end_table()
     );
