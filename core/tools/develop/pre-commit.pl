@@ -20,20 +20,30 @@ my $rev     = "-t $TXN";
 my $SVNLOOK = '/usr/local/bin/svnlook';
 my $logmsg  = `$SVNLOOK log $rev $REPOS`;
 
+# PLEASE keep this message in sync with
+# http://foswiki.org/Development/SvnRepository#RulesForCheckins
 sub fail {
     my $message = shift;
-    print STDERR <<EOF;
+    print STDERR <<"EOF";
 --------------------------------------------------------------
 Illegal checkin to $REPOS:
 $logmsg
 $message
-Log message must start with one or more names of Item
-topics in the Tasks web
-eg. Item12345: Item12346: example commit log
-The topics *must* exist.
+http://foswiki.org/Development/SvnRepository#RulesForCheckins
+Rules - checkins must:
+1. Have a comment...
+2. ...with relevant ItemNNN topics in the first line, example:
 
-.pl and .pm files must have been run through perltidy
-(perltidy must be run without any formatting options)
+Item12345: Item12346: fixed foo, updated release notes
+
+3. Use ItemNNN topics which are open at the time of checkin,
+   I.E. *not* one of: Closed, Waiting For Release, No Action
+4. Have "tidied" source code if the TIDY control file in the
+   root of the extension calls for it, see:
+   http://foswiki.org/Development/TIDY
+
+NB Getting rejected commits with perltidy older than v20120714?
+   See http://foswiki.org/Development/PerlTidy#Versions
 --------------------------------------------------------------
 EOF
     exit 1;
