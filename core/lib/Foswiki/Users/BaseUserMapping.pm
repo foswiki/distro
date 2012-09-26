@@ -442,10 +442,16 @@ sub checkPassword {
         if ( length($hash) == 13 ) {
             return 1 if ( crypt( $pass, $hash ) eq $hash );
         }
-        else {
+        elsif ( length($hash) == 42 ) {
             my $salt = substr( $hash, 0, 10 );
             return 1
               if ( $salt . Digest::MD5::md5_hex( $salt . $pass ) eq $hash );
+        }
+        else {
+            my $salt = substr( $hash, 0, 14 );
+            return 1
+              if (
+                Crypt::PasswdMD5::apache_md5_crypt( $pass, $salt ) eq $hash );
         }
     }
 
