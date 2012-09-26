@@ -172,6 +172,7 @@ sub start {
 
     #marker so we can remove the above large output from the nightly emails
     print "\nUnit test run Summary:\n";
+    print " - Tested with perl $^V, from $^X\n";
     my $actual_incorrect_failures = 0;
     my $actual_incorrect_passes   = 0;
     my $skipped_tests_total       = 0;
@@ -277,8 +278,8 @@ HERE
         }
         foreach my $module (
             sort {
-                $this->{unexpected_result}->{$a} <=> $this->{unexpected_result}
-                  ->{$b}
+                $this->{unexpected_result}->{$a}
+                  <=> $this->{unexpected_result}->{$b}
             } keys( %{ $this->{unexpected_result} } )
           )
         {
@@ -383,7 +384,7 @@ sub runOneInNewProcess {
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
         return
-            'push( @{ $this->{failures} }, "' 
+            'push( @{ $this->{failures} }, "'
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -393,7 +394,7 @@ sub runOneInNewProcess {
             print "*** Error trying to run $suite\n";
             unlink $tempfilename;
             return
-                'push( @{ $this->{failures} }, "Process for ' 
+                'push( @{ $this->{failures} }, "Process for '
               . $suite
               . ' returned '
               . $returnCode . '" );';
