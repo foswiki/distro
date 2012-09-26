@@ -28,7 +28,7 @@ sub evaluate {
     return scalar(
         grep {
             Foswiki::Query::ConditionalOP::compare( $_, $a, sub { $_[0] == 0 } )
-          } @$b
+        } @$b
     ) > 0 ? 1 : 0;
 }
 

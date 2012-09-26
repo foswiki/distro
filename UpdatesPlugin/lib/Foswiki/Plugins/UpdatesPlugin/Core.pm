@@ -146,7 +146,7 @@ sub getAvailable {
 
         if ( scalar(@unfound) ) {
             my $reportUrl =
-                $this->{reportUrl} 
+                $this->{reportUrl}
               . "?list="
               . join( ',', @unfound )
               . ";contenttype=text/plain;skin=text";

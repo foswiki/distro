@@ -32,7 +32,7 @@ sub target_archive {
     $this->apply_perms( $this->{files}, $this->{tmpDir} );
 
     $this->sys_action( 'zip', '-r', '-q', $project . '.zip', '*' );
-    $this->perl_action( 'File::Copy::move("' 
+    $this->perl_action( 'File::Copy::move("'
           . $project
           . '.zip", "'
           . $this->{basedir} . '/'
@@ -53,7 +53,7 @@ sub target_archive {
             $project . '.tgz', '*' );
     }
 
-    $this->perl_action( 'File::Copy::move("' 
+    $this->perl_action( 'File::Copy::move("'
           . $project
           . '.tgz", "'
           . $this->{basedir} . '/'

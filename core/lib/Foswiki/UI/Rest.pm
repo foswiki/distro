@@ -187,7 +187,7 @@ sub rest {
                 map {
                     $_ . ' : '
                       . join( ' , ', keys( %{ $restDispatch{$_} } ) )
-                  } keys(%restDispatch)
+                } keys(%restDispatch)
               )
               . "\n\n"
         ) if $session->inContext('command_line');

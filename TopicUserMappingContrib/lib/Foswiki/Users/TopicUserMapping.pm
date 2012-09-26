@@ -697,8 +697,8 @@ sub eachGroupMember {
 
         if ( !$expand ) {
             $singleGroupMembers =
-              _expandUserList( $this, $groupTopicObject->getPreference('GROUP'),
-                0 );
+              _expandUserList( $this,
+                $groupTopicObject->getPreference('GROUP'), 0 );
             $this->{singleGroupMembers}->{$group} = $singleGroupMembers;
 
 #            print "Returning iterator for singleGroupMembers $group, members $singleGroupMembers \n";

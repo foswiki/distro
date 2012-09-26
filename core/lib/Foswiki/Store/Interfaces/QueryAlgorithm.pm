@@ -472,7 +472,7 @@ sub getListOfWebs {
                         my $w = $prefix . $it->next();
                         next
                           unless Foswiki::WebFilter->user_allowed()
-                              ->ok( $session, $w );
+                          ->ok( $session, $w );
                         $w = Foswiki::Sandbox::untaint( $w,
                             \&Foswiki::Sandbox::validateWebName );
                         ASSERT($web) if DEBUG;

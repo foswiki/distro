@@ -123,8 +123,8 @@ if ( $def{TYPE} eq 'JQueryPlugin' ) {
         extract  => \&jqpExtract
     };
 
-    $fileset->{"pub/System/$def{MODULE}/jquery.$def{JQUERYPLUGINMODULELC}.js"} =
-      {
+    $fileset->{"pub/System/$def{MODULE}/jquery.$def{JQUERYPLUGINMODULELC}.js"}
+      = {
         template => "pub/System/EmptyJQueryPlugin/jquery.your.js",
         extract  => \&jqpPMExtract
       };

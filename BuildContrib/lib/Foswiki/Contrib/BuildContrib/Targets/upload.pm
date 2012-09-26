@@ -340,7 +340,7 @@ sub _login {
       . $response->status_line . "\n"
       . 'Aborting' . "\n"
       unless $response->is_redirect
-          && $response->headers->header('Location') !~ m{/oops};
+      && $response->headers->header('Location') !~ m{/oops};
 }
 
 sub _uploadTopic {
@@ -467,7 +467,7 @@ sub _postForm {
       ' -- ', $response->status_line, "\n", 'Aborting', "\n",
       $response->as_string
       unless $response->is_redirect
-          && $response->headers->header('Location') !~ m{/oops|/log.n/};
+      && $response->headers->header('Location') !~ m{/oops|/log.n/};
 }
 
 sub _getCredentials {

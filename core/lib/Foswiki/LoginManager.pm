@@ -694,9 +694,9 @@ sub userLoggedIn {
     }
     return
       if $session->inContext('command_line')
-          || $session->{remoteUser}
-          && $authUser
-          && $authUser eq $session->{remoteUser};    # same user
+      || $session->{remoteUser}
+      && $authUser
+      && $authUser eq $session->{remoteUser};    # same user
 
     if ( $Foswiki::cfg{UseClientSessions} ) {
 

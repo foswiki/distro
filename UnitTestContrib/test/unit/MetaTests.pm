@@ -814,8 +814,8 @@ HERE
         alias   => 'slug',
         require => [qw(name values)],
     );
-    Foswiki::Meta::registerMETA( 'SLPROPERTYVALUE', require => [qw(name value)],
-    );
+    Foswiki::Meta::registerMETA( 'SLPROPERTYVALUE',
+        require => [qw(name value)], );
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         "registerArrayMetaTest", $text );

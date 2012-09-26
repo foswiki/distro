@@ -35,7 +35,7 @@ sub URLPARAM {
                     $separator,
                     map {
                         _handleURLPARAMValue( $_, $newLine, $encode, $default )
-                      } @valueArray
+                    } @valueArray
                 );
             }
             else {
@@ -74,8 +74,8 @@ sub _handleURLPARAMValue {
             #$value =~ s/\r*\n\r*/<br \/>/;
             $value = urlEncode($value);
         }
-        else {                # safe or default
-                              # entity encode ' " < > and %
+        else {    # safe or default
+                  # entity encode ' " < > and %
             $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
         }
     }

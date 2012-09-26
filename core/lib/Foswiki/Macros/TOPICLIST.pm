@@ -22,8 +22,8 @@ sub TOPICLIST {
       Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
     return ''
       if !defined( $params->{web} )
-          && $web ne $this->{webName}
-          && $thisWebNoSearchAll;
+      && $web ne $this->{webName}
+      && $thisWebNoSearchAll;
 
     return '' unless $webObject->haveAccess();
 

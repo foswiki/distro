@@ -211,7 +211,7 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
         '<input type="hidden" name="History1" value="' . $aurl . '"  />',
         get_formfield( 4, $text ) );
     $this->assert_html_matches(
-        '<input type="text" name="History2" value="' 
+        '<input type="text" name="History2" value="'
           . $aurl
           . '" size="20" class="foswikiInputField" />',
         get_formfield( 5, $text )
@@ -252,7 +252,7 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
         '<input type="hidden" name="History1" value="' . $aurl . '" />',
         get_formfield( 4, $text ) );
     $this->assert_html_matches(
-        '<input type="text" name="History2" value="' 
+        '<input type="text" name="History2" value="'
           . $aurl
           . '" size="20" class="foswikiInputField" />',
         get_formfield( 5, $text )

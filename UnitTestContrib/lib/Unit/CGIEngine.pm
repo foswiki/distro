@@ -77,7 +77,7 @@ sub _req2cgi {
         map {
                 Foswiki::urlEncode($_) . '='
               . Foswiki::urlEncode( $req->cookies->{$_}->value )
-          } keys %{ $req->cookies }
+        } keys %{ $req->cookies }
     ) if scalar %{ $req->cookies };
     $env{REMOTE_ADDR} = $req->remote_addr || '127.0.0.1';
     if ( $req->remote_user ) {

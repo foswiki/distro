@@ -253,7 +253,7 @@ sub readDefaults {
                 if ( exists $left->{$key} ) {
                     if ( ref($value) ne ref( $left->{$key} ) ) {
                         push @$errors,
-                            'Trying to overwrite $Foswiki::cfg{' 
+                            'Trying to overwrite $Foswiki::cfg{'
                           . $key
                           . '} with its $TWiki::cfg version ('
                           . $value . ')';
@@ -282,7 +282,7 @@ sub readDefaults {
 
                         # It's something else (GLOB, coderef, ...)
                         push @$errors,
-                            '$TWiki::cfg{' 
+                            '$TWiki::cfg{'
                           . $key
                           . '} is a reference to a'
                           . ref($value)

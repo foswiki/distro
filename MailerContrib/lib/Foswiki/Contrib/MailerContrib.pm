@@ -207,8 +207,8 @@ sub parsePageList {
         my ( $us, $webTopic, $options, $childDepth ) =
           ( $unsubscribe || $1 || '+', $2, $3, $4 || 0 );
         $webTopic =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
-        &{ $object->{topicSub} }( $object, $who, $us, $webTopic, $options,
-            $childDepth );
+        &{ $object->{topicSub} }
+          ( $object, $who, $us, $webTopic, $options, $childDepth );
 
         #go
     }

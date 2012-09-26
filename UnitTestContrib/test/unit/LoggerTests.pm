@@ -509,7 +509,7 @@ sub verify_rotate_events {
 
     return
       unless $Foswiki::cfg{Log}{Implementation} =~
-          '^Foswiki::Logger::PlainFile';
+      '^Foswiki::Logger::PlainFile';
 
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
@@ -639,7 +639,7 @@ sub verify_rotate_debug {
 
     return
       unless $Foswiki::cfg{Log}{Implementation} =~
-          '^Foswiki::Logger::PlainFile';
+      '^Foswiki::Logger::PlainFile';
 
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
@@ -725,7 +725,7 @@ sub verify_rotate_error {
 
     return
       unless $Foswiki::cfg{Log}{Implementation} =~
-          '^Foswiki::Logger::PlainFile';
+      '^Foswiki::Logger::PlainFile';
 
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;

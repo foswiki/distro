@@ -34,7 +34,7 @@ sub initPlugin {
     my $context = Foswiki::Func::getContext();
     return 1
       unless Foswiki::Func::isAnAdmin()
-          && ( $context->{view} || $context->{rest} );
+      && ( $context->{view} || $context->{rest} );
 
     my $request = Foswiki::Func::getRequestObject();
     my $cookie;

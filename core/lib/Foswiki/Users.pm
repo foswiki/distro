@@ -164,7 +164,7 @@ sub finish {
 
     $this->{mapping}->finish()
       if $this->{mapping}
-          && $this->{mapping} ne $this->{basemapping};
+      && $this->{mapping} ne $this->{basemapping};
 
     undef $this->{loginManager};
     undef $this->{basemapping};

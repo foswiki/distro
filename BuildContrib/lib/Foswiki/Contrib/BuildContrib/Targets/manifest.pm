@@ -64,7 +64,7 @@ sub _manicollect {
         $File::Find::prune = 1;
     }
     elsif (
-           !-d 
+           !-d
         && /^\w.*\w$/
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
         && !/\.bak$/

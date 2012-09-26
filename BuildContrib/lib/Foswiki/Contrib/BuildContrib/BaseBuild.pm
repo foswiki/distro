@@ -76,7 +76,7 @@ sub readManifest {
         print STDERR 'COULD NOT OPEN MANIFEST FILE ', $file, $NL;
         &$noManifestFileHook()
           if defined($noManifestFileHook)
-        ;    #CodeSmell - calling package sub not object method
+          ;    #CodeSmell - calling package sub not object method
         return undef;
     }
     my @files;

@@ -145,9 +145,9 @@ sub header {
     $type ||= 'text/html' unless defined($type);
     $type .= "; charset=$charset"
       if $type ne ''
-          and $type =~ m!^text/!
-          and $type !~ /\bcharset\b/
-          and $charset ne '';
+      and $type =~ m!^text/!
+      and $type !~ /\bcharset\b/
+      and $charset ne '';
 
     if ($status) {
         $this->{headers}->{Status} = $status;
@@ -258,8 +258,8 @@ sub setDefaultHeaders {
     }
     $this->{headers}{Date} = CGI::Util::expires( 0, 'http' )
       if !exists $this->{headers}{Date}
-          && (   defined $this->{headers}{Expires}
-              || defined $this->{headers}{'Set-Cookie'} );
+      && ( defined $this->{headers}{Expires}
+        || defined $this->{headers}{'Set-Cookie'} );
 }
 
 =begin TML

@@ -101,7 +101,7 @@ BEGIN {
     if ($@) {
         $initialised = 0;
         push( @initErrors,
-                "I18N: Couldn't load required perl module Locale::Maketext: " 
+                "I18N: Couldn't load required perl module Locale::Maketext: "
               . $@
               . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
         );

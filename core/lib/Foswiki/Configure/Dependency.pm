@@ -621,14 +621,14 @@ sub _digitise_tuples {
         map {
             if   ( $_ eq 'HEAD' ) { $_ }
             else                  { sprintf( '%0' . $maxDigits . 'u', $_ ); }
-          } @$a
+        } @$a
     );
     $b = join(
         '',
         map {
             if   ( $_ eq 'HEAD' ) { $_ }
             else                  { sprintf( '%0' . $maxDigits . 'u', $_ ); }
-          } @$b
+        } @$b
     );
 
     # Pad with zeroes to equal length

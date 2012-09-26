@@ -147,7 +147,7 @@ sub renderForDisplay {
     foreach my $item ( @{ $this->getOptions() } ) {
 
         $result .=
-            '<input type="radio" autocomplete="off" name="' 
+            '<input type="radio" autocomplete="off" name="'
           . $name . '" '
           . ' value="'
           . $item . '" ';

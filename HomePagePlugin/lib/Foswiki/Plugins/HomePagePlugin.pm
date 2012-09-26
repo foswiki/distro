@@ -70,8 +70,8 @@ sub initializeUserHandler {
 
     my $wikiName = Foswiki::Func::getWikiName($loginName);
     if ( ( defined $wikiName )
-        and Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $wikiName )
-      )
+        and
+        Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $wikiName ) )
     {
         my ( $meta, $text ) =
           Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, $wikiName );

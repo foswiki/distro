@@ -80,7 +80,7 @@ sub _evaluate_for_RHS {
             # Don't bother if integer index is out of range
             return
               unless $rhs_constant >= 0
-                  && $rhs_constant < scalar(@$lhs_values);
+              && $rhs_constant < scalar(@$lhs_values);
         }
         else {
             $rhs_constant = -1;    # unmatchable

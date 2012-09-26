@@ -332,7 +332,7 @@ sub render {
                         erp_action    => 'addRowCmd',
                         '#'           => "erp_${id}"
                     )
-                  }
+                }
             );
 
             push( @out,
@@ -371,7 +371,7 @@ sub render {
                         erp_action     => 'addRow',
                         '#'            => 'erp_' . $this->{id}
                     )
-                  }
+                }
             );
 
             # Full table disabled, but not row

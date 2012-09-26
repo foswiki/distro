@@ -111,9 +111,8 @@ sub render {
 
     if ($editing) {
         $buttons =
-          $this->{table}
-          ->generateEditButtons( $this->{number}, $opts->{orient} eq 'vertical',
-            0 )
+          $this->{table}->generateEditButtons( $this->{number},
+            $opts->{orient} eq 'vertical', 0 )
           . $anchor;
         $addAnchor = 0;
     }

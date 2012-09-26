@@ -38,7 +38,7 @@ sub changes {
     my $showMinor = $query->param('minor');
     unless ($showMinor) {
         my $comment =
-            CGI::b( {}, 'Note: ' ) 
+            CGI::b( {}, 'Note: ' )
           . 'This page is showing major changes only. '
           . CGI::a(
             {

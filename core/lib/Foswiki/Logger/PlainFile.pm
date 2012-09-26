@@ -317,7 +317,9 @@ sub _rotate {
         my @event = split( /\s*\|\s*/, $line );
         $linecount++;
         if ( scalar(@event) > 7 ) {
-            print STDERR "Bad log " . join( ' | ', @event ) . " | - Skipped \n "
+            print STDERR "Bad log "
+              . join( ' | ', @event )
+              . " | - Skipped \n "
               if (TRACE);
             $stashline = '';
             next;

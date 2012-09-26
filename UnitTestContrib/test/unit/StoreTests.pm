@@ -421,7 +421,7 @@ sub verify_beforeSaveHandlerChangeText {
     push(
         @{
             $this->{session}->{plugins}->{registeredHandlers}{beforeSaveHandler}
-          },
+        },
         Foswiki::Plugin->new(
             $this->{session}, "StoreTestPlugin", 'StoreTests'
         )
@@ -472,7 +472,7 @@ sub verify_beforeSaveHandlerChangeMeta {
     push(
         @{
             $this->{session}->{plugins}->{registeredHandlers}{beforeSaveHandler}
-          },
+        },
         Foswiki::Plugin->new(
             $this->{session}, "StoreTestPlugin", 'StoreTests'
         )
@@ -522,7 +522,7 @@ sub verify_beforeSaveHandlerChangeBoth {
     push(
         @{
             $this->{session}->{plugins}->{registeredHandlers}{beforeSaveHandler}
-          },
+        },
         Foswiki::Plugin->new(
             $this->{session}, "StoreTestPlugin", 'StoreTests'
         )
@@ -635,7 +635,7 @@ sub registerAttachmentHandlers {
         @{
             $this->{session}->{plugins}
               ->{registeredHandlers}{beforeAttachmentSaveHandler}
-          },
+        },
         Foswiki::Plugin->new(
             $this->{session}, "StoreTestPlugin", 'StoreTests'
         )
@@ -644,7 +644,7 @@ sub registerAttachmentHandlers {
         @{
             $this->{session}->{plugins}
               ->{registeredHandlers}{beforeUploadHandler}
-          },
+        },
         Foswiki::Plugin->new(
             $this->{session}, "StoreTestPlugin", 'StoreTests'
         )
@@ -653,7 +653,7 @@ sub registerAttachmentHandlers {
         @{
             $this->{session}->{plugins}
               ->{registeredHandlers}{afterAttachmentSaveHandler}
-          },
+        },
         Foswiki::Plugin->new(
             $this->{session}, "StoreTestPlugin", 'StoreTests'
         )
@@ -662,7 +662,7 @@ sub registerAttachmentHandlers {
         @{
             $this->{session}->{plugins}
               ->{registeredHandlers}{afterUploadHandler}
-          },
+        },
         Foswiki::Plugin->new(
             $this->{session}, "StoreTestPlugin", 'StoreTests'
         )

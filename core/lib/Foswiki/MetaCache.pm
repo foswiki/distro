@@ -106,8 +106,8 @@ sub hasCached {
     return unless ( defined($topic) );
 
     return ( $this->{session}->{user}
-          and defined( $this->{cache}->{ $this->current_user() }{$web}{$topic} )
-    );
+          and
+          defined( $this->{cache}->{ $this->current_user() }{$web}{$topic} ) );
 }
 
 sub removeMeta {

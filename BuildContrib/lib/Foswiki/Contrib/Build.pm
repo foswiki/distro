@@ -859,8 +859,8 @@ sub cp {
         }
         else {
             File::Copy::copy( $from, $to )
-              || warn 'Warning: Failed to copy ' 
-              . $from . ' to ' 
+              || warn 'Warning: Failed to copy '
+              . $from . ' to '
               . $to . ': '
               . $!;
         }

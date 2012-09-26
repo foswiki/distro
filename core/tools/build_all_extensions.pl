@@ -120,7 +120,7 @@ if ($upload_files) {
           ' -- ', $response->status_line, "\n", 'Aborting', "\n",
           $response->as_string
           unless $response->is_redirect
-              && $response->headers->header('Location') =~
-              /view([\.\w]*)\/Plugins\/Foswiki/;
+          && $response->headers->header('Location') =~
+          /view([\.\w]*)\/Plugins\/Foswiki/;
     }
 }

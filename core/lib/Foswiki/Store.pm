@@ -89,8 +89,8 @@ sub _LoadAndRegisterListeners {
     my @evl;
     foreach my $key (
         sort {
-            $Foswiki::cfg{Store}{Listeners}{$a} <=> $Foswiki::cfg{Store}
-              {Listeners}{$b}
+            $Foswiki::cfg{Store}{Listeners}{$a}
+              <=> $Foswiki::cfg{Store}{Listeners}{$b}
         } keys( %{ $Foswiki::cfg{Store}{Listeners} } )
       )
     {

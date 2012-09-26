@@ -1457,10 +1457,10 @@ sub _handleA {
                 && !$forceTML )
             {
                 return ( 0,
-                        $WC::CHECK1 
-                      . $nop 
-                      . $web 
-                      . $topic 
+                        $WC::CHECK1
+                      . $nop
+                      . $web
+                      . $topic
                       . $anchor
                       . $WC::CHECK2 );
             }
@@ -1673,11 +1673,11 @@ sub _handleIMG {
 
     return ( 0, undef )
       unless $this->{context}
-          && defined $this->{context}->{convertImage};
+      && defined $this->{context}->{convertImage};
 
     my $alt =
-      &{ $this->{context}->{convertImage} }( $this->{attrs}->{src},
-        $this->{context} );
+      &{ $this->{context}->{convertImage} }
+      ( $this->{attrs}->{src}, $this->{context} );
     if ($alt) {
         return ( 0, $alt );
     }

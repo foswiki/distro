@@ -60,7 +60,7 @@ sub haveAccess {
         $meta = Foswiki::Meta->load( $session, $param1, $param2 );
         ASSERT( not defined($param3) )
           if DEBUG
-        ;    #attachment ACL not currently supported in traditional topic ACL
+          ;    #attachment ACL not currently supported in traditional topic ACL
     }
     else {
         if ( ref($param1) eq 'Foswiki::Address' ) {

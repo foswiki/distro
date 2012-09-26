@@ -307,8 +307,8 @@ sub getPage {
    # from cache as it will be recomputed during a normal view cycle
     return undef
       if defined($variation)
-          && defined( $variation->{expire} )
-          && $variation->{expire} < time();
+      && defined( $variation->{expire} )
+      && $variation->{expire} < time();
 
     return $variation;
 }

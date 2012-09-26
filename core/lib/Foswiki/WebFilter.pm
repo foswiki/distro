@@ -46,8 +46,8 @@ sub ok {
 
     return 0
       if $this->{public}
-          && !$session->{users}->isAdmin( $session->{user} )
-          && $thisWebNoSearchAll;
+      && !$session->{users}->isAdmin( $session->{user} )
+      && $thisWebNoSearchAll;
 
     return 0 if $this->{allowed} && !$webObject->haveAccess('VIEW');
 

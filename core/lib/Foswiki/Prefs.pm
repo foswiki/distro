@@ -482,7 +482,7 @@ sub stringify {
     foreach my $k (@keys) {
         next
           unless defined $stack->backAtLevel(-2)->getLocal($k)
-              && !$stack->finalizedBefore( $k, -2 );
+          && !$stack->finalizedBefore( $k, -2 );
         my $val =
           Foswiki::entityEncode( $stack->backAtLevel(-2)->getLocal($k) );
         push( @list, '   * Local ' . "$k = \"$val\"" );

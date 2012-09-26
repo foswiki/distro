@@ -53,7 +53,7 @@ sub target_installer {
 
     return
       if defined $this->{options}->{installers}
-          && $this->{options}->{installers} =~ /none/;
+      && $this->{options}->{installers} =~ /none/;
 
     # Add the install script to the manifest, unless it is already there
     unless (

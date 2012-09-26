@@ -78,7 +78,7 @@ sub prepare {
                         $Foswiki::cfg{RCS}{dirPermission} + 0 |
                           $Foswiki::cfg{RCS}{filePermission} + 0
                     )
-                  ) & oct(777)
+                ) & oct(777)
             )
         );
 

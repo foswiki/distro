@@ -237,7 +237,7 @@ sub _handleSubExpression {
     # ?? (exists) syntax
     return $expression
       if $expression =~
-          s/([[:alnum:]]+)(\?\?)/_valueExists($1, $keyValues) ? 1 : 0/e;
+      s/([[:alnum:]]+)(\?\?)/_valueExists($1, $keyValues) ? 1 : 0/e;
 
     # size propery
     return $expression
