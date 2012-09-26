@@ -129,6 +129,7 @@ sub _compareExpectedWithActual {
         }
         if ( $e->{options} =~ /\bexpand\b/ ) {
             $et = Foswiki::Func::expandCommonVariables( $et, $topic, $web );
+            $et =~ s/<noexpand>//g;
         }
         my $at      = $actual->[$i]->{text};
         my $control = {
@@ -175,7 +176,7 @@ sub _processDiff {
 }
 
 sub initPlugin {
-    ( $topic, $web, $user, $installWeb ) = @_;
+    ( $topic, $web ) = @_;
 
     Foswiki::Func::registerTagHandler( 'STRICTTAG', \&_STRICTTAG );
 

@@ -30,7 +30,7 @@ In your testcase topic, enter the golden HTML surrounded by structured HTML comm
 The golden HTML should be what you expect to be rendered in the final output.
 
 =expected= has a number of options that are specified by words after =expected= in the tag - for example, <code>&lt;!-- expected again expand rex --&gt;</code>
-| =expand= | Enables expansion of macros ( =Foswiki::Func::expandCommonVariables= ). Normally you should _not_ use the expand option. It is intended primarily for expanding macros in URL components, and is used when testing generated HTML which is specific to the installation. It should be used with extreme caution as it assumes that Foswiki doesn't do anything naughty during this expansion. |
+| =expand= | Enables expansion of macros ( =Foswiki::Func::expandCommonVariables= ). Normally you should _not_ use the expand option. It is intended primarily for expanding macros in URL components, and is used when testing generated HTML which is specific to the installation. It should be used with extreme caution as it assumes that Foswiki doesn't do anything naughty during this expansion. The special nop sequence =&lt;noexpand&gt;= can be used if you require to NOP a macro in the output that would otherwise be expanded by the =expand= option. |
 | =rex= | If there is text which you know can never be literally matched - for example, a generated time - you can enter a regular expression to match it instead, if the =rex= option is enabled. For example an RE for a time is entered this way: =@REX(\d\d:\d\d)=. Be very careful about using greedy matches. A number of preprogrammed REs, _viz_. =@DATE=, =@TIME= and =@WIKINAME=, are also provided to simplify expected code. |
 | =again= | If you have two tests with the same expected text one after the other, you can re-use the expected text from the previous test using this option. The expected text will then be set to the text expected for the previous test. Remember you may need to repeat the =expand= and =rex= options again as well. |
 Anything else you put into an =expected= tag will be output if there are any test failures, so you can add random text to help identify which =expected= block failed - for example <code>&lt;!-- expected TESTEYESIGHT --&gt;</code>
@@ -69,10 +69,6 @@ Some notes about the comparison process:
 |  Author: | Foswiki:Main/CrawfordCurrie http://www.c-dot.co.uk |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
-| Change History: <!-- Most recent first --> ||
-| 7 Nov 2004 | 1.000 Initial version. |
 |  Dependencies: | Algorithm::Diff |
-|  Perl Version: | 5.8 |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 <!-- %JQREQUIRE{"chili"}% -->
