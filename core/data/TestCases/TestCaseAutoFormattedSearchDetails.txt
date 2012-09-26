@@ -41,7 +41,7 @@ The major risk is the default formatting where web's are separated - for paging 
 <h4 class="foswikiSearchResultsHeader" style="border-color:#B9DAFF"><b>Results from Sandbox web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
 <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WebHome"><b>WebHome</b></a>
-<div class="foswikiSummary"> !%TWISTY{ link="" icon="add"}%" mode="div" }% !%INCLUDE{ %".WebCreateNewTopicComponents" section="js" }% !%INCLUDE{ %".WebCreateNewTopicComponents" ...</div></div>
+<div class="foswikiSummary"> %<noexpand>TWISTY{ link="" icon="add"}%" mode="div" }% %<noexpand>INCLUDE{ ".WebCreateNewTopicComponents" section="js" }% %<noexpand>INCLUDE{ ".WebCreateNewTopicComponents" ...</div></div>
 <div class="foswikiBottomRow">
 <span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/Sandbox/WebHome" rel='nofollow'>@DATE - @TIME</a></span> <span class="foswikiSRAuthor">by <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a> </span>
 </div>

@@ -42,17 +42,12 @@ use Foswiki::Plugins::TestFixturePlugin::HTMLDiffer ();
 # Stubs are provided for all the published handlers so you can hack
 # the plugin to do other tests as well.
 #
-use vars qw(
-  $installWeb $VERSION $RELEASE $pluginName
-  $topic $web $user $installWeb
-);
-
 use CGI qw( :any );
 
-$VERSION = '$Rev$';
-$RELEASE = '22 Jul 2009';
-
-$pluginName = 'TestFixturePlugin';
+our $VERSION = '$Rev$';
+our $RELEASE = '26 Sep 2012';
+our $web;
+our $topic;
 
 # Parse a topic extracting bracketed subexpressions
 sub _parse {
@@ -129,6 +124,7 @@ sub _compareExpectedWithActual {
         }
         if ( $e->{options} =~ /\bexpand\b/ ) {
             $et = Foswiki::Func::expandCommonVariables( $et, $topic, $web );
+            $et =~ s/<noexpand>//g;
         }
         my $at      = $actual->[$i]->{text};
         my $control = {
@@ -175,7 +171,7 @@ sub _processDiff {
 }
 
 sub initPlugin {
-    ( $topic, $web, $user, $installWeb ) = @_;
+    ( $topic, $web ) = @_;
 
     Foswiki::Func::registerTagHandler( 'STRICTTAG', \&_STRICTTAG );
 
