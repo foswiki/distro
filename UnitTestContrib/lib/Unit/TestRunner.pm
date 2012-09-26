@@ -172,6 +172,7 @@ sub start {
 
     #marker so we can remove the above large output from the nightly emails
     print "\nUnit test run Summary:\n";
+    print " - Tested with perl $^V, from $^X\n";
     my $actual_incorrect_failures = 0;
     my $actual_incorrect_passes   = 0;
     my $skipped_tests_total       = 0;
