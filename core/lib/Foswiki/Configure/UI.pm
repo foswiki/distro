@@ -439,7 +439,7 @@ sub logPasswordFailure {
     }
 }
 
-sub _encode_MD5 {
+sub _encode_Apache {
     my $pass   = shift;    # Password to be encoded
     my $stored = shift;    # Stored pw to recover salt.
 
@@ -468,6 +468,82 @@ sub _encode_MD5 {
         $salt .= '$';
     }
     return $salt . Digest::MD5::md5_hex( $salt . $pass );
+}
+
+sub _encode_MD5 {
+    my $pass   = shift;    # Password to be encoded
+    my $stored = shift;    # Stored pw to recover salt.
+    my $APR    = 1;
+
+    eval 'require Crypt::PasswdMD5';
+    if ($@) {
+
+        # For some reason perl module is not available
+        $APR = 0;
+        print STDERR
+"Crypt::PasswdMD5 is missing.  Please install for improved configure security.\n";
+    }
+
+    # Checking password
+
+    if ( defined $stored ) {
+        my $salt;
+
+        if ( length($stored) == 13 ) {    # Old style crypt password
+            return crypt( $pass, $stored );
+        }
+
+        elsif ( length($stored) == 42 ) {
+            $salt = substr( $stored, 0, 10 );
+            return $salt . Digest::MD5::md5_hex( $salt . $pass );
+        }
+        elsif ( $APR && defined $stored && substr( $stored, 0, 5 ) eq '$apr1' )
+        {
+            $salt = substr( $stored, 0, 14 );
+            return Crypt::PasswdMD5::apache_md5_crypt( $pass, $salt );
+        }
+        else {
+            die "corrupted password" if defined $stored;
+        }
+    }
+
+    # Encoding a new password
+
+    if ($APR) {
+        my $salt = '$apr1$';
+        my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+        foreach my $i ( 0 .. 7 ) {
+
+            # generate a salt not only from rand() but also mixing
+            # in the users login name: unecessary
+            $salt .= $saltchars[
+              (
+                  int( rand( $#saltchars + 1 ) ) +
+                    $i +
+                    ord( substr( 'admin', $i % length('admin'), 1 ) ) )
+              % ( $#saltchars + 1 )
+            ];
+        }
+        return Crypt::PasswdMD5::apache_md5_crypt( $pass,
+            substr( $salt, 0, 14 ) );
+    }
+    else {
+        my $salt      = '$';
+        my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+        my $login     = $Foswiki::cfg{AdminUserLogin} || 'admin';
+        foreach my $i ( 0 .. 7 ) {
+
+            $salt .= $saltchars[
+              (
+                  int( rand( $#saltchars + 1 ) ) +
+                    $i +
+                    ord( substr( 'admin', $i % length('admin'), 1 ) ) )
+              % ( $#saltchars + 1 )
+            ];
+        }
+        $salt .= '$';
+        return $salt . Digest::MD5::md5_hex( $salt . $pass );
+    }
 }
 
 sub _encode_Digest {
