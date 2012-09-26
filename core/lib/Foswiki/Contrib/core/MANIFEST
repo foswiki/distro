@@ -784,7 +784,7 @@ lib/Foswiki/Render/Anchors.pm 0444
 lib/Foswiki/Render/IconImage.pm 0444
 lib/Foswiki/Render/Moved.pm 0444
 lib/Foswiki/Render/Parent.pm 0444
-lib/Foswiki/Render/Tooltip.pm 0444
+lib/Foswiki/Render/ToolTip.pm 0444
 lib/Foswiki/Request.pm 0444
 lib/Foswiki/Request/Cache.pm 0444
 lib/Foswiki/Request/Upload.pm 0444
