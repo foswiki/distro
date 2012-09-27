@@ -23,9 +23,11 @@ sub check {
     # SMELL:   In a suexec environment, umask is forced to 077, blocking
     # group and world access.  This is probably not bad for the working
     # directories.  But noting smell if mismatched permissions are questioned.
+    # ... Enabled the umask override.  Foswiki now writes a password file to
+    # the working directory, and Apache cannot read it on suexec systems.
 
-    #my $saveumask = umask();
-    #umask ( oct(000));
+    my $saveumask = umask();
+    umask( oct(000) );
 
     if ($mess) {
         $mess .= $this->NOTE(
@@ -101,7 +103,7 @@ the upgrade." );
         }
     }
 
-    #umask($saveumask);
+    umask($saveumask);
     my $e = $this->checkTreePerms( $d, 'rw', qr/configure\/backup\/|README/ );
     $mess .= $this->ERROR($e) if $e;
 

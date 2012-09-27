@@ -39,6 +39,11 @@ our $MESSAGE_TYPE = {
 my $DEFAULT_TEMPLATE_PARSER = 'SimpleFreeMarker';
 my $templateParser;
 
+sub untaint {
+    $_[0] =~ m/^(.*)$/;
+    return $1;
+}
+
 =begin TML
 
 ---++ ClassMethod new($item)
@@ -565,6 +570,15 @@ sub _encode_Digest {
     my @wDirs = File::Spec->splitdir($workdirs);
     push( @wDirs, 'configure' );
     $workdirs = File::Spec->catdir(@wDirs);
+
+    my $digestDir = File::Spec->catdir( $vol, $workdirs );
+    unless ( -d $digestDir ) {
+        my $saveumask = umask();
+        umask( oct(000) );
+        mkdir( untaint($digestDir), oct(755) );
+        umask($saveumask);
+    }
+
     my $fqDigest =
       File::Spec->catpath( $vol, $workdirs, '.htdigest-configure' );
 
