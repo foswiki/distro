@@ -216,7 +216,8 @@ sub parseTime {
         return undef if ( defined($h) && ( $h < 0 || $h > 24 ) );
         return undef if ( defined($m) && ( $m < 0 || $m > 60 ) );
         return undef if ( defined($s) && ( $s < 0 || $s > 60 ) );
-        return undef if ( defined($year) && $year < 60 );
+
+        #return undef if ( defined($year) && $year < 60 );
 
         my $day  = $D || 1;
         my $hour = $h || 0;
