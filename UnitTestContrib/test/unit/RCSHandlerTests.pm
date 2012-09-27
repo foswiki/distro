@@ -508,14 +508,14 @@ sub verify_Keywords {
     my ($this) = @_;
     my $topic = "TestRcsTopic";
 
+    my $rcs = $class->new( new StoreStub, $testWeb, $topic, undef );
+
     my $time  = time();
     my $check = <<HERE;
 %META:TOPICINFO{author="UserForRev0" comment="comment" date="$time" format="1.1" version="1"}%
 HERE
     $check .=
 '$Author$ $Date$ $Header$ $Id$ $Locker$ $Log$ $Name$ $RCSfile$ $Revision$ $Source$ $State$';
-
-    my $rcs = $class->new( new StoreStub, $testWeb, $topic, undef );
     $rcs->addRevisionFromText( $check, "comment", "UserForRev0" );
     open( F, "<$rcs->{file}" ) || die "Failed to open $rcs->{file}";
     local $/ = undef;
