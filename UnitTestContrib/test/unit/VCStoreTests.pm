@@ -385,8 +385,10 @@ sub verify_Inconsistent_implicitSave {
     $this->assert_str_equals( $this->{session}->{user}, $info->{author} );
     $this->assert_num_equals( 3, $info->{version} );
 
-    # Ensure the file timestamp is used for the revision date
-    $this->assert_num_equals( $date, $info->{date} );
+    my $dateDiff = abs( $info->{date} - $date );
+
+# Ensure the file timestamp is used for the revision date, allowing a 1-second fuzz factor
+    $this->assert( ( $dateDiff <= 1 ) );
 
     # Make sure that previous revs exist and have the right content
     $readMeta->finish();
