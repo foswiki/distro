@@ -167,9 +167,8 @@ our %VALIDATE = (
             qw( author version date format reprev
               rev comment encoding )
         ],
-
-        #        _default => 1,
-        #        alias => 'createinfo',
+        _default => 1,
+        alias    => 'createinfo',
     },
     TOPICMOVED => {
         require  => [qw( from to by date )],

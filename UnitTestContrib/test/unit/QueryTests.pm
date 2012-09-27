@@ -447,6 +447,10 @@ sub verify_meta_dot_createinfo {
         "'AnotherTopic'/META:CREATEINFO.author",
         eval => $anotherTopicInfoRev1->{author}
     );
+    $this->check(
+        "'AnotherTopic'/createinfo.author",
+        eval => $anotherTopicInfoRev1->{author}
+    );
 
     $this->assert(
         $anotherTopicInfoRev1->{version} < $anotherTopicInfo->{version},
