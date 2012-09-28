@@ -133,6 +133,11 @@ sub _createInconsistentTopic {
       ;    # we should have a history now, with topic 1 as the latest rev
     $meta->finish();
 
+    my $then = (
+        stat(
+            "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt")
+    )[9];
+
     # Wait for the clock to tick
     my $x = time;
     while ( time == $x ) {
@@ -153,9 +158,13 @@ CRUD
     # The .txt has been mauled, so getLatestRev should return 2
 
     return (
-        stat(
-            "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt")
-    )[9];
+        (
+            stat(
+"$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt"
+            )
+        )[9],
+        $then
+    );
 }
 
 # Get revision info where there is no history (,v file)
@@ -247,7 +256,7 @@ sub verify_InconsistentTopic_getRevisionInfo {
     my $this = shift;
 
     # Inconsistent cache with topicinfo
-    my $date = $this->_createInconsistentTopic();
+    my ( $date, $then ) = $this->_createInconsistentTopic();
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -352,7 +361,7 @@ sub verify_NoHistory_implicitSave {
 sub verify_Inconsistent_implicitSave {
     my $this = shift;
 
-    my $date = $this->_createInconsistentTopic();
+    my ( $date, $then ) = $this->_createInconsistentTopic();
 
 # Head of "history" will be 1, we've got one pending checkin, so latest revision
 # is reporting 2, the next revision will be 2.
@@ -445,7 +454,7 @@ sub verify_NoHistory_repRev {
 sub verify_Inconsistent_repRev {
     my $this = shift;
 
-    my $date = $this->_createInconsistentTopic();
+    my ( $date, $then ) = $this->_createInconsistentTopic();
 
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -494,8 +503,7 @@ sub verify_NoHistory_getRevisionAtTime {
 sub verify_Inconsistent_getRevisionAtTime {
     my $this = shift;
 
-    my $then = time;
-    my $date = $this->_createInconsistentTopic();
+    my ( $date, $then ) = $this->_createInconsistentTopic();
 
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -556,7 +564,8 @@ sub verify_NoHistory_saveAttachment {
 sub verify_Inconsistent_saveAttachment {
     my $this = shift;
 
-    my $date = $this->_createInconsistentTopic();
+    my ( $date, $then ) = $this->_createInconsistentTopic();
+
     $this->assert(
         open( my $FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" ) );
     print $FILE "one two three";
@@ -596,7 +605,7 @@ sub verify_Inconsistent_saveAttachment {
 # verify that the value of a FORMFIELD is taken from the text and not the head
 sub verify_Inconsistent_Item10993_FORMFIELD_from_text {
     my $this = shift;
-    my $date = $this->_createInconsistentTopic();
+    my ( $date, $then ) = $this->_createInconsistentTopic();
 
     $this->assert_str_equals(
         "Beaver=Beaver",
