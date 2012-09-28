@@ -1,7 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1301347607" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Installation Guide
-*This guide describes the steps for manually installing Foswiki, with specific steps for installations on Linux with the Apache web server.* If you are using a different web server or operating system, in addition to reviewing this document, check any additional information specific to your platform at Foswiki:Support.SupplementalDocuments. Foswiki:Support.SupplementalDocuments also has information for other scenarios, such as shared web hosting environments.
+*This guide describes the steps for manually installing Foswiki, with specific steps for installations on Linux with the Apache web server.*
+   * If you are using one of the automated installers or operating system-specific packages at Foswiki:Download.OtherFoswikiInstallers, refer to the instructions specific to those installers/packages in the first instance;
+   * Are you manually installing on a different web server or operating system? Would you like more information about performance tuning, security hardening or shared webhosting environments? This guide contains information relevant to most installation scenarios. For topics not covered here please consult Foswiki:Support.SupplementalDocuments
 
 This guide is divided into two parts - included here as a single complete reference.  [[%SPACEOUT{"InstallationGuidePart1"}%]] documents the preparation steps used to make Foswiki initially operational.  It is included in the root of your Foswiki distribution  as a static HTML document - =INSTALL.html= [[%SPACEOUT{"InstallationGuidePart2"}%]] continues with steps for tailoring and enhancing your site.
 
