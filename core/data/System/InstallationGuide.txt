@@ -21,7 +21,7 @@ This guide assumes the person installing Foswiki has a basic knowledge of server
 
 Please see the [[#SystemRequirements][System Requirements]] (below) for server and client requirements to run Foswiki, including the Perl modules required on the server. If you need to install any Perl libraries from CPAN for use by Foswiki, see Foswiki:Support.HowToInstallCpanModules for more information.
 
-You should also take this opportunity to consider the automated installers or Debian/CentOS etc. packages at Foswiki:Download.OtherFoswikiInstallers, which may help some users get started more easily.
+You should also take this opportunity to consider the automated installers, virtual machine images and (currently) Debian and !CentOS packages at Foswiki:Download.OtherFoswikiInstallers, which may help some users get started more easily.
 
 ---++ 5-Minute Install
 
