@@ -28,6 +28,8 @@ BEGIN {
 }
 
 use Foswiki::Contrib::Build;
+use Foswiki::Contrib::BuildContrib::Targets::stage;
+use Foswiki::Contrib::BuildContrib::Targets::archive;
 
 # Declare our build package
 package FoswikiBuild;
