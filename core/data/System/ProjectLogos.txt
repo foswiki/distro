@@ -42,11 +42,9 @@ You may NOT use any original artwork from Foswiki.org, nor make or use modified 
 %META:FILEATTACHMENT{name="favicon-logo.png" attr="" comment="" date="1348614459" path="favicon-logo.png" size="1448" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo-large.png" attr="" comment="" date="1348665098" path="foswiki-logo-large.png" size="74663" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo.png" attr="" comment="" date="1348665070" path="foswiki-logo.png" size="4815" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo-outlines.svg" attr="" comment="" date="1348665423" path="foswiki-logo-outlines.svg" size="3791" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo.gif" attr="" comment="" date="1348665037" path="foswiki-logo.gif" size="3906" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo.ai" attr="" comment="" date="1348665350" path="foswiki-logo.ai" size="66282" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo.pdf" attr="" comment="" date="1348665325" path="foswiki-logo.pdf" size="64117" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo.svg" attr="" comment="" date="1348665846" path="foswiki-logo.svg" size="1874" version=""}%
 %META:FILEATTACHMENT{name="favicon.ico" attr="" comment="" date="1348665612" path="favicon.ico" size="1150" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo-outlines.pdf" attr="" comment="" date="1348665442" path="foswiki-logo-outlines.pdf" size="59700" version=""}%
 %META:FILEATTACHMENT{name="favicon.png" attr="" comment="" date="1348665532" path="favicon.png" size="1166" version=""}%
