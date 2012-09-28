@@ -945,8 +945,8 @@ pub/System/PrintSkin/fullscreen.gif 0644
 pub/System/PrintSkin/screenshot.gif 0644
 pub/System/ProjectLogos/favicon.ico 0644
 pub/System/ProjectLogos/favicon.png 0644
-pub/System/ProjectLogos/foswiki-logo-outlines.pdf 0644
-pub/System/ProjectLogos/foswiki-logo-outlines.svg 0644
+#pub/System/ProjectLogos/foswiki-logo-outlines.pdf 0644
+#pub/System/ProjectLogos/foswiki-logo-outlines.svg 0644
 pub/System/ProjectLogos/foswiki-logo.svg 0644
 pub/System/ProjectLogos/foswiki-logo.ai 0644
 pub/System/ProjectLogos/foswiki-logo.pdf 0644
