@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_999" comment="reprev" date="1348666060" format="1.1" reprev="1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1348933065" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Foswiki brand material
 
@@ -7,7 +7,7 @@ The official Foswiki logo and derivatives are attached to this page.
 ---++ Logo artwork
 
 %STARTINCLUDE%
-<img src="%ATTACHURLPATH%/foswiki-logo.gif" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+<img src="%ATTACHURLPATH%/foswiki-logo-40.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
 <img src="%ATTACHURLPATH%/foswiki-badge.gif" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
@@ -40,11 +40,9 @@ You may NOT use any original artwork from Foswiki.org, nor make or use modified 
 %META:FILEATTACHMENT{name="favicon-logo.ico" attr="" comment="" date="1348614818" path="favicon-logo.ico" size="1150" version=""}%
 %META:FILEATTACHMENT{name="foswiki-badge.gif" attr="" comment="" date="1348665285" path="foswiki-badge.gif" size="2765" version=""}%
 %META:FILEATTACHMENT{name="favicon-logo.png" attr="" comment="" date="1348614459" path="favicon-logo.png" size="1448" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo-large.png" attr="" comment="" date="1348665098" path="foswiki-logo-large.png" size="74663" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo.png" attr="" comment="" date="1348665070" path="foswiki-logo.png" size="4815" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo.gif" attr="" comment="" date="1348665037" path="foswiki-logo.gif" size="3906" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo.ai" attr="" comment="" date="1348665350" path="foswiki-logo.ai" size="66282" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo.pdf" attr="" comment="" date="1348665325" path="foswiki-logo.pdf" size="64117" version=""}%
-%META:FILEATTACHMENT{name="foswiki-logo.svg" attr="" comment="" date="1348665846" path="foswiki-logo.svg" size="1874" version=""}%
+%META:FILEATTACHMENT{name="foswiki-logo-large.png" attr="" comment="" date="1348932826" path="foswiki-logo-large.png" size="76105" version=""}%
+%META:FILEATTACHMENT{name="foswiki-logo-30.png" attr="" comment="" date="1348932778" path="foswiki-logo-30.png" size="2886" version=""}%
 %META:FILEATTACHMENT{name="favicon.ico" attr="" comment="" date="1348665612" path="favicon.ico" size="1150" version=""}%
+%META:FILEATTACHMENT{name="foswiki-logo-40.png" attr="" comment="" date="1348932758" path="foswiki-logo-40.png" size="3895" version=""}%
 %META:FILEATTACHMENT{name="favicon.png" attr="" comment="" date="1348665532" path="favicon.png" size="1166" version=""}%
+%META:FILEATTACHMENT{name="foswiki-logo-50.png" attr="" comment="" date="1348932884" path="foswiki-logo-50.png" size="4859" version=""}%

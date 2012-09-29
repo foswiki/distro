@@ -945,13 +945,11 @@ pub/System/PrintSkin/fullscreen.gif 0644
 pub/System/PrintSkin/screenshot.gif 0644
 pub/System/ProjectLogos/favicon.ico 0644
 pub/System/ProjectLogos/favicon.png 0644
-pub/System/ProjectLogos/foswiki-logo.svg 0644
-pub/System/ProjectLogos/foswiki-logo.ai 0644
-pub/System/ProjectLogos/foswiki-logo.pdf 0644
 pub/System/ProjectLogos/foswiki-badge.gif 0644
 pub/System/ProjectLogos/foswiki-logo-large.png 0644
-pub/System/ProjectLogos/foswiki-logo.png 0644
-pub/System/ProjectLogos/foswiki-logo.gif 0644
+pub/System/ProjectLogos/foswiki-logo-50.png 0644
+pub/System/ProjectLogos/foswiki-logo-40.png 0644
+pub/System/ProjectLogos/foswiki-logo-30.png 0644
 pub/System/ProjectLogos/favicon-logo.ico 0644
 pub/System/ProjectLogos/favicon-logo.png 0644
 pub/System/SkinTemplates/base.css 0644
