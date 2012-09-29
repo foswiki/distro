@@ -43,6 +43,7 @@ You may NOT use any original artwork from Foswiki.org, nor make or use modified 
 %META:FILEATTACHMENT{name="foswiki-logo-large.png" attr="" comment="" date="1348932826" path="foswiki-logo-large.png" size="76105" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo-30.png" attr="" comment="" date="1348932778" path="foswiki-logo-30.png" size="2886" version=""}%
 %META:FILEATTACHMENT{name="favicon.ico" attr="" comment="" date="1348665612" path="favicon.ico" size="1150" version=""}%
+%META:FILEATTACHMENT{name="foswiki-logo-35.png" attr="" comment="" date="1348932758" path="foswiki-logo-35.png" size="3497" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo-40.png" attr="" comment="" date="1348932758" path="foswiki-logo-40.png" size="3895" version=""}%
 %META:FILEATTACHMENT{name="favicon.png" attr="" comment="" date="1348665532" path="favicon.png" size="1166" version=""}%
 %META:FILEATTACHMENT{name="foswiki-logo-50.png" attr="" comment="" date="1348932884" path="foswiki-logo-50.png" size="4859" version=""}%
