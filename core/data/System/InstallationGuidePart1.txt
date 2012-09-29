@@ -26,7 +26,9 @@ Before attempting to install Foswiki, you are encouraged to review the Foswiki:S
 
 Verify that your server meets the [[#SystemRequirements][Foswiki system requirements]], including having the minimum required Perl version and all required Perl modules installed. If you need to install any Perl libraries from CPAN for use by Foswiki, see Foswiki:Support.HowToInstallCpanModules for more information.
 
-You should also take this opportunity to consider the automated installers, virtual machine images and (currently) Debian and !CentOS packages at Foswiki:Download.OtherFoswikiInstallers, which may help some users get started more easily.
+<div class="foswikiHelp">You should also take this opportunity to consider the automated installers, virtual machine images and (currently) Debian and !CentOS packages at Foswiki:Download.OtherFoswikiInstallers.  These automate much of the install process and may help some users get started more easily.
+
+Note that the installers are optimized for the target system, and typically do not follow the normal Foswiki directory structure documented below.  Files are installed into system locations that are appropriate to the target OS.  Review the steps below, but recognize that file locations may be different, and some installation steps such as customization of the Web Server and Foswiki,setting file ownership and permissions will have been done automatically during the package installation.</div>
 
 If you need help, feel free to ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki).
 
