@@ -193,12 +193,11 @@ sub finalizeHeaders {
     $this->SUPER::finalizeHeaders( $res, $req );
 
     my $hdr = $res->printHeaders;
-    print $hdr;
+    $this->write($hdr);
 }
 
 sub write {
-    my ( $this, $buffer ) = @_;
-    print $buffer;
+    print $_[1];
 }
 
 1;
