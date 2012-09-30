@@ -1,35 +1,4 @@
-# FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
-# http://foswiki.org/
-#
-# Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
-# contributors. Foswiki contributors are listed in the AUTHORS file in the root
-# of Foswiki distribution.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-#------------------------------------------------------------------------------
-# Parts of this package are based on Net::Server::Daemonize, which is
-#  Copyright (C) 2001-2007
-#
-#    Jeremy Howard
-#    j+daemonize@howard.fm
-#
-#    Paul Seamons
-#    paul@seamons.com
-#    http://seamons.com/
-#
-# For more details:
-# http://search.cpan.org/perldoc?Net::Server::Daemonize
-#------------------------------------------------------------------------------
-# As per the GPL, removal of this notice is prohibited.
+# See bottom of file for license and copyright information
 
 =begin TML
 
@@ -179,8 +148,7 @@ sub preparePath {
 }
 
 sub write {
-    my ( $this, $buffer ) = @_;
-    syswrite STDOUT, $buffer;
+    syswrite STDOUT, $_[1];
 }
 
 sub reExec {
@@ -239,3 +207,37 @@ sub daemonize {
 }
 
 1;
+
+__END__
+FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
+http://foswiki.org/
+
+Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+contributors. Foswiki contributors are listed in the AUTHORS file in the root
+of Foswiki distribution.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+------------------------------------------------------------------------------
+Parts of this package are based on Net::Server::Daemonize, which is
+ Copyright (C) 2001-2007
+
+   Jeremy Howard
+   j+daemonize@howard.fm
+
+   Paul Seamons
+   paul@seamons.com
+   http://seamons.com/
+
+For more details:
+http://search.cpan.org/perldoc?Net::Server::Daemonize
+------------------------------------------------------------------------------
+As per the GPL, removal of this notice is prohibited.
