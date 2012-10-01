@@ -49,6 +49,11 @@ jQuery(function($) {
         };
       }
       $.extend(button, $button.metadata());
+
+      if (typeof(button.click) === 'undefined') {
+        button.click = function() {};
+      }
+
       buttons.push(button);
     }).remove();
 
