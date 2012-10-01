@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1304090140" format="1.1" reprev="3" version="3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1304090140" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -177,6 +177,7 @@ In case a namespace, method or parameters are specified as part of a JSON-RPC re
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|   1 Oct 2012: | added the async flag to the =$.jsonRpc= frontend to =$.ajax= |
 |   2 Aug 2012: | fixed json2 not loaded in IE7 (Foswiki:Main/JanKrueger) |
 |  16 Apr 2012: | fixed =jsonrpc= for apache's suexec |
 |  10 Jan 2012: | fixed perl dependencies; \

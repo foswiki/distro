@@ -18,10 +18,15 @@
   /* perform a single json-rpc */
   $.jsonRpc = function(endpoint, options) {
     var data = createRequest(options), 
-        url = endpoint;
+        url = endpoint,
+        async = true;
 
     if (typeof(options.namespace) !== 'undefined') {
       url += "/"+options.namespace;
+    }
+
+    if (typeof(options.async) !== 'undefined') {
+      async = options.async;
     }
 
     $.ajax({
@@ -32,6 +37,7 @@
       contentType: 'application/json',
       processData: false,
       cache: false,
+      async: async,
       beforeSend: function(xhr) {
         if (typeof(options.beforeSend) === 'function') {
           options.beforeSend.call(options, xhr);
