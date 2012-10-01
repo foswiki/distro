@@ -1730,7 +1730,7 @@ sub _validateRegistration {
         # better get it right!
         $session->{plugins}->dispatch( 'validateRegistrationHandler', $data );
     }
-    catch Error with {
+    catch Error::Simple with {
         my $e = shift;
         throw Foswiki::OopsException(
             'register',
