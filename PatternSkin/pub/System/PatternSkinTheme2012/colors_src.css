@@ -830,7 +830,7 @@ tr.foswikiDiffDebug .foswikiDiffDeletedText {
 }
 
 #patternTopBarButtons {
-	background: #2a549d  url(Foswiki_logo_mark_60px.png) no-repeat scroll 10px -3px;
+	background: #2a549d  url(../ProjectLogos/foswiki-logo.png) no-repeat scroll 10px 3px;
 }
 #patternClearHeaderLeft {
 	background-color:#2A549D;

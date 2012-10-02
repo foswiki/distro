@@ -2,9 +2,13 @@
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin theme: Foswiki "2012" Site Skin
 
+This is a remix of the [[System.PatternSkinThemeFatWilly][Foswiki Site]] theme for patternskin, using the new 2012 foswiki System.ProjectLogos. 
+
+This is just a stopgap for now, Arthur is working on a real skin :)
+
 ---++ Test this theme
 <!--
-   * Local FAVICON=%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/favicon.ico
+   * Local FAVICON=%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/favicon.ico
    * Local FOSWIKI_LAYOUT_URL = %URLPARAM{"layout" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/layout.css"}%
    * Local FOSWIKI_STYLE_URL = %URLPARAM{"style" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/style.css"}%
    * Local FOSWIKI_COLORS_URL = %URLPARAM{"colors" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/colors.css"}%
@@ -73,7 +77,7 @@ Top bar:
    * Set WEBHEADERART =
    * Set WEBHEADERBGCOLOR =
 Favicon
-   * Set FAVICON=%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/favicon.ico
+   * Set FAVICON=%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/favicon.ico
 
 </textarea><br />
 <input type="button" class="foswikiButton" value="Highlight text" onClick="javascript:this.form.copypaste.focus();this.form.copypaste.select();">
