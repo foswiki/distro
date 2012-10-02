@@ -19,7 +19,7 @@
 
 Customize logo and tooltip texts:
 
-   * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.gif
+   * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
    * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
    * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
 

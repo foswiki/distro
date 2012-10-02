@@ -587,7 +587,7 @@ lib/Foswiki/Configure/resources/bg_expert.gif 0444
 lib/Foswiki/Configure/resources/bg_submit_gradient.gif 0444
 lib/Foswiki/Configure/resources/close.gif 0444
 lib/Foswiki/Configure/resources/favicon.ico 0444
-lib/Foswiki/Configure/resources/foswiki-logo.gif 0444
+lib/Foswiki/Configure/resources/foswiki-logo.png 0444
 lib/Foswiki/Configure/resources/foswikiStyles.js 0444
 lib/Foswiki/Configure/resources/icon_down.gif 0444
 lib/Foswiki/Configure/resources/icon_error_blue.gif 0444
@@ -946,6 +946,8 @@ pub/System/PrintSkin/screenshot.gif 0644
 pub/System/ProjectLogos/favicon.ico 0644
 pub/System/ProjectLogos/favicon.png 0644
 pub/System/ProjectLogos/foswiki-badge.gif 0644
+pub/System/ProjectLogos/foswiki-logo.gif 0644
+pub/System/ProjectLogos/foswiki-logo.png 0644
 pub/System/ProjectLogos/foswiki-logo-large.png 0644
 pub/System/ProjectLogos/foswiki-logo-50.png 0644
 pub/System/ProjectLogos/foswiki-logo-40.png 0644

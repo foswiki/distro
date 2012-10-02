@@ -15,7 +15,7 @@ The default Foswiki logo image is a 46 pixels high GIF image. You can use any si
 
 To set the logo site-wide, first attach your logo image to [[%LOCALSITEPREFS%]] using the 'Attach' button. Now, edit [[%LOCALSITEPREFS%]] and find the line:
 <pre>
-   *<nop> Set WIKILOGOIMG = %<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-logo.gif
+   *<nop> Set WIKILOGOIMG = %<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-logo.png
 </pre>
 Assuming you have called your logo =mycologo.png=, change this line to:
 <pre>

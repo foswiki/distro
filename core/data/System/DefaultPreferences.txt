@@ -126,7 +126,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WIKITOOLNAME = Foswiki
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in !WebPreferences for individual webs by defining these settings there.
-      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.gif
+      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
       * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
       * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
 
