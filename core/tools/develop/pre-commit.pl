@@ -38,6 +38,7 @@ Item12345: Item12346: fixed foo, updated release notes
 
 3. Use ItemNNN topics which are open at the time of checkin,
    I.E. *not* one of: Closed, Waiting For Release, No Action
+   or Proposal Required
 4. Have "tidied" source code if the TIDY control file in the
    root of the extension calls for it, see:
    http://foswiki.org/Development/TIDY
@@ -64,7 +65,9 @@ foreach my $item (@items) {
         $state = $1;
     }
     close($file);
-    if ( $state =~ /^(Waiting for Release|Closed|No Action Required)$/ ) {
+    if ( $state =~
+        /^(Waiting for Release|Closed|No Action Required|Proposal Required)$/ )
+    {
         fail("$item is in $state state; cannot check in");
     }
 }
