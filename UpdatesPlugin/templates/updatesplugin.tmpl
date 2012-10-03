@@ -10,8 +10,8 @@
           }%
       </td>
       <td>
-        %BUTTON{"%MAKETEXT{"Upgrade"}%" id="foswikiUpdatesPerform" icon="accept"}%
-        %BUTTON{"%MAKETEXT{"Ignore"}%" id="foswikiUpdatesIgnore" icon="cross"}%
+        <a href="%SCRIPTURL{configure}%"><img src='%ICONURL{choice-yes}%' /> %MAKETEXT{"Upgrade"}%</a>
+        %BUTTON{"%MAKETEXT{"Ignore for 7 days"}%" id="foswikiUpdatesIgnore" icon="cross"}%
         %CLEAR%
       </td>
     </tr>
@@ -30,6 +30,11 @@
 }
 .foswikiUpdatesMessage td {
   padding-right:1em;
+}
+.foswikiUpdatesMessage #foswikiUpdatesIgnore .jqButtonIcon {
+  background-repeat: no-repeat;
+  padding-left: 20px;
+  margin-left: 26px;
 }
 </style>
 </literal>%TMPL:END%
