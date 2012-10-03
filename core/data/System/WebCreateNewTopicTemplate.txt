@@ -96,7 +96,7 @@
 ---------------------------------------------------
 }%%TMPL:DEF{"topicparent"}%<p>%INCLUDE{
     "%SYSTEMWEB%.WebCreateNewTopicComponents"
-    section="topicname"
+    section="topicparent"
 }%</p>%TMPL:END%%{
 ---------------------------------------------------
 	topictemplate
