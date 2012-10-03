@@ -1105,8 +1105,8 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
 $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite' if ($^O eq 'MSWin32');
 
-# **BOOLEAN**
-# Set to enable hierarchical webs. Without this setting, Foswiki will only
+# **BOOLEAN EXPERT**
+# Set to enable (hierarchical) sub-webs. Without this setting, Foswiki will only
 # allow a single level of webs. If you set this, you can use
 # multiple levels, like a directory tree, i.e. webs within webs.
 $Foswiki::cfg{EnableHierarchicalWebs} = 1;
