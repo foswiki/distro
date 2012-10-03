@@ -721,10 +721,6 @@ table.foswikiFormTable {
 	border-width:1px;
 }
 
-.foswikiBroadcastMessage {
-	margin:-20px 0 20px 0;
-}
-
 .foswikiBroadcastMessage,
 .foswikiNotification {
 	padding:1em 20px;
