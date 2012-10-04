@@ -54,23 +54,12 @@ my $aurl;    # Holds the %ATTACHURL%
 my $surl;    # Holds the %SCRIPTURL%
 
 my $testtmpl1 = <<'HERE';
-%META:TOPICINFO{author="WikiGuest" date="1124568292" format="1.1" version="1.2"}%
 
 -- Main.WikiGuest - 20 Aug 2005
 
-%META:FORM{name="$testform"}%
-%META:FIELD{name="IssueName" attributes="M" title="Issue Name" value="_An issue_"}%
-%META:FIELD{name="IssueDescription" attributes="" title="Issue Description" value="---+ Example problem"}%
-%META:FIELD{name="IssueType" attributes="" title="Issue Type" value="Defect"}%
-%META:FIELD{name="History1" attributes="" title="History1" value="%SCRIPTURL%"}%
-%META:FIELD{name="History2" attributes="" title="History2" value="%SCRIPTURL%"}%
-%META:FIELD{name="History3" attributes="" title="History3" value="$percntSCRIPTURL%"}%
-%META:FIELD{name="History4" attributes="" title="History4" value="$percntSCRIPTURL%"}%
 HERE
 
 my $testform1 = <<'HERE';
-%META:TOPICINFO{author="guest" date="1025373031" format="1.0" version="1.3"}%
-%META:TOPICPARENT{name="WebHome"}%
 | *Name* | *Type* | *Size* | *Values* | *Tooltip messages* | *Mandatory* | 
 | Issue Name | text | 73 | My first defect | Illustrative name of issue | M | 
 | Issue Description | textarea | 55x5 | Simple description of problem | Short description of issue |  | 
@@ -83,7 +72,6 @@ my $testform1 = <<'HERE';
 HERE
 
 my $testtext1 = <<'HERE';
-%META:TOPICINFO{author="WikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
 Needs the following
    * TestFormInitFormA - Form to be attached
 Then call <a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?formtemplate=$testform">Edit</a>
@@ -91,30 +79,13 @@ Then call <a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?formtemplate=$testform">Edi
 HERE
 
 my $testtext2 = <<'HERE';
-%META:TOPICINFO{author="WikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
 Needs the following
    * TestFormInitFormA - Form to be attached
 Then call <a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?formtemplate=$testform">Edit</a>
-
-%META:FORM{name="$testform"}%
-%META:FIELD{name="IssueName" attributes="M" title="Issue Name" value="_An issue_"}%
-%META:FIELD{name="IssueDescription" attributes="" title="Issue Description" value="---+ Example problem"}%
-%META:FIELD{name="IssueType" attributes="" title="Issue Type" value="Defect"}%
-%META:FIELD{name="History1" attributes="" title="History1" value="%SCRIPTURL%"}%
-%META:FIELD{name="History2" attributes="" title="History2" value="%SCRIPTURL%"}%
-%META:FIELD{name="History3" attributes="" title="History3" value="$percntSCRIPTURL%"}%
-%META:FIELD{name="History4" attributes="" title="History4" value="$percntSCRIPTURL%"}%
 HERE
 
 my $testtext3 = <<'HERE';
-%META:TOPICINFO{author="WikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
 ...no text...
-%META:FORM{name="InitTestForm"}%
-%META:FIELD{name="IssueName" attributes="M" title="Issue Name" value="My first defect"}%
-%META:FIELD{name="IssueDescription" attributes="" title="Issue Description" value="Simple description of problem"}%
-%META:FIELD{name="IssueType" attributes="" title="Issue Type" value="Defect"}%
-%META:FIELD{name="History1" attributes="" title="History1" value="%SCRIPTURL%"}%
-%META:FIELD{name="History3" attributes="" title="History3" value="$percntSCRIPTURL%"}%
 HERE
 
 my $edittmpl1 = <<'HERE';
@@ -132,13 +103,247 @@ sub set_up {
     $this->createNewFoswikiSession( undef, $this->{request} );
     $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
     $surl = $this->{session}->getScriptUrl(1);
-    Foswiki::Func::saveTopicText( $testweb, $testtopic1, $testtext1, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testtopic2, $testtext2, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testtopic3, $testtext3, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testform,   $testform1, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testtmpl,   $testtmpl1, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, "MyeditTemplate", $edittmpl1, 1,
-        1 );
+
+    my ($to) = Foswiki::Func::readTopic( $testweb, $testtopic1 );
+    $to->put(
+        'TOPICINFO',
+        {
+            author  => "WikiGuest",
+            date    => "1159721050",
+            format  => "1.1",
+            reprev  => "1.3",
+            version => "1.3"
+        }
+    );
+    Foswiki::Func::saveTopic( $testweb, $testtopic1, $to, $testtext1 );
+
+    ($to) = Foswiki::Func::readTopic( $testweb, $testtopic2 );
+    $to->put(
+        'TOPICINFO',
+        {
+            author  => "WikiGuest",
+            date    => "1159721050",
+            format  => "1.1",
+            reprev  => "1.3",
+            version => "1.3"
+        }
+    );
+    $to->put( 'FORM', { name => "$testform" } );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueName",
+            attributes => "M",
+            title      => "Issue Name",
+            value      => "_An issue_"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueDescription",
+            attributes => "",
+            title      => "Issue Description",
+            value      => "---+ Example problem"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueType",
+            attributes => "",
+            title      => "Issue Type",
+            value      => "Defect"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History1",
+            attributes => "",
+            title      => "History1",
+            value      => "%SCRIPTURL%"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History2",
+            attributes => "",
+            title      => "History2",
+            value      => "%SCRIPTURL%"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History3",
+            attributes => "",
+            title      => "History3",
+            value      => '$percntSCRIPTURL%'
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History4",
+            attributes => "",
+            title      => "History4",
+            value      => '$percntSCRIPTURL%'
+        }
+    );
+    Foswiki::Func::saveTopic( $testweb, $testtopic2, $to, $testtext2 );
+
+    ($to) = Foswiki::Func::readTopic( $testweb, $testtopic3 );
+    $to->put(
+        'TOPICINFO',
+        {
+            author  => "WikiGuest",
+            date    => "1159721050",
+            format  => "1.1",
+            reprev  => "1.3",
+            version => "1.3"
+        }
+    );
+    $to->put( 'FORM', { name => "InitTestForm" } );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueName",
+            attributes => "M",
+            title      => "Issue Name",
+            value      => "My first defect"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueDescription",
+            attributes => "",
+            title      => "Issue Description",
+            value      => "Simple description of problem"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueType",
+            attributes => "",
+            title      => "Issue Type",
+            value      => "Defect"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History1",
+            attributes => "",
+            title      => "History1",
+            value      => "%SCRIPTURL%"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History3",
+            attributes => "",
+            title      => "History3",
+            value      => '$percntSCRIPTURL%'
+        }
+    );
+    Foswiki::Func::saveTopic( $testweb, $testtopic3, $to, $testtext3 );
+
+    ($to) = Foswiki::Func::readTopic( $testweb, $testform );
+    $to->put(
+        'TOPICINFO',
+        {
+            author  => "guest",
+            date    => "1025373031",
+            format  => "1.0",
+            version => "1.3"
+        }
+    );
+    $to->put( 'TOPICPARENT', { name => "WebHome" } );
+    Foswiki::Func::saveTopic( $testweb, $testform, $to, $testform1 );
+
+    ($to) = Foswiki::Func::readTopic( $testweb, $testtmpl );
+    $to->put(
+        'TOPICINFO',
+        {
+            author  => "WikiGuest",
+            date    => "1124568292",
+            format  => "1.1",
+            version => "1.2"
+        }
+    );
+    $to->put( 'FORM', { name => "$testform" } );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueName",
+            attributes => "M",
+            title      => "Issue Name",
+            value      => "_An issue_"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueDescription",
+            attributes => "",
+            title      => "Issue Description",
+            value      => "---+ Example problem"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "IssueType",
+            attributes => "",
+            title      => "Issue Type",
+            value      => "Defect"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History1",
+            attributes => "",
+            title      => "History1",
+            value      => "%SCRIPTURL%"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History2",
+            attributes => "",
+            title      => "History2",
+            value      => "%SCRIPTURL%"
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History3",
+            attributes => "",
+            title      => "History3",
+            value      => '$percntSCRIPTURL%'
+        }
+    );
+    $to->putKeyed(
+        'FIELD',
+        {
+            name       => "History4",
+            attributes => "",
+            title      => "History4",
+            value      => '$percntSCRIPTURL%'
+        }
+    );
+    Foswiki::Func::saveTopic( $testweb, $testtmpl, $to, $testtmpl1 );
+
+    Foswiki::Func::saveTopic( $testweb, "MyeditTemplate", undef, $edittmpl1 );
+
     $this->{session}->enterContext('edit');
 
     return;
