@@ -189,8 +189,6 @@ sub set_up_for_formatted_search {
     my $this = shift;
 
     my $text = <<'HERE';
-%META:TOPICINFO{author="ProjectContributor" date="1169714817" format="1.1" version="1.2"}%
-%META:TOPICPARENT{name="TestCaseAutoFormattedSearch"}%
 !MichaelAnchor and !AnnaAnchor lived in Skagen in !DenmarkEurope!. There is a very nice museum you can visit!
 
 This text is fill in text which is there to ensure that the unique word below does not show up in a summary.
@@ -200,13 +198,33 @@ This text is fill in text which is there to ensure that the unique word below do
    * Bullet 3
    * Bullet 4
 
-%META:FORM{name="FormattedSearchForm"}%
-%META:FIELD{name="Name" attributes="" title="Name" value="!AnnaAnchor"}%
 HERE
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'FormattedSearchTopic1' );
+
     $topicObject->text($text);
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "ProjectContributor",
+            date    => "1169714817",
+            format  => "1.1",
+            version => "1.2"
+        }
+    );
+    $topicObject->put( 'TOPICPARENT',
+        { name => "TestCaseAutoFormattedSearch" } );
+    $topicObject->put( 'FORM', { name => "FormattedSearchForm" } );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Name",
+            attributes => "",
+            title      => "Name",
+            value      => "!AnnaAnchor"
+        }
+    );
     $topicObject->save();
     $topicObject->finish();
 }
