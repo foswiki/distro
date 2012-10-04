@@ -1532,45 +1532,181 @@ sub test_METASEARCH {
 sub set_up_for_queries {
     my $this = shift;
     my $text = <<'HERE';
-%META:TOPICINFO{author="TopicUserMapping_guest" date="1178612772" format="1.1" version="1.1"}%
-%META:TOPICPARENT{name="WebHome"}%
 something before. Another
 This is QueryTopic FURTLE
 somethig after
-%META:FORM{name="TestForm"}%
-%META:FIELD{name="Field1" attributes="H" title="A Field" value="A Field"}%
-%META:FIELD{name="Field2" attributes="" title="Another Field" value="2"}%
-%META:FIELD{name="Firstname" attributes="" title="First Name" value="Emma"}%
-%META:FIELD{name="Lastname" attributes="" title="First Name" value="Peel"}%
-%META:TOPICMOVED{by="TopicUserMapping_guest" date="1176311052" from="Sandbox.TestETP" to="Sandbox.TestEarlyTimeProtocol"}%
-%META:FILEATTACHMENT{name="README" comment="Blah Blah" date="1157965062" size="5504"}%
 HERE
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopic' );
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "TopicUserMapping_guest",
+            date    => "1178612772",
+            format  => "1.1",
+            version => "1.1"
+        }
+    );
+    $topicObject->put( 'TOPICPARENT', { name => "WebHome" } );
+    $topicObject->put( 'FORM',        { name => "TestForm" } );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Field1",
+            attributes => "H",
+            title      => "A Field",
+            value      => "A Field"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Field2",
+            attributes => "",
+            title      => "Another Field",
+            value      => "2"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Firstname",
+            attributes => "",
+            title      => "First Name",
+            value      => "Emma"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Lastname",
+            attributes => "",
+            title      => "First Name",
+            value      => "Peel"
+        }
+    );
+    $topicObject->put(
+        'TOPICMOVED',
+        {
+            by   => "TopicUserMapping_guest",
+            date => "1176311052",
+            from => "Sandbox.TestETP",
+            to   => "Sandbox.TestEarlyTimeProtocol"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "README",
+            comment => "Blah Blah",
+            date    => "1157965062",
+            size    => "5504"
+        }
+    );
     $topicObject->text($text);
     $topicObject->save();
     $topicObject->finish();
 
     $text = <<'HERE';
-%META:TOPICINFO{author="TopicUserMapping_guest" date="12" format="1.1" version="1.2"}%
 first line
 This is QueryTopicTwo SMONG
 third line
-%META:TOPICPARENT{name="QueryTopic"}%
-%META:FORM{name="TestyForm"}%
-%META:FIELD{name="FieldA" attributes="H" title="B Field" value="7"}%
-%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="8"}%
-%META:FIELD{name="Firstname" attributes="" title="Pre Name" value="John"}%
-%META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
-%META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
-%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
-%META:FIELD{name="NewField" attributes="" title="Item10269" value="Profile/Builder.TermForm"}%
-%META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
-%META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopicTwo' );
     $topicObject->text($text);
+    $topicObject->put( 'TOPICPARENT', { name => "QueryTopic" } );
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "TopicUserMapping_guest",
+            date    => "12",
+            format  => "1.1",
+            version => "1.2"
+        }
+    );
+    $topicObject->put( 'FORM', { name => "TestyForm" } );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldA",
+            attributes => "H",
+            title      => "B Field",
+            value      => "7"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldB",
+            attributes => "",
+            title      => "Banother Field",
+            value      => "8"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Firstname",
+            attributes => "",
+            title      => "Pre Name",
+            value      => "John"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Lastname",
+            attributes => "",
+            title      => "Post Name",
+            value      => "Peel"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "form",
+            attributes => "",
+            title      => "Blah",
+            value      => "form good"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FORM",
+            attributes => "",
+            title      => "Blah",
+            value      => "FORM GOOD"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "NewField",
+            attributes => "",
+            title      => "Item10269",
+            value      => "Profile/Builder.TermForm"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "porn.gif",
+            comment => "Cor",
+            date    => "15062",
+            size    => "15504"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "flib.xml",
+            comment => "Cor",
+            date    => "1157965062",
+            size    => "1"
+        }
+    );
     $topicObject->save();
     $topicObject->finish();
 
@@ -1856,7 +1992,6 @@ sub benchmarktest_largeQuery {
         my $vD = ( $n == 1 )   ? 'A' : 'B';
         my $vE = ( $n == 2 )   ? 'A' : 'B';
         my $text = <<"HERE";
-%META:TOPICINFO{author="TopicUserMapping_guest" date="12" format="1.1" version="1.2"}%
 ---+ Progressive Sexuality
 A Symbol Interpreted In American Architecture. Meta-Physics Of Marxism & Poverty In The American Landscape. Exploration Of Crime In Mexican Sculptures: A Study Seen In American Literature. Brief Survey Of Suicide In Italian Art: The Big Picture. Special Studies In Bisexual Female Architecture. Brief Survey Of Suicide In Polytheistic Literature: Analysis, Analysis, and Critical Thinking. Radical Paganism: Modern Theories. Liberal Mexican Religion In The Modern Age. Selected Topics In Global Warming: $vD Policy In Modern America. Survey Of The Aesthetic Minority Revolution In The American Landscape. Populist Perspectives: Myth & Reality. Ethnicity In Modern America: The Bisexual Latino Condition. Postmodern Marxism In Modern America. Female Literature As A Progressive Genre. Horror & Life In Recent Times. The Universe Of Female Values In The Postmodern Era.
 
@@ -1875,15 +2010,64 @@ We have committed to work to effectively facilitate global e-channels as part of
 ---+ It is our job to strive to simplify our bandwidth.
 We have committed to enable customer-centric supply-chains and our mega-channels as part of our business plan to meet the wants of our valued customers.
 We have committed to take steps towards $vE reinventing our cyber-key players and harnessing frictionless net-communities so that hopefully we may better serve our customers.
-%META:FORM{name="TestForm"}%
-%META:FIELD{name="FieldA" attributes="" title="Banother Field" value="$vA"}%
-%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="$vB"}%
-%META:FIELD{name="FieldC" attributes="" title="Banother Field" value="$vC"}%
-%META:FIELD{name="FieldD" attributes="" title="Banother Field" value="$vD"}%
-%META:FIELD{name="FieldE" attributes="" title="Banother Field" value="$vE"}%
 HERE
         my ($topicObject) =
           Foswiki::Func::readTopic( $this->{test_web}, "QueryTopic$n", );
+        $topicObject->put(
+            'TOPICINFO',
+            {
+                author  => "TopicUserMapping_guest",
+                date    => "12",
+                format  => "1.1",
+                version => "1.2"
+            }
+        );
+        $topicObject->put( 'FORM', { name => "TestForm" } );
+        $topicObject->putKeyed(
+            'FIELD',
+            {
+                name       => "FieldA",
+                attributes => "",
+                title      => "Banother Field",
+                value      => "$vA"
+            }
+        );
+        $topicObject->putKeyed(
+            'FIELD',
+            {
+                name       => "FieldB",
+                attributes => "",
+                title      => "Banother Field",
+                value      => "$vB"
+            }
+        );
+        $topicObject->putKeyed(
+            'FIELD',
+            {
+                name       => "FieldC",
+                attributes => "",
+                title      => "Banother Field",
+                value      => "$vC"
+            }
+        );
+        $topicObject->putKeyed(
+            'FIELD',
+            {
+                name       => "FieldD",
+                attributes => "",
+                title      => "Banother Field",
+                value      => "$vD"
+            }
+        );
+        $topicObject->putKeyed(
+            'FIELD',
+            {
+                name       => "FieldE",
+                attributes => "",
+                title      => "Banother Field",
+                value      => "$vE"
+            }
+        );
         $topicObject->text($text);
         $topicObject->save();
         $topicObject->finish();
@@ -2554,10 +2738,9 @@ FORM
     $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
-    $topicObject->text( <<'FORM');
-%META:FORM{name="TestForm"}%
-%META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
-FORM
+    $topicObject->put( 'FORM', { name => "TestForm" } );
+    $topicObject->putKeyed( 'FIELD',
+        { name => "Ecks", attributes => "", title => "X", value => "Blah" } );
     $topicObject->save();
 
     my $actual = $topicObject->expandMacros(
@@ -2584,10 +2767,9 @@ FORM
     $topicObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'SplodgeOne' );
-    $topicObject->text(<<'FORM');
-%META:FORM{name="TestForm"}%
-%META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
-FORM
+    $topicObject->put( 'FORM', { name => "TestForm" } );
+    $topicObject->putKeyed( 'FIELD',
+        { name => "Ecks", attributes => "", title => "X", value => "Blah" } );
     $topicObject->save();
 
     my $actual = $topicObject->expandMacros(
@@ -3584,10 +3766,9 @@ sub test_groupby_none_using_subwebs {
     $webObject->finish();
     my ($topicObject) =
       Foswiki::Func::readTopic( "$this->{test_web}/A", 'TheTopic' );
-    $topicObject->text( <<'CRUD');
-%META:FORM{name="TestForm"}%
-%META:FIELD{name="Order" title="Order" value="3"}%
-CRUD
+    $topicObject->put( 'FORM', { name => "TestForm" } );
+    $topicObject->putKeyed( 'FIELD',
+        { name => "Order", title => "Order", value => "3" } );
     $topicObject->save( forcedate => 1000 );
     $topicObject->finish();
 
@@ -3595,10 +3776,9 @@ CRUD
     $webObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( "$this->{test_web}/B", 'TheTopic' );
-    $topicObject->text( <<'CRUD');
-%META:FORM{name="TestForm"}%
-%META:FIELD{name="Order" title="Order" value="1"}%
-CRUD
+    $topicObject->put( 'FORM', { name => "TestForm" } );
+    $topicObject->putKeyed( 'FIELD',
+        { name => "Order", title => "Order", value => "1" } );
     $topicObject->save( forcedate => 100 );
     $topicObject->finish();
 
@@ -3606,10 +3786,9 @@ CRUD
     $webObject->finish();
     ($topicObject) =
       Foswiki::Func::readTopic( "$this->{test_web}/C", 'TheTopic' );
-    $topicObject->text( <<'CRUD');
-%META:FORM{name="TestForm"}%
-%META:FIELD{name="Order" title="Order" value="2"}%
-CRUD
+    $topicObject->put( 'FORM', { name => "TestForm" } );
+    $topicObject->putKeyed( 'FIELD',
+        { name => "Order", title => "Order", value => "2" } );
     $topicObject->save( forcedate => 500 );
     $topicObject->finish();
     my $result;
@@ -4549,7 +4728,6 @@ sub verify_date_param {
     my $this = shift;
 
     my $text = <<'HERE';
-%META:TOPICINFO{author="TopicUserMapping_guest" date="1" format="1.1" version="1.2"}%
 ---+ Progressive Sexuality
 A Symbol Interpreted In American Architecture. Meta-Physics Of Marxism & Poverty In The American Landscape. Exploration Of Crime In Mexican Sculptures: A Study Seen In American Literature. Brief Survey Of Suicide In Italian Art: The Big Picture. Special Studies In Bisexual Female Architecture. Brief Survey Of Suicide In Polytheistic Literature: Analysis, Analysis, and Critical Thinking. Radical Paganism: Modern Theories. Liberal Mexican Religion In The Modern Age. 
 
@@ -4557,6 +4735,15 @@ HERE
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "VeryOldTopic" );
     $topicObject->text($text);
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "TopicUserMapping_guest",
+            date    => "1",
+            format  => "1.1",
+            version => "1.2"
+        }
+    );
     my $rev = $topicObject->save( forcedate => 86420 ); # > 86400, see Item10389
     $this->assert_num_equals( 1, $rev );
     $topicObject->finish();
@@ -4590,11 +4777,19 @@ Marxism
 Crime
 Suicide
 Paganism.
-%META:FIELD{name="Name" attributes="" title="Name" value="Meta-Physics%0aMarxism%0aCrime%0aSuicide%0aPaganism."}%
 HERE
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "OffColour" );
     $topicObject->text($text);
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Name",
+            attributes => "",
+            title      => "Name",
+            value      => "Meta-Physics\nMarxism\nCrime\nSuicide\nPaganism."
+        }
+    );
     $topicObject->save();
     $topicObject->finish();
 
@@ -5198,23 +5393,10 @@ EXPECT
 sub set_up_for_sorting {
     my $this = shift;
     my $text = <<'HERE';
-%META:TOPICINFO{author="TopicUserMapping_simon" date="1178612772" format="1.1" version="1.1"}%
-%META:TOPICPARENT{name="WebHome"}%
 something before. Another
 This is QueryTopic FURTLE
 somethig after
 
-%META:FORM{name="TestyForm"}%
-%META:FIELD{name="FieldA" attributes="H" title="B Field" value="1234"}%
-%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="098"}%
-%META:FIELD{name="FieldC" attributes="" title="Banother Field" value="11"}%
-%META:FIELD{name="Firstname" attributes="" title="Pre Name" value="Pedro"}%
-%META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peal"}%
-%META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
-%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
-%META:FIELD{name="Date" attributes="" title="Date" value="12 Dec 2010"}%
-%META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
-%META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
 
 #    $this->{twiki}->{store}->saveTopic( 'simon',
@@ -5222,6 +5404,107 @@ HERE
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopic' );
     $topicObject->text($text);
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "TopicUserMapping_simon",
+            date    => "1178612772",
+            format  => "1.1",
+            version => "1.1"
+        }
+    );
+    $topicObject->put( 'TOPICPARENT', { name => "WebHome" } );
+    $topicObject->put( 'FORM',        { name => "TestyForm" } );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldA",
+            attributes => "H",
+            title      => "B Field",
+            value      => "1234"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldB",
+            attributes => "",
+            title      => "Banother Field",
+            value      => "098"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldC",
+            attributes => "",
+            title      => "Banother Field",
+            value      => "11"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Firstname",
+            attributes => "",
+            title      => "Pre Name",
+            value      => "Pedro"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Lastname",
+            attributes => "",
+            title      => "Post Name",
+            value      => "Peal"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "form",
+            attributes => "",
+            title      => "Blah",
+            value      => "form good"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FORM",
+            attributes => "",
+            title      => "Blah",
+            value      => "FORM GOOD"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Date",
+            attributes => "",
+            title      => "Date",
+            value      => "12 Dec 2010"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "porn.gif",
+            comment => "Cor",
+            date    => "15062",
+            size    => "15504"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "flib.xml",
+            comment => "Cor",
+            date    => "1157965062",
+            size    => "1"
+        }
+    );
     $topicObject->save(
         forcedate        => 1178412772,
         author           => 'admin',
@@ -5235,22 +5518,9 @@ HERE
     $topicObject->finish();
 
     $text = <<'HERE';
-%META:TOPICINFO{author="BaseUserMapping_666" date="1108412772" format="1.1" version="1.2"}%
 first line
 This is QueryTopicTwo SMONG
 third line
-%META:TOPICPARENT{name="QueryTopic"}%
-%META:FORM{name="TestyForm"}%
-%META:FIELD{name="FieldA" attributes="H" title="B Field" value="7"}%
-%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="8"}%
-%META:FIELD{name="FieldC" attributes="" title="Banother Field" value="2"}%
-%META:FIELD{name="Firstname" attributes="" title="Pre Name" value="John"}%
-%META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
-%META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
-%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
-%META:FIELD{name="Date" attributes="" title="Date" value="15 Nov 2010"}%
-%META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
-%META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
 
     #$this->{twiki}->{store}->saveTopic( 'admin',
@@ -5258,6 +5528,107 @@ HERE
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopicTwo' );
     $topicObject->text($text);
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "BaseUserMapping_666",
+            date    => "1108412772",
+            format  => "1.1",
+            version => "1.2"
+        }
+    );
+    $topicObject->put( 'TOPICPARENT', { name => "QueryTopic" } );
+    $topicObject->put( 'FORM',        { name => "TestyForm" } );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldA",
+            attributes => "H",
+            title      => "B Field",
+            value      => "7"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldB",
+            attributes => "",
+            title      => "Banother Field",
+            value      => "8"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldC",
+            attributes => "",
+            title      => "Banother Field",
+            value      => "2"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Firstname",
+            attributes => "",
+            title      => "Pre Name",
+            value      => "John"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Lastname",
+            attributes => "",
+            title      => "Post Name",
+            value      => "Peel"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "form",
+            attributes => "",
+            title      => "Blah",
+            value      => "form good"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FORM",
+            attributes => "",
+            title      => "Blah",
+            value      => "FORM GOOD"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Date",
+            attributes => "",
+            title      => "Date",
+            value      => "15 Nov 2010"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "porn.gif",
+            comment => "Cor",
+            date    => "15062",
+            size    => "15504"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "flib.xml",
+            comment => "Cor",
+            date    => "1157965062",
+            size    => "1"
+        }
+    );
     $topicObject->save(
         forcedate        => 1108312772,
         author           => 'admin',
@@ -5271,22 +5642,9 @@ HERE
     $topicObject->finish();
 
     $text = <<'HERE';
-%META:TOPICINFO{author="TopicUserMapping_Gerald" date="1108412782" format="1.1" version="1.2"}%
 first line
 This is QueryTopicThree SMONG
 third line
-%META:TOPICPARENT{name="QueryTopic"}%
-%META:FORM{name="TestyForm"}%
-%META:FIELD{name="FieldA" attributes="H" title="B Field" value="2"}%
-%META:FIELD{name="FieldB" attributes="" title="Banother Field" value="-0.12"}%
-%META:FIELD{name="FieldC" attributes="" title="Banother Field" value="10"}%
-%META:FIELD{name="Firstname" attributes="" title="Pre Name" value="Jason"}%
-%META:FIELD{name="Lastname" attributes="" title="Post Name" value="Peel"}%
-%META:FIELD{name="form" attributes="" title="Blah" value="form good"}%
-%META:FIELD{name="FORM" attributes="" title="Blah" value="FORM GOOD"}%
-%META:FIELD{name="Date" attributes="" title="Date" value="30 Jan 2010"}%
-%META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
-%META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
 
     #$this->{twiki}->{store}->saveTopic( 'Gerald',
@@ -5294,6 +5652,107 @@ HERE
     ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'QueryTopicThree' );
     $topicObject->text($text);
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "TopicUserMapping_Gerald",
+            date    => "1108412782",
+            format  => "1.1",
+            version => "1.2"
+        }
+    );
+    $topicObject->put( 'TOPICPARENT', { name => "QueryTopic" } );
+    $topicObject->put( 'FORM',        { name => "TestyForm" } );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldA",
+            attributes => "H",
+            title      => "B Field",
+            value      => "2"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldB",
+            attributes => "",
+            title      => "Banother Field",
+            value      => "-0.12"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FieldC",
+            attributes => "",
+            title      => "Banother Field",
+            value      => "10"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Firstname",
+            attributes => "",
+            title      => "Pre Name",
+            value      => "Jason"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Lastname",
+            attributes => "",
+            title      => "Post Name",
+            value      => "Peel"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "form",
+            attributes => "",
+            title      => "Blah",
+            value      => "form good"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "FORM",
+            attributes => "",
+            title      => "Blah",
+            value      => "FORM GOOD"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Date",
+            attributes => "",
+            title      => "Date",
+            value      => "30 Jan 2010"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "porn.gif",
+            comment => "Cor",
+            date    => "15062",
+            size    => "15504"
+        }
+    );
+    $topicObject->putKeyed(
+        'FILEATTACHMENT',
+        {
+            name    => "flib.xml",
+            comment => "Cor",
+            date    => "1157965062",
+            size    => "1"
+        }
+    );
     $topicObject->save( forcedate => 1108413782, author => 'Gerald' );
     $topicObject->finish();
 
@@ -5634,14 +6093,20 @@ sub test_format_tokens {
     my $testTopic = 'TestFormatTokens';
     my $header    = "Search with Userinfo";
     my $body      = '   * Set POTLEADER = ScumBag';
-    my $meta      = <<'METADATA';
-%META:FORM{name="TestyForm"}%
-%META:TOPICPARENT{name="WebHome"}%
-%META:FIELD{name="Option" attributes="" title="Some option" value="Some long test I can truncate later"}%
-METADATA
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, $testTopic );
-    $topicObject->text("---++ $header\n$body\n$meta\n");
+    $topicObject->text("---++ $header\n$body\n");
+    $topicObject->put( 'FORM',        { name => "TestyForm" } );
+    $topicObject->put( 'TOPICPARENT', { name => "WebHome" } );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Option",
+            attributes => "",
+            title      => "Some option",
+            value      => "Some long test I can truncate later"
+        }
+    );
     $topicObject->save();
 
     my $testUser        = 'WikiGuest';
