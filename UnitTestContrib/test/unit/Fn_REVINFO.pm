@@ -203,9 +203,15 @@ sub test_compatibility1 {
     }
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'CrikeyMoses' );
-    $topicObject->text( <<'HERE');
-%META:TOPICINFO{author="ScumBag" date="1120846368" format="1.1" version="$Rev$"}%
-HERE
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "ScumBag",
+            date    => "1120846368",
+            format  => "1.1",
+            version => '$Rev$'
+        }
+    );
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
@@ -230,9 +236,15 @@ sub test_compatibility2 {
     }
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'CrikeyMoses' );
-    $topicObject->text( <<'HERE');
-%META:TOPICINFO{author="scum" date="1120846368" format="1.1" version="$Rev$"}%
-HERE
+    $topicObject->put(
+        'TOPICINFO',
+        {
+            author  => "ScumBag",
+            date    => "1120846368",
+            format  => "1.1",
+            version => '$Rev$'
+        }
+    );
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
