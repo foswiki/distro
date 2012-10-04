@@ -60,16 +60,24 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 					Naming rule: the name must start with an upper case letter, followed by upper or lower case letters or numbers. Examples: =Learn=, =<nop>SupDocs=, =KNow3=
 				</p>
 				<p>
-					If you are creating a nested web (a web inside a web), use the notation =Existingweb.Newweb=.
+					If you are creating a sub-web (a web inside a web), use the notation =Existingweb.Newweb=.
 				</p>
-				%TWISTYBUTTON{id="infoOnNestedWebs" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about nested webs ..." hidelink="Close info" remember="on"}%
-				%TWISTYTOGGLE{id="infoOnNestedWebs"}%<div class="foswikiHelp">
-					<h4>About hierarchical webs</h4>
+				%TWISTYBUTTON{id="infoOnSubWebs" mode="span" showimgleft="%ICONURLPATH{toggleopen}%" hideimgleft="%ICONURLPATH{toggleclose}%" showlink="More info about sub-webs ..." hidelink="Close info" remember="on"}%
+				%TWISTYTOGGLE{id="infoOnSubWebs"}%<div class="foswikiHelp">
+					<h4>About sub-webs</h4>
 					<p>
-						You can only create hierarchical webs if the ={EnableHierarchicalWebs}= setting in [[%SCRIPTURLPATH{"configure"}%#Store][configure]] is enabled.  %IF{"{EnableHierarchicalWebs}" then="%GREEN% Hierarchical webs are currently enabled %ENDCOLOR%." else="%RED% Hierarchical webs are currently disabled %ENDCOLOR%. Without this setting, Foswiki will only allow a single level of hierarchy. With it, you can use multiple levels, like a directory tree, i.e. webs within webs."}%
+						You can only create (Hierarchical) sub-webs if the ={EnableHierarchicalWebs}= setting in
+						[[%SCRIPTURLPATH{"configure"}%#Store][configure]] is enabled.
+						%IF{
+							"{EnableHierarchicalWebs}"
+							then="%GREEN% sub-webs are currently enabled (default) %ENDCOLOR%."
+							else="%RED% sub-webs are currently disabled %ENDCOLOR%. Without this setting, Foswiki will only allow a single level of webs. With it, you can use multiple levels, like a directory tree, i.e. webs within webs."
+						}%
 					</p>
 					<p>
-						You might not need hierarchical webs. Foswiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.
+						You might not need sub-webs. Foswiki topics already have a parent/child relationship within a web,
+						which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and
+						cross-referencing simple.
 					</p>
 				</div>%ENDTWISTYTOGGLE%
 			</div><!--//col2-->
@@ -79,12 +87,12 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 			<h3>Summary</h3>
 			<div class="col1">
 				<p>
-					<input type="text" class="foswikiInputField" name="WEBSUMMARY" value="" size="40" /> 
+					<input type="text" class="foswikiInputField" name="WEBSUMMARY" value="" size="40" />
 				</p>
 			</div><!--//col1-->
 			<div class="col2">
 				<p>
-					Enter a short description of the web. This description will be used in the [[%SYSTEMWEB%.SiteMap][SiteMap]]. If you are using links: write =Web.TopicName= instead of just =TopicName= for correct linking. 
+					Enter a short description of the web. This description will be used in the [[%SYSTEMWEB%.SiteMap][SiteMap]]. If you are using links: write =Web.TopicName= instead of just =TopicName= for correct linking.
 				</p>
 			</div><!--//col2-->
 			<div class="foswikiClear"></div>
@@ -138,7 +146,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						<h3>Include in global search and =%<nop>WEBLIST%= </h3>
 						<div class="col1">
 							<p class="formOptions">
-								<label><input type="radio" name="NOSEARCHALL" value="" checked="checked" />include</label> <label><input type="radio" name="NOSEARCHALL" value="on" />exclude</label> 
+								<label><input type="radio" name="NOSEARCHALL" value="" checked="checked" />include</label> <label><input type="radio" name="NOSEARCHALL" value="on" />exclude</label>
 							</p>
 						</div><!--//col1-->
 						<div class="col2">
@@ -152,7 +160,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 						<h3>Web color</h3>
 						<div class="col1">
 							<p> %JQREQUIRE{"farbtastic"}%
-								<input name="WEBBGCOLOR" class="foswikiInputField jqFarbtastic" type="text" value="#efefef" size="20" /> 
+								<input name="WEBBGCOLOR" class="foswikiInputField jqFarbtastic" type="text" value="#efefef" size="20" />
 							</p>
 						</div><!--//col1-->
 						<div class="col2">
@@ -166,7 +174,7 @@ Before you begin: consider that less webs are better than more webs. Cross-linki
 			</div><!--//additionalSettings-->
 		</div><!--//foswikiFormStep-->
 		<div class="foswikiFormStep">
-			<input type="submit" class="foswikiSubmit" value="Create Web" /> 
+			<input type="submit" class="foswikiSubmit" value="Create Web" />
 		</div><!--//foswikiFormStep-->
 	</div><!--//foswikiFormSteps-->
 </form>
@@ -185,12 +193,12 @@ The [[preference settings]] of a subweb are inherited from the parent web and ov
    1 =%SANDBOXWEB%/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =%SANDBOXWEB%/TestWeb/SubWeb.%WEBPREFSTOPIC%=
 
 ---+++ Subweb navigation
-The Pattern skin (default) indicates Subwebs by indenting them in the sidebar relative to their level in the hierarchy.
+The default Pattern skin indicates Subwebs by indenting them in the sidebar relative to their level in the hierarchy.
 
 #RenameWeb
 %STARTSECTION{"rename"}%
 ---++ Renaming or Deleting a Web
-Rename a web via the Tools section in each %WEBPREFSTOPIC% topic. %IF{"{EnableHierarchicalWebs}='1'" then="You may delete a web by moving it into a Trash web." else="Webs cannot be deleted. Hierarchical webs are disabled"}%
+Rename a web via the Tools section in each %WEBPREFSTOPIC% topic. %IF{"{EnableHierarchicalWebs}='1'" then="You may delete a web by moving it into a Trash web." else="Webs cannot be deleted. sub-webs are disabled"}%
 
 ---+++ Permissions
 You may only rename a web if you have the following permissions
@@ -207,4 +215,4 @@ It is possible, though not recommended, to change the names of the webs in the d
 %X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.</blockquote>
 %ENDSECTION{"rename"}%
 
-*Related Topics:* AdminDocumentationCategory, AdminToolsCategory 
+*Related Topics:* AdminDocumentationCategory, AdminToolsCategory
