@@ -374,8 +374,11 @@ registermessages.tmpl
     Messages for oopsaccessdenied
 ================================================================================}%
 %TMPL:DEF{"topic_access"}%
-%MAKETEXT{"Access check on [_1] failed" args="<nop>%WEB%.<nop>%TOPIC%"}%.
-%MAKETEXT{"Action [_1]: [_2]." args="\"%PARAM1%\", %PARAM2%"}%
+%MAKETEXT{"Access check on [_1] failed" args="\"<nop>%WEB%.<nop>%TOPIC%\""}%.
+
+%MAKETEXT{"Action [_1]: [_2] by user [_3]." args="\"%PARAM1%\", %PARAM2%, <nop>%WIKINAME%"}%
+
+%MAKETEXT{"To login as another user please do so [[[_1]][here]]" args="%LOGINURL%"}%
 
 %MAKETEXT{"Contact [_1] if you have any questions." args="<a href=\"mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%PARAM1% access denied for '%WEB%.%TOPIC%'"}%\">%WIKIWEBMASTER%</a>"}%
 
