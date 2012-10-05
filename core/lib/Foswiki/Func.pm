@@ -1778,7 +1778,7 @@ try {
 =cut
 
 sub createWeb {
-    my ( $web, $baseweb ) = @_;
+    my ( $web, $baseweb, $opts ) = @_;
     ($web) = _validateWTA($web);
     if ( defined $baseweb ) {
         ($baseweb) = _validateWTA($baseweb);
@@ -1803,7 +1803,7 @@ sub createWeb {
     }
 
     my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
-    $webObject->populateNewWeb($baseweb);
+    $webObject->populateNewWeb( $baseweb, $opts );
 }
 
 =begin TML
