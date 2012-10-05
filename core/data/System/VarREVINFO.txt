@@ -8,7 +8,7 @@
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVARG][REVARG]],[[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVTITLE][REVTITLE]]
 ---+++ REVINFO{"format"} -- formatted revision information of topic
    * Syntax: =%<nop>REVINFO{"format"}%=
-   * =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
+   * =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r$rev - $date - $wikiusername"}%=
       * Expands to: <code>%REVINFO%</code>
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |

@@ -67,7 +67,7 @@
 }%%TMPL:DEF{"printaction"}%%TMPL:P{"activatable_printable"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"footernote"}%%TMPL:P{"topicinfo"}%%TMPL:END%
-%TMPL:DEF{"topicinfo"}%<div class="patternInfo"><span class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO{format="$date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot!$wikiname$quot}$percnt"}%</span>%TMPL:P{"cacheinfo"}%</div>%TMPL:END%%{
+%TMPL:DEF{"topicinfo"}%<div class="patternInfo"><span class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO{format="r$rev - $date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot!$wikiname$quot}$percnt"}%</span>%TMPL:P{"cacheinfo"}%</div>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"cacheinfo"}%%IF{"{Cache}{Enabled} and $CACHEABLE != 'off'" 
   then="<span class='patternCacheInfo'>
