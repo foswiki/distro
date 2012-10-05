@@ -215,6 +215,30 @@ END
     };
     $this->assert( Foswiki::Func::webExists("$this->{test_web}/Blahsub"),
         "Test should have created the web" );
+    $this->assert(
+        !defined Foswiki::Func::getPreferencesValue(
+            'WEBBGCOLOR', "$this->{test_web}/Blahsub"
+        )
+    );
+
+    $this->createNewFoswikiSession();
+
+    # Verify that createWeb copys the _default web.
+    try {
+        Foswiki::Func::createWeb( "$this->{test_web}/Blahsub", '_default' );
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert("Unexpected error $e");
+    };
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}/Blahsub"),
+        "Test should have created the web" );
+    $this->assert_equals(
+        '#DDDDDD',
+        Foswiki::Func::getPreferencesValue(
+            'WEBBGCOLOR', "$this->{test_web}/Blahsub"
+        )
+    );
 
     return;
 }
@@ -286,6 +310,32 @@ sub test_createWeb_hierarchyDisabled {
             $e, "Unexpected error $e" );
     };
     $this->assert( !Foswiki::Func::webExists( $this->{test_web} . "/Subweb" ) );
+
+    return;
+}
+
+sub test_createWeb_pref_option {
+    my $this = shift;
+
+    $this->createNewFoswikiSession();
+
+# Verify that create of a sub web is allowed by default user if allowed in webPreferences.
+    try {
+        Foswiki::Func::createWeb( "$this->{test_web}/Blahsub", undef,
+            { WEBBGCOLOR => '#999' } );
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert("Unexpected error $e");
+    };
+    $this->assert( Foswiki::Func::webExists("$this->{test_web}/Blahsub"),
+        "Test should have created the web" );
+    $this->assert_equals(
+        '#999',
+        Foswiki::Func::getPreferencesValue(
+            'WEBBGCOLOR', "$this->{test_web}/Blahsub"
+        )
+    );
 
     return;
 }
