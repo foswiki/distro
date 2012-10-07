@@ -146,6 +146,25 @@ sub LogDispatchFileLogger {
     $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
     $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
     $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'none';
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+        'events' => 'info:info',
+        'error'  => 'notice:emergency',
+        'debug'  => 'debug:debug',
+    };
+    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+
+    return;
+}
+
+sub LogDispatchFileObfuscatingLogger {
+    my $this = shift;
+    require Foswiki::Logger::LogDispatch;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'x.x.x.x';
     $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
     $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
         'events' => 'info:info',
@@ -163,6 +182,7 @@ sub LogDispatchFileRollingLogger {
     $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
     $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 0;
     $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'none';
     $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
     $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Pattern} = '-%d{yyyy-MM}.log';
     $this->{logger} = Foswiki::Logger::LogDispatch->new();
@@ -192,7 +212,7 @@ sub fixture_groups {
     foreach my $alg ( keys %algs ) {
         my $fn;
         if ( $alg eq 'LogDispatch' ) {
-            foreach my $lt (qw(File FileRolling)) {
+            foreach my $lt (qw(File FileRolling FileObfuscating)) {
                 $fn = $alg . $lt . 'Logger';
                 push( @groups, $fn );
             }
@@ -215,7 +235,11 @@ sub verify_simpleWriteAndReplay {
     # Verify the three levels used by Foswiki; debug, info and warning
     foreach my $level (qw(debug info warning)) {
 
-      #  For the obfuscating logger,  have the warning record hash the IP addrss
+#  For the PlainFile::Obfuscating logger,  have the warning record hash the IP addrss
+#  SMELL: This is a bit bogus, as the logger only obfuscates the 6th parameter of the log call
+#  and this is *only* used for "info" type messages.  The unit test however calls all log types
+#  with multiple parameters, so Obfuscation happens on any log level.
+
         if ( $Foswiki::cfg{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' )
@@ -226,9 +250,81 @@ sub verify_simpleWriteAndReplay {
         $this->{logger}->log( $level, $level, "Green", "Eggs", "and", $tmpIP );
     }
 
-    $ipaddr = 'x.x.x.x'
-      if ( $Foswiki::cfg{Log}{Implementation} eq
-        'Foswiki::Logger::PlainFile::Obfuscating' );
+    my $logIP =
+      ( $Foswiki::cfg{Log}{Implementation} eq
+          'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
+
+    foreach my $level (qw(debug info warning)) {
+        my $ipaddr = $logIP;
+        my $it = $this->{logger}->eachEventSince( $time, $level );
+        $this->assert( $it->hasNext(), $level );
+        my $data = $it->next();
+        my $t    = shift( @{$data} );
+        $this->assert( $t >= $time, "$t $time" );
+        $ipaddr = 'x.x.x.x'
+          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
+            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+            && $level eq 'info' );
+
+        $ipaddr = '109.104.118.183'
+          if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile::Obfuscating'
+            && $level eq 'warning' );
+
+# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
+        my $delim =
+          ( $Foswiki::cfg{Log}{Implementation} eq
+              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
+        my $expected =
+          join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) );
+        $this->assert_str_equals( $expected, join( '.', @{$data} ) );
+        $this->assert( !$it->hasNext() );
+    }
+
+    return;
+}
+
+sub verify_simpleWriteAndReplayHashEventFilter {
+    my $this   = shift;
+    my $time   = time;
+    my $ipaddr = '1.2.3.4';
+
+    return unless $this->{logger}->{acceptsHash};
+
+    # Filter dropped Eggs.
+    $Foswiki::cfg{Log}{Action}{Dropped} = 0;
+
+    # Verify the three levels used by Foswiki; debug, info and warning
+    foreach my $level (qw(debug info warning)) {
+
+        if ( $level eq 'info' ) {
+            $this->{logger}->log(
+                {
+                    level      => $level,
+                    user       => $level,
+                    action     => 'Dropped',
+                    webTopic   => 'Eggs',
+                    extra      => 'and',
+                    remoteAddr => $ipaddr
+                }
+            );
+            $this->{logger}->log(
+                {
+                    level      => $level,
+                    user       => $level,
+                    action     => 'Green',
+                    webTopic   => 'Eggs',
+                    extra      => 'and',
+                    remoteAddr => $ipaddr
+                }
+            );
+        }
+        else {
+            my @fields = ( $level, "Green", "Eggs", "and", $ipaddr );
+            $this->{logger}->log( { level => $level, extra => \@fields } );
+        }
+    }
 
     foreach my $level (qw(debug info warning)) {
         my $it = $this->{logger}->eachEventSince( $time, $level );
@@ -236,12 +332,95 @@ sub verify_simpleWriteAndReplay {
         my $data = $it->next();
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
+        $ipaddr = (
+            $Foswiki::cfg{Log}{Implementation} =~ /Obfuscat/
+              || ( $level eq 'info'
+                && $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+                && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x' )
+        ) ? 'x.x.x.x' : '1.2.3.4';
+
+# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
+        my $delim =
+          ( $Foswiki::cfg{Log}{Implementation} eq
+              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
+        my $expected =
+          join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) );
+        $this->assert_str_equals( $expected, join( '.', @{$data} ) );
+        $this->assert( !$it->hasNext() );
+    }
+
+    return;
+}
+
+sub verify_simpleWriteAndReplayHashInterface {
+    my $this   = shift;
+    my $time   = time;
+    my $ipaddr = '1.2.3.4';
+    my $tmpIP  = $ipaddr;
+
+    return unless $this->{logger}->{acceptsHash};
+
+    # Verify the three levels used by Foswiki; debug, info and warning
+    foreach my $level (qw(debug info warning)) {
+
+#  For the PlainFile::Obfuscating logger,  have the warning record hash the IP addrss
+#  SMELL: This is a bit bogus, as the logger only obfuscates the 6th parameter of the log call
+#  and this is *only* used for "info" type messages.  The unit test however calls all log types
+#  with multiple parameters, so Obfuscation happens on any log level.
+
+        if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile::Obfuscating'
+            && $level eq 'warning' )
+        {
+            $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+        }
+        if ( $level eq 'info' ) {
+            $this->{logger}->log(
+                {
+                    level      => $level,
+                    user       => $level,
+                    action     => 'Green',
+                    webTopic   => 'Eggs',
+                    extra      => 'and',
+                    remoteAddr => $tmpIP
+                }
+            );
+        }
+        else {
+            my @fields = ( $level, "Green", "Eggs", "and", $tmpIP );
+            $this->{logger}->log( { level => $level, extra => \@fields } );
+        }
+    }
+
+    my $logIP =
+      ( $Foswiki::cfg{Log}{Implementation} eq
+          'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
+
+    foreach my $level (qw(debug info warning)) {
+        my $ipaddr = $logIP;
+        my $it = $this->{logger}->eachEventSince( $time, $level );
+        $this->assert( $it->hasNext(), $level );
+        my $data = $it->next();
+        my $t    = shift( @{$data} );
+        $this->assert( $t >= $time, "$t $time" );
+        $ipaddr = 'x.x.x.x'
+          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
+            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+            && $level eq 'info' );
+
         $ipaddr = '109.104.118.183'
           if ( $Foswiki::cfg{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
-        $this->assert_str_equals( "$level.Green.Eggs.and.$ipaddr",
-            join( '.', @{$data} ) );
+
+# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
+        my $delim =
+          ( $Foswiki::cfg{Log}{Implementation} eq
+              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
+        my $expected =
+          join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) );
+        $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
 
