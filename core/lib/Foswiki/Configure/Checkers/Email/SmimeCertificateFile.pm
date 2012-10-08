@@ -5,32 +5,21 @@ package Foswiki::Configure::Checkers::Email::SmimeCertificateFile;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
-use Foswiki::Configure::Load;
+use base 'Foswiki::Configure::Checkers::Certificate::EmailChecker';
 
 sub check {
     my $this = shift;
 
-    my $certFile = $Foswiki::cfg{Email}{SmimeCertificateFile} || "";
+    return ''
+      unless ( defined $Foswiki::cfg{SmimeCertificateFile}
+        && length $Foswiki::cfg{SmimeCertificateFile} );
 
-    my $ev = $this->showExpandedValue($certFile);
-
-    return unless $certFile;
-
-    Foswiki::Configure::Load::expandValue($certFile);
-    my $e = !-r ($certFile) && "Can\'t read $certFile";
-    if ($e) {
-        $e =
-          ( $Foswiki::cfg{Email}{EnableSMIME} )
-          ? $this->ERROR($e)
-          : $this->NOTE("<b>Note:</b> $e");
-    }
-    return $ev . $e;
+    return $this->SUPER::check(@_);
 }
-
 1;
+
 __END__
+
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
@@ -55,4 +44,3 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
-

@@ -437,31 +437,83 @@ sub _slurpFile( $ ) {
     return $text;
 }
 
+# =======================================
 sub _smimeSignMessage {
     my $this = shift;
-    if (   -r $Foswiki::cfg{Email}{SmimeCertificateFile}
-        && -r $Foswiki::cfg{Email}{SmimeKeyFile} )
+
+    if (   $Foswiki::cfg{Email}{SmimeCertificateFile}
+        && $Foswiki::cfg{Email}{SmimeKeyFile} )
     {
+        eval { require Crypt::SMIME; };
+        if ($@) {
+            $@ =~ /^(.*?)\n.*\z/s
+              ;    # Any useful error information is on the first line.
+            $this->{session}
+              ->writeWarning( "ERROR: Cypt::SMIME is not available: "
+                  . ( $1 || $@ )
+                  . ".  Mail will be sent unsigned.\n" )
+              if ( $this->{session} );
+            return;
+        }
+        my $smime = Crypt::SMIME->new();
 
-        eval {    # May fail if Net::SMTP not installed
-            require Crypt::SMIME;
+        my $key = _slurpFile( $Foswiki::cfg{Email}{SmimeKeyFile} );
+        if (   exists $Foswiki::cfg{Email}{SmimeKeyPassword}
+            && length $Foswiki::cfg{Email}{SmimeKeyPassword}
+            && $key =~ /^-----BEGIN RSA PRIVATE KEY-----\n(?:(.*?\n)\n)?/s )
+        {
+            my %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $1 )
+              if ( defined $1 );
+            if (   $h{'Proc-Type'}
+                && $h{'Proc-Type'} eq '4,ENCRYPTED'
+                && $h{'DEK-Info'}
+                && $h{'DEK-Info'} =~ /^DES-EDE3-CBC,/ )
+            {
 
-            my $smime = Crypt::SMIME->new();
-
-            $smime->setPrivateKey(
-                _slurpFile( $Foswiki::cfg{Email}{SmimeKeyFile} ),
-                _slurpFile( $Foswiki::cfg{Email}{SmimeCertificateFile} )
-            );
-            $_[0] = $smime->sign( $_[0] );
+ #<<<
+               require Convert::PEM;
+                my $pem = Convert::PEM->new( Name => 'RSA PRIVATE KEY',
+                                             ASN  => qq(
+                   RSAPrivateKey SEQUENCE {
+                      version INTEGER, n INTEGER, e INTEGER, d INTEGER,
+                      p INTEGER, q INTEGER, dp INTEGER, dq INTEGER,
+                      iqmp INTEGER
+                   }                                   ) );
+#>>>
+                $key = $pem->decode(
+                    Content  => $key,
+                    Password => $Foswiki::cfg{Email}{SmimeKeyPassword}
+                );
+                unless ($key) {
+                    $this->{session}->writeWarning( "ERROR: Unable to decrypt "
+                          . $Foswiki::cfg{Email}{SmimeKeyFile} . ": "
+                          . $pem->errstr
+                          . ".  Mail will be sent unsigned.\n" )
+                      if ( $this->{session} );
+                    return;
+                }
+                $key = $pem->encode( Content => $key );
+            }
+        }
+        eval {
+            $smime->setPrivateKey( $key,
+                _slurpFile( $Foswiki::cfg{Email}{SmimeCertificateFile} ) );
         };
         if ($@) {
-            print STDERR ">>>> Crypt::SMIME Failed: $@ \n";
-            $this->{session}->logger->log( 'warning', "S/MIME FAILED: $@" )
+            $@ =~ /^(.*?)\n.*\z/s
+              ;    # Any useful error information is on the first line.
+            $this->{session}->writeWarning(
+                    "ERROR: Key or Certificate problem sending email: "
+                  . ( $1 || $@ )
+                  . ". Mail will be sent unsigned.\n" )
               if ( $this->{session} );
+            return;
         }
+        $_[0] = $smime->sign( $_[0] );
     }
 }
 
+# =======================================
 sub _sendEmailBySendmail {
     my ( $this, $text ) = @_;
 

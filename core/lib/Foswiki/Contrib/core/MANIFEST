@@ -451,6 +451,12 @@ lib/Foswiki/Configure/Checkers/CGISetup.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/Debug.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/DependencyFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/RootDir.pm 0444
+lib/Foswiki/Configure/Checkers/Certificate/ClientChecker.pm 0444
+lib/Foswiki/Configure/Checkers/Certificate/ClientServerChecker.pm 0444
+lib/Foswiki/Configure/Checkers/Certificate/EmailChecker.pm 0444
+lib/Foswiki/Configure/Checkers/Certificate/KeyChecker.pm 0444
+lib/Foswiki/Configure/Checkers/Certificate/ServerChecker.pm 0444
+lib/Foswiki/Configure/Checkers/Certificate.pm 0444
 lib/Foswiki/Configure/Checkers/DataDir.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444

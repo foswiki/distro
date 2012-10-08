@@ -5,32 +5,18 @@ package Foswiki::Configure::Checkers::Email::SmimeKeyFile;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
-use Foswiki::Configure::Load;
+use base 'Foswiki::Configure::Checkers::Certificate::KeyChecker';
 
 sub check {
     my $this = shift;
 
-    my $keyFile = $Foswiki::cfg{Email}{SmimeKeyFile} || "";
-
-    my $ev = $this->showExpandedValue($keyFile);
-
-    return unless $keyFile;
-
-    Foswiki::Configure::Load::expandValue($keyFile);
-    my $e = !-r ($keyFile) && "Can\'t read $keyFile";
-    if ($e) {
-        $e =
-          ( $Foswiki::cfg{Email}{EnableSMIME} )
-          ? $this->ERROR($e)
-          : $this->NOTE("<b>Note:</b> $e");
-    }
-    return $ev . $e;
+    return $this->SUPER::check( @_, '{Email}{SmimeKeyPassword}' );
 }
 
 1;
+
 __END__
+
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
