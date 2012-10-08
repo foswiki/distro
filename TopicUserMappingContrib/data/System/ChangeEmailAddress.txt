@@ -13,14 +13,11 @@
 %STARTSECTION{"secretEmailEnabled"}%
 <strong>%MAKETEXT{"This form is used to change your registered e-mail addresses. Your registered addresses are used by Foswiki for sending you e-mails, including notifications of password changes. The addresses you register via this form are kept secret and will *not* be published anywhere on this site."}%</strong>
 
-<blockquote class="foswikiHelp">%X% *%MAKETEXT{"Security Note:"}%* %MAKETEXT{"You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a form field called Email. If this form field does not exist it will look for a line like this:"}%
-
-==&nbsp;&nbsp;&nbsp;* Set Email = <nop>user@example.com==
+<blockquote class="foswikiHelp">%X% *%MAKETEXT{"Note:"}%* %MAKETEXT{"If Foswiki can't find a registered e-mail for you in the secret database, you will be unable to reset your password or take advantage of email notifications of topic changes."}%
+%MAKETEXT{"If your old e-mail addresses are all invalid (you can't receive mail there any more) and you have forgotten your password, please contact [_1] for help." args="%WIKIWEBMASTER%"}%
 </blockquote>
 
-%MAKETEXT{"If your user topic is not protected from changes by other people, and you don't register an e-mail address using this form, then your user account could be hijacked by someone else."}%
-
-%MAKETEXT{"If your old e-mail addresses are all invalid (you can't receive mail there any more) and you have forgotten your password, please contact [_1] for help." args="%WIKIWEBMASTER%"}%
+%MAKETEXT{"The e-mail address in your user topic is typically left blank. If you want to reveal an e-mail address to other users, you can manually edit your user topic to add an address.  It does not have to be the same as the address used internally by Foswiki."}%
 
 %IF{"$USERNAME ingroup 'AdminGroup'" then="
 %MAKETEXT{"*Administrators:* You can change user's e-mail address using this form. Enter the users Login or WikiName and the new e-mail address."}%
