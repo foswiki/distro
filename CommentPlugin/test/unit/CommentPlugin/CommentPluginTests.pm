@@ -866,6 +866,7 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
     unlink "$warningLog"
       if ( -f "$warningLog" );
     $Foswiki::cfg{WarningFileName} = "$warningLog";
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
 
     # Compose the query
     my $comm  = "This is the comment";
