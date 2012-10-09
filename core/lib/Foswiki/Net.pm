@@ -20,6 +20,7 @@ use Assert;
 use Error qw( :try );
 
 our $LWPAvailable;
+our $IPCRunAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 
 # note that the session is *optional*
@@ -529,26 +530,44 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
 "====== Sending to $Foswiki::cfg{MailProgram} ======\n$text\n======EOM======\n"
       if ( $Foswiki::cfg{SMTP}{Debug} );
 
-    my $MAIL;
-    open( $MAIL, '|-', $Foswiki::cfg{MailProgram} )
-      || die "ERROR: Can't send mail using Foswiki::cfg{MailProgram}";
-    print $MAIL $text;
-    close($MAIL);
+    unless ( defined $IPCRunAvailable ) {
+        eval 'require IPC::Run';
+        $IPCRunAvailable = ($@) ? 0 : 1;
+    }
 
-    # If you see 67 (17152) (== EX_NOUSER), then the mail is probably
-    # queued and will eventually reach the user, despite the error.
-    # The chances are good that you are seeing the same problem as we
-    # had on foswiki.org, finally solved by Olivier Raginel viz. The
-    # source address is:
-    #     From: webmaster@foswiki.org
-    # but sendmail thinks it's running on foswiki.org, and knows there is no
-    # 'webmaster' user, so it gets confused. The 'From:' in the mail must
-    # refer to a user account that exists locally. After we created a dummy
-    # 'webmaster' user, the error went away.
-    die "ERROR: Exit code "
-      . ( $? >> 8 )
-      . " ($?) from Foswiki::cfg{MailProgram}"
-      if $?;
+    if ($IPCRunAvailable) {
+        my ( $out, $err );
+        my @cmd = split /\s/, $Foswiki::cfg{MailProgram};
+        require IPC::Run;
+        IPC::Run::run( \@cmd, \$text, \$out, \$err )
+          or die "ERROR: Exit code "
+          . ( $? << 8 )
+          . " ($?) from Foswiki::cfg{MailProgram}";
+        print STDERR "$out" if ($out);
+        print STDERR "$err" if ($err);
+    }
+    else {
+        my $MAIL;
+        open( $MAIL, '|-', $Foswiki::cfg{MailProgram} )
+          || die "ERROR: Can't send mail using Foswiki::cfg{MailProgram}";
+        print $MAIL $text;
+        close($MAIL);
+
+        # If you see 67 (17152) (== EX_NOUSER), then the mail is probably
+        # queued and will eventually reach the user, despite the error.
+        # The chances are good that you are seeing the same problem as we
+        # had on foswiki.org, finally solved by Olivier Raginel viz. The
+        # source address is:
+        #     From: webmaster@foswiki.org
+        # but sendmail thinks it's running on foswiki.org, and knows there is no
+        # 'webmaster' user, so it gets confused. The 'From:' in the mail must
+        # refer to a user account that exists locally. After we created a dummy
+        # 'webmaster' user, the error went away.
+        die "ERROR: Exit code "
+          . ( $? >> 8 )
+          . " ($?) from Foswiki::cfg{MailProgram}"
+          if $?;
+    }
 }
 
 sub _sendEmailByNetSMTP {
