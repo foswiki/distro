@@ -85,6 +85,8 @@ sub view {
             $session->{response}->status($status) unless $status eq 200;
         }
 
+        $session->{response}->pushHeader( 'X-Foswiki-PageCache', 1 );
+
         # set headers
         $session->generateHTTPHeaders( 'view', $cachedPage->{contenttype},
             $text, $cachedPage );
