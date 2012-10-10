@@ -2,6 +2,8 @@ package Foswiki::Contrib::JEditableContrib::JEDITABLE;
 use strict;
 use warnings;
 
+use Assert;
+
 use Foswiki::Plugins::JQueryPlugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
