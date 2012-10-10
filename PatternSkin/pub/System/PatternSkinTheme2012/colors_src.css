@@ -825,9 +825,6 @@ tr.foswikiDiffDebug .foswikiDiffDeletedText {
 #patternTopBarContentsWrapper {
 	background:transparent url(header-left.gif) no-repeat scroll 0 0;
 }
-#patternTopBar {
-	background:#2e5cac url(header.gif) repeat-x scroll 0 0;
-}
 
 #patternTopBarButtons {
 	background: #2a549d  url(../ProjectLogos/foswiki-logo.png) no-repeat scroll 10px 3px;
@@ -849,7 +846,6 @@ tr.foswikiDiffDebug .foswikiDiffDeletedText {
 
 /* sidebar */
 #patternSideBar {
-	NONEbackground-image:url(header.gif);
 	background-repeat:repeat-x;
 	background-position:0 0;
 }

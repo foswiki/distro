@@ -12,10 +12,10 @@ This is just a stopgap for now, Arthur is working on a real skin :)
    * Local FOSWIKI_LAYOUT_URL = %URLPARAM{"layout" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/layout.css"}%
    * Local FOSWIKI_STYLE_URL = %URLPARAM{"style" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/style.css"}%
    * Local FOSWIKI_COLORS_URL = %URLPARAM{"colors" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/colors.css"}%
-   * Local COLUMNS_RELATIVE = %URLPARAM{"column" default="%SYSTEMWEB%/PatternSkinTheme2012/column_left.css"}%
+   * Local COLUMNS_RELATIVE = %URLPARAM{"column" default="%SYSTEMWEB%/PatternSkinTheme2012/column_right.css"}%
    * Local PATTERNSKIN_COLUMNS = %PUBURLPATH%/%COLUMNS_RELATIVE%
    * Local PATTERNSKIN_THEME_VARIANT_RELATIVE = %URLPARAM{"variant" default="%SYSTEMWEB%/PatternSkinTheme2012/variant_foswiki_noframe.css"}%
-   * Local PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%PATTERNSKIN_THEME_VARIANT_RELATIVE%
+   * !Local PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%PATTERNSKIN_THEME_VARIANT_RELATIVE%
    * Local PATTERNSKIN_NAVIGATION_TOPIC = %URLPARAM{"navigation" default="%SYSTEMWEB%/PatternSkinTheme2012Navigation"}%
 
    * Local DISPLAY_FOSWIKI_LAYOUT_URL = %CALC{"$SUBSTITUTE(%FOSWIKI_LAYOUT_URL%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
