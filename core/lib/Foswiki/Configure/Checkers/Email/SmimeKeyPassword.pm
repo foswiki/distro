@@ -1,17 +1,34 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Configure::Checkers::Email::SmimeKeyFile;
+package Foswiki::Configure::Checkers::Email::SmimeKeyPassword;
 
 use strict;
 use warnings;
 
-use base 'Foswiki::Configure::Checkers::Certificate::KeyChecker';
+use base 'Foswiki::Configure::Checker';
 
 sub check {
-    my $this = shift;
+    my $this   = shift;
+    my $valobj = shift;
 
-    return '' unless ( $Foswiki::cfg{Email}{EnableSMIME} );
-    return $this->SUPER::check( @_, '{Email}{SmimeKeyPassword}' );
+    my $value = $Foswiki::cfg{SmimeKeyPassword};
+
+    # Expand any references to other variables
+
+    Foswiki::Configure::Load::expandValue($value);
+
+    # Unused passwords should not be hanging around.
+
+    unless ( $Foswiki::cfg{Email}{EnableSMIME} ) {
+        return $this->WARN(
+            "Unused password field is not empty, please clear it")
+          if ( defined $value && length $value );
+        return '';
+    }
+
+    # I'm not going to nag about length or complexity, though I could..
+
+    return '';
 }
 
 1;

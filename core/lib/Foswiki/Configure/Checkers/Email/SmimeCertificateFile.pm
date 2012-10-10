@@ -10,10 +10,7 @@ use base 'Foswiki::Configure::Checkers::Certificate::EmailChecker';
 sub check {
     my $this = shift;
 
-    return ''
-      unless ( defined $Foswiki::cfg{SmimeCertificateFile}
-        && length $Foswiki::cfg{SmimeCertificateFile} );
-
+    return '' unless ( $Foswiki::cfg{Email}{EnableSMIME} );
     return $this->SUPER::check(@_);
 }
 1;
