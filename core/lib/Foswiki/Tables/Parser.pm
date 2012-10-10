@@ -117,7 +117,7 @@ sub parse {
         unless ( _balanced($line) ) {
 
             # Unclosed %MACRO{
-            print STDERR "unbalanced % in$line\n" if TRACE;
+            print STDERR "unbalanced % in $line\n" if TRACE;
             $openRow = defined $openRow ? "$openRow$line\n" : "$line\n";
             next LINE;
         }
@@ -273,7 +273,7 @@ sub _balanced {
     map { $_ eq '}%' ? $n-- : $n++ }
       grep { /%[a-z0-9_:]*{|}%/i }
       split( /(%[a-z0-9_:]*{|}%)/i, $line );
-    return !$n;
+    return $n <= 0;    # hanging }% is allowed
 }
 
 1;
