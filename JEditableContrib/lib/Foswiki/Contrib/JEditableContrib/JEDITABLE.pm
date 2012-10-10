@@ -9,8 +9,9 @@ use Foswiki::Plugins::JQueryPlugin::Plugin ();
 use Foswiki::Contrib::JEditableContrib     ();
 
 sub new {
-    my $class = shift;
+    my $class   = shift;
     my $session = shift || $Foswiki::Plugins::SESSION;
+    my $src     = (DEBUG) ? '_src' : '';
 
     my $this = $class->SUPER::new(
         $session,
@@ -21,7 +22,7 @@ sub new {
         puburl        => '%PUBURLPATH%/%SYSTEMWEB%/JEditableContrib',
         documentation => "$Foswiki::cfg{SystemWebName}.JEditableContrib",
         summary       => $Foswiki::Contrib::JEditableContrib::SHORTDESCRIPTION,
-        javascript    => ["jquery.jeditable.js"]
+        javascript    => ["jquery.jeditable${src}.js"]
     );
 
     return $this;
