@@ -964,7 +964,16 @@ sub generateHTTPHeaders {
 
         # we need to force the browser into a check on every
         # request; let the server decide on an 304 as below
-        $hopts->{'Cache-Control'} = 'max-age=0';
+        my $cacheControl = 'max-age=0';
+
+#allow the admin to disable us from setting the max-age, as then it can't be set by apache
+        $cacheControl = $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} }
+          if ( $Foswiki::cfg{BrowserCacheControl}
+            && defined(
+                $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} } ) );
+
+#don't remove if, we need the header to not be there at all for the browser to use the cached version
+        $hopts->{'Cache-Control'} = $cacheControl if ( $cacheControl ne '' );
 
         # check etag and last modification time
         # if we have a cached page on the server side

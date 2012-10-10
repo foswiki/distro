@@ -1305,6 +1305,23 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 #############################################################################
 #---+ Tuning
 
+#---++ Browser Cache max-age
+# **PERL EXPERT**
+# Disable or change the HTTP Cache-Control header. Foswiki defaults to 
+# =Cache-Control: max-age=0= which recomends to the browser that it should 
+# ask foswiki if the topic has changed. If you have a web that does not change
+# (like System), you can get the browser to use its cache by setting ={'System' => ''}=
+# you can also set =max-age=28800= (for 8 hours), or any other of the 
+# =Cache-Control= directives.
+# <br />
+# Setting the CacheControl to '' also allows you to manage this from your web 
+# server (which will not over-ride the setting provided by the application), thus enabling
+# web server based caching policies. When the user receives a browser-cache topic, 
+# they can force a refresh using ctrl-r
+# <br />
+# this hash must be explicitly set per web or sub-web.
+$Foswiki::cfg{BrowserCacheControl} = {};
+
 #---++ HTTP Compression
 # <p>Expert settings controlling compression of the generated HTML.</p>
 # **BOOLEAN**
