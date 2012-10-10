@@ -18,8 +18,6 @@ The exception may be thrown by plugins. If a plugin throws the exception, it
 will normally be caught and the browser redirected to a login screen (if the
 user is not logged in) or reported (if they are and just don't have access).
 
-API version $Date$ (revision $Rev$)
-
 *Since* _date_ indicates where functions or parameters have been added since
 the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
@@ -50,7 +48,8 @@ use warnings;
 use Error ();
 our @ISA = ('Error');    # base class
 
-our $VERSION = '$Rev$';
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
 
 =begin TML
 

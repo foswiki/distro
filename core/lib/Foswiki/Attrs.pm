@@ -20,8 +20,6 @@ values, spaces around the =, and commas as well as spaces separating values.
 The extended syntax has to be enabled by passing the =$friendly= parameter
 to =new=.
 
-API version $Date$ (revision $Rev$)
-
 *Since* _date_ indicates where functions or parameters have been added since
 the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
@@ -50,7 +48,8 @@ use strict;
 use warnings;
 use Assert;
 
-our $VERSION = '$Rev$';
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
 
 our $ERRORKEY   = '_ERROR';
 our $DEFAULTKEY = '_DEFAULT';

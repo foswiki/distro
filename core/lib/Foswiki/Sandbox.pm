@@ -8,8 +8,6 @@ This package provides an interface to the outside world. All calls to
 system functions, or handling of file names, should be brokered by
 the =sysCommand= function in this package.
 
-API version $Date$ (revision $Rev$)
-
 *Since* _date_ indicates where functions or parameters have been added since
 the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
@@ -39,6 +37,9 @@ use File::Spec ();
 use File::Temp qw( tempfile );
 
 use Foswiki ();
+
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
 
 # Set to 1 to trace commands to STDERR, and redirect STDERR from
 # the command subprocesses to /tmp/foswiki_sandbox.log

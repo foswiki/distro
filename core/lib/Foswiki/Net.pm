@@ -19,6 +19,9 @@ use warnings;
 use Assert;
 use Error qw( :try );
 
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
+
 our $LWPAvailable;
 our $IPCRunAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
@@ -196,10 +199,7 @@ sub getExternalResource {
             }
         }
 
-        '$Rev$' =~ /([0-9]+)/;
-        my $revstr = $1;
-
-        $req .= 'User-Agent: Foswiki::Net/' . $revstr . "\r\n";
+        $req .= 'User-Agent: Foswiki::Net/' . $VERSION . "\r\n";
         $req .= "\r\n\r\n";
 
         my ( $iaddr, $paddr, $proto );
@@ -255,10 +255,8 @@ sub _GETUsingLWP {
     my $request;
     require HTTP::Request;
     $request = HTTP::Request->new( GET => $url );
-    '$Rev$' =~ /([0-9]+)/;
-    my $revstr = $1;
     $request->header( 'User-Agent' => 'Foswiki::Net/'
-          . $revstr
+          . $VERSION
           . " libwww-perl/$LWP::VERSION" );
     require Foswiki::Net::UserCredAgent;
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );

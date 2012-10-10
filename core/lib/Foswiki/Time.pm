@@ -6,8 +6,6 @@
 
 Time handling functions.
 
-API version $Date$ (revision $Rev$)
-
 *Since* _date_ indicates where functions or parameters have been added since
 the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
@@ -38,7 +36,8 @@ use warnings;
 use Assert;
 use Foswiki ();
 
-our $VERSION = '$Rev$';    # Subversion rev number
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
 
 # Constants
 our @ISOMONTH = (

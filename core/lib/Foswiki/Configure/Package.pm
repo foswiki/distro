@@ -44,8 +44,6 @@ use Foswiki::Configure::Dependency;
 use Foswiki::Configure::Util;
 use File::stat;
 
-our $VERSION = '$Rev: 6590 $';
-
 my $depwarn = '';    # Pass back warnings from untaint validation routine
 
 ############# GENERIC METHODS #############

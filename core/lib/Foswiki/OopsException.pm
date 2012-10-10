@@ -65,8 +65,6 @@ if you need messages to be automatically translated you either need to handle
 it in the perl code before throwing Foswiki::OopsException or put the %MAKETEXT
 in the template. You cannot pass macros through the parameters.
 
-API version $Date$ (revision $Rev$)
-
 *Since* _date_ indicates where functions or parameters have been added since
 the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
@@ -98,7 +96,8 @@ our @ISA = ('Error');
 
 use Assert;
 
-our $VERSION = '$Rev';
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
 
 =begin TML
 
