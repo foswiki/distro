@@ -136,7 +136,8 @@ sub init {
 sub renderCSS {
     my ( $this, $text ) = @_;
 
-    $text =~ s/\.css$/.uncompressed.css/ if $this->{debug};
+    $text =~ s/\.css$/.uncompressed.css/
+      if $this->{debug} && $text !~ /(\.uncompressed|_src)\./;
     $text .= '?version=' . $this->{version};
     $text =
 "<link rel='stylesheet' href='$this->{puburl}/$text' type='text/css' media='all' />\n";
@@ -147,7 +148,8 @@ sub renderCSS {
 sub renderJS {
     my ( $this, $text ) = @_;
 
-    $text =~ s/\.js$/.uncompressed.js/ if $this->{debug};
+    $text =~ s/\.js$/.uncompressed.js/
+      if $this->{debug} && $text !~ /(\.uncompressed|_src)\./;
     $text .= '?version=' . $this->{version};
     $text =
       "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
