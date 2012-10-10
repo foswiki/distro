@@ -52,8 +52,11 @@
 }
 
 a.erp_drag_button:hover {
-    background-image: url("ui-icons-famfamfam.png");
     background-color: #FEE;
+    position: absolute;
+    display: block;
+    left: -1.7em;
+    top: -1.25em;
 }
 
 .erpNoJS_button {
