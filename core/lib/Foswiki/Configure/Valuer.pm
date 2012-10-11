@@ -107,7 +107,8 @@ sub loadCGIParams {
 
         # the - (and therefore the ' and ") is required for languages
         # e.g. {Languages}{'zh-cn'}.
-        next unless $param =~ /^TYPEOF:((?:{[-:\w'"]+})*)/;
+        next unless $param =~ /^TYPEOF:((?:\{[-:\w'"]+})*)/;    #
+
         my $keys = $1;
 
         # The value of TYPEOF: is the type name
@@ -121,9 +122,14 @@ sub loadCGIParams {
             my @values = $query->param($keys);
             $newval = $type->string2value(@values);
         }
+        elsif ( $type->{NeedsQuery} ) {
+            $newval = $type->string2value( $query, $keys );
+        }
         else {
             $newval = $type->string2value( $query->param($keys) );
         }
+        $newval =~ /^(.*$)/;    # Untaint (from CGI )
+        $newval = $1;
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {

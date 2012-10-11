@@ -478,12 +478,20 @@ BEGIN {
     # Email regex, e.g. for WebNotify processing and email matching
     # during rendering.
 
-    my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;    # Per RFC 5322
+    my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;    # Per RFC 5322 ]
 
     # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
     # Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC
-    my $validTLD = $Foswiki::cfg{Email}{ValidTLD}
-      || qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
+    my $validTLD = $Foswiki::cfg{Email}{ValidTLD};
+
+    unless ( eval { qr/$validTLD/ } ) {
+        $validTLD =
+qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
+
+# Too early to log, should do something here other than die (which prevents fixing)
+# warn is trapped and turned into a die...
+#warn( "{Email}{ValidTLD} does not compile, using default" );
+    }
 
     $regex{emailAddrRegex} = qr(
        (?:                            # LEFT Side of Email address
