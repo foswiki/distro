@@ -65,6 +65,26 @@ sub equals {
     return $val eq $def;
 }
 
+=begin TML
+---++ ClassMethod makeChecker( $item, $keys )
+
+Instantiates a default (Foswiki::Configure::Checkers::REGEX) checker for this type
+and binds it to this item.
+
+Invoked when an item has no item-specific checker.
+
+$item is the UI configuration item being processed
+$keys are the %Foswiki::cfg hash keys (E.g. '{Module}{FooRegex}') for this item.
+
+=cut
+
+sub makeChecker {
+    my $class = shift;
+
+    require Foswiki::Configure::Checkers::REGEX;
+    return Foswiki::Configure::Checkers::REGEX->new(@_);
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
