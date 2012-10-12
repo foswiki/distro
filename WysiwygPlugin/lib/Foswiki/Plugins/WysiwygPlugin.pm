@@ -29,8 +29,8 @@ use Assert;
 
 our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
+our $VERSION           = '$Rev$';
 
-use version; our $VERSION = version->declare("v1.2.0");
 our $RELEASE = '1.2.0';
 
 our %xmltag;

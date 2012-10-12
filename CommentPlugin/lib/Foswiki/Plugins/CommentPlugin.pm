@@ -12,7 +12,7 @@ use Error ':try';
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-use version; our $VERSION = version->declare("v2.0.3");
+our $VERSION = '$Rev$';
 our $RELEASE = '2.0.3';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';

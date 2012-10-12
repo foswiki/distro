@@ -14,10 +14,15 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-use version; our $VERSION = version->declare("v4.44");
-our $RELEASE           = '4.44';
-our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
-our $NO_PREFS_IN_TOPIC = 1;
+use vars qw(
+  $VERSION $RELEASE $SHORTDESCRIPTION
+  $NO_PREFS_IN_TOPIC
+);
+
+$VERSION           = '$Rev$';
+$RELEASE           = '4.44';
+$SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
+$NO_PREFS_IN_TOPIC = 1;
 
 =begin TML
 

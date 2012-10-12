@@ -13,12 +13,14 @@ package Foswiki::Plugins::AutoViewTemplatePlugin;
 
 use strict;
 use warnings;
-use vars qw( $debug $mode $override $isEditAction $pluginName);
+use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION
+  $debug $mode $override $isEditAction
+  $pluginName $NO_PREFS_IN_TOPIC );
 
-use version; our $VERSION = version->declare("v1.2.0");
-our $RELEASE           = '2012-10-10';
-our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
-our $NO_PREFS_IN_TOPIC = 1;
+$VERSION           = '$Rev$';
+$RELEASE           = '2010-12-10';
+$SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
+$NO_PREFS_IN_TOPIC = 1;
 
 $pluginName = 'AutoViewTemplatePlugin';
 

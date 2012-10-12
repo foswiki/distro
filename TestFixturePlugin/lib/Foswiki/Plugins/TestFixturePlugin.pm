@@ -44,8 +44,7 @@ use Foswiki::Plugins::TestFixturePlugin::HTMLDiffer ();
 #
 use CGI qw( :any );
 
-our $VERSION = '1.200';
-$VERSION = eval $VERSION;
+our $VERSION = '$Rev$';
 our $RELEASE = '26 Sep 2012';
 our $web;
 our $topic;

@@ -15,14 +15,14 @@ use warnings;
 
 require Foswiki::Func;       # The plugins API
 require Foswiki::Plugins;    # For the API version
-use vars qw($debug $pluginName);
-use version; our $VERSION = version->declare("v1.1.2");
-our $RELEASE           = '1.1.2';
-our $SHORTDESCRIPTION  = 'Add TWiki personality to Foswiki';
-our $NO_PREFS_IN_TOPIC = 1;
-
-$TWiki::RELEASE = 'TWiki 4.2.3';
-$pluginName     = 'TWikiCompatibilityPlugin';
+use vars
+  qw( $VERSION $RELEASE $SHORTDESCRIPTION $debug $pluginName $NO_PREFS_IN_TOPIC );
+$VERSION           = '$Rev$';
+$RELEASE           = '1.1.2';
+$TWiki::RELEASE    = 'TWiki 4.2.3';
+$SHORTDESCRIPTION  = 'Add TWiki personality to Foswiki';
+$NO_PREFS_IN_TOPIC = 1;
+$pluginName        = 'TWikiCompatibilityPlugin';
 
 =begin TML
 
