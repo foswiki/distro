@@ -38,6 +38,9 @@ use File::Temp qw( tempfile );
 
 use Foswiki ();
 
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
+
 # Set to 1 to trace commands to STDERR, and redirect STDERR from
 # the command subprocesses to /tmp/foswiki_sandbox.log
 use constant TRACE => 0;

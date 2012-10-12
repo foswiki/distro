@@ -96,6 +96,9 @@ our @ISA = ('Error');
 
 use Assert;
 
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
+
 =begin TML
 
 ---++ ClassMethod new( $template, ...)

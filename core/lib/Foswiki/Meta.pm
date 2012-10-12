@@ -121,6 +121,9 @@ use Foswiki::Serialise ();
 
 our $reason;
 
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
+
 # Version for the embedding format (increment when embedding format changes)
 our $EMBEDDING_FORMAT_VERSION = 1.1;
 

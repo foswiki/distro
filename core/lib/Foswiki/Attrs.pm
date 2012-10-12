@@ -48,6 +48,9 @@ use strict;
 use warnings;
 use Assert;
 
+our $VERSION = "1.200";
+$VERSION = eval $VERSION;
+
 our $ERRORKEY   = '_ERROR';
 our $DEFAULTKEY = '_DEFAULT';
 our $RAWKEY     = '_RAW';
