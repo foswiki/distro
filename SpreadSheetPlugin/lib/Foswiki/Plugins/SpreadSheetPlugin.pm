@@ -12,7 +12,7 @@ use vars qw(
   $web $topic $user $installWeb $debug $skipInclude $doInit
 );
 
-our $VERSION           = '$Rev$';
+use version; our $VERSION = version->declare("v1.1.6");
 our $RELEASE           = '1.1.6';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
