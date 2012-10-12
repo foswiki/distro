@@ -478,9 +478,15 @@ sub loadSession {
             $this->{_cgisession}->param('SUDOFROMAUTHUSER') );
 
         if ($sudoUser) {
-            _trace( $this, "User is logging out to $sudoUser" );
-            $session->logEvent( 'sudo logout', '',
-                'from ' . ( $authUser || '' ), $sudoUser );
+            _trace( $this, "User is logging out from $sudoUser" );
+            $session->logger->log(
+                {
+                    level  => 'info',
+                    action => 'sudo logout',
+                    extra  => 'from ' . ( $authUser || '' ),
+                    user   => $sudoUser
+                }
+            );
             $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
             $authUser = $sudoUser;
         }
@@ -538,7 +544,14 @@ sub redirectToLoggedOutUrl {
     $defaultUser = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined($defaultUser) );
 
-    $session->logEvent( 'logout', ' ', "AUTHENTICATION LOGOUT - $authUser - " );
+    $session->logger->log(
+        {
+            level  => 'info',
+            action => 'logout',
+            extra  => "AUTHENTICATION LOGOUT - $authUser ",
+            user   => $authUser
+        }
+    );
 
     #TODO: consider if we should risk passing on the urlparams on logout
     my $path_info = $session->{request}->path_info();
@@ -737,8 +750,14 @@ sub userLoggedIn {
             if ( defined( $session->{remoteUser} )
                 && $session->inContext('sudo_login') )
             {
-                $session->logEvent( 'sudo login', '',
-                    'from ' . ( $session->{remoteUser} || '' ), $authUser );
+                $session->logger->log(
+                    {
+                        level  => 'info',
+                        action => 'sudo login',
+                        extra  => 'from ' . ( $session->{remoteUser} || '' ),
+                        user   => $authUser
+                    }
+                );
                 $this->{_cgisession}
                   ->param( 'SUDOFROMAUTHUSER', $session->{remoteUser} );
             }

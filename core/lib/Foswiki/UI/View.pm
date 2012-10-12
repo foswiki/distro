@@ -95,7 +95,14 @@ sub view {
         $session->{response}->print($text);
 
         Monitor::MARK('Wrote HTML');
-        $session->logEvent( 'view', $web . '.' . $topic, '(cached)' );
+        $session->logger->log(
+            {
+                level    => 'info',
+                action   => 'view',
+                webTopic => $web . '.' . $topic,
+                extra    => '(cached)',
+            }
+        );
 
         return;
     }
@@ -226,8 +233,14 @@ sub view {
 
     $text = '' unless defined $text;
 
-    $session->logEvent( 'view', $topicObject->web . '.' . $topicObject->topic,
-        $logEntry );
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'view',
+            webTopic => $topicObject->web . '.' . $topicObject->topic,
+            extra    => $logEntry,
+        }
+    );
 
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(

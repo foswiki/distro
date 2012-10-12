@@ -2218,7 +2218,7 @@ sub finish {
 
 =begin TML
 
----++ ObjectMethod logEvent( $action, $webTopic, $extra, $user )
+---++ DEPRECATED  ObjectMethod logEvent( $action, $webTopic, $extra, $user )
    * =$action= - what happened, e.g. view, save, rename
    * =$webTopic= - what it happened to
    * =$extra= - extra info, such as minor flag
@@ -2226,6 +2226,8 @@ sub finish {
      or failing that the user agent
 
 Write the log for an event to the logfile
+
+The method is deprecated,  Call logger->log directly.
 
 =cut
 
@@ -2237,36 +2239,15 @@ sub logEvent {
     my $extra    = shift || '';
     my $user     = shift;
 
-    return
-      if ( defined $Foswiki::cfg{Log}{Action}{$action}
-        && !$Foswiki::cfg{Log}{Action}{$action} );
-
-    $user ||= $this->{user};
-    $user = ( $this->{users}->getLoginName($user) || 'unknown' )
-      if ( $this->{users} );
-
-    my $cgiQuery = $this->{request};
-    if ($cgiQuery) {
-        my $agent = $cgiQuery->user_agent();
-        if ($agent) {
-            $extra .= ' ' if $extra;
-            if ( $agent =~
-/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
-              )
-            {
-                $extra .= $1;
-            }
-            else {
-                $agent =~ m/([\w]+)/;
-                $extra .= $1;
-            }
+    $this->logger->log(
+        {
+            level    => 'info',
+            action   => $action || '',
+            webTopic => $webTopic || '',
+            extra    => $extra || '',
+            user     => $user,
         }
-    }
-
-    my $remoteAddr = $this->{request}->remoteAddress() || '';
-
-    $this->logger->log( 'info', $user, $action, $webTopic, $extra,
-        $remoteAddr );
+    );
 }
 
 =begin TML

@@ -62,7 +62,14 @@ sub attach {
     # FIXME: Move down, log only if successful (or with error msg?)
     # Attach is a read function, only has potential for a change
 
-    $session->logEvent( 'attach', $web . '.' . $topic, $fileName );
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'attach',
+            webTopic => $web . '.' . $topic,
+            extra    => $fileName
+        }
+    );
 
     my $fileWikiUser = '';
     my $tmpl         = '';

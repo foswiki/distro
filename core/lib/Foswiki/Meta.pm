@@ -1939,11 +1939,14 @@ sub save {
     push( @extras, 'minor' )   if $opts{minor};      # don't notify
     push( @extras, 'dontlog' ) if $opts{dontlog};    # don't statisticify
 
-    $this->{_session}->logEvent(
-        'save',
-        $this->{_web} . '.' . $this->{_topic},
-        join( ', ', @extras ),
-        $this->{_session}->{user}
+    $this->{_session}->logger->log(
+        {
+            level    => 'info',
+            action   => 'save',
+            webTopic => $this->{_web} . '.' . $this->{_topic},
+            extra    => join( ', ', @extras ),
+            user     => $this->{_session}->{user},
+        }
     );
 
     return $newRev;
@@ -2219,8 +2222,15 @@ sub move {
     # Log rename
     my $old = $this->{_web} . '.' . ( $this->{_topic} || '' );
     my $new = $to->{_web} . '.' .   ( $to->{_topic}   || '' );
-    $this->{_session}
-      ->logEvent( 'rename', $old, "moved to $new", $this->{_session}->{user} );
+    $this->{_session}->logger->log(
+        {
+            level    => 'info',
+            action   => 'rename',
+            webTopic => $old,
+            extra    => "moved to $new",
+            user     => $this->{_session}->{user}
+        }
+    );
 
     # alert plugins of topic move
     $this->{_session}->{plugins}
@@ -2256,10 +2266,14 @@ sub deleteMostRecentRevision {
     # TODO: delete entry in .changes
 
     # write log entry
-    $this->{_session}->logEvent(
-        'cmd',
-        $this->{_web} . '.' . $this->{_topic},
-        "delRev $rev by " . $this->{_session}->{user}
+    $this->{_session}->logger->log(
+        {
+            level    => 'info',
+            action   => 'cmd',
+            webTopic => $this->{_web} . '.' . $this->{_topic},
+            extra    => "delRev $rev",
+            user     => $this->{_session}->{user},
+        }
     );
 }
 
@@ -2324,8 +2338,15 @@ sub replaceMostRecentRevision {
     push( @extras, 'minor' )   if $opts{minor};
     push( @extras, 'dontlog' ) if $opts{dontlog};
     push( @extras, 'forced' )  if $opts{forcedate};
-    $this->{_session}
-      ->logEvent( 'reprev', $this->getPath(), join( ', ', @extras ), $cUID );
+    $this->{_session}->logger->log(
+        {
+            level    => 'info',
+            action   => 'reprev',
+            webTopic => $this->getPath(),
+            extra    => join( ', ', @extras ),
+            user     => $cUID,
+        }
+    );
 }
 
 =begin TML
@@ -2832,11 +2853,14 @@ sub attach {
 
     my @extras = ( $opts{name} );
     push( @extras, 'dontlog' ) if $opts{dontlog};    # no statistics
-    $this->{_session}->logEvent(
-        $action,
-        $this->{_web} . '.' . $this->{_topic},
-        join( ', ', @extras ),
-        $this->{_session}->{user}
+    $this->{_session}->logger->log(
+        {
+            level    => 'info',
+            action   => $action,
+            webTopic => $this->{_web} . '.' . $this->{_topic},
+            extra    => join( ', ', @extras ),
+            user     => $this->{_session}->{user},
+        }
     );
 
     if ( $plugins->haveHandlerFor('afterUploadHandler') ) {
@@ -3020,14 +3044,14 @@ sub moveAttachment {
       ->dispatch( 'afterRenameHandler', $this->{_web}, $this->{_topic}, $name,
         $to->{_web}, $to->{_topic}, $newName );
 
-    $this->{_session}->logEvent(
-        'move',
-        $this->getPath() . '.'
-          . $name
-          . ' moved to '
-          . $to->getPath() . '.'
-          . $newName,
-        $cUID
+    $this->{_session}->logger->log(
+        {
+            level    => 'info',
+            action   => 'move',
+            webTopic => $this->getPath() . '.' . $name,
+            extra    => ' moved to ' . $to->getPath() . '.' . $newName,
+            user     => $cUID,
+        }
     );
 }
 
@@ -3100,14 +3124,14 @@ sub copyAttachment {
    #      ->dispatch( 'afterCopyHandler', $this->{_web}, $this->{_topic}, $name,
    #        $to->{_web}, $to->{_topic}, $newName );
 
-    $this->{_session}->logEvent(
-        'copy',
-        $this->getPath() . '.'
-          . $name
-          . ' copied to '
-          . $to->getPath() . '.'
-          . $newName,
-        $cUID
+    $this->{_session}->logger->log(
+        {
+            level    => 'info',
+            action   => 'copy',
+            webTopic => $this->getPath() . '.' . $name,
+            extra    => ' copied to ' . $to->getPath() . '.' . $newName,
+            user     => $cUID,
+        }
     );
 }
 

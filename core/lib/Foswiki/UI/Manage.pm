@@ -41,7 +41,7 @@ sub manage {
         my $method = 'Foswiki::UI::Manage::_action_' . $1;
 
         if ( defined &$method ) {
-            Foswiki::Func::writeEvent( 'manage', $action );
+            $session->logger->log( { level => 'info', action => $action } );
             no strict 'refs';
             &$method($session);
         }

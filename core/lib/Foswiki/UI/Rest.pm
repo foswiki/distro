@@ -129,8 +129,14 @@ sub rest {
         # send it out
         $session->{response}->print($text);
 
-        $session->logEvent( 'rest',
-            $session->{webName} . '.' . $session->{topicName}, '(cached)' );
+        $session->logger->log(
+            {
+                level    => 'info',
+                action   => 'rest',
+                webTopic => $session->{webName} . '.' . $session->{topicName},
+                extra    => '(cached)'
+            }
+        );
 
         return;
     }
@@ -257,10 +263,17 @@ sub rest {
         # an XHR.
     }
 
-    $session->logEvent( 'rest',
-        $session->{webName} . '.' . $session->{topicName} );
-
     my $function = $record->{function};
+
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'rest',
+            webTopic => $session->{webName} . '.' . $session->{topicName},
+            extra    => "$subject $verb",
+        }
+    );
+
     my $result;
     my $error = 0;
 

@@ -398,7 +398,14 @@ sub init_edit {
         $topicObject->text($text);
     }
 
-    $session->logEvent( 'edit', $web . '.' . $topic, $extraLog );
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'edit',
+            webTopic => $web . '.' . $topic,
+            extra    => $extraLog
+        }
+    );
 
     $tmpl =~ s/%CMD%/$adminCmd/go;
 

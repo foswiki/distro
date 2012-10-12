@@ -213,17 +213,21 @@ sub login {
             # the params passed to this script, and they will be used
             # in loadSession if no other user info is available.
             $this->userLoggedIn($loginName);
-            $session->logEvent(
-                'login',
-                $web . '.' . $topic,
-                "AUTHENTICATION SUCCESS - $loginName - "
+            $session->logger->log(
+                {
+                    level    => 'info',
+                    action   => 'login',
+                    webTopic => $web . '.' . $topic,
+                    extra    => "AUTHENTICATION SUCCESS - $loginName - "
+                }
             );
 
             # remove the sudo param - its only to tell TemplateLogin
             # that we're using BaseMapper..
             $query->delete('sudo');
 
-            $cgisession->param( 'VALIDATION', $validation ) if $cgisession;
+            $cgisession->param( 'VALIDATION', $validation )
+              if $cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
@@ -258,10 +262,13 @@ sub login {
             # will not help and the request SHOULD NOT be repeated" which
             # is not the situation here.
             $session->{response}->status(200);
-            $session->logEvent(
-                'login',
-                $web . '.' . $topic,
-                "AUTHENTICATION FAILURE - $loginName - "
+            $session->logger->log(
+                {
+                    level    => 'info',
+                    action   => 'login',
+                    webTopic => $web . '.' . $topic,
+                    extra    => "AUTHENTICATION FAILURE - $loginName - ",
+                }
             );
             $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
         }

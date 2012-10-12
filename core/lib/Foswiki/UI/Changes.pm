@@ -93,7 +93,13 @@ sub changes {
         $done{ $change->{topic} } = 1;
     }
 
-    $session->logEvent( 'changes', $webObject->web(), '' );
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'changes',
+            webTopic => $webObject->web(),
+        }
+    );
 
     $page .= $after;
 

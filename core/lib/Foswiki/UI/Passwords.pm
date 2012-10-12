@@ -149,7 +149,13 @@ sub _resetUsersPassword {
     }
 
     # Now that we have successfully reset the password we log the event
-    $session->logEvent( 'resetpasswd', $login );
+    $session->logger->log(
+        {
+            level  => 'info',
+            action => 'resetpasswd',
+            extra  => $login,
+        }
+    );
 
     # absolute URL context for email generation
     $session->enterContext('absolute_urls');
@@ -354,10 +360,13 @@ sub changePasswordAndOrEmail {
 
         my $oldEmails = join( ', ', $users->getEmails($cUID) );
         my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
-        $session->logEvent(
-            'changepasswd',
-            $webName . '.' . $topic,
-            "from $oldEmails to $email for $login"
+        $session->logger->log(
+            {
+                level    => 'info',
+                action   => 'changepasswd',
+                webTopic => $webName . '.' . $topic,
+                extra    => "from $oldEmails to $email for $login",
+            }
         );
     }
 
@@ -373,7 +382,13 @@ sub changePasswordAndOrEmail {
             );
         }
         else {
-            $session->logEvent( 'changepasswd', $login );
+            $session->logger->log(
+                {
+                    level  => 'info',
+                    action => 'changepasswd',
+                    extra  => $login
+                }
+            );
         }
 
         # OK - password changed

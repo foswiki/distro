@@ -171,7 +171,14 @@ sub viewfile {
 
     my $logEntry = $fileName;
     $logEntry .= ", r$rev" if $rev;
-    $session->logEvent( 'viewfile', $web . '.' . $topic, $logEntry );
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'viewfile',
+            webTopic => $web . '.' . $topic,
+            extra    => $logEntry,
+        }
+    );
 
     my $fh = $topicObject->openAttachment( $fileName, '<', version => $rev );
 

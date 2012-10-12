@@ -58,7 +58,7 @@ sub _stat { stat(@_); }
 
 sub new {
     my $class = shift;
-    return bless( {}, $class );
+    return bless( { acceptsHash => 1 }, $class );
 }
 
 =begin TML
@@ -70,7 +70,18 @@ See Foswiki::Logger for the interface.
 =cut
 
 sub log {
-    my ( $this, $level, @fields ) = @_;
+    my $this = shift;
+    my $level;
+    my @fields;
+
+    # Native interface:  Convert the hash back to list format
+    if ( ref( $_[0] ) eq 'HASH' ) {
+        ( $level, @fields ) = Foswiki::Logger::getOldCall(@_);
+        return unless defined $level;
+    }
+    else {
+        ( $level, @fields ) = @_;
+    }
 
     my $log = _getLogForLevel($level);
     my $now = _time();

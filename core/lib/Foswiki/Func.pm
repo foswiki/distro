@@ -3114,7 +3114,15 @@ sub writeEvent {
     my $webTopic =
         $Foswiki::Plugins::SESSION->{webName} . '.'
       . $Foswiki::Plugins::SESSION->{topicName};
-    return $Foswiki::Plugins::SESSION->logEvent( $action, $webTopic, $extra );
+
+    return $Foswiki::Plugins::SESSION->logger->log(
+        {
+            level    => 'info',
+            action   => $action || '',
+            webTopic => $webTopic || '',
+            extra    => $extra || '',
+        }
+    );
 }
 
 =begin TML
@@ -3128,8 +3136,13 @@ Log a warning that may require admin intervention to the warnings log (=data/war
 
 sub writeWarning {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->logger->log( 'warning',
-        scalar( caller() ), @_ );
+    return $Foswiki::Plugins::SESSION->logger->log(
+        {
+            level  => 'warning',
+            caller => scalar( caller() ),
+            extra  => \@_
+        }
+    );
 }
 
 =begin TML
@@ -3145,7 +3158,12 @@ sub writeDebug {
 
     #   my( $text ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->logger->log( 'debug', @_ );
+    return $Foswiki::Plugins::SESSION->logger->log(
+        {
+            level => 'debug',
+            extra => \@_
+        }
+    );
 }
 
 =begin TML

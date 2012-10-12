@@ -501,9 +501,15 @@ sub _registerSingleBulkUser {
         }
         $users->setEmails( $cUID, $row->{Email} );
 
-        $session->logEvent( 'bulkregister',
-            $row->{webName} . '.' . $row->{WikiName},
-            $row->{Email}, $row->{WikiName} );
+        $session->logger->log(
+            {
+                level    => 'info',
+                action   => 'bulkregister',
+                webTopic => $row->{webName} . '.' . $row->{WikiName},
+                extra    => $row->{Email},
+                user     => $row->{WikiName}
+            }
+        );
     }
     catch Error::Simple with {
         my $e = shift;
@@ -624,9 +630,15 @@ sub _requireConfirmation {
     $data->{form} = $form;
     close($F);
 
-    $session->logEvent( 'regstart',
-        $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
-        $data->{Email}, $data->{WikiName} );
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'regstart',
+            webTopic => $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
+            extra    => $data->{Email},
+            user     => $data->{WikiName},
+        }
+    );
 
     if ( $Foswiki::cfg{EnableEmail} ) {
 
@@ -1164,9 +1176,16 @@ sub _complete {
         # inform user and admin about the registration.
         $status = _emailRegistrationConfirmations( $session, $data );
 
-        $session->logEvent( 'register',
-            $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
-            $data->{Email}, $data->{WikiName} );
+        $session->logger->log(
+            {
+                level    => 'info',
+                action   => 'register',
+                webTopic => $Foswiki::cfg{UsersWebName} . '.'
+                  . $data->{WikiName},
+                extra => $data->{Email},
+                user  => $data->{WikiName},
+            }
+        );
 
         if ($status) {
             $status = $session->i18n->maketext(

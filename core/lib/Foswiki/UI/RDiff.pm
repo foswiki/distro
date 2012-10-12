@@ -626,7 +626,14 @@ sub diff {
         $rOlder = $#history if $rOlder > $#history;
     } while ( $diffType eq 'history' && $rNewer < $olderi );
 
-    $session->logEvent( 'rdiff', $web . '.' . $topic, "$revHigh $revLow" );
+    $session->logger->log(
+        {
+            level    => 'info',
+            action   => 'rdiff',
+            webTopic => $web . '.' . $topic,
+            extra    => "$revHigh $revLow"
+        }
+    );
 
     # Generate the revisions navigator
     require Foswiki::UI::View;
