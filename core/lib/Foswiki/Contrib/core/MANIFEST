@@ -444,8 +444,6 @@ lib/CPAN/lib/Locale/Msgfmt/Utils.pm 444
 lib/CPAN/lib/Locale/Msgfmt/mo.pm 444
 lib/CPAN/lib/Locale/Msgfmt/po.pm 444
 lib/CPAN/lib/Sort/Maker.pm 0444
-lib/CPAN/lib/version.pm 0444
-lib/CPAN/lib/version/vpp.pm 0444
 lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
 lib/Foswiki/Access.pm 0444
