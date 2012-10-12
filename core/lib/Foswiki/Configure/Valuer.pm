@@ -128,10 +128,6 @@ sub loadCGIParams {
         else {
             $newval = $type->string2value( $query->param($keys) );
         }
-        unless ( ref $newval ) {
-            $newval =~ /^(.*$)/;    # Untaint (from CGI )
-            $newval = $1;
-        }
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {
