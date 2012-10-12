@@ -590,7 +590,12 @@ sub _encode_Digest {
     unless ( -d $digestDir ) {
         my $saveumask = umask();
         umask( oct(000) );
-        mkdir( untaint($digestDir), oct(755) );
+        unless ( mkdir( untaint($digestDir), oct(755) ) ) {
+            umask($saveumask);
+            print STDERR "ERROR...  Configure unable to create $digestDir\n";
+            print STDERR "ERROR...  Abandoned saving .htdigest-configure\n";
+            return;
+        }
         umask($saveumask);
     }
 

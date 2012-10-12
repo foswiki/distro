@@ -818,8 +818,6 @@ sub _screenAuthorize {
 sub _screenFeedback {
     my ($messageType) = @_;
 
-    print STDERR "ScreenFeedback entered - type $messageType\n";
-
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
     my %updated;
