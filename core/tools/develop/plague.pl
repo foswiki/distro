@@ -19,7 +19,8 @@ while (@ARGV) {
         $sendMail = undef;
     }
 }
-print "Searching items $itemTopics\n";
+
+#print "Searching items $itemTopics\n";
 
 BEGIN {
     require 'setlib.cfg';
