@@ -1224,7 +1224,9 @@ sub findUserByEmail {
     my ( $this, $email ) = @_;
     ASSERT($email) if DEBUG;
     my @users;
-    if ( $this->{passwords}->isManagingEmails() ) {
+    if (  !$Foswiki::cfg{TopicUserMapping}{ForceManageEmails}
+        && $this->{passwords}->isManagingEmails() )
+    {
         my $logins = $this->{passwords}->findUserByEmail($email);
         if ( defined $logins ) {
             foreach my $l (@$logins) {
@@ -1289,7 +1291,9 @@ sub getEmails {
             }
         }
         else {
-            if ( $this->{passwords}->isManagingEmails() ) {
+            if (  !$Foswiki::cfg{TopicUserMapping}{ForceManageEmails}
+                && $this->{passwords}->isManagingEmails() )
+            {
 
                 # get emails from the password manager
                 foreach ( $this->{passwords}
@@ -1324,7 +1328,9 @@ sub setEmails {
     my $this = shift;
     my $user = shift;
 
-    if ( $this->{passwords}->isManagingEmails() ) {
+    if (  !$Foswiki::cfg{TopicUserMapping}{ForceManageEmails}
+        && $this->{passwords}->isManagingEmails() )
+    {
         $this->{passwords}->setEmails( $this->getLoginName($user), @_ );
     }
     else {
@@ -1336,7 +1342,8 @@ sub setEmails {
 
 ---++ StaticMethod mapper_getEmails($session, $user)
 
-Only used if passwordManager->isManagingEmails= = =false
+Only used if passwordManager->isManagingEmails= = =false or
+$Foswiki::cfg{TopicUserMapping}{ForceManageEmails} is enabled.
 (The emails are stored in the user topics.
 
 Note: This method is PUBLIC because it is used by the tools/upgrade_emails.pl
@@ -1380,7 +1387,8 @@ sub mapper_getEmails {
 
 ---++ StaticMethod mapper_setEmails ($session, $user, @emails)
 
-Only used if =passwordManager->isManagingEmails= = =false=.
+Only used if =passwordManager->isManagingEmails= = =false=
+or $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} is enabled.
 (emails are stored in user topics
 
 =cut

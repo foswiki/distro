@@ -507,6 +507,15 @@ $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 # </li></ol>
 $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
+# **BOOLEAN EXPERT DISPLAY_IF {UserMappingManager}=="Foswiki::Users::TopicUserMapping"**
+# Enable this parameter to force the TopicUserMapping manager to directly manage email
+# accresses, and not pass management over to the PasswordManager. When enabled, TopicUserMapping
+# will store addresses in the user topics.<br />
+# Default is disabled.  The PasswordManager will determine what is responsible for storing email addresses.<br />
+# <br />
+# Note: Foswiki provides a utility to migrate emails from user topic to the password file, but
+# does not provide any way to migrate emails from the password file back to user topics.
+$Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 
 #---++ Access Control
 # **SELECTCLASS Foswiki::Access::*Access**
@@ -856,9 +865,12 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # Normally Foswiki stores the user's sensitive information (such as their e-mail
 # address) in a database out of public view. This is to help prevent e-mail
 # spam and identity fraud.<br />
-# If that is not a risk for you (e.g. you are behind a firewall) and you
+# This setting controls whether or not the <code>%USERINFO%</code> macro will
+# reveal details about users other than the current logged in user.  It does not
+# control how Foswiki actually stores email addresses.<br />
+# If disclosure of emails is not a risk for you (e.g. you are behind a firewall) and you
 # are happy for e-mails to be made public to all Foswiki users,
-# then you can set this option.<br />
+# then you can disable this option.<br />
 # Note that if this option is set, then the <code>user</code> parameter to
 # <code>%USERINFO</code> is ignored.
 $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;

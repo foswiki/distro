@@ -420,6 +420,28 @@ sub verify_findUserByEmail_no_pwm {
     $this->assert_matches( qr/JoeDoe/, join( ' ', @$u ) );
     $u = $this->{session}->{users}->findUserByEmail('dont@be.silly');
     $this->assert_equals( "", join( ' ', @$u ) );
+    my $userTopic =
+      Foswiki::Func::readTopicText( $Foswiki::cfg{UsersWebName}, 'JoeDoe' );
+    $this->assert_matches( qr/email\@home.org.au/, $userTopic );
+}
+
+sub verify_findUserByEmail_forceManage {
+    my $this = shift;
+
+    # Force TopicUserMapping to override PasswordManager
+    $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = 1;
+
+    $this->setup_new_session();
+    $this->set_up_user();
+
+    # emails have to come from the user topic
+    my $u = $this->{session}->{users}->findUserByEmail('email@home.org.au');
+    $this->assert_matches( qr/JoeDoe/, join( ' ', @$u ) );
+    $u = $this->{session}->{users}->findUserByEmail('dont@be.silly');
+    $this->assert_equals( "", join( ' ', @$u ) );
+    my $userTopic =
+      Foswiki::Func::readTopicText( $Foswiki::cfg{UsersWebName}, 'JoeDoe' );
+    $this->assert_matches( qr/email\@home.org.au/, $userTopic );
 }
 
 1;
