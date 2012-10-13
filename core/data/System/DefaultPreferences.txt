@@ -131,7 +131,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
 
    * Home page of this site
-      * Set WIKIHOMEURL = %SCRIPTURLPATH{"view"}%
+      * Set WIKIHOMEURL = %SCRIPTURLPATH{"view"}%/
 
    * List of <nop>%WIKITOOLNAME% webs - on the first line of the upper toolbar (to add a new web, see ManagingWebs and %SYSTEMWEB%.SiteMap):
       * Set WIKIWEBLIST = [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[%SANDBOXWEB%.%HOMETOPIC%][%SANDBOXWEB%]]
