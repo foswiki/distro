@@ -281,7 +281,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
                  Foswikitask:Item9592 - added AJAX example%BR%\
                  Foswikitask:Item9601 - Prevent uprev of topic for every comment%BR%\
                  Foswikitask:Item4423 - Spreadsheet calculations do not execute within comment templates%BR%\
-                 Foswikitask:Item9568 (and others) - Redesigned core. Change commonTagsHandler to registered COMMENT macro, convert to REST handler instead of save script with beforeSaveHandler |
+                 Foswikitask:Item9568 (and others) - Redesigned core. Change commonTagsHandler to registered COMMENT macro, convert to REST handler instead of save script with beforeSaveHandler%BR%\
+                 Foswikitask:Item5897 - if COMMENT target topic is missing, it should be created. |
 |  21 Oct 2010 | Foswikitask:Item9857 - Restored the !CommentPluginTemplate to how it was before. All the changes done to make it look nice causes many errors. Never again add newlines, never again add trailing \ on existing templates. It does not always work. |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 
