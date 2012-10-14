@@ -272,9 +272,16 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
-|  10 Apr 2011 | Foswikitask:Item10263: remove wrap="soft" to make templates validate. This version is shipped with Foswiki 1.1.3 |
+|  22 Feb 2012 | Foswikitask:Item11448 - Implement {GuestCanComment}. If enabled, guests can comment on topics that they can not edit. |
+|  30 Jan 2012 | Foswikitask:Item11447 - "noform" examples not working - add comment_target parameter.|
+|  15 Jan 2012 | Foswikitask:Item11443 - better handling if target topic or web do not exist. |
+|  10 Apr 2011 | Foswikitask:Item10263 - remove wrap="soft" to make templates validate. |
 |  19 Nov 2010 | Foswikitask:Item10050 - CommentPlugin prompt must not add newlines that prevent COMMENT inside TML tables |
-|  21 Oct 2010 | Foswikitask:Item3499 - support COMMENT (and other) ACL preferences. Foswikitask:Item9592: added AJAX example. |
+|  21 Oct 2010 | Foswikitask:Item3499 - support COMMENT (and other) ACL preferences%BR%\
+                 Foswikitask:Item9592 - added AJAX example%BR%\
+                 Foswikitask:Item9601 - Prevent uprev of topic for every comment%BR%\
+                 Foswikitask:Item4423 - Spreadsheet calculations do not execute within comment templates%BR%\
+                 Foswikitask:Item9568 (and others) - Redesigned core. Change commonTagsHandler to registered COMMENT macro, convert to REST handler instead of save script with beforeSaveHandler |
 |  21 Oct 2010 | Foswikitask:Item9857 - Restored the !CommentPluginTemplate to how it was before. All the changes done to make it look nice causes many errors. Never again add newlines, never again add trailing \ on existing templates. It does not always work. |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
 |  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 
