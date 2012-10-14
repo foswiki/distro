@@ -1953,6 +1953,13 @@ sub new {
 
     #Monitor::MARK("Preferences all set up");
 
+    if ( $this->{users}->isAdmin( $this->{user} ) ) {
+        $this->enterContext('isadmin');
+    }
+    else {
+        $this->leaveContext('isadmin');
+    }
+
     # Finish plugin initialization - register handlers
     $this->{plugins}->enable();
 
