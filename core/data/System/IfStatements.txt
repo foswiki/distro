@@ -179,12 +179,12 @@ Example:
 | =$name=''= \
 | %IF{"$name=''" else='false'}% \
 | =$yo=''= \
-| %IF{"$yo=''" else='false %RED%NOTE: value is undefined, so not empty%ENDCOLOR%'}% |
+| %IF{"$yo=''" else="false %RED%NOTE: value is undefined, so not empty%ENDCOLOR%"}% |
 | is not empty \
 | =$name!=''= \
 | %IF{"$name!=''" then='true'}% \
 | =$yo!=''= \
-| %IF{"$yo=''" else='false %RED%NOTE: value is undefined, so not \'not empty\'%ENDCOLOR%'}% |
+| %IF{"$yo=''" else="false %RED%NOTE: value is undefined, so not \'not empty\'%ENDCOLOR%"}% |
 | has value =Barry= \
 | =$name='Barry'= \
 | %IF{"$name='Barry'" then='true'}% \
