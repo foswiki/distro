@@ -548,7 +548,7 @@ sub redirectToLoggedOutUrl {
         {
             level  => 'info',
             action => 'logout',
-            extra  => "AUTHENTICATION LOGOUT - $authUser ",
+            extra  => "AUTHENTICATION LOGOUT - $authUser - ",
             user   => $authUser
         }
     );

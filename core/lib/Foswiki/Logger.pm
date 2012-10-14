@@ -211,7 +211,10 @@ sub getOldCall {
             && defined $Foswiki::cfg{Log}{Action}{ $fhash->{action} }
             && !$Foswiki::cfg{Log}{Action}{ $fhash->{action} } );
 
-        push( @fields, $fhash->{extra}      || '' );
+        # The original writeEvent appended the agent to the extra field
+        my $extra = $fhash->{extra} || '';
+        $extra .= $fhash->{agent} || '';
+        push( @fields, $extra );
         push( @fields, $fhash->{remoteAddr} || '' );
     }
     else {
