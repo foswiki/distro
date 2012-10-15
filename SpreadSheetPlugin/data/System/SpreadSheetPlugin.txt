@@ -18,7 +18,7 @@ This Plugin adds spreadsheet capabilities to %WIKITOOLNAME% topics. Formulae lik
 </td><td>&nbsp; &nbsp; &nbsp;</td><td valign="top">
 *Interactive example:*
 
-<form name="interactive" action="%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%" method="get">
+<form name="interactive" action="%SCRIPTURL{view}%/%WEB%/%TOPIC%" method="get">
 <noautolink>
 Formula: <code>%<nop>CALC{"</code><input type="text" name="formula" size="40" value="%URLPARAM{ "formula" default="$PROPERSPACE(%WIKINAME%)" encode="entity" }%" /><code>"}%</code> &nbsp; <input type="submit" value="Go" /><br />
 Result: &nbsp; &nbsp; %CALC{%URLPARAM{ "formula" default="$PROPERSPACE(%WIKINAME%)" }%}%
@@ -881,6 +881,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  15 Oct 2012: | Foswikitask:Item12153: Use proper format of %<nop>SCRIPTURL% in CALC demo. |
 |  06 Apr 2012: (1.1.6) | Foswikitask:Item11523 - support $comma, $sp in SUBSTITUTE, REPLACE.<br />\
                   Foswikitask:Item11524 - Add FLOOR and CEILING macros. |
 |  17 Jan 2012: (1.1.5) | Foswikitask:Item11450 - ABOVE and LEFT return R0 and C0 respectively.  Should be R1 and C1 |
