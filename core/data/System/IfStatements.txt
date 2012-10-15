@@ -285,15 +285,20 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =header_text= | when the header text is being processed in a view (useful in plugin handlers) |
 | =i18n_enabled= | when user interface <nop>I18N support is enabled (i.e., user can choose the language for UI) |
 | =inactive= | if active links such as 'edit' and 'attach' should be disabled |
+| =isadmin= | current user has admin rights |
 | =login= and =logon= | in login / logon script (see CommandAndCGIScripts) |
 | =manage= | in manage script (see CommandAndCGIScripts) |
 | =mirror= | if this is a mirror |
 | =new_topic= | if the topic doesn't already exist |
 | =oops= | in oops script (see CommandAndCGIScripts) |
+| =passwords_modifyable= | when the !PasswordManager is able to modify passwords |
 | =preview= | in preview script (see CommandAndCGIScripts) |
 | =register= | in register script (see CommandAndCGIScripts) |
+| =registration_supported= | registration is supported by the current user mapper |
+| =registration_enabled= | set if ={Register}{EnableNewUserRegistration}= is on, and registration is supported |
 | =rename= | in rename script (see CommandAndCGIScripts) |
 | =resetpasswd= | in resetpasswd script (see CommandAndCGIScripts) |
+| =rest= | in rest script (see CommandAndCGIScripts) |
 | =rss= | if this is an RSS skin rendering |
 | =save= | in save script (see CommandAndCGIScripts) |
 | =search= | in search script (see CommandAndCGIScripts) |
@@ -303,13 +308,9 @@ Context identifiers are used in Foswiki to label various stages of the rendering
 | =upload= | in upload script (see CommandAndCGIScripts) |
 | =view= | in view script (see CommandAndCGIScripts) |
 | =viewfile= | in viewfile script (see CommandAndCGIScripts) |
-| =rest= | in rest script (see CommandAndCGIScripts) |
-| =registration_supported= | registration is supported by the current user mapper |
-| =registration_enabled= | set if ={Register}{EnableNewUserRegistration}= is on, and registration is supported |
-| =passwords_modifyable= | set if the password manager supports changing the password / email |
 
-In addition there is a context identifier for each enabled plugin; for example, if =Gallous<nop>BreeksPlugin= is installed *and enabled*, then the context ID =Gallous<nop>BreeksPluginEnabled= will be set. Other extensions may set additional context identifiers.
-
+In addition there is a context identifier for each enabled plugin; for example, if =Gallous<nop>BreeksPlugin= is installed *and enabled*, then the context ID =Gallous<nop>BreeksPluginEnabled= will be set.
+JQueryPlugin sets a context for each enabled JQuery plugin,  for example: =LiveQueryEnabled=, =UI::DialogEnabled=. Other extensions may set additional context identifiers.
 
 ---++ Query syntax
 <verbatim class="tml">%IF{"QUERY" then="THEN" else="ELSE"}%</verbatim>
