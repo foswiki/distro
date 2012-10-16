@@ -13,8 +13,9 @@ sub check {
     my $e         = '';
     my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersion};
 
-    $jqversion =~ /^jquery-(\d+\.\d+)/;
-    if ( defined $1 and $1 <= 1.3 ) {
+    if (    $jqversion =~ /^jquery-(\d+\.\d+)/ && defined $1
+        and $1 <= 1.3 )
+    {
         $e .= $this->WARN(<<'MESSAGE');
 jQuery 1.3.x and earlier are not compatible with Foswiki default plugins
 MESSAGE
