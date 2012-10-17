@@ -13,16 +13,25 @@ sub check {
 
     if ( $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' ) {
 
-        # Look for legacy logger settings
+        $mess .= $this->NOTE( <<WARN );
+On busy systems with large log files, the PlainFile logger can encounter issues when rotating the logs at the end of the month. 
+The older Compatibility logger, or the new LogDispatchContrib are preferable on busy systems.
+WARN
+
+# Look for legacy logger settings, except for LogFileName.  Some old TWiki plugins write directly to
+# this file.  So it should still be configurable even if using a different logger.
         my @legacyLoggerFilenames;
-        foreach my $setting (qw/LogFileName WarningFileName DebugFileName/) {
+        foreach my $setting (qw/WarningFileName DebugFileName/) {
             push @legacyLoggerFilenames, $setting
-              if defined $Foswiki::cfg{$setting};
+              if $Foswiki::cfg{$setting};
         }
 
         # Select the compatibility logger and warn about it,
         # if any legacy logger settings were found
-        if (@legacyLoggerFilenames) {
+        if (   @legacyLoggerFilenames
+            && $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile' )
+        {
             $Foswiki::cfg{Log}{Implementation} =
               'Foswiki::Logger::Compatibility';
 
@@ -40,6 +49,9 @@ sub check {
 "Found a setting for $legacyLoggerFilenames[0] in LocalSite.cfg, so I have automatically selected the Compatibility logger. "
                 );
             }
+            $mess .= $this->NOTE(
+'Remove the settings for WarningFileName and DebugFileName to use the PlainFile Logger.'
+            );
         }
     }
     return $mess;
@@ -49,7 +61,7 @@ sub check {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
