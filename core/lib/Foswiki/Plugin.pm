@@ -106,6 +106,7 @@ sub finish {
     undef $this->{module};
     undef $this->{errors};
     undef $this->{disabled};
+    undef $this->{reason};
     undef $this->{no_topic};
     undef $this->{description};
     undef $this->{session};
@@ -125,6 +126,9 @@ sub load {
                 "$p could not be loaded.  Errors were:\n$@\n----"
             );
             $this->{disabled} = 1;
+            $this->{reason} =
+              $this->{session}->i18n->maketext(
+                'Error encountered loading the plugin. See errors below.');
             return;
         }
         else {
@@ -137,6 +141,10 @@ sub load {
 "$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} defined - re-run configure\n---"
         );
         $this->{disabled} = 1;
+        $this->{reason} =
+          $this->{session}->i18n->maketext(
+'Plugin module was not defined. Check configuration. See errors below.'
+          );
         return;
     }
 
@@ -170,6 +178,9 @@ sub load {
     if ( !defined(&$sub) ) {
         push( @{ $this->{errors} }, $sub . ' is not defined' );
         $this->{disabled} = 1;
+        $this->{reason} =
+          $this->{session}
+          ->i18n->maketext('initPlugin was not defined. See errors below.');
         return;
     }
 
@@ -181,6 +192,9 @@ sub load {
         if ($error) {
             push( @{ $this->{errors} }, $sub . ' failed: ' . $error );
             $this->{disabled} = 1;
+            $this->{reason} =
+              $this->{session}
+              ->i18n->maketext('earlyInitPlugin failed.  See errors below.');
             return;
         }
     }
@@ -258,6 +272,9 @@ MESSAGE
         }
         push( @{ $this->{errors} }, $exception );
         $this->{disabled} = 1;
+        $this->{reason} =
+          $this->{session}->i18n->maketext(
+            'Plugin module did not return true. See errors below.');
         return;
     }
 
@@ -320,7 +337,12 @@ sub getDescription {
         $this->{description} = $prefs->getPreference($pref) || '';
     }
     if ( $this->{disabled} ) {
-        return ' !' . $this->{name} . ': (disabled)';
+        my $reason = '';
+        if ( $this->{reason} ) {
+            $reason =
+              CGI::span( { class => 'foswikiAlert' }, ' ' . $this->{reason} );
+        }
+        return ' ' . $this->{name} . ': (disabled)' . $reason;
     }
 
     my $release = $this->getRelease();
