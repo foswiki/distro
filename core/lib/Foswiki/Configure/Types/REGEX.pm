@@ -41,7 +41,9 @@ sub string2value {
     my ( $this, $value ) = @_;
     while ( $value =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
     while ( $value =~ s/^\(\?\^:(.*)\)/$1/ )     { }
-    return qr/$value/;
+    my $re = eval "qr/\$value/";
+    return $value if ($@);    # Return input if invalid
+    return $re;
 }
 
 sub equals {
