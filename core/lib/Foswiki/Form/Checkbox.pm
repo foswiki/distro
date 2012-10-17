@@ -138,7 +138,8 @@ sub renderForEdit {
         -values     => $this->getOptions(),
         -defaults   => \@defaults,
         -columns    => $this->{size},
-        -attributes => \%attrs
+        -attributes => \%attrs,
+        -override   => 1,
     );
     if ( defined $this->{valueMap} ) {
         $params{-labels} = $this->{valueMap};
@@ -158,7 +159,7 @@ sub renderForEdit {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
