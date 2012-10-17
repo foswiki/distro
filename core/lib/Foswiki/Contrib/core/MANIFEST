@@ -472,6 +472,7 @@ lib/Foswiki/Configure/Checkers/Certificate/KeyChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ServerChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate.pm 0444
 lib/Foswiki/Configure/Checkers/DataDir.pm 0444
+lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/Email/EnableSMIME.pm 0444
@@ -488,6 +489,7 @@ lib/Foswiki/Configure/Checkers/Introduction.pm 0444
 lib/Foswiki/Configure/Checkers/LocalesDir.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Dir.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Implementation.pm 0444
+lib/Foswiki/Configure/Checkers/LogFileName.pm 0444
 lib/Foswiki/Configure/Checkers/LoginManager.pm 0444
 lib/Foswiki/Configure/Checkers/LoginNameFilterIn.pm 0444
 lib/Foswiki/Configure/Checkers/LowerNational.pm 0444
@@ -546,6 +548,7 @@ lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444
 lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/Validation/Method.pm 0444
+lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/Welcome.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
