@@ -103,7 +103,6 @@ sub query {
             if ($date) {
                 $infoCache->filterByDate($date);
             }
-            $infoCache->sortResults($options);
 
             return $infoCache;
         },
@@ -115,7 +114,7 @@ sub query {
         }
     );
 
-#sadly, the resultSet currently wants a real array, rather than an unevaluated iterator
+#sadly, the resultSet currently wants a real array, rather than an unevaluated web iterator
     my @resultCacheList = $queryItr->all();
 
 #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
@@ -123,14 +122,11 @@ sub query {
       new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
         $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
 
-#consider if this is un-necessary - and that we can steal the web order sort from DBIStore and push up to the webItr
-    if ($date) {
-        $resultset->filterByDate($date);
-    }
-    $resultset->sortResults($options);
-
     #add permissions check
     $resultset = $this->addACLFilter( $resultset, $options );
+
+    #sort as late as possible
+    $resultset->sortResults($options);
 
     #add paging if applicable.
     $this->addPager( $resultset, $options );

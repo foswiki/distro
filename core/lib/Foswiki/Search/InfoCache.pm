@@ -105,6 +105,7 @@ sub numberOfTopics {
     my $this = shift;
 
     #can't use this, as it lies once its gone through the 'sortResults' hack
+    #and lies more because the filterByDate is evaluated later.
     #return scalar(@{ $this->{list} });
     # when fixed, the count update in filterByDate should be removed
 
@@ -218,6 +219,9 @@ sub sortResults {
 
 Filter the list by date interval; see System.TimeSpecifications.
 
+This function adds a filter evaluator to the infocache that is evaluated 
+as you iterate through the collection
+
 <verbatim>
 $infoCache->filterByDate( $date );
 </verbatim>
@@ -226,26 +230,27 @@ $infoCache->filterByDate( $date );
 
 sub filterByDate {
     my ( $this, $date ) = @_;
+    ASSERT( !defined( $this->{filter} ) ) if DEBUG;
 
     my $session = $Foswiki::Plugins::SESSION;
 
     require Foswiki::Time;
-    my @ends       = Foswiki::Time::parseInterval($date);
-    my @resultList = ();
-    foreach my $webtopic ( @{ $this->{list} } ) {
+    my @ends = Foswiki::Time::parseInterval($date);
+
+    $this->{filter} = sub {
+        my $webtopic = shift;
 
         # if date falls out of interval: exclude topic from result
         my ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
             $webtopic );
         my $topicdate = $session->getApproxRevTime( $web, $topic );
-        push( @resultList, $webtopic )
-          unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
-    }
-    $this->{list} = \@resultList;
 
-    # use this hack until numberOfTopics reads the length of list
-    $this->{count} = scalar @{ $this->{list} };
+        return !( $topicdate < $ends[0] || $topicdate > $ends[1] );
+
+    };
+
+    return;
 }
 
 ######OLD methods
