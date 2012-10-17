@@ -463,6 +463,7 @@ lib/Foswiki/Cache/Memcached.pm 0444
 lib/Foswiki/Cache/MemoryLRU.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
+lib/Foswiki/Configure/Checkers/AccessibleENV.pm 0444
 lib/Foswiki/Configure/Checkers/AllowInlineScript.pm 0444
 lib/Foswiki/Configure/Checkers/AuthRealm.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
@@ -482,6 +483,7 @@ lib/Foswiki/Configure/Checkers/Email/EnableSMIME.pm 0444
 lib/Foswiki/Configure/Checkers/Email/MailMethod.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeCertificateFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeKeyFile.pm 0444
+lib/Foswiki/Configure/Checkers/Email/ValidTLD.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
@@ -523,7 +525,9 @@ lib/Foswiki/Configure/Checkers/RCS/lockCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/rlogDateCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/tmpBinaryCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/unlockCmd.pm 0444
+lib/Foswiki/Configure/Checkers/REGEX.pm 0444
 lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
+lib/Foswiki/Configure/Checkers/Register/EmailFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
 lib/Foswiki/Configure/Checkers/RegistrationApprovals.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/MAILHOST.pm 0444
@@ -578,7 +582,6 @@ lib/Foswiki/Configure/Types/OCTAL.pm 0444
 lib/Foswiki/Configure/Types/PASSWORD.pm 0444
 lib/Foswiki/Configure/Types/PATH.pm 0444
 lib/Foswiki/Configure/Types/PERL.pm 0444
-lib/Foswiki/Configure/Types/REGEX.pm 0444
 lib/Foswiki/Configure/Types/SELECT.pm 0444
 lib/Foswiki/Configure/Types/SELECTCLASS.pm 0444
 lib/Foswiki/Configure/Types/STRING.pm 0444
