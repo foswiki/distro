@@ -895,7 +895,8 @@ $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
 $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
 
-#---+ Logging and Statistics
+#---+ Logging and Statistics -- TABS
+#---++ Logging
 
 # **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
 # Foswiki supports different implementations of log files. It can be
@@ -975,16 +976,16 @@ $Foswiki::cfg{WarningFileName} = '';
 # Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/log%DATE%.txt</code>
 $Foswiki::cfg{LogFileName} = '';
 
-
-# **NUMBER EXPERT**
+#---++ Statistics
+# **NUMBER**
 # Number of top viewed topics to show in statistics topic
 $Foswiki::cfg{Stats}{TopViews} = 10;
 
-# **NUMBER EXPERT**
+# **NUMBER**
 # Number of top contributors to show in statistics topic
 $Foswiki::cfg{Stats}{TopContrib} = 10;
 
-# **SELECT Prohibited, Allowed, Always EXPERT**
+# **SELECT Prohibited, Allowed, Always**
 # Set this parameter to <code>Allowed</code> if you want the statistics script to create a
 # missing WebStatistics topic only when the parameter <code>autocreate=1</code> is supplied.
 # Set it to <code>Always</code> if a missing WebStatistics topic should be created unless
@@ -992,7 +993,7 @@ $Foswiki::cfg{Stats}{TopContrib} = 10;
 # the previous behavior and is the default.
 $Foswiki::cfg{Stats}{AutoCreateTopic} = 'Prohibited';
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # If this is set to the name of a Group, then the statistics script will only run for
 # members of the specified  and the AdminGroup.  Ex. Set to <code>AdminGroup</code> to restrict
 # statistics to  administrators.   Default is un-set.  Anyone can run statistics.
