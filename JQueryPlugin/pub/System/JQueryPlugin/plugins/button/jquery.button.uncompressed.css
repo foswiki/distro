@@ -81,7 +81,7 @@ a.jqButton:hover {
 }
 .jqButton:active .jqButtonIcon,
 .jqButton .jqButtonIcon {
-  background-position:0px 4px;
+  background-position:0 49%;
   background-repeat:no-repeat;
   margin:0px;
 }
