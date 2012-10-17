@@ -453,27 +453,20 @@ THIS
 
 sub _checkSettings {
     my ( $this, $meta ) = @_;
+    my $should_not =
+      " should not be able to 'VIEW' $this->{test_web}.$this->{test_topic}";
+    my $should =
+      " should be able to 'VIEW' $this->{test_web}.$this->{test_topic}";
 
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrOrange ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        $meta->haveAccess( 'VIEW', $MrGreen ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrYellow ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrWhite ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrBlue ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
+    $this->assert( $meta->haveAccess( 'VIEW', $MrGreen ), $MrGreen . $should );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrOrange ),
+        $MrOrange . $should_not );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrYellow ),
+        $MrYellow . $should_not );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrWhite ),
+        $MrWhite . $should_not );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrBlue ),
+        $MrBlue . $should_not );
 
     return;
 }
