@@ -38,7 +38,7 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
 | =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME |
 | =%<nop>USERNAME%= | Login name of user who is instantiating the new topic, e.g. %USERNAME% |
-| =%<nop>URLPARAM{"name"}%= | Value of a named URL parameter |
+| =%<nop>URLPARAM{"name"}%= | Value of a named URL or HTTP POST parameter |
 | =%<nop>WIKINAME%= | WikiName of user who is creating the new topic, e.g. <nop>%WIKINAME% |
 | =%<nop>WIKIUSERNAME%= | User name of user who is creating the new topic, e.g. <nop>%WIKIUSERNAME% |
 
