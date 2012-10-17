@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1284905286" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarURLPARAM
----+++ URLPARAM{"name"} -- get value of a URL parameter
-   * Returns the value of a URL parameter.
+---+++ URLPARAM{"name"} -- get URL or HTTP POST parameter value
+   * Returns the value of the named parameter in the URL or HTTP POST request.
    * Syntax: =%<nop>URLPARAM{"name"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
