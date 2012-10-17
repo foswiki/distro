@@ -18,5 +18,5 @@ UI_SOURCE= \
 
 jquery-ui.uncompressed.css: Makefile $(UI_SOURCE)
 	@echo creating $@
-	@$(CAT) $(UI_SOURCE) |sed 's/@VERSION/1.8.21/g' > $@
+	@$(CAT) $(UI_SOURCE) |sed 's/@VERSION/1.8.23/g' > $@
 

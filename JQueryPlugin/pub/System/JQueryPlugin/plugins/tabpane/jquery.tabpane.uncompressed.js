@@ -261,7 +261,7 @@ $.tabpane = {
 
     height = windowHeight-paneTop-2*bottomBarHeight+0.5;
     $debug = $("#DEBUG");
-    if ($debug) {
+    if ($debug.length) {
       height -= $debug.outerHeight(true);
     }
 
