@@ -258,6 +258,9 @@ sub enable {
     foreach my $plugin ( @{ $this->{plugins} } ) {
         if ( $disabled{ $plugin->{name} } ) {
             $plugin->{disabled} = 1;
+            $plugin->{reason} =
+              $this->{session}
+              ->i18n->maketext('See the DISABLEDPLUGINS preference setting.');
             push(
                 @{ $plugin->{errors} },
                 $plugin->{name} . ' has been disabled'
