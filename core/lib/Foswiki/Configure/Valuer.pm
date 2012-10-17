@@ -107,15 +107,27 @@ sub loadCGIParams {
 
         # the - (and therefore the ' and ") is required for languages
         # e.g. {Languages}{'zh-cn'}.
-        next unless $param =~ /^TYPEOF:((?:{[-:\w'"]+})*)/;
+        next unless $param =~ /^TYPEOF:((?:\{[-:\w'"]+})*)/;    #
+
         my $keys = $1;
 
         # The value of TYPEOF: is the type name
         my $typename = $query->param($param);
         Carp::confess "Bad typename '$typename'" unless $typename =~ /(\w+)/;
         $typename = $1;    # check and untaint
-        my $type   = Foswiki::Configure::Type::load( $typename, $keys );
-        my $newval = $type->string2value( $query->param($keys) );
+        my $type = Foswiki::Configure::Type::load( $typename, $keys );
+
+        my $newval = '';
+        if ( $typename =~ m/GROUP/ ) {
+            my @values = $query->param($keys);
+            $newval = $type->string2value(@values);
+        }
+        elsif ( $type->{NeedsQuery} ) {
+            $newval = $type->string2value( $query, $keys );
+        }
+        else {
+            $newval = $type->string2value( $query->param($keys) );
+        }
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;
         if ( !$type->equals( $newval, $curval ) ) {
@@ -133,7 +145,7 @@ sub loadCGIParams {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
