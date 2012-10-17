@@ -1642,6 +1642,7 @@ sub new {
     # Compatibility; not used except maybe in plugins
     $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/tmp"
       unless defined( $Foswiki::cfg{TempfileDir} );
+
     if ( defined $Foswiki::cfg{WarningFileName}
         && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
     {
@@ -1654,11 +1655,12 @@ sub new {
     }
     else {
 
-        # Otherwise make sure it is defined for use in plugins,
+        # Otherwise make sure it is defined for use in old plugins,
         # but don't overwrite the setting from configure, if there is one.
         # This is especially important when the admin has *chosen*
-        # to use the compatibility logger.
-        if ( not defined $Foswiki::cfg{LogFileName} ) {
+        # to use the compatibility logger. (Some old TWiki heritage
+        # plugins write directly to the configured LogFileName
+        if ( not $Foswiki::cfg{LogFileName} ) {
             $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
         }
     }
@@ -3769,7 +3771,7 @@ sub getApproxRevTime {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

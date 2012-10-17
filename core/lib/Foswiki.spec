@@ -840,6 +840,8 @@ $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 # for a large site, or even provide your own custom logger. Select the
 # implementation to be used here. Most sites should be OK with the
 # PlainFile logger, which automatically rotates the logs every month.<p />
+# Note that on very busy systems, this logfile rotation can be disruptive and the
+# Compatibility logger might perform better.<p />
 # The <tt>PlainFile::Obfuscating</tt> logger is identical to the <tt>PlainFile</tt>
 # logger except that IP addresses are either obfuscated by replacing the IP Address
 # with a MD5 Hash, or by completely masking it to x.x.x.x.  If your regulatory domain
@@ -849,10 +851,6 @@ $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 # through use of the <tt>Foswiki::Logger::Compatibility</tt> logger.
 # Foswiki will automatically select the Compatibility logger if it detects
 # a setting for <tt>{WarningFileName}</tt> in your LocalSite.cfg.
-# You are recommended to change to the PlainFile logger at your earliest
-# convenience by removing <tt>{WarningFileName}</tt>,
-# <tt>{LogFileName}</tt> and <tt>{DebugFileName}</tt>
-# from LocalSite.cfg and re-running configure.
 $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
 
 # **BOOLEAN EXPERT**
@@ -883,6 +881,31 @@ $Foswiki::cfg{Log}{Action} = {
     rest     => 1,
     viewfile => 1,
  };
+
+# **PATH DISPLAY_IF /Compatibility/i.test({Log}{Implementation}) || {DebugFileName}**
+# Log file for debug messages when using the Compatibility logger.
+# (Usually very low volume.) If <code>%DATE%</code> is included in the file name, it gets expanded
+# to YYYYMM (year, month), causing a new log to be written each month.<p />
+# To use the Compatibility logger, set this to a valid file path and name.<br />
+# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/debug.txt</code>
+$Foswiki::cfg{DebugFileName} = '';
+
+# **PATH DISPLAY_IF /Compatibility/i.test({Log}{Implementation}) || {WarningFileName}**
+# Log file for Warnings when using the Compatibility logger.
+# (Usually low volume) If <code>%DATE%</code> is included in the file name, it gets expanded
+# to YYYYMM (year, month), causing a new log to be written each month.<p />
+# To use the Compatibility logger, set this to a valid file path and name.<br />
+# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/warn%DATE%.txt</code>
+$Foswiki::cfg{WarningFileName} = '';
+
+# **PATH**
+# Log file recording web activity when using the Compatibility logger. (High volume).
+# If <code>%DATE%</code> is included in the file name, it gets expanded
+# to YYYYMM (year, month), causing a new log to be written each month.<p />
+# To use the Compatibility logger, set this to a valid file path and name.<p />
+# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/log%DATE%.txt</code>
+$Foswiki::cfg{LogFileName} = '';
+
 
 # **NUMBER**
 # Number of top viewed topics to show in statistics topic
