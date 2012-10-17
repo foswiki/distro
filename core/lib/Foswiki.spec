@@ -827,7 +827,8 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
 
 
-#---+ Logging and Statistics
+#---+ Logging and Statistics -- TABS
+#---++ Logging
 
 # **PATH**
 # Directory where log files will be written. Log files are automatically
@@ -906,7 +907,7 @@ $Foswiki::cfg{WarningFileName} = '';
 # Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/log%DATE%.txt</code>
 $Foswiki::cfg{LogFileName} = '';
 
-
+#---++ Statistics
 # **NUMBER**
 # Number of top viewed topics to show in statistics topic
 $Foswiki::cfg{Stats}{TopViews} = 10;
