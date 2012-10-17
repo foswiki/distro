@@ -73,7 +73,7 @@ HERE
 =begin TML
 
 ---++ ObjectMethod getCfg($name) -> $expanded_val
-Get the value of the named configuration var. The name is in the form 
+Get the value of the named configuration var. The name is in the form
 getCfg("{Validation}{ExpireKeyOnUse}")
 
 Any embedded references to other Foswiki::cfg vars will be expanded.
@@ -196,7 +196,7 @@ environments, the Foswiki perl scripts run under a different user/group than
 the web server.  Basic checks will pass, but the server may still be unable
 to access the file.  The enhanced checks will detect this condition.
 
-Callers of this checker should reset $this->{fileCount} and $this->{fileErrors} 
+Callers of this checker should reset $this->{fileCount} and $this->{fileErrors}
 to zero before calling this routine.
 
 =cut
@@ -449,7 +449,7 @@ a compilable perl regular expression.
 sub checkRE {
     my ( $this, $keys ) = @_;
     my $str;
-    eval { $str = $Foswiki::cfg . $keys; };
+    eval "\$str = \$Foswiki::cfg$keys;";
     return '' unless defined $str;
     eval { qr/$str/ };
     if ($@) {
