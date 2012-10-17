@@ -13,7 +13,7 @@ Foswiki site:
 
 Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"}%][%ICON{"wrench"}% configure]].  
 Plugins shown in the above list as _(disabled)_ are enabled in the
-configuration, but disabled in Site, Web or another preference settings topic (see %SYSTEMWEB%.PreferenceSettings )
+configuration but either encountered errors or are disabled in Site, Web or another preference settings topic (see %SYSTEMWEB%.PreferenceSettings )
 
 
 See [[Plugins]] for more detailed description of how to install and use Plugins.
