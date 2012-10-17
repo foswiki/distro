@@ -323,7 +323,7 @@ sub getAttachmentLink {
     # I18N: URL-encode the attachment filename
     my $fileURL = Foswiki::urlEncodeAttachment($attName);
 
-    if ( $attName =~ /\.(gif|jpg|jpeg|png)$/i ) {
+    if ( $attName =~ /\.(gif|jpg|jpeg|png|svg)$/i ) {
 
         # inline image
 
