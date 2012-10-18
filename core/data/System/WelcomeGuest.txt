@@ -15,7 +15,6 @@ Welcome to <nop>%WIKITOOLNAME%! This site is a meeting place to work on common i
    * *Start to figure it out.* Some good places to start:
       * BeginnersStartHere is a short introduction training course for beginners. 
       * TwentyMinuteTutorial is a 20-minute tour of %WIKITOOLNAME% essentials. 
-      * WikiReferences links to selected articles and books about wiki technology and online collaboration.
 
 You have some time and want to really get into %WIKITOOLNAME%? Then the UsersGuide is what you are looking for!
 %STOPINCLUDE%
