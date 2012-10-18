@@ -72,7 +72,7 @@ Does exactly what it says on the tin. Forget about authentication to make your s
 #TemplateLogin
 ---+++ Template Login (select =Foswiki::LoginManager::TemplateLogin=)
 
-%STARTSECTION{"TemplateLogin"}%Template Login asks for a username and password in a web page, and processes them using whatever Password Manager you choose. Users can log in and log out. Client Sessions are used to remember users. Users can choose to have their session remembered so they will automatically be logged in the next time they start their browser.
+%STARTSECTION{"TemplateLogin"}%Template Login asks for a username (or optionally email address) and password in a web page, and processes them using whatever Password Manager you choose. Users can log in and log out. Client Sessions are used to remember users. Users can choose to have their session remembered so they will automatically be logged in the next time they start their browser.
 
 ---++++ Enabling Template Login
 <blockquote class="foswikiHelp">%I% By default, your Foswiki installation is probably already using !TemplateLogin, !HtPasswdUser and [[TopicUserMappingContrib]] as the default =Login=, =Password= and =user mapping= options.</blockquote>
@@ -80,6 +80,7 @@ Does exactly what it says on the tin. Forget about authentication to make your s
       1 Navigate to the =Login= tab on the =Security and Authentication= panel. Select the =Foswiki::LoginManager::TemplateLogin= login manager.
       1 Navigate to the =Passwords= tab. Select the appropriate =PasswordManager= for your system - the default is =Foswiki::Users::HtPasswdUser=.
       <blockquote class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.</blockquote>
+      <blockquote class="foswikiHelp">%H% There is also an EXPERT configure setting ={TemplateLogin}{AllowLoginUsingEmailAddress}= that you can set to allow users to login using their password system registered email addresses.</blockquote>
 %STARTSECTION{"TESTING"}%   1 Verify that registration works by registering yourself with the [[%SYSTEMWEB%.UserRegistration]] topic. If there are problems, try these troubleshooting tips: %IF{
       "'%INSTALLGUIDE%'='1'"
       then="$n      1 If you are reading this from the INSTALL.html file, you can enter [[%SYSTEMWEB%.UserRegistration]] into the 'Jump' box in the top right of any Foswiki page."}%

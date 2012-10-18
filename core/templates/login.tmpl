@@ -9,7 +9,9 @@
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] login)" args="<nop>%WIKITOOLNAME%"}%%TMPL:END%
 
-%TMPL:DEF{"title"}%<h2>%MAKETEXT{"Log on with your username and password"}%</h2>%TMPL:END%
+
+
+%TMPL:DEF{"title"}%<h2>%MAKETEXT{"Log on to [_1]" args="%WIKITOOLNAME%"}%</h2>%TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class='foswikiFormStep'>%TMPL:P{"title"}%
 %TMPL:P{"notestep"}%
@@ -36,7 +38,11 @@
 %TMPL:DEF{"usernamefield"}%<input tabindex='1' type='text' class='foswikiInputField foswikiFocus' size='40' name='username' value='<nop>%URLPARAM{"usernamestep"}%' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
 %TMPL:DEF{"usernamestep"}%<div class="foswikiFormStep">
-<h3>%MAKETEXT{"Username"}%</h3>
+<h3>%IF{
+  "{TemplateLogin}{AllowLoginUsingEmailAddress}" 
+  then="%MAKETEXT{"username or email address"}%"
+  else="%MAKETEXT{"username"}%" 
+}%</h3>
 <p>%TMPL:P{"usernamefield"}% %TMPL:P{"usernamefieldhelplink"}%</p>%TMPL:P{"usernamefieldhelpcontents"}%
 </div>%TMPL:END%
 

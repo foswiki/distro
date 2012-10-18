@@ -42,6 +42,7 @@ Foswiki 1.2 is shipped with the following:
 
 #Release01x02Changes
 ---++ Important changes since Foswiki 1.2
+   * users can authenticate via 'TemplateLogin' with their email address
 
 ---+++ Query Search
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
