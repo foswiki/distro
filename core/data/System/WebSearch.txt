@@ -27,7 +27,7 @@
 
 %STARTSECTION{"help"}%%INCLUDE{"%TOPIC%" section="title"}%
 %INCLUDE{"%TOPIC%" section="tabs"}%
-<div class='foswikiTabContent'>%INCLUDE{"%SYSTEMWEB%.SearchHelp"}%</div>
+%INCLUDE{"%SYSTEMWEB%.SearchHelp"}%
 %ENDSECTION{"help"}%
 
 
@@ -35,13 +35,12 @@
 
 
 %STARTSECTION{"form"}%%INCLUDE{"%TOPIC%" section="tabs"}%<noautolink>
-<div class='foswikiTabContent'>
 <div class='foswikiWebSearchForm'>
 <form name='WebSearchForm' action='%SCRIPTURLPATH{view}%/%BASEWEB%/%TOPIC%'>
 <input type='hidden' name='tab' value='%URLPARAM{"tab" default="search"}%' />
 <div class='foswikiFormSteps'>
 <div class='foswikiFormStep'>
-<input type='text' class='foswikiInputField foswikiFocus' name='search' value='%URLPARAM{"search" encode="entity"}%' size='40' style='width:99%' />	
+<input type='text' class='foswikiInputField foswikiFocus' name='search' value='%URLPARAM{"search" encode="entity"}%' size='40' style='width:99%' placeholder='%MAKETEXT{"Search"}%' />	
 </div>
 <div class='foswikiFormStep'>
 %TWISTY{
@@ -67,7 +66,6 @@
 </div>
 </div><!--//foswikiFormSteps-->
 </form>
-</div>
 </div></noautolink>%ENDSECTION{"form"}%
 
 
@@ -302,23 +300,20 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 
 %STARTSECTION{"searchbyletterlink"}%%IF{
 	"$'URLPARAM{searchletter}'='%letter%'"
-	then="%letter%"
+	then="<strong>%letter%</strong>"
 	else="<a href='%SCRIPTURLPATH{"search"}%/%BASEWEB%/%TOPIC%?scope=topic&amp;type=regex&amp;search=%5E%letter%;$percentINCLUDE{$quot%TOPIC%$quot section=$quotsearchparamsadvanced$quot}$percent;searchletter=%letter%;tab=az'>%letter%</a>"
 }%%ENDSECTION{"searchbyletterlink"}%
 
 
 %STARTSECTION{"az"}%%INCLUDE{"%TOPIC%" section="title"}%
 %INCLUDE{"%TOPIC%" section="tabs"}%
-<div class='foswikiTabContent'>
-<div class='foswikiFormSteps'>
-<div class='foswikiFormStep'>
+<div class='foswikiWebSearchForm'>
 %MAKETEXT{"List topics that start with the letter:"}% %INCLUDE{"%TOPIC%" section="letterlist"}%
-</div>
 </div>
 %IF{
 	"$'URLPARAM{searchletter}'"
 	then="$percentINCLUDE{$quot%TOPIC%$quot section=$quotsearchresults$quot}$percent$percentINCLUDE{$quot%TOPIC%$quot section=$quotquerysearchexample$quot}$percent"
-}%</div>%ENDSECTION{"az"}%
+}%%ENDSECTION{"az"}%
 
 %STARTSECTION{"letterlist"}%<div class='foswikiHorizontalList foswikiUnvisited'>
 <ul>
