@@ -344,7 +344,7 @@ sub test_urlparsing {
     $this->urltest( '/', $this->{users_web}, 'WebHome' );
 
 #SMELL: This has always been the case - sven recals changing it once and that causing issues?
-    $this->urltest( '/?topic=WebChanges', '', 'WebChanges' );
+    $this->urltest( '/?topic=WebChanges', $this->{users_web}, 'WebChanges' );
 
     $this->urltest( '/?topic=System.WebChanges', 'System', 'WebChanges' );
 
@@ -356,6 +356,8 @@ sub test_urlparsing {
         $this->urltest( '/?topic=WebChanges;defaultweb=Sandbox',
             'Sandbox', 'WebChanges' );
         $this->urltest( '/System?topic=WebChanges;defaultweb=Sandbox',
+            'System', 'WebChanges' );
+        $this->urltest( '/?topic=System.WebChanges;defaultweb=Sandbox.WebHome',
             'System', 'WebChanges' );
     }
 
@@ -377,6 +379,9 @@ sub test_urlparsing {
     $this->urltest( '/Sandbox/WebIndex/',   'Sandbox/WebIndex', 'WebHome' );
     $this->urltest( '/Sandbox/WebIndex//',  'Sandbox/WebIndex', 'WebHome' );
     $this->urltest( '/Sandbox/WebIndex///', 'Sandbox/WebIndex', 'WebHome' );
+
+    $this->urltest( '/Sandbox/WebIndex/ok',    'Sandbox/WebIndex', 'Ok' );
+    $this->urltest( '/Sandbox/WebIndex/NotOk', 'Sandbox/WebIndex', 'NotOk' );
 
     $this->urltest( '/Sandbox/WebIndex?asd=w',    'Sandbox', 'WebIndex' );
     $this->urltest( '/Sandbox//WebIndex?asd=qwe', 'Sandbox', 'WebIndex' );
@@ -594,6 +599,9 @@ sub test_urlparsing {
 
     # - Invalid web name - Tasks.Item8713
     $this->urltest( '/A:B/WebPreferences', '', 'WebPreferences' );
+
+    #invalid topic name
+    $this->urltest( '/System/WebPre@ferences', 'System', 'WebHome' );
 
     return;
 }

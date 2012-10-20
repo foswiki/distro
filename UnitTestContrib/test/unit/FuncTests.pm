@@ -1637,6 +1637,28 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
     $this->assert_str_equals( 'ALLOWTOPICCHANGE',          $t );
 
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Web.' );
+    $this->assert_str_equals( 'Web',     $w );
+    $this->assert_str_equals( 'WebHome', $t );
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2.' );
+    $this->assert_str_equals( 'Web2',    $w );
+    $this->assert_str_equals( 'WebHome', $t );
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2/' );
+    $this->assert_str_equals( 'Web2',    $w );
+    $this->assert_str_equals( 'WebHome', $t );
+
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2.look' );
+    $this->assert_str_equals( 'Web2', $w );
+    $this->assert_str_equals( 'look', $t );
+
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2~look' );
+    $this->assert_str_equals( 'Web1',      $w );
+    $this->assert_str_equals( 'Web2~look', $t );
+
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2.j~look' );
+    $this->assert_str_equals( 'Web2',   $w );
+    $this->assert_str_equals( 'j~look', $t );
+
     return;
 }
 

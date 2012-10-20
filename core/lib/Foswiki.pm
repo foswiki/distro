@@ -1800,6 +1800,7 @@ sub new {
     }
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
 
+    $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
     if (   $Foswiki::cfg{GetScriptUrlFromCgi}
         && $url
         && $url =~ m{^[^:]*://[^/]*(.*)/.*$}
@@ -1813,60 +1814,26 @@ sub new {
         $this->{scriptUrlPath} = $1;
     }
 
-    my $web   = '';
-    my $topic = $query->param('topic');
-    if ($topic) {
-        if (   $topic =~ m#^$regex{linkProtocolPattern}://#o
-            && $this->{request} )
-        {
-
-            # SMELL: this is a result of Codev.GoBoxUnderstandsURLs,
-            # an unrequested, undocumented, and AFAICT pretty useless
-            #"feature". It should be deprecated (or silently removed; I
-            # really, really doubt anyone is using it)
-            $this->{webName} = '';
-            $this->redirect($topic);
-            return $this;
-        }
-        elsif ( $topic =~ m#^(.*)[./](.*?)$# ) {
-
-            # is '?topic=Webname.SomeTopic'
-            # implicit untaint OK - validated later
-            $web   = $1;
-            $topic = $2;
-            $web =~ s/\./\//g;
-
-            # jump to WebHome if 'bin/script?topic=Webname.'
-            $topic = $Foswiki::cfg{HomeTopicName} if ( $web && !$topic );
-        }
-
-        # otherwise assume 'bin/script/Webname?topic=SomeTopic'
-    }
-    else {
-        $topic = '';
-    }
-
-    my $pathInfo = $query->path_info();
-    $pathInfo =~ s|//+|/|g;    # multiple //'s are illogical
-
-    # Get the web and topic names from PATH_INFO
-    if ( $pathInfo =~ m#^/(.*)[./](.*?)$# ) {
-
-        # is '/Webname/SomeTopic' or '/Webname'
-        # implicit untaint OK - validated later
-        $web   = $1 unless $web;
-        $topic = $2 unless $topic;
-        $web =~ s/\./\//g;
-    }
-    elsif ( $pathInfo =~ m#^/(.*?)$# ) {
-
-        # is 'bin/script/Webname' or 'bin/script/'
-        # implicit untaint OK - validated later
-        $web = $1 unless $web;
-    }
-
+#set the defaults for web&topic
 #Development.AddWebParamToAllCgiScripts: enables bin/script?topic=WebPreferences;defaultweb=Sandbox
-    $web = $query->param('defaultweb') unless $web;
+    my $web = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+    my $topic = $Foswiki::cfg{HomeTopicName};
+
+    #look at the url path
+    my $pathInfo = $query->path_info();
+    if ( $pathInfo && $pathInfo =~ m|^/+(.+)| ) {
+        $pathInfo = $1;
+        if ( $pathInfo =~ m|[./]| ) {
+            ( $web, $topic ) = $this->normalizeWebTopicName( $web, $pathInfo );
+        }
+        else {
+            $web = $pathInfo;
+        }
+    }
+    $topic = $query->param('topic') if $query->param('topic');
+
+    ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
+    $web =~ s|/*$||;
 
     my $topicNameTemp = $this->UTF82SiteCharSet($topic);
     if ($topicNameTemp) {
@@ -1878,8 +1845,9 @@ sub new {
     $topic = ucfirst($topic);
 
     # Validate and untaint topic name from path info
-    $this->{topicName} = Foswiki::Sandbox::untaint( $topic,
-        \&Foswiki::Sandbox::validateTopicName );
+    $this->{topicName} =
+      Foswiki::Sandbox::untaint( $topic, \&Foswiki::Sandbox::validateTopicName )
+      || $Foswiki::cfg{HomeTopicName};
 
     # Set the requestedWebName before applying defaults - used by statistics
     # generation.   Note:  This is validated using Topic name rules to permit
@@ -1889,18 +1857,8 @@ sub new {
 
     # Validate web name from path info
     $this->{webName} =
-      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
-
-    if ( !defined $this->{webName} && !defined $this->{topicName} ) {
-        $this->{webName}   = $Foswiki::cfg{UsersWebName};
-        $this->{topicName} = $Foswiki::cfg{HomeTopicName};
-    }
-
-    $this->{webName} = ''
-      unless ( defined $this->{webName} );
-
-    $this->{topicName} = $Foswiki::cfg{HomeTopicName}
-      unless ( defined $this->{topicName} );
+      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName )
+      || '';
 
     # Convert UTF-8 web and topic name from URL into site charset if
     # necessary
@@ -1911,8 +1869,6 @@ sub new {
     if ($webNameTemp) {
         $this->{webName} = $webNameTemp;
     }
-
-    $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
 
     # Form definition cache
     $this->{forms} = {};

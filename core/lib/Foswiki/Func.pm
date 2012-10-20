@@ -2820,6 +2820,7 @@ Return: the parsed Web/Topic pair
 | <tt>( '', 'Web.Topic' ) </tt>         | <tt>( 'Web', 'Topic' ) </tt>  |
 | <tt>( '', 'Web.Subweb.Topic' ) </tt>  | <tt>( 'Web/Subweb', 'Topic' ) </tt>  |
 | <tt>( 'Web1', 'Web2.Topic' )</tt>     | <tt>( 'Web2', 'Topic' ) </tt>  |
+| <tt>( 'Web1', 'Web2.' )</tt>          | <tt>( 'Web2', 'WebHome' ) </tt>  |
 
 Note that sub web names (Web.SubWeb) are only available if hierarchical webs are enabled in =configure=.
 
