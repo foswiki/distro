@@ -189,6 +189,7 @@ img {
   background: #eee;
 }
 .foswikiTabs > ul > li > a:link,
+.foswikiTabs > ul > li > a:visited,
 .foswikiTabs > ul > li > a:hover,
 .foswikiTabs > ul > li > a:active {
   padding:.35em .7em;
