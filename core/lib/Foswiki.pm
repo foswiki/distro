@@ -1817,7 +1817,10 @@ sub new {
 #set the defaults for web&topic
 #Development.AddWebParamToAllCgiScripts: enables bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $web = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
-    my $topic = $Foswiki::cfg{HomeTopicName};
+    my $topic = '';
+
+#if the user has only asked for the web portion, then we can make a better guess (view/One/Two/Three/ is just a web (trailing /))
+    my $topicSpecified = 0;
 
     #look at the url path
     my $pathInfo = $query->path_info();
@@ -1825,12 +1828,18 @@ sub new {
         $pathInfo = $1;
         if ( $pathInfo =~ m|[./]| ) {
             ( $web, $topic ) = $this->normalizeWebTopicName( $web, $pathInfo );
+            $topicSpecified = ( $pathInfo =~ /$topic$/ );
         }
         else {
             $web = $pathInfo;
         }
     }
-    $topic = $query->param('topic') if $query->param('topic');
+
+    #non-'' ?topic
+    if ( $query->param('topic') ) {
+        $topic          = $query->param('topic');
+        $topicSpecified = 1;
+    }
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
     $web =~ s|/*$||;
@@ -1845,7 +1854,7 @@ sub new {
     $topic = ucfirst($topic);
 
     # Validate and untaint topic name from path info
-    $this->{topicName} =
+    $topic =
       Foswiki::Sandbox::untaint( $topic, \&Foswiki::Sandbox::validateTopicName )
       || $Foswiki::cfg{HomeTopicName};
 
@@ -1856,7 +1865,7 @@ sub new {
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateTopicName );
 
     # Validate web name from path info
-    $this->{webName} =
+    $web =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName )
       || '';
 
@@ -1865,10 +1874,31 @@ sub new {
     # SMELL: merge these two cases, browsers just don't mix two encodings
     # in one URL - can also simplify into 2 lines by making function
     # return unprocessed text if no conversion
-    my $webNameTemp = $this->UTF82SiteCharSet( $this->{webName} );
+    my $webNameTemp = $this->UTF82SiteCharSet($web);
     if ($webNameTemp) {
-        $this->{webName} = $webNameTemp;
+        $web = $webNameTemp;
     }
+
+    #if the parsed per spec web&topic don't exist, try to help the user
+    if ($topicSpecified) {
+        if (  !$this->topicExists( $web, $topic )
+            && $this->webExists( $web . '/' . $topic ) )
+        {
+#requested view/Web/Sub - when there is no Web.Sub topic, but there is such a web
+            $web   = $web . '/' . $topic;
+            $topic = $Foswiki::cfg{HomeTopicName};
+        }
+    }
+    else {
+        if ( !$this->webExists($web) ) {
+
+#requested view/Web/Sub/ - when there is no Web.Sub web, but there is such a topic
+            my ( $w, $t ) = $this->normalizeWebTopicName( '', $web );
+            ( $web, $topic ) = ( $w, $t ) if ( $this->topicExists( $w, $t ) );
+        }
+    }
+    $this->{topicName} = $topic;
+    $this->{webName}   = $web;
 
     # Form definition cache
     $this->{forms} = {};

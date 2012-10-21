@@ -362,33 +362,54 @@ sub test_urlparsing {
     }
 
     #    $this->urltest('Sandbox', 'Sandbox', 'WebHome');
-    $this->urltest( '/Sandbox',           'Sandbox',         'WebHome' );
-    $this->urltest( '/Sandbox/',          'Sandbox',         'WebHome' );
-    $this->urltest( '//Sandbox',          'Sandbox',         'WebHome' );
-    $this->urltest( '///Sandbox',         'Sandbox',         'WebHome' );
-    $this->urltest( '/Sandbox//',         'Sandbox',         'WebHome' );
-    $this->urltest( '/Sandbox///',        'Sandbox',         'WebHome' );
-    $this->urltest( '/Sandbox/WebHome',   'Sandbox',         'WebHome' );
-    $this->urltest( '/Sandbox//WebHome',  'Sandbox',         'WebHome' );
-    $this->urltest( '/Sandbox/WebHome/',  'Sandbox/WebHome', 'WebHome' );
-    $this->urltest( '/Sandbox/WebHome//', 'Sandbox/WebHome', 'WebHome' );
+    $this->urltest( '/Sandbox',          'Sandbox', 'WebHome' );
+    $this->urltest( '/Sandbox/',         'Sandbox', 'WebHome' );
+    $this->urltest( '//Sandbox',         'Sandbox', 'WebHome' );
+    $this->urltest( '///Sandbox',        'Sandbox', 'WebHome' );
+    $this->urltest( '/Sandbox//',        'Sandbox', 'WebHome' );
+    $this->urltest( '/Sandbox///',       'Sandbox', 'WebHome' );
+    $this->urltest( '/Sandbox/WebHome',  'Sandbox', 'WebHome' );
+    $this->urltest( '/Sandbox//WebHome', 'Sandbox', 'WebHome' );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+        $this->urltest( '/Sandbox/WebHome/',  'Sandbox', 'WebHome' );
+        $this->urltest( '/Sandbox/WebHome//', 'Sandbox', 'WebHome' );
+    }
+    else {
+        $this->urltest( '/Sandbox/WebHome/',  'Sandbox/WebHome', 'WebHome' );
+        $this->urltest( '/Sandbox/WebHome//', 'Sandbox/WebHome', 'WebHome' );
+    }
+    $this->urltest( '/Sandbox/NotATopic/',  'Sandbox/NotATopic', 'WebHome' );
+    $this->urltest( '/Sandbox/NotATopic//', 'Sandbox/NotATopic', 'WebHome' );
 
-    $this->urltest( '/Sandbox/WebIndex',    'Sandbox',          'WebIndex' );
-    $this->urltest( '/Sandbox//WebIndex',   'Sandbox',          'WebIndex' );
-    $this->urltest( '/Sandbox///WebIndex',  'Sandbox',          'WebIndex' );
-    $this->urltest( '/Sandbox/WebIndex/',   'Sandbox/WebIndex', 'WebHome' );
-    $this->urltest( '/Sandbox/WebIndex//',  'Sandbox/WebIndex', 'WebHome' );
-    $this->urltest( '/Sandbox/WebIndex///', 'Sandbox/WebIndex', 'WebHome' );
+    $this->urltest( '/Sandbox/WebIndex',   'Sandbox', 'WebIndex' );
+    $this->urltest( '/Sandbox//WebIndex',  'Sandbox', 'WebIndex' );
+    $this->urltest( '/Sandbox///WebIndex', 'Sandbox', 'WebIndex' );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+        $this->urltest( '/Sandbox/WebIndex/',   'Sandbox', 'WebIndex' );
+        $this->urltest( '/Sandbox/WebIndex//',  'Sandbox', 'WebIndex' );
+        $this->urltest( '/Sandbox/WebIndex///', 'Sandbox', 'WebIndex' );
+    }
+    else {
+        $this->urltest( '/Sandbox/WebIndex/',   'Sandbox/WebIndex', 'WebHome' );
+        $this->urltest( '/Sandbox/WebIndex//',  'Sandbox/WebIndex', 'WebHome' );
+        $this->urltest( '/Sandbox/WebIndex///', 'Sandbox/WebIndex', 'WebHome' );
+    }
 
     $this->urltest( '/Sandbox/WebIndex/ok',    'Sandbox/WebIndex', 'Ok' );
     $this->urltest( '/Sandbox/WebIndex/NotOk', 'Sandbox/WebIndex', 'NotOk' );
 
     $this->urltest( '/Sandbox/WebIndex?asd=w',    'Sandbox', 'WebIndex' );
     $this->urltest( '/Sandbox//WebIndex?asd=qwe', 'Sandbox', 'WebIndex' );
-    $this->urltest( '/Sandbox/WebIndex/?asd=qwe', 'Sandbox/WebIndex',
-        'WebHome' );
-    $this->urltest( '/Sandbox/WebIndex//?asd=ewr', 'Sandbox/WebIndex',
-        'WebHome' );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+        $this->urltest( '/Sandbox/WebIndex/?asd=qwe',  'Sandbox', 'WebIndex' );
+        $this->urltest( '/Sandbox/WebIndex//?asd=ewr', 'Sandbox', 'WebIndex' );
+    }
+    else {
+        $this->urltest( '/Sandbox/WebIndex/?asd=qwe', 'Sandbox/WebIndex',
+            'WebHome' );
+        $this->urltest( '/Sandbox/WebIndex//?asd=ewr', 'Sandbox/WebIndex',
+            'WebHome' );
+    }
 
     $this->urltest( '/Sandbox/WebIndex?topic=WebChanges',
         'Sandbox', 'WebChanges' );
@@ -423,10 +444,18 @@ sub test_urlparsing {
         $this->{test_subweb}, 'WebHome' );
     $this->urltest( '/' . $this->{test_subweb} . '//WebHome',
         $this->{test_subweb}, 'WebHome' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebHome/',
-        $this->{test_subweb} . '/WebHome', 'WebHome' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebHome//',
-        $this->{test_subweb} . '/WebHome', 'WebHome' );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+        $this->urltest( '/' . $this->{test_subweb} . '/WebHome/',
+            $this->{test_subweb}, 'WebHome' );
+        $this->urltest( '/' . $this->{test_subweb} . '/WebHome//',
+            $this->{test_subweb}, 'WebHome' );
+    }
+    else {
+        $this->urltest( '/' . $this->{test_subweb} . '/WebHome/',
+            $this->{test_subweb} . '/WebHome', 'WebHome' );
+        $this->urltest( '/' . $this->{test_subweb} . '/WebHome//',
+            $this->{test_subweb} . '/WebHome', 'WebHome' );
+    }
 
     $this->urltest( '/' . $this->{test_subweb} . '/WebIndex',
         $this->{test_subweb}, 'WebIndex' );
@@ -593,8 +622,14 @@ sub test_urlparsing {
         $this->{test_web} . '/ThisTopic', 'WebHome' );
     $this->urltest( '/' . $this->{test_web} . '/ThisTopic/WebHome',
         $this->{test_web} . '/ThisTopic', 'WebHome' );
-    $this->urltest( '/' . $this->{test_web} . '/ThisTopic/WebHome/',
-        $this->{test_web} . '/ThisTopic/WebHome', 'WebHome' );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+        $this->urltest( '/' . $this->{test_web} . '/ThisTopic/WebHome/',
+            $this->{test_web} . '/ThisTopic', 'WebHome' );
+    }
+    else {
+        $this->urltest( '/' . $this->{test_web} . '/ThisTopic/WebHome/',
+            $this->{test_web} . '/ThisTopic/WebHome', 'WebHome' );
+    }
 
     #invalid..
 

@@ -1643,6 +1643,12 @@ sub test_normalizeWebTopicName {
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2.' );
     $this->assert_str_equals( 'Web2',    $w );
     $this->assert_str_equals( 'WebHome', $t );
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2.Web3.' );
+    $this->assert_str_equals( 'Web2/Web3', $w );
+    $this->assert_str_equals( 'WebHome',   $t );
+    ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2/Web3/' );
+    $this->assert_str_equals( 'Web2/Web3', $w );
+    $this->assert_str_equals( 'WebHome',   $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web1', 'Web2/' );
     $this->assert_str_equals( 'Web2',    $w );
     $this->assert_str_equals( 'WebHome', $t );

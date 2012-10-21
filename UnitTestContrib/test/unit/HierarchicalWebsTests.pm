@@ -233,7 +233,17 @@ sub verify_createWeb_hierarchyDisabled {
 
 sub verify_url_parameters {
     my $this = shift;
+
+#TODO: I don't know why this topic exists at the start of this test - it should not be.
+    if ( Foswiki::Func::topicExists( $this->{test_web}, $this->{sub_web} ) ) {
+        my ($t) =
+          Foswiki::Func::readTopic( $this->{test_web}, "$this->{sub_web}" );
+        $t->removeFromStore();
+    }
+
     $this->createNewFoswikiSession();
+    $this->assert(
+        !Foswiki::Func::topicExists( $this->{test_web}, $this->{sub_web} ) );
     my $user = $this->{session}->{user};
 
     # Now query the subweb path. We should get the webhome of the subweb.
@@ -247,10 +257,21 @@ sub verify_url_parameters {
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName},
         $topicquery );
 
-    # Item3243:  PTh and haj suggested to change the spec
-    $this->assert_str_equals( $this->{test_web}, $this->{session}->{webName} );
-    $this->assert_str_equals( "$this->{sub_web}",
-        $this->{session}->{topicName} );
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+
+#there is no topic named $this->{sub_web}, so we convert the req to the existant web
+#Item9225: an improvement on goto a web even when it doesn't exist
+        $this->assert_str_equals( $this->{sub_web_path},
+            $this->{session}->{webName} );
+        $this->assert_str_equals( "WebHome", $this->{session}->{topicName} );
+    }
+    else {
+        # Item3243:  PTh and haj suggested to change the spec
+        $this->assert_str_equals( $this->{test_web},
+            $this->{session}->{webName} );
+        $this->assert_str_equals( "$this->{sub_web}",
+            $this->{session}->{topicName} );
+    }
 
     # make a topic with the same name as the subweb. Now the previous
     # query should hit that topic
