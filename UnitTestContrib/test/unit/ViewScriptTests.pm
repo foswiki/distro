@@ -419,14 +419,6 @@ sub test_urlparsing {
     $this->urltest( '/Sandbox//?topic=System.WebChanges',
         'System', 'WebChanges' );
 
-#nested
-#    $this->urltest($this->{test_subweb}, $this->{test_subweb}, 'WebHome');
-#    $this->urltest('/'.$this->{test_subweb}, $this->{test_subweb}, 'WebHome');
-#    $this->urltest('/'.$this->{test_subweb}.'/', $this->{test_subweb}, 'WebHome');
-#    $this->urltest('//'.$this->{test_subweb}, $this->{test_subweb}, 'WebHome');
-#    $this->urltest('///'.$this->{test_subweb}, $this->{test_subweb}, 'WebHome');
-#    $this->urltest('/'.$this->{test_subweb}.'$this->{test_subweb}//', $this->{test_subweb}, 'WebHome');
-#    $this->urltest('/'.$this->{test_subweb}.'///', $this->{test_subweb}, 'WebHome');
     $this->urltest( '/' . $this->{test_subweb} . '/WebHome',
         $this->{test_subweb}, 'WebHome' );
     $this->urltest( '/' . $this->{test_subweb} . '//WebHome',
@@ -467,9 +459,18 @@ sub test_urlparsing {
     $this->urltest( '/' . $this->{test_subweb} . '/WebIndex//?topic=WebChanges',
         $this->{test_subweb} . '/WebIndex', 'WebChanges' );
 
-#    $this->urltest('/'.$this->{test_subweb}.'?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
-#    $this->urltest('/'.$this->{test_subweb}.'/?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
-#    $this->urltest('/'.$this->{test_subweb}.'//?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest( '/' . $this->{test_subweb} . '/Other?topic=WebChanges',
+        $this->{test_subweb}, 'WebChanges' );
+
+#you may read 'subweb' but as its the last string in the url, foswiki treats it as a topicname
+    $this->urltest( '/' . $this->{test_subweb} . '?topic=WebChanges',
+        $this->{test_web}, 'WebChanges' );
+
+    #trailing slashes make it a web again
+    $this->urltest( '/' . $this->{test_subweb} . '/?topic=WebChanges',
+        $this->{test_subweb}, 'WebChanges' );
+    $this->urltest( '/' . $this->{test_subweb} . '//?topic=WebChanges',
+        $this->{test_subweb}, 'WebChanges' );
 
     $this->urltest(
         '/' . $this->{test_subweb} . '/WebIndex?topic=System.WebChanges',
