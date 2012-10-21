@@ -204,7 +204,23 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 | =%A_DATE%= | The date the file was uploaded |
 | =%A_USER%= | The user who uploaded it |
 | =%A_COMMENT%= | The comment they put in when uploading it |
+| =%A_COUNT%= | The sequential attachment number (starting with 1) |
 | =%A_ATTRS%= | The attributes of the file as seen on the upload screen e.g "h" for a hidden file |
+
+Two additional helper tags are expanded:
+| *Tag* | *Description* |
+| =%R_STARTROW_N%= | (where N is the desired number of attachments in a row); true if a new row should be started. Usage: <verbatim>
+%IF{
+    "'%R_STARTROW_4%' = '1'"
+    then="<div class='row-fluid'>"
+}%
+</verbatim> |
+| =%R_ENDROW_N%=   | (where N is the desired number of attachments in a row; true if a row should be closed. Usage: <verbatim>
+%IF{
+    "'%R_ENDROW_4%' = '1'"
+    then="</div>"
+}%
+</verbatim>  |
 
 ---++ Packaging and Publishing Skins
 

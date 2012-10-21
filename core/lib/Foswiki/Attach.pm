@@ -70,7 +70,11 @@ Renders these tokens for each attachment:
    * %<nop>A_URL% - attachment file url 
    * %<nop>A_USER% - user who has uploaded the last version in 'web.usertopic' notation
    * %<nop>A_USERNAME% - user who has uploaded the last version in 'usertopic' notation
+   * %<nop>A_COUNT% - attachment number (starting from 1)
 
+Renders these row helper tokens:
+   * %<nop>R_STARTROW_N% - where N is the desired number of attachments in a row; true if a new row should be started
+   * %<nop>R_ENDROW_N% - where N is the desired number of attachments in a row; true if a row should be closed
 =cut
 
 sub renderMetaData {
@@ -88,8 +92,10 @@ sub renderMetaData {
     my $templates = $this->{session}->templates;
     $templates->readTemplate($tmplname);
 
-    my $rows = '';
-    my $row  = $templates->expandTemplate( 'ATTACH:files:row' . $A );
+    my $rows            = '';
+    my $row             = $templates->expandTemplate( 'ATTACH:files:row' . $A );
+    my $attachmentCount = scalar @attachments;
+    my $attachmentNum   = 1;
     foreach
       my $attachment ( sort { ( $a->{name} || '' ) cmp( $b->{name} || '' ) }
         @attachments )
@@ -97,7 +103,14 @@ sub renderMetaData {
         my $attrAttr = $attachment->{attr};
 
         if ( !$attrAttr || ( $showAttr && $attrAttr =~ /^[$showAttr]*$/ ) ) {
-            $rows .= _formatRow( $this, $topicObject, $attachment, $row );
+            $rows .=
+              _formatRow( $this, $topicObject, $attachment, $row,
+                $attachmentNum, ( $attachmentNum == $attachmentCount ) );
+            $attachmentNum++;
+        }
+        else {
+            # not a visible attachment
+            $attachmentCount--;
         }
     }
 
@@ -141,6 +154,7 @@ sub formatVersions {
     my $row    = $templates->expandTemplate('ATTACH:versions:row');
 
     my @rows;
+    my $attachmentNum = 1;
 
     while ( $revIt->hasNext() ) {
         my $rev = $revIt->next();
@@ -150,7 +164,14 @@ sub formatVersions {
         $info->{attr} = $attrs{attr};
         $info->{size} = $attrs{size};
 
-        push( @rows, _formatRow( $this, $topicObject, $info, $row ) );
+        push(
+            @rows,
+            _formatRow(
+                $this, $topicObject,   $info,
+                $row,  $attachmentNum, $revIt->hasNext()
+            )
+        );
+        $attachmentNum++;
     }
 
     return $header . join( '', @rows ) . $footer;
@@ -161,19 +182,24 @@ sub formatVersions {
 #| =$topic= | the topic |
 #| =$info= | hash containing fields name, user (user (not wikiname) who uploaded this revision), date (date of _this revision_ of the attachment), command and version  (the required revision; required to be a full (major.minor) revision number) |
 #| =$tmpl= | The template of a row |
+#| =$attachmentNum= | The sequential number of this attachment (starting with 1) |
+#| =$isLast= | True if this is the last attachment |
 sub _formatRow {
-    my ( $this, $topicObject, $info, $tmpl ) = @_;
+    my ( $this, $topicObject, $info, $tmpl, $attachmentNum, $isLast ) = @_;
 
     my $row = $tmpl;
 
-    $row =~ s/%A_(\w+)%/_expandAttrs( $this, $1, $topicObject, $info)/ge;
+    $row =~
+s/%A_(\w+)%/_expandAttrs( $this, $1, $topicObject, $info, $attachmentNum)/ge;
+    $row =~
+s/%R_(\w+)%/_expandRowAttrs( $this, $1, $topicObject, $info, $attachmentNum, $isLast)/ge;
     $row =~ s/$MARKER/%/go;
 
     return $row;
 }
 
 sub _expandAttrs {
-    my ( $this, $attr, $topicObject, $info ) = @_;
+    my ( $this, $attr, $topicObject, $info, $attachmentNum ) = @_;
     my $file = $info->{name} || '';
     my $users = $this->{session}->{users};
 
@@ -244,8 +270,24 @@ sub _expandAttrs {
     elsif ( $attr eq 'USERNAME' ) {
         return $users->getWikiName( $this->_cUID($info) );
     }
+    elsif ( $attr eq 'COUNT' ) {
+        return $attachmentNum;
+    }
     else {
         return $MARKER . 'A_' . $attr . $MARKER;
+    }
+}
+
+sub _expandRowAttrs {
+    my ( $this, $attr, $topicObject, $info, $attachmentNum, $isLast ) = @_;
+
+    my $num = $attachmentNum - 1;
+
+    if ( $attr =~ s/STARTROW_(\d+)/$num % $1 == 0/ge ) {
+        return $attr;
+    }
+    elsif ( $attr =~ s/ENDROW_(\d+)/$isLast || $num % $1 == ($1 - 1)/ge ) {
+        return $attr;
     }
 }
 
@@ -323,7 +365,7 @@ sub getAttachmentLink {
     # I18N: URL-encode the attachment filename
     my $fileURL = Foswiki::urlEncodeAttachment($attName);
 
-    if ( $attName =~ /\.(gif|jpg|jpeg|png|svg)$/i ) {
+    if ( $attName =~ /\.(gif|jpg|jpeg|png)$/i ) {
 
         # inline image
 
@@ -635,7 +677,7 @@ sub _pngsize {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
