@@ -1,13 +1,7 @@
-<div class="foswikiDialog foswikiPreviewDialog">
-  <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Preview"}%</h2>
-  <div class="foswikiPreviewArea" style="height:25em; overflow-x:auto;margin-bottom:2.6em;">
+<div class="natEditPreviewDialog jqUIDialog {modal:true, resizable:true, draggable:true, width:%width%, height:%height%, autoOpen:true}" title="%MAKETEXT{"Preview"}%">
+  <div class="foswikiPreviewArea">
     %TEXT%
     %META{"form"}%
   </div>
-  <hr />
-  %BUTTON{"%MAKETEXT{"Close"}%" 
-    class="jqSimpleModalCancel" 
-    icon="cross" 
-  }%
-  %CLEAR%
+  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Close"}%</a> 
 </div>

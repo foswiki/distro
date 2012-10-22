@@ -236,28 +236,17 @@ function handleKeyDown () { }
             },
             success: function(data, textStatus) {
               var $window = $(window),
-                  height,
+                  height = Math.round(parseInt($window.height() * 0.6, 10));
                   width = Math.round(parseInt($window.width() * 0.6, 10));
 
               $.unblockUI();
-              foswiki.openDialog(data, {
-                close: true,
-                containerCss: {
-                  width: width
-                },
-                onShow: function(dialog) {
-                  $window.bind('resize', function() {
-                    height = Math.round(parseInt($window.height() * 0.6, 10));
-                    width = Math.round(parseInt($window.width() * 0.6, 10));
-                    if (width < 640) {
-                      width = 640;
-                    }
-                    dialog.container.width(width);
-                    dialog.container.find(".foswikiPreviewArea").height(height);
-                  });
-                  $window.trigger('resize');
-                }
-              });
+
+              if (width < 640) {
+                width = 640;
+              }
+
+              data = data.replace(/%width%/g, width).replace(/%height%/g, height);
+              $("body").append(data);
             }
           });
         }
