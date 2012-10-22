@@ -106,7 +106,7 @@
   cursor:pointer;
   display:block;
   float:left;
-  height:23px;
+  line-height:23px;
   padding:0px;
   margin:0px 8px 0px 0px;
 }
@@ -117,9 +117,8 @@
   cursor:pointer;
   display:block;
   float:left;
-  height:23px;
+  line-height:23px;
   margin:0px 3px 0px 0px;
-  _margin:0px 1px 0px 0px;
   padding:0px 8px;
 }
 .natEditBottomBar a:active {
