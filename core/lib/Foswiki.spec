@@ -1207,7 +1207,7 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 # to define the execution order (low values are executed first). For example,
 # <tt>{ 'Foswiki::Contrib::DBIStoreContrib::Listener' => 100,
 # 'Foswiki::Plugins::MongoDBPlugin::Listener' => 200 }</tt>.
-$Foswiki::cfg{Store}{Listeners} = [];
+$Foswiki::cfg{Store}{Listeners} = {};
 
 
 # bodgey up a default location for grep
