@@ -31,13 +31,14 @@ sub new {
 =begin TML
 
 ---++ getDefaultValue() -> $value
-From System.DataForms, "The first item in the list for a select or
-radio type is the default item."
+The default for a select is always the empty string, as there is no way in
+Foswiki form definitions to indicate selected values. This defers the decision
+on a value to the browser.
 
 =cut
 
 sub getDefaultValue {
-    return shift->getOptions()->[0];
+    return '';
 }
 
 sub getOptions {

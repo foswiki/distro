@@ -28,12 +28,6 @@ sub finish {
     undef $this->{valueMap};
 }
 
-# From System.DataForms, "The first item in the list for a select or
-# radio type is the default item."
-sub getDefaultValue {
-    return shift->getOptions()->[0];
-}
-
 sub getOptions {
     my $this = shift;
 
