@@ -39,6 +39,7 @@ sub new {
     $attrs{size}       ||= '';
     $attrs{size} =~ s/^\s*//;
     $attrs{size} =~ s/\s*$//;
+    $attrs{validModifiers} ||= [];
 
     return bless( \%attrs, $class );
 }

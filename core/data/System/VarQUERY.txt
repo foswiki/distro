@@ -33,7 +33,11 @@
       %<nop>QUERY{"'%SYSTEMWEB%.DocumentGraphics'/attachments.name"}%
 
       Get configuration setting {NameFilter}:
-      %<nop>QUERY{"{NameFilter}"}%</pre>
+      %<nop>QUERY{"{NameFilter}"}%
+      
+      List all the installed DataForm field types {FormTypes}:
+      %<nop>QUERY{"{FormTypes}[].types"}%
+        </pre>
 Plain strings (such as field values) are returned _without_ quotes. Simple arrays of scalars are also returned without quotes, in a comma-separated list (beware of values that contain commas!).
 
 More complex data structures (e.g. arrays of hashes) will only be returned if =style="perl"= or =style="json"= are set - else will return a string containing 'undef'.

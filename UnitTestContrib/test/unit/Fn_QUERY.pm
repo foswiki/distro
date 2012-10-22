@@ -309,7 +309,17 @@ sub test_cfg {
         }
         my $expected = eval("\$Foswiki::cfg$var");
         $expected = '' unless defined $expected;
-        $this->assert_equals( $expected, "$result", "$var!=$expected" );
+        if ( ref($expected) eq '' ) {
+            $this->assert_equals( $expected, "$result", "$var!=$expected" );
+        }
+        else {
+            use Foswiki::Serialise;
+            my $expectedString =
+              Foswiki::Serialise::serialise( $this->{session}, $expected,
+                'Perl' );
+            $this->assert_equals( $expectedString, "$result",
+                "$var!=$expectedString" );
+        }
     }
 }
 
@@ -455,6 +465,21 @@ THIS
     $topicObject->finish();
     $topicObject0Att->finish();
     $topicObject2Att->finish();
+}
+
+sub test_FormTypes {
+    my $this = shift;
+    my $text;
+    my $result;
+
+    $text = <<PONG;
+%QUERY{"{FormTypes}[].types"}%
+PONG
+    $result = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( <<THIS, $result );
+
+THIS
+
 }
 
 1;

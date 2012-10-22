@@ -723,7 +723,7 @@ $Foswiki::cfg{Password} = '';
 # and %QUERY{}%. Extensions can push into this array to extend the set. This is done as
 # a filter in because while the bulk of configuration items are quite innocent,
 # it's better to be a bit paranoid.
-$Foswiki::cfg{AccessibleCFG} = [ '{ScriptSuffix}', '{LoginManager}', '{AuthScripts}', '{LoginNameFilterIn}', '{AdminUserLogin}', '{AdminUserWikiName}', '{SuperAdminGroup}', '{UsersTopicName}', '{AuthRealm}', '{MinPasswordLength}', '{Register}{AllowLoginName}', '{Register}{EnableNewUserRegistration}', '{Register}{NeedVerification}', '{Register}{NeedApproval}', '{Register}{Approvers}', '{Register}{RegistrationAgentWikiName}', '{AllowInlineScript}', '{DenyDotDotInclude}', '{UploadFilter}', '{NameFilter}', '{AccessibleCFG}', '{AntiSpam}{EmailPadding}', '{AntiSpam}{EntityEncode}','{AntiSpam}{HideUserDetails}', '{AntiSpam}{RobotsAreWelcome}', '{Stats}{TopViews}', '{Stats}{TopContrib}', '{Stats}{TopicName}', '{UserInterfaceInternationalisation}', '{UseLocale}', '{Site}{Locale}', '{Site}{CharSet}', '{DisplayTimeValues}', '{DefaultDateFormat}', '{Site}{LocaleRegexes}', '{UpperNational}', '{LowerNational}', '{PluralToSingular}', '{EnableHierarchicalWebs}', '{WebMasterEmail}', '{WebMasterName}', '{NotifyTopicName}', '{SystemWebName}', '{TrashWebName}', '{SitePrefsTopicName}', '{LocalSitePreferences}', '{HomeTopicName}', '{WebPrefsTopicName}', '{UsersWebName}', '{TemplatePath}', '{LinkProtocolPattern}', '{NumberOfRevisions}', '{MaxRevisionsInADiff}', '{ReplaceIfEditedAgainWithin}', '{LeaseLength}', '{LeaseLengthLessForceful}', '{Plugins}{WebSearchPath}', '{PluginsOrder}', '{Cache}{Enabled}', '{Validation}{Method}', '{Register}{DisablePasswordConfirmation}', '{TemplateLogin}{AllowLoginUsingEmailAddress}' ];
+$Foswiki::cfg{AccessibleCFG} = [ '{ScriptSuffix}', '{LoginManager}', '{AuthScripts}', '{LoginNameFilterIn}', '{AdminUserLogin}', '{AdminUserWikiName}', '{SuperAdminGroup}', '{UsersTopicName}', '{AuthRealm}', '{MinPasswordLength}', '{Register}{AllowLoginName}', '{Register}{EnableNewUserRegistration}', '{Register}{NeedVerification}', '{Register}{NeedApproval}', '{Register}{Approvers}', '{Register}{RegistrationAgentWikiName}', '{AllowInlineScript}', '{DenyDotDotInclude}', '{UploadFilter}', '{NameFilter}', '{AccessibleCFG}', '{AntiSpam}{EmailPadding}', '{AntiSpam}{EntityEncode}','{AntiSpam}{HideUserDetails}', '{AntiSpam}{RobotsAreWelcome}', '{Stats}{TopViews}', '{Stats}{TopContrib}', '{Stats}{TopicName}', '{UserInterfaceInternationalisation}', '{UseLocale}', '{Site}{Locale}', '{Site}{CharSet}', '{DisplayTimeValues}', '{DefaultDateFormat}', '{Site}{LocaleRegexes}', '{UpperNational}', '{LowerNational}', '{PluralToSingular}', '{EnableHierarchicalWebs}', '{WebMasterEmail}', '{WebMasterName}', '{NotifyTopicName}', '{SystemWebName}', '{TrashWebName}', '{SitePrefsTopicName}', '{LocalSitePreferences}', '{HomeTopicName}', '{WebPrefsTopicName}', '{UsersWebName}', '{TemplatePath}', '{LinkProtocolPattern}', '{NumberOfRevisions}', '{MaxRevisionsInADiff}', '{ReplaceIfEditedAgainWithin}', '{LeaseLength}', '{LeaseLengthLessForceful}', '{Plugins}{WebSearchPath}', '{PluginsOrder}', '{Cache}{Enabled}', '{Validation}{Method}', '{Register}{DisablePasswordConfirmation}', '{TemplateLogin}{AllowLoginUsingEmailAddress}', '{FormTypes}' ];
 
 # **BOOLEAN**
 # Allow %INCLUDE of URLs. This is disabled by default, because it is possible
@@ -1128,7 +1128,8 @@ $Foswiki::cfg{LowerNational} = '';
 $Foswiki::cfg{PluralToSingular} = $TRUE;
 
 #############################################################################
-#---+ Store
+#---+ Store -- TABS
+#---++ Store Implementation
 # <p>Foswiki supports different back-end store implementations.</p>
 # **SELECTCLASS Foswiki::Store::* **
 # Store implementation.
@@ -1185,25 +1186,6 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 31 * 24 * 60 * 60;
 $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::PurePerl' if ($^O eq 'MSWin32');
 
-# bodgey up a default location for grep
-my $grepDefaultPath = '/bin/';
-$grepDefaultPath = '/usr/bin/' if ($^O eq 'darwin');
-$grepDefaultPath = 'c:/PROGRA~1/GnuWin32/bin/' if ($^O eq 'MSWin32');
-
-# **COMMAND EXPERT DISPLAY_IF {Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking' **
-# Full path to GNU-compatible egrep program. This is used for searching when
-# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
-# %CS{|-i}% will be expanded
-# to -i for case-sensitive search or to the empty string otherwise.
-# Similarly for %DET, which controls whether matching lines are required.
-# (see the documentation on these options with GNU grep for details).
-$Foswiki::cfg{Store}{EgrepCmd} = $grepDefaultPath.'grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
-
-# **COMMAND EXPERT DISPLAY_IF {Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'**
-# Full path to GNU-compatible fgrep program. This is used for searching when
-# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
-$Foswiki::cfg{Store}{FgrepCmd} = $grepDefaultPath.'grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
-
 # **SELECTCLASS Foswiki::Store::QueryAlgorithms::***
 # This is the algorithm used to perform query searches. The default Foswiki
 # algorithm (BruteForce) works well, but is not particularly fast (it is
@@ -1225,8 +1207,133 @@ $Foswiki::cfg{Store}{PrefsBackend} = 'Foswiki::Prefs::TopicRAM';
 # to define the execution order (low values are executed first). For example,
 # <tt>{ 'Foswiki::Contrib::DBIStoreContrib::Listener' => 100,
 # 'Foswiki::Plugins::MongoDBPlugin::Listener' => 200 }</tt>.
-$Foswiki::cfg{Store}{Listeners} = {};
+$Foswiki::cfg{Store}{Listeners} = [];
 
+
+# bodgey up a default location for grep
+my $grepDefaultPath = '/bin/';
+$grepDefaultPath = '/usr/bin/' if ($^O eq 'darwin');
+$grepDefaultPath = 'c:/PROGRA~1/GnuWin32/bin/' if ($^O eq 'MSWin32');
+
+# **COMMAND EXPERT DISPLAY_IF {Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking' **
+# Full path to GNU-compatible egrep program. This is used for searching when
+# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
+# %CS{|-i}% will be expanded
+# to -i for case-sensitive search or to the empty string otherwise.
+# Similarly for %DET, which controls whether matching lines are required.
+# (see the documentation on these options with GNU grep for details).
+$Foswiki::cfg{Store}{EgrepCmd} = $grepDefaultPath.'grep -E %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+
+# **COMMAND EXPERT DISPLAY_IF {Store}{SearchAlgorithm}=='Foswiki::Store::SearchAlgorithms::Forking'**
+# Full path to GNU-compatible fgrep program. This is used for searching when
+# {SearchAlgorithm} is 'Foswiki::Store::SearchAlgorithms::Forking'.
+$Foswiki::cfg{Store}{FgrepCmd} = $grepDefaultPath.'grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% %FILES|F%';
+
+#---++ DataForm settings
+# **PERL**
+# this setting is automatically updated by configure to list all the installed FormField types. 
+# If you install an extension that adds new Form Field types, you need to run configure for them
+# to be registered.
+$Foswiki::cfg{FormTypes} = [
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::Radio',
+            'type' => 'radio',
+            'size' => 4
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::Text',
+            'type' => 'text',
+            'size' => 10
+          },
+          {
+            'multivalued' => 1,
+            'class' => 'Foswiki::Form::Checkbox',
+            'type' => 'checkbox',
+            'size' => 4
+          },
+          {
+            'multivalued' => 1,
+            'class' => 'Foswiki::Form::Checkbox',
+            'type' => 'checkbox+values',
+            'size' => 4
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::Color',
+            'type' => 'color',
+            'size' => ''
+          },
+          {
+            'multivalued' => '',
+            'class' => 'Foswiki::Form::Select',
+            'type' => 'select',
+            'size' => 1
+          },
+          {
+            'multivalued' => 1,
+            'class' => 'Foswiki::Form::Select',
+            'type' => 'select+multi',
+            'size' => 1
+          },
+          {
+            'multivalued' => '',
+            'class' => 'Foswiki::Form::Select',
+            'type' => 'select+values',
+            'size' => 1
+          },
+          {
+            'multivalued' => 1,
+            'class' => 'Foswiki::Form::Select',
+            'type' => 'select+multi+values',
+            'size' => 1
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::Date',
+            'type' => 'date',
+            'size' => 20
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::Label',
+            'type' => 'label',
+            'size' => ''
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::ListFieldDefinition',
+            'type' => 'listfielddefinition',
+            'size' => ''
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::Rating',
+            'type' => 'rating',
+            'size' => 4
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::FieldDefinition',
+            'type' => 'fielddefinition',
+            'size' => ''
+          },
+          {
+            'multivalued' => 0,
+            'class' => 'Foswiki::Form::Textarea',
+            'type' => 'textarea',
+            'size' => ''
+          },
+          {
+            'multivalued' => 1,
+            'class' => 'Foswiki::Form::Textboxlist',
+            'type' => 'textboxlist',
+            'size' => ''
+          }
+        ];
+
+#---++ RcsWrap Store options
 # **BOOLEAN EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # Some systems will override the default umask to a highly restricted setting,
 # which will block the application of the file and directory permissions.

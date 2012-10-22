@@ -15,6 +15,7 @@ sub new {
     $this->{size} =~ s/\D//g;
     $this->{size} ||= 0;
     $this->{size} = 4 if ( $this->{size} < 1 );
+    $this->{validModifiers} = ['+values'];    #comma separated list?
 
     return $this;
 }

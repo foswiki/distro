@@ -44,7 +44,7 @@ _This page will help you create new Wiki Applications that use DataForms_
 %ENDSECTION{"exclude" type="templateonly"}%
 
 %STARTSECTION{dataform}%
-%EDITTABLE{header="| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |" format="| text, 20, init | select, 1, text, select, select+multi, select+values, checkbox, checkbox+buttons, radio, label,textarea, date  | text, 5, 16 | text, 30, | text, 30, | checkbox, 3, H, M  |" changerows="on" }%
+%EDITTABLE{header="| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |" format="| text, 20, init | select, 1, %QUERY{"{FormTypes}[].type"}% | text, 5, 16 | text, 30, | text, 30, | checkbox, 3, H, M  |" changerows="on" }%
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
 | Description | text | 80 | | Wiki Application description | |
 %ENDSECTION{dataform}%

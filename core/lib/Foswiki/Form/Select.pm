@@ -25,6 +25,9 @@ sub new {
         $this->{maxSize} = $this->{minSize};
     }
 
+    #must list every valid combination.
+    $this->{validModifiers} = [ '+multi', '+values', '+multi+values' ];
+
     return $this;
 }
 
@@ -95,9 +98,9 @@ sub finish {
     return;
 }
 
-sub isMultiValued { return shift->{type} =~ /\+multi/; }
+sub isMultiValued { return ( shift->{type} =~ /\+multi/ ); }
 
-sub isValueMapped { return shift->{type} =~ /\+values/; }
+sub isValueMapped { return ( shift->{type} =~ /\+values/ ); }
 
 sub renderForDisplay {
     my ( $this, $format, $value, $attrs ) = @_;
