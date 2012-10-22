@@ -41,9 +41,7 @@ body font {
 
 th {
 	line-height:1.15em;
-}
-label {
-	padding:.15em .3em .15em 0; /* same vertical padding as foswikiInputField */
+        text-align:left;
 }
 hr {
 	height:1px;
@@ -415,15 +413,18 @@ h3 .foswikiSmall {
 	margin:0 0 0 .15em;
 }
 .foswikiFormSteps {
-	padding:0 20px;
+	padding:12px 20px;
 	border-width:1px;
 	border-style:solid;
 }
 .foswikiFormStep {
-	padding:12px 20px;
-	margin:-1px -20px -1px -20px;
-	border-width:1px;
-	border-style:solid none;
+	margin:0 0 20px;
+}
+.foswikiFormSteps hr {
+        margin:12px -20px;
+}
+.foswikiFormStep:last-child {
+        margin-bottom:0;
 }
 .foswikiFormStep h2,
 .foswikiFormStep h3,

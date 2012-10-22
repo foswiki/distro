@@ -257,6 +257,10 @@ a:hover.twistyTrigger {
 .foswikiEditForm .foswikiFormTable td {
    border-color:#eee;
 }
+.foswikiEditForm th a:visited,
+.foswikiEditForm th a:link {
+   color:inherit;
+}
 .foswikiAttachments table {
    border-color:#eee;
    background-color:#fff;
