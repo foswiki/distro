@@ -72,7 +72,7 @@ msgid "%1 added to the %2 group. "
 msgstr ""
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 переміщена з %2 до %3 користувачем %4"
@@ -81,7 +81,7 @@ msgstr "%1 переміщена з %2 до %3 користувачем %4"
 msgid "%1 group topic upgraded. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 містить список інших користувачів Foswiki"
@@ -187,7 +187,7 @@ msgstr "%1 зареєстрований з адресою електронної
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 переміщена з %2 до %3 користувачем %4"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
 msgid "%1.LoginName"
 msgstr "Ваше [[%1.LoginName][Ім'яКористувача]]"
@@ -239,7 +239,7 @@ msgstr ""
 msgid "(=all= to show all topics)"
 msgstr "(введіть =all= для виводу без обмежень)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:118
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -312,16 +312,16 @@ msgstr "(більше)"
 msgid "(move attachment)"
 msgstr "(перемістити файл)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
 msgstr "(немає батька, тема-сирота)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1179
-#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:1239
-#: core/lib/Foswiki/UI/Rename.pm:1242 core/lib/Foswiki/UI/Rename.pm:1277
-#: core/lib/Foswiki/UI/Rename.pm:1300 core/lib/Foswiki/UI/Rename.pm:559
-#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
-#: core/lib/Foswiki/UI/Rename.pm:571
+#: core/lib/Foswiki/UI/Rename.pm:1059 core/lib/Foswiki/UI/Rename.pm:1075
+#: core/lib/Foswiki/UI/Rename.pm:1132 core/lib/Foswiki/UI/Rename.pm:1135
+#: core/lib/Foswiki/UI/Rename.pm:1138 core/lib/Foswiki/UI/Rename.pm:1173
+#: core/lib/Foswiki/UI/Rename.pm:1196 core/lib/Foswiki/UI/Rename.pm:569
+#: core/lib/Foswiki/UI/Rename.pm:573 core/lib/Foswiki/UI/Rename.pm:577
+#: core/lib/Foswiki/UI/Rename.pm:581
 msgid "(none)"
 msgstr "(порожньо/нічого)"
 
@@ -329,7 +329,7 @@ msgstr "(порожньо/нічого)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(інакше тільки у розділі %1)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr ""
 
@@ -364,11 +364,11 @@ msgstr "(одна буква з імені)"
 msgid "(single character last name)"
 msgstr "(одна буква з прізвища)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1151
+#: core/lib/Foswiki/UI/Rename.pm:1047
 msgid "(skipped)"
 msgstr "(пропущено)"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
@@ -555,7 +555,7 @@ msgstr ""
 "шістнадцяткових цифр, наприклад, =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1025
+#: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Лист підтвердження відправлений по електронній пошті: %1"
 
@@ -632,12 +632,12 @@ msgstr "Добавлено"
 msgid "Add form"
 msgstr "Додати форму"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:240
 #, fuzzy
 msgid "Add members"
 msgstr "Додати рядок"
 
-#: core/data/Main/GroupViewTemplate.txt:170
+#: core/data/Main/GroupViewTemplate.txt:171
 #, fuzzy
 msgid "Add members..."
 msgstr "Додати рядок"
@@ -647,12 +647,12 @@ msgstr "Додати рядок"
 msgid "Add row"
 msgstr "Додати рядок"
 
-#: core/data/Main/GroupViewTemplate.txt:217
+#: core/data/Main/GroupViewTemplate.txt:218
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "Редагувати налаштування цієї теми"
 
-#: core/data/Main/GroupViewTemplate.txt:235
+#: core/data/Main/GroupViewTemplate.txt:236
 #, fuzzy
 msgid "Add users or groups to this group"
 msgstr "Спочатку вилучте користувача з груп(и) %1."
@@ -671,8 +671,8 @@ msgstr "Ідентифікація користувача TWiki"
 msgid "Admin Maintenance"
 msgstr "Адміністрування"
 
-#: core/data/Main/GroupViewTemplate.txt:145
-#: core/data/Main/GroupViewTemplate.txt:166
+#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:167
 #, fuzzy
 msgid "Administration"
 msgstr "Реєстрація"
@@ -681,7 +681,7 @@ msgstr "Реєстрація"
 msgid "Advanced search"
 msgstr "Розширений пошук"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:29
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -859,7 +859,7 @@ msgstr "Атрибут"
 msgid "Automated notification of topic changes"
 msgstr "Автоматичне повідомлення про зміни на сторінці теми"
 
-#: core/data/_default/WebHome.txt:4
+#: core/data/_default/WebHome.txt:5
 msgid "Available Information"
 msgstr "Доступна інформація"
 
@@ -917,12 +917,12 @@ msgstr ""
 "=ALLOWWEBVIEW= зі [[WebPreferences][Параметрів розділу]]."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -938,10 +938,9 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
@@ -1106,6 +1105,10 @@ msgstr "Закрити"
 msgid "Color %1 has an invalid format"
 msgstr "Колір %1 має неправильний формат"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+msgid "Come on in"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1155,7 +1158,7 @@ msgstr "Продовжити і спробувати перейменувати 
 msgid "Continue to create the new page"
 msgstr ""
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:114
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1217,11 +1220,11 @@ msgstr "Країна:"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
 msgstr "Створити нову тему"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:49
-#: core/data/System/WebCreateNewTopicTemplate.txt:6
+#: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
 msgstr "Створити нову тему в розділі %1"
 
@@ -1265,15 +1268,10 @@ msgstr "Створити тему"
 #: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "Створити цю тему"
-
-#: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
-msgid "Create topic"
-msgstr "Створити тему"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
@@ -1308,7 +1306,7 @@ msgstr "Любий(а) %1"
 msgid "Debug"
 msgstr "Відладка"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:144
 msgid "Default template"
 msgstr "Шаблон за умовчанням"
 
@@ -1340,7 +1338,7 @@ msgstr "Вилучити тему..."
 msgid "Describe the file so other people know what it is."
 msgstr "Опишіть файл так, щоб інші люди зрозуміли що це."
 
-#: core/lib/Foswiki/Form.pm:316
+#: core/lib/Foswiki/Form.pm:327
 msgid "Details in separate window"
 msgstr ""
 
@@ -1520,7 +1518,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Адреса електронної пошти:"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
@@ -1534,6 +1532,19 @@ msgstr ""
 
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
+msgstr ""
+
+#: core/data/System/WebCreateNewTopicComponents.txt:121
+#, fuzzy
+msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+msgstr ""
+"Будь ласка, поверніться <a href=\"javascript:history.go(-1)\">на попередню "
+"сторінку</a>, використовуючи стандартні засоби навігації Вашого браузера, і "
+"виберіть таку назву теми, яка була б %1.ВікіІм'я або переконаєтеся в тому, "
+"що Ви вирішили використовувати не-ВікіІмена"
+
+#: core/lib/Foswiki/Plugin.pm:130
+msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
 #: core/templates/messages.tmpl:270
@@ -1586,7 +1597,7 @@ msgstr ""
 msgid "Evil person"
 msgstr "Змінити особисті дані"
 
-#: core/lib/Foswiki/Plugins.pm:375
+#: core/lib/Foswiki/Plugins.pm:378
 msgid "Failed plugins"
 msgstr ""
 
@@ -1598,7 +1609,7 @@ msgstr ""
 msgid "Failed to include URL %1"
 msgstr "Не вдається приєднати URL %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "Помічені %1 поля обов'язкові для заповнення"
@@ -1731,7 +1742,7 @@ msgstr "Хороші приклади:"
 msgid "Group"
 msgstr "Групи"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1741,7 +1752,7 @@ msgstr ""
 msgid "Group name"
 msgstr "Назва теми"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -1820,6 +1831,13 @@ msgstr ""
 "Є ідеї, питання або проблеми, пов'язані з %1? <a href='%2'>Зв'яжіться з "
 "нами</a>"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+msgid ""
+"If Foswiki can't find a registered e-mail for you in the secret database, "
+"you will be unable to reset your password or take advantage of email "
+"notifications of topic changes."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
@@ -1893,7 +1911,7 @@ msgstr ""
 "Якщо у Вас є питання по реєстрації, відправте повідомлення по електронній "
 "пошті: %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:72
@@ -1928,8 +1946,8 @@ msgstr "Якщо Ви хочете створити тему"
 msgid "If you would like to create this web"
 msgstr "Якщо Ви хочете створити цей розділ"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
@@ -1937,16 +1955,6 @@ msgstr ""
 "Якщо Ваша стара адреса електронної пошти невірна (або Ви не можете більше "
 "отримувати на нього пошту) і Ви забули свій пароль, будь ласка, зв'яжіться "
 "%1 для того, щоб отримати допомогу."
-
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-msgid ""
-"If your user topic is not protected from changes by other people, and you "
-"don't register an e-mail address using this form, then your user account "
-"could be hijacked by someone else."
-msgstr ""
-"Якщо Ваша персональна сторінка не захищена від змін іншими людьми, і Ви не "
-"реєстрували адресу електронної пошти за допомогою цієї форми, то Ваш "
-"обліковий запис може бути зламаний будь-ким."
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -2163,13 +2171,18 @@ msgstr "Увійти"
 msgid "Log Out"
 msgstr "Вийти"
 
-#: core/data/Main/GroupViewTemplate.txt:127
+#: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
 msgstr ""
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
 msgstr ""
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#, fuzzy
+msgid "Login"
+msgstr "Ім'я користувача %1"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 #, fuzzy
@@ -2279,13 +2292,17 @@ msgstr "Перемістити до розділу:"
 msgid "Move topic to web:"
 msgstr "Перемістити тему до розділу:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1249
+#: core/lib/Foswiki/UI/Rename.pm:1145
 msgid "Move/Rename"
 msgstr "Перемістити / перейменувати"
 
-#: core/lib/Foswiki/Search.pm:1138
+#: core/lib/Foswiki/Search.pm:1144
 msgid "NEW"
 msgstr "НОВА"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name"
+msgstr ""
 
 #: core/templates/more.tmpl:31
 #, fuzzy
@@ -2301,6 +2318,10 @@ msgstr "Відсутнє ім'я нового розділу"
 msgid "Navigate to a similar topic"
 msgstr "Хочете швидко перейти до схожих тем?"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+msgid "Never mind"
+msgstr ""
+
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
 msgstr ""
@@ -2309,7 +2330,7 @@ msgstr ""
 msgid "New User Registration not supported"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list)"
 msgstr "Нові адреси електронної пошти (список розділений пропусками)"
 
@@ -2342,7 +2363,7 @@ msgstr "Нове ім'я розділу:"
 msgid "Newer revision:"
 msgstr "Молодша редакція:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+#: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
 msgstr ""
 
@@ -2401,6 +2422,7 @@ msgstr ""
 "Відмітьте, що будь-які посилання на прикріплений файл будуть зіпсовані після "
 "цього переміщення."
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
@@ -2462,9 +2484,8 @@ msgstr "Гаразд"
 msgid "OK, this is still me!"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
 msgstr ""
 
@@ -2476,7 +2497,7 @@ msgstr "Старша редакція:"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Тільки членам %1 дозволено виконати цю дію."
 
-#: core/data/Main/GroupViewTemplate.txt:130
+#: core/data/Main/GroupViewTemplate.txt:131
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -2523,8 +2544,9 @@ msgstr "Назва організації:"
 msgid "Organisation website"
 msgstr "Назва організації:"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "Пароль"
@@ -2550,7 +2572,7 @@ msgstr "Не вдалося скинути пароль"
 msgid "Passwords do not match"
 msgstr "Паролі не співпадають"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/WebCreateNewTopicComponents.txt:142
 #: core/templates/more.tmpl:104
 msgid "Pick from a list"
 msgstr "Вибрати зі списку"
@@ -2649,8 +2671,16 @@ msgstr ""
 "Щоб змінити Ваш пароль на щось більш пам'ятне, будь ласка, перейдіть за "
 "посиланням %1."
 
-#: core/lib/Foswiki/Plugins.pm:416
+#: core/lib/Foswiki/Plugins.pm:419
 msgid "Plugin handlers"
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:276
+msgid "Plugin module did not return true. See errors below."
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:145
+msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
@@ -2675,7 +2705,7 @@ msgstr "Інакше натисніть Відмінити."
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+#: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
 msgstr ""
 
@@ -2729,7 +2759,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Прочитайте"
 
-#: core/data/Sandbox/WebHome.txt:28
+#: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
 msgstr "Недавно змінені теми"
 
@@ -2749,7 +2779,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:93
-#: core/lib/Foswiki/UI/Rename.pm:1248
+#: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Поновити"
 
@@ -2761,7 +2791,7 @@ msgstr "Поновити"
 msgid "Register"
 msgstr "Реєструватися"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
@@ -2784,11 +2814,11 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "З використанням регулярних виразів"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:985
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2812,16 +2842,16 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Нагадати Ваш пароль?"
 
-#: core/data/Main/GroupViewTemplate.txt:261
+#: core/data/Main/GroupViewTemplate.txt:262
 #, fuzzy
 msgid "Remove members from this group"
 msgstr "Спочатку вилучте користувача з груп(и) %1."
 
-#: core/data/Main/GroupViewTemplate.txt:180
+#: core/data/Main/GroupViewTemplate.txt:181
 msgid "Remove members..."
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
 msgstr ""
 
@@ -3066,7 +3096,6 @@ msgstr "Де шукати:"
 msgid "Searched:"
 msgstr "Знайдено:"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Примітка по безпеці:"
@@ -3107,6 +3136,10 @@ msgstr ""
 #, fuzzy
 msgid "See changes since:"
 msgstr "Огляд недавніх змін у:"
+
+#: core/lib/Foswiki/Plugins.pm:263
+msgid "See the DISABLEDPLUGINS preference setting."
+msgstr ""
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3247,13 +3280,13 @@ msgstr ""
 msgid "Statistics"
 msgstr "Статистика"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:31
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr "Застосувати"
@@ -3297,7 +3330,7 @@ msgstr "Виводи за наслідками пошуку"
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:124
+#: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
 msgstr ""
 
@@ -3363,7 +3396,7 @@ msgid "The %1 topic already exists"
 msgstr "Тема %1 вже існує"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "Розділ %1 не існує"
 
@@ -3474,6 +3507,14 @@ msgstr "У цього облікового запису невірна адре�
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "У цього облікового запису невірна адреса електронної пошти."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"The e-mail address in your user topic is typically left blank. If you want "
+"to reveal an e-mail address to other users, you can manually edit your user "
+"topic to add an address.  It does not have to be the same as the address "
+"used internally by Foswiki."
+msgstr ""
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3610,7 +3651,7 @@ msgstr ""
 "допомогою даної форми зберігаються в секреті і *не* будуть опубліковані ніде "
 "на цьому сайті. "
 
-#: core/data/Main/GroupViewTemplate.txt:121
+#: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
 msgstr ""
 
@@ -3655,7 +3696,7 @@ msgstr ""
 "Це Звалище. Тут Ви можете відновити раніше вилучені теми; вилучені файли "
 "знаходяться в TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -3691,7 +3732,7 @@ msgstr ""
 msgid "This site requires at least %1 character passwords"
 msgstr "Потрібно ввести пароль завдовжки не менше %1 символів"
 
-#: core/templates/viewprint.tmpl:15
+#: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Ця тема:"
 
@@ -3797,23 +3838,21 @@ msgstr "Назва теми"
 msgid "Topic history"
 msgstr "Заголовок теми"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
+#: core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr "Назва теми"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:53
-#: core/data/System/WebCreateNewTopicTemplate.txt:34
+#: core/data/System/WebCreateNewTopicTemplate.txt:52
 msgid "Topic name:"
 msgstr "Назва теми:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:60
-#: core/data/System/WebCreateNewTopicTemplate.txt:38
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
 msgstr "Батьківська тема:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr ""
 
@@ -3832,6 +3871,10 @@ msgstr "Заголовок теми"
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
 msgstr "Зміни суміщені"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:120
+msgid "Topic will be named: "
+msgstr "Тема буде названа: "
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -3891,16 +3934,16 @@ msgstr "Поновити файл %1 прикріплений до %2"
 msgid "Update links"
 msgstr "Оновити посилання"
 
-#: core/data/Main/GroupViewTemplate.txt:220
+#: core/data/Main/GroupViewTemplate.txt:221
 #, fuzzy
 msgid "Upgrade"
 msgstr "Створити нову тему"
 
-#: core/data/Main/GroupViewTemplate.txt:216
+#: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "Створити нову тему"
@@ -3938,23 +3981,17 @@ msgstr "Завантажуваний файл задуже великий"
 msgid "Use %1 instead."
 msgstr "Тоді скористайтеся [[%1][Змінити пароль]]. "
 
-#: core/data/Sandbox/WebHome.txt:22
-#, fuzzy
-msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "(Використовуйте ім'я теми у System.WikiNotation)"
-
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
-#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
 msgid "Use template:"
 msgstr "Використовувати шаблон:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3979,12 +4016,12 @@ msgid "Users"
 msgstr "Користувачі"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -4055,7 +4092,7 @@ msgstr ""
 msgid "View sequential topic history"
 msgstr "Проглянути повну історію змін сторінки"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
 msgstr "Проглянути шаблони"
 
@@ -4108,11 +4145,11 @@ msgstr "Увага: Не можу знайти тему %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Увага: Не можу знайти тему %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1018
+#: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
 msgstr "Увага: Не вдалося послати підтвердження по електронній пошті"
 
-#: core/lib/Foswiki/UI/Register.pm:1030
+#: core/lib/Foswiki/UI/Register.pm:1038
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
@@ -4335,7 +4372,7 @@ msgstr "Ви не можете реєструватися двічі, ім'я %1
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Ви не можете реєструватися двічі, ім'я %1 вже зареєстровано."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -4396,24 +4433,11 @@ msgstr ""
 "зробити це, ввівши %1 у форму, представлену Вам при відправці даного "
 "повідомлення, або перейшовши за посиланням %2"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#, fuzzy
-msgid ""
-"You really ought to register a valid e-mail address. If Foswiki can't find a "
-"registered e-mail for you in the secret database, it will look in your user "
-"topic for a form field called Email. If this form field does not exist it "
-"will look for a line like this:"
-msgstr ""
-"Вам дійсно необхідно зареєструвати правильну адресу електронної пошти. Якщо "
-"TWiki не зможе знайти зареєстровану Вами адресу електронної пошти в "
-"секретній базі даних, то шукатиме на Вашій персональній сторінці рядок "
-"подібну цьому:"
-
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Можливо Ви повинні попросити адміністратора %1, зробити це."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
 msgid "Your"
 msgstr "або"
@@ -4483,7 +4507,7 @@ msgid ""
 "noautolink>."
 msgstr "Зареєстрована(і) Вами адреса(и) електронної пошти змінена(і) на: %1."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4599,6 +4623,10 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "не забудьте перевірити налаштування Вашої персональної сторінки"
 
+#: core/lib/Foswiki/Plugin.pm:196
+msgid "earlyInitPlugin failed.  See errors below."
+msgstr ""
+
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 #, fuzzy
@@ -4625,6 +4653,10 @@ msgstr "у вигляді початкового тексту"
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
 msgstr "указує обов'язкові поля"
+
+#: core/lib/Foswiki/Plugin.pm:182
+msgid "initPlugin was not defined. See errors below."
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:44
 #, fuzzy
@@ -4665,7 +4697,7 @@ msgstr "попередній перегляд"
 msgid "retrieved at %1"
 msgstr "Знайдено в %1"
 
-#: core/templates/viewprint.tmpl:16
+#: core/templates/viewprint.tmpl:15
 #, fuzzy
 msgid "revision %1"
 msgstr "(редакція)"
@@ -4796,6 +4828,35 @@ msgstr "Проглянути"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Create topic"
+#~ msgstr "Створити тему"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Якщо Ваша персональна сторінка не захищена від змін іншими людьми, і Ви "
+#~ "не реєстрували адресу електронної пошти за допомогою цієї форми, то Ваш "
+#~ "обліковий запис може бути зламаний будь-ким."
+
+#, fuzzy
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "(Використовуйте ім'я теми у System.WikiNotation)"
+
+#, fuzzy
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "Вам дійсно необхідно зареєструвати правильну адресу електронної пошти. "
+#~ "Якщо TWiki не зможе знайти зареєстровану Вами адресу електронної пошти в "
+#~ "секретній базі даних, то шукатиме на Вашій персональній сторінці рядок "
+#~ "подібну цьому:"
 
 #, fuzzy
 #~ msgid ""
@@ -5035,9 +5096,6 @@ msgstr ""
 
 #~ msgid "To register as a new user, simply fill out this form:"
 #~ msgstr "Для реєстрації нового користувача, просто заповніть наступну форму:"
-
-#~ msgid "Topic will be named: "
-#~ msgstr "Тема буде названа: "
 
 #, fuzzy
 #~ msgid ""

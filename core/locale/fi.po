@@ -69,7 +69,7 @@ msgid "%1 added to the %2 group. "
 msgstr "%1 lisätty ryhmään %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
@@ -78,7 +78,7 @@ msgstr "%4 on siirtänyt %1 sijainnista %2, %3"
 msgid "%1 group topic upgraded. "
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 sisältää listan muista Foswikin käyttäjistä"
@@ -182,7 +182,7 @@ msgstr "%1 yritti rekisteröityä sähköpostiosoitteella %2"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 on siirtänyt %1 sijainnista %2, sijaintiin %3"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
 msgid "%1.LoginName"
 msgstr "Sinun %1.Käyttäjätunnuksesi"
@@ -227,7 +227,7 @@ msgstr "(*Ehdotus:* Mitä jos lataisit kuvasi aiheeseesi?)"
 msgid "(=all= to show all topics)"
 msgstr "(=kaikki= näyttääksesi kaikki aiheet)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:118
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
 msgstr "(Tämä viesti poistetaan automaattisesti)"
 
@@ -299,16 +299,16 @@ msgstr "(lisää...)"
 msgid "(move attachment)"
 msgstr "(siirrä liite)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
 msgstr "(ei isäartikkelia, orpoartikkeli)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1179
-#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:1239
-#: core/lib/Foswiki/UI/Rename.pm:1242 core/lib/Foswiki/UI/Rename.pm:1277
-#: core/lib/Foswiki/UI/Rename.pm:1300 core/lib/Foswiki/UI/Rename.pm:559
-#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
-#: core/lib/Foswiki/UI/Rename.pm:571
+#: core/lib/Foswiki/UI/Rename.pm:1059 core/lib/Foswiki/UI/Rename.pm:1075
+#: core/lib/Foswiki/UI/Rename.pm:1132 core/lib/Foswiki/UI/Rename.pm:1135
+#: core/lib/Foswiki/UI/Rename.pm:1138 core/lib/Foswiki/UI/Rename.pm:1173
+#: core/lib/Foswiki/UI/Rename.pm:1196 core/lib/Foswiki/UI/Rename.pm:569
+#: core/lib/Foswiki/UI/Rename.pm:573 core/lib/Foswiki/UI/Rename.pm:577
+#: core/lib/Foswiki/UI/Rename.pm:581
 msgid "(none)"
 msgstr "(tyhjä)"
 
@@ -316,7 +316,7 @@ msgstr "(tyhjä)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(muutoin etsi vain verkosta %1)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(näytä raaka)"
 
@@ -351,11 +351,11 @@ msgstr "(yhden merkin etunimi)"
 msgid "(single character last name)"
 msgstr "(yhden merkin sukunimi)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1151
+#: core/lib/Foswiki/UI/Rename.pm:1047
 msgid "(skipped)"
 msgstr "(hypätty yli)"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
@@ -542,7 +542,7 @@ msgstr ""
 "numeroa, esimerkiksi =#FFFF00="
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1025
+#: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Varmistussähköposti lähetetty osoitteeseen %1"
 
@@ -621,12 +621,12 @@ msgstr "Lisää rivi"
 msgid "Add form"
 msgstr "Lisää lomake"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:240
 #, fuzzy
 msgid "Add members"
 msgstr "Lisää rivi"
 
-#: core/data/Main/GroupViewTemplate.txt:170
+#: core/data/Main/GroupViewTemplate.txt:171
 #, fuzzy
 msgid "Add members..."
 msgstr "Lisää käyttäjä..."
@@ -636,12 +636,12 @@ msgstr "Lisää käyttäjä..."
 msgid "Add row"
 msgstr "Lisää rivi"
 
-#: core/data/Main/GroupViewTemplate.txt:217
+#: core/data/Main/GroupViewTemplate.txt:218
 #, fuzzy
 msgid "Add user management options to this topic."
 msgstr "Muokkaa tämän aiheen asetuksia..."
 
-#: core/data/Main/GroupViewTemplate.txt:235
+#: core/data/Main/GroupViewTemplate.txt:236
 #, fuzzy
 msgid "Add users or groups to this group"
 msgstr "Lisää käyttäjä tähän ryhmään"
@@ -659,8 +659,8 @@ msgstr "Foswikin ylläpitäjän käyttäjätodennus"
 msgid "Admin Maintenance"
 msgstr "Ylläpitäjän huolto"
 
-#: core/data/Main/GroupViewTemplate.txt:145
-#: core/data/Main/GroupViewTemplate.txt:166
+#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:167
 #, fuzzy
 msgid "Administration"
 msgstr "Rekisteröinti"
@@ -669,7 +669,7 @@ msgstr "Rekisteröinti"
 msgid "Advanced search"
 msgstr "Tarkennettu haku"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:29
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -846,7 +846,7 @@ msgstr "Attribuutti"
 msgid "Automated notification of topic changes"
 msgstr "Automaattinen ilmoitus aiheen muutoksista"
 
-#: core/data/_default/WebHome.txt:4
+#: core/data/_default/WebHome.txt:5
 msgid "Available Information"
 msgstr "Käytössäoleva tieto"
 
@@ -906,12 +906,12 @@ msgstr ""
 "WebPreferences:ssä."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -927,10 +927,9 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
@@ -1087,6 +1086,10 @@ msgstr "Sulje"
 msgid "Color %1 has an invalid format"
 msgstr "Värikoodi %1 ei ole oikein määritelty"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+msgid "Come on in"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1137,7 +1140,7 @@ msgstr "Jatka ja yritä nimetä verkko uudelleen?"
 msgid "Continue to create the new page"
 msgstr "Jatka uuden sivun luontiin"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:114
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1196,11 +1199,11 @@ msgstr "Maa"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
 msgstr "Luo uusi aihe"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:49
-#: core/data/System/WebCreateNewTopicTemplate.txt:6
+#: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
 msgstr "Luo uusi aihe verkossa %1"
 
@@ -1241,15 +1244,10 @@ msgstr "Luo aihe"
 #: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
-
-#: core/data/Sandbox/WebHome.txt:19
-#, fuzzy
-msgid "Create topic"
-msgstr "Luo aihe"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
@@ -1284,7 +1282,7 @@ msgstr "Hyvä %1,"
 msgid "Debug"
 msgstr "Debug"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:144
 msgid "Default template"
 msgstr "Oletus-sivupohja"
 
@@ -1317,7 +1315,7 @@ msgid "Describe the file so other people know what it is."
 msgstr ""
 "Anna tiedostolle kuvaus, jotta muut tietävät mikä tiedosto on kyseessä."
 
-#: core/lib/Foswiki/Form.pm:316
+#: core/lib/Foswiki/Form.pm:327
 msgid "Details in separate window"
 msgstr "Yksityiskohdat erillisessä ikkunassa"
 
@@ -1498,7 +1496,7 @@ msgstr ""
 msgid "Email address"
 msgstr "Sähköpostiosoite:"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "Sähköposti on poistettu käytöstä tässä Foswiki asennuksessa"
 
@@ -1513,6 +1511,17 @@ msgstr "Syötä uusi käyttäjätunnus ja salasana muuttaaksesi identiteettisi"
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Syötä wiki-vastaavan käyttäjänimi tai kirjaudu kuten %1"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:121
+#, fuzzy
+msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+msgstr ""
+"Ole hyvä ja palaa selaimeesi ja valitse aiheen nimi, joka on WikiSana tai "
+"rastita Ei-Wiki sanalaatikko"
+
+#: core/lib/Foswiki/Plugin.pm:130
+msgid "Error encountered loading the plugin. See errors below."
+msgstr ""
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1563,7 +1572,7 @@ msgstr "Virhe poistattaessa käyttäjiä ryhmästä"
 msgid "Evil person"
 msgstr "Muokkaa henkilökohtaisia tietoja"
 
-#: core/lib/Foswiki/Plugins.pm:375
+#: core/lib/Foswiki/Plugins.pm:378
 msgid "Failed plugins"
 msgstr "Epäonnistuneet liitännäiset"
 
@@ -1575,7 +1584,7 @@ msgstr ""
 msgid "Failed to include URL %1"
 msgstr "URLin %1 lisääminen epäonnistui"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "Kentät jotka on merkitty %1:llä ovat vaadittuja"
@@ -1703,7 +1712,7 @@ msgstr "Hyviä esimerkkejä:"
 msgid "Group"
 msgstr "Ryhmät"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1713,7 +1722,7 @@ msgstr ""
 msgid "Group name"
 msgstr "Aiheen nimi"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -1798,6 +1807,13 @@ msgstr ""
 "Ideoita, pyyntöjä tai ongelmia koskien %1:tä? <a href='%2'>Lähetä "
 "palautetta</a>"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+msgid ""
+"If Foswiki can't find a registered e-mail for you in the secret database, "
+"you will be unable to reset your password or take advantage of email "
+"notifications of topic changes."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
@@ -1869,7 +1885,7 @@ msgstr ""
 "Jos sinulla on kysyttävää rekisteröinnistä, lähetä sähköpostia osoitteeseen "
 "%1."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:72
@@ -1904,24 +1920,14 @@ msgstr "Jos haluat luoda aiheen"
 msgid "If you would like to create this web"
 msgstr "Jos haluat luoda tämän verkon"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "Jos kaikki vanhat sähköpostisi ovat ei-valideja (et voi vastaanottaa "
 "sähköpostia enää) ja olet unohtanut salasanasi, ota yhteyttä %1."
-
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-msgid ""
-"If your user topic is not protected from changes by other people, and you "
-"don't register an e-mail address using this form, then your user account "
-"could be hijacked by someone else."
-msgstr ""
-"Jos käyttäjäsivusi ei ole suojattu muiden käyttäjien muutoksilta, ja et "
-"rekisteröi sähköpostiosoitetta käyttäen tätä lomaketta, käyttäjätilisi "
-"voidaan kaapata."
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -2130,7 +2136,7 @@ msgstr "Kirjaudu sisään"
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
 
-#: core/data/Main/GroupViewTemplate.txt:127
+#: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
 msgstr ""
 
@@ -2138,6 +2144,11 @@ msgstr ""
 #, fuzzy
 msgid "Log on with your username and password"
 msgstr "Kirjoita käyttäjätunnus ja salasana"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#, fuzzy
+msgid "Login"
+msgstr "Käyttäjätunnus %1"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 #, fuzzy
@@ -2247,13 +2258,17 @@ msgstr "Siirrä verkkoon:"
 msgid "Move topic to web:"
 msgstr "Siirrä aihe verkkoon:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1249
+#: core/lib/Foswiki/UI/Rename.pm:1145
 msgid "Move/Rename"
 msgstr "Siirrä/nimeä uudelleen"
 
-#: core/lib/Foswiki/Search.pm:1138
+#: core/lib/Foswiki/Search.pm:1144
 msgid "NEW"
 msgstr "UUSI"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name"
+msgstr ""
 
 #: core/templates/more.tmpl:31
 #, fuzzy
@@ -2268,6 +2283,10 @@ msgstr "Verkon nimi puuttuu"
 msgid "Navigate to a similar topic"
 msgstr "Suunnista samankaltaiseen aiheeseen"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+msgid "Never mind"
+msgstr ""
+
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
 msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
@@ -2276,7 +2295,7 @@ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
 msgid "New User Registration not supported"
 msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list)"
 msgstr "Uudet sähköpostiosoitteet (välilyönneillä eroteltu lista)"
 
@@ -2309,7 +2328,7 @@ msgstr "Uusi verkon nimi:"
 msgid "Newer revision:"
 msgstr "Uudempi versio:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+#: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
 msgstr ""
 
@@ -2368,6 +2387,7 @@ msgstr ""
 "Huomaa, että kaikki URL:t, jotka viittaavat tähän liitteeseen rikkoutuvat "
 "tämän toiminnon jälkeen."
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
@@ -2428,9 +2448,8 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, minä olen vielä täällä!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
 msgstr ""
 
@@ -2442,7 +2461,7 @@ msgstr "Vanhempi versio:"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Ainoastaan %1 käyttäjät voivat suorittaa tämän toiminnon."
 
-#: core/data/Main/GroupViewTemplate.txt:130
+#: core/data/Main/GroupViewTemplate.txt:131
 msgid "Only members or admins may update group."
 msgstr ""
 
@@ -2491,8 +2510,9 @@ msgstr "Organisaation nimi:"
 msgid "Organisation website"
 msgstr "Organisaation nimi:"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "Salasana"
@@ -2518,7 +2538,7 @@ msgstr "Salasanan resetointi epäonnistui."
 msgid "Passwords do not match"
 msgstr "Salasanat eivät täsmää"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/WebCreateNewTopicComponents.txt:142
 #: core/templates/more.tmpl:104
 msgid "Pick from a list"
 msgstr "Valitse listalta"
@@ -2605,8 +2625,16 @@ msgstr ""
 "Ole hyvä ja siirry %1 muuttaaksesi salasanasi joksikin helpommin "
 "muistettavaksi."
 
-#: core/lib/Foswiki/Plugins.pm:416
+#: core/lib/Foswiki/Plugins.pm:419
 msgid "Plugin handlers"
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:276
+msgid "Plugin module did not return true. See errors below."
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:145
+msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
@@ -2630,7 +2658,7 @@ msgstr "Paina Peruuta muussa tapauksessa."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Paina OK vahvistaaksesi tämän muutoksen tarkoituksellisuus."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+#: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
 msgstr ""
 
@@ -2683,7 +2711,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Lue"
 
-#: core/data/Sandbox/WebHome.txt:28
+#: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
 msgstr "Vastikään muuttuneet aiheet"
 
@@ -2703,7 +2731,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:93
-#: core/lib/Foswiki/UI/Rename.pm:1248
+#: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Päivitä"
 
@@ -2715,7 +2743,7 @@ msgstr "Päivitä"
 msgid "Register"
 msgstr "Rekisteröidy"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
@@ -2738,11 +2766,11 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "Säännöllinen lauseke etsintä"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:985
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2765,17 +2793,17 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Muistatko salasanasi?"
 
-#: core/data/Main/GroupViewTemplate.txt:261
+#: core/data/Main/GroupViewTemplate.txt:262
 #, fuzzy
 msgid "Remove members from this group"
 msgstr "Poista käyttäjä ryhmistä/ryhmästä %1 ensiksi."
 
-#: core/data/Main/GroupViewTemplate.txt:180
+#: core/data/Main/GroupViewTemplate.txt:181
 #, fuzzy
 msgid "Remove members..."
 msgstr "Poista käyttäjä..."
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
 msgstr ""
 
@@ -3016,7 +3044,6 @@ msgstr "Etsi mistä:"
 msgid "Searched:"
 msgstr "Etsitty:"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Turvallisuushuomautus:"
@@ -3056,6 +3083,10 @@ msgstr "Katso ohjeet alempaa sivun muokkaamiseksi."
 #, fuzzy
 msgid "See changes since:"
 msgstr "Esikatsele viimeisimpiä muutoksia:"
+
+#: core/lib/Foswiki/Plugins.pm:263
+msgid "See the DISABLEDPLUGINS preference setting."
+msgstr ""
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3195,13 +3226,13 @@ msgstr ""
 msgid "Statistics"
 msgstr "Tilastot"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:31
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr "Lähetä"
@@ -3245,7 +3276,7 @@ msgstr "Yhteenvedot"
 msgid "Switch to monotype or propotional font"
 msgstr "Vaihda monotyyppiseen tai suhteelliseen fonttiin"
 
-#: core/data/Main/GroupViewTemplate.txt:124
+#: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
 msgstr ""
 
@@ -3307,7 +3338,7 @@ msgid "The %1 topic already exists"
 msgstr "Aihe %1 on jo olemassa"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "Verkkoa %1 ei ole olemassa"
 
@@ -3420,6 +3451,14 @@ msgstr "Käyttäjätilin sähköpostiosoite ei ole validi."
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "Käyttäjätilin sähköpostiosoite ei ole validi."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"The e-mail address in your user topic is typically left blank. If you want "
+"to reveal an e-mail address to other users, you can manually edit your user "
+"topic to add an address.  It does not have to be the same as the address "
+"used internally by Foswiki."
+msgstr ""
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3557,7 +3596,7 @@ msgstr ""
 "tämän lomakkeen kautta, pidetään salassa, eikä niitä julkaista missään tällä "
 "sivulla. "
 
-#: core/data/Main/GroupViewTemplate.txt:121
+#: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
 msgstr ""
 
@@ -3602,7 +3641,7 @@ msgstr ""
 "Tämä on roskakori. Täällä voit palauttaa aiheita; poistetut liitteet ovat "
 "TrashAttachment:ssä."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -3638,7 +3677,7 @@ msgstr "Foswiki on tehnyt tämän sivuston"
 msgid "This site requires at least %1 character passwords"
 msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
 
-#: core/templates/viewprint.tmpl:15
+#: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Tämä aihe:"
 
@@ -3745,23 +3784,21 @@ msgstr "Aiheen nimi"
 msgid "Topic history"
 msgstr "Aiheen otsikko"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
+#: core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr "Aiheen nimi"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:53
-#: core/data/System/WebCreateNewTopicTemplate.txt:34
+#: core/data/System/WebCreateNewTopicTemplate.txt:52
 msgid "Topic name:"
 msgstr "Aiheen nimi:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:60
-#: core/data/System/WebCreateNewTopicTemplate.txt:38
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
 msgstr "Isäartikkeli"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "Aiheen versio:"
 
@@ -3780,6 +3817,10 @@ msgstr "Aiheen otsikko"
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
 msgstr "Aihe yhdistetty"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:120
+msgid "Topic will be named: "
+msgstr "Aihe tullaan nimeämään:"
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -3842,16 +3883,16 @@ msgstr "Päivitä liitetiedosto %1 %2"
 msgid "Update links"
 msgstr "Päivitä linkit"
 
-#: core/data/Main/GroupViewTemplate.txt:220
+#: core/data/Main/GroupViewTemplate.txt:221
 #, fuzzy
 msgid "Upgrade"
 msgstr "Luo uusi aihe"
 
-#: core/data/Main/GroupViewTemplate.txt:216
+#: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
 msgstr ""
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 #, fuzzy
 msgid "Upgrade group topic..."
 msgstr "Luo uusi aihe"
@@ -3889,23 +3930,17 @@ msgstr "Lähetetty tiedosto on liian suuri"
 msgid "Use %1 instead."
 msgstr "Käytä sen sijasta %1."
 
-#: core/data/Sandbox/WebHome.txt:22
-#, fuzzy
-msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "(Käytä aiheen nimeä System.WikiNotation)"
-
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
-#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
 msgid "Use template:"
 msgstr "Käytä sivupohjaa:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3930,12 +3965,12 @@ msgid "Users"
 msgstr "Käyttäjät"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -4005,7 +4040,7 @@ msgstr "Näytä versio:"
 msgid "View sequential topic history"
 msgstr "Näytä aiheen täysi historia"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
 msgstr "Näytä sivupohjat"
 
@@ -4057,11 +4092,11 @@ msgstr "Varoitus: Aihetta %1.%2 ei löydy"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Varoitus: Aihetta %1.%2 ei löydy"
 
-#: core/lib/Foswiki/UI/Register.pm:1018
+#: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
 msgstr "Varoitus: Vahvistus-sähköpostia ei voitu lähettää"
 
-#: core/lib/Foswiki/UI/Register.pm:1030
+#: core/lib/Foswiki/UI/Register.pm:1038
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Varoitus: Vahvistus-sähköpostia ei voitu lähettää, sähköposti on poistettu"
@@ -4282,7 +4317,7 @@ msgstr "Et voi rekisteröityä kahdesti, nimi %1 on jo rekisteröity."
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Et voi rekisteröityä kahdesti, nimi %1 on jo rekisteröity."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -4343,24 +4378,12 @@ msgstr ""
 "%1 lomakkeen, jonka sait kun tämä sähköposti lähetettiin, tai vierailemalla "
 "%2"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#, fuzzy
-msgid ""
-"You really ought to register a valid e-mail address. If Foswiki can't find a "
-"registered e-mail for you in the secret database, it will look in your user "
-"topic for a form field called Email. If this form field does not exist it "
-"will look for a line like this:"
-msgstr ""
-"Sinun tulisi rekisteröidä validi sähköpostiosoite. Jos Foswiki ei löydä "
-"rekisteröityä sähköpostiosoitetta, käyttäjäsivusi näyttää tälläiseltä "
-"riviltä:"
-
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
 "Sinun pitää luultavasti pyytää järjestelmäylläpitäjääsi, %1, tekemään tämä."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
 msgid "Your"
 msgstr "tai"
@@ -4435,7 +4458,7 @@ msgstr ""
 "Rekisteröidyt sähköpostiosoitteesi on päivitetty seuraavasti: <noautolink>"
 "%1</noautolink>"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4549,6 +4572,10 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "älä unohda tarkistaa Aiheesi asetuksia"
 
+#: core/lib/Foswiki/Plugin.pm:196
+msgid "earlyInitPlugin failed.  See errors below."
+msgstr ""
+
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
@@ -4574,6 +4601,10 @@ msgstr "raa'assa tekstimuodossa"
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
 msgstr "merkitsee vaadittua kenttää"
+
+#: core/lib/Foswiki/Plugin.pm:182
+msgid "initPlugin was not defined. See errors below."
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:44
 #, fuzzy
@@ -4614,7 +4645,7 @@ msgstr "esikatselu"
 msgid "retrieved at %1"
 msgstr "noudettu %1"
 
-#: core/templates/viewprint.tmpl:16
+#: core/templates/viewprint.tmpl:15
 #, fuzzy
 msgid "revision %1"
 msgstr "(versio %1)"
@@ -4744,6 +4775,34 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#, fuzzy
+#~ msgid "Create topic"
+#~ msgstr "Luo aihe"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Jos käyttäjäsivusi ei ole suojattu muiden käyttäjien muutoksilta, ja et "
+#~ "rekisteröi sähköpostiosoitetta käyttäen tätä lomaketta, käyttäjätilisi "
+#~ "voidaan kaapata."
+
+#, fuzzy
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "(Käytä aiheen nimeä System.WikiNotation)"
+
+#, fuzzy
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "Sinun tulisi rekisteröidä validi sähköpostiosoite. Jos Foswiki ei löydä "
+#~ "rekisteröityä sähköpostiosoitetta, käyttäjäsivusi näyttää tälläiseltä "
+#~ "riviltä:"
 
 #, fuzzy
 #~ msgid ""
@@ -5008,9 +5067,6 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 
 #~ msgid "To register as a new user, simply fill out this form:"
 #~ msgstr "Kirjautuaksesi uudeksi käyttäjäksi täytä vain tämä lomake:"
-
-#~ msgid "Topic will be named: "
-#~ msgstr "Aihe tullaan nimeämään:"
 
 #~ msgid "Topics in %1 web"
 #~ msgstr "Aiheita verkossa %1"

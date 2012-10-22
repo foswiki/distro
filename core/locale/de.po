@@ -70,7 +70,7 @@ msgstr "%1 wurde der Gruppe %2 hinzugefügt."
 # $date,
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
 msgid "%1 cannot be removed from %2"
 msgstr "%1 konnte nicht aus der Gruppe %2 entfernt werden"
 
@@ -78,7 +78,7 @@ msgstr "%1 konnte nicht aus der Gruppe %2 entfernt werden"
 msgid "%1 group topic upgraded. "
 msgstr "%1 Gruppen-Topic aktualisiert."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "Auf %1 gibt es eine Liste anderer Foswiki Benutzer."
@@ -185,7 +185,7 @@ msgstr "%1 hat sich versucht mit der E-Mail %2 zu registrieren"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 wurde durch %4 von %2 auf %3 umbenannt oder verschoben."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
 msgstr "%1.LoginName"
 
@@ -229,7 +229,7 @@ msgstr "(*Vorschlag:* Wie wäre es, wenn Sie Ihr Foto an Ihre Seite anhängen?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= um alle Topics anzuzeigen)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:118
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
 msgstr "(Diese Nachricht wird automatisch entfernt)"
 
@@ -301,16 +301,16 @@ msgstr "(Mehr)"
 msgid "(move attachment)"
 msgstr "(Anhang verschieben)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
 msgstr "(kein Ober-Topic, verwaistes Topic)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1179
-#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:1239
-#: core/lib/Foswiki/UI/Rename.pm:1242 core/lib/Foswiki/UI/Rename.pm:1277
-#: core/lib/Foswiki/UI/Rename.pm:1300 core/lib/Foswiki/UI/Rename.pm:559
-#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
-#: core/lib/Foswiki/UI/Rename.pm:571
+#: core/lib/Foswiki/UI/Rename.pm:1059 core/lib/Foswiki/UI/Rename.pm:1075
+#: core/lib/Foswiki/UI/Rename.pm:1132 core/lib/Foswiki/UI/Rename.pm:1135
+#: core/lib/Foswiki/UI/Rename.pm:1138 core/lib/Foswiki/UI/Rename.pm:1173
+#: core/lib/Foswiki/UI/Rename.pm:1196 core/lib/Foswiki/UI/Rename.pm:569
+#: core/lib/Foswiki/UI/Rename.pm:573 core/lib/Foswiki/UI/Rename.pm:577
+#: core/lib/Foswiki/UI/Rename.pm:581
 msgid "(none)"
 msgstr "(nichts)"
 
@@ -318,7 +318,7 @@ msgstr "(nichts)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(ansonsten nur %1 Web durchsuchen)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(Quelltext-Ansicht)"
 
@@ -352,11 +352,11 @@ msgstr "(Erster Buchstabe des Vornamens)"
 msgid "(single character last name)"
 msgstr "(Erster Buchstabe des Nachnamens)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1151
+#: core/lib/Foswiki/UI/Rename.pm:1047
 msgid "(skipped)"
 msgstr "(übersprungen)"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
@@ -549,7 +549,7 @@ msgstr ""
 "Hexadezimal, z.B. =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1025
+#: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Eine Bestätigungs E-Mail wurde an %1 gesendet"
 
@@ -626,11 +626,11 @@ msgstr "hinzufügen"
 msgid "Add form"
 msgstr "Formular hinzufügen"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:240
 msgid "Add members"
 msgstr "Mitglieder hinzufügen"
 
-#: core/data/Main/GroupViewTemplate.txt:170
+#: core/data/Main/GroupViewTemplate.txt:171
 msgid "Add members..."
 msgstr "Mitglieder hinzufügen..."
 
@@ -639,11 +639,11 @@ msgstr "Mitglieder hinzufügen..."
 msgid "Add row"
 msgstr "Zeile hinzufügen"
 
-#: core/data/Main/GroupViewTemplate.txt:217
+#: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
 msgstr "Einstellungen für das Benutzer Management zu diesem Topic hinzufügen."
 
-#: core/data/Main/GroupViewTemplate.txt:235
+#: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
 msgstr "Benutzer oder Gruppen zu dieser Gruppe hinzufügen"
 
@@ -659,8 +659,8 @@ msgstr "Foswiki Admin-Benutzer Authentifizierung"
 msgid "Admin Maintenance"
 msgstr "Administrative Pflege"
 
-#: core/data/Main/GroupViewTemplate.txt:145
-#: core/data/Main/GroupViewTemplate.txt:166
+#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:167
 msgid "Administration"
 msgstr "Administration"
 
@@ -668,7 +668,7 @@ msgstr "Administration"
 msgid "Advanced search"
 msgstr "Erweiterte Suche"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:29
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -842,7 +842,7 @@ msgstr "Attribut"
 msgid "Automated notification of topic changes"
 msgstr "Automatische Benachrichtigung bei Änderung des Topics"
 
-#: core/data/_default/WebHome.txt:4
+#: core/data/_default/WebHome.txt:5
 msgid "Available Information"
 msgstr "Verfügbare Information"
 
@@ -902,12 +902,12 @@ msgstr ""
 "Restriktion in den WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
 msgid "CHANGE not permitted by %1"
 msgstr "Änderungen durch %1 nicht gestattet"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "Änderungen in %1 durch %2 nicht gestattet"
 
@@ -924,10 +924,9 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
@@ -1088,6 +1087,10 @@ msgstr "Schließen"
 msgid "Color %1 has an invalid format"
 msgstr "Farbe %1 hat ein ungültiges Format"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+msgid "Come on in"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1137,7 +1140,7 @@ msgstr "Wollen Sie weitermachen und versuchen, das Web umzubenennen?"
 msgid "Continue to create the new page"
 msgstr "Fahren Sie fort, um die neue Seite anzulegen"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:114
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1197,11 +1200,11 @@ msgstr "Land"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
 msgstr "Neues Topic anlegen"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:49
-#: core/data/System/WebCreateNewTopicTemplate.txt:6
+#: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
 msgstr "Neues Topic im %1 Web anlegen"
 
@@ -1242,14 +1245,10 @@ msgstr "Das Topic anlegen"
 #: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "Dieses Topic anlegen"
-
-#: core/data/Sandbox/WebHome.txt:19
-msgid "Create topic"
-msgstr "Topic anlegen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
@@ -1286,7 +1285,7 @@ msgstr "Hallo %1"
 msgid "Debug"
 msgstr "Fehler beheben"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:144
 msgid "Default template"
 msgstr "Standard-Template"
 
@@ -1319,7 +1318,7 @@ msgid "Describe the file so other people know what it is."
 msgstr ""
 "Beschreiben Sie die Datei, damit andere Benutzer wissen was sie beinhaltet."
 
-#: core/lib/Foswiki/Form.pm:316
+#: core/lib/Foswiki/Form.pm:327
 msgid "Details in separate window"
 msgstr "Details im separaten Fenster"
 
@@ -1504,7 +1503,7 @@ msgstr ""
 msgid "Email address"
 msgstr "E-Mail Adresse"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-Mail wurde für diese Foswiki-Installation deaktiviert"
 
@@ -1522,6 +1521,17 @@ msgstr ""
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
 "Bitte geben Sie den Administrator-Benutzernamen oder den Login aus %1 ein"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:121
+#, fuzzy
+msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+msgstr ""
+"Bitten wählen Sie einen Topic Namen, der ein %1 ist oder erlauben Sie die "
+"Verwendung von Nicht-<nop>WikiWörter in der Auswahlbox."
+
+#: core/lib/Foswiki/Plugin.pm:130
+msgid "Error encountered loading the plugin. See errors below."
+msgstr ""
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1571,7 +1581,7 @@ msgstr "Fehler beim Entfernen von Nutzern aus Gruppen"
 msgid "Evil person"
 msgstr "Bösartige Person"
 
-#: core/lib/Foswiki/Plugins.pm:375
+#: core/lib/Foswiki/Plugins.pm:378
 msgid "Failed plugins"
 msgstr "Fehlgeschlagene Plugins"
 
@@ -1583,7 +1593,7 @@ msgstr "Hinzufügen des Benutzers fehlgeschlagen: "
 msgid "Failed to include URL %1"
 msgstr "Inkludieren von URL %1 fehlgeschlagen"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "Die mit %1 gekennzeichneten sind Pflichtfelder"
@@ -1715,7 +1725,7 @@ msgstr "Gute Beispiele:"
 msgid "Group"
 msgstr "Gruppe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr "Gruppe existiert nicht und ihre Erzeugung ist nicht erlaubt."
@@ -1724,7 +1734,7 @@ msgstr "Gruppe existiert nicht und ihre Erzeugung ist nicht erlaubt."
 msgid "Group name"
 msgstr "Gruppenname"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Group names must end in Group"
 msgstr "Gruppennamen müssen auf Group enden"
 
@@ -1810,6 +1820,13 @@ msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
 "Ideen, Anfragen oder Probleme bezüglich %1? <a href='%2'>Feedback senden</a>"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+msgid ""
+"If Foswiki can't find a registered e-mail for you in the secret database, "
+"you will be unable to reset your password or take advantage of email "
+"notifications of topic changes."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
@@ -1888,7 +1905,7 @@ msgstr ""
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Wenn Sie Fragen zur Registrierung senden Sie eine E-Mail an %1."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:72
@@ -1923,24 +1940,14 @@ msgstr "Wenn Sie das Topic anlegen wollen"
 msgid "If you would like to create this web"
 msgstr "Wenn Sie dieses Web anlegen wollen"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "Falls Ihre alte E-Mail Adresse ungültig ist und Sie ihr Passwort vergessen "
 "haben, setzen Sie sich bitte für weitere Hilfe mit %1 in Verbindung."
-
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-msgid ""
-"If your user topic is not protected from changes by other people, and you "
-"don't register an e-mail address using this form, then your user account "
-"could be hijacked by someone else."
-msgstr ""
-"Falls Sie ihr Benutzer-Topic nicht vor Änderungen von anderen Benutzern "
-"geschützt haben und Sie keine E-Mail Adresse mit diesem Formular "
-"registrieren, könnte Ihr Zugang von jemand anderem entführt werden."
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -2146,13 +2153,18 @@ msgstr "Einloggen"
 msgid "Log Out"
 msgstr "Ausloggen"
 
-#: core/data/Main/GroupViewTemplate.txt:127
+#: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
 msgstr "Anmelden um fortzufahren."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
 msgstr "Melden Sie sich mit Ihrem Benutzernamen und Ihrem Passwort an"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#, fuzzy
+msgid "Login"
+msgstr "Login-Name"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 msgid "Login name"
@@ -2258,13 +2270,17 @@ msgstr "In folgendes Web verschieben:"
 msgid "Move topic to web:"
 msgstr "Topic in folgendes Web verschieben:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1249
+#: core/lib/Foswiki/UI/Rename.pm:1145
 msgid "Move/Rename"
 msgstr "Verschieben/Umbenennen"
 
-#: core/lib/Foswiki/Search.pm:1138
+#: core/lib/Foswiki/Search.pm:1144
 msgid "NEW"
 msgstr "NEU"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name"
+msgstr ""
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2278,6 +2294,10 @@ msgstr "Der Names des neuen Webs fehlt"
 msgid "Navigate to a similar topic"
 msgstr "Zu einem ähnlichen Topic navigieren"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+msgid "Never mind"
+msgstr ""
+
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
 msgstr "Die Registrierung für neue Benutzer ist abgeschaltet"
@@ -2286,7 +2306,7 @@ msgstr "Die Registrierung für neue Benutzer ist abgeschaltet"
 msgid "New User Registration not supported"
 msgstr "Die Registrierung für neue Benutzer wird nicht unterstützt"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list)"
 msgstr "Neue E-Mails (Leerzeichen-separatisierte Liste)"
 
@@ -2321,7 +2341,7 @@ msgstr "Neuer Web-Name:"
 msgid "Newer revision:"
 msgstr "Neuere Revision"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+#: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
 msgstr "Weiter"
 
@@ -2377,6 +2397,7 @@ msgstr ""
 "Beachten Sie, dass alle URLs die auf diesen Anhang zeigen, nach dem "
 "Verschieben nicht mehr funktionieren."
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
@@ -2439,9 +2460,8 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, ich bin es immer noch!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
 msgstr "Ok"
 
@@ -2453,7 +2473,7 @@ msgstr "Ältere Revisionen:"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Nur Mitglieder von %1 dürfen diese Aktion durchführen."
 
-#: core/data/Main/GroupViewTemplate.txt:130
+#: core/data/Main/GroupViewTemplate.txt:131
 msgid "Only members or admins may update group."
 msgstr "Nur Mitglieder und Administratoren können Gruppen bearbeiten."
 
@@ -2496,8 +2516,9 @@ msgstr "Organisationsname"
 msgid "Organisation website"
 msgstr "Organisationswebseite"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "Passwort"
@@ -2522,7 +2543,7 @@ msgstr "Passwortänderungen deaktiviert"
 msgid "Passwords do not match"
 msgstr "Passwörter stimmen nicht überein"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/WebCreateNewTopicComponents.txt:142
 #: core/templates/more.tmpl:104
 msgid "Pick from a list"
 msgstr "Von der Liste auswählen"
@@ -2612,9 +2633,17 @@ msgstr ""
 "Bitte gehen Sie nach %1 und ändern Sie ihr Passwort in ein für Sie besser "
 "merkbares um."
 
-#: core/lib/Foswiki/Plugins.pm:416
+#: core/lib/Foswiki/Plugins.pm:419
 msgid "Plugin handlers"
 msgstr "Plugin-Handler"
+
+#: core/lib/Foswiki/Plugin.pm:276
+msgid "Plugin module did not return true. See errors below."
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:145
+msgid "Plugin module was not defined. Check configuration. See errors below."
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2637,7 +2666,7 @@ msgstr "Wählen Sie ansonsten Abbrechen."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Bitte bestätigen Sie mit OK, wenn diese Änderung beabsichtigt ist."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+#: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
 msgstr "Zurück"
 
@@ -2687,7 +2716,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Weiter lesen"
 
-#: core/data/Sandbox/WebHome.txt:28
+#: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
 msgstr "Kürzlich geänderte Topics"
 
@@ -2705,7 +2734,7 @@ msgstr "Weiterleitung wurde verweigert"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:93
-#: core/lib/Foswiki/UI/Rename.pm:1248
+#: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Neu laden"
 
@@ -2717,7 +2746,7 @@ msgstr "Neu laden"
 msgid "Register"
 msgstr "Registrieren"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "Registrierte E-Mail Adressen für den gerade angemeldeten Benutzer"
 
@@ -2743,11 +2772,11 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "Mit regulären Ausdrücken suchen"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:985
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2770,15 +2799,15 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Sie kennen Ihr Passwort?"
 
-#: core/data/Main/GroupViewTemplate.txt:261
+#: core/data/Main/GroupViewTemplate.txt:262
 msgid "Remove members from this group"
 msgstr "Entferne Mitglied aus dieser Gruppe"
 
-#: core/data/Main/GroupViewTemplate.txt:180
+#: core/data/Main/GroupViewTemplate.txt:181
 msgid "Remove members..."
 msgstr "Entferne Mitglieder..."
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
 msgstr "Entferne ausgewählte Mitglieder"
 
@@ -3026,7 +3055,6 @@ msgstr "Wo suchen:"
 msgid "Searched:"
 msgstr "Gesucht:"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Sicherheitshinweis:"
@@ -3066,6 +3094,10 @@ msgstr "Eine Hilfe zur Bearbeitung dieser Seite finden Sie weiter unten."
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
 msgstr "Änderungen ansehen seit:"
+
+#: core/lib/Foswiki/Plugins.pm:263
+msgid "See the DISABLEDPLUGINS preference setting."
+msgstr ""
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3209,13 +3241,13 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistiken"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:31
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr "Übermitteln"
@@ -3259,7 +3291,7 @@ msgstr "Zusammenfassungen"
 msgid "Switch to monotype or propotional font"
 msgstr "Zeichensatz in monotype oder proportional wechseln"
 
-#: core/data/Main/GroupViewTemplate.txt:124
+#: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
 msgstr "Liste der System-Benutzer."
 
@@ -3324,7 +3356,7 @@ msgid "The %1 topic already exists"
 msgstr "Das Topic %1 existiert bereits"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "Das %1 Web existiert nicht"
 
@@ -3446,6 +3478,14 @@ msgstr "Die E-Mail Adresse wird bereits von einem anderen Benutzer verwendet."
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "Die E-Mail Adresse für diesen Zugang ist ungültig."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"The e-mail address in your user topic is typically left blank. If you want "
+"to reveal an e-mail address to other users, you can manually edit your user "
+"topic to add an address.  It does not have to be the same as the address "
+"used internally by Foswiki."
+msgstr ""
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3594,7 +3634,7 @@ msgstr ""
 "registrieren werden geheim gehalten und *nicht* auf dieser Seite "
 "veröffentlicht."
 
-#: core/data/Main/GroupViewTemplate.txt:121
+#: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
 msgstr "Diese Gruppe sollte keine Mitglieder haben."
 
@@ -3641,7 +3681,7 @@ msgstr ""
 "wiederherstellen; gelöschte Anhänge befinden sich in im Topic "
 "TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
 msgid "This is why the conversion is disabled:"
 msgstr "Grund für die Deaktivierung der Umwandlung:"
 
@@ -3682,7 +3722,7 @@ msgstr "Diese Seite läuft auf Foswiki"
 msgid "This site requires at least %1 character passwords"
 msgstr "Diese Seite benötigt ein Passwort mit mindestens %1 Zeichen"
 
-#: core/templates/viewprint.tmpl:15
+#: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Dieses Topic:"
 
@@ -3784,23 +3824,21 @@ msgstr "Topic-Daten"
 msgid "Topic history"
 msgstr "Topic-Historie"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
+#: core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr "Topic-Name"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:53
-#: core/data/System/WebCreateNewTopicTemplate.txt:34
+#: core/data/System/WebCreateNewTopicTemplate.txt:52
 msgid "Topic name:"
 msgstr "Topic-Name:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:60
-#: core/data/System/WebCreateNewTopicTemplate.txt:38
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
 msgstr "Ober-Topic:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "Topic-Revision:"
 
@@ -3819,6 +3857,10 @@ msgstr "Topic-Titel"
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
 msgstr "Topic wurde zusammengeführt"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:120
+msgid "Topic will be named: "
+msgstr "Topic Name:"
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -3879,15 +3921,15 @@ msgstr "Anhang %1 an %2 aktualisieren"
 msgid "Update links"
 msgstr "Verweise aktualisieren"
 
-#: core/data/Main/GroupViewTemplate.txt:220
+#: core/data/Main/GroupViewTemplate.txt:221
 msgid "Upgrade"
 msgstr "Upgraden"
 
-#: core/data/Main/GroupViewTemplate.txt:216
+#: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
 msgstr "Gruppen-Topic optimieren"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
 msgstr "Gruppen-Topic auf neuesten Stand bringen..."
 
@@ -3922,22 +3964,17 @@ msgstr "Die hochgeladene Datei ist zu groß"
 msgid "Use %1 instead."
 msgstr "Benutzen Sie stattdessen %1."
 
-#: core/data/Sandbox/WebHome.txt:22
-msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "Benutzen Sie einen Topic-Namen in %SYSTEMWEB%.WikiNotation"
-
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
-#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
 msgid "Use template:"
 msgstr "Vorlagen benutzen:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Benutzer %1 hat keine Änderungsberechtigung für %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
 msgstr ""
@@ -3962,12 +3999,12 @@ msgid "Users"
 msgstr "Benutzer"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
 msgid "Users cannot be added to %1"
 msgstr "Es können keine Benutzer zur Gruppe %1 hinzugefügt werden."
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
 msgid "Users cannot be removed from %1"
 msgstr "Es können keine Benutzer aus Gruppe %1 entfernt werden"
 
@@ -4032,7 +4069,7 @@ msgstr "Revision ansehen:"
 msgid "View sequential topic history"
 msgstr "Sequentielle Topic-Historie ansehen"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
 msgstr "Vorlagen anzeigen"
 
@@ -4084,11 +4121,11 @@ msgstr "Warnung: Konnte Topic %1.%2 nicht finden"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Warnung: Konnte das Web %1 für Topic %2 nicht finden"
 
-#: core/lib/Foswiki/UI/Register.pm:1018
+#: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
 msgstr "Warnung: Bestätigungs-E-Mail konnte nicht versendet werden"
 
-#: core/lib/Foswiki/UI/Register.pm:1030
+#: core/lib/Foswiki/UI/Register.pm:1038
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Warnung: Bestätigungs-E-Mail konnte nicht versendet werden, E-Mails wurden "
@@ -4313,7 +4350,7 @@ msgstr ""
 "Sie können sich nicht zweimal registrieren, der Name %1 ist bereits "
 "registriert."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -4387,25 +4424,12 @@ msgstr ""
 "Sie %1 in das Formular eintragen, welches ihnen mit der E-Mail übersandt "
 "wurde, oder indem Sie auf %2 gehen"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-msgid ""
-"You really ought to register a valid e-mail address. If Foswiki can't find a "
-"registered e-mail for you in the secret database, it will look in your user "
-"topic for a form field called Email. If this form field does not exist it "
-"will look for a line like this:"
-msgstr ""
-"Es wird Ihnen empfohlen, ein gültige E-Mail Adresse zu registrieren. Falls "
-"Foswiki keine registrierte E-Mail von Ihnen in der geschützten Datenbank "
-"finden kann, wird das System in ihrem Benutzer-Topic nach einem Formularfeld "
-"mit der Bezeichnung Email sehen. Falls dieses Formularfeld nicht existiert, "
-"wird es nach einer Zeile wie folgt Ausschau halten:"
-
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
 "Sie müssen wahrscheinlich Ihren Administrator, %1, fragen, um das zu tun."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "Your"
 msgstr "Ihr"
 
@@ -4480,7 +4504,7 @@ msgstr ""
 "Ihre registrierten E-Mail Adresse(n) wurden wie folgt aktualisiert: "
 "<noautolink>%1</noautolink>."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4598,6 +4622,10 @@ msgstr "Unterschiede"
 msgid "don't forget to check your Topic Settings"
 msgstr "vergessen Sie nicht, Ihre Topic-Einstellungen zu überprüfen"
 
+#: core/lib/Foswiki/Plugin.pm:196
+msgid "earlyInitPlugin failed.  See errors below."
+msgstr ""
+
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
@@ -4623,6 +4651,10 @@ msgstr "im Quelltextformat"
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
 msgstr "kennzeichnet Pflichtfelder"
+
+#: core/lib/Foswiki/Plugin.pm:182
+msgid "initPlugin was not defined. See errors below."
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4662,7 +4694,7 @@ msgstr "Vorschau"
 msgid "retrieved at %1"
 msgstr "abgefragt um %1"
 
-#: core/templates/viewprint.tmpl:16
+#: core/templates/viewprint.tmpl:15
 msgid "revision %1"
 msgstr "Revision %1"
 
@@ -4787,6 +4819,33 @@ msgstr "Ansehen"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "warum Sie zur Bestätigung aufgefordert werden"
+
+#~ msgid "Create topic"
+#~ msgstr "Topic anlegen"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Falls Sie ihr Benutzer-Topic nicht vor Änderungen von anderen Benutzern "
+#~ "geschützt haben und Sie keine E-Mail Adresse mit diesem Formular "
+#~ "registrieren, könnte Ihr Zugang von jemand anderem entführt werden."
+
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "Benutzen Sie einen Topic-Namen in %SYSTEMWEB%.WikiNotation"
+
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "Es wird Ihnen empfohlen, ein gültige E-Mail Adresse zu registrieren. "
+#~ "Falls Foswiki keine registrierte E-Mail von Ihnen in der geschützten "
+#~ "Datenbank finden kann, wird das System in ihrem Benutzer-Topic nach einem "
+#~ "Formularfeld mit der Bezeichnung Email sehen. Falls dieses Formularfeld "
+#~ "nicht existiert, wird es nach einer Zeile wie folgt Ausschau halten:"
 
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -5097,9 +5156,6 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ msgstr ""
 #~ "Um sich als neuer Nutzer zu registrieren füllen Sie einfach folgendes "
 #~ "Formular aus:"
-
-#~ msgid "Topic will be named: "
-#~ msgstr "Topic Name:"
 
 #~ msgid "Topics in %1 web"
 #~ msgstr "Topics im %1 Web"
@@ -5645,12 +5701,6 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ msgstr ""
 #~ "Zeichen wie zum Beispiel Leerzeichen, die in Topicnamen nicht erlaubt "
 #~ "sind, werden automatisch entfernt."
-
-#~ msgid ""
-#~ "Chose a topic name that is a %1 or check the allow non-Wiki Word box."
-#~ msgstr ""
-#~ "Bitten wählen Sie einen Topic Namen, der ein %1 ist oder erlauben Sie die "
-#~ "Verwendung von Nicht-<nop>WikiWörter in der Auswahlbox."
 
 #~ msgid "Clear"
 #~ msgstr "Formularinhalt löschen"

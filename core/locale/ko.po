@@ -64,7 +64,7 @@ msgid "%1 added to the %2 group. "
 msgstr "%1 님이 %2 그룹에 추가됨."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
 msgid "%1 cannot be removed from %2"
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "%1 group topic upgraded. "
 msgstr "%1 그룹 토픽이 업그레이드 됨."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 에 다른 Foswiki 사용자 리스트가 있습니다."
@@ -173,7 +173,7 @@ msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr ""
 "%1 은 %4 님에 의하여 %3 에 %2 으로부터 이름이 변경되거나 이동 되었습니다."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
 msgstr "%1.LoginName"
 
@@ -217,7 +217,7 @@ msgstr "(*제안:* 귀하의 토픽에 귀하의 사진을 올리는 건 어떨�
 msgid "(=all= to show all topics)"
 msgstr "(=전부= 모든 토픽을 보기) "
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:118
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
 msgstr "(이 메시지는 자동으로 삭제됩니다)"
 
@@ -289,16 +289,16 @@ msgstr "(더 보기)"
 msgid "(move attachment)"
 msgstr "(첨부파일 이동)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
 msgstr "(상위없는 고아 토픽)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1179
-#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:1239
-#: core/lib/Foswiki/UI/Rename.pm:1242 core/lib/Foswiki/UI/Rename.pm:1277
-#: core/lib/Foswiki/UI/Rename.pm:1300 core/lib/Foswiki/UI/Rename.pm:559
-#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
-#: core/lib/Foswiki/UI/Rename.pm:571
+#: core/lib/Foswiki/UI/Rename.pm:1059 core/lib/Foswiki/UI/Rename.pm:1075
+#: core/lib/Foswiki/UI/Rename.pm:1132 core/lib/Foswiki/UI/Rename.pm:1135
+#: core/lib/Foswiki/UI/Rename.pm:1138 core/lib/Foswiki/UI/Rename.pm:1173
+#: core/lib/Foswiki/UI/Rename.pm:1196 core/lib/Foswiki/UI/Rename.pm:569
+#: core/lib/Foswiki/UI/Rename.pm:573 core/lib/Foswiki/UI/Rename.pm:577
+#: core/lib/Foswiki/UI/Rename.pm:581
 msgid "(none)"
 msgstr "(없음)"
 
@@ -306,7 +306,7 @@ msgstr "(없음)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(대신 %1 웹만을 검색)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(원시형식 보기)"
 
@@ -340,11 +340,11 @@ msgstr "(알파벳 한 개의 이름)"
 msgid "(single character last name)"
 msgstr "(알파벳 한 개의 성)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1151
+#: core/lib/Foswiki/UI/Rename.pm:1047
 msgid "(skipped)"
 msgstr "(건너뜀)"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
@@ -530,7 +530,7 @@ msgstr ""
 "= #FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1025
+#: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "확인 메일이 %1 로 전송되었습니다."
 
@@ -605,11 +605,11 @@ msgstr "추가"
 msgid "Add form"
 msgstr "서식 추가"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:240
 msgid "Add members"
 msgstr "멤버 추가"
 
-#: core/data/Main/GroupViewTemplate.txt:170
+#: core/data/Main/GroupViewTemplate.txt:171
 msgid "Add members..."
 msgstr "멤버 추가..."
 
@@ -618,11 +618,11 @@ msgstr "멤버 추가..."
 msgid "Add row"
 msgstr "행 추가"
 
-#: core/data/Main/GroupViewTemplate.txt:217
+#: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
 msgstr "이 토픽에 사용자 관리 선택사항 추가."
 
-#: core/data/Main/GroupViewTemplate.txt:235
+#: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
 msgstr "이 그룹에 사용자 혹은 그룹 추가"
 
@@ -638,8 +638,8 @@ msgstr "포스위키 사용자 인증 관리"
 msgid "Admin Maintenance"
 msgstr "관리 유지보수"
 
-#: core/data/Main/GroupViewTemplate.txt:145
-#: core/data/Main/GroupViewTemplate.txt:166
+#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:167
 msgid "Administration"
 msgstr "관리"
 
@@ -647,7 +647,7 @@ msgstr "관리"
 msgid "Advanced search"
 msgstr "고급 검색"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:29
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -815,7 +815,7 @@ msgstr "특성"
 msgid "Automated notification of topic changes"
 msgstr "토픽 변경 자동 알림"
 
-#: core/data/_default/WebHome.txt:4
+#: core/data/_default/WebHome.txt:5
 msgid "Available Information"
 msgstr "제공되는 정보"
 
@@ -875,12 +875,12 @@ msgstr ""
 "오."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -896,10 +896,9 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
@@ -1054,6 +1053,10 @@ msgstr "닫기"
 msgid "Color %1 has an invalid format"
 msgstr "%1 색상의 형식은 유효하지 않습니다"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+msgid "Come on in"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1103,7 +1106,7 @@ msgstr "계속하고 웹의 이름변경을 시도하겠습니까?"
 msgid "Continue to create the new page"
 msgstr "계속하여 새 페이지를 생성"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:114
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1162,11 +1165,11 @@ msgstr "국가"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
 msgstr "새 토픽 생성"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:49
-#: core/data/System/WebCreateNewTopicTemplate.txt:6
+#: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
 msgstr "%1 웹에 새 토픽 생성"
 
@@ -1206,14 +1209,10 @@ msgstr "토픽 생성"
 #: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "이 토픽 생성"
-
-#: core/data/Sandbox/WebHome.txt:19
-msgid "Create topic"
-msgstr "토픽 생성"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
@@ -1248,7 +1247,7 @@ msgstr "안녕하세요, %1 님"
 msgid "Debug"
 msgstr "디버그"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:144
 msgid "Default template"
 msgstr "기본 템플릿"
 
@@ -1280,7 +1279,7 @@ msgstr "토픽 지우기..."
 msgid "Describe the file so other people know what it is."
 msgstr "다른 사람들이 내용을 알 수 있도록 파일을 설명해 주십시오."
 
-#: core/lib/Foswiki/Form.pm:316
+#: core/lib/Foswiki/Form.pm:327
 msgid "Details in separate window"
 msgstr "별도 창에 상세내역"
 
@@ -1454,7 +1453,7 @@ msgstr ""
 msgid "Email address"
 msgstr "이메일 주소"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "여기 설치된 Foswiki 에는 이메일이 비활성화 되어 있습니다"
 
@@ -1469,6 +1468,17 @@ msgstr "정보 변경을 위해 새로운 사용자 이름과 비밀번호를 �
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "위키 관리자 사용자 혹은 %1 에 설정된 로그인을 입력하십시오"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:121
+#, fuzzy
+msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+msgstr ""
+"브라우저에서 뒤로가서 [[%SYSTEMWEB%.WikiWord][위키워드]] 로 된 토픽명을 선택"
+"하거나 비-위키워드 허용 상자를 체크하십시오."
+
+#: core/lib/Foswiki/Plugin.pm:130
+msgid "Error encountered loading the plugin. See errors below."
+msgstr ""
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1519,7 +1529,7 @@ msgstr "그룹에서 사용자 삭제 오류"
 msgid "Evil person"
 msgstr "범죄자"
 
-#: core/lib/Foswiki/Plugins.pm:375
+#: core/lib/Foswiki/Plugins.pm:378
 msgid "Failed plugins"
 msgstr "실패한 플러그인"
 
@@ -1531,7 +1541,7 @@ msgstr ""
 msgid "Failed to include URL %1"
 msgstr "URL %1 포함 실패"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "%1 로 표시된 필드는 필수 항목입니다."
@@ -1657,7 +1667,7 @@ msgstr "좋은 예제:"
 msgid "Group"
 msgstr "그룹"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1666,7 +1676,7 @@ msgstr ""
 msgid "Group name"
 msgstr "그룹 명"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -1751,6 +1761,13 @@ msgstr ""
 "%1 관련 아이디어, 요청사항, 문제가 있습니까? <a href='%2'>의견을 보내주십시오"
 "k</a>"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+msgid ""
+"If Foswiki can't find a registered e-mail for you in the secret database, "
+"you will be unable to reset your password or take advantage of email "
+"notifications of topic changes."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
@@ -1820,7 +1837,7 @@ msgstr ""
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "등록과 관련하여 문의사항이 있으면, %1 에게 이메일로 연락하세요."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:72
@@ -1853,24 +1870,14 @@ msgstr "토픽을 생성하려면"
 msgid "If you would like to create this web"
 msgstr "이 웹을 생성하려면"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "이전 이메일 주소가 모두 유효하지 않거나 (더 이상 그 주소로 이메일 수신이 불가"
 "능하다면) 비밀번호를 분실하였다면, %1 님에게 연락하여 도움을 요청하십시오."
-
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-msgid ""
-"If your user topic is not protected from changes by other people, and you "
-"don't register an e-mail address using this form, then your user account "
-"could be hijacked by someone else."
-msgstr ""
-"사용자 토픽이 다른 사람들이 변경하는 것에 대하여 보호되지 않았고, 이 양식을 "
-"사용하여 이메일 주소를 등록하지 않았다면, 귀하의 사용자 계정은 다른 사람에 의"
-"하여 갈취될 수 있습니다."
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -2074,13 +2081,18 @@ msgstr "로그인"
 msgid "Log Out"
 msgstr "로그아웃"
 
-#: core/data/Main/GroupViewTemplate.txt:127
+#: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
 msgstr "계속하려면 로그인하십시오."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
 msgstr "귀하의 사용자명과 비밀번호로 로그인하십시오"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#, fuzzy
+msgid "Login"
+msgstr "로그인 명"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 msgid "Login name"
@@ -2186,13 +2198,17 @@ msgstr "이동할 웹:"
 msgid "Move topic to web:"
 msgstr "토픽을 다음 Web 으로 이동하기:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1249
+#: core/lib/Foswiki/UI/Rename.pm:1145
 msgid "Move/Rename"
 msgstr "이동/이름변경"
 
-#: core/lib/Foswiki/Search.pm:1138
+#: core/lib/Foswiki/Search.pm:1144
 msgid "NEW"
 msgstr "신규"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name"
+msgstr ""
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2206,6 +2222,10 @@ msgstr "새 웹의 이름이 없습니다"
 msgid "Navigate to a similar topic"
 msgstr "유사한 토픽으로 탐색"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+msgid "Never mind"
+msgstr ""
+
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
 msgstr "새 사용자 등록 비활성화됨"
@@ -2214,7 +2234,7 @@ msgstr "새 사용자 등록 비활성화됨"
 msgid "New User Registration not supported"
 msgstr "새 사용자 등록 지원되지 않음"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list)"
 msgstr "새 이메일 (스페이스로 구분된 목록)"
 
@@ -2247,7 +2267,7 @@ msgstr "새로운 Web 이름"
 msgid "Newer revision:"
 msgstr "새로운 리비전:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+#: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
 msgstr "다음"
 
@@ -2302,6 +2322,7 @@ msgid ""
 msgstr ""
 "이 이동을 실행한 뒤 첨부물에 대한 참조 URL은 손상될 수 있음에 주의하세요."
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
@@ -2364,9 +2385,8 @@ msgstr "확인"
 msgid "OK, this is still me!"
 msgstr "예, 아직 저입니다!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
 msgstr "확인"
 
@@ -2378,7 +2398,7 @@ msgstr "이전 리비전:"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "%1의 멤버들만이 이 명령의 수행을 허가받았습니다."
 
-#: core/data/Main/GroupViewTemplate.txt:130
+#: core/data/Main/GroupViewTemplate.txt:131
 msgid "Only members or admins may update group."
 msgstr "멤버 혹은 관리자만이 그룹을 갱신할 수 있습니다."
 
@@ -2421,8 +2441,9 @@ msgstr "조직명"
 msgid "Organisation website"
 msgstr "조직 웹사이트"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "비밀번호"
@@ -2448,7 +2469,7 @@ msgstr "비밀번호 초기화가 실패했습니다."
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다."
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/WebCreateNewTopicComponents.txt:142
 #: core/templates/more.tmpl:104
 msgid "Pick from a list"
 msgstr "목록에서 선택하기"
@@ -2530,9 +2551,17 @@ msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "비밀번호를 귀하의 기억에 더 남는 것으로 변경하려면 %1 으로 가십시오."
 
-#: core/lib/Foswiki/Plugins.pm:416
+#: core/lib/Foswiki/Plugins.pm:419
 msgid "Plugin handlers"
 msgstr "플러그인 핸들러"
+
+#: core/lib/Foswiki/Plugin.pm:276
+msgid "Plugin module did not return true. See errors below."
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:145
+msgid "Plugin module was not defined. Check configuration. See errors below."
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2555,7 +2584,7 @@ msgstr "아니라면 취소를 누르십시오."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "이 수정이 의도한 바였다면 확인을 눌러주십시오."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+#: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
 msgstr "이전"
 
@@ -2606,7 +2635,7 @@ msgstr ""
 msgid "Read on"
 msgstr "계속 읽기"
 
-#: core/data/Sandbox/WebHome.txt:28
+#: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
 msgstr "최근에 변경된 토픽"
 
@@ -2624,7 +2653,7 @@ msgstr "리디렉션 거부됨"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:93
-#: core/lib/Foswiki/UI/Rename.pm:1248
+#: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "새로고침"
 
@@ -2636,7 +2665,7 @@ msgstr "새로고침"
 msgid "Register"
 msgstr "등록하기"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "현재 로그인된 사용자에 대한 등록된 이메일 주소"
 
@@ -2661,11 +2690,11 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "정규 표현식 검색"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:985
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2688,15 +2717,15 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "비밀번호를 기억하십니까?"
 
-#: core/data/Main/GroupViewTemplate.txt:261
+#: core/data/Main/GroupViewTemplate.txt:262
 msgid "Remove members from this group"
 msgstr "이 그룹에서 사용자를 삭제"
 
-#: core/data/Main/GroupViewTemplate.txt:180
+#: core/data/Main/GroupViewTemplate.txt:181
 msgid "Remove members..."
 msgstr "구성원 제거..."
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
 msgstr "선택된 구성원 제거"
 
@@ -2935,7 +2964,6 @@ msgstr "검색 장소?:"
 msgid "Searched:"
 msgstr "검색 결과:"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "보안 주의:"
@@ -2973,6 +3001,10 @@ msgstr "이 페이지의 편집에 대한 도움말은 아래를 참고하십시
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
 msgstr "다음 이후의 변경 보기:"
+
+#: core/lib/Foswiki/Plugins.pm:263
+msgid "See the DISABLEDPLUGINS preference setting."
+msgstr ""
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3110,13 +3142,13 @@ msgstr ""
 msgid "Statistics"
 msgstr "통계"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:31
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr "제출"
@@ -3160,7 +3192,7 @@ msgstr "요약"
 msgid "Switch to monotype or propotional font"
 msgstr "고정폭 혹은 가변폭 폰트로 변경"
 
-#: core/data/Main/GroupViewTemplate.txt:124
+#: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
 msgstr "시스템 사용자 목록."
 
@@ -3222,7 +3254,7 @@ msgid "The %1 topic already exists"
 msgstr "%1 토픽은 이미 존재합니다."
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "%1 Web은 존재하지 않습니다."
 
@@ -3339,6 +3371,14 @@ msgstr ""
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "이 계정에 대한 이메일 주소는 유효하지 않습니다."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"The e-mail address in your user topic is typically left blank. If you want "
+"to reveal an e-mail address to other users, you can manually edit your user "
+"topic to add an address.  It does not have to be the same as the address "
+"used internally by Foswiki."
+msgstr ""
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3470,7 +3510,7 @@ msgstr ""
 "다. 이 양식을 통해 등록한 주소는 비밀이 유지되며 이 사이트의 어디에도 표기 되"
 "지 않습니다."
 
-#: core/data/Main/GroupViewTemplate.txt:121
+#: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
 msgstr "이 그룹에 멤버가 있어서는 안됩니다."
 
@@ -3514,7 +3554,7 @@ msgstr ""
 "휴지통입니다. 여기에서 토픽을 복원할 수 있습니다; 삭제된 첨부파일은 "
 "TrashAttachment 에 있습니다."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
 msgid "This is why the conversion is disabled:"
 msgstr "이 대화가 비활성화 된 이유입니다:"
 
@@ -3553,7 +3593,7 @@ msgstr "이 사이트는 Foswiki 를 실행합니다"
 msgid "This site requires at least %1 character passwords"
 msgstr "이 사이트는 최소 %1 개 문자의 비밀번호를 요구합니다"
 
-#: core/templates/viewprint.tmpl:15
+#: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "이 토픽:"
 
@@ -3653,23 +3693,21 @@ msgstr "토픽 데이터"
 msgid "Topic history"
 msgstr "토픽 기록"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
+#: core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr "토픽 이름"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:53
-#: core/data/System/WebCreateNewTopicTemplate.txt:34
+#: core/data/System/WebCreateNewTopicTemplate.txt:52
 msgid "Topic name:"
 msgstr "토픽 이름:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:60
-#: core/data/System/WebCreateNewTopicTemplate.txt:38
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
 msgstr "토픽 부모:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "토픽 수정본:"
 
@@ -3688,6 +3726,11 @@ msgstr "토픽 제목"
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
 msgstr "토픽이 병합되었습니다"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:120
+#, fuzzy
+msgid "Topic will be named: "
+msgstr "토픽 이름:"
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -3744,15 +3787,15 @@ msgstr "%2 상의 첨부파일 %1 갱신"
 msgid "Update links"
 msgstr "링크 갱신"
 
-#: core/data/Main/GroupViewTemplate.txt:220
+#: core/data/Main/GroupViewTemplate.txt:221
 msgid "Upgrade"
 msgstr "업그레이드"
 
-#: core/data/Main/GroupViewTemplate.txt:216
+#: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
 msgstr "그룹 토픽 업그레이드"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
 msgstr "그룹 토픽 업그레이드..."
 
@@ -3787,22 +3830,17 @@ msgstr "업로드 파일이 너무 큽니다."
 msgid "Use %1 instead."
 msgstr "%1 을 대신 사용하십시오."
 
-#: core/data/Sandbox/WebHome.txt:22
-msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "%SYSTEMWEB%.WikiNotation 으로 된 토픽명을 사용하십시오"
-
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
-#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
 msgid "Use template:"
 msgstr "사용자 템플릿:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
 msgstr ""
@@ -3826,12 +3864,12 @@ msgid "Users"
 msgstr "사용자"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -3896,7 +3934,7 @@ msgstr "수정내역 보기:"
 msgid "View sequential topic history"
 msgstr "토픽 기록 순차적 보기"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
 msgstr "템플릿 보기"
 
@@ -3946,11 +3984,11 @@ msgstr "경고: %1.%2 토픽 찾을 수 없음"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:1018
+#: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
 msgstr "경고: 확인 이메일 전송할 수 없음"
 
-#: core/lib/Foswiki/UI/Register.pm:1030
+#: core/lib/Foswiki/UI/Register.pm:1038
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "경고: 확인 이메일 보낼 수 없음, 이메일이 비활성화 되어 있음"
 
@@ -4162,7 +4200,7 @@ msgstr "이 사이트에 등록할 수 없습니다."
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "두 번 등록할 수 없습니다, %1 이름은 이미 등록되었습니다."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -4221,23 +4259,11 @@ msgstr ""
 "이제 이메일 주소를 확인해야 합니다. 이 이메일이 전송되었을 때 제시된 양식에 "
 "%1 을 입력하거나 %2 를 방문하면 됩니다."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-msgid ""
-"You really ought to register a valid e-mail address. If Foswiki can't find a "
-"registered e-mail for you in the secret database, it will look in your user "
-"topic for a form field called Email. If this form field does not exist it "
-"will look for a line like this:"
-msgstr ""
-"유효한 이메일 주소를 등록하셔야 합니다. Foswiki 가 비밀 데이터베이스에서 귀하"
-"에 대한 등록된 이메일을 찾을 수 없다면, 사용자 토픽에서 이메일이라는 양식 항"
-"목을 찾아 보게 됩니다. 양식 항목이 존재하지 않으면, 다음과 같은 줄을 찾게 됩"
-"니다:"
-
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "이 것을 실행하려면 귀하의 관리자, %1 님, 에게 문의하셔야 합니다."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "Your"
 msgstr "귀하의"
 
@@ -4309,7 +4335,7 @@ msgstr ""
 "귀하의 등록된 이메일 주소(들)는 다음으로 갱신됩니다: <noautolink>%1</"
 "noautolink>."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4422,6 +4448,10 @@ msgstr "diff"
 msgid "don't forget to check your Topic Settings"
 msgstr "토픽 설정을 확인하세요"
 
+#: core/lib/Foswiki/Plugin.pm:196
+msgid "earlyInitPlugin failed.  See errors below."
+msgstr ""
+
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
@@ -4447,6 +4477,10 @@ msgstr "원문 보기 포맷으로"
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
 msgstr "필수 입력 항목 찾기"
+
+#: core/lib/Foswiki/Plugin.pm:182
+msgid "initPlugin was not defined. See errors below."
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4486,7 +4520,7 @@ msgstr "미리보기"
 msgid "retrieved at %1"
 msgstr "%1 에서 검색됨"
 
-#: core/templates/viewprint.tmpl:16
+#: core/templates/viewprint.tmpl:15
 #, fuzzy
 msgid "revision %1"
 msgstr "리비전"
@@ -4606,6 +4640,32 @@ msgstr "보기"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "귀하의 확인이 요청된 이유"
+
+#~ msgid "Create topic"
+#~ msgstr "토픽 생성"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "사용자 토픽이 다른 사람들이 변경하는 것에 대하여 보호되지 않았고, 이 양식"
+#~ "을 사용하여 이메일 주소를 등록하지 않았다면, 귀하의 사용자 계정은 다른 사"
+#~ "람에 의하여 갈취될 수 있습니다."
+
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "%SYSTEMWEB%.WikiNotation 으로 된 토픽명을 사용하십시오"
+
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "유효한 이메일 주소를 등록하셔야 합니다. Foswiki 가 비밀 데이터베이스에서 "
+#~ "귀하에 대한 등록된 이메일을 찾을 수 없다면, 사용자 토픽에서 이메일이라는 "
+#~ "양식 항목을 찾아 보게 됩니다. 양식 항목이 존재하지 않으면, 다음과 같은 줄"
+#~ "을 찾게 됩니다:"
 
 #, fuzzy
 #~ msgid "later"

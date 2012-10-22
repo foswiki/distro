@@ -69,7 +69,7 @@ msgid "%1 added to the %2 group. "
 msgstr "%1 is toegevoegd aan de groep %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
 msgid "%1 cannot be removed from %2"
 msgstr "%1 kan niet worden verwijderd van %2"
 
@@ -77,7 +77,7 @@ msgstr "%1 kan niet worden verwijderd van %2"
 msgid "%1 group topic upgraded. "
 msgstr "Groepspagina %1 is opgewaardeerd."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 heeft een lijst van andere Foswiki gebruikers"
@@ -178,7 +178,7 @@ msgstr "%1 probeerde te registreren met e-mail %2"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 is door %4 hernoemd of verplaatst van %2 in %3"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
 msgstr "[[%1.LoginName][Login naam]]"
 
@@ -222,7 +222,7 @@ msgstr "(*Suggestie:* Wat dacht je van een foto op je persoonlijke pagina?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= om alle pagina&#39;s te tonen)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:118
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
 msgstr "(Dit bericht wordt automatisch verwijderd)"
 
@@ -294,16 +294,16 @@ msgstr "(meer)"
 msgid "(move attachment)"
 msgstr "(bijlage verplaatsen)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
 msgstr "(geen bovenliggende pagina, verweesde pagina)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1179
-#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:1239
-#: core/lib/Foswiki/UI/Rename.pm:1242 core/lib/Foswiki/UI/Rename.pm:1277
-#: core/lib/Foswiki/UI/Rename.pm:1300 core/lib/Foswiki/UI/Rename.pm:559
-#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
-#: core/lib/Foswiki/UI/Rename.pm:571
+#: core/lib/Foswiki/UI/Rename.pm:1059 core/lib/Foswiki/UI/Rename.pm:1075
+#: core/lib/Foswiki/UI/Rename.pm:1132 core/lib/Foswiki/UI/Rename.pm:1135
+#: core/lib/Foswiki/UI/Rename.pm:1138 core/lib/Foswiki/UI/Rename.pm:1173
+#: core/lib/Foswiki/UI/Rename.pm:1196 core/lib/Foswiki/UI/Rename.pm:569
+#: core/lib/Foswiki/UI/Rename.pm:573 core/lib/Foswiki/UI/Rename.pm:577
+#: core/lib/Foswiki/UI/Rename.pm:581
 msgid "(none)"
 msgstr "(geen)"
 
@@ -311,7 +311,7 @@ msgstr "(geen)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(of zoek alleen in %1 web)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(brontekst)"
 
@@ -345,11 +345,11 @@ msgstr "(enkel teken voornaam)"
 msgid "(single character last name)"
 msgstr "(enkel teken achternaam)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1151
+#: core/lib/Foswiki/UI/Rename.pm:1047
 msgid "(skipped)"
 msgstr "(overgeslagen)"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
@@ -542,7 +542,7 @@ msgstr ""
 "bijvoorbeeld =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1025
+#: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Een bevestigings e-mail is verstuurd naar %1"
 
@@ -619,11 +619,11 @@ msgstr "Toevoegen"
 msgid "Add form"
 msgstr "Formulier toevoegen"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:240
 msgid "Add members"
 msgstr "Leden toevoegen"
 
-#: core/data/Main/GroupViewTemplate.txt:170
+#: core/data/Main/GroupViewTemplate.txt:171
 msgid "Add members..."
 msgstr "Leden toevoegen..."
 
@@ -632,11 +632,11 @@ msgstr "Leden toevoegen..."
 msgid "Add row"
 msgstr "Rij toevoegen"
 
-#: core/data/Main/GroupViewTemplate.txt:217
+#: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
 msgstr "Voeg gebruikersbeheeropties toe aan deze pagina"
 
-#: core/data/Main/GroupViewTemplate.txt:235
+#: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
 msgstr "Voeg gebruikers of groepen toe aan deze groep"
 
@@ -652,8 +652,8 @@ msgstr "Admin Foswiki identiteitscontrole"
 msgid "Admin Maintenance"
 msgstr "Admin onderhoud"
 
-#: core/data/Main/GroupViewTemplate.txt:145
-#: core/data/Main/GroupViewTemplate.txt:166
+#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:167
 msgid "Administration"
 msgstr "Beheer"
 
@@ -661,7 +661,7 @@ msgstr "Beheer"
 msgid "Advanced search"
 msgstr "Geavanceerd zoeken"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:29
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -832,7 +832,7 @@ msgstr "Kenmerk"
 msgid "Automated notification of topic changes"
 msgstr "Automatische kennisgeving van paginawijzigingen"
 
-#: core/data/_default/WebHome.txt:4
+#: core/data/_default/WebHome.txt:5
 msgid "Available Information"
 msgstr "Beschikbare informatie"
 
@@ -892,12 +892,12 @@ msgstr ""
 "dan de =ALLOWWEBVIEW= beperking in WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
 msgid "CHANGE not permitted by %1"
 msgstr "CHANGE (wijzigen) is niet toegestaan door %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "CHANGE (wijzigen) voor %1 is niet toegestaan door %2"
 
@@ -913,10 +913,9 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
@@ -1076,6 +1075,10 @@ msgstr "Sluiten"
 msgid "Color %1 has an invalid format"
 msgstr "Kleur %1 heeft een ongeldig formaat"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+msgid "Come on in"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1125,7 +1128,7 @@ msgstr "Doorgaan om het web te hernoemen?"
 msgid "Continue to create the new page"
 msgstr "Ga verder om de pagina aan te maken"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:114
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1184,11 +1187,11 @@ msgstr "Land"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
 msgstr "Nieuwe pagina aanmaken"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:49
-#: core/data/System/WebCreateNewTopicTemplate.txt:6
+#: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
 msgstr "Nieuwe pagina aanmaken in %1 Web"
 
@@ -1228,14 +1231,10 @@ msgstr "Maak deze pagina aan"
 #: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "Maak deze pagina aan"
-
-#: core/data/Sandbox/WebHome.txt:19
-msgid "Create topic"
-msgstr "Pagina aanmaken"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
@@ -1270,7 +1269,7 @@ msgstr "Beste %1"
 msgid "Debug"
 msgstr "Debuggen"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:144
 msgid "Default template"
 msgstr "Standaard template"
 
@@ -1302,7 +1301,7 @@ msgstr "Verwijder pagina..."
 msgid "Describe the file so other people know what it is."
 msgstr "Beschrijf de bijlage zodat anderen weten wat het is."
 
-#: core/lib/Foswiki/Form.pm:316
+#: core/lib/Foswiki/Form.pm:327
 msgid "Details in separate window"
 msgstr "Details in een ander venster"
 
@@ -1480,7 +1479,7 @@ msgstr ""
 msgid "Email address"
 msgstr "E-mailadres"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-mail is gedeactiveerd voor deze Foswiki installatie"
 
@@ -1497,6 +1496,18 @@ msgstr ""
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Vul de Wikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:121
+#, fuzzy
+msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+msgstr ""
+"Ga terug met je browser en kies een [[%SYSTEMWEB%.WikiWord][Wikiwoord]] als "
+"paginanaam, of vink de checkbox aan dat een niet-Wikiwoord gebruikt mag "
+"worden"
+
+#: core/lib/Foswiki/Plugin.pm:130
+msgid "Error encountered loading the plugin. See errors below."
+msgstr ""
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1547,7 +1558,7 @@ msgstr "Fout tijdens het verwijderen van gebruikers van een groep"
 msgid "Evil person"
 msgstr "Kwaadwillend persoon"
 
-#: core/lib/Foswiki/Plugins.pm:375
+#: core/lib/Foswiki/Plugins.pm:378
 msgid "Failed plugins"
 msgstr "Niet geladen plugins"
 
@@ -1559,7 +1570,7 @@ msgstr "Toevoegen van gebruiker is niet gelukt:"
 msgid "Failed to include URL %1"
 msgstr "Opnemen van URL %1 is niet gelukt"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "Velden gemarkeerde met %1 zijn verplicht"
@@ -1689,7 +1700,7 @@ msgstr "Goede voorbeelden:"
 msgid "Group"
 msgstr "Groep"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr "Groep bestaat niet en aanmaken is niet toegestaan"
@@ -1698,7 +1709,7 @@ msgstr "Groep bestaat niet en aanmaken is niet toegestaan"
 msgid "Group name"
 msgstr "Groepsnaam"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Group names must end in Group"
 msgstr "Groepsnamen moeten eindigen in Group"
 
@@ -1785,6 +1796,13 @@ msgstr ""
 "Idee&&euml;n, verzoeken of problemen met betrekking tot %1? <a "
 "href='%2'>Stuur feedback</a>"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+msgid ""
+"If Foswiki can't find a registered e-mail for you in the secret database, "
+"you will be unable to reset your password or take advantage of email "
+"notifications of topic changes."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
@@ -1857,7 +1875,7 @@ msgstr ""
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Bij vragen over registratie kun je een e-mail sturen aan %1."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:72
@@ -1892,8 +1910,8 @@ msgstr "Als je deze pagina wilt aanmaken"
 msgid "If you would like to create this web"
 msgstr "Als je dit web wilt aanmaken"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
@@ -1901,16 +1919,6 @@ msgstr ""
 "Als al je oude e-mail adressen niet meer in gebruik zijn (als je daar geen e-"
 "mail kunt ontvangen) en je je wachtwoord bent vergeten, neem dan contact op "
 "met %1 voor hulp."
-
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-msgid ""
-"If your user topic is not protected from changes by other people, and you "
-"don't register an e-mail address using this form, then your user account "
-"could be hijacked by someone else."
-msgstr ""
-"Als je persoonlijke pagina niet is beschermd (en andere gebruikers deze dus "
-"kunnen veranderen), en als je je e-mailadres niet registreert met dit "
-"formulier, zou je gebruikersaccount gekaapt kunnen worden door iemand anders."
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -2118,13 +2126,18 @@ msgstr "Log in"
 msgid "Log Out"
 msgstr "Log uit"
 
-#: core/data/Main/GroupViewTemplate.txt:127
+#: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
 msgstr "Log in om verder te gaan"
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
 msgstr "Vul je gebruikersnaam en wachtwoord in"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#, fuzzy
+msgid "Login"
+msgstr "Inlognaam"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 msgid "Login name"
@@ -2230,13 +2243,17 @@ msgstr "Verplaats naar web:"
 msgid "Move topic to web:"
 msgstr "Verplaats pagina naar web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1249
+#: core/lib/Foswiki/UI/Rename.pm:1145
 msgid "Move/Rename"
 msgstr "Verplaats/Hernoem"
 
-#: core/lib/Foswiki/Search.pm:1138
+#: core/lib/Foswiki/Search.pm:1144
 msgid "NEW"
 msgstr "NIEUW"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name"
+msgstr ""
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2250,6 +2267,10 @@ msgstr "Naam van het nieuwe web ontbreekt"
 msgid "Navigate to a similar topic"
 msgstr "Ga naar een vergelijkbare pagina"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+msgid "Never mind"
+msgstr ""
+
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
 msgstr "Registratie van nieuwe gebruikers is uitgeschakeld"
@@ -2258,7 +2279,7 @@ msgstr "Registratie van nieuwe gebruikers is uitgeschakeld"
 msgid "New User Registration not supported"
 msgstr "Aanmelden van nieuwe gebruikers wordt niet ondersteund"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list)"
 msgstr "Nieuwe e-mails (spatie-gescheiden lijst)"
 
@@ -2293,7 +2314,7 @@ msgstr "Nieuwe webnaam:"
 msgid "Newer revision:"
 msgstr "Nieuwere revisie:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+#: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
 msgstr "Volgende"
 
@@ -2349,6 +2370,7 @@ msgstr ""
 "Weet dat URLs die verwijzen naar de bijlage gebroken links zullen opleveren "
 "na deze verplaatsing."
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
@@ -2411,9 +2433,8 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, ik ben het nog steeds!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
 msgstr "OK"
 
@@ -2426,7 +2447,7 @@ msgid "Only members of the %1 are allowed to perform this action."
 msgstr ""
 "Alleen leden van de %1 hebben de mogelijkheid deze actie uit te voeren."
 
-#: core/data/Main/GroupViewTemplate.txt:130
+#: core/data/Main/GroupViewTemplate.txt:131
 msgid "Only members or admins may update group."
 msgstr "Alleen leden en beheerders mogen deze groep bijwerken."
 
@@ -2469,8 +2490,9 @@ msgstr "Naam van organisatie"
 msgid "Organisation website"
 msgstr "Website van organisatie"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "Wachtwoord"
@@ -2495,7 +2517,7 @@ msgstr "Wachtwoorden uitgeschakeld"
 msgid "Passwords do not match"
 msgstr "Wachtwoorden komen niet overeen"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/WebCreateNewTopicComponents.txt:142
 #: core/templates/more.tmpl:104
 msgid "Pick from a list"
 msgstr "Kies uit de lijst"
@@ -2579,9 +2601,17 @@ msgid ""
 msgstr ""
 "Ga naar %1 om je wachtwoord te wijzigen in iets dat je beter kunt onthouden."
 
-#: core/lib/Foswiki/Plugins.pm:416
+#: core/lib/Foswiki/Plugins.pm:419
 msgid "Plugin handlers"
 msgstr "Plugin routines"
+
+#: core/lib/Foswiki/Plugin.pm:276
+msgid "Plugin module did not return true. See errors below."
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:145
+msgid "Plugin module was not defined. Check configuration. See errors below."
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2604,7 +2634,7 @@ msgstr "Anders klik je op Afbreken."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Klik op OK om te bevestigen dat jij deze wijziging wil maken."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+#: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
 msgstr "Vorige"
 
@@ -2655,7 +2685,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Lees verder"
 
-#: core/data/Sandbox/WebHome.txt:28
+#: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
 msgstr "Recent gewijzigd"
 
@@ -2673,7 +2703,7 @@ msgstr "Redirect geweigerd"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:93
-#: core/lib/Foswiki/UI/Rename.pm:1248
+#: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Verversen"
 
@@ -2685,7 +2715,7 @@ msgstr "Verversen"
 msgid "Register"
 msgstr "Aanmelden"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "Geregistreerde e-mailadressen van huidige ingelogde gebruiker"
 
@@ -2711,11 +2741,11 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "Regular expression zoeken"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:985
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2738,15 +2768,15 @@ msgstr ""
 msgid "Remember your password?"
 msgstr "Weet je je wachtwoord toch?"
 
-#: core/data/Main/GroupViewTemplate.txt:261
+#: core/data/Main/GroupViewTemplate.txt:262
 msgid "Remove members from this group"
 msgstr "Verwijder leden van deze groep"
 
-#: core/data/Main/GroupViewTemplate.txt:180
+#: core/data/Main/GroupViewTemplate.txt:181
 msgid "Remove members..."
 msgstr "Verwijder leden..."
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
 msgstr "Verwijder geselecteerde leden"
 
@@ -2990,7 +3020,6 @@ msgstr "Waar zoeken:"
 msgid "Searched:"
 msgstr "Gezocht:"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "Veiligheidsopmerking:"
@@ -3030,6 +3059,10 @@ msgstr "Zie onder voor hulp bij het bewerken van deze pagina."
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
 msgstr "Bekijk wijzigingen sinds:"
+
+#: core/lib/Foswiki/Plugins.pm:263
+msgid "See the DISABLEDPLUGINS preference setting."
+msgstr ""
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3170,13 +3203,13 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:31
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr "Versturen"
@@ -3220,7 +3253,7 @@ msgstr "Samenvattingen"
 msgid "Switch to monotype or propotional font"
 msgstr "Wissel tussen vaste or proportionele tekenbreedte"
 
-#: core/data/Main/GroupViewTemplate.txt:124
+#: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
 msgstr "Systeem gebruikerslijst."
 
@@ -3284,7 +3317,7 @@ msgid "The %1 topic already exists"
 msgstr "Pagina %1 bestaat al"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "Het %1 web bestaat nog niet"
 
@@ -3407,6 +3440,14 @@ msgstr ""
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "Het e-mailadres voor dit account is ongeldig."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"The e-mail address in your user topic is typically left blank. If you want "
+"to reveal an e-mail address to other users, you can manually edit your user "
+"topic to add an address.  It does not have to be the same as the address "
+"used internally by Foswiki."
+msgstr ""
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3548,7 +3589,7 @@ msgstr ""
 "versturen van e-mails over wachtwoordwijzigingen. De adressen die je hier "
 "registreert worden geheimgehouden en worden *niet* gepubliceerd op deze site."
 
-#: core/data/Main/GroupViewTemplate.txt:121
+#: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
 msgstr "Deze groep zou geen leden moeten hebben."
 
@@ -3595,7 +3636,7 @@ msgstr ""
 "Dit is de Prullenmand. Hier kun je verwijderingen van pagina&#39;s ongedaan "
 "maken; verwijderde bijlagen staan in TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
 msgid "This is why the conversion is disabled:"
 msgstr "Waarom de omzetting is uitgeschakeld:"
 
@@ -3635,7 +3676,7 @@ msgstr "Deze site is powered by Foswiki"
 msgid "This site requires at least %1 character passwords"
 msgstr "Deze site vereist wachtwoorden met ten minste %1 tekens"
 
-#: core/templates/viewprint.tmpl:15
+#: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "Deze pagina:"
 
@@ -3738,23 +3779,21 @@ msgstr "Pagina data"
 msgid "Topic history"
 msgstr "Paginageschiedenis"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
+#: core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr "Paginanaam"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:53
-#: core/data/System/WebCreateNewTopicTemplate.txt:34
+#: core/data/System/WebCreateNewTopicTemplate.txt:52
 msgid "Topic name:"
 msgstr "Paginanaam:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:60
-#: core/data/System/WebCreateNewTopicTemplate.txt:38
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
 msgstr "Bovenliggende pagina:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "Paginarevisie:"
 
@@ -3773,6 +3812,10 @@ msgstr "Paginatitel"
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
 msgstr "Pagina is samengevoegd"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:120
+msgid "Topic will be named: "
+msgstr "Pagina krijgt de naam:"
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -3835,15 +3878,15 @@ msgstr "Bijlage %1 van %2 bijwerken"
 msgid "Update links"
 msgstr "Links bijwerken"
 
-#: core/data/Main/GroupViewTemplate.txt:220
+#: core/data/Main/GroupViewTemplate.txt:221
 msgid "Upgrade"
 msgstr "Opwaarderen"
 
-#: core/data/Main/GroupViewTemplate.txt:216
+#: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
 msgstr "Groepspagina opwaarderen"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
 msgstr "Groepspagina opwaarderen..."
 
@@ -3878,22 +3921,17 @@ msgstr "Geupload bestand is te groot"
 msgid "Use %1 instead."
 msgstr "Ga dan naar %1."
 
-#: core/data/Sandbox/WebHome.txt:22
-msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "Gebruik een paginanaam in [[%SYSTEMWEB%.WikiNotation][Wikinotatie]]"
-
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
-#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
 msgid "Use template:"
 msgstr "Gebruik template:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Gebruiker %1 heeft geen CHANGE toestemming voor %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
 msgstr "Gebruiker %1 behoort niet tot de groep, en kan niet worden verwijderd."
@@ -3917,12 +3955,12 @@ msgid "Users"
 msgstr "Gebruikers"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
 msgid "Users cannot be added to %1"
 msgstr "Gebruikers kunnen niet worden toegevoegd aan %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
 msgid "Users cannot be removed from %1"
 msgstr "Gebruikers kunnen niet worden verwijderd van %1"
 
@@ -3987,7 +4025,7 @@ msgstr "Bekijk revisie:"
 msgid "View sequential topic history"
 msgstr "Bekijk totale paginageschiedenis"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
 msgstr "Bekijk templates"
 
@@ -4038,11 +4076,11 @@ msgstr "Waarschuwing: Kan pagina %1.%2 niet vinden"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Waarschuwing: kan web %1 voor pagina %2 niet vinden"
 
-#: core/lib/Foswiki/UI/Register.pm:1018
+#: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
 msgstr "Waarschuwing: kon geen bevestigings e-mail versturen"
 
-#: core/lib/Foswiki/UI/Register.pm:1030
+#: core/lib/Foswiki/UI/Register.pm:1038
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Waarschuwing: kon geen bevestigings e-email versturen; versturen van e-mail "
@@ -4265,7 +4303,7 @@ msgstr "Je kunt je niet registreren op deze site."
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Je kunt niet twee keer registreren; de naam %1 is al geregistreerd."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -4333,23 +4371,11 @@ msgstr ""
 "vullen in het formulier dat je hebt gekregen toen je deze e-mail werd "
 "gestuurd, of door %2 te bezoeken."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-msgid ""
-"You really ought to register a valid e-mail address. If Foswiki can't find a "
-"registered e-mail for you in the secret database, it will look in your user "
-"topic for a form field called Email. If this form field does not exist it "
-"will look for a line like this:"
-msgstr ""
-"We raden je aan om je met een geldig e-mailadres te registreren. Als Foswiki "
-"geen geregistreerd e-mailadres kan vinden in de beveiligde database, zal het "
-"zoeken in je persoonlijke pagina naar een formulierveld Email. Als dit veld "
-"niet bestaat zal het zoeken naar een regel zoals deze:"
-
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Je moet waarschijnlijk je administrator, %1, vragen om dit te doen."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "Your"
 msgstr "Jouw"
 
@@ -4422,7 +4448,7 @@ msgstr ""
 "Je geregistreerde e-mailadres(sen) zijn bijgewerkt naar: <noautolink>%1</"
 "noautolink>."
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4537,6 +4563,10 @@ msgstr "Wijzigingen"
 msgid "don't forget to check your Topic Settings"
 msgstr "vergeet niet om je pagina voorkeurinstellingen na te kijken"
 
+#: core/lib/Foswiki/Plugin.pm:196
+msgid "earlyInitPlugin failed.  See errors below."
+msgstr ""
+
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
@@ -4562,6 +4592,10 @@ msgstr "brontekst zonder opmaak"
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
 msgstr "velden zijn verplicht"
+
+#: core/lib/Foswiki/Plugin.pm:182
+msgid "initPlugin was not defined. See errors below."
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4601,7 +4635,7 @@ msgstr "voorvertoning"
 msgid "retrieved at %1"
 msgstr "gevonden om %1"
 
-#: core/templates/viewprint.tmpl:16
+#: core/templates/viewprint.tmpl:15
 msgid "revision %1"
 msgstr "revisie %1"
 
@@ -4726,6 +4760,33 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "Create topic"
+#~ msgstr "Pagina aanmaken"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "Als je persoonlijke pagina niet is beschermd (en andere gebruikers deze "
+#~ "dus kunnen veranderen), en als je je e-mailadres niet registreert met dit "
+#~ "formulier, zou je gebruikersaccount gekaapt kunnen worden door iemand "
+#~ "anders."
+
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "Gebruik een paginanaam in [[%SYSTEMWEB%.WikiNotation][Wikinotatie]]"
+
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "We raden je aan om je met een geldig e-mailadres te registreren. Als "
+#~ "Foswiki geen geregistreerd e-mailadres kan vinden in de beveiligde "
+#~ "database, zal het zoeken in je persoonlijke pagina naar een formulierveld "
+#~ "Email. Als dit veld niet bestaat zal het zoeken naar een regel zoals deze:"
 
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -5014,9 +5075,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 
 #~ msgid "To register as a new user, simply fill out this form:"
 #~ msgstr "Om te registreren als nieuwe gebruiker vul je dit formulier in:"
-
-#~ msgid "Topic will be named: "
-#~ msgstr "Pagina krijgt de naam:"
 
 #~ msgid "Topics in %1 web"
 #~ msgstr "Pagina's in %1 web"

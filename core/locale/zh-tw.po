@@ -71,7 +71,7 @@ msgstr "%1 加入 %2 群組。"
 # $date,
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1066
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
 msgid "%1 cannot be removed from %2"
 msgstr "%1 無法自 %2 內移出"
 
@@ -79,7 +79,7 @@ msgstr "%1 無法自 %2 內移出"
 msgid "%1 group topic upgraded. "
 msgstr "更新 %1 群組主題。"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:70
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 列出其他用戶"
@@ -182,7 +182,7 @@ msgstr "%1 試著以電子郵件 %2 註冊"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
 msgstr "%1.LoginName"
 
@@ -226,7 +226,7 @@ msgstr "(*建議：*上傳您的圖片?)"
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 顯示所有主題)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:118
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
 msgstr "(本訊息將自動移除)"
 
@@ -298,16 +298,16 @@ msgstr "(更多)"
 msgid "(move attachment)"
 msgstr "(移動附件)"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
 msgstr "(無父主題，孤立主題)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1163 core/lib/Foswiki/UI/Rename.pm:1179
-#: core/lib/Foswiki/UI/Rename.pm:1236 core/lib/Foswiki/UI/Rename.pm:1239
-#: core/lib/Foswiki/UI/Rename.pm:1242 core/lib/Foswiki/UI/Rename.pm:1277
-#: core/lib/Foswiki/UI/Rename.pm:1300 core/lib/Foswiki/UI/Rename.pm:559
-#: core/lib/Foswiki/UI/Rename.pm:563 core/lib/Foswiki/UI/Rename.pm:567
-#: core/lib/Foswiki/UI/Rename.pm:571
+#: core/lib/Foswiki/UI/Rename.pm:1059 core/lib/Foswiki/UI/Rename.pm:1075
+#: core/lib/Foswiki/UI/Rename.pm:1132 core/lib/Foswiki/UI/Rename.pm:1135
+#: core/lib/Foswiki/UI/Rename.pm:1138 core/lib/Foswiki/UI/Rename.pm:1173
+#: core/lib/Foswiki/UI/Rename.pm:1196 core/lib/Foswiki/UI/Rename.pm:569
+#: core/lib/Foswiki/UI/Rename.pm:573 core/lib/Foswiki/UI/Rename.pm:577
+#: core/lib/Foswiki/UI/Rename.pm:581
 msgid "(none)"
 msgstr "(無)"
 
@@ -315,7 +315,7 @@ msgstr "(無)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(否則只搜尋 %1 子網)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(檢示源碼)"
 
@@ -349,11 +349,11 @@ msgstr "(單字元名字)"
 msgid "(single character last name)"
 msgstr "(單字元姓氏)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1151
+#: core/lib/Foswiki/UI/Rename.pm:1047
 msgid "(skipped)"
 msgstr "(忽略)"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:26
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
@@ -522,7 +522,7 @@ msgid ""
 msgstr "顏色記號始於 # 標記，後面由 6 個位元的 16 進位數組成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1025
+#: core/lib/Foswiki/UI/Register.pm:1033
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認的電子郵件已寄往 %1 "
 
@@ -592,11 +592,11 @@ msgstr "增加"
 msgid "Add form"
 msgstr "增加表單"
 
-#: core/data/Main/GroupViewTemplate.txt:239
+#: core/data/Main/GroupViewTemplate.txt:240
 msgid "Add members"
 msgstr "增加成員"
 
-#: core/data/Main/GroupViewTemplate.txt:170
+#: core/data/Main/GroupViewTemplate.txt:171
 msgid "Add members..."
 msgstr "增加成員…"
 
@@ -605,11 +605,11 @@ msgstr "增加成員…"
 msgid "Add row"
 msgstr "加一列"
 
-#: core/data/Main/GroupViewTemplate.txt:217
+#: core/data/Main/GroupViewTemplate.txt:218
 msgid "Add user management options to this topic."
 msgstr "為這個主題增加使用者管理選項。"
 
-#: core/data/Main/GroupViewTemplate.txt:235
+#: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
 msgstr "增加使用者或群組到此群組中"
 
@@ -625,8 +625,8 @@ msgstr "Foswiki 管理員認證"
 msgid "Admin Maintenance"
 msgstr "管理員維護"
 
-#: core/data/Main/GroupViewTemplate.txt:145
-#: core/data/Main/GroupViewTemplate.txt:166
+#: core/data/Main/GroupViewTemplate.txt:146
+#: core/data/Main/GroupViewTemplate.txt:167
 msgid "Administration"
 msgstr "管理"
 
@@ -634,7 +634,7 @@ msgstr "管理"
 msgid "Advanced search"
 msgstr "進階搜尋"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:29
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -792,7 +792,7 @@ msgstr "屬性"
 msgid "Automated notification of topic changes"
 msgstr "主題更新的自動通知"
 
-#: core/data/_default/WebHome.txt:4
+#: core/data/_default/WebHome.txt:5
 msgid "Available Information"
 msgstr "可用的資訊"
 
@@ -849,12 +849,12 @@ msgstr ""
 "WebPreferences 中 =ALLOWWEBVIEW= 的相關限制。"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:889
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
 msgid "CHANGE not permitted by %1"
 msgstr "不能改變 %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:923
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%2 不能改變 %1"
 
@@ -869,10 +869,9 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時） "
 #: EditTablePlugin/data/System/EditTablePlugin.txt:169
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:102
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:108
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:94
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
@@ -1025,6 +1024,10 @@ msgstr "關閉"
 msgid "Color %1 has an invalid format"
 msgstr "顏色 %1包含非法格式"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+msgid "Come on in"
+msgstr ""
+
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -1072,7 +1075,7 @@ msgstr "繼續為子網改名?"
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:114
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1126,11 +1129,11 @@ msgstr "國家"
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+#: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
 msgstr "建立新主題"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:49
-#: core/data/System/WebCreateNewTopicTemplate.txt:6
+#: core/data/System/WebCreateNewTopicTemplate.txt:12
 msgid "Create New Topic in %1 Web"
 msgstr "在 %1 子網中建立新主題"
 
@@ -1170,14 +1173,10 @@ msgstr "建立主題"
 #: core/data/System/DefaultPreferences.txt:388
 #: core/data/System/DefaultPreferences.txt:390
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
-#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:73
 msgid "Create this topic"
 msgstr "建立這個主題"
-
-#: core/data/Sandbox/WebHome.txt:19
-msgid "Create topic"
-msgstr "建立主題"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
@@ -1212,7 +1211,7 @@ msgstr "親愛的 %1"
 msgid "Debug"
 msgstr "除錯"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:144
 msgid "Default template"
 msgstr "預設範本"
 
@@ -1244,7 +1243,7 @@ msgstr "刪除主題..."
 msgid "Describe the file so other people know what it is."
 msgstr "檔案說明，方便其他人瞭解檔案內容。"
 
-#: core/lib/Foswiki/Form.pm:316
+#: core/lib/Foswiki/Form.pm:327
 msgid "Details in separate window"
 msgstr "細節顯示於新視窗"
 
@@ -1405,7 +1404,7 @@ msgstr "未指定檔名，或上傳的檔案 %1 沒有內容。不能上傳空�
 msgid "Email address"
 msgstr "電子信箱"
 
-#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:493
+#: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "本網站不開放電子郵件使用。"
 
@@ -1420,6 +1419,17 @@ msgstr "輸入新用戶名和密碼以改變身份"
 #: core/templates/login.sudo.tmpl:23
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "輸入 Wiki 管理員或依 %1 設定登入"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:121
+#, fuzzy
+msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
+msgstr ""
+"請返回瀏覽器，並選擇 [[%SYSTEMWEB%.WikiWord][WikiWord]]  為主題名，或是開啟允"
+"許非 WikiWord 選項。"
+
+#: core/lib/Foswiki/Plugin.pm:130
+msgid "Error encountered loading the plugin. See errors below."
+msgstr ""
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1468,7 +1478,7 @@ msgstr "移除群組使用者錯誤"
 msgid "Evil person"
 msgstr "駭客"
 
-#: core/lib/Foswiki/Plugins.pm:375
+#: core/lib/Foswiki/Plugins.pm:378
 msgid "Failed plugins"
 msgstr "外掛失敗"
 
@@ -1480,7 +1490,7 @@ msgstr "無法新增使用者："
 msgid "Failed to include URL %1"
 msgstr "無法包含 URL %1"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:36
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:23
 msgid "Fields marked %1 are required"
 msgstr "必填標為 %1 的欄位"
@@ -1603,7 +1613,7 @@ msgstr "好範例:"
 msgid "Group"
 msgstr "群組"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:917
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr "群組不存在且不準建立"
@@ -1612,7 +1622,7 @@ msgstr "群組不存在且不準建立"
 msgid "Group name"
 msgstr "群組名稱"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:863
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Group names must end in Group"
 msgstr "群組名稱必需以 Group 結尾"
 
@@ -1691,6 +1701,13 @@ msgstr "我忘記密碼"
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr "請<a href='%2'>回饋</a>有關 %1 的建議、需求及問題。"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
+msgid ""
+"If Foswiki can't find a registered e-mail for you in the secret database, "
+"you will be unable to reset your password or take advantage of email "
+"notifications of topic changes."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
 "If Foswiki detects a suspicious request that may have been sent from such a "
@@ -1752,7 +1769,7 @@ msgstr ""
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "有任何關於註冊的問題，請寄電子郵件給 %1。"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:69
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
 #: core/templates/login.tmpl:72
@@ -1785,23 +1802,14 @@ msgstr "讓您想建立這主題"
 msgid "If you would like to create this web"
 msgstr "讓您想建立這子網"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:62
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 "如果您的舊郵件地址失效（您無法收到任何郵件）而又忘記密碼的話，請聯繫 %1 協"
 "助。"
-
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
-msgid ""
-"If your user topic is not protected from changes by other people, and you "
-"don't register an e-mail address using this form, then your user account "
-"could be hijacked by someone else."
-msgstr ""
-"若您的用戶主題沒有上鎖不讓其他用戶修改，且您的註冊表單未填郵件地址，您的帳號"
-"可能被他人盜用。"
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -1996,13 +2004,18 @@ msgstr "登入"
 msgid "Log Out"
 msgstr "登出"
 
-#: core/data/Main/GroupViewTemplate.txt:127
+#: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
 msgstr "登入並繼續。"
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
 msgstr "請輸入您的用戶名和密碼"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#, fuzzy
+msgid "Login"
+msgstr "登入名"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
 msgid "Login name"
@@ -2106,13 +2119,17 @@ msgstr "移動到子網:"
 msgid "Move topic to web:"
 msgstr "移動主題到子網:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1249
+#: core/lib/Foswiki/UI/Rename.pm:1145
 msgid "Move/Rename"
 msgstr "移動/更名"
 
-#: core/lib/Foswiki/Search.pm:1138
+#: core/lib/Foswiki/Search.pm:1144
 msgid "NEW"
 msgstr "新"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name"
+msgstr ""
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2126,6 +2143,10 @@ msgstr "新子網名稱遺失"
 msgid "Navigate to a similar topic"
 msgstr "查看相關主題"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+msgid "Never mind"
+msgstr ""
+
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
 msgstr "禁止新用戶註冊"
@@ -2134,7 +2155,7 @@ msgstr "禁止新用戶註冊"
 msgid "New User Registration not supported"
 msgstr "不支援新用戶註冊"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:42
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:39
 msgid "New e-mails (space-separated list)"
 msgstr "新郵件地址 (用空白區隔的清單)"
 
@@ -2167,7 +2188,7 @@ msgstr "新子網名稱:"
 msgid "Newer revision:"
 msgstr "新版本:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:205
+#: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
 msgstr "下一個"
 
@@ -2221,6 +2242,7 @@ msgid ""
 "move."
 msgstr "移動後，任何引用此附件的 URL 都將失效。"
 
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
@@ -2282,9 +2304,8 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK，這仍是我！"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:107
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:93
 msgid "Ok"
 msgstr "好"
 
@@ -2296,7 +2317,7 @@ msgstr "舊版本:"
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "只有 %1 的成員允許使用這些功能。"
 
-#: core/data/Main/GroupViewTemplate.txt:130
+#: core/data/Main/GroupViewTemplate.txt:131
 msgid "Only members or admins may update group."
 msgstr "只有成員或管理者可更新群組。"
 
@@ -2337,8 +2358,9 @@ msgstr "組織名稱"
 msgid "Organisation website"
 msgstr "組織網站"
 
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: PatternSkin/data/System/PatternSkinElements.txt:226
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:41
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:57
 msgid "Password"
 msgstr "密碼"
@@ -2363,7 +2385,7 @@ msgstr "密碼禁用"
 msgid "Passwords do not match"
 msgstr "密碼不相同"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:60
+#: core/data/System/WebCreateNewTopicComponents.txt:142
 #: core/templates/more.tmpl:104
 msgid "Pick from a list"
 msgstr "自清單中選擇"
@@ -2443,9 +2465,17 @@ msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "請至 %1 將您的密碼設成自己較容易記的."
 
-#: core/lib/Foswiki/Plugins.pm:416
+#: core/lib/Foswiki/Plugins.pm:419
 msgid "Plugin handlers"
 msgstr "外掛處理程序"
+
+#: core/lib/Foswiki/Plugin.pm:276
+msgid "Plugin module did not return true. See errors below."
+msgstr ""
+
+#: core/lib/Foswiki/Plugin.pm:145
+msgid "Plugin module was not defined. Check configuration. See errors below."
+msgstr ""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2468,7 +2498,7 @@ msgstr "其他請按「取消」。"
 msgid "Press OK to confirm that this change was intentional."
 msgstr "按「好」確認修改。"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:206
+#: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
 msgstr "上一個"
 
@@ -2518,7 +2548,7 @@ msgstr ""
 msgid "Read on"
 msgstr "閱讀"
 
-#: core/data/Sandbox/WebHome.txt:28
+#: core/data/Sandbox/WebHome.txt:52
 msgid "Recently changed topics"
 msgstr "最近更新的主題"
 
@@ -2536,7 +2566,7 @@ msgstr "拒絕轉址"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:93
-#: core/lib/Foswiki/UI/Rename.pm:1248
+#: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "更新"
 
@@ -2548,7 +2578,7 @@ msgstr "更新"
 msgid "Register"
 msgstr "註冊者"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "目前登入者的註冊電子信箱"
 
@@ -2572,11 +2602,11 @@ msgstr ""
 msgid "Regular expression search"
 msgstr "正則運算式搜尋"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:74
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:985
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:998
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2597,15 +2627,15 @@ msgstr "請記得更新您用戶主題中的電郵位址，若你想同時反應
 msgid "Remember your password?"
 msgstr "記住密碼？"
 
-#: core/data/Main/GroupViewTemplate.txt:261
+#: core/data/Main/GroupViewTemplate.txt:262
 msgid "Remove members from this group"
 msgstr "將使用者自群組中刪除"
 
-#: core/data/Main/GroupViewTemplate.txt:180
+#: core/data/Main/GroupViewTemplate.txt:181
 msgid "Remove members..."
 msgstr "移除使用者…"
 
-#: core/data/Main/GroupViewTemplate.txt:267
+#: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
 msgstr "移除選擇的使用者"
 
@@ -2842,7 +2872,6 @@ msgstr "搜尋哪裡："
 msgid "Searched:"
 msgstr "搜尋："
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: core/data/Trash/WebHome.txt:5
 msgid "Security Note:"
 msgstr "安全提示："
@@ -2880,6 +2909,10 @@ msgstr "編輯此頁請參考以下說明。"
 #: core/data/System/SiteChanges.txt:13
 msgid "See changes since:"
 msgstr "查看變更自："
+
+#: core/lib/Foswiki/Plugins.pm:263
+msgid "See the DISABLEDPLUGINS preference setting."
+msgstr ""
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3013,13 +3046,13 @@ msgstr "選 =全= 代表所有子網，或以逗號分隔的子網清單： %1"
 msgid "Statistics"
 msgstr "統計"
 
-#: JQueryPlugin/data/System/JQuerySimpleModal.txt:101
-#: JQueryPlugin/data/System/JQueryTextboxList.txt:31
+#: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
+#: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:11 core/templates/messages.tmpl:230
+#: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
 msgid "Submit"
 msgstr "提交"
@@ -3063,7 +3096,7 @@ msgstr "摘要"
 msgid "Switch to monotype or propotional font"
 msgstr "切換成等寬或等比字型"
 
-#: core/data/Main/GroupViewTemplate.txt:124
+#: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
 msgstr "系統使用者清單。"
 
@@ -3119,7 +3152,7 @@ msgid "The %1 topic already exists"
 msgstr "主題 %1 已存在"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:177 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
 msgid "The %1 web does not exist"
 msgstr "子網 %1 不存在"
 
@@ -3223,6 +3256,14 @@ msgstr "此帳號的電子郵件已被另一個使用者註冊。"
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
 msgstr "這個帳號的電郵位址不正確。"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"The e-mail address in your user topic is typically left blank. If you want "
+"to reveal an e-mail address to other users, you can manually edit your user "
+"topic to add an address.  It does not have to be the same as the address "
+"used internally by Foswiki."
+msgstr ""
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3349,7 +3390,7 @@ msgstr ""
 "用本表單修改註冊電子信箱。系統會發送郵件至您的註冊信箱，包括：密碼變更通知。"
 "表中的註冊電子信箱將會被隱藏，並 *不會* 顯示於網站的其他網頁內。"
 
-#: core/data/Main/GroupViewTemplate.txt:121
+#: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
 msgstr "這個群組不應有使用者。"
 
@@ -3391,7 +3432,7 @@ msgid ""
 msgstr ""
 "這是垃圾區。您可以在這裏還回刪除的主題；刪除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:116
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
 msgid "This is why the conversion is disabled:"
 msgstr "這是本對話被禁止的原因："
 
@@ -3428,7 +3469,7 @@ msgstr "本站使用 Foswiki"
 msgid "This site requires at least %1 character passwords"
 msgstr "本站的密碼至少要 %1 個字元"
 
-#: core/templates/viewprint.tmpl:15
+#: core/templates/viewprint.tmpl:14
 msgid "This topic:"
 msgstr "主題:"
 
@@ -3524,23 +3565,21 @@ msgstr "主題資料"
 msgid "Topic history"
 msgstr "主題歷史"
 
-#: core/data/Sandbox/WebHome.txt:15 core/data/System/WebSearch.txt:163
+#: core/data/System/WebSearch.txt:163
 msgid "Topic name"
 msgstr "主題名稱"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:53
-#: core/data/System/WebCreateNewTopicTemplate.txt:34
+#: core/data/System/WebCreateNewTopicTemplate.txt:52
 msgid "Topic name:"
 msgstr "主題名稱:"
 
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:60
-#: core/data/System/WebCreateNewTopicTemplate.txt:38
+#: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
 msgstr "父主題:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:16
+#: PatternSkin/templates/view.pattern.tmpl:70 core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "主題版本:"
 
@@ -3559,6 +3598,10 @@ msgstr "主題標題"
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
 msgstr "合併主題"
+
+#: core/data/System/WebCreateNewTopicComponents.txt:120
+msgid "Topic will be named: "
+msgstr "主題將改名為:"
 
 #: MailerContrib/templates/mailnotify.tmpl:14
 msgid "Topics in %1 web:"
@@ -3615,15 +3658,15 @@ msgstr "在 %2 更新附件 %1"
 msgid "Update links"
 msgstr "更新連結"
 
-#: core/data/Main/GroupViewTemplate.txt:220
+#: core/data/Main/GroupViewTemplate.txt:221
 msgid "Upgrade"
 msgstr "更新"
 
-#: core/data/Main/GroupViewTemplate.txt:216
+#: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
 msgstr "群組主題更新"
 
-#: core/data/Main/GroupViewTemplate.txt:208
+#: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
 msgstr "群組主題更新…"
 
@@ -3658,22 +3701,17 @@ msgstr "上傳的檔案過大"
 msgid "Use %1 instead."
 msgstr "用 %1 取代."
 
-#: core/data/Sandbox/WebHome.txt:22
-msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
-msgstr "將一個主題名字放在 %SYSTEMWEB%.WikiNotation 內"
-
-#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:67
-#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#: core/data/System/WebCreateNewTopicTemplate.txt:67
 msgid "Use template:"
 msgstr "使用範本:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "使用者 ％1 無 %2 的變更權限。"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1088
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
 msgstr "使用者 %1 不在群組中，無法被移除"
@@ -3697,12 +3735,12 @@ msgid "Users"
 msgstr "用戶"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:859
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
 msgid "Users cannot be added to %1"
 msgstr "使用者無法加入 %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1058
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
 msgid "Users cannot be removed from %1"
 msgstr "使用者無法自 ％1 移除"
 
@@ -3765,7 +3803,7 @@ msgstr "檢視修訂版:"
 msgid "View sequential topic history"
 msgstr "依序檢視主題歷史紀錄"
 
-#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
 msgstr "檢視範本"
 
@@ -3813,11 +3851,11 @@ msgstr "警告: 找不到主題%1. %2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: 找不到子網 %1 中的主題 %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1018
+#: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 無法寄送確認郵件"
 
-#: core/lib/Foswiki/UI/Register.pm:1030
+#: core/lib/Foswiki/UI/Register.pm:1038
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 無法寄送確認郵件，郵件已禁用。"
 
@@ -4018,7 +4056,7 @@ msgstr "您不能在本站註冊。"
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "您不能註冊 2 次，%1 已經註冊過。"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:58
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:55
 msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
@@ -4076,22 +4114,11 @@ msgstr ""
 "現在您需要檢查電子郵件位址。當電子郵件寄出後，您能進入 %1 檢查表單內容，或是"
 "瀏覽 %2"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-msgid ""
-"You really ought to register a valid e-mail address. If Foswiki can't find a "
-"registered e-mail for you in the secret database, it will look in your user "
-"topic for a form field called Email. If this form field does not exist it "
-"will look for a line like this:"
-msgstr ""
-"您必須以有效的電子信箱註冊。若系統無法在祕密資料庫中找到您註冊的電子信箱，它"
-"將在您的用戶主題的表單中尋找電子信箱的欄位。若這個表單不存在，它將尋找以下這"
-"行: "
-
 #: core/templates/messages.tmpl:406
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:40
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "Your"
 msgstr "你的"
 
@@ -4157,7 +4184,7 @@ msgid ""
 "noautolink>."
 msgstr "您的註冊郵件地址已更新為 <noautolink>%1</noautolink> 。"
 
-#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:56
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
@@ -4265,6 +4292,10 @@ msgstr "不同"
 msgid "don't forget to check your Topic Settings"
 msgstr "別忘了檢查您的主題設定"
 
+#: core/lib/Foswiki/Plugin.pm:196
+msgid "earlyInitPlugin failed.  See errors below."
+msgstr ""
+
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
 msgid "edit"
@@ -4290,6 +4321,10 @@ msgstr "源碼模式"
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
 msgid "indicates mandatory fields"
 msgstr "指出必填欄位"
+
+#: core/lib/Foswiki/Plugin.pm:182
+msgid "initPlugin was not defined. See errors below."
+msgstr ""
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4329,7 +4364,7 @@ msgstr "預覽"
 msgid "retrieved at %1"
 msgstr "自 %1 找出"
 
-#: core/templates/viewprint.tmpl:16
+#: core/templates/viewprint.tmpl:15
 msgid "revision %1"
 msgstr "修訂版 %1"
 
@@ -4446,6 +4481,30 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#~ msgid "Create topic"
+#~ msgstr "建立主題"
+
+#~ msgid ""
+#~ "If your user topic is not protected from changes by other people, and you "
+#~ "don't register an e-mail address using this form, then your user account "
+#~ "could be hijacked by someone else."
+#~ msgstr ""
+#~ "若您的用戶主題沒有上鎖不讓其他用戶修改，且您的註冊表單未填郵件地址，您的帳"
+#~ "號可能被他人盜用。"
+
+#~ msgid "Use a topic name in %SYSTEMWEB%.WikiNotation"
+#~ msgstr "將一個主題名字放在 %SYSTEMWEB%.WikiNotation 內"
+
+#~ msgid ""
+#~ "You really ought to register a valid e-mail address. If Foswiki can't "
+#~ "find a registered e-mail for you in the secret database, it will look in "
+#~ "your user topic for a form field called Email. If this form field does "
+#~ "not exist it will look for a line like this:"
+#~ msgstr ""
+#~ "您必須以有效的電子信箱註冊。若系統無法在祕密資料庫中找到您註冊的電子信箱，"
+#~ "它將在您的用戶主題的表單中尋找電子信箱的欄位。若這個表單不存在，它將尋找以"
+#~ "下這行: "
 
 #~ msgid ""
 #~ "A more extensive changes list is available via [[%1][Recent changes]]."
@@ -4714,9 +4773,6 @@ msgstr "為何您被要求確認"
 
 #~ msgid "To register as a new user, simply fill out this form:"
 #~ msgstr "註冊新用戶，請填寫本表格:"
-
-#~ msgid "Topic will be named: "
-#~ msgstr "主題將改名為:"
 
 #~ msgid "Topics in %1 web"
 #~ msgstr "子網 %1 內的主題"
