@@ -327,9 +327,6 @@ a.foswikiSubmit:visited:active {
 #foswikiLogin .foswikiFormSteps {
 	text-align:left;
 }
-#foswikiLogin .foswikiFormStep {
-	border-style:solid none;
-}
 #foswikiLogin .patternLoginNotification {
 	padding-left:.5em;
 	padding-right:.5em;
