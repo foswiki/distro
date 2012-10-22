@@ -16,10 +16,10 @@
          * all non-printable ASCII characters below space, except newline (="\n"=) and carriage return (="\r"=)
          * HTML special characters ="<"=, =">"=, ="&"=, single quote (='=) and double quote (="=)
          * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
-      * =type="entity"= Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= (newline).
+      * =type="entity"= or =type="entities"= Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= (newline).
       * =type="html"= As =type="entity"= except it also encodes =\n= (newline)
       * =type="safe"= Encode just the characters ='"&lt;&gt;%= into HTML entities.
-      * =type="quotes"= Escapes double quotes with backslashes (=\"=), does not change any other characters
+      * =type="quote"= or =type="quotes"= Escapes double quotes with backslashes (=\"=), does not change any other characters
       * =type="url"= Encode special characters for use in URL parameters, like a double quote into =%ENCODE{"\""}%=
    * Examples <pre class="tml">
    %<nop>ENCODE{"spaced name"}%= expands to
