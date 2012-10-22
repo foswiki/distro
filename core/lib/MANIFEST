@@ -10,6 +10,7 @@
 !include ../JEditableContrib/lib/Foswiki/Contrib/JEditableContrib
 !include ../JSCalendarContrib/lib/Foswiki/Contrib/JSCalendarContrib
 !include ../JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin
+!include ../LogDispatchContrib/lib/Foswiki/Contrib/LogDispatchContrib
 !include ../MailerContrib/lib/Foswiki/Contrib/MailerContrib
 !include ../NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin
 !include ../SubscribePlugin/lib/Foswiki/Plugins/SubscribePlugin
