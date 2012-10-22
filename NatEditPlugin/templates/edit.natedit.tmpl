@@ -2,7 +2,6 @@
 %TMPL:INCLUDE{"editjavascript"}%
 %TMPL:INCLUDE{"edittoolbar"}%
 %TMPL:INCLUDE{"edithelp"}%
-%TMPL:INCLUDE{"editdialog"}%
 %TMPL:DEF{"titleaction"}%%IF{"defined 'rev'" 
   then="%MAKETEXT{"restore"}%" 
   else="%IF{"istopic '%WEB%.%TOPIC%'" 
@@ -23,16 +22,7 @@
 %TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
-%TMPL:DEF{"content"}%%TMPL:P{"contenttitle"}%%TMPL:P{"messages"}%%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%%TMPL:P{"tabpane"}%%TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%%TMPL:P{"dialogs"}%%JQREQUIRE{
-  "natedit, blockui, form, ui::autocomplete" warn="off"
-}%%ADDTOZONE{"script"
-  id="NATEDIT::ENABLEDPLUGINS"
-  requires="JQUERYPLUGIN::FOSWIKI::PREFERENCES"
-  text="<script>jQuery.extend(foswiki.preferences, { 
-  'MathModePluginEnabled': %IF{"context MathModePluginEnabled" then="true" else="false"}%,
-  'ImagePluginEnabled': %IF{"context ImagePluginEnabled" then="true" else="false"}% 
-});</script>"
-}%%TMPL:END%
+%TMPL:DEF{"content"}%%TMPL:P{"contenttitle"}%%TMPL:P{"messages"}%%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%%TMPL:P{"tabpane"}%%TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%%TMPL:P{"editjavascript"}%%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<div class="natEditContainer">
 <form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%" method="post" validate="%TMPL:P{"validationrules"}%">
@@ -100,7 +90,8 @@
           <input class="foswikiInputField jqUIAutocomplete" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic&contenttype=text/plain&skin=text&baseweb=%BASEWEB%" type="text" name="topicparent" id="topicparent" size="40" value="%TOPICPARENT%"  />
         </td>
       </tr>
-      %TMPL:P{"moretopicsettings"}%</table>
+      %TMPL:P{"moretopicsettings"}%<!-- -->
+    </table>
   </div>
 </div>%TMPL:END%
 

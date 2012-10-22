@@ -58,17 +58,10 @@ ul.natEditHelpTools {
   display:none;
 }
 
-/* IE hack to disable preview button for IE and below 
-.natEditBottomBar ul li.natEditPreviewButton {
-  display: none\9; 
-}
-*/
-
 .natEditToolBar a:hover,
 .natEditToolBar a {
   text-decoration:none;
   background-color:transparent;
-  background-position:top left;
   background-repeat:no-repeat;
   float:left;
 }
@@ -107,18 +100,29 @@ ul.natEditHelpTools {
   border:0px;
 }
 
-/* table dialog */
-#natEditInsertTable .foswikiLayoutTable {
-  width:280px;
+/* dialogs */
+.natEditInsertLink .jqTabContents {
+  margin-bottom:1em;
+}
+.natEditInsertLink h3 {
+  float:left;
+  width:5em;
+  margin-left:1px;
+}
+.natEditInsertLink .foswikiFormSteps {
+  margin:0;
+}
+.natEditInsertLink .foswikiFormStep {
+  margin: 0 0 1em 0.5em;
+  padding:0;
+  border:0;
+}
+.natEditInsertLink .foswikiFormStep:last-child {
+  margin-bottom:0;
 }
 
-/* link dialog */
-#natEditInsertLink .jqTabContents {
-  width:480px;
-  height:150px;
-}
-#natEditInsertLink .foswikiFormStep hr {
-  margin:1em 0em;
+.natEditInsertTable th {
+  text-align:left;
 }
 
 /* attachment dialog */
@@ -176,7 +180,7 @@ ul.natEditHelpTools {
 .patternEditPage .foswikiFormSteps hr {
   display:none;
 }
-.patternEditPage .foswikiFormLast {
+.patternEditPage .foswikiFormStep:last-child {
   border-bottom:0px;
 }
 .patternEditPage .natEditContainer th {

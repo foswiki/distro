@@ -14,8 +14,10 @@ package Foswiki::Plugins::NatEditPlugin::RestSave;
 
 use strict;
 use warnings;
-use Foswiki::UI::Save ();
-use Encode            ();
+use Foswiki::UI::Save      ();
+use Foswiki::OopsException ();
+use Encode                 ();
+use Error qw( :try );
 
 sub handle {
     my ( $session, $plugin, $verb, $response ) = @_;
@@ -26,6 +28,14 @@ sub handle {
     foreach my $key ( $query->param() ) {
         my @val = $query->param($key);
 
+        # hack to prevent redirecting
+        if ( $key eq 'redirectto' && @val && $val[0] eq '' ) {
+
+            #print STDERR "deleting bogus redirectto\n";
+            $query->delete($key);
+            next;
+        }
+
         if ( ref $val[0] eq 'ARRAY' ) {
             $query->param( $key, [ map( toSiteCharSet($_), @{ $val[0] } ) ] );
         }
@@ -34,8 +44,29 @@ sub handle {
         }
     }
 
-    # forward to normal save
-    return Foswiki::UI::Save::save($session);
+    # do a normal save
+    my $error;
+    my $status = 200;
+    try {
+        Foswiki::UI::Save::save($session);
+
+        # get a new lease
+        my $topicObject =
+          Foswiki::Meta->new( $session, $session->{webName},
+            $session->{topicName} );
+        $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+
+    }
+    catch Foswiki::OopsException with {
+        $error  = shift;
+        $status = 500;
+    };
+
+    # clear redirect enforced by a checkpoint action
+    $response->deleteHeader( "Location", "Status" );
+    $response->pushHeader( "Status", $status );
+
+    return ( defined $error ) ? $error->stringify : 'OK';
 }
 
 sub toSiteCharSet {

@@ -1,8 +1,8 @@
 %TMPL:INCLUDE{"dialog"}%
 %{ ################################################################################ }%
-%TMPL:DEF{"inserttable"}%<div id="natEditInsertTable" class="foswikiDialog foswikiFormSteps" style="display:none">
-  <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Create a new table"}%:</h2>
+%TMPL:DEF{"inserttable"}%<div class="natEditInsertTable jqUIDialog {modal:true, draggable:true, width:'auto', position:{my:'bottom', of:'#%URLPARAM{"editor"}%'}}" title="%MAKETEXT{"Create a new table"}%">
+  <form>
+    <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
     <table class="foswikiLayoutTable" width="100%">
       <tr>
         <th>%MAKETEXT{"Headings"}%:</th>
@@ -16,57 +16,67 @@
         <th>%MAKETEXT{"Columns"}%:</th>
         <td><input type="text" id="natEditInsertTableCols" size="20" name="cols" class="foswikiInputField" value="4" /></td>
       </tr>
+      <tr>
+        <th>%MAKETEXT{"Editable"}%:</th>
+        <td>
+          <label><input type="radio" name="editable" class="foswikiRadioButton" value="true" />%MAKETEXT{"Yes"}%</label>&nbsp;
+          <label><input type="radio" name="editable" class="foswikiRadioButton" value="false" checked="checked" />%MAKETEXT{"No"}%</label>
+        </td>
+      </tr>
     </table>
-  </div>
-  <hr />
-  <div class="foswikiFormStep foswikiFormLast foswikiFormButtons">
-    %BUTTON{"OK" class="foswikiButtonSubmit" icon="tick"}%
-    %BUTTON{"Cancel" class="foswikiButtonCancel" icon="cross"}%
-    %CLEAR%
-  </div>
+    <a class="jqUIDialogButton jqUIDialogSubmit {icon:'ui-icon-circle-check'}">%MAKETEXT{"OK"}%</a> 
+    <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
+  </form>
 </div>%TMPL:END%
 %{ ################################################################################ }%
-%TMPL:DEF{"insertlink"}%<div id="natEditInsertLink" class="foswikiDialog foswikiFormSteps" style="display:none">
-  <input type="hidden" name="insertlinkflag" id="natEditInsertLinkFlag" value="topic" />
-  <div class="foswikiFormStep">
-    <h2 class="foswikiDialogTitle jqSimpleModalDraggable">%MAKETEXT{"Insert link"}%:</h2>
-    %TABPANE%
-    %TAB{"Topic" after="jQuery('#natEditInsertLinkFlag').val('topic');" }%
-      <table class="foswikiLayoutTable" width="100%">
-	<tr>
-	  <th>%MAKETEXT{"Web"}%:</th>
-	  <td><input type="text" id="natEditInsertLinkWeb" size="40" name="web" class="foswikiInputField baseweb" value="%BASEWEB%" /></td>
-	</tr>
-	<tr>
-	  <th>%MAKETEXT{"Topic"}%:</th>
-	  <td><input type="text" id="natEditInsertLinkTopic" size="40" name="topic" class="foswikiInputField empty" value="" /></td>
-	</tr>
-	<tr>
-	  <th>%MAKETEXT{"Text"}%:</th>
-	  <td><input type="text" id="natEditInsertLinkTextTopic" size="40" name="linktext" class="foswikiInputField selection" value="" /></td>
-	</tr>
-      </table>
-    %ENDTAB%
-    %TAB{"External" after="jQuery('#natEditInsertLinkFlag').val('external');"}%
-      <table class="foswikiLayoutTable" >
-	<tr>
-	  <th>%MAKETEXT{"Url"}%:</th>
-	  <td><input type="text" id="natEditInsertLinkUrl" size="40" name="url" class="foswikiInputField empty" value="" /></td>
-	</tr>
-	<tr>
-	  <th>%MAKETEXT{"Text"}%:</th>
-	  <td><input type="text" id="natEditInsertLinkTextExternal" size="40" name="linktextext" class="foswikiInputField selection" value="" /></td>
-	</tr>
-      </table>
-    %ENDTAB%
+%TMPL:DEF{"insertlink"}%<!-- -->
+%TMPL:P{"insertlink::start"}%
+%TMPL:P{"insertlink::topic"}%
+%TMPL:P{"insertlink::external"}%
+%TMPL:P{"insertlink::end"}%
+<!-- -->%TMPL:END%
+
+%TMPL:DEF{"insertlink::start"}%<!-- -->
+<div class="natEditInsertLink jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:'auto', position:{my:'bottom', of:'#%URLPARAM{"editor"}%'}}" title="%MAKETEXT{"Insert link"}%">
+  <form>
+    <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
+    <input type="hidden" name="insertlinkflag" class="natEditInsertLinkFlag" value="topic" />
+    %TABPANE{class="plain" animate="on"}%
+<!-- -->%TMPL:END%
+
+%TMPL:DEF{"insertlink::end"}%<!-- -->
     %ENDTABPANE%
-  </div>
-  <div class="foswikiFormStep foswikiFormLast foswikiFormButtons">
-    %BUTTON{"OK" class="foswikiButtonSubmit" icon="tick"}%
-    %BUTTON{"Cancel" class="foswikiButtonCancel" icon="cross"}%
-    %CLEAR%
-  </div>
+    <div class="foswikiFormStep">
+      <h3>%MAKETEXT{"Text"}%:</h3>
+      <input type="text" size="40" name="linktext" class="foswikiInputField selection" value="" />
+    </div>
+    <a class="jqUIDialogButton jqUIDialogSubmit {icon:'ui-icon-circle-check'}">%MAKETEXT{"OK"}%</a> 
+    <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
+  </form>
 </div>%TMPL:END%
+
+%TMPL:DEF{"insertlink::topic"}%<!-- -->
+    %TAB{"%MAKETEXT{"Topic"}%" id="topic" after="jQuery('#'+newTabId).parent().parent().find('.natEditInsertLinkFlag').val('topic');" }%
+      <div class="foswikiFormStep">
+        <h3>%MAKETEXT{"Web"}%:</h3>
+        <input type="text" size="40" name="web" class="foswikiInputField jqFocus" value="" /> 
+      </div>
+      <div class="foswikiFormStep">
+        <h3>%MAKETEXT{"Topic"}%:</h3>
+        <input type="text" size="40" name="topic" class="foswikiInputField empty" value="" /> 
+      </div>
+    %ENDTAB%
+<!-- -->%TMPL:END%
+
+%TMPL:DEF{"insertlink::external"}%<!-- -->
+    %TAB{"%MAKETEXT{"External"}%" id="external" after="jQuery('#'+newTabId).parent().parent().find('.natEditInsertLinkFlag').val('external');" }%
+      <div class="foswikiFormStep">
+        <h3>%MAKETEXT{"Url"}%:</h3>
+        <input type="text" size="40" name="url" class="foswikiInputField empty" value="" />
+      </div>
+    %ENDTAB%
+<!-- -->%TMPL:END%
+
 %{ ################################################################################ }%
 %TMPL:DEF{"upload_tab"}%%{
 Only included if UploadPlugin is enabled

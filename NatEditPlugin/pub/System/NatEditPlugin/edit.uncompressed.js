@@ -1,11 +1,6 @@
 // to please pattern skin < 4.2
-var beforeSubmitHandler, foswikiStrikeOne, tinyMCE, FoswikiTiny;
-
-function initTextAreaHeight () { }
+var foswikiStrikeOne, tinyMCE, FoswikiTiny;
 function handleKeyDown () { }
-
-/* backwards compatibility */
-function fixHeightOfPane () { }
 
 /* foswiki integration */
 (function($) {
@@ -139,13 +134,6 @@ function fixHeightOfPane () { }
         var topicParentField = $editForm.find("input[name=topicparent]"),
             actionValue = 'foobar';
 
-        if (typeof(beforeSubmitHandler) == 'function') {
-          if(beforeSubmitHandler("save", editAction) === false) {
-            return false;
-          }
-        }
-
-
         if (topicParentField.val() === "") {
           topicParentField.val("none"); // trick in unsetting the topic parent
         }
@@ -177,8 +165,6 @@ function fixHeightOfPane () { }
           $.each(tinyMCE.editors, function(index, editor) {
               editor.onSubmit.dispatch();});
         }
-
-        return true;
       }
 
       if ($editForm.is("natEditFormInited")) {
@@ -195,12 +181,9 @@ function fixHeightOfPane () { }
       /* add click handler */
       $("#save").click(function() {
         editAction = "save";
-        if (submitHandler()) {
-          $.blockUI({message:'<h1> Saving ... </h1>'});
-          $editForm.submit();
-        } else {
-          $.unblockUI();
-        }
+        submitHandler();
+        $.blockUI({message:'<h1> Saving ... </h1>'});
+        $editForm.submit();
         return false;
       });
     
@@ -208,9 +191,7 @@ function fixHeightOfPane () { }
         var topicName = foswiki.getPreference("TOPIC") || '';
         editAction = el.currentTarget.id;
         if ($editForm.validate().form()) {
-          if (!submitHandler()) {
-            return false;
-          }
+          submitHandler();
           if (topicName.match(/AUTOINC|XXXXXXXXXX/)) {// || (typeof(tinyMCE) !== 'object')) {
             // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
             $editForm.submit();
@@ -242,9 +223,7 @@ function fixHeightOfPane () { }
       $("#preview").click(function() {
         editAction = "preview";
         if ($editForm.validate().form()) {
-          if (!submitHandler()) {
-            return false;
-          }
+          submitHandler();
           $editForm.ajaxSubmit({
             beforeSubmit: function() {
               hideErrorMessage();

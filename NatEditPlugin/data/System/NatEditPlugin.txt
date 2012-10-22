@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1264672309" format="1.1" version="1.3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1349941111" format="1.1" version="5"}%
 ---+!! Natural Edit Plugin
 <!--
 
@@ -42,6 +42,7 @@ jquery.natedit docu
 *PatternSkin:* %BR%
 To enable the <nop>NatEditPlugin add the identifier =natedit= to the =SKIN= 
 variable in %USERSWEB%.SitePreferences or WebPreferences, e.g.
+
 <pre>
    * <!-- -->Set SKIN = natedit,pattern
 </pre>
@@ -49,11 +50,12 @@ variable in %USERSWEB%.SitePreferences or WebPreferences, e.g.
 *NatSkin:* %BR%
 No extra configuration steps are needed in case you are using <nop>NatSkin.
 <nop>NatEditPlugin is the default editor for <nop>NatSkin, that is the normal
+
 <pre>
    * <!-- -->Set SKIN = nat
 </pre>
-is sufficient.
 
+is sufficient.
 
 <!--
    * Set STUB = %$STUB%
@@ -69,6 +71,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  22 Oct 2012 | implemented improved list editing; rewrite of modal dialogs to use jquery-ui-dialog instead of the old simplemodal library |
 |  10 Jul 2012 | fixed character encoding when saving a topic on a non-utf8 site using a REST handler |
 |  21 Feb 2012 | only add one strikeone nonce to the http header |
 |  20 Feb 2012 | moved missing javascript code over from !NatSkin to !NatEditPlugin;\
@@ -165,3 +168,4 @@ is sufficient.
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
 %META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
+%META:PREFERENCE{name="NATSKIN_STYLE" title="NATSKIN_STYLE" type="Local" value="jazzynote"}%
