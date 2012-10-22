@@ -62,7 +62,8 @@ sub view {
         $topicObject->finish();
     }
 
-    my $cache = $session->{cache};
+    my $cache    = $session->{cache};
+    my $response = $session->{response};
     my $cachedPage;
     $cachedPage = $cache->getPage( $web, $topic ) if $cache;
     if ($cachedPage) {
@@ -77,22 +78,24 @@ sub view {
         # set status
         my $status = $cachedPage->{status};
         if ( $status == 302 ) {
-            $session->{response}->redirect( $cachedPage->{location} );
+            $response->redirect( $cachedPage->{location} );
         }
         else {
 
             # See Item9941 to understand why do not set status when 200
-            $session->{response}->status($status) unless $status eq 200;
+            $response->status($status) unless $status eq 200;
         }
 
-        $session->{response}->pushHeader( 'X-Foswiki-PageCache', 1 );
+        $response->pushHeader( 'X-Foswiki-PageCache', 1 );
+        $response->pushHeader( 'X-Foswiki-Monitor-renderTime',
+            $session->{request}->getTime() );
 
         # set headers
         $session->generateHTTPHeaders( 'view', $cachedPage->{contenttype},
             $text, $cachedPage );
 
         # send it out
-        $session->{response}->print($text);
+        $response->print($text);
 
         Monitor::MARK('Wrote HTML');
         $session->logger->log(
@@ -212,7 +215,7 @@ sub view {
         $topicObject = Foswiki::Meta->new( $session, $web, $topic );
         $indexableView = 0;
         $session->enterContext('new_topic');
-        $session->{response}->status(404);
+        $response->status(404);
         $showRev      = 1;
         $maxRev       = 0;
         $viewTemplate = 'TopicDoesNotExistView';
