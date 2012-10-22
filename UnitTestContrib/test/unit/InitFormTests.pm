@@ -409,7 +409,7 @@ sub test_form {
 Simple description of problem</textarea>', get_formfield( 2, $text )
     );
     $this->assert_html_matches(
-'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
         get_formfield( 3, $text )
     );
     $this->assert_html_matches(
@@ -450,7 +450,7 @@ sub test_tmpl_form {
 Simple description of problem</textarea>', get_formfield( 2, $text )
     );
     $this->assert_html_matches(
-'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
         get_formfield( 3, $text )
     );
     $this->assert_html_matches(
