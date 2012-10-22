@@ -732,6 +732,7 @@ lib/Foswiki/Macros/RENDERZONE.pm 0444
 lib/Foswiki/Macros/REVARG.pm 0444
 lib/Foswiki/Macros/REVINFO.pm 0444
 lib/Foswiki/Macros/REVTITLE.pm 0444
+lib/Foswiki/Macros/SET.pm 0444
 lib/Foswiki/Macros/SEARCH.pm 0444
 lib/Foswiki/Macros/SHOWPREFERENCE.pm 0444
 lib/Foswiki/Macros/SPACEDTOPIC.pm 0444
