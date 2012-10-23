@@ -375,6 +375,11 @@ sub isCacheable {
         $isCacheable = 0 if defined $flag && !Foswiki::isTrue($flag);
     }
 
+    # don't cache 401 Not authorized responses
+    my $headers = $session->{response}->headers();
+    my $status  = $headers->{Status};
+    $isCacheable = 0 if $status && $status eq 401;
+
     # TODO: give plugins a chance - create a callback to intercept cacheability
 
     writeDebug("isCacheable=$isCacheable");
