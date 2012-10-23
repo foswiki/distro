@@ -3,17 +3,15 @@ msgstr ""
 "Project-Id-Version: Foswiki Greek Translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-04-20 21:03+0200\n"
-"Last-Translator: StefanosKouzof <s.kouzof@ergoq.gr>\n"
+"PO-Revision-Date: 2012-10-23 12:35+0200\n"
+"Last-Translator: Stefanos <s.kouzof@ergoq.gr>\n"
 "Language-Team: ErgoQ <http://www.ergoq.gr>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.5\n"
-"X-Poedit-Language: Greek\n"
-"X-Poedit-Country: GREECE\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
@@ -43,9 +41,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "%1 (default)"
-msgstr "(διαγραφή)"
+msgstr "%1 (προεπιλεγμένο)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -68,9 +65,8 @@ msgstr "Ο/Η %1 προστέθηκε στην ομάδα %2. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "Ο/Η %1 διεγράφη από την ομάδα %2."
+msgstr "Ο/Η %1 δεν μπορεί να αφαιρεθεί από το %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -314,9 +310,8 @@ msgid "(raw view)"
 msgstr "(αδιαμόρφωτη προβολή)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(απαγορεύεται η πρόσβαση)"
+msgstr "(απαγορεύεται η ανακατεύθυνση)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
