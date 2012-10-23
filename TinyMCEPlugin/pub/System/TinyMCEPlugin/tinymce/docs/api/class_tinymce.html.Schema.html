@@ -79,8 +79,8 @@
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.html.Schema.html#getBoolAttrs">getBoolAttrs</a>():Object</div>
-<div class="summary">Returns a map with boolean attributes.</div>
+<a class="memberName" href="class_tinymce.html.Schema.html#getBlockElements">getBlockElements</a>():Object</div>
+<div class="summary">Returns a map with block elements.</div>
 </td>
 <td class="last">Schema</td>
 </tr>
@@ -88,7 +88,7 @@
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html.Schema.html#getBoolAttrs">getBoolAttrs</a>():Object</div>
-<div class="summary">Returns a map with block elements.</div>
+<div class="summary">Returns a map with boolean attributes.</div>
 </td>
 <td class="last">Schema</td>
 </tr>
@@ -135,8 +135,24 @@
 <tr class="even">
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.html.Schema.html#getTextBlockElements">getTextBlockElements</a>():Object</div>
+<div class="summary">Returns a map with text block elements.</div>
+</td>
+<td class="last">Schema</td>
+</tr>
+<tr>
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.html.Schema.html#getWhiteSpaceElements">getWhiteSpaceElements</a>():Object</div>
 <div class="summary">Returns a map with elements where white space is to be preserved like PRE or SCRIPT.</div>
+</td>
+<td class="last">Schema</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.html.Schema.html#isValid">isValid</a>(name:String, attr:String):Boolean</div>
+<div class="summary">Returns true/false if the specified element name and optional attribute is valid according to the schema.</div>
 </td>
 <td class="last">Schema</td>
 </tr>
@@ -223,6 +239,16 @@ Existing rules will be replaced with the ones specified, so this extends the sch
 </tr>
 </table>
 </div>
+<div class="memberDetails" id="getBlockElements">
+<h3>getBlockElements<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function getBlockElements():Object</code>
+<div class="memberDescription">Returns a map with block elements.
+</div>
+<h4>Returns</h4>
+<div class="returns">Object - Name/value lookup map for block elements.</div>
+</div>
 <div class="memberDetails" id="getBoolAttrs">
 <h3>getBoolAttrs<span class="memberType">method</span>
 </h3>
@@ -232,16 +258,6 @@ Existing rules will be replaced with the ones specified, so this extends the sch
 </div>
 <h4>Returns</h4>
 <div class="returns">Object - Name/value lookup map for boolean attributes.</div>
-</div>
-<div class="memberDetails" id="getBoolAttrs">
-<h3>getBoolAttrs<span class="memberType">method</span>
-</h3>
-<code class="syntax">public 
-						function getBoolAttrs():Object</code>
-<div class="memberDescription">Returns a map with block elements.
-</div>
-<h4>Returns</h4>
-<div class="returns">Object - Name/value lookup map for block elements.</div>
 </div>
 <div class="memberDetails" id="getCustomElements">
 <h3>getCustomElements<span class="memberType">method</span>
@@ -302,6 +318,16 @@ content in them or not such as TD, VIDEO or IMG.
 <h4>Returns</h4>
 <div class="returns">Object - Name/value lookup map for short ended elements.</div>
 </div>
+<div class="memberDetails" id="getTextBlockElements">
+<h3>getTextBlockElements<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function getTextBlockElements():Object</code>
+<div class="memberDescription">Returns a map with text block elements. Such as: p,h1-h6,div,address
+</div>
+<h4>Returns</h4>
+<div class="returns">Object - Name/value lookup map for block elements.</div>
+</div>
 <div class="memberDetails" id="getWhiteSpaceElements">
 <h3>getWhiteSpaceElements<span class="memberType">method</span>
 </h3>
@@ -311,6 +337,28 @@ content in them or not such as TD, VIDEO or IMG.
 </div>
 <h4>Returns</h4>
 <div class="returns">Object - Name/value lookup map for white space elements.</div>
+</div>
+<div class="memberDetails" id="isValid">
+<h3>isValid<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function isValid(name:String, attr:String):Boolean</code>
+<div class="memberDescription">Returns true/false if the specified element name and optional attribute is
+valid according to the schema.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">name:String</td>
+<td class="last">Name of element to check.</td>
+</tr>
+<tr>
+<td class="first">attr:String</td>
+<td class="last">Optional attribute name to check for.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">Boolean - True/false if the element and attribute is valid.</div>
 </div>
 <div class="memberDetails" id="isValidChild">
 <h3>isValidChild<span class="memberType">method</span>

@@ -311,10 +311,11 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
                 &copy; 2010-2012 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|             | This package also includes the complete sources for version 3.4.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
+|             | This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.2.9 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.7 |
 |  1.2.8 | Foswikitask:Item8032: enable Foswiki:Extensions.WysiwygFormfieldsPlugin |
 |  1.2.7 | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
            Foswikitaks:Item11722: Add watermark for hidden blocks%BR%\

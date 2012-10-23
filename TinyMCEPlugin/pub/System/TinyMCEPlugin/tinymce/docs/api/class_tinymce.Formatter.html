@@ -63,12 +63,20 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 <tr>
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.Formatter.html#formatChanged">formatChanged</a>(formats:String, callback:function, similar:Boolean):void</div>
+<div class="summary">Executes the specified callback when the current selection matches the formats or not.</div>
+</td>
+<td class="last">Formatter</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.Formatter.html#get">get</a>(name:String):Array/Object</div>
 <div class="summary">Returns the format by name or all formats if no name is specified.</div>
 </td>
 <td class="last">Formatter</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#match">match</a>(name:String, vars:Object, node:Node):boolean</div>
@@ -76,7 +84,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </td>
 <td class="last">Formatter</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#matchAll">matchAll</a>(names:Array, vars:Object):Array</div>
@@ -84,7 +92,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </td>
 <td class="last">Formatter</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#matchNode">matchNode</a>(node:Node, name:String, vars:Object, similar:Boolean):Object</div>
@@ -92,7 +100,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </td>
 <td class="last">Formatter</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#register">register</a>(name:Object/String, format:Object/Array):void</div>
@@ -100,7 +108,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </td>
 <td class="last">Formatter</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#remove">remove</a>(name:String, vars:Object, node:Node/Range):void</div>
@@ -108,7 +116,7 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </td>
 <td class="last">Formatter</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.Formatter.html#toggle">toggle</a>(name:String, vars:Object, node:Node):void</div>
@@ -161,6 +169,29 @@ default formatting logic for execCommand due to it's inconsistant and buggy beha
 </table>
 <h4>Returns</h4>
 <div class="returns">boolean - true/false if the specified format can be applied to the current selection/node.</div>
+</div>
+<div class="memberDetails" id="formatChanged">
+<h3>formatChanged<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function formatChanged(formats:String, callback:function, similar:Boolean):void</code>
+<div class="memberDescription">Executes the specified callback when the current selection matches the formats or not.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">formats:String</td>
+<td class="last">Comma separated list of formats to check for.</td>
+</tr>
+<tr>
+<td class="first">callback:function</td>
+<td class="last">Callback with state and args when the format is changed/toggled on/off.</td>
+</tr>
+<tr>
+<td class="first">similar:Boolean</td>
+<td class="last">True/false state if the match should handle similar or exact formats.</td>
+</tr>
+</table>
 </div>
 <div class="memberDetails" id="get">
 <h3>get<span class="memberType">method</span>
