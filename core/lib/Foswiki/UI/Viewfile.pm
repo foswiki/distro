@@ -97,7 +97,7 @@ sub viewfile {
                 web    => 'Unknown',
                 topic  => 'Unknown',
                 status => 404,
-                params => [ 'viewfile', '?' ]
+                params => ['?']
             );
         }
 
@@ -117,7 +117,7 @@ sub viewfile {
                 web    => $web,
                 topic  => 'Unknown',
                 status => 404,
-                params => [ 'viewfile', '?' ]
+                params => ['?']
             );
         }
 
@@ -135,7 +135,7 @@ sub viewfile {
             web    => $web,
             topic  => $topic,
             status => 404,
-            params => [ 'viewfile', '?' ]
+            params => ['?']
         );
     }
 
@@ -162,7 +162,7 @@ sub viewfile {
             web    => $web,
             topic  => $topic,
             status => 404,
-            params => [ 'viewfile', "$web/$topic/$fileName" ]
+            params => ["$web/$topic/$fileName"]
         );
     }
 
