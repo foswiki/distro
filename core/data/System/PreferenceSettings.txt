@@ -1,6 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1328243172" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1350962098" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
-
 #SettingPrefs
 #PreferencesMacros
 ---++!! Preference Settings
@@ -12,15 +11,17 @@ A preference macro is always taken from the most current topic revision, even wh
 
 Preferences can be defined in a number of places:
    1 %SYSTEMWEB%.DefaultPreferences (Foswiki upgrades overwrite this topic)
+   1 In (some) plugin documentation topics. (Deprecated)
    1 %USERSWEB%.SitePreferences
-   1 Sub-webs inherit the !WebPreferences of their parent
-   1 !WebPreferences
    1 In user topics, if the user has one (yours is [[%WIKIUSERNAME%]])
-   1 In (some) plugin documentation topics
+   1 !WebPreferences
+   1 Sub-webs inherit the !WebPreferences of their parent
    1 In the topic being accessed
-=Set= statements which occur at higher-numbered locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a FINALPREFERENCES setting (finalised) at a lower-numbered level._ In this case, the macro is locked to the value at that level; =Set= statements at higher-numbered levels are ignored.
+In this list, =Set= statements which occur at numerically higher locations override macros of the same name defined at lower numbered levels, _unless the macro was listed in a finalpreferences setting (finalised) at a lower-numbered level._ in this case, the macro is locked to the value at that level; =set= statements at higher-numbered levels are ignored.
 
-%I% Preference settings can easily be disabled with a # sign. Example:%BR%
+     <img src="%ATTACHURLPATH%/prefs-stack.jpg" alt="prefs-stack.jpg" width='467' height='373' />
+
+%I% preference settings can easily be disabled with a # sign. Example:%BR%
    <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
 %I% You can hide preference settings in the output by enclosing them in HTML comments; for example,<verbatim>
 <!--
@@ -93,3 +94,5 @@ Then, when they are editing any other topic, they will get a 10 high edit box. H
 
 Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to get a listing of the values of all macros in their evaluation order, so you can see macro scope if you get confused.
 <!-- %JQREQUIRE{"chili"}% -->
+
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1350962092" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
