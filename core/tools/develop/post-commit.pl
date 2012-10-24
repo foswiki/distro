@@ -10,9 +10,10 @@
 use strict;
 use warnings;
 
-my $REPOS   = $ARGV[0];
-my $BUGS    = '/home/foswiki.org/public_html/data/Tasks';
-my $SUPPORT = '/home/svn';
+my $REPOS     = $ARGV[0];
+my $BUGS      = '/home/foswiki.org/public_html/data/Tasks';
+my $TRUNK_BIN = '/home/trunk.foswiki.org/core/bin';
+my $SUPPORT   = '/home/svn';
 
 our $verbose = 0;    # 1 to debug
 
@@ -271,6 +272,9 @@ s/^(%META:FIELD.*?name="${branch}Checkins".*value=")(.*?)(".*}%)$/$1._add($2, $r
         else {
             print STDERR "\n>>>\n$text\n>>>\n";
         }
+
+        #kick the trunk pagecache
+        `cd $TRUNK_BIN ; ./view /Tasks/$item -refresh=cache > /dev/null`;
 
         print STDERR "Updated $item with $rev\n";
     }
