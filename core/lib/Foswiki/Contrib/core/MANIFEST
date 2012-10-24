@@ -477,6 +477,8 @@ lib/CPAN/lib/Params/Validate/XS.pm 0444
 lib/CPAN/lib/Sort/Maker.pm 0444
 lib/CPAN/lib/Sub/Install.pm 0444
 lib/CPAN/lib/Try/Tiny.pm 0444
+lib/CPAN/lib/version.pm 0444
+lib/CPAN/lib/version/vpp.pm 0444
 lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
 lib/Foswiki/Access.pm 0444
