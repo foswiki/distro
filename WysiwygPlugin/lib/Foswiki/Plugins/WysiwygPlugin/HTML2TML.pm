@@ -197,6 +197,7 @@ sub convert {
     }
 
     # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
+    $text =~ s/&#xFEFF;//g;
     return $text;
 }
 
