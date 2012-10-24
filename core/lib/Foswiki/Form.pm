@@ -230,18 +230,13 @@ sub _parseFormDefinition {
     }
 
     # Support column reordering
-    my %indices = (
-        name       => 0,
-        type       => 1,
-        size       => 2,
-        value      => 3,
-        tooltip    => 4,
-        attributes => 5,
-    );
+    my @indices   = qw/name type size value tooltip attributes default/;
     my $col       = 0;
     my $have_head = 0;
-    my @field     = ();
-    my $handler   = sub {
+
+    #    my @field     = ();
+    my %field   = ();
+    my $handler = sub {
         my $event = shift;
         if ( $event eq 'close_table' ) {
 
@@ -253,21 +248,25 @@ sub _parseFormDefinition {
             $data = lc($data);
             $data =~ s/[\s:]//g;
             $data = 'tooltip' if $data eq 'tooltipmessage';
-            $indices{$data} = $col++;
+            $indices[ $col++ ];
         }
         elsif ( $event eq 'close_tr' ) {
+            $col = 0;
             unless ($have_head) {
+
+        #er, so if there is no header on the table, we just assume its all good?
                 $have_head = 1;
                 return;
             }
-            my $title = $field[ $indices{name} ] || '';
-            my $type = lc( $field[ $indices{type} ] || 'text' );
-            my $size       = $field[ $indices{size} ]       || '';
-            my $vals       = $field[ $indices{value} ]      || '';
-            my $tooltip    = $field[ $indices{tooltip} ]    || '';
-            my $attributes = $field[ $indices{attributes} ] || '';
-            @field = ();
 
+            if ( $field{type} ) {
+                $field{type} = lc( $field{type} );
+            }
+            else {
+                $field{type} = 'text';
+            }
+
+            my $vals = $field{value} || '';
             if ( $vals =~ /%/ ) {
                 $vals = $this->expandMacros($vals);
             }
@@ -276,42 +275,42 @@ sub _parseFormDefinition {
             # Trim again in case macro expansion has added spaces
             $vals =~ s/^\s+//g;
             $vals =~ s/\s+$//g;
+            $field{value} = $vals;
 
-            $attributes =~ s/\s*//g;
+            $field{attributes} =~ s/\s*//g if ( exists( $field{attributes} ) );
 
-            my $definingTopic = '';
-            if ( $title =~ /\[\[(.+)\]\[(.+)\]\]/ ) {
+            $field{title}         = $field{name};
+            $field{definingTopic} = '';
+            if ( $field{title} =~ /\[\[(.+)\]\[(.+)\]\]/ ) {
 
                 # use common defining topics with different field titles
-                $definingTopic = fieldTitle2FieldName($1);
-                $title         = $2;
+                $field{definingTopic} = fieldTitle2FieldName($1);
+                $field{title}         = $2;
             }
 
-            my $name = fieldTitle2FieldName($title);
+            $field{name} = fieldTitle2FieldName( $field{title} );
 
             # Rename fields with reserved names
-            if ( $reservedFieldNames{$name} ) {
-                $name .= '_';
+            if ( $reservedFieldNames{ $field{name} } ) {
+                $field{name} .= '_';
             }
             my $fieldDef = $this->createField(
-                $type,
-                name          => $name,
-                title         => $title,
-                size          => $size,
-                value         => $vals,
-                tooltip       => $tooltip,
-                attributes    => $attributes,
-                definingTopic => $definingTopic,
-                web           => $this->web(),
-                topic         => $this->topic()
+                $field{type},
+                web   => $this->web(),
+                topic => $this->topic(),
+                %field
             );
+
             push( @fields, $fieldDef );
+            %field = ();
 
             $this->{mandatoryFieldsPresent} ||= $fieldDef->isMandatory();
         }
         elsif ( $event eq 'td' ) {
             my ( $pre, $data, $post ) = @_;
-            push( @field, $data );
+
+            #push( @field, $data );
+            $field{ $indices[ $col++ ] } = $data || '';
         }
     };
 

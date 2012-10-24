@@ -35,6 +35,7 @@ sub new {
 
     $attrs{name}       ||= '';
     $attrs{attributes} ||= '';
+    $attrs{tooltip}    ||= '';
     $attrs{type}       ||= '';    # default
     $attrs{size}       ||= '';
     $attrs{size} =~ s/^\s*//;
@@ -166,6 +167,7 @@ the form definition. In that case this method should return =undef=.
 sub getDefaultValue {
     my $this = shift;
 
+    #my $value = (exists($this->{default})?$this->{default}:$this->{value});
     my $value = $this->{value};
     $value = '' unless defined $value;    # allow 0 values
 

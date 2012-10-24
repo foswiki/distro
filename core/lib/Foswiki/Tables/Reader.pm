@@ -74,6 +74,7 @@ spot the tables in the list by doing:
 <verbatim>
 if (UNIVERSAL::isa($line, $table_class)) {
 </verbatim>
+text lines are scalars, so will also return false to =ref($line)=
 
 The =$topicObject= is an instance of Foswiki::Meta, and is required to
 provide an expansion context for macros embedded in parameters. If it
