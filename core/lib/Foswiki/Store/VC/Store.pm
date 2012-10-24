@@ -386,14 +386,14 @@ sub saveTopic {
     $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
         'save topic', $cUID, $options->{forcedate} );
 
+    $this->tellListeners( verb => $verb, newmeta => $topicObject );
+
     # reload the topic object
     $topicObject->unload();
     $topicObject->loadVersion();
 
     my $extra = $options->{minor} ? 'minor' : '';
     $handler->recordChange( $cUID, $nextRev, $extra );
-
-    $this->tellListeners( verb => $verb, newmeta => $topicObject );
 
     return $nextRev;
 }
@@ -409,14 +409,14 @@ sub repRev {
         'reprev', $cUID,
         defined $options{forcedate} ? $options{forcedate} : $info->{date} );
 
+    $this->tellListeners( verb => 'update', newmeta => $topicObject );
+
     # reload the topic object
     $topicObject->unload();
     $topicObject->loadVersion();
 
     my $rev = $handler->getLatestRevisionID();
     $handler->recordChange( $cUID, $rev, 'minor, reprev' );
-
-    $this->tellListeners( verb => 'update', newmeta => $topicObject );
 
     return $rev;
 }
@@ -438,11 +438,11 @@ sub delRev {
     # restore last topic from repository
     $handler->restoreLatestRevision($cUID);
 
+    $this->tellListeners( verb => 'update', newmeta => $topicObject );
+
     # reload the topic object
     $topicObject->unload();
     $topicObject->loadVersion();
-
-    $this->tellListeners( verb => 'update', newmeta => $topicObject );
 
     $handler->recordChange( $cUID, $rev );
 
