@@ -53,7 +53,7 @@ All the scripts accept a number of common parameters. The first two components o
 | =foswikioriginalquery= | The original query that was being made before a redirect for user confirmation was required. | |
 | =foswiki_redirect_cache= | Foswiki sometimes caches long lists of parameters that must survive over a sequence of browser redirects. This parameter identifies one of these caches. The parameter value is a "magic number" that uniquely idenitifies a file in the =working/tmp= directory. These files have a very short lifetime, and are destroyed when the cache is read. | |
 | =logout= | requests the !LoginManager to log the current user out (this happens at the begining of the request so will terminate any other operation requested) | |
-| =refresh= | If the Foswiki page cache is in use, setting this parameter will invalidate the cache. Valid values are =on= and =all=. See PageCaching for more information on the page cache. | |
+| =refresh= | If the Foswiki page cache is in use, setting this parameter will invalidate the cache. Valid values are =cache=, =on= and =all=. See PageCaching for more information on the page cache. | |
 | =response= | Used as part of the request validation process. | |
 | =skin= | Overrides the default skin path (see [[Skins]]) | _value of the =SKIN= preference_ |
 | =t= | While the =t= parameter is not actively used by any scripts, it is used when building links to scripts such as =edit=, to ensure that each edit link is unique. This stops the browser from trying to use a cached reply from a previous call to the script. | _generally set to current time, in seconds_ |
