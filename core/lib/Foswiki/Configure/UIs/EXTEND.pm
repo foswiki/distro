@@ -57,6 +57,7 @@ sub install {
     $this->findRepositories();
 
     my $processExt = $query->param('processExt') || '';
+    my $useCache   = $query->param('useCache')   || '';
     my @remove     = $query->param('remove');
     my @add        = $query->param('add');
 
@@ -91,7 +92,8 @@ sub install {
             my $extensionName  = $2;
             print "Bad extension name" unless $extensionName && $repositoryPath;
 
-            $this->_install( $repositoryPath, $extensionName, $processExt );
+            $this->_install( $repositoryPath, $extensionName, $processExt,
+                $useCache );
         }
     }
 
@@ -165,7 +167,7 @@ sub _depreport {
 }
 
 sub _install {
-    my ( $this, $repositoryPath, $extension, $processExt ) = @_;
+    my ( $this, $repositoryPath, $extension, $processExt, $useCache ) = @_;
     my $err;
 
     my $feedback = '';
@@ -195,6 +197,7 @@ sub _install {
         {
             SIMULATE => $simulate,
             NODEPS   => $nodeps,
+            USELOCAL => ( $useCache eq 'on' ) ? 1 : 0,
         }
     );
 
