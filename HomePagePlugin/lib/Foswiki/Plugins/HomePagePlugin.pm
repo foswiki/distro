@@ -13,7 +13,7 @@ use warnings;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-our $VERSION           = '$Rev: 1340 $';
+use version; our $VERSION = version->declare("v1.2.0");
 our $RELEASE           = '1.2.0';
 our $SHORTDESCRIPTION  = 'Allow User specified home pages - on login';
 our $NO_PREFS_IN_TOPIC = 1;

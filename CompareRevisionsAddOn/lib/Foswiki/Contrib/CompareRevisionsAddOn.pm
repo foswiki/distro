@@ -1,14 +1,11 @@
 package Foswiki::Contrib::CompareRevisionsAddOn;
 use strict;
 
-# This should always be $Rev$ so that Foswiki can determine the
-# checked-in status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-our $VERSION = '$Rev$ (2011-04-30)';
+use version; our $VERSION = version->declare("v1.1.7");
 
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
+# of the version number in PLUGINDESCRIPTIONS.  Keep in sync with $VERSION
 our $RELEASE = '1.1.7';
 
 our $SHORTDESCRIPTION =
