@@ -1808,6 +1808,11 @@ $Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl,
 # found at <a href="http://en.wikipedia.org/wiki/URI_scheme">http://en.wikipedia.org/wiki/URI_scheme</a>.
 $Foswiki::cfg{LinkProtocolPattern} = '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
+# **NUMBER**
+# Length of linking acronyms.  Minumum number of consecutive upper case characters
+# required to be linked as an acronym.
+$Foswiki::cfg{AcronymLength} = 3;
+
 # **BOOLEAN**
 # 'Anchors' are positions within a Foswiki page that can be targeted in
 # a URL using the <tt>#anchor</tt> syntax. The format of these anchors has

@@ -221,6 +221,12 @@ sub set_up {
       Foswiki::Func::readTopic( $this->{test_web}, 'Numeric1Wikiword' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'AB' );
+    $topicObject->text("BLEEGLE");
+    $topicObject->save();
+    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'ABC' );
+    $topicObject->text("BLEEGLE");
+    $topicObject->save();
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $Foswiki::cfg{AntiSpam}{EmailPadding}     = 'STUFFED';
     $Foswiki::cfg{AntiSpam}{EntityEncode}     = 1;
@@ -936,6 +942,64 @@ EXPECTED
 __text with H_ link__
 ACTUAL
     $this->do_test( $expected, $actual );
+}
+
+sub test_Acronyms {
+    my $this = shift;
+
+    # SMELL: These are built in BEGIN block of Foswiki.pm
+    # Need to re-initialize them here to change the length
+    my $abbrevLength = 3;
+    $Foswiki::regex{abbrevRegex} =
+      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/o;
+
+    my $expected = <<EXPECTED;
+<strong><em>text with <a href="/$this->{test_web}/ABC">ABC</a> link</em></strong>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+__text with ABC link__
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    $expected = <<EXPECTED;
+<strong><em>text with AB link</em></strong>
+EXPECTED
+
+    $actual = <<ACTUAL;
+__text with AB link__
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
+sub test_shortAcronyms {
+    my $this = shift;
+
+    # SMELL: These are built in BEGIN block of Foswiki.pm
+    # Need to re-initialize them here to change the length
+    my $abbrevLength = 2;
+    $Foswiki::regex{abbrevRegex} =
+      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/o;
+
+    my $expected = <<EXPECTED;
+<strong><em>text with <a href="/$this->{test_web}/ABC">ABC</a> link</em></strong>
+EXPECTED
+
+    my $actual = <<ACTUAL;
+__text with ABC link__
+ACTUAL
+    $this->do_test( $expected, $actual );
+
+    # Try a shorter length
+    $expected = <<EXPECTED;
+<strong><em>text with <a href="/$this->{test_web}/AB">AB</a> link</em></strong>
+EXPECTED
+
+    $actual = <<ACTUAL;
+__text with AB link__
+ACTUAL
+    $this->do_test( $expected, $actual );
+
 }
 
 sub test_squabbedEmmedTopic {
