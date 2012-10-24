@@ -605,6 +605,7 @@ lib/Foswiki/Configure/TemplateParser.pm 0444
 lib/Foswiki/Configure/TemplateParser/SimpleFreeMarker.pm 0444
 lib/Foswiki/Configure/Type.pm 0444
 lib/Foswiki/Configure/Types/BOOLEAN.pm 0444
+lib/Foswiki/Configure/Types/BOOLGROUP.pm 0444
 lib/Foswiki/Configure/Types/COMMAND.pm 0444
 lib/Foswiki/Configure/Types/LANGUAGE.pm 0444
 lib/Foswiki/Configure/Types/NUMBER.pm 0444
