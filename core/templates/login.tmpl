@@ -12,13 +12,9 @@
 %TMPL:DEF{"title"}%<h2>%MAKETEXT{"Log on with your username and password"}%</h2>%TMPL:END%
 
 %TMPL:DEF{"titlestep"}%<div class='foswikiFormStep'>%TMPL:P{"title"}%
-%TMPL:P{"notestep"}%
-%TMPL:P{"errorstep"}%</div>%TMPL:END%
+%TMPL:P{"notestep"}%%TMPL:P{"errorstep"}%</div>%TMPL:END%
 
-
-%TMPL:DEF{"notestep"}%<div style="display:%IF{'defined ERROR or defined NOTE or defined BANNER' then='block' else='none'}%;">
-%IF{"defined NOTE AND $NOTE != ''" then='<h3>%NOTE%</h3>'}%</div>%TMPL:END%
-
+%TMPL:DEF{"notestep"}%%IF{"defined NOTE AND $NOTE != ''" then="<h3>%NOTE%</h3>"}%%TMPL:END%
 
 %TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="foswikiNotification foswikiAlert foswikiUnvisited foswikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
 
