@@ -458,7 +458,7 @@ sub checkPassword {
     # be a little more helpful to the admin
     if ( $login eq $Foswiki::cfg{AdminUserLogin} && !$hash ) {
         $this->{error} =
-          'To login as ' . $login . ', you must set {Password} in configure';
+          'To login as ' . $login . ', you must set {Password} in configure.';
     }
     return 0;
 }

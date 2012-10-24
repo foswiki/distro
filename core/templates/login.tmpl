@@ -14,11 +14,19 @@
 %TMPL:DEF{"titlestep"}%<div class='foswikiFormStep'>%TMPL:P{"title"}%
 %TMPL:P{"notestep"}%%TMPL:P{"errorstep"}%</div>%TMPL:END%
 
-%TMPL:DEF{"notestep"}%%IF{"defined NOTE AND $NOTE != ''" then="<h3>%NOTE%</h3>"}%%TMPL:END%
+%TMPL:DEF{"notestep"}%%IF{
+    "defined NOTE AND $NOTE != ''"
+    then="<h3>%NOTE%</h3>"
+}%%TMPL:END%
 
-%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="foswikiNotification foswikiAlert foswikiUnvisited foswikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
+%TMPL:DEF{"errorstep"}%%IF{
+    "(defined ERROR AND $ERROR != '') or (defined BANNER AND $BANNER != '')"
+    then="<div class='foswikiNotification foswikiAlert foswikiUnvisited'>%BANNER%%IF{
+        "defined ERROR AND $ERROR != ''"     
+        then="$percntTMPL:P{$quoterror$quot}$percnt"
+    }%</div>"}%%TMPL:END%
 
-%TMPL:DEF{"error"}%%MAKETEXT{"Error: [_1]" args="%ERROR%"}%%TMPL:END%
+%TMPL:DEF{"error"}%<div>$percntERROR$percnt</div>%TMPL:END%
 
 %TMPL:DEF{"authrealm"}%%MAKETEXT{"This is your name written as !WikiWord, for example: !JohnSmith. [[[_1]][Register]] if you do not have an account yet." args="%SYSTEMWEB%.UserRegistration"}%%TMPL:END%
 
