@@ -105,6 +105,17 @@ The complete cache for all topics can be cleared using =refresh=all=.
 %T% The cache should be refreshed after installing a Foswiki upgrade, or after installing updates to any plugins that would change the output of macros.
 </blockquote>
 
+---++++ Command line cache refresh
+
+If you have topics that are updated externally to foswiki, which do not use the recomended =Foswiki::Func::saveTopic= API, you can 
+(carefully) call update from the commandline:
+
+eg. =sudo -u www ./view /Tasks/Item12035  -refresh=cache=. 
+
+__NOTE__ it is very important that you run this as the same user that the web server uses to access foswiki (and the cache).
+
+see CommandAndCGIScripts
+
 ---+++ Caching SEARCH results
 When you enable the Foswiki page cache, all SEARCH results will automatically
 be cached. As a consequence a SEARCH on a page will not be performed again as long as this
