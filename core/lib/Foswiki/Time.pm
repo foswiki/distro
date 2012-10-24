@@ -36,9 +36,6 @@ use warnings;
 use Assert;
 use Foswiki ();
 
-our $VERSION = "1.200";
-$VERSION = eval $VERSION;
-
 # Constants
 our @ISOMONTH = (
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
