@@ -192,6 +192,13 @@ sub skip {
             tests     => {
                 'FormattingTests::test_lists' =>
                   'Post-Foswiki 1.1.x TML syntax',
+                'FormattingTests::test_shortAcronyms' =>
+                  'Post-Foswiki 1.1.x TML syntax',
+            },
+            condition => { without_dep => 'Class::Unload' },
+            tests     => {
+                'FormattingTests::test_shortAcronyms' =>
+                  'Missing Class::Unload',
             }
         }
     );
@@ -947,14 +954,8 @@ ACTUAL
 sub test_Acronyms {
     my $this = shift;
 
-    # SMELL: These are built in BEGIN block of Foswiki.pm
-    # Need to re-initialize them here to change the length
-    my $abbrevLength = 3;
-    $Foswiki::regex{abbrevRegex} =
-      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/o;
-
     my $expected = <<EXPECTED;
-<strong><em>text with <a href="/$this->{test_web}/ABC">ABC</a> link</em></strong>
+<strong><em>text with <a href="$this->{sup}/$this->{test_web}/ABC">ABC</a> link</em></strong>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -975,14 +976,22 @@ ACTUAL
 sub test_shortAcronyms {
     my $this = shift;
 
-    # SMELL: These are built in BEGIN block of Foswiki.pm
+    # SMELL: The regexes built in BEGIN block of Foswiki.pm
     # Need to re-initialize them here to change the length
+    # Also,  they are used and pre-compiled when Foswiki::Render
+    # is loaded.  So Render has to be reloaded to recomplile the
+    # regular expressions.
     my $abbrevLength = 2;
     $Foswiki::regex{abbrevRegex} =
-      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/o;
+      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/;
+    require Class::Unload;
+    $this->{session}->renderer->finish();
+    Class::Unload->unload('Foswiki::Render');
+    require Foswiki::Render;
+    $this->{session}->{renderer} = new Foswiki::Render( $this->{session} );
 
     my $expected = <<EXPECTED;
-<strong><em>text with <a href="/$this->{test_web}/ABC">ABC</a> link</em></strong>
+<strong><em>text with <a href="$this->{sup}/$this->{test_web}/ABC">ABC</a> link</em></strong>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -992,13 +1001,24 @@ ACTUAL
 
     # Try a shorter length
     $expected = <<EXPECTED;
-<strong><em>text with <a href="/$this->{test_web}/AB">AB</a> link</em></strong>
+<strong><em>text with <a href="$this->{sup}/$this->{test_web}/AB">AB</a> link</em></strong>
 EXPECTED
 
     $actual = <<ACTUAL;
 __text with AB link__
 ACTUAL
     $this->do_test( $expected, $actual );
+
+    # SMELL: Reset the regular expressions back to default
+    # and compile render again so subsequent tests don't fail.
+    $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
+    $Foswiki::regex{abbrevRegex} =
+      qr/[$Foswiki::regex{upperAlpha}]{$abbrevLength,}s?\b/;
+    require Class::Unload;
+    $this->{session}->renderer->finish();
+    Class::Unload->unload('Foswiki::Render');
+    require Foswiki::Render;
+    $this->{session}->{renderer} = new Foswiki::Render( $this->{session} );
 
 }
 
