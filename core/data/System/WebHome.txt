@@ -7,7 +7,7 @@ For most people, the <nop>%SYSTEMWEB% web is read-only; even administrators shou
 need to modify any of the topics here, though you may want to add your own
 topics - for example, to answer frequently asked questions from your users.
 
-This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+This site is running Foswiki version *%WIKIVERSION%*, Release *%WIKIRELEASE%*,  Plugin API version *%PLUGINVERSION{}%*
 
 <div class="tipsOfTheDay">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
 

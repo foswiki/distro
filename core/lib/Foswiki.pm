@@ -167,7 +167,8 @@ BEGIN {
         $Error::Debug = 0;        # no verbose stack traces
     }
 
-    # DO NOT CHANGE THE FORMAT OF $VERSION
+    # DO NOT CHANGE THE FORMAT OF $VERSION.
+    # Use $RELEASE for a descriptive version.
     use version 0.77; $VERSION = version->new("v1.2.0");
     $RELEASE = 'Foswiki-1.2.0-alpha';
 
@@ -296,6 +297,7 @@ BEGIN {
         # optimised by the compiler.
         ENDSECTION   => sub { '' },
         WIKIVERSION  => sub { $VERSION },
+        WIKIRELEASE  => sub { $RELEASE },
         STARTSECTION => sub { '' },
         STARTINCLUDE => sub { '' },
         STOPINCLUDE  => sub { '' },
