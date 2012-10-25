@@ -34,13 +34,13 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 ---------------------------------------------------
 }%%TMPL:INCLUDE{"css"}%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"sep"}%<span class="foswikiSeparator"> | </span>%TMPL:END%%{
+}%%TMPL:DEF{"sep"}%<span class='foswikiSeparator'> | </span>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"titlesep"}% &lt; %TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"LOG_IN"}%Log In%TMPL:END%%{
+}%%TMPL:DEF{"LOG_IN"}%%MAKETEXT{"Login"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"LOG_OUT"}%Log Out%TMPL:END%%{
+}%%TMPL:DEF{"LOG_OUT"}%%MAKETEXT{"Logout"}%%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"nonwikiwordwarning"}%<p class="foswikiAllowNonWikiWord"><label><input type="checkbox" name="nonwikiword" %IF{"$ 'URLPARAM{nonwikiword}'='on'" then="checked=\"checked\""}% /> %MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label>%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%%{
 ---------------------------------------------------
@@ -84,7 +84,7 @@ Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea 
 ---------------------------------------------------
 }%%TMPL:DEF{"bodyclassname"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%"><div class="foswikiPage">
+}%%TMPL:DEF{"bodystart"}%<body class="foswikiNoJs %TMPL:P{"bodyclassname"}%"><div class="foswikiPage">
 #PageTop %TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"bodyend"}%</div>
@@ -152,11 +152,11 @@ Container displayed just below the topic text: }%
 ---------------------------------------------------
 }%%TMPL:DEF{"contentfooterstylewrapper"}%<div class="foswikiContentFooter">%TMPL:P{"contentfooter"}%</div>%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"revisions"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="H" rel="nofollow">%MAKETEXT{"&History"}%</a>: %REVISIONS% %TMPL:END%%{
+}%%TMPL:DEF{"revisions"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View complete topic history"}%" accesskey="H" rel="nofollow">%MAKETEXT{"&History"}%</a>: %REVISIONS% %TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"login"}%%TMPL:P{context="can_login" then="login_actions"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"login_actions"}%%IF{"context authenticated" then='<strong>%MAKETEXT{"Hello [_1]!" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%]]"}%</strong> %LOGOUT%' else='%LOGIN% %MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]'}%%TMPL:END%%{
+}%%TMPL:DEF{"login_actions"}%%IF{"context authenticated" then='<strong>%MAKETEXT{"Hello [_1]!" args="[[%WIKIUSERNAME%][%SPACEOUT{%WIKINAME%}%%IF{"context isadmin" then=" (admin)"}%]]"}%</strong> %LOGOUT%' else='%LOGIN% %MAKETEXT{"or"}% [[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]'}%%TMPL:END%%{
 ---------------------------------------------------
 app-style page layout
 additional style
@@ -172,7 +172,7 @@ webListIndent - used in WEBLIST
 }%%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%%{
 ---------------------------------------------------
 icon:image - uses double quotes required for legacy reasons :/ 
-}%%TMPL:DEF{"icon:image"}%<span class="foswikiIcon"><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%%{
+}%%TMPL:DEF{"icon:image"}%<span class='foswikiIcon'><img src="%URL%" width="%WIDTH%" height="%HEIGHT%" alt="%ALT%" /></span>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"icon:image_singlequote"}%<span class='foswikiIcon'><img src='%URL%' width='%WIDTH%' height='%HEIGHT%' alt='%ALT%' /></span>%TMPL:END%%{
 ---------------------------------------------------
@@ -184,9 +184,13 @@ support for default skin's webtopiclist
   else="$percntTMPL:P{\"defaultwebtopiclist\"}$percnt"
 }%%TMPL:END%%{
 ---------------------------------------------------
+The complete document
+---------------------------------------------------
+}%%TMPL:DEF{"document"}%%TMPL:P{"htmldoctype"}%%TMPL:P{"htmlstart"}%
+%TMPL:P{"head"}%
+%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%%TMPL:P{"htmlend"}%%TMPL:END%%{
+---------------------------------------------------
 The bit that controls the output _SHOULD_ be last in the foswiki.SKIN.tmpl
 file.
-}%%TMPL:P{"htmldoctype"}%
-%TMPL:P{"head"}%
-%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%
+}%%TMPL:P{"document"}%
 %{ REQUIRED: comment after output definition to filter out newlines }%
