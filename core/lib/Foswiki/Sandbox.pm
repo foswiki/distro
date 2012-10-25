@@ -503,11 +503,7 @@ sub sysCommand {
 
     # Note:  Use of the file handle $fh returned here would be safer than
     # using the file name. But it is less portable, so filename wil have to do.
-    my ( $fh, $stderrCache ) = tempfile(
-        "STDERR.$$.XXXXXXXXXX",
-        DIR    => "$Foswiki::cfg{WorkingDir}/tmp",
-        UNLINK => 0
-    );
+    my ( $fh, $stderrCache ) = tempfile( "STDERR.$$.XXXXXXXXXX", UNLINK => 0 );
     close $fh;
 
     # Item5449: A random key known by both parent and child.

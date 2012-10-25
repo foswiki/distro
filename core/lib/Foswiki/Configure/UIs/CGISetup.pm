@@ -148,9 +148,6 @@ This is the Perl library path, used to load Foswiki modules,
 third-party modules used by some plugins, and Perl built-in modules.
 HERE
 
-    $contents .= $this->setting( 'System temporary directory',
-        $this->_checkTmpDir( \$erk ) );
-
     $contents .= $this->setting( 'CGI bin directory', $this->_getBinDir() );
 
     # Turn off fatalsToBrowser while checking module loads, to avoid
@@ -291,66 +288,6 @@ HERE
 sub _getBinDir {
     my $dir = $ENV{SCRIPT_FILENAME} || '.';
     $dir =~ s(/+configure[^/]*$)();
-    return $dir;
-}
-
-sub _checkTmpDir {
-    my ( $this, $rerk ) = @_;
-    my $dir = File::Spec->tmpdir();
-
-    if ( ( $dir =~ /^[\/\\]$/ ) and ( $^O eq 'MSWin32' ) ) {
-
-        #on windows, don't make a big old mess of c:\
-        $dir = $ENV{TEMP};
-        if ( defined($dir) and ( $dir =~ /(.*)/ ) ) {
-            $dir = $1;
-        }
-        else {
-            $dir = '.';
-        }
-    }
-
-    if ( $dir eq '.' ) {
-        $dir = '';
-        my $newCfg = '';
-        $newCfg =
-"Please save your initial path settings and recheck that the guessed defaults are good."
-          if ($Foswiki::badLSC);
-        return $this->ERROR(<<HERE);
-No writable system temporary directory. $newCfg
-HERE
-    }
-    my $D;
-    if ( !opendir( $D, $dir ) ) {
-        $$rerk++;
-        return $this->ERROR(<<HERE);
-Cannot open '$dir' for read ($!) - check that permissions are correct.
-HERE
-    }
-    closedir($D);
-
-    my $tmp = time();
-    my $F;
-    while ( -e "$dir/$tmp" ) {
-        $tmp++;
-    }
-    $tmp = "$dir/$tmp";
-    $tmp =~ /^(.*)$/;
-    $tmp = $1;
-    if ( !open( $F, '>', $tmp ) ) {
-        $$rerk++;
-        return $this->ERROR(<<HERE);
-Cannot create a file in '$dir' ($!) - check the directory exists, and that permissions are correct, and the filesystem is not full.
-HERE
-    }
-    close($F);
-    if ( !unlink($tmp) ) {
-        $$rerk++;
-        return $this->ERROR(<<HERE);
-Cannot unlink '$tmp' ($!) - check that permissions are correct on the directory.
-HERE
-    }
-
     return $dir;
 }
 

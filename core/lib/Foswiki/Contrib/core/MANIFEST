@@ -574,6 +574,7 @@ lib/Foswiki/Configure/Checkers/Store/EgrepCmd.pm 0444
 lib/Foswiki/Configure/Checkers/Store/FgrepCmd.pm 0444
 lib/Foswiki/Configure/Checkers/Store/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/Store/SearchAlgorithm.pm 0444
+lib/Foswiki/Configure/Checkers/TempfileDir.pm 0444
 lib/Foswiki/Configure/Checkers/TemplateDir.pm 0444
 lib/Foswiki/Configure/Checkers/TemplatePath.pm 0444
 lib/Foswiki/Configure/Checkers/ToolsDir.pm 0444

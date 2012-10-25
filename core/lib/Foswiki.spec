@@ -140,13 +140,23 @@ $Foswiki::cfg{PathCheckLimit} = 5000;
 # For obvious reasons, these files must <b>not</b> be browseable from the web!
 # Additionally you are recommended to restrict access rights to this directory
 # so only the web server user can create files.</li>
+# <li>{WorkngDir}<tt>/requestTmp</tt> - used as an alternate location for the
+# system <tt>/tmp</tt> directory.  This is only used if <tt>{TempfileDir}</tt>
+# is configured.</li>
 # <li>{WorkingDir}<tt>/work_areas</tt> - these are work areas used by
-# extensions that need to store data on the disc </li>
+# extensions that need to store persistent data across sessions. </li>
 # <li>{WorkingDir}<tt>/registration_approvals</tt> - this is used by the
 # default Foswiki registration process to store registrations that are pending
 # verification.</li>
 # </ul>
 # $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
+
+# **PATH**
+# This is used to override the default system temporary file location.
+# Set this if you wish to have control over where working tmp files are
+# created.  It substitutes as the environment <tt>TempfileDir</tt> setting which
+# will not be used by perl for security reasons.
+#$Foswiki::cfg{TempfileDir} = '/tmp';
 
 # **STRING**
 # If your host has aliases (such as both www.mywiki.net and mywiki.net

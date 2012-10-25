@@ -45,6 +45,7 @@ use strict;
 use warnings;
 use Assert;
 use Error qw( :try );
+use File::Spec               ();
 use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
@@ -1668,9 +1669,24 @@ sub new {
     ASSERT( !$query || UNIVERSAL::isa( $query, 'Foswiki::Request' ) )
       if DEBUG;
 
-    # Compatibility; not used except maybe in plugins
-    $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/tmp"
-      unless defined( $Foswiki::cfg{TempfileDir} );
+    unless ( defined $Foswiki::cfg{TempfileDir} ) {
+
+        # Give it a sane default.
+        if ( $^O eq 'MSWin32' ) {
+
+            # Windows default tmpdir is the C: root  use something sane.
+            # Configure does a better job,  it should be run.
+            $Foswiki::cfg{TempfileDir} = $Foswiki::cfg{WorkingDir};
+        }
+        else {
+            $Foswiki::cfg{TempfileDir} = File::Spec->tmpdir();
+        }
+    }
+
+    # Cover all the possibilities
+    $ENV{TMPDIR} = $Foswiki::cfg{TempfileDir};
+    $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
+    $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
 
     if ( defined $Foswiki::cfg{WarningFileName}
         && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )

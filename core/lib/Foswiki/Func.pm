@@ -2741,6 +2741,9 @@ user. By default it will *not* be web accessible.
 The directory and its contents are permanent, so Plugins must be careful
 to keep their areas tidy.
 
+For temporary file storage that only exists for the life of the transaction,
+use the Perl =File::Temp=  or related =File::Spec= functions.
+
 =cut
 
 sub getWorkArea {
