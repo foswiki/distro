@@ -12,7 +12,7 @@ sub check {
     my $warnings;
 
     if ( $Foswiki::cfg{JQueryPlugin}{Plugins}{Chili}{Enabled} ) {
-        $warnings .= $this->WARN(<<'HERE');
+        $warnings .= $this->NOTE(<<'HERE');
 Chili highlighter plugin is known to corrupt displayed text on Firefox 7 and Safari Rev. 6-17-2011.
 HERE
     }
