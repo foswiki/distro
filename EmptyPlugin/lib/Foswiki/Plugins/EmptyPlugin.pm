@@ -76,7 +76,7 @@ use Foswiki::Plugins ();    # For the API version
 # "v1.2.3_01" for "alpha" versions.  Use v prefix and numbers only.
 # These statements MUST be on the same line. See "perldoc version" for more
 # information on version strings.
-use version; our $VERSION = version->declare("v1.2.0");
+use version; our $VERSION = version->declare("v1.1.6");
 
 # $RELEASE is used in the "Find More Extensions" automation in configure.
 # It is a manually maintained string used to identify functionality steps.
