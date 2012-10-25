@@ -45,7 +45,7 @@
 %TMPL:DEF{"updatenote"}%%IF{"'%SEARCH_COUNT%'=0" then='%MAKETEXT{"No topics to update."}%' else='%MAKETEXT{"Checked topics will be updated to point to the new topic location."}%'}%%TMPL:END%
 
 
-%TMPL:DEF{"searchresultsstep"}%<div class="foswikiFormStep foswikiLast">
+%TMPL:DEF{"searchresultsstep"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Update links"}%
 %TMPL:P{"updatenote"}% %IF{"'%SEARCH_COUNT%'=0" then='<!--'}%
 <div class="foswikiFormSteps">
@@ -56,9 +56,8 @@
 <div class="foswikiFormStep foswikiLast">
 ---++++ %MAKETEXT{"Change links in topics that refer to [_1] in any Web:" args="<nop>%WEB%.%TOPIC%"}%
 %GLOBAL_SEARCH%
-</div>
-</div>
-%TMPL:P{"checkuncheck"}%%IF{"'%SEARCH_COUNT%'=0" then='-->'}%
+</div>%TMPL:P{"checkuncheck"}%
+</div>%IF{"'%SEARCH_COUNT%'=0" then='-->'}%
 </div>%TMPL:END%
 
 
