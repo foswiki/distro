@@ -17,8 +17,6 @@ System.DevelopingPlugins. If you use
 functions in other Foswiki libraries you risk creating a security hole, and
 you will probably need to change your plugin when you upgrade Foswiki.
 
-API version $Date$ (revision $Rev$)
-
 *Since:* _date_ indicates where functions or parameters have been added since
 the baseline of the API (Foswiki 1.0.0). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
