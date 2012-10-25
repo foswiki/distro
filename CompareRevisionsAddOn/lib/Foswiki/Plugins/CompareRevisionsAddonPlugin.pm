@@ -17,14 +17,7 @@ use warnings;
 
 use Foswiki;
 
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-our $VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
+use version; our $VERSION = version->declare("v1.1.6");
 our $RELEASE = '1.1.6';
 
 # Name of this Plugin, only used in this module

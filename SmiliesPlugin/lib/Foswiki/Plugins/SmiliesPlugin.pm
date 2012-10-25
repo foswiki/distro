@@ -13,8 +13,9 @@ use vars qw(
   %smiliesUrls %smiliesEmotions
   $smiliesPubUrl $allPattern $smiliesFormat );
 
-our $VERSION           = '$Rev$';
-our $RELEASE           = '05 Dec 2011';
+our $VERSION = '1.115';
+$VERSION = eval $VERSION;
+our $RELEASE           = '05 Oct 2012';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Render smilies like :-) as icons';
 

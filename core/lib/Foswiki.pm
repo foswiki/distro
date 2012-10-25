@@ -167,10 +167,8 @@ BEGIN {
     }
 
     # DO NOT CHANGE THE FORMAT OF $VERSION
-    # Automatically expanded on checkin of this module
-    $VERSION = '$Date$ $Rev$ ';
-    $RELEASE = 'Foswiki-1.1.5';
-    $VERSION =~ s/^.*?\((.*)\).*: (\d+) .*?$/$RELEASE, $1, build $2/;
+    use version 0.77; $VERSION = version->declare("v1.1.6");
+    $RELEASE = 'Foswiki-1.1.6-alpha';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded

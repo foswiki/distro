@@ -26,7 +26,7 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-our $VERSION          = '$Rev$';
+use version; our $VERSION = version->declare("v2.5.3");
 our $RELEASE          = '2.5.3';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 

@@ -59,6 +59,7 @@ sub test_check_foswiki_rev {
         version => '1.1.3'
     );
     my ( $ok, $message ) = $dep->check();
+    print STDERR "Check returned $message\n";
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/^Foswiki version Foswiki-(.*) loaded$/,
         $message );

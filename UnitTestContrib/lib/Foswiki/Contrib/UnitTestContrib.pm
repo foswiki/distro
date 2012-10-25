@@ -15,9 +15,7 @@ package Foswiki::Contrib::UnitTestContrib;
 
 use strict;
 
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
-
-$VERSION          = '$Rev$';
-$RELEASE          = '1.1';
-$SHORTDESCRIPTION = 'Foswiki Unit-Test Framework';
+use version; our $VERSION = version->declare("v1.1");
+our $RELEASE          = '1.1';
+our $SHORTDESCRIPTION = 'Foswiki Unit-Test Framework';
 

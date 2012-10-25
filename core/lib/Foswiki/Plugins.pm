@@ -29,9 +29,7 @@ if you have a recent enough version.
 
 =cut
 
-# If we go to 3.x, let's re-instate a 3-digit decimal version format, i.e. 3.000
-# http://www.dagolden.com/index.php/369/version-numbers-should-be-boring/
-our $VERSION = '2.2';
+use version 0.77; our $VERSION = version->new("2.2");
 
 our $inited = 0;
 

@@ -72,10 +72,11 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
-# *must* exist in this package. This should always be in the format
-# $Rev$ so that Foswiki can determine the checked-in status of the
-# extension.
-our $VERSION = '$Rev$';
+# *must* exist in this package.  Use "v1.2.3" format for releases,  and
+# "v1.2.3_01" for "alpha" versions.  Use v prefix and numbers only.
+# These statements MUST be on the same line. See "perldoc version" for more
+# information on version strings.
+use version; our $VERSION = version->declare("v1.2.0");
 
 # $RELEASE is used in the "Find More Extensions" automation in configure.
 # It is a manually maintained string used to identify functionality steps.
@@ -87,7 +88,9 @@ our $VERSION = '$Rev$';
 # date    - a date in 1 Jun 2009 format. Three letter English month names only.
 # Note: it's important that this string is exactly the same in the extension
 # topic - if you use %$RELEASE% with BuildContrib this is done automatically.
-our $RELEASE = '1.1.2';
+# It is preferred to keep this compatible with $VERSION. At some future
+# date, Foswiki will deprecate RELEASE and use the VERSION string.
+our $RELEASE = '1.2.0';
 
 # Short description of this plugin
 # One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
