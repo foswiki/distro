@@ -100,7 +100,6 @@ sub set_up {
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 0;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
 
-    $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/junk";
     File::Path::mkpath("$Foswiki::cfg{DataDir}/$testWeb");
     File::Path::mkpath("$Foswiki::cfg{PubDir}/$testWeb");
     $this->assert( open( F, ">$Foswiki::cfg{TempfileDir}/itme3122" ), $! );
@@ -115,7 +114,6 @@ sub tear_down {
     # Restore the PIPE settings in Sandbox
     $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN     = 1;
     $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 1;
-    unlink $Foswiki::cfg{WarningFileName};
     unlink "$Foswiki::cfg{TempfileDir}/itme3122";
     File::Path::rmtree("$Foswiki::cfg{DataDir}/$testWeb");
     File::Path::rmtree("$Foswiki::cfg{PubDir}/$testWeb");

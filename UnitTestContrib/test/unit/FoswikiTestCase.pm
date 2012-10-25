@@ -660,15 +660,26 @@ sub set_up {
     mkdir("$Foswiki::cfg{WorkingDir}/tmp");
     mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
     mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
+    mkdir("$Foswiki::cfg{WorkingDir}/requestTmp");
+
+    # Note this does not do much, except for some tests that use it directly.
+    # The first call to File::Temp caches the temp directory name, so
+    # this value won't get used for anything created by File::Temp
+    $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/requestTmp";
 
     # Move logging into a temporary directory
-    $Foswiki::cfg{LogFileName} =
-      "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.log";
-    $Foswiki::cfg{WarningFileName} =
-      "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.warn";
-    $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
-    $Foswiki::cfg{AdminUserLogin}    = 'root';
-    $Foswiki::cfg{SuperAdminGroup}   = 'AdminGroup';
+    my $logdir = Cwd::getcwd() . '/testlogs';
+    $logdir =~ m/^(.*)$/;
+    $logdir = $1;
+    $Foswiki::cfg{Log}{Dir} = $logdir;
+    mkdir($logdir) unless -d $logdir;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+    $Foswiki::cfg{LogFileName}         = "$logdir/FoswikiTestCase.log";
+    $Foswiki::cfg{WarningFileName}     = "$logdir/FoswikiTestCase.warn";
+    $Foswiki::cfg{DebugFileName}       = "$logdir/FoswikiTestCase.debug";
+    $Foswiki::cfg{AdminUserWikiName}   = 'AdminUser';
+    $Foswiki::cfg{AdminUserLogin}      = 'root';
+    $Foswiki::cfg{SuperAdminGroup}     = 'AdminGroup';
 
     # This must be done *after* disabling/enabling the plugins
     # so that tests derived from this class can enable additional plugins.

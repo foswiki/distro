@@ -1669,7 +1669,8 @@ sub new {
     ASSERT( !$query || UNIVERSAL::isa( $query, 'Foswiki::Request' ) )
       if DEBUG;
 
-    unless ( defined $Foswiki::cfg{TempfileDir} ) {
+    unless ( defined $Foswiki::cfg{TempfileDir} && $Foswiki::cfg{TempfileDir} )
+    {
 
         # Give it a sane default.
         if ( $^O eq 'MSWin32' ) {

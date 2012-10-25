@@ -25,9 +25,6 @@ sub set_up_for_verify {
 
     $UI_FN ||= $this->getUIFn('save');
 
-    $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/junk";
-    $Foswiki::cfg{LogFileName}     = "$Foswiki::cfg{TempfileDir}/junk";
-
     $this->createNewFoswikiSession();
 
     $testUser1 = "DummyUserOne";
@@ -42,8 +39,6 @@ sub set_up_for_verify {
 
 sub tear_down {
     my $this = shift;
-    unlink $Foswiki::cfg{WarningFileName};
-    unlink $Foswiki::cfg{LogFileName};
     $this->SUPER::tear_down();
 
     return;

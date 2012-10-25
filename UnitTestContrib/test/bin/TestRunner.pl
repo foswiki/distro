@@ -115,6 +115,12 @@ if ( $options{-clean} ) {
         File::Path::rmtree($x) if $x;
     }
     closedir $pubDir;
+
+    my $logDir = Cwd::getcwd() . '/testlogs';
+    if ( -d $logDir ) {
+        File::Path::rmtree($logDir);
+    }
+
 }
 
 if ( not $options{-worker} ) {
