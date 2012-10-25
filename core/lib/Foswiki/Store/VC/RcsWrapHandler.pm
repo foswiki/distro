@@ -307,8 +307,10 @@ sub getRevision {
 
     if ($tmpfile) {
         $text = Foswiki::Store::VC::Handler::readFile( $this, $tmpfile );
-        unlink Foswiki::Sandbox->untaintUnchecked($tmpfile);
-        unlink Foswiki::Sandbox->untaintUnchecked($tmpRevFile);
+        for ( $tmpfile, $tmpRevFile ) {
+            my $f = Foswiki::Sandbox::untaintUnchecked($_);
+            unlink $f or warn "Could not delete $f: $!";
+        }
     }
 
     return ( $text, $isLatest );
