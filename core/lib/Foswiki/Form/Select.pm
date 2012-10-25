@@ -41,7 +41,8 @@ on a value to the browser.
 =cut
 
 sub getDefaultValue {
-    return '';
+    my $this = shift;
+    return ( exists( $this->{default} ) ? $this->{default} : '' );
 }
 
 sub getOptions {

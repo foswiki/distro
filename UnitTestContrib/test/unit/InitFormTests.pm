@@ -60,14 +60,20 @@ my $testtmpl1 = <<'HERE';
 HERE
 
 my $testform1 = <<'HERE';
-| *Name* | *Type* | *Size* | *Values* | *Tooltip messages* | *Mandatory* | 
-| Issue Name | text | 73 | My first defect | Illustrative name of issue | M | 
-| Issue Description | textarea | 55x5 | Simple description of problem | Short description of issue |  | 
-| Issue Type | select | 1 | Defect, Enhancement, Other |  |  | 
-| History1 | label | 1 | %ATTACHURL%	         	 |  | |
-| History2 | text | 20 | %ATTACHURL%		         |  | |
-| History3 | label | 1 | $percntATTACHURL%		 |  | |
-| History4 | text | 20 | $percntATTACHURL%		 |  | |
+| *Name* | *Type* | *Size* | *Values* | *Tooltip messages* | *Mandatory* | *Default* |
+| Issue Name | text | 73 | My first defect over-ridden | Illustrative name of issue | M | My first defect |
+| Issue Description | textarea | 55x5 | Simple description of problem | Short description of issue |  |Simple description of problem |
+| Issue Type | select | 1 | Defect, Enhancement, Other |  |  | |
+| History1 | label | 1 | %ATTACHURL%	         	 |  | | %ATTACHURL%|
+| History2 | text | 20 | %ATTACHURL%		         |  | | %ATTACHURL%|
+| History3 | label | 1 | $percntATTACHURL%		 |  | |e |
+| History4 | text | 2 | this will not be used as its over-ridden by the next line		 |  | | |
+| History4 | text | 20 | $percntATTACHURL%		 |  | |$percntATTACHURL% |
+| NewWithDefault | text | 20 | $percntATTACHURL%		 | the default col over-rides value | | is it a plane? |
+| [[NewWithDefaultOnly][default only]] | text | 20 | 	 |  | | is it another plane? |
+| Default To Hidden | select | 1 | Defect, Enhancement, Hidden, Other |  |  | Hidden |
+| Default To Enhancement | radio | 1 | Defect, Enhancement, Hidden, Other |  |  | Enhancement |
+
 
 HERE
 
@@ -400,8 +406,13 @@ sub test_form {
     my $text = setup_formtests( $this, $testweb, $testtopic1,
         "formtemplate=\"$testweb.$testform\"" );
 
+    my $value = 'My first defect';
+    $value = 'My first defect over-ridden'
+      if ( $this->check_dependency('Foswiki,<,1.2') );
     $this->assert_html_matches(
-'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        '<input type="text" name="IssueName" value="'
+          . $value
+          . '" size="73" class="foswikiInputField foswikiMandatory" />',
         get_formfield( 1, $text )
     );
     $this->assert_html_matches(
@@ -421,12 +432,74 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
           . '" size="20" class="foswikiInputField" />',
         get_formfield( 5, $text )
     );
+
+    $value = 'e';
+    $value = '%ATTACHURL%' if ( $this->check_dependency('Foswiki,<,1.2') );
     $this->assert_html_matches(
-        '<input type="hidden" name="History3" value="%ATTACHURL%"  />',
-        get_formfield( 6, $text ) );
+        '<input type="hidden" name="History3" value="' . $value . '" />',
+
+#.'<div class="foswikiFormLabel">http://quiet/~sven/core/pub/TemporaryTestWeb/InitTestTopic1</div>',
+        get_formfield( 6, $text )
+    );
+
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+
+#TODO: SMELL: in 1.1 (need to test 1.0), duplicate fields in the form will result in duplicate html,
+        $this->assert_html_matches(
+'<input type="text" name="History4" value="this will not be used as its over-ridden by the next line" size="2" class="foswikiInputField" />',
+            get_formfield( 8, $text )
+        );
+    }
+    else {
+#    $this->assert_html_not_matches(
+#'<input type="text" name="History4" value="this will not be used as its over-ridden by the next line" size="2" class="foswikiInputField" />',
+#        get_formfield( 8, $text )
+#    );
+    }
     $this->assert_html_matches(
 '<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
-        get_formfield( 7, $text )
+        get_formfield( 9, $text )
+    );
+
+#| NewWithDefault | text | 20 | $percntATTACHURL%		 | the default col over-rides value | | is it a plane? |
+    $value = 'is it a plane?';
+    $value = '%ATTACHURL%' if ( $this->check_dependency('Foswiki,<,1.2') );
+
+    $this->assert_html_matches(
+        '<input type="text" name="NewWithDefault" value="'
+          . $value
+          . '" size="20" class="foswikiInputField" />',
+        get_formfield( 10, $text )
+    );
+
+#| [[NewWithDefaultOnly][default only]] | text | 20 | 	 |  | | is it another plane? |
+    $value = ' value="is it another plane?"';
+    $value = '' if ( $this->check_dependency('Foswiki,<,1.2') );
+    $this->assert_html_matches(
+        '<input type="text" name="defaultonly"'
+          . $value
+          . ' size="20" class="foswikiInputField" />',
+        get_formfield( 11, $text )
+    );
+
+#| Default To Hidden | select | 1 | Defect, Enhancement, Hidden, Other |  |  | Hidden |
+    $value = ' selected="selected"';
+    $value = '' if ( $this->check_dependency('Foswiki,<,1.2') );
+    $this->assert_html_matches(
+'<select name="DefaultToHidden" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption"'
+          . $value
+          . '>Hidden</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 12, $text )
+    );
+
+#| Default To Enhancement | radio | 1 | Defect, Enhancement, Hidden, Other |  |  | Enhancement |
+    $value = 'checked="checked" ';
+    $value = '' if ( $this->check_dependency('Foswiki,<,1.2') );
+    $this->assert_html_matches(
+'<input type="radio" name="DefaultToEnhancement" value="Defect"  title="Defect" class="foswikiRadioButton"/>Defect</label></td></tr><tr><td><label><input type="radio" name="DefaultToEnhancement" value="Enhancement" '
+          . $value
+          . ' title="Enhancement" class="foswikiRadioButton"/>Enhancement</label></td></tr><tr><td><label><input type="radio" name="DefaultToEnhancement" value="Hidden"  title="Hidden" class="foswikiRadioButton"/>Hidden</label></td></tr><tr><td><label><input type="radio" name="DefaultToEnhancement" value="Other"  title="Other" class="foswikiRadioButton"/>Other</label>',
+        get_formfield( 13, $text )
     );
 
     return;
@@ -462,9 +535,15 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
           . '" size="20" class="foswikiInputField" />',
         get_formfield( 5, $text )
     );
+    my $value = 'e';
+    $value = '%ATTACHURL%' if ( $this->check_dependency('Foswiki,<,1.2') );
     $this->assert_html_matches(
-        '<input type="hidden" name="History3" value="%ATTACHURL%"  />',
-        get_formfield( 6, $text ) );
+        '<input type="hidden" name="History3" value="' . $value . '" />',
+
+#.'<div class="foswikiFormLabel">http://quiet/~sven/core/pub/TemporaryTestWeb/InitTestTopic1</div>',
+        get_formfield( 6, $text )
+    );
+
     $this->assert_html_matches(
 '<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
         get_formfield( 7, $text )

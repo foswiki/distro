@@ -277,6 +277,20 @@ sub _parseFormDefinition {
             $vals =~ s/\s+$//g;
             $field{value} = $vals;
 
+            #repeat same again with {default}
+            if ( exists( $field{default} ) ) {
+                my $vals = $field{default} || '';
+                if ( $vals =~ /%/ ) {
+                    $vals = $this->expandMacros($vals);
+                }
+                $vals =~ s/<\/?(!|nop|noautolink)\/?>//g;
+
+                # Trim again in case macro expansion has added spaces
+                $vals =~ s/^\s+//g;
+                $vals =~ s/\s+$//g;
+                $field{default} = $vals;
+            }
+
             $field{attributes} =~ s/\s*//g if ( exists( $field{attributes} ) );
 
             $field{title}         = $field{name};

@@ -50,11 +50,11 @@ Topics can store data as name/value pairs, or form fields. The attributes of eac
 ---+++ The data form topic
 The data definition is defined in a TML table and looks like this:
 <verbatim class="tml">
-| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-| TopicTitle | text | 100 | | | H |
-| Version | select | 1 | ,Version in SVN,Foswiki 1.1.4,Foswiki 1.1.3,Foswiki 1.1.2,Foswiki 1.1.1 | | |
-| Status | select | 1 | Asked,More info required,Answered | | M |
-| Related Topics | textboxlist | | | |
+| *Name*  | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* | *Default* |
+| TopicTitle | text | 100 | | | H | |
+| Version | select | 1 | Version in SVN,Foswiki 1.1.4,Foswiki 1.1.3,Foswiki 1.1.2,Foswiki 1.1.1 | | | |
+| Status | select | 1 | Asked,More info required,Answered | | M | Asked |
+| Related Topics | textboxlist | | | | |
 </verbatim>
 In the next section we'll go into the details of the table contents.
 
@@ -110,6 +110,7 @@ Each form field is defined by these attributes:
 | Values | For checkboxes, radio buttons and dropdown lists: predefined input to select from. More advanced: this can be a dynamically generated list of values. |
 | Tooltip message | (hardly used or useful anymore) A message that will be displayed when the cursor is hovered over the field in edit view. |
 | Attributes | Whether the field is mandatory or hidden in view mode. |
+| Default | %NEW% if there is a =default= column, its value (or lack of value) is used as the default for new fields. This allows you to default the value of =select=, =radio= and =checkbox= to something other than the first =values= element |
 
 As said, only  =Name=, =Type= and =Size= are required.
 
@@ -145,7 +146,7 @@ The control appearance is also specified by size and (initial) value. More on th
 | A single-line text box and a calendar icon button next to it; clicking on the button will bring up a calendar from which the user can select a date. \
 The date can also be typed into the text box. \
 | The text box width in characters. \
-| The initial text. \
+| The initial text (unless =default= column exists). \
 | |
 | =label= \
 | Read-only label text. \
@@ -166,12 +167,12 @@ If you specify a range, the box will never be smaller than 3 items, never larger
 | =text= \
 | A one-line text field. \
 | The text box width in number of characters. \
-| The initial (default) content when a new topic is created with this form definition. \
+| The initial (default) content when a new topic is created with this form definition (unless =default= column exists). \
 | |
 | =textarea= \
 | A multi-line text box. \
 | Size in columns x rows, e.g. =80x6=; default size is 40x5. \
-| The initial text. \
+| The initial text (unless =default= column exists). \
 | |
   
 <div class='foswikiHelp'>
@@ -226,13 +227,16 @@ The input size of the form field inputs on the edit screen. The size acts a bit 
 ---++++ Values
 For checkboxes, radio buttons and dropdown lists: predefined input to select from. More advanced: this can be a dynamically generated list of values.
 
-   * The field value will be used to initialize a field when a form is created, unless specific values are given by the topic template or query parameters. The first item in the list for a select or radio type is the default item. For =label=, =text=, and =textarea= fields the value may also contain commas. =checkbox= fields cannot be initialized through the form definition.
+   * The field value will be used to initialize a field when a form is created  (unless =default= column exists), unless specific values are given by the topic template or query parameters. The first item in the list for a select or radio type is the default item. For =label=, =text=, and =textarea= fields the value may also contain commas. =checkbox= fields cannot be initialized through the form definition.
    * Leading and trailing spaces do not matter.
    * Field values can also be generated through a %SYSTEMWEB%.FormattedSearch, which must yield a suitable table as the result.
    * Macros in the initial values of a form definition get expanded when the form definition is loaded.
       * If you want to use a =|= character in the initial values field, you have to precede it with a backslash, thus: =\|=.
       * You can use =&lt;nop>= to prevent macros from being expanded.
       * The [[%SYSTEMWEB%.FormatTokens][Format tokens]] can be used to prevent expansion of other characters.
+      
+---++++ Default
+If this column exists in the form definition, then it will be used to determine the default value for a field. It over-rides all defaulting from the =Values= column.
       
 <div class='foswikiHelp'>
 ---+++++ How to retrieve values from other topics
