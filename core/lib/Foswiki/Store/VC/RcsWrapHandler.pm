@@ -298,7 +298,7 @@ sub getRevision {
 
     if ($tmpfile) {
         $text = Foswiki::Store::VC::Handler::readFile( $this, $tmpfile );
-        for( $tmpfile, $tmpRevFile ) {
+        for ( $tmpfile, $tmpRevFile ) {
             my $f = Foswiki::Sandbox::untaintUnchecked($_);
             unlink $f or warn "Could not delete $f: $!";
         }
