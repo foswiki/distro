@@ -98,8 +98,6 @@ our @ISA = ('Error');
 
 use Assert;
 
-our $VERSION = '$Rev';
-
 =begin TML
 
 ---++ ClassMethod new( $template, ...)

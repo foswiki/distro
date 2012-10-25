@@ -119,7 +119,6 @@ use Assert;
 use Errno 'EINTR';
 
 our $reason;
-our $VERSION = '$Rev$';
 
 # Version for the embedding format (increment when embedding format changes)
 our $EMBEDDING_FORMAT_VERSION = 1.1;

@@ -50,8 +50,6 @@ use warnings;
 use Error ();
 our @ISA = ('Error');    # base class
 
-our $VERSION = '$Rev$';
-
 =begin TML
 
 ---+ ClassMethod new($mode, $user, $web, $topic, $reason)

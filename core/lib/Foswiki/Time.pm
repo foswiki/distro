@@ -38,8 +38,6 @@ use warnings;
 use Assert;
 use Foswiki ();
 
-our $VERSION = '$Rev$';    # Subversion rev number
-
 # Constants
 our @ISOMONTH = (
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',

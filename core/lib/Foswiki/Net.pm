@@ -195,10 +195,7 @@ sub getExternalResource {
             }
         }
 
-        '$Rev$' =~ /([0-9]+)/;
-        my $revstr = $1;
-
-        $req .= 'User-Agent: Foswiki::Net/' . $revstr . "\r\n";
+        $req .= 'User-Agent: Foswiki::Net/' . $Foswiki::VERSION . "\r\n";
         $req .= "\r\n\r\n";
 
         my ( $iaddr, $paddr, $proto );
@@ -257,7 +254,7 @@ sub _GETUsingLWP {
     '$Rev$' =~ /([0-9]+)/;
     my $revstr = $1;
     $request->header( 'User-Agent' => 'Foswiki::Net/'
-          . $revstr
+          . $Foswiki::VERSION
           . " libwww-perl/$LWP::VERSION" );
     require Foswiki::Net::UserCredAgent;
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );

@@ -50,8 +50,6 @@ use strict;
 use warnings;
 use Assert;
 
-our $VERSION = '$Rev$';
-
 our $ERRORKEY   = '_ERROR';
 our $DEFAULTKEY = '_DEFAULT';
 our $RAWKEY     = '_RAW';
