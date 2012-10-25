@@ -102,6 +102,20 @@ sub renderForEdit {
     return ( '', CGI::radio_group(%params) );
 }
 
+=begin TML
+
+---++ getDefaultValue() -> $value
+The default for a select is always the empty string, as there is no way in
+Foswiki form definitions to indicate selected values. This defers the decision
+on a value to the browser.
+
+=cut
+
+sub getDefaultValue {
+    my $this = shift;
+    return ( exists( $this->{default} ) ? $this->{default} : '' );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

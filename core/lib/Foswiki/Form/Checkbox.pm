@@ -58,8 +58,19 @@ sub getOptions {
     return $vals;
 }
 
-# Checkboxes can't provide a default from the form spec
-sub getDefaultValue { return; }
+=begin TML
+
+---++ getDefaultValue() -> $value
+The default for a select is always the empty string, as there is no way in
+Foswiki form definitions to indicate selected values. This defers the decision
+on a value to the browser.
+
+=cut
+
+sub getDefaultValue {
+    my $this = shift;
+    return ( exists( $this->{default} ) ? $this->{default} : '' );
+}
 
 # Checkbox store multiple values
 sub isMultiValued { return 1; }

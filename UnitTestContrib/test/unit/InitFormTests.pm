@@ -73,6 +73,7 @@ my $testform1 = <<'HERE';
 | [[NewWithDefaultOnly][default only]] | text | 20 | 	 |  | | is it another plane? |
 | Default To Hidden | select | 1 | Defect, Enhancement, Hidden, Other |  |  | Hidden |
 | Default To Enhancement | radio | 1 | Defect, Enhancement, Hidden, Other |  |  | Enhancement |
+| Enhancement Checkbox | checkbox | 4 | Defect, Enhancement, Hidden, Other |  |  | Enhancement |
 
 
 HERE
@@ -500,6 +501,16 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
           . $value
           . ' title="Enhancement" class="foswikiRadioButton"/>Enhancement</label></td></tr><tr><td><label><input type="radio" name="DefaultToEnhancement" value="Hidden"  title="Hidden" class="foswikiRadioButton"/>Hidden</label></td></tr><tr><td><label><input type="radio" name="DefaultToEnhancement" value="Other"  title="Other" class="foswikiRadioButton"/>Other</label>',
         get_formfield( 13, $text )
+    );
+
+#| Enhancement Checkbox | checkbox | 4 | Defect, Enhancement, Hidden, Other |  |  | Enhancement |
+    $value = 'checked="checked" ';
+    $value = '' if ( $this->check_dependency('Foswiki,<,1.2') );
+    $this->assert_html_matches(
+'<input type="checkbox" name="EnhancementCheckbox" value="Defect"  title="Defect" class="foswikiCheckbox"/>Defect</label></td><td><label><input type="checkbox" name="EnhancementCheckbox" value="Enhancement" '
+          . $value
+          . ' title="Enhancement" class="foswikiCheckbox"/>Enhancement</label></td><td><label><input type="checkbox" name="EnhancementCheckbox" value="Hidden"  title="Hidden" class="foswikiCheckbox"/>Hidden</label></td><td><label><input type="checkbox" name="EnhancementCheckbox" value="Other"  title="Other" class="foswikiCheckbox"/>Other</label>',
+        get_formfield( 14, $text )
     );
 
     return;
