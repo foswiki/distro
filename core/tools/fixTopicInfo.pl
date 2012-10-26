@@ -23,7 +23,7 @@ use warnings;
 #
 # The script will dereference symlinks.
 #
-# Run command with perl fixTopicInfo.pl -Icore/bin topiclist
+# Run command with perl -I core/bin fixTopicInfo.pl topiclist
 #
 # ------------------------------------------------------------------- #
 #
@@ -60,6 +60,9 @@ foreach my $fn (@filelist) {
         $lfn =~ s/$curDir/./;
         $fn = $lfn;
     }
+
+    my $status = `git status --short $fn`;
+    next if ( '??' eq substr( $status, 0, 2 ) || !length($status) );
 
     print "\nPROCESSING $fn\n";
     my ( $gitHash, $commitDate, $svnRev ) = getCommitInfo($fn);
