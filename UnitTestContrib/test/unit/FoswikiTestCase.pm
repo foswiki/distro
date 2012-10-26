@@ -641,14 +641,6 @@ sub set_up {
 
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
-    # Force completion of %Foswiki::cfg
-    # This must be done before moving the logging.
-    my $query = new Unit::Request();
-    my $tmp = new Foswiki( undef, $query );
-    ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-    $tmp->finish();
-    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-
     my %tempDirOptions = ( CLEANUP => 1 );
     if ( $^O eq 'MSWin32' ) {
 
@@ -661,6 +653,14 @@ sub set_up {
     mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
     mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
     mkdir("$Foswiki::cfg{WorkingDir}/requestTmp");
+
+    # Force completion of %Foswiki::cfg
+    # This must be done before moving the logging.
+    my $query = new Unit::Request();
+    my $tmp = new Foswiki( undef, $query );
+    ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    $tmp->finish();
+    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
     # Note this does not do much, except for some tests that use it directly.
     # The first call to File::Temp caches the temp directory name, so
