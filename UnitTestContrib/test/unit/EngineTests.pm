@@ -40,6 +40,19 @@ sub set_up {
     $this->SUPER::set_up(@_);
     $Foswiki::cfg{ScriptUrlPath} = '/bin';
     delete $Foswiki::cfg{ScriptUrlPaths};
+
+    my %tempDirOptions = ( CLEANUP => 1 );
+    if ( $^O eq 'MSWin32' ) {
+
+        #on windows, don't make a big old mess of c:\
+        $ENV{TEMP} =~ /(.*)/;
+        $tempDirOptions{DIR} = $1;
+    }
+    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir(%tempDirOptions);
+    mkdir("$Foswiki::cfg{WorkingDir}/tmp");
+    mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
+    mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
+    mkdir("$Foswiki::cfg{WorkingDir}/requestTmp");
 }
 
 sub test_simple_request {
