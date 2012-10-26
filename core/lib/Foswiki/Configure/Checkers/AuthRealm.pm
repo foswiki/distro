@@ -9,6 +9,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
+    my $e;
 
     if ( !$Foswiki::cfg{AuthRealm} ) {
         return $this->ERROR(
@@ -16,8 +17,12 @@ sub check {
         );
     }
 
+    my $authRealm = $Foswiki::cfg{AuthRealm};
+    Foswiki::Configure::Load::expandValue($authRealm);
+    $e .= $this->showExpandedValue( $Foswiki::cfg{AuthRealm} );
+
     if (
-        ( $Foswiki::cfg{AuthRealm} =~ /\:/ )
+        ( $authRealm =~ /\:/ )
         and
 
         (
@@ -32,7 +37,7 @@ sub check {
 <code>htdigest-md5</code> or <code>md5</code> password encoding, or have enabled auto-detection of the password encoding"
         );
     }
-    return '';
+    return $e;
 }
 
 1;
