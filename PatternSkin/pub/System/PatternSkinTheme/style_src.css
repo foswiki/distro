@@ -21,7 +21,7 @@
 /* GENERAL HTML ELEMENTS */
 
 html body {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: Arial, sans-serif;
 	font-size: 14px;
 }
 body {
@@ -145,7 +145,7 @@ textarea,
 input,
 select {
 	vertical-align:middle;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: Arial, sans-serif;
 	font-size:100%;
 }
 label input {
@@ -822,7 +822,7 @@ h4.foswikiSearchResultsHeader {
 	font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
 }
 .foswikiEditboxStyleProportional {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: Arial, sans-serif;
 }
 .patternSig {
 	text-align:right
@@ -956,8 +956,7 @@ a.jqButton,
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    font-family: Arial, sans-serif;
     font-size: 14px;
     text-decoration: none;
 }
@@ -1056,8 +1055,7 @@ a.jqButton .foswikiAccessKey,
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    font-family: Arial, sans-serif;
     font-size: 14px;
     text-decoration: none;
 }
@@ -1101,8 +1099,7 @@ a.jqButton.foswikiButtonCancel,
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    font-family: Arial, sans-serif;
     font-size: 14px;
     text-decoration: none;
 }
@@ -1157,8 +1154,7 @@ a.jqButton.foswikiButtonCancel:active,
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    font-family: Arial, sans-serif;
     font-size: 14px;
     text-decoration: none;
 }
@@ -1278,8 +1274,7 @@ td *:first-child {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    font-family: Arial, sans-serif;
     font-size: 14px;
     text-decoration: none;
     margin: 0 0 6px 6px;
