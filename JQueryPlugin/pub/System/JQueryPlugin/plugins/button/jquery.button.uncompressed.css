@@ -3,7 +3,6 @@
   margin:0px 8px 0px 0px;
   display:block;
   float:left;
-  height:23px;
   padding:0px;
   white-space:nowrap;
 }
@@ -49,7 +48,6 @@ a.jqButton:hover {
   background-repeat:no-repeat;
   cursor:pointer;
   float:left;
-  height:23px;
   line-height:23px;
   padding:0px 5px 0px 8px;
   margin:0px 3px 0px 0px;
