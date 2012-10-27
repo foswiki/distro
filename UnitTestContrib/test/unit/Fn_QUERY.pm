@@ -26,6 +26,22 @@ sub new {
     return $self;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return $this->SUPER::skip_test_if(
+        $test,
+        {
+            condition => { with_dep => 'Foswiki,<,1.2' },
+            tests     => {
+                'Fn_QUERY::test_FormTypes' => 'FormTYpes  is Foswiki 1.2+ only',
+                'Fn_QUERY::test_InvalidStyle' =>
+                  'InvalidStyle  is Foswiki 1.2+ only',
+            }
+        }
+    );
+}
+
 sub simpleTest {
     my ( $this, %test ) = @_;
     $this->{session}->enterContext('test');
@@ -235,11 +251,6 @@ THIS
 sub test_InvalidStyle {
     my $this = shift;
 
-    unless ($post11) {
-        print "InvalidStyle test not supported prior to Release 1.2\n";
-        return;
-    }
-
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
     $topicObject->text( <<'SMELL');
@@ -309,16 +320,22 @@ sub test_cfg {
         }
         my $expected = eval("\$Foswiki::cfg$var");
         $expected = '' unless defined $expected;
-        if ( ref($expected) eq '' ) {
-            $this->assert_equals( $expected, "$result", "$var!=$expected" );
+
+        if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+            if ( ref($expected) eq '' ) {
+                $this->assert_equals( $expected, "$result", "$var!=$expected" );
+            }
+            else {
+                require Foswiki::Serialise;
+                my $expectedString =
+                  Foswiki::Serialise::serialise( $this->{session}, $expected,
+                    'Perl' );
+                $this->assert_equals( $expectedString, "$result",
+                    "$var!=$expectedString" );
+            }
         }
         else {
-            use Foswiki::Serialise;
-            my $expectedString =
-              Foswiki::Serialise::serialise( $this->{session}, $expected,
-                'Perl' );
-            $this->assert_equals( $expectedString, "$result",
-                "$var!=$expectedString" );
+            $this->assert_equals( $expected, "$result", "$var!=$expected" );
         }
     }
 }

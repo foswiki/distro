@@ -194,13 +194,16 @@ sub skip {
                   'Post-Foswiki 1.1.x TML syntax',
                 'FormattingTests::test_shortAcronyms' =>
                   'Post-Foswiki 1.1.x TML syntax',
-            },
+            }
+        },
+        {
             condition => { without_dep => 'Class::Unload' },
             tests     => {
                 'FormattingTests::test_shortAcronyms' =>
                   'Missing Class::Unload',
             }
         }
+
     );
 }
 

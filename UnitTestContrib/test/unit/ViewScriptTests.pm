@@ -344,7 +344,9 @@ sub test_urlparsing {
     $this->urltest( '/', $this->{users_web}, 'WebHome' );
 
 #SMELL: This has always been the case - sven recals changing it once and that causing issues?
-    $this->urltest( '/?topic=WebChanges', $this->{users_web}, 'WebChanges' );
+    my $uweb =
+      ( $this->check_dependency('Foswiki,>=,1.2') ) ? $this->{users_web} : '';
+    $this->urltest( '/?topic=WebChanges', $uweb, 'WebChanges' );
 
     $this->urltest( '/?topic=System.WebChanges', 'System', 'WebChanges' );
 
