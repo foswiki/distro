@@ -104,23 +104,6 @@ blockquote {
 .foswikiPage font {
 	line-height:135%;
 }
-.foswikiNewLink font {
-	color:inherit;
-}
-.foswikiNewLink a:link sup,
-.foswikiNewLink a:visited sup {
-	color:#666;
-	border-color:#ccc;
-}
-.foswikiNewLink a:hover sup {
-	background-color:#D6000F;
-	color:#FBF7E8;
-	border-color:#D6000F;
-}
-
-.foswikiNewLink {
-	border-color:#ccc;
-}
 :link:focus,
 :visited:focus,
 :link,
