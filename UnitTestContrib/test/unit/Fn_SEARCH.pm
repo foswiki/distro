@@ -3920,7 +3920,10 @@ GNURF
     #order by modified, limit=2, with groupby=none
     # As order is last modification time, we need to ensure they're different
     # and that the order is fixed. So creating a buch of test topics
-    my %testWebs = ( Main => 0, System => 60, Sandbox => 120 );
+    #
+    # SMELL: Topic date 0 does not work correctly before Foswiki 1.2
+    my $mainDate = ( $this->check_dependency('Foswiki,>=,1.2') ) ? 0 : 10;
+    my %testWebs = ( Main => $mainDate, System => 60, Sandbox => 120 );
     while ( my ( $web, $delay ) = each %testWebs ) {
         my ($ltopicObject) = Foswiki::Func::readTopic( "$web", 'TheTopic' );
         $ltopicObject->text(<<'CRUD');
