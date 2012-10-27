@@ -137,6 +137,16 @@ img {
 	border:0;
 	vertical-align:middle;
 }
+pre {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5+ */
+    white-space: -moz-pre-wrap;  /* Older Versions of Mozilla */
+    width:auto;
+    margin:1em 0; /* Win IE tries to make this bigger otherwise */
+    padding:1em;
+}
 .foswikiImage img {
 	padding:3px;
 	border-width:1px;
