@@ -39,8 +39,12 @@ hr {
 	height:1px;
 	border:none;
 }
-/* put overflow pre in a scroll area */
 pre {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5+ */
+    white-space: -moz-pre-wrap;  /* Older Versions of Mozilla */
     width:auto;
     margin:1em 0; /* Win IE tries to make this bigger otherwise */
     border-style:solid;
@@ -50,11 +54,6 @@ pre {
 pre, code, tt {
     font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
     font-size:86%;
-}
-
-/* IE behavior for pre is defined in css.pattern.tmpl in conditional comment */
-html>body pre { /* hide from IE */
-	/*\*/ overflow:auto !important; /* */ overflow:scroll; width:auto; /* for Mac Safari */
 }
 blockquote {
 	margin:0;
