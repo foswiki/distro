@@ -385,9 +385,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Format of a NewWikiWord link:
    * Note that =$text= is the topic link text, =$topic= is the name of the new topic, and =$web= is the name of the web for the new topic. Values for the 3 are taken from the link syntax =[<nop>[$web.$topic][$text]]=. For normal plain !WikiWord links =$text= and =$topic= are the same. The value of =$web= is the current web unless the link is in the format =$web.$topic=.
       * Default setting:
-         * Set NEWLINKFORMAT = <span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%ENCODE{"%WEB%.%TOPIC%"}%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span>
-      * Alternative setting:
-         * #Set NEWLINKFORMAT = <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%ENCODE{"%WEB%.%TOPIC%"}%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">$text</a>
+         * Set NEWLINKFORMAT = <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%ENCODE{"%WEB%.%TOPIC%"}%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">$text</a>
 
    * %SYSTEMWEB%.PreviewBackground image:
       * Set PREVIEWBGIMAGE = %PUBURLPATH%/%SYSTEMWEB%/PreviewBackground/preview2bg.gif

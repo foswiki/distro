@@ -107,6 +107,18 @@
 .foswikiAlert code {
 	color:#f00;
 }
+.foswikiNewLink,
+.foswikiNewLink:link,
+.foswikiNewLink:visited {
+    color: #b00000;
+    text-decoration: none;
+    border-bottom: 1px dotted #b00000;
+}
+.foswikiNewLink:link:hover {
+    color: #b00000;
+    text-decoration: none;
+    border-bottom: 1px solid #b00000;
+}
 .foswikiEmulatedLink {
 	text-decoration:underline;
 }
