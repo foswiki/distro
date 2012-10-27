@@ -87,32 +87,6 @@ h2.patternTemplateTitle {
 	border:none;
 }
 /* Links */
-/* somehow the foswikiNewLink style have to be before the general link styles */
-.foswikiNewLink {
-	border-width:0 0 1px 0;
-	border-style:solid;
-}
-.foswikiNewLink a {
-	text-decoration:none;
-	margin-left:1px;
-}
-.foswikiNewLink a sup {
-	text-align:center;
-	padding:0 2px;
-	vertical-align:baseline;
-	font-size:100%;
-	text-decoration:none;
-}
-.foswikiNewLink a:link sup,
-.foswikiNewLink a:visited sup {
-	border-width:1px;
-	border-style:solid;
-	text-decoration:none;
-}
-.foswikiNewLink a:hover sup {
-	text-decoration:none;
-}
-
 :link:focus,
 :visited:focus,
 :link,

@@ -76,22 +76,6 @@ h2, h3, h4, h5, h6 {
 }
 
 /* to override old Render.pm coded font color style */
-.foswikiNewLink font {
-   color:inherit;
-}
-.foswikiNewLink a:link sup,
-.foswikiNewLink a:visited sup {
-   color:#797979;
-   border-color:#ddd;
-}
-.foswikiNewLink a:hover sup {
-   background-color:transparent;
-   color:#06c;
-   border-color:transparent;
-}
-.foswikiNewLink {
-   border-color:#ddd;
-}
 :link:focus,
 :visited:focus,
 :link,
@@ -111,10 +95,10 @@ h2, h3, h4, h5, h6 {
 :visited:hover img {
    background-color:transparent;
 }
-.foswikiTopic a:visited {
+a:visited {
    color:#4c94db;
 }
-.foswikiTopic a:hover {
+a:hover {
    color:#06c;
 }
 .foswikiUnvisited a:visited {
