@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! 20 Minute Tutorial
 
-_This step-by-step, hands-on tutorial gets you up to speed with all the Foswiki basics..._
+This step-by-step, hands-on tutorial gets you up to speed with all the Foswiki basics...
 
 %TOC% 
 %STARTINCLUDE%
@@ -16,11 +16,11 @@ A Foswiki site is divided into webs; each one usually represents one area of col
    * The home page in each web is the %HOMETOPIC% topic.
    * To browse a web, just click on any highlighted link. These links are called WikiWords and comprise two or more words with initial capitals, run together.
    * Follow the WikiWord link and learn what it is.
-   * If you know the name of a topic, you can jump directly to it by typing its name into the __Jump__ field on the top of a page. Type =WebSearch= to jump to the search page.
-   * You can search each web. Enter a search string into the __Search__ field on the top of a page. Foswiki searches for an exact match
+   * If you know the name of a topic, you can jump directly to it by typing its name into the *Jump* field on the top of a page. Type =WebSearch= to jump to the search page.
+   * You can search each web. Enter a search string into the *Search* field on the top of a page. Foswiki searches for an exact match
    * Advanced Search lets you select different search types, including database-style [[QuerySearch][Queries]] and even RegularExpressions.
 
-<blockquote class="foswikiHelp">%T% Do not confuse the __Jump__ field with the __Search__ field.</blockquote>
+<blockquote class="foswikiHelp">%T% Do not confuse the *Jump* field with the *Search* field.</blockquote>
 
 ---++ 3. Open a private account...
 To edit topics, you need to have a Foswiki account. 
@@ -114,7 +114,7 @@ There are different ways of formatting text:
       1 Click ==[Browse]== to find a file on your PC that you'd like to attach; enter an optional comment; leave everything else unchecked.
       1 Click ==[Upload file]==, then scroll to the end of the page to see the new attachment listing.
    * Do this again - this time, upload a GIF, JPG or PNG image file. 
-      * Check the ==Properties:== box saying __Create a link to the attached file__. Once saving the topic, the image will show up at the bottom of the topic.
+      * Check the ==Properties:== box saying *Create a link to the attached file*. Once saving the topic, the image will show up at the bottom of the topic.
       * To move the image, edit the topic and place the last line (containing =%<nop>ATTACHURL%=) anywhere on the page.
    * If you have a GIF, JPG or PNG image of yourself, your cat, your sprawling family estate, why not upload it now to personalize your account page %WIKIUSERNAME%?
 
@@ -126,7 +126,7 @@ There are different ways of formatting text:
 
 That's it! You're now equipped with all the Foswiki essentials. You are ready to roll.
 
-<blockquote class="foswikiHelp">%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!</blockquote>
+<blockquote class="foswikiHelp">%H% When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to *separating* individual messages, with e-mail, message boards, non-Wiki collaboration platforms. _Don't worry about it._ You can't accidentally delete important stuff - you can always check previous versions, and restore them, if necessary, if you want to undo any changes. After a short while, it'll become second-nature and you'll expect it everywhere!</blockquote>
 
-__Related Topics:__ UserDocumentationCategory, TopicsAndWebs, WikiSyntax
+*Related Topics:* UserDocumentationCategory, TopicsAndWebs, WikiSyntax
 %STOPINCLUDE% 
