@@ -244,6 +244,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css
 
    * Themes that add upon the global skin styles. See the Theme Browser in PatternSkin.
+      * Set PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
       * Set PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css
       * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/column_left.css
       * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinHorizontalNavigationExample
