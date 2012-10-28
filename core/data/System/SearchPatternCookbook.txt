@@ -96,6 +96,38 @@ Which renders as:
     }%
 </select>
 
+---+++ Solution 3
+If you want to grab the complete row for each occurrence of a string in a table, for instance the word "Marketing":
+<verbatim class="tml">
+| a | b | c | d | e |
+| Marketing | b | c | d | e|
+| a | b | c | d | e |
+| a | marketing | c | d | e | 
+| a | b | c | d | marketing | 
+</verbatim>
+
+use this query:
+<verbatim class="tml">
+%SEARCH{
+    "^\|.*?Marketing.*"
+    type="regex"
+    topic="%TOPIC%"
+    multiple="on"
+    nonoise="on"
+    format="| $pattern(^\| *(.*?) *|.*)"
+}%
+</verbatim>
+
+Which renders as:
+%SEARCH{
+    "^\|.*?Marketing.*"
+    type="regex"
+    topic="%TOPIC%"
+    multiple="on"
+    nonoise="on"
+    format="| $pattern(^\| *(.*?) *|.*)"
+}%
+
 <!-- ============================== -->
 #SearchFormClassification
 ---++ Pattern 2: List generated from form classification
