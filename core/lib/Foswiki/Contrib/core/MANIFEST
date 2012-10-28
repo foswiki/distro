@@ -151,6 +151,7 @@ data/System/RegularExpression.txt 0644
 data/System/ReleaseHistory.txt 0644
 data/System/ReleaseNotes01x00.txt 0644
 data/System/ReleaseNotes01x01.txt 0644
+data/System/ReleaseNotes01x02.txt 0644
 data/System/RenameWeb.txt 0644
 data/System/SearchHelp.txt 0644
 data/System/SearchPatternCookbook.txt 0644
@@ -427,25 +428,25 @@ lib/CPAN/lib/JSON/Any.pm 0444
 lib/CPAN/lib/JavaScript/Minifier.pm 0644
 lib/CPAN/lib/List/MoreUtils.pm 0444
 lib/CPAN/lib/Locale/Maketext/Extract.pm 0444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Base.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/FormFu.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Generic.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Mason.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/PPI.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Perl.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/TT2.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/TextTemplate.pm 444
-lib/CPAN/lib/Locale/Maketext/Extract/Plugin/YAML.pm 444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Base.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/FormFu.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Generic.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Mason.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/PPI.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/Perl.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/TT2.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/TextTemplate.pm 0444
+lib/CPAN/lib/Locale/Maketext/Extract/Plugin/YAML.pm 0444
 lib/CPAN/lib/Locale/Maketext/Extract/Run.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Auto.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Gettext.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Msgcat.pm 0444
 lib/CPAN/lib/Locale/Maketext/Lexicon/Tie.pm 0444
-lib/CPAN/lib/Locale/Msgfmt.pm 444
-lib/CPAN/lib/Locale/Msgfmt/Utils.pm 444
-lib/CPAN/lib/Locale/Msgfmt/mo.pm 444
-lib/CPAN/lib/Locale/Msgfmt/po.pm 444
+lib/CPAN/lib/Locale/Msgfmt.pm 0444
+lib/CPAN/lib/Locale/Msgfmt/Utils.pm 0444
+lib/CPAN/lib/Locale/Msgfmt/mo.pm 0444
+lib/CPAN/lib/Locale/Msgfmt/po.pm 0444
 lib/CPAN/lib/Log/Dispatch.pm 0444
 lib/CPAN/lib/Log/Dispatch/ApacheLog.pm 0444
 lib/CPAN/lib/Log/Dispatch/Base.pm 0444
@@ -552,6 +553,7 @@ lib/Foswiki/Configure/Checkers/RCS/infoCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/initBinaryCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/initTextCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/lockCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/overrideUmask.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/rlogDateCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/tmpBinaryCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/unlockCmd.pm 0444
@@ -1070,8 +1072,8 @@ templates/oopschangelanguage.tmpl 0444
 templates/oopsgeneric.tmpl 0444
 templates/oopslanguagechanged.tmpl 0444
 templates/oopsleaseconflict.tmpl 0444
-templates/oopsredirectdenied.tmpl
-templates/oopsregister.tmpl
+templates/oopsredirectdenied.tmpl 0444
+templates/oopsregister.tmpl 0444
 templates/oopssaveerr.tmpl 0444
 templates/preview.tmpl 0444
 templates/rdiff.tmpl 0444
