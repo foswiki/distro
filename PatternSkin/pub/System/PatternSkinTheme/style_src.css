@@ -110,7 +110,8 @@ label input {
 	vertical-align:text-bottom;
 }
 .foswikiTextarea {
-	padding:1px 4px;
+    padding: 0;
+	width: 100%;
 }
 .foswikiCheckbox {
 	border-width:1px;
@@ -1052,23 +1053,7 @@ td h6:first-child {
 /*
 * BUTTONS
 */
-.jqButton {
-  height: auto;
-  float: none;
-  margin: 0;
-  background-image: none;
-}
-.jqButton span {
-  background: none;
-  float: none;
-  height: auto;
-  line-height: 22px;
-  padding: 0;
-  margin: 0;
-}
 .foswikiButton,
-.jqButton,
-a.jqButton,
 .foswikiButtonSmall,
 .foswikiButtonLarge,
 .foswikiButtonMini {
@@ -1101,16 +1086,12 @@ a.jqButton,
   text-decoration: none;
 }
 .foswikiButton:first-child,
-.jqButton:first-child,
-a.jqButton:first-child,
 .foswikiButtonSmall:first-child,
 .foswikiButtonLarge:first-child,
 .foswikiButtonMini:first-child {
   *margin-left: 0;
 }
 .foswikiButton .foswikiIcon,
-.jqButton .foswikiIcon,
-a.jqButton .foswikiIcon,
 .foswikiButtonSmall .foswikiIcon,
 .foswikiButtonLarge .foswikiIcon,
 .foswikiButtonMini .foswikiIcon {
@@ -1118,34 +1099,24 @@ a.jqButton .foswikiIcon,
   line-height: .5;
 }
 .foswikiButton,
-.jqButton,
-a.jqButton,
 .foswikiButtonSmall,
 .foswikiButtonLarge,
 .foswikiButtonMini,
 .foswikiButton:link,
-.jqButton:link,
-a.jqButton:link,
 .foswikiButtonSmall:link,
 .foswikiButtonLarge:link,
 .foswikiButtonMini:link {
   text-decoration: none;
 }
 .foswikiButton,
-.jqButton,
-a.jqButton,
 .foswikiButtonSmall,
 .foswikiButtonLarge,
 .foswikiButtonMini,
 .foswikiButton:link,
-.jqButton:link,
-a.jqButton:link,
 .foswikiButtonSmall:link,
 .foswikiButtonLarge:link,
 .foswikiButtonMini:link,
 .foswikiButton:visited,
-.jqButton:visited,
-a.jqButton:visited,
 .foswikiButtonSmall:visited,
 .foswikiButtonLarge:visited,
 .foswikiButtonMini:visited {
@@ -1168,60 +1139,42 @@ a.jqButton:visited,
   border: 1px solid #e1e1e1;
 }
 .foswikiButton .foswikiIcon,
-.jqButton .foswikiIcon,
-a.jqButton .foswikiIcon,
 .foswikiButtonSmall .foswikiIcon,
 .foswikiButtonLarge .foswikiIcon,
 .foswikiButtonMini .foswikiIcon,
 .foswikiButton:link .foswikiIcon,
-.jqButton:link .foswikiIcon,
-a.jqButton:link .foswikiIcon,
 .foswikiButtonSmall:link .foswikiIcon,
 .foswikiButtonLarge:link .foswikiIcon,
 .foswikiButtonMini:link .foswikiIcon,
 .foswikiButton:visited .foswikiIcon,
-.jqButton:visited .foswikiIcon,
-a.jqButton:visited .foswikiIcon,
 .foswikiButtonSmall:visited .foswikiIcon,
 .foswikiButtonLarge:visited .foswikiIcon,
 .foswikiButtonMini:visited .foswikiIcon {
   color: #555555;
 }
 .foswikiButton .foswikiCaret,
-.jqButton .foswikiCaret,
-a.jqButton .foswikiCaret,
 .foswikiButtonSmall .foswikiCaret,
 .foswikiButtonLarge .foswikiCaret,
 .foswikiButtonMini .foswikiCaret,
 .foswikiButton:link .foswikiCaret,
-.jqButton:link .foswikiCaret,
-a.jqButton:link .foswikiCaret,
 .foswikiButtonSmall:link .foswikiCaret,
 .foswikiButtonLarge:link .foswikiCaret,
 .foswikiButtonMini:link .foswikiCaret,
 .foswikiButton:visited .foswikiCaret,
-.jqButton:visited .foswikiCaret,
-a.jqButton:visited .foswikiCaret,
 .foswikiButtonSmall:visited .foswikiCaret,
 .foswikiButtonLarge:visited .foswikiCaret,
 .foswikiButtonMini:visited .foswikiCaret {
   border-top-color: rgba(85, 85, 85, 0.4);
 }
 .foswikiButton:hover,
-.jqButton:hover,
-a.jqButton:hover,
 .foswikiButtonSmall:hover,
 .foswikiButtonLarge:hover,
 .foswikiButtonMini:hover,
 .foswikiButton.foswikiActive,
-.jqButton.foswikiActive,
-a.jqButton.foswikiActive,
 .foswikiButtonSmall.foswikiActive,
 .foswikiButtonLarge.foswikiActive,
 .foswikiButtonMini.foswikiActive,
 .foswikiButton > .foswikiRequiresChangePermission a:hover,
-.jqButton > .foswikiRequiresChangePermission a:hover,
-a.jqButton > .foswikiRequiresChangePermission a:hover,
 .foswikiButtonSmall > .foswikiRequiresChangePermission a:hover,
 .foswikiButtonLarge > .foswikiRequiresChangePermission a:hover,
 .foswikiButtonMini > .foswikiRequiresChangePermission a:hover {
@@ -1245,48 +1198,34 @@ a.jqButton > .foswikiRequiresChangePermission a:hover,
   text-decoration: none;
 }
 .foswikiButton:hover .foswikiIcon,
-.jqButton:hover .foswikiIcon,
-a.jqButton:hover .foswikiIcon,
 .foswikiButtonSmall:hover .foswikiIcon,
 .foswikiButtonLarge:hover .foswikiIcon,
 .foswikiButtonMini:hover .foswikiIcon,
 .foswikiButton.foswikiActive .foswikiIcon,
-.jqButton.foswikiActive .foswikiIcon,
-a.jqButton.foswikiActive .foswikiIcon,
 .foswikiButtonSmall.foswikiActive .foswikiIcon,
 .foswikiButtonLarge.foswikiActive .foswikiIcon,
 .foswikiButtonMini.foswikiActive .foswikiIcon,
 .foswikiButton > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-.jqButton > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-a.jqButton > .foswikiRequiresChangePermission a:hover .foswikiIcon,
 .foswikiButtonSmall > .foswikiRequiresChangePermission a:hover .foswikiIcon,
 .foswikiButtonLarge > .foswikiRequiresChangePermission a:hover .foswikiIcon,
 .foswikiButtonMini > .foswikiRequiresChangePermission a:hover .foswikiIcon {
   color: #4d4d4d;
 }
 .foswikiButton:hover .foswikiCaret,
-.jqButton:hover .foswikiCaret,
-a.jqButton:hover .foswikiCaret,
 .foswikiButtonSmall:hover .foswikiCaret,
 .foswikiButtonLarge:hover .foswikiCaret,
 .foswikiButtonMini:hover .foswikiCaret,
 .foswikiButton.foswikiActive .foswikiCaret,
-.jqButton.foswikiActive .foswikiCaret,
-a.jqButton.foswikiActive .foswikiCaret,
 .foswikiButtonSmall.foswikiActive .foswikiCaret,
 .foswikiButtonLarge.foswikiActive .foswikiCaret,
 .foswikiButtonMini.foswikiActive .foswikiCaret,
 .foswikiButton > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-.jqButton > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-a.jqButton > .foswikiRequiresChangePermission a:hover .foswikiCaret,
 .foswikiButtonSmall > .foswikiRequiresChangePermission a:hover .foswikiCaret,
 .foswikiButtonLarge > .foswikiRequiresChangePermission a:hover .foswikiCaret,
 .foswikiButtonMini > .foswikiRequiresChangePermission a:hover .foswikiCaret {
   border-top-color: rgba(77, 77, 77, 0.4);
 }
 .foswikiButton .foswikiAccessKey,
-.jqButton .foswikiAccessKey,
-a.jqButton .foswikiAccessKey,
 .foswikiButtonSmall .foswikiAccessKey,
 .foswikiButtonLarge .foswikiAccessKey,
 .foswikiButtonMini .foswikiAccessKey {
@@ -1405,9 +1344,7 @@ a.jqButton .foswikiAccessKey,
 .foswikiSubmit:active .foswikiCaret {
   border-top-color: rgba(255, 255, 255, 0.4);
 }
-.foswikiButtonCancel,
-a.jqButton.foswikiButtonCancel,
-.jqButton.foswikiButtonCancel {
+.foswikiButtonCancel {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -1436,34 +1373,20 @@ a.jqButton.foswikiButtonCancel,
   font-size: 14px;
   text-decoration: none;
 }
-.foswikiButtonCancel:first-child,
-a.jqButton.foswikiButtonCancel:first-child,
-.jqButton.foswikiButtonCancel:first-child {
+.foswikiButtonCancel:first-child {
   *margin-left: 0;
 }
-.foswikiButtonCancel .foswikiIcon,
-a.jqButton.foswikiButtonCancel .foswikiIcon,
-.jqButton.foswikiButtonCancel .foswikiIcon {
+.foswikiButtonCancel .foswikiIcon {
   vertical-align: middle;
   line-height: .5;
 }
 .foswikiButtonCancel,
-a.jqButton.foswikiButtonCancel,
-.jqButton.foswikiButtonCancel,
-.foswikiButtonCancel:link,
-a.jqButton.foswikiButtonCancel:link,
-.jqButton.foswikiButtonCancel:link {
+.foswikiButtonCancel:link {
   text-decoration: none;
 }
 .foswikiButtonCancel,
-a.jqButton.foswikiButtonCancel,
-.jqButton.foswikiButtonCancel,
 .foswikiButtonCancel:link,
-a.jqButton.foswikiButtonCancel:link,
-.jqButton.foswikiButtonCancel:link,
-.foswikiButtonCancel:visited,
-a.jqButton.foswikiButtonCancel:visited,
-.jqButton.foswikiButtonCancel:visited {
+.foswikiButtonCancel:visited {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   background-color: #db6b44;
@@ -1483,33 +1406,17 @@ a.jqButton.foswikiButtonCancel:visited,
   border: 1px solid #cf5327;
 }
 .foswikiButtonCancel .foswikiIcon,
-a.jqButton.foswikiButtonCancel .foswikiIcon,
-.jqButton.foswikiButtonCancel .foswikiIcon,
 .foswikiButtonCancel:link .foswikiIcon,
-a.jqButton.foswikiButtonCancel:link .foswikiIcon,
-.jqButton.foswikiButtonCancel:link .foswikiIcon,
-.foswikiButtonCancel:visited .foswikiIcon,
-a.jqButton.foswikiButtonCancel:visited .foswikiIcon,
-.jqButton.foswikiButtonCancel:visited .foswikiIcon {
+.foswikiButtonCancel:visited .foswikiIcon {
   color: #ffffff;
 }
 .foswikiButtonCancel .foswikiCaret,
-a.jqButton.foswikiButtonCancel .foswikiCaret,
-.jqButton.foswikiButtonCancel .foswikiCaret,
 .foswikiButtonCancel:link .foswikiCaret,
-a.jqButton.foswikiButtonCancel:link .foswikiCaret,
-.jqButton.foswikiButtonCancel:link .foswikiCaret,
-.foswikiButtonCancel:visited .foswikiCaret,
-a.jqButton.foswikiButtonCancel:visited .foswikiCaret,
-.jqButton.foswikiButtonCancel:visited .foswikiCaret {
+.foswikiButtonCancel:visited .foswikiCaret {
   border-top-color: rgba(255, 255, 255, 0.4);
 }
 .foswikiButtonCancel:hover,
-a.jqButton.foswikiButtonCancel:hover,
-.jqButton.foswikiButtonCancel:hover,
-.foswikiButtonCancel:active,
-a.jqButton.foswikiButtonCancel:active,
-.jqButton.foswikiButtonCancel:active {
+.foswikiButtonCancel:active {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   background-color: #d96137;
@@ -1530,19 +1437,11 @@ a.jqButton.foswikiButtonCancel:active,
   text-decoration: none;
 }
 .foswikiButtonCancel:hover .foswikiIcon,
-a.jqButton.foswikiButtonCancel:hover .foswikiIcon,
-.jqButton.foswikiButtonCancel:hover .foswikiIcon,
-.foswikiButtonCancel:active .foswikiIcon,
-a.jqButton.foswikiButtonCancel:active .foswikiIcon,
-.jqButton.foswikiButtonCancel:active .foswikiIcon {
+.foswikiButtonCancel:active .foswikiIcon {
   color: #ffffff;
 }
 .foswikiButtonCancel:hover .foswikiCaret,
-a.jqButton.foswikiButtonCancel:hover .foswikiCaret,
-.jqButton.foswikiButtonCancel:hover .foswikiCaret,
-.foswikiButtonCancel:active .foswikiCaret,
-a.jqButton.foswikiButtonCancel:active .foswikiCaret,
-.jqButton.foswikiButtonCancel:active .foswikiCaret {
+.foswikiButtonCancel:active .foswikiCaret {
   border-top-color: rgba(255, 255, 255, 0.4);
 }
 .foswikiButtonDisabled,
@@ -1606,219 +1505,13 @@ a.jqButton.foswikiButtonCancel:active .foswikiCaret,
   border: 1px solid #f0f0f0;
   text-shadow: none;
 }
-/* Special jQuery buttons */
-.jqButton.jqButtonSimple,
-a.jqButton.jqButtonSimple {
-  background: none;
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-.jqButton.jqButtonSimple span,
-a.jqButton.jqButtonSimple span {
-  color: #008ce7;
-  text-decoration: none;
-  cursor: pointer;
-}
-.jqButton.jqButtonSimple:visited span,
-a.jqButton.jqButtonSimple:visited span {
-  color: #007dce;
-}
-.jqButton.jqButtonSimple:hover span,
-a.jqButton.jqButtonSimple:hover span {
-  color: #1f446c;
-  text-decoration: underline;
-}
-a.jqButton.jqButtonRed,
-a.jqButton.jqButtonRed:link,
-a.jqButton.jqButtonRed:visited {
-  color: #555555;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #fde4e4;
-  background-image: -moz-linear-gradient(top, #ffffff, #f9bbbb);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f9bbbb));
-  background-image: -webkit-linear-gradient(top, #ffffff, #f9bbbb);
-  background-image: -o-linear-gradient(top, #ffffff, #f9bbbb);
-  background-image: linear-gradient(to bottom, #ffffff, #f9bbbb);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff9bbbb', GradientType=0);
-  border-color: #f9bbbb #f9bbbb #f37575;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f9bbbb;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #edcece;
-}
-a.jqButton.jqButtonRed .foswikiIcon,
-a.jqButton.jqButtonRed:link .foswikiIcon,
-a.jqButton.jqButtonRed:visited .foswikiIcon {
-  color: #555555;
-}
-a.jqButton.jqButtonRed .foswikiCaret,
-a.jqButton.jqButtonRed:link .foswikiCaret,
-a.jqButton.jqButtonRed:visited .foswikiCaret {
-  border-top-color: rgba(85, 85, 85, 0.4);
-}
-a.jqButton.jqButtonRed:hover,
-a.jqButton.jqButtonRed:active {
-  color: #4d4d4d;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #f8dada;
-  background-image: -moz-linear-gradient(top, #f7f7f7, #f8adad);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f7f7), to(#f8adad));
-  background-image: -webkit-linear-gradient(top, #f7f7f7, #f8adad);
-  background-image: -o-linear-gradient(top, #f7f7f7, #f8adad);
-  background-image: linear-gradient(to bottom, #f7f7f7, #f8adad);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff7f7f7', endColorstr='#fff8adad', GradientType=0);
-  border-color: #f8adad #f8adad #f26767;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f8adad;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #e9c3c3;
-  text-decoration: none;
-}
-a.jqButton.jqButtonRed:hover .foswikiIcon,
-a.jqButton.jqButtonRed:active .foswikiIcon {
-  color: #4d4d4d;
-}
-a.jqButton.jqButtonRed:hover .foswikiCaret,
-a.jqButton.jqButtonRed:active .foswikiCaret {
-  border-top-color: rgba(77, 77, 77, 0.4);
-}
-a.jqButton.jqButtonCyan,
-a.jqButton.jqButtonCyan:link,
-a.jqButton.jqButtonCyan:visited {
-  color: #555555;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #bbf4f3;
-  background-image: -moz-linear-gradient(top, #def9f9, #86ebea);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#def9f9), to(#86ebea));
-  background-image: -webkit-linear-gradient(top, #def9f9, #86ebea);
-  background-image: -o-linear-gradient(top, #def9f9, #86ebea);
-  background-image: linear-gradient(to bottom, #def9f9, #86ebea);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdef9f9', endColorstr='#ff86ebea', GradientType=0);
-  border-color: #86ebea #86ebea #44e0df;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #86ebea;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #b4e6e6;
-}
-a.jqButton.jqButtonCyan .foswikiIcon,
-a.jqButton.jqButtonCyan:link .foswikiIcon,
-a.jqButton.jqButtonCyan:visited .foswikiIcon {
-  color: #555555;
-}
-a.jqButton.jqButtonCyan .foswikiCaret,
-a.jqButton.jqButtonCyan:link .foswikiCaret,
-a.jqButton.jqButtonCyan:visited .foswikiCaret {
-  border-top-color: rgba(85, 85, 85, 0.4);
-}
-a.jqButton.jqButtonCyan:hover,
-a.jqButton.jqButtonCyan:active {
-  color: #4d4d4d;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #adf2f1;
-  background-image: -moz-linear-gradient(top, #d0f7f7, #79e9e8);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#d0f7f7), to(#79e9e8));
-  background-image: -webkit-linear-gradient(top, #d0f7f7, #79e9e8);
-  background-image: -o-linear-gradient(top, #d0f7f7, #79e9e8);
-  background-image: linear-gradient(to bottom, #d0f7f7, #79e9e8);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd0f7f7', endColorstr='#ff79e9e8', GradientType=0);
-  border-color: #79e9e8 #79e9e8 #37dedc;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #79e9e8;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #a8e2e2;
-  text-decoration: none;
-}
-a.jqButton.jqButtonCyan:hover .foswikiIcon,
-a.jqButton.jqButtonCyan:active .foswikiIcon {
-  color: #4d4d4d;
-}
-a.jqButton.jqButtonCyan:hover .foswikiCaret,
-a.jqButton.jqButtonCyan:active .foswikiCaret {
-  border-top-color: rgba(77, 77, 77, 0.4);
-}
-a.jqButton.jqButtonGreen,
-a.jqButton.jqButtonGreen:link,
-a.jqButton.jqButtonGreen:visited {
-  color: #555555;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #d3f4bb;
-  background-image: -moz-linear-gradient(top, #e9f9de, #b1eb86);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e9f9de), to(#b1eb86));
-  background-image: -webkit-linear-gradient(top, #e9f9de, #b1eb86);
-  background-image: -o-linear-gradient(top, #e9f9de, #b1eb86);
-  background-image: linear-gradient(to bottom, #e9f9de, #b1eb86);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe9f9de', endColorstr='#ffb1eb86', GradientType=0);
-  border-color: #b1eb86 #b1eb86 #87e044;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #b1eb86;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #c9e6b4;
-}
-a.jqButton.jqButtonGreen .foswikiIcon,
-a.jqButton.jqButtonGreen:link .foswikiIcon,
-a.jqButton.jqButtonGreen:visited .foswikiIcon {
-  color: #555555;
-}
-a.jqButton.jqButtonGreen .foswikiCaret,
-a.jqButton.jqButtonGreen:link .foswikiCaret,
-a.jqButton.jqButtonGreen:visited .foswikiCaret {
-  border-top-color: rgba(85, 85, 85, 0.4);
-}
-a.jqButton.jqButtonGreen:hover,
-a.jqButton.jqButtonGreen:active {
-  color: #4d4d4d;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #caf2ad;
-  background-image: -moz-linear-gradient(top, #e1f7d0, #a9e979);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e1f7d0), to(#a9e979));
-  background-image: -webkit-linear-gradient(top, #e1f7d0, #a9e979);
-  background-image: -o-linear-gradient(top, #e1f7d0, #a9e979);
-  background-image: linear-gradient(to bottom, #e1f7d0, #a9e979);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe1f7d0', endColorstr='#ffa9e979', GradientType=0);
-  border-color: #a9e979 #a9e979 #7ede37;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #a9e979;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #c1e2a8;
-  text-decoration: none;
-}
-a.jqButton.jqButtonGreen:hover .foswikiIcon,
-a.jqButton.jqButtonGreen:active .foswikiIcon {
-  color: #4d4d4d;
-}
-a.jqButton.jqButtonGreen:hover .foswikiCaret,
-a.jqButton.jqButtonGreen:active .foswikiCaret {
-  border-top-color: rgba(77, 77, 77, 0.4);
-}
-.jqButton + .jqButton,
 .foswikiButton + .foswikiButton {
   margin-left: 6px;
 }
-.foswikiRight .jqButton + .jqButton,
 .foswikiRight .foswikiButton + .foswikiButton {
   margin-left: 0;
   margin-right: 6px;
 }
-.foswikiLeft .jqButton + .jqButton,
 .foswikiLeft .foswikiButton + .foswikiButton {
   margin-right: 0;
   margin-left: 6px;
@@ -1835,8 +1528,6 @@ a.jqButton.jqButtonGreen:active .foswikiCaret {
   margin: 0 0 0 7px;
   vertical-align: text-top;
 }
-.jqButton .jqButtonIcon,
-.jqButton:active .jqButtonIcon,
 .foswikiButton .foswikiButtonIcon,
 .foswikiButton:active .foswikiButtonIcon {
   background-repeat: no-repeat;
