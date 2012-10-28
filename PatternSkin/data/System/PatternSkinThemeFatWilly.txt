@@ -9,6 +9,7 @@
    * Local FOSWIKI_COLORS_URL = %URLPARAM{"colors" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css"}%
    * Local COLUMNS_RELATIVE = %URLPARAM{"column" default="%SYSTEMWEB%/PatternSkinTheme/column_left.css"}%
    * Local PATTERNSKIN_COLUMNS = %PUBURLPATH%/%COLUMNS_RELATIVE%
+   * Local PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
    * Local PATTERNSKIN_THEME_VARIANT_RELATIVE = %URLPARAM{"variant" default="%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css"}%
    * Local PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%PATTERNSKIN_THEME_VARIANT_RELATIVE%
    * Local PATTERNSKIN_NAVIGATION_TOPIC = %URLPARAM{"navigation" default=""}%
@@ -62,6 +63,7 @@ Skin styles:
    * Set FOSWIKI_STYLE_URL = %DISPLAY_FOSWIKI_STYLE_URL%
    * Set FOSWIKI_COLORS_URL = %DISPLAY_FOSWIKI_COLORS_URL%
 Theme variants:
+   * Set PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
    * Set PATTERNSKIN_COLUMNS = %DISPLAY_PATTERNSKIN_COLUMNS%
    * Set PATTERNSKIN_THEME_VARIANT =
 Navigation:
