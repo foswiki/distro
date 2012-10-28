@@ -515,6 +515,7 @@ lib/Foswiki/Configure/Checkers/Email/EnableSMIME.pm 0444
 lib/Foswiki/Configure/Checkers/Email/MailMethod.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeCertificateFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeKeyFile.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SmimeKeyPassword.pm 044
 lib/Foswiki/Configure/Checkers/Email/ValidTLD.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
