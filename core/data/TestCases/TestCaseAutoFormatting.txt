@@ -1,7 +1,7 @@
 LinkAtStart
 <!-- /actual -->
 <!-- expected expand LINKATSTART -->
-<span class="foswikiNewLink">LinkAtStart<a href="%SCRIPTURLPATH{"edit"}%/TestCases/LinkAtStart?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic" >?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/LinkAtStart?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic" >LinkAtStart</a>
 <!-- /expected -->
 
 Description: Simple formatting, as described in %SYSTEMWEB%.TextFormattingRules
@@ -216,7 +216,7 @@ class CatAnimal {
 
 ---+++ Expected
 <!-- expected expand WIKIWORDAFTER -->
-<span class="foswikiNewLink">WikiWordBeforeList<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiWordBeforeList?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiWordBeforeList?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">WikiWordBeforeList</a>
 <ol>
 <li>Things</li>
 <li>Stuff
@@ -228,7 +228,7 @@ class CatAnimal {
 <li>Something</li>
 <li>Hello kitty</li>
 </ol>
-<span class="foswikiNewLink">WikiWordAfterList<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiWordAfterList?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiWordAfterList?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">WikiWordAfterList</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
@@ -357,7 +357,7 @@ a@b.com
 <p />
 <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%WIKIUSERSTOPIC%</a>
 <p />
-<span class="foswikiNewLink">CompleteAndUtterNothing<a href="%SCRIPTURLPATH{"edit"}%/TestCases/CompleteAndUtterNothing?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/CompleteAndUtterNothing?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">CompleteAndUtterNothing</a>
 <p />
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBox</a>
 <a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBoxs</a>
@@ -385,7 +385,7 @@ LinkBoxes
 ---++ Square Brackets
 ---+++ Expected
 <!-- expected expand SQUABS -->
-<span class="foswikiNewLink">wiki syntax<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow"  title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow"  title="Create this topic">wiki syntax</a>
 <p />
 <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
 <p />
@@ -394,7 +394,7 @@ escaped:
 <p />
 <a href="/relative/URL" target="_top">relative url</a>
 <p />
-<span class="foswikiNewLink">filter%rubbish;from'thelink<a href="%SCRIPTURLPATH{"edit"}%/TestCases/FilterRubbishFromThelink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/FilterRubbishFromThelink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">filter%rubbish;from'thelink</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
@@ -413,7 +413,7 @@ escaped:
 ---++ Protocol Links
 ---+++ Expected
 <!-- expected expand PROTOCOL -->
-<span class="foswikiNewLink">syntax<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">syntax</a>
 <p />
 <a href="http://gnu.org" target="_top">GNU</a>
 <p />
@@ -475,7 +475,7 @@ nowt!%USERSWEB%
   <th><strong>A0 all rows</strong></th>
   <th><strong>B0</strong></th>
   <th><strong>C0 widen this col</strong></th>
-  <th><strong><span class="foswikiNewLink">D0LinkInColHeader<a href="%SCRIPTURLPATH{"edit"}%/TestCases/D0LinkInColHeader?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span></strong></th>
+  <th><strong><a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/D0LinkInColHeader?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">D0LinkInColHeader</a></strong></th>
   <th><strong>E0 not a link this time</strong></th>
  </tr></thead>
 <tbody>
@@ -563,7 +563,7 @@ Note that when viewing this topic the table below may be formatted by <nop>Table
 ---++ Anchor links
 ---+++ Expected
 <!-- expected expand -->
-<span class="foswikiNewLink">AnchorLink#AnchorName<a href="%SCRIPTURLPATH{"edit"}%/TestCases/AnchorLink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/AnchorLink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">AnchorLink#AnchorName</a>
 <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences#Tools">WebPreferences#Tools</a>
 <!-- /expected -->
 ---+++ Actual
@@ -575,7 +575,7 @@ AnchorLink#AnchorName
 ---++ Link at end of topic
 ---+++ Expected
 <!-- expected expand LINKATEND -->
-<span class="foswikiNewLink">LinkAtEnd<a href="%SCRIPTURLPATH{"edit"}%/TestCases/LinkAtEnd?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/TestCases/LinkAtEnd?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">LinkAtEnd</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->

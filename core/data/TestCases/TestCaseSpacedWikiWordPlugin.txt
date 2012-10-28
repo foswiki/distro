@@ -144,7 +144,7 @@ CamelCase, DaimlerChrysler, MasterCard, UnlikelyGibberishWikiWord
 </verbatim>  
 
    * Plugin handling: CamelCase, DaimlerChrysler, MasterCard, UnlikelyGibberishWikiWord
-   * Expected: <span class="foswikiNewLink">Camel Case<a href="#">?</a></span>, <span class="foswikiNewLink">Daimler Chrysler<a href="#">?</a></span>, <span class="foswikiNewLink">Master Card<a href="#">?</a></span>, <span class="foswikiNewLink">Unlikely Gibberish Wiki Word<a href="#">?</a></span>
+   * Expected: <a class="foswikiNewLink" href="#">Camel Case</a>, <a class="foswikiNewLink" href="#">Daimler Chrysler</a>, <a class="foswikiNewLink" href="#">Master Card</a>, <a class="foswikiNewLink href="#">Unlikely Gibberish Wiki Word</a>
 
 ---+++ WW DONTSPACE words, no links
 
