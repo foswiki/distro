@@ -273,7 +273,7 @@ sub test_render_textplain {
 
     my $topic2plain = <<"HERE";
 pretemplate<hr />
-<span class="foswikiNewLink">MissingWikiWord<a href="$editUrl?topicparent=TemporaryViewScriptTestWebViewScript.TestTopic2" rel="nofollow" title="Create this topic">?</a></span> <br />
+<a class="foswikiNewLink" href="$editUrl?topicparent=TemporaryViewScriptTestWebViewScript.TestTopic2" rel="nofollow" title="Create this topic">MissingWikiWord</a> <br />
 ExclamationEscape <br />
 NopEscape 
 <span class='foswikiRedFG'> <pre> adsf </pre> <pre> qwerty </pre>

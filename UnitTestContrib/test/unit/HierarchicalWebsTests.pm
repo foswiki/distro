@@ -331,7 +331,7 @@ sub test_squab_simple {
     $text = $topicObject->renderTML($text);
     $topicObject->finish();
     $this->assert_matches(
-qr!<span class="foswikiNewLink">$this->{test_web}<a href=".*?/$this->{test_web}/$this->{test_web}\?topicparent=$this->{test_web}\.NonExistant!,
+qr!<a class="foswikiNewLink" href=".*?/$this->{test_web}/$this->{test_web}\?topicparent=$this->{test_web}\.NonExistant!,
         $text
     );
 
@@ -355,7 +355,7 @@ sub test_squab_subweb {
     $text = $topicObject->renderTML($text);
     $topicObject->finish();
     $this->assert_matches(
-qr!<span class="foswikiNewLink">Subweb<a href=".*?/$this->{sub_web_path}\?topicparent=$this->{test_web}.NonExistant!,
+qr!<a class="foswikiNewLink" href=".*?/$this->{sub_web_path}\?topicparent=$this->{test_web}.NonExistant!,
         $text
     );
 
@@ -378,7 +378,7 @@ sub test_squab_subweb_full_path {
     $text = $topicObject->renderTML($text);
     $topicObject->finish();
     $this->assert_matches(
-qr!<span class="foswikiNewLink">$this->{test_web}.$this->{sub_web}<a href=".*?/$this->{sub_web_path}\?topicparent=$this->{test_web}.NonExistant!,
+qr!<a class="foswikiNewLink" href=".*?/$this->{sub_web_path}\?topicparent=$this->{test_web}.NonExistant!,
         $text
     );
 
@@ -488,7 +488,7 @@ sub test_squab_path_to_topic_in_subweb {
     ($scripturl) = $scripturl =~ m/https?:\/\/[^\/]+(\/.*)/;
 
     $this->assert_matches(
-qr!<span class=.foswikiNewLink.>$this->{test_web}\.$this->{sub_web}\.WebHome<a href=.*?/$this->{test_web}/$this->{sub_web}/WebHome\?topicparent=$this->{test_web}\.NonExistant!,
+qr!<a class=.foswikiNewLink. href=.*?/$this->{test_web}/$this->{sub_web}/WebHome\?topicparent=$this->{test_web}\.NonExistant!,
         $text
     );
 
