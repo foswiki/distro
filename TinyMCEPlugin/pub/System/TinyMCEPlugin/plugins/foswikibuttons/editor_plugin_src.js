@@ -500,7 +500,7 @@
                 selectedFormats,
                 current = '';
 
-            ed.plugins.foswikibuttons.recipe_names = ['tml', 'html', 'js'];
+            ed.plugins.foswikibuttons.recipe_names = ['bash','cplusplus','csharp','css','delphi','html','java','js','lotusscript','php','sql','tml'];
             for (i = 0; i < ed.plugins.foswikibuttons.recipe_names.length; i += 1) {
                 key = ed.plugins.foswikibuttons.recipe_names[i];
                 recipes[key] = { "block" : "pre", "remove" : "all", classes : 'TMLverbatim ' + key };
@@ -519,12 +519,12 @@
                         if (selectedFormats.length > 0) {
                             current = '(' + selectedFormats[0] + ')';
                         }
-                        sm = m.addMenu({title : 'jQuery chili' + current });
+                        sm = m.addMenu({title : 'Syntax highlighting' + current });
                         
                         jQuery.each(recipes, function (name, format) {
-                            sm.add({title : '&lt;verbatim class="' + name + '"&gt;', cmd : 'foswikiVerbatimClass', value : name });
+                            sm.add({title :  name , cmd : 'foswikiVerbatimClass', value : name });
                         });
-                        sm.add({title : '&lt;verbatim&gt;', cmd : 'foswikiVerbatimClass', value : '' });
+                        sm.add({title : 'none', cmd : 'foswikiVerbatimClass', value : ' ' });
                     }
                 });
             }
