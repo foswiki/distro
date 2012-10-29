@@ -431,24 +431,30 @@ Using =%<nop>BUTTON{}%=
   }% %CLEAR%</div>
 
 =%<nop>BUTTON{class="simple"}%= %BR%
-%BUTTON{"Simple button" class="simple"}%
+%BUTTON{"Simple button" class="simple"}%%BUTTON{"Simple button" class="simple"}%
 
 =%<nop>BUTTON{class="cyan"}%= %BR%
-%BUTTON{"Simple button" class="cyan"}%
+%BUTTON{"Cyan button" class="cyan"}%
 
 =%<nop>BUTTON{class="red"}%= %BR%
-%BUTTON{"Simple button" class="red"}%
+%BUTTON{"Red button" class="red"}%
 
 =%<nop>BUTTON{class="green"}%= %BR%
-%BUTTON{"Simple button" class="green"}%
+%BUTTON{"Green button" class="green"}%
 
-%BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"}%
-%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross" onclick="alert($(this).text());"}%
-%BUTTON{"%MAKETEXT{"Info"}%" icon="information" onclick="alert($(this).text());"}%
-%BUTTON{"%MAKETEXT{"Add"}%" icon="add" onclick="alert($(this).text());"}%
-%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete" onclick="alert($(this).text());"}%
-%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key" onclick="alert('foo')"}%
-<div class='clear'></div>
+%BUTTON{
+    "%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"
+}%%BUTTON{
+    "%MAKETEXT{"Cancel"}%" icon="cross" onclick="alert($(this).text());"
+}%%BUTTON{
+    "%MAKETEXT{"Info"}%" icon="information" onclick="alert($(this).text());"
+}%%BUTTON{
+    "%MAKETEXT{"Add"}%" icon="add" onclick="alert($(this).text());"
+}%%BUTTON{
+    "%MAKETEXT{"Delete"}%" icon="delete" onclick="alert($(this).text());"
+}%%BUTTON{
+    "%MAKETEXT{"Globe"}%" icon="world_key" onclick="alert('foo')"
+}%
 
 ---++ Re-created jQuery buttons
 =.jqButton=

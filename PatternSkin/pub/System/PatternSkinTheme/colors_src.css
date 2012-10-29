@@ -76,36 +76,19 @@ h2, h3, h4, h5, h6 {
 }
 
 /* to override old Render.pm coded font color style */
-:link:focus,
-:visited:focus,
-:link,
-:visited,
-:link:active,
-:visited:active {
-   color:#06c;
-   background-color:transparent;
-}
-:link:hover,
-:visited:hover {
-   color:#06c;
-   background-color:transparent;
-   background-image:none;
-}
-:link:hover img,
-:visited:hover img {
-   background-color:transparent;
+a,
+.foswikiUnvisited a,
+.foswikiUnvisited a:visited {
+  color: #06c;
+  text-decoration: none;
+  cursor: pointer;
 }
 a:visited {
-   color:#4c94db;
+  color: #4c94db;
 }
 a:hover {
-   color:#06c;
-}
-.foswikiUnvisited a:visited {
-   color:#06c;
-}
-.foswikiUnvisited a:hover {
-   color:#06c;
+  color: #06c;
+  text-decoration: underline;
 }
 
 /* Form elements */
