@@ -205,6 +205,19 @@ sub test_generateIsoOffset {
     $tt = Foswiki::Time::parseTime('2009-02-07T00:00Z');
     $this->assert_str_equals( '2009-02-07T05:45:00+05:45',
         Foswiki::Time::formatTime( $tt, 'iso', 'servertime' ) );
+
+    # check DST shift in Europe/Berlin
+    if ( $^O eq 'MSWin32' ) {
+        $ENV{TZ} = 'GST-1GDT';
+    }
+    else {
+        $ENV{TZ} = 'Europe/Berlin';
+    }
+    POSIX::tzset();
+    $this->assert_str_equals( '2012-10-30T00:22:48+01:00',
+        Foswiki::Time::formatTime( 1351552968, 'iso', 'servertime' ) );
+    $this->assert_str_equals( '2012-10-25T10:17:42+02:00',
+        Foswiki::Time::formatTime( 1351153062, 'iso', 'servertime' ) );
 }
 
 sub test_checkInterval {
