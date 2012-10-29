@@ -287,6 +287,7 @@ sub formatTime {
             '%z', $sec,  $min,  $hour, $day,
             $mon, $year, $wday, $yday, $isdst
         );
+        $isotz_str =~ s/([+-]\d\d)(\d\d)/$1:$2/;
     }
     else {
         ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) =
