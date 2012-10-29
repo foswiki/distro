@@ -56,13 +56,9 @@
 
 .foswikiLeft {
 	float:left;
-	position:relative;
 }
 .foswikiRight {
-	position:relative;
 	float:right;
-	display:inline;
-	margin:0;
 }
 .foswikiClear,
 .foswikiFormStep p.foswikiClear {
