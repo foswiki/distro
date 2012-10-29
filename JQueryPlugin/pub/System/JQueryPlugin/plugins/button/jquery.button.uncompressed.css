@@ -34,11 +34,8 @@ a.jqButton:hover {
 }
 
 .jqButtonSimple:hover,
+.jqButton:active,
 .jqButton:hover {
-  color:#C60206;
-}
-.jqButton:hover,
-.jqButton:active { /* pattern skin */
   color:#C60206;
 }
 
@@ -51,8 +48,6 @@ a.jqButton:hover {
   line-height:23px;
   padding:0px 5px 0px 8px;
   margin:0px 3px 0px 0px;
-  /* ie 6 */
-  _margin:0px 1px 0px 0px;
 }
 
 .jqButton:active {
@@ -111,24 +106,5 @@ a.jqButton:hover {
 }
 a.jqButtonCenter {
   margin-right:0px;
-}
-
-/* rounded cornders */
-.jqRounded div {
-  padding:10px;
-  margin:0px;
-}
-.jqRounded h2 {
-  margin:0px;
-  padding:5px;
-  font-size:130%;
-  text-align:center;
-  border:0px;
-}
-.jqRounded ol,
-.jqRounded ul {
-  margin:0px;
-  padding:0px;
-  padding-left:20px;
 }
 
