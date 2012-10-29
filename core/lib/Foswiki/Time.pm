@@ -35,6 +35,7 @@ use warnings;
 
 use Assert;
 use Foswiki ();
+use POSIX qw( strftime );
 
 # Constants
 our @ISOMONTH = (
@@ -60,8 +61,6 @@ our %MON2NUM = (
     nov => 10,
     dec => 11
 );
-
-our $TZSTRING;    # timezone string for servertime; "Z" or "+01:00" etc.
 
 =begin TML
 
@@ -274,13 +273,26 @@ sub formatTime {
     }
 
     my ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst );
+    my ( $tz_str, $isotz_str );
     if ( $outputTimeZone eq 'servertime' ) {
         ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst ) =
           localtime($epochSeconds);
+
+        # SMELL: how do we get the different timezone strings (and when
+        # we add usertime, then what?)
+        $tz_str = 'Local';
+
+        # isotz_str is date dependant, ie different in summer and winter time
+        $isotz_str = strftime(
+            '%z', $sec,  $min,  $hour, $day,
+            $mon, $year, $wday, $yday, $isdst
+        );
     }
     else {
         ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) =
           gmtime($epochSeconds);
+        $tz_str    = 'GMT';
+        $isotz_str = 'Z';
     }
 
     #standard Foswiki date time formats
@@ -320,88 +332,10 @@ sub formatTime {
     $value =~ s/\$year?/sprintf('%.4u',$year + 1900)/gei;
     $value =~ s/\$ye/sprintf('%.2u',$year%100)/gei;
     $value =~ s/\$epoch/$epochSeconds/gi;
-
-    if ( $value =~ /\$tz/ ) {
-        my $tz_str;
-        if ( $outputTimeZone eq 'servertime' ) {
-            ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
-              localtime($epochSeconds);
-
-            # SMELL: how do we get the different timezone strings (and when
-            # we add usertime, then what?)
-            $tz_str = 'Local';
-        }
-        else {
-            ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
-              gmtime($epochSeconds);
-            $tz_str = 'GMT';
-        }
-        $value =~ s/\$tz/$tz_str/gei;
-    }
-    if ( $value =~ /\$isotz/ ) {
-        my $tz_str = 'Z';
-        if ( $outputTimeZone ne 'gmtime' ) {
-
-            # servertime
-            # time zone designator (+hh:mm or -hh:mm)
-            # cached.
-            unless ( defined $TZSTRING ) {
-                my $offset = _tzOffset();
-                my $sign = ( $offset < 0 ) ? '-' : '+';
-                $offset = abs($offset);
-                my $hours = int( $offset / 3600 );
-                my $mins = int( ( $offset - $hours * 3600 ) / 60 );
-                if ( $hours || $mins ) {
-                    $TZSTRING = sprintf( "$sign%02d:%02d", $hours, $mins );
-                }
-                else {
-                    $TZSTRING = 'Z';
-                }
-            }
-            $tz_str = $TZSTRING;
-        }
-        $value =~ s/\$isotz/$tz_str/gei;
-    }
+    $value =~ s/\$tz/$tz_str/gi;
+    $value =~ s/\$isotz/$isotz_str/gi;
 
     return $value;
-}
-
-# Get timezone offset from GMT in seconds
-# Code taken from CPAN module 'Time' - "David Muir Sharnoff disclaims
-# any copyright and puts his contribution to this module in the public
-# domain."
-# Note that unit tests rely on this function being here.
-sub _tzOffset {
-    my $time = time();
-    my @l    = localtime($time);
-    my @g    = gmtime($time);
-
-    my $off = $l[0] - $g[0] + ( $l[1] - $g[1] ) * 60 + ( $l[2] - $g[2] ) * 3600;
-
-    # subscript 7 is yday.
-
-    if ( $l[7] == $g[7] ) {
-
-        # done
-    }
-    elsif ( $l[7] == $g[7] + 1 ) {
-        $off += 86400;
-    }
-    elsif ( $l[7] == $g[7] - 1 ) {
-        $off -= 86400;
-    }
-    elsif ( $l[7] < $g[7] ) {
-
-        # crossed over a year boundary.
-        # localtime is beginning of year, gmt is end
-        # therefore local is ahead
-        $off += 86400;
-    }
-    else {
-        $off -= 86400;
-    }
-
-    return $off;
 }
 
 # Returns the ISO8601 week number for a date.
