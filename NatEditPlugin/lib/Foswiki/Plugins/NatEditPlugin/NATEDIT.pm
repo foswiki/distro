@@ -15,6 +15,7 @@
 
 package Foswiki::Plugins::NatEditPlugin::NATEDIT;
 use strict;
+use warnings;
 
 use Foswiki::Plugins::JQueryPlugin::Plugin;
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
@@ -50,7 +51,8 @@ sub new {
             javascript    => [ 'edit.js', 'jquery.natedit.js' ],
             dependencies  => [
                 'textboxlist', 'form',    'validate',         'ui',
-                'ui::dialog',  'tabpane', 'ui::autocomplete', 'focus'
+                'ui::dialog',  'tabpane', 'ui::autocomplete', 'focus',
+                'button',
             ],
         ),
         $class
@@ -72,10 +74,21 @@ sub init {
 
     return unless $this->SUPER::init();
 
+    my $theme = Foswiki::Func::getPreferencesValue("NATEDIT_THEME");
+
+    if ($theme) {
+        Foswiki::Func::writeWarning(
+            "use of NATEDIT_THEME is deprecated. please use a jquery-ui theme."
+        );
+    }
+    else {
+        $theme = 'default';
+    }
+
     Foswiki::Func::addToZone(
         "head",   "JQUERYPLUGIN::NATEDIT::THEME",
         <<"HERE", 'JQUERYPLUGIN::NATEDIT' );
-<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/%IF{\"defined NATEDIT_THEME\" then=\"%NATEDIT_THEME%\" else=\"default\"}%/styles.css?version=$this->{version}' type='text/css' media='all' />
+<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/$theme/styles.css?version=$this->{version}' type='text/css' media='all' />
 HERE
 
 }

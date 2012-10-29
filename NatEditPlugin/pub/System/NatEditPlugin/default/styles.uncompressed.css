@@ -96,34 +96,3 @@
   line-height:22px;
   font-size:12px;
 }
-.natEditBottomBar a:hover,
-.natEditBottomBar a {
-  background-color:inherit;
-  background-image:url(btn_right.gif);
-  background-position:top right;
-  background-repeat:no-repeat;
-  text-decoration:none;
-  cursor:pointer;
-  display:block;
-  float:left;
-  line-height:23px;
-  padding:0px;
-  margin:0px 8px 0px 0px;
-}
-.natEditBottomBar li span {
-  background-image:url(btn_left.gif);
-  background-position:top left;
-  background-repeat:no-repeat;
-  cursor:pointer;
-  display:block;
-  float:left;
-  line-height:23px;
-  margin:0px 3px 0px 0px;
-  padding:0px 8px;
-}
-.natEditBottomBar a:active {
-  background-position:bottom right;
-}
-.natEditBottomBar li a:active span {
-  background-position:bottom left;
-}

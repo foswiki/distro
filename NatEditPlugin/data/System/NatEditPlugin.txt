@@ -1,16 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1349941111" format="1.1" version="5"}%
 ---+!! Natural Edit Plugin
-<!--
-
-   PLEASE DO NOT EDIT THIS TOPIC
-
-   It is automatically generated from the subversion repository, and any
-   changes you make will simply be overwritten the next time a release is
-   generated.
-
-   Instead, you could check your fix in, raise a bug in the Bugs web, or
-   mail the author.
--->
 %TOC%
 
 ---++ Description
@@ -71,6 +60,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  29 Oct 2012 | removed local button styles to allow theming via jquery-ui; use of NATEDIT_THEME is deprecated from now on|
 |  22 Oct 2012 | implemented improved list editing; rewrite of modal dialogs to use jquery-ui-dialog instead of the old simplemodal library |
 |  10 Jul 2012 | fixed character encoding when saving a topic on a non-utf8 site using a REST handler |
 |  21 Feb 2012 | only add one strikeone nonce to the http header |
