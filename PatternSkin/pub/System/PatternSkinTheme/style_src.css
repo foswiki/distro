@@ -17,8 +17,7 @@ body font {
 }
 
 th {
-	line-height:1.15em;
-        text-align:left;
+    text-align:left;
 }
 hr {
 	height:1px;
@@ -974,82 +973,6 @@ td h6:first-child {
   margin-top: 0;
 }
 
-/* PATTERNTOOLBAR */
-.patternToolBar > a:link,
-.patternToolBar > a:visited,
-.patternToolBar > .foswikiRequiresChangePermission > a:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    
-    *zoom: 1;
-    padding: 2px 8.4px 2px 8.4px;
-    margin-bottom: 0;
-    line-height: 22px;
-    *line-height: 22px;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    border-style: solid;
-    border-width: 1px;
-    *border: 0;
-    *margin-left: .3em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    text-decoration: none;
-    margin: 0 0 6px 6px;
-}
-.patternToolBar > a:link:first-child,
-.patternToolBar > a:visited:first-child,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:first-child,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:first-child {
-    *margin-left: 0;
-}
-.patternToolBar > a:link .foswikiIcon,
-.patternToolBar > a:visited .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiIcon {
-    vertical-align: middle;
-    line-height: .5;
-}
-.patternToolBar > a:link,
-.patternToolBar > a:visited,
-.patternToolBar > .foswikiRequiresChangePermission > a:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited,
-.patternToolBar > a:link:link,
-.patternToolBar > a:visited:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:link {
-    text-decoration: none;
-}
-.patternToolBar > a:link:hover,
-.patternToolBar > a:visited:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:hover,
-.patternToolBar > a:link.foswikiActive,
-.patternToolBar > a:visited.foswikiActive,
-.patternToolBar > .foswikiRequiresChangePermission > a:link.foswikiActive,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited.foswikiActive,
-.patternToolBar > a:link > .foswikiRequiresChangePermission a:hover,
-.patternToolBar > a:visited > .foswikiRequiresChangePermission a:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:link > .foswikiRequiresChangePermission a:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited > .foswikiRequiresChangePermission a:hover {
-    text-decoration: none;
-}
-.patternToolBar > a:link .foswikiAccessKey,
-.patternToolBar > a:visited .foswikiAccessKey,
-.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiAccessKey,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiAccessKey {
-    border: none;
-}
-
 /*
 * BUTTONS
 */
@@ -1063,7 +986,7 @@ td h6:first-child {
 
   *zoom: 1;
   padding: 2px 7px 2px 7px;
-  margin-bottom: 0;
+  margin: 0 6px 0 0;
   line-height: 22px;
   *line-height: 22px;
   text-align: center;
@@ -1122,14 +1045,14 @@ td h6:first-child {
 .foswikiButtonMini:visited {
   color: #555555;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #f6f6f6;
-  background-image: -moz-linear-gradient(top, #fbfbfb, #eeeeee);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbfbfb), to(#eeeeee));
-  background-image: -webkit-linear-gradient(top, #fbfbfb, #eeeeee);
-  background-image: -o-linear-gradient(top, #fbfbfb, #eeeeee);
-  background-image: linear-gradient(to bottom, #fbfbfb, #eeeeee);
+  background-color: #f7f7f7;
+  background-image: -moz-linear-gradient(top, #fdfdfd, #eeeeee);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fdfdfd), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #fdfdfd, #eeeeee);
+  background-image: -o-linear-gradient(top, #fdfdfd, #eeeeee);
+  background-image: linear-gradient(to bottom, #fdfdfd, #eeeeee);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffbfbfb', endColorstr='#ffeeeeee', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffdfdfd', endColorstr='#ffeeeeee', GradientType=0);
   border-color: #eeeeee #eeeeee #c8c8c8;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #eeeeee;
@@ -1178,23 +1101,23 @@ td h6:first-child {
 .foswikiButtonSmall > .foswikiRequiresChangePermission a:hover,
 .foswikiButtonLarge > .foswikiRequiresChangePermission a:hover,
 .foswikiButtonMini > .foswikiRequiresChangePermission a:hover {
-  color: #4d4d4d;
+  color: #4b4b4b;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #eeeeee;
-  background-image: -moz-linear-gradient(top, #f3f3f3, #e6e6e6);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#e6e6e6));
-  background-image: -webkit-linear-gradient(top, #f3f3f3, #e6e6e6);
-  background-image: -o-linear-gradient(top, #f3f3f3, #e6e6e6);
-  background-image: linear-gradient(to bottom, #f3f3f3, #e6e6e6);
+  background-color: #ededed;
+  background-image: -moz-linear-gradient(top, #f3f3f3, #e4e4e4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#e4e4e4));
+  background-image: -webkit-linear-gradient(top, #f3f3f3, #e4e4e4);
+  background-image: -o-linear-gradient(top, #f3f3f3, #e4e4e4);
+  background-image: linear-gradient(to bottom, #f3f3f3, #e4e4e4);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff3f3f3', endColorstr='#ffe6e6e6', GradientType=0);
-  border-color: #e6e6e6 #e6e6e6 #c0c0c0;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff3f3f3', endColorstr='#ffe4e4e4', GradientType=0);
+  border-color: #e4e4e4 #e4e4e4 #bebebe;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #e6e6e6;
+  *background-color: #e4e4e4;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #dadada;
+  border: 1px solid #d7d7d7;
   text-decoration: none;
 }
 .foswikiButton:hover .foswikiIcon,
@@ -1209,7 +1132,7 @@ td h6:first-child {
 .foswikiButtonSmall > .foswikiRequiresChangePermission a:hover .foswikiIcon,
 .foswikiButtonLarge > .foswikiRequiresChangePermission a:hover .foswikiIcon,
 .foswikiButtonMini > .foswikiRequiresChangePermission a:hover .foswikiIcon {
-  color: #4d4d4d;
+  color: #4b4b4b;
 }
 .foswikiButton:hover .foswikiCaret,
 .foswikiButtonSmall:hover .foswikiCaret,
@@ -1223,7 +1146,7 @@ td h6:first-child {
 .foswikiButtonSmall > .foswikiRequiresChangePermission a:hover .foswikiCaret,
 .foswikiButtonLarge > .foswikiRequiresChangePermission a:hover .foswikiCaret,
 .foswikiButtonMini > .foswikiRequiresChangePermission a:hover .foswikiCaret {
-  border-top-color: rgba(77, 77, 77, 0.4);
+  border-top-color: rgba(75, 75, 75, 0.4);
 }
 .foswikiButton .foswikiAccessKey,
 .foswikiButtonSmall .foswikiAccessKey,
@@ -1251,7 +1174,7 @@ td h6:first-child {
 
   *zoom: 1;
   padding: 2px 7px 2px 7px;
-  margin-bottom: 0;
+  margin: 0 6px 0 0;
   line-height: 22px;
   *line-height: 22px;
   text-align: center;
@@ -1289,14 +1212,14 @@ td h6:first-child {
 .foswikiSubmit:visited {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  background-color: #50aace;
-  background-image: -moz-linear-gradient(top, #58aed1, #44a4cb);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#58aed1), to(#44a4cb));
-  background-image: -webkit-linear-gradient(top, #58aed1, #44a4cb);
-  background-image: -o-linear-gradient(top, #58aed1, #44a4cb);
-  background-image: linear-gradient(to bottom, #58aed1, #44a4cb);
+  background-color: #52abcf;
+  background-image: -moz-linear-gradient(top, #5cb0d2, #44a4cb);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5cb0d2), to(#44a4cb));
+  background-image: -webkit-linear-gradient(top, #5cb0d2, #44a4cb);
+  background-image: -o-linear-gradient(top, #5cb0d2, #44a4cb);
+  background-image: linear-gradient(to bottom, #5cb0d2, #44a4cb);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff58aed1', endColorstr='#ff44a4cb', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5cb0d2', endColorstr='#ff44a4cb', GradientType=0);
   border-color: #44a4cb #44a4cb #2a7898;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #44a4cb;
@@ -1319,21 +1242,21 @@ td h6:first-child {
 .foswikiSubmit:active {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  background-color: #44a4cb;
-  background-image: -moz-linear-gradient(top, #4ca8cd, #389ec8);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4ca8cd), to(#389ec8));
-  background-image: -webkit-linear-gradient(top, #4ca8cd, #389ec8);
-  background-image: -o-linear-gradient(top, #4ca8cd, #389ec8);
-  background-image: linear-gradient(to bottom, #4ca8cd, #389ec8);
+  background-color: #43a3ca;
+  background-image: -moz-linear-gradient(top, #4ca8cd, #379bc4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4ca8cd), to(#379bc4));
+  background-image: -webkit-linear-gradient(top, #4ca8cd, #379bc4);
+  background-image: -o-linear-gradient(top, #4ca8cd, #379bc4);
+  background-image: linear-gradient(to bottom, #4ca8cd, #379bc4);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4ca8cd', endColorstr='#ff389ec8', GradientType=0);
-  border-color: #389ec8 #389ec8 #276f8c;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4ca8cd', endColorstr='#ff379bc4', GradientType=0);
+  border-color: #379bc4 #379bc4 #266c88;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #389ec8;
+  *background-color: #379bc4;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #328fb4;
+  border: 1px solid #318bb0;
   text-decoration: none;
 }
 .foswikiSubmit:hover .foswikiIcon,
@@ -1351,7 +1274,7 @@ td h6:first-child {
 
   *zoom: 1;
   padding: 2px 7px 2px 7px;
-  margin-bottom: 0;
+  margin: 0 6px 0 0;
   line-height: 22px;
   *line-height: 22px;
   text-align: center;
@@ -1389,14 +1312,14 @@ td h6:first-child {
 .foswikiButtonCancel:visited {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  background-color: #db6b44;
-  background-image: -moz-linear-gradient(top, #dd724c, #d96137);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dd724c), to(#d96137));
-  background-image: -webkit-linear-gradient(top, #dd724c, #d96137);
-  background-image: -o-linear-gradient(top, #dd724c, #d96137);
-  background-image: linear-gradient(to bottom, #dd724c, #d96137);
+  background-color: #dc6d46;
+  background-image: -moz-linear-gradient(top, #de7551, #d96137);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#de7551), to(#d96137));
+  background-image: -webkit-linear-gradient(top, #de7551, #d96137);
+  background-image: -o-linear-gradient(top, #de7551, #d96137);
+  background-image: linear-gradient(to bottom, #de7551, #d96137);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdd724c', endColorstr='#ffd96137', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffde7551', endColorstr='#ffd96137', GradientType=0);
   border-color: #d96137 #d96137 #a4421f;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #d96137;
@@ -1419,21 +1342,21 @@ td h6:first-child {
 .foswikiButtonCancel:active {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  background-color: #d96137;
-  background-image: -moz-linear-gradient(top, #db6840, #d7572a);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#db6840), to(#d7572a));
-  background-image: -webkit-linear-gradient(top, #db6840, #d7572a);
-  background-image: -o-linear-gradient(top, #db6840, #d7572a);
-  background-image: linear-gradient(to bottom, #db6840, #d7572a);
+  background-color: #d86036;
+  background-image: -moz-linear-gradient(top, #db6840, #d35528);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#db6840), to(#d35528));
+  background-image: -webkit-linear-gradient(top, #db6840, #d35528);
+  background-image: -o-linear-gradient(top, #db6840, #d35528);
+  background-image: linear-gradient(to bottom, #db6840, #d35528);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdb6840', endColorstr='#ffd7572a', GradientType=0);
-  border-color: #d7572a #d7572a #973d1d;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdb6840', endColorstr='#ffd35528', GradientType=0);
+  border-color: #d35528 #d35528 #933b1c;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #d7572a;
+  *background-color: #d35528;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #c24e25;
+  border: 1px solid #be4c24;
   text-decoration: none;
 }
 .foswikiButtonCancel:hover .foswikiIcon,
@@ -1452,7 +1375,7 @@ td h6:first-child {
 
   *zoom: 1;
   padding: 2px 7px 2px 7px;
-  margin-bottom: 0;
+  margin: 0 6px 0 0;
   line-height: 22px;
   *line-height: 22px;
   text-align: center;
@@ -1505,16 +1428,34 @@ td h6:first-child {
   border: 1px solid #f0f0f0;
   text-shadow: none;
 }
-.foswikiButton + .foswikiButton {
-  margin-left: 6px;
-}
-.foswikiRight .foswikiButton + .foswikiButton {
-  margin-left: 0;
-  margin-right: 6px;
-}
-.foswikiLeft .foswikiButton + .foswikiButton {
+.foswikiRight .foswikiButton,
+.foswikiRight .foswikiButtonSmall,
+.foswikiRight .foswikiButtonLarge,
+.foswikiRight .foswikiButtonMini,
+.foswikiRight .foswikiButtonDisabled,
+.foswikiRight .foswikiSubmit,
+.foswikiRight .foswikiSubmitDisabled,
+.foswikiRight .foswikiButtonCancel {
   margin-right: 0;
   margin-left: 6px;
+}
+.foswikiButton.foswikiRight,
+.foswikiButtonSmall.foswikiRight,
+.foswikiButtonLarge.foswikiRight,
+.foswikiButtonMini.foswikiRight,
+.foswikiButtonDisabled.foswikiRight,
+.foswikiSubmit.foswikiRight,
+.foswikiSubmitDisabled.foswikiRight,
+.foswikiButtonCancel.foswikiRight,
+.foswikiButton.foswikiLeft,
+.foswikiButtonSmall.foswikiLeft,
+.foswikiButtonLarge.foswikiLeft,
+.foswikiButtonMini.foswikiLeft,
+.foswikiButtonDisabled.foswikiLeft,
+.foswikiSubmit.foswikiLeft,
+.foswikiSubmitDisabled.foswikiLeft,
+.foswikiButtonCancel.foswikiLeft {
+  display: inline;
 }
 .foswikiCaret {
   display: inline-block;
@@ -1542,3 +1483,185 @@ td h6:first-child {
 .foswikiButton .foswikiIcon.icon-empty + .foswikiLabel {
   padding-left: 0;
 }
+/* PATTERNTOOLBAR */
+.patternToolBar > a:link,
+.patternToolBar > a:visited,
+.patternToolBar > .foswikiRequiresChangePermission > a:link,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  padding: 2px 7px 2px 7px;
+  margin: 0 6px 0 0;
+  line-height: 22px;
+  *line-height: 22px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 1px;
+  *border: 0;
+  *margin-left: .3em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 0 0 6px 6px;
+}
+.patternToolBar > a:link:first-child,
+.patternToolBar > a:visited:first-child,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:first-child,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:first-child {
+  *margin-left: 0;
+}
+.patternToolBar > a:link .foswikiIcon,
+.patternToolBar > a:visited .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiIcon {
+  vertical-align: middle;
+  line-height: .5;
+}
+.patternToolBar > a:link,
+.patternToolBar > a:visited,
+.patternToolBar > .foswikiRequiresChangePermission > a:link,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited,
+.patternToolBar > a:link:link,
+.patternToolBar > a:visited:link,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:link,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:link {
+  text-decoration: none;
+}
+.patternToolBar > a:link,
+.patternToolBar > a:visited,
+.patternToolBar > .foswikiRequiresChangePermission > a:link,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited,
+.patternToolBar > a:link:link,
+.patternToolBar > a:visited:link,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:link,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:link,
+.patternToolBar > a:link:visited,
+.patternToolBar > a:visited:visited,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:visited,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:visited {
+  color: #555555;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background-color: #f7f7f7;
+  background-image: -moz-linear-gradient(top, #fdfdfd, #eeeeee);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fdfdfd), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #fdfdfd, #eeeeee);
+  background-image: -o-linear-gradient(top, #fdfdfd, #eeeeee);
+  background-image: linear-gradient(to bottom, #fdfdfd, #eeeeee);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffdfdfd', endColorstr='#ffeeeeee', GradientType=0);
+  border-color: #eeeeee #eeeeee #c8c8c8;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #eeeeee;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  border: 1px solid #e1e1e1;
+}
+.patternToolBar > a:link .foswikiIcon,
+.patternToolBar > a:visited .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiIcon,
+.patternToolBar > a:link:link .foswikiIcon,
+.patternToolBar > a:visited:link .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:link .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:link .foswikiIcon,
+.patternToolBar > a:link:visited .foswikiIcon,
+.patternToolBar > a:visited:visited .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:visited .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:visited .foswikiIcon {
+  color: #555555;
+}
+.patternToolBar > a:link .foswikiCaret,
+.patternToolBar > a:visited .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiCaret,
+.patternToolBar > a:link:link .foswikiCaret,
+.patternToolBar > a:visited:link .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:link .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:link .foswikiCaret,
+.patternToolBar > a:link:visited .foswikiCaret,
+.patternToolBar > a:visited:visited .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:visited .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:visited .foswikiCaret {
+  border-top-color: rgba(85, 85, 85, 0.4);
+}
+.patternToolBar > a:link:hover,
+.patternToolBar > a:visited:hover,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:hover,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:hover,
+.patternToolBar > a:link.foswikiActive,
+.patternToolBar > a:visited.foswikiActive,
+.patternToolBar > .foswikiRequiresChangePermission > a:link.foswikiActive,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited.foswikiActive,
+.patternToolBar > a:link > .foswikiRequiresChangePermission a:hover,
+.patternToolBar > a:visited > .foswikiRequiresChangePermission a:hover,
+.patternToolBar > .foswikiRequiresChangePermission > a:link > .foswikiRequiresChangePermission a:hover,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited > .foswikiRequiresChangePermission a:hover {
+  color: #4b4b4b;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background-color: #ededed;
+  background-image: -moz-linear-gradient(top, #f3f3f3, #e4e4e4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#e4e4e4));
+  background-image: -webkit-linear-gradient(top, #f3f3f3, #e4e4e4);
+  background-image: -o-linear-gradient(top, #f3f3f3, #e4e4e4);
+  background-image: linear-gradient(to bottom, #f3f3f3, #e4e4e4);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff3f3f3', endColorstr='#ffe4e4e4', GradientType=0);
+  border-color: #e4e4e4 #e4e4e4 #bebebe;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #e4e4e4;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  border: 1px solid #d7d7d7;
+  text-decoration: none;
+}
+.patternToolBar > a:link:hover .foswikiIcon,
+.patternToolBar > a:visited:hover .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:hover .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:hover .foswikiIcon,
+.patternToolBar > a:link.foswikiActive .foswikiIcon,
+.patternToolBar > a:visited.foswikiActive .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:link.foswikiActive .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited.foswikiActive .foswikiIcon,
+.patternToolBar > a:link > .foswikiRequiresChangePermission a:hover .foswikiIcon,
+.patternToolBar > a:visited > .foswikiRequiresChangePermission a:hover .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:link > .foswikiRequiresChangePermission a:hover .foswikiIcon,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited > .foswikiRequiresChangePermission a:hover .foswikiIcon {
+  color: #4b4b4b;
+}
+.patternToolBar > a:link:hover .foswikiCaret,
+.patternToolBar > a:visited:hover .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:link:hover .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited:hover .foswikiCaret,
+.patternToolBar > a:link.foswikiActive .foswikiCaret,
+.patternToolBar > a:visited.foswikiActive .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:link.foswikiActive .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited.foswikiActive .foswikiCaret,
+.patternToolBar > a:link > .foswikiRequiresChangePermission a:hover .foswikiCaret,
+.patternToolBar > a:visited > .foswikiRequiresChangePermission a:hover .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:link > .foswikiRequiresChangePermission a:hover .foswikiCaret,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited > .foswikiRequiresChangePermission a:hover .foswikiCaret {
+  border-top-color: rgba(75, 75, 75, 0.4);
+}
+.patternToolBar > a:link .foswikiAccessKey,
+.patternToolBar > a:visited .foswikiAccessKey,
+.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiAccessKey,
+.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiAccessKey {
+  border: none;
+}
+
+
