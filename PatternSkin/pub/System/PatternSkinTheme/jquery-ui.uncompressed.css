@@ -1841,7 +1841,8 @@ label.ui-button.ui-state-active,
 /*
 * BUTTONS
 */
-.jqButton {
+.jqButton,
+.jqButton:hover {
   height: auto;
   float: none;
   margin: 0 6px 0 0;
