@@ -1,10 +1,10 @@
 /* buttons */
 .jqButton {
-  margin:0px 8px 0px 0px;
-  display:block;
-  float:left;
+  margin:0 0.4em 0 0;
   padding:0px;
   white-space:nowrap;
+  display: inline-block;
+  zoom: 1;
 }
 a.jqButton:visited,
 a.jqButton:link,
@@ -27,7 +27,7 @@ a.jqButton:hover {
 .jqButton.foswikiRight:hover,
 .jqButton.foswikiRight {
   float:right;
-  margin:0px 0px 0px 8px;
+  margin:0 0 0 0.4em;
 }
 .jqButton {
   text-shadow:0px 1px #fff;
@@ -44,10 +44,11 @@ a.jqButton:hover {
   background-position:top left;
   background-repeat:no-repeat;
   cursor:pointer;
-  float:left;
   line-height:23px;
   padding:0px 5px 0px 8px;
   margin:0px 3px 0px 0px;
+  display: inline-block;
+  zoom: 1;
 }
 
 .jqButton:active {
