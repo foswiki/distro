@@ -53,6 +53,7 @@ $REGISTRATIONGROUPTYPE = "automatic"' then='$percentINCLUDE{"%WEB%.%TOPIC%" sect
 <!-- SUBMIT BUTTON -->
 %INCLUDE{"%TOPIC%" section="requiredButton_submit"}%
 			</ul>
+			<div class='foswikiClear'></div>
 		</div>
 	</div>
 %INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
