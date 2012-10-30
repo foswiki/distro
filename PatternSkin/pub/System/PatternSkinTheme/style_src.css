@@ -109,6 +109,7 @@ label input {
 	vertical-align:text-bottom;
 }
 .foswikiTextarea {
+    padding: 0;
 	width: 100%;
 }
 .foswikiCheckbox {
@@ -431,6 +432,10 @@ h3 .foswikiSmall {
 	margin:1em 0;
 	border-style:none;
 }
+.foswikiTabContent {
+	padding:1em 10px;
+	margin:0 0 1em 0;
+}
 .patternTop .foswikiHelp {
 	margin:0 0 1em 0;
 }
@@ -571,9 +576,6 @@ a:hover .foswikiAccessKey {
 #patternSideBarContents h2 {
 	border:none;
 	background-color:transparent;
-}
-#patternSideBarContents a:hover {
-   text-decoration:none;
 }
 #patternSideBarContents .patternLeftBarPersonal {
 	padding:0 1em .75em 1em;
@@ -1665,3 +1667,5 @@ td h6:first-child {
 .patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiAccessKey {
   border: none;
 }
+
+

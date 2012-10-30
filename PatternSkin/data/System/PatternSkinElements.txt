@@ -617,7 +617,7 @@ Regular text lorem ipsum dolor sit amet, <a href='#' title='test link'>test link
 <div class='foswikiFormStep'>
 ---++ What to expect
 <p>Some explanation</p>
-<input type='text' value='Some entry' />
+<input type='text' class='foswikiInputField' value='Some entry' />
 <hr />
 <input type='submit' class='foswikiSubmit' value='Send it' />
 </div>
