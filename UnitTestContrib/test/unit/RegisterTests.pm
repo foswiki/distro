@@ -2138,8 +2138,11 @@ sub test_Item12205 {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals( "attention", $e->{template},
-            $e->stringify() );
+        my $template =
+          ( $this->check_dependency('Foswiki,<,1.2') )
+          ? 'attention'
+          : 'register';
+        $this->assert_str_equals( $template, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "bad_loginname", $e->{def}, $e->stringify() );
         $this->assert_matches( 'not allowed', $e->{params}->[0],
             $e->stringify() );
