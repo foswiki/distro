@@ -167,19 +167,21 @@ sub registerUserExceptionTwk {
 sub _registerUserException {
     my ( $this, $pfx, $loginname, $forename, $surname, $email ) = @_;
 
-    my $query = Unit::Request->new(
-        {
-            'TopicName'        => ['UserRegistration'],
-            "${pfx}1Email"     => [$email],
-            "${pfx}1WikiName"  => ["$forename$surname"],
-            "${pfx}1Name"      => ["$forename $surname"],
-            "${pfx}0Comment"   => [''],
-            "${pfx}1LoginName" => [$loginname],
-            "${pfx}1FirstName" => [$forename],
-            "${pfx}1LastName"  => [$surname],
-            'action'           => ['register']
-        }
-    );
+    my $params = {
+        'TopicName'        => ['UserRegistration'],
+        "${pfx}1Email"     => [$email],
+        "${pfx}1WikiName"  => ["$forename$surname"],
+        "${pfx}1Name"      => ["$forename $surname"],
+        "${pfx}0Comment"   => [''],
+        "${pfx}1FirstName" => [$forename],
+        "${pfx}1LastName"  => [$surname],
+        'action'           => ['register']
+    };
+
+    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+        $params->{"${pfx}1LoginName"} = $loginname;
+    }
+    my $query = Unit::Request->new($params);
 
     $query->path_info("/$this->{users_web}/UserRegistration");
     $this->createNewFoswikiSession( undef, $query );
@@ -193,10 +195,11 @@ sub _registerUserException {
         if (   ( $REG_TMPL eq $exception->{template} )
             && ( "thanks" eq $exception->{def} ) )
         {
-
+            $exception = undef;    #the only correct answer
+        }
+        else {
             print STDERR "---------" . $exception->stringify() . "\n"
               if ($Error::Debug);
-            $exception = undef;    #the only correct answer
         }
     }
     catch Foswiki::AccessControlException with {
@@ -741,7 +744,9 @@ sub verify_resetEmailOkay {
         'brian@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
 
-    my $cUID = $this->{session}->{users}->getCanonicalUserID('brian');
+    my $uname =
+      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'brian' : 'BrianGriffin';
+    my $cUID = $this->{session}->{users}->getCanonicalUserID($uname);
     $this->assert( $this->{session}->{users}->userExists($cUID),
         "new user created" );
     my $newPassU = '12345';
@@ -752,9 +757,9 @@ sub verify_resetEmailOkay {
 
     my $query = Unit::Request->new(
         {
-            'LoginName'   => ['brian'],
+            'LoginName'   => [$uname],
             'TopicName'   => ['ChangeEmailAddress'],
-            'username'    => ['brian'],
+            'username'    => [$uname],
             'oldpassword' => ['12345'],
             'email'       => [$newEmail],
             'action'      => ['changePassword']
@@ -762,7 +767,7 @@ sub verify_resetEmailOkay {
     );
 
     $query->path_info( '/' . $this->{users_web} . '/WebHome' );
-    $this->createNewFoswikiSession( 'brian', $query );
+    $this->createNewFoswikiSession( $uname, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
         $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
@@ -936,7 +941,9 @@ sub verify_deleteUser {
         'eric@example.com' );
     $this->assert_null( $ret, "Respect mah authoritah" );
 
-    my $cUID     = $this->{session}->{users}->getCanonicalUserID('eric');
+    my $uname =
+      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
+    my $cUID     = $this->{session}->{users}->getCanonicalUserID($uname);
     my $newPassU = '12345';
     my $oldPassU = 1;    #force set
     $this->assert(
@@ -949,7 +956,7 @@ sub verify_deleteUser {
         }
     );
     $query->path_info("/$this->{test_web}/Arbitrary");
-    $this->createNewFoswikiSession( 'eric', $query );
+    $this->createNewFoswikiSession( $uname, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $this->{session}->{topicName} = 'Arbitrary';
     $this->{session}->{webName}   = $this->{test_web};
@@ -962,12 +969,8 @@ sub verify_deleteUser {
         $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
         $this->assert_str_equals( "remove_user_done", $e->{def},
             $e->stringify() );
-        my $johndoe = 'eric';
-        if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
-            $johndoe = 'EricCartman';
-        }
         $this->assert_str_equals(
-            $johndoe,
+            'EricCartman',
             ${ $e->{params} }[0],
             ${ $e->{params} }[0]
         );

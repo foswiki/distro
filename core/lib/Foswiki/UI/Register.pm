@@ -562,6 +562,7 @@ sub _innerRegister {
     $data->{webName} = $session->{webName};
 
     my $oldName = $data->{WikiName};
+    $oldName = 'undef' unless defined $oldName;
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
         \&Foswiki::Sandbox::validateTopicName );
@@ -591,9 +592,11 @@ sub _requireConfirmation {
     my $web   = $session->{webName};
 
     my $oldName = $data->{WikiName};
+
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
         \&Foswiki::Sandbox::validateTopicName );
+
     unless ( $data->{WikiName} ) {
         $session->logger->log( 'warning',
             "$type rejected: validateTopicName failed for $oldName" );
@@ -644,6 +647,7 @@ sub _requireConfirmation {
 
         my @referees = split( /,\s*/, $approvers );
         my $app;
+        $data->{EmailAddress} = '';
         while ( $app = pop @referees ) {
             unless ( $app =~ /\@/ ) {
                 $data->{Referee} = $app;
@@ -1181,7 +1185,8 @@ sub _complete {
                 level    => 'info',
                 action   => 'register',
                 webTopic => $Foswiki::cfg{UsersWebName} . '.'
-                  . $data->{WikiName},
+                  . $data->{WikiName}
+                  . "($data->{LoginName}) - $Foswiki::cfg{Register}{AllowLoginName} ",
                 extra => $data->{Email},
                 user  => $data->{WikiName},
             }
@@ -1499,23 +1504,35 @@ sub _validateRegistration {
         }
     }
 
-    if ( !defined( $data->{LoginName} )
-        && $Foswiki::cfg{Register}{AllowLoginName} )
-    {
+    if ( !defined( $data->{LoginName} ) ) {
+        if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
 
-        # Login name is required, barf
-        throw Foswiki::OopsException(
-            'register',
-            web    => $data->{webName},
-            topic  => $session->{topicName},
-            def    => 'bad_loginname',
-            params => ['undefined']
-        );
+            # Login name is required, barf
+            throw Foswiki::OopsException(
+                'register',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'bad_loginname',
+                params => ['undefined']
+            );
+        }
+        else {
+            $data->{LoginName} = $data->{WikiName};
+        }
     }
-    elsif ( !defined( $data->{LoginName} ) ) {
-
-        # Login name is optional, default to the wikiname
-        $data->{LoginName} = $data->{WikiName};
+    else {
+        if (  !$Foswiki::cfg{Register}{AllowLoginName}
+            && $data->{LoginName} ne $data->{WikiName} )
+        {
+            # Login name is not allowed, barf
+            throw Foswiki::OopsException(
+                'register',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'bad_loginname',
+                params => ['not allowed']
+            );
+        }
     }
 
     # Check if login name matches expectations
