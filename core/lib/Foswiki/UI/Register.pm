@@ -51,7 +51,7 @@ sub register_cgi {
     my $action = $session->{request}->param('action') || '';
 
     # Dispatch the registration action
-    my $handler = "_$action";
+    my $handler = "_action_$action";
     if ( defined &$handler ) {
 
         # absolute URL context for email generation
@@ -74,7 +74,7 @@ sub register_cgi {
 }
 
 # Handler for 'register' action
-sub _register {
+sub _action_register {
     my $session = shift;
 
     # Check that the method was POST
@@ -129,7 +129,7 @@ sub _register {
 }
 
 # Handler for 'verify' action
-sub _verify {
+sub _action_verify {
     my $session = shift;
     my $code    = $session->{request}->param('code');
 
@@ -171,7 +171,7 @@ sub _verify {
 }
 
 # Handle approval denial
-sub _disapprove {
+sub _action_disapprove {
     my $session = shift;
     my $data = _checkApproval( $session, 0 );
     $session->logger->log( 'warning',
@@ -190,7 +190,7 @@ sub _disapprove {
 }
 
 # Handle approval confirmation
-sub _approve {
+sub _action_approve {
     my $session = shift;
     my $data    = _checkApproval( $session, 1 );
     my $code    = $session->{request}->param('code');

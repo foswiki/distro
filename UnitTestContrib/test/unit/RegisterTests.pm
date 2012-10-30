@@ -204,7 +204,7 @@ sub registerAccount {
             Foswiki::UI::Register::_complete( $this->{session} );
         }
         else {
-            Foswiki::UI::Register::_verify( $this->{session} );
+            Foswiki::UI::Register::_action_verify( $this->{session} );
         }
     }
     catch Foswiki::OopsException with {
@@ -769,7 +769,7 @@ sub _registerBadVerify {
             Foswiki::UI::Register::_complete( $this->{session} );
         }
         else {
-            Foswiki::UI::Register::_verify( $this->{session} );
+            Foswiki::UI::Register::_action_verify( $this->{session} );
         }
     }
     catch Foswiki::AccessControlException with {
@@ -2691,7 +2691,7 @@ sub verify_registerVerifyOKApproved {
             Foswiki::UI::Register::_complete( $this->{session} );
         }
         else {
-            Foswiki::UI::Register::_verify( $this->{session} );
+            Foswiki::UI::Register::_action_verify( $this->{session} );
         }
     }
     catch Foswiki::OopsException with {
@@ -2741,7 +2741,7 @@ sub verify_registerVerifyOKApproved {
 
     # Make sure we get bounced unless we are logged in
     try {
-        Foswiki::UI::Register::_approve( $this->{session} );
+        Foswiki::UI::Register::_action_approve( $this->{session} );
     }
     catch Foswiki::AccessControlException with {} otherwise {
         $this->assert(0);
@@ -2751,7 +2751,7 @@ sub verify_registerVerifyOKApproved {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        Foswiki::UI::Register::_approve( $this->{session} );
+        Foswiki::UI::Register::_action_approve( $this->{session} );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
@@ -2829,7 +2829,7 @@ sub verify_registerVerifyOKDisapproved {
             Foswiki::UI::Register::_complete( $this->{session} );
         }
         else {
-            Foswiki::UI::Register::_verify( $this->{session} );
+            Foswiki::UI::Register::_action_verify( $this->{session} );
         }
     }
     catch Foswiki::OopsException with {
@@ -2879,7 +2879,7 @@ sub verify_registerVerifyOKDisapproved {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        Foswiki::UI::Register::_disapprove( $this->{session} );
+        Foswiki::UI::Register::_action_disapprove( $this->{session} );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
