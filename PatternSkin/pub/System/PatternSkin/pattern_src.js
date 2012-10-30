@@ -1,29 +1,51 @@
-jQuery(document).ready(function ($) {
+var pattern;
+if (!pattern) {
+	pattern = {};
+}
+
+pattern.base = (function ($) {
 
 	"use strict";
-
-	var searchResultsCount = 0;
-
-	/*
-	Only for Foswiki 1.0.
-	*/
-	/*
-	// Create an attachment counter in the attachment table twisty.
-	$('.foswikiAttachments').livequery(function () {
-		var rows, count, countStr;
-		rows = $(this).find('table.foswikiTable tr');
-		if (!rows) {
-			return;
+	
+	return {
+		
+		removeYellowFromInputs: function() {
+			if (navigator.userAgent.toLowerCase().indexOf('chrome') >= 0) {
+				var chromechk_watchdog = 0,
+					chromechk;
+				chromechk = setInterval(function() {
+					if ($('input:-webkit-autofill').length > 0) {
+						clearInterval(chromechk);
+						$('input:-webkit-autofill').each(function () {
+							var value = $(this).val(),
+								name = $(this).attr('name');
+							$(this).after(this.outerHTML).remove();
+							$('input[name=' + name + ']').val(value);
+						});
+					} else if (chromechk_watchdog > 20) {
+						clearInterval(chromechk);
+					}
+					chromechk_watchdog++;
+				}, 50);
+			}
 		}
-		count = rows.length - 1;
-		countStr = " <span class='foswikiSmall'>" + count + "<\/span>";
-		$(this).find('.patternAttachmentHeader').livequery(function () {
-			$(this).append(countStr);
-		});
+
+	};
+}(jQuery));
+
+jQuery(document).ready(function ($) {
+
+    "use strict";
+    
+	pattern.base.removeYellowFromInputs();
+
+	// add focus to elements with class foswikiFocus
+	$('input.foswikiFocus').each(function () {
+		$(this).focus();
 	});
-	*/
 	
 	// Search page handling
+	var searchResultsCount = 0;
 	$('.foswikiSearchResultCount span').livequery(function () {
 		searchResultsCount += parseInt($(this).html(), 10);
 	});
@@ -39,16 +61,15 @@ jQuery(document).ready(function ($) {
 		$(this).focus();
 	});
 
-	$('input.foswikiChangeFormButton').live('click', function () {
+	$('input.foswikiChangeFormButton').on('click', function () {
 		if (foswiki.Edit) {
 			foswiki.Edit.validateSuppressed = true;
 		}
 	});
 
-	$('body.patternEditPage input').live('keydown', function (event) {
+	$('body.patternEditPage input').on('keydown', function (event) {
 		if (event.keyCode === 13) {
 			return false;
 		}
 	});
-
 });
