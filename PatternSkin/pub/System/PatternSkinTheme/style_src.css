@@ -432,6 +432,10 @@ h3 .foswikiSmall {
 	margin:1em 0;
 	border-style:none;
 }
+.foswikiTabContent {
+	padding:1em 10px;
+	margin:0 0 1em 0;
+}
 .patternTop .foswikiHelp {
 	margin:0 0 1em 0;
 }
