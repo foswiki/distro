@@ -99,7 +99,7 @@ else="%IF{
 
 %STARTSECTION{"note:registrationOk"}%<strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong>%ENDSECTION{"note:registrationOk"}%
 
-%STARTSECTION{"note:requiredBrowserSettings"}%<div class='registerMakeHidden foswikiNotification foswikiAlert'>%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you want to register."}%</div><div class='foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies'>%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you want to register."}%</div>%ENDSECTION{"note:requiredBrowserSettings"}%
+%STARTSECTION{"note:requiredBrowserSettings"}%<div class='registerMakeHidden foswikiNotification foswikiAlert'>%MAKETEXT{"We noticed you have disabled Javascript. Please switch on Javascript if you wish to register."}%</div><div class='foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies'>%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you wish to register."}%</div>%ENDSECTION{"note:requiredBrowserSettings"}%
 
 
 <!--
@@ -117,6 +117,7 @@ else="%IF{
 		<div class="foswikiFormStep">
 			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
 			<ul>%INCLUDE{"%TOPIC%" section="requiredFields"}%%INCLUDE{"%TOPIC%" section="optionalFields"}%%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%</ul>
+			<div class='foswikiClear'></div>
 		</div>
 	</div>
 %INCLUDE{"%TOPIC%" section="EXCLUDED_privacyInformation" warn="off"}%%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
