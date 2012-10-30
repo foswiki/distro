@@ -1330,23 +1330,35 @@ sub _validateRegistration {
         }
     }
 
-    if ( !defined( $data->{LoginName} )
-        && $Foswiki::cfg{Register}{AllowLoginName} )
-    {
+    if ( !defined( $data->{LoginName} ) ) {
+        if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
 
-        # Login name is required, barf
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $data->{webName},
-            topic  => $session->{topicName},
-            def    => 'bad_loginname',
-            params => ['undefined']
-        );
+            # Login name is required, barf
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'bad_loginname',
+                params => ['undefined']
+            );
+        }
+        else {
+            $data->{LoginName} = $data->{WikiName};
+        }
     }
-    elsif ( !defined( $data->{LoginName} ) ) {
-
-        # Login name is optional, default to the wikiname
-        $data->{LoginName} = $data->{WikiName};
+    else {
+        if (  !$Foswiki::cfg{Register}{AllowLoginName}
+            && $data->{LoginName} ne $data->{WikiName} )
+        {
+            # Login name is not allowed, barf
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'bad_loginname',
+                params => ['not allowed']
+            );
+        }
     }
 
     # Check if login name matches expectations

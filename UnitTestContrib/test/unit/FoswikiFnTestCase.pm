@@ -167,20 +167,23 @@ Can be used by subclasses to register test users.
 
 sub registerUser {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
-    my $q     = $this->{session}{request};
-    my $query = new Unit::Request(
-        {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [$email],
-            'Twk1WikiName'  => ["$forename$surname"],
-            'Twk1Name'      => ["$forename $surname"],
-            'Twk0Comment'   => [''],
-            'Twk1LoginName' => [$loginname],
-            'Twk1FirstName' => [$forename],
-            'Twk1LastName'  => [$surname],
-            'action'        => ['register']
-        }
-    );
+    my $q = $this->{session}{request};
+
+    my $params = {
+        'TopicName'     => ['UserRegistration'],
+        'Twk1Email'     => [$email],
+        'Twk1WikiName'  => ["$forename$surname"],
+        'Twk1Name'      => ["$forename $surname"],
+        'Twk0Comment'   => [''],
+        'Twk1FirstName' => [$forename],
+        'Twk1LastName'  => [$surname],
+        'action'        => ['register']
+    };
+
+    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+        $params->{"Twk1LoginName"} = $loginname;
+    }
+    my $query = Unit::Request->new($params);
 
     $query->path_info("/$this->{users_web}/UserRegistration");
 
