@@ -38,7 +38,7 @@
 </style>%TMPL:END%
 
 
-%TMPL:DEF{"styles:iespecific"}%<!--[if IE]><style type="text/css" media="screen">
+%TMPL:DEF{"styles:iespecific"}%<!--[if IE 7 ]><style type="text/css" media="screen">
 .foswikiAttachments,
 .foswikiForm,
 .foswikiHelp,
@@ -60,19 +60,22 @@
 .foswikiFormStep {
 	height:100%;
 }
+#foswikiLogin {
+    margin-left: 25%;
+    margin-right: 25%;
+}
+#foswikiLogin .foswikiFormSteps {
+    width:auto;
+}
+#foswikiLogin input[type="text"],
+#foswikiLogin input[type="password"] {
+    width: auto;
+}
 .patternShadow {
 	border:10px solid #fff;
 	margin-top:10px;
 	margin-bottom:10px;
 	border:2px solid #ccc;
-}
-</style><![endif]-->
-<!--[if gt IE 8 ]><style type="text/css" media="screen">
-.patternShadow {
-	border:10px solid #fff;
-	margin-top:10px;
-	margin-bottom:10px;
-	box-shadow: 0 0 10px #ccc;
 }
 </style><![endif]-->%TMPL:END%
 
