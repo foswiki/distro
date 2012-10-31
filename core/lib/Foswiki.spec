@@ -1886,6 +1886,17 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 # the Foswiki data directory.
 $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 
+# **BOOLEAN EXPERT**
+# Enable tracebacks in error messages.  Used for debugging;
+# $Foswiki::cfg{DebugTracebacks} = '';
+
+# **NUMBER EXPERT**
+# Maximum number of backup versions of LocalSite.cfg to retain when changes
+# are saved.  Enables you to recover quickly from accidental changes.
+# 0 does not save any backup versions.  -1 does not limit the number of versions
+# retained.
+$Foswiki::cfg{MaxLSCBackups} = 10;
+
 #############################################################################
 #---+ Extensions -- TABS
 
