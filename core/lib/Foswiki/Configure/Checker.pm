@@ -45,6 +45,63 @@ sub check {
 
 =begin TML
 
+---++ ObjectMethod parseOptions()
+Gets the checker options from the spec file, and returns a
+list of hashes for easier access.
+
+Spec file options are: CHECK="option option:value option:value,value option:'value'", where
+
+   * each option has a value (the default when just the keyword is present is 1)
+   * options are separated by whitespace
+   * values are introduced by : and delimited by , (Unless quoted, in which case
+there is just one value.  N.B. If quoted, double \.)
+   * The returned hash provides an arrayref containing all values for each option
+
+Multiple CHECK clauses allow default checkers to do several checks for an item.
+For example, DataDir wants one set of options for .txt files, and another for ,v files.
+
+=cut
+
+sub parseOptions {
+    my $this = shift;
+
+    my $optionList = $this->{item}->getCheckerOptions();
+
+    return () unless ($optionList);
+
+    my @options;
+
+    foreach my $optionString (@$optionList) {
+        push @options, {
+            map {
+                my @option = split( /:/, $_, 2 );
+                if ( @option && $option[0] ) {
+                    my ( $name, $value ) = @option;
+                    if ( @option == 1 ) {
+                        $value = [1];
+                    }
+                    elsif ( $value =~ /^(['"])((?:\\.|[^\1])+)\1$/ ) {
+                        $value = $2;
+                        $value =~ s/\\(.)/$1/g;
+                        $value = [$value];
+                    }
+                    else {
+                        $value = [ split( /,\s*/, $value ) ];
+                    }
+                    @option = ( $name => $value );
+                }
+                else {
+                    @option = ();
+                }
+                @option
+            } split( /\s+/, $optionString )
+        };
+    }
+    return @options;
+}
+
+=begin TML
+
 ---++ PROTECTED ObjectMethod guessed($status) -> $html
 
 A checker can either check the sanity of the previously saved value,
@@ -87,6 +144,67 @@ sub getCfg {
     return $item;
 }
 
+# Checker methods to get/set their (unexpanded) item values.
+# (Existing evals should be replaced.)
+
+=begin TML
+
+---++ ObjectMethod setItemValue($value, $keys)
+Set the value of the checked configuration var.
+$keys are optional.
+
+=cut
+
+sub setItemValue {
+    my $this  = shift;
+    my $value = shift;
+    my $keys  = shift || $this->{item}->getKeys();
+
+    eval "\$Foswiki::cfg$keys = \$value;";
+    if ($@) {
+        die "Unable to set value $value for $keys\n";
+    }
+    return;
+}
+
+=begin TML
+
+---++ ObjectMethod getItemCurrentValue($keys)
+Get the current value of the checked configuration var.
+$keys are optional.
+
+=cut
+
+sub getItemCurrentValue {
+    my $this = shift;
+    my $keys = shift || $this->{item}->getKeys();
+
+    my $value = eval "\$Foswiki::cfg$keys";
+    if ($@) {
+        die "Unable to get value for $keys\n";
+    }
+    return $value;
+}
+
+=begin TML
+
+---++ ObjectMethod getItemDefaultValue($keys)
+Get the default value of the checked configuration var.
+$keys is optional
+
+=cut
+
+sub getItemDefaultValue {
+    my $this = shift;
+    my $keys = shift || $this->{item}->getKeys();
+
+    my $value = eval "\$$Foswiki::defaultCfg->$keys";
+    if ($@) {
+        die "Unable to get default $value for $keys\n";
+    }
+    return $value;
+}
+
 =begin TML
 
 ---++ PROTECTED ObjectMethod warnAboutWindowsBackSlashes($path) -> $html
@@ -116,28 +234,57 @@ to the absolute pathname of the dir where configure is being run.
 =cut
 
 sub guessMajorDir {
-    my ( $this, $cfg, $dir, $silent ) = @_;
+    my $this = shift;
+    my $cfg  = shift;
+
+    return $this->guessDirectory( "{$cfg}", undef, @_ );
+}
+
+=begin TML
+
+---++ PROTECTED ObjectMethod guessDirectory($keys, $dir, $root, $silent) -> $html
+
+Guesses the location of any directory, not just a major key.
+
+   * $keys - the full {key}{spec} to be guessed
+   * $dir - the default subdirectory name
+   * $root - {key}{spec} of default parent.  undef to use install root.
+   * $silent - No error if the directory does not exist.
+
+Requires that root directory is valid (or guessed before its subdirectories)
+Special case for {ScriptDir}, as that's where the guessing starts for a
+brand new install.
+
+=cut
+
+sub guessDirectory {
+    my ( $this, $keys, $root, $dir, $silent ) = @_;
+
     my $msg = '';
-    my $val = $this->getCfg("{$cfg}");
+    my $val = $this->getCfg($keys);
     if ( !$val || $val eq 'NOT SET' || $val eq 'undef' ) {
-        require FindBin;
-        $FindBin::Bin =~ /^(.*)$/;
-        my $scriptDir = $1;
-        my @root      = File::Spec->splitdir($scriptDir);
-        pop(@root);
-        $Foswiki::cfg{$cfg} =
-          ( $cfg eq 'ScriptDir' )
-          ? $scriptDir
-          : File::Spec->catfile( @root, $dir );
-        $Foswiki::cfg{$cfg} =~ s|\\|/|g;
+        my $guess;
+        if ( $keys eq '{ScriptDir}' ) {
+            require FindBin;
+            $FindBin::Bin =~ /^(.*)$/;
+            $guess = $1;
+        }
+        else {
+            my @root =
+              File::Spec->splitdir( $this->getCfg( $root || '{ScriptDir}' ) );
+            pop @root unless ($root);
+            $guess = File::Spec->catfile( @root, $dir );
+        }
+        $guess =~ s|\\|/|g;
+        $this->setItemValue($guess);
         $msg = $this->guessed();
+        $val = $this->getCfg($keys);
     }
-    $val = $Foswiki::cfg{$cfg};
-    Foswiki::Configure::Load::expandValue($val);
     unless ( $silent || -d $val ) {
+        my $fwcval = $this->getItemCurrentValue();
         $msg .=
-          $this->ERROR( "Directory '$Foswiki::cfg{$cfg}'"
-              . ( $val eq $Foswiki::cfg{$cfg} ? '' : " ($val)" )
+          $this->ERROR( "Directory '$fwcval'"
+              . ( $val eq $fwcval ? '' : " ($val)" )
               . "  does not exist" );
     }
     return $msg;
@@ -169,7 +316,7 @@ sub showExpandedValue {
 Perform a recursive check of the specified path.  The recursive check 
 is limited to the configured "PathCheckLimit".  This prevents excessive
 delay on installations with large data or pub directories.  The
-count of files checked is available in the class method $this->{fileCount}
+count of files checked is available in the class method $this->{filecount}
 
 $perms is a string of permissions to check:
 
@@ -201,7 +348,7 @@ environments, the Foswiki perl scripts run under a different user/group than
 the web server.  Basic checks will pass, but the server may still be unable
 to access the file.  The enhanced checks will detect this condition.
 
-Callers of this checker should reset $this->{fileCount} and $this->{fileErrors}
+Callers of this checker should reset $this->{filecount} and $this->{fileErrors}
 to zero before calling this routine.
 
 =cut
@@ -456,6 +603,20 @@ sub checkGnuProgram {
     return $mess;
 }
 
+# Strip traceback from die and carp for a user message
+
+sub stripTraceback {
+    my ( $this, $message ) = @_;
+
+    return '' unless ( length $message );
+
+    return $message if ( $Foswiki::cfg::{DebugTracebacks} );
+
+    $message = ( split( /\n/, $message ) )[0];
+    $message =~ s/ at .*? line \d+\.$//;
+    return $message;
+}
+
 =begin TML
 
 ---++ PROTECTED ObjectMethod checkRE($keys) -> $html
@@ -471,8 +632,9 @@ sub checkRE {
     return '' unless defined $str;
     eval { qr/$str/ };
     if ($@) {
+        my $msg = $this->stripTraceback($@);
         return $this->ERROR(<<"MESS");
-Invalid regular expression: $@ <p />
+Invalid regular expression: $msg <p />
 See <a href="http://www.perl.com/doc/manual/html/pod/perlre.html">perl.com</a> for help with Perl regular expressions.
 MESS
     }

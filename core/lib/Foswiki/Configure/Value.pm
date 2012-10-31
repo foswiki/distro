@@ -48,6 +48,8 @@ Constructor. The opts are attributes, and by convention may
 be a number (for a string length), a comma separated list of values
 (for a select) and may also have an M for mandatory, or a H for hidden.
 
+Other standard attributes include EXPERT, DISPLAY_IF, ENABLE_IF and FEEDBACK.
+
 =cut
 
 sub new {
@@ -66,6 +68,48 @@ sub new {
     $this->set(@_);
 
     if ( defined $this->{opts} ) {
+
+        # Quoted strings before anything else...
+        while ( $this->{opts} =~
+            s/(?:\b|^)CHECK=((?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*'))(?:\s+|$)//
+          )
+        {
+            my $qs = $1;
+            chop $qs;
+            $qs = substr( $qs, 1 );
+            $qs =~ s/\\(.)/$1/g;
+            push @{ $this->{checkerOpts} }, $qs;
+        }
+        while ( $this->{opts} =~
+s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)(?:\b|$))|(?:((?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*'))(?:\s+|$))))|(?:\b|$))//
+          )
+        {
+            if ( defined $1 ) {    # FEEDBACK(=)
+                if ( defined $3 )
+                {    # Quoted string (single or double; \-escape inner)
+                    my $qs = $3;
+                    chop $qs;
+                    $qs = substr( $qs, 1 );
+                    $qs =~ s/\\(.)/$1/g;
+                    push @{ $this->{feedback} }, $qs;
+                }
+                else {    # FEEDBACK=keyword
+                    push @{ $this->{feedback} },
+                      {
+                        AUTO        => '~',
+                        'ON-CHANGE' => '~',
+                        IMMEDIATE   => '~',
+                        VALIDATE    => 'Validate',
+                        FIX         => 'Repair',
+                        TEST        => 'Test',
+                      }->{ uc $2 }
+                      || "Unknown FEEDBACK keyword '$2' in .spec";
+                }
+            }
+            else {    # Default label
+                push @{ $this->{feedback} }, 'Validate';
+            }
+        }
         $this->{mandatory} = ( $this->{opts} =~ /(\b|^)M(\b|$)/ );
         $this->{hidden}    = ( $this->{opts} =~ /(\b|^)H(\b|$)/ );
         $this->{expertsOnly} = 1
@@ -100,6 +144,23 @@ sub enableIf {
 sub getKeys {
     my $this = shift;
     return $this->{keys};
+}
+
+sub feedback {
+    my $this = shift;
+    return $this->{feedback};
+}
+
+sub getCheckerOptions {
+    my $this = shift;
+
+    return $this->{checkerOpts};
+}
+
+sub getTypeName {
+    my $this = shift;
+
+    return $this->{typename};
 }
 
 =begin TML

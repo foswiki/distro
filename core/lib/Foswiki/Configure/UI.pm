@@ -164,7 +164,10 @@ If the id doesn't have a subclass defined, the item's type class may
 define a generic checker for that type.  If so, it is instantiated
 for this item.
 
-Returns the checker created or undef if no such checker is found.
+Finally, we will see if $item's type, or one it inherits from
+has a generic checker.  If so, that's instantiated.
+
+Returns the checker that's created or undef if no such checker is found.
 
 Will die if the checker exists but fails to compile.
 
@@ -182,21 +185,107 @@ sub loadChecker {
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
     eval "use $checkClass ()";
 
-    # Can't locate errors are OK
+    # Can't locate errors are OK, compile failures are not.
     if ($@) {
         die $@ unless ( $@ =~ /Can't locate / );
 
-        # See if type can generate a generic checker
-        if ( $item->can('getType') ) {
-            my $type = $item->getType();
-            if ( $type && $type->can('makeChecker') ) {
-                return $type->makeChecker( $item, $keys );
-            }
+        # See if type wants to generate a generic checker
+        return unless ( $item->can('getType') );
+
+        my $type = $item->getType();
+        return unless ($type);
+        if ( $type->can('makeChecker') ) {
+            return $type->makeChecker( $item, $keys );
         }
-        return;    # No item and no generic
+
+        # Finally, see if a generic checker exists for this type
+        $checkClass = _findTypeChecker( ref($type) );
+        return unless ($checkClass);
     }
 
     return $checkClass->new($item);
+}
+
+# Private routine _findTypeChecker
+#
+# Locates a default/generic checker for a Type
+# Maps Foswiki::Configure::Types::<type> =>
+#      Foswiki::Configure::Checkers::<type>
+# If a direct mapping is not found, walks the Type's @ISA to
+# determine if a default checker can be inherited.
+#
+# Caches search results (including failure) so that the search
+# is only done once/Type.
+#
+# Returns the name of checker class; that class has been required.
+
+my %typeCheckerClass;
+
+sub _findTypeChecker {
+    my $tclass = shift;
+
+    return $typeCheckerClass{$tclass}
+      if ( exists $typeCheckerClass{$tclass} );
+
+    my $cclass = _loadTypeChecker($tclass);
+    return $cclass if ($cclass);
+
+    # Look for a generic checker in this type's ISA in
+    # case we can inherit one.
+    my @isa = eval "\@${tclass}::ISA";
+    return undef unless (@isa);
+
+    foreach my $iclass (@isa) {
+        $cclass = _loadTypeChecker($iclass);
+        return $cclass if ($cclass);
+    }
+
+    # Nothing in this class's immediate ISA
+    # See if any ancestor inherits a checker.
+    foreach my $iclass (@isa) {
+        my @aisa = eval "\@${iclass}::ISA";
+        next unless (@aisa);
+
+        foreach my $aclass (@aisa) {
+            my $cclass = _findTypeChecker($aclass);
+            return $cclass if ($cclass);
+        }
+    }
+
+    $typeCheckerClass{$tclass} = undef;
+    return undef;
+}
+
+# Attempt to load a checker based on a Type's class
+# Return checker class name with checker loaded if successful
+# Return undef if checker not found
+# die if found but compile errors
+#
+# Update cache if we have a definite result.
+
+sub _loadTypeChecker {
+    my $tclass = shift;
+
+    my $cclass = $tclass;
+    unless ( $cclass =~
+        s/^Foswiki::Configure::Types::/Foswiki::Configure::Checkers::/ )
+    {
+
+        # Stop if not in Types (Usually stops at Type; Checker.pm
+        # is not a useful generic checker.
+
+        $typeCheckerClass{$tclass} = undef;
+        return undef;
+    }
+
+    eval "use $cclass ()";
+    unless ($@) {
+        $typeCheckerClass{$tclass} = $cclass;
+        return $cclass;
+    }
+    die $@ unless ( $@ =~ /Can't locate / );
+
+    return undef;
 }
 
 =begin TML

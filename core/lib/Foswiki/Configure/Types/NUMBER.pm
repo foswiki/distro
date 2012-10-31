@@ -17,16 +17,25 @@ sub prompt {
     return $this->SUPER::prompt( $id, $opts, $value, $class );
 }
 
+# To support radix > 10, we'll treat anything non-numeric as a string.
+# This shouldn't break any valid radix 10 item that counts on numeric conversion.
+# Any higher radix item will have to deal with leading zero issues itself.
+
 sub string2value {
     my ( $this, $val ) = @_;
-    $val ||= 0;
-    return 0 + $val;
+
+    return $val if ( defined $val && $val !~ /^\d*$/ );
+    return $val || 0;
 }
 
 sub equals {
     my ( $this, $val, $def ) = @_;
 
-    return ( $val || 0 ) == ( $def || 0 );
+    return 0 if ( defined $def xor defined $val );
+    return 1 if ( !defined $def );
+
+    return $val eq $def if ( $val !~ /^[+\d-]*$/ || $def !~ /^[+\d-]*$/ );
+    return ( $val == $def );
 }
 
 1;

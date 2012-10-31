@@ -65,6 +65,11 @@ sub equals {
     return $val eq $def;
 }
 
+1;
+__END__
+
+### Retained for documentation ###
+
 =begin TML
 ---++ ClassMethod makeChecker( $item, $keys )
 
@@ -76,13 +81,23 @@ Invoked when an item has no item-specific checker.
 $item is the UI configuration item being processed
 $keys are the %Foswiki::cfg hash keys (E.g. '{Module}{FooRegex}') for this item.
 
+This is left as an example of how one can write a makeChecker method.  It is not required,
+since it implements the (new) default behavior of the UI, which also handles inheritance.
+
+makeChecker is still invoked if present, for compatibility and to allow for non-default mappings
+of typename to checkername.
+
 =cut
 
 sub makeChecker {
-    my $class = shift;
+    my $type = shift;
 
-    require Foswiki::Configure::Checkers::REGEX;
-    return Foswiki::Configure::Checkers::REGEX->new(@_);
+    my $class = ref( $type );
+    $class =~ s/^Foswiki::Configure::Types::/Foswiki::Configure::Checkers::/ or die "Can't makeChecker for $class\n";
+
+    eval "require $class;";
+    die "Unable to makeChecker for ${class}:$@\n" if( $@ );
+    return $class->new(@_);
 }
 
 1;
