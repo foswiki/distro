@@ -904,8 +904,6 @@ sub getCanonicalUserID {
 
             # Not a login name or a wiki name. Is it a valid cUID?
             my $ln = $Foswiki::Plugins::SESSION->{users}->getLoginName($user);
-            Foswiki::Func::writeDebug( "FUNC: user ", $user, " Got ln ",
-                ( $ln || 'undef' ) );
             $cUID = $user if defined $ln && $ln ne 'unknown';
         }
     }
