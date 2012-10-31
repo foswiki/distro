@@ -316,11 +316,27 @@
 *[[%USERSWEB%.%HOMETOPIC%][%MAKETEXT{"OK"}%]]*
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"user_param_required"}%
+---+++ %MAKETEXT{"User Account was not supplied"}%
+%MAKETEXT{"Return to [_0] and supply a WikiName or Login Name" args="[[%WEB%.%TOPIC%]]"}%
+%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"not_self"}%
+---+++ %MAKETEXT{"Remove of user account other than your own is denied"}%
+%MAKETEXT{"Only administrators are allowed to remove other accounts."}%
+%MAKETEXT{"Return to [_0]" args="[[%WEB%.%TOPIC%]]"}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"remove_user_done"}%
----+++ %MAKETEXT{"User Account [_1] Deleted" args="%PARAM1%"}%
-%MAKETEXT{"Your user name has been removed from the Authentication System."}%
+---+++ %MAKETEXT{"User Account [_1] Deleted" args="!%PARAM1%"}%
+%MAKETEXT{"The user has been removed from the Authentication System."}%
 
-%MAKETEXT{"Your user topic has not been renamed. Please e-mail [_1] to request this." args="<a href='mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%WIKITOOLNAME% Delete User"}%&&body=%ENCODE{"%PARAM1%"}%'>%WIKIWEBMASTER%</a>"}%
+<h3>%MAKETEXT{"Details:"}%</h3>
+<pre>
+%PARAM2%
+</pre>
+
+%MAKETEXT{"Return to [_1]" args="[[%WEB%.%TOPIC%]]"}%
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"no_group_specified_for_add_to_group"}%

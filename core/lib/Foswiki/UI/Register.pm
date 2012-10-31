@@ -740,11 +740,10 @@ sub deleteUser {
 
     unless ( $query->param('user') ) {
         throw Foswiki::OopsException(
-            'attention',
-            web    => $session->{webName},
-            topic  => $session->{topicName},
-            def    => 'user_param_required',
-            params => ['remove']
+            'register',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'user_param_required',
         );
     }
     my $myWikiName   = $session->{users}->getWikiName($cUID);
@@ -2071,10 +2070,10 @@ sub _processDeleteUser {
     my $email    = join( ',', Foswiki::Func::wikinameToEmails($wikiname) );
 
     my ( $message, $logMessage ) =
-      ( "Processing $wikiname($email)<br/>", "Processing $wikiname($email) " );
+      ( "Processing $wikiname($email)\n", "Processing $wikiname($email) " );
 
     if ( $cUID && $cUID =~ m/^BaseUserMapping_/ ) {
-        $message    = "Cannot remove $user: $cUID <br />";
+        $message    = "Cannot remove $user: $cUID \n";
         $logMessage = "Cannot remove $user: $cUID";
         return ( $message, $logMessage );
     }
@@ -2082,17 +2081,17 @@ sub _processDeleteUser {
     # Remove the user from the mapping manager
     if ( $cUID && $Foswiki::Plugins::SESSION->{users}->userExists($cUID) ) {
         $Foswiki::Plugins::SESSION->{users}->removeUser($cUID);
-        $message    .= " - user removed from Mapping Manager <br/>";
+        $message    .= " - user removed from Mapping Manager \n";
         $logMessage .= "Mapping removed, ";
     }
     else {
-        $message    .= " - User not known to the Mapping Manager <br/>";
+        $message    .= " - User not known to the Mapping Manager \n";
         $logMessage .= "unknown to Mapping, ";
     }
 
     # If a group topic has been entered, don't remove it.
     if ( Foswiki::Func::isGroup($wikiname) ) {
-        $message    .= " Cannot remove group $wikiname <br />";
+        $message    .= " Cannot remove group $wikiname \n";
         $logMessage .= "Cannot remove group $wikiname, ";
         return ( $message, $logMessage );
     }
@@ -2103,11 +2102,11 @@ sub _processDeleteUser {
     while ( $it->hasNext() ) {
         my $group = $it->next();
 
-        #$message .= "Checking $group for ($wikiname)<br />";
+        #$message .= "Checking $group for ($wikiname)\n";
         if (
             Foswiki::Func::isGroupMember( $group, $wikiname, { expand => 0 } ) )
         {
-            $message    .= "user removed from $group <br />";
+            $message    .= "user removed from $group \n";
             $logMessage .= "$group, ";
             Foswiki::Func::removeUserFromGroup( $wikiname, $group );
         }
@@ -2131,7 +2130,7 @@ sub _processDeleteUser {
                 Foswiki::Func::moveTopic( $web, $wikiname,
                     $Foswiki::cfg{TrashWebName}, $newTopic );
                 $message .=
-" - user topic moved to $Foswiki::cfg{TrashWebName}.$newTopic <br/>";
+" - user topic moved to $Foswiki::cfg{TrashWebName}.$newTopic \n";
                 $logMessage .=
                   "User topic moved to $Foswiki::cfg{TrashWebName}.$newTopic, ";
             }
@@ -2142,12 +2141,12 @@ sub _processDeleteUser {
             };
         }
         else {
-            $message    .= " - user topic not found <br/>";
+            $message    .= " - user topic not found \n";
             $logMessage .= " User topic not found, ";
         }
     }
     else {
-        $message    .= " - User topic not removed <br/>";
+        $message    .= " - User topic not removed \n";
         $logMessage .= " User topic not removed, ";
     }
     return ( $message, $logMessage );
