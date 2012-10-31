@@ -1,0 +1,86 @@
+%META:TOPICINFO{author="ProjectContributor" date="1288962587" format="1.1" version="1"}%
+%META:TOPICPARENT{name="PatternSkin"}%
+---+!! <nop>PatternSkin theme: Foswiki release 1.1.5
+Use this theme if you have created a theme or sub-skin that relies on the styling of PatternSkin around release 1.1.5 or before.
+
+---++ Test this theme
+<!--
+   * Local FOSWIKI_LAYOUT_URL = %URLPARAM{"layout" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/layout.css"}%
+   * Local FOSWIKI_STYLE_URL = %URLPARAM{"style" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/style.css"}%
+   * Local FOSWIKI_COLORS_URL = %URLPARAM{"colors" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme/colors.css"}%
+   * Local COLUMNS_RELATIVE = %URLPARAM{"column" default="%SYSTEMWEB%/PatternSkinTheme/column_left.css"}%
+   * Local PATTERNSKIN_COLUMNS = %PUBURLPATH%/%COLUMNS_RELATIVE%
+   * Local PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
+   * Local PATTERNSKIN_THEME_VARIANT_RELATIVE = %URLPARAM{"variant" default="%SYSTEMWEB%/PatternSkinTheme/variant_foswiki_noframe.css"}%
+   * Local PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%PATTERNSKIN_THEME_VARIANT_RELATIVE%
+
+   * Local DISPLAY_FOSWIKI_LAYOUT_URL = %CALC{"$SUBSTITUTE(%FOSWIKI_LAYOUT_URL%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
+   * Local DISPLAY_FOSWIKI_STYLE_URL = %CALC{"$SUBSTITUTE(%FOSWIKI_STYLE_URL%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
+   * Local DISPLAY_FOSWIKI_COLORS_URL = %CALC{"$SUBSTITUTE(%FOSWIKI_COLORS_URL%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
+   * Local DISPLAY_PATTERNSKIN_COLUMNS = %CALC{"$SUBSTITUTE(%PATTERNSKIN_COLUMNS%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
+   * Local DISPLAY_PATTERNSKIN_THEME_VARIANT = %CALC{"$SUBSTITUTE(%PATTERNSKIN_THEME_VARIANT%, %PUBURLPATH%/%SYSTEMWEB%, $NOP(%<nop>PUBURLPATH%/%<nop>SYSTEMWEB%))"}%
+-->   
+   
+<form action="%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%">
+<input type="hidden" name="viewtheme" value="1" />
+<input type="hidden" name="layout" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme115/layout.css" />
+<input type="hidden" name="style" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme115/style.css" />
+<input type="hidden" name="colors" value="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme115/colors.css" />
+<input type="hidden" name="navigation" value="" />
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+---+++ Choose column
+<select name="column" class="foswikiSelect">
+%IF{"$'URLPARAM{column}'" then="<optgroup label='Current selection'><option value='%URLPARAM{"column"}%' selected='selected'>%URLPARAM{"column"}%</option></optgroup>"}%
+<optgroup label='Column options:'>
+<option value="%SYSTEMWEB%/PatternSkinTheme115/column_left.css">Column left (default)</option>
+<option value="%SYSTEMWEB%/PatternSkinTheme115/column_right.css">Column right</option>
+<option value="%SYSTEMWEB%/PatternSkinTheme115/column_none.css">No column</option>
+<option value="%SYSTEMWEB%/PatternSkinTheme115/column_twiki.css">Small left column</option>
+</optgroup>
+</select>
+</div>
+<div class="foswikiFormStep">
+---+++ Choose variant CSS
+<select name="variant" class="foswikiSelect">
+%IF{"$'URLPARAM{variant}'" then="<optgroup label='Current selection'><option value='%URLPARAM{"variant"}%' selected='selected'>%URLPARAM{"variant"}%</option></optgroup>"}%
+<optgroup label='Variant CSS options:'>
+<option value="%SYSTEMWEB%/PatternSkinTheme115/variant_foswiki_noframe.css">No frame (default)</option>
+<option value="%SYSTEMWEB%/PatternSkinTheme115/variant_foswiki.css">Frame</option>
+<option value="%SYSTEMWEB%/PatternSkinTheme115/variant_twiki.css">TWiki style</option>
+</optgroup>
+</select>
+</div>
+<div class="foswikiFormStep">
+<input type="submit" class="foswikiSubmit" value="View theme with these settings" /> <a href="%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%" class="foswikiButton">Hide theme</a>
+</div>
+</div>
+</form>
+
+%IF{"$'URLPARAM{viewtheme}'" then='$percntINCLUDE{$quot%BASETOPIC%$quot section=$quotstoresettings$quot}$percnt'}%
+
+<verbatim class="foswikiHidden">
+%STARTSECTION{"storesettings"}%
+---++ Store theme settings
+%INCLUDE{"PatternSkin" section="copysettings"}%
+<noautolink>
+<form name="select_all">
+<textarea readonly="readonly" rows="12" cols="120" name="copypaste" class="foswikiInputFieldReadOnly foswikiSmallish" style="width:99%">
+The overall skin:
+   * Set SKIN = pattern
+Skin styles:
+   * Set FOSWIKI_LAYOUT_URL = %DISPLAY_FOSWIKI_LAYOUT_URL%
+   * Set FOSWIKI_STYLE_URL = %DISPLAY_FOSWIKI_STYLE_URL%
+   * Set FOSWIKI_COLORS_URL = %DISPLAY_FOSWIKI_COLORS_URL%
+Theme variants:
+   * Set PATTERNSKIN_JQUERY_THEME =
+   * Set PATTERNSKIN_COLUMNS = %DISPLAY_PATTERNSKIN_COLUMNS%
+   * Set PATTERNSKIN_THEME_VARIANT = %DISPLAY_PATTERNSKIN_THEME_VARIANT%
+Navigation:
+   * Set PATTERNSKIN_NAVIGATION_TOPIC =
+</textarea><br />
+<input type="button" class="foswikiButton" value="Highlight text" onClick="javascript:this.form.copypaste.focus();this.form.copypaste.select();">
+</form>
+</noautolink>
+%ENDSECTION{"storesettings"}%
+</verbatim>

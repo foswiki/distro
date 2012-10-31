@@ -1,0 +1,25 @@
+/*
+Default skin settings for Foswiki
+Overrides global settings in layout.css, style.css and colors.css
+*/
+
+/* outer 'frame' */
+#patternScreen {
+	padding:0;
+}
+#patternPage {
+	border:none;
+}
+
+/* top bar */
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContents {
+	height:75px; /* top bar height; make room for header columns */
+	overflow:hidden;
+}
+#patternTopBarContents {
+	padding-top:12px;
+}

@@ -1,0 +1,12 @@
+/*
+places the side bar at the left
+depends on global settings in layout.css
+*/
+
+#patternOuter {
+	margin-left:16em;
+}
+#patternSideBar {
+	width:16em;
+	margin-left:-16em;
+}
