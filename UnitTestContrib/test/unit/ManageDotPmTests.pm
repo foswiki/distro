@@ -1047,6 +1047,10 @@ sub verify_deleteUserAsAdmin {
             ${ $e->{params} }[0],
             ${ $e->{params} }[0]
         );
+        $this->assert_matches(
+qr/user removed from Mapping Manager.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.DeletedUserEricCartman[0-9]{10,10}/s,
+            ${ $e->{params} }[1]
+        );
     }
     catch Error::Simple with {
         my $e = shift;
@@ -1061,11 +1065,6 @@ sub verify_deleteUserAsAdmin {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
-
-#    $this->assert_matches(
-#qr/user removed from Mapping Manager.*user removed from $this->{test_user_wikiname}Group.*user topic moved to Trash.*$this->{test_user_wikiname} processed/,
-#        $out
-#    );
 
     $this->assert(
         !Foswiki::Func::isGroupMember(
