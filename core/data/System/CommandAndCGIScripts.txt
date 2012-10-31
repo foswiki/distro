@@ -205,9 +205,11 @@ This is used by BulkResetPassword and ResetPassword. Only administrators can pro
 BulkRegistration provides the means to create multiple accounts but it does not announce those accounts to the users who own them. BulkResetPassword is used to assign the passwords, the Introduction is used to explain why they are receiving the mail.
 
 ---++++ =action=deleteUserAccount=
-Unregisters (removes) the currently logged-in user.
+For non-admin users, it unregisters (removes) the currently logged-in user.  Administrators can remove any account.
 | *Parameter* | *Description* | *Default* |
-| =password= | Users' password | _required_ |
+| =user= | User ID to be removed | _required_. Must be current logged in user if not admin |
+| =password= | Users' password | _required if not admin_ |
+| =removeTopic= | Should user topic be moved to trash web? | |
 
 ---++++ =action=restoreRevision=
 Alternative entry point for =edit=, used by screens that support several actions using =manage. Parameters are as for =edit=.

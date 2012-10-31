@@ -14,7 +14,7 @@ use Foswiki::UI::Save();
 use FileHandle();
 use Error qw(:try);
 
-#$Error::Debug = 1;
+$Error::Debug = 1;
 
 my $REG_UI_FN;
 my $MAN_UI_FN;
@@ -30,6 +30,11 @@ sub set_up {
     $REG_TMPL =
       ( $this->check_dependency('Foswiki,<,1.2') ) ? 'attention' : 'register';
 
+    $this->{trash_web} = 'Testtrashweb1234';
+    my $webObject = $this->populateNewWeb( $this->{trash_web} );
+    $webObject->finish();
+    $Foswiki::cfg{TrashWebName} = $this->{trash_web};
+
     @FoswikiFnTestCase::mails = ();
 
     return;
@@ -38,6 +43,8 @@ sub set_up {
 sub tear_down {
     my $this = shift;
 
+    $this->removeWebFixture( $this->{session}, "$this->{trash_web}" )
+      if ( $this->{session}->webExists("$this->{trash_web}") );
     $this->removeWebFixture( $this->{session}, "$this->{test_web}NewExtra" )
       if ( $this->{session}->webExists("$this->{test_web}NewExtra") );
     $this->removeWebFixture( $this->{session},
@@ -953,6 +960,7 @@ sub verify_deleteUser {
         {
             'password' => ['12345'],
             'action'   => ['deleteUserAccount'],
+            'user'     => [$cUID],
         }
     );
     $query->path_info("/$this->{test_web}/Arbitrary");
@@ -990,6 +998,102 @@ sub verify_deleteUser {
     };
 
     return;
+}
+
+sub verify_deleteUserAsAdmin {
+    my $this = shift;
+
+    my $ret = $this->registerUserExceptionTwk( 'eric', 'Eric', 'Cartman',
+        'eric@example.com' );
+    $this->assert_null( $ret, "Respect mah authoritah" );
+    $this->{new_user_wikiname} = 'EricCartman';
+    $this->{new_user_login}    = 'eric';
+
+    $this->assert(
+        Foswiki::Func::addUserToGroup(
+            $this->{new_user_wikiname}, $this->{new_user_wikiname} . 'Group',
+            1
+        )
+    );
+
+    my $query = Unit::Request->new(
+        {
+            'user'      => $this->{new_user_wikiname},
+            action      => 'deleteUserAccount',
+            removeTopic => '1',
+        }
+    );
+    my $uname =
+      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
+
+    $this->createNewFoswikiSession( 'AdminUser', $query );
+    $query->method('POST');
+    $query->path_info("/System/ManagingUsers");
+    my $resp   = '';
+    my $out    = '';
+    my $result = '';
+    my $err    = '';
+    try {
+        ( $resp, $result, $out, $err ) =
+          $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "remove_user_done", $e->{def},
+            $e->stringify() );
+        $this->assert_str_equals(
+            'EricCartman',
+            ${ $e->{params} }[0],
+            ${ $e->{params} }[0]
+        );
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+
+#    $this->assert_matches(
+#qr/user removed from Mapping Manager.*user removed from $this->{test_user_wikiname}Group.*user topic moved to Trash.*$this->{test_user_wikiname} processed/,
+#        $out
+#    );
+
+    $this->assert(
+        !Foswiki::Func::isGroupMember(
+            $this->{new_user_wikiname},
+            $this->{new_user_wikiname} . 'Group'
+        )
+    );
+
+    # User should be gone from the passwords DB
+    # OK to use filenames; FoswikiFnTestCase forces password manager to
+    # HtPasswdUser
+    $this->assert_null(
+        `grep $this->{new_user_login} $Foswiki::cfg{Htpasswd}{FileName}`)
+      if $Foswiki::cfg{Register}{AllowLoginName};
+    $this->assert_null(
+        `grep $this->{new_user_wikiname} $Foswiki::cfg{Htpasswd}{FileName}`);
+
+    my ( $crap, $wu ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{UsersTopicName} );
+    $this->assert( $wu !~ /$this->{new_user_wikiname}/s );
+    $this->assert( $wu !~ /$this->{new_user_login}/s );
+
+    $this->assert(
+        !Foswiki::Func::topicExists(
+            $Foswiki::cfg{UsersWebName},
+            $this->{new_user_wikiname}
+        )
+    );
 }
 
 sub test_createDefaultWeb {

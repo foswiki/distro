@@ -31,6 +31,7 @@ my %SKIPKEYS = (
     'Email'       => 1,
     'AddToGroups' => 1
 );
+
 my @requiredFields = qw(WikiName FirstName LastName Email);
 
 =begin TML
@@ -51,6 +52,8 @@ sub register_cgi {
     my $action = $session->{request}->param('action') || '';
 
     # Dispatch the registration action
+    # CAUTION:  Only routines intended to be called directly using the
+    # action parameter should be named _action_...
     my $handler = "_action_$action";
     if ( defined &$handler ) {
 
@@ -719,58 +722,89 @@ sub deleteUser {
     my $topic   = $session->{topicName};
     my $query   = $session->{request};
     my $cUID    = $session->{user};
+    my $user    = $query->param('user');
 
-    my $password = $query->param('password');
-
-    # check if user entry exists
-    my $users = $session->{users};
-    if ( !$users->userExists($cUID) ) {
-        throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'not_a_user',
-            params => [ $session->{users}->getWikiName($cUID) ]
-        );
-    }
-
-    #check to see it the user we are trying to remove is a member of a group.
-    #initially we refuse to delete the user
-    #in a later implementation we will remove the from the group
-    #(if Access.pm implements it..)
-    my $git = $users->eachMembership($cUID);
-    if ( $git->hasNext() ) {
-        my $list = '';
-        while ( $git->hasNext() ) {
-            $list .= ' ' . $git->next();
-        }
-        throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'in_a_group',
-            params => [ $session->{users}->getWikiName($cUID), $list ]
-        );
-    }
-
-    # Check the validation key
-    Foswiki::UI::checkValidationKey($session);
-
-    unless (
-        $users->checkPassword(
-            $session->{users}->getLoginName($cUID), $password
-        )
-      )
+    # Check that the method was POST
+    if (   $query
+        && $query->method()
+        && uc( $query->method() ) ne 'POST' )
     {
         throw Foswiki::OopsException(
-            'register',
-            web   => $webName,
-            topic => $topic,
-            def   => 'wrong_password'
+            'attention',
+            web    => $session->{webName},
+            topic  => $session->{topicName},
+            def    => 'post_method_only',
+            params => ['remove']
         );
     }
 
-    $users->removeUser($cUID);
+    unless ( $query->param('user') ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $session->{webName},
+            topic  => $session->{topicName},
+            def    => 'user_param_required',
+            params => ['remove']
+        );
+    }
+    my $myWikiName   = $session->{users}->getWikiName($cUID);
+    my $userWikiName = $session->{users}->getWikiName($user);
+
+    Foswiki::UI::checkValidationKey($session);
+
+    my $removeTopic =
+      ( defined $query->param('removeTopic') )
+      ? $query->param('removeTopic')
+      : 1;
+
+    # This is the old behavior - remove the current logged in user.  For safety
+    # Make sure the requested user = current user.
+    unless ( Foswiki::Func::isAnAdmin() ) {
+
+        if ( ( $user ne $cUID ) && ( $myWikiName ne $userWikiName ) ) {
+            throw Foswiki::OopsException(
+                'register',
+                web    => $webName,
+                topic  => $topic,
+                def    => 'not_self',
+                params => [$userWikiName]
+            );
+        }
+
+        # check if user entry exists
+        my $users = $session->{users};
+        if ( !$users->userExists($cUID) ) {
+            throw Foswiki::OopsException(
+                'register',
+                web    => $webName,
+                topic  => $topic,
+                def    => 'not_a_user',
+                params => [$userWikiName]
+            );
+        }
+
+        my $password = $query->param('password');
+        unless (
+            $users->checkPassword(
+                $session->{users}->getLoginName($cUID), $password
+            )
+          )
+        {
+            throw Foswiki::OopsException(
+                'register',
+                web   => $webName,
+                topic => $topic,
+                def   => 'wrong_password'
+            );
+        }
+    }
+
+    my ( $m, $lm ) =
+      _processDeleteUser(
+        { cuid => $user, removeTopic => $removeTopic, prefix => "DeletedUser" }
+      );
+
+    Foswiki::Func::writeWarning("$cUID: $lm");
 
     throw Foswiki::OopsException(
         'register',
@@ -778,7 +812,7 @@ sub deleteUser {
         def    => 'remove_user_done',
         web    => $webName,
         topic  => $topic,
-        params => [ $users->getWikiName($cUID) ]
+        params => [ $userWikiName, $m ]
     );
 }
 
@@ -1902,6 +1936,7 @@ sub _getDataFromQuery {
         if ( $key =~ /^((?:Twk|Fwk)([0-9])(.*))/
             and ( defined( $query->param($key) ) ) )
         {
+    #next if ($key =~ /LoginName$/ && !$Foswiki::cfg{Register}{AllowLoginName});
             my @values   = $query->param($key);
             my $required = $2;
             my $name     = $3;
@@ -2014,6 +2049,108 @@ sub expirePendingRegistrations {
 
     $exp = -$exp if $exp < 0;
     _checkPendingRegistrations( undef, $exp );
+}
+
+=begin TML
+
+---++ _processDeleteUser()
+
+Removes the user from the installation.
+
+=cut
+
+sub _processDeleteUser {
+    my $paramHash = shift;
+
+    my $user = $paramHash->{cuid};
+
+    # Obtain all the user info before removing things.   If there is no mapping
+    # for the user, then assume the entered username will be removed.
+    my $cUID     = Foswiki::Func::getCanonicalUserID($user);
+    my $wikiname = ($cUID) ? Foswiki::Func::getWikiName($cUID) : $user;
+    my $email    = join( ',', Foswiki::Func::wikinameToEmails($wikiname) );
+
+    my ( $message, $logMessage ) =
+      ( "Processing $wikiname($email)<br/>", "Processing $wikiname($email) " );
+
+    if ( $cUID && $cUID =~ m/^BaseUserMapping_/ ) {
+        $message    = "Cannot remove $user: $cUID <br />";
+        $logMessage = "Cannot remove $user: $cUID";
+        return ( $message, $logMessage );
+    }
+
+    # Remove the user from the mapping manager
+    if ( $cUID && $Foswiki::Plugins::SESSION->{users}->userExists($cUID) ) {
+        $Foswiki::Plugins::SESSION->{users}->removeUser($cUID);
+        $message    .= " - user removed from Mapping Manager <br/>";
+        $logMessage .= "Mapping removed, ";
+    }
+    else {
+        $message    .= " - User not known to the Mapping Manager <br/>";
+        $logMessage .= "unknown to Mapping, ";
+    }
+
+    # If a group topic has been entered, don't remove it.
+    if ( Foswiki::Func::isGroup($wikiname) ) {
+        $message    .= " Cannot remove group $wikiname <br />";
+        $logMessage .= "Cannot remove group $wikiname, ";
+        return ( $message, $logMessage );
+    }
+
+    # Remove the user from any groups.
+    my $it = Foswiki::Func::eachGroup();
+    $logMessage .= "Removed from groups: ";
+    while ( $it->hasNext() ) {
+        my $group = $it->next();
+
+        #$message .= "Checking $group for ($wikiname)<br />";
+        if (
+            Foswiki::Func::isGroupMember( $group, $wikiname, { expand => 0 } ) )
+        {
+            $message    .= "user removed from $group <br />";
+            $logMessage .= "$group, ";
+            Foswiki::Func::removeUserFromGroup( $wikiname, $group );
+        }
+    }
+
+    if ( $paramHash->{removeTopic} ) {
+
+        # Remove the users topic, moving it to trash web
+        ( my $web, $wikiname ) =
+          Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+            $wikiname );
+        if ( Foswiki::Func::topicExists( $web, $wikiname ) ) {
+
+            # Spoof the user so we can delete their topic. Don't need to
+            # do this for the REST handler, but we do for the registration
+            # abort.
+            my $safe = $Foswiki::Plugins::SESSION->{user};
+
+            my $newTopic = "$paramHash->{prefix}$wikiname" . time;
+            try {
+                Foswiki::Func::moveTopic( $web, $wikiname,
+                    $Foswiki::cfg{TrashWebName}, $newTopic );
+                $message .=
+" - user topic moved to $Foswiki::cfg{TrashWebName}.$newTopic <br/>";
+                $logMessage .=
+                  "User topic moved to $Foswiki::cfg{TrashWebName}.$newTopic, ";
+            }
+            finally {
+
+                # Restore the original user
+                $Foswiki::Plugins::SESSION->{user} = $safe;
+            };
+        }
+        else {
+            $message    .= " - user topic not found <br/>";
+            $logMessage .= " User topic not found, ";
+        }
+    }
+    else {
+        $message    .= " - User topic not removed <br/>";
+        $logMessage .= " User topic not removed, ";
+    }
+    return ( $message, $logMessage );
 }
 
 1;
