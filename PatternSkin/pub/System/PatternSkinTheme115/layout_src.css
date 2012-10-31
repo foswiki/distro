@@ -1,0 +1,68 @@
+/* 
+Basic layout derived from http://www.positioniseverything.net/articles/pie-maker/pagemaker_form.php.
+I've changed many so things that I won't put a full copyright notice. However all hacks (and comments!) are far beyond my knowledge and this deserves full credits:
+
+Original copyright notice:
+Parts of these notes are
+(c) Big John @ www.positioniseverything.net and (c) Paul O'Brien @ www.pmob.co.uk, all of whom contributed significantly to the design of
+the css and html code.
+
+Reworked and simplified for Foswiki: (c) Arthur Clemens @ visiblearea.com
+*/
+
+html, body {
+	margin:0; /*** Do NOT set anything other than a left margin for the page
+as this will break the design ***/
+	padding:0;
+	border:0;
+	height:100%;
+}
+body {
+
+}
+.clear {
+	clear:both;
+	/*** these next attributes are designed to keep the div
+	height to 0 pixels high, critical for Safari and Netscape 7 ***/
+	height:0px;
+	overflow:hidden;
+	line-height:1%;
+	font-size:0px;
+}
+#patternPage {
+	position:relative;
+	width:100%;
+}
+#patternOuter {
+	height:100%;
+}
+#patternFloatWrap {
+	width:100%;
+	float:left;
+	display:inline;
+}
+#patternSideBar {
+	float:left;
+	display:inline;
+	overflow:hidden;
+}
+#patternSideBarContents {
+	position:relative;
+}
+#patternMain {
+	width:100%;
+	float:right;
+	display:inline;
+}
+#patternTopBar {
+	position:absolute;
+	top:0px;
+	width:100%;
+}
+#patternBottomBar {
+	clear:both;
+	width:100%;
+}
+.foswikiContentFooter {
+	clear:both;
+}

@@ -1,0 +1,18 @@
+/*
+places the side bar at the left, with flexible width (scales with browser width)
+depends on global settings in layout.css
+*/
+
+#patternOuter {
+	margin-left:15%;
+}
+#patternSideBar {
+	width:15%;
+	margin-left:-15%;
+}
+#patternBottomBarContents,
+#patternSideBarContents,
+#patternTopBarContents {
+	padding-right:2%;
+	padding-left:2%;
+}
