@@ -49,10 +49,18 @@ sub check {
     my $e = '';
 
     # Unfortunately, Types/OCTAL has converted the input string to
-    # decimal.  I can't undo this, so we'll force NUMBER to check a
-    # valid octal value - it still gets to range check.
+    # decimal.  The only easy way to get the original input is to get
+    # it from the query.  When we don't have the query, we convert
+    # what we have back to an octal string.  This allows NUMBER to do
+    # the range checks, and we assume that the input string passed our
+    # checks when it was entered. This isn't pretty, but it should work...
 
-    $this->{forcedValue} = sprintf( "%o", $this->getCfg($keys) );
+    my $cgivalue = $Foswiki::query->param($keys);
+    $this->{forcedValue} = (
+        defined $cgivalue
+        ? $cgivalue
+        : sprintf( "%o", $this->getCfg($keys) )
+    );
     $e = $this->SUPER::check(@_);
     delete $this->{forcedValue};
     return $e;
