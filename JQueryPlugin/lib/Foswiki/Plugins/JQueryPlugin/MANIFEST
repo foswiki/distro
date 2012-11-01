@@ -381,6 +381,9 @@ pub/System/JQueryPlugin/plugins/livequery/Makefile 0644
 pub/System/JQueryPlugin/plugins/loader/jquery.loader.js 0644
 pub/System/JQueryPlugin/plugins/loader/jquery.loader.js.gz 0644
 pub/System/JQueryPlugin/plugins/loader/jquery.loader.uncompressed.js 0644
+pub/System/JQueryPlugin/plugins/loader/jquery.loader.css 0644
+pub/System/JQueryPlugin/plugins/loader/jquery.loader.css.gz 0644
+pub/System/JQueryPlugin/plugins/loader/jquery.loader.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/loader/Makefile 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js 0644
 pub/System/JQueryPlugin/plugins/localscroll/jquery.localscroll.js.gz 0644
@@ -723,6 +726,8 @@ pub/System/JQueryPlugin/themes/foswiki/images/ui-bg_flat_0_aaaaaa_40x100.png 064
 pub/System/JQueryPlugin/themes/foswiki/images/ui-icons_666666_256x240.png 0644
 pub/System/JQueryPlugin/themes/foswiki/images/ui-icons-famfamfam.png 0644
 pub/System/JQueryPlugin/themes/foswiki/images/x.png 0644
+pub/System/JQueryPlugin/themes/foswiki/images/select2.png 0644
+pub/System/JQueryPlugin/themes/foswiki/images/select2x2.png 0644
 pub/System/JQueryPlugin/themes/foswiki/jquery-ui.css 0644
 pub/System/JQueryPlugin/themes/foswiki/jquery-ui.css.gz 0644
 pub/System/JQueryPlugin/themes/foswiki/jquery-ui.uncompressed.css 0644
