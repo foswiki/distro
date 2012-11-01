@@ -155,6 +155,10 @@ Loads the Foswiki::Configure::Checker subclass for the
 given $id. For example, given the id '{Beans}{Mung}', it
 will try and load Foswiki::Configure::Checkers::Beans::Mung
 
+If the id doesn't have a subclass defined, the item's type class may
+define a generic checker for that type.  If so, it is instantiated
+for this item.
+
 Returns the checker created or undef if no such checker is found.
 
 Will die if the checker exists but fails to compile.
@@ -164,7 +168,8 @@ $item is passed on to the checker's constructor.
 =cut
 
 sub loadChecker {
-    my ( $id, $item ) = @_;
+    my ( $keys, $item ) = @_;
+    my $id = $keys;
     $id =~ s/}{/::/g;
     $id =~ s/[}{]//g;
     $id =~ s/'//g;
@@ -173,8 +178,18 @@ sub loadChecker {
     eval "use $checkClass ()";
 
     # Can't locate errors are OK
-    return if ( $@ && $@ =~ /Can't locate / );
-    die $@ if ($@);
+    if ($@) {
+        die $@ unless ( $@ =~ /Can't locate / );
+
+        # See if type can generate a generic checker
+        if ( $item->can('getType') ) {
+            my $type = $item->getType();
+            if ( $type && $type->can('makeChecker') ) {
+                return $type->makeChecker( $item, $keys );
+            }
+        }
+        return;    # No item and no generic
+    }
 
     return $checkClass->new($item);
 }
