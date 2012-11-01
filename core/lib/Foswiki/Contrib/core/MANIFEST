@@ -568,6 +568,7 @@ lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
 lib/Foswiki/Configure/Checkers/RegistrationApprovals.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/MAILHOST.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/Username.pm 0444
+lib/Foswiki/Configure/Checkers/STRING.pm 0444
 lib/Foswiki/Configure/Checkers/SafeEnvPath.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptDir.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptSuffix.pm 0444
