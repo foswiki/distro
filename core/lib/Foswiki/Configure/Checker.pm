@@ -302,10 +302,16 @@ sub showExpandedValue {
     my ( $this, $field ) = @_;
     my $msg = '';
 
-    if ( $field =~ m/\$Foswiki::cfg/ ) {
-        Foswiki::Configure::Load::expandValue($field);
-        $msg = $this->NOTE( '<b>Note:</b> Expands to: ' . $field );
+    if ( defined $field ) {
+        if ( $field =~ m/\$Foswiki::cfg/ ) {
+            Foswiki::Configure::Load::expandValue($field);
+            $msg = $this->NOTE( '<b>Note:</b> Expands to: ' . $field );
+        }
     }
+    else {
+        $msg = $this->WARN('The value of this field is undefined');
+    }
+
     return $msg;
 }
 
