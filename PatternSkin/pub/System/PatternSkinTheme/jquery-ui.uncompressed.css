@@ -1854,21 +1854,16 @@ label.ui-button.ui-state-active,
   background: none;
   float: none;
   height: auto;
-  line-height: 22px;
+  line-height: 20px;
   padding: 0;
   margin: 0;
 }
 .jqButton,
 a.jqButton {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  padding: 3px 11.200000000000001px 3px 11.200000000000001px;
+  padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 22px;
-  *line-height: 22px;
+  line-height: 20px;
+  *line-height: 20px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -1882,7 +1877,7 @@ a.jqButton {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 14px;
@@ -1911,21 +1906,21 @@ a.jqButton:link,
 a.jqButton:visited {
   color: #555555;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #f1f1f1;
-  background-image: -moz-linear-gradient(top, #f6f6f6, #e9e9e9);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#e9e9e9));
-  background-image: -webkit-linear-gradient(top, #f6f6f6, #e9e9e9);
-  background-image: -o-linear-gradient(top, #f6f6f6, #e9e9e9);
-  background-image: linear-gradient(to bottom, #f6f6f6, #e9e9e9);
+  background-color: #f3f3f3;
+  background-image: -moz-linear-gradient(top, #f8f8f8, #ebebeb);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f8f8f8), to(#ebebeb));
+  background-image: -webkit-linear-gradient(top, #f8f8f8, #ebebeb);
+  background-image: -o-linear-gradient(top, #f8f8f8, #ebebeb);
+  background-image: linear-gradient(to bottom, #f8f8f8, #ebebeb);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff6f6f6', endColorstr='#ffe9e9e9', GradientType=0);
-  border-color: #e9e9e9 #e9e9e9 #c3c3c3;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff8f8f8', endColorstr='#ffebebeb', GradientType=0);
+  border-color: #ebebeb #ebebeb #c5c5c5;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #e9e9e9;
+  *background-color: #ebebeb;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #dadada;
+  border: 1px solid #d2d2d2;
 }
 .jqButton .foswikiIcon,
 a.jqButton .foswikiIcon,
@@ -1949,7 +1944,7 @@ a.jqButton:hover,
 a.jqButton.foswikiActive,
 .jqButton > .foswikiRequiresChangePermission a:hover,
 a.jqButton > .foswikiRequiresChangePermission a:hover {
-  color: #4b4b4b;
+  color: #484848;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   background-color: #e6e6e6;
   background-image: -moz-linear-gradient(top, #ebebeb, #dfdfdf);
@@ -1965,7 +1960,7 @@ a.jqButton > .foswikiRequiresChangePermission a:hover {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #cfcfcf;
+  border: 1px solid #c5c5c5;
   text-decoration: none;
 }
 .jqButton:hover .foswikiIcon,
@@ -1974,7 +1969,7 @@ a.jqButton:hover .foswikiIcon,
 a.jqButton.foswikiActive .foswikiIcon,
 .jqButton > .foswikiRequiresChangePermission a:hover .foswikiIcon,
 a.jqButton > .foswikiRequiresChangePermission a:hover .foswikiIcon {
-  color: #4b4b4b;
+  color: #484848;
 }
 .jqButton:hover .foswikiCaret,
 a.jqButton:hover .foswikiCaret,
@@ -1982,7 +1977,7 @@ a.jqButton:hover .foswikiCaret,
 a.jqButton.foswikiActive .foswikiCaret,
 .jqButton > .foswikiRequiresChangePermission a:hover .foswikiCaret,
 a.jqButton > .foswikiRequiresChangePermission a:hover .foswikiCaret {
-  border-top-color: rgba(75, 75, 75, 0.4);
+  border-top-color: rgba(72, 72, 72, 0.4);
 }
 .jqButton .foswikiAccessKey,
 a.jqButton .foswikiAccessKey {
@@ -1990,15 +1985,10 @@ a.jqButton .foswikiAccessKey {
 }
 a.jqButton.foswikiButtonCancel,
 .jqButton.foswikiButtonCancel {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-
-  *zoom: 1;
-  padding: 3px 11.200000000000001px 3px 11.200000000000001px;
+  padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 22px;
-  *line-height: 22px;
+  line-height: 20px;
+  *line-height: 20px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -2012,7 +2002,7 @@ a.jqButton.foswikiButtonCancel,
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 14px;
@@ -2041,21 +2031,21 @@ a.jqButton.foswikiButtonCancel:visited,
 .jqButton.foswikiButtonCancel:visited {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  background-color: #e14b4b;
-  background-image: -moz-linear-gradient(top, #e35454, #df3e3e);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e35454), to(#df3e3e));
-  background-image: -webkit-linear-gradient(top, #e35454, #df3e3e);
-  background-image: -o-linear-gradient(top, #e35454, #df3e3e);
-  background-image: linear-gradient(to bottom, #e35454, #df3e3e);
+  background-color: #e14949;
+  background-image: -moz-linear-gradient(top, #e35252, #df3c3c);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e35252), to(#df3c3c));
+  background-image: -webkit-linear-gradient(top, #e35252, #df3c3c);
+  background-image: -o-linear-gradient(top, #e35252, #df3c3c);
+  background-image: linear-gradient(to bottom, #e35252, #df3c3c);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe35454', endColorstr='#ffdf3e3e', GradientType=0);
-  border-color: #df3e3e #df3e3e #b31e1e;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe35252', endColorstr='#ffdf3c3c', GradientType=0);
+  border-color: #df3c3c #df3c3c #b11d1d;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #df3e3e;
+  *background-color: #df3c3c;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #da2424;
+  border: 1px solid #db2626;
 }
 a.jqButton.foswikiButtonCancel .foswikiIcon,
 .jqButton.foswikiButtonCancel .foswikiIcon,
@@ -2079,21 +2069,21 @@ a.jqButton.foswikiButtonCancel:active,
 .jqButton.foswikiButtonCancel:active {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-  background-color: #de3a3a;
-  background-image: -moz-linear-gradient(top, #e04242, #dc2d2d);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e04242), to(#dc2d2d));
-  background-image: -webkit-linear-gradient(top, #e04242, #dc2d2d);
-  background-image: -o-linear-gradient(top, #e04242, #dc2d2d);
-  background-image: linear-gradient(to bottom, #e04242, #dc2d2d);
+  background-color: #de3333;
+  background-image: -moz-linear-gradient(top, #df3c3c, #db2626);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#df3c3c), to(#db2626));
+  background-image: -webkit-linear-gradient(top, #df3c3c, #db2626);
+  background-image: -o-linear-gradient(top, #df3c3c, #db2626);
+  background-image: linear-gradient(to bottom, #df3c3c, #db2626);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe04242', endColorstr='#ffdc2d2d', GradientType=0);
-  border-color: #dc2d2d #dc2d2d #a11b1b;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdf3c3c', endColorstr='#ffdb2626', GradientType=0);
+  border-color: #db2626 #db2626 #9b1a1a;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #dc2d2d;
+  *background-color: #db2626;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #c92121;
+  border: 1px solid #c72121;
   text-decoration: none;
 }
 a.jqButton.foswikiButtonCancel:hover .foswikiIcon,
@@ -2150,7 +2140,7 @@ a.jqButton.jqButtonRed:visited {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #e9caca;
+  border: 1px solid #e5c6c6;
 }
 a.jqButton.jqButtonRed .foswikiIcon,
 a.jqButton.jqButtonRed:link .foswikiIcon,
@@ -2164,32 +2154,32 @@ a.jqButton.jqButtonRed:visited .foswikiCaret {
 }
 a.jqButton.jqButtonRed:hover,
 a.jqButton.jqButtonRed:active {
-  color: #4b4b4b;
+  color: #484848;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #f6d6d6;
-  background-image: -moz-linear-gradient(top, #f5f5f5, #f7a8a8);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f5f5f5), to(#f7a8a8));
-  background-image: -webkit-linear-gradient(top, #f5f5f5, #f7a8a8);
-  background-image: -o-linear-gradient(top, #f5f5f5, #f7a8a8);
-  background-image: linear-gradient(to bottom, #f5f5f5, #f7a8a8);
+  background-color: #f4d3d3;
+  background-image: -moz-linear-gradient(top, #f2f2f2, #f7a4a4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#f7a4a4));
+  background-image: -webkit-linear-gradient(top, #f2f2f2, #f7a4a4);
+  background-image: -o-linear-gradient(top, #f2f2f2, #f7a4a4);
+  background-image: linear-gradient(to bottom, #f2f2f2, #f7a4a4);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#fff7a8a8', GradientType=0);
-  border-color: #f7a8a8 #f7a8a8 #f16262;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f2f2', endColorstr='#fff7a4a4', GradientType=0);
+  border-color: #f7a4a4 #f7a4a4 #f15d5d;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f7a8a8;
+  *background-color: #f7a4a4;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #e3bcbc;
+  border: 1px solid #deb5b5;
   text-decoration: none;
 }
 a.jqButton.jqButtonRed:hover .foswikiIcon,
 a.jqButton.jqButtonRed:active .foswikiIcon {
-  color: #4b4b4b;
+  color: #484848;
 }
 a.jqButton.jqButtonRed:hover .foswikiCaret,
 a.jqButton.jqButtonRed:active .foswikiCaret {
-  border-top-color: rgba(75, 75, 75, 0.4);
+  border-top-color: rgba(72, 72, 72, 0.4);
 }
 a.jqButton.jqButtonCyan,
 a.jqButton.jqButtonCyan:link,
@@ -2210,7 +2200,7 @@ a.jqButton.jqButtonCyan:visited {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #b0e2e2;
+  border: 1px solid #acdede;
 }
 a.jqButton.jqButtonCyan .foswikiIcon,
 a.jqButton.jqButtonCyan:link .foswikiIcon,
@@ -2224,32 +2214,32 @@ a.jqButton.jqButtonCyan:visited .foswikiCaret {
 }
 a.jqButton.jqButtonCyan:hover,
 a.jqButton.jqButtonCyan:active {
-  color: #4b4b4b;
+  color: #484848;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #a9f1f0;
-  background-image: -moz-linear-gradient(top, #ccf7f6, #74e8e7);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ccf7f6), to(#74e8e7));
-  background-image: -webkit-linear-gradient(top, #ccf7f6, #74e8e7);
-  background-image: -o-linear-gradient(top, #ccf7f6, #74e8e7);
-  background-image: linear-gradient(to bottom, #ccf7f6, #74e8e7);
+  background-color: #a5f0ef;
+  background-image: -moz-linear-gradient(top, #c8f6f5, #70e7e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#c8f6f5), to(#70e7e6));
+  background-image: -webkit-linear-gradient(top, #c8f6f5, #70e7e6);
+  background-image: -o-linear-gradient(top, #c8f6f5, #70e7e6);
+  background-image: linear-gradient(to bottom, #c8f6f5, #70e7e6);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffccf7f6', endColorstr='#ff74e8e7', GradientType=0);
-  border-color: #74e8e7 #74e8e7 #33dddc;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc8f6f5', endColorstr='#ff70e7e6', GradientType=0);
+  border-color: #70e7e6 #70e7e6 #2edddb;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #74e8e7;
+  *background-color: #70e7e6;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #a1dddc;
+  border: 1px solid #9ad7d7;
   text-decoration: none;
 }
 a.jqButton.jqButtonCyan:hover .foswikiIcon,
 a.jqButton.jqButtonCyan:active .foswikiIcon {
-  color: #4b4b4b;
+  color: #484848;
 }
 a.jqButton.jqButtonCyan:hover .foswikiCaret,
 a.jqButton.jqButtonCyan:active .foswikiCaret {
-  border-top-color: rgba(75, 75, 75, 0.4);
+  border-top-color: rgba(72, 72, 72, 0.4);
 }
 a.jqButton.jqButtonGreen,
 a.jqButton.jqButtonGreen:link,
@@ -2270,7 +2260,7 @@ a.jqButton.jqButtonGreen:visited {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #c5e2b0;
+  border: 1px solid #c1deac;
 }
 a.jqButton.jqButtonGreen .foswikiIcon,
 a.jqButton.jqButtonGreen:link .foswikiIcon,
@@ -2284,32 +2274,32 @@ a.jqButton.jqButtonGreen:visited .foswikiCaret {
 }
 a.jqButton.jqButtonGreen:hover,
 a.jqButton.jqButtonGreen:active {
-  color: #4b4b4b;
+  color: #484848;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #c8f1a9;
-  background-image: -moz-linear-gradient(top, #def7cc, #a6e874);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#def7cc), to(#a6e874));
-  background-image: -webkit-linear-gradient(top, #def7cc, #a6e874);
-  background-image: -o-linear-gradient(top, #def7cc, #a6e874);
-  background-image: linear-gradient(to bottom, #def7cc, #a6e874);
+  background-color: #c5f0a5;
+  background-image: -moz-linear-gradient(top, #dbf6c8, #a3e770);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dbf6c8), to(#a3e770));
+  background-image: -webkit-linear-gradient(top, #dbf6c8, #a3e770);
+  background-image: -o-linear-gradient(top, #dbf6c8, #a3e770);
+  background-image: linear-gradient(to bottom, #dbf6c8, #a3e770);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdef7cc', endColorstr='#ffa6e874', GradientType=0);
-  border-color: #a6e874 #a6e874 #7bdd33;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdbf6c8', endColorstr='#ffa3e770', GradientType=0);
+  border-color: #a3e770 #a3e770 #79dd2e;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #a6e874;
+  *background-color: #a3e770;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #badda1;
+  border: 1px solid #b4d79a;
   text-decoration: none;
 }
 a.jqButton.jqButtonGreen:hover .foswikiIcon,
 a.jqButton.jqButtonGreen:active .foswikiIcon {
-  color: #4b4b4b;
+  color: #484848;
 }
 a.jqButton.jqButtonGreen:hover .foswikiCaret,
 a.jqButton.jqButtonGreen:active .foswikiCaret {
-  border-top-color: rgba(75, 75, 75, 0.4);
+  border-top-color: rgba(72, 72, 72, 0.4);
 }
 .jqButton.foswikiRight,
 .jqButton.foswikiLeft {
