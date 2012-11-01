@@ -1139,16 +1139,6 @@ h4.foswikiSearchResultsHeader {
 .foswikiAddFormButton {
 	float:right;
 }
-.patternTextareaButton {
-	margin:0 0 0 1px;
-	display:block;
-	cursor:pointer;
-	border-style:solid;
-	border-width:1px;
-}
-.patternButtonFontSelector {
-	margin:0 8px 0 0;
-}
 
 /* preview.pattern.tmpl */
 
@@ -2010,6 +2000,21 @@ form {
 legend {
   border: none;
 }
+/* TEXTAREAS */
+textarea.foswikiWysiwygEdit,
+textarea.foswikiTextareaRawView,
+textarea.foswikiEditTextarea {
+  width: 100%;
+  height: 100%;
+  min-height: 100px;
+  padding: 5px;
+  margin: 0;
+}
+textarea.foswikiTextareaRawView,
+textarea.foswikiTextareaRawView:hover,
+textarea.foswikiTextareaRawView:focus {
+  color: #333333;
+}
 /* PATTERNTOOLBAR */
 .patternToolBar > a:link,
 .patternToolBar > a:visited,
@@ -2190,3 +2195,4 @@ legend {
 .patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiAccessKey {
   border: none;
 }
+

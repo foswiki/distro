@@ -509,46 +509,6 @@ tr.foswikiDiffDebug td {
    background:#fff; /* white - do not change */
 }
 
-.patternTextareaButton {
-   border-color:#fffefd #b8b6ad #b8b6ad #fffefd;
-   overflow:hidden;
-}
-.patternButtonFontSelector {
-   background-image:url(button_font_selector.gif);
-   width:33px;
-   height:16px;
-}
-.patternButtonFontSelectorProportional {
-   background-position:0 0;
-}
-.patternButtonFontSelectorMonospace {
-   background-position:0 -16px;
-}
-.patternButtonEnlarge,
-.patternButtonShrink {
-   background-image:url(button_arrow.gif);
-   width:16px;
-   height:16px;
-}
-.patternButtonEnlarge {
-   background-position:0 0;
-}
-.patternButtonEnlarge:hover {
-   background-position:0 -42px;
-}
-.patternButtonEnlarge:active {
-   background-position:0 -84px;
-}
-.patternButtonShrink {
-   background-position:16px 0;
-}
-.patternButtonShrink:hover {
-   background-position:16px -42px;
-}
-.patternButtonShrink:active {
-   background-position:16px -84px;
-}
-
 /* common settings */
 .patternLeftBarPersonal li,
 li.patternLogOut,

@@ -261,7 +261,7 @@ a.ui-state-active:hover,
   background-repeat: no-repeat;
   width: 16px;
   height: 16px;
-  background-image: url(../img/jquery/ui-icons-famfamfam.png);
+  background-image: url("jquery-images/ui-icons-famfamfam.png");
 }
 .ui-icon-carat-1-n {
   background-position: 0 0;
@@ -845,7 +845,7 @@ a.ui-state-active:hover,
 .ui-widget-shadow {
   margin: -4px 0 0 -4px;
   padding: 4px;
-  background: #aaaaaa url(../img/jquery/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x;
+  background: #aaaaaa url("jquery-images/ui-bg_flat_0_aaaaaa_40x100.png") 50% 50% repeat-x;
   opacity: .60;
   filter: alpha(opacity=60);
   -moz-border-radius: 0px;
@@ -981,7 +981,7 @@ a.ui-state-active:hover,
   color: #111;
 }
 .ui-autocomplete-loading {
-  background-image: url(../../../img/jquery/spinner.gif) !important;
+  background-image: url("jquery-images/spinner.gif") !important;
   background-position: right center !important;
   background-repeat: no-repeat !important;
 }
@@ -1213,7 +1213,7 @@ label.ui-button.ui-state-active,
   font-size: 1.2307em;
 }
 .ui-dialog .ui-dialog-titlebar-close {
-  background-image: url(../img/jquery/x.png);
+  background-image: url("jquery-images/x.png");
   background-repeat: no-repeat;
   background-position: 0px 0px;
   display: block;
@@ -1437,7 +1437,7 @@ label.ui-button.ui-state-active,
   background-repeat: no-repeat;
   width: 16px;
   height: 16px;
-  background-image: url(../img/jquery/ui-icons_666666_256x240.png);
+  background-image: url("jquery-images/ui-icons_666666_256x240.png");
   display: block;
   float: left;
   text-indent: -99999px;
@@ -1726,7 +1726,7 @@ label.ui-button.ui-state-active,
 }
 .ui-jqgrid:hover .ui-jqgrid-resize {
   background-position: 0px -224px;
-  background-image: url(../img/jquery/ui-icons-famfamfam.png);
+  background-image: url("jquery-images/ui-icons-famfamfam.png");
 }
 .ui-jqgrid .ui-jqgrid-resize {
   height: 16px !important;
