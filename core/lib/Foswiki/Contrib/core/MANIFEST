@@ -526,6 +526,7 @@ lib/Foswiki/Configure/Checkers/RCS/lockCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/rlogDateCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/tmpBinaryCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/unlockCmd.pm 0444
+lib/Foswiki/Configure/Checkers/REGEX.pm 0444
 lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
 lib/Foswiki/Configure/Checkers/Register/EmailFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
