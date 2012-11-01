@@ -1,16 +1,18 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::NUMBER;
+package Foswiki::Configure::Checkers::STRING;
 
-# Default checker for NUMBER items
+# Default checker for STRING items
 #
 # CHECK options in spec file
 #  CHECK="option option:val option:val,val,val"
-#    radix: (2-36), specified in decimal.
-#    min: value in specified radix
-#    max: value in specified radix
-#    nullok
-#
-# Use this checker if possible; otherwise subclass the item-specific checker from it.
+#    min: length
+#    max: length
+#    accept: regexp,regexp
+#            If present, must match one
+#    filter: regexp, regexp
+#            If present, any match fails
+# Use this checker if possible; otherwise subclass the
+# item-specific checker from it.
 
 use strict;
 use warnings;
@@ -18,33 +20,13 @@ use warnings;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
-# Parse an arbitrary radix string and convert to binary
-# String has been checked by a regexp, and $valid has
-# the legal digits in the proper order.
-
-sub _pnum {
-    my $string = shift;
-    my $radix  = shift;
-    my $valid  = shift;
-
-    return undef unless ( defined $string );
-
-    my $sign = 1;
-    $sign = -1 if ( $string =~ s/^([+-])// && $1 eq '-' );
-
-    my $value = 0;
-    foreach my $digit ( split( //, lc $string ) ) {
-        $value *= $radix;
-        $value += index( $valid, $digit );
-    }
-    return $value * $sign;
-}
-
 sub check {
     my $this   = shift;
     my $valobj = shift;
 
-    my $keys = $valobj->getKeys();
+    my $keys  = $valobj->getKeys();
+    my $value = $this->getCfg($keys) || '';
+    my $len   = length($value);
 
     my $e = '';
 
@@ -52,51 +34,43 @@ sub check {
 
     $optionList[0] = {} unless (@optionList);
 
-    $e .= $this->ERROR(".SPEC error: multiple CHECK options for NUMBER")
+    $e .= $this->ERROR(".SPEC error: multiple CHECK options for STRING")
       if ( @optionList > 1 );
 
-    my $radix = $optionList[0]->{radix}[0] || 10;
-    $e .= $this->ERROR(".SPEC error: radix $radix invalid")
-      if ( $radix < 2 || $radix > 36 );
-    my $valid = join( '', ( 0 .. 9, 'a' .. 'z' )[ 0 .. ( $radix - 1 ) ] );
-    my $min = _pnum( $optionList[0]->{min}[0], $radix, $valid );
-    my $max = _pnum( $optionList[0]->{max}[0], $radix, $valid );
+    my $min = $optionList[0]->{min}[0];
+    my $max = $optionList[0]->{max}[0];
 
-    my $value;
-    if ( exists $this->{forcedValue} ) {
-        $value = $this->{forcedValue};
+    my $accept = $optionList[0]->{accept};
+    my $filter = $optionList[0]->{filter};
+    my $ok     = 1;
+
+    if ( defined $min && $len < $min ) {
+        $e .= $this->ERROR("Length must be at least $min");
+    }
+    elsif ( defined $max && $len > $max ) {
+        $e .= $this->ERROR("Length must be no greater than $max");
     }
     else {
-        $value = $this->getCfg($keys);
+        if ( defined $accept ) {
+            $ok = 0;
+            foreach my $are (@$accept) {
+                if ( $value =~ $are ) {
+                    $ok = 1;
+                    last;
+                }
+            }
+        }
+        if ( $ok && defined $filter ) {
+            foreach my $fre (@$filter) {
+                if ( $value =~ $fre ) {
+                    $ok = 0;
+                    last;
+                }
+            }
+        }
     }
-    my $validRE = "^[+-]?[$valid]";
-    $validRE .= ( $optionList[0]->{nullok}[0] ? '*' : '+' ) . '$';
-
-    $e .= $this->ERROR(
-        "Not a valid "
-          . (
-            $radix != 10
-            ? (
-                {
-                    2  => 'binary',
-                    8  => 'octal',
-                    16 => 'hexadecimal'
-                }->{$radix}
-                  || "base $radix"
-              )
-              . ' '
-            : ""
-          )
-          . "number"
-    ) unless ( defined $value && $value =~ /$validRE/i );
-    unless ($e) {
-        $value = _pnum( $value, $radix, $valid );
-        $e .= $this->ERROR("Value must be at least $optionList[0]->{min}[0]")
-          if ( defined $min && $value < $min );
-        $e .= $this->ERROR(
-            "Value must be no greater than  $optionList[0]->{max}[0]")
-          if ( defined $max && $value > $max );
-    }
+    $e .= $this->ERROR("This value is not acceptable")
+      unless ($ok);
 
     $value = $this->getItemCurrentValue();
     $e     = $this->showExpandedValue($value) . $e;
