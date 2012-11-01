@@ -46,8 +46,6 @@ jQuery(function($) {
     var self = this,
         $elem = $(self.element);
 
-    $elem.hide();
-
     // construct load url
     if (typeof(self.options.section) !== 'undefined') {
       self.options.url = 
