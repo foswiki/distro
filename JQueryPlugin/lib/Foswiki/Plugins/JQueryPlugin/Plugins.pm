@@ -10,6 +10,7 @@ my %iconCache;
 my %plugins;
 my %themes;
 my $debug;
+my $currentTheme;
 
 =begin TML
 
@@ -45,6 +46,7 @@ sub init {
         registerTheme($themeName)
           if $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Enabled};
     }
+    $currentTheme = $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.4.3";
@@ -101,7 +103,7 @@ in =configure= for the named theme.
 sub createTheme {
     my ( $themeName, $url ) = @_;
 
-    $themeName ||= $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
+    $themeName ||= $currentTheme;
     return 0 unless $themeName;
 
     my $normalizedName = lc($themeName);
@@ -111,6 +113,9 @@ sub createTheme {
         return 0 unless defined $themeDesc;
         $url = $themeDesc->{url};
     }
+
+    # remember last choice
+    $currentTheme = $themeName;
 
     Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::THEME",
         <<HERE, "JQUERYPLUGIN::FOSWIKI, JQUERYPLUGIN::UI" );
@@ -179,6 +184,7 @@ sub finish {
     undef %themes;
     undef @iconSearchPath;
     undef %iconCache;
+    undef $currentTheme;
 }
 
 =begin TML
