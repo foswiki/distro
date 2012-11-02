@@ -1760,9 +1760,44 @@ sub new {
     $this->{prefs}   = $prefs;
     $this->{plugins} = new Foswiki::Plugins($this);
 
-    eval "require $Foswiki::cfg{Store}{Implementation}";
-    ASSERT( !$@, $@ ) if DEBUG;
-    $this->{store} = $Foswiki::cfg{Store}{Implementation}->new();
+    #construct the store object
+    my $base = $Foswiki::cfg{Store}{Implementation};
+    use Class::Load qw/try_load_class/;
+    my ( $ok, $error ) = try_load_class($base);
+    ASSERT( $ok, $error ) if DEBUG;
+    if ( ( $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} ) ) {
+
+        #TODO: sort it.
+        my @classes =
+          sort {
+            $Foswiki::cfg{Store}{ImplementationClasses}{$a}
+              <=> $Foswiki::cfg{Store}{ImplementationClasses}{$b}
+          } keys( $Foswiki::cfg{Store}{ImplementationClasses} );
+
+  #this allows us to add an arbitary set of mixins for things like recordChanges
+        my $length = scalar(@classes);
+        if ($length) {
+
+            #rejig the store impl's ISA to usse each Class  in order.'
+            foreach my $class (@classes) {
+                next if ( $class eq 'Enabled' );
+                my ( $ok, $error ) = try_load_class($class);
+                ASSERT( $ok, $error ) if DEBUG;
+                if ($ok) {
+                    no strict 'refs';
+                    @{ $class . '::ISA' } = ($base);
+                    use strict 'refs';
+                    $base = $class;
+                }
+                else {
+                    #just ignore it and move on to the next class..
+                    #Foswiki::Func::Log(...)
+                }
+            }
+        }
+    }
+    $this->{store} = $base->new();
+    ASSERT( $this->{store}, "no $base object created" );
 
     #Monitor::MARK("Created store");
 

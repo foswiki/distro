@@ -1434,12 +1434,21 @@ sub hidePath {
 ---++ ObjectMethod recordChange($cUID, $rev, $more)
 Record that the file changed, and who changed it
 
+        cuid          => $cUID,
+        revision      => $rev,
+        verb          => $verb,
+        newmeta       => $topicObject,
+        newattachment => $name
+
 =cut
 
 sub recordChange {
-    my ( $this, $cUID, $rev, $more ) = @_;
-    $more ||= '';
-    ASSERT($cUID) if DEBUG;
+    my $this = shift;
+    my %args = ( 'more', '', @_ );
+    ASSERT( $args{cuid} ) if DEBUG;
+
+#we do'nt record autoattach events in the .changes file, but other stores may be interested
+    return if ( $args{verb} eq 'autoattach' );
 
     my $file = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/.changes';
 
@@ -1457,7 +1466,14 @@ sub recordChange {
     }
 
     # Add the new change to the end of the file
-    push( @changes, [ $this->{topic} || '.', $cUID, time(), $rev, $more ] );
+    push(
+        @changes,
+        [
+            $this->{topic} || '.', $args{cuid},
+            time(), $args{revision},
+            $args{more}
+        ]
+    );
 
     # Doing this using a Schwartzian transform sometimes causes a mysterious
     # undefined value, so had to unwrap it to a for loop.

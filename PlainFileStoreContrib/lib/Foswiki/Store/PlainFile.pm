@@ -64,13 +64,6 @@ sub finish {
 sub readTopic {
     my ( $this, $meta, $version ) = @_;
 
-    my ( $gotRev, $isLatest ) = $this->askListeners( $meta, $version );
-    if ( defined($gotRev) && ( $gotRev > 0 || $isLatest ) ) {
-        return ( $gotRev, $isLatest );
-    }
-    ASSERT( not $isLatest ) if DEBUG;
-    $isLatest = 0;
-
     # check that the requested revision actually exists
     my $nr = _numRevisions($meta);
     if ( defined $version && $version =~ /^\d+$/ ) {
@@ -84,7 +77,7 @@ sub readTopic {
         # not exist, then $rev is undef"
     }
 
-    ( my $text, $isLatest ) = _getRevision( $meta, undef, $version );
+    my ( $text, $isLatest ) = _getRevision( $meta, undef, $version );
 
     unless ( defined $text ) {
         ASSERT( not $isLatest ) if DEBUG;
@@ -138,7 +131,10 @@ sub moveAttachment {
             _historyDir( $newTopicObject, $newAttachment )
         );
 
-        $this->tellListeners(
+        $this->recordChange(
+            _meta         => $oldTopicObject,
+            cuid          => $cUID,
+            revision      => 0,
             verb          => 'update',
             oldmeta       => $oldTopicObject,
             oldattachment => $oldAttachment,
@@ -169,7 +165,10 @@ sub copyAttachment {
             _historyDir( $newTopicObject, $newAttachment )
         );
 
-        $this->tellListeners(
+        $this->recordChange(
+            _meta         => $oldTopicObject,
+            cuid          => $cUID,
+            revision      => 0,
             verb          => 'insert',
             newmeta       => $newTopicObject,
             newattachment => $newAttachment
@@ -202,19 +201,27 @@ sub moveTopic {
         _moveFile( $pub, _getPub($newTopicObject) );
     }
 
-    $this->tellListeners(
-        verb    => 'update',
-        oldmeta => $oldTopicObject,
-        newmeta => $newTopicObject
-    );
-
     if ( $newTopicObject->web ne $oldTopicObject->web ) {
 
         # Record that it was moved away
-        _recordChange( $oldTopicObject, $cUID, $rev );
+        $this->recordChange(
+            _meta    => $oldTopicObject,
+            cuid     => $cUID,
+            revision => $rev,
+            verb     => 'update',
+            oldmeta  => $oldTopicObject,
+            newmeta  => $newTopicObject
+        );
     }
 
-    _recordChange( $newTopicObject, $cUID, $rev );
+    $this->recordChange(
+        _meta    => $newTopicObject,
+        cuid     => $cUID,
+        revision => $rev,
+        verb     => 'update',
+        oldmeta  => $oldTopicObject,
+        newmeta  => $newTopicObject
+    );
 }
 
 # Implement Foswiki::Store
@@ -235,10 +242,16 @@ sub moveWeb {
         _moveFile( $oldbase, $newbase );
     }
 
-    $this->tellListeners(
-        verb    => 'update',
-        oldmeta => $oldWebObject,
-        newmeta => $newWebObject
+    # We have to log in the new web, otherwise we would re-create the dir with
+    # a useless .changes. See Item9278
+    $this->recordChange(
+        _meta    => $newWebObject,
+        cuid     => $cUID,
+        revision => 0,
+        more     => 'Moved from ' . $oldWebObject->web,
+        verb     => 'update',
+        oldmeta  => $oldWebObject,
+        newmeta  => $newWebObject
     );
 
     # We have to log in the new web, otherwise we would re-create the dir with
@@ -263,9 +276,6 @@ sub openAttachment {
 # Implement Foswiki::Store
 sub getRevisionHistory {
     my ( $this, $meta, $attachment ) = @_;
-
-    my $itr = $this->askListenersRevisionHistory( $meta, $attachment );
-    return $itr if defined($itr);
 
     unless ( -e _historyDir( $meta, $attachment ) ) {
         my @list = ();
@@ -311,40 +321,36 @@ sub getRevisionDiff {
 sub getVersionInfo {
     my ( $this, $meta, $rev, $attachment ) = @_;
 
-    my $info = $this->askListenersVersionInfo( $meta, $rev, $attachment );
-    unless ($info) {
+    my $df;
+    my $nr = _numRevisions( $meta, $attachment );
+    my $is_latest = 0;
+    if ( $rev && $rev > 0 && $rev < $nr ) {
+        $df = _historyFile( $meta, $attachment, $rev );
+        unless ( -e $df ) {
 
-        my $df;
-        my $nr = _numRevisions( $meta, $attachment );
-        my $is_latest = 0;
-        if ( $rev && $rev > 0 && $rev < $nr ) {
-            $df = _historyFile( $meta, $attachment, $rev );
-            unless ( -e $df ) {
-
-                # May arise if the history is not continuous, or if
-                # there is no history
-                $df        = _latestFile( $meta, $attachment );
-                $rev       = $nr;
-                $is_latest = 1;
-            }
-        }
-        else {
+            # May arise if the history is not continuous, or if
+            # there is no history
             $df        = _latestFile( $meta, $attachment );
             $rev       = $nr;
             $is_latest = 1;
         }
-        $info = {};
-        unless ( $is_latest && _latestIsNewer($meta) ) {
-
-            # We can trust the history metafile
-            my $mf = _metaFile( $meta, $attachment, $rev );
-            ( $info->{author}, $info->{comment} ) = _readMetaFile($mf);
-        }
-        $info->{date} ||= _getTimestamp($df);
-        $info->{version} = $rev;
-        $info->{comment} = '' unless defined $info->{comment};
-        $info->{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
     }
+    else {
+        $df        = _latestFile( $meta, $attachment );
+        $rev       = $nr;
+        $is_latest = 1;
+    }
+    my $info = {};
+    unless ( $is_latest && _latestIsNewer($meta) ) {
+
+        # We can trust the history metafile
+        my $mf = _metaFile( $meta, $attachment, $rev );
+        ( $info->{author}, $info->{comment} ) = _readMetaFile($mf);
+    }
+    $info->{date} ||= _getTimestamp($df);
+    $info->{version} = $rev;
+    $info->{comment} = '' unless defined $info->{comment};
+    $info->{author} ||= $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
 
     return $info;
 }
@@ -388,9 +394,11 @@ sub saveAttachment {
     my $mf = _metaFile( $meta, $name, $rn );
     _writeMetaFile( $mf, $cUID, $comment );
 
-    _recordChange( $meta, $cUID, $rn, $options->{minor} ? 'minor' : undef );
-
-    $this->tellListeners(
+    $this->recordChange(
+        _meta         => $meta,
+        cuid          => $cUID,
+        revision      => $rn,
+        more          => $options->{minor} ? 'minor' : undef,
         verb          => $verb,
         newmeta       => $meta,
         newattachment => $name
@@ -435,9 +443,15 @@ sub saveTopic {
     _writeMetaFile( $mf, $cUID, $options->{comment} );
 
     my $extra = $options->{minor} ? 'minor' : '';
-    _recordChange( $meta, $cUID, $rn, $extra );
 
-    $this->tellListeners( verb => $verb, newmeta => $meta );
+    $this->recordChange(
+        _meta    => $meta,
+        cuid     => $cUID,
+        revision => $rn,
+        more     => $extra,
+        verb     => $verb,
+        newmeta  => $meta
+    );
 
     return $rn;
 }
@@ -476,9 +490,15 @@ sub repRev {
     }
 
     my @log = ( 'minor', 'reprev', $options{operation} || 'save' );
-    _recordChange( $meta, $cUID, $rn, join( ', ', @log ) );
 
-    $this->tellListeners( verb => 'update', newmeta => $meta );
+    $this->recordChange(
+        _meta    => $meta,
+        cuid     => $cUID,
+        revision => $rn,
+        more     => join( ', ', @log ),
+        verb     => 'update',
+        newmeta  => $meta
+    );
 
     return $rn;
 }
@@ -515,9 +535,13 @@ sub delRev {
     $meta->unload();
     $meta->loadVersion();
 
-    $this->tellListeners( verb => 'update', newmeta => $meta );
-
-    _recordChange( $meta, $cUID, $rev );
+    $this->recordChange(
+        _meta    => $meta,
+        cuid     => $cUID,
+        revision => $rev,
+        verb     => 'update',
+        newmeta  => $meta
+    );
 
     return $rev;
 }
@@ -720,19 +744,29 @@ sub remove {
         _rmtree( _getPub($meta) );
     }
 
-    $this->tellListeners(
-        verb          => 'remove',
-        oldmeta       => $meta,
-        oldattachment => $attachment
-    );
-
     # Only log when deleting topics or attachment, otherwise we would re-create
     # an empty directory with just a .changes.
     if ($attachment) {
-        _recordChange( $meta, $cUID, 0, 'Deleted attachment ' . $attachment );
+        $this->recordChange(
+            _meta         => $meta,
+            cuid          => $cUID,
+            revision      => 0,
+            more          => 'Deleted attachment ' . $attachment,
+            verb          => 'remove',
+            oldmeta       => $meta,
+            oldattachment => $attachment
+        );
     }
     elsif ( my $topic = $meta->topic ) {
-        _recordChange( $meta, $cUID, 0, 'Deleted ' . $topic );
+        $this->recordChange(
+            _meta         => $meta,
+            cuid          => $cUID,
+            revision      => $0,
+            more          => 'Deleted ' . $topic,
+            verb          => 'remove',
+            oldmeta       => $meta,
+            oldattachment => $attachment
+        );
     }
 }
 
@@ -784,7 +818,8 @@ sub getRevisionAtTime {
     closedir($d);
 
     if ( _latestIsNewer($meta) ) {
-        return $revs[0] + 1 if ( $time >= ( stat( _latestFile($meta) ) )[9] );
+        return $revs[0] + 1
+          if ( $time >= ( stat( _latestFile($meta) ) )[9] );
     }
 
     foreach my $rev (@revs) {
@@ -1050,11 +1085,15 @@ sub _writeMetaFile {
 }
 
 # Record a change in the web history
-sub _recordChange {
-    my ( $meta, $cUID, $rev, $more ) = @_;
-    $more ||= '';
+sub recordChange {
+    my $this = shift;
+    my %args = ( 'more', '', @_ );
+    ASSERT( $args{cuid} ) if DEBUG;
 
-    my $file = _getData( $meta->web ) . '/.changes';
+    #    my ( $meta, $cUID, $rev, $more ) = @_;
+    #    $more ||= '';
+
+    my $file = _getData( $args{_meta}->web ) . '/.changes';
     my @changes;
     my $text = '';
     my $t    = time;
@@ -1062,7 +1101,8 @@ sub _recordChange {
     if ( -e $file ) {
         my $cutoff = $t - $Foswiki::cfg{Store}{RememberChangesFor};
         my $fh;
-        open( $fh, '<', $file ) or die "PlainFile: failed to read $file: $!";
+        open( $fh, '<', $file )
+          or die "PlainFile: failed to read $file: $!";
         local $/ = "\n";
         my $head = 1;
         while ( my $line = <$fh> ) {
@@ -1078,8 +1118,8 @@ sub _recordChange {
     }
 
     # Add the new change to the end of the file
-    $text .= $meta->topic || '.';
-    $text .= "\t$cUID\t$t\t$rev\t$more\n";
+    $text .= $args{_meta}->topic || '.';
+    $text .= "\t$args{cuid}\t$t\t$args{revision}\t$args{more}\n";
 
     _saveFile( $file, $text );
 }
@@ -1090,7 +1130,8 @@ sub _readFile {
 
     my $data;
     my $IN_FILE;
-    open( $IN_FILE, '<', $name ) or die "PlainFile: failed to read $name: $!";
+    open( $IN_FILE, '<', $name )
+      or die "PlainFile: failed to read $name: $!";
     binmode($IN_FILE);
     local $/ = undef;
     $data = <$IN_FILE>;

@@ -834,6 +834,53 @@ sub verify_eachChange {
     return;
 }
 
+{
+
+    package Foswiki::Store::UnitTestFilter;
+    our @changeStack;
+
+    sub new {
+        my $class = shift;
+
+        #print STDERR "new($class)";
+        @changeStack = ($class);
+        return $class->SUPER::new(@_);
+    }
+
+    sub NOTreadTopic {
+        my $this = shift;
+        print STDERR "holla";
+        return $this->SUPER::readTopic(@_);
+    }
+
+    sub recordChange {
+        my $this = shift;
+        my %args = @_;
+
+        #print STDERR "record($args{verb})";
+        push( @changeStack, $args{verb} );
+        return $this->SUPER::recordChange(%args);
+    }
+
+}
+
+sub verify_StoreClassSettings {
+    my $this = shift;
+
+    $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = 1;
+    $Foswiki::cfg{Store}{ImplementationClasses}
+      {'Foswiki::Store::UnitTestFilter'} = 1;
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->verify_eachChange();
+
+    #and now verify the results of the extra Store filter.
+    $this->assert_deep_equals( \@Foswiki::Store::UnitTestFilter::changeStack,
+        [qw/Foswiki::Store::UnitTestFilter insert insert update update/] )
+      ;    #, join(',',@Foswiki::Store::UnitTestFilter::changeStack) );
+}
+
+#TODO: need to write a test to understand what exactly the moveTopic with inter web move records
+
 sub verify_eachAttachment {
     my $this = shift;
 

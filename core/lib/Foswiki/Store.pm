@@ -74,57 +74,7 @@ sub new {
     my $class = shift;
 
     my $this = bless( {}, $class );
-    $this->_LoadAndRegisterListeners();
-
     return $this;
-}
-
-#extracted so we can re-jig the list while running (for eg, non-optionally load a listener from code.
-sub _LoadAndRegisterListeners {
-    my $this = shift;
-
-    # Create and register store listeners. Store listeners are subclasses
-    # of Foswiki::Store::Interfaces::Listener
-
-    my @evl;
-    foreach my $key (
-        sort {
-            $Foswiki::cfg{Store}{Listeners}{$a}
-              <=> $Foswiki::cfg{Store}{Listeners}{$b}
-        } keys( %{ $Foswiki::cfg{Store}{Listeners} } )
-      )
-    {
-        if ( $Foswiki::cfg{Store}{Listeners}{$key} ) {
-
-            #print STDERR "loading $key\n";
-            eval "require $key";
-            die "Failed to load $key: $@" if $@;
-            push( @evl, $key->new() );
-        }
-        else {
-
-            #don't try (and thus potentially crash on disabled listener
-            delete $Foswiki::cfg{Store}{Listeners}{$key};
-        }
-    }
-
-    $this->{event_listeners} = \@evl;
-}
-
-=begin TML
-
----++ ObjectMethod setListenerPriority()
-allows you to enable/disable (set priority to 0) a new Listener, or to change its priority
-
-=cut
-
-sub setListenerPriority {
-    my $this      = shift;
-    my $classname = shift;
-    my $priority  = shift;
-
-    $Foswiki::cfg{Store}{Listeners}{$classname} = $priority;
-    $this->_LoadAndRegisterListeners();
 }
 
 =begin TML
@@ -139,94 +89,6 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{event_listeners};
-}
-
-=begin TML
-
----++ ObjectMethod tellListeners( $event, ... )
-Invoke listeners that have registered an interest in events on this store.
-The $event method on the listener is invoked, passing the ... parameters
-to the listener.
-
-=cut
-
-sub tellListeners {
-    my $this  = shift;
-    my %arg   = @_;
-    my $event = $arg{verb};
-
-    foreach my $el ( @{ $this->{event_listeners} } ) {
-        next unless $el->can($event);
-        $el->$event(%arg);
-    }
-}
-
-=begin TML
-
----++ ObjectMethod askListeners( $topicObject, $version )
-Ask listeners if they would like to provide the object specified in the
-$topicObject, at the given version. The first listener to respond with a
-non-zero revision will be assumed to have loaded the topic object.
-
-Listeners are expected to implement =loadTopic=. If they do not, they
-will not be asked.
-
-=cut
-
-sub askListeners {
-    my ( $this, $meta, $version ) = @_;
-    my ( $gotRev, $isLatest );
-
-    foreach my $el ( @{ $this->{event_listeners} } ) {
-        next unless $el->can('loadTopic');
-        ( $gotRev, $isLatest ) = $el->loadTopic( $meta, $version );
-        return ( $gotRev, $isLatest ) if $gotRev;
-    }
-    return ( undef, undef );
-}
-
-=begin TML
-
----++ ObjectMethod askListenersRevisionHistory( $topicObject, $attachment )
-Ask listeners if they would like to provide the object specified in the
-$topicObject, at the given version. The first listener to respond with a
-non-zero revision will be assumed to have loaded the topic object.
-
-Listeners are expected to implement =loadTopic=. If they do not, they
-will not be asked.
-
-=cut
-
-sub askListenersRevisionHistory {
-    my ( $this, $meta, $attachment ) = @_;
-    my ($itr);
-
-    foreach my $el ( @{ $this->{event_listeners} } ) {
-        next unless $el->can('getRevisionHistory');
-        return $itr = $el->getRevisionHistory( $meta, $attachment );
-    }
-    return undef;
-}
-
-#    my $itr = $this->askListenersRevisionHistory($topicObject, $attachment);
-
-=begin TML
-
----++ ObjectMethod askListenersVersionInfo( $topicObject, $version )
-Ask listeners if they would like to answer Foswiki::Store->getVersionInfo()
-- a hashref containing date, user, version, comment keys
-
-=cut
-
-sub askListenersVersionInfo {
-    my ( $this, $meta, $version, $attachment ) = @_;
-
-    foreach my $el ( @{ $this->{event_listeners} } ) {
-        next unless $el->can('getVersionInfo');
-        return $el->getVersionInfo( $meta, $version, $attachment );
-    }
-    return undef;
 }
 
 =begin TML
@@ -753,6 +615,27 @@ order.
 
 sub eachChange {
     my ( $this, $web, $time ) = @_;
+    die "Abstract base class";
+}
+
+=begin TML
+
+---++ ObjectMethod recordChange(%args)
+Record that the store item changed, and who changed it
+
+This is a private method to be called only from the store internals, but it can be used by 
+$Foswiki::Cfg{Store}{ImplementationClasses} to chain in to eveavesdrop on Store events
+
+        cuid          => $cUID,
+        revision      => $rev,
+        verb          => $verb,
+        newmeta       => $topicObject,
+        newattachment => $name
+
+=cut
+
+sub recordChange {
+    my ( $this, %args ) = @_;
     die "Abstract base class";
 }
 

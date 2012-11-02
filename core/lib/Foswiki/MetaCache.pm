@@ -246,41 +246,6 @@ sub get {
     return $info;
 }
 
-##########################################
-# use the Listener API to detect when to flush the cache
-#magically enable it.
-
-$Foswiki::cfg{Store}{Listeners}{'Foswiki::MetaCache'} = 1;
-
-sub insert {
-    my ( $self, %args ) = @_;
-
-    $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
-
-    return;
-}
-
-sub update {
-    my ( $self, %args ) = @_;
-
-    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
-      if ( defined( $args{oldmeta} ) );
-    $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
-
-    return;
-}
-
-sub remove {
-    my ( $self, %args ) = @_;
-
-    ASSERT( $args{oldmeta} ) if DEBUG;
-
-    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
-      if ( defined( $args{oldmeta} ) );
-
-    return;
-}
-
 sub current_user {
     my $self = shift;
 
@@ -293,13 +258,49 @@ sub current_user {
     return $user;
 }
 
+##########################################
+# this used to try to use the never-released listener API to flush the cache on changes.
+# Sven is not entirely sure it really worked, but the replacement for the listeners makes more
+# sense - it would move the MetaCache into the Store itself, allowing us to cache loaded topics
+# before ACL's are evaluated. however, I suspect this will require adding the readonly hash support
+# to Meta, which requires the Data::Foswiki work (post 1.2.0)
+
+sub DISABLED_insert {
+    my ( $self, %args ) = @_;
+
+    $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
+
+    return;
+}
+
+sub DISABLED_update {
+    my ( $self, %args ) = @_;
+
+    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
+      if ( defined( $args{oldmeta} ) );
+    $self->removeMeta( $args{newmeta}->web, $args{newmeta}->topic );
+
+    return;
+}
+
+sub DISABLED_remove {
+    my ( $self, %args ) = @_;
+
+    ASSERT( $args{oldmeta} ) if DEBUG;
+
+    $self->removeMeta( $args{oldmeta}->web, $args{oldmeta}->topic )
+      if ( defined( $args{oldmeta} ) );
+
+    return;
+}
+
 1;
 __END__
 Author: Sven Dowideit
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
