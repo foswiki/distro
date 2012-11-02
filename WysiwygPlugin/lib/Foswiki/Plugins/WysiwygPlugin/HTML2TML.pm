@@ -197,7 +197,14 @@ sub convert {
     }
 
     # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
-    $text =~ s/&#xFEFF;//g;
+
+    # SMELL: Item11912 These are left behind by TMCE as zero widht characters
+    # surrounding italics and bold inserted by Ctrl-i and Ctrl-b
+    # We really ought to have a better solution.  TMCE is supposed
+    # to handle this it the cleanup routine, but it doesn't happen,
+    # and cleanup routine has been deprecated.
+    $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
+    $text =~ s/&#x200B;//g;    # TMCE pre 3.5
     return $text;
 }
 
