@@ -4,25 +4,10 @@
 %TMPL:DEF{"bottombarcontents"}%%TMPL:END%
 %TMPL:DEF{"webaction"}%%TMPL:END%
 
-%TMPL:DEF{"usernamefieldhelplink"}%%TMPL:END%
-%TMPL:DEF{"usernamefieldhelpcontents"}%%TMPL:END%
-%TMPL:DEF{"passwordnote"}%%TMPL:END%
-
-%TMPL:DEF{"rememberbox"}%<p><label class='foswikiLabel'>
-<input tabindex='3' id='remember' name='remember' type='checkbox' value='1' />
-<span>%MAKETEXT{"Remember me"}%</span>
-</label></p>%TMPL:END%
-
-%TMPL:DEF{"passwordstep"}%<div class="foswikiFormStep">
-<h3>%MAKETEXT{"Password"}%</h3>
-<p>%TMPL:P{"passwordfield"}% %TMPL:P{"passwordnote"}%</p>
-%TMPL:P{context="can_remember_login" then="rememberbox"}%</div>%TMPL:END%
-
-%TMPL:DEF{"seealsostep"}%<span class='foswikiUnvisited'>[[%SCRIPTURLPATH{view}%/%SYSTEMWEB%/ResetPassword?username=%URLPARAM{username}%][%MAKETEXT{"Having problems logging in?"}%]]</span><br /><span class='foswikiUnvisited'>[[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Create account"}%]]</span>%TMPL:END%
-        
 %TMPL:DEF{"form"}%<div id="foswikiLogin">
-%TMPL:P{"formstart"}%<div class="foswikiFormSteps">%TMPL:P{"titlestep"}%
-<hr />%TMPL:P{"usernamestep"}%%TMPL:P{"passwordstep"}%%TMPL:P{"submitstep"}%
-<hr />%TMPL:P{"seealsostep"}%
-</div>%TMPL:P{"loginasadministratorstep"}%%TMPL:P{"formend"}%
+<div class="foswikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
+%TMPL:P{"usernamestep"}%%TMPL:P{"passwordstep"}%%TMPL:P{"submitstep"}%
+%TMPL:P{"formend"}%
+%TMPL:P{"seealsostep"}%
+</div>%TMPL:P{"loginasadministratorstep"}%
 </div>%TMPL:END%

@@ -15,6 +15,9 @@
 
 When customizing your Foswiki installation, you can either choose to completely rewrite all css styles, or to selectively override some styles. The latter option is by far less time consuming, but all depends on your graphical wishes.
 
+---+++ Changing the color scheme
+Have a look at PatternSkinColorSettings.
+
 ---+++ When you need lots of graphic changes: Rewriting CSS
    * Create a new topic that will contain your new CSS files
    * Attach 3 new style sheets to the topic

@@ -3,12 +3,12 @@
 
 Include main navigation with:
 <verbatim class="tml">
-%INCLUDE{"%SYSTEMWEB%.HorizontalNavigationExample" section="main"}%
+%INCLUDE{"HorizontalNavigationExample" section="main"}%
 </verbatim>
 
 Include meta navigation with:
 <verbatim class="tml">
-%INCLUDE{"%SYSTEMWEB%.HorizontalNavigationExample" section="meta"}%
+%INCLUDE{"HorizontalNavigationExample" section="meta"}%
 </verbatim>
 
 

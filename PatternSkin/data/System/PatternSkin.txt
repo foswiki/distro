@@ -20,7 +20,6 @@ Pattern skin has quite some flexibility out of the box. Try one of the provided 
    * [[%SYSTEMWEB%.PatternSkinTheme][Foswiki (default)]]
    * [[%SYSTEMWEB%.PatternSkinTheme2009][Foswiki 2009]]
    * [[%SYSTEMWEB%.PatternSkinThemeFatWilly][Foswiki "Fat Willy" Site Skin]]
-   * [[%SYSTEMWEB%.PatternSkinTheme115][Foswiki release 1.1.5]]
    
 <!--
 %STARTSECTION{"copysettings"}%
@@ -175,7 +174,6 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
-|  31 Oct 2012: | v.6.0.0: Updated styles for forms and form elements. Simpler login screen. Theme "115" provides legacy support. |
 |  26 May 2012: | v.5.4.20: !WebCreateNewTopicTemplate functionality moved to core. |
 |  06 Apr 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency. %BR%\
                    Foswikitask:Item11622: Add &lt;div> to revision information.%BR%\

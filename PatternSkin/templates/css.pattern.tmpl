@@ -7,10 +7,8 @@
 %IF{ "$ FOSWIKI_LAYOUT_URL" then="@import url('%FOSWIKI_LAYOUT_URL%');"}%
 %IF{ "$ FOSWIKI_STYLE_URL"  then="@import url('%FOSWIKI_STYLE_URL%');"}%
 %IF{ "$ FOSWIKI_COLORS_URL" then="@import url('%FOSWIKI_COLORS_URL%');"}%
-</style>%IF{
-    "$PATTERNSKIN_JQUERY_THEME"
-    then="$percntJQTHEME{$quot%PATTERNSKIN_JQUERY_THEME%$quot}$percnt"
-}%%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:P{"styles:dynamic"}%%TMPL:END%
+</style>
+%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:P{"styles:dynamic"}%%TMPL:END%
 
 
 %TMPL:DEF{"styles:print"}%<style type="text/css" media="%IF{'$\'URLPARAM{cover}\'=\'print\'' then='all' else='print'}%">
@@ -38,7 +36,11 @@
 </style>%TMPL:END%
 
 
-%TMPL:DEF{"styles:iespecific"}%<!--[if IE 7 ]><style type="text/css" media="screen">
+%TMPL:DEF{"styles:iespecific"}%<!--[if IE]><style type="text/css" media="screen">
+pre {
+	height:1%;
+	overflow-x:auto;
+}
 .foswikiAttachments,
 .foswikiForm,
 .foswikiHelp,
@@ -60,22 +62,21 @@
 .foswikiFormStep {
 	height:100%;
 }
-#foswikiLogin {
-    margin-left: 25%;
-    margin-right: 25%;
-}
-#foswikiLogin .foswikiFormSteps {
-    width:auto;
-}
-#foswikiLogin input[type="text"],
-#foswikiLogin input[type="password"] {
-    width: auto;
-}
+#foswikiLogin,
 .patternShadow {
 	border:10px solid #fff;
 	margin-top:10px;
 	margin-bottom:10px;
 	border:2px solid #ccc;
+}
+</style><![endif]-->
+<!--[if gt IE 8 ]><style type="text/css" media="screen">
+#foswikiLogin,
+.patternShadow {
+	border:10px solid #fff;
+	margin-top:10px;
+	margin-bottom:10px;
+	box-shadow: 0 0 10px #ccc;
 }
 </style><![endif]-->%TMPL:END%
 
