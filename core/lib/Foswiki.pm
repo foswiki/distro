@@ -1772,7 +1772,7 @@ sub new {
           sort {
             $Foswiki::cfg{Store}{ImplementationClasses}{$a}
               <=> $Foswiki::cfg{Store}{ImplementationClasses}{$b}
-          } keys( $Foswiki::cfg{Store}{ImplementationClasses} );
+          } keys( %{ $Foswiki::cfg{Store}{ImplementationClasses} } );
 
   #this allows us to add an arbitary set of mixins for things like recordChanges
         my $length = scalar(@classes);
