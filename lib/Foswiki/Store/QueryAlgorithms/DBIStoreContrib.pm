@@ -22,7 +22,7 @@ use Foswiki::Search::InfoCache                  ();
 use Foswiki::Search::ResultSet                  ();
 use Foswiki::MetaCache                          ();
 use Foswiki::Query::Node                        ();
-use Foswiki::Contrib::DBIStoreContrib::Listener ();
+use Foswiki::Contrib::DBIStoreContrib::DBIStore ();
 
 BEGIN {
     eval 'require  Foswiki::Store::Interfaces::SearchAlgorithm';
@@ -176,7 +176,7 @@ sub query {
     print STDERR "Generated SQL: $sql\n" if MONITOR;
 
     my $topicSet =
-      Foswiki::Contrib::DBIStoreContrib::Listener::query( $session, $sql );
+      Foswiki::Contrib::DBIStoreContrib::DBIStore::DBI_query( $session, $sql );
     my $filter = getOptionFilter($options);
 
     # Collate results into one-per-web result sets to mimic the old

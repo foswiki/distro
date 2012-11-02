@@ -25,7 +25,7 @@ operator, for example). Please go ahead and try, though.
       1 Set a DSN for the contrib in the 'Extensions' section (the default is for sqlite3),
       1 Select =Foswiki::Store::QueryAlgorithms::DBIStoreContrib= for the ={Store}{QueryAlgorithm}= *EXPERT* setting
       1 *For Foswiki > 1.1* only
-         * add =Foswiki::Contrib::DBIStoreContrib::Listener= to the ={Store}{Listeners}= *EXPERT* setting in the 'Store' section
+         * add =Foswiki::Contrib::DBIStoreContrib::DBIStore= to the ={Store}{ImplementationClasses}= *EXPERT* setting in the 'Store' section
          * select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting
       1 *For Foswiki 1.1 only*
          * enable the integrated =DBIStorePlugin=
@@ -40,7 +40,7 @@ The DBIStoreContrib turns this process on its head by mapping _searches_ to SQL 
 Note that you don't *have* to use the mapping search algorithm for text searches - if you have a caching full text search implementation (such as Foswiki:Extensions.SolrPlugin) you should be able to continue using that.
 
 ---+++ The Database
-The database is used simply as a cache, to accelerate searches. The contrib is designed to work with the standard Foswiki RCS-based store, but can also work with *any* store implementation that calls the =Foswiki::Store::Interfaces::Listener= interface (trunk only at time of writing). It can also hook into the standard plugin handlers for a slightly reduced capability.
+The database is used simply as a cache, to accelerate searches. The contrib is designed to work with the standard Foswiki RCS-based store, but can also work with *any* post 1.2.0 store implementation. It can also hook into the standard plugin handlers for a slightly reduced capability.
 
 The database is interfaced to via the standard Perl DBI interface, so any RDBMS that has an adapter can be used for the cache. This includes most standard SQL RDBMS.
 
@@ -49,7 +49,7 @@ The schema used to represent Foswiki topics is (currently) a 1:1 mapping of the 
 ---+++ The Code
 Here's an overview of the important bits of the contrib:
    * =lib/Foswiki/Contrib/DBIStoreContrib/HoistSQL.pm= - code that hoists SQL statements from Foswiki queries
-   * =lib/Foswiki/Contrib/DBIStoreContrib/Listener.pm= - implementation of =Foswiki::Store::Interfaces::Listener= (Foswiki >1.1 only)
+   * =lib/Foswiki/Contrib/DBIStoreContrib/DBIStore.pm= - a partial =Foswiki::Store= implementation that eveavesdrops on =Store::recordChange= events (Foswiki >1.1 only)
    * =lib/Foswiki/Plugins/DBIStorePlugin.pm= - plugin handlers (Foswiki <=1.1 only)
    * =lib/Foswiki/Store/QueryAlgorithms/DBIStoreContrib.pm= - the query algorithm
    * =lib/Foswiki/Store/SearchAlgorithms/DBIStoreContrib.pm= - the search algorithm
