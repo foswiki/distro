@@ -17,8 +17,8 @@ use warnings;
 use vars qw( @twistystack $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-use version; our $VERSION = version->declare("v1.6.15");
-our $RELEASE = '1.6.15';
+use version; our $VERSION = version->declare("v1.6.16");
+our $RELEASE = '1.6.16';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -67,8 +67,9 @@ sub _exportAnimationSpeed {
     # add TWISTYANIMATIONSPEED to the html head so
     # that it may be used in the client JS with
     # foswiki.getPreference('TWISTYANIMATIONSPEED')
-    Foswiki::Func::addToZone( "head", "TWISTYPLUGIN::META", <<"HERE");
-<meta name="foswiki.TWISTYANIMATIONSPEED" content="$pref" />
+    Foswiki::Func::addToZone( "script", "TWISTYPLUGIN::META",
+        <<"HERE", "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
+<script type='text/javascript'>jQuery.extend(foswiki.preferences, { TWISTYANIMATIONSPEED: '$pref' });</script>
 HERE
 
     return;

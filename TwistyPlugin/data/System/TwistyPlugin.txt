@@ -488,6 +488,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  18 Sep 2012 | 1.6.16 Foswikitask:Item11983: fixed script being added to the wrong zone |
 |  05 Dec 2011 | 1.6.15 Released with Foswiki 1.1.4 - minor changes |
 |  07 Jul 2011 | 1.6.14 Foswikitask:Item10946: fixed requesting of defunct/missing jquery.twisty.css |
 |  02 Jun 2011 | 1.6.13 Foswikitask:Item10827: clear pref completely when using =remember="off"=. Effective from Foswiki 1.1.4 and higher. |
