@@ -212,7 +212,7 @@ sub _actionTestEmail {
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
     $html = Foswiki::Configure::UI::getTemplateParser()
-      ->parse( $html, { logoutdata() } );
+      ->parse( $html, { time => $time, logoutdata() } );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
 
     ::_loadBasicModule('Foswiki::Net');
