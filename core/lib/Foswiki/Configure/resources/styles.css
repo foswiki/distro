@@ -116,7 +116,7 @@ table.configureFeedbackSummaryTable td {
 .configureFeedbackSummaryCell {
     background-color:#fffbe8;
 }
-.configureFeedbackUnsaved .configureFeedbackSummaryCell {
+.configureFeedbackSummaryCell .configureFeedbackUnsaved {
     font-size:xx-small;
     color:black;
 }
