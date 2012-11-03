@@ -190,10 +190,10 @@ var configure = (function ($) {
                 sub = '';
             if (matches && matches[1]) {
                 main = matches[1];
-                if (matches[3]) {
-                    main = matches[3];
-                    sub = matches[1] + '$' + main;
-                }
+            }
+            if (matches && matches[3]) {
+                main = matches[3];
+                sub = matches[1] + '$' + main;
             }
             return {
                 main: main,
@@ -281,16 +281,18 @@ var configure = (function ($) {
             setMain(mainId);
             setSub(mainId, subId);
 
-            url = document.location.toString().split("#")[0];
-            if (subId !== undefined) {
-                subName = subId.split("$")[1];
-                window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
-            } else if (mainId !== undefined) {
-                window.history.pushState(undefined, "Configure / " + mainId, url + "#$" + mainId);
-            } else {
-                window.history.pushState(undefined, "Configure", document.location);
+            if (mainId || subId) {
+                url = document.location.toString().split("#")[0];
+                if (subId !== undefined) {
+                    subName = subId.split("$")[1];
+                    window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
+                } else if (mainId !== undefined) {
+                    window.history.pushState(undefined, "Configure / " + mainId, url + "#$" + mainId);
+                } else {
+                    window.history.pushState(undefined, "Configure", document.location);
+                }
             }
-
+            
             if (menuState.allOpened === 1) {
                 /* we want to use anchors to jump down */
                 return true;
