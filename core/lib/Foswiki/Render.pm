@@ -1190,8 +1190,7 @@ sub getRenderedVersion {
 
     # Remove input fields: Item11480
     $text =
-      $this->_takeOutProtected( $text, qr/<input\b.*?\/>/si, 'input',
-        $removed );
+      $this->_takeOutProtected( $text, qr/<input\b.*?>/si, 'input', $removed );
 
     # Escape rendering: Change ' !AnyWord' to ' <nop>AnyWord',
     # for final ' AnyWord' output
