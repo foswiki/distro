@@ -115,7 +115,7 @@ sub renderHtml {
 
         $outText =
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('main');
-        Foswiki::Configure::UI::getTemplateParser()->parse(
+        $outText = Foswiki::Configure::UI::getTemplateParser()->parse(
             $outText,
             {
                 'navigation'    => $navigation,
@@ -138,7 +138,7 @@ sub renderHtml {
 
         $outText =
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('section');
-        Foswiki::Configure::UI::getTemplateParser()->parse(
+        $outText = Foswiki::Configure::UI::getTemplateParser()->parse(
             $outText,
             {
                 'id'          => $id,

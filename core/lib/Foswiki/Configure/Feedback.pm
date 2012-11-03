@@ -52,7 +52,7 @@ feedback request has been received.
         my $html =
           Foswiki::Configure::UI::getTemplateParser()
           ->readTemplate('feedbackerror');
-        Foswiki::Configure::UI::getTemplateParser()
+        $html = Foswiki::Configure::UI::getTemplateParser()
           ->parse( $html, { RESOURCEURI => $resourceURI, } );
         Foswiki::Configure::UI::getTemplateParser()
           ->cleanupTemplateResidues($html);
@@ -216,7 +216,7 @@ sub deliver {
     my $pendingHtml =
       Foswiki::Configure::UI::getTemplateParser()
       ->readTemplate('feedbackunsaved');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $pendingHtml = Foswiki::Configure::UI::getTemplateParser()->parse(
         $pendingHtml,
         {
             pendingCount => $pending,

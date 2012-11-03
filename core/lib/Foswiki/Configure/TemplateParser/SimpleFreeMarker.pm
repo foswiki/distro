@@ -65,7 +65,7 @@ sub parse {
     }
 
     $_[1] =~ s/\$\{(.*?)(\?.*?)\}/_handleQueryExpressions($1,$2,$_[2])/ges;
-
+    return $_[1];
 }
 
 =pod

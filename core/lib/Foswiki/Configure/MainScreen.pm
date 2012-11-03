@@ -211,7 +211,7 @@ sub _actionTestEmail {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    Foswiki::Configure::UI::getTemplateParser()
+    $html = Foswiki::Configure::UI::getTemplateParser()
       ->parse( $html, { logoutdata() } );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
 
@@ -296,7 +296,7 @@ MAIL
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
     my $frontpageUrl =
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
             'frontpageUrl' => $frontpageUrl,
@@ -355,7 +355,7 @@ sub _actionFindMoreExtensions {
 
     my $contentTemplate =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('extensions');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $contentTemplate = Foswiki::Configure::UI::getTemplateParser()->parse(
         $contentTemplate,
         {
             'formAction'         => $scriptName,
@@ -373,7 +373,7 @@ sub _actionFindMoreExtensions {
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
 
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
             'time' => $time,
@@ -485,7 +485,7 @@ sub _actionManageExtensionsResponse {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    Foswiki::Configure::UI::getTemplateParser()
+    $html = Foswiki::Configure::UI::getTemplateParser()
       ->parse( $html, { logoutdata() } );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
 
@@ -503,7 +503,7 @@ sub _actionManageExtensionsResponse {
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
     my $frontpageUrl =
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
             'frontpageUrl' => $frontpageUrl,
@@ -570,7 +570,7 @@ sub _screenAuthorize {
     );
     dispatch( '_screenAuth', $transact, \&invalidDispatch, \%args );
 
-    Foswiki::Configure::UI::getTemplateParser()
+    $contentTemplate = Foswiki::Configure::UI::getTemplateParser()
       ->parse( $contentTemplate, \%args );
 
     my $html =
@@ -578,7 +578,7 @@ sub _screenAuthorize {
     $html .= $contentTemplate;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
             'time' => $time,
@@ -743,7 +743,7 @@ sub _screenSaveChanges {
 
     my $contentTemplate =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('feedback');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $contentTemplate = Foswiki::Configure::UI::getTemplateParser()->parse(
         $contentTemplate,
         {
             'modifiedCount' => $modified,
@@ -865,7 +865,7 @@ sub configureScreen {
     $html .= $contents;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
+    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
             'time' => $time,    # use time to make sure we never allow cacheing
