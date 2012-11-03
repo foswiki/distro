@@ -27,8 +27,9 @@ use warnings;
     use constant RESOURCEEXP => '1m';     # Resource access window
     use constant COOKIENAME => 'FOSWIKICFG2SID';
 
-    use constant RESOURCECACHETIME => ( 24 * 60 * 60 )
+    use constant RESOURCECACHETIME => ( 30 * 24 * 60 * 60 )
       ;                                   # MAX-AGE of cached resources
+                                          # in seconds. 0 to disable caching
 }
 
 {                                         # Constants that enable debugging code
@@ -749,7 +750,7 @@ sub _actionresource {
     my $zipok;
     my $text = ( $type =~ m,^text/, );
     if ($text) {
-        my @accept = split( /,\s*/, $query->http('Accept-Encoding') );
+        my @accept = split( /,\s*/, ( $query->http('Accept-Encoding') || '' ) );
         foreach my $accept (@accept) {
             if ( $accept =~ /^(?:(?:gzip|\*)(?:\s*;\s*q=\d+(?:\.\d+)?)?)\s*$/ )
             {
@@ -758,6 +759,14 @@ sub _actionresource {
             }
         }
     }
+
+    # Note that only static variables are allowed here (such as the
+    # WIKI's URI, as resources are cachable.  If they change once in
+    # a while, a browser REFRESH will re-validate, and the ETag will
+    # ensure that updated data is provided.  In particular, this
+    # allows .css files to contain URIs (e.g. for background images.)
+    # and still be cached.  Don't add anything dynamic.
+
     ( $text, my $etag, my $zipped ) = $parser->getResource(
         $resource,
         -etag       => 1,
@@ -775,9 +784,16 @@ sub _actionresource {
 
     push @headers,
       (
-        Cache_Control => ( 'private, max-age=' . RESOURCECACHETIME ),
-        -expires      => ( '+' . RESOURCECACHETIME . 's' ),
-      ) if (RESOURCECACHETIME);
+        RESOURCECACHETIME > 0
+        ? (
+            Cache_Control => ( 'private, max-age=' . RESOURCECACHETIME ),
+            -expires      => ( '+' . RESOURCECACHETIME . 's' ),
+          )
+        : (
+            Cache_Control => 'no-cache',
+            -expires      => '-1d',
+        )
+      );
 
     # See if we really need to send this
     # If the browser sent an ETag for this resource, and
@@ -1086,7 +1102,8 @@ sub htmlResponse {
           );
 
         unless ( $moreOutput || length($html) < 2048 ) {
-            my @accept = split( /,\s*/, $query->http('Accept-Encoding') );
+            my @accept =
+              split( /,\s*/, ( $query->http('Accept-Encoding') || '' ) );
             foreach my $accept (@accept) {
                 if ( $accept =~
                     /^(?:(?:gzip|\*)(?:\s*;\s*q=\d+(?:\.\d+)?)?)\s*$/ )
