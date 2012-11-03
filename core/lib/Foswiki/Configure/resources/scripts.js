@@ -12,7 +12,7 @@ if (!$.curCSS) {
 var configure = (function ($) {
 
 	"use strict";
-	
+
 	var expertsMode = '',
 	    tabLinks = {},
         menuState = {
@@ -22,20 +22,20 @@ var configure = (function ($) {
         },
         infoMode = '',
         allImagesLoaded = false,
-        
-        setMain = function(inId) {
+
+        setMain = function (inId) {
             menuState.main = inId;
         },
-        getMain = function() {
+        getMain = function () {
             return menuState.main;
         },
-        setSub = function(inMainId, inSubId) {
+        setSub = function (inMainId, inSubId) {
             menuState[inMainId] = inSubId;
         },
-        getSub = function(inMainId) {
+        getSub = function (inMainId) {
             return menuState[inMainId];
         },
-        
+
         /**
         Translates a value to a readable string that makes sense in a form.
         For instance, 'false' gets translated to 'off' with checkboxes.
@@ -55,14 +55,13 @@ var configure = (function ($) {
         PASSWORD
         PERL (?)
         */
-        createHumanReadableValueString = function(type, value) {
-            "use strict";
+        createHumanReadableValueString = function (type, value) {
             if (type === 'NUMBER') {
                 /* do not convert numbers */
                 return value;
             }
             if (type === 'BOOLEAN') {
-                if (isTrue(value)) {
+                if (configure.utils.isTrue(value)) {
                     return 'on';
                 }
                 return 'off';
@@ -72,12 +71,56 @@ var configure = (function ($) {
             }
             /* all other cases */
             return value;
+        },
+
+        getUrlParam = function (name) {
+            return decodeURIComponent((new RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [,""])[1]);
+        },
+
+        newHideContent = function (elts, settings, callback) {
+            elts.contentWrapper.hide();
+            callback();
+        },
+
+        loadImage = function (el) {
+            var url,
+                img;
+            if (!el.title || el.title === '') {
+                return;
+            }
+            url = el.title;
+            el.title = 'Click to enlarge';
+
+            img = new Image();
+            $(img).load(function () {
+                var w = this.width,
+                    h = this.height,
+                    MAX_H = 64,
+                    MAX_W = 150;
+                /* set the image hidden by default */
+                $(img).hide();
+                /* Scale to max 64 height, max 150 width */
+                if (w * MAX_H / MAX_W > h) {
+                    this.height = Math.round(h * MAX_W / w);
+                    this.width = MAX_W;
+                } else {
+                    this.width = Math.round(w * MAX_H / h);
+                    this.height = MAX_H;
+                }
+
+                $(el).append(this);
+                $(this).wrap("<a href='" + url + "' class='nyroModal'></a>");
+                $('.nyroModal').nyroModal({
+                    hideContent: newHideContent
+                });
+                $(this).fadeIn();
+            });
+            $(img).attr('src', url);
         };
 
-
 	return {
-		
-		toggleInfoMode: function() {
+
+		toggleInfoMode: function () {
             var antimode = infoMode;
             infoMode = (antimode === 'none' ? '' : 'none');
             $('.configureInfoText').each(function () {
@@ -96,7 +139,9 @@ var configure = (function ($) {
             });
         },
 
-		toggleExpertsMode: function(mode) {
+		toggleExpertsMode: function (modeName) {
+		    var mode = getUrlParam(modeName),
+		        antimode;
             if (mode !== undefined) {
                 /* convert value to a css value */
                 expertsMode = (mode === '1' ? '' : 'none');
@@ -104,8 +149,8 @@ var configure = (function ($) {
                 /* toggle */
                 expertsMode = (expertsMode === 'none' ? '' : 'none');
             }
-        
-            var antimode = (expertsMode === 'none' ? '' : 'none');
+
+            antimode = (expertsMode === 'none' ? '' : 'none');
             /* toggle table rows */
             $('tr.configureExpert').each(function () {
                 $(this).css("display", expertsMode);
@@ -121,24 +166,24 @@ var configure = (function ($) {
                 $(this).css("display", antimode);
             });
         },
-        
-        getDefaultSub: function(inMainId) {
+
+        getDefaultSub: function (inMainId) {
             return menuState.defaultSub[inMainId];
         },
 
-        setDefaultSub: function(inMainId, inSubId) {
+        setDefaultSub: function (inMainId, inSubId) {
             if (menuState.defaultSub[inMainId]) {
                 return;
             }
             menuState.defaultSub[inMainId] = inSubId;
         },
-        
+
         /**
            Returns an object with properties:
            main: main section id
            sub: sub section id (if any)
         */
-        getSectionParts: function(anchor) {
+        getSectionParts: function (anchor) {
             var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/),
                 matches = anchor.match(anchorPattern),
                 main = '',
@@ -155,13 +200,13 @@ var configure = (function ($) {
                 sub: sub
             };
         },
-        
+
         /*
           sub states are stored like this:
           var sub = 'Language';
           menuState[menuState.main].sub = sub;
         */
-        initSection: function() {
+        initSection: function () {
             if (document.location.hash && document.location.hash !== '#') {
                 this.showSection(document.location.hash);
             } else {
@@ -173,7 +218,7 @@ var configure = (function ($) {
             }
         },
 
-        showSection: function(anchor) {
+        showSection: function (anchor) {
             var sectionParts = this.getSectionParts(anchor),
                 mainId = sectionParts.main,
                 subId = sectionParts.sub || getSub(mainId) || configure.getDefaultSub(mainId),
@@ -184,17 +229,19 @@ var configure = (function ($) {
                 oldsub,
                 currentSubElement,
                 sub,
-                newSubElement;
-        
+                newSubElement,
+                url,
+                subName;
+
             if (oldMainId !== mainId) {
                 /* hide current main section */
                 currentMainElement = $("#" + oldMainId + "Body");
                 currentMainElement.removeClass("configureShowSection");
-        
+
                 /* show new main section */
                 newMainElement = $("#" + mainId + "Body");
                 newMainElement.addClass("configureShowSection");
-        
+
                 /* set main menu highlight */
                 if (tabLinks[oldMainId]) {
                     $(tabLinks[oldMainId]).removeClass("configureMenuSelected");
@@ -203,7 +250,7 @@ var configure = (function ($) {
                     $(tabLinks[mainId]).addClass("configureMenuSelected");
                 }
             }
-        
+
             /* hide current sub section */
             oldSubId = getSub(oldMainId);
             if (oldSubId) {
@@ -213,7 +260,7 @@ var configure = (function ($) {
                 currentSubElement = $("#" + oldsub + "Body");
                 currentSubElement.removeClass('configureShowSection');
             }
-        
+
             /* show new sub section */
             if (subId) {
                 sub = subId;
@@ -222,7 +269,7 @@ var configure = (function ($) {
                 newSubElement = $("#" + sub + "Body");
                 newSubElement.addClass('configureShowSection');
             }
-        
+
             /* set sub menu highlight */
             if (tabLinks[oldSubId]) {
                 $(tabLinks[oldSubId]).removeClass("configureMenuSelected");
@@ -230,33 +277,34 @@ var configure = (function ($) {
             if (subId && tabLinks[subId]) {
                 $(tabLinks[subId]).addClass("configureMenuSelected");
             }
-        
+
             setMain(mainId);
             setSub(mainId, subId);
-            
-            /*
-            url = document.location.split("#")[0];
+
+            url = document.location.toString().split("#")[0];
             if (subId !== undefined) {
-                window.history.pushState(undefined, "Configure / " + mainId + " / " + subId, document.location + "#" + subId);
+                subName = subId.split("$")[1];
+                window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
+            } else if (mainId !== undefined) {
+                window.history.pushState(undefined, "Configure / " + mainId, url + "#$" + mainId);
             } else {
                 window.history.pushState(undefined, "Configure", document.location);
             }
-            */
-            
+
             if (menuState.allOpened === 1) {
                 /* we want to use anchors to jump down */
                 return true;
             }
             return false;
         },
-        
+
         /**
         Support for the Expand/Close All button
         
         This is the preferred way to toggle elements.
         Should be done for Expert settings and Info blocks as well.
         */
-        toggleSections: function() {
+        toggleSections: function () {
             var body = $("body"),
                 newMain;
             if (menuState.allOpened === -1) {
@@ -270,23 +318,23 @@ var configure = (function ($) {
                 menuState.main = '';
                 configure.showSection(newMain);
             }
-        
+
             menuState.allOpened = -menuState.allOpened;
         },
-        
-        initTabLinks: function() {
+
+        initTabLinks: function () {
             $(".tabli a").each(function () {
                 var sectionParts = configure.getSectionParts(this.hash);
                 this.sectionId = sectionParts.main;
                 if (sectionParts.sub) {
-                this.sectionId = sectionParts.sub;
-                configure.setDefaultSub(sectionParts.main, sectionParts.sub);
+                    this.sectionId = sectionParts.sub;
+                    configure.setDefaultSub(sectionParts.main, sectionParts.sub);
                 }
                 tabLinks[this.sectionId] = $(this).parent().get(0);
             });
         },
-                
-        imgOnDemand: function() {
+
+        imgOnDemand: function () {
             if (!allImagesLoaded) {
                 var p = $(window).height() + $(window).scrollTop();
                 $('.loadImage').each(function () {
@@ -298,46 +346,46 @@ var configure = (function ($) {
                 allImagesLoaded = (p >= $(document).height());
             }
         },
-        
+
         /**
         Initializes the 2 states of "reset to default" links.
         State 1: restore to default
         State 2: undo restore
         */
-        initDefaultLink: function(link) {
+        initDefaultLink: function (link) {
             /* extract type */
             var type = link.className.split(" ")[0],
                 label;
-        
+
             link.type = type;
-        
+
             /* retrieve value from title tag */
             if (link.type === 'OCTAL') {
                 link.defaultValue = parseInt(unescape(link.title), 8).toString(8);
             } else {
                 link.defaultValue = unescape(link.title);
             }
-        
+
             /* set link label states */
             link.setDefaultLinkText = 'use default';
             link.undoDefaultLinkText = 'use stored value';
-        
+
             /* set defaults */
             link.title = '';
-        
+
             label = $('.configureDefaultValueLinkLabel', link)[0];
             if (label) {
                 label.innerHTML = link.setDefaultLinkText;
             }
         },
-        
-        showDefaultLinkToolTip: function(link) {
+
+        showDefaultLinkToolTip: function (link) {
             var template = $("#configureToolTipTemplate").html(),
                 contents;
-        
+
             template = template.replace(/VALUE/g, createHumanReadableValueString(link.type, link.defaultValue));
             template = template.replace(/TYPE/g, link.type);
-        
+
             contents = $('.configureDefaultValueLinkValue', link)[0];
             $(contents).html(template);
         }
@@ -346,23 +394,47 @@ var configure = (function ($) {
 }(jQuery));
 
 
-/**
-   Checks if a value can be considered true.
-*/
-function isTrue(v) {
+configure.utils = (function () {
     "use strict";
-    if (v === 1 || v === '1' || v === 'on' || v === 'true') {
-        return 1;
-    }
-    return 0;
-}
 
+    return {
 
+        /**
+        Checks if a value can be considered true.
+        */
+        isTrue: function (v) {
+            if (v === 1 || v === '1' || v === 'on' || v === 'true') {
+                return 1;
+            }
+            return 0;
+        },
 
+        /*
+        Quote a name per CSS quoting rules so that it can be used as a JQuery selecto
+        */
+        quoteName: function (name) {
+            var instr = name.split(""),
+                out = '',
+                i,
+                c;
+            for (i = 0; i < name.length; i = i + 1) {
+                c = instr[i];
+                if ("!\"#$%&'()*+,./:;<=>?@[\\]^`{|} ~".indexOf(c) >= 0) {
+                    out = out + '\\' + (c === ':' ? '\\3a' : c);
+                } else {
+                    out = out + c;
+                }
+            }
+            return out;
+        }
+    };
+
+}());
 
 /**
-   Called from "reset to default" link.
-   Values are set in UIs/Value.pm
+Global function
+Called from "reset to default" link.
+Values are set in UIs/Value.pm
 */
 function resetToDefaultValue(inLink, inFormType, inName, inValue) {
     "use strict";
@@ -428,11 +500,9 @@ function resetToDefaultValue(inLink, inFormType, inName, inValue) {
     return false;
 }
 
-
-
-
 /**
-   Opens/closes all info blocks.
+Global function.
+Opens/closes all info blocks.
 */
 function toggleInfo(inId) {
     "use strict";
@@ -449,31 +519,14 @@ function toggleInfo(inId) {
 
 /* SELECTORS */
 
-/* Quote a name per CSS quoting rules so that it can be used as a JQuery selector */
-
-function quoteName(name) {
-    "use strict";
-    var instr = name.split(""),
-        out = '',
-        i,
-        c;
-    for (i = 0; i < name.length; i = i + 1) {
-        c = instr[i];
-        if ("!\"#$%&'()*+,./:;<=>?@[\\]^`{|} ~".indexOf(c) >= 0) {
-            out = out + '\\' + (c === ':' ? '\\3a' : c);
-        } else {
-            out = out + c;
-        }
-    }
-    return out;
-}
-
 var enableWhenSomethingChangedElements = [];
 var showWhenNothingChangedElements = [];
 
-/* Value changes. Event when a value is edited; enables the save changes
- * button.  Also clicks feedback request button(s) for auto-feedback items.
- * The ^= is because 'feedreq' is followed by a button number.
+/*
+Global fuction
+Value changes. Event when a value is edited; enables the save changes
+button. Also clicks feedback request button(s) for auto-feedback items.
+The ^= is because 'feedreq' is followed by a button number.
  */
 function valueChanged(el) {
     "use strict";
@@ -485,7 +538,7 @@ function valueChanged(el) {
     case "password":
     case "radio":
     case "checkbox":
-        $('[id^="' + quoteName(el.name) + 'feedreq"]').filter('[value="~"]').click();
+        $('[id^="' + configure.utils.quoteName(el.name) + 'feedreq"]').filter('[value="~"]').click();
         break;
     default:
         break;
@@ -521,56 +574,6 @@ function valueOf($el) {
     return $el.val();
 }
 
-function newHideContent(elts, settings, callback) {
-    "use strict";
-    elts.contentWrapper.hide();
-    callback();
-}
-
-function loadImage(el) {
-    "use strict";
-    var url,
-        img;
-    if (!el.title || el.title === '') {
-        return;
-    }
-    url = el.title;
-    el.title = 'Click to enlarge';
-
-    img = new Image();
-    $(img).load(function () {
-        var w = this.width,
-            h = this.height,
-            MAX_H = 64,
-            MAX_W = 150;
-        /* set the image hidden by default */
-        $(img).hide();
-        /* Scale to max 64 height, max 150 width */
-        if (w * MAX_H / MAX_W > h) {
-            this.height = Math.round(h * MAX_W / w);
-            this.width = MAX_W;
-        } else {
-            this.width = Math.round(w * MAX_H / h);
-            this.height = MAX_H;
-        }
-
-        $(el).append(this);
-        $(this).wrap("<a href='" + url + "' class='nyroModal'></a>");
-        $('.nyroModal').nyroModal({
-            hideContent: newHideContent
-        });
-        $(this).fadeIn();
-    });
-    $(img).attr('src', url);
-}
-
-
-function getUrlParam(name) {
-    return decodeURI(
-        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
-    );
-}
-
 /**
  * jquery init 
  */
@@ -592,7 +595,7 @@ $(document).ready(function () {
         }
     });
     configure.initTabLinks();
-    
+
     $(".showWhenNothingChanged").each(function () {
         showWhenNothingChangedElements.push(this);
     });
@@ -677,7 +680,7 @@ $(document).ready(function () {
             }
         });
     });
-    configure.toggleExpertsMode(getUrlParam('expert'));
+    configure.toggleExpertsMode('expert');
     configure.toggleInfoMode();
     configure.initSection();
     $(window).scroll(function () {
@@ -707,7 +710,7 @@ function doFeedback(key, pathinfo) {
         dashdash = '--',
         crlf = '\015\012',
         requestData = "",
-        quoteKeyId = quoteName(key.id), /* Selector-encoded id of button that was clicked */
+        quoteKeyId = configure.utils.quoteName(key.id), /* Selector-encoded id of button that was clicked */
         KeyIdSelector = '#' + quoteKeyId,
         posturl = document.location.pathname, /* Where to post form */
         working,
@@ -858,7 +861,7 @@ function doFeedback(key, pathinfo) {
         working = 'Working...';
     }
     stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
-    $('#' + quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
+    $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
 
     /* Make the request
      * ** N.B. Definitely broken with jQuery 1.3 (unreliable selectors), 1.8.2 used.
@@ -891,7 +894,7 @@ function doFeedback(key, pathinfo) {
 
             /* Clear "working" status */
 
-            $('#' + quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+            $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
 
             /* Perhaps this should go to the status bar? */
 
@@ -928,7 +931,7 @@ function doFeedback(key, pathinfo) {
             /* Clear "working" status in case of errors or updates that don't target
              * the original status div.  This also updates the class.
              */
-            $('#' + quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+            $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
 
             /* Decide what kind of response we got. */
 
@@ -964,10 +967,10 @@ function doFeedback(key, pathinfo) {
                     return true;
                 }
                 if (kpair[1] === "\x02") {
-                    $("#" + quoteName(kpair[0]) + "status").html(kpair[2]);
+                    $("#" + configure.utils.quoteName(kpair[0]) + "status").html(kpair[2]);
                 } else if (kpair[1] === "\x03") {
                     newval = kpair[2].split(/\x04/);
-                    $('[name="' + quoteName(kpair[0]) + '"]').each(function (idx, ele) {
+                    $('[name="' + configure.utils.quoteName(kpair[0]) + '"]').each(function (idx, ele) {
                         switch (this.type.toLowerCase()) {
                         /* Ignore these for now (why update labels?) */
                         case "button":
@@ -1026,7 +1029,7 @@ function doFeedback(key, pathinfo) {
 
                         case "radio":
                         case "checkbox":
-                            this.checked = isTrue(newval[0]);
+                            this.checked = configure.utils.isTrue(newval[0]);
                             return true;
                         default:
                             break;
