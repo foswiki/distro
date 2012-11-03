@@ -6427,7 +6427,7 @@ The WikiWord is being expanded in the first hit of the search results.  2nd and 
 
 <verbatim>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/Item10491/txt: <a class="foswikiNewLink" href="/bin/edit/System/SomeString?topicparent=System.WebSearch" rel="nofollow" title="Create this topic">SomeString</a> "><b>txt: <a class="foswikiNewLink" href="/bin/edit/System/SomeString?topicparent=System.WebSearch" rel="nofollow" title="Create this topic">SomeString</a> </b></a>
+<a href="/Item10491/txt: <span class="foswikiNewLink">SomeString<a href="/bin/edit/System/SomeString?topicparent=System.WebSearch" rel="nofollow" title="Create this topic">?</a></span> "><b>txt: <span class="foswikiNewLink">SomeString<a href="/bin/edit/System/SomeString?topicparent=System.WebSearch" rel="nofollow" title="Create this topic">?</a></span> </b></a>
 <div class="foswikiSummary"></div></div>
 </verbatim>
 
