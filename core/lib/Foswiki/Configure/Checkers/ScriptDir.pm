@@ -4,23 +4,30 @@ package Foswiki::Configure::Checkers::ScriptDir;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Checkers::PATH ();
+our @ISA = ('Foswiki::Configure::Checkers::PATH');
 
-sub check {
+# check() is handled by the default checker.
+
+# feedback is special for scripts
+
+sub provideFeedback {
     my $this = shift;
 
-    my $e = $this->guessMajorDir( 'ScriptDir', 'bin' );
-    my $val = $Foswiki::cfg{ScriptDir};
-    $e .= $this->warnAboutWindowsBackSlashes($val);
+    $this->{FeedbackProvided} = 1;
 
-    $e .= $this->showExpandedValue($val)
-      if $Foswiki::cfg{ScriptDir} =~ /\$Foswiki::cfg/;
+    my $e = $this->check(@_);
 
-    Foswiki::Configure::Load::expandValue($val);
-    my $e2 = _checkBinDir( $this, $val );
+    my $e2 = _checkBinDir( $this, $this->getCfg('{ScriptDir}') );
     $e .= $e2 if $e2;
-    return $e;
+
+    if ( $this->{GuessedValue} ) {
+        $e .=
+          $this->FB_VALUE( '{ScriptDir}',
+            ( delete $this->{GuessedValue} || '' ) );
+    }
+
+    return wantarray ? ( $e, 0 ) : $e;
 }
 
 sub _checkBinDir {

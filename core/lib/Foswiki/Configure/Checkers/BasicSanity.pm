@@ -72,7 +72,7 @@ sub check {
 
     # Get default settings by reading .spec files
     require Foswiki::Configure::Load;
-    Foswiki::Configure::Load::readDefaults();
+    Foswiki::Configure::Load::readDefaults(); #Foswiki.spec + plugins & contribs
 
     $Foswiki::defaultCfg = _copy( \%Foswiki::cfg );
 
@@ -86,7 +86,7 @@ Please correct this error before continuing.
 HERE
     }
     elsif ( -e $this->{LocalSiteDotCfg} ) {
-        eval { Foswiki::Configure::Load::readConfig(1); };
+        eval { Foswiki::Configure::Load::readConfig( 1, 1 ); }; # Don't expand or re-read Foswiki.spec.
         if ($@) {
             $this->{errors}++;
             $result .= <<HERE;

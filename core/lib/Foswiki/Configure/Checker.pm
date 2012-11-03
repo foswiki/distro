@@ -198,6 +198,7 @@ sub getItemDefaultValue {
     my $this = shift;
     my $keys = shift || $this->{item}->getKeys();
 
+    no warnings 'once';
     my $value = eval "\$$Foswiki::defaultCfg->$keys";
     if ($@) {
         die "Unable to get default $value for $keys\n";

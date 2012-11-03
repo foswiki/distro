@@ -5,11 +5,18 @@ package Foswiki::Configure::Util;
 use strict;
 use warnings;
 
+# Compatibility with old scripts
+
 sub getScriptName {
-    my @script = File::Spec->splitdir( $ENV{SCRIPT_NAME} || 'THISSCRIPT' );
-    my $scriptName = pop(@script);
-    $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
-    return $scriptName;
+    require Foswiki::Configure::CGI;
+    if (1) {    # DEBUG find old callers
+        print STDERR __PACKAGE__
+          . "getScriptName called from "
+          . join( ' ', ( caller(1) )[ 3, 1, 2 ] ) . "\n";
+    }
+    no warnings 'redefine';
+    *getScriptName = \&Foswiki::Configure::CGI::getScriptName;
+    goto &Foswiki::Configure::CGI::getScriptName;
 }
 
 # very basic tool

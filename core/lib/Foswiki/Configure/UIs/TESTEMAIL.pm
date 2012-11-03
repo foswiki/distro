@@ -32,13 +32,8 @@ sub renderHtml {
 
     my $template = Foswiki::Configure::UI::getTemplateParser()
       ->readTemplate('testemailintro');
-    Foswiki::Configure::UI::getTemplateParser()->parse(
-        $template,
-        {
-            'hasError'   => $bad,
-            'scriptName' => Foswiki::Configure::Util::getScriptName(),
-        }
-    );
+    Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $template, { 'hasError' => $bad, } );
     $output .= $template;
     $output = $this->SUPER::renderHtml( $section, $root, $output );
     return $output;

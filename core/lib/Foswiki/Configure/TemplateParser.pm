@@ -32,6 +32,12 @@ use strict;
 use warnings;
 use Foswiki::Configure::Util ();
 
+# Used for dynamic data only (Static should be
+# pre-compressed - see the make_gz script).
+
+eval "use IO::Compress::Gzip ();";
+my $gzipAvail = !$@;
+
 # Where to look for templates and resources
 my $foswikiConfigureFilesDir;
 
@@ -139,9 +145,9 @@ sub _getTemplate {
 
     my $templateName = $this->_getTemplateFileName( $name, $skin );
 
+    no warnings 'once';
     my $template =
-      $this->getTemplate( $templateName,
-        SCRIPTNAME => Foswiki::Configure::Util::getScriptName() );
+      $this->getTemplate( $templateName, RESOURCEURI => $Foswiki::resourceURI );
 
     return $template;
 }
@@ -164,41 +170,95 @@ sub getResource {
 sub getTemplate {
     my ( $this, $resource, %vars ) = @_;
 
-    return $this->getFile( "$foswikiConfigureFilesDir/templates/", $resource,
-        %vars );
+    return $this->getFile(
+        "$foswikiConfigureFilesDir/templates/", $resource,
+        -binmode => 0,
+        %vars
+    );
 }
 
 sub getFile {
     my ( $this, $dir, $resource, %vars ) = @_;
-    my $text = '';
+
+    my $zipok    = delete $vars{'-zipok'};
+    my $wantEtag = delete $vars{'-etag'};
+    my $binmode  = delete $vars{'-binmode'};
+
+    $binmode =
+      $resource =~ /\.(png|gif|ico|psd|jpe?g|tiff|ppm|pgm|pbm|pnm|img|svg|bmp)$/
+      unless ( defined $binmode );
+
+   # Serve static content from a pre-zipped resource file if it's available.
+   # Note that these files can not have variables or INCLUDEs.  But don't panic.
+
+    my $zipped;
+    if ( $zipok && -f "$dir${resource}.gz" ) {
+        $zipped = 1;
+        $resource .= '.gz';
+    }
+    my $text    = '';
+    my $dynamic = 0;
     if ( open( my $F, '<', $dir . $resource ) ) {
+        binmode $F if ( $binmode || $zipped );
         local $/;
         $text = <$F>;
         close($F);
-        if ( $resource =~ /\.(js|css)$/ ) {
 
-=pod
-commenting out, this seems just 'to work'
-            $text =~ s#/\*.*?\*/##g;
-            $text =~ s#\s*//.*$##gm if ( $resource =~ /\.js$/ ); #
-            $text =~ s/\t/ /g;
-            $text =~ s/[ ]+$//gm;
-            $text =~ s/^\s+//gm;
-            $text =~ s/ +/ /g;
-            $text =~ s/\s*\n/\n/gs;
-=cut
-
-        }
-        $text =~ s/%INCLUDE{(.*?)}%/$this->getResource($1)/ges;
-        while ( my ( $k, $v ) = each %vars ) {
-            $text =~ s/\%$k%/$v/gs;
+# Dynamic content requires a digest.
+# Static content can use a weak validator.
+# N.B. Vars are only handled at the top level in one pass over the interpolated text.
+        unless ( $binmode || $zipped ) {
+            $dynamic += $text =~
+s/%INCLUDE{(.*?)}%/$this->getResource($1, -binmode => $binmode)/ges;
+            while ( my ( $k, $v ) = each %vars ) {
+                $dynamic += ( $text =~ s/\%$k\%/$v/gs );
+            }
         }
     }
     else {
         print STDERR "Error loading resource $dir$resource: $!\n";
+        return $wantEtag ? ( $text, undef ) : $text;
     }
 
-    return $text;
+    # Nothing fancy unless caller knows about $wantEtag
+    return $text unless ($wantEtag);
+
+    # Produce etag based on the file actually used.
+
+    my $etag = makeETag( $dir . $resource, ( $dynamic ? \$text : undef ) );
+
+   # If zip requested but static file not available (hopefully, dynamic content)
+   # zip the output stream if gzip is available.  Don't bother for tiny stuff.
+
+    if ( $zipok && !$zipped && $gzipAvail && length($text) >= 2048 ) {
+
+#        print STDERR "NOTE: $dir$resource should be pre-zipped" unless( $dynamic );
+        my $data = $text;
+        undef $text;
+        no warnings 'once';
+        IO::Compress::Gzip::gzip( \$data, \$text )
+          or die "Unable to gzip $resource: $IO::Compress::Gzip::GzipError\n";
+        $zipped = 1;
+    }
+    return ( $text, $etag, $zipped );
+}
+
+sub makeETag {
+    my $file = shift;
+    my $text = shift;
+
+    # Generate an ETag
+    # Optionally include digest of text content because of variable substitution
+    # Validator is weak if just size/mtime, strong if includes digest
+
+    my @s = stat $file;
+    return undef unless (@s);
+
+    my $tag = sprintf( '"%010u:%010u', $s[7], $s[9] );
+    return 'W/' . $tag . '"' unless ( defined $text );
+
+    require Digest::MD5;
+    return $tag . ':' . Digest::MD5::md5_hex($$text) . '"';
 }
 
 1;

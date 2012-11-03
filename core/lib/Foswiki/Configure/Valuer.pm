@@ -1,5 +1,9 @@
 # See bottom of file for license and copyright information
 
+package Foswiki;
+
+our $configItemRegex;
+
 =begin TML
 
 ---+ package Foswiki::Configure::Valuer
@@ -104,12 +108,10 @@ sub loadCGIParams {
     # Each config param has an associated TYPEOF: param, so we only
     # pick up those things that we really want
     foreach $param ( $query->param ) {
-
-        # the - (and therefore the ' and ") is required for languages
-        # e.g. {Languages}{'zh-cn'}.
-        next unless $param =~ /^TYPEOF:((?:\{[-:\w'"]+})*)/;    #
+        next unless $param =~ /^TYPEOF:($configItemRegex)/;    #
 
         my $keys = $1;
+        next if ( $keys =~ /^\{ConfigureGUI\}/ );
 
         # The value of TYPEOF: is the type name
         my $typename = $query->param($param);
@@ -135,7 +137,7 @@ sub loadCGIParams {
 #Foswiki::log("loadCGIParams ($typename: $keys)($param)\n'$newval' != \n'".($curval||'undef')."'");
             eval $xpr . ' = $newval';
             $changed++;
-            $updated->{$keys} = 1;
+            $updated->{$keys} = 1 if ($updated);
         }
     }
     return $changed;

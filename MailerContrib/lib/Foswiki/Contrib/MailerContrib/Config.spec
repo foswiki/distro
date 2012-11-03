@@ -1,6 +1,6 @@
 # ---+ Extensions
 # ---++ MailerContrib
-# **REGEX**
+# **REGEX FEEDBACK=ON-CHANGE**
 # Define the regular expression that an email address entered in WebNotify
 # must match to be identified as a legal email by the notifier. You can use
 # this expression to - for example - filter email addresses on your company

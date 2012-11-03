@@ -30,7 +30,8 @@ sub renderHtml {
         SCRIPTURLPATH => $Foswiki::cfg{ScriptUrlPath},
         SCRIPTSUFFIX  => $Foswiki::cfg{ScriptSuffix},
         ADMINGROUP    => $Foswiki::cfg{SuperAdminGroup},
-        MESSAGES      => $messages
+        RESOURCEURI   => $Foswiki::resourceURI,
+        MESSAGES      => $messages,
     );
 
     # do not simply return the contents as we want to have

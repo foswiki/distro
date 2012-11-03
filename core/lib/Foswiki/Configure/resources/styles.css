@@ -8,6 +8,15 @@ body {
 	margin:0 40px 3.5em 40px;
 	padding:0;
 }
+div.configurePageHeader {
+    position: fixed;
+    z-index: 1000;
+    opacity: 100;
+    width: 100%:
+}
+div.configurePageBodyWrapper {
+    padding-top: 110px;
+}
 
 /* --- SECTIONS --- */
 
@@ -69,12 +78,129 @@ body.configureShowOneSection .configureNotShowSection {
 	background-repeat:no-repeat;
 }
 .configureStatusWarnings {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_warn_white.gif);
+	background-image:url(%RESOURCEURI%icon_warn_white.gif);
 }
 .configureStatusErrors {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_error_white.gif);
+	background-image:url(%RESOURCEURI%icon_error_white.gif);
 }
 
+table.configureFeedbackSummaryTable {
+    margin-top: 0px;
+    border: none;
+}
+table.configureFeedbackSummaryTable td {
+    vertical-align:middle;
+    border-style:none;
+}
+.configureFeedbackSummaryCell {
+    background-color:#fffbe8;
+    font-size:x-large;
+}
+.configureFeedbackUnsaved .configureFeedbackSummaryCell {
+    font-size:xx-small;
+    color:black;
+}
+
+.configureFeedback {
+    max-height: 200px;
+    overflow: auto;
+    background-color: #FC000;
+}
+
+div.configureFeedbackPending {
+    height: 40;
+    width: 40;
+    background-image:url(%RESOURCEURI%ajaxLoader.gif);
+    background-repeat:no-repeat;
+    background-position:left;
+    background-size:contain;
+
+}
+span.configureFeedbackPendingMessage {
+    padding-left: 25px;
+    color:green;
+    font-style:italic;
+}
+
+div.configureFeedbackError {
+    height: 301px;
+    width: 301px;
+}
+div.configureFeedbackError H1 {
+    color: #FF0000;
+    font-weight: bold;
+}
+
+[class^=configureFeedbackButton] {
+	-moz-box-shadow: 0px 1px 2px -6px #fab325;
+	-webkit-box-shadow: 0px 1px 2px -6px #fab325;
+	box-shadow: 0px 1px 2px -6px #fab325;
+	background-color:#50fa25;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:11px;
+	font-weight:bold;
+	padding:4px 13px;
+	text-decoration:none;
+	text-shadow:1px 1px 33px #cc9f52;
+}[class^=configureFeedbackButton]:hover {
+	background-color:#fa8925;
+}[class^=configureFeedbackButton]:active {
+	position:relative;
+	top:1px;
+}
+
+.configureFeedbackButton1 {
+	-moz-box-shadow: 0px 1px 2px -6px #fab325;
+	-webkit-box-shadow: 0px 1px 2px -6px #fab325;
+	box-shadow: 0px 1px 2px -6px #fab325;
+	background-color:#fab325;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:11px;
+	font-weight:bold;
+	padding:4px 13px;
+	text-decoration:none;
+	text-shadow:1px 1px 33px #cc9f52;
+}.configureFeedbackButton1:hover {
+	background-color:#fa8925;
+}.configureFeedbackButton1:active {
+	position:relative;
+	top:1px;
+}
+.configureFeedbackButton2 {
+	-moz-box-shadow: 0px 1px 2px -6px #fab325;
+	-webkit-box-shadow: 0px 1px 2px -6px #fab325;
+	box-shadow: 0px 1px 2px -6px #fab325;
+	background-color:#fa7025;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:11px;
+	font-weight:bold;
+	padding:4px 13px;
+	text-decoration:none;
+	text-shadow:1px 1px 33px #cc9f52;
+}.configureFeedbackButton2:hover {
+	background-color:#fa8925;
+}.configureFeedbackButton2:active {
+	position:relative;
+	top:1px;
+}
+.configureCheckOnChange {
+    vertical-align:text-center;
+}
 
 /* --- MENUS --- */
 
@@ -169,17 +295,17 @@ ul li a.configureWarn:hover {
 ul li a.configureWarnAndError:link, 
 ul li a.configureWarnAndError:visited,
 ul li a.configureWarnAndError:hover {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_warn_and_error_white.gif);
+	background-image:url(%RESOURCEURI%icon_warn_and_error_white.gif);
 }
 ul li a.configureError:link, 
 ul li a.configureError:visited,
 ul li a.configureError:hover {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_error_white.gif);
+	background-image:url(%RESOURCEURI%icon_error_white.gif);
 }
 ul li a.configureWarn:link, 
 ul li a.configureWarn:visited,
 ul li a.configureWarn:hover {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_warn_white.gif);
+	background-image:url(%RESOURCEURI%icon_warn_white.gif);
 }
 ul li.configureMenuSelected a.configureWarnAndError:link,
 ul li.configureMenuSelected a.configureWarnAndError:visited,
@@ -192,15 +318,15 @@ ul li.configureMenuSelected a.configureWarn:visited {
 }
 ul li.configureMenuSelected a.configureWarnAndError:link,
 ul li.configureMenuSelected a.configureWarnAndError:visited {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_warn_and_error_blue.gif);
+	background-image:url(%RESOURCEURI%icon_warn_and_error_blue.gif);
 }
 ul li.configureMenuSelected a.configureError:link,
 ul li.configureMenuSelected a.configureError:visited {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_error_blue.gif);
+	background-image:url(%RESOURCEURI%icon_error_blue.gif);
 }
 ul li.configureMenuSelected a.configureWarn:link,
 ul li.configureMenuSelected a.configureWarn:visited {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_warn_blue.gif);
+	background-image:url(%RESOURCEURI%icon_warn_blue.gif);
 }
 /* --- TABLE ROWS & COLUMNS --- */
 /*
@@ -281,13 +407,13 @@ div.configureOk {
 	background-repeat:no-repeat;
 }
 div.configureError {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_error_white.gif);
+	background-image:url(%RESOURCEURI%icon_error_white.gif);
 }
 div.configureWarn {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_warn_white.gif);
+	background-image:url(%RESOURCEURI%icon_warn_white.gif);
 }
 div.configureOk {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_ok_white.gif);
+	background-image:url(%RESOURCEURI%icon_ok_white.gif);
 }
 
 a.configureWarn:link,
@@ -315,7 +441,8 @@ div.configureInfo {
 
 /* --- EXTENSIONS --- */
 table.configureExtensionsTable {
-	margin: 2em 0 0 0;
+	margin: 200px 0 0 0;
+        position:absolute;
 	border: none;
 	width: 100%;
 }
@@ -393,23 +520,24 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.configureExtension
 	background:#e1e9ef;
 }
 .configureConsultedLocations {
-	margin:2em 0 0 0;
+	margin:10px 0 0 0;
 	padding:7px .5em 7px 27px;
 	background-position:0 45%;
-	background-repeat:no-repeat;	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_world.gif);
+	background-repeat:no-repeat;
+	background-image:url(%RESOURCEURI%icon_world.gif);
 }
 
 /* --- EXPERT ---*/
 
 /* Settings and other stuff only shown in expert mode */
 table.configureSectionValues tr.configureExpert th {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_expert.gif);
+	background-image:url(%RESOURCEURI%bg_expert.gif);
 	background-repeat: repeat-y;
 	color:#7a6210;
 }
 
 li.configureExpert { /* menu item */
-	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_expert.gif);
+	background-image:url(%RESOURCEURI%bg_expert.gif);
 	background-repeat: repeat-y;
 	color:#7a6210;
 }
@@ -492,7 +620,7 @@ a.configureExpert:hover,
 a.configureInfoText:link,
 a.configureInfoText:visited,
 a.configureInfoText:hover {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_up.gif);
+	background-image:url(%RESOURCEURI%icon_up.gif);
 }
 a.configureNotExpert:link,
 a.configureNotExpert:visited,
@@ -500,7 +628,7 @@ a.configureNotExpert:hover,
 a.configureNotInfoText:link,
 a.configureNotInfoText:visited,
 a.configureNotInfoText:hover {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=icon_down.gif);
+	background-image:url(%RESOURCEURI%icon_down.gif);
 }
 .configureRootSection h2 {
 	margin-top:0.25em;
@@ -588,7 +716,7 @@ div.configureMessageBox {
 }
 
 .configureLegend table div.configureExpertExample {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_expert.gif);
+	background-image:url(%RESOURCEURI%bg_expert.gif);
 	background-repeat: repeat-y;
 	color:#7a6210;
 	display:block;

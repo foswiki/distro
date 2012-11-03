@@ -19,7 +19,7 @@
 	    	This action will temporarily enable email along with the email debugging flag and will attempt to send an email to the admin email address. Errors will be reported back to the web interface instead of to the server logs.
         </p>
         <p>
-        	<a href='${scriptName}?action=TestEmail' class='foswikiButton'>Start test</a>
+           <button onclick="$(this)['closest']('form')['append']('&lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;TestEmail&quot;&gt;')['submit']();return false;" class="foswikiButton">Start test</button>
         </p>
     </div>
 </#assign>

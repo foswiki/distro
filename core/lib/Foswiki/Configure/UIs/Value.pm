@@ -15,6 +15,8 @@ package Foswiki::Configure::UIs::Value;
 use strict;
 use warnings;
 
+use Foswiki::Configure::CGI;
+
 use Foswiki::Configure::UIs::Item ();
 our @ISA = ('Foswiki::Configure::UIs::Item');
 
@@ -45,13 +47,18 @@ sub renderHtml {
     my $enableIf  = $value->enableIf();
     my $info      = $value->{desc};
     my $keys      = $value->getKeys();
+    my $feedback  = $value->feedback();
 
     my $checker  = Foswiki::Configure::UI::loadChecker( $keys, $value );
     my $isUnused = 0;
     my $isBroken = 0;
     my $check    = '';
     if ($checker) {
-        $check = $checker->check($value) || '';
+        eval { $check = $checker->check($value) || ''; };
+        if ($@) {
+            $check = $this->ERROR(
+                "Checker for $keys failed: check for .spec errors:$@");
+        }
         if ($check) {
 
             # something wrong
@@ -78,6 +85,39 @@ sub renderHtml {
     $index = "$index <span class='configureMandatory'>required</span>"
       if $value->{mandatory};
 
+    if ( defined $feedback ) {
+        my $buttons = "";
+        my $n       = 0;
+        my $nd      = 0;
+        foreach my $fb (@$feedback) {
+            $n++;
+            my $magic = '';
+            my $pinfo = '';
+            if ( $fb eq '~' ) {
+                $magic = qq{ style="display:none;"};
+            }
+            else {
+                if ( $fb =~ /^~p\[(.*?)\](.*)$/ ) {
+                    $pinfo = qq{, '$1'};
+                    $fb    = $2;
+                }
+                $buttons .= "<br />" if ( $nd++ % 3 == 0 );
+            }
+            my $q = '"';
+            $q = "'" if ( $fb =~ /["]/ );
+            $fb =~
+s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
+            $buttons .=
+qq{ <input type="button" id="${keys}feedreq$n" value=$q$fb$q class="configureFeedbackButton$n" onclick="return doFeedback(this$pinfo);"$magic /> };
+        }
+        $feedback = $buttons;
+        $index =
+qq{$index <span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" width="32" height="15" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
+          if ( $nd != $n );
+    }
+    else {
+        $feedback = '';
+    }
     my $resetToDefaultLinkText = '';
     if ( $value->needsSaving( $root->{valuer} ) ) {
 
@@ -108,31 +148,51 @@ HERE
         $resetToDefaultLinkText =~ s/[[:space:]]+$//s;    # trim at end
     }
 
-    my $control;
+    my $control      = '';
+    my $currentValue = $root->{valuer}->currentValue($value);
+    unless ( defined $currentValue ) {
+
+        # Could be a corrupt spec file, or an item materialized
+        # without a spec entry.  Assume the latter know what
+        # they are doing.  (They won't have a symbol entry).
+        # If a materialized item should be checked, see FoswikiCfg
+        # for the format of an _defined entry.
+
+        if ( exists $value->{_defined} ) {
+            $control = $this->WARN(
+"Undefined or missing value should not occur in .spec or .cfg file.  Check for corruption."
+            );
+            $currentValue = '';
+        }
+    }
     if ( $isUnused && !$isBroken ) {
 
         # Unused and not broken - just pass the value through a hidden
-        $control =
-          Foswiki::Configure::UI::hidden( $keys,
-            $root->{valuer}->currentValue($value) );
+        $control .= Foswiki::Configure::UI::hidden( $keys, $currentValue );
     }
     else {
 
         # Generate a prompter for the value.
         my $promptclass = $value->{typename} || '';
         $promptclass .= ' configureMandatory' if ( $value->{mandatory} );
-        $control =
-          $type->prompt( $keys, $value->{opts},
-            $root->{valuer}->currentValue($value), $promptclass );
+        eval {
+            $control .=
+              $type->prompt( $keys, $value->{opts}, $currentValue,
+                $promptclass );
+        };
+        if ($@) {
+            $control .= $this->ERROR(
+                "Failed to generate input field; check for .spec errors: $@");
+        }
     }
 
     my $helpTextLink = '';
     my $helpText     = '';
     if ($info) {
         my $tip        = $root->{controls}->addTooltip($info);
-        my $scriptName = Foswiki::Configure::Util::getScriptName();
+        my $scriptName = Foswiki::Configure::CGI::getScriptName();
         my $image =
-"<img src='$scriptName?action=resource;resource=icon_info.gif' alt='Show info' title='Show info' />";
+"<img src='${Foswiki::resourceURI}icon_info.gif' alt='Show info' title='Show info' />";
         $helpTextLink =
 "<span class='foswikiMakeVisible'><a href='#' onclick='return toggleInfo($tip);'>$image</a></span>";
         $helpText =
@@ -144,8 +204,10 @@ HERE
     $props{'data-displayif'} = $displayIf if $displayIf;
     $props{'data-enableif'}  = $enableIf  if $enableIf;
 
+    $check =
+      qq{<div id="${keys}status" class="configureFeedback" >$check</div>};
     $output .= CGI::Tr( \%props,
-            CGI::th("$index$hiddenTypeOf")
+            CGI::th("$index$feedback$hiddenTypeOf")
           . CGI::td("$control&nbsp;$resetToDefaultLinkText$check$helpText")
           . CGI::td( { class => "configureHelp" }, $helpTextLink ) )
       . "\n";

@@ -11,19 +11,16 @@ conventional renderHtml interface, instead implementing a special
 
 =cut
 
+package Foswiki;
+our $VERSION;
+
 package Foswiki::Configure::UIs::EXTEND;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::UI      ();
-use Foswiki::Configure::Package ();
+use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
-use Foswiki::Configure::Util ();
-
-use File::Copy ();
-use File::Spec ();
-use Cwd        ();
 
 my $installRoot;
 
@@ -36,17 +33,53 @@ my $installRoot;
 This method uses *print* rather than gathering output. This is to give
 the caller early feedback.
 
+Forks in order to protect configure's data structures from installation.
+
 =cut
 
 sub install {
+    my $fh;
+    my $pid = open( $fh, '-|' );
+    if ( defined $pid ) {
+        if ($pid) {
+            local $/ = "\n";
+            print $_ while (<$fh>);
+            close $fh;
+        }
+        else {
+            eval { print _installFork(@_); };
+            print $@ if ($@);
+            exit(0);
+        }
+    }
+    else {
+        die "Unable to fork: $!\n";
+    }
+    return '';
+}
+
+sub _installFork {
     my $this  = shift;
     my $query = $Foswiki::query;
 
-    #   The safest directory to use for the foswiki root is probably DataDir.
-    #   bin is possibly relocated to a cgi-bin,  and pub might be in a webroot.
-    #   data, locale, working, etc. are probably the most stable.   Unknown
-    #   directories should be created in this directory.
-    #
+    require Foswiki::Configure::Package;
+    require Foswiki::Configure::Util;
+
+    require File::Copy;
+    require File::Spec;
+    require Cwd;
+
+    ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+    die "No Foswiki.pm\n" unless ($fwi);
+
+#   The safest directory to use for the foswiki root is probably DataDir.
+#   bin is possibly relocated to a cgi-bin,  and pub might be in a webroot.
+#   data, locale, working, etc. are probably the most stable.   Unknown
+#   directories should be created in this directory.
+#   This really shouldn't be an issue so long as a root directory has symlinks
+#   to each of the children.  If not, we will be confused because it is necessary
+#   to find the root directory before LSC has been read.
+
     my @instRoot = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
     pop(@instRoot);
 

@@ -4,19 +4,25 @@ package Foswiki::Configure::Checkers::WorkingDir;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Checkers::PATH ();
+our @ISA = ('Foswiki::Configure::Checkers::PATH');
 
 sub untaint {
     $_[0] =~ m/^(.*)$/;
     return $1;
 }
 
-sub check {
+# The default check() is adequate, but provideFeedback is special for WorkingDir
+
+sub provideFeedback {
     my $this = shift;
 
+    $this->{FeedbackProvided} = 1;
+
+    my $e = $this->check(@_);
+
     my $d = $this->getCfg("{WorkingDir}");
-    my $mess = $this->guessMajorDir( 'WorkingDir', 'working', 1 );
+
     $Foswiki::cfg{WorkingDir} =~ s#[/\\]+$##;
     $d =~ s#[/\\]+$##;
 
@@ -29,45 +35,46 @@ sub check {
     my $saveumask = umask();
     umask( oct(000) );
 
-    if ($mess) {
-        $mess .= $this->NOTE(
-'This directory will be created after the guessed settings are saved'
+    if ( $this->{GuessedValue} ) {
+        $e .= $this->NOTE(
+'This directory will be created after the guessed settings are confirmed'
         ) unless ( -d $d );
-        return $mess;    # guess will return message if a guess is made.
+        $e .=
+          $this->FB_VALUE( '{WorkingDir}',
+            ( delete $this->{GuessedValue} || '' ) );
+        return ( $e, 0 );    # guess will return message if a guess is made.
     }
-
-    $mess .= $this->showExpandedValue( $Foswiki::cfg{WorkingDir} );
 
     unless ( -d $d ) {
         mkdir( untaint($d), oct(755) )
-          || return $mess
-          . $this->ERROR("$d does not exist, and I can't create it: $!");
-        $mess .= $this->NOTE("Created $d");
+          || return (
+            $e . $this->ERROR("$d does not exist, and I can't create it: $!"),
+            0 );
+        $e .= $this->NOTE("Created $d");
     }
 
     unless ( -d "$d/tmp" ) {
         if ( -e "$d/tmp" ) {
-            $mess .=
-              $this->ERROR("$d/tmp already exists, but is not a directory");
+            $e .= $this->ERROR("$d/tmp already exists, but is not a directory");
         }
         elsif ( !mkdir( untaint("$d/tmp"), oct(1777) ) ) {
-            $mess .= $this->ERROR("Could not create $d/tmp");
+            $e .= $this->ERROR("Could not create $d/tmp");
         }
         else {
-            $mess .= $this->NOTE("Created $d/tmp");
+            $e .= $this->NOTE("Created $d/tmp");
         }
     }
 
     unless ( -d "$d/work_areas" ) {
         if ( -e "$d/work_areas" ) {
-            $mess .= $this->ERROR(
+            $e .= $this->ERROR(
                 "$d/work_areas already exists, but is not a directory");
         }
         elsif ( !mkdir( untaint("$d/work_areas"), oct(755) ) ) {
-            $mess .= $this->ERROR("Could not create $d/work_areas");
+            $e .= $this->ERROR("Could not create $d/work_areas");
         }
         else {
-            $mess .= $this->NOTE("Created $d/work_areas");
+            $e .= $this->NOTE("Created $d/work_areas");
         }
     }
 
@@ -77,12 +84,12 @@ sub check {
     if ( $existing && -d $existing ) {
 
         # Try and move the contents of the old workarea
-        my $e = $this->copytree( untaint($existing), untaint("$d/work_areas") );
-        if ($e) {
-            $mess .= $this->ERROR($e);
+        my $m = $this->copytree( untaint($existing), untaint("$d/work_areas") );
+        if ($m) {
+            $e .= $this->ERROR($m);
         }
         else {
-            $mess .= $this->WARN( "
+            $e .= $this->WARN( "
 You have an existing {RCS}{WorkAreaDir} ($Foswiki::cfg{RCS}{WorkAreaDir}),
 so I have copied the contents of that directory into the new
 $d/work_areas. You should delete the old
@@ -94,20 +101,20 @@ the upgrade." );
 
     unless ( -d "$d/registration_approvals" ) {
         if ( -e "$d/registration_approvals" ) {
-            $mess .= $this->ERROR(
+            $e .= $this->ERROR(
 "$d/registration_approvals already exists, but is not a directory"
             );
         }
         elsif ( !mkdir( untaint("$d/registration_approvals"), oct(755) ) ) {
-            $mess .= $this->ERROR("Could not create $d/registration_approvals");
+            $e .= $this->ERROR("Could not create $d/registration_approvals");
         }
     }
 
     umask($saveumask);
-    my $e = $this->checkTreePerms( $d, 'rw', qr/configure\/backup\/|README/ );
-    $mess .= $this->ERROR($e) if $e;
+    my $m = $this->checkTreePerms( $d, 'rw', qr/configure\/backup\/|README/ );
+    $e .= $this->ERROR($m) if $m;
 
-    return $mess;
+    return wantarray ? ( $e, 0 ) : $e;
 }
 
 1;

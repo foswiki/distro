@@ -82,7 +82,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 $Foswiki::cfg{ScriptUrlPaths}{view} =
   '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
-# **PATH M**
+# **PATH FEEDBACK="Validate Permissions" CHECK="guess:bin" M**
 # This is the file system path used to access the Foswiki bin
 # directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
@@ -94,7 +94,7 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # will have to use webserver controls (e.g. .htaccess on Apache)
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
-# **NUMBER EXPERT**
+# **NUMBER FEEDBACK=AUTO EXPERT**
 # This is the maximum number of files and directories that will be checked
 # for permissions for the pub and data Directory paths.  This limit is initially set to
 # 5000, which should be reasonable for a default installation.  If it is
@@ -104,28 +104,28 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # recursive directory checking.
 $Foswiki::cfg{PathCheckLimit} = 5000;
 
-# **PATH M**
+# **PATH FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rw filter:',v$'" M**
 # Attachments store (file path, not URL), must match /foswiki/pub e.g.
 # /usr/local/foswiki/pub
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH M**
+# **PATH FEEDBACK="Validate Permissions" CHECK="guess:data perms:rwpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
 # Topic files store (file path, not URL) e.g. /usr/local/foswiki/data
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH M**
+# **PATH FEEDBACK="Validate Permissions" CHECK="guess:tools perms:r" M**
 # Tools directory e.g. /usr/local/foswiki/tools
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH M**
+# **PATH FEEDBACK="Validate Permissions" CHECK="guess:templates perms:r" M**
 # Template directory e.g. /usr/local/foswiki/templates
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH M**
+# **PATH FEEDBACK="Validate Permissions" CHECK="guess:locale perms:r" M**
 # Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locale
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH M**
+# **PATH  FEEDBACK="Validate Permissions" CHECK="guess:working perms:rw" M**
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be browsed from the web.
 # A number of subdirectories will be created automatically under this
@@ -179,7 +179,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# **PATH M**
+# **PATH FEEDBACK=On-Change M**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep and rcs.
 # By restricting this path to just a few key
@@ -269,7 +269,7 @@ $Foswiki::cfg{DetailedOS} = '';
 # cons of using persistent sessions.</p>
 $Foswiki::cfg{UseClientSessions} = 1;
 
-# **STRING 20 EXPERT DISPLAY_IF {UseClientSessions}**
+# **NUMBER FEEDBACK=AUTO 20 EXPERT DISPLAY_IF {UseClientSessions}**
 # Set the session timeout, in seconds. The session will be cleared after this
 # amount of time without the session being accessed. The default is 6 hours
 # (21600 seconds).<p />
@@ -286,7 +286,7 @@ $Foswiki::cfg{UseClientSessions} = 1;
 # <p> This setting is also used to set a lifetime for registration requests.</p>
 $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 
-# **NUMBER EXPERT DISPLAY_IF {UseClientSessions} && {LoginManager}=='Foswiki::LoginManager::TemplateLogin'**
+# **NUMBER FEEDBACK=AUTO EXPERT DISPLAY_IF {UseClientSessions} && {LoginManager}=='Foswiki::LoginManager::TemplateLogin'**
 # TemplateLogin only.
 # Normally the cookie that remembers a user session is set to expire
 # when the browser exits, but using this value you can make the cookie
@@ -344,7 +344,7 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 0;
 # <i>off</i>.
 $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 
-# **OCTAL EXPERT**
+# **OCTAL CHECK="min:000 max:777" FEEDBACK=AUTO EXPERT**
 # File security for new session objects created by the login manager.
 # You may have to adjust these permissions to allow (or deny) users other than the webserver
 # user access session objects that Foswiki creates in the filesystem.
@@ -377,14 +377,14 @@ $Foswiki::cfg{Session}{filePermission} = 0600;
 # be performed.</p>
 $Foswiki::cfg{Validation}{Method} = 'strikeone';
 
-# **NUMBER EXPERT DISPLAY_IF {Validation}{Method}!='none'**
+# **NUMBER CHECK="min:1" FEEDBACK=AUTO EXPERT DISPLAY_IF {Validation}{Method}!='none'**
 # Validation keys are stored for a maximum of this amount of time before
 # they are invalidated. Time in seconds. A shorter time reduces the risk
 # of a hacker finding and re-using one of the keys, at the cost of more
 # frequent confirmation prompts for users.
 $Foswiki::cfg{Validation}{ValidForTime} = 3600;
 
-# **NUMBER EXPERT DISPLAY_IF {Validation}{Method}!='none'**
+# **NUMBER CHECK="min:10" FEEDBACK=AUTO EXPERT DISPLAY_IF {Validation}{Method}!='none'**
 # The maximum number of validation keys to store in a session. There is one
 # key stored for each page rendered. If the number of keys exceeds this
 # number, the oldest keys will be force-expired to bring the number down.
@@ -453,7 +453,7 @@ $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} = 0;
 # system (in addition to their username).
 $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} = 0;
 
-# **REGEX EXPERT**
+# **REGEX FEEDBACK=On-Change EXPERT**
 # The perl regular expression used to constrain user login names. Some
 # environments may require funny characters in login names, such as \.
 # This is a filter <b>in</b> expression i.e. a login name must match this
@@ -566,7 +566,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 # any logged in user can then register to create  their Foswiki Based identity.
 $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
-# **NUMBER**
+# **NUMBER FEEDBACK=AUTO**
 # Minimum length for a password, for new registrations and password changes.
 # If you want to allow null passwords, set this to 0.
 $Foswiki::cfg{MinPasswordLength} = 7;
@@ -653,7 +653,7 @@ $Foswiki::cfg{AuthRealm} =
 # This option is not compatible with <tt>plain</tt> text passwords.
 $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 
-# **NUMBER**
+# **NUMBER CHECK="min:0" FEEDBACK=AUTO **
 # Specify the cost that should be incured when computing the hash of a password.  This number should be increased as CPU speeds increase.
 # The iterations of the hash is roughly 2^cost - default is 8, or 256 iterations.
 #
@@ -718,7 +718,7 @@ $Foswiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';
 # Enable this parameter to prevent multiple registrations using the same email address.
 $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 
-# **REGEX 80 EXPERT**
+# **REGEX FEEDBACK=On-Change 80 EXPERT**
 # This regular expression can be used to block certain email addresses from being used
 # for registering users.  It can be used to block some of the more common wikispam bots.
 # If this regex matches the entered address, the registration is rejected.  For example:<br/>
@@ -832,7 +832,7 @@ $Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
 # of relative paths.
 $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 
-# **REGEX EXPERT**
+# **REGEX FEEDBACK=On-Change EXPERT**
 # Filter-in regex for uploaded (attached) file names. This is a filter
 # <b>in</b>, so any files that match this filter will be renamed on upload
 # to prevent upload of files with the same file extensions as executables.
@@ -842,7 +842,7 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 $Foswiki::cfg{UploadFilter} =
   qr/^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$/;
 
-# **REGEX EXPERT**
+# **REGEX FEEDBACK=On-Change EXPERT**
 # Filter-out regex for webnames, topic names, file attachment names, usernames,
 # include paths and skin names. This is a filter <b>out</b>, so if any of the
 # characters matched by this expression are seen in names, they will be
@@ -897,7 +897,7 @@ $Foswiki::cfg{AllowRedirectUrl} = $FALSE;
 # rewriting rules, this may not work.
 $Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
 
-# **REGEX EXPERT**
+# **REGEX FEEDBACK=On-Change EXPERT**
 # Defines the filter-in regexp that must match the names of environment
 # variables that can be seen using the %ENV{}% macro. Set it to
 # '^.*$' to allow all environment variables to be seen (not recommended).
@@ -1052,11 +1052,11 @@ $Foswiki::cfg{WarningFileName} = '';
 $Foswiki::cfg{LogFileName} = '';
 
 #---++ Statistics
-# **NUMBER**
+# **NUMBER CHECK="min:0" FEEDBACK=AUTO **
 # Number of top viewed topics to show in statistics topic
 $Foswiki::cfg{Stats}{TopViews} = 10;
 
-# **NUMBER**
+# **NUMBER CHECK="min:0" FEEDBACK=AUTO **
 # Number of top contributors to show in statistics topic
 $Foswiki::cfg{Stats}{TopContrib} = 10;
 
@@ -1156,7 +1156,7 @@ $Foswiki::cfg{Site}{Locale} = 'en_US.ISO-8859-1';
 # versions).  For example, if the locale 'ja_JP.eucjp' exists on your system
 # but only 'euc-jp' is supported by Unicode::MapUTF8, set this to 'euc-jp'.
 # If you don't define it, it will automatically be defaulted to iso-8859-1<br />
-$Foswiki::cfg{Site}{CharSet} = undef;
+#$Foswiki::cfg{Site}{CharSet} = undef;
 
 # **SELECT gmtime,servertime**
 # Set the timezone (this only effects the display of times,
@@ -1234,7 +1234,7 @@ $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = $TRUE;
 # multiple levels, like a directory tree, i.e. webs within webs.
 $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-# **NUMBER EXPERT**
+# **NUMBER CHECK="min:60" FEEDBACK=AUTO EXPERT**
 # Number of seconds to remember changes for. This doesn't affect revision
 # histories, which always remember when a file changed. It only affects
 # the number of changes that are cached for fast access by the 'changes' and
@@ -1425,7 +1425,7 @@ $Foswiki::cfg{FormTypes} = [
 # {RCS}{filePermission} to be consistent with the system umask.
 $Foswiki::cfg{RCS}{overrideUmask} = $FALSE;
 
-# **OCTAL EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **OCTAL CHECK="min:000 max:777" FEEDBACK=AUTO EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # File security for new directories created by RCS stores. You may have
 # to adjust these
 # permissions to allow (or deny) users other than the webserver user access
@@ -1433,7 +1433,7 @@ $Foswiki::cfg{RCS}{overrideUmask} = $FALSE;
 # representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
 $Foswiki::cfg{RCS}{dirPermission} = 0755;
 
-# **OCTAL EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **OCTAL CHECK="min:000 max:777" FEEDBACK=AUTO EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # File security for new files created by RCS stores. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
 # to files that Foswiki creates.  This is an <strong>octal</strong> number
@@ -1455,7 +1455,7 @@ $Foswiki::cfg{RCS}{AutoAttachPubFiles} = $FALSE;
 # blank on other platforms.
 $Foswiki::cfg{RCS}{ExtOption} = "";
 
-# **REGEX EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **REGEX EXPERT FEEDBACK="Re-Test" DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # Perl regular expression matching suffixes valid on plain text files
 # Defines which attachments will be treated as ASCII in RCS. This is a
 # filter <b>in</b>, so any filenames that match this expression will
@@ -1609,7 +1609,7 @@ $Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
 $Foswiki::cfg{Cache}{WebDependencies} =
   'WebRss, WebAtom, WebTopicList, WebIndex, WebSearch, WebSearchAdvanced';
 
-# **REGEX DISPLAY_IF {Cache}{Enabled}**
+# **REGEX FEEDBACK=On-Change DISPLAY_IF {Cache}{Enabled}**
 # Exclude topics that match this regular expression from the dependency
 # tracker.
 $Foswiki::cfg{Cache}{DependencyFilter} =
@@ -1723,7 +1723,7 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # Send email Date header using local "server time" instead of GMT
 $Foswiki::cfg{Email}{Servertime} = $FALSE;
 
-# **REGEX 80 EXPERT**
+# **REGEX FEEDBACK=On-Change 80 EXPERT**
 # This parameter is used to determine which Top Level domains are vaild
 # when auto-linking email addresses.  It is also used by UserRegistration to
 # validate email addresses.  Note, this parameter <em>only</em> controls
@@ -1913,7 +1913,7 @@ $Foswiki::cfg{TemplatePath} =
 $Foswiki::cfg{LinkProtocolPattern} =
   '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
-# **NUMBER**
+# **NUMBER CHECK="min:2" FEEDBACK=AUTO **
 # Length of linking acronyms.  Minumum number of consecutive upper case characters
 # required to be linked as an acronym.
 $Foswiki::cfg{AcronymLength} = 3;
@@ -1929,11 +1929,11 @@ $Foswiki::cfg{AcronymLength} = 3;
 # links to the internals of pages to continue to work.
 $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
-# **NUMBER**
+# **NUMBER CHECK="min:0" FEEDBACK=AUTO **
 # How many links to other revisions to show in the bottom bar. 0 for all
 $Foswiki::cfg{NumberOfRevisions} = 4;
 
-# **NUMBER**
+# **NUMBER CHECK="min:1" FEEDBACK=AUTO **
 # Set the upper limit of the maximum number of difference that will be
 # displayed when viewing the entire history of a page. The compared revisions
 # will be evenly spaced across the history of the page e.g. if the page has
@@ -1941,7 +1941,7 @@ $Foswiki::cfg{NumberOfRevisions} = 4;
 # between r100 and r90, r90 and r80, r80 and r70 and so on.
 $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 
-# **NUMBER**
+# **NUMBER CHECK="min:0" FEEDBACK=AUTO **
 # If this is set to a > 0 value, and the revision control system
 # supports it (RCS does), then if a second edit of the same topic
 # is done by the same user within this number of seconds, a new
@@ -1950,7 +1950,7 @@ $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 # a new revision (as required by most formal development processes).
 $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 
-# **NUMBER**
+# **NUMBER CHECK="min:60" FEEDBACK=AUTO **
 # When a topic is edited, the user takes a "lease" on that topic.
 # If another user tries to also edit the topic while the lease
 # is still active, they will get a warning. Leases are released
@@ -1966,7 +1966,7 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 # at the same time as the lease expires.
 $Foswiki::cfg{LeaseLength} = 3600;
 
-# **NUMBER**
+# **NUMBER CHECK="min:-1" FEEDBACK=AUTO **
 # Even if the other users' lease has expired, then you can specify that
 # they should still get a (less forceful) warning about the old lease for
 # some additional time after the lease expired. You can set this to 0 to
@@ -1982,10 +1982,10 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 
 # **BOOLEAN EXPERT**
-# Enable tracebacks in error messages.  Used for debugging;
+# Enable tracebacks in error messages.  Used for debugging.
 # $Foswiki::cfg{DebugTracebacks} = '';
 
-# **NUMBER EXPERT**
+# **NUMBER CHECK="min:-1" FEEDBACK=AUTO EXPERT**
 # Maximum number of backup versions of LocalSite.cfg to retain when changes
 # are saved.  Enables you to recover quickly from accidental changes.
 # 0 does not save any backup versions.  -1 does not limit the number of versions
@@ -2003,7 +2003,7 @@ $Foswiki::cfg{MaxLSCBackups} = 10;
 # </ul>
 
 #---+++ Configure how plugins are loaded by Foswiki
-# **STRING 80**
+# **STRING FEEDBACK="Re-test" 80**
 # Plugins evaluation order. If set to a comma-separated list of plugin names,
 # will change the execution order of plugins so the listed subset of plugins
 # are executed first. The default execution order is alphabetical on plugin

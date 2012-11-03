@@ -59,19 +59,39 @@ sub d2n {
 
 # Get release & version strings which should indicate the running Foswiki's
 # version, unless this an un-built developer checkout...
+# Fork to keep Foswiki.pm from modifying configure's state
+
 sub _getBuildStrings {
-    require Foswiki;
-    require Foswiki::Plugins;
-
     my @strings;
+    my $fh;
+    my $pid = open( $fh, '-|' );
+    if ( defined $pid ) {
+        if ($pid) {
+            local $/;
+            @strings = split( /\001/, <$fh> );
+            close $fh;
+        }
+        else {
+            eval {
+                require Foswiki;
+                require Foswiki::Plugins;
 
-    # SMELL: Should this be fully/properly URL encoded?
-    foreach my $string ( $Foswiki::RELEASE, $Foswiki::VERSION,
-        $Foswiki::Plugins::VERSION )
-    {
-        $string =~ s/;/&#59;/g;
+                my @strings;
 
-        push( @strings, $string );
+                # SMELL: Should this be fully/properly URL encoded?
+                foreach my $string ( $Foswiki::RELEASE, $Foswiki::VERSION,
+                    $Foswiki::Plugins::VERSION )
+                {
+                    $string =~ s/;/&#59;/g;
+                    push( @strings, $string );
+                }
+                print join( "\001", @strings );
+            };
+            exit(0);
+        }
+    }
+    else {
+        die "Unable to fork: $!\n";
     }
 
     return @strings;
@@ -331,7 +351,9 @@ sub getExtensions {
         # Do the title row
         my $thd = $ext->{topic} || 'Unknown';
         $thd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
-        $thd = CGI::a( { href => $ext->{data} . $ext->{topic} }, $thd );
+        $thd =
+          CGI::a( { href => $ext->{data} . $ext->{topic}, -target => '_blank' },
+            $thd );
 
         # Do the data row
         my $row      = '';

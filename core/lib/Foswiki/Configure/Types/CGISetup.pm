@@ -1,23 +1,32 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::TemplateDir;
+
+package Foswiki::Configure::Types::CGISetup;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Type ();
+our @ISA = ('Foswiki::Configure::Type');
 
-sub check {
-    my $this = shift;
-    my $e    = $this->guessMajorDir( 'TemplateDir', 'templates' );
-    my $d    = $this->getCfg("{TemplateDir}");
-    $e .= $this->warnAboutWindowsBackSlashes($d);
+# This field is invisible, as it only exists to provide a hook for the provideFeedback button.
+# It is disabled as there is no point in POSTing it.
 
-    $e .= $this->showExpandedValue( $Foswiki::cfg{TemplateDir} );
+sub prompt {
+    my ( $this, $id, $opts, $value, $class ) = @_;
 
-    my $e2 = $this->checkTreePerms( $d, 'r' );
-    $e .= $this->ERROR($e2) if $e2;
-    return $e;
+    return CGI::textfield(
+        {
+            -readonly => 'readonly',
+            -default  => $value,
+            -onchange => 'valueChanged(this)',
+            -class    => "foswikiInputField $class",
+            -style    => "display:none;",
+            -disabled => 'disabled',
+            -name     => $id,
+            -value    => '',
+            -size => '1',    #$Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS,
+        },
+    );
 }
 
 1;

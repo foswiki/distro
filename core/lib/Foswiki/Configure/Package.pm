@@ -493,10 +493,11 @@ sub _install {
             }
         }
         $feedback .=
-            ($ext) ? "Using local archive $dir/$this->{_pkgname}$ext \n"
+          ($ext)
+          ? "Using previously downloaded archive $dir/$this->{_pkgname}$ext \n"
           : ($uselocal)
-          ? "No local package found, and uselocal requested - download required\n"
-          : "uselocal disabled, download required\n";
+          ? "No previously downloaded archive found.  Download is required\n"
+          : "Use of previously downloaded archives was not selected.  Download is required\n";
 
         my $tmpdir;         # Directory where archive was expanded
         my $tmpfilename;    # Filename set when downloaded

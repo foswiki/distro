@@ -19,14 +19,17 @@ package Foswiki::Configure::UI;
 use strict;
 use warnings;
 use File::Spec ();
-use FindBin    ();
+use Cwd qw( abs_path );
+use FindBin ();
 use Digest::MD5 qw(md5_hex);
 use File::Spec qw(splitpath catpath splitdir catdir);
+use Foswiki::Configure::Load ();
 
 our $totwarnings;
 our $toterrors;
 our $firsttime;
 
+# These values are used in templates to control what is displayed
 our $MESSAGE_TYPE = {
     NONE                      => ( 1 << 0 ),    # 1
     OK                        => ( 1 << 1 ),    # 2
@@ -60,12 +63,39 @@ sub new {
 
     $FindBin::Bin =~ /(.*)/;
     $this->{bin} = $1;
-    my @root = File::Spec->splitdir( $this->{bin} );
-    pop(@root);
 
-    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
-    $this->{root} = File::Spec->catfile( @root, 'x' );
-    chop $this->{root};
+    # See EXTEND.pm for why we shouldn't use {bin} to find root.
+    # In early initialization, we don't yet have LSC, so we will look there.
+    # Probably the only way to have everything work is to insist on symlinks
+    # from a root directory.
+
+    my $dataDir = $Foswiki::cfg{DataDir};
+    my $binDir  = $this->{bin};
+    my @roots;
+    foreach my $root ( $dataDir, $binDir ) {
+        next unless ($root);
+        my @root = File::Spec->splitdir($root);
+        pop(@root);
+
+        # SMELL: Force a trailing separator - Linux and Windows are inconsistent
+
+        $root = File::Spec->catfile( @root, 'x' );
+        chop $root;
+        push @roots, $root;
+    }
+
+    # Record inconsistency for checker, debugging and further thought.
+    # FindBin, seems to abs_path Bin, so let that through (reluctantly)
+
+    if (   @roots >= 2
+        && $roots[0] ne $roots[1]
+        && abs_path( $roots[0] ) ne abs_path( $roots[1] ) )
+    {
+        $this->{rootWarning} =
+          "{DataDir} => $roots[0] vs. {ScriptDir} => $roots[1]";
+    }
+
+    $this->{root} = $roots[0];
 
     $this->{filecount} =
       0;    # Used by recursive checkTreePerms to count files and limit
@@ -178,9 +208,10 @@ $item is passed on to the checker's constructor.
 sub loadChecker {
     my ( $keys, $item ) = @_;
     my $id = $keys;
-    $id =~ s/}{/::/g;
+    $id =~ s/}{/\001\001/g;
     $id =~ s/[}{]//g;
-    $id =~ s/'//g;
+    $id =~ s/[^\w\001-]//g;
+    $id =~ s/\001/:/g;
     $id =~ s/-/_/g;
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
     eval "use $checkClass ()";
@@ -299,6 +330,10 @@ Returns a response object as described in Foswiki::Net
 sub getUrl {
     my ( $this, $url ) = @_;
 
+    unless ( defined $Foswiki::VERSION ) {
+        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+        die "No Foswiki.pm\n" unless ($fwi);
+    }
     require Foswiki::Net;
     my $tn       = new Foswiki::Net();
     my $response = $tn->getExternalResource($url);
@@ -401,6 +436,74 @@ sub ERROR {
 
 =begin TML
 
+---++ ObjectMethod FB_FOR(...)
+
+Generate feedback for a named key (other than $this).
+Only usable in =provideFeedback= methods.
+ Usage: return $this->NOTE("My feedback")
+               .$this->FB_FOR('{anotherkey}',
+                              $this->WARN("That feedback" ));
+All FB_FOR clauses must follow any messages for $this.
+Feedback completly replaces the message area under an item,
+so multiple updates of a target will retain only the last encountered.
+
+=cut
+
+sub FB_FOR {
+    my $this = shift;
+    my $keys = shift;
+
+    my $target = eval "exists \$Foswiki::cfg$keys";
+    die "Invalid FB_FOR target $keys\n" if ( $@ || !$target );
+
+    return "\001$keys\002" . join( "\n", @_ );
+}
+
+=begin TML
+
+---++ ObjectMethod FB_GUI(...)
+
+Like FB_FOR, but intended for items in the {ConfigureGUI} namespace.
+Does not require that the %Foswiki::cfg key exists, and does not count
+as an unsaved change.
+
+=cut
+
+sub FB_GUI {
+    my $this = shift;
+    my $id   = shift;
+
+    return "\001$id\002" . join( "\n", @_ );
+}
+
+=begin TML
+
+---++ ObjectMethod FB_VALUE(...)
+
+Like FB_FOR, but delivers a new value to the specified item.
+
+For select-multiple items, the OPTION corresponding to each value is selected;
+the first value becomes the selectedIndex.  Requires that select values are unique.
+
+For select, radio and checkboxes, only the first value is used.
+
+For text fields (text, textarea,hidden, password), multiple values are concatenated to
+form the replacement value.
+
+=cut
+
+sub FB_VALUE {
+    my $this = shift;
+    my $keys = shift;
+
+    my $target = eval "exists \$Foswiki::cfg$keys";
+    die "Invalid FB_VALUE target $keys\n" if ($@);
+
+    return "\001$keys\003" . join( "\004", @_ );
+}
+
+=begin TML
+
 ---++ ObjectMethod hidden($value) -> $html
 Used in place of CGI::hidden, which is broken in some CGI versions.
 HTML encodes the value
@@ -433,7 +536,7 @@ sub urlEncode {
 
 =begin TML
 
----++ StaticMethod authorised () -> ($isAuthorized, $messageType)
+---++ StaticMethod authorised ($query) -> ($isAuthorized, $messageType)
 
 Invoked to confirm authorisation, and handle password changes. The password
 is changed in $Foswiki::cfg, a change which is then detected and written when
@@ -442,9 +545,10 @@ the configuration file is actually saved.
 =cut
 
 sub authorised {
+    my $query = shift;
 
-    my $pass    = $Foswiki::query->param('cfgAccess');
-    my $newPass = $Foswiki::query->param('newCfgP');
+    my $pass    = $query->param('cfgAccess');
+    my $newPass = $query->param('newCfgP');
 
     # Password defined, but no password supplied - reprompt
     if ( $Foswiki::cfg{Password} && !$pass ) {
@@ -459,13 +563,13 @@ sub authorised {
             $Foswiki::cfg{Password} )
       )
     {
-        logPasswordFailure();
+        logPasswordFailure($query);
         return ( 0, $MESSAGE_TYPE->{PASSWORD_INCORRECT} );
     }
 
     # Change the password if so requested
-    if ( $Foswiki::query->param('changePassword') ) {
-        my $confPass = $Foswiki::query->param('confCfgP') || '';
+    if ( $query->param('changePassword') ) {
+        my $confPass = $query->param('confCfgP') || '';
         if ( !$newPass ) {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_EMPTY} );
         }
@@ -474,15 +578,15 @@ sub authorised {
         }
         $Foswiki::cfg{Password} = _encode_MD5($newPass);
 
-        _encode_Digest($newPass);
+        _encode_Digest( $query, $newPass );
         return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
     }
 
-    if ( !defined($pass) && $Foswiki::query->param('checkCfpP') ) {
+    if ( !defined($pass) && $query->param('checkCfpP') ) {
 
         # first time, but using reload a password has been passed at least once
 
-        my $confPass = $Foswiki::query->param('confCfgP');
+        my $confPass = $query->param('confCfgP');
         if ( $newPass ne $confPass ) {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_CONFIRM_NO_MATCH} );
         }
@@ -491,7 +595,7 @@ sub authorised {
         }
         $Foswiki::cfg{Password} = _encode_MD5($newPass);
 
-        _encode_Digest($newPass);
+        _encode_Digest( $query, $newPass );
 
         return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
     }
@@ -504,7 +608,7 @@ sub authorised {
     }
 
     # If we get this far, a password has been given. Check it.
-    if ( !$Foswiki::cfg{Password} && !$Foswiki::query->param('confCfgP') ) {
+    if ( !$Foswiki::cfg{Password} && !$query->param('confCfgP') ) {
 
         return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
     }
@@ -525,6 +629,8 @@ sub collectMessages {
 }
 
 sub logPasswordFailure {
+    my $query = shift;
+
     my $logdir = $Foswiki::cfg{Log}{Dir};
     Foswiki::Configure::Load::expandValue($logdir);
     ($logdir) = $logdir =~ /^(.*)$/;
@@ -533,8 +639,8 @@ sub logPasswordFailure {
     }
     if ( open( my $lf, '>>', "$logdir/configure.log" ) ) {
 
-        my $user = $Foswiki::query->remote_user() || $ENV{REMOTE_USER} || '';
-        my $addr = $Foswiki::query->remote_addr() || $ENV{REMOTE_ADDR} || '';
+        my $user = $query->remote_user() || $ENV{REMOTE_USER} || '';
+        my $addr = $query->remote_addr() || $ENV{REMOTE_ADDR} || '';
 
         my $logmsg = '| '
           . gmtime() . ' | '
@@ -656,6 +762,7 @@ sub _encode_MD5 {
 }
 
 sub _encode_Digest {
+    my $query = shift;
     my $pass  = shift;                            # Password to encode
     my $realm = 'Foswiki System Configuration';
 
@@ -666,7 +773,7 @@ sub _encode_Digest {
     my $WorkingDir =
       ( defined $Foswiki::cfg{WorkingDir} )
       ? $Foswiki::cfg{WorkingDir}
-      : $Foswiki::query->param('{WorkingDir}');
+      : $query->param('{WorkingDir}');
     ($WorkingDir) = $WorkingDir =~ m/(.*)/;    # Untaint, Hope admin knows best
     $WorkingDir =~ s#[/\\]+$##;                # Remove any trailing slash
 
@@ -751,19 +858,13 @@ sub checkPerlModules {
         $mod->{minimumVersion} ||= 0;
         $mod->{disposition}    ||= '';
         my $n = '';
-        my $mod_version;
 
-        # require instead of use = see Bugs:Item4585
-        eval 'require ' . $mod->{name};
-        if ($@) {
-            $n = 'Not installed. ' . $mod->{usage};
-        }
-        else {
-            no strict 'refs';
-            eval '$mod_version = $' . $mod->{name} . '::VERSION';
+        my ( $installed, $mod_version ) = extractModuleVersion( $mod->{name} );
+
+        if ($installed) {
             $mod_version ||= 0;
             $mod_version =~ s/(\d+(\.\d*)?).*/$1/;    # keep 99.99 style only
-            use strict 'refs';
+
             $mod->{installedVersion} = $mod_version || 'Unknown version';
             if ( $mod_version < $mod->{minimumVersion} ) {
                 $n = $mod->{installedVersion};
@@ -773,6 +874,9 @@ sub checkPerlModules {
                   . $mod->{disposition};
                 $n .= ' ' . $mod->{usage} if $mod->{usage};
             }
+        }
+        else {
+            $n = 'Not installed. ' . $mod->{usage};
         }
         if ($n) {
             if ( $mod->{disposition} eq 'required' ) {
@@ -792,7 +896,13 @@ sub checkPerlModules {
             $n = $this->NOTE($n);
         }
         if ($useTR) {
-            $e .= $this->setting( $mod->{name}, $n );
+            my $modname = $mod->{name};
+            if ( $useTR == 2 )
+            {    # This link should be stable, or we could check Interwikis.txt
+                $modname =
+qq{$modname<br /><a href="http://search.cpan.org/perldoc?$modname" class="configureDependenciesLink" target="_blank">CPAN</a>};
+            }
+            $e .= $this->setting( $modname, $n );
         }
         else {
             $e .=
@@ -815,6 +925,96 @@ sub checkPerlModule {
         ]
     );
     return $error;
+}
+
+=begin TML
+
+---++ StaticMethod extractModuleVersion ($moduleName, $magic) -> ($moduleFound, $moduleVersion, $modulePath)
+
+Locates a module in @INC and parses it to determine its version.  If the second parameter is
+true, it magically handles Foswiki.pm's version construction.
+
+Returns:
+  $moduleFound - True if the module was found (and could be opended for read)
+  $moduleVersion - The module version that was extracted, or undef if none was found.
+  $modulePath - The full path to the module.
+
+Require was used previously, but it doesn't scale and can have side-effects such a
+loading many unused dependencies, even LocalSite.cfg if it's a Foswiki module.
+
+Since $VERSION is usually declared early in a module, we can also avoid reading
+most of (most) files.
+
+This parser was inspired by Module::Extract::VERSION, though this is simplified and
+has special magic for the Foswiki build.
+
+=cut
+
+sub extractModuleVersion {
+    my $module    = shift;
+    my $FoswikiPM = shift;
+
+    my $file = $module;
+    $file =~ s,::,/,g;
+    $file .= '.pm';
+    my ( $mod_version, $mod_release );
+    $mod_release = '';
+
+    foreach my $dir (@INC) {
+        open( my $mf, '<', "$dir/$file" ) or next;
+        local $/ = "\n";
+        local $_;
+        my $pod;
+        while (<$mf>) {
+            chomp;
+            if (/^=cut/) {
+                $pod = 0;
+                next;
+            }
+            if (/^=/) {
+                $pod = 1;
+                next;
+            }
+            next if ($pod);
+            s/\s*#.*$//;
+            if ($FoswikiPM) {
+                if (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=~\s*(.*?);/) {
+                    my $exp = $1;
+                    $exp =~ s/\$RELEASE/\$mod_release/g;
+                    eval "\$mod_version =~ $exp;";
+                    die "Failed to eval $1 from $_ in $file at line $.: $@\n"
+                      if ($@);
+                    last;
+                }
+                if (
+/\$VERSION\s*=\s*version->new\s*\(\s*"([vV]\d+\.\d+\.\d+)"\s*\)/
+                  )
+                {
+                    $mod_version = $1;
+                    last;
+                }
+                if (
+/^\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=[^~]\s*(.*?);/
+                  )
+                {
+                    eval "\$mod_" . lc($1) . " = $2;";
+                    die "Failed to eval $2 from $_ in $file at line $.: $@\n"
+                      if ($@);
+                    next;
+                }
+                next;
+            }
+            next unless (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(.*?);/);
+            eval "\$mod_version = $1;";
+
+    # die "Failed to eval $1 from $_ in $file at line $. $@\n" if( $@ ); # DEBUG
+            last;
+        }
+        close $mf;
+        return ( 1, $mod_version, "$dir/$file" );
+    }
+
+    return ( 0, undef );
 }
 
 sub getTemplateParser {

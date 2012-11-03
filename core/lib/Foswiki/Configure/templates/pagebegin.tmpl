@@ -4,38 +4,66 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Foswiki Configuration</title>
-	<meta http-equiv="Pragma" content="no-cache" />
-	<meta http-equiv="Cache-Control" content="no-cache" />
-	<meta http-equiv="Expires" content="0" />
 	<meta content="noindex" name="robots" />
-	<link type="image/x-icon" rel="icon" href="configure?action=resource;resource=favicon.ico" />
-	<link type="image/x-icon" rel="shortcut icon" href="configure?action=resource;resource=favicon.ico" />
-	<style type="text/css">
-	%INCLUDE{yui.css}%
-	%INCLUDE{base.css}%
-	%INCLUDE{pattern.css}%
-	%INCLUDE{styles.css}%
-    %INCLUDE{jquery.nyroModal-1.6.2.css}%
-	</style>
-	<script language="JavaScript" type="text/javascript">
-	//<![CDATA[
-	%INCLUDE{foswikiStyles.js}%
-	var styleText = '<style type="text/css" media="all">/* toggling visibility of blocks; show all blocks by removing the style configureShowOneSection from the body tag */ body.configureShowOneSection .configureToggleSection { display:none; } body.configureShowOneSection .configureShowSection { display:block; }<\/style>';
-	document.write(styleText);
-	%INCLUDE{jquery-1.3.2.js}%
-	%INCLUDE{jquery.nyroModal-1.6.2.min.js}%
-	%INCLUDE{scripts.js}%
-	//]]>
-	</script>
+	<link type="image/x-icon" rel="icon" href="%RESOURCEURI%favicon.ico" />
+	<link type="image/x-icon" rel="shortcut icon" href="%RESOURCEURI%favicon.ico" />
+
+	<link type="text/css" media="all" rel="stylesheet" href="%RESOURCEURI%yui.css"></style>
+	<link type="text/css" media="all" rel="stylesheet" href="%RESOURCEURI%base.css"></style>
+	<link type="text/css" media="all" rel="stylesheet" href="%RESOURCEURI%pattern.css"></style>
+	<link type="text/css" media="all" rel="stylesheet" href="%RESOURCEURI%jquery.nyroModal-1.6.2.css"></style>
+	<link type="text/css" media="all" rel="stylesheet" href="%RESOURCEURI%styles.css"></style>
+        <!-- The following block takes precedence over the external stylesheets, and
+             must stay after them despite the small performance hit. -->
+	<style type="text/css" media="all">
+            .foswikiMakeVisible {
+                display:inline;
+            }
+            .foswikiMakeVisibleInline {
+                display:inline;
+            }
+            .foswikiMakeVisibleBlock {
+                display:block;
+            }
+            .foswikiMakeHidden {
+                display:none;
+            }
+          body.configureShowOneSection .configureToggleSection {
+              display:none;
+          }
+          body.configureShowOneSection .configureShowSection {
+              display:block;
+          }
+        </style>
+	<script type="text/javascript" src="%RESOURCEURI%jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="%RESOURCEURI%jquery.nyroModal-1.6.2.min.js"></script>
+	<script type="text/javascript" src="%RESOURCEURI%scripts.js"></script>
 </head>
 <body class="configureShowOneSection">
+<div class="configurePageHeader">
+<input type="hidden" disabled="disabled"
+       id="configureFeedbackWorkingText"
+       title="I18n - Not form data"
+       value="Working...">
+<table class="configureFeedbackSummaryTable"><tr><td>
 <div class="configureLogo">
-<img src="%SCRIPTNAME%?action=resource;resource=foswiki-logo.png" alt="Foswiki configuration" />
-</div>
+<img src="%RESOURCEURI%foswiki-logo.png" width="156" height="50" alt="Foswiki configuration" />
+</div></td><td><div class="configureFeedbackSummaryCell"
+                    id="{ConfigureGUI}{Unsaved}status" />
+</td>
+<#if loggedin??>
+<td><form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
+<input type="hidden" name="time" value="${time}"  />
+<a href='#' title="Logout of configure and return to the wiki" onclick="$(this)['closest']('form')['submit']();return false;">Logout</a>
+<input type="hidden" name="action" value="Logout">
+</form></td>
+</#if>
+</tr></table>
 <#if messages??>
 	<div class="foswikiNotification foswiki${style}" id="messages">
 		${messages}
 	</div>
 </#if>
-<form method="post" action="${formAction}" enctype="multipart/form-data" name="update">
+</div>
+<div class="configurePageBodyWrapper"><form method="post" action="${formAction}" enctype="multipart/form-data" name="update">
 <input type="hidden" name="time" value="${time}"  />

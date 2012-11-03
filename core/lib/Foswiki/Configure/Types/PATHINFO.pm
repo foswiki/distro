@@ -1,22 +1,30 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::LocalesDir;
+
+package Foswiki::Configure::Types::PATHINFO;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Types::STRING;
+our @ISA = ('Foswiki::Configure::Types::STRING');
 
-sub check {
-    my $this = shift;
+# This is a read-only field
 
-    my $e  = $this->guessMajorDir( 'LocalesDir', 'locale' );
-    my $d  = $this->getCfg("{LocalesDir}");
-    my $e2 = $this->checkTreePerms( $d, "r" );
-    $e .= $this->warnAboutWindowsBackSlashes( $Foswiki::cfg{LocalesDir} );
-    $e .= $this->showExpandedValue( $Foswiki::cfg{LocalesDir} );
-    $e .= $this->ERROR($e2) if $e2;
-    return $e;
+sub prompt {
+    my ( $this, $id, $opts, $value, $class ) = @_;
+
+    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+
+    return CGI::textfield(
+        {
+            -readonly => 'readonly',
+            -onchange => 'valueChanged(this)',
+            -class    => "foswikiInputField $class",
+            -name     => $id,
+            -size     => $size,
+            -default  => $value,
+        },
+    );
 }
 
 1;

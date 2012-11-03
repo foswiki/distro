@@ -56,15 +56,18 @@ sub _checkTmpDir {
 
     unless ( -d "$dir" ) {
         if ( -e "$dir" ) {
-            print "NOT A DIRECTORY $dir <br/>";
+
+            #            print STDERR "NOT A DIRECTORY $dir <br/>";
             return $this->ERROR("$dir already exists, but is not a directory");
         }
         elsif ( !mkdir( untaint("$dir"), oct(1777) ) ) {
-            print "DIDNT MAKE DIRECTORY $dir <br/>";
+
+            #            print STDERR "DIDNT MAKE DIRECTORY $dir <br/>";
             return $this->ERROR("Could not create $dir");
         }
         else {
-            print "CREATED DIRECTORY " . untaint("$dir") . " <br/>";
+
+    #            print STDERR "CREATED DIRECTORY " . untaint("$dir") . " <br/>";
             $mess .= $this->NOTE("Created $dir");
         }
     }

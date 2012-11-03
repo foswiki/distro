@@ -16,6 +16,7 @@ sub prompt {
     if ( defined($value) ) {
         $sopts .= '<option selected="selected">' . $value . '</option>';
     }
+    else { $DB::signal = 1; $DB::signal = 1; }
     foreach my $opt ( split( /,\s*/, $opts ) ) {
         if ( defined($value) && $opt ne $value ) {
             $sopts .= '<option>' . $opt . '</option>';

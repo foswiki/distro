@@ -10,8 +10,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my $this = shift;
     my $currentSuffix;
-    require Foswiki::Configure::Util;
-    my $scriptName = Foswiki::Configure::Util::getScriptName();
+    require Foswiki::Configure::CGI;
+    my $scriptName = Foswiki::Configure::CGI::getScriptName();
     ($currentSuffix) = $scriptName =~ m/configure(.*)$/;
 
     if ( defined $currentSuffix && $currentSuffix ) {

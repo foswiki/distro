@@ -10,7 +10,22 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
-    my $e    = '';
+
+    # Assuming this is relatively fast; see PubDir.pm for a model
+    # of only doing the checks in provideFeedback.
+
+    my $msg = $this->provideFeedback(@_);
+    if ($msg) {
+        $msg = $this->NOTE("Click the Re-test button to revalidate") . $msg;
+    }
+
+    return $msg;
+}
+
+sub provideFeedback {
+    my $this = shift;
+
+    my $e = '';
 
     my @plugins   = split( ',', $Foswiki::cfg{PluginsOrder} );
     my $count     = 0;
@@ -98,7 +113,7 @@ sub check {
             ) if ( !$found && $Foswiki::cfg{Plugins}{$plug}{Enabled} );
         }
     }
-    return $e;
+    return wantarray ? ( $e, 0 ) : $e;
 }
 
 1;

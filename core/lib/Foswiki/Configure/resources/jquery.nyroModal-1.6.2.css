@@ -7,7 +7,7 @@ div#nyroModalLoading {
 	width: 150px;
 	height: 150px;
 	text-indent: -9999em;
-	background: #fff url(../img/ajaxLoader.gif) no-repeat;
+	background: #fff url(%RESOURCEURI%ajaxLoader.gif) no-repeat;
 	background-position: center;
 }
 div#nyroModalLoading.error {
@@ -28,10 +28,10 @@ a#closeBut {
 	display: block;
 	top: -13px;
 	right: -13px;
-	width: 12px;
-	height: 12px;
+	width: 20px;
+	height: 20px;
 	text-indent: -9999em;
-	background: url(../img/close.gif) no-repeat;
+	background: url( %RESOURCEURI%close.gif ) no-repeat;
 	outline: 0;
 }
 h1#nyroModalTitle {

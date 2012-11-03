@@ -273,7 +273,7 @@ blockquote h2 {
 }
 
 .foswikiButtonCancel {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_buttoncancel_gradient.gif);
+	background-image:url(%RESOURCEURI%bg_buttoncancel_gradient.gif);
 	background-repeat:repeat-x;
 	background-position:0 0;
 	background-color:#dd724d;
@@ -303,7 +303,7 @@ blockquote h2 {
 }
 
 .foswikiSubmit {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_submit_gradient.gif);
+	background-image:url(%RESOURCEURI%bg_submit_gradient.gif);
 	background-repeat:repeat-x;
 }
 
@@ -329,7 +329,7 @@ blockquote h2 {
 }
 
 .foswikiButton,a.foswikiButton:link,a.foswikiButton:visited {
-	background-image:url(%SCRIPTNAME%?action=resource;resource=bg_button_gradient.gif);
+	background-image:url(%RESOURCEURI%bg_button_gradient.gif);
 	background-repeat:repeat-x;
 	background-position:0 0;
 	background-color:#cce7f1;

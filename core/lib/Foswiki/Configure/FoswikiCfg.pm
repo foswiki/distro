@@ -58,6 +58,9 @@ Foswiki::Configure::Checkers::UIs)
 
 =cut
 
+package Foswiki;
+our $configItemRegex;
+
 package Foswiki::Configure::FoswikiCfg;
 
 use strict;
@@ -72,6 +75,9 @@ use Foswiki::Configure::Section   ();
 use Foswiki::Configure::Value     ();
 use Foswiki::Configure::Pluggable ();
 use Foswiki::Configure::Item      ();
+
+our @errors;    # For external parsers.
+our @warnings;
 
 my %dupItem;
 
@@ -130,6 +136,174 @@ sub load {
             _loadSpecsFrom( "$dir/TWiki/Contrib",   $root, \%read );
         }
     }
+    {
+
+        package Foswiki::Configure::FoswikiCfg::Verify;
+
+     # If spec files were parsed, but require failed, all kinds of trouble
+     # follows because the UI has references, but there are no defaults.
+     # Complicating matters, certain parameters in the spec file are
+     # commented out so as to have NO default, but require initial setup.
+     # These are classified as warnings here only if they have no current value.
+     #
+     # To try to report the trouble intelligently, we walk the UI and try
+     # to fetch the value of each variable.
+
+        require Foswiki::Configure::Root;
+        require Foswiki::Configure::Valuer;
+
+        require Foswiki::Configure::Visitor;
+        our @ISA = ('Foswiki::Configure::Visitor');
+
+        require Foswiki::Configure::Visitor;
+
+        *stripTraceback = \&Foswiki::Configure::FoswikiCfg::stripTraceback;
+
+        sub new {
+            my $class = shift;
+            return bless( {@_}, $class );
+        }
+
+        sub startVisit {
+            my ( $this, $visitee ) = @_;
+
+            if ( $visitee->isa('Foswiki::Configure::Value') ) {
+                my $valuer = $this->{valuer};
+
+                my $ok = eval {
+                    return defined $valuer->currentValue($visitee)
+                      && defined $valuer->defaultValue($visitee);
+                };
+                return 1 if ($ok);
+
+              # Sone dynamically-created items (e.g. Languages) don't have defs;
+              # Presumably they can cope with missing keys...
+
+                return 1 unless ( exists $visitee->{_defined} );
+
+       # Known items materialized without a .spec entry can provide a default.
+       # All items from the spec files record file and line for diagnostics
+       # Spec file items that are optional (commented-out for guessing support)
+       # provide the default as "undef"; we set based on type, but don't report.
+
+                my @defs = @{ $visitee->{_defined} };
+                my ( $file, $line, $default ) = @defs;
+                $file = $$file;
+
+                my $keys = $visitee->getKeys();
+
+                # If no default, try to muddle along so these can be reported
+
+                unless ( defined $default ) {
+                    if ( $visitee->{typename} eq 'HASH' ) {
+                        $default = {};
+                    }
+                    elsif ( $visitee->{typename} eq 'ARRAY' ) {
+                        $default = [];
+                    }
+                    elsif ( $visitee->{typename} =~ /BOOLEAN|NUMBER|OCTAL/ ) {
+                        $default = 0;
+                    }
+                    else {
+                        $default = '';
+                    }
+                }
+
+                my $hasMissingValue;
+                eval
+"\$hasMissingValue = !exists \$Foswiki::cfg$keys || !ref( \$Foswiki::cfg$keys) && \$Foswiki::cfg$keys =~ /NOT SET/;\n\$Foswiki::cfg$keys = \$default unless( exists \$Foswiki::cfg$keys ); \$Foswiki::defaultCfg->$keys = \$default unless( exists \$Foswiki::defaultCfg->$keys );";
+
+                # Report unless default was provided by the item.
+
+                if ( @defs <= 2 ) {
+                    push @Foswiki::Configure::FoswikiCfg::errors,
+                      [
+                        $file,
+                        $line,
+                        "$keys is missing or undefined in configuration: "
+                          . stripTraceback($@)
+                      ];
+                }
+                else {
+                    if ( !defined $defs[2] && $hasMissingValue ) {
+                        push @Foswiki::Configure::FoswikiCfg::warnings,
+                          [
+                            $file,
+                            $line,
+                            "$keys is missing or undefined in configuration: "
+                              . stripTraceback($@)
+                          ];
+                    }
+                }
+            }
+            return 1;
+        }
+
+        sub endVisit {
+            my ( $this, $visitee ) = @_;
+
+            return 1;
+        }
+
+        my $valuer = new Foswiki::Configure::Valuer( $Foswiki::defaultCfg,
+            \%Foswiki::cfg );
+        my $this = Foswiki::Configure::FoswikiCfg::Verify->new(
+            valuer => $valuer,
+            root   => $root,
+        );
+        $root->visit($this);
+    }
+    if ( @errors || @warnings ) {
+        my $errors = SectionMarker->new( 0,
+qq{<span style="color:red;font-weight:bold;">Configuration file errors</span>}
+        );
+        if (@errors) {
+            $errors->addToDesc(
+"<p>Errors were detected in component specification files.  Contact the developer of the associated component to have them corrected.<ul>"
+            );
+            foreach my $error (@errors) {
+                $errors->addToDesc(
+                    "<li>$error->[2]"
+                      . (
+                        $error->[0]
+                        ? " in $error->[0] at line $error->[1]"
+                        : ''
+                      )
+                      . "</li>"
+                );
+            }
+            $errors->addToDesc("</ul>");
+        }
+        if (@warnings) {
+            $errors->addToDesc(
+"<p>Configuration items are missing from your site configuration file. Please define them and save your configuration before proceeding.<ul>"
+            );
+            foreach my $warning (@warnings) {
+                $errors->addToDesc(
+                    "<li>$warning->[2]"
+                      . (
+                        $warning->[0]
+                        ? " in $warning->[0] at line $warning->[1]"
+                        : ''
+                      )
+                      . "</li>"
+                );
+            }
+            $errors->addToDesc("</ul>");
+        }
+        my $item = new Foswiki::Configure::Value( 'BOOLEAN', keys => 'DUMMY' );
+        _extractSections( [ $errors, $item ], $root );
+
+        $item->inc('errors') foreach (@errors);
+        $Foswiki::Configure::UI::toterrors += @errors;
+        $item->inc('warnings') foreach (@warnings);
+        $Foswiki::Configure::UI::totwarnings += @warnings;
+
+        delete $item->{parent}{children};
+        delete $item->{parent}{values};
+        undef $item;
+    }
+
 }
 
 # Strip traceback from die and carp for a user message
@@ -246,6 +420,7 @@ sub _getValueObject {
 
 # Parse the config declaration file and return a root node for the
 # configuration it describes
+
 sub _parse {
     my ( $file, $root, $haveLSC ) = @_;
 
@@ -255,7 +430,7 @@ sub _parse {
     my @settings;
     my $sectionNum = 0;
 
-    foreach my $l (<F>) {
+    while ( my $l = <F> ) {
         $l =~ s/\r//g;
         last if ( $l =~ /^1;|^__\w+__/ );
         if ( $l =~ /^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
@@ -265,11 +440,18 @@ sub _parse {
             $open = new Foswiki::Configure::Value( $1, opts => $2 );
         }
 
-        elsif ( $l =~ /^#?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=(.*)$/ ) {
+        elsif ( $l =~ /^(#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=(.*)$/ ) {
 
             # $Foswiki::cfg{Rice}{Brown} =
-            my $keys         = $1;
-            my $tentativeVal = $2;
+            my $optional = $1;
+            my $keys     = $2;
+            unless ( $keys =~ /^$configItemRegex$/ ) {
+                push @errors, [ $file, $., 'Invalid item specifier $keys' ];
+                undef $open;
+                next;
+            }
+
+            #            my $tentativeVal = $2;
             if ( $open && $open->isa('SectionMarker') ) {
                 _pusht( \@settings, $open );
                 $open = undef;
@@ -287,6 +469,8 @@ sub _parse {
                 # This is an untyped value.
                 $open = new Foswiki::Configure::Value('UNKNOWN');
             }
+            $open->set( _defined =>
+                  ( $optional ? [ \$file, $., undef ] : [ \$file, $. ] ) );
             $open->set( keys => $keys );
             _pusht( \@settings, $open );
             $open = undef;
@@ -296,16 +480,34 @@ sub _parse {
 
             # *FINDEXTENSIONS*
             my $pluggable = $1;
-            my $p         = Foswiki::Configure::Pluggable::load($pluggable);
+            my $p = eval { Foswiki::Configure::Pluggable::load($pluggable) };
             if ($p) {
-                _pusht( \@settings, $open ) if $open;
+                if ($open) {
+                    if ( $open->isa('Foswiki::Configure::Value') ) {
+                        my $otype = $open->getTypeName;
+                        push @errors,
+                          [ $file, $., "Incomplete $otype declaration" ];
+                    }
+                    else {
+                        _pusht( \@settings, $open );
+                    }
+                }
                 $open = $p;
             }
-            elsif ($open) {
+            else {
+                push @errors,
+                  [
+                    $file, $.,
+                    "Can't load configuration plugin $pluggable: "
+                      . stripTraceback($@)
+                  ];
+                if ($open) {
 
-                # Not recognised
-                $l =~ s/^#\s?//;
-                $open->addToDesc($l);
+                    # Not recognised
+                    # $l =~ s/^#\s?//;
+                    #  $open->addToDesc($l);
+                    undef $open;
+                }
             }
         }
 
@@ -315,7 +517,19 @@ sub _parse {
             # Only load the first section if we don't have LocalSite.cfg
             last if ( $sectionNum && !$haveLSC );
             $sectionNum++;
-            _pusht( \@settings, $open ) if $open;
+            if ($open) {
+
+               # We have an open item.  If it's a value, we don't want to create
+               # it since that will confuse the UI.  Report such errors.
+                if ( $open->isa('Foswiki::Configure::Value') ) {
+                    my $otype = $open->getTypeName;
+                    push @errors,
+                      [ $file, $., "Incomplete $otype declaration" ];
+                }
+                else {
+                    _pusht( \@settings, $open );
+                }
+            }
             $open = new SectionMarker( length($1), $2 );
         }
 
@@ -326,14 +540,23 @@ sub _parse {
         }
     }
     close(F);
-    _pusht( \@settings, $open ) if $open;
+    if ($open) {
+        if ( $open->isa('Foswiki::Configure::Value') ) {
+            my $otype = $open->getTypeName;
+            push @errors, [ $file, $., "Incomplete $otype declaration" ];
+        }
+        else {
+            _pusht( \@settings, $open );
+        }
+    }
     _extractSections( \@settings, $root );
 }
 
 sub _pusht {
     my ( $a, $n ) = @_;
     foreach my $v (@$a) {
-        Carp::confess "$n" if $v eq $n;
+        Carp::confess "_pusht called with undef" if ( !defined $n );
+        Carp::confess "$a" if ( $v eq $n );
     }
     push( @$a, $n );
 }
@@ -510,7 +733,8 @@ sub startVisit {
     my ( $this, $visitee ) = @_;
 
     if ( $visitee->isa('Foswiki::Configure::Value') ) {
-        my $keys   = $visitee->getKeys();
+        my $keys = $visitee->getKeys();
+        return 1 if ( $keys =~ /^\{ConfigureGUI\}/ );
         my $warble = $this->{valuer}->currentValue($visitee);
         return 1 unless defined $warble;
 

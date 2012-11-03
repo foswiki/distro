@@ -35,8 +35,8 @@ sub renderHtml {
     Foswiki::Configure::UI::getTemplateParser()->parse(
         $template,
         {
-            'hasError'   => $bad,
-            'scriptName' => Foswiki::Configure::Util::getScriptName(),
+            'hasError'  => $bad,
+            'actionURI' => $Foswiki::actionURI,
         }
     );
     $output .= $template;

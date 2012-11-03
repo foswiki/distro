@@ -1,5 +1,13 @@
 /* Don't use // style comments, or you'll break the stupid minifier  */
 
+/* Hack to support nyroModal with jQuery 1.8, which removed $.curCss.
+ * Upgrading to nyroModal V2 is another project - it has a different API.
+ * Sigh.
+ */
+if( !$.curCSS ) {
+    $.curCSS = $.css;
+}
+
 /* EXPERT MODE */
 
 var expertsMode = '';
@@ -215,7 +223,7 @@ function initDefaultLink(inLink) {
     
     /* retrieve value from title tag */
     if (inLink.type == 'OCTAL') {
-	inLink.defaultValue = 0+parseInt(unescape(inLink.title)).toString(8);
+	inLink.defaultValue = 0+parseInt(unescape(inLink.title),8).toString(8);
     } else {
 	inLink.defaultValue = unescape(inLink.title);
     }
@@ -251,10 +259,10 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
     
     var name = unescape(inName);
     var elem = document.forms.update[name];
-    if (!elem) return;
+    if (!elem) return false;
     
     var value = unescape(inValue);
-    if (inLink.oldValue != null) value = inLink.oldValue;
+    if (inLink.oldValue) value = inLink.oldValue;
     
     var oldValue;
     var type = elem.type;
@@ -279,8 +287,8 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
     } else {
 	/* including type='text'  */
 	if (inLink.type == 'OCTAL') {
-	    oldValue = 0+parseInt(elem.value).toString(8);
-	    elem.value = 0+parseInt(value).toString(8);
+	    oldValue = 0+parseInt(elem.value,8).toString(8);
+	    elem.value = 0+parseInt(value,8).toString(8);
 	} else {
 	    oldValue = elem.value;
 	    elem.value = value;
@@ -288,7 +296,7 @@ function resetToDefaultValue (inLink, inFormType, inName, inValue) {
     }
     
     var label = $('.configureDefaultValueLinkLabel', inLink)[0];
-    if (inLink.oldValue == null) {
+    if (!inLink.oldValue) {
 	/* we have just set the default value */
 	/* prepare undo link */
 	label.innerHTML = inLink.undoDefaultLinkText;
@@ -333,7 +341,7 @@ function createHumanReadableValueString (inType, inValue) {
 	    return 'off';
 	}
     }
-    if (inValue.length == 0) {
+    if (!inValue.length) {
 	return '""';
     }
     /* all other cases */
@@ -393,9 +401,23 @@ var enableWhenSomethingChangedElements = new Array();
 var showWhenNothingChangedElements = new Array();
 
 /* Value changes. Event when a value is edited; enables the save changes
- * button */
+ * button.  Also clicks feedback request button(s) for auto-feedback items.
+ * The ^= is because 'feedreq' is followed by a button number.
+ */
 function valueChanged(el) {
-    
+    switch( el.type.toLowerCase() ) {
+case "select-one":
+case "select-multiple":
+case "textarea":
+case "text":
+case "password":
+case "radio":
+case "checkbox":
+        $('[id^="' + quoteName( el.name ) + 'feedreq"]')['filter']('[value="~"]')['click']();
+        break;
+default:
+        break;
+    }
     $(el).addClass('foswikiValueChanged');
     
     $(showWhenNothingChangedElements).each(function() {
@@ -428,7 +450,7 @@ function newHideContent(elts, settings, callback) {
 }
 
 function loadImage(el) {
-    if (!el.title || el.title == '')
+    if (!el.title || el.title === '')
         return;
     var url = el.title;
     el.title = 'Click to enlarge';
@@ -497,10 +519,10 @@ PageQuery = function (q) {
 	    this.keyValuePairs[i] = this.q.split(/[&;]/)[i];
 	}
     }
-}
+};
 PageQuery.prototype.getKeyValuePairs = function() {
     return this.keyValuePairs;
-}
+};
 /**
    @return The query string value; if not found returns -1.
 */
@@ -510,17 +532,17 @@ PageQuery.prototype.getValue = function (s) {
 	    return this.keyValuePairs[j].split(/=/)[1];
     }
     return -1;
-}
+};
 PageQuery.prototype.getParameters = function () {
     var a = new Array(this.getLength());
     for(var j=0; j < this.keyValuePairs.length; j++) {
 	a[j] = this.keyValuePairs[j].split(/=/)[0];
     }
     return a;
-}
+};
 PageQuery.prototype.getLength = function() {
     return this.keyValuePairs.length;
-}
+};
 
 function getUrlParam(inName) {
     var myPageQuery = new PageQuery(location.search);
@@ -542,6 +564,7 @@ $(document).ready(function() {
 	       $(this).addClass('foswikiSubmitDisabled');
 	       $(this).removeClass('foswikiSubmit');
 	    */
+            var placeholder = 1;
 	} else {
 	    $(this).addClass('foswikiHidden');
 	}
@@ -590,13 +613,13 @@ $(document).ready(function() {
 	this.focus();
     });
     $(".configureRootSection table.configureSectionValues div.configureError").each(function() {
-	var row = $(this).parent().parent().get(0);
+	var row = $(this).closest('tr').get(0);
 	if (row) {
 	    $(row).removeClass('configureExpert');
 	}
     });
     $(".configureRootSection table.configureSectionValues div.configureWarning").each(function() {
-	var row = $(this).parent().parent().get(0);
+	var row = $(this).closest('tr').get(0);
 	if (row) {
 	    $(row).removeClass('configureExpert');
 	}
@@ -633,17 +656,393 @@ $(document).ready(function() {
     $("[data-enableif]").each(function() {
 	add_dependency($(this), "enableif", function ($el, tf) {
 	    if (tf) {
-		$el.find("input,textarea").removeAttr('disabled')
-		    .removeClass('foswikiSubmitDisabled');
+		$el.find("input,textarea").removeAttr('disabled').
+		    removeClass('foswikiSubmitDisabled');
 	    } else {
-		$el.find("input,textarea").attr('disabled', 'disabled')
-		    .addClass('foswikiSubmitDisabled');
+		$el.find("input,textarea").attr('disabled', 'disabled').
+		    addClass('foswikiSubmitDisabled');
 	    }
 	});
     });
     toggleExpertsMode( getUrlParam('expert') );
     toggleInfoMode();
     initSection();
-    $(window).scroll(function(){ imgOnDemand() });
+    $(window).scroll(function(){ imgOnDemand(); });
     imgOnDemand();
 });
+
+function setSubmitAction( button ) {
+    $(button.form).find('input[type="hidden"][name="action"]').val(button.value);
+    return true;
+}
+
+/* ---------------------------- FEEDBACK -------------------------- */
+
+/* Quote a name per CSS quoting rules so that it can be used as a JQuery selector */
+
+function quoteName( name ) {
+    var instr = name.split( "" );
+    var out = '';
+    for( var i = 0; i < name.length; i++ ) {
+        var c = instr[i];
+        if( "!\"#$%&'()*+,./:;<=>?@[\\]^`{|} ~".indexOf(c) >= 0 ) {
+            out = out + '\\' + (c == ':'? '\\3a' : c);
+        } else {
+            out = out + c;
+        }
+    }
+    return out;
+}
+
+function doFeedback( key, pathinfo ) {
+
+     /* Make (and post) an http(s) request for feedback.
+      *
+      * First, some private infrastructure:
+      */
+
+    /* multipart/form-data item and body construction */
+
+    var boundary = '------Foswiki-formboundary' + (new Date).getTime() +
+                   Math.floor(Math.random()*1073741826).toString();
+    var dashdash = '--';
+    var crlf     = '\015\012';
+
+    var requestData = "";
+
+    /* Add a named item from a form to the POST data */
+
+    function postFormItem( name, value ) {
+	requestData = requestData +
+            (dashdash+boundary+crlf) +
+	    'Content-Disposition: form-data; name="' + name + '"' + crlf +
+	    crlf +
+            value + crlf;
+	return;
+    }
+
+    /* Error window - could go to status bar, but this seems to be effective. 
+     * Extract content for a div, stripping page overhead.
+     */
+
+    function errorMessageFromHTML( m ) {
+        errorMessage( m.replace(/\r?\n/mgi,'<crlf>').
+                        replace(/^.*<body>/mgi,'').
+                        replace(/<\/body>.*$/mgi,'').
+                        replace(/<\/?html>/mgi,'').
+                        replace(/<crlf>/mg,"\n") );
+    }
+
+    /* Effectively alert(), but supporting HTML content.  */
+
+    function errorMessage( m ) {
+        if( m.length <= 0 ) {
+            m = "Unknown error encountered";
+        }
+        /* nyroModal has wierd styles on <pre> that shrink to unreadability, 
+         * switch to <code> as <pre> s used by CGI::Carp.
+         */
+        m = m.replace(  /<(\/)?pre>/gi, "<$1code>" ).replace(/\n/g,'<br />');
+
+        var contents = '<div id="configureFeedbackErrorWindow" class="configureFeedbackError" style="display:none">' +
+                       m +'</div>';
+        /* If we already have the necessary DOM, re-use it.  Otherwise, we'll put it after the
+         * last button pressed.  It's just a place we know how to find; the DOM is not visible.
+         * It would be good to remove the DOM on close, but the various versions and states of
+         * nyroModal make that more trouble than it's worth.  The wrapping div is for CSS.
+         *
+         * An invisible link is made modal.  That link's hashtag points tothe *id* of an invisible
+         * div, which holds the content.  The *div* isn't modal.  The link is clicked once the 
+         * div is created (or replaced), and nyroModal handles things from there.
+         * Somewhat arcane, but that's the way nyroModal works.
+         */
+
+        if( $('#configureFeedbackErrorWindow')['size']() === 0 ) { /* Don't have error window */
+            $('#'+quoteKeyId)['after'](
+                '<a href="#configureFeedbackErrorWindow" class="configureFeedbackError" id="configureFeedbackErrorLink"></a>' +
+                    contents);
+            $('#configureFeedbackErrorLink').nyroModal().click();
+        } else { /* Re-use the window and link */
+            $('#configureFeedbackErrorWindow')['replaceWith'](contents);
+            $('#configureFeedbackErrorLink').click();
+        }
+    }
+
+    /* Request handling:
+     */
+
+    var quoteKeyId = quoteName( key.id );       /* Selector-encoded id of button that was clicked */
+    var KeyIdSelector = '#' + quoteKeyId;
+
+    var posturl = document.location.pathname;   /* Where to post form */
+
+    if( posturl == undefined || !posturl.length ){
+	posturl = $(KeyIdSelector )['closest']('form')['attr']('action');
+    }
+
+    /* Used for pathinfo testing */
+
+    if( pathinfo != undefined && pathinfo.length ) {
+        posturl = posturl + pathinfo;
+    }
+
+    /* Scan all the input controls in the form containing the button,
+     * Include successful controls.  Skip disabled and nameless controls.
+     */
+
+     $(KeyIdSelector)['closest']('form')['find'](":input")['each']( 
+	function( index ) {
+	    if( this.disabled ) {
+		return true;
+	    }
+	    var ctlName = this.name;
+	    if( !this.name.length ) {
+		return true;
+	    }
+	    switch( this.type.toLowerCase() ) {
+                /* Ignore these */
+	    case "file":
+	    case "submit":      /* Submit buttons weren't clicked, so don't report them */
+	    case "reset":       /* Reset controls are never submitted, local action only */
+		return true;
+
+	    case "select-one":
+	    case "select-multiple":
+		/* Select sends the value of each selected option */
+		var opts = this.options;
+		for( var i = 0; i < opts.length; i++ ) {
+		    if( opts[i].selected && !opts[i].disabled ) {
+			postFormItem( ctlName, opts[i].value );
+		    }
+		}
+		return true;
+			   
+	    case "textarea":
+		/* Deal with end of line variations - must normalize to <cr><lf> */
+		var txt = this.value.replace( /([^\r])\n/mg, "$1\r\n" ).
+		                     replace( /\r([^\n])/mg, "\r\n$1" ).
+                                     replace( /\r\n/, crlf );
+		postFormItem( ctlName, txt );
+		return true;
+
+	    case "hidden":
+	    case "text":
+	    case "password":
+		postFormItem( ctlName, this.value );
+		return true;
+			   
+	    case "radio":
+	    case "checkbox":
+		if( this.checked ) {
+		    postFormItem( ctlName, this.value );
+		}
+		return true;
+			   
+	    default:
+		break;
+	    }
+	    /* Ignore all other controls */
+	    return true;
+	} );
+
+    /* Mark as feedback request */
+
+    postFormItem( 'FeedbackRequest', key.id );
+    postFormItem( 'FeedbackButtonValue', key.value );
+    postFormItem( 'action', 'feedbackUI' );
+          
+    /* End of post boundary */
+
+    requestData = requestData + dashdash+boundary+dashdash+crlf;
+
+    /* Update message area with busy status. I18n note:  hidden disabled field in pagebegin.tmpl with desired
+     * text for internationalization.  E.g. <input type="hidden" disabled="disabled"
+     * id="configureFeedbackWorkingText" value="Nous travaillons sur votre demande...">
+     */
+
+    var working = $('#configureFeedbackWorkingText')['filter'](':hidden')['filter'](':disabled');
+    if( working['size']() == 1 ) {
+        working = working['get'](0).value;
+    } else {
+        working = 'Working...';
+    }
+    var stsWindowId = key.id.replace( /feedreq\d+$/, 'status' );
+    $('#' + quoteName(stsWindowId))['replaceWith']("<div id=\"" + stsWindowId +
+        "\" class=\"configureFeedbackPending\"><span class=\"configureFeedbackPendingMessage\">" +
+                                                   working + "</span></div>" );
+
+    /* Make the request
+     * ** N.B. Definitely broken with jQuery 1.3 (unreliable selectors), 1.8.2 used.
+     */
+
+    $.ajax( {
+        url:posturl,
+        cache:false, dataType:"text", type:"POST", global:false,
+        contentType:"multipart/form-data; boundary=\"" + boundary + '"; charset=UTF-8',
+        accepts:{ text: "text/plain", text: "text/html" },
+        headers: { 'X-Foswiki-FeedbackRequest': 'V1.0' },
+        processData:false, data:requestData, 
+        error: function (xhr, status, err ) {
+            if( !xhr.getAllResponseHeaders() ) {
+                /* User abort (no server response)
+                 * There is no reliable status code to detect this, which
+                 * happens when an AJAX request is cancelled by navigation.
+                 */
+                return true;
+            }
+
+            /* Clear "working" status */
+
+            $('#' + quoteName(stsWindowId))['replaceWith']("<div id=\"" + stsWindowId +
+                                            "\" class=\"configureFeedback\"></div>" );
+
+            /* Perhaps this should go to the status bar? */
+
+            errorMessage( '<h1>' + xhr['status'].toString() + " " +
+                          xhr['statusText'] + "</h1>" +
+                          xhr['responseText'] );
+            return true;
+        },
+       /* Using complete ensures that jQuery provides xhr on success.
+        */
+
+        complete: function( xhr, status ) {
+            if( status !== 'success' ) {
+                return true;
+            }
+
+            /* Make sure this is a feedback response, as some browsers
+             * seem to sometimes return other data...
+             */
+            if( xhr.getResponseHeader('X-Foswiki-FeedbackResponse') !== 'V1.0' ) {
+                return true;
+            }
+
+            var data = xhr.responseText;
+
+            /* Clear "working" status in case of errors or updates that don't target
+             * the original status div.  This also updates the class.
+             */
+            $('#' + quoteName(stsWindowId))['replaceWith']("<div id=\"" + stsWindowId +
+                                            "\" class=\"configureFeedback\"></div>" );
+
+            /* Decide what kind of response we got. */
+
+            if( data.charAt(0) != '{' ) { /* Probably an error page with OK status */
+                if( data.charAt(0) != "\177" ) { /* Ignore no data response */
+                    if( data.length <= 0 ) {
+                        data = "Empty response received from feedback request";
+                    }
+                    errorMessageFromHTML( data );
+                 }
+                return true;
+            }
+
+            /* Distribute response for each key to its status div or value */
+            /* Hex constants used rather than octal for JSLint issue. */
+
+            var items =  data.split("\x01");
+            var i;
+            for( i = 0; i < items.length; i++ ) {
+                /* IE sometimes doesn't do capturing split, so simulate one. */
+                var kpair = new Array();
+                var sloc;
+                var delims = [ "\x02", "\x03" ];
+                for( var d=0; d < delims.length; d++ ) {
+                    sloc = items[i].indexOf(delims[d]);
+                    if( sloc >= 0 ) {
+                        kpair[0] = items[i].substr(0, sloc);
+                        kpair[1] = delims[d];
+                        kpair[2] = items[i].substr(sloc+1);
+                        break;
+                    }
+                }
+                if( d >= delims.length ) {
+                    errorMessage( "Invalid opcode in feedback response" );
+                    return true;
+                }
+                if( kpair[1] == "\x02" ) {
+                    $( "#" + quoteName( kpair[0] ) + "status" )['html'](kpair[2]);
+                } else if( kpair[1] == "\x03" ) {
+                    var newval = kpair[2].split( /\x04/ );
+                    var opts;
+                    $( '[name="' + quoteName( kpair[0] ) + '"]' ).each( function( idx, ele ) {
+	                switch( this.type.toLowerCase() ) {
+                            /* Ignore these for now (why update labels?) */
+                        case "button":
+	                case "file":
+	                case "submit":
+	                case "reset": 
+		            return true;
+
+	                case "select-one":
+		            opts = this.options;
+                            var selected = -1;
+
+		            for( i = 0; i < opts.length; i++ ) {
+		                if( opts[i].value == newval[0] ) {
+                                    opts[i].selected = true;
+                                    this.selectedIndex = i;
+                                    selected = i;
+                                } else {
+                                    opts[i].selected = false;
+                                }
+                            }
+                            if( selected < 0 ) {
+                                errorMessage( "Invalid value \"" + newval[0] + "\" for " + kpair[0] );
+                            }
+		            return true;
+
+	                case "select-multiple":
+		            opts = this.options;
+
+		            for( i = 0; i < opts.length; i++ ) {
+                                opts[i].selected = false;
+                            }
+                            this.selectedIndex = -1;
+                            for( var v = 0; v < newval.length; v++ ) {
+		                for( var i = 0; i < opts.length; i++ ) {
+		                    if( opts[i].value == newval[v] ) {
+                                        opts[i].selected = true;
+                                        if( v === 0 ) {
+                                            this.selectedIndex = i;
+                                        }
+                                        break;
+                                    }
+                                }
+                                if( i >= opts.length ) {
+                                    errorMessage( "Invalid value \"" + newval[v] + "\" for " + kpair[0] );
+                                }
+                            }
+		            return true;
+			   
+	                case "textarea":
+	                case "hidden":
+	                case "text":
+	                case "password":
+                            this.value = newval.join( "" );
+		            return true;
+			   
+	                case "radio":
+	                case "checkbox":
+		            this.checked = isTrue( newval[0] );
+                            return true;
+	                default:
+		            break;
+	                }
+	                /* Ignore all other controls */
+	                return true;
+	            } );
+
+                }  else { /* This is not possible */
+                    errorMessage( "Invalid opcode2 in feedback response" );
+                }
+            }
+            return true;
+        }
+    } );
+
+    /* Consume the button click */
+
+    return false;
+}

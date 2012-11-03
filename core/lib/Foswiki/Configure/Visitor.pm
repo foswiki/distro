@@ -9,6 +9,8 @@ Node visitor interface
 
 package Foswiki::Configure::Visitor;
 
+use Carp;
+
 =begin TML
 
 --++ ObjectMethod startVisit($node) -> $boolean

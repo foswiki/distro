@@ -12,6 +12,9 @@ see FoswikiCfg.pm
 
 =cut
 
+package Foswiki;
+our $configItemRegex = qr/(?:\{[-:\w'"]+\})+/o;
+
 package Foswiki::Configure::Load;
 
 use strict;
@@ -33,7 +36,7 @@ our %remap = (
 
 =begin TML
 
----++ StaticMethod readConfig([$noexpand])
+---++ StaticMethod readConfig([$noexpand][,$nospec])
 
 In normal Foswiki operations as a web server this method is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
@@ -53,17 +56,25 @@ provide defaults, and it would be silly to have them in two places anyway.
 $noexpand can be set to suppress expansion of $Foswiki vars embedded in
 values.
 
+$nospec can be set when the caller (in particular, BasicSanity) knows that Foswiki.spec has already been read.
+
 =cut
 
 sub readConfig {
     my $noexpand = shift;
+    my $nospec   = shift;
 
     return if $Foswiki::cfg{ConfigurationFinished};
     my $validLSC =
       1;    # Assume it's valid - will be set false if errors detected.
 
     # Read Foswiki.spec and LocalSite.cfg
-    for my $file (qw( Foswiki.spec LocalSite.cfg)) {
+    # (Suppress Foswiki.spec if already read)
+
+    my @files = qw( Foswiki.spec LocalSite.cfg);
+    shift @files if ($nospec);
+
+    for my $file (@files) {
         unless ( my $return = do $file ) {
             my $errorMessage;
             if ($@) {
@@ -181,7 +192,7 @@ sub expandValue {
     }
     elsif ( defined( $_[0] ) ) {
         while (
-            $_[0] =~ s/(\$Foswiki::cfg{[A-Za-z0-9{}]+})/_handleExpand($1)/ge )
+            $_[0] =~ s/(\$Foswiki::cfg$configItemRegex)/_handleExpand($1)/ge )
         {
         }
     }
