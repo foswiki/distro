@@ -49,13 +49,15 @@ feedback request has been received.
 
         # Do not establish a new session
 
-        my $eicon = $Foswiki::resourceURI . "icon_error_white.gif";
-        htmlResponse(
-            qq {<html><head></head><body><div class="configureFeedbackError">
-<h1><img src="$eicon">This session is not valid</h1>
-<p><p><p><strong>Please refresh your browser window and try again.</strong>
-</div></body></html>}, 200
-        );
+        my $html =
+          Foswiki::Configure::UI::getTemplateParser()
+          ->readTemplate('feedbackerror');
+        Foswiki::Configure::UI::getTemplateParser()
+          ->parse( $html, { RESOURCEURI => $resourceURI, } );
+        Foswiki::Configure::UI::getTemplateParser()
+          ->cleanupTemplateResidues($html);
+
+        htmlResponse( $html, 200 );
 
     }
 
@@ -199,26 +201,21 @@ sub deliver {
         }
     }
 
-    if ($pending) {
-        $fb->{'{ConfigureGUI}{Unsaved}'} =
-          qq{<div class="FoswikiAlert configureWarn"><span>}
-          . (
-            $pending == 1 ? "There is one unsaved change"
-            : "There are $pending unsaved changes"
-          )
-          . (
-            DISPLAY_UNSAVED
-            ? ' '
-              . '<span class="configureFeedbackUnsaved"><br />'
-              . join( ', ', sort keys %updated )
-              . '</span>'
-            : ''
-          ) . qq{</span></div>};
-    }
-    else {
-        $fb->{'{ConfigureGUI}{Unsaved}'} =
-qq{<div class="configureOk"><span>There are no unsaved changes</span></div>};
-    }
+    my $pendingHtml =
+      Foswiki::Configure::UI::getTemplateParser()
+      ->readTemplate('feedbackunsaved');
+    Foswiki::Configure::UI::getTemplateParser()->parse(
+        $pendingHtml,
+        {
+            pendingCount => $pending,
+            listPending  => DISPLAY_UNSAVED,
+            pendingItems => [ map { { item => $_ } } sort keys \%updated ],
+        }
+    );
+    Foswiki::Configure::UI::getTemplateParser()
+      ->cleanupTemplateResidues($pendingHtml);
+
+    $fb->{'{ConfigureGUI}{Unsaved}'} = $pendingHtml;
 
     my $first = 1;
     foreach my $keys ( keys %$fb ) {

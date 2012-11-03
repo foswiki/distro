@@ -1,0 +1,38 @@
+<#assign pendingList>
+    <span class="configureFeedbackUnsaved"><br />
+    <#list pendingItems as i>
+        ${i.item}, 
+    </#list>
+    </span>
+</#assign>
+
+<#assign noPending>
+     <div class="configureOk"><span>There are no unsaved changes</span></div>
+</#assign>
+
+<#assign onePending>
+    <div class="FoswikiAlert configureWarn"><span>
+    There is one unsaved change
+    <#if listPending gt 0 >
+        ${pendingList}
+    </#if>
+    </span></div>
+</#assign>
+
+<#assign nPending>
+    <div class="FoswikiAlert configureWarn"><span>
+    There are ${pendingCount} unsaved changes
+    <#if listPending gt 0>
+        ${pendingList}
+    </#if>
+    </span></div>
+</#assign>
+<#if pendingCount == 0>
+    ${noPending}
+</#if>
+<#if pendingCount == 1> 
+    ${onePending}
+</#if>
+<#if pendingCount gt 1 > 
+      ${nPending}
+</#if>
