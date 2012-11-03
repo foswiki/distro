@@ -550,6 +550,13 @@ sub recordChange {
     my ( $this, %args ) = @_;
     ASSERT( $args{_handler} );
 
+    # Only log when deleting topics or attachment, otherwise we would re-create
+    # an empty directory with just a .changes. See Item9278
+    return
+      if ( $args{verb} eq 'remove'
+        && $args{oldmeta}
+        && !defined( $args{oldmeta}->topic ) );
+
     #as the handlers are already known, pass a ref to it in the args
     $args{_handler}->recordChange(%args);
 }
@@ -604,35 +611,23 @@ sub remove {
     my $handler = $this->getHandler( $topicObject, $attachment );
     $handler->remove();
 
-    # Only log when deleting topics or attachment, otherwise we would re-create
-    # an empty directory with just a .changes. See Item9278
+    my $more = 'Deleted ' . $topicObject->web;
     if ( my $topic = $topicObject->topic ) {
-        $this->recordChange(
-            _handler => $handler,
-
-            cuid          => $cUID,
-            revision      => 0,
-            more          => 'Deleted ' . $topic,
-            verb          => 'remove',
-            oldmeta       => $topicObject,
-            oldattachment => $attachment
-        );
-
+        $more .= '.' . $topic;
     }
-    elsif ($attachment) {
-        $this->recordChange(
-            _handler => $handler,
-
-            cuid     => $cUID,
-            revision => 0,
-            more     => 'Deleted attachment ' . $attachment,
-            ,
-            verb          => 'remove',
-            oldmeta       => $topicObject,
-            oldattachment => $attachment
-        );
-
+    if ($attachment) {
+        $more .= ': ' . $attachment;
     }
+    $this->recordChange(
+        _handler => $handler,
+
+        cuid          => $cUID,
+        revision      => 0,
+        more          => $more,
+        verb          => 'remove',
+        oldmeta       => $topicObject,
+        oldattachment => $attachment
+    );
 }
 
 sub query {

@@ -843,7 +843,7 @@ sub verify_eachChange {
         my $class = shift;
 
         #print STDERR "new($class)";
-        @changeStack = ($class);
+        @changeStack = ('newStoreTest');
         return $class->SUPER::new(@_);
     }
 
@@ -867,16 +867,17 @@ sub verify_eachChange {
 sub verify_StoreClassSettings {
     my $this = shift;
 
-    $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = 1;
+    $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = 5;
     $Foswiki::cfg{Store}{ImplementationClasses}
       {'Foswiki::Store::UnitTestFilter'} = 1;
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
     $this->verify_eachChange();
 
     #and now verify the results of the extra Store filter.
-    $this->assert_deep_equals( \@Foswiki::Store::UnitTestFilter::changeStack,
-        [qw/Foswiki::Store::UnitTestFilter insert insert update update/] )
-      ;    #, join(',',@Foswiki::Store::UnitTestFilter::changeStack) );
+    $this->assert_deep_equals(
+        [qw/newStoreTest insert insert update update/],
+        \@Foswiki::Store::UnitTestFilter::changeStack
+    );    #, join(',',@Foswiki::Store::UnitTestFilter::changeStack) );
 }
 
 #TODO: need to write a test to understand what exactly the moveTopic with inter web move records
@@ -949,8 +950,9 @@ sub verify_eachAttachment {
     my ($postDeleteMeta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
-#Item10124: SvenDowideit thinks that the Meta API should retain consistency, so if you 'remove' an attachment, its META entry should also be removed
-#if we do this, the following line will fail.
+    #Item10124: SvenDowideit thinks that the Meta API should retain consistency,
+    #so if you 'remove' an attachment, its META entry should also be removed
+    #if we do this, the following line will fail.
     $this->assert_deep_equals( $preDeleteMeta->{FILEATTACHMENT},
         $postDeleteMeta->{FILEATTACHMENT} );
 

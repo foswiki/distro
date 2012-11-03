@@ -97,6 +97,12 @@ sub set_up {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $webObject = $this->populateNewWeb( $this->{test_web} );
     $webObject->finish();
+    $this->{test_topicObject}->finish() if $this->{test_topicObject};
+    ( $this->{test_topicObject} ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->{test_topicObject}->text("BLEEGLE\n");
+    $this->{test_topicObject}->save( forcedate => ( time() + 60 ) );
+
     $webObject = $this->populateNewWeb( $this->{users_web} );
     $webObject->finish();
 
@@ -112,11 +118,6 @@ sub set_up {
     );
     $this->{test_user_cuid} =
       $this->{session}->{users}->getCanonicalUserID( $this->{test_user_login} );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    $this->{test_topicObject}->text("BLEEGLE\n");
-    $this->{test_topicObject}->save( forcedate => ( time() + 60 ) );
 }
 
 sub tear_down {
