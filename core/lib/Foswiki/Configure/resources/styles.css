@@ -5,17 +5,38 @@ html {
 	padding:0;
 }
 body {
-	margin:0 40px 3.5em 40px;
+	margin:0 1.5em 1em 1.5em;
 	padding:0;
 }
-div.configurePageHeader {
-    position: fixed;
-    z-index: 1000;
-    opacity: 100;
-    width: 100%:
+.configurePageHeader {
 }
+/*
 div.configurePageBodyWrapper {
     padding-top: 110px;
+}
+*/
+html body {
+    background-color:#fff;
+    font-size: 13px;
+}
+
+h4, h5, h6,
+.foswikiFormStep h1,
+.foswikiFormStep h2,
+.foswikiFormStep h3,
+.foswikiFormStep h4,
+.foswikiFormStep h5,
+.foswikiFormStep h6 {
+    color: #555;
+}
+
+.yui-u h1:first-child,
+.yui-u h2:first-child,
+.yui-u h3:first-child,
+.yui-u h4:first-child,
+.yui-u h5:first-child,
+.yui-u h6:first-child {
+    margin-top: 0;
 }
 
 /* --- SECTIONS --- */
@@ -49,18 +70,18 @@ body.configureShowOneSection .configureNotShowSection {
 
 .configureActions {
     position: fixed;
+    margin: 0 -1em;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
 }
 .configureActionsContents {
-	border-top:1px solid #d2e6f1;
+	border-top:1px solid #aaa;
 	text-align:right;
-	margin: 0 40px;
 	padding:.7em 1em 1em 1em;
 	background-color:#fff;
-	background-color:rgba(255,255,255,0.85);
+	background-color:rgba(200,200,200,0.5);
 }
 .configureTools {
 	background-color:#edf5fc;
@@ -94,7 +115,6 @@ table.configureFeedbackSummaryTable td {
 }
 .configureFeedbackSummaryCell {
     background-color:#fffbe8;
-    font-size:x-large;
 }
 .configureFeedbackUnsaved .configureFeedbackSummaryCell {
     font-size:xx-small;
@@ -208,9 +228,8 @@ div.configureFeedbackError H1 {
 ul.configureRootTab {
 	list-style-type:none;
 	margin:0;
-	padding:0;
-	border-top:1px solid #d2e6f1;
-	width:200px;
+	padding:0 20px 0 0;
+	width: auto;
 }
 ul.configureRootTab li {
 	margin:0;
@@ -220,7 +239,7 @@ ul.configureRootTab li a:link,
 ul.configureRootTab li a:visited {
 	display:block;
 	width:100%; /* needs to have a width or IE won't rollover over the background */
-	padding:.5em 1em;
+	padding:.45em 1em;
 	margin:-1px 0 0 0;
 	text-decoration:none;
 	background-color:#edf5fc;
@@ -377,7 +396,7 @@ table.configureSectionValues .foswikiInputField,
 table.configureSectionValues .foswikiTextarea {
     font-family: "Bitstream Vera Sans Mono", "Andale Mono","Courier New",monospace;
     font-size:94%;
-    width:80%;
+    width:100%;
 }
 
 /* WARN and ERROR */
@@ -403,7 +422,7 @@ div.configureError,
 div.configureWarn,
 div.configureOk {
 	padding:7px 1em 7px 3em;
-	background-position:1em 7px;
+	background-position:1em .7em;
 	background-repeat:no-repeat;
 }
 div.configureError {
@@ -579,7 +598,7 @@ span.configureMandatory {
 }
 
 .configureLogo {
-	margin:1em 0 1.5em 0;
+	margin: .75em 0;
 }
 .configureChangeList {;
 	margin:1em 0 2em 0;
@@ -670,35 +689,6 @@ a.configureDefaultValueLink:hover span.configureDefaultValueLinkValue {
 	z-index:1000;
 }
 
-/* LEGEND TABLE */
-.configureLegend {
-	float:right;
-	width:50%;
-	margin:0 0 0 2em;
-	padding:0 1em;
-	border-left:1px dashed #ccc;
-}
-	
-.configureLegend table {
-	margin:0;
-	border:none;
-	border-bottom:1px solid #f0f0f0;
-}
-.configureLegend table th {
-	border:none;
-	font-weight:bold;
-	color:#090;
-}
-.configureLegend table th,
-.configureLegend table td {
-	padding:.5em;
-	background:none;
-	vertical-align:top;
-	width:50%;
-}
-.configureLegend table td {
-	border-color:#f0f0f0;
-}
 div.configureMessageBox {
 	margin:0 0 1em 0;
 	border:1px solid #dfdfdf;
@@ -752,9 +742,19 @@ div.configureMessageBox {
 }
 
 .foswikiNotification.foswikiGood {
-	background:#fff;
-	border:1px solid #91ee85;
+   background-color:#fff;
+   border-color:#daedf8;
 }
+.foswikiNotification.foswikiGood h1,
+.foswikiNotification.foswikiGood h2,
+.foswikiNotification.foswikiGood h3,
+.foswikiNotification.foswikiGood h4,
+.foswikiNotification.foswikiGood h5,
+.foswikiNotification.foswikiGood h6 {
+    color: #45759a;
+}
+
+
 .foswikiNotification.foswikiBad {
 	background:#fff2f2;
 	border:1px solid #f00;

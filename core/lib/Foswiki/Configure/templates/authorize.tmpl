@@ -12,7 +12,7 @@
 </#assign>
 
 <#assign localFormNewPassword>
-	<div class='foswikiFormStep'>
+	<hr />
 		<p>
 		<#if hasPassword = 1>
 			New password:
@@ -27,7 +27,6 @@
 		To verify, repeat password:<br />
 		<input type='password' name='confCfgP' size='30' maxlength='80' class='foswikiInputField' />
 		</p>
-	</div>
 </#assign>
 
 <#assign localSetPassword>
@@ -38,11 +37,9 @@
 			<#else>
 				<h2>Save your settings by creating your Configure password</h2>
 			</#if>
-		</div>
 		${localFormNewPassword}
-		<div class='foswikiFormStep'>
-			<input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
-		</div>
+		<hr />
+        <input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
 	</div>
 </#assign>
 
@@ -50,17 +47,12 @@
 	<div class='foswikiFormSteps'>
 		<div class='foswikiFormStep'>
 			<h2>In order to proceed, Configure requires that you type your password.</h2>
-		</div>
-		<div class='foswikiFormStep'>
-			<p>Password: <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' />
-			&nbsp; <input type="submit" class='foswikiSubmit' value='Submit password' /></p>
-		</div>
-		<div class='foswikiFormStep configureFormStepOutside'>
+        <hr />
+		<p>Password: <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' />
+			&nbsp; <input type="submit" class='foswikiSubmit' value='Enter Configure' /></p>
 			${localNotePasswordForgotten}
-		</div>
-		<div class='foswikiFormStep configureFormStepOutside'>
-			<p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>
-		</div>   
+		<hr />
+			<p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>   
 	</div>
 </#assign>
 
@@ -106,7 +98,7 @@
 
 <#assign localNotePasswordForgotten>
     <#if displayStatus == 2>
-	<p>Password forgotten? To reset your password, log in to the server and delete the <code>$Foswiki::cfg{Password} = '...';</code> line from <code>lib/LocalSite.cfg</code>. Then reload this page and create a new password.</p>
+	<div class='foswikiHelp'>Password forgotten? To reset your password, log in to the server and delete the <code>$Foswiki::cfg{Password} = '...';</code> line from <code>lib/LocalSite.cfg</code>. Then reload this page and create a new password.</div>
     </#if>
     <#if displayStatus == 8>
     <p>Password forgotten? Password cannot be reset from the Extension installation screens.   To reset your password, log in to the server and delete the <code>$Foswiki::cfg{Password} = '...';</code> line from <code>lib/LocalSite.cfg</code>.
@@ -118,14 +110,12 @@
 	<div class='foswikiFormSteps'>
 		<div class='foswikiFormStep'>
 			<h2>Change your Configure password</h2>
-		</div>
-		<div class='foswikiFormStep'>
+		<hr />
 			<p>Current password:<br />
 			<input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' /></p>
 			${localNotePasswordForgotten}
-		</div>
 		${localFormNewPassword}
-		<div class='foswikiFormStep'>
+		<hr />
 			<input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
 		</div>
 	</div>

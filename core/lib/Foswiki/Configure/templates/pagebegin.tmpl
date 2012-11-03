@@ -41,24 +41,23 @@
 </head>
 <body class="configureShowOneSection">
 <div class="configurePageHeader">
+    <#if loggedin??>
+        <form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
+            <input type="hidden" name="time" value="${time}"  />
+            <a href='#' class='foswikiRight' title="Logout of configure and return to the wiki" onclick="$(this)['closest']('form')['submit']();return false;">Logout</a>
+            <input type="hidden" name="action" value="Logout">
+        </form>
+</#if>
+    <div class="configureLogo">
+        <img src="%RESOURCEURI%?action=resource;resource=foswiki-logo.gif" alt="Foswiki configuration" />
+    </div>
 <input type="hidden" disabled="disabled"
        id="configureFeedbackWorkingText"
        title="I18n - Not form data"
        value="Working...">
-<table class="configureFeedbackSummaryTable"><tr><td>
-<div class="configureLogo">
-<img src="%RESOURCEURI%foswiki-logo.png" width="156" height="50" alt="Foswiki configuration" />
-</div></td><td><div class="configureFeedbackSummaryCell"
-                    id="{ConfigureGUI}{Unsaved}status" />
-</td>
-<#if loggedin??>
-<td><form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
-<input type="hidden" name="time" value="${time}"  />
-<a href='#' title="Logout of configure and return to the wiki" onclick="$(this)['closest']('form')['submit']();return false;">Logout</a>
-<input type="hidden" name="action" value="Logout">
-</form></td>
-</#if>
-</tr></table>
+<div class="configureFeedbackSummaryTable">
+    <div class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status"></div>
+</div>
 <#if messages??>
 	<div class="foswikiNotification foswiki${style}" id="messages">
 		${messages}
