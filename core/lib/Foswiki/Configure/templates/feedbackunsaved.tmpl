@@ -9,12 +9,12 @@
 </#assign>
 
 <#assign noPending>
-     <div class="configureOk"><span>There are no unsaved changes</span></div>
+     <div class="configureOk"><span>You have no unsaved changes</span></div>
 </#assign>
 
 <#assign onePending>
     <div class="FoswikiAlert configureWarn"><span>
-    There is one unsaved change
+    You have one unsaved change
     <#if listPending gt 0 >
         ${pendingList}
     </#if>
@@ -23,7 +23,7 @@
 
 <#assign nPending>
     <div class="FoswikiAlert configureWarn"><span>
-    There are ${pendingCount} unsaved changes
+    You have ${pendingCount} unsaved changes
     <#if listPending gt 0>
         ${pendingList}
     </#if>
