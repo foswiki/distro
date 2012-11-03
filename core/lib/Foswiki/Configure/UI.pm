@@ -88,11 +88,14 @@ sub new {
     # FindBin, seems to abs_path Bin, so let that through (reluctantly)
 
     if (   @roots >= 2
-        && $roots[0] ne $roots[1]
-        && abs_path( $roots[0] ) ne abs_path( $roots[1] ) )
+        && $roots[0] ne $roots[1] )
     {
-        $this->{rootWarning} =
-          "{DataDir} => $roots[0] vs. {ScriptDir} => $roots[1]";
+        my $dd = abs_path( $roots[0] ) || 'undef';
+        my $bd = abs_path( $roots[1] ) || 'undef';
+        if ( $dd ne $bd ) {
+            $this->{rootWarning} =
+              "{DataDir} => $roots[0] ($dd) vs. {ScriptDir} => $roots[1] ($bd)";
+        }
     }
 
     $this->{root} = $roots[0];
