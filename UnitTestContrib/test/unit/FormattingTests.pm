@@ -309,11 +309,15 @@ sub test_escapedWikwordFormfield {
     my $this = shift;
 
     my $expected = <<EXPECTED;
+<input type="radio" name="blah" > <code>Label</code> </input> <strong>blah</strong>
 <input type="text" value="!WikiWord !WikiWord !WikiWord *bold* __boldItalic__ " />
+<strong><em>boldItalic</em></strong>
 EXPECTED
 
     my $actual = <<ACTUAL;
+<input type="radio" name="blah" > =Label= </input> *blah*
 <input type="text" value="!WikiWord !WikiWord !WikiWord *bold* __boldItalic__ " />
+__boldItalic__
 ACTUAL
     $this->do_test( $expected, $actual );
 }
