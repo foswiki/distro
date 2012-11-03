@@ -200,6 +200,18 @@ sub deliver {
             $pending++;
         }
     }
+    my @pendingItems = map { { item => $_->[0] } } sort {
+        my @a = @{ $a->[1] };
+        my @b = @{ $b->[1] };
+        while ( @a && @b ) {
+            my $c = shift(@a) cmp shift(@b);
+            return $c if ($c);
+        }
+        return @a <=> @b;
+      } map {
+        [ $_, [ map { s/(?:^\{)|(?:\}$)//g; $_ } split( /\}\{/, $_ ) ] ]
+      } keys %updated
+      if (DISPLAY_UNSAVED);
 
     my $pendingHtml =
       Foswiki::Configure::UI::getTemplateParser()
@@ -209,7 +221,7 @@ sub deliver {
         {
             pendingCount => $pending,
             listPending  => DISPLAY_UNSAVED,
-            pendingItems => [ map { { item => $_ } } sort keys \%updated ],
+            pendingItems => \@pendingItems,
         }
     );
     Foswiki::Configure::UI::getTemplateParser()
