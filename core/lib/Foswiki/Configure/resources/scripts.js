@@ -9,263 +9,342 @@ if (!$.curCSS) {
     $.curCSS = $.css;
 }
 
-/* EXPERT MODE */
+var configure = (function ($) {
 
-var expertsMode = '';
+	"use strict";
+	
+	var expertsMode = '',
+	    tabLinks = {},
+        menuState = {
+            main: undefined,
+            defaultSub: {},
+            allOpened: -1
+        },
+        infoMode = '',
+        allImagesLoaded = false,
+        
+        setMain = function(inId) {
+            menuState.main = inId;
+        },
+        getMain = function() {
+            return menuState.main;
+        },
+        setSub = function(inMainId, inSubId) {
+            menuState[inMainId] = inSubId;
+        },
+        getSub = function(inMainId) {
+            return menuState[inMainId];
+        },
+        
+        /**
+        Translates a value to a readable string that makes sense in a form.
+        For instance, 'false' gets translated to 'off' with checkboxes.
+        
+        Possible types:
+        URL
+        PATH
+        URLPATH
+        STRING
+        BOOLEAN
+        NUMBER
+        SELECTCLASS
+        SELECT
+        REGEX
+        OCTAL
+        COMMAND
+        PASSWORD
+        PERL (?)
+        */
+        createHumanReadableValueString = function(type, value) {
+            "use strict";
+            if (type === 'NUMBER') {
+                /* do not convert numbers */
+                return value;
+            }
+            if (type === 'BOOLEAN') {
+                if (isTrue(value)) {
+                    return 'on';
+                }
+                return 'off';
+            }
+            if (!value.length) {
+                return '""';
+            }
+            /* all other cases */
+            return value;
+        };
 
-function toggleExpertsMode(inMode) {
-    "use strict";
-    if (inMode !== undefined) {
-        /* convert value to a css value */
-        expertsMode = (inMode === 1 ? '' : 'none');
-    } else {
-        /* toggle */
-        expertsMode = (expertsMode === 'none' ? '' : 'none');
-    }
 
-    var antimode = (expertsMode === 'none' ? '' : 'none');
+	return {
+		
+		toggleInfoMode: function() {
+            var antimode = infoMode;
+            infoMode = (antimode === 'none' ? '' : 'none');
+            $('.configureInfoText').each(function () {
+                if (infoMode === 'none') {
+                    $(this).addClass('foswikiMakeHidden');
+                } else {
+                    $(this).removeClass('foswikiMakeHidden');
+                }
+            });
+            $('.configureNotInfoText').each(function () {
+                if (antimode === 'none') {
+                    $(this).addClass('foswikiMakeHidden');
+                } else {
+                    $(this).removeClass('foswikiMakeHidden');
+                }
+            });
+        },
 
+		toggleExpertsMode: function(mode) {
+            if (mode !== undefined) {
+                /* convert value to a css value */
+                expertsMode = (mode === '1' ? '' : 'none');
+            } else {
+                /* toggle */
+                expertsMode = (expertsMode === 'none' ? '' : 'none');
+            }
+        
+            var antimode = (expertsMode === 'none' ? '' : 'none');
+            /* toggle table rows */
+            $('tr.configureExpert').each(function () {
+                $(this).css("display", expertsMode);
+            });
+            $('tr.configureNotExpert').each(function () {
+                $(this).css("display", antimode);
+            });
+            /* toggle links */
+            $('a.configureExpert').each(function () {
+                $(this).css("display", expertsMode);
+            });
+            $('a.configureNotExpert').each(function () {
+                $(this).css("display", antimode);
+            });
+        },
+        
+        getDefaultSub: function(inMainId) {
+            return menuState.defaultSub[inMainId];
+        },
 
-    /* toggle table rows */
-    $('tr.configureExpert').each(function () {
-        $(this).css("display", expertsMode);
-    });
-    $('tr.configureNotExpert').each(function () {
-        $(this).css("display", antimode);
-    });
-    /* toggle links */
-    $('a.configureExpert').each(function () {
-        $(this).css("display", expertsMode);
-    });
-    $('a.configureNotExpert').each(function () {
-        $(this).css("display", antimode);
-    });
-}
+        setDefaultSub: function(inMainId, inSubId) {
+            if (menuState.defaultSub[inMainId]) {
+                return;
+            }
+            menuState.defaultSub[inMainId] = inSubId;
+        },
+        
+        /**
+           Returns an object with properties:
+           main: main section id
+           sub: sub section id (if any)
+        */
+        getSectionParts: function(anchor) {
+            var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/),
+                matches = anchor.match(anchorPattern),
+                main = '',
+                sub = '';
+            if (matches && matches[1]) {
+                main = matches[1];
+                if (matches[3]) {
+                    main = matches[3];
+                    sub = matches[1] + '$' + main;
+                }
+            }
+            return {
+                main: main,
+                sub: sub
+            };
+        },
+        
+        /*
+          sub states are stored like this:
+          var sub = 'Language';
+          menuState[menuState.main].sub = sub;
+        */
+        initSection: function() {
+            if (document.location.hash && document.location.hash !== '#') {
+                this.showSection(document.location.hash);
+            } else {
+                if ($("#WelcomeBody").length) {
+                    this.showSection('Welcome');
+                } else {
+                    this.showSection('Introduction');
+                }
+            }
+        },
 
-/* ----------------------------- MENU ----------------------------- */
-
-var tabLinks = {};
-
-var menuState = {};
-menuState.main = undefined;
-menuState.defaultSub = {};
-menuState.allOpened = -1;
-
-function setMain(inId) {
-    "use strict";
-    menuState.main = inId;
-}
-
-function getMain() {
-    "use strict";
-    return menuState.main;
-}
-
-function setSub(inMainId, inSubId) {
-    "use strict";
-    menuState[inMainId] = inSubId;
-}
-
-function getSub(inMainId) {
-    "use strict";
-    return menuState[inMainId];
-}
-
-function setDefaultSub(inMainId, inSubId) {
-    "use strict";
-    if (menuState.defaultSub[inMainId]) {
-        return;
-    }
-    menuState.defaultSub[inMainId] = inSubId;
-}
-
-function getDefaultSub(inMainId) {
-    "use strict";
-    return menuState.defaultSub[inMainId];
-}
-
-/**
-   Returns an object with properties:
-   main: main section id
-   sub: sub section id (if any)
-*/
-function getSectionParts(inAnchor) {
-    "use strict";
-    var anchorPattern = new RegExp(/^#*(.*?)(\$(.*?))*$/),
-        matches = inAnchor.match(anchorPattern),
-        main = '',
-        sub = '';
-    if (matches && matches[1]) {
-        main = matches[1];
-        if (matches[3]) {
-            main = matches[3];
-            sub = matches[1] + '$' + main;
+        showSection: function(anchor) {
+            var sectionParts = this.getSectionParts(anchor),
+                mainId = sectionParts.main,
+                subId = sectionParts.sub || getSub(mainId) || configure.getDefaultSub(mainId),
+                oldMainId = getMain(),
+                currentMainElement,
+                newMainElement,
+                oldSubId,
+                oldsub,
+                currentSubElement,
+                sub,
+                newSubElement;
+        
+            if (oldMainId !== mainId) {
+                /* hide current main section */
+                currentMainElement = $("#" + oldMainId + "Body");
+                currentMainElement.removeClass("configureShowSection");
+        
+                /* show new main section */
+                newMainElement = $("#" + mainId + "Body");
+                newMainElement.addClass("configureShowSection");
+        
+                /* set main menu highlight */
+                if (tabLinks[oldMainId]) {
+                    $(tabLinks[oldMainId]).removeClass("configureMenuSelected");
+                }
+                if (tabLinks[mainId]) {
+                    $(tabLinks[mainId]).addClass("configureMenuSelected");
+                }
+            }
+        
+            /* hide current sub section */
+            oldSubId = getSub(oldMainId);
+            if (oldSubId) {
+                oldsub = oldSubId;
+                oldsub = oldsub.replace(/\$/g, "\\$");
+                oldsub = oldsub.replace(/#/g, "\\#");
+                currentSubElement = $("#" + oldsub + "Body");
+                currentSubElement.removeClass('configureShowSection');
+            }
+        
+            /* show new sub section */
+            if (subId) {
+                sub = subId;
+                sub = sub.replace(/\$/g, "\\$");
+                sub = sub.replace(/#/g, "\\#");
+                newSubElement = $("#" + sub + "Body");
+                newSubElement.addClass('configureShowSection');
+            }
+        
+            /* set sub menu highlight */
+            if (tabLinks[oldSubId]) {
+                $(tabLinks[oldSubId]).removeClass("configureMenuSelected");
+            }
+            if (subId && tabLinks[subId]) {
+                $(tabLinks[subId]).addClass("configureMenuSelected");
+            }
+        
+            setMain(mainId);
+            setSub(mainId, subId);
+            
+            /*
+            url = document.location.split("#")[0];
+            if (subId !== undefined) {
+                window.history.pushState(undefined, "Configure / " + mainId + " / " + subId, document.location + "#" + subId);
+            } else {
+                window.history.pushState(undefined, "Configure", document.location);
+            }
+            */
+            
+            if (menuState.allOpened === 1) {
+                /* we want to use anchors to jump down */
+                return true;
+            }
+            return false;
+        },
+        
+        /**
+        Support for the Expand/Close All button
+        
+        This is the preferred way to toggle elements.
+        Should be done for Expert settings and Info blocks as well.
+        */
+        toggleSections: function() {
+            var body = $("body"),
+                newMain;
+            if (menuState.allOpened === -1) {
+                /* open all sections */
+                body.removeClass('configureShowOneSection');
+            } else {
+                /* hide all sections */
+                body.addClass('configureShowOneSection');
+                /* open current section */
+                newMain = menuState.main;
+                menuState.main = '';
+                configure.showSection(newMain);
+            }
+        
+            menuState.allOpened = -menuState.allOpened;
+        },
+        
+        initTabLinks: function() {
+            $(".tabli a").each(function () {
+                var sectionParts = configure.getSectionParts(this.hash);
+                this.sectionId = sectionParts.main;
+                if (sectionParts.sub) {
+                this.sectionId = sectionParts.sub;
+                configure.setDefaultSub(sectionParts.main, sectionParts.sub);
+                }
+                tabLinks[this.sectionId] = $(this).parent().get(0);
+            });
+        },
+                
+        imgOnDemand: function() {
+            if (!allImagesLoaded) {
+                var p = $(window).height() + $(window).scrollTop();
+                $('.loadImage').each(function () {
+                    if ($(this).offset().top < p + 50) {
+                        loadImage(this);
+                        $(this).removeClass('loadImage');
+                    }
+                });
+                allImagesLoaded = (p >= $(document).height());
+            }
+        },
+        
+        /**
+        Initializes the 2 states of "reset to default" links.
+        State 1: restore to default
+        State 2: undo restore
+        */
+        initDefaultLink: function(link) {
+            /* extract type */
+            var type = link.className.split(" ")[0],
+                label;
+        
+            link.type = type;
+        
+            /* retrieve value from title tag */
+            if (link.type === 'OCTAL') {
+                link.defaultValue = parseInt(unescape(link.title), 8).toString(8);
+            } else {
+                link.defaultValue = unescape(link.title);
+            }
+        
+            /* set link label states */
+            link.setDefaultLinkText = 'use default';
+            link.undoDefaultLinkText = 'use stored value';
+        
+            /* set defaults */
+            link.title = '';
+        
+            label = $('.configureDefaultValueLinkLabel', link)[0];
+            if (label) {
+                label.innerHTML = link.setDefaultLinkText;
+            }
+        },
+        
+        showDefaultLinkToolTip: function(link) {
+            var template = $("#configureToolTipTemplate").html(),
+                contents;
+        
+            template = template.replace(/VALUE/g, createHumanReadableValueString(link.type, link.defaultValue));
+            template = template.replace(/TYPE/g, link.type);
+        
+            contents = $('.configureDefaultValueLinkValue', link)[0];
+            $(contents).html(template);
         }
-    }
-    return {
-        main: main,
-        sub: sub
-    };
-}
 
-function showSection(inAnchor) {
-    "use strict";
-    var sectionParts = getSectionParts(inAnchor),
-        mainId = sectionParts.main,
-        subId = sectionParts.sub || getSub(mainId) || getDefaultSub(mainId),
-        oldMainId = getMain(),
-        currentMainElement,
-        newMainElement,
-        oldSubId,
-        oldsub,
-        currentSubElement,
-        sub,
-        newSubElement;
+	};
+}(jQuery));
 
-    if (oldMainId !== mainId) {
-        /* hide current main section */
-        currentMainElement = $("#" + oldMainId + "Body");
-        currentMainElement.removeClass("configureShowSection");
-
-        /* show new main section */
-        newMainElement = $("#" + mainId + "Body");
-        newMainElement.addClass("configureShowSection");
-
-        /* set main menu highlight */
-        if (tabLinks[oldMainId]) {
-            $(tabLinks[oldMainId]).removeClass("configureMenuSelected");
-        }
-        if (tabLinks[mainId]) {
-            $(tabLinks[mainId]).addClass("configureMenuSelected");
-        }
-    }
-
-    /* hide current sub section */
-    oldSubId = getSub(oldMainId);
-    if (oldSubId) {
-        oldsub = oldSubId;
-        oldsub = oldsub.replace(/\$/g, "\\$");
-        oldsub = oldsub.replace(/#/g, "\\#");
-        currentSubElement = $("#" + oldsub + "Body");
-        currentSubElement.removeClass('configureShowSection');
-    }
-
-    /* show new sub section */
-    if (subId) {
-        sub = subId;
-        sub = sub.replace(/\$/g, "\\$");
-        sub = sub.replace(/#/g, "\\#");
-        newSubElement = $("#" + sub + "Body");
-        newSubElement.addClass('configureShowSection');
-    }
-
-    /* set sub menu highlight */
-    if (tabLinks[oldSubId]) {
-        $(tabLinks[oldSubId]).removeClass("configureMenuSelected");
-    }
-    if (subId && tabLinks[subId]) {
-        $(tabLinks[subId]).addClass("configureMenuSelected");
-    }
-
-    setMain(mainId);
-    setSub(mainId, subId);
-
-    if (menuState.allOpened === 1) {
-        /* we want to use anchors to jump down */
-        return true;
-    }
-    return false;
-}
-
-/*
-  sub states are stored like this:
-  var sub = 'Language';
-  menuState[menuState.main].sub = sub;
-*/
-function initSection() {
-    "use strict";
-    if (document.location.hash && document.location.hash !== '#') {
-        showSection(document.location.hash);
-    } else {
-        if ($("#WelcomeBody").length) {
-            showSection('Welcome');
-        } else {
-            showSection('Introduction');
-        }
-    }
-}
-
-
-/**
-   Support for the Expand/Close All button
-   
-   This is the preferred way to toggle elements. Should be done for Expert settings and Info blocks as well.
-   
-*/
-function toggleSections() {
-    "use strict";
-    var body = $("body"),
-        newMain;
-    if (menuState.allOpened === -1) {
-        /* open all sections */
-        body.removeClass('configureShowOneSection');
-    } else {
-        /* hide all sections */
-        body.addClass('configureShowOneSection');
-        /* open current section */
-        newMain = menuState.main;
-        menuState.main = '';
-        showSection(newMain);
-    }
-
-    menuState.allOpened = -menuState.allOpened;
-}
-
-/* TOOLTIPS */
-
-function getTip(idx) {
-    "use strict";
-    var div = $("#tt" + idx);
-    if (div.length) {
-        return div.innerHTML;
-    }
-    return "Reset to the default value, which is:<br />";
-}
-
-/* DEFAULT LINKS */
-
-/**
-   Initializes the 2 states of "reset to default" links.
-   State 1: restore to default
-   State 2: undo restore
-*/
-function initDefaultLink(inLink) {
-    "use strict";
-    /* extract type */
-    var type = inLink.className.split(" ")[0],
-        label;
-
-    inLink.type = type;
-
-    /* retrieve value from title tag */
-    if (inLink.type === 'OCTAL') {
-        inLink.defaultValue = parseInt(unescape(inLink.title), 8).toString(8);
-    } else {
-        inLink.defaultValue = unescape(inLink.title);
-    }
-
-    /* set link label states */
-    inLink.setDefaultLinkText = 'use default';
-    inLink.undoDefaultLinkText = 'use stored value';
-
-    /* set defaults */
-    inLink.title = '';
-
-    label = $('.configureDefaultValueLinkLabel', inLink)[0];
-    if (label) {
-        label.innerHTML = inLink.setDefaultLinkText;
-    }
-}
 
 /**
    Checks if a value can be considered true.
@@ -278,55 +357,8 @@ function isTrue(v) {
     return 0;
 }
 
-/**
-   Translates a value to a readable string that makes sense in a form.
-   For instance, 'false' gets translated to 'off' with checkboxes.
-   
-   Possible types:
-   URL
-   PATH
-   URLPATH
-   STRING
-   BOOLEAN
-   NUMBER
-   SELECTCLASS
-   SELECT
-   REGEX
-   OCTAL
-   COMMAND
-   PASSWORD
-   PERL (?)
-*/
-function createHumanReadableValueString(inType, inValue) {
-    "use strict";
-    if (inType === 'NUMBER') {
-        /* do not convert numbers */
-        return inValue;
-    }
-    if (inType === 'BOOLEAN') {
-        if (isTrue(inValue)) {
-            return 'on';
-        }
-        return 'off';
-    }
-    if (!inValue.length) {
-        return '""';
-    }
-    /* all other cases */
-    return inValue;
-}
 
-function showDefaultLinkToolTip(inLink) {
-    "use strict";
-    var template = $("#configureToolTipTemplate").html(),
-        contents;
 
-    template = template.replace(/VALUE/g, createHumanReadableValueString(inLink.type, inLink.defaultValue));
-    template = template.replace(/TYPE/g, inLink.type);
-
-    contents = $('.configureDefaultValueLinkValue', inLink)[0];
-    $(contents).html(template);
-}
 
 /**
    Called from "reset to default" link.
@@ -396,29 +428,7 @@ function resetToDefaultValue(inLink, inFormType, inName, inValue) {
     return false;
 }
 
-/* INFO TEXTS */
 
-var infoMode = '';
-
-function toggleInfoMode() {
-    "use strict";
-    var antimode = infoMode;
-    infoMode = (antimode === 'none' ? '' : 'none');
-    $('.configureInfoText').each(function () {
-        if (infoMode === 'none') {
-            $(this).addClass('foswikiMakeHidden');
-        } else {
-            $(this).removeClass('foswikiMakeHidden');
-        }
-    });
-    $('.configureNotInfoText').each(function () {
-        if (antimode === 'none') {
-            $(this).addClass('foswikiMakeHidden');
-        } else {
-            $(this).removeClass('foswikiMakeHidden');
-        }
-    });
-}
 
 
 /**
@@ -554,83 +564,11 @@ function loadImage(el) {
     $(img).attr('src', url);
 }
 
-var allImagesLoaded = false;
 
-function imgOnDemand() {
-    "use strict";
-    if (!allImagesLoaded) {
-        var p = $(window).height() + $(window).scrollTop();
-        $('.loadImage').each(function () {
-            if ($(this).offset().top < p + 50) {
-                loadImage(this);
-                $(this).removeClass('loadImage');
-            }
-        });
-        allImagesLoaded = (p >= $(document).height());
-    }
-}
-
-/**
-   Javascript query string parsing.
-   Author: djohnson@ibsys.com {{djohnson}} - you may use this file as you wish but please keep this header with it thanks
-   @use 
-   Pass location.search to the constructor:
-   <code>var myPageQuery = new PageQuery(location.search)</code>
-   Retrieve values
-   <code>var myValue = myPageQuery.getValue("param1")</code>
-*/
-var PageQuery;
-PageQuery = function (q) {
-    "use strict";
-    var i;
-    if (q.length > 1) {
-        this.q = q.substring(1, q.length);
-    } else {
-        this.q = null;
-    }
-    this.keyValuePairs = [];
-    if (q) {
-        for (i = 0; i < this.q.split(/[&;]/).length; i = i + 1) {
-            this.keyValuePairs[i] = this.q.split(/[&;]/)[i];
-        }
-    }
-};
-PageQuery.prototype.getKeyValuePairs = function () {
-    "use strict";
-    return this.keyValuePairs;
-};
-/**
-   @return The query string value; if not found returns -1.
-*/
-PageQuery.prototype.getValue = function (s) {
-    "use strict";
-    var j;
-    for (j = 0; j < this.keyValuePairs.length; j = j + 1) {
-        if (this.keyValuePairs[j].split("=")[0] === s) {
-            return this.keyValuePairs[j].split("=")[1];
-        }
-    }
-    return -1;
-};
-PageQuery.prototype.getParameters = function () {
-    "use strict";
-    var a = [],
-        j;
-    for (j = 0; j < this.keyValuePairs.length; j = j + 1) {
-        a[j] = this.keyValuePairs[j].split("=")[0];
-    }
-    return a;
-};
-PageQuery.prototype.getLength = function () {
-    "use strict";
-    return this.keyValuePairs.length;
-};
-
-function getUrlParam(inName) {
-    "use strict";
-    var myPageQuery = new PageQuery(location.search),
-        param = myPageQuery.getValue(inName);
-    return (param === -1 ? undefined : param);
+function getUrlParam(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
 }
 
 /**
@@ -653,45 +591,38 @@ $(document).ready(function () {
             $(this).addClass('foswikiHidden');
         }
     });
+    configure.initTabLinks();
+    
     $(".showWhenNothingChanged").each(function () {
         showWhenNothingChangedElements.push(this);
     });
-    $(".tabli a").each(function () {
-        var sectionParts = getSectionParts(this.hash);
-        this.sectionId = sectionParts.main;
-        if (sectionParts.sub) {
-            this.sectionId = sectionParts.sub;
-            setDefaultSub(sectionParts.main, sectionParts.sub);
-        }
-        tabLinks[this.sectionId] = $(this).parent().get(0);
-    });
     $(".tabli a").click(function () {
-        return showSection(this.sectionId);
+        return configure.showSection(this.sectionId);
     });
     $("a.configureExpert").click(function () {
-        toggleExpertsMode();
+        configure.toggleExpertsMode();
         return false;
     });
     $("a.configureNotExpert").click(function () {
-        toggleExpertsMode();
+        configure.toggleExpertsMode();
         return false;
     });
     $("a.configureInfoText").click(function () {
-        toggleInfoMode();
+        configure.toggleInfoMode();
         return false;
     });
     $("a.configureNotInfoText").click(function () {
-        toggleInfoMode();
+        configure.toggleInfoMode();
         return false;
     });
     $("a.configureDefaultValueLink").each(function () {
-        initDefaultLink(this);
+        configure.initDefaultLink(this);
     });
     $("a.configureDefaultValueLink", $("div.configureRootSection")).mouseover(function () {
-        showDefaultLinkToolTip(this);
+        configure.showDefaultLinkToolTip(this);
     });
     $(".configureToggleSections a").click(function () {
-        toggleSections();
+        configure.toggleSections();
     });
     $("input.foswikiFocus").each(function () {
         this.focus();
@@ -746,13 +677,13 @@ $(document).ready(function () {
             }
         });
     });
-    toggleExpertsMode(getUrlParam('expert'));
-    toggleInfoMode();
-    initSection();
+    configure.toggleExpertsMode(getUrlParam('expert'));
+    configure.toggleInfoMode();
+    configure.initSection();
     $(window).scroll(function () {
-        imgOnDemand();
+        configure.imgOnDemand();
     });
-    imgOnDemand();
+    configure.imgOnDemand();
 });
 
 function setSubmitAction(button) {
