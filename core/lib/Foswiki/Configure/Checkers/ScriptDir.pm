@@ -18,6 +18,8 @@ sub provideFeedback {
 
     my $e = $this->check(@_);
 
+    delete $this->{FeedbackProvided};
+
     my $e2 = _checkBinDir( $this, $this->getCfg('{ScriptDir}') );
     $e .= $e2 if $e2;
 

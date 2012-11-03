@@ -59,7 +59,7 @@ sub check {
     $e = $this->showExpandedValue($value) . $e
       unless ( $this->{GuessedValue} );
 
-    if ( !$this->{item}->feedback ) {
+    if ( !$this->{item}->feedback && !$this->{FeedbackProvided} ) {
 
         # There is no feedback configured for this item, so do any
         # specified tests in the checker (not a good thing).
@@ -83,6 +83,8 @@ sub provideFeedback {
     # Normally, we call check first, but not if called by check.
 
     my $e = $button ? $this->check($valobj) : '';
+
+    delete $this->{FeedbackProvided};
 
     my $e2 = '';
 

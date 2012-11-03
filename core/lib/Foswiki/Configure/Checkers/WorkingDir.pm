@@ -21,6 +21,8 @@ sub provideFeedback {
 
     my $e = $this->check(@_);
 
+    delete $this->{FeedbackProvided};
+
     my $d = $this->getCfg("{WorkingDir}");
 
     $Foswiki::cfg{WorkingDir} =~ s#[/\\]+$##;

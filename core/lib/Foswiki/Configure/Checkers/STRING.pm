@@ -75,7 +75,7 @@ sub check {
     $value = $this->getItemCurrentValue();
     $e     = $this->showExpandedValue($value) . $e;
 
-    if ( !$this->{item}->feedback ) {
+    if ( !$this->{item}->feedback && !$this->{FeedbackProvided} ) {
 
         # There is no feedback configured for this item, so do any
         # specified tests in the checker (not a good thing).
