@@ -451,22 +451,23 @@ sub load {
     }
 
     my $session = $this->{_session};
-    if (    defined( $this->topic )
-        and ( not defined($rev) )
-        and $this->existsInStore() )
-    {
 
+#    if (    defined( $this->topic )
+#        and ( not defined($rev) )
+#        and $this->existsInStore() )
+#    {
 #SVEN: sadly, Item10805 shows that the metacache is not yet multi-user safe, and as the Groups code in TopicUserMapping changes to user=admin, we can't use it here
 #which makes it clear I need to write a full cache validation set of tests for MetaCache
 #TODO: need to extract the metacache from search, and extract the additional derived info from it too
 #TODO: this mess is because the Listeners cannot assign a cached meta object to an already existing unloaded meta
+#NEW: the metacache has to return a _copy_ of the cached item, otherwise code that ->finish() es its copy will also ->finish() the cached version and any other refs.
 #       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
-        my $m =
-          $session->search->metacache->getMeta( $this->web, $this->topic );
-
+#        my $m =
+#          $session->search->metacache->getMeta( $this->web, $this->topic );
+#
 #print STDERR "metacache->getMeta ".join(',', ( $this->web, $this->topic, ref($m) ))."\n";
-        return $m if ( defined($m) );
-    }
+#        return $m if ( defined($m) );
+#    }
 
     ASSERT( not( $this->{_latestIsLoaded} ) ) if DEBUG;
 
