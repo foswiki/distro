@@ -264,46 +264,6 @@ HERE
     }
     $contents .= $this->setting( "Foswiki module status", $mess );
 
-=for old_configure
-
-    # Requires javascript support to select WebserverEnvironment tab and scroll to
-    # #PATH_INFO when entered with #HASH_INFO in the URL.  Requires configure mail
-    # support to map $action to Configure if entered with 'test'.
-
-    # PATH_INFO - Should be done with feedback...
-    my $url = $Foswiki::query->url();
-    my $pinfo = $Foswiki::query->path_info();
-    my $pitested = $Foswiki::query->param('pitest');
-    $Foswiki::query->delete('pitest');
-    $contents .= $this->setting(
-                                CGI::a( { name => 'PATH_INFO' }, 'PATH_INFO' ),
-                                ($pinfo || '<strong><i>not present</i></strong>')
-                                . $this->NOTE(<< "DESCRIP" )
-For a URL such as <strong style="color:black;">$url/test/pathinfo</strong>,
-the correct PATH_INFO is <strong style="color:black;">/test/pathinfo</strong>,
-without any prefixed path components.
-DESCRIP
-                                . ($pitested? ($pinfo? ($pinfo eq '/test/pathinfo'?
-                                                        $this->NOTE( << "PIOK") :
-The correct PATH_INFO was returned.
-PIOK
-                                                        $this->ERROR( << "PIBAD")) :
-The PATH_INFO <strong style="color:black;">$pinfo</strong> provided by the webserver
-is incorrect.  Please correct your webserver's configuration and/or patchlevel.
-PIBAD
-                                               $this->ERROR( << "PINONE" ) ) :
-No PATH_INFO was returned by the webserver.  Please correct your webserver's
-configuration and/or patchlevel.
-PINONE
-                                   $this->NOTE( << "PITEST" ) ) ) );
-We suggest that you <a rel="nofollow" href="$url/test/pathinfo?pitest=1#PATH_INFO">
-<strong>Test PATH_INFO now</strong></a>
-- particularly if you are using mod_perl, Apache or IIS, or are using a web hosting provider.
-<p>After clicking the test link, the results will be displayed above.
-PITEST
-
-=cut
-
     # mod_perl
     if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
         $n = $this->WARN("Used for this script - it should not be");
