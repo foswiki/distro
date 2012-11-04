@@ -901,7 +901,7 @@ function doFeedback(key, pathinfo) {
         working = 'Working...';
     }
     stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
-    $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
+    $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
 
     /* Make the request
      * ** N.B. Definitely broken with jQuery 1.3 (unreliable selectors), 1.8.2 used.

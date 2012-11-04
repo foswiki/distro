@@ -30,6 +30,14 @@
                     <#if totalErrors??><span class='configureStatusErrors'>${totalErrors}</span></#if>
                     <#if totalWarnings??><span class='configureStatusWarnings'>${totalWarnings}</span></#if>
                     <#if firstTime == 1>(we will solve this in a minute)</#if>
+                    
+                    <input type="hidden" disabled="disabled"
+                           id="configureFeedbackWorkingText"
+                           title="I18n - Not form data"
+                           value="Working...">
+                    <span class="configureFeedbackSummaryTable">
+                        <span class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status"></span>
+                    </span>
 			    </div>
                 <input type='submit' class='foswikiButton' name='changePassword' value='Change password' />
 				<input type='submit' class='enableWhenSomethingChanged foswikiSubmit' name='action' value='Save changes' />

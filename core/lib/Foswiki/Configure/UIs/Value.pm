@@ -192,7 +192,7 @@ HERE
         my $tip        = $root->{controls}->addTooltip($info);
         my $scriptName = Foswiki::Configure::CGI::getScriptName();
         my $image =
-"<img src='${Foswiki::resourceURI}icon_info.gif' alt='Show info' title='Show info' />";
+"<img src='${Foswiki::resourceURI}icon_info.png' alt='Show info' title='Show info' />";
         $helpTextLink =
 "<span class='foswikiMakeVisible'><a href='#' onclick='return toggleInfo($tip);'>$image</a></span>";
         $helpText =
