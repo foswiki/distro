@@ -19,6 +19,12 @@ body {
     padding: 0 30px;
 }
 
+.foswikiBroadcastMessage,
+.foswikiNotification {
+    margin: 0 0 10px 0;
+    padding: 15px;
+}
+
 .configurePageHeader {
     position: fixed;
     z-index: 1;
@@ -388,9 +394,6 @@ div.configureFeedbackError H1 {
 /* --- MENUS --- */
 
 /* PRIMARY NAVIGATION */
-.yui-b {
-    position: relative;
-}
 .navigation {
     width: 200px;
 }
@@ -923,14 +926,18 @@ div.configureMessageBox {
 .installDependency {
 }
 
-.configureLegend table div.configureExpertExample {
-	background-image:url(%RESOURCEURI%bg_expert.gif);
-	background-repeat: repeat-y;
-	color:#7a6210;
-	display:block;
+.configureLegend .configureMessageBox {
+    margin: 0 0 5px 0;
 }
-.configureLegend table strong {
-	display:block;
+.configureLegend .item {
+    border: 1px solid #eee;
+    padding: 10px;
+}
+.configureLegend .item + .item {
+    border-top: 0;
+}
+.configureLegend .item p {
+    margin: 5px 0 0 0;
 }
 
 .foswikiSubmitDisabled,

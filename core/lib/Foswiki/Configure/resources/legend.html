@@ -1,32 +1,49 @@
-<div class='configureLegend'>
-	<table class='configureLegend configureSectionValues' border='0' cellpadding='0'>
-		<tr>
-			<th colspan='2'>Explanation of colours and symbols</th>
-		</tr>
-		<tr>
-			<td><div class='configureMessageBox'>{DefaultUrlHost}&nbsp;<span class='configureMandatory'>required</span></div></td>
-			<td><strong>Required settings</strong>Must have a value</td>
-		</tr>
-                <tr>
-                        <td><div class='configureMessageBox'>{LoginNameFilterIn} <span class="configureCheckOnChange"><img src="%RESOURCEURI%autocheck.png" width="32" height="15" title="This field will be automatically verified when you change it" alt="Autochecked field"></span></div></td>
-                        <td><strong>Auto-checked</strong>Field is automatically checked when changed</td>
-                </tr>
-                <tr>
-                       <td><div class='configureMessageBox'>{PubDir}<br>
-                           <input type="button" disabled='disabled' value="Validate" class="configureFeedbackButton1" onclick="return false;" /></div></td>
-                       <td><strong>Action button</strong>Click button to perform a validation, repair or other action for this item.</td>
-                </tr>
-		<tr>
-			<td><div class='configureMessageBox foswikiAlert configureError'><span><strong>Error</strong></div></td>
-			<td><strong>Errors</strong>Must be fixed</td>
-		</tr>
-		<tr>
-			<td><div class='configureMessageBox foswikiAlert configureWarn'><span><strong>Warning</strong></div></td>
-			<td><strong>Warnings</strong>Non-fatal, but often a good indicator that something is wrong</td>
-		</tr>
-		<tr>
-			<td><div class='configureMessageBox foswikiAlert configureExpertExample'>{Validation}{Method}</div></td>
-			<td><strong>Expert settings</strong>For expert use only. You should not fiddle with them unless you have read all the documentation first.</td>
-		</tr>
-	</table>
+<h3>Explanation of colours and symbols</h3>
+<div class="configureLegend">
+    <div class="item">
+        <div class='configureMessageBox'>{DefaultUrlHost}&nbsp;<span class='configureMandatory'>required</span></div>
+        <p>
+            <strong>Required settings</strong><br />
+            Must have a value
+        </p>
+    </div>    
+
+    <div class="item">
+        <div class='configureMessageBox'>{LoginNameFilterIn} <span class="configureCheckOnChange"><img src="%RESOURCEURI%autocheck.png" width="32" height="15" title="This field will be automatically verified when you change it" alt="Autochecked field"></span></div>
+        <p><strong>Auto-checked</strong><br />
+        Field is automatically checked when changed</p>
+    </div>    
+
+    <div class="item">
+        <div class='configureMessageBox'>{PubDir}<br />
+        <a href="#" class="configureFeedbackButton1">Validate</a></div>
+        <p>
+            <strong>Action button</strong><br />
+            Click button to perform a validation, repair or other action for this item.
+        </p>
+    </div>    
+
+    <div class="item">
+        <div class='configureMessageBox foswikiAlert configureError'><span><strong>Error</strong></div>
+        <p>
+            <strong>Errors</strong><br />
+            Must be fixed
+        </p>
+    </div>
+
+    <div class="item">
+        <div class='configureMessageBox foswikiAlert configureWarn'><span><strong>Warning</strong></div>
+        <p>
+            <strong>Warnings</strong><br />
+            Non-fatal, but often a good indicator that something is wrong
+        </p>
+    </div>    
+
+    <div class="item">
+        <div class='configureMessageBox foswikiAlert configureExpertExample'>{Validation}{Method}</div>
+        <p>
+            <strong>Expert settings</strong><br />
+            For expert use only. You should not fiddle with them unless you have read all the documentation first.
+        </p>
+    </div>
 </div>
