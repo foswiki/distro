@@ -92,6 +92,15 @@ sub deliver {
     my %updated;
     my $modified = $valuer->loadCGIParams( $query, \%updated );
 
+    # Get request from CGI
+    my $request = $query->param('FeedbackRequest');
+
+    # Handle an unsaved changes request without any checking or UI
+
+    if ( $request eq '{ConfigureGUI}{Unsaved}status' ) {
+        deliverResponse( {}, \%updated );
+    }
+
     my $root = new Foswiki::Configure::Root();
 
     require Foswiki::Configure::Checkers::Introduction;
@@ -127,9 +136,8 @@ sub deliver {
     $this->{checkall} = $query->param('DEBUG') ? 2 : 1;
     $this->{changed} = \%updated;
 
-    # Get request from feedback button
+    # Decode feedback button request
 
-    my $request = $query->param('FeedbackRequest');
     $request =~ /^(\{.*\})feedreq(\d+)$/ or die "Invalid FB target $request\n";
     $this->{request}     = $1;
     $this->{button}      = $2;
@@ -164,6 +172,13 @@ sub deliver {
         }
     }
 
+    deliverResponse( $this->{fb}, \%updated );
+}
+
+sub deliverResponse {
+    my $fb      = shift;
+    my $updated = shift;
+
     my $html = '';
 
 # Return encoded responses to each responding key.
@@ -186,10 +201,7 @@ sub deliver {
 #   \002 can actually update any <div> named {something}status; the {ConfigureGUI}
 #        namespace is reserved for such <divs>, and will not be written to LSC.
 
-    my $fb = $this->{fb};
-
-    $fb->{'{ConfigureGUI}{Unsaved}'} =
-      Foswiki::unsavedChangesNotice( \%updated );
+    $fb->{'{ConfigureGUI}{Unsaved}'} = Foswiki::unsavedChangesNotice($updated);
 
     my $first = 1;
     foreach my $keys ( keys %$fb ) {

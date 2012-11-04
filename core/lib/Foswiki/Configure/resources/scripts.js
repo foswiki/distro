@@ -558,9 +558,13 @@ function valueChanged(el) {
     case "password":
     case "radio":
     case "checkbox":
-        $('[id^="' + configure.utils.quoteName(el.name) + 'feedreq"]').filter('[value="~"]').click();
-        break;
+       if( $('[id^="' + configure.utils.quoteName(el.name) + 'feedreq"]').filter('[value="~"]').click().size() > 0 ) {
+           break;
+       }
+        /* No feedback button found, fall through to default */
     default:
+        var unsaved = { id:'{ConfigureGUI}{Unsaved}status', value:'Not a button' };
+        doFeedback(unsaved);
         break;
     }
     $(el).addClass('foswikiValueChanged');
@@ -709,8 +713,8 @@ $(document).ready(function () {
     // make sticky
     $('.navigation').affix({
       offset: {
-        top: 0
-      , bottom: 50
+        top: 0,
+        bottom: 50
       }
     });
     
@@ -786,7 +790,7 @@ function doFeedback(key, pathinfo) {
          */
 
         if ($('#configureFeedbackErrorWindow').size() === 0) { /* Don't have error window */
-            $('#' + quoteKeyId).after('<a href="#configureFeedbackErrorWindow" class="configureFeedbackError" id="configureFeedbackErrorLink"></a>' + contents);
+            $(KeyIdSelector).after('<a href="#configureFeedbackErrorWindow" class="configureFeedbackError" id="configureFeedbackErrorLink"></a>' + contents);
             $('#configureFeedbackErrorLink').nyroModal().click();
         } else { /* Re-use the window and link */
             $('#configureFeedbackErrorWindow').replaceWith(contents);
@@ -894,14 +898,16 @@ function doFeedback(key, pathinfo) {
      * id="configureFeedbackWorkingText" value="Nous travaillons sur votre demande...">
      */
 
-    working = $('#configureFeedbackWorkingText').filter(':hidden').filter(':disabled');
-    if (working.size() === 1) {
-        working = working.get(0).value;
-    } else {
-        working = 'Working...';
+    if( key.id !== '{ConfigureGUI}{Unsaved}status' ) {
+        working = $('#configureFeedbackWorkingText').filter(':hidden').filter(':disabled');
+        if (working.size() === 1) {
+            working = working.get(0).value;
+        } else {
+            working = 'Working...';
+        }
+        stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
+        $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
     }
-    stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
-    $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
 
     /* Make the request
      * ** N.B. Definitely broken with jQuery 1.3 (unreliable selectors), 1.8.2 used.
@@ -933,7 +939,9 @@ function doFeedback(key, pathinfo) {
 
             /* Clear "working" status */
 
-            $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+            if( stsWindowId ) {
+                $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+            }
 
             /* Perhaps this should go to the status bar? */
 
@@ -970,7 +978,9 @@ function doFeedback(key, pathinfo) {
             /* Clear "working" status in case of errors or updates that don't target
              * the original status div.  This also updates the class.
              */
-            $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+            if( stsWindowId ) {
+                $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+            }
 
             /* Decide what kind of response we got. */
 
