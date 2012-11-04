@@ -18,6 +18,7 @@ var configure = (function ($) {
         menuState = {
             main: undefined,
             defaultSub: {},
+            defaultMain: undefined,
             allOpened: -1
         },
         infoMode = '',
@@ -202,11 +203,17 @@ var configure = (function ($) {
         },
 
         /*
+        Set the default section.
+        
           sub states are stored like this:
           var sub = 'Language';
           menuState[menuState.main].sub = sub;
         */
         initSection: function () {
+            var href = $(".configureRootTab > li > a").attr("href");
+            if (href) {
+                menuState.defaultMain = href.split("#")[1];
+            }
             if (document.location.hash && document.location.hash !== '#') {
                 this.showSection(document.location.hash);
             } else {
@@ -219,10 +226,10 @@ var configure = (function ($) {
         },
 
         showSection: function (anchor) {
-            var sectionParts = this.getSectionParts(anchor),
-                mainId = sectionParts.main,
-                subId = sectionParts.sub || getSub(mainId) || configure.getDefaultSub(mainId),
-                oldMainId = getMain(),
+            var sectionParts,
+                mainId,
+                subId,
+                oldMainId,
                 currentMainElement,
                 newMainElement,
                 oldSubId,
@@ -230,9 +237,20 @@ var configure = (function ($) {
                 currentSubElement,
                 sub,
                 newSubElement,
-                url = document.location.toString().split("#")[0],
+                url,
                 subName;
 
+            url = document.location.toString().split("#")[0];
+            sectionParts = this.getSectionParts(anchor);
+            mainId = sectionParts.main;
+            subId = tabLinks[mainId] ? (sectionParts.sub || getSub(mainId) || this.getDefaultSub(mainId)) : this.getDefaultSub(mainId);
+
+            if (!tabLinks[mainId]) {
+                mainId = menuState.defaultMain;
+                subId = undefined;
+            }
+
+            oldMainId = getMain();
             if (oldMainId !== mainId) {
                 /* hide current main section */
                 currentMainElement = $("#" + oldMainId + "Body");
@@ -250,7 +268,7 @@ var configure = (function ($) {
                     $(tabLinks[mainId]).addClass("configureMenuSelected");
                 }
             }
-            
+
             /* hide current sub section */
             oldSubId = getSub(oldMainId);
             if (oldSubId) {
@@ -282,17 +300,16 @@ var configure = (function ($) {
             setSub(mainId, subId);
 
             if (mainId || subId) {
-                
                 if (subId !== undefined) {
                     subName = subId.split("$")[1];
                     window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
                 } else if (mainId !== undefined) {
                     window.history.pushState(undefined, "Configure / " + mainId, url + "#$" + mainId);
                 } else {
-                    window.history.pushState(undefined, "Configure", document.location);
+                    window.history.pushState(undefined, "Configure", url);
                 }
             }
-            
+
             if (menuState.allOpened === 1) {
                 /* we want to use anchors to jump down */
                 return true;
@@ -318,19 +335,20 @@ var configure = (function ($) {
                 /* open current section */
                 newMain = menuState.main;
                 menuState.main = '';
-                configure.showSection(newMain);
+                this.showSection(newMain);
             }
 
             menuState.allOpened = -menuState.allOpened;
         },
 
         initTabLinks: function () {
+            var that = this;
             $(".tabli a").each(function () {
-                var sectionParts = configure.getSectionParts(this.hash);
+                var sectionParts = that.getSectionParts(this.hash);
                 this.sectionId = sectionParts.main;
                 if (sectionParts.sub) {
                     this.sectionId = sectionParts.sub;
-                    configure.setDefaultSub(sectionParts.main, sectionParts.sub);
+                    that.setDefaultSub(sectionParts.main, sectionParts.sub);
                 }
                 tabLinks[this.sectionId] = $(this).parent().get(0);
             });
@@ -577,6 +595,7 @@ function valueOf($el) {
 }
 
 function submitform() {
+    "use strict";
     document.update.submit();
 }
 
@@ -686,9 +705,9 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     $('.makeSticky').sticky();
-    
+
     configure.toggleExpertsMode('expert');
     configure.toggleInfoMode();
     configure.initSection();
@@ -730,16 +749,12 @@ function doFeedback(key, pathinfo) {
     /* Add a named item from a form to the POST data */
 
     function postFormItem(name, value) {
-        "use strict";
-
         requestData = requestData + (dashdash + boundary + crlf) + 'Content-Disposition: form-data; name="' + name + '"' + crlf + crlf + value + crlf;
         return;
     }
 
     /* Effectively alert(), but supporting HTML content.  */
     function errorMessage(m) {
-        "use strict";
-
         if (m.length <= 0) {
             m = "Unknown error encountered";
         }
@@ -774,8 +789,6 @@ function doFeedback(key, pathinfo) {
      */
 
     function errorMessageFromHTML(m) {
-        "use strict";
-
         errorMessage(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
     }
 
