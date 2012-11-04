@@ -10,6 +10,8 @@ loaded for resource or feedback requests.
 
 =cut
 
+our $sanityStatement;
+
 # ######################################################################
 # Main screen for configure
 # ######################################################################
@@ -52,7 +54,8 @@ sub _actionConfigure {
           ;    #?? abort is never set, and $sanityStatement is just an error div
     }
     else {
-        $html = configureScreen( ( redirectResults() || '' ) );
+        $html = ( $sanityStatement || '' ) . ( redirectResults() || '' );
+        $html = configureScreen($html);
     }
 
     htmlResponse($html);
@@ -877,8 +880,6 @@ sub configureScreen {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    $html = Foswiki::Configure::UI::getTemplateParser()
-      ->parse( $html, { time => $time, logoutdata() } );
 
     if ($showSecurityStatement) {
         $html .=

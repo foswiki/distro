@@ -217,7 +217,7 @@ our $insane;
 
 our $configItemRegex;
 
-my $sanityStatement;
+our $sanityStatement;
 
 our $time = time();
 
