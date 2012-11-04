@@ -188,45 +188,8 @@ sub deliver {
 
     my $fb = $this->{fb};
 
-    # Remove any {ConfigureGUI} pseudo-keys from %updated and count the rest.
-
-    my $pending = 0;
-    foreach my $keys ( keys %updated ) {
-        if ( $keys =~ /^\{ConfigureGUI\}/ ) {
-            delete $updated{$keys};
-        }
-        else {
-            $pending++;
-        }
-    }
-    my @pendingItems = map { { item => $_->[0] } } sort {
-        my @a = @{ $a->[1] };
-        my @b = @{ $b->[1] };
-        while ( @a && @b ) {
-            my $c = shift(@a) cmp shift(@b);
-            return $c if ($c);
-        }
-        return @a <=> @b;
-      } map {
-        [ $_, [ map { s/(?:^\{)|(?:\}$)//g; $_ } split( /\}\{/, $_ ) ] ]
-      } keys %updated
-      if (DISPLAY_UNSAVED);
-
-    my $pendingHtml =
-      Foswiki::Configure::UI::getTemplateParser()
-      ->readTemplate('feedbackunsaved');
-    $pendingHtml = Foswiki::Configure::UI::getTemplateParser()->parse(
-        $pendingHtml,
-        {
-            pendingCount => $pending,
-            listPending  => DISPLAY_UNSAVED,
-            pendingItems => \@pendingItems,
-        }
-    );
-    Foswiki::Configure::UI::getTemplateParser()
-      ->cleanupTemplateResidues($pendingHtml);
-
-    $fb->{'{ConfigureGUI}{Unsaved}'} = $pendingHtml;
+    $fb->{'{ConfigureGUI}{Unsaved}'} =
+      Foswiki::unsavedChangesNotice( \%updated );
 
     my $first = 1;
     foreach my $keys ( keys %$fb ) {

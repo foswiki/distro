@@ -47,16 +47,14 @@ sub commitChanges {
     $this->{changed} = 0;
     $this->{updated} = $updated;
 
-    my @changesList = ();
-    $this->{changesList} = \@changesList;
-
     my $logfile;
     $this->{log}  = '';
     $this->{user} = $Foswiki::query->remote_user() || $ENV{REMOTE_USER} || '';
     $this->{addr} = $Foswiki::query->remote_addr() || $ENV{REMOTE_ADDR} || '';
 
     # Pass ourselves as log listener
-    Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this, $insane );
+    my $msg =
+      Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this, $insane );
 
     if ( $this->{log} && defined( $Foswiki::cfg{Log}{Dir} ) ) {
 
@@ -69,13 +67,15 @@ sub commitChanges {
         Foswiki::Configure::Load::expandValue($logdir);
         ($logdir) = $logdir =~ /^(.*)$/;
         unless ( -d $logdir ) {
-            mkdir $logdir;
+            mkdir $logdir or die "Unable to create $logdir: $!\n";
+            $msg .= "<br />Created $logdir\n";
         }
         if ( open( my $lf, '>>', "$logdir/configure.log" ) ) {
             print $lf $this->{log};
-            close($lf);
+            close($lf) or die "Failed to close $logdir/configure.log:$!\n";
         }
     }
+    return $msg;
 }
 
 =begin TML
@@ -91,7 +91,6 @@ sub logChange {
     my ( $this, $keys, $value ) = @_;
 
     if ( $this->{updated}->{$keys} ) {
-        push( @{ $this->{changesList} }, { key => $keys, value => $value } );
         $this->{changed}++;
         $this->{log} .= '| '
           . gmtime() . ' | '

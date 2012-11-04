@@ -11,6 +11,9 @@ sections) and level > 1 (subsection).
 
 =cut
 
+package Foswiki;
+our $unsavedChangesNotice;
+
 package Foswiki::Configure::UIs::Section;
 
 use strict;
@@ -123,6 +126,7 @@ sub renderHtml {
                 'totalWarnings' => $totalWarningsText,
                 'totalErrors'   => $totalErrorsText,
                 'firstTime'     => $isFirstTime,
+                'unsavedNotice' => $Foswiki::unsavedChangesNotice,
             }
         );
     }

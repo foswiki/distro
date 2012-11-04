@@ -163,10 +163,12 @@ sub _actionMakemorechanges {
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
 
-    # Should figure out how to report "unsaved changes" here
+    my %updated;
+    $valuer->loadCGIParams( $Foswiki::query, \%updated );
 
-    $valuer->loadCGIParams( $Foswiki::query, undef );
-
+    if ( keys %updated ) {
+        $unsavedChangesNotice = unsavedChangesNotice( \%updated );
+    }
     htmlResponse( configureScreen('') );
 
     # does not return
@@ -746,14 +748,14 @@ sub _screenSaveChanges {
     my $ui = _checkLoadUI( 'UPDATE', $root );
 
     $ui->setInsane() if $insane;
-    $ui->commitChanges( $root, $valuer, \%updated );
+    my $filesUpdated = $ui->commitChanges( $root, $valuer, \%updated );
 
     undef $ui;
 
-    # SMELL: why is this list built again? It's already been built
-    # once in commitChanges()
+    # Build list of hashes with each changed key and its value(s) for template
+
     my $changesList = [];
-    foreach my $key ( sort keys %updated ) {
+    foreach my $key ( sortHashkeyList( keys %updated ) ) {
         my $valueString = join( ',', $query->param($key) );
         push( @$changesList, { key => $key, value => $valueString } );
     }
@@ -769,6 +771,7 @@ sub _screenSaveChanges {
             'changesList'   => $changesList,
             'formAction'    => $scriptName,
             'messageType'   => $messageType,
+            'fileUpdates'   => $filesUpdated,
         }
     );
 

@@ -727,9 +727,9 @@ $(document).ready(function () {
     configure.imgOnDemand();
 });
 
-function setSubmitAction(button) {
+function setSubmitAction(button,action) {
     "use strict";
-    $(button.form).find('input[type="hidden"][name="action"]').val(button.value);
+    $(button.form).find('input[type="hidden"][name="action"]').val(action? action:button.value);
     return true;
 }
 

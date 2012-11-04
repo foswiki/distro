@@ -39,7 +39,7 @@
 			</#if>
             ${localFormNewPassword}
             <hr />
-            <input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
+            <input type="submit" class='foswikiSubmit' value='Set password and Save changes'  onclick="return setSubmitAction(this,'Savechanges');"  />
         </div>
 	</div>
 </#assign>
@@ -113,7 +113,7 @@
                 ${localNotePasswordForgotten}
             ${localFormNewPassword}
             <hr />
-            <input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
+            <input type="submit" class='foswikiSubmit' value='Set password and Save changes'  onclick="return setSubmitAction(this,'Savechanges');"  />
 		</div>
 	</div>
 </#assign>

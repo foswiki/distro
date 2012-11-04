@@ -696,25 +696,30 @@ HERE
 
     $this->_save();
 
+    my $msg = '';
+
     if ( ( $this->{content} || '' ) ne $this->{oldContent} ) {
         my $um = umask(007);   # Contains passwords, no world access to new file
         open( F, '>', $lsc )
           || die "Could not open $lsc for write: $!\n";
         print F $this->{content};
-        close(F);
+        close(F) or die "Close failed for $lsc: $!\n";
         umask($um);
         if ( $backup && ( my $max = $Foswiki::cfg{MaxLSCBackups} ) >= 0 ) {
             while ( @backups > $max ) {
                 my $n = pop @backups;
                 unlink "$lsc.$n";
             }
+            $msg = "<br />Previous configuration saved as $backup\n";
         }
+        $msg = "Wrote new configuration to $lsc\n$msg";
     }
     else {
         unlink $backup if ($backup);
+        $msg = "No change made to $lsc\n";
     }
     delete $this->{oldContent};
-    return '';
+    return $msg;
 }
 
 sub _save {

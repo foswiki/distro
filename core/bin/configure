@@ -45,7 +45,6 @@ use warnings;
     use constant RT80346     => 1;
     use constant SESSION_DSN => "driver:file;serializer:storable;id:md5";
 
-    package Foswiki::Configure::Feedback;
     use constant DISPLAY_UNSAVED => 0;
 }
 
@@ -218,6 +217,7 @@ our $insane;
 our $configItemRegex;
 
 our $sanityStatement;
+our $unsavedChangesNotice = '';
 
 our $time = time();
 
@@ -537,6 +537,22 @@ sub _loadSiteConfig {
     return;
 }
 
+# Sort a list of hash keys for display
+
+sub sortHashkeyList {
+    return map { $_->[0] } sort {
+        my @a = @{ $a->[1] };
+        my @b = @{ $b->[1] };
+        while ( @a && @b ) {
+            my $c = shift(@a) cmp shift(@b);
+            return $c if ($c);
+        }
+        return @a <=> @b;
+      } map {
+        [ $_, [ map { s/(?:^\{)|(?:\}$)//g; $_ } split( /\}\{/, $_ ) ] ]
+      } @_;
+}
+
 sub _getEnvironmentInfo {
 
     # Get web server's group info
@@ -601,6 +617,44 @@ sub _getEnvironmentInfo {
     if ( $scriptName =~ /(\.\w+)$/ ) {
         $Foswiki::cfg{DETECTED}{ScriptExtension} = $1;
     }
+}
+
+# ######################################################################
+# Unsaved changes report
+# ######################################################################
+
+sub unsavedChangesNotice {
+    my $updated = shift;
+
+    # Remove any {ConfigureGUI} pseudo-keys from %updated and count the rest.
+
+    my $pending = 0;
+    foreach my $keys ( keys %$updated ) {
+        if ( $keys =~ /^\{ConfigureGUI\}/ ) {
+            delete $updated->{$keys};
+        }
+        else {
+            $pending++;
+        }
+    }
+    my @pendingItems = map { { item => $_ } } sortHashkeyList( keys %$updated )
+      if (DISPLAY_UNSAVED);
+
+    my $pendingHtml =
+      Foswiki::Configure::UI::getTemplateParser()
+      ->readTemplate('feedbackunsaved');
+    $pendingHtml = Foswiki::Configure::UI::getTemplateParser()->parse(
+        $pendingHtml,
+        {
+            pendingCount => $pending,
+            listPending  => DISPLAY_UNSAVED,
+            pendingItems => \@pendingItems,
+        }
+    );
+    Foswiki::Configure::UI::getTemplateParser()
+      ->cleanupTemplateResidues($pendingHtml);
+
+    return $pendingHtml;
 }
 
 # ######################################################################
