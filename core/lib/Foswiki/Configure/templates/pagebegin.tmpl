@@ -61,18 +61,23 @@
     </div>
 </div>
 
+<div class="configurePageBodyWrapper">
+<#if messages??>
+    <div class="section">
+        <div class="foswikiNotification foswiki${style}" id="messages">
+            ${messages}
+        </div>
+    </div>
+</#if>
 <input type="hidden" disabled="disabled"
        id="configureFeedbackWorkingText"
        title="I18n - Not form data"
        value="Working...">
 <div class="configureFeedbackSummaryTable">
-    <div class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status"></div>
-</div>
-<#if messages??>
-    <div class="foswikiNotification foswiki${style}" id="messages">
-        ${messages}
+    <div class="section">
+        <div class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status"></div>
     </div>
-</#if>
 </div>
-<div class="configurePageBodyWrapper"><form method="post" action="${formAction}" enctype="multipart/form-data" name="update">
+
+<form method="post" action="${formAction}" enctype="multipart/form-data" name="update">
 <input type="hidden" name="time" value="${time}"  />
