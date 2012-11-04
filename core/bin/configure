@@ -625,15 +625,16 @@ sub log {
 
 sub _checkLoadUI {
     my ( $uiname, $root ) = @_;
-    my $ui = Foswiki::Configure::UI::loadUI( $uiname, $root );
+    my $ui = eval { Foswiki::Configure::UI::loadUI( $uiname, $root ) };
     unless ($ui) {
-        print "Could not load $uiname UI. Error was: <pre>$@</pre>";
-        if ( $@ =~ /Can not locate (\S+)/ ) {
-            print << "HERE";
+        my $msg = "Could not load $uiname UI. Error was: <pre>$@</pre>";
+        if ( $@ =~ /Can't locate (\S+)/ ) {
+            $msg .= << "HERE";
 You may be able to correct this error by installing the missing $1 module.
 HERE
 
         }
+        htmlResponse( $msg, ERROR_FORM );
     }
     return $ui;
 }
@@ -1079,6 +1080,7 @@ sub htmlResponse {
     my $html = '';
 
     if ($errForm) {
+        $sts->{hdr} = 'Request failed' if ( $status == 200 );
         $sts->{hdr} = $sts->{msg} unless ( exists $sts->{hdr} );
         $html .= CGI::start_html();
         $html .= CGI::h1( $sts->{hdr} );

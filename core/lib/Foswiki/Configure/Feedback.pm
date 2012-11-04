@@ -114,7 +114,6 @@ sub deliver {
     Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
 
     my $ui = Foswiki::_checkLoadUI( 'Root', $root );
-    return '' unless $ui;
 
     # Need an object to go visiting
 

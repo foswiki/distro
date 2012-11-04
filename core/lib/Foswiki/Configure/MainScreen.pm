@@ -359,7 +359,6 @@ sub _actionFindMoreExtensions {
     my $root = new Foswiki::Configure::Root();
 
     my $ui = _checkLoadUI( 'EXTENSIONS', $root );
-    return unless $ui;
 
     my ( $consultedLocations, $table, $errors, $installedCount, $allCount ) =
       $ui->getExtensions();
@@ -510,7 +509,6 @@ sub _actionManageExtensionsResponse {
     htmlResponse( $html, MORE_OUTPUT );
 
     $ui = _checkLoadUI( 'EXTEND', $root );
-    die "Can not load EXTEND UI\n" unless ($ui);
 
     # Warning: the 'install' method uses print for rapid feedback
     print $ui->install();
@@ -555,7 +553,7 @@ sub _screenAuthorize {
     my $hasPassword = ( $Foswiki::cfg{Password} ne '' ) || 0;
 
     $ui = _checkLoadUI( 'AUTH', $root );
-    return '' unless $ui;
+
     $query->delete( 'time', 'cfgAccess', 'formAction' );
 
     $query->param( 'action', $transact );
@@ -746,7 +744,6 @@ sub _screenSaveChanges {
     Foswiki::Configure::FoswikiCfg::load( $root, 1 );
 
     my $ui = _checkLoadUI( 'UPDATE', $root );
-    return '' unless $ui;
 
     $ui->setInsane() if $insane;
     $ui->commitChanges( $root, $valuer, \%updated );
@@ -856,7 +853,6 @@ sub configureScreen {
     # Load the UI for the root; this UI is simply a visitor over
     # the model
     my $ui = _checkLoadUI( 'Root', $root );
-    return '' unless $ui;
 
     my $uiMessages = ( !$isFirstTime && $messages ) ? $messages : undef;
 
