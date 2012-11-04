@@ -15,7 +15,7 @@
 					<tr><th>${i.key}</th><td>${i.value}</td></tr>
 				</#list>
 			</table>
-			<p><input type="submit" class='foswikiSubmit' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
+			<p><input type="submit" class='foswikiButton' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
 		</div>
 	</#if>
     <input type="hidden" name='confirmChanges' value='1' />
@@ -28,7 +28,7 @@
 <#assign localNoUpdate>
 <h2>Nothing to do - you haven't made any changes yet</h2>
 
-<p><input type="submit" class='foswikiSubmit' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
+<p><input type="submit" class='foswikiButton' value="Back to main screen" onclick="return setSubmitAction(this);" /></p>
 </#assign>
 
 <#assign extRemove>
@@ -46,7 +46,7 @@
                <tr>${i}</tr>
             </#list>
         </table>
-        <<p><input type="submit" class='foswikiSubmit' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
+        <<p><input type="submit" class='foswikiButton' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
     </div>
 </#assign>
 
@@ -89,9 +89,9 @@ ${extAdd}
     <#if params??>${params}</#if>
 </#assign>
 
-
+<div class='section'>
 <#if displayStatus == 1>${localNoUpdate}</#if>
 <#if displayStatus == 2>${localUpdate}</#if>
 <#if displayStatus == 4>${localNoUpdate}</#if>
 <#if displayStatus == 8>${extUpdate}</#if>
-
+</div>

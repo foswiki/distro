@@ -760,7 +760,7 @@ h3 .foswikiSmall {
 }
 .foswikiBroadcastMessage,
 .foswikiNotification {
-	padding:1em 10px; /*S5*/
+	padding:1em;
 	margin:.5em 0;
 	border-style:solid;
 	border-width:1px;

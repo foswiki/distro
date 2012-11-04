@@ -1,43 +1,46 @@
 <#-- EXTENSIONS UPDATE SCREEN TEMPLATE -->
-<script type="text/javascript">
-function submitform()
-{
-    document.update.submit();
-}
-</script>
 
-<style>
-div.floating-menu {position:fixed;background:#f4f6f6;border:1px solid #ffcc00;width:100%;z-index:100; left:10px; top:95px}
-div.floating-menu a, div.floating-menu h3 {display:block;margin:0 0.5em;}
-</style>
-<div>
-<div class="floating-menu">
+<div id="doc3" class="yui-t5 configureMain">
+    <div id="hd" class="section">
+		<p><a href="${formAction}#Extensions" class="foswikiButton" title="Return to main configuration without installing or updating any extensions">Return to main screen</a></p>
+		<#-- errors -->
+        <#if errors??>
+        	<#list errors as i>
+		        <div class='foswikiNotification configureError'>${i}</div>
+        	</#list>
+        </#if>
+	</div>	
+    <div id="bd" class="section">
+    	<!-- Preset Templates control the width and alignment of the two blocks (div.yui-b). -->
+		<!-- The wide column is wrapped in div#yui-main -->
+		<div id="yui-main">
+			<div class="yui-b">
+				<#if table??>
+                    <input type="hidden" name="action" value="ManageExtensions" />
+                    <table class='configureExtensionsTable' border='0' cellspacing='0'>
+                        ${table}
+                    </table>
+                </#if>
+			</div>
+		</div>
 
-<table><tr><td>
-<h2>Install and Update Extensions</h2>
-<b>Currently installed: ${installedCount} out of ${allCount} Extensions</b> <br /> <br />
-</td><td>
-<#if consultedLocations??>
-	<div class="configureConsultedLocations">
-		Consulted locations: ${consultedLocations?join(, )}
-	</div>
-</#if>
-<#-- errors -->
-<#if errors??>
-	<#list errors as i>
-		<div class='configureError'>${i}</div>
-	</#list>
-</#if>
-</table><!-- div was style="width:50%;"--><div><table style="margin-bottom:0px;"><tr><td><a href="${formAction}#Extensions" class="foswikiButton" style="display:inline;" title="Return to main configuration without installing or updating any extensions">Return&nbsp;to&nbsp;configuration</a></td><td><a href="javascript: submitform()" class="foswikiButton" style="display:inline;margin-left:0px;">Process&nbsp;selected&nbsp;extensions</a></td><td id="extactionhelp">Install, update and/or remove all selected extensions and their Foswiki dependencies.</td></tr><tr><td><span><a class='configureExpert' style='display:none;padding-top:0px;background-position-y:0%;' href='#'>Hide help</a><a class='configureNotExpert foswikiMakeVisible' style='display:none;padding-top:0px;background-position-y:0%;' href='#'>Show help</a></span></td><td><select name="processExt" onchange="document.getElementById('extactionhelp').innerHTML=this.options[this.selectedIndex].title">
-<option value="all" selected="selected" title="Install, update and/or remove all selected extensions and their Foswiki dependencies.">Process as selected</option>
-<option value="sim" title="Simulate actions only.  No changes will be made.">Simulate actions</option>
-<option value="dep" title="Check dependencies only.  No changes will be made.">Check dependencies only</option>
-<option value="nodep" title="Install selected items, but not their dependencies.">Install with no Dependencies</option>
-</select></td><td>
-<input type="checkbox" name="useCache" value="on"  > Use previously downloaded installers / archives </input></td></tr></table></div>
-<table style="width:80%;left:10px"><tr class="configureExpert" >
-<th class="configureExpert" ></th><td>
-<p>By default, all selected extensions will be installed or removed as selected.  Use the options above to modify the default actions.</p>
+		<!-- the unwrapped div.yui-b takes a fixed width and alignment based on the class of the top-level containing node -->
+		<div class="yui-b">
+		    <div class="configureExtensionsInstallControls">
+    		    <h2>Install and Update Extensions</h2>
+    		    <p>Install, update and/or remove all selected extensions and their Foswiki dependencies.</p>
+    		    <select name="processExt" onchange="document.getElementById('extactionhelp').innerHTML=this.options[this.selectedIndex].title">
+                    <option value="all" selected="selected" title="Install, update and/or remove all selected extensions and their Foswiki dependencies.">Process as selected</option>
+                    <option value="sim" title="Simulate actions only.  No changes will be made.">Simulate actions</option>
+                    <option value="dep" title="Check dependencies only.  No changes will be made.">Check dependencies only</option>
+                    <option value="nodep" title="Install selected items, but not their dependencies.">Install with no Dependencies</option>
+                </select>
+    		    <p><label><input type="checkbox" name="useCache" value="on" class="foswikiCheckbox" />Use previously downloaded installers or archives</label></p>
+    		    <input type="submit" class="foswikiSubmit" value="Process selected extensions" />
+	        </div>
+	        <a class='configureExpert' style='display:none;padding-top:0px;background-position-y:0%;' href='#'>Hide help</a><a class='configureNotExpert foswikiMakeVisible' style='display:none;padding-top:0px;background-position-y:0%;' href='#'>Show help</a>
+	        <div class="configureExtensionsHelp configureExpert">
+	            <p>By default, all selected extensions will be installed or removed as selected.  Use the options above to modify the default actions.</p>
 <div class="foswikiHelp">
 	<p><strong>Note:</strong> To install extensions, the webserver user has to be able to write files everywhere in your Foswiki installation. Otherwise you may see 'No permission to write' errors.</p>
 <ul><li>All Foswiki dependencies (Plugins and Contribs) are automatically downloaded and installed.
@@ -45,16 +48,12 @@ div.floating-menu a, div.floating-menu h3 {display:block;margin:0 0.5em;}
 <li>Before anything is modified, the extension (if installed) is backed up to the <code>working/configure/backups</code> directory. Currently Foswiki does not have an automated method of restoring the backup.
 <li>Enabled extensions should be disabled in configure before being uninstalled.
 </ul>
+            </div>
+	        <#if consultedLocations??>
+                <div class="configureConsultedLocations">
+                    Consulted locations: ${consultedLocations?join(, )}
+                </div>
+            </#if>
+		</div>		
+	</div>
 </div>
-</td></tr></table>
-</div>
-</div>
-
-
-<#-- table contents -->
-<#if table??>
-    <input type="hidden" name="action" value="ManageExtensions" />
-	<table class='configureExtensionsTable' border='0' cellspacing='0'>
-		${table}
-	</table>
-</#if>

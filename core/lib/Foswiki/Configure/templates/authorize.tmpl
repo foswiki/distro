@@ -37,9 +37,10 @@
 			<#else>
 				<h2>Save your settings by creating your Configure password</h2>
 			</#if>
-		${localFormNewPassword}
-		<hr />
-        <input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
+            ${localFormNewPassword}
+            <hr />
+            <input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
+        </div>
 	</div>
 </#assign>
 
@@ -47,11 +48,12 @@
 	<div class='foswikiFormSteps'>
 		<div class='foswikiFormStep'>
 			<h2>In order to proceed, Configure requires that you type your password.</h2>
-        <hr />
-		<p><input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' placeholder='Your password' /><input type="submit" class='foswikiSubmit' value='Enter Configure' /></p>
-			${localNotePasswordForgotten}
-		<hr />
-			<p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>   
+            <hr />
+            <p><input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' placeholder='Your password' /><input type="submit" class='foswikiSubmit' value='Enter Configure' /></p>
+            ${localNotePasswordForgotten}
+            <hr />
+            <p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>   
+        </div>
 	</div>
 </#assign>
 
@@ -61,16 +63,14 @@
 			<h2>In order to process the extension changes, configure requires that you type your password.</h2>
 		</div>
 		<div class='foswikiFormStep'>
-			<p>Password: <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' />
+			<p><input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' placeholder='Your password' />
 			&nbsp; <input type="submit" class='foswikiSubmit' value='Process extensions' /></p>
 		</div>
-		<div class='foswikiFormStep configureFormStepOutside'>
-			${localNotePasswordForgotten}
-		</div>
+		<hr />
+        ${localNotePasswordForgotten}
         <#if displayStatus == 2>
-            <div class='foswikiFormStep configureFormStepOutside'>
-                <p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>
-		    </div>
+            <hr />
+            <p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>
         </#if>
 	</div>
 </#assign>
@@ -81,16 +81,14 @@
 			<h2>In order to proceed with the Email test, configure requires that you type your password.</h2>
 		</div>
 		<div class='foswikiFormStep'>
-			<p>Password: <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' />
+			<p><input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus'  placeholder='Your password' />
 			&nbsp; <input type="submit" class='foswikiSubmit' value='Run Test' /></p>
 		</div>
-		<div class='foswikiFormStep configureFormStepOutside'>
-			${localNotePasswordForgotten}
-		</div>
+		<hr />
+        ${localNotePasswordForgotten}
         <#if displayStatus == 2>
-            <div class='foswikiFormStep configureFormStepOutside'>
-                <p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>
-		    </div>
+            <hr />
+            <p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>
         </#if>
 	</div>
 </#assign>
@@ -108,14 +106,14 @@
 <#assign localChangePassword>
 	<div class='foswikiFormSteps'>
 		<div class='foswikiFormStep'>
-			<h2>Change your Configure password</h2>
-		<hr />
-			<p>Current password:<br />
-			<input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' /></p>
-			${localNotePasswordForgotten}
-		${localFormNewPassword}
-		<hr />
-			<input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
+            <h2>Change your Configure password</h2>
+            <hr />
+                <p>Current password:<br />
+                <input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' /></p>
+                ${localNotePasswordForgotten}
+            ${localFormNewPassword}
+            <hr />
+            <input type="submit" class='foswikiSubmit' value='Set password and Save changes' />
 		</div>
 	</div>
 </#assign>
@@ -138,7 +136,7 @@
 					<tr><th>${i.key}</th><td>${i.value}</td></tr>
 				</#list>
 			</table>
-			<p><input type="submit" class='foswikiSubmit' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
+			<p><input type="submit" class='foswikiButton' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
 		</div>
 	</#if>
     <input type="hidden" name='confirmChanges' value='1' />
@@ -159,7 +157,7 @@
 <#assign localNoUpdate>
 <h2>Nothing to do - you haven't made any changes yet</h2>
 
-<p><input type="submit" class='foswikiSubmit' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
+<p><input type="submit" class='foswikiButton' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
 </#assign>
 
 <#assign extRemove>
@@ -247,7 +245,7 @@ ${extAdd}
     </#if>
 </#assign>
 
-
+<div class='section'>
 <#if messageType == 4><div class="foswikiNotification"> Password changed </div></#if>
 <#if messageType == 8><div class="foswikiNotification foswikiAlert"> Password not set. Try again below.</div></#if>
 <#if messageType == 16><div class="foswikiNotification foswikiAlert"> Password incorrect. Try again below.</div></#if>
@@ -262,3 +260,4 @@ ${extAdd}
 <#if displayStatus == 16>${testEmail}</#if>
 <#if displayStatus == 32>${cfgLogin}</#if>
 
+</div>

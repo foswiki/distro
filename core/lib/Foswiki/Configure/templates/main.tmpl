@@ -7,16 +7,17 @@
 
 <div id="doc3" class="yui-t8 configureMain">
 	<div id="hd">
-		<div class="configureTools">
+		<div class="section configureTools makeSticky">
 			<#if totalWarnings?? || totalErrors??>Status:</#if>
 			<#if totalErrors??><span class='configureStatusErrors'>${totalErrors}</span></#if>
 			<#if totalWarnings??><span class='configureStatusWarnings'>${totalWarnings}</span></#if>
 			
-			<#if firstTime == 1>(we will solve this in a minute)</#if>			
-		</div><!--/configureTools-->		
+			<#if firstTime == 1>(we will solve this in a minute)</#if>
+			<div class='foswikiClear'></div>
+		</div>
 	</div>
 	
-	<div id="bd" class="configureMainContents">
+	<div id="bd" class="section configureMainContents">
 		
 		<!-- Preset Templates control the width and alignment of the two blocks (div.yui-b). -->
 		<!-- The wide column is wrapped in div#yui-main -->
@@ -41,7 +42,7 @@
 
 	<div id="ft">
 		<div class="configureActions">
-			<div class="configureActionsContents">
+			<div class="section configureActionsContents">
                 <input type='submit' class='foswikiButton' name='changePassword' value='Change password' />
 				<input type='submit' class='enableWhenSomethingChanged foswikiSubmit' name='action' value='Save changes' accesskey='s' />
 			</div>

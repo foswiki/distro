@@ -254,9 +254,7 @@ sub load {
         $root->visit($this);
     }
     if ( @errors || @warnings ) {
-        my $errors = SectionMarker->new( 0,
-qq{<span style="color:red;font-weight:bold;">Configuration file errors</span>}
-        );
+        my $errors = SectionMarker->new( 0, qq{Configuration file errors} );
         if (@errors) {
             $errors->addToDesc(
 "<p>Errors were detected in component specification files.  Contact the developer of the associated component to have them corrected.<ul>"

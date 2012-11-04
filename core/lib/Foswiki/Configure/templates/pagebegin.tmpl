@@ -1,3 +1,13 @@
+<#assign logout>
+    <#if loggedin??>
+        <form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
+            <input type="hidden" name="time" value="${time}"  />
+            <a href='#' class='foswikiRight' title="Logout of configure and return to the wiki" onclick="$(this)['closest']('form')['submit']();return false;">Logout</a>
+            <input type="hidden" name="action" value="Logout">
+        </form>
+    </#if>
+</#assign>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -37,19 +47,20 @@
         </style>
 	<script type="text/javascript" src="%RESOURCEURI%jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="%RESOURCEURI%jquery.nyroModal-1.6.2.min.js"></script>
+	<script type="text/javascript" src="%RESOURCEURI%jquery.sticky.min.js"></script>
 	<script type="text/javascript" src="%RESOURCEURI%scripts.js"></script>
 </head>
 <body class="configureShowOneSection">
-<div class="configurePageHeader">
+<div class="section configurePageHeader">
     <#if loggedin??>
         <form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
             <input type="hidden" name="time" value="${time}"  />
             <a href='#' class='foswikiRight' title="Logout of configure and return to the wiki" onclick="$(this)['closest']('form')['submit']();return false;">Logout</a>
             <input type="hidden" name="action" value="Logout">
         </form>
-</#if>
+    </#if>
     <div class="configureLogo">
-        <img src="%RESOURCEURI%?action=resource;resource=foswiki-logo.gif" alt="Foswiki configuration" />
+        <a href="${scriptName}"><img src="%RESOURCEURI%?action=resource;resource=foswiki-logo.png" alt="Foswiki configuration" /></a>
     </div>
 <input type="hidden" disabled="disabled"
        id="configureFeedbackWorkingText"

@@ -203,6 +203,12 @@ sub _authenticateTestEmail {
     # does not return
 }
 
+=pod
+
+NOTE: the html markup should really be in a template!
+
+=cut
+
 sub _actionTestEmail {
     my ( $action, $session, $cookie ) = @_;
 
@@ -222,6 +228,8 @@ sub _actionTestEmail {
     Foswiki::Configure::Load::expandValue(
         $Foswiki::cfg{Email}{SmimeCertificateFile} );
     Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
+
+    $html .= "<div class='section'>";
 
     my $msg = <<MAIL;
 From: $Foswiki::cfg{WebMasterEmail}
@@ -303,7 +311,7 @@ MAIL
             'configureUrl' => $url,
         }
     );
-
+    $html .= "</div>";
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     htmlResponse($html);
 }
@@ -369,6 +377,8 @@ sub _actionFindMoreExtensions {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    $html = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $html, { time => $time, logoutdata() } );
     $html .= $contentTemplate;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
@@ -376,7 +386,7 @@ sub _actionFindMoreExtensions {
     $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'time' => $time,
+            'time' => $time,    # use time to make sure we never allow cacheing
             logoutdata(),
             'formAction' => $scriptName,
         }
@@ -485,8 +495,13 @@ sub _actionManageExtensionsResponse {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    $html = Foswiki::Configure::UI::getTemplateParser()
-      ->parse( $html, { logoutdata() } );
+    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
+        $html,
+        {
+            'time' => $time,    # use time to make sure we never allow cacheing
+            logoutdata()
+        }
+    );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
 
     htmlResponse( $html, MORE_OUTPUT );
@@ -498,7 +513,9 @@ sub _actionManageExtensionsResponse {
     print $ui->install();
 
     $html =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
+        "<div class='section'>"
+      . Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed')
+      . "</div>";
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
     my $frontpageUrl =
@@ -575,6 +592,8 @@ sub _screenAuthorize {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    $html = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $html, { time => $time, logoutdata() } );
     $html .= $contentTemplate;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
@@ -858,6 +877,9 @@ sub configureScreen {
 
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
+    $html = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $html, { time => $time, logoutdata() } );
+
     if ($showSecurityStatement) {
         $html .=
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('sanity');
@@ -869,10 +891,10 @@ sub configureScreen {
         $html,
         {
             'time' => $time,    # use time to make sure we never allow cacheing
-            'formAction' => $scriptName,
             logoutdata(),
-            'messages' => $uiMessages,
-            'style'    => ( $badLSC || $insane ) ? 'Bad' : 'Good',
+            'formAction' => $scriptName,
+            'messages'   => $uiMessages,
+            'style'      => ( $badLSC || $insane ) ? 'Bad' : 'Good',
         }
     );
 

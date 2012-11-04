@@ -31,10 +31,10 @@ my @tableHeads =
 
 # Mapping to column heading string
 my %headNames = (
-    release          => 'Most Recent Release',
-    description      => 'Description',
+    release          => 'Most recent release',
+    description      => 'Extension',
     compatibility    => 'Compatible with',
-    installedRelease => 'Installed Release',
+    installedRelease => 'Installed release',
     install          => '',
     image            => '',
 
@@ -256,9 +256,24 @@ sub getExtensions {
 
     my $table = '';
 
-    my $rows      = 0;
+    my $allCount  = 0;
     my $installed = 0;
     my ( $exts, @consultedLocations ) = $this->_getListOfExtensions();
+    my $installedExts;
+    my $uninstalledExts;
+
+    # count
+    foreach my $key ( keys %$exts ) {
+        $allCount++;
+        my $ext = $exts->{$key};
+        if ( $ext->{installedRelease} ) {
+            $installed++;
+            $installedExts->{$key} = $ext;
+        }
+        else {
+            $uninstalledExts->{$key} = $ext;
+        }
+    }
 
     # Table heads
     my $tableHeads = '';
@@ -267,15 +282,39 @@ sub getExtensions {
         $colNum++;
         my $cssClass =
           ( $colNum == scalar @tableHeads )
-          ? 'configureExtensionAction'
+          ? 'action'
           : undef;
         $tableHeads .=
           CGI::th( { class => $cssClass }, $headNames{$headNameKey} );
     }
+
+    $table .= CGI::Tr(
+        { class => 'title' },
+        CGI::th(
+            { colspan => 6 },
+            "<h3>Installed extensions ($installed out of $allCount)</h3>"
+        )
+    );
     $table .= CGI::Tr($tableHeads);
+
+    $table .= _rawExtensionRows($installedExts);
+
+    $table .= CGI::Tr( { class => 'title' },
+        CGI::th( { colspan => 6 }, "<h3>Uninstalled extensions</h3>" ) );
+    $table .= CGI::Tr($tableHeads);
+
+    $table .= _rawExtensionRows($uninstalledExts);
+
+    return ( \@consultedLocations, $table, $this->{errors}, $installed,
+        $allCount );
+}
+
+sub _rawExtensionRows {
+    my ($exts) = @_;
 
     # Each extension has two rows
 
+    my $out = '';
     foreach my $key (
         sort {
             defined $exts->{$b}->{installedVersion} <=>
@@ -322,7 +361,6 @@ sub getExtensions {
                 $uninstall = 'Uninstall';
                 $trClass   = 'configureReInstall';
             }
-            $installed++;
         }
 
         if ( $install ne 'pseudo-installed' ) {
@@ -367,18 +405,25 @@ sub getExtensions {
               . '" class="foswikiImage loadImage"></div>';
         }
 
-        $table .= CGI::Tr(
+        $out .= CGI::Tr(
             { class => $trClass },
             CGI::td(
                 {
-                    colspan => $#tableHeads,
-                    class   => "configureExtensionTitle"
+                    class   => "image",
+                    rowspan => 2
+                },
+                $ext->{image}
+            ),
+            CGI::td(
+                {
+                    colspan => ( $#tableHeads - 1 ),
+                    class   => "title"
                 },
                 $thd
             ),
             CGI::td(
                 {
-                    class => "configureExtensionTitle configureExtensionAction",
+                    class   => "action",
                     rowspan => 2
                 },
                 $install . ' ' . $uninstall
@@ -386,11 +431,12 @@ sub getExtensions {
         );
 
         foreach my $f (@tableHeads) {
+            next if $f eq 'image';
             my $tdd = $ext->{$f} || '&nbsp;';
             $tdd =~ s/!(\w+)/$1/go;    # remove ! escape syntax from text
             my $cssClass = "configureExtensionData";
-            $cssClass .= ' configureExtensionDataFirst' if $colCount == 0;
-            if ( $colCount == scalar @tableHeads - 1 ) {
+            $cssClass .= " $f";
+            if ( $colCount == scalar @tableHeads - 2 ) {
 
                 # nothing (in colspan)
             }
@@ -400,7 +446,7 @@ sub getExtensions {
             $colCount++;
         }
 
-        $table .= CGI::Tr(
+        $out .= CGI::Tr(
             {
                 class => $trClass,
                 id    => $ext->{topic},
@@ -409,10 +455,8 @@ sub getExtensions {
             $row
         );
 
-        $rows++;
     }
-
-    return ( \@consultedLocations, $table, $this->{errors}, $installed, $rows );
+    return $out;
 }
 
 1;

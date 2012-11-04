@@ -303,7 +303,7 @@ HERE
 sub _printFeedback {
     my ($feedback) = @_;
 
-    print "<div class='configureMessageBox'>$feedback</div>";
+    print "<div class='section'>$feedback</div>";
 }
 
 sub _uninstall {

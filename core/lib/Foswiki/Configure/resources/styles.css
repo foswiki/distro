@@ -1,13 +1,22 @@
 /* STYLES.CSS */
 
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 html {
 	margin:0;
 	padding:0;
 }
 body {
-	margin:0 1.5em 1em 1.5em;
-	padding:0;
+	margin: 0;
+	padding: 0;
 }
+.section {
+    padding: 0 40px;
+}
+
 .configurePageHeader {
 }
 /*
@@ -43,7 +52,8 @@ h4, h5, h6,
 
 .configureMainContents {
 	background:#fff;
-	padding:1em 0;
+	padding-top: 1em;
+	padding-bottom: 1em;
 }
 .configureRootSection {
 	padding:0 0 1em 1em;
@@ -70,7 +80,8 @@ body.configureShowOneSection .configureNotShowSection {
 
 .configureActions {
     position: fixed;
-    margin: 0 -1em;
+    margin: 0;
+    padding: 0;
     bottom: 0;
     left: 0;
     right: 0;
@@ -79,13 +90,15 @@ body.configureShowOneSection .configureNotShowSection {
 .configureActionsContents {
 	border-top:1px solid #aaa;
 	text-align:right;
-	padding:.7em 1em 1em 1em;
-	background-color:#fff;
-	background-color:rgba(200,200,200,0.5);
+	padding-top:.7em;
+	padding-bottom: .7em;
+	background-color:#f2f2f2;
+	background-color:rgba(240,240,240,0.8);
 }
 .configureTools {
 	background-color:#edf5fc;
-	padding:.7em 1em;
+	padding-top: .7em;
+	padding-bottom: .7em;
 	border-style:none;
 	text-align:left;
 }
@@ -405,6 +418,7 @@ ul.configureSubTab li a:visited {
 	background-color:#edf5fc;
 	border:1px solid #d2e6f1;
 	text-decoration:none;
+	color:#06c;
 }
 ul.configureSubTab li a:hover {
 	background-color:#d2e6f1;
@@ -593,45 +607,52 @@ div.configureInfo {
 
 /* --- EXTENSIONS --- */
 table.configureExtensionsTable {
-	margin: 200px 0 0 0;
-        position:absolute;
 	border: none;
-	width: 100%;
+	width: auto;
+	margin: 0;
 }
-table.configureExtensionsTable th {
-	padding:.6em 1em;
+
+table.configureExtensionsTable tr.title th {
+	background: #fff;
+	padding-top: 1em;
+	padding-bottom: 1em;
 }
+table.configureExtensionsTable tr.title th h2,
+table.configureExtensionsTable tr.title th h3 {
+    margin: 0;
+}
+
+table.configureExtensionsTable th,
 table.configureExtensionsTable td {
-	padding:.3em 1em;
+    width: 15%;
 }
 table.configureExtensionsTable td {
 	background:transparent;
+	max-width: 200px;
 }
 table.configureExtensionsTable th {
 	font-weight:bold;
 }
-table.configureExtensionsTable td.configureExtensionTitle {
-	padding-top:.5em;
+table.configureExtensionsTable td.title {
+
 	padding-bottom:0;
 }
-table.configureExtensionsTable td.configureExtensionTitle a {
+table.configureExtensionsTable td.title a {
 	font-weight:bold;
 }
 table.configureExtensionsTable td.configureExtensionData {
 	border-top:none;
-	padding-bottom:.7em;
-    max-width:200px;
+
 }
-table.configureExtensionsTable td.configureExtensionDataFirst {
-	padding-left:3em;
+td.image {
+    width: 120px;
 }
-td.configureExtensionDataFirst .foswikiImage {
-	width:60px;
-	height:60px;
+td.image .foswikiImage {
+	width:120px;
+	background: transparent;
 }
-td.configureExtensionDataFirst .foswikiImage img {
-	width:50px;
-	height:50px;
+td.image .foswikiImage img {
+	width:120px;
 }
 table.configureExtensionsTable tr.configureInstall,
 table.configureExtensionsTable tr.configureInstall td {
@@ -647,36 +668,55 @@ table.configureExtensionsTable tr.configureUpgrade td {
 }
 table.configureExtensionsTable tr.configurePseudoInstalled,
 table.configureExtensionsTable tr.configurePseudoInstalled td {
-	background:#f6f6f6;
+	background:#EDF5FC;
 }
 table.configureExtensionsTable tr.configureAlienExtension {}
 
 /* action column */
-table.configureExtensionsTable th.configureExtensionAction,
-table.configureExtensionsTable td.configureExtensionAction {
+table.configureExtensionsTable th.action,
+table.configureExtensionsTable td.action {
 	width:9em;	
 }
-table.configureExtensionsTable td.configureExtensionAction {
+table.configureExtensionsTable td.action {
 	background:#EDF5FC;
 }
-table.configureExtensionsTable tr.configureInstall td.configureExtensionAction {
+table.configureExtensionsTable tr.configureInstall td.action {
 	background:#EDF5FC;
 }
-table.configureExtensionsTable tr.configureReInstall td.configureExtensionAction {
+table.configureExtensionsTable tr.configureReInstall td.action {
 	background:#d8f4e7;
 }
-table.configureExtensionsTable tr.configureUpgrade td.configureExtensionAction {
+table.configureExtensionsTable tr.configureUpgrade td.action {
 	background:#ededed;
 }
-table.configureExtensionsTable tr.configurePseudoInstalled td.configureExtensionAction {
+table.configureExtensionsTable tr.configurePseudoInstalled td.action {
 	background:#e1e9ef;
 }
 .configureConsultedLocations {
-	margin:10px 0 0 0;
-	padding:7px .5em 7px 27px;
-	background-position:0 45%;
+	margin: 0 0 10px 0;
+	padding:0 .5em 7px 27px;
+	background-position:0 0;
 	background-repeat:no-repeat;
-	background-image:url(%RESOURCEURI%icon_world.gif);
+	background-image:url(%RESOURCEURI%icon_world.png);
+}
+.configureExtensionsInstallControls {
+    background: #EDF5FC;
+    padding: 10px 10px 15px 10px;
+    margin: 0 0 20px 0;
+}
+.configureExtensionsInstallControls input[type="submit"],
+.configureExtensionsInstallControls select {
+    width: 100%;
+}
+.configureExtensionsInstallControls hr {
+    margin: 10px -10px;
+}
+.configureExtensionsHelp {
+    padding: 10px 10px 15px 10px;
+    margin: 0 0 20px 0;
+}
+.configureExtensionsHelp hr {
+    margin: 10px -10px;
 }
 
 /* --- EXPERT ---*/
@@ -731,15 +771,18 @@ span.configureMandatory {
 }
 
 .configureLogo {
-	margin: .75em 0;
+	margin: .75em 0 1.5em 0;
+	height: 40px;
 }
 .configureChangeList {;
 	margin:1em 0 2em 0;
 }
 .configureFormStepOutside {
 	background-color:#fff;
-	padding-top:.25em !important;
-	padding-bottom:.25em !important;
+	padding: 1em;
+}
+.configureFormStepOutside p {
+    margin: 0;
 }
 .configureTableOutside {
 	background-color:#fff;
@@ -896,12 +939,35 @@ div.configureMessageBox {
 	margin:1em 0;
 }
 
-@media only screen and (min-width: 100px) and (max-width: 1024px) {
+.sticky {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    -webkit-box-shadow: 0px 2px 4px rgba(50, 50, 50, 0.35);
+    -moz-box-shadow:    0px 2px 4px rgba(50, 50, 50, 0.35);
+    box-shadow:         0px 2px 4px rgba(50, 50, 50, 0.35);
+}
+.configureExtensionsInstallControls.sticky {
+    width: auto;
+    right: 0;
+}
+
+/* Responsive: Tablet to desktop */
+
+@media (min-width: 481px) and (max-width: 979px) {
 	
-	body,
-	.configureActionsContents {
-		margin-left: 20px;
-		margin-right: 20px;
+	.section {
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 
+}
+
+/* Responsive: up to landscape phone */
+
+@media (max-width: 480px) {
+    .section {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 }

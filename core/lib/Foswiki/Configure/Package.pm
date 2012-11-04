@@ -950,7 +950,7 @@ sub uninstall {
 
     $this->logfile( { action => 'Uninstall' } );
 
-    $this->log( "uninstalling $this->{_pkgname}", 'h' );
+    $this->log( "Uninstalling $this->{_pkgname}", 'h' );
 
     unless ( $this->{_loaded} ) {
         ( $rslt, $err ) = $this->loadInstaller()

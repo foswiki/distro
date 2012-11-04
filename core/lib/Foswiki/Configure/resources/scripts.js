@@ -95,8 +95,8 @@ var configure = (function ($) {
             $(img).load(function () {
                 var w = this.width,
                     h = this.height,
-                    MAX_H = 64,
-                    MAX_W = 150;
+                    MAX_H = 120,
+                    MAX_W = 120;
                 /* set the image hidden by default */
                 $(img).hide();
                 /* Scale to max 64 height, max 150 width */
@@ -230,7 +230,7 @@ var configure = (function ($) {
                 currentSubElement,
                 sub,
                 newSubElement,
-                url,
+                url = document.location.toString().split("#")[0],
                 subName;
 
             if (oldMainId !== mainId) {
@@ -250,7 +250,7 @@ var configure = (function ($) {
                     $(tabLinks[mainId]).addClass("configureMenuSelected");
                 }
             }
-
+            
             /* hide current sub section */
             oldSubId = getSub(oldMainId);
             if (oldSubId) {
@@ -282,7 +282,7 @@ var configure = (function ($) {
             setSub(mainId, subId);
 
             if (mainId || subId) {
-                url = document.location.toString().split("#")[0];
+                
                 if (subId !== undefined) {
                     subName = subId.split("$")[1];
                     window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
@@ -576,6 +576,10 @@ function valueOf($el) {
     return $el.val();
 }
 
+function submitform() {
+    document.update.submit();
+}
+
 /**
  * jquery init 
  */
@@ -682,6 +686,9 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $('.makeSticky').sticky();
+    
     configure.toggleExpertsMode('expert');
     configure.toggleInfoMode();
     configure.initSection();
