@@ -79,10 +79,9 @@ sub check {
     if ( !$this->{LocalSiteDotCfg} ) {
         $this->{errors}++;
         $result .= <<HERE;
-Could not find where LocalSite.cfg is supposed to go.
-Edit your LocalLib.cfg and set \$twikiLibPath to point to the 'lib' directory
-for your install.
-Please correct this error before continuing.
+Could not find where <code>LocalSite.cfg</code> is supposed to go.
+<p>Edit <tt>LocalLib.cfg</tt> and set <tt>\$twikiLibPath</tt> to point to the 'lib' directory of your installation.
+<p>Please correct this error before continuing.
 HERE
     }
     elsif ( -e $this->{LocalSiteDotCfg} ) {
@@ -90,36 +89,36 @@ HERE
         if ($@) {
             $this->{errors}++;
             $result .= <<HERE;
-Existing configuration file has a problem
-that is causing a Perl error - the following message(s) was generated:
+Existing configuration file <tt>$this->{LocalSiteDotCfg}</tt> has a problem
+that is causing a Perl error.  The following message(s) was generated:
 <pre>$@</pre>
-<b>You can continue, but configure will not pick up any of the existing
+<p>You can continue, but configure will not pick up any of the existing
 settings from this file and your previous configuration will be lost.</b>
-Manually edit and correct your <tt>$this->{LocalSiteDotCfg}</tt> file if you
-wish to preserve your prior configuration.
+<p>Manually edit and correct <tt>$this->{LocalSiteDotCfg}</tt> file if you
+wish to preserve the prior configuration.
 HERE
             $this->{badLSC} = 1;
         }
         elsif ( !-w $this->{LocalSiteDotCfg} ) {
             $this->{errors}++;
             $result .= <<HERE;
-Cannot write to existing configuration file
-$this->{LocalSiteDotCfg} is not writable.
-You can view the configuration, but you will not be able to save.
-Check the file permissions.
+Cannot write to existing configuration file.
+<p><tt>$this->{LocalSiteDotCfg}</tt> is not writable.
+<p>You can view the configuration, but you will not be able to save changes.
+Please check the file and directory permissions.
 HERE
         }
         elsif ( ( my $mess = $this->_checkCfg( \%Foswiki::cfg ) ) ) {
             $this->{errors}++;
             $result .= <<HERE;
 The existing configuration file
-$this->{LocalSiteDotCfg} doesn't seem to contain a good configuration
+<tt>$this->{LocalSiteDotCfg}</tt> doesn't seem to contain a good configuration
 for Foswiki. The following problems were found:<br>
 $mess
-<b>You can continue, but configure will not pick up any of the existing
-settings from this file and your previous configuration will be lost.</b>
-Manually edit and correct your <tt>$this->{LocalSiteDotCfg}</tt> file if you
-wish to preserve your prior configuration.
+<p><b>You can continue, but configure will not pick up any of the existing
+settings from this file and the previous configuration will be lost.</b>
+<p>Manually edit and correct <tt>$this->{LocalSiteDotCfg}</tt> file if you
+wish to preserve the prior configuration.
 HERE
         }
 
@@ -132,16 +131,16 @@ HERE
         if ($errs) {
             $this->{errors}++;
             $result .= <<HERE;
-Configuration file $this->{LocalSiteDotCfg} does not exist, and I cannot
+Configuration file <tt>$this->{LocalSiteDotCfg}</tt> does not exist, and I cannot
 write a new configuration file due to these errors:
 <pre/>$errs<pre>
-You can view the default configuration, but you will not be able to save.
+<p>You can view the default configuration, but you will not be able to save changes.
 HERE
             $this->{badLSC} = 1;
         }
         else {
             $result .= <<HERE;
-Could not find existing configuration file <code>$this->{LocalSiteDotCfg}</code>.
+Could not find existing configuration file <tt>$this->{LocalSiteDotCfg}</tt>.
 HERE
             $this->{badLSC} = 1;
         }
