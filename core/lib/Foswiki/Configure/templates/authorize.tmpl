@@ -49,7 +49,7 @@
 		<div class='foswikiFormStep'>
 			<h2>In order to proceed, Configure requires that you type your password.</h2>
             <hr />
-            <p><input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' placeholder='Your password' /><input type="submit" class='foswikiSubmit' value='Enter Configure' /></p>
+            <p><input type="password" name='cfgAccess' size='30' maxlength='80' class='foswikiInputField foswikiFocus' placeholder='Your password' /><input type="submit" class='foswikiSubmit' value='Continue' /></p>
             ${localNotePasswordForgotten}
             <hr />
             <p><input type="submit" class='foswikiButton' name='changePassword' value='Change password...' /></p>   
@@ -157,7 +157,7 @@
 <#assign localNoUpdate>
 <h2>Nothing to do - you haven't made any changes yet</h2>
 
-<p><input type="submit" class='foswikiButton' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
+<p><input type="submit" class='foswikiButton' value="Back to main screen" onclick="return setSubmitAction(this);" /></p>
 </#assign>
 
 <#assign extRemove>

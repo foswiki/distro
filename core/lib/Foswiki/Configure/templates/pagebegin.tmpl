@@ -2,7 +2,7 @@
     <#if loggedin??>
         <form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
             <input type="hidden" name="time" value="${time}"  />
-            <a href='#' class='foswikiRight' title="Logout of configure and return to the wiki" onclick="$(this)['closest']('form')['submit']();return false;">Logout</a>
+            <input type="submit" class="foswikiButton foswikiButtonSmall foswikiRight" title="Logout of configure and return to the wiki" value="Logout" />
             <input type="hidden" name="action" value="Logout">
         </form>
     </#if>
@@ -47,21 +47,20 @@
         </style>
 	<script type="text/javascript" src="%RESOURCEURI%jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="%RESOURCEURI%jquery.nyroModal-1.6.2.min.js"></script>
-	<script type="text/javascript" src="%RESOURCEURI%jquery.sticky.min.js"></script>
+	<script type="text/javascript" src="%RESOURCEURI%bootstrap-affix.js"></script>
 	<script type="text/javascript" src="%RESOURCEURI%scripts.js"></script>
 </head>
 <body class="configureShowOneSection">
-<div class="section configurePageHeader">
-    <#if loggedin??>
-        <form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
-            <input type="hidden" name="time" value="${time}"  />
-            <a href='#' class='foswikiRight' title="Logout of configure and return to the wiki" onclick="$(this)['closest']('form')['submit']();return false;">Logout</a>
-            <input type="hidden" name="action" value="Logout">
-        </form>
-    </#if>
-    <div class="configureLogo">
-        <a href="${scriptName}"><img src="%RESOURCEURI%foswiki-logo.png" alt="Foswiki configuration" /></a>
+
+<div class="configurePageHeader">
+    <div class="section">
+        ${logout}
+        <div class="configureLogo">
+            <a href="${scriptName}"><img src="%RESOURCEURI%foswiki-configure-logo.png" alt="Foswiki configuration" /></a>
+        </div>
     </div>
+</div>
+
 <input type="hidden" disabled="disabled"
        id="configureFeedbackWorkingText"
        title="I18n - Not form data"
@@ -70,9 +69,9 @@
     <div class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status"></div>
 </div>
 <#if messages??>
-	<div class="foswikiNotification foswiki${style}" id="messages">
-		${messages}
-	</div>
+    <div class="foswikiNotification foswiki${style}" id="messages">
+        ${messages}
+    </div>
 </#if>
 </div>
 <div class="configurePageBodyWrapper"><form method="post" action="${formAction}" enctype="multipart/form-data" name="update">

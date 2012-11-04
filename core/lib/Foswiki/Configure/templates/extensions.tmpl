@@ -1,20 +1,27 @@
 <#-- EXTENSIONS UPDATE SCREEN TEMPLATE -->
 
 <div id="doc3" class="yui-t5 configureMain">
-    <div id="hd" class="section">
-		<p><a href="${formAction}#Extensions" class="foswikiButton" title="Return to main configuration without installing or updating any extensions">Return to main screen</a></p>
-		<#-- errors -->
-        <#if errors??>
-        	<#list errors as i>
-		        <div class='foswikiNotification configureError'>${i}</div>
-        	</#list>
-        </#if>
-	</div>	
     <div id="bd" class="section">
     	<!-- Preset Templates control the width and alignment of the two blocks (div.yui-b). -->
 		<!-- The wide column is wrapped in div#yui-main -->
 		<div id="yui-main">
 			<div class="yui-b">
+			    <div class='configureExtensionsControls'><a href="${formAction}#Extensions" class="foswikiButton foswikiButtonSmall" title="Return to main configuration without installing or updating any extensions">Return to main screen</a><a href="#" class="extensionsHelp foswikiButton foswikiButtonSmall">Show help</a>    
+			    </div>
+                <div class="configureExtensionsHelp foswikiHidden">
+                    <p>To install extensions, the webserver user has to be able to write files everywhere in your Foswiki installation. Otherwise you may see 'No permission to write' errors.</p>
+                                <ul><li>All Foswiki dependencies (Plugins and Contribs) are automatically downloaded and installed.
+                                <li>Dependencies of extensions selected for removal are <i>not</i> removed
+                                <li>Before anything is modified, the extension (if installed) is backed up to the <code>working/configure/backups</code> directory. Currently Foswiki does not have an automated method of restoring the backup.
+                                <li>Enabled extensions should be disabled in configure before being uninstalled.
+                    </ul>
+                </div>
+                <#-- errors -->
+                <#if errors??>
+                    <#list errors as i>
+                        <div class='foswikiNotification configureError'>${i}</div>
+                    </#list>
+                </#if>
 				<#if table??>
                     <input type="hidden" name="action" value="ManageExtensions" />
                     <table class='configureExtensionsTable' border='0' cellspacing='0'>
@@ -26,34 +33,25 @@
 
 		<!-- the unwrapped div.yui-b takes a fixed width and alignment based on the class of the top-level containing node -->
 		<div class="yui-b">
-		    <div class="configureExtensionsInstallControls">
-    		    <h2>Install and Update Extensions</h2>
-    		    <p>Install, update and/or remove all selected extensions and their Foswiki dependencies.</p>
-    		    <select name="processExt" onchange="document.getElementById('extactionhelp').innerHTML=this.options[this.selectedIndex].title">
-                    <option value="all" selected="selected" title="Install, update and/or remove all selected extensions and their Foswiki dependencies.">Process as selected</option>
-                    <option value="sim" title="Simulate actions only.  No changes will be made.">Simulate actions</option>
-                    <option value="dep" title="Check dependencies only.  No changes will be made.">Check dependencies only</option>
-                    <option value="nodep" title="Install selected items, but not their dependencies.">Install with no Dependencies</option>
-                </select>
-    		    <p><label><input type="checkbox" name="useCache" value="on" class="foswikiCheckbox" />Use previously downloaded installers or archives</label></p>
-    		    <input type="submit" class="foswikiSubmit" value="Process selected extensions" />
-	        </div>
-	        <a class='configureExpert' style='display:none;padding-top:0px;background-position-y:0%;' href='#'>Hide help</a><a class='configureNotExpert foswikiMakeVisible' style='display:none;padding-top:0px;background-position-y:0%;' href='#'>Show help</a>
-	        <div class="configureExtensionsHelp configureExpert">
-	            <p>By default, all selected extensions will be installed or removed as selected.  Use the options above to modify the default actions.</p>
-<div class="foswikiHelp">
-	<p><strong>Note:</strong> To install extensions, the webserver user has to be able to write files everywhere in your Foswiki installation. Otherwise you may see 'No permission to write' errors.</p>
-<ul><li>All Foswiki dependencies (Plugins and Contribs) are automatically downloaded and installed.
-<li>Dependencies of extensions selected for removal are <i>not</i> removed
-<li>Before anything is modified, the extension (if installed) is backed up to the <code>working/configure/backups</code> directory. Currently Foswiki does not have an automated method of restoring the backup.
-<li>Enabled extensions should be disabled in configure before being uninstalled.
-</ul>
-            </div>
-	        <#if consultedLocations??>
-                <div class="configureConsultedLocations">
-                    Consulted locations: ${consultedLocations?join(, )}
+		    <div class="navigation">
+                <div class="configureExtensionsInstallControls">
+                    <h3>Install and Update Extensions</h3>
+                    <p>Install, update and/or remove all selected extensions and their Foswiki dependencies.</p>
+                    <select name="processExt" onchange="document.getElementById('extactionhelp').innerHTML=this.options[this.selectedIndex].title">
+                        <option value="all" selected="selected" title="Install, update and/or remove all selected extensions and their Foswiki dependencies.">Process as selected</option>
+                        <option value="sim" title="Simulate actions only.  No changes will be made.">Simulate actions</option>
+                        <option value="dep" title="Check dependencies only.  No changes will be made.">Check dependencies only</option>
+                        <option value="nodep" title="Install selected items, but not their dependencies.">Install with no Dependencies</option>
+                    </select>
+                    <p><label><input type="checkbox" name="useCache" value="on" class="foswikiCheckbox" />Use previously downloaded installers or archives</label></p>
+                    <input type="submit" class="foswikiSubmit" value="Process selected extensions" />
                 </div>
-            </#if>
-		</div>		
+                <#if consultedLocations??>
+                    <div class="configureConsultedLocations">
+                        Consulted locations: ${consultedLocations?join(, )}
+                    </div>
+                </#if>
+            </div>
+        </div>
 	</div>
 </div>

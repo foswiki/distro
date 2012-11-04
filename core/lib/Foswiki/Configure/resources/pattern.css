@@ -394,7 +394,7 @@ table {
 
 html body {
 	font-family: Arial, sans-serif;
-	font-size: 14px;
+	font-size: 13.5px;
 }
 body {
 	line-height: 22px;
@@ -1263,7 +1263,7 @@ pre ul:last-child,
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 .foswikiButton:first-child,
@@ -1451,7 +1451,7 @@ pre ul:last-child,
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 .foswikiSubmit:first-child {
@@ -1551,7 +1551,7 @@ pre ul:last-child,
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 .foswikiButtonCancel:first-child {
@@ -1652,7 +1652,7 @@ pre ul:last-child,
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 .foswikiButtonDisabled:first-child,
@@ -2045,7 +2045,7 @@ textarea.foswikiTextareaRawView:focus {
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
   margin: 0 0 6px 6px;
 }
@@ -2738,7 +2738,7 @@ li.patternLogIn {
 	background-image:url(popup.gif);
 	background-repeat:no-repeat;
 	background-position:right;
-	padding-right:14px;
+	padding-right:13.5px;
 	margin-right:3px;
 }
 
@@ -3980,8 +3980,8 @@ label.ui-button.ui-state-active,
   zoom: 1;
 }
 .ui-dialog .ui-resizable-se {
-  width: 14px;
-  height: 14px;
+  width: 13.5px;
+  height: 13.5px;
   right: 3px;
   bottom: 3px;
 }
@@ -4630,7 +4630,7 @@ a.jqButton {
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 .jqButton:first-child,
@@ -4755,7 +4755,7 @@ a.jqButton.foswikiButtonCancel,
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 a.jqButton.foswikiButtonCancel:first-child,

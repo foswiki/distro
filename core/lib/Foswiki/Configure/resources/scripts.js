@@ -706,7 +706,17 @@ $(document).ready(function () {
         });
     });
 
-    $('.makeSticky').sticky();
+    // make sticky
+    $('.navigation').affix({
+      offset: {
+        top: 0
+      , bottom: 50
+      }
+    });
+    
+    $(".extensionsHelp").click(function() {
+        $(".configureExtensionsHelp").toggleClass("foswikiHidden");
+    });
 
     configure.toggleExpertsMode('expert');
     configure.toggleInfoMode();

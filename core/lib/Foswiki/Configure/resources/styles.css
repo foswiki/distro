@@ -12,21 +12,38 @@ html {
 body {
 	margin: 0;
 	padding: 0;
+	position: relative;
+}
+.foswikiCheckbox,
+.foswikiRadioButton {
+	margin:1px .25em 1px .1em;
+	padding:0 0 0 .5em;
+	border:0;
 }
 .section {
-    padding: 0 40px;
+    padding: 0 30px;
 }
 
 .configurePageHeader {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+
 }
-/*
-div.configurePageBodyWrapper {
-    padding-top: 110px;
+.configurePageHeader .section {
+    padding-top: .5em;
+    padding-bottom: .5em;
 }
-*/
+.configurePageBodyWrapper {
+    padding: 65px 0 50px 0;
+}
+
 html body {
     background-color:#fff;
     font-size: 13px;
+    line-height: 18px;
 }
 
 h4, h5, h6,
@@ -52,8 +69,6 @@ h4, h5, h6,
 
 .configureMainContents {
 	background:#fff;
-	padding-top: 1em;
-	padding-bottom: 1em;
 }
 .configureRootSection {
 	padding:0 0 1em 1em;
@@ -190,7 +205,7 @@ div.configureFeedbackError H1 {
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 .configureFeedbackButton1:first-child {
@@ -208,7 +223,7 @@ div.configureFeedbackError H1 {
 .configureFeedbackButton1:link,
 .configureFeedbackButton1:visited {
   color: #ffffff;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   background-color: #fab834;
   background-image: -moz-linear-gradient(top, #fbbc3e, #fab325);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbbc3e), to(#fab325));
@@ -238,7 +253,7 @@ div.configureFeedbackError H1 {
 .configureFeedbackButton1:hover,
 .configureFeedbackButton1:active {
   color: #ffffff;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   background-color: #fab01b;
   background-image: -moz-linear-gradient(top, #fab325, #f9aa0c);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fab325), to(#f9aa0c));
@@ -290,7 +305,7 @@ div.configureFeedbackError H1 {
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 14px;
+  font-size: 13.5px;
   text-decoration: none;
 }
 .configureFeedbackButton2:first-child {
@@ -308,7 +323,7 @@ div.configureFeedbackError H1 {
 .configureFeedbackButton2:link,
 .configureFeedbackButton2:visited {
   color: #ffffff;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   background-color: #fa7a34;
   background-image: -moz-linear-gradient(top, #fb803e, #fa7025);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fb803e), to(#fa7025));
@@ -338,7 +353,7 @@ div.configureFeedbackError H1 {
 .configureFeedbackButton2:hover,
 .configureFeedbackButton2:active {
   color: #ffffff;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   background-color: #fa691b;
   background-image: -moz-linear-gradient(top, #fa7025, #f9600c);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fa7025), to(#f9600c));
@@ -371,11 +386,26 @@ div.configureFeedbackError H1 {
 /* --- MENUS --- */
 
 /* PRIMARY NAVIGATION */
+.yui-b {
+    position: relative;
+}
+.navigation {
+    width: 230px;
+}
+.navigation.affix {
+    position: fixed;
+	width: 230px;
+}
+.navigation.affix-bottom {
+    position: fixed;
+    top: auto;
+    bottom: 40px;
+}
 ul.configureRootTab {
 	list-style-type:none;
 	margin:0;
-	padding:0 20px 0 0;
-	width: auto;
+	padding:0;
+	width: 100%;
 }
 ul.configureRootTab li {
 	margin:0;
@@ -701,8 +731,11 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.action {
 }
 .configureExtensionsInstallControls {
     background: #EDF5FC;
-    padding: 10px 10px 15px 10px;
+    padding: 15px;
     margin: 0 0 20px 0;
+}
+.configureExtensionsInstallControls h3 {
+    color: #333;
 }
 .configureExtensionsInstallControls input[type="submit"],
 .configureExtensionsInstallControls select {
@@ -712,11 +745,19 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.action {
     margin: 10px -10px;
 }
 .configureExtensionsHelp {
-    padding: 10px 10px 15px 10px;
-    margin: 0 0 20px 0;
+    padding: 20px;
+    margin: 10px 0;
+    background: #DEEFFA;
 }
+.configureExtensionsHelp p {
+    margin-top: 0;
+}
+
 .configureExtensionsHelp hr {
     margin: 10px -10px;
+}
+.configureExtensionsControls {
+    margin: 0 0 10px 0;
 }
 
 /* --- EXPERT ---*/
@@ -771,8 +812,7 @@ span.configureMandatory {
 }
 
 .configureLogo {
-	margin: .75em 0 1.5em 0;
-	height: 40px;
+	height: 35px;
 }
 .configureChangeList {;
 	margin:1em 0 2em 0;
@@ -937,19 +977,6 @@ div.configureMessageBox {
 }
 .foswikiNotification .configureChangeList {
 	margin:1em 0;
-}
-
-.sticky {
-    position: fixed;
-    width: 100%;
-    z-index: 1;
-    -webkit-box-shadow: 0px 2px 4px rgba(50, 50, 50, 0.35);
-    -moz-box-shadow:    0px 2px 4px rgba(50, 50, 50, 0.35);
-    box-shadow:         0px 2px 4px rgba(50, 50, 50, 0.35);
-}
-.configureExtensionsInstallControls.sticky {
-    width: auto;
-    right: 0;
 }
 
 /* Responsive: Tablet to desktop */

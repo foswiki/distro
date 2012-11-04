@@ -6,16 +6,6 @@
 <!-- .yui-t4 = right 180px; .yui-t5 = right 240px; .yui-t6 = right 300px; -->
 
 <div id="doc3" class="yui-t8 configureMain">
-	<div id="hd">
-		<div class="section configureTools makeSticky">
-			<#if totalWarnings?? || totalErrors??>Status:</#if>
-			<#if totalErrors??><span class='configureStatusErrors'>${totalErrors}</span></#if>
-			<#if totalWarnings??><span class='configureStatusWarnings'>${totalWarnings}</span></#if>
-			
-			<#if firstTime == 1>(we will solve this in a minute)</#if>
-			<div class='foswikiClear'></div>
-		</div>
-	</div>
 	
 	<div id="bd" class="section configureMainContents">
 		
@@ -30,11 +20,13 @@
 		<!-- the unwrapped div.yui-b takes a fixed width and alignment based on the class of the top-level containing node -->
 		<div class="yui-b">
 			<#if navigation??>
-				${navigation}
-				<div class='configureToggleSections foswikiMakeVisibleBlock'>
-					<a href='#' class='configureNotShowSection'>open all sections</a>
-					<a href='#' class='configureToggleSection'>close all sections</a>
-				</div>
+			    <div class='navigation'>
+                    ${navigation}
+                    <div class='configureToggleSections foswikiMakeVisibleBlock'>
+                        <a href='#' class='configureNotShowSection'>open all sections</a>
+                        <a href='#' class='configureToggleSection'>close all sections</a>
+                    </div>
+                </div>
 			</#if>
 		</div>
 		
@@ -43,8 +35,14 @@
 	<div id="ft">
 		<div class="configureActions">
 			<div class="section configureActionsContents">
+			    <div class="foswikiLeft">
+			        <#if totalWarnings?? || totalErrors??>Status:</#if>
+                    <#if totalErrors??><span class='configureStatusErrors'>${totalErrors}</span></#if>
+                    <#if totalWarnings??><span class='configureStatusWarnings'>${totalWarnings}</span></#if>
+                    <#if firstTime == 1>(we will solve this in a minute)</#if>
+			    </div>
                 <input type='submit' class='foswikiButton' name='changePassword' value='Change password' />
-				<input type='submit' class='enableWhenSomethingChanged foswikiSubmit' name='action' value='Save changes' accesskey='s' />
+				<input type='submit' class='enableWhenSomethingChanged foswikiSubmit' name='action' value='Save changes' />
 			</div>
 		</div>
 	</div>
