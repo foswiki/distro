@@ -193,6 +193,8 @@ Loads the Foswiki::Configure::Checker subclass for the
 given $id. For example, given the id '{Beans}{Mung}', it
 will try and load Foswiki::Configure::Checkers::Beans::Mung
 
+Also called by 'clever' code with 'CheckerName'.
+
 If the id doesn't have a subclass defined, the item's type class may
 define a generic checker for that type.  If so, it is instantiated
 for this item.
@@ -211,11 +213,13 @@ $item is passed on to the checker's constructor.
 sub loadChecker {
     my ( $keys, $item ) = @_;
     my $id = $keys;
-    $id =~ s/}{/\001\001/g;
-    $id =~ s/[}{]//g;
-    $id =~ s/[^\w\001-]//g;
-    $id =~ s/\001/:/g;
-    $id =~ s/-/_/g;
+
+    # Convert {key}{s} to key::s, removing illegal characters
+    # [-_\w] are legal. - => _.
+    $id =~ s/\{([^}]*)\}/my $lbl = $1;
+                          $lbl =~ tr,-_a-zA-Z0-9\x00-\xff,__a-zA-Z0-9,d;
+                          $lbl . '::'/ge
+      and substr( $id, -2 ) = '';
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
     eval "use $checkClass ()";
 
