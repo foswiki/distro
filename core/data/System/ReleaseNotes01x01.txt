@@ -44,6 +44,89 @@ Foswiki 1.1 ships with the following:
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x01Changes
+---++ Important changes since Foswiki 1.1.5
+
+Release 1.1.6 is a security focused and bug fix release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+
+---+++ Module version strings have been changed
+
+The Foswiki and default extension version strings have been changed from a developer oriented string _Foswiki-1.1.5, Tue, 10 Apr 2012, build 14595,_  to a simple perl version string - "v1.1.6".
+The "RELEASE" string will continue to be more descriptive and can be displayed with a new macro =%<nop>WIKIRELEASE%=.
+
+---+++ Default format of "New Topic" links has changed.
+
+The old format used a trailing questionmark to create a topic.  Missing topics are now rendered with red text, and underlined with a dotted line.  The entire missing-topic name is a link to create the new topic, instead of just the
+question mark.  If you have applied a custom new topic setting in your Main.SitePreferences, you shouldn't see any changes.  Remove the override from Main.SitePreferences to get the new behavior.
+
+---+++ JQuery version updates
+
+   * The default version of JQuery has been bumped to <code>JQuery 1.8.2</code>
+   * All versions of jquery older than 1.7.1 have been removed.
+
+Be sure to run configure and verify that the JQuery version is set to one still available, and preferably the default 1.8.2.
+
+---+++ Registration handling
+
+   * The check for duplicate email regisrations is now applied to pending registrations.
+   * Code has been added to remove stale registration approval requests.
+
+---+++ Wysiwyg / TinyMCE Editor changes
+
+A number of changes have been made to make editing more "WYSIWYG" like:
+   * All links are now represented as real HTML links in TMCE.  Editing the link text displayed in-line _only_ updates the link text, including auto-linked WikiWords. Click the link icon to update the actual link target.
+      * Ex.  if a !InlineWikiWord is changed to !ADifferentWikiWord, the link will become <code>[<nop>[InlineWikiWord][ADifferentWikiWord]]</code>
+   * Verbatim blocks that are hidden will now display and can be edited.
+   * Escaped !WikiWords will no longer display as links when edited.
+   * Major issues with loss of white-space and line breaks while editing have been corrected.
+   * It is now possible to position the cursor above/below blocks that start or end a topic.
+   * HTML entities added to topics when Ctrl-i or Ctrl-b are used for Italics / Bold  are now removed on save.
+   * Multi-line TML tables can now be edited.
+   * NOAUTOLINK and &lt;noautolink> blocks are now handled correctly.
+   * JQuery Chili highlighter classes are now all available from the context menu of a verbatim block.
+   * New tables inserted with wysiwyg now show the expected borders.
+   * !TinyMCE has been updated to release 3.4.9
+
+---+++ <code>Insecure dependency</code> errors when using LOCALEs
+
+Setting a Locale in the configuration causes internal errors because of perl's mechanisms used to protect applications from potentially untrusted input.  The systems Locale strings are considered "Tainted" and Foswiki fails with taint
+errors.  At this point we don't have a good solution.  Significant work is being done for future releases to resolve this issue.
+
+In the meantime, if you require a custom Locale, and are experiencing errors like <code>Insecure dependancy in x while running with -T switch</code> our only solution presently is to disable Taint checking by removing the "-T" switch
+from the first line of each script in the bin directory.
+
+---+++ A serious performance problem when renaming topics has been resolved
+
+The resolution results in a change to what is renamed.  Prior to this resolution, an extra scan of the entire web was performed.  The new behavior
+is that "Incoming" links (Links pointing to the topic being renamed) will be listed and updated when their checkbox is checked.   However "Outgoing" links
+(links internal to the renamed topic, pointing to other topics in the original web)  will not be updated.
+
+---+++ Performance problems when logs are "Rotated" at end of month.
+
+The plainfile logger was using too much resources when rotating the logs at end of month.  This has been improved somewhat, however there still can be issues for very busy sites.   To help resolve this, the settings for the "Compatibility Logger" have been restored to the configuration.  The
+compatibility logger writes to "date-stamped" filenames instead of doing an end-of-month rotation.
+
+As an alternative, there is a new Foswiki:Extensions.LogDispatchContrib for more advanced logging.  This extension will be the default logger in Foswiki 1.2.
+
+---+++ JQuery Chili highlighter is enabled by default.
+
+This was temporarily disabled because Firefox and Safari had errors which will corrupt the highlighted text.  Recent browser releases have resolved this issue, and Chili is again enabled by default.  It may still be necessary to
+disable Chili if your user community still is using the buggy browsers.
+
+---+++ <code>configure</code> now backs up the configuration
+
+<code>configure</code> now will save the previous configuration to a file named <code>LocalSite.cfg.[n]</code> where <code>[n]</code> is increased by 1 prior to each save.  By default, 10 prior revisions are kept.
+
+---+++ Markup within input fields are no longer rendered
+
+[[%BUGS%/Item11480][Item11480]] now prevents the rendering of Topic Markup (TML) within input fields.  Previously if an input field was "pre-filled" with markup for ex: <b><code><literal>some *marked* text</literal><code></b>,
+it would be renderd as <b><code>some &lt;strong&gt;marked&lt;strong&gt; text</code></b>.   Foswiki will no longer render the contents of input fields.
+
+This exposes an issue.  If input field content is manually protected (for ex. using <code>&lt;nop&gt;%<nop>WIKINAME%</code> to prevent the rendering, the resulting html will be corrupted.
+The unencoded &lt; and &gt; are not legal within <code>&lt;input&gt;</code> tag and need to be removed.   Foswiki used &lt;nop&gt; in two places, which may need to be edited if you have customzed them.
+   * <code>templates/login.tmpl</code> used a <code>&lt;nop&gt;</code> to protect a wikiname from expanding within the usernamefield
+   * <code>%<nop>SIGNATUREFORMAT%</code> in System.DefaultPreferences also protected the wikiname from expanding.
+Neither of these are required and should be removed.  The <code>&lt;nop&gt;</code> will break rendering of the login and edit pages.
+
 ---++ Important changes since Foswiki 1.1.4
 
 Release 1.1.5 is a security focused release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.

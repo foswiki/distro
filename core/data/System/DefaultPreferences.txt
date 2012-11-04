@@ -93,7 +93,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set EDITBOXSTYLE = width:99%
 
    * Style of the user signature
-      * Set SIGNATUREFORMAT = -- <nop>%WIKIUSERNAME% - %DATE%
+      * Set SIGNATUREFORMAT = -- %WIKIUSERNAME% - %DATE%
 
    * Work-around for sluggish/erratic wikitext editing in Internet Explorer 8. When this browser is in standards mode, at least some versions suffer sluggish response to keystrokes and erratic scrolling. For skins that are aware of it, this setting forces IE8 into compatibility mode for the edit template only.
       * Set EDIT_FORCE_IE8_COMPATIBILITYMODE = on
