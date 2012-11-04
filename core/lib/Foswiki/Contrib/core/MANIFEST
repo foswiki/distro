@@ -672,8 +672,9 @@ lib/Foswiki/Configure/resources/icon_warn_and_error_blue.gif 0444
 lib/Foswiki/Configure/resources/icon_warn_and_error_white.gif 0444
 lib/Foswiki/Configure/resources/icon_warn_blue.gif 0444
 lib/Foswiki/Configure/resources/icon_warn_white.gif 0444
-lib/Foswiki/Configure/resources/icon_world.gif 0444
+lib/Foswiki/Configure/resources/icon_world.png 0444
 lib/Foswiki/Configure/resources/intro.html 0444
+lib/Foswiki/Configure/resources/jquery.sticky.min.js 0444
 lib/Foswiki/Configure/resources/jquery-1.8.2.min.js 0444
 lib/Foswiki/Configure/resources/jquery-1.8.2.min.js.gz 0444
 lib/Foswiki/Configure/resources/jquery.nyroModal-1.6.2.css 0444
