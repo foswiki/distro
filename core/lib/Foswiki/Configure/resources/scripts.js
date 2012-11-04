@@ -701,6 +701,8 @@ function setSubmitAction(button) {
 
 function doFeedback(key, pathinfo) {
 
+    "use strict";
+
     /* Make (and post) an http(s) request for feedback.
      *
      * First, some private infrastructure:
@@ -710,7 +712,7 @@ function doFeedback(key, pathinfo) {
 
     var boundary = '------Foswiki-formboundary' + (new Date()).getTime() + Math.floor(Math.random() * 1073741826).toString(),
         dashdash = '--',
-        crlf = '\015\012',
+        crlf = '\x0d\x0a',
         requestData = "",
         quoteKeyId = configure.utils.quoteName(key.id), /* Selector-encoded id of button that was clicked */
         KeyIdSelector = '#' + quoteKeyId,
@@ -721,12 +723,16 @@ function doFeedback(key, pathinfo) {
     /* Add a named item from a form to the POST data */
 
     function postFormItem(name, value) {
+        "use strict";
+
         requestData = requestData + (dashdash + boundary + crlf) + 'Content-Disposition: form-data; name="' + name + '"' + crlf + crlf + value + crlf;
         return;
     }
 
     /* Effectively alert(), but supporting HTML content.  */
     function errorMessage(m) {
+        "use strict";
+
         if (m.length <= 0) {
             m = "Unknown error encountered";
         }
@@ -761,6 +767,8 @@ function doFeedback(key, pathinfo) {
      */
 
     function errorMessageFromHTML(m) {
+        "use strict";
+
         errorMessage(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
     }
 
@@ -877,8 +885,7 @@ function doFeedback(key, pathinfo) {
         global: false,
         contentType: "multipart/form-data; boundary=\"" + boundary + '"; charset=UTF-8',
         accepts: {
-            text: "text/plain",
-            text: "text/html"
+            text: "application/octet-stream; q=1, text/plain; q=0.8, text/html q=0.5"
         },
         headers: {
             'X-Foswiki-FeedbackRequest': 'V1.0'
@@ -938,7 +945,7 @@ function doFeedback(key, pathinfo) {
             /* Decide what kind of response we got. */
 
             if (data.charAt(0) !== '{') { /* Probably an error page with OK status */
-                if (data.charAt(0) !== "\177") { /* Ignore no data response */
+                if (data.charAt(0) !== "\x7f") { /* Ignore no data response */
                     if (data.length <= 0) {
                         data = "Empty response received from feedback request";
                     }
