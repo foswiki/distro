@@ -37,7 +37,7 @@
 </literal><input type="hidden" name="foswiki_origin" value="%FOSWIKI_ORIGIN%" />
 </form>%TMPL:END%
 
-%TMPL:DEF{"usernamefield"}%<input tabindex='1' type='text' class='foswikiInputField foswikiFocus' size='40' name='username' value='<nop>%URLPARAM{"usernamestep"}%' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
+%TMPL:DEF{"usernamefield"}%<input tabindex='1' type='text' class='foswikiInputField foswikiFocus' size='40' name='username' value='%URLPARAM{"usernamestep"}%' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
 %TMPL:DEF{"usernamestep"}%<div class="foswikiFormStep">
 <h3>%MAKETEXT{"Username"}%</h3>
