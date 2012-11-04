@@ -1,23 +1,13 @@
-<!-- the id on the containing div determines the page width. -->
-<!-- #doc = 750px; #doc2 = 950px; #doc3 = 100%; #doc4 = 974px -->
-
-<!-- To set the Preset Template, add a class to the containing node -->
-<!-- .yui-t1 = left 160px; .yui-t2 = left 180px; .yui-t3 = left 300px; -->
-<!-- .yui-t4 = right 180px; .yui-t5 = right 240px; .yui-t6 = right 300px; -->
-
 <div id="doc3" class="yui-t8 configureMain">
 	
 	<div id="bd" class="section configureMainContents">
 		
-		<!-- Preset Templates control the width and alignment of the two blocks (div.yui-b). -->
-		<!-- The wide column is wrapped in div#yui-main -->
 		<div id="yui-main">
 			<div class="yui-b">
 				<#if contents??>${contents}</#if>
 			</div>
 		</div>
 
-		<!-- the unwrapped div.yui-b takes a fixed width and alignment based on the class of the top-level containing node -->
 		<div class="yui-b">
 			<#if navigation??>
 			    <div class='navigation'>
