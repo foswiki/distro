@@ -1,10 +1,5 @@
 /* STYLES.CSS */
 
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
 html {
 	margin:0;
 	padding:0;
@@ -984,6 +979,10 @@ div.configureMessageBox {
 }
 .foswikiNotification .configureChangeList {
 	margin:1em 0;
+}
+
+.nyroModalClose {
+    z-index: 1;
 }
 
 /* Responsive: Tablet to desktop */

@@ -384,14 +384,6 @@ table {
 
 /* GENERAL HTML ELEMENTS */
 
-/* apply a natural box layout model to all elements */
-/* http://paulirish.com/2012/box-sizing-border-box-ftw/ */
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
 html body {
 	font-family: Arial, sans-serif;
 	font-size: 13px;
