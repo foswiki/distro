@@ -392,11 +392,11 @@ div.configureFeedbackError H1 {
     position: relative;
 }
 .navigation {
-    width: 230px;
+    width: 200px;
 }
 .navigation.affix {
     position: fixed;
-	width: 230px;
+	width: 200px;
 }
 .navigation.affix-bottom {
     position: fixed;
