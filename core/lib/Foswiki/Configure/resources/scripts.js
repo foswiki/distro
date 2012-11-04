@@ -143,7 +143,7 @@ var configure = (function ($) {
 		toggleExpertsMode: function (modeName) {
 		    var mode = getUrlParam(modeName),
 		        antimode;
-            if (mode !== undefined) {
+            if (mode !== undefined && mode !== '') {
                 /* convert value to a css value */
                 expertsMode = (mode === '1' ? '' : 'none');
             } else {
