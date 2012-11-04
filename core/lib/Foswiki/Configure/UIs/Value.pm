@@ -112,7 +112,7 @@ qq{ <input type="button" id="${keys}feedreq$n" value=$q$fb$q class="configureFee
         }
         $feedback = $buttons;
         $index =
-qq{$index <span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" width="32" height="15" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
+qq{$index <span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
           if ( $nd != $n );
     }
     else {

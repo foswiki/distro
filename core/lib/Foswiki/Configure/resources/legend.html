@@ -1,49 +1,63 @@
-<h3>Explanation of colours and symbols</h3>
-<div class="configureLegend">
-    <div class="item">
-        <div class='configureMessageBox'>{DefaultUrlHost}&nbsp;<span class='configureMandatory'>required</span></div>
-        <p>
-            <strong>Required settings</strong><br />
-            Must have a value
-        </p>
-    </div>    
+<div class="yui-gb">
 
-    <div class="item">
-        <div class='configureMessageBox'>{LoginNameFilterIn} <span class="configureCheckOnChange"><img src="%RESOURCEURI%autocheck.png" width="32" height="15" title="This field will be automatically verified when you change it" alt="Autochecked field"></span></div>
-        <p><strong>Auto-checked</strong><br />
-        Field is automatically checked when changed</p>
-    </div>    
-
-    <div class="item">
-        <div class='configureMessageBox'>{PubDir}<br />
-        <a href="#" class="configureFeedbackButton1">Validate</a></div>
-        <p>
-            <strong>Action button</strong><br />
-            Click button to perform a validation, repair or other action for this item.
-        </p>
-    </div>    
-
-    <div class="item">
-        <div class='configureMessageBox foswikiAlert configureError'><span><strong>Error</strong></div>
-        <p>
-            <strong>Errors</strong><br />
-            Must be fixed
-        </p>
-    </div>
-
-    <div class="item">
-        <div class='configureMessageBox foswikiAlert configureWarn'><span><strong>Warning</strong></div>
-        <p>
-            <strong>Warnings</strong><br />
-            Non-fatal, but often a good indicator that something is wrong
-        </p>
-    </div>    
-
-    <div class="item">
-        <div class='configureMessageBox foswikiAlert configureExpertExample'>{Validation}{Method}</div>
-        <p>
-            <strong>Expert settings</strong><br />
-            For expert use only. You should not fiddle with them unless you have read all the documentation first.
-        </p>
+    <div class="configureLegend">
+        <h3>Explanation of colours and symbols</h3>
+        <div class="yui-u first">
+            <div class="item">
+                <strong>Required settings</strong>
+                <div class='configureMessageBox'>{DefaultUrlHost}&nbsp;<span class='configureMandatory'>required</span></div>
+                <p>
+                    Must have a value.
+                </p>
+            </div>    
+        
+            <div class="item">
+                <strong>Expert settings</strong>
+                <div class='configureMessageBox configureExpert'>{Validation}{Method}</div>
+                <p>
+                    For expert use only. You should not fiddle with them unless you have read all the documentation first.
+                </p>
+            </div>
+            
+            
+        </div>
+        
+        <div class="yui-u">
+            <div class="item">
+                <strong>Warnings</strong>
+                <div class='configureMessageBox foswikiAlert configureWarn'><span><strong>Warning</strong></div>
+                <p>
+                    Non-fatal, but often a good indicator that something is wrong.
+                </p>
+            </div> 
+        
+            <div class="item">
+                <strong>Errors</strong>
+                <div class='configureMessageBox foswikiAlert configureError'><span><strong>Error</strong></div>
+                <p>
+                    Must be fixed.
+                </p>
+            </div>
+        </div>
+        
+        <div class="yui-u">
+            <div class="item">
+                <strong>Action button</strong>
+                <div class='configureMessageBox'>{PubDir}<br />
+                <a href="#" class="configureFeedbackButton1">Validate</a></div>
+                <p>
+                    Click button to perform a validation, repair or other action for this item.
+                </p>
+            </div> 
+            
+            <div class="item">
+                <strong>Auto-checked</strong>
+                <div class='configureMessageBox'>{LoginNameFilterIn} <span class="configureCheckOnChange"><img src="%RESOURCEURI%autocheck.png" title="This field will be automatically verified when you change it" alt="Autochecked field"></span></div>
+                <p>
+                    Field is automatically checked when changed.
+                </p>
+            </div>
+        </div>
+        <div class="foswikiClear"></div>
     </div>
 </div>

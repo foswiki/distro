@@ -9,6 +9,55 @@ body {
 	padding: 0;
 	position: relative;
 }
+h1 {
+  line-height: 1;
+  font-size: 2.27384931552em;
+  margin-top: 0.6765890457036341em;
+  margin-bottom: 0.6765890457036341em;
+}
+h2 {
+  line-height: 1;
+  font-size: 1.7768890000000002em;
+  margin-top: 0.8658174700060265em;
+  margin-bottom: 0.8658174700060265em;
+}
+h3 {
+  line-height: 1;
+  font-size: 1.66591675em;
+  margin-top: 0.9234924485041275em;
+  margin-bottom: 0.9234924485041275em;
+}
+h4 {
+  line-height: 1;
+  font-size: 1.5549445em;
+  margin-top: 0.9893996463935134em;
+  margin-bottom: 0.9893996463935134em;
+}
+h5 {
+  line-height: 1;
+  font-size: 1.44397225em;
+  margin-top: 1.0654370528668666em;
+  margin-bottom: 1.0654370528668666em;
+}
+h6 {
+  line-height: 1;
+  font-size: 1.333em;
+  margin-top: 1.1541346875180334em;
+  margin-bottom: 1.1541346875180334em;
+}
+h1:first-of-type,
+h2:first-of-type,
+h3:first-of-type {
+  margin-top: 0;
+}
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  margin-top: 0;
+}
 .foswikiCheckbox,
 .foswikiRadioButton {
 	margin:1px .25em 1px .1em;
@@ -47,7 +96,19 @@ html body {
     line-height: 18px;
 }
 
-h4, h5, h6,
+h1, h2 {
+    color: #3a0;
+}
+h3 {
+    color: #222;
+}
+h4 {
+    color: #555;
+}
+h5, h6 {
+    color: #888;
+}
+
 .foswikiFormStep h1,
 .foswikiFormStep h2,
 .foswikiFormStep h3,
@@ -55,15 +116,6 @@ h4, h5, h6,
 .foswikiFormStep h5,
 .foswikiFormStep h6 {
     color: #555;
-}
-
-.yui-u h1:first-child,
-.yui-u h2:first-child,
-.yui-u h3:first-child,
-.yui-u h4:first-child,
-.yui-u h5:first-child,
-.yui-u h6:first-child {
-    margin-top: 0;
 }
 
 /* --- SECTIONS --- */
@@ -108,8 +160,8 @@ body.configureShowOneSection .configureNotShowSection {
 	text-align:right;
 	padding-top:.7em;
 	padding-bottom: .7em;
-	background-color:#f2f2f2;
-	background-color:rgba(240,240,240,0.8);
+	background-color:#edf5fc;
+	background-color:rgba(237, 245, 252, 0.8);
 }
 .configureTools {
 	background-color:#edf5fc;
@@ -164,13 +216,11 @@ table.configureFeedbackSummaryTable td {
 }
 
 div.configureFeedbackPending {
-    height: 40;
-    width: 40;
-    background-image:url(%RESOURCEURI%ajaxLoader.gif);
+    background-image:url(%RESOURCEURI%processing-bg.gif);
+    min-height: 16px;
     background-repeat:no-repeat;
     background-position:left;
     background-size:contain;
-
 }
 span.configureFeedbackPendingMessage {
     padding-left: 25px;
@@ -187,7 +237,7 @@ div.configureFeedbackError H1 {
     font-weight: bold;
 }
 
-.configureFeedbackButton1 {
+[class^=configureFeedbackButton] {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -213,180 +263,86 @@ div.configureFeedbackError H1 {
   font-family: sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 13px;
+  font-size: 14px;
   text-decoration: none;
 }
-.configureFeedbackButton1:first-child {
+[class^=configureFeedbackButton]:first-child {
   *margin-left: 0;
 }
-.configureFeedbackButton1 .foswikiIcon {
+[class^=configureFeedbackButton] .foswikiIcon {
   vertical-align: middle;
   line-height: .5;
 }
-.configureFeedbackButton1,
-.configureFeedbackButton1:link {
+[class^=configureFeedbackButton],
+[class^=configureFeedbackButton]:link {
   text-decoration: none;
 }
-.configureFeedbackButton1,
-.configureFeedbackButton1:link,
-.configureFeedbackButton1:visited {
+[class^=configureFeedbackButton],
+[class^=configureFeedbackButton]:link,
+[class^=configureFeedbackButton]:visited {
   color: #ffffff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: #fab834;
-  background-image: -moz-linear-gradient(top, #fbbc3e, #fab325);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbbc3e), to(#fab325));
-  background-image: -webkit-linear-gradient(top, #fbbc3e, #fab325);
-  background-image: -o-linear-gradient(top, #fbbc3e, #fab325);
-  background-image: linear-gradient(to bottom, #fbbc3e, #fab325);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  background-color: #8ccfa4;
+  background-image: -moz-linear-gradient(top, #93d2aa, #81ca9c);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#93d2aa), to(#81ca9c));
+  background-image: -webkit-linear-gradient(top, #93d2aa, #81ca9c);
+  background-image: -o-linear-gradient(top, #93d2aa, #81ca9c);
+  background-image: linear-gradient(to bottom, #93d2aa, #81ca9c);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffbbc3e', endColorstr='#fffab325', GradientType=0);
-  border-color: #fab325 #fab325 #ce8b05;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff93d2aa', endColorstr='#ff81ca9c', GradientType=0);
+  border-color: #81ca9c #81ca9c #4bb372;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #fab325;
+  *background-color: #81ca9c;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #e79c05;
+  border: 1px solid #68bf88;
 }
-.configureFeedbackButton1 .foswikiIcon,
-.configureFeedbackButton1:link .foswikiIcon,
-.configureFeedbackButton1:visited .foswikiIcon {
+[class^=configureFeedbackButton] .foswikiIcon,
+[class^=configureFeedbackButton]:link .foswikiIcon,
+[class^=configureFeedbackButton]:visited .foswikiIcon {
   color: #ffffff;
 }
-.configureFeedbackButton1 .foswikiCaret,
-.configureFeedbackButton1:link .foswikiCaret,
-.configureFeedbackButton1:visited .foswikiCaret {
+[class^=configureFeedbackButton] .foswikiCaret,
+[class^=configureFeedbackButton]:link .foswikiCaret,
+[class^=configureFeedbackButton]:visited .foswikiCaret {
   border-top-color: rgba(255, 255, 255, 0.4);
 }
-.configureFeedbackButton1:hover,
-.configureFeedbackButton1:active {
+[class^=configureFeedbackButton]:hover,
+[class^=configureFeedbackButton]:active {
   color: #ffffff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: #fab01b;
-  background-image: -moz-linear-gradient(top, #fab325, #f9aa0c);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fab325), to(#f9aa0c));
-  background-image: -webkit-linear-gradient(top, #fab325, #f9aa0c);
-  background-image: -o-linear-gradient(top, #fab325, #f9aa0c);
-  background-image: linear-gradient(to bottom, #fab325, #f9aa0c);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  background-color: #7ac796;
+  background-image: -moz-linear-gradient(top, #81ca9c, #6fc28e);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#81ca9c), to(#6fc28e));
+  background-image: -webkit-linear-gradient(top, #81ca9c, #6fc28e);
+  background-image: -o-linear-gradient(top, #81ca9c, #6fc28e);
+  background-image: linear-gradient(to bottom, #81ca9c, #6fc28e);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffab325', endColorstr='#fff9aa0c', GradientType=0);
-  border-color: #f9aa0c #f9aa0c #b57a04;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff81ca9c', endColorstr='#ff6fc28e', GradientType=0);
+  border-color: #6fc28e #6fc28e #44a166;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f9aa0c;
+  *background-color: #6fc28e;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #ce8b05;
+  border: 1px solid #56b87a;
   text-decoration: none;
 }
-.configureFeedbackButton1:hover .foswikiIcon,
-.configureFeedbackButton1:active .foswikiIcon {
+[class^=configureFeedbackButton]:hover .foswikiIcon,
+[class^=configureFeedbackButton]:active .foswikiIcon {
   color: #ffffff;
 }
-.configureFeedbackButton1:hover .foswikiCaret,
-.configureFeedbackButton1:active .foswikiCaret {
+[class^=configureFeedbackButton]:hover .foswikiCaret,
+[class^=configureFeedbackButton]:active .foswikiCaret {
   border-top-color: rgba(255, 255, 255, 0.4);
 }
-.configureFeedbackButton2 {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
 
-  *zoom: 1;
-  padding: 3px 9.799999999999999px 3px 9.799999999999999px;
-  margin: 0 6px 0 0;
-  line-height: 20px;
-  *line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border-style: solid;
-  border-width: 1px;
-  *border: 0;
-  *margin-left: .3em;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  font-family: sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 13px;
-  text-decoration: none;
-}
-.configureFeedbackButton2:first-child {
-  *margin-left: 0;
-}
-.configureFeedbackButton2 .foswikiIcon {
-  vertical-align: middle;
-  line-height: .5;
-}
-.configureFeedbackButton2,
-.configureFeedbackButton2:link {
-  text-decoration: none;
-}
-.configureFeedbackButton2,
-.configureFeedbackButton2:link,
-.configureFeedbackButton2:visited {
-  color: #ffffff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: #fa7a34;
-  background-image: -moz-linear-gradient(top, #fb803e, #fa7025);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fb803e), to(#fa7025));
-  background-image: -webkit-linear-gradient(top, #fb803e, #fa7025);
-  background-image: -o-linear-gradient(top, #fb803e, #fa7025);
-  background-image: linear-gradient(to bottom, #fb803e, #fa7025);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffb803e', endColorstr='#fffa7025', GradientType=0);
-  border-color: #fa7025 #fa7025 #ce4c05;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #fa7025;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #e75505;
+table [class^=configureFeedbackButton] {
+    margin: 5px 0 0 0;
 }
-.configureFeedbackButton2 .foswikiIcon,
-.configureFeedbackButton2:link .foswikiIcon,
-.configureFeedbackButton2:visited .foswikiIcon {
-  color: #ffffff;
-}
-.configureFeedbackButton2 .foswikiCaret,
-.configureFeedbackButton2:link .foswikiCaret,
-.configureFeedbackButton2:visited .foswikiCaret {
-  border-top-color: rgba(255, 255, 255, 0.4);
-}
-.configureFeedbackButton2:hover,
-.configureFeedbackButton2:active {
-  color: #ffffff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: #fa691b;
-  background-image: -moz-linear-gradient(top, #fa7025, #f9600c);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fa7025), to(#f9600c));
-  background-image: -webkit-linear-gradient(top, #fa7025, #f9600c);
-  background-image: -o-linear-gradient(top, #fa7025, #f9600c);
-  background-image: linear-gradient(to bottom, #fa7025, #f9600c);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffa7025', endColorstr='#fff9600c', GradientType=0);
-  border-color: #f9600c #f9600c #b54204;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f9600c;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #ce4c05;
-  text-decoration: none;
-}
-.configureFeedbackButton2:hover .foswikiIcon,
-.configureFeedbackButton2:active .foswikiIcon {
-  color: #ffffff;
-}
-.configureFeedbackButton2:hover .foswikiCaret,
-.configureFeedbackButton2:active .foswikiCaret {
-  border-top-color: rgba(255, 255, 255, 0.4);
-}
 .configureCheckOnChange {
     vertical-align:text-center;
 }
@@ -395,11 +351,11 @@ div.configureFeedbackError H1 {
 
 /* PRIMARY NAVIGATION */
 .navigation {
-    width: 200px;
+    width: 240px;
 }
 .navigation.affix {
     position: fixed;
-	width: 200px;
+	width: 240px;
 }
 .navigation.affix-bottom {
     position: fixed;
@@ -419,7 +375,6 @@ ul.configureRootTab li {
 ul.configureRootTab li a:link,
 ul.configureRootTab li a:visited {
 	display:block;
-	width:100%; /* needs to have a width or IE won't rollover over the background */
 	padding:.45em 1em;
 	margin:-1px 0 0 0;
 	text-decoration:none;
@@ -583,9 +538,8 @@ table.configureSectionValues .foswikiTextarea {
 
 /* WARN and ERROR */
 .configureWarn {
-	  color:#f60;
+    color:#f60;
 }
-
 .configureRootSection div.foswikiAlert {
 	background-color:#fff;
 	color:#000;
@@ -774,7 +728,7 @@ table.configureSectionValues tr.configureExpert th {
 	color:#7a6210;
 }
 
-li.configureExpert { /* menu item */
+.configureExpert { /* menu item */
 	background-image:url(%RESOURCEURI%bg_expert.gif);
 	background-repeat: repeat-y;
 	color:#7a6210;
@@ -790,7 +744,7 @@ li.configureExpert { /* menu item */
 .configureMandatory {}
 /* note */
 span.configureMandatory {
-	font-size:80%;
+	font-size:94%;
 	color:#9933cc;
 }
 
@@ -926,17 +880,36 @@ div.configureMessageBox {
 .installDependency {
 }
 
-.configureLegend .configureMessageBox {
-    margin: 0 0 5px 0;
+/* legend */
+
+.configureLegend {
+    margin: 20px 0 0 0;
+    padding: 20px;
+    background: #f2f2f2;
+}
+.configureLegend h3 {
+    color: #555;
 }
 .configureLegend .item {
+    background: #fff;
     border: 1px solid #eee;
-    padding: 10px;
+    padding: 15px;
+    margin: 0 0 10px 0;
 }
-.configureLegend .item + .item {
-    border-top: 0;
+.configureLegend .configureMessageBox {
+    margin: 5px 0;
 }
 .configureLegend .item p {
+    margin-bottom: 0;
+    color: #666;
+}
+.configureLegend .configureMessageBox.configureWarn,
+.configureLegend .configureMessageBox.configureError {
+    padding: 1em;
+    padding-left: 3em;
+    background-position: 1em 45%;
+}
+.configureLegend .configureMessageBox [class^=configureFeedbackButton] {
     margin: 5px 0 0 0;
 }
 
@@ -978,14 +951,16 @@ div.configureMessageBox {
 .foswikiNotification.foswikiGood h6 {
     color: #45759a;
 }
-
-
 .foswikiNotification.foswikiBad {
 	background:#fff2f2;
 	border:1px solid #f00;
 }
 .foswikiNotification .configureChangeList {
 	margin:1em 0;
+}
+
+.foswikiButton.foswikiRight {
+    margin-right: 0;
 }
 
 .nyroModalClose {
