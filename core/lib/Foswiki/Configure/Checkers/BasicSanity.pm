@@ -102,18 +102,15 @@ HERE
         elsif ( !-w $this->{LocalSiteDotCfg} ) {
             $this->{errors}++;
             $result .= <<HERE;
-Cannot write to existing configuration file.
-<p><tt>$this->{LocalSiteDotCfg}</tt> is not writable.
-<p>You can view the configuration, but you will not be able to save changes.
+Cannot write to existing configuration file: <tt>$this->{LocalSiteDotCfg}</tt> is not writable. <br />
+You can view the configuration, but you will not be able to save changes.
 Please check the file and directory permissions.
 HERE
         }
         elsif ( ( my $mess = $this->_checkCfg( \%Foswiki::cfg ) ) ) {
             $this->{errors}++;
             $result .= <<HERE;
-The existing configuration file
-<tt>$this->{LocalSiteDotCfg}</tt> doesn't seem to contain a good configuration
-for Foswiki. The following problems were found:<br>
+The existing configuration file <tt>$this->{LocalSiteDotCfg}</tt> doesn't seem to contain a good configuration for Foswiki. The following problems were found:<br />
 $mess
 <p><b>You can continue, but configure will not pick up any of the existing
 settings from this file and the previous configuration will be lost.</b>
@@ -131,8 +128,7 @@ HERE
         if ($errs) {
             $this->{errors}++;
             $result .= <<HERE;
-Configuration file <tt>$this->{LocalSiteDotCfg}</tt> does not exist, and I cannot
-write a new configuration file due to these errors:
+Configuration file <tt>$this->{LocalSiteDotCfg}</tt> does not exist, and I cannot write a new configuration file due to these errors:
 <pre/>$errs<pre>
 <p>You can view the default configuration, but you will not be able to save changes.
 HERE
