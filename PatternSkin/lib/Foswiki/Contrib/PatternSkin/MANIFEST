@@ -43,9 +43,6 @@ pub/System/PatternSkin/header2.gif 0644
 pub/System/PatternSkin/header3.gif 0644
 pub/System/PatternSkin/header4.gif 0644
 pub/System/PatternSkin/header5.gif 0644
-pub/System/PatternSkin/pattern_edit_src.js 0644
-pub/System/PatternSkin/pattern_edit.js 0644
-pub/System/PatternSkin/pattern_edit.js.gz 0644
 pub/System/PatternSkin/pattern_src.js 0644
 pub/System/PatternSkin/pattern.js 0644
 pub/System/PatternSkin/pattern.js.gz 0644
@@ -64,14 +61,9 @@ pub/System/PatternSkinCssCookbookFonts/fonts.css 0644
 pub/System/PatternSkinCssCookbookNoLeftBar/hideleftbar.css 0644
 pub/System/PatternSkinCssCookbookNoTopBar/notopbar.css 0644
 pub/System/PatternSkinCssCookbookSidebarBackground/sidebar.css 0644
-pub/System/PatternSkinTheme/bg_button_gradient.gif 0644
-pub/System/PatternSkinTheme/bg_buttoncancel_gradient.gif 0644
-pub/System/PatternSkinTheme/bg_submit_gradient.gif 0644
 pub/System/PatternSkinTheme/bullet-lock.gif 0644
 pub/System/PatternSkinTheme/bullet-personal_sidebar.gif 0644
 pub/System/PatternSkinTheme/bullet-toc.gif 0644
-pub/System/PatternSkinTheme/button_arrow.gif 0644
-pub/System/PatternSkinTheme/button_font_selector.gif 0644
 pub/System/PatternSkinTheme/colors_src.css 0644
 pub/System/PatternSkinTheme/colors.css 0644
 pub/System/PatternSkinTheme/colors.css.gz 0644
@@ -90,7 +82,7 @@ pub/System/PatternSkinTheme/column_right_flex.css.gz 0644
 pub/System/PatternSkinTheme/column_right_src.css 0644
 pub/System/PatternSkinTheme/column_right.css 0644
 pub/System/PatternSkinTheme/column_right.css.gz 0644
-pub/System/PatternSkinTheme/form_gradient.gif 0644
+pub/System/PatternSkinTheme/jquery-images/spinner.gif 0644
 pub/System/PatternSkinTheme/jquery-images/ui-bg_flat_0_aaaaaa_40x100.png 0644
 pub/System/PatternSkinTheme/jquery-images/ui-icons_666666_256x240.png 0644
 pub/System/PatternSkinTheme/jquery-images/ui-icons-famfamfam.png 0644
@@ -105,7 +97,6 @@ pub/System/PatternSkinTheme/popup.gif 0644
 pub/System/PatternSkinTheme/style_src.css 0644
 pub/System/PatternSkinTheme/style.css 0644
 pub/System/PatternSkinTheme/style.css.gz 0644
-pub/System/PatternSkinTheme/top_bar_gradient.png 0644
 pub/System/PatternSkinTheme/variant_foswiki_frame_src.css 0644
 pub/System/PatternSkinTheme/variant_foswiki_frame.css 0644
 pub/System/PatternSkinTheme/variant_foswiki_frame.css.gz 0644
