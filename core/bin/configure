@@ -491,7 +491,7 @@ sub _validatefeedbackUI {
     }
     my $version = $query->http('X-Foswiki-FeedbackRequest') || '';
     unless ( $version =~ /^V(\d+)\.(\d+)(\.\d+)?$/ && $1 == 1 ) {
-        my $eicon = $Foswiki::resourceURI . "icon_error_white.gif";
+        my $eicon = $Foswiki::resourceURI . "icon_error.png";
         htmlResponse(
             (
 qq {<html><head></head><body><div class="configureFeedbackError">
