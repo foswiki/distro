@@ -1698,7 +1698,7 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 # email from Foswiki
 $Foswiki::cfg{EnableEmail} = $TRUE;
 
-# **STRING 30**
+# **EMAILADDRESS FEEDBACK=AUTO FEEDBACK="Send Test Email" 30**
 # Wiki administrator's e-mail address e.g. <code>webmaster@example.com</code>
 # (used in <code>%WIKIWEBMASTER%</code>)
 # NOTE: must be a single valid email address

@@ -1,28 +1,25 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::WebMasterEmail;
+package Foswiki::Configure::Types::EMAILADDRESS;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Types::STRING ();
+our @ISA = ('Foswiki::Configure::Types::STRING');
 
-sub check {
-    my $this = shift;
+sub string2value {
+    my ( $this, $val ) = @_;
 
-    if ( !$Foswiki::cfg{WebMasterEmail} ) {
-        return $this->ERROR(
-'Please make sure you enter the e-mail address of the webmaster. This is required for registration to work.'
-        );
-    }
+    return $val || '';
+}
 
-    #    $regex{emailAddrRegex} ...
-    if ( $Foswiki::cfg{WebMasterEmail} !~
-        /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i )
-    {
-        return $this->WARN('I don\'t recognise this as a valid email address.');
-    }
-    return '';
+sub equals {
+    my ( $this, $val, $def ) = @_;
+
+    return 0 if ( defined $def xor defined $val );
+    return 1 if ( !defined $def );
+
+    return $val eq $def;
 }
 
 1;

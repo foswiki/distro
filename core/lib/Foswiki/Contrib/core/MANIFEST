@@ -513,6 +513,7 @@ lib/Foswiki/Configure/Checkers/Certificate.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444
+lib/Foswiki/Configure/Checkers/Email/EMAILADDRESS.pm 0444
 lib/Foswiki/Configure/Checkers/Email/EnableSMIME.pm 0444
 lib/Foswiki/Configure/Checkers/Email/MailMethod.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeCertificateFile.pm 0444
@@ -590,7 +591,6 @@ lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/Validation/Method.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
-lib/Foswiki/Configure/Checkers/WebMasterEmail.pm 0444
 lib/Foswiki/Configure/Checkers/Welcome.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Checkers/cygwin.pm 0444
@@ -614,6 +614,7 @@ lib/Foswiki/Configure/TemplateParser/SimpleFreeMarker.pm 0444
 lib/Foswiki/Configure/Type.pm 0444
 lib/Foswiki/Configure/Types/BOOLEAN.pm 0444
 lib/Foswiki/Configure/Types/BOOLGROUP.pm 0444
+lib/Foswiki/Configure/Types/Email/EMAILADDRESS.pm 0444
 lib/Foswiki/Configure/Types/CGISetup.pm 0444
 lib/Foswiki/Configure/Types/COMMAND.pm 0444
 lib/Foswiki/Configure/Types/LANGUAGE.pm 0444
