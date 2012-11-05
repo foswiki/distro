@@ -48,6 +48,15 @@ our $REMARKER = "\0";
 # must be removed.  Used for email anti-spam encoding.
 our $REEND = "\1";
 
+# Temporary marker for <nop> and <literal> tags. They are used as follows:
+#  - Remove all <nop> and <literal>
+#  - Take out <input ..> tags
+#  - Restore all <nop> and <literal>
+#  - ... do other rendering
+#  - Put back all <input ...> tags
+#  - Remove any extraneous markers.
+our $NOPMARK = "\2";
+
 # Default format for a link to a non-existant topic
 use constant DEFAULT_NEWLINKFORMAT => <<'NLF';
 <span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span>
@@ -291,8 +300,10 @@ sub getRenderedVersion {
     }
 
     # Remove input fields: Item11480
+    $text =~ s/<nop>/N$NOPMARK/g;
     $text =
       $this->_takeOutProtected( $text, qr/<input\b.*?>/si, 'input', $removed );
+    $text =~ s/N$NOPMARK/<nop>/g;
 
     # Escape rendering: Change ' !AnyWord' to ' <nop>AnyWord',
     # for final ' AnyWord' output
@@ -526,6 +537,7 @@ sub getRenderedVersion {
 
     # Restore input fields before calling the end/post handlers
     $this->_putBackProtected( \$text, 'input', $removed );
+    $text =~ s/N$NOPMARK//g;
 
     Foswiki::putBackBlocks( \$text, $removed, 'pre' );
 
