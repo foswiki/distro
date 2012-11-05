@@ -500,10 +500,19 @@ sub test_tmpl_form {
 "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\""
     );
 
-    $this->assert_html_matches(
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect over-ridden" size="73" class="foswikiInputField foswikiMandatory" />',
+            get_formfield( 1, $text )
+        );
+
+    }
+    else {
+        $this->assert_html_matches(
 '<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
-        get_formfield( 1, $text )
-    );
+            get_formfield( 1, $text )
+        );
+    }
     $this->assert_html_matches(
 '<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
 Simple description of problem</textarea>', get_formfield( 2, $text )
@@ -823,10 +832,19 @@ sub test_unsavedtopic_rendersform {
                 $fatwilly->{request} );
         }
     );
-    $this->assert_html_matches(
-'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
-        get_formfield( 6, $text )
-    );
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect over-ridden" size="73" class="foswikiInputField foswikiMandatory" />',
+            get_formfield( 6, $text )
+        );
+    }
+    else {
+        $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defectn" size="73" class="foswikiInputField foswikiMandatory" />',
+            get_formfield( 6, $text )
+        );
+
+    }
 
     return;
 }
