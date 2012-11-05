@@ -220,7 +220,7 @@ sub studyInstallation {
             if ( -l "$dir/$path" ) {
 
                 # Assume pseudo-installed
-                $this->{installedVersion} = 'HEAD';
+                $this->{installedVersion} = '9999.99_999';
             }
             last;
         }

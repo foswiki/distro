@@ -280,7 +280,7 @@ sub getExtensions {
         if ( $ext->{installedRelease} ) {
 
             # The module is installed; check the version
-            if ( $ext->{installedVersion} eq 'HEAD' ) {
+            if ( $ext->{installedVersion} eq '9999.99_999' ) {
 
                 # pseudo-installed
                 $install = 'pseudo-installed';
