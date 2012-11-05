@@ -236,8 +236,6 @@ $query->delete('action');
 }
 $action =~ tr/A-Za-z0-9_-//cd;
 
-#$action = 'feedbackUI' if( $action =~ /^test$/i && $method eq 'POST' ); #PATH_INFO test
-
 our $redirect;
 
 my $usePinfo = 01;    # Check for OS/browser issues before turning on?
@@ -489,22 +487,31 @@ sub _validatefeedbackUI {
     if ( $query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
-    my $version = $query->http('X-Foswiki-FeedbackRequest') || '';
-    unless ( $version =~ /^V(\d+)\.(\d+)(\.\d+)?$/ && $1 == 1 ) {
-        my $eicon = $Foswiki::resourceURI . "icon_error.png";
-        htmlResponse(
-            (
-qq {<html><head></head><body><div class="configureFeedbackError">
-<h1><img src="$eicon">Invalid feedback request</h1>
-<p><p><p><strong>Feedback request was not accepted</strong><p>}
-                  . (
-                    $version
-                    ? "Invalid Feedback protocol: $version"
-                    : "Unidentified protocol"
-                  )
-                  . qq{</div></body></html>}
-            ),
+    my $version = $query->http('X-Foswiki-FeedbackRequest');
+    unless ( defined $version
+        && ( my $fmtOK = ( $version =~ /^V(\d+)\.(\d+)(\.\d+)?$/ ) )
+        && $1 == 1 )
+    {
+        # Note that this can ONLY happen if the javascript and
+        # this code get out of sync.
+
+        ::_loadBasicModule('Foswiki::Configure::UI');
+
+        my $html =
+          Foswiki::Configure::UI::getTemplateParser()
+          ->readTemplate('feedbackprotocol');
+        $html = Foswiki::Configure::UI::getTemplateParser()->parse(
+            $html,
+            {
+                RESOURCEURI => $resourceURI,
+                version     => $version,
+                etype       => ( defined $version ? ( $fmtOK ? 3 : 2 ) : 1 ),
+            }
         );
+        Foswiki::Configure::UI::getTemplateParser()
+          ->cleanupTemplateResidues($html);
+
+        htmlResponse( $html, 200 );
     }
 
     ::_loadBasicModule('Foswiki::Configure::Feedback');

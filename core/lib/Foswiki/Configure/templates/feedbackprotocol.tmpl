@@ -1,0 +1,40 @@
+<html>
+<head>
+<!-- This error is sent to a modal window when a feedback request
+     violates the protocl.  It is not a full HTML context; the
+     content inside the body tags will be inserted into a
+     configureFeedbackErrorWindow div.  Everything else is used
+     to identify this as a protocol exception, but is not displayed. -->
+</head>
+<#assign noHeader>
+    The message received was missing a FeedbackRequest header.
+    <p>The feedback mechanism is not for direct interactive use.
+</#assign>
+<#assign noVersion>
+    The message received had a malformed FeedbackRequest header.
+    <p> Please clear your browser's cache and refresh your window.
+    If this does not resolve the problem, your Foswiki installation
+    is corrupted.
+</#assign>
+<#assign versionSkew>
+    The message received was the wrong version (${version}).
+    <p> Please clear your browser's cache and refresh your window.
+    If this does not resolve the problem, your Foswiki installation
+    is corrupted.
+</#assign>
+<body>
+  <div class="configureFeedbackError">
+    <h1><img src="%RESOURCEURI%icon_error.png">Invalid feedback request</h1>
+        <h2>Feedback request was not accepted</h2><p>
+        <#if etype == 1>
+            ${noHeader}
+       </#if>
+        <#if etype == 2>
+            ${noVersion}
+       </#if>
+        <#if etype == 3>
+            ${versionSkew}
+       </#if>
+   </div>
+</body>
+</html>
