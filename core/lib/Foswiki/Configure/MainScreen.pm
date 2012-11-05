@@ -796,6 +796,12 @@ sub configureScreen {
     }
     $messages .= shift;
 
+    # Unless we already have status of unsaved changes, generate "none" status
+    # Also suppress if badLSC - the happy green checkmark would confuse.
+
+    $unsavedChangesNotice = unsavedChangesNotice( {} )
+      unless ( $unsavedChangesNotice || $badLSC );
+
     my $contents    = '';
     my $isFirstTime = $badLSC;
 

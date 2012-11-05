@@ -542,6 +542,10 @@ function toggleInfo(inId) {
 var enableWhenSomethingChangedElements = [];
 var showWhenNothingChangedElements = [];
 
+var unsaved = { id:'{ConfigureGUI}{Unsaved}status', value:'Not a button' },
+    statusTimer = undefined,
+    statusDeferred = false;
+
 /*
 Global fuction
 Value changes. Event when a value is edited; enables the save changes
@@ -563,8 +567,11 @@ function valueChanged(el) {
        }
         /* No feedback button found, fall through to default */
     default:
-        var unsaved = { id:'{ConfigureGUI}{Unsaved}status', value:'Not a button' };
-        doFeedback(unsaved);
+        if( statusTimer == undefined ) {
+            doFeedback(unsaved);
+        } else {
+            statusDeferred = true;
+        }
         break;
     }
     $(el).addClass('foswikiValueChanged');
@@ -912,6 +919,21 @@ function doFeedback(key, pathinfo) {
     /* Make the request
      * ** N.B. Definitely broken with jQuery 1.3 (unreliable selectors), 1.8.2 used.
      */
+
+    /* Block unsaved status updates for a while after any feedback request.
+     * This allows for bursts to merge, and helps to keep things seemingly responsive.
+     */
+
+    if( statusTimer != undefined ) {
+        window.clearTimeout(statusTimer);
+    }
+    statusTimer = window.setTimeout(function () {
+        statusTimer = undefined;
+        if( statusDeferred ) {
+            doFeedback(unsaved);
+        }
+        statusDeferred = false;
+    }, 1500);
 
     $.ajax({
         url: posturl,
