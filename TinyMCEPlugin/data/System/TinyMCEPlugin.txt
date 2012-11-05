@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" comment="pending" date="1335534328" format="1.1" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1335534328" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
