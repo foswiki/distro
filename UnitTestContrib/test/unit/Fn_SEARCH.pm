@@ -6649,7 +6649,7 @@ HERE
             }
         }
         ($topicObj) = Foswiki::Func::readTopic( $web, $topic );
-        $topicObj->text($metatext);
+        $topicObj->setEmbeddedStoreForm($metatext);
         $topicObj->save();
         $topicObj->finish();
     }
