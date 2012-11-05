@@ -881,6 +881,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  05 Nov 2012: | Foswikitask:Item8417: add VarCALCULATE macro to be used within the normal macro evaluation order. (name chosen for comaptibility ) |
 |  15 Oct 2012: | Foswikitask:Item12153: Use proper format of %<nop>SCRIPTURL% in CALC demo. |
 |  06 Apr 2012: (1.1.6) | Foswikitask:Item11523 - support $comma, $sp in SUBSTITUTE, REPLACE.<br />\
                   Foswikitask:Item11524 - Add FLOOR and CEILING macros. |

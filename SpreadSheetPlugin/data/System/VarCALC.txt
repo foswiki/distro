@@ -4,9 +4,10 @@
 ---+++ CALC{"formula"} -- add spreadsheet calculations to tables and outside tables
    * The =%<nop>CALC{"formula"}%= macro is handled by the SpreadSheetPlugin. There are around 90 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=.
    * Syntax: =%<nop>CALC{"formula"}%=
+   * This macro is specifically for manipulating data in tables, and so is evaluated after the normal Macro expansion order. If you need a standard ordered evaluation see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarCALCULATE][CALCULATE]]
    * Examples:
       * =%<nop>CALC{"$SUM($ABOVE())"}%= returns the sum of all cells above the current cell
       * =%<nop>CALC{"$EXISTS(<nop>Web.SomeTopic)"}%= returns =1= if the topic exists
       * =%<nop>CALC{"$UPPER(Collaboration)"}%= returns =COLLABORATION=
-   * Related: [[#VarIF][IF]], SpreadSheetPlugin
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarCALCULATE][CALCULATE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarIF][IF]], SpreadSheetPlugin
 
