@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.6_100 Alpha release
+---+!! Foswiki Release 1.1.6_001 Alpha release
 
 %TOC%
 
@@ -33,7 +33,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
-   * Foswiki 1.1.6_100 was built FIXME. It is a release that fixes some very important issues including some security related issues. It contains 85 fixes and 23 enhancements.
+   * Foswiki 1.1.6_001 was built 05 Nov 2012.. It is a release that fixes some very important issues including some security related issues. It contains 85 fixes and 23 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -122,11 +122,14 @@ disable Chili if your user community still is using the buggy browsers.
 [[%BUGS%/Item11480][Item11480]] now prevents the rendering of Topic Markup (TML) within input fields.  Previously if an input field was "pre-filled" with markup for ex: <b><code><literal>some *marked* text</literal><code></b>,
 it would be renderd as <b><code>some &lt;strong&gt;marked&lt;strong&gt; text</code></b>.   Foswiki will no longer render the contents of input fields.
 
-This exposes an issue.  If input field content is manually protected (for ex. using <code>&lt;nop&gt;%<nop>WIKINAME%</code> to prevent the rendering, the resulting html will be corrupted.
-The unencoded &lt; and &gt; are not legal within <code>&lt;input&gt;</code> tag and need to be removed.   Foswiki used &lt;nop&gt; in two places, which may need to be edited if you have customzed them.
-   * <code>templates/login.tmpl</code> used a <code>&lt;nop&gt;</code> to protect a wikiname from expanding within the usernamefield
-   * <code>%<nop>SIGNATUREFORMAT%</code> in System.DefaultPreferences also protected the wikiname from expanding.
-Neither of these are required and should be removed.  The <code>&lt;nop&gt;</code> will break rendering of the login and edit pages.
+This exposes a potential issue.   If input field initial content is manually protected using the <code>&lt;literal&gt;</code> to prevent the rendering, the resulting html will be corrupted.
+Foswiki allows for <code>&lt;nop&gt;</code>, however any other unencoded &lt; and &gt; is not legal within <code>&lt;input&gt;</code> tag and must be removed.
+
+<verbatim>
+   <input ... text=' WikiWord *bold* text'>   previously was rendered,  on 1.1.6 will be shown exactly as written.
+   <input ... text='<nop>WikiWord' >     Is acceptable,  but the <nop> is unnecessary.
+   <input ... text='<literal>some *bold* text</literal' >   The <literal> tags MUST be removed
+</verbatim>
 
 ---++ Important changes since Foswiki 1.1.4
 
