@@ -17,22 +17,22 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
 msgstr "%*(%1,den) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,hour) "
 msgstr "%*(%1,hodin) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:492
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minut) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:495
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund) "
 
@@ -168,7 +168,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 se pokusil o registraci s e-mailem %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:253
+#: core/lib/Foswiki/Render.pm:262
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 byl přejmenován nebo přesunut z %2 do %3. Kým/čím - %4."
 
@@ -365,7 +365,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Nápověda k formátování:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -595,6 +595,7 @@ msgid "Actions"
 msgstr "Akce"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
+#: PatternSkin/data/System/PatternSkinElements.txt:455
 msgid "Add"
 msgstr "Přidej"
 
@@ -900,6 +901,9 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: PatternSkin/data/System/PatternSkinElements.txt:422
+#: PatternSkin/data/System/PatternSkinElements.txt:431
+#: PatternSkin/data/System/PatternSkinElements.txt:451
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
@@ -1035,7 +1039,7 @@ msgstr "Vyberte nový formulář pro %1"
 msgid "Clear all"
 msgstr "Vymaž vše"
 
-#: core/lib/Foswiki/Render.pm:238
+#: core/lib/Foswiki/Render.pm:247
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1065,7 +1069,7 @@ msgstr "Komentář"
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:179
 msgid "Confirm password"
 msgstr "Potvrď heslo"
 
@@ -1155,7 +1159,7 @@ msgstr "Nemůžu vykonat vyhledávání. Chyba byla: %1"
 msgid "Could not save %1."
 msgstr "Nemohu uložit %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:263
 msgid "Country"
 msgstr "Země"
 
@@ -1204,11 +1208,10 @@ msgstr "Vaše osobní stránka"
 msgid "Create the topic"
 msgstr "Vytvořit článek"
 
-#: core/data/System/DefaultPreferences.txt:388
-#: core/data/System/DefaultPreferences.txt:390
+#: core/data/System/DefaultPreferences.txt:389
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:73
+#: core/lib/Foswiki/Render.pm:82
 msgid "Create this topic"
 msgstr "Vytvořit tento článek"
 
@@ -1250,6 +1253,7 @@ msgid "Default template"
 msgstr "Výchozí šablona"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/data/System/PatternSkinElements.txt:457
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:37 core/templates/renamedelete.tmpl:6
@@ -1446,7 +1450,7 @@ msgstr ""
 "Buď jste nevložil jméno souboru nebo soubor %1, který se pokoušíte nahrát "
 "nemá žádný obsah. Nemůžete nahrát prázdný soubor."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Email address"
 msgstr "Emailová adresa"
 
@@ -1490,10 +1494,6 @@ msgstr "Chyba při registraci uživatele %1"
 msgid "Error saving topic"
 msgstr "Chyba při uložení ćlánku"
 
-#: core/templates/login.tmpl:25
-msgid "Error: %1"
-msgstr "Chyba: %1"
-
 #: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Chyba: Příloha v %1,%2 neexistuje"
@@ -1526,7 +1526,7 @@ msgstr "Chyba při odebírání uživatelů ze skupin."
 msgid "Evil person"
 msgstr "Zlá osoba"
 
-#: core/lib/Foswiki/Plugins.pm:378
+#: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Chybné pluginy"
 
@@ -1559,7 +1559,7 @@ msgstr "Najít obdobné články"
 msgid "Find topics that link to %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
 msgstr "Křestní jméno"
 
@@ -1630,6 +1630,7 @@ msgid "Get notified on changes on this search"
 msgstr "Nechte se upozornit o změnách tohoto vyhledávání"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
+#: PatternSkin/data/System/PatternSkinElements.txt:459
 msgid "Globe"
 msgstr "Glóbus"
 
@@ -1692,8 +1693,12 @@ msgstr "Vítejte %1"
 msgid "Hello %1!"
 msgstr "Vítejte %1!"
 
+#: PatternSkin/data/System/PatternSkinElements.txt:637
+#: PatternSkin/data/System/PatternSkinElements.txt:651
+#: PatternSkin/data/System/PatternSkinElements.txt:665
+#: PatternSkin/data/System/PatternSkinElements.txt:711
 #: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
-#: core/templates/login.tmpl:45
+#: core/templates/login.tmpl:49
 msgid "Help"
 msgstr "Nápověda"
 
@@ -1702,7 +1707,7 @@ msgid "Hide file"
 msgstr "Skrýt soubor"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
-#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
 msgid "Hide help"
 msgstr "Skrýt nápovědu"
 
@@ -1749,7 +1754,7 @@ msgid ""
 "it."
 msgstr "Jakkoliv, soubor byl změněn z %1 na %2. Prosím učiňte o tom poznámku."
 
-#: core/templates/login.tmpl:61
+#: core/templates/login.tmpl:65
 msgid "I forgot my password"
 msgstr "Zapomněl jsem své heslo"
 
@@ -1839,7 +1844,7 @@ msgstr "Pokud máte libovolné otázky o registraci, pošlete email %1."
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:72
+#: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
 msgstr "Pokud máte jakékoliv otázky, kontaktujte prosím %1."
 
@@ -1940,6 +1945,7 @@ msgid "Index"
 msgstr "Index"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
+#: PatternSkin/data/System/PatternSkinElements.txt:453
 msgid "Info"
 msgstr "Info"
 
@@ -2034,7 +2040,7 @@ msgstr "Naposledy změněno"
 msgid "Last modified time"
 msgstr "Naposledy změněno"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 msgid "Last name"
 msgstr "Příjmení"
 
@@ -2090,11 +2096,12 @@ msgid "Log on with your username and password"
 msgstr "Přihlašte se pomocí vášeho jména a hesla"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
 msgstr "Přihlašovací jméno"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
 msgstr "Přihlašovací jméno"
 
@@ -2102,9 +2109,13 @@ msgstr "Přihlašovací jméno"
 msgid "Login name %1"
 msgstr "Přihlášen %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:71
 msgid "Logon"
+msgstr "Přihlásit"
+
+#: core/templates/foswiki.tmpl:43
+#, fuzzy
+msgid "Logout"
 msgstr "Přihlásit"
 
 #: core/templates/messages.tmpl:285
@@ -2373,6 +2384,7 @@ msgid "Number of topics: %1"
 msgstr "Počet článků: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
+#: PatternSkin/data/System/PatternSkinElements.txt:449
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
 #: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
@@ -2434,18 +2446,17 @@ msgstr "Volitelně vložte odlišné jméno článku:"
 msgid "Options"
 msgstr "Vlastnosti"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 msgid "Organisation name"
 msgstr "Jméno organizace:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
 msgid "Organisation website"
 msgstr "Webové stránky arganizace"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:57
+#: core/templates/login.tmpl:61
 msgid "Password"
 msgstr "Heslo"
 
@@ -2554,7 +2565,7 @@ msgid ""
 msgstr ""
 "Přejděte prosím na %1 a změňte Vaše heslo na něco, co si snáže zapamatujete."
 
-#: core/lib/Foswiki/Plugins.pm:419
+#: core/lib/Foswiki/Plugins.pm:417
 msgid "Plugin handlers"
 msgstr "Držátka pluginů :)"
 
@@ -2600,7 +2611,7 @@ msgstr "Verze pro tisk (p)"
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: core/lib/Foswiki/Render.pm:246
+#: core/lib/Foswiki/Render.pm:255
 msgid "Put it back..."
 msgstr "Vložit zpět ..."
 
@@ -2663,7 +2674,7 @@ msgstr "Obnov"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:14
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registruj"
@@ -2704,7 +2715,7 @@ msgstr "Hledání pomocí regulárních výrazů"
 msgid "Related topics:"
 msgstr "Podobné články:"
 
-#: core/templates/login.tmpl:63
+#: core/templates/login.tmpl:67
 msgid "Remember me on this computer"
 msgstr "Zapomatuj si mě na tomto počítači."
 
@@ -3009,7 +3020,7 @@ msgstr "Viz nápověda níže pro editaci této stránky."
 msgid "See changes since:"
 msgstr "Zkontrolujte změny od:"
 
-#: core/lib/Foswiki/Plugins.pm:263
+#: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -3017,7 +3028,7 @@ msgstr ""
 msgid "Select"
 msgstr "Vyber"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:231
 msgid "Select Group %1 to join"
 msgstr "Pro zapojení se vyber skupinu %1"
 
@@ -3155,6 +3166,8 @@ msgstr "Statistiky"
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: PatternSkin/data/System/PatternSkinElements.txt:418
+#: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
 #: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
@@ -3347,7 +3360,7 @@ msgid ""
 "without saving."
 msgstr "%1 pravděpodobně odešel pryč z editování stránky bez uložení změn."
 
-#: core/templates/renamebase.tmpl:73
+#: core/templates/renamebase.tmpl:72
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -3423,7 +3436,7 @@ msgstr "Formulář měl být definován ve článku %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Zámek na tomto článku vypršel před %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
 msgstr "Nízev účtu kterů používáte pro přihlášení."
 
@@ -3572,7 +3585,7 @@ msgstr ""
 msgid "This is why the conversion is disabled:"
 msgstr "Toto je důvod vypnuté konverze:"
 
-#: core/templates/login.tmpl:27
+#: core/templates/login.tmpl:31
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
@@ -3870,8 +3883,7 @@ msgstr "Účet %1 byl vymazán"
 msgid "User Reference"
 msgstr "Uživatelské reference"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:39
+#: core/templates/login.tmpl:43
 msgid "Username"
 msgstr "Váš účet"
 
@@ -3913,6 +3925,11 @@ msgstr "Historické verze %1"
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
 msgstr "Náhled"
+
+#: core/templates/foswiki.tmpl:155
+#, fuzzy
+msgid "View complete topic history"
+msgstr "Ukaž celou historii článku"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -3961,7 +3978,6 @@ msgid "View topic"
 msgstr "Ukaž článek"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Ukaž celou historii článku"
 
@@ -4077,7 +4093,7 @@ msgstr "Proč jsem byl dotazován na potvrzení?"
 msgid "Wiki administrators should read about the %1."
 msgstr "Administrátoři Wiki by si měli přečíst %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 msgid "Wiki name"
 msgstr "Wiki jméno"
 
@@ -4148,7 +4164,8 @@ msgstr ""
 "alfanumerické znaky."
 
 #: core/templates/messages.tmpl:673
-msgid "You are trying to %1 an attachment that does not exist."
+#, fuzzy
+msgid "You are trying to access an attachment that does not exist."
 msgstr "Zkoušíte %1 k příloze, která neexistuje."
 
 #: core/templates/messages.tmpl:661
@@ -4310,7 +4327,7 @@ msgstr ""
 "nebo vložte kód do pole níže, aby jste aktivoval Vaše členství. (Tento kód "
 "je ve formě \"VašeJméno.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
 msgstr "Vaše emailová adresa bude vedena v tajnosti."
 
@@ -4322,7 +4339,7 @@ msgstr ""
 "Váš jazyk bude od další obrazovky změněn na %1. Nyní tam budete "
 "přesměrováni. Pokud ne, [[%2][klikněte zde]] pro pokračování."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:156
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
@@ -4332,7 +4349,7 @@ msgstr ""
 "WikiName][Wiki name]]. Výchozí nastavení je takové, že je odvozeno z "
 "křestního jména a příjmení."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 msgid "Your password"
 msgstr "Vaše heslo"
 
@@ -4418,27 +4435,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "_jméno_jazyka"
 
-#: core/lib/Foswiki/Meta.pm:1840
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "přístup na root není povolen"
 
-#: core/lib/Foswiki/Meta.pm:1778
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "přístup ke článku nepovolen"
 
-#: core/lib/Foswiki/Meta.pm:1813
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "přístup k webu nepovolen"
 
-#: core/lib/Foswiki/Meta.pm:1850
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "přístup na root není povolen"
 
-#: core/lib/Foswiki/Meta.pm:1797
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "přístup ke článku nepovolen"
 
-#: core/lib/Foswiki/Meta.pm:1825
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "přístup k webu není povolen"
 
@@ -4676,6 +4693,9 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "Error: %1"
+#~ msgstr "Chyba: %1"
 
 #~ msgid "Create topic"
 #~ msgstr "Vytvoř článek"

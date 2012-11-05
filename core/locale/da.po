@@ -18,22 +18,22 @@ msgstr ""
 "X-Generator: Pootle 2.1.6\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
 msgstr "%*(%1,dag) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,hour) "
 msgstr "%*(%1,time) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:492
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minut) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:495
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekund)"
 
@@ -177,7 +177,7 @@ msgstr "%1 prøvede at registrere med e-mail-adressen %2"
 #   $date,
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:253
+#: core/lib/Foswiki/Render.pm:262
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 blev omdøbt eller flyttet fra %2 den %3 af %4"
 
@@ -375,7 +375,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Hjælp til formattering af teksten*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -612,6 +612,7 @@ msgid "Actions"
 msgstr "Handlinger"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
+#: PatternSkin/data/System/PatternSkinElements.txt:455
 msgid "Add"
 msgstr "Tilføj"
 
@@ -917,6 +918,9 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: PatternSkin/data/System/PatternSkinElements.txt:422
+#: PatternSkin/data/System/PatternSkinElements.txt:431
+#: PatternSkin/data/System/PatternSkinElements.txt:451
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
@@ -1054,7 +1058,7 @@ msgstr "Vælg en ny formular for %1"
 msgid "Clear all"
 msgstr "Nulstil alle"
 
-#: core/lib/Foswiki/Render.pm:238
+#: core/lib/Foswiki/Render.pm:247
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1085,7 +1089,7 @@ msgstr "Kommentar"
 msgid "Compare revisions"
 msgstr "Sammenlign versioner"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:179
 msgid "Confirm password"
 msgstr "Bekræft adgangskode"
 
@@ -1176,7 +1180,7 @@ msgstr "Kunne ikke udføre søgning. Fejlen var: %1"
 msgid "Could not save %1."
 msgstr "%1 kunne ikke gemmes."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:263
 msgid "Country"
 msgstr "Land"
 
@@ -1227,11 +1231,10 @@ msgstr "Opret personlig venstre-menu"
 msgid "Create the topic"
 msgstr "Opret siden"
 
-#: core/data/System/DefaultPreferences.txt:388
-#: core/data/System/DefaultPreferences.txt:390
+#: core/data/System/DefaultPreferences.txt:389
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:73
+#: core/lib/Foswiki/Render.pm:82
 msgid "Create this topic"
 msgstr "Opret denne side"
 
@@ -1273,6 +1276,7 @@ msgid "Default template"
 msgstr "Standard-skabelon"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/data/System/PatternSkinElements.txt:457
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:37 core/templates/renamedelete.tmpl:6
@@ -1475,7 +1479,7 @@ msgstr ""
 "Enten er filnavnet ikke blevet opgivet korrekt, eller filen der ønskes "
 "uploadet (%1) er tom. Tomme filer kan ikke uploades."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Email address"
 msgstr "E-mail-adresse"
 
@@ -1520,10 +1524,6 @@ msgstr "Fejl ved registrering af brugeren %1"
 msgid "Error saving topic"
 msgstr "Fejl ved skrivning af siden"
 
-#: core/templates/login.tmpl:25
-msgid "Error: %1"
-msgstr "Fejl: %1"
-
 #: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Fejl: Den vedhæftede fil på siden %1, %2, eksisterer ikke"
@@ -1556,7 +1556,7 @@ msgstr "Fejl under fjernelse af brugere fra gruppe"
 msgid "Evil person"
 msgstr "Ond person"
 
-#: core/lib/Foswiki/Plugins.pm:378
+#: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Fejlende plugins"
 
@@ -1589,7 +1589,7 @@ msgstr "Find lignende sider"
 msgid "Find topics that link to %1 ..."
 msgstr "Find sider der refererer til %1 ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
 msgstr "Fornavn"
 
@@ -1660,6 +1660,7 @@ msgid "Get notified on changes on this search"
 msgstr "Få notificering om ændringer i resultaterne af denne søgning"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
+#: PatternSkin/data/System/PatternSkinElements.txt:459
 msgid "Globe"
 msgstr "Globe"
 
@@ -1722,8 +1723,12 @@ msgstr "Hej %1"
 msgid "Hello %1!"
 msgstr "Hej %1!"
 
+#: PatternSkin/data/System/PatternSkinElements.txt:637
+#: PatternSkin/data/System/PatternSkinElements.txt:651
+#: PatternSkin/data/System/PatternSkinElements.txt:665
+#: PatternSkin/data/System/PatternSkinElements.txt:711
 #: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
-#: core/templates/login.tmpl:45
+#: core/templates/login.tmpl:49
 msgid "Help"
 msgstr "Hjælp"
 
@@ -1732,7 +1737,7 @@ msgid "Hide file"
 msgstr "Skjul fil"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
-#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
 msgid "Hide help"
 msgstr "Skjul hjælp"
 
@@ -1779,7 +1784,7 @@ msgid ""
 "it."
 msgstr "Dog er filnavnet blevet ændret fra %1 til %2. _Bemærk venligst dette_."
 
-#: core/templates/login.tmpl:61
+#: core/templates/login.tmpl:65
 msgid "I forgot my password"
 msgstr "Jeg har glemt mn adgangskode"
 
@@ -1871,7 +1876,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:72
+#: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
@@ -1978,6 +1983,7 @@ msgid "Index"
 msgstr "Index"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
+#: PatternSkin/data/System/PatternSkinElements.txt:453
 msgid "Info"
 msgstr "Information"
 
@@ -2072,7 +2078,7 @@ msgstr "Sidst ændret"
 msgid "Last modified time"
 msgstr "Sidst ændret"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 msgid "Last name"
 msgstr "Efternavn"
 
@@ -2128,11 +2134,12 @@ msgid "Log on with your username and password"
 msgstr "Angiv venligst dit brugernavn og adgangskode"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
 msgstr "Brugernavn"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
 msgstr "Brugernavn"
 
@@ -2140,9 +2147,13 @@ msgstr "Brugernavn"
 msgid "Login name %1"
 msgstr "Brugernavn %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:71
 msgid "Logon"
+msgstr "Log ind"
+
+#: core/templates/foswiki.tmpl:43
+#, fuzzy
+msgid "Logout"
 msgstr "Log ind"
 
 #: core/templates/messages.tmpl:285
@@ -2413,6 +2424,7 @@ msgid "Number of topics: %1"
 msgstr "Antal sider: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
+#: PatternSkin/data/System/PatternSkinElements.txt:449
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
 #: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
@@ -2474,18 +2486,17 @@ msgstr "Benyt eventuelt et andet sidenavn (valgfrit):"
 msgid "Options"
 msgstr "Valgmuligheder"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 msgid "Organisation name"
 msgstr "Organisationsnavn"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
 msgid "Organisation website"
 msgstr "Organisationens webside"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:57
+#: core/templates/login.tmpl:61
 msgid "Password"
 msgstr "Adgangskode"
 
@@ -2595,7 +2606,7 @@ msgstr ""
 "Besøg venligst siden %1 for at ændre din adgangskode til et der er lettere "
 "at huske."
 
-#: core/lib/Foswiki/Plugins.pm:419
+#: core/lib/Foswiki/Plugins.pm:417
 msgid "Plugin handlers"
 msgstr "Plugin handlers"
 
@@ -2641,7 +2652,7 @@ msgstr "Printbar version af denne side (p)"
 msgid "Properties"
 msgstr "Ekstra muligheder"
 
-#: core/lib/Foswiki/Render.pm:246
+#: core/lib/Foswiki/Render.pm:255
 msgid "Put it back..."
 msgstr "Flyt siden tilbage..."
 
@@ -2704,7 +2715,7 @@ msgstr "Genopfrisk"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:14
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registrér dig"
@@ -2746,7 +2757,7 @@ msgstr "Søg med regulære udtryk"
 msgid "Related topics:"
 msgstr "Relaterede sider:"
 
-#: core/templates/login.tmpl:63
+#: core/templates/login.tmpl:67
 msgid "Remember me on this computer"
 msgstr "Husk mig på denne PC"
 
@@ -3050,7 +3061,7 @@ msgstr "See nedenfor for hjælp til at editere denne side"
 msgid "See changes since:"
 msgstr "Ændrede sider de seneste:"
 
-#: core/lib/Foswiki/Plugins.pm:263
+#: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -3058,7 +3069,7 @@ msgstr ""
 msgid "Select"
 msgstr "Vælg"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:231
 msgid "Select Group %1 to join"
 msgstr "Vælg gruppe %1 at være med i"
 
@@ -3197,6 +3208,8 @@ msgstr "Statistik"
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: PatternSkin/data/System/PatternSkinElements.txt:418
+#: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
 #: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
@@ -3393,7 +3406,7 @@ msgstr ""
 "Det er meget sandsynligt at %1 simpelthen har navigeret væk fra "
 "redigeringssiden uden at gemme ændringerne."
 
-#: core/templates/renamebase.tmpl:73
+#: core/templates/renamebase.tmpl:72
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -3470,7 +3483,7 @@ msgstr "Formularen skal defineres på siden %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Låsen på denne side udløb for %1 siden."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
 msgstr "Brugernavnet du bruger ved login."
 
@@ -3625,7 +3638,7 @@ msgstr ""
 msgid "This is why the conversion is disabled:"
 msgstr "Dette er årsagen til at konverteringen er deaktiveret:"
 
-#: core/templates/login.tmpl:27
+#: core/templates/login.tmpl:31
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
@@ -3923,8 +3936,7 @@ msgstr "Brugernavn %1 slettet"
 msgid "User Reference"
 msgstr "Brugervejledninger"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:39
+#: core/templates/login.tmpl:43
 msgid "Username"
 msgstr "Brugernavn"
 
@@ -3966,6 +3978,11 @@ msgstr "Versionshistorik for %1"
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
 msgstr "Vis"
+
+#: core/templates/foswiki.tmpl:155
+#, fuzzy
+msgid "View complete topic history"
+msgstr "Vis komplet historik for siden"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -4014,7 +4031,6 @@ msgid "View topic"
 msgstr "Vis side"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Vis komplet historik for siden"
 
@@ -4131,7 +4147,7 @@ msgstr "Hvorfor bliver jeg bedt om at bekræfte?"
 msgid "Wiki administrators should read about the %1."
 msgstr "Wiki-administratorer bør læse om"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 msgid "Wiki name"
 msgstr "Wikinavn"
 
@@ -4202,7 +4218,8 @@ msgstr ""
 "indeholde bogstaver og tal."
 
 #: core/templates/messages.tmpl:673
-msgid "You are trying to %1 an attachment that does not exist."
+#, fuzzy
+msgid "You are trying to access an attachment that does not exist."
 msgstr ""
 "Du forsøger at udføre handlingen %1 på en vedhæftet fil der ikke eksisterer."
 
@@ -4374,7 +4391,7 @@ msgstr ""
 "nedenfor - for at aktivere dit brugernavn (aktiveringskoden har formatet "
 "\"DitNavn.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
 msgstr "Din e-mail-adresse vil blive holdt fortrolig."
 
@@ -4387,7 +4404,7 @@ msgstr ""
 "viderestillet. Hvis det ikke sker automatisk, så [[%2][klik her]] for at "
 "fortsætte."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:156
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
@@ -4397,7 +4414,7 @@ msgstr ""
 "[[%SYSTEMWEB%.WikiName][Wiki navn]]. Som udgangspunkt er det afledt af dit "
 "for- og efternavn."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 msgid "Your password"
 msgstr "Din adgangskode"
 
@@ -4485,27 +4502,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Dansk"
 
-#: core/lib/Foswiki/Meta.pm:1840
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "adgang til root nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1778
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "adgang til siden nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1813
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "adgang til webbet nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1850
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "adgang til root ikke tilladt "
 
-#: core/lib/Foswiki/Meta.pm:1797
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "adgang til siden ikke tilladt "
 
-#: core/lib/Foswiki/Meta.pm:1825
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "adgang til webbet ikke tilladt "
 
@@ -4742,6 +4759,9 @@ msgstr "vis"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
+
+#~ msgid "Error: %1"
+#~ msgstr "Fejl: %1"
 
 #~ msgid "Create topic"
 #~ msgstr "Opret side"

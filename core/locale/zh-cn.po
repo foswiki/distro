@@ -20,22 +20,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
 msgstr "%*(%1,天) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,hour) "
 msgstr "%*(%1,小时) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:492
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,minute) "
 msgstr "%*(%1,分钟) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:495
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
 msgstr "%*(%1,秒)"
 
@@ -185,7 +185,7 @@ msgstr "%1 试着以电子邮件 %2 注册"
 # $date,
 # $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:253
+#: core/lib/Foswiki/Render.pm:262
 #, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -384,7 +384,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*格式说明:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -600,6 +600,7 @@ msgid "Actions"
 msgstr "功能"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
+#: PatternSkin/data/System/PatternSkinElements.txt:455
 #, fuzzy
 msgid "Add"
 msgstr "加一列"
@@ -906,6 +907,9 @@ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: PatternSkin/data/System/PatternSkinElements.txt:422
+#: PatternSkin/data/System/PatternSkinElements.txt:431
+#: PatternSkin/data/System/PatternSkinElements.txt:451
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
@@ -1044,7 +1048,7 @@ msgstr "为 %1 选个新表单"
 msgid "Clear all"
 msgstr "全部清除"
 
-#: core/lib/Foswiki/Render.pm:238
+#: core/lib/Foswiki/Render.pm:247
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1073,7 +1077,7 @@ msgstr "评论"
 msgid "Compare revisions"
 msgstr "比较版本"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:179
 #, fuzzy
 msgid "Confirm password"
 msgstr "您的密码:"
@@ -1159,7 +1163,7 @@ msgstr "无法搜寻，错误: %1"
 msgid "Could not save %1."
 msgstr "%1 无法保存。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:263
 #, fuzzy
 msgid "Country"
 msgstr "国家:"
@@ -1214,11 +1218,10 @@ msgstr "编辑个人资料"
 msgid "Create the topic"
 msgstr "建立主题"
 
-#: core/data/System/DefaultPreferences.txt:388
-#: core/data/System/DefaultPreferences.txt:390
+#: core/data/System/DefaultPreferences.txt:389
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:73
+#: core/lib/Foswiki/Render.pm:82
 msgid "Create this topic"
 msgstr "建立这个主题"
 
@@ -1260,6 +1263,7 @@ msgid "Default template"
 msgstr "预设范本"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/data/System/PatternSkinElements.txt:457
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:37 core/templates/renamedelete.tmpl:6
@@ -1448,7 +1452,7 @@ msgid ""
 "%1 has no content. You may not upload an empty file."
 msgstr "未指定档名，或上传的档案 %1 没有内容。不能上传空档。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 #, fuzzy
 msgid "Email address"
 msgstr "电子邮件位址:"
@@ -1492,10 +1496,6 @@ msgstr "注册用户 %1 发生错误"
 msgid "Error saving topic"
 msgstr "主题保存失败"
 
-#: core/templates/login.tmpl:25
-msgid "Error: %1"
-msgstr "错误: %1"
-
 #: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "错误: %1 的附件 %2 不存在"
@@ -1529,7 +1529,7 @@ msgstr ""
 msgid "Evil person"
 msgstr "编辑个人资料"
 
-#: core/lib/Foswiki/Plugins.pm:378
+#: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr ""
 
@@ -1563,7 +1563,7 @@ msgstr "寻找相似主题"
 msgid "Find topics that link to %1 ..."
 msgstr "找连到 %1 的主题..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 #, fuzzy
 msgid "First name"
 msgstr "名:"
@@ -1634,6 +1634,7 @@ msgid "Get notified on changes on this search"
 msgstr "得到此搜寻的修改通知"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
+#: PatternSkin/data/System/PatternSkinElements.txt:459
 #, fuzzy
 msgid "Globe"
 msgstr "关闭"
@@ -1696,8 +1697,12 @@ msgstr "您好 %1"
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
+#: PatternSkin/data/System/PatternSkinElements.txt:637
+#: PatternSkin/data/System/PatternSkinElements.txt:651
+#: PatternSkin/data/System/PatternSkinElements.txt:665
+#: PatternSkin/data/System/PatternSkinElements.txt:711
 #: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
-#: core/templates/login.tmpl:45
+#: core/templates/login.tmpl:49
 msgid "Help"
 msgstr "说明"
 
@@ -1706,7 +1711,7 @@ msgid "Hide file"
 msgstr "隐藏档案 "
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
-#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
 msgid "Hide help"
 msgstr "隐藏说明"
 
@@ -1750,7 +1755,7 @@ msgid ""
 "it."
 msgstr "档案已从 %1 改名为 %2。请加上备注。"
 
-#: core/templates/login.tmpl:61
+#: core/templates/login.tmpl:65
 msgid "I forgot my password"
 msgstr "我忘记密码"
 
@@ -1835,7 +1840,7 @@ msgstr "有任何关于注册的问题，请寄电子邮件给 %1。"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:72
+#: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
 msgstr "任何问题，请联系 %1。"
 
@@ -1931,6 +1936,7 @@ msgid "Index"
 msgstr "索引"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
+#: PatternSkin/data/System/PatternSkinElements.txt:453
 msgid "Info"
 msgstr ""
 
@@ -2025,7 +2031,7 @@ msgstr "最后修改时间"
 msgid "Last modified time"
 msgstr "最后修改时间"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 #, fuzzy
 msgid "Last name"
 msgstr "姓:"
@@ -2084,11 +2090,12 @@ msgid "Log on with your username and password"
 msgstr "请输入您的用户名和密码"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
 msgstr "登录名 %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 #, fuzzy
 msgid "Login name"
 msgstr "登录名 %1"
@@ -2097,9 +2104,13 @@ msgstr "登录名 %1"
 msgid "Login name %1"
 msgstr "登录名 %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:71
 msgid "Logon"
+msgstr "登录"
+
+#: core/templates/foswiki.tmpl:43
+#, fuzzy
+msgid "Logout"
 msgstr "登录"
 
 #: core/templates/messages.tmpl:285
@@ -2371,6 +2382,7 @@ msgid "Number of topics: %1"
 msgstr "主题数量:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
+#: PatternSkin/data/System/PatternSkinElements.txt:449
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
 #: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
@@ -2434,20 +2446,19 @@ msgstr "输入不同的主题名称（非必要）:"
 msgid "Options"
 msgstr "功能"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 #, fuzzy
 msgid "Organisation name"
 msgstr "组织名称:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
 #, fuzzy
 msgid "Organisation website"
 msgstr "组织名称:"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:57
+#: core/templates/login.tmpl:61
 msgid "Password"
 msgstr "密码"
 
@@ -2555,7 +2566,7 @@ msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "请至 %1 将您的密码设成自己较容易记的."
 
-#: core/lib/Foswiki/Plugins.pm:419
+#: core/lib/Foswiki/Plugins.pm:417
 msgid "Plugin handlers"
 msgstr ""
 
@@ -2602,7 +2613,7 @@ msgstr "title='列印本主题' accesskey='p' >列印(&P)"
 msgid "Properties"
 msgstr "属性"
 
-#: core/lib/Foswiki/Render.pm:246
+#: core/lib/Foswiki/Render.pm:255
 #, fuzzy
 msgid "Put it back..."
 msgstr "放回"
@@ -2668,7 +2679,7 @@ msgstr "更新"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:14
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "注册"
@@ -2707,7 +2718,7 @@ msgstr "正则运算式搜寻"
 msgid "Related topics:"
 msgstr "相关主题:"
 
-#: core/templates/login.tmpl:63
+#: core/templates/login.tmpl:67
 msgid "Remember me on this computer"
 msgstr "在此电脑上记住我"
 
@@ -3009,7 +3020,7 @@ msgstr "编辑此页请参考以下说明."
 msgid "See changes since:"
 msgstr "检查最近的更新:"
 
-#: core/lib/Foswiki/Plugins.pm:263
+#: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -3017,7 +3028,7 @@ msgstr ""
 msgid "Select"
 msgstr "选择"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:231
 msgid "Select Group %1 to join"
 msgstr ""
 
@@ -3153,6 +3164,8 @@ msgstr "统计"
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: PatternSkin/data/System/PatternSkinElements.txt:418
+#: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
 #: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
@@ -3333,7 +3346,7 @@ msgid ""
 "without saving."
 msgstr "若 %1 仅浏览到编辑页而未保存是没有问题的。"
 
-#: core/templates/renamebase.tmpl:73
+#: core/templates/renamebase.tmpl:72
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -3400,7 +3413,7 @@ msgstr "主题 %1 内应定义此表单"
 msgid "The lease on this topic expired %1 ago."
 msgstr "本主题的锁定期于 %1 前到期。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -3543,7 +3556,7 @@ msgstr ""
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
-#: core/templates/login.tmpl:27
+#: core/templates/login.tmpl:31
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
@@ -3841,8 +3854,7 @@ msgstr "删除用户帐号 %1"
 msgid "User Reference"
 msgstr "用户手册"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:39
+#: core/templates/login.tmpl:43
 msgid "Username"
 msgstr "用户名"
 
@@ -3882,6 +3894,11 @@ msgstr "%1 的版本历史"
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
 msgstr "浏览"
+
+#: core/templates/foswiki.tmpl:155
+#, fuzzy
+msgid "View complete topic history"
+msgstr "检视主题完整修订史"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -3935,7 +3952,6 @@ msgid "View topic"
 msgstr "检视主题"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "检视主题完整修订史"
 
@@ -4052,7 +4068,7 @@ msgstr "为何您被要求确认"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 #, fuzzy
 msgid "Wiki name"
 msgstr "主题名称"
@@ -4121,7 +4137,8 @@ msgstr ""
 "文字母及数字。"
 
 #: core/templates/messages.tmpl:673
-msgid "You are trying to %1 an attachment that does not exist."
+#, fuzzy
+msgid "You are trying to access an attachment that does not exist."
 msgstr "%1 的附件不存在。"
 
 #: core/templates/messages.tmpl:661
@@ -4267,7 +4284,7 @@ msgstr ""
 "您的启动码已经寄到 %1 。点击电子邮件中的连结或在下面输入代码以启动会员资格"
 "（启动码格式 \"YourName.xxxxxxxxxx\"）"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -4278,14 +4295,14 @@ msgid ""
 msgstr ""
 "您的语言将在下个荧幕改成 %1。现在您即将转到那里。若否，请[[%2][点击这里]]。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:156
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 #, fuzzy
 msgid "Your password"
 msgstr "您的密码:"
@@ -4363,27 +4380,27 @@ msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 msgid "_language_name"
 msgstr "简体中文"
 
-#: core/lib/Foswiki/Meta.pm:1840
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "禁止浏览根目录"
 
-#: core/lib/Foswiki/Meta.pm:1778
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "禁止浏览主题"
 
-#: core/lib/Foswiki/Meta.pm:1813
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "禁止浏览子网"
 
-#: core/lib/Foswiki/Meta.pm:1850
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "不允许浏览根目录"
 
-#: core/lib/Foswiki/Meta.pm:1797
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "不允许浏览主题"
 
-#: core/lib/Foswiki/Meta.pm:1825
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "不允许浏览子网"
 
@@ -4621,6 +4638,9 @@ msgstr "浏览"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "为何您被要求确认"
+
+#~ msgid "Error: %1"
+#~ msgstr "错误: %1"
 
 #, fuzzy
 #~ msgid "Create topic"

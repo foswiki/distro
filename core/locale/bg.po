@@ -20,22 +20,22 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
 msgstr "%*(%1,ден) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,hour) "
 msgstr "%*(%1,час) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:492
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,minute) "
 msgstr "%*(%1,минута) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:495
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
 msgstr "%*(%1,секунда) "
 
@@ -178,7 +178,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 се опита да се регистрира с електронна поща %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:253
+#: core/lib/Foswiki/Render.pm:262
 #, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 е преместен(а) от %2 на %3 от %4"
@@ -379,7 +379,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Как да форматирате*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -621,6 +621,7 @@ msgid "Actions"
 msgstr "Действие"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
+#: PatternSkin/data/System/PatternSkinElements.txt:455
 #, fuzzy
 msgid "Add"
 msgstr "Добавяне на ред"
@@ -940,6 +941,9 @@ msgstr "Няма e-mail-адрес за %1 (задължителен за нул
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: PatternSkin/data/System/PatternSkinElements.txt:422
+#: PatternSkin/data/System/PatternSkinElements.txt:431
+#: PatternSkin/data/System/PatternSkinElements.txt:451
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
@@ -1081,7 +1085,7 @@ msgstr "Изберете нова форма за %1"
 msgid "Clear all"
 msgstr "Изчистван на всичко"
 
-#: core/lib/Foswiki/Render.pm:238
+#: core/lib/Foswiki/Render.pm:247
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1112,7 +1116,7 @@ msgstr "Коментар"
 msgid "Compare revisions"
 msgstr "Сравняване на версиите"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:179
 #, fuzzy
 msgid "Confirm password"
 msgstr "Вашата парола:"
@@ -1203,7 +1207,7 @@ msgstr "Търсенето е невъзможно. Грешката беше: %
 msgid "Could not save %1."
 msgstr "Неуспешен запис на %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:263
 #, fuzzy
 msgid "Country"
 msgstr "Страна:"
@@ -1257,11 +1261,10 @@ msgstr "Създаване на личен страничен панел"
 msgid "Create the topic"
 msgstr "Създаване на Страницата"
 
-#: core/data/System/DefaultPreferences.txt:388
-#: core/data/System/DefaultPreferences.txt:390
+#: core/data/System/DefaultPreferences.txt:389
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:73
+#: core/lib/Foswiki/Render.pm:82
 msgid "Create this topic"
 msgstr "Създаване на тази Страница"
 
@@ -1303,6 +1306,7 @@ msgid "Default template"
 msgstr "Шаблон по подразбиране"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/data/System/PatternSkinElements.txt:457
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:37 core/templates/renamedelete.tmpl:6
@@ -1507,7 +1511,7 @@ msgstr ""
 "Не сте предоставили име за файла или файла, който се опитвате да качите"
 "( %1 ) е празен. Не може да качите празен файл."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 #, fuzzy
 msgid "Email address"
 msgstr "E-mail адрес:"
@@ -1550,10 +1554,6 @@ msgstr "Грешка при регистрация на потребител %1"
 msgid "Error saving topic"
 msgstr "Грешка при запис на страницата"
 
-#: core/templates/login.tmpl:25
-msgid "Error: %1"
-msgstr "Грешка: %1"
-
 #: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Грешка: прикрепенияткъм %1файл %2, does not exist"
@@ -1588,7 +1588,7 @@ msgstr ""
 msgid "Evil person"
 msgstr "Редактиране на лични данни"
 
-#: core/lib/Foswiki/Plugins.pm:378
+#: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr ""
 
@@ -1622,7 +1622,7 @@ msgstr "Търсене на подобни страници"
 msgid "Find topics that link to %1 ..."
 msgstr "Намери страници, които имат връзки към %1 ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 #, fuzzy
 msgid "First name"
 msgstr "Име:"
@@ -1693,6 +1693,7 @@ msgid "Get notified on changes on this search"
 msgstr "Уведомяване за промени в това търсене"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
+#: PatternSkin/data/System/PatternSkinElements.txt:459
 #, fuzzy
 msgid "Globe"
 msgstr "Затваряне"
@@ -1757,8 +1758,12 @@ msgstr "Здравей %1"
 msgid "Hello %1!"
 msgstr "Здравей %1!"
 
+#: PatternSkin/data/System/PatternSkinElements.txt:637
+#: PatternSkin/data/System/PatternSkinElements.txt:651
+#: PatternSkin/data/System/PatternSkinElements.txt:665
+#: PatternSkin/data/System/PatternSkinElements.txt:711
 #: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
-#: core/templates/login.tmpl:45
+#: core/templates/login.tmpl:49
 msgid "Help"
 msgstr "Помощ"
 
@@ -1767,7 +1772,7 @@ msgid "Hide file"
 msgstr "Скриване на файла"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
-#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
 msgid "Hide help"
 msgstr "Скриване на помощта"
 
@@ -1810,7 +1815,7 @@ msgid ""
 "it."
 msgstr "Моля забележете, че името на файла бе променено от %1 на %2."
 
-#: core/templates/login.tmpl:61
+#: core/templates/login.tmpl:65
 msgid "I forgot my password"
 msgstr "Забравих си паролата"
 
@@ -1896,7 +1901,7 @@ msgstr "Ако имате въпроси относно регистрацият
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:72
+#: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
 msgstr "Ако имате някакви въпроси, моля свържете се с %1"
 
@@ -1996,6 +2001,7 @@ msgid "Index"
 msgstr "Индекс"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
+#: PatternSkin/data/System/PatternSkinElements.txt:453
 msgid "Info"
 msgstr ""
 
@@ -2090,7 +2096,7 @@ msgstr "Последна промяна"
 msgid "Last modified time"
 msgstr "Последна промяна"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 #, fuzzy
 msgid "Last name"
 msgstr "Фамилия:"
@@ -2149,11 +2155,12 @@ msgid "Log on with your username and password"
 msgstr "Моля, въведете вашето потребителско име и парола"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
 msgstr "Име за вход %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 #, fuzzy
 msgid "Login name"
 msgstr "Име за вход %1"
@@ -2162,9 +2169,13 @@ msgstr "Име за вход %1"
 msgid "Login name %1"
 msgstr "Име за вход %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:71
 msgid "Logon"
+msgstr "Вход"
+
+#: core/templates/foswiki.tmpl:43
+#, fuzzy
+msgid "Logout"
 msgstr "Вход"
 
 #: core/templates/messages.tmpl:285
@@ -2436,6 +2447,7 @@ msgid "Number of topics: %1"
 msgstr "Брой страници:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
+#: PatternSkin/data/System/PatternSkinElements.txt:449
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
 #: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
@@ -2499,20 +2511,19 @@ msgstr "Може да въведете различно име на страни
 msgid "Options"
 msgstr "Действие"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 #, fuzzy
 msgid "Organisation name"
 msgstr "Име на организацията"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
 #, fuzzy
 msgid "Organisation website"
 msgstr "Име на организацията"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:57
+#: core/templates/login.tmpl:61
 msgid "Password"
 msgstr "Парола"
 
@@ -2621,7 +2632,7 @@ msgstr ""
 "Моля, посетете %1, за да промените паролата си на нещо по-запомнящо се за "
 "вас."
 
-#: core/lib/Foswiki/Plugins.pm:419
+#: core/lib/Foswiki/Plugins.pm:417
 msgid "Plugin handlers"
 msgstr ""
 
@@ -2668,7 +2679,7 @@ msgstr "title='Версия за печат на тази страница' acce
 msgid "Properties"
 msgstr "Свойства"
 
-#: core/lib/Foswiki/Render.pm:246
+#: core/lib/Foswiki/Render.pm:255
 #, fuzzy
 msgid "Put it back..."
 msgstr "върни обратно"
@@ -2732,7 +2743,7 @@ msgstr "Презареждане"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:14
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Регистрация"
@@ -2771,7 +2782,7 @@ msgstr "Търсене с регулярни изрази"
 msgid "Related topics:"
 msgstr "Подобни:"
 
-#: core/templates/login.tmpl:63
+#: core/templates/login.tmpl:67
 msgid "Remember me on this computer"
 msgstr "Запомни ме на този компютър"
 
@@ -3078,7 +3089,7 @@ msgstr "Вижте по-долу за помощ при редактиранет
 msgid "See changes since:"
 msgstr "Преглед на последните промени в:"
 
-#: core/lib/Foswiki/Plugins.pm:263
+#: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -3086,7 +3097,7 @@ msgstr ""
 msgid "Select"
 msgstr "Изберете"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:231
 msgid "Select Group %1 to join"
 msgstr ""
 
@@ -3219,6 +3230,8 @@ msgstr "Статистика"
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: PatternSkin/data/System/PatternSkinElements.txt:418
+#: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
 #: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
@@ -3395,7 +3408,7 @@ msgid ""
 "without saving."
 msgstr ""
 
-#: core/templates/renamebase.tmpl:73
+#: core/templates/renamebase.tmpl:72
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -3462,7 +3475,7 @@ msgstr "Формата трябва да е дефинирана в страни
 msgid "The lease on this topic expired %1 ago."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -3596,7 +3609,7 @@ msgstr ""
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
-#: core/templates/login.tmpl:27
+#: core/templates/login.tmpl:31
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
@@ -3892,8 +3905,7 @@ msgstr "Потребителска сметка %1 - Изтрита"
 msgid "User Reference"
 msgstr "Потребителски Настройки"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:39
+#: core/templates/login.tmpl:43
 msgid "Username"
 msgstr "Потребителско име"
 
@@ -3933,6 +3945,11 @@ msgstr "История на версиите на %1"
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
 msgstr "Виж"
+
+#: core/templates/foswiki.tmpl:155
+#, fuzzy
+msgid "View complete topic history"
+msgstr "Изглед на цялата история на страницата"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -3986,7 +4003,6 @@ msgid "View topic"
 msgstr "Покажи страницата"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Изглед на цялата история на страницата"
 
@@ -4108,7 +4124,7 @@ msgstr ""
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 #, fuzzy
 msgid "Wiki name"
 msgstr "Име на страницата"
@@ -4172,8 +4188,9 @@ msgid ""
 msgstr ""
 
 #: core/templates/messages.tmpl:673
-msgid "You are trying to %1 an attachment that does not exist."
-msgstr ""
+#, fuzzy
+msgid "You are trying to access an attachment that does not exist."
+msgstr "Опитвате се да преименувате страница, която не съществува."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4311,7 +4328,7 @@ msgid ""
 "code is of the form \"YourName.xxxxxxxxxx\")"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -4321,14 +4338,14 @@ msgid ""
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:156
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 #, fuzzy
 msgid "Your password"
 msgstr "Вашата парола:"
@@ -4405,27 +4422,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Български"
 
-#: core/lib/Foswiki/Meta.pm:1840
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "достъпът до кореновата страница е отказан"
 
-#: core/lib/Foswiki/Meta.pm:1778
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "достъпът до страницата е отказан"
 
-#: core/lib/Foswiki/Meta.pm:1813
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "достъпът до раздела е отказан"
 
-#: core/lib/Foswiki/Meta.pm:1850
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "достъпът до кореновата страница е забранен"
 
-#: core/lib/Foswiki/Meta.pm:1797
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "достъпът до страницата е забранен"
 
-#: core/lib/Foswiki/Meta.pm:1825
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "достъпът до раздела е забранен"
 
@@ -4670,6 +4687,9 @@ msgstr "виж"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Error: %1"
+#~ msgstr "Грешка: %1"
 
 #, fuzzy
 #~ msgid "Create topic"

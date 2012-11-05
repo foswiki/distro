@@ -20,22 +20,22 @@ msgstr ""
 "X-Generator: Pootle 2.0.5\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
 msgstr "%*(%1,día) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,hour) "
 msgstr "%*(%1,hora) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:492
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minuto) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:495
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
 msgstr "%*(%1,segundo) "
 
@@ -175,7 +175,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 intentó de registrarse con el correo electrónico %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:253
+#: core/lib/Foswiki/Render.pm:262
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 fué renombrado o movido desde %2 en %3 por %4"
 
@@ -373,7 +373,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Ayuda de formato:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -614,6 +614,7 @@ msgid "Actions"
 msgstr "Acción"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
+#: PatternSkin/data/System/PatternSkinElements.txt:455
 msgid "Add"
 msgstr "Añadir"
 
@@ -930,6 +931,9 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: PatternSkin/data/System/PatternSkinElements.txt:422
+#: PatternSkin/data/System/PatternSkinElements.txt:431
+#: PatternSkin/data/System/PatternSkinElements.txt:451
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
@@ -1069,7 +1073,7 @@ msgstr "Escoja un nuevo formulario para %1"
 msgid "Clear all"
 msgstr "Borrar todo"
 
-#: core/lib/Foswiki/Render.pm:238
+#: core/lib/Foswiki/Render.pm:247
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1100,7 +1104,7 @@ msgstr "Comentario"
 msgid "Compare revisions"
 msgstr "Comparar revisiones"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:179
 msgid "Confirm password"
 msgstr "Confirmar contraseña"
 
@@ -1193,7 +1197,7 @@ msgstr "No se pudo realizar la búsqueda. El error fue: %1"
 msgid "Could not save %1."
 msgstr "No se pudo guardar %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:263
 msgid "Country"
 msgstr "País"
 
@@ -1243,11 +1247,10 @@ msgstr "Crear una recuadro adicional personal"
 msgid "Create the topic"
 msgstr "Crear el tema"
 
-#: core/data/System/DefaultPreferences.txt:388
-#: core/data/System/DefaultPreferences.txt:390
+#: core/data/System/DefaultPreferences.txt:389
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:73
+#: core/lib/Foswiki/Render.pm:82
 msgid "Create this topic"
 msgstr "Crear este tema"
 
@@ -1289,6 +1292,7 @@ msgid "Default template"
 msgstr "Plantilla estándar"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/data/System/PatternSkinElements.txt:457
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:37 core/templates/renamedelete.tmpl:6
@@ -1488,7 +1492,7 @@ msgstr ""
 "Usted no especificó un nombre de archivo o el archivo que está tratando de "
 "cargar %1 no tiene contenido. No debe cargar un archivo vacío."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
@@ -1534,10 +1538,6 @@ msgstr "Error registrando usuario %1"
 msgid "Error saving topic"
 msgstr "Error guardando tema"
 
-#: core/templates/login.tmpl:25
-msgid "Error: %1"
-msgstr "Error: %1"
-
 #: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Error: Archivo adjunto en %1,%2 no existe"
@@ -1570,7 +1570,7 @@ msgstr "Errores removiendo usuarios de los grupos"
 msgid "Evil person"
 msgstr "Persona malintencionada"
 
-#: core/lib/Foswiki/Plugins.pm:378
+#: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Interfases fallaron"
 
@@ -1604,7 +1604,7 @@ msgstr "Encontrar temas similares"
 msgid "Find topics that link to %1 ..."
 msgstr "Buscar temas que enlazan a %1 ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
 msgstr "Nombre"
 
@@ -1677,6 +1677,7 @@ msgid "Get notified on changes on this search"
 msgstr "Reciba notificaciones sobre cambios de esta búsqueda"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
+#: PatternSkin/data/System/PatternSkinElements.txt:459
 msgid "Globe"
 msgstr "Globo terraqueo"
 
@@ -1739,8 +1740,12 @@ msgstr "Hola %1"
 msgid "Hello %1!"
 msgstr "¡Hola %1!"
 
+#: PatternSkin/data/System/PatternSkinElements.txt:637
+#: PatternSkin/data/System/PatternSkinElements.txt:651
+#: PatternSkin/data/System/PatternSkinElements.txt:665
+#: PatternSkin/data/System/PatternSkinElements.txt:711
 #: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
-#: core/templates/login.tmpl:45
+#: core/templates/login.tmpl:49
 msgid "Help"
 msgstr "Ayuda"
 
@@ -1749,7 +1754,7 @@ msgid "Hide file"
 msgstr "Ocultar archivo"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
-#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
 msgid "Hide help"
 msgstr "Ocultar ayuda"
 
@@ -1800,7 +1805,7 @@ msgstr ""
 "Sin embargo, el nombre del archivo ha sido cambiado de %1 a %2. Por favor "
 "tome nota de esto."
 
-#: core/templates/login.tmpl:61
+#: core/templates/login.tmpl:65
 msgid "I forgot my password"
 msgstr "Se me olvidó mi contraseña"
 
@@ -1890,7 +1895,7 @@ msgstr "Si tiene alguna duda acerca del registro, envie un correo a %1."
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:72
+#: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
 msgstr "Si tiene alguna duda, favor comunicarse con %1"
 
@@ -1993,6 +1998,7 @@ msgid "Index"
 msgstr "Indice"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
+#: PatternSkin/data/System/PatternSkinElements.txt:453
 msgid "Info"
 msgstr "Información"
 
@@ -2092,7 +2098,7 @@ msgstr "Modificada por última vez"
 msgid "Last modified time"
 msgstr "Modificada por última vez"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 msgid "Last name"
 msgstr "Apellido"
 
@@ -2150,11 +2156,12 @@ msgid "Log on with your username and password"
 msgstr "Por favo rinicie sesión con su nombre de usuario y contraseña"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
 msgstr "Nombre de usuario"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
 msgstr "Nombre de usuario"
 
@@ -2162,10 +2169,14 @@ msgstr "Nombre de usuario"
 msgid "Login name %1"
 msgstr "Nombre de usuario %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:71
 msgid "Logon"
 msgstr "Iniciar"
+
+#: core/templates/foswiki.tmpl:43
+#, fuzzy
+msgid "Logout"
+msgstr "Cerrar session"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2436,6 +2447,7 @@ msgid "Number of topics: %1"
 msgstr "Número de temas: %1"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
+#: PatternSkin/data/System/PatternSkinElements.txt:449
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
 #: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
@@ -2497,18 +2509,17 @@ msgstr "Introducir opcionalmente un nombre diferente de tema:"
 msgid "Options"
 msgstr "Opciones"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 msgid "Organisation name"
 msgstr "Nombre de la organización"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
 msgid "Organisation website"
 msgstr "Direccion web de la organización"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:57
+#: core/templates/login.tmpl:61
 msgid "Password"
 msgstr "Contraseña"
 
@@ -2620,7 +2631,7 @@ msgid ""
 msgstr ""
 "Favor visite %1 para cambiar su contraseña por una más fácil de recordar."
 
-#: core/lib/Foswiki/Plugins.pm:419
+#: core/lib/Foswiki/Plugins.pm:417
 msgid "Plugin handlers"
 msgstr "Maniobradores de módulos insertables"
 
@@ -2670,7 +2681,7 @@ msgstr ""
 msgid "Properties"
 msgstr "Propiedades"
 
-#: core/lib/Foswiki/Render.pm:246
+#: core/lib/Foswiki/Render.pm:255
 msgid "Put it back..."
 msgstr "Deshacer cambio..."
 
@@ -2736,7 +2747,7 @@ msgstr "Recargar"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:14
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Registrarse"
@@ -2776,7 +2787,7 @@ msgstr "Búsqueda de expresión regular"
 msgid "Related topics:"
 msgstr "Temas relacionados:"
 
-#: core/templates/login.tmpl:63
+#: core/templates/login.tmpl:67
 msgid "Remember me on this computer"
 msgstr "Reconózcame en esta computadora"
 
@@ -3084,7 +3095,7 @@ msgstr "Ver ayuda a continuación acerca de editar esta página."
 msgid "See changes since:"
 msgstr "Revisar cambios recientes en:"
 
-#: core/lib/Foswiki/Plugins.pm:263
+#: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -3092,7 +3103,7 @@ msgstr ""
 msgid "Select"
 msgstr "Seleccionar"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:231
 msgid "Select Group %1 to join"
 msgstr "Seleccionar Grupo %1 para ingresar"
 
@@ -3233,6 +3244,8 @@ msgstr "Estadísticas"
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: PatternSkin/data/System/PatternSkinElements.txt:418
+#: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
 #: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
@@ -3431,7 +3444,7 @@ msgstr ""
 "Es muy probable que %1 simplemente salió de la página de edición sin "
 "guardarla."
 
-#: core/templates/renamebase.tmpl:73
+#: core/templates/renamebase.tmpl:72
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -3511,7 +3524,7 @@ msgstr "El formulario debe ser definido en la página %1"
 msgid "The lease on this topic expired %1 ago."
 msgstr "El bloqueo a este tema expiró hace %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
 msgstr "El nombre de acceso que usted utiliza para ingresar."
 
@@ -3671,7 +3684,7 @@ msgstr ""
 msgid "This is why the conversion is disabled:"
 msgstr "Esta es la razón por la cual la conversión se ha deshabilitado:"
 
-#: core/templates/login.tmpl:27
+#: core/templates/login.tmpl:31
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
@@ -3980,8 +3993,7 @@ msgstr "Cuenta de usuario %1 borrada"
 msgid "User Reference"
 msgstr "Guía de usuario"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:39
+#: core/templates/login.tmpl:43
 msgid "Username"
 msgstr "Nombre de usuario"
 
@@ -4024,6 +4036,11 @@ msgstr "Historial de %1"
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
 msgstr "Ver"
+
+#: core/templates/foswiki.tmpl:155
+#, fuzzy
+msgid "View complete topic history"
+msgstr "Ver historial total del tema"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -4075,7 +4092,6 @@ msgid "View topic"
 msgstr "Ver tema"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Ver historial total del tema"
 
@@ -4197,7 +4213,7 @@ msgstr "¿Porqué se me está solicitando confirmar?"
 msgid "Wiki administrators should read about the %1."
 msgstr "Los administradores del wIki deben leer acerca de %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 msgid "Wiki name"
 msgstr "Nombre wiki"
 
@@ -4269,7 +4285,8 @@ msgstr ""
 "con línea inferior y que tenga solo caracteres alfanuméricos."
 
 #: core/templates/messages.tmpl:673
-msgid "You are trying to %1 an attachment that does not exist."
+#, fuzzy
+msgid "You are trying to access an attachment that does not exist."
 msgstr "Está tratando de %1 un archivo adjunto que no existe."
 
 #: core/templates/messages.tmpl:661
@@ -4444,7 +4461,7 @@ msgstr ""
 "continuación para activar su membresía. (Este código es de la forma "
 "\"YourName.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
 msgstr "Su dirección de correo electrónico se mantendrá confidencial."
 
@@ -4457,7 +4474,7 @@ msgstr ""
 "redirigido hacia ella ahora mismo. Si no, [[%2][presione aquí]] para "
 "proceder."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:156
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
@@ -4467,7 +4484,7 @@ msgstr ""
 "[[%SYSTEMWEB%.WikiName][Wiki name]]. Por defecto esta derivado de su nombre "
 "y apellidos."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 msgid "Your password"
 msgstr "Su contraseña"
 
@@ -4559,27 +4576,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Español"
 
-#: core/lib/Foswiki/Meta.pm:1840
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "acceso denegado a raíz"
 
-#: core/lib/Foswiki/Meta.pm:1778
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "acceso denegado al tema"
 
-#: core/lib/Foswiki/Meta.pm:1813
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "acceso denegado a la web"
 
-#: core/lib/Foswiki/Meta.pm:1850
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "acceso no permitido a raíz"
 
-#: core/lib/Foswiki/Meta.pm:1797
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "acceso no permitido al tema"
 
-#: core/lib/Foswiki/Meta.pm:1825
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "acceso no permitido a esta web"
 
@@ -4822,6 +4839,9 @@ msgstr "vista"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "por qué se le solicita su confirmación"
+
+#~ msgid "Error: %1"
+#~ msgstr "Error: %1"
 
 #~ msgid "Create topic"
 #~ msgstr "Crear tema"
@@ -5835,10 +5855,6 @@ msgstr "por qué se le solicita su confirmación"
 #, fuzzy
 #~ msgid "Locked Topics"
 #~ msgstr "Páginas de prueba"
-
-#, fuzzy
-#~ msgid "Logout"
-#~ msgstr "Cerrar session"
 
 #, fuzzy
 #~ msgid "Logout of %1"

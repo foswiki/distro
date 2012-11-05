@@ -19,22 +19,22 @@ msgstr ""
 "X-Poedit-Language: Finnish\n"
 
 #. ($days)
-#: core/lib/Foswiki/Time.pm:486
+#: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
 msgstr "%*(%1,päivä) "
 
 #. ($hours)
-#: core/lib/Foswiki/Time.pm:489
+#: core/lib/Foswiki/Time.pm:485
 msgid "%*(%1,hour) "
 msgstr "%*(%1,tunti) "
 
 #. ($mins)
-#: core/lib/Foswiki/Time.pm:492
+#: core/lib/Foswiki/Time.pm:488
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minuutti) "
 
 #. ($secs)
-#: core/lib/Foswiki/Time.pm:495
+#: core/lib/Foswiki/Time.pm:491
 msgid "%*(%1,second) "
 msgstr "%*(%1,sekunti) "
 
@@ -178,7 +178,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 yritti rekisteröityä sähköpostiosoitteella %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:253
+#: core/lib/Foswiki/Render.pm:262
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 on siirtänyt %1 sijainnista %2, sijaintiin %3"
 
@@ -375,7 +375,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Apua muotoiluun:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -613,6 +613,7 @@ msgid "Actions"
 msgstr "Toiminto"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
+#: PatternSkin/data/System/PatternSkinElements.txt:455
 #, fuzzy
 msgid "Add"
 msgstr "Lisää rivi"
@@ -932,6 +933,9 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: PatternSkin/data/System/PatternSkinElements.txt:422
+#: PatternSkin/data/System/PatternSkinElements.txt:431
+#: PatternSkin/data/System/PatternSkinElements.txt:451
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
 #: core/templates/foswiki.tmpl:126 core/templates/validate.tmpl:54
 msgid "Cancel"
@@ -1070,7 +1074,7 @@ msgstr "Valitse uusi malli %1"
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
-#: core/lib/Foswiki/Render.pm:238
+#: core/lib/Foswiki/Render.pm:247
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1100,7 +1104,7 @@ msgstr "Kommentti"
 msgid "Compare revisions"
 msgstr "Vertaa versioita"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:179
 msgid "Confirm password"
 msgstr "Vahvista salasana"
 
@@ -1191,7 +1195,7 @@ msgstr "Ei voitu suorittaa hakua. Virhe oli: %1"
 msgid "Could not save %1."
 msgstr "Ei voitu tallentaa %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:262
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:263
 msgid "Country"
 msgstr "Maa"
 
@@ -1241,11 +1245,10 @@ msgstr "Luo henkilökohtainen sivupaneeli"
 msgid "Create the topic"
 msgstr "Luo aihe"
 
-#: core/data/System/DefaultPreferences.txt:388
-#: core/data/System/DefaultPreferences.txt:390
+#: core/data/System/DefaultPreferences.txt:389
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:73
+#: core/lib/Foswiki/Render.pm:82
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
 
@@ -1287,6 +1290,7 @@ msgid "Default template"
 msgstr "Oletus-sivupohja"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:30
+#: PatternSkin/data/System/PatternSkinElements.txt:457
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renamedelete.tmpl:37 core/templates/renamedelete.tmpl:6
@@ -1491,7 +1495,7 @@ msgstr ""
 "Joko et tarkentanut tiedoston nimeä; tai tiedostosta, jota yrität lähettää "
 "%1, uupuu sisältö. Voit myös yrittää lähettää tyhjää tiedostoa."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:169
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 #, fuzzy
 msgid "Email address"
 msgstr "Sähköpostiosoite:"
@@ -1535,10 +1539,6 @@ msgstr "Virhe käyttäjän %1 rekisteröimisessä"
 msgid "Error saving topic"
 msgstr "Virhe aiheen tallennuksessa"
 
-#: core/templates/login.tmpl:25
-msgid "Error: %1"
-msgstr "Virhe: %1"
-
 #: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Virhe: Liitetiedostoa %2 ei löydy %1"
@@ -1572,7 +1572,7 @@ msgstr "Virhe poistattaessa käyttäjiä ryhmästä"
 msgid "Evil person"
 msgstr "Muokkaa henkilökohtaisia tietoja"
 
-#: core/lib/Foswiki/Plugins.pm:378
+#: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Epäonnistuneet liitännäiset"
 
@@ -1606,7 +1606,7 @@ msgstr "Etsi samankaltaisia aiheita"
 msgid "Find topics that link to %1 ..."
 msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:140
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 #, fuzzy
 msgid "First name"
 msgstr "Etunimi:"
@@ -1677,6 +1677,7 @@ msgid "Get notified on changes on this search"
 msgstr "Vastaanota huomautuksia muutoksista tässä etsinnässä"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:31
+#: PatternSkin/data/System/PatternSkinElements.txt:459
 #, fuzzy
 msgid "Globe"
 msgstr "Sulje"
@@ -1739,8 +1740,12 @@ msgstr "Hei %1"
 msgid "Hello %1!"
 msgstr "Hei %1!"
 
+#: PatternSkin/data/System/PatternSkinElements.txt:637
+#: PatternSkin/data/System/PatternSkinElements.txt:651
+#: PatternSkin/data/System/PatternSkinElements.txt:665
+#: PatternSkin/data/System/PatternSkinElements.txt:711
 #: core/data/System/WebSearch.txt:181 core/data/System/WebSearch.txt:94
-#: core/templates/login.tmpl:45
+#: core/templates/login.tmpl:49
 msgid "Help"
 msgstr "Ohje"
 
@@ -1749,7 +1754,7 @@ msgid "Hide file"
 msgstr "Piilota tiedosto"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
-#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:45
+#: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
 msgid "Hide help"
 msgstr "Piilota ohje"
 
@@ -1796,7 +1801,7 @@ msgid ""
 "it."
 msgstr "Kuitenkin, tiedoston nimi %1 on muutettu %2.  "
 
-#: core/templates/login.tmpl:61
+#: core/templates/login.tmpl:65
 msgid "I forgot my password"
 msgstr "Unohdin salasanani"
 
@@ -1888,7 +1893,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:38
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/templates/login.tmpl:72
+#: core/templates/login.tmpl:76
 msgid "If you have any questions, please contact %1"
 msgstr "Kysymyksiisi vastaa %1"
 
@@ -1988,6 +1993,7 @@ msgid "Index"
 msgstr "Hakemisto"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:28
+#: PatternSkin/data/System/PatternSkinElements.txt:453
 msgid "Info"
 msgstr ""
 
@@ -2087,7 +2093,7 @@ msgstr "Muokattu viimeksi"
 msgid "Last modified time"
 msgstr "Muokattu viimeksi"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:147
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
 #, fuzzy
 msgid "Last name"
 msgstr "Sukunimi:"
@@ -2146,11 +2152,12 @@ msgid "Log on with your username and password"
 msgstr "Kirjoita käyttäjätunnus ja salasana"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
 msgstr "Käyttäjätunnus %1"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:162
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 #, fuzzy
 msgid "Login name"
 msgstr "Käyttäjätunnus %1"
@@ -2159,9 +2166,13 @@ msgstr "Käyttäjätunnus %1"
 msgid "Login name %1"
 msgstr "Käyttäjätunnus %1"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:231
-#: core/templates/login.tmpl:67
+#: core/templates/login.tmpl:71
 msgid "Logon"
+msgstr "Kirjaudu sisään"
+
+#: core/templates/foswiki.tmpl:43
+#, fuzzy
+msgid "Logout"
 msgstr "Kirjaudu sisään"
 
 #: core/templates/messages.tmpl:285
@@ -2435,6 +2446,7 @@ msgid "Number of topics: %1"
 msgstr "Aiheiden lukumäärä:"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
+#: PatternSkin/data/System/PatternSkinElements.txt:449
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:128 core/templates/messages.tmpl:194
 #: core/templates/messages.tmpl:204 core/templates/messages.tmpl:211
@@ -2500,20 +2512,19 @@ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 msgid "Options"
 msgstr "Toiminto"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:248
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
 #, fuzzy
 msgid "Organisation name"
 msgstr "Organisaation nimi:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:255
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
 #, fuzzy
 msgid "Organisation website"
 msgstr "Organisaation nimi:"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#: PatternSkin/data/System/PatternSkinElements.txt:226
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
-#: core/templates/login.tmpl:57
+#: core/templates/login.tmpl:61
 msgid "Password"
 msgstr "Salasana"
 
@@ -2625,7 +2636,7 @@ msgstr ""
 "Ole hyvä ja siirry %1 muuttaaksesi salasanasi joksikin helpommin "
 "muistettavaksi."
 
-#: core/lib/Foswiki/Plugins.pm:419
+#: core/lib/Foswiki/Plugins.pm:417
 msgid "Plugin handlers"
 msgstr ""
 
@@ -2672,7 +2683,7 @@ msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
 msgid "Properties"
 msgstr "Ominaisuudet"
 
-#: core/lib/Foswiki/Render.pm:246
+#: core/lib/Foswiki/Render.pm:255
 #, fuzzy
 msgid "Put it back..."
 msgstr "laita takaisin"
@@ -2738,7 +2749,7 @@ msgstr "Päivitä"
 #: PatternSkin/data/System/PatternSkinHorizontalNavigationExample.txt:69
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:82
 #: PatternSkin/data/System/WebLeftBarLogin.txt:14
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:279
 #: core/templates/foswiki.tmpl:159
 msgid "Register"
 msgstr "Rekisteröidy"
@@ -2777,7 +2788,7 @@ msgstr "Säännöllinen lauseke etsintä"
 msgid "Related topics:"
 msgstr "Liittyvät aiheet:"
 
-#: core/templates/login.tmpl:63
+#: core/templates/login.tmpl:67
 msgid "Remember me on this computer"
 msgstr "Muista minut tällä tietokoneella"
 
@@ -3084,7 +3095,7 @@ msgstr "Katso ohjeet alempaa sivun muokkaamiseksi."
 msgid "See changes since:"
 msgstr "Esikatsele viimeisimpiä muutoksia:"
 
-#: core/lib/Foswiki/Plugins.pm:263
+#: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -3092,7 +3103,7 @@ msgstr ""
 msgid "Select"
 msgstr "Valitse"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:230
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:231
 msgid "Select Group %1 to join"
 msgstr ""
 
@@ -3231,6 +3242,8 @@ msgstr "Tilastot"
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
 #: JQueryPlugin/data/System/VarBUTTON.txt:29
 #: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: PatternSkin/data/System/PatternSkinElements.txt:418
+#: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
 #: core/data/System/PerlDoc.txt:18 core/templates/messages.tmpl:230
 #: core/templates/messages.tmpl:361
@@ -3421,7 +3434,7 @@ msgstr ""
 "On todennäköistä että %1 on yksinkertaisesti siirtynyt pois muokkaus-sivulta "
 "tallentamatta muutoksia."
 
-#: core/templates/renamebase.tmpl:73
+#: core/templates/renamebase.tmpl:72
 msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
@@ -3494,7 +3507,7 @@ msgstr "Mallin pitäisi olla määritelty %1 aiheessa"
 msgid "The lease on this topic expired %1 ago."
 msgstr "Aiheen lukitus umpeutui %1 sitten."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
 msgstr ""
 
@@ -3645,7 +3658,7 @@ msgstr ""
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
-#: core/templates/login.tmpl:27
+#: core/templates/login.tmpl:31
 msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
@@ -3954,8 +3967,7 @@ msgstr "Käyttäjätili %1 poistettu"
 msgid "User Reference"
 msgstr "Käyttäjäopas"
 
-#: PatternSkin/data/System/PatternSkinElements.txt:220
-#: core/templates/login.tmpl:39
+#: core/templates/login.tmpl:43
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
@@ -3997,6 +4009,11 @@ msgstr "%1:n versiohistoria"
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
 msgstr "Näytä"
+
+#: core/templates/foswiki.tmpl:155
+#, fuzzy
+msgid "View complete topic history"
+msgstr "Näytä aiheen täysi historia"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -4050,7 +4067,6 @@ msgid "View topic"
 msgstr "Näytä aihe"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
-#: core/templates/foswiki.tmpl:155
 msgid "View total topic history"
 msgstr "Näytä aiheen täysi historia"
 
@@ -4170,7 +4186,7 @@ msgstr "Miksi sinulta kysytään vahvistusta"
 msgid "Wiki administrators should read about the %1."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:154
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 #, fuzzy
 msgid "Wiki name"
 msgstr "Aiheen nimi"
@@ -4244,7 +4260,8 @@ msgstr ""
 "ainoastaan aakkosnumeerisia kirjaimia. "
 
 #: core/templates/messages.tmpl:673
-msgid "You are trying to %1 an attachment that does not exist."
+#, fuzzy
+msgid "You are trying to access an attachment that does not exist."
 msgstr "Yrität toimintoa %1 liitteelle, jota ei ole olemassa."
 
 #: core/templates/messages.tmpl:661
@@ -4404,7 +4421,7 @@ msgstr ""
 "aktivointikoodin allaolevaan kenttään. (Koodi on muotoa \"SinunNimesi."
 "xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:171
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -4417,14 +4434,14 @@ msgstr ""
 "uudelleenohjataan seuraavalle sivulle automaattisesti, mutta voit myös [[%2]"
 "[klikata tästä jatkaaksesi]]"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:156
 msgid ""
 "Your name as displayed online. Note, this must be a unique [[%SYSTEMWEB%."
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:177
+#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 #, fuzzy
 msgid "Your password"
 msgstr "Uusi salasana:"
@@ -4511,27 +4528,27 @@ msgstr "[3 väliä] * [väli] Set [väli] MUUTTUJANNIMI [väli] = [arvo]"
 msgid "_language_name"
 msgstr "Suomi"
 
-#: core/lib/Foswiki/Meta.pm:1840
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access denied on root"
 msgstr "Pääsy kielletty roottiin"
 
-#: core/lib/Foswiki/Meta.pm:1778
+#: core/lib/Foswiki/Meta.pm:1775
 msgid "access denied on topic"
 msgstr "pääsy kielletty aiheeseen"
 
-#: core/lib/Foswiki/Meta.pm:1813
+#: core/lib/Foswiki/Meta.pm:1810
 msgid "access denied on web"
 msgstr "pääsy kielletty webiin"
 
-#: core/lib/Foswiki/Meta.pm:1850
+#: core/lib/Foswiki/Meta.pm:1847
 msgid "access not allowed on root"
 msgstr "Pääsy roottiin kielletty"
 
-#: core/lib/Foswiki/Meta.pm:1797
+#: core/lib/Foswiki/Meta.pm:1794
 msgid "access not allowed on topic"
 msgstr "pääsy aiheeseen estetty"
 
-#: core/lib/Foswiki/Meta.pm:1825
+#: core/lib/Foswiki/Meta.pm:1822
 msgid "access not allowed on web"
 msgstr "pääsy web:iin estetty"
 
@@ -4775,6 +4792,9 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:44
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#~ msgid "Error: %1"
+#~ msgstr "Virhe: %1"
 
 #, fuzzy
 #~ msgid "Create topic"
