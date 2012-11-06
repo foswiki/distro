@@ -26,11 +26,12 @@
 		<div class="configureActions">
 			<div class="section configureActionsContents">
 			    <div class="foswikiLeft">
+                                <span id="configureErrorSummary">
 			        <#if totalWarnings?? || totalErrors??>Status:</#if>
                     <#if totalErrors??><span class='configureStatusErrors'>${totalErrors}</span></#if>
                     <#if totalWarnings??><span class='configureStatusWarnings'>${totalWarnings}</span></#if>
                     <#if firstTime == 1>(we will solve this in a minute)</#if>
-                    
+                                 </span>  
                     <input type="hidden" disabled="disabled"
                            id="configureFeedbackWorkingText"
                            title="I18n - Not form data"

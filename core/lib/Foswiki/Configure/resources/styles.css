@@ -173,11 +173,15 @@ body.configureShowOneSection .configureNotShowSection {
 .configureTools span {
 	margin:0 0 0 .3em;
 }
+.configureStatusOK,
 .configureStatusWarnings,
 .configureStatusErrors {
 	padding:7px .5em 7px 22px;
 	background-position:0 45%;
 	background-repeat:no-repeat;
+}
+.configureStatusOK {
+        background-image:url(%RESOURCEURI%icon_ok.png);
 }
 .configureStatusWarnings {
 	background-image:url(%RESOURCEURI%icon_warn.png);

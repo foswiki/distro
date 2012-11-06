@@ -118,6 +118,11 @@ qq{$index <span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}
     else {
         $feedback = '';
     }
+    my ( $itemErrors, $itemWarnings ) =
+      ( ( $value->{errors} || 0 ), ( $value->{warnings} || 0 ) );
+    $index .= Foswiki::Configure::UI::hidden( "${keys}errors",
+        "$itemErrors $itemWarnings" );
+
     my $resetToDefaultLinkText = '';
     if ( $value->needsSaving( $root->{valuer} ) ) {
 

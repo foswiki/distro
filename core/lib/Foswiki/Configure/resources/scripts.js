@@ -765,7 +765,8 @@ function doFeedback(key, pathinfo) {
         KeyIdSelector = '#' + quoteKeyId,
         posturl = document.location.pathname, /* Where to post form */
         working,
-        stsWindowId;
+        stsWindowId,
+        errorKeyRe = /^\{.*\}errors$/;
 
     /* Add a named item from a form to the POST data */
 
@@ -836,6 +837,7 @@ function doFeedback(key, pathinfo) {
             ilen,
             ctlName,
             txt;
+
         if (this.disabled) {
             return true;
         }
@@ -871,6 +873,9 @@ function doFeedback(key, pathinfo) {
             return true;
 
         case "hidden":
+            if( errorKeyRe.test(ctlName) && this.value === "0 0" ) {
+                return true; /* Don't bother sending "no error" values */
+            } /* Fall into postFormItem */
         case "text":
         case "password":
             postFormItem(ctlName, this.value);
@@ -995,7 +1000,8 @@ function doFeedback(key, pathinfo) {
                 newval,
                 opts,
                 v,
-                ii;
+                ii,
+                errorsChanged = 0;
 
             /* Clear "working" status in case of errors or updates that don't target
              * the original status div.  This also updates the class.
@@ -1091,8 +1097,11 @@ function doFeedback(key, pathinfo) {
                             }
                             return true;
 
-                        case "textarea":
                         case "hidden":
+                            if( errorKeyRe.test(this.name) ) {
+                                errorsChanged++;
+                            } /* Fall into set value */
+                        case "textarea":
                         case "text":
                         case "password":
                             this.value = newval.join("");
@@ -1113,9 +1122,126 @@ function doFeedback(key, pathinfo) {
                     errorMessage("Invalid opcode2 in feedback response");
                 }
             }
+
+            /* Responses with just unchanged updates or with no error count
+             * changes need no more processing.
+             */
+
+            if( !stsWindowId || !errorsChanged ) {
+                return true;
+            }
+
+            /* Full response.  Scan for {key}{s}errors (now updated) and
+             * apply classes to the items' tabs/subtabs accordingly.
+             * This will correct the summary icons.
+             */
+
+            /* Clear all existing indicators. */
+
+            $('ul li a.configureWarn,ul li a.configureError,ul li a.configureWarnAndError').removeClass('configureWarn configureError configureWarnAndError' );
+
+            /* Find each item's error value & propagate it upwards. */
+
+            var totalErrors = 0,
+                totalWarnings = 0;
+
+            $( '[name$=\\}errors]' ).each(function (index) {
+                if( this.value === "0 0" ) {
+                    return true;
+                }
+                var errors = this.value.split(' ');
+                if( errors.length !== 2 ) {
+                    return true;
+                }
+                errors[0] = parseInt(errors[0],10);
+                totalErrors += errors[0];
+                errors[1] = parseInt(errors[1],10);
+                totalWarnings += errors[1];
+
+                var itemClass;
+
+                if( (errors[0] !== 0) && (errors[1] !== 0) ) {
+                    itemClass = 'configureWarnAndError';
+                } else { if (errors[0] !== 0) {
+                    itemClass = 'configureError';
+                } else {
+                    itemClass = 'configureWarn';
+                }}
+                var tab = $( this ).closest('div.configureSubSection');
+                if( tab.size() == 1 ) {
+                    var tabName = tab.find('a').get(0).name;
+                    var tabNames = tabName.split('$' );
+
+                    /* Update subtab, if any */
+                    if( tabNames.length === 2 ) {
+                       var subtab = $(tab).closest('div.configureRootSection').find('ul.configureSubTab li a[href="'
+                                                + configure.utils.quoteName('#'
+                                                                  + tabName ) + '"]' );
+                        if( subtab.size() == 1 ) {
+                            if( !subtab.hasClass( 'configureWarnAndError' ) ) {
+                                if( itemClass === 'configureWarnAndError' ) {
+                                    subtab.removeClass('configureError configureWarn').addClass(itemClass);
+                                } else { if( !subtab.hasClass( itemClass ) ) {
+                                    subtab.addClass(itemClass);
+                                    if( subtab.hasClass('configureWarn')
+                                        && subtab.hasClass('configureError') ) {
+                                        subtab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
+                                    }
+                                }}
+                            }
+                        }
+                    }
+                    /* Update main navigation tab */
+                    tab = $('ul.configureRootTab li a[href="'
+                                         + configure.utils.quoteName('#'+tabNames[1]) +'"]');
+                } else {
+                    tab =  $( this ).closest('div.configureRootSection');
+                    if( tab.size() == 1 ) {
+                        tabName = tab.find('a').get(0).name;
+                         tab = $('ul.configureRootTab li a[href="'
+                                 + configure.utils.quoteName('#'+tabName) +'"]');
+                    }
+                }
+
+                if( tab.size() == 1 ) {
+                    if( !tab.hasClass( 'configureWarnAndError' ) ) {
+                        if( itemClass === 'configureWarnAndError' ) {
+                            tab.removeClass('configureError configureWarn').addClass(itemClass);
+                        } else { if( !tab.hasClass( itemClass ) ) {
+                            tab.addClass(itemClass);
+                            if( tab.hasClass('configureWarn')
+                                && tab.hasClass('configureError') ) {
+                                tab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
+                            }
+                        }}
+                    }
+                }
+
+                return true;
+            }); /* errorItem */
+
+            /* Finally, the summary status bar */
+
+            var status = 'Status: '
+            if( totalWarnings || totalErrors ) {
+                if( totalErrors ) {
+                    status += '<span class="configureStatusErrors">' + totalErrors + " Error";
+                    if( totalErrors !== 1 ) { status += 's' };
+                    status += '</span>';
+                }
+                if( totalWarnings ) {
+                    status += '<span class="configureStatusWarnings">' + totalWarnings + " Warning";
+                    if( totalWarnings !== 1 ) { status += 's' };
+                    status += '</span>';
+                }
+            } else {
+                status += '<span class="configureStatusOK">No problems detected</span>';
+            }
+            $('#configureErrorSummary').html(status);
+
             return true;
-        }
-    });
+        } /* complete */
+    }); /* Ajax */
 
     /* Consume the button click */
 

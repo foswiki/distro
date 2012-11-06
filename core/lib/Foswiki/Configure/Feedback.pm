@@ -58,7 +58,6 @@ feedback request has been received.
           ->cleanupTemplateResidues($html);
 
         htmlResponse( $html, 200 );
-
     }
 
     sub _actionfeedbackUI {
@@ -131,6 +130,7 @@ sub deliver {
     $this->{valuer} = $valuer;
     $this->{root}   = $root;
     $this->{fb}     = {};
+    $this->{errors} = {};
 
     # 0 = no other; 1 = only changes; 2 = all
     $this->{checkall} = $query->param('DEBUG') ? 2 : 1;
@@ -172,7 +172,19 @@ sub deliver {
         }
     }
 
-    deliverResponse( $this->{fb}, \%updated );
+    my $fb = $this->{fb};
+
+    # Reduce errors to those that changed and generate updates
+
+    for my $key ( keys %{ $this->{errors} } ) {
+        my $old = $query->param("${key}errors");
+        $old = "0 0" unless ( defined $old );
+        my $new = $this->{errors}{$key};
+        $fb->{"${key}errors"} = $ui->FB_GUIVAL( "${key}errors", $new )
+          if ( $new ne $old );
+    }
+
+    deliverResponse( $fb, \%updated );
 }
 
 sub deliverResponse {
@@ -239,6 +251,9 @@ sub startVisit {
     if ( $visitee->isa('Foswiki::Configure::Value') ) {
         my $keys = $visitee->getKeys();
 
+        $visitee->{errors}   = 0;
+        $visitee->{warnings} = 0;
+
         #        my $value = $this->{valuer}->currentValue($visitee);
         if ( $this->{fbpass} ) {
 
@@ -283,6 +298,8 @@ sub startVisit {
             else {
                 die ".spec ERROR: No source for specified feedback for $keys\n";
             }
+            $this->{errors}{$keys} = "$visitee->{errors} $visitee->{warnings}";
+
             return 0;    # Stop scan
         }
         else {
@@ -311,6 +328,8 @@ sub startVisit {
                         $this->{fb}{$keys} = $check;
                     }
                 }
+                $this->{errors}{$keys} =
+                  "$visitee->{errors} $visitee->{warnings}";
             }
         }
     }
