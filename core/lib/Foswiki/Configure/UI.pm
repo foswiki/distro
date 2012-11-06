@@ -533,14 +533,15 @@ HTML encodes the value
 =cut
 
 sub hidden {
-    my ( $name, $value ) = @_;
+    my ( $name, $value, $disabled ) = @_;
+    $disabled = $disabled ? ' disabled="disabled"' : '';
     $name ||= '';
     $name =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/
       '&#'.ord($1).';'/ge;
     $value ||= '';
     $value =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/
       '&#'.ord($1).';'/ge;
-    return "<input type='hidden' name='$name' value='$value' />";
+    return "<input type='hidden' name='$name' value='$value'$disabled />";
 }
 
 =begin TML

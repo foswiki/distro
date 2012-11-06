@@ -300,13 +300,19 @@ var configure = (function ($) {
             setSub(mainId, subId);
 
             if (mainId || subId) {
-                if (subId !== undefined) {
-                    subName = subId.split("$")[1];
-                    window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
-                } else if (mainId !== undefined) {
-                    window.history.pushState(undefined, "Configure / " + mainId, url + "#$" + mainId);
-                } else {
-                    window.history.pushState(undefined, "Configure", url);
+                /* IE doesn't do window.history.  https://github.com/balupton/history.js is an alternative,
+                 * but it comes it a lot of baggage.  For now, just skip this for browsers that don't support
+                 * window.history.
+                 */
+                if( window.history ) {
+                    if (subId !== undefined) {
+                        subName = subId.split("$")[1];
+                        window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
+                    } else if (mainId !== undefined) {
+                        window.history.pushState(undefined, "Configure / " + mainId, url + "#$" + mainId);
+                    } else {
+                        window.history.pushState(undefined, "Configure", url);
+                    }
                 }
             }
 
@@ -559,7 +565,7 @@ configure.utils = (function () {
                 out = '',
                 i,
                 c;
-            for (i = 0; i < name.length; i = i + 1) {
+            for (i = 0; i < name.length; i++) {
                 c = instr[i];
                 if ("!\"#$%&'()*+,./:;<=>?@[\\]^`{|} ~".indexOf(c) >= 0) {
                     out = out + '\\' + (c === ':' ? '\\3a' : c);
@@ -605,7 +611,7 @@ function resetToDefaultValue(inLink, inFormType, inName, inValue) {
         elem.checked = value;
     } else if (type === 'select-one') {
         /* find selected element */
-        for (i = 0; i < elem.options.length; i = i + 1) {
+        for (i = 0; i < elem.options.length; i++) {
             if (elem.options[i].value === value) {
                 index = i;
                 break;
@@ -709,7 +715,7 @@ function valueChanged(el) {
             j,
             ct;
         $(this).removeClass('foswikiHidden');
-        for (j = 0; j < jlen; j = j + 1) {
+        for (j = 0; j < jlen; j++) {
             ct = 'foswiki' + controlTypes[j];
             if ($(this).hasClass(ct + 'Disabled')) {
                 $(this).removeClass(ct + 'Disabled');
@@ -983,7 +989,7 @@ function doFeedback(key, pathinfo) {
             /* Select sends the value of each selected option */
             opts = this.options;
             ilen = opts.length;
-            for (i = 0; i < ilen; i = i + 1) {
+            for (i = 0; i < ilen; i++) {
                 if (opts[i].selected && !opts[i].disabled) {
                     postFormItem(ctlName, opts[i].value);
                 }
@@ -997,12 +1003,6 @@ function doFeedback(key, pathinfo) {
             return true;
 
         case "hidden":
-            if( errorKeyRe.test(ctlName) && this.value === "0 0" ) {
-                return true; /* Don't bother sending "no error" values */
-            }
-            postFormItem(ctlName, this.value);
-            return true;
-
         case "text":
         case "password":
             postFormItem(ctlName, this.value);
@@ -1035,6 +1035,7 @@ function doFeedback(key, pathinfo) {
     /* Update message area with busy status. I18n note:  hidden disabled field in pagebegin.tmpl with desired
      * text for internationalization.  E.g. <input type="hidden" disabled="disabled"
      * id="configureFeedbackWorkingText" value="Nous travaillons sur votre demande...">
+     * status updates do not provide busy status, and !stsWindowId indicates a status update.
      */
 
     if( key.id !== '{ConfigureGUI}{Unsaved}status' ) {
@@ -1118,16 +1119,16 @@ function doFeedback(key, pathinfo) {
             }
 
             var data = xhr.responseText,
+                item,
                 items,
                 i,
-                kpair,
+                kpair = [],
                 sloc,
                 delims,
-                d,
                 newval,
                 opts,
                 v,
-                ii,
+                eleDisabled,
                 errorsChanged = 0;
 
             /* Clear "working" status in case of errors or updates that don't target
@@ -1153,20 +1154,19 @@ function doFeedback(key, pathinfo) {
             /* Hex constants used rather than octal for JSLint issue. */
 
             items = data.split("\x01");
-            for (i = 0; i < items.length; i = i + 1) {
+            for (item = 0; item < items.length; item++) {
                 /* IE sometimes doesn't do capturing split, so simulate one. */
-                kpair = [];
                 delims = ["\x02", "\x03"];
-                for (d = 0; d < delims.length; d = d + 1) {
-                    sloc = items[i].indexOf(delims[d]);
+                for (i = 0; i < delims.length; i++) {
+                    sloc = items[item].indexOf(delims[i]);
                     if (sloc >= 0) {
-                        kpair[0] = items[i].substr(0, sloc);
-                        kpair[1] = delims[d];
-                        kpair[2] = items[i].substr(sloc + 1);
+                        kpair[0] = items[item].substr(0, sloc);
+                        kpair[1] = delims[i];
+                        kpair[2] = items[item].substr(sloc + 1);
                         break;
                     }
                 }
-                if (d >= delims.length) {
+                if (i >= delims.length) {
                     errorMessage("Invalid opcode in feedback response");
                     return true;
                 }
@@ -1175,19 +1175,21 @@ function doFeedback(key, pathinfo) {
                 } else if (kpair[1] === "\x03") {
                     newval = kpair[2].split(/\x04/);
                     $('[name="' + configure.utils.quoteName(kpair[0]) + '"]').each(function (idx, ele) {
+                        eleDisabled = this.disabled;
+                        this.disabled = false;
                         switch (this.type.toLowerCase()) {
                         /* Ignore these for now (why update labels?) */
                         case "button":
                         case "file":
                         case "submit":
                         case "reset":
-                            return true;
+                            break;
 
                         case "select-one":
                             opts = this.options;
                             var selected = -1;
 
-                            for (i = 0; i < opts.length; i = i + 1) {
+                            for (i = 0; i < opts.length; i++) {
                                 if (opts[i].value === newval[0]) {
                                     opts[i].selected = true;
                                     this.selectedIndex = i;
@@ -1199,21 +1201,21 @@ function doFeedback(key, pathinfo) {
                             if (selected < 0) {
                                 errorMessage("Invalid value \"" + newval[0] + "\" for " + kpair[0]);
                             }
-                            return true;
+                            break;
 
                         case "select-multiple":
                             opts = this.options;
 
-                            for (i = 0; i < opts.length; i = i + 1) {
+                            for (i = 0; i < opts.length; i++) {
                                 opts[i].selected = false;
                             }
                             this.selectedIndex = -1;
-                            for (v = 0; v < newval.length; v = v + 1) {
-                                for (ii = 0; ii < opts.length; ii = ii + 1) {
-                                    if (opts[ii].value === newval[v]) {
-                                        opts[ii].selected = true;
+                            for (v = 0; v < newval.length; v++) {
+                                for (i = 0; i < opts.length; i++) {
+                                    if (opts[i].value === newval[v]) {
+                                        opts[i].selected = true;
                                         if (v === 0) {
-                                            this.selectedIndex = ii;
+                                            this.selectedIndex = i;
                                         }
                                         break;
                                     }
@@ -1222,28 +1224,35 @@ function doFeedback(key, pathinfo) {
                                     errorMessage("Invalid value \"" + newval[v] + "\" for " + kpair[0]);
                                 }
                             }
-                            return true;
+                            break;
 
                         case "hidden":
+                            v = newval.join("");
                             if( errorKeyRe.test(this.name) ) {
                                 errorsChanged++;
+                                if( v === "0 0" ) {
+                                    eleDisabled = true; /* Do not POST */
+                                } else {
+                                    eleDisabled = false;
+                                }
                             }
-                            this.value = newval.join("");
-                            return true;
+                            this.value = v;
+                            break;
 
                         case "textarea":
                         case "text":
                         case "password":
                             this.value = newval.join("");
-                            return true;
+                            break;
 
                         case "radio":
                         case "checkbox":
                             this.checked = configure.utils.isTrue(newval[0]);
-                            return true;
+                            break;
                         default:
                             break;
                         }
+                        this.disabled = eleDisabled;
                         /* Ignore all other controls */
                         return true;
                     });
