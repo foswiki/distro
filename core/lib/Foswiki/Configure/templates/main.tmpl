@@ -26,12 +26,8 @@
 		<div class="configureActions">
 			<div class="section configureActionsContents">
 			    <div class="foswikiLeft">
-                                <span id="configureErrorSummary">
-			        <#if totalWarnings?? || totalErrors??>Status:</#if>
-                    <#if totalErrors??><span class='configureStatusErrors'>${totalErrors}</span></#if>
-                    <#if totalWarnings??><span class='configureStatusWarnings'>${totalWarnings}</span></#if>
-                    <#if firstTime == 1>(we will solve this in a minute)</#if>
-                                 </span>  
+                                <span id="configureErrorSummary"></span>
+                    <#if firstTime == 1><span id="configureFixSoon">(we will solve this in a minute)</span></#if>
                     <input type="hidden" disabled="disabled"
                            id="configureFeedbackWorkingText"
                            title="I18n - Not form data"

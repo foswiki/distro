@@ -710,9 +710,9 @@ HERE
                 my $n = pop @backups;
                 unlink "$lsc.$n";
             }
-            $msg = "<br />Previous configuration saved as $backup\n";
+            $msg = "<br />Previous configuration saved in $backup\n";
         }
-        $msg = "Wrote new configuration to $lsc\n$msg";
+        $msg = "New configuration saved in $lsc\n$msg";
     }
     else {
         unlink $backup if ($backup);

@@ -567,6 +567,16 @@ sub _screenAuthorize {
 
     my $changePassword = $Foswiki::query->param('changePassword') || undef;
 
+    my ( $errors, $warnings ) = (0) x 2;
+    for my $param ( $Foswiki::query->param ) {
+        next unless ( $param =~ /^\{.*\}errors$/ );
+        my $value = $Foswiki::query->param($param);
+        if ( $value =~ /^(\d+) (\d+)$/ ) {
+            $errors   += $1;
+            $warnings += $2;
+        }
+    }
+
 # Used in form templates to control content:
 # displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions, 16 = Email Test, 32 = Login
 
@@ -587,6 +597,9 @@ sub _screenAuthorize {
         'extRemoveCount' => 0,
         'extAddItems'    => [],
         'extRemoveItems' => [],
+        'totalErrors'    => $errors,
+        'totalWarnings'  => $warnings,
+        'someProblems'   => $errors + $warnings,
     );
     dispatch( '_screenAuth', $transact, \&invalidDispatch, \%args );
 

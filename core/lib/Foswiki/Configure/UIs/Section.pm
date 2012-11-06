@@ -97,24 +97,12 @@ sub renderHtml {
 
     my $outText = '';
     if ( $depth == 1 ) {
-        my $totalWarningsText;
-        if ($Foswiki::Configure::UI::totwarnings) {
-            $totalWarningsText =
-              $Foswiki::Configure::UI::totwarnings . ' '
-              . (
-                $Foswiki::Configure::UI::totwarnings == 1
-                ? 'warning'
-                : 'warnings'
-              );
-        }
-        my $totalErrorsText;
-        if ($Foswiki::Configure::UI::toterrors) {
-            $totalErrorsText =
-              $Foswiki::Configure::UI::toterrors . ' '
-              . (
-                $Foswiki::Configure::UI::toterrors == 1 ? 'error' : 'errors' );
-        }
-        my $isFirstTime = $Foswiki::Configure::UI::firsttime || 0;
+        my $isFirstTime = (
+            $Foswiki::Configure::UI::firsttime
+              && ( $Foswiki::Configure::UI::totwarnings
+                || $Foswiki::Configure::UI::toterrors )
+          )
+          || 0;
 
         $outText =
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('main');
@@ -123,8 +111,6 @@ sub renderHtml {
             {
                 'navigation'    => $navigation,
                 'contents'      => $contents,
-                'totalWarnings' => $totalWarningsText,
-                'totalErrors'   => $totalErrorsText,
                 'firstTime'     => $isFirstTime,
                 'unsavedNotice' => $Foswiki::unsavedChangesNotice,
             }

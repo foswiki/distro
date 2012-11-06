@@ -408,6 +408,128 @@ var configure = (function ($) {
 
             contents = $('.configureDefaultValueLinkValue', link)[0];
             $(contents).html(template);
+        },
+
+        /* Update the tab summary icons and status summary line from the item error values.
+         * Each item has a corresponding (key){s}errors hidden value, containing the item's
+         * error and warning counts.  These are initally set with checker results with the
+         * main page is built, and updated when changed by feedback.  updateIndicators
+         * pushes the values up to the tabs and status line, mostly by adjusting classes.
+         */
+
+        updateIndicators: function () {
+            /* Clear all existing indicators.
+             * This finds all tab links with error classes and removes them.
+             */
+
+            $('ul li a.configureWarn,ul li a.configureError,ul li a.configureWarnAndError').removeClass('configureWarn configureError configureWarnAndError' );
+
+            /* Find each item's error value & propagate it upwards. */
+
+            var totalErrors = 0,
+                totalWarnings = 0,
+                itemClass,
+                tab,
+                tabName,
+                tabNames,
+                subTab,
+                statusLine;
+
+            $( '[name$=\\}errors]' ).each(function (index) {
+                if( this.value === "0 0" ) {
+                    return true;
+                }
+                var errors = this.value.split(' ');
+                if( errors.length !== 2 ) {
+                    return true;
+                }
+                errors[0] = parseInt(errors[0],10);
+                totalErrors += errors[0];
+                errors[1] = parseInt(errors[1],10);
+                totalWarnings += errors[1];
+
+                /* Select this item's contribution to the tab's classes */
+
+                if( (errors[0] !== 0) && (errors[1] !== 0) ) {
+                    itemClass = 'configureWarnAndError';
+                } else { if (errors[0] !== 0) {
+                    itemClass = 'configureError';
+                } else {
+                    itemClass = 'configureWarn';
+                }}
+                var tab = $( this ).parents('div.configureSubSection').last();
+                if( tab.size() == 1 ) {
+                    tabName = tab.find('a').get(0).name;
+                    tabNames = tabName.split('$' );
+
+                    /* Update subtab, if any */
+                    if( tabNames.length === 2 ) {
+                       subTab = $(tab).closest('div.configureRootSection').find('ul.configureSubTab li a[href="' +
+                                                configure.utils.quoteName('#' +
+                                                                  tabName ) + '"]' );
+                        if( subTab.size() == 1 ) {
+                            if( !subTab.hasClass( 'configureWarnAndError' ) ) {
+                                if( itemClass === 'configureWarnAndError' ) {
+                                    subTab.removeClass('configureError configureWarn').addClass(itemClass);
+                                } else { if( !subTab.hasClass( itemClass ) ) {
+                                    subTab.addClass(itemClass);
+                                    if( subTab.hasClass('configureWarn') &&
+                                        subTab.hasClass('configureError') ) {
+                                        subTab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
+                                    }
+                                }}
+                            }
+                        }
+                    }
+                    /* Update main navigation tab */
+                    tab = $('ul.configureRootTab li a[href="' +
+                                         configure.utils.quoteName('#'+tabNames[1]) +'"]');
+                } else {
+                    tab =  $( this ).closest('div.configureRootSection');
+                    if( tab.size() == 1 ) {
+                        tabName = tab.find('a').get(0).name;
+                         tab = $('ul.configureRootTab li a[href="' +
+                                 configure.utils.quoteName('#'+tabName) +'"]');
+                    }
+                }
+
+                if( tab.size() == 1 ) {
+                    if( !tab.hasClass( 'configureWarnAndError' ) ) {
+                        if( itemClass === 'configureWarnAndError' ) {
+                            tab.removeClass('configureError configureWarn').addClass(itemClass);
+                        } else { if( !tab.hasClass( itemClass ) ) {
+                            tab.addClass(itemClass);
+                            if( tab.hasClass('configureWarn') &&
+                                tab.hasClass('configureError') ) {
+                                tab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
+                            }
+                        }}
+                    }
+                }
+
+                return true;
+            }); /* errorItem */
+
+            /* Finally, the summary status bar */
+
+            statusLine = 'Status: ';
+            if( totalWarnings || totalErrors ) {
+                if( totalErrors ) {
+                    statusLine += '<span class="configureStatusErrors">' + totalErrors + " Error";
+                    if( totalErrors !== 1 ) { statusLine += 's'; }
+                    statusLine += '</span>';
+                }
+                if( totalWarnings ) {
+                    statusLine += '<span class="configureStatusWarnings">' + totalWarnings + " Warning";
+                    if( totalWarnings !== 1 ) { statusLine += 's'; }
+                    statusLine += '</span>';
+                }
+            } else {
+                statusLine += '<span class="configureStatusOK">No problems detected</span>';
+                $('#configureFixSoon').remove();
+            }
+            $('#configureErrorSummary').html(statusLine);
+            return true;
         }
 
 	};
@@ -544,7 +666,8 @@ var showWhenNothingChangedElements = [];
 
 var unsaved = { id:'{ConfigureGUI}{Unsaved}status', value:'Not a button' },
     statusTimer = undefined,
-    statusDeferred = false;
+    statusDeferred = false,
+    errorKeyRe = /^\{.*\}errors$/;
 
 /*
 Global fuction
@@ -717,6 +840,8 @@ $(document).ready(function () {
         });
     });
 
+    configure.updateIndicators();
+
     // make sticky
     $('.navigation').affix({
       offset: {
@@ -765,8 +890,7 @@ function doFeedback(key, pathinfo) {
         KeyIdSelector = '#' + quoteKeyId,
         posturl = document.location.pathname, /* Where to post form */
         working,
-        stsWindowId,
-        errorKeyRe = /^\{.*\}errors$/;
+        stsWindowId;
 
     /* Add a named item from a form to the POST data */
 
@@ -875,7 +999,10 @@ function doFeedback(key, pathinfo) {
         case "hidden":
             if( errorKeyRe.test(ctlName) && this.value === "0 0" ) {
                 return true; /* Don't bother sending "no error" values */
-            } /* Fall into postFormItem */
+            }
+            postFormItem(ctlName, this.value);
+            return true;
+
         case "text":
         case "password":
             postFormItem(ctlName, this.value);
@@ -1126,121 +1253,13 @@ function doFeedback(key, pathinfo) {
                 }
             }
 
-            /* Responses with just unchanged updates or with no error count
-             * changes need no more processing.
+            /* Responses with just unsaved items updates or with no error count
+             * changes need no more processing.  Otherwise, update the indicators.
              */
 
-            if( !stsWindowId || !errorsChanged ) {
-                return true;
+            if( stsWindowId && errorsChanged ) {
+                configure.updateIndicators();
             }
-
-            /* Full response.  Scan for {key}{s}errors (now updated) and
-             * apply classes to the items' tabs/subtabs accordingly.
-             * This will correct the summary icons.
-             */
-
-            /* Clear all existing indicators. */
-
-            $('ul li a.configureWarn,ul li a.configureError,ul li a.configureWarnAndError').removeClass('configureWarn configureError configureWarnAndError' );
-
-            /* Find each item's error value & propagate it upwards. */
-
-            var totalErrors = 0,
-                totalWarnings = 0;
-
-            $( '[name$=\\}errors]' ).each(function (index) {
-                if( this.value === "0 0" ) {
-                    return true;
-                }
-                var errors = this.value.split(' ');
-                if( errors.length !== 2 ) {
-                    return true;
-                }
-                errors[0] = parseInt(errors[0],10);
-                totalErrors += errors[0];
-                errors[1] = parseInt(errors[1],10);
-                totalWarnings += errors[1];
-
-                var itemClass;
-
-                if( (errors[0] !== 0) && (errors[1] !== 0) ) {
-                    itemClass = 'configureWarnAndError';
-                } else { if (errors[0] !== 0) {
-                    itemClass = 'configureError';
-                } else {
-                    itemClass = 'configureWarn';
-                }}
-                var tab = $( this ).closest('div.configureSubSection');
-                if( tab.size() == 1 ) {
-                    var tabName = tab.find('a').get(0).name;
-                    var tabNames = tabName.split('$' );
-
-                    /* Update subtab, if any */
-                    if( tabNames.length === 2 ) {
-                       var subtab = $(tab).closest('div.configureRootSection').find('ul.configureSubTab li a[href="' +
-                                                configure.utils.quoteName('#' +
-                                                                  tabName ) + '"]' );
-                        if( subtab.size() == 1 ) {
-                            if( !subtab.hasClass( 'configureWarnAndError' ) ) {
-                                if( itemClass === 'configureWarnAndError' ) {
-                                    subtab.removeClass('configureError configureWarn').addClass(itemClass);
-                                } else { if( !subtab.hasClass( itemClass ) ) {
-                                    subtab.addClass(itemClass);
-                                    if( subtab.hasClass('configureWarn') &&
-                                        subtab.hasClass('configureError') ) {
-                                        subtab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
-                                    }
-                                }}
-                            }
-                        }
-                    }
-                    /* Update main navigation tab */
-                    tab = $('ul.configureRootTab li a[href="' +
-                                         configure.utils.quoteName('#'+tabNames[1]) +'"]');
-                } else {
-                    tab =  $( this ).closest('div.configureRootSection');
-                    if( tab.size() == 1 ) {
-                        tabName = tab.find('a').get(0).name;
-                         tab = $('ul.configureRootTab li a[href="' +
-                                 configure.utils.quoteName('#'+tabName) +'"]');
-                    }
-                }
-
-                if( tab.size() == 1 ) {
-                    if( !tab.hasClass( 'configureWarnAndError' ) ) {
-                        if( itemClass === 'configureWarnAndError' ) {
-                            tab.removeClass('configureError configureWarn').addClass(itemClass);
-                        } else { if( !tab.hasClass( itemClass ) ) {
-                            tab.addClass(itemClass);
-                            if( tab.hasClass('configureWarn') &&
-                                tab.hasClass('configureError') ) {
-                                tab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
-                            }
-                        }}
-                    }
-                }
-
-                return true;
-            }); /* errorItem */
-
-            /* Finally, the summary status bar */
-
-            var statusLine = 'Status: ';
-            if( totalWarnings || totalErrors ) {
-                if( totalErrors ) {
-                    statusLine += '<span class="configureStatusErrors">' + totalErrors + " Error";
-                    if( totalErrors !== 1 ) { statusLine += 's'; }
-                    statusLine += '</span>';
-                }
-                if( totalWarnings ) {
-                    statusLine += '<span class="configureStatusWarnings">' + totalWarnings + " Warning";
-                    if( totalWarnings !== 1 ) { statusLine += 's'; }
-                    statusLine += '</span>';
-                }
-            } else {
-                statusLine += '<span class="configureStatusOK">No problems detected</span>';
-            }
-            $('#configureErrorSummary').html(statusLine);
 
             return true;
         } /* complete */

@@ -138,8 +138,22 @@
 			</table>
 			<p><input type="submit" class='foswikiButton' value="Make more changes" onclick="return setSubmitAction(this);" /></p>
 		</div>
-	</#if>
-    <input type="hidden" name='confirmChanges' value='1' />
+        </#if>
+        <#if someProblems gt 0>
+            <div><h3></#if>
+        <#if someProblems == 1>
+          There is an unresolved problem.</h3> There is </#if>
+        <#if someProblems gt 1>
+          There are unresolved problems.</h3> There are </#if>
+        <#if totalErrors gt 0>
+          ${totalErrors} error</#if><#if totalErrors gt 1>s</#if><#if totalErrors gt 0 && totalWarnings gt 0> and </#if><#if totalWarnings gt 0>${totalWarnings} warning</#if><#if totalWarnings gt 1>s</#if><#if someProblems gt 0>.
+          <p>We recommend that you resolve </#if>
+        <#if someProblems == 1>this </#if>
+        <#if someProblems gt 1>these </#if>
+        <#if someProblems gt 0>before saving the configuration.<p></div>
+        </#if>
+
+     <input type="hidden" name='confirmChanges' value='1' />
 	<form method="post" action="${formAction}" enctype="multipart/form-data" name="foswiki_configure">
 		<#if params??>${params}</#if>
 		<#if hasPassword == 0>
@@ -157,7 +171,7 @@
 <#assign localNoUpdate>
 <h2>Nothing to do - you haven't made any changes yet</h2>
 
-<p><input type="submit" class='foswikiButton' value="Back to main screen" onclick="return setSubmitAction(this);" /></p>
+<p><input type="submit" class='foswikiButton' value="Back to main screen" onclick="return setSubmitAction(this, 'Configure');" /></p>
 </#assign>
 
 <#assign extRemove>

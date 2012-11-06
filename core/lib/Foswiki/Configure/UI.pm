@@ -511,6 +511,21 @@ sub FB_VALUE {
 
 =begin TML
 
+---++ ObjectMethod FB_GUIVAL(...)
+
+Like FB_VALUE, but for GUI items.  Key needn't exist.
+
+=cut
+
+sub FB_GUIVAL {
+    my $this = shift;
+    my $keys = shift;
+
+    return "\001$keys\003" . join( "\004", @_ );
+}
+
+=begin TML
+
 ---++ ObjectMethod hidden($value) -> $html
 Used in place of CGI::hidden, which is broken in some CGI versions.
 HTML encodes the value
