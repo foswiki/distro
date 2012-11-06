@@ -1100,7 +1100,10 @@ function doFeedback(key, pathinfo) {
                         case "hidden":
                             if( errorKeyRe.test(this.name) ) {
                                 errorsChanged++;
-                            } /* Fall into set value */
+                            }
+                            this.value = newval.join("");
+                            return true;
+
                         case "textarea":
                         case "text":
                         case "password":
@@ -1174,17 +1177,17 @@ function doFeedback(key, pathinfo) {
 
                     /* Update subtab, if any */
                     if( tabNames.length === 2 ) {
-                       var subtab = $(tab).closest('div.configureRootSection').find('ul.configureSubTab li a[href="'
-                                                + configure.utils.quoteName('#'
-                                                                  + tabName ) + '"]' );
+                       var subtab = $(tab).closest('div.configureRootSection').find('ul.configureSubTab li a[href="' +
+                                                configure.utils.quoteName('#' +
+                                                                  tabName ) + '"]' );
                         if( subtab.size() == 1 ) {
                             if( !subtab.hasClass( 'configureWarnAndError' ) ) {
                                 if( itemClass === 'configureWarnAndError' ) {
                                     subtab.removeClass('configureError configureWarn').addClass(itemClass);
                                 } else { if( !subtab.hasClass( itemClass ) ) {
                                     subtab.addClass(itemClass);
-                                    if( subtab.hasClass('configureWarn')
-                                        && subtab.hasClass('configureError') ) {
+                                    if( subtab.hasClass('configureWarn') &&
+                                        subtab.hasClass('configureError') ) {
                                         subtab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
                                     }
                                 }}
@@ -1192,14 +1195,14 @@ function doFeedback(key, pathinfo) {
                         }
                     }
                     /* Update main navigation tab */
-                    tab = $('ul.configureRootTab li a[href="'
-                                         + configure.utils.quoteName('#'+tabNames[1]) +'"]');
+                    tab = $('ul.configureRootTab li a[href="' +
+                                         configure.utils.quoteName('#'+tabNames[1]) +'"]');
                 } else {
                     tab =  $( this ).closest('div.configureRootSection');
                     if( tab.size() == 1 ) {
                         tabName = tab.find('a').get(0).name;
-                         tab = $('ul.configureRootTab li a[href="'
-                                 + configure.utils.quoteName('#'+tabName) +'"]');
+                         tab = $('ul.configureRootTab li a[href="' +
+                                 configure.utils.quoteName('#'+tabName) +'"]');
                     }
                 }
 
@@ -1209,8 +1212,8 @@ function doFeedback(key, pathinfo) {
                             tab.removeClass('configureError configureWarn').addClass(itemClass);
                         } else { if( !tab.hasClass( itemClass ) ) {
                             tab.addClass(itemClass);
-                            if( tab.hasClass('configureWarn')
-                                && tab.hasClass('configureError') ) {
+                            if( tab.hasClass('configureWarn') &&
+                                tab.hasClass('configureError') ) {
                                 tab.removeClass('configureError configureWarn').addClass('configureWarnAndError');
                             }
                         }}
@@ -1222,22 +1225,22 @@ function doFeedback(key, pathinfo) {
 
             /* Finally, the summary status bar */
 
-            var status = 'Status: '
+            var statusLine = 'Status: ';
             if( totalWarnings || totalErrors ) {
                 if( totalErrors ) {
-                    status += '<span class="configureStatusErrors">' + totalErrors + " Error";
-                    if( totalErrors !== 1 ) { status += 's' };
-                    status += '</span>';
+                    statusLine += '<span class="configureStatusErrors">' + totalErrors + " Error";
+                    if( totalErrors !== 1 ) { statusLine += 's'; }
+                    statusLine += '</span>';
                 }
                 if( totalWarnings ) {
-                    status += '<span class="configureStatusWarnings">' + totalWarnings + " Warning";
-                    if( totalWarnings !== 1 ) { status += 's' };
-                    status += '</span>';
+                    statusLine += '<span class="configureStatusWarnings">' + totalWarnings + " Warning";
+                    if( totalWarnings !== 1 ) { statusLine += 's'; }
+                    statusLine += '</span>';
                 }
             } else {
-                status += '<span class="configureStatusOK">No problems detected</span>';
+                statusLine += '<span class="configureStatusOK">No problems detected</span>';
             }
-            $('#configureErrorSummary').html(status);
+            $('#configureErrorSummary').html(statusLine);
 
             return true;
         } /* complete */
