@@ -522,6 +522,31 @@ sub testCovers {
     $this->assert( $s1->covers($s2) );
 }
 
+# Check filter-in can exlude all
+sub testExcludeAll {
+    my $this = shift;
+
+    $Foswiki::cfg{MailerContrib}{EmailFilterIn} = '^@@notAnEmail';
+
+    my $s = <<'HERE';
+   * bad@disallowed.com: *
+   * good@example.com: *
+HERE
+
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName} );
+    $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
+    $meta->text("Before\n${s}After");
+    $meta->save();
+    $meta->finish();
+    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
+        0, undef, 0, 0 );
+
+    $this->assert( !scalar @FoswikiFnTestCase::mails,
+        "Should not send any mail!" );
+}
+
 # Check filter-in on email addresses
 sub testExcluded {
     my $this = shift;
