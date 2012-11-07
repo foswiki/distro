@@ -1797,20 +1797,20 @@ $Foswiki::cfg{SMTP}{Password} = '';
 # Enable to cause all e-mails sent by Foswiki to be signed using S/MIME.
 $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 
-# **PATH DISPLAY_IF {Email}{EnableSMIME}**
+# **PATH FEEDBACK=auto DISPLAY_IF {Email}{EnableSMIME}**
 # Specify the file containing the administrator's X.509 certificate.  It
 # must be in PEM format. <p>
 # If your issuer requires an intermediate CA certificate(s), include them in this
 # file after the sender's certificate in order from least to most authoritative CA.
 $Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/cert.pem';
 
-# **PATH DISPLAY_IF {Email}{EnableSMIME}**
+# **PATH FEEDBACK=auto DISPLAY_IF {Email}{EnableSMIME}**
 # Specify the file containing the private key corresponding to the administrator's X.509 certificate.
 # It must be in PEM format.  <p><em>Be sure that this file is only readable by the
 # Foswiki software; it must NOT be readable by users!</em>
 $Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/key.pem';
 
-# **PASSWORD 30 DISPLAY_IF {Email}{EnableSMIME}**
+# **PASSWORD 30 FEEDBACK=auto DISPLAY_IF {Email}{EnableSMIME}**
 # If the file containing the certificate's private key is encrypted, specify the password.
 # Otherwise leave blank.
 # <p>Currently only DES3 encryption is supported, but you can convert other files with
