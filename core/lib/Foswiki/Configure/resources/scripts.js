@@ -304,7 +304,7 @@ var configure = (function ($) {
                  * but it comes it a lot of baggage.  For now, just skip this for browsers that don't support
                  * window.history.
                  */
-                if( window.history ) {
+                if( window.history && window.history.pushState ) {
                     if (subId !== undefined) {
                         subName = subId.split("$")[1];
                         window.history.pushState(undefined, "Configure / " + mainId + " / " + subName, url + "#" + subId);
