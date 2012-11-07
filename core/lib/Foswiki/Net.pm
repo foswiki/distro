@@ -261,6 +261,56 @@ sub _GETUsingLWP {
     return $response;
 }
 
+# Centralized logger for mail-related errors
+#
+# Logs at specified level to Foswiki logs
+#  'die-level' (e.g. 'die-critical') will log at specified level
+#  then die.  'die' defaults to 'error'.
+#
+# Respects {SMTP}{Debug}
+
+sub _logMailError {
+    my $this  = shift;
+    my $level = shift;
+
+    my $msg = join( '', @_ );
+    chomp $msg;
+
+    my $die;
+    if ( $level eq 'die' ) {
+        $die = $level = 'error';
+    }
+    elsif ( $level =~ s/^die-// ) {
+        $die = 1;
+    }
+
+    if ( $Foswiki::cfg{SMTP}{Debug} ) {
+        print STDERR "MAIL " . uc($level) . $msg . "\n";
+    }
+    else {
+        my $logger;
+        if ( $this->{session} ) {
+            $logger = $this->{session}->logger;
+        }
+        else {
+            $logger = $Foswiki::cfg{Log}{Implementation};
+            unless ($logger) {
+                print STDERR "MAIL " . uc($level) . $msg . "\n";
+                die "MAIL $level: $msg\n" if ($die);
+                return;
+            }
+            eval "require $logger;";
+            die "Can't load $logger: $!\n" if ($@);
+            $logger = $logger->new();
+        }
+        $logger->log( $level, $msg ) if ($logger);
+    }
+
+    die "MAIL " . uc($level) . ": $msg\n" if ($die);
+
+    return;
+}
+
 # pick a default mail handler
 sub _installMailHandler {
     my $this    = shift;
@@ -280,13 +330,13 @@ sub _installMailHandler {
         $this->{MAIL_METHOD} = 'Net::SMTP' if ( $this->{MAIL_HOST} );
     }
 
-    #print STDERR "Set MAIL_METHOD to ($this->{MAIL_METHOD})";
+    #_logMailError('debug', "Set MAIL_METHOD to ($this->{MAIL_METHOD})" );
 
     if (   $this->{MAIL_HOST}
         && $this->{MAIL_METHOD} ne 'MailProgram' )
     {
 
-        #print STDERR "Testing $this->{MAIL_HOST} with $this->{MAIL_METHOD} \n";
+#_logMailError('debug', "Testing $this->{MAIL_HOST} with $this->{MAIL_METHOD}");
 
         # See Codev.RegisterFailureInsecureDependencyCygwin for why
         # this must be untainted
@@ -297,23 +347,20 @@ sub _installMailHandler {
           Foswiki::Sandbox::untaintUnchecked( $this->{MAIL_HOST} );
         eval "require $this->{MAIL_METHOD};";
         if ($@) {
-            print STDERR ">>>> Failed to load $this->{MAIL_METHOD}: $@ \n";
-            $this->{session}->logger->log( 'warning',
-                "$this->{MAIL_METHOD} not available: $@" )
-              if ( $this->{session} );
+            $this->_logMailError( 'error',
+                "Failed to load $this->{MAIL_METHOD}: $@" );
         }
         else {
             $handler = \&_sendEmailByNetSMTP;
 
-            #print STDERR "Set EMAIL HANDLER to $this->{MAIL_METHOD}";
+          #_logMailError('debug', "Set EMAIL HANDLER to $this->{MAIL_METHOD}" );
         }
     }
 
     if ( !$handler && $Foswiki::cfg{MailProgram} ) {
         $handler = \&_sendEmailBySendmail;
 
-        #print STDERR
-        #"Set EMAIL HANDLER to $this->{MAIL_METHOD} $Foswiki::cfg{MailProgram}";
+#_logMailError('debug', "Set EMAIL HANDLER to $this->{MAIL_METHOD} $Foswiki::cfg{MailProgram}" );
     }
 
     $this->setMailHandler($handler) if $handler;
@@ -353,10 +400,10 @@ sub sendEmail {
     my ( $this, $text, $retries ) = @_;
     $retries ||= 1;
 
-    #print STDERR "sendEmail Entered";
+    #_logMailError('debug', "sendEmail Entered");
 
     unless ( $Foswiki::cfg{EnableEmail} ) {
-        return 'Trying to send email while email functionality is disabled';
+        return 'Can not send mail: Foswiki email is disabled';
     }
 
     unless ( defined $this->{mailHandler} ) {
@@ -380,10 +427,7 @@ sub sendEmail {
         catch Error::Simple with {
             my $e = shift->stringify();
             ( my $to ) = $text =~ /^To:\s*(.*?)$/im;
-            $this->{session}
-              ->logger->log( 'warning', "Error sending email $to - $e" )
-              if ( $this->{session} );
-            print STDERR ">>>> FAILURE Sending e-mail to $to - $e\n";
+            $this->_logMailError( 'error', "Error sending email $to - $e" );
 
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the
@@ -416,97 +460,107 @@ sub _fixLineLength {
     return $addrs;
 }
 
-sub _slurpFile( $ ) {
+# Inhale an entire file (certificate, key)
+
+sub _slurpFile( $$ ) {
+    my $this = shift;
     my $file = shift;
 
-    unless ( open( IN, '<', $file ) ) {
-        ( $<, $> ) = ( $>, $< );
-        die("Failed to open $file: $!\n");
+    my $fh;
+    unless ( open( $fh, '<', $file ) ) {
+        $this->_logMailError( 'die', "Failed to open $file: $!\n" );
     }
-    my $text = do { local ($/); <IN> };
 
-    unless ( close IN ) {
-        ( $<, $> ) = ( $>, $< );
-        die("Failed to close $file: $!\n");
+    my $text = do { local ($/); <$fh> };
+
+    unless ( close $fh ) {
+        $this->_logMailError( 'die', "Failed to close $file: $!\n" );
     }
 
     return $text;
 }
 
 # =======================================
+# Sign & replace message text
+
 sub _smimeSignMessage {
     my $this = shift;
 
-    if (   $Foswiki::cfg{Email}{SmimeCertificateFile}
+    unless ( $Foswiki::cfg{Email}{SmimeCertificateFile}
         && $Foswiki::cfg{Email}{SmimeKeyFile} )
     {
-        eval { require Crypt::SMIME; };
-        if ($@) {
-            $@ =~ /^(.*?)\n.*\z/s
-              ;    # Any useful error information is on the first line.
-            $this->{session}
-              ->writeWarning( "ERROR: Cypt::SMIME is not available: "
-                  . ( $1 || $@ )
-                  . ".  Mail will be sent unsigned.\n" )
-              if ( $this->{session} );
-            return;
-        }
-        my $smime = Crypt::SMIME->new();
+        $this->_logMailError( 'die',
+"Signed (S/MIME) mail is enabled, but certificate or key is not specified."
+        );
+    }
 
-        my $key = _slurpFile( $Foswiki::cfg{Email}{SmimeKeyFile} );
-        if (   exists $Foswiki::cfg{Email}{SmimeKeyPassword}
-            && length $Foswiki::cfg{Email}{SmimeKeyPassword}
-            && $key =~ /^-----BEGIN RSA PRIVATE KEY-----\n(?:(.*?\n)\n)?/s )
+    eval { require Crypt::SMIME; };
+    if ($@) {
+        $this->_logMailError( 'die',
+                "Cypt::SMIME is not available"
+              . ( $@ =~ /Can't locate/ ? '' : ": $@" )
+              . ".  Mail will not be sent" );
+    }
+
+    my $smime = Crypt::SMIME->new();
+
+    my $key = $this->_slurpFile( $Foswiki::cfg{Email}{SmimeKeyFile} );
+
+    # Decrypt key if password specified and file has encryption header.
+
+    if (   exists $Foswiki::cfg{Email}{SmimeKeyPassword}
+        && length $Foswiki::cfg{Email}{SmimeKeyPassword}
+        && $key =~ /^-----BEGIN RSA PRIVATE KEY-----\n(?:(.*?\n)\n)?/s )
+    {
+        my %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $1 )
+          if ( defined $1 );
+        if (   $h{'Proc-Type'}
+            && $h{'Proc-Type'} eq '4,ENCRYPTED'
+            && $h{'DEK-Info'}
+            && $h{'DEK-Info'} =~ /^DES-EDE3-CBC,/ )
         {
-            my %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $1 )
-              if ( defined $1 );
-            if (   $h{'Proc-Type'}
-                && $h{'Proc-Type'} eq '4,ENCRYPTED'
-                && $h{'DEK-Info'}
-                && $h{'DEK-Info'} =~ /^DES-EDE3-CBC,/ )
-            {
 
  #<<<
-               require Convert::PEM;
-                my $pem = Convert::PEM->new( Name => 'RSA PRIVATE KEY',
+           require Convert::PEM;
+            my $pem = Convert::PEM->new( Name => 'RSA PRIVATE KEY',
                                              ASN  => qq(
-                   RSAPrivateKey SEQUENCE {
-                      version INTEGER, n INTEGER, e INTEGER, d INTEGER,
-                      p INTEGER, q INTEGER, dp INTEGER, dq INTEGER,
-                      iqmp INTEGER
-                   }                                   ) );
+               RSAPrivateKey SEQUENCE {
+                  version INTEGER, n INTEGER, e INTEGER, d INTEGER,
+                  p INTEGER, q INTEGER, dp INTEGER, dq INTEGER,
+                  iqmp INTEGER
+               }                                   ) );
 #>>>
-                $key = $pem->decode(
-                    Content  => $key,
-                    Password => $Foswiki::cfg{Email}{SmimeKeyPassword}
-                );
-                unless ($key) {
-                    $this->{session}->writeWarning( "ERROR: Unable to decrypt "
-                          . $Foswiki::cfg{Email}{SmimeKeyFile} . ": "
-                          . $pem->errstr
-                          . ".  Mail will be sent unsigned.\n" )
-                      if ( $this->{session} );
-                    return;
-                }
-                $key = $pem->encode( Content => $key );
+            $key = $pem->decode(
+                Content  => $key,
+                Password => $Foswiki::cfg{Email}{SmimeKeyPassword}
+            );
+            unless ($key) {
+                $this->_logMailError( 'die',
+                        "Unable to decrypt "
+                      . $Foswiki::cfg{Email}{SmimeKeyFile} . ": "
+                      . $pem->errstr
+                      . ".  Mail will not be sent." );
+                return;
             }
+            $key = $pem->encode( Content => $key );
         }
-        eval {
-            $smime->setPrivateKey( $key,
-                _slurpFile( $Foswiki::cfg{Email}{SmimeCertificateFile} ) );
-        };
-        if ($@) {
-            $@ =~ /^(.*?)\n.*\z/s
-              ;    # Any useful error information is on the first line.
-            $this->{session}->writeWarning(
-                    "ERROR: Key or Certificate problem sending email: "
-                  . ( $1 || $@ )
-                  . ". Mail will be sent unsigned.\n" )
-              if ( $this->{session} );
-            return;
-        }
-        $_[0] = $smime->sign( $_[0] );
     }
+
+    # Provide decrypted private key & certificate - trapping exceptions
+
+    eval {
+        $smime->setPrivateKey( $key,
+            $this->_slurpFile( $Foswiki::cfg{Email}{SmimeCertificateFile} ) );
+    };
+    if ($@) {
+        $this->_logMailError( 'die',
+                "Key or Certificate problem sending email"
+              . ( $@ =~ /Can't locate/ ? '' : ": $@" )
+              . ".  Mail will not be sent" );
+        return;
+    }
+
+    $_[0] = $smime->sign( $_[0] );
 }
 
 # =======================================
@@ -521,9 +575,10 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
     $text = "$header\n\n$body";    # rebuild message
 
     $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
-    print STDERR
-"====== Sending to $Foswiki::cfg{MailProgram} ======\n$text\n======EOM======\n"
-      if ( $Foswiki::cfg{SMTP}{Debug} );
+
+    $this->_logMailError( 'debug',
+"====== Sending to $Foswiki::cfg{MailProgram} ======\n$text\n======EOM======"
+    );
 
     unless ( defined $IPCRunAvailable ) {
         eval 'require IPC::Run';
@@ -535,16 +590,20 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
         my @cmd = split /\s/, $Foswiki::cfg{MailProgram};
         require IPC::Run;
         IPC::Run::run( \@cmd, \$text, \$out, \$err )
-          or die "ERROR: Exit code "
-          . ( $? << 8 )
-          . " ($?) from Foswiki::cfg{MailProgram}";
+          or $this->_logMailError(
+            'die',
+            "Mail failure exit code "
+              . ( $? << 8 )
+              . " ($?) from Foswiki::cfg{MailProgram}"
+          );
         print STDERR "$out" if ($out);
         print STDERR "$err" if ($err);
     }
     else {
         my $MAIL;
         open( $MAIL, '|-', $Foswiki::cfg{MailProgram} )
-          || die "ERROR: Can't send mail using Foswiki::cfg{MailProgram}";
+          || $this->_logMailError( 'die',
+            "Can't send mail using Foswiki::cfg{MailProgram}" );
         print $MAIL $text;
         close($MAIL);
 
@@ -558,9 +617,10 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
         # 'webmaster' user, so it gets confused. The 'From:' in the mail must
         # refer to a user account that exists locally. After we created a dummy
         # 'webmaster' user, the error went away.
-        die "ERROR: Exit code "
-          . ( $? >> 8 )
-          . " ($?) from Foswiki::cfg{MailProgram}"
+        $this->_logMailError( 'die',
+                "Mail failure exit code "
+              . ( $? >> 8 )
+              . " ($?) from Foswiki::cfg{MailProgram}" )
           if $?;
     }
 }
@@ -572,10 +632,12 @@ sub _sendEmailByNetSMTP {
     my @to   = ();
 
     my ( $header, $body ) = split( "\n\n", $text, 2 );
+
     my @headerlines = split( /\r?\n/, $header );
     $header =~ s/\nBCC\:[^\n]*//os;    #remove BCC line from header
     $header =~
 s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/geois;
+
     $text = "$header\n\n$body";        # rebuild message
 
     $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
@@ -591,7 +653,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     unless ($from) {
 
         # SMELL: should be a Foswiki::inlineAlert
-        die "ERROR: Can't send mail, missing 'From:'";
+        $this->_logMailError( 'die', "Can't send mail, missing 'From:'" );
     }
 
     # extract @to from 'To:', 'CC:', 'BCC:'
@@ -620,7 +682,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     if ( !( scalar(@to) ) ) {
 
         # SMELL: should be a Foswiki::inlineAlert
-        die "ERROR: Can't send mail, missing recipient";
+        $this->_logMailError( 'die', "Can't send mail, missing recipient" );
     }
 
     return unless ( scalar @to );
@@ -650,7 +712,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     push @options, Debug => $Foswiki::cfg{SMTP}{Debug} || 0;
 
     #if ($this->{MAIL_METHOD} eq 'Net::SMTP::TLS') {
-    #print STDERR "Creating new TLS Object with @options\n";
+    #$this-> _logMailError('debug', "Creating new TLS Object with @options");
     #$smtp = Net::SMTP::TLS->new(
     #        $this->{MAIL_HOST},
     #        @options
@@ -666,11 +728,13 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
     my $status = '';
     my $mess   = "ERROR: Can't send mail using $this->{MAIL_METHOD}. ";
-    die $mess . "Can't connect to '$this->{MAIL_HOST}'" unless $smtp;
+    $this->_logMailError( 'die',
+        $mess . "Can't connect to '$this->{MAIL_HOST}'" )
+      unless $smtp;
 
-    print STDERR
-">>>> SMTP auth: Attempting authentication for $Foswiki::cfg{SMTP}{Username} \n"
-      if ( $Foswiki::cfg{SMTP}{Debug} && $Foswiki::cfg{SMTP}{Username} );
+    $this->_logMailError( 'debug',
+        "SMTP auth: Attempting authentication for $Foswiki::cfg{SMTP}{Username}"
+    ) if ( $Foswiki::cfg{SMTP}{Debug} && $Foswiki::cfg{SMTP}{Username} );
 
     if ( $Foswiki::cfg{SMTP}{Username}
         && !( $this->{MAIL_METHOD} eq 'Net::SMTP::TLS' ) )
@@ -678,9 +742,8 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         unless ( $Foswiki::cfg{SMTP}{Password} ) {
             my $errmsg =
 "SMTP auth: AUTH requested for $Foswiki::cfg{SMTP}{Username} but no password provided";
-            print STDERR ">>>> $errmsg \n" if $Foswiki::cfg{SMTP}{Debug};
-            $this->{session}->logger->log( 'warning', "$errmsg" )
-              if $this->{session};
+            $this->_logMailError( 'warning', "$errmsg" )
+              if $Foswiki::cfg{SMTP}{Debug};
         }
 
         unless (
@@ -694,15 +757,14 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
               'SMTP auth: ' . $smtp->code() . ': ' . $smtp->message();
             chomp($errmsg);
             $errmsg .= ' - Trying to send without authentication';
-            $this->{session}->logger->log( 'warning', "$errmsg" )
-              if $this->{session};
-            print STDERR ">>>> FAILURE - $errmsg\n";
+            $this->_logMailError( 'warning', "$errmsg" );
         }
     }
-    $smtp->mail($from) || die $mess . $smtp->message;
-    $smtp->to( @to, { SkipBad => 1 } ) || die $mess . $smtp->message;
-    $smtp->data($text) || die $mess . $smtp->message;
-    $smtp->dataend()   || die $mess . $smtp->message;
+    $smtp->mail($from) || $this->_logMailError( 'die', $mess . $smtp->message );
+    $smtp->to( @to, { SkipBad => 1 } )
+      || $this->_logMailError( 'die', $mess . $smtp->message );
+    $smtp->data($text) || $this->_logMailError( 'die', $mess . $smtp->message );
+    $smtp->dataend()   || $this->_logMailError( 'die', $mess . $smtp->message );
     $smtp->quit();
 }
 
