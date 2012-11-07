@@ -234,8 +234,8 @@ sub check {
     $errors = '';
 
     my $notes = sprintf(
-        "$xpv<br />\
-Key Information: %s %s %s key", ucfirst $key->{encrypted}, $key->{type},
+        "%s<br />\
+Key Information: %s %s %s key", $xpv, ucfirst $key->{encrypted}, $key->{type},
         $key->{view}
     );
 
