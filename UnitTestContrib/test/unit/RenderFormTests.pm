@@ -636,4 +636,150 @@ sub test_getAvailableForms {
     return;
 }
 
+#this is a terrible test, but Sven can't figure out another way to
+#reproduce the issue i changed in Item12228 - please help
+sub test_search_expansion {
+    my ( $this, $numcycles, $values ) = @_;
+
+    my ($formTopicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, "FoswikiReleaseForm" );
+    $formTopicObject->text(<<'HERE');
+| *Name* | *Type* | *Size* | *Values* | *Tooltip* | *Attributes* |
+| Summary | textarea | 100x10 | | | |
+| DownloadSource | select | | sourceforge,topic | | |
+| OtherDownloads | textarea | 100x10 | | | |
+| NoUpgrade | checkbox | 1 | 1 | | |
+| Release | text | 10 | | | |
+| ReleaseTaskID | text | 10 | | | |
+| ReleaseMajor | text | 1 | 1 | | |
+| ReleaseMinor | text | 1 | 1 | | |
+| ReleasePatch | text | 1 | %SEARCH{"form.name='FoswikiReleaseForm'" web="TemporaryRenderFormTestsTestWebRenderFormTests" type="query" order="formfield(Release)" limit="1" reverse="on"  nonoise="on" format="$percntCALC{$EVAL(1 + $formfield(ReleasePatch))}$percnt"}% | | |
+| PluginsAPI | select | 1 | 2.2,2.1,2.0 | | |
+| BuildDate | date | 10 | | | |
+| PublishDate | date | 10 | | | |
+| BuildSVNRev | text | 10 | | | |
+| BuildSVNBranch | select | | http://svn.foswiki.org/branches/Release01x01,http://svn.foswiki.org/branches/Release01x00 | | |
+| BuildGitCommit | text | 10 | | | H |
+| BuildGitRepo | text | 100 | | | H |
+HERE
+    $formTopicObject->save();
+
+    my $suffix = '';
+    for ( my $count = 0 ; $count < 10 ; $count++ ) {
+
+        my ($topicObject) =
+          Foswiki::Func::readTopic( $this->{test_web},
+            $this->{test_topic} . $suffix );
+        $topicObject->put( 'FORM', { name => 'FoswikiReleaseForm' } );
+
+#%META:FORM{name="FoswikiReleaseForm"}%
+#%META:FIELD{name="Summary" attributes="" title="Summary" value="This is the Foswiki patch release 1.0.10 released on 08 Sep 2010. Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.%0d%0a%0d%0a   * [[%25SYSTEMWEB%25.ReleaseNotes01x00#Important_Changes_since_Foswiki][changes from 1.0.9]]%0d%0a   * [[%25SYSTEMWEB%25.ReleaseNotes01x00#Foswiki_Patch_Release_1_0_9_Deta][list of tasks completed for 1.0.10]]%0d%0a%0d%0aIf you already run Foswiki 1.0.9 and you do not have any severe issues with it,%0d%0ayou are recommended to stay with 1.0.9 and wait for Foswiki 1.1.0 which we plan%0d%0ato release in October. We are going beta within a few days. Foswiki 1.1.0 is an%0d%0aexciting new release that you can all look forward to with some significant enhancements for both end users and application developers.%0d%0a%0d%0aThe reason for releasing 1.0.10 now is mainly that people installing Foswiki for the first time on Perl 5.12 are having severe issues with the installation. Foswiki 1.0.10 does not have any important enhancements compared to 1.0.9. Read the 1.0.10 [[System.ReleaseNotes01x00][release notes]] and review if an upgrade is desired"}%
+#%META:FIELD{name="DownloadSource" attributes="" title="DownloadSource" value="sourceforge"}%
+#%META:FIELD{name="OtherDownloads" attributes="" title="OtherDownloads" value="<sticky>%0d%0a| *Platform* | *Version* | *File* | *Description* | *Support* |%0d%0a| Windows | 1.0.10 | %25ICON%7bdownload%7d%25 [[http://sourceforge.net/projects/foswiki/files/foswiki/Foswiki-1.0.10-0-strawberry.exe][Foswiki-1.0.10-0-strawberry.exe]] | Foswiki v1.0.10.0 Windows installer (auto-setup) including [[http://strawberryperl.com][Strawberry Perl 5.12.1.0]], [[http://apache.org][Apache 2.2]] | |%0d%0a| Windows | 1.0.9 | %25ICON%7bdownload%7d%25 [[http://fosiki.com/FoswikiInstallers/FoswikiOnAStickv0.5.zip][Foswiki on a USB Stick]] | strawberry perl, no installation required (64MB v0.5) | |%0d%0a| <nobr>Mac OS X 10.5</nobr> <nobr>Mac OS X 10.6</nobr>| 1.0.9 | %25ICON%7bdownload%7d%25 [[%25PUBURLPATH%25/Support/FoswikiOnMacOSXLeopard/Foswiki-1.0.9-1.dmg][Foswiki-1.0.9-1.dmg]] ([[%25PUBURLPATH%25/Support/FoswikiOnMacOSXLeopard/Foswiki-1.0.9-1.dmg.asc][GPG]]) | Foswiki v1.0.9 Mac OS X 10.5/10.6 installer package | Support.FoswikiOnMacOSXLeopard |%0d%0a| Linux (debian) | 1.0.9 (plugins follow the Extensions web uploads) | [[http://fosiki.com/Foswiki_debian/][Unofficial Debian packages repository for Foswiki and extensions]] | Foswiki v.1.0.9 and 233 Extensions with dependencies. %25BR%25 _Works for Debian and Ubuntu._ | [[http://fosiki.com/Foswiki_debian/][Repository instructions]] |%0d%0a| Linux (shared host with ssh login) | 1.0.10-3 %25N%25 | %25ICON%7bdownload%7d%25 [[http://sourceforge.net/projects/foswiki/files/foswiki/1.0.10/Foswiki-1.0.10-SharedHosting-3.tgz][Foswiki-1.0.10-SharedHosting-3.tgz]] ([[http://sourceforge.net/projects/foswiki/files/foswiki/1.0.10/Foswiki-1.0.10-SharedHosting-3.tgz.md5][MD5]]) | tailored to shared hosting with shell access, this is Foswiki v.1.0.10 (including all patches for Support.KnownIssuesOfFoswiki01x00, currently [[Tasks.Item9699][LocalSite.cfg is continuously appended]]) and !FastCGI support using =mod_fcgid=  | Support.FoswikiOnLinuxSharedHostCommandShell |%0d%0a</sticky>%0d%0a%0d%0a%0d%0a---+++!! Other release packages%0d%0a%0d%0a<sticky>%0d%0a| *Platform* | *Version* | *File* | *Description* | *Support* |%0d%0a| VM | 1.0.9 | %25ICON%7bdownload%7d%25 [[DownloadVirtualMachineImage][Virtual Machine Image]] | An easy-to-setup software appliance for VMware or !VirtualBox. Not recommended for professional installations. | Support.VirtualMachineImages |%0d%0a| - | latest SVN or any release | [[http://svn.foswiki.org/][Subversion-based install]] | Installs based on subversion: check out the latest version from the development trunk, or a specific release version | Development.SubversionBasedInstall |%0d%0a</sticky>"}%
+#%META:FIELD{name="NoUpgrade" attributes="" title="NoUpgrade" value=""}%
+#%META:FIELD{name="Release" attributes="" title="Release" value="1.0.10"}%
+        $topicObject->put( 'FIELD',
+            { name => 'Release', value => '1.0.10' . $suffix } );
+
+#%META:FIELD{name="ReleaseTaskID" attributes="" title="ReleaseTaskID" value="1.0.10"}%
+#%META:FIELD{name="ReleaseMajor" attributes="" title="ReleaseMajor" value="1"}%
+#%META:FIELD{name="ReleaseMinor" attributes="" title="ReleaseMinor" value="0"}%
+#%META:FIELD{name="ReleasePatch" attributes="" title="ReleasePatch" value="10"}%
+        $topicObject->put( 'FIELD',
+            { name => 'ReleasePatch', value => $suffix } );
+
+#%META:FIELD{name="PluginsAPI" attributes="" title="PluginsAPI" value="2.0"}%
+#%META:FIELD{name="BuildDate" attributes="" title="BuildDate" value="2010-09-08"}%
+#%META:FIELD{name="PublishDate" attributes="" title="PublishDate" value="2010-09-08"}%
+#%META:FIELD{name="BuildSVNRev" attributes="" title="BuildSVNRev" value="8969"}%
+#%META:FIELD{name="BuildSVNBranch" attributes="" title="BuildSVNBranch" value="http://svn.foswiki.org/branches/Release01x00"}%
+#%META:FIELD{name="BuildGitCommit" attributes="H" title="BuildGitCommit" value=""}%
+#%META:FIELD{name="BuildGitRepo" attributes="H" title="BuildGitRepo" value=""}%
+        $topicObject->save();
+        $topicObject->expandMacros(<<"HERE");
+    %META{"form"}%
+HERE
+        $suffix = "$count";
+    }
+
+    {
+
+        package Foswiki::Store::UnitTestFilter;
+        our @changeStack;
+
+        sub new {
+            my $class = shift;
+
+            #print STDERR "new($class)";
+            @changeStack = ();
+            return $class->SUPER::new(@_);
+        }
+
+        sub query {
+            my $this = shift;
+
+            #print STDERR "query(".$_[0]->stringify().")\n";
+            push( @changeStack, $_[0] );
+            return $this->SUPER::query(@_);
+        }
+
+    }
+
+    $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = 5;
+    $Foswiki::cfg{Store}{ImplementationClasses}
+      {'Foswiki::Store::UnitTestFilter'} = 1;
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
+    my $formObj =
+      Foswiki::Form->new( $this->{session}, $this->{test_web},
+        'FoswikiReleaseForm' );
+
+#query can be called twice - once as a QuerySearch, and once as the regex search underlying it
+    print STDERR "HUH? "
+      . scalar(@Foswiki::Store::UnitTestFilter::changeStack) . "\n";
+    $this->assert( scalar(@Foswiki::Store::UnitTestFilter::changeStack) <= 2 );
+
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    my $tmpl = $this->{session}->templates->readTemplate('view');
+    $tmpl =~ m/^(.*)%TEXT%(.*)$/s;
+    my $end = $2;
+    $topicObject->expandMacros($end);
+
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
+
+    #    my ( $web, $topic, $tmpl, $raw, $ctype, $skin ) = @_;
+    my $web   = $this->{test_web};
+    my $topic = $this->{test_topic};
+
+    my $UI_FN ||= $this->getUIFn('view');
+    my $query = Unit::Request->new(
+        {
+            webName   => [$web],
+            topicName => [$topic],
+
+            #            template    => [$tmpl],
+            #            raw         => [$raw],
+            #            contenttype => [$ctype],
+            #            skin        => [$skin],
+        }
+    );
+    $query->path_info("/$web/$topic");
+    $query->method('POST');
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ( $text, $result, $stdout, $stderr ) = $this->capture(
+        sub {
+            no strict 'refs';
+            &{$UI_FN}( $this->{session} );
+            use strict 'refs';
+            $Foswiki::engine->finalize( $this->{session}{response},
+                $this->{session}{request} );
+        }
+    );
+
+    #print STDERR $stderr;
+
+    return;
+}
+
 1;
