@@ -6743,4 +6743,36 @@ THERE
     return;
 }
 
+#Item12166
+sub verify_search_for_star {
+    my $this = shift;
+
+    my $search = <<'HERE';
+%SEARCH{ 
+    "*" 
+    type="word" 
+    scope="all" 
+    web="all"
+    recurse="" 
+    excludetopic="" 
+    nosearch="" 
+    casesensitive="" 
+    nosummary="" 
+    nototal="" 
+    order="" 
+    reverse="" 
+    pager="on" 
+    limit="50" 
+    pagesize="50" 
+    zeroresults="on" 
+}%
+HERE
+    my $result = $this->{test_topicObject}->expandMacros($search);
+
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert_matches( 'Number of topics: <span>4</span>', $result );
+
+    return;
+}
+
 1;
