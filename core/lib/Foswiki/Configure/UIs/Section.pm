@@ -117,15 +117,8 @@ sub renderHtml {
         );
     }
     else {
-        my $errorText;
-        $errorText =
-          ( $sectionErrors == 1 ) ? '1 error' : "$sectionErrors errors"
-          if $sectionErrors > 0;
-        my $warningText;
-        $warningText =
-          ( $sectionWarnings == 1 ) ? '1 warning' : "$sectionWarnings warnings"
-          if $sectionWarnings;
-
+        my $alertActive =
+          ( $sectionErrors || $sectionWarnings ) ? '' : ' foswikiAlertInactive';
         $outText =
           Foswiki::Configure::UI::getTemplateParser()->readTemplate('section');
         $outText = Foswiki::Configure::UI::getTemplateParser()->parse(
@@ -135,8 +128,7 @@ sub renderHtml {
                 'bodyClass'   => $bodyClass,
                 'depth'       => $depth,
                 'headline'    => $headline,
-                'errors'      => $errorText,
-                'warnings'    => $warningText,
+                'alertActive' => $alertActive,
                 'navigation'  => $navigation,
                 'description' => $description,
                 'contents'    => $contents,

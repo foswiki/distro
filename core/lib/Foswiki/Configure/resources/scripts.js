@@ -425,26 +425,33 @@ var configure = (function ($) {
 
         updateIndicators: function () {
             /* Clear all existing indicators.
-             * This finds all tab links with error classes and removes them.
+             * The first scan finds all tab links with error classes and removes them.
+             * The second finds all Alerts divs and hides them.
+             * This is done because there should be many fewer items with errors than
+             * without.  Visiting only the items with errors minimizes work.
              */
 
             $('ul li a.configureWarn,ul li a.configureError,ul li a.configureWarnAndError').removeClass('configureWarn configureError configureWarnAndError' );
+            $('div[id$=Alerts].foswikiAlert').removeClass('foswikiAlertInactive').addClass('foswikiAlertInactive');
 
-            /* Find each item's error value & propagate it upwards. */
+            /* Find each item's error value & propagate it upwards.
+             * Items with neither errors nor warnings are disabled & can't contribute.
+             */
 
             var totalErrors = 0,
                 totalWarnings = 0,
+                id,
                 itemClass,
+                alertDiv,
+                alerts = [],
+                alertIds = [],
                 tab,
                 tabName,
                 tabNames,
                 subTab,
                 statusLine;
 
-            $( '[name$=\\}errors]' ).each(function (index) {
-                if( this.value === "0 0" ) {
-                    return true;
-                }
+            $( '[name$=\\}errors]:enabled' ).each(function (index) {
                 var errors = this.value.split(' ');
                 if( errors.length !== 2 ) {
                     return true;
@@ -463,6 +470,7 @@ var configure = (function ($) {
                 } else {
                     itemClass = 'configureWarn';
                 }}
+                var root;
                 var tab = $( this ).parents('div.configureSubSection').last();
                 if( tab.size() == 1 ) {
                     tabName = tab.find('a').get(0).name;
@@ -470,7 +478,8 @@ var configure = (function ($) {
 
                     /* Update subtab, if any */
                     if( tabNames.length === 2 ) {
-                       subTab = $(tab).closest('div.configureRootSection').find('ul.configureSubTab li a[href="' +
+                       root = $(tab).closest('div.configureRootSection');
+                       subTab = $(root).find('ul.configureSubTab li a[href="' +
                                                 configure.utils.quoteName('#' +
                                                                   tabName ) + '"]' );
                         if( subTab.size() == 1 ) {
@@ -492,6 +501,7 @@ var configure = (function ($) {
                                          configure.utils.quoteName('#'+tabNames[1]) +'"]');
                 } else {
                     tab =  $( this ).closest('div.configureRootSection');
+                    root = tab;
                     if( tab.size() == 1 ) {
                         tabName = tab.find('a').get(0).name;
                          tab = $('ul.configureRootTab li a[href="' +
@@ -513,8 +523,54 @@ var configure = (function ($) {
                     }
                 }
 
+                /* Section alert */
+                alertDiv = $(root).find('div.foswikiAlert').first();
+                if( alertDiv.size() == 1 ) {
+                    id = alertDiv.attr('id');
+                    if( id in alertIds ) {
+                        alerts[id].errors += errors[0];
+                        alerts[id].warnings += errors[1];
+                    } else {
+                        alerts[id] = { errors: errors[0], warnings: errors[1] };
+                        alertIds.push(id);
+                    }
+                }
                 return true;
             }); /* errorItem */
+
+            /* Section summaries */
+
+            for (id = 0; id < alertIds.length; id++) {
+                alertDiv = alertIds[id];
+                statusLine = '';
+                itemClass = 0;
+                if( alerts[alertDiv].errors !== 0 ) {
+                    itemClass = 1;
+                    statusLine += "<span class='configureStatusErrors'>" + alerts[alertDiv].errors;
+                    if( alerts[alertDiv].errors == 1 ) {
+                        statusLine += " error";
+                    } else {
+                        statusLine += " errors";
+                    }
+                    statusLine += "</span>";
+                }
+                if( alerts[alertDiv].warnings !== 0 ) {
+                    itemClass += 2;
+                    statusLine += "<span class='configureStatusWarnings'>" + alerts[alertDiv].warnings;
+                    if( alerts[alertDiv].warnings == 1 ) {
+                        statusLine += " warning";
+                    } else {
+                        statusLine += " warnings";
+                    }
+                    statusLine += "</span>";
+                }
+                $('#' + configure.utils.quoteName(alertDiv)).html(statusLine).each( function (idx,ele) {
+                    if( !itemClass ) {
+                        $(this).addClass('foswikiAlertInactive');
+                    }
+                    return true;
+                });
+            }
 
             /* Finally, the summary status bar */
 

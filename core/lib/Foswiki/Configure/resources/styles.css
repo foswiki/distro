@@ -880,6 +880,9 @@ div.configureMessageBox {
 	margin:0;
 	padding-left:3em;
 }
+.foswikiAlertInactive {
+    display:none;
+}
 
 .installDependency {
 }

@@ -7,11 +7,8 @@
 
 <#-- any warning or error message -->
 <#-- suppress blocks for level 3 to not clutter the interface too much -->
-<#-- work around not having nested if statements -->
-<#if depth < 3 && warnings?? || depth < 3 && errors??><div class='foswikiAlert'></#if>
-<#if depth < 3 && errors??><span class='configureStatusErrors'>${errors}</span></#if>
-<#if depth < 3 && warnings??><span class='configureStatusWarnings'>${warnings}</span></#if>
-<#if depth < 3 && warnings?? || depth < 3 && errors??></div></#if>
+<#-- Data is provided and updated by javascript -->
+<#if depth < 3><div id='${id}Alerts' class='foswikiAlert${alertActive}'></div></#if>
 
 <#-- any navigation -->
 <#if navigation??>${navigation}</#if>
