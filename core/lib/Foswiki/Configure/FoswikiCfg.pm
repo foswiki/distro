@@ -132,6 +132,20 @@ sub load {
     }
 }
 
+# Strip traceback from die and carp for a user message
+
+sub stripTraceback {
+    my $message = shift;
+
+    return '' unless ( length $message );
+
+    return $message if ( $Foswiki::cfg::{DebugTracebacks} );
+
+    $message = ( split( /\n/, $message ) )[0];
+    $message =~ s/ at .*? line \d+\.$//;
+    return $message;
+}
+
 sub _loadSpecsFrom {
     my ( $dir, $root, $read ) = @_;
 
@@ -341,6 +355,18 @@ Generate .cfg file format output
 
 =cut
 
+sub lscFileName {
+    my $lsc = Foswiki::Configure::Util::findFileOnPath('LocalSite.cfg');
+
+    return $lsc if ($lsc);
+
+    # If not found on the path, park it beside Foswiki.spec
+    $lsc = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec') || '';
+    $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
+
+    return $lsc;
+}
+
 sub save {
     my ( $root, $valuer, $logger, $insane ) = @_;
 
@@ -351,21 +377,84 @@ sub save {
     $this->{root}    = $root;
     $this->{content} = '';
 
-    my $lsc = Foswiki::Configure::Util::findFileOnPath('LocalSite.cfg');
-    unless ($lsc) {
+    my $lsc = lscFileName();
 
-        # If not found on the path, park it beside Foswiki.spec
-        $lsc = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec') || '';
-        $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
+    my ( @backups, $backup );
+    while ( -f $lsc ) {
+        if ( open( F, '<', $lsc ) ) {
+            local $/ = undef;
+            $this->{content} = <F>;
+            close(F);
+        }
+        else {
+            last if ( $!{ENOENT} );    # Race: file disappeared
+            die "Unable to read $lsc: $!\n";    # Serious error
+        }
+
+        $Foswiki::cfg{MaxLSCBackups} ||= 0;
+
+        last unless ( $Foswiki::cfg{MaxLSCBackups} );
+
+        # Save backup copy of current configuration (even if insane)
+
+        require Errno;
+        require Fcntl;
+        Fcntl->import(qw/:DEFAULT/);
+        require File::Spec;
+
+        my ( $mode, $uid, $gid, $atime, $mtime ) = ( stat(_) )[ 2, 4, 5, 8, 9 ];
+
+        # Find a reasonable starting point for the new backup's name
+
+        my $n = 0;
+        my ( $vol, $dir, $file ) = File::Spec->splitpath($lsc);
+        $dir = File::Spec->catpath( $vol, $dir, 'x' );
+        chop $dir;
+        if ( opendir( my $d, $dir ) ) {
+            @backups =
+              sort { $b <=> $a }
+              map { /^$file\.(\d+)$/ ? ($1) : () } readdir($d);
+            my $last = $backups[0];
+            $n = $last if ( defined $last );
+            $n++;
+            closedir($d);
+        }
+        else {
+            $n = 1;
+            unshift @backups, $n++ while ( -e "$lsc.$n" );
+        }
+
+        # Find the actual filename and open for write
+
+        my $open;
+        my $um = umask(0);
+        unshift @backups, $n++
+          while (
+            !(
+                $open = sysopen( F, "$lsc.$n",
+                    O_WRONLY() | O_CREAT() | O_EXCL(), $mode & 07777
+                )
+            )
+            && $!{EEXIST}
+          );
+        if ($open) {
+            $backup = "$lsc.$n";
+            unshift @backups, $n;
+            print F $this->{content};
+            close(F);
+            utime $atime, $mtime, $backup;
+            chown $uid, $gid, $backup;
+        }
+        else {
+            die "Unable to open $lsc.$n for write: $!\n";
+        }
+        umask($um);
+        last;
     }
 
-    if ( !$insane && -f $lsc ) {
-        open( F, '<', $lsc );
-        local $/ = undef;
-        $this->{content} = <F>;
-        close(F);
-    }
-    else {
+    $this->{oldContent} = $this->{content} || '';
+
+    if ( $insane || !-f $lsc ) {
         $this->{content} = <<'HERE';
 # Local site settings for Foswiki. This file is managed by the 'configure'
 # CGI script, though you can also make (careful!) manual changes with a
@@ -381,12 +470,29 @@ HERE
         $this->{content} =~ s/\$Foswiki::cfg$key\s*=.*?;\s*//sg;
     }
 
-    my $out = $this->_save();
-    open( F, '>', $lsc )
-      || die "Could not open $lsc for write: $!";
-    print F $this->{content};
-    close(F);
+    # Sort keys so it's possible to diff LSC files.
+    local $Data::Dumper::Sortkeys = 1;
 
+    $this->_save();
+
+    if ( ( $this->{content} || '' ) ne $this->{oldContent} ) {
+        my $um = umask(007);   # Contains passwords, no world access to new file
+        open( F, '>', $lsc )
+          || die "Could not open $lsc for write: $!\n";
+        print F $this->{content};
+        close(F);
+        umask($um);
+        if ( $backup && ( my $max = $Foswiki::cfg{MaxLSCBackups} ) >= 0 ) {
+            while ( @backups > $max ) {
+                my $n = pop @backups;
+                unlink "$lsc.$n";
+            }
+        }
+    }
+    else {
+        unlink $backup if ($backup);
+    }
+    delete $this->{oldContent};
     return '';
 }
 

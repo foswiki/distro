@@ -1637,6 +1637,18 @@ $Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_match', 'Foswiki::Query:
 # configure UI.
 $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defined', 'Foswiki::If::OP_isempty','Foswiki::If::OP_ingroup', 'Foswiki::If::OP_isweb', 'Foswiki::If::OP_context', 'Foswiki::If::OP_dollar', 'Foswiki::If::OP_istopic' ];
 
+# **BOOLEAN EXPERT**
+# Enable tracebacks in error messages.  Used for debugging;
+# $Foswiki::cfg{DebugTracebacks} = '';
+
+# **NUMBER EXPERT**
+# Maximum number of backup versions of LocalSite.cfg to retain when changes
+# are saved.  Enables you to recover quickly from accidental changes.
+# 0 does not save any backup versions.  -1 does not limit the number of versions
+# retained.
+$Foswiki::cfg{MaxLSCBackups} = 10;
+
+#############################################################################
 #---+ Extensions -- TABS
 
 #---++ Extension operation and maintenance
