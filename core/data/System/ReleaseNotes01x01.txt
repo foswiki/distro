@@ -131,6 +131,11 @@ Foswiki allows for <code>&lt;nop&gt;</code>, however any other unencoded &lt; an
    <input ... text='<literal>some *bold* text</literal' >   The <literal> tags MUST be removed
 </verbatim>
 
+---+++ Sandbox WebHome topic updated with improved validation of new topic name
+
+Foswiki upgrade packages and manual upgrade procedures typically do not upgrade any !WebHome topics. The 1.1.6 upgrade package will include a new !WebHome for the Sandbox web. If you upgrade manually, you should copy the =data/Sandbox/WebHome.txt= file from the full Foswiki distribution onto your system.
+If you have a customized Sandbox !WebHome topic, and use the upgrade package, you may need to revert back to your customized topic or re-customize the new version.
+
 ---++ Important changes since Foswiki 1.1.4
 
 Release 1.1.5 is a security focused release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.
