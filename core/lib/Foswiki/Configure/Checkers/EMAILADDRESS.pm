@@ -374,7 +374,9 @@ MAILTEST
         close STDERR;
     } or $neterrors .= $@;
 
-    my $results = $this->ERROR($neterrors) if ($neterrors);
+    my $results = '';
+    $results .= $this->ERROR($neterrors) if ($neterrors);
+
     if ($stderr) {
         $stderr =~ s/<a\s+/<a target="_blank" /gms;
         $results .=
