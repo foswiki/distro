@@ -242,9 +242,12 @@ Key Information: %s %s %s key", $xpv, ucfirst $key->{encrypted}, $key->{type},
     if ( ( my $s = $key->{status} ) ) {
         while (@$s) {
             my ( $sev, $msg ) = splice( @$s, 0, 2 );
+            $sev =~ /^([\w]+)$/ or die "Bad severity";
+            $sev = lc $1;
 
-            eval sprintf "\$%ss .= ' $msg'", lc $sev;
+            $sev = eval "\\\$sev";
             die "$@\n" if ($@);
+            $$sev .= $msg;
         }
     }
 

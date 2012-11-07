@@ -143,9 +143,9 @@ sub checkUsage {
     $errors = '';
 
     my $notes = sprintf(
-        "$xpv<br />\
+        "%s<br />\
 Certificate Information:<br />
-Issued by %s for %s", ( $x->issuer_cn || 'Unknown issuer' ),
+Issued by %s for %s", $xpv, ( $x->issuer_cn || 'Unknown issuer' ),
         ( $x->subject_cn || "Unknown subject" )
     );
     my @ans;
