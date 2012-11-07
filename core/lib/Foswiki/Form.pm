@@ -118,6 +118,10 @@ sub new {
             $this = bless( $this, 'Foswiki::Form' );
         }
 
+        # cache the object before we've parsed it to prevent recursion
+        #when there are SEARCH / INCLUDE macros in the form definition
+        $session->{forms}->{"$vweb.$vtopic"} = $this;
+
         unless ($def) {
             $this->{fields} = $this->_parseFormDefinition();
         }
@@ -129,9 +133,6 @@ sub new {
             # Foswiki::Meta object
             $this->{fields} = $this->_extractPseudoFieldDefs($def);
         }
-
-        # cache the  object when properly build
-        $session->{forms}->{"$vweb.$vtopic"} = $this;
     }
 
     return $this;
