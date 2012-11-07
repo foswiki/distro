@@ -9,29 +9,63 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Load;
 
+my @modules = (
+    [ 'Crypt::SMIME' => 'Required for S/MIME',                      0.09 ],
+    [ 'Crypt::X509'  => 'Required for validation',                  0.51 ],
+    [ 'Convert::PEM' => 'Required for encrypted private key files', 0.08 ],
+);
+
 sub check {
     my $this = shift;
-    my $e    = '';
+    my ($valobj) = @_;
 
-    my $n =
-      $this->checkPerlModule( 'Crypt::SMIME', 'Required for S/MIME', 0.09 );
-
-    if ( $n =~ m/Not installed/ && $Foswiki::cfg{Email}{EnableSMIME} ) {
-        $e = $this->ERROR($n);
-    }
-
-    #   else {
-    #       $e = $this->NOTE($n);
-    #   }
+    my $e = '';
 
     return $e unless $Foswiki::cfg{Email}{EnableSMIME};
+
+    foreach my $mod (@modules) {
+        my $m = $this->checkPerlModule(@$mod);
+
+        if ( $m =~ m/Not installed/ ) {
+            $e .= $m;
+        }
+    }
+    $e = $this->ERROR($e) if ($e);
 
     $e .= $this->ERROR(
         "Certificate and Key files must be provided for S/MIME email")
       unless ( $Foswiki::cfg{Email}{SmimeCertificateFile}
         && $Foswiki::cfg{Email}{SmimeKeyFile} );
 
+    if ( !$this->{item}->feedback && !$this->{FeedbackProvided} ) {
+
+        # There is no feedback configured for this item, so do any
+        # specified tests in the checker (not a good thing).
+
+        $e .= $this->provideFeedback( $valobj, 0, 'No Feedback' );
+    }
+
     return $e;
+}
+
+sub provideFeedback {
+    my $this = shift;
+    my ( $valobj, $button, $label ) = @_;
+
+    $this->{FeedbackProvided} = 1;
+
+    # Normally, we call check first, but not if called by check.
+
+    my $e = $button ? $this->check($valobj) : '';
+
+    #    my $keys = $valobj->getKeys();
+
+    delete $this->{FeedbackProvided};
+
+    # check() does all that's necessary
+    # We simply re-do if a button (usually autocheck) is provided.
+
+    return wantarray ? ( $e, 0 ) : $e;
 }
 
 1;
