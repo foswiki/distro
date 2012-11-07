@@ -5,30 +5,24 @@ package Foswiki::Configure::Checkers::Email::SmimeKeyPassword;
 use strict;
 use warnings;
 
-use base 'Foswiki::Configure::Checker';
+require Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker;
+our @ISA = qw( Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker );
 
 sub check {
-    my $this   = shift;
-    my $valobj = shift;
+    my $this = shift;
 
-    my $value = $Foswiki::cfg{SmimeKeyPassword};
+    #    my( $valobj ) = @_;
 
-    # Expand any references to other variables
+    return $this->SUPER::check( $Foswiki::cfg{Email}{EnableSMIME}, @_ );
+}
 
-    Foswiki::Configure::Load::expandValue($value);
+sub provideFeedback {
+    my $this = shift;
 
-    # Unused passwords should not be hanging around.
+    #    my( $valobj, $button, $label ) = @_;
 
-    unless ( $Foswiki::cfg{Email}{EnableSMIME} ) {
-        return $this->WARN(
-            "Unused password field is not empty, please clear it")
-          if ( defined $value && length $value );
-        return '';
-    }
-
-    # I'm not going to nag about length or complexity, though I could..
-
-    return '';
+    return $this->SUPER::provideFeedback( $Foswiki::cfg{Email}{EnableSMIME},
+        '{Email}{SmimeKeyFile}', @_ );
 }
 
 1;

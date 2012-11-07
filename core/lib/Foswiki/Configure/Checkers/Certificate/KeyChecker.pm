@@ -23,7 +23,9 @@ are slightly different.
 
 package Foswiki::Configure::Checkers::Certificate::KeyChecker;
 
-use base 'Foswiki::Configure::Checker';
+require Foswiki::Configure::Checker;
+our @ISA = qw(Foswiki::Configure::Checker);
+
 use Foswiki::Configure::Load;
 
 # Private methods
@@ -154,6 +156,7 @@ sub loadKey {
         # This supports, e.g. status => [s1,m1], status => [s2,m2]
         while (@key) {
             my ( $k, $v ) = splice( @key, 0, 2 );
+
             if ( exists $k{$k} ) {
                 if ( ref $k{$k} ) {
                     $k{$k} = [ @{ $k{$k} }, ref $v ? @$v : $v ];
@@ -245,7 +248,7 @@ Key Information: %s %s %s key", $xpv, ucfirst $key->{encrypted}, $key->{type},
             $sev =~ /^([\w]+)$/ or die "Bad severity";
             $sev = lc $1;
 
-            $sev = eval "\\\$sev";
+            eval "\$sev = \\\$${sev}s";
             die "$@\n" if ($@);
             $$sev .= $msg;
         }
