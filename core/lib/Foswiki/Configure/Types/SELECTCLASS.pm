@@ -56,6 +56,7 @@ sub findClasses {
                     #next if ($subplace =~ /^\..*/);
                     push( @newplaces, $place . '/' . $1 );
                 }
+                closedir DIR;
             }
         }
         $places = \@newplaces;
@@ -77,6 +78,7 @@ sub findClasses {
                 push( @list, $1 ) unless $known{$1};
                 $known{$1} = 1;
             }
+            closedir DIR;
         }
     }
 
