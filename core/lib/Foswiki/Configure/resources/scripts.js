@@ -456,6 +456,8 @@ var configure = (function ($) {
                 if( errors.length !== 2 ) {
                     return true;
                 }
+                /* N.B. All items processed have 1 or more issues */
+
                 errors[0] = parseInt(errors[0],10);
                 totalErrors += errors[0];
                 errors[1] = parseInt(errors[1],10);
@@ -523,11 +525,12 @@ var configure = (function ($) {
                     }
                 }
 
-                /* Section alert */
+                /* Update section's Alert <div> error/warning counts */
+
                 alertDiv = $(root).find('div[id$="Alerts"].foswikiAlert').first();
                 if( alertDiv.size() == 1 ) {
                     id = alertDiv.attr('id');
-                    if( id in alerts ) {
+                    if( alerts.hasOwnProperty(id) ) {
                         alerts[id].errors += errors[0];
                         alerts[id].warnings += errors[1];
                     } else {
@@ -536,16 +539,16 @@ var configure = (function ($) {
                     }
                 }
                 return true;
-            }); /* errorItem */
+            }); /* enabled errorItem */
 
-            /* Section summaries */
+            /* Section summaries - only sections with errors or warnings are in alertIds.
+             * Stale statusLines were hidden by foswikiAlertInactive before the scans.
+             */
 
             for (id = 0; id < alertIds.length; id++) {
                 alertDiv = alertIds[id];
                 statusLine = '';
-                itemClass = 0;
                 if( alerts[alertDiv].errors !== 0 ) {
-                    itemClass = 1;
                     statusLine += "<span class='configureStatusErrors'>" + alerts[alertDiv].errors;
                     if( alerts[alertDiv].errors == 1 ) {
                         statusLine += " error";
@@ -555,7 +558,6 @@ var configure = (function ($) {
                     statusLine += "</span>";
                 }
                 if( alerts[alertDiv].warnings !== 0 ) {
-                    itemClass += 2;
                     statusLine += "<span class='configureStatusWarnings'>" + alerts[alertDiv].warnings;
                     if( alerts[alertDiv].warnings == 1 ) {
                         statusLine += " warning";
@@ -564,12 +566,7 @@ var configure = (function ($) {
                     }
                     statusLine += "</span>";
                 }
-                $('#' + configure.utils.quoteName(alertDiv)).html(statusLine).each( function (idx,ele) {
-                    if( itemClass ) {
-                        $(this).removeClass('foswikiAlertInactive');
-                    }
-                    return true;
-                });
+                $('#' + configure.utils.quoteName(alertDiv)).html(statusLine).removeClass('foswikiAlertInactive');
             }
 
             /* Finally, the summary status bar */
