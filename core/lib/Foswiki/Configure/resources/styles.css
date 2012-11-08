@@ -455,7 +455,7 @@ ul li a.configureWarn:hover {
 ul li a.configureWarnAndError:link, 
 ul li a.configureWarnAndError:visited,
 ul li a.configureWarnAndError:hover {
-	background-image:url(%RESOURCEURI%icon_warn_and_error_white.gif);
+	background-image:url(%RESOURCEURI%icon_warn_and_error.png);
 }
 ul li a.configureError:link, 
 ul li a.configureError:visited,
@@ -478,7 +478,7 @@ ul li.configureMenuSelected a.configureWarn:visited {
 }
 ul li.configureMenuSelected a.configureWarnAndError:link,
 ul li.configureMenuSelected a.configureWarnAndError:visited {
-	background-image:url(%RESOURCEURI%icon_warn_and_error_blue.gif);
+	background-image:url(%RESOURCEURI%icon_warn_and_error.png);
 }
 ul li.configureMenuSelected a.configureError:link,
 ul li.configureMenuSelected a.configureError:visited {
