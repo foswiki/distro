@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-11-16 09:04+0200\n"
+"PO-Revision-Date: 2012-11-08 22:01+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -70,9 +70,8 @@ msgstr "%1 aggiunto al gruppo %2. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 rimosso dal gruppo %2. "
+msgstr "%1 non può essere rimosso dal gruppo %2. "
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -633,14 +632,12 @@ msgid "Add row"
 msgstr "Aggiungi riga"
 
 #: core/data/Main/GroupViewTemplate.txt:218
-#, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Modifica le preferenze per questa pagina..."
+msgstr "Modifica le preferenze per questa pagina."
 
 #: core/data/Main/GroupViewTemplate.txt:236
-#, fuzzy
 msgid "Add users or groups to this group"
-msgstr "Aggiungi un utente o gruppo a questo gruppo"
+msgstr "Aggiungi utenti o gruppi a questo gruppo"
 
 #: core/templates/messages.tmpl:404
 msgid "Adding a %1 preference in WebPreferences"
@@ -805,9 +802,8 @@ msgid "Attachments"
 msgstr "Allegati"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "Allegati di %1"
+msgstr "Allegati %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -898,12 +894,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "MODIFICA non permessa da %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "MODIFICA per %1 non permessa da %2"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
@@ -1088,7 +1084,7 @@ msgstr "Il colore %1 ha un formato non valido"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Andiamo in"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
