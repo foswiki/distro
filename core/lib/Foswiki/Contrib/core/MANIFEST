@@ -666,8 +666,7 @@ lib/Foswiki/Configure/resources/icon_error.png 0444
 lib/Foswiki/Configure/resources/icon_info.png 0444
 lib/Foswiki/Configure/resources/icon_ok.png 0444
 lib/Foswiki/Configure/resources/icon_up.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_and_error_blue.gif 0444
-lib/Foswiki/Configure/resources/icon_warn_and_error_white.gif 0444
+lib/Foswiki/Configure/resources/icon_warn_and_error.png 0444
 lib/Foswiki/Configure/resources/icon_warn.png 0444
 lib/Foswiki/Configure/resources/icon_world.png 0444
 lib/Foswiki/Configure/resources/intro.html 0444
