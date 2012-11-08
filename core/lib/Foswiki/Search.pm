@@ -410,6 +410,42 @@ sub searchWeb {
     my ( $numberOfResults, $web_searchResult ) =
       $this->formatResults( $query, $infoCache, \%params );
 
+#worst possible way to do this: copy the entire if() statement from a few lines higher up
+#we need to repeat it in 1.1, as the paging is in formatResults, whereas in 1.2, search returns
+#a Paging Iterator.
+#Sven has decided as this is probably the final 1.1 patch release, that its going to be more
+#obvious not to extract to a function
+    if ( $numberOfResults == 0 ) {
+        if ( not $zeroResults ) {
+            return '';
+        }
+        else {
+            if ( not _isSetTrue( $params{zeroresults}, 1 ) ) {
+
+#foswiki 1.1 Feature Proposal: SEARCH needs an alt parameter in case of zero results
+
+          #TODO: extract & merge with extraction of footer processing code below
+                my $result = $params{zeroresults};
+
+                $result =~ s/\$web/$baseWeb/gos;    # expand name of web
+                $result =~ s/([^\n])$/$1\n/os;      # add new line at end
+
+                # output footer of $web
+                $result =~ s/\$ntopics/0/gs;
+                $result =~ s/\$nhits/0/gs;
+                $result =~ s/\$index/0/gs;
+
+                #legacy SEARCH counter support
+                $result =~ s/%NTOPICS%/0/go;
+
+                $result = Foswiki::expandStandardEscapes($result);
+                $result =~ s/\n$//os;               # remove trailing new line
+
+                return $result;
+            }
+        }
+    }
+
     return if ( defined $params{_callback} );
 
     my $searchResult = join( '', @{ $params{_cbdata} } );

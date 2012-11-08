@@ -3481,8 +3481,6 @@ FOSWIKI11
 
 sub test_paging_three_webs_fourth_page_zeroresultsset {
     my $this = shift;
-    $this->expect_failure( 'Item11860 needs to be fixed!',
-        with_dep => 'Foswiki,<,1.2' );
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
@@ -3511,8 +3509,6 @@ EXPECT
 
 sub test_paging_three_webs_way_too_far_zeroresultsset {
     my $this = shift;
-    $this->expect_failure( 'Item11860 needs to be fixed!',
-        with_dep => 'Foswiki,<,1.2' );
 
     my $result = $this->{test_topicObject}->expandMacros(
         '%SEARCH{
