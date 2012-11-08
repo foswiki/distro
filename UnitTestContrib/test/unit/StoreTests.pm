@@ -836,7 +836,7 @@ sub verify_eachChange {
 
 {
 
-    package Foswiki::Store::UnitTestFilter;
+    package Foswiki::Store::StoreTestFilter;
     our @changeStack;
 
     sub new {
@@ -869,15 +869,15 @@ sub verify_StoreClassSettings {
 
     $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = 5;
     $Foswiki::cfg{Store}{ImplementationClasses}
-      {'Foswiki::Store::UnitTestFilter'} = 1;
+      {'Foswiki::Store::StoreTestFilter'} = 1;
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
     $this->verify_eachChange();
 
     #and now verify the results of the extra Store filter.
     $this->assert_deep_equals(
         [qw/newStoreTest insert insert update update/],
-        \@Foswiki::Store::UnitTestFilter::changeStack
-    );    #, join(',',@Foswiki::Store::UnitTestFilter::changeStack) );
+        \@Foswiki::Store::StoreTestFilter::changeStack
+    );    #, join(',',@Foswiki::Store::StoreTestFilter::changeStack) );
 }
 
 #TODO: need to write a test to understand what exactly the moveTopic with inter web move records
