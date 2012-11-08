@@ -146,7 +146,9 @@ sub start {
         else {
             my $completed;
             my $action;
-            if ( $tester->run_in_new_process() ) {
+
+           #please don't force worker thread spawning when running a single test
+            if ( !$testToRun && $tester->run_in_new_process() ) {
                 $action =
                   $this->runOneInNewProcess( $testSuiteModule, $suite,
                     $testToRun );
