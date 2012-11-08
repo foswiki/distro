@@ -527,7 +527,7 @@ var configure = (function ($) {
                 alertDiv = $(root).find('div[id$="Alerts"].foswikiAlert').first();
                 if( alertDiv.size() == 1 ) {
                     id = alertDiv.attr('id');
-                    if( id in alertIds ) {
+                    if( id in alerts ) {
                         alerts[id].errors += errors[0];
                         alerts[id].warnings += errors[1];
                     } else {
