@@ -574,7 +574,7 @@ var configure = (function ($) {
 
             /* Finally, the summary status bar */
 
-            statusLine = 'Status: ';
+            statusLine = '';
             if( totalWarnings || totalErrors ) {
                 if( totalErrors ) {
                     statusLine += '<span class="configureStatusErrors">' + totalErrors + " Error";
