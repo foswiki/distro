@@ -1455,7 +1455,7 @@ $Foswiki::cfg{RCS}{AutoAttachPubFiles} = $FALSE;
 # blank on other platforms.
 $Foswiki::cfg{RCS}{ExtOption} = "";
 
-# **REGEX EXPERT FEEDBACK="Re-Test" DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **REGEX EXPERT FEEDBACK=auto DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # Perl regular expression matching suffixes valid on plain text files
 # Defines which attachments will be treated as ASCII in RCS. This is a
 # filter <b>in</b>, so any filenames that match this expression will
