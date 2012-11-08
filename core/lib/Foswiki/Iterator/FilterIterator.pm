@@ -80,8 +80,11 @@ sub skip {
     if ( $this->{iterator}->can('skip') ) {
         $count = $this->{iterator}->skip($count);
 
-#SMELL, TODO, AAAARGH - don't want to drain the itr, but this is assuming too much.
-        $this->{next} = $this->{iterator}->{next};
+        if ( $this->{iterator}->hasNext() ) {
+            $this->{next}    = $this->{iterator}->next();
+            $this->{pending} = 1;
+            $count--;
+        }
     }
     else {
 
@@ -101,7 +104,7 @@ sub skip {
 
     if ( $count >= 0 ) {
 
-        #finished.
+        #skipped past the end of the set
         $this->{next}    = undef;
         $this->{pending} = 0;
     }

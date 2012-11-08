@@ -206,7 +206,7 @@ sub skip {
 
     if ( $count >= 0 ) {
 
-        #finished.
+        #skipped past the end of the set
         $this->{next} = undef;
     }
     print STDERR

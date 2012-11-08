@@ -97,6 +97,7 @@ sub hasNext {
           $this->skip( $this->{pager_skip_results_from} );
 
         #this already loads $this->{next}
+
     }
     else {
         if ( $this->{iterator}->hasNext() ) {
@@ -108,6 +109,7 @@ sub hasNext {
     if ( $this->{pending} ) {
         if ( $this->{pager_result_count} <= 0 ) {
 
+            #SVEN - huh?
             #finished.
             $this->{next}    = undef;
             $this->{pending} = 0;
@@ -130,10 +132,13 @@ sub skip {
       if Foswiki::Iterator::MONITOR;
 
     #ask CAN skip() for faster path
-    if ( $this->{iterator}->can('skip') ) {
-        $count           = $this->{iterator}->skip($count);
-        $this->{next}    = $this->{iterator}->{next};
-        $this->{pending} = defined( $this->{next} );
+    if ( 1 == 2 && $this->{iterator}->can('skip') ) {
+        $count = $this->{iterator}->skip($count);
+        if ( $this->{iterator}->hasNext() ) {
+            $this->{next}    = $this->{iterator}->next();
+            $this->{pending} = 1;
+            $count--;
+        }
     }
     else {
 
@@ -152,9 +157,10 @@ sub skip {
         }
     }
 
+    #in the bute force method, $count == -1 if there were enough elements.
     if ( $count >= 0 ) {
 
-        #finished.
+        #skipped past the end of the set
         $this->{next}    = undef;
         $this->{pending} = 0;
     }

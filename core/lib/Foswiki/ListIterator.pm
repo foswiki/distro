@@ -124,6 +124,9 @@ sub skip {
     }
     $this->{next} = undef;
     my $hasnext = $this->hasNext();
+    if ($hasnext) {
+        $count--;
+    }
     print STDERR
 "--------------------------------------------ListIterator::skip() => $this->{index} $count, $hasnext\n"
       if Foswiki::Iterator::MONITOR;
