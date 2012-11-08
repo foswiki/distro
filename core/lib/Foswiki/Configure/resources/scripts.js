@@ -426,13 +426,13 @@ var configure = (function ($) {
         updateIndicators: function () {
             /* Clear all existing indicators.
              * The first scan finds all tab links with error classes and removes them.
-             * The second finds all Alerts divs and hides them.
+             * The second finds all visible Alerts divs and hides them.
              * This is done because there should be many fewer items with errors than
              * without.  Visiting only the items with errors minimizes work.
              */
 
             $('ul li a.configureWarn,ul li a.configureError,ul li a.configureWarnAndError').removeClass('configureWarn configureError configureWarnAndError' );
-            $('div[id$=Alerts].foswikiAlert').removeClass('foswikiAlertInactive').addClass('foswikiAlertInactive');
+            $('div[id$="Alerts"].foswikiAlert').not('.foswikiAlertInactive').addClass('foswikiAlertInactive');
 
             /* Find each item's error value & propagate it upwards.
              * Items with neither errors nor warnings are disabled & can't contribute.
@@ -451,7 +451,7 @@ var configure = (function ($) {
                 subTab,
                 statusLine;
 
-            $( '[name$=\\}errors]:enabled' ).each(function (index) {
+            $( '[name$="\\}errors"]:enabled' ).each(function (index) {
                 var errors = this.value.split(' ');
                 if( errors.length !== 2 ) {
                     return true;
@@ -524,7 +524,7 @@ var configure = (function ($) {
                 }
 
                 /* Section alert */
-                alertDiv = $(root).find('div.foswikiAlert').first();
+                alertDiv = $(root).find('div[id$="Alerts"].foswikiAlert').first();
                 if( alertDiv.size() == 1 ) {
                     id = alertDiv.attr('id');
                     if( id in alertIds ) {
@@ -565,8 +565,8 @@ var configure = (function ($) {
                     statusLine += "</span>";
                 }
                 $('#' + configure.utils.quoteName(alertDiv)).html(statusLine).each( function (idx,ele) {
-                    if( !itemClass ) {
-                        $(this).addClass('foswikiAlertInactive');
+                    if( itemClass ) {
+                        $(this).removeClass('foswikiAlertInactive');
                     }
                     return true;
                 });
@@ -947,6 +947,8 @@ function doFeedback(key, pathinfo) {
     var boundary = '------Foswiki-formboundary' + (new Date()).getTime() + Math.floor(Math.random() * 1073741826).toString(),
         dashdash = '--',
         crlf = '\x0d\x0a',
+        itemStart1 =  (dashdash + boundary + crlf + 'Content-Disposition: form-data; name="'),
+        itemStart2 = ('"' + crlf + crlf),
         requestData = "",
         quoteKeyId = configure.utils.quoteName(key.id), /* Selector-encoded id of button that was clicked */
         KeyIdSelector = '#' + quoteKeyId,
@@ -957,7 +959,7 @@ function doFeedback(key, pathinfo) {
     /* Add a named item from a form to the POST data */
 
     function postFormItem(name, value) {
-        requestData = requestData + (dashdash + boundary + crlf) + 'Content-Disposition: form-data; name="' + name + '"' + crlf + crlf + value + crlf;
+        requestData += itemStart1 + name + itemStart2 + value + crlf;
         return;
     }
 
@@ -1017,28 +1019,25 @@ function doFeedback(key, pathinfo) {
      * Include successful controls.  Skip disabled and nameless controls.
      */
 
-    $(KeyIdSelector).closest('form').find(":input").each(function (index) {
+    $(KeyIdSelector).closest('form').find(":input:enabled").not(':file,:submit,:reset,:button').each(function (index) {
         var opts,
             i,
             ilen,
             ctlName,
             txt;
 
-        if (this.disabled) {
-            return true;
-        }
         ctlName = this.name;
-        if (!this.name.length) {
+        if (!ctlName.length) {
             return true;
         }
         switch (this.type.toLowerCase()) {
         /* Ignore these */
-        case "file":
-        case "submit":
+        /* case "file": */
+        /* case "submit": */
             /* Submit buttons weren't clicked, so don't report them */
-        case "reset":
+        /* case "reset": */
             /* Reset controls are never submitted, local action only */
-            return true;
+            /* return true; */
 
         case "select-one":
         case "select-multiple":
