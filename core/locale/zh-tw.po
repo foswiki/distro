@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-29 12:10+0200\n"
+"PO-Revision-Date: 2012-11-06 18:46+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -1030,7 +1030,7 @@ msgstr "顏色 %1包含非法格式"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "在"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1425,15 +1425,12 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "輸入 Wiki 管理員或依 %1 設定登入"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
-msgstr ""
-"請返回瀏覽器，並選擇 [[%SYSTEMWEB%.WikiWord][WikiWord]]  為主題名，或是開啟允"
-"許非 WikiWord 選項。"
+msgstr "輸入 [[%SYSTEMWEB%.WikiWord][WikiWord]] 主題名，或開啟允許非 WikiWord 選項。"
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "開啟外掛時發生錯誤。請見以下錯誤訊息。"
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1497,7 +1494,7 @@ msgstr "必填標為 %1 的欄位"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 msgid "Fields marked <span class='required'>*</span> are required"
-msgstr "必填標 <span class='required'>*</span>  的欄位"
+msgstr "必填標 <span class='required'>*</span> 的欄位"
 
 #: core/templates/messages.tmpl:409
 msgid "File has been uploaded with different name"
@@ -1711,7 +1708,7 @@ msgid ""
 "If Foswiki can't find a registered e-mail for you in the secret database, "
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
-msgstr ""
+msgstr "若 Foswiki 在祕密資料庫中找不到您的註冊電郵，您將無法重設密碼或利用主題更新的電郵通知。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2020,9 +2017,8 @@ msgstr "請輸入您的用戶名和密碼"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "登入名"
+msgstr "登入"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2037,9 +2033,8 @@ msgid "Logon"
 msgstr "登入"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "登入"
+msgstr "登出"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2140,7 +2135,7 @@ msgstr "新"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "名"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2156,7 +2151,7 @@ msgstr "查看相關主題"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "別介意"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2482,11 +2477,11 @@ msgstr "外掛處理程序"
 
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "外掛模組未回覆真值。見以下錯誤。"
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
-msgstr ""
+msgstr "外掛模組未定義。請檢查設定。見以下錯誤。"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2923,7 +2918,7 @@ msgstr "查看變更自："
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "見 DISABLEDPLUGINS 設定選項。"
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3276,7 +3271,7 @@ msgid ""
 "to reveal an e-mail address to other users, you can manually edit your user "
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
-msgstr ""
+msgstr "您使用者主題內的電郵欄通常為空白。若您想顯示電郵給其他使用者，您能編輯自訂電郵。這個電郵不需與您系統註冊用的電郵相同。"
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3779,7 +3774,6 @@ msgid "View"
 msgstr "瀏覽"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
 msgstr "檢視主題完整修訂史"
 
@@ -4006,9 +4000,8 @@ msgstr ""
 "文字母及數字。"
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "%1 的附件不存在。"
+msgstr "附件不存在。"
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4311,7 +4304,7 @@ msgstr "別忘了檢查您的主題設定"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "早期 InitPlugin 失敗。見以下錯誤。"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4341,7 +4334,7 @@ msgstr "指出必填欄位"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin 並未定義。見以下錯誤。"
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"

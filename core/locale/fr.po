@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-15 23:41+0200\n"
+"PO-Revision-Date: 2012-11-07 18:57+0200\n"
 "Last-Translator: Raul F <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -19,16 +19,19 @@ msgstr ""
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
+#, fuzzy
 msgid "%*(%1,day) "
 msgstr "%*(%1,jour) "
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:485
+#, fuzzy
 msgid "%*(%1,hour) "
 msgstr "%*(%1,heure) "
 
 #. ($mins)
 #: core/lib/Foswiki/Time.pm:488
+#, fuzzy
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minute) "
 

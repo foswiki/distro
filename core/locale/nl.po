@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-23 01:27+0200\n"
+"PO-Revision-Date: 2012-11-08 01:34+0200\n"
 "Last-Translator: Arthur <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1081,7 +1081,7 @@ msgstr "Kleur %1 heeft een ongeldig formaat"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Kom binnen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1502,16 +1502,14 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Vul de Wikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Ga terug met je browser en kies een [[%SYSTEMWEB%.WikiWord][Wikiwoord]] als "
-"paginanaam, of vink de checkbox aan dat een niet-Wikiwoord gebruikt mag "
-"worden"
+"Vul de paginanaam in als WikiWoord, of vink \"niet-Wikiwoord mag worden "
+"gebruikt\" aan."
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Fout bij het laden van de plugin. Zie meldingen hieronder."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1807,6 +1805,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Als Foswiki niet een geregistreerd e-mailadres van jou kan vinden in de "
+"geheime database, kun je je wachtwoord niet opnieuw instellen of op de "
+"hoogte gehouden worden van paginawijzigingen."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2142,9 +2143,8 @@ msgstr "Vul je gebruikersnaam en wachtwoord in"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "Inlognaam"
+msgstr "Inloggen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2159,9 +2159,8 @@ msgid "Logon"
 msgstr "Log in"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "Log in"
+msgstr "Uitloggen"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2264,7 +2263,7 @@ msgstr "NIEUW"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2280,7 +2279,7 @@ msgstr "Ga naar een vergelijkbare pagina"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Laat maar"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2618,11 +2617,13 @@ msgstr "Plugin routines"
 
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "Plugin module retourneerde niet 'true'. Zie meldingen hieronder."
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"Plugin module was niet gedefinieerd. Controleer de configuratie. Zie "
+"meldingen hieronder."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -3073,7 +3074,7 @@ msgstr "Bekijk wijzigingen sinds:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Zie de DISABLEDPLUGINS instelling."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3461,6 +3462,10 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"Het e-mailadres in je persoonlijke pagina is blanco gelaten. Als je een "
+"e-mailadres kenbaar wilt maken aan andere gebruikers, kun je je persoonlijke "
+"pagina handmatig aanpassen om een e-mail toe te voegen. Deze hoeft niet "
+"hetzelfde te zijn als het adres dat door Foswiki wordt gebruikt."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -4242,9 +4247,8 @@ msgstr ""
 "liggende streep (underscore) en met alleen alfanumerieke tekens."
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Je probeert om te %1 bij een bijlage die niet bestaat."
+msgstr "Je probeert om toegang te krijgen tot een bijlage die niet bestaat."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4582,7 +4586,7 @@ msgstr "vergeet niet om je pagina voorkeurinstellingen na te kijken"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin is mislukt. Zie meldingen hieronder."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4612,7 +4616,7 @@ msgstr "velden zijn verplicht"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin is niet gedefinieerd. Zie meldingen hieronder."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
