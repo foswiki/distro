@@ -36,15 +36,26 @@ sub parsePatch {
     }
 
     my $foundPatch = 'summary';
+    my $md5        = 'na';
 
     foreach my $line (@contents) {
-        if ( $line =~ /^diff --git (.*?)\s/ ) {
-            $foundPatch = _fixupFile($1);
+        if ( $line =~ /^##PATCH\s+([^\s]+)\s+(.*?)$/ ) {
+            $md5        = $1;
+            $foundPatch = _fixupFile($2);
+            next;
         }
-        $patches{$foundPatch} .= $line;
+        $patches{$foundPatch}{$md5} .= $line;
     }
 
     return %patches;
+}
+
+sub _getMD5 {
+
+    my $filename = shift;
+    open( my $fh, '<', $filename ) or die "Can't open '$filename': $!";
+    binmode($fh);
+    return Digest::MD5->new->addfile($fh)->hexdigest;
 }
 
 sub _fixupFile {
@@ -79,7 +90,7 @@ sub updateFile {
     my $diff  = shift;
     my $write = shift;
 
-    return 'Not a file' unless ( -f $file );
+    return "$file is not a file" unless ( -f $file );
 
     local $/ = undef;
     open( my $fh, '<', $file ) || return "read of $file failed:  $!";
@@ -103,9 +114,44 @@ sub updateFile {
     $mode = $1;
     chmod( $mode, "$file" );
 
-    return '';
+    return "Update successful for $file\n";
 }
 
+sub applyPatch {
+    my $root     = shift;
+    my $patchRef = shift;
+
+    my $msgs  = '';
+    my $match = 0;
+
+    foreach my $key ( keys %{$patchRef} ) {
+        next if ( $key eq 'summary' );
+        foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
+
+            my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
+            $msgs .= "Processing File $key, MD5 $md5 \n";
+
+            my $origMD5 = _getMD5($file);
+            next unless ( $origMD5 eq $md5 );
+            $msgs .= "MD5 Matched - applying patch.\n";
+            $match++;
+
+            my $rc =
+              Foswiki::Configure::PatchFile::updateFile( $file,
+                $patchRef->{$key}{$md5} );
+
+            $msgs .= "$rc.\n" if $rc;
+        }
+
+    }
+
+    $msgs =
+      ($match)
+      ? "$match files patched\n"
+      : "No files matched  patch signatures\n";
+    return $msgs;
+
+}
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

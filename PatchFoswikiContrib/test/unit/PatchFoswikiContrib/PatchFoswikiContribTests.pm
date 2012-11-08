@@ -10,9 +10,11 @@ use Error qw( :try );
 use File::Temp();
 use FindBin;
 use File::Path qw(mkpath rmtree);
+use Digest::MD5;
 
 use Foswiki::Configure::Util      ();
 use Foswiki::Configure::PatchFile ();
+use File::Copy qw( copy );
 
 sub set_up {
     my $this = shift;
@@ -94,8 +96,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
     
     git-svn-id: http://svn.foswiki.org/trunk@15909 0b4bb1d4-4e5a-0410-9cc4-b2b747904278
 
-diff --git a/core/lib/Foswiki/Configure/Dependency.pm b/core/lib/Foswiki/Configure/Dependency.pm
-index 135df1f..a13b03b 100644
+##PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm
 --- a/core/lib/Foswiki/Configure/Dependency.pm
 +++ b/core/lib/Foswiki/Configure/Dependency.pm
 @@ -220,7 +220,7 @@ sub studyInstallation {
@@ -107,8 +108,7 @@ index 135df1f..a13b03b 100644
              }
              last;
          }
-diff --git a/core/lib/Foswiki/Configure/UIs/EXTENSIONS.pm b/core/lib/Foswiki/Configure/UIs/EXTENSIONS.pm
-index 2c95644..b355217 100755
+##PATCH 76e28354522a6d6cccc76c66f99d2424  lib/Foswiki/Configure/UIs/EXTENSIONS.pm
 --- a/core/lib/Foswiki/Configure/UIs/EXTENSIONS.pm
 +++ b/core/lib/Foswiki/Configure/UIs/EXTENSIONS.pm
 @@ -339,7 +339,7 @@ sub _rawExtensionRows {
@@ -126,20 +126,46 @@ DONE
         $this->{tempdir} . '/TestFile.patch' );
 
     foreach my $key ( keys %result ) {
+        print STDERR "KEY $key  \n";
         next if ( $key eq 'summary' );
+        foreach my $md5 ( keys %{ $result{$key} } ) {
+            print "MD5 $md5\n patch $result{$key}{$md5} \n";
 
-        my $savepath = $Foswiki::foswikiLibPath;
-        $Foswiki::foswikiLibPath = '/tmp';
-        my $file = Foswiki::Configure::Util::mapTarget( 'root', $key );
-        $Foswiki::foswikiLibPath = $savepath;
+            my $origFile = Foswiki::Configure::Util::mapTarget( '/tmp', $key );
 
-        my $rc =
-          Foswiki::Configure::PatchFile::updateFile( $file, $result{$key} );
+            my $savepath = $Foswiki::foswikiLibPath;
+            $Foswiki::foswikiLibPath = '/tmp/lib';
+            mkpath($Foswiki::foswikiLibPath);
 
-        $this->assert( !$rc, "Failed with $rc\n" );
+            my $file = Foswiki::Configure::Util::mapTarget( '/tmp', $key );
+            $Foswiki::foswikiLibPath = $savepath;
+
+            my ( $fv, $fp, $fn ) = File::Spec->splitpath( $file, 0 );
+            mkpath($fp);
+            copy( $origFile, $file );
+            my $origMD5 = _getMD5($origFile);
+            $this->assert( ( $origMD5 eq $md5 ), "$file $md5 ne $origMD5" );
+
+            print STDERR
+              "$key mapped to $file\n - Vol $fv, path $fp, name $fn \n";
+
+            my $rc =
+              Foswiki::Configure::PatchFile::updateFile( $file,
+                $result{$key}{$md5} );
+
+            $this->assert( !$rc, "Failed with $rc\n" );
+        }
 
     }
 
+}
+
+sub _getMD5 {
+
+    my $filename = shift;
+    open( my $fh, '<', $filename ) or die "Can't open '$filename': $!";
+    binmode($fh);
+    return Digest::MD5->new->addfile($fh)->hexdigest;
 }
 
 sub _makefile {
