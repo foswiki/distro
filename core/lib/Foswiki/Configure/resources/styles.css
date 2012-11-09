@@ -210,9 +210,11 @@ table.configureFeedbackSummaryTable td {
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 2em;
-	background-position:0 0;
+    background-position:0 0;
 }
-
+.configureFeedbackSummaryCell .configureUnsaved {
+    padding-left: 32px;
+}
 .configureFeedback {
     max-height: 200px;
     overflow: auto;
