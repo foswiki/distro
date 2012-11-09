@@ -14,8 +14,13 @@ foreach my $key ( grep /^working.*\.patch/, keys %{ $this->{_manifest} } ) {
     $msgs .= $result{error}   if ( $result{error} );
     $msgs .= $result{summary} if ( $result{summary} );
 
-    $msgs .=
-      Foswiki::Configure::PatchFile::applyPatch( $this->{_root}, \%result );
+    unless ( $result{error} ) {
+        $msgs .=
+          Foswiki::Configure::PatchFile::backupTargets( $this->{_root},
+            \%result );
+        $msgs .=
+          Foswiki::Configure::PatchFile::applyPatch( $this->{_root}, \%result );
+    }
 
     if ( $this->can('log') ) {
         $this->log($msgs);

@@ -4,8 +4,11 @@ package Foswiki::Configure::PatchFile;
 
 use strict;
 use warnings;
+use File::Copy qw( copy );
+use File::Path qw( mkpath );
 use File::Spec qw( splitdir splitpath catdir );
-use Text::Patch;
+use Foswiki::Time qw( formatTime );
+use Text::Patch ();
 
 =begin TML
 
@@ -16,7 +19,6 @@ This routine will read in a patch file and parse it into separate patches.
 
 sub parsePatch {
     my $file = shift;
-    print STDERR "Processing $file\n";
 
     my %patches;
     my $error = '';
@@ -24,7 +26,7 @@ sub parsePatch {
     $error .= "Not a file $file" unless ( -f $file );
 
     local $/ = "\n";
-    open( my $fh, '<', $file ) || return "read of $file failed:  $!";
+    open( my $fh, '<', $file ) || die "read of $file failed:  $!";
     my @contents = <$fh>;
     close $fh;
 
@@ -35,6 +37,7 @@ sub parsePatch {
         return %patches;
     }
 
+    ( $patches{identifier} ) = $file =~ m/.*\/(Item.*?)\.patch$/;
     my $foundPatch = 'summary';
     my $md5        = 'na';
 
@@ -76,8 +79,6 @@ sub _fixupFile {
 
     # Don't include volume,  Caller will map to local name.
     $patchFile = File::Spec->catfile( @dirs, $file );
-
-    print STDERR "Results $patchFile\n";
 
     return $patchFile;
 
@@ -132,6 +133,8 @@ sub applyPatch {
 
     foreach my $key ( keys %{$patchRef} ) {
         next if ( $key eq 'summary' );
+        next if ( $key eq 'error' );
+        next if ( $key eq 'identifier' );
         foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
 
             my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
@@ -155,6 +158,47 @@ sub applyPatch {
       ($match)
       ? "$match files patched\n"
       : "No files matched  patch signatures\n";
+    return $msgs;
+
+}
+
+sub backupTargets {
+    my $root     = shift;
+    my $patchRef = shift;
+
+    my $stamp =
+      Foswiki::Time::formatTime( time(), '$year$mo$day-$hour$minutes$seconds',
+        'servertime' );
+
+    my $msgs   = '';
+    my $backup = 0;
+
+    my $bkupPath = Foswiki::Configure::Util::mapTarget( $root,
+        "working/configure/backup/$patchRef->{identifier}-$stamp" );
+    mkpath($bkupPath);
+
+    die "Create of backup directory $bkupPath failed" unless ( -d $bkupPath );
+
+    foreach my $key ( keys %{$patchRef} ) {
+        next if ( $key eq 'summary' );
+        next if ( $key eq 'identifier' );
+        next if ( $key eq 'error' );
+        my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
+        next unless ( -f $file );
+
+        my ( $fv, $fp, $fn ) = File::Spec->splitpath( $file, 0 );
+
+        copy( $file, "$bkupPath/$fn" );
+
+        $msgs .= "Backed up target: $file. to $bkupPath/$fn\n";
+        $backup++;
+
+    }
+
+    $msgs .=
+      ($backup)
+      ? "$backup files backed up.\n"
+      : "No files backed up.\n";
     return $msgs;
 
 }
