@@ -204,13 +204,20 @@ our $session;
 my $TRUE  = 1;
 my $FALSE = 0;
 
-my $action          = $query->param('action');
-my @feedbackHeaders = (
-    -type                        => 'application/octet-stream',
-    'X-Foswiki-FeedbackResponse' => 'V1.0',
-  )
-  if ( $query->http('X-Foswiki-FeedbackRequest')
-    || $action && $action eq 'feedbackUI' );
+my $action;
+my @feedbackHeaders;
+if ( $query->http('X-Foswiki-FeedbackRequest') ) {
+    @feedbackHeaders = (
+        -type                        => 'application/octet-stream',
+        'X-Foswiki-FeedbackResponse' => 'V1.0',
+    );
+    $action = 'feedbackUI';
+}
+else {
+    $action = $query->param('action');
+    die "Invalid protocol\n" if ( defined $action && $action eq 'feedbackUI' );
+}
+$query->delete('action');
 
 our $badLSC;
 our $insane;
@@ -229,7 +236,6 @@ our $method     = $query->request_method();
 our $pathinfo   = $query->path_info();
 our @pathinfo;
 
-$query->delete('action');
 {
     my $pinfo = $pathinfo;
     $pinfo =~ s,^/,,;

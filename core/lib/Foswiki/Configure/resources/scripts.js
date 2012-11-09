@@ -2,8 +2,7 @@
 
 /* Don't use // style comments, or you'll break the stupid minifier  */
 /* Hack to support nyroModal with jQuery 1.8, which removed $.curCss.
- * Upgrading to nyroModal V2 is another project - it has a different API.
- * Sigh.
+ * Should be able to remove this with nyroModal V2.
  */
 if (!$.curCSS) {
     $.curCSS = $.css;
@@ -112,7 +111,7 @@ var configure = (function ($) {
                 $(el).append(this);
                 $(this).wrap("<a href='" + url + "' class='nyroModal'></a>");
                 $('.nyroModal').nyroModal({
-                    hideContent: newHideContent
+/* Not with V2??      hideContent: newHideContent */
                 });
                 $(this).fadeIn();
             });
@@ -999,7 +998,7 @@ function doFeedback(key, pathinfo) {
      */
 
     function errorMessageFromHTML(m) {
-        errorMessage(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
+        errorMessage(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
     }
 
     /* Request handling:

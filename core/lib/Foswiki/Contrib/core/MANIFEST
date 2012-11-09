@@ -674,9 +674,9 @@ lib/Foswiki/Configure/resources/icon_world.png 0444
 lib/Foswiki/Configure/resources/intro.html 0444
 lib/Foswiki/Configure/resources/jquery-1.8.2.min.js 0444
 lib/Foswiki/Configure/resources/jquery-1.8.2.min.js.gz 0444
-lib/Foswiki/Configure/resources/jquery.nyroModal-1.6.2.css 0444
-lib/Foswiki/Configure/resources/jquery.nyroModal-1.6.2.min.js 0444
-lib/Foswiki/Configure/resources/jquery.nyroModal-1.6.2.min.js.gz 0444
+lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.css 0444
+lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.min.js 0444
+lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.min.js.gz 0444
 lib/Foswiki/Configure/resources/legend.html 0444
 lib/Foswiki/Configure/resources/next.gif 0444
 lib/Foswiki/Configure/resources/pattern.css 0444
