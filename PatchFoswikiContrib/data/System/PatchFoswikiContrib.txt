@@ -1,12 +1,94 @@
 <!--
 One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = Patch for Item12225
+   * Set SHORTDESCRIPTION = File patch tool for Foswiki
 -->
----+!! PatchItem12225Contrib
+---+!! PatchFoswikiContrib
 
 %SHORTDESCRIPTION%
 
 %TOC%
+
+---++ Usage
+
+When this extension is installed, it adds some required libraries to your Foswiki system, and then in the Post-installation exit, applies any patch files found in the manifest.
+
+Patches are only applied if the target file is an _exact_ match to the original file.  There is no attempt to do "fuzzy" patching.   Note however that a patch can be built to cover multiple versions of the file.
+
+Patches will be mapped from the default Foswiki filename to the directory location used on the target system.
+
+---++ Building a patch
+
+Currently a separate version of this extension has to be built for each patch.  The only patches installed are those identified in the manifest of this contrib.  This extension adds some infrastructure that a future Foswiki could
+use to apply patches from configure.
+
+---+++ Create a patch file
+
+The format of the patch file is a collection of related patches, one for each
+version of a target file.  The patch file consists of
+
+   $ Summary: A general description of the patch.  It can be any number of lines long and will be reported in the installation log.
+   $ Patch Target =~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)=:  Identifies a single version of a patch along with the md5 of the target file, the filename and a comment.
+      * =~~~PATCH= Identifies this as a patch
+      * =fdee..79f9= is the MD5sum of the original version of the unpatched target file.
+      * =lib/Foswiki...= The target file name
+      * =(Comment)= A comment in parenthesis, such as the foswiki version that shipped this file..
+   $ The patch:  A patch in unified diff format =diff -Naur oldversionFile newVersionFile
+
+Here is an example patch file for the Foswiki 1.1.5 and Foswiki 1.l.4 versions of the files. (EXTENSIONS.pm was not modified between 1.1.4 and 1.1.5):
+<verbatim>
+commit 5e6b4d1f9540bb7b75705faf80e412fc0c66fe84
+Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
+Date:   Mon Nov 5 05:07:25 2012 +0000
+
+    Item11267: Don't use "HEAD" to detect pseudo install.
+
+    A real, non-pseudo-installed extension will crash configure if a
+    perl version object is compared to an alpha string.
+
+    9999.99_999 will be used to indicate a pseudo-installed release.
+
+    git-svn-id: http://svn.foswiki.org/trunk@15909 0b4bb1d4-4e5a-0410-9cc4-b2b747904278
+
+~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
+--- lib/Foswiki/Configure/Dependency.pm 2012-11-07 23:46:56.378148979 -0500
++++ lib/Foswiki/Configure/Dependency.pm.new     2012-11-07 23:46:14.091649218 -0500
+@@ -220,7 +220,7 @@
+             if ( -l "$dir/$path" ) {
+
+                 # Assume pseudo-installed
+-                $this->{installedVersion} = 'HEAD';
++                $this->{installedVersion} = '9999.99_999';
+             }
+             last;
+         }
+
+~~~PATCH 76e28354522a6d6cccc76c66f99d2424 lib/Foswiki/Configure/UIs/EXTENSIONS.pm (Foswiki 1.1.0-1.1.5)
+--- lib/Foswiki/Configure/UIs/EXTENSIONS.pm     2012-11-07 23:45:21.269274066 -0500
++++ lib/Foswiki/Configure/UIs/EXTENSIONS.pm.new 2012-11-07 23:46:39.844344573 -0500
+@@ -280,7 +280,7 @@
+         if ( $ext->{installedRelease} ) {
+
+             # The module is installed; check the version
+-            if ( $ext->{installedVersion} eq 'HEAD' ) {
++            if ( $ext->{installedVersion} eq '9999.99_999' ) {
+
+                 # pseudo-installed
+                 $install = 'pseudo-installed';
+
+~~~PATCH 4e525d29a245785ae810316835c18e62 lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.4)
+--- lib/Foswiki/Configure/Dependency.pm 2011-12-20 10:33:22.000000000 -0500
++++ lib/Foswiki/Configure/Dependency.pm 2012-11-08 17:05:55.982213647 -0500
+@@ -220,7 +220,7 @@
+             if ( -l "$dir/$path" ) {
+
+                 # Assume pseudo-installed
+-                $this->{installedVersion} = 'HEAD';
++                $this->{installedVersion} = '9999.99_999';
+             }
+             last;
+         }
+
+</verbatim>
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
@@ -14,7 +96,7 @@ One line description, required for extensions repository catalog.
 ---++ Info
 
 |  Author: | GeorgeClark |
-|  Copyright &copy;: | <!-- e.g. "2011, SlobSoft Gmbh, All Rights Reserved" --> |
+|  Copyright &copy;: | Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |

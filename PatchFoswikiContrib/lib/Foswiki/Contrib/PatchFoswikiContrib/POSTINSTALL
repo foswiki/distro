@@ -1,22 +1,28 @@
 
 my $this = shift;
+my $msgs = '';
 
 foreach my $key ( grep /^working.*\.patch/, keys %{ $this->{_manifest} } ) {
 
     my $patchFile = Foswiki::Configure::Util::mapTarget( $this->{_root}, $key );
 
-    $this->log("Processing $patchFile\n");
+    $msgs .= "Processing $patchFile\n";
 
     require Foswiki::Configure::PatchFile;
     my %result = Foswiki::Configure::PatchFile::parsePatch($patchFile);
 
-    $this->log( $result{error} ) if ( $result{error} );
-    $this->log( $result{summary}{na} ) if ( $result{summary} );
+    $msgs .= $result{error}   if ( $result{error} );
+    $msgs .= $result{summary} if ( $result{summary} );
 
-    my $msgs =
+    $msgs .=
       Foswiki::Configure::PatchFile::applyPatch( $this->{_root}, \%result );
 
-    $this->log($msgs);
+    if ( $this->can('log') ) {
+        $this->log($msgs);
+    }
+    else {
+        return $msgs;
+    }
 
 }
 

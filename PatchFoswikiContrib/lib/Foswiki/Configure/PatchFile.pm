@@ -39,12 +39,18 @@ sub parsePatch {
     my $md5        = 'na';
 
     foreach my $line (@contents) {
-        if ( $line =~ /^##PATCH\s+([^\s]+)\s+(.*?)$/ ) {
-            $md5        = $1;
-            $foundPatch = _fixupFile($2);
+        if ( $line =~ /^~~~PATCH\s+([^\s]+)\s+(.*?)\s+\((.*?)\)$/ ) {
+            $md5                                 = $1;
+            $foundPatch                          = _fixupFile($2);
+            $patches{$foundPatch}{$md5}{version} = $3;
             next;
         }
-        $patches{$foundPatch}{$md5} .= $line;
+        if ( $foundPatch eq 'summary' ) {
+            $patches{summary} .= $line;
+        }
+        else {
+            $patches{$foundPatch}{$md5}{patch} .= $line;
+        }
     }
 
     return %patches;
@@ -129,23 +135,23 @@ sub applyPatch {
         foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
 
             my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
-            $msgs .= "Processing File $key, MD5 $md5 \n";
 
             my $origMD5 = _getMD5($file);
             next unless ( $origMD5 eq $md5 );
-            $msgs .= "MD5 Matched - applying patch.\n";
+            $msgs .=
+"MD5 Matched - applying patch version $patchRef->{$key}{$md5}{version}.\n";
             $match++;
 
             my $rc =
               Foswiki::Configure::PatchFile::updateFile( $file,
-                $patchRef->{$key}{$md5} );
+                $patchRef->{$key}{$md5}{patch} );
 
             $msgs .= "$rc.\n" if $rc;
         }
 
     }
 
-    $msgs =
+    $msgs .=
       ($match)
       ? "$match files patched\n"
       : "No files matched  patch signatures\n";
