@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.6_001 Alpha release
+---+!! Foswiki Release 1.1.6_002 Alpha release
 
 %TOC%
 
@@ -33,7 +33,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
-   * Foswiki 1.1.6_001 was built 05 Nov 2012.. It is a release that fixes some very important issues including some security related issues. It contains 85 fixes and 23 enhancements.
+   * Foswiki 1.1.6_002 was built 09 Nov 2012.. It is a release that fixes some very important issues including some security related issues. It contains 85 fixes and 23 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1609,13 +1609,16 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11854][Item11854]] | Configure shows empty error blocks. |
 | [[%BUGS%/Item11859][Item11859]] | Switching from raw to WYSIWYG and back, removes &lt;br />. |
 | [[%BUGS%/Item11872][Item11872]] | WysiwygPlugin interleaves &lt;div> tags between &lt;p> paragraph tabs.  This is not legal xhtml. |
+| [[%BUGS%/Item11860][Item11860]] | Search pager not working with zeroresults parameter passed to template. |
 | [[%BUGS%/Item11880][Item11880]] | Print view shows unexpanded TML line. |
 | [[%BUGS%/Item11884][Item11884]] | Unable to place cursor above a pre, verbatim, or blockquote at start of topic. |
 | [[%BUGS%/Item11898][Item11898]] | Remove id=nonwikiword from template module. |
+| [[%BUGS%/Item11909][Item11909]] | Sandbox topic creator doesn't prevent invalid topic names. Note special upgrade instructions. |
 | [[%BUGS%/Item11910][Item11910]] | Several issues with {Trace}{LoginManager}. |
 | [[%BUGS%/Item11911][Item11911]] | Expert settings no longer color marked. |
 | [[%BUGS%/Item11912][Item11912]] | hitting ctrl-i in tinymce appears to result in a 'funny square' char as well as italics. |
 | [[%BUGS%/Item11915][Item11915]] | WysiwygPlugin divides tables into multiple tables if a \ line continuation is not preceded by a space. |
+| [[%BUGS%/Item11918][Item11918]] | Instructions to block all explicit email from !WebHotify cause a regex failure in notify run. |
 | [[%BUGS%/Item11923][Item11923]] | Changes to AdminGroup by the group API should always force a new revision. |
 | [[%BUGS%/Item11927][Item11927]] | Fix for Item5464 incomplete.  Move or delete of an attachment still verifies TOPICRENAME and WEBRENAME permissions. |
 | [[%BUGS%/Item11928][Item11928]] | default values in radio and select formfields are a bad idea. |
@@ -1646,13 +1649,15 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12094][Item12094]] | Change Configure password from salted MD5 to Apache APR1 type hash. |
 | [[%BUGS%/Item12095][Item12095]] | Template Login panel is not returning error messages to the user. |
 | [[%BUGS%/Item12105][Item12105]] | FastCGIEngineContrib may issue body before headers. |
+| [[%BUGS%/Item12115][Item12115]] | HttpCompress is incompatible with UseLocale. Flag error in config checker.. |
 | [[%BUGS%/Item12137][Item12137]] | Invalid regular expression entered by admin causes configure to crash. |
 | [[%BUGS%/Item12138][Item12138]] | Configure regexp checker broken. |
 | [[%BUGS%/Item12139][Item12139]] | Fix configuration checking of Regular Expressions, and add some missing checkers. |
 | [[%BUGS%/Item12152][Item12152]] | Context isadmin is broken. |
 | [[%BUGS%/Item12153][Item12153]] | SpreadSheetPlugin uses old style URL in calc demo. |
 | [[%BUGS%/Item12157][Item12157]] | Miscellaneous configure issues. |
-| [[%BUGS%/Item12158][Item12158]] | installed plugins lines that reference non-enabled plugins are not links. |
+| [[%BUGS%/Item12158][Item12158]] | Installed plugins lines that reference non-enabled plugins are not links. |
+| [[%BUGS%/Item12166][Item12166]] | Search for * results in search crash. |
 | [[%BUGS%/Item12174][Item12174]] | rendering a label formfield does not respect noautolink and friends. |
 | [[%BUGS%/Item12182][Item12182]] | Better wording for "You are trying to viewfile an attachment that does not exist". |
 | [[%BUGS%/Item12188][Item12188]] | Login template shows NOTE div even when no NOTE defined. |
@@ -1691,6 +1696,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12079][Item12079]] | Twisty preferences are added to the wrong zone. |
 | [[%BUGS%/Item12081][Item12081]] | Insert a space into the shebang line of all scripts. Improves perlbrew usage. |
 | [[%BUGS%/Item12140][Item12140]] | Add auto checking by field type to <code>bin/configure</code>. |
+| [[%BUGS%/Item12211][Item12211]] | Configure will now save backup copies of the LocalSite.cfg file. |
 | [[%BUGS%/Item12215][Item12215]] | jquery.loader is visible briefly before javascript is executed. |
 
 </noautolink>
