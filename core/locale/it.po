@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-08 22:01+0200\n"
+"PO-Revision-Date: 2012-11-08 22:36+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -1227,7 +1227,7 @@ msgstr "Crea una nuova pagina"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Creare non specificato e Gruppo non esistente "
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1506,15 +1506,14 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Inserisci l'utente Amministratore o effettua il login come in %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Torna indietro nel browser e scegli un nome di pagina che sia [[%SYSTEMWEB%."
-"WikiWord][WikiWord]] o controlla che sia attivata l'opzione non-Wiki Word"
+"Scegli un nome di pagina che sia [[%SYSTEMWEB%.WikiWord][WikiWord]] oppure "
+"controlla che sia attivata l'opzione non-Wiki Word."
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Errore durante il caricamento del plugin. Vedi gli errori di seguito."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1566,7 +1565,7 @@ msgstr "Plugin con errori"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr ""
+msgstr "Impossibile aggiungere l'utente:"
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1704,7 +1703,7 @@ msgstr "Gruppo"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Il gruppo non esiste e la creazione non è possibile"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1712,7 +1711,7 @@ msgstr "Nome gruppo"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Il nome del gruppo deve terminare con Group"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1805,6 +1804,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Se non è possibile trovare un tuo indirizzo e-mail nel database segreto, non "
+"potrai reimpostare la password o ricevere le notifiche di modifica delle "
+"pagine."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2001,7 +2003,7 @@ msgstr "Codice di attivazione non valido"
 
 #: core/templates/messages.tmpl:249
 msgid "Invalid Input"
-msgstr ""
+msgstr "Non valido"
 
 #: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
 #: core/templates/messages.tmpl:342
@@ -2072,9 +2074,8 @@ msgid "Last editor"
 msgstr "Ultimo editore"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Last modified"
-msgstr "Data dell'ultima modifica"
+msgstr "Modifica più recente"
 
 #: core/data/System/WebSearch.txt:167
 msgid "Last modified time"
@@ -2129,7 +2130,7 @@ msgstr "Disconnessione utente"
 
 #: core/data/Main/GroupViewTemplate.txt:128
 msgid "Log in to continue."
-msgstr ""
+msgstr "Effettuare l'accesso per continuare."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
@@ -2137,9 +2138,8 @@ msgstr "Collegati fornendo il tuo nome utente e la password"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "Nome utente per l'accesso"
+msgstr "Accesso"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2154,9 +2154,8 @@ msgid "Logon"
 msgstr "Accesso"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "Accesso"
+msgstr "Scollegamento"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2168,7 +2167,7 @@ msgstr "Esegui ricerca:"
 
 #: core/data/System/SiteChanges.txt:54
 msgid "Maximum %1 items per web"
-msgstr ""
+msgstr "Massimo %1 elementi per web"
 
 #: core/data/Main/GroupViewTemplate.txt:6 core/data/Main/WikiGroups.txt:37
 #: core/data/Main/WikiGroups.txt:63
@@ -2259,7 +2258,7 @@ msgstr "NUOVO"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2275,7 +2274,7 @@ msgstr "Vai ad una pagina simile"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Non importa"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2304,7 +2303,7 @@ msgstr "Nuova password"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
 msgid "New password did not match existing password for this user"
-msgstr ""
+msgstr "La nuova password è diversa dalle precedenti usate dall'utente"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2320,17 +2319,15 @@ msgstr "Ultima versione:"
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
-msgstr ""
+msgstr "Prossimo"
 
 #: core/data/Main/GroupViewTemplate.txt:37
-#, fuzzy
 msgid "No  members"
-msgstr "nessun membro"
+msgstr "Nessun membro"
 
 #: core/data/System/SiteChanges.txt:50
-#, fuzzy
 msgid "No changes"
-msgstr "(variazioni)"
+msgstr "Nessuna variazione"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
@@ -2412,7 +2409,7 @@ msgstr "Note"
 
 #: core/data/System/SiteChanges.txt:62
 msgid "Number of changes for each Web"
-msgstr ""
+msgstr "Numero di variazioni per ogni Web"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:47
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:40
@@ -2443,7 +2440,7 @@ msgstr "OK, ancora io!"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: core/templates/more.tmpl:158
 msgid "Older revision:"
@@ -2455,7 +2452,7 @@ msgstr "Solo ai membri di %1 è permesso eseguire questa azione."
 
 #: core/data/Main/GroupViewTemplate.txt:131
 msgid "Only members or admins may update group."
-msgstr ""
+msgstr "Solo i membri o gli amministratori possono aggiornare il gruppo."
 
 #: core/templates/more.tmpl:56 core/templates/more.tmpl:73
 msgid "Only update linked topics in %1 web"
@@ -2515,9 +2512,8 @@ msgid "Password reset failed"
 msgstr "Reset password fallito"
 
 #: core/templates/messages.tmpl:174
-#, fuzzy
 msgid "Passwords disabled"
-msgstr "Reset password fallito"
+msgstr "Password disabilitate"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -2599,11 +2595,8 @@ msgstr ""
 "invia una mail a %2."
 
 #: core/templates/messages.tmpl:698
-#, fuzzy
 msgid "Please notify your %1 administrator."
-msgstr ""
-"Impossibile consegnare una email. Per favore avverti l'amministratore di %1, "
-"%2"
+msgstr "Si prega di comunicare con l'amministratore %1."
 
 #: core/templates/mailresetpassword.tmpl:15
 msgid ""
@@ -2618,11 +2611,13 @@ msgstr "Gestione dei Plugin"
 
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "Il modulo Plugin non ha restituito 'true'. Vedi gli errori di seguito."
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"IL modulo Plugin non è stato definito. Controllare la configurazione. Vedi "
+"gli errori di seguito."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -2647,7 +2642,7 @@ msgstr "Premi OK per confermare che questa modifica era intenzionale."
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:208
 msgid "Previous"
-msgstr ""
+msgstr "Precedente"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:28
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:29
@@ -2701,18 +2696,16 @@ msgid "Recently changed topics"
 msgstr "Pagine recentemente modificate"
 
 #: core/data/System/SiteChanges.txt:5
-#, fuzzy
 msgid "Recently changed topics in %1 Web"
-msgstr "Pagine recentemente modificate"
+msgstr "Pagine recentemente modificate nel Web %1"
 
 #: core/data/System/SiteChanges.txt:6
-#, fuzzy
 msgid "Recently changed topics in all Webs"
-msgstr "Pagine recentemente modificate"
+msgstr "Pagine recentemente modificate in tutti i Web"
 
 #: core/templates/oopsredirectdenied.tmpl:6
 msgid "Redirect Denied"
-msgstr ""
+msgstr "Trasferimento (Redirect) non possibile"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 #: JQueryPlugin/data/System/JQueryLoader.txt:93
@@ -2786,9 +2779,8 @@ msgid "Remove members from this group"
 msgstr "Rimuove i membri da questo gruppo"
 
 #: core/data/Main/GroupViewTemplate.txt:181
-#, fuzzy
 msgid "Remove members..."
-msgstr "Rimuove il membro..."
+msgstr "Rimuovi membri..."
 
 #: core/data/Main/GroupViewTemplate.txt:268
 msgid "Remove selected members"
@@ -3071,13 +3063,12 @@ msgid "See below for help in editing this page."
 msgstr "Guarda in basso per un aiuto su come modificare questa pagina."
 
 #: core/data/System/SiteChanges.txt:13
-#, fuzzy
 msgid "See changes since:"
-msgstr "Rassegna delle variazioni recenti in:"
+msgstr "Elenco variazioni recenti da:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Vedi l'impostazione di DISABLEDPLUGINS."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3209,6 +3200,7 @@ msgstr "Spazi sostituiti da sottolineature"
 #: core/data/System/SiteChanges.txt:73
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
+"Indicare =all= per tutti i web o una lista separata da virgole di web da: %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3242,7 +3234,7 @@ msgstr "Contenuto inviato:"
 
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "Subscribe"
-msgstr ""
+msgstr "Abbonati"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
@@ -3252,7 +3244,7 @@ msgstr "Sottoscrivi / Cancella in:"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
-msgstr ""
+msgstr "Web secondari"
 
 #: core/templates/messages.tmpl:516
 msgid "Success adding users to group"
@@ -3272,7 +3264,7 @@ msgstr "Seleziona font con spaziatura fissa o proporzionale"
 
 #: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
-msgstr ""
+msgstr "Elenco utenti di sistema."
 
 #: core/data/System/SearchHelp.txt:15
 msgid ""
@@ -3372,9 +3364,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "L'mministratore ha disabilitato la registrazione di nuovi utenti."
 
 #: core/templates/messages.tmpl:176
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr "L'mministratore ha disabilitato la registrazione di nuovi utenti."
+msgstr "L'mministratore ha disabilitato la modifica delle password."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
@@ -3441,15 +3432,14 @@ msgstr ""
 "\"meglio prevenire che curare\"."
 
 #: core/templates/messages.tmpl:335
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "L'indirizzo e-mail di questo utente non è valido."
+msgstr "L'indirizzo e-mail di questo utente è stata respinta."
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "L'indirizzo e-mail di questo utente non è valido."
+msgstr ""
+"L'indirizzo e-mail di questo utente è già registrato da un altro utente."
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3462,6 +3452,10 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"L'indirizzo e-mail presente nella pagina personale dell'utente è in genere "
+"lasciato vuoto. Se si desidera mostrare un indirizzo e-mail ad altri utenti "
+"è possibile indicarlo manualmente. La mail non necessariamente deve essere "
+"la stessa utilizzata internamente da Foswiki per le notifiche."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."

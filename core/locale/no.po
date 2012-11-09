@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-14 22:39+0200\n"
+"PO-Revision-Date: 2012-11-08 22:31+0200\n"
 "Last-Translator: Lars <lars.eik@gmail.com>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -229,11 +229,11 @@ msgstr "(legg ved)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
-msgstr "(referanser i %1 weben)"
+msgstr "(referanser i %1 Web)"
 
 #: core/templates/backlinksallwebs.tmpl:3
 msgid "(backlinks in all Webs)"
-msgstr "(referanser i alle web)"
+msgstr "(referanser i alle Web)"
 
 #: core/templates/searchbookview.tmpl:4
 msgid "(book view)"
@@ -302,7 +302,7 @@ msgstr "(ingen)"
 
 #: core/data/System/WebSearch.txt:120 core/data/System/WebSearch.txt:150
 msgid "(otherwise search %1 Web only)"
-msgstr "(eller søk kun i %1 web)"
+msgstr "(eller søk kun i %1 Web)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
 msgid "(raw view)"
@@ -440,7 +440,7 @@ msgstr "*avsnitt* separer med en blank linje"
 #: core/data/System/WikiSyntaxSummary.txt:13
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
-"*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][vår hjemmeside]]="
+"*interne linker* bruk sidenavn: =%1= eller =[<nop>[%1][Vår hjemmeside]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:93
 msgid "..."
@@ -508,7 +508,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
-msgstr "=.txt= legges til noen av filnavnene av sikkerhetshensyn"
+msgstr "En =.txt= endelse legges til noen av filnavnene av sikkerhetshensyn"
 
 #: core/templates/messages.tmpl:638
 msgid ""
@@ -1055,7 +1055,7 @@ msgstr "Farge %1 har ugyldig format"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Kom inn"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1229,7 +1229,7 @@ msgstr "Gjeldende sted:"
 
 #: core/templates/more.tmpl:100
 msgid "Current parent:"
-msgstr "gjeldende forelder:"
+msgstr "Gjeldende forelder:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password"
@@ -1261,7 +1261,7 @@ msgstr "Slett"
 
 #: core/templates/renameattachmentdelete.tmpl:28
 msgid "Delete attachment"
-msgstr "slett vedlegg"
+msgstr "Slett vedlegg"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:168
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
@@ -1472,15 +1472,14 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Skriv administrators brukernavn eller brukernavn som satt i %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Vennligst gå tilbake i nettleseren og velg et sidenavn som er et [[%SYSTEMWEB"
-"%.WikiWord][WikiOrd]] eller huk av i tillat ikke-WikiOrd boksen"
+"Skriv sidenavnet som WikiOrd eller huk av krysset for å tillate ikke "
+"WikiOrd."
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Feil oppstod ved lasting av plugin. Se feil under."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1769,6 +1768,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Dersom Foswiki ikke kan finne en registrert epost adresse for deg i den "
+"skjulte databasen, vil du ikke kunne tilbakestille passordet ditt eller få "
+"epost varslinger ved endring av sider."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2096,9 +2098,8 @@ msgstr "Logg inn med ditt brukernavn og passord"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "Innloggingsnavn"
+msgstr "Login"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2113,9 +2114,8 @@ msgid "Logon"
 msgstr "Logg på"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "Logg på"
+msgstr "Logg ut"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2218,7 +2218,7 @@ msgstr "NY"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2234,7 +2234,7 @@ msgstr "Gå til en liknende side"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Ignorer"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2324,7 +2324,7 @@ msgstr "Ikke anbefalt ved sletting av en side."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
-msgstr "Er dette riktig? Vennligst bekreft!"
+msgstr "Er dette riktig, vennligst bekreft!"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2377,7 +2377,7 @@ msgstr "Antall endringer for hver web"
 #: PatternSkin/templates/search.pattern.tmpl:23
 #: PatternSkin/templates/search.pattern01x00.tmpl:12
 msgid "Number of topics:"
-msgstr "antall sider:"
+msgstr "Antall sider:"
 
 #: core/templates/search.text.tmpl:20 core/templates/searchformat.tmpl:11
 msgid "Number of topics: %1"
@@ -2392,7 +2392,7 @@ msgstr "Antall sider: %1"
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
 #: core/templates/validate.tmpl:54
 msgid "OK"
-msgstr "Ok"
+msgstr "OK"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:27
 msgid "OK, this is still me!"
@@ -2568,11 +2568,11 @@ msgstr "Plugin behandlere"
 
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "Plugin modul returnerte ikke sant. Se feil under."
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
-msgstr ""
+msgstr "Plugin modul var ikke definert. Sjekk konfigurasjonen. Se feil under."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -3020,7 +3020,7 @@ msgstr "Se endringer siden:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Se DISABLEDPLUGINS innstillingen."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3402,6 +3402,10 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"Epostadressen i din brukerprofil side er typisk tomt. Hvis du ønsker å "
+"avsløre en e-postadresse til andre brukere, kan du manuelt redigere din "
+"brukerside for å legge til en adresse. Det trenger ikke å være den samme som "
+"adressen som brukes internt Foswiki."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3928,9 +3932,8 @@ msgid "View"
 msgstr "Vis"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
-msgstr "Vis all side historikk"
+msgstr "Vis komplett side historikk"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -4161,9 +4164,8 @@ msgstr ""
 "med lav strek og kun har alfanumeriske tegn."
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Du forsøker å %1 et vedlegg som ikke eksisterer."
+msgstr "Du forsøker å nå et vedlegg som ikke eksisterer."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4497,7 +4499,7 @@ msgstr "ikke glem å sjekke dine Side Innstillinger"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin feilet. Se feil under."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4527,7 +4529,7 @@ msgstr "indikerer obligatoriske felt"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin var ikke definert. Se feil under."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4603,7 +4605,7 @@ msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Fletting' accesskey='i'>Flett&ing"
+msgstr "title='Fletting' accesskey='i'>flett&ing"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4629,7 +4631,7 @@ msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Side ved side' accesskey='s'>Side ved &side"
+msgstr "title='Side ved side' accesskey='s'>side ved &side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
