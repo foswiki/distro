@@ -11,6 +11,7 @@ loaded for resource or feedback requests.
 =cut
 
 our $sanityStatement;
+our $newLogin;
 
 # ######################################################################
 # Main screen for configure
@@ -765,6 +766,9 @@ sub _screenSaveChanges {
 
     undef $ui;
 
+    $session->clear('pending');
+    $session->flush;
+
     # Build list of hashes with each changed key and its value(s) for template
 
     my $changesList = [];
@@ -809,12 +813,6 @@ sub configureScreen {
     }
     $messages .= shift;
 
-    # Unless we already have status of unsaved changes, generate "none" status
-    # Also suppress if badLSC - the happy green checkmark would confuse.
-
-    $unsavedChangesNotice = unsavedChangesNotice( {} )
-      unless ( $unsavedChangesNotice || $badLSC );
-
     my $contents    = '';
     my $isFirstTime = $badLSC;
 
@@ -825,6 +823,26 @@ sub configureScreen {
 
     my $valuer =
       new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+
+    # If there's already a notice, don't use the cart
+    # E.g. MakeMoreChanges...
+
+    if ( !$unsavedChangesNotice && ( my $cart = $session->param('pending') ) ) {
+        require Foswiki::Configure::Feedback::Cart;
+
+        $cart->loadQuery($query);
+
+        my %updated;
+        $valuer->loadCGIParams( $query, \%updated );
+        $unsavedChangesNotice =
+          unsavedChangesNotice( \%updated, $newLogin, $cart->timeSaved );
+    }
+    else {
+      # Unless we already have status of unsaved changes, generate "none" status
+      # Also suppress if badLSC - the happy green checkmark would confuse.
+        $unsavedChangesNotice = unsavedChangesNotice( {} )
+          unless ( $unsavedChangesNotice || $badLSC );
+    }
 
     # This is the root of the model
     my $root = new Foswiki::Configure::Root();
@@ -957,6 +975,49 @@ sub _actionLogout {
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
 
     rawRedirect($frontpageUrl);
+}
+
+# ######################################################################
+# Discard changes
+# ######################################################################
+
+sub _authenticateDiscardChanges {
+    establishSession( $_[1], $_[2] );
+    my ( $action, $session, $cookie ) = @_;
+
+    _loadSiteConfig();
+
+    if ( loggedIn($session) || $badLSC || $query->auth_type ) {
+        $messageType = $MESSAGE_TYPE->{OK};
+        refreshLoggedIn($session);
+        refreshSaveAuthorized($session)
+          if ( $query->param('cfgAccess') || $badLSC );
+        return;
+    }
+
+    ( my $authorised, $messageType ) =
+      Foswiki::Configure::UI::authorised($query);
+
+    if ($authorised) {
+        refreshLoggedIn($session);
+        refreshSaveAuthorized($session);
+        return;
+    }
+
+    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
+
+    # does not return
+}
+
+sub _actionDiscardChanges {
+    my ( $action, $session, $cookie ) = @_;
+
+    $session->clear('pending');
+    $session->flush;
+
+    htmlResponse( configureScreen('') );
+
+    # does not return
 }
 
 # ######################################################################

@@ -205,7 +205,7 @@ table.configureFeedbackSummaryTable td {
     color:black;
 }
 .configureFeedbackSummaryCell .configureOk,
-.configureFeedbackSummaryCell .configureWarn {
+.configureFeedbackSummaryCell .configureUnsaved {
     display: inline-block;
     padding-top: 0;
     padding-bottom: 0;
@@ -541,7 +541,7 @@ table.configureSectionValues .foswikiTextarea {
 }
 
 /* WARN and ERROR */
-.configureWarn {
+.configureWarn,.configureUnsaved {
     color:#f60;
 }
 .configureRootSection div.foswikiAlert {
@@ -558,6 +558,7 @@ div.configureInfoText {
 	margin:.5em 0;
 	color:green;
 }
+div.configureUnsaved,
 div.configureError,
 div.configureWarn,
 div.configureOk {
@@ -570,6 +571,9 @@ div.configureError {
 }
 div.configureWarn {
 	background-image:url(%RESOURCEURI%icon_warn.png);
+}
+div.configureUnsaved {
+        background-image:url(%RESOURCEURI%cart.png);
 }
 div.configureOk {
 	background-image:url(%RESOURCEURI%icon_ok.png);
@@ -594,6 +598,7 @@ a.configureOk:visited {
 div.configureInfo {
 	margin:.5em 0;
 }
+
 .configureSetting {
 	margin:.5em 0;
 }

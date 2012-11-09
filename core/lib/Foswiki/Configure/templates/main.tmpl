@@ -36,8 +36,10 @@
                         <span class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status">${unsavedNotice}</span>
                     </span>
 			    </div>
+                <input type="hidden" name="action" value="Configure" />
                 <input type='submit' class='foswikiButton' name='changePassword' value='Change password' />
-				<input type='submit' class='enableWhenSomethingChanged foswikiSubmit' name='action' value='Save changes' />
+                <input type='submit' class='foswikiButton' name='discardChanges' value='Discard changes' onclick="return setSubmitAction(this,'DiscardChanges');" />
+				<input type='submit' class='enableWhenSomethingChanged foswikiSubmit' name='saveChanges' value='Save changes' onclick="return setSubmitAction(this,'Savechanges');" />
 			</div>
 		</div>
 	</div>

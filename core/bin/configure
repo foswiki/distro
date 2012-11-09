@@ -25,25 +25,26 @@ use warnings;
     use constant COOKIEEXP   => '61m';    # Lifetime of cookie
     use constant SAVEEXP     => '5m';     # Lifetime of cached save password
     use constant RESOURCEEXP => '1m';     # Resource access window
-    use constant COOKIENAME => 'FOSWIKICFG2SID';
+    use constant COOKIENAME => 'FOSWIKICFG3SID';    # Change with DSN
 
     use constant RESOURCECACHETIME => ( 30 * 24 * 60 * 60 )
-      ;                                   # MAX-AGE of cached resources
-                                          # in seconds. 0 to disable caching
+      ;    # MAX-AGE of cached resources
+           # in seconds. 0 to disable caching
 }
 
-{                                         # Constants that enable debugging code
+{          # Constants that enable debugging code
 
     package Foswiki;
-    use constant SESSIONTRACE   => 0;     # DEBUG temp
+    use constant SESSIONTRACE   => 0;    # DEBUG temp
     use constant TRANSACTIONLOG => 0;
 
     # Work-around for https://rt.cpan.org/Public/Bug/Display.html?id=80346
     # (Taint failure when Storable is used for cookies with db_file.)
 
-    #    use constant SESSION_DSN => "driver:file;serializer:default;id:md5";
-    use constant RT80346     => 1;
-    use constant SESSION_DSN => "driver:file;serializer:storable;id:md5";
+#use constant SESSION_DSN => "driver:file;serializer:storable;id:md5"; # Use Cookie 2
+    use constant SESSION_DSN =>
+      "driver:file;serializer:default;id:md5";    # Use Cookie 3
+    use constant RT80346 => 0;    # Set with Storable until fixed...
 
     use constant DISPLAY_UNSAVED => 0;
 }
@@ -196,7 +197,7 @@ package Foswiki;
 my ( %cfg, $defaultCfg );
 
 # Declared in Foswiki to support checkers
-our $query = new CGI;
+our $query = CGI->new;
 our $session;
 
 # 'constants' used in Foswiki.spec
@@ -218,6 +219,7 @@ our $configItemRegex;
 
 our $sanityStatement;
 our $unsavedChangesNotice = '';
+our $newLogin;
 
 our $time = time();
 
@@ -299,6 +301,8 @@ our $DEFAULT_FIELD_WIDTH_NO_CSS = '70';
     else {
         undef $sid;
     }
+
+    # Do we need a more permanent place than tmpdir (carts)?
 
     $session =
       CGI::Session->load( SESSION_DSN, $sid,
@@ -631,7 +635,7 @@ sub _getEnvironmentInfo {
 # ######################################################################
 
 sub unsavedChangesNotice {
-    my $updated = shift;
+    my ( $updated, $includeTime, $timeSaved ) = @_;
 
     # Remove any {ConfigureGUI} pseudo-keys from %updated and count the rest.
 
@@ -647,17 +651,18 @@ sub unsavedChangesNotice {
     my @pendingItems = map { { item => $_ } } sortHashkeyList( keys %$updated )
       if (DISPLAY_UNSAVED);
 
+    my @args = (
+        pendingCount => $pending,
+        listPending  => DISPLAY_UNSAVED,
+        pendingItems => \@pendingItems,
+    );
+    push @args, timesaved => scalar localtime($timeSaved) if ($includeTime);
+
     my $pendingHtml =
       Foswiki::Configure::UI::getTemplateParser()
       ->readTemplate('feedbackunsaved');
-    $pendingHtml = Foswiki::Configure::UI::getTemplateParser()->parse(
-        $pendingHtml,
-        {
-            pendingCount => $pending,
-            listPending  => DISPLAY_UNSAVED,
-            pendingItems => \@pendingItems,
-        }
-    );
+    $pendingHtml = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $pendingHtml, { @args, } );
     Foswiki::Configure::UI::getTemplateParser()
       ->cleanupTemplateResidues($pendingHtml);
 
@@ -698,6 +703,17 @@ HERE
         htmlResponse( $msg, ERROR_FORM );
     }
     return $ui;
+}
+
+sub _validateDiscardChanges {
+    my ( $action, $session, $cookie ) = @_;
+
+    if ( $query->request_method() ne 'POST' ) {
+        invalidRequest( "", 405, Allow => 'POST' );
+    }
+
+    ::_loadBasicModule('Foswiki::Configure::MainScreen');
+    return;
 }
 
 sub _validateLogout {
@@ -945,6 +961,7 @@ sub refreshLoggedIn {
     print STDERR "Strace: Reflog "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
       if (SESSIONTRACE);
+    $newLogin = !$session->param('_PASSWD_OK');
     $session->param( '_PASSWD_OK', 1 );
     $session->expires( '_PASSWD_OK', SESSIONEXP );
 
@@ -1015,7 +1032,7 @@ sub closeSession {
     $session->clear(
         [qw/_PASSWD_OK _SAVE_OK _RES_OK redirect redirectResults/] );
 
-    #    $session->delete;
+    # Note that we do not clear 'pending' or delete the session
 
     return;
 }

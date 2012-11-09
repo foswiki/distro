@@ -61,6 +61,9 @@ feedback request has been received.
     }
 
     sub _actionfeedbackUI {
+
+        #        my ( $action, $session, $cookie ) = @_;
+
         binmode STDOUT;
         _loadSiteConfig();
 
@@ -83,6 +86,7 @@ sub new {
 # ######################################################################
 
 sub deliver {
+    my ( $action, $session, $cookie ) = @_;
     my $query = $Foswiki::query;
 
     my $valuer =
@@ -97,6 +101,7 @@ sub deliver {
     # Handle an unsaved changes request without any checking or UI
 
     if ( $request eq '{ConfigureGUI}{Unsaved}status' ) {
+        checkpointChanges( $session, $query, \%updated );
         deliverResponse( {}, \%updated );
     }
 
@@ -186,6 +191,31 @@ sub deliver {
 
     deliverResponse( $fb, \%updated );
 }
+
+# ######################################################################
+# checkpointChanges
+# ######################################################################
+
+sub checkpointChanges {
+    my ( $session, $query, $updated ) = @_;
+
+    unless ( keys %$updated ) {
+        $session->clear('pending');
+        return;
+    }
+
+    require Foswiki::Configure::Feedback::Cart;
+
+    my $cart = Foswiki::Configure::Feedback::Cart->new( $query, $updated );
+
+    $session->param( 'pending', $cart );
+
+    return;
+}
+
+# ######################################################################
+# Deliver feedback response message
+# ######################################################################
 
 sub deliverResponse {
     my $fb      = shift;

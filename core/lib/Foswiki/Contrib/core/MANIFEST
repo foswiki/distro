@@ -596,6 +596,7 @@ lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Checkers/cygwin.pm 0444
 lib/Foswiki/Configure/Dependency.pm 0444
 lib/Foswiki/Configure/Feedback.pm 044
+lib/Foswiki/Configure/Feedback/Cart.pm 044
 lib/Foswiki/Configure/FoswikiCfg.pm 0444
 lib/Foswiki/Configure/GlobalControls.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
@@ -658,6 +659,7 @@ lib/Foswiki/Configure/resources/base.css 0444
 lib/Foswiki/Configure/resources/base.css.gz 044
 lib/Foswiki/Configure/resources/bg_expert.gif 0444
 lib/Foswiki/Configure/resources/bootstrap-affix.js 0444
+lib/Foswiki/Configure/resources/cart.png 0444
 lib/Foswiki/Configure/resources/close.gif 0444
 lib/Foswiki/Configure/resources/favicon.ico 0444
 lib/Foswiki/Configure/resources/foswiki-configure-logo.png 0444

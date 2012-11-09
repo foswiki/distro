@@ -300,7 +300,7 @@ var configure = (function ($) {
             setSub(mainId, subId);
 
             if (mainId || subId) {
-                /* IE doesn't do window.history.  https://github.com/balupton/history.js is an alternative,
+                /* IE doesn't do window.history.pushState.  https://github.com/balupton/history.js is an alternative,
                  * but it comes it a lot of baggage.  For now, just skip this for browsers that don't support
                  * window.history.
                  */
@@ -611,15 +611,14 @@ configure.utils = (function () {
         },
 
         /*
-        Quote a name per CSS quoting rules so that it can be used as a JQuery selecto
+        Quote a name per CSS quoting rules so that it can be used as a JQuery selector
         */
         quoteName: function (name) {
-            var instr = name.split(""),
-                out = '',
+            var out = '',
                 i,
                 c;
             for (i = 0; i < name.length; i++) {
-                c = instr[i];
+                c = name.charAt(i);
                 if ("!\"#$%&'()*+,./:;<=>?@[\\]^`{|} ~".indexOf(c) >= 0) {
                     out = out + '\\' + (c === ':' ? '\\3a' : c);
                 } else {
@@ -725,7 +724,10 @@ var showWhenNothingChangedElements = [];
 
 var unsaved = { id:'{ConfigureGUI}{Unsaved}status', value:'Not a button' },
     statusTimer = undefined,
-    statusDeferred = false,
+    statusTimeout = 1500,
+    statusDeferred = 0,
+    statusImmediate = 0,
+    statusDeferrals = [ 0, 0, 0, 0, 0],
     errorKeyRe = /^\{.*\}errors$/;
 
 /*
@@ -750,9 +752,10 @@ function valueChanged(el) {
         /* No feedback button found, fall through to default */
     default:
         if( statusTimer == undefined ) {
+            statusImmediate++;
             doFeedback(unsaved);
         } else {
-            statusDeferred = true;
+            statusDeferred++;
         }
         break;
     }
@@ -1107,18 +1110,52 @@ function doFeedback(key, pathinfo) {
 
     /* Block unsaved status updates for a while after any feedback request.
      * This allows for bursts to merge, and helps to keep things seemingly responsive.
+     * Adjust timeout based on a weighted moving average with exponential decay.
      */
 
     if( statusTimer != undefined ) {
         window.clearTimeout(statusTimer);
     }
     statusTimer = window.setTimeout(function () {
+        var avgDelay,
+            weight,
+            sIdx,
+            nHist;
+
+        statusDeferrals.pop();
+
+        /* The magic numbers are all pulled out of my hat, with some thought.
+         * We adjust the holdoff in the range 800msec to 3sec based on the
+         * recent average net delay.  We adjust in increments of 100 msec, with
+         * an idle bias of -50 (toward shorter delays), and a 10% penalty for blocking.
+         *
+         * Net delay for this interval: penalize any delay, bonus for idle
+         */
+        avgDelay = statusDeferred + statusImmediate;
+        avgDelay = avgDelay? ((statusDeferred * 1.1) - statusImmediate) : -0.5;
+
+        statusDeferrals.unshift(avgDelay);
+
+        nHist = statusDeferrals.length;
+        avgDelay = 0;
+        sIdx = 0;
+        weight = 1.0;
+        while( sIdx < nHist ) { /* The obvious for() loop didn't work with FF 16.0.2 */
+            avgDelay += statusDeferrals[sIdx] * weight;
+            weight *= 0.8;
+            sIdx++;
+        }
+        avgDelay /= nHist;
+        statusTimeout = Math.max( 800, Math.min( 3000, statusTimeout + (avgDelay * 100) ) );
+
         statusTimer = undefined;
+
         if( statusDeferred ) {
             doFeedback(unsaved);
         }
-        statusDeferred = false;
-    }, 1500);
+        statusDeferred = 0;
+        statusImmediate = 0;
+    }, Math.round( statusTimeout ));
 
     $.ajax({
         url: posturl,
