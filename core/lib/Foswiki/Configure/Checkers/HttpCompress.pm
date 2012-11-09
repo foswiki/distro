@@ -9,10 +9,16 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this = shift;
+    my $msg;
 
     return '' unless $Foswiki::cfg{HttpCompress};
-    return $this->checkPerlModule( 'Compress::Zlib',
+    if ( $Foswiki::cfg{UseLocale} ) {
+        $msg .= $this->ERROR(
+            'HttpCompress has known issues when UseLocale is enabled.');
+    }
+    $msg .= $this->checkPerlModule( 'Compress::Zlib',
         'Used for compressing and decompressing data' );
+    return $msg;
 }
 
 1;
