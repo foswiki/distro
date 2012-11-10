@@ -659,10 +659,11 @@ lib/Foswiki/Configure/resources/base.css 0444
 lib/Foswiki/Configure/resources/base.css.gz 044
 lib/Foswiki/Configure/resources/bg_expert.gif 0444
 lib/Foswiki/Configure/resources/bootstrap-affix.js 0444
-lib/Foswiki/Configure/resources/cart.png 0444
 lib/Foswiki/Configure/resources/close.gif 0444
 lib/Foswiki/Configure/resources/favicon.ico 0444
 lib/Foswiki/Configure/resources/foswiki-configure-logo.png 0444
+lib/Foswiki/Configure/resources/icon_changes.gif 0444
+lib/Foswiki/Configure/resources/icon_nochanges.gif 0444
 lib/Foswiki/Configure/resources/icon_down.gif 0444
 lib/Foswiki/Configure/resources/icon_error.png 0444
 lib/Foswiki/Configure/resources/icon_info.png 0444
