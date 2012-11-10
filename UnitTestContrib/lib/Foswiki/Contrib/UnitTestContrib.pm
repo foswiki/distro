@@ -15,7 +15,8 @@ package Foswiki::Contrib::UnitTestContrib;
 
 use strict;
 
-use version; our $VERSION = version->declare("v1.1");
+# Simple decimal version, use parse method, no leading "v"
+use version; our $VERSION = version->parse("1.1");
 our $RELEASE          = '1.1';
 our $SHORTDESCRIPTION = 'Foswiki Unit-Test Framework';
 
