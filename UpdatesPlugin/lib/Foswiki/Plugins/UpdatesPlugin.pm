@@ -20,7 +20,8 @@ use warnings;
 
 use Foswiki::Func ();
 
-use version; our $VERSION = version->declare("v0.30");
+# Simple decimal version, use parse method, no leading "v"
+use version; our $VERSION = version->parse("0.30");
 our $RELEASE           = '0.30';
 our $SHORTDESCRIPTION  = 'Checks Foswiki.org for updates';
 our $NO_PREFS_IN_TOPIC = 1;

@@ -9,7 +9,8 @@ use Error qw(:try);
 use Foswiki::AccessControlException ();
 
 # =========================
-use version; our $VERSION = version->declare("v1.9");
+# Simple decimal version, use parse method, no leading "v"
+use version; our $VERSION = version->parse("1.9");
 our $RELEASE           = '1.9';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';

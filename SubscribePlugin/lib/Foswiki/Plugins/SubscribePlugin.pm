@@ -6,7 +6,8 @@ require Foswiki::Func;
 
 use vars qw( $UID $WEB $TOPIC);
 
-use version; our $VERSION = version->declare("v2.0");
+# Simple decimal version, use parse method, no leading "v"
+use version; our $VERSION = version->parse("2.0");
 our $RELEASE = '2.0';
 our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
