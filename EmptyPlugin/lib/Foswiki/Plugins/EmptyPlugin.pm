@@ -72,11 +72,25 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
-# *must* exist in this package.  Use "v1.2.3" format for releases,  and
-# "v1.2.3_01" for "alpha" versions.  Use v prefix and numbers only.
+# *must* exist in this package.  Two version formats are supported:
+#
+# Recommended:  Dotted triplet.  Use "v1.2.3" format for releases,  and
+# "v1.2.3_001" for "alpha" versions.  The v prefix is required.
+# This format uses the "declare" format
+#     use version; our $VERSION = version->declare("v1.2.0");
+#
+# Alternative:  Simple decimal version.   Use "1.2" format for releases, and
+# "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix.  This style
+# must be set using the "parse" method
+#    use version; our $VERSION = version->parse("1.20_001");
+#
+# Note:  Alpha versions compare as numerically lower than the non-alpha version
+# so the versions in ascending order are:
+#   v1.2.1_001 -> v1.2.1 -> v1.2.2_001 -> v1.2.2
+#
 # These statements MUST be on the same line. See "perldoc version" for more
 # information on version strings.
-use version; our $VERSION = version->declare("v1.1.6");
+use version; our $VERSION = version->declare("v1.1.6_002");
 
 # $RELEASE is used in the "Find More Extensions" automation in configure.
 # It is a manually maintained string used to identify functionality steps.
@@ -90,7 +104,7 @@ use version; our $VERSION = version->declare("v1.1.6");
 # topic - if you use %$RELEASE% with BuildContrib this is done automatically.
 # It is preferred to keep this compatible with $VERSION. At some future
 # date, Foswiki will deprecate RELEASE and use the VERSION string.
-our $RELEASE = '1.2.0';
+our $RELEASE = '1.1.6';
 
 # Short description of this plugin
 # One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
