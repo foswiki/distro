@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-08 22:36+0200\n"
+"PO-Revision-Date: 2012-11-10 13:57+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -2397,7 +2397,7 @@ msgstr "Note:"
 
 #: core/data/System/WebNotifyHelp.txt:3
 msgid "Notification help"
-msgstr "Notifica di aiuto"
+msgstr "Help notifiche"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:10
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
