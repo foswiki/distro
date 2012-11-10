@@ -81,8 +81,14 @@ use Foswiki::Plugins ();    # For the API version
 #
 # Alternative:  Simple decimal version.   Use "1.2" format for releases, and
 # "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix.  This style
-# must be set using the "parse" method
-#    use version; our $VERSION = version->parse("1.20_001");
+# is set either by using the "parse" method, or by a simple assignment.
+#    use version; our $VERSION = version->parse("1.20_001");  OR
+#    our $VERSION = "1.20_001";   # version->parse isn't really needed
+#
+# To convert from a decimal version to a dotted version, first normalize the
+# decimal version, then increment it.
+# perl -Mversion -e 'print version->parse("4.44")->normal'  ==>  v4.440.0
+# In this example the next version would be v4.441.0.
 #
 # Note:  Alpha versions compare as numerically lower than the non-alpha version
 # so the versions in ascending order are:
