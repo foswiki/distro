@@ -10,11 +10,16 @@ One line description, required for extensions repository catalog.
 
 ---++ Usage
 
-When this extension is installed, it adds some required libraries to your Foswiki system, and then in the Post-installation exit, applies any patch files found in the manifest.
+This extension allows you to "hotfix" urgent issues on your Foswiki system.  It has been tested on Foswiki 1.1.0 and beyond.  It does not work on Foswiki 1.0.
+
+When this extension is installed, it adds some required libraries to your Foswiki system, and then in the Post-installation exit, applies any patch files found in the manifest.  This extension ships with a hotfix for the following items:
+   * [[http://foswiki.org/Tasks/Item11267][Item11267]]: Extensions released with new style Perl version strings prevents installation of any further extensions.
 
 Patches are only applied if the target file is an _exact_ match to the original file.  There is no attempt to do "fuzzy" patching.   Note however that a patch can be built to cover multiple versions of the file.
 
 Patches will be mapped from the default Foswiki filename to the directory location used on the target system.
+
+Before any file is patched, a backup is copied to =working/configure/backup/&lt;Itemxxxx-date-time&gt;=
 
 ---++ Building a patch
 
@@ -29,7 +34,7 @@ version of a target file.  The patch file consists of
    $ Summary: A general description of the patch.  It can be any number of lines long and will be reported in the installation log.
    $ Patch Target =~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)=:  Identifies a single version of a patch along with the md5 of the target file, the filename and a comment.
       * =~~~PATCH= Identifies this as a patch
-      * =fdee..79f9= is the MD5sum of the original version of the unpatched target file.
+      * =fdee..79f9= is the MD5 hash of the original version of the unpatched target file.
       * =lib/Foswiki...= The target file name
       * =(Comment)= A comment in parenthesis, such as the foswiki version that shipped this file..
    $ The patch:  A patch in unified diff format =diff -Naur oldversionFile newVersionFile
@@ -101,7 +106,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.0.0 (XX Mmm 20XX): | Initial version |
+|  1.0.0 (09 Nov 2012) | Initial version |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
