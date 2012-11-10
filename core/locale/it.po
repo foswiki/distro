@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-10 13:57+0200\n"
+"PO-Revision-Date: 2012-11-10 17:28+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -62,7 +62,7 @@ msgstr "%1 - Registrazione per %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
 msgid "%1 Web"
-msgstr "%1 Web"
+msgstr "Web %1"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
@@ -75,7 +75,7 @@ msgstr "%1 non può essere rimosso dal gruppo %2. "
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
-msgstr "aggiornata la pagina del gruppo %1. "
+msgstr "Aggiornata la pagina del gruppo %1. "
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -104,7 +104,7 @@ msgstr "%1 ha ricevuto una richiesta di modifica sospetta dal tuo browser."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
-msgstr "%1 home"
+msgstr "Home %1"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
@@ -164,7 +164,7 @@ msgstr "%1 per iniziare a lavorare sul nuovo web"
 
 #: core/templates/messages.tmpl:655 core/templates/messages.tmpl:666
 msgid "%1 topic does not exist"
-msgstr "la pagina %1 non esiste"
+msgstr "La pagina %1 non esiste"
 
 #: core/templates/registerfailedremoved.tmpl:10
 msgid "%1 tried to register with e-mail %2"
@@ -201,7 +201,7 @@ msgstr "'Crea una Nuova Pagina' la pagina è stata spostata"
 
 #: core/templates/login.tmpl:10
 msgid "(%1 login)"
-msgstr "(%1 login)"
+msgstr "(login %1)"
 
 #: core/templates/validate.tmpl:6
 msgid "(%1 validation)"
@@ -1227,7 +1227,7 @@ msgstr "Crea una nuova pagina"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr "Creare non specificato e Gruppo non esistente "
+msgstr "Creazione non specificato e gruppo non esistente"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1392,7 +1392,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:214
 msgid "E-mail changed successfully!"
-msgstr "Cambiata E-mail con successo!"
+msgstr "E-mail sostituita con successo!"
 
 #: core/templates/messages.tmpl:689
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
@@ -1437,7 +1437,7 @@ msgstr "Modifica Wiki<nop>Text"
 
 #: PatternSkin/templates/edit.pattern.tmpl:11
 msgid "Edit help"
-msgstr "Aiuto su Modifica"
+msgstr "Aiuto su modifica"
 
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
@@ -1565,7 +1565,7 @@ msgstr "Plugin con errori"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr "Impossibile aggiungere l'utente:"
+msgstr "Impossibile aggiungere il nuovo utente: "
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1629,7 +1629,7 @@ msgstr "Definizione del form"
 
 #: core/templates/messages.tmpl:378
 msgid "Form definition '%1' not found"
-msgstr "Definizione del Form '%1' non trovata"
+msgstr "Definizione '%1' del form non trovata"
 
 #: core/templates/messages.tmpl:386
 msgid "Form definition missing"
@@ -1650,7 +1650,7 @@ msgstr ""
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
-msgstr "Reset Foswiki password per %1"
+msgstr "Reset password per %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -1742,7 +1742,7 @@ msgstr "Nascondi il file"
 #: PatternSkin/templates/renamebase.pattern.tmpl:8
 #: core/data/System/WebPreferencesHelp.txt:5 core/templates/login.tmpl:49
 msgid "Hide help"
-msgstr "Nascondi Aiuto"
+msgstr "Nascondi aiuto"
 
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
@@ -2295,7 +2295,7 @@ msgstr "Nuova pagina o modificata in %1, dal %2:"
 
 #: core/templates/renamewebbase.tmpl:9
 msgid "New parent web:"
-msgstr "Nuovo Web genitore:"
+msgstr "Nuovo Web padre:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:26
 msgid "New password"
@@ -2405,7 +2405,7 @@ msgstr "Help notifiche"
 #: PatternSkin/data/_default/WebLeftBar.txt:9
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
 msgid "Notifications"
-msgstr "Note"
+msgstr "Notifiche"
 
 #: core/data/System/SiteChanges.txt:62
 msgid "Number of changes for each Web"
@@ -2998,7 +2998,7 @@ msgstr "Cerca in tutti i Web"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search more topics in this web"
-msgstr "Cerca le pagine simili in questo Web"
+msgstr "Cerca altre pagine simili in questo Web"
 
 #: core/data/System/WebSearch.txt:55
 msgid "Search options"
@@ -3538,7 +3538,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "Il valore fornito per =%1= è stato respinto."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
@@ -3571,9 +3571,8 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Deve esserci una riga che includa %1, cerca %2 (o %3)"
 
 #: core/templates/messages.tmpl:506
-#, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "Ci sono stati errori aggiungendo %1 al gruppo %2. "
+msgstr "Ci sono stati errori aggiungendo %1 al gruppo %2"
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3601,7 +3600,7 @@ msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
-msgstr ""
+msgstr "Questo gruppo non deve avere membri."
 
 #: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:3
 #: core/data/Main/WebNotify.txt:3 core/data/Sandbox/WebNotify.txt:2
@@ -3745,7 +3744,7 @@ msgstr "Al web:"
 
 #: core/templates/messages.tmpl:697
 msgid "Too many recursions parsing template %1"
-msgstr ""
+msgstr "Troppa ricorsione nell'elaborare la pagina %1"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:5
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
@@ -3757,9 +3756,8 @@ msgid "Toolbox"
 msgstr "Toolbox"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Topic"
-msgstr "Alla pagina"
+msgstr "Pagina"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:6
 msgid "Topic %1 does not exist"
@@ -3877,9 +3875,8 @@ msgid "Unrecognized action command %1"
 msgstr "Comando %1 sconosciuto"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
-#, fuzzy
 msgid "Update"
-msgstr "Aggiorna collegamenti"
+msgstr "Aggiorna"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:3
 msgid "Update attachment %1 on %2"
@@ -3890,18 +3887,16 @@ msgid "Update links"
 msgstr "Aggiorna collegamenti"
 
 #: core/data/Main/GroupViewTemplate.txt:221
-#, fuzzy
 msgid "Upgrade"
-msgstr "Gruppo aggiornato"
+msgstr "Aggiornamento"
 
 #: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
 msgstr "Aggiorna la pagina del gruppo"
 
 #: core/data/Main/GroupViewTemplate.txt:209
-#, fuzzy
 msgid "Upgrade group topic..."
-msgstr "Aggiorna la pagina del gruppo"
+msgstr "Aggiorna la pagina del gruppo..."
 
 #: core/templates/messages.tmpl:523
 msgid "Upgraded group"
@@ -3941,14 +3936,13 @@ msgstr "Usa il modello:"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "L'utente %1 non ha il permesso di modificare (CHANGE) su %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
 #: core/lib/Foswiki/UserMapping.pm:364
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 è presente in almeno un gruppo e quindi non può essere rimosso"
+msgstr "L'utente %1 non presente nel gruppo, non può essere rimosso"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -3970,12 +3964,12 @@ msgstr "Utenti"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "L'utente non può essere aggiunto a %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "L'utente non può essere rimosso da %1"
 
 #: core/templates/messages.tmpl:192
 msgid ""
@@ -4003,7 +3997,6 @@ msgid "View"
 msgstr "Vista"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
 msgstr "Mostra tutte le versioni della pagina"
 
@@ -4092,9 +4085,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "Attenzione: non trovo la pagina %1.%2"
 
 #: core/templates/messages.tmpl:601
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Attenzione: non trovo la pagina %1.%2"
+msgstr "Attenzione: non trovo il web %1 per la pagina %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
@@ -4111,23 +4103,20 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Attenzione: questo sito non permette l'%<nop>INCLUDE% degli URL"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "NOTA: la pagina \\'include\\' non esiste!"
+msgstr "NOTA: la pagina <nop>%1 \\'include\\' non esiste!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "NOTA: la pagina \\'include\\' non esiste!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "NOTA: la pagina \\'include\\' non esiste!"
+msgstr "Attenzione: la definizione %1 nella pagina \\'include\\' non esiste!"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Web"
-msgstr "i Web"
+msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
@@ -4173,7 +4162,7 @@ msgstr "Perché mi viene chiesto di confermare?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
-msgstr "Gli amministratori del Wiki dovrebbero consultare %1."
+msgstr "Si consiglia agli amministratori del Wiki di consultare %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
 msgid "Wiki name"
@@ -4199,7 +4188,7 @@ msgid ""
 msgstr ""
 "Per ridefinire la password *devi* possedere almeno un indirizzo e-mail "
 "valido registrato. Se nessuno degli indirizzi e-mail che ti riguardano è "
-"valido e hai dimenticato la password, contatta %1."
+"valido e hai dimenticato la password, contatta %1"
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
@@ -4247,9 +4236,8 @@ msgstr ""
 "caratteri alfanumerici."
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Stai cercando di %1 un allegato che non esiste."
+msgstr "Stai cercando un allegato che non esiste."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4298,6 +4286,8 @@ msgstr "Puoi dare a questo Web un nome diverso."
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
+"Non è possibile aggiungere utenti ad un gruppo inesistente a meno che non "
+"sia impostata l'opzione di creazione.."
 
 #: core/templates/validate.tmpl:28
 msgid ""
@@ -4308,13 +4298,12 @@ msgstr ""
 "sono disabilitati nel tuo browser."
 
 #: core/templates/messages.tmpl:700
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
-"Non è possibile confermare questo cambiamento in quanto Cookie e Javascript "
-"sono disabilitati nel tuo browser."
+"Non è possibile confermare questo cambiamento in quanto i Cookie e "
+"Javascript sono disabilitati nel tuo browser."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
@@ -4450,9 +4439,8 @@ msgid "Your password has been changed to %1."
 msgstr "Password modificata in %1."
 
 #: core/templates/messages.tmpl:180
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Password modificata in %1."
+msgstr "La password non è stata modificata."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
@@ -4568,7 +4556,7 @@ msgstr "da %1 "
 
 #: core/data/System/SiteChanges.txt:56
 msgid "change display options"
-msgstr ""
+msgstr "modifica opzioni di visualizzazione"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
@@ -4579,13 +4567,12 @@ msgid "checkboxes of referenced topics"
 msgstr "marcature delle pagine refenziate"
 
 #: core/data/System/SiteChanges.txt:57
-#, fuzzy
 msgid "close display options"
-msgstr "Manutenzione:"
+msgstr "chiude finestra opzioni"
 
 #: core/data/System/SiteChanges.txt:44
 msgid "diff"
-msgstr ""
+msgstr "differenze"
 
 #: core/templates/messages.tmpl:470
 msgid "don't forget to check your Topic Settings"
@@ -4593,7 +4580,7 @@ msgstr "non dimenticare di controllare la configurazione della pagina"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin fallito. Vedi di seguito gli errori."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4623,12 +4610,11 @@ msgstr "indica campi obbligatori"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin non è stato definito. Vedi di seguito gli errori."
 
 #: core/data/System/SiteChanges.txt:44
-#, fuzzy
 msgid "last change"
-msgstr "Pagine recentemente modificate"
+msgstr "ultima modifica"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -4665,13 +4651,12 @@ msgid "retrieved at %1"
 msgstr "recuperato a %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(versione %1)"
+msgstr "versione %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
-msgstr ""
+msgstr "all'inizio"
 
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
@@ -4732,14 +4717,14 @@ msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Affianca' accesskey='s'>affianca (&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Modifica il testo di questa pagina' accesskey='e'>Modifica(&e)"
+msgstr "title='Sottoscrivi questa pagina' accesskey='s'>&Sottoscrivi"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Versione stampabile della pagina' accesskey='p'>Stam&pabile"
+msgstr ""
+"title='Cancella sottoscrizione a questa pagina' accesskey='s'>Cancella "
+"&sottoscrizione"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
