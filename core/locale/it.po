@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-10 17:28+0200\n"
+"PO-Revision-Date: 2012-11-10 19:00+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -185,15 +185,15 @@ msgstr "Rinun&cia"
 
 #: core/templates/foswiki.tmpl:155
 msgid "&History"
-msgstr "Revisioni (&H)"
+msgstr "Versioni (&H)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 msgid "&Sequential"
-msgstr "&Sequenziale"
+msgstr "&Sequenziali"
 
 #: core/templates/messages.tmpl:302
 msgid "'%1' is not a valid %2 "
-msgstr "'%1' non è un valido %2 "
+msgstr "'%1' non è un valido %2"
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
@@ -295,7 +295,7 @@ msgstr "(sposta l'allegato)"
 
 #: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
 msgid "(no parent, orphaned topic)"
-msgstr "(nessun genitore, pagina orfana)"
+msgstr "(nessun padre, pagina orfana)"
 
 #: core/lib/Foswiki/UI/Rename.pm:1059 core/lib/Foswiki/UI/Rename.pm:1075
 #: core/lib/Foswiki/UI/Rename.pm:1132 core/lib/Foswiki/UI/Rename.pm:1135
@@ -1259,7 +1259,7 @@ msgstr "Attuale posizione:"
 
 #: core/templates/more.tmpl:100
 msgid "Current parent:"
-msgstr "Attuale genitore:"
+msgstr "Padre attuale:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password"
@@ -1275,7 +1275,7 @@ msgstr "Caro %1"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Debug"
-msgstr "Verifica"
+msgstr "Debug"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:144
 msgid "Default template"
@@ -1751,7 +1751,7 @@ msgstr ""
 
 #: core/data/System/ManagingTopics.txt:98
 msgid "History"
-msgstr "Revisioni (&H)"
+msgstr "Versioni (&H)"
 
 #: core/templates/registernotify.tmpl:16
 msgid "How about attaching your photo?"
@@ -2219,7 +2219,7 @@ msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
 msgstr ""
-"Di più: elimina o rinomina questa pagina; seleziona la pagina genitore; "
+"Di più: elimina o rinomina questa pagina; seleziona la pagina padre; "
 "visualizza e confronta le versioni (m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
@@ -2343,7 +2343,7 @@ msgstr "Non hai il permesso di visualizzare %1"
 
 #: core/templates/more.tmpl:200
 msgid "No previous revision exists."
-msgstr "Non esistono revisioni precedenti."
+msgstr "Non esistono versioni precedenti."
 
 #: core/templates/renamebase.tmpl:45
 msgid "No topics to update."
@@ -2830,7 +2830,7 @@ msgstr "Rinomina/Sposta"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:96
 msgid "Render style"
-msgstr "Stile per la rappresentazione"
+msgstr "Stile per la rappresentazione delle righe"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -3094,7 +3094,7 @@ msgstr ""
 
 #: core/templates/more.tmpl:103
 msgid "Select topic parent"
-msgstr "Seleziona la pagina genitore"
+msgstr "Seleziona la pagina padre"
 
 #: PatternSkin/templates/edit.pattern.tmpl:52 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
@@ -3106,7 +3106,7 @@ msgstr "Le selezioni di ricerca si applicano al \"corpo del testo\""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Sequential"
-msgstr "Sequenziale"
+msgstr "Sequenziali"
 
 #: core/lib/Foswiki/Form/Checkbox.pm:99
 msgid "Set all"
@@ -3114,11 +3114,11 @@ msgstr "Definisci tutto"
 
 #: core/templates/more.tmpl:107
 msgid "Set new parent"
-msgstr "Definisci un nuovo genitore"
+msgstr "Definisci un nuovo padre"
 
 #: core/templates/more.tmpl:96
 msgid "Set new topic parent"
-msgstr "Definisci la nuova pagina genitore"
+msgstr "Definisci la nuova pagina padre"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:129
 msgid "Show %1 revisions up to revision %2"
@@ -3139,7 +3139,7 @@ msgstr "Riduci la dimensione dell'area di modifica"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
 msgid "Side by side"
-msgstr "Affianca"
+msgstr "Affiancate"
 
 #: CompareRevisionsAddOn/templates/comparesidebyside.tmpl:3
 msgid "Side-by-side comparison of revisions"
@@ -3797,7 +3797,7 @@ msgstr "Nome pagina:"
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:60
 msgid "Topic parent:"
-msgstr "Pagina genitore:"
+msgstr "Pagina padre:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
@@ -3986,11 +3986,11 @@ msgstr "Versione"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:9
 msgid "Version history"
-msgstr "Storia delle revisioni"
+msgstr "Storia delle versioni"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:7
 msgid "Version history of %1"
-msgstr "Storia delle revisioni di %1"
+msgstr "Storia delle versioni di %1"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "View"
@@ -4505,7 +4505,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:393
 msgid "[[%1][Debug topic text]]."
-msgstr "[[%1][Verifica il testo della pagina]]."
+msgstr "[[%1][Debug del testo della pagina]]."
 
 #: core/templates/settings.tmpl:27
 msgid ""
@@ -4673,8 +4673,8 @@ msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
-"title='Cancella o rinomina la pagina; definisci la pagina genitore; vedi e "
-"confronta le revisioni' accesskey='m'>&Manutenzioni"
+"title='Cancella o rinomina la pagina; definisci la pagina padre; vedi e "
+"confronta le versioni' accesskey='m'>&Altre manutenzioni"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
@@ -4686,7 +4686,7 @@ msgstr "title='Modifica il testo di questa pagina' accesskey='e'>Modifica(&e)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Interwoven' accesskey='i'>&interwoven"
+msgstr "title='Intrecciate' accesskey='i'>&Intrecciate"
 
 #: core/templates/viewtopicactionbuttons.tmpl:22
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -4714,7 +4714,7 @@ msgstr "title='Cerca nel Web %1 le pagine qui collegate' accesskey='b'>We&b"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Affianca' accesskey='s'>affianca (&s)"
+msgstr "title='Affiancate' accesskey='s'>affiancate (&S)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
@@ -4734,8 +4734,7 @@ msgstr "title='Vedi pagina' accesskey='v'>&Vedi pagina"
 #: core/templates/viewtopicactionbuttons.tmpl:34
 #: core/templates/viewtopicactionbuttons.tmpl:36
 msgid "title='View total topic history' accesskey='h'>&History"
-msgstr ""
-"title='Vedi tutte le revisioni della pagina' accesskey='h'>Revisioni (&H)"
+msgstr "title='Vedi tutte le versioni della pagina' accesskey='h'>Versioni(&H)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:39
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
