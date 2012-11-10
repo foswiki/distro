@@ -830,12 +830,18 @@ sub configureScreen {
     if ( !$unsavedChangesNotice && ( my $cart = $session->param('pending') ) ) {
         require Foswiki::Configure::Feedback::Cart;
 
-        $cart->loadQuery($query);
-
+        my $timeSaved = $cart->loadQuery($query);
         my %updated;
-        $valuer->loadCGIParams( $query, \%updated );
+        if ( defined $timeSaved ) {
+            $valuer->loadCGIParams( $query, \%updated );
+        }
+        else {    # Problem with saved cart
+            $session->clear('pending');
+            $session->flush;
+        }
         $unsavedChangesNotice =
-          unsavedChangesNotice( \%updated, $newLogin, $cart->timeSaved );
+          unsavedChangesNotice( \%updated, $newLogin && $timeSaved,
+            $timeSaved );
     }
     else {
       # Unless we already have status of unsaved changes, generate "none" status

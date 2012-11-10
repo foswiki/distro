@@ -10,6 +10,9 @@ Holds changes across sessions (esp. timeouts).
 
 =cut
 
+use constant majorVersion => '1';
+use constant minorVersion => '0';
+
 # ######################################################################
 # new - create a new cart from %updated keys and $query values
 # ######################################################################
@@ -18,7 +21,10 @@ sub new {
     my $class = shift;
     my ( $query, $updated ) = @_;
 
-    my $cart = { time => time };
+    my $cart = {
+        version => sprintf( "%d.%d", majorVersion, minorVersion ),
+        time    => time,
+    };
 
     foreach my $keys ( keys %$updated ) {
         next if ( $keys =~ /^\{ConfigureGUI\}/ );
@@ -55,6 +61,9 @@ sub param {
 sub loadQuery {
     my $cart = shift;
     my ($query) = @_;
+
+    my $version = $cart->{version} || '1.0';    # Do not update default
+    return undef unless ( $version =~ /^(\d+)\.(\d+)$/ && $1 == majorVersion );
 
     foreach my $param ( keys %{ $cart->{param} } ) {
         $query->param( $param, @{ $cart->{param}{$param} } );
