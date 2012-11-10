@@ -176,7 +176,7 @@ body.configureShowOneSection .configureNotShowSection {
 .configureStatusOK,
 .configureStatusWarnings,
 .configureStatusErrors {
-	padding:7px .5em 7px 22px;
+	padding:7px 1em 7px 22px;
 	background-position:0 45%;
 	background-repeat:no-repeat;
 }
@@ -205,15 +205,13 @@ table.configureFeedbackSummaryTable td {
     color:black;
 }
 .configureFeedbackSummaryCell .configureOk,
-.configureFeedbackSummaryCell .configureUnsaved {
+.configureFeedbackSummaryCell .configureUnsaved,
+.configureFeedbackSummaryCell .configureNoChanges {
     display: inline-block;
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: 2em;
+    padding-left: 22px;
     background-position:0 0;
-}
-.configureFeedbackSummaryCell .configureUnsaved {
-    padding-left: 32px;
 }
 .configureFeedback {
     max-height: 200px;
@@ -543,9 +541,6 @@ table.configureSectionValues .foswikiTextarea {
 }
 
 /* WARN and ERROR */
-.configureWarn,.configureUnsaved {
-    color:#f60;
-}
 .configureRootSection div.foswikiAlert {
 	background-color:#fff;
 	color:#000;
@@ -561,6 +556,7 @@ div.configureInfoText {
 	color:green;
 }
 div.configureUnsaved,
+div.configureNoChanges,
 div.configureError,
 div.configureWarn,
 div.configureOk {
@@ -575,8 +571,12 @@ div.configureWarn {
 	background-image:url(%RESOURCEURI%icon_warn.png);
 }
 div.configureUnsaved {
-        background-image:url(%RESOURCEURI%cart.png);
+    background-image:url(%RESOURCEURI%icon_changes.png);
 }
+div.configureNoChanges {
+    background-image:url(%RESOURCEURI%icon_nochanges.png);
+}
+
 div.configureOk {
 	background-image:url(%RESOURCEURI%icon_ok.png);
 }

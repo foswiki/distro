@@ -914,6 +914,14 @@ $(document).ready(function () {
     $(".extensionsHelp").click(function() {
         $(".configureExtensionsHelp").toggleClass("foswikiHidden");
     });
+    
+    $(".configureActions .discardChanges").click(function(e) {
+        console.log("discardChanges", this, e);
+        if (window.confirm("Are you really sure you want to discard your changes?")) {
+            return setSubmitAction(this, 'DiscardChanges');
+        }
+        return false;
+    });
 
     configure.toggleExpertsMode('expert');
     configure.toggleInfoMode();
