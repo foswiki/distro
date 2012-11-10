@@ -1010,7 +1010,7 @@ sub extractModuleVersion {
                     last;
                 }
                 if (
-/\$VERSION\s*=\s*version->new\s*\(\s*"([vV]\d+\.\d+\.\d+)"\s*\)/
+/\$VERSION\s*=\s*version->(?:new|parse|declare)\s*\(\s*"([vV]\d+\.\d+\.\d+(?:_\d+)?)"\s*\)/
                   )
                 {
                     $mod_version = $1;
