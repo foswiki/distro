@@ -32,6 +32,23 @@ sub test_check_dep_not_perl {
     $this->assert_matches( qr/cannot be automatically checked/, $message );
 }
 
+sub test_check_dep_last_resort1 {
+    my ($this) = @_;
+
+    # Check a module that won't load, so that the
+    # last resort "code scraping" is used to recover version.
+    my $dep = new Foswiki::Configure::Dependency(
+        type   => "perl",
+        module => "Foswiki::Contrib::UnitTestContrib::LastResortWontLoad",
+    );
+    my ( $ok, $message ) = $dep->check();
+    $this->assert_equals( 1, $ok );
+    $this->assert_matches(
+qr/Foswiki::Contrib::UnitTestContrib::LastResortWontLoad version v1.2.3_100 loaded/,
+        $message
+    );
+}
+
 sub test_check_dep_not_module {
     my ($this) = @_;
 
@@ -59,7 +76,6 @@ sub test_check_foswiki_rev {
         version => '1.1.3'
     );
     my ( $ok, $message ) = $dep->check();
-    print STDERR "Check returned $message\n";
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/^Foswiki version Foswiki-(.*) loaded$/,
         $message );
