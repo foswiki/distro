@@ -2,6 +2,7 @@ bin/test 0755
 data/System/UnitTestContrib.txt 0644
 lib/Foswiki/Contrib/UnitTestContrib.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/Config.spec 0644
+lib/Foswiki/Contrib/UnitTestContrib/LastResortWontLoad.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/MissingDependency.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/MultiDottedVersion.pm 0644
 lib/Foswiki/UI/Test.pm 0644
