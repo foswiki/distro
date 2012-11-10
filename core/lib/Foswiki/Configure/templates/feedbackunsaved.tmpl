@@ -9,11 +9,11 @@
 </#assign>
 
 <#assign noPending>
-     <div class="configureOk"><span>No unsaved changes</span></div>
+     <div class="configureNoChanges"><span>No unsaved changes</span></div>
 </#assign>
 
 <#assign onePending>
-    <div class="foswikiAlert configureUnsaved"><span>
+    <div class="configureUnsaved"><span>
     1 unsaved change<#if timesaved??>,&nbsp;from ${timesaved}</#if>
     <#if listPending gt 0 >
         ${pendingList}
@@ -22,7 +22,7 @@
 </#assign>
 
 <#assign nPending>
-    <div class="foswikiAlert configureUnsaved"><span>
+    <div class="configureUnsaved"><span>
     ${pendingCount} unsaved changes<#if timesaved??>,&nbsp;from ${timesaved}</#if>
     <#if listPending gt 0>
         ${pendingList}

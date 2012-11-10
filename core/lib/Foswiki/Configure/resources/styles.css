@@ -977,10 +977,6 @@ div.configureMessageBox {
     margin-right: 0;
 }
 
-.nyroModalClose {
-    z-index: 1;
-}
-
 /* Responsive: Tablet to desktop */
 
 @media (min-width: 481px) and (max-width: 979px) {
