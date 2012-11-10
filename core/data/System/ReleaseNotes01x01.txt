@@ -119,7 +119,7 @@ disable Chili if your user community still is using the buggy browsers.
 
 ---+++ Markup within input fields are no longer rendered
 
-[[%BUGS%/Item11480][Item11480]] now prevents the rendering of Topic Markup (TML) within input fields.  Previously if an input field was "pre-filled" with markup for ex: <b><code><literal>some *marked* text</literal><code></b>,
+[[%BUGS%/Item11480][Item11480]] now prevents the rendering of Topic Markup (TML) within input fields.  Previously if an input field was "pre-filled" with markup for ex: <b><code><literal>some *marked* text</literal></code></b>,
 it would be renderd as <b><code>some &lt;strong&gt;marked&lt;strong&gt; text</code></b>.   Foswiki will no longer render the contents of input fields.
 
 This exposes a potential issue.   If input field initial content is manually protected using the <code>&lt;literal&gt;</code> to prevent the rendering, the resulting html will be corrupted.
