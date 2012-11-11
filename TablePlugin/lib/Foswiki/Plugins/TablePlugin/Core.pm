@@ -278,6 +278,13 @@ sub _parseAttributes {
           if $inParams->{initdirection} =~ /^up$/i;
     }
 
+    # Don't allow sort requests when rendering for static use.
+    # Force sort=off but allow initsort / initdirection
+    my $context = Foswiki::Func::getContext();
+    if ( $context->{static} ) {
+        delete $inCollection->{sortAllTables};
+    }
+
     # If EditTablePlugin is installed and we are editing a table,
     # the CGI parameter 'sort' is defined as "off" to disable all
     # header sorting ((Item5135)

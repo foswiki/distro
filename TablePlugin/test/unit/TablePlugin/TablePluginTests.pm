@@ -1008,6 +1008,68 @@ EXPECTED
     $this->do_test( $expected, $actual );
 }
 
+=pod
+
+Item12233: Rendering for static targets (like PDF) should honor initial sort, but never generate sort links..
+
+=cut
+
+sub test_sort_static_context {
+    my $this = shift;
+
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
+    $this->{session}->enterContext('static');
+
+    my $actual = <<ACTUAL;
+%TABLE{sort="on" initsort="  1  "}%
+| *Title* | *Date* | *Size* | *Span date* |
+| def | 07 Feb 2006 - 13:23 |
+| jkl| 16 Sep 2008 - 09:48 |
+| GHI | 26 Jul 2007 - 13:23 |
+| ABC | 26 May 2007 - 22:36 |
+ACTUAL
+
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<nop>
+<table id="tableTestTopicTableFormatting1" class="foswikiTable" rules="none" border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> Title </th>
+			<th class="foswikiTableCol1"> Date </th>
+			<th class="foswikiTableCol2"> Size </th>
+			<th class="foswikiTableCol3 foswikiLastCol"> Span date </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> ABC </td>
+			<td rowspan="1" class="foswikiTableCol1 foswikiLastCol"> 26 May 2007 - 22:36 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> def </td>
+			<td rowspan="1" class="foswikiTableCol1 foswikiLastCol"> 07 Feb 2006 - 13:23 </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> GHI </td>
+			<td rowspan="1" class="foswikiTableCol1 foswikiLastCol"> 26 Jul 2007 - 13:23 </td>
+		</tr>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> jkl </td>
+			<td rowspan="1" class="foswikiTableCol1 foswikiLastCol foswikiLast"> 16 Sep 2008 - 09:48 </td>
+		</tr>
+	</tbody></table>
+EXPECTED
+
+    $this->do_test( $expected, $actual );
+}
+
 sub test_sort_off {
     my $this = shift;
 
