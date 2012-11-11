@@ -746,6 +746,10 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   display:none;
   margin-bottom:18px; /* to hold the resizer */
 }
+.ui-dialog .foswikiFormSteps {
+  margin:0px;
+  background-color:transparent;
+}
 
 .ui-dialog .ui-dialog-titlebar,
 .ui-dialog .ui-dialog-content,
