@@ -67,7 +67,7 @@ ul.jqTabGroup a {
   padding:0px 3px 0px 0px;
   margin:0px 4px -1px 0px;
   *margin:5px 4px -6px 0px; /* IE7 */
-  height:29px;
+  height:28px;
 }
 .jqTabPaneDefault > .jqTabGroup a:hover,
 .jqTabPaneDefault > .jqTabGroup a {
@@ -78,7 +78,7 @@ ul.jqTabGroup a {
   color:#111;
   margin:0px 0px 0px 0px;
   padding:4px 8px 0px 18px;
-  height:25px;
+  height:24px;
   font-size:12px;
   line-height:100%;
 }
