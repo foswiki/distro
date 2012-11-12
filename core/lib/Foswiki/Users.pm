@@ -322,14 +322,19 @@ custom mappers and registration modules.
 =cut
 
 sub randomPassword {
-    return $password
-      || join(
-        "",
-        ( ".", "/", 0 .. 9, "A" .. "Z", "a" .. "z" )[
-          rand(64), rand(64), rand(64), rand(64),
-        rand(64),   rand(64), rand(64), rand(64)
-        ]
-      );
+
+    my $pwlen =
+      ( $Foswiki::cfg{MinPasswordLength} > 8 )
+      ? $Foswiki::cfg{MinPasswordLength}
+      : 8;
+    my @chars = ( 'a' .. 'z', 'A' .. 'Z', 0 .. 9, '_', '.', '/' );
+    my $newpw;
+
+    foreach ( 1 .. $pwlen ) {
+        $newpw .= $chars[ rand @chars ];
+    }
+    return $newpw;
+
 }
 
 =begin TML
