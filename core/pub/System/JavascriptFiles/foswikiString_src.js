@@ -162,6 +162,44 @@ foswiki.String = {
 	// make left-aligned by appending a space
 	safeString += " ";
 	return safeString;
+    },
+    
+    /**
+     * Replaces all foswiki TML special characters with their escaped counterparts.
+     * See Foswiki:System.FormatTokens
+     * @param inValue: (String) the text to escape
+     * @return escaped text.
+     */
+    escapeTML:function(inValue) {
+      var text = inValue;
+      text = text.replace(/\$/g, '$dollar');
+      text = text.replace(/&/g, '$amp');
+      text = text.replace(/>/g, '$gt');
+      text = text.replace(/</g, '$lt');
+      text = text.replace(/%/g, '$percent');
+      text = text.replace(/,/g, '$comma');
+      text = text.replace(/"/g, '\\"');
+      return text;
+    },
+
+    /**
+     * The inverse of the escapeTML function.
+     * See Foswiki:System.FormatTokens
+     * @param inValue: (String) the text to unescape.
+     * @return unescaped text.
+     */
+    unescapeTML:function(inValue) {
+      var text = inValue;
+      text = text.replace(/\$nop/g, '');
+      text = text.replace(/\\"/g, '"');
+      text = text.replace(/\$quot/g, '"');
+      text = text.replace(/\$comma/g, ',');
+      text = text.replace(/\$perce?nt/g, '%');
+      text = text.replace(/\$lt/g, '<');
+      text = text.replace(/\$gt/g, '>');
+      text = text.replace(/\$amp/g, '&');
+      text = text.replace(/\$dollar/g, '$');
+      return text;
     }
 }
 

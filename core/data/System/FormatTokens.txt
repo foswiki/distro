@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284962225" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1352732022" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FormattedSearch"}%
 ---++ Formatting Tokens
 
@@ -15,3 +15,16 @@ Foswiki defines some standard special tokens that can be used to replace charact
 | =$comma= | Comma (=,=) |
 %STOPINCLUDE%
 If you ever find yourself needing to escape an escape, you can use =$dollar= to escape the leading dollar, thus: =$dollarpercent=.
+
+---+++ Interactive Example
+Click the buttons below to escape or unescape the sample text.
+
+<form>
+<textarea rows="6" cols="120" id="tmlForEscape">
+$ & < > % , "
+</textarea>
+%CLEAR%
+%BUTTON{"Escape" onclick="$('#tmlForEscape').val(foswiki.String.escapeTML( $('#tmlForEscape').val() )); return false"}%
+%BUTTON{"Unescape" onclick="$('#tmlForEscape').val(foswiki.String.unescapeTML( $('#tmlForEscape').val() )); return false"}%
+%CLEAR%
+</form>
