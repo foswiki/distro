@@ -58,6 +58,10 @@ sub prompt {
         $message = "(Edit - Preview)";
         $disable = 'disabled';
     }
+    elsif ( Foswiki::Func::getContext->{static} ) {
+        $message = "(Static view)";
+        $disable = 'disabled';
+    }
 
     my $idx = 0;
     $_[1] =~

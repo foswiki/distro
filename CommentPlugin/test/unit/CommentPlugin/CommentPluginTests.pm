@@ -37,6 +37,19 @@ sub tear_down {
     return;
 }
 
+sub fixture_groups {
+    return ( [ 'viewContext', 'staticContext' ], );
+}
+
+sub viewContext {
+    Foswiki::Func::getContext()->{view} = 1;
+}
+
+sub staticContext {
+    Foswiki::Func::getContext()->{view}   = 1;
+    Foswiki::Func::getContext()->{static} = 1;
+}
+
 sub writeTopic {
     my ( $this, $web, $topic, $text ) = @_;
     my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic, $text );
@@ -489,7 +502,7 @@ HERE
     return;
 }
 
-sub test_targetWebTopicAboveAnchor_Missing_Item727 {
+sub verify_targetWebTopicAboveAnchor_Missing_Item727 {
     my $this = shift;
 
     my $sample = <<'HERE';
@@ -499,12 +512,27 @@ after
 HERE
     $this->writeTopic( $this->{test_web}, $this->{test_topic}, $sample );
     my $pidx = 99;
+
+    my $message = "The Message";
+    my $disable = '';
+    if ( Foswiki::Func::getContext()->{static} ) {
+        $message = "(Static view)";
+        $disable = 'disabled';
+    }
+
     my $html =
       Foswiki::Plugins::CommentPlugin::Comment::_handleInput( 'remove="on"',
-        $this->{test_web}, $this->{test_topic}, \$pidx, "The Message", "",
+        $this->{test_web}, $this->{test_topic}, \$pidx, $message, $disable,
         "bottom" );
-    $this->assert_matches(
-        qr/<input type="hidden" name="comment_remove" value="99"/, $html );
+    if ( Foswiki::Func::getContext()->{static} ) {
+        $this->assert_matches(
+            qr/\(Static view\)<\/textarea><\/td><td>&nbsp;<input disabled/,
+            $html );
+    }
+    else {
+        $this->assert_matches(
+            qr/<input type="hidden" name="comment_remove" value="99"/, $html );
+    }
 
     # Compose the query
     my $comm  = "This is the comment";
@@ -546,7 +574,7 @@ HERE
     return;
 }
 
-sub test_targetWebTopicBelowAnchor_Missing_Item727 {
+sub verify_targetWebTopicBelowAnchor_Missing_Item727 {
     my $this = shift;
 
     my $sample = <<'HERE';
@@ -556,13 +584,28 @@ after
 HERE
     $this->writeTopic( $this->{test_web}, $this->{test_topic}, $sample );
     my $pidx = 99;
+
+    my $message = "The Message";
+    my $disable = '';
+    if ( Foswiki::Func::getContext()->{static} ) {
+        $message = "(Static view)";
+        $disable = 'disabled';
+    }
+
     my $html =
       Foswiki::Plugins::CommentPlugin::Comment::_handleInput( 'remove="on"',
-        $this->{test_web}, $this->{test_topic}, \$pidx, "The Message", "",
+        $this->{test_web}, $this->{test_topic}, \$pidx, $message, $disable,
         "bottom" );
     $html = removeEscapes($html);
-    $this->assert_matches(
-        qr/<input type="hidden" name="comment_remove" value="99"/, $html );
+    if ( Foswiki::Func::getContext()->{static} ) {
+        $this->assert_matches(
+            qr/\(Static view\)<\/textarea><\/td><td>&nbsp;<input disabled/,
+            $html );
+    }
+    else {
+        $this->assert_matches(
+            qr/<input type="hidden" name="comment_remove" value="99"/, $html );
+    }
 
     # Compose the query
     my $comm  = "This is the comment";
