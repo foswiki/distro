@@ -11,7 +11,7 @@
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 %MAKETEXT{"See changes since:"}% <select class="foswikiSelect" id="siteChangesSelect" name="since">
-<option id="last_time_checked" value=""></option>
+<option id="last_time_checked" value="magic"></option>
 <option id="1_hour_ago" value="P1h/$now" %IF{"$since = 'P1h/$now'" then="selected='selected'"}%>%MAKETEXT{"1 hour ago"}%</option>
 <option id="6_hours_ago" value="P6h/$now" %IF{"$since = 'P6h/$now'" then="selected='selected'"}%>%MAKETEXT{"6 hours ago"}%</option>
 <option id="12_hours_ago" value="P12h/$now" %IF{"$since = 'P12h/$now'" then="selected='selected'"}%>%MAKETEXT{"12 hours ago"}%</option>
@@ -20,7 +20,7 @@
 <option id="1_week_ago" value="P1w/$now"}%" %IF{"$since = 'P12/$now'" then="selected='selected'"}%>%MAKETEXT{"1 week ago"}%</option>
 <option id="2_weeks_ago" value="P2w/$now" %IF{"$since = 'P2w/$now'" then="selected='selected'"}%>%MAKETEXT{"2 weeks ago"}%</option>
 <option id="4_weeks_ago" value="P4w/$now"}%" %IF{"$since = 'P4w/$now'" then="selected='selected'"}%>%MAKETEXT{"4 weeks ago"}%</option>
-<option id="beginning" value=""}%" %IF{"$since = 'beginning'" then="selected='selected'"}%>%MAKETEXT{"the beginning"}%</option>
+<option id="beginning" value=""}%" %IF{"$since = ''" then="selected='selected'"}%>%MAKETEXT{"the beginning"}%</option>
 </select>
 <input type="hidden" name="sinceReadable" value="%URLPARAM{"sinceReadable"}%" />
 <input type="hidden" name="debugJs" value="%URLPARAM{"debugJs" default="0"}%" />
