@@ -60,6 +60,10 @@ sub _COMMENT {
 '%MAKETEXT{"Commenting is disabled while running from the command line"}%'
         );
     }
+    elsif ( $context->{static} ) {
+        $disabled = Foswiki::Func::expandCommonVariables(
+            '%MAKETEXT{"Commenting is disabled for static viewing"}%');
+    }
     elsif ( !$context->{view} ) {
         $disabled = Foswiki::Func::expandCommonVariables(
             '%MAKETEXT{"Commenting is disabled when not in view context"}%');
