@@ -38,6 +38,10 @@ sub initPlugin {
           unless ( $WEB =~ qr/^($activeWebs)$/ );
     }
 
+    # No subscribe links for pages rendered for static applications (PDF)
+    Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 0
+      if ( Foswiki::Func::getContext()->{'static'} );
+
     Foswiki::Func::registerTagHandler( 'SUBSCRIBE', \&_SUBSCRIBE );
     $UID = 1;
 
