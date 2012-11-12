@@ -26,8 +26,8 @@ use warnings;
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-use version; our $VERSION = version->declare("v1.1.2");
-our $RELEASE           = '1.1.2';
+use version; our $VERSION = version->declare("v1.1.6");
+our $RELEASE           = '1.1.6';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link !ExternalSite:Page text to external sites based on aliases defined in a rules topic';
