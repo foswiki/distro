@@ -23,14 +23,15 @@ environment variable $FOSWIKI_EXTENSIONS, then (2) the extensions_path array
 defined under the key 'pseudo-install' in the config file ($HOME/.buildcontrib
 by default). The default path includes current working directory & its parent.
 
-Usage: pseudo-install.pl -[G|C][feA][l|c|u] [all|default|developer|<module>
-                                            |git://a.git/url, a@g.it:/url etc.]
+Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
+              developer|<module>|git://a.git/url, a@g.it:/url etc.]
   -C[onfig]    - path to config file (default $HOME/.buildcontrib, or envar
                                               $FOSWIKI_PSEUDOINSTALL_CONFIG)
   -G[enerate]  - generate default psuedo-install config in $HOME/.buildcontrib
   -f[orce]     - force an action to complete even if there are warnings
   -e[nable]    - automatically enable installed plugins in LocalSite.cfg
-                 (default)
+  -E<c> <extn> - include extra configuration values into LocalSite.cfg. <c>.cfg
+                 file must exist in the same dir as <extn>'s Config.spec file
   -m[anual]    - do not automatically enable installed plugins in LocalSite.cfg
   -l[ink]      - create links %linkByDefault%
   -c[opy]      - copy instead of linking %copyByDefault%
@@ -40,7 +41,8 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [all|default|developer|<module>
   default      - install core + extensions listed in lib/MANIFEST
   developer    - core + default + key developer environment
   <module>...  - one or more extensions to install (by name or git URL)
-  -[A]utoconf  - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
+  -[A]utoconf  - make a simplistic LocalSite.cfg, using just the defaults in
+                 lib/Foswiki.spec
 
 Examples:
   softlink and enable FirstPlugin and SomeContrib
@@ -62,6 +64,9 @@ Examples:
       ./pseudo-install.pl developer
   Install & enable an extension from an abritrary git repo
       ./pseudo-install.pl -e git@github.com:/me/MyPlugin.git
+  Install UnitTestContrib and include config values into LocalSite.cfg from
+  lib/Foswiki/Contrib/UnitTestContrib/AutoBuildSelenium.cfg
+      ./pseudo-install.pl -EAutoBuildSelenium UnitTestContrib
 
   * When using git clean, add the -x modifier to clean ignored files.  See [1]
   * Each module's root has a .gitignore maintained w/list of derived files [1]
@@ -78,12 +83,19 @@ my @error_log;
 my %config;
 my $do_genconfig;
 my @extensions_path;
+my %extensions_extra_config;
 my $autoenable    = 0;
 my $installing    = 1;
 my $autoconf      = 0;
 my $config_file   = $ENV{FOSWIKI_PSEUDOINSTALL_CONFIG};
 my $internal_gzip = eval { require Compress::Zlib; 1; };
 my %arg_dispatch  = (
+    '-E' => sub {
+        my ($cfg)  = @_;
+        my ($extn) = shift(@ARGV);
+
+        push( @{ $extensions_extra_config{$extn} }, $cfg );
+    },
     '-f' => sub { $force   = 1 },
     '-l' => sub { $install = \&just_link },
     '-c' => sub {
@@ -1217,10 +1229,8 @@ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
     return;
 }
 
-sub enablePlugin {
-    my ( $module, $installingModule, $libDir ) = @_;
-    my $cfg     = '';
-    my $changed = 0;
+sub getLocalSite {
+    my $cfg = '';
 
     print "Updating LocalSite.cfg\n";
     if ( open( my $lsc, '<', File::Spec->catfile( 'lib', 'LocalSite.cfg' ) ) ) {
@@ -1229,6 +1239,30 @@ sub enablePlugin {
         $cfg =~ s/\r//g;
         close $lsc;
     }
+
+    return $cfg;
+}
+
+sub updateLocalSite {
+    my ($cfg) = @_;
+
+    if ( open( my $lsc, '>', File::Spec->catfile( 'lib', 'LocalSite.cfg' ) ) ) {
+        print $lsc $cfg;
+        close $lsc;
+    }
+    else {
+        warn 'WARNING: failed to write'
+          . File::Spec->catfile( 'lib', 'LocalSite.cfg' ) . "\n";
+    }
+
+    return;
+}
+
+sub enablePlugin {
+    my ( $module, $installingModule, $libDir ) = @_;
+    my $cfg     = getLocalSite();
+    my $changed = 0;
+
     if ( $cfg =~
         s/\$Foswiki::cfg{Plugins}{$module}{Enabled}\s*=\s*(\d+)[\s;]+//sg )
     {
@@ -1244,24 +1278,59 @@ sub enablePlugin {
           . $cfg;
         $changed = 1;
     }
-
     if ($changed) {
-        if (
-            open( my $lsc, '>', File::Spec->catfile( 'lib', 'LocalSite.cfg' ) )
-          )
-        {
-            print $lsc $cfg;
-            close $lsc;
-            print(
-                ( $installingModule ? 'En' : 'Dis' ),
-                "abled $module in LocalSite.cfg\n"
-            );
-        }
-        else {
-            warn 'WARNING: failed to write'
-              . File::Spec->catfile( 'lib', 'LocalSite.cfg' ) . "\n";
-        }
+        updateLocalSite($cfg);
+        print(
+            ( $installingModule ? 'En' : 'Dis' ),
+            "abled $module in LocalSite.cfg\n"
+        );
     }
+
+    return;
+}
+
+# Applies all the named <foo>.cfg's queued up for the $module to LocalSite.cfg
+sub applyExtraConfig {
+    my ( $module, $libDir ) = @_;
+    my @configs = @{ $extensions_extra_config{$module} };
+    local @INC = ( @INC, File::Spec->catfile( $basedir, 'lib' ) );
+    my $LocalSitecfg = File::Spec->catfile( $basedir, 'lib', 'LocalSite.cfg' );
+    die "'$LocalSitecfg' not exist" unless -f $LocalSitecfg;
+    require Foswiki::Configure::Valuer;
+    require Foswiki::Configure::Root;
+    require Foswiki::Configure::FoswikiCfg;
+
+    foreach my $conf (@configs) {
+        my $what = ( $conf =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
+        my $cfg =
+          File::Spec->catfile( $basedir, 'lib', 'Foswiki', $what, $module,
+            "$conf.cfg" );
+        die "'$cfg' not found" unless -f $cfg;
+        no re 'taint';
+        $cfg =~ /^(.*)$/;
+        use re 'taint';
+        do $1;
+    }
+    my %NewCfg = %Foswiki::cfg;
+    %Foswiki::cfg = ();
+    do $LocalSitecfg;
+    my $valuer =
+      Foswiki::Configure::Valuer->new( {}, { %Foswiki::cfg, %NewCfg } );
+    my $root = Foswiki::Configure::Root->new();
+    Foswiki::Configure::FoswikiCfg::_parse( $LocalSitecfg, $root, 1 );
+    foreach my $conf (@configs) {
+        my $what = ( $conf =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
+        my $cfg =
+          File::Spec->catfile( $basedir, 'lib', 'Foswiki', $what, $module,
+            "$conf.cfg" );
+        print "Parsing '$cfg' into LocalSite.cfg\n";
+        Foswiki::Configure::FoswikiCfg::_parse( $cfg, $root, 1 );
+    }
+    my $saver = Foswiki::Configure::FoswikiCfg->new();
+    $saver->{valuer}  = $valuer;
+    $saver->{root}    = $root;
+    $saver->{content} = '';
+    updateLocalSite( $saver->_save() );
 
     return;
 }
@@ -1272,7 +1341,10 @@ sub run {
         exit 0 unless ( scalar(@ARGV) );
     }
 
-    unless ( $do_genconfig || scalar(@ARGV) ) {
+    unless ( $do_genconfig
+        || scalar(@ARGV)
+        || scalar( keys %extensions_extra_config ) )
+    {
         usage();
         exit 1;
     }
@@ -1307,9 +1379,10 @@ sub run {
             push @modules, untaint($arg);
         }
 
-        # *Never* uninstall 'core'
-        @modules = grep { $_ ne 'core' } @modules unless $installing;
     }
+
+    # *Never* uninstall 'core'
+    @modules = grep { $_ ne 'core' } @modules unless $installing;
 
     print(
         ( $installing ? 'I' : 'Uni' ),
@@ -1318,10 +1391,16 @@ sub run {
     );
 
     my @installedModules;
+    my %unique_modules =
+      ( map { $_ => 1 } @modules, keys %extensions_extra_config );
+    @modules = sort keys %unique_modules;
     foreach my $module (@modules) {
         my $libDir = installModule($module);
         if ($libDir) {
             push( @installedModules, $module );
+            if ( exists $extensions_extra_config{$module} ) {
+                applyExtraConfig( $module, $libDir ) if $installing;
+            }
             if ( ( !$installing || $autoenable ) && $module =~ /Plugin$/ ) {
                 enablePlugin( $module, $installing, $libDir );
             }
@@ -1344,10 +1423,13 @@ sub run {
 }
 
 sub exec_opts {
-    while ( scalar(@ARGV) && $ARGV[0] =~ /^(-.)/ ) {
+    while ( scalar(@ARGV) && $ARGV[0] =~ /^(-.)(.*)/ ) {
         shift(@ARGV);
         if ( exists $arg_dispatch{$1} ) {
-            $arg_dispatch{$1}->();
+            $arg_dispatch{$1}->($2);
+        }
+        else {
+            die "Don't know how to process '$1'";
         }
     }
 
