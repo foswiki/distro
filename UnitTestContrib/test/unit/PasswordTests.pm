@@ -263,6 +263,25 @@ sub skip {
     );
 }
 
+sub test_random_Pass {
+    my $this = shift;
+
+    $Foswiki::cfg{MinPasswordLength} = 4;
+    my $pass1 = Foswiki::Users::randomPassword();
+    $this->assert_num_equals( 8, length($pass1),
+        "Returned other than 8 characters" );
+
+    $Foswiki::cfg{MinPasswordLength} = 12;
+    my $pass2 = Foswiki::Users::randomPassword();
+    $this->assert_num_equals( 12, length($pass2),
+        "Returned other than 12 characters" );
+
+    my $pass3 = Foswiki::Users::randomPassword();
+    $this->assert_str_not_equals( $pass3, $pass2,
+        'Should not return same password twice' );
+
+}
+
 sub test_disabled_entry {
     my $this = shift;
 
