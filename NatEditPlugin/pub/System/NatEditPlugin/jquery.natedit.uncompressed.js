@@ -1016,8 +1016,8 @@ $.NatEditor.prototype.defaults = {
   verbatimButton: '<li><a class="natEditVerbatimButton" href="#" title="Ignore wiki formatting" accesskey="v"><span>Verbatim</span></a></li>',
   signatureButton: '<li><a class="natEditSignatureButton" href="#" title="Your signature with timestamp" accesskey="z"><span>Sign</span></a></li>',
   wysiwygButton: '<li><a class="natEditWysiwygButton" href="#" id="topic_2WYSIWYG" title="Switch to WYSIWYG" accesskey="w"><span>Wysiwyg</span></a></li>',
-  escapeTmlButton: '<li><a class="natEditEscapeTmlButton" href="#" title="Escape TML" accesskey="%"><span>Escape TML</span></a></li>',
-  unescapeTmlButton: '<li><a class="natEditUnescapeTmlButton" href="#" title="Unescape TML" accesskey="$"><span>Unescape TML</span></a></li>',
+  escapeTmlButton: '<li><a class="natEditEscapeTmlButton" href="#" title="Escape TML" accesskey="$"><span>Escape TML</span></a></li>',
+  unescapeTmlButton: '<li><a class="natEditUnescapeTmlButton" href="#" title="Unescape TML" accesskey="%"><span>Unescape TML</span></a></li>',
 
   // Elements 0 and 2 are (respectively) prepended and appended.  Element 1 is the default text to use,
   // if no text is currently selected.
