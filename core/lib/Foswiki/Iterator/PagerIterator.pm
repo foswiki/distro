@@ -66,15 +66,32 @@ sub showpage {
 }
 
 #lie - give the requested pagesize - it might be less, if we're at the end of the list
+#and we can never know if there is just one more, as the underlying iterator may have only asked for pagesize reaults
+#so it can't tell us
 sub numberOfTopics {
     my $this = shift;
-    return $this->{pagesize};
+    if ( !$this->hasNext() && ( $this->{pager_result_count} > 0 ) ) {
+        return $this->{pagesize} - $this->{pager_result_count};
+    }
+    else {
+        #we're still iterating, so we don't know the page size
+        return $this->{pagesize};
+    }
 }
 
 #another lie - this hopes that the inner iterator knows the number, and isn't just guessing.
 sub numberOfPages {
     my $this = shift;
-    return int( $this->{iterator}->numberOfTopics() / $this->{pagesize} ) + 1;
+    if ( !$this->hasNext() && ( $this->{pager_result_count} > 0 ) ) {
+
+#if we've exhausted the undelying iterator, and have not got pagesize elements, then we know there are no more.
+        return $this->showpage();
+    }
+    else {
+        #we're still iterating, so we don't know the page size
+        return
+          int( $this->{iterator}->numberOfTopics() / $this->{pagesize} ) + 1;
+    }
 }
 
 sub nextWeb {
@@ -194,7 +211,7 @@ sub reset {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

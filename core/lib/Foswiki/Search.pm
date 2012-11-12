@@ -601,6 +601,9 @@ sub formatResults {
     my %pager_formatting;
     if ( $params->{paging_on} )    #TODO: if can skip()
     {
+        #TODO: this is a dangerous assumption that should be abstracted
+        ASSERT( $infoCache->isa('Foswiki::Iterator::PagerIterator') ) if DEBUG;
+
         $limit = $infoCache->pagesize();
 
         my $paging_ID = $params->{pager_urlparam_id};
@@ -626,54 +629,71 @@ sub formatResults {
 
         $session->templates->readTemplate('searchformat');
 
-        my $previouspagebutton = '';
-        my $previouspageurl    = '';
-        if ( $previousidx >= 1 ) {
-            $new_params{$paging_ID} = $previousidx;
-            $previouspageurl =
-              Foswiki::Func::getScriptUrl( $baseWeb, $baseTopic, 'view',
-                %new_params );
-            $previouspagebutton =
-              $session->templates->expandTemplate('SEARCH:pager_previous');
-        }
-        my $nextpagebutton = '';
-        my $nextpageurl    = '';
-        if ( $nextidx <= $numberofpages ) {
-            $new_params{$paging_ID} = $nextidx;
-            $nextpageurl =
-              Foswiki::Func::getScriptUrl( $baseWeb, $baseTopic, 'view',
-                %new_params );
-            $nextpagebutton =
-              $session->templates->expandTemplate('SEARCH:pager_next');
-        }
         %pager_formatting = (
             'previouspage'  => sub { return $previousidx },
             'currentpage'   => sub { return $showpage },
             'nextpage'      => sub { return $showpage + 1 },
-            'numberofpages' => sub { return $numberofpages },
+            'numberofpages' => sub { return $infoCache->numberOfPages() },
             'pagesize'      => sub { return $infoCache->pagesize() },
-            'previousurl'   => sub { return $previouspageurl },
-            'nexturl'       => sub { return $nextpageurl },
             'sep'           => sub { return $sep; }
         );
 
-        $previouspagebutton =
-          $this->formatCommon( $previouspagebutton, \%pager_formatting );
-        $pager_formatting{'previousbutton'} =
-          sub { return $previouspagebutton };
+        $pager_formatting{'previousurl'} = sub {
+            my $previouspageurl = '';
+            if ( $previousidx >= 1 ) {
+                $new_params{$paging_ID} = $previousidx;
+                $previouspageurl =
+                  Foswiki::Func::getScriptUrl( $baseWeb, $baseTopic, 'view',
+                    %new_params );
+            }
+            return $previouspageurl;
+        };
 
-        $nextpagebutton =
-          $this->formatCommon( $nextpagebutton, \%pager_formatting );
-        $pager_formatting{'nextbutton'} = sub { return $nextpagebutton };
+        $pager_formatting{'previousbutton'} = sub {
+            my $previouspagebutton = '';
+            if ( $previousidx >= 1 ) {
+                $new_params{$paging_ID} = $previousidx;
+                $previouspagebutton =
+                  $session->templates->expandTemplate('SEARCH:pager_previous');
+            }
+            $previouspagebutton =
+              $this->formatCommon( $previouspagebutton, \%pager_formatting );
+            return $previouspagebutton;
+        };
 
-        my $pager_control = '';
-        if ( $numberofpages > 1 ) {
-            $pager_control = $params->{pagerformat}
-              || $session->templates->expandTemplate('SEARCH:pager');
-            $pager_control =
-              $this->formatCommon( $pager_control, \%pager_formatting );
-        }
-        $pager_formatting{'pager'} = sub { return $pager_control; };
+        $pager_formatting{'nexturl'} = sub {
+            my $nextpageurl = '';
+            if ( $nextidx <= $infoCache->numberOfPages() ) {
+                $new_params{$paging_ID} = $nextidx;
+                $nextpageurl =
+                  Foswiki::Func::getScriptUrl( $baseWeb, $baseTopic, 'view',
+                    %new_params );
+            }
+            return $nextpageurl;
+        };
+
+        $pager_formatting{'nextbutton'} = sub {
+            my $nextpagebutton = '';
+            if ( $nextidx <= $infoCache->numberOfPages() ) {
+                $new_params{$paging_ID} = $nextidx;
+                $nextpagebutton =
+                  $session->templates->expandTemplate('SEARCH:pager_next');
+            }
+            $nextpagebutton =
+              $this->formatCommon( $nextpagebutton, \%pager_formatting );
+            return $nextpagebutton;
+        };
+
+        $pager_formatting{'pager'} = sub {
+            my $pager_control = '';
+            if ( $infoCache->numberOfPages() > 1 ) {
+                $pager_control = $params->{pagerformat}
+                  || $session->templates->expandTemplate('SEARCH:pager');
+                $pager_control =
+                  $this->formatCommon( $pager_control, \%pager_formatting );
+            }
+            return $pager_control;
+        };
     }
 
     #TODO: multiple is an attribute of the ResultSet
@@ -1364,7 +1384,7 @@ sub _collate_to_list {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
