@@ -41,7 +41,11 @@
     excludetopic="%STATISTICSTOPIC%"
     reverse="on"
     order="modified"
-    format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percentFORMFIELD{$quotSummary$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percent]] | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][%MAKETEXT{"diff"}%]], [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][%MAKETEXT{"last change"}%]] | "
+    format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$topic]]$percentIF{
+	$quot'$formfield(Summary, 20)' = ''$quot
+	NOthen=$quot$topic$quot
+	else=$quot%BR% $formfield(Summary)$quot
+    }$percent | [[$wikiusername][$wikiname]] | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][%MAKETEXT{"diff"}%]], [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][%MAKETEXT{"last change"}%]] | "
     header="| *%MAKETEXT{"Last modified"}%* | *%MAKETEXT{"Web"}%* | *%MAKETEXT{"Topic"}%* | *%MAKETEXT{"Last editor"}%* | *%MAKETEXT{"View"}%* |"
     nofooter="$n---$n $pager $n----$n"
     pager="on"
