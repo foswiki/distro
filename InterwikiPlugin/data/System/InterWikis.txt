@@ -33,7 +33,7 @@ Any inter-wikis you add to [[%USERSWEB%.InterWikis]] will then be available in t
 
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | Acronym | http://www.acronymfinder.com/af-query.asp?Acronym=$page&String=exact | Look up '$page' on Acronym Finder site |
-| CPAN | http://search.cpan.org/perldoc? | CPAN perl repository |
+| CPAN | https://metacpan.org/module/ | CPAN perl repository |
 | Dictionary | http://www.dictionary.com/cgi-bin/dict.pl?term= | Look up '$page' at Dictionary.com |
 | Google | http://google.com/search?q= | Search for '$page' on Google |
 | Group | http://groups.google.com/groups?hl=en&safe=off&group= | News group '$page' at Google.com |
@@ -51,28 +51,19 @@ Any inter-wikis you add to [[%USERSWEB%.InterWikis]] will then be available in t
 | Advogato | http://www.advogato.org/ | '$page' on Advogato community site (with peer review) |
 | C2find | http://c2.com/cgi/wiki?FindPage&value= | Search '$page' on the original 'WikiWikiWeb' site |
 | DokuWiki | http://wiki.splitbrain.org/wiki: | '$page' on Doku Wiki site |
-| DolphinWiki | http://www.object-arts.co.uk/wiki/html/Dolphin/$page.htm | '$page' on Dolphin Wiki site |
 | Foswiki | http://foswiki.org/ | '$page' on foswiki.org |
 | Foswikitask | http://foswiki.org/Tasks/ | '$page' on the 'Foswiki' issue tracking site |
 | Foswikirev | http://trac.foswiki.org/changeset/ | revision $page of 'Foswiki' |
 | FoxWiki | http://fox.wikis.com/wc.dll?Wiki~ | '$page' on Fox Wiki site |
 | HammondWiki | http://www.dairiki.org/HammondWiki/index.php3? | '$page' on 'HammondWiki' site |
-| LegoWiki | http://www.object-arts.com/wiki/html/Lego-Robotics/ | '$page' on 'LegoWiki' site |
-| MbTest | http://www.usemod.com/cgi-bin/mbtest.pl? | '$page' on 'UseMod' Wiki variant |
 | MeatBall | http://www.usemod.com/cgi-bin/mb.pl? | '$page' on 'MeatBall' site, a 'UseMod' Wiki variant |
-| MoinMoin | http://moinmoin.wikiwikiweb.de/ | '$page' on 'MoinMoin' Wiki site |
-| MuWeb | http://www.dunstable.com/scripts/MuWebWeb? | '$page' on 'MuWeb' site|
-| OrgPatterns | http://www.easycomp.org/cgi-bin/OrgPatterns? | '$page' on Organizational Patterns site |
-| PhpWiki | http://phpwiki.sourceforge.net/phpwiki/index.php3? | '$page' on Wiki site written in PHP |
-| PolitizenWiki | http://www.politizen.com/wiki.asp? | '$page' on 'PolitizenWiki' site |
+| MoinMoin | http://moinmo.in/ | '$page' on 'MoinMoin' Wiki site |
 | PPR | http://c2.com/cgi/wiki? | '$page' on the original 'PortlandPatternRepository' site |
-| PyWiki | http://www.voght.com/cgi-bin/pywiki? | '$page' on Wiki site written in Python |
 | Squeak | http://minnow.cc.gatech.edu/squeak/ | '$page' on Squeak Smalltalk Wiki |
 | TWiki | http://twiki.org/cgi-bin/view/ | '$page' on TWiki.org |
 | TWikibug | http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ | '$page' on the TWiki issue tracking site |
 | TWikirev | http://develop.twiki.org/trac/changeset/ | revision $page of TWiki svn |
 | UseMod | http://www.usemod.com/cgi-bin/wiki.pl? | '$page' on 'UseMod' Wiki site |
-| VisualWorks | http://wiki.cs.uiuc.edu/VisualWorks/ | '$page' on 'VisualWorks' site |
 | Wiki | http://c2.com/cgi/wiki? | '$page' on the original 'WikiWikiWeb' site |
 | Wikipedia | http://en.wikipedia.org/wiki/ | '$page' on 'Wikipedia' |
 | ZWiki | http://joyful.com/zwiki/ | '$page' on Zope's Wiki |

@@ -57,6 +57,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  12 Nov 1012: (1.1.6) | update CPAN link to goto metacpan and remove some ancient links that have been broken for years |
 |  05 Dec 2011: (1.1.2) | Release with Foswiki 1.1.4 - Minor code and documentation cleanup |
 |  30 Oct 2011: | Foswiki:Main.GeorgeClark - Add support for quoted page references from TimotheLitt (Foswikitask:Item10872) |
 |  10 Apr 2011: | Foswiki:Main.AndrewJones - Links can now be formatted (Foswikitask:Item10619) |
