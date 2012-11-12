@@ -334,7 +334,18 @@ if (0) { // temporary disabled
       $(self.opts.signatureButton).click(function() {
         self.insertTag(self.opts.signatureMarkup);
         return false;
+      })).
+    append(
+      $(self.opts.escapeTmlButton).click(function() {
+        self.transformSelection(self.opts.escapeTmlTransform);
+        return false;
+      })).
+    append(
+      $(self.opts.unescapeTmlButton).click(function() {
+        self.transformSelection(self.opts.unescapeTmlTransform);
+        return false;
       }));
+
 
   $toggleTools = $('<ul class="natEditButtonBox natEditButtonBoxToggles"></ul>');
   if (self.opts.showWysiwyg) {
@@ -487,6 +498,42 @@ $.NatEditor.prototype.insertTag = function(markup) {
   self.setSelectionRange(startPos, endPos);
   $(self.txtarea).trigger("keypress");
 };
+
+/*************************************************************************
+ * Transform selected text with a provided function
+ */
+$.NatEditor.prototype.transformSelection = function(transformer) {
+  var self = this,
+      func = transformer[0],
+      startPos, endPos, 
+      text, scrollTop, theSelection,
+      subst;
+
+  //$.log("called insertTag("+tagOpen+", "+sampleText+", "+tagClose+")");
+    
+  self.getSelectionRange();
+  startPos = self.txtarea.selectionStart;
+  endPos = self.txtarea.selectionEnd;
+  text = self.txtarea.value;
+  scrollTop = self.txtarea.scrollTop;
+  theSelection = text.substring(startPos, endPos);
+
+  //$.log("startPos="+startPos+" endPos="+endPos);
+
+  subst = func(theSelection);
+
+  self.txtarea.value =  
+    text.substring(0, startPos) + subst +
+    text.substring(endPos, text.length);
+
+  // set new selection
+  endPos = startPos + subst.length;
+  self.txtarea.scrollTop = scrollTop;
+  self.setSelectionRange(startPos, endPos);
+  $(self.txtarea).trigger("keypress");
+};
+
+
 
 /*************************************************************************
  * compatibility method for IE: this sets txtarea.selectionStart and
@@ -764,6 +811,44 @@ $.NatEditor.prototype.insertLink = function(opts) {
 };
 
 /*************************************************************************
+ * Replaces all foswiki TML special characters with their escaped counterparts.
+ * See Foswiki:System.FormatTokens
+ * @param inValue: (String) the text to escape
+ * @return escaped text.
+ */
+$.NatEditor.prototype.escapeTML = function(inValue) {
+  var text = inValue;
+  text = text.replace(/\$/g, '$dollar');
+  text = text.replace(/&/g, '$amp');
+  text = text.replace(/>/g, '$gt');
+  text = text.replace(/</g, '$lt');
+  text = text.replace(/%/g, '$percent');
+  text = text.replace(/,/g, '$comma');
+  text = text.replace(/"/g, '\\"');
+  return text;
+};
+
+/*************************************************************************
+ * The inverse of the escapeTML function.
+ * See Foswiki:System.FormatTokens
+ * @param inValue: (String) the text to unescape.
+ * @return unescaped text.
+ */
+$.NatEditor.prototype.unescapeTML = function(inValue) {
+  var text = inValue;
+  text = text.replace(/\$nop/g, '');
+  text = text.replace(/\\"/g, '"');
+  text = text.replace(/\$quot/g, '"');
+  text = text.replace(/\$comma/g, ',');
+  text = text.replace(/\$perce?nt/g, '%');
+  text = text.replace(/\$lt/g, '<');
+  text = text.replace(/\$gt/g, '>');
+  text = text.replace(/\$amp/g, '&');
+  text = text.replace(/\$dollar/g, '$');
+  return text;
+};
+
+/*************************************************************************
  * event handler for window.resize event 
  */
 $.NatEditor.prototype.autoMaxExpand = function() {
@@ -931,6 +1016,11 @@ $.NatEditor.prototype.defaults = {
   verbatimButton: '<li><a class="natEditVerbatimButton" href="#" title="Ignore wiki formatting" accesskey="v"><span>Verbatim</span></a></li>',
   signatureButton: '<li><a class="natEditSignatureButton" href="#" title="Your signature with timestamp" accesskey="z"><span>Sign</span></a></li>',
   wysiwygButton: '<li><a class="natEditWysiwygButton" href="#" id="topic_2WYSIWYG" title="Switch to WYSIWYG" accesskey="w"><span>Wysiwyg</span></a></li>',
+  escapeTmlButton: '<li><a class="natEditEscapeTmlButton" href="#" title="Escape TML" accesskey="%"><span>Escape TML</span></a></li>',
+  unescapeTmlButton: '<li><a class="natEditUnescapeTmlButton" href="#" title="Unescape TML" accesskey="$"><span>Unescape TML</span></a></li>',
+
+  // Elements 0 and 2 are (respectively) prepended and appended.  Element 1 is the default text to use,
+  // if no text is currently selected.
 
   h1Markup: ['---+!! ','%TOPIC%',''],
   h2Markup: ['---++ ','Headline text',''],
@@ -954,6 +1044,11 @@ $.NatEditor.prototype.defaults = {
   mathMarkup: ['<latex title="Example">\n','\\sum_{x=1}^{n}\\frac{1}{x}','\n</latex>'],
   verbatimMarkup: ['<verbatim>\n','Insert non-formatted text here','\n</verbatim>\n'],
   signatureMarkup: ['-- ', '%WIKINAME%, ' - '%DATE%'],
+
+  // Element 0 is the function to be called for the transformation.
+
+  escapeTmlTransform: [$.NatEditor.prototype.escapeTML],
+  unescapeTmlTransform: [$.NatEditor.prototype.unescapeTML],
 
   autoHideToolbar: false,
   autoMaxExpand:false,

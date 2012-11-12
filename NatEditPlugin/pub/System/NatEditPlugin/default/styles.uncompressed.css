@@ -92,6 +92,17 @@
 .natEditOutdentButton:hover { background-position:-650px -25px;}
 .natEditOutdentButton:active { background-position:-650px -50px;}
 
+.natEditToolBar a.natEditEscapeTmlButton,
+.natEditToolBar a.natEditUnescapeTmlButton {
+  background-image:url(buttons_sprite_escapeTML.png);
+}
+.natEditEscapeTmlButton { background-position:0px 0px; }
+.natEditEscapeTmlButton:hover { background-position:0px -25px; }
+.natEditEscapeTmlButton:active { background-position:0px -50px; }
+.natEditUnescapeTmlButton { background-position:-25px 0px; }
+.natEditUnescapeTmlButton:hover { background-position:-25px -25px; }
+.natEditUnescapeTmlButton:active { background-position:-25px -50px; }
+
 .natEditBottomBar li {
   line-height:22px;
   font-size:12px;
