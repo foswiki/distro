@@ -9,7 +9,7 @@ use vars qw(
   $web $topic $user $installWeb $debug
 );
 
-use version; our $VERSION = version->declare("v3.0.0");
+our $VERSION = 'v3.0.0';
 our $RELEASE = '3.0.0';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';

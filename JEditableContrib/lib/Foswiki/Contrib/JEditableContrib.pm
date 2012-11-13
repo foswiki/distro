@@ -3,7 +3,7 @@ package Foswiki::Contrib::JEditableContrib;
 use strict;
 use warnings;
 
-use version; our $VERSION = version->declare("v1.7.1");
+our $VERSION = 'v1.7.1';
 our $RELEASE = '1.7.1';    # keep in synch with jquery.jeditable.js
 our $SHORTDESCRIPTION =
   'The JQuery "JEditable" plugin, packaged for use in Foswiki';

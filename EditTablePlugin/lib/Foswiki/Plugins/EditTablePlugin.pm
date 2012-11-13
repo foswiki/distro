@@ -7,8 +7,7 @@ package Foswiki::Plugins::EditTablePlugin;
 use strict;
 use warnings;
 
-# Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("4.42");
+our $VERSION = '4.42';
 
 # Please note that the second is now two digit.
 # Someone increased 4.22 to 4.3 which is not correct.

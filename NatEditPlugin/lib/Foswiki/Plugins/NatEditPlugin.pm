@@ -19,8 +19,7 @@ use Foswiki::Func       ();
 use Foswiki::Plugins    ();
 use Foswiki::Validation ();
 
-# Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("6.20");
+our $VERSION           = '6.20';
 our $RELEASE           = '6.20';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';

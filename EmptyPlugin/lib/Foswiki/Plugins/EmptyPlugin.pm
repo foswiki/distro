@@ -76,14 +76,11 @@ use Foswiki::Plugins ();    # For the API version
 #
 # Recommended:  Dotted triplet.  Use "v1.2.3" format for releases,  and
 # "v1.2.3_001" for "alpha" versions.  The v prefix is required.
-# This format uses the "declare" format
-#     use version; our $VERSION = version->declare("v1.2.0");
+#     our $VERSION = 'v1.2.0';
 #
 # Alternative:  Simple decimal version.   Use "1.2" format for releases, and
-# "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix.  This style
-# is set either by using the "parse" method, or by a simple assignment.
-#    use version; our $VERSION = version->parse("1.20_001");  OR
-#    our $VERSION = "1.20_001";   # version->parse isn't really needed
+# "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix, and always quote the string.
+#    our $VERSION = '1.20_001';
 #
 # To convert from a decimal version to a dotted version, first normalize the
 # decimal version, then increment it.
@@ -94,9 +91,7 @@ use Foswiki::Plugins ();    # For the API version
 # so the versions in ascending order are:
 #   v1.2.1_001 -> v1.2.1 -> v1.2.2_001 -> v1.2.2
 #
-# These statements MUST be on the same line. See "perldoc version" for more
-# information on version strings.
-use version; our $VERSION = version->declare("v1.0.0_001");
+our $VERSION = 'v1.0.0_001';
 
 # $RELEASE is used in the "Find More Extensions" automation in configure.
 # It is a manually maintained string used to identify functionality steps.
