@@ -10,7 +10,7 @@ use warnings;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-our $VERSION = v1.1.5;
+use version; our $VERSION = version->declare("v1.1.5");
 our $RELEASE = '1.1.5';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';

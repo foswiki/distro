@@ -15,7 +15,7 @@ use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-our $VERSION           = v1.1.6;
+use version; our $VERSION = version->declare("v1.1.6");
 our $RELEASE           = '2012-10-10';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;

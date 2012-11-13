@@ -16,7 +16,7 @@ use warnings;
 require Foswiki::Func;       # The plugins API
 require Foswiki::Plugins;    # For the API version
 use vars qw($debug $pluginName);
-our $VERSION           = v1.1.2;
+use version; our $VERSION = version->declare("v1.1.2");
 our $RELEASE           = '1.1.2';
 our $SHORTDESCRIPTION  = 'Add TWiki personality to Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;

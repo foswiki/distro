@@ -54,6 +54,10 @@ Release 1.1.6 is a security focused and bug fix release.  There are a number of 
 The Foswiki and default extension version strings have been changed from a developer oriented string _Foswiki-1.1.5, Tue, 10 Apr 2012, build 14595,_  to a simple perl version string - "v1.1.6".
 The "RELEASE" string will continue to be more descriptive and can be displayed with a new macro =%<nop>WIKIRELEASE%=.
 
+*This adds a new dependency on =version 0.77= - the Perl module version class.*
+   * Sites using Perl 5.10.1 or newer have the correct version of version.
+   * Sites on older versions of perl should install the latest =version= using CPAN or their system's package manager.
+
 ---+++ Default format of "New Topic" links has changed.
 
 The old format used a trailing questionmark to create a topic.  Missing topics are now rendered with red text, and underlined with a dotted line.  The entire missing-topic name is a link to create the new topic, instead of just the

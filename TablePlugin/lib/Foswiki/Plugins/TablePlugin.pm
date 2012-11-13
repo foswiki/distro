@@ -8,7 +8,8 @@ package Foswiki::Plugins::TablePlugin;
 use strict;
 use warnings;
 
-our $VERSION = '1.140';
+# Simple decimal version, use parse method, and no leading "v"
+use version; our $VERSION = version->parse("1.140");
 our $RELEASE = '1.140';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
