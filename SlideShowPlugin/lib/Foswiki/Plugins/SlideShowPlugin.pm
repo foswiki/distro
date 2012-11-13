@@ -9,7 +9,7 @@ use vars qw(
   $web $topic $user $installWeb $debug $addedHead
 );
 
-our $VERSION = 'v2.1.5';
+our $VERSION = v2.1.5;
 our $RELEASE = '2.1.5';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';

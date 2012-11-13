@@ -75,8 +75,8 @@ use Foswiki::Plugins ();    # For the API version
 # *must* exist in this package.  Two version formats are supported:
 #
 # Recommended:  Dotted triplet.  Use "v1.2.3" format for releases,  and
-# "v1.2.3_001" for "alpha" versions.  The v prefix is required.
-#     our $VERSION = 'v1.2.0';
+# "v1.2.3_001" for "alpha" versions.  The v prefix is required, and must not be quoted.
+#     our $VERSION = v1.2.0;
 #
 # Alternative:  Simple decimal version.   Use "1.2" format for releases, and
 # "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix and always quote the string!
@@ -91,7 +91,7 @@ use Foswiki::Plugins ();    # For the API version
 # so the versions in ascending order are:
 #   v1.2.1_001 -> v1.2.1 -> v1.2.2_001 -> v1.2.2
 #
-our $VERSION = 'v1.1.6_002';
+our $VERSION = v1.1.6_002;
 
 # $RELEASE is used in the "Find More Extensions" automation in configure.
 # It is a manually maintained string used to identify functionality steps.

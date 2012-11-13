@@ -1,7 +1,7 @@
 package Foswiki::Contrib::BuildContrib;
 use strict;
 
-our $VERSION = 'v2.0.0';
+our $VERSION = v2.0.0;
 our $RELEASE = '2.0.0';
 
 our $SHORTDESCRIPTION =

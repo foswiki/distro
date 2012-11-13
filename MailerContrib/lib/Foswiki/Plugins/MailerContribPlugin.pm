@@ -4,7 +4,7 @@ package Foswiki::Plugins::MailerContribPlugin;
 use strict;
 use warnings;
 
-our $VERSION           = 'v2.5.3';
+our $VERSION           = v2.5.3;
 our $RELEASE           = '2.5.3';
 our $SHORTDESCRIPTION  = 'Supports e-mail notification of changes';
 our $NO_PREFS_IN_TOPIC = 1;
