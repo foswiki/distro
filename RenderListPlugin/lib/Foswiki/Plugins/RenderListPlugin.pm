@@ -30,7 +30,7 @@ use vars qw(
   $pubUrl $attachUrl
 );
 
-our $VERSION           = 'v2.2.6';
+use version; our $VERSION = version->declare("v2.2.6");
 our $RELEASE           = '2.2.6';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;

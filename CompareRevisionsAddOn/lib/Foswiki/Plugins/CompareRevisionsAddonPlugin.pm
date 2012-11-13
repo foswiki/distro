@@ -17,7 +17,7 @@ use warnings;
 
 use Foswiki;
 
-our $VERSION = 'v1.1.6';
+use version; our $VERSION = version->declare("v1.1.6");
 our $RELEASE = '1.1.6';
 
 # Name of this Plugin, only used in this module

@@ -20,17 +20,21 @@ use Foswiki::Plugins ();    # For the API version
 #
 # Recommended:  Dotted triplet.  Use "v1.2.3" format for releases,  and
 # "v1.2.3_001" for "alpha" versions.  The v prefix is required.
-#     our $VERSION = 'v1.2.0';
+# This format uses the "declare" format
+#     use version; our $VERSION = version->declare("v1.2.0");
 #
 # Alternative:  Simple decimal version.   Use "1.2" format for releases, and
-# "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix and always quote the string.
-#    our $VERSION = '1.20_001';
+# "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix.  This style
+# must be set using the "parse" method
+#    use version; our $VERSION = version->parse("1.20_001");
 #
 # Note:  Alpha versions compare as numerically lower than the non-alpha version
 # so the versions in ascending order are:
 #   v1.2.1_001 -> v1.2.1 -> v1.2.2_001 -> v1.2.2
 #
-our $VERSION = 'v1.0.0_001';
+# These statements MUST be on the same line. See "perldoc version" for more
+# information on version strings.
+use version; our $VERSION = version->declare("v1.0.0_001");
 
 our $RELEASE = '03 Mar 2010';
 
