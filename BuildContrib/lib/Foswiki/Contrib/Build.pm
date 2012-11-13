@@ -263,6 +263,8 @@ sub new {
     $stubpath =~ s/.*[\\\/]($targetProject[\\\/].*)\.pm/$1/;
     $stubpath =~ s/[\\\/]/::/g;
 
+    my $badVersion;
+
     # Get $VERSION, $RELEASE and $SHORTDESCRIPTION
     if ( -e $this->{pm} ) {
         my $fh;
@@ -270,25 +272,29 @@ sub new {
             local $/;
             my $text = <$fh>;
             close $fh;
-            if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/s ) {
-                $this->{RELEASE} = $2;
-            }
 
-            # If an extension has a .pm file with same name as
-            # the extension we will set the VERSION to be
-            # the SVN checkin number and date of this checkin
-            # For this we populate $this->{files} with this one filename
-            # Note we do not actually use the VERSION text from the .pm file
-            # Instead you update the RELEASE text which will cause SVN
-            # to update the SVN number and check in date when you commit
-            # The commit then updates the RELEASE in the .pm file
+            my $VERSION;
+            my $RELEASE;
+
+            my ($version) = $text =~
+              m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
+            my ($release) = $text =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
+            my ($description) =
+              $text =~ m/^\s*(?:our)?\s*(\$SHORTDESCRIPTION\s*=.*?);/sm;
+
+            $badVersion = 1 if ( $version =~ m/\$Date|\$Rev/ );
+
+            substr( $version, 0, 0, 'use version 0.77; ' )
+              if ( $version =~ /version/ );
+
+            eval $version if ($version);
+            eval $release if ($release);
+
             $this->{files}[0]->{name} = $this->{pm};
             $this->{files}[0]->{name} =~ s/^$basedir\/(.*)/$1/;
-            $this->{VERSION} = $this->_get_svn_version();
-
-            if ( $text =~ /\$SHORTDESCRIPTION\s*=\s*(['"])(.*?)\1/s ) {
-                $this->{SHORTDESCRIPTION} = $2;
-            }
+            $this->{VERSION}          = $VERSION;
+            $this->{RELEASE}          = $RELEASE;
+            $this->{SHORTDESCRIPTION} = $description || '';
         }
     }
 
@@ -386,17 +392,36 @@ sub new {
         );
     }
 
-    $this->{VERSION} = $this->_get_svn_version() unless $this->{VERSION};
+    # Get repo information.  If not in repo, returns today's date.
+    #   $this->{DATE} is set to the full timestamp
+    my $latestDate = $this->_get_repo_information();
 
-    # If there is no RELEASE defined in the extension .pm
-    # set the RELEASE = the date part of VERSION
-    if ( !$this->{RELEASE} && $this->{VERSION} ) {
-        $this->{VERSION} =~ /^(\d+)\s*\((.*?)\)\s*$/;
-        $this->{RELEASE} = $2;
+    if ($badVersion) {
+        my $proposed;
+        if ( $this->{SVNREV} ) {
+            use version 0.77;
+            my $rev = sprintf( "%06d", $this->{SVNREV} );
+            $proposed = version->parse("1.0$this->{SVNREV}")->normal()
+              if $this->{SVNREV};
+        }
+        print STDERR <<ERROR;
+
+SVN keword based version string detected.  \$Date or \$Rev detected. 
+SVN revision strings are no longer supported.
+Please update to a real Perl version string.
+
+ERROR
+        print STDERR
+"\n Suggested version: '$proposed' built from SVN Rev:$this->{SVNREV}\n"
+          if $proposed;
+        die "Build stopped:  SVN Rev's are not supported\n\n";
     }
 
-    # If not checked in, or we can't get to SVN, use the current time.
-    $this->{DATE} ||= Foswiki::Time::formatTime( time(), '$iso', 'gmtime' );
+    # If there is no RELEASE defined in the extension .pm
+    # set the RELEASE = the date of last modification.
+    if ( !$this->{RELEASE} ) {
+        $this->{RELEASE} = $latestDate;
+    }
 
     local $/ = undef;
     my $stage;
@@ -596,7 +621,7 @@ sub _findPathToDotGitDir {
 
 # SMELL: Would be good to change this to use SVN::Client, but Sven warns us
 # that SVN::Client doesn't work in most places :-(. Maybe some day.
-sub _get_svn_version {
+sub _get_repo_information {
     my $this = shift;
 
     my $max  = 0;    # max SVN rev no
@@ -694,11 +719,15 @@ sub _get_svn_version {
     }
 
     $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
+    $this->{SVNREV} = $max if defined $max && $max < 20120000;
+
+    # If not checked in, or we can't get to SVN, use the current time.
+    $this->{DATE} ||= Foswiki::Time::formatTime( time(), '$iso', 'gmtime' );
+
     my $day = $this->{DATE};
     $day =~ s/T.*//;
-    $this->{VERSION} = "$max ($day)";
 
-    return $this->{VERSION};
+    return $day;
 }
 
 # Filter a file from source to dest, calling $this->$sub on the text

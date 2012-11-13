@@ -74,30 +74,24 @@ sub new {
     }
 
     print <<END;
-
-You are about to build Foswiki. If you are not building a release, for
-example you are building a package just for your own testing purposes,
-then you can leave it unnamed.
+You are about to build Foswiki.
 
 Note: DO NOT ATTEMPT TO GENERATE A RELEASE UNLESS ALL UNIT TESTS PASS.
 The unit tests are a critical part of the release process, as they
 establish the correct baseline functionality. If a unit test fails,
 any release package generated from that code is USELESS.
 
-If you provide a release name, Foswiki.pm will be automatically edited
-to insert the new name of the release. The updated Foswiki.pm will be
-checked in before the build starts.
+Enter the type of build.   If this is for your personal use, enter "test"
+Enter "major" or "minor" if the major or minor version number should be incremented.
+Press enter and the next "alpha" patch version will be assigned.  1.1.6 -> 1.1.7_001.
+"release" will remove the alpha designator.   1.1.7_001 -> 1.1.7.
 
-The release *must* be named according to the standard scheme i.e
+Anything other than "test" or "rebuild" will force a commit of a new version to the respository
 
-major.minor.patch[-qualifier]
-
-where -qualifier is optional (it usually somthing like -beta).
+\$RELEASE is automatically derived from the calculated \$VERSION, plus
+a name appended for descriptive purposes.
 
 This will be translated to appropriate package and topic names.
-
-(The release name can optionally be passed in a *second* parameter
-to the script e.g. perl build.pl release 4.6.5)
 
 I'm now looking in the tags for the designation of the *last* release....
 END
@@ -105,27 +99,118 @@ END
       split( '/\n', `svn ls http://svn.foswiki.org/tags` );
 
     unless ($autoBuild) {
-        if (
-            $name
-            || Foswiki::Contrib::Build::ask(
-                "Do you want to name this release?", 'n'
-            )
-          )
+
+        open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
+        local $/ = undef;
+        my $content = <PM>;
+        close(PM);
+
+        my $VERSION;
+        my ($version) = $content =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
+        substr( $version, 0, 0, 'use version 0.77; ' )
+          if ( $version =~ /version/ );
+        eval $version if ($version);
+
+        my $RELEASE;
+        my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
+        eval $release if ($release);
+
+        print "\nCurrent version $VERSION, release $RELEASE\n";
+
+        my $buildtype = Foswiki::Contrib::Build::prompt(
+"Enter the type of build:  If this is for personal use, enter \"test\"
+or just press enter.",
+            'test'
+        );
+        while (
+            $buildtype !~ /^(major|minor|patch|release|test|rebuild|next)?$/ )
         {
-            while ( $name !~ /^\d\.\d+\.\d+(-\w+)?$/ ) {
-                $name = Foswiki::Contrib::Build::prompt(
-                    "Enter name of this release: ", $name );
+            $buildtype = Foswiki::Contrib::Build::prompt(
+"Enter major, minor, patch, release, test, rebuild, next, or press enter for test builds: ",
+                $buildtype
+            );
+        }
+
+        unless ( $buildtype =~ /rebuild|test/ ) {
+            my ( $maj, $min, $pat, $alpha ) = split( /[._]/, $VERSION, 4 );
+
+            $maj =~ s/v//;
+
+            if ( $buildtype eq 'release' ) {
+
+                # Ready to release, remove alpha suffix
+                $alpha = '';
+            }
+            elsif ( $buildtype eq 'major' ) {
+
+      # Starting a new major release, increment, reset minor & patch, set alpha.
+                $maj++;
+                $min   = 0;
+                $pat   = 0;
+                $alpha = '001';
+            }
+            elsif ( $buildtype eq 'minor' ) {
+
+              # Starting a new minor release, increment, reset patch, set alpha.
+                $min++;
+                $pat   = 0;
+                $alpha = '001';
+            }
+            elsif ( $buildtype eq 'patch' ) {
+
+                # New patch release, increment and set alpha
+                $pat++;
+                $alpha = '001';
+            }
+            elsif ( $buildtype eq 'next' ) {
+
+   # Just next in sequence,  If not alpha, increment patch, then increment alpha
+                if ($alpha) {
+                    $alpha++;
+                }
+                else {
+                    $pat++;
+                    $alpha = '001';
+                }
+            }
+            else {
+                $pat++;
+                $alpha = '001';
             }
 
-            # SMELL: should really check that the name actually *follows* the
-            # last name generated
-            $name = 'Foswiki-' . $name;
-            open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
-            local $/ = undef;
-            my $content = <PM>;
-            close(PM);
+            my $newver = "v$maj.$min.$pat";
+            $newver .= "_$alpha" if ($alpha);
+
+            $content =~
+s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    \$VERSION = '$newver';/sm;
+
+            if (
+                Foswiki::Contrib::Build::ask(
+                    "Do you want to name this release?", 'n'
+                )
+              )
+            {
+                $name = Foswiki::Contrib::Build::prompt(
+                    "Enter release name (alpha, BetaN, or RCn)", '' );
+                while ( $name !~ /^(alpha|Beta\d|RC\d)?$/ ) {
+                    $name = Foswiki::Contrib::Build::prompt(
+                        "Enter name of this release (alpha, Beta# or RC#: ",
+                        $name );
+                }
+            }
+
+            my $rel = 'Foswiki-' . "$maj.$min.$pat";
+            $rel .= "_$alpha" if ($alpha);
+            $rel .= "-$name"  if ($name);
+
+            $name = $rel;
+
+            print "Building Release: $rel from Version: $newver\n";
+
+            exit;
+
             $content =~ /\$RELEASE\s*=\s*'(.*?)'/;
-            $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$name$2/;
+            $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$rel$2/;
             open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
             print PM $content;
             close(PM);
@@ -134,26 +219,25 @@ END
             # Foswiki.pm before building.
             my $tim = 'BUILD ' . $name . ' at ' . gmtime() . ' GMT';
             if ( $cvs eq 'svn' ) {
-                my $cmd = "svn propset LASTBUILD '$tim' ../lib/Foswiki.pm";
-                print `$cmd`;
 
-                #print "$cmd\n";
-                die $@ if $@;
-                $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-                print `$cmd`;
+                my $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
 
-                #print "$cmd\n";
+                #print `$cmd`;
+
+                print "$cmd\n";
                 die $@ if $@;
             }
             else {
                 my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-                print `$cmd`;
+
+                #print `$cmd`;
+                print "$cmd\n";
                 die $@ if $@;
             }
-
         }
         else {
-            $name = 'Foswiki';
+            # This is a rebuild, just use the same name.
+            $name = "$RELEASE";
         }
     }
 
