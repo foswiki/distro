@@ -277,7 +277,7 @@ s/%BUTTON_NEXT%/htmlButton('Next', "$viewUrl$qstring#$next", 'next.gif', 'Next s
 
     # s
     $theButtons =~
-s/%BUTTON_START%/htmlButton('Start', "$viewUrl$qstring#1", 'startpres.gif', 'Start presentation')/e;
+s/%BUTTON_START%/%BUTTON{"%MAKETEXT{"Start presentation"}%" accesskey="s" href="$viewUrl$qstring#1" icon="page_white_powerpoint"}%/;
 
     # e
     my $anchor = 'StartPresentation';
