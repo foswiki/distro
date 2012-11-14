@@ -3,6 +3,7 @@ Apache::Htpasswd,>=0,cpan,Optional, may be required for ApacheHtpasswd password 
 Archive::Tar,>=0,cpan,Optional, may be required by the Extensions Installer in configure if command line tar or unzip is not available
 Authen::SASL,>=2.00,cpan,Optional, required for sending mail with Net::SMTP when server requires authentication
 B::Deparse,>=0,cpan,Required, for base Foswiki
+Class::Load,>=0.20,cpan,Required, for base Foswiki
 Carp,>=0,cpan,Required, for base Foswiki
 CGI,>=3.15,cpan,Required, for base Foswiki (Versions 2.89, 3.37, 3.43, and 3.47 must be avoided. Most version from 3.15 and onwards should work)
 CGI::Cookie,>=1.24,cpan,Optional, required for Sessions support, available from the CPAN archive.
