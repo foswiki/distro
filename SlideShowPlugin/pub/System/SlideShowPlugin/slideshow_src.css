@@ -174,13 +174,11 @@ a.slideshowBtnLast:hover {
 .slideshowJumpInput {
 	background-image:url(buttons.gif);
 	background-position:-94px 0;
-	width:39px;
-	height:24px;
 }
 .slideshowJumpInputField,
 .slideshowJumpSlideMax {
 	font-size:1em;
-	padding:3px;
+	padding: 2px 3px !important;
 	border:none;
 	background:none;
 	height:18px;

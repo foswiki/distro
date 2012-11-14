@@ -85,29 +85,14 @@ This is the code used in the [[Sandbox.WebHome]] form:
 
 <verbatim class="foswikiHidden">
 
-%STARTSECTION{"newtopic" override=""}%%INCLUDE{
-    "%override%,%TOPIC%"
-    section="js"
-}%%INCLUDE{
-    "%override%,%TOPIC%"
-    section="formstart"
-}%%INCLUDE{
-    "%override%,%TOPIC%"
-    section="topicname"
-}%%INCLUDE{
-    "%override%,%TOPIC%"
-    section="submit"
-}% %INCLUDE{
-    "%override%,%TOPIC%"
-    section="topicnamefeedback"
-}%%INCLUDE{
-    "%override%,%TOPIC%"
-    section="errorfeedback"
-}%%INCLUDE{
-    "%override%,%TOPIC%"
-    section="formend"
+%STARTSECTION{"newtopic" override="" sectionlist="js, formstart, topicname, submit, topicnamefeedback, errorfeedback, formend"}%%FORMAT{
+    "%sectionlist%"
+    type="string"
+    format="$percntINCLUDE{
+    $quot%override%,%TOPIC%$quot
+    section=$quot$item$quot
+}$percnt"
 }%%ENDSECTION{"newtopic"}%
-
 
 %STARTSECTION{"js"}%%TMPL:P{"JavascriptFiles/foswikiString"}%%TMPL:P{
 	"LIBJS"
@@ -127,6 +112,17 @@ This is the code used in the [[Sandbox.WebHome]] form:
 %STARTSECTION{"formstart" defaultweb="%INCLUDINGWEB%"}%<form name="newtopicform" action="%SCRIPTURLPATH{manage}%/%defaultweb%/" method="post">
 <input type="hidden" name="action" value="create" />
 <input type="hidden" name="onlynewtopic" value="on" />%ENDSECTION{"formstart"}%
+
+%STARTSECTION{"webname"}%    <select name="defaultweb" class="foswikiSelect"> 
+     <option>Sandbox</option>
+    %SEARCH{
+        type="query"
+        web="all,-Sandbox"
+        topic="%WEBPREFSTOPIC%"
+        "1"
+        format="<option>$web</option>"
+        nonoise="on"
+    }% </select>%ENDSECTION{"webname"}%
 
 %STARTSECTION{"topicname"}%<input type="text" class="foswikiInputField" name="topic" size="40" placeholder="%IF{
     "defined placeholder"

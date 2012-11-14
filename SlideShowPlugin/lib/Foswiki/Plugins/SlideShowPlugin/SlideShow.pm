@@ -75,7 +75,6 @@ sub handler {
         # in presentation mode
         # do not write the topic text when in slideshow mode
 
-        _addHeader();
         my $tmplText = readTmplText( $theWeb, $args );
         trimSpaces($tmplText);
 
@@ -352,16 +351,15 @@ sub readTmplText {
 
     my $tmplTopic = Foswiki::Func::extractNameValuePair( $theArgs, "template" );
     unless ($tmplTopic) {
-        $theWeb = $installWeb;
         $tmplTopic =
           Foswiki::Func::getPreferencesValue("SLIDESHOWPLUGIN_TEMPLATE")
           || "SlideShowPlugin";
     }
-    if ( $tmplTopic =~ /^([^\.]+)\.(.*)$/o ) {
-        $theWeb    = $1;
-        $tmplTopic = $2;
-    }
+    ( $theWeb, $tmplTopic ) =
+      Foswiki::Func::normalizeWebTopicName( $installWeb, $tmplTopic );
     my ( $meta, $text ) = Foswiki::Func::readTopic( $theWeb, $tmplTopic );
+
+    _addHeader( $theWeb, $tmplTopic );
 
     # remove everything before %STARTINCLUDE% and after %STOPINCLUDE%
     $text =~ s/.*?%STARTINCLUDE%//os;
@@ -418,11 +416,22 @@ Add CSS and Javascript to head.
 =cut
 
 sub _addHeader {
+    my ( $tmplWeb, $tmplTopic ) = @_;
+
+    if (
+        !Foswiki::Func::attachmentExists(
+            $tmplWeb, $tmplTopic, 'slideshow.css'
+        )
+      )
+    {
+        $tmplWeb   = '%SYSTEMWEB%';
+        $tmplTopic = 'SlideShowPlugin';
+    }
 
     return if $addedHead;
-    my $cssHeader = <<'EOCSS';
+    my $cssHeader = <<"EOCSS";
 <style type='text/css' media='all'>
-@import url('%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css');
+\@import url('\%PUBURL\%/$tmplWeb/$tmplTopic/slideshow.css');
 </style>
 EOCSS
     Foswiki::Func::addToZone( 'head', 'SLIDESHOWPLUGIN/css', $cssHeader );
