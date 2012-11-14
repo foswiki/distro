@@ -51,8 +51,10 @@ use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
 
-use 5.006;         # First version to accept v-numbers.
-require v5.8.8;    # see http://foswiki.org/Development/RequirePerl588
+use 5.006;                        # First version to accept v-numbers.
+
+#SMELL:  Perl 5.10.0 on Mac OSX Snow Leopard warns "v-string in use/require non-portable"
+require 5.008_008;    # see http://foswiki.org/Development/RequirePerl588
 
 # Site configuration constants
 our %cfg;
