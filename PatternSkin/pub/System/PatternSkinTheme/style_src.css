@@ -2018,8 +2018,8 @@ textarea.foswikiTextareaRawView:focus {
 /* PATTERNTOOLBAR */
 .patternToolBar > a:link,
 .patternToolBar > a:visited,
-.patternToolBar > .foswikiRequiresChangePermission > a:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited {
+.patternToolBar > span > a:link,
+.patternToolBar > span > a:visited {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
@@ -2051,39 +2051,39 @@ textarea.foswikiTextareaRawView:focus {
 }
 .patternToolBar > a:link:first-child,
 .patternToolBar > a:visited:first-child,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:first-child,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:first-child {
+.patternToolBar > span > a:link:first-child,
+.patternToolBar > span > a:visited:first-child {
   *margin-left: 0;
 }
 .patternToolBar > a:link .foswikiIcon,
 .patternToolBar > a:visited .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiIcon {
+.patternToolBar > span > a:link .foswikiIcon,
+.patternToolBar > span > a:visited .foswikiIcon {
   vertical-align: middle;
   line-height: .5;
 }
 .patternToolBar > a:link,
 .patternToolBar > a:visited,
-.patternToolBar > .foswikiRequiresChangePermission > a:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited,
+.patternToolBar > span > a:link,
+.patternToolBar > span > a:visited,
 .patternToolBar > a:link:link,
 .patternToolBar > a:visited:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:link {
+.patternToolBar > span > a:link:link,
+.patternToolBar > span > a:visited:link {
   text-decoration: none;
 }
 .patternToolBar > a:link,
 .patternToolBar > a:visited,
-.patternToolBar > .foswikiRequiresChangePermission > a:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited,
+.patternToolBar > span > a:link,
+.patternToolBar > span > a:visited,
 .patternToolBar > a:link:link,
 .patternToolBar > a:visited:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:link,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:link,
+.patternToolBar > span > a:link:link,
+.patternToolBar > span > a:visited:link,
 .patternToolBar > a:link:visited,
 .patternToolBar > a:visited:visited,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:visited,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:visited {
+.patternToolBar > span > a:link:visited,
+.patternToolBar > span > a:visited:visited {
   color: #555555;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   background-color: #f3f3f3;
@@ -2104,44 +2104,44 @@ textarea.foswikiTextareaRawView:focus {
 }
 .patternToolBar > a:link .foswikiIcon,
 .patternToolBar > a:visited .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiIcon,
+.patternToolBar > span > a:link .foswikiIcon,
+.patternToolBar > span > a:visited .foswikiIcon,
 .patternToolBar > a:link:link .foswikiIcon,
 .patternToolBar > a:visited:link .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:link .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:link .foswikiIcon,
+.patternToolBar > span > a:link:link .foswikiIcon,
+.patternToolBar > span > a:visited:link .foswikiIcon,
 .patternToolBar > a:link:visited .foswikiIcon,
 .patternToolBar > a:visited:visited .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:visited .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:visited .foswikiIcon {
+.patternToolBar > span > a:link:visited .foswikiIcon,
+.patternToolBar > span > a:visited:visited .foswikiIcon {
   color: #555555;
 }
 .patternToolBar > a:link .foswikiCaret,
 .patternToolBar > a:visited .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiCaret,
+.patternToolBar > span > a:link .foswikiCaret,
+.patternToolBar > span > a:visited .foswikiCaret,
 .patternToolBar > a:link:link .foswikiCaret,
 .patternToolBar > a:visited:link .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:link .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:link .foswikiCaret,
+.patternToolBar > span > a:link:link .foswikiCaret,
+.patternToolBar > span > a:visited:link .foswikiCaret,
 .patternToolBar > a:link:visited .foswikiCaret,
 .patternToolBar > a:visited:visited .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:visited .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:visited .foswikiCaret {
+.patternToolBar > span > a:link:visited .foswikiCaret,
+.patternToolBar > span > a:visited:visited .foswikiCaret {
   border-top-color: rgba(85, 85, 85, 0.4);
 }
 .patternToolBar > a:link:hover,
 .patternToolBar > a:visited:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:hover,
+.patternToolBar > span > a:link:hover,
+.patternToolBar > span > a:visited:hover,
 .patternToolBar > a:link.foswikiActive,
 .patternToolBar > a:visited.foswikiActive,
-.patternToolBar > .foswikiRequiresChangePermission > a:link.foswikiActive,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited.foswikiActive,
-.patternToolBar > a:link > .foswikiRequiresChangePermission a:hover,
-.patternToolBar > a:visited > .foswikiRequiresChangePermission a:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:link > .foswikiRequiresChangePermission a:hover,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited > .foswikiRequiresChangePermission a:hover {
+.patternToolBar > span > a:link.foswikiActive,
+.patternToolBar > span > a:visited.foswikiActive,
+.patternToolBar > a:link > span a:hover,
+.patternToolBar > a:visited > span a:hover,
+.patternToolBar > span > a:link > span a:hover,
+.patternToolBar > span > a:visited > span a:hover {
   color: #484848;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   background-color: #e6e6e6;
@@ -2163,36 +2163,36 @@ textarea.foswikiTextareaRawView:focus {
 }
 .patternToolBar > a:link:hover .foswikiIcon,
 .patternToolBar > a:visited:hover .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:hover .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:hover .foswikiIcon,
+.patternToolBar > span > a:link:hover .foswikiIcon,
+.patternToolBar > span > a:visited:hover .foswikiIcon,
 .patternToolBar > a:link.foswikiActive .foswikiIcon,
 .patternToolBar > a:visited.foswikiActive .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link.foswikiActive .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited.foswikiActive .foswikiIcon,
-.patternToolBar > a:link > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-.patternToolBar > a:visited > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:link > .foswikiRequiresChangePermission a:hover .foswikiIcon,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited > .foswikiRequiresChangePermission a:hover .foswikiIcon {
+.patternToolBar > span > a:link.foswikiActive .foswikiIcon,
+.patternToolBar > span > a:visited.foswikiActive .foswikiIcon,
+.patternToolBar > a:link > span a:hover .foswikiIcon,
+.patternToolBar > a:visited > span a:hover .foswikiIcon,
+.patternToolBar > span > a:link > span a:hover .foswikiIcon,
+.patternToolBar > span > a:visited > span a:hover .foswikiIcon {
   color: #484848;
 }
 .patternToolBar > a:link:hover .foswikiCaret,
 .patternToolBar > a:visited:hover .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:link:hover .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited:hover .foswikiCaret,
+.patternToolBar > span > a:link:hover .foswikiCaret,
+.patternToolBar > span > a:visited:hover .foswikiCaret,
 .patternToolBar > a:link.foswikiActive .foswikiCaret,
 .patternToolBar > a:visited.foswikiActive .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:link.foswikiActive .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited.foswikiActive .foswikiCaret,
-.patternToolBar > a:link > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-.patternToolBar > a:visited > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:link > .foswikiRequiresChangePermission a:hover .foswikiCaret,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited > .foswikiRequiresChangePermission a:hover .foswikiCaret {
+.patternToolBar > span > a:link.foswikiActive .foswikiCaret,
+.patternToolBar > span > a:visited.foswikiActive .foswikiCaret,
+.patternToolBar > a:link > span a:hover .foswikiCaret,
+.patternToolBar > a:visited > span a:hover .foswikiCaret,
+.patternToolBar > span > a:link > span a:hover .foswikiCaret,
+.patternToolBar > span > a:visited > span a:hover .foswikiCaret {
   border-top-color: rgba(72, 72, 72, 0.4);
 }
 .patternToolBar > a:link .foswikiAccessKey,
 .patternToolBar > a:visited .foswikiAccessKey,
-.patternToolBar > .foswikiRequiresChangePermission > a:link .foswikiAccessKey,
-.patternToolBar > .foswikiRequiresChangePermission > a:visited .foswikiAccessKey {
+.patternToolBar > span > a:link .foswikiAccessKey,
+.patternToolBar > span > a:visited .foswikiAccessKey {
   border: none;
 }
 
