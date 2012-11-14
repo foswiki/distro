@@ -1,0 +1,61 @@
+%META:TOPICINFO{author="ProjectContributor" date="1282135389" format="1.1" version="1"}%
+%META:TOPICPARENT{name="SlideShowPlugin"}%
+
+This is a short example of a slideshow.
+You should see a "Start presentation" button if this plugin is installed:
+
+%SLIDESHOWSTART%
+
+---++ Introduction
+This is slide one. 
+
+%TOC%
+
+---++ Hamlet meets his father's ghost
+
+   * Hamlet learns that his father was killed by his brother Claudius and Queen Gertrude.
+   * Claudius has quickly become king.
+
+---++ This is rather upsetting
+
+   * The ghost demands revenge.
+   * Hamlet agrees.
+   * His friends swear to keep what they have seen a secret.
+
+---++ Meanwhile...
+
+   * the King's advisor Polonius meets his daughter Ophelia. Hamlet has upset her.
+   * Hamlet is acting mad
+   
+   _this slide has hidden comments_
+   
+---+++ Comments
+
+   * This text is not shown in the slide if HIDECOMMENTS is set to on.
+   * It can have
+   * many
+   * more
+   * bullets
+
+---++ Please tune this template
+
+%IF{"$'URLPARAM{slideshow}'='on'" then="http://www.ibiblio.org/wm/paint/auth/durer/large-turf.jpg"}%
+
+---+++ Comments
+
+One-liner: this text is not shown in the slide if HIDECOMMENTS is set to "on".
+%SLIDESHOWEND%
+
+This text is not part of the slideshow.
+
+---++ <nop>%TOPIC% preferences
+
+You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+%JQREQUIRE{"chili"}%
+-->
+
+
+-- %WIKIUSERNAME% - %DATE% <br />
+

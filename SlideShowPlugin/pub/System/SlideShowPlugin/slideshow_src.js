@@ -102,9 +102,9 @@ jQuery(document).ready(
 		);
 		
 		/*
-		Next button moves one slide forward. Same as clicking on the slide, but only if we are showing the controls at the top.
+		Next button moves one slide forward.
 		*/
-		$('a.slideshowBtnNext,.slideshowHasTopControls').click(
+		$('a.slideshowBtnNext').click(
 			function() {
 				goToNextSlide();
 				return false;  
