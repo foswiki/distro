@@ -1155,18 +1155,6 @@ our $VERSION = '2.1';
 
 __DATA__
 <<<< MANIFEST >>>>
-bin/shbtest1,0755,
-data/Sandbox/TestTopic1.txt,0644,Documentation (noci)
-data/Sandbox/TestTopic43.txt,0644,Documentation
-data/Sandbox/Subweb/TestTopic43.txt,0644,Documentation
-pub/Sandbox/TestTopic1/file.att,0664, (noci)
-pub/Sandbox/TestTopic43/file.att,0664,
-pub/Sandbox/TestTopic43/file2.att,0664,
-pub/Sandbox/Subweb/TestTopic43/file3.att,0644,Documentation
-pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att,0644,Documentation
-tools/shbtest2,0755,
-
-<<<< MANIFEST2 >>>>
 bin/shbtest1,0755,1a9a1da563535b2dad241d8571acd170,
 data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
 data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
