@@ -1296,12 +1296,13 @@ sub applyExtraConfig {
     local @INC = ( @INC, File::Spec->catfile( $basedir, 'lib' ) );
     my $LocalSitecfg = File::Spec->catfile( $basedir, 'lib', 'LocalSite.cfg' );
     die "'$LocalSitecfg' not exist" unless -f $LocalSitecfg;
+    require Foswiki::Configure::Load;
     require Foswiki::Configure::Valuer;
     require Foswiki::Configure::Root;
     require Foswiki::Configure::FoswikiCfg;
 
     foreach my $conf (@configs) {
-        my $what = ( $conf =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
+        my $what = ( $module =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
         my $cfg =
           File::Spec->catfile( $basedir, 'lib', 'Foswiki', $what, $module,
             "$conf.cfg" );
@@ -1398,8 +1399,10 @@ sub run {
         my $libDir = installModule($module);
         if ($libDir) {
             push( @installedModules, $module );
-            if ( exists $extensions_extra_config{$module} ) {
+            if ( exists $extensions_extra_config{$module} && $installing ) {
                 applyExtraConfig( $module, $libDir ) if $installing;
+                enablePlugin( $module, $installing, $libDir )
+                  if $module =~ /Plugin$/;
             }
             if ( ( !$installing || $autoenable ) && $module =~ /Plugin$/ ) {
                 enablePlugin( $module, $installing, $libDir );
