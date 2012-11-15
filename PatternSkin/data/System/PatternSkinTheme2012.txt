@@ -53,6 +53,33 @@ This is just a stopgap for now, Arthur is working on a real skin :)
 </div>
 </form>
 
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+---+++ set these theme settings on your user topic: %MAINWEB%.%WIKINAME%s
+%INCLUDE{
+    "%SYSTEMWEB%.WebCreateNewTopicComponents"
+    override="%WEB%.%TOPIC%"
+    sectionlist="themesettings"    
+    section="newtopic"
+    defaultweb="%MAINWEB%"
+    newtopic="%WIKINAME%"
+}%
+</div></div>
+
+<!--
+<verbatim>
+Yes, this need to be re-done by pushing the bits to the WebCreateNewTopicComponents topic and generalizing to yet another list
+%STARTSECTION{"themesettings"}%
+<form name="newtopicform" action="%SCRIPTURLPATH{save}%/%defaultweb%/" method="post">
+<input type="hidden" name="topic" value="%newtopic%" />
+<input type="hidden" name="action" value="save" />
+<input type="hidden" name="onlynewtopic" value="off" />
+%FORMAT{"SKIN, FOSWIKI_LAYOUT_URL, FOSWIKI_STYLE_URL, FOSWIKI_COLORS_URL, PATTERNSKIN_JQUERY_THEME, PATTERNSKIN_COLUMNS, PATTERNSKIN_THEME_VARIANT, WEBHEADERART, WEBHEADERBGCOLOR" type="string" format="<input type='hidden' name='Set+$item' value='$percnt$item$percnt' />"}%
+<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Set this Skin and theme for this User"}%' />
+</form>%ENDSECTION{"themesettings"}%
+</verbatim>
+-->
+
 %IF{"$'URLPARAM{viewtheme}'" then='$percntINCLUDE{$quot%BASETOPIC%$quot section=$quotstoresettings$quot}$percnt'}%
 
 <verbatim class="foswikiHidden">
@@ -63,7 +90,7 @@ This is just a stopgap for now, Arthur is working on a real skin :)
 <form name="select_all">
 <textarea readonly="readonly" rows="15" cols="120" name="copypaste" class="foswikiInputFieldReadOnly foswikiSmallish" style="width:99%">The overall skin: %SYSTEMWEB%.PatternSkinTheme2012
 
-   * Set SKIN = famfamfam,pattern
+   * Set SKIN = famfamfam,natedit,pattern
 Skin styles:
    * Set FOSWIKI_LAYOUT_URL = %DISPLAY_FOSWIKI_LAYOUT_URL%
    * Set FOSWIKI_STYLE_URL = %DISPLAY_FOSWIKI_STYLE_URL%
