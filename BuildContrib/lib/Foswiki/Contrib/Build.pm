@@ -401,12 +401,12 @@ sub new {
         if ( $this->{SVNREV} ) {
             use version 0.77;
             my $rev = sprintf( "%06d", $this->{SVNREV} );
-            $proposed = version->parse("1.0$this->{SVNREV}")->normal()
+            $proposed = version->parse("1.$rev")->normal()
               if $this->{SVNREV};
         }
         print STDERR <<ERROR;
 
-SVN keword based version string detected.  \$Date or \$Rev detected. 
+SVN keword based version string detected.  \$Date or \$Rev detected.
 SVN revision strings are no longer supported.
 Please update to a real Perl version string.
 
@@ -710,8 +710,7 @@ sub _get_repo_information {
             # when auto-porting extensions
             # warn "WARNING: $@";
             $maxd = time() unless $maxd;
-            $max = Foswiki::Time::formatTime( $maxd, '$year$mo$day', 'gmtime' )
-              unless $max;
+            $this->{SVNREV} = $max if defined $max;
 
             # People shouldn't test $@ for that reason, but they do...
             $@ = undef;
@@ -719,7 +718,6 @@ sub _get_repo_information {
     }
 
     $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
-    $this->{SVNREV} = $max if defined $max && $max < 20120000;
 
     # If not checked in, or we can't get to SVN, use the current time.
     $this->{DATE} ||= Foswiki::Time::formatTime( time(), '$iso', 'gmtime' );

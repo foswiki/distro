@@ -40,6 +40,7 @@ my $gitdir;
 sub new {
     my $class = shift;
     my $autoBuild;    #set if this is an automatic build
+    my $commit;       #set if changes should be committed to the repo
     my $name;
 
     if ( my $gitdir = findPathToDir('.git') ) {
@@ -71,6 +72,12 @@ sub new {
             $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $1;
             $autoBuild = 1;
         }
+        if ( $name eq '-commit' ) {
+
+            # Commit the changes back to the repo
+            $commit = 1;
+            $name   = undef;
+        }
     }
 
     print <<END;
@@ -80,18 +87,6 @@ Note: DO NOT ATTEMPT TO GENERATE A RELEASE UNLESS ALL UNIT TESTS PASS.
 The unit tests are a critical part of the release process, as they
 establish the correct baseline functionality. If a unit test fails,
 any release package generated from that code is USELESS.
-
-Enter the type of build.   If this is for your personal use, enter "test"
-Enter "major" or "minor" if the major or minor version number should be incremented.
-Press enter and the next "alpha" patch version will be assigned.  1.1.6 -> 1.1.7_001.
-"release" will remove the alpha designator.   1.1.7_001 -> 1.1.7.
-
-Anything other than "test" or "rebuild" will force a commit of a new version to the respository
-
-\$RELEASE is automatically derived from the calculated \$VERSION, plus
-a name appended for descriptive purposes.
-
-This will be translated to appropriate package and topic names.
 
 I'm now looking in the tags for the designation of the *last* release....
 END
@@ -115,7 +110,27 @@ END
         my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
         eval $release if ($release);
 
-        print "\nCurrent version $VERSION, release $RELEASE\n";
+        print <<END;
+
+Current version of Foswiki.pm: $VERSION, RELEASE: $RELEASE
+
+Enter the type of build.
+   - "test" or "rebuild" (the default) will rebuild the above version without modifying any files.
+   - "major", "minor", or "patch" will increment the release string for that level
+      and add _001 alpha version.
+   - "next" does the right thing incrementing the alpha level or the patch + alpha.
+   - "release" will remove the "_nnn" alpha level for an official release
+
+\$RELEASE is automatically derived from the calculated \$VERSION, plus
+a name appended for descriptive purposes.
+
+END
+        print <<END unless $commit;
+-commit option was not specified, nothing will be committed to the $cvs repository.
+If you are building a real release, Ctrl-c now and rerun:
+   perl ../tools/build.pl release -commit
+ 
+END
 
         my $buildtype = Foswiki::Contrib::Build::prompt(
 "Enter the type of build:  If this is for personal use, enter \"test\"
@@ -182,7 +197,7 @@ or just press enter.",
             $newver .= "_$alpha" if ($alpha);
 
             $content =~
-s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    \$VERSION = '$newver';/sm;
+s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.77; \$VERSION = version->declare('$newver');/sm;
 
             if (
                 Foswiki::Contrib::Build::ask(
@@ -207,8 +222,6 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    \$VERSION = '$n
 
             print "Building Release: $rel from Version: $newver\n";
 
-            exit;
-
             $content =~ /\$RELEASE\s*=\s*'(.*?)'/;
             $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$rel$2/;
             open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
@@ -222,15 +235,14 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    \$VERSION = '$n
 
                 my $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
 
-                #print `$cmd`;
-
+                print `$cmd` if $commit;
                 print "$cmd\n";
                 die $@ if $@;
             }
             else {
                 my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
 
-                #print `$cmd`;
+                print `$cmd` if $commit;
                 print "$cmd\n";
                 die $@ if $@;
             }
