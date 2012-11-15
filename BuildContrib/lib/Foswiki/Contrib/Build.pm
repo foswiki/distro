@@ -176,12 +176,13 @@ ARGH
 
     # Find the project lib root
 
-    if ( -e "$buildpldir/../../../Foswiki" ) {
+    if ( -e "$buildpldir/../../../Foswiki" || -e "$buildpldir/../lib/Foswiki" )
+    {
         $libpath = _findRelativeTo( $buildpldir, 'lib/Foswiki' );
         $targetProject = 'Foswiki';
     }
     else {
-        warn "Assuming this is a TWiki project\n";
+        print STDERR "Assuming this is a TWiki project\n";
         $libpath = _findRelativeTo( $buildpldir, 'lib/TWiki' );
         $targetProject = 'TWiki';
     }
