@@ -43,3 +43,5 @@ These Wiki Applications have some pre-defined INCLUDE sections that let you add 
 %TMPL:END%%{
 
 }%
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%

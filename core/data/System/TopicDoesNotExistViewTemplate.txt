@@ -21,3 +21,5 @@
 %TMPL:DEF{"searchMoved"}%%SEARCH{ "moved.from='%BASEWEB%.%BASETOPIC%'" nosearch="on" nototal="on" type="query" format="<div class='foswikiNotification'>$percentMAKETEXT{\"A topic with this name did exist, but has been renamed or moved to [_1].\" args=\"[[$web.$topic]]\"}$percent</div>" }%%TMPL:END%
 
 %TMPL:DEF{"searchSimilarTopics"}%%SEARCH{"%BASETOPIC%" limit="10" scope="topic" web="%BASEWEB%" nonoise="on" order="modified" reverse="on"}%%SEARCH{"%BASETOPIC%" limit="1" scope="topic" web="%BASEWEB%" nonoise="on" format="$percentBR$percent$percentICON{arrowbright}$percent [[$percentSCRIPTURLPATH{\"view\"}$percent/$percentBASEWEB$percent/WebSearch?scope=topic;search=$percentBASETOPIC$percent][$percentMAKETEXT{\"Search more topics in this web\"}$percent]]$percentBR$percent"}% %ICON{arrowbright}% [[%SCRIPTURLPATH{"view"}%/%BASEWEB%/WebSearch?scope=topic;web=all;search=%BASETOPIC%][%MAKETEXT{"Search in all webs"}%]]%TMPL:END%
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%

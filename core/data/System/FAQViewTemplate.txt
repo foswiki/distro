@@ -30,3 +30,5 @@
 }%%TMPL:DEF{"form"}%%TMPL:END%%{
 ===================================================
 </verbatim>}%
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%

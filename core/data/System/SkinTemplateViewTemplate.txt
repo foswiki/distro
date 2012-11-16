@@ -7,5 +7,10 @@ So should not be viewed directly. Use %TMPL:P{"raw_link"}% to see the Template s
 
 *%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.SkinTemplates][Skin Templates]]
 
+Set =VIEW_TEMPLATE=SkinTemplateView= to a topic that is a Skin Template
+
+
 #TopicEnd
 </div>%TMPL:END%
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
