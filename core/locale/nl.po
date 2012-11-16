@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-08 01:34+0200\n"
+"PO-Revision-Date: 2012-11-16 16:38+0200\n"
 "Last-Translator: Arthur <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -4006,9 +4006,8 @@ msgid "View"
 msgstr "bekijken"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
-msgstr "Bekijk totale paginageschiedenis"
+msgstr "Bekijk gehele paginageschiedenis"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
