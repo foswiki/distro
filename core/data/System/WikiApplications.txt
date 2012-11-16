@@ -14,7 +14,9 @@ _This page will help you create new Wiki Applications that use DataForms_
 %INCLUDE{
     "%SYSTEMWEB%.WebCreateNewTopicComponents"
     override="%WEB%.%TOPIC%"
+    sectionlist="js, formstart, webname, topicname, applicationfields, submit, topicnamefeedback, errorfeedback, formend"    
     section="newtopic"
+    defaultweb="/"
     newtopic="WikiAppAUTOINC0"
 }%
 </div></div>
@@ -31,7 +33,7 @@ _This page will help you create new Wiki Applications that use DataForms_
 
 ---+++ TODO:
    * add a 'topic exists' warning js to the WebCreateNewTopicComponents sections
-       * use js to test that the selected App topic name is not already used
+      * use js to test that the selected App topic name is not already used
    * fix http://foswiki.org/Tasks/Item11765
    * http://foswiki.org/Tasks/Item11766 so I can put back the =createform= section
    * extract the EDITTABLE definition so that its dynamic to allow for pluggable datatypes
@@ -94,42 +96,20 @@ parameters:
 <input type="hidden" name="topicparent" value="%SYSTEMWEB%.WikiApplications" />
 <input type="hidden" name="formtemplate" value="%SYSTEMWEB%.WikiApplications" />
 <input type="hidden" name="templatetopic" value="%SYSTEMWEB%.WikiApplications" />
-<div class="foswikiFormStep">
-Select web to place the Wiki Application definition into: 
-    <select name="defaultweb" class="foswikiSelect"> 
-     <option>Sandbox</option>
-    %SEARCH{
-        type="query"
-        web="all,-Sandbox"
-        topic="%WEBPREFSTOPIC%"
-        "1"
-        format="<option>$web</option>"
-        nonoise="on"
-    }% </select>
-</div>
-<div class="foswikiFormStep">
-    Choose a topic prefix to use when creating new application data entries
-    <input type="text" name="PREFIX" value="Item" />
-</div>
-<div class="foswikiFormStep">
-    Description:
-    <input type="text" name="Description" value="" />
-</div>
 %ENDSECTION{"formstart"}%
 </verbatim>
 
 <verbatim>
-%STARTSECTION{"topicname"}%
-Enter the name of the Wiki Application
-%INCLUDE{
-    "%SYSTEMWEB%.WebCreateNewTopicComponents"
-    section="topicname"
-}%
-%INCLUDE{
-    "%SYSTEMWEB%.WebCreateNewTopicComponents"
-    section="wikiword"
-}%
-%ENDSECTION{"topicname"}%
+%STARTSECTION{"applicationfields"}%
+<div class="foswikiFormStep">
+---++++ Topic prefix for each Data:
+    <input type="text" name="PREFIX" value="Item" />
+</div>
+<div class="foswikiFormStep">
+---++++ Description
+    <input type="text" style="width: 100%;" name="Description" value="" />
+</div>%ENDSECTION{"applicationfields"}%
 </verbatim>
 %ENDSECTION{"exclude" type="templateonly"}%
 
+%META:FIELD{name="Description" attributes="" title="Description" value="The Foswiki WikiApplication builder"}%
