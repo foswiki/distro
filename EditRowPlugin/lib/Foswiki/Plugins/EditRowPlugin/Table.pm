@@ -65,10 +65,11 @@ sub new {
       : Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_DISABLE');
     $attrs->{disable} = $disable || '';
 
-    my $changerows =
-      defined( $attrs->{changerows} )
-      ? $attrs->{changerows}
-      : Foswiki::Func::getPreferencesValue('CHANGEROWS');
+    my $changerows = $attrs->{changerows};
+    if ( !defined($changerows) ) {
+        $changerows = Foswiki::Func::getPreferencesValue('CHANGEROWS');
+        $changerows = 'on' if ( $changerows eq '' );
+    }
     $attrs->{changerows} = $changerows;
 
     my $q =

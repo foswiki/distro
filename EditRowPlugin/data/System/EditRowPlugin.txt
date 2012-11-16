@@ -66,7 +66,7 @@ Parameters:
       * =date, &lt;size&gt;, &lt;initial value&gt;, &lt;DHTML date format&gt;= Date. Initial value and date format are both optional.
    * ==changerows== - Rows can be added and removed if ="on"=. Rows can be
      added but not removed if ="add"=. Defaults to the value of the
-     [[%SYSTEMWEB%.Macros][preference]] =CHANGEROWS=, or ="off"= if it isn't set.
+     [[%SYSTEMWEB%.Macros][preference]] =CHANGEROWS=, or ="on"= if it isn't set.
    * ==disable== - By default, the plugin shows both full table and individual row editing controls. You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full= (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=, then the <img src="%ATTACHURLPATH%/edittable.png" /> (edit table) button will be replaced with a <img src="%ATTACHURLPATH%/addrow.png" /> (add row) button. Defaults to the value of the
      [[%SYSTEMWEB%.Macros][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
    * ==buttons== - set to =left= (the default) or =right= to position edit controls in the first or last columns in the table. =buttons="right"= may be required if you are using other plugins that expect a certain column order.
@@ -185,7 +185,7 @@ Note that javascript editing is automatically disabled if:
 ---++ Preferences
 The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common with the !EditTablePlugin.
 | =QUIETSAVE= | Gives a default value for the =quietsave= parameter. Default is =off=. |
-| =CHANGEROWS= | Gives a default value for the =changerows= parameter. Default is =off=. |
+| =CHANGEROWS= | Gives a default value for the =changerows= parameter. Default is =on=. |
 Also, the plugin has a couple of its own settings:
 | =EDITROWPLUGIN_JS= | Usually the plugin expects to be able to use Javascript to generate controls. However sometimes users disable Javascript in the browser, so the plugin also generates a minimal set of fallback controls to give non-JS access to the main features, even if Javascript is disabled. You can use this preference to control whether Javascript is preferred, ignored, or assumed when generating the controls.<ul><li> =preferred= means "use JS if it's available, but keep the non-JS fallback controls visible", </li><li> =ignored= means "never use JS, only display the non-JS controls", </li><li> =assumed= means "assume that JS will be available in the browser, and don't display the fallback controls". </li></ul> You can control the setting on a per-table basis using the =js= parameter to the =EDITTABLE= macro. |
 | =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
