@@ -283,7 +283,7 @@ text="<style type='text/css' media='all'>
 "script"
 id="UserRegistrationValidation"
 requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
-text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/js.js'></script>"
+text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/validate.js'></script>"
 }%%ENDSECTION{"resources"}%
 
 
