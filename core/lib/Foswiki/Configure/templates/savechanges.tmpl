@@ -6,14 +6,19 @@
   <form method="post" action="${formAction}" enctype="multipart/form-data" name="SaveChanges">
     <input type="hidden" name="time" value="${time}"  />
 
-    <h2>You are about to update 
+    <h2>You are about to 
+        <#if modifiedCount gt 0> update </#if>
         <#if modifiedCount == 1>
 	  ${modifiedCount} setting
-	<#else>
+	</#if>
+        <#if modifiedCount gt 1>
 	  ${modifiedCount} settings
 	</#if>
-	<#if changePassword??>
-	     - and to change your password...
+	<#if changePassword gt 0 && modifiedCount gt 0>
+	     and change your password
+        </#if>
+        <#if changePassword gt 0 && modifiedCount == 0 >
+             change your password
         </#if>
     </h2>
     <#if changesList??>

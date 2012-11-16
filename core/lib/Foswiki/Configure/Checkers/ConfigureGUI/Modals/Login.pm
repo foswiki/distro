@@ -21,6 +21,21 @@ sub generateForm {
     my $this = shift;
     my ( $keys, $query, $session, $template ) = @_;
 
+    if (   saveAuthorized($session)
+        || $badLSC
+        || $query->auth_type
+        || Foswiki::Configure::UI::passwordState() eq 'PASSWORD_NOT_SET' )
+    {
+# Immediate login - already authenticated (should be rare), or password not set.
+
+        refreshLoggedIn($session);
+        refreshSaveAuthorized($session);
+
+        my $e = $this->NOTE("Entering Configuration utility.");
+
+        return $e . $this->FB_MODAL( 'u', "$scriptName" );
+    }
+
     $template->renderButton;
     $template->renderFeedbackWindow;
 
@@ -45,7 +60,7 @@ sub processForm {
 
     my $e = '';
 
-    unless ( saveAuthorized($session) || $badLSC ) {
+    unless ( saveAuthorized($session) || $badLSC || $query->auth_type ) {
         ( my $ok, $e ) = $template->passwordRequiredForm( $query, '' );
 
         # On error, the template has updated displayStatus, which will cause

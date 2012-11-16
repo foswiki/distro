@@ -30,7 +30,7 @@ sub generateForm {
         removePermitted => (
             $query->auth_type()
               && Foswiki::Configure::UI::passwordState() eq 'OK'
-        ) ? 1 : 01
+        ) ? 1 : 0
     );
 
     # Template is parsed twice intentionally.  See MODAL.pm for why.

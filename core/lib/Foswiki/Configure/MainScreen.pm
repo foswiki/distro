@@ -31,22 +31,36 @@ sub _authenticateConfigure {
         return;
     }
 
+    # Not logged-in and not using browser authentication
+    #
+    # Password is required if set, advised on main screen if not.
+
+    # Messages:
+    #  0: Password set, must be entered
+    #     Reminds how to reset
+    #  1: Password not set, advise allow login
+    #     N.B. Not set with browser auth doesn't require login (see above)
+
+    my $passwordProblem =
+      ( Foswiki::Configure::UI::passwordState() eq 'OK' ) ? 0 : 1;
+
     require Foswiki::Configure::ModalTemplates;
 
     my ( $template, $templateArgs ) = Foswiki::Configure::ModalTemplates->new;
 
-    my $displayStatus = 0;
-    unless ( $cfg{Password} ) {
-        $displayStatus = 8;
-    }
-    $template->addArgs( displayStatus => $displayStatus, logoutdata(), );
+    $template->addArgs( passwordProblem => $passwordProblem, logoutdata(), );
 
     my $html =
         Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin')
       . $template->extractArgs('login')
       . Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
 
-    $template->renderAutoActivator( 'loginButton', 'Login', 1 );
+    if ($passwordProblem) {
+        $template->renderButton( 'loginButton', 'Login' );
+    }
+    else {
+        $template->renderAutoActivator( 'loginButton', 'Login', 1 );
+    }
     $template->renderFeedbackWindow( 'loginFeedback', 'Login' );
 
     $html = Foswiki::Configure::UI::getTemplateParser()

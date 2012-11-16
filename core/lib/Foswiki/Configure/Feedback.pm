@@ -50,7 +50,7 @@ feedback request has been received.
         # feedback tags along with the main UI, but has a small window
         # for while login screens are being produced.
 
-        if ( loggedIn($session) ) {
+        if ( loggedIn($session) || $badLSC || $query->auth_type ) {
             refreshLoggedIn($session);
 
             return;
@@ -72,6 +72,13 @@ feedback request has been received.
         my $value = Foswiki::Configure::Value->new( 'UNKNOWN', keys => $keys );
 
         my $ui = Foswiki::Configure::UI->new($value);
+
+        if ( Foswiki::Configure::UI::passwordState() eq 'PASSWORD_NOT_SET' ) {
+
+            # Main screen or modal function will complain, so we don't want to
+            # duplicate that here.
+            return;
+        }
 
         my $checker =
           Foswiki::Configure::UI::loadChecker(

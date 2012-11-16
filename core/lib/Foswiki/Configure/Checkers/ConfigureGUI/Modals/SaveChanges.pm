@@ -30,26 +30,39 @@ sub generateForm {
 
     my $changesList = [];
     foreach my $key ( sortHashkeyList( keys %$updated ) ) {
-        my $valueString = join( ',', $query->param($key) ) || '';
+        next if ( $key =~ /^\{ConfigureGUI\}/ );
+        my $valueString;
+        my $type = $query->param("TYPEOF:$key") || 'UNKNOWN';
+        if ( $key =~ /password/i ) {
+            $valueString = '&bull;' x 9;
+        }
+        elsif ( $type eq 'BOOLEAN' ) {
+            $valueString = $query->param($key) ? 1 : 0;
+        }
+        else {
+            $valueString = join( ',', $query->param($key) );
+        }
         push( @$changesList, { key => $key, value => $valueString } );
     }
     my @items = sortHashkeyList( keys %$updated ) if $modified;
 
+    my $passChanged = ( defined $cart->param('{Password}') ) ? 1 : 0;
+
     $template->addArgs(
         items         => \@items,
         changesList   => $changesList,
-        modifiedCount => $modified,
+        modifiedCount => $modified - $passChanged,
         user          => ( $query->remote_user() || $ENV{REMOTE_USER} ),
     );
     $template->addArgs(
         displayStatus => (
-            ( $cart->param('{Password}') || $modified )
+            ( $passChanged || $modified )
             ? $MESSAGE_TYPE->{OK}
             : $MESSAGE_TYPE->{NONE}
         ),
     );
 
-    $template->addArgs( changePassword => 1 ) if ( $cart->param('{Password}') );
+    $template->addArgs( changePassword => $passChanged );
     my $passwordProblem =
       ( $query->auth_type() || Foswiki::Configure::UI::passwordState() eq 'OK' )
       ? 0
@@ -126,7 +139,7 @@ sub processForm {
 
     undef $ui;
 
-    my $passChanged = $cart->param('{Password}') ? 1 : 0;
+    my $passChanged = ( defined $cart->param('{Password}') ) ? 1 : 0;
 
     Foswiki::Configure::Feedback::Cart->empty($session);
 
@@ -138,14 +151,25 @@ sub processForm {
 
     my $changesList = [];
     foreach my $key ( sortHashkeyList( keys %$updated ) ) {
-        my $valueString = join( ',', $query->param($key) );
+        next if ( $key =~ /^\{ConfigureGUI\}/ );
+        my $valueString;
+        my $type = $query->param("TYPEOF:$key") || 'UNKNOWN';
+        if ( $key =~ /password/i ) {
+            $valueString = '&bull;' x 9;
+        }
+        elsif ( $type eq 'BOOLEAN' ) {
+            $valueString = $query->param($key) ? 1 : 0;
+        }
+        else {
+            $valueString = join( ',', $query->param($key) );
+        }
         push( @$changesList, { key => $key, value => $valueString } );
     }
     push @$changesList, { key => 'No configuration items changed', value => '' }
       unless (@$changesList);
 
     $template->addArgs(
-        modifiedCount   => $modified,
+        modifiedCount   => $modified - $passChanged,
         changesList     => $changesList,
         passwordChanged => $passChanged,
         fileUpdates     => $filesUpdated,
