@@ -3,8 +3,8 @@ package Foswiki::Plugins::EditRowPlugin;
 
 use strict;
 
-use version; our $VERSION = version->declare("v3.0.1");
-our $RELEASE           = '3.0.1';
+use version; our $VERSION = version->declare("v3.0.2");
+our $RELEASE           = '3.0.2';
 our $SHORTDESCRIPTION  = 'Inline edit for tables';
 our $NO_PREFS_IN_TOPIC = 1;
 

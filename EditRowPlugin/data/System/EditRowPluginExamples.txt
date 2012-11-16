@@ -39,8 +39,10 @@
 
 ---
 
-%EDITTABLE{ format="| label | text, 40 |" }%
-|*Key*|*Value*|
+%EDITTABLE{
+    format="| label | text, 40 |"
+    header="|*Key*|*Value*|"
+}%
 | Name: | John Smith |
 | Gender: | M %EDITCELL{select, 1, , F, M}% |
 | DOB: | 18 October 2007 %EDITCELL{date, 10}% |

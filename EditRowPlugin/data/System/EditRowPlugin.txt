@@ -67,7 +67,11 @@ Parameters:
    * ==changerows== - Rows can be added and removed if ="on"=. Rows can be
      added but not removed if ="add"=. Defaults to the value of the
      [[%SYSTEMWEB%.Macros][preference]] =CHANGEROWS=, or ="on"= if it isn't set.
-   * ==disable== - By default, the plugin shows both full table and individual row editing controls. You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full= (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=, then the <img src="%ATTACHURLPATH%/edittable.png" /> (edit table) button will be replaced with a <img src="%ATTACHURLPATH%/addrow.png" /> (add row) button. Defaults to the value of the
+   * ==disable== - By default, the plugin shows both full table and individual row editing controls.
+     You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full=
+     (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=,
+     then the <img src="%ATTACHURLPATH%/edittable.png" /> (edit table) button will be replaced with a
+     <img src="%ATTACHURLPATH%/addrow.png" /> (add row) button. Defaults to the value of the
      [[%SYSTEMWEB%.Macros][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
    * ==buttons== - set to =left= (the default) or =right= to position edit controls in the first or last columns in the table. =buttons="right"= may be required if you are using other plugins that expect a certain column order.
    * ==quietsave== - Quiet Save button is shown if ="on"=. Defaults to the
@@ -85,8 +89,7 @@ Parameters:
      to =headerrows="1"=) |
    * ==header== -
      Specify the single-row header format of a new table. For example,
-     ="%VBAR%*Food*%VBAR%*Drink*%VBAR%"=. Provided for compatibility with
-     EditTablePlugin, not recommended.
+     ="%VBAR%*Food*%VBAR%*Drink*%VBAR%"=. Provided to allow you to create a new table in a document, and to have a header that is truely readonly.
    * ==footerrows== -
      Number of rows to treat as footers. Footer rows are not 
      editable and will not be sorted. |

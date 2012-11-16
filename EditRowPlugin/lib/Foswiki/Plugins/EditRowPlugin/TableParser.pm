@@ -45,11 +45,9 @@ sub parse {
     foreach my $t ( @{ $this->{result} } ) {
         if ( UNIVERSAL::isa( $t, 'Foswiki::Tables::Table' ) ) {
             $t->{meta} = $meta;
-            if (  !scalar( @{ $t->{rows} } )
-                && defined( $t->{attrs}->{header} ) )
-            {
+            if ( defined( $t->{attrs}->{header} ) ) {
 
-                # Legacy: add a header if the header param is defined and
+                # add a header if the header param is defined and
                 # the table has no rows.
                 my $line     = $t->{attrs}->{header};
                 my $precruft = '';
@@ -57,9 +55,18 @@ sub parse {
                 my $postcruft = '';
                 $postcruft = $1 if $line =~ s/(\|\s*)$//;
                 my @cols = split( /\|/, $line, -1 );
+
+     #                my $row =
+     #                  $t->row_class->new( $t, $precruft, $postcruft, \@cols );
                 my $row =
-                  $t->{row_class}->new( $t, 1, $precruft, $postcruft, \@cols );
-                push( @{ $t->{rows} }, $row );
+                  $t->addRow(0);    #so that the internal table bits get updated
+                $row->setRow( \@cols );
+                $row->isHeader(1);
+                $t->{headerrows} = 1;
+
+#                unshift( @{ $t->{rows} }, $row );
+#test to see if there are both header & headerrows set, or if the parsed table already has the header in it
+#try to coaless, and to use these to set the header row to be read only
             }
         }
         else {

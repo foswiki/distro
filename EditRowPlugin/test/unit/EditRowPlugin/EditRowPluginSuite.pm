@@ -190,6 +190,10 @@ INPUT
 <input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
 | #REF0# |
 <input type="hidden" name="erp_action" value=""  /><input type="submit" name="erp_action" value="saveTableCmd" title="Save" class="ui-icon ui-icon-disk erpNoJS_button" /><input type="submit" name="erp_action" value="cancelCmd" title="Cancel" class="ui-icon ui-icon-cancel erpNoJS_button" />
+<input class=ui-icon ui-icon-plusthick erpNoJS_button name=erp_action title=Add new row after this row / at the end type=submit value=addRowCmd>
+</input>
+<input class=ui-icon ui-icon-minusthick erpNoJS_button name=erp_action title=Delete this row / last row type=submit value=deleteRowCmd>
+</input>
 </form>
 EXPECTED
     $this->assert_html_equals( $expected, $in );
@@ -246,6 +250,10 @@ INPUT
 <input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
 | #REF0# |
 <input type="hidden" name="erp_action" value=""  /><input class="ui-icon ui-icon-disk erpNoJS_button" name="erp_action" title="Save" type="submit" value="saveTableCmd"/><input class="ui-icon ui-icon-cancel erpNoJS_button" name="erp_action" title="Cancel" type="submit" value="cancelCmd"/>
+<input class=ui-icon ui-icon-plusthick erpNoJS_button name=erp_action title=Add new row after this row / at the end type=submit value=addRowCmd>
+</input>
+<input class=ui-icon ui-icon-minusthick erpNoJS_button name=erp_action title=Delete this row / last row type=submit value=deleteRowCmd>
+</input>
 </form>
 EXPECTED
     $this->assert_html_equals( $expected, $in );
@@ -352,6 +360,35 @@ INPUT
 | C | D |
 EXPECTED
     $this->assert_equals( $expected, $this->{test_topicObject}->text() );
+}
+
+sub test_parser_no_table {
+    my $this = shift;
+    my $in   = <<INPUT;
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+INPUT
+    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    $this->assert( !$@, $@ );
+    my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
+    my $result = $parser->parse( $in, $this->{test_topicObject} );
+
+    my $data = '';
+    foreach my $r (@$result) {
+        if ( ref($r) ) {
+            $data .= $r->getID . ":\n" . $r->stringify();
+        }
+        else {
+            $data .= "LL $r\n";
+        }
+    }
+    $this->assert_equals( <<'EXPECTED', $data );
+EDITTABLE_0:
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+EXPECTED
 }
 
 1;

@@ -68,7 +68,7 @@ sub new {
     my $changerows = $attrs->{changerows};
     if ( !defined($changerows) ) {
         $changerows = Foswiki::Func::getPreferencesValue('CHANGEROWS');
-        $changerows = 'on' if ( $changerows eq '' );
+        $changerows = 'on' if ( !defined($changerows) || $changerows eq '' );
     }
     $attrs->{changerows} = $changerows;
 

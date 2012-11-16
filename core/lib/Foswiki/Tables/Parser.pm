@@ -133,6 +133,13 @@ sub parse {
                     $in_table = 0;
                     &$dispatch('close_table');
                 }
+
+               #an EDITTABLE macro starts a new table
+               #this allows us to create new tables from just an EDITTABLE macro
+                print STDERR "Open TABLE\n" if TRACE;
+                &$dispatch('open_table');
+                $in_table = 1;
+
                 next LINE;
             }
 

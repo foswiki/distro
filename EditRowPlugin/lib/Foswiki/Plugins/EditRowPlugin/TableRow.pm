@@ -82,6 +82,7 @@ sub setRow {
 }
 
 # True if this row is in an editable table.
+#TODO: unless its a header=""
 sub can_edit {
     my $this = shift;
     return $this->{table}->can_edit();

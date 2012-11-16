@@ -735,7 +735,8 @@ sub registerMETA {
 Get a preferences value for the currently requested context, from the currently request topic, its web and the site.
    * =$key= - Preference name
    * =$web= - Name of web, optional. If defined, we shortcircuit to WebPreferences (ignoring SitePreferences). This is really only useful for ACLs.
-Return: =$value=  Preferences value; empty string if not set
+   
+Return: =$value=  Preferences value; undefined if not set
 
    * Example for preferences setting:
       * WebPreferences topic has: =* Set WEBBGCOLOR = #FFFFC0=
