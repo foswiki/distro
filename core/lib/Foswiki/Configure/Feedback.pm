@@ -258,7 +258,7 @@ sub deliver {
                 my $item   = shift @items;
                 my $button = $this->{button};
                 die "Bad FB chain $item from $this->{request}\n"
-                  unless ( $item =~ /^(${configItemRegex})(\d+)?$/ );
+                  unless ( $item =~ /^(${configItemRegex})(-?\d+)?$/ );
                 $this->{button} = $2 if ( defined $2 );
                 $this->{request} = $1;
                 $root->visit($this);

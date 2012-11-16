@@ -73,7 +73,7 @@ sub provideFeedback {
 
     my $visit = $valobj->{_visitor};
 
-    if ( $button < 20 ) {
+    if ( $button >= 0 ) {
 
         # Audit invocation, build list of items to check
 
@@ -101,9 +101,9 @@ sub provideFeedback {
 
         # Order checks, schedule this checker last to report
 
-        return wantarray ? ( $e, [ @items, "${keys}999" ] ) : $e;
+        return wantarray ? ( $e, [ @items, "${keys}-1" ] ) : $e;
     }
-    die "Pushed the wrong button ($button)\n" unless ( $button == 999 );
+    die "Pushed the wrong button ($button)\n" unless ( $button == -1 );
 
     my $fb = $visit->{fb};
 
