@@ -198,15 +198,26 @@ sub getFile {
     }
     my $text    = '';
     my $dynamic = 0;
+    my $reqlog  = $Foswiki::cfg{Configure}{LogDataRequests};
+    $reqlog &&= $reqlog =~ /all/i || $vars{'-remote'};
+    my $remote = delete $vars{'remote'};
+
     if ( open( my $F, '<', $dir . $resource ) ) {
+        print STDERR sprintf(
+            "Configure: %s %s%s (inode=%u) size=%u\n",
+            ( $remote ? 'providing' : 'using' ),
+            $dir, $resource, ( stat($F) )[ 1, 7 ]
+        ) if ($reqlog);
         binmode $F if ( $binmode || $zipped );
         local $/;
         $text = <$F>;
         close($F);
 
-# Dynamic content requires a digest.
-# Static content can use a weak validator.
-# N.B. Vars are only handled at the top level in one pass over the interpolated text.
+        # Dynamic content requires a digest.
+        # Static content can use a weak validator.
+        # N.B. Vars are only handled at the top level in
+        # one pass over the interpolated text.
+
         unless ( $binmode || $zipped ) {
             $dynamic += $text =~
 s/%INCLUDE{(.*?)}%/$this->getResource($1, -binmode => $binmode)/ges;
@@ -216,7 +227,10 @@ s/%INCLUDE{(.*?)}%/$this->getResource($1, -binmode => $binmode)/ges;
         }
     }
     else {
-        print STDERR "Error loading resource $dir$resource: $!\n";
+        print STDERR
+          sprintf( "Configure: Can't open resource or data file %s%s: $!\n",
+            $dir, $resource )
+          if ($reqlog);
         return $wantEtag ? ( $text, undef ) : $text;
     }
 
@@ -231,8 +245,11 @@ s/%INCLUDE{(.*?)}%/$this->getResource($1, -binmode => $binmode)/ges;
    # zip the output stream if gzip is available.  Don't bother for tiny stuff.
 
     if ( $zipok && !$zipped && $gzipAvail && length($text) >= 2048 ) {
-
-#        print STDERR "NOTE: $dir$resource should be pre-zipped" unless( $dynamic );
+        print STDERR
+          sprintf(
+"Configure: File %s%s contents are static, .gz file not available.  Compressing every request.\n",
+            $dir, $resource )
+          if ( !$dynamic && $reqlog );
         my $data = $text;
         undef $text;
         no warnings 'once';
