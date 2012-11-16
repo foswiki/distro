@@ -35,14 +35,15 @@ Loads a pluggable section from Foswiki::Configure::Pluggables::
 =cut
 
 sub load {
-    my ($name) = @_;
+    my $name = shift;
+    my ( $file, $root, $settings ) = @_;
 
     my $modelName = 'Foswiki::Configure::Pluggables::' . $name;
     eval "use $modelName";
     Carp::confess $@ if $@;
 
     no strict 'refs';
-    my $model = $modelName->new();
+    my $model = $modelName->new(@_);
     use strict 'refs';
 
     return $model;

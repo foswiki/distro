@@ -67,61 +67,113 @@ sub new {
     # Transfer remaining params into the object
     $this->set(@_);
 
-    if ( defined $this->{opts} ) {
+    return $this;
+}
 
-        # Quoted strings before anything else...
-        while ( $this->{opts} =~
-            s/(?:\b|^)CHECK=((?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*'))(?:\s+|$)//
-          )
-        {
-            my $qs = $1;
-            chop $qs;
-            $qs = substr( $qs, 1 );
-            $qs =~ s/\\(.)/$1/g;
-            push @{ $this->{checkerOpts} }, $qs;
+# Intercept options for special parsing
+
+sub set {
+    my $this   = shift;
+    my %params = @_;
+
+    foreach my $k ( keys %params ) {
+        if ( $k eq 'opts' ) {
+            $this->{$k} = $this->_setopts( $params{$k} );
         }
-        while ( $this->{opts} =~
-s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)(?:\b|$))|(?:((?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*'))(?:\s+|$))))|(?:\b|$))//
-          )
-        {
-            if ( defined $1 ) {    # FEEDBACK(=)
-                if ( defined $3 )
-                {    # Quoted string (single or double; \-escape inner)
-                    my $qs = $3;
-                    chop $qs;
-                    $qs = substr( $qs, 1 );
-                    $qs =~ s/\\(.)/$1/g;
-                    push @{ $this->{feedback} }, $qs;
-                }
-                else {    # FEEDBACK=keyword
-                    push @{ $this->{feedback} },
-                      {
-                        AUTO        => '~',
-                        'ON-CHANGE' => '~',
-                        IMMEDIATE   => '~',
-                        VALIDATE    => 'Validate',
-                        FIX         => 'Repair',
-                        TEST        => 'Test',
-                      }->{ uc $2 }
-                      || "Unknown FEEDBACK keyword '$2' in .spec";
-                }
-            }
-            else {    # Default label
-                push @{ $this->{feedback} }, 'Validate';
-            }
+        else {
+            $this->{$k} = $params{$k};
         }
-        $this->{mandatory} = ( $this->{opts} =~ /(\b|^)M(\b|$)/ );
-        $this->{hidden}    = ( $this->{opts} =~ /(\b|^)H(\b|$)/ );
-        $this->{expertsOnly} = 1
-          if ( $this->{opts} =~ s/(\b|^)EXPERT(\b|$)// );
-        $this->{displayIf} = $1
-          if (
-            $this->{opts} =~ s/(?:\b|^)DISPLAY_IF\s+(.*?)(\/DISPLAY_IF|$)// );
-        $this->{enableIf} = $1
-          if ( $this->{opts} =~ s/(?:\b|^)ENABLE_IF\s+(.*?)(\/ENABLE_IF|$)// );
+    }
+}
+
+# Special parsing for options string
+
+sub _fixqs {
+    my ($qs) = @_;
+
+    chop $qs;
+    $qs = substr( $qs, 1 );
+    $qs =~ s/\\(.)/$1/g;
+    return $qs;
+}
+
+sub _setopts {
+    my $this = shift;
+    my ($value) = @_;
+
+    # Over-ride these on any new option string.  Note that audits is NOT
+    # included so that the cursory checks can count on the inital audit group.
+
+    delete @{$this}
+      {qw/label checkerOpts feedback mandatory hidden displayIf enableIf/};
+    $this->{expertsOnly} = 0;
+
+    my $qsRE = qr/(?:(?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*'))/o;
+
+    if ( $value =~ /Re-test/ ) {
+        $DB::single = 1;
     }
 
-    return $this;
+    # Quoted strings before anything else...
+    $this->addAuditGroup( _fixqs($1) )
+      while ( $value =~ s/(?:\b|^)AUDIT=($qsRE)(?:\s+|$)// );
+
+    $this->{label} = _fixqs($1)
+      if ( $value =~ s/(?:\b|^)LABEL=($qsRE)(?:\s+|$)// );
+
+    push @{ $this->{checkerOpts} }, _fixqs($1)
+      while ( $value =~ s/(?:\b|^)CHECK=($qsRE)(?:\s+|$)// );
+
+    while ( $value =~
+s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)(?:\b|$))|(?:($qsRE)(?:\s+|$))))|(?:\b|$))//
+      )
+    {
+        if ( defined $1 ) {    # FEEDBACK(=)
+            if ( defined $3 )
+            {    # Quoted string (single or double; \-escape inner)
+                push @{ $this->{feedback} }, _fixqs($3);
+            }
+            else {    # FEEDBACK=keyword
+                push @{ $this->{feedback} },
+                  {
+                    AUTO        => '~',
+                    'ON-CHANGE' => '~',
+                    IMMEDIATE   => '~',
+                    VALIDATE    => 'Validate',
+                    FIX         => 'Repair',
+                    TEST        => 'Test',
+                  }->{ uc $2 }
+                  || "Unknown FEEDBACK keyword '$2' in .spec";
+            }
+        }
+        else {    # Default label
+            push @{ $this->{feedback} }, 'Validate';
+        }
+    }
+    $this->{label} = ''
+      if ( $value =~ s/(\b|^)NOLABEL(\b|$)// );
+
+    $this->{mandatory} = ( $value =~ /(\b|^)M(\b|$)/ );
+    $this->{hidden}    = ( $value =~ /(\b|^)H(\b|$)/ );
+    $this->{expertsOnly} = 1
+      if ( $value =~ s/(\b|^)EXPERT(\b|$)// );
+    $this->{displayIf} = $1
+      if ( $value =~ s/(?:\b|^)DISPLAY_IF\s+(.*?)(\/DISPLAY_IF|$)// );
+    $this->{enableIf} = $1
+      if ( $value =~ s/(?:\b|^)ENABLE_IF\s+(.*?)(\/ENABLE_IF|$)// );
+
+    return $value;
+}
+
+# Add one or more audit group to this item
+# Group specifiers are Name:button, where
+# :button is the button number to be pressed when
+# audited in the named group.  :button defaults to 1.
+
+sub addAuditGroup {
+    my $this = shift;
+
+    push @{ $this->{audits} }, @_;
 }
 
 # See Foswiki::Configure::Item
@@ -155,6 +207,17 @@ sub getCheckerOptions {
     my $this = shift;
 
     return $this->{checkerOpts};
+}
+
+sub label {
+    my $this = shift;
+    return $this->{label};
+}
+
+sub audits {
+    my $this = shift;
+    return @{ $this->{audits} } if ( $this->{audits} );
+    return ();
 }
 
 sub getTypeName {

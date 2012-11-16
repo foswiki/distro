@@ -1,6 +1,6 @@
 <#assign logout>
     <#if loggedin??>
-        <form method="post" action="${scriptName}" enctype="multipart/form-data" name="logoutForm">
+        <form method="post" action="${formAction}" enctype="multipart/form-data" name="logoutForm">
             <input type="hidden" name="time" value="${time}"  />
             <input type="submit" class="foswikiButton foswikiButtonSmall foswikiRight" title="Logout of configure and return to the wiki" value="Logout" />
             <input type="hidden" name="action" value="Logout">

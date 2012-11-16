@@ -55,7 +55,7 @@ sub provideFeedback {
             "Foswiki configuration",
             "$lsc"
               . $this->NOTE(
-                " last saved on " . localtime( ( stat $lsc )[9] || 0 )
+                "Last saved on " . localtime( ( stat $lsc )[9] || 0 )
               )
         );
     }
@@ -372,7 +372,7 @@ HERE
         }
         $contents .= $this->_showDEPENDENCIES( 'Extensions', $perlModules, 1 );
     }
-    $contents = $this->FB_GUI( '{ConfigureGUI}{WebserverEnvironment}',
+    $contents = $this->FB_GUI( '{ConfigureGUI}{AUDIT}{RESULTS}',
         qq{<table class='configureSectionValues'>$contents</table>} );
     return wantarray ? ( $contents, ['{ConfigureGUI}{PATHINFO}'] ) : $contents;
 }

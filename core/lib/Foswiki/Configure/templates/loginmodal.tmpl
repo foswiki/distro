@@ -1,0 +1,24 @@
+<#-- Template used for modal login div -->
+
+<img src="%RESOURCEURI%foswiki-configure-logo.png" alt="Foswiki configuration" />
+<p>
+<h1>Please login</h1>
+
+<div class='foswikiFormSteps'>
+  <div class='foswikiFormStep'>
+    <h2>In order to proceed, Configure requires that you type your password.</h2>
+    <hr />
+<#if displayStatus == 0>
+  <div class='foswikiHelp'>Password forgotten? To reset your password, log in to the server and delete the <code>$Foswiki::cfg{Password} = '...';</code> line from <code>lib/LocalSite.cfg</code>. Then reload this page and create a new password.</div>
+</#if>
+<#if displayStatus == 16><div class="foswikiNotification foswikiAlert"> Password incorrect. Try again below.</div></#if>
+<hr />
+  <form method="post" action="${formAction}" enctype="multipart/form-data" name="sessionTimeout">
+    <input type="hidden" name="time" value="${time}"  />
+    <input type="password" name="password" size="30" maxlength="80" class='foswikiInputField' placeholder='Configure password' /><br />
+${authenticationNeeded}
+<#assign actionButtonLabel>Login</#assign>
+${actionButton}
+    ${actionFeedback}
+  </div>
+</div>

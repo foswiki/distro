@@ -10,8 +10,7 @@ loaded for resource or feedback requests.
 
 =cut
 
-our $sanityStatement;
-our $newLogin;
+use Foswiki::Configure(qw/:auth :config/);
 
 # ######################################################################
 # Main screen for configure
@@ -28,20 +27,35 @@ sub _authenticateConfigure {
         $messageType = $MESSAGE_TYPE->{OK};
         refreshLoggedIn($session);
         refreshSaveAuthorized($session)
-          if ( $query->param('cfgAccess') || $badLSC );
+          if ( $query->param('password') || $badLSC );
         return;
     }
 
-    ( my $authorised, $messageType ) =
-      Foswiki::Configure::UI::authorised($query);
+    require Foswiki::Configure::ModalTemplates;
 
-    if ($authorised) {
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session) if ( $query->param('cfgAccess') );
-        return;
+    my ( $template, $templateArgs ) = Foswiki::Configure::ModalTemplates->new;
+
+    my $displayStatus = 0;
+    unless ( $cfg{Password} ) {
+        $displayStatus = 8;
     }
+    $template->addArgs( displayStatus => $displayStatus, logoutdata(), );
 
-    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
+    my $html =
+        Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin')
+      . $template->extractArgs('login')
+      . Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
+
+    $template->renderAutoActivator( 'loginButton', 'Login', 1 );
+    $template->renderFeedbackWindow( 'loginFeedback', 'Login' );
+
+    $html = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $html, $templateArgs );
+    $html = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $html, $templateArgs );
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+
+    htmlResponse($html);
 
     # does not return
 }
@@ -60,119 +74,6 @@ sub _actionConfigure {
     }
 
     htmlResponse($html);
-}
-
-# ######################################################################
-# Save changes
-# ######################################################################
-
-sub _authenticateSavechanges {
-
-    establishSession( $_[1], $_[2] );
-    my ( $action, $session, $cookie ) = @_;
-
-    _loadSiteConfig();
-
-    if ( saveAuthorized($session) || $badLSC ) {
-        $messageType = $MESSAGE_TYPE->{
-            $Foswiki::cfg{Password}
-            ? 'OK'
-            : 'PASSWORD_NOT_SET'
-        };
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session);
-        return;
-    }
-
-    ( my $authorised, $messageType ) =
-      Foswiki::Configure::UI::authorised($query);
-
-    if ($authorised) {
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session);
-        return;
-    }
-
-    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
-
-    # does not return
-}
-
-# ######################################################################
-# Action invoked by Confirm Changes button on the save authorization screen
-# ######################################################################
-
-sub _actionSavechanges {
-    my ( $action, $session, $cookie ) = @_;
-
-    if ( $query->param('confirmChanges') ) {
-        $query->delete('confirmChanges');
-
-        # We can't compute the new main screen until the UI is rebuilt from
-        # the changes.  So save the feedback and redirect to the main screen.
-
-        htmlRedirect( 'Configure', _screenSaveChanges($messageType) );
-
-        # Does not return
-    }
-
-    htmlResponse( _screenAuthorize( $action, $messageType, !$badLSC ) );
-
-    # does not return
-}
-
-# ######################################################################
-# Make more changes
-# ######################################################################
-
-sub _authenticateMakemorechanges {
-
-    establishSession( $_[1], $_[2] );
-    my ( $action, $session, $cookie ) = @_;
-
-    _loadSiteConfig();
-
-    if ( loggedIn($session) || $badLSC || $query->auth_type ) {
-        $messageType = $MESSAGE_TYPE->{OK};
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session)
-          if ( $query->param('cfgAccess') || $badLSC );
-        return;
-    }
-
-    ( my $authorised, $messageType ) =
-      Foswiki::Configure::UI::authorised($query);
-
-    if ($authorised) {
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session);
-        return;
-    }
-
-    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
-
-    # does not return
-}
-
-# ######################################################################
-# Action invoked by Make more changes button on the save authorization screen
-# ######################################################################
-
-sub _actionMakemorechanges {
-    my ( $action, $session, $cookie ) = @_;
-
-    my $valuer =
-      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
-
-    my %updated;
-    $valuer->loadCGIParams( $Foswiki::query, \%updated );
-
-    if ( keys %updated ) {
-        $unsavedChangesNotice = unsavedChangesNotice( \%updated );
-    }
-    htmlResponse( configureScreen('') );
-
-    # does not return
 }
 
 # ######################################################################
@@ -586,6 +487,7 @@ sub _screenAuthorize {
         'main'           => $contents,
         'hasPassword'    => $hasPassword,
         'formAction'     => $scriptName,
+        'scriptName'     => $scriptName,
         'params'         => $params,
         'messageType'    => $messageType,
         'configureUrl'   => $url,
@@ -641,35 +543,6 @@ sub _setArgs {
         $args->{$key} = $value;
     }
     die "Bad arg count for _setArgs\n" if (@_);
-}
-
-# Content generation for Save changes authorization screen
-
-sub _screenAuthSavechanges {
-    my $transact = shift;
-    my $args     = shift;
-
-    my $valuer =
-      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
-    my %updated;
-    my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
-    my $changesList = [];
-    foreach my $key ( sort keys %updated ) {
-        my $valueString = join( ',', $query->param($key) );
-        push( @$changesList, { key => $key, value => $valueString } );
-    }
-    my @items = sort keys %updated if $modified;
-
-    _setArgs(
-        $args,
-        'displayStatus' =>
-          ( ( $modified || $Foswiki::query->param('changePassword') ) ? 2 : 1 ),
-        'modifiedCount' => $modified,
-        'items'         => \@items,
-        'changesList'   => $changesList,
-        'extAction'     => '',
-    );
-    return;
 }
 
 # Content generation for ManageExtensions authorization screen
@@ -742,63 +615,6 @@ sub _screenAuthConfigure {
 *_screenAuthFindMoreExtensions = \&_screenAuthConfigure;
 
 # ######################################################################
-# After authentication, the screen that executes and shows the changes from save.
-# ######################################################################
-
-sub _screenSaveChanges {
-    my ($messageType) = @_;
-
-    my $valuer =
-      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
-    my %updated;
-    my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
-
-    # create the root of the UI
-    my $root = new Foswiki::Configure::Root();
-
-    # Load the specs from the .spec files and generate the UI template
-    Foswiki::Configure::FoswikiCfg::load( $root, 1 );
-
-    my $ui = _checkLoadUI( 'UPDATE', $root );
-
-    $ui->setInsane() if $insane;
-    my $filesUpdated = $ui->commitChanges( $root, $valuer, \%updated );
-
-    undef $ui;
-
-    $session->clear('pending');
-    $session->flush;
-
-    # Build list of hashes with each changed key and its value(s) for template
-
-    my $changesList = [];
-    foreach my $key ( sortHashkeyList( keys %updated ) ) {
-        my $valueString = join( ',', $query->param($key) );
-        push( @$changesList, { key => $key, value => $valueString } );
-    }
-    push @$changesList, { key => 'No configuration items changed', value => '' }
-      unless (@$changesList);
-
-    my $contentTemplate =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('feedback');
-    $contentTemplate = Foswiki::Configure::UI::getTemplateParser()->parse(
-        $contentTemplate,
-        {
-            'modifiedCount' => $modified,
-            'changesList'   => $changesList,
-            'formAction'    => $scriptName,
-            'messageType'   => $messageType,
-            'fileUpdates'   => $filesUpdated,
-        }
-    );
-
-    Foswiki::Configure::UI::getTemplateParser()
-      ->cleanupTemplateResidues($contentTemplate);
-
-    return $contentTemplate;
-}
-
-# ######################################################################
 # Generate the default screen
 # ######################################################################
 
@@ -827,27 +643,22 @@ sub configureScreen {
     # If there's already a notice, don't use the cart
     # E.g. MakeMoreChanges...
 
-    if ( !$unsavedChangesNotice && ( my $cart = $session->param('pending') ) ) {
+    unless ( $unsavedChangesNotice || $badLSC ) {
         require Foswiki::Configure::Feedback::Cart;
+
+        my ( $cart, $cartValid ) =
+          Foswiki::Configure::Feedback::Cart->get($session);
 
         my $timeSaved = $cart->loadQuery($query);
         my %updated;
         if ( defined $timeSaved ) {
             $valuer->loadCGIParams( $query, \%updated );
+            $cart->removeParams($query);
         }
-        else {    # Problem with saved cart
-            $session->clear('pending');
-            $session->flush;
-        }
+
         $unsavedChangesNotice =
-          unsavedChangesNotice( \%updated, $newLogin && $timeSaved,
+          unsavedChangesNotice( \%updated, $newLogin && $cartValid,
             $timeSaved );
-    }
-    else {
-      # Unless we already have status of unsaved changes, generate "none" status
-      # Also suppress if badLSC - the happy green checkmark would confuse.
-        $unsavedChangesNotice = unsavedChangesNotice( {} )
-          unless ( $unsavedChangesNotice || $badLSC );
     }
 
     # This is the root of the model
@@ -874,13 +685,6 @@ sub configureScreen {
             $root->addChild($os_checker) if $os_checker;
         }
     }
-
-    my $cgienv = 'Foswiki::Configure::CGISetup';
-    eval "require $cgienv";
-    Carp::confess $@ if $@;
-    my $cgi_section = $cgienv->new($root);
-    $cgi_section->{typename} = "CGIsetupSection";
-    $root->addChild($cgi_section);
 
     # Load the config structures.
     # If $isFirstTime is true, only Foswiki.spec will be loaded
@@ -920,6 +724,17 @@ sub configureScreen {
       ? 1
       : undef;
 
+    require Foswiki::Configure::ModalTemplates;
+
+    my $template = Foswiki::Configure::ModalTemplates->new(
+        $ui,
+        'time' => $time,    # use time to make sure we never allow cacheing
+        logoutdata(),
+        'formAction' => $scriptName,
+        'messages'   => $uiMessages,
+        'style'      => ( $badLSC || $insane ) ? 'Bad' : 'Good',
+    );
+
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
 
@@ -930,16 +745,9 @@ sub configureScreen {
     $html .= $contents;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
-    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
-        $html,
-        {
-            'time' => $time,    # use time to make sure we never allow cacheing
-            logoutdata(),
-            'formAction' => $scriptName,
-            'messages'   => $uiMessages,
-            'style'      => ( $badLSC || $insane ) ? 'Bad' : 'Good',
-        }
-    );
+
+    $html = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $html, $template->getArgs );
 
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
     return $html;
@@ -981,49 +789,6 @@ sub _actionLogout {
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
 
     rawRedirect($frontpageUrl);
-}
-
-# ######################################################################
-# Discard changes
-# ######################################################################
-
-sub _authenticateDiscardChanges {
-    establishSession( $_[1], $_[2] );
-    my ( $action, $session, $cookie ) = @_;
-
-    _loadSiteConfig();
-
-    if ( loggedIn($session) || $badLSC || $query->auth_type ) {
-        $messageType = $MESSAGE_TYPE->{OK};
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session)
-          if ( $query->param('cfgAccess') || $badLSC );
-        return;
-    }
-
-    ( my $authorised, $messageType ) =
-      Foswiki::Configure::UI::authorised($query);
-
-    if ($authorised) {
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session);
-        return;
-    }
-
-    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
-
-    # does not return
-}
-
-sub _actionDiscardChanges {
-    my ( $action, $session, $cookie ) = @_;
-
-    $session->clear('pending');
-    $session->flush;
-
-    htmlResponse( configureScreen('') );
-
-    # does not return
 }
 
 # ######################################################################

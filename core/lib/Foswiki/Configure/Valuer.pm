@@ -1,9 +1,5 @@
 # See bottom of file for license and copyright information
 
-package Foswiki;
-
-our $configItemRegex;
-
 =begin TML
 
 ---+ package Foswiki::Configure::Valuer
@@ -18,6 +14,8 @@ package Foswiki::Configure::Valuer;
 
 use strict;
 use warnings;
+
+use Foswiki::Configure(qw/:keys/);
 
 use Foswiki::Configure::Type ();
 

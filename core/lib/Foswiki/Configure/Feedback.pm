@@ -4,15 +4,24 @@
 # Feedback generator (AJAX responder)
 # ######################################################################
 
+use warnings;
+use strict;
+
 # Needs to be an object in order to use Visitor to traverse the UI
 
 package Foswiki::Configure::Feedback;
+
+use Foswiki::Configure(qw/:auth :cgi :config :feedback :keys/);
+
+$changesDiscarded = 0;
 
 require Foswiki::Configure::Root;
 require Foswiki::Configure::Valuer;
 
 require Foswiki::Configure::Visitor;
 our @ISA = ('Foswiki::Configure::Visitor');
+
+our $pendingChanges = 0;
 
 =begin TML
 
@@ -47,17 +56,34 @@ feedback request has been received.
             return;
         }
 
-        # Do not establish a new session
+        # Allow re-authenticating
 
-        my $html =
-          Foswiki::Configure::UI::getTemplateParser()
-          ->readTemplate('feedbackerror');
-        $html = Foswiki::Configure::UI::getTemplateParser()
-          ->parse( $html, { RESOURCEURI => $resourceURI, } );
-        Foswiki::Configure::UI::getTemplateParser()
-          ->cleanupTemplateResidues($html);
+        refreshSession($session);
 
-        htmlResponse( $html, 200 );
+        # This is an unusual path, so we have some magic to perform.
+
+        binmode STDOUT;
+        _loadSiteConfig();
+
+        my $keys = '{ConfigureGUI}{Modals}{SessionTimeout}';
+
+        require Foswiki::Configure::UI;
+        require Foswiki::Configure::Value;
+        my $value = Foswiki::Configure::Value->new( 'UNKNOWN', keys => $keys );
+
+        my $ui = Foswiki::Configure::UI->new($value);
+
+        my $checker =
+          Foswiki::Configure::UI::loadChecker(
+            'ConfigureGUI::Modals::SessionTimeout', $ui );
+
+        my $html = $checker->provideFeedback( $value, 1, 'No button' );
+        $html .= $checker->provideFeedback( $value, 2, 'No button' );
+
+        Foswiki::Configure::Feedback::deliverResponse( { $keys => $html },
+            undef );
+
+        # Does not return
     }
 
     sub _actionfeedbackUI {
@@ -90,20 +116,38 @@ sub deliver {
     my $query = $Foswiki::query;
 
     my $valuer =
-      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
-
-    my %updated;
-    my $modified = $valuer->loadCGIParams( $query, \%updated );
+      Foswiki::Configure::Valuer->new( $Foswiki::defaultCfg, \%Foswiki::cfg );
 
     # Get request from CGI
     my $request = $query->param('FeedbackRequest');
 
     # Handle an unsaved changes request without any checking or UI
 
+    require Foswiki::Configure::Feedback::Cart;
+
+    my %updated;
+    my $cart = Foswiki::Configure::Feedback::Cart->get($session);
+
     if ( $request eq '{ConfigureGUI}{Unsaved}status' ) {
+        $cart->loadParams($query);
+        my $modified = $valuer->loadCGIParams( $query, \%updated );
+        $cart->removeParams($query);
+
         checkpointChanges( $session, $query, \%updated );
         deliverResponse( {}, \%updated );
+
+        # Does not return
     }
+
+    my $this = Foswiki::Configure::Feedback->new;
+
+    $this->{oldCfg} = _copy( \%Foswiki::cfg );
+
+    $cart->loadParams($query);
+
+    my $modified = $valuer->loadCGIParams( $query, \%updated );
+
+    $pendingChanges = $modified + $cart->param;
 
     my $root = new Foswiki::Configure::Root();
 
@@ -121,21 +165,69 @@ sub deliver {
         }
     }
 
-    require Foswiki::Configure::CGISetup;
-    $root->addChild( Foswiki::Configure::CGISetup->new($root) );
-
     Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
+
+    # These items don't actually exist, but are used to get Feedback
+    # for modal forms and special functions.  The checkers may change
+    # other items.  For convenience, we just attach these items to
+    # the root section.  Note they usually don't exist in all forms.
+    # Since they don't actually check anything, they all are given the
+    # type of "UNKNOWN" - the main screen should never render them.
+
+    require File::Spec;
+
+    sub _findModals {
+        my ( $keys, $path ) = @_;
+
+        my @found;
+        opendir( my $sdh, $path ) or return;
+        foreach my $file ( readdir($sdh) ) {
+            next if ( $file =~ /^\./ );
+            $file =~ /^([\w_.-]+)$/ or next;
+            $file = $1;
+            my $fs = File::Spec->catdir( $path, $file );
+            if ( -d $fs ) {
+                $file =~ tr/-/_/;
+                push @found, _findModals( "$keys\{$file}", $fs );
+                next;
+            }
+            next
+              unless ( -f File::Spec->catfile( $path, $file )
+                && $file =~ /\.pm$/ );
+
+            $file =~ /^([\w_-]+)\.pm$/ or next;
+            my $mkey = $1;
+            $mkey =~ tr/-/_/;
+            push @found, "$keys\{$mkey}";
+        }
+        closedir($sdh);
+        return @found;
+    }
+    my @GUIitems;
+    foreach my $path (@INC) {
+        my $libpath = File::Spec->catdir( $path,
+            "Foswiki/Configure/Checkers/ConfigureGUI/Modals" );
+        push @GUIitems, _findModals( '{ConfigureGUI}{Modals}', $libpath );
+    }
+    while ( Foswiki::sortHashkeyList(@GUIitems) ) {
+        my $keys  = shift @GUIitems;
+        my $value = Foswiki::Configure::Value->new(
+            'UNKNOWN',
+            keys => $keys,
+            opts => 'H',
+        );
+        $root->addChild($value);
+    }
 
     my $ui = Foswiki::_checkLoadUI( 'Root', $root );
 
     # Need an object to go visiting
 
-    my $this = new Foswiki::Configure::Feedback;
-
     $this->{valuer} = $valuer;
     $this->{root}   = $root;
     $this->{fb}     = {};
     $this->{errors} = {};
+    $this->{checks} = [];
 
     # 0 = no other; 1 = only changes; 2 = all
     $this->{checkall} = $query->param('DEBUG') ? 2 : 1;
@@ -163,11 +255,24 @@ sub deliver {
             my @items = @{ $this->{checkall} };
             while (@items) {
                 $this->{checkall} = $query->param('DEBUG') ? 2 : 1;
-                my $item = shift @items;
-                $this->{request} = $item;
+                my $item   = shift @items;
+                my $button = $this->{button};
+                die "Bad FB chain $item from $this->{request}\n"
+                  unless ( $item =~ /^(${configItemRegex})(\d+)?$/ );
+                $this->{button} = $2 if ( defined $2 );
+                $this->{request} = $1;
                 $root->visit($this);
-                push @items, @{ $this->{checkall} }
-                  if ( ref( $this->{checkall} ) eq 'ARRAY' );
+                $this->{button} = $button;
+
+                # Original target's last item must be last.
+                if ( ref( $this->{checkall} ) eq 'ARRAY' ) {
+                    if (@items) {
+                        splice( @items, -1, 1, @{ $this->{checkall} } );
+                    }
+                    else {
+                        push @items, @{ $this->{checkall} };
+                    }
+                }
             }
         }
         else {
@@ -177,11 +282,66 @@ sub deliver {
         }
     }
 
+    # Because checkers can make changes to any item, we must
+    # recompute what's changed vs. what's on disk.
+    # Any params in the cart are counted as changes
+
+    $cart = Foswiki::Configure::Feedback::Cart->get($session);
+
+    %updated = ();
+
+    {
+
+        package Foswiki::Configure::Feedback::Compare;
+
+        our @ISA = (qw(Foswiki::Configure::Feedback));
+
+        sub startVisit {
+            my ( $this, $visitee ) = @_;
+
+            return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
+
+            my $keys = $visitee->getKeys();
+            return 1 if ( $keys =~ /^\{ConfigureGUI}/ );
+
+            my $type = $visitee->getType();
+
+            $this->{changed}{$keys} = 1
+              unless (
+                $type->equals(
+                    $this->{valuer}->currentValue($visitee),
+                    $this->{valuer}->defaultValue($visitee)
+                )
+              );
+
+            delete $visitee->{_fbChanged};
+            return 1;
+        }
+        bless( $this, __PACKAGE__ );
+    }
+
+    if ($changesDiscarded) {
+        %Foswiki::cfg = ( %{ _copy( $this->{oldCfg} ) } );
+    }
+    else {
+        $this->{valuer} =
+          Foswiki::Configure::Valuer->new( $this->{oldCfg}, \%Foswiki::cfg );
+
+        $root->visit($this);
+
+        $cart->removeParams($query);
+
+        $updated{$_} = 1 foreach $cart->param();
+        checkpointChanges( $session, $query, \%updated );
+    }
+
     my $fb = $this->{fb};
 
     # Reduce errors to those that changed and generate updates
 
     for my $key ( keys %{ $this->{errors} } ) {
+        next if ( $key =~ m/\{ConfigureGUI}/ );
+
         my $old = $query->param("${key}errors");
         $old = "0 0" unless ( defined $old );
         my $new = $this->{errors}{$key};
@@ -193,22 +353,54 @@ sub deliver {
 }
 
 # ######################################################################
+# Standard hash copy (from BasicSanity)
+# ######################################################################
+
+sub _copy {
+    my $n = shift;
+
+    return unless defined($n);
+
+    if ( UNIVERSAL::isa( $n, 'ARRAY' ) ) {
+        my @new;
+        for ( 0 .. $#$n ) {
+            push( @new, _copy( $n->[$_] ) );
+        }
+        return \@new;
+    }
+    elsif ( UNIVERSAL::isa( $n, 'HASH' ) ) {
+        my %new;
+        for ( keys %$n ) {
+            $new{$_} = _copy( $n->{$_} );
+        }
+        return \%new;
+    }
+    elsif ( UNIVERSAL::isa( $n, 'Regexp' ) ) {
+        return qr/$n/;
+    }
+    elsif ( UNIVERSAL::isa( $n, 'REF' ) || UNIVERSAL::isa( $n, 'SCALAR' ) ) {
+        $n = _copy($$n);
+        return \$n;
+    }
+    else {
+        return $n;
+    }
+}
+
+# ######################################################################
 # checkpointChanges
 # ######################################################################
 
 sub checkpointChanges {
     my ( $session, $query, $updated ) = @_;
 
-    unless ( keys %$updated ) {
-        $session->clear('pending');
-        return;
-    }
+    return unless ( keys %$updated );
 
     require Foswiki::Configure::Feedback::Cart;
 
-    my $cart = Foswiki::Configure::Feedback::Cart->new( $query, $updated );
-
-    $session->param( 'pending', $cart );
+    my $cart = Foswiki::Configure::Feedback::Cart->get($session);
+    $cart->update( $query, $updated );
+    $cart->save($session);
 
     return;
 }
@@ -221,7 +413,7 @@ sub deliverResponse {
     my $fb      = shift;
     my $updated = shift;
 
-    my $html = '';
+    my $response = '';
 
 # Return encoded responses to each responding key.
 #
@@ -242,25 +434,28 @@ sub deliverResponse {
 #        delimited by \004
 #   \002 can actually update any <div> named {something}status; the {ConfigureGUI}
 #        namespace is reserved for such <divs>, and will not be written to LSC.
+#   \005 delivers data to the modal window.
+#        The target and action are specified by the key.
 
-    $fb->{'{ConfigureGUI}{Unsaved}'} = Foswiki::unsavedChangesNotice($updated);
+    $fb->{'{ConfigureGUI}{Unsaved}'} = Foswiki::unsavedChangesNotice($updated)
+      if ( $updated && ( loggedIn($session) || $badLSC || $query->auth_type ) );
 
     my $first = 1;
     foreach my $keys ( keys %$fb ) {
         my $fb = $fb->{$keys};
-        $html .= "\001" unless ($first);
+        $response .= "\001" unless ($first);
         if ( $fb =~ s/\A\001// ) {    # FB_FOR/FB_VALUE pre-encoded data
-            $html .= $fb;
+            $response .= $fb;
         }
         else {
-            $html .= "$keys\002$fb";
+            $response .= "$keys\002$fb";
         }
         undef $first;
     }
-    $html .= "\177"
+    $response .= "\177"
       if ($first);    # no-data marker for client.  Really shouldn't happen.
 
-    Foswiki::htmlResponse( $html, Foswiki::NO_REDIRECT );
+    Foswiki::htmlResponse( $response, Foswiki::NO_REDIRECT() );
 
     # Does not redirect or return
 }
@@ -278,91 +473,118 @@ sub deliverResponse {
 sub startVisit {
     my ( $this, $visitee ) = @_;
 
-    if ( $visitee->isa('Foswiki::Configure::Value') ) {
-        my $keys = $visitee->getKeys();
+    return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
 
-        $visitee->{errors}   = 0;
-        $visitee->{warnings} = 0;
+    my $keys = $visitee->getKeys();
 
-        #        my $value = $this->{valuer}->currentValue($visitee);
-        if ( $this->{fbpass} ) {
+    $visitee->{errors}     = 0;
+    $visitee->{warnings}   = 0;
+    $visitee->{_fbChanged} = $this->{changed};    # Pass in item for checkers
+    $visitee->{_fbRoot}    = $this->{root};
+    $visitee->{_visitor}   = $this;
 
-            # Looking for supplier
+    #        my $value = $this->{valuer}->currentValue($visitee);
+    if ( $this->{fbpass} ) {
 
-            return 1 unless ( $keys eq $this->{request} );
+        # Looking for supplier
 
-            # Found supplier, instantiate checker
+        return 1 unless ( $keys eq $this->{request} );
 
-            my $checker =
-              Foswiki::Configure::UI::loadChecker( $keys, $visitee );
-            die if ( exists $this->{fb}{$keys} );
+        # Found supplier, instantiate checker
+        # Retain for AUDIT reruns to save load and allow audit
+        # to save state
 
-            # See if it provides feedback.  If not, just re-check.
+        $visitee->{_fbchecker} = my $checker = $visitee->{_fbchecker}
+          || Foswiki::Configure::UI::loadChecker( $keys, $visitee );
 
-            if ( $checker && $checker->can('provideFeedback') ) {
-                my ( $text, $checkall ) = eval {
-                    $checker->provideFeedback( $visitee, $this->{button},
-                        $this->{buttonValue} );
-                };
-                if ($@) {
-                    $text = $checker->ERROR(
-                        "Feedback for $keys failed:  check for .spec issues: $@"
-                    );
-                    $checkall = 0;
-                }
-                $this->{fb}{$keys} = $text if ($text);
-                $this->{checkall} = $checkall || 0;
+        # Multiple checks possible in audit AUDITGROUP, which limits buttons
+        # to 20.  The upper bound here is simply to catch a loop where a
+        # provider re-requests itself every time - or a depenency loop
+        # of n checkers that has the same effect.
+        die "$keys run loop\n"
+          if ( ++$this->{nrun}{$keys} > 21 );
+
+        # See if it provides feedback.  If not, just re-check.
+
+        my $button = $this->{button};
+        if ( $checker && $button && $checker->can('provideFeedback') ) {
+            push @{ $this->{checks} }, $keys;
+            my ( $text, $checkall ) = eval {
+                $checker->provideFeedback( $visitee, $button,
+                    $this->{buttonValue} );
+            };
+            if ($@) {
+                $text = $checker->ERROR(
+                    "Feedback for $keys failed:  check for .spec issues: $@");
+                $checkall = 0;
             }
-            elsif ($checker) {
-                my $check = eval { return $checker->check($visitee); };
-                if ($@) {
-                    $check = $checker->ERROR(
-                        "Checker for $keys failed: check for .spec issues:$@");
+            if ($text) {
+                if ( exists $this->{fb}{$keys} ) {
+                    $this->{fb}{$keys} .= $text;
                 }
-                unless ( !$check
-                    || $check && $check eq 'NOT USED IN THIS CONFIGURATION' )
-                {
-                    $this->{fb}{$keys} = $check;
+                else {
+                    $this->{fb}{$keys} = $text;
                 }
             }
-            else {
-                die ".spec ERROR: No source for specified feedback for $keys\n";
-            }
-            $this->{errors}{$keys} = "$visitee->{errors} $visitee->{warnings}";
-
-            return 0;    # Stop scan
+            $this->{checkall} = $checkall || 0;
         }
-        else {
-
-            # Run checkers
-
-            return 1
-              if ( $this->{checkall} == 1 && !$this->{changed}{$keys}
-                || $keys eq $this->{request} );
-
-            my $checker =
-              Foswiki::Configure::UI::loadChecker( $keys, $visitee );
-            if ($checker) {
-                my $check = eval { return $checker->check($visitee); };
-                if ($@) {
-                    $check = $checker->ERROR(
-                        "Checker for $keys failed: check for .spec issues:$@");
-                }
-                unless ( !$check
-                    || $check && $check eq 'NOT USED IN THIS CONFIGURATION' )
-                {
-                    if ( exists $this->{b}{$keys} ) {
+        elsif ($checker) {
+            push @{ $this->{checks} }, $keys;
+            my $check = eval { return $checker->check($visitee); };
+            if ($@) {
+                $check = $checker->ERROR(
+                    "Checker for $keys failed: check for .spec issues:$@");
+            }
+            unless ( !$check
+                || $check && $check eq 'NOT USED IN THIS CONFIGURATION' )
+            {
+                if ($check) {
+                    if ( exists $this->{fb}{$keys} ) {
                         $this->{fb}{$keys} .= $check;
                     }
                     else {
                         $this->{fb}{$keys} = $check;
                     }
                 }
-                $this->{errors}{$keys} =
-                  "$visitee->{errors} $visitee->{warnings}";
             }
         }
+        elsif ($button) {
+            die ".spec ERROR: No source for $keys feedback\n";
+        }
+        $this->{errors}{$keys} = "$visitee->{errors} $visitee->{warnings}";
+
+        return 0;    # Stop scan
     }
+    else {
+
+        # Run checkers
+
+        return 1
+          if ( $this->{checkall} == 1 && !$this->{changed}{$keys}
+            || $keys eq $this->{request} );
+
+        my $checker = Foswiki::Configure::UI::loadChecker( $keys, $visitee );
+        if ($checker) {
+            push @{ $this->{checks} }, $keys;
+            my $check = eval { return $checker->check($visitee); };
+            if ($@) {
+                $check = $checker->ERROR(
+                    "Checker for $keys failed: check for .spec issues:$@");
+            }
+            unless ( !$check
+                || $check && $check eq 'NOT USED IN THIS CONFIGURATION' )
+            {
+                if ( exists $this->{b}{$keys} ) {
+                    $this->{fb}{$keys} .= $check;
+                }
+                else {
+                    $this->{fb}{$keys} = $check;
+                }
+            }
+            $this->{errors}{$keys} = "$visitee->{errors} $visitee->{warnings}";
+        }
+    }
+
     return 1;
 }
 

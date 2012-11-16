@@ -20,7 +20,6 @@ use Assert;
 use Error qw( :try );
 
 our $LWPAvailable;
-our $IPCRunAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 
 # note that the session is *optional*
@@ -285,7 +284,7 @@ sub _logMailError {
     }
 
     if ( $Foswiki::cfg{SMTP}{Debug} ) {
-        print STDERR "MAIL " . uc($level) . $msg . "\n";
+        print STDERR "MAIL " . uc($level) . " $msg\n";
     }
     else {
         my $logger;
@@ -295,7 +294,7 @@ sub _logMailError {
         else {
             $logger = $Foswiki::cfg{Log}{Implementation};
             unless ($logger) {
-                print STDERR "MAIL " . uc($level) . $msg . "\n";
+                print STDERR "MAIL " . uc($level) . " $msg\n";
                 die "MAIL $level: $msg\n" if ($die);
                 return;
             }
@@ -342,9 +341,15 @@ sub _installMailHandler {
         # this must be untainted
         # SMELL: That topic tells me nothing - AFAICT this untaint is not
         # required.
-        require Foswiki::Sandbox;
-        $this->{MAIL_HOST} =
-          Foswiki::Sandbox::untaintUnchecked( $this->{MAIL_HOST} );
+
+        $this->{MAIL_HOST} ||= '';
+        $this->{MAIL_HOST} =~ /^(.*)$/;
+        $this->{MAIL_HOST} = $1;
+
+        $this->{MAIL_METHOD} =~ /^([\w:_]+)$/ or    # Config or intruder
+          die "Invalid {Email}{MailMethod} $this->{MAIL_METHOD}\n";
+        $this->{MAIL_METHOD} = $1;
+
         eval "require $this->{MAIL_METHOD};";
         if ($@) {
             $this->_logMailError( 'error',
@@ -413,9 +418,22 @@ sub sendEmail {
     return 'No mail handler available' unless $this->{mailHandler};
 
     # Put in a Date header, mainly for Qmail
-    require Foswiki::Time;
-    my $tzone = ( $Foswiki::cfg{Email}{Servertime} ) ? 'servertime' : 'gmtime';
-    my $dateStr = Foswiki::Time::formatTime( time, '$email', $tzone );
+    # Do NOT use Foswiki::Time, as it includes Foswiki, which
+    # is bad for configure.  Use RFC822-compliant date, which
+    # requires a US locale for time (e.g month and day of week names).
+
+    require POSIX;
+    POSIX->import(qw(locale_h));
+    my $old_locale = POSIX::setlocale( LC_TIME(), 'en_US.ISO8859-1' );
+    my $dateStr;
+    if ( $Foswiki::cfg{Email}{Servertime} ) {
+        $dateStr = POSIX::strftime( '%a, %d %b %Y %T %z"', localtime(time) );
+    }
+    else {
+        $dateStr = POSIX::strftime( '%a, %d %b %Y %T ', gmtime(time) ) . 'GMT';
+    }
+    setlocale( LC_TIME(), $old_locale );
+
     $text = "Date: " . $dateStr . "\n" . $text;
     my $errors   = '';
     my $back_off = 1;    # seconds, doubles on each retry
@@ -441,10 +459,13 @@ sub sendEmail {
 "Mail could not be sent to $to - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
             }
             $errors .= "Emailing $to - $e\n";
-            sleep($back_off);
-            $back_off *= 2;
-            $errors .= "Too many failures sending mail"
-              unless $retries;
+            if ($retries) {
+                sleep($back_off);
+                $back_off *= 2;
+            }
+            else {
+                $errors .= "Too many failures sending mail";
+            }
         };
     }
 
@@ -574,55 +595,50 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
 
     $text = "$header\n\n$body";    # rebuild message
 
-    $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
+    if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
+        $this->_smimeSignMessage($text);
+
+        if ( $Foswiki::cfg{SMTP}{Debug} ) {    # Log only headers
+            $text =~ /^(.*?\r?\n\r?\n)/s;
+            $header = "$1 ... Message contents ...\n";
+        }
+    }
+
+    # With feedback, unsaved values are tainted.
+    # We don't have special priveleges (or shouldn't), and
+    # MailProgram allows specifying an arbitrary command - e.g. rm.
+    # So there's not much point in trying to be defensive here.
+
+    my $mailer = $Foswiki::cfg{MailProgram} || '';
+    $mailer .= ' ' . ( $Foswiki::cfg{SMTP}{DebugFlags} || '' )
+      if ( $Foswiki::cfg{SMTP}{Debug} && $Foswiki::cfg{SMTP}{DebugFlags} );
+    $mailer =~ m/^(.*)$/;
+    $mailer = $1;
 
     $this->_logMailError( 'debug',
-"====== Sending to $Foswiki::cfg{MailProgram} ======\n$text\n======EOM======"
-    );
+        "====== Sending to $mailer ======\n$header\n======EOM======" );
 
-    unless ( defined $IPCRunAvailable ) {
-        eval 'require IPC::Run';
-        $IPCRunAvailable = ($@) ? 0 : 1;
-    }
+    my $MAIL;
+    open( $MAIL, '|-', $mailer )
+      || $this->_logMailError( 'die', "Can't send mail using $mailer" );
+    print $MAIL $text;
+    close($MAIL);
 
-    if ($IPCRunAvailable) {
-        my ( $out, $err );
-        my @cmd = split /\s/, $Foswiki::cfg{MailProgram};
-        require IPC::Run;
-        IPC::Run::run( \@cmd, \$text, \$out, \$err )
-          or $this->_logMailError(
-            'die',
-            "Mail failure exit code "
-              . ( $? << 8 )
-              . " ($?) from Foswiki::cfg{MailProgram}"
-          );
-        print STDERR "$out" if ($out);
-        print STDERR "$err" if ($err);
-    }
-    else {
-        my $MAIL;
-        open( $MAIL, '|-', $Foswiki::cfg{MailProgram} )
-          || $this->_logMailError( 'die',
-            "Can't send mail using Foswiki::cfg{MailProgram}" );
-        print $MAIL $text;
-        close($MAIL);
+    # If you see 67 (17152) (== EX_NOUSER), then the mail is probably
+    # queued and will eventually reach the user, despite the error.
+    # The chances are good that you are seeing the same problem as we
+    # had on foswiki.org, finally solved by Olivier Raginel viz. The
+    # source address is:
+    #     From: webmaster@foswiki.org
+    # but sendmail thinks it's running on foswiki.org, and knows there is no
+    # 'webmaster' user, so it gets confused. The 'From:' in the mail must
+    # refer to a user account that exists locally. After we created a dummy
+    # 'webmaster' user, the error went away.
+    $this->_logMailError( 'die',
+        "Mail failure exit code " . ( $? >> 8 ) . " ($?) from $mailer" )
+      if $?;
 
-        # If you see 67 (17152) (== EX_NOUSER), then the mail is probably
-        # queued and will eventually reach the user, despite the error.
-        # The chances are good that you are seeing the same problem as we
-        # had on foswiki.org, finally solved by Olivier Raginel viz. The
-        # source address is:
-        #     From: webmaster@foswiki.org
-        # but sendmail thinks it's running on foswiki.org, and knows there is no
-        # 'webmaster' user, so it gets confused. The 'From:' in the mail must
-        # refer to a user account that exists locally. After we created a dummy
-        # 'webmaster' user, the error went away.
-        $this->_logMailError( 'die',
-                "Mail failure exit code "
-              . ( $? >> 8 )
-              . " ($?) from Foswiki::cfg{MailProgram}" )
-          if $?;
-    }
+    return;
 }
 
 sub _sendEmailByNetSMTP {
@@ -713,17 +729,24 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
     #if ($this->{MAIL_METHOD} eq 'Net::SMTP::TLS') {
     #$this-> _logMailError('debug', "Creating new TLS Object with @options");
-    #$smtp = Net::SMTP::TLS->new(
-    #        $this->{MAIL_HOST},
-    #        @options
-    #    );
     #}
 
-    if ( $this->{MAIL_METHOD} eq 'Net::SMTP::SSL' ) {
-        $smtp = Net::SMTP::SSL->new( $this->{MAIL_HOST}, @options );
+    if (1) {    # See https://rt.cpan.org/Public/Bug/Display.html?id=80846
+                # which this works-around...
+
+        package Foswiki::Configure::Net::Mail;
+        our @ISA = ( $this->{MAIL_METHOD} );
+
+        sub debug_print {
+            my ( $cmd, $out, $text ) = @_;
+            print STDERR $ISA[0], ( $out ? '>>> ' : '<<< ' ),
+              $cmd->debug_text( $out, $text );
+        }
+        $smtp =
+          Foswiki::Configure::Net::Mail->new( $this->{MAIL_HOST}, @options );
     }
     else {
-        $smtp = Net::SMTP->new( $this->{MAIL_HOST}, @options );
+        $smtp = $this->{MAIL_METHOD}->new( $this->{MAIL_HOST}, @options );
     }
 
     my $status = '';
@@ -763,8 +786,19 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     $smtp->mail($from) || $this->_logMailError( 'die', $mess . $smtp->message );
     $smtp->to( @to, { SkipBad => 1 } )
       || $this->_logMailError( 'die', $mess . $smtp->message );
-    $smtp->data($text) || $this->_logMailError( 'die', $mess . $smtp->message );
-    $smtp->dataend()   || $this->_logMailError( 'die', $mess . $smtp->message );
+
+    if ( $Foswiki::cfg{SMTP}{Debug} ) {
+        my $debug = $smtp->debug(0);
+        $smtp->data($text)
+          || $this->_logMailError( 'die', $mess . $smtp->message );
+        $smtp->debug_print( 1, " ... Message contents ...\n" );
+        $smtp->debug($debug);
+    }
+    else {
+        $smtp->data($text)
+          || $this->_logMailError( 'die', $mess . $smtp->message );
+    }
+    $smtp->dataend() || $this->_logMailError( 'die', $mess . $smtp->message );
     $smtp->quit();
 }
 

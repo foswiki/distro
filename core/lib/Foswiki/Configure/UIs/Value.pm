@@ -81,8 +81,16 @@ sub renderHtml {
     my $hiddenTypeOf =
       Foswiki::Configure::UI::hidden( 'TYPEOF:' . $keys, $value->{typename} );
 
-    my $index = $keys;
-    $index = "$index <span class='configureMandatory'>required</span>"
+    my $index = '';
+    my $haslabel;    # label replaces {key}{s}
+    if ( defined( my $label = $value->label ) ) {
+        $index .= $label;
+        $haslabel = 1;
+    }
+    else {
+        $index .= $keys;
+    }
+    $index .= " <span class='configureMandatory'>required</span>"
       if $value->{mandatory};
 
     if ( defined $feedback ) {
@@ -101,7 +109,9 @@ sub renderHtml {
                     $pinfo = qq{, '$1'};
                     $fb    = $2;
                 }
-                $buttons .= "<br />" if ( $nd++ % 3 == 0 );
+                $buttons .= "<br />"
+                  if ( $nd % 3 == 0 && ( !$haslabel || $nd ) );
+                $nd++;
             }
             my $q = '"';
             $q = "'" if ( $fb =~ /["]/ );

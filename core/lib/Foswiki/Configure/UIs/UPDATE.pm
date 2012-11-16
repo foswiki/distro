@@ -14,6 +14,8 @@ package Foswiki::Configure::UIs::UPDATE;
 use strict;
 use warnings;
 
+use Foswiki::Configure(qw/:DEFAULT :cgi/);
+
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
 
@@ -49,21 +51,21 @@ sub commitChanges {
 
     my $logfile;
     $this->{log}  = '';
-    $this->{user} = $Foswiki::query->remote_user() || $ENV{REMOTE_USER} || '';
-    $this->{addr} = $Foswiki::query->remote_addr() || $ENV{REMOTE_ADDR} || '';
+    $this->{user} = $query->remote_user() || $ENV{REMOTE_USER} || '';
+    $this->{addr} = $query->remote_addr() || $ENV{REMOTE_ADDR} || '';
 
     # Pass ourselves as log listener
     my $msg =
       Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this, $insane );
 
-    if ( $this->{log} && defined( $Foswiki::cfg{Log}{Dir} ) ) {
+    if ( $this->{log} && defined( $cfg{Log}{Dir} ) ) {
 
         # configuration variable may be coming from POST, and might thus
         # be tainted, we must be able to trust that the adminstrator has
         # input a proper path and therefore untaint rigourously
         # NOTE: this assumes configure is properly hardened through the web
         # server as instructed in the fine manual!
-        my $logdir = $Foswiki::cfg{Log}{Dir};
+        my $logdir = $cfg{Log}{Dir};
         Foswiki::Configure::Load::expandValue($logdir);
         ($logdir) = $logdir =~ /^(.*)$/;
         unless ( -d $logdir ) {
@@ -71,7 +73,13 @@ sub commitChanges {
             $msg .= "<br />Created $logdir\n";
         }
         if ( open( my $lf, '>>', "$logdir/configure.log" ) ) {
+            my $notes = $query->param('SaveChangesNotes');
+            if ( $notes && $notes =~ /[^\s\r]/ ) {
+                print $lf "# -------- Start of Update --------\n";
+                print $lf "# $_\n" foreach ( split /\r?\n/, $notes );
+            }
             print $lf $this->{log};
+            print $lf "# --------- End of Update ---------\n" if ($notes);
             close($lf) or die "Failed to close $logdir/configure.log:$!\n";
         }
     }

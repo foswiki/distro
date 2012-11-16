@@ -56,7 +56,7 @@ sub check {
               unless (
                 $addr =~ /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i );
 
-            # unless( $addr =~ /\s*[^@]+\@\S+\s*/ );
+            # unless( $addr =~ /\s*[^@]+\@\S+\s*/ ); #'
         }
     }
 
@@ -142,9 +142,14 @@ sub _mailFork {
         $Foswiki::cfg{Email}{SmimeCertificateFile} );
     Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
 
-    $Foswiki::cfg{SMTP}{Debug} = 1;
+    my $stderr    = '';
+    my $stdout    = '';
+    my $neterrors = '';
 
-    my $smimeHtmlText = << "NOTSMIME";
+    {
+        local $Foswiki::cfg{SMTP}{Debug} = 1;
+
+        my $smimeHtmlText = << "NOTSMIME";
 
 <p>You have not configured <b>Foswiki</b> to send S/MIME signed e-mail notifications.
 
@@ -153,7 +158,7 @@ which often contains hyperlinks, you may wish to consider enabling
 this feature.
 NOTSMIME
 
-    $smimeHtmlText = << "SMIME" if ( $Foswiki::cfg{Email}{EnableSMIME} );
+        $smimeHtmlText = << "SMIME" if ( $Foswiki::cfg{Email}{EnableSMIME} );
 <p>You have configured <b>Foswiki</b> to send S/MIME signed e-mail notifications.
 
 <p>This message should be signed with the certificate that you
@@ -165,10 +170,10 @@ the <tt>{Email}{SmimeCertificateFile}</tt>, <tt>{Email}{SmimeKeyFile}</tt>
 and <tt>{Email}{SmimeKeyPassword}</tt> settings, as well as the system logs.
 SMIME
 
-    my $smimePlainText = $smimeHtmlText;
-    $smimePlainText =~ s/<[^>]*>//g;
+        my $smimePlainText = $smimeHtmlText;
+        $smimePlainText =~ s/<[^>]*>//g;
 
-    my $msg = << "MAILTEST";
+        my $msg = << "MAILTEST";
 From: "$Foswiki::cfg{WebMasterName}" <$Foswiki::cfg{WebMasterEmail}>
 To: $addrs
 Subject: Test of Foswiki e-mail to $keys
@@ -364,27 +369,98 @@ U4kyGRD1h/t/K/8VYAAe30lsvO6PVgAAAABJRU5ErkJggg==
 --=_=0i0k0i0w0s0o0fXuOi0E0A--
 MAILTEST
 
-    my $net       = Foswiki::Net->new();
-    my $stderr    = '';
-    my $neterrors = '';
-    eval {
-        local *STDERR;
-        open( STDERR, '>', \$stderr );
-        $neterrors = $net->sendEmail( $msg, 1 );
-        close STDERR;
-    } or $neterrors .= $@;
+        my $net = Foswiki::Net->new();
+
+        open( my $savedOut, '>&STDOUT' ) or die "Can't save STDOUT:$!\n";
+        open( my $savedErr, '>&STDERR' ) or die "Can't save STDERR:$!\n";
+
+        close STDOUT or die "Can't close original STDOUT";
+        open( STDOUT, '+>', undef ) or die "Can't capture STDOUT:$!\n";
+
+        close STDERR or die "Can't close original STDERR";
+        open( STDERR, '+>', undef ) or die "Can't capture STDERR:$!\n";
+
+        eval {
+            $neterrors .= $net->sendEmail( $msg, 1 );
+            return 1;
+        } or $neterrors .= $@;
+
+        seek( STDERR, 0, 0 ) or die "Seek: STDERR:$!\n";
+
+        local $/ = "\n";
+
+        while (<STDERR>) {
+            $stderr .= $_;
+        }
+        close STDERR or die "Can't close capturing STDERR:$!\n";
+        open( STDERR, '>&', $savedErr ) or die "Can't restore STDERR:$!\n";
+        close $savedErr;
+
+        seek( STDOUT, 0, 0 ) or die "Seek: STDOUT:$!\n";
+
+        while (<STDOUT>) {
+            $stdout .= $_;
+        }
+        close STDOUT or die "Can't close capturing STDOUT:$!\n";
+        open( STDOUT, '>&', $savedOut ) or die "Can't restore STDOUT:$!\n";
+        close $savedOut;
+
+        # sendmail in debug mode echos the entire message - twice.
+        # We'll remove that from the log.
+
+        if ( $Foswiki::cfg{MailProgram} =~ /(?:^|\b)sendmail(?:\b|$)/ ) {
+            my $stampre = qr/^(?:\d+\s+(<<<|>>>)\s+)/;
+            my @lines = split( /\r?\n/, $stderr );
+
+            # This could be an ugly RE, but a state machine is simpler
+            $stderr = '';
+            my $line;
+            my $state = 0;
+            while (@lines) {
+                $line = shift @lines;
+                if ( $state == 0 ) {
+                    $stderr .= "$line\n";
+                    if ( $line =~ /$stampre/ ) {
+                        $state = 1;
+                    }
+                    next;
+                }
+                if ( $state == 1 || $state == 3 ) {
+                    if ( $line =~ /$stampre$/ ) {
+                        $stderr .= " ... Message contents ...\n";
+                        $state++;
+                        next;
+                    }
+                    $stderr .= $line . "\n";
+                    next;
+                }
+                if ( $state == 2 ) {
+                    next if ( $line !~ /$stampre\[EOF\]$/ );
+                    $state++;
+                }
+                last if ( $line =~ /$stampre\.$/ );
+            }
+            $stderr .= join( "\n", @lines );
+        }
+    }
 
     my $results = '';
     $results .= $this->ERROR($neterrors) if ($neterrors);
 
-    if ($stderr) {
-        $stderr =~ s/<a\s+/<a target="_blank" /gms;
-        $results .=
-          $this->NOTE("Transcript of e-mail server dialog")
-          . "<div><pre>$stderr</pre></div>";
-    }
+    if ( $neterrors || $Foswiki::cfg{SMTP}{Debug} ) {
+        if ($stdout) {
+            $results .=
+              $this->NOTE("Mailer output") . "<div><pre>$stdout</pre></div>";
+        }
+        if ($stderr) {
+            $stderr =~ s/<a\s+/<a target="_blank" /gms;
+            $results .=
+              $this->NOTE("Transcript of e-mail server dialog")
+              . "<div><pre>$stderr</pre></div>";
+        }
 
-    return $results if ($neterrors);
+        return $results if ($neterrors);
+    }
 
     if ( $keys eq '{WebMasterEmail}' ) {
         return $this->NOTE(

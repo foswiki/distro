@@ -1,4 +1,15 @@
 </form>
 </div>
+<!-- This div is invisible, except when activated as
+     a modal window.  It must be outside the main
+     form.  Any reference to main form elements must
+     be qualified.  This is because the div is moved
+     when activated by nyroModal. -->
+
+<a href="#configureModalWindow" id="activateConfigureModalWindow" class="configureModalActivator configureHiddenActivator">Invisible</a>
+<div id="configureModalWindow" class="configureModalWindow">
+  <div id="configureModalContents" class="configureModalContents">
+  </div>
+</div>
 </body>
 </html>

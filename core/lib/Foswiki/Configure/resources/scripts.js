@@ -1,12 +1,6 @@
 /*jslint regexp: true, browser: true */
 
 /* Don't use // style comments, or you'll break the stupid minifier  */
-/* Hack to support nyroModal with jQuery 1.8, which removed $.curCss.
- * Should be able to remove this with nyroModal V2.
- */
-if (!$.curCSS) {
-    $.curCSS = $.css;
-}
 
 var configure = (function ($) {
 
@@ -568,19 +562,31 @@ var configure = (function ($) {
                 $('#' + configure.utils.quoteName(alertDiv)).html(statusLine).removeClass('foswikiAlertInactive');
             }
 
-            /* Finally, the summary status bar */
+            /* Finally, the summary status bar
+             * Keep in sync with UIs/Section.pm, ModalTemplates.pm
+             # and the templates...
+             */
 
             statusLine = '';
             if( totalWarnings || totalErrors ) {
                 if( totalErrors ) {
-                    statusLine += '<span class="configureStatusErrors">' + totalErrors + " Error";
+                    statusLine += 
+                    '<button id="{ConfigureGUI}{Modals}{DisplayErrors}feedreq1" class="foswikiButton" onclick="return doFeedback(this);" value="1" type="button">' +
+                        '<span class="configureStatusErrors">' + 
+                        totalErrors + " Error";
                     if( totalErrors !== 1 ) { statusLine += 's'; }
-                    statusLine += '</span>';
+                    statusLine += '</span></button>';
                 }
                 if( totalWarnings ) {
-                    statusLine += '<span class="configureStatusWarnings">' + totalWarnings + " Warning";
+                    if( !totalErrors ) {
+                        statusLine += 
+                            '<button id="{ConfigureGUI}{Modals}{DisplayErrors}feedreq1" class="foswikiButton" onclick="return doFeedback(this);" value="1" type="button">';
+                    }
+                    statusLine += '<span class="configureStatusWarnings">' +
+                        totalWarnings + " Warning";
                     if( totalWarnings !== 1 ) { statusLine += 's'; }
                     statusLine += '</span>';
+                    if( !totalErrors ) { statusLine += '</button>'; }
                 }
             } else {
                 statusLine += '<span class="configureStatusOK">No problems detected</span>';
@@ -847,7 +853,7 @@ $(document).ready(function () {
     $(".configureToggleSections a").click(function () {
         configure.toggleSections();
     });
-    $("input.foswikiFocus").each(function () {
+    $(":input.foswikiFocus").each(function () {
         this.focus();
     });
     $(".configureRootSection table.configureSectionValues div.configureError").each(function () {
@@ -900,6 +906,12 @@ $(document).ready(function () {
             }
         });
     });
+                
+    $('.configureModalActivator').nyroModal( { callbacks: { 
+        afterShowCont: function (nm) {
+            nm.elts.cont.find(":input.foswikiFocus:first").focus();
+        }
+    }} );
 
     configure.updateIndicators();
 
@@ -961,7 +973,10 @@ function doFeedback(key, pathinfo) {
         KeyIdSelector = '#' + quoteKeyId,
         posturl = document.location.pathname, /* Where to post form */
         working,
-        stsWindowId;
+        stsWindowId,
+        modalObject = $('#activateConfigureModalWindow').data('nmObj'),
+        mIsOpen = modalObject._open;
+
 
     /* Add a named item from a form to the POST data */
 
@@ -970,34 +985,21 @@ function doFeedback(key, pathinfo) {
         return;
     }
 
-    /* Effectively alert(), but supporting HTML content.  */
-    function errorMessage(m) {
-        if (m.length <= 0) {
-            m = "Unknown error encountered";
+    /* modal window for errors, modal forms */
+
+    function modalWindow(m) {
+        if( !m.length ) {
+            m = "[Empty window]"; /* Debug this */
         }
-        /* nyroModal has wierd styles on <pre> that shrink to unreadability, 
-         * switch to <code> as <pre> s used by CGI::Carp.
-         */
-        m = m.replace(/<(\/)?pre>/gi, "<$1code>").replace(/\n/g, '<br />');
 
-        var contents = '<div id="configureFeedbackErrorWindow" class="configureFeedbackError" style="display:none">' + m + '</div>';
-        /* If we already have the necessary DOM, re-use it.  Otherwise, we'll put it after the
-         * last button pressed.  It's just a place we know how to find; the DOM is not visible.
-         * It would be good to remove the DOM on close, but the various versions and states of
-         * nyroModal make that more trouble than it's worth.  The wrapping div is for CSS.
-         *
-         * An invisible link is made modal.  That link's hashtag points tothe *id* of an invisible
-         * div, which holds the content.  The *div* isn't modal.  The link is clicked once the 
-         * div is created (or replaced), and nyroModal handles things from there.
-         * Somewhat arcane, but that's the way nyroModal works.
+        /* There is currently one modal window defined in pageend.
+         * We replace its contents and make it display.  Feedback also uses it.
          */
-
-        if ($('#configureFeedbackErrorWindow').size() === 0) { /* Don't have error window */
-            $(KeyIdSelector).after('<a href="#configureFeedbackErrorWindow" class="configureFeedbackError" id="configureFeedbackErrorLink"></a>' + contents);
-            $('#configureFeedbackErrorLink').nyroModal().click();
-        } else { /* Re-use the window and link */
-            $('#configureFeedbackErrorWindow').replaceWith(contents);
-            $('#configureFeedbackErrorLink').click();
+        $('#configureModalContents').html(m);
+        if( mIsOpen ) {
+            modalObject.resize(true);
+        } else {
+            $('#activateConfigureModalWindow').click();
         }
     }
 
@@ -1005,8 +1007,17 @@ function doFeedback(key, pathinfo) {
      * Extract content for a div, stripping page overhead.
      */
 
-    function errorMessageFromHTML(m) {
-        errorMessage(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
+    function modalWindowFromHTML(m) {
+        if (m.length <= 0) {
+            m = "Unknown error encountered";
+        }
+        /* nyroModal has wierd styles on <pre> that shrink to unreadability, 
+         * switch to <code> as <pre> s used by CGI::Carp.  This should be removed
+         * once the nyroModal CSS is fixed.
+         */
+        m = m.replace(/<(\/)?pre>/gi, "<$1code>").replace(/\n/g, '<br />');
+
+        modalWindow(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
     }
 
     /* Request handling:
@@ -1022,11 +1033,19 @@ function doFeedback(key, pathinfo) {
         posturl = posturl + pathinfo;
     }
 
-    /* Scan all the input controls in the form containing the button,
+    /* Scan all the input controls  This could be simply the closest form
+     * to the button - except that with modal forms, we have multiple forms
+     * on the page.  So we scan them all - fortunately only the main
+     * form is large.  It's important not to have conflicting names.
+     * Note that POSTS that submit directly (non-feedback) do not merge controls
+     * across forms.  Here, feedback needs the full state.
      * Include successful controls.  Skip disabled and nameless controls.
      */
 
-    $(KeyIdSelector).closest('form').find(":input:enabled").not(':file,:submit,:reset,:button').each(function (index) {
+/*    $(KeyIdSelector).closest('form').find(":input:enabled").not(':file,:submit,:reset,:button').each(function (index) {
+*/
+
+    $('form').find(":input:enabled").not(':file,:submit,:reset,:button').each(function (index) {
         var opts,
             i,
             ilen,
@@ -1109,6 +1128,10 @@ function doFeedback(key, pathinfo) {
         }
         stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
         $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
+
+        if( mIsOpen ) {
+            modalObject.resize(true);
+        }
     }
 
     /* Make the request
@@ -1194,9 +1217,7 @@ function doFeedback(key, pathinfo) {
                 $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
             }
 
-            /* Perhaps this should go to the status bar? */
-
-            errorMessage('<h1>' + xhr.status.toString() + " " + xhr.statusText + "</h1>" + xhr.responseText);
+            modalWindow('<h1>' + xhr.status.toString() + " " + xhr.statusText + "</h1>" + xhr.responseText);
             return true;
         },
         /* Using complete ensures that jQuery provides xhr on success.
@@ -1225,7 +1246,9 @@ function doFeedback(key, pathinfo) {
                 opts,
                 v,
                 eleDisabled,
-                errorsChanged = 0;
+                modalIsOpen = modalObject._open,
+                openModal = false,
+                errorsChanged =  false;
 
             /* Clear "working" status in case of errors or updates that don't target
              * the original status div.  This also updates the class.
@@ -1241,7 +1264,7 @@ function doFeedback(key, pathinfo) {
                     if (data.length <= 0) {
                         data = "Empty response received from feedback request";
                     }
-                    errorMessageFromHTML(data);
+                    modalWindowFromHTML(data);
                 }
                 return true;
             }
@@ -1250,9 +1273,10 @@ function doFeedback(key, pathinfo) {
             /* Hex constants used rather than octal for JSLint issue. */
 
             items = data.split("\x01");
+            data = undefined;
             for (item = 0; item < items.length; item++) {
                 /* IE sometimes doesn't do capturing split, so simulate one. */
-                delims = ["\x02", "\x03"];
+                delims = ["\x02", "\x03","\x05"];
                 for (i = 0; i < delims.length; i++) {
                     sloc = items[item].indexOf(delims[i]);
                     if (sloc >= 0) {
@@ -1263,11 +1287,14 @@ function doFeedback(key, pathinfo) {
                     }
                 }
                 if (i >= delims.length) {
-                    errorMessage("Invalid opcode in feedback response");
+                    modalWindow("Invalid opcode in feedback response");
                     return true;
                 }
                 if (kpair[1] === "\x02") {
-                    $("#" + configure.utils.quoteName(kpair[0]) + "status").html(kpair[2]);
+                    if( $("#" + configure.utils.quoteName(kpair[0]) + "status").html(kpair[2]).size() < 1 ) {
+                        /* Missing status window - probably template creating modal failed */
+                        modalWindow(kpair[2]);
+                    }
                 } else if (kpair[1] === "\x03") {
                     newval = kpair[2].split(/\x04/);
                     $('[name="' + configure.utils.quoteName(kpair[0]) + '"]').each(function (idx, ele) {
@@ -1295,7 +1322,8 @@ function doFeedback(key, pathinfo) {
                                 }
                             }
                             if (selected < 0) {
-                                errorMessage("Invalid value \"" + newval[0] + "\" for " + kpair[0]);
+                                modalWindow("Invalid value \"" + newval[0] + "\" for " + kpair[0]);
+                                return true;
                             }
                             break;
 
@@ -1317,7 +1345,8 @@ function doFeedback(key, pathinfo) {
                                     }
                                 }
                                 if (i >= opts.length) {
-                                    errorMessage("Invalid value \"" + newval[v] + "\" for " + kpair[0]);
+                                    modalWindow("Invalid value \"" + newval[v] + "\" for " + kpair[0]);
+                                    return true;
                                 }
                             }
                             break;
@@ -1325,7 +1354,7 @@ function doFeedback(key, pathinfo) {
                         case "hidden":
                             v = newval.join("");
                             if( errorKeyRe.test(this.name) ) {
-                                errorsChanged++;
+                                errorsChanged = true;
                                 if( v === "0 0" ) {
                                     eleDisabled = true; /* Do not POST */
                                 } else {
@@ -1352,11 +1381,69 @@ function doFeedback(key, pathinfo) {
                         /* Ignore all other controls */
                         return true;
                     });
-
-                } else { /* This is not possible */
-                    errorMessage("Invalid opcode2 in feedback response");
+                } else if (kpair[1] === "\x05") {
+                    opts = kpair[0].replace(/^\{ModalOptions\}/,'').split(',');
+                    for( i = 0; i < opts.length; i++ ) {
+                        switch( opts[i] ) {
+                        case 's':
+                            v = '';
+                            while( kpair[2].length ) { /* substitute <4>DOMref)*/
+                                sloc = kpair[2].indexOf("\x04");
+                                if( sloc < 0 ) {
+                                    v += kpair[2];
+                                    break;
+                                }
+                                v += kpair[2].substr(0, sloc);
+                                kpair[2] = kpair[2].substr( sloc+1 );
+                                newval = kpair[2].indexOf(')');
+                                if( newval > 0 ) { /* 1 char token required */
+                                    newval = kpair[2].substr( 0, newval );
+                                    v += $('#' + configure.utils.quoteName(newval)).html();
+                                    kpair[2] = kpair[2].substr(newval.length+1);
+                                }
+                            }
+                            kpair[2] = v;
+                            break;
+                        case 'r':
+                            $('#configureModalContents').html(kpair[2]);
+                            break;
+                        case 'a':
+                            $('#configureModalContents').append(kpair[2]);
+                            break;
+                        case 'p':
+                            $('#configureModalContents').prepend(kpair[2]);
+                            break;
+                        case 'o':
+                            openModal = true;
+                            break;
+                        case 'u':
+                            window.location.assign( kpair[2] );
+                            return true;
+                        default:
+                            if( opts[i].charAt(0) === '#' ) {
+                                $('#'+ configure.utils.quoteName(opts[i].substr(1))).html(kpair[2]);
+                                break;
+                            }
+                            modalWindow("Invalid modal window option " + opts[i]);
+                            return true;
+                        }
+                    }
+                 } else { /* This is not possible */
+                    modalWindow("Invalid opcode2 in feedback response");
                 }
             }
+
+            /* Resize if open to account for any content changes
+             * Otherwise, open if requested.  Must not open more
+             * than once, as this creates duplicate DOM.
+             */
+
+            if( modalIsOpen ) {
+                modalObject.resize(true);
+            } else {
+                if( openModal ) {
+                    $('#activateConfigureModalWindow').click();
+                }}
 
             /* Responses with just unsaved items updates or with no error count
              * changes need no more processing.  Otherwise, update the indicators.

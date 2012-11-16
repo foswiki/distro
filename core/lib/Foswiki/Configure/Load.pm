@@ -12,14 +12,31 @@ see FoswikiCfg.pm
 
 =cut
 
-package Foswiki;
-our $configItemRegex = qr/(?:\{[-:\w'"]+\})+/o;
-
 package Foswiki::Configure::Load;
 
 use strict;
 use warnings;
 
+use Foswiki::Configure(qw/:keys/);
+
+# This should be (but isn't yet) the one place in Foswiki that knows the
+# syntax of a valid configuration item.  Note that this has changed, notably
+# permitting strange characters for modules and internationization.  It
+# proably should be any hash key, but isn't.  At least, not yet.
+#
+# The current choice validates that quotes match, but doesn't allow \' or \".
+# This seems the best compromise between strict checking to catch errors
+# early, and flexibility (that other code can't cope with as yet.
+#
+# - quotes with \. escapes
+#$configItemRegex = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[-:\w]+)\})+/o;
+# - Quotes, no \. escapes
+$configItemRegex = qr/(?:\{(?:'[^']+'|"[^"]+"|[-:\w]+)\})+/o;
+
+# - Traditional - doesn't check quotes or allow \. escapes.
+#$configItemRegex = qr/(?:\{[-:\w'"]+\})+/o;
+
+# These are already in Foswiki:: - Does anyone know they are in Configure::Load?
 our $TRUE  = 1;
 our $FALSE = 0;
 

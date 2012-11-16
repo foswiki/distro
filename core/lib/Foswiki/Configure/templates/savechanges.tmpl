@@ -1,0 +1,64 @@
+<!-- Modal form for save changes.  This is invoked from the main screen. -->
+
+<div id="configureSaveForm" class="configureModalForm configureSaveForm">
+  <h1>Save configuration changes</h1>
+<#assign saveChangesForm>
+  <form method="post" action="${formAction}" enctype="multipart/form-data" name="SaveChanges">
+    <input type="hidden" name="time" value="${time}"  />
+
+    <h2>You are about to update 
+        <#if modifiedCount == 1>
+	  ${modifiedCount} setting
+	<#else>
+	  ${modifiedCount} settings
+	</#if>
+	<#if changePassword??>
+	     - and to change your password...
+        </#if>
+    </h2>
+    <#if changesList??>
+	 <div class='configureChangeList'>
+	   <table>
+	     <#list changesList as i>
+	       <tr><th>${i.key}</th><td>${i.value}</td></tr>
+	     </#list>
+	   </table>
+	 </div>
+    </#if>
+    <#if someProblems gt 0>
+        <div><h3></#if>
+    <#if someProblems == 1>
+        There is an unresolved problem.</h3></#if>
+    <#if someProblems gt 1>
+        There are unresolved problems.</h3></#if>
+    <#if totalErrors gt 0>
+        ${totalErrors} error</#if><#if totalErrors gt 1>s</#if><#if totalErrors gt 0 && totalWarnings gt 0>&nbsp;and&nbsp;</#if><#if totalWarnings gt 0>${totalWarnings} warning</#if><#if totalWarnings gt 1>s</#if>
+    <#if passwordProblem gt 0><div class="configureMessageBox foswikiAlert configureWarn"><span><strong>Warning: </strong></span>You are not using browser (webserver) authentication to access configure, and you have not set a configure password.  To protect your wiki, we <strong>strongly</strong> recommend that you use at least one of these methods to secure your site. You can set a configure password with the <strong>Change password</strong> button on the configure task bar.</div></#if>
+    <#if someProblems gt 0>
+    <p>We recommend that you resolve </#if>
+       <#if someProblems == 1>this </#if>
+       <#if someProblems gt 1>these </#if>
+       <#if someProblems gt 0>before saving the configuration.<p></div>
+     </#if>
+     <p><p>
+     <div class="configureLogEntry">
+         <b>Log information for this change</b><br />
+         <textarea wrap="hard" placeholder="Reason for this change" cols="80" rows="20" name="SaveChangesNotes" class="configureLogEntry foswikiFocus"></textarea>
+         <div class="configureLogEntryHelp">
+We recommend that you enter a reason for this configuration change in the box above.  This will be entered into the log and will assist you in the event that you need to back-track or audit changes in the future
+        </div>
+    </div>
+<p>
+</#assign>
+<#assign actionButtonLabel>Save changes</#assign>
+<#assign actionButtonGroup>
+  ${actionButton}
+  ${actionFeedback}<$authenticationReason>Saving the configuration</$authenticationReason>
+</#assign>
+<#if displayStatus == 2>${saveChangesForm}${actionButtonGroup}</#if>
+<#if displayStatus == 1>
+<h2>There are no changes to save</h2>
+</#if>
+${authenticationNeeded}
+  </form>
+</div> 

@@ -1,70 +1,13 @@
 # See bottom of file for license and copyright information
-
-=begin TML
-
----+ package Foswiki::Configure::FoswikiCfg
-
-This is both a parser for configuration declaration files, such as
-FoswikiCfg.spec, and a serialisation visitor for writing out changes
-to LocalSite.cfg
-
-The supported syntax in declaration files is as follows:
-<verbatim>
-cfg ::= ( setting | section | extension )* ;
-setting ::= BOL typespec EOL comment* BOL def ;
-typespec ::= "**" typeid options "**" ;
-def ::= "$" ["Foswiki::"] "cfg" keys "=" value ";" ;
-keys ::= ( "{" id "}" )+ ;
-value is any perl value not including ";"
-comment ::= BOL "#" string EOL ;
-section ::= BOL "#--+" string ( "--" options )? EOL comment* ;
-extension ::= BOL " *" id "*"
-EOL ::= end of line
-BOL ::= beginning of line
-typeid ::= id ;
-id ::= a \w+ word (legal Perl bareword)
-</verbatim>
-
-A *section* is simply a divider used to create blocks. It can
-  have varying depth depending on the number of + signs and may have
-  options after -- e.g. #---+ Section -- TABS EXPERT
-
-A *setting* is the sugar required for the setting of a single
-  configuration value.
-
-An *extension* is a pluggable UI extension that supports some extra UI
-  functionality, such as the menu of languages or the menu of plugins.
-
-Each *setting* has a *typespec* and a *def*.
-
-The typespec consists of a type id and some options. Types are loaded by
-type id from the Foswiki::Configure::Types hierachy - for example, type
-BOOLEAN is defined by Foswiki::Configure::Types::BOOLEAN. Each type is a
-subclass of Foswiki::Configure::Type - see that class for more details of
-what is supported.
-
-A *def* is a specification of a field in the $Foswiki::cfg hash,
-together with a perl value for that hash. Each field can have an
-associated *Checker* which is loaded from the Foswiki::Configure::Checkers
-hierarchy. Checkers are responsible for specific checks on the value of
-that variable. For example, the checker for $Foswiki::cfg{Banana}{Republic}
-will be expected to be found in
-Foswiki::Configure::Checkers::Banana::Republic.
-Checkers are subclasses of Foswiki::Configure::Checker. See that class for
-more details.
-
-An *extension* is a placeholder for a pluggable UI module (a class in
-Foswiki::Configure::Checkers::UIs)
-
-=cut
-
-package Foswiki;
-our $configItemRegex;
+# Also documentation.
 
 package Foswiki::Configure::FoswikiCfg;
 
 use strict;
 use warnings;
+
+use Foswiki::Configure(qw/:DEFAULT :config :keys :util/);
+
 use Data::Dumper ();
 
 use Foswiki::Configure::Visitor ();
@@ -140,6 +83,8 @@ sub load {
 
         package Foswiki::Configure::FoswikiCfg::Verify;
 
+        use Foswiki::Configure;
+
      # If spec files were parsed, but require failed, all kinds of trouble
      # follows because the UI has references, but there are no defaults.
      # Complicating matters, certain parameters in the spec file are
@@ -211,7 +156,7 @@ sub load {
 
                 my $hasMissingValue;
                 eval
-"\$hasMissingValue = !exists \$Foswiki::cfg$keys || !ref( \$Foswiki::cfg$keys) && \$Foswiki::cfg$keys =~ /NOT SET/;\n\$Foswiki::cfg$keys = \$default unless( exists \$Foswiki::cfg$keys ); \$Foswiki::defaultCfg->$keys = \$default unless( exists \$Foswiki::defaultCfg->$keys );";
+"\$hasMissingValue = !exists \$cfg$keys || !ref( \$cfg$keys) && \$cfg$keys =~ /NOT SET/;\n\$cfg$keys = \$default unless( exists \$cfg$keys ); \$Foswiki::defaultCfg->$keys = \$default unless( exists \$Foswiki::defaultCfg->$keys );";
 
                 # Report unless default was provided by the item.
 
@@ -245,8 +190,8 @@ sub load {
             return 1;
         }
 
-        my $valuer = new Foswiki::Configure::Valuer( $Foswiki::defaultCfg,
-            \%Foswiki::cfg );
+        my $valuer =
+          new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%cfg );
         my $this = Foswiki::Configure::FoswikiCfg::Verify->new(
             valuer => $valuer,
             root   => $root,
@@ -293,10 +238,12 @@ sub load {
         _extractSections( [ $errors, $item ], $root );
 
         $item->inc('errors') foreach (@errors);
-        $Foswiki::Configure::UI::toterrors += @errors;
-        $item->inc('warnings') foreach (@warnings);
-        $Foswiki::Configure::UI::totwarnings += @warnings;
-
+        {
+            no warnings 'once';
+            $Foswiki::Configure::UI::toterrors += @errors;
+            $item->inc('warnings') foreach (@warnings);
+            $Foswiki::Configure::UI::totwarnings += @warnings;
+        }
         delete $item->{parent}{children};
         delete $item->{parent}{values};
         undef $item;
@@ -311,7 +258,7 @@ sub stripTraceback {
 
     return '' unless ( length $message );
 
-    return $message if ( $Foswiki::cfg::{DebugTracebacks} );
+    return $message if ( $cfg::{DebugTracebacks} );
 
     $message = ( split( /\n/, $message ) )[0];
     $message =~ s/ at .*? line \d+\.$//;
@@ -343,6 +290,8 @@ sub _loadSpecsFrom {
     # parse. They are expanded to section blocks at the end.
     package SectionMarker;
     @SectionMarker::ISA = ('Foswiki::Configure::Item');
+
+    use Foswiki::Configure;
 
     sub new {
         my ( $class, $depth, $head ) = @_;
@@ -469,6 +418,10 @@ sub _parse {
             }
             $open->set( _defined =>
                   ( $optional ? [ \$file, $., undef ] : [ \$file, $. ] ) );
+
+            # All spec file items are in audit group PARS, button 0
+            $open->addAuditGroup(qw/PARS:0/)
+              if ( $open->isa('Foswiki::Configure::Value') );
             $open->set( keys => $keys );
             _pusht( \@settings, $open );
             $open = undef;
@@ -478,7 +431,10 @@ sub _parse {
 
             # *FINDEXTENSIONS*
             my $pluggable = $1;
-            my $p = eval { Foswiki::Configure::Pluggable::load($pluggable) };
+            my $p         = eval {
+                Foswiki::Configure::Pluggable::load( $pluggable, $file, $root,
+                    \@settings );
+            };
             if ($p) {
                 if ($open) {
                     if ( $open->isa('Foswiki::Configure::Value') ) {
@@ -490,7 +446,16 @@ sub _parse {
                         _pusht( \@settings, $open );
                     }
                 }
-                $open = $p;
+                if ( ref($p) eq 'ARRAY' ) {
+                    _pusht( \@settings, $_ ) foreach (@$p);
+                    $open = undef;
+                }
+                elsif ( ref $p ) {
+                    $open = $p;
+                }
+                else {    # Pluggable took control
+                    $open = undef;
+                }
             }
             else {
                 push @errors,
@@ -612,9 +577,9 @@ sub save {
             die "Unable to read $lsc: $!\n";    # Serious error
         }
 
-        $Foswiki::cfg{MaxLSCBackups} ||= 0;
+        $cfg{MaxLSCBackups} ||= 0;
 
-        last unless ( $Foswiki::cfg{MaxLSCBackups} );
+        last unless ( $cfg{MaxLSCBackups} );
 
         # Save backup copy of current configuration (even if insane)
 
@@ -681,7 +646,8 @@ sub save {
 # CGI script, though you can also make (careful!) manual changes with a
 # text editor.  See the Foswiki.spec file in this directory for documentation
 # Extensions are documented in the Config.spec file in the Plugins/<extension>
-# or Contrib/<extension> directories
+# or Contrib/<extension> directories  (Do not remove the following blank line.)
+
 HERE
     }
 
@@ -705,7 +671,7 @@ HERE
         print F $this->{content};
         close(F) or die "Close failed for $lsc: $!\n";
         umask($um);
-        if ( $backup && ( my $max = $Foswiki::cfg{MaxLSCBackups} ) >= 0 ) {
+        if ( $backup && ( my $max = $cfg{MaxLSCBackups} ) >= 0 ) {
             while ( @backups > $max ) {
                 my $n = pop @backups;
                 unlink "$lsc.$n";
@@ -726,8 +692,54 @@ sub _save {
     my $this = shift;
 
     $this->{content} =~ s/\s*1;\s*$/\n/sg;
-    $this->{root}->visit($this);
-    $this->{content} .= "1;\n";
+
+    # Sort the resulting data by hash key.  Attaches any comments to the
+    # following item.  Requires blank line after header to differentiate
+    # file block comment from comment on first item.  Alternate (old
+    # standard) is to leave (mostly) in .spec file order.
+    # Turning this on may have compatibility issues, and I'm not sure what
+    # it gains. The consequences are more worrisome than the mechanics...
+
+    if (0) {
+        my $header = '';
+        my @content = split( /\r?\n/, $this->{content} );
+
+        while ( @content && $content[0] =~ /^\s*#/ ) {
+            $header .= "$content[0]\n";
+            shift @content;
+        }
+        if ( @content && $content[0] =~ /^\s*$/ ) {
+            $header .= "$content[0]\n";
+            shift @content;
+        }
+
+        my $content;
+        if (@content) {
+            $content = join( "\n", @content ) . "\n";
+        }
+        else {
+            $content = '';
+        }
+        $this->{content} = $content;
+        @content = ();
+
+        $this->{root}->visit($this);
+
+        my %content;
+        $content = $this->{content};
+        $content =~
+s/\A(.*?^\s*?\$(?:Foswiki::)?cfg($configItemRegex)\s*=.*?;\n)/push @content, $2; $content{$2} = $1;''/msge;
+
+        my $trailer = $content;
+
+        $content = $header;
+        $content .= $content{$_} foreach ( sortHashkeyList(@content) );
+        $this->{content} = "$content${trailer}1;\n";
+    }
+    else {
+        $this->{root}->visit($this);
+        $this->{content} .= "1;\n";
+    }
 }
 
 # Visitor method called by node traversal during save. Incrementally modify
@@ -737,7 +749,9 @@ sub startVisit {
 
     if ( $visitee->isa('Foswiki::Configure::Value') ) {
         my $keys = $visitee->getKeys();
-        return 1 if ( $keys =~ /^\{ConfigureGUI\}/ );
+        return 1
+          if ( $keys =~ /^\{ConfigureGUI\}/
+            || $visitee->getTypeName() eq 'NULL' );
         my $warble = $this->{valuer}->currentValue($visitee);
         return 1 unless defined $warble;
 
@@ -781,6 +795,65 @@ sub endVisit {
 
 1;
 __END__
+
+=begin TML
+
+---+ package Foswiki::Configure::FoswikiCfg
+
+This is both a parser for configuration declaration files, such as
+FoswikiCfg.spec, and a serialisation visitor for writing out changes
+to LocalSite.cfg
+
+The supported syntax in declaration files is as follows:
+<verbatim>
+cfg ::= ( setting | section | extension )* ;
+setting ::= BOL typespec EOL comment* BOL def ;
+typespec ::= "**" typeid options "**" ;
+def ::= "$" ["Foswiki::"] "cfg" keys "=" value ";" ;
+keys ::= ( "{" id "}" )+ ;
+value is any perl value not including ";"
+comment ::= BOL "#" string EOL ;
+section ::= BOL "#--+" string ( "--" options )? EOL comment* ;
+extension ::= BOL " *" id "*"
+EOL ::= end of line
+BOL ::= beginning of line
+typeid ::= id ;
+id ::= a \w+ word (legal Perl bareword)
+</verbatim>
+
+A *section* is simply a divider used to create blocks. It can
+  have varying depth depending on the number of + signs and may have
+  options after -- e.g. #---+ Section -- TABS EXPERT
+
+A *setting* is the sugar required for the setting of a single
+  configuration value.
+
+An *extension* is a pluggable UI extension that supports some extra UI
+  functionality, such as the menu of languages or the menu of plugins.
+
+Each *setting* has a *typespec* and a *def*.
+
+The typespec consists of a type id and some options. Types are loaded by
+type id from the Foswiki::Configure::Types hierachy - for example, type
+BOOLEAN is defined by Foswiki::Configure::Types::BOOLEAN. Each type is a
+subclass of Foswiki::Configure::Type - see that class for more details of
+what is supported.
+
+A *def* is a specification of a field in the $Foswiki::cfg hash,
+together with a perl value for that hash. Each field can have an
+associated *Checker* which is loaded from the Foswiki::Configure::Checkers
+hierarchy. Checkers are responsible for specific checks on the value of
+that variable. For example, the checker for $Foswiki::cfg{Banana}{Republic}
+will be expected to be found in
+Foswiki::Configure::Checkers::Banana::Republic.
+Checkers are subclasses of Foswiki::Configure::Checker. See that class for
+more details.
+
+An *extension* is a placeholder for a pluggable UI module (a class in
+Foswiki::Configure::Checkers::UIs)
+
+=cut
+
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors

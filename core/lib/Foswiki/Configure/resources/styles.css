@@ -200,10 +200,6 @@ table.configureFeedbackSummaryTable td {
 }
 .configureFeedbackSummaryCell {
 }
-.configureFeedbackSummaryCell .configureFeedbackUnsaved {
-    font-size:xx-small;
-    color:black;
-}
 .configureFeedbackSummaryCell .configureOk,
 .configureFeedbackSummaryCell .configureUnsaved,
 .configureFeedbackSummaryCell .configureNoChanges {
@@ -213,10 +209,18 @@ table.configureFeedbackSummaryTable td {
     padding-left: 22px;
     background-position:0 0;
 }
+
 .configureFeedback {
     max-height: 200px;
     overflow: auto;
     background-color: #FC000;
+}
+.configureModalForm .configureFeedback {
+    max-height: none;
+}
+.configureAuditResults .configureFeedback {
+    max-height: none;
+    overflow: visible;
 }
 
 div.configureFeedbackPending {
@@ -232,10 +236,6 @@ span.configureFeedbackPendingMessage {
     font-style:italic;
 }
 
-div.configureFeedbackError {
-    height: 301px;
-    width: 301px;
-}
 div.configureFeedbackError H1 {
     color: #FF0000;
     font-weight: bold;
@@ -548,7 +548,8 @@ table.configureSectionValues .foswikiTextarea {
 	margin:.25em 0 .7em 0;
 	padding:7px 1em;
 }
-table.configureSectionValues div.foswikiAlert {
+table.configureSectionValues div.foswikiAlert,
+div.configureAuditResults table.configureErrorList div.foswikiAlert {
 	padding-left:3em;
 }
 div.configureInfoText {
@@ -995,4 +996,61 @@ div.configureMessageBox {
 		padding-left: 10px;
 		padding-right: 10px;
 	}
+}
+
+div#ConfigurationAuditBody span.configureItemLabel {
+    margin-left:100px;
+}
+div.configureModalWindow {
+    display: none;
+}
+.configureHiddenActivator {
+    display:none;
+}
+
+div.configureModalForm {
+}
+div.configurePasswordForm {
+}
+
+div.configureModalContents table.configureErrorList,
+div.configureAuditResults table.configureErrorList {
+    border-spacing: 1px;
+}
+div.configureModalContents tr.configureErrors h2,
+div.configureAuditResults tr.configureErrors h2 {
+    color:#FF0000;
+}
+div.configureModalContents table.configureErrorList thead,
+div.configureModalContents table.configureErrorList tbody, 
+div.configureAuditResults table.configureErrorList thead,
+div.configureAuditResults table.configureErrorList tbody {
+    border: 3px double black;
+}
+div.configureModalContents tr.configureErrorList th,
+div.configureAuditResults tr.configureErrorList th {
+    font-weight:bold;
+    background-color: #D0E2F4;
+}
+div.configureModalContents tr.configureWarnings h2,
+div.configureAuditResults tr.configureWarnings h2 {
+    color:#FF0000;
+}
+div.configureModalContents tr.configureWarningList th,
+div.configureAuditResults tr.configureWarningList th {
+    font-weight:bold;
+    background-color:  #D0E2F4;
+}
+div.configureSaveForm div.foswikiAlert {
+    padding-left: 3em;
+}
+div.configureSaveForm textarea.configureLogEntry {
+    width: 400px;
+    height: 150px;
+    overflow: auto;
+}
+div.configureSaveForm div.configureLogEntryHelp {
+    font-size: x-small;
+    word-wrap:break-word;
+    width: 400px;
 }

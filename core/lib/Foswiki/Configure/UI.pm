@@ -38,6 +38,9 @@ our $MESSAGE_TYPE = {
     PASSWORD_INCORRECT        => ( 1 << 4 ),    # 16
     PASSWORD_CONFIRM_NO_MATCH => ( 1 << 5 ),    # 32
     PASSWORD_EMPTY            => ( 1 << 6 ),    # 64
+
+    SAVE_CHANGES => ( 1 << 10 ),
+
 };
 my $DEFAULT_TEMPLATE_PARSER = 'SimpleFreeMarker';
 my $templateParser;
@@ -526,6 +529,36 @@ sub FB_GUIVAL {
 
 =begin TML
 
+---++ ObjectMethod FB_MODAL(...)
+
+Returns HTML for a modal window, such as a form.
+
+$options = comma-separated list of options - executed in order.
+         default = r
+         r = replace window contents (stepping on previous feedback; multiple checker
+                           coordination is up to the checkers)
+         a = append to window contents
+         p = prepend to window contents
+         o = open (activate) window
+         s = substitute \004...) in data with contents of dom with id ...
+
+The remaining arguments should form html at the <div> level or below.
+N.B. Any other FB_ data targeting items in this html must follow the
+FB_MODAL data.  This is no {ModalOptions} item (or if there is, this
+doesn't interfere.  It simply satisfies the protocol requirement that
+all messages start with something that look like a key.
+
+=cut
+
+sub FB_MODAL {
+    my $this = shift;
+    my $options = shift || 'r';
+
+    return "\001{ModalOptions}$options\005" . join( "", @_ );
+}
+
+=begin TML
+
 ---++ ObjectMethod hidden($value) -> $html
 Used in place of CGI::hidden, which is broken in some CGI versions.
 HTML encodes the value
@@ -570,8 +603,12 @@ the configuration file is actually saved.
 sub authorised {
     my $query = shift;
 
-    my $pass    = $query->param('cfgAccess');
-    my $newPass = $query->param('newCfgP');
+    my $pass     = $query->param('cfgAccess');
+    my $newPass  = $query->param('newCfgP');
+    my $confPass = $query->param('confCfgP');
+
+    my ( $user, $addr ) = ( $query->remote_user(), $query->remote_addr() );
+    my $defWorkDir = $query->param('{WorkingDir}');
 
     # Password defined, but no password supplied - reprompt
     if ( $Foswiki::cfg{Password} && !$pass ) {
@@ -586,41 +623,26 @@ sub authorised {
             $Foswiki::cfg{Password} )
       )
     {
-        logPasswordFailure($query);
+        _logPasswordFailure( $user, $addr );
         return ( 0, $MESSAGE_TYPE->{PASSWORD_INCORRECT} );
     }
 
     # Change the password if so requested
     if ( $query->param('changePassword') ) {
-        my $confPass = $query->param('confCfgP') || '';
-        if ( !$newPass ) {
-            return ( 0, $MESSAGE_TYPE->{PASSWORD_EMPTY} );
-        }
-        if ( $newPass ne $confPass ) {
-            return ( 0, $MESSAGE_TYPE->{PASSWORD_CONFIRM_NO_MATCH} );
-        }
-        $Foswiki::cfg{Password} = _encode_MD5($newPass);
-
-        _encode_Digest( $query, $newPass );
-        return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
+        return _setPassword( $defWorkDir, $newPass, $confPass, $user, $addr );
     }
 
     if ( !defined($pass) && $query->param('checkCfpP') ) {
 
         # first time, but using reload a password has been passed at least once
 
-        my $confPass = $query->param('confCfgP');
         if ( $newPass ne $confPass ) {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_CONFIRM_NO_MATCH} );
         }
         if ( !$newPass || !$confPass ) {
             return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
         }
-        $Foswiki::cfg{Password} = _encode_MD5($newPass);
-
-        _encode_Digest( $query, $newPass );
-
-        return ( 1, $MESSAGE_TYPE->{PASSWORD_CHANGED} );
+        return _setPassword( $defWorkDir, $newPass, $confPass, $user, $addr );
     }
 
     # The first time we get here is after the "next" button is hit. A password
@@ -631,7 +653,7 @@ sub authorised {
     }
 
     # If we get this far, a password has been given. Check it.
-    if ( !$Foswiki::cfg{Password} && !$query->param('confCfgP') ) {
+    if ( !$Foswiki::cfg{Password} && !$confPass ) {
 
         return ( 0, $MESSAGE_TYPE->{PASSWORD_NOT_SET} );
     }
@@ -639,6 +661,67 @@ sub authorised {
     # Password is correct, or no password defined
 
     return ( 1, $MESSAGE_TYPE->{OK} );
+}
+
+sub _setPassword {
+
+    my ( $ok, $detail ) = setPassword(@_);
+
+    return ( $ok, $MESSAGE_TYPE->{$detail} );
+}
+
+# Only called when authenticated; no reason to check old
+
+sub setPassword {
+    my ( $defWorkDir, $newPass, $confPass, $user, $addr ) = @_;
+
+    $confPass ||= '';
+    if ( !$newPass ) {
+        return ( 0, 'PASSWORD_EMPTY' );
+    }
+    if ( $newPass ne $confPass ) {
+        return wantarray ? ( 0, 'PASSWORD_CONFIRM_NO_MATCH' ) : 0;
+    }
+    $Foswiki::cfg{Password} = _encode_MD5($newPass);
+
+    _encode_Digest( $newPass, $defWorkDir );
+    return wantarray ? ( 1, 'PASSWORD_CHANGED' ) : 1;
+}
+
+# These should all become class methods so that they can be
+# over-ridden - e.g. to replace with different encryption of
+# storage.  Watch this space.
+
+sub passwordState {
+    unless ( $Foswiki::cfg{Password} ) {
+        return 'PASSWORD_NOT_SET';
+    }
+    return 'OK';
+}
+
+sub removePassword {
+    delete $Foswiki::cfg{Password};
+
+    return '';
+}
+
+sub checkPassword {
+    my ($password) = @_;
+
+    unless ( $Foswiki::cfg{Password} ) {
+        return 'PASSWORD_NOT_SET';
+    }
+    unless ($password) {
+        return 'PASSWORD_EMPTY';
+    }
+    if ( $Foswiki::cfg{Password} eq
+        _encode_MD5( $password, $Foswiki::cfg{Password} ) )
+    {
+        return 'OK';
+    }
+
+    _logPasswordFailure();
+    return 'PASSWORD_INCORRECT';
 }
 
 sub collectMessages {
@@ -653,6 +736,18 @@ sub collectMessages {
 
 sub logPasswordFailure {
     my $query = shift;
+    my $user  = $query->remote_user();
+    my $addr  = $query->remote_addr();
+
+    return _logPasswordFailure( $user, $addr );
+
+}
+
+sub _logPasswordFailure {
+    my ( $user, $addr ) = @_;
+
+    $user ||= $ENV{REMOTE_USER} || '';
+    $addr ||= $ENV{REMOTE_ADDR} || '';
 
     my $logdir = $Foswiki::cfg{Log}{Dir};
     Foswiki::Configure::Load::expandValue($logdir);
@@ -661,9 +756,6 @@ sub logPasswordFailure {
         mkdir $logdir;
     }
     if ( open( my $lf, '>>', "$logdir/configure.log" ) ) {
-
-        my $user = $query->remote_user() || $ENV{REMOTE_USER} || '';
-        my $addr = $query->remote_addr() || $ENV{REMOTE_ADDR} || '';
 
         my $logmsg = '| '
           . gmtime() . ' | '
@@ -785,18 +877,19 @@ sub _encode_MD5 {
 }
 
 sub _encode_Digest {
-    my $query = shift;
-    my $pass  = shift;                            # Password to encode
+    my $pass           = shift;    # Password to encode
+    my $defaultWorkDir = shift;
+
     my $realm = 'Foswiki System Configuration';
 
-    my $oldMask = umask(077);                     # Access only by owner
+    my $oldMask = umask(077);      # Access only by owner
     my $fh;
 
     # On very first run, pull this from url param, as config has not been saved.
     my $WorkingDir =
       ( defined $Foswiki::cfg{WorkingDir} )
       ? $Foswiki::cfg{WorkingDir}
-      : $query->param('{WorkingDir}');
+      : $defaultWorkDir;
     ($WorkingDir) = $WorkingDir =~ m/(.*)/;    # Untaint, Hope admin knows best
     $WorkingDir =~ s#[/\\]+$##;                # Remove any trailing slash
 

@@ -82,7 +82,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 $Foswiki::cfg{ScriptUrlPaths}{view} =
   '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
-# **PATH FEEDBACK="Validate Permissions" CHECK="guess:bin" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin" M**
 # This is the file system path used to access the Foswiki bin
 # directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
@@ -104,28 +104,28 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # recursive directory checking.
 $Foswiki::cfg{PathCheckLimit} = 5000;
 
-# **PATH FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rw filter:',v$'" M**
+# **PATH AUDIT="DIRS:1" FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rw filter:',v$'" M**
 # Attachments store (file path, not URL), must match /foswiki/pub e.g.
 # /usr/local/foswiki/pub
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH FEEDBACK="Validate Permissions" CHECK="guess:data perms:rwpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:data perms:rwpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
 # Topic files store (file path, not URL) e.g. /usr/local/foswiki/data
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH FEEDBACK="Validate Permissions" CHECK="guess:tools perms:r" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:tools perms:r" M**
 # Tools directory e.g. /usr/local/foswiki/tools
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH FEEDBACK="Validate Permissions" CHECK="guess:templates perms:r" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:templates perms:r" M**
 # Template directory e.g. /usr/local/foswiki/templates
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH FEEDBACK="Validate Permissions" CHECK="guess:locale perms:r" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:locale perms:r" M**
 # Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locale
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH  FEEDBACK="Validate Permissions" CHECK="guess:working perms:rw" M**
+# **PATH  AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:working perms:rw" M**
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be browsed from the web.
 # A number of subdirectories will be created automatically under this
@@ -1755,10 +1755,24 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # MIME format mail messages on standard input, and mails them.
 $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 
-# **BOOLEAN DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
+# **BOOLEAN**
 # Set this option on to enable debug
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
+
+# **STRING 30 EXPERT DISPLAY_IF {SMTP}{Debug} && {Email}{MailMethod} == 'MailProgram'**
+# These flags are passed to the mail program selected by {MailProgram}
+# when {SMTP}{Debug} is enabled in addition to any specified with
+# the program.  These flags should enable tracing of the SMTP
+# transactions to debug configuration issues.<br />
+# The default flags are correct for the <tt>sendmail</tt> program
+# on many Unix/Linux systems.  Note, however that <tt>sendmail</tt>
+# will drop its privileges when running with -X.  You must arrange
+# for the client queue files (e.g. <tt>/var/spool/clientmqueue/</tt>)
+# to be read and writable by the webserver for the duration of any
+# testing.
+
+$Foswiki::cfg{SMTP}{DebugFlags} = '-X /dev/stderr';
 
 # **STRING 30 DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Mail host for outgoing mail. This is only used if Net::SMTP is used.
@@ -2003,7 +2017,7 @@ $Foswiki::cfg{MaxLSCBackups} = 10;
 # </ul>
 
 #---+++ Configure how plugins are loaded by Foswiki
-# **STRING FEEDBACK="Re-test" 80**
+# **STRING AUDIT="EPARS:1" FEEDBACK="Re-test" 80**
 # Plugins evaluation order. If set to a comma-separated list of plugin names,
 # will change the execution order of plugins so the listed subset of plugins
 # are executed first. The default execution order is alphabetical on plugin
@@ -2136,6 +2150,11 @@ $Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} =
 $Foswiki::cfg{Plugins}{HomePagePlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{HomePagePlugin}{Module} =
   'Foswiki::Plugins::HomePagePlugin';
+
+# ---+ Configuration Audit
+# Functions on this page perform extensive inspection and/or analysis of 
+# your configuration and its environment
+# *AUDIT* # Plugin generates Configuration audit tab
 
 1;
 __END__

@@ -11,13 +11,13 @@ sections) and level > 1 (subsection).
 
 =cut
 
-package Foswiki;
-our $unsavedChangesNotice;
-
 package Foswiki::Configure::UIs::Section;
 
 use strict;
 use warnings;
+
+use Foswiki::Configure (qw/:config/);
+
 use Foswiki::Configure::UIs::Value ();
 use Foswiki::Configure::UI         ();
 our @ISA = ('Foswiki::Configure::UIs::Item');
@@ -37,6 +37,8 @@ subsections as tabs.
      section if there are no configuration items.
 
 =cut
+
+require Foswiki::Configure::ModalTemplates;
 
 sub renderHtml {
     my ( $this, $section, $root, $contents ) = @_;
@@ -104,17 +106,33 @@ sub renderHtml {
           )
           || 0;
 
-        $outText =
-          Foswiki::Configure::UI::getTemplateParser()->readTemplate('main');
-        $outText = Foswiki::Configure::UI::getTemplateParser()->parse(
-            $outText,
-            {
-                'navigation'    => $navigation,
-                'contents'      => $contents,
-                'firstTime'     => $isFirstTime,
-                'unsavedNotice' => $Foswiki::unsavedChangesNotice,
-            }
+        my $template = Foswiki::Configure::ModalTemplates->new(
+            $root,
+            'navigation'    => $navigation,
+            'contents'      => $contents,
+            'firstTime'     => $isFirstTime,
+            'unsavedNotice' => $Foswiki::unsavedChangesNotice,
         );
+        $template->renderActivationButton(    # buttonID => ModalModule
+            passwordButton => 'ChangePassword'
+        );
+        $template->renderActivationButton( discardButton => 'DiscardChanges' );
+        $template->renderActivationButton( saveButton    => 'SaveChanges' );
+        $template->renderActivationButton( errorsButton => 'DisplayErrors', 1 );
+        $template->renderActivationButton(
+            warningsButton => 'DisplayErrors',
+            1
+        );
+        $template->renderFeedbackWindow( statusBarFeedback => 'SaveChanges' );
+
+        my $templateArgs = $template->getArgs;
+
+        # parsed twice for MODAL.pm
+        $outText = $template->extractArgs('main');
+        $outText = Foswiki::Configure::UI::getTemplateParser()
+          ->parse( $outText, $templateArgs );
+        $outText = Foswiki::Configure::UI::getTemplateParser()
+          ->parse( $outText, $templateArgs );
     }
     else {
         my $alertActive =

@@ -1,0 +1,33 @@
+<#-- Template used for main screen login -->
+
+<h1>Please login</h1>
+
+<div class='foswikiFormSteps'>
+  <div class='foswikiFormStep'>
+    <#if displayStatus == 0>
+      <h2>In order to proceed, Configure requires that you type your password.</h2>
+      <#assign loginButtonLabel>Enter Password</#assign>
+    </#if>
+    <#if displayStatus == 8><#assign loginButtonLabel>Enter Configure</#assign></#if>
+    ${loginButton}
+    ${loginFeedback}
+    <hr />
+<#if displayStatus == 0>
+  <div class='foswikiHelp'>Password forgotten? To reset your password, log in to the server and delete the <code>$Foswiki::cfg{Password} = '...';</code> line from <code>lib/LocalSite.cfg</code>. Then reload this page and create a new password.</div>
+</#if>
+<#if displayStatus == 8>
+  <div class='foswikiHelp'>No password is set.  You should set a password to protect your configuration as soon as you log in.
+  </div>
+  <hr />
+  <div class='foswikiNotification foswikiAlert'>
+    <h3 style="margin-top:0;">Security tips</h3>
+    <ol>
+      <li>Always use a strong password that can't be guessed easily.</li>
+      <li>Always configure the web server so that Configure is only accessible to the people who should use it.</li>
+      <li>If you are running Foswiki on a public website, you can totally disable saving from Configure by making <code>lib/LocalSite.cfg</code> read-only once you are happy with your configuration.</li>
+    </ol>
+  </div>
+</#if>
+  </div>
+</div>
+<div style="display:none" id="{ConfigureGUI}{Unsaved}status"></div>

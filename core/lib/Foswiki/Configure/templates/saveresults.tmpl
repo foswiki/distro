@@ -1,0 +1,18 @@
+<#-- FEEDABCK TEMPLATE  -->
+<p>
+<h3>Save results</h3>
+
+${fileUpdates}
+<#if passwordChanged>Password changed</#if>
+
+<#if changesList??>
+	<div class='configureChangeList'>
+          <h4>Configuration items changed</h4>
+		<table>
+			<#list changesList as i>
+				<tr><th>${i.key}</th><td>${i.value}</td></tr>
+			</#list>
+		</table>
+	</div>
+</#if>
+
