@@ -44,6 +44,34 @@ Foswiki 1.2 is shipped with the following:
 ---++ Important changes since Foswiki 1.2
    * users can authenticate via 'TemplateLogin' with their email address
 
+---+++ Configure has been given a major restructuring
+
+   * Configure now requires JavaScript.  
+      * Configuration parameters are Checked and saved through ajax.
+      * Configure only transmits changed settings, greatly reducing the required bandwith and improving performance.
+   * Configure has been changed to behave more like a classic "shopping cart"
+      * Changes are kept in your session, you can leave and return without loosing pending changes.
+      * Pending changes can be checked, before being saved.
+      * A log message describing the cnanges can be annotated during save.
+   * Settings are checked through several mechanisms
+      * Traditional: all settings are checked when configure is intially loaded.
+      * On demand: A manual "Check this setting" button is provided for some resource intensive checkers. (ex. File permission checking)
+      * Automatic: Some fields are auto-checked as soon as you tab away.  (Numbers, Regular expressions)
+      * New "Configuration Audit" centrailzes several overall system health check buttons, and allows all checkers to be run again on demand.
+      * The error summary counts are now buttons, which pop up a list of the errors
+   * Performance
+      * Javascript minimzies the  data transmitted to/from the client.  The entire configuration is not sent for each transaction.
+      * Configure now supports etags and will return option 302 for resources that are cached by the browser.
+
+---++++ Changes to confgigure Authentication
+
+   * Configure requires a password to access the configuration.  
+   * Configure now trusts the Session login.   If your web server is configured to authenticate the user, configure will not prompt for a password
+   * The "admin" superuser password is now optional:
+      * If set, configure requires that it be entered to save
+      * If not set, configure depends solely upon the session authentication
+      * By not setting, or by clearing the admin password, sites can disable the "sudo" admin login, eliminating sharing of admin passwords.
+
 ---+++ Query Search
 The undocumented shortcut notation to reference to a form name is no longer available. Previously you could write:
 <verbatim>
