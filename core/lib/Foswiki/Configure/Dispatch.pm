@@ -295,35 +295,82 @@ sub _validatefeedbackUI {
     if ( $query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
+
+    # Protocol version check
     my $version = $query->http('X-Foswiki-FeedbackRequest');
     unless ( defined $version
         && ( my $fmtOK = ( $version =~ /^V(\d+)\.(\d+)(\.\d+)?$/ ) )
         && $1 == 1 )
     {
-        # Note that this can ONLY happen if the javascript and
-        # this code get out of sync.
-
-        ::_loadBasicModule('Foswiki::Configure::UI');
-
-        my $html =
-          Foswiki::Configure::UI::getTemplateParser()
-          ->readTemplate('feedbackprotocol');
-        $html = Foswiki::Configure::UI::getTemplateParser()->parse(
-            $html,
-            {
-                RESOURCEURI => $resourceURI,
-                version     => $version,
-                etype       => ( defined $version ? ( $fmtOK ? 3 : 2 ) : 1 ),
-            }
-        );
-        Foswiki::Configure::UI::getTemplateParser()
-          ->cleanupTemplateResidues($html);
-
-        htmlResponse( $html, 200 );
+        scriptVersionError( ( defined $version ? ( $fmtOK ? 3 : 2 ) : 1 ),
+            protocolVersion => $version, );
     }
+
+    # Script version check - catch browser cache issues, .gz issues,
+    # people switching session...
+    $version = $query->http('X-Foswiki-ScriptVersion');
+    unless ( defined $version ) {
+        scriptVersionError(4);
+    }
+    my $jsFile =
+      "$Foswiki::foswikiLibPath/Foswiki/Configure/resources/scripts.js";
+    open( my $s, '<', $jsFile )
+      or die "Can't find client javascript $jsFile: $!\n";
+    my $jsVersionFound;
+    while (<$s>) {
+        if (/^\s*(?:var\s+)?VERSION\s+=\s+['"](.*)["']\s*[,;]\s*$/) {
+            $jsVersionFound = $1;
+            scriptVersionError(
+                5,
+                scriptVersionReceived => $version,
+                scriptVersionRequired => $jsVersionFound,
+            ) unless ( $jsVersionFound eq $version );
+            last;
+        }
+    }
+    close $s;
+    scriptVersionError(6) unless ($jsVersionFound);
+
+    # Tell script what version it should be.
+
+    push @feedbackHeaders,
+      ( 'X-Foswiki-ScriptVersionRequired' => $jsVersionFound );
+
+    # Fast null response to version check request.
+    htmlResponse('') unless $ENV{CONTENT_LENGTH};
 
     ::_loadBasicModule('Foswiki::Configure::Feedback');
     return;
+}
+
+# Report errors due to mismatch with script version
+
+sub scriptVersionError {
+    my $errorType = shift;
+
+    ::_loadBasicModule('Foswiki::Configure::UI');
+
+    my $html =
+      Foswiki::Configure::UI::getTemplateParser()
+      ->readTemplate('feedbackprotocol');
+    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
+        $html,
+        {
+            RESOURCEURI => $resourceURI,
+            resourcePath =>
+              "$Foswiki::foswikiLibPath/Foswiki/Configure/resources",
+            protocolVersion => '',
+            etype           => $errorType,
+            versionReceived => '',
+            versionRequired => '',
+            @_,
+        }
+    );
+    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
+
+    htmlResponse( $html, 200 );
+
+    # Does not return
 }
 
 # ######################################################################

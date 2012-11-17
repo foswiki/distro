@@ -13,15 +13,35 @@
 <#assign noVersion>
     The message received had a malformed FeedbackRequest header.
     <p> Please clear your browser's cache and refresh your window.
-    If this does not resolve the problem, your Foswiki installation
-    is corrupted.
+    <p>If this does not resolve the problem, your Foswiki installation
+    is corrupted or out of date.
 </#assign>
 <#assign versionSkew>
-    The message received was the wrong version (${version}).
+    The message received was the wrong version (${protocolVersion}).
     <p> Please clear your browser's cache and refresh your window.
-    If this does not resolve the problem, your Foswiki installation
-    is corrupted.
+    <p>If this does not resolve the problem, your Foswiki installation
+    is corrupted or out of date.
 </#assign>
+<#assign noScriptVer>
+    Your browser does not have the current configure javascript loaded.
+    The message received was missing a ScriptVersion header.
+    <p> Please clear your browser's cache and refresh your window.
+    <p>If this does not resolve the problem, your Foswiki installation
+    is corrupted or out of date.
+</#assign>
+<#assign scriptVerSkew>
+    Your browser does not have the current configure javascript loaded.<br />
+    The message received is version ${scriptVersionReceived}.<br />
+    The version required is ${scriptVersionRequired}.
+    <p> Please clear your browser's cache and refresh your window.
+    <p> If this does not resolve the problem, your Foswiki installation
+    is corrupted or out of date.
+</#assign>
+<#asign scriptFileCorrupt>
+    Configure was unable to locate the version of its client javascript file.
+    <p> Your Foswiki installation is corrupted or out of date.
+</#assign>
+
 <body>
   <div class="configureFeedbackError">
     <h1><img src="%RESOURCEURI%icon_error.png">Invalid feedback request</h1>
@@ -35,6 +55,16 @@
         <#if etype == 3>
             ${versionSkew}
        </#if>
+        <#if etype == 4>
+            ${noScriptVer}
+       </#if>
+        <#if etype == 5>
+            ${scriptVerSkew}
+       </#if>
+        <#if etype == 6>
+            ${scriptFileCorrupt}
+       </#if>
+        <p><b>Developers:</b> If you are running from trunk or pseudo-installed, executing ${resourcePath}/make_gz may resolve this error.
    </div>
 </body>
 </html>

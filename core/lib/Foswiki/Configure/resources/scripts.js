@@ -1,10 +1,17 @@
 /*jslint regexp: true, browser: true */
 
-/* Don't use // style comments, or you'll break the stupid minifier  */
+/* *** Update VERSION (below) on any change so browser/perl can cross-check.
+ *
+ * Don't use // style comments, or you'll break the stupid minifier
+ */
 
 var configure = (function ($) {
 
 	"use strict";
+
+        var VERSION = "v3.101";
+        /* Do not merge, move or change format of VERSION, parsed by perl.
+         */
 
 	var expertsMode = '',
 	    tabLinks = {},
@@ -594,6 +601,9 @@ var configure = (function ($) {
             }
             $('#configureErrorSummary').html(statusLine);
             return true;
+        },
+        getVERSION: function () {
+            return VERSION;
         }
 
 	};
@@ -800,6 +810,387 @@ function submitform() {
     document.update.submit();
 }
 
+var feedback = ( function ($) {
+    "use strict";
+
+    var modalObject;
+
+    return {
+        /* Initialize */
+        init: function () {
+            modalObject =  $('#activateConfigureModalWindow').data('nmObj');
+        },
+
+        /* Modal window state */
+
+        modalObject: function () {
+            return modalObject;
+        },
+        modalIsOpen: function () {
+            return modalObject._open;
+        },
+
+        /* modal window for errors, modal forms */
+
+        modalWindow: function (m) {
+            if( !m.length ) {
+                m = "[Empty window]"; /* Debug this */
+            }
+
+            /* There is currently one modal window defined in pageend.
+             * We replace its contents and make it display.  Feedback also uses it.
+             */
+            if( $('#configureModalContents').html(m).size() ) {
+                if( feedback.modalIsOpen() ) {
+                    modalObject.resize(true);
+                } else {
+                    $('#activateConfigureModalWindow').click();
+                }
+            } else { /* Must be on a page without modal infrastructure, say something */
+                alert( m );
+            }
+        },
+
+        /* Error window - could go to status bar, but this seems to be effective. 
+         * Extract content for a div, stripping page overhead.
+         */
+
+        modalWindowFromHTML: function (m) {
+            if (m.length <= 0) {
+                m = "Unknown error encountered";
+            }
+            if( !/<\w+/.test(m) ) {
+                feedback.modalWindow(m);
+                return;
+            }
+            /* nyroModal has wierd styles on <pre> that shrink to unreadability, 
+             * switch to <code> as <pre> s used by CGI::Carp.  This should be removed
+             * once the nyroModal CSS is fixed.
+             */
+            m = m.replace(/<(\/)?pre>/gi, "<$1code>").replace(/\n/g, '<br />');
+
+            feedback.modalWindow(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
+        },
+        sendFeedbackRequest: function ( posturl, requestData, boundary, stsWinId ) {
+
+            var stsWindowId = stsWinId,
+            request = $.ajax({
+                url: posturl,
+                cache: false,
+                dataType: "text",
+                type: "POST",
+                global: false,
+                contentType: (boundary?
+                              "multipart/form-data; boundary=\"" + boundary + '"; charset=UTF-8' :
+                              "application/octect-stream; charset=UTF-8"),
+                accepts: {
+                    text: "application/octet-stream; q=1, text/plain; q=0.8, text/html q=0.5"
+                },
+                headers: {
+                    'X-Foswiki-FeedbackRequest': 'V1.0',
+                    'X-Foswiki-ScriptVersion': configure.getVERSION()
+                },
+                processData: false,
+                data: requestData,
+                error: function (xhr, status, err) {
+                    if (!xhr.getAllResponseHeaders()) {
+                        /* User abort (no server response)
+                         * There is no reliable status code to detect this, which
+                         * happens when an AJAX request is cancelled by navigation.
+                         */
+                        return true;
+                    }
+
+                    /* Clear "working" status */
+
+                    if( stsWindowId ) {
+                        $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+                    }
+
+                    feedback.modalWindow('<h1>' + xhr.status.toString() + " " + xhr.statusText + "</h1>" + xhr.responseText);
+                    return true;
+                },
+                /* Using complete ensures that jQuery provides xhr on success.
+                 */
+
+                complete: function (xhr, status) {
+                   if (status !== 'success') {
+                        return true;
+                    }
+
+                    /* Make sure this is a feedback response.
+                     */
+                    if (xhr.getResponseHeader('X-Foswiki-FeedbackResponse') !== 'V1.0') {
+                        return true;
+                    }
+
+                    var data = xhr.responseText,
+                    item,
+                    items,
+                    i,
+                    kpair = [],
+                    sloc,
+                    delims,
+                    v,
+                    modalIsOpen = feedback.modalIsOpen(),
+                    openModal = false,
+                    errorsChanged = false;
+
+                    /* Validate that this script is the version that configure expects.
+                     * An empty response should only be the reply to our initial version check.
+                     */
+                    v = xhr.getResponseHeader('X-Foswiki-ScriptVersionRequired');
+                    if (v !== configure.getVERSION()) {
+                        if( data.length && data.charAt(0) === '<' ) {
+                            feedback.modalWindowFromHTML(data);
+                        } else {
+                            feedback.modalWindow( "Client javascript is version " + configure.getVERSION() + ", but configure requires " + (v && v.length? v : 'an unknown version') );
+                        }
+                        return true;
+                    }
+                    if( xhr.getResponseHeader('Content-Length') === '0' ) {
+                        return true;
+                    }
+
+                    /* Clear "working" status in case of errors or updates that don't target
+                     * the original status div.  This also updates the class.
+                     */
+                    if( stsWindowId ) {
+                        $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+                    }
+
+                    /* Decide what kind of response we got. */
+
+                    if (data.charAt(0) !== '{') { /* Probably an error page with OK status */
+                        if (data.charAt(0) !== "\x7f") { /* Ignore no data response */
+                            if (data.length <= 0) {
+                                data = "Empty response received from feedback request";
+                            }
+                            feedback.modalWindowFromHTML(data);
+                        }
+                        return true;
+                    }
+
+                    /* Distribute response for each key to its status div or value */
+                    /* Hex constants used rather than octal for JSLint issue. */
+                    
+                    items = data.split("\x01");
+                    data = undefined;
+                    for (item = 0; item < items.length; item++) {
+                        /* IE sometimes doesn't do capturing split, so simulate one. */
+                        delims = ["\x02", "\x03","\x05"];
+                        for (i = 0; i < delims.length; i++) {
+                            sloc = items[item].indexOf(delims[i]);
+                            if (sloc >= 0) {
+                                kpair[0] = items[item].substr(0, sloc);
+                                kpair[1] = delims[i];
+                                kpair[2] = items[item].substr(sloc + 1);
+                                break;
+                            }
+                        }
+                        if (i >= delims.length) {
+                            feedback.modalWindow("Invalid opcode in feedback response");
+                            return true;
+                        }
+                        if (kpair[1] === "\x02") {
+                            if( $("#" + configure.utils.quoteName(kpair[0]) + "status").html(kpair[2]).size() < 1 ) {
+                                /* Missing status window - probably template creating modal failed,
+                                 * unless it's a status update on another page.
+                                 */
+                                if( kpair[0] !== '{ConfigureGUI}{Unsaved}' ) {
+                                    feedback.modalWindow(kpair[2]);
+                                }
+                            }
+                        } else if (kpair[1] === "\x03") {
+                            errorsChanged = feedback.decodeSetValueMessage( kpair );
+                        } else if (kpair[1] === "\x05") {
+                            openModal = feedback.decodeModalMessage( kpair );
+                        } else { /* This is not possible */
+                            feedback.modalWindow("Invalid opcode2 in feedback response");
+                        }
+                    }
+
+                    /* Resize if open to account for any content changes
+                     * Otherwise, open if requested.  Must not open more
+                     * than once, as this creates duplicate DOM.
+                     */
+
+                    if( modalIsOpen ) {
+                        modalObject.resize(true);
+                    } else {
+                        if( openModal ) {
+                            $('#activateConfigureModalWindow').click();
+                        }}
+
+                    /* Responses with just unsaved items updates or with no error count
+                     * changes need no more processing.  Otherwise, update the indicators.
+                     */
+
+                    if( stsWindowId && errorsChanged ) {
+                        configure.updateIndicators();
+                    }
+
+                    return true;
+                } /* complete */
+            }); /* Ajax */
+
+            /* Return request handle */
+
+            return request;
+        },
+        decodeSetValueMessage: function (kpair) {
+            var newval = kpair[2].split(/\x04/),
+            errorsChanged = false;
+            
+            $('[name="' + configure.utils.quoteName(kpair[0]) + '"]').each(function (idx, ele) {
+                var i,
+                v,
+                opts,
+                selected,
+                eleDisabled = this.disabled;
+                
+                this.disabled = false;
+                switch (this.type.toLowerCase()) {
+                    /* Ignore these for now (why update labels?) */
+                case "button":
+                case "file":
+                case "submit":
+                case "reset":
+                    break;
+
+                case "select-one":
+                    opts = this.options;
+                    selected = -1;
+
+                    for (i = 0; i < opts.length; i++) {
+                        if (opts[i].value === newval[0]) {
+                            opts[i].selected = true;
+                            this.selectedIndex = i;
+                            selected = i;
+                        } else {
+                            opts[i].selected = false;
+                        }
+                    }
+                    if (selected < 0) {
+                        feedback.modalWindow("Invalid value \"" + newval[0] + "\" for " + kpair[0]);
+                    }
+                    break;
+
+                case "select-multiple":
+                    opts = this.options;
+
+                    for (i = 0; i < opts.length; i++) {
+                        opts[i].selected = false;
+                    }
+                    this.selectedIndex = -1;
+                    for (v = 0; v < newval.length; v++) {
+                        for (i = 0; i < opts.length; i++) {
+                            if (opts[i].value === newval[v]) {
+                                opts[i].selected = true;
+                                if (v === 0) {
+                                    this.selectedIndex = i;
+                                }
+                                break;
+                            }
+                        }
+                        if (i >= opts.length) {
+                            feedback.modalWindow("Invalid value \"" + newval[v] + "\" for " + kpair[0]);
+                        }
+                    }
+                    break;
+
+                case "hidden":
+                    v = newval.join("");
+                    if( errorKeyRe.test(this.name) ) {
+                        errorsChanged = true;
+                        if( v === "0 0" ) {
+                            eleDisabled = true; /* Do not POST */
+                        } else {
+                            eleDisabled = false;
+                        }
+                    }
+                    this.value = v;
+                    break;
+
+                case "textarea":
+                case "text":
+                case "password":
+                    this.value = newval.join("");
+                    break;
+
+                case "radio":
+                case "checkbox":
+                    this.checked = configure.utils.isTrue(newval[0]);
+                    break;
+                default:
+                    break;
+                }
+                this.disabled = eleDisabled;
+                /* Continue to next control */
+                return true;
+            });
+
+            return errorsChanged;
+        },
+        decodeModalMessage: function (kpair) {
+            var opts,
+            i,
+            v,
+            sloc,
+            newval,
+            openModal = false;
+
+            opts = kpair[0].replace(/^\{ModalOptions\}/,'').split(',');
+            for( i = 0; i < opts.length; i++ ) {
+                switch( opts[i] ) {
+                case 's':
+                    v = '';
+                    while( kpair[2].length ) { /* substitute <4>DOMref)*/
+                        sloc = kpair[2].indexOf("\x04");
+                        if( sloc < 0 ) {
+                            v += kpair[2];
+                            break;
+                        }
+                        v += kpair[2].substr(0, sloc);
+                        kpair[2] = kpair[2].substr( sloc+1 );
+                        newval = kpair[2].indexOf(')');
+                        if( newval > 0 ) { /* 1 char token required */
+                            newval = kpair[2].substr( 0, newval );
+                            v += $('#' + configure.utils.quoteName(newval)).html();
+                            kpair[2] = kpair[2].substr(newval.length+1);
+                        }
+                    }
+                    kpair[2] = v;
+                    break;
+                case 'r':
+                    $('#configureModalContents').html(kpair[2]);
+                    break;
+                case 'a':
+                    $('#configureModalContents').append(kpair[2]);
+                    break;
+                case 'p':
+                    $('#configureModalContents').prepend(kpair[2]);
+                    break;
+                case 'o':
+                    openModal = true;
+                    break;
+                case 'u':
+                    window.location.assign( kpair[2] );
+                    return false;
+                default:
+                    if( opts[i].charAt(0) === '#' ) {
+                        $('#'+ configure.utils.quoteName(opts[i].substr(1))).html(kpair[2]);
+                        break;
+                    }
+                    feedback.modalWindow("Invalid modal window option " + opts[i]);
+                    return false;
+                }
+            }
+            return openModal;
+        }
+    };
+}(jQuery));
+
 /**
  * jquery init 
  */
@@ -910,8 +1301,14 @@ $(document).ready(function () {
     $('.configureModalActivator').nyroModal( { callbacks: { 
         afterShowCont: function (nm) {
             nm.elts.cont.find(":input.foswikiFocus:first").focus();
+            return true;
         }
     }} );
+
+    /* Provide version before anything else happens */
+
+    feedback.init();
+    feedback.sendFeedbackRequest( document.location.pathname, '' );
 
     configure.updateIndicators();
 
@@ -927,14 +1324,6 @@ $(document).ready(function () {
         $(".configureExtensionsHelp").toggleClass("foswikiHidden");
     });
     
-    $(".configureActions .discardChanges").click(function(e) {
-        console.log("discardChanges", this, e);
-        if (window.confirm("Are you really sure you want to discard your changes?")) {
-            return setSubmitAction(this, 'DiscardChanges');
-        }
-        return false;
-    });
-
     configure.toggleExpertsMode('expert');
     configure.toggleInfoMode();
     configure.initSection();
@@ -949,8 +1338,6 @@ function setSubmitAction(button,action) {
     $(button.form).find('input[type="hidden"][name="action"]').val(action? action:button.value);
     return true;
 }
-
-/* ---------------------------- FEEDBACK -------------------------- */
 
 function doFeedback(key, pathinfo) {
 
@@ -973,51 +1360,13 @@ function doFeedback(key, pathinfo) {
         KeyIdSelector = '#' + quoteKeyId,
         posturl = document.location.pathname, /* Where to post form */
         working,
-        stsWindowId,
-        modalObject = $('#activateConfigureModalWindow').data('nmObj'),
-        mIsOpen = modalObject._open;
-
+        stsWindowId;
 
     /* Add a named item from a form to the POST data */
 
     function postFormItem(name, value) {
         requestData += itemStart1 + name + itemStart2 + value + crlf;
         return;
-    }
-
-    /* modal window for errors, modal forms */
-
-    function modalWindow(m) {
-        if( !m.length ) {
-            m = "[Empty window]"; /* Debug this */
-        }
-
-        /* There is currently one modal window defined in pageend.
-         * We replace its contents and make it display.  Feedback also uses it.
-         */
-        $('#configureModalContents').html(m);
-        if( mIsOpen ) {
-            modalObject.resize(true);
-        } else {
-            $('#activateConfigureModalWindow').click();
-        }
-    }
-
-    /* Error window - could go to status bar, but this seems to be effective. 
-     * Extract content for a div, stripping page overhead.
-     */
-
-    function modalWindowFromHTML(m) {
-        if (m.length <= 0) {
-            m = "Unknown error encountered";
-        }
-        /* nyroModal has wierd styles on <pre> that shrink to unreadability, 
-         * switch to <code> as <pre> s used by CGI::Carp.  This should be removed
-         * once the nyroModal CSS is fixed.
-         */
-        m = m.replace(/<(\/)?pre>/gi, "<$1code>").replace(/\n/g, '<br />');
-
-        modalWindow(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
     }
 
     /* Request handling:
@@ -1129,8 +1478,8 @@ function doFeedback(key, pathinfo) {
         stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
         $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
 
-        if( mIsOpen ) {
-            modalObject.resize(true);
+        if( feedback.modalIsOpen() ) {
+            feedback.modalObject().resize(true);
         }
     }
 
@@ -1187,277 +1536,6 @@ function doFeedback(key, pathinfo) {
         statusImmediate = 0;
     }, Math.round( statusTimeout ));
 
-    $.ajax({
-        url: posturl,
-        cache: false,
-        dataType: "text",
-        type: "POST",
-        global: false,
-        contentType: "multipart/form-data; boundary=\"" + boundary + '"; charset=UTF-8',
-        accepts: {
-            text: "application/octet-stream; q=1, text/plain; q=0.8, text/html q=0.5"
-        },
-        headers: {
-            'X-Foswiki-FeedbackRequest': 'V1.0'
-        },
-        processData: false,
-        data: requestData,
-        error: function (xhr, status, err) {
-            if (!xhr.getAllResponseHeaders()) {
-                /* User abort (no server response)
-                 * There is no reliable status code to detect this, which
-                 * happens when an AJAX request is cancelled by navigation.
-                 */
-                return true;
-            }
-
-            /* Clear "working" status */
-
-            if( stsWindowId ) {
-                $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
-            }
-
-            modalWindow('<h1>' + xhr.status.toString() + " " + xhr.statusText + "</h1>" + xhr.responseText);
-            return true;
-        },
-        /* Using complete ensures that jQuery provides xhr on success.
-         */
-
-        complete: function (xhr, status) {
-            if (status !== 'success') {
-                return true;
-            }
-
-            /* Make sure this is a feedback response, as some browsers
-             * seem to sometimes return other data...
-             */
-            if (xhr.getResponseHeader('X-Foswiki-FeedbackResponse') !== 'V1.0') {
-                return true;
-            }
-
-            var data = xhr.responseText,
-                item,
-                items,
-                i,
-                kpair = [],
-                sloc,
-                delims,
-                newval,
-                opts,
-                v,
-                eleDisabled,
-                modalIsOpen = modalObject._open,
-                openModal = false,
-                errorsChanged =  false;
-
-            /* Clear "working" status in case of errors or updates that don't target
-             * the original status div.  This also updates the class.
-             */
-            if( stsWindowId ) {
-                $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
-            }
-
-            /* Decide what kind of response we got. */
-
-            if (data.charAt(0) !== '{') { /* Probably an error page with OK status */
-                if (data.charAt(0) !== "\x7f") { /* Ignore no data response */
-                    if (data.length <= 0) {
-                        data = "Empty response received from feedback request";
-                    }
-                    modalWindowFromHTML(data);
-                }
-                return true;
-            }
-
-            /* Distribute response for each key to its status div or value */
-            /* Hex constants used rather than octal for JSLint issue. */
-
-            items = data.split("\x01");
-            data = undefined;
-            for (item = 0; item < items.length; item++) {
-                /* IE sometimes doesn't do capturing split, so simulate one. */
-                delims = ["\x02", "\x03","\x05"];
-                for (i = 0; i < delims.length; i++) {
-                    sloc = items[item].indexOf(delims[i]);
-                    if (sloc >= 0) {
-                        kpair[0] = items[item].substr(0, sloc);
-                        kpair[1] = delims[i];
-                        kpair[2] = items[item].substr(sloc + 1);
-                        break;
-                    }
-                }
-                if (i >= delims.length) {
-                    modalWindow("Invalid opcode in feedback response");
-                    return true;
-                }
-                if (kpair[1] === "\x02") {
-                    if( $("#" + configure.utils.quoteName(kpair[0]) + "status").html(kpair[2]).size() < 1 ) {
-                        /* Missing status window - probably template creating modal failed */
-                        modalWindow(kpair[2]);
-                    }
-                } else if (kpair[1] === "\x03") {
-                    newval = kpair[2].split(/\x04/);
-                    $('[name="' + configure.utils.quoteName(kpair[0]) + '"]').each(function (idx, ele) {
-                        eleDisabled = this.disabled;
-                        this.disabled = false;
-                        switch (this.type.toLowerCase()) {
-                        /* Ignore these for now (why update labels?) */
-                        case "button":
-                        case "file":
-                        case "submit":
-                        case "reset":
-                            break;
-
-                        case "select-one":
-                            opts = this.options;
-                            var selected = -1;
-
-                            for (i = 0; i < opts.length; i++) {
-                                if (opts[i].value === newval[0]) {
-                                    opts[i].selected = true;
-                                    this.selectedIndex = i;
-                                    selected = i;
-                                } else {
-                                    opts[i].selected = false;
-                                }
-                            }
-                            if (selected < 0) {
-                                modalWindow("Invalid value \"" + newval[0] + "\" for " + kpair[0]);
-                                return true;
-                            }
-                            break;
-
-                        case "select-multiple":
-                            opts = this.options;
-
-                            for (i = 0; i < opts.length; i++) {
-                                opts[i].selected = false;
-                            }
-                            this.selectedIndex = -1;
-                            for (v = 0; v < newval.length; v++) {
-                                for (i = 0; i < opts.length; i++) {
-                                    if (opts[i].value === newval[v]) {
-                                        opts[i].selected = true;
-                                        if (v === 0) {
-                                            this.selectedIndex = i;
-                                        }
-                                        break;
-                                    }
-                                }
-                                if (i >= opts.length) {
-                                    modalWindow("Invalid value \"" + newval[v] + "\" for " + kpair[0]);
-                                    return true;
-                                }
-                            }
-                            break;
-
-                        case "hidden":
-                            v = newval.join("");
-                            if( errorKeyRe.test(this.name) ) {
-                                errorsChanged = true;
-                                if( v === "0 0" ) {
-                                    eleDisabled = true; /* Do not POST */
-                                } else {
-                                    eleDisabled = false;
-                                }
-                            }
-                            this.value = v;
-                            break;
-
-                        case "textarea":
-                        case "text":
-                        case "password":
-                            this.value = newval.join("");
-                            break;
-
-                        case "radio":
-                        case "checkbox":
-                            this.checked = configure.utils.isTrue(newval[0]);
-                            break;
-                        default:
-                            break;
-                        }
-                        this.disabled = eleDisabled;
-                        /* Ignore all other controls */
-                        return true;
-                    });
-                } else if (kpair[1] === "\x05") {
-                    opts = kpair[0].replace(/^\{ModalOptions\}/,'').split(',');
-                    for( i = 0; i < opts.length; i++ ) {
-                        switch( opts[i] ) {
-                        case 's':
-                            v = '';
-                            while( kpair[2].length ) { /* substitute <4>DOMref)*/
-                                sloc = kpair[2].indexOf("\x04");
-                                if( sloc < 0 ) {
-                                    v += kpair[2];
-                                    break;
-                                }
-                                v += kpair[2].substr(0, sloc);
-                                kpair[2] = kpair[2].substr( sloc+1 );
-                                newval = kpair[2].indexOf(')');
-                                if( newval > 0 ) { /* 1 char token required */
-                                    newval = kpair[2].substr( 0, newval );
-                                    v += $('#' + configure.utils.quoteName(newval)).html();
-                                    kpair[2] = kpair[2].substr(newval.length+1);
-                                }
-                            }
-                            kpair[2] = v;
-                            break;
-                        case 'r':
-                            $('#configureModalContents').html(kpair[2]);
-                            break;
-                        case 'a':
-                            $('#configureModalContents').append(kpair[2]);
-                            break;
-                        case 'p':
-                            $('#configureModalContents').prepend(kpair[2]);
-                            break;
-                        case 'o':
-                            openModal = true;
-                            break;
-                        case 'u':
-                            window.location.assign( kpair[2] );
-                            return true;
-                        default:
-                            if( opts[i].charAt(0) === '#' ) {
-                                $('#'+ configure.utils.quoteName(opts[i].substr(1))).html(kpair[2]);
-                                break;
-                            }
-                            modalWindow("Invalid modal window option " + opts[i]);
-                            return true;
-                        }
-                    }
-                 } else { /* This is not possible */
-                    modalWindow("Invalid opcode2 in feedback response");
-                }
-            }
-
-            /* Resize if open to account for any content changes
-             * Otherwise, open if requested.  Must not open more
-             * than once, as this creates duplicate DOM.
-             */
-
-            if( modalIsOpen ) {
-                modalObject.resize(true);
-            } else {
-                if( openModal ) {
-                    $('#activateConfigureModalWindow').click();
-                }}
-
-            /* Responses with just unsaved items updates or with no error count
-             * changes need no more processing.  Otherwise, update the indicators.
-             */
-
-            if( stsWindowId && errorsChanged ) {
-                configure.updateIndicators();
-            }
-
-            return true;
-        } /* complete */
-    }); /* Ajax */
-
-    /* Consume the button click */
-
+    feedback.sendFeedbackRequest( posturl, requestData, boundary, stsWindowId );
     return false;
 }
