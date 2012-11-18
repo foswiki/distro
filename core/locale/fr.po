@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-07 18:57+0200\n"
+"PO-Revision-Date: 2012-11-18 00:38+0200\n"
 "Last-Translator: Raul F <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -19,19 +19,16 @@ msgstr ""
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
-#, fuzzy
 msgid "%*(%1,day) "
 msgstr "%*(%1,jour) "
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:485
-#, fuzzy
 msgid "%*(%1,hour) "
 msgstr "%*(%1,heure) "
 
 #. ($mins)
 #: core/lib/Foswiki/Time.pm:488
-#, fuzzy
 msgid "%*(%1,minute) "
 msgstr "%*(%1,minute) "
 
@@ -109,7 +106,7 @@ msgstr "Accueil %1"
 
 #: core/templates/messages.tmpl:114
 msgid "%1 is an invalid name for a new web"
-msgstr "%1 est un nom de web invalide"
+msgstr "%1 est un nom de web non valide"
 
 #: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
 msgid "%1 is currently logged in"
@@ -1087,7 +1084,7 @@ msgstr "La couleur %1 a un format invalide"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Entrez"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1514,16 +1511,14 @@ msgstr ""
 "défini dans %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Veuillez retourner à la page précédente, pour choisir, comme nom de page, un "
-"[[%SYSTEMWEB%.WikiWord][MotWiki]], ou cochez la case permettant de forcer le "
-"choix d'un nom qui n'est pas un <nop>MotWiki"
+"Tapez comme nom de page un [[%SYSTEMWEB%.WikiWord][MotWiki]], ou cochez la "
+"case permettant de forcer le choix d'un nom qui n'est pas un <nop>MotWiki."
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Erreur survenue en chargeant le plugin. Les erreurs sont ci-dessous."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1820,6 +1815,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Si Foswiki ne dispose pas de votre adresse e-mail enregistrée dans sa base "
+"de données sécurisée, vous ne pourrez pas réinitialiser votre mot de passe, "
+"ni profiter des notifications de changements de pages par e-mail."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2166,7 +2164,6 @@ msgstr "Connectez vous avec votre nom de connexion et mot de passe"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
 msgstr "Nom de connexion"
 
@@ -2183,9 +2180,8 @@ msgid "Logon"
 msgstr "Connexion"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "Connexion"
+msgstr "Déconnexion"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2288,7 +2284,7 @@ msgstr "NOUVEAU"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2304,7 +2300,7 @@ msgstr "Naviguer vers une page similaire"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Peu importe"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2646,10 +2642,13 @@ msgstr "Connecteurs de plugin"
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
+"Le module du plugin n'a pas retourné \"true\". Voyez les erreurs ci-dessous."
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"Le module du plugin n'a pas été défini. Vérifiez la configuration. Voyez les "
+"erreurs ci-dessous."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -3107,7 +3106,7 @@ msgstr "Voir les changements dans les :"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Voyez le contenu de l'option DISABLEDPLUGINS."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3506,6 +3505,11 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"La rubrique d'adresse e-mail dans votre page personnelle est normalement "
+"laissée vide. Si vous voulez révéler votre adresse e-mail aux autres "
+"utilisateurs, vous pouvez modifier manuellement votre page personnelle pour "
+"ajouter une adresse.  Il n'est pas obligatoire d'indiquer la même adresse "
+"que celle utilisée en interne par Foswiki."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -4056,7 +4060,6 @@ msgid "View"
 msgstr "Visualiser"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
 msgstr "Afficher l'intégralité de l'historique"
 
@@ -4306,9 +4309,8 @@ msgstr ""
 "par ailleurs que des caractères alphanumériques."
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Vous tentez de %1 un fichier attaché qui n'existe pas."
+msgstr "Vous tentez d'accéder à un fichier attaché qui n'existe pas."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4655,7 +4657,7 @@ msgstr "n'oubliez pas de vérifier votre page de préférences"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin a échoué.  Voyez les erreurs ci-dessous."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4685,7 +4687,7 @@ msgstr "indique les champs nécessaires"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin n'a pas été défini. Voyez les erreurs ci-dessous."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
