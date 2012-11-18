@@ -110,7 +110,7 @@ sub renderHtml {
                     $fb    = $2;
                 }
                 $buttons .= "<br />"
-                  if ( $nd % 3 == 0 && ( !$haslabel || $nd ) );
+                  if ( !$haslabel && $nd % 3 == 0 );
                 $nd++;
             }
             my $q = '"';

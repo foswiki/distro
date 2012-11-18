@@ -110,12 +110,8 @@ sub _setopts {
 
     my $qsRE = qr/(?:(?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*'))/o;
 
-    if ( $value =~ /Re-test/ ) {
-        $DB::single = 1;
-    }
-
     # Quoted strings before anything else...
-    $this->addAuditGroup( _fixqs($1) )
+    $this->addAuditGroup( split( /\s+/, _fixqs($1) ) )
       while ( $value =~ s/(?:\b|^)AUDIT=($qsRE)(?:\s+|$)// );
 
     $this->{label} = _fixqs($1)

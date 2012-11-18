@@ -12,6 +12,8 @@ Foswiki::Configure::Checker for PATHINFO
 use strict;
 use warnings;
 
+use Foswiki::Configure(qw/:cgi/);
+
 use Foswiki::Configure::Checker ();
 
 our @ISA = qw(Foswiki::Configure::Checker);
@@ -26,6 +28,9 @@ sub new {
 sub check {
     my $this   = shift;
     my $valobj = shift;
+
+    my $keys = $valobj->getKeys();
+    $query->delete($keys);
 
     return $this->NOTE("Not yet tested");
 }
@@ -44,8 +49,10 @@ sub provideFeedback {
     #    my $button = shift;
     #    my $buttonValue = shift;
 
-    my $keys  = $valobj->getKeys();
-    my $pinfo = $Foswiki::query->path_info();
+    my $keys = $valobj->getKeys();
+    my $pinfo = $query->path_info() || '';
+
+    $query->delete($keys);
 
     my $fb = '';
     if ( !$pinfo ) {

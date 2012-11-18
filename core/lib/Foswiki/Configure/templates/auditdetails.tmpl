@@ -1,0 +1,87 @@
+<!-- Template for audit details -->
+
+<#if errorCount == 0 && warningCount == 0>
+<h1>No issues found</h1>
+<#else>
+<h1>Issues Found</h1>
+</#if>
+
+<div>
+<table class="configureErrorList">
+
+<#assign errorList>
+<tr class="configureErrorList"><th>Item<th>Count<th>Errors</tr>
+<#list errorItems as i>
+  <tr class="configureErrorItem"><td><strong>${i.item}</strong><td>${i.count}<td>${i.list}</tr>
+</#list>
+</#assign>
+
+<#assign noErrors>
+<tr class="configureNoErrors"><td colspan="9"><h2>No errors detected</h2></td></tr>
+</#assign>
+
+<#assign oneError>
+<thead class="configureErrorList">
+ <tr class="configureErrors"><td colspan="9"><h2>1 error detected</h2></td></tr>
+    ${errorList}
+</thead>
+</#assign>
+
+<#assign nErrors>
+<thead class="configureErrorList">
+ <tr class="configureErrors"><td colspan="9"><h2>${errorCount} errors detected</h2>
+    ${errorList}
+</thead>
+</#assign>
+
+<#if errorCount == 0>
+ ${noErrors}
+</#if>
+<#if errorCount == 1> 
+ ${oneError}
+</#if>
+<#if errorCount gt 1 > 
+ ${nErrors}
+</#if>
+
+</span></div>
+
+<#assign warningList>
+<tr class="configureWarningList"><th>Item<th>Count<th>Warnings</tr>
+<#list warningItems as i>
+  <tr class="configureWarningItem"><td><strong>${i.item}</strong><td>${i.count}<td>${i.list}</tr>
+</#list>
+</div>
+</#assign>
+
+<#assign noWarnings>
+<tr class="configureNoWarnings"><td colspan="9">
+     <h2>No warnings detected</span></div></h2>
+</#assign>
+
+<#assign oneWarning>
+<tbody class="configureWarningList">
+    <tr class="configureWarnings"><td colspan="9">
+    <h2>1 warning detected</h2>
+    ${warningList}
+</tbody>
+</#assign>
+
+<#assign nWarnings>
+<tbody class="configureWarningList">
+    <tr class="configureWarnings"><td colspan="9">
+    <h2>${warningCount} warnings detected</h2>
+    ${warningList}
+</tbody>
+</#assign>
+
+<#if warningCount == 0>
+  ${noWarnings}
+</#if>
+<#if warningCount == 1> 
+ ${oneWarning}
+</#if>
+<#if warningCount gt 1 > 
+  ${nWarnings}
+</#if>
+</table></div>

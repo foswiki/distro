@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure(qw/:DEFAULT :config :keys :util/);
+use File::Basename;
 
 use Foswiki::Configure::Pluggable;
 our @ISA = (qw/Foswiki::Configure::Pluggable/);
@@ -22,67 +23,13 @@ use Foswiki::Configure::AUDIT;
 # Audit categories.  Keep to a reasonable number; use multiple buttons
 # rather than more headings; order by impact/cost.
 
-# *** DO NOT add to this table.  It will be replaced with a config file shortly.
-# *** This is prototype scaffolding code.
+# Built-in items
+#
+# *** DO NOT add audits to this table - see AUDIT.spec for the "built-in"
+# audits.  This is for the AUDIT infrasctucture, such as the magical
+# results area.
 
 my @functions = (
-    'Basic checks' => {    # E.G. re-run checks (not feedback)
-        auditType => 'action',
-        desc      => << "DESC",
-Click the <b>Cursory checks</b> action button to re-run the checks
-performed when you entered <tt>configure</tt>.  These are quick, but important checks.<br />
-Click the <b>Extended checks</b> action button to run these and selected extended checks.
-DESC
-        items => [
-            {
-                type => 'NULL',
-                opts =>
-'NOLABEL FEEDBACK="Cursory checks" FEEDBACK="Extended checks"',
-                keys        => '{ConfigParams}',
-                auditGroups => [qw/PARS PARS:2 EPARS:2/],
-            },
-        ],
-    },
-    'Web server Environment' => {
-        auditType => 'action',
-        desc      => << "DESC",
-Click the action button to analyze and display the webserver environment.
-DESC
-
-        items => [
-            {
-                type        => 'NULL',
-                opts        => 'NOLABEL FEEDBACK="~p[/test/pathinfo]Analyze"',
-                keys        => '{CGISetup}',
-                auditGroups => 'CGI',
-            },
-            {
-                type => "PATHINFO",
-                opts =>
-'LABEL="<span class=\\"configureItemLabel\\"><b>PathInfo</b> test results</span>"',
-                keys => '{ConfigureGUI}{PATHINFO}',
-                desc =>
-qq{Extended path information (PATH_INFO) is used to provide arguments to CGI scripts such as configure. 
-<p>Verifying that your webserver correctly delivers PATH_INFO is particularly important if you are using mod_perl, Apache or IIS, or are using a web hosting provider, as these environments are frequently misconfigured or running out-of-date software.
-<p>When you click <strong>Analyze Environment</strong>, configure tests PATH_INFO by making a special request to itself with known PATH_INFO. Configure verifies that it receives the correct information from the webserver.
-<p>Any error that is detected by this test will be reported above.},
-            },
-        ],
-    },
-    'Disks & Storage' => {    # Someday Store too
-        auditType => 'action',
-        desc      => << "DESC",
-Click the action button to analyze paths and permissions<br />Note that you can perform these checks for individual items under the General path settings tab.
-DESC
-        items => [
-            {
-                type        => 'NULL',
-                opts        => 'NOLABEL FEEDBACK="Analyze"',
-                keys        => '{DisksAndStorage}',
-                auditGroups => [qw/DIRS/],
-            },
-        ],
-    },
     'Analysis results' => {
         auditType     => 'results',
         auditWindowId => '{ConfigureGUI}{AUDIT}{RESULTS}status',
@@ -97,9 +44,31 @@ DESC
 );
 
 sub new {
-    my ($class) = @_;
+    my $class = shift;
+    my ( $file, $root, $settings ) = @_;
 
+    my $fileLine = $.;
     my @items;
+
+    my $specFile = join( '', ( fileparse( __FILE__, qr/\.pm/ ) )[0], '.spec' );
+    my $specDir = ( fileparse(__FILE__) )[1];
+    if ( opendir( my $dh, $specDir ) ) {
+        foreach my $file ( $specFile, grep !/^$specFile$/, readdir($dh) ) {
+            next if ( $file =~ /^\./ );
+            next unless ( $file =~ /\.spec$/ );
+            my $value = $class->parseFile( @_, "${specDir}$file" );
+            if ( ref $value ) {
+                push @items, @$value;
+            }
+        }
+        closedir $dh;
+    }
+    else {
+        push @Foswiki::Configure::FoswikiCfg::errors,
+          [ $specFile, $., "Unable to read audit specification directory: $!" ];
+    }
+
+    # Add built-in items.
 
     while ( @functions >= 2 ) {
         my ( $head, $contents ) = splice( @functions, 0, 2 );
@@ -123,6 +92,125 @@ sub new {
     die "Bad function table\n" if (@functions);
 
     return [@items];
+}
+
+sub parseFile {
+    my $class = shift;
+    my ( $file, $root, $settings, $specFile ) = @_;
+
+    my $sfile;
+    unless ( open( $sfile, '<', $specFile ) ) {
+        push @Foswiki::Configure::FoswikiCfg::errors,
+          [ $specFile, 0, "Failed to open audit specification file: $!" ];
+        return 0;
+    }
+
+    my ( $open, $section, @sections, @sectionStack );
+
+    while ( my $line = <$sfile> ) {
+        $line =~ s/\r+\n//g;
+
+        # Continuation lines
+
+        while ( $line =~ /\\$/ && !eof $sfile ) {
+            my $cont = <$sfile>;
+            $cont =~ s/^\s*//;
+            chop $line;
+            $line .= $cont unless ( $line =~ /^#/ );
+        }
+        if ( $line =~ /\\$/ ) {
+            push @Foswiki::Configure::FoswikiCfg::errors,
+              [ $specFile, $., "Reached end-of-file, continuation expected" ];
+            next;
+        }
+        last if ( $line =~ /^__END__$/ );
+        next if ( $line =~ /^\s*$/ || $line =~ /^\s*#!/ );
+
+        # Sections: ---+ (+ x depth) headline -- options
+
+        if ( $line =~ /^\s*#\s*---\+(\+*) *(.*?)(?:\s+--\s+(.*$))?$/ ) {
+            my ( $depth, $headline, $options ) = ( length $1, $2, $3 );
+
+            $section = Foswiki::Configure::AUDIT->new( $headline, $options );
+            $section->{_depth}    = $depth;
+            $section->{auditType} = 'action';
+
+            while ( @sectionStack && $sectionStack[0]->{_depth} >= $depth ) {
+                shift @sectionStack;
+            }
+            if (@sectionStack) {
+                my $prevDepth = $sectionStack[0]->{_depth};
+                unless ( $prevDepth >= $depth || $depth == $prevDepth + 1 ) {
+                    push @Foswiki::Configure::FoswikiCfg::errors,
+                      [
+                        $specFile,
+                        $.,
+"Depth ($depth) of section \"$headline\" skips one or more levels from ($prevDepth)"
+                      ];
+                    undef $section;
+                    undef $open;
+                    next;
+                }
+                $sectionStack[0]->addChild($section);
+                unshift @sectionStack, $section;
+            }
+            else {
+                unless ( $depth == 1 ) {
+                    push @Foswiki::Configure::FoswikiCfg::errors,
+                      [
+                        $specFile, $.,
+                        "Depth of section \"$headline\" is not 1"
+                      ];
+                    undef $section;
+                    undef $open;
+                    next;
+                }
+                unshift @sectionStack, $section;
+                push @sections, $section;
+            }
+            $open = $section;
+            next;
+        }
+
+        # Descriptions
+
+        if ( $line =~ /^\s*#\s?(.*)$/ ) {
+            $open->addToDesc($1) if ($open);
+            next;
+        }
+
+        # Audit specifiers: {Key}{s} [G:b+] [type] options
+
+        if ( $line =~
+/^\s*($configItemRegex)\s+\[\s*((?:[_\w]+(?::\d+)?)(?:\s+(?:[_\w]+(?::\d+)?))*)\s*\](?:\s+\[(\w+)\])?\s+(.*)$/
+          )
+        {
+            my ( $keys, $groups, $type, $options ) = ( $1, $2, $3, $4 );
+            unless ($section) {
+                push @Foswiki::Configure::FoswikiCfg::errors,
+                  [ $specFile, $., "$keys requires a heading" ];
+                undef $section;
+                undef $open;
+                next;
+            }
+            my $value = Foswiki::Configure::Value->new( $type || 'NULL' );
+            $section->addChild($value);
+            $value->set( keys => $keys, opts => $options );
+            $value->{auditGroups} = [ grep !/^_none/, split( /\s+/, $groups ) ];
+            $open = $value;
+            next;
+        }
+
+        # Unknown
+
+        push @Foswiki::Configure::FoswikiCfg::errors,
+          [ $specFile, $., "Unrecognized specification" ];
+        undef $section;
+        undef $open;
+    }
+    close($sfile);
+
+    return \@sections;
 }
 
 1;

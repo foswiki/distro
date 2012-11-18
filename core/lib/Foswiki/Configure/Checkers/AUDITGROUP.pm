@@ -66,7 +66,7 @@ sub endVisit {
 
 sub provideFeedback {
     my $this = shift;
-    my ( $valobj, $button, $buttonLabel ) = @_;
+    my ( $valobj, $button, $buttonLabel, $embedded ) = @_;
 
     my $keys = $valobj->getKeys();
     my $e    = '';
@@ -101,9 +101,9 @@ sub provideFeedback {
 
         # Order checks, schedule this checker last to report
 
-        return wantarray ? ( $e, [ @items, "${keys}-1" ] ) : $e;
+        return wantarray ? ( $e, [ @items, "${keys}-1000" ] ) : $e;
     }
-    die "Pushed the wrong button ($button)\n" unless ( $button == -1 );
+    die "Pushed the wrong button ($button)\n" unless ( $button == -1000 );
 
     my $fb = $visit->{fb};
 
@@ -148,6 +148,7 @@ sub provideFeedback {
         itemsChecked    => \@uniq,
         itemCount       => $uniq,
         itemListLimit   => $limit,
+        includeSuccess  => ( $embedded ? 0 : 1 ),
     );
     my ( @errors, @warnings );
     foreach my $keys ( sortHashkeyList( keys %$fb ) ) {
@@ -185,15 +186,24 @@ sub provideFeedback {
     );
 
     # Template is parsed twice intentionally.  See MODAL.pm for why.
+    # If this audit is embedded in a larger one, don't output
+    # details unless there are issues.
 
     my $html = $template->extractArgs('simpleauditresults');
+    $html .=
+      Foswiki::Configure::UI::getTemplateParser()->readTemplate('auditdetails')
+      if ( @errors || @warnings || !$embedded );
     $html = Foswiki::Configure::UI::getTemplateParser()
       ->parse( $html, $templateArgs );
     $html = Foswiki::Configure::UI::getTemplateParser()
       ->parse( $html, $templateArgs );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
 
-    return $this->FB_GUI( '{ConfigureGUI}{AUDIT}{RESULTS}', $html );
+    return (
+          $embedded
+        ? $html
+        : $this->FB_GUI( '{ConfigureGUI}{AUDIT}{RESULTS}', $html )
+    );
 }
 
 sub _getFB {

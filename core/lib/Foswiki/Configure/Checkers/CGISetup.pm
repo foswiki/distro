@@ -5,64 +5,84 @@ package Foswiki::Configure::Checkers::CGISetup;
 
 ---+ package Foswiki::Configure::Checkers::CGISetup
 
-Foswiki::Configure::Checker for CGI Environment
+Foswiki::Configure::Checkers::AUDITGROUP for CGI & Environment
 
 =cut
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker;
+use Foswiki::Configure::Checkers::AUDITGROUP;
 
-our @ISA = qw(Foswiki::Configure::Checker);
+our @ISA = qw(Foswiki::Configure::Checkers::AUDITGROUP);
 
-sub check {
-    my $this   = shift;
-    my $valobj = shift;
-
-    return '';
-}
-
-# This generates the webserver status page
+# This provides the webserver & environment audit items
 #
-# It is run on-demand from the Web server Environment tab.  This is a cooperative effort:
+# It is run on-demand.
+# The output is divided into several buttons to keep the output manageable.
 #
-# Types/CGISetup generates the field associated with the button, and auto-instantiates
-# this checker.
-#
-# Configure/CGISetup generates the UI section that calls for the field, as well as
-# generating the other standard items .
-#
-# UIs/CGISetup renders the page, including the special <div> that output is directed to.
-#
-# Finally, this provideFeedback also automagically triggers the PATH_INFO provideFeedback
+# The webserver button also automagically triggers the PATH_INFO provideFeedback
 # method so that analysis can piggy-back on the main request.
 
 sub provideFeedback {
     my $this = shift;
+    my ( $valobj, $button, $buttonValue ) = @_;
 
-    #    my $valobj = shift;
-    #    my $button = shift;
-    #    my $buttonValue = shift;
+    my $keys = $valobj->getKeys();
 
-    my $contents = '';
-    my $errors   = 0;
-    my $warnings = 0;
+    if ( $button >= 0 && $button < 100 ) {
 
-    my $lsc = Foswiki::Configure::FoswikiCfg::lscFileName();
-    if ( -f $lsc ) {
-        $contents .= $this->setting(
-            "Foswiki configuration",
-            "$lsc"
-              . $this->NOTE(
-                "Last saved on " . localtime( ( stat $lsc )[9] || 0 )
-              )
-        );
+        # Auditor, let AUDITGROUP handle selections
+        return $this->SUPER::provideFeedback(@_);
+    }
+
+    # $content should be the table rows for the results section.
+
+    my $content = '';
+    my $status  = '';
+    $this->{results} ||= '';
+
+    if ( $button == 101 ) {
+        $content = $this->analyzeWebserver;
+    }
+    elsif ( $button == 102 ) {
+        $content = $this->analyzeFoswiki;
+    }
+    elsif ( $button == 103 ) {
+        $content = $this->analyzeExtensions;
+    }
+    elsif ( $button == -1000 ) {
+
+        # Collect ouput
+        $content = $this->SUPER::provideFeedback( @_, 1 );
+        $content = $this->{results} . $content;
+        $content = $this->FB_GUI( '{ConfigureGUI}{AUDIT}{RESULTS}', $content );
+        return wantarray ? ( $content, 0 ) : $content;
+    }
+    elsif ( $button < 0 ) {
+        return $this->SUPER::provideFeedback(@_);
     }
     else {
-        $contents .= $this->setting( "Foswiki configuration",
-            "$lsc" . $this->WARN("Configuration has not been saved") );
+        return $this->ERROR("Unknown type ($button) for CGI environment audit");
     }
+
+    # Our contents (virtual buttons)
+
+    $content = qq{<table class='configureSectionValues'>$content</table>};
+    $this->{results} .= $content;
+
+    return wantarray ? ( $status, 0 ) : $status unless ( $button == 101 );
+
+    # Run PATHINFO only with webserver analysis
+
+    return wantarray ? ( $status, ['{ConfigureGUI}{PATHINFO}'] ) : $status;
+}
+
+sub analyzeWebserver {
+    my $this = shift;
+
+    my $content = '';
+
     for my $key ( sort keys %ENV ) {
         my $value = $ENV{$key};
         if ( $key eq 'HTTP_COOKIE' ) {
@@ -72,15 +92,16 @@ sub provideFeedback {
             $value =~ s/%3D/=/go;
             $value .= $this->NOTE('Cookie string decoded for readability.');
         }
-        $contents .= $this->setting( $key, $value );
+        $content .= $this->setting( $key, $value );
     }
 
-# Check for writable install root.  This used to be (incorrectly) associated with DOCUMENT_ROOT.
-# Some misbehaved extensions (GENPDFAddOn is one) drop files in the install root.
-# See EXTEND.pm for the definition of install root.
-# UI.pm (now) computes the foswiki root the same way.
+    # Check for writable install root.  This used to be (incorrectly)
+    # associated with DOCUMENT_ROOT.
+    # Some misbehaved extensions (GENPDFAddOn is one) drop files in
+    # the install root.   See EXTEND.pm for the definition of install root.
+    # UI.pm (now) computes the foswiki root the same way.
 
-    $contents .= $this->setting(
+    $content .= $this->setting(
         "Foswiki root directory",
         join( '', $this->{root} =~ m,^(.*?)[\\/\]>]$, )
           . (
@@ -99,7 +120,7 @@ DIFFS
 
     # Report the Umask
     my $pUmask = sprintf( '%03o', umask() );
-    $contents .= $this->setting( 'UMASK', $pUmask );
+    $content .= $this->setting( 'UMASK', $pUmask );
 
     # Detect whether mod_perl was loaded into Apache
     # This won't work is most places because ServerTokens defaults to OS or less
@@ -121,7 +142,7 @@ DIFFS
 
     # Get the version of mod_perl if it's being used
     if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
-        $contents .= $this->setting( '', $this->WARN(<<HERE) );
+        $content .= $this->setting( '', $this->WARN(<<HERE) );
 You are running <tt>configure</tt> with <tt>mod_perl</tt>. This
 is risky because mod_perl will remember old values of configuration
 variables. You are *highly* recommended not to run configure under
@@ -131,7 +152,7 @@ HERE
 
     my $cgiver = $CGI::VERSION;
     if ( "$cgiver" =~ m/^(2\.89|3\.37|3\.43|3\.47)$/ ) {
-        $contents .= $this->setting( '', $this->WARN( <<HERE ) );
+        $content .= $this->setting( '', $this->WARN( <<HERE ) );
 You are using a version of \$CGI that is known to have issues with Foswiki.
 CGI should be upgraded to a version > 3.11, avoiding 3.37, 3.43, and 3.47.
 HERE
@@ -145,7 +166,7 @@ HERE
         if ( $Config::Config{osname} eq 'cygwin' && $] >= 5.008 ) {
 
             # Recommend CGI.pm upgrade if using Cygwin Perl 5.8.0
-            $contents .= $this->setting( '', $this->WARN( <<HERE ) );
+            $content .= $this->setting( '', $this->WARN( <<HERE ) );
 Perl CGI version 3.11 or higher is recommended to avoid problems with
 attachment uploads on Cygwin Perl.
 HERE
@@ -156,7 +177,7 @@ HERE
 
             # Recommend CGI.pm upgrade if using mod_perl 2.0, which
             # is reported as version 1.99 and implies Apache 2.0
-            $contents .= $this->setting( '', $this->WARN( <<HERE ) );
+            $content .= $this->setting( '', $this->WARN( <<HERE ) );
 Perl CGI version 3.11 or higher is recommended to avoid problems with
 mod_perl.
 HERE
@@ -168,7 +189,7 @@ HERE
         ucfirst( lc( $Config::Config{osname} ) ) . ' '
       . $Config::Config{osvers} . ' ('
       . $Config::Config{archname} . ')';
-    $contents .= $this->setting( "Operating system", $n );
+    $content .= $this->setting( "Operating system", $n );
 
     # Perl version and type
     $n = $];
@@ -186,83 +207,16 @@ Foswiki code.
 HERE
     }
 
-    $contents .= $this->setting( 'Perl version', $n );
+    $content .= $this->setting( 'Perl version', $n );
 
     # Perl @INC (lib path)
-    $contents .= $this->setting( '@INC library path',
+    $content .= $this->setting( '@INC library path',
         join( CGI::br(), @INC ) . $this->NOTE(<<HERE) );
 This is the Perl library path, used to load Foswiki modules,
 third-party modules used by some plugins, and Perl built-in modules.
 HERE
 
-    $contents .= $this->setting( 'CGI bin directory', $this->_getBinDir() );
-
-    $Foswiki::cfg{ConfigurationFinished} = 1;    # Necessary?
-
-    my ( $fwinst, $fwver ) =
-      Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 'magic' );
-    my $mess;
-    if ($fwinst) {
-        $mess = "Foswiki.pm (Version: <strong>$fwver</strong>) found";
-    }
-    else {
-        $mess = $this->ERROR(
-            'Foswiki.pm could not be found in @INC<br />' . << "HERE");
-Check in your installation directory that:<ol>
-<li><code>bin/setlib.cfg</code> is present and readable</li>
-<li><code>bin/LocalLib.cfg</code> is present and readable, and sets up a correct <code>\$foswikiLibPath</code></li>
-<li><code>lib/LocalSite.cfg</code> is present and readable</li>
-<li>All files are readable by the webserver user ($::WebServer_uid).</li></ol>
-HERE
-
-    }
-
-    $contents .= $this->setting( 'Foswiki module in @INC path', $mess );
-
-    # To avoid bloating our memory fooprint or death by corruption, we'll fork
-    # to test loading Foswiki.pm
-
-    my $fh;
-    my $pid = open( $fh, '-|' );
-    if ( defined $pid ) {
-        if ($pid) {
-            local $/;
-            $mess = <$fh>;
-            close $fh;
-        }
-        else {
-            $Foswiki::cfg{ConfigurationFinished} = 1;
-            eval 'require Foswiki';
-            if ($@) {
-                $mess = $@;
-
-  #		 Why bother with @INC? - it was just displayed and formatted or, not
-  #		 it's redundant.  So we'll just remove it.
-  #                $mess =~ s#\(\@INC\s+contains:\s+(.*?)\)#"(\@INC contains:\n"
-  #                  . join( "\n", split( /\s+/, $1 )) . ")"#mse;
-                $mess =~ s#\(\@INC\s+contains:\s+(.*?)\)##ms;
-                $mess =
-                  $this->ERROR('Foswiki.pm could not be loaded. The error was:')
-                  . CGI::pre( {}, $mess )
-                  . $this->ERROR(<<HERE);
-Check in your installation directory that:<ol>
-<li><code>bin/setlib.cfg</code> is present and readable</li>
-<li><code>bin/LocalLib.cfg</code> is present and readable, and sets up a correct <code>\$foswikiLibPath</code></li>
-<li><code>lib/LocalSite.cfg</code> is present and readable</li>
-All files must be readable by the webserver user ($::WebServer_uid).</ol>
-HERE
-            }
-            else {
-                $mess = 'loads successfully';
-            }
-            print $mess;
-            exit(0);
-        }
-    }
-    else {
-        $mess = $this->ERROR("Unable to fork: $!");
-    }
-    $contents .= $this->setting( "Foswiki module status", $mess );
+    $content .= $this->setting( 'CGI bin directory', $this->_getBinDir() );
 
     # mod_perl
     if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
@@ -301,13 +255,13 @@ Version $Foswiki::cfg{DETECTED}{ModPerlVersion} of mod_perl is known to have maj
 its use with Foswiki. 1.99_12 or higher is recommended.
 HERE
     }
-    $contents .= $this->setting( 'mod_perl', $n );
+    $content .= $this->setting( 'mod_perl', $n );
 
     # Defined in configure, used once here
     my $groups = $::WebServer_gid || $::WebServer_gid;
 
     $groups =~ s/,/, /go;    # improve readability with linebreaks
-    $contents .= $this->setting(
+    $content .= $this->setting(
         'CGI user',
         'userid = <strong>'
           . $::WebServer_uid
@@ -317,7 +271,97 @@ HERE
           . $this->NOTE('Your CGI scripts are executing as this user.')
     );
 
-    $contents .= $this->setting( 'Original PATH',
+    return $content;
+}
+
+sub analyzeFoswiki {
+    my $this = shift;
+
+    my $content = '';
+
+    my $lsc = Foswiki::Configure::FoswikiCfg::lscFileName();
+    if ( -f $lsc ) {
+        $content .= $this->setting(
+            "Foswiki configuration",
+            "$lsc"
+              . $this->NOTE(
+                "Last saved on " . localtime( ( stat $lsc )[9] || 0 )
+              )
+        );
+    }
+    else {
+        $content .= $this->setting( "Foswiki configuration",
+            "$lsc" . $this->WARN("Configuration has not been saved") );
+    }
+
+    $Foswiki::cfg{ConfigurationFinished} = 1;    # Necessary?
+
+    my ( $fwinst, $fwver ) =
+      Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 'magic' );
+    my $mess;
+    if ($fwinst) {
+        $mess = "Foswiki.pm (Version: <strong>$fwver</strong>) found";
+    }
+    else {
+        $mess = $this->ERROR(
+            'Foswiki.pm could not be found in @INC<br />' . << "HERE");
+Check in your installation directory that:<ol>
+<li><code>bin/setlib.cfg</code> is present and readable</li>
+<li><code>bin/LocalLib.cfg</code> is present and readable, and sets up a correct <code>\$foswikiLibPath</code></li>
+<li><code>lib/LocalSite.cfg</code> is present and readable</li>
+<li>All files are readable by the webserver user ($::WebServer_uid).</li></ol>
+HERE
+
+    }
+
+    $content .= $this->setting( 'Foswiki module in @INC path', $mess );
+
+    # To avoid bloating our memory fooprint or death by corruption, we'll fork
+    # to test loading Foswiki.pm
+
+    my $fh;
+    my $pid = open( $fh, '-|' );
+    if ( defined $pid ) {
+        if ($pid) {
+            local $/;
+            $mess = <$fh>;
+            close $fh;
+        }
+        else {
+            $Foswiki::cfg{ConfigurationFinished} = 1;
+            eval 'require Foswiki';
+            if ($@) {
+                $mess = $@;
+
+  #		 Why bother with @INC? - it was just displayed and formatted or,
+  #		 it's redundant.  So we'll just remove it.
+  #                $mess =~ s#\(\@INC\s+contains:\s+(.*?)\)#"(\@INC contains:\n"
+  #                  . join( "\n", split( /\s+/, $1 )) . ")"#mse;
+                $mess =~ s#\(\@INC\s+contains:\s+(.*?)\)##ms;
+                $mess =
+                  $this->ERROR('Foswiki.pm could not be loaded. The error was:')
+                  . CGI::pre( {}, $mess )
+                  . $this->ERROR(<<HERE);
+Check in your installation directory that:<ol>
+<li><code>bin/setlib.cfg</code> is present and readable</li>
+<li><code>bin/LocalLib.cfg</code> is present and readable, and sets up a correct <code>\$foswikiLibPath</code></li>
+<li><code>lib/LocalSite.cfg</code> is present and readable</li>
+All files must be readable by the webserver user ($::WebServer_uid).</ol>
+HERE
+            }
+            else {
+                $mess = 'loads successfully';
+            }
+            print $mess;
+            exit(0);
+        }
+    }
+    else {
+        $mess = $this->ERROR("Unable to fork: $!");
+    }
+    $content .= $this->setting( "Foswiki module status", $mess );
+
+    $content .= $this->setting( 'Original PATH',
         $Foswiki::cfg{DETECTED}{originalPath} . $this->NOTE(<< "HERE") );
 This is the PATH value passed in from the web server to this
 script - it is reset by Foswiki scripts to the PATH below, and
@@ -325,7 +369,7 @@ is provided here for comparison purposes only.
 HERE
 
     my $currentPath = $ENV{PATH} || '';    # As re-set earlier in this routine
-    $contents .=
+    $content .=
       $this->setting( "Current PATH", $currentPath, $this->NOTE(<< "HERE") );
 This is the actual PATH setting that will be used by Perl to run
 programs. It is normally identical to {SafeEnvPath}, unless
@@ -333,9 +377,9 @@ that variable is empty, in which case this will be the webserver user's
 standard path..
 HERE
 
- # Check that each of the required Perl modules can be found and read, and
- # print its version number.  Keep this section last so it does not hide shorter
- # and more frequently accessed information.
+    # Check that each of the required Perl modules can be found
+    # and read, and  print its version number.  Keep this section last
+    # so it does not hide shorter and more frequently accessed information.
 
     # File DEPENDENCIES is in the lib dir (Item3478)
     my $from = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec');
@@ -346,9 +390,34 @@ HERE
 
     my %seen;
     my $perlModules = $this->_loadDEPENDENCIES( $from, 'core', \%seen );
-    $contents .= $this->_showDEPENDENCIES( 'core', $perlModules );
+    $content .= $this->_showDEPENDENCIES( 'core', $perlModules );
 
-    unless ($Foswiki::badLSC) {
+    return $content;
+}
+
+sub analyzeExtensions {
+    my $this = shift;
+
+    my $content = '';
+
+    if ($Foswiki::badLSC) {
+        $content = $this->setting( '',
+            $this->ERROR("Can't audit extensions until configuration is saved")
+        );
+    }
+    else {
+        # File DEPENDENCIES is in the lib dir (Item3478)
+
+        my $from = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec');
+        my @dir  = File::Spec->splitdir($from);
+        pop(@dir);    # Cutting off trailing Foswiki.spec gives us lib dir
+        $from =
+          File::Spec->catfile( @dir, 'Foswiki', 'Contrib', 'core',
+            'DEPENDENCIES' );
+
+        my %seen;
+        my $perlModules = $this->_loadDEPENDENCIES( $from, 'core', \%seen );
+
         foreach my $info ( values %seen ) {
             if ( $info->{usage} ) {
                 $info->{usage} =~ s,^<br />,<br /><strong>Foswiki: </strong>,;
@@ -370,11 +439,11 @@ HERE
             $this->_findDependencies( $dir, '/TWiki/Contrib', \%extns,
                 $perlModules, \%seen );
         }
-        $contents .= $this->_showDEPENDENCIES( 'Extensions', $perlModules, 1 );
+
+        $content .= $this->_showDEPENDENCIES( 'Extensions', $perlModules, 1 );
     }
-    $contents = $this->FB_GUI( '{ConfigureGUI}{AUDIT}{RESULTS}',
-        qq{<table class='configureSectionValues'>$contents</table>} );
-    return wantarray ? ( $contents, ['{ConfigureGUI}{PATHINFO}'] ) : $contents;
+
+    return $content;
 }
 
 sub _getBinDir {

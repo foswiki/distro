@@ -274,7 +274,7 @@ sub deliver {
                 # Original target's last item must be last.
                 if ( ref( $this->{checkall} ) eq 'ARRAY' ) {
                     if (@items) {
-                        splice( @items, -1, 1, @{ $this->{checkall} } );
+                        splice( @items, -1, 0, @{ $this->{checkall} } );
                     }
                     else {
                         push @items, @{ $this->{checkall} };
@@ -570,7 +570,9 @@ sub startVisit {
           if ( $this->{checkall} == 1 && !$this->{changed}{$keys}
             || $keys eq $this->{request} );
 
-        my $checker = Foswiki::Configure::UI::loadChecker( $keys, $visitee );
+        $visitee->{_fbchecker} = my $checker = $visitee->{_fbchecker}
+          || Foswiki::Configure::UI::loadChecker( $keys, $visitee );
+
         if ($checker) {
             push @{ $this->{checks} }, $keys;
             my $check = eval { return $checker->check($visitee); };
