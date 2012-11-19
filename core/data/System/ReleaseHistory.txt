@@ -153,9 +153,9 @@ As part of the first Foswiki product release, various topics and terms were chan
      | TWiki Application | Wiki Application |
 
 #FreetownRelease 
----++ TWiki Release 4.2.1 (Freetown) released %$DATE%
+---++ TWiki Release 4.2.1 (Freetown) released 22 Jan 2008
 
-Patch release following the 4.2.0 released 22 Jan 2008
+Patch release following the 4.2.0
 
 *New Features and Enhancements of TWiki Release 4.2*
 
