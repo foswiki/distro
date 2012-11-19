@@ -28,6 +28,8 @@ BEGIN {
 }
 
 use Foswiki::Contrib::Build;
+use Foswiki::Contrib::BuildContrib::Targets::stage;
+use Foswiki::Contrib::BuildContrib::Targets::archive;
 
 # Declare our build package
 package FoswikiBuild;
@@ -463,11 +465,15 @@ $build->build( $build->{target} );
 
 #returns the version number portion in the $RELEASE line in Foswiki.pm
 sub getCurrentFoswikiRELEASE {
-    open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
-    local $/ = undef;
-    my $content = <PM>;
-    close(PM);
-    $content =~ /\$RELEASE\s*=\s*'Foswiki-(.*?)'/;
-    return $1;
+    open( my $pm, '<', "../lib/Foswiki.pm" )
+      or die "Cannot open Foswiki.pm: $!";
+    while (<$pm>) {
+        if (/\$RELEASE\s*=\s*'Foswiki-(.*?)'/) {
+            close $pm;
+            return $1;
+        }
+    }
+    close $pm;
+    return 'UNKNOWN';
 }
 
