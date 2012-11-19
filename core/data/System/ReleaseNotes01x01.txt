@@ -33,7 +33,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
-   * Foswiki 1.1.6_002 was built 09 Nov 2012.. It is a release that fixes some very important issues including some security related issues. It contains 85 fixes and 23 enhancements.
+   * Foswiki 1.1.6_003-Beta1 was built 19 Nov 2012.. It is a release that fixes some very important issues including some security related issues. It contains 91 fixes and 26 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1675,6 +1675,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12205][Item12205]] | Registration accepts LoginName and then cannot access it. |
 | [[%BUGS%/Item12213][Item12213]] | Make button icon transparent. |
 | [[%BUGS%/Item12214][Item12214]] | Default jquery-ui theme overrides manual JQTHEME choice. |
+| [[%BUGS%/Item12235][Item12235]] | Temporary password generator doesn't honor MinPasswordLength. |
 
 ---+++ Enhancements
 
@@ -1702,6 +1703,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12140][Item12140]] | Add auto checking by field type to <code>bin/configure</code>. |
 | [[%BUGS%/Item12211][Item12211]] | Configure will now save backup copies of the LocalSite.cfg file. |
 | [[%BUGS%/Item12215][Item12215]] | jquery.loader is visible briefly before javascript is executed. |
+| [[%BUGS%/Item12233][Item12233]] | Plugins should not render in-topic links for static context. |
+| [[%BUGS%/Item12234][Item12234]] | InterWikiPlugin should use metacpan.org for CPAN links,  also clean up dead links. |
 
 </noautolink>
 ---
