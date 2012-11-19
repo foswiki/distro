@@ -23,7 +23,7 @@ Pictorially,
       * ={path/file.name}=  Distributed filename root is Foswiki root.
          * ={ci}= - Flag specifying if file should be checked into the RCS system
          * ={perms}= - File permissions in Linux octal string format
-         * ={md5}= - MD5 checksum of file - optional, recovered from MANIFEST2
+         * ={md5}= - MD5 checksum of file - optional
          * ={web}= - Web/Subweb name if topic or attachment
          * ={topic}= - Topic name if topic or attachment
          * ={attach}= - Attachment name if attachment
@@ -949,7 +949,7 @@ sub uninstall {
 
     $this->logfile( { action => 'Uninstall' } );
 
-    $this->log( "uninstalling $this->{_pkgname}", 'h' );
+    $this->log( "Uninstalling $this->{_pkgname}", 'h' );
 
     unless ( $this->{_loaded} ) {
         ( $rslt, $err ) = $this->loadInstaller()
@@ -1175,47 +1175,34 @@ sub loadInstaller {
     my $found = '';
     my $depth = 0;
     while (<$fh>) {
-
-        if ( $_ eq "<<<< MANIFEST >>>>\n" ) {
-            $found = 'M1';
+        chomp;
+        if ( $_ eq "<<<< MANIFEST >>>>" ) {
+            $found = 'M';
             next;
         }
-        else {
-            if ( $_ eq "<<<< MANIFEST2 >>>>\n" ) {
-                $found = 'M2';
-                next;
-            }
-            else {
-                if ( $_ eq "<<<< DEPENDENCIES >>>>\n" ) {
-                    $found = 'D';
-                    next;
-                }
-                else {
-                    if (/sub\s*p(?:ost|re)(?:un)?install/) {
-                        $found = 'P';
-                    }
-                }
-            }
+        elsif ( $_ eq "<<<< DEPENDENCIES >>>>" ) {
+            $found = 'D';
+            next;
+        }
+        elsif (/sub\s*p(?:ost|re)(?:un)?install/) {
+            $found = 'P';
         }
 
-        if ( $found eq 'M1' || $found eq 'M2' ) {
-            if ( $_ eq "\n" ) {
+        if ( $found eq 'M' ) {
+            if (/^$/) {
                 $found = '';
                 next;
             }
-            chomp $_;
-            my $e = _parseManifest( $this, $_, ( $found eq 'M2' ) );
-            $warn .= "$e";
+            $warn .= $this->_parseManifest($_);
             next;
         }
 
         if ( $found eq 'D' ) {
-            if ( $_ eq "\n" ) {
+            if (/^$/) {
                 $found = '';
                 next;
             }
-            chomp $_;
-            $warn .= _parseDependency( $this, $_ ) if ($_);
+            $warn .= $this->_parseDependency($_) if ($_);
             next;
         }
 
@@ -1225,7 +1212,7 @@ sub loadInstaller {
             # if brackets are not in pairs, this will fail, like { in comment
             $depth++ for /{/g;
             $depth-- for /}/g;
-            $this->{_routines} .= $_;
+            $this->{_routines} .= "$_\n";
             $found = '' unless $depth;
             next;
         }
@@ -1312,7 +1299,7 @@ Parse the manifest line into the manifest hash.
 =cut
 
 sub _parseManifest {
-    my $this = shift;
+    my ( $this, $line ) = @_;
 
     my ( $file, $perms, $md5, $desc ) =    # New format
       $line =~ /^(".+"|\S+)\s+(\d+)(?:\s+([a-f0-9]{32}))?\s+(.*)$/;
@@ -1332,8 +1319,7 @@ sub _parseManifest {
     if ( $file =~ m/^data\/.*/ ) {
         ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(.*?).txt$/;
         unless ( length($tweb) > 0 && length($ttopic) > 0 ) {
-            my $err = "$file is not a topic - file will be bypassed\n";
-            return $err;
+            return "$file is not a topic - file will be bypassed\n";
         }
     }
     if ( $file =~ m/^pub\/.*/ ) {
@@ -1342,20 +1328,18 @@ sub _parseManifest {
             && length($ttopic) > 0
             && length($tattach) > 0 )
         {
-            my $err =
-"Unable to identify attachment $file name or location - file will be bypassed\n";
-            return $err;
+            return "Unable to identify attachment $file name or location"
+              . " - file will be bypassed\n";
         }
     }
 
-    $this->{_manifest}->{$file}->{ci}    = ( $desc =~ /\(noci\)/ ? 0 : 1 );
+    $this->{_manifest}->{$file}->{ci}    = ( $desc =~ s/\(noci\)// ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
     $this->{_manifest}->{$file}->{md5}   = $md5 || '';
     $this->{_manifest}->{$file}->{topic} = "$tweb\t$ttopic\t$tattach";
-    $desc =~ s/\(noci\)//;
-    $this->{_manifest}->{$file}->{desc} = $desc;
+    $this->{_manifest}->{$file}->{desc}  = $desc;
     $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}->{$tattach} = $file
-      if ($tattach);
+      if $tattach;
 
     return '';
 }
