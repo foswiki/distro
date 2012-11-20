@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-04-17 02:00+0200\n"
+"PO-Revision-Date: 2012-11-20 05:06+0200\n"
 "Last-Translator: Carlinhos <carlinux@terra.com.br>\n"
 "Language-Team: Foswiki Brasil <foswiki-br@listas.softwarelivre.org>\n"
 "Language: pt_BR\n"
@@ -1085,7 +1085,7 @@ msgstr "A cor %1 tem um formato inválido"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Venha"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1502,16 +1502,14 @@ msgstr ""
 "Informe o usuário Administrador do Wiki ou faça login tal como definido em %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Por favor, volte no seu navegador e escolha um nome de tópico que seja uma "
-"[[%SYSTEMWEB%.WikiWord][PalavraWiki]] ou marque a opção para permitir nomes "
-"que não sejam uma Palavra Wiki."
+"Escolha um nome de tópico que seja uma [[%SYSTEMWEB%.WikiWord][PalavraWiki]] "
+"ou marque a opção para permitir nomes que não sejam uma Palavra Wiki."
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Erro encontrado ao carregar plugin. Veja mensagens abaixo"
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1805,6 +1803,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Se o Foswiki não encontrar um e-mail cadastrado para você no banco de dados "
+"criptografado, você não será capaz de redefinir sua senha ou de receber "
+"mensagens com notificações de mudanças de tópico."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2138,9 +2139,8 @@ msgstr "Entrar com seu nome de usuário e senha"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "Nome de login"
+msgstr "Login"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2155,9 +2155,8 @@ msgid "Logon"
 msgstr "Entrar"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "Entrar"
+msgstr "Logout"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2260,7 +2259,7 @@ msgstr "NOVO"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2276,7 +2275,7 @@ msgstr "Corrija o nome do tópico para o qual quer navegar."
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Não importa"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2612,11 +2611,13 @@ msgstr "Manipulador de plugins"
 
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "Módulo de plugin não retornou verdadeiro. Veja os erros abaixo"
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"Módulo de plugin não foi definido. Verifique a configuração. Veja os erros "
+"abaixo."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -3064,7 +3065,7 @@ msgstr "Ver alterações desde: "
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Veja a configuração da variável DISABLEDPLUGINS"
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3449,6 +3450,11 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"O endereço de e-mail em seu tópico de usuário é deixado em branco. Se você "
+"quer mostrar um endereço de e-mail para outros usuários, poderá editar "
+"manualmente o seu tópico de usuário e adicionar um endereço. Não é "
+"necessário que esse endereço seja o mesmo utilizado internamente pelo "
+"Foswiki."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3984,9 +3990,8 @@ msgid "View"
 msgstr "Ver"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
-msgstr "Ver histórico completo do tópico"
+msgstr "Ver histórico completo do tópico "
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -4099,9 +4104,8 @@ msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Atenção: o tópico em \\'include\\' não existe!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "Atenção: o tópico em \\'include\\' não existe!"
+msgstr "Atenção: a definição de tabela no tópico \\'include\\' não existe!"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Web"
@@ -4223,9 +4227,8 @@ msgstr ""
 "com um sublinhado e contenha apenas caracteres alfanuméricos."
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Você está tentando realizar a ação %1 num tópico que não existe."
+msgstr "Você está tentando acessar um anexo que não existe."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4272,7 +4275,7 @@ msgstr "Você pode dar um nome diferente para esta web."
 #: core/templates/messages.tmpl:538 core/templates/messages.tmpl:544
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
-msgstr ""
+msgstr "Você não pode adicionar usuários em um grupo desconhecido"
 
 #: core/templates/validate.tmpl:28
 msgid ""
@@ -4283,13 +4286,12 @@ msgstr ""
 "desabilitados no seu browser."
 
 #: core/templates/messages.tmpl:700
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
-"Você não pode confirmar as alterações porque Cookies ou Javascript estão "
-"desabilitados no seu browser."
+"Você não pode continuar porque Cookies ou Javascript estão desabilitados no "
+"seu browser."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
@@ -4424,9 +4426,8 @@ msgid "Your password has been changed to %1."
 msgstr "Sua senha foi alterada para %1."
 
 #: core/templates/messages.tmpl:180
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Sua senha foi alterada para %1."
+msgstr "Sua senha não foi alterada."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
 #: core/templates/registernotify.tmpl:12
@@ -4568,7 +4569,7 @@ msgstr "não esqueça de verificar suas preferências de tópico"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin falhou.  Veja erros abaixo."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4598,7 +4599,7 @@ msgstr "indica campos obrigatórios"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin não foi definido. Veja erros abaixo."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4639,9 +4640,8 @@ msgid "retrieved at %1"
 msgstr "pesquisado às %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(versão %1)"
+msgstr "versão %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
@@ -4708,14 +4708,14 @@ msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Comparação lado a lado' accesskey='s'>Lado a lado(&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Editar o texto deste tópico' accesskey='e'>&Editar"
+msgstr "title='Assinatura para este tópico' accesskey='s'>a&Ssinar"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Versão para impressão deste tópico' accesskey='p'>Im&primir"
+msgstr ""
+"title='Cancelar assinatura para este tópico' accesskey='s'>Cancelar "
+"a&ssinatura"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
