@@ -1691,7 +1691,8 @@ sub new {
     $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
     $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
 
-    if ( defined $Foswiki::cfg{WarningFileName}
+    if (   defined $Foswiki::cfg{WarningFileName}
+        && $Foswiki::cfg{WarningFileName}
         && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
     {
 
