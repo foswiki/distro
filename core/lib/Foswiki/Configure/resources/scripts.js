@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.103";
+        var VERSION = "v3.104";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -1016,7 +1016,7 @@ var feedback = ( function ($) {
                         } else if (kpair[1] === "\x03") {
                             errorsChanged = feedback.decodeSetValueMessage( kpair );
                         } else if (kpair[1] === "\x05") {
-                            openModal = openModal || feedback.decodeModalMessage( kpair );
+                            openModal = feedback.decodeModalMessage( kpair ) || openModal;
                         } else { /* This is not possible */
                             feedback.modalWindow("Invalid opcode2 in feedback response");
                         }
