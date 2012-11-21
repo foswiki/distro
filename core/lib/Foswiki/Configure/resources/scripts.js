@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.104";
+        var VERSION = "v3.105";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -1014,7 +1014,7 @@ var feedback = ( function ($) {
                                 }
                             }
                         } else if (kpair[1] === "\x03") {
-                            errorsChanged = feedback.decodeSetValueMessage( kpair );
+                            errorsChanged = feedback.decodeSetValueMessage( kpair ) || errorsChanged;
                         } else if (kpair[1] === "\x05") {
                             openModal = feedback.decodeModalMessage( kpair ) || openModal;
                         } else { /* This is not possible */
