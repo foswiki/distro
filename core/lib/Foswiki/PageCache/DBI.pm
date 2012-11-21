@@ -268,10 +268,10 @@ sub deletePage {
         writeDebug("deleting $fileName for $webTopic");
         unlink $fileName;
 
-        $this->{dbh}->do(<<HERE);
-          delete from $this->{pagesTable} where topic = '$webTopic' and variation = '$variationKey'
-HERE
-
+        $this->{dbh}->do(
+            "delete from $this->{pagesTable} where topic = ? and variation = ?",
+            undef, $webTopic, $variationKey
+        );
     }
     else {
 
@@ -289,8 +289,8 @@ HERE
         }
 
         writeDebug("DELETE page $webTopic");
-        $this->{dbh}
-          ->do("delete from $this->{pagesTable} where topic = '$webTopic'");
+        $this->{dbh}->do( "delete from $this->{pagesTable} where topic = ?",
+            undef, $webTopic );
     }
 
     $this->deleteDependencies( $web, $topic, $variationKey );
@@ -318,9 +318,10 @@ sub deleteDependencies {
     if ( defined $variationKey ) {
 
        #writeDebug("DELETE dependencies of $webTopic variation=".$variationKey);
-        $this->{dbh}->do(<<HERE);
-          delete from $this->{depsTable} where from_topic = '$webTopic' and variation = '$variationKey'
-HERE
+        $this->{dbh}->do(
+"delete from $this->{depsTable} where from_topic = ? and variation = ?",
+            undef, $webTopic, $variationKey
+        );
     }
     else {
 
