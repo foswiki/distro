@@ -50,7 +50,12 @@ feedback request has been received.
         # feedback tags along with the main UI, but has a small window
         # for while login screens are being produced.
 
-        if ( loggedIn($session) || $badLSC || $query->auth_type ) {
+        if (   loggedIn($session)
+            || $badLSC
+            || $query->auth_type
+            || ( $query->param('FeedbackRequest') || '' ) eq
+            '{ConfigureGUI}{Modals}{Login}feedreq1' )
+        {
             refreshLoggedIn($session);
 
             return;

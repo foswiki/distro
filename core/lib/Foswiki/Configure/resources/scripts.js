@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.101";
+        var VERSION = "v3.103";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -859,7 +859,7 @@ var feedback = ( function ($) {
             if (m.length <= 0) {
                 m = "Unknown error encountered";
             }
-            if( !/<\w+/.test(m) ) {
+            if( !(/<\w+/.test(m)) ) {
                 feedback.modalWindow(m);
                 return;
             }
@@ -918,12 +918,6 @@ var feedback = ( function ($) {
                         return true;
                     }
 
-                    /* Make sure this is a feedback response.
-                     */
-                    if (xhr.getResponseHeader('X-Foswiki-FeedbackResponse') !== 'V1.0') {
-                        return true;
-                    }
-
                     var data = xhr.responseText,
                     item,
                     items,
@@ -936,18 +930,36 @@ var feedback = ( function ($) {
                     openModal = false,
                     errorsChanged = false;
 
-                    /* Validate that this script is the version that configure expects.
+                    /* Validate that this script is the version that configure expects.  Configure sends the version it reads from this file, so a
+                     * mismatch indicates a caching problem (including the wrong .gz file, a network issue, or strange user behavior.)
+                     *
                      * An empty response should only be the reply to our initial version check.
+                     * If you encounter these errors, one comon cause is that configure will send a .gz file
+                     * even if the .js is newer.  Rebuild the .gz files with the make_gz script.
                      */
                     v = xhr.getResponseHeader('X-Foswiki-ScriptVersionRequired');
                     if (v !== configure.getVERSION()) {
                         if( data.length && data.charAt(0) === '<' ) {
                             feedback.modalWindowFromHTML(data);
                         } else {
-                            feedback.modalWindow( "Client javascript is version " + configure.getVERSION() + ", but configure requires " + (v && v.length? v : 'an unknown version') );
+                            feedback.modalWindow( "Client javascript is version " + configure.getVERSION() + ", but configure requires " + (v && v.length? v : 'an unknown version') +
+                                                  "Try refreshing this window, clearing the browser's cache, and verifying that the Foswiki installation has the correct file." );
                         }
                         return true;
                     }
+
+                    /* Make sure this is a feedback response we understand.  We do this after the script version check because the version check diagnosis is more accurate.
+                     * Since the version check doesn't look at the data, it's OK to do the protocol version check after the script version check.  In any case, if the
+                     * script version is correct, but the protocol version is wrong, the .js file & Dispatch.pm (at least) do not match.
+                     */
+                    v = xhr.getResponseHeader('X-Foswiki-FeedbackResponse');
+                    if (v !== 'V1.0') {
+                        feedback.modalWindow ( "An invalid message was received from Configure.  The expected protocol version is V1.0.  The version received was " +
+                                               (v && v.length? v : 'not provided') + ".  Try refreshing this window, clearing the browser's cache, and verifying that the " +
+                                               "Foswiki installation is up-to-date." );
+                        return true;
+                    }
+
                     if( xhr.getResponseHeader('Content-Length') === '0' ) {
                         return true;
                     }
@@ -1004,7 +1016,7 @@ var feedback = ( function ($) {
                         } else if (kpair[1] === "\x03") {
                             errorsChanged = feedback.decodeSetValueMessage( kpair );
                         } else if (kpair[1] === "\x05") {
-                            openModal = feedback.decodeModalMessage( kpair );
+                            openModal = openModal || feedback.decodeModalMessage( kpair );
                         } else { /* This is not possible */
                             feedback.modalWindow("Invalid opcode2 in feedback response");
                         }
