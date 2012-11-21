@@ -90,10 +90,10 @@ sub new {
 
 Generate a key for the current webtopic being produced; this reads
 information from the current session and url params, as follows:
-    *  The server serving the request (HTTP_HOST)
-    * The port number of the server serving the request (HTTP_PORT)
-    * The language of the current session, if any
-    * All session parameters EXCEPT:
+    * the server serving the request (HTTP_HOST)
+    * the port number of the server serving the request (HTTP_PORT)
+    * the language of the current session, if any
+    * all session parameters EXCEPT:
           o Those starting with an underscore
           o VALIDATION
           o REMEMBER
@@ -101,7 +101,7 @@ information from the current session and url params, as follows:
           o VALID_ACTIONS.*
           o BREADCRUMB_TRAIL
           o DGP_hash
-    * All HTTP request parameters EXCEPT:
+    * all HTTP request parameters EXCEPT:
           o All those starting with an underscore
           o refresh
           o foswiki_redirect_cache
@@ -125,7 +125,12 @@ sub genVariationKey {
     $variationKey = '::' . $serverName . '::' . $serverPort;
 
     # add a flag to distinguish compressed from uncompressed cache entries
-    $variationKey .= '::' . $Foswiki::cfg{HttpCompress};
+    $variationKey .= '::'
+      . (
+        ( $Foswiki::cfg{HttpCompress} && $session->inContext('command_line') )
+        ? 1
+        : 0
+      );
 
     # add language tag
     if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
@@ -229,7 +234,9 @@ sub cachePage {
     unless ($isDirty) {
         $data =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
 
-        if ( $Foswiki::cfg{HttpCompress} ) {
+        if ( $Foswiki::cfg{HttpCompress}
+            && !$session->inContext('command_line') )
+        {
             require Compress::Zlib;
             $data = Compress::Zlib::memGzip($data);
         }
