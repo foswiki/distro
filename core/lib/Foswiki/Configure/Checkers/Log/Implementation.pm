@@ -28,7 +28,7 @@ WARN
 
         # Select the compatibility logger and warn about it,
         # if any legacy logger settings were found
-        if (   @legacyLoggerFilenames
+        if ( scalar @legacyLoggerFilenames
             && $Foswiki::cfg{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile' )
         {

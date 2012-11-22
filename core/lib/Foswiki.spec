@@ -831,8 +831,8 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 #---++ Logging
 
 # **PATH**
-# Directory where log files will be written. Log files are automatically
-# cycled once a month.
+# Directory where log files will be written.  Note that the Compatibility
+# Logger does not use this setting by default.
 $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 
 # **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
@@ -888,7 +888,8 @@ $Foswiki::cfg{Log}{Action} = {
 # (Usually very low volume.) If <code>%DATE%</code> is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.<p />
 # To use the Compatibility logger, set this to a valid file path and name.<br />
-# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/debug.txt</code>
+# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/debug.txt</code><br />
+# or Foswiki 1.1 logging directory <code>$Foswiki::cfg{Log}{Dir}/debug%DATE%.txt</code>
 $Foswiki::cfg{DebugFileName} = '';
 
 # **PATH DISPLAY_IF /Compatibility/i.test({Log}{Implementation}) || {WarningFileName}**
@@ -896,7 +897,8 @@ $Foswiki::cfg{DebugFileName} = '';
 # (Usually low volume) If <code>%DATE%</code> is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.<p />
 # To use the Compatibility logger, set this to a valid file path and name.<br />
-# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/warn%DATE%.txt</code>
+# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/warn%DATE%.txt</code><br />
+# or Foswiki 1.1 logging directory <code>$Foswiki::cfg{Log}{Dir}/warn%DATE%.txt</code>
 $Foswiki::cfg{WarningFileName} = '';
 
 # **PATH**
@@ -904,7 +906,8 @@ $Foswiki::cfg{WarningFileName} = '';
 # If <code>%DATE%</code> is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.<p />
 # To use the Compatibility logger, set this to a valid file path and name.<p />
-# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/log%DATE%.txt</code>
+# Foswiki 1.0.x default: <code>$Foswiki::cfg{DataDir}/log%DATE%.txt</code><br />
+# or Foswiki 1.1 logging directory <code>$Foswiki::cfg{Log}{Dir}/log%DATE%.txt</code>
 $Foswiki::cfg{LogFileName} = '';
 
 #---++ Statistics
