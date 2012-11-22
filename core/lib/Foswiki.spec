@@ -830,11 +830,6 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 #---+ Logging and Statistics -- TABS
 #---++ Logging
 
-# **PATH**
-# Directory where log files will be written.  Note that the Compatibility
-# Logger does not use this setting by default.
-$Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
-
 # **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
 # Foswiki supports different implementations of log files. It can be
 # useful to be able to plug in a database implementation, for example,
@@ -853,6 +848,11 @@ $Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 # Foswiki will automatically select the Compatibility logger if it detects
 # a setting for <tt>{WarningFileName}</tt> in your LocalSite.cfg.
 $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
+
+# **PATH**
+# Directory where log files will be written.  Note that the Compatibility
+# Logger does not use this setting by default.
+$Foswiki::cfg{Log}{Dir} = '$Foswiki::cfg{WorkingDir}/logs';
 
 # **BOOLEAN EXPERT**
 # The Obfuscating logger can either replace IP addresses with a hashed address
