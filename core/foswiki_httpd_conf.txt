@@ -86,7 +86,7 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     AuthUserFile /var/www/foswiki/data/.htpasswd
     AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
     AuthType Basic
-    
+
     #for htdigest password suport uncomment the following
     #AuthDigestDomain / {DefaultUrlHost}
     #AuthDigestFile {DataDir}/.htdigest
@@ -97,7 +97,7 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     # the value of configuration variable $authRealm
     #AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
     #AuthType Digest
-    
+
     # File to return on access control error (e.g. wrong password)
     # By convention this is the UserRegistration page, that allows users
     # to register with the Foswiki. Apache requires this to be a *local* path.
@@ -112,15 +112,45 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
 # Make sure configure is not open to the general public.
 # The configure script is designed for administrators only.
 # The script itself and the information it reveals can be abused by
-# attackers if not properly protected against public access.
-# Replace JohnDoe with the login name of the administrator
+# attackers if not properly protected against public access
+
+# Replace JohnDoe with the login name of the administrator.  By default this
+# configuration will use the same password file as Foswiki.  So a user MUST
+# have been registered in data/.htpasswd before the "Require user" will pass.
+# If no user is registered, then access is only granted by IP address.
+# Or.. enable the optional configure digest authentication described below.
+
 <FilesMatch "^configure.*">
+    ErrorDocument 401 default
+    ErrorDocument 404 default
     SetHandler cgi-script
     Order Deny,Allow
     Deny from all
     Allow from 127.0.0.1 192.168.1.10
     Require user JohnDoe
     Satisfy Any
+
+    # The following optional configuration will further protect your
+    # configuration.  "admin" is default super user identification.
+    # A sample htdigest file is shipped with Foswiki in the installation
+    # directory:  htdigest-configure.txt.  It contains a single Userid "admin"
+    # with no password set.
+
+    # When the admin password is saved in configure, this file password will be synchronized.
+    # Note that only this specific file in the {WorkingDir}/configure is updated,  and if
+    # you choose to use it, it should be kept separate from the .htpasswd file
+    # in the data directory.
+
+    # Copy htdigest-configure.txt -> working/configure/.htdigest-confikgure.
+    # Then un-comment the below settings.
+    # And, for the initial login to configure, enter user admin, with no password.
+
+    #AuthType Digest
+    #AuthDigestProvider file
+    #AuthUserFile {WorkingDir}/configure/.htdigest-configure
+    #AuthName 'Foswiki System Configuration'
+    #BrowserMatch "MSIE" AuthDigestEnableQueryStringHack=On
+
 </FilesMatch>
 
 # When using Apache type login the following defines the Foswiki scripts
@@ -153,20 +183,20 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     Order Allow,Deny
     Allow from all
     Deny from env=blockAccess
-    
+
     # If you have PHP4 or PHP5 installed as Apache module make sure the directive below is enabled
     # If you do not have PHP installed you will need to comment out the directory below
     # to avoid errors.
     # If PHP is installed as CGI this flag is not needed and will in fact make Apache fail
     php_admin_flag engine off
-    
+
     # If you have PHP3 installed as Apache module make sure the directive below is enabled
     # If PHP is installed as CGI this flag is not needed and will in fact make Apache fail
     #php3_engine off
 
     # This line will redefine the mime type for the most common types of scripts
     AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
-    
+
     #for TWikiCompatibility - or even to make 'attachment not found's more user friendly
     ErrorDocument 404 /foswiki/bin/viewfile
 

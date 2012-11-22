@@ -915,9 +915,11 @@ sub _encode_Digest {
       File::Spec->catpath( $vol, $workdirs, '.htdigest-configure' );
 
     my $data = '';
+    my $htExists;
 
     # Read in existing file if any
     if ( -e $fqDigest ) {
+        $htExists = 1;
         if ( open( $fh, '<', $fqDigest ) ) {
             local $/ = undef;
             $data = <$fh>;
@@ -949,6 +951,10 @@ sub _encode_Digest {
     open( $fh, '>', $fqDigest )
       || die "$fqDigest open failed: $!";
     print $fh $data;
+
+    # Unless file previously existed,  make sure apache can read it.
+    # But if the admin has changed permissions, don't override it!
+    chmod 0640, $fqDigest unless $htExists;
 
     close($fh);
     umask($oldMask);    # Restore original umask

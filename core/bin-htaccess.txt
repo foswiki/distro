@@ -42,7 +42,13 @@
 # Replace {Administrators} with a space-separated list of the login
 # name(s) of the person(s) allowed to run the configure script
 # e.g. admin configure root superhero
-# Foswiki ships an example .htdigest file containing just the "admin" user.
+#
+# Foswiki ships an example .htdigest file containing just the "admin" user
+# with an empty password.   To activate it:
+# Copy htdigest-configure.txt from the Foswiki installation directory to the
+# working/configure directory, renaming it to .htdigest-configure   (Note
+# leading period.
+#
 # Other users must be added to .htdigest manually.  See the "htdigest" shell
 # command provided by apache.
 #
@@ -132,6 +138,13 @@ Options ExecCGI FollowSymLinks
 # attackers if not properly protected against public access.
 #  - ErrorDocument should point to apache default - redirecting to a Foswiki
 #    script may not be functional yet.
+
+# Replace {Administrators} with the login name of the administrator.  By default this
+# configuration will use the same password file as Foswiki.  So a user MUST
+# have been registered in data/.htpasswd before the "Require user" will pass.
+# If no user is registered, then access is only granted by IP address.
+# Or.. enable the optional configure digest authentication described below.
+
 <FilesMatch "configure.*">
     SetHandler cgi-script
     ErrorDocument 401 default
@@ -144,18 +157,22 @@ Options ExecCGI FollowSymLinks
     Satisfy All
     Require user {Administrators}
     Allow from 127.0.0.1 192.168.1.10
-    #
+
     # The following optional configuration will further protect your
-    # configuration.  "admin" is default super user identification.
-    # An initial htdigest file is shipped with Foswiki in the working/configure directory.
-    # It contains a single Userid "admin" with no password set.  For the initial login
-    # to configure, enter user admin, with no password.
-    #
+    # configuration.  "admin" is the super user identification.
+    # A sample htdigest file is shipped with Foswiki in the installation
+    # directory:  htdigest-configure.txt.  It contains a single Userid "admin"
+    # with no password set.
+
     # When the admin password is saved in configure, this file password will be synchronized.
     # Note that only this specific file in the {WorkingDir}/configure is updated,  and if
     # you choose to use it, it should be kept separate from the .htpasswd file
     # in the data directory.
-    #
+
+    # Copy htdigest-configure.txt -> working/configure/.htdigest-confikgure.
+    # Then un-comment the below settings.
+    # And, for the initial login to configure, enter user admin, with no password.
+
     #AuthType Digest
     #AuthDigestProvider file
     #AuthUserFile {WorkingDir}/configure/.htdigest-configure
