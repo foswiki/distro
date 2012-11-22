@@ -1691,8 +1691,7 @@ sub new {
     $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
     $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
 
-    if (   defined $Foswiki::cfg{WarningFileName}
-        && $Foswiki::cfg{WarningFileName}
+    if (   $Foswiki::cfg{WarningFileName}
         && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
     {
 
@@ -1702,15 +1701,27 @@ sub new {
 
 #print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
     }
-    else {
 
-        # Otherwise make sure it is defined for use in old plugins,
-        # but don't overwrite the setting from configure, if there is one.
-        # This is especially important when the admin has *chosen*
-        # to use the compatibility logger. (Some old TWiki heritage
-        # plugins write directly to the configured LogFileName
-        if ( not $Foswiki::cfg{LogFileName} ) {
+    # Make sure LogFielname is defined for use in old plugins,
+    # but don't overwrite the setting from configure, if there is one.
+    # This is especially important when the admin has *chosen*
+    # to use the compatibility logger. (Some old TWiki heritage
+    # plugins write directly to the configured LogFileName
+    if ( not $Foswiki::cfg{LogFileName} ) {
+        if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::Compatibility' )
+        {
+            my $stamp =
+              Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
+            my $defaultLogDir = "$Foswiki::cfg{DataDir}";
+            $Foswiki::cfg{LogFileName} = $defaultLogDir . "/log$stamp.txt";
+
+#print STDERR "Overrode LogFileName to $Foswiki::cfg{LogFileName} for CompatibilityLogger\n"
+        }
+        else {
             $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
+
+#print STDERR "Overrode LogFileName to $Foswiki::cfg{LogFileName} for PlainFileLogger\n"
         }
     }
 

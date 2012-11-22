@@ -14,14 +14,26 @@ sub check {
     my $mess = '';
 
     if ( $Foswiki::cfg{WarningFileName} ) {
-        $mess .= $this->NOTE(
-'This setting is deprecated. Delete it unless you want to use the CompatibilityLogger'
-        );
         $mess .= $this->showExpandedValue( $Foswiki::cfg{WarningFileName} );
-    }
-    else {
         if ( $Foswiki::cfg{Log}{Implementation} eq
             'Foswiki::Logger::Compatibility' )
+        {
+            $mess .= $this->ERROR(
+                <<ERROR
+WarningFileName is set, your chosen logger: PlainFileLogger, is being overridden back to the Compatibility logger.
+Delete this setting to use the PlainFileLogger.
+ERROR
+            );
+        }
+        else {
+            $mess .= $this->NOTE(
+'This setting is deprecated. Delete it unless you want to use the CompatibilityLogger'
+            );
+        }
+    }
+    else {
+        if (
+            $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
         {
             $mess .= $this->WARN(
 'This setting is recommended for the CompatibilityLogger.  If not set, logs are written to <code>$Foswiki::cfg{DataDir}/warn%DATE%.txt</code>'

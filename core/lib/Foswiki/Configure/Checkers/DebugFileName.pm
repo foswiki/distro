@@ -26,9 +26,6 @@ sub check {
             $mess .= $this->WARN(
 'This setting is recommended for the CompatibilityLogger.  If not set, logs are written to <code>$Foswiki::cfg{DataDir}/debug%DATE%.txt</code>'
             );
-            $mess .= $this->NOTE(
-'Foswiki 1.0.x configuration default was <code>$Foswiki::cfg{DataDir}/debug.txt</code>'
-            );
         }
     }
 
