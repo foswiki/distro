@@ -14,26 +14,31 @@ sub check {
     my $mess = '';
 
     if ( $Foswiki::cfg{WarningFileName} ) {
+
+        # WARNING FIle is SET
         $mess .= $this->showExpandedValue( $Foswiki::cfg{WarningFileName} );
-        if ( $Foswiki::cfg{Log}{Implementation} eq
-            'Foswiki::Logger::Compatibility' )
+        if (
+            $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
         {
             $mess .= $this->ERROR(
                 <<ERROR
-WarningFileName is set, your chosen logger: PlainFileLogger, is being overridden back to the Compatibility logger.
-Delete this setting to use the PlainFileLogger.
+WarningFileName is set, but your chosen logger is the PlainFile Logger, Foswiki will silently use the Compatibility logger.
+Delete this setting to permit use of the PlainFileLogger.
 ERROR
             );
         }
-        else {
-            $mess .= $this->NOTE(
-'This setting is deprecated. Delete it unless you want to use the CompatibilityLogger'
+        elsif ( $Foswiki::cfg{Log}{Implementation} ne
+            'Foswiki::Logger::Compatibility' )
+        {
+            $mess .= $this->WARN(
+'This setting is deprecated. Delete it unless you intend to use the CompatibilityLogger'
             );
         }
     }
     else {
-        if (
-            $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
+        # WARNING FIle is NOT SET
+        if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::Compatibility' )
         {
             $mess .= $this->WARN(
 'This setting is recommended for the CompatibilityLogger.  If not set, logs are written to <code>$Foswiki::cfg{DataDir}/warn%DATE%.txt</code>'
