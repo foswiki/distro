@@ -974,7 +974,7 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 #---+ Logging and Statistics -- TABS
 #---++ Logging
 
-# **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* **
+# **SELECTCLASS none,Foswiki::Logger::*,Foswiki::Logger::PlainFile::* FEEDBACK=AUTO **
 # Foswiki supports different implementations of log files. It can be
 # useful to be able to plug in a database implementation, for example,
 # for a large site, or even provide your own custom logger. Select the
@@ -1027,7 +1027,7 @@ $Foswiki::cfg{Log}{Action} = {
     viewfile => 1,
 };
 
-# **PATH DISPLAY_IF /Compatibility/i.test({Log}{Implementation}) || {DebugFileName}**
+# **PATH FEEDBACK=AUTO DISPLAY_IF /Compatibility/i.test({Log}{Implementation}) || {DebugFileName}**
 # Log file for debug messages when using the Compatibility logger.
 # (Usually very low volume.) If <code>%DATE%</code> is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.<p />
@@ -1036,7 +1036,7 @@ $Foswiki::cfg{Log}{Action} = {
 # or Foswiki 1.1 logging directory <code>$Foswiki::cfg{Log}{Dir}/debug%DATE%.txt</code>
 $Foswiki::cfg{DebugFileName} = '';
 
-# **PATH DISPLAY_IF /Compatibility/i.test({Log}{Implementation}) || {WarningFileName}**
+# **PATH FEEDBACK=AUTO DISPLAY_IF /Compatibility/i.test({Log}{Implementation}) || {WarningFileName}**
 # Log file for Warnings when using the Compatibility logger.
 # (Usually low volume) If <code>%DATE%</code> is included in the file name, it gets expanded
 # to YYYYMM (year, month), causing a new log to be written each month.<p />
