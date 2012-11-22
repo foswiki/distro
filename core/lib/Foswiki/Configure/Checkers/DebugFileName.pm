@@ -14,10 +14,12 @@ sub check {
     my $mess = '';
 
     if ( $Foswiki::cfg{DebugFileName} ) {
-        $mess .= $this->WARN(
-'This setting is deprecated. Delete it unless you want to use the CompatibilityLogger'
-        );
         $mess .= $this->showExpandedValue( $Foswiki::cfg{DebugFileName} );
+        $mess .= $this->WARN(
+'This setting is deprecated. Delete it unless you intend to use the CompatibilityLogger'
+          )
+          unless ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::Compatibility' );
     }
     else {
         if ( $Foswiki::cfg{Log}{Implementation} eq
