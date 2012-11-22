@@ -23,6 +23,6 @@ If you haven't previously set up an administrator, follow these steps:
 
 Edit this topic to add a description to the AdminGroup
 
-%META:PREFERENCE{name="GROUP" title="GROUP" type="Set" value="KipLubliner"}%
+%META:PREFERENCE{name="GROUP" title="GROUP" type="Set" value=""}%
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 %META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="GroupView"}%

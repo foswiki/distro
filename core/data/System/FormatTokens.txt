@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="KipLubliner" comment="reprev" date="1352733838" format="1.1" reprev="4" version="4"}%
+%META:TOPICINFO{author="ProjectContributor" date="1352732022" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FormattedSearch"}%
 ---++ Formatting Tokens
 
@@ -18,8 +18,6 @@ If you ever find yourself needing to escape an escape, you can use =$dollar= to 
 
 ---+++ Interactive Example
 Click the buttons below to escape or unescape the sample text.
-
-%ADDTOZONE{"script" text="<script type='text/javascript'></script>" id="KipFormatTokens" requires="JavascriptFiles/foswikiString"}%
 
 <form>
 <textarea rows="6" cols="120" id="tmlForEscape">
