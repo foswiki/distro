@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1331127471" format="1.1" version="5"}%
+%META:TOPICINFO{author="KipLubliner" comment="save topic" date="1353552818" format="1.1" version="2"}%
 ---+!! Page Caching
 
 %TOC%
@@ -213,7 +213,7 @@ is approriate as well.
 See the <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::PageCache">Foswiki::PageCache</a>
 documentation for more detailed information.
 
-<a name="#tuning"><a>
+<a name="#tuning"></a>
 ---+++ Tuning
 A number of options exist to help you tune the cache so that it works better
 for your specific content.
