@@ -31,9 +31,9 @@
 %{ ################################################################################ }%
 %TMPL:DEF{"insertlink"}%<!-- -->
 %TMPL:P{"insertlink::start"}%
-%TMPL:P{"insertlink::topic"}%
-%TMPL:P{"insertlink::attachment"}%
-%TMPL:P{"insertlink::external"}%
+%TMPL:P{"insertlink::topic"}%<!-- -->
+%TMPL:P{"insertlink::attachment"}%<!-- -->
+%TMPL:P{"insertlink::external"}%<!-- -->
 %TMPL:P{"insertlink::end"}%
 <!-- -->%TMPL:END%
 
@@ -41,7 +41,7 @@
 <div class="natEditInsertLink jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:550, position:{my:'top', at:'top', of:'#%URLPARAM{"editor"}%'}}" title="%MAKETEXT{"Insert link"}%">
   <form>
     <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
-    %TABPANE{class="plain" animate="on"}%
+    %TABPANE{class="plain"}%
 <!-- -->%TMPL:END%
 
 %TMPL:DEF{"insertlink::end"}%<!-- -->
@@ -83,7 +83,7 @@
   </div>
   <div class="foswikiFormStep">
     <h3>%MAKETEXT{"File"}%:</h3>
-    <input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="" >
+    <input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="" />
     <!-- <a href="#dialog" class="jqUIDialogLink" style="vertical-align:middle" title="%MAKETEXT{"Upload a file"}%">%JQICON{"add"}%</a> -->
   </div>
 %ENDTAB%

@@ -303,7 +303,7 @@ $.NatEditor.prototype.initGui = function() {
   var $linkButton = $(self.opts.linkButton);
   $objectTools.append($linkButton.wrap("<li />").parent());
   $linkButton.
-    addClass("jqUIDialogLink {cache:false}").
+    addClass("jqUIDialogLink").
     attr("href", self.opts.linkDialog+";editor="+self.id);
 
 if (0) { // temporary disabled
