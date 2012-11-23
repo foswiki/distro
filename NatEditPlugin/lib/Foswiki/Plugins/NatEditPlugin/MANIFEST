@@ -10,7 +10,6 @@ lib/Foswiki/Plugins/NatEditPlugin/FormList.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/RestSave.pm 0644
 locale/NatEditPlugin/de.po 0644
 locale/NatEditPlugin/Foswiki.pot 0644
-pub/System/NatEditPlugin/default/buttons_sprite.gif 0644
 pub/System/NatEditPlugin/default/buttons_sprite.png 0644
 pub/System/NatEditPlugin/default/Makefile 0644
 pub/System/NatEditPlugin/default/styles.css 0644

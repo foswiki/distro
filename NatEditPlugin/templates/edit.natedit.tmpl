@@ -19,7 +19,7 @@
 
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else="%BASETOPIC%"}%%TMPL:END%
-%TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
 %TMPL:DEF{"content"}%%TMPL:P{"contenttitle"}%%TMPL:P{"messages"}%%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%%TMPL:P{"tabpane"}%%TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%%TMPL:P{"editjavascript"}%%TMPL:END%

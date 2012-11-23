@@ -48,9 +48,9 @@
 .natEditExtButton { background-position:-325px 0px; }
 .natEditExtButton:hover { background-position:-325px -25px; }
 .natEditExtButton:active { background-position:-325px -50px; }
-.natEditIntButton { background-position:-350px 0px; }
-.natEditIntButton:hover { background-position:-350px -25px; }
-.natEditIntButton:active { background-position:-350px -50px; }
+.natEditLinkButton { background-position:-350px 0px; }
+.natEditLinkButton:hover { background-position:-350px -25px; }
+.natEditLinkButton:active { background-position:-350px -50px; }
 .natEditImageButton { background-position:-375px 0px; }
 .natEditImageButton:hover { background-position:-375px -25px; }
 .natEditImageButton:active { background-position:-375px -50px; }
