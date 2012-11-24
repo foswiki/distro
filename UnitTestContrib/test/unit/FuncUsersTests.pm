@@ -1890,6 +1890,9 @@ sub verify_getWikiNameOfWikiName {
         $loginname{UserA},
         'wikiToUserName failed to return expected login name' );
 
+    $this->assert_equals( Foswiki::Func::userToWikiName( $loginname{UserA}, 1 ),
+        "UserA", 'userToWikiName failed to return expected Users WikiName' );
+
     $this->assert_equals(
         Foswiki::Func::userToWikiName( $loginname{UserA} ),
         "$Foswiki::cfg{UsersWebName}.UserA",
