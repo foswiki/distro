@@ -213,6 +213,8 @@ sub set_up_for_verify {
         $this->registerUser( $loginname{DotLogin}, 'Dot', 'Login',
             'dot@example.com' );
 
+        #$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]#\x00-\x1f]/;
+
 #            $this->registerUser($loginname{EmailLogin}, 'Email', 'Login', 'email@example.com');
 
         my ($topicObject) =
@@ -1837,6 +1839,65 @@ sub verify_topic_meta_usermapping_Item1936 {
     $users->getWikiName('NonExistantUser');
     $this->assert_null( Foswiki::Func::getCanonicalUserID('NonExistantUser') );
 
+    return;
+}
+
+#http://foswiki.org/Tasks/Item12262
+sub verify_getWikiNameOfWikiName {
+    my $this = shift;
+
+    my $users = $this->{session}->{users};
+
+    use Data::Dumper;
+
+ #print STDERR 'WikiName2CUID' . Data::Dumper::Dumper(\$users->{wikiName2cUID});
+ #print STDERR 'cUID2WkikName' . Data::Dumper::Dumper(\$users->{cUID2WikiName});
+ #print STDERR 'cUID2Login' . Data::Dumper::Dumper(\$users->{cUID2Login});
+
+    #my @list;
+    #my $ite = Foswiki::Func::eachUser();
+    #while ( $ite->hasNext() ) {
+    #    my $u = $ite->next();
+    #    push( @list, $u );
+    #}
+
+    print STDERR 'WikiName2CUID: '
+      . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
+    print STDERR 'cUID2WkikName: '
+      . Data::Dumper::Dumper( \$users->{cUID2WikiName} );
+    print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
+    print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
+
+    $this->assert_equals( Foswiki::Func::getWikiName('UnknownUser'),
+        'UnknownUser', 'wikiword wikiname' );
+    $this->assert_equals( Foswiki::Func::getWikiName('AdminUser'),
+        'AdminUser', 'wikiword wikiname' );
+    $this->assert_equals( Foswiki::Func::getWikiName('WikiGuest'),
+        'WikiGuest', 'wikiword wikiname' );
+    $this->assert_equals( $users->getCanonicalUserID('AdminUser'),
+        'BaseUserMapping_333', 'wikiword cuid' );
+
+    $this->assert_equals( $users->getWikiName('AdminUser'),
+        'AdminUser', 'wikiword wikiname' );
+    $this->assert_equals( $users->getWikiName('WikiGuest'),
+        'WikiGuest', 'wikiword wikiname' );
+
+    $this->assert_equals( $users->getCanonicalUserID('WikiGuest'),
+        'BaseUserMapping_666', 'wikiword cuid' );
+    $this->assert_equals( $users->getCanonicalUserID('AdminUser'),
+        'BaseUserMapping_333', 'wikiword cuid' );
+
+    print STDERR 'WikiName2CUID: '
+      . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
+    print STDERR 'cUID2WkikName: '
+      . Data::Dumper::Dumper( \$users->{cUID2WikiName} );
+    print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
+    print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
+
+    #$this->assert_equals( $users->getLoginName('ScumBag'),
+    #    $loginname{ScumBag}, 'wikiword wikiname' );
+    #$this->assert_equals( $users->getCanonicalUserID('ScumBag'),
+    #    'ScumBag', 'wikiword wikiname' );
     return;
 }
 
