@@ -1854,13 +1854,18 @@ sub verify_getWikiNameOfWikiName {
  #print STDERR 'cUID2WkikName' . Data::Dumper::Dumper(\$users->{cUID2WikiName});
  #print STDERR 'cUID2Login' . Data::Dumper::Dumper(\$users->{cUID2Login});
 
-    #my @list;
-    #my $ite = Foswiki::Func::eachUser();
-    #while ( $ite->hasNext() ) {
-    #    my $u = $ite->next();
-    #    push( @list, $u );
-    #}
+    #  This will populate the caches.  But this test is for a corrupted cache
+    if (0) {
+        my @list;
+        my $ite = Foswiki::Func::eachUser();
+        while ( $ite->hasNext() ) {
+            my $u = $ite->next();
+            push( @list, $u );
+        }
+    }
 
+    # Dump the caches,  shoudl be empty except for the guest user
+    print STDERR "=======  CACHE Before tests ============\n";
     print STDERR 'WikiName2CUID: '
       . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
     print STDERR 'cUID2WkikName: '
@@ -1868,25 +1873,12 @@ sub verify_getWikiNameOfWikiName {
     print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
     print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
 
-    $this->assert_equals( Foswiki::Func::getWikiName('UnknownUser'),
-        'UnknownUser', 'wikiword wikiname' );
-    $this->assert_equals( Foswiki::Func::getWikiName('AdminUser'),
-        'AdminUser', 'wikiword wikiname' );
-    $this->assert_equals( Foswiki::Func::getWikiName('WikiGuest'),
-        'WikiGuest', 'wikiword wikiname' );
-    $this->assert_equals( $users->getCanonicalUserID('AdminUser'),
-        'BaseUserMapping_333', 'wikiword cuid' );
+    # Calling getWikiName for a WikiName corrupts the caches
+    $this->assert_equals( Foswiki::Func::getWikiName('UserA'),
+        'UserA', 'getWikiName failed to return expected WikiName' );
 
-    $this->assert_equals( $users->getWikiName('AdminUser'),
-        'AdminUser', 'wikiword wikiname' );
-    $this->assert_equals( $users->getWikiName('WikiGuest'),
-        'WikiGuest', 'wikiword wikiname' );
-
-    $this->assert_equals( $users->getCanonicalUserID('WikiGuest'),
-        'BaseUserMapping_666', 'wikiword cuid' );
-    $this->assert_equals( $users->getCanonicalUserID('AdminUser'),
-        'BaseUserMapping_333', 'wikiword cuid' );
-
+    # Dump the caches, should contain the mappings for UserA
+    print STDERR "=======  CACHE After corruption ============\n";
     print STDERR 'WikiName2CUID: '
       . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
     print STDERR 'cUID2WkikName: '
@@ -1894,10 +1886,38 @@ sub verify_getWikiNameOfWikiName {
     print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
     print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
 
-    #$this->assert_equals( $users->getLoginName('ScumBag'),
-    #    $loginname{ScumBag}, 'wikiword wikiname' );
-    #$this->assert_equals( $users->getCanonicalUserID('ScumBag'),
-    #    'ScumBag', 'wikiword wikiname' );
+    $this->assert_equals( Foswiki::Func::wikiToUserName('UserA'),
+        $loginname{UserA},
+        'wikiToUserName failed to return expected login name' );
+
+    $this->assert_equals(
+        Foswiki::Func::userToWikiName( $loginname{UserA} ),
+        "$Foswiki::cfg{UsersWebName}.UserA",
+        'userToWikiName failed to return expected Users topic name'
+    );
+
+# Verify all 3 flavors of retrieving the CanonicalUserID.  Login, Wiki or Web.Wiki
+    $this->assert_equals(
+        Foswiki::Func::getCanonicalUserID( $loginname{UserA} ),
+        $loginname{UserA},
+        'getCanonicalUserID failed when called with login name' );
+    $this->assert_equals( Foswiki::Func::getCanonicalUserID('UserA'),
+        $loginname{UserA},
+        'getCanonicalUserID failed when called with WikiName' );
+    $this->assert_equals(
+        Foswiki::Func::getCanonicalUserID("$Foswiki::cfg{UsersWebName}.UserA"),
+        $loginname{UserA},
+        'getCanonicalUserID failed when called with Web.WikiName'
+    );
+
+    print STDERR "=======  CACHE At End ============\n";
+    print STDERR 'WikiName2CUID: '
+      . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
+    print STDERR 'cUID2WkikName: '
+      . Data::Dumper::Dumper( \$users->{cUID2WikiName} );
+    print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
+    print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
+
     return;
 }
 
