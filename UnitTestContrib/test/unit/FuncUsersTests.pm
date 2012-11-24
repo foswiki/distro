@@ -1866,12 +1866,7 @@ sub verify_getWikiNameOfWikiName {
 
     # Dump the caches,  shoudl be empty except for the guest user
     print STDERR "=======  CACHE Before tests ============\n";
-    print STDERR 'WikiName2CUID: '
-      . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
-    print STDERR 'cUID2WkikName: '
-      . Data::Dumper::Dumper( \$users->{cUID2WikiName} );
-    print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
-    print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
+    _dumpUserCache($users);
 
     # Calling getWikiName for a WikiName corrupts the caches
     $this->assert_equals( Foswiki::Func::getWikiName('UserA'),
@@ -1879,12 +1874,7 @@ sub verify_getWikiNameOfWikiName {
 
     # Dump the caches, should contain the mappings for UserA
     print STDERR "=======  CACHE After corruption ============\n";
-    print STDERR 'WikiName2CUID: '
-      . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
-    print STDERR 'cUID2WkikName: '
-      . Data::Dumper::Dumper( \$users->{cUID2WikiName} );
-    print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
-    print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
+    _dumpUserCache($users);
 
     $this->assert_equals( Foswiki::Func::wikiToUserName('UserA'),
         $loginname{UserA},
@@ -1913,15 +1903,46 @@ sub verify_getWikiNameOfWikiName {
         'getCanonicalUserID failed when called with Web.WikiName'
     );
 
+    # Verify that all of the cache entries are valid
+    $this->assert_equals(
+        $loginname{UserA},
+        $users->_getMapping( $loginname{UserA} )->{L2U}{ $loginname{UserA} },
+        'L2U is incorrect'
+    ) if defined $users->_getMapping( $loginname{UserA} )->{L2U};
+    $this->assert_equals(
+        $loginname{UserA},
+        $users->_getMapping( $loginname{UserA} )->{W2U}{UserA},
+        'W2U is incorrect'
+    ) if defined $users->_getMapping( $loginname{UserA} )->{W2U};
+    $this->assert_equals(
+        'UserA',
+        $users->_getMapping( $loginname{UserA} )->{U2W}{ $loginname{UserA} },
+        'U2W is incorrect'
+    ) if defined $users->_getMapping( $loginname{UserA} )->{U2W};
+
     print STDERR "=======  CACHE At End ============\n";
+    _dumpUserCache($users);
+
+    return;
+}
+
+sub _dumpUserCache {
+    my $users = shift;
     print STDERR 'WikiName2CUID: '
       . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
     print STDERR 'cUID2WkikName: '
       . Data::Dumper::Dumper( \$users->{cUID2WikiName} );
     print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
     print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
-
-    return;
+    print STDERR 'L2U'
+      . Data::Dumper::Dumper(
+        \$users->_getMapping( $loginname{'UserA'} )->{L2U} );
+    print STDERR 'W2U'
+      . Data::Dumper::Dumper(
+        \$users->_getMapping( $loginname{'UserA'} )->{W2U} );
+    print STDERR 'U2W'
+      . Data::Dumper::Dumper(
+        \$users->_getMapping( $loginname{'UserA'} )->{U2W} );
 }
 
 #http://foswiki.org/Tasks/
