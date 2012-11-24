@@ -585,15 +585,16 @@ sub userExists {
         && $this->{passwords}->fetchPass($loginName) );
 
     unless ( $Foswiki::cfg{Register}{AllowLoginName}
-        || $this->{passwords}->canFetchUsers() )
+        && $this->{passwords}->canFetchUsers() )
     {
 
         #if there is no pwd file, then its external auth
         #and if AllowLoginName is also off, then the only way to know if
         #the user has registered is to test for user topic?
+        my $wikiname = $this->{session}->{users}->getWikiName($cUID);
         if (
             Foswiki::Func::topicExists(
-                $Foswiki::cfg{UsersWebName}, $loginName
+                $Foswiki::cfg{UsersWebName}, $wikiname
             )
           )
         {
