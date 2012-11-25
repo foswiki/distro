@@ -424,7 +424,9 @@ sub sendEmail {
 
     require POSIX;
     POSIX->import(qw(locale_h));
-    my $old_locale = POSIX::setlocale( LC_TIME(), 'en_US.ISO8859-1' );
+
+    my $old_locale = POSIX::setlocale( LC_TIME() );
+    POSIX::setlocale( LC_TIME(), 'en_US.ISO8859-1' );
     my $dateStr;
     if ( $Foswiki::cfg{Email}{Servertime} ) {
         $dateStr = POSIX::strftime( '%a, %d %b %Y %T %z"', localtime(time) );
