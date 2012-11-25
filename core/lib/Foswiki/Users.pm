@@ -1010,9 +1010,12 @@ sub setPassword {
 
 =begin TML
 
----++ ObjectMethod passwordError() -> $string
+---++ ObjectMethod passwordError($cUID) -> $string
 
-Returns a string indicating the error that happened in the password handlers
+Returns a string indicating the error that happened in the password handler
+The cUID is used to determine which mapper is handling the user.  If called
+without a cUID, then the Base mapping is used.
+
 TODO: these delayed error's should be replaced with Exceptions.
 
 returns undef if no error
@@ -1020,8 +1023,8 @@ returns undef if no error
 =cut
 
 sub passwordError {
-    my ($this) = @_;
-    return $this->_getMapping()->passwordError();
+    my ( $this, $cUID ) = @_;
+    return $this->_getMapping($cUID)->passwordError();
 }
 
 =begin TML
