@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-23 16:02+0200\n"
+"PO-Revision-Date: 2012-11-26 00:09+0200\n"
 "Last-Translator: Oliver <oliver@wiki-one.net>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "Language: de\n"
@@ -1093,7 +1093,7 @@ msgstr "Farbe %1 hat ein ungültiges Format"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Auf geht's"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1527,15 +1527,16 @@ msgstr ""
 "Bitte geben Sie den Administrator-Benutzernamen oder den Login aus %1 ein"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Bitten wählen Sie einen Topic Namen, der ein %1 ist oder erlauben Sie die "
-"Verwendung von Nicht-<nop>WikiWörter in der Auswahlbox."
+"Bitten wählen Sie ein Wiki-Wort Topicnamen aus oder kreuzen Sie die "
+"Verwendung von Nicht-Wiki-Wörtern an."
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
+"Beim Laden des Plugins trat ein Fehler auf. Beachten Sie die untenstehenden "
+"Fehlermeldungen."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1831,6 +1832,8 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Wenn Foswiki keine EMail-Adresse von Ihnen hat, können Sie nicht automatisch "
+"Ihr Passwort zurücksetzen oder EMail-Benachrichtigungen erhalten."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -2169,9 +2172,8 @@ msgstr "Melden Sie sich mit Ihrem Benutzernamen und Ihrem Passwort an"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "Login-Name"
+msgstr "Einloggen"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2290,7 +2292,7 @@ msgstr "NEU"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Benutzername"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2306,7 +2308,7 @@ msgstr "Zu einem ähnlichen Topic navigieren"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Lass gut sein"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2650,10 +2652,14 @@ msgstr "Plugin-Handler"
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
+"Pluginmodul nicht ordnungsgemäß registriert. Siehe untenstehende "
+"Fehlermeldungen."
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"Plugin-Modul wurde nicht definiert. Überprüfen Sie die Konfiguration. Siehe "
+"untenstehende Fehlerliste."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -3107,7 +3113,7 @@ msgstr "Änderungen ansehen seit:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Siehe DISABLEDPLUGINS Einstellung."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3498,6 +3504,10 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"Die EMail-Adressangabe auf Ihrem Benutzer Topic bleibt üblicherweise leer. "
+"Wenn Sie Ihre EMail-Adresse anderen gegenüber öffentlich machen wollen, "
+"können Sie auf Ihrem Benutzer Topic eine EMail-Adresse angeben. Diese kann "
+"von der intern verwendeten Adresse abweichen."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -4044,9 +4054,8 @@ msgid "View"
 msgstr "Ansehen"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
-msgstr "Topic-Historie ansehen"
+msgstr "Gesamte Topic-Historie ansehen"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:65
 msgid "View difference"
@@ -4285,9 +4294,8 @@ msgstr ""
 "alphanumerischen Zeichen."
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Sie versuchen ein Topic zu %1, das nicht existiert."
+msgstr "Sie versuchen auf einen Dateianhang zuzugreifen, der nicht existiert."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4640,7 +4648,7 @@ msgstr "vergessen Sie nicht, Ihre Topic-Einstellungen zu überprüfen"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin fehlgeschlagen. Siehe untenstehende Fehlerliste."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4670,7 +4678,7 @@ msgstr "kennzeichnet Pflichtfelder"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin wurde nicht definiert. Siehe untenstehende Fehlerliste."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
