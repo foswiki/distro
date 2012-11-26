@@ -285,6 +285,7 @@ data/System/VarSERVERTIME.txt 0644
 data/System/VarSESSIONID.txt 0644
 data/System/VarSESSIONVAR.txt 0644
 data/System/VarSESSIONVARIABLE.txt 0644
+data/System/VarSET.txt 0644
 data/System/VarSHOWPREFERENCE.txt 0644
 data/System/VarSILVER.txt 0644
 data/System/VarSKIN.txt 0644
