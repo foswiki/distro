@@ -628,6 +628,7 @@ label input {
 }
 #foswikiLogin .foswikiFormSteps {
 	text-align:left;
+	margin: 0;
 }
 #foswikiLogin .patternLoginNotification {
 	padding-left:.5em;
@@ -1940,10 +1941,6 @@ input[type="color"],
 .foswikiTextArea  + .foswikiButtonMini {
   margin-left: .5em;
 }
-input,
-textarea {
-  width: 210px;
-}
 textarea {
   height: auto;
 }
@@ -1967,7 +1964,6 @@ input[type="file"] {
   line-height: 30px;
 }
 select {
-  width: 220px;
   border: 1px solid #bbb;
   background-color: #ffffff;
 }
