@@ -1,0 +1,33 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231367690" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSET
+---+++ SET{"NAME" value="..."} -- set a preference setting during runtime
+   * Syntax: =%<nop>SET{"NAME" value="..."}%=
+   * Example: To cache the result of another macro use =%<nop>SET{"search_result" value="%<nop>SEARCH{...}%"}%=. The result of the =value= expression will be temporarily bound to the variable =%<nop>search_result%= and might be used within the scope of the current topic being processed 
+   * Related: PreferenceSettings
+
+Some notes:
+
+A preference setting created via %SET will only be usable on the topic where it has been found by the
+parser, similar to normal PreferenceSettings.  Each call to %INCLUDE opens a new scope of preference variables being
+used.  An %INCLUDE of another topic containing a %SET statement will _not_
+assert those values in the current topic's scope. In contrast, a TMPL:DEF template definition
+containing %SET macros will add those values to the current scope as if these settings have been 
+parsed as part of the current topic's text. 
+
+Setting a preference setting in a list like in
+
+<verbatim class="tml">
+   * Set foo = %SEARCH{...
+</verbatim>
+
+will store the _text_ of the TML expression.
+
+The equivalent %SET statement:
+
+<verbatim class="tml">
+%SET{"foo" value="%SEARCH{..."}%
+</verbatim>
+
+will store the _result_ of the TML expression as a consequence of the parser processing
+macros inside-out-left-to-right.
