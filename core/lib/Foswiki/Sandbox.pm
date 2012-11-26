@@ -34,7 +34,7 @@ use Assert;
 use Error qw( :try );
 
 use File::Spec ();
-use File::Temp qw( tempfile );
+use File::Temp ();
 
 use Foswiki ();
 
@@ -503,7 +503,7 @@ sub sysCommand {
 
     # Note:  Use of the file handle $fh returned here would be safer than
     # using the file name. But it is less portable, so filename wil have to do.
-    my ( $fh, $stderrCache ) = tempfile(
+    my ( $fh, $stderrCache ) = File::Temp->tempfile(
         "STDERR.$$.XXXXXXXXXX",
         DIR    => "$Foswiki::cfg{WorkingDir}/tmp",
         UNLINK => 0
