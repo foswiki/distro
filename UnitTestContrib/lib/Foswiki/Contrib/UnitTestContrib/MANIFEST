@@ -49,6 +49,7 @@ test/unit/Fn_REVINFO.pm 0644
 test/unit/Fn_SCRIPTURL.pm 0644
 test/unit/Fn_SEARCH.pm 0644
 test/unit/Fn_SECTION.pm 0644
+test/unit/Fn_SET.pm 0644
 test/unit/Fn_SEP.pm 0644
 test/unit/Fn_TOPICLIST.pm 0644
 test/unit/Fn_URLPARAM.pm 0644
