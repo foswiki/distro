@@ -19,6 +19,7 @@ sub check {
     $mess .= $this->showExpandedValue( $Foswiki::cfg{Log}{Dir} );
 
     my $ld = $this->getCfg("{Log}{Dir}");
+    ($ld) = $ld =~ m/^(.*)$/;    # Untaint
 
     my $d;
     if ( opendir( $d, $ld ) ) {
