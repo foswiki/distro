@@ -182,7 +182,7 @@ sub login {
 
     if ($loginName) {
         my $validation = $users->checkPassword( $loginName, $loginPass );
-        $error = $users->passwordError();
+        $error = $users->passwordError($loginName);
 
         if (  !$validation
             && $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress}
