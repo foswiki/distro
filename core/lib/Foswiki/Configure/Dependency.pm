@@ -462,6 +462,7 @@ sub _compare_extension_versions {
         #print STDERR "Expecting SVN comparison, but RELEASE was $baseType \n";
         ( $baseType, @atuple ) = _decodeReleaseString($aVERSION)
           if ( defined $aVERSION && $baseType ne 'svn' );
+        return 1 if ( $baseType eq 'tuple' );
         return 0 unless ( $baseType eq 'svn' );
 
     }
