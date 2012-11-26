@@ -571,6 +571,24 @@ sub test_compare_extension_versions {
         [ 0, '1.2.3', undef, '>', '1 Jan 2009' ],
         [ 0, '1.2.3', undef, '<', '1 Jan 2009' ],
 
+        # Triplet installed, compared to svn rev requested
+        # Always true - assume migration from rev to triplet
+        [ 1, '1.2.3', '1.2.3', '>', '7429' ],
+        [ 1, '1.2.3', '1.2.3', '<', '13213' ],
+        [ 1, undef,   '1.2.3', '>', '7429' ],
+        [ 1, undef,   '1.2.3', '<', '13213' ],
+        [ 1, '1.2.3', undef,   '>', '7429' ],
+        [ 1, '1.2.3', undef,   '<', '13213' ],
+
+        # Decimal rev installed, compared to svn rev requested
+        # Always true - assume migration from rev to triplet
+        [ 1, '1.2', '1.2', '>', '7429' ],
+        [ 1, '1.2', '1.2', '<', '13213' ],
+        [ 1, undef, '1.2', '>', '7429' ],
+        [ 1, undef, '1.2', '<', '13213' ],
+        [ 1, '1.2', undef, '>', '7429' ],
+        [ 1, '1.2', undef, '<', '13213' ],
+
         # Mmmmmm yyyy - not supported, always false
         [ 0, 'November 2007', undef, '<', '1.2.3' ],
         [ 0, 'November 2007', undef, '>', '1.2.3' ],
