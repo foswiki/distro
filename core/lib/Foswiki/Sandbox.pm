@@ -34,7 +34,7 @@ use Assert;
 use Error qw( :try );
 
 use File::Spec ();
-use File::Temp qw( tempfile );
+use File::Temp ();
 
 use Foswiki ();
 
@@ -503,7 +503,11 @@ sub sysCommand {
 
     # Note:  Use of the file handle $fh returned here would be safer than
     # using the file name. But it is less portable, so filename wil have to do.
-    my ( $fh, $stderrCache ) = tempfile( "STDERR.$$.XXXXXXXXXX", UNLINK => 0 );
+    my ( $fh, $stderrCache ) = File::Temp->tempfile(
+        "STDERR.$$.XXXXXXXXXX",
+        DIR    => File::Spec->tmpdir(),
+        UNLINK => 0
+    );
     close $fh;
 
     # Item5449: A random key known by both parent and child.
