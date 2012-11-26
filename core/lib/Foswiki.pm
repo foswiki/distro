@@ -281,6 +281,7 @@ BEGIN {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
                 'servertime' );
         },
+        SET                 => undef,
         SHOWPREFERENCE      => undef,
         SPACEDTOPIC         => undef,
         SPACEOUT            => undef,
