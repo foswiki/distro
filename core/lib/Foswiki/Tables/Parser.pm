@@ -67,6 +67,9 @@ Called to create a table cell.
 Called to close an open table row.
    * =$after= - trailing content (| and spaces)
 
+---+++ =end_of_input()=
+Called at end of all input.
+
 An additional event is provided for those seeking to perform special
 processing of certain lines, including rewriting them.
 
@@ -220,6 +223,7 @@ sub parse {
         print STDERR "Close TABLE (mop-up)\n" if TRACE;
         &$dispatch('close_table');    #
     }
+    &$dispatch('end_of_input');
 }
 
 =begin TML

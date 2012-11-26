@@ -81,6 +81,15 @@ sub row_class {
     return 'Foswiki::Tables::Row';
 }
 
+# Private - renumber the rows in the table after a row is moved
+sub _renumber {
+    my ( $this, $start ) = @_;
+    $start ||= 0;
+    for ( my $i = $start ; $i < scalar( @{ $this->{rows} } ) ; $i++ ) {
+        $this->{rows}->[$i]->number($i);
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod getMacro() -> $macroname
@@ -316,10 +325,7 @@ sub addRow {
     my $newRow = $this->row_class->new( $this, '', '', \@vals );
     splice( @{ $this->{rows} }, $row, 0, $newRow );
 
-    # renumber lower rows
-    for ( my $i = $row + 1 ; $i < scalar( @{ $this->{rows} } ) ; $i++ ) {
-        $this->{rows}->[$i]->number( $this->{rows}->[$i]->number + 1 );
-    }
+    $this->_renumber($row);
 
     return $newRow;
 }
@@ -355,6 +361,7 @@ sub deleteRow {
     return 0 unless $row >= $this->getFirstBodyRow();
     my @dead = splice( @{ $this->{rows} }, $row - 1, 1 );
     map { $_->finish() } @dead;
+    $this->_renumber($row);
     return 1;
 }
 
@@ -369,6 +376,10 @@ Move a row
 
 sub moveRow {
     my ( $this, $from, $to ) = @_;
+
+    if ( $to > scalar( @{ $this->{rows} } ) ) {
+        $to = scalar( @{ $this->{rows} } );
+    }
     my @moving = splice( @{ $this->{rows} }, $from, 1 );
     if ( $from < $to ) {
 
@@ -376,9 +387,7 @@ sub moveRow {
         $to--;
     }
     splice( @{ $this->{rows} }, $to, 0, @moving );
-    for ( my $i = 0 ; $i < scalar( @{ $this->{rows} } ) ; $i++ ) {
-        $this->{rows}->[$i]->number( $i + 1 );
-    }
+    $this->_renumber( $from < $to ? $from : $to );
 }
 
 =begin TML
@@ -391,9 +400,11 @@ Move a row up one position in the table
 
 sub upRow {
     my ( $this, $row ) = @_;
-    my $tmp = $this->{rows}->[ $row - 1 ];
-    $this->{rows}->[ $row - 1 ] = $this->{rows}->[ $row - 2 ];
-    $this->{rows}->[ $row - 2 ] = $tmp;
+    my $tmp = $this->{rows}->[$row];
+    $this->{rows}->[$row] = $this->{rows}->[ $row - 1 ];
+    $this->{rows}->[$row]->number($row);
+    $this->{rows}->[ $row - 1 ] = $tmp;
+    $tmp->number( $row - 1 );
 }
 
 =begin TML
@@ -408,7 +419,9 @@ sub downRow {
     my ( $this, $row ) = @_;
     my $tmp = $this->{rows}->[ $row - 1 ];
     $this->{rows}->[ $row - 1 ] = $this->{rows}->[$row];
+    $this->{rows}->[$row]->number( $row - 1 );
     $this->{rows}->[$row] = $tmp;
+    $tmp->number($row);
 }
 
 # PROTECTED method that parses a column type specification
