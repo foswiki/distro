@@ -1850,9 +1850,7 @@ sub verify_getWikiNameOfWikiName {
 
     use Data::Dumper;
 
- #print STDERR 'WikiName2CUID' . Data::Dumper::Dumper(\$users->{wikiName2cUID});
- #print STDERR 'cUID2WkikName' . Data::Dumper::Dumper(\$users->{cUID2WikiName});
- #print STDERR 'cUID2Login' . Data::Dumper::Dumper(\$users->{cUID2Login});
+    #_dumpUserCache($users);
 
     #  This will populate the caches.  But this test is for a corrupted cache
     if (0) {
@@ -1865,16 +1863,16 @@ sub verify_getWikiNameOfWikiName {
     }
 
     # Dump the caches,  shoudl be empty except for the guest user
-    print STDERR "=======  CACHE Before tests ============\n";
-    _dumpUserCache($users);
+    #print STDERR "=======  CACHE Before tests ============\n";
+    #_dumpUserCache($users);
 
     # Calling getWikiName for a WikiName corrupts the caches
     $this->assert_equals( Foswiki::Func::getWikiName('UserA'),
         'UserA', 'getWikiName failed to return expected WikiName' );
 
     # Dump the caches, should contain the mappings for UserA
-    print STDERR "=======  CACHE After corruption ============\n";
-    _dumpUserCache($users);
+    #print STDERR "=======  CACHE After corruption ============\n";
+    #_dumpUserCache($users);
 
     $this->assert_equals( Foswiki::Func::wikiToUserName('UserA'),
         $loginname{UserA},
@@ -1920,8 +1918,8 @@ sub verify_getWikiNameOfWikiName {
         'U2W is incorrect'
     ) if defined $users->_getMapping( $loginname{UserA} )->{U2W};
 
-    print STDERR "=======  CACHE At End ============\n";
-    _dumpUserCache($users);
+    #print STDERR "=======  CACHE At End ============\n";
+    #_dumpUserCache($users);
 
     return;
 }
