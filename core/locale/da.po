@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-03-22 17:13+0200\n"
+"PO-Revision-Date: 2012-11-27 11:55+0200\n"
 "Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <N/A>\n"
 "Language: da\n"
@@ -525,7 +525,7 @@ msgstr ""
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
-"Nogle filnavne vil blive tilføjet =.txt= som endelse (af sikkerhedshensyn)"
+"Nogle filnavne vil blive tilføjet =.txt= som endelse af sikkerhedshensyn"
 
 #: core/templates/messages.tmpl:638
 msgid ""
@@ -977,19 +977,19 @@ msgstr "Skift sprog"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr "Opdater links fra sider, der peger på !%1 (i alle Webs):"
+msgstr "Opdater links fra sider, der peger på !%1 i alle Webs:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr "Opdater links fra sider, der peger på !%1 (kun i %2-webbet):"
+msgstr "Opdater links fra sider, der peger på !%1 i %2-webbet:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr "Opdater links fra sider, der peger på %1 (i alle Webs)"
+msgstr "Opdater links fra sider, der peger på %1 i alle Webs"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr "Opdater links fra sider, der peger på %1 (kun i %2-webbet)"
+msgstr "Opdater links fra sider, der peger på %1 i %2-webbet:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
@@ -1077,7 +1077,7 @@ msgstr "Farven %1 er et ugyldigt format"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Velkommen ind"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1198,9 +1198,7 @@ msgstr "Opret ny side i %1-webbet"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
-msgstr ""
-"Lav et link til den vedhæftede fil (indsættes i bunden af siden, men kan "
-"flyttes rundt efterfølgende)"
+msgstr "Lav et link til den vedhæftede fil"
 
 #: core/data/Main/WikiGroups.txt:17
 msgid "Create a new group"
@@ -1477,7 +1475,7 @@ msgid ""
 "%1 has no content. You may not upload an empty file."
 msgstr ""
 "Enten er filnavnet ikke blevet opgivet korrekt, eller filen der ønskes "
-"uploadet (%1) er tom. Tomme filer kan ikke uploades."
+"uploadet %1 er tom. Tomme filer kan ikke uploades."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
 msgid "Email address"
@@ -1501,16 +1499,14 @@ msgstr ""
 "Brug den Wiki Administrator-bruger eller det login som er benyttet i %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Benyt venligst tilbage-knapppen i din browser, og vælg et sidenavn der er et "
-"[[%SYSTEMWEB%.WikiWord][WikiWord]] eller afkryds non-<nop>WikiWord i "
-"afkrydsningsfeltet"
+"Vælg et sidenavn der er et [[%SYSTEMWEB%.WikiWord][WikiWord]] eller afkryds "
+"non-<nop>WikiWord i afkrydsningsfeltet"
 
 #: core/lib/Foswiki/Plugin.pm:130
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Der skete en fejl under indlæsning af plugin. See fejl nedenfor."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1600,7 +1596,7 @@ msgid ""
 "Wikipedia]]."
 msgstr ""
 "For mere baggrundsinformation om cross-site request forgery, og de farer det "
-"giver, se"
+"giver, se [[%1][the Cross-site request forgery artikel på Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1800,6 +1796,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Hvis Foswiki ikke kan finde din registrerede e-mail i den skjulte database, "
+"så kan du ikke nulstille dit password eller drage fordel af e-mail "
+"meddelelser når sider ændres."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -1954,8 +1953,7 @@ msgid ""
 "and accessible across all platforms:"
 msgstr ""
 "I nogle tilfælde ændrer Foswiki navnet på den uploadede fil, for at gøre den "
-"sikker og tilgængelig fra flest mulige platforme (operativsystemer og "
-"browsere)."
+"sikker og tilgængelig fra flest mulige platforme:"
 
 #: core/templates/messages.tmpl:301 core/templates/messages.tmpl:308
 msgid "Incorrect %1"
@@ -2135,9 +2133,8 @@ msgstr "Angiv venligst dit brugernavn og adgangskode"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "Brugernavn"
+msgstr "Log ind"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2152,9 +2149,8 @@ msgid "Logon"
 msgstr "Log ind"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "Log ind"
+msgstr "Log ud"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2257,7 +2253,7 @@ msgstr "NY"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2273,7 +2269,7 @@ msgstr "Naviger til en lignende side?"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
-msgstr ""
+msgstr "Glem det"
 
 #: core/templates/messages.tmpl:165
 msgid "New User Registration disabled"
@@ -2612,11 +2608,12 @@ msgstr "Plugin handlers"
 
 #: core/lib/Foswiki/Plugin.pm:276
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "Plugin modul gav en fejl. Se fejl nedenfor."
 
 #: core/lib/Foswiki/Plugin.pm:145
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"Plugin modul var ikke defineret. Tjek konfigurationen. Se fejl nedenfor."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -3063,7 +3060,7 @@ msgstr "Ændrede sider de seneste:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Se DISABLEDPLUGINS indstillingen."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3447,6 +3444,9 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"E-mail adressen på din brugerside er typisk ikke udfyldt. Hvis du gerne vil "
+"vise din e-mail adresse til andre, så kan du manuelt tilføje den. Den "
+"behøver ikke at være den samme som bliver brugt af Foswiki internt."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3980,7 +3980,6 @@ msgid "View"
 msgstr "Vis"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
 msgstr "Vis komplet historik for siden"
 
@@ -4218,10 +4217,8 @@ msgstr ""
 "indeholde bogstaver og tal."
 
 #: core/templates/messages.tmpl:673
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr ""
-"Du forsøger at udføre handlingen %1 på en vedhæftet fil der ikke eksisterer."
+msgstr "Du forsøger at tilgå en vedhæftet fil der ikke eksisterer."
 
 #: core/templates/messages.tmpl:661
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4564,7 +4561,7 @@ msgstr "glem ikke at tjekke dine side-instillinger (Topic Settings)"
 
 #: core/lib/Foswiki/Plugin.pm:196
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin fejlede. Se fejl nedenfor."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4594,7 +4591,7 @@ msgstr "angiver obligatoriske felter"
 
 #: core/lib/Foswiki/Plugin.pm:182
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin var ikke defineret. Se fejl nedenfor."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
