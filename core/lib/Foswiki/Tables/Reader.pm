@@ -220,6 +220,9 @@ sub th {
     td( @_, 1 );
 }
 
+sub end_of_input {
+}
+
 1;
 __END__
 
