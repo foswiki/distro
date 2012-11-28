@@ -70,6 +70,7 @@ eg
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Nov 2012 (1.4.5) | Released with Foswiki 1.1.6. Foswikitask:Item11267 - Convert to perl version strings. |
 |  06 Apr 2012 (1.4.4) | Released with Foswiki 1.1.5. Foswikitask:Item11383 - remove redundant %<nop>REVARG% from templates. |
 |  12 Dec 2011 (1.4.3) | Released with Foswiki 1.1.4. Foswikitask:Item11104 - Added =trash-small= icon to !DocumentGraphics.  Foswikitask:Item11016 - Print should pass through URL parameters. Foswikitask:Item11341 - Add a Cog icon. |
 |  03 May 2011 (1.4.1) | Foswikitask:Item10699 - Update METADATA for attachments |

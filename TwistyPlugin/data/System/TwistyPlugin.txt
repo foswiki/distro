@@ -483,11 +483,13 @@ You can override some default settings in the plugin by setting the following [[
 ---++ Plugin Info
 
 |  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
-|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens |
+|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2012 |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Nov 2012 | 1.6.17 Foswikitask:Item12079: Scripts added to the wrong zone <br />\
+                 Foswikitask:Item11267: Convert to perl version strings. |
 |  18 Sep 2012 | 1.6.16 Foswikitask:Item11983: fixed script being added to the wrong zone |
 |  05 Dec 2011 | 1.6.15 Released with Foswiki 1.1.4 - minor changes |
 |  07 Jul 2011 | 1.6.14 Foswikitask:Item10946: fixed requesting of defunct/missing jquery.twisty.css |

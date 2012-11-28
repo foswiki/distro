@@ -27,11 +27,17 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 ---++ Plugin Info
 
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
-|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2010 Kenneth Lavrsen and Foswiki Contributors |
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2012 Kenneth Lavrsen and Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Nov 2012 (1.1.8) | Foswikitask:Item11267: Convert to perl version strings, <br />\
+                         Foswikitask:Item11755: Compare breaks characterset encoding. <br />\
+                         Foswikitask:Item11930: Read settings from Main.SitePreferences |
+|  06 Apr 2012 (1.1.7) | Foswikitask:Item11445: References to Sandbos should use %<nop>SANDBOXWEB% macro. Release with Foswiki 1.1.5. |
+|  05 Dec 2011 (1.1.6) | Release with Foswiki 1.1.4 - minor code and documentation cleanup. |
+|  28 May 2011 (1.1.6) | Foswikitask:Item10803 - Fix invalid Foswiki configuration affecting !ApacheLogin users introduced in =1.1.4= |
 |  17 May 2011 (1.1.5) | Foswikitask:Item10677 - Speed optimization by avoiding doing pointless lookup for settings in plugin topic |
 |  30 Apr 2011 (1.1.4) | Foswikitask:Item10566 - Add =compareauth= script for !ApacheLogin users %BR%\
                          - Switch to x.y.z version numbering %BR%\

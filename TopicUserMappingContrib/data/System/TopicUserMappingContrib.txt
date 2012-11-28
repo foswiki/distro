@@ -67,6 +67,13 @@ It's a part of the default distribution of the Foswiki Core.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.3.6 (28 Nov 2012) | Foswikitask:Item11821: Don't filter user names beginning with "Web" from BulkResetPassword <br />\
+                         Foswikitask:Item11923: Better logging of changes to group membership. <br />\
+                         Foswikitask:Item12003: FAQRebuildingWikiUsersTopic creates an invalid Main.WikiUsers topic <br />\
+                         Foswikitask:Item12006: Don't generate edit links for Main.NobodyGroup <br />\
+                         Foswikitask:Item11965: Correct "undefined variable" errors in mailnotify <br />\
+                         Foswikitask:Item11746: Change email address instructions were incorrect <br />\
+                         Foswikitask:Item11267: Convert to perl version strings. |
 |  4.3.5 (06 Apr 2012) | Foswikitask:Item652, Foswikitask:Item710, Foswikitask:Item2196: Cleanup partial registrations after failure.%BR%\
                          Foswikitask:Item10238: Allow UI to create empty groups<br /> \
                          Foswikitask:Item11196: Add error messages translations for registraion and group UI errors<br /> \

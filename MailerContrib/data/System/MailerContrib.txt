@@ -247,11 +247,13 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://wikigardens.com][WikiGardens]]
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004, Wind River Systems; 2009-2010 Foswiki Contributors |
+|  Copyright &copy;: | 2004, Wind River Systems; 2009-2012 Foswiki Contributors |
 |  License: | GPL |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  2.5.4 (28 Nov 2012) | Foswiki:Tasks/Item11918: Instructions for blocking email are incorrect. <br />\
+                         Foswiki:Tasks:Item11267: Convert to perl version strings. |
 |  2.5.3 (11 Sep 2012) | Foswiki:Tasks/Item12072: undocument non-existent =-user= parameter and update faulty examples |
 |  | Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics |
 |  2.5.2 (2 Dec 2011) | Foswiki 1.1.4 Release:  Foswiki:Tasks/Item11138: Foswiki:Tasks/Item11131: Document behavior with group subscriptions, Resolve issue with trailing spaces impacting subscriptions |

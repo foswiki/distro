@@ -345,6 +345,7 @@ Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] c
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Nov 2012: | 2.2.7: Foswiki 1.1.6 release.  Item11267: Convert to perl version string. |
 |  06 Apr 2012: | 2.2.6: Foswiki 1.1.5 release.  Item11453: convert to preRenderingHandler. |
 |  05 Dec 2011: | 2.2.5: Foswiki 1.1.4 release.  Minor code and topic cleanup. |
 |  15 Jul 2011: | 2.2.4: fixed line parser - Foswikitask:Item10969 |

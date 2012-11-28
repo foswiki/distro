@@ -3,8 +3,8 @@ package Foswiki::Contrib::TipsContrib;
 use strict;
 use warnings;
 
-use version; our $VERSION = version->declare("v1.1.5");
-our $RELEASE          = '1.1.5';
+use version; our $VERSION = version->declare("v1.1.6");
+our $RELEASE          = '1.1.6';
 our $SHORTDESCRIPTION = 'Displays rotating list of "Tip-of-the-day"';
 
 1;

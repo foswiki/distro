@@ -14,9 +14,9 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-# Simple decimal version, use parse, and no leading "v"
-use version; our $VERSION = version->parse("4.44");
-our $RELEASE           = '4.44';
+# Simple decimal version, no leading "v"
+our $VERSION           = '4.45';
+our $RELEASE           = '4.45';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 

@@ -15,8 +15,8 @@ use Foswiki::Plugins ();    # For the API version
 
 use vars qw( @shelter );
 
-use version; our $VERSION = version->declare("v1.1.3");
-our $RELEASE = '1.1.3';
+use version; our $VERSION = version->declare("v1.1.4");
+our $RELEASE = '1.1.4';
 our $SHORTDESCRIPTION =
   'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;

@@ -30,8 +30,8 @@ use vars qw(
   $pubUrl $attachUrl
 );
 
-use version; our $VERSION = version->declare("v2.2.6");
-our $RELEASE           = '2.2.6';
+use version; our $VERSION = version->declare("v2.2.7");
+our $RELEASE           = '2.2.7';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';
@@ -342,7 +342,7 @@ sub fixImageTag {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

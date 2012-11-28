@@ -26,8 +26,8 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-use version; our $VERSION = version->declare("v2.5.3");
-our $RELEASE          = '2.5.3';
+use version; our $VERSION = version->declare("v2.5.4");
+our $RELEASE          = '2.5.4';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 our $verbose   = 0;
@@ -601,7 +601,7 @@ sub _sendNewsletterMail {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2012 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

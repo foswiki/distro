@@ -193,6 +193,7 @@ The part between the rulers defines the default format of a slide:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Nov 2012: | 2.1.6: Foswikitask:Item11267: Convert to perl version strings. |
 |  06 Apr 2012: | 2.1.5: Foswiki:Main.RichMorin documentation cleanup%BR%\
                   Foswikitask:Item11649: SlideShowPlugin un-necessarily breaks jquery widgets (TABPANES for eg are just blank). |
 |  28 Aug 2011: | 2.1.4: URL encoding of query parameters did not include the parameter names |

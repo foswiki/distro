@@ -195,11 +195,12 @@ Test if the Plugin is correctly installed:
 
 ---++ Plugin Info
 
-|  Copyright: | &copy; 2008-2012, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
+|  Copyright: | &copy; 2008-2012, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  28 Nov 2012: | 4.43: Foswikitask:Item11267: Convert to perl version strings.  Release with Foswiki 1.1.6 |
 |  06 Apr 2012: | 4.42: Foswikitask:Item11445: References to =Sandbox= should use %<nop>SANDBOXWEB% macro. Release with Foswiki 1.1.5. |
 |  05 Dec 2011: | 4.41: Version released with Foswiki 1.1.4. Minor code and documentation cleanup. |
 |  11 Apr 2011: | 4.40: Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |

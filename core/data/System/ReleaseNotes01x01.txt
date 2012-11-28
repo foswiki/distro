@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.6_005 Alpha release
+---+!! Foswiki Release 1.1.6_006 Release Candidate
 
 %TOC%
 
@@ -33,7 +33,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.3 was built 16 Apr 2011. It is a release that fixes more than 150 bugs. jQuery has been updated to 1.4.3. The default PatternSkin has some usability improvements.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
-   * Foswiki 1.1.6_005 was built 25 Nov 2012.. It is a release that fixes some very important issues including some security related issues. It contains 94 fixes and 26 enhancements.
+   * Foswiki 1.1.6_006-RC was built 28 Nov 2012.. It is a release that fixes some very important issues including some security related issues. It contains 95 fixes and 27 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -475,7 +475,12 @@ The primary use of the logs by Foswiki is for generation of Statistics. If chang
 
 ---+++++ Logging Configuration
 
-The 1.0 configuration settings should be manually removed from !LocalSite.cfg, and configure then used to verify the new settings. If any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
+The 1.0 configuration settings should be manually removed from !LocalSite.cfg, and configure then used to verify the new settings. If the 1.0 Warning filename is found, the "compatibility" logger will be used even if the PlainFile logger is selected.
+
+<ul><li>As of Release 1.1.6, the Compatibility logger can be configured using the configure web interface.   On extremely busy systems with very large log files, the  Compaibility logger provides better performance at month end because it does not "rotate" the log files.
+<li>Some very old (pre-Foswiki) Extensions write directly to Log File configured in =$Foswiki::cfg{LogFileName}=. Foswiki will attempt to set a reasonable default value to maintain backwards compatibility.  It is recommended to configure this filename if you run old pre-Foswiki extensions that write directly to the log.
+</ul>
+
 <table>
 <tr>
 <td>
@@ -496,6 +501,9 @@ $Foswiki::cfg{ConfigurationLogName} = 'foswiki-root/data/configurationlog.txt';
 $Foswiki::cfg{DebugFileName} = 'foswiki-root/data/debug.txt';
 $Foswiki::cfg{LogFileName} = 'foswiki-root/data/log%DATE%.txt';
 $Foswiki::cfg{WarningFileName} = 'foswiki-root/data/warn%DATE%.txt';
+
+
+
 
 </verbatim>
 </td>
@@ -518,6 +526,9 @@ $Foswiki::cfg{Log}{Action} = {
           'upload' => 1,
           'attach' => 1
         };
+$Foswiki::cfg{DebugFileName} = '';
+$Foswiki::cfg{LogFileName} = '';
+$Foswiki::cfg{WarningFileName} = '';
 </verbatim>
 </td>
 </tr>
@@ -1679,9 +1690,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12213][Item12213]] | Make button icon transparent. |
 | [[%BUGS%/Item12214][Item12214]] | Default jquery-ui theme overrides manual JQTHEME choice. |
 | [[%BUGS%/Item12235][Item12235]] | Temporary password generator doesn't honor MinPasswordLength. |
-| [[%BUGS%/Item12257][Item12257]] | Logger reverts to Compatibility logger when not necessary. |
-| [[%BUGS%/Item12262][Item12262]] | Partial fix: Issues with user auth cache after incorrect call to Foswiki::Func::getWikiName().|
+| [[%BUGS%/Item12262][Item12262]] | !TopicUserMapping fails to find users if PasswordManager is set to none, and AllowLoginName is enabled. |
 | [[%BUGS%/Item12263][Item12263]] | Partial fix: Foswiki::Users::passwordError() only returns errors from the Base mapper.|
+| [[%BUGS%/Item12266][Item12266]] | Configure crashes with "Insecure Dependency" error if Working or Log directory are changed.|
 
 ---+++ Enhancements
 
@@ -1711,6 +1722,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12215][Item12215]] | jquery.loader is visible briefly before javascript is executed. |
 | [[%BUGS%/Item12233][Item12233]] | Plugins should not render in-topic links for static context. |
 | [[%BUGS%/Item12234][Item12234]] | InterWikiPlugin should use metacpan.org for CPAN links,  also clean up dead links. |
+| [[%BUGS%/Item12267][Item12267]] | Convert from SVN Revisions to perl Version strings. |
 
 </noautolink>
 ---

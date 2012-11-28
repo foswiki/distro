@@ -37,6 +37,7 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Nov 2012 (1.1.4) | Foswikitask:Item11267: Convert to perl version strings |
 |  06 Apr 2012 (1.1.3) | Foswikitask:Item11445: Use %<nop>SANDBOXWEB% macro. |
 |  02 Dec 2011 (1.1.2) | Minor updates for internal compatibility with Foswiki |
 |  29 Jun 2011 (1.1.1) | Switch to x.y.z version numbering. Minor update to play better with custom formfield types ( =Foswiki::Meta->new()= behaviour ) |

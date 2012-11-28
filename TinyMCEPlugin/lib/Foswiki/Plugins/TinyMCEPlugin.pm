@@ -7,8 +7,8 @@ use warnings;
 
 use Assert;
 
-use version; our $VERSION = version->declare("v1.2.7");
-our $RELEASE           = '1.2.7';
+use version; our $VERSION = version->declare("v1.2.8");
+our $RELEASE           = '1.2.8';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -210,7 +210,7 @@ SCRIPT
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

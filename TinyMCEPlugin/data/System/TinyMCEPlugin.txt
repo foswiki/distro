@@ -313,7 +313,9 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
+|  28 Nov 2012 (1.2.8) | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly.<br />\
+                         Foswikitask:Item11267: Convert to perl version strings <br />\
+                         Foswikitask:Item11912: Clean up hex markers left behind by TinyMCEPlugin Editor |
 |  22 May 2012 (1.2.7) | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
                          Foswikitask:Item11722: Add watermark for hidden blocks%BR%\
                          Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |

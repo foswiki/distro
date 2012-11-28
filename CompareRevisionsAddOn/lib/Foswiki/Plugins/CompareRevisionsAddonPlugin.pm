@@ -17,8 +17,9 @@ use warnings;
 
 use Foswiki;
 
-use version; our $VERSION = version->declare("v1.1.6");
-our $RELEASE = '1.1.6';
+# Keep this in sync with CompareRevsionsAddOn
+use version; our $VERSION = version->declare("v1.1.8");
+our $RELEASE = '1.1.8';
 
 # Name of this Plugin, only used in this module
 our $pluginName = 'CompareRevisionsAddonPlugin';
@@ -67,7 +68,7 @@ sub _handleRdiff2Compare {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
