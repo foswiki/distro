@@ -20,7 +20,7 @@ When this extension is installed, it adds some required libraries to your Foswik
 
 Patches are only applied if the target file is an _exact_ match to the original file.  There is no attempt to do "fuzzy" patching.   Note however that a patch can be built to cover multiple versions of the file.
 
-There is no "dependency" of patches.  Patches are installed in order of their patch file name.  In the above patch list, =Item11267-001.patch= makes unrelated changes to the file patched in =Item11267-002.patch=, but __must__ be installed first so that the patch signatures match.
+There is no "dependency" between patches.  Patches are installed in order of their patch file name.  In the above patch list, =Item11267-001.patch= makes unrelated changes to the file patched in =Item11267-002.patch=, but __must__ be installed first so that the patch signatures match.
 
 Patches will be mapped from the default Foswiki filename to the directory location used on the target system.
 
@@ -43,6 +43,21 @@ version of a target file.  The patch file consists of
       * =lib/Foswiki...= The target file name
       * =(Comment)= A comment in parenthesis, such as the foswiki version that shipped this file..
    $ The patch:  A patch in unified diff format =diff -Naur oldversionFile newVersionFile
+
+To build a patch file,
+   * For the "current release":
+      * Calculate checksum of original released file: =md5sum lib/Foswiki/Target/File.pm >> Itemxxxx-xxx.patch=
+      * Get a starting point from the fixing git patch: =git show [hash] lib/Foswiki/Target/File.pm >> Itemxxxx-xxx.patch=
+      * Verify that this diff can be applied to the "released" version of the file
+      * Edit the patch file buiding the ~~~PATCH record and remove the md5sum record
+
+   * For each additional release that the patch will cover:
+      * Calculate checksum of original file: =md5sum lib/Foswiki/Target/File.pm >> Itemxxxx-xxx.patch=
+         * If this is identical to another revision,  you are done,  move to the next version.
+      * Copy the target:   =cp lib/Foswiki/Target/File.pm lib/Foswiki/Target/File.pm.new=
+      * Manually patch the new file
+      * Calculate the diff: =diff -Naur lib/Foswiki/Target/File.pm lib/Foswiki/Target/File.pm.new >> Itemxxxx-xxx.patch=
+      * Edit the patch file to build the ~~~PATCH record and remove the md5sum record.
 
 Here is an example patch file for the Foswiki 1.1.5 and Foswiki 1.l.4 versions of the files. (EXTENSIONS.pm was not modified between 1.1.4 and 1.1.5):
 <verbatim>
@@ -110,6 +125,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.3 (28 Nov 2012) | Rework to support multiple patch installation.  Rename to PatchFoswikiContrib from PatchItem12225Contrib. Add a 2nd patch file. |
 |  1.2 (15 Nov 2012) | Manifest errors. Configure was complaining about non-writable working files. |
 |  1.1 (15 Nov 2012) | Don't include / when matching filenam, causes undefined variables on Windows. |
 |  1.0 (09 Nov 2012) | Initial version |
