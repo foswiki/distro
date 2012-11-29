@@ -1,14 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1252914561" format="1.1" version="1.3"}%
 ---+!! <nop>ImageGalleryPlugin
-<table style="float:right">
-<tr>
-  <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png"></td>
-  <td><a href="http://wikiring.com" title="Make your Wiki ring!" style="text-decoration:none">
-      Powered by <br /> <nop>WikiRing Consultants </a>
-  </td>
-</tr>
-</table>
-%TOC{title="On this page"}%
+%TOC%
+
 ---++ Description
 This plugin helps you in viewing pictures that are attached to a topic in a nice thumbnail 
 gallery. Clicking on a thumbnail zooms the image. You might navigate within your images using
@@ -160,11 +153,12 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
    * Set SHORTDESCRIPTION = Displays image gallery with auto-generated thumbnails from attachments.
 -->
 |  Plugin Author: | Michael Daum, Will Norris |
-|  Copyright &copy;: | 2002-2009, Will Norris; 2005-2011, Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2002-2009, Will Norris; 2005-2012, Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  29 Nov 2012 | removed useless call to =expandCommonVariables=; removed non-functional <nop>UserListByPhotograph |
 |  06 Jun 2011 | added support for Foswiki:Extensions/LazyLoadPlugin and Foswiki:Extensions/JQPrettyPhotoContrib; \
                  deferring expansion of IMAGEGALLERY until other plugins have updated the page |
 |  12 Feb 2010 | new =frontend= parameter defaulting to "lightbox" when Foswiki:Extensions/JQueryPlugin is installed | 
@@ -215,7 +209,6 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  Support: | Foswiki:Support/%TOPIC% |
 
 
-%META:FILEATTACHMENT{name="wikiringlogo40x40.png" attachment="wikiringlogo40x40.png" attr="h" comment="" date="1189787359" path="wikiringlogo40x40.png" size="2571" stream="wikiringlogo40x40.png" tmpFilename="" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="wintermountains.jpg" attachment="wintermountains.jpg" attr="" date="1234443485" size="33553" stream="IO::File=GLOB(0x9825730)" tmpFilename="/var/tmp/CGItemp48379" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="wave.jpg" attachment="wave.jpg" attr="" date="1234443495" size="17585" stream="IO::File=GLOB(0x981a770)" tmpFilename="/var/tmp/CGItemp54049" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="cascade.jpg" attachment="cascade.jpg" attr="" date="1234443503" size="31390" stream="IO::File=GLOB(0x9819a0c)" tmpFilename="/var/tmp/CGItemp56780" user="ProjectContributor" version="1"}%

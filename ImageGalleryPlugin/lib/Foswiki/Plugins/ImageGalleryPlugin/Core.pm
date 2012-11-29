@@ -326,7 +326,7 @@ sub render {
   $this->writeInfo();
 
   #writeDebug("result=$result");
-  return $result;
+  return Foswiki::Func::expandCommonVariables($result);
 }
 
 # =========================
@@ -524,7 +524,7 @@ sub renderFormatted {
     
 
   }
-  return $header.join($separator, @result).$footer;
+  return Foswiki::Func::decodeFormatTokens($header.join($separator, @result).$footer);
 }
 
 # =========================
