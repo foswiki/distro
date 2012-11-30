@@ -15,6 +15,10 @@
 		</p>
 	</div>
     <div class='foswikiNotification'>
+        <div class='foswikiAlert'>
+            <br /><strong>Caution: The test log will expose email usernames and passwords.</strong>  They are not encrypted or obfuscated, and can be recovered from this log!  Be careful if posting this log for debugging assistance!
+            Especially the lines after the <code>SMTP auth: Attempting authentication</code>.   They are <strong>not encrypted</strong>, but are reversably encoded.
+        </div>
 	    <p>
 	    	This action will temporarily enable email along with the email debugging flag and will attempt to send an email to the admin email address. Errors will be reported back to the web interface instead of to the server logs.
         </p>
