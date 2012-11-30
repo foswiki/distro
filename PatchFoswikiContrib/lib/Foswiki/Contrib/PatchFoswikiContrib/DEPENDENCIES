@@ -1,0 +1,7 @@
+Algorithm::Diff,>=0,cpan,May be required for lib/CPAN/lib/Text/Diff.pm
+Carp,>=0,cpan,May be required for lib/CPAN/lib/Text/Diff.pm, lib/CPAN/lib/Text/Diff/Table.pm, lib/CPAN/lib/Text/Patch.pm
+Exporter,>=0,cpan,May be required for lib/CPAN/lib/Text/Diff.pm, lib/CPAN/lib/Text/Patch.pm
+File::Copy,>=0,cpan,May be required for lib/Foswiki/Configure/PatchFile.pm
+File::Path,>=0,cpan,May be required for lib/Foswiki/Configure/PatchFile.pm
+File::Spec,>=0,cpan,May be required for lib/Foswiki/Configure/PatchFile.pm
+Foswiki::Time,>=0,perl,May be required for lib/Foswiki/Configure/PatchFile.pm

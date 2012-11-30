@@ -1,3 +1,4 @@
+!include ../PatchFoswikiContrib/lib/Foswiki/Contrib/PatchFoswikiContrib
 !include ../AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin
 !include ../CompareRevisionsAddOn/lib/Foswiki/Contrib/CompareRevisionsAddOn
 !include ../CommentPlugin/lib/Foswiki/Plugins/CommentPlugin
