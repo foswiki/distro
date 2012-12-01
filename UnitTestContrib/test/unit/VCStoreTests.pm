@@ -344,7 +344,9 @@ sub verify_NoHistory_implicitSave {
         stat(
             "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt")
     )[9];
-    $this->assert_num_equals( $date, $info->{date} );
+
+    # On busy systems, the timestamps intermittently appear off by 1 second.
+    $this->assert( abs( $date - $info->{date} ) <= 1 );
 
     # Make sure that rev 1 exists and has the original text pre-history.
     $readMeta->finish();
