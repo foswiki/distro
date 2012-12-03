@@ -15,10 +15,9 @@ our @ISA = ('Foswiki::Tables::Cell');
 my $defCol ||= { type => 'text', size => 20, values => [] };
 
 sub new {
-    my ( $class, $row, $number, $precruft, $text, $postcruft, $ish ) = @_;
+    my ( $class, $row, $precruft, $text, $postcruft, $ish ) = @_;
 
-    return $class->SUPER::new( $row, $number, $precruft, $text, $postcruft,
-        $ish );
+    return $class->SUPER::new( $row, $precruft, $text, $postcruft, $ish );
 }
 
 # Row index offset by size in the columnn definition

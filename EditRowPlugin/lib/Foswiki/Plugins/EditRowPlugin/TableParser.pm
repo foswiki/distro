@@ -56,10 +56,7 @@ sub parse {
                 $postcruft = $1 if $line =~ s/(\|\s*)$//;
                 my @cols = split( /\|/, $line, -1 );
 
-     #                my $row =
-     #                  $t->row_class->new( $t, $precruft, $postcruft, \@cols );
-                my $row =
-                  $t->addRow(0);    #so that the internal table bits get updated
+                my $row = $t->addRow(0);
                 $row->setRow( \@cols );
                 $row->isHeader(1);
                 $t->{headerrows} = 1;

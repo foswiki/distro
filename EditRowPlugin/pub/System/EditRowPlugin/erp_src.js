@@ -189,8 +189,11 @@
         // dragee and target are both TRs
         var target_data = target.data('erp_data');
         var dragee_data = dragee.data('erp_data');
+	// Can't use erp_row without a refresh - either renumber the rows,
+	// or compute the offset
         var old_pos = dragee_data.erp_row;
         var new_pos = target_data.erp_row;
+
 	var table = container.closest('table');
         var move_data = $.extend({ noredirect: 1 }, target_data,
 				 table.data('erp_data'));

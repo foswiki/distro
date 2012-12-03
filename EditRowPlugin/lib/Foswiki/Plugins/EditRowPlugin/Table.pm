@@ -177,7 +177,6 @@ sub render {
 
     # Disallow vertical display for whole table edits
     $orientation = 'horizontal' if $wholeTable;
-
     if ( $editing && $this->{attrs}->{js} ne 'assumed' ) {
         my $format = $attrs->{format} || '';
 
@@ -217,6 +216,25 @@ sub render {
 
     my %render_opts = ( need_tabledata => 1 );
 
+    my $fake_row = 0;
+    if ( $editing && scalar( @{ $this->{rows} } ) == 0 ) {
+
+        # Editing a zero-row table causes automatic creation of a single
+        # row. This is to support the creation of a new table in the
+        # presence of an EDITTABLE macro witho no data.
+        $this->addRow(-1);
+
+        # A row added this way will be used for an edit, so needs assigned
+        # cell numbers. These normally come from the raw table, but there
+        # isn't one when the table is being created.
+        my $n = 0;
+        foreach my $cell ( @{ $this->{rows}->[0]->{cols} } ) {
+            $cell->number( $n++ );
+        }
+        $fake_row   = 1;
+        $wholeTable = 1;    # it should be already; just make sure
+                            # we need to make sure controls are added....
+    }
     foreach my $row ( @{ $this->{rows} } ) {
         my $isLard = ( $row->isHeader || $row->isFooter );
         $n++ unless $isLard;
@@ -228,8 +246,10 @@ sub render {
 
             # Render an editable row
             # Get the row from the real_table, read raw from the topic
+            # (or use the fake_row if one was required)
             my $real_row =
               $opts->{real_table} ? $opts->{real_table}->{rows}->[$r] : $row;
+            $real_row = $row if $fake_row;
             if ($real_row) {
                 push(
                     @out,
@@ -465,6 +485,26 @@ sub saveTableCmd {
 
     # Whole table (sans header and footer rows)
     my $end = scalar( @{ $this->{rows} } ) - $this->{attrs}->{footerrows};
+    if ( $end <= 0 ) {
+        $end = 0;
+
+        # Fabricating a new table. Sniff the URL params to determine
+        # the number of new rows
+        my $count = scalar( @{ $this->{colTypes} } );
+        my $rowSeen;
+        do {
+            $rowSeen = 0;
+            for ( my $i = 0 ; $i < $count ; $i++ ) {
+                my $cellName = 'erp_cell_' . $this->getID() . "_${end}_$i";
+                if ( defined $urps->{$cellName} ) {
+                    $rowSeen = 1;
+                    $this->addRow($end);
+                    $end++;
+                    last;
+                }
+            }
+        } while ($rowSeen);
+    }
     for ( my $i = $this->{attrs}->{headerrows} ; $i < $end ; $i++ ) {
         my $cols = $this->_getCols( $urps, $i );
         $this->{rows}->[$i]->setRow($cols);
@@ -650,7 +690,8 @@ sub _makeButton {
             name  => 'erp_action',
             value => $action,
             title => $title,
-            class => "ui-icon ui-icon-$icon erpNoJS_button"
+            class => "ui-icon ui-icon-$icon erpNoJS_button",
+            style => "width:16px"
         }
     );
 }

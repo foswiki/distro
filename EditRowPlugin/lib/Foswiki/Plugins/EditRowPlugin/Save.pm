@@ -58,7 +58,7 @@ sub process {
     my $minor     = 0;    # If true, this is a quiet save
     my $no_return = 0;    # if true, we want to finish editing after the action
     my $no_save   = 0;    # if true, we are cancelling
-    my $clicked = $query->param('erp_action') || '';
+    my $clicked = join( '', $query->param('erp_action') ) || '';
     if ( $clicked =~ /^#?(quiet)?(save(Table|Row|Cell)Cmd)$/ ) {
         $action    = $2;
         $minor     = $1 ? 1 : 0;
