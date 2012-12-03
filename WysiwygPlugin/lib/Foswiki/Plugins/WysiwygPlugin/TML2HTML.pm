@@ -974,6 +974,16 @@ sub _liftOutSquab {
       _getNamedColour($1, $2)#oge;
     _handleMarkup($text);
 
+    my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
+    if ( $url =~
+m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/
+        && $url eq $text )
+    {
+        $class .= ' ' if ($class);
+        $class .= "TMLwikiword$url";
+
+        #print STDERR " class now ($class) \n" if $class;
+    }
     if ($class) {
         $class = " class='$class'";
     }

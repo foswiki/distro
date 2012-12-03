@@ -1102,13 +1102,13 @@ HERE
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'variousWikiWords',
         html => <<"XXX",
-<p><a href="WebPreferences">WebPreferences</a>
+<p><a class="TMLwikiwordWebPreferences" href="WebPreferences">WebPreferences</a>
 </p>
 <p><span class="WYSIWYG_PROTECTED"><br />%MAINWEB%</span>.WikiUsers
 </p>
-<p><a href="CompleteAndUtterNothing">CompleteAndUtterNothing</a>
+<p><a class="TMLwikiwordCompleteAndUtterNothing" href="CompleteAndUtterNothing">CompleteAndUtterNothing</a>
 </p>
-<p><a href="LinkBox">LinkBox</a> <a href="LinkBoxs">LinkBoxs</a> <a href="LinkBoxies">LinkBoxies</a> <a href="LinkBoxess">LinkBoxess</a> <a href="LinkBoxesses">LinkBoxesses</a> <a href="LinkBoxes">LinkBoxes</a>
+<p><a class="TMLwikiwordLinkBox" href="LinkBox">LinkBox</a> <a class="TMLwikiwordLinkBoxs" href="LinkBoxs">LinkBoxs</a> <a class="TMLwikiwordLinkBoxies" href="LinkBoxies">LinkBoxies</a> <a class="TMLwikiwordLinkBoxess" href="LinkBoxess">LinkBoxess</a> <a class="TMLwikiwordLinkBoxesses" href="LinkBoxesses">LinkBoxesses</a> <a class="TMLwikiwordLinkBoxes" href="LinkBoxes">LinkBoxes</a>
 </p>
 XXX
         tml => <<'YYY',
@@ -1145,7 +1145,7 @@ EVERYWHERE
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'noautolinkBlock',
         html => <<HERE,
-<p><span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>WebHome<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><a href="LinkingTopic">LinkingTopic</a>
+<p><span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>WebHome<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span><span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span><a class="TMLwikiwordLinkingTopic" href="LinkingTopic">LinkingTopic</a>
 </p>
 HERE
         tml => <<'EVERYWHERE',
@@ -1157,6 +1157,98 @@ EVERYWHERE
     },
     {
 
+        # Item12278 Sync Wikiword to link
+        exec => $TML2HTML | $ROUNDTRIP,
+        name => 'syncWikiwordToLink',
+        html => <<HERE,
+<p><a class='TMLlink TMLwikiwordWebHome' href="WebHome">WebHome</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink TMLwikiwordWebHome' href="WebHome">WebHome</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink TMLwikiwordWebHome#Anchor' href="WebHome#Anchor">WebHome#Anchor</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink TMLwikiwordWebHome#Anchor' href="WebHome#Anchor">WebHome#Anchor</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink' href="WebHome">HomeTopic</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<span class=WYSIWYG_LINK>[[Web Home]]</span>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordWebHome' href="WebHome">WebHome</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordWebHome#Anchor' href="WebHome#Anchor">WebHome#Anchor</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordSystem.WebHome' href="System.WebHome">System.WebHome</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordSystem.WebHome#Anchor' href="System.WebHome#Anchor">System.WebHome#Anchor</a>
+</p>
+HERE
+        tml => <<"EVERYWHERE",
+[[WebHome]]
+[[WebHome][WebHome]]
+[[WebHome#Anchor]]
+[[WebHome#Anchor][WebHome#Anchor]]
+[[WebHome][HomeTopic]]
+[[Web Home]]
+WebHome
+WebHome#Anchor
+System.WebHome
+System.WebHome#Anchor
+EVERYWHERE
+        finaltml => <<'EVERYWHERE',
+[[WebHome]]
+[[WebHome]]
+[[WebHome#Anchor]]
+[[WebHome#Anchor]]
+[[WebHome][HomeTopic]]
+[[Web Home]]
+WebHome
+WebHome#Anchor
+System.WebHome
+System.WebHome#Anchor
+EVERYWHERE
+    },
+    {
+
+        # Item12278 Sync Wikiword to link
+        exec => $HTML2TML,
+        name => 'synclinkToWikiword',
+        html => <<HERE,
+<p><a class='TMLlink TMLwikiwordWebHome' href="WebHome">WebChanges</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink TMLwikiwordWebHome' href="WebHome">WebRss</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink TMLwikiwordWebHome#Anchor' href="WebHome#Anchor">WebHome#Anchor_2</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink TMLwikiwordWebHome#Anchor' href="WebHome#Anchor_2">WebHome#Anchor</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink' href="WebHome">HomeTopic</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordWebHome' href="WebHome">WebChanges</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordWebHome#Anchor' href="WebHome#Anchor">WebRss#Blah</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordSystem.WebHome' href="System.WebHome">System.WebRss</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLwikiwordSystem.WebHome#Anchor' href="System.WebHome#Anchor">System.WebHome#Anchor2</a>
+<span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
+<a class='TMLlink TMLwikiwordWebHome' href="WebRss">WebChanges</a>
+</p>
+HERE
+        tml => <<'EVERYWHERE',
+[[WebChanges]]
+[[WebRss]]
+[[WebHome#Anchor_2]]
+[[WebHome#Anchor_2][WebHome#Anchor]]
+[[WebHome][HomeTopic]]
+WebChanges
+WebRss#Blah
+System.WebRss
+System.WebHome#Anchor2
+[[WebRss][WebChanges]]
+EVERYWHERE
+    },
+    {
+
         # Item12043: Preserve all squabs in noautolink.
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'noautolinkSquabBlock',
@@ -1164,15 +1256,15 @@ EVERYWHERE
 <p>
 <span class="WYSIWYG_PROTECTED">&#60;noautolink&#62;</span>
 <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
-<a class='TMLlink' href="WebHome">WebHome</a>
+<a class='TMLlink TMLwikiwordWebHome' href="WebHome">WebHome</a>
 <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
-<a class='TMLlink' href="WebHome">WebHome</a>
+<a class='TMLlink TMLwikiwordWebHome' href="WebHome">WebHome</a>
 <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
 <a class='TMLlink' href="WebHome">HomeTopic</a>
 <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
 <span class="WYSIWYG_PROTECTED">&#60;/noautolink&#62;</span>
 <span style="{encoded:'n'}" class="WYSIWYG_HIDDENWHITESPACE">&nbsp;</span>
-<a href="LinkingTopic">LinkingTopic</a>
+<a class="TMLwikiwordLinkingTopic" href="LinkingTopic">LinkingTopic</a>
 </p>
 HERE
         tml => <<'EVERYWHERE',
@@ -2866,7 +2958,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
+<tr><td><a class="TMLlink TMLwikiwordLegacyTopic1" href="LegacyTopic1">LegacyTopic1</a></td><td><a class="TMLwikiwordMain.SomeGuy" href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%TABLESEP%</span>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
@@ -2883,7 +2975,7 @@ HERE
         html => <<"THERE",
 $deleteme<div class="foswikiTableAndMacros">
 <table cellspacing="1" cellpadding="0" border="1">
-<tr><td><a class="TMLlink" href="LegacyTopic1">LegacyTopic1</a></td><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
+<tr><td><a class="TMLlink TMLwikiwordLegacyTopic1" href="LegacyTopic1">LegacyTopic1</a></td><td><a class="TMLwikiwordMain.SomeGuy" href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
 </table>
 <span class="WYSIWYG_PROTECTED"><br />%SEARCH{"legacy"&nbsp;nonoise="on"&nbsp;format="|&nbsp;[[\$topic]]&nbsp;|&nbsp;[[\$wikiname]]&nbsp;|"}%</span>
 </div>
@@ -2899,11 +2991,11 @@ Main.SomeGuy
 HERE
         html => <<"THERE",
 $deleteme<table cellspacing="1" cellpadding="0" border="1">
-<tr><td><a href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
-<tr><td> - <a href="Main.SomeGuy">Main.SomeGuy</a> - </td></tr>
+<tr><td><a class="TMLwikiwordMain.SomeGuy" href="Main.SomeGuy">Main.SomeGuy</a></td></tr>
+<tr><td> - <a class="TMLwikiwordMain.SomeGuy" href="Main.SomeGuy">Main.SomeGuy</a> - </td></tr>
 </table>
 <p>
-<a href="Main.SomeGuy">Main.SomeGuy</a>
+<a class="TMLwikiwordMain.SomeGuy" href="Main.SomeGuy">Main.SomeGuy</a>
 </p>
 THERE
     },
