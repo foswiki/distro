@@ -259,6 +259,7 @@ sub new {
 
             my $VERSION;
             my $RELEASE;
+            my $SHORTDESCRIPTION;
 
             my ($version) = $text =~
               m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
@@ -271,14 +272,15 @@ sub new {
             substr( $version, 0, 0, 'use version 0.77; ' )
               if ( $version =~ /version/ );
 
-            eval $version if ($version);
-            eval $release if ($release);
+            eval $version     if ($version);
+            eval $release     if ($release);
+            eval $description if ($description);
 
             $this->{files}[0]->{name} = $this->{pm};
             $this->{files}[0]->{name} =~ s/^$basedir\/(.*)/$1/;
             $this->{VERSION}          = $VERSION;
             $this->{RELEASE}          = $RELEASE;
-            $this->{SHORTDESCRIPTION} = $description || '';
+            $this->{SHORTDESCRIPTION} = $SHORTDESCRIPTION || '';
         }
     }
 
