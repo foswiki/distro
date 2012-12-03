@@ -104,6 +104,7 @@ sub parseFile {
           [ $specFile, 0, "Failed to open audit specification file: $!" ];
         return 0;
     }
+    local $/ = "\n";
 
     my ( $open, $section, @sections, @sectionStack );
 
@@ -114,8 +115,10 @@ sub parseFile {
 
         while ( $line =~ /\\$/ && !eof $sfile ) {
             my $cont = <$sfile>;
+            $cont =~ s/\r+\n//g;
+            $cont =~ s/^#// if ( $line =~ /^#/ );
             $cont =~ s/^\s*//;
-            chop $line;
+            chomp $line;
             $line .= $cont unless ( $line =~ /^#/ );
         }
         if ( $line =~ /\\$/ ) {
@@ -152,7 +155,6 @@ sub parseFile {
                     next;
                 }
                 $sectionStack[0]->addChild($section);
-                unshift @sectionStack, $section;
             }
             else {
                 unless ( $depth == 1 ) {
@@ -165,9 +167,9 @@ sub parseFile {
                     undef $open;
                     next;
                 }
-                unshift @sectionStack, $section;
                 push @sections, $section;
             }
+            unshift @sectionStack, $section;
             $open = $section;
             next;
         }
