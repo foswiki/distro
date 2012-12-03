@@ -379,7 +379,26 @@ sub _parse {
 
     while ( my $l = <F> ) {
         $l =~ s/\r//g;
+
+        # Continuation lines
+
+        while ( $l =~ /\\$/ && !eof F ) {
+            my $cont = <F>;
+            $cont =~ s/\r//g;
+            $cont =~ s/^#// if ( $l =~ /^#/ );
+            $cont =~ s/^\s*//;
+            chomp $l;
+            $l .= $cont unless ( $l =~ /^#/ );
+        }
+        if ( $l =~ /\\$/ ) {
+            push @errors,
+              [ $file, $., "Reached end-of-file, continuation expected" ];
+            next;
+        }
+
         last if ( $l =~ /^1;|^__\w+__/ );
+        next if ( $l =~ /^\s*$/ || $l =~ /^\s*#!/ );
+
         if ( $l =~ /^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
 
             # **STRING 30 EXPERT**
@@ -398,7 +417,7 @@ sub _parse {
                 next;
             }
 
-            #            my $tentativeVal = $2;
+            #            my $tentativeVal = $3; # Possibly line 1 of many
             if ( $open && $open->isa('SectionMarker') ) {
                 _pusht( \@settings, $open );
                 $open = undef;
@@ -653,8 +672,11 @@ HERE
 
     # Clean out deprecated settings, so they don't occlude the
     # replacements
-    foreach my $key ( keys %Foswiki::Configure::Load::remap ) {
-        $this->{content} =~ s/\$Foswiki::cfg$key\s*=.*?;\s*//sg;
+    {
+        no warnings 'once';
+        foreach my $key ( keys %Foswiki::Configure::Load::remap ) {
+            $this->{content} =~ s/\$Foswiki::cfg$key\s*=.*?;\s*//sg;
+        }
     }
 
     # Sort keys so it's possible to diff LSC files.
