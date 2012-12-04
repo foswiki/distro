@@ -388,7 +388,8 @@ sub _parse {
             $cont =~ s/^#// if ( $l =~ /^#/ );
             $cont =~ s/^\s*//;
             chomp $l;
-            $l .= $cont unless ( $l =~ /^#/ );
+            chop $l;
+            $l .= $cont unless ( $cont =~ /^#/ );
         }
         if ( $l =~ /\\$/ ) {
             push @errors,
