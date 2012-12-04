@@ -13,13 +13,12 @@ sub prompt {
     $opts =~ s/^\s+//;
     $opts =~ s/\s+$//;
     my $sopts = '';
-    if ( defined($value) ) {
-        $sopts .= '<option selected="selected">' . $value . '</option>';
-    }
-    else { $DB::signal = 1; $DB::signal = 1; }
     foreach my $opt ( split( /,\s*/, $opts ) ) {
-        if ( defined($value) && $opt ne $value ) {
+        if ( !defined($value) || defined($value) && $opt ne $value ) {
             $sopts .= '<option>' . $opt . '</option>';
+        }
+        elsif ( defined($value) && $opt eq $value ) {
+            $sopts .= '<option selected="selected">' . $value . '</option>';
         }
     }
     return CGI::Select(
