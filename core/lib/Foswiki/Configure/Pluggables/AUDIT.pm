@@ -118,8 +118,8 @@ sub parseFile {
             $cont =~ s/\r+\n//g;
             $cont =~ s/^#// if ( $line =~ /^#/ );
             $cont =~ s/^\s*//;
-            chomp $line;
-            $line .= $cont unless ( $line =~ /^#/ );
+            chop $line;
+            $line .= $cont unless ( $cont =~ /^#/ );
         }
         if ( $line =~ /\\$/ ) {
             push @Foswiki::Configure::FoswikiCfg::errors,
