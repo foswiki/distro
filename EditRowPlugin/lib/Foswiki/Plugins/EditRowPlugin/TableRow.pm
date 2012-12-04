@@ -231,7 +231,7 @@ sub render {
                 );
 
                 my $buttons =
-                    "<a href='$url' class='"
+                    "<a href='$url' title='Edit this row' class='"
                   . ( $opts->{js} ne 'ignored' ? 'erpJS_willDiscard' : '' )
                   . " ui-icon ui-icon-pencil'>edit</a>";
                 if ($addAnchor) {

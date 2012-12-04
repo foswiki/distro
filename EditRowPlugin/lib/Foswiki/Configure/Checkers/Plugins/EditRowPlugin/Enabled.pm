@@ -14,7 +14,9 @@ sub check {
         && $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} )
     {
         return $this->ERROR(
-'Cannot enable both EditTablePlugin and EditRowPlugin at the same time. Please choose one (prefer EditRowPlugin is unsure)'
+                  e'Cannot enable both EditTablePlugin
+              and EditRowPlugin at the same time
+              . Please choose one( EditRowPlugin if unsure ) '
         );
     }
     if ( $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} ) {
