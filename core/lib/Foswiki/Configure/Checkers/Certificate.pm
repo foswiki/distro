@@ -89,6 +89,7 @@ Validates a Certificate item for the configure GUI
    * =$usage= - Required use (email, client, server, clientserver)
 
 Returns empty string if OK, error string with any errors
+Optionally returns list of subjects.
 
 =cut
 
@@ -97,16 +98,25 @@ sub checkUsage {
     my $valobj = shift;
     my $usage  = shift;
 
-    my $keys = $valobj->getKeys() or die "No keys for value";
+    my $keys = ( ref($valobj) ? $valobj->getKeys() : $valobj )
+      or die "No keys for value";
     my $value = eval "\$Foswiki::cfg$keys";
-    return $this->ERROR("Can't evaluate current value of $keys: $@") if ($@);
+    my $e     = '';
+    if ($@) {
+        $e = $this->ERROR("Can't evaluate current value of $keys: $@");
+        return ( $e, ) if (wantarray);
+        return $e;
+    }
 
 # The default value may not have been available when  the other defaulting is done.
 
     unless ( defined $value ) {
         $value = eval "\$Foswiki::defaultCfg->$keys";
-        return $this->ERROR("Can't evaluate default value of $keys: $@")
-          if ($@);
+        if ($@) {
+            $e = $this->ERROR("Can't evaluate default value of $keys: $@");
+            return ( $e, ) if (wantarray);
+            return $e;
+        }
         $value = "***UNDEF***" unless defined $value;
     }
 
@@ -114,29 +124,44 @@ sub checkUsage {
 
     Foswiki::Configure::Load::expandValue($value);
 
-    return '' unless ( defined $value && length $value );
+    unless ( defined $value && length $value ) {
+        return ( '', ) if (wantarray);
+        return '';
+    }
     my $xpv = "<b>Note:</b> $value";
     my $xpn = $this->NOTE($xpv);
 
     my ( $errors, @certs ) = loadCert($value);
 
-    return $xpn . $this->ERROR( "No certificate in file: " . $certs[0] )
-      if ($errors);
-
-    ( ( stat $value )[2] || 0 ) & 002
-      and return $xpn . $this->ERROR("File permissions allow world write");
+    if ($errors) {
+        $e = $xpn . $this->ERROR( "No certificate in file: " . $certs[0] );
+    }
+    else {
+        ( ( stat $value )[2] || 0 ) & 002
+          and $e = $xpn . $this->ERROR("File permissions allow world write");
+    }
+    if ($e) {
+        return ( $e, ) if (wantarray);
+        return $e;
+    }
 
     eval { require Crypt::X509; };
     if ($@) {
-        return $xpn
+        $e =
+          $xpn
           . $this->WARN(
             "Unable to verify certificate: Please install Crypt::X509 from CPAN"
           );
+        return ( $e, ) if (wantarray);
+        return $e;
     }
 
     my $x = Crypt::X509->new( cert => shift @certs );
-    return $xpn . $this->ERROR( "Invalid certificate: " . $x->error )
-      if ( $x->error );
+    if ( $x->error ) {
+        $e = $xpn . $this->ERROR( "Invalid certificate: " . $x->error );
+        return ( $e, ) if (wantarray);
+        return $e;
+    }
 
     my $sts      = '';
     my $warnings = '';
@@ -169,7 +194,8 @@ Issued by %s for %s", $xpv, ( $x->issuer_cn || 'Unknown issuer' ),
         }
     }
     if (@ans) {
-        $notes .= ": " . join( ', ', dedup( $hostnames, @ans ) );
+        @ans = dedup( $hostnames, @ans );
+        $notes .= ": " . join( ', ', @ans );
     }
     $notes .= "<br />";
 
@@ -290,6 +316,7 @@ Issued by %s for %s<br />", ( $x->issuer_cn || 'Unknown issuer' ),
             ( $notes, $warnings, $errors ) = ('') x 3;
         }
     }
+    return ( $sts, @ans ) if (wantarray);
     return $sts;
 }
 

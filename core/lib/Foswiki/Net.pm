@@ -328,6 +328,8 @@ sub _installMailHandler {
     unless ( $this->{MAIL_METHOD} ) {
         $this->{MAIL_METHOD} = 'Net::SMTP' if ( $this->{MAIL_HOST} );
     }
+    $this->{MAIL_METHOD} = 'Net::SMTP (SSL)'
+      if ( $this->{MAIL_METHOD} eq 'Net::SMTP::SSL' );
 
     #_logMailError('debug', "Set MAIL_METHOD to ($this->{MAIL_METHOD})" );
 
@@ -346,14 +348,17 @@ sub _installMailHandler {
         $this->{MAIL_HOST} =~ /^(.*)$/;
         $this->{MAIL_HOST} = $1;
 
-        $this->{MAIL_METHOD} =~ /^([\w:_]+)$/ or    # Config or intruder
+        $this->{MAIL_METHOD} =~ /^([\w:_()\s]+)$/ or    # Config or intruder
           die "Invalid {Email}{MailMethod} $this->{MAIL_METHOD}\n";
         $this->{MAIL_METHOD} = $1;
 
-        eval "require $this->{MAIL_METHOD};";
+        eval {
+            require Net::SMTP;
+            require IO::Socket::SSL
+              if ( $this->{MAIL_METHOD} =~ /\((?:TLS|SSL|STARTTLS)\)/ );
+        };
         if ($@) {
-            $this->_logMailError( 'error',
-                "Failed to load $this->{MAIL_METHOD}: $@" );
+            $this->_logMailError( 'error', "Failed to load module: $@" );
         }
         else {
             $handler = \&_sendEmailByNetSMTP;
@@ -426,7 +431,7 @@ sub sendEmail {
     POSIX->import(qw(locale_h));
 
     my $old_locale = POSIX::setlocale( LC_TIME() );
-    POSIX::setlocale( LC_TIME(), 'en_US.ISO8859-1' );
+    POSIX::setlocale( LC_TIME(), 'C' );
     my $dateStr;
     if ( $Foswiki::cfg{Email}{Servertime} ) {
         $dateStr = POSIX::strftime( '%a, %d %b %Y %T %z"', localtime(time) );
@@ -509,12 +514,21 @@ sub _slurpFile( $$ ) {
 sub _smimeSignMessage {
     my $this = shift;
 
-    unless ( $Foswiki::cfg{Email}{SmimeCertificateFile}
-        && $Foswiki::cfg{Email}{SmimeKeyFile} )
-    {
-        $this->_logMailError( 'die',
-"Signed (S/MIME) mail is enabled, but certificate or key is not specified."
+    my ( $certFile, $keyFile ) = (
+        $Foswiki::cfg{Email}{SmimeCertificateFile},
+        $Foswiki::cfg{Email}{SmimeKeyFile}
+    );
+    unless ( $certFile && $keyFile ) {
+        ( $certFile, $keyFile ) = (
+            "$Foswiki::cfg{DataDir}/SmimeCertificate.pem",
+            "$Foswiki::cfg{DataDir}/SmimePrivateKey.pem"
         );
+
+        unless ( -r $certFile && -r $keyFile ) {
+            $this->_logMailError( 'die',
+"Signed (S/MIME) mail is enabled, but certificate or key is not specified and no self-signed certificate is available."
+            );
+        }
     }
 
     eval { require Crypt::SMIME; };
@@ -527,7 +541,7 @@ sub _smimeSignMessage {
 
     my $smime = Crypt::SMIME->new();
 
-    my $key = $this->_slurpFile( $Foswiki::cfg{Email}{SmimeKeyFile} );
+    my $key = $this->_slurpFile($keyFile);
 
     # Decrypt key if password specified and file has encryption header.
 
@@ -571,14 +585,11 @@ sub _smimeSignMessage {
 
     # Provide decrypted private key & certificate - trapping exceptions
 
-    eval {
-        $smime->setPrivateKey( $key,
-            $this->_slurpFile( $Foswiki::cfg{Email}{SmimeCertificateFile} ) );
-    };
+    eval { $smime->setPrivateKey( $key, $this->_slurpFile($certFile) ); };
     if ($@) {
         $this->_logMailError( 'die',
                 "Key or Certificate problem sending email"
-              . ( $@ =~ /Can't locate/ ? '' : ": $@" )
+              . $@
               . ".  Mail will not be sent" );
         return;
     }
@@ -645,6 +656,8 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
 
 sub _sendEmailByNetSMTP {
     my ( $this, $text ) = @_;
+
+    my $debug = $Foswiki::cfg{SMTP}{Debug} || 0;
 
     my $from = '';
     my @to   = ();
@@ -713,95 +726,259 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     }
 
     my $smtp = 0;
+    my ( $ssl, $tls, $starttls );
+    if ( $this->{MAIL_METHOD} =~ /\((SSL)|(TLS)|(STARTTLS)\)/ ) {
+        ( $ssl, $tls, $starttls ) = ( $1, $2, $3 );
+    }
 
-    my ( $host, $port ) = $this->{MAIL_HOST} =~ m/(.*):([0-9]{2-5})$/;
-    my @options = ( Host => $host, );
+    my ( $host, $port ) = $this->{MAIL_HOST} =~ m/^([^:]+)(?::([0-9]{2,5}))?$/;
+    my ( undef, undef, undef, undef, @addrs ) = gethostbyname($host);
+    scalar @addrs
+      or $this->_logMailError( 'die',
+        "$host is invalid: server has no IP address" );
 
-    push @options, Port => $port if ($port);
+    my @options = ( Host => [ map { sprintf "%vd", $_ } @addrs ], );
 
+    unless ($port) {
+        $port =
+            ( $ssl || $tls ) ? 'smtps(465)'
+          : $starttls ? 'submission(587)'
+          :             'smtp(25)';
+    }
+
+    push @options,
+      Port    => $port,
+      Debug   => $debug,
+      Timeout => ( @addrs >= 2 ? 20 : 120 );
     push @options, Hello => $this->{HELLO_HOST} if ( $this->{HELLO_HOST} );
 
-#if ($this->{MAIL_METHOD} eq 'Net::SMTP::TLS' && $Foswiki::cfg{SMTP}{Username}) {
-#    push @options,
-#      User => $Foswiki::cfg{SMTP}{Username},
-#      Password => $Foswiki::cfg{SMTP}{Password};
-#}
+    my $mailobj;
+    our $inAuth = 0;
+    {
+        # See https://rt.cpan.org/Public/Bug/Display.html?id=80846
+        # and https://rt.cpan.org/Public/Bug/Display.html?id=81594
+        # which this works-around...and also enables STARTTLS support
 
-    push @options, Debug => $Foswiki::cfg{SMTP}{Debug} || 0;
+        # Override Net:SMTP/Net::Cmd methods
 
-    #if ($this->{MAIL_METHOD} eq 'Net::SMTP::TLS') {
-    #$this-> _logMailError('debug', "Creating new TLS Object with @options");
-    #}
+        package Foswiki::Net::Mail;
+        our @ISA = (qw/Net::SMTP/);
 
-    if (1) {    # See https://rt.cpan.org/Public/Bug/Display.html?id=80846
-                # which this works-around...
+        $mailobj = __PACKAGE__;
+        require MIME::Base64;
 
-        package Foswiki::Configure::Net::Mail;
-        our @ISA = ( $this->{MAIL_METHOD} );
+        sub debug_text {
+            my $cmd = shift;
+            my $out = shift;
+
+            my $text = join( '', @_ );
+
+            # Can't tell what's sensitive; mask text but show
+            # spaces & length - still reveals something of
+            # passwords, but allows dialog to be followed.
+            # Assume first output is AUTH method, so don't mask that.
+            if ($inAuth) {
+                if ($out) {
+                    $text =~ s/[^\s]/*/g unless ( $inAuth++ == 1 );
+                }
+                else {
+                    my ( $code, $b64 ) = split( ' ', $text, 2 );
+                    $code ||= 0;
+                    $b64  ||= '';
+                    $text =
+                      join( ' ', $code, MIME::Base64::decode_base64($b64) )
+                      . "\n"
+                      if ( $code == 334 );
+                }
+            }
+            return $text;
+        }
 
         sub debug_print {
             my ( $cmd, $out, $text ) = @_;
-            print STDERR $ISA[0], ( $out ? '>>> ' : '<<< ' ),
-              $cmd->debug_text( $out, $text );
+
+            $text =
+                $ISA[0]
+              . ( $out ? '>>> ' : '<<< ' )
+              . $cmd->debug_text( $out, $text );
+            $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;
+            print STDERR $text;
         }
-        $smtp =
-          Foswiki::Configure::Net::Mail->new( $this->{MAIL_HOST}, @options );
-    }
-    else {
-        $smtp = $this->{MAIL_METHOD}->new( $this->{MAIL_HOST}, @options );
+
+        # Arrange interception of Net::SMTP socket creatoin
+        # Possible because it inherits from a socket
+        # method and use SUPER::new to create its socket.
+        # By putting this package first in its @ISA, it inherits
+        # from this package instead.  The mechanism replaces
+        # Net::SMTP::SSL.
+        #
+        # Mail objects inherit from several classes, and act as
+        # sockets, Net::Cmd and SMTP objects.
+        #
+        # All SSL goes through IO::Socket::SSL, loaded only for SSL.
+        # SSL options are selected here, and applied in new(), which
+        # must deal with multiple calls.
+        #
+        # socket options come from mail->new and Net::SMTP internals,
+        # and are saved in case they are needed for STARTTLS.
+
+        package Foswiki::Net::Mail::SSL;
+        our @ISA = @Net::SMTP::ISA;
+
+        our $usessl;
+        if ( $ssl || $tls ) {
+            @ISA = (
+                grep( $_ ne 'IO::Socket::INET', @Net::SMTP::ISA ),
+                'IO::Socket::SSL'
+            );
+            $usessl = 1;
+        }
+        @Net::SMTP::ISA = __PACKAGE__;
+
+        our @sockopts;
+        our @sslopts = (
+            SSL_version => ( ( $tls || $starttls ) ? 'TLSv1' : 'SSLv3' ),
+            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+        ) if ( $ssl || $tls || $starttls );
+
+        # Intercept socket creation by Net::SMTP
+
+        sub new {
+            my $class = shift;
+
+            @sockopts = ( @_, @sslopts );
+            my $sock;
+            $sock =
+              $usessl
+              ? IO::Socket::SSL->new(@sockopts)
+              : IO::Socket::INET->new(@sockopts)
+              and bless $sock, $class;
+            return $sock;
+        }
     }
 
-    my $status = '';
-    my $mess   = "ERROR: Can't send mail using $this->{MAIL_METHOD}. ";
+    $this->_logMailError(
+        'debug',
+        ( scalar gmtime ),
+        " UTC: Connecting to $host on port $port"
+    ) if ($debug);
+
+    # Suppress carp in libnet with debug > 0
+    local $SIG{__WARN__} = sub { };
+
+    $smtp = $mailobj->new(@options);
+
+    my $mess = "Failed to send mail using $this->{MAIL_METHOD}. ";
     $this->_logMailError( 'die',
-        $mess . "Can't connect to '$this->{MAIL_HOST}'" )
+        "Failed to connect to '$this->{MAIL_HOST}' using $this->{MAIL_METHOD}" )
       unless $smtp;
 
-    $this->_logMailError( 'debug',
-        "SMTP auth: Attempting authentication for $Foswiki::cfg{SMTP}{Username}"
-    ) if ( $Foswiki::cfg{SMTP}{Debug} && $Foswiki::cfg{SMTP}{Username} );
+    $this->_logMailError( 'debug', "Connected to ",
+        $smtp->peerhost, ':', $smtp->peerport )
+      if ($debug);
 
-    if ( $Foswiki::cfg{SMTP}{Username}
-        && !( $this->{MAIL_METHOD} eq 'Net::SMTP::TLS' ) )
-    {
-        unless ( $Foswiki::cfg{SMTP}{Password} ) {
-            my $errmsg =
-"SMTP auth: AUTH requested for $Foswiki::cfg{SMTP}{Username} but no password provided";
-            $this->_logMailError( 'warning', "$errmsg" )
-              if $Foswiki::cfg{SMTP}{Debug};
+    if ( $starttls && defined $smtp->supports('STARTTLS') ) {
+        unless ( $smtp->command('STARTTLS')->response() == 2 ) {
+            my ( $code, $msg ) = ( $smtp->code, $smtp->message );
+            $smtp->quit();
+            $this->_logMailError(
+                'die',
+                "$host did not accept STARTTLS: ",
+                $code . '-' . $msg
+            );
         }
 
-        unless (
-            $smtp->auth(
-                $Foswiki::cfg{SMTP}{Username},
-                $Foswiki::cfg{SMTP}{Password}
-            )
-          )
-        {
-            my $errmsg =
-              'SMTP auth: ' . $smtp->code() . ': ' . $smtp->message();
-            chomp($errmsg);
-            $errmsg .= ' - Trying to send without authentication';
-            $this->_logMailError( 'warning', "$errmsg" );
+        package Foswiki::Net::Mail::SSL;
+        our ( @ISA, @sockopts );
+
+        # N.B. Successful upgrade will change @Foswiki::Net::Mail::ISA
+        unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts ) ) {
+            $smtp->quit();
+            $this->_logMailError( 'die',
+                "Unable to upgrade connection to SSL in STARTTLS: "
+                  . IO::Socket::SSL::errstr() );
+        }
+        @ISA = ( grep( $_ ne 'IO::Socket::INET', @ISA ), 'IO::Socket::SSL' );
+        bless $smtp, $mailobj;
+
+        unless ( $smtp->hello( $this->{HELLO_HOST} ) ) {
+            my ( $code, $msg ) = ( $smtp->code, $smtp->message );
+            $smtp->quit();
+            $this->_logMailError(
+                'die',
+                "$host rejected HELLO after STARTTLS: ",
+                $code . '-' . $msg
+            );
         }
     }
-    $smtp->mail($from) || $this->_logMailError( 'die', $mess . $smtp->message );
-    $smtp->to( @to, { SkipBad => 1 } )
-      || $this->_logMailError( 'die', $mess . $smtp->message );
+    elsif ($starttls) {
+        $this->_logMailError( 'die', "$host does not support STARTTLS" );
+    }
 
-    if ( $Foswiki::cfg{SMTP}{Debug} ) {
-        my $debug = $smtp->debug(0);
-        $smtp->data($text)
-          || $this->_logMailError( 'die', $mess . $smtp->message );
-        $smtp->debug_print( 1, " ... Message contents ...\n" );
-        $smtp->debug($debug);
+    my ( $username, $password ) =
+      ( $Foswiki::cfg{SMTP}{Username}, $Foswiki::cfg{SMTP}{Password} );
+    $username = '' unless ( defined $username );
+    $password = '' unless ( defined $password );
+
+    if ( length($username) || length($password) ) {
+        if ( defined $smtp->supports('AUTH') ) {
+            $this->_logMailError( 'debug',
+                "Authenticating with username '$username'" )
+              if ($debug);
+
+            unless ( length $password ) {
+                my $errmsg =
+                  "Authentication is required, but no password is configured";
+                $this->_logMailError( 'warning', "$errmsg" )
+                  if ($debug);
+            }
+
+            local $inAuth = 1;
+            unless ( $smtp->auth( $username, $password ) ) {
+                $inAuth = 0;
+                my $errmsg =
+                    'Authentication failed: '
+                  . $smtp->code() . '-'
+                  . $smtp->message()
+                  . ".  Verify that configured username and password are valid for $host";
+                $smtp->quit();
+                $this->_logMailError( 'die', $errmsg );
+            }
+        }
+        else {
+            $this->_logMailError(
+                'warning',
+                (
+                    length($username)
+                    ? "A username ($username)"
+                      . ( length($password) ? " and password are" : " is" )
+                    : 'A password is'
+                ),
+" configured, but $host does not require authentication.  You should remove ",
+                ( length($username) && length($password) ? 'them' : 'it' ),
+                ' from the configuration.'
+            );
+        }
+    }
+
+    my $ok = $smtp->mail($from);
+    $ok &&= $smtp->to( @to, { SkipBad => 1 } );
+
+    if ($debug) {
+        my $dbg = $smtp->debug(0);
+        $ok &&= $smtp->data($text);
+        $ok && $smtp->debug_print( 1, " ... Message contents ...\n" );
+        $smtp->debug($dbg);
     }
     else {
-        $smtp->data($text)
-          || $this->_logMailError( 'die', $mess . $smtp->message );
+        $ok &&= $smtp->data($text);
     }
-    $smtp->dataend() || $this->_logMailError( 'die', $mess . $smtp->message );
+    $ok &&= $smtp->dataend();
+    my ( $code, $msg ) = ( $smtp->code, $smtp->message );
     $smtp->quit();
+    unless ($ok) {
+        $this->_logMailError( 'die', $mess . $code . '-' . $msg );
+    }
 }
 
 1;

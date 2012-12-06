@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.105";
+        var VERSION = "v3.107";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -926,6 +926,7 @@ var feedback = ( function ($) {
                     sloc,
                     delims,
                     v,
+                    vset = false,
                     modalIsOpen = feedback.modalIsOpen(),
                     openModal = false,
                     errorsChanged = false;
@@ -1015,11 +1016,22 @@ var feedback = ( function ($) {
                             }
                         } else if (kpair[1] === "\x03") {
                             errorsChanged = feedback.decodeSetValueMessage( kpair ) || errorsChanged;
+                            vset = true;
                         } else if (kpair[1] === "\x05") {
                             openModal = feedback.decodeModalMessage( kpair ) || openModal;
                         } else { /* This is not possible */
                             feedback.modalWindow("Invalid opcode2 in feedback response");
                         }
+                    }
+                    /* Trigger any display changes due to value updates
+                     * It would be nice to be more selective, as we evaluate
+                     * every conditionally-displayed item for any change..
+                     */
+                    if( vset ) {
+                        $("[data-displayif]").each(function () {
+                            $(this).triggerHandler('displayif_change');
+                            return true;
+                        });
                     }
 
                     /* Resize if open to account for any content changes
@@ -1317,6 +1329,8 @@ $(document).ready(function () {
         }
     }} );
 
+    $('.foswikiJSRequired').removeClass('foswikiJSRequired');
+
     /* Provide version before anything else happens */
 
     feedback.init();
@@ -1481,11 +1495,16 @@ function doFeedback(key, pathinfo) {
      */
 
     if( key.id !== '{ConfigureGUI}{Unsaved}status' ) {
-        working = $('#configureFeedbackWorkingText').filter(':hidden').filter(':disabled');
-        if (working.size() === 1) {
-            working = working.get(0).value;
+        working = $('#' + configure.utils.quoteName(key.id.replace(/\}feedreq/, '}feedmsg')));
+        if( working.size() ) {
+            working = working.html();
         } else {
-            working = 'Working...';
+            working = $('#configureFeedbackWorkingText').filter(':hidden').filter(':disabled');
+            if (working.size() === 1) {
+                working = working.get(0).value;
+            } else {
+                working = 'Working...';
+            }
         }
         stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
         $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");

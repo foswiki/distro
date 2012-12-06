@@ -32,10 +32,22 @@ sub check {
     }
     $e = $this->ERROR($e) if ($e);
 
+    my $selfCert = "\$Foswiki::cfg{DataDir}/SmimeCertificate.pem";
+    Foswiki::Configure::Load::expandValue($selfCert);
+    my $selfKey = "\$Foswiki::cfg{DataDir}/SmimePrivateKey.pem";
+    Foswiki::Configure::Load::expandValue($selfKey);
+
     $e .= $this->ERROR(
-        "Certificate and Key files must be provided for S/MIME email")
-      unless ( $Foswiki::cfg{Email}{SmimeCertificateFile}
-        && $Foswiki::cfg{Email}{SmimeKeyFile} );
+"Either Certificate and Key files must be provided for S/MIME email, or a self-signed certificate can be generated.  To generate a self-signed certificate or generate a signing request, use the respective WebmasterName action button."
+      )
+      unless (
+           $Foswiki::cfg{Email}{SmimeCertificateFile}
+        && $Foswiki::cfg{Email}{SmimeKeyFile}
+        || (   !$Foswiki::cfg{Email}{SmimeCertificateFile}
+            && !$Foswiki::cfg{Email}{SmimeKeyFile}
+            && -r $selfCert
+            && -r $selfKey )
+      );
 
     if ( !$this->{item}->feedback && !$this->{FeedbackProvided} ) {
 

@@ -1696,9 +1696,15 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 #---++ Email general
 # <p>Settings controlling if and how Foswiki handles email including the identity of the sender
 # and other expert settings controlling the email process.</p>
-# **BOOLEAN**
+# **BOOLEAN \
+#             FEEDBACK='Auto-configure';\
+#                       wait="Contacting your e-mail server, this may take several minutes...";\
+#                       title="Attempts to automatically configure e-mail by scanning your system and contacting your mail server" \
+#             CHECK="prefer:perl" \
+#             **
 # Enable email globally.  Un-check this option to disable all outgoing
-# email from Foswiki
+# email from Foswiki.  Use the action button to auto-configure e-mail service.
+#
 $Foswiki::cfg{EnableEmail} = $TRUE;
 
 # **EMAILADDRESS FEEDBACK=AUTO FEEDBACK="Send Test Email" 30**
@@ -1707,9 +1713,31 @@ $Foswiki::cfg{EnableEmail} = $TRUE;
 # NOTE: must be a single valid email address
 $Foswiki::cfg{WebMasterEmail} = '';
 
-# **STRING 30**
+# **STRING FEEDBACK=AUTO \
+#          FEEDBACK="Generate S/MIME Certificate";\
+#                   title="Generate a self-signed certficate for the WebMaster.\
+#                          This allows immediate use of signed email." \
+#          CHECK="expires:1y passlen:15,35 O:'Foswiki Customers' OU:'Self-signed certificates' \
+#          #!C:US ST:'Mass Bay' L:'Greater Boston' \
+#                " \
+#          FEEDBACK="Generate S/MIME CSR";\
+#                   title="Generate a Certificate Signing Request for the WebMaster.\
+#                          This request must be signed by a Certificate Authority to create \
+#                          a certificate, then installed." \
+#         FEEDBACK="Cancel CSR";\
+#                   title="Cancel a pending Certificate Signing request.  This destroys the private \
+#                          key associated with the request." \
+#          30**
 # Wiki administrator's name address, for use in mails (first name and
 # last name, e.g. <tt>Fred Smith</tt>) (used in %WIKIWEBMASTERNAME%)
+#<p> The action button will generate a self-signed S/MIME certificate and install it
+# for Foswiki e-mail.  If you use this option, you will have to arrange for your
+# users' e-mail clients to trust this certificate, or upgrade to a certificate
+# issued by a Certificate Authority that you trust.  This type of certificate
+# is adequate for a small user base and for testing, but a certificate issued
+# by your Certificate Authority or by a trusted commercial Certificate authority
+# is prefered for production in most cases.  Use the Generate CSR button to create
+# a private key and signing request for this.
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
 # **BOOLEAN EXPERT**
@@ -1740,17 +1768,18 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 #---++ Email server
 # <p>Settings to select the destination mail server or local email agent used for forwarding email.</p>
 
-# **SELECT Net::SMTP,Net::SMTP::SSL,MailProgram **
+# **SELECT Net::SMTP,\
+#          Net::SMTP (SSL),\
+#          Net::SMTP (TLS),\
+#          Net::SMTP (STARTTLS),\
+#          MailProgram **
 # Select the method Foswiki will use for sending email.  On Unix/Linux hosts
 # "MailProgram" is generally acceptable.  Otherwise choose one of the Email
 # methods required by your ISP or Email server.
-# <ul><li><code>Net::SMTP</code> sends in cleartext.
-# <li><code>Net::SMTP::SSL</code> sends using a secure encrypted connection.
-# </ul>Both of the above methods will perform authentication if a Username and
-# password are provided below.
-# <ul><li><code>MailProgram</code> uses the program configured below to send email.
-# Authentication and encryption is done externally to Foswiki and the remainder of
-# the below fields are not used.
+# You can select a method manually,  or use the "Auto-configure" button to
+# determine the best connection type for your ISP or Email server.
+# Auto-configure requires {SMTP}{MAILHOST}, but you can leave everything else
+# blank.  You'll be told if the server requires a username and password.
 #$Foswiki::cfg{Email}{MailMethod} = 'Net::SMTP';
 
 # **COMMAND DISPLAY_IF {Email}{MailMethod} == 'MailProgram'**
@@ -1763,7 +1792,8 @@ $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-# **STRING 30 EXPERT DISPLAY_IF {SMTP}{Debug} && {Email}{MailMethod} == 'MailProgram'**
+# **STRING 30 EXPERT \
+#          DISPLAY_IF {SMTP}{Debug} && {Email}{MailMethod} == 'MailProgram'**
 # These flags are passed to the mail program selected by {MailProgram}
 # when {SMTP}{Debug} is enabled in addition to any specified with
 # the program.  These flags should enable tracing of the SMTP
@@ -1777,20 +1807,21 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 
 $Foswiki::cfg{SMTP}{DebugFlags} = '-X /dev/stderr';
 
-# **STRING 30 DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
+# **STRING 30 FEEDBACK=AUTO \
+#             DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Mail host for outgoing mail. This is only used if Net::SMTP is used.
 # Examples: <tt>mail.your.company</tt> If the smtp server uses a different port
 # than the default 25 # use the syntax <tt>mail.your.company:portnumber</tt>
 # <p><b>CAUTION</b> This setting can be overridden by a setting of SMTPMAILHOST
 # in SitePreferences. Make sure you delete that setting if you are using a
 # SitePreferences topic from a previous release of Foswiki.</p>
-# <p>For Gmail, set MailMethod to Net::SMTP::SSL, set MAILHOST to <tt>smtp.gmail.com:465</tt>
-# and provide your gmail email address and password below for authentication.</p>
+# <p>For Gmail, set MailMethod to Net::SMTP, set MAILHOST to <tt>smtp.gmail.com</tt>
+# provide your gmail email address and password below for authentication, and click <strong>Auto-configure</strong>.</p>
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
 # **STRING 30 DISPLAY_IF /Net::SMTP/.test({Email}{MailMethod})**
 # Mail domain sending mail, required. SMTP
-# requires that you identify the server sending mail. If not set,
+# requires that you identify the server sending mail. If not set, <b>Auto-configure</b> or
 # <tt>Net::SMTP</tt> will guess it for you. Example: foswiki.your.company.
 # <b>CAUTION</b> This setting can be overridden by a setting of %SMTPSENDERHOST%
 # in SitePreferences. Make sure you delete that setting.
@@ -1819,13 +1850,13 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 # must be in PEM format. <p>
 # If your issuer requires an intermediate CA certificate(s), include them in this
 # file after the sender's certificate in order from least to most authoritative CA.
-$Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/cert.pem';
+$Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/SmimeCertificate.pem';
 
 # **PATH FEEDBACK=auto DISPLAY_IF {Email}{EnableSMIME}**
 # Specify the file containing the private key corresponding to the administrator's X.509 certificate.
 # It must be in PEM format.  <p><em>Be sure that this file is only readable by the
 # Foswiki software; it must NOT be readable by users!</em>
-$Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/key.pem';
+$Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/SmimePrivateKey.pem';
 
 # **PASSWORD 30 FEEDBACK=auto DISPLAY_IF {Email}{EnableSMIME}**
 # If the file containing the certificate's private key is encrypted, specify the password.
@@ -1835,11 +1866,36 @@ $Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/key.pem';
 # <i>openssl rsa -in keyfile.pem -out keyfile.pem -des3</i>
 $Foswiki::cfg{Email}{SmimeKeyPassword} = '';
 
-#---++ Email test
-# IMPORTANT: Verify your configuration before enabling email or testing user
-# registration, before attempting to register any users to Foswiki.
+#---+++ Certificate Management
+# The following paramenters can be used to specify commonly used components of the subject
+# name for Certificate Signing Requests.<p>
+# You can also install a signed certificate with the action button.
+# **STRING LABEL="Country Code"**
+# ISO country code (2 letters)
+$Foswiki::cfg{Email}{SmimeCertC} = '';
 
-# *TESTEMAIL* Marker used by bin/configure script - do not remove!
+# **STRING LABEL="State or Province"**
+# State or Province
+$Foswiki::cfg{Email}{SmimeCertST} = '';
+
+# **STRING LABEL="Locality"**
+# Locality (city or town)
+$Foswiki::cfg{Email}{SmimeCertL} = '';
+
+# **STRING LABEL="Organization"**
+# Organization - Required
+$Foswiki::cfg{Email}{SmimeCertO} = '';
+
+# **STRING LABEL="Organizational Unit"**
+# Organizational unit (e.g. Department) - Required
+$Foswiki::cfg{Email}{SmimeCertOU} = '';
+
+# **STRING 70x10 \
+#           FEEDBACK="Display CSR" NOLABEL \
+#                     title="Display pending Certificate Signing Request" \
+#           FEEDBACK="Install Certificate" NOLABEL \
+#                     title="Install a signed certificate" **
+$Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 
 #---+ Miscellaneous -- EXPERT
 # <p>Miscellaneous expert options.</p>

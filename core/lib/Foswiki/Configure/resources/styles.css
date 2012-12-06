@@ -1054,3 +1054,6 @@ div.configureSaveForm div.configureLogEntryHelp {
     word-wrap:break-word;
     width: 400px;
 }
+.foswikiJSRequired {
+    display:none;
+}

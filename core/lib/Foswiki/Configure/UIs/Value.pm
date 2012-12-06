@@ -101,28 +101,42 @@ sub renderHtml {
             $n++;
             my $magic = '';
             my $pinfo = '';
-            if ( $fb eq '~' ) {
+            my $fbl   = $fb->{'.label'};
+            if ( $fbl eq '~' ) {
                 $magic = qq{ style="display:none;"};
             }
             else {
-                if ( $fb =~ /^~p\[(.*?)\](.*)$/ ) {
+                if ( $fbl =~ /^~p\[(.*?)\](.*)$/ ) {
                     $pinfo = qq{, '$1'};
-                    $fb    = $2;
+                    $fbl   = $2;
                 }
-                $buttons .= "<br />"
-                  if ( !$haslabel && $nd % 3 == 0 );
+                $buttons .= ( !$haslabel && $nd % 3 == 0 ) ? "<br />" : ' ';
                 $nd++;
             }
-            my $q = '"';
-            $q = "'" if ( $fb =~ /["]/ );
-            $fb =~
+            $fbl =~
+              s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge
+              unless ( $fb->{html} );
+            my $fbc = $fb->{class};
+            $fbc = ( defined $fbc ? ' $fbc' : '' );
+            my $val = $fb->{value} || $fbl;
+            my $title = $fb->{title};
+            if ( defined $title ) {
+                $title =~
 s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
+                $title = qq{ title="$title"};
+            }
+            else {
+                $title = '';
+            }
             $buttons .=
-qq{ <input type="button" id="${keys}feedreq$n" value=$q$fb$q class="configureFeedbackButton$n" onclick="return doFeedback(this$pinfo);"$magic /> };
+qq{<button type="button" id="${keys}feedreq$n" value="$val" class="configureFeedbackButton$n $fbc" onclick="return doFeedback(this$pinfo);"$magic$title>$fbl</button>};
+            $buttons .=
+qq{<span style='display:none' id="${keys}feedmsg$n"><span class="configureFeedbackWaitText">$fb->{wait}</span></span>}
+              if ( $fb->{wait} );
         }
-        $feedback = $buttons;
-        $index =
-qq{$index <span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
+        $feedback = qq{<span class="foswikiJSRequired">$buttons</span>};
+        $index .=
+qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
           if ( $nd != $n );
     }
     else {

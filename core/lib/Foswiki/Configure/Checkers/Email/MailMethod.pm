@@ -48,7 +48,7 @@ by a setting of SMTPMAILHOST in SitePreferences.  If neither were set, it would 
 MailProgram.  Once you save this configuration, 
 <ul>
 <li>if MailMethod is set to MailProgram, the external mail method will always be used.
-<li>If MailMethod is set to Net::SMTP or Net::SMTP::SSL, then the MAILHOST settings from the configuration as overridden by SitePreferences will be used.
+<li>If MailMethod is set to Net::SMTP, then the MAILHOST settings from the configuration as overridden by SitePreferences will be used.
 <li>if Neither {SMTP}{MAILHOST} nor SMTPMAILHOST are set, then the MailProgram will be tried.
 </ul>
 It is recommended to delete the SMTPMAILHOST setting if you are using a SitePreferences topic from a previous release of Foswiki.
@@ -60,18 +60,6 @@ HERE
 
     if (   $e =~ m/Not installed/
         && $Foswiki::cfg{Email}{MailMethod} ne 'MailProgram' )
-    {
-        $n .= $this->ERROR($e);
-    }
-    else {
-        $n .= $this->NOTE($e);
-    }
-
-    $e = $this->checkPerlModule( 'Net::SMTP::SSL', 'Required for SMTP over SSL',
-        1.00 );
-
-    if (   $e =~ m/Not installed/
-        && $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::SSL' )
     {
         $n .= $this->ERROR($e);
     }

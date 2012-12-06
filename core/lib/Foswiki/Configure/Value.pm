@@ -120,18 +120,20 @@ sub _setopts {
     push @{ $this->{checkerOpts} }, _fixqs($1)
       while ( $value =~ s/(?:\b|^)CHECK=($qsRE)(?:\s+|$)// );
 
+    my $attrRE = qr/(?:;\s*([\w_-]+)(?:=($qsRE))?)/;
+
     while ( $value =~
-s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)(?:\b|$))|(?:($qsRE)(?:\s+|$))))|(?:\b|$))//
+s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)($attrRE*)(?:\b|$))|(?:($qsRE)($attrRE*)(?:\s+|$))))|($attrRE*)(?:\b|$))//
       )
     {
+        my @h;
         if ( defined $1 ) {    # FEEDBACK(=)
-            if ( defined $3 )
+            if ( defined $6 )
             {    # Quoted string (single or double; \-escape inner)
-                push @{ $this->{feedback} }, _fixqs($3);
+                push @h, '.label' => _fixqs($6);
             }
             else {    # FEEDBACK=keyword
-                push @{ $this->{feedback} },
-                  {
+                push @h, '.label' => {
                     AUTO        => '~',
                     'ON-CHANGE' => '~',
                     IMMEDIATE   => '~',
@@ -142,9 +144,17 @@ s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)(?:\b|$))|(?:($qsRE)(?:\s+|$))))|(?
                   || "Unknown FEEDBACK keyword '$2' in .spec";
             }
         }
-        else {    # Default label
-            push @{ $this->{feedback} }, 'Validate';
+        else {        # Default label
+            push @h, '.label' => 'Validate';
         }
+
+        # ;attr=value;attr=value;attr...
+        my $attrs = ( $3 || $7 || $10 );
+        if ($attrs) {
+            $attrs =~
+              s/$attrRE/push @h, $1 => (defined $2? _fixqs($2) : 1); ''/ge;
+        }
+        push @{ $this->{feedback} }, {@h};
     }
     $this->{label} = ''
       if ( $value =~ s/(\b|^)NOLABEL(\b|$)// );

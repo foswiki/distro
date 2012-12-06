@@ -69,35 +69,36 @@ sub parseOptions {
 
     return () unless ($optionList);
 
-    my @options;
+    my @optionList;
 
-    foreach my $optionString (@$optionList) {
-        push @options, {
-            map {
-                my @option = split( /:/, $_, 2 );
-                if ( @option && $option[0] ) {
-                    my ( $name, $value ) = @option;
-                    if ( @option == 1 ) {
-                        $value = [1];
-                    }
-                    elsif ( $value =~ /^(['"])((?:\\.|[^\1])+)\1$/ ) {
-                        $value = $2;
-                        $value =~ s/\\(.)/$1/g;
-                        $value = [$value];
-                    }
-                    else {
-                        $value = [ split( /,\s*/, $value ) ];
-                    }
-                    @option = ( $name => $value );
-                }
-                else {
-                    @option = ();
-                }
-                @option
-            } split( /\s+/, $optionString )
-        };
+    foreach my $optionStr (@$optionList) {
+        my $optionString = $optionStr;
+        my @options;
+        while ( length $optionString ) {
+            next if ( $optionString =~ s/^\s+// );
+            $optionString =~ s/^(\w+)//ms
+              or die "Expected name in CHECK "
+              . $this->{item}->getKeys()
+              . " at $optionString\n";
+            my $name = $1;
+            unless ( $optionString =~ s/^:\s*// ) {
+                push @options, $name => [1];
+                next;
+            }
+            if ( $optionString =~
+                s/^((?:(?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*')))//ms )
+            {    #
+                my $value = $1;
+                $value =~ s/\\(.)/$1/g;
+                push @options, $name => [$value];
+                next;
+            }
+            ( my $list, $optionString ) = split( /\s+/, $optionString, 2 );
+            push @options, $name => [ split( ',', $list ) ];
+        }
+        push @optionList, {@options};
     }
-    return @options;
+    return @optionList;
 }
 
 =begin TML

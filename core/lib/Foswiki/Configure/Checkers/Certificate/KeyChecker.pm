@@ -195,7 +195,8 @@ sub check {
     my $valobj  = shift;
     my $passkey = shift;
 
-    my $keys = $valobj->getKeys() or die "No keys for value";
+    my $keys = ( ref($valobj) ? $valobj->getKeys() : $valobj )
+      or die "No keys for value";
     my $value = eval "\$Foswiki::cfg$keys";
     return $this->ERROR("Can't evaluate current value of $keys: $@") if ($@);
 

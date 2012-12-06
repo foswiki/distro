@@ -4,47 +4,67 @@ package Foswiki::Configure::Checkers::SMTP::MAILHOST;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
+require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
-    my $this = shift;
-    my $n    = '';
+    my $this   = shift;
+    my $valobj = shift;
 
-    return '' if ( !$Foswiki::cfg{EnableEmail} );
+    my $e = '';
 
-    if ( ( $Foswiki::cfg{Email}{MailMethod} eq "MailProgram" )
-        && $Foswiki::cfg{SMTP}{MAILHOST} )
-    {
-        $n = $this->NOTE(
+    if ( $Foswiki::cfg{EnableEmail} ) {
+        if ( $Foswiki::cfg{Email}{MailMethod} eq "MailProgram" ) {
+            if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
+                $e .= $this->NOTE(
 "MAILHOST is not used for configured MailMethod $Foswiki::cfg{Email}{MailMethod}"
-        );
+                );
+            }
+        }
+        else {
+            unless ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
+                $e .= $this->ERROR(
+"Hostname or address required for $Foswiki::cfg{Email}{MailMethod}."
+                );
+            }
+        }
     }
 
-    return $n unless ( $Foswiki::cfg{Email}{MailMethod} ne "MailProgram" );
+    if ( !$this->{item}->feedback && !$this->{FeedbackProvided} ) {
 
-    if (   $Foswiki::cfg{Email}{MailMethod} eq 'Net::SMTP::SSL'
-        && $Foswiki::cfg{SMTP}{MAILHOST} !~ m/:[0-9]{2,5}/ )
-    {
-        $n = $this->WARN(
-"Selected MailMethod $Foswiki::cfg{Email}{MailMethod} might require a custom port number, <code>:465</code>"
-        );
+        # There is no feedback configured for this item, so do any
+        # specified tests in the checker (not a good thing).
+
+        $e .= $this->provideFeedback( $valobj, 0, 'No Feedback' );
     }
 
-    return $n if ( $Foswiki::cfg{SMTP}{MAILHOST} );
+    return $e;
+}
 
-    return $n
-      . $this->ERROR(
-"Hostname or address required for chosen MailMethod $Foswiki::cfg{Email}{MailMethod}."
-      );
+sub provideFeedback {
+    my $this = shift;
+    my ( $valobj, $button, $label ) = @_;
 
+    $this->{FeedbackProvided} = 1;
+
+    # Normally, we call check first, but not if called by check.
+
+    my $e = $button ? $this->check($valobj) : '';
+
+    my $keys = $valobj->getKeys();
+
+    delete $this->{FeedbackProvided};
+
+    # We only need to run the checker for button 1
+
+    return wantarray ? ( $e, 0 ) : $e;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

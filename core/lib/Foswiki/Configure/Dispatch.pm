@@ -18,6 +18,11 @@ use warnings;
 
 package Foswiki;
 
+use version 0.77;
+
+# minimum version of client JavaScript that configure requires.
+my $minScriptVersion = version->parse("v3.107");
+
 use Foswiki::Configure (qw/:DEFAULT :auth :cgi :config :session :trace/);
 
 $query                = CGI->new;
@@ -307,11 +312,22 @@ sub _validatefeedbackUI {
     }
 
     # Script version check - catch browser cache issues, .gz issues,
-    # people switching session...
+    # people switching sessions...and botched installations.
     $version = $query->http('X-Foswiki-ScriptVersion');
     unless ( defined $version ) {
         scriptVersionError(4);
     }
+
+    # Version required by perl code (mismatch can be cache or old file)
+    unless ( version->parse($version) >= $minScriptVersion ) {
+        scriptVersionError(
+            5,
+            scriptVersionReceived => $version,
+            scriptVersionRequired => $minScriptVersion,
+        );
+    }
+
+    # Version we sent (mismatch is cache or .gz issue)
     my $jsFile =
       "$Foswiki::foswikiLibPath/Foswiki/Configure/resources/scripts.js";
     open( my $s, '<', $jsFile )

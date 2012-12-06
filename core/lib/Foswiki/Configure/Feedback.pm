@@ -577,6 +577,9 @@ sub startVisit {
           if ( $this->{checkall} == 1 && !$this->{changed}{$keys}
             || $keys eq $this->{request} );
 
+        return 1
+          if ( $keys =~ /^{ConfigureGUI}{Modals}/ );
+
         $visitee->{_fbchecker} = my $checker = $visitee->{_fbchecker}
           || Foswiki::Configure::UI::loadChecker( $keys, $visitee );
 
