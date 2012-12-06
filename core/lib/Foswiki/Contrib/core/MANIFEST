@@ -503,6 +503,7 @@ lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
 lib/Foswiki/Configure/Checkers/CGISetup.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigParams.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/PATHINFO.pm 0444
+lib/Foswiki/Configure/Checkers/ConfigureGUI/SMIME/InstallCert.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/Debug.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/DependencyFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/RootDir.pm 0444
@@ -522,6 +523,7 @@ lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/SaveChanges.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/SessionTimeout.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/UnsavedDetail.pm 0444
 lib/Foswiki/Configure/Checkers/DisksAndStorage.pm 0444
+lib/Foswiki/Configure/Checkers/EnableEmail.pm 0444
 lib/Foswiki/Configure/ModalTemplates.pm 0444
 lib/Foswiki/Configure/Checkers/AUDITGROUP.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
@@ -604,6 +606,7 @@ lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/Validation/Method.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
+lib/Foswiki/Configure/Checkers/WebMasterName.pm 0444
 lib/Foswiki/Configure/Checkers/Welcome.pm 0444
 lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Checkers/cygwin.pm 0444
