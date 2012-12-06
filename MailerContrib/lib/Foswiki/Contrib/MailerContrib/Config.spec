@@ -10,3 +10,6 @@
 # <code>[A-Za-z0-9.+-_]+\@[A-Za-z0-9.-]+</code> is used.
 $Foswiki::cfg{MailerContrib}{EmailFilterIn} = '';
 
+# **BOOLEAN EXPERT**
+# Remove IMG tags in notification mails.
+$Foswiki::cfg{RemoveImgInMailnotify} = $TRUE;

@@ -249,9 +249,8 @@ $Foswiki::cfg{DetailedOS} = '';
 
 #############################################################################
 #---+ Security and Authentication -- TABS
-# <p>In order to support tracking who changed what, and apply access controls,
-# Foswiki is normally configured to use logins. The tabs below control
-# various aspects of logins.</p>
+# <p>The above tabs allow you to control most aspects of how Foswiki handles security
+# related activities.</p>
 #---++ Sessions
 # <p>Sessions are how Foswiki tracks a user across multiple requests.
 # <p>'Show expert options' has advanced options for controlling sessions.</p>
@@ -939,17 +938,18 @@ $Foswiki::cfg{PROXY}{PORT} = '';
 $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 
 # **BOOLEAN**
-# Normally Foswiki stores the user's sensitive information (such as their e-mail
+# <p>Normally Foswiki stores the user's sensitive information (such as their e-mail
 # address) in a database out of public view. This is to help prevent e-mail
-# spam and identity fraud.<br />
-# This setting controls whether or not the <code>%USERINFO%</code> macro will
+# spam and identity fraud.</p>
+# <p>This setting controls whether or not the <code>%USERINFO%</code> macro will
 # reveal details about users other than the current logged in user.  It does not
-# control how Foswiki actually stores email addresses.<br />
+# control how Foswiki actually stores email addresses.</p>
 # If disclosure of emails is not a risk for you (e.g. you are behind a firewall) and you
 # are happy for e-mails to be made public to all Foswiki users,
-# then you can disable this option.<br />
-# Note that if this option is set, then the <code>user</code> parameter to
-# <code>%USERINFO</code> is ignored.
+# then you can disable this option.  If you prefer to store email addresses directly in user
+# topics, see the TopicUserMapping expert setting under the UserMapping tab.</p>
+# <p>Note that if this option is set, then the <code>user</code> parameter to
+# <code>%USERINFO</code> is ignored for non-admin users.
 $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 
 # **BOOLEAN**
@@ -1690,8 +1690,7 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 
 #############################################################################
 #---+ Mail -- TABS
-# <p>Settings controlling if and how Foswiki sends email, and the proxies used
-# to access external web pages.</p>
+# <p>Settings controlling if and how Foswiki sends email</p>
 
 #---++ Email general
 # <p>Settings controlling if and how Foswiki handles email including the identity of the sender
@@ -1739,16 +1738,6 @@ $Foswiki::cfg{WebMasterEmail} = '';
 # is prefered for production in most cases.  Use the Generate CSR button to create
 # a private key and signing request for this.
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
-
-# **BOOLEAN EXPERT**
-# Remove IMG tags in notification mails.
-$Foswiki::cfg{RemoveImgInMailnotify} = $TRUE;
-
-# **STRING 20 EXPERT**
-# Name of topic in each web that has notification registrations.
-# <b>If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs</b>
-$Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
 # **BOOLEAN EXPERT**
 # Send email Date header using local "server time" instead of GMT
@@ -1950,6 +1939,12 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # (i.e. don't change it unless you are <b>certain</b> that you know what
 # you are doing!)
 $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
+
+# **STRING 20**
+# Name of topic in each web that has notification registrations.
+# <b>If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs</b>
+$Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
 # **STRING 20**
 # Name of the web where usertopics are stored. If you
