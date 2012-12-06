@@ -94,6 +94,7 @@ sub parseOptions {
                 next;
             }
             ( my $list, $optionString ) = split( /\s+/, $optionString, 2 );
+            $optionString = '' unless ( defined $optionString );
             push @options, $name => [ split( ',', $list ) ];
         }
         push @optionList, {@options};

@@ -69,9 +69,9 @@ sub installCert {
         && $data =~ /^-----BEGIN CERTIFICATE-----/m
         && $data =~ /^-----END CERTIFICATE-----/m );
 
-    my $output = `openssl x509 -text 2>&1 <<---EOF---
+    my $output = `openssl x509 -text 2>&1 <<~~~EOF---
 $data
----EOF---
+~~~EOF---
 `;
     if ($?) {
         return $this->ERROR("Operation failed");
