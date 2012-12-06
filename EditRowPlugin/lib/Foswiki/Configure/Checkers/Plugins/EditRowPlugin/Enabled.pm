@@ -17,14 +17,12 @@ sub check {
 Cannot enable both EditTablePlugin and EditRowPlugin at the same time.
 Please choose one (EditRowPlugin if you are unsure)
 MESSAGE
-        );
     }
     if ( $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} ) {
-          return $this->WARN(<<MESSAGE);
+        return $this->WARN(<<MESSAGE);
 EditTablePlugin is being phased out and replaced by EditRowPlugin.
 Please consider switching
 MESSAGE
-          );
     }
 
     return $this->NOTE("This plugin replaces EditTablePlugin");
