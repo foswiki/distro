@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.107";
+        var VERSION = "v3.108";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -991,7 +991,7 @@ var feedback = ( function ($) {
                     data = undefined;
                     for (item = 0; item < items.length; item++) {
                         /* IE sometimes doesn't do capturing split, so simulate one. */
-                        delims = ["\x02", "\x03","\x05"];
+                        delims = ["\x02", "\x03","\x05", "\x06"];
                         for (i = 0; i < delims.length; i++) {
                             sloc = items[item].indexOf(delims[i]);
                             if (sloc >= 0) {
@@ -1019,6 +1019,8 @@ var feedback = ( function ($) {
                             vset = true;
                         } else if (kpair[1] === "\x05") {
                             openModal = feedback.decodeModalMessage( kpair ) || openModal;
+                        } else if (kpair[1] === "\x06") {
+                            vset = feedback.decodeActionMessage( kpair ) || vset;
                         } else { /* This is not possible */
                             feedback.modalWindow("Invalid opcode2 in feedback response");
                         }
@@ -1211,6 +1213,37 @@ var feedback = ( function ($) {
                 }
             }
             return openModal;
+        },
+        decodeActionMessage: function (kpair) {
+            var actions,
+            target,
+            id,
+            vset = false,
+            i;
+
+            actions = kpair[0].replace(/^\{.*\}/,'').split(',');
+            id = kpair[0].replace(/^\{(.*)\}.*$/, "$1");
+            if( id.charAt(0) === '#' ) {
+                target = $('#' + configure.utils.quoteName(id.substr(1)));
+            } else {
+                target = $('[name="' + configure.utils.quoteName(id) + '"]');
+            }
+            target.each(function (idx, ele) {
+                for( i = 0; i < actions.length; i++ ) {
+                    switch( actions[i] ) {
+                    case 't':
+                        this.scrollTop = 0;
+                        break;
+                    case 'b':
+                        this.scrollTop = this.scrollHeight;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                return true;
+            });
+            return vset;
         }
     };
 }(jQuery));

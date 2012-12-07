@@ -545,7 +545,7 @@ $options = comma-separated list of options - executed in order.
 The remaining arguments should form html at the <div> level or below.
 N.B. Any other FB_ data targeting items in this html must follow the
 FB_MODAL data.  This is no {ModalOptions} item (or if there is, this
-doesn't interfere.  It simply satisfies the protocol requirement that
+does not interfere.  It simply satisfies the protocol requirement that
 all messages start with something that look like a key.
 
 =cut
@@ -555,6 +555,27 @@ sub FB_MODAL {
     my $options = shift || 'r';
 
     return "\001{ModalOptions}$options\005" . join( "", @_ );
+}
+
+=begin TML
+
+---++ ObjectMethod FB_ACTION(...)
+
+Encodes actions to be performed by javascript.
+
+$target = #id or name
+$actions =
+         t = scroll to top
+         b = scroll to bottom
+
+=cut
+
+sub FB_ACTION {
+    my $this    = shift;
+    my $target  = shift;
+    my $actions = shift;
+
+    return "\001{$target}$actions\006" . join( '', @_ );
 }
 
 =begin TML
