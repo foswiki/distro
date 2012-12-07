@@ -18,13 +18,11 @@ sub check {
     if ( $Foswiki::cfg{Email}{EnableSMIME}
         && !$Foswiki::cfg{Email}{SmimeCertificateFile} )
     {
-        if (
-            !(
-                   -r "$Foswiki::cfg{DataDir}/SmimeCertificate.pem"
-                && -r "$Foswiki::cfg{DataDir}/SmimePrivateKey.pem"
-            )
-          )
-        {
+        my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
+        Foswiki::Configure::Load::expandValue($certfile);
+        my $keyfile = '$Foswiki::cfg{DataDir}' . "/SmimePrivateKey.pem";
+        Foswiki::Configure::Load::expandValue($keyfile);
+        if ( !( -r $certfile && -r $keyfile ) ) {
             $e .= $this->ERROR(
 "S/MIME signing with self-signed certificate requested, but files are not present.  Please generate a certificate with the action button."
             );
