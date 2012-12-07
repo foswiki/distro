@@ -313,8 +313,10 @@ $keypass
     print $f $output;
     close $f or return ( 0, $this->ERROR("Close failed saving CSR: $!") );
 
-    return ( 1,
-"Your private key has been created.  Your certificate signing request is displayed below.  Please transmit it to your CA, then proceed to the Install button.  Do NOT click either action button again, as it will over-write the private key, rendering the CSR useless.<pre>$output</pre>"
+    return (
+        1,
+"Your private key has been created.  Your certificate signing request is displayed below.  Please transmit it to your CA, then proceed to the Install button.  Do NOT click either action button again, as it will over-write the private key, rendering the CSR useless.<pre>$output</pre>",
+        $keypass,
     );
 }
 
