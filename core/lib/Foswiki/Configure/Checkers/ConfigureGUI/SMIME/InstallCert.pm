@@ -60,7 +60,7 @@ sub installCert {
     my ($certfile) = @_;
 
     my $data = $query->param('{ConfigureGUI}{SMIME}{InstallCert}');
-    $data =~ tr,A-Za-z0-9+/\r\n \t-,,cd;
+    $data =~ tr,A-Za-z0-9+=/\r\n \t-,,cd;
     $data =~ m/\A(.*)\z/ms;
     $data = $1;
 
