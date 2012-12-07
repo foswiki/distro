@@ -101,7 +101,7 @@ sub new {
                 def    => 'no_form_def',
                 web    => $session->{webName},
                 topic  => $session->{topicName},
-                params => [ $web, $form ]
+                params => [ $vweb, $vtopic ]
             );
         }
 
