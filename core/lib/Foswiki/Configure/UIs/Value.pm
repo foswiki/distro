@@ -102,7 +102,7 @@ sub renderHtml {
         $tbl ||= exists $_->{col} foreach (@$feedback);
         $buttons =
           ( $haslabel ? '' : '<br />' )
-          . '<table class="configureFeedbackArray">'
+          . '<table class="configureFeedbackArray"><tbody>'
           if ($tbl);
         foreach my $fb (@$feedback) {
             $n++;
@@ -154,7 +154,7 @@ qq{<button type="button" id="${keys}feedreq$n" value="$val" class="configureFeed
 qq{<span style='display:none' id="${keys}feedmsg$n"><span class="configureFeedbackWaitText">$fb->{wait}</span></span>}
               if ( $fb->{wait} );
         }
-        $buttons .= '</table>' if ($tbl);
+        $buttons .= '</tbody></table>' if ($tbl);
         $feedback = qq{<span class="foswikiJSRequired">$buttons</span>};
         $index .=
 qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
