@@ -215,6 +215,15 @@ table.configureFeedbackSummaryTable td {
     overflow: auto;
     background-color: #FC000;
 }
+table.configureFeedbackArray,
+table.configureFeedbackArray th,
+table.configureFeedbackArray td {
+    border-style:none;
+}
+table.configureFeedbackArray th,
+table.configureFeedbackArray td {
+    padding: 1.25px 2.5px;
+}
 .configureModalForm .configureFeedback {
     max-height: none;
 }

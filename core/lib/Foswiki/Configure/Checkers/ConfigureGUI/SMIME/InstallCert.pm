@@ -33,8 +33,18 @@ sub provideFeedback {
         $e .= $this->showCSR("$certfile.csr");
     }
     elsif ( $button == 2 ) {
-        $e .= $this->installCert($certfile);
-        return wantarray ? ( $e, ['{Email}{SmimeCertificateFile}'] ) : $e;
+        $e .= $this->installCert( $certfile, $keyfile );
+        return
+          wantarray
+          ? ( $e,
+            [qw/{Email}{SmimeCertificateFile} {Email}{SmimeKeyPassword}/] )
+          : $e;
+    }
+    elsif ( $button == 3 ) {
+        my $file = $Foswiki::cfg{Email}{SmimeCertificateFile};
+        Foswiki::Configure::Load::expandValue($file) if ($file);
+        $file ||= $certfile;
+        $e .= $this->showCert($file);
     }
     return wantarray ? ( $e, 0 ) : $e;
 }
@@ -49,7 +59,8 @@ sub showCSR {
 
     my $output = `openssl req -in $csrfile -batch -subject -text 2>&1`;
     if ($?) {
-        return $this->ERROR("Operation failed");
+        return $this->ERROR("Operation failed")
+          . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
     }
 
     return $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
@@ -57,9 +68,24 @@ sub showCSR {
 
 sub installCert {
     my $this = shift;
-    my ($certfile) = @_;
+    my ( $certfile, $keyfile ) = @_;
 
-    my $data = $query->param('{ConfigureGUI}{SMIME}{InstallCert}');
+    my $e = '';
+
+    return $this->ERROR("No pending Certificate request")
+      unless ( -r "$certfile.csr" && -r "$keyfile.csr" );
+
+    my $data = $query->param('{ConfigureGUI}{SMIME}{InstallCert}') || '';
+
+    $data = join(
+        "\n",
+        map {
+            /^-----BEGIN CERTIFICATE-----/ ... /^-----END CERTIFICATE-----/
+              ? ($_)
+              : ()
+        } ( split( /\r?\n/, $data ), '-----END CERTIFICATE-----' )
+    );
+
     $data =~ tr,A-Za-z0-9+=/\r\n \t-,,cd;
     $data =~ m/\A(.*)\z/ms;
     $data = $1;
@@ -74,7 +100,8 @@ $data
 ~~~EOF---
 `;
     if ($?) {
-        return $this->ERROR("Operation failed");
+        return $this->ERROR("Operation failed")
+          . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
     }
 
     if ( $Foswiki::cfg{Email}{SmimeCertificateFile} ) {
@@ -88,10 +115,67 @@ $data
         return $this->ERROR("Unable to open $certfile: $!");
     }
     print $f $data;
-    close $f;
+    close $f or return $this->ERROR("Failed to write $certfile: $!");
 
-    return $this->NOTE("$certfile written")
-      . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
+    $e .= "$certfile written.<br />";
+
+    unlink($keyfile);
+    rename( "$keyfile.csr", "$keyfile" )
+      or return $this->ERROR("Unable to install private key: $!");
+    $e .= "$keyfile updated.<br />";
+
+    $Foswiki::cfg{Email}{SmimeKeyPassword} =
+      $Foswiki::cfg{Email}{SmimePendingKeyPassword};
+    $Foswiki::cfg{Email}{SmimePendingKeyPassword} = '';
+
+    unlink("$certfile.csr")
+      or $e .= $this->ERROR("Can't delete $certfile.csr: $!");
+
+    return join(
+        '',
+        $this->NOTE($e),
+        $this->FB_VALUE(
+            '{Email}{SmimeKeyPassword}', $Foswiki::cfg{Email}{SmimeKeyPassword}
+        ),
+        $this->FB_VALUE( '{Email}{SmimePendingKeyPassword}',   '' ),
+        $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output )
+    );
+}
+
+sub showCert {
+    my $this = shift;
+    my ($certfile) = @_;
+
+    unless ( -r $certfile ) {
+        return $this->ERROR("No Certificate is installed");
+    }
+
+    # Can have multiple certs (chain); openssl only displays first
+    # So append the cert data manually.
+
+    my $output = "===== Certificate Details =====\n";
+
+    $output .= `openssl x509 -in $certfile -text -noout 2>&1`;
+    if ($?) {
+        return $this->ERROR("Operation failed on $certfile")
+          . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
+    }
+
+    if ( open( my $f, '<', $certfile ) ) {
+        local $/;
+        $output .= "===== File Contents =====\n" . <$f>;
+        close $f;
+    }
+    else {
+        return $this->ERROR("Unable to read $certfile: $1");
+    }
+
+    return $this->NOTE("Certificate data from $certfile")
+      . (
+        $Foswiki::cfg{Email}{EnableSMIME}
+        ? ''
+        : $this->WARN("S/MIME signing is not enabled.")
+      ) . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
 }
 
 1;

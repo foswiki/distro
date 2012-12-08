@@ -96,22 +96,43 @@ sub renderHtml {
     if ( defined $feedback ) {
         my $buttons = "";
         my $n       = 0;
-        my $nd      = 0;
+        my $col     = 0;
+        my $ac      = 0;
+        my $tbl;
+        $tbl ||= exists $_->{col} foreach (@$feedback);
+        $buttons =
+          ( $haslabel ? '' : '<br />' )
+          . '<table class="configureFeedbackArray">'
+          if ($tbl);
         foreach my $fb (@$feedback) {
             $n++;
-            my $magic = '';
-            my $pinfo = '';
-            my $fbl   = $fb->{'.label'};
+            my $invisible = '';
+            my $pinfo     = '';
+            my $fbl       = $fb->{'.label'};
             if ( $fbl eq '~' ) {
-                $magic = qq{ style="display:none;"};
+                $invisible = qq{ style="display:none;"};
+                $ac        = 1;
             }
             else {
                 if ( $fbl =~ /^~p\[(.*?)\](.*)$/ ) {
                     $pinfo = qq{, '$1'};
                     $fbl   = $2;
                 }
-                $buttons .= ( !$haslabel && $nd % 3 == 0 ) ? "<br />" : ' ';
-                $nd++;
+                if ($tbl) {
+                    my $fbc = $fb->{col} || $col + 1;
+                    if ( $col == 0 || $fbc < $col ) {
+                        $buttons .= '<tr>';
+                        $col = 0;
+                    }
+                    $buttons .= '<td>' while ( $col++ < ( $fbc - 1 ) );
+                    $fbc = $fb->{span};
+                    $buttons .= '<td' . ( $fbc ? " colspan='$fbc'>" : '>' );
+                }
+                else {
+                    $buttons .=
+                      ( !$haslabel && $col % 3 == 0 ) ? "<br />" : ' ';
+                }
+                $col++;
             }
             $fbl =~
               s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge
@@ -129,15 +150,16 @@ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
                 $title = '';
             }
             $buttons .=
-qq{<button type="button" id="${keys}feedreq$n" value="$val" class="configureFeedbackButton$n $fbc" onclick="return doFeedback(this$pinfo);"$magic$title>$fbl</button>};
+qq{<button type="button" id="${keys}feedreq$n" value="$val" class="configureFeedbackButton$n $fbc" onclick="return doFeedback(this$pinfo);"$invisible$title>$fbl</button>};
             $buttons .=
 qq{<span style='display:none' id="${keys}feedmsg$n"><span class="configureFeedbackWaitText">$fb->{wait}</span></span>}
               if ( $fb->{wait} );
         }
+        $buttons .= '</table>' if ($tbl);
         $feedback = qq{<span class="foswikiJSRequired">$buttons</span>};
         $index .=
 qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
-          if ( $nd != $n );
+          if ($ac);
     }
     else {
         $feedback = '';

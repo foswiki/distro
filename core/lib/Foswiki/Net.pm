@@ -785,9 +785,10 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
                     my ( $code, $b64 ) = split( ' ', $text, 2 );
                     $code ||= 0;
                     $b64  ||= '';
-                    $text =
-                      join( ' ', $code, MIME::Base64::decode_base64($b64) )
-                      . "\n"
+                    chomp $b64;
+                    $text = join( '',
+                        $code, ' ', $b64, ' [',
+                        MIME::Base64::decode_base64($b64), "]\n" )
                       if ( $code == 334 );
                 }
             }

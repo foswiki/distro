@@ -82,6 +82,10 @@ override this.
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
 
+    my @spell;
+    if ( $opts =~ /\b([sS])\b/ ) {
+        @spell = ( -spellcheck => ( $1 eq 's' ? 'false' : 'true' ) );
+    }
     if ( $opts =~ /\b(\d+)x(\d+)\b/ ) {
         my ( $cols, $rows ) = ( $1, $2 );
         return CGI::textarea(
@@ -91,6 +95,7 @@ sub prompt {
             -onchange => 'valueChanged(this)',
             -value    => $value,
             -class    => "foswikiTextarea $class",
+            @spell,
           )
 
     }
@@ -104,6 +109,7 @@ sub prompt {
             -default  => $value,
             -onchange => 'valueChanged(this)',
             -class    => "foswikiInputField $class",
+            @spell,
         );
     }
 }

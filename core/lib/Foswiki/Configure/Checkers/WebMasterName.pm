@@ -97,7 +97,7 @@ sub provideFeedback {
             $ok = 0;
         }
         else {
-            unless ( $optionList[0]->{'.selfSigned'} = $button == 2 ) {
+            unless ( $optionList[0]->{'.selfSigned'} = [ $button == 2 ] ) {
                 @{ $optionList[0] }{qw/C ST L O OU/} = (
                     [ $Foswiki::cfg{Email}{SmimeCertC} ],
                     [ $Foswiki::cfg{Email}{SmimeCertST} ],
@@ -118,13 +118,20 @@ sub provideFeedback {
                 $certfile, $keyfile, $optionList[0]
             );
             if ($ok) {
-                $Foswiki::cfg{Email}{SmimeKeyPassword} = $keypass;
-                $e .=
-                    $this->NOTE($msg)
-                  . $this->FB_VALUE( '{Email}{SmimeKeyPassword}', $keypass );
+                $e .= $this->NOTE($msg);
                 if ( $button == 2 ) {
-                    $e .= $this->FB_VALUE( '{Email}{EnableSMIME}', 1 );
-                    $Foswiki::cfg{Email}{EnableSMIME} = 1;
+                    $Foswiki::cfg{Email}{SmimeKeyPassword} = $keypass;
+                    $Foswiki::cfg{Email}{EnableSMIME}      = 1;
+
+                    $e .=
+                        $this->FB_VALUE( '{Email}{SmimeKeyPassword}', $keypass )
+                      . $this->FB_VALUE( '{Email}{EnableSMIME}',      1 );
+                }
+                else {
+                    $Foswiki::cfg{Email}{SmimePendingKeyPassword} = $keypass;
+                    $e .=
+                      $this->FB_VALUE( '{Email}{SmimePendingKeyPassword}',
+                        $keypass );
                 }
             }
             else {
@@ -134,11 +141,22 @@ sub provideFeedback {
 
     }
     elsif ( $button == 4 ) {
-        $e .=
-          -f "$certfile.csr"
-          ? $this->NOTE("Request cancelled")
-          : $this->NOTE("No request pending");
-        unlink("$certfile.csr");
+        if ( -f "$certfile.csr" || -f "$keyfile.csr" ) {
+            my $errs = '';
+
+            $errs .= "Can't delete $certfile.csr: $!\n"
+              if ( -f "$certfile.csr" && !unlink("$certfile.csr") );
+            $errs .= "Can't delete $keyfile.csr: $!\n"
+              if ( -f "$keyfile.csr" && !unlink("$keyfile.csr") );
+            $e .= (
+                  $errs
+                ? $this->ERROR("Cancel failed. <br />$errs")
+                : $this->NOTE("Request cancelled")
+            );
+        }
+        else {
+            $e .= $this->NOTE("No request pending");
+        }
     }
     return wantarray
       ? (
@@ -263,12 +281,13 @@ CONFIG
     $tmpfile->flush;
 
     # Protect key file - even though it's encrypted.
-    my $self = $options->{'.selfSigned'};
+    my $self = $options->{'.selfSigned'}[0];
     my $cmd  = (
         $self
         ? "-x509 -days $days -set_serial $time -out $certfile"
         : '-new -subject'
     );
+    $keyfile .= '.csr' unless ($self);
     my $um = umask(0117);
     my $output =
 `openssl req -config $tmpfile -newkey rsa:2048 -keyout $keyfile $cmd -batch 2>&1`;

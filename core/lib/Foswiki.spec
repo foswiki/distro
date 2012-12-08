@@ -1713,13 +1713,13 @@ $Foswiki::cfg{EnableEmail} = $TRUE;
 $Foswiki::cfg{WebMasterEmail} = '';
 
 # **STRING FEEDBACK=AUTO \
-#          FEEDBACK="Generate S/MIME Certificate";\
+#          FEEDBACK="Generate S/MIME Certificate";span='2';\
 #                   title="Generate a self-signed certficate for the WebMaster.\
 #                          This allows immediate use of signed email." \
 #          CHECK="expires:1y passlen:15,35 O:'Foswiki Customers' OU:'Self-signed certificates' \
 #          #!C:US ST:'Mass Bay' L:'Greater Boston' \
 #                " \
-#          FEEDBACK="Generate S/MIME CSR";\
+#          FEEDBACK="Generate S/MIME CSR";col='1';\
 #                   title="Generate a Certificate Signing Request for the WebMaster.\
 #                          This request must be signed by a Certificate Authority to create \
 #                          a certificate, then installed." \
@@ -1860,6 +1860,10 @@ $Foswiki::cfg{Email}{SmimeKeyFile} = '';
 # <i>openssl rsa -in keyfile.pem -out keyfile.pem -des3</i>
 $Foswiki::cfg{Email}{SmimeKeyPassword} = '';
 
+# **PASSWORD 30 DISPLAY_IF false**
+# This field never displays.  It holds the password for an uninstalled S/MIME private key.
+$Foswiki::cfg{Email}{SmimePendingKeyPassword} = '';
+
 #---+++ Certificate Management
 # The following paramenters can be used to specify commonly used components of the subject
 # name for Certificate Signing Requests.<p>
@@ -1884,11 +1888,13 @@ $Foswiki::cfg{Email}{SmimeCertO} = '';
 # Organizational unit (e.g. Department) - Required
 $Foswiki::cfg{Email}{SmimeCertOU} = '';
 
-# **STRING 70x10 \
+# **STRING 70x10 s \
 #           FEEDBACK="Display CSR" NOLABEL \
 #                     title="Display pending Certificate Signing Request" \
 #           FEEDBACK="Install Certificate" NOLABEL \
-#                     title="Install a signed certificate" **
+#                     title="Install a signed certificate" \
+#           FEEDBACK="Display Certificate";col="2" NOLABEL \
+#                     title="Display the active certificate" **
 $Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 
 #---+ Miscellaneous -- EXPERT
