@@ -102,10 +102,13 @@ sub provideFeedback {
                     [ $Foswiki::cfg{Email}{SmimeCertC} ],
                     [ $Foswiki::cfg{Email}{SmimeCertST} ],
                     [ $Foswiki::cfg{Email}{SmimeCertL} ],
-                    [ $Foswiki::cfg{Email}{SmimeCertO} || $optionList[0]->{O} ],
+                    [
+                             $Foswiki::cfg{Email}{SmimeCertO}
+                          || $optionList[0]->{O}[0]
+                    ],
                     [
                              $Foswiki::cfg{Email}{SmimeCertOU}
-                          || $optionList[0]->{OU}
+                          || $optionList[0]->{OU}[0]
                     ],
                 );
             }
