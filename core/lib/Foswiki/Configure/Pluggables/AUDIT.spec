@@ -65,17 +65,17 @@
 #! Foswiki.spec, declare {foo} with AUDIT="CGI:0"
 
 {CGISetup} [CGI CORE:2 EXTN:3] NOLABEL AUDIT="CGI:101 CORE:102 EXTN:103" \
-                                       FEEDBACK="~p[/test/pathinfo]Web server" \
+                                       FEEDBACK="Web server";pinfo='/test/pathinfo' \
                                        FEEDBACK="Foswiki" \
                                        FEEDBACK="Extensions" 
 
 #! Buttons can control overlapping groups, which can be usefule for a series of tests that
 #! include supersets.
 #!{CGISetup} [CGI CORE:2 EXTN:3 CGI:4 CORE:4 EXTN:4] NOLABEL AUDIT="CGI:101 CORE:102 EXTN:103" \
-#!                                                           FEEDBACK="~p[/test/pathinfo]Web server" \
+#!                                                           FEEDBACK="Web server";pinfo='/test/pathinfo' \
 #!                                                           FEEDBACK="Foswiki" \
 #!                                                           FEEDBACK="Extensions" \
-#!                                                           FEEDBACK="~p[/test/pathinfo]Everything"
+#!                                                           FEEDBACK="Everything";pinfo='/test/pathinfo'
 
 # Click the Webserver action button to analyze and display the webserver environment.
 {ConfigureGUI}{PATHINFO} [_none] [PATHINFO] LABEL="<span class=\"configureItemLabel\">\

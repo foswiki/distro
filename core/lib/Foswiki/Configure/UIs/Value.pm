@@ -109,15 +109,14 @@ sub renderHtml {
             my $invisible = '';
             my $pinfo     = '';
             my $fbl       = $fb->{'.label'};
+            if ( $fb->{pinfo} ) {
+                $pinfo = qq{, '$fb->{pinfo}'};
+            }
             if ( $fbl eq '~' ) {
                 $invisible = qq{ style="display:none;"};
                 $ac        = 1;
             }
             else {
-                if ( $fbl =~ /^~p\[(.*?)\](.*)$/ ) {
-                    $pinfo = qq{, '$1'};
-                    $fbl   = $2;
-                }
                 if ($tbl) {
                     my $fbc = $fb->{col} || $col + 1;
                     if ( $col == 0 || $fbc < $col ) {
