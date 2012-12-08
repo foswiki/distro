@@ -1729,14 +1729,19 @@ $Foswiki::cfg{WebMasterEmail} = '';
 #          30**
 # Wiki administrator's name address, for use in mails (first name and
 # last name, e.g. <tt>Fred Smith</tt>) (used in %WIKIWEBMASTERNAME%)
-#<p> The action button will generate a self-signed S/MIME certificate and install it
+# <p>The action buttons are used to generate certificates for S/MIME signed email.  There are
+# two ways to use this</p>
+# <ul><li><strong>Self signed certificates:</strong>
+# The action button will generate a self-signed S/MIME certificate and install it
 # for Foswiki e-mail.  If you use this option, you will have to arrange for your
-# users' e-mail clients to trust this certificate, or upgrade to a certificate
-# issued by a Certificate Authority that you trust.  This type of certificate
-# is adequate for a small user base and for testing, but a certificate issued
-# by your Certificate Authority or by a trusted commercial Certificate authority
-# is prefered for production in most cases.  Use the Generate CSR button to create
-# a private key and signing request for this.
+# users' e-mail clients to trust this certificate. This type of certificate
+# is adequate for a small user base and for testing.
+# <li><strong>Certificate Authority signed certificates:</strong>. The Generate CSR button
+# is used to build a "Certificate Signing Request" for use by your private Certificate Authority or
+# by a trusted commercial Certificate authority.  Use the Generate CSR button to create
+# a private key and signing request. The Cancel button is used to delete a pending request.
+# </ul><p>The S/MIME Certificate information on the S/MIME tab must be completed for these
+# buttons to provide useful information.</p>
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
 # **BOOLEAN EXPERT**
@@ -1839,13 +1844,13 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 # must be in PEM format. <p>
 # If your issuer requires an intermediate CA certificate(s), include them in this
 # file after the sender's certificate in order from least to most authoritative CA.
-$Foswiki::cfg{Email}{SmimeCertificateFile} = '$Foswiki::cfg{DataDir}/SmimeCertificate.pem';
+$Foswiki::cfg{Email}{SmimeCertificateFile} = '';
 
 # **PATH FEEDBACK=auto DISPLAY_IF {Email}{EnableSMIME}**
 # Specify the file containing the private key corresponding to the administrator's X.509 certificate.
 # It must be in PEM format.  <p><em>Be sure that this file is only readable by the
 # Foswiki software; it must NOT be readable by users!</em>
-$Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/SmimePrivateKey.pem';
+$Foswiki::cfg{Email}{SmimeKeyFile} = '';
 
 # **PASSWORD 30 FEEDBACK=auto DISPLAY_IF {Email}{EnableSMIME}**
 # If the file containing the certificate's private key is encrypted, specify the password.
