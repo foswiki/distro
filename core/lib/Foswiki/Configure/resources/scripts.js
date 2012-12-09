@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.108";
+        var VERSION = "v3.109";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -1218,6 +1218,7 @@ var feedback = ( function ($) {
             var actions,
             target,
             id,
+            mark,
             vset = false,
             i;
 
@@ -1236,6 +1237,30 @@ var feedback = ( function ($) {
                         break;
                     case 'b':
                         this.scrollTop = this.scrollHeight;
+                        break;
+                    case 'a':
+                        $(this).append(kpair[2]);
+                        break;
+                    case 'm':
+                        mark = this.scrollHeight;
+                        if( this.clientHeight !== undefined ) {
+                            mark -= this.clientHeight / 2;
+                            if( mark < 0 ) {
+                                mark = 0;
+                            }
+                        }
+                        break;
+                    case 'M':
+                        this.scrollTop = mark;
+                        break;
+                    case 'p':
+                        $(this).prepend(kpair[2]);
+                        break;
+                    case 'A':
+                        this.value += kpair[2];
+                        break;
+                    case 'P':
+                        this.value = kpair[2] + this.value;
                         break;
                     default:
                         break;

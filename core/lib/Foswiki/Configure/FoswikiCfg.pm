@@ -140,10 +140,17 @@ sub load {
                 # If no default, try to muddle along so these can be reported
 
                 unless ( defined $default ) {
-                    if ( $visitee->{typename} eq 'HASH' ) {
-                        $default = {};
-                    }
-                    elsif ( $visitee->{typename} eq 'ARRAY' ) {
+
+                    #if ( $visitee->{typename} eq 'HASH' ) {
+                    #    $default = {};
+                    #}
+                    #elsif ( $visitee->{typename} eq 'ARRAY' ) {
+                    #    $default = [];
+                    #}
+                    #els
+                    if ( $visitee->{typename} eq 'PERL' ) {
+
+                        # Could be 'string' or {hash} but no way to guess.
                         $default = [];
                     }
                     elsif ( $visitee->{typename} =~ /BOOLEAN|NUMBER|OCTAL/ ) {

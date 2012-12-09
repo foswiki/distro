@@ -44,6 +44,8 @@ feedback request has been received.
 
     package Foswiki;
 
+    use Foswiki::Configure qw/:auth :cgi/;
+
     sub _authenticatefeedbackUI {
         my ( $action, $session, $cookie ) = @_;
 
@@ -168,7 +170,9 @@ sub deliver {
     require Foswiki::Configure::Checkers::Introduction;
     $root->addChild( Foswiki::Configure::Checkers::Introduction->new($root) );
 
-    if ( my $oscfg = $Config::Config{osname} ) {
+    use Config;
+
+    if ( my $oscfg = $Config{osname} ) {
 
         # See if this platform has special detection or checking requirements
         my $osospecial = "Foswiki::Configure::Checkers::$oscfg";
@@ -450,6 +454,7 @@ sub deliverResponse {
 #        namespace is reserved for such <divs>, and will not be written to LSC.
 #   \005 delivers data to the modal window.
 #        The target and action are specified by the key.
+#   \006 executes miscellaneous actions
 
     $fb->{'{ConfigureGUI}{Unsaved}'} = Foswiki::unsavedChangesNotice($updated)
       if ( $updated && ( loggedIn($session) || $badLSC || $query->auth_type ) );
@@ -503,6 +508,8 @@ sub startVisit {
         # Looking for supplier
 
         return 1 unless ( $keys eq $this->{request} );
+
+        $this->defaultOptions( $visitee, $keys );
 
         # Found supplier, instantiate checker
         # Retain for AUDIT reruns to save load and allow audit
@@ -580,6 +587,8 @@ sub startVisit {
         return 1
           if ( $keys =~ /^{ConfigureGUI}{Modals}/ );
 
+        $this->defaultOptions( $visitee, $keys );
+
         $visitee->{_fbchecker} = my $checker = $visitee->{_fbchecker}
           || Foswiki::Configure::UI::loadChecker( $keys, $visitee );
 
@@ -605,6 +614,35 @@ sub startVisit {
     }
 
     return 1;
+}
+
+# ######################################################################
+# Obtain option defaults for item from Type
+# ######################################################################
+
+sub defaultOptions {
+    my $this = shift;
+    my ( $visitee, $keys ) = @_;
+
+    return if ( $visitee->{_fbDefaulted} );
+
+    $visitee->{_fbDefaulted} = 1;
+
+    # Get any default CHECK options from type
+
+    my $type = $visitee->getType;
+    if ( $type->can('defaultOptions') ) {
+        my $opts = my $prev = $visitee->{opts} || '';
+        my $updated = $type->defaultOptions(
+            $keys, $opts,
+            $visitee->feedback && 1,
+            $visitee->getCheckerOptions && 1
+        );
+        if ( $updated ne $prev ) {
+            $visitee->set( undef, opts => $updated );
+        }
+    }
+    return;
 }
 
 # ######################################################################

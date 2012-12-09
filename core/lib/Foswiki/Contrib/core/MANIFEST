@@ -558,6 +558,7 @@ lib/Foswiki/Configure/Checkers/NUMBER.pm 0444
 lib/Foswiki/Configure/Checkers/OCTAL.pm 0444
 lib/Foswiki/Configure/Checkers/OS.pm 0444
 lib/Foswiki/Configure/Checkers/PATH.pm 0444
+lib/Foswiki/Configure/Checkers/PERL.pm 0444
 lib/Foswiki/Configure/Checkers/PROXY/HOST.pm 0444
 lib/Foswiki/Configure/Checkers/PasswordManager.pm 0444
 lib/Foswiki/Configure/Checkers/PluginsOrder.pm 0444

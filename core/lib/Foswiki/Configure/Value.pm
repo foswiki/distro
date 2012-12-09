@@ -73,15 +73,25 @@ sub new {
 # Intercept options for special parsing
 
 sub set {
-    my $this   = shift;
+    my $this = shift;
+    return unless (@_);
+    my $append;
+    if ( !defined $_[0] ) {
+        $append = 1;
+        shift;
+    }
     my %params = @_;
 
     foreach my $k ( keys %params ) {
+        my $v = $params{$k};
         if ( $k eq 'opts' ) {
-            $this->{$k} = $this->_setopts( $params{$k} );
+
+            # DEBUG:
+            # $this->{fullopts} = ($append? $this->{fullopts} . "|$v" : $v);
+            $this->{$k} = $this->_setopts( $v, $append );
         }
         else {
-            $this->{$k} = $params{$k};
+            $this->{$k} = $v;
         }
     }
 }
@@ -99,14 +109,19 @@ sub _fixqs {
 
 sub _setopts {
     my $this = shift;
-    my ($value) = @_;
+    my ( $value, $append ) = @_;
 
     # Over-ride these on any new option string.  Note that audits is NOT
     # included so that the cursory checks can count on the inital audit group.
+    #
+    # The $append flag is used for late defaults and does not reset
+    # items parsed out of the string.
 
-    delete @{$this}
-      {qw/label checkerOpts feedback mandatory hidden displayIf enableIf/};
-    $this->{expertsOnly} = 0;
+    unless ($append) {
+        delete @{$this}
+          {qw/label checkerOpts feedback mandatory hidden displayIf enableIf/};
+        $this->{expertsOnly} = 0;
+    }
 
     my $qsRE = qr/(?:(?:"(?:\\.|[^"])*")|(?:'(?:\\.|[^'])*'))/o;
 
@@ -161,7 +176,7 @@ s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)($attrRE*)(?:\b|$))|(?:($qsRE)($att
 
     $this->{mandatory} = ( $value =~ /(\b|^)M(\b|$)/ );
     $this->{hidden}    = ( $value =~ /(\b|^)H(\b|$)/ );
-    $this->{expertsOnly} = 1
+    $this->{expertsOnly} ||= 1
       if ( $value =~ s/(\b|^)EXPERT(\b|$)// );
     $this->{displayIf} = $1
       if ( $value =~ s/(?:\b|^)DISPLAY_IF\s+(.*?)(\/DISPLAY_IF|$)// );
@@ -179,7 +194,15 @@ s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)($attrRE*)(?:\b|$))|(?:($qsRE)($att
 sub addAuditGroup {
     my $this = shift;
 
-    push @{ $this->{audits} }, @_;
+    my $audits = $this->{audits};
+    my %present = map { $_ => 1 } @$audits if ($audits);
+
+    foreach my $item (@_) {
+        unless ( $present{$item} ) {
+            push @{ $this->{audits} }, $item;
+            $present{$item} = 1;
+        }
+    }
 }
 
 # See Foswiki::Configure::Item
@@ -302,15 +325,26 @@ sub asString {
 
     $value ||= '';
 
-    if (   $this->{typename} eq 'PERL'
-        || $this->{typename} eq 'HASH'
-        || $this->{typename} eq 'ARRAY' )
-    {
-        use Data::Dumper;
-        my $setting = $Data::Dumper::Terse;
-        $Data::Dumper::Terse = 1;
-        $value               = Dumper($value);
-        $Data::Dumper::Terse = $setting;
+    # DEBUG: I don't think these 'Type's exist - no evidence of them.
+    # [TL]   If they do somehow exist, they need checkers and other support.
+    if ( ( my $tn = $this->{typename} ) =~ /^(?:HASH|ARRAY)$/ ) {
+        require Carp;
+        Carp::confess("Unexpected Type $tn encountered");
+    }
+
+    if ( $this->{typename} eq 'PERL' ) {
+
+        # || $this->{typename} eq 'HASH'
+        # || $this->{typename} eq 'ARRAY' ) {
+        require Data::Dumper;
+
+        local $Data::Dumper::Sortkeys;
+        local $Data::Dumper::Terse;
+
+        $Data::Dumper::Sortkeys = 1;
+        $Data::Dumper::Terse    = 1;
+
+        $value = Data::Dumper::Dumper($value);
     }
     return $value;
 }

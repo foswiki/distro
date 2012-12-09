@@ -15,21 +15,37 @@ package Foswiki::Configure::Types::PERL;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Type ();
+use Foswiki::Configure qw/:cgi/;
+
+require Foswiki::Configure::Type;
 our @ISA = ('Foswiki::Configure::Type');
 
-use Data::Dumper ();
+# Default options prior to prompt (and check)
+#
+sub defaultOptions {
+    my $this = shift;
+    my ( $id, $opts, $feedback, $check ) = @_;
+
+    # Force textarea.  Default no spellcheck, autocheck
+    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+
+    $opts .= " ${size}x10" unless ( $opts =~ /\b(\d+)x(\d+)\b/ );
+    $opts .= ' s'          unless ( $opts =~ /\b[sS]\b/ );
+    $opts .= ' FEEDBACK=AUTO' unless ($feedback);
+
+    return $opts;
+}
 
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
 
-    my $v = Data::Dumper->Dump( [$value], ['x'] );
+    require Data::Dumper;
+
+    my $d = Data::Dumper->new( [$value], ['x'] );
+    $d->Sortkeys(1);
+    my $v = $d->Dump;
     $v =~ s/^\$x = (.*);\s*$/$1/s;
     $v =~ s/^     //gm;
-
-    # Force textarea
-    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
-    $opts .= " ${size}x10" unless ( $opts =~ /\b(\d+)x(\d+)\b/ );
 
     return $this->SUPER::prompt( $id, $opts, $v, $class );
 }
@@ -42,7 +58,7 @@ sub _rvalue {
             my $escaped = 0;
             while ( length($s) > 0 && $s =~ s/^(.)//s ) {
                 last if ( $1 eq "'" && !$escaped );
-                $escaped = $1 eq '\\';
+                $escaped = ( $escaped ? 0 : $1 eq '\\' );
             }
         }
         elsif ( $s =~ s/^\s*(\w+)//s ) {
@@ -71,12 +87,21 @@ sub string2value {
     my $s;
     if ( $s = _rvalue($val) ) {
 
-        # Parse failed, return as a string.
-        die
-"Could not parse text to a data structure (at: $s)\nPlease go back and check if the text has the correct syntax.";
+        # Unable to parse.  If configure is running
+        # allow checker to handle diagnostic.
+        return if ($Foswiki::configureRunning);
+
+        # Parse failed, LSC is corrupt. Only way to report is die.
+        $val = 'undef' unless ( defined $val );
+        die "Types::PERL: Could not parse text to a data structure."
+          . substr( $val, 0, length($val) - length($s) )
+          . "<<<==== HERE" . "\n$s";
     }
-    $val =~ /(.*)/s;                       # parsed, so safe to untaint
-    return eval $1;
+    $val =~ /(.*)/s;    # parsed, so safe to untaint
+    $val = eval $1;
+    return $val if ( defined $val );
+    return if ($Foswiki::configureRunning);
+    die "Types::PERL: Parsed but invalid data: $@";
 }
 
 sub deep_equals {

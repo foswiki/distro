@@ -100,6 +100,10 @@ use constant RT80346 => 0;                    # Set with Storable until fixed...
 our $TRUE  = 1;
 our $FALSE = 0;
 
+# Used if code needs to know whether running
+# under configure or the webserver.  Set by Dispatch.
+our $configureRunning;
+
 # auth - authentication state
 our ( $newLogin, $session, );
 

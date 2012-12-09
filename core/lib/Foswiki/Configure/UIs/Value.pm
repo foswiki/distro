@@ -42,17 +42,35 @@ sub renderHtml {
 
     return '' if $value->{hidden};
 
+    my $keys     = $value->getKeys();
+    my $feedback = $value->feedback();
+
+    # Check with the type for any default options; these might add CHECK or
+    # FEEDBACK data, default to EXPERT - etc.
+
+    if ( $type->can('defaultOptions') ) {
+        my $opts = my $prev = $value->{opts} || '';
+        my $updated = $type->defaultOptions(
+            $keys, $opts,
+            $value->feedback && 1,
+            $value->getCheckerOptions && 1
+        );
+        if ( $updated ne $prev ) {
+            $value->set( undef, opts => $updated );
+            return '' if ( $value->{hidden} );
+            $feedback = $value->feedback;
+        }
+    }
+
     my $isExpert  = $value->isExpertsOnly();
     my $displayIf = $value->displayIf();
     my $enableIf  = $value->enableIf();
     my $info      = $value->{desc};
-    my $keys      = $value->getKeys();
-    my $feedback  = $value->feedback();
+    my $isUnused  = 0;
+    my $isBroken  = 0;
+    my $check     = '';
 
-    my $checker  = Foswiki::Configure::UI::loadChecker( $keys, $value );
-    my $isUnused = 0;
-    my $isBroken = 0;
-    my $check    = '';
+    my $checker = Foswiki::Configure::UI::loadChecker( $keys, $value );
     if ($checker) {
         eval { $check = $checker->check($value) || ''; };
         if ($@) {
@@ -174,9 +192,16 @@ qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autoche
     my $resetToDefaultLinkText = '';
     if ( $value->needsSaving( $root->{valuer} ) ) {
 
-        my $valueString =
-          $value->asString( $root->{valuer},
-            $Foswiki::Configure::Value::VALUE_TYPE->{DEFAULT} );
+        my $valueString;
+        {
+
+            package Foswiki::Configure::Value;
+            our $VALUE_TYPE;
+
+            $valueString =
+              $value->asString( $root->{valuer},
+                $Foswiki::Configure::Value::VALUE_TYPE->{DEFAULT} );
+        }
 
         # URL encode parameter name and value
         my $safeKeys = $this->urlEncode($keys);

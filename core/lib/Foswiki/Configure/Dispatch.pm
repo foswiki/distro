@@ -21,12 +21,18 @@ package Foswiki;
 use version 0.77;
 
 # minimum version of client JavaScript that configure requires.
-my $minScriptVersion = version->parse("v3.108");
+#
+my $minScriptVersion = version->parse("v3.109");
 
 use Foswiki::Configure (qw/:DEFAULT :auth :cgi :config :session :trace/);
 
 $query                = CGI->new;
 $unsavedChangesNotice = '';
+
+# NOT exported, used if code needs to know whether running
+# under configure or the webserver.  Webserver will never load Dispatch.
+
+our $configureRunning = 1;
 
 my $action;
 my @feedbackHeaders;

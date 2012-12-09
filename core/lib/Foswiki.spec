@@ -1965,7 +1965,7 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-# **STRING 70x10**
+# **STRING 70x10 s**
 # A comma-separated list of generic file name templates that defines the order
 # in which templates are assigned to skin path components.
 # The file name templates can either be absolute file names ending in ".tmpl"
