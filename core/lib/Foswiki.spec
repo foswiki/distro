@@ -452,7 +452,7 @@ $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} = 0;
 # system (in addition to their username).
 $Foswiki::cfg{TemplateLogin}{AllowLoginUsingEmailAddress} = 0;
 
-# **REGEX FEEDBACK=On-Change EXPERT**
+# **REGEX EXPERT**
 # The perl regular expression used to constrain user login names. Some
 # environments may require funny characters in login names, such as \.
 # This is a filter <b>in</b> expression i.e. a login name must match this
@@ -717,7 +717,7 @@ $Foswiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';
 # Enable this parameter to prevent multiple registrations using the same email address.
 $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 
-# **REGEX FEEDBACK=On-Change 80 EXPERT**
+# **REGEX 80 EXPERT**
 # This regular expression can be used to block certain email addresses from being used
 # for registering users.  It can be used to block some of the more common wikispam bots.
 # If this regex matches the entered address, the registration is rejected.  For example:<br/>
@@ -831,7 +831,7 @@ $Foswiki::cfg{RenderLoggedInButUnknownUsers} = $FALSE;
 # of relative paths.
 $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 
-# **REGEX FEEDBACK=On-Change EXPERT**
+# **REGEX EXPERT**
 # Filter-in regex for uploaded (attached) file names. This is a filter
 # <b>in</b>, so any files that match this filter will be renamed on upload
 # to prevent upload of files with the same file extensions as executables.
@@ -841,7 +841,7 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 $Foswiki::cfg{UploadFilter} =
   qr/^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$/;
 
-# **REGEX FEEDBACK=On-Change EXPERT**
+# **REGEX EXPERT**
 # Filter-out regex for webnames, topic names, file attachment names, usernames,
 # include paths and skin names. This is a filter <b>out</b>, so if any of the
 # characters matched by this expression are seen in names, they will be
@@ -896,7 +896,7 @@ $Foswiki::cfg{AllowRedirectUrl} = $FALSE;
 # rewriting rules, this may not work.
 $Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
 
-# **REGEX FEEDBACK=On-Change EXPERT**
+# **REGEX EXPERT**
 # Defines the filter-in regexp that must match the names of environment
 # variables that can be seen using the %ENV{}% macro. Set it to
 # '^.*$' to allow all environment variables to be seen (not recommended).
@@ -1458,7 +1458,7 @@ $Foswiki::cfg{RCS}{AutoAttachPubFiles} = $FALSE;
 # blank on other platforms.
 $Foswiki::cfg{RCS}{ExtOption} = "";
 
-# **REGEX EXPERT FEEDBACK=auto DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **REGEX EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # Perl regular expression matching suffixes valid on plain text files
 # Defines which attachments will be treated as ASCII in RCS. This is a
 # filter <b>in</b>, so any filenames that match this expression will
@@ -1612,7 +1612,7 @@ $Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
 $Foswiki::cfg{Cache}{WebDependencies} =
   'WebRss, WebAtom, WebTopicList, WebIndex, WebSearch, WebSearchAdvanced';
 
-# **REGEX FEEDBACK=On-Change DISPLAY_IF {Cache}{Enabled}**
+# **REGEX DISPLAY_IF {Cache}{Enabled}**
 # Exclude topics that match this regular expression from the dependency
 # tracker.
 $Foswiki::cfg{Cache}{DependencyFilter} =
@@ -1748,7 +1748,7 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 # Send email Date header using local "server time" instead of GMT
 $Foswiki::cfg{Email}{Servertime} = $FALSE;
 
-# **REGEX FEEDBACK=On-Change 80 EXPERT**
+# **REGEX 80 EXPERT**
 # This parameter is used to determine which Top Level domains are vaild
 # when auto-linking email addresses.  It is also used by UserRegistration to
 # validate email addresses.  Note, this parameter <em>only</em> controls
