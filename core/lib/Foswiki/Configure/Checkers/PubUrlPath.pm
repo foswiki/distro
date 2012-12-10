@@ -11,28 +11,34 @@ use Foswiki::Configure qw/:cgi/;
 
 sub check {
     my $this = shift;
+    my ($valobj) = @_;
 
-    unless ( $Foswiki::cfg{PubUrlPath}
-        && $Foswiki::cfg{PubUrlPath} ne 'NOT SET' )
-    {
-        my $guess = $this->getItemCurrentValue('ScriptUrlPath');
-        $guess =~ s/\/[^\/]*?bin$/\/pub/;
+    my $value = $this->getCfg;
+    unless ( $value && $value ne 'NOT SET' ) {
+        my $guess = $this->getItemCurrentValue('{ScriptUrlPath}');
+        $guess =~ s,/[^/]*?bin$,/pub,;
         $guess .= '/pub' unless ( $guess =~ m/pub$/ );
         $this->{GuessedValue} = $guess;
         $this->setItemValue($guess);
-        return $this->SUPER::check(@_);
+        $value = $guess;
     }
-    my $d    = $this->getCfg;
     my $mess = $this->SUPER::check(@_);
-    my $t    = "/System/ProjectLogos/foswiki-logo.png";
+    return $mess if ( $mess =~ /Error:/ );
 
-    $mess .= $this->NOTE("Please wait while the path is tested")
-      . qq{<div class='configureSetting' onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();'>
-<img name="{PubUrlPath}TestImage" src="$d$t" testImg="$t" style="height:20px;"
+    my $t    = "/System/ProjectLogos/foswiki-logo.png";
+    my $ok   = $this->NOTE("Successfully accessed a file under $value");
+    my $fail = $this->ERROR("Failed to acccess a file under $value");
+    $valobj->{errors}--;
+
+    $mess .= $this->NOTE(
+"Please wait while the setting is tested.  Disregard any message that appears only briefly."
+          . qq{<span onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();'>
+<img name="{PubUrlPath}TestImage" src="$value$t" testImg="$t" style="height:1px;opacity:0"
  onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
  onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'>
-<span name="{PubUrlPath}Ok">This setting is correct.</span>
-<span name="{PubUrlPath}Error"><img src="${resourceURI}icon_error.png" style="margin-right:5px;">Path is not correct.</span></div>};
+<span name="{PubUrlPath}Ok">$ok</span>
+<span name="{PubUrlPath}Error">$fail</span></span>}
+    );
 
     return $mess;
 }
