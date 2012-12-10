@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'WikiWord',
-            version      => '1.1',
+            version      => '2.0',
             author       => 'Michael Daum',
             homepage     => 'http://michaeldaumconsulting.com',
             javascript   => [ 'jquery.wikiword.js', 'jquery.wikiword.init.js' ],

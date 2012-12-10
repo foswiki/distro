@@ -15,8 +15,8 @@ use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
 # Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("4.44");
-our $RELEASE           = '4.44';
+use version; our $VERSION = version->parse("4.50");
+our $RELEASE           = '4.50';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
