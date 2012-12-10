@@ -26,16 +26,16 @@ sub check {
     return $mess if ( $mess =~ /Error:/ );
 
     my $t    = "/System/ProjectLogos/foswiki-logo.png";
-    my $ok   = $this->NOTE("Successfully accessed a file under $value");
-    my $fail = $this->ERROR("Failed to acccess a file under $value");
+    my $ok   = $this->NOTE("Successfully accessed content under $value");
+    my $fail = $this->ERROR("Failed to acccess content under $value");
     $valobj->{errors}--;
 
     $mess .= $this->NOTE(
-"Please wait while the setting is tested.  Disregard any message that appears only briefly."
+qq{<span name="{PubUrlPath}Wait">Please wait while the setting is tested.  Disregard any message that appears only briefly.</span>}
           . qq{<span onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();'>
-<img name="{PubUrlPath}TestImage" src="$value$t" testImg="$t" style="height:1px;opacity:0"
- onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
- onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'>
+<img name="{PubUrlPath}TestImage" src="$value$t" testImg="$t" style="height:1px;float:right;opacity:0"
+ onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
+ onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'>
 <span name="{PubUrlPath}Ok">$ok</span>
 <span name="{PubUrlPath}Error">$fail</span></span>}
     );
