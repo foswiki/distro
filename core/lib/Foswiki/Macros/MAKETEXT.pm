@@ -4,6 +4,10 @@ package Foswiki;
 use strict;
 use warnings;
 
+my $max;
+my $min;
+my $param_error;
+
 sub MAKETEXT {
     my ( $this, $params ) = @_;
 
@@ -18,11 +22,16 @@ sub MAKETEXT {
     $str =~ s/~~\[/~[/g;
     $str =~ s/~~\]/~]/g;
 
+    $max         = 0;
+    $min         = 1;
+    $param_error = 0;
+
     # unescape parameters and calculate highest parameter number:
-    my $max = 0;
-    $str =~ s/~\[(\_(\d+))~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
-    $str =~
-s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
+    $str =~ s/~\[(\_(\d+))~\]/_validate($1, $2)/ge;
+    $str =~ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2)/ge;
+    return $str if ($param_error);
+
+    $str =~ s#\\#\\\\#g;
 
     # get the args to be interpolated.
     my $argsStr = $params->{args} || "";
@@ -45,6 +54,22 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
     $result =~ s/&&/\&/g;
 
     return $result;
+}
+
+sub _validate {
+    $max = $_[1] if ( $_[1] > $max );
+    $min = $_[1] if ( $_[1] < $min );
+    if ( $_[1] > 100 ) {
+        $param_error = 1;
+        return
+"<span class=\"foswikiAlert\">Excessive parameter number $max, MAKETEXT rejected.</span>";
+    }
+    if ( $_[1] < 1 ) {
+        $param_error = 1;
+        return
+"<span class=\"foswikiAlert\">Invalid parameter <code>\"$_[0]\"</code>, MAKETEXT rejected.</span>";
+    }
+    return "[$_[0]]";
 }
 
 1;
