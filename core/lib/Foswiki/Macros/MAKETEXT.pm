@@ -4,6 +4,11 @@ package Foswiki;
 use strict;
 use warnings;
 
+use Locale::Maketext;
+my $escape =
+  ( $Foswiki::cfg{UserInterfaceInternationalisation}
+      && ( Locale::Maketext->VERSION() < 1.23 ) );
+
 my $max;
 my $min;
 my $param_error;
@@ -31,7 +36,7 @@ sub MAKETEXT {
     $str =~ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2)/ge;
     return $str if ($param_error);
 
-    $str =~ s#\\#\\\\#g;
+    $str =~ s#\\#\\\\#g if $escape;
 
     # get the args to be interpolated.
     my $argsStr = $params->{args} || "";
