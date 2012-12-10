@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.109";
+        var VERSION = "v3.110";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -754,10 +754,21 @@ The ^= is because 'feedreq' is followed by a button number.
 function valueChanged(el) {
     "use strict";
     switch (el.type.toLowerCase()) {
+    case "text":
+        if( /UrlPath/.test(el.name) ) {
+            $('[name="' + configure.utils.quoteName(el.name+'TestImage') + '"]').
+                attr('src','').
+                each(function () { 
+                    this.src = '';
+                    this.src = el.value + $(this).attr('testImg');
+                    return true;
+                });
+            if( false ) break; /* For jslint */
+        }
+        /* Fall into  standard flow */
     case "select-one":
     case "select-multiple":
     case "textarea":
-    case "text":
     case "password":
     case "radio":
     case "checkbox":
