@@ -34,11 +34,8 @@ sub MAKETEXT {
     # unescape parameters and calculate highest parameter number:
     $str =~ s/~\[(\_(\d+))~\]/_validate($1, $2, \$max, \$min, \$param_error)/ge;
     $str =~
-s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, \$max, \$min, \$param_error)/ge;
+s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, \$max, \$min, \$param_error, $escape)/ge;
     return $str if ($param_error);
-
-    # Escape any escapes.
-    $str =~ s#\\#\\\\#g if $escape;
 
     # get the args to be interpolated.
     my $argsStr = $params->{args} || "";
@@ -78,7 +75,18 @@ sub _validate {
         return
 "<span class=\"foswikiAlert\">Invalid parameter <code>\"$_[0]\"</code>, MAKETEXT rejected.</span>";
     }
-    return "[$_[0]]";    # Return the complete bracket parameter without escapes
+
+    if ( $_[5] ) {
+
+        # Escape any escapes.
+        my $str = $_[0];                           # copy to allow modification
+        $str =~ s#\\#\\\\#g;                       # escape any escapes
+        return "[$str]";
+    }
+    else {
+        return
+          "[$_[0]]";    # Return the complete bracket parameter without escapes
+    }
 }
 
 1;
