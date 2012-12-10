@@ -44,7 +44,11 @@
 # be browseable from the web. If you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.</p>
 
-# **URL M**
+# **URL CHECK="parts:scheme,authority,path \
+#              partsreq:scheme,authority \
+#              schemes:http,https \
+#              authtype:host" \
+#              M**
 #  This is the root of all Foswiki URLs e.g. http://myhost.com:123.
 # $Foswiki::cfg{DefaultUrlHost} = 'http://your.domain.com';
 
@@ -56,7 +60,7 @@
 # to return the <code>DefaultUrlHost</code>.</p>
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URLPATH M**
+# **URLPATH CHECK="expand" M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory e.g. <code>/foswiki/bin</code><br />
 # Do <b>not</b> include a trailing /.
@@ -66,7 +70,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # be manually added to <code>lib/LocalSite.cfg</code>
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **URLPATH M**
+# **URLPATH CHECK='expand' M**
 # This is the complete path used to access the Foswiki view script including any suffix.  Do not include a trailing /.
 # (This is an exception override, so the ScriptSuffix is not automatically added.)
 # e.g. <code>/foswiki/bin/view.pl</code><br />  Note:  The default is acceptable except when shorter URLs are used.
@@ -87,7 +91,7 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
-# **URLPATH M**
+# **URLPATH CHECK='expand' M**
 # Attachments URL path e.g. /foswiki/pub
 # <p /><b>Security Note:</b> files in this directory are *not*
 # protected by Foswiki access controls. If you require access controls, you
@@ -906,7 +910,12 @@ $Foswiki::cfg{AccessibleENV} =
 #---++ Proxies
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. (e.g. http://proxy.your.company).
-# **STRING 30**
+# **URL CHECK='parts:scheme,authority,path,user,pass  \
+#              partsreq:scheme,authority \
+#              schemes:http,https \
+#              authtype:hostip \
+#              nullok' \
+#              30**
 # Hostname or address of the proxy server.
 # <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
 # in SitePreferences. Make sure you delete the setting from there if
@@ -2133,7 +2142,7 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 # Note: if your Repository uses ApacheAuth, embed the username and password into the listurl as <code>?username=x;password=y</code>
 # <p />
 # For example,<code>
-# twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/); foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);</code><p />
+# twiki.org=(http://twiki.org/cgi-bin/viewlugins/,http://twiki.org/p/pub/Plugins/); foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);</code><p />
 # For Extensions with the same name in more than one repository, the <strong>last</strong> matching repository in the list will be chosen, so Foswiki.org should always be last in the list for maximum compatibility.
 $Foswiki::cfg{ExtensionsRepositories} =
 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';

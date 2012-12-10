@@ -4,43 +4,50 @@ package Foswiki::Configure::Checkers::ScriptUrlPath;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+require Foswiki::Configure::Checkers::URLPATH;
+our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
 
 sub check {
     my $this = shift;
 
     # Check Script URL Path against REQUEST_URI
-    my $val    = $this->getCfg("{ScriptUrlPath}");
+    my $val    = $this->getCfg;
     my $report = '';
     my $guess  = $ENV{REQUEST_URI} || $ENV{SCRIPT_NAME} || '';
 
-    if ( defined $val and $val ne 'NOT SET' ) {
+    if ( $val and $val ne 'NOT SET' ) {
+        $report = $this->SUPER::check(@_);
+        $val    = $this->getCfg;
+
         if ( $guess =~ s'/+configure\b.*$'' ) {
             if ( $guess !~ /^$val/ ) {
-                $report .= $this->WARN(
-                    'I expected this to look like "' . $guess . '"' );
+                $report .=
+                  $this->WARN( 'This item is expected this to look like "'
+                      . $guess
+                      . '"' );
             }
         }
         else {
-            $report .= $this->WARN(<<HERE);
+            $report .= $this->WARN(<< "HERE");
 This web server does not set REQUEST_URI or SCRIPT_NAME
-so it isn't possible to fully check the correctness of this setting.
+so it isn't possible to fully validate this setting.
 HERE
         }
-        if ( $val =~ m'/$' ) {
+        if ( $val =~ s'/+$'' ) {
             $report .= $this->WARN(
-'Don\'t put a / at the end of the path. It\'ll still work, but you will get double // in a few places.'
-            );
+                'A trailing / is not recommended and has been removed');
+            $this->setItemValue($val);
+            $this->{UpdatedValue} = $val;
         }
-        $report .= $this->showExpandedValue( $Foswiki::cfg{ScriptUrlPath} );
     }
     else {
         if ( $guess =~ s'/+configure\b.*$'' ) {
-            $report .= $this->guessed(0);
+            $this->{GuessedValue} = $guess;
+            $this->setItemValue($guess);
+            $report .= $this->SUPER::check(@_);
         }
         else {
-            $report .= $this->WARN(<<HERE);
+            $report .= $this->WARN(<< "HERE");
 This web server does not set REQUEST_URI or SCRIPT_NAME
 so it isn't possible to guess this setting.
 HERE

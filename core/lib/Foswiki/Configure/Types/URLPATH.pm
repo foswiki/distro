@@ -5,13 +5,16 @@ package Foswiki::Configure::Types::URLPATH;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Types::STRING ();
-our @ISA = ('Foswiki::Configure::Types::STRING');
+require Foswiki::Configure::Types::URL;
+our @ISA = ('Foswiki::Configure::Types::URL');
 
 sub new {
     my $class = shift;
 
-    return bless( { name => 'URLPATH' }, $class );
+    my $this = $class->SUPER::new(@_);
+    $this->{name} = 'URLPATH';
+
+    return $this;
 }
 
 1;

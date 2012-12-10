@@ -1,16 +1,49 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::ScriptUrlPaths::view;
+package Foswiki::Configure::Checkers::URLPATH;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+require Foswiki::Configure::Checkers::URL;
+our @ISA = ('Foswiki::Configure::Checkers::URL');
+
+# CHECK= options
+#  expand
+#  parts, partsreq = query, fragment (path is required)
 
 sub check {
-    my $this = shift;
+    my $this   = shift;
+    my $valobj = shift;
 
-    return $this->showExpandedValue( $Foswiki::cfg{ScriptUrlPaths}{view} );
+    my @optionList = ( @_ ? @_ : $this->parseOptions() );
+
+    $optionList[0] = {} unless (@optionList);
+
+    my $e = '';
+    $e .= $this->ERROR(".SPEC error: multiple CHECK options for NUMBER")
+      if ( @optionList > 1 );
+
+    my $options = $optionList[0];
+
+    $options = {
+        expand => $options->{expand},
+        parts  => [
+            'path',
+            $options->{parts}
+            ? ( grep $_ =~ /^(?:query|fragment)$/, @{ $options->{parts} } )
+            : ()
+        ],
+        partsreq => [
+            'path',
+            $options->{partsreq}
+            ? ( $_ =~ /^(?:query|fragment)$/, @{ $options->{partsreq} } )
+            : ()
+        ],
+        schemes  => [],
+        authtype => [],
+    };
+
+    return $e . $this->SUPER::check( $valobj, $options );
 }
 
 1;
@@ -26,7 +59,7 @@ file as follows:
 
 Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
 TWiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
+of this distribution.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

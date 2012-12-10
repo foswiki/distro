@@ -4,17 +4,21 @@ package Foswiki::Configure::Checkers::DefaultUrlHost;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+require Foswiki::Configure::Checkers::URL;
+our @ISA = ('Foswiki::Configure::Checkers::URL');
 
 sub check {
-    my ( $this, $keys ) = @_;
+    my $this = shift;
+    my ($valobj) = @_;
+
     my $d    = $this->getCfg('{DefaultUrlHost}');
-    my $mess = $this->showExpandedValue( $Foswiki::cfg{DefaultUrlHost} );
+    my $mess = '';
 
     if ( $d && $d ne 'NOT SET' ) {
+        $mess = $this->SUPER::check(@_);
+
         my $host = $ENV{HTTP_HOST};
-        if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ /$host/i ) {
+        if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m,^https?://$host,i ) {
             return $mess
               . $this->WARN( 'Current setting does not match HTTP_HOST ',
                 $ENV{HTTP_HOST} );
@@ -24,7 +28,8 @@ sub check {
         my $protocol = $Foswiki::query->url() || 'http://' . $ENV{HTTP_HOST};
         $protocol =~ s(^(.*?://.*?)/.*$)($1);
         $Foswiki::cfg{DefaultUrlHost} = $protocol;
-        return $mess . $this->guessed(0);
+        $this->{GuessedValue}         = $protocol;
+        $mess                         = $this->SUPER::check(@_);
     }
     return $mess;
 }

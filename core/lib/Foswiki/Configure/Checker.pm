@@ -133,7 +133,8 @@ HERE
 
 ---++ ObjectMethod getCfg($name) -> $expanded_val
 Get the value of the named configuration var. The name is in the form
-getCfg("{Validation}{ExpireKeyOnUse}")
+getCfg("{Validation}{ExpireKeyOnUse}"), and defaults to the current
+item.
 
 Any embedded references to other Foswiki::cfg vars will be expanded.
 
@@ -141,6 +142,8 @@ Any embedded references to other Foswiki::cfg vars will be expanded.
 
 sub getCfg {
     my ( $this, $name ) = @_;
+    $name ||= $this->{item}->getKeys();
+
     my $item = '$Foswiki::cfg' . $name;
     Foswiki::Configure::Load::expandValue($item);
     return $item;

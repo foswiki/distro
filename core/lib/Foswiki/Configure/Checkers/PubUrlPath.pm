@@ -4,8 +4,10 @@ package Foswiki::Configure::Checkers::PubUrlPath;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+require Foswiki::Configure::Checkers::URLPATH;
+our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
+
+use Foswiki::Configure qw/:cgi/;
 
 sub check {
     my $this = shift;
@@ -13,21 +15,25 @@ sub check {
     unless ( $Foswiki::cfg{PubUrlPath}
         && $Foswiki::cfg{PubUrlPath} ne 'NOT SET' )
     {
-        my $guess = $Foswiki::cfg{ScriptUrlPath};
+        my $guess = $this->getItemCurrentValue('ScriptUrlPath');
         $guess =~ s/\/[^\/]*?bin$/\/pub/;
         $guess .= '/pub' unless ( $guess =~ m/pub$/ );
-        $Foswiki::cfg{PubUrlPath} = $guess;
-        return $this->guessed(0);
+        $this->{GuessedValue} = $guess;
+        $this->setItemValue($guess);
+        return $this->SUPER::check(@_);
     }
-    my $d    = $this->getCfg("{PubUrlPath}");
-    my $mess = $this->showExpandedValue( $Foswiki::cfg{WorkingDir} );
+    my $d    = $this->getCfg;
+    my $mess = $this->SUPER::check(@_);
+    my $t    = "/System/ProjectLogos/foswiki-logo.png";
 
-    $mess .=
-"<div class='configureSetting'>Test the correctness of this path with this link:"
-      . CGI::br()
-      . '<a rel="nofollow" target="_new" href="'
-      . $d
-      . '">My &quot;pub&quot; directory</a>';
+    $mess .= $this->NOTE("Please wait while the path is tested")
+      . qq{<div class='configureSetting' onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();'>
+<img name="{PubUrlPath}TestImage" src="$d$t" testImg="$t" style="height:20px;"
+ onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
+ onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'>
+<span name="{PubUrlPath}Ok">This setting is correct.</span>
+<span name="{PubUrlPath}Error"><img src="${resourceURI}icon_error.png" style="margin-right:5px;">Path is not correct.</span></div>};
+
     return $mess;
 }
 

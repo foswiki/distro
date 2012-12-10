@@ -74,8 +74,10 @@ sub renderHtml {
     if ($checker) {
         eval { $check = $checker->check($value) || ''; };
         if ($@) {
-            $check = $this->ERROR(
-                "Checker for $keys failed: check for .spec errors:$@");
+            $check =
+              $this->ERROR( "Checker ("
+                  . ref($checker)
+                  . ") for $keys failed: check for .spec errors:$@" );
         }
         if ($check) {
 
@@ -260,7 +262,9 @@ HERE
         };
         if ($@) {
             $control .= $this->ERROR(
-                "Failed to generate input field; check for .spec errors: $@");
+                ref($type)
+                  . " failed to generate input field; check for .spec errors: $@"
+            );
         }
     }
 

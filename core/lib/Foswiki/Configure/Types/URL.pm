@@ -8,6 +8,17 @@ use warnings;
 use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');
 
+# Default options prior to prompt (and check)
+#
+sub defaultOptions {
+    my $this = shift;
+    my ( $id, $opts, $feedback, $check ) = @_;
+
+    $opts .= ' FEEDBACK=AUTO' unless ($feedback);
+
+    return $opts;
+}
+
 sub new {
     my $class = shift;
 

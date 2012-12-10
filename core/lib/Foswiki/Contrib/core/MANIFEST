@@ -559,7 +559,6 @@ lib/Foswiki/Configure/Checkers/OCTAL.pm 0444
 lib/Foswiki/Configure/Checkers/OS.pm 0444
 lib/Foswiki/Configure/Checkers/PATH.pm 0444
 lib/Foswiki/Configure/Checkers/PERL.pm 0444
-lib/Foswiki/Configure/Checkers/PROXY/HOST.pm 0444
 lib/Foswiki/Configure/Checkers/PasswordManager.pm 0444
 lib/Foswiki/Configure/Checkers/PluginsOrder.pm 0444
 lib/Foswiki/Configure/Checkers/PubUrlPath.pm 0444
@@ -602,6 +601,8 @@ lib/Foswiki/Configure/Checkers/TempfileDir.pm 0444
 lib/Foswiki/Configure/Checkers/TemplatePath.pm 0444
 lib/Foswiki/Configure/Checkers/UploadFilter.pm 0444
 lib/Foswiki/Configure/Checkers/UpperNational.pm 0444
+lib/Foswiki/Configure/Checkers/URL.pm 0444
+lib/Foswiki/Configure/Checkers/URLPATH.pm 0444
 lib/Foswiki/Configure/Checkers/UseClientSessions.pm 0444
 lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
