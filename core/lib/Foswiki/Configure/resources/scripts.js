@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.111";
+        var VERSION = "v3.112";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -711,6 +711,7 @@ function resetToDefaultValue(inLink, inFormType, inName, inValue) {
         label.innerHTML = inLink.setDefaultLinkText;
         inLink.oldValue = null;
     }
+    valueChanged(elem);
 
     return false;
 }
