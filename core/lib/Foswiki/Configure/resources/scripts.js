@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.110";
+        var VERSION = "v3.111";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -755,7 +755,7 @@ function valueChanged(el) {
     "use strict";
     switch (el.type.toLowerCase()) {
     case "text":
-        if( /UrlPath/.test(el.name) ) {
+        if( $(el).hasClass('configureHasTestImage') ) {
             $('[name="' + configure.utils.quoteName(el.name+'TestImage') + '"]').
                 attr('src','').
                 each(function () { 
@@ -1252,6 +1252,10 @@ var feedback = ( function ($) {
                     case 'a':
                         $(this).append(kpair[2]);
                         break;
+                    case 'j':
+                        $('.foswikiNonJS').hide();
+                        $('.foswikiJSRequired').removeClass('foswikiJSRequired');
+                        break;
                     case 'm':
                         mark = this.scrollHeight;
                         if( this.clientHeight !== undefined ) {
@@ -1398,6 +1402,7 @@ $(document).ready(function () {
         }
     }} );
 
+    $('.foswikiNonJS').hide();
     $('.foswikiJSRequired').removeClass('foswikiJSRequired');
 
     /* Provide version before anything else happens */

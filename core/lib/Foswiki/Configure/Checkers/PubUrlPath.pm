@@ -7,8 +7,6 @@ use warnings;
 require Foswiki::Configure::Checkers::URLPATH;
 our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
 
-use Foswiki::Configure qw/:cgi/;
-
 sub check {
     my $this = shift;
     my ($valobj) = @_;
@@ -26,19 +24,23 @@ sub check {
     return $mess if ( $mess =~ /Error:/ );
 
     my $t    = "/System/ProjectLogos/foswiki-logo.png";
-    my $ok   = $this->NOTE("Successfully accessed content under $value");
-    my $fail = $this->ERROR("Failed to acccess content under $value");
+    my $ok   = $this->NOTE("Content under $value is accessible.");
+    my $fail = $this->ERROR(
+"Content under $value is inaccessible.  Check the setting and webserver configuration."
+    );
     $valobj->{errors}--;
 
     $mess .= $this->NOTE(
-qq{<span name="{PubUrlPath}Wait">Please wait while the setting is tested.  Disregard any message that appears only briefly.</span>}
-          . qq{<span onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();'>
-<img name="{PubUrlPath}TestImage" src="$value$t" testImg="$t" style="height:1px;float:right;opacity:0"
- onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
- onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'>
+        qq{<span class="foswikiJSRequired">
+<span name="{PubUrlPath}Wait">Please wait while the setting is tested.  Disregard any message that appears only briefly.</span>
 <span name="{PubUrlPath}Ok">$ok</span>
-<span name="{PubUrlPath}Error">$fail</span></span>}
+<span name="{PubUrlPath}Error">$fail</span></span>
+<span class="foswikiNonJS">Content under $value is accessible if the Foswiki logo appears to the right of this text.
+<img name="{PubUrlPath}TestImage" src="$value$t" testImg="$t" style="margin-left:10px;height:15px;"
+ onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"],[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
+ onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"],[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'><br >If it does not appear, check the setting and webserver configuration.</span>}
     );
+    $this->{JSContent} = 1;
 
     return $mess;
 }

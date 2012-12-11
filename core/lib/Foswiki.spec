@@ -91,7 +91,7 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
-# **URLPATH CHECK='expand' M**
+# **URLPATH CHECK='expand' M T**
 # Attachments URL path e.g. /foswiki/pub
 # <p /><b>Security Note:</b> files in this directory are *not*
 # protected by Foswiki access controls. If you require access controls, you

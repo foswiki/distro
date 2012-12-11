@@ -255,6 +255,8 @@ HERE
         # Generate a prompter for the value.
         my $promptclass = $value->{typename} || '';
         $promptclass .= ' configureMandatory' if ( $value->{mandatory} );
+        $promptclass .= ' configureHasTestImage'
+          if ( $value->{opts} =~ /\bT\b/ );
         eval {
             $control .=
               $type->prompt( $keys, $value->{opts}, $currentValue,

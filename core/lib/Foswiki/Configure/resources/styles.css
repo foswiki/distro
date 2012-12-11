@@ -1066,3 +1066,7 @@ div.configureSaveForm div.configureLogEntryHelp {
 .foswikiJSRequired {
     display:none;
 }
+.foswikiNonJS {
+}
+.configureHasTestImage {
+}

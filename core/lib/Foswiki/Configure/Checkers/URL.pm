@@ -274,6 +274,9 @@ sub provideFeedback {
     elsif ( $this->{UpdatedValue} ) {
         $e .= $this->FB_VALUE( $keys, delete $this->{UpdatedValue} );
     }
+    if ( delete $this->{JSContent} ) {
+        $e .= $this->FB_ACTION( $keys, 'j' );
+    }
 
     return wantarray ? ( $e, 0 ) : $e;
 }
