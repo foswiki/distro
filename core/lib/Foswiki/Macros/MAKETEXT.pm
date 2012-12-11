@@ -32,9 +32,9 @@ sub MAKETEXT {
     $param_error = 0;
 
     # unescape parameters and calculate highest parameter number:
-    $str =~ s/~\[(\_(\d+))~\]/_validate($1, $2, \$max, \$min, \$param_error)/ge;
+    $str =~ s/~\[(\_(\d+))~\]/_validate($1, $2, $max, $min, $param_error)/ge;
     $str =~
-s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, \$max, \$min, \$param_error, $escape)/ge;
+s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_error, $escape)/ge;
     return $str if ($param_error);
 
     # get the args to be interpolated.
@@ -62,16 +62,18 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, \$max, \$min, \$param_e
 
 sub _validate {
 
-    ${ $_[2] } = $_[1] if ( $_[1] > ${ $_[2] } );  # Record maximum param number
-    ${ $_[3] } = $_[1] if ( $_[1] < ${ $_[3] } );  # Record minimum param number
+    #my ( $contents, $number, $max, $min, $param_error ) = @_
+
+    $_[2] = $_[1] if ( $_[1] > $_[2] );    # Record maximum param number
+    $_[3] = $_[1] if ( $_[1] < $_[3] );    # Record minimum param number
 
     if ( $_[1] > 100 ) {
-        ${ $_[4] } = 1;                            # Set error flag
+        $_[4] = 1;                         # Set error flag
         return
-"<span class=\"foswikiAlert\">Excessive parameter number ${$_[2]}, MAKETEXT rejected.</span>";
+"<span class=\"foswikiAlert\">Excessive parameter number $_[2], MAKETEXT rejected.</span>";
     }
     if ( $_[1] < 1 ) {
-        ${ $_[4] } = 1;                            # Set error flag
+        $_[4] = 1;                         # Set error flag
         return
 "<span class=\"foswikiAlert\">Invalid parameter <code>\"$_[0]\"</code>, MAKETEXT rejected.</span>";
     }
@@ -79,8 +81,8 @@ sub _validate {
     if ( $_[5] ) {
 
         # Escape any escapes.
-        my $str = $_[0];                           # copy to allow modification
-        $str =~ s#\\#\\\\#g;                       # escape any escapes
+        my $str = $_[0];                   # copy to allow modification
+        $str =~ s#\\#\\\\#g;               # escape any escapes
         return "[$str]";
     }
     else {
