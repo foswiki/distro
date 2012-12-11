@@ -27,6 +27,7 @@ sub check {
 
     $options = {
         expand => $options->{expand},
+        nullok => $options->{nullok},
         parts  => [
             'path',
             $options->{parts}

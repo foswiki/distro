@@ -70,7 +70,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # be manually added to <code>lib/LocalSite.cfg</code>
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **URLPATH CHECK='expand' M**
+# **URLPATH CHECK='expand nullok' M**
 # This is the complete path used to access the Foswiki view script including any suffix.  Do not include a trailing /.
 # (This is an exception override, so the ScriptSuffix is not automatically added.)
 # e.g. <code>/foswiki/bin/view.pl</code><br />  Note:  The default is acceptable except when shorter URLs are used.
