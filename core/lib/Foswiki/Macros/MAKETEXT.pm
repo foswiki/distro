@@ -6,8 +6,9 @@ use warnings;
 
 use Locale::Maketext;
 my $escape =
-  ( $Foswiki::cfg{UserInterfaceInternationalisation}
-      && ( Locale::Maketext->VERSION() < 1.23 ) );
+  (      $Foswiki::cfg{UserInterfaceInternationalisation}
+      && $Locale::Maketext::VERSION
+      && $Locale::Maketext::VERSION < 1.23 );
 
 sub MAKETEXT {
     my ( $this, $params ) = @_;
@@ -34,11 +35,14 @@ sub MAKETEXT {
     # unescape parameters and calculate highest parameter number:
     $str =~ s/~\[(\_(\d+))~\]/_validate($1, $2, $max, $min, $param_error)/ge;
     $str =~
-s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_error, $escape)/ge;
+s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_error)/ge;
     return $str if ($param_error);
 
     # get the args to be interpolated.
     my $argsStr = $params->{args} || "";
+
+    # Escape any escapes.
+    $str =~ s#\\#\\\\#g if ($escape);    # escape any escapes
 
     my @args = split( /\s*,\s*/, $argsStr );
 
@@ -77,18 +81,7 @@ sub _validate {
         return
 "<span class=\"foswikiAlert\">Invalid parameter <code>\"$_[0]\"</code>, MAKETEXT rejected.</span>";
     }
-
-    if ( $_[5] ) {
-
-        # Escape any escapes.
-        my $str = $_[0];                   # copy to allow modification
-        $str =~ s#\\#\\\\#g;               # escape any escapes
-        return "[$str]";
-    }
-    else {
-        return
-          "[$_[0]]";    # Return the complete bracket parameter without escapes
-    }
+    return "[$_[0]]";    # Return the complete bracket parameter without escapes
 }
 
 1;
