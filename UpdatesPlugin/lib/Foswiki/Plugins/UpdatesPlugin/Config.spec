@@ -17,7 +17,7 @@ $Foswiki::cfg{Plugins}{UpdatesPlugin}{CacheTimeout} = 86400;
 # to prevent plugins not hosted on foswiki.org from being reported to the outside world.
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{ExcludeExtensions} = '';
 
-# **URL**
+# **URLPATH CHECK='expand'**
 # The URL of the 'configure' program used to install extensions on your Foswiki.
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{ConfigureUrl} = '$Foswiki::cfg{ScriptUrlPath}/configure$Foswiki::cfg{ScriptSuffix}';
 
