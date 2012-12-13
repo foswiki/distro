@@ -223,9 +223,8 @@ $Foswiki::cfg{OS} = '';
 $Foswiki::cfg{DetailedOS} = '';
 
 #---+ Security and Authentication -- TABS
-# <p>In order to support tracking who changed what, and apply access controls,
-# Foswiki is normally configured to use logins. The tabs below control
-# various aspects of logins.</p>
+# <p>The above tabs allow you to control most aspects of how Foswiki handles security
+# related activities.</p>
 #---++ Sessions
 # <p>Sessions are how Foswiki tracks a user across multiple requests.
 # A user's session id is stored in a cookie, and this is used to identify
@@ -796,14 +795,18 @@ $Foswiki::cfg{PROXY}{PORT} = '';
 $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 
 # **BOOLEAN**
-# Normally Foswiki stores the user's sensitive information (such as their e-mail
+# <p>Normally Foswiki stores the user's sensitive information (such as their e-mail
 # address) in a database out of public view. This is to help prevent e-mail
-# spam and identity fraud.<br />
-# If that is not a risk for you (e.g. you are behind a firewall) and you
+# spam and identity fraud.</p>
+# <p>This setting controls whether or not the <code>%USERINFO%</code> macro will
+# reveal details about users other than the current logged in user.  It does not
+# control how Foswiki actually stores email addresses.</p>
+# If disclosure of emails is not a risk for you (e.g. you are behind a firewall) and you
 # are happy for e-mails to be made public to all Foswiki users,
-# then you can set this option.<br />
-# Note that if this option is set, then the <code>user</code> parameter to
-# <code>%USERINFO</code> is ignored.
+# then you can disable this option.  If you prefer to store email addresses directly in user
+# topics, see the TopicUserMapping expert setting under the UserMapping tab.</p>
+# <p>Note that if this option is set, then the <code>user</code> parameter to
+# <code>%USERINFO</code> is ignored for non-admin users.
 $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 
 # **BOOLEAN**
@@ -1346,8 +1349,7 @@ $Foswiki::cfg{Cache}{MaxSize} = 1000;
 $Foswiki::cfg{Cache}{Servers} = '127.0.0.1:11211';
 
 #---+ Mail -- TABS
-# <p>Settings controlling if and how Foswiki sends email, and the proxies used
-# to access external web pages.</p>
+# <p>Settings controlling if and how Foswiki sends email</p>
 
 #---++ Email general
 # <p>Settings controlling if and how Foswiki handles email including the identity of the sender
@@ -1367,16 +1369,6 @@ $Foswiki::cfg{WebMasterEmail} = '';
 # Wiki administrator's name address, for use in mails (first name and
 # last name, e.g. <tt>Fred Smith</tt>) (used in %WIKIWEBMASTERNAME%)
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
-
-# **BOOLEAN EXPERT**
-# Remove IMG tags in notification mails.
-$Foswiki::cfg{RemoveImgInMailnotify} = $TRUE;
-
-# **STRING 20 EXPERT**
-# Name of topic in each web that has notification registrations.
-# <b>If you change this setting you will have to
-# use Foswiki to manually rename the topic in all existing webs</b>
-$Foswiki::cfg{NotifyTopicName}     = 'WebNotify';
 
 # **BOOLEAN EXPERT**
 # Send email Date header using local "server time" instead of GMT
@@ -1476,27 +1468,27 @@ $Foswiki::cfg{Email}{SmimeKeyFile} = '$Foswiki::cfg{DataDir}/key.pem';
 # *TESTEMAIL* Marker used by bin/configure script - do not remove!
 
 
-#---+ Miscellaneous -- EXPERT
+#---+ Miscellaneous Expert -- EXPERT
 # <p>Miscellaneous expert options.</p>
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # Name of the web where documentation and default preferences are held. If you
 # change this setting, you must make sure the web exists and contains
 # appropriate content, and upgrade scripts may no longer work (i.e. don't
 # change it unless you are certain that you know what you are doing!)
 $Foswiki::cfg{SystemWebName} = 'System';
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # Name of the web used as a trashcan (where deleted topics are moved)
 # If you change this setting, you must make sure the web exists.
 $Foswiki::cfg{TrashWebName} = 'Trash';
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # Name of the web used as a scratchpad or temporary workarea for users to
 # experiment with Foswiki topics.
 $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # Name of site-level preferences topic in the {SystemWebName} web.
 # <b>If you change this setting you will have to
 # use Foswiki and *manually* rename the existing topic.</b>
@@ -1504,7 +1496,7 @@ $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 # you are doing!)
 $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
-# **STRING 70 EXPERT**
+# **STRING 70**
 # Web.TopicName of the site-level local preferences topic. If this topic
 # exists, any settings in it will <b>override</b> settings in
 # {SitePrefsTopicName}.<br />
@@ -1513,7 +1505,7 @@ $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 # as it will make upgrading a lot easier.
 $Foswiki::cfg{LocalSitePreferences} = '$Foswiki::cfg{UsersWebName}.SitePreferences';
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # Name of main topic in a web.
 # <b>If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs</b>
@@ -1521,7 +1513,7 @@ $Foswiki::cfg{LocalSitePreferences} = '$Foswiki::cfg{UsersWebName}.SitePreferenc
 # you are doing!)
 $Foswiki::cfg{HomeTopicName} = 'WebHome';
 
-# **STRING 20 EXPERT**
+# **STRING 20**
 # Name of preferences topic in a web.
 # <b>If you change this setting you will have to
 # use Foswiki to manually rename the topic in all existing webs</b>
@@ -1529,7 +1521,13 @@ $Foswiki::cfg{HomeTopicName} = 'WebHome';
 # you are doing!)
 $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 
-# **STRING 20 EXPERT**
+# **STRING 20**
+# Name of topic in each web that has notification registrations.
+# <b>If you change this setting you will have to
+# use Foswiki to manually rename the topic in all existing webs</b>
+$Foswiki::cfg{NotifyTopicName} = 'WebNotify';
+
+# **STRING 20**
 # Name of the web where usertopics are stored. If you
 # change this setting, you must make sure the web exists and contains
 # appropriate content, and upgrade scripts may no longer work
@@ -1537,7 +1535,7 @@ $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-# **STRING 70x10 EXPERT**
+# **STRING 70x10**
 # A comma-separated list of generic file name templates, containing
 # placeholders <code>$name</code> (the template name), <code>$web</code>
 # (the web), and <code>$skin</code> (the skin(s))
@@ -1549,7 +1547,7 @@ $Foswiki::cfg{UsersWebName} = 'Main';
 # setting this path for increased security.
 $Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
 
-# **STRING 120 EXPERT**
+# **STRING 120**
 # List of protocols (URI schemes) that Foswiki will
 # automatically recognize in absolute links.
 # Add any extra protocols specific to your environment (for example, you might
@@ -1559,7 +1557,7 @@ $Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl,
 # found at <a href="http://en.wikipedia.org/wiki/URI_scheme">http://en.wikipedia.org/wiki/URI_scheme</a>.
 $Foswiki::cfg{LinkProtocolPattern} = '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN**
 # 'Anchors' are positions within a Foswiki page that can be targeted in
 # a URL using the <tt>#anchor</tt> syntax. The format of these anchors has
 # changed several times. If this option is set, Foswiki will generate extra
@@ -1570,11 +1568,11 @@ $Foswiki::cfg{LinkProtocolPattern} = '(file|ftp|gopher|https|http|irc|mailto|new
 # links to the internals of pages to continue to work.
 $Foswiki::cfg{RequireCompatibleAnchors} = 0;
 
-# **NUMBER EXPERT**
+# **NUMBER**
 # How many links to other revisions to show in the bottom bar. 0 for all
 $Foswiki::cfg{NumberOfRevisions} = 4;
 
-# **NUMBER EXPERT**
+# **NUMBER**
 # Set the upper limit of the maximum number of difference that will be
 # displayed when viewing the entire history of a page. The compared revisions
 # will be evenly spaced across the history of the page e.g. if the page has
@@ -1582,7 +1580,7 @@ $Foswiki::cfg{NumberOfRevisions} = 4;
 # between r100 and r90, r90 and r80, r80 and r70 and so on.
 $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 
-# **NUMBER EXPERT**
+# **NUMBER**
 # If this is set to a > 0 value, and the revision control system
 # supports it (RCS does), then if a second edit of the same topic
 # is done by the same user within this number of seconds, a new
@@ -1591,7 +1589,7 @@ $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 # a new revision (as required by most formal development processes).
 $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 
-# **NUMBER EXPERT**
+# **NUMBER**
 # When a topic is edited, the user takes a "lease" on that topic.
 # If another user tries to also edit the topic while the lease
 # is still active, they will get a warning. Leases are released
@@ -1607,7 +1605,7 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 # at the same time as the lease expires.
 $Foswiki::cfg{LeaseLength} = 3600;
 
-# **NUMBER EXPERT**
+# **NUMBER**
 # Even if the other users' lease has expired, then you can specify that
 # they should still get a (less forceful) warning about the old lease for
 # some additional time after the lease expired. You can set this to 0 to
@@ -1615,14 +1613,14 @@ $Foswiki::cfg{LeaseLength} = 3600;
 # issued, or to a number of seconds since the old lease expired.
 $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 
-# **PATH EXPERT**
+# **PATH**
 # Pathname to file that maps file suffixes to MIME types :
 # For Apache server set this to Apache's mime.types file pathname,
 # for example /etc/httpd/mime.types, or use the default shipped in
 # the Foswiki data directory.
 $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN**
 # If set, this will cause Foswiki to treat warnings as errors that will
 # cause Foswiki to die. Provided for use by Plugin and Skin developers,
 # who should develop with it switched on.
@@ -1640,11 +1638,11 @@ $Foswiki::cfg{Operators}{Query} = [ 'Foswiki::Query::OP_match', 'Foswiki::Query:
 # configure UI.
 $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defined', 'Foswiki::If::OP_isempty','Foswiki::If::OP_ingroup', 'Foswiki::If::OP_isweb', 'Foswiki::If::OP_context', 'Foswiki::If::OP_dollar', 'Foswiki::If::OP_istopic' ];
 
-# **BOOLEAN EXPERT**
-# Enable tracebacks in error messages.  Used for debugging;
+# **BOOLEAN**
+# Enable tracebacks in configure error messages.  Used for debugging;
 # $Foswiki::cfg{DebugTracebacks} = '';
 
-# **NUMBER EXPERT**
+# **NUMBER**
 # Maximum number of backup versions of LocalSite.cfg to retain when changes
 # are saved.  Enables you to recover quickly from accidental changes.
 # 0 does not save any backup versions.  -1 does not limit the number of versions
