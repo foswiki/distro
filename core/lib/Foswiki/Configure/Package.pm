@@ -1372,7 +1372,7 @@ sub _parseDependency {
 
     if ( $trigger eq '1' ) {
 
-        # ONLYIF is rare and dangerous
+        # ONLYIF is rare and (potentially) dangerous
         push(
             @$deps,
             new Foswiki::Configure::Dependency(
@@ -1386,33 +1386,19 @@ sub _parseDependency {
     }
     else {
 
-        # There is a ONLYIF condition, warn user
-        $warn .=
-            "The script uses an ONLYIF condition for module $module"
-          . ' which is potentially insecure: "'
-          . $trigger . '"' . "\n";
-        if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()\$]*$/ ) {
-
-            # It looks more or less safe
-            push(
-                @$deps,
-                new Foswiki::Configure::Dependency(
-                    module      => $module,
-                    type        => $type,
-                    version     => $condition,    # version condition
-                    trigger     => $trigger,      # ONLYIF condition
-                    description => $desc
-                )
-            );
-        }
-        else {
-            $warn .=
-                'This '
-              . $trigger
-              . ' condition does not look safe and is being disabled.' . "\n";
-            $warn .=
-              "This dependency on $module should be manually resolved \n";
-        }
+        # There is a ONLYIF condition.
+        # ONLYIF can be arbitrary perl code - but then, so can the
+        # extension.  DEPENDENCIES files should be as secure as .pms.
+        push(
+            @$deps,
+            new Foswiki::Configure::Dependency(
+                module      => $module,
+                type        => $type,
+                version     => $condition,    # version condition
+                trigger     => $trigger,      # ONLYIF condition
+                description => $desc
+            )
+        );
     }
     return $warn;
 }
