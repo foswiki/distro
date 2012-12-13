@@ -300,6 +300,7 @@ CONFIG
             return ( 0,
                     "Unable to create certificate"
                   . ( $self ? '' : ' request' )
+                  . ( $? == -1 ? " (No openssl: $!)" : '' )
                   . ": <pre>$output</pre>" );
         }
 
@@ -314,7 +315,10 @@ $keypass
     }
     umask($um);
     if ($?) {
-        return ( 0, "Unable to convert private key: <pre>$keyoutput</pre>" );
+        return ( 0,
+                "Unable to convert private key"
+              . ( $? == -1 ? " (No openssl: $!)" : '' )
+              . ": <pre>$keyoutput</pre>" );
     }
 
     # Cert can be readable by all - arguably should not be group write,

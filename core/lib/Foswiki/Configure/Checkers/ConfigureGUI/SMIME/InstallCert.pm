@@ -64,7 +64,8 @@ sub showCSR {
         $output = `openssl req -in $csrfile -batch -subject -text 2>&1`;
     }
     if ($?) {
-        return $this->ERROR("Operation failed")
+        return $this->ERROR(
+            "Operation failed" . ( $? == -1 ? " (No openssl: $!)" : '' ) )
           . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
     }
 
@@ -110,7 +111,8 @@ $data
 `;
     }
     if ($?) {
-        return $this->ERROR("Operation failed")
+        return $this->ERROR(
+            "Operation failed" . ( $? == -1 ? " (No openssl: $!)" : '' ) )
           . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
     }
 
@@ -171,7 +173,8 @@ sub showCert {
         $output .= `openssl x509 -in $certfile -text -noout 2>&1`;
     }
     if ($?) {
-        return $this->ERROR("Operation failed on $certfile")
+        return $this->ERROR( "Operation failed on $certfile"
+              . ( $? == -1 ? " (No openssl: $!)" : '' ) )
           . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
     }
 
