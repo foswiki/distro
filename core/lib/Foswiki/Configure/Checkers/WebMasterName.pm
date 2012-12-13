@@ -289,24 +289,29 @@ CONFIG
     );
     $keyfile .= '.csr' unless ($self);
     my $um = umask(0117);
-    my $output =
+    my ( $output, $keyoutput );
+    {
+        no warnings 'exec';
+
+        $output =
 `openssl req -config $tmpfile -newkey rsa:2048 -keyout $keyfile $cmd -batch 2>&1`;
-    if ($?) {
-        umask($um);
-        return ( 0,
-                "Unable to create certificate"
-              . ( $self ? '' : ' request' )
-              . ": <pre>$output</pre>" );
-    }
+        if ($?) {
+            umask($um);
+            return ( 0,
+                    "Unable to create certificate"
+                  . ( $self ? '' : ' request' )
+                  . ": <pre>$output</pre>" );
+        }
 
     # Get key into the right format (RSA PRIVATE KEY, not ENCRYPTED PRIVATE KEY)
-    my $keyoutput =
-      `openssl rsa -in $keyfile -out $keyfile -des3 2>&1 <<+++EOF+++
+        $keyoutput =
+          `openssl rsa -in $keyfile -out $keyfile -des3 2>&1 <<+++EOF+++
 $keypass
 $keypass
 $keypass
 +++EOF+++
 `;
+    }
     umask($um);
     if ($?) {
         return ( 0, "Unable to convert private key: <pre>$keyoutput</pre>" );

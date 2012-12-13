@@ -57,7 +57,12 @@ sub showCSR {
         return $this->ERROR("No CSR pending");
     }
 
-    my $output = `openssl req -in $csrfile -batch -subject -text 2>&1`;
+    my $output;
+    {
+        no warnings 'exec';
+
+        $output = `openssl req -in $csrfile -batch -subject -text 2>&1`;
+    }
     if ($?) {
         return $this->ERROR("Operation failed")
           . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
@@ -95,10 +100,15 @@ sub installCert {
         && $data =~ /^-----BEGIN CERTIFICATE-----/m
         && $data =~ /^-----END CERTIFICATE-----/m );
 
-    my $output = `openssl x509 -text 2>&1 <<~~~EOF---
+    my $output;
+    {
+        no warnings 'exec';
+
+        $output = `openssl x509 -text 2>&1 <<~~~EOF---
 $data
 ~~~EOF---
 `;
+    }
     if ($?) {
         return $this->ERROR("Operation failed")
           . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
@@ -155,7 +165,11 @@ sub showCert {
 
     my $output = "===== Certificate Details =====\n";
 
-    $output .= `openssl x509 -in $certfile -text -noout 2>&1`;
+    {
+        no warnings 'exec';
+
+        $output .= `openssl x509 -in $certfile -text -noout 2>&1`;
+    }
     if ($?) {
         return $this->ERROR("Operation failed on $certfile")
           . $this->FB_VALUE( '{ConfigureGUI}{SMIME}{InstallCert}', $output );
