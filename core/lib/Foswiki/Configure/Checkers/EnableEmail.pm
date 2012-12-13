@@ -236,6 +236,7 @@ sub autoconfigProgram {
                   . " and Net::SMTP configuration failed.  Please correct the Net::SMTP parameters, or configure a mail program manually."
               )
               . $scroll
+              . $this->FB_VALUE( '{Email}{MailMethod}', 'Net::SMTP' )
         );
     }
     if ( $seen && $perlAvail ) {
@@ -257,6 +258,7 @@ sub autoconfigProgram {
               . ". and Net::SMTP configuration failed.  Please correct the Net::SMTP parameters, or install a mail program."
           )
           . $scroll
+          . $this->FB_VALUE( '{Email}{MailMethod}', 'Net::SMTP' )
     );
 }
 
@@ -287,10 +289,15 @@ sub mailwrapperConfig {
 sub diagnoseFailure {
     my ( $noconnect, $allconnect ) = @_;
 
-    my $selStatus = system("selinuxenabled");
-    my $blameSEL  = 1
-      unless ( $selStatus == -1
-        || ( ( $selStatus >> 8 ) && !( $selStatus & 127 ) ) );
+    my $blameSEL;
+    {
+        no warnings 'exec';
+
+        my $selStatus = system("selinuxenabled");
+        $blameSEL = 1
+          unless ( $selStatus == -1
+            || ( ( $selStatus >> 8 ) && !( $selStatus & 127 ) ) );
+    }
 
     my $e .= << "SELINUX";
 <strong>Note:</strong> SELinux appears to be enabled on your system.
