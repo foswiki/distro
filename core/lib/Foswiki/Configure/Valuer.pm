@@ -48,12 +48,9 @@ sub _getValue {
     my $var  = '$this->{' . $set . '}->' . $keys;
     my $val;
     eval '$val = ' . $var . ' if exists(' . $var . ')';
-    die "Unable to obtain value from $var.  eval failed with $@\n" if ($@);
-    if ( defined $val ) {
+    die("Unable to obtain value from $var.  eval failed with $@\n") if ($@);
+    if ( defined $val && $value->getTypeName eq 'REGEX' ) {
 
-        # SMELL: Really shouldn't do this unless we are sure it's an RE,
-        # but the probability of this string occurring elsewhere than an
-        # RE is so low that we can afford to take the risk.
         # Note:  Perl 5.10 has use re qw(regexp_pattern); to decompile a pattern
         #        my $pattern = regexp_pattern($val);
         while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
@@ -105,6 +102,9 @@ sub loadCGIParams {
 
     # Each config param has an associated TYPEOF: param, so we only
     # pick up those things that we really want
+    # Items may have an associated "Enable" item; if they do, and
+    # Enable is not set, the item's value is undef'd.
+
     foreach $param ( $query->param ) {
         next unless $param =~ /^TYPEOF:($configItemRegex)/;    #
 
@@ -118,15 +118,22 @@ sub loadCGIParams {
         my $type = Foswiki::Configure::Type::load( $typename, $keys );
 
         my $newval = '';
-        if ( $typename =~ m/GROUP/ ) {
-            my @values = $query->param($keys);
-            $newval = $type->string2value(@values);
-        }
-        elsif ( $type->{NeedsQuery} ) {
-            $newval = $type->string2value( $query, $keys );
+        my $ename  = $keys;
+        $ename =~ s/\}$/_\}/;
+        if ( $query->param("TYPEOF:$ename") && !$query->param($ename) ) {
+            undef $newval;
         }
         else {
-            $newval = $type->string2value( $query->param($keys) );
+            if ( $typename =~ m/GROUP/ ) {
+                my @values = $query->param($keys);
+                $newval = $type->string2value(@values);
+            }
+            elsif ( $type->{NeedsQuery} ) {
+                $newval = $type->string2value( $query, $keys );
+            }
+            else {
+                $newval = $type->string2value( $query->param($keys) );
+            }
         }
         my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;

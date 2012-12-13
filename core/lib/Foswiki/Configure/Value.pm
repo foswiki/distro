@@ -23,10 +23,10 @@ package Foswiki::Configure::Value;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Item ();
+require Foswiki::Configure::Item;
 our @ISA = ('Foswiki::Configure::Item');
 
-use Foswiki::Configure::Type ();
+require Foswiki::Configure::Type;
 
 our $VALUE_TYPE = {
     CURRENT => ( 1 << 0 ),    # 1
@@ -318,11 +318,13 @@ asString( $valuer, $valueType) -> $value
 sub asString {
     my ( $this, $valuer, $type ) = @_;
 
-    $type = $VALUE_TYPE->{CURRENT} if !defined $type;
     my $value;
-    $value = $valuer->currentValue($this) if $type == $VALUE_TYPE->{CURRENT};
-    $value = $valuer->defaultValue($this) if $type == $VALUE_TYPE->{DEFAULT};
-
+    if ( !defined $type || $type == $VALUE_TYPE->{CURRENT} ) {
+        $value = $valuer->currentValue($this);
+    }
+    elsif ( $type == $VALUE_TYPE->{DEFAULT} ) {
+        $value = $valuer->defaultValue($this);
+    }
     $value ||= '';
 
     # DEBUG: I don't think these 'Type's exist - no evidence of them.

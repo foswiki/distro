@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.112";
+        var VERSION = "v3.113";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -648,6 +648,26 @@ configure.utils = (function () {
 
 /**
 Global function
+Called from enable box
+*/
+function enableChanged( elem, ifield ) {
+    var input = $('[name="' + configure.utils.quoteName(ifield) + '"]'),
+        link;
+    if( elem.checked ) {
+        link = $('[name="' + configure.utils.quoteName(ifield) + 'deflink"]');
+        link.each(function () {
+            input.val(this.defaultValue);
+            return false;
+        });
+    } else {
+        input.val('');
+    }
+    valueChanged(input.get(0));
+    return true;
+}
+
+/**
+Global function
 Called from "reset to default" link.
 Values are set in UIs/Value.pm
 */
@@ -756,7 +776,8 @@ function valueChanged(el) {
     "use strict";
     switch (el.type.toLowerCase()) {
     case "text":
-        if( $(el).hasClass('configureHasTestImage') ) {
+        var jel = $(el);
+        if( jel.hasClass('configureHasTestImage') ) {
             $('[name="' + configure.utils.quoteName(el.name+'TestImage') + '"]').
                 attr('src','').
                 each(function () { 
@@ -764,8 +785,17 @@ function valueChanged(el) {
                     this.src = el.value + $(this).attr('testImg');
                     return true;
                 });
+        }
+        if( el.value.length && jel.hasClass('configureHasEnable') ) {
+            $('[name="' + configure.utils.quoteName(el.name.replace(/\}$/,'_}')) + '"]').each(function() {
+                if( !this.checked ) {
+                    this.checked = true;
+                }
+                return true;
+            });
             if( false ) break; /* For jslint */
         }
+
         /* Fall into  standard flow */
     case "select-one":
     case "select-multiple":

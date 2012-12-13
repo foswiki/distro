@@ -229,7 +229,24 @@ sub check {
         if ( eval "require URI;" ) {
             my $uri = URI->new($value);
             if ($uri) {
-                my $canon = $uri->canonical();
+                my $can   = $uri->canonical();
+                my $canon = '';
+                my $p     = $can->scheme;
+                $canon .= $p . ':'
+                  if ( defined $p && $parts->{scheme} );
+                $p = $can->authority;
+                $canon .= '//' . $p
+                  if ( defined $p && $parts->{authority} );
+                $p = $can->path;
+                $canon .= $p
+                  if ( defined $p && $parts->{path} );
+                $p = $can->query;
+                $canon .= '?' . $p
+                  if ( defined $p && $parts->{query} );
+                $p = $can->fragment;
+                $canon .= '#' . $p
+                  if ( defined $p && $parts->{fragment} );
+
                 if ( $canon ne $value ) {
                     $this->setItemValue( $canon, $keys );
                     if ( exists $this->{GuessedValue} ) {
@@ -266,12 +283,12 @@ sub provideFeedback {
 
     delete $this->{FeedbackProvided};
 
-    if ( $this->{GuessedValue} ) {
+    if ( defined $this->{GuessedValue} ) {
         $e .=
             $this->guessed(0)
           . $this->FB_VALUE( $keys, delete $this->{GuessedValue} );
     }
-    elsif ( $this->{UpdatedValue} ) {
+    elsif ( defined $this->{UpdatedValue} ) {
         $e .= $this->FB_VALUE( $keys, delete $this->{UpdatedValue} );
     }
     if ( delete $this->{JSContent} ) {

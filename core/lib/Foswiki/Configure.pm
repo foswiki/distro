@@ -44,7 +44,7 @@ our %EXPORT_TAGS = (
     config =>
       [qw/$badLSC $insane $sanityStatement $unsavedChangesNotice $defaultCfg/],
     feedback => [qw/$pendingChanges $changesDiscarded/],
-    keys     => [qw/$configItemRegex /],
+    keys     => [qw/$configItemRegex/],
     session  => [
         qw/SESSIONEXP COOKIEEXP SAVEEXP RESOURCEEXP COOKIENAME RESOURCECACHETIME SESSION_DSN RT80346/,
         qw/establishSession/,
@@ -80,7 +80,7 @@ use constant SESSIONEXP  => '60m';            # Lifetime of interactive session
 use constant COOKIEEXP   => '61m';            # Lifetime of cookie
 use constant SAVEEXP     => '5m';             # Lifetime of cached save password
 use constant RESOURCEEXP => '1m';             # Resource access window
-use constant COOKIENAME  => 'FOSWIKICFG3SID'; # Change with DSN
+use constant COOKIENAME  => 'FOSWIKICFG4SID'; # Change with DSN
 
 use constant RESOURCECACHETIME => ( 30 * 24 * 60 * 60 )
   ;                                           # MAX-AGE of cached resources

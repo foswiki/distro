@@ -1,42 +1,26 @@
 # See bottom of file for license and copyright information
 
-=begin TML
-
----+ package Foswiki::Configure::UIs::TESTEMAIL
-
-This package is a placeholder for creating a UI for the <nop>*TESTEMAIL*
-section. It provides specialised rendering by prepending the normal section
-rendering with the 'findextensionsinfo' template.
-
-=cut
-
-package Foswiki::Configure::UIs::TESTEMAIL;
+package Foswiki::Configure::Types::SCRIPTHASH;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::UIs::Section ();
-our @ISA = ('Foswiki::Configure::UIs::Section');
+require Foswiki::Configure::Types::URLPATH;
+our @ISA = ('Foswiki::Configure::Types::URLPATH');
 
-# See Foswiki::Configure::UIs::Section
-sub renderHtml {
-    my ( $this, $section, $root, $output ) = @_;
+require Foswiki::Configure::Checkers::ScriptUrlPaths;
 
-    # Check that the UI that does the actual installation is loadable.
-    # If this fails, an appropriate error will be generated in the template.
-    my $bad = 0;
-    eval "require Foswiki::Configure::UIs::EXTEND";
-    $bad = 1 if ($@);
+sub new {
+    my $class = shift;
 
-    print STDERR "$@\n" if $bad;
+    return bless( { name => 'SCRIPTHASH' }, $class );
+}
 
-    my $template = Foswiki::Configure::UI::getTemplateParser()
-      ->readTemplate('testemailintro');
-    $template = Foswiki::Configure::UI::getTemplateParser()
-      ->parse( $template, { 'hasError' => $bad, } );
-    $output .= $template;
-    $output = $this->SUPER::renderHtml( $section, $root, $output );
-    return $output;
+sub makeChecker {
+    my $type = shift;
+    my ( $item, $keys ) = @_;
+
+    return Foswiki::Configure::Checkers::ScriptUrlPaths->new($item);
 }
 
 1;

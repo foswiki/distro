@@ -315,7 +315,16 @@ sub showExpandedValue {
         }
     }
     else {
-        $msg = $this->WARN('The value of this field is undefined');
+        my $exempt = $this->{item}{opts} =~ /\bU\b/;
+
+        if ( !$exempt && $this->{item}{opts} =~ /\bE\b/ ) {
+            my $ekeys = $this->{item}->getKeys;
+            $ekeys =~ s/\}$/_\}/;
+            $exempt = !$this->getItemCurrentValue($ekeys);
+        }
+
+        $msg = $this->WARN('The value of this field is undefined')
+          unless ($exempt);
     }
 
     return $msg;

@@ -176,6 +176,10 @@ sub handleRequest {
     my $req = shift;
 
     my $res;
+    if ( $req->queryParam('configurationTest') ) {
+        require Foswiki::Configure::ImageTest;
+        return Foswiki::Configure::ImageTest::respond($req);
+    }
     my $dispatcher = $Foswiki::cfg{SwitchBoard}{ $req->action() };
     unless ( defined $dispatcher ) {
         $res = new Foswiki::Response();

@@ -90,40 +90,6 @@ sub _actionConfigure {
     htmlResponse($html);
 }
 
-# ######################################################################
-# Test Email
-# ######################################################################
-
-sub _authenticateTestEmail {
-
-    establishSession( $_[1], $_[2] );
-    my ( $action, $session, $cookie ) = @_;
-
-    _loadSiteConfig();
-
-    if ( loggedIn($session) ) {
-        $messageType = $MESSAGE_TYPE->{OK};
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session) if ( $query->param('cfgAccess') );
-        return;
-    }
-
-    lscRequired( $action, $session, $cookie );
-
-    ( my $authorised, $messageType ) =
-      Foswiki::Configure::UI::authorised($query);
-
-    if ($authorised) {
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session) if ( $query->param('cfgAccess') );
-        return;
-    }
-
-    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
-
-    # does not return
-}
-
 =pod
 
 NOTE: the html markup should really be in a template!

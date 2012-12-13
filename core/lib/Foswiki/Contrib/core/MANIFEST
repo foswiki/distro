@@ -590,6 +590,7 @@ lib/Foswiki/Configure/Checkers/ScriptDir.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptSuffix.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPaths/view.pm 0444
+lib/Foswiki/Configure/Checkers/ScriptUrlPaths.pm 0444
 lib/Foswiki/Configure/Checkers/Sessions/ExpireAfter.pm 0444
 lib/Foswiki/Configure/Checkers/Site/CharSet.pm 0444
 lib/Foswiki/Configure/Checkers/Site/Locale.pm 0444
@@ -618,6 +619,7 @@ lib/Foswiki/Configure/Feedback.pm 0444
 lib/Foswiki/Configure/Feedback/Cart.pm 0444
 lib/Foswiki/Configure/FoswikiCfg.pm 0444
 lib/Foswiki/Configure/GlobalControls.pm 0444
+lib/Foswiki/Configure/ImageTest.pm 0444
 lib/Foswiki/Configure/Item.pm 0444
 lib/Foswiki/Configure/Load.pm 0444
 lib/Foswiki/Configure/MainScreen.pm 0444
@@ -628,7 +630,7 @@ lib/Foswiki/Configure/Pluggables/AUDIT.spec 0444
 lib/Foswiki/Configure/Pluggables/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/Pluggables/LANGUAGES.pm 0444
 lib/Foswiki/Configure/Pluggables/PLUGINS.pm 0444
-lib/Foswiki/Configure/Pluggables/TESTEMAIL.pm 0444
+lib/Foswiki/Configure/Pluggables/SCRIPTHASH.pm 0444
 lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
 lib/Foswiki/Configure/TemplateParser.pm 0444
@@ -648,6 +650,7 @@ lib/Foswiki/Configure/Types/PATH.pm 0444
 lib/Foswiki/Configure/Types/PATHINFO.pm 0444
 lib/Foswiki/Configure/Types/PERL.pm 0444
 lib/Foswiki/Configure/Types/REGEX.pm 0444
+lib/Foswiki/Configure/Types/SCRIPTHASH.pm 0444
 lib/Foswiki/Configure/Types/SELECT.pm 0444
 lib/Foswiki/Configure/Types/SELECTCLASS.pm 0444
 lib/Foswiki/Configure/Types/STRING.pm 0444
@@ -667,7 +670,6 @@ lib/Foswiki/Configure/UIs/MSWin32.pm 0444
 lib/Foswiki/Configure/UIs/PLUGINS.pm 0444
 lib/Foswiki/Configure/UIs/Root.pm 0444
 lib/Foswiki/Configure/UIs/Section.pm 0444
-lib/Foswiki/Configure/UIs/TESTEMAIL.pm 0444
 lib/Foswiki/Configure/UIs/UPDATE.pm 0444
 lib/Foswiki/Configure/UIs/Value.pm 0444
 lib/Foswiki/Configure/UIs/Welcome.pm 0444
@@ -735,7 +737,6 @@ lib/Foswiki/Configure/templates/saveresults.tmpl 0444
 lib/Foswiki/Configure/templates/section.tmpl 0444
 lib/Foswiki/Configure/templates/sessiontimeout.tmpl 0444
 lib/Foswiki/Configure/templates/simpleauditresults.tmpl 0444
-lib/Foswiki/Configure/templates/testemailintro.tmpl 0444
 lib/Foswiki/Configure/templates/unsaveditemdetail.tmpl 0444
 lib/Foswiki/Contrib/core/DEPENDENCIES 0444
 lib/Foswiki/Contrib/core/MANIFEST 0444 #just the foswiki core module files

@@ -22,7 +22,7 @@ use version 0.77;
 
 # minimum version of client JavaScript that configure requires.
 #
-my $minScriptVersion = version->parse("v3.112");
+my $minScriptVersion = version->parse("v3.113");
 
 use Foswiki::Configure (qw/:DEFAULT :auth :cgi :config :session :trace/);
 
@@ -245,17 +245,6 @@ sub _validateSavechanges {
 }
 
 sub _validateMakemorechanges {
-    my ( $action, $session, $cookie ) = @_;
-
-    if ( $query->request_method() ne 'POST' ) {
-        invalidRequest( "", 405, Allow => 'POST' );
-    }
-
-    ::_loadBasicModule('Foswiki::Configure::MainScreen');
-    return;
-}
-
-sub _validateTestEmail {
     my ( $action, $session, $cookie ) = @_;
 
     if ( $query->request_method() ne 'POST' ) {
@@ -925,7 +914,8 @@ sub newCookie {
 
     my @pars = ( -name => COOKIENAME, -value => $session->id );
     push @pars, -secure => 1 if ( $ENV{HTTPS} && $ENV{HTTPS} eq 'on' );
-    push @pars, -path => $scriptName if ($scriptName);
+
+    # Can't include path since we test short URLs.
     push @pars, -expires => "+" . COOKIEEXP;
     $cookie = CGI->cookie(@pars);
     return $cookie;

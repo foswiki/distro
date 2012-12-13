@@ -1070,3 +1070,16 @@ div.configureSaveForm div.configureLogEntryHelp {
 }
 .configureHasTestImage {
 }
+.configureHasEnable {
+}
+input.configureItemEnable {
+    padding: 0px;
+    margin: 0px;
+    width:20px;
+}
+td.configureItemEnable {
+    width:25px;
+    padding: 10px 0 0 0;
+    margin: 0px;
+    vertical-align:top;
+}

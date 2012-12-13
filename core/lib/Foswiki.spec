@@ -60,7 +60,7 @@
 # to return the <code>DefaultUrlHost</code>.</p>
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URLPATH CHECK="expand" M**
+# **URLPATH CHECK="expand" T M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory e.g. <code>/foswiki/bin</code><br />
 # Do <b>not</b> include a trailing /.
@@ -70,7 +70,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # be manually added to <code>lib/LocalSite.cfg</code>
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **URLPATH CHECK='expand nullok' M**
+# **URLPATH CHECK='expand nullok' T E M U**
 # This is the complete path used to access the Foswiki view script including any suffix.  Do not include a trailing /.
 # (This is an exception override, so the ScriptSuffix is not automatically added.)
 # e.g. <code>/foswiki/bin/view.pl</code><br />  Note:  The default is acceptable except when shorter URLs are used.
@@ -85,6 +85,9 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">Shorter URL Cookbook</a>
 $Foswiki::cfg{ScriptUrlPaths}{view} =
   '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
+
+#! The following plugin must follow all other {ScriptUrlPaths} items
+# *SCRIPTHASH*
 
 # **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin" M**
 # This is the file system path used to access the Foswiki bin

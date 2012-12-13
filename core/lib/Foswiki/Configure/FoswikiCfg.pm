@@ -113,6 +113,10 @@ sub load {
             my ( $this, $visitee ) = @_;
 
             if ( $visitee->isa('Foswiki::Configure::Value') ) {
+
+                # See if this item is exempt
+
+                return 1 if ( $visitee->{opts} =~ /\bU\b/ );
                 my $valuer = $this->{valuer};
 
                 my $ok = eval {

@@ -192,8 +192,13 @@ qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autoche
     );
 
     my $resetToDefaultLinkText = '';
-    if ( $value->needsSaving( $root->{valuer} ) ) {
 
+    # if ( $value->needsSaving( $root->{valuer} ) ) {
+    {
+        # Since Feedback allows values to change without a screen
+        # refresh, we always generate a ResetToDefault link.
+        # This can result in "stored" and "default" values
+        # being the same, but I don't think it matters...
         my $valueString;
         {
 
@@ -220,8 +225,9 @@ qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autoche
         #$valueString =~ s/\'/\\'/go;
         #$valueString =~ s/\n/\\n/go;
         $valueString = $this->urlEncode($valueString);
+
         $resetToDefaultLinkText .= <<HERE;
-<a href='#' title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$valueString')"><span class="configureDefaultValueLinkLabel">&nbsp;</span><span class='configureDefaultValueLinkValue'>$defaultDisplayValue</span></a>
+<a href='#' name="${keys}deflink" title='$defaultDisplayValue' class='$value->{typename} configureDefaultValueLink' onclick="return resetToDefaultValue(this,'$value->{typename}','$safeKeys','$valueString')"><span class="configureDefaultValueLinkLabel">&nbsp;</span><span class='configureDefaultValueLinkValue'>$defaultDisplayValue</span></a>
 HERE
 
         $resetToDefaultLinkText =~ s/^[[:space:]]+//s;    # trim at start
@@ -229,6 +235,7 @@ HERE
     }
 
     my $control      = '';
+    my $enable       = '&nbsp;';
     my $currentValue = $root->{valuer}->currentValue($value);
     unless ( defined $currentValue ) {
 
@@ -257,6 +264,20 @@ HERE
         $promptclass .= ' configureMandatory' if ( $value->{mandatory} );
         $promptclass .= ' configureHasTestImage'
           if ( $value->{opts} =~ /\bT\b/ );
+        if ( $value->{opts} =~ /\bE\b/ ) {
+            $promptclass .= ' configureHasEnable';
+
+            my $name = $keys;
+            $name =~ s/\}$/_\}/;
+            $hiddenTypeOf .=
+              Foswiki::Configure::UI::hidden( 'TYPEOF:' . $name, 'BOOLEAN' );
+            $enable =
+qq{<input type="checkbox" name="$name" value="1" class="BOOLEAN configureItemEnable" };
+            $enable .= qq{checked="checked"}
+              if ( defined $currentValue );
+            $enable .= qq{ onchange="return enableChanged(this,'$keys');">};
+        }
+
         eval {
             $control .=
               $type->prompt( $keys, $value->{opts}, $currentValue,
@@ -292,6 +313,7 @@ HERE
       qq{<div id="${keys}status" class="configureFeedback" >$check</div>};
     $output .= CGI::Tr( \%props,
             CGI::th("$index$feedback$hiddenTypeOf")
+          . CGI::td( { class => 'configureItemEnable' }, $enable )
           . CGI::td("$control&nbsp;$resetToDefaultLinkText$check$helpText")
           . CGI::td( { class => "configureHelp" }, $helpTextLink ) )
       . "\n";
