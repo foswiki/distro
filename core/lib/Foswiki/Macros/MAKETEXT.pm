@@ -4,8 +4,18 @@ package Foswiki;
 use strict;
 use warnings;
 
+use Locale::Maketext;
+my $escape =
+  (      $Foswiki::cfg{UserInterfaceInternationalisation}
+      && $Locale::Maketext::VERSION
+      && $Locale::Maketext::VERSION < 1.23 );
+
 sub MAKETEXT {
     my ( $this, $params ) = @_;
+
+    my $max;
+    my $min;
+    my $param_error;
 
     my $str = $params->{_DEFAULT} || $params->{string} || "";
     return "" unless $str;
@@ -18,14 +28,21 @@ sub MAKETEXT {
     $str =~ s/~~\[/~[/g;
     $str =~ s/~~\]/~]/g;
 
+    $max         = 0;
+    $min         = 1;
+    $param_error = 0;
+
     # unescape parameters and calculate highest parameter number:
-    my $max = 0;
-    $str =~ s/~\[(\_(\d+))~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
+    $str =~ s/~\[(\_(\d+))~\]/_validate($1, $2, $max, $min, $param_error)/ge;
     $str =~
-s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
+s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_error)/ge;
+    return $str if ($param_error);
 
     # get the args to be interpolated.
     my $argsStr = $params->{args} || "";
+
+    # Escape any escapes.
+    $str =~ s#\\#\\\\#g if ($escape);    # escape any escapes
 
     my @args = split( /\s*,\s*/, $argsStr );
 
@@ -45,6 +62,26 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
     $result =~ s/&&/\&/g;
 
     return $result;
+}
+
+sub _validate {
+
+    #my ( $contents, $number, $max, $min, $param_error ) = @_
+
+    $_[2] = $_[1] if ( $_[1] > $_[2] );    # Record maximum param number
+    $_[3] = $_[1] if ( $_[1] < $_[3] );    # Record minimum param number
+
+    if ( $_[1] > 100 ) {
+        $_[4] = 1;                         # Set error flag
+        return
+"<span class=\"foswikiAlert\">Excessive parameter number $_[2], MAKETEXT rejected.</span>";
+    }
+    if ( $_[1] < 1 ) {
+        $_[4] = 1;                         # Set error flag
+        return
+"<span class=\"foswikiAlert\">Invalid parameter <code>\"$_[0]\"</code>, MAKETEXT rejected.</span>";
+    }
+    return "[$_[0]]";    # Return the complete bracket parameter without escapes
 }
 
 1;
