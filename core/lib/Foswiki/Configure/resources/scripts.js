@@ -9,11 +9,11 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.113";
+        var VERSION = "v3.115";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
-	var expertsMode = '',
+	var expertsMode = false,
 	    tabLinks = {},
         menuState = {
             main: undefined,
@@ -140,33 +140,40 @@ var configure = (function ($) {
             });
         },
 
-		toggleExpertsMode: function (modeName) {
-		    var mode = getUrlParam(modeName),
-		        antimode;
-            if (mode !== undefined && mode !== '') {
-                /* convert value to a css value */
-                expertsMode = (mode === '1' ? '' : 'none');
-            } else {
-                /* toggle */
-                expertsMode = (expertsMode === 'none' ? '' : 'none');
-            }
+	 toggleExpertsMode: function (modeName) {
+	     var mode,
+	     isClass;
 
-            antimode = (expertsMode === 'none' ? '' : 'none');
-            /* toggle table rows */
-            $('tr.configureExpert').each(function () {
-                $(this).css("display", expertsMode);
-            });
-            $('tr.configureNotExpert').each(function () {
-                $(this).css("display", antimode);
-            });
-            /* toggle links */
-            $('a.configureExpert').each(function () {
-                $(this).css("display", expertsMode);
-            });
-            $('a.configureNotExpert').each(function () {
-                $(this).css("display", antimode);
-            });
-        },
+             if( modeName !== undefined ) {
+                 if( modeName !== '' ) {
+                     mode = getUrlParam(modeName);
+                     if (mode !== undefined ) {
+                         /* convert value to boolean */
+                         expertsMode = (mode === '1' ? true : false);
+                     }
+                 }
+             } else {
+                 /* toggle */
+                 expertsMode = !expertsMode;
+             }
+
+             isClass = expertsMode? 'configureExpert' : 'configureNotExpert';
+
+             $('tr.configureExpert,tr.configureNotExpert,a.configureExpert,a.configureNotExpert').
+                 each(function () {
+                     var ele = $(this);
+
+                     if( ele.hasClass(isClass) ||
+                         ele.filter('tr.configureExpert').
+                             find('div.configureWarning,div.configureError').size() ) {
+                         ele.removeClass('foswikiMakeHidden');
+                     } else {
+                         ele.addClass('foswikiMakeHidden');
+                     }
+
+                     return true;
+                 });
+         },
 
         getDefaultSub: function (inMainId) {
             return menuState.defaultSub[inMainId];
@@ -421,6 +428,8 @@ var configure = (function ($) {
          * error and warning counts.  These are initally set with checker results with the
          * main page is built, and updated when changed by feedback.  updateIndicators
          * pushes the values up to the tabs and status line, mostly by adjusting classes.
+         * It also updates any expert settings forced visible in non-expert mode due to
+         * warnings or errors.
          */
 
         updateIndicators: function () {
@@ -600,6 +609,10 @@ var configure = (function ($) {
                 $('#configureFixSoon').remove();
             }
             $('#configureErrorSummary').html(statusLine);
+
+            if( !expertsMode ) {
+                configure.toggleExpertsMode( '' );
+            }
             return true;
         },
         getVERSION: function () {
@@ -1347,19 +1360,11 @@ $(document).ready(function () {
     $(".tabli a").click(function () {
         return configure.showSection(this.sectionId);
     });
-    $("a.configureExpert").click(function () {
+    $("a.configureExpert,a.configureNotExpert").click(function () {
         configure.toggleExpertsMode();
         return false;
     });
-    $("a.configureNotExpert").click(function () {
-        configure.toggleExpertsMode();
-        return false;
-    });
-    $("a.configureInfoText").click(function () {
-        configure.toggleInfoMode();
-        return false;
-    });
-    $("a.configureNotInfoText").click(function () {
+    $("a.configureInfoText,a.configureNotInfoText").click(function () {
         configure.toggleInfoMode();
         return false;
     });
@@ -1374,18 +1379,6 @@ $(document).ready(function () {
     });
     $(":input.foswikiFocus").each(function () {
         this.focus();
-    });
-    $(".configureRootSection table.configureSectionValues div.configureError").each(function () {
-        var row = $(this).closest('tr').get(0);
-        if (row) {
-            $(row).removeClass('configureExpert');
-        }
-    });
-    $(".configureRootSection table.configureSectionValues div.configureWarning").each(function () {
-        var row = $(this).closest('tr').get(0);
-        if (row) {
-            $(row).removeClass('configureExpert');
-        }
     });
     $("#closeMessages").click(function () {
         $("#messages").hide();
@@ -1413,7 +1406,11 @@ $(document).ready(function () {
 
     $("[data-displayif]").each(function () {
         add_dependency($(this), "displayif", function ($el, tf) {
-            $el.toggle(tf);
+            if( tf ) {
+                $($el).removeClass('configureDisplayHidden' );
+            } else {
+                $($el).addClass('configureDisplayHidden' );
+            }
         });
     });
     $("[data-enableif]").each(function () {

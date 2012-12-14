@@ -4,8 +4,8 @@ package Foswiki::Configure::Checkers::Sessions::ExpireAfter;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+require Foswiki::Configure::Checkers::NUMBER;
+our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 
 sub check {
     my $this = shift;
@@ -13,6 +13,9 @@ sub check {
     return '' unless $Foswiki::cfg{UseClientSessions};
 
     my $e = '';
+    $e .= $this->SUPER::check(@_);
+    return $e if ( $e =~ /Error:/ );
+
     if ( $Foswiki::cfg{Sessions}{ExpireAfter} < 0 ) {
         $e .= $this->WARN(<<'MESSAGE');
 Foswiki will *not* clean up sessions automatically. Make sure you

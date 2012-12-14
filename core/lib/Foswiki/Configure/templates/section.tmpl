@@ -17,6 +17,6 @@
 <#if description??>${description}</#if>
 
 <#-- any contents (table) -->
-<#if contents??>${contents?replace("CONFIGURE_EXPERT_LINK", "<span><a class='configureExpert' style='display:none' href='#'>Hide expert options</a><a class='configureNotExpert foswikiMakeVisible' style='display:none' href='#'>Show expert options</a></span>")?replace("CONFIGURE_INFO_LINK", "<span><a class='configureInfoText foswikiMakeVisible' href='#'>Hide all info</a><a class='configureNotInfoText foswikiMakeVisible' href='#'>Show all info</a></span>")}</#if>
+<#if contents??>${contents?replace("CONFIGURE_EXPERT_LINK", "<span><a class='configureExpert configureMakeHidden' href='#'>Hide expert options</a><a class='configureNotExpert foswikiMakeHidden' href='#'>Show expert options</a></span>")?replace("CONFIGURE_INFO_LINK", "<span><a class='configureInfoText foswikiMakeVisible' href='#'>Hide all info</a><a class='configureNotInfoText foswikiMakeVisible' href='#'>Show all info</a></span>")}</#if>
 
 </div><!--/${id}Body-->

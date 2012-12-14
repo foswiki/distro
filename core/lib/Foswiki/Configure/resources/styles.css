@@ -1083,3 +1083,7 @@ td.configureItemEnable {
     margin: 0px;
     vertical-align:top;
 }
+/* Hidden by DisplayIF */ 
+.configureDisplayHidden {
+    display: none;
+}
