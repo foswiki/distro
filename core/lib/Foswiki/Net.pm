@@ -294,6 +294,8 @@ sub _installMailHandler {
         require Foswiki::Sandbox;
         $this->{MAIL_HOST} =
           Foswiki::Sandbox::untaintUnchecked( $this->{MAIL_HOST} );
+        $this->{MAIL_METHOD} =
+          Foswiki::Sandbox::untaintUnchecked( $this->{MAIL_METHOD} );
         eval "require $this->{MAIL_METHOD};";
         if ($@) {
             print STDERR ">>>> Failed to load $this->{MAIL_METHOD}: $@ \n";
@@ -563,7 +565,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
     my $smtp = 0;
 
-    my ( $host, $port ) = $this->{MAIL_HOST} =~ m/(.*):([0-9]{2-5})$/;
+    my ( $host, $port ) = $this->{MAIL_HOST} =~ m/^([^:]+)(?::([0-9]{2,5}))?$/;
     my @options = ( Host => $host, );
 
     push @options, Port => $port if ($port);
@@ -587,10 +589,27 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     #}
 
     if ( $this->{MAIL_METHOD} eq 'Net::SMTP::SSL' ) {
-        $smtp = Net::SMTP::SSL->new( $this->{MAIL_HOST}, @options );
+
+        package Foswiki::Net::Mail;
+        our @ISA = @Net::SMTP::ISA;
+
+        @Net::SMTP::ISA = __PACKAGE__;
+
+        sub new {
+            my $class = shift;
+            my $sock;
+            $sock =
+              IO::Socket::SSL->new( @_,
+                SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE() )
+              and bless $sock, $class;
+
+            return $sock;
+        }
+
+        $smtp = Net::SMTP::SSL->new(@options);
     }
     else {
-        $smtp = Net::SMTP->new( $this->{MAIL_HOST}, @options );
+        $smtp = Net::SMTP->new(@options);
     }
 
     my $status = '';
