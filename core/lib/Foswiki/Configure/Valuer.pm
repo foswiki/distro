@@ -124,11 +124,7 @@ sub loadCGIParams {
             undef $newval;
         }
         else {
-            if ( $typename =~ m/GROUP/ ) {
-                my @values = $query->param($keys);
-                $newval = $type->string2value(@values);
-            }
-            elsif ( $type->{NeedsQuery} ) {
+            if ( $type->{NeedsQuery} ) {
                 $newval = $type->string2value( $query, $keys );
             }
             else {

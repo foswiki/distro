@@ -8,6 +8,23 @@ use warnings;
 use Foswiki::Configure::Type ();
 our @ISA = ('Foswiki::Configure::Type');
 
+sub new {
+    my ( $class, $id ) = @_;
+
+    # Make Valuer.pm call string2value with query and item keys
+    # This allows retrieval of the multiple values.
+
+    my $self = bless(
+        {
+            name       => $id,
+            NeedsQuery => 1,
+        },
+        $class
+    );
+
+    return $self;
+}
+
 sub prompt {
     my ( $this, $id, $opts, $value, $class ) = @_;
 
@@ -38,9 +55,11 @@ sub prompt {
 }
 
 sub string2value {
-    my ( $this, @vals ) = @_;
+    my ( $this, $query, $keys ) = @_;
 
-    my $flat = join( ',', @vals );
+    my @values = $query->param($keys);
+
+    my $flat = join( ',', @values );
     return $flat;
 }
 
