@@ -1179,18 +1179,57 @@ htmldoc, >24.3,1,c,Required for generating PDF
 
 HERE
 
+my $INSTALL_ONLYIF = <<'HERE';
+        return "Removed $file" if unlink $file;
+    }
+
+    return;
+}
+
+Foswiki::Extender::install( $PACKAGES_URL, 'CommentPlugin', 'CommentPlugin', @DATA );
+
+1;
+our $VERSION = '2.1';
+# MANIFEST and DEPENDENCIES are done this way
+# to make it easy to extract them from this script.
+
+__DATA__
+<<<< MANIFEST >>>>
+bin/shbtest1,0755,1a9a1da563535b2dad241d8571acd170,
+data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
+data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+data/Sandbox/Subweb/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+pub/Sandbox/TestTopic1/file.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a, (noci)
+pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170,
+pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
+pub/Sandbox/Subweb/TestTopic43/file3.att,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+tools/shbtest2,0755,1a9a1da563535b2dad241d8571acd170,
+
+<<<< DEPENDENCIES >>>>
+Foswiki::Plugins::TriggerFoswikiOldAPI,>=0.1,( $Foswiki::Plugins::VERSION < 3.2 ),perl,Required
+Foswiki::Plugins::TriggerFoswikiGoodAPI,>=0.1,( $Foswiki::Plugins::VERSION > 2.1 ),perl,Required
+Foswiki::Plugins::TriggerOSLinux,>=0.1,( $^O eq 'linux' ),perl,Required
+Foswiki::Plugins::TriggerGoodFoswiki,>=0.1,( $Foswiki::VERSION < '1.1.1' ),perl,Required
+Foswiki::Plugins::TriggerOldFoswiki,>=0.1,( $Foswiki::VERSION < '3.2.1' ),perl,Required
+Foswiki::Plugins::TriggerSyntaxError,>=0.1, {no warnings 'exec'; my $sts = system('selinuxenabled'); return !($sts == -1 ||($sts>>8) && !($sts & 127)));} ,perl,Required
+Foswiki::Plugins::TriggerSELinux,>=0.1, {no warnings 'exec'; my $sts = system('selinuxenabled'); return !($sts == -1 ||($sts>>8) && !($sts & 127));} ,perl,Required
+
+HERE
+
 #
 # Utility subroutine to build the files for an installable package
 #
 sub _makePackage {
-    my ( $tempdir, $plugin ) = @_;
+    my ( $tempdir, $plugin, $alt ) = @_;
 
     open( my $fh, '>',
         "$tempdir/${plugin}_installer$Foswiki::cfg{ScriptSuffix}" )
       || die "Unable to open \n $! \n\n ";
     print $fh $INSTALL_HEAD;
     print $fh "        my \$file = \"$tempdir/obsolete.pl\";\n";
-    print $fh $INSTALL_FOOT;
+    my $foot = ($alt) ? $INSTALL_ONLYIF : $INSTALL_FOOT;
+    print $fh $foot;
     close($fh) or die "Couldn't close: $!\n";
     _makefile( "$tempdir/data/Sandbox", "TestTopic1.txt", <<'DONE');
 %META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
@@ -1238,6 +1277,65 @@ Test file data
 DONE
 
     return;
+}
+
+sub test_Package_dependencies {
+    my $this = shift;
+    my $root = $this->{rootdir};
+    use Foswiki::Configure::Package;
+    my $result = '';
+    my $err    = '';
+
+    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
+    rmtree($tempdir);    # Clean up old files if left behind
+    mkpath($tempdir);
+
+    _makefile( $tempdir, "obsolete.pl", <<'DONE');
+Test file data
+DONE
+
+    _makefile( "$this->{scriptdir}", "configure", <<'DONE');
+#! /my/bin/perl
+Test file data
+DONE
+
+    my $extension = "MyPlugin";
+    _makePackage( $tempdir, $extension, 1 );
+
+  #
+  #   Make sure that the package is removed, that no old topics were left around
+  #
+  #
+    my $pkg =
+      Foswiki::Configure::Package->new( $root, 'MyPlugin', $this->{session} );
+
+    ( $result, $err ) =
+      $pkg->loadInstaller( { DIR => $tempdir, USELOCAL => 1 } );
+
+    my ( $installed, $missing, $wiki, $install, $cpan ) =
+      $pkg->checkDependencies();
+
+    $this->assert_str_equals( $pkg->errors(), '' );
+    $this->assert_matches( qr/Foswiki::Plugins::TriggerFoswikiOldAPI/,
+        $missing );
+    $this->assert_matches( qr/Foswiki::Plugins::TriggerFoswikiGoodAPI/,
+        $missing );
+    $this->assert_matches( qr/Foswiki::Plugins::TriggerOSLinux/, $missing )
+      if ( $^O eq 'linux' );
+    $this->assert_does_not_match( qr/Foswiki::Plugins::TriggerOSLinux/,
+        $missing )
+      unless ( $^O eq 'linux' );
+    $this->assert_matches( qr/Foswiki::Plugins::TriggerOldFoswiki/, $missing );
+    $this->assert_does_not_match( qr/Foswiki::Plugins::TriggerGoodFoswiki/,
+        $missing );
+    $this->assert_does_not_match( qr/Foswiki::Plugins::TriggerSELinux/,
+        $missing );
+    $this->assert_matches(
+        qr/Foswiki::Plugins::TriggerSyntaxError.*-- syntax error/ms, $missing );
+
+    $pkg->finish();
+    undef $pkg;
+
 }
 
 sub test_Package_sub_install {

@@ -1444,7 +1444,8 @@ sub checkDependencies {
         ( my $trigger ) = $dep->{trigger} =~ /^(.*)$/s;
         my $required =
           eval "$trigger";  # Evaluate the trigger - if true, module is required
-        $missing .= " -- ONLYIF condition failed: contact developer.  $@ "
+        $missing .=
+" $dep->{module} **ERROR**\n -- ONLYIF \"$trigger\"\n -- ONLYIF condition failed: contact developer.\n -- $@ "
           if ($@);
         next unless $required;    # Skip the module - trigger was false
         my $trig = '';
