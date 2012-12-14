@@ -86,6 +86,7 @@ $.NatEditor = function(txtarea, opts) {
     }
   });  
 };
+
 /*************************************************************************
  * handles a tab event:
  * inserts spaces on tab, removes spaces on shift-tab
@@ -185,6 +186,7 @@ $.NatEditor.prototype.handleLineFeed = function(ev) {
 $.NatEditor.prototype.initGui = function() {
   var self = this, $txtarea, $headlineTools, $textTools, $paragraphTools,
     $listTools, $objectTools, $toggleTools, $toolbar, toolbarState, toggleToolbarState,
+    $devTools,
     tmp;
   //$.log("called initGui this=",self);
 
@@ -204,117 +206,108 @@ $.NatEditor.prototype.initGui = function() {
       $(self.opts.h1Button).click(function() {
         self.insertLineTag(self.opts.h1Markup);
         return false;
-      })).
+      }).wrap("<li />").parent()
+    ).
     append(
       $(self.opts.h2Button).click(function() {
         self.insertLineTag(self.opts.h2Markup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.h3Button).click(function() {
         self.insertLineTag(self.opts.h3Markup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.h4Button).click(function() {
         self.insertLineTag(self.opts.h4Markup);
         return false;
-      }));
+      }).wrap("<li />").parent());
 
   $textTools = $('<ul class="natEditButtonBox natEditButtonBoxText"></ul>').
     append(
       $(self.opts.boldButton).click(function() {
         self.insertTag(self.opts.boldMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.italicButton).click(function() {
         self.insertTag(self.opts.italicMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.monoButton).click(function() {
         self.insertTag(self.opts.monoMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.underlineButton).click(function() {
         self.insertTag(self.opts.underlineMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.strikeButton).click(function() {
         self.insertTag(self.opts.strikeMarkup);
         return false;
-      }));
+      }).wrap("<li />").parent());
 
   $paragraphTools = $('<ul class="natEditButtonBox natEditButtonBoxParagraph"></ul>').
     append(
       $(self.opts.leftButton).click(function() {
         self.insertTag(self.opts.leftMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.centerButton).click(function() {
         self.insertTag(self.opts.centerMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.rightButton).click(function() {
         self.insertTag(self.opts.rightMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.justifyButton).click(function() {
         self.insertTag(self.opts.justifyMarkup);
         return false;
-      }));
+      }).wrap("<li />").parent());
 
   $listTools = $('<ul class="natEditButtonBox natEditButtonBoxList"></ul>').
     append(
       $(self.opts.numberedButton).click(function() {
         self.insertLineTag(self.opts.numberedListMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.bulletButton).click(function() {
         self.insertLineTag(self.opts.bulletListMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.indentButton).click(function() {
         self.insertLineTag(self.opts.indentMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.outdentButton).click(function() {
         self.insertLineTag(self.opts.outdentMarkup);
         return false;
-      }));
+      }).wrap("<li />").parent());
 
-  $objectTools = $('<ul class="natEditButtonBox natEditButtonBoxObject"></ul>');
-
-  var $tableButton = $(self.opts.tableButton);
-  $objectTools.append($tableButton.wrap("<li />").parent());
-  $tableButton.
-    addClass("jqUIDialogLink").
-    attr("href", self.opts.tableDialog+';editor='+self.id);
-
-  var $linkButton = $(self.opts.linkButton);
-  $objectTools.append($linkButton.wrap("<li />").parent());
-  $linkButton.
-    addClass("jqUIDialogLink").
-    attr("href", self.opts.linkDialog+";editor="+self.id);
-
-if (0) { // temporary disabled
-  if (foswiki.getPreference("TopicInteractionPluginEnabled") && !foswiki.getPreference("TOPIC").match(/AUTOINC|XXXXXXXXXX/)) {
-    var $attachmentButton = $(self.opts.attachmentButton);
-    $objectTools.append($attachmentButton.wrap("<li />").parent());
-    $attachmentButton.
-      addClass("jqUIDialogLink").
-      attr("href", self.opts.attachmentDialog+";editor="+self.id);
-  }
-}
+  $objectTools = $('<ul class="natEditButtonBox natEditButtonBoxObject"></ul>').
+    append(
+      $(self.opts.tableButton).
+        addClass("jqUIDialogLink").
+        attr("href", self.opts.tableDialog+';editor='+self.id).
+        wrap("<li />").parent()
+    ).
+    append(
+      $(self.opts.linkButton).
+        addClass("jqUIDialogLink").
+        attr("href", self.opts.linkDialog+";editor="+self.id).
+        wrap("<li />").parent()
+    );
 
   if (foswiki.getPreference("MathModePluginEnabled")) {
     $objectTools.
@@ -322,7 +315,7 @@ if (0) { // temporary disabled
         $(self.opts.mathButton).click(function() {
           self.insertTag(self.opts.mathMarkup);
           return false;
-        }));
+        }).wrap("<li />").parent());
   }
 
   $objectTools.
@@ -330,27 +323,32 @@ if (0) { // temporary disabled
       $(self.opts.verbatimButton).click(function() {
         self.insertTag(self.opts.verbatimMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.signatureButton).click(function() {
         self.insertTag(self.opts.signatureMarkup);
         return false;
-      })).
+      }).wrap("<li />").parent());
+
+  $devTools = $('<ul class="natEditButtonBox natEditButtonBoxDev"></ul>').
     append(
       $(self.opts.escapeTmlButton).click(function() {
         self.transformSelection(self.opts.escapeTmlTransform);
         return false;
-      })).
+      }).wrap("<li />").parent()).
     append(
       $(self.opts.unescapeTmlButton).click(function() {
         self.transformSelection(self.opts.unescapeTmlTransform);
         return false;
-      }));
+      }).wrap("<li />").parent());
 
 
   $toggleTools = $('<ul class="natEditButtonBox natEditButtonBoxToggles"></ul>');
   if (self.opts.showWysiwyg) {
-    $toggleTools.append($(self.opts.wysiwygButton));
+    $toggleTools.append(
+      $(self.opts.wysiwygButton).
+        wrap("<li />").parent()
+    );
   }
 
   $toolbar = $('<div class="natEditToolBar"></div>');
@@ -368,6 +366,9 @@ if (0) { // temporary disabled
   }
   if (self.opts.showObjectTools) {
     $toolbar.append($objectTools);
+  }
+  if (self.opts.showDevTools) {
+    $toolbar.append($devTools);
   }
   if (self.opts.showToggleTools) {
     $toolbar.append($toggleTools);
@@ -780,10 +781,7 @@ $.NatEditor.prototype.insertTable = function(opts) {
  * }
  */
 $.NatEditor.prototype.insertLink = function(opts) {
-  var self = this,
-      markup,
-      baseWeb = foswiki.getPreference('WEB'),
-      baseTopic = foswiki.getPreference('TOPIC');
+  var self = this, markup;
 
   if (typeof(opts.url) !== 'undefined') {
     // external link
@@ -804,18 +802,34 @@ $.NatEditor.prototype.insertLink = function(opts) {
       return; // nop
     }
 
-    // TODO: create an %IMAGE link, use ATTACH...FORMAT pref settings
-
-    if (opts.web == baseWeb && opts.topic == baseTopic) {
-      markup = "[[%ATTACHURLPATH%/"+opts.file+"]";
+    if (opts.file.match(/\.(bmp|png|jpe?g|gif|svg)$/i) && foswiki.getPreference("ImagePluginEnabled")) {
+      markup = '%IMAGE{"'+opts.file+'"';
+      if (opts.web != self.opts.web || opts.topic != self.opts.topic) {
+        markup += ' topic="';
+        if (opts.web != self.opts.web) {
+          markup += opts.web+'.';
+        }
+        markup += opts.topic+'"';
+      }
+      if (typeof(opts.text) !== 'undefined' && opts.text != '') {
+        markup += ' caption="'+opts.text+'"';
+      }
+      markup += ' size="200"}%';
     } else {
-      markup = "[[%PUBURLPATH%/"+opts.web+"/"+opts.topic+"/"+opts.file+"]";
-    }
+      // linking to an ordinary attachment
 
-    if (typeof(opts.text) !== 'undefined' && opts.text != '') {
-      markup += "["+opts.text+"]";
-    } 
-    markup += "]";
+      if (opts.web == self.opts.web && opts.topic == self.opts.topic) {
+        markup = "[[%ATTACHURLPATH%/"+opts.file+"]";
+      } else {
+        markup = "[[%PUBURLPATH%/"+opts.web+"/"+opts.topic+"/"+opts.file+"]";
+      }
+
+      if (typeof(opts.text) !== 'undefined' && opts.text != '') {
+        markup += "["+opts.text+"]";
+      } 
+      markup += "]";
+
+    }
 
   } else {
     // wiki link
@@ -824,7 +838,7 @@ $.NatEditor.prototype.insertLink = function(opts) {
       return; // nop
     }
 
-    if (opts.web == baseWeb) {
+    if (opts.web == self.opts.web) {
       markup = "[["+opts.topic+"]";
     } else {
       markup = "[["+opts.web+"."+opts.topic+"]";
@@ -1025,31 +1039,31 @@ $.NatEditor.prototype.htmlEntities = function(text) {
  * plugin defaults
  */
 $.NatEditor.prototype.defaults = {
-  h1Button: '<li><a class="natEditH1Button" href="#" title="Level 1 headline" accesskey="1"><span>H1</span></a></li>',
-  h2Button: '<li><a class="natEditH2Button" href="#" title="Level 2 headline" accesskey="2"><span>H2</span></a></li>',
-  h3Button: '<li><a class="natEditH3Button" href="#" title="Level 3 headline" accesskey="3"><span>H3</span></a></li>',
-  h4Button: '<li><a class="natEditH4Button" href="#" title="Level 4 headline" accesskey="4"><span>H4</span></a></li>',
-  boldButton: '<li><a class="natEditBoldButton" href="#" title="Bold" accesskey="*"><span>Bold</span></a></li>',
-  italicButton: '<li><a class="natEditItalicButton" href="#" title="Italic" accesskey="_"><span>Italic</span></a></li>',
-  monoButton: '<li><a class="natEditMonoButton" href="#" title="Monospace" accesskey="="><span>Monospace</span></a></li>',
-  underlineButton: '<li><a class="natEditUnderlineButton" href="#" title="Underline" accesskey="u"><span>Underline</span></a></li>',
-  strikeButton: '<li><a class="natEditStrikeButton" href="#" title="Strike" accesskey="-"><span>Strike</span></a></li>',
-  leftButton: '<li><a class="natEditLeftButton" href="#" title="Align left" accesskey="<"><span>Left</span></a></li>',
-  centerButton: '<li><a class="natEditCenterButton" href="#" title="Center align" accesskey="."><span>Center</span></a></li>',
-  rightButton: '<li><a class="natEditRightButton" href="#" title="Align right" accesskey=">"><span>Right</span></a></li>',
-  justifyButton: '<li><a class="natEditJustifyButton" href="#" title="Justify text" accesskey="j"><span>Justify</span></a></li>',
-  numberedButton: '<li><a class="natEditNumberedButton" href="#" title="Numbered list" accesskey="l"><span>Numbered List</span></a></li>',
-  bulletButton: '<li><a class="natEditBulletButton" href="#" title="Bullet list" accesskey="*"><span>Bullet List</span></a></li>',
-  indentButton: '<li><a class="natEditIndentButton" href="#" title="Indent" accesskey="-"><span>Indent</span></a></li>',
-  outdentButton: '<li><a class="natEditOutdentButton" href="#" title="Outdent" accesskey="o"><span>Outdent</span></a></li>',
+  h1Button: '<a class="natEditH1Button" href="#" title="Level 1 headline" accesskey="1"><span>H1</span></a>',
+  h2Button: '<a class="natEditH2Button" href="#" title="Level 2 headline" accesskey="2"><span>H2</span></a>',
+  h3Button: '<a class="natEditH3Button" href="#" title="Level 3 headline" accesskey="3"><span>H3</span></a>',
+  h4Button: '<a class="natEditH4Button" href="#" title="Level 4 headline" accesskey="4"><span>H4</span></a>',
+  boldButton: '<a class="natEditBoldButton" href="#" title="Bold" accesskey="*"><span>Bold</span></a>',
+  italicButton: '<a class="natEditItalicButton" href="#" title="Italic" accesskey="_"><span>Italic</span></a>',
+  monoButton: '<a class="natEditMonoButton" href="#" title="Monospace" accesskey="="><span>Monospace</span></a>',
+  underlineButton: '<a class="natEditUnderlineButton" href="#" title="Underline" accesskey="u"><span>Underline</span></a>',
+  strikeButton: '<a class="natEditStrikeButton" href="#" title="Strike" accesskey="-"><span>Strike</span></a>',
+  leftButton: '<a class="natEditLeftButton" href="#" title="Align left" accesskey="<"><span>Left</span></a>',
+  centerButton: '<a class="natEditCenterButton" href="#" title="Center align" accesskey="."><span>Center</span></a>',
+  rightButton: '<a class="natEditRightButton" href="#" title="Align right" accesskey=">"><span>Right</span></a>',
+  justifyButton: '<a class="natEditJustifyButton" href="#" title="Justify text" accesskey="j"><span>Justify</span></a>',
+  numberedButton: '<a class="natEditNumberedButton" href="#" title="Numbered list" accesskey="l"><span>Numbered List</span></a>',
+  bulletButton: '<a class="natEditBulletButton" href="#" title="Bullet list" accesskey="*"><span>Bullet List</span></a>',
+  indentButton: '<a class="natEditIndentButton" href="#" title="Indent" accesskey="-"><span>Indent</span></a>',
+  outdentButton: '<a class="natEditOutdentButton" href="#" title="Outdent" accesskey="o"><span>Outdent</span></a>',
   tableButton: '<a class="natEditTableButton" href="#" title="Insert table" accesskey="t"><span>Table</span></a>',
   linkButton: '<a  class="natEditLinkButton"href="#" title="Insert link" accesskey="#"><span>Link</span></a>',
-  mathButton: '<li><a class="natEditMathButton" href="#" title="Mathematical formula (LaTeX)" accesskey="m"><span>Math</span></a></li>',
-  verbatimButton: '<li><a class="natEditVerbatimButton" href="#" title="Ignore wiki formatting" accesskey="v"><span>Verbatim</span></a></li>',
-  signatureButton: '<li><a class="natEditSignatureButton" href="#" title="Your signature with timestamp" accesskey="z"><span>Sign</span></a></li>',
-  wysiwygButton: '<li><a class="natEditWysiwygButton" href="#" id="topic_2WYSIWYG" title="Switch to WYSIWYG" accesskey="w"><span>Wysiwyg</span></a></li>',
-  escapeTmlButton: '<li><a class="natEditEscapeTmlButton" href="#" title="Escape TML" accesskey="$"><span>Escape TML</span></a></li>',
-  unescapeTmlButton: '<li><a class="natEditUnescapeTmlButton" href="#" title="Unescape TML" accesskey="%"><span>Unescape TML</span></a></li>',
+  mathButton: '<a class="natEditMathButton" href="#" title="Mathematical formula (LaTeX)" accesskey="m"><span>Math</span></a>',
+  verbatimButton: '<a class="natEditVerbatimButton" href="#" title="Ignore wiki formatting" accesskey="v"><span>Verbatim</span></a>',
+  signatureButton: '<a class="natEditSignatureButton" href="#" title="Your signature with timestamp" accesskey="z"><span>Sign</span></a>',
+  wysiwygButton: '<a class="natEditWysiwygButton" href="#" id="topic_2WYSIWYG" title="Switch to WYSIWYG" accesskey="w"><span>Wysiwyg</span></a>',
+  escapeTmlButton: '<a class="natEditEscapeTmlButton" href="#" title="Escape TML" accesskey="$"><span>Escape TML</span></a>',
+  unescapeTmlButton: '<a class="natEditUnescapeTmlButton" href="#" title="Unescape TML" accesskey="%"><span>Unescape TML</span></a>',
 
   // Elements 0 and 2 are (respectively) prepended and appended.  Element 1 is the default text to use,
   // if no text is currently selected.
@@ -1071,8 +1085,6 @@ $.NatEditor.prototype.defaults = {
   bulletListMarkup: ['   * ','bullet item',''],
   indentMarkup: ['   ','',''],
   outdentMarkup: ['','',''],
-  imagePluginMarkup: ['%IMAGE{"','Example.jpg','|400px|Caption text|frame|center"}%'],
-  imageMarkup: ['<img src="%<nop>ATTACHURLPATH%/','Example.jpg','" title="Example" />'],
   mathMarkup: ['<latex title="Example">\n','\\sum_{x=1}^{n}\\frac{1}{x}','\n</latex>'],
   verbatimMarkup: ['<verbatim>\n','Insert non-formatted text here','\n</verbatim>\n'],
   signatureMarkup: ['-- ', '%WIKINAME%, ' - '%DATE%'],
@@ -1095,8 +1107,285 @@ $.NatEditor.prototype.defaults = {
   showListTools: true,
   showParagraphTools: true,
   showObjectTools: true,
+  showDevTools: true,
   showToggleTools: true,
   showWysiwyg: false
+};
+
+/*****************************************************************************
+ * global function to init and open a dialog
+ */
+$.NatEditor.openDialog = function() {
+  var $dialog = $(this),
+      editorId = $dialog.find("input[name='editor']").val(),
+      editor = $("#"+editorId).data("instance");
+
+  if ($dialog.is(".natEditInsertLink")) {
+    if (!$dialog.data("initedEvents")) {
+      $dialog.data("initedEvents", true);
+      editor.initInsertLinkDialog($dialog);
+    }
+    return editor.openInsertLinkDialog($dialog);
+  }
+
+  if ($dialog.is(".natEditInsertTable")) {
+    if (!$dialog.data("initedEvents")) {
+      $dialog.data("initedEvents", true);
+      editor.initInsertTableDialog($dialog);
+    }
+    return editor.openInsertTableDialog($dialog);
+  }
+
+};
+
+/*****************************************************************************
+ * init the insert table dialog
+ */
+$.NatEditor.prototype.initInsertTableDialog = function($dialog) {
+  var self = this;
+
+  //console.log("called initInsertTable()", $dialog);
+  $dialog.find("form").bind("submit", function() {
+    var rows = $dialog.find("input[name='rows']").val(),
+        cols = $dialog.find("input[name='cols']").val(),
+        heads = $dialog.find("input[name='heads']").val();
+        editable = $dialog.find("input[name='editable']:checked").val() === 'true'?true:false;
+
+    $dialog.dialog("close");
+
+    self.insertTable({
+      heads: heads, 
+      rows: rows, 
+      cols: cols,
+      editable: editable
+    });
+    return false;
+  });
+};
+
+/*****************************************************************************
+  * called when the insert table dialog is opened
+  */
+$.NatEditor.prototype.openInsertTableDialog = function($dialog) {
+  //console.log("called openInsertTable()", $dialog);
+}
+
+/*****************************************************************************
+  * init the insert link dialog 
+  */
+$.NatEditor.prototype.initInsertLinkDialog = function($dialog) {
+  var self = this,
+      xhr, requestIndex = 0,
+      $thumbnail = $dialog.find(".natEditAttachmentThumbnail"),
+      systemWeb = foswiki.getPreference("SYSTEMWEB");
+
+  //console.log("called initInsertLinkDialog");
+
+  $dialog.find("input[name='web']").autocomplete({
+    source: self.opts.scriptUrl+"/view/"+systemWeb+"/JQueryAjaxHelper?section=web&skin=text"
+  });
+
+  $dialog.find("input[name='topic']").autocomplete({
+    source: function(request, response) {
+      if (xhr) {
+        xhr.abort();
+      }
+      xhr = $.ajax({
+        url: self.opts.scriptUrl+"/view/"+systemWeb+"/JQueryAjaxHelper",
+        data: $.extend(request, {
+          section: 'topic',
+          skin: 'text',
+          baseweb: $dialog.find(".jqTab.current input[name='web']").val()
+        }),
+        dataType: "json",
+        autocompleteRequest: ++requestIndex,
+        success: function(data, status) {
+          if (this.autocompleteRequest === requestIndex) {
+            response(data);
+          }
+        },
+        error: function(xhr, status) {
+          if (this.autocompleteRequest === requestIndex) {
+            response([]);
+          }
+        }
+      });
+    }
+  });
+
+  $dialog.find(".natEditAttachmentSelector").autocomplete({
+    source: function(request, response) {
+      var $currentTab = $dialog.find(".jqTab.current");
+      if (xhr) {
+        xhr.abort();
+      }
+      xhr = $.ajax({
+        url: self.opts.scriptUrl+"/view",
+        data: $.extend(request, {
+          template: 'editdialog',
+          dialog: 'insertlink::attachment::list',
+          topic: $currentTab.find("input[name='web']").val()+'.'+$currentTab.find("input[name='topic']").val()
+        }),
+        dataType: "json",
+        autocompleteRequest: ++requestIndex,
+        success: function(data, status) {
+          if (this.autocompleteRequest === requestIndex) {
+            response(data);
+          }
+        },
+        error: function(xhr, status) {
+          if (this.autocompleteRequest === requestIndex) {
+            response([]);
+          }
+        }
+      });
+    },
+    select: function(ev, ui) {
+      $thumbnail.attr("src", ui.item.img).show();
+    },
+    change: function(ev, ui) {
+      if (ui.item) {
+        $thumbnail.attr("src", ui.item.img).show();
+      } else {
+        $thumbnail.hide();
+      }
+    }
+  }).data("autocomplete")._renderItem = function(ul, item) {
+    if (typeof(item.label) !== "undefined") {
+      return $("<li></li>")
+        .data("item.autocomplete", item)
+        .append("<a><table width='100%'><tr><td width='60px'><img width='50' src='"+item.img+"' /></td><td>"+item.label+"<br />"+item.comment+"</td></tr></table></a>")
+        .appendTo(ul);
+    }
+  };
+
+  $dialog.find("form").bind("submit", function() {
+    var opts,
+        $currentTab = $dialog.find(".jqTab.current");
+
+    if ($currentTab.is(".topic")) {
+      opts = {
+        web: $currentTab.find("input[name='web']").val(),
+        topic: $currentTab.find("input[name='topic']").val(),
+        text: $dialog.find("input[name='linktext']").val()
+      };
+    } 
+
+    if ($currentTab.is(".external")) {
+      opts = {
+        url: $currentTab.find("input[name='url']").val(),
+        text: $dialog.find("input[name='linktext']").val()
+      };
+    }
+
+    if ($currentTab.is(".attachment")) {
+      opts = {
+        web: $currentTab.find("input[name='web']").val(),
+        topic: $currentTab.find("input[name='topic']").val(),
+        file: $currentTab.find("input[name='file']").val(),
+        text: $dialog.find("input[name='linktext']").val()
+      };
+    }
+
+    $dialog.dialog("close");
+    self.insertLink(opts);
+    return false;
+  });
+}
+
+/*****************************************************************************
+  * called when the insert link dialog is opened
+  */
+$.NatEditor.prototype.openInsertLinkDialog = function($dialog) {
+  //console.log("called openInsertLink()", $dialog);
+
+  var self = this,
+      selection = self.getSelection(),
+      web = self.opts.web,
+      topic = self.opts.topic,
+      file = '',
+      url = '',
+      initialTab = 'topic',
+      urlRegExp = "(?:file|ftp|gopher|https?|irc|mailto|news|nntp|telnet|webdav|sip|edit)://[^\\s]+?";
+
+  //console.log("before selection=",selection);
+
+  // initialize from selection
+  if (selection.match(/\s*\[\[(.*?)\]\]\s*/)) {
+    selection = RegExp.$1;
+    //console.log("brackets link, selection=",selection);
+    if (selection.match("^("+urlRegExp+")(?:\\]\\[(.*))?$")) {
+      //console.log("external link");
+      url = RegExp.$1;
+      selection = RegExp.$2 || '';
+      initialTab = 'external';
+    } else if (selection.match(/^(?:%ATTACHURL(?:PATH)?%\/)(.*?)(?:\]\[(.*))?$/)) {
+      //console.log("this attachment link");     
+      file = RegExp.$1;
+      selection = RegExp.$2;
+      initialTab = "attachment";
+    } else if (selection.match(/^(?:%PUBURL(?:PATH)?%\/)(.*)\/(.*?)\/(.*?)(?:\]\[(.*))?$/)) {
+      //console.log("other topic attachment link");     
+      web = RegExp.$1;
+      topic = RegExp.$2;
+      file = RegExp.$3;
+      selection = RegExp.$4;
+      initialTab = "attachment";
+    } else if (selection.match(/^(?:(.*)\.)?(.*?)(?:\]\[(.*))?$/)) {
+      //console.log("topic link");
+      web = RegExp.$1 || web;
+      topic = RegExp.$2;
+      selection = RegExp.$3 || '';
+    } else {
+      //console.log("some link");
+      topic = selection;
+      selection = '';
+    }
+  } else if (selection.match("^\s*"+urlRegExp)) {
+    //console.log("no brackets external link");
+    url = selection;
+    selection = "";
+    initialTab = "external";
+  } else if (selection.match(/^\s*%IMAGE{"(.*?)"(?:.*?topic="(?:([^\s\.]+)\.)?(.*?)")?.*?}%\s*$/)) {
+    // SMELL: nukes custom params
+    //console.log("image link");
+    web = RegExp.$2 || web;
+    topic = RegExp.$3 || topic;
+    file = RegExp.$1;
+    selection = "";
+    initialTab = "attachment";
+  } else {
+    if (selection.match(/^\s*([A-Z][^\s\.]*)\.(A-Z.*?)\s*$/)) {
+      //console.log("topic link");
+      web = RegExp.$1 || web;
+      topic = RegExp.$2;
+      selection = '';
+      initialTab = "topic";
+    } else {
+      //console.log("some selection, not a link");
+    }
+  }
+  //console.log("after: selection=",selection, ", url=",url, ", web=",web,", topic=",topic,", file=",file,", initialTab=", initialTab);
+
+  if (typeof(initialTab) !== 'undefined') {
+    window.location.hash = "!" + $dialog.find(".jqTab."+initialTab).attr("id");
+  }
+      
+  $dialog.find(".empty").val('');
+  $dialog.find(".selection").val(selection);
+  $dialog.find("input[name='web']").each(function() {
+    $(this).val(web);
+  });
+  $dialog.find("input[name='topic']").each(function() {
+    $(this).val(topic);
+  });
+  $dialog.find("input[name='url']").each(function() {
+    $(this).val(url);
+  });
+  $dialog.find("input[name='file']").each(function() {
+    $(this).val(file);
+  });
+
 };
 
 /*****************************************************************************
@@ -1119,234 +1408,24 @@ $.fn.natedit = function(opts) {
  */
 $(function() {
 
-  // finish defaults at dom ready
-  $.NatEditor.prototype.defaults.tableDialog = 
-    foswiki.getPreference("SCRIPTURL")+'/rest/RenderPlugin/template?name=editdialog;expand=inserttable;topic='+foswiki.getPreference("WEB")+"."+foswiki.getPreference("TOPIC");
-
-  $.NatEditor.prototype.defaults.linkDialog =  
-    foswiki.getPreference("SCRIPTURL")+'/rest/RenderPlugin/template?name=editdialog;expand=insertlink;topic='+foswiki.getPreference("WEB")+'.'+foswiki.getPreference("TOPIC");
-
   // listen for natedit
   $(".natedit:not(.natedit_inited)").livequery(function() {
+    var web = foswiki.getPreference("WEB"),
+        topic = foswiki.getPreference("TOPIC"),
+        scriptUrl = foswiki.getPreference("SCRIPTURL");
+
     $(this).addClass("natedit_inited").natedit({
+      web: web,
+      topic: topic,
+      scriptUrl: scriptUrl,
+      tableDialog: scriptUrl+'/view/'+web+'/'+topic+"?template=editdialog;dialog=inserttable",
+      linkDialog: scriptUrl+'/view/'+web+'/'+topic+"?template=editdialog;dialog=insertlink",
       autoMaxExpand:false,
       signatureMarkup: ['-- ', foswiki.getPreference("WIKIUSERNAME"), ' - '+foswiki.getPreference("SERVERTIME")]
     });
   });
 
-  // listen for insert table dialogs
-  $(".natEditInsertTable").livequery(function() {
-    var $dialog = $(this),
-        editorId = $dialog.find("input[name='editor']").val(),
-        editor = $("#"+editorId).data("instance");
 
-    $dialog.find("form").bind("submit", function() {
-      var rows = $dialog.find("input[name='rows']").val(),
-          cols = $dialog.find("input[name='cols']").val(),
-          heads = $dialog.find("input[name='heads']").val();
-          editable = $dialog.find("input[name='editable']:checked").val() === 'true'?true:false;
-
-      $dialog.dialog("close");
-
-      editor.insertTable({
-        heads: heads, 
-        rows: rows, 
-        cols: cols,
-        editable: editable
-      });
-      return false;
-    });
-  });
-
-  // listen for insert link dialogs
-  $(".natEditInsertLink").livequery(function() {
-    var $dialog = $(this),
-        editorId = $dialog.find("input[name='editor']").val(),
-        editor = $("#"+editorId).data("instance"),
-        $thumbnail = $dialog.find(".natEditAttachmentThumbnail"),
-        xhr, requestIndex = 0,
-        selection = editor.getSelection(),
-        web = foswiki.getPreference('WEB'),
-        topic = foswiki.getPreference('TOPIC'),
-        file = '',
-        url = '',
-        initialTab,
-        urlRegExp = "(?:file|ftp|gopher|https?|irc|mailto|news|nntp|telnet|webdav|sip|edit)://[^\\s]+?";
-
-     //console.log("before selection=",selection);
-
-    // initialize from selection
-    if (selection.match(/ *\[\[(.*?)\]\] */)) {
-      selection = RegExp.$1;
-      //console.log("brackets link, selection=",selection);
-      if (selection.match("^("+urlRegExp+")(?:\\]\\[(.*))?$")) {
-        //console.log("external link");
-        url = RegExp.$1;
-        selection = RegExp.$2 || '';
-        initialTab = 'external';
-      } else if (selection.match(/^(?:%ATTACHURL(?:PATH)?%\/)(.*?)(?:\]\[(.*))?$/)) {
-        //console.log("this attachment link");     
-        file = RegExp.$1;
-        selection = RegExp.$2;
-        initialTab = "attachment";
-      } else if (selection.match(/^(?:%PUBURL(?:PATH)?%\/)(.*)\/(.*?)\/(.*?)(?:\]\[(.*))?$/)) {
-        //console.log("other topic attachment link");     
-        web = RegExp.$1;
-        topic = RegExp.$2;
-        file = RegExp.$3;
-        selection = RegExp.$4;
-        initialTab = "attachment";
-      } else if (selection.match(/^(?:(.*)\.)?(.*?)(?:\]\[(.*))?$/)) {
-        //console.log("topic link");
-        web = RegExp.$1 || web;
-        topic = RegExp.$2;
-        selection = RegExp.$3 || '';
-      } else {
-        //console.log("some link");
-        topic = selection;
-        selection = '';
-      }
-    } else if (selection.match("^ *"+urlRegExp)) {
-      //console.log("no brackets external link");
-      url = selection;
-      selection = "";
-      initialTab = "external";
-    } else {
-      //console.log("some selection, not a link");
-    }
-    //console.log("after: selection=",selection, ", url=",url, ", web=",web,", topic=",topic,", file=",file,", initialTab=", initialTab);
-
-    if (typeof(initialTab) !== 'undefined') {
-      window.location.hash = "!" + $dialog.find(".jqTab."+initialTab).attr("id");
-    }
-        
-    $dialog.find(".empty").val('');
-    $dialog.find(".selection").val(selection);
-    $dialog.find("input[name='web']").each(function() {
-      $(this).val(web);
-    });
-    $dialog.find("input[name='topic']").each(function() {
-      $(this).val(topic);
-    });
-    $dialog.find("input[name='url']").each(function() {
-      $(this).val(url);
-    });
-    $dialog.find("input[name='file']").each(function() {
-      $(this).val(file);
-    });
-
-    $dialog.find("input[name='web']").autocomplete({
-      source: foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper?section=web&skin=text"
-    });
-
-    $dialog.find("input[name='topic']").autocomplete({
-      source: function(request, response) {
-        if (xhr) {
-          xhr.abort();
-        }
-        xhr = $.ajax({
-          url: foswiki.getPreference("SCRIPTURLPATH")+"/view/"+foswiki.getPreference("SYSTEMWEB")+"/JQueryAjaxHelper",
-          data: $.extend(request, {
-            section: 'topic',
-            skin: 'text',
-            baseweb: $dialog.find(".jqTab.current input[name='web']").val()
-          }),
-          dataType: "json",
-          autocompleteRequest: ++requestIndex,
-          success: function(data, status) {
-            if (this.autocompleteRequest === requestIndex) {
-              response(data);
-            }
-          },
-          error: function(xhr, status) {
-            if (this.autocompleteRequest === requestIndex) {
-              response([]);
-            }
-          }
-        });
-      }
-    });
-
-    $dialog.find(".natEditAttachmentSelector").autocomplete({
-      source: function(request, response) {
-        var $currentTab = $dialog.find(".jqTab.current");
-        if (xhr) {
-          xhr.abort();
-        }
-        xhr = $.ajax({
-          url: foswiki.getPreference("SCRIPTURLPATH")+"/rest/RenderPlugin/template",
-          data: $.extend(request, {
-            name: 'editdialog',
-            expand: 'insertlink::attachment::list',
-            topic: $currentTab.find("input[name='web']").val()+'.'+$currentTab.find("input[name='topic']").val()
-          }),
-          dataType: "json",
-          autocompleteRequest: ++requestIndex,
-          success: function(data, status) {
-            if (this.autocompleteRequest === requestIndex) {
-              response(data);
-            }
-          },
-          error: function(xhr, status) {
-            if (this.autocompleteRequest === requestIndex) {
-              response([]);
-            }
-          }
-        });
-      },
-      select: function(ev, ui) {
-        $thumbnail.attr("src", ui.item.img).show();
-      },
-      change: function(ev, ui) {
-        if (ui.item) {
-          $thumbnail.attr("src", ui.item.img).show();
-        } else {
-          $thumbnail.hide();
-        }
-      }
-    }).data("autocomplete")._renderItem = function(ul, item) {
-      if (typeof(item.label) !== "undefined") {
-        return $("<li></li>")
-          .data("item.autocomplete", item)
-          .append("<a><table width='100%'><tr><td width='60px'><img width='50' src='"+item.img+"' /></td><td>"+item.label+"<br />"+item.comment+"</td></tr></table></a>")
-          .appendTo(ul);
-      }
-    };
-
-    $dialog.find("form").bind("submit", function() {
-      var opts,
-          $currentTab = $dialog.find(".jqTab.current");
-
-      if ($currentTab.is(".topic")) {
-        opts = {
-          web: $currentTab.find("input[name='web']").val(),
-          topic: $currentTab.find("input[name='topic']").val(),
-          text: $dialog.find("input[name='linktext']").val()
-        };
-      } 
-
-      if ($currentTab.is(".external")) {
-        opts = {
-          url: $currentTab.find("input[name='url']").val(),
-          text: $dialog.find("input[name='linktext']").val()
-        };
-      }
-
-      if ($currentTab.is(".attachment")) {
-        opts = {
-          web: $currentTab.find("input[name='web']").val(),
-          topic: $currentTab.find("input[name='topic']").val(),
-          file: $currentTab.find("input[name='file']").val(),
-          text: $dialog.find("input[name='linktext']").val()
-        };
-      }
-
-      $dialog.dialog("close");
-      editor.insertLink(opts);
-      return false;
-    });
-
-  });
 });
 
 })(jQuery);

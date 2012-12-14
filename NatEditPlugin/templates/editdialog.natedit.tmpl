@@ -1,6 +1,6 @@
 %TMPL:INCLUDE{"dialog"}%
 %{ ################################################################################ }%
-%TMPL:DEF{"inserttable"}%<div class="natEditInsertTable jqUIDialog {modal:true, draggable:true, width:'auto', position:{my:'top', at:'top', of:'#%URLPARAM{"editor"}%'}}" title="%MAKETEXT{"Create a new table"}%">
+%TMPL:DEF{"inserttable"}%<div class="natEditInsertTable jqUIDialog {modal:true, draggable:true, width:'auto', position:{my:'top', at:'top', of:'#%URLPARAM{"editor"}%'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Create a new table"}%">
   <form>
     <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
     <table class="foswikiLayoutTable" width="100%">
@@ -38,7 +38,7 @@
 <!-- -->%TMPL:END%
 
 %TMPL:DEF{"insertlink::start"}%<!-- -->
-<div class="natEditInsertLink jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:550, position:{my:'top', at:'top', of:'#%URLPARAM{"editor"}%'}}" title="%MAKETEXT{"Insert link"}%">
+<div class="natEditInsertLink jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:550, position:{my:'top', at:'top', of:'#%URLPARAM{"editor"}%'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Insert link"}%">
   <form>
     <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
     %TABPANE{class="plain"}%
@@ -94,6 +94,7 @@
   header="[$n"
   separator=",$n"
   footer="$n]"
+  casesensitive="off"
   include=".*%URLPARAM{"term"}%.*"
   format=" {
     \"label\": \"$name\", 
@@ -116,3 +117,8 @@
   </div>
 %ENDTAB%
 <!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:P{
+  %URLPARAM{"dialog"}%
+}%
