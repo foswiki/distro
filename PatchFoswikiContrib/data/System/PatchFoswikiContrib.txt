@@ -125,6 +125,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.4 (14 Dec 2012) | Some perl complains about exporting of function names. |
 |  1.3 (28 Nov 2012) | Rework to support multiple patch installation.  Rename to PatchFoswikiContrib from PatchItem12225Contrib. Add a 2nd patch file. |
 |  1.2 (15 Nov 2012) | Manifest errors. Configure was complaining about non-writable working files. |
 |  1.1 (15 Nov 2012) | Don't include / when matching filenam, causes undefined variables on Windows. |
