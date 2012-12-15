@@ -1,4 +1,4 @@
-VERSION = Foswiki-1.1.3
+VERSION = Foswiki-1.1.6
 RELEASE = -1
 TARFILE = $(VERSION).tgz
 DESTDIR = /Library/WebServer/Documents
@@ -56,8 +56,8 @@ postflight:
 buildroot:
 	mkdir -p Application_Root$(DESTDIR)
 	chown -R root:admin Application_Root/*
-	chmod -R 1775 Application_Root/Library
-	chmod -R 775 Application_Root/Library/Webserver
+	chmod -R 755 Application_Root/Library
+	chmod -R 755 Application_Root/Library/Webserver
 	mkdir -p Application_Root/private/etc/apache2/other
 	chown -R root:wheel Application_Root/private
 	chmod -R 755 Application_Root/private
