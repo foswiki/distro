@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.115";
+        var VERSION = "v3.116";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -165,7 +165,7 @@ var configure = (function ($) {
 
                      if( ele.hasClass(isClass) ||
                          ele.filter('tr.configureExpert').
-                             find('div.configureWarning,div.configureError').size() ) {
+                             find('div.configureWarn,div.configureError').size() ) {
                          ele.removeClass('foswikiMakeHidden');
                      } else {
                          ele.addClass('foswikiMakeHidden');
@@ -432,7 +432,7 @@ var configure = (function ($) {
          * warnings or errors.
          */
 
-        updateIndicators: function () {
+        updateIndicators: function (expertOk) {
             /* Clear all existing indicators.
              * The first scan finds all tab links with error classes and removes them.
              * The second finds all visible Alerts divs and hides them.
@@ -610,7 +610,7 @@ var configure = (function ($) {
             }
             $('#configureErrorSummary').html(statusLine);
 
-            if( !expertsMode ) {
+            if( !expertsMode && !expertOk ) {
                 configure.toggleExpertsMode( '' );
             }
             return true;
@@ -1438,8 +1438,6 @@ $(document).ready(function () {
     feedback.init();
     feedback.sendFeedbackRequest( document.location.pathname, '' );
 
-    configure.updateIndicators();
-
     // make sticky
     $('.navigation').affix({
       offset: {
@@ -1454,6 +1452,8 @@ $(document).ready(function () {
     
     configure.toggleExpertsMode('expert');
     configure.toggleInfoMode();
+
+    configure.updateIndicators(true);
     configure.initSection();
     $(window).scroll(function () {
         configure.imgOnDemand();

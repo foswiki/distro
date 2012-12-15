@@ -535,6 +535,14 @@ lib/Foswiki/Configure/Checkers/Email/MailMethod.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeCertificateFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeKeyFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SmimeKeyPassword.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLCaFile.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLCaPath.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLCheckCRL.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLClientCertFile.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLClientKeyFile.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLClientKeyPassword.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLCrlFile.pm 0444
+lib/Foswiki/Configure/Checkers/Email/SSLVerifyServer.pm 0444
 lib/Foswiki/Configure/Checkers/Email/ValidTLD.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444

@@ -50,7 +50,7 @@ sub loadCert {
 
     push @certs, decode_base64($1)
       while ( $cert =~
-/^-----BEGIN\s+(?:TRUSTED\s+)?CERTIFICATE-----$(.*?)^-----END\s+(?:TRUSTED\s+)?CERTIFICATE-----$/msog
+/^-----BEGIN\s+(?:(?:X509|TRUSTED)\s+)?CERTIFICATE-----$(.*?)^-----END\s+(?:(?:X509|TRUSTED)\s+)?CERTIFICATE-----$/msog
       );
 
     return ( 1, "None found" ) unless ( @certs > 1 );

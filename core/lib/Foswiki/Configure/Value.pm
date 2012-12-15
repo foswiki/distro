@@ -107,6 +107,20 @@ sub _fixqs {
     return $qs;
 }
 
+sub _attrval {
+    my ( $h, $n, $v ) = @_;
+    if ( defined $v ) {
+        if ( $v =~ /^['"]/ ) {
+            $v = _fixqs($v);
+        }
+    }
+    else {
+        $v = 1;
+    }
+    push @$h, $n => $v;
+    return '';
+}
+
 sub _setopts {
     my $this = shift;
     my ( $value, $append ) = @_;
@@ -135,7 +149,7 @@ sub _setopts {
     push @{ $this->{checkerOpts} }, _fixqs($1)
       while ( $value =~ s/(?:\b|^)CHECK=($qsRE)(?:\s+|$)// );
 
-    my $attrRE = qr/(?:;\s*([\w_-]+)(?:=($qsRE))?)/;
+    my $attrRE = qr/(?:;\s*([\w_-]+)(?:=($qsRE|\d+))?)/;
 
     while ( $value =~
 s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)($attrRE*)(?:\b|$))|(?:($qsRE)($attrRE*)(?:\s+|$))))|($attrRE*)(?:\b|$))//
@@ -166,8 +180,7 @@ s/(?:\b|^)FEEDBACK(?:(?:([:=])(?:(?:([\w_-]+)($attrRE*)(?:\b|$))|(?:($qsRE)($att
         # ;attr=value;attr=value;attr...
         my $attrs = ( $3 || $7 || $10 );
         if ($attrs) {
-            $attrs =~
-              s/$attrRE/push @h, $1 => (defined $2? _fixqs($2) : 1); ''/ge;
+            $attrs =~ s/$attrRE/_attrval(\@h, $1,$2)/ge;
         }
         push @{ $this->{feedback} }, {@h};
     }

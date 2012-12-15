@@ -284,7 +284,8 @@ sub _logMailError {
     }
 
     if ( $Foswiki::cfg{SMTP}{Debug} ) {
-        print STDERR "MAIL " . uc($level) . " $msg\n";
+        print STDERR "MAIL " . uc($level) . " $msg\n"
+          unless ($die);
     }
     else {
         my $logger;
@@ -655,7 +656,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
 }
 
 sub _sendEmailByNetSMTP {
-    my ( $this, $text ) = @_;
+    ( our $this, my $text ) = @_;
 
     my $debug = $Foswiki::cfg{SMTP}{Debug} || 0;
 
@@ -798,10 +799,14 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         sub debug_print {
             my ( $cmd, $out, $text ) = @_;
 
-            $text =
-                $ISA[0]
-              . ( $out ? '>>> ' : '<<< ' )
-              . $cmd->debug_text( $out, $text );
+            chomp $text;
+            my $tag = $ISA[0] . ( $out ? '>>> ' : '<<< ' );
+            $text = $tag
+              . join( "\n$tag -- ",
+                map $cmd->debug_text( $out, $_ ),
+                split( /\r?\n/, $text ) )
+              . "\n";
+
             $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;
             print STDERR $text;
         }
@@ -826,7 +831,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         package Foswiki::Net::Mail::SSL;
         our @ISA = @Net::SMTP::ISA;
 
-        our $usessl;
+        our ( $usessl, $logssl );
         if ( $ssl || $tls ) {
             @ISA = (
                 grep( $_ ne 'IO::Socket::INET', @Net::SMTP::ISA ),
@@ -837,10 +842,96 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         @Net::SMTP::ISA = __PACKAGE__;
 
         our @sockopts;
-        our @sslopts = (
-            SSL_version => ( ( $tls || $starttls ) ? 'TLSv1' : 'SSLv3' ),
-            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
-        ) if ( $ssl || $tls || $starttls );
+        our @sslopts;
+
+        if ( $ssl || $tls || $starttls ) {
+            $logssl = 1 if ($debug);
+
+            push @sslopts,
+              SSL_version => ( ( $tls || $starttls ) ? 'TLSv1' : 'SSLv3' );
+            push @sslopts, SSL_error_trap => sub {
+                my ( $sock, $msg ) = @_;
+                $this->_logMailError( 'die', "SSL Failure connecting to ",
+                    $sock->peerhost, ':', $sock->peerport, " - $msg" );
+                $sock->close;
+                return;
+            };
+
+            if ( $Foswiki::cfg{Email}{SSLVerifyServer} ) {
+                my ( $file, $path ) = (
+                    $Foswiki::cfg{Email}{SSLCaFile},
+                    $Foswiki::cfg{Email}{SSLCaPath}
+                );
+                Foswiki::Configure::Load::expandValue($file);
+                Foswiki::Configure::Load::expandValue($path);
+
+                $this->_logMailError( 'die',
+"{Email}{SSLVerifyServer} requires host verification but neither {Email}{SSLCaFile} nor {Email}{SSLCaPath} is set."
+                ) unless ( $file || $path );
+                push @sslopts,
+                  (
+                    SSL_verify_mode   => IO::Socket::SSL::SSL_VERIFY_PEER(),
+                    SSL_verify_scheme => {
+                        check_cn         => 'when_only',
+                        wildcards_in_alt => 'leftmost',
+                        wildcards_in_cn  => 'leftmost',
+                    },
+                    SSL_ca_file => $file || undef,
+                    SSL_ca_path => $path || undef,
+                  );
+
+                if ( $Foswiki::cfg{Email}{SSLCheckCRL} ) {
+                    ( $file, $path ) = (
+                        $Foswiki::cfg{Email}{SSLCrlFile},
+                        $Foswiki::cfg{Email}{SSLCaPath}
+                    );
+                    Foswiki::Configure::Load::expandValue($file);
+                    Foswiki::Configure::Load::expandValue($path);
+
+                    $this->_logMailError( 'die',
+"{Email}{SSLCheckCRL} requires CRL verification but neither {Email}{SSLCrlFile} nor {Email}{SSLCaPath} is set."
+                    ) unless ( $file || $path );
+
+                    push @sslopts, SSL_check_crl => 1;
+                    push @sslopts, SSL_crl_file  => $file
+                      if ($file);
+                }
+            }
+            else {
+                push @sslopts,
+                  SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE();
+            }
+
+            if (   $Foswiki::cfg{Email}{SSLClientCertFile}
+                || $Foswiki::cfg{Email}{SSLClientKeyFile} )
+            {
+                my ( $certFile, $keyFile ) = (
+                    $Foswiki::cfg{Email}{SSLClientCertFile},
+                    $Foswiki::cfg{Email}{SSLClientKeyFile}
+                );
+                Foswiki::Configure::Load::expandValue($certFile);
+                Foswiki::Configure::Load::expandValue($keyFile);
+
+                $this->_logMailError( 'die',
+"Client verification requires both {Email}{SSLClientCertFile} and {Email}{SSLClientKeyFile} to be set."
+                ) unless ( $certFile && $keyFile );
+
+                push @sslopts,
+                  (
+                    SSL_use_cert  => 1,
+                    SSL_cert_file => $certFile,
+                    SSL_key_file  => $keyFile
+                  );
+                if ( $Foswiki::cfg{Email}{SSLClientKeyPassword} ) {
+                    push @sslopts, SSL_passwd_cb => sub {
+                        return $Foswiki::cfg{Email}{SSLClientKeyPassword};
+                    };
+                }
+            }
+        }
+        else {
+            $logssl = 0;
+        }
 
         # Intercept socket creation by Net::SMTP
 
@@ -848,12 +939,66 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
             my $class = shift;
 
             @sockopts = ( @_, @sslopts );
+
+            my ( $log, %opts );
+            if ($logssl) {
+                $log = {};
+                bless $log, $class;
+
+                %opts = @sockopts;
+                if ( $opts{SSL_verify_mode} ==
+                    IO::Socket::SSL::SSL_VERIFY_NONE() )
+                {
+                    $log->debug_print( 1, "SSL peer verification: off\n" );
+                }
+                else {
+                    $log->debug_print( 1, "SSL peer verification: on\n" );
+                    $log->debug_print( 1,
+                        "Verify Server CA_File: $opts{SSL_ca_file}\n" )
+                      if ( $opts{SSL_ca_file} );
+                    $log->debug_print( 1,
+                        "Verify Server CA_Path: $opts{SSL_ca_path}\n" )
+                      if ( $opts{SSL_ca_path} );
+
+                    if ( $opts{SSL_check_crl} ) {
+                        $log->debug_print( 1, "Verify Server CRL: on\n" );
+                        $log->debug_print( 1,
+                            "Verify Server CRL CRL_File: $opts{SSL_crl_file}\n"
+                        ) if ( $opts{SSL_crl_file} );
+                    }
+                }
+
+                if ( $opts{SSL_use_cert} ) {
+                    $log->debug_print( 1, "Provide Client Certificate: on\n" );
+                    $log->debug_print( 1,
+                        "Client Certificate File: $opts{SSL_cert_file}\n" )
+                      if ( $opts{SSL_cert_file} );
+                    $log->debug_print( 1,
+                        "Client Certificate Key File: $opts{SSL_key_file}\n" )
+                      if ( $opts{SSL_key_file} );
+                    $log->debug_print( 1,
+                        "Client Certificate key Password: "
+                          . ( $opts{SSL_passwd_cb} ? "*****\n" : "No\n" ) );
+                }
+                else {
+                    $log->debug_print( 1, "Provide Client Certificate: off\n" );
+                }
+            }
+
             my $sock;
             $sock =
               $usessl
               ? IO::Socket::SSL->new(@sockopts)
               : IO::Socket::INET->new(@sockopts)
               and bless $sock, $class;
+            if ( $logssl && $sock ) {
+                $log->debug_print( 0,
+                        $opts{SSL_version}
+                      . " started using "
+                      . $sock->get_cipher
+                      . " encryption\n"
+                      . $sock->dump_peer_certificate );
+            }
             return $sock;
         }
     }
@@ -871,7 +1016,8 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
     my $mess = "Failed to send mail using $this->{MAIL_METHOD}. ";
     $this->_logMailError( 'die',
-        "Failed to connect to '$this->{MAIL_HOST}' using $this->{MAIL_METHOD}" )
+        "Failed to connect to '$this->{MAIL_HOST}' using $this->{MAIL_METHOD}"
+          . ( $ssl || $tls ? ": " . IO::Socket::SSL::errstr() : '' ) )
       unless $smtp;
 
     $this->_logMailError( 'debug', "Connected to ",
@@ -894,14 +1040,20 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 
         # N.B. Successful upgrade will change @Foswiki::Net::Mail::ISA
         unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts ) ) {
-            $smtp->quit();
+            my $errs = IO::Socket::SSL::errstr();
+            $smtp->debug_print( 0, "Failed to start TLS: $errs\n" ) if ($debug);
+
+            #$smtp->quit();
             $this->_logMailError( 'die',
-                "Unable to upgrade connection to SSL in STARTTLS: "
-                  . IO::Socket::SSL::errstr() );
+                "Unable to upgrade connection to TLS in STARTTLS: $errs" );
         }
         @ISA = ( grep( $_ ne 'IO::Socket::INET', @ISA ), 'IO::Socket::SSL' );
         bless $smtp, $mailobj;
-
+        $smtp->debug_print( 0,
+                "TLS started using "
+              . $smtp->get_cipher . "\n"
+              . $smtp->dump_peer_certificate )
+          if ($debug);
         unless ( $smtp->hello( $this->{HELLO_HOST} ) ) {
             my ( $code, $msg ) = ( $smtp->code, $smtp->message );
             $smtp->quit();

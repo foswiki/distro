@@ -489,10 +489,14 @@ sub autoconfigPerl {
     sub debug_print {
         my ( $cmd, $out, $text ) = @_;
 
-        $text =
-            $ISA[0]
-          . ( $out ? '>>> ' : '<<< ' )
-          . $cmd->debug_text( $out, $text );
+        chomp $text;
+        my $tag = $ISA[0] . ( $out ? '>>> ' : '<<< ' );
+        $text = $tag
+          . join( "\n$tag -- ",
+            map $cmd->debug_text( $out, $_ ),
+            split( /\r?\n/, $text ) )
+          . "\n";
+
         $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;
         $tlog .= $text;
     }
@@ -501,12 +505,58 @@ sub autoconfigPerl {
 
     our @ISA;
 
-    our ( $ssl, $tls, @sslopts, @sockopts );
+    our ( $ssl, $starttls, @sslopts, @sockopts );
+    our $pad = ' ' x length('Net::SMTpXXX ');
 
     sub new {
         my $class = shift;
 
         @sockopts = ( @_, @sslopts );
+
+        my ( $log, %opts );
+        if ( $ssl || $starttls ) {
+            $log = {};
+            bless $log, $class;
+
+            %opts = @sockopts;
+            if ( $opts{SSL_verify_mode} == IO::Socket::SSL::SSL_VERIFY_NONE() )
+            {
+                $log->debug_print( 1, "SSL peer verification: off\n" );
+            }
+            else {
+                $log->debug_print( 1, "SSL peer verification: on\n" );
+                $log->debug_print( 1,
+                    "Verify Server CA_File: $opts{SSL_ca_file}\n" )
+                  if ( $opts{SSL_ca_file} );
+                $log->debug_print( 1,
+                    "Verify Server CA_Path: $opts{SSL_ca_path}\n" )
+                  if ( $opts{SSL_ca_path} );
+
+                if ( $opts{SSL_check_crl} ) {
+                    $log->debug_print( 1, "Verify Server CRL: on\n" );
+                    $log->debug_print( 1,
+                        "Verify Server CRL CRL_File: $opts{SSL_crl_file}\n" )
+                      if ( $opts{SSL_crl_file} );
+                }
+            }
+
+            if ( $opts{SSL_use_cert} ) {
+                $log->debug_print( 1, "Provide Client Certificate: on\n" );
+                $log->debug_print( 1,
+                    "Client Certificate File: $opts{SSL_cert_file}\n" )
+                  if ( $opts{SSL_cert_file} );
+                $log->debug_print( 1,
+                    "Client Certificate Key File: $opts{SSL_key_file}\n" )
+                  if ( $opts{SSL_key_file} );
+                $log->debug_print( 1,
+                    "Client Certificate key Password: "
+                      . ( $opts{SSL_passwd_cb} ? "*****\n" : "No\n" ) );
+            }
+            else {
+                $log->debug_print( 1, "Provide Client Certificate: off\n" );
+            }
+        }
+
         my $sock;
         $! = 0;
         $sock =
@@ -516,6 +566,14 @@ sub autoconfigPerl {
           and bless $sock, $class;
         if ($sock) {
             $noconnect = 0;
+            if ($ssl) {
+                $log->debug_print( 0,
+                        $opts{SSL_version}
+                      . " connection established using "
+                      . $sock->get_cipher
+                      . " encryption\n"
+                      . $sock->dump_peer_certificate );
+            }
         }
         else {
             $tlog .= ( $! || ( $ssl && IO::Socket::SSL::errstr() ) ) . "\n";
@@ -612,8 +670,101 @@ sub autoconfigPerl {
         return ( 1, "$host accepted username and password" );
     }
 
+    my @sslCommon = (
+        SSL_error_trap => sub {
+            my ( $sock, $msg ) = @_;
+            $tlog .=
+                "Failed to initialize SSL with "
+              . $sock->peerhost . ':'
+              . $sock->peerport
+              . " - $msg";
+            $sock->close;
+            return;
+        },
+
+    );
+    if (   $Foswiki::cfg{Email}{SSLClientCertFile}
+        || $Foswiki::cfg{Email}{SSLClientKeyFile} )
+    {
+        my ( $certFile, $keyFile ) = (
+            $Foswiki::cfg{Email}{SSLClientCertFile},
+            $Foswiki::cfg{Email}{SSLClientKeyFile}
+        );
+        Foswiki::Configure::Load::expandValue($certFile);
+        Foswiki::Configure::Load::expandValue($keyFile);
+
+        if ( $certFile && $keyFile ) {
+            push @sslCommon,
+              (
+                SSL_use_cert  => 1,
+                SSL_cert_file => $certFile,
+                SSL_key_file  => $keyFile
+              );
+            if ( $Foswiki::cfg{Email}{SSLClientKeyPassword} ) {
+                push @sslCommon, SSL_passwd_cb => sub {
+                    return $Foswiki::cfg{Email}{SSLClientKeyPassword};
+                };
+            }
+        }
+        else {
+            $e .= $this->WARN(
+"Client verification requires both {Email}{SSLClientCertFile} and {Email}{SSLClientKeyFile} to be set."
+            );
+        }
+    }
+
+    my ( @sslVerify, @sslNoVerify );
+    @sslNoVerify =
+      ( @sslCommon, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE() );
+    {
+        my ( $file, $path ) =
+          ( $Foswiki::cfg{Email}{SSLCaFile}, $Foswiki::cfg{Email}{SSLCaPath} );
+        Foswiki::Configure::Load::expandValue($file);
+        Foswiki::Configure::Load::expandValue($path);
+
+        if ( $file || $path ) {
+            push @sslVerify,
+              (
+                @sslCommon,
+                SSL_verify_mode   => IO::Socket::SSL::SSL_VERIFY_PEER(),
+                SSL_verify_scheme => {
+                    check_cn         => 'when_only',
+                    wildcards_in_alt => 'leftmost',
+                    wildcards_in_cn  => 'leftmost',
+                },
+                SSL_ca_file => $file || undef,
+                SSL_ca_path => $path || undef,
+              );
+
+            if ( $Foswiki::cfg{Email}{SSLCheckCRL} ) {
+                ( $file, $path ) = (
+                    $Foswiki::cfg{Email}{SSLCrlFile},
+                    $Foswiki::cfg{Email}{SSLCaPath}
+                );
+                Foswiki::Configure::Load::expandValue($file);
+                Foswiki::Configure::Load::expandValue($path);
+
+                if ( $file || $path ) {
+                    push @sslVerify, SSL_check_crl => 1;
+                    push @sslVerify, SSL_crl_file  => $file
+                      if ($file);
+                }
+                else {
+                    $e .= $this->WARN(
+"{Email}{SSLCheckCRL} requires CRL verification but neither {Email}{SSLCrlFile} nor {Email}{SSLCaPath} is set."
+                    );
+                }
+            }
+        }
+        else {
+            $e .= $this->WARN(
+"{Email}{SSLVerifyServer} requires host verification but neither {Email}{SSLCaFile} nor {Email}{SSLCaPath} is set."
+            );
+        }
+    }
+
     # Connection methods in priority order
-    my @methods = (qw/starttls tls ssl smtp/);
+    my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
 
     # Configuration data for each method.  Ports in priority order.
     my %config = (
@@ -645,9 +796,30 @@ sub autoconfigPerl {
             ports  => [qw/submission(587) smtp(25)/],
             method => 'Net::SMTP',
             isa    => [@Net::SMTP::ISA],
-            ssl    => [],
         },
     );
+    foreach my $method (@methods) {
+        if ( $method =~ /^(.*)-v$/ ) {
+            if (@sslVerify) {
+                die "Invalid config for $method\n"
+                  unless ( exists $config{$1} );
+
+                $config{$method} = { %{ $config{$1} } };
+                $config{$method}{ssl} =
+                  [ @{ $config{$method}{ssl} }, @sslVerify ];
+            }
+            else {
+                delete $config{$method};
+            }
+        }
+    }
+    foreach my $method (@methods) {
+        next unless ( exists $config{$method} );
+        if ( $method !~ /-v$/ && exists $config{$method}{ssl} ) {
+            push @{ $config{$method}{ssl} }, @sslNoVerify;
+        }
+    }
+
     @Net::SMTP::ISA = __PACKAGE__;
 
     if ( $port && $port =~ /^\d+$/ ) {
@@ -674,42 +846,61 @@ sub autoconfigPerl {
   METHOD:
     foreach my $method (@methods) {
         my $cfg = $config{$method};
+        next unless ($cfg);
+
         my @ports = $port ? ($port) : @{ $cfg->{ports} };
 
         # Suppress carp in libnet with debug > 0
         local $SIG{__WARN__} = sub { };
 
         foreach my $port (@ports) {
-            @sslopts = (
-                @{ $cfg->{ssl} },
-                SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE()
-            );
-            $ssl = $method =~ /^(tls|ssl)$/;
+            if ( $cfg->{ssl} ) {
+                @sslopts = ( @{ $cfg->{ssl} } );
+            }
+            else {
+                @sslopts = ();
+            }
+
+            $ssl = $starttls = 0;
+            my $methodid;
+            if ( $method =~ /^(tls|ssl|starttls)(-v)?$/ ) {
+                $methodid = uc($1) . ' ';
+                $methodid .= ( $2 ? "WITH" : "with NO" ) . " host verification";
+                if ( $1 eq 'starttls' ) {
+                    $starttls = 1;
+                }
+                else {
+                    $ssl = 1;
+                }
+            }
+            else {
+                $methodid = uc($method);
+            }
+
             @ISA = @{ $cfg->{isa} };
 
             $tlog = '<pre>';
-            $tlog .=
-                "Testing "
-              . uc($method) . " on "
+            $tlog .= "${pad}Testing $methodid on "
               . (
                   $port =~ /^\d+$/           ? "port $port\n"
                 : $port =~ /^(.*)\((\d+)\)$/ ? "$1 port ($2)\n"
                 : "$port port\n"
               );
-
             my $smtp = $mailobj->new(
                 Debug => 1,
                 @options,
                 Port => $port,
             );
             unless ($smtp) {
-                $e .= $this->NOTE( $tlog . "Connect failed</pre>" );
+                $e .= $this->NOTE( $tlog . "${pad}Connect failed</pre>" );
                 next;
             }
             $tlog .=
-              "Connected to " . $smtp->peerhost . ':' . $smtp->peerport . "\n";
+                "${pad}Connected to "
+              . $smtp->peerhost . ':'
+              . $smtp->peerport . "\n";
 
-            if ( $method eq 'starttls' ) {
+            if ($starttls) {
                 unless ( defined $smtp->supports('STARTTLS') ) {
                     $smtp->quit;
                     $e .= $this->NOTE( $tlog,
@@ -722,17 +913,22 @@ sub autoconfigPerl {
                     next;
                 }
                 unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts ) ) {
-                    $tlog .= IO::Socket::SSL::errstr() . "\n";
-                    $e .= $this->NOTE( $tlog . "START SSL failed</pre>" );
-                    $smtp->quit;
+                    $tlog .= $pad . IO::Socket::SSL::errstr() . "\n";
+                    $e .= $this->NOTE( $tlog . "START TLS failed</pre>" );
+
+                    #$smtp->quit;
                     next;
                 }
                 @ISA =
                   ( grep( $_ ne 'IO::Socket::INET', @ISA ), 'IO::Socket::SSL' );
                 bless $smtp, $mailobj;
-                $tlog .= "TLS connection established\n";
+                $smtp->debug_print( 0,
+                        "TLS connection established using "
+                      . $smtp->get_cipher
+                      . " encryption\n"
+                      . $smtp->dump_peer_certificate );
 
-                unless ( $smtp->hello( $this->{HELLO_HOST} ) ) {
+                unless ( $smtp->hello($hello) ) {
                     $e .= $this->NOTE( $tlog . "Hello failed</pre>" );
                     $smtp->quit();
                     next;

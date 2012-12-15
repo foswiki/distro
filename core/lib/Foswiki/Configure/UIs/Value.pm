@@ -115,17 +115,25 @@ sub renderHtml {
 
     if ( defined $feedback ) {
         my $buttons = "";
-        my $n       = 0;
+        my $bn      = 0;
         my $col     = 0;
         my $ac      = 0;
-        my $tbl;
+        my ( $tbl, %bn );
         $tbl ||= exists $_->{col} foreach (@$feedback);
         $buttons =
           ( $haslabel ? '' : '<br />' )
           . '<table class="configureFeedbackArray"><tbody>'
           if ($tbl);
         foreach my $fb (@$feedback) {
-            $n++;
+            $bn++;
+            my $n = $fb->{button} || $bn;
+            if ( $bn{$n} || $bn < 0 ) {
+                $check .= $this->ERROR(
+".spec duplicates feedback button $n for $keys; duplicate skipped"
+                );
+                next;
+            }
+            $bn{$n} = 1;
             my $invisible = '';
             my $pinfo     = '';
             my $fbl       = $fb->{'.label'};
