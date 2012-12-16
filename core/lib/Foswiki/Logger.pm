@@ -130,9 +130,10 @@ method for "info" level events.
 sub setCommonFields {
 
     # my $fhash = shift
-    my $user  = $_[0]->{user} || $Foswiki::Plugins::SESSION->{user};
+    my $user = $_[0]->{user} || $Foswiki::Plugins::SESSION->{user};
     my $users = $Foswiki::Plugins::SESSION->{users};
-    my $login = $users->getLoginName($user) if ($users);
+    my $login;
+    $login = $users->getLoginName($user) if ($users);
     $_[0]->{user} = $login if $login;
 
     unless ( defined $_[0]->{agent} ) {

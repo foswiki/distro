@@ -13,8 +13,8 @@ use warnings;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-use version; our $VERSION = version->declare("v1.2.0");
-our $RELEASE           = '1.2.0';
+use version; our $VERSION = version->declare("v1.2.1");
+our $RELEASE           = '1.2.1';
 our $SHORTDESCRIPTION  = 'Allow User specified home pages - on login';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -78,7 +78,8 @@ sub initializeUserHandler {
 
         # TODO: make fieldname a setting.
         my $field = $meta->get( 'FIELD', 'HomePage' );
-        my $userHomePage = $field->{value} if ( defined($field) );
+        my $userHomePage;
+        $userHomePage = $field->{value} if ( defined($field) );
         $siteDefault = $userHomePage
           if ( $userHomePage and ( $userHomePage ne '' ) );
     }

@@ -57,6 +57,7 @@ Many thanks to the following sponsors for supporting this work:
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]] |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| 1.2.1 (16 Dec 2012) | Foswikitask:Item12297: Address perlcritic recommendation. |
 | 1.2.0 (16 Apr 2012) | Foswikitask:Item11761: Include in core release |
 | 1.1.1 (1 Aug 2009) | fix bug in login screen usage |
 | 1.1.0 (July 2009) | add Expert hash allowing domain name based frontpage setting |
