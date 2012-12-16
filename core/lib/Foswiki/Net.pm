@@ -550,7 +550,8 @@ sub _smimeSignMessage {
         && length $Foswiki::cfg{Email}{SmimeKeyPassword}
         && $key =~ /^-----BEGIN RSA PRIVATE KEY-----\n(?:(.*?\n)\n)?/s )
     {
-        my %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $1 )
+        my %h;
+        %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $1 )
           if ( defined $1 );
         if (   $h{'Proc-Type'}
             && $h{'Proc-Type'} eq '4,ENCRYPTED'
