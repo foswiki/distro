@@ -44,7 +44,8 @@ sub generateForm {
         }
         push( @$changesList, { key => $key, value => $valueString } );
     }
-    my @items = sortHashkeyList( keys %$updated ) if $modified;
+    my @items;
+    @items = sortHashkeyList( keys %$updated ) if $modified;
 
     my $passChanged = ( defined $cart->param('{Password}') ) ? 1 : 0;
 

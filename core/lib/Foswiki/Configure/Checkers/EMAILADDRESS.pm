@@ -44,7 +44,8 @@ sub check {
         $e .= $this->ERROR("Not defined");
     }
     else {
-        my @addrs = split( qr{$list}, $value ) if ( defined $list );
+        my @addrs;
+        @addrs = split( qr{$list}, $value ) if ( defined $list );
         push @addrs, $value unless ( defined $list );
 
         $e .= $this->ERROR("An e-mail address is required")

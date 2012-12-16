@@ -89,7 +89,7 @@ sub new {
         $value->set(
             keys => $keys,
             desc => "Full URL for $script script.  Rarely modified.",
-            opts => 'EXPERT T E CHECK="expand nullok"',
+            opts => 'EXPERT E CHECK="expand nullok"',
         );
 
         $value->addAuditGroup(qw/PARS:0/);

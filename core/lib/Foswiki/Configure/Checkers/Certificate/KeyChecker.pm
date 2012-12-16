@@ -101,7 +101,8 @@ sub loadKey {
       )
     {
         my ( $pem, $format, $type, $headers ) = ( $1, $2, $3, $4 );
-        my %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $headers )
+        my %h;
+        %h = map { split( /:\s*/, $_, 2 ) } split( /\n/, $headers )
           if ( defined $headers );
 
         @key = (

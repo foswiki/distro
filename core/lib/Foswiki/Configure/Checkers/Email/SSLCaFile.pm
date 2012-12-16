@@ -12,7 +12,9 @@ sub check {
     my $this = shift;
     my ($valobj) = @_;
 
-    return '' unless ( $Foswiki::cfg{Email}{SSLVerifyServer} );
+    return ''
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+        && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
     my $value = $this->getCfg;
 
@@ -85,6 +87,10 @@ sub check {
 sub provideFeedback {
     my $this = shift;
     my ( $valobj, $button, $label ) = @_;
+
+    return ''
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+        && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
     $this->{FeedbackProvided} = 1;
 

@@ -14,18 +14,27 @@ sub check {
     my $e = '';
 
     if ( $Foswiki::cfg{EnableEmail} ) {
-        if ( $Foswiki::cfg{Email}{MailMethod} eq "MailProgram" ) {
-            if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
-                $e .= $this->NOTE(
-"MAILHOST is not used for configured MailMethod $Foswiki::cfg{Email}{MailMethod}"
-                );
+        my $host   = $Foswiki::cfg{SMTP}{MAILHOST}    || '';
+        my $method = $Foswiki::cfg{Email}{MailMethod} || 'Net::SMTP';
+        if ( $method =~ /^Net::SMTP/ ) {
+            if ( $host = $Foswiki::cfg{SMTP}{MAILHOST} ) {
+                if ( $host =~ m/^([^:]+)(?::([0-9]{2,5}))?$/ ) {
+                    ( $host, my $port ) = ( $1, $2 );
+                    my ( undef, undef, undef, undef, @addrs ) =
+                      gethostbyname($host);
+                    unless (@addrs) {
+                        $e .= $this->ERROR(
+                            "$host is invalid: server has no IP address");
+                    }
+                }
+                else {
+                    $e .= $this->ERROR(
+"Syntax error: must be hostname with optional : numeric port"
+                    );
+                }
             }
-        }
-        else {
-            unless ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
-                $e .= $this->ERROR(
-"Hostname or address required for $Foswiki::cfg{Email}{MailMethod}."
-                );
+            else {
+                $e .= $this->ERROR("Hostname or address required for $method.");
             }
         }
     }
@@ -47,15 +56,13 @@ sub provideFeedback {
 
     $this->{FeedbackProvided} = 1;
 
+    my $keys = $valobj->getKeys;
+
     # Normally, we call check first, but not if called by check.
 
     my $e = $button ? $this->check($valobj) : '';
 
-    my $keys = $valobj->getKeys();
-
     delete $this->{FeedbackProvided};
-
-    # We only need to run the checker for button 1
 
     return wantarray ? ( $e, 0 ) : $e;
 }

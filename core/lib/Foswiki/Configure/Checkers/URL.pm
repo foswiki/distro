@@ -177,8 +177,9 @@ sub check {
         if ( $parts->{path} ) {
             if ( defined $path ) {
                 if ( $scheme =~ /^https?$/i || !$parts->{scheme} ) {
-                    unless (
-                        $path =~ m,^(?:/|(?:/(?:\w|%[[:xdigit:]]{2})+)*)$, )
+                    unless ( $path =~
+m{^(?:/|(?:/(?:[+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
+                      )
                     {
                         $e .= $this->ERROR("Path is not valid");
                     }
@@ -196,7 +197,11 @@ sub check {
 
         if ( $parts->{query} ) {
             if ( defined $query ) {
-                ;    # Validate?
+                unless ( $query =~
+                    m{\?(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
+                {
+                    $e .= $this->ERROR("Query is not valid");
+                }
             }
             elsif ( $partsReq->{query} ) {
                 $e .= $this->ERROR("Query is required for this item");
@@ -211,7 +216,9 @@ sub check {
         if ( $parts->{fragment} ) {
             if ( defined $fragment ) {
                 if ( $scheme =~ /^https?$/i ) {
-                    unless ( $fragment =~ m,(?:/(?:\w|%[[:xdigit:]]{2}))*, ) {
+                    unless ( $fragment =~
+                        m{#(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
+                    {
                         $e .= $this->ERROR("Fragment is not valid");
                     }
                 }    # Checks for other schemes?

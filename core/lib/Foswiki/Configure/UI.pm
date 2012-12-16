@@ -1173,7 +1173,8 @@ sub getTemplateParser {
             $DEFAULT_TEMPLATE_PARSER);
 
         # skin can be set using url parameter 'skin'
-        my $skin = $Foswiki::query->param('skin') if $Foswiki::query;
+        my $skin;
+        $skin = $Foswiki::query->param('skin') if $Foswiki::query;
         $templateParser->setSkin($skin) if $skin;
     }
     return $templateParser;

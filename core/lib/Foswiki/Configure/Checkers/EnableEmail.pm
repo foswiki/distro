@@ -628,7 +628,7 @@ sub autoconfigPerl {
 
         my @serverAuth = split( /\s+/, $serverAuth );
         my $ok;
-        my %systemAuthMethods =
+        %systemAuthMethods =
           ( none => 1, map { uc($_) => 1 } $smtp->authValid() )
           unless ( keys %systemAuthMethods );
         foreach my $method (@serverAuth) {

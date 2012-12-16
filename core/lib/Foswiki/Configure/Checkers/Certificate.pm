@@ -219,8 +219,10 @@ Issued by %s for %s", $xpv, ( $x->issuer_cn || 'Unknown issuer' ),
     }
     $notes .= '<br />' unless ( $notes =~ />$/ );
 
-    my %ku  = map { $_ => 1 } @{ $x->KeyUsage }    if ( $x->KeyUsage );
-    my %xku = map { $_ => 1 } @{ $x->ExtKeyUsage } if ( $x->ExtKeyUsage );
+    my %ku;
+    %ku = map { $_ => 1 } @{ $x->KeyUsage } if ( $x->KeyUsage );
+    my %xku;
+    %xku = map { $_ => 1 } @{ $x->ExtKeyUsage } if ( $x->ExtKeyUsage );
     if ( $usage eq 'email' ) {
         $errors .= " Not valid for email protection"
           unless ( $xku{emailProtection}
@@ -300,8 +302,10 @@ Issued by %s for %s<br />", ( $x->issuer_cn || 'Unknown issuer' ),
             }
             $notes .= '<br />' unless ( $notes =~ />$/ );
 
-            my %ku = map { $_ => 1 } @{ $x->KeyUsage } if ( $x->KeyUsage );
-            my %xku = map { $_ => 1 } @{ $x->ExtKeyUsage }
+            my %ku;
+            %ku = map { $_ => 1 } @{ $x->KeyUsage } if ( $x->KeyUsage );
+            my %xku;
+            %xku = map { $_ => 1 } @{ $x->ExtKeyUsage }
               if ( $x->ExtKeyUsage );
             $errors .= " Not valid for Certificate Authority"
               unless ( $ku{critical}

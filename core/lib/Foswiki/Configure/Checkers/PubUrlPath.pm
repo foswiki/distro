@@ -36,7 +36,7 @@ sub check {
 <span name="{PubUrlPath}Ok">$ok</span>
 <span name="{PubUrlPath}Error">$fail</span></span>
 <span class="foswikiNonJS">Content under $value is accessible if the Foswiki logo appears to the right of this text.
-<img name="{PubUrlPath}TestImage" src="$value$t" testImg="$t" style="margin-left:10px;height:15px;"
+<img src="$value$t" style="margin-left:10px;height:15px;"
  onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"],[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
  onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"],[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'><br >If it does not appear, check the setting and webserver configuration.</span>}
     );

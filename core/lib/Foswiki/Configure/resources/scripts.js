@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.116";
+        var VERSION = "v3.117";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -613,6 +613,15 @@ var configure = (function ($) {
             if( !expertsMode && !expertOk ) {
                 configure.toggleExpertsMode( '' );
             }
+            $('[data-displayif]').each(function () {
+                var ele = $(this);
+                if( ele.find('div.configureWarn,div.configureError').size() ) {
+                    ele.addClass('configureDisplayForced');
+                } else {
+                    ele.removeClass('configureDisplayForced');
+                }
+                return true;
+            });
             return true;
         },
         getVERSION: function () {
@@ -776,8 +785,7 @@ var unsaved = { id:'{ConfigureGUI}{Unsaved}status', value:'Not a button' },
     statusTimeout = 1500,
     statusDeferred = 0,
     statusImmediate = 0,
-    statusDeferrals = [ 0, 0, 0, 0, 0],
-    errorKeyRe = /^\{.*\}errors$/;
+    statusDeferrals = [ 0, 0, 0, 0, 0];
 
 /*
 Global fuction
@@ -787,31 +795,16 @@ The ^= is because 'feedreq' is followed by a button number.
  */
 function valueChanged(el) {
     "use strict";
-    switch (el.type.toLowerCase()) {
-    case "text":
-        var jel = $(el);
-        if( jel.hasClass('configureHasTestImage') ) {
-            $('[name="' + configure.utils.quoteName(el.name+'TestImage') + '"]').
-                attr('src','').
-                each(function () { 
-                    this.src = '';
-                    this.src = el.value + $(this).attr('testImg');
-                    return true;
-                });
-        }
-        if( el.value.length && jel.hasClass('configureHasEnable') ) {
-            $('[name="' + configure.utils.quoteName(el.name.replace(/\}$/,'_}')) + '"]').each(function() {
-                if( !this.checked ) {
-                    this.checked = true;
-                }
-                return true;
-            });
-            if( false ) break; /* For jslint */
-        }
 
-        /* Fall into  standard flow */
+     var ca = $(el).closest('tr').attr('data-change');
+     if( ca !== undefined ) {
+         ca = "ca = function(ele) {" + ca + "}; ca(el);";
+         eval( ca.toString() );
+     }
+    switch (el.type.toLowerCase()) {
     case "select-one":
     case "select-multiple":
+    case "text":
     case "textarea":
     case "password":
     case "radio":
@@ -1182,7 +1175,7 @@ var feedback = ( function ($) {
 
                 case "hidden":
                     v = newval.join("");
-                    if( errorKeyRe.test(this.name) ) {
+                    if( /^\{.*\}errors$/.test(this.name) ) {
                         errorsChanged = true;
                         if( v === "0 0" ) {
                             eleDisabled = true; /* Do not POST */

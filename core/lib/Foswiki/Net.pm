@@ -991,7 +991,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
               ? IO::Socket::SSL->new(@sockopts)
               : IO::Socket::INET->new(@sockopts)
               and bless $sock, $class;
-            if ( $logssl && $sock ) {
+            if ( $usessl && $sock ) {
                 $log->debug_print( 0,
                         $opts{SSL_version}
                       . " started using "

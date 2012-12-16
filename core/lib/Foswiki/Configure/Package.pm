@@ -827,14 +827,15 @@ sub createBackup {
             }
         }
 
-        my ( $rslt, $err ) =
-          Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '1' )
-          unless ( $this->{_options}->{SIMULATE} );
-
-        $rslt = ' - Simulated backup, no files copied '
-          if ( $this->{_options}->{SIMULATE} );
-
-        $rslt = "FAILED \n" . $err unless ($rslt);
+        my $rslt;
+        if ( $this->{_options}->{SIMULATE} ) {
+            $rslt = ' - Simulated backup, no files copied ';
+        }
+        else {
+            ( $rslt, my $err ) =
+              Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '1' );
+            $rslt = "FAILED \n" . $err unless ($rslt);
+        }
 
         return "Backup saved into $pkgstore \n   Archived as $rslt \n";
     }

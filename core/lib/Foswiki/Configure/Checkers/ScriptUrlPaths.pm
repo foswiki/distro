@@ -64,8 +64,8 @@ sub check {
 <span name="${keys}Ok">$ok</span>
 <span name="${keys}Error">$fail</span></span>
 <span class="foswikiNonJS">Content under $dval is accessible if a green check appears to the right of this text.
-<img name="${keys}TestImage" src="$value$t" testImg="$t" style="margin-left:10px;height:15px;"
- onload='\$("[name=\\"${qkeys}Error\\"],[name=\\"${qkeys}Wait\\"]").hide();\$("[name=\\"${qkeys}Ok\\"]").show();'
+<img src="$value$t" style="margin-left:10px;height:15px;"
+ onload='\$("[name=\\"${qkeys}Error\\"],[name=\\"${qkeys}Wait\\"]").hide().find("div.configureWarn,div.configureError").removeClass("configureWarn configureError");configure.toggleExpertsMode("");\$("[name=\\"${qkeys}Ok\\"]").show();'
  onerror='\$("[name=\\"${qkeys}Ok\\"],[name=\\"${qkeys}Wait\\"]").hide();\$("[name=\\"${qkeys}Error\\"]").show();'><br >If it does not appear, check the setting and webserver configuration.</span>}
     );
     $this->{JSContent} = 1;

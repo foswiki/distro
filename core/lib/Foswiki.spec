@@ -60,7 +60,7 @@
 # to return the <code>DefaultUrlHost</code>.</p>
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URLPATH CHECK="expand" T M**
+# **URLPATH CHECK="expand" M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory e.g. <code>/foswiki/bin</code><br />
 # Do <b>not</b> include a trailing /.
@@ -70,7 +70,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # be manually added to <code>lib/LocalSite.cfg</code>
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **URLPATH CHECK='expand nullok' T E M U**
+# **URLPATH CHECK='expand nullok' E M U**
 # This is the complete path used to access the Foswiki view script including any suffix.  Do not include a trailing /.
 # (This is an exception override, so the ScriptSuffix is not automatically added.)
 # e.g. <code>/foswiki/bin/view.pl</code><br />  Note:  The default is acceptable except when shorter URLs are used.
@@ -1747,8 +1747,7 @@ $Foswiki::cfg{WebMasterEmail} = '';
 # buttons to provide useful information.</p>
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
-# **STRING 30 FEEDBACK=AUTO \
-#             DISPLAY_IF /^Net::SMTP/.test({Email}{MailMethod})**
+# **STRING 30 FEEDBACK=AUTO **
 # Mail host for outgoing mail. This is only used if Net::SMTP is used.
 # Examples: <tt>mail.your.company</tt> If the smtp server uses a different port
 # than the default 25 # use the syntax <tt>mail.your.company:portnumber</tt>
@@ -1862,7 +1861,12 @@ $Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 #          Net::SMTP (SSL),\
 #          Net::SMTP (TLS),\
 #          Net::SMTP (STARTTLS),\
-#          MailProgram **
+#          MailProgram \
+#          CHANGE="var s = $('[name=\"{SMTP}{MAILHOST}\"]');\
+#                  if( ele.options[ele.selectedIndex].value === 'MailProgram' )\
+#                    s.val(' ---- Unused when MailProgram selected ---');\
+#                  else { if( /^ ---- Unused/.test(s.val()) )\
+#                         s.val('');}" **
 # Select the method Foswiki will use for sending email.  On Unix/Linux hosts
 # "MailProgram" is generally acceptable.  Otherwise choose one of the Email
 # methods required by your ISP or Email server.

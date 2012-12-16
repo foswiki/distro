@@ -198,6 +198,8 @@ qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autoche
         "$itemErrors $itemWarnings",
         !( $itemErrors + $itemWarnings )
     );
+    push @cssClasses, 'configureDisplayForced'
+      if ( $itemErrors || $itemWarnings );
 
     my $resetToDefaultLinkText = '';
 
@@ -270,11 +272,7 @@ HERE
         # Generate a prompter for the value.
         my $promptclass = $value->{typename} || '';
         $promptclass .= ' configureMandatory' if ( $value->{mandatory} );
-        $promptclass .= ' configureHasTestImage'
-          if ( $value->{opts} =~ /\bT\b/ );
         if ( $value->{opts} =~ /\bE\b/ ) {
-            $promptclass .= ' configureHasEnable';
-
             my $name = $keys;
             $name =~ s/\}$/_\}/;
             $hiddenTypeOf .=
@@ -316,6 +314,20 @@ qq{<input type="checkbox" name="$name" value="1" class="BOOLEAN configureItemEna
     $props{class} = join( ' ', @cssClasses ) if ( scalar @cssClasses );
     $props{'data-displayif'} = $displayIf if $displayIf;
     $props{'data-enableif'}  = $enableIf  if $enableIf;
+    my $changeAction = $value->{changeAction} || '';
+    if ( $value->{opts} =~ /\bE\b/ ) {
+        $changeAction = << 'ENABLEJS' . $changeAction;
+if( ele.value.length ) {
+    $('[name="' + configure.utils.quoteName(ele.name.replace(/\}$/,'_}')) + '"]').each(function() {
+        if( !this.checked ) {
+            this.checked = true;
+        }
+        return true;
+    });
+}
+ENABLEJS
+    }
+    $props{'data-change'} = $changeAction if $changeAction;
 
     $check =
       qq{<div id="${keys}status" class="configureFeedback" >$check</div>};

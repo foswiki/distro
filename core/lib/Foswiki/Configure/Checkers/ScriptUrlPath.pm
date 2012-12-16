@@ -74,8 +74,8 @@ HERE
 <span name="{ScriptUrlPath}Ok">$ok</span>
 <span name="{ScriptUrlPath}Error">$fail</span></span>
 <span class="foswikiNonJS">Content under $value is accessible if a green check appears to the right of this text.
-<img name="{ScriptUrlPath}TestImage" src="$value$t" testImg="$t" style="margin-left:10px;height:15px;"
- onload='\$("[name=\\"\\{ScriptUrlPath\\}Error\\"],[name=\\"\\{ScriptUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{ScriptUrlPath\\}Ok\\"]").show();'
+<img src="$value$t" style="margin-left:10px;height:15px;"
+ onload='\$("[name=\\"\\{ScriptUrlPath\\}Error\\"],[name=\\"\\{ScriptUrlPath\\}Wait\\"]").hide().find("div.configureWarn,div.configureError").removeClass("configureWarn configureError");\$("[name=\\"\\{ScriptUrlPath\\}Ok\\"]").show();'
  onerror='\$("[name=\\"\\{ScriptUrlPath\\}Ok\\"],[name=\\"\\{ScriptUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{ScriptUrlPath\\}Error\\"]").show();'><br >If it does not appear, check the setting and webserver configuration.</span>}
     );
     $this->{JSContent} = 1;

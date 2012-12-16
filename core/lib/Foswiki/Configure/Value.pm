@@ -146,6 +146,9 @@ sub _setopts {
     $this->{label} = _fixqs($1)
       if ( $value =~ s/(?:\b|^)LABEL=($qsRE)(?:\s+|$)// );
 
+    $this->{changeAction} = _fixqs($1)
+      if ( $value =~ s/(?:\b|^)CHANGE=($qsRE)(?:\s+|$)// );
+
     push @{ $this->{checkerOpts} }, _fixqs($1)
       while ( $value =~ s/(?:\b|^)CHECK=($qsRE)(?:\s+|$)// );
 
@@ -208,7 +211,8 @@ sub addAuditGroup {
     my $this = shift;
 
     my $audits = $this->{audits};
-    my %present = map { $_ => 1 } @$audits if ($audits);
+    my %present;
+    %present = map { $_ => 1 } @$audits if ($audits);
 
     foreach my $item (@_) {
         unless ( $present{$item} ) {

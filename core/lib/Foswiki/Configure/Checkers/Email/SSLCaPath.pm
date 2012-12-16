@@ -12,7 +12,9 @@ sub check {
     my $this = shift;
     my ($valobj) = @_;
 
-    return '' unless ( $Foswiki::cfg{Email}{SSLVerifyServer} );
+    return ''
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+        && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
     # This is quite similar to CaFile, but we recompute
     # the defaults in case they depended on Path, but
@@ -96,7 +98,9 @@ sub provideFeedback {
     my $this = shift;
     my ( $valobj, $button, $label ) = @_;
 
-    return '' unless ( $Foswiki::cfg{Email}{SSLVerifyServer} );
+    return ''
+      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+        && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
     $this->{FeedbackProvided} = 1;
 
