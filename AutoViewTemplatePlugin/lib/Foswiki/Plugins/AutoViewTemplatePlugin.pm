@@ -15,8 +15,8 @@ use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-use version; our $VERSION = version->declare("v1.1.6");
-our $RELEASE           = '2012-10-10';
+use version; our $VERSION = version->declare("v1.1.7");
+our $RELEASE           = '2012-12-16';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -59,7 +59,8 @@ sub initPlugin {
     # get form-name
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     my $form = $meta->get("FORM");
-    my $formName = $form->{"name"} if $form;
+    my $formName;
+    $formName = $form->{"name"} if $form;
 
     # is it a structured topic?
     return 1 unless $formName;

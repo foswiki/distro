@@ -188,6 +188,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  1.1.15 (16 Dec 2012) | Foswikitask:Item12297: Minor perlcritic coding change | 
 |  1.1.14 (28 Nov 2012) | Foswikitask:Item11912: Clean up hex markers left behind by TinyMCEPlugin <br />\
                           Foswikitask:Item11267: Convert to perl version strings<br />\
                           Foswikitask:Item12043: Preserve Square bracket links |

@@ -79,6 +79,7 @@ The following settings can be defined in configure
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  16 Dec 2012: | Version released with Foswiki 1.1.7. Foswikitask:Item12297: Minor perllcritic change.|
 |  10 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
 |  10 Dec 2010: | Foswikitask:Item10144: Fixed mistake in example in documentation |
 |  31 Jul 2010: | Foswikitask:Item9415: Documentation updates |

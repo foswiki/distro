@@ -249,7 +249,8 @@ sub _readPasswd {
     }
 
     $lockShared |= 0;
-    my $lockHandle = _lockPasswdFile(LOCK_SH) if $lockShared;
+    my $lockHandle;
+    $lockHandle = _lockPasswdFile(LOCK_SH) if $lockShared;
     $this->PasswordTimestamp(
         ( stat( $Foswiki::cfg{Htpasswd}{FileName} ) )[9] );
     print STDERR "Loading Passwords, timestamp "
