@@ -813,7 +813,8 @@ sub _restUpload {
 
     my ( $fileSize, $fileDate, $tmpFileName );
 
-    my $stream = $query->upload('filepath') unless $doPropsOnly;
+    my $stream;
+    $stream = $query->upload('filepath') unless $doPropsOnly;
     my $origName = $fileName;
 
     unless ($doPropsOnly) {

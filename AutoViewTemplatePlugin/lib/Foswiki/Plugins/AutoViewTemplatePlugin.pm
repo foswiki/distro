@@ -59,7 +59,8 @@ sub initPlugin {
     # get form-name
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     my $form = $meta->get("FORM");
-    my $formName = $form->{"name"} if $form;
+    my $formName;
+    $formName = $form->{"name"} if $form;
 
     # is it a structured topic?
     return 1 unless $formName;
