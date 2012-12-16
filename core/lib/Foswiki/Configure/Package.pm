@@ -826,7 +826,8 @@ sub createBackup {
             }
         }
 
-        my ( $rslt, $err ) =
+        my ( $rslt, $err );
+        ( $rslt, $err ) =
           Foswiki::Configure::Util::createArchive( $bkname, $bkdir, '1' )
           unless ( $this->{_options}->{SIMULATE} );
 
