@@ -4,18 +4,10 @@ package Foswiki;
 use strict;
 use warnings;
 
-use Locale::Maketext;
-my $escape =
-  (      $Foswiki::cfg{UserInterfaceInternationalisation}
-      && $Locale::Maketext::VERSION
-      && $Locale::Maketext::VERSION < 1.23 );
+my $TT1 = chr(1);
 
 sub MAKETEXT {
     my ( $this, $params ) = @_;
-
-    my $max;
-    my $min;
-    my $param_error;
 
     my $str = $params->{_DEFAULT} || $params->{string} || "";
     return "" unless $str;
@@ -28,9 +20,9 @@ sub MAKETEXT {
     $str =~ s/~~\[/~[/g;
     $str =~ s/~~\]/~]/g;
 
-    $max         = 0;
-    $min         = 1;
-    $param_error = 0;
+    my $max         = 0;
+    my $min         = 1;
+    my $param_error = 0;
 
     # unescape parameters and calculate highest parameter number:
     $str =~ s/~\[(\_(\d+))~\]/_validate($1, $2, $max, $min, $param_error)/ge;
@@ -41,8 +33,8 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
     # get the args to be interpolated.
     my $argsStr = $params->{args} || "";
 
-    # Escape any escapes.
-    $str =~ s#\\#\\\\#g if ($escape);    # escape any escapes
+    # Remove any escapes.
+    $str =~ s#\\#<$TT1>#g;
 
     my @args = split( /\s*,\s*/, $argsStr );
 
@@ -53,6 +45,9 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
 
     # do the magic:
     my $result = $this->i18n->maketext( $str, @args );
+
+    # Restore the escapes.
+    $result =~ s#<$TT1>#\\#g;
 
     # replace accesskeys:
     $result =~
