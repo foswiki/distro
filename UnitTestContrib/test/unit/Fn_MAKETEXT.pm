@@ -114,6 +114,56 @@ sub test_multiple_args {
     $this->assert_str_equals( 'edit WebHome now', $result );
 }
 
+sub test_quant_plurals {
+    my $this = shift;
+
+    my $result = $topicObject->expandMacros(
+        '%MAKETEXT{"edit [*,_1,file] in [_2]" args="1,here"}%');
+    $this->assert_str_equals( 'edit 1 file in here', $result );
+
+    $result = $topicObject->expandMacros(
+        '%MAKETEXT{"edit [*,_1,file] in [_2]" args="2,WebHome"}%');
+    $this->assert_str_equals( 'edit 2 files in WebHome', $result );
+}
+
+sub test_escaping {
+    my $this = shift;
+
+    # Make sure the real Locale::Maketext gets called
+    $Foswiki::cfg{UserInterfaceInternationalisation} = 1;
+
+    my $str =
+' %MAKETEXT{"This \\\\\'.`echo A`.\\\\\'  [*,_1,\\\\\'.`echo A`.\\\\\' ]" args="1"}% ';
+
+    my $result = $topicObject->expandMacros($str);
+    $this->assert_str_equals(
+        ' This \\\'.`echo A`.\\\'  1 \\\'.`echo A`.\\\'  ', $result );
+}
+
+sub test_invalid_args {
+    my $this = shift;
+
+    my $result = $topicObject->expandMacros(
+        '%MAKETEXT{"edit [_0] [_222]" args="WebHome, now"}%');
+    $this->assert_str_equals(
+'edit <span class="foswikiAlert">Invalid parameter <code>"_0"</code>, MAKETEXT rejected.</span> <span class="foswikiAlert">Excessive parameter number 222, MAKETEXT rejected.</span>',
+        $result
+    );
+
+    $result = $topicObject->expandMacros(
+        '%MAKETEXT{"edit [_222] [_0]" args="WebHome, now"}%');
+    $this->assert_str_equals(
+'edit <span class="foswikiAlert">Excessive parameter number 222, MAKETEXT rejected.</span> <span class="foswikiAlert">Invalid parameter <code>"_0"</code>, MAKETEXT rejected.</span>',
+        $result
+    );
+    $result =
+      $topicObject->expandMacros('%MAKETEXT{"edit [*,_222,file]" args="2"}%');
+    $this->assert_str_equals(
+'edit <span class="foswikiAlert">Excessive parameter number 222, MAKETEXT rejected.</span>',
+        $result
+    );
+}
+
 sub test_multiple_args_one_empty {
     my $this = shift;
 
