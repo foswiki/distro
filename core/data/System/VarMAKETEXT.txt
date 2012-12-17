@@ -33,6 +33,8 @@ current user's selected language via =locale/*.po= translation files.
       args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"
     }%</pre>
    * *Notes:*
+      * =[_n]= brackets are validated to a positive integer from 1 to 100.
+      * Missing arguments are replaced with an empty string ''.
       * An ampersand (<code>&amp;</code>) followed by one ascii alphabetic
         character (a...z, A...Z) in the translatable string will be expanded
         to an access key string. For example, =&amp;X= will expand to
@@ -50,4 +52,16 @@ current user's selected language via =locale/*.po= translation files.
         shown in the examples above.
       * The string will be output in English if no mapping can be found in
         the =.po= translation file for the current user's selected language.
+
+   * *Plurals:*
+      * The =%<nop>MAKETEXT= macro also supports a _limited_ subset of the =quant= style bracket notation: <pre class="tml">
+  %<nop>MAKETEXT{string="Edit [*,_1,file]" args="4"}%
+  expands to:
+    %MAKETEXT{string="Edit [*,_1,file]" args="4"}%</pre>
+   * *Notes on plurals:*
+      * Only 3 arguments are supported.
+      * The first parameter must be an asterisk.  Literals =quant=, =numf= or =#= are not supported.
+      * The 2nd parameter must be the argument number
+      * The 3rd parameter is the word or phrase to be made plural.
+
 <!--%JQREQUIRE{"chili"}%-->
