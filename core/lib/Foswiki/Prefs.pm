@@ -437,9 +437,11 @@ sub getPreference {
     }
 
     my $value;
-    my $stack = $this->{main};
-    $value = $stack->backAtLevel(-2)->getLocal($key)
-      unless $stack->finalizedBefore( $key, -2 );
+    my $stack   = $this->{main};
+    my $prevLev = $stack->backAtLevel(-2);
+    if ( $prevLev && !$stack->finalizedBefore( $key, -2 ) ) {
+        $value = $prevLev->getLocal($key);
+    }
     if ( !defined $value && $stack->prefIsDefined($key) ) {
         my $defLevel = $stack->getDefinitionLevel($key);
         my $prefix   = $this->{prefix}->[$defLevel];
