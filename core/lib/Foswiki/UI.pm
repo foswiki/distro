@@ -478,6 +478,17 @@ sub checkWebExists {
     my ( $session, $webName, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
+    unless ($webName) {
+        throw Foswiki::OopsException(
+            'accessdenied',
+            status => 404,
+            def    => 'bad_web_name',
+            web    => $webName,
+            topic  => $Foswiki::cfg{WebPrefsTopicName},
+            params => [$op]
+        );
+    }
+
     unless ( $session->webExists($webName) ) {
         throw Foswiki::OopsException(
             'accessdenied',

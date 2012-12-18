@@ -305,10 +305,11 @@ sub popTopicContext {
     }
     $stack->restore($level);
     splice @{ $this->{prefix} }, $level + 1 if @{ $this->{prefix} } > $level;
-    return (
-        $stack->backAtLevel(-3)->topicObject->web(),
-        $stack->backAtLevel(-2)->topicObject->topic()
-    );
+
+    # Note: this used to get the web from (-3) - but that only gives the
+    # last component of the web path, and fails if the web name is empty.
+    my $toRef = $stack->backAtLevel(-2)->topicObject;
+    return ( $toRef->web(), $toRef->topic() );
 }
 
 =begin TML
