@@ -66,7 +66,7 @@ msgid "%1 added to the %2 group. "
 msgstr "%1 lagt til i gruppen %2. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "%1 cannot be removed from %2"
 msgstr "%1 kan ikke fjernes fra %2"
 
@@ -262,6 +262,11 @@ msgstr "(slett vedlegg)"
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
 msgstr "(slett)"
+
+#: core/templates/messages.tmpl:715
+#, fuzzy
+msgid "(disabled)"
+msgstr "Rediger tabell"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -872,12 +877,12 @@ msgstr ""
 "WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
 msgstr "ENDRING ikke tillatt av %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "ENDRING ikke tillatt for %1 av %2"
 
@@ -1280,7 +1285,7 @@ msgstr "Slett side..."
 msgid "Describe the file so other people know what it is."
 msgstr "Beskriv filen slik at andre vet hva den er."
 
-#: core/lib/Foswiki/Form.pm:327
+#: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
 msgstr "Detaljer i eget vindu"
 
@@ -1393,6 +1398,11 @@ msgstr "Hver egenskap har syntaksen"
 msgid "Edit"
 msgstr "Rediger"
 
+#: core/data/System/VarMAKETEXT.txt:60
+#, fuzzy
+msgid "Edit %*(%1,file)"
+msgstr "%*(%1,minutt) "
+
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
 msgstr "Rediger allikevel"
@@ -1474,10 +1484,9 @@ msgstr "Skriv administrators brukernavn eller brukernavn som satt i %1"
 #: core/data/System/WebCreateNewTopicComponents.txt:121
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Skriv sidenavnet som WikiOrd eller huk av krysset for å tillate ikke "
-"WikiOrd."
+"Skriv sidenavnet som WikiOrd eller huk av krysset for å tillate ikke WikiOrd."
 
-#: core/lib/Foswiki/Plugin.pm:130
+#: core/templates/messages.tmpl:703
 msgid "Error encountered loading the plugin. See errors below."
 msgstr "Feil oppstod ved lasting av plugin. Se feil under."
 
@@ -1666,7 +1675,7 @@ msgstr "Gode eksempler:"
 msgid "Group"
 msgstr "Gruppe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr "Gruppen finnes ikke og opprettelse er ikke tillatt"
@@ -1675,7 +1684,7 @@ msgstr "Gruppen finnes ikke og opprettelse er ikke tillatt"
 msgid "Group name"
 msgstr "Gruppenavn"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
 msgid "Group names must end in Group"
 msgstr "Gruppenavn må slutte med Group"
 
@@ -2212,7 +2221,7 @@ msgstr "Flytt side til web:"
 msgid "Move/Rename"
 msgstr "Flytt/Navngi"
 
-#: core/lib/Foswiki/Search.pm:1144
+#: core/lib/Foswiki/Search.pm:1180
 msgid "NEW"
 msgstr "NY"
 
@@ -2566,11 +2575,11 @@ msgstr "Vennligst besøk %1 for å endre ditt passord til noe du husker enklere.
 msgid "Plugin handlers"
 msgstr "Plugin behandlere"
 
-#: core/lib/Foswiki/Plugin.pm:276
+#: core/templates/messages.tmpl:713
 msgid "Plugin module did not return true. See errors below."
 msgstr "Plugin modul returnerte ikke sant. Se feil under."
 
-#: core/lib/Foswiki/Plugin.pm:145
+#: core/templates/messages.tmpl:705
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr "Plugin modul var ikke definert. Sjekk konfigurasjonen. Se feil under."
 
@@ -2704,8 +2713,8 @@ msgstr "Regulære uttrykk søk"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -3870,12 +3879,12 @@ msgid "Use template:"
 msgstr "Bruk mal:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Bruker %1 har ikke ENDRE rettigheter for %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
 msgid "User %1 not in group, cannot be removed"
 msgstr "Bruker %1 er ikke medlem av gruppe og kan ikke fjernes"
@@ -3898,12 +3907,12 @@ msgid "Users"
 msgstr "Brukere"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:883
 msgid "Users cannot be added to %1"
 msgstr "Brukere kan ikke legges til %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "Users cannot be removed from %1"
 msgstr "Brukere kan ikke fjernes fra %1"
 
@@ -4034,7 +4043,7 @@ msgstr "Advarsel: Kunne ikke sende bekreftekses epost, epost er deaktivert"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advarsel: Denne webløsningen tillater ikke %<nop>INCLUDE% av URLs"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:422
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Advarsel: \\'include\\' siden <nop>%1 finnes ikke!"
 
@@ -4042,7 +4051,7 @@ msgstr "Advarsel: \\'include\\' siden <nop>%1 finnes ikke!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Advarsel: \\'include\\' siden finnes ikke!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:448
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Advarsel: tabelldefinisjon i \\'include\\' siden %1 finnes ikke!"
 
@@ -4497,7 +4506,7 @@ msgstr "diff"
 msgid "don't forget to check your Topic Settings"
 msgstr "ikke glem å sjekke dine Side Innstillinger"
 
-#: core/lib/Foswiki/Plugin.pm:196
+#: core/templates/messages.tmpl:711
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr "earlyInitPlugin feilet. Se feil under."
 
@@ -4527,7 +4536,7 @@ msgstr "i wiki tekst format"
 msgid "indicates mandatory fields"
 msgstr "indikerer obligatoriske felt"
 
-#: core/lib/Foswiki/Plugin.pm:182
+#: core/templates/messages.tmpl:707 core/templates/messages.tmpl:709
 msgid "initPlugin was not defined. See errors below."
 msgstr "initPlugin var ikke definert. Se feil under."
 
@@ -5065,6 +5074,3 @@ msgstr "hvorfor du blir bedt om å bekrefte"
 
 #~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
 #~ msgstr "title='Rediger rå tekst på denne siden' accesskey='w'>Rå edit (&w)"
-
-#~ msgid "Edit table"
-#~ msgstr "Rediger tabell"

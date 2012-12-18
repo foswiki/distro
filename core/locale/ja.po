@@ -72,7 +72,7 @@ msgstr "%1は%2グループに追加しました。"
 #   $date,
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 は%2から外されました。"
@@ -280,6 +280,11 @@ msgstr "(添付ファイルを削除します)"
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
 msgstr "(削除)"
+
+#: core/templates/messages.tmpl:715
+#, fuzzy
+msgid "(disabled)"
+msgstr "テーブルを編集します"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -899,12 +904,12 @@ msgstr ""
 "=ALLOWWEBVIEW= の関係制限を削除してください"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1303,7 +1308,7 @@ msgstr "トピックを削除..."
 msgid "Describe the file so other people know what it is."
 msgstr "他の人に理解してもらうためにファイルの内容を説明します。"
 
-#: core/lib/Foswiki/Form.pm:327
+#: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
 msgstr "クリックしてほかのウィンドウで詳細を確認します"
 
@@ -1414,6 +1419,11 @@ msgstr "それぞれの属性には文法上の問題がありません"
 msgid "Edit"
 msgstr "編集"
 
+#: core/data/System/VarMAKETEXT.txt:60
+#, fuzzy
+msgid "Edit %*(%1,file)"
+msgstr "%*(%1,分) "
+
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
 msgstr "強制編集します"
@@ -1504,7 +1514,7 @@ msgstr ""
 "トピック名が%1に一致する名称を選択してください。又はノンWikiWordにチェックを"
 "入れてください。"
 
-#: core/lib/Foswiki/Plugin.pm:130
+#: core/templates/messages.tmpl:703
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1692,7 +1702,7 @@ msgstr "良い例:"
 msgid "Group"
 msgstr "グループ"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1702,7 +1712,7 @@ msgstr ""
 msgid "Group name"
 msgstr "トピック名"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2249,7 +2259,7 @@ msgstr "トピックをウェブに移動します："
 msgid "Move/Rename"
 msgstr "移動/リネーム"
 
-#: core/lib/Foswiki/Search.pm:1144
+#: core/lib/Foswiki/Search.pm:1180
 msgid "NEW"
 msgstr "新"
 
@@ -2612,11 +2622,11 @@ msgstr "%1にアクセスしてお使いのパスワードを覚えやすいの�
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/lib/Foswiki/Plugin.pm:276
+#: core/templates/messages.tmpl:713
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/lib/Foswiki/Plugin.pm:145
+#: core/templates/messages.tmpl:705
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -2755,8 +2765,8 @@ msgstr "正規表現検索"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -3913,13 +3923,13 @@ msgid "Use template:"
 msgstr "テンプレートを使用します："
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
 #, fuzzy
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "%1には%2 *%3*にアクセスする権限がありません。"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3943,12 +3953,12 @@ msgid "Users"
 msgstr "ユーザー"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:883
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -4088,7 +4098,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告： このウェブサイトでは %<nop>INCLUDE% リンクは使用できません"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:422
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
@@ -4098,7 +4108,7 @@ msgstr "警告：'include'トピックは存在しません！"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:448
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
@@ -4542,7 +4552,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "トピック設定のチェックを忘れないでください"
 
-#: core/lib/Foswiki/Plugin.pm:196
+#: core/templates/messages.tmpl:711
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -4573,7 +4583,7 @@ msgstr "元のテキストフォーマット"
 msgid "indicates mandatory fields"
 msgstr "必須入力項目を明示します"
 
-#: core/lib/Foswiki/Plugin.pm:182
+#: core/templates/messages.tmpl:707 core/templates/messages.tmpl:709
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
@@ -5068,9 +5078,6 @@ msgstr "なぜ確認するか問われているか"
 
 #~ msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
 #~ msgstr "title='このトピックソースを編集します' accesskey='w'>編集"
-
-#~ msgid "Edit table"
-#~ msgstr "テーブルを編集します"
 
 #~ msgid "%1 Web Home"
 #~ msgstr "%1 トップページ"

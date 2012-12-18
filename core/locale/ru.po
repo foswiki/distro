@@ -73,7 +73,7 @@ msgid "%1 added to the %2 group. "
 msgstr "%1 добавлен в группу %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1098
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 удалён из группы %2."
@@ -275,6 +275,11 @@ msgstr "(удалить файл)"
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
 msgstr "(удалить)"
+
+#: core/templates/messages.tmpl:715
+#, fuzzy
+msgid "(disabled)"
+msgstr "Редактировать таблицу"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -904,12 +909,12 @@ msgstr ""
 "=ALLOWWEBVIEW= из [[WebPreferences][Параметров раздела]]."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:912
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:946
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1325,7 +1330,7 @@ msgstr "Удалить тему..."
 msgid "Describe the file so other people know what it is."
 msgstr "Опишите файл так, чтобы другие люди поняли что это."
 
-#: core/lib/Foswiki/Form.pm:327
+#: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
 msgstr "Подробнее в отдельном окне"
 
@@ -1438,6 +1443,11 @@ msgstr "Каждый параметр имеет синтаксис"
 msgid "Edit"
 msgstr "Редактировать"
 
+#: core/data/System/VarMAKETEXT.txt:60
+#, fuzzy
+msgid "Edit %*(%1,file)"
+msgstr "%*(%1,мин.) "
+
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
 msgstr "Всё равно редактировать"
@@ -1527,7 +1537,7 @@ msgstr ""
 "[[%SYSTEMWEB%.WikiWord][ВикиСловом]] или убедитесь в том, что разрешено "
 "использование не-ВикиСлов"
 
-#: core/lib/Foswiki/Plugin.pm:130
+#: core/templates/messages.tmpl:703
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1717,7 +1727,7 @@ msgstr "Хорошие примеры:"
 msgid "Group"
 msgstr "Группа"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -1726,7 +1736,7 @@ msgstr ""
 msgid "Group name"
 msgstr "Имя группы"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:886
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2275,7 +2285,7 @@ msgstr "Переместить тему в раздел:"
 msgid "Move/Rename"
 msgstr "Переместить/Переименовать"
 
-#: core/lib/Foswiki/Search.pm:1144
+#: core/lib/Foswiki/Search.pm:1180
 msgid "NEW"
 msgstr "НОВАЯ"
 
@@ -2642,11 +2652,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr "Обработчики плагинов"
 
-#: core/lib/Foswiki/Plugin.pm:276
+#: core/templates/messages.tmpl:713
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/lib/Foswiki/Plugin.pm:145
+#: core/templates/messages.tmpl:705
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -2781,8 +2791,8 @@ msgstr "С использованием регулярных выражений"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1011
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1024
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -3964,12 +3974,12 @@ msgid "Use template:"
 msgstr "Использовать шаблон:"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1131
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1120
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -3993,12 +4003,12 @@ msgid "Users"
 msgstr "Пользователи"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:882
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:883
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1090
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "Users cannot be removed from %1"
 msgstr ""
 
@@ -4137,7 +4147,7 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Внимание: Этот сайт не позволяет использовать %<nop>INCLUDE% для URL адресов"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:415
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:422
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Внимание: тема \\'include\\' не существует!"
@@ -4146,7 +4156,7 @@ msgstr "Внимание: тема \\'include\\' не существует!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Внимание: тема \\'include\\' не существует!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:441
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:448
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Внимание: тема \\'include\\' не существует!"
@@ -4617,7 +4627,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "не забудьте проверить настройки Вашей персональной страницы"
 
-#: core/lib/Foswiki/Plugin.pm:196
+#: core/templates/messages.tmpl:711
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -4647,7 +4657,7 @@ msgstr "в виде исходного текста"
 msgid "indicates mandatory fields"
 msgstr "указывает обязательные поля"
 
-#: core/lib/Foswiki/Plugin.pm:182
+#: core/templates/messages.tmpl:707 core/templates/messages.tmpl:709
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
@@ -5197,9 +5207,6 @@ msgstr "почему мне нужно подтвердить изменения
 #~ msgstr ""
 #~ "title='Редактировать исходный текст этой темы' "
 #~ "accesskey='w'>Редактировать исходник"
-
-#~ msgid "Edit table"
-#~ msgstr "Редактировать таблицу"
 
 #~ msgid "%1 Web Home"
 #~ msgstr "%1 Главная страница раздела"
