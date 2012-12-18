@@ -66,8 +66,11 @@ sub oops {
 
     # Foswikitask:Item885: web and topic are required to have values
     $web ||= $session->{webName};
-    $web ||= "(Missing or illegal web)"
-      ; #If web name is completely missing, it probably contained illegal characters
+
+    # If web name is completely missing, it may have contained
+    # illegal characters
+    $web ||= '';
+
     $topic ||= $session->{topicName};
 
     my $tmplName;
@@ -128,7 +131,13 @@ MESSAGE
             my $blah = $session->templates->expandTemplate($def);
             $tmplData =~ s/%INSTANTIATE%/$blah/;
         }
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+
+        # Warning: do NOT attempt to instantiate a topic object with
+        # a null or bogus web name!
+        my $topicObject =
+          Foswiki::Meta->new( $session, $web || $Foswiki::cfg{SystemWebName},
+            $topic );
+
         $tmplData = $topicObject->expandMacros($tmplData);
         $n        = 1;
         foreach my $param (@params) {
@@ -145,6 +154,9 @@ MESSAGE
         $tmplData = $topicObject->renderTML($tmplData);
     }
 
+    # Hack to prevent 1.1.7 from entering fail state when creating
+    # a topic object with an empty webname (fixed in 1.2.0)
+    $session->{webName} ||= $Foswiki::cfg{SystemWebName};
     $session->writeCompletePage($tmplData);
 }
 

@@ -633,6 +633,16 @@
 
 *%MAKETEXT{"Related topics:"}%* %USERSWEB%.WikiGroups, %SYSTEMWEB%.AccessControl
 %TMPL:END%
+%TMPL:DEF{"bad_web_name"}%
+---++ %MAKETEXT{"Missing or illegal web name"}%
+%MAKETEXT{"A Foswiki site is divided into webs; each one represents one subject, one area of collaboration. You are trying to [_1] in a web that does not exist." args="'%PARAM1%'"}%
+
+---+++ %MAKETEXT{"If you came here by clicking on a question mark link"}%
+<blockquote>
+%MAKETEXT{"A link to a topic located in another web is written like [_1]. Make sure that the name of the web is not spelt wrongly on the previous page; fix the link if necessary." args="*Otherweb.<nop>TopicName*"}%
+</blockquote>
+
+%TMPL:END%
 %TMPL:DEF{"no_such_web"}%
 ---++ %MAKETEXT{"The [_1] web does not exist" args="\"%WEB%\""}%
 %MAKETEXT{"A Foswiki site is divided into webs; each one represents one subject, one area of collaboration. You are trying to [_1] in a web that does not exist." args="'%PARAM1%'"}%
@@ -713,3 +723,4 @@
 %TMPL:DEF{"plugin_ret_0"}%%MAKETEXT{"Plugin module did not return true. See errors below."}%%TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"plugin_disabled"}%%MAKETEXT{"(disabled)"}%%TMPL:END%
+
