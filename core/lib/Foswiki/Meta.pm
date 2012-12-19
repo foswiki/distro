@@ -3127,7 +3127,7 @@ Only valid on topics.
 
 sub expandMacros {
     my ( $this, $text ) = @_;
-    _assertIsTopic(defined) if DEBUG;
+    _assertIsTopic($this) if DEBUG;
 
     return $this->{_session}->expandMacros( $text, $this );
 }
