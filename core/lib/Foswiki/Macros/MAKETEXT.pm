@@ -4,7 +4,11 @@ package Foswiki;
 use strict;
 use warnings;
 
-my $TT1 = chr(1);
+use Locale::Maketext;
+my $escape =
+  (      $Foswiki::cfg{UserInterfaceInternationalisation}
+      && $Locale::Maketext::VERSION
+      && $Locale::Maketext::VERSION < 1.23 );
 
 sub MAKETEXT {
     my ( $this, $params ) = @_;
@@ -33,8 +37,8 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
     # get the args to be interpolated.
     my $argsStr = $params->{args} || "";
 
-    # Remove any escapes.
-    $str =~ s#\\#<$TT1>#g;
+    # Escape any escapes.
+    $str =~ s#\\#\\\\#g if ($escape);    # escape any escapes
 
     my @args = split( /\s*,\s*/, $argsStr );
 
@@ -45,9 +49,6 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
 
     # do the magic:
     my $result = $this->i18n->maketext( $str, @args );
-
-    # Restore the escapes.
-    $result =~ s#<$TT1>#\\#g;
 
     # replace accesskeys:
     $result =~
