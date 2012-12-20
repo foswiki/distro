@@ -2923,7 +2923,7 @@ sub moveAttachment {
     my %opts = @_;
     my $cUID = $opts{user} || $this->{_session}->{user};
     _assertIsTopic($this) if DEBUG;
-    $to->_isTopic() if DEBUG;
+    $to->_assertIsTopic() if DEBUG;
 
     my $newName = $opts{new_name} || $name;
 
@@ -3006,7 +3006,7 @@ sub copyAttachment {
     my %opts = @_;
     my $cUID = $opts{user} || $this->{_session}->{user};
     _assertIsTopic($this) if DEBUG;
-    $to->_isTopic() if DEBUG;
+    $to->_assertIsTopic() if DEBUG;
 
     my $newName = $opts{new_name} || $name;
 
