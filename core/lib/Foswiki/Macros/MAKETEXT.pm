@@ -5,10 +5,6 @@ use strict;
 use warnings;
 
 use Locale::Maketext;
-my $escape =
-  (      $Foswiki::cfg{UserInterfaceInternationalisation}
-      && $Locale::Maketext::VERSION
-      && $Locale::Maketext::VERSION < 1.23 );
 
 sub MAKETEXT {
     my ( $this, $params ) = @_;
@@ -38,7 +34,10 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
     my $argsStr = $params->{args} || "";
 
     # Escape any escapes.
-    $str =~ s#\\#\\\\#g if ($escape);    # escape any escapes
+    $str =~ s#\\#\\\\#g
+      if ( $Foswiki::cfg{UserInterfaceInternationalisation}
+        && $Locale::Maketext::VERSION
+        && $Locale::Maketext::VERSION < 1.23 );    # escape any escapes
 
     my @args = split( /\s*,\s*/, $argsStr );
 
