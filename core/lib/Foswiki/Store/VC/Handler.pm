@@ -38,6 +38,11 @@ use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
 use Foswiki::Attrs                         ();
 
+# Modules required for handling TOPICINFO cacheing
+use Foswiki::Meta                   ();
+use Foswiki::Serialise::Embedded    ();
+use Foswiki::Users::BaseUserMapping ();
+
 # use the locale if required to ensure sort order is correct
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -217,9 +222,6 @@ sub getInfo {
     my $this =
       shift;  # $version is not useful here, as we have no way to record history
 
-    # SMELL: this is only required for the constant
-    require Foswiki::Users::BaseUserMapping;
-
   # We only arrive here if the implementation getInfo can't serve the info; this
   # will usually be because the ,v is missing or the topic cache is newer.
 
@@ -392,7 +394,7 @@ sub addRevisionFromText {
     if ( $this->_saveDamage() ) {
         $rev = $this->getNextRevisionID();
     }
-
+    $comment ||= '';
     $text = $this->_cacheMetaInfo( $text, $comment, $user, $date, $rev );
 
     $this->ci( 0, $text, $comment, $user, $date );

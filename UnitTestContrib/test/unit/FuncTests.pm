@@ -159,8 +159,9 @@ sub test_createWeb_permissions {
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
-    Foswiki::Func::saveTopicText( $this->{test_web},
-        $Foswiki::cfg{WebPrefsTopicName}, <<"HERE");
+    $this->assert(
+        !Foswiki::Func::saveTopicText(
+            $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName}, <<"HERE") );
 \t* Set DENYWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
 HERE
 
@@ -549,12 +550,11 @@ NONNY
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     Foswiki::Func::saveTopic( $this->{test_web}, $topic, $meta, $text,
-        { comment => 'atp save' } );
+        { comment => 'atp save', forcenewrevision => 1 } );
     $meta->finish();
     my $text2 = Foswiki::Func::readTopicText( $this->{test_web}, $topic );
-
     my $matchText =
-'%META:TOPICINFO{author="BaseUserMapping_666" comment="reprev" date=".*?" format="1.1" reprev="1" version="1"}%'
+'%META:TOPICINFO{author="BaseUserMapping_666" comment="atp save" date=".*?" format="1.1" version="2"}%'
       . "\n"
       . $origtext;
     $this->assert_matches( qr/$matchText/, $text2 );
@@ -651,7 +651,7 @@ sub test_attachments {
         $topic, $name1,
         {
             dontlog  => 1,
-            comment  => 'Feasgar Bha',
+            comment  => 'Feasgar " Bha',
             stream   => $stream,
             filepath => '/local/file',
             filesize => 999,
@@ -754,7 +754,7 @@ sub test_attachment_comment {
 
     Foswiki::Func::saveTopicText( $this->{test_web}, $topic, '' );
 
-    my $attachComment = 'Feasgar Blha';
+    my $attachComment = 'Feasgar " Blha';
 
     my $e = Foswiki::Func::saveAttachment(
         $this->{test_web},
@@ -819,7 +819,7 @@ sub test_noauth_saveAttachment {
             $topic, $name1,
             {
                 dontlog  => 1,
-                comment  => 'Feasgar Bha',
+                comment  => 'Feasgar " Bha',
                 stream   => $stream,
                 filepath => '/local/file',
                 filesize => 999,
@@ -953,7 +953,7 @@ sub test_subweb_attachments {
         $web, $topic, $name1,
         {
             dontlog  => 1,
-            comment  => 'Feasgar Bha',
+            comment  => 'Feasgar " Bha',
             stream   => $stream,
             filepath => '/local/file',
             filesize => 999,
@@ -1134,7 +1134,7 @@ sub test_moveTopic {
         "Name1",
         {
             dontlog  => 1,
-            comment  => 'Feasgar Bha',
+            comment  => 'Feasgar " Bha',
             file     => $this->{tmpdatafile},
             filepath => '/local/file',
             filesize => 999,
@@ -1249,7 +1249,7 @@ sub test_moveAttachment {
         "Name1",
         {
             dontlog  => 1,
-            comment  => 'Feasgar Bha',
+            comment  => 'Feasgar " Bha',
             file     => $this->{tmpdatafile},
             filepath => '/local/file',
             filesize => 999,
@@ -1359,7 +1359,7 @@ sub test_copyAttachment {
         "Name1",
         {
             dontlog  => 1,
-            comment  => 'Feasgar Bha',
+            comment  => 'Feasgar " Bha',
             file     => $this->{tmpdatafile},
             filepath => '/local/file',
             filesize => 999,

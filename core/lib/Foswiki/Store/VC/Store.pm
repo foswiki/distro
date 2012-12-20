@@ -352,10 +352,11 @@ sub getVersionInfo {
 }
 
 sub saveAttachment {
-    my ( $this, $topicObject, $name, $stream, $cUID, $comment ) = @_;
+    my ( $this, $topicObject, $name, $stream, $cUID, $options ) = @_;
 
     my $handler = $this->getHandler( $topicObject, $name );
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
+    my $comment = $options->{comment} || '';
 
     $handler->addRevisionFromStream( $stream, $comment, $cUID );
 
@@ -379,7 +380,8 @@ sub saveTopic {
     ASSERT($cUID) if DEBUG;
 
     my $handler = $this->getHandler($topicObject);
-    my $verb = ( $topicObject->existsInStore() ) ? 'update' : 'insert';
+    my $verb    = ( $topicObject->existsInStore() ) ? 'update' : 'insert';
+    my $comment = ( ref $options ) ? $options->{comment} : $options;
 
     # just in case they are not sequential
     my $nextRev = $handler->getNextRevisionID();
@@ -396,8 +398,11 @@ sub saveTopic {
         );
     }
 
-    $handler->addRevisionFromText( $topicObject->getEmbeddedStoreForm(),
-        'save topic', $cUID, $options->{forcedate} );
+    $handler->addRevisionFromText(
+        $topicObject->getEmbeddedStoreForm(),
+        $options->{comment} || '',
+        $cUID, $options->{forcedate}
+    );
 
     my $extra = $options->{minor} ? 'minor' : '';
     $this->recordChange(
@@ -516,7 +521,6 @@ sub webExists {
             return 0;
         }
     }
-
     my $handler = $this->getHandler( $web, $Foswiki::cfg{WebPrefsTopicName} );
     return $handler->storedDataExists();
 }

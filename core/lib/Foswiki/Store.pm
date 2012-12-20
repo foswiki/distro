@@ -407,21 +407,26 @@ sub getVersionInfo {
 
 =begin TML
 
----++ ObjectMethod saveAttachment( $topicObject, $attachment, $stream, $cUID ) -> $revNum
+---++ ObjectMethod saveAttachment( $topicObject, $attachment, $stream, $cUID, \%options ) -> $revNum
+Save a new revision of an attachment, the content of which will come
+from an input stream =$stream=.
    * =$topicObject= - Foswiki::Meta for the topic
    * =$attachment= - name of the attachment
    * =$stream= - input stream delivering attachment data
    * =$cUID= - user doing the save
-Save a new revision of an attachment, the content of which will come
-from an input stream =$stream=.
-
+   * =\%options= - Ref to hash of options
+=\%options= may include:
+   * =forcedate= - force the revision date to be this (epoch secs) *X* =forcedate= must be equal to or later than the date of the most recent revision already stored for the topic.
+   * =minor= - True if this is a minor change (used in log)
+   * =comment= - a comment associated with the save
 Returns the number of the revision saved.
+
+Note: =\%options= was added in Foswiki 1.2
 
 =cut
 
-# SMELL: should support the same options as saveTopic
 sub saveAttachment {
-    my( $this, $topicObject, $name, $stream, $cUID ) = @_;
+    my( $this, $topicObject, $name, $stream, $cUID, $options ) = @_;
     die "Abstract base class";
 }
 
@@ -435,9 +440,11 @@ Save a topic or attachment _without_ invoking plugin handlers.
    * =$options= - Ref to hash of options
 =$options= may include:
    * =forcenewrevision= - force a new revision even if one isn't needed
-   * =forcedate= - force the revision date to be this (epoch secs) *X* =forcedate= must be equal to or later than the date of the most recent revision already stored for the topic.
+   * =forcedate= - force the revision date to be this (epoch secs)
+    *X* =forcedate= must be equal to or later than the date of the most
+    recent revision already stored for the topic.
    * =minor= - True if this is a minor change (used in log)
-   * =author= - cUID of author of the change
+   * =comment= - a comment associated with the save
 
 Returns the new revision identifier.
 
@@ -459,8 +466,6 @@ content is taken from the content currently loaded in $topicObject.
 
 Parameters and return value as saveTopic, except
    * =%options= - as for saveTopic, with the extra options:
-      * =forcedate= - if we want to force the deposited revision
-        to have this specific epoch date, rather than the default time-of-save. *X* =forcedate= must be equal to or later than the date of the most recent revision already stored for the topic after the top revision has been removed.
       * =operation= - set to the name of the operation performing the save.
         This is used only in the log, and is normally =cmd= or =save=. It
         defaults to =save=.

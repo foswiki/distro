@@ -321,9 +321,11 @@ sub verify_moveTopic {
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
     my $f;
     open( $f, '<', $this->{tmpdatafile} );
-    $this->{sut}
-      ->saveAttachment( $meta, "Attachment1", $f, $this->{test_user_cuid},
-        'Feasgar Bha' );
+    $this->{sut}->saveAttachment(
+        $meta, "Attachment1", $f,
+        $this->{test_user_cuid},
+        { comment => 'Feasgar " Bha' }
+    );
     $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
     $meta->finish();
 
@@ -572,9 +574,11 @@ sub verify_moveAttachment {
 
     my $f;
     open( $f, '<', $this->{tmpdatafile} );
-    $this->{sut}
-      ->saveAttachment( $meta, "Attachment1", $f, $this->{test_user_cuid},
-        'Feasgar Bha' );
+    $this->{sut}->saveAttachment(
+        $meta, "Attachment1", $f,
+        $this->{test_user_cuid},
+        { comment => 'Feasgar " Bha' }
+    );
     $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
     $meta->finish();
     $meta =
@@ -658,9 +662,11 @@ sub verify_copyAttachment {
 
     my $f;
     open( $f, '<', $this->{tmpdatafile} );
-    $this->{sut}
-      ->saveAttachment( $meta, "Attachment1", $f, $this->{test_user_cuid},
-        'Feasgar Bha' );
+    $this->{sut}->saveAttachment(
+        $meta, "Attachment1", $f,
+        $this->{test_user_cuid},
+        { comment => 'Feasgar " Bha' }
+    );
     $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
     $meta->finish();
     $meta =
@@ -741,9 +747,11 @@ sub verify_moveWeb {
     $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AttEd" );
     my $f;
     open( $f, '<', $this->{tmpdatafile} );
-    $this->{sut}
-      ->saveAttachment( $meta, "Attachment1", $f, $this->{test_user_cuid},
-        'Feasgar Bha' );
+    $this->{sut}->saveAttachment(
+        $meta, "Attachment1", $f,
+        $this->{test_user_cuid},
+        { comment => 'Feasgar " Bha' }
+    );
     $meta->finish();
 
     my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $this->{t_web} );

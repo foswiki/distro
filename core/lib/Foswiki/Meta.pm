@@ -2776,8 +2776,7 @@ sub attach {
         try {
             $this->{_session}->{store}
               ->saveAttachment( $this, $opts{name}, $opts{stream},
-                $opts{author} || $this->{_session}->{user},
-                $opts{comment} );
+                $opts{author} || $this->{_session}->{user}, \%opts );
         }
         finally {
             $this->fireDependency();

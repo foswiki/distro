@@ -31,7 +31,7 @@ NotTOAutoLink
 HERE
 
 my $topic2meta =
-'%META:TOPICINFO{author="BaseUserMapping_666" comment="save topic" date="[0-9]{10,10}" format="1.1" version="1"}%'
+'%META:TOPICINFO{author="BaseUserMapping_666" date="[0-9]{10,10}" format="1.1" version="1"}%'
   . "\n";
 my $topic2metaQ = $topic2meta;
 $topic2metaQ =~ s/"/&quot;/g;
@@ -244,6 +244,7 @@ sub test_render_raw {
 
     ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all' );
+
     $this->assert_matches( qr#$topic2meta$topic2#, $text,
         "Unexpected output from raw=all" );
     $this->assert_matches( qr#^Content-Type: text/plain#ms,
