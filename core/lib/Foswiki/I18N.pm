@@ -304,10 +304,12 @@ sub enabled_languages {
 
 # discovers the available language.
 sub _discover_languages {
-    my $this = shift;
+    my $this       = shift;
+    my $cache_open = 0;
 
     #use the cache, if available
     if ( open LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
+        $cache_open = 1;
         foreach my $line (<LANGUAGE>) {
             my ( $key, $name ) = split( '=', $line );
 
@@ -322,12 +324,13 @@ sub _discover_languages {
     else {
 
         # Rebuild the cache, filtering on enabled languages.
-        open LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache";
+        $cache_open =
+          open( LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache" );
         foreach my $tag ( available_languages() ) {
             my $h = Foswiki::I18N->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
             $name = $this->toSiteCharSet($name);
-            print LANGUAGE "$tag=$name\n";
+            print LANGUAGE "$tag=$name\n" if $cache_open;
 
             # Filter on enabled languages
             next
@@ -337,7 +340,7 @@ sub _discover_languages {
         }
     }
 
-    close LANGUAGE;
+    close LANGUAGE if $cache_open;
     $this->{checked_enabled} = 1;
 
 }
