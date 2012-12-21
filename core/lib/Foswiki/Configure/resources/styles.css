@@ -591,6 +591,10 @@ div.configureOk {
 	background-image:url(%RESOURCEURI%icon_ok.png);
 }
 
+div.configureWarn ul,
+div.configureError ul {
+    margin:0;
+}
 a.configureWarn:link,
 a.configureWarn:visited,
 a.configureError:link,
