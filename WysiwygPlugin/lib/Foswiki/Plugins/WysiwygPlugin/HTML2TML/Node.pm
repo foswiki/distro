@@ -1432,10 +1432,8 @@ sub _handleA {
               && $this->{attrs}->{class} =~ m/\bTMLlink\b/ );
 
         my $origWikiword;
-        if (   $this->{attrs}->{class}
-            && $this->{attrs}->{class} =~ m/\bTMLwikiword(.*)\s?/ )
-        {
-            $origWikiword = $1;
+        if ( $this->{attrs}->{'data-wikiword'} ) {
+            $origWikiword = $this->{attrs}->{'data-wikiword'};
         }
 
 # SMELL:  Item11814 - decoding corrupts URL's that must be encoded,  ex. embedded Newline

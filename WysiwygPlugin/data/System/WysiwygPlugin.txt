@@ -188,8 +188,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|         (21 Dec 2012) | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Requires changes to TINYMCEPLUGIN_INIT settings* |
 |         (16 Dec 2012) | Foswikitask:Item12297: Minor perlcritic coding change |
-|         (02 Dec 2012) | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. |
 |  1.2.0  (20 Jun 2012) | Foswikitask:Item8032: enable Foswiki:Extensions.WysiwygFormfieldsPlugin. |
 |  1.1.14 (28 Nov 2012) | Foswikitask:Item11912: Clean up hex markers left behind by TinyMCEPlugin <br />\
                           Foswikitask:Item11267: Convert to perl version strings<br />\

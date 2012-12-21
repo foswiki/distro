@@ -63,7 +63,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "relative_urls" : false,
 "remove_script_host" : false,
 "dialog_type" : "modal",
-"extended_valid_elements" : "li[type]",
+"extended_valid_elements" : "li[type],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur|data*]",
 "setupcontent_callback" : "FoswikiTiny.setUpContent",
 "urlconverter_callback" : "FoswikiTiny.convertLink",
 "foswikipuburl_callback" : "FoswikiTiny.convertPubURL",
@@ -314,6 +314,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
 |  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
 |  1.2.9 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.7 |
 |  1.2.8 | Foswikitask:Item8032: enable Foswiki:Extensions.WysiwygFormfieldsPlugin |
