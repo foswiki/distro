@@ -8,7 +8,7 @@ use warnings;
 
 sub check {
     my $this = shift;
-    my $e;
+    my $e    = '';
 
     # Don't check umask on Windows
     return '' if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
