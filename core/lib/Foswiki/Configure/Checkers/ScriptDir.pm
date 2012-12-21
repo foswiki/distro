@@ -42,14 +42,15 @@ Cannot open '$dir' for read ($!) - check it exists, and that permissions are cor
 HERE
     }
     foreach my $script ( grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D ) {
+        my $err = '';
 
         #  If a script suffix is set, make sure all scripts have one
         if (   $ext
             && $script !~ /$ext$/
             && $script !~ /\.cfg$/ )
         {
-            $errs .= $this->WARN(<<HERE);
-$script appears to be missing the configured script suffix - please check it.
+            $err .= <<HERE;
+<li>is missing the configured script suffix ($ext).\n
 HERE
         }
         if (  !$ext
@@ -57,8 +58,8 @@ HERE
             && $script !~ /\.cfg$/
             && $script !~ /\.fcgi$/ )
         {
-            $errs .= $this->WARN(<<HERE);
-$script appears to have a suffix ($1), no script suffix is configured - please check it.
+            $err .= <<HERE;
+<li>has a suffix ($1), but no script suffix is configured.\n
 HERE
         }
 
@@ -67,10 +68,12 @@ HERE
             && $script !~ /\.cfg$/
             && !-x "$dir/$script" )
         {
-            $errs .= $this->WARN(<<HERE);
-$script might not be an executable script - please check it (and its
-permissions) manually.
+            $err .= <<HERE;
+<li>permissions do not include eXecute.  It might not be an executable script.\n
 HERE
+        }
+        if ($err) {
+            $errs .= $this->WARN("$script:<ul>$err</ul>");
         }
     }
     closedir(D);
