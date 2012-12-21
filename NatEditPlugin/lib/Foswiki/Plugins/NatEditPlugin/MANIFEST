@@ -3,10 +3,10 @@ data/System/NatEditPluginJSUnitTests.txt 0644
 data/System/NatEditPlugin.txt 0644
 data/System/NatEditWordHelpText.txt 0644
 lib/Foswiki/Plugins/NatEditPlugin/Config.spec 0644
-lib/Foswiki/Plugins/NatEditPlugin/NATEDIT.pm 0644
-lib/Foswiki/Plugins/NatEditPlugin.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/FormList.pm 0644
+lib/Foswiki/Plugins/NatEditPlugin/NATEDIT.pm 0644
+lib/Foswiki/Plugins/NatEditPlugin.pm 0644
 lib/Foswiki/Plugins/NatEditPlugin/RestSave.pm 0644
 locale/NatEditPlugin/de.po 0644
 locale/NatEditPlugin/Foswiki.pot 0644
@@ -18,6 +18,7 @@ pub/System/NatEditPlugin/default/styles.uncompressed.css 0644
 pub/System/NatEditPlugin/edit.js 0644
 pub/System/NatEditPlugin/edit.js.gz 0644
 pub/System/NatEditPlugin/edit.uncompressed.js 0644
+pub/System/NatEditPlugin/jquery.natedit.insertattachment.uncompressed.js 0644
 pub/System/NatEditPlugin/jquery.natedit.js 0644
 pub/System/NatEditPlugin/jquery.natedit.js.gz 0644
 pub/System/NatEditPlugin/jquery.natedit.uncompressed.js 0644

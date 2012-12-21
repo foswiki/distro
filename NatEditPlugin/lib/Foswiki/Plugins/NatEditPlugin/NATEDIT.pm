@@ -52,7 +52,7 @@ sub new {
             dependencies  => [
                 'textboxlist', 'form',    'validate',         'ui',
                 'ui::dialog',  'tabpane', 'ui::autocomplete', 'focus',
-                'button',      'loader'
+                'button',      'loader',  'uploader'
             ],
         ),
         $class

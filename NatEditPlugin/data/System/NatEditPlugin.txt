@@ -60,6 +60,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  21 Dec 2012 | added in-edit upload support using Foswiki:Extensions/TopicInteractionPlugin |
 |  29 Oct 2012 | removed local button styles to allow theming via jquery-ui; use of NATEDIT_THEME is deprecated from now on|
 |  22 Oct 2012 | implemented improved list editing; rewrite of modal dialogs to use jquery-ui-dialog instead of the old simplemodal library |
 |  10 Jul 2012 | fixed character encoding when saving a topic on a non-utf8 site using a REST handler |

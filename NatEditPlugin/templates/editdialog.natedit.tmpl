@@ -35,6 +35,7 @@
 %TMPL:P{"insertlink::attachment"}%<!-- -->
 %TMPL:P{"insertlink::external"}%<!-- -->
 %TMPL:P{"insertlink::end"}%
+%TMPL:P{"insertlink::uploader"}%<!-- -->
 <!-- -->%TMPL:END%
 
 %TMPL:DEF{"insertlink::start"}%<!-- -->
@@ -54,6 +55,26 @@
     <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
   </form>
 </div>%TMPL:END%
+
+
+%{ ################################################################################ }%
+%TMPL:DEF{"uploader"}%<div class="natEditUploader jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:600, position:{my:'top', at:'top', of:'#uploadLink'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Upload"}%">
+  <form>
+    <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
+    <input type="hidden" name="topic" value="%WEB%.%TOPIC%" />
+    <input type="checkbox" class="jqUploaderAutoStart foswikiHidden" checked name="autostart" /> 
+    <div class="foswikiFormStep">
+      <div class="jqUploaderFilesContainer">
+        <div class="jqUploaderDropText">%MAKETEXT{"Drag files here"}%</div>
+        <table class="jqUploaderFiles"></table>
+      </div>
+    </div>
+    <a href="#" class="jqUIDialogButton {icon:'ui-icon-folder-collapsed'}">%MAKETEXT{"Choose files"}%</a> 
+    <a href="#" class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
+  </form>
+  %CLEAR%
+</div>
+%TMPL:END%
 
 %{ ################################################################################ }%
 %TMPL:DEF{"insertlink::topic"}%<!-- -->
@@ -84,7 +105,9 @@
   <div class="foswikiFormStep">
     <h3>%MAKETEXT{"File"}%:</h3>
     <input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="" />
-    <!-- <a href="#dialog" class="jqUIDialogLink" style="vertical-align:middle" title="%MAKETEXT{"Upload a file"}%">%JQICON{"add"}%</a> -->
+%IF{"context 'TopicInteractionPluginEnabled'"
+  then="<a href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?template=editdialog;dialog=uploader;editor=%URLPARAM{"editor"}%' class='jqUIDialogLink {cache:false}' id='uploadLink' style='vertical-align:middle' title='%MAKETEXT{"Upload a file"}%'>%JQICON{"add"}%</a>"
+}%<!-- -->
   </div>
 %ENDTAB%
 <!-- -->%TMPL:END%
@@ -107,6 +130,7 @@
     \"comment\": \"$percntENCODE{\"$comment\" type=\"quote\"}$percnt\"
   }"
 }%%TMPL:END%
+
 
 %{ ################################################################################ }%
 %TMPL:DEF{"insertlink::external"}%<!-- -->

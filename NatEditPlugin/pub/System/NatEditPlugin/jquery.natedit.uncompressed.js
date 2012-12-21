@@ -1121,22 +1121,64 @@ $.NatEditor.openDialog = function() {
       editor = $("#"+editorId).data("instance");
 
   if ($dialog.is(".natEditInsertLink")) {
-    if (!$dialog.data("initedEvents")) {
-      $dialog.data("initedEvents", true);
+    if (!$dialog.data("inited")) {
+      $dialog.data("inited", true);
       editor.initInsertLinkDialog($dialog);
     }
     return editor.openInsertLinkDialog($dialog);
   }
 
   if ($dialog.is(".natEditInsertTable")) {
-    if (!$dialog.data("initedEvents")) {
-      $dialog.data("initedEvents", true);
+    if (!$dialog.data("inited")) {
+      $dialog.data("inited", true);
       editor.initInsertTableDialog($dialog);
     }
     return editor.openInsertTableDialog($dialog);
   }
 
+  if ($dialog.is(".natEditUploader")) {
+    if (!$dialog.data("inited")) {
+      $dialog.data("inited", true);
+      editor.initUploadDialog($dialog);
+    }
+    return editor.openUploadDialog($dialog);
+  }
+
 };
+
+/*****************************************************************************
+ * init the upload dialog
+ */
+$.NatEditor.prototype.initUploadDialog = function($dialog) {
+  var self = this, $uploader = $dialog.parent();
+
+  $uploader.find(".ui-button:eq(0)").addClass("jqUploaderBrowse").css({zIndex:2000});
+  $uploader.find(".ui-button:eq(1)").addClass("jqUploaderStart");
+  $uploader.addClass("jqUploader {" +
+    "url: '"  + self.opts.uploadUrl + "', " +
+    "success: function(uploader, files) { jQuery.NatEditor.closeUploadDialog(files, '"+self.id+"', '"+$dialog.attr("id")+"'); }" +
+  "}");
+}
+
+/*****************************************************************************
+  * called when an upload finished
+  */
+$.NatEditor.closeUploadDialog = function(files, editorId, dialogId) {
+  var $editor = $("#"+editorId),
+      $dialog = $("#"+dialogId),
+      fileName = files[0].name;
+
+  // SMELL: need to know the id of the parent dialog
+  $("input.natEditAttachmentSelector").val(fileName);
+  $dialog.dialog("close");
+};
+
+/*****************************************************************************
+  * called when the upload dialog is opened
+  */
+$.NatEditor.prototype.openUploadDialog = function($dialog) {
+  //console.log("called openInsertTable()", $dialog);
+}
 
 /*****************************************************************************
  * init the insert table dialog
@@ -1213,51 +1255,53 @@ $.NatEditor.prototype.initInsertLinkDialog = function($dialog) {
     }
   });
 
-  $dialog.find(".natEditAttachmentSelector").autocomplete({
-    source: function(request, response) {
-      var $currentTab = $dialog.find(".jqTab.current");
-      if (xhr) {
-        xhr.abort();
-      }
-      xhr = $.ajax({
-        url: self.opts.scriptUrl+"/view",
-        data: $.extend(request, {
-          template: 'editdialog',
-          dialog: 'insertlink::attachment::list',
-          topic: $currentTab.find("input[name='web']").val()+'.'+$currentTab.find("input[name='topic']").val()
-        }),
-        dataType: "json",
-        autocompleteRequest: ++requestIndex,
-        success: function(data, status) {
-          if (this.autocompleteRequest === requestIndex) {
-            response(data);
-          }
-        },
-        error: function(xhr, status) {
-          if (this.autocompleteRequest === requestIndex) {
-            response([]);
-          }
+  if (foswiki.getPreference("TopicInteractionPluginEnabled")) {
+    $dialog.find(".natEditAttachmentSelector").autocomplete({
+      source: function(request, response) {
+        var $currentTab = $dialog.find(".jqTab.current");
+        if (xhr) {
+          xhr.abort();
         }
-      });
-    },
-    select: function(ev, ui) {
-      $thumbnail.attr("src", ui.item.img).show();
-    },
-    change: function(ev, ui) {
-      if (ui.item) {
+        xhr = $.ajax({
+          url: self.opts.scriptUrl+"/view",
+          data: $.extend(request, {
+            template: 'editdialog',
+            dialog: 'insertlink::attachment::list',
+            topic: $currentTab.find("input[name='web']").val()+'.'+$currentTab.find("input[name='topic']").val()
+          }),
+          dataType: "json",
+          autocompleteRequest: ++requestIndex,
+          success: function(data, status) {
+            if (this.autocompleteRequest === requestIndex) {
+              response(data);
+            }
+          },
+          error: function(xhr, status) {
+            if (this.autocompleteRequest === requestIndex) {
+              response([]);
+            }
+          }
+        });
+      },
+      select: function(ev, ui) {
         $thumbnail.attr("src", ui.item.img).show();
-      } else {
-        $thumbnail.hide();
+      },
+      change: function(ev, ui) {
+        if (ui.item) {
+          $thumbnail.attr("src", ui.item.img).show();
+        } else {
+          $thumbnail.hide();
+        }
       }
-    }
-  }).data("autocomplete")._renderItem = function(ul, item) {
-    if (typeof(item.label) !== "undefined") {
-      return $("<li></li>")
-        .data("item.autocomplete", item)
-        .append("<a><table width='100%'><tr><td width='60px'><img width='50' src='"+item.img+"' /></td><td>"+item.label+"<br />"+item.comment+"</td></tr></table></a>")
-        .appendTo(ul);
-    }
-  };
+    }).data("autocomplete")._renderItem = function(ul, item) {
+      if (typeof(item.label) !== "undefined") {
+        return $("<li></li>")
+          .data("item.autocomplete", item)
+          .append("<a><table width='100%'><tr><td width='60px'><img width='50' src='"+item.img+"' /></td><td>"+item.label+"<br />"+item.comment+"</td></tr></table></a>")
+          .appendTo(ul);
+      }
+    };
+  }
 
   $dialog.find("form").bind("submit", function() {
     var opts,
@@ -1420,6 +1464,7 @@ $(function() {
       scriptUrl: scriptUrl,
       tableDialog: scriptUrl+'/view/'+web+'/'+topic+"?template=editdialog;dialog=inserttable",
       linkDialog: scriptUrl+'/view/'+web+'/'+topic+"?template=editdialog;dialog=insertlink",
+      uploadUrl: scriptUrl+"/rest/TopicInteractionPlugin/upload",
       autoMaxExpand:false,
       signatureMarkup: ['-- ', foswiki.getPreference("WIKIUSERNAME"), ' - '+foswiki.getPreference("SERVERTIME")]
     });
