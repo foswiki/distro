@@ -943,10 +943,11 @@ s/(<blockquote.*?>)(.*?)(<\/blockquote)/$1<p class="foswikiDeleteMe">$2<\/p>$3/s
 }
 
 sub _liftOutSquab {
-    my $this  = shift;
-    my $url   = shift;
-    my $text  = shift;
-    my $class = shift || '';
+    my $this         = shift;
+    my $url          = shift;
+    my $text         = shift;
+    my $class        = shift || '';
+    my $dataWikiword = '';
 
     # Convert obsolete format link  [[http://blah.com link text]]
     if (   $class eq 'TMLlink'
@@ -974,12 +975,19 @@ sub _liftOutSquab {
       _getNamedColour($1, $2)#oge;
     _handleMarkup($text);
 
+    my $startww = qr/$WC::STARTWW|(?<=$TT2)/;
+    if ( $url =~
+m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Foswiki::regex{anchorRegex})?)/
+        && $url eq $text )
+    {
+        $dataWikiword = " data-wikiword='$url'";
+    }
     if ($class) {
         $class = " class='$class'";
     }
 
     return $this->_liftOutGeneral(
-        "<a$class href=\"$url\">$text<\/a>",
+        "<a$class$dataWikiword href=\"$url\">$text<\/a>",
         { tag => 'NONE', protect => 0, tmltag => 0 }
     );
 

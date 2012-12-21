@@ -1431,6 +1431,11 @@ sub _handleA {
           (      $this->{attrs}->{class}
               && $this->{attrs}->{class} =~ m/\bTMLlink\b/ );
 
+        my $origWikiword;
+        if ( $this->{attrs}->{'data-wikiword'} ) {
+            $origWikiword = $this->{attrs}->{'data-wikiword'};
+        }
+
 # SMELL:  Item11814 - decoding corrupts URL's that must be encoded,  ex. embedded Newline
 # No unit test covers why the decode is required.  However restricting it to known
 # protocols fixes Item11814.  Need to figure out if this can just be removed?
@@ -1441,16 +1446,31 @@ sub _handleA {
         if ( $this->{context} && $this->{context}->{rewriteURL} ) {
             $href = $this->{context}->{rewriteURL}->( $href, $this->{context} );
         }
+
         $reww = Foswiki::Func::getRegularExpression('wikiWordRegex')
           unless $reww;
         my $nop = ( $options & $WC::NOP_ALL ) ? '<nop>' : '';
+
+        my $cleantext = $text;
+        $cleantext =~ s/<nop>//g;
+
+# The original WikiWord for auto links as well as [[Squab]] links is stashed in a pseudo class
+#  - class="TMLwikiword<TheWikiWord>"
+# If the original WikiWord and the href match, and the text is a wikiword
+# the replace the href with the new wikiword.
+        if (   $origWikiword
+            && $href eq $origWikiword
+            && $cleantext =~ m/^(\w+\.)?($reww)(#\w+)?$/ )
+        {
+            $href = $text;
+
+            #print STDERR "HREF $href updated\n";
+        }
+
         if ( $href =~ /^(\w+\.)?($reww)(#\w+)?$/ ) {
-            my $web       = $1 || '';
-            my $topic     = $2;
-            my $anchor    = $3 || '';
-            my $cleantext = $text;
-            $cleantext =~ s/<nop>//g;
-            $cleantext =~ s/^$this->{context}->{web}\.//;
+            my $web    = $1 || '';
+            my $topic  = $2;
+            my $anchor = $3 || '';
 
             # if the clean text is the known topic we can ignore it
             if ( ( $cleantext eq $href || $href =~ /\.$cleantext$/ )
@@ -1471,6 +1491,8 @@ sub _handleA {
         {
             return ( 0, $WC::CHECK1 . $nop . $text . $WC::CHECK2 );
         }
+
+        #print STDERR "TEXT ($text) HREF ($href)\n";
         if ( $text eq $href ) {
             return ( 0, $WC::CHECKw . '[' . $nop . '[' . $href . ']]' );
         }
