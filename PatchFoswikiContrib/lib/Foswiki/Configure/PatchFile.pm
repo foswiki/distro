@@ -4,11 +4,11 @@ package Foswiki::Configure::PatchFile;
 
 use strict;
 use warnings;
-use File::Copy qw( copy );
-use File::Path qw( mkpath );
-use File::Spec qw( splitdir splitpath catdir );
-use Foswiki::Time qw( formatTime );
-use Text::Patch ();
+use File::Copy    ();
+use File::Path    ();
+use File::Spec    ();
+use Foswiki::Time ();
+use Text::Patch   ();
 
 =begin TML
 
@@ -177,8 +177,8 @@ sub backupTargets {
 
     my $bkupPath = Foswiki::Configure::Util::mapTarget( $root,
         "working/configure/backup/$patchRef->{identifier}-$stamp" );
-    mkpath($bkupPath);
 
+    File::Path::mkpath($bkupPath);
     die "Create of backup directory $bkupPath failed" unless ( -d $bkupPath );
 
     foreach my $key ( keys %{$patchRef} ) {
@@ -190,7 +190,7 @@ sub backupTargets {
 
         my ( $fv, $fp, $fn ) = File::Spec->splitpath( $file, 0 );
 
-        copy( $file, "$bkupPath/$fn" );
+        File::Copy::copy( $file, "$bkupPath/$fn" );
 
         $msgs .= "Backed up target: $file. to $bkupPath/$fn\n";
         $backup++;
