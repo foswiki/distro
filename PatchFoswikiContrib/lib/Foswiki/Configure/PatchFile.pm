@@ -41,12 +41,23 @@ sub parsePatch {
     ( $patches{identifier} ) = $file =~ m/.*(Item.*?)\.patch$/;
     my $foundPatch = 'summary';
     my $md5        = 'na';
+    my $newMD5     = 'na';
 
+#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
+#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
     foreach my $line (@contents) {
-        if ( $line =~ /^~~~PATCH\s+([^\s]+)\s+(.*?)\s+\((.*?)\)$/ ) {
-            $md5                                 = $1;
-            $foundPatch                          = _fixupFile($2);
-            $patches{$foundPatch}{$md5}{version} = $3;
+        if ( substr( $line, 0, 8 ) eq '~~~PATCH' ) {
+            my $file;
+            my $desc;
+            chomp $line;
+            ( $md5, $file, $desc ) = split( ' ', substr( $line, 8 ), 3 );
+            $desc =~ s/^\(//g;    # Remove leading/trailing parenthesis
+            $desc =~ s/\)$//g;
+
+            ( $md5, $newMD5 ) = split( ':', $md5, 2 );
+            $foundPatch                          = _fixupFile($file);
+            $patches{$foundPatch}{$md5}{patched} = $newMD5;
+            $patches{$foundPatch}{$md5}{version} = $desc;
             next;
         }
         if ( $foundPatch eq 'summary' ) {
@@ -63,6 +74,7 @@ sub parsePatch {
 sub _getMD5 {
 
     my $filename = shift;
+
     open( my $fh, '<', $filename ) or die "Can't open '$filename': $!";
     binmode($fh);
     return Digest::MD5->new->addfile($fh)->hexdigest;
@@ -128,7 +140,7 @@ sub updateFile {
 }
 
 sub checkPatch {
-    my $root     = shift;
+    my $root = shift || _fixRoot();
     my $patchRef = shift;
 
     my $msgs = '';
@@ -143,7 +155,10 @@ sub checkPatch {
             $msgs .= "| $key | | | Target Missing |\n" unless ( -f $file );
 
             my $origMD5 = _getMD5($file);
-            my $match = ( $origMD5 eq $md5 ) ? 'NOT APPLIED' : 'N/A';
+            my $match =
+                $origMD5 eq $md5                             ? 'NOT APPLIED'
+              : $origMD5 eq $patchRef->{$key}{$md5}{patched} ? 'PATCHED'
+              :                                                'N/A';
             $msgs .=
               "| $key | $md5 | $match | $patchRef->{$key}{$md5}{version} |\n";
         }
@@ -151,8 +166,18 @@ sub checkPatch {
     return $msgs;
 }
 
+sub _fixRoot {
+    my @instRoot = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
+    pop(@instRoot);
+
+    # SMELL: Force a trailing separator - Linux and Windows are inconsistent
+    my $root = File::Spec->catfile( @instRoot, 'x' );
+    chop $root;
+    return $root;
+}
+
 sub applyPatch {
-    my $root     = shift;
+    my $root = shift || _fixRoot();
     my $patchRef = shift;
 
     my $msgs  = '';

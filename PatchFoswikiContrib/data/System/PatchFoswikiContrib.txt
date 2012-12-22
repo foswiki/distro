@@ -30,7 +30,10 @@ Before any file is patched, a backup is copied to =working/configure/backup/&lt;
 
 This report lists the patch files found in the =working/configure/patch=
 directory.  The patch summary is displayed, followed by a list of each
-candidate patch.
+candidate patch.  The *Status* column is set to:
+   * *N/A*: This version of the patch does not apply to this file. The file might have been subsequently modified by another patch or by manual edit.
+   * *PATCHED*: The patch appears to have been applied, and no other modifications have been made to the file.
+   * *APPLIES*: The patch matches and is eligible to be applied.
 
 %PATCHREPORT%
 
