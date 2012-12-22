@@ -26,6 +26,14 @@ Patches will be mapped from the default Foswiki filename to the directory locati
 
 Before any file is patched, a backup is copied to =working/configure/backup/&lt;Itemxxxx-date-time&gt;=
 
+---++ Patch files found on this system
+
+This report lists the patch files found in the =working/configure/patch=
+directory.  The patch summary is displayed, followed by a list of each
+candidate patch.
+
+%PATCHREPORT%
+
 ---++ Building a patch
 
 Currently a separate version of this extension has to be built for each patch.  The only patches installed are those identified in the manifest of this contrib.  This extension adds some infrastructure that a future Foswiki could

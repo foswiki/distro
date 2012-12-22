@@ -4,11 +4,12 @@ package Foswiki::Configure::PatchFile;
 
 use strict;
 use warnings;
-use File::Copy    ();
-use File::Path    ();
-use File::Spec    ();
-use Foswiki::Time ();
-use Text::Patch   ();
+use File::Copy               ();
+use File::Path               ();
+use File::Spec               ();
+use Foswiki::Time            ();
+use Text::Patch              ();
+use Foswiki::Configure::Util ();
 
 =begin TML
 
@@ -124,6 +125,30 @@ sub updateFile {
     chmod( $mode, "$file" );
 
     return "Update successful for $file\n";
+}
+
+sub checkPatch {
+    my $root     = shift;
+    my $patchRef = shift;
+
+    my $msgs = '';
+
+    foreach my $key ( keys %{$patchRef} ) {
+        next if ( $key eq 'summary' );
+        next if ( $key eq 'error' );
+        next if ( $key eq 'identifier' );
+        foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
+
+            my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
+            $msgs .= "| $key | | | Target Missing |\n" unless ( -f $file );
+
+            my $origMD5 = _getMD5($file);
+            my $match = ( $origMD5 eq $md5 ) ? 'NOT APPLIED' : 'N/A';
+            $msgs .=
+              "| $key | $md5 | $match | $patchRef->{$key}{$md5}{version} |\n";
+        }
+    }
+    return $msgs;
 }
 
 sub applyPatch {
