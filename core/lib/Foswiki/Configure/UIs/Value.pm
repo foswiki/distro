@@ -79,6 +79,7 @@ sub renderHtml {
                   . ref($checker)
                   . ") for $keys failed: check for .spec errors:$@" );
         }
+        $check = '' unless ( defined $check );
         if ($check) {
 
             # something wrong
@@ -310,7 +311,7 @@ qq{<input type="checkbox" name="$name" value="1" class="BOOLEAN configureItemEna
 "<div id='info_$tip' class='configureInfoText foswikiMakeHidden'>$info</div>";
     }
 
-    my %props;
+    my %props = ( 'data-keys' => $keys );
     $props{class} = join( ' ', @cssClasses ) if ( scalar @cssClasses );
     $props{'data-displayif'} = $displayIf if $displayIf;
     $props{'data-enableif'}  = $enableIf  if $enableIf;
@@ -329,12 +330,20 @@ ENABLEJS
     }
     $props{'data-change'} = $changeAction if $changeAction;
 
+    my $expander = '';
+    $expander .= ' ' if ($helpTextLink);
+    $expander .=
+qq{<span id="${keys}expander" class="configureFeedbackExpander foswikiJSRequired">};
+    $expander .=
+qq{<a href='#' onclick="return feedback.toggleXpndr(this,'${keys}status');" ><img src="${Foswiki::resourceURI}toggleopen.png" alt="Expand/condense feedback" title="Expand/condense feedback" /></a></span>};
+    $helpTextLink .= $expander;
+
     $check =
-      qq{<div id="${keys}status" class="configureFeedback" >$check</div>};
+qq{<div id="${keys}status" class="configureFeedback configureFeedbackExpanded" >$check</div>};
     $output .= CGI::Tr( \%props,
             CGI::th("$index$feedback$hiddenTypeOf")
           . CGI::td( { class => 'configureItemEnable' }, $enable )
-          . CGI::td("$control&nbsp;$resetToDefaultLinkText$check$helpText")
+          . CGI::td("$helpText$control&nbsp;$resetToDefaultLinkText$check")
           . CGI::td( { class => "configureHelp" }, $helpTextLink ) )
       . "\n";
 

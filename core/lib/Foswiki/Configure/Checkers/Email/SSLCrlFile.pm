@@ -51,15 +51,18 @@ sub check {
     my $file = $this->getCfg;
     $n = $this->showExpandedValue( $this->getItemCurrentValue ) . $n;
 
-    if ( $file && !-r $file ) {
-        $e .= $this->ERROR("Unable to read $file");
-    }
-    elsif ($file) {
-        $n .= $this->NOTE(
-            "File was last modified " . ( scalar localtime( ( stat _ )[9] ) ) );
-    }
-    if ( $file && ( stat _ )[2] & 02 ) {
-        $e .= $this->ERROR("$file is world-writable");
+    if ($file) {
+        if ( -r $file ) {
+            $n .=
+              $this->NOTE( "File was last modified "
+                  . ( scalar localtime( ( stat _ )[9] ) ) );
+        }
+        else {
+            $e .= $this->ERROR("Unable to read $file");
+        }
+        if ( ( ( stat _ )[2] || 0 ) & 02 ) {
+            $e .= $this->ERROR("$file is world-writable");
+        }
     }
     my $path = $this->getCfg('{Email}{SSLCaPath}');
     if ( $path && !( -d $path && -r $path ) ) {

@@ -43,7 +43,8 @@ sub check {
 
     $optionList[0] = {} unless (@optionList);
 
-    $e .= $this->ERROR(".SPEC error: multiple CHECK options for NUMBER")
+    $e .=
+      $this->ERROR(".SPEC error: multiple CHECK options for KeyPassword $keys")
       if ( @optionList > 1 );
 
     my $filter = $optionList[0]->{filter}[0];

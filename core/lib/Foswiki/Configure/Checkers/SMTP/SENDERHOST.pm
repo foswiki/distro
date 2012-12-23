@@ -1,15 +1,13 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::URLPATH;
+package Foswiki::Configure::Checkers::SMTP::SENDERHOST;
 
 use strict;
 use warnings;
 
-require Foswiki::Configure::Checkers::URL;
-our @ISA = ('Foswiki::Configure::Checkers::URL');
+use Foswiki::IP qw/:info/;
 
-# CHECK= options
-#  expand
-#  parts, partsreq = query, fragment (path is required)
+require Foswiki::Configure::Checker;
+our @ISA = ('Foswiki::Configure::Checker');
 
 sub check {
     my $this   = shift;
@@ -17,37 +15,35 @@ sub check {
 
     my $keys = ref $valobj ? $valobj->getKeys : $valobj;
 
-    my @optionList = ( @_ ? @_ : $this->parseOptions() );
-
-    $optionList[0] = {} unless (@optionList);
-
     my $e = '';
-    $e .= $this->ERROR(".SPEC error: multiple CHECK options for URLPATH $keys")
-      if ( @optionList > 1 );
 
-    my $options = $optionList[0];
+    #   $e .= $this->showExpandedValue($keys);
 
-    $options = {
-        %$options,
+    my $value = $this->getCfg;
 
-        # Force the following 'options' to specialize URL to URLPATH.
-        parts => [
-            'path',
-            $options->{parts}
-            ? ( grep $_ =~ /^(?:query|fragment)$/, @{ $options->{parts} } )
-            : ()
-        ],
-        partsreq => [
-            'path',
-            $options->{partsreq}
-            ? ( $_ =~ /^(?:query|fragment)$/, @{ $options->{partsreq} } )
-            : ()
-        ],
-        schemes  => [],
-        authtype => [],
-    };
+    return $e
+      unless ( $Foswiki::cfg{EnableEmail}
+        && $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
+        && $value );
 
-    return $e . $this->SUPER::check( $valobj, $options );
+    my $hi = hostInfo($value);
+    if ( $hi->{error} ) {
+        $e .= $this->ERROR( $hi->{error} );
+    }
+    else {
+        if ( $hi->{ipaddr} ) {
+            my $ai = addrInfo( $hi->{name} );
+            if ( $ai->{names} ) {
+                my @names = @{ $ai->{names} };
+                $e .=
+                  $this->NOTE( "$hi->{name} has the hostname"
+                      . ( @names != 1 ? 's ' : ' ' )
+                      . join( ', ', @names )
+                      . ".  Use of a hostname is preferred." );
+            }
+        }
+    }
+    return $e;
 }
 
 1;

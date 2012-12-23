@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.117";
+        var VERSION = "v3.118";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -167,6 +167,8 @@ var configure = (function ($) {
                          ele.filter('tr.configureExpert').
                              find('div.configureWarn,div.configureError').size() ) {
                          ele.removeClass('foswikiMakeHidden');
+                         if( this.tagName === 'TR' )
+                             feedback.setExpander(ele.attr('data-keys'));
                      } else {
                          ele.addClass('foswikiMakeHidden');
                      }
@@ -245,7 +247,8 @@ var configure = (function ($) {
                 sub,
                 newSubElement,
                 url,
-                subName;
+                subName,
+                newvis = false;
 
             url = document.location.toString().split("#")[0];
             sectionParts = this.getSectionParts(anchor);
@@ -266,6 +269,7 @@ var configure = (function ($) {
                 /* show new main section */
                 newMainElement = $("#" + mainId + "Body");
                 newMainElement.addClass("configureShowSection");
+                newvis = true;
 
                 /* set main menu highlight */
                 if (tabLinks[oldMainId]) {
@@ -293,6 +297,7 @@ var configure = (function ($) {
                 sub = sub.replace(/#/g, "\\#");
                 newSubElement = $("#" + sub + "Body");
                 newSubElement.addClass('configureShowSection');
+                newvis = true;
             }
 
             /* set sub menu highlight */
@@ -305,6 +310,10 @@ var configure = (function ($) {
 
             setMain(mainId);
             setSub(mainId, subId);
+
+            if( newvis ) {
+                feedback.updateExpanders();
+            }
 
             if (mainId || subId) {
                 /* IE doesn't do window.history.pushState.  https://github.com/balupton/history.js is an alternative,
@@ -610,9 +619,6 @@ var configure = (function ($) {
             }
             $('#configureErrorSummary').html(statusLine);
 
-            if( !expertsMode && !expertOk ) {
-                configure.toggleExpertsMode( '' );
-            }
             $('[data-displayif]').each(function () {
                 var ele = $(this);
                 if( ele.find('div.configureWarn,div.configureError').size() ) {
@@ -622,6 +628,10 @@ var configure = (function ($) {
                 }
                 return true;
             });
+
+            if( !expertsMode && !expertOk ) {
+                configure.toggleExpertsMode( '' );
+            }
             return true;
         },
         getVERSION: function () {
@@ -657,7 +667,7 @@ configure.utils = (function () {
             for (i = 0; i < name.length; i++) {
                 c = name.charAt(i);
                 if ("!\"#$%&'()*+,./:;<=>?@[\\]^`{|} ~".indexOf(c) >= 0) {
-                    out = out + '\\' + (c === ':' ? '\\3a' : c);
+                    out = out + '\\' + (c === ':' ? '3a ' : c);
                 } else {
                     out = out + c;
                 }
@@ -861,11 +871,15 @@ function submitform() {
 var feedback = ( function ($) {
     "use strict";
 
-    var modalObject;
+    var modalObject,
+        standardFeedbackHeight;
 
     return {
         /* Initialize */
         init: function () {
+            var std = $('#standardFeedbackItem').show();
+            standardFeedbackHeight = parseInt(std.css('max-height').replace(/px$/,''), 10);
+            std.hide();
             modalObject =  $('#activateConfigureModalWindow').data('nmObj');
         },
 
@@ -1100,8 +1114,11 @@ var feedback = ( function ($) {
                      * changes need no more processing.  Otherwise, update the indicators.
                      */
 
-                    if( stsWindowId && errorsChanged ) {
-                        configure.updateIndicators();
+                    if( stsWindowId ) {
+                        if( errorsChanged ) {
+                            configure.updateIndicators();
+                        }
+                        feedback.updateExpanders();
                     }
 
                     return true;
@@ -1314,6 +1331,9 @@ var feedback = ( function ($) {
                     case 'P':
                         this.value = kpair[2] + this.value;
                         break;
+                    case 's':
+                        this.select();
+                        break;
                     default:
                         break;
                     }
@@ -1321,6 +1341,64 @@ var feedback = ( function ($) {
                 return true;
             });
             return vset;
+        },
+        updateExpanders: function () {
+            $('.configureFeedbackExpander').each(function () {
+                feedback.setExpander(this.id.replace(/expander$/,''), this);
+                return true;
+            });
+            return true;
+        },
+        setExpander: function(keys,xpn) {
+            var img,
+                isxpn,
+                jwin,
+                jxpn,
+                win;
+
+            if( xpn === undefined ) {
+                jxpn = $('#' + configure.utils.quoteName(keys + 'expander'));
+            } else {
+                jxpn = $(xpn);
+            }
+
+            jwin = $('#' + configure.utils.quoteName(keys + 'status'));
+            if( ! jwin.is(':visible') ) {
+                return true;
+            }
+
+            win  = jwin.get(0);
+            isxpn = jwin.hasClass('configureFeedbackExpanded');
+
+            img  = jxpn.find('img').get(0);
+
+            if( (isxpn && (win.clientHeight > standardFeedbackHeight)) ||
+                 (win.clientHeight < win.scrollHeight) ) {
+                img.src = isxpn? img.src.replace(/open\.png$/, 'close.png') :
+                                 img.src.replace(/close\.png$/, 'open.png');
+                jxpn.show();
+            } else {
+                jxpn.hide();
+                jwin.removeClass('configureFeedbackExpanded');
+                img.src = img.src.replace(/close\.png$/, 'open.png');
+            }
+            return true;
+        },
+        toggleXpndr: function (xpn,keys) {
+            var jxpn = $(xpn),
+                img = jxpn.find('img').get(0),
+                win = $('#' + configure.utils.quoteName(keys));
+
+            if( win.hasClass('configureFeedbackExpanded') ) {
+                img.src = img.src.replace(/close\.png$/, 'open.png');
+                win.removeClass('configureFeedbackExpanded');
+            } else {
+                img.src = img.src.replace(/open\.png$/, 'close.png');
+                win.addClass('configureFeedbackExpanded');
+                $('body,html,window').scrollTop(Math.max(0,
+                        win.offset().top - $('div.configurePageHeader').get(0).clientHeight));
+            }
+            return false;
         }
     };
 }(jQuery));
@@ -1330,6 +1408,25 @@ var feedback = ( function ($) {
  */
 $(document).ready(function () {
     "use strict";
+
+    var n = 1;
+
+    $('input,select,textarea').each( function () {
+        this.tabIndex = n;
+        n++;
+        return true;
+    });
+
+    $('.configureModalActivator').nyroModal( { callbacks: { 
+        afterShowCont: function (nm) {
+            nm.elts.cont.find(":input.foswikiFocus:first").focus();
+            return true;
+        }
+    }} );
+    feedback.init();
+    $('div.configureFeedbackExpanded').removeClass('configureFeedbackExpanded');
+    feedback.updateExpanders();
+
     $(".enableWhenSomethingChanged").each(function () {
         enableWhenSomethingChangedElements.push(this);
         if (this.tagName.toLowerCase() === 'input') {
@@ -1416,19 +1513,11 @@ $(document).ready(function () {
         });
     });
                 
-    $('.configureModalActivator').nyroModal( { callbacks: { 
-        afterShowCont: function (nm) {
-            nm.elts.cont.find(":input.foswikiFocus:first").focus();
-            return true;
-        }
-    }} );
-
     $('.foswikiNonJS').hide();
     $('.foswikiJSRequired').removeClass('foswikiJSRequired');
 
     /* Provide version before anything else happens */
 
-    feedback.init();
     feedback.sendFeedbackRequest( document.location.pathname, '' );
 
     // make sticky
@@ -1601,6 +1690,7 @@ function doFeedback(key, pathinfo) {
                 working = 'Working...';
             }
         }
+        $('#' + configure.utils.quoteName(key.id.replace(/feedreq\d+$/, 'expander'))).hide();
         stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
         $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
 

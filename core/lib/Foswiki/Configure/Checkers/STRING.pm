@@ -34,7 +34,7 @@ sub check {
 
     $optionList[0] = {} unless (@optionList);
 
-    $e .= $this->ERROR(".SPEC error: multiple CHECK options for STRING")
+    $e .= $this->ERROR(".SPEC error: multiple CHECK options for STRING $keys")
       if ( @optionList > 1 );
 
     my $min = $optionList[0]->{min}[0];

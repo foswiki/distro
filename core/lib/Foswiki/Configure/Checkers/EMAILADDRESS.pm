@@ -31,7 +31,8 @@ sub check {
 
     $optionList[0] = {} unless (@optionList);
 
-    $e .= $this->ERROR(".SPEC error: multiple CHECK options for EMAILADDRESS")
+    $e .=
+      $this->ERROR(".SPEC error: multiple CHECK options for EMAILADDRESS $keys")
       if ( @optionList > 1 );
 
     my $nullok = $optionList[0]->{nullok}[0] || 10;
@@ -89,7 +90,7 @@ sub provideFeedback {
 
     delete $this->{FeedbackProvided};
 
-    # We only need to run the checker for button 1
+    # Run only the checker for button 1
     #
     # For button 2, actually send a test e-mail
 
@@ -159,8 +160,19 @@ which often contains hyperlinks, you may wish to consider enabling
 this feature.
 NOTSMIME
 
-        $smimeHtmlText = << "SMIME" if ( $Foswiki::cfg{Email}{EnableSMIME} );
-<p>You have configured <b>Foswiki</b> to send S/MIME signed e-mail notifications.
+        if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
+            my $smimeCert = '';
+            if ( $Foswiki::cfg{Email}{SmimeCertificateFile} ) {
+                $smimeCert =
+"using the certificate in <code>$Foswiki::cfg{Email}{SmimeCertificateFile}</code>.";
+            }
+            else {
+                $smimeCert =
+"using a Foswiki self-signed or Foswiki-requested certificate.";
+            }
+            $smimeHtmlText = << "SMIME";
+<p>You have configured <b>Foswiki</b> to send S/MIME signed e-mail notifications
+$smimeCert
 
 <p>This message should be signed with the certificate that you
 selected.  Mail clients vary in how they present this; typically
@@ -170,6 +182,7 @@ they use a certificate or padlock icon.
 the <tt>{Email}{SmimeCertificateFile}</tt>, <tt>{Email}{SmimeKeyFile}</tt>
 and <tt>{Email}{SmimeKeyPassword}</tt> settings, as well as the system logs.
 SMIME
+        }
 
         my $smimePlainText = $smimeHtmlText;
         $smimePlainText =~ s/<[^>]*>//g;
@@ -446,7 +459,10 @@ MAILTEST
     }
 
     my $results = '';
-    $results .= $this->ERROR($neterrors) if ($neterrors);
+    if ($neterrors) {
+        $neterrors =~ s,\n,<br />,g;
+        $results .= $this->ERROR($neterrors);
+    }
 
     if ( $neterrors || $Foswiki::cfg{SMTP}{Debug} ) {
         if ($stdout) {

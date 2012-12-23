@@ -90,6 +90,8 @@ sub parseOptions {
             {    #
                 my $value = $1;
                 $value =~ s/\\(.)/$1/g;
+                chop $value;
+                $value = substr( $value, 1 );
                 push @options, $name => [$value];
                 next;
             }
@@ -169,7 +171,7 @@ sub setItemValue {
     if ($@) {
         die "Unable to set value $value for $keys\n";
     }
-    return;
+    return wantarray ? ( $keys, $value ) : $keys;
 }
 
 =begin TML

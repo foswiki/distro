@@ -23,17 +23,27 @@ sub startVisit {
 
     return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
 
-# Match visitee's audit groups to this button's audit groups
-# Visitee specifies member groups & button to press
-# The audit button selects which of its items groups are considered.
-#
-# E.g. {Foo} belongs to PARS:0 and DIRS:1
-#   The audit button pressed is number 4.  It belongs to WEB:2 NET:4 and DIRS:4.
-#   Only NET and DIRS are considered for this button press.
-#   Since {Foo} belongs to DIRS, it is selected, and its button 1 will be pressed.
-#
-# Add the item to the audit list if there's an intersection
-# Note that an audit can run multiple checks on a given item.
+    my $keys = $visitee->getKeys();
+
+    # Hidden items have no status window and their checkers are never run.
+    # Prevent default checkers for their type from activating and generating
+    # output for missing windows.
+
+    return 1 if ( $visitee->{hidden} && $keys !~ /^\{ConfigureGUI\}/ );
+
+    # Match visitee's audit groups to this button's audit groups
+    # Visitee specifies member groups & button to press
+    # The audit button selects which of its items groups are considered.
+    #
+    # E.g. {Foo} belongs to PARS:0 and DIRS:1
+    #   The audit button pressed is number 4.  It belongs to
+    #   WEB:2 NET:4 and DIRS:4.
+    #   Only NET and DIRS are considered for this button press.
+    #   Since {Foo} belongs to DIRS, it is selected, and its button 1
+    #  will be pressed.
+    #
+    # Add the item to the audit list if there's an intersection
+    # Note that an audit can run multiple checks on a given item.
 
     my $auditButton = $this->{_auditButton};
 
@@ -101,7 +111,7 @@ sub provideFeedback {
 
         # Order checks, schedule this checker last to report
 
-        return wantarray ? ( $e, [ @items, "${keys}-1000" ] ) : $e;
+        return wantarray ? ( $e, [ @items, "\*${keys}-1000" ] ) : $e;
     }
     die "Pushed the wrong button ($button)\n" unless ( $button == -1000 );
 
@@ -150,31 +160,38 @@ sub provideFeedback {
         itemListLimit   => $limit,
         includeSuccess  => ( $embedded ? 0 : 1 ),
     );
-    my ( @errors, @warnings );
-    foreach my $keys ( sortHashkeyList( keys %$fb ) ) {
+    my ( @errors, @warnings, %items );
+
+    # Collect items with errors and warnings
+    # Skip items with feedback, but no issues
+
+    for ( my $i = 0 ; $i < @$fb ; $i += 2 ) {
+        my ( $keys, $text ) = ( @$fb[ $i + 0, $i + 1 ] );
+        push @{ $items{$keys} }, $text
+          if ( exists $visit->{errors}{$keys}
+            && $visit->{errors}{$keys} ne '0 0' );
+    }
+
+    foreach my $keys ( sortHashkeyList( keys %items ) ) {
         my ( $errors, $warnings ) = ( 0, 0 );
-        if ( exists $visit->{errors} ) {
+        if ( exists $visit->{errors}{$keys} ) {
             ( $errors, $warnings ) = $visit->{errors}{$keys} =~ /^(\d+) (\d+)$/
-              or die "Bad error record $keys $visit->{errors}\n";
+              or die "Bad error record for $keys /$visit->{errors}/\n";
             if ( $errors || $warnings ) {
                 push @errors,
                   {
                     item  => $keys,
                     count => $errors + $warnings,
-                    list  => $this->_getFB( $fb->{$keys} ),
+                    list  => $this->_getFB( $items{$keys} ),
                   }
                   if ($errors);
                 push @warnings,
                   {
                     item  => $keys,
                     count => $warnings,
-                    list  => $this->_getFB( $fb->{$keys} ),
+                    list  => $this->_getFB( $items{$keys} ),
                   }
                   if ( $warnings && !$errors );
-            }
-            else {
-                # Say ok?
-                my $y = !1;
             }
         }
     }
@@ -186,8 +203,9 @@ sub provideFeedback {
     );
 
     # Template is parsed twice intentionally.  See MODAL.pm for why.
-    # If this audit is embedded in a larger one, don't output
-    # details unless there are issues.
+    # If this audit is embedded in a larger one (e.g. CGISetup's audit
+    # sections, return just HTML, and don't output details unless
+    # there are issues.
 
     my $html = $template->extractArgs('simpleauditresults');
     $html .=
@@ -207,30 +225,32 @@ sub provideFeedback {
 }
 
 sub _getFB {
-    my $this = shift;
-
-    my $string = shift;
+    my $this      = shift;
+    my $responses = shift;
 
     my $feedback = "";
 
     # Use only the status window updates.  If control updates or modal
-    # data was generated, it has no place on this report.
+    # data was generated, it has no place on this report.  (It is delivered
+    # when the status windows are updated.)
 
-    if ( $string !~ s/\A\001// ) {    # Not encoded
-        $string = "}status\002$string";
-    }
-    my @items = split( '\001', $string );
-    foreach my $item (@items) {
-        my ( $target, $action, $data ) = split( /(\002|\003|\005)/, $item, 2 );
-        $target ||= '';
-        $action ||= '';
-        $data   ||= '';
-        if ( $action eq "\002" ) {
-            $feedback .= $data;
-            next;
+    foreach my $string (@$responses) {
+        if ( $string !~ s/\A\001// ) {    # Not encoded
+            $string = "}status\002$string";
+        }
+        my @items = split( '\001', $string );
+        foreach my $item (@items) {
+            my ( $target, $action, $data ) =
+              split( /(\002|\003|\005)/, $item, 2 );
+            $target ||= '';
+            $action ||= '';
+            $data   ||= '';
+            if ( $action eq "\002" ) {
+                $feedback .= $data;
+                next;
+            }
         }
     }
-
     return $feedback;
 }
 

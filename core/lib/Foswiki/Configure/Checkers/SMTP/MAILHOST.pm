@@ -4,6 +4,8 @@ package Foswiki::Configure::Checkers::SMTP::MAILHOST;
 use strict;
 use warnings;
 
+use Foswiki::IP qw/$IPv6Avail :regexp :info/;
+
 require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
@@ -13,29 +15,30 @@ sub check {
 
     my $e = '';
 
-    if ( $Foswiki::cfg{EnableEmail} ) {
-        my $host   = $Foswiki::cfg{SMTP}{MAILHOST}    || '';
-        my $method = $Foswiki::cfg{Email}{MailMethod} || 'Net::SMTP';
-        if ( $method =~ /^Net::SMTP/ ) {
-            if ( $host = $Foswiki::cfg{SMTP}{MAILHOST} ) {
-                if ( $host =~ m/^([^:]+)(?::([0-9]{2,5}))?$/ ) {
-                    ( $host, my $port ) = ( $1, $2 );
-                    my ( undef, undef, undef, undef, @addrs ) =
-                      gethostbyname($host);
-                    unless (@addrs) {
-                        $e .= $this->ERROR(
-                            "$host is invalid: server has no IP address");
-                    }
-                }
-                else {
-                    $e .= $this->ERROR(
-"Syntax error: must be hostname with optional : numeric port"
+    my $host   = $Foswiki::cfg{SMTP}{MAILHOST}    || '';
+    my $method = $Foswiki::cfg{Email}{MailMethod} || 'Net::SMTP';
+    if ( $method =~ /^Net::SMTP/ ) {
+        if ( $host && $host !~ /^ ---/ ) {
+            my $hi = hostInfo( $host, {} );
+            if ( $hi->{error} ) {
+                $e .= $this->ERROR( $hi->{error} );
+            }
+            unless ($e) {
+                if ( !$IPv6Avail && @{ $hi->{v6addrs} } ) {
+                    $e .= $this->WARN(
+"$host has an IPv6 address, but IO::Socket::IP is not installed.  IPv6 can not be used."
                     );
                 }
+                unless ( @{ $hi->{addrs} } ) {
+                    $e .= $this->ERROR(
+                        "$host is invalid: server has no IP address");
+                }
             }
-            else {
-                $e .= $this->ERROR("Hostname or address required for $method.");
-            }
+        }
+        elsif ( $Foswiki::cfg{EnableEmail} ) {
+            $e .= $this->ERROR(
+"Mail server specification required: [IPv6]:port, IPv4:port, or hostname:port"
+            );
         }
     }
 
@@ -64,6 +67,19 @@ sub provideFeedback {
 
     delete $this->{FeedbackProvided};
 
+    my $host   = $Foswiki::cfg{SMTP}{MAILHOST}    || '';
+    my $method = $Foswiki::cfg{Email}{MailMethod} || 'Net::SMTP';
+
+    if ( $method =~ /^Net::SMTP/ ) {
+        unless ($host) {
+            $host = ' ---- Enter e-mail server name to configure Net::SMTP ---';
+            $e .=
+              $this->FB_VALUE(
+                $this->setItemValue( $host, '{SMTP}{MAILHOST}' ) );
+        }
+        $e .= $this->FB_ACTION( '{SMTP}{MAILHOST}', 's' )
+          if ( $host =~ /^ ---/ );
+    }
     return wantarray ? ( $e, 0 ) : $e;
 }
 

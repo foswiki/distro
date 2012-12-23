@@ -15,14 +15,10 @@ sub provideFeedback {
 
     my $e = '';
 
-    if ( $this->getCfg ) {
-        return wantarray
-          ? (
-            $e, [qw/{Email}{SSLCaFile} {Email}{SSLCaPath} {Email}{SSLCheckCRL}/]
-          )
-          : $e;
-    }
-    return '';
+    return
+      wantarray
+      ? ( $e, [qw/{Email}{SSLCaFile} {Email}{SSLCaPath} {Email}{SSLCheckCRL}/] )
+      : $e;
 }
 
 1;

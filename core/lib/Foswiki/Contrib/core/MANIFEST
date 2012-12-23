@@ -591,6 +591,7 @@ lib/Foswiki/Configure/Checkers/Register/EmailFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
 lib/Foswiki/Configure/Checkers/RegistrationApprovals.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/MAILHOST.pm 0444
+lib/Foswiki/Configure/Checkers/SMTP/SENDERHOST.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/Username.pm 0444
 lib/Foswiki/Configure/Checkers/STRING.pm 0444
 lib/Foswiki/Configure/Checkers/SafeEnvPath.pm 0444
@@ -718,6 +719,8 @@ lib/Foswiki/Configure/resources/prev.gif 0444
 lib/Foswiki/Configure/resources/scripts.js 0444
 lib/Foswiki/Configure/resources/scripts.js.gz 0444
 lib/Foswiki/Configure/resources/styles.css 0444
+lib/Foswiki/Configure/resources/toggleclose.png 0444
+lib/Foswiki/Configure/resources/toggleopen.png 0444
 lib/Foswiki/Configure/resources/welcome.html 0444
 lib/Foswiki/Configure/resources/yui.css 0444
 lib/Foswiki/Configure/resources/yui.css.gz 0444
@@ -766,6 +769,7 @@ lib/Foswiki/Func.pm 0444
 lib/Foswiki/I18N.pm 0444
 lib/Foswiki/I18N/Extract.pm 0444
 lib/Foswiki/I18N/Fallback.pm 0444
+lib/Foswiki/IP.pm 0444
 lib/Foswiki/If/Node.pm 0444
 lib/Foswiki/If/OP_allows.pm 0444
 lib/Foswiki/If/OP_context.pm 0444

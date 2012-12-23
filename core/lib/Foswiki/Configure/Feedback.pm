@@ -96,7 +96,7 @@ feedback request has been received.
         my $html = $checker->provideFeedback( $value, 1, 'No button' );
         $html .= $checker->provideFeedback( $value, 2, 'No button' );
 
-        Foswiki::Configure::Feedback::deliverResponse( { $keys => $html },
+        Foswiki::Configure::Feedback::deliverResponse( [ $keys => $html ],
             undef );
 
         # Does not return
@@ -150,7 +150,7 @@ sub deliver {
         $cart->removeParams($query);
 
         checkpointChanges( $session, $query, \%updated );
-        deliverResponse( {}, \%updated );
+        deliverResponse( [], \%updated );
 
         # Does not return
     }
@@ -243,7 +243,7 @@ sub deliver {
 
     $this->{valuer} = $valuer;
     $this->{root}   = $root;
-    $this->{fb}     = {};
+    $this->{fb}     = [];
     $this->{errors} = {};
     $this->{checks} = [];
 
@@ -274,17 +274,17 @@ sub deliver {
             while (@items) {
                 $this->{checkall} = $query->param('DEBUG') ? 2 : 1;
                 my $item   = shift @items;
-                my $button = $this->{button};
+                my $button = 1;
                 die "Bad FB chain $item from $this->{request}\n"
-                  unless ( $item =~ /^(${configItemRegex})(-?\d+)?$/ );
-                $this->{button} = $2 if ( defined $2 );
-                $this->{request} = $1;
+                  unless ( $item =~ /^(\*)?(${configItemRegex})(-?\d+)?$/ );
+                $this->{button} = $3 if ( defined $3 );
+                $this->{request} = $2;
                 $root->visit($this);
                 $this->{button} = $button;
 
-                # Original target's last item must be last.
+                # Deal with "must be last" items
                 if ( ref( $this->{checkall} ) eq 'ARRAY' ) {
-                    if (@items) {
+                    if ( @items && $items[-1] =~ /^\*/ ) {
                         splice( @items, -1, 0, @{ $this->{checkall} } );
                     }
                     else {
@@ -363,7 +363,7 @@ sub deliver {
         my $old = $query->param("${key}errors");
         $old = "0 0" unless ( defined $old );
         my $new = $this->{errors}{$key};
-        $fb->{"${key}errors"} = $ui->FB_GUIVAL( "${key}errors", $new )
+        push @$fb, "${key}errors" => $ui->FB_GUIVAL( "${key}errors", $new )
           if ( $new ne $old );
     }
 
@@ -456,21 +456,25 @@ sub deliverResponse {
 #        The target and action are specified by the key.
 #   \006 executes miscellaneous actions
 
-    $fb->{'{ConfigureGUI}{Unsaved}'} = Foswiki::unsavedChangesNotice($updated)
+    push @$fb,
+      '{ConfigureGUI}{Unsaved}' => Foswiki::unsavedChangesNotice($updated)
       if ( $updated && ( loggedIn($session) || $badLSC || $query->auth_type ) );
 
     my $first = 1;
-    foreach my $keys ( keys %$fb ) {
-        my $fb = $fb->{$keys};
+    while ( @$fb >= 2 ) {
+        my ( $keys, $txt ) = splice( @$fb, 0, 2 );
+
         $response .= "\001" unless ($first);
-        if ( $fb =~ s/\A\001// ) {    # FB_FOR/FB_VALUE pre-encoded data
-            $response .= $fb;
+        if ( $txt =~ s/\A\001// ) {    # FB_FOR/FB_VALUE pre-encoded data
+            $response .= $txt;
         }
         else {
-            $response .= "$keys\002$fb";
+            $response .= "$keys\002$txt";
         }
         undef $first;
     }
+    die "Invalid feedback list\n" if (@$fb);
+
     $response .= "\177"
       if ($first);    # no-data marker for client.  Really shouldn't happen.
 
@@ -495,6 +499,12 @@ sub startVisit {
     return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
 
     my $keys = $visitee->getKeys();
+
+    # Hidden items have no status window and their checkers are never run.
+    # Prevent default checkers for their type from activating and generating
+    # output for missing windows.
+
+    return 1 if ( $visitee->{hidden} && $keys !~ /^\{ConfigureGUI\}/ );
 
     $visitee->{errors}     = 0;
     $visitee->{warnings}   = 0;
@@ -539,14 +549,11 @@ sub startVisit {
                     "Feedback for $keys failed:  check for .spec issues: $@");
                 $checkall = 0;
             }
-            if ($text) {
-                if ( exists $this->{fb}{$keys} ) {
-                    $this->{fb}{$keys} .= $text;
-                }
-                else {
-                    $this->{fb}{$keys} = $text;
-                }
-            }
+
+            # Return even empty strings to clear old status
+            $text = '' unless ( defined $text );
+            push @{ $this->{fb} }, $keys => $text;
+
             $this->{checkall} = $checkall || 0;
         }
         elsif ($checker) {
@@ -556,17 +563,9 @@ sub startVisit {
                 $check = $checker->ERROR(
                     "Checker for $keys failed: check for .spec issues:$@");
             }
-            unless ( !$check
-                || $check && $check eq 'NOT USED IN THIS CONFIGURATION' )
-            {
-                if ($check) {
-                    if ( exists $this->{fb}{$keys} ) {
-                        $this->{fb}{$keys} .= $check;
-                    }
-                    else {
-                        $this->{fb}{$keys} = $check;
-                    }
-                }
+            $check = '' unless ( defined $check );
+            unless ( $check eq 'NOT USED IN THIS CONFIGURATION' ) {
+                push @{ $this->{fb} }, $keys => $check;
             }
         }
         elsif ($button) {
@@ -599,15 +598,9 @@ sub startVisit {
                 $check = $checker->ERROR(
                     "Checker for $keys failed: check for .spec issues:$@");
             }
-            unless ( !$check
-                || $check && $check eq 'NOT USED IN THIS CONFIGURATION' )
-            {
-                if ( exists $this->{b}{$keys} ) {
-                    $this->{fb}{$keys} .= $check;
-                }
-                else {
-                    $this->{fb}{$keys} = $check;
-                }
+            $check = '' unless ( defined $check );
+            unless ( $check eq 'NOT USED IN THIS CONFIGURATION' ) {
+                push @{ $this->{fb} }, $keys => $check;
             }
             $this->{errors}{$keys} = "$visitee->{errors} $visitee->{warnings}";
         }

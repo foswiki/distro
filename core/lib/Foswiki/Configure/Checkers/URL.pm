@@ -4,7 +4,9 @@ package Foswiki::Configure::Checkers::URL;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
+use Foswiki::IP qw/$IPv6Avail :regexp :info/;
+
+require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
 =begin TML
@@ -21,9 +23,11 @@ This checker is normally instantiated by Types/URL (see =makeChecker=).
 
 CHECK= options:
    * expand = expand $Foswiki::cfg variables in value
+   * nullok = allow item to be empty
    * parts:scheme,authority,path,query,fragment
           Parts allowed in item
           Default: scheme,authority,path
+   * notrail = remove trailing / from (https?) paths
    * partsreq = Parts required in item
    * schemes = schemes allowd in item
           Default: http,https
@@ -34,6 +38,9 @@ CHECK= options:
           Default: host
    * user = Permit user@host syntax
    * pass = Permit user:pass@host syntax
+   * list:regexp = Allow a list of URLS delimited by regexp.
+     (Default:'\\\\s+') No capturing ()s allowed.  Do not include
+     characters valid in URL (e.g. ',' if path/query/frag allowed.)
 
 =cut
 
@@ -42,12 +49,6 @@ CHECK= options:
 
 my $uriRE =
   qr|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?|o;
-
-# IPv6 - Regexp::Ipv6 needed
-my $ipAddrRE = qr/^(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.
-                   (?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.
-                   (?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.
-                   (?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])$/x;
 
 sub vlist {
     my ( $options, $item ) = @_;
@@ -69,7 +70,7 @@ sub check {
 
     $optionList[0] = {} unless (@optionList);
 
-    $e .= $this->ERROR(".SPEC error: multiple CHECK options for NUMBER")
+    $e .= $this->ERROR(".SPEC error: multiple CHECK options for URL $keys")
       if ( @optionList > 1 );
 
     my $options = $optionList[0];
@@ -79,6 +80,7 @@ sub check {
     $options->{partsreq} ||= [qw/scheme authority/];
     $options->{schemes}  ||= [qw/http https/];
     $options->{authtype} ||= ['host'];
+    $options->{notrail}  ||= [0];
     $options->{pass}     ||= [0];
     $options->{user}     ||= $options->{pass}[0] ? [1] : [0];
 
@@ -90,190 +92,262 @@ sub check {
         $n .= $this->showExpandedValue($baseval);
     }
 
+    $baseval = $value;
+    if ( defined $value ) {
+        $value =~ s/^\s+//;
+        $value =~ s/\s+$//;
+    }
     return "$e$n"
       if ( !$value && $options->{nullok}[0] );
 
-    $e .= $this->guessed(0)
+    my @values = $value || '';
+    if ( my $regex = $options->{list}[0] ) {
+        if ( $regex eq '1' ) {    # default (1) is not a sensible regex.
+            $regex = '\\s+';
+        }
+        @values = split( qr/($regex)/, $value );
+    }
+
+    my $i        = 0;
+    my $newValue = '';
+    my $list     = @values > 1;
+
+    while (@values) {
+        my ( $value, $delim ) = splice( @values, 0, 2 );
+        $i++;
+        my $id = $list ? "Item $i \"$value\": " : '';
+
+        unless ($value) {
+            $e .= $this->ERROR("${id}Empty list item");
+            next;
+        }
+        my ( $note, $err, $newval ) =
+          $this->_checkEntry( $id, $options, $value );
+
+        $n        .= $note;
+        $e        .= $err;
+        $newValue .= $newval;
+        $newValue .= $delim if ( defined $delim && @values );
+    }
+
+    if ( $newValue ne $baseval && !$e ) {
+        $this->setItemValue( $newValue, $keys );
+        if ( exists $this->{GuessedValue} ) {
+            $this->{GuessedValue} = $newValue;
+        }
+        else {
+            $this->{UpdatedValue} = $newValue;
+        }
+    }
+
+    $n .= $this->guessed(0)
       if ( $this->{GuessedValue} && !$this->{FeedbackProvided} );
 
-    if ( $value =~ $uriRE ) {
-        my ( $scheme, $authority, $path, $query, $fragment ) =
-          ( $1, $2, $3, $4, $5 );
-        undef $authority if ( defined $authority && !length $authority );
-        undef $path      if ( defined $path      && !length $path );
+    return $n . $e;
+}
 
-        my $parts    = vlist( $options, 'parts' );
-        my $partsReq = vlist( $options, 'partsreq' );
+sub _checkEntry {
+    my $this = shift;
+    my ( $id, $options, $value ) = @_;
 
-        if ( $parts->{scheme} ) {
-            if ( defined $scheme ) {
-                my $s = vlist( $options, 'schemes' );
-                $e .= $this->ERROR("$scheme is not permitted for this item")
-                  unless ( $s->{ lc $scheme } );
-            }
-            elsif ( $partsReq->{scheme} ) {
-                $e .= $this->ERROR("Scheme is required for this item");
-            }
-        }
-        else {
-            $e .= $this->ERROR("Scheme is not permitted for this item")
-              if ( defined $scheme );
-        }
-        $scheme = '' unless ( defined $scheme );
+    my $e = '';
+    my $n = '';
 
-        if ( $parts->{authority} ) {
-            if ( defined $authority ) {
-                my $auth = $authority;
-                if ( $auth =~ s/^([^:\@]+)(?::[^\@]+)?\@// ) {
-                    my ( $user, $pass ) = ( $1, $2 );
-                    if ( $options->{user}[0] ) {
-                        if ( defined $pass ) {
-                            unless ( $options->{pass}[0] ) {
-                                $e .= $this->ERROR(
-"Embedded password is not permitted for this item"
-                                );
-                            }
-                        }
-                    }
-                    else {
-                        $e .= $this->ERROR(
-"Embedded authentication is not permitted for this item"
-                        );
-                    }
-                }
-                if ( $auth =~ /^(?:$ipAddrRE|\[$ipAddrRE\])(?::\d+)?$/ ) {
-                    $this->ERROR("IP address is not permitted for this item")
-                      unless ( $options->{authtype}[0] =~ /ip$/ );
-                }
-                elsif ( $auth =~ /^([^:]+)(?::(\d+))?$/ ) {
-                    my ( $host, $port ) = ( $1, $2 );
-                    if ( $options->{authtype}[0] =~ /^host/ ) {
-                        unless ( gethostbyname($host) ) {
-                            $e .= $this->ERROR("$host is not a valid hostname");
-                        }
-                    }
-                    else {
-                        $e .= $this->ERROR(
-                            "Hostname is not permitted for this item");
-                    }
-                }
-                else {
-                    $e .=
-                      $this->ERROR("$auth is not a valid authority specifier");
-                }
-            }
-            elsif ( $partsReq->{authority} ) {
-                $e .= $this->ERROR(
-"Authority ($options->{authtype}[0]) is required for this item"
-                );
-            }
-        }
-        else {
-            $e .= $this->ERROR("Authority is not permitted for this item")
-              if ( defined $authority );
-        }
-        $authority = '' unless ( defined $authority );
+    return ( '', $this->ERROR("${id}Syntax error: not a valid URI"), $value )
+      unless ( $value =~ $uriRE );
 
-        if ( $parts->{path} ) {
-            if ( defined $path ) {
-                if ( $scheme =~ /^https?$/i || !$parts->{scheme} ) {
-                    unless ( $path =~
-m{^(?:/|(?:/(?:[+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
-                      )
-                    {
-                        $e .= $this->ERROR("Path is not valid");
-                    }
-                }    # Checks for other schemes?
-            }
-            elsif ( $partsReq->{path} ) {
-                $e .= $this->ERROR("Path is required for this item");
-            }
-        }
-        else {
-            $e .= $this->ERROR("Path is not permitted for this item")
-              if ( defined $path );
-        }
-        $path = '' unless ( defined $path );
+    my ( $scheme, $authority, $path, $query, $fragment ) =
+      ( $1, $2, $3, $4, $5 );
+    undef $authority if ( defined $authority && !length $authority );
+    undef $path      if ( defined $path      && !length $path );
 
-        if ( $parts->{query} ) {
-            if ( defined $query ) {
-                unless ( $query =~
-                    m{\?(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
-                {
-                    $e .= $this->ERROR("Query is not valid");
-                }
-            }
-            elsif ( $partsReq->{query} ) {
-                $e .= $this->ERROR("Query is required for this item");
-            }
-        }
-        else {
-            $e .= $this->ERROR("Query is not permitted for this item")
-              if ( defined $query );
-        }
-        $query = '' unless ( defined $query );
+    my $parts    = vlist( $options, 'parts' );
+    my $partsReq = vlist( $options, 'partsreq' );
 
-        if ( $parts->{fragment} ) {
-            if ( defined $fragment ) {
-                if ( $scheme =~ /^https?$/i ) {
-                    unless ( $fragment =~
-                        m{#(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
-                    {
-                        $e .= $this->ERROR("Fragment is not valid");
-                    }
-                }    # Checks for other schemes?
-            }
-            elsif ( $partsReq->{fragment} ) {
-                $e .= $this->ERROR("Fragment is required for this item");
-            }
+    if ( $parts->{scheme} ) {
+        if ( defined $scheme ) {
+            my $s = vlist( $options, 'schemes' );
+            $e .= $this->ERROR("${id}$scheme is not permitted for this item")
+              unless ( $s->{ lc $scheme } );
         }
-        else {
-            $e .= $this->ERROR("Fragment is not permitted for this item")
-              if ( defined $fragment );
-        }
-        $fragment = '' unless ( defined $fragment );
-
-        if ( eval "require URI;" ) {
-            my $uri = URI->new($value);
-            if ($uri) {
-                my $can   = $uri->canonical();
-                my $canon = '';
-                my $p     = $can->scheme;
-                $canon .= $p . ':'
-                  if ( defined $p && $parts->{scheme} );
-                $p = $can->authority;
-                $canon .= '//' . $p
-                  if ( defined $p && $parts->{authority} );
-                $p = $can->path;
-                $canon .= $p
-                  if ( defined $p && $parts->{path} );
-                $p = $can->query;
-                $canon .= '?' . $p
-                  if ( defined $p && $parts->{query} );
-                $p = $can->fragment;
-                $canon .= '#' . $p
-                  if ( defined $p && $parts->{fragment} );
-
-                if ( $canon ne $value ) {
-                    $this->setItemValue( $canon, $keys );
-                    if ( exists $this->{GuessedValue} ) {
-                        $this->{GuessedValue} = $canon;
-                    }
-                    else {
-                        $this->{UpdatedValue} = $canon;
-                    }
-                }
-            }
-            else {
-                $e .= $this->ERROR("Unable to parse $value");
-            }
+        elsif ( $partsReq->{scheme} ) {
+            $e .= $this->ERROR("${id}Scheme is required for this item");
         }
     }
     else {
-        $e .= $this->ERROR("Syntax error: not a valid URI");
+        $e .= $this->ERROR("${id}Scheme is not permitted for this item")
+          if ( defined $scheme );
+    }
+    $scheme = '' unless ( defined $scheme );
+
+    if ( $parts->{authority} ) {
+        if ( defined $authority ) {
+            my $auth = $authority;
+            if ( $auth =~ s/^([^:\@]+)(?::[^\@]+)?\@// ) {
+                my ( $user, $pass ) = ( $1, $2 );
+                if ( $options->{user}[0] ) {
+                    if ( defined $pass ) {
+                        unless ( $options->{pass}[0] ) {
+                            $e .= $this->ERROR(
+"${id}Embedded password is not permitted for this item"
+                            );
+                        }
+                    }
+                }
+                else {
+                    $e .= $this->ERROR(
+"${id}Embedded authentication is not permitted for this item"
+                    );
+                }
+            }
+            my $hi = hostInfo($auth);
+            if ( $hi->{error} ) {
+                $e .= $this->ERROR(
+"${id}$auth is not a valid authority specifier: $hi->{error}"
+                );
+            }
+            else {
+                if ( $hi->{ipaddr} ) {
+                    $e .= $this->ERROR(
+                        "${id}IP address is not permitted for this item")
+                      unless ( $options->{authtype}[0] =~ /ip$/ );
+                    $e .=
+                      $this->ERROR("${id}IP address is required for this item")
+                      if ( $options->{authtype}[0] eq 'ip' );
+                    $e .= $this->ERROR(
+"${id}$auth is an IPv6 address, but Foswiki can not use it unless you install IO::Socket::IP"
+                    ) if ( !$e && !$IPv6Avail && $hi->{ipv6addr} );
+                }
+                else {
+                    if ( $options->{authtype}[0] =~ /^host/ ) {
+                        if ( !$IPv6Avail && @{ $hi->{v6addrs} } ) {
+                            if ( @{ $hi->{v4addrs} } ) {
+                                $n .= $this->NOTE(
+"${id}$auth has an IPv6 address, but Foswiki can not use it unless you install IO::Socket::IP"
+                                );
+                            }
+                            else {
+                                $e .= $this->ERROR(
+"${id}$auth only has an IPv6 address, but Foswiki can not use it unless you install IO::Socket::IP"
+                                );
+                            }
+                        }
+                        $e .= $this->ERROR("${id}$auth has no IP addresses")
+                          unless ( @{ $hi->{addrs} } );
+                    }
+                    else {
+                        $e .= $this->ERROR(
+                            "${id}Hostname is not permitted for this item");
+                    }
+                }
+            }
+        }
+        elsif ( $partsReq->{authority} ) {
+            $e .= $this->ERROR(
+"${id}Authority ($options->{authtype}[0]) is required for this item"
+            );
+        }
+    }
+    else {
+        $e .= $this->ERROR("${id}Authority is not permitted for this item")
+          if ( defined $authority );
+    }
+    $authority = '' unless ( defined $authority );
+
+    if ( $parts->{path} ) {
+        if ( defined $path ) {
+            if ( $scheme =~ /^https?$/i || !$parts->{scheme} ) {
+                unless ( $path =~
+m{^(?:/|(?:/(?:[+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
+                  )
+                {
+                    $e .= $this->ERROR("${id}Path is not valid");
+                }
+                if ( $options->{notrail}[0] ) {
+                    $path =~ s,/$,,;
+                }
+            }    # Checks for other schemes?
+        }
+        elsif ( $partsReq->{path} ) {
+            $e .= $this->ERROR("${id}Path is required for this item");
+        }
+    }
+    else {
+        $e .= $this->ERROR("${id}Path is not permitted for this item")
+          if ( defined $path );
+    }
+    $path = '' unless ( defined $path );
+
+    if ( $parts->{query} ) {
+        if ( defined $query ) {
+            unless ( $query =~
+                m{\?(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
+            {
+                $e .= $this->ERROR("${id}Query is not valid");
+            }
+        }
+        elsif ( $partsReq->{query} ) {
+            $e .= $this->ERROR("${id}Query is required for this item");
+        }
+    }
+    else {
+        $e .= $this->ERROR("${id}Query is not permitted for this item")
+          if ( defined $query );
+    }
+    $query = '' unless ( defined $query );
+
+    if ( $parts->{fragment} ) {
+        if ( defined $fragment ) {
+            if ( $scheme =~ /^https?$/i ) {
+                unless ( $fragment =~
+                    m{#(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
+                {
+                    $e .= $this->ERROR("${id}Fragment is not valid");
+                }
+            }    # Checks for other schemes?
+        }
+        elsif ( $partsReq->{fragment} ) {
+            $e .= $this->ERROR("${id}Fragment is required for this item");
+        }
+    }
+    else {
+        $e .= $this->ERROR("${id}Fragment is not permitted for this item")
+          if ( defined $fragment );
+    }
+    $fragment = '' unless ( defined $fragment );
+
+    if ( eval "require URI;" ) {
+        my $uri = URI->new($value);
+        if ($uri) {
+            my $can   = $uri->canonical();
+            my $canon = '';
+            my $p     = $can->scheme;
+            $canon .= $p . ':'
+              if ( defined $p && $parts->{scheme} );
+            $p = $can->authority;
+            $canon .= '//' . $p
+              if ( defined $p && $parts->{authority} );
+            $p = $can->path;
+            if ( defined $p && $parts->{path} ) {
+                $canon .= $p;
+                if ( $options->{notrail}[0] ) {
+                    $canon =~ s,/$,,;
+                }
+            }
+            $p = $can->query;
+            $canon .= '?' . $p
+              if ( defined $p && $parts->{query} );
+            $p = $can->fragment;
+            $canon .= '#' . $p
+              if ( defined $p && $parts->{fragment} );
+            $value = $canon;
+        }
+        else {
+            $e .= $this->ERROR("${id}Unable to parse $value");
+        }
     }
 
-    return $n . $e;
+    return ( $n, $e, $value );
 }
 
 sub provideFeedback {

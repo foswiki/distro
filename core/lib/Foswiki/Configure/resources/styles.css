@@ -215,6 +215,9 @@ table.configureFeedbackSummaryTable td {
     overflow: auto;
     background-color: #FC000;
 }
+.configureFeedbackExpanded {
+    max-height: none;
+}
 table.configureFeedbackArray,
 table.configureFeedbackArray th,
 table.configureFeedbackArray td {
@@ -1067,11 +1070,6 @@ div.configureSaveForm div.configureLogEntryHelp {
     word-wrap:break-word;
     width: 400px;
 }
-.foswikiJSRequired {
-    display:none;
-}
-.foswikiNonJS {
-}
 input.configureItemEnable {
     padding: 0px;
     margin: 0px;
@@ -1086,4 +1084,14 @@ td.configureItemEnable {
 /* Hidden by DisplayIF */ 
 .configureDisplayHidden:not(.configureDisplayForced) {
     display: none;
+}
+
+/* Keep last for priority.  
+ * JSR - displayed if JS avail.
+ * NonJS - displayed only if JS NOT avail.
+ */
+.foswikiJSRequired {
+    display:none;
+}
+.foswikiNonJS {
 }

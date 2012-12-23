@@ -44,7 +44,7 @@
 # be browseable from the web. If you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.</p>
 
-# **URL CHECK="parts:scheme,authority,path \
+# **URL CHECK="parts:scheme,authority \
 #              partsreq:scheme,authority \
 #              schemes:http,https \
 #              authtype:host" \
@@ -60,18 +60,56 @@
 # to return the <code>DefaultUrlHost</code>.</p>
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URLPATH CHECK="expand" M**
+# **URL CHECK='nullok list:"\\\\s*,\\\\s*" \
+#              parts:scheme,authority \
+#              authtype:hostip \
+#              expand' **
+# If your host has aliases (such as both www.mywiki.net and mywiki.net
+# and some IP addresses) you need to tell Foswiki that redirecting to them
+# is OK. Foswiki uses redirection as part of its normal mode of operation
+# when it changes between editing and viewing.
+# To prevent Foswiki from being used in phishing attacks and to protect it
+# from middleman exploits, the security setting {AllowRedirectUrl} is by
+# default disabled, restricting redirection to other domains. If a redirection
+# to a different host is attempted, the target URL is compared against this
+# list of additional trusted sites, and only if it matches is the redirect
+# permitted.<br />
+# Enter as a comma separated list of URLs (protocol, hostname and (optional)
+# port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>
+$Foswiki::cfg{PermittedRedirectHostUrls} = '';
+
+# **URLPATH CHECK="expand notrail" M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory e.g. <code>/foswiki/bin</code><br />
-# Do <b>not</b> include a trailing /.
 # <p />
 # See <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">ShorterUrlCookbook</a> for more information on setting up
 # Foswiki to use shorter script URLs.  The setting for the <code>view</code> script may be adjusted below.  Other scripts need to
 # be manually added to <code>lib/LocalSite.cfg</code>
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **URLPATH CHECK='expand nullok' E M U**
-# This is the complete path used to access the Foswiki view script including any suffix.  Do not include a trailing /.
+# **NUMBER FEEDBACK=AUTO EXPERT**
+# This is the maximum number of files and directories that will be checked
+# for permissions for the pub and data Directory paths.  This limit is initially set to
+# 5000, which should be reasonable for a default installation.  If it is
+# exceeded, then an informational message is returned stating that incomplete
+# checking was performed.  If this is set to a large number on large installations,
+# then a significant delay will be incurred when configure is run, due to the
+# recursive directory checking.
+$Foswiki::cfg{PathCheckLimit} = 5000;
+
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin" M**
+# This is the file system path used to access the Foswiki bin
+# directory.
+# $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
+
+# **STRING 10**
+# Suffix of Foswiki CGI scripts (e.g. .cgi or .pl). You may need to set this
+# if your webserver requires an extension.
+$Foswiki::cfg{ScriptSuffix} = '';
+
+# **URLPATH CHECK='expand nullok notrail' AUDIT='URI:0' E M U**
+#! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
+# This is the complete path used to access the Foswiki view script including any suffix.
 # (This is an exception override, so the ScriptSuffix is not automatically added.)
 # e.g. <code>/foswiki/bin/view.pl</code><br />  Note:  The default is acceptable except when shorter URLs are used.
 # <p />
@@ -89,27 +127,12 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 #! The following plugin must follow all other {ScriptUrlPaths} items
 # *SCRIPTHASH*
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin" M**
-# This is the file system path used to access the Foswiki bin
-# directory.
-# $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
-
-# **URLPATH CHECK='expand' M T**
+# **URLPATH CHECK='expand notrail' AUDIT='URI:0' M T**
 # Attachments URL path e.g. /foswiki/pub
 # <p /><b>Security Note:</b> files in this directory are *not*
 # protected by Foswiki access controls. If you require access controls, you
 # will have to use webserver controls (e.g. .htaccess on Apache)
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
-
-# **NUMBER FEEDBACK=AUTO EXPERT**
-# This is the maximum number of files and directories that will be checked
-# for permissions for the pub and data Directory paths.  This limit is initially set to
-# 5000, which should be reasonable for a default installation.  If it is
-# exceeded, then an informational message is returned stating that incomplete
-# checking was performed.  If this is set to a large number on large installations,
-# then a significant delay will be incurred when configure is run, due to the
-# recursive directory checking.
-$Foswiki::cfg{PathCheckLimit} = 5000;
 
 # **PATH AUDIT="DIRS:1" FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rw filter:',v$'" M**
 # Attachments store (file path, not URL), must match /foswiki/pub e.g.
@@ -165,26 +188,6 @@ $Foswiki::cfg{PathCheckLimit} = 5000;
 # created.  It substitutes as the environment <tt>TempfileDir</tt> setting which
 # will not be used by perl for security reasons.
 #$Foswiki::cfg{TempfileDir} = '/tmp';
-
-# **STRING**
-# If your host has aliases (such as both www.mywiki.net and mywiki.net
-# and some IP addresses) you need to tell Foswiki that redirecting to them
-# is OK. Foswiki uses redirection as part of its normal mode of operation
-# when it changes between editing and viewing.
-# To prevent Foswiki from being used in phishing attacks and to protect it
-# from middleman exploits, the security setting {AllowRedirectUrl} is by
-# default disabled, restricting redirection to other domains. If a redirection
-# to a different host is attempted, the target URL is compared against this
-# list of additional trusted sites, and only if it matches is the redirect
-# permitted.<br />
-# Enter as a comma separated list of URLs (protocol, hostname and (optional)
-# port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>
-$Foswiki::cfg{PermittedRedirectHostUrls} = '';
-
-# **STRING 10**
-# Suffix of Foswiki CGI scripts (e.g. .cgi or .pl). You may need to set this
-# if your webserver requires an extension.
-$Foswiki::cfg{ScriptSuffix} = '';
 
 # **PATH FEEDBACK=On-Change M**
 # You can override the default PATH setting to control
@@ -1750,7 +1753,11 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 # **STRING 30 FEEDBACK=AUTO **
 # Mail host for outgoing mail. This is only used if Net::SMTP is used.
 # Examples: <tt>mail.your.company</tt> If the smtp server uses a different port
-# than the default 25 # use the syntax <tt>mail.your.company:portnumber</tt>
+# than the default 25, use the syntax <tt>mail.your.company:portnumber</tt>,
+# or omit it to allow autoconfiguration to attempt to discover it for you.
+# <p>Although not recommended, you can also specify an IP address using
+# the syntax <tt>192.0.2.11</tt> or <tt>[2001:db8::beef]</tt>.  If necessary,
+# a port number may be added to either form <tt>:587</tt>.
 # <p><b>CAUTION</b> This setting can be overridden by a setting of SMTPMAILHOST
 # in SitePreferences. Make sure you delete that setting if you are using a
 # SitePreferences topic from a previous release of Foswiki.</p>
@@ -1767,10 +1774,12 @@ $Foswiki::cfg{SMTP}{Username} = '';
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
-# **BOOLEAN \
+# **BOOLEAN   FEEDBACK=auto \
 #             FEEDBACK='Auto-configure';\
 #                       wait="Contacting your e-mail server, this may take several minutes...";\
 #                       title="Attempts to automatically configure e-mail by scanning your system and contacting your mail server" \
+#             FEEDBACK='Reset';\
+#                       title="Reset to default mail configuration" \
 #             CHECK="prefer:perl" \
 #             **
 # Enable email globally.  Un-check this option to disable all outgoing
@@ -1865,10 +1874,11 @@ $Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 #          CHANGE="var s = $('[name=\"{SMTP}{MAILHOST}\"]');\
 #                  if( ele.options[ele.selectedIndex].value === 'MailProgram' )\
 #                    s.val(' ---- Unused when MailProgram selected ---');\
-#                  else { if( /^ ---- Unused/.test(s.val()) )\
-#                         s.val('');}" **
+#                  else { if( /^ ---- Unused/.test(s.val()) ){\
+#                         s.val(' ---- Enter e-mail server name to configure Net::SMTP ---');s.get(0).select();}}" **
 # Select the method Foswiki will use for sending email.  On Unix/Linux hosts
-# "MailProgram" is generally acceptable.  Otherwise choose one of the Email
+# "MailProgram" is generally acceptable, although Net::SMTP provides better
+# diagnostics when things go amiss.  Otherwise choose one of the Email
 # methods required by your ISP or Email server.
 # You can select a method manually,  or use the "Auto-configure" button to
 # determine the best connection type for your ISP or Email server.
@@ -1901,7 +1911,7 @@ $Foswiki::cfg{SMTP}{DebugFlags} = '-X /dev/stderr';
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-# **STRING 30 DISPLAY_IF /^Net::SMTP/.test({Email}{MailMethod})**
+# **STRING 30 FEEDBACK=auto DISPLAY_IF /^Net::SMTP/.test({Email}{MailMethod})**
 # Mail domain sending mail, required. SMTP
 # requires that you identify the server sending mail. If not set, <b>Auto-configure</b> or
 # <tt>Net::SMTP</tt> will guess it for you. Example: foswiki.your.company.

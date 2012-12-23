@@ -4,6 +4,8 @@ package Foswiki::Configure::Checkers::EnableEmail;
 use strict;
 use warnings;
 
+use Foswiki::IP qw/:regexp :info $IPv6Avail/;
+
 require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
@@ -64,6 +66,9 @@ my %mtas = (
 );
 #>>>
 
+my $acceptMsg =
+"Configuration accepted.<br />Next step:Setup and test {WebMasterEmail} using the action button above.\n";
+
 sub check {
     my $this   = shift;
     my $valobj = shift;
@@ -95,18 +100,15 @@ sub provideFeedback {
 
     # Normally, we call check first, but not if called by check.
 
-    # There is no need to run check() for the currently-defined action buttons.
-
-    #    my $e = $button ? $this->check($valobj) : '';
-    my $e;
+    my $e = $button ? $this->check($valobj) : '';
 
     my $keys = $valobj->getKeys();
 
     delete $this->{FeedbackProvided};
 
-    # For button 1, try to autoconfigure the host
+    # For button 2, try to autoconfigure the host
 
-    if ( $button == 1 ) {
+    if ( $button == 2 ) {
         my @optionList = $this->parseOptions();
 
         $optionList[0] = {} unless (@optionList);
@@ -116,6 +118,68 @@ sub provideFeedback {
           if ( @optionList > 1 );
 
         $e .= $this->autoconfig( $optionList[0] );
+    }
+    elsif ( $button == 3 ) {
+
+        # Reset (most) mail configuration to defaults
+
+        # Keep host if valid, but remove port
+        my $host = $this->getCfg('{SMTP}{MAILHOST}');
+        $host = '' if ( $host =~ /^ ---/ );
+        if ($host) {
+            $host = hostInfo($host);
+            if ( $host->{error} ) {
+                $host = '';
+            }
+            elsif ( $host->{ipv6addr} ) {
+                $host = "[$host->{name}]";
+            }
+            else {
+                $host = $host->{name};
+            }
+        }
+        $host ||= ' ---- Enter e-mail server name to configure Net::SMTP ---';
+
+        # Leave any username/password as they are probably
+        # right - or if not, will show as obvious errors
+        # Leave S/MIME (it doesn't impact autoconfig)
+        # DebugFlags will be autoconfigured if program selected
+
+        $e .= join(
+            $this->FB_VALUE( $this->setItemValue( 0, '{EnableEmail}' ) ),
+            $this->FB_VALUE(
+                $this->setItemValue(
+                    'Net::SMTP (STARTTLS)',
+                    '{Email}{MailMethod}'
+                )
+            ),
+            $this->FB_VALUE( $this->setItemValue( 0,     '{SMTP}{Debug}' ) ),
+            $this->FB_VALUE( $this->setItemValue( $host, '{SMTP}{MAILHOST}' ) ),
+            $this->FB_VALUE( $this->setItemValue( '', '{SMTP}{SENDERHOST}' ) ),
+            ,
+            $this->FB_VALUE(
+                $this->setItemValue( 1, '{Email}{SSLVerifyServer}' )
+            ),
+            $this->FB_VALUE( $this->setItemValue( '', '{Email}{SSLCaFile}' ) ),
+            $this->FB_VALUE( $this->setItemValue( '', '{Email}{SSLCaPath}' ) ),
+            $this->FB_VALUE( $this->setItemValue( 0, '{Email}{SSLCheckCRL}' ) ),
+            $this->FB_VALUE(
+                $this->setItemValue( '', '{Email}{SSLClientCertFile}' )
+            ),
+            $this->FB_VALUE(
+                $this->setItemValue( '', '{Email}{SSLClientKeyFile}' )
+            ),
+            $this->FB_VALUE(
+                $this->setItemValue( '', '{Email}{SSLClientKeyPassword}' )
+            ),
+        );
+        $e .= $this->FB_ACTION( '{SMTP}{MAILHOST}', 's' )
+          if ( $host =~ /^ ---/ );
+
+        return
+          wantarray
+          ? ( $e, [qw/{SMTP}{MAILHOST} {Email}{SSLVerifyServer}/] )
+          : $e;
     }
 
     return wantarray ? ( $e, 0 ) : $e;
@@ -151,7 +215,7 @@ sub autoconfigProgram {
     my $this = shift;
     my ( $options, $perlAvail ) = @_;
 
-    my $e = '';
+    my $e = $this->NOTE("Attempting to configure a mailer program");
 
     require Cwd;
     Cwd->import(qw/realpath/);
@@ -186,7 +250,7 @@ sub autoconfigProgram {
                 if ( -x "$p/$cfg->{file}" ) {
                     my $prog = realpath("$p/$cfg->{file}");
                     if ( ( fileparse($prog) )[0] =~ $cfg->{regexp} ) {
-                        return $this->setMailProgram( $cfg, $p );
+                        return $this->setMailProgram( $e, $cfg, $p );
                     }
                 }
             }
@@ -195,7 +259,7 @@ sub autoconfigProgram {
         # Not found, must map /usr/sbin/sendmail to the tool
 
         $mailp = 'sendmail';
-        $e     = 'Unable to locate a known external mail program';
+        $e .= 'Unable to locate a known external mail program';
     }
 
     my $seen = '';
@@ -208,7 +272,7 @@ sub autoconfigProgram {
                     $cfg->{flags} = '' unless ( defined $cfg->{flags} );
                     $cfg->{flags} = "$mailargs $cfg->{flags}"
                       if ( defined $mailargs );
-                    return $this->setMailProgram( $cfg, $p );
+                    return $this->setMailProgram( $e, $cfg, $p );
                 }
             }
             $seen .= "Unable to identify $p/$mailp.<br />";
@@ -299,17 +363,17 @@ sub diagnoseFailure {
             || ( ( $selStatus >> 8 ) && !( $selStatus & 127 ) ) );
     }
 
-    my $e .= << "SELINUX";
+    my $e = << "SELINUX";
 <strong>Note:</strong> SELinux appears to be enabled on your system.
 Please ensure that the SELinux policy permits SMTP connections from webserver processes
 to at least one of these tcp ports: 587, 465 or 25.  Also ensure that your e-mail
-client is permitted to be run under your webserver, and that it is premitted access to its
+client is permitted to be run under your webserver, and that it is permitted access to its
 configuration data and temporary files in this security context.
 
 Check the audit log for specific errors, as policies vary.</pre>
 SELINUX
 
-    # MailProgram probes don't send may, so just a generic message if
+    # MailProgram probes don't send mail, so just a generic message if
     # SELinux is enabled.
 
     unless (@_) {
@@ -358,16 +422,17 @@ SMTP
 
 sub setMailProgram {
     my $this = shift;
-    my ( $cfg, $path ) = @_;
+    my ( $e, $cfg, $path ) = @_;
 
-    my $e = "";
-
-    $e .= $this->NOTE("Identified $cfg->{name} as your mail program");
+    $e .= $this->NOTE(
+"Identified $cfg->{name} (<tt>$path/$cfg->{file}</tt>) as your mail program"
+    );
     return (
         1,
         join(
             '', $e,
             diagnoseFailure(),
+            $this->NOTE($acceptMsg),
             $this->FB_ACTION( '#{EnableEmail}status', 'b' ),
             $this->FB_VALUE( '{SMTP}{Debug}',       0 ),
             $this->FB_VALUE( '{Email}{MailMethod}', 'MailProgram' ),
@@ -376,6 +441,10 @@ sub setMailProgram {
             ),
             $this->FB_VALUE( '{SMTP}{DebugFlags}', $cfg->{debug} ),
             $this->FB_VALUE( '{EnableEmail}',      1 ),
+            $this->FB_VALUE(
+                '{SMTP}{MAILHOST}',
+                ' ---- Unused when MailProgram selected ---'
+            ),
         )
     );
 }
@@ -398,11 +467,24 @@ sub perlFailed {
     return ( 0, $e . $this->NOTE($msg) );
 }
 
+# autoconfiguration for Net::SMTP
+
+# Global variables
+
+our (
+    $host,      $hInfo,      $hello,    $inAuth,
+    $noconnect, $allconnect, $tlog,     $tlsSsl,
+    $startTls,  @sslopts,    @sockopts, %systemAuthMethods,
+);
+our $pad = ' ' x length('Net::SMTpXXX ');
+
 sub autoconfigPerl {
     my $this = shift;
     my ( $options, $progTried ) = @_;
-
-    my $e = '';
+    $SIG{__DIE__} = sub {
+        Carp::confess($@);
+    };
+    my $e = $this->NOTE("Attempting to configure Net::SMTP");
 
     eval {
         require IO::Handle;
@@ -414,275 +496,331 @@ sub autoconfigPerl {
         "Net::SMTP and IO::Socket::SSL are required to autoconfigure mail", @_ )
       if ($@);
 
+    # Enable IPv6 if it's available
+
+    @Net::SMTP::ISA = (
+        grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+        'IO::Socket::IP'
+    ) if ($IPv6Avail);
+
+    $host = $Foswiki::cfg{SMTP}{MAILHOST};
     return $this->perlFailed( $e,
         "{SMTP}{MAILHOST} must be specified to use Net::SMTP", @_ )
-      unless ( $Foswiki::cfg{SMTP}{MAILHOST} );
+      unless ( $host && $host !~ /^ ---/ );
 
-    my ( $host, $port ) =
-      $Foswiki::cfg{SMTP}{MAILHOST} =~ m/^([^:]+)(?::([0-9]{2,5}))?$/
-      or return $this->perlFailed( $e,
-        "Invalid syntax for {SMTP}{MAILHOST} host:port", @_ );
+    $hInfo = hostInfo($host);
+    if ( $hInfo->{error} ) {
+        return $this->perlFailed( $e,
+            "{SMTP}{MAILHOST} is not valid: " . $hInfo->{error}, @_ );
+    }
+    $host = $hInfo->{name};
 
-    my ( undef, undef, undef, undef, @addrs ) = gethostbyname($host);
-    scalar @addrs
+    my @addrs;
+    if ($IPv6Avail) {
+
+        # IO::Socket::IP will handle multiple addresses/address families
+        # in the right order if we pass $host, but passing the list lets
+        # us log which addresses work and which don't.
+        push @addrs, @{ $hInfo->{addrs} };
+    }
+    else {
+        # Net::SMTP will iterate
+        @addrs = @{ $hInfo->{v4addrs} };
+        if ( @{ $hInfo->{v6addrs} } ) {
+            $e .= $this->WARN(
+"$host has an IPv6 address, but IO::Socket::IP is not installed.  IPv6 can not be used."
+            );
+        }
+    }
+    @addrs
       or return $this->perlFailed( $e,
         "{SMTP}{MAILHOST} $host is invalid: server has no IP address", @_ );
 
     my @options = (
-        Host => [ map { sprintf "%vd", $_ } @addrs ],
-        Timeout => ( @addrs >= 2 ? 10 : 30 )
+        Debug   => 1,
+        Host    => [@addrs],
+        Timeout => ( @addrs >= 2 ? 10 : 30 ),
     );
-    my $hello;
-    if ( $this->{HELLO_HOST} ) {
-        push @options, Hello => ( $hello = $this->{HELLO_HOST} );
+
+    if ( ( $hello = $Foswiki::cfg{SMTP}{SENDERHOST} ) ) {
+        push @options, Hello => ($hello);
     }
     else {
         require Net::Domain;
         $hello = Net::Domain::hostfqdn();
-#<<<
         $hello = "[$hello]"
-          if ( # IPv4 - IPv6 broken - see Regexp::Ipv6
-            $hello =~ /^(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.
-                        (?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.
-                        (?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.
-                        (?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])$/x
-          );
-#>>>
+          if ( $hello =~ /^(?:$IPv4Re|$IPv6ZidRe)$/ );
         push @options, Hello => $hello;
     }
 
-    our $inAuth     = 0;
-    our $noconnect  = 1;
-    our $allconnect = 1;
+    $inAuth     = 0;
+    $noconnect  = 1;
+    $allconnect = 1;
 
-    package Foswiki::Configure::Checkers::EnableEmail::Config;
-    our @ISA = (qw/Net::SMTP/);
+    # Get SSL options common to all secure connection methods
 
-    our $tlog;
-    my $mailobj = __PACKAGE__;
+    ( $e, my ( $sslNoVerify, $sslVerify ) ) = setupSSLoptions( $this, $e );
 
-    require MIME::Base64;
+    # Connection methods in priority order
+    #    my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
+    my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
 
-    sub debug_text {
-        my $cmd = shift;
-        my $out = shift;
+    # Configuration data for each method.  Ports in priority order.
 
-        my $text = join( '', @_ );
-        if ($inAuth) {
-            if ($out) {
-                $text =~ s/[^\s]/*/g unless ( $inAuth++ == 1 );
+    my $sockSSLisa = [
+        grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+        'IO::Socket::SSL'
+    ];
+
+    my %config = (
+        starttls => {
+            ports    => [qw/submission(587) smtp(25)/],
+            method   => 'Net::SMTP (STARTTLS)',
+            isa      => [@Net::SMTP::ISA],
+            ssl      => [ SSL_version => 'TLSv1' ],
+            starttls => 1,
+        },
+        tls => {
+            ports  => [qw/smtps(465)/],
+            method => 'Net::SMTP (TLS)',
+            isa    => $sockSSLisa,
+            ssl    => [ SSL_version => 'TLSv1' ],
+        },
+        ssl => {
+            ports  => [qw/smtps(465)/],
+            method => 'Net::SMTP (SSL)',
+            isa    => $sockSSLisa,
+            ssl    => [ SSL_version => 'SSLv3' ],
+        },
+        smtp => {
+            ports  => [qw/submission(587) smtp(25)/],
+            method => 'Net::SMTP',
+            isa    => [@Net::SMTP::ISA],
+        },
+    );
+    @Net::SMTP::ISA = 'Foswiki::Configure::Checkers::EnableEmail::SSL';
+
+    # Generate configurations with peer verification
+
+    foreach my $method (@methods) {
+        if ( $method =~ /^(.*)-v$/ ) {
+            if (@$sslVerify) {
+                die "Invalid config for $method\n"
+                  unless ( exists $config{$1} );
+
+                $config{$method} = { %{ $config{$1} } };
+                $config{$method}{ssl} =
+                  [ @{ $config{$method}{ssl} }, @$sslVerify ];
+                $config{$method}{id}     = uc($1) . " WITH host verification";
+                $config{$method}{verify} = 1;
             }
             else {
-                my ( $code, $b64 ) = split( ' ', $text, 2 );
-                $code ||= 0;
-                $b64  ||= '';
-                chomp $b64;
-                $text = join( '',
-                    $code, ' ', $b64, ' [', MIME::Base64::decode_base64($b64),
-                    "]\n" )
-                  if ( $code == 334 );
+                delete $config{$method};
             }
         }
-        return $text;
     }
 
-    sub debug_print {
-        my ( $cmd, $out, $text ) = @_;
+    # Generate methods without peer verification
 
-        chomp $text;
-        my $tag = $ISA[0] . ( $out ? '>>> ' : '<<< ' );
-        $text = $tag
-          . join( "\n$tag -- ",
-            map $cmd->debug_text( $out, $_ ),
-            split( /\r?\n/, $text ) )
-          . "\n";
-
-        $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;
-        $tlog .= $text;
+    foreach my $method (@methods) {
+        next unless ( exists $config{$method} );
+        if ( $method !~ /-v$/ && exists $config{$method}{ssl} ) {
+            push @{ $config{$method}{ssl} }, @$sslNoVerify;
+            $config{$method}{id} = uc($method) . " with NO host verification";
+        }
     }
 
-    package Foswiki::Configure::Checkers::EnableEmail::SSL;
+    # If port forced, try to find name.
+    # The smtp names are secondary for some traditional ports, so
+    # use the primary for those.  For others, consult /etc/services.
 
-    our @ISA;
+    my $port = $hInfo->{port};
+    if ( $port && $port =~ /^\d+$/ ) {
+        my $name = {
+            25  => 'smtp(25)',
+            587 => 'submission(587)',
+            465 => 'smtps(465)',
+        }->{$port};
+        unless ( defined $name ) {
+            $name = getservbyport( $port, 'tcp' );
 
-    our ( $ssl, $starttls, @sslopts, @sockopts );
-    our $pad = ' ' x length('Net::SMTpXXX ');
-
-    sub new {
-        my $class = shift;
-
-        @sockopts = ( @_, @sslopts );
-
-        my ( $log, %opts );
-        if ( $ssl || $starttls ) {
-            $log = {};
-            bless $log, $class;
-
-            %opts = @sockopts;
-            if ( $opts{SSL_verify_mode} == IO::Socket::SSL::SSL_VERIFY_NONE() )
-            {
-                $log->debug_print( 1, "SSL peer verification: off\n" );
-            }
-            else {
-                $log->debug_print( 1, "SSL peer verification: on\n" );
-                $log->debug_print( 1,
-                    "Verify Server CA_File: $opts{SSL_ca_file}\n" )
-                  if ( $opts{SSL_ca_file} );
-                $log->debug_print( 1,
-                    "Verify Server CA_Path: $opts{SSL_ca_path}\n" )
-                  if ( $opts{SSL_ca_path} );
-
-                if ( $opts{SSL_check_crl} ) {
-                    $log->debug_print( 1, "Verify Server CRL: on\n" );
-                    $log->debug_print( 1,
-                        "Verify Server CRL CRL_File: $opts{SSL_crl_file}\n" )
-                      if ( $opts{SSL_crl_file} );
-                }
-            }
-
-            if ( $opts{SSL_use_cert} ) {
-                $log->debug_print( 1, "Provide Client Certificate: on\n" );
-                $log->debug_print( 1,
-                    "Client Certificate File: $opts{SSL_cert_file}\n" )
-                  if ( $opts{SSL_cert_file} );
-                $log->debug_print( 1,
-                    "Client Certificate Key File: $opts{SSL_key_file}\n" )
-                  if ( $opts{SSL_key_file} );
-                $log->debug_print( 1,
-                    "Client Certificate key Password: "
-                      . ( $opts{SSL_passwd_cb} ? "*****\n" : "No\n" ) );
-            }
-            else {
-                $log->debug_print( 1, "Provide Client Certificate: off\n" );
+            #            $name = "$name($port)" if ( defined $name );
+            if ( defined $name ) {
+                $name = "$name($port)";
+                $name =~ /^(.*)$/;
+                $name = $1;
             }
         }
-
-        my $sock;
-        $! = 0;
-        $sock =
-          $ssl
-          ? IO::Socket::SSL->new(@sockopts)
-          : IO::Socket::INET->new(@sockopts)
-          and bless $sock, $class;
-        if ($sock) {
-            $noconnect = 0;
-            if ($ssl) {
-                $log->debug_print( 0,
-                        $opts{SSL_version}
-                      . " connection established using "
-                      . $sock->get_cipher
-                      . " encryption\n"
-                      . $sock->dump_peer_certificate );
-            }
-        }
-        else {
-            $tlog .= ( $! || ( $ssl && IO::Socket::SSL::errstr() ) ) . "\n";
-            $allconnect = 0;
-        }
-        return $sock;
+        $port = $name if ( defined $name );
     }
 
-    # Find Auth::SASL mechanism (method) modules
+    # Authentication data
 
-    sub authScan {
-        my $smtp = shift;
-        my ($path) = @_;
+    my $username = $Foswiki::cfg{SMTP}{Username};
+    $username = '' unless ( defined $username );
+    my $password = $Foswiki::cfg{SMTP}{Password};
+    $password = '' unless ( defined $password );
 
-        my @found;
-        opendir( my $dh, $path ) or return @found;
-        while ( defined( my $file = readdir($dh) ) ) {
-            next if ( $file =~ /^\./ );
-            next unless ( $file =~ /^([A-Z0-9_]+)\.pm$/ );
-            push @found, $1;
-        }
-        closedir $dh;
-        return @found;
-    }
+    # SSL logging -- N.B. fd 2 is NOT STDERR from here down
 
-    # Return list of mechanisms that this system supports.
+    open( my $stderr, ">&STDERR" ) or die "STDERR: $!\n";
+    close STDERR;
+    open( my $fd2, ">/dev/null" ) or die "fd2: $!\n";
+    open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
+    STDERR->autoflush(1);
 
-    sub authValid {
-        my $smtp = shift;
+    # Loop over methods - output @use if one succeeds
 
-        my @auths;
-        foreach my $path (@INC) {
-            my $authdir = "$path/Authen/SASL";
-            next unless ( -d "$path/Authen/SASL" );
-            push @auths, $smtp->authScan($authdir);
-            push @auths, $smtp->authScan("$authdir/Perl");
-        }
-        return @auths;
-    }
+    my @use;
+  METHOD:
+    foreach my $method (@methods) {
+        my $cfg = $config{$method};
+        next unless ($cfg);
 
-    our %systemAuthMethods;
+        my @ports = $port ? ($port) : @{ $cfg->{ports} };
 
-    sub testAuth {
-        my $smtp = shift;
-        my ( $host, $username, $password ) = @_;
+        # Manage carp in libnet with debug > 0
+        # This gives us hidden errors such as Timeout, EOF,
+        # and unsupported commands.
 
-        my $serverAuth;
-        unless ( defined( $serverAuth = $smtp->supports('AUTH') ) ) {
-            @_[ 0, 1 ] = ( '', '' );
-            return ( 2, "Authentication is not required" );
-        }
+        local $SIG{__WARN__} = sub {
+            my $msg = $_[0];
+            $msg =~ s/^.*GLOB\(0x[[:xdigit:]]+\): //;
+            $msg =~ s/ at .*$//ms if (1);    # Turn off for debugging caller
+            chomp $msg;
+            $tlog .= "${pad}Failed: $msg\n";
+            return undef;
+        };
 
-        my @serverAuth = split( /\s+/, $serverAuth );
-        my $ok;
-        %systemAuthMethods =
-          ( none => 1, map { uc($_) => 1 } $smtp->authValid() )
-          unless ( keys %systemAuthMethods );
-        foreach my $method (@serverAuth) {
-            if ( $systemAuthMethods{ uc($method) } ) {
-                $ok = 1;
-                last;
+        # IGNORE SIGPIPE caused by errors that cause Net::Cmd to close
+        # the TCP connection - then write to it.
+        local $SIG{PIPE} = 'IGNORE';
+
+        foreach my $port (@ports) {
+            $tlsSsl  = $cfg->{ssl};
+            @sslopts = $tlsSsl ? @$tlsSsl : ();
+            $tlsSsl  = 0
+              if ( $startTls = $cfg->{starttls} );
+
+            @Foswiki::Configure::Checkers::EnableEmail::SSL::ISA =
+              @{ $cfg->{isa} };
+
+            $tlog = '<pre>';
+            $tlog .=
+                "${pad}Testing "
+              . ( $cfg->{id} || uc($method) ) . " on "
+              . (
+                  $port =~ /^\d+$/           ? "port $port\n"
+                : $port =~ /^(.*)\((\d+)\)$/ ? "$1 port ($2)\n"
+                : "$port port\n"
+              );
+            my $smtp =
+              Foswiki::Configure::Checkers::EnableEmail::Mailer->new( @options,
+                Port => $port );
+            unless ($smtp) {
+                $e .= $this->NOTE( $tlog . "</pre>" );
+                next;
             }
-        }
-        unless ($ok) {
-            return ( 0,
-"<strong>$host</strong> requires authentication, but will not accept any authentication method that your system supports.<pre>This server will accept "
-                  . ( @serverAuth > 1 ? "these methods: " : "only:" )
-                  . join( ', ', sort @serverAuth )
-                  . "\nYour system supports: "
-                  . join( ', ', sort grep $_ ne 'none',
-                    keys %systemAuthMethods )
-                  . ".\n</pre>Either the server needs to be reconfigured to accept one of these methods, or you need to install a SASL::Authen module for a mechanism that the server will accept."
-            );
-        }
+            if ($startTls) {
+                next unless ( $smtp->starttls( $this, \$e ) );
+            }
+            @use = ( $cfg, $port );
+            push @use, $smtp->testServer( $host, $username, $password );
+            $smtp->quit;
 
-        unless ( length $username && length $password ) {
-            return (
-                0,
-                'Unable to test authentication: '
-                  . (
-                      length $username ? "Password is"
-                    : length $password ? "Username is"
-                    : "Username and password are"
-                  )
-                  . " required"
-            );
+            last METHOD if ( $use[2] >= 0 );
+            $e .= $tlog . '</pre>' . $use[3];
+            @use = ();
         }
-        local $inAuth = 1;
-        unless ( $smtp->auth( $username, $password ) ) {
-            return ( 0,
-"Authentication failed - verify that configured username and password are valid for $host"
-            );
-        }
-        return ( 1, "$host accepted username and password" );
     }
+    close STDERR;
+    close $fd2;
+    open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
+    close $stderr;
+
+    unless (@use) {
+        $e .= Foswiki::Configure::Checkers::EnableEmail::diagnoseFailure(
+            $noconnect, $allconnect );
+        return $this->perlFailed( $e, "Autoconfiguration failed", @_ );
+    }
+
+    #  @use[ cfg, port, authOK, authMsg ]
+    if ( $use[2] == 0 ) {    # Incomplete
+        $e .=
+          $this->NOTE( $tlog
+              . "</pre>This configuration appears to be acceptable, but testing is incomplete."
+          )
+          . $this->ERROR( $use[3] )
+          . $this->FB_VALUE( '{EnableEmail}', 0 );
+    }
+    elsif ( $use[2] == 1 || $use[2] == 4 ) {    # OK, Not required
+        $e .=
+            $this->NOTE( $tlog . $use[3], "</pre>$acceptMsg" )
+          . $this->FB_VALUE( '{EnableEmail}', 1 );
+    }
+    elsif ( $use[2] == 2 ) {                    # Bad credentials
+            # Authentication failed, perl is OK, don't try program.
+        return ( 1, $e . $tlog . "</pre>" . $this->ERROR( $use[3] ) );
+    }
+    else {    # Other failure
+        return $this->perlFailed(
+            $e,
+            $tlog
+              . '</pre>'
+              . $this->ERROR( $use[3] )
+              . "Although a connection was established with $host on port $use[1], it did not accept mail.",
+            @_
+        );
+    }
+
+    $use[1] =~ s/^.*\((\d+)\)$/$1/;
+    $host = "[$host]" if ( $hInfo->{ipv6addr} );
+    my $cfg = $use[0];
+    $e .= join( '',
+        $this->FB_ACTION( '#{EnableEmail}status', 'b' ),
+        $this->FB_VALUE( '{SMTP}{Debug}',       0 ),
+        $this->FB_VALUE( '{Email}{MailMethod}', $cfg->{method} ),
+        $this->FB_VALUE( '{SMTP}{SENDERHOST}',  $hello ),
+        $this->FB_VALUE( '{SMTP}{Username}',    $username ),
+        $this->FB_VALUE( '{SMTP}{Password}',    $password ),
+        $this->FB_VALUE( '{SMTP}{MAILHOST}',    $host . ':' . $use[1] ),
+    );
+    $e .= $this->FB_VALUE( '{Email}{SSLVerifyServer}', $cfg->{verify} || 0 )
+      if ( $cfg->{ssl} );
+
+    return ( 1, $e );
+}
+
+# Support routines
+
+# Compute SSL options lists for both peer verification on and off.
+# If on is disabled, its list will be empty.
+
+sub setupSSLoptions {
+    my ( $this, $e ) = @_;
+
+    # Baseline: must trap errors to get accurate error reporting
 
     my @sslCommon = (
         SSL_error_trap => sub {
             my ( $sock, $msg ) = @_;
-            $tlog .=
-                "Failed to initialize SSL with "
-              . $sock->peerhost . ':'
-              . $sock->peerport
-              . " - $msg";
+            if ( $sock->connected ) {
+                $tlog .=
+                    "Failed to initialize SSL with "
+                  . $sock->peerhost . ':'
+                  . $sock->peerport
+                  . " - $msg";
+            }
+            else {
+                $tlog .= "SSL error while not connected - $msg";
+            }
             $sock->close;
             return;
         },
-
     );
+
+    # Client verification data
+
     if (   $Foswiki::cfg{Email}{SSLClientCertFile}
         || $Foswiki::cfg{Email}{SSLClientKeyFile} )
     {
@@ -713,10 +851,13 @@ sub autoconfigPerl {
         }
     }
 
+    # SSL options lists with and without peer verification
+
     my ( @sslVerify, @sslNoVerify );
     @sslNoVerify =
       ( @sslCommon, SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE() );
-    {
+
+    if ( $Foswiki::cfg{Email}{SSLVerifyServer} ) {
         my ( $file, $path ) =
           ( $Foswiki::cfg{Email}{SSLCaFile}, $Foswiki::cfg{Email}{SSLCaPath} );
         Foswiki::Configure::Load::expandValue($file);
@@ -763,229 +904,477 @@ sub autoconfigPerl {
         }
     }
 
-    # Connection methods in priority order
-    my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
+    return ( $e, \@sslNoVerify, \@sslVerify );
+}
 
-    # Configuration data for each method.  Ports in priority order.
-    my %config = (
-        starttls => {
-            ports  => [qw/submission(587) smtp(25)/],
-            method => 'Net::SMTP (STARTTLS)',
-            isa    => [@Net::SMTP::ISA],
-            ssl    => [ SSL_version => 'TLSv1' ],
-        },
-        tls => {
-            ports  => [qw/smtps(465)/],
-            method => 'Net::SMTP (TLS)',
-            isa    => [
-                grep( $_ ne 'IO::Socket::INET', @Net::SMTP::ISA ),
-                'IO::Socket::SSL'
-            ],
-            ssl => [ SSL_version => 'TLSv1' ],
-        },
-        ssl => {
-            ports  => [qw/smtps(465)/],
-            method => 'Net::SMTP (SSL)',
-            isa    => [
-                grep( $_ ne 'IO::Socket::INET', @Net::SMTP::ISA ),
-                'IO::Socket::SSL'
-            ],
-            ssl => [ SSL_version => 'SSLv3' ],
-        },
-        smtp => {
-            ports  => [qw/submission(587) smtp(25)/],
-            method => 'Net::SMTP',
-            isa    => [@Net::SMTP::ISA],
-        },
-    );
-    foreach my $method (@methods) {
-        if ( $method =~ /^(.*)-v$/ ) {
-            if (@sslVerify) {
-                die "Invalid config for $method\n"
-                  unless ( exists $config{$1} );
+# Net::SMTP extensions
+#
+# Package for extended logging
 
-                $config{$method} = { %{ $config{$1} } };
-                $config{$method}{ssl} =
-                  [ @{ $config{$method}{ssl} }, @sslVerify ];
-            }
-            else {
-                delete $config{$method};
-            }
+package Foswiki::Configure::Checkers::EnableEmail::Mailer;
+
+require MIME::Base64;
+
+our @ISA = (qw/Net::SMTP/);
+
+sub debug_text {
+    my $cmd = shift;
+    my $out = shift;
+
+    my $text = join( '', @_ );
+    if ($inAuth) {
+        if ($out) {
+            $text = '*' x ( 8 + int( rand(16) ) )
+              unless ( $inAuth++ == 1 );
+        }
+        else {
+            my ( $code, $d, $b64 ) = split( /([ -])/, $text, 2 );
+            $code ||= 0;
+            $b64  ||= '';
+            chomp $b64;
+            $text = join( '',
+                $code, $d, $b64, ' [', MIME::Base64::decode_base64($b64), "]" )
+              if ( $code == 334 );
         }
     }
-    foreach my $method (@methods) {
-        next unless ( exists $config{$method} );
-        if ( $method !~ /-v$/ && exists $config{$method}{ssl} ) {
-            push @{ $config{$method}{ssl} }, @sslNoVerify;
+    return $text;
+}
+
+sub debug_print {
+    my ( $cmd, $out, $text ) = @_;
+
+    chomp $text;
+    my $tag = $ISA[0] . ( $out ? '>>> ' : '<<< ' );
+    $text = $tag
+      . join( "\n$tag -- ",
+        map $cmd->debug_text( $out, $_ ),
+        split( /\r?\n/, $text ) )
+      . "\n";
+
+    $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;
+    $tlog .= $text;
+}
+
+# Package for extended SSL functions
+
+package Foswiki::Configure::Checkers::EnableEmail::SSL;
+
+BEGIN {
+    Foswiki::IP->import(qw/$IPv6Avail/);
+}
+
+our @ISA;
+
+# Intercept new() socket issued by Net::SMTP
+
+sub new {
+    my $class = shift;
+
+    @sockopts = ( @_, @sslopts );
+
+    my ( $log, %opts );
+    $log = bless {}, $class;
+    if ( $tlsSsl || $startTls ) {
+        %opts = @sockopts;
+        $log->logSSLoptions( \%opts );
+    }
+
+    my $sclass =
+        $tlsSsl    ? 'IO::Socket::SSL'
+      : $IPv6Avail ? 'IO::Socket::IP'
+      :              'IO::Socket::INET';
+    $! = 0;
+    $@ = '';
+    my $sock = $sclass->new(@sockopts);
+    if ($sock) {
+        bless $sock, $class;
+        $noconnect = 0;
+        my $peer = $sock->peerhost . ':' . $sock->peerport;
+        if ($tlsSsl) {
+            $log->debug_print( 0,
+                    "Connected with $peer using "
+                  . $opts{SSL_version} . ' and '
+                  . $sock->get_cipher
+                  . " encryption\nServer Certificate:\n"
+                  . fmtcertnames( $sock->dump_peer_certificate ) );
         }
-    }
-
-    @Net::SMTP::ISA = __PACKAGE__;
-
-    if ( $port && $port =~ /^\d+$/ ) {
-        $port = {
-            25  => 'smtp(25)',
-            587 => 'submission(587)',
-            465 => 'smtps(465)',
-          }->{$port}
-          || $port;
-    }
-
-    my $username = $Foswiki::cfg{SMTP}{Username};
-    $username = '' unless ( defined $username );
-    my $password = $Foswiki::cfg{SMTP}{Password};
-    $password = '' unless ( defined $password );
-
-    # SSL logging
-    open( my $stderr, ">&STDERR" ) or die "STDERR: $!\n";
-    close STDERR;
-    open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
-    STDERR->autoflush(1);
-
-    my @use;
-  METHOD:
-    foreach my $method (@methods) {
-        my $cfg = $config{$method};
-        next unless ($cfg);
-
-        my @ports = $port ? ($port) : @{ $cfg->{ports} };
-
-        # Suppress carp in libnet with debug > 0
-        local $SIG{__WARN__} = sub { };
-
-        foreach my $port (@ports) {
-            if ( $cfg->{ssl} ) {
-                @sslopts = ( @{ $cfg->{ssl} } );
-            }
-            else {
-                @sslopts = ();
-            }
-
-            $ssl = $starttls = 0;
-            my $methodid;
-            if ( $method =~ /^(tls|ssl|starttls)(-v)?$/ ) {
-                $methodid = uc($1) . ' ';
-                $methodid .= ( $2 ? "WITH" : "with NO" ) . " host verification";
-                if ( $1 eq 'starttls' ) {
-                    $starttls = 1;
-                }
-                else {
-                    $ssl = 1;
-                }
-            }
-            else {
-                $methodid = uc($method);
-            }
-
-            @ISA = @{ $cfg->{isa} };
-
-            $tlog = '<pre>';
-            $tlog .= "${pad}Testing $methodid on "
-              . (
-                  $port =~ /^\d+$/           ? "port $port\n"
-                : $port =~ /^(.*)\((\d+)\)$/ ? "$1 port ($2)\n"
-                : "$port port\n"
-              );
-            my $smtp = $mailobj->new(
-                Debug => 1,
-                @options,
-                Port => $port,
-            );
-            unless ($smtp) {
-                $e .= $this->NOTE( $tlog . "${pad}Connect failed</pre>" );
-                next;
-            }
-            $tlog .=
-                "${pad}Connected to "
-              . $smtp->peerhost . ':'
-              . $smtp->peerport . "\n";
-
-            if ($starttls) {
-                unless ( defined $smtp->supports('STARTTLS') ) {
-                    $smtp->quit;
-                    $e .= $this->NOTE( $tlog,
-                        "STARTTLS is not supported by $host" );
-                    next;
-                }
-                unless ( $smtp->command('STARTTLS')->response() == 2 ) {
-                    $smtp->quit;
-                    $e .= $this->NOTE( $tlog . "STARTTLS failed</pre>" );
-                    next;
-                }
-                unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts ) ) {
-                    $tlog .= $pad . IO::Socket::SSL::errstr() . "\n";
-                    $e .= $this->NOTE( $tlog . "START TLS failed</pre>" );
-
-                    #$smtp->quit;
-                    next;
-                }
-                @ISA =
-                  ( grep( $_ ne 'IO::Socket::INET', @ISA ), 'IO::Socket::SSL' );
-                bless $smtp, $mailobj;
-                $smtp->debug_print( 0,
-                        "TLS connection established using "
-                      . $smtp->get_cipher
-                      . " encryption\n"
-                      . $smtp->dump_peer_certificate );
-
-                unless ( $smtp->hello($hello) ) {
-                    $e .= $this->NOTE( $tlog . "Hello failed</pre>" );
-                    $smtp->quit();
-                    next;
-                }
-                @use = ( $cfg->{method}, $port );
-                push @use, $smtp->testAuth( $host, $username, $password );
-                $smtp->quit;
-                last METHOD;
-            }
-            else {
-                @use = ( $cfg->{method}, $port );
-                push @use, $smtp->testAuth( $host, $username, $password );
-                $smtp->quit;
-                last METHOD;
-            }
+        else {
+            $log->debug_print( 0,
+                "Connected with $peer using no encryption\n" );
         }
-    }
-    close STDERR;
-    open( STDERR, '>&', $stderr ) or die "stderr:$!\n";
-    close $stderr;
-
-    unless (@use) {
-        $e .= Foswiki::Configure::Checkers::EnableEmail::diagnoseFailure(
-            $noconnect, $allconnect );
-        return $this->perlFailed( $e, "Autoconfiguration failed", @_ );
-    }
-
-    #  @use[ method, port, authOK, authMsg ]
-    if ( $use[2] ) {
-        $e .= $this->NOTE(
-            $tlog . $use[3],
-"</pre>Configuration accepted.<br />Next step:Setup and test {WebMasterEmail} on the <strong>Email General</strong> tab.\n"
-        ) . $this->FB_VALUE( '{EnableEmail}', 1 );
     }
     else {
-        $e .=
-          $this->NOTE( $tlog
-              . "</pre>This configuration appears to be acceptable, but testing is incomplete."
-          )
-          . $this->ERROR( $use[3] )
-          . $this->FB_VALUE( '{EnableEmail}', 0 );
+        my $peer = $opts{PeerHost}    || $opts{PeerAddr} || '';
+        my $port = $opts{PeerService} || $opts{PeerPort} || '';
+        $peer = "$peer on $port" if ($port);
+        $log->debug_print(
+            0,
+            "Unable to establish connection with $peer: "
+              . (
+                     ( ($!) ? $@ || $! : 0 )
+                  || ( $tlsSsl && IO::Socket::SSL::errstr() )
+              )
+              . "\n"
+        );
+        $allconnect = 0;
+    }
+    return $sock;
+}
+
+# Log actual SSL options for connection
+
+sub logSSLoptions {
+    my $log = shift;
+    my ($opts) = @_;
+
+    if ( $opts->{SSL_verify_mode} == IO::Socket::SSL::SSL_VERIFY_NONE() ) {
+        $log->debug_print( 1, "SSL peer verification: off\n" );
+    }
+    else {
+        $log->debug_print( 1, "SSL peer verification: on\n" );
+        $log->debug_print( 1, "Verify Server CA_File: $opts->{SSL_ca_file}\n" )
+          if ( $opts->{SSL_ca_file} );
+        $log->debug_print( 1, "Verify Server CA_Path: $opts->{SSL_ca_path}\n" )
+          if ( $opts->{SSL_ca_path} );
+
+        if ( $opts->{SSL_check_crl} ) {
+            $log->debug_print( 1, "Verify server against CRL: on\n" );
+            $log->debug_print( 1,
+                "Verify Server CRL CRL_File: $opts->{SSL_crl_file}\n" )
+              if ( $opts->{SSL_crl_file} );
+        }
+        else {
+            $log->debug_print( 1, "Verify server against CRL: off\n" );
+        }
     }
 
-    $use[1] =~ s/^.*\((\d+)\)$/$1/;
+    if ( $opts->{SSL_use_cert} ) {
+        $log->debug_print( 1, "Provide Client Certificate: on\n" );
+        $log->debug_print( 1,
+            "Client Certificate File: $opts->{SSL_cert_file}\n" )
+          if ( $opts->{SSL_cert_file} );
+        $log->debug_print( 1,
+            "Client Certificate Key File: $opts->{SSL_key_file}\n" )
+          if ( $opts->{SSL_key_file} );
+        $log->debug_print( 1,
+            "Client Certificate key Password: "
+              . ( $opts->{SSL_passwd_cb} ? "*****\n" : "None\n" ) );
+    }
+    else {
+        $log->debug_print( 1, "Provide Client Certificate: off\n" );
+    }
+    return;
+}
+
+# STARTTLS connection upgrade
+
+sub starttls {
+    my $smtp = shift;
+    my ( $this, $e ) = @_;
+
+    unless ( defined $smtp->supports('STARTTLS') ) {
+        $smtp->quit;
+        $$e .= $this->NOTE( $tlog, "STARTTLS is not supported by $host" );
+        return 0;
+    }
+    unless ( $smtp->command('STARTTLS')->response() == 2 ) {
+        $smtp->quit;
+        $$e .= $this->NOTE( $tlog . "STARTTLS command failed</pre>" );
+        return 0;
+    }
+
+    my $mailobj = ref $smtp;
+
+    unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts ) ) {
+        $tlog .= $pad . IO::Socket::SSL::errstr() . "\n";
+        $$e   .= $this->NOTE( $tlog . "Upgrade to TLS failed</pre>" );
+
+        $smtp->close;
+        return 0;
+    }
+    @ISA =
+      ( grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @ISA ), 'IO::Socket::SSL' );
+    bless $smtp, $mailobj;
+    $smtp->debug_print( 0,
+            "Started TLS using "
+          . $smtp->get_cipher
+          . " encryption\nServer Certificate:\n"
+          . fmtcertnames( $smtp->dump_peer_certificate ) );
+
+    unless ( $smtp->hello($hello) ) {
+        $$e .= $this->NOTE( $tlog . "Hello failed</pre>" );
+        $smtp->quit();
+        return 0;
+    }
+    return 1;
+
+}
+
+# Return enhanced status code if available
+
+sub rspCode {
+    my $smtp = shift;
+
+    my $code = $smtp->code;
+    if ( $code =~ /^[245]/ && defined $smtp->supports('ENHANCEDSTATUSCODES') ) {
+        my $msg = $smtp->message;
+        if ( $msg =~ /^([245]\.\d{1,3}\.\d{1,3})\b/ ) {
+            return ( $code, $1 );
+        }
+    }
+    return ( $code, '' );
+}
+
+# Test server to determine authentication requirements
+# Ensures it will relay.
+
+sub testServer {
+    my $smtp = shift;
+    my ( $host, $username, $password ) = @_;
+    shift;
+
+    # Attempt a DSN-style send to another domain.
+    # If authentication is required to relay, the
+    # server will indicate that here.  If not,
+    # authentication is not required.
+    # The session is reset so no mail is actually sent.
+
+    my ( $fromTestAddr, $toTestAddr ) =
+      (qw/postmaster@example.net postmaster@example.com/);
+    my ( @code, $requires );
+
+    my $noAuthOk = $smtp->mail($fromTestAddr) && $smtp->to($toTestAddr);
+    unless ($noAuthOk) {
+        @code = $smtp->rspCode;
+        $smtp->reset;
+
+        # 530 5.7.0 Auth req 540/550 5.7.1 no relay
+        if ( !( $code[0] =~ /^5[345]0$/ || $code[1] =~ /^(?:5\.7\.[01])$/ ) ) {
+            $tlog .=
+"${pad}Message setup failed, but authentication was not requested.\n";
+            return ( -1, '' );
+        }
+    }
+    if ($noAuthOk) {
+        $smtp->reset;
+        my $m = "${pad}Authentication is not required";
+        unless ( $username || $password ) {
+            $m .= ".";
+            @_[ 0, 1 ] = ( '', '' );
+            return ( 4, "$m\n" );
+        }
+        $m .=
+", but you have configured credentials.\n${pad}If you do not want to use these credentials, remove them from the configuration.\n${pad}Attempting to authenticate.\n";
+        $tlog .= $m;
+        $requires = 'supports';
+    }
+    else {
+        $requires = 'requires';
+    }
+
+    # Get authentication methods server offers
+
+    my $serverAuth;
+    if (   !defined( $serverAuth = $smtp->supports('AUTH') )
+        || !length $serverAuth )
+    {
+        if ($noAuthOk) {
+            @_[ 0, 1 ] = ( '', '' );
+            return ( 4,
+"${pad}Server does not offer authentication.  Please remove the credentials.\n"
+            );
+        }
+        if ( defined $hInfo->{port} ) {
+            if ( $tlsSsl || $startTls ) {
+                return ( 3,
+"Authentication is required by $host, but not offered, although this is a secure connection.  Try removing the port specification in {SMTP}{MAILHOST} to allow testing other ports, or obtain the correct port number from the operators of $host\n"
+                );
+            }
+            return ( 3,
+"Authentication is required by $host, but not offered.  This is not a secure connection, which can cause this condition.  Secure connection methods have already been tested.  Try removing the port specification in {SMTP}{MAILHOST} to allow testing other ports, or obtain the correct port number from the operators of $host\n"
+            );
+        }
+
+        $tlog .=
+          "${pad}Authentication is required by $host, but not offered.\n";
+        return ( -1, '' );
+    }
+
+    # Find intersection with methods we support
+
+    my @serverAuth = split( /\s+/, $serverAuth );
+    my $ok = 0;
+
+    # Obtain and cache system's authentication methods.
+
+    %systemAuthMethods = ( none => 1, map { uc($_) => 1 } $smtp->authValid() )
+      unless ( keys %systemAuthMethods );
+
+    foreach my $method (@serverAuth) {
+        if ( $systemAuthMethods{ uc($method) } ) {
+            $ok = 1;
+            last;
+        }
+    }
+    unless ($ok) {
+        $tlog .=
+"${pad}You can proceed without authentication by removing the credentials.\n"
+          if ($noAuthOk);
+
+        return ( 3,
+"<strong>$host</strong> $requires authentication, but your system doesn't support any authentication methods.  Either Authen::SASL is not installed, or it is not in \@INC.\n"
+        ) unless (@serverAuth);
+        return ( 3,
+"<strong>$host</strong> $requires authentication, but will not accept any authentication method that your system supports.<pre>$host will accept "
+              . ( @serverAuth > 1 ? "these methods: " : "only:" )
+              . join( ', ', sort @serverAuth )
+              . "\nYour system supports: "
+              . join( ', ', sort grep $_ ne 'none', keys %systemAuthMethods )
+              . ".\nEither the server needs to be reconfigured to accept one of these methods, or you need to install a SASL::Authen module for a mechanism that the server will accept.\n"
+        );
+    }
+
+    # See if we have credentials to use
+
+    unless ( length $username && length $password ) {
+        return (
+            0,
+            'Unable to test authentication: '
+              . (
+                  length $username ? "Password is"
+                : length $password ? "Username is"
+                : "Username and password are"
+              )
+              . " required.\n"
+        );
+    }
+
+    # Provide the credentials and see if they are accepted.
+
+    local $inAuth = 1;
+    unless ( $smtp->auth( $username, $password ) ) {
+        @code = $smtp->rspCode;
+
+        # 535 5.7.8 Authentication credentials invalid
+
+        if ( ( $code[0] =~ /^535$/ || $code[1] =~ /^(?:5\.7\.8)$/ ) ) {
+            return (
+                2,
+                "$host rejected the supplied username and password.
+Please verify that configured username and password are valid for $host.\n"
+            );
+        }
+
+        # 454 4.7.0 Temporary authentication failure
+        if ( ( $code[0] =~ /^454$/ || $code[1] =~ /^(?:4\.7\.0)$/ ) ) {
+            return ( 3,
+"$host is unable to validate your credentials at this time.  Please try again later.\n"
+            );
+        }
+
+        return ( 0, "Authentication failed\n" );
+    }
+    $inAuth = 0;
+
+    # Retry the null DSN
+
+    $ok = $smtp->mail($fromTestAddr) && $smtp->to($toTestAddr);
+    $smtp->reset;
+    if ($ok) {
+        return ( 1,
+            "${pad}$host is willing to accept mail with these credentials.\n" );
+    }
+
+    # Demanded authentication, but won't accept mail.
+
     return (
-        1,
-        join( '',
-            $e,
-            $this->FB_ACTION( '#{EnableEmail}status', 'b' ),
-            $this->FB_VALUE( '{SMTP}{Debug}',       0 ),
-            $this->FB_VALUE( '{Email}{MailMethod}', $use[0] ),
-            $this->FB_VALUE( '{SMTP}{SENDERHOST}',  $hello ),
-            $this->FB_VALUE( '{SMTP}{Username}',    $username ),
-            $this->FB_VALUE( '{SMTP}{Password}',    $password ),
-            $this->FB_VALUE( '{SMTP}{MAILHOST}',    $host . ':' . $use[1] ),
-        )
+        3,
+"$host accepted username and password, but will not accept mail with these credentials.<br />
+It probably needs to be configured to accept mail from your system, or your system may need a different (probably static) IP address, or it may be on a block list.  The preceding log should provide more detail."
     );
+}
+
+# Return list of mechanisms that this system supports.
+# These are implemented by Authen::SASL plugins, which
+# live in @INC/Authen/SASL and its perl directory.
+# There may be duplicates, but that's handled by the
+# caller.
+
+sub authValid {
+    my $smtp = shift;
+
+    my @auths;
+    foreach my $path (@INC) {
+        my $authdir = "$path/Authen/SASL";
+        next unless ( -d "$path/Authen/SASL" );
+        push @auths, $smtp->authScan($authdir);
+        push @auths, $smtp->authScan("$authdir/Perl");
+    }
+    return @auths;
+}
+
+# Find Auth::SASL mechanism (method) modules
+# The are filenames in all upper case, plus
+# digits and underscore.
+
+sub authScan {
+    my $smtp = shift;
+    my ($path) = @_;
+
+    my @found;
+    opendir( my $dh, $path ) or return @found;
+    while ( defined( my $file = readdir($dh) ) ) {
+        next if ( $file =~ /^\./ );
+        next unless ( $file =~ /^([A-Z0-9_]+)\.pm$/ );
+        push @found, $1;
+    }
+    closedir $dh;
+    return @found;
+}
+
+# Format certificate names for display
+
+sub fmtcertnames {
+    my $names = shift;
+
+    my $out  = '';
+    my $wrap = ( ' ' x length('Subject Name: ') );
+
+    foreach my $name ( split( /\n/, $names ) ) {
+        my @parts = split( m~/~, $name );
+        my $line = '';
+        while (@parts) {
+            my $part = shift @parts;
+            next unless ( defined $part );
+            while ( length( $line . $part ) < 80 ) {
+                $line .= "$part/";
+                $part = shift @parts;
+                last unless ( defined $part );
+            }
+            if ( defined $part ) {
+                if ( length($line) ) {
+                    $line =~ s~/$~~;
+                    $out .= "$line\n";
+                    $line = "$wrap/$part/";
+                }
+                else {
+                    $out .= "$part\n";
+                    if (@parts) {
+                        $line = "$wrap/";
+                    }
+                    else {
+                        $line = '';
+                        last;
+                    }
+                }
+            }
+        }
+        chomp $line;
+        $out .= "$line\n" if ( length($line) );
+        $out =~ s~/\Z~~;
+    }
+
+    return $out;
 }
 
 1;

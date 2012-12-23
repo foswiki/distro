@@ -69,12 +69,14 @@ sub check {
         $e .= $this->ERROR("Unable to read $file");
     }
     my $path = $this->getCfg('{Email}{SSLCaPath}');
-    if ( $path && !( -d $path && -r $path ) ) {
-        $e .= $this->ERROR(
-            -d $path ? "$path is not readable" : "$path is not a directory" );
-    }
-    if ( $path && ( stat _ )[2] & 02 ) {
-        $e .= $this->ERROR("$path is world-writable");
+    if ($path) {
+        if ( !( -d $path && -r _ ) ) {
+            $e .= $this->ERROR(
+                -d _ ? "$path is not readable" : "$path is not a directory" );
+        }
+        if ( ( ( stat _ )[2] || 0 ) & 02 ) {
+            $e .= $this->ERROR("$path is world-writable");
+        }
     }
     if ( $e || !( $file || $path ) ) {
         $e .= $this->ERROR(
@@ -119,8 +121,8 @@ sub provideFeedback {
 
     if ( $e =~ /I guessed/ ) {
         $e .= $this->FB_VALUE( $keys, $this->getItemCurrentValue )
-          . $this->FB_VALUE( '{Email}{SSLCaPath}',
-            $this->getItemCurrentValue('{Email}{SSLCaPath}') );
+          . $this->FB_VALUE( '{Email}{SSLCaFile}',
+            $this->getItemCurrentValue('{Email}{SSLCaFile}') );
     }
 
     return wantarray ? ( $e, 0 ) : $e;

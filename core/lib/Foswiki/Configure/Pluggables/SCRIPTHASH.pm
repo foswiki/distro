@@ -89,10 +89,10 @@ sub new {
         $value->set(
             keys => $keys,
             desc => "Full URL for $script script.  Rarely modified.",
-            opts => 'EXPERT E CHECK="expand nullok"',
+            opts => 'EXPERT E CHECK="expand nullok notrail"',
         );
 
-        $value->addAuditGroup(qw/PARS:0/);
+        $value->addAuditGroup(qw/PARS:0 URI:0/);
         Foswiki::Configure::FoswikiCfg::_pusht( $settings, $value );
 
         unless ( exists $Foswiki::defaultCfg->{ScriptUrlPaths}{$script} ) {

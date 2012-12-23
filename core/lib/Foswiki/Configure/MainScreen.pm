@@ -90,119 +90,6 @@ sub _actionConfigure {
     htmlResponse($html);
 }
 
-=pod
-
-NOTE: the html markup should really be in a template!
-
-=cut
-
-sub _actionTestEmail {
-    my ( $action, $session, $cookie ) = @_;
-
-    my $root = new Foswiki::Configure::Root();
-    my $ui;
-
-    my $html =
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
-    $html = Foswiki::Configure::UI::getTemplateParser()
-      ->parse( $html, { time => $time, logoutdata() } );
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
-
-    ::_loadBasicModule('Foswiki::Net');
-
-    my $charset = $Foswiki::cfg{Site}{CharSet} || CGI::charset();
-
-    Foswiki::Configure::Load::expandValue(
-        $Foswiki::cfg{Email}{SmimeCertificateFile} );
-    Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
-
-    $html .= "<div class='section'>";
-
-    my $msg = <<MAIL;
-From: $Foswiki::cfg{WebMasterEmail}
-To: $Foswiki::cfg{WebMasterEmail}
-Subject: Test of Foswiki e-mail facility from configure
-MIME-Version: 1.0
-Content-Type: text/plain; charset=$charset
-Content-Transfer-Encoding: 8bit
-
-Test message from Foswiki.
-MAIL
-
-    if ( $Foswiki::cfg{WebMasterEmail} ) {
-        unless ( $Foswiki::cfg{EnableEmail} ) {
-            $html .=
-"<div class='configureWarn'>Email is globally disabled - temporarily enabling email for this test</div>";
-            $Foswiki::cfg{EnableEmail} = 1;
-        }
-
-        unless ( $Foswiki::cfg{Email}{MailMethod} ) {
-            $Foswiki::cfg{Email}{MailMethod} =
-              ( $Foswiki::cfg{SMTP}{MAILHOST} )
-              ? 'Net::SMTP'
-              : 'MailProgram';
-            $html .=
-"<div class='configureWarn'>Incomplete config - guessed MailMethod = <tt>$Foswiki::cfg{Email}{MailMethod}</tt></div>";
-        }
-
-        my $sendmethod =
-          ( $Foswiki::cfg{Email}{MailMethod} eq 'MailProgram' )
-          ? $Foswiki::cfg{MailProgram}
-          : $Foswiki::cfg{Email}{MailMethod};
-
-        # Warning: the 'install' method uses print for rapid feedback
-        $html .=
-"<h3>Attempting to send the following message using <tt>$sendmethod</tt></h3>\n";
-        $html .= "<pre>$msg</pre>";
-
-        $html .=
-"<div class='configureInfo'>Please wait ... connecting to server ...</div>";
-
-        $Foswiki::cfg{SMTP}{Debug} = 1;
-        my $net    = Foswiki::Net->new();
-        my $stderr = '';
-        my $error  = '';
-        eval {
-            local *STDERR;
-            open STDERR, '>', \$stderr;
-            $error = $net->sendEmail("$msg");
-            close STDERR;
-        } or do {
-            $error .= $@;
-        };
-        $html .= "<br /><h3>Results:</h3>\n";
-        my $emsg =
-          ($error)
-          ? "<div class='configureError'>Net::sendEmail() returned the following error: <pre>$error</pre></div>"
-          : "<div class='configureOK'>No errors returned</div>";
-        $html .= $emsg;
-        $html .=
-"<div class='configureInfo'>Debug log messages: <pre>$stderr</pre></div>"
-          if ($stderr);
-    }
-    else {
-        $html .=
-"<div class='configureError'>Impossible to send message: No WebMasterEmail address is configured.</div>";
-    }
-
-    $html .=
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('installed');
-    $html .=
-      Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
-    my $frontpageUrl =
-"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
-    $html = Foswiki::Configure::UI::getTemplateParser()->parse(
-        $html,
-        {
-            'frontpageUrl' => $frontpageUrl,
-            'configureUrl' => $url,
-        }
-    );
-    $html .= "</div>";
-    Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
-    htmlResponse($html);
-}
-
 # ######################################################################
 # Find more extensions
 # ######################################################################
@@ -460,7 +347,7 @@ sub _screenAuthorize {
     }
 
 # Used in form templates to control content:
-# displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions, 16 = Email Test, 32 = Login
+# displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions, 16 = (Free), 32 = Login
 
     my %args = (
         'time'           => $time,
@@ -569,17 +456,6 @@ sub _screenAuthManageExtensions {
     );
 
     return;
-}
-
-# Content generation for TestEmail authorization screen
-
-sub _screenAuthTestEmail {
-    my $transact = shift;
-    my $args     = shift;
-
-    _setArgs( $args, 'displayStatus' => 16, );
-    return;
-
 }
 
 # Content generation for Configure authorization screen
