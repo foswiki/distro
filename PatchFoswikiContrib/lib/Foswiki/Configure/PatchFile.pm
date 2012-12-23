@@ -10,6 +10,7 @@ use File::Spec               ();
 use Foswiki::Time            ();
 use Text::Patch              ();
 use Foswiki::Configure::Util ();
+use File::stat;
 
 =begin TML
 
@@ -41,23 +42,23 @@ sub parsePatch {
     ( $patches{identifier} ) = $file =~ m/.*(Item.*?)\.patch$/;
     my $foundPatch = 'summary';
     my $md5        = 'na';
-    my $newMD5     = 'na';
+    my $newMD5;
 
 #~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
 #~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
     foreach my $line (@contents) {
         if ( substr( $line, 0, 8 ) eq '~~~PATCH' ) {
-            my $file;
+            my $target;
             my $desc;
             chomp $line;
-            ( $md5, $file, $desc ) = split( ' ', substr( $line, 8 ), 3 );
+            ( $md5, $target, $desc ) = split( ' ', substr( $line, 8 ), 3 );
             $desc =~ s/^\(//g;    # Remove leading/trailing parenthesis
             $desc =~ s/\)$//g;
 
             ( $md5, $newMD5 ) = split( ':', $md5, 2 );
-            $foundPatch                          = _fixupFile($file);
-            $patches{$foundPatch}{$md5}{patched} = $newMD5;
-            $patches{$foundPatch}{$md5}{version} = $desc;
+            $foundPatch = _fixupFile($target);
+            $patches{$foundPatch}{$md5}{patched} = $newMD5 || 'n/a';
+            $patches{$foundPatch}{$md5}{version} = $desc   || 'n/a';
             next;
         }
         if ( $foundPatch eq 'summary' ) {
@@ -77,7 +78,9 @@ sub _getMD5 {
 
     open( my $fh, '<', $filename ) or die "Can't open '$filename': $!";
     binmode($fh);
-    return Digest::MD5->new->addfile($fh)->hexdigest;
+    my $digest = Digest::MD5->new->addfile($fh)->hexdigest;
+    close $fh;
+    return $digest;
 }
 
 sub _fixupFile {
@@ -125,15 +128,14 @@ sub updateFile {
 
     return "FAILED: $@" if $@;
 
-    my $mode = ( stat($file) )[2];
-    $file =~ /(.*)/;
-    $file = $1;
+    my $fstat = stat($file);
+    my $mode  = $fstat->mode;
+    ($file) = $file =~ /(.*)/;
     chmod( oct(600), "$file" );
     open( $fh, '>', $file ) || return "Rewrite $file failed:  $!";
     print $fh $patched;
     close $fh;
-    $mode =~ /(.*)/;
-    $mode = $1;
+    ($mode) = $mode =~ /(.*)/;
     chmod( $mode, "$file" );
 
     return "Update successful for $file\n";
@@ -164,9 +166,10 @@ sub checkPatch {
               "| $key | $md5 | $match | $patchRef->{$key}{$md5}{version} |\n";
         }
     }
-    return $msgs;
+    return $msgs . "\n";
 }
 
+# Copied from Foswiki::Configure::Package
 sub _fixRoot {
     my @instRoot = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
     pop(@instRoot);
@@ -202,57 +205,84 @@ sub applyPatch {
               Foswiki::Configure::PatchFile::updateFile( $file,
                 $patchRef->{$key}{$md5}{patch} );
 
-            $msgs .= "$rc.\n" if $rc;
+            $msgs .= "$rc\n" if $rc;
         }
 
     }
 
     $msgs .=
-      ($match)
-      ? "$match files patched\n"
-      : "No files matched  patch signatures\n";
-    return $msgs;
+        ( $match > 1 )  ? "$match files patched."
+      : ( $match == 1 ) ? '1 file patched.'
+      :                   "No files matched  patch signatures.";
+    return $msgs . "\n\n";
 
 }
 
 sub backupTargets {
-    my $root     = shift;
+    my $root     = shift || _fixRoot();
     my $patchRef = shift;
+    my $msgs     = '';
+
+    $msgs .= Foswiki::Configure::PatchFile::checkPatch( $root, $patchRef );
+    $msgs .= "\n";
 
     my $stamp =
-      Foswiki::Time::formatTime( time(), '$year$mo$day-$hour$minutes$seconds',
-        'servertime' );
+      Foswiki::Time::formatTime( time(),
+        '$year$mo$day-$hour$minutes$seconds', 'servertime' );
 
-    my $msgs   = '';
     my $backup = 0;
+    my %bkupFiles;
 
-    my $bkupPath = Foswiki::Configure::Util::mapTarget( $root,
-        "working/configure/backup/$patchRef->{identifier}-$stamp" );
-
-    File::Path::mkpath($bkupPath);
-    die "Create of backup directory $bkupPath failed" unless ( -d $bkupPath );
-
+    # Get hash of all files that will be updated.
     foreach my $key ( keys %{$patchRef} ) {
         next if ( $key eq 'summary' );
         next if ( $key eq 'identifier' );
         next if ( $key eq 'error' );
         my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
         next unless ( -f $file );
+        foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
+            $bkupFiles{$key} = $file
+              if ( $patchRef->{$key}{$md5}{status} eq 'NOT APPLIED' );
+        }
+    }
 
-        my ( $fv, $fp, $fn ) = File::Spec->splitpath( $file, 0 );
+    if ( keys %bkupFiles ) {
+        my $bkupDir  = "$patchRef->{identifier}-$stamp";
+        my $bkupPath = $Foswiki::cfg{WorkingDir} . "/configure/backup";
+        File::Path::mkpath("$bkupPath/$bkupDir");
+        die "Create of backup directory $bkupDir failed"
+          unless ( -d "$bkupPath/$bkupDir" );
 
-        File::Copy::copy( $file, "$bkupPath/$fn" );
+        foreach my $file ( keys %bkupFiles ) {
+            my $fstat = stat( $bkupFiles{$file} );
+            my ( $vol, $dirs, $fn ) =
+              File::Spec->splitpath("$bkupPath/$bkupDir/$file");
+            if ($dirs) {
+                File::Path::mkpath( File::Spec->catpath( $vol, $dirs, '' ) );
+                my $mode = $fstat->mode;
 
-        $msgs .= "Backed up target: $file. to $bkupPath/$fn\n";
-        $backup++;
+                #( stat($file) )[2];    # File::Copy doesn't copy permissions
+                File::Copy::copy( "$bkupFiles{$file}",
+                    "$bkupPath/$bkupDir/$file" );
+                ($mode) = $mode =~ /(.*)/;    # untaint
+                chmod( $mode, "$bkupPath/$bkupDir/$file" );
+            }
 
+            $msgs .= "Backed up target: $file. to $bkupPath/$bkupDir/$file\n";
+            $backup++;
+        }
+        my ( $rslt, $err );
+        ( $rslt, $err ) =
+          Foswiki::Configure::Util::createArchive( $bkupDir, $bkupPath, '1' );
+        $rslt = "FAILED \n" . $err unless ($rslt);
+        $msgs .= "Backup Archived as $rslt \n";
     }
 
     $msgs .=
-      ($backup)
-      ? "$backup files backed up.\n"
-      : "No files backed up.\n";
-    return $msgs;
+        ( $backup > 1 )  ? "$backup files backed up."
+      : ( $backup == 1 ) ? '1 file backed up.'
+      :                    "No files backed up.";
+    return $msgs . "\n\n";
 
 }
 1;

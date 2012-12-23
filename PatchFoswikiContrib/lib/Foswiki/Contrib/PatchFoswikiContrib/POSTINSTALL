@@ -17,8 +17,6 @@ foreach my $key ( grep /^working.*\.patch/, sort keys %{ $this->{_manifest} } )
 
     unless ( $result{error} ) {
         $msgs .=
-          Foswiki::Configure::PatchFile::checkPatch( $this->{_root}, \%result );
-        $msgs .=
           Foswiki::Configure::PatchFile::backupTargets( $this->{_root},
             \%result );
         $msgs .=
