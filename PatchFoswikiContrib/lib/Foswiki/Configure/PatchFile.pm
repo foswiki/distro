@@ -159,6 +159,7 @@ sub checkPatch {
                 $origMD5 eq $md5                             ? 'NOT APPLIED'
               : $origMD5 eq $patchRef->{$key}{$md5}{patched} ? 'PATCHED'
               :                                                'N/A';
+            $patchRef->{$key}{$md5}{status} = $match;
             $msgs .=
               "| $key | $md5 | $match | $patchRef->{$key}{$md5}{version} |\n";
         }

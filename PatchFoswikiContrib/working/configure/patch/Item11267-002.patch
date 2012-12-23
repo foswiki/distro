@@ -39,7 +39,7 @@ Date:   Mon Nov 26 04:32:23 2012 +0000
  
      }
 
-~~~PATCH f446c7779d79cb9b9a59fa4cf62cd657:6f2c6eb77ffbc95a4068e584bd5d1aa5 lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.3)
+~~~PATCH f446c7779d79cb9b9a59fa4cf62cd657:d02e6f96ebef1d1487af0d20333c827f lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.3)
 --- lib/Foswiki/Configure/Dependency.pm	2012-11-28 11:46:00.510356565 -0500
 +++ lib/Foswiki/Configure/Dependency.pm.new	2012-11-28 11:47:26.272377754 -0500
 @@ -459,6 +459,7 @@
@@ -51,7 +51,7 @@ Date:   Mon Nov 26 04:32:23 2012 +0000
  
      }
 
-~~~PATCH 74546e2a4f1d06582d53b780a641c509:6f2c6eb77ffbc95a4068e584bd5d1aa5 lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.2)
+~~~PATCH 74546e2a4f1d06582d53b780a641c509:615f4a43b9ef72a732d2e4ac4cfa9981 lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.2)
 --- lib/Foswiki/Configure/Dependency.pm	2012-11-28 11:48:54.014378721 -0500
 +++ lib/Foswiki/Configure/Dependency.pm.new	2012-11-28 12:00:33.706477574 -0500
 @@ -466,6 +466,7 @@
