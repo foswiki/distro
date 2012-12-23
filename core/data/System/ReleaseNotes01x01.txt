@@ -1,8 +1,10 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.6
+---+!! Foswiki Release 1.1.7_001-alpha
 
+%TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
+%ENDTWISTY{}%
 
 ---++ Foswiki - The Free and Open Source Wiki
 
@@ -34,20 +36,35 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
+   * Foswiki 1.1.7_001 was built 23 Dec 2012. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 1 enhancement.
 
 ---++ Pre-installed Extensions
 
 Foswiki 1.1 ships with the following:
 
    * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !HistoryPlugin, !InterwikiPlugin, !JQueryPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
+   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib, !PatchFoswikiContrib
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x01Changes
+---++ Important changes since Foswiki 1.1.6
+
+Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
+A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+
+See [[#Rel01x01x07Details]]
+
+---+++ Wysiwyg / !TinyMCE Editor changes
+
+Release 1.1.6 changed the editor to treat all links as real HTML links in TMCE.  This had an annoying side effect: when a user changes the link text displayed in-line, the editor  _only_ updated the link text, and the target page was not changed.
+This even including auto-linked !WikiWords.  The editor will now save the original !WikiWord.  During the save, if the new link text is still a !WikiWord, and the link target still points to the original !WikiWord,  it will also be updated to match the new !WikiWord..
+   * Ex.  if a !InlineWikiWord is changed to !ADifferentWikiWord, the link will now point to !ADifferentWikiWord, which is probably what the user intended. 
+*Note:* This change required a setting change to the !TinyMCEPlugin Init setting found in System.TinyMCEPlugin.   If the =TINYMCEPLUGIN_INIT= settings have been customized, this change will need to be merged into your customized settings or the new behavior will be ignored.
+
 ---++ Important changes since Foswiki 1.1.5
 
-Release 1.1.6 is a security focused and bug fix release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+Release 1.1.6 is a security focused and bug fix release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki. 
 
 ---+++ Module version strings have been changed
 
@@ -78,7 +95,7 @@ Be sure to run configure and verify that the JQuery version is set to one still 
    * The check for duplicate email regisrations is now applied to pending registrations.
    * Code has been added to remove stale registration approval requests.
 
----+++ Wysiwyg / TinyMCE Editor changes
+---+++ Wysiwyg / !TinyMCE Editor changes
 
 A number of changes have been made to make editing more "WYSIWYG" like:
    * All links are now represented as real HTML links in TMCE.  Editing the link text displayed in-line _only_ updates the link text, including auto-linked WikiWords. Click the link icon to update the actual link target.
@@ -378,12 +395,12 @@ As of 1.1.3, if any of the 1.0 Debug, Warning or Log filenames are found, the "c
 
 Foswiki 1.1 has many improvements that end users as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
 
----+++ Adoption of the jQuery Javascript user interface framework
+---+++!! Adoption of the jQuery Javascript user interface framework
 Since Foswiki 1.1, the industry-standard [[http://jquery.com][jQuery Javascript user interface framework]] has been more closely integrated; the existing !JQueryPlugin is included into the core distribution. Reflecting the move to jQuery, the !BehaviourContrib has been removed from the core distribution; it is still available for download from Foswiki.org. The default !PatternSkin now depends on this jQuery framework.
 
 Also added are the new [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZONE]] macros that manage dependencies between Javascript modules, making use of this sophisticated toolset much easier. See Foswiki:Development.UpdatingExtensionsScriptZone on how to replace [[VarADDTOHEAD][ADDTOHEAD]] usage.
 
----++++ New macros enabled by jQuery
+---++++!! New macros enabled by jQuery
 
    * =BUTTON{"text" ...}= -- renders a nice button
    * =TABPANE{...}=, =ENDTABPANE=, =TAB{"text" ...}=, =ENDTAB= -- tabpane widget
@@ -396,7 +413,7 @@ Also added are the new [[VarADDTOZONE][ADDTOZONE]] and [[VarRENDERZONE][RENDERZO
 
 See %SYSTEMWEB%.JQueryPlugin for details.
 
----+++ Powerful new =QUERY= macro
+---+++!! Powerful new =QUERY= macro
 A number of new features have been added with the goal of improving support for wiki applications. These include the powerful new =QUERY= macro, which:
    * supports formatted access to formfields and other meta-data in topics using the same syntax as is used in =IF= and =SEARCH= statements,
    * gives access to *all* meta-data, including that added by extensions,
@@ -405,20 +422,20 @@ A number of new features have been added with the goal of improving support for 
 
 Use of the ="formfield"= parameter to the =META= macro has been deprecated (it is still available, but use is discouraged and it will be removed at some point in the future).
 
----+++ Re-architecting of the SEARCH macro
+---+++!! Re-architecting of the SEARCH macro
 To improve the speed, consistency and extendability of the most complex and important Macro, we've started to separate the generation of search results from the outputing of FormattedSearch. The most significant user facing improvements are speed and reliability changes - with many more unit tests written to ensure future compatibility.
 
----+++ FORMAT macro
+---+++!! FORMAT macro
 The extraction of the FormattedSearch system has made it possible to provide a Macro that allows users to render a list of topics into any =header=, =footer=, =format= style, using the same formatting controls as used by =[[VarSEARCH][SEARCH]]=. This macro will be further enhanced in future Foswiki releases and will play an increaingly important role as it is extended to format other types of object lists.
 
----+++ %USERSWEB%.WikiGroups have add & remove user interface
+---+++!! %USERSWEB%.WikiGroups have add & remove user interface
 !WikiGroups are now be edited using a much simpler HTML form.
 
 For developers additional API's have been added to the Foswiki code to allow these Forms to also be used for non-Foswiki user and group backends.
 
 With some configuration, Foswiki can also add users to groups on registration - either automatically, or allowing the users to select groups to join.
 
----+++ TinyMCEPlugin updates
+---+++!! TinyMCEPlugin updates
 TinyMCEPlugin has been updated to the latest 3.3 release from Moxiecode. Additionally, several improvements to the Foswiki integration have been made, such as:
    * Smarter attach dialogue
    * Background autosave feature has been enabled (saves to local browser storage at 3 minute intervals)
@@ -427,13 +444,13 @@ TinyMCEPlugin has been updated to the latest 3.3 release from Moxiecode. Additio
       * table rows/columns may be duplicated, cells merged/split
    * Customisation via the =TINYMCEPLUGIN_INIT= preference has been improved. [[TinyMCEPlugin#UpgradeFrom01x00][Read the upgrade advice]] if you are upgrading a Foswiki installation which uses a custom =TINYMCEPLUGIN_INIT= preference setting.
 
----+++ Testing configuration variables in %IF
+---+++!! Testing configuration variables in %IF
 Prior to 1.1, =%<nop>IF= could be used to test the value of any configuration variable (those defined in =configure=). This represented a security risk, so now only those variables listed in ={AccessibleCFG}= may be accessed this way. Note that ={AccessibleCFG}= also controls which variables are visible in =%<nop>SEARCH{type="query"= and the new [[VarQUERY][QUERY]] macro.
 
----+++ "Copy topic" now copies attachments
+---+++!! "Copy topic" now copies attachments
 The "Copy Topic" function in "More topic actions" now copies attachments as well as the topic text and form.
 
----+++ Tailoring of user registration made easier.
+---+++!! Tailoring of user registration made easier.
 
 The topic %SYSTEMWEB%.UserRegistration has been enhanced so it now determines whether a custom user registration page exists in %USERSWEB%, and includes it if it does; otherwise it includes DefaultUserRegistration.
 
@@ -443,7 +460,7 @@ You can create a custom version of the UserRegistration form by first copying th
 
 A couple of common fields are hidden from normal view to make the registration page as simple as possible. You can unhide those fields on the page by removing =EXCLUDED_= from the =INCLUDE= tags).
 
----+++ Easy tailoring of reset/change password and change email forms
+---+++!! Easy tailoring of reset/change password and change email forms
 
 The topics %SYSTEMWEB%.ResetPassword and %SYSTEMWEB%.ChangePassword now only show the change forms when Foswiki is managing the passwords (the =configure= setting ={PasswordManager}= set to a manager that handles setting of passwords).
 
@@ -451,10 +468,10 @@ If the {PasswordManager} does not support password changing, the ChangePassword 
 
 ChangeEmailAddress will now guide the user to define the email address in the user topic when the !PasswordManager does not handle hidden email addresses, so you should not need to tailor this topic any longer.
 
----+++ TMPL:DEFs may now access previous (overridden) TMPL:DEF
+---+++!! TMPL:DEFs may now access previous (overridden) TMPL:DEF
 SkinTemplates authors are often limited by the fact that =%<nop>TMPL:DEF{"something"}%= statements override whatever DEF may have previously existed in the SKIN path. Now, when overriding these DEFs, SkinTemplates authors may access the previous definition using the new =%<nop>TMPL:PREV%= template token.
 
----+++ New Logging architecture and location for log files
+---+++!! New Logging architecture and location for log files
 The Foswiki logging architecture has been changed to make processing of the "current" logs easier, and the logs have been moved from the =data/= directory into =working/logs=.  The configuration of the logging files have also been updated.
 
 *If Foswiki detects the presence of the old logging configuration, it will continue to use the old files.  =configure= will issue warnings about the deprecated settings.*
@@ -467,13 +484,13 @@ The Foswiki logging architecture has been changed to make processing of the "cur
 | =foswiki-root/data/debug.txt= | =foswiki-root/working/logs/debug.log= | =foswiki-root/working/logs/debug.YYYYMM= |
 | =foswiki-root/data/configurationlog.txt= | =foswiki-root/working/logs/configure.log= | _The configuratiog log does not roll_  |
 
----++++ Migration considerations
+---++++!! Migration considerations
 
 Foswiki provides two Logger implementations selectable in =configure=.  =Foswiki::Logger::Plainfile= implements the new file naming conventions and locations.  =Foswiki::Logger::Compatibility= uses the old locations and settings.  The Compatibility logger is used if the old file locations are detected in the configuration.
 
 The primary use of the logs by Foswiki is for generation of Statistics. If changing to the new logger ( *strongly recommended* ) it is best to get a full statistics refresh prior to migration. Copy / rename the log files into their new location using the above table as a guide.  Manually edit =lib/LocalSite.cfg= to remove the obsolete parameters, and then run configure to verify the new settings.
 
----+++++ Logging Configuration
+---+++++!! Logging Configuration
 
 The 1.0 configuration settings should be manually removed from !LocalSite.cfg, and configure then used to verify the new settings. If the 1.0 Warning filename is found, the "compatibility" logger will be used even if the PlainFile logger is selected.
 
@@ -534,7 +551,7 @@ $Foswiki::cfg{WarningFileName} = '';
 </tr>
 </table>
 
----+++ Logging of access failures
+---+++!! Logging of access failures
 Configure and !TemplateLogin now log authentication failures to the event logs:
 
    * =working/logs/configure.log=
@@ -542,15 +559,15 @@ Configure and !TemplateLogin now log authentication failures to the event logs:
 
 It is possible to monitor these logs with a product like =fail2ban= which will set firewall filters due to excessive failures.
 
----+++ =configure= user interface revamp
+---+++!! =configure= user interface revamp
 Also included in 1.1 is a major improvement to the =configure= user interface, that clarifies and simplifies setting configuration options.
 
----+++ Configure file system checks
+---+++!! Configure file system checks
 The configuration tool =bin/configure= now performs extensive checks of file system permissions. The pub and data directories are checked to verify that all data files match the requested default permissions of =755= for directories and =644= for data files. Files with excess permissions are reported as a warning. Files with insufficient permissions are noted as an error.
 
 Because of prior inconsistencies in the files distributed with Foswiki and TWiki core and extensions, migration of older Foswiki or TWiki installs may see excessive errors reported by configure. You are recommended to correct the file system permissions.
 
----+++ Newer modern icon set for Document Graphics
+---+++!! Newer modern icon set for Document Graphics
 To celebrate our new look, project and momentum, Foswiki now has a new ICON set to update the one shipped for the last 10 years. Using the !FamFamFam icon set, augmented with icons from other leading graphic artists.
 
 ---+++ Table Plugin has been improved
@@ -558,16 +575,16 @@ HTML formatting has been replaced by pure CSS rendering. You can however enable 
 
 Sorting has been improved so the plugin can now better handle mix of formats and even empty cells.
 
----+++ Notes for extension authors
+---+++!1 Notes for extension authors
 
----++++ API Enhancements
+---++++!! API Enhancements
 The following functions have been added to the =Foswiki::Func= API:
    * =copyAttachment=
 
 New parameters can be found on:
    * =saveTopic= (=ignorepermissions=)
 
----++++ Deprecated handlers
+---++++!! Deprecated handlers
 The following handlers have been deprecated (i.e. they are still available, but should not be used in new code and will be removed in a future release, so if you have been used them, you need to modify your code).
 
 The =redirectCGIQueryHandler= plugin handler has been deprecated (it is still available, but should not be used in new code and will be removed in a future release, so if you have been used it, you need to modify your code). This handler assumed a level of interaction with the CGI handling process that is dangerous if misused, and severely limits the flexibility and optimisations available to the core.
@@ -576,12 +593,12 @@ The =beforeAttachmentSaveHandler= and =afterAttachmentSaveHandler= plugin handle
 
 Deprecated handlers will continue to work as documented in 1.1 and for the immediate future, but will be removed in a future release. Extension authors are strongly recommended to implement the new handlers as soon as possible.
 
----++++ Deprecated Foswiki::Func functions
+---++++!! Deprecated Foswiki::Func functions
 The =readTopicText= and =saveTopicText= functions have been deprecated. Use =readTopic= and =saveTopic= instead. Both =readTopic= and =saveTopic= have always been available in Foswiki (and its predecessor) and are a lot safer. Existing code can usually be modified to eliminate these deprecated functions without difficulty.
 
 __Note:__ =readTopicText= had implicit access control checks. The replacement method, =readTopic= does not, so calling code must call =checkAccessPermission= explicitly.
 
----++++ Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
+---++++!! Refactored =Foswiki::Store= and new =Foswiki::Meta= functions
 Access checking has been moved from Store up to the Meta and Func routines. This was done to improve perfomance of the Store backend and simplify implementation of different stores e.g. using databases.
 
 Store was never part of the Foswiki or TWiki API. Extensions which violate this API and reference =Store::= functions directly could potentially have access that was previously blocked by Foswiki and/or may require other changes to be compatible with Foswiki 1.1.
@@ -590,7 +607,7 @@ Extension authors should first try to use the =Foswiki::Func= API. This is the p
 
 =Foswiki::Meta= should be used only if =Foswiki::Func= does not have a needed function. Note that =Foswiki::Meta= functions do not implicitly perform any access control checks. Callers of =Foswiki::Meta== should first use the =Foswiki::Meta::haveAccess= function to verify access for the planned actions. This was done by design to reduce repetitive access control checks and improve performance.
 
----++++ Tainting
+---++++!! Tainting
 The Foswiki core now checks values used for web, topic and attachment names for 'taintedness' when =FOSWIKI_ASSERTS= are enabled. Tainted values are those that have been taken from user input (for example, from topic content or from form fields) without being validated. Such unchecked values are a large potential security hole, and the authors of plugins that manipulate topics or attachments need to check their plugins with Foswiki ASSERTs enabled. If you find a taint error, you can use the functions in =Foswiki::Sandbox= to validate them. For example, to validate a web name and a topic name, you would write:
 
 <verbatim>
@@ -613,7 +630,7 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x00Details
 ---++ Foswiki Release 1.1.0 Details
 
----+++ Fixes
+---+++!! Fixes
 
 <noautolink>
 | [[%BUGS%/Item134][Item134]] | VIEW_TEMPLATE not copied from template |
@@ -891,7 +908,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9779][Item9779]] | More topic actions - view Revision does not work. |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 <noautolink>
 | [[%BUGS%/Item118][Item118]] | Would be nice if the password field auto-focus()'d when you save from /configure |
@@ -1009,7 +1026,7 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x01Details
 ---++ Foswiki Patch Release 1.1.1 Details
 
----+++ Fixes
+---+++!! Fixes
 
 <noautolink>
 | [[%BUGS%/Item9569][Item9569]] | Non-trivial macros are rendered within verbatim blocks of included topics |
@@ -1051,7 +1068,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9890][Item9890]] | Attachments corrupted on Windows |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 <noautolink>
 | [[%BUGS%/Item8411][Item8411]] | Add registration approval described at Support.Question121 to core |
@@ -1061,7 +1078,7 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x02Details
 ---++ Foswiki Patch Release 1.1.2 Details
 
----+++ Fixes
+---+++!! Fixes
 
 <noautolink>
 | [[%BUGS%/Item1391][Item1391]] | =&lt;div&gt;= disappears in Rich-Text-Editor |
@@ -1090,12 +1107,12 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9981][Item9981]] | Fix missing and redundant files |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 #Rel01x01x03Details
 ---++ Foswiki Patch Release 1.1.3 Details
 
----+++ Fixes
+---+++!! Fixes
 <noautolink>
 | [[%BUGS%/Item92][Item92]] | Need to give the admin a web UI to change user's hidden email address |
 | [[%BUGS%/Item770][Item770]] | there is no obvious way for an admin to see what webs exist when they are on ManagingWebs topic |
@@ -1258,7 +1275,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item10634][Item10634]] | Add a README in working/logs to make sure it is in the distrubution with the right access rights |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 
 <noautolink>
 | [[%BUGS%/Item1939][Item1939]] | Update INSTALL_INSTRUCTIONS |
@@ -1283,7 +1300,7 @@ to your =bin/LocalLib.cfg=.
 #Rel01x01x04Details
 ---++ Foswiki Patch Release 1.1.4 Details
 
----+++ Fixes
+---+++!! Fixes
 <noautolink>
 | [[%BUGS%/Item1200][Item1200]] | Unexpected result when link text contains email address  |
 | [[%BUGS%/Item1539][Item1539]] | Fields in %SYSTEMWEB%.UserRegistration still prefixed Twk## instead Fwk## |
@@ -1430,7 +1447,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11373][Item11373]] | Unable to add member to group if new member contained within another member. |
 </noautolink>
 
----+++ Enhancements
+---+++!! Enhancements
 <noautolink>
 | [[%BUGS%/Item9335][Item9335]] | extensions list in configure jumps around |
 | [[%BUGS%/Item9459][Item9459]] | Improved difference presentation in change notification emails (partial fix) |
@@ -1462,10 +1479,10 @@ to your =bin/LocalLib.cfg=.
 </noautolink>
 
 #Rel01x01x05Details
----++ Foswiki Patch Release 1.1.5
+---++ Foswiki Patch Release 1.1.5 Details
 <noautolink>
 
----+++ Fixes
+---+++!! Fixes
 
 | [[%BUGS%/Item652][Item652]] | Register can fail midway and leave the registration half done making re-registration impossible. |
 | [[%BUGS%/Item710][Item710]] | Registration failure due to email created topics but loses the password (deferred to 1.1) |
@@ -1568,7 +1585,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11728][Item11728]] | GroupViewTemplate loads style definitions into head repeatedly |
 | [[%BUGS%/Item11730][Item11730]] | QUERY referencing the attachment fields can't access attachment 0 when there is only one attachment |
 
----+++ Enhancements
+---+++!! Enhancements
 
 | [[%BUGS%/Item8744][Item8744]] | =Sandbox= webname should be configurable in the same way that other default webs are configurable |
 | [[%BUGS%/Item10724][Item10724]] | Update to WYSIWYG Editor to TinyMCE 3.4.7 |
@@ -1594,8 +1611,8 @@ to your =bin/LocalLib.cfg=.
 </noautolink>
 
 #Rel01x01x06Details
----++ Foswiki Patch Release 1.1.6
----+++ Fixes
+---++ Foswiki Patch Release 1.1.6 Details
+---+++!! Fixes
 
 <noautolink>
 
@@ -1694,7 +1711,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12263][Item12263]] | Partial fix: Foswiki::Users::passwordError() only returns errors from the Base mapper.|
 | [[%BUGS%/Item12266][Item12266]] | Configure crashes with "Insecure Dependency" error if Working or Log directory are changed.|
 
----+++ Enhancements
+---+++!! Enhancements
 
 | [[%BUGS%/Item3830][Item3830]] | Script <code>bin/manage</code> should write a log file entry. |
 | [[%BUGS%/Item10089][Item10089]] | WysiwygPlugin should allow editors to work on double bracket links as <code>&lt;a></code> tags. |
@@ -1725,6 +1742,28 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12267][Item12267]] | Convert from SVN Revisions to perl Version strings. |
 
 </noautolink>
+
+#Rel01x01x07Details
+---++ Foswiki Patch Release 1.1.7 Details
+<noautolink>
+---+++!! Fixes
+
+| [[%BUGS%/Item11546][Item11546]] | Cant locate object method "TopicObject", in Foswiki/Prefs.pm line 311. |
+| [[%BUGS%/Item11765][Item11765]] | Error message generated when creating a topic with a missing formtemplate topic pre-pends a web - even if there already is one. |
+| [[%BUGS%/Item12271][Item12271]] | Conditional dependency (ONLYIF option) is too restrictive to be all that useful. |
+| [[%BUGS%/Item12279][Item12279]] | Net::SMTP::SSL Email fails with SSL_verify_mode error on recent versions of IO::Socket::SSL |
+| [[%BUGS%/Item12285][Item12285]] | Resolve MAKETEXT vulnerabilities CVE-2012-6329 and CVE-2012-6330. |
+| [[%BUGS%/Item12297][Item12297]] | Conditional initializing a perl variable exposes a core perl bug. |
+| [[%BUGS%/Item12300][Item12300]] | Potential write on closed filehandle processing languages cache. |
+| [[%BUGS%/Item12301][Item12301]] | i18n->maketext calls in plugin init run before user language has been determined. |
+| [[%BUGS%/Item9357][Item9357]] | Login with illegal web results in Assert failure, or Uninitialized variable. |
+
+---+++!! Enhancements
+
+| [[%BUGS%/Item12278][Item12278]] | TML WikiWord links need better handling by TMCE to avoid inconsistent links. |
+
+</noautolink>
+
 ---
  <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
