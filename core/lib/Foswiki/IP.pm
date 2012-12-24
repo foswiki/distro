@@ -12,6 +12,8 @@ use warnings;
 # If IO::Socket::IP is not installed, they fall back to the
 # old functions.
 
+use Socket qw/SOCK_RAW AF_INET inet_ntoa inet_aton/;
+
 use Exporter;
 our @ISA = (qw/Exporter/);
 
@@ -149,34 +151,39 @@ sub hostInfo {
             return $result;
         }
     }
-    eval {
-        require Socket;
-        Socket->import(qw/:addrinfo SOCK_RAW AF_INET inet_ntoa inet_aton/);
+    if ($IPv6Avail) {
+        eval {
+            Socket->import(qw/:addrinfo/);
 
-        my ( $err, @res ) =
-          getaddrinfo( $name, "", { socktype => SOCK_RAW() } );
-        $result->{error} = "$err" || '';
-        return $result if ($err);
-
-        while ( my $ai = shift @res ) {
-            my ( $err, $ipaddr ) =
-              getnameinfo( $ai->{addr}, NI_NUMERICHOST(), NIx_NOSERV() );
-
-            $result->{error} .= "$err" || '';
+            my ( $err, @res ) =
+              getaddrinfo( $name, "", { socktype => SOCK_RAW() } );
+            $result->{error} = "$err" || '';
             return $result if ($err);
 
-            # In returned priority order:
-            push @{ $result->{addrs} }, $ipaddr;
+            while ( my $ai = shift @res ) {
+                my ( $err, $ipaddr ) =
+                  getnameinfo( $ai->{addr}, NI_NUMERICHOST(), NIx_NOSERV() );
 
-            if ( $ai->{family} == AF_INET() ) {
-                push @{ $result->{v4addrs} }, $ipaddr;
+                $result->{error} .= "$err" || '';
+                return $result if ($err);
+
+                # In returned priority order:
+                push @{ $result->{addrs} }, $ipaddr;
+
+                if ( $ai->{family} == AF_INET() ) {
+                    push @{ $result->{v4addrs} }, $ipaddr;
+                }
+                else {
+                    push @{ $result->{v6addrs} }, $ipaddr;
+                }
             }
-            else {
-                push @{ $result->{v6addrs} }, $ipaddr;
-            }
-        }
-        return $result;
-    };
+            return $result;
+        };
+    }
+    else {
+        $@ = 'Use gethostbyname';
+    }
+
     if ($@) {
         my ( undef, undef, undef, undef, @addrs ) = gethostbyname($name);
 
@@ -200,9 +207,6 @@ sub addrInfo {
     $address =~ /^(.*)$/;
     $address = $1;
 
-    require Socket;
-    Socket->import(qw/:addrinfo inet_aton SOCK_RAW AF_INET/);
-
     # We don't take the trouble to ask DNS for multiple PTR records.
     # One name should be enough.  For IPv4, use gethostbyaddr as it
     # trivially returns aliases.
@@ -210,6 +214,8 @@ sub addrInfo {
     my ( $error, @addrs );
 
     if ( $IPv6Avail && $address !~ /^$IPv4Re$/ ) {
+        Socket->import(qw/:addrinfo/);
+
         ( $error, @addrs ) =
           getaddrinfo( $address, 0, { flags => AI_NUMERICHOST() } );
         $result->{error} = "$error" || '';
