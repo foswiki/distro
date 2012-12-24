@@ -159,17 +159,9 @@ sub getExternalResource {
             $req .= "Authorization: Basic $base64";
         }
 
-        # SMELL: Reference to Foswiki variables used for compatibility
         my ( $proxyHost, $proxyPort );
-        if ( $this->{session} && $this->{session}->{prefs} ) {
-            my $prefs = $this->{session}->{prefs};
-            $proxyHost = $prefs->getPreference('PROXYHOST');
-            $proxyPort = $prefs->getPreference('PROXYPORT');
-        }
-
-        # Do not use || so user can disable proxy using preferences
-        $proxyHost = $Foswiki::cfg{PROXY}{HOST} unless defined $proxyHost;
-        $proxyPort = $Foswiki::cfg{PROXY}{PORT} unless defined $proxyPort;
+        $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};
+        $proxyPort = $this->{PROXYPORT} || $Foswiki::cfg{PROXY}{PORT};
         if ( $proxyHost && $proxyPort ) {
             my ( $proxyUser, $proxyPass );
             if ( $proxyHost =~
@@ -349,11 +341,6 @@ sub _throwMsg {
 sub _installMailHandler {
     my $this    = shift;
     my $handler = 0;       # Not undef
-    if ( $this->{session} && $this->{session}->{prefs} ) {
-        my $prefs = $this->{session}->{prefs};
-        $this->{MAIL_HOST}  = $prefs->getPreference('SMTPMAILHOST');
-        $this->{HELLO_HOST} = $prefs->getPreference('SMTPSENDERHOST');
-    }
 
     $this->{MAIL_HOST}  ||= $Foswiki::cfg{SMTP}{MAILHOST};
     $this->{HELLO_HOST} ||= $Foswiki::cfg{SMTP}{SENDERHOST};
@@ -994,12 +981,11 @@ sub authenticateCx {
         unless ( $smtp->auth( $username, $password ) ) {
             $inAuth = 0;
             $smtp->quit();
-            $this->_logMailError(
-                'die',
-                'Authentication failed: '
+            $this->_logMailError( 'die',
+                    'Authentication failed: '
                   . $smtp->code() . '-'
                   . $smtp->message()
-                  . ".\nVerify that the configured username and password are valid for $host";
+                  . ".\nVerify that the configured username and password are valid for $host"
             );
         }
         return;

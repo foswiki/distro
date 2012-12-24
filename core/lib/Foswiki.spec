@@ -923,9 +923,6 @@ $Foswiki::cfg{AccessibleENV} =
 #              nullok' \
 #              30**
 # Hostname or address of the proxy server.
-# <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
-# in SitePreferences. Make sure you delete the setting from there if
-# you are using a SitePreferences topic from a previous release of Foswiki.
 # If your proxy requires authentication, simply put it in the URL, as in:
 # http://username:password@proxy.your.company.
 $Foswiki::cfg{PROXY}{HOST} = '';
@@ -933,9 +930,6 @@ $Foswiki::cfg{PROXY}{HOST} = '';
 # **STRING 30**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. Set the port number here (e.g: 8080).
-# <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
-# in SitePreferences. Make sure you delete the setting from there if you
-# are using a SitePreferences topic from a previous release of Foswiki.
 $Foswiki::cfg{PROXY}{PORT} = '';
 
 #---++ Anti-spam
@@ -1758,9 +1752,6 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 # <p>Although not recommended, you can also specify an IP address using
 # the syntax <tt>192.0.2.11</tt> or <tt>[2001:db8::beef]</tt>.  If necessary,
 # a port number may be added to either form <tt>:587</tt>.
-# <p><b>CAUTION</b> This setting can be overridden by a setting of SMTPMAILHOST
-# in SitePreferences. Make sure you delete that setting if you are using a
-# SitePreferences topic from a previous release of Foswiki.</p>
 # <p>For Gmail, set MailMethod to Net::SMTP, set MAILHOST to <tt>smtp.gmail.com</tt>
 # provide your gmail email address and password below for authentication, and click <strong>Auto-configure</strong>.</p>
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
@@ -1915,8 +1906,6 @@ $Foswiki::cfg{SMTP}{Debug} = 0;
 # Mail domain sending mail, required. SMTP
 # requires that you identify the server sending mail. If not set, <b>Auto-configure</b> or
 # <tt>Net::SMTP</tt> will guess it for you. Example: foswiki.your.company.
-# <b>CAUTION</b> This setting can be overridden by a setting of %SMTPSENDERHOST%
-# in SitePreferences. Make sure you delete that setting.
 $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
 
