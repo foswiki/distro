@@ -103,7 +103,7 @@ sub respond {
         $sid = $1;
     }
     else {
-        return text($req, $res, "Not authorized by configure");
+        return text($req, $res, 403, "Forbidden", "Not authorized by configure");
     }
     my $session =
       CGI::Session->load( SESSION_DSN, $sid,
