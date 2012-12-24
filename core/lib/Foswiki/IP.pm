@@ -151,7 +151,7 @@ sub hostInfo {
     }
     eval {
         require Socket;
-        Socket->import(qw/:addrinfo SOCK_RAW AF_INET/);
+        Socket->import(qw/:addrinfo SOCK_RAW AF_INET inet_ntoa inet_aton/);
 
         my ( $err, @res ) =
           getaddrinfo( $name, "", { socktype => SOCK_RAW() } );
@@ -178,7 +178,10 @@ sub hostInfo {
         return $result;
     };
     if ($@) {
-        $result->{addrs} = $result->{v4addrs} = [ ( gethostbyname($name) )[4] ];
+        my ( undef, undef, undef, undef, @addrs ) = gethostbyname($name);
+
+        $result->{addrs} = $result->{v4addrs} =
+          [ map { inet_ntoa($_) } @addrs ];
     }
     return $result;
 }
