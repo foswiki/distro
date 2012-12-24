@@ -591,7 +591,7 @@ sub _smimeSignMessage {
             "$Foswiki::cfg{DataDir}/SmimePrivateKey.pem"
         );
 
-        unless ( -r $certFile && -r $keyFile ) {
+        unless ( $certFile && $keyFile && -r $certFile && -r $keyFile ) {
             $this->_logMailError( 'die',
 "Signed (S/MIME) mail is enabled, but certificate or key is not specified and no self-signed certificate is available."
             );

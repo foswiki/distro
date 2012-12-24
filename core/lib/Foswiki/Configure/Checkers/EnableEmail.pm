@@ -189,7 +189,35 @@ sub autoconfig {
     my $this = shift;
     my ($options) = @_;
 
-    my $e = '';
+    my $e  = '';
+    my $sm = '';
+
+    if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
+        my ( $certFile, $keyFile ) = (
+            $Foswiki::cfg{Email}{SmimeCertificateFile},
+            $Foswiki::cfg{Email}{SmimeKeyFile},
+        );
+        unless ( $certFile && $keyFile ) {
+            ( $certFile, $keyFile ) = (
+                '$Foswiki::cfg{DataDir}/SmimeCertificate.pem',
+                '$Foswiki::cfg{DataDir}/SmimePrivateKey.pem',
+            );
+        }
+        Foswiki::Configure::Load::expandValue($certFile);
+        Foswiki::Configure::Load::expandValue($keyFile);
+
+        unless ( $certFile && $keyFile && -r $certFile && -r $keyFile ) {
+            $e .= $this->ERROR(
+"We recommend configuring Foswiki to send S/MIME signed e-mail.<p>
+To do this, either Certificate and Key files must be provided, or a self-signed certificate can be generated.<p>
+To generate a self-signed certificate or generate a signing request, use the respective WebmasterName action button.<p>
+Because no certificate is present, S/MIME his been disabled to allow basic autoconfiguration to continue."
+            );
+            $sm .=
+              $this->FB_VALUE(
+                $this->setItemValue( 0, '{Email}{EnableSMIME}' ) );
+        }
+    }
 
     # Prefer perl or program?
 
@@ -202,13 +230,13 @@ sub autoconfig {
     }
 
     if ($preferPerl) {
-        ( my $ok, $e ) = $this->autoconfigPerl( $options, 0 );
-        return $e if ($ok);
-        return $e . ( $this->autoconfigProgram( $options, -1 ) )[1];
+        my ( $ok, $ae ) = $this->autoconfigPerl( $options, 0 );
+        return $e . $ae . $sm if ($ok);
+        return $e . $ae . ( $this->autoconfigProgram( $options, -1 ) )[1] . $sm;
     }
-    ( my $ok, $e ) = $this->autoconfigProgram( $options, 1 );
-    return $e if ($ok);
-    return $e . ( $this->autoconfigPerl( $options, -1 ) )[1];
+    my ( $ok, $ae ) = $this->autoconfigProgram( $options, 1 );
+    return $e . $ae . $sm if ($ok);
+    return $e . $ae . ( $this->autoconfigPerl( $options, -1 ) )[1] . $sm;
 }
 
 sub autoconfigProgram {
