@@ -68,6 +68,9 @@ print $ofh ( "
 # This mechanism allows configure to test the path thru the webserver to the request
 # dispatcher.  We respond with a small image.  If the image appears, the path is clear,
 # and any issues can be addressed without worrying about basic server configuration.
+#
+# A text diagnostic is also provided to assist with debugging webserver rewrite rules,
+# for those webservers that provide apache-style SCRIPT_NAME and SCRIPT_URI values.
 
 " . '
 my @headers = ( "Cache-Control" => "no-cache", -expires => "-1d" );
@@ -124,7 +127,31 @@ sub respond {
     }
 
     if( $1 eq "Env" ) {
-        return text( $req, $res, 200, "OK", "$ENV{SCRIPT_NAME}|$ENV{SCRIPT_URI}|$2\n" );
+        my $txt =  join( \'|\',
+                         ($ENV{SCRIPT_NAME} || \'\'),
+                         ($ENV{SCRIPT_URI}  || \'\'),
+                         ($2 || \'\'),
+                       ) . "\\n";
+
+        my @cgivars = ( # CGI \'Standard\'
+                        qw/AUTH_TYPE CONTENT_LENGTH CONTENT_TYPE GATEWAY_INTERFACE PATH_INFO/,
+                        qw/PATH_TRANSLATED QUERY_STRING REMOTE_ADDR REMOTE_HOST REMOTE_IDENT/,
+                        qw/REMOTE_USER REQUEST_METHOD SCRIPT_NAME SERVER_NAME SERVER_PORT/,
+                        qw/SERVER_PROTOCOL SERVER_SOFTWARE/,
+                        # Apache/common extensions
+                        qw/DOCUMENT_ROOT PATH_TRANSLATED REQUEST_URI SCRIPT_FILENAME/,
+                        qw/SCRIPT_URL SERVER_ADDR/,
+                        # HTTP headers
+                        grep /^HTTP_/, keys %ENV );
+
+        foreach my $var (sort @cgivars) {
+            next unless( exists $ENV{$var} );
+            my $val = $ENV{$var} || \'%uu\';
+            $val =~ s/([%\\n|])/sprintf "%%%02x", ord $1/egms;
+            $txt .= join( \'|\', $var, $val ) . "\n";
+        }
+
+        return text( $req, $res, 200, "OK", $txt );
     }
 ' . "
    \$res->header( -type => '$type', -status => '200', \@headers );
