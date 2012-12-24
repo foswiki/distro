@@ -37,7 +37,7 @@ sub check {
         }
         elsif ( $Foswiki::cfg{EnableEmail} ) {
             $e .= $this->ERROR(
-"Mail server specification required: [IPv6]:port, IPv4:port, or hostname:port"
+"Mail server specification required: [IPv6]:port, IPv4:port, or hostname:port.  Port is optional, and not recommended when auto-configuring e-mail."
             );
         }
     }
