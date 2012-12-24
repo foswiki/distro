@@ -1102,12 +1102,13 @@ sub starttls {
 
     unless ( defined $smtp->supports('STARTTLS') ) {
         $smtp->quit;
-        $$e .= $this->NOTE( $tlog, "STARTTLS is not supported by $host" );
+        $$e .= $this->NOTE( $tlog,
+            "${pad}STARTTLS is not supported by $host</pre>" );
         return 0;
     }
     unless ( $smtp->command('STARTTLS')->response() == 2 ) {
         $smtp->quit;
-        $$e .= $this->NOTE( $tlog . "STARTTLS command failed</pre>" );
+        $$e .= $this->NOTE( $tlog . "${pad}STARTTLS command failed</pre>" );
         return 0;
     }
 
@@ -1115,8 +1116,9 @@ sub starttls {
 
     unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts ) ) {
         $tlog .= $pad . IO::Socket::SSL::errstr() . "\n";
-        $$e   .= $this->NOTE( $tlog . "Upgrade to TLS failed</pre>" );
+        $$e   .= $this->NOTE( $tlog . "${pad}Upgrade to TLS failed</pre>" );
 
+        # Note: The server may still be trying to talk SSL; we can't quit.
         $smtp->close;
         return 0;
     }
@@ -1130,7 +1132,7 @@ sub starttls {
           . fmtcertnames( $smtp->dump_peer_certificate ) );
 
     unless ( $smtp->hello($hello) ) {
-        $$e .= $this->NOTE( $tlog . "Hello failed</pre>" );
+        $$e .= $this->NOTE( $tlog . "${pad}Hello failed</pre>" );
         $smtp->quit();
         return 0;
     }
