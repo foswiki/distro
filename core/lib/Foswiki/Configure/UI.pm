@@ -446,14 +446,36 @@ sub ERROR {
 
 =begin TML
 
+---++ ObjectMethod DBG(...)
+
+Generate HTML for a debug message.
+
+These really should not appear in production, but during development,
+it is convenient to have a shorthand to produce preformatted text,
+e.g. when dumping data structures.
+
+=cut
+
+# Don't be tempted to rename DEBUG, as that is '0' in Assert...
+
+sub DBG {
+    my $this = shift;
+
+    return CGI::div( { class => 'configureDebug' },
+        CGI::span( CGI::strong('Debug ') . CGI::pre( join( "\n", @_ ) ) ) );
+}
+
+=begin TML
+
 ---++ ObjectMethod FB_FOR(...)
 
 Generate feedback for a named key (other than $this).
-Only usable in =provideFeedback= methods.
+Only meaningful in =provideFeedback= methods, but will
+be discarded if included in check() output.
+
  Usage: return $this->NOTE("My feedback")
                .$this->FB_FOR('{anotherkey}',
                               $this->WARN("That feedback" ));
-All FB_FOR clauses must follow any messages for $this.
 Feedback completly replaces the message area under an item,
 so multiple updates of a target will retain only the last encountered.
 
@@ -466,7 +488,8 @@ sub FB_FOR {
     my $target = eval "exists \$Foswiki::cfg$keys";
     die "Invalid FB_FOR target $keys\n" if ( $@ || !$target );
 
-    return "\001$keys\002" . join( "\n", @_ );
+    my $text = "$keys\002" . join( "\n", @_ );
+    return "\001" . length($text) . ",$text";
 }
 
 =begin TML
@@ -483,7 +506,8 @@ sub FB_GUI {
     my $this = shift;
     my $id   = shift;
 
-    return "\001$id\002" . join( "\n", @_ );
+    my $text = "$id\002" . join( "\n", @_ );
+    return "\001" . length($text) . ",$text";
 }
 
 =begin TML
@@ -509,7 +533,8 @@ sub FB_VALUE {
     my $target = eval "exists \$Foswiki::cfg$keys";
     die "Invalid FB_VALUE target $keys\n" if ($@);
 
-    return "\001$keys\003" . join( "\004", @_ );
+    my $text = "$keys\003" . join( "\004", @_ );
+    return "\001" . length($text) . ",$text";
 }
 
 =begin TML
@@ -524,7 +549,8 @@ sub FB_GUIVAL {
     my $this = shift;
     my $keys = shift;
 
-    return "\001$keys\003" . join( "\004", @_ );
+    my $text = "$keys\003" . join( "\004", @_ );
+    return "\001" . length($text) . ",$text";
 }
 
 =begin TML
@@ -554,7 +580,8 @@ sub FB_MODAL {
     my $this = shift;
     my $options = shift || 'r';
 
-    return "\001{ModalOptions}$options\005" . join( "", @_ );
+    my $text = "{ModalOptions}$options\005" . join( '', @_ );
+    return "\001" . length($text) . ",$text";
 }
 
 =begin TML
@@ -575,7 +602,8 @@ sub FB_ACTION {
     my $target  = shift;
     my $actions = shift;
 
-    return "\001{$target}$actions\006" . join( '', @_ );
+    my $text = "{$target}$actions\006" . join( '', @_ );
+    return "\001" . length($text) . ",$text";
 }
 
 =begin TML

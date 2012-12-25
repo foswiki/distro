@@ -572,6 +572,7 @@ div.configureUnsaved,
 div.configureNoChanges,
 div.configureError,
 div.configureWarn,
+div.configureDebug,
 div.configureOk {
 	padding:7px 1em 7px 3em;
 	background-position:1em .7em;
@@ -583,11 +584,14 @@ div.configureError {
 div.configureWarn {
 	background-image:url(%RESOURCEURI%icon_warn.png);
 }
+div.configureDebug {
+        background-image:url(%RESOURCEURI%icon_debug.png);
+}
 div.configureUnsaved {
-    background-image:url(%RESOURCEURI%icon_changes.png);
+        background-image:url(%RESOURCEURI%icon_changes.png);
 }
 div.configureNoChanges {
-    background-image:url(%RESOURCEURI%icon_nochanges.png);
+        background-image:url(%RESOURCEURI%icon_nochanges.png);
 }
 
 div.configureOk {

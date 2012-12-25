@@ -72,14 +72,46 @@ sub renderHtml {
 
     my $checker = Foswiki::Configure::UI::loadChecker( $keys, $value );
     if ($checker) {
-        eval { $check = $checker->check($value) || ''; };
+        my $output;
+        eval { $output = $checker->check($value); };
         if ($@) {
-            $check =
+            $output =
               $this->ERROR( "Checker ("
                   . ref($checker)
-                  . ") for $keys failed: check for .spec errors:$@" );
+                  . ") for $keys failed: check for .spec errors:  <pre>$@</pre>"
+              );
         }
-        $check = '' unless ( defined $check );
+        $output = '' unless ( defined $output );
+
+        # Remove any feedback command blocks - they don't apply to the static
+        # presentation created here.  This could be done in-place, but this
+        # is the same logic used in Feedback to reduce the risk of divergence.
+        while (1) {
+            my ($len);
+            if ( $output !~ s/\A\001// ) {
+
+               # Unencoded text (from NOTE, WARN, ERROR - or bare text)
+               # Length runs to next encoded block, or end of string & may be 0.
+                $len = index( $output, "\001" );
+                if ( $len == -1 ) {
+                    $check .= $output;
+                    last;
+                }
+                $check .= substr( $output, 0, $len, '' );
+                next if ( length $output );
+                last;
+            }
+
+            # Pre-encoded commands from FB_xxx
+            # Length, is used to find end of each command, and removed
+            die "Bad command string\n" unless ( $output =~ s/\A(\d+),\{/{/ );
+            $len = $1;
+            die "Bad command length\n"
+              unless ( $len && $len <= length $output );
+            substr( $output, 0, $len, '' );
+            next if ( length $output );
+            last;
+        }
         if ($check) {
 
             # something wrong

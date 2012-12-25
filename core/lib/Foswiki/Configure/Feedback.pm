@@ -431,7 +431,7 @@ sub deliverResponse {
     my $fb      = shift;
     my $updated = shift;
 
-    my $response = '';
+    my $response;
 
 # Return encoded responses to each responding key.
 #
@@ -460,23 +460,67 @@ sub deliverResponse {
       '{ConfigureGUI}{Unsaved}' => Foswiki::unsavedChangesNotice($updated)
       if ( $updated && ( loggedIn($session) || $badLSC || $query->auth_type ) );
 
-    my $first = 1;
+    # Feedback is ordered so that commands from chained checkers execute in the
+    # specified order.  Internally, checkers can produce arbitrary mixes of
+    # text and command blocks.  The internal blocks contain a length field so
+    # they can be separated from any text that follows.  The text segments
+    # need to be coalesced into a single status window update, and the command
+    # blocks converted to the wire format (without lengths.)
+
     while ( @$fb >= 2 ) {
         my ( $keys, $txt ) = splice( @$fb, 0, 2 );
 
-        $response .= "\001" unless ($first);
-        if ( $txt =~ s/\A\001// ) {    # FB_FOR/FB_VALUE pre-encoded data
-            $response .= $txt;
+        my ( $text, $cmds );
+        while (1) {
+            my ($len);
+            if ( $txt !~ s/\A\001// ) {
+
+               # Unencoded text (from NOTE, WARN, ERROR - or bare text)
+               # Length runs to next encoded block, or end of string & may be 0.
+                $text = '' unless ( defined $text );
+                $len = index( $txt, "\001" );
+                if ( $len == -1 ) {
+                    $text .= $txt;
+                    last;
+                }
+                $text .= substr( $txt, 0, $len, '' );
+                next if ( length $txt );
+                last;
+            }
+
+            # Pre-encoded commands from FB_xxx
+            # Length, is used to find end of each command, and removed
+            die "Bad command string from $keys\n"
+              unless ( $txt =~ s/\A(\d+),\{/{/ );
+            $len = $1;
+            die "Bad command length from $keys\n"
+              unless ( $len && $len <= length $txt );
+            if ( defined $cmds ) {
+                $cmds .= "\001";
+            }
+            else {
+                $cmds = '';
+            }
+            $cmds .= substr( $txt, 0, $len, '' );
+            next if ( length $txt );
+            last;
+        }
+        die "Confused response from $keys"
+          unless ( defined $text || defined $cmds );
+        $response .= "\001" if ( defined $response );
+
+        if ( defined $text ) {
+            $response .= "$keys\002$text";
+            $response .= "\001$cmds" if ( defined $cmds );
         }
         else {
-            $response .= "$keys\002$txt";
+            $response .= $cmds;
         }
-        undef $first;
     }
     die "Invalid feedback list\n" if (@$fb);
 
-    $response .= "\177"
-      if ($first);    # no-data marker for client.  Really shouldn't happen.
+    $response = "\177"
+      unless ( defined $response );    # no-data marker for client.
 
     Foswiki::htmlResponse( $response, Foswiki::NO_REDIRECT() );
 
@@ -528,12 +572,14 @@ sub startVisit {
         $visitee->{_fbchecker} = my $checker = $visitee->{_fbchecker}
           || Foswiki::Configure::UI::loadChecker( $keys, $visitee );
 
-        # Multiple checks possible in audit AUDITGROUP, which limits buttons
-        # to 20.  The upper bound here is simply to catch a loop where a
+        # Multiple checks possible in audit AUDITGROUP.  The arbitrary
+        # upper bound here is simply to catch a loop where a
         # provider re-requests itself every time - or a depenency loop
-        # of n checkers that has the same effect.
+        # of n checkers that has the same effect.  We should never see
+        # anything like this number of visits to the same checker in a
+        # single event.
         die "$keys run loop\n"
-          if ( ++$this->{nrun}{$keys} > 21 );
+          if ( ++$this->{nrun}{$keys} > 100 );
 
         # See if it provides feedback.  If not, just re-check.
 
@@ -546,7 +592,8 @@ sub startVisit {
             };
             if ($@) {
                 $text = $checker->ERROR(
-                    "Feedback for $keys failed:  check for .spec issues: $@");
+"Feedback for $keys:$button failed:  check for .spec issues:  <pre>$@</pre>"
+                );
                 $checkall = 0;
             }
 
@@ -561,7 +608,8 @@ sub startVisit {
             my $check = eval { return $checker->check($visitee); };
             if ($@) {
                 $check = $checker->ERROR(
-                    "Checker for $keys failed: check for .spec issues:$@");
+"Feedback for $keys failed: check for .spec issues:  <pre>$@</pre>"
+                );
             }
             $check = '' unless ( defined $check );
             unless ( $check eq 'NOT USED IN THIS CONFIGURATION' ) {
@@ -596,7 +644,8 @@ sub startVisit {
             my $check = eval { return $checker->check($visitee); };
             if ($@) {
                 $check = $checker->ERROR(
-                    "Checker for $keys failed: check for .spec issues:$@");
+"Checker for $keys failed: check for .spec issues: <pre>$@</pre>"
+                );
             }
             $check = '' unless ( defined $check );
             unless ( $check eq 'NOT USED IN THIS CONFIGURATION' ) {

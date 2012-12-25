@@ -40,7 +40,7 @@ MIME::Base64,>=0,cpan,Required, for base Foswiki
 Mozilla::CA,>=20110904,cpan,Optional, SSL host verification for e-mail and other SSL/TLS connections
 Net::SMTP,>=2.29,cpan,Optional, required for sending mail if sendmail not available on server
 POSIX,>=1,cpan,Required, for base Foswiki
-Socket,>=0,cpan,Required, for base Foswiki
+Socket,>=2.001,cpan,Required, for base Foswiki
 Sort::Maker,0.06,cpan, Required, for base Foswiki
 Symbol,>=0,cpan,Optional, may be required for international characters
 Unicode::MapUTF8,>=0,cpan,Optional, This is required for international characters for Perl 5.6. Do not install this for Perl 5.8 or later.

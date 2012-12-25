@@ -1052,7 +1052,12 @@ var feedback = ( function ($) {
                     items = data.split("\x01");
                     data = undefined;
                     for (item = 0; item < items.length; item++) {
-                        /* IE sometimes doesn't do capturing split, so simulate one. */
+                        /* IE sometimes doesn't do capturing split, so simulate one.
+                         * N.B. AUDITGROUP, Feedback, and UIs/Value also parse this data.
+                         * UI & Feeback generate it.  Protocol changes need to check each
+                         * for any required updates.  AUDITGROUP understands semantics;
+                         * the others structure.
+                         */
                         delims = ["\x02", "\x03","\x05", "\x06"];
                         for (i = 0; i < delims.length; i++) {
                             sloc = items[item].indexOf(delims[i]);

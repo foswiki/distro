@@ -697,6 +697,7 @@ lib/Foswiki/Configure/resources/favicon.ico 0444
 lib/Foswiki/Configure/resources/foswiki-configure-logo.png 0444
 lib/Foswiki/Configure/resources/icon_changes.png 0444
 lib/Foswiki/Configure/resources/icon_nochanges.png 0444
+lib/Foswiki/Configure/resources/icon_debug.png 0444
 lib/Foswiki/Configure/resources/icon_down.gif 0444
 lib/Foswiki/Configure/resources/icon_error.png 0444
 lib/Foswiki/Configure/resources/icon_info.png 0444
