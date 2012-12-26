@@ -893,7 +893,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
             "Failed to send mail to "
           . join( ', ', @to )
           . " using $this->{MAIL_METHOD}.\n";
-        $this->_logMailError( 'die', $mess . $code . '-' . $msg );
+        $this->_logMailError( 'die', $mess . $code . ' ' . $msg );
     }
 }
 
@@ -985,12 +985,11 @@ sub authenticateCx {
         local $inAuth = 1;
         unless ( $smtp->auth( $username, $password ) ) {
             $inAuth = 0;
-            $smtp->quit();
             $this->_logMailError( 'error',
-                    'Authentication failed: '
-                  . $smtp->code() . '-'
+                    "Authentication failed:\n"
+                  . $smtp->code() . ' '
                   . $smtp->message()
-                  . ".\nVerify that the configured username and password are valid for $host"
+                  . "Verify that the configured username and password are valid for $host"
             );
             return 0;
         }
@@ -1296,7 +1295,7 @@ sub startTLS {
         $this->_logMailError(
             'die',
             "$host did not accept STARTTLS: ",
-            $code . '-' . $msg
+            $code . ' ' . $msg
         );
     }
 
@@ -1330,7 +1329,7 @@ sub startTLS {
         $this->_logMailError(
             'die',
             "$host rejected HELLO after STARTTLS: ",
-            $code . '-' . $msg
+            $code . ' ' . $msg
         );
     }
     return;
