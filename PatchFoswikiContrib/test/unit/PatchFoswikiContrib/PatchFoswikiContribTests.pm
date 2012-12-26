@@ -89,47 +89,67 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
 
     Item11267: Don't use "HEAD" to detect pseudo install.
     
-    A real, non-pseudo-installed extension will crash configure if a perl
-    version object is compared to an alpha string.
-    
-    9999.99_999 will be used to indicate a pseudo-installed release.
-    
-    git-svn-id: http://svn.foswiki.org/trunk@15909 0b4bb1d4-4e5a-0410-9cc4-b2b747904278
 
-##PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm
---- a/core/lib/Foswiki/Configure/Dependency.pm
-+++ b/core/lib/Foswiki/Configure/Dependency.pm
-@@ -220,7 +220,7 @@ sub studyInstallation {
-             if ( -l "$dir/$path" ) {
+
+~~~PATCH 829239dd10279df7a8851299e5beeeb2:630427bf41c01c9428d1e8d0ad298690  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Some comments
+--- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
++++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
+@@ -14,9 +14,9 @@
+ # Always use strict to enforce variable scoping
+ use strict;
+ use warnings;
++use Data::Dumper
  
-                 # Assume pseudo-installed
--                $this->{installedVersion} = '9999.99_999';
-+                $this->{installedVersion} = 'HEAD';
-             }
-             last;
-         }
-##PATCH 76e28354522a6d6cccc76c66f99d2424  lib/Foswiki/Configure/UIs/EXTENSIONS.pm
---- a/core/lib/Foswiki/Configure/UIs/EXTENSIONS.pm
-+++ b/core/lib/Foswiki/Configure/UIs/EXTENSIONS.pm
-@@ -339,7 +339,7 @@ sub _rawExtensionRows {
-         if ( $ext->{installedRelease} ) {
+ # $VERSION is referred to by Foswiki, and is the only global variable that
+-# *must* exist in this package. This should always be in the format
+ # $Rev$ so that Foswiki can determine the checked-in status of the
+ # extension.
+ our $VERSION = '1.4';
+@@ -27,13 +27,17 @@
+ # tuple   - a sequence of integers separated by . e.g. 1.2.3. The numbers
+ #           usually refer to major.minor.patch release or similar. You can
+ #           use as many numbers as you like e.g. '1' or '1.2.3.4.5'.
++#           usually refer to major.minor.patch release or similar. You can
++#           use as many numbers as you like e.g. '1' or '1.2.3.4.5'.
++#           usually refer to major.minor.patch release or similar. You can
++#           use as many numbers as you like e.g. '1' or '1.2.3.4.5'.
+ # isodate - a date in ISO8601 format e.g. 2009-08-07
+ # date    - a date in 1 Jun 2009 format. Three letter English month names only.
+ # Note: it's important that this string is exactly the same in the extension
+ # topic - if you use %$RELEASE% with BuildContrib this is done automatically.
+ our $RELEASE = '1.4';
  
-             # The module is installed; check the version
--            if ( $ext->{installedVersion} eq '9999.99_999' ) {
-+            if ( $ext->{installedVersion} eq 'HEAD' ) {
+-our $SHORTDESCRIPTION = 'Apply critical patches to Foswiki.';
++our $SHORTDESCRIPTION = 'Apply any  patches to Foswiki.';
  
-                 # pseudo-installed
-                 $install = 'pseudo-installed';
+ 1;
+ 
+@@ -54,6 +58,6 @@
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ 
+ As per the GPL, removal of this notice is prohibited.
++blah
+
 DONE
 
     my %result = Foswiki::Configure::PatchFile::parsePatch(
         $this->{tempdir} . '/TestFile.patch' );
 
+    my $msgs = Foswiki::Configure::PatchFile::checkPatch( undef, \%result );
+
     foreach my $key ( keys %result ) {
         print STDERR "KEY $key  \n";
         next if ( $key eq 'summary' );
         foreach my $md5 ( keys %{ $result{$key} } ) {
-            print "MD5 $md5\n patch $result{$key}{$md5} \n";
+
+            $this->assert_str_equals( $result{$key}{$md5}{status},
+                'NOT APPLIED' );
+
+            #use Data::Dumper;
+            #print "MD5 $md5\n patch \n" . Data::Dumper::Dumper( \%result );
 
             my $origFile = Foswiki::Configure::Util::mapTarget( '/tmp', $key );
 
@@ -146,14 +166,27 @@ DONE
             my $origMD5 = _getMD5($origFile);
             $this->assert( ( $origMD5 eq $md5 ), "$file $md5 ne $origMD5" );
 
-            print STDERR
-              "$key mapped to $file\n - Vol $fv, path $fp, name $fn \n";
-
-            my $rc =
+            my $msg =
               Foswiki::Configure::PatchFile::updateFile( $file,
-                $result{$key}{$md5} );
+                $result{$key}{$md5}{patch} );
 
-            $this->assert( !$rc, "Failed with $rc\n" );
+            $this->assert_matches( qr/Update successful/,
+                $msg,, "Failed with $msg\n" );
+
+            my $newMD5 = _getMD5($file);
+            $this->assert( ( $newMD5 eq $result{$key}{$md5}{patched} ),
+                "$file  ne $newMD5" );
+
+            $msg =
+              Foswiki::Configure::PatchFile::updateFile( $file,
+                $result{$key}{$md5}{patch}, 1 );
+
+            $this->assert_matches( qr/Update reversed/,
+                $msg, "Failed with $msg\n" );
+
+            $newMD5 = _getMD5($file);
+            $this->assert( ( $newMD5 eq $md5 ), "$md5  ne $newMD5" );
+
         }
 
     }
@@ -165,7 +198,9 @@ sub _getMD5 {
     my $filename = shift;
     open( my $fh, '<', $filename ) or die "Can't open '$filename': $!";
     binmode($fh);
-    return Digest::MD5->new->addfile($fh)->hexdigest;
+    my $digest = Digest::MD5->new->addfile($fh)->hexdigest;
+    close $fh;
+    return $digest;
 }
 
 sub _makefile {
@@ -184,7 +219,7 @@ sub _makefile {
     return;
 }
 
-sub test_Package_makeBackup {
+sub disable_test_Package_makeBackup {
     my $this = shift;
 
     my @root = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
