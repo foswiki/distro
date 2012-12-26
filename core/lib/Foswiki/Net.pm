@@ -832,7 +832,6 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         Port    => $port,
         Debug   => $debug,
         Timeout => ( @addrs >= 2 ? 20 : 120 ),
-        Timeout => 600
     );
     push @options, Hello => $this->{HELLO_HOST} if ( $this->{HELLO_HOST} );
 
