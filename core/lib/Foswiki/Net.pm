@@ -831,7 +831,8 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         Host    => [@addrs],
         Port    => $port,
         Debug   => $debug,
-        Timeout => ( @addrs >= 2 ? 20 : 120 )
+        Timeout => ( @addrs >= 2 ? 20 : 120 ),
+        Timeout => 600
     );
     push @options, Hello => $this->{HELLO_HOST} if ( $this->{HELLO_HOST} );
 
@@ -869,13 +870,14 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     $username = '' unless ( defined $username );
     $password = '' unless ( defined $password );
 
-    $smtp->authenticateCx( $this, $host, $username, $password,
+    my $ok =
+      $smtp->authenticateCx( $this, $host, $username, $password,
         ( $starttls || $tls || $ssl ), $debug );
 
-    my $ok = $smtp->mail($from);
+    $ok &&= $smtp->mail($from);
     $ok &&= $smtp->to( @to, { SkipBad => 1 } );
 
-    if ($debug) {
+    if ( $ok && $debug ) {
         my $dbg = $smtp->debug(0);
         $ok &&= $smtp->data($text);
         $smtp->debug_print( 1, " ... Message contents ...\n" );
@@ -936,8 +938,12 @@ sub debug_text {
             $code ||= 0;
             $b64  ||= '';
             chomp $b64;
-            $text = join( '',
-                $code, ' ', $b64, ' [', MIME::Base64::decode_base64($b64), "]" )
+            my $b64text = MIME::Base64::decode_base64($b64);
+            if ( $b64text =~ /[[:^print:]]/ ) {
+                $b64text =~ s/(.)/sprintf('%02x ', ord $1)/gmse;
+                chop $b64text;
+            }
+            $text = join( '', $code, ' ', $b64, " [$b64text]" )
               if ( $code == 334 );
         }
     }
@@ -968,12 +974,12 @@ sub authenticateCx {
     my $smtp = shift;
     my ( $this, $host, $username, $password, $secure, $debug ) = @_;
 
-    return unless ( length($username) || length($password) );
+    return 1 unless ( length($username) || length($password) );
 
     if ( defined $smtp->supports('AUTH') ) {
         if ($debug) {
             $this->_logMailError( 'warning',
-                "Authentication is available, but no password is configured" )
+                "Authentication is using a null password" )
               unless ( length $password );
         }
 
@@ -981,16 +987,17 @@ sub authenticateCx {
         unless ( $smtp->auth( $username, $password ) ) {
             $inAuth = 0;
             $smtp->quit();
-            $this->_logMailError( 'die',
+            $this->_logMailError( 'error',
                     'Authentication failed: '
                   . $smtp->code() . '-'
                   . $smtp->message()
                   . ".\nVerify that the configured username and password are valid for $host"
             );
+            return 0;
         }
-        return;
+        return 1;
     }
-    return unless ($debug);
+    return 1 unless ($debug);
 
     $this->_logMailError(
         'warning',
@@ -1015,8 +1022,7 @@ sub authenticateCx {
           )
           . "  You should remove username and password from the configuration if they are not used."
     );
-    return;
-
+    return 1;
 }
 
 package Foswiki::Net::Mail::SSL;

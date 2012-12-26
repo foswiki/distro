@@ -960,8 +960,12 @@ sub debug_text {
             $code ||= 0;
             $b64  ||= '';
             chomp $b64;
-            $text = join( '',
-                $code, $d, $b64, ' [', MIME::Base64::decode_base64($b64), "]" )
+            my $b64text = MIME::Base64::decode_base64($b64);
+            if ( $b64text =~ /[[:^print:]]/ ) {
+                $b64text =~ s/(.)/sprintf('%02x ', ord $1)/gmse;
+                chop $b64text;
+            }
+            $text = join( '', $code, $d, $b64, " [$b64text]" )
               if ( $code == 334 );
         }
     }
