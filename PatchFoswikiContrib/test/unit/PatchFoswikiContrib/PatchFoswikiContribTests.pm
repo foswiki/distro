@@ -6,11 +6,11 @@ use warnings;
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
 
-use Error qw( :try );
-use File::Temp();
-use FindBin;
-use File::Path qw(mkpath rmtree);
-use Digest::MD5;
+use Error       ();
+use File::Temp  ();
+use FindBin     ();
+use File::Path  ();
+use Digest::MD5 ();
 
 use Foswiki::Configure::Util      ();
 use Foswiki::Configure::PatchFile ();
@@ -44,9 +44,9 @@ sub set_up {
     $webObject = $this->populateNewWeb( $this->{sandbox_subweb} );
     $webObject->finish();
     $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
-    rmtree( $this->{tempdir} )
+    File::Path::rmtree( $this->{tempdir} )
       if ( -e $this->{tempdir} );    # Cleanup any old tests
-    mkpath( $this->{tempdir} );
+    File::Path::mkpath( $this->{tempdir} );
     $this->{scriptdir}       = $this->{tempdir} . '/bin';
     $Foswiki::cfg{ScriptDir} = $this->{scriptdir};
     $this->{toolsdir}        = $this->{tempdir} . '/tools';
@@ -66,7 +66,7 @@ sub tear_down {
     $this->removeWebFixture( $this->{session}, $this->{test_web} );
     $this->removeWebFixture( $this->{session}, $this->{trash_web} );
     $this->removeWebFixture( $this->{session}, $this->{sandbox_web} );
-    rmtree( $this->{tempdir} );    # Cleanup any old tests
+    File::Path::rmtree( $this->{tempdir} );    # Cleanup any old tests
     $this->SUPER::tear_down();
 
     return;
@@ -79,7 +79,128 @@ sub removeWeb {
     return;
 }
 
-sub test_PatchFile_parsePatch {
+# Test applying and removing a patch
+sub test_PatchFile_parse_backup {
+    my $this = shift;
+
+    _makefile( "$this->{tempdir}", "Item0000.patch", <<'DONE');
+commit 5e6b4d1f9540bb7b75705faf80e412fc0c66fe84
+Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
+Date:   Mon Nov 5 05:07:25 2012 +0000
+
+    Item11267: Don't use "HEAD" to detect pseudo install.
+
+~~~PATCH 829239dd10279df7a8851299e5beeeb2:630427bf41c01c9428d1e8d0ad298690  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Some comments
+--- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
++++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
+@@ -14,9 +14,9 @@
+ # Always use strict to enforce variable scoping
+ use strict;
+ use warnings;
++use Data::Dumper
+
+DONE
+
+    _makefile( "$this->{tempdir}", "Item0001.patch", <<'DONE');
+commit 5e6b4d1f9540bb7b75705faf80e412fc0c66fe84
+Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
+Date:   Mon Nov 5 05:07:25 2012 +0000
+
+    Item11267: Don't use "HEAD" to detect pseudo install.
+
+
+~~~PATCH 630427bf41c01c9428d1e8d0ad298690:829239dd10279df7a8851299e5beeeb2  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm This  
+--- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
++++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
+@@ -14,9 +14,9 @@
+ # Always use strict to enforce variable scoping
+ use strict;
+ use warnings;
++use Data::Dumper
+ 
+DONE
+
+    _makefile( "$this->{tempdir}", "Item0002.patch", <<'DONE');
+commit 5e6b4d1f9540bb7b75705faf80e412fc0c66fe84
+Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
+Date:   Mon Nov 5 05:07:25 2012 +0000
+
+    Item11267: Don't use "HEAD" to detect pseudo install.
+
+ 
+~~~PATCH 123427bf41c01c9428d1e8d0ad298690:123239dd10279df7a8851299e5beeeb2  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm xother comments
+--- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
++++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
+@@ -14,9 +14,9 @@
+ # Always use strict to enforce variable scoping
+
+
+DONE
+
+    my %result = Foswiki::Configure::PatchFile::parsePatch(
+        $this->{tempdir} . '/Item0000.patch' );
+
+    my $msgs =
+      Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 0 );
+
+    # NOT APPLIED patch should be backed up
+    $this->assert_matches( qr/\| NOT APPLIED \|/ms, $msgs );
+    $this->assert_matches( qr/^Backed up target: .*PatchTestTarget.pm/ms,
+        $msgs );
+    $this->assert_matches( qr/^Backup Archived.*configure\/backup\/Item000/ms,
+        $msgs );
+    $this->assert_matches( qr/^1 file backed up./ms, $msgs );
+
+    %result = Foswiki::Configure::PatchFile::parsePatch(
+        $this->{tempdir} . '/Item0001.patch' );
+
+    $msgs = Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 0 );
+
+    # Already PATCHED should not be backed up
+    $this->assert_matches( qr/\| PATCHED \|/ms,        $msgs );
+    $this->assert_matches( qr/^No files backed up./ms, $msgs );
+
+    %result = Foswiki::Configure::PatchFile::parsePatch(
+        $this->{tempdir} . '/Item0002.patch' );
+
+    $msgs = Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 0 );
+
+    # Not applicable should not be backed up
+    $this->assert_matches( qr/\| N\/A \|/ms,           $msgs );
+    $this->assert_matches( qr/^No files backed up./ms, $msgs );
+
+    $msgs = Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 1 );
+
+    # Reversing an unapplied patch - also not applicable should not be backed up
+    $this->assert_matches( qr/\| N\/A \|/ms,           $msgs );
+    $this->assert_matches( qr/^No files backed up./ms, $msgs );
+
+    %result = Foswiki::Configure::PatchFile::parsePatch(
+        $this->{tempdir} . '/Item0001.patch' );
+
+    $msgs = Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 1 );
+
+    # Reversing a patch - should be backed up
+    $this->assert_matches( qr/\| PATCHED \|/ms, $msgs );
+    $this->assert_matches( qr/^Backed up target: .*PatchTestTarget.pm/ms,
+        $msgs );
+    $this->assert_matches( qr/^Backup Archived.*configure\/backup\/Item000/ms,
+        $msgs );
+    $this->assert_matches( qr/^1 file backed up./ms, $msgs );
+
+    %result = Foswiki::Configure::PatchFile::parsePatch(
+        $this->{tempdir} . '/Item0002.patch' );
+
+    $msgs = Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 1 );
+
+    # Reversing a N/A patch - should not be backed up
+    $this->assert_matches( qr/\| N\/A \|/ms,           $msgs );
+    $this->assert_matches( qr/^No files backed up./ms, $msgs );
+
+}
+
+# Test applying and removing a patch
+sub test_PatchFile_parse_patch_remove {
     my $this = shift;
 
     _makefile( "$this->{tempdir}", "TestFile.patch", <<'DONE');
@@ -140,29 +261,30 @@ DONE
 
     my $msgs = Foswiki::Configure::PatchFile::checkPatch( undef, \%result );
 
+    $this->assert_equals(
+"| lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm | 829239dd10279df7a8851299e5beeeb2 | NOT APPLIED | Some comments |\n\n",
+        $msgs
+    );
+
     foreach my $key ( keys %result ) {
-        print STDERR "KEY $key  \n";
         next if ( $key eq 'summary' );
         foreach my $md5 ( keys %{ $result{$key} } ) {
 
             $this->assert_str_equals( $result{$key}{$md5}{status},
                 'NOT APPLIED' );
 
-            #use Data::Dumper;
-            #print "MD5 $md5\n patch \n" . Data::Dumper::Dumper( \%result );
-
             my $origFile = Foswiki::Configure::Util::mapTarget( '/tmp', $key );
 
+            # Override lib path so the patch won't apply to the live system
             my $savepath = $Foswiki::foswikiLibPath;
             $Foswiki::foswikiLibPath = '/tmp/lib';
-            mkpath($Foswiki::foswikiLibPath);
-
+            File::Path::mkpath($Foswiki::foswikiLibPath);
             my $file = Foswiki::Configure::Util::mapTarget( '/tmp', $key );
             $Foswiki::foswikiLibPath = $savepath;
 
             my ( $fv, $fp, $fn ) = File::Spec->splitpath( $file, 0 );
-            mkpath($fp);
-            copy( $origFile, $file );
+            File::Path::mkpath($fp);
+            File::Copy::copy( $origFile, $file );
             my $origMD5 = _getMD5($origFile);
             $this->assert( ( $origMD5 eq $md5 ), "$file $md5 ne $origMD5" );
 
@@ -210,7 +332,7 @@ sub _makefile {
 
     $content = "datadata/n" unless ($content);
 
-    mkpath($path);
+    File::Path::mkpath($path);
     open( my $fh, '>', "$path/$file" )
       or die "Unable to open $path/$file for writing: $!\n";
     print $fh $content;
@@ -233,8 +355,8 @@ sub disable_test_Package_makeBackup {
     my $err    = '';
 
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
-    rmtree($tempdir);    # Clean up old files if left behind
-    mkpath($tempdir);
+    File::Path::rmtree($tempdir);    # Clean up old files if left behind
+    File::Path::mkpath($tempdir);
 
     my $extension = "MyPlugin";
     _makePackage( $tempdir, $extension );

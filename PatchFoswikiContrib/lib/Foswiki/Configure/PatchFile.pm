@@ -411,7 +411,7 @@ sub backupTargets {
                 chmod( $mode, "$bkupPath/$bkupDir/$file" );
             }
 
-            $msgs .= "Backed up target: $file. to $bkupPath/$bkupDir/$file\n";
+            $msgs .= "Backed up target: $file to $bkupPath/$bkupDir/$file\n";
             $backup++;
         }
         my ( $rslt, $err );
