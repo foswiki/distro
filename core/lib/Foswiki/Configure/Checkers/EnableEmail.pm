@@ -958,15 +958,46 @@ sub debug_text {
         else {
             my ( $code, $d, $b64 ) = split( /([ -])/, $text, 2 );
             $code ||= 0;
-            $b64  ||= '';
-            chomp $b64;
-            my $b64text = MIME::Base64::decode_base64($b64);
-            if ( $b64text =~ /[[:^print:]]/ ) {
-                $b64text =~ s/(.)/sprintf('%02x ', ord $1)/gmse;
-                chop $b64text;
+            if ( $code eq '334' ) {
+                $b64 = '' unless ( defined $b64 );
+                chomp $b64;
+                my $b64text = MIME::Base64::decode_base64($b64);
+                my $cont    = "\n${pad}    ";
+                my $multi;
+                if ( $b64 =~ s/(.{76})/$1$cont/gms ) {
+                    $multi = 1;
+                }
+                if ( $b64text =~ /[[:^print:]]/ ) {
+                    my $n = 0;
+                    $b64text =~
+s/(.)/sprintf('%02x', ord $1) . (++$n % 32 == 0? $cont : ' ')/gmse;
+                    $b64text =~ s/([[:xdigit:]]{2}) ([[:xdigit:]]{2})/$1$2/g;
+                    if ( $n % 32 ) {
+                        chop $b64text;
+                        $b64text .= $cont;
+                    }
+                    unless ( $multi && $b64 =~ /$cont\z/ ) {
+                        $b64 .= $cont;
+                        $multi = 1;
+                    }
+                    chop $b64;
+                    $b64 .= '[';
+                    $b64text =~ s/$cont\z/]/;
+                }
+                else {
+                    if ( $multi && $b64 !~ /$cont\z/ ) {
+                        $b64 .= $cont;
+                    }
+                    if ($multi) {
+                        chop $b64;
+                    }
+                    else {
+                        $b64 .= ' ';
+                    }
+                    $b64text = "[$b64text]";
+                }
+                $text = join( '', $code, $d, $b64, $b64text );
             }
-            $text = join( '', $code, $d, $b64, " [$b64text]" )
-              if ( $code == 334 );
         }
     }
     return $text;
@@ -980,7 +1011,7 @@ sub debug_print {
     $text = $tag
       . join( "\n$tag -- ",
         map $cmd->debug_text( $out, $_ ),
-        split( /\r?\n/, $text ) )
+        split( /\r?\n/, $text, -1 ) )
       . "\n";
 
     $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;

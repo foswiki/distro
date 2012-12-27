@@ -107,7 +107,21 @@ $Foswiki::cfg{PathCheckLimit} = 5000;
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# **URLPATH CHECK='expand nullok notrail' AUDIT='URI:0' E M U**
+# **STRING 80 LABEL="Test user for verifying paths" **
+# If your server requires a login name (username) and password to access the Foswiki scripts, enter a
+# valid login name here to enable the Verify action button.  This login will only be used for
+# testing and not be saved with the Foswiki configuration.
+$Foswiki::cfg{ConfigureGUI}{TestUsername} = '';
+
+# **PASSWORD 80 LABEL="Test password for verifying paths" DISPLAY_IF {ConfigureGUI}{TestUsername}.length**
+# If your server requires a login name (username) and password to access the Foswiki scripts,
+# enter the password for the test account here to enable the Verify action button.  This password
+# will only be used for  testing and not be saved with the Foswiki configuration. <B>Note:</b>
+# only HTTP Basic authorization is supported for this function.
+$Foswiki::cfg{ConfigureGUI}{TestPassword} = '';
+
+# as part of the configuration
+# **URLPATH FEEDBACK=auto FEEDBACK="Verify" CHECK='expand nullok notrail' AUDIT='URI:0' E M U**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script including any suffix.
 # (This is an exception override, so the ScriptSuffix is not automatically added.)

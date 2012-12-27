@@ -78,6 +78,7 @@ Note that if LWP is *not* available, this function:
    1 can only really be trusted for HTTP/1.0 urls. If HTTP/1.1 or another
      protocol is required, you are *strongly* recommended to =require LWP=.
    1 Will not parse multipart content
+   1 Will not process redirects (configure relies on this)
 
 In the event of the server returning an error, then =is_error()= will return
 true, =code()= will return a valid HTTP status code
@@ -102,7 +103,7 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 =cut
 
 sub getExternalResource {
-    my ( $this, $url ) = @_;
+    my ( $this, $url ) = splice( @_, 0, 2 );
 
     my $protocol;
     if ( $url =~ m!^([a-z]+):! ) {
@@ -120,7 +121,7 @@ sub getExternalResource {
         $LWPAvailable = ($@) ? 0 : 1;
     }
     if ($LWPAvailable) {
-        return _GETUsingLWP( $this, $url );
+        return _GETUsingLWP( $this, $url, @_ );
     }
 
     # Fallback mechanism
@@ -131,6 +132,7 @@ sub getExternalResource {
     }
 
     my $response;
+    my @headers = @_;
     try {
         $url =~ s!^\w+://!!;    # remove protocol
         my ( $user, $pass );
@@ -143,8 +145,15 @@ sub getExternalResource {
         }
         my ( $host, $port ) = ( $1, $2 || 80 );
 
-        require Socket;
-        import Socket qw(:all);
+        my $sclass;
+        eval {
+            require IO::Socket::IP;
+            $sclass = 'IO::Socket::IP';
+        };
+        if ($@) {
+            require IO::Socket::INET;
+            $sclass = 'IO::Socket::INET';
+        }
 
         $url = '/' unless ($url);
         my $req = "GET $url HTTP/1.0\r\n";
@@ -190,34 +199,36 @@ sub getExternalResource {
         }
 
         $req .= 'User-Agent: Foswiki::Net/' . $Foswiki::VERSION . "\r\n";
-        $req .= "\r\n\r\n";
-
-        my ( $iaddr, $paddr, $proto );
-        $iaddr = inet_aton($host);
-        die "Could not find IP address for $host" unless $iaddr;
-
-        $paddr = sockaddr_in( $port, $iaddr );
-        $proto = getprotobyname('tcp');
-        unless ( socket( *SOCK, &PF_INET, &SOCK_STREAM, $proto ) ) {
-            die "socket failed: $!";
+        while (@headers) {
+            my ( $name, $value ) = splice( @headers, 0, 2 );
+            $name =~ s/_/-/g;
+            $req .= "$name: $value\r\n";
         }
-        unless ( connect( *SOCK, $paddr ) ) {
-            die "connect failed: $!";
+        $req .= "\r\n";
+
+        my $sock = $sclass->new(
+            PeerAddr => $host,
+            PeerPort => $port,
+            Proto    => 'tcp',
+            Timeout  => 120
+        );
+        unless ($sock) {
+            die "Unable to connect to $host: $!";
         }
-        select SOCK;
-        $| = 1;
+        $sock->autoflush(1);
+
         local $/ = undef;
-        print SOCK $req;
-        my $result = '';
-        $result = <SOCK>;
-        unless ( close(SOCK) ) {
-            die "close faied: $!";
+        print $sock $req;
+        my $result;
+        $result = <$sock>;
+        $result = '' unless ( defined $result );
+        unless ( close($sock) ) {
+            die "close failed: $!";
         }
-        select STDOUT;
 
         # No LWP, but may have HTTP::Response which would make life easier
         # (it has a much more thorough parser)
-        eval 'require HTTP::Response';
+        eval 'require HTTP::Response' unless ($noHTTPResponse);
         if ( $@ || $noHTTPResponse ) {
 
             # Nope, no HTTP::Response, have to do things the hard way :-(
@@ -236,7 +247,7 @@ sub getExternalResource {
 }
 
 sub _GETUsingLWP {
-    my ( $this, $url ) = @_;
+    my ( $this, $url ) = splice( @_, 0, 2 );
 
     my ( $user, $pass );
     if ( $url =~ s!([^/\@:]+)(?::([^/\@:]+))?@!! ) {
@@ -245,9 +256,12 @@ sub _GETUsingLWP {
     my $request;
     require HTTP::Request;
     $request = HTTP::Request->new( GET => $url );
-    $request->header( 'User-Agent' => 'Foswiki::Net/'
+    $request->header(
+        'User-Agent' => 'Foswiki::Net/'
           . $Foswiki::VERSION
-          . " libwww-perl/$LWP::VERSION" );
+          . " libwww-perl/$LWP::VERSION",
+        @_
+    );
     require Foswiki::Net::UserCredAgent;
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );
     my $response = $ua->request($request);
@@ -917,6 +931,8 @@ our $inAuth;
 
 require MIME::Base64;
 
+my $pad = ' ' x length('Net::SMTpXXX ');
+
 sub debug_text {
     my $cmd = shift;
     my $out = shift;
@@ -933,17 +949,48 @@ sub debug_text {
               unless ( $inAuth++ == 1 );
         }
         else {
-            my ( $code, $b64 ) = split( ' ', $text, 2 );
+            my ( $code, $d, $b64 ) = split( /([ -])/, $text, 2 );
             $code ||= 0;
-            $b64  ||= '';
-            chomp $b64;
-            my $b64text = MIME::Base64::decode_base64($b64);
-            if ( $b64text =~ /[[:^print:]]/ ) {
-                $b64text =~ s/(.)/sprintf('%02x ', ord $1)/gmse;
-                chop $b64text;
+            if ( $code eq '334' ) {
+                $b64 = '' unless ( defined $b64 );
+                chomp $b64;
+                my $b64text = MIME::Base64::decode_base64($b64);
+                my $cont    = "\n${pad}    ";
+                my $multi;
+                if ( $b64 =~ s/(.{76})/$1$cont/gms ) {
+                    $multi = 1;
+                }
+                if ( $b64text =~ /[[:^print:]]/ ) {
+                    my $n = 0;
+                    $b64text =~
+s/(.)/sprintf('%02x', ord $1) . (++$n % 32 == 0? $cont : ' ')/gmse;
+                    $b64text =~ s/([[:xdigit:]]{2}) ([[:xdigit:]]{2})/$1$2/g;
+                    if ( $n % 32 ) {
+                        chop $b64text;
+                        $b64text .= $cont;
+                    }
+                    unless ( $multi && $b64 =~ /$cont\z/ ) {
+                        $b64 .= $cont;
+                        $multi = 1;
+                    }
+                    chop $b64;
+                    $b64 .= '[';
+                    $b64text =~ s/$cont\z/]/;
+                }
+                else {
+                    if ( $multi && $b64 !~ /$cont\z/ ) {
+                        $b64 .= $cont;
+                    }
+                    if ($multi) {
+                        chop $b64;
+                    }
+                    else {
+                        $b64 .= ' ';
+                    }
+                    $b64text = "[$b64text]";
+                }
+                $text = join( '', $code, $d, $b64, $b64text );
             }
-            $text = join( '', $code, ' ', $b64, " [$b64text]" )
-              if ( $code == 334 );
         }
     }
     return $text;
@@ -957,7 +1004,7 @@ sub debug_print {
     $text = $tag
       . join( "\n$tag -- ",
         map $cmd->debug_text( $out, $_ ),
-        split( /\r?\n/, $text ) )
+        split( /\r?\n/, $text, -1 ) )
       . "\n";
 
     $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;

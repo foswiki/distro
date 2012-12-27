@@ -4,6 +4,8 @@ package Foswiki::Configure::Checkers::ScriptUrlPaths;
 use strict;
 use warnings;
 
+use Foswiki::Configure qw/:cgi :auth/;
+
 require Foswiki::Configure::Checkers::URLPATH;
 our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
 
@@ -71,6 +73,120 @@ sub check {
     $this->{JSContent} = 1;
 
     return $e;
+}
+
+sub provideFeedback {
+    my $this = shift;
+    my ( $valobj, $button, $label ) = @_;
+
+    my $keys = ref $valobj ? $valobj->getKeys : $valobj;
+
+    my $e = '';
+
+    my $r;
+
+    ( $e, $r ) = $this->SUPER::provideFeedback(@_);
+
+    if ( $button == 2 ) {
+        require Foswiki::Net;
+        my $cookie = Foswiki::newCookie($session);
+        my $net    = Foswiki::Net->new;
+
+        local $Foswiki::Net::LWPAvailable   = 0;
+        local $Foswiki::Net::noHTTPResponse = 1;
+        local $Foswiki::VERSION             = $Foswiki::VERSION || '0.0';
+
+        my $test   = '/Web/Topic/Env/Echo?configurationTest=yes';
+        my $target = $this->getItemCurrentValue;
+        $target = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}'
+          if ( !defined $target );
+        Foswiki::Configure::Load::expandValue($target);
+        my $data;
+
+        my $url = $Foswiki::cfg{DefaultUrlHost} . $target . $test;
+        $e .= $this->NOTE("Tracing access to <tt>$url</tt>");
+
+        my ( $limit, $try ) = (10);
+        my @headers = ( Cookie => join( '=', $cookie->name, $cookie->value ), );
+
+        if ( ( my $user = $query->param('{ConfigureGUI}{TestUsername}') ) ) {
+            my $password = $query->param('{ConfigureGUI}{TestPassword}') || '';
+            require MIME::Base64;
+            my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
+            push @headers, Authorization => "Basic $auth";
+        }
+
+        for ( $try = 1 ; $try <= $limit ; $try++ ) {
+            my $response = $net->getExternalResource( $url, @headers );
+            if ( $response->is_error ) {
+                my $content = $response->content || '';
+                $content =~ s,<(/)?h\d+>,$1? '</b>' : '<p><b>',e;
+                $e .=
+                  $this->ERROR( "Failed to access $url<pre>"
+                      . $response->code . ' '
+                      . $response->message
+                      . $content
+                      . "</pre>" );
+                last;
+            }
+            if ( $response->is_redirect ) {
+                $url = $response->header('location') || '';
+                $e .=
+                  $this->NOTE( "Redirected ("
+                      . $response->code
+                      . ") to <tt>"
+                      . ( $url ? "$url" : 'nowhere' )
+                      . "</tt>" );
+                last unless ($url);
+                next;
+            }
+            $data = $response->content;
+            unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
+                $e .= $this->ERROR("<tt>$url</tt> does not match request");
+                last;
+            }
+            my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
+            if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
+                $e .= $this->WARN(
+"<tt>$host</tt> does not match {DefaultUrlHost} (<tt>$Foswiki::cfg{DefaultUrlHost}</tt>)"
+                );
+            }
+            $path ||= '';
+            my @server = split( /\|/, $data, 3 );
+            if ( @server != 3 ) {
+                my $ddat = ( split( /\r?\n/, $data, 2 ) )[0] || '';
+                $e .= $this->ERROR(
+                    "Server returned incorrect diagnostic data:<pre>$ddat</pre>"
+                );
+            }
+            else {
+                if ( $server[0] eq $target ) {
+                    $e .= $this->NOTE(
+                        "Server received the expected path (<tt>$target</tt>)");
+                }
+                else {
+                    $e .= $this->ERROR(
+"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br >The correct setting for $keys is probably <tt>$server[0]</tt>"
+                    );
+                }
+            }
+            if ( $path ne $target ) {
+                $e .=
+                  $this->ERROR( "Path used by "
+                      . ( $try > 1 ? "final " : '' )
+                      . "GET (\"<tt>$path</tt>\") does not match $keys (<tt>$target</tt>)"
+                  );
+            }
+            else {
+                $e .= $this->NOTE_OK("Path \"<tt>$path</tt>\" is correct");
+            }
+            last;
+        }
+        if ( $try > $limit ) {
+            $e .= $this->ERROR("Excessive redirects (>$limit) stopped trace.");
+        }
+    }
+    return wantarray ? ( $e, $r ) : $e;
 }
 
 1;
