@@ -10,6 +10,7 @@ require Foswiki::Configure::Checkers::URLPATH;
 our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
 
 # Type checker for entries in the {ScriptUrlPaths} hash
+# Also covers {ScriptUrlPath}
 
 sub check {
     my $this = shift;
@@ -17,15 +18,10 @@ sub check {
 
     my $keys = ref($valobj) ? $valobj->getKeys : $valobj;
 
-    die "$keys not supported by " . __PACKAGE__ . "\n"
-      unless ( $keys =~ /^\{ScriptUrlPaths\}\{(.*)\}$/ );
-
     # non-existent keys are treated differently from
     # null keys.  Just accept non-existent/undefined ones.
 
-    return '' unless ( defined $Foswiki::cfg{ScriptUrlPaths}{$1} );
-
-    my $script = $1;
+    return '' unless ( defined $this->getItemCurrentValue );
 
     # Should be path to script
 
@@ -37,6 +33,17 @@ sub check {
 
     my $value = $this->getCfg;
 
+    my $dval;
+    my $script = 'view';
+    if ( $keys =~ /^\{[^}]+\}\{([^}]+)\}$/ ) {
+        $script = $1;
+        $value = undef unless ( defined $this->getItemCurrentValue );
+    }
+    else {
+        $dval = $value || '';
+        $value .= "/$script" . ( $this->getCfg('{ScriptSuffix}') || '' );
+    }
+
     # Very old config; undefined implies no alias
 
     $value =
@@ -46,7 +53,7 @@ sub check {
       unless ( defined $value );
 
     # Blank implies '/'; Display '/' rather than ''
-    my $dval = ( $value || '/' );
+    $dval = ( $value || '/' ) unless ( defined $dval );
 
     # Attempt access
 
@@ -88,107 +95,159 @@ sub provideFeedback {
     ( $e, $r ) = $this->SUPER::provideFeedback(@_);
 
     if ( $button == 2 ) {
-        require Foswiki::Net;
-        my $cookie = Foswiki::newCookie($session);
-        my $net    = Foswiki::Net->new;
-
-        local $Foswiki::Net::LWPAvailable   = 0;
-        local $Foswiki::Net::noHTTPResponse = 1;
-        local $Foswiki::VERSION             = $Foswiki::VERSION || '0.0';
-
-        my $test   = '/Web/Topic/Env/Echo?configurationTest=yes';
-        my $target = $this->getItemCurrentValue;
-        $target = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}'
-          if ( !defined $target );
-        Foswiki::Configure::Load::expandValue($target);
-        my $data;
-
-        my $url = $Foswiki::cfg{DefaultUrlHost} . $target . $test;
-        $e .= $this->NOTE("Tracing access to <tt>$url</tt>");
-
-        my ( $limit, $try ) = (10);
-        my @headers = ( Cookie => join( '=', $cookie->name, $cookie->value ), );
-
-        if ( ( my $user = $query->param('{ConfigureGUI}{TestUsername}') ) ) {
-            my $password = $query->param('{ConfigureGUI}{TestPassword}') || '';
-            require MIME::Base64;
-            my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
-            push @headers, Authorization => "Basic $auth";
-        }
-
-        for ( $try = 1 ; $try <= $limit ; $try++ ) {
-            my $response = $net->getExternalResource( $url, @headers );
-            if ( $response->is_error ) {
-                my $content = $response->content || '';
-                $content =~ s,<(/)?h\d+>,$1? '</b>' : '<p><b>',e;
-                $e .=
-                  $this->ERROR( "Failed to access $url<pre>"
-                      . $response->code . ' '
-                      . $response->message
-                      . $content
-                      . "</pre>" );
-                last;
-            }
-            if ( $response->is_redirect ) {
-                $url = $response->header('location') || '';
-                $e .=
-                  $this->NOTE( "Redirected ("
-                      . $response->code
-                      . ") to <tt>"
-                      . ( $url ? "$url" : 'nowhere' )
-                      . "</tt>" );
-                last unless ($url);
-                next;
-            }
-            $data = $response->content;
-            unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
-                $e .= $this->ERROR("<tt>$url</tt> does not match request");
-                last;
-            }
-            my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
-            if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
-                $e .= $this->WARN(
-"<tt>$host</tt> does not match {DefaultUrlHost} (<tt>$Foswiki::cfg{DefaultUrlHost}</tt>)"
-                );
-            }
-            $path ||= '';
-            my @server = split( /\|/, $data, 3 );
-            if ( @server != 3 ) {
-                my $ddat = ( split( /\r?\n/, $data, 2 ) )[0] || '';
-                $e .= $this->ERROR(
-                    "Server returned incorrect diagnostic data:<pre>$ddat</pre>"
-                );
-            }
-            else {
-                if ( $server[0] eq $target ) {
-                    $e .= $this->NOTE(
-                        "Server received the expected path (<tt>$target</tt>)");
-                }
-                else {
-                    $e .= $this->ERROR(
-"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br >The correct setting for $keys is probably <tt>$server[0]</tt>"
-                    );
-                }
-            }
-            if ( $path ne $target ) {
-                $e .=
-                  $this->ERROR( "Path used by "
-                      . ( $try > 1 ? "final " : '' )
-                      . "GET (\"<tt>$path</tt>\") does not match $keys (<tt>$target</tt>)"
-                  );
-            }
-            else {
-                $e .= $this->NOTE_OK("Path \"<tt>$path</tt>\" is correct");
-            }
-            last;
-        }
-        if ( $try > $limit ) {
-            $e .= $this->ERROR("Excessive redirects (>$limit) stopped trace.");
-        }
+        $e .= $this->testPath($keys);
     }
     return wantarray ? ( $e, $r ) : $e;
 }
 
+sub testPath {
+    my $this = shift;
+    my ($keys) = @_;
+
+    my $e = '';
+
+    require Foswiki::Net;
+    my $cookie = Foswiki::newCookie($session);
+    my $net    = Foswiki::Net->new;
+
+    local $Foswiki::Net::LWPAvailable = 0 && $Foswiki::Net::LWPAvailable;
+    local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
+    local $Foswiki::VERSION = $Foswiki::VERSION || '0.0';
+
+    my $test   = '/Web/Topic/Env/Echo?configurationTest=yes';
+    my $target = $this->getItemCurrentValue;
+    my $script = 'view';
+    my ( $root, $view, $viewtarget );
+    if ( $keys =~ /^\{[^}]+\}\{([^}]+)\}$/ ) {
+        $script = $1;
+    }
+    else {
+        $target ||= '';
+        $target .= "/$script" . ( $this->getCfg('{ScriptSuffix}') || '' );
+        $root       = 1;
+        $view       = $this->getItemCurrentValue('{ScriptUrlPaths}{view}');
+        $viewtarget = $view;
+        $viewtarget = $this->getItemCurrentValue('{ScriptUrlPath}')
+          if ( !defined $viewtarget );
+        Foswiki::Configure::Load::expandValue($viewtarget);
+        $view = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}'
+          if ( !defined $view );
+        Foswiki::Configure::Load::expandValue($view);
+    }
+    $target =
+      '$Foswiki::cfg{ScriptUrlPath}/' . $script . '$Foswiki::cfg{ScriptSuffix}'
+      if ( !defined $target );
+    Foswiki::Configure::Load::expandValue($target);
+    my $data;
+
+    my $url = $Foswiki::cfg{DefaultUrlHost} . $target . $test;
+    $e .= $this->NOTE("Tracing access to <tt>$url</tt>");
+
+    my ( $limit, $try ) = (10);
+    my @headers = ( Cookie => join( '=', $cookie->name, $cookie->value ), );
+
+    if ( ( my $user = $query->param('{ConfigureGUI}{TestUsername}') ) ) {
+        my $password = $query->param('{ConfigureGUI}{TestPassword}') || '';
+        require MIME::Base64;
+        my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
+        push @headers, Authorization => "Basic $auth";
+    }
+
+    for ( $try = 1 ; $try <= $limit ; $try++ ) {
+        my $response = $net->getExternalResource( $url, @headers );
+        if ( $response->is_error ) {
+            my $content = $response->content || '';
+            $content =~ s,<(/)?h\d+>,$1? '</b>' : '<p><b>',e;
+            $e .=
+              $this->ERROR( "Failed to access $url<pre>"
+                  . $response->code . ' '
+                  . $response->message
+                  . $content
+                  . "</pre>" );
+            last;
+        }
+        if ( $response->is_redirect ) {
+            $url = $response->header('location') || '';
+            $e .=
+              $this->NOTE( "Redirected ("
+                  . $response->code
+                  . ") to <tt>"
+                  . ( $url ? "$url" : 'nowhere' )
+                  . "</tt>" );
+            last unless ($url);
+            next;
+        }
+        $data = $response->content;
+        unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
+            $e .= $this->ERROR("<tt>$url</tt> does not match request");
+            last;
+        }
+        my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
+        if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
+            $e .= $this->WARN(
+"<tt>$host</tt> does not match {DefaultUrlHost} (<tt>$Foswiki::cfg{DefaultUrlHost}</tt>)"
+            );
+        }
+        $path ||= '';
+        my @server = split( /\|/, $data, 3 );
+        if ( @server != 3 ) {
+            my $ddat = ( split( /\r?\n/, $data, 2 ) )[0] || '';
+            $e .= $this->ERROR(
+                "Server returned incorrect diagnostic data:<pre>$ddat</pre>");
+        }
+        else {
+            if ( $server[0] eq $target ) {
+                $e .= $this->NOTE(
+                    "Server received the expected path (<tt>$target</tt>)");
+            }
+            elsif ($root) {
+                if ( $server[0] eq $view ) {
+                    $e .= $this->NOTE(
+"Server received \"<tt>$server[0]</tt>\", which is the value of {ScriptUrlPaths}{view}.  This indicates that short(er) URLs are active and functioning correctly."
+                    );
+                }
+                else {
+                    $e .= $this->ERROR(
+"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$viewtarget</tt>\"<br >Changing {ScriptUrlPaths}{view} to <tt>$server[0]</tt> will probably correct this error.   <a href='#' onclick=\"\$('[name=&quot;\\{ScriptUrlPaths\\}\\{view\\}&quot;]').get(0).value='$server[0]';valueChanged(\$('[name=&quot;\\{ScriptUrlPaths\\}\\{view\\}&quot;]').get(0));return false;\">(Click to use this value)</a>"
+                    );
+                }
+            }
+            else {
+                $e .= $this->ERROR(
+"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br >The correct setting for $keys is probably <tt>$server[0]</tt> <a href='#' onclick=\"\$('[name=&quot;\Q$keys\E&quot;]').get(0).value='$server[0]';valueChanged(\$('[name=&quot;\Q$keys\E&quot;]').get(0));return false;\">(Click to use this value)</a>"
+                );
+            }
+        }
+        if ( $path eq $target ) {
+            $e .= $this->NOTE_OK("Path \"<tt>$path</tt>\" is correct");
+        }
+        elsif ($root) {
+            if ( $path eq $view ) {
+                $e .= $this->NOTE_OK(
+                    "Path \"<tt>$path</tt>\" is correct for short(er) URLs");
+            }
+            else {
+                $this->ERROR( "Path used by "
+                      . ( $try > 1 ? "final " : '' )
+                      . "GET (\"<tt>$path</tt>\") does not match {ScriptUrlPath} (<tt>$viewtarget</tt>)"
+                );
+            }
+        }
+        else {
+            $e .=
+              $this->ERROR( "Path used by "
+                  . ( $try > 1 ? "final " : '' )
+                  . "GET (\"<tt>$path</tt>\") does not match $keys (<tt>$target</tt>)"
+              );
+        }
+
+        last;
+    }
+    if ( $try > $limit ) {
+        $e .= $this->ERROR("Excessive redirects (>$limit) stopped trace.");
+    }
+    return $e;
+}
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
