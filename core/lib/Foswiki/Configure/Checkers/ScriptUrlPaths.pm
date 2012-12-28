@@ -208,13 +208,15 @@ sub testPath {
                 }
                 else {
                     $e .= $this->ERROR(
-"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$viewtarget</tt>\"<br >Changing {ScriptUrlPaths}{view} to <tt>$server[0]</tt> will probably correct this error.   <a href='#' onclick=\"\$('[name=&quot;\\{ScriptUrlPaths\\}\\{view\\}&quot;]').get(0).value='$server[0]';valueChanged(\$('[name=&quot;\\{ScriptUrlPaths\\}\\{view\\}&quot;]').get(0));return false;\">(Click to use this value)</a>"
+"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$viewtarget</tt>\"<br >
+Changing {ScriptUrlPaths}{view} to <tt>$server[0]</tt> will probably correct this error.   <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;{ScriptUrlPaths}{view}&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
                     );
                 }
             }
             else {
                 $e .= $this->ERROR(
-"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br >The correct setting for $keys is probably <tt>$server[0]</tt> <a href='#' onclick=\"\$('[name=&quot;\Q$keys\E&quot;]').get(0).value='$server[0]';valueChanged(\$('[name=&quot;\Q$keys\E&quot;]').get(0));return false;\">(Click to use this value)</a>"
+"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br >
+The correct setting for $keys is probably <tt>$server[0]</tt>.  <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;$keys&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
                 );
             }
         }

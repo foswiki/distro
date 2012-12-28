@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.118";
+        var VERSION = "v3.119";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -1346,6 +1346,15 @@ var feedback = ( function ($) {
                 return true;
             });
             return vset;
+        },
+        setValue: function (keys,value) {
+            var ele = $('[name="' + configure.utils.quoteName(keys) + '"]').get(0);
+
+            if( ele !== undefined ) {
+                ele.value = value;
+                valueChanged(ele);
+            }
+            return false;
         },
         updateExpanders: function () {
             $('.configureFeedbackExpander').each(function () {
