@@ -110,6 +110,8 @@ sub testPath {
     my $cookie = Foswiki::newCookie($session);
     my $net    = Foswiki::Net->new;
 
+    # Flags must be defined and false.  Avoid 'used once' warnings.
+
     local $Foswiki::Net::LWPAvailable = 0 && $Foswiki::Net::LWPAvailable;
     local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
     local $Foswiki::VERSION = $Foswiki::VERSION || '0.0';
@@ -118,6 +120,7 @@ sub testPath {
     my $target = $this->getItemCurrentValue;
     my $script = 'view';
     my ( $root, $view, $viewtarget );
+
     if ( $keys =~ /^\{[^}]+\}\{([^}]+)\}$/ ) {
         $script = $1;
     }
@@ -159,7 +162,7 @@ sub testPath {
             my $content = $response->content || '';
             $content =~ s,<(/)?h\d+>,$1? '</b>' : '<p><b>',e;
             $e .=
-              $this->ERROR( "Failed to access $url<pre>"
+              $this->ERROR( "Failed to access \"<tt>$url</tt>\"<pre>"
                   . $response->code . ' '
                   . $response->message
                   . $content
@@ -168,24 +171,27 @@ sub testPath {
         }
         if ( $response->is_redirect ) {
             $url = $response->header('location') || '';
-            $e .=
-              $this->NOTE( "Redirected ("
-                  . $response->code
-                  . ") to <tt>"
-                  . ( $url ? "$url" : 'nowhere' )
-                  . "</tt>" );
+            $e .= $this->NOTE(
+                    "Redirected ("
+                  . $response->code . ") "
+                  . (
+                    $url
+                    ? "to \"<tt>$url</tt>\""
+                    : 'without a <i>location</i> header'
+                  )
+            );
             last unless ($url);
             next;
         }
         $data = $response->content;
         unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
-            $e .= $this->ERROR("<tt>$url</tt> does not match request");
+            $e .= $this->ERROR("\"<tt>$url</tt>\" does not match request");
             last;
         }
         my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
         if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
             $e .= $this->WARN(
-"<tt>$host</tt> does not match {DefaultUrlHost} (<tt>$Foswiki::cfg{DefaultUrlHost}</tt>)"
+"\"<tt>$host</tt>\" does not match {DefaultUrlHost} (<tt>$Foswiki::cfg{DefaultUrlHost}</tt>)"
             );
         }
         $path ||= '';
@@ -209,14 +215,14 @@ sub testPath {
                 else {
                     $e .= $this->ERROR(
 "Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$viewtarget</tt>\"<br >
-Changing {ScriptUrlPaths}{view} to <tt>$server[0]</tt> will probably correct this error.   <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;{ScriptUrlPaths}{view}&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
+Changing {ScriptUrlPaths}{view} to \"<tt>$server[0]</tt>\" will probably correct this error.   <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;{ScriptUrlPaths}{view}&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
                     );
                 }
             }
             else {
                 $e .= $this->ERROR(
 "Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br >
-The correct setting for $keys is probably <tt>$server[0]</tt>.  <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;$keys&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
+The correct setting for $keys is probably \"<tt>$server[0]</tt>\".  <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;$keys&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
                 );
             }
         }
@@ -231,7 +237,7 @@ The correct setting for $keys is probably <tt>$server[0]</tt>.  <a href='#' clas
             else {
                 $this->ERROR( "Path used by "
                       . ( $try > 1 ? "final " : '' )
-                      . "GET (\"<tt>$path</tt>\") does not match {ScriptUrlPath} (<tt>$viewtarget</tt>)"
+                      . "GET (<tt>$path</tt>) does not match {ScriptUrlPath} (<tt>$viewtarget</tt>)"
                 );
             }
         }
@@ -239,7 +245,7 @@ The correct setting for $keys is probably <tt>$server[0]</tt>.  <a href='#' clas
             $e .=
               $this->ERROR( "Path used by "
                   . ( $try > 1 ? "final " : '' )
-                  . "GET (\"<tt>$path</tt>\") does not match $keys (<tt>$target</tt>)"
+                  . "GET (<tt>$path</tt>) does not match $keys (<tt>$target</tt>)"
               );
         }
 
