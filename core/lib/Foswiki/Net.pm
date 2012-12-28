@@ -23,6 +23,7 @@ use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 
 our $LWPAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
+our $SSLAvailable;      # Set to defined false to prevent using SSL
 
 # note that the session is *optional*
 sub new {
@@ -126,9 +127,15 @@ sub getExternalResource {
 
     # Fallback mechanism
     if ( $protocol ne 'http' ) {
-        require Foswiki::Net::HTTPResponse;
-        return new Foswiki::Net::HTTPResponse(
-            "LWP not available for handling protocol: $url");
+        if ( $protocol eq 'https' && !defined $SSLAvailable ) {
+            eval 'require IO::Socket::SSL';
+            $SSLAvailable = $@ ? 0 : 1;
+        }
+        unless ( $protocol eq 'https' && $SSLAvailable ) {
+            require Foswiki::Net::HTTPResponse;
+            return new Foswiki::Net::HTTPResponse(
+                "LWP not available for handling protocol: $url");
+        }
     }
 
     my $response;
@@ -143,7 +150,7 @@ sub getExternalResource {
         unless ( $url =~ s!([^:/]+)(?::([0-9]+))?!! ) {
             die "Bad URL: $url";
         }
-        my ( $host, $port ) = ( $1, $2 || 80 );
+        my ( $host, $port ) = ( $1, $2 || ( $protocol eq 'https' ? 443 : 80 ) );
 
         my $sclass;
         eval {
@@ -154,48 +161,65 @@ sub getExternalResource {
             require IO::Socket::INET;
             $sclass = 'IO::Socket::INET';
         }
+        my @ssloptions;
+        if ( $protocol eq 'https' ) {
+            $sclass     = 'IO::Socket::SSL';
+            @ssloptions = (
+                SSL_hostname    => $host,
+                SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
+            );
+        }
 
         $url = '/' unless ($url);
-        my $req = "GET $url HTTP/1.0\r\n";
-
-        $req .= "Host: $host:$port\r\n";
-        if ($user) {
-
-            # Use MIME::Base64 at run-time if using outbound proxy with
-            # authentication
-            require MIME::Base64;
-            my $base64 = MIME::Base64::encode_base64( "$user:$pass", "\r\n" );
-            $req .= "Authorization: Basic $base64";
-        }
+        my $req = "GET $url HTTP/1.0\r\nHost: $host:$port\r\n";
 
         my ( $proxyHost, $proxyPort );
         $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};
         $proxyPort = $this->{PROXYPORT} || $Foswiki::cfg{PROXY}{PORT};
         if ( $proxyHost && $proxyPort ) {
-            my ( $proxyUser, $proxyPass );
+            my ( $proxyProtocol, $proxyUser, $proxyPass );
             if ( $proxyHost =~
-                m#^http://(?:(.*?)(?::(.*?))?@)?(.*)(?::(\d+))?/*# )
+                m#^(https?)://(?:(.*?)(?::(.*?))?@)?(.*)(?::(\d+))?/*# )
             {
-                $proxyUser = $1;
-                $proxyPass = $2;
-                $proxyHost = $3;
-                $proxyPort = $4 if defined $4;
+                $proxyProtocol = $1;
+                $proxyUser     = $2;
+                $proxyPass     = $3;
+                $proxyHost     = $4;
+                $proxyPort     = $5 if defined $5;
+                if ( $proxyProtocol eq 'https' ) {
+                    $proxyPort = 443 if ( !$proxyPort );
+                    if ( !defined $SSLAvailable ) {
+                        eval 'require IO::Socket::SSL';
+                        $SSLAvailable = $@ ? 0 : 1;
+                    }
+                    $sclass = 'IO::Socket::SSL';
+                }
+                elsif ( !$proxyPort ) {
+                    $proxyPort = 8080;
+                }
             }
-            else {
+            if ( !defined $proxyProtocol
+                || $proxyProtocol eq 'https' && !$SSLAvailable )
+            {
                 require Foswiki::Net::HTTPResponse;
                 return new Foswiki::Net::HTTPResponse(
                     "Proxy settings are invalid, check configure ($proxyHost)");
             }
-            $req  = "GET http://$host:$port$url HTTP/1.0\r\n";
-            $host = $proxyHost;
-            $port = $proxyPort;
+            $req      = "GET $protocol://$host:$port$url HTTP/1.0\r\n";
+            $protocol = $proxyProtocol;
+            $host     = $proxyHost;
+            $port     = $proxyPort;
             if ($proxyUser) {
                 require MIME::Base64;
                 my $base64 =
-                  MIME::Base64::encode_base64( "$proxyUser:$proxyPass",
-                    "\r\n" );
-                $req .= "Proxy-Authorization: Basic $base64";
+                  MIME::Base64::encode_base64( "$proxyUser:$proxyPass", '' );
+                $req .= "Proxy-Authorization: Basic $base64\n";
             }
+        }
+        if ($user) {
+            require MIME::Base64;
+            my $base64 = MIME::Base64::encode_base64( "$user:$pass", '' );
+            $req .= "Authorization: Basic $base64\n";
         }
 
         $req .= 'User-Agent: Foswiki::Net/' . $Foswiki::VERSION . "\r\n";
@@ -210,10 +234,12 @@ sub getExternalResource {
             PeerAddr => $host,
             PeerPort => $port,
             Proto    => 'tcp',
-            Timeout  => 120
+            Timeout  => 120,
+            @ssloptions,
         );
         unless ($sock) {
-            die "Unable to connect to $host: $!";
+            die "Unable to connect to $host: $!"
+              . ( @ssloptions ? ' - ' . IO::Socket::SSL::errstr() : '' ) . "\n";
         }
         $sock->autoflush(1);
 

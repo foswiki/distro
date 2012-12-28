@@ -32,6 +32,7 @@ HTML::Tree,>=3.23,cpan,Required. for CompareRevisionsAddOn
 I18N::Langinfo,>=0,cpan,Optional, may be required for international characters
 IO::File,>=1.10,perl,Required, for base Foswiki (upload)
 IO::Socket::IP,>=0.14,Optional, required for IPv6
+IO::Socket::SSL,>=1.80,Optional, required for configuring TLS/SSL wikis or SSL e-mail
 Lingua::EN::Sentence,>=0,cpan,Optional, may be required for generating new language files
 Locale::Maketext,>=0,cpan,Optional, may be required for international characters
 Locale::Maketext::Lexicon,>=0,cpan,Optional, may be required for international characters

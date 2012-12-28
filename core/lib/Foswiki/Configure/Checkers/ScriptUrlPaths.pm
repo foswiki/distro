@@ -160,27 +160,28 @@ sub testPath {
         my $response = $net->getExternalResource( $url, @headers );
         if ( $response->is_error ) {
             my $content = $response->content || '';
-            $content =~ s,<(/)?h\d+>,$1? '</b>' : '<p><b>',e;
+            $content =~ s/<([^>]*)>/&lt;$1&gt;/g;
             $e .=
               $this->ERROR( "Failed to access \"<tt>$url</tt>\"<pre>"
                   . $response->code . ' '
-                  . $response->message
+                  . $response->message . "\n\n"
                   . $content
                   . "</pre>" );
             last;
         }
         if ( $response->is_redirect ) {
             $url = $response->header('location') || '';
-            $e .= $this->NOTE(
-                    "Redirected ("
+            unless ($url) {
+                $e .=
+                  $this->ERROR( "Redirected ("
+                      . $response->code . ") "
+                      . 'without a <i>location</i> header' );
+                last;
+            }
+            $e .=
+              $this->NOTE( "Redirected ("
                   . $response->code . ") "
-                  . (
-                    $url
-                    ? "to \"<tt>$url</tt>\""
-                    : 'without a <i>location</i> header'
-                  )
-            );
-            last unless ($url);
+                  . "to \"<tt>$url</tt>\"" );
             next;
         }
         $data = $response->content;
