@@ -13,15 +13,17 @@ our @ISA = ('Foswiki::Configure::Checkers::PATH');
 
 sub provideFeedback {
     my $this = shift;
+    my ( $valobj, $button, $label ) = @_;
 
     $this->{FeedbackProvided} = 1;
 
-    my $e = $this->check(@_);
+    my $e = $button ? $this->check($valobj) : '';
 
     delete $this->{FeedbackProvided};
 
-    my $e2 = _checkBinDir( $this, $this->getCfg('{ScriptDir}') );
-    $e .= $e2 if $e2;
+    unless ( $e =~ /Error:/ ) {
+        $e .= _checkBinDir( $this, $this->getCfg('{ScriptDir}') );
+    }
 
     if ( $this->{GuessedValue} ) {
         $e .=

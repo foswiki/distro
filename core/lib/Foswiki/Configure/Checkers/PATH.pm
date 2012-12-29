@@ -9,11 +9,19 @@ package Foswiki::Configure::Checkers::PATH;
 #          dir = subdirectory name to guess
 #          rootkey = {key} under which to place dir (install root is default)
 #          silent = directory need not exist
+#
 #    perms:code - validate tree permissions using code (default is no check)
 #                 See Checker::checkTreePerms (current codes: rwxdfp)
+#                 Checked here:
+#                  F - Must exist and be a file (not a directory)
+#                  D - Must exist and be a directory (not a file)
+#
 #    filter:'regex' - Files to exclude.  Note nested quotes mean \ is \\, e.g.
 #                     filter:'\\\\.pl$' (CHECK="" => '\\.pl$'; filter: => \.pl$
 #                     which filters by file extension.)
+#
+#    auto - Field is autochecked only (no visible button exists).  Valid in
+#           first CHECK clause only
 #
 # An item can have multiple CHECK requirements, e.g. with different filters.
 #
@@ -33,10 +41,13 @@ sub check {
 
     my $e = '';
 
-    $e = $this->NOTE("Please click the Validate button to test this path")
-      unless ( $this->{FeedbackProvided} || !$this->{item}->feedback );
-
     my @optionList = $this->parseOptions();
+
+    my $auto =
+      @optionList && exists $optionList[0]->{auto} && $optionList[0]->{auto}[0];
+
+    $e = $this->NOTE("Please click the Validate button to test this path")
+      unless ( $this->{FeedbackProvided} || !$this->{item}->feedback || $auto );
 
     my $guessed;
     foreach my $opts (@optionList) {
@@ -45,6 +56,8 @@ sub check {
             $guessed = 1;
             my ( $dir, $rootkey, $silent ) = @$guess;
             return $this->ERROR(".spec error: no guess") unless ($dir);
+            $silent = 1
+              if ( exists $opts->{perms} && $opts->{perms}[0] =~ /D/ );
             $e .= $this->guessDirectory( $keys, $rootkey, $dir, $silent );
         }
     }
@@ -54,15 +67,49 @@ sub check {
         $this->{GuessedValue} = $value;
     }
 
+    foreach my $opts (@optionList) {
+        my $perms = $opts->{perms};
+
+        next unless ($perms);
+        $perms = $perms->[0];
+        my $path = $this->getCfg($keys);
+
+        if ( $perms =~ /F/ && !-f $path ) {
+            if ( -d $path ) {
+                $e .= $this->ERROR(
+                    "Value must be an existing file (not a directory)");
+            }
+            elsif ( -e $path ) {
+                $e .= $this->ERROR("$path is not a file");
+            }
+            else {
+                $e .= $this->ERROR("$path does not exist");
+            }
+        }
+
+        if ( $perms =~ /D/ && !-d $path ) {
+            if ( -f $path ) {
+                $e .= $this->ERROR(
+                    "Value must be an existing directory (not a file)");
+            }
+            elsif ( -e $path ) {
+                $e .= $this->ERROR("$path is not a directory");
+            }
+            else {
+                $e .= $this->ERROR("$path does not exist");
+            }
+        }
+    }
+
     $e .= $this->warnAboutWindowsBackSlashes($value);
 
     $e = $this->showExpandedValue($value) . $e
       unless ( $this->{GuessedValue} );
 
-    if ( !$this->{item}->feedback && !$this->{FeedbackProvided} ) {
+    if ( ( $auto || !$this->{item}->feedback ) && !$this->{FeedbackProvided} ) {
 
-        # There is no feedback configured for this item, so do any
-        # specified tests in the checker (not a good thing).
+        # There is no feedback configured for this item or only auto
+        # checking, so do any specified tests in the checker.
 
         $e .= $this->provideFeedback( $valobj, 0, 'No Feedback' );
     }
@@ -86,11 +133,15 @@ sub provideFeedback {
 
     delete $this->{FeedbackProvided};
 
+    goto EXIT if ( $e =~ /Error:/ );
+
     my $e2 = '';
 
     my $keys = $valobj->getKeys();
 
     my @optionList = $this->parseOptions();
+
+    my $Fcheck;
 
     foreach my $opts (@optionList) {
         my $perms  = $opts->{perms};
@@ -100,9 +151,15 @@ sub provideFeedback {
             my $checkPerms = $perms->[0];
             $checkPerms =~ s/d//g if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
 
-            $e2 .=
-              $this->checkTreePerms( $this->getCfg($keys), $checkPerms,
-                $filter );
+            my $path = $this->getCfg($keys);
+
+            if ( $checkPerms =~ /F/ ) {
+                $Fcheck = 1;
+                goto EXIT unless ( -f $path );
+            }
+            goto EXIT if ( $checkPerms =~ /D/ && !-d $path );
+
+            $e2 .= $this->checkTreePerms( $path, $checkPerms, $filter );
         }
     }
 
@@ -111,7 +168,7 @@ sub provideFeedback {
 "File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options"
         );
     }
-    else {
+    elsif ( !$Fcheck ) {
         $e .= $this->NOTE("File count: $this->{filecount} ");
     }
 
@@ -160,6 +217,7 @@ PERMS
           . $e2 )
       if $e2;
 
+  EXIT:
     $this->{filecount}   = 0;
     $this->{fileErrors}  = 0;
     $this->{excessPerms} = 0;

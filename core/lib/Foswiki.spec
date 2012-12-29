@@ -97,7 +97,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # recursive directory checking.
 $Foswiki::cfg{PathCheckLimit} = 5000;
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin perms:D" M**
 # This is the file system path used to access the Foswiki bin
 # directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
@@ -147,24 +147,24 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # will have to use webserver controls (e.g. .htaccess on Apache)
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
-# **PATH AUDIT="DIRS:1" FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rw filter:',v$'" M**
+# **PATH AUDIT="DIRS:1" FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rwD filter:',v$'" M**
 # Attachments store (file path, not URL), must match /foswiki/pub e.g.
 # /usr/local/foswiki/pub
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:data perms:rwpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:data perms:rwDpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
 # Topic files store (file path, not URL) e.g. /usr/local/foswiki/data
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:tools perms:r" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:tools perms:rD" M**
 # Tools directory e.g. /usr/local/foswiki/tools
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:templates perms:r" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:templates perms:rD" M**
 # Template directory e.g. /usr/local/foswiki/templates
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:locale perms:r" M**
+# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:locale perms:rD" M**
 # Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locale
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
@@ -2165,7 +2165,7 @@ $Foswiki::cfg{LeaseLength} = 3600;
 # issued, or to a number of seconds since the old lease expired.
 $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 
-# **PATH**
+# **PATH FEEDBACK=auto CHECK='auto perms:Fr'**
 # Pathname to file that maps file suffixes to MIME types :
 # For Apache server set this to Apache's mime.types file pathname,
 # for example /etc/httpd/mime.types, or use the default shipped in

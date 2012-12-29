@@ -560,7 +560,6 @@ lib/Foswiki/Configure/Checkers/LowerNational.pm 0444
 lib/Foswiki/Configure/Checkers/MSWin32.pm 0444
 lib/Foswiki/Configure/Checkers/MailProgram.pm 0444
 lib/Foswiki/Configure/Checkers/MergeHeadAndScriptZones.pm 0444
-lib/Foswiki/Configure/Checkers/MimeTypesFileName.pm 0444
 lib/Foswiki/Configure/Checkers/MinPasswordLength.pm 0444
 lib/Foswiki/Configure/Checkers/NameFilter.pm 0444
 lib/Foswiki/Configure/Checkers/NUMBER.pm 0444
