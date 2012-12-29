@@ -46,9 +46,10 @@ CHECK= options:
 
 # Fallback validation expression:
 # (scheme, authority, path, query, frag)
+# Technically, ? & # aren't part of query or frag, but including
+# them makes parsing and error reporting easier.
 
-my $uriRE =
-  qr|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?|o;
+my $uriRE = qr|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(\?[^#]*)?(#.*)?|o;
 
 sub vlist {
     my ( $options, $item ) = @_;
@@ -175,7 +176,8 @@ sub _checkEntry {
         }
     }
     else {
-        $e .= $this->ERROR("${id}Scheme is not permitted for this item")
+        $e .=
+          $this->ERROR("${id}Scheme ($scheme) is not permitted for this item")
           if ( defined $scheme );
     }
     $scheme = '' unless ( defined $scheme );
@@ -249,7 +251,8 @@ sub _checkEntry {
         }
     }
     else {
-        $e .= $this->ERROR("${id}Authority is not permitted for this item")
+        $e .= $this->ERROR(
+            "${id}Authority ($authority) is not permitted for this item")
           if ( defined $authority );
     }
     $authority = '' unless ( defined $authority );
@@ -258,10 +261,10 @@ sub _checkEntry {
         if ( defined $path ) {
             if ( $scheme =~ /^https?$/i || !$parts->{scheme} ) {
                 unless ( $path =~
-m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
+m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
                   )
                 {
-                    $e .= $this->ERROR("${id}Path is not valid");
+                    $e .= $this->ERROR("${id}Path ($path) is not valid");
                 }
                 if ( $options->{notrail}[0] ) {
                     $path =~ s,/$,,;
@@ -273,7 +276,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
         }
     }
     else {
-        $e .= $this->ERROR("${id}Path is not permitted for this item")
+        $e .= $this->ERROR("${id}Path ($path) is not permitted for this item")
           if ( defined $path );
     }
     $path = '' unless ( defined $path );
@@ -281,9 +284,9 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
     if ( $parts->{query} ) {
         if ( defined $query ) {
             unless ( $query =~
-                m{\?(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
+                m{^\?(?:[a-zA-Z0-9\$_\@.&!*"'(),=&;-]|%[[:xdigit:]]{2})*$} )
             {
-                $e .= $this->ERROR("${id}Query is not valid");
+                $e .= $this->ERROR("${id}Query ($query) is not valid");
             }
         }
         elsif ( $partsReq->{query} ) {
@@ -291,7 +294,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
         }
     }
     else {
-        $e .= $this->ERROR("${id}Query is not permitted for this item")
+        $e .= $this->ERROR("${id}Query ($query) is not permitted for this item")
           if ( defined $query );
     }
     $query = '' unless ( defined $query );
@@ -300,9 +303,10 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
         if ( defined $fragment ) {
             if ( $scheme =~ /^https?$/i ) {
                 unless ( $fragment =~
-                    m{#(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*} )
+                    m{^#(?:[a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})*$} )
                 {
-                    $e .= $this->ERROR("${id}Fragment is not valid");
+                    $e .=
+                      $this->ERROR("${id}Fragment ($fragment) is not valid");
                 }
             }    # Checks for other schemes?
         }
@@ -311,7 +315,8 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
         }
     }
     else {
-        $e .= $this->ERROR("${id}Fragment is not permitted for this item")
+        $e .= $this->ERROR(
+            "${id}Fragment ($fragment) is not permitted for this item")
           if ( defined $fragment );
     }
     $fragment = '' unless ( defined $fragment );

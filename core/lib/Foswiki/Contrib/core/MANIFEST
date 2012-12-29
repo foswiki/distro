@@ -544,6 +544,7 @@ lib/Foswiki/Configure/Checkers/Email/SSLClientKeyPassword.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLCrlFile.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLVerifyServer.pm 0444
 lib/Foswiki/Configure/Checkers/Email/ValidTLD.pm 0444
+lib/Foswiki/Configure/Checkers/ExtensionsRepositories.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444

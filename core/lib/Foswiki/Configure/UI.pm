@@ -148,6 +148,8 @@ sub findRepositories {
                 { name => $1, data => $2, pub => $3, user => $4, pass => $5 }
             );
         }
+        $this->{_repositoryerror} =
+          $replist;    # Should end with ';' - save for checker
     }
 }
 
