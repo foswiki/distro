@@ -258,7 +258,7 @@ sub _checkEntry {
         if ( defined $path ) {
             if ( $scheme =~ /^https?$/i || !$parts->{scheme} ) {
                 unless ( $path =~
-m{^(?:/|(?:/(?:[+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
+m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*)$}
                   )
                 {
                     $e .= $this->ERROR("${id}Path is not valid");
