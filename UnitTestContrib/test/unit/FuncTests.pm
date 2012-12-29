@@ -15,21 +15,6 @@ use Foswiki::Func();
 
 sub TRACE { return 0 }
 
-sub skip {
-    my ( $this, $test ) = @_;
-
-    return $this->SUPER::skip_test_if(
-        $test,
-        {
-            condition => { with_dep => 'Foswiki,<,1.2' },
-            tests     => {
-                'FuncTests::test_getUrlHost_ForceDefaultUrlHost' =>
-                  'ForceDefaultUrlHost is Foswiki 1.2+ only, Item11900',
-            }
-        }
-    );
-}
-
 my $MrWhite;
 
 # The second word in the string below consists only of two _graphemes_
@@ -2823,7 +2808,9 @@ sub test_getUrlHost_ForceDefaultUrlHost {
     require Unit::Request;
     $query = Unit::Request->new("");
 
-    $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
+    $Foswiki::cfg{DefaultUrlHost} = 'http://foswiki.org';
+
+    # Item11900 Force override to DefaultUrlHost
     $Foswiki::cfg{ForceDefaultUrlHost} = 1;
 
     $query->setUrl('http://localhost/Main/SvenDowideit');

@@ -58,6 +58,14 @@
 # port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
+# **BOOLEAN EXPERT**
+# Enable this parameter to force foswiki to ignore the hostname of the entered URL and generate all links using the <code>DefaultUrlHost</code>.
+# <p>By default, foswiki will use whatever URL that was entered by the user to generate links. The only exception is the special "localhost"
+# name, which will be automatically replaced by the DefaultUrlHost.  In most installations this is the preferred behavior, however when using
+# SSL Accelerators, Reverse Proxys, and load balancers, the URL entered by the user may have been altered, and foswiki should be forced
+# to return the <code>DefaultUrlHost</code>.</p>
+$Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
+
 # **URLPATH M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory e.g. <code>/foswiki/bin</code><br />

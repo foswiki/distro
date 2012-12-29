@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.7_001-alpha
+---+!! Foswiki Release 1.1.7_002-RC1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -36,7 +36,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
-   * Foswiki 1.1.7_001 was built 23 Dec 2012. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 1 enhancement.
+   * Foswiki 1.1.7_002-RC1 was built 28 Dec 2012. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 2 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -50,7 +50,7 @@ Foswiki 1.1 ships with the following:
 #Release01x01Changes
 ---++ Important changes since Foswiki 1.1.6
 
-Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
+Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
 A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
 
 See [[#Rel01x01x07Details]]
@@ -61,6 +61,11 @@ Release 1.1.6 changed the editor to treat all links as real HTML links in TMCE. 
 This even including auto-linked !WikiWords.  The editor will now save the original !WikiWord.  During the save, if the new link text is still a !WikiWord, and the link target still points to the original !WikiWord,  it will also be updated to match the new !WikiWord..
    * Ex.  if a !InlineWikiWord is changed to !ADifferentWikiWord, the link will now point to !ADifferentWikiWord, which is probably what the user intended. 
 *Note:* This change required a setting change to the !TinyMCEPlugin Init setting found in System.TinyMCEPlugin.   If the =TINYMCEPLUGIN_INIT= settings have been customized, this change will need to be merged into your customized settings or the new behavior will be ignored.
+
+---+++ Force Default Host URL toggle
+
+Sites that use HTTP Proxies, load balancers and SSL Accelerators often modify the users original input URL. When this happens, Foswiki can generate incorrect links on the pages.  A new expert configuration parameter
+={ForceDefaultUrlHost}= can be enabled to force Foswiki to override the user entered URL with the ={DefaultUrlHost}= setting.
 
 ---++ Important changes since Foswiki 1.1.5
 
@@ -1761,6 +1766,7 @@ to your =bin/LocalLib.cfg=.
 ---+++!! Enhancements
 
 | [[%BUGS%/Item12278][Item12278]] | TML WikiWord links need better handling by TMCE to avoid inconsistent links. |
+| [[%BUGS%/Item11900][Item11900]] | Implement setting to force foswiki to return the !DefaultUrlHost regardless of original the input URL. |
 
 </noautolink>
 
