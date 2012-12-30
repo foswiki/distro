@@ -43,15 +43,22 @@ sub check {
 
     my @list = @{ $h{repositories} } if ( $h{repositories} );
 
+    if ( ( my $err = $h{_repositoryerror} ) ) {
+        return $this->ERROR( "Syntax error in repository list<br>"
+              . substr( $v, 0, length($v) - length($err) )
+              . '<<= near HERE '
+              . $err );
+    }
     return $this->ERROR("Syntax error in repository list")
-      unless ( @list && $h{_repositoryerror} && $h{_repositoryerror} eq ';' );
+      unless (@list);
 
     my $newval = '';
 
-    my $table .=
-'<table class="foswikiSmall"><thead><tr><td>Name<td>Data URL<td>Pub URL<td colspan="2">Authentication<tbody>';
-    %h = ();
+    my $table .= '<table class="foswikiSmall"><thead>
+ <tr><td>Name<td>Data URL<td>Pub URL<td colspan="2">Authentication
+<tbody>';
 
+    %h = ();
     my $r = 0;
 
     foreach my $repo (@list) {
@@ -69,7 +76,10 @@ sub check {
             },
         );
         if ($msg) {
-            $e .= $this->ERROR( "in $repo->{name}:" . $msg );
+            $e .=
+              $this->ERROR( "in entry $r"
+                  . ( $repo->{name} ? " ($repo->{name})" : '' )
+                  . ":$msg" );
         }
 
         ( $repo->{data}, $repo->{pub} ) =
@@ -78,6 +88,7 @@ sub check {
         $newval .= ';' if ($newval);
 
         my $txt = $repo->{name} || '';
+        $h{ids}{$r} = $txt;
         $newval .= $txt . '=(';
         $table  .= "<tr><td>$txt";
         if ($txt) {
@@ -95,12 +106,13 @@ sub check {
         $table  .= "<td>$txt";
         if ($txt) {
             $n .= $this->WARN(
-"Duplicated repository data URL: $txt at entry $r, also used for entry $h{data}{$txt}"
+"Duplicated repository data URL: $txt at entry $r ($h{ids}{$r}), also used for entry $h{data}{$txt} ($h{ids}{$h{data}{$txt}})"
             ) if ( $h{data}{$txt} );
             $h{data}{$txt} = $r;
         }
         else {
-            $e .= $this->ERROR("No data URL specified for repository entry $r");
+            $e .= $this->ERROR(
+                "No data URL specified for repository entry $r ($h{ids}{$r})");
         }
 
         $txt = $repo->{pub} || '';
@@ -108,12 +120,13 @@ sub check {
         $table  .= "<td>$txt";
         if ($txt) {
             $n .= $this->WARN(
-"Duplicated repository pub URL: $txt at entry $r, also used for entry $h{pub}{$txt}"
+"Duplicated repository pub URL: $txt at entry $r ($h{ids}{$r}), also used for entry $h{pub}{$txt} ($h{ids}{$h{pub}{$txt}})"
             ) if ( $h{pub}{$txt} );
             $h{pub}{$txt} = $r;
         }
         else {
-            $e .= $this->ERROR("No pub URL specified for repository entry $r");
+            $e .= $this->ERROR(
+                "No pub URL specified for repository entry $r ($h{ids}{$r})");
         }
 
         if ( defined $repo->{user} ) {
@@ -140,13 +153,12 @@ sub check {
     }
     else {
         $n .= $this->NOTE(
-            "Repository list"
-              . (
-                @list
-                ? " <span class='foswikiSmallish'>(Each extension installs from the <b>last</b> repository listed that contains it.)</span>"
-                : ''
-              )
-              . $table
+            (
+                @list > 1
+                ? "Repositories <span class='foswikiSmallish'>(Each extension installs from the <b>last</b> repository listed that contains it.)</span>"
+                : 'Repository'
+            )
+            . $table
         );
         if ( $newval eq $value ) {
             $this->setItemValue( $value, $keys );

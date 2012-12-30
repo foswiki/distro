@@ -131,25 +131,37 @@ sub reset {
 Build descriptive hashes for the repositories listed in
 $Foswiki::cfg{ExtensionsRepositories}
 
+name=(dataUrl,pubURL[,user,password]) ; ...
+
 =cut
 
 sub findRepositories {
     my $this = shift;
     unless ( defined( $this->{repositories} ) ) {
         my $replist = '';
-        $replist .= $Foswiki::cfg{ExtensionsRepositories}
+        $replist = $Foswiki::cfg{ExtensionsRepositories}
           if defined $Foswiki::cfg{ExtensionsRepositories};
-        $replist = ";$replist;";
-        while (
-            $replist =~ s/[;\s]+(.*?)=\((.*?),(.*?)(?:,(.*?),(.*?))?\)\s*;/;/ )
-        {
-            push(
-                @{ $this->{repositories} },
-                { name => $1, data => $2, pub => $3, user => $4, pass => $5 }
-            );
+
+        while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)// ) {
+            my ( $name, $value ) = ( $1, $2 );
+            if ( $value =~
+                /^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
+            {
+                push @{ $this->{repositories} },
+                  {
+                    name => $name,
+                    data => $1,
+                    pub  => $2,
+                    user => $3,
+                    pass => $4
+                  };
+            }
+            else {
+                $this->{_repositoryerror} ||= "$value)$replist";
+            }
+            last unless ( $replist =~ s/^\s*;\s*// );
         }
-        $this->{_repositoryerror} =
-          $replist;    # Should end with ';' - save for checker
+        $this->{_repositoryerror} ||= $replist;
     }
 }
 
@@ -588,6 +600,28 @@ sub FB_MODAL {
 
 =begin TML
 
+---++ ObjectMethod FB_ACTION(...)
+
+Encodes actions to be performed by javascript.
+
+$target = #id or name
+$actions =
+         t = scroll to top
+         b = scroll to bottom
+
+=cut
+
+sub FB_ACTION {
+    my $this    = shift;
+    my $target  = shift;
+    my $actions = shift;
+
+    my $text = "{$target}$actions\006" . join( '', @_ );
+    return "\001" . length($text) . ",$text";
+}
+
+=begin TML
+
 ---++ ObjectMethod extractCheckerText( $output ) => $text
 
 Removes FB_* data from $output, returning just the text.
@@ -639,28 +673,6 @@ sub extractCheckerText {
     }
 
     return $text;
-}
-
-=begin TML
-
----++ ObjectMethod FB_ACTION(...)
-
-Encodes actions to be performed by javascript.
-
-$target = #id or name
-$actions =
-         t = scroll to top
-         b = scroll to bottom
-
-=cut
-
-sub FB_ACTION {
-    my $this    = shift;
-    my $target  = shift;
-    my $actions = shift;
-
-    my $text = "{$target}$actions\006" . join( '', @_ );
-    return "\001" . length($text) . ",$text";
 }
 
 =begin TML
