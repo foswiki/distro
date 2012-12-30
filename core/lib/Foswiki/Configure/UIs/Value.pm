@@ -80,9 +80,6 @@ sub renderHtml {
                   . ") for $keys failed: check for .spec errors:  <pre>$@</pre>"
               );
         }
-        else {
-            $check = $checker->extractCheckerText($check);
-        }
         if ($check) {
 
             # something wrong

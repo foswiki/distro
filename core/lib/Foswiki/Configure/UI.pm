@@ -28,6 +28,7 @@ use Foswiki::Configure::Load ();
 our $totwarnings;
 our $toterrors;
 our $firsttime;
+our $feedbackEnabled;
 
 # These values are used in templates to control what is displayed
 our $MESSAGE_TYPE = {
@@ -142,7 +143,7 @@ sub findRepositories {
         $replist = $Foswiki::cfg{ExtensionsRepositories}
           if defined $Foswiki::cfg{ExtensionsRepositories};
 
-        while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)// ) {
+        while ( $replist =~ s/^\s*([^=;]+)=\(([^)]*)\)\s*// ) {
             my ( $name, $value ) = ( $1, $2 );
             if ( $value =~
                 /^([a-z]+:[^,]+),\s*([a-z]+:[^,]+)(?:,\s*([^,]*),\s*(.*))?$/ )
@@ -159,7 +160,7 @@ sub findRepositories {
             else {
                 $this->{_repositoryerror} ||= "$value)$replist";
             }
-            last unless ( $replist =~ s/^\s*;\s*// );
+            last unless ( $replist =~ s/^;\s*// );
         }
         $this->{_repositoryerror} ||= $replist;
     }
@@ -475,8 +476,12 @@ e.g. when dumping data structures.
 sub DBG {
     my $this = shift;
 
+    my $text = join( "\n", @_ );
+    $text =~
+      s/([\001\002\003\004\005\006\007\010])/sprintf( '\\%03o', ord( $1 ) )/ge;
+
     return CGI::div( { class => 'configureDebug' },
-        CGI::span( CGI::strong('Debug ') . CGI::pre( join( "\n", @_ ) ) ) );
+        CGI::span( CGI::strong('Debug ') . CGI::pre($text) ) );
 }
 
 =begin TML
@@ -484,8 +489,9 @@ sub DBG {
 ---++ ObjectMethod FB_FOR(...)
 
 Generate feedback for a named key (other than $this).
-Only meaningful in =provideFeedback= methods, but will
-be discarded if included in check() output.
+
+Only meaningful in Feedback context, and will generate no output
+otherwise.
 
  Usage: return $this->NOTE("My feedback")
                .$this->FB_FOR('{anotherkey}',
@@ -499,10 +505,12 @@ sub FB_FOR {
     my $this = shift;
     my $keys = shift;
 
+    return '' unless ($feedbackEnabled);
+
     my $target = eval "exists \$Foswiki::cfg$keys";
     die "Invalid FB_FOR target $keys\n" if ( $@ || !$target );
 
-    my $text = "$keys\002" . join( "\n", @_ );
+    my $text = "$keys\002" . _fbEncode( join( "\n", @_ ) );
     return "\001" . length($text) . ",$text";
 }
 
@@ -520,7 +528,9 @@ sub FB_GUI {
     my $this = shift;
     my $id   = shift;
 
-    my $text = "$id\002" . join( "\n", @_ );
+    return '' unless ($feedbackEnabled);
+
+    my $text = "$id\002" . _fbEncode( join( "\n", @_ ) );
     return "\001" . length($text) . ",$text";
 }
 
@@ -544,10 +554,12 @@ sub FB_VALUE {
     my $this = shift;
     my $keys = shift;
 
+    return '' unless ($feedbackEnabled);
+
     my $target = eval "exists \$Foswiki::cfg$keys";
     die "Invalid FB_VALUE target $keys\n" if ($@);
 
-    my $text = "$keys\003" . join( "\004", @_ );
+    my $text = "$keys\003" . _fbEncode( join( "\004", @_ ) );
     return "\001" . length($text) . ",$text";
 }
 
@@ -563,7 +575,9 @@ sub FB_GUIVAL {
     my $this = shift;
     my $keys = shift;
 
-    my $text = "$keys\003" . join( "\004", @_ );
+    return '' unless ($feedbackEnabled);
+
+    my $text = "$keys\003" . _fbEncode( join( "\004", @_ ) );
     return "\001" . length($text) . ",$text";
 }
 
@@ -594,8 +608,34 @@ sub FB_MODAL {
     my $this = shift;
     my $options = shift || 'r';
 
-    my $text = "{ModalOptions}$options\005" . join( '', @_ );
+    return '' unless ($feedbackEnabled);
+
+    my $text = "{ModalOptions}$options\005" . _fbEncode( join( '', @_ ) );
     return "\001" . length($text) . ",$text";
+}
+
+=begin TML
+
+---++ ObjectMethod FB_MODAL(...)
+
+Input: List of item ids (html id).
+
+Returns an encoded item list for embedding in data that is the object of
+FB_MODAL 's' option.
+
+=cut
+
+sub FB_MODAL_ITEM {
+    my $this = shift;
+
+    return '' unless ($feedbackEnabled);
+
+    my $text = '';
+    foreach my $item (@_) {
+        $text .= "\004" . $item . ')';
+    }
+
+    return $text;
 }
 
 =begin TML
@@ -616,34 +656,53 @@ sub FB_ACTION {
     my $target  = shift;
     my $actions = shift;
 
-    my $text = "{$target}$actions\006" . join( '', @_ );
+    return '' unless ($feedbackEnabled);
+
+    my $text = "{$target}$actions\006" . _fbEncode( join( '', @_ ) );
     return "\001" . length($text) . ",$text";
+}
+
+sub _fbEncode {
+    my $data = shift;
+
+    $data =~ s/([%\001])/$1 eq '%'? '%%' : '%1'/gse;
+
+    return $data;
 }
 
 =begin TML
 
----++ ObjectMethod extractCheckerText( $output ) => $text
+---++ ObjectMethod parseCheckerText( $output, $decode ) => {}
 
-Removes FB_* data from $output, returning just the text.
+Parse checker output into text and command streams.
 
-Any code that invokes a checker except for the Feedback dispatcher
-must call this method to ensure that it only operates on text.
+If $decode is specified, the command stream is provided as a list of
+hashrefs describing individual comands.
 
-The format of embedded blocks is subject to change without notice.
+  Returned hash keys:
+   text => text
+   cmds => encoded command stream
+   actions => [ { action => FOR, target => keys, message => text } or
+                { action => VALUE, target => keys, data => [ values ] } or
+                { action => MODAL, options => options, message => text, vars => [], } or
+                { action => ACTION, target => target, actions => actions, message => text }
+             ]
+
+The format of embedded blocks is subject to change without notice.  This is the only
+Perl API for interpreting it.
 
 =cut
 
-sub extractCheckerText {
-    my $this = shift;
-    my ($output) = @_;
+sub parseCheckerText {
+    my $this = ref $_[0] ? shift : undef;
+    my ( $output, $decode ) = @_;
 
     $output = '' unless ( defined $output );
 
-    # Remove any feedback command blocks.
-    # This could be done in-place, but this
-    # is the same logic used in Feedback to reduce the risk of divergence.
+    my $cmds = '';
+    my @cmds;
 
-    my $text = '';
+    my $text;
 
     while (1) {
         my ($len);
@@ -651,6 +710,8 @@ sub extractCheckerText {
 
             # Unencoded text (from NOTE, WARN, ERROR - or bare text)
             # Length runs to next encoded block, or end of string & may be 0.
+
+            $text = '' unless ( defined $text );
             $len = index( $output, "\001" );
             if ( $len == -1 ) {
                 $text .= $output;
@@ -661,18 +722,74 @@ sub extractCheckerText {
             last;
         }
 
-        # Pre-encoded commands from FB_xxx
-        # Length, is used to find end of each command, and removed
+        # Encoded commands from FB_xxx
+        # Length, is used to find end of each command
         die "Bad command string\n" unless ( $output =~ s/\A(\d+),\{/{/ );
         $len = $1;
         die "Bad command length\n"
           unless ( $len && $len <= length $output );
-        substr( $output, 0, $len, '' );
+        my $cmd = substr( $output, 0, $len, '' );
+
+        $cmds .= "\001$cmd";
+        if ($decode) {
+            my ( $target, $action, $data ) =
+              split( /(\002|\003|\005|\006)/, $cmd, 2 );
+            $target ||= '';
+            $action ||= '';
+            $data   ||= '';
+            $data =~ s/%(.)/$1 eq '%'? '%' : "\001"/ges;
+
+            if ( $action eq "\002" ) {
+                push @cmds,
+                  { action => 'FOR', target => $target, message => $data, };
+            }
+            elsif ( $action eq "\003" ) {
+                push @cmds,
+                  {
+                    action => 'VALUE',
+                    target => $target,
+                    data   => [ split( /\004/, $data ) ],
+                  };
+            }
+            elsif ( $action eq "\005" ) {
+                my ( $keys, $options ) = $target =~ /^(\{.*\})(.*)$/;
+                my @opts = split( ',', $options );
+
+                my @vars;
+                if ( grep { $_ eq 's' } @opts ) {
+                    my $n = 0;
+                    $data =~
+                      s/\004([^)]+)\)/push @vars, $1; ++$n; "%\{$n\}"/ges;
+                    @vars = ( vars => [@vars] );
+                }
+                push @cmds,
+                  {
+                    action  => 'MODAL',
+                    target  => $keys,
+                    options => $options,
+                    message => $data,
+                    @vars,
+                  };
+            }
+            elsif ( $action eq "\006" ) {
+                my ( $object, $options ) = $target =~ /^\{(.*)\}(.*)$/;
+                push @cmds,
+                  {
+                    action  => 'ACTION',
+                    target  => $object,
+                    actions => $options,
+                    message => $data
+                  };
+            }
+        }
         next if ( length $output );
         last;
     }
 
-    return $text;
+    my $rv = { text => $text, cmds => $cmds, };
+    $rv->{actions} = [@cmds] if ($decode);
+
+    return $rv;
 }
 
 =begin TML

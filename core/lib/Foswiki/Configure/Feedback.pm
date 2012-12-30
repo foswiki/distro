@@ -93,6 +93,8 @@ feedback request has been received.
           Foswiki::Configure::UI::loadChecker(
             'ConfigureGUI::Modals::SessionTimeout', $ui );
 
+        local $Foswiki::Configure::UI::feedbackEnabled = 1;
+
         my $html = $checker->provideFeedback( $value, 1, 'No button' );
         $html .= $checker->provideFeedback( $value, 2, 'No button' );
 
@@ -130,6 +132,8 @@ sub new {
 sub deliver {
     my ( $action, $session, $cookie ) = @_;
     my $query = $Foswiki::query;
+
+    local $Foswiki::Configure::UI::feedbackEnabled = 1;
 
     my $valuer =
       Foswiki::Configure::Valuer->new( $Foswiki::defaultCfg, \%Foswiki::cfg );
@@ -470,51 +474,20 @@ sub deliverResponse {
     while ( @$fb >= 2 ) {
         my ( $keys, $txt ) = splice( @$fb, 0, 2 );
 
-        my ( $text, $cmds );
-        while (1) {
-            my ($len);
-            if ( $txt !~ s/\A\001// ) {
-
-               # Unencoded text (from NOTE, WARN, ERROR - or bare text)
-               # Length runs to next encoded block, or end of string & may be 0.
-                $text = '' unless ( defined $text );
-                $len = index( $txt, "\001" );
-                if ( $len == -1 ) {
-                    $text .= $txt;
-                    last;
-                }
-                $text .= substr( $txt, 0, $len, '' );
-                next if ( length $txt );
-                last;
-            }
-
-            # Pre-encoded commands from FB_xxx
-            # Length, is used to find end of each command, and removed
-            die "Bad command string from $keys\n"
-              unless ( $txt =~ s/\A(\d+),\{/{/ );
-            $len = $1;
-            die "Bad command length from $keys\n"
-              unless ( $len && $len <= length $txt );
-            if ( defined $cmds ) {
-                $cmds .= "\001";
-            }
-            else {
-                $cmds = '';
-            }
-            $cmds .= substr( $txt, 0, $len, '' );
-            next if ( length $txt );
-            last;
-        }
-        die "Confused response from $keys"
-          unless ( defined $text || defined $cmds );
-        $response .= "\001" if ( defined $response );
+        my $r    = Foswiki::Configure::UI::parseCheckerText($txt);
+        my $cmds = $r->{cmds};
+        my $text = $r->{text};
 
         if ( defined $text ) {
-            $response .= "$keys\002$text";
-            $response .= "\001$cmds" if ( defined $cmds );
+            $text = Foswiki::Configure::UI::_fbEncode($text);
+            $cmds = "\001$keys\002$text$cmds"                   # FB_VALUE()
+        }
+
+        if ( defined $response ) {
+            $response .= $cmds;
         }
         else {
-            $response .= $cmds;
+            $response = substr( $cmds, 1 );
         }
     }
     die "Invalid feedback list\n" if (@$fb);

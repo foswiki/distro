@@ -232,46 +232,20 @@ sub _getFB {
 
     # Use only the status window updates.  If control updates or modal
     # data was generated, it has no place on this report.  (It is delivered
-    # when the status windows are updated.)  See Feedback::deliverResponse
-    # for structure of this data.
+    # when the status windows are updated.)  Arguably, the FOR data should
+    # be extracted earlier and sent to the target item.  But that requires
+    # some fussing with the error counts.  To be continued.
 
     foreach my $string (@$responses) {
-        my $txt = $string;
 
-        while (1) {
-            my ($len);
-            if ( $txt !~ s/\A\001// ) {
+        my $fb = $this->parseCheckerText( $string, 1 );
 
-               # Unencoded text (from NOTE, WARN, ERROR - or bare text)
-               # Length runs to next encoded block, or end of string & may be 0.
-                $len = index( $txt, "\001" );
-                if ( $len == -1 ) {
-                    $feedback .= $txt;
-                    last;
-                }
-                $feedback .= substr( $txt, 0, $len, '' );
-                next if ( length $txt );
-                last;
-            }
+        $feedback .= $fb->{text} if ( defined $fb->{text} );
+        $feedback .= $_ foreach (
+            map { $_->{message} }
+            grep { $_->{action} eq 'FOR' } @{ $fb->{actions} }
+        );
 
-            # Pre-encoded commands from FB_xxx
-            # Length, is used to find end of each command, and removed
-            die "Bad command string\n" unless ( $txt =~ s/\A(\d+),\{/{/ );
-            $len = $1;
-            die "Bad command length\n" unless ( $len && $len <= length $txt );
-            my $item = substr( $txt, 0, $len, '' );
-
-            my ( $target, $action, $data ) =
-              split( /(\002|\003|\005|\006)/, $item, 2 );
-            $target ||= '';
-            $action ||= '';
-            $data   ||= '';
-            if ( $action eq "\002" ) {
-                $feedback .= $data;
-            }
-            next if ( length $txt );
-            last;
-        }
     }
     return $feedback;
 }

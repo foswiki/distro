@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.119";
+        var VERSION = "v3.120";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -1053,7 +1053,7 @@ var feedback = ( function ($) {
                     data = undefined;
                     for (item = 0; item < items.length; item++) {
                         /* IE sometimes doesn't do capturing split, so simulate one.
-                         * N.B. AUDITGROUP, Feedback, and UIs/Value also parse this data.
+                         * N.B. AUDITGROUP, Feedback, and UI also parse this data.
                          * UI & Feeback generate it.  Protocol changes need to check each
                          * for any required updates.  AUDITGROUP understands semantics;
                          * the others structure.
@@ -1064,7 +1064,14 @@ var feedback = ( function ($) {
                             if (sloc >= 0) {
                                 kpair[0] = items[item].substr(0, sloc);
                                 kpair[1] = delims[i];
-                                kpair[2] = items[item].substr(sloc + 1);
+                                kpair[2] = '';
+                                data = items[item].substr(sloc + 1);
+                                while( (sloc = data.indexOf("%")) >= 0 ) {
+                                    kpair[2] += data.substr(0, sloc) +
+                                               (data.charAt(sloc+1) === '%'? '%' : "\x01");
+                                    data = data.substr(sloc+2);
+                                }
+                                kpair[2] += data;
                                 break;
                             }
                         }

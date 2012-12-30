@@ -46,7 +46,7 @@ sub generateForm {
             item  => $item,
             name  => $name,
             count => $errors + $warnings,
-            list  => "\004${name}status)",
+            list  => $this->FB_MODAL_ITEM("${name}status"),
           }
           if ($errors);
         push @warnings,
@@ -54,7 +54,7 @@ sub generateForm {
             item  => $item,
             name  => $name,
             count => $warnings,
-            list  => "\004${name}status)"
+            list  => $this->FB_MODAL_ITEM("${name}status"),
           }
           if ( $warnings && !$errors );
     }
@@ -92,7 +92,7 @@ sub processForm {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
