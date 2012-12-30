@@ -38,7 +38,7 @@ sub check {
     Foswiki::Configure::Load::expandValue($v);
     $this->setItemValue( $v, $keys );
 
-    my %h = {};
+    my %h = ();
     Foswiki::Configure::UI::findRepositories( \%h );
 
     my @list = @{ $h{repositories} } if ( $h{repositories} );

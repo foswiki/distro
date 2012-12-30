@@ -588,6 +588,61 @@ sub FB_MODAL {
 
 =begin TML
 
+---++ ObjectMethod extractCheckerText( $output ) => $text
+
+Removes FB_* data from $output, returning just the text.
+
+Any code that invokes a checker except for the Feedback dispatcher
+must call this method to ensure that it only operates on text.
+
+The format of embedded blocks is subject to change without notice.
+
+=cut
+
+sub extractCheckerText {
+    my $this = shift;
+    my ($output) = @_;
+
+    $output = '' unless ( defined $output );
+
+    # Remove any feedback command blocks.
+    # This could be done in-place, but this
+    # is the same logic used in Feedback to reduce the risk of divergence.
+
+    my $text = '';
+
+    while (1) {
+        my ($len);
+        if ( $output !~ s/\A\001// ) {
+
+            # Unencoded text (from NOTE, WARN, ERROR - or bare text)
+            # Length runs to next encoded block, or end of string & may be 0.
+            $len = index( $output, "\001" );
+            if ( $len == -1 ) {
+                $text .= $output;
+                last;
+            }
+            $text .= substr( $output, 0, $len, '' );
+            next if ( length $output );
+            last;
+        }
+
+        # Pre-encoded commands from FB_xxx
+        # Length, is used to find end of each command, and removed
+        die "Bad command string\n" unless ( $output =~ s/\A(\d+),\{/{/ );
+        $len = $1;
+        die "Bad command length\n"
+          unless ( $len && $len <= length $output );
+        substr( $output, 0, $len, '' );
+        next if ( length $output );
+        last;
+    }
+
+    return $text;
+}
+
+=begin TML
+
 ---++ ObjectMethod FB_ACTION(...)
 
 Encodes actions to be performed by javascript.
