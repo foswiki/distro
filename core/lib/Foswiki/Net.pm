@@ -1624,19 +1624,16 @@ sub sslVerifyCert {
               . fmtcertnames(
                 "Subject Name: $subjectName\nIssuer  Name: $issuerName\n")
               . ( $verifyErrors{$error} || '' );
+            $log->debug_print( 0, $msg, 0 );
 
+            my $port = $port;
             $port = $1 if ( $port =~ m,\((\d+)\)$, );
-            $msg .=
-"The server certificate may be viewed with the openssl command\n<i>openssl s_client -connect $host:$port"
+            $msg =
+"Verify:   The server certificate may be viewed with the openssl command\n<i>openssl s_client -connect $host:$port"
               . ( $starttls ? " -starttls smtp" : '' )
-              . " -showcerts</i>\n";
-
+              . " -showcerts</i>\n"
+              . "The <i>openssl verify</i> command may provide more information.\n";
             $log->debug_print( 0, $msg, 1 );
-            $log->debug_print(
-                0,
-"Verify:   The <i>openssl verify</i> command may provide more information.\n",
-                1
-            );
         }
     }
     return $ok;
