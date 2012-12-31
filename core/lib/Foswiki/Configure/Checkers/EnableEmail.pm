@@ -146,6 +146,7 @@ sub provideFeedback {
         # DebugFlags will be autoconfigured if program selected
 
         $e .= join(
+            '',
             $this->FB_VALUE( $this->setItemValue( 0, '{EnableEmail}' ) ),
             $this->FB_VALUE(
                 $this->setItemValue(
@@ -156,7 +157,6 @@ sub provideFeedback {
             $this->FB_VALUE( $this->setItemValue( 0,     '{SMTP}{Debug}' ) ),
             $this->FB_VALUE( $this->setItemValue( $host, '{SMTP}{MAILHOST}' ) ),
             $this->FB_VALUE( $this->setItemValue( '', '{SMTP}{SENDERHOST}' ) ),
-            ,
             $this->FB_VALUE(
                 $this->setItemValue( 1, '{Email}{SSLVerifyServer}' )
             ),
@@ -590,7 +590,6 @@ sub autoconfigPerl {
     ( $e, my ( $sslNoVerify, $sslVerify ) ) = setupSSLoptions( $this, $e );
 
     # Connection methods in priority order
-    #    my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
     my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
 
     # Configuration data for each method.  Ports in priority order.
@@ -694,6 +693,7 @@ sub autoconfigPerl {
     open( my $stderr, ">&STDERR" ) or die "STDERR: $!\n";
     close STDERR;
     open( my $fd2, ">/dev/null" ) or die "fd2: $!\n";
+    $tlog = '';
     open( STDERR, '+>>', \$tlog ) or die "SSL logging: $!\n";
     STDERR->autoflush(1);
 
@@ -714,7 +714,12 @@ sub autoconfigPerl {
         local $SIG{__WARN__} = sub {
             my $msg = $_[0];
             $msg =~ s/^.*GLOB\(0x[[:xdigit:]]+\): //;
-            $msg =~ s/ at .*$//ms if (1);    # Turn off for debugging caller
+            if (0) {    # Turn on for debuging
+                Carp::confess($msg);
+            }
+            else {
+                $msg =~ s/ at .*$//ms;
+            }
             chomp $msg;
             $tlog .= "${pad}Failed: $msg\n";
             return undef;
@@ -726,16 +731,15 @@ sub autoconfigPerl {
 
         foreach my $port (@ports) {
             $tlsSsl  = $cfg->{ssl};
-            @sslopts = $tlsSsl ? @$tlsSsl : ();
+            @sslopts = $tlsSsl ? ( @$tlsSsl, SSL_hostname => $host ) : ();
             $tlsSsl  = 0
               if ( $startTls = $cfg->{starttls} );
 
             @Foswiki::Configure::Checkers::EnableEmail::SSL::ISA =
               @{ $cfg->{isa} };
 
-            $tlog = '<pre>';
-            $tlog .=
-                "${pad}Testing "
+            $tlog = '<pre>'
+              . "${pad}Testing "
               . ( $cfg->{id} || uc($method) ) . " on "
               . (
                   $port =~ /^\d+$/           ? "port $port\n"
@@ -813,7 +817,7 @@ sub autoconfigPerl {
         $this->FB_VALUE( '{SMTP}{Password}',    $password ),
         $this->FB_VALUE( '{SMTP}{MAILHOST}',    $host . ':' . $use[1] ),
     );
-    $e .= $this->FB_VALUE( '{Email}{SSLVerifyServer}', $cfg->{verify} || 0 )
+    $e .= $this->FB_VALUE( '{Email}{SSLVerifyServer}', ( $cfg->{verify} || 0 ) )
       if ( $cfg->{ssl} );
 
     return ( 1, $e );
@@ -932,7 +936,7 @@ sub setupSSLoptions {
         }
     }
 
-    return ( $e, \@sslNoVerify, \@sslVerify );
+    return ( $e, [@sslNoVerify], [@sslVerify] );
 }
 
 # Net::SMTP extensions
@@ -1004,7 +1008,7 @@ s/(.)/sprintf('%02x', ord $1) . (++$n % 32 == 0? $cont : ' ')/gmse;
 }
 
 sub debug_print {
-    my ( $cmd, $out, $text ) = @_;
+    my ( $cmd, $out, $text, $hok ) = @_;
 
     chomp $text;
     my $tag = $ISA[0] . ( $out ? '>>> ' : '<<< ' );
@@ -1014,7 +1018,7 @@ sub debug_print {
         split( /\r?\n/, $text, -1 ) )
       . "\n";
 
-    $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge;
+    $text =~ s/([&'"<>])/'&#'.ord( $1 ) .';'/ge unless ($hok);
     $tlog .= $text;
 }
 
@@ -1048,18 +1052,21 @@ sub new {
       :              'IO::Socket::INET';
     $! = 0;
     $@ = '';
-    my $sock = $sclass->new(@sockopts);
+    my $sock =
+      $sclass->new( @sockopts,
+        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE() );
     if ($sock) {
         bless $sock, $class;
         $noconnect = 0;
         my $peer = $sock->peerhost . ':' . $sock->peerport;
         if ($tlsSsl) {
-            $log->debug_print( 0,
+            $sock->debug_print( 0,
                     "Connected with $peer using "
                   . $opts{SSL_version} . ' and '
                   . $sock->get_cipher
                   . " encryption\nServer Certificate:\n"
                   . fmtcertnames( $sock->dump_peer_certificate ) );
+            $sock = $sock->sslVerifyHost( \%opts );
         }
         else {
             $log->debug_print( 0,
@@ -1149,7 +1156,13 @@ sub starttls {
 
     my $mailobj = ref $smtp;
 
-    unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts ) ) {
+    unless (
+        IO::Socket::SSL->start_SSL(
+            $smtp, @sockopts,
+            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE()
+        )
+      )
+    {
         $tlog .= $pad . IO::Socket::SSL::errstr() . "\n";
         $$e   .= $this->NOTE( $tlog . "${pad}Upgrade to TLS failed</pre>" );
 
@@ -1166,6 +1179,11 @@ sub starttls {
           . " encryption\nServer Certificate:\n"
           . fmtcertnames( $smtp->dump_peer_certificate ) );
 
+    unless ( $smtp->sslVerifyHost( {@sockopts}, 1 ) ) {
+        $$e .= $this->NOTE( $tlog . "</pre>" );
+        return 0;
+    }
+
     unless ( $smtp->hello($hello) ) {
         $$e .= $this->NOTE( $tlog . "${pad}Hello failed</pre>" );
         $smtp->quit();
@@ -1173,6 +1191,73 @@ sub starttls {
     }
     return 1;
 
+}
+
+# Handle host verification manually so we can report issues;
+
+sub sslVerifyHost {
+    my $smtp = shift;
+    my ( $opts, $starttls ) = @_;
+
+    unless ( $opts->{SSL_verify_mode} == IO::Socket::SSL::SSL_VERIFY_PEER() ) {
+        $smtp->debug_print( 0, "Server certificate verification is disabled" );
+        return $smtp;
+    }
+
+    my $peer = $opts->{SSL_hostname};
+    if ( $smtp->verify_hostname( $peer, $opts->{SSL_verify_scheme} ) ) {
+        $smtp->debug_print( 0, "Server certificate verification succeeded." );
+    }
+    else {
+        my $msg = "Unable to verify server certificate\n";
+        if ( my $ssl = $smtp->_get_ssl_object ) {
+            my $errnum = Net::SSLeay::get_verify_result($ssl);
+            $errnum = 50 unless ( defined $errnum );
+
+            $msg .= "Last error: "
+              . Net::SSLeay::X509_verify_cert_error_string($errnum) . "\n";
+            $msg .= {
+                2 =>
+"Verify that the server is providing intermediate CA certificates.\n",
+                18 =>
+                  "The server certificate is self-signed, but not trusted.\n"
+                  . "Verify that it is valid, then add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
+                19 =>
+"A self-signed certificate is in the chain, but that certificate is not trusted.\n"
+                  . "Verify that it is valid, then add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
+                20 =>
+"Obtain the root certificate of the issuer, and add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}.\n",
+                21 =>
+"The server only provided one certificate, and it's issuer is not trusted\n"
+                  . "The server may need to supply intermediate CA certificates, use a trusted CA, or you may need to add the issuer certificate to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
+                24 =>
+"An intermediate or root certificate must be a CA certificate, and must be authorized to issue server certificates.\n"
+                  . "A certificate was encountered that failed one of these tests.\n",
+                26 =>
+"The server certificate is not authorized to identify a TLS Server\n",
+                27 =>
+"The root CA is not marked trusted for issuing TLS server certificates\n",
+                28 => "The root CA does not allow TLS server certificates\n",
+              }->{$errnum}
+              || '';
+            $msg .=
+"Note: The last error recorded may not be the (only) reason verification failed.\n"
+              . "The <tt>openssl verify</tt> command may provide more information.\n";
+        }
+        else {
+            $msg .= "And unable to obtain error detail\n";
+        }
+        my $port = $opts->{PeerService} || $opts->{PeerPort} || '??';
+        $port = $1 if ( $port =~ m,\((\d+)\)$, );
+        $msg .=
+"The server certificate may be viewed with the openssl command\n<i>openssl s_client -connect $peer:$port"
+          . ( $starttls ? " -starttls smtp" : '' )
+          . " -showcerts</i>\n";
+        $smtp->debug_print( 0, $msg, 1 );
+        $smtp->close;
+        return undef;
+    }
+    return $smtp;
 }
 
 # Return enhanced status code if available

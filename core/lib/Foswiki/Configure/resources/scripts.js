@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.120";
+        var VERSION = "v3.121";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -652,9 +652,9 @@ configure.utils = (function () {
         */
         isTrue: function (v) {
             if (v === 1 || v === '1' || v === 'on' || v === 'true') {
-                return 1;
+                return true;
             }
-            return 0;
+            return false;
         },
 
         /*
