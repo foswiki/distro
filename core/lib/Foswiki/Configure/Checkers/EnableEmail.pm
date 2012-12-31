@@ -1193,7 +1193,7 @@ sub starttls {
 
 }
 
-# Handle host verification manually so we can report issues;
+# Handle host verification manually so we can report issues
 
 sub sslVerifyHost {
     my $smtp = shift;

@@ -80,6 +80,7 @@ sub renderHtml {
                   . ") for $keys failed: check for .spec errors:  <pre>$@</pre>"
               );
         }
+        $check = '' unless ( defined $check );
         if ($check) {
 
             # something wrong
