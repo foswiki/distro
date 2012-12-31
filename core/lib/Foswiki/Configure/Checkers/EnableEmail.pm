@@ -500,18 +500,21 @@ sub perlFailed {
 # Global variables
 
 our (
-    $host,      $hInfo,      $hello,    $inAuth,
-    $noconnect, $allconnect, $tlog,     $tlsSsl,
-    $startTls,  @sslopts,    @sockopts, %systemAuthMethods,
+    $host,     $hInfo,     $port,       $hello,
+    $inAuth,   $noconnect, $allconnect, $tlog,
+    $tlsSsl,   $startTls,  $verified,   @sslopts,
+    @sockopts, %systemAuthMethods,
 );
 our $pad = ' ' x length('Net::SMTpXXX ');
 
 sub autoconfigPerl {
     my $this = shift;
     my ( $options, $progTried ) = @_;
+
     $SIG{__DIE__} = sub {
         Carp::confess($@);
     };
+
     my $e = $this->NOTE("Attempting to configure Net::SMTP");
 
     eval {
@@ -585,9 +588,12 @@ sub autoconfigPerl {
     $noconnect  = 1;
     $allconnect = 1;
 
+    my $log = bless {}, 'Foswiki::Configure::Checkers::EnableEmail::Mailer';
+
     # Get SSL options common to all secure connection methods
 
-    ( $e, my ( $sslNoVerify, $sslVerify ) ) = setupSSLoptions( $this, $e );
+    ( $e, my ( $sslNoVerify, $sslVerify ) ) =
+      setupSSLoptions( $log, $this, $e );
 
     # Connection methods in priority order
     my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
@@ -661,7 +667,7 @@ sub autoconfigPerl {
     # The smtp names are secondary for some traditional ports, so
     # use the primary for those.  For others, consult /etc/services.
 
-    my $port = $hInfo->{port};
+    $port = $hInfo->{port};
     if ( $port && $port =~ /^\d+$/ ) {
         my $name = {
             25  => 'smtp(25)',
@@ -729,9 +735,9 @@ sub autoconfigPerl {
         # the TCP connection - then write to it.
         local $SIG{PIPE} = 'IGNORE';
 
-        foreach my $port (@ports) {
+        foreach our $port (@ports) {
             $tlsSsl  = $cfg->{ssl};
-            @sslopts = $tlsSsl ? ( @$tlsSsl, SSL_hostname => $host ) : ();
+            @sslopts = $tlsSsl ? ( @$tlsSsl, SSL_verifycn_name => $host, ) : ();
             $tlsSsl  = 0
               if ( $startTls = $cfg->{starttls} );
 
@@ -746,6 +752,8 @@ sub autoconfigPerl {
                 : $port =~ /^(.*)\((\d+)\)$/ ? "$1 port ($2)\n"
                 : "$port port\n"
               );
+            $verified = $cfg->{verify} || -1;
+
             my $smtp =
               Foswiki::Configure::Checkers::EnableEmail::Mailer->new( @options,
                 Port => $port );
@@ -753,8 +761,21 @@ sub autoconfigPerl {
                 $e .= $this->NOTE( $tlog . "</pre>" );
                 next;
             }
+            if ($tlsSsl) {
+                $tlog .= $pad
+                  . (
+                      $verified < 0 ? "Server verification is disabled"
+                    : $verified     ? "Server certificate verified"
+                    : "Unable to verify server certificate"
+                  ) . "\n";
+                if ( $verified == 0 ) {
+                    $smtp->close;
+                    $e .= $this->NOTE( $tlog . '</pre>' );
+                    next;
+                }
+            }
             if ($startTls) {
-                next unless ( $smtp->starttls( $this, \$e ) );
+                next unless ( $smtp->starttls( $log, $this, \$e ) );
             }
             @use = ( $cfg, $port );
             push @use, $smtp->testServer( $host, $username, $password );
@@ -829,7 +850,7 @@ sub autoconfigPerl {
 # If on is disabled, its list will be empty.
 
 sub setupSSLoptions {
-    my ( $this, $e ) = @_;
+    my ( $log, $this, $e ) = @_;
 
     # Baseline: must trap errors to get accurate error reporting
 
@@ -838,10 +859,12 @@ sub setupSSLoptions {
             my ( $sock, $msg ) = @_;
             if ( $sock->connected ) {
                 $tlog .=
-                    "Failed to initialize SSL with "
+                    $pad
+                  . "Failed to initialize SSL with "
                   . $sock->peerhost . ':'
                   . $sock->peerport
-                  . " - $msg";
+                  . " - $msg"
+                  if ($verified);
             }
             else {
                 $tlog .= "SSL error while not connected - $msg";
@@ -896,18 +919,20 @@ sub setupSSLoptions {
         Foswiki::Configure::Load::expandValue($path);
 
         if ( $file || $path ) {
-            push @sslVerify,
-              (
+            push @sslVerify, (
                 @sslCommon,
-                SSL_verify_mode   => IO::Socket::SSL::SSL_VERIFY_PEER(),
-                SSL_verify_scheme => {
-                    check_cn         => 'when_only',
-                    wildcards_in_alt => 'leftmost',
-                    wildcards_in_cn  => 'leftmost',
+                SSL_verify_mode     => IO::Socket::SSL::SSL_VERIFY_PEER(),
+                SSL_verify_scheme   => undef,
+                SSL_verify_callback => sub {
+                    my ( $ok, $ctx, $names, $errs, $peerCert ) = @_;
+
+                    return
+                      Foswiki::Configure::Checkers::EnableEmail::SSL::sslVerifyCert(
+                        $log, $ok, $ctx, $peerCert );
                 },
                 SSL_ca_file => $file || undef,
                 SSL_ca_path => $path || undef,
-              );
+            );
 
             if ( $Foswiki::cfg{Email}{SSLCheckCRL} ) {
                 ( $file, $path ) = (
@@ -1052,9 +1077,7 @@ sub new {
       :              'IO::Socket::INET';
     $! = 0;
     $@ = '';
-    my $sock =
-      $sclass->new( @sockopts,
-        SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE() );
+    my $sock = $sclass->new(@sockopts);
     if ($sock) {
         bless $sock, $class;
         $noconnect = 0;
@@ -1066,7 +1089,6 @@ sub new {
                   . $sock->get_cipher
                   . " encryption\nServer Certificate:\n"
                   . fmtcertnames( $sock->dump_peer_certificate ) );
-            $sock = $sock->sslVerifyHost( \%opts );
         }
         else {
             $log->debug_print( 0,
@@ -1085,7 +1107,7 @@ sub new {
                   || ( $tlsSsl && IO::Socket::SSL::errstr() )
               )
               . "\n"
-        );
+        ) if ($verified);
         $allconnect = 0;
     }
     return $sock;
@@ -1140,7 +1162,7 @@ sub logSSLoptions {
 
 sub starttls {
     my $smtp = shift;
-    my ( $this, $e ) = @_;
+    my ( $log, $this, $e ) = @_;
 
     unless ( defined $smtp->supports('STARTTLS') ) {
         $smtp->quit;
@@ -1156,15 +1178,9 @@ sub starttls {
 
     my $mailobj = ref $smtp;
 
-    unless (
-        IO::Socket::SSL->start_SSL(
-            $smtp, @sockopts,
-            SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE()
-        )
-      )
-    {
-        $tlog .= $pad . IO::Socket::SSL::errstr() . "\n";
-        $$e   .= $this->NOTE( $tlog . "${pad}Upgrade to TLS failed</pre>" );
+    unless ( IO::Socket::SSL->start_SSL( $smtp, @sockopts, ) ) {
+        $tlog .= $pad . IO::Socket::SSL::errstr() . "\n" if ($verified);
+        $$e .= $this->NOTE( $tlog . "${pad}Upgrade to TLS failed</pre>" );
 
         # Note: The server may still be trying to talk SSL; we can't quit.
         $smtp->close;
@@ -1179,8 +1195,15 @@ sub starttls {
           . " encryption\nServer Certificate:\n"
           . fmtcertnames( $smtp->dump_peer_certificate ) );
 
-    unless ( $smtp->sslVerifyHost( {@sockopts}, 1 ) ) {
-        $$e .= $this->NOTE( $tlog . "</pre>" );
+    $tlog .= $pad
+      . (
+          $verified < 0 ? "Server verification is disabled"
+        : $verified     ? "Server certificate verified"
+        : "Unable to verify server certificate"
+      ) . "\n";
+    if ( $verified == 0 ) {
+        $$e .= $this->NOTE( $tlog . '</pre>' );
+        $smtp->close;
         return 0;
     }
 
@@ -1195,69 +1218,147 @@ sub starttls {
 
 # Handle host verification manually so we can report issues
 
-sub sslVerifyHost {
-    my $smtp = shift;
-    my ( $opts, $starttls ) = @_;
+my %verifyErrors = (
+    2 =>
+"The issuer of a looked-up certificate could not be found.  This is probably a root certificate that is not in {Email}{SSLCaFile} or {Email}{SSLCaPath}..\n",
+    18 => "The server certificate is self-signed, but not trusted.\n"
+      . "Verify that it is valid, then add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
+    19 =>
+"A self-signed certificate is in the chain, but that certificate is not trusted.\n"
+      . "Verify that it is valid, then add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
+    20 =>
+"The issuer's certificate could not be found.  The server may not be providing an intermediate CA certificate, or if the issuer is a root CA, the root certificate is not in {Email}{SSLCaFile} or {Email}{SSLCaPath}.\n",
+    21 =>
+"The server only provided one certificate, and it's issuer is not trusted\n"
+      . "The server may need to supply intermediate CA certificates, use a trusted CA, or you may need to add the issuer certificate to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
+    22 =>
+"The chain of certificates required to validate this server is more than 20 deep.  The certificate chain is too expensive to verify.",
+    24 =>
+"An intermediate or root certificate must be a CA certificate, and must be authorized to issue server certificates.\n"
+      . "A certificate was encountered that failed one of these tests.\n",
+    26 => "The server certificate is not authorized to identify a TLS Server\n",
+    27 =>
+      "The root CA is not marked trusted for issuing TLS server certificates\n",
+    28 => "The root CA does not allow TLS server certificates\n",
+);
 
-    unless ( $opts->{SSL_verify_mode} == IO::Socket::SSL::SSL_VERIFY_PEER() ) {
-        $smtp->debug_print( 0, "Server certificate verification is disabled" );
-        return $smtp;
+sub sslVerifyCert {
+    my ( $log, $ok, $ctx, $peerCert ) = @_;
+
+    # A server must have a certificate, so this shouldn't happen.
+
+    unless ( $ctx && $peerCert ) {
+        $log->debug_print( 0, "Verify:   No certificate was supplied" );
+        return 0;
     }
 
-    my $peer = $opts->{SSL_hostname};
-    if ( $smtp->verify_hostname( $peer, $opts->{SSL_verify_scheme} ) ) {
-        $smtp->debug_print( 0, "Server certificate verification succeeded." );
+    # Get certificate at current level of chain
+    # Note: The chain is built from the server up to the root,
+    #       then verified from the root down to the server.
+    #       Depth increases from 0 (the server) to n (the root)
+
+    my $cert  = Net::SSLeay::X509_STORE_CTX_get_current_cert($ctx);
+    my $error = Net::SSLeay::X509_STORE_CTX_get_error($ctx);
+    my $depth = Net::SSLeay::X509_STORE_CTX_get_error_depth($ctx);
+
+    my $issuerName =
+      Net::SSLeay::X509_NAME_oneline(
+        Net::SSLeay::X509_get_issuer_name($cert) );
+    my $subjectName =
+      Net::SSLeay::X509_NAME_oneline(
+        Net::SSLeay::X509_get_subject_name($cert) );
+
+    if ( $depth > 20 ) {
+        $error = 22;    #X509_V_ERR_CERT_CHAIN_TOO_LONG
+        Net::SSLeay::X509_STORE_CTX_set_error( $ctx, $error );
+        $ok = 0;
+    }
+    if ($ok) {
+        $verified = 1 if ( $verified < 0 );
+        $log->debug_print( 0,
+            "Verified: " . fmtcertnames( "$subjectName\n", 'Verified: ', -4 ) );
+
+        if ( $depth == 0 ) {
+            my $host = {@sockopts}->{SSL_verifycn_name};
+
+            my $rv = IO::Socket::SSL::verify_hostname_of_cert(
+                $host,
+                $peerCert,
+                {
+                    check_cn         => 'when_only',
+                    wildcards_in_alt => 'leftmost',
+                    wildcards_in_cn  => 'leftmost',
+                }
+            );
+            if ($rv) {
+                $log->debug_print( 0,
+                    "Verified: $host is a subject of this certificate\n" );
+            }
+            else {
+                $verified = $ok = 0;
+                my $msg =
+"Verify:   $host is not a commonName or subjectAltName of this certificate\n";
+                my $indent = ' ' x ( length('Verify:   ') - length(' -- ') );
+                my @alt = Net::SSLeay::X509_get_subjectAltNames($peerCert);
+                if (@alt) {
+                    $msg .= "${indent}Certificate subjectAltName"
+                      . ( @alt != 1 ? 's' : '' ) . ":\n";
+                    while (@alt) {
+                        my ( $type, $name ) = splice( @alt, 0, 2 );
+                        if ( $type == IO::Socket::SSL::GEN_IPADD() ) {
+                            if ( length($name) == 16 ) {
+                                eval {
+                                    require Socket;
+                                    $name =
+                                      Socket::inet_ntop( Socket::AF_INET6(),
+                                        $name );
+                                    return $name;
+                                };
+                                $name = 'IPv6 address' unless ( defined $name );
+                            }
+                            elsif ( length($name) == 4 ) {
+                                require Socket;
+                                $name = Socket::inet_ntoa($name);
+                            }
+                            else {
+                                $name = "Unknown IP address";
+                            }
+                            $msg .= "${indent}    IP: $name\n";
+                        }
+                        elsif ( $type == IO::Socket::SSL::GEN_DNS() ) {
+                            $msg .= "${indent}    DNS: $name\n";
+                        }
+                    }
+                }
+                $log->debug_print( 0, $msg );
+            }
+        }
     }
     else {
-        my $msg = "Unable to verify server certificate\n";
-        if ( my $ssl = $smtp->_get_ssl_object ) {
-            my $errnum = Net::SSLeay::get_verify_result($ssl);
-            $errnum = 50 unless ( defined $errnum );
+        $verified = 0;
+        my $msg =
+            "Verify:   "
+          . Net::SSLeay::X509_verify_cert_error_string($error) . "\n"
+          . fmtcertnames(
+            "Subject Name: $subjectName\nIssuer  Name: $issuerName\n")
+          . ( $verifyErrors{$error} || '' );
 
-            $msg .= "Last error: "
-              . Net::SSLeay::X509_verify_cert_error_string($errnum) . "\n";
-            $msg .= {
-                2 =>
-"Verify that the server is providing intermediate CA certificates.\n",
-                18 =>
-                  "The server certificate is self-signed, but not trusted.\n"
-                  . "Verify that it is valid, then add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
-                19 =>
-"A self-signed certificate is in the chain, but that certificate is not trusted.\n"
-                  . "Verify that it is valid, then add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
-                20 =>
-"Obtain the root certificate of the issuer, and add it to {Email}{SSLCaFile} or {Email}{SSLCaPath}.\n",
-                21 =>
-"The server only provided one certificate, and it's issuer is not trusted\n"
-                  . "The server may need to supply intermediate CA certificates, use a trusted CA, or you may need to add the issuer certificate to {Email}{SSLCaFile} or {Email}{SSLCaPath}\n",
-                24 =>
-"An intermediate or root certificate must be a CA certificate, and must be authorized to issue server certificates.\n"
-                  . "A certificate was encountered that failed one of these tests.\n",
-                26 =>
-"The server certificate is not authorized to identify a TLS Server\n",
-                27 =>
-"The root CA is not marked trusted for issuing TLS server certificates\n",
-                28 => "The root CA does not allow TLS server certificates\n",
-              }->{$errnum}
-              || '';
-            $msg .=
-"Note: The last error recorded may not be the (only) reason verification failed.\n"
-              . "The <tt>openssl verify</tt> command may provide more information.\n";
-        }
-        else {
-            $msg .= "And unable to obtain error detail\n";
-        }
-        my $port = $opts->{PeerService} || $opts->{PeerPort} || '??';
+        my $port = $port;
         $port = $1 if ( $port =~ m,\((\d+)\)$, );
         $msg .=
-"The server certificate may be viewed with the openssl command\n<i>openssl s_client -connect $peer:$port"
-          . ( $starttls ? " -starttls smtp" : '' )
+"The server certificate may be viewed with the openssl command\n<i>openssl s_client -connect $host:$port"
+          . ( $startTls ? " -starttls smtp" : '' )
           . " -showcerts</i>\n";
-        $smtp->debug_print( 0, $msg, 1 );
-        $smtp->close;
-        return undef;
+
+        $log->debug_print( 0, $msg, 1 );
+        $log->debug_print(
+            0,
+"Verify:   The <i>openssl verify</i> command may provide more information.\n",
+            1
+        );
+
     }
-    return $smtp;
+    return $ok;
 }
 
 # Return enhanced status code if available
@@ -1485,10 +1586,11 @@ sub authScan {
 # Format certificate names for display
 
 sub fmtcertnames {
-    my $names = shift;
+    my ( $names, $label, $offset ) = @_;
 
-    my $out  = '';
-    my $wrap = ( ' ' x length('Subject Name: ') );
+    my $out = '';
+    my $wrap =
+      ( ' ' x ( length( $label || 'Subject Name: ' ) + ( $offset || 0 ) ) );
 
     foreach my $name ( split( /\n/, $names ) ) {
         my @parts = split( m~/~, $name );
