@@ -22,7 +22,7 @@ sub get {
     my ($session) = @_;
 
     my $cart = $session->param('pending');
-    my @r = $cart = $class->verify($cart);
+    my @r    = $class->verify($cart);
 
     return wantarray ? @r : $r[0];
 }

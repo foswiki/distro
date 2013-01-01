@@ -1523,37 +1523,33 @@ sub sslVerifyCert {
     # A server must have a certificate, so this shouldn't happen.
 
     unless ( $ctx && $peerCert ) {
-        $log->debug_print( 0, "Verify:   No certificate was supplied" );
+        $log->debug_print( 0, "Verify:   No certificate was supplied" )
+          if ($logcx);
         return 0;
     }
 
-    # Get certificate at current level of chain
+    # Process certificate at current level of chain
     # Note: The chain is built from the server up to the root,
     #       then verified from the root down to the server.
     #       Depth increases from 0 (the server) to n (the root)
 
-    my $cert  = Net::SSLeay::X509_STORE_CTX_get_current_cert($ctx);
-    my $error = Net::SSLeay::X509_STORE_CTX_get_error($ctx);
     my $depth = Net::SSLeay::X509_STORE_CTX_get_error_depth($ctx);
-
-    my $issuerName =
-      Net::SSLeay::X509_NAME_oneline(
-        Net::SSLeay::X509_get_issuer_name($cert) );
-    my $subjectName =
-      Net::SSLeay::X509_NAME_oneline(
-        Net::SSLeay::X509_get_subject_name($cert) );
-
-    if ( $depth > 20 ) {
-        $error = 22;    #X509_V_ERR_CERT_CHAIN_TOO_LONG
-        Net::SSLeay::X509_STORE_CTX_set_error( $ctx, $error );
+    if ( $depth > 20 ) {    #X509_V_ERR_CERT_CHAIN_TOO_LONG
+        Net::SSLeay::X509_STORE_CTX_set_error( $ctx, 22 );
         $ok = 0;
     }
     if ($ok) {
         $verified = 1 if ( $verified < 0 );
-        $log->debug_print( 0,
-            "Verified: " . fmtcertnames( "$subjectName\n", 'Verified: ', -4 ) )
-          if ($logcx);
+        if ($logcx) {
+            my $cert = Net::SSLeay::X509_STORE_CTX_get_current_cert($ctx);
+            my $subjectName =
+              Net::SSLeay::X509_NAME_oneline(
+                Net::SSLeay::X509_get_subject_name($cert) );
 
+            $log->debug_print( 0,
+                "Verified: "
+                  . fmtcertnames( "$subjectName\n", 'Verified: ', -4 ) );
+        }
         if ( $depth == 0 ) {
             my $host = {@sockopts}->{SSL_verifycn_name};
 
@@ -1618,6 +1614,15 @@ sub sslVerifyCert {
     else {
         $verified = 0;
         if ($logcx) {
+            my $error = Net::SSLeay::X509_STORE_CTX_get_error($ctx);
+            my $cert  = Net::SSLeay::X509_STORE_CTX_get_current_cert($ctx);
+            my $subjectName =
+              Net::SSLeay::X509_NAME_oneline(
+                Net::SSLeay::X509_get_subject_name($cert) );
+            my $issuerName =
+              Net::SSLeay::X509_NAME_oneline(
+                Net::SSLeay::X509_get_issuer_name($cert) );
+
             my $msg =
                 "Verify:   "
               . Net::SSLeay::X509_verify_cert_error_string($error) . "\n"

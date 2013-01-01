@@ -749,7 +749,7 @@ $Foswiki::cfg{Register}{UniqueEmail} = $FALSE;
 # <code>@(?!(example\.com|example\.net)$)</code>
 $Foswiki::cfg{Register}{EmailFilter} = '';
 
-# **STRING H**
+# **PASSWORD H**
 # Configuration password (not prompted)
 $Foswiki::cfg{Password} = '';
 

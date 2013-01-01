@@ -109,7 +109,7 @@ sub loadCGIParams {
         next unless $param =~ /^TYPEOF:($configItemRegex)/;    #
 
         my $keys = $1;
-        next if ( $keys =~ /^\{ConfigureGUI\}/ );
+        next if ( $keys =~ /^\{ConfigureGUI\}/ || $keys =~ /_\}$/ );
 
         # The value of TYPEOF: is the type name
         my $typename = $query->param($param);

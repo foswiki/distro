@@ -5,7 +5,7 @@ use warnings;
 
 package Foswiki::Configure::Checkers::ConfigureGUI::Modals::SaveChanges;
 
-use Foswiki::Configure(qw(:auth :config :util));
+use Foswiki::Configure(qw(:auth :config :util $changesDiscarded));
 
 # Modal action checker for Save Changes.
 
@@ -23,14 +23,16 @@ sub generateForm {
     $template->renderButton;
     $template->renderFeedbackWindow;
 
-    my $updated  = $this->{item}{_fbChanged};
-    my $modified = keys %$updated;
+    my $updated = { %{ $this->{item}{_fbChanged} } };
 
     my $cart = Foswiki::Configure::Feedback::Cart->get($session);
 
     my $changesList = [];
     foreach my $key ( sortHashkeyList( keys %$updated ) ) {
-        next if ( $key =~ /^\{ConfigureGUI\}/ );
+        if ( $key =~ /^\{ConfigureGUI\}/ ) {
+            delete $updated->{$key};
+            next;
+        }
         my $valueString;
         my $type = $query->param("TYPEOF:$key") || 'UNKNOWN';
         if ( $key =~ /password/i ) {
@@ -44,6 +46,7 @@ sub generateForm {
         }
         push( @$changesList, { key => $key, value => $valueString } );
     }
+    my $modified = @$changesList;
     my @items;
     @items = sortHashkeyList( keys %$updated ) if $modified;
 
@@ -119,8 +122,7 @@ sub processForm {
 
     require Foswiki::Configure::Feedback::Cart;
 
-    my $updated  = $this->{item}{_fbChanged};
-    my $modified = keys %$updated;
+    my $updated = { %{ $this->{item}{_fbChanged} } };
 
     my $cart = Foswiki::Configure::Feedback::Cart->get($session);
 
@@ -140,6 +142,8 @@ sub processForm {
 
     undef $ui;
 
+    $changesDiscarded = -1;
+
     my $passChanged = ( defined $cart->param('{Password}') ) ? 1 : 0;
 
     Foswiki::Configure::Feedback::Cart->empty($session);
@@ -152,7 +156,10 @@ sub processForm {
 
     my $changesList = [];
     foreach my $key ( sortHashkeyList( keys %$updated ) ) {
-        next if ( $key =~ /^\{ConfigureGUI\}/ );
+        if ( $key =~ /^\{ConfigureGUI\}/ ) {
+            delete $updated->{$key};
+            next;
+        }
         my $valueString;
         my $type = $query->param("TYPEOF:$key") || 'UNKNOWN';
         if ( $key =~ /password/i ) {
@@ -166,6 +173,8 @@ sub processForm {
         }
         push( @$changesList, { key => $key, value => $valueString } );
     }
+    my $modified = @$changesList;
+
     push @$changesList, { key => 'No configuration items changed', value => '' }
       unless (@$changesList);
 

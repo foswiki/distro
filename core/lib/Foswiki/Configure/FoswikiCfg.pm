@@ -727,6 +727,8 @@ HERE
 sub _save {
     my $this = shift;
 
+    %dupItem = ();
+
     $this->{content} =~ s/\s*1;\s*$/\n/sg;
 
     # Sort the resulting data by hash key.  Attaches any comments to the
@@ -779,39 +781,47 @@ s/\A(.*?^\s*?\$(?:Foswiki::)?cfg($configItemRegex)\s*=.*?;\n)/push @content, $2;
 }
 
 # Visitor method called by node traversal during save. Incrementally modify
-# values, unless a value is reverting to the default in which case remove it.
+# values, unless a value is reverting to undefined, in which case remove it.
 sub startVisit {
     my ( $this, $visitee ) = @_;
 
-    if ( $visitee->isa('Foswiki::Configure::Value') ) {
-        my $keys = $visitee->getKeys();
-        return 1
-          if ( $keys =~ /^\{ConfigureGUI\}/
-            || $visitee->getTypeName() eq 'NULL' );
-        my $warble = $this->{valuer}->currentValue($visitee);
-        return 1 unless defined $warble;
+    return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
 
-        if ( $this->{logger} ) {
-            my $logValue = $visitee->asString( $this->{valuer} );
-            $this->{logger}->logChange( $visitee->getKeys(), $logValue );
-        }
+    my $keys     = $visitee->getKeys();
+    my $typeName = $visitee->getTypeName();
+
+    return 1
+      if ( $keys =~ /^\{ConfigureGUI\}/
+        || $typeName eq 'NULL' );
+
+    my $value = $this->{valuer}->currentValue($visitee);
+
+    if ( $this->{logger} ) {
+        my $logValue =
+            $typeName eq 'PASSWORD' ? '*' x 15
+          : defined $value ? $visitee->asString( $this->{valuer} )
+          :                  '<--undefined-->';
+        $this->{logger}->logChange( $visitee->getKeys(), $logValue );
+    }
+
+    if ( defined $value ) {
 
         # For some reason Data::Dumper ignores the second parameter sometimes
         # when -T is enabled, so have to do a substitution
-        my $txt = Data::Dumper->Dump( [$warble] );
+        my $txt = Data::Dumper->Dump( [$value] );
         $txt =~ s/VAR1/Foswiki::cfg$keys/;
 
- # Substitute any existing value, or append if not there
- #unless ( $this->{content} =~ s/^\s*?\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/ms )
- #
- # SMELL:  The _updateEntry call is needed to fix up configs broken by Item9699.
-        unless ( $this->{content} =~
-s/^\s*?\$(?:Foswiki::)?cfg($keys)\s*=.*?;\n/&_updateEntry($1,$txt)/msge
-          )
-        {
-            $this->{content} .= $txt;
-        }
+        # Substitute any existing value, or append if not there
+
+        $this->{content} .= $txt
+          unless ( $this->{content} =~
+s/^\s*\$(?:Foswiki::)?cfg$keys\s*=.*?;\n/_updateEntry($keys,$txt)/msge
+          );
     }
+    else {
+        $this->{content} =~ s/^\s*?\$(?:Foswiki::)?cfg$keys\s*=.*?;\n//msg;
+    }
+
     return 1;
 }
 

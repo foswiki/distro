@@ -323,6 +323,8 @@ sub deliver {
 
             return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
 
+            delete $visitee->{_fbChanged};
+
             my $keys = $visitee->getKeys();
             return 1 if ( $keys =~ /^\{ConfigureGUI}/ );
 
@@ -336,24 +338,27 @@ sub deliver {
                 )
               );
 
-            delete $visitee->{_fbChanged};
             return 1;
         }
         bless( $this, __PACKAGE__ );
     }
 
-    if ($changesDiscarded) {
+    if ( $changesDiscarded == 1 ) {
         %Foswiki::cfg = ( %{ _copy( $this->{oldCfg} ) } );
     }
     else {
-        $this->{valuer} =
-          Foswiki::Configure::Valuer->new( $this->{oldCfg}, \%Foswiki::cfg );
+        unless ( $changesDiscarded == -1 ) {    # unless saved
+            $this->{valuer} =                   # Find changes
+              Foswiki::Configure::Valuer->new( $this->{oldCfg},
+                \%Foswiki::cfg );
 
-        $root->visit($this);
+            $root->visit($this);
+        }
 
         $cart->removeParams($query);
 
-        $updated{$_} = 1 foreach $cart->param();
+        $updated{$_} = 1 foreach ( $cart->param() );
+
         checkpointChanges( $session, $query, \%updated );
     }
 
@@ -415,8 +420,6 @@ sub _copy {
 
 sub checkpointChanges {
     my ( $session, $query, $updated ) = @_;
-
-    return unless ( keys %$updated );
 
     require Foswiki::Configure::Feedback::Cart;
 
