@@ -527,12 +527,13 @@ sub _screenAuthorize {
         my $changesList = ();
         foreach my $key ( sort keys %updated ) {
             my $valueString = $query->param($key);
+            my $type        = $query->param("TYPEOF:$key");
+            $valueString = ( '*' x 15 ) if ( $type eq 'PASSWORD' );
             push( @{$changesList}, { key => $key, value => $valueString } );
         }
         @items = sort keys %updated if $modified;
         my $displayStatus =
           ( $modified || $Foswiki::query->param('changePassword') ) ? 2 : 1;
-
 
         Foswiki::Configure::UI::getTemplateParser()->parse(
             $contentTemplate,
@@ -892,10 +893,9 @@ MAIL
                 open STDERR, '>', \$stderr;
                 $error = $net->sendEmail("$msg");
                 close STDERR;
-              }
-              or do {
+            } or do {
                 $error .= $@;
-              };
+            };
             print "<br /><h3>Results:</h3>\n";
             my $emsg =
               ($error)
