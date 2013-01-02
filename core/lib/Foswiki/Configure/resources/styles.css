@@ -568,6 +568,7 @@ table.configureSectionValues div.foswikiAlert,
 div.configureAuditResults table.configureErrorList div.foswikiAlert {
 	padding-left:3em;
 }
+td.configureInfoText,
 div.configureInfoText {
 	margin:.5em 0;
 	color:green;
@@ -628,6 +629,14 @@ div.configureInfo {
 
 .configureSetting {
 	margin:.5em 0;
+}
+
+td.configureItemRow,
+th.configureItemRow,
+.configureItemRow,
+.configureItemTable {
+    padding:0;
+    border-style:none;
 }
 
 /* --- EXTENSIONS --- */
@@ -1085,7 +1094,7 @@ input.configureItemEnable {
 }
 td.configureItemEnable {
     width:25px;
-    padding: 10px 0 0 0;
+    padding: 5px 0 0 0;
     margin: 0px;
     vertical-align:top;
 }

@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.121";
+        var VERSION = "v3.122";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -806,7 +806,7 @@ The ^= is because 'feedreq' is followed by a button number.
 function valueChanged(el) {
     "use strict";
 
-     var ca = $(el).closest('tr').attr('data-change');
+     var ca = $(el).closest('tr.configureItemKeys').attr('data-change');
      if( ca !== undefined ) {
          ca = "ca = function(ele) {" + ca + "}; ca(el);";
          eval( ca.toString() );

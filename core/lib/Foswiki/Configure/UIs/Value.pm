@@ -93,7 +93,7 @@ sub renderHtml {
 
     # Hide rows if this is an EXPERT setting in non-experts mode, or
     # this is a hidden or unused value
-    my @cssClasses = ();
+    my @cssClasses = (qw/configureItemKeys/);
     push @cssClasses, 'configureExpert' if $isExpert;
     if ( $isUnused || !$isBroken && $value->{hidden} ) {
         push @cssClasses, 'foswikiHidden';
@@ -206,7 +206,8 @@ qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autoche
     my $resetToDefaultLinkText = '';
 
     # if ( $value->needsSaving( $root->{valuer} ) ) {
-    {
+    if ( $value->{typename} ne 'NULL' ) {
+
         # Since Feedback allows values to change without a screen
         # refresh, we always generate a ResetToDefault link.
         # This can result in "stored" and "default" values
@@ -268,6 +269,7 @@ HERE
 
         # Unused and not broken - just pass the value through a hidden
         $control .= Foswiki::Configure::UI::hidden( $keys, $currentValue );
+        $resetToDefaultLinkText = '';
     }
     else {
 
@@ -299,8 +301,8 @@ qq{<input type="checkbox" name="$name" value="1" class="BOOLEAN configureItemEna
         }
     }
 
+    my $helpText;
     my $helpTextLink = '';
-    my $helpText     = '';
     if ($info) {
         my $tip        = $root->{controls}->addTooltip($info);
         my $scriptName = Foswiki::Configure::CGI::getScriptName();
@@ -308,12 +310,21 @@ qq{<input type="checkbox" name="$name" value="1" class="BOOLEAN configureItemEna
 "<img src='${Foswiki::resourceURI}icon_info.png' alt='Show info' title='Show info' />";
         $helpTextLink =
 "<span class='foswikiMakeVisible'><a href='#' onclick='return toggleInfo($tip);'>$image</a></span>";
-        $helpText =
-"<div id='info_$tip' class='configureInfoText foswikiMakeHidden'>$info</div>";
+        $helpText = CGI::td(
+            {
+                id    => "info_$tip",
+                class => 'configureInfoText configureItemRow foswikiMakeHidden',
+                colspan => 2
+            },
+            $info
+        );
+    }
+    else {
+        $helpText = CGI::td('&nbsp');
     }
 
     my %props = ( 'data-keys' => $keys );
-    $props{class} = join( ' ', @cssClasses ) if ( scalar @cssClasses );
+    $props{class} = join( ' ', @cssClasses ) if (@cssClasses);
     $props{'data-displayif'} = $displayIf if $displayIf;
     $props{'data-enableif'}  = $enableIf  if $enableIf;
     my $changeAction = $value->{changeAction} || '';
@@ -341,13 +352,29 @@ qq{<a href='#' onclick="return feedback.toggleXpndr(this,'${keys}status');" ><im
 
     $check =
 qq{<div id="${keys}status" class="configureFeedback configureFeedbackExpanded" >$check</div>};
-    $output .= CGI::Tr( \%props,
-            CGI::th("$index$feedback$hiddenTypeOf")
-          . CGI::td( { class => 'configureItemEnable' }, $enable )
-          . CGI::td("$helpText$control&nbsp;$resetToDefaultLinkText$check")
-          . CGI::td( { class => "configureHelp" }, $helpTextLink ) )
-      . "\n";
 
+    $output .= CGI::Tr(
+        \%props,
+        CGI::th("$index$feedback$hiddenTypeOf")
+          . CGI::td(
+            CGI::table(
+                { class => 'configureItemTable' },
+                CGI::Tr( { class => 'configureItemRow', }, $helpText )
+                  . CGI::Tr(
+                    { class => 'configureItemRow', },
+                    CGI::td(
+                        { class => 'configureItemEnable configureItemRow' },
+                        $enable )
+                      . CGI::td( { class => 'configureItemRow' },
+                        "$control&nbsp;$resetToDefaultLinkText$check" )
+                      . CGI::td(
+                        { class => 'configureHelp configureItemRow' },
+                        $helpTextLink
+                      )
+                  )
+            )
+          )
+    ) . "\n";
     return (
         $output,
         {
