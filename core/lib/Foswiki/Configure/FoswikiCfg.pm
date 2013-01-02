@@ -814,25 +814,15 @@ sub startVisit {
     }
 
     if ( defined $value ) {
-
-        # For some reason Data::Dumper ignores the second parameter sometimes
-        # when -T is enabled, so have to do a substitution
-        my ( $txt, $require );
         my $type = $visitee->getType;
-        if ( $type && $type->can('value2string') ) {
-            ( $txt, $require ) = $type->value2string( $keys, $value );
-            if ( defined $require ) {
-                if ( ref $require ) {
-                    $this->{requires}{$_} = 1 foreach (@$require);
-                }
-                else {
-                    $this->{requires}{$require} = 1;
-                }
+        my ( $txt, $require ) = $type->value2string( $keys, $value );
+        if ( defined $require ) {
+            if ( ref $require ) {
+                $this->{requires}{$_} = 1 foreach (@$require);
             }
-        }
-        else {
-            $txt = Data::Dumper->Dump( [$value] );
-            $txt =~ s/VAR1/Foswiki::cfg$keys/;
+            else {
+                $this->{requires}{$require} = 1;
+            }
         }
 
         # Substitute any existing value, or append if not there

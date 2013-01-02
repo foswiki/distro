@@ -150,6 +150,38 @@ sub string2value {
     return $val;
 }
 
+=begin TML
+
+---++ ObjectMethod value2string($value) -> ($string, $require)
+Used to encode output values during save.  The default is
+adequate for most value types, but this hook allows for special
+encoding when needed.  See PASSWORD for an example.
+
+$value - the value to be encoded (should not be undef; that's
+         filtered earlier.
+
+$require - the name of a require module that's required for decoding
+          the value.  (LSC will contain require $require;)
+          Can be an arrayref [qw/mod1 mod2/].  undef is acceptable.
+
+This is mechanism is intended for exceptional cases.  This default
+method should be adequate for virtually every item type.
+
+=cut
+
+sub value2string {
+    my $this = shift;
+    my ( $keys, $value ) = @_;
+
+    # For some reason Data::Dumper ignores the second parameter sometimes
+    # when -T is enabled, so have to do a substitution
+
+    my $txt = Data::Dumper->Dump( [$value] );
+    $txt =~ s/VAR1/Foswiki::cfg$keys/;
+
+    return $txt;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
