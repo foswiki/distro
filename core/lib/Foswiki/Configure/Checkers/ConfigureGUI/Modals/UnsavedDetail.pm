@@ -38,23 +38,33 @@ sub generateForm {
 
     my $cart = Foswiki::Configure::Feedback::Cart->get($session);
     my $passChanged = $cart->param('{Password}') ? 1 : 0;
+    $query->param( 'TYPEOF:{Password}', 'PASSWORD' );
 
     my $pendingItems = [];
     foreach my $key ( sortHashkeyList( keys %$updated ) ) {
         next if ( $key =~ /^\{ConfigureGUI\}/ );
         my $valueString;
         my $type = $query->param("TYPEOF:$key") || 'UNKNOWN';
-        if ( $key =~ /password/i ) {
-            $valueString = '&bull;' x 9;
+        if ( $type eq 'PASSWORD' ) {
+            $valueString = '&bull;' x 15;
         }
         elsif ( $type eq 'BOOLEAN' ) {
             $valueString = $query->param($key) ? 1 : 0;
         }
         else {
-            $valueString = join( ',', $query->param($key) );
+            my $ek = $key;
+            $ek =~ s/\}$/_}/;
+            if ( $query->param("TYPEOF:$ek") && !$query->param($ek) ) {
+                $valueString =
+                  '<span class="configureUndefinedValue">undefined</span>';
+            }
+            else {
+                $valueString = join( ', ', $query->param($key) );
+            }
         }
         push( @$pendingItems, { item => $key, value => $valueString } );
     }
+    $query->delete('TYPEOF:{Password}');
 
     $template->addArgs(
         pendingCount    => scalar @$pendingItems,

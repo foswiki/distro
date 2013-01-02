@@ -143,6 +143,9 @@ are run through this method before being saved in the value store.
 It should *not* be used to do validation - use a Checker to do that, or
 JavaScript invoked from the prompt.
 
+This method is NOT invoked when values are read from LocalSite.cfg;
+it is not (likely) the inverse of value2string.
+
 =cut
 
 sub string2value {
@@ -152,26 +155,40 @@ sub string2value {
 
 =begin TML
 
----++ ObjectMethod value2string($value) -> ($string, $require)
+---++ ObjectMethod value2string($keys, $value, $log) -> ($string, $require)
 Used to encode output values during save.  The default is
 adequate for most value types, but this hook allows for special
 encoding when needed.  See PASSWORD for an example.
 
-$value - the value to be encoded (should not be undef; that's
-         filtered earlier.
+   * $keys - the {key}{s} of the value being output.
 
-$require - the name of a require module that's required for decoding
-          the value.  (LSC will contain require $require;)
-          Can be an arrayref [qw/mod1 mod2/].  undef is acceptable.
+   * $value - the value to be encoded.  This is the actual value
+              of the item, NOT a Foswiki::Configure::Value object.
+              It should not be undef; that is filtered earlier.
 
-This is mechanism is intended for exceptional cases.  This default
+   * $logValue - String value logged by default.  May be modified.  undef
+            if no logging will be done.
+
+   * $string - the text to be entered in LocalSite.cfg for this value.
+               For save to work, it must be in the form
+               $Foswiki::cfg{key}{s} = ...;\n
+
+   * $require - the name of a require module that's required for decoding
+               the value.  (LSC will contain require $require;)
+               Can be an arrayref [qw/mod1 mod2/].  Optional.
+
+This mechanism is intended for exceptional cases.  This default
 method should be adequate for virtually every item type.
+
+Do not confuse this method with others used to produce values for
+human consumption.  Do not assume that it is the inverse of
+string2value.
 
 =cut
 
 sub value2string {
     my $this = shift;
-    my ( $keys, $value ) = @_;
+    my ( $keys, $value, $log ) = @_;
 
     # For some reason Data::Dumper ignores the second parameter sometimes
     # when -T is enabled, so have to do a substitution

@@ -805,17 +805,12 @@ sub startVisit {
 
     my $value = $this->{valuer}->currentValue($visitee);
 
-    if ( $this->{logger} ) {
-        my $logValue =
-            $typeName eq 'PASSWORD' ? '*' x 15
-          : defined $value ? $visitee->asString( $this->{valuer} )
-          :                  '<--undefined-->';
-        $this->{logger}->logChange( $visitee->getKeys(), $logValue );
-    }
-
+    my $logValue;
     if ( defined $value ) {
         my $type = $visitee->getType;
-        my ( $txt, $require ) = $type->value2string( $keys, $value );
+        $logValue = $visitee->asString( $this->{valuer} )
+          if ( $this->{logger} );
+        my ( $txt, $require ) = $type->value2string( $keys, $value, $logValue );
         if ( defined $require ) {
             if ( ref $require ) {
                 $this->{requires}{$_} = 1 foreach (@$require);
@@ -833,8 +828,12 @@ s/^\s*\$(?:Foswiki::)?cfg$keys\s*=.*?;\n/_updateEntry($keys,$txt)/msge
           );
     }
     else {
+        $logValue = '<--undefined-->';
         $this->{content} =~ s/^\s*?\$(?:Foswiki::)?cfg$keys\s*=.*?;\n//msg;
     }
+
+    $this->{logger}->logChange( $keys, $logValue )
+      if ( $this->{logger} );
 
     return 1;
 }

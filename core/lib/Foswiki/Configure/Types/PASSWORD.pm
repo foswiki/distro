@@ -31,13 +31,15 @@ sub prompt {
 # Encryption would be nice, but there's no place to store
 # the decryption password, and consumers need plaintext.
 #
-# Return:
-#   replacement text ($Foswiki::cfg{key}{s} = expression
-#   module for LSC to require for decode. (or arrayref if list)
+# Modify $logValue to keep passwords out of the logfiles.
+#
+# See Type.pm for API.
 
 sub value2string {
     my $this = shift;
-    my ( $keys, $value ) = @_;
+    my ( $keys, $value, $logValue ) = @_;
+
+    $_[2] = '*' x 15;
 
     my $txt = Data::Dumper->Dump( [ encode_base64( $value, '' ) ] );
     $txt =~
