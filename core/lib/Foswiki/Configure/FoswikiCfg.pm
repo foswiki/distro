@@ -512,27 +512,36 @@ sub startVisit {
     if ( $visitee->isa('Foswiki::Configure::Value') ) {
         my $keys   = $visitee->getKeys();
         my $warble = $this->{valuer}->currentValue($visitee);
-        return 1 unless defined $warble;
+
+        # return 1 unless defined $warble;
 
         if ( $this->{logger} ) {
-            my $logValue = $visitee->asString( $this->{valuer} );
+            my $logValue =
+                $visitee->{typename} eq 'PASSWORD' ? ( '*' x 15 )
+              : defined $warble ? $visitee->asString( $this->{valuer} )
+              :                   '<--undefined-->';
+
             $this->{logger}->logChange( $visitee->getKeys(), $logValue );
         }
 
-        # For some reason Data::Dumper ignores the second parameter sometimes
-        # when -T is enabled, so have to do a substitution
-        my $txt = Data::Dumper->Dump( [$warble] );
-        $txt =~ s/VAR1/Foswiki::cfg$keys/;
+        if ( defined $warble ) {
 
- # Substitute any existing value, or append if not there
- #unless ( $this->{content} =~ s/^\s*?\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/ms )
- #
- # SMELL:  The _updateEntry call is needed to fix up configs broken by Item9699.
-        unless ( $this->{content} =~
-s/^\s*?\$(?:Foswiki::)?cfg($keys)\s*=.*?;\n/&_updateEntry($1,$txt)/msge
-          )
-        {
-            $this->{content} .= $txt;
+           # For some reason Data::Dumper ignores the second parameter sometimes
+           # when -T is enabled, so have to do a substitution
+            my $txt = Data::Dumper->Dump( [$warble] );
+            $txt =~ s/VAR1/Foswiki::cfg$keys/;
+
+            # Substitute any existing value, or append if not there
+
+            unless ( $this->{content} =~
+s/^\s*\$(?:Foswiki::)?cfg$keys\s*=.*?;\n/&_updateEntry($keys,$txt)/msge
+              )
+            {
+                $this->{content} .= $txt;
+            }
+        }
+        else {
+            $this->{content} =~ s/^\s*?\$(?:Foswiki::)?cfg$keys\s*=.*?;\n//msg;
         }
     }
     return 1;
