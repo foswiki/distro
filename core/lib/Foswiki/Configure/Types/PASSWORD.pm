@@ -5,6 +5,8 @@ package Foswiki::Configure::Types::PASSWORD;
 use strict;
 use warnings;
 
+use MIME::Base64 qw/encode_base64/;
+
 use Foswiki::Configure::Types::STRING ();
 our @ISA = ('Foswiki::Configure::Types::STRING');
 
@@ -23,6 +25,25 @@ sub prompt {
         -onchange     => 'valueChanged(this)',
         -class        => "foswikiInputField $class",
     );
+}
+
+# The encoding is for protection against shoulder-surfing.
+# Encryption would be nice, but there's no place to store
+# the decryption password, and consumers need plaintext.
+#
+# Return:
+#   replacement text ($Foswiki::cfg{key}{s} = expression
+#   module for LSC to require for decode. (or arrayref if list)
+
+sub value2string {
+    my $this = shift;
+    my ( $keys, $value ) = @_;
+
+    my $txt = Data::Dumper->Dump( [ encode_base64( $value, '' ) ] );
+    $txt =~
+s/VAR1\s+=\s+(.*?);\n/Foswiki::cfg$keys = MIME::Base64::decode_base64( $1 );\n/ms;
+
+    return ( $txt, 'MIME::Base64' );
 }
 
 1;

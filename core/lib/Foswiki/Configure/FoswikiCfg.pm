@@ -728,8 +728,12 @@ sub _save {
     my $this = shift;
 
     %dupItem = ();
+    my %requires;
 
-    $this->{content} =~ s/\s*1;\s*$/\n/sg;
+    $this->{content} =~ s/^\s*1;\s*\n//msg;
+    $this->{content} =~ s/^\s*require\s+([^;]+);\n/$requires{$1} = 1; ''/msge;
+
+    $this->{requires} = \%requires;
 
     # Sort the resulting data by hash key.  Attaches any comments to the
     # following item.  Requires blank line after header to differentiate
@@ -771,13 +775,18 @@ s/\A(.*?^\s*?\$(?:Foswiki::)?cfg($configItemRegex)\s*=.*?;\n)/push @content, $2;
         my $trailer = $content;
 
         $content = $header;
+        $content .= "require $_;\n" foreach ( sort keys %requires );
         $content .= $content{$_} foreach ( sortHashkeyList(@content) );
         $this->{content} = "$content${trailer}1;\n";
     }
     else {
         $this->{root}->visit($this);
+        my $requires = '';
+        $requires .= "require $_;\n" foreach ( sort keys %requires );
+        $this->{content} =~ s/\A((?:^#[^\n]*\n)*)/$1$requires/ms if ($requires);
         $this->{content} .= "1;\n";
     }
+    delete $this->{requires};
 }
 
 # Visitor method called by node traversal during save. Incrementally modify
@@ -808,8 +817,23 @@ sub startVisit {
 
         # For some reason Data::Dumper ignores the second parameter sometimes
         # when -T is enabled, so have to do a substitution
-        my $txt = Data::Dumper->Dump( [$value] );
-        $txt =~ s/VAR1/Foswiki::cfg$keys/;
+        my ( $txt, $require );
+        my $type = $visitee->getType;
+        if ( $type && $type->can('value2string') ) {
+            ( $txt, $require ) = $type->value2string( $keys, $value );
+            if ( defined $require ) {
+                if ( ref $require ) {
+                    $this->{requires}{$_} = 1 foreach (@$require);
+                }
+                else {
+                    $this->{requires}{$require} = 1;
+                }
+            }
+        }
+        else {
+            $txt = Data::Dumper->Dump( [$value] );
+            $txt =~ s/VAR1/Foswiki::cfg$keys/;
+        }
 
         # Substitute any existing value, or append if not there
 
