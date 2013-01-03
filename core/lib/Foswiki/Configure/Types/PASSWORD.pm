@@ -41,9 +41,27 @@ sub value2string {
 
     $_[2] = '*' x 15;
 
-    my $txt = Data::Dumper->Dump( [ encode_base64( $value, '' ) ] );
+    use bytes();
+    my $txt;
+
+    # base64 is undefined for wide characters.
+    # If wide characters are present, Encode into octects first
+
+    if ( length($value) < bytes::length($value) ) {
+        require Encode;
+
+        $txt = Data::Dumper->Dump(
+            [ encode_base64( Encode::encode_utf8($value), '' ) ] );
+        $txt =~
+s/VAR1\s+=\s+(.*?);\n/Foswiki::cfg$keys = Encode::decode_utf8(MIME::Base64::decode_base64($1));\n/ms;
+        return ( $txt, [qw/MIME::Base64 Encode/] );
+    }
+
+    # No wide characters, use simpler encoding
+
+    $txt = Data::Dumper->Dump( [ encode_base64( $value, '' ) ] );
     $txt =~
-s/VAR1\s+=\s+(.*?);\n/Foswiki::cfg$keys = MIME::Base64::decode_base64( $1 );\n/ms;
+s/VAR1\s+=\s+(.*?);\n/Foswiki::cfg$keys = MIME::Base64::decode_base64($1);\n/ms;
 
     return ( $txt, 'MIME::Base64' );
 }
