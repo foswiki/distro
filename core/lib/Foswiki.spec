@@ -1123,25 +1123,12 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 #############################################################################
 #---+ Internationalisation -- TABS
 #---++ Languages
-# **BOOLEAN**
+# **BOOLEAN FEEDBACK=auto**
 # <p>Enable user interface internationalisation, i.e. presenting the user
 # interface in the users own language(s). Some languages require the
 # <code>Locale::Maketext::Lexicon</code> and <code>Encode/MapUTF8</code> Perl
 # modules to be installed.</p>
-$Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
-
-# **BOOLEAN EXPERT DISPLAY_IF {UserInterfaceInternationalisation}**
-# <p>Enable compilation of .po string files into compressed .mo files.
-# This can result in a significant performance improvement for I18N, but has also been
-# reported to cause issues on some systems.  So for now this is considered experimental.
-# Note that if string files are being edited, it requires that configure be rerun to recompile
-# modified files.  Disable this option to prevent compling of string files.  If disabled,
-# stale <code>&lt;language&gt;.mo</code> files should be removed from the
-# Foswiki locale directory so that the modified .po file will be used.
-$Foswiki::cfg{LanguageFileCompression} = $FALSE;
-
-# *LANGUAGES* Marker used by bin/configure script - do not remove!
-# <p>If <tt>{UserInterfaceInternationalisation}</tt> is enabled, the following
+# <p>When  enabled, the following
 # settings control the languages that are available in the
 # user interface. Check every language that you want your site to support.</p>
 # <p>Allowing all languages is the best for <strong>really</Strong> international
@@ -1150,6 +1137,20 @@ $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 # <p><code>{LocalesDir}</code> is used to find the languages supported in your installation,
 # so if the list of available languages is empty, it's probably because
 # <code>{LocalesDir}</code> is pointing to the wrong place.</p>
+$Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
+
+# **BOOLEAN FEEDBACK=auto EXPERT DISPLAY_IF {UserInterfaceInternationalisation}**
+# Enable compilation of <tt>.po</tt> string files into compressed <tt>.mo</tt> files.
+# This can result in a significant performance improvement for I18N, but has also been
+# reported to cause issues on some systems.  So for now this is considered experimental.
+# <p>Note that if string files are edited, you must re-run configure to recompile
+# modified files.  Disable this option to prevent compiling of string files. 
+# <p>Configure automatically detects out-of-date <tt>.mo</tt> files and recompiles
+# them whenever it is run.  Configure removes <tt>.mo</tt> files when this option
+# is disabled.
+$Foswiki::cfg{LanguageFileCompression} = $FALSE;
+
+# *LANGUAGES* Marker used by bin/configure script - do not remove!
 
 #---++ Locale
 # <p>Enable operating system level locales and internationalisation support
