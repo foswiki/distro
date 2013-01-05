@@ -109,7 +109,6 @@ feedback request has been received.
         #        my ( $action, $session, $cookie ) = @_;
 
         binmode STDOUT;
-        _loadSiteConfig();
 
         return Foswiki::Configure::Feedback::deliver(@_);
     }
@@ -134,6 +133,8 @@ sub deliver {
     my $query = $Foswiki::query;
 
     local $Foswiki::Configure::UI::feedbackEnabled = 1;
+
+    Foswiki::_loadSiteConfig();
 
     my $valuer =
       Foswiki::Configure::Valuer->new( $Foswiki::defaultCfg, \%Foswiki::cfg );
@@ -169,77 +170,7 @@ sub deliver {
 
     $pendingChanges = $modified + $cart->param;
 
-    my $root = new Foswiki::Configure::Root();
-
-    require Foswiki::Configure::Checkers::Introduction;
-    $root->addChild( Foswiki::Configure::Checkers::Introduction->new($root) );
-
-    use Config;
-
-    if ( my $oscfg = $Config{osname} ) {
-
-        # See if this platform has special detection or checking requirements
-        my $osospecial = "Foswiki::Configure::Checkers::$oscfg";
-        eval "require $osospecial";
-        unless ($@) {
-            my $os_checker = $osospecial->new($root);
-            $root->addChild($os_checker) if $os_checker;
-        }
-    }
-
-    Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
-
-    # These items don't actually exist, but are used to get Feedback
-    # for modal forms and special functions.  The checkers may change
-    # other items.  For convenience, we just attach these items to
-    # the root section.  Note they usually don't exist in all forms.
-    # Since they don't actually check anything, they all are given the
-    # type of "UNKNOWN" - the main screen should never render them.
-
-    require File::Spec;
-
-    sub _findModals {
-        my ( $keys, $path ) = @_;
-
-        my @found;
-        opendir( my $sdh, $path ) or return;
-        foreach my $file ( readdir($sdh) ) {
-            next if ( $file =~ /^\./ );
-            $file =~ /^([\w_.-]+)$/ or next;
-            $file = $1;
-            my $fs = File::Spec->catdir( $path, $file );
-            if ( -d $fs ) {
-                $file =~ tr/-/_/;
-                push @found, _findModals( "$keys\{$file}", $fs );
-                next;
-            }
-            next
-              unless ( -f File::Spec->catfile( $path, $file )
-                && $file =~ /\.pm$/ );
-
-            $file =~ /^([\w_-]+)\.pm$/ or next;
-            my $mkey = $1;
-            $mkey =~ tr/-/_/;
-            push @found, "$keys\{$mkey}";
-        }
-        closedir($sdh);
-        return @found;
-    }
-    my @GUIitems;
-    foreach my $path (@INC) {
-        my $libpath = File::Spec->catdir( $path,
-            "Foswiki/Configure/Checkers/ConfigureGUI/Modals" );
-        push @GUIitems, _findModals( '{ConfigureGUI}{Modals}', $libpath );
-    }
-    while ( Foswiki::sortHashkeyList(@GUIitems) ) {
-        my $keys  = shift @GUIitems;
-        my $value = Foswiki::Configure::Value->new(
-            'UNKNOWN',
-            keys => $keys,
-            opts => 'H',
-        );
-        $root->addChild($value);
-    }
+    my $root = loadConfig($session);
 
     my $ui = Foswiki::_checkLoadUI( 'Root', $root );
 
@@ -377,6 +308,197 @@ sub deliver {
     }
 
     deliverResponse( $fb, \%updated );
+}
+
+# ######################################################################
+# Obtain the current configuration data
+# ######################################################################
+
+sub loadConfig {
+    my ($session) = @_;
+
+    # Obtains a version of the UI model adequate for feedback.
+    #
+    # Returns a cached copy if possible.
+    #
+    # Otherwise, removes descriptions and GUI information that
+    # is not needed.  Stores a copy in $session so it doesn't
+    # need to be recompute on every feedback action.
+
+    # Need an efficient mechanism that can validate cached copy
+    # Depends on .spec files (and .pms.)  Need to check directories for
+    # spec adds/deletes.
+    # FoswikiCfg load => find, load.  Dir mtimes.?
+    #
+    # Saves about 250 msec - probably not worth the complexity...
+
+    my $root;
+
+    #print STDERR "Times (u, s, cu, cs): " . join( ',', times() ) . "\n";
+
+    if (0) {    # cache
+        my $fbc = $session->param('FBC');
+        my $files;
+
+        if ( $fbc && ref $fbc eq 'ARRAY' ) {
+            ( my ( $version, $files, $modules ), $root ) = @$fbc;
+
+            if ( $version == 1 ) {
+                my @files = @$files;
+                while (@files) {
+                    my $file = shift @files;
+                    last unless ( ( ( stat $file )[9] || 0 ) == $files[0] );
+                    shift @files;
+                }
+
+                if ( !@files && defined $root && defined $modules ) {
+                    eval $modules;
+                    die "$@\n" if ($@);
+                    goto EXIT;
+                }
+            }
+        }
+    }
+
+    $root = new Foswiki::Configure::Root();
+
+ #    This doesn't add anything that I know of.
+ #
+ #    require Foswiki::Configure::Checkers::Introduction;
+ #    $root->addChild( Foswiki::Configure::Checkers::Introduction->new($root) );
+
+    use Config;
+
+    if ( my $oscfg = $Config{osname} ) {
+
+        # See if this platform has special detection or checking requirements
+        my $osospecial = "Foswiki::Configure::Checkers::$oscfg";
+        eval "require $osospecial";
+        unless ($@) {
+            my $os_checker = $osospecial->new($root);
+            $root->addChild($os_checker) if $os_checker;
+        }
+    }
+
+    Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC, 1 );
+
+    # These items don't actually exist, but are used to get Feedback
+    # for modal forms and special functions.  The checkers may change
+    # other items.  For convenience, we just attach these items to
+    # the root section.  Note they usually don't exist in all forms.
+    # Since they don't actually check anything, they all are given the
+    # type of "UNKNOWN" - the main screen should never render them.
+
+    require File::Spec;
+
+    sub _findModals {
+        my ( $keys, $path ) = @_;
+
+        my @found;
+        opendir( my $sdh, $path ) or return;
+        foreach my $file ( readdir($sdh) ) {
+            next if ( $file =~ /^\./ );
+            $file =~ /^([\w_.-]+)$/ or next;
+            $file = $1;
+            my $fs = File::Spec->catdir( $path, $file );
+            if ( -d $fs ) {
+                $file =~ tr/-/_/;
+                push @found, _findModals( "$keys\{$file}", $fs );
+                next;
+            }
+            next
+              unless ( -f File::Spec->catfile( $path, $file ) );
+
+            $file =~ /^([\w_-]+)\.pm$/ or next;
+            my $mkey = $1;
+            $mkey =~ tr/-/_/;
+            push @found, "$keys\{$mkey}";
+        }
+        closedir($sdh);
+        return @found;
+    }
+    my @GUIitems;
+    foreach my $path (@INC) {
+        my $libpath = File::Spec->catdir( $path,
+            "Foswiki/Configure/Checkers/ConfigureGUI/Modals" );
+        push @GUIitems, _findModals( '{ConfigureGUI}{Modals}', $libpath );
+    }
+    while ( Foswiki::sortHashkeyList(@GUIitems) ) {
+        my $keys  = shift @GUIitems;
+        my $value = Foswiki::Configure::Value->new(
+            'UNKNOWN',
+            keys => $keys,
+            opts => 'H',
+        );
+        $root->addChild($value);
+    }
+
+    return $root if (1);    # cache
+
+    {
+
+        package Foswiki::Configure::Feedback::Cleanup;
+
+        sub new {
+            my $class = shift;
+
+            return bless {}, $class;
+        }
+
+        sub startVisit {
+            my ( $this, $visitee ) = @_;
+
+            return 1
+              unless ( $visitee->isa('Foswiki::Configure::Value')
+                || $visitee->isa('Foswiki::Configure::Section') );
+
+            $visitee->{desc}     = '' if ( exists $visitee->{desc} );
+            $visitee->{headline} = '' if ( exists $visitee->{headline} );
+            delete $visitee->{_defined};
+            delete $visitee->{displayIf};
+
+            return 1;
+        }
+
+        sub endVisit {
+            return 1;
+        }
+    }
+    $root->visit( Foswiki::Configure::Feedback::Cleanup->new );
+
+    my ( @files, $modules );
+    foreach my $required ( sort keys %INC ) {
+        my $file = $required;
+        if ( $file =~ /^(Foswiki.*)\.pm$/ ) {
+
+            # Record required Foswiki modules
+            $file = $1;
+            $file =~ s,/,::,g;
+            $modules .= ' && ' if ( defined $modules );
+            $modules .= "require $file";
+            next;
+        }
+        if ( $file =~ /\.spec$/ ) {
+            $file = $INC{$file};
+            push @files, ( $file => ( stat $file )[9] );
+        }
+    }
+    $modules .= ';' if ( defined $modules );
+
+    $session->param( 'FBC', [ 1, [@files], $modules, $root ] );
+
+    # Must not return a reference to data in $session, as flush
+    # will write with any updates.  We really want to cache only
+    # what has been built so far.
+
+  EXIT:
+    require Storable;
+    my $copy = Storable::dclone($root);
+    die unless $copy->isa('HASH');
+
+    #print STDERR "Times (u, s, cu, cs): " . join( ',', times() ) . "\n";
+
+    return ($copy);
 }
 
 # ######################################################################

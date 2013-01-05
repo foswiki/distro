@@ -37,10 +37,12 @@ sub generateForm {
         }
         my $valueString;
         my $type = $query->param("TYPEOF:$key") || 'UNKNOWN';
-        if ( $type eq 'PASSWORD' ) {
+        $type =~ /^(\w+)$/ or die "Invalid type $type\n";
+        $type = Foswiki::Configure::Type::load( $type, $1 );
+        if ( $type->isa('Foswiki::Configure::Types::PASSWORD') ) {
             $valueString = '&bull;' x 15;
         }
-        elsif ( $type eq 'BOOLEAN' ) {
+        elsif ( $type->isa('Foswiki::Configure::Types::BOOLEAN') ) {
             $valueString = $query->param($key) ? 1 : 0;
         }
         else {
@@ -173,10 +175,12 @@ sub processForm {
         }
         my $valueString;
         my $type = $query->param("TYPEOF:$key") || 'UNKNOWN';
-        if ( $type eq 'PASSWORD' ) {
+        $type =~ /^(\w+)$/ or die "Invalid type $type\n";
+        $type = Foswiki::Configure::Type::load( $type, $1 );
+        if ( $type->isa('Foswiki::Configure::Types::PASSWORD') ) {
             $valueString = '&bull;' x 15;
         }
-        elsif ( $type eq 'BOOLEAN' ) {
+        elsif ( $type->isa('Foswiki::Configure::Types::BOOLEAN') ) {
             $valueString = $query->param($key) ? 1 : 0;
         }
         else {

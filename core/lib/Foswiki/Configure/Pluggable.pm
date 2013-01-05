@@ -14,7 +14,8 @@ the disk) and/or may have special semantics, or may have a special UI which
 may override the behaviors of a standard item. Normally pluggables
 are sections, containing values and other sections. If this isn't
 appropriate, you will have to implement a new visit() function for
-saving configuration data.
+iterating over the model.  visit() must expose all Value items for
+checkers and saving configuration data.
 
 =cut
 

@@ -551,6 +551,8 @@ lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/LockFileName.pm 0444
 lib/Foswiki/Configure/Checkers/HttpCompress.pm 0444
 lib/Foswiki/Configure/Checkers/Introduction.pm 0444
+lib/Foswiki/Configure/Checkers/LANGUAGE.pm 0444
+lib/Foswiki/Configure/Checkers/LanguageFileCompression.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Dir.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/LogFileName.pm 0444

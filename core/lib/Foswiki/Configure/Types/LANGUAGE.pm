@@ -7,15 +7,6 @@ use warnings;
 use Foswiki::Configure::Types::BOOLEAN ();
 our @ISA = ('Foswiki::Configure::Types::BOOLEAN');
 
-# When any language changes, delete the cache
-sub onUpdate {
-    my $this = shift;
-    if ( -f $Foswiki::cfg{LocalesDir} . '/languages.cache' ) {
-        unlink( $Foswiki::cfg{LocalesDir} . '/languages.cache' );
-    }
-    $this->SUPER::onUpdate(@_);
-}
-
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

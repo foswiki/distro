@@ -53,6 +53,8 @@ SEE ALSO Foswiki::Configure::Load::readDefaults
 
    * $root Foswiki::Configure::Root of the model
    * $haveLSC if we have a LocalSite.cfg
+   * $flags control data loaded
+      * 1 - Verification not needed (e.g. Feedback)
 
 If we don't have a LocalSite.cfg, only Foswiki.spec will be loaded
 (Config.spec files from extensions will be skipped) and only the
@@ -62,7 +64,9 @@ will only be built and run for that first section.
 =cut
 
 sub load {
-    my ( $root, $haveLSC ) = @_;
+    my ( $root, $haveLSC, $flags ) = @_;
+
+    $flags ||= 0;
 
     my $file = Foswiki::Configure::Util::findFileOnPath('Foswiki.spec');
     if ($file) {
@@ -79,6 +83,11 @@ sub load {
             _loadSpecsFrom( "$dir/TWiki/Contrib",   $root, \%read );
         }
     }
+
+    return if ( $flags & 1 );
+
+    # Verify values vs. specs
+
     {
 
         package Foswiki::Configure::FoswikiCfg::Verify;
@@ -144,20 +153,25 @@ sub load {
                 # If no default, try to muddle along so these can be reported
 
                 unless ( defined $default ) {
+                    my $type =
+                      Foswiki::Configure::Type::load( $visitee->{typename},
+                        $keys );
 
-                    #if ( $visitee->{typename} eq 'HASH' ) {
+                    #if ( $type->isa('Foswiki::Configure::Types::HASH' )) {
                     #    $default = {};
                     #}
-                    #elsif ( $visitee->{typename} eq 'ARRAY' ) {
+                    #elsif ( $type->isa('Foswiki::Configure::Types::ARRAY' )) {
                     #    $default = [];
                     #}
                     #els
-                    if ( $visitee->{typename} eq 'PERL' ) {
+                    if ( $type->isa('Foswiki::Configure::Types::PERL') ) {
 
                         # Could be 'string' or {hash} but no way to guess.
                         $default = [];
                     }
-                    elsif ( $visitee->{typename} =~ /BOOLEAN|NUMBER|OCTAL/ ) {
+                    elsif ($type->isa('Foswiki::Configure::Types::BOOLEAN')
+                        || $type->isa('Foswiki::Configure::Types::NUMBER') )
+                    {
                         $default = 0;
                     }
                     else {

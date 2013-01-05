@@ -13,37 +13,75 @@ package Foswiki::Configure::Pluggables::LANGUAGES;
 use strict;
 use warnings;
 
+use Locale::Language;
+use Locale::Country;
+
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');
 
 sub new {
     my ($class) = @_;
 
-    # Create a new section. The section is unnamed because the *LANGUAGES*
-    # extender is already inside a ---++ Lnaguages section in Foswiki.spec
-    my $this = $class->SUPER::new('');
+    # The *LANGUAGES*  plugin is already inside a
+    # ---++ Languages section in Foswiki.spec, so no
+    # SECTION is necessary.
 
     # Insert a bunch of configuration items based on what's in
     # the locales dir
+
     my $d = $Foswiki::cfg{LocalesDir};
     Foswiki::Configure::Load::expandValue($d);
-    opendir( DIR, $d ) or return $this;
 
-    foreach my $file ( sort ( readdir DIR ) ) {
+    -d $d or return [];
+
+    opendir( DIR, $d ) or return [];
+
+    my %langs;
+    foreach my $file ( readdir DIR ) {
         next unless ( $file =~ m/^([\w-]+)\.po$/ );
         my $lang = $1;
-        $lang = "'$lang'" if $lang =~ /\W/;
-        $this->addChild(
-            new Foswiki::Configure::Value(
-                'BOOLEAN',
-                parent => $this,
-                keys   => '{Languages}{' . $lang . '}{Enabled}',
-                opts   => 'DISPLAY_IF {UserInterfaceInternationalisation}'
-            )
+        my $keys = $lang;
+        $keys = "'$keys'" if $keys =~ /\W/;
+
+        my $label;
+        if ( $lang =~ /^(\w+)-(\w+)$/ ) {
+            my ( $lname, $cname ) = (
+                ( code2language( $1, 'alpha-2' ) || '' ),
+                ( code2country( $2, 'alpha-2' ) || '' )
+            );
+            if ( $lname && $cname ) {
+                $label = "$lname ($cname)";
+            }
+            elsif ($lname) {
+                $label = "$lname ($2)";
+            }
+            elsif ($cname) {
+                $label = "$1 ($cname)";
+            }
+            else {
+                $label = "$lang";
+            }
+        }
+        else {
+            $label = code2language($lang) || "$lang";
+        }
+
+        my $value = Foswiki::Configure::Value->new(
+            'LANGUAGE',
+            keys => '{Languages}{' . $keys . '}{Enabled}',
+            opts =>
+"LABEL=\"Enable \Q$label\E\" FEEDBACK=auto DISPLAY_IF {UserInterfaceInternationalisation}",
         );
+        $value->addAuditGroup(qw/PARS:0 LANG:0/);
+        $langs{$label} = $value;
     }
     closedir(DIR);
-    return $this;
+
+    my $langs = [];
+    foreach my $label ( sort keys %langs ) {
+        push @$langs, $langs{$label};
+    }
+    return $langs;
 }
 
 1;

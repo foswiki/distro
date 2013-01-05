@@ -568,7 +568,7 @@ table.configureSectionValues div.foswikiAlert,
 div.configureAuditResults table.configureErrorList div.foswikiAlert {
 	padding-left:3em;
 }
-td.configureInfoText,
+tr.configureInfoText,
 div.configureInfoText {
 	margin:.5em 0;
 	color:green;

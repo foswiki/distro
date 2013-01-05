@@ -66,72 +66,29 @@ sub check {
         $n .= $this->checkPerlModules( 0, \@perl56 );
     }
 
-    # If Internalization is enabled, compile the .po files into .mo files
-    # for all enabled languages.
-    #
-    if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
-        eval "require Locale::Msgfmt";
-        if ($@) {
-            $n .= $this->WARN(
-"Cannot compile language files - error loading 'Locale::Msgfmt'\n"
-            );
-        }
-        else {
-            my $compMsgs = '';
-            my $svUmask =
-              umask( oct(777) - $Foswiki::cfg{RCS}{filePermission} );
-
-            foreach my $lang ( keys %{ $Foswiki::cfg{Languages} } ) {
-                if ( $Foswiki::cfg{Languages}{$lang}{Enabled}
-                    && -e "$Foswiki::cfg{LocalesDir}/$lang.po" )
-                {
-                    next
-                      if (
-                        -e "$Foswiki::cfg{LocalesDir}/$lang.mo"
-                        && ( -M "$Foswiki::cfg{LocalesDir}/$lang.po" >=
-                            -M "$Foswiki::cfg{LocalesDir}/$lang.mo" )
-                      );
-                    if (
-                           !$Foswiki::cfg{LanguageFileCompression}
-                        && -e "$Foswiki::cfg{LocalesDir}/$lang.mo"
-                        && ( -M "$Foswiki::cfg{LocalesDir}/$lang.po" <
-                            -M "$Foswiki::cfg{LocalesDir}/$lang.mo" )
-                      )
-                    {
-                        $n .= $this->WARN(
-"Stale language file $Foswiki::cfg{LocalesDir}/$lang.mo should be removed - Language file compression is disabled"
-                        );
-                    }
-                    next unless $Foswiki::cfg{LanguageFileCompression};
-
-                    $compMsgs .= "Compiling $lang.po into $lang.mo <br/>\n";
-                    eval {
-                        Locale::Msgfmt::msgfmt(
-                            {
-                                in      => "$Foswiki::cfg{LocalesDir}/$lang.po",
-                                out     => "$Foswiki::cfg{LocalesDir}/$lang.mo",
-                                verbose => 0
-                                , # verbose is not documented, but prints results to STDERR
-                            }
-                        );
-                    };
-                    if ($@) {
-                        $n .= $this->ERROR(
-"Compile of locale $lang.po failed - further compiles skipped"
-                        );
-                        $compMsgs .= $this->NOTE($@);
-                        last;
-                    }
-                }
-            }
-            umask($svUmask);    # Restore modified umask
-            $n .= $this->NOTE(
-"<b>Compiling modified Language files</b> found in $Foswiki::cfg{LocalesDir}<br/>\n$compMsgs"
-            ) if $compMsgs;
-        }
-    }
-
     return $n;
+}
+
+sub provideFeedback {
+    my $this = shift;
+    my ( $valobj, $button, $label ) = @_;
+
+    $this->{FeedbackProvided} = 1;
+
+    # Normally, we call check first, but not if called by check.
+
+    my $e = $button ? $this->check($valobj) : '';
+
+    delete $this->{FeedbackProvided};
+
+    return wantarray
+      ? (
+        $e,
+        $Foswiki::cfg{UserInterfaceInternationalisation}
+        ? [qw/{LanguageFileCompression}/]
+        : 0
+      )
+      : $e;
 }
 
 1;

@@ -228,9 +228,8 @@ qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autoche
 
         my $defaultDisplayValue = $this->urlEncode($valueString);
 
-        if (   $value->{typename} eq 'BOOLEAN'
-            || $value->{typename} eq 'NUMBER'
-            || $value->{typename} eq 'OCTAL' )
+        if (   $type->isa('Foswiki::Configure::Types::BOOLEAN')
+            || $type->isa('Foswiki::Configure::Types::NUMBER') )
         {
             $defaultDisplayValue ||= '0';
         }
@@ -303,8 +302,9 @@ qq{<input type="checkbox" name="$name" value="1" class="BOOLEAN configureItemEna
 
     my $helpText;
     my $helpTextLink = '';
+    my $tip          = '';
     if ($info) {
-        my $tip        = $root->{controls}->addTooltip($info);
+        $tip = $root->{controls}->addTooltip($info);
         my $scriptName = Foswiki::Configure::CGI::getScriptName();
         my $image =
 "<img src='${Foswiki::resourceURI}icon_info.png' alt='Show info' title='Show info' />";
@@ -312,15 +312,11 @@ qq{<input type="checkbox" name="$name" value="1" class="BOOLEAN configureItemEna
 "<span class='foswikiMakeVisible'><a href='#' onclick='return toggleInfo($tip);'>$image</a></span>";
         $helpText = CGI::td(
             {
-                id    => "info_$tip",
-                class => 'configureInfoText configureItemRow foswikiMakeHidden',
+                class   => 'configureItemRow',
                 colspan => 2
             },
             $info
         );
-    }
-    else {
-        $helpText = CGI::td('&nbsp');
     }
 
     my %props = ( 'data-keys' => $keys );
@@ -353,28 +349,47 @@ qq{<a href='#' onclick="return feedback.toggleXpndr(this,'${keys}status');" ><im
     $check =
 qq{<div id="${keys}status" class="configureFeedback configureFeedbackExpanded" >$check</div>};
 
-    $output .= CGI::Tr(
-        \%props,
-        CGI::th("$index$feedback$hiddenTypeOf")
-          . CGI::td(
-            CGI::table(
-                { class => 'configureItemTable' },
-                CGI::Tr( { class => 'configureItemRow', }, $helpText )
-                  . CGI::Tr(
-                    { class => 'configureItemRow', },
-                    CGI::td(
-                        { class => 'configureItemEnable configureItemRow' },
-                        $enable )
-                      . CGI::td( { class => 'configureItemRow' },
-                        "$control&nbsp;$resetToDefaultLinkText$check" )
-                      . CGI::td(
-                        { class => 'configureHelp configureItemRow' },
-                        $helpTextLink
+    if ($helpText) {
+        $output .= CGI::Tr(
+            \%props,
+            CGI::th("$index$feedback$hiddenTypeOf")
+              . CGI::td(
+                { colspan => 99, },
+                CGI::table(
+                    { class => 'configureItemTable' },
+                    CGI::Tr(
+                        {
+                            id => "info_$tip",
+                            class =>
+'configureInfoText foswikiMakeHidden configureItemRow',
+                        },
+                        $helpText
                       )
-                  )
-            )
-          )
-    ) . "\n";
+                      . CGI::Tr(
+                        { class => 'configureItemRow', },
+                        CGI::td(
+                            { class => 'configureItemEnable configureItemRow' },
+                            $enable
+                          )
+                          . CGI::td( { class => 'configureItemRow' },
+                            "$control&nbsp;$resetToDefaultLinkText$check" )
+                          . CGI::td(
+                            { class => 'configureHelp configureItemRow' },
+                            $helpTextLink
+                          )
+                      )
+                )
+              )
+        ) . "\n";
+    }
+    else {
+        $output .= CGI::Tr( \%props,
+                CGI::th("$index$feedback$hiddenTypeOf")
+              . CGI::td( { class => 'configureItemEnable' }, $enable )
+              . CGI::td("$control&nbsp;$resetToDefaultLinkText$check")
+              . CGI::td( { class => 'configureHelp' }, $helpTextLink ) )
+          . "\n";
+    }
     return (
         $output,
         {

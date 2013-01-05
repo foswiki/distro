@@ -56,8 +56,7 @@ sub new {
     my $class    = shift;
     my $typename = shift;
 
-    my $this =
-      bless( $class->SUPER::new('Foswiki::Configure::UIs::Value'), $class );
+    my $this = bless( $class->SUPER::new(), $class );
 
     $this->{typename}    = ( $typename || 'UNKNOWN' );
     $this->{keys}        = '';
