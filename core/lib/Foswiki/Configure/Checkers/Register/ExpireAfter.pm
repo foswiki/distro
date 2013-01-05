@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Sessions::ExpireAfter;
+package Foswiki::Configure::Checkers::Register::ExpireAfter;
 
 use strict;
 use warnings;
@@ -10,15 +10,17 @@ our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 sub check {
     my $this = shift;
 
-    return '' unless $Foswiki::cfg{UseClientSessions};
+    return ''
+      unless ( $Foswiki::cfg{Register}{NeedVerification}
+        || $Foswiki::cfg{Register}{NeedApproval} );
 
     my $e = '';
     $e .= $this->SUPER::check(@_);
     return $e if ( $e =~ /Error:/ );
 
-    if ( $Foswiki::cfg{Sessions}{ExpireAfter} < 0 ) {
+    if ( $Foswiki::cfg{Register}{ExpireAfter} < 0 ) {
         $e .= $this->WARN(<<'MESSAGE');
-Foswiki will *not* clean up sessions automatically. Make sure you
+Foswiki will *not* clean up pending registrations automatically. Make sure you
 have a cron job running the <tt>tools/tick_foswiki.pl</tt> script.
 MESSAGE
     }

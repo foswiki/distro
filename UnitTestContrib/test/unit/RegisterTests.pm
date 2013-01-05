@@ -1061,7 +1061,7 @@ sub verify_rejectDuplicatePendingEmail {
     my $this = shift;
     $Foswiki::cfg{Register}{NeedVerification} = 1;
     $Foswiki::cfg{Register}{UniqueEmail}      = 1;
-    $Foswiki::cfg{Sessions}{ExpireAfter}      = '-23600';
+    $Foswiki::cfg{Register}{ExpireAfter}      = '-23600';
 
     #$Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Register}{AllowLoginName} = 0;
@@ -1130,7 +1130,10 @@ sub verify_rejectDuplicatePendingEmail {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $Foswiki::cfg{Register}{NeedVerification} = 1;
     $Foswiki::cfg{Register}{UniqueEmail}      = 1;
-    $Foswiki::cfg{Sessions}{ExpireAfter}      = '-23600';
+
+    # Should use Sessions expiration if Registration is not defined.
+    $Foswiki::cfg{Register}{ExpireAfter} = undef;
+    $Foswiki::cfg{Sessions}{ExpireAfter} = '-23600';
 
     try {
         $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
@@ -1954,7 +1957,7 @@ sub test_PendingRegistrationManualCleanup {
     $Foswiki::cfg{Register}{NeedVerification}          = 1;
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
     $Foswiki::cfg{Register}{UniqueEmail}               = 0;
-    $Foswiki::cfg{Sessions}{ExpireAfter}               = '-600';
+    $Foswiki::cfg{Register}{ExpireAfter}               = '-600';
     $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = Unit::Request->new(
@@ -2019,7 +2022,10 @@ sub test_PendingRegistrationAutoCleanup {
     $Foswiki::cfg{Register}{NeedVerification}          = 1;
     $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
     $Foswiki::cfg{Register}{UniqueEmail}               = 0;
-    $Foswiki::cfg{Sessions}{ExpireAfter}               = 600;
+
+    # Should use Sessions expiration if Registration is not defined.
+    $Foswiki::cfg{Register}{ExpireAfter} = undef;
+    $Foswiki::cfg{Sessions}{ExpireAfter} = 600;
     $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = Unit::Request->new(

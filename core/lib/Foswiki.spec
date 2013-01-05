@@ -291,7 +291,7 @@ $Foswiki::cfg{DetailedOS} = '';
 # cons of using persistent sessions.</p>
 $Foswiki::cfg{UseClientSessions} = 1;
 
-# **NUMBER FEEDBACK=AUTO 20 EXPERT DISPLAY_IF {UseClientSessions}**
+# **NUMBER FEEDBACK=AUTO 20 DISPLAY_IF {UseClientSessions}**
 # Set the session timeout, in seconds. The session will be cleared after this
 # amount of time without the session being accessed. The default is 6 hours
 # (21600 seconds).<p />
@@ -305,7 +305,7 @@ $Foswiki::cfg{UseClientSessions} = 1;
 # job to clean up expired sessions. The standard maintenance cron script
 # <tt>tools/tick_foswiki.pl</tt> includes this function.
 # <p> Session files are stored in the <tt>{WorkingDir}/tmp</tt> directory.</p>
-# <p> This setting is also used to set a lifetime for registration requests.</p>
+# <p> This setting is also used to set a lifetime for passthru redirect requests.</p>
 $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 
 # **NUMBER FEEDBACK=AUTO EXPERT DISPLAY_IF {UseClientSessions} && {LoginManager}=='Foswiki::LoginManager::TemplateLogin'**
@@ -718,6 +718,21 @@ $Foswiki::cfg{Register}{NeedApproval} = $FALSE;
 # If the approver list is empty, the email will be sent to the wiki
 # administrator.
 $Foswiki::cfg{Register}{Approvers} = '';
+
+# **NUMBER FEEDBACK=AUTO 20 DISPLAY_IF {Register}{NeedVerification} || {Register}{NeedApproval}**
+# Set the pending registration timeout, in seconds. The pending registration
+# will be cleared after this amount of time. The default is 6 hours
+# (21600 seconds).<p />
+# <b>Note</b> By default, registration expiry is done "on the fly" 
+# during the registration process.  For best performance, you can set {Register}{ExpireAfter}
+# to a negative number, which will mean that Foswiki won't try to clean
+# up expired registrations durning registration. Instead you should use a cron
+# job to clean up expired sessions. The standard maintenance cron script
+# <tt>tools/tick_foswiki.pl</tt> includes this function.
+# <p><b>Note</b> that if you are using registration approval by 3rd party reviewers,
+# this timer should most likely be significantly increased.  24 hours = 86400, 3 days = 259200.</p>
+# <p> Pending registration requests are stored in the <tt>{WorkingDir}/registration_approvals</tt> directory.</p>
+$Foswiki::cfg{Register}{ExpireAfter} = 21600;
 
 # **BOOLEAN EXPERT**
 # Controls whether the user password has to be entered twice on the

@@ -1526,14 +1526,23 @@ sub _buildConfirmationEmail {
 sub _validateRegistration {
     my ( $session, $data, $requireForm ) = @_;
 
+    # Set the registration timeout. If it's not configured
+    # Use the session timeout, and if that's not configure
+    # then default to 10 hours.
+    my $exp =
+      ( defined $Foswiki::cfg{Register}{ExpireAfter} )
+      ? $Foswiki::cfg{Register}{ExpireAfter}
+      : ( defined $Foswiki::cfg{Sessions}{ExpireAfter} )
+      ? $Foswiki::cfg{Sessions}{ExpireAfter}
+      : 36000;    # 10 hours
+
     # Expire stale registrations, but if email addresses are being
     # checked for duplicate registrations, then let that code
     # read all the pending registration files. Don't do it twice.
     # Also don't do it if ExpireAfter is negative.  Use tick_foswiki instead.
     unless ( $Foswiki::cfg{Register}{UniqueEmail} ) {
-        if ( $Foswiki::cfg{Sessions}{ExpireAfter} > 1 ) {
-            _checkPendingRegistrations( undef,
-                $Foswiki::cfg{Sessions}{ExpireAfter} );
+        if ( $exp > 1 ) {
+            _checkPendingRegistrations( undef, $exp );
         }
     }
 
@@ -1736,9 +1745,7 @@ sub _validateRegistration {
     if ( $Foswiki::cfg{Register}{UniqueEmail} ) {
         my @existingNames = Foswiki::Func::emailToWikiNames( $data->{Email} );
         if ( $Foswiki::cfg{Register}{NeedVerification} ) {
-            my @pending =
-              _checkPendingRegistrations( $data->{Email},
-                $Foswiki::cfg{Sessions}{ExpireAfter} );
+            my @pending = _checkPendingRegistrations( $data->{Email}, $exp );
             push @existingNames, @pending if scalar @pending;
         }
         if ( scalar(@existingNames) ) {
@@ -2044,7 +2051,12 @@ tick_foswiki to expire stale registrations.
 =cut
 
 sub expirePendingRegistrations {
-    my $exp = $Foswiki::cfg{Sessions}{ExpireAfter} || 36000;    # 10 hours
+    my $exp =
+      ( defined $Foswiki::cfg{Register}{ExpireAfter} )
+      ? $Foswiki::cfg{Register}{ExpireAfter}
+      : ( defined $Foswiki::cfg{Sessions}{ExpireAfter} )
+      ? $Foswiki::cfg{Sessions}{ExpireAfter}
+      : 36000;    # 10 hours
 
     $exp = -$exp if $exp < 0;
     _checkPendingRegistrations( undef, $exp );
