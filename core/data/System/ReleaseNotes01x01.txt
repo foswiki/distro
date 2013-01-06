@@ -36,7 +36,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
-   * Foswiki 1.1.7_002-RC1 was built 28 Dec 2012. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 2 enhancements.
+   * Foswiki 1.1.7_003-RC2 was built 06 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 4 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -52,6 +52,8 @@ Foswiki 1.1 ships with the following:
 
 Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
 A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+
+Release 1.1.7 also includes a security fix for configure that reduces exposure of important passwords in confirmation and log messages.
 
 See [[#Rel01x01x07Details]]
 
@@ -1767,6 +1769,8 @@ to your =bin/LocalLib.cfg=.
 
 | [[%BUGS%/Item12278][Item12278]] | TML WikiWord links need better handling by TMCE to avoid inconsistent links. |
 | [[%BUGS%/Item11900][Item11900]] | Implement setting to force foswiki to return the !DefaultUrlHost regardless of original the input URL. |
+| [[%BUGS%/Item12324][Item12324]] | configure should not reveal password fields in confirmation messages and logs. |
+| [[%BUGS%/Item12329][Item12329]] | Code that deletes stale registrations needs it's own expiration timer.  Session timer is too short when manually approving registrations. |
 
 </noautolink>
 

@@ -527,6 +527,7 @@ lib/Foswiki/Configure/Checkers/RCS/unlockCmd.pm 0444
 lib/Foswiki/Configure/Checkers/REGEX.pm 0444
 lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
 lib/Foswiki/Configure/Checkers/Register/EmailFilter.pm 0444
+lib/Foswiki/Configure/Checkers/Register/ExpireAfter.pm 0444
 lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
 lib/Foswiki/Configure/Checkers/RegistrationApprovals.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/MAILHOST.pm 0444

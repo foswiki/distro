@@ -40,7 +40,7 @@ use Foswiki::LoginManager ();
 Foswiki::LoginManager::expireDeadSessions();
 
 # This will expire pending registrations that have not been used for
-# |{Sessions}{ExpireAfter}| seconds i.e. if you set {Sessions}{ExpireAfter}
+# |{Register}{ExpireAfter}| seconds i.e. if you set {Register}{ExpireAfter}
 # to -36000 or 36000 it will expire registrations that have not been verified for
 # more than 10 hours,
 
