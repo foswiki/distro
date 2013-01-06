@@ -4,9 +4,9 @@
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
----++ Foswiki Release 1.1.7_002-RC1 - 28 Dec 2012
+---++ Foswiki Release 1.1.7_003-RC2 - 06 Jan 2013
 
-Foswiki 1.1.7_002-RC1 was built 28 Dec 2012. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 2 enhancements.
+Foswiki 1.1.7_003-RC2 was built 06 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 4 enhancements.
 
 ---++ Foswiki Release 1.1.6 - 02 Dec 2012
 

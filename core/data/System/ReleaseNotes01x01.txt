@@ -61,13 +61,22 @@ See [[#Rel01x01x07Details]]
 
 Release 1.1.6 changed the editor to treat all links as real HTML links in TMCE.  This had an annoying side effect: when a user changes the link text displayed in-line, the editor  _only_ updated the link text, and the target page was not changed.
 This even including auto-linked !WikiWords.  The editor will now save the original !WikiWord.  During the save, if the new link text is still a !WikiWord, and the link target still points to the original !WikiWord,  it will also be updated to match the new !WikiWord..
-   * Ex.  if a !InlineWikiWord is changed to !ADifferentWikiWord, the link will now point to !ADifferentWikiWord, which is probably what the user intended. 
+   * Ex.  if a !InlineWikiWord is changed to !ADifferentWikiWord, the link will now point to !ADifferentWikiWord, which is probably what the user intended.
 *Note:* This change required a setting change to the !TinyMCEPlugin Init setting found in System.TinyMCEPlugin.   If the =TINYMCEPLUGIN_INIT= settings have been customized, this change will need to be merged into your customized settings or the new behavior will be ignored.
 
 ---+++ Force Default Host URL toggle
 
 Sites that use HTTP Proxies, load balancers and SSL Accelerators often modify the users original input URL. When this happens, Foswiki can generate incorrect links on the pages.  A new expert configuration parameter
 ={ForceDefaultUrlHost}= can be enabled to force Foswiki to override the user entered URL with the ={DefaultUrlHost}= setting.
+
+---+++ New configuration parameter ={Register}{ExpireAfter}=
+
+Foswiki 1.1.6 added code to clean up expired pending registrations, and tied the request lifetime to the ={Sessions}{ExpireAfter}= timer. This is much too short, especially when registration requests are redirected to a 3rd party
+approver, as described in [[http://foswiki.org/Support/Faq12][FAQ 12]] and [[http://foswiki.org/System/ManagingUsers#Authentication_and_Access_Control][Managing Users]] documentation.
+
+[[%BUGS%/Item12329][Item12329]] breaks this out to a separate timer for registration requests.   Default is 21600 seconds (6 hours).  If this setting is not in the configuration, the code will fall back to the ={Sessions}{ExpireAfter}=
+timer, and if that is not configured, the default is 36000 (10 hours).  Extend this setting to a longer value to give the approver ample time to process the request.
+
 
 ---++ Important changes since Foswiki 1.1.5
 
