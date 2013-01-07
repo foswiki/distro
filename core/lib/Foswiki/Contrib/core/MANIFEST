@@ -1180,6 +1180,7 @@ tools/extender.pl 0444
 tools/extension_installer 0555
 tools/geturl.pl 0555
 tools/rewriteshebang.pl 0555
+tools/save-pending-checkins 0555
 tools/tick_foswiki.pl 0555
 working/README 0444
 working/logs/README 0444

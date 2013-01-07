@@ -1,0 +1,57 @@
+#! /usr/bin/perl -w
+# See bottom of file for license and copyright information
+#
+use strict;
+use warnings;
+
+BEGIN {
+    if ( -e './setlib.cfg' ) {
+        unshift @INC, '.';
+    }
+    elsif ( -e '../bin/setlib.cfg' ) {
+        unshift @INC, '../bin';
+    }    # otherwise rely on the user-set path
+    require 'setlib.cfg';
+}
+
+use Foswiki       ();
+use Foswiki::Func ();
+
+my $session = new Foswiki('admin');
+
+foreach my $web ( Foswiki::Func::getListOfWebs() ) {
+    print STDERR "checking web $web\n";
+    foreach my $topic ( Foswiki::Func::getTopicList($web) ) {
+
+        #print STDERR "checking $web.$topic\n";
+        #my ($meta, $text) = Foswiki::Func::readTopic($web, $topic);
+        my $handler = $session->{store}->getHandler( $web, $topic );
+        if ( $handler->noCheckinPending() ) {
+
+            #print STDERR "$web, $topic revision history in sync\n";
+        }
+        else {
+            print STDERR "WARNING: $web.$topic has got a checkin pending\n";
+            $handler->savePendingCheckin();
+        }
+    }
+}
+
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2009-2013 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
