@@ -297,6 +297,21 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 </tr>
 <tr valign="top">
 <td>
+ *Definition List:* (deprecated) %BR%
+ Three spaces, the term (a single word, no spaces), a colon, a space, followed by the definition.
+</td><td>
+<verbatim class="tml">
+   Sushi: Japan
+   Dim-Sum: S.F.
+</verbatim>
+</td><td>
+
+   Sushi: Japan
+   Dim-Sum: S.F.
+</td>
+</tr>
+<tr valign="top">
+<td>
  *Table:* %BR%
 Each row of the table is a line containing of one or more cells. Each cell starts and ends with a vertical bar '|'. Any spaces at the beginning of a line are ignored.
    * =| <nop>*bold*<nop> |= header cell with text in asterisks
