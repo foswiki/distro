@@ -1488,6 +1488,35 @@ sub test_render_PlainText {
 #    );
 }
 
+# Test definition lists lists
+# SMELL: extend to dl's, and make it more thorough!
+sub test_definitions {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+ <dl>
+ <dt> A term </dt><dd> The definition
+ </dd> <dt> Term2</dt><dd> Deprecated form
+ </dd></dl> 
+ Indented 2 <ul>
+ <li> Level 1 <dl>
+ <dt> Another Term </dt><dd> The definition
+ </dd> <dt> Term2</dt><dd> Deprecated form
+ </dd></dl> 
+ </li></ul> 
+EXPECTED
+    my $actual = <<'ACTUAL';
+
+   $ A term: The definition
+   Term2: Deprecated form
+Indented 2
+   * Level 1
+      $ Another Term: The definition
+      Term2: Deprecated form
+
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 # Test mixes of :, * and 1 lists
 # SMELL: extend to dl's, and make it more thorough!
 sub test_lists {
@@ -1531,8 +1560,17 @@ None<div class='foswikiIndent'> Para <ul>
 
 </div>
 Pleasant
+<p></p> <dl>
+<dt> A term </dt><dd> The definition
+</dd> <dt> Term2</dt><dd> Deprecated form
+</dd>  </dl><div class='foswikiIndent'> Para <dl>
+<dt> Another Term </dt><dd> The definition
+</dd> <dt> Term2</dt><dd> Deprecated form
+</dd></dl> 
+</div>
+
 EXPECTED
-    my $actual = <<ACTUAL;
+    my $actual = <<'ACTUAL';
    : Para
    : Para
    : Para
@@ -1562,6 +1600,13 @@ None
       * Warm
    : Sunny
 Pleasant
+
+   $ A term: The definition
+   Term2: Deprecated form
+   : Para
+      $ Another Term: The definition
+      Term2: Deprecated form
+
 ACTUAL
     $this->do_test( $expected, $actual );
 }
