@@ -86,6 +86,32 @@ To remove a user account (<nop>FredQuimby, who logs in as "fred"):
 If you want to make it clear the user is no longer around, replace the topic content with a note to that effect.
 The existence of the <nop>UserName topic should also prevent that user name from being re-used, sealing the potential security hole regarding inherited permissions..
 
+<div class="foswikiHelp">
+%T% See the [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]] extension for another method of removing users.  It provides a =rest= handler to:
+   * Move the user topic to the Trash web.
+   * Remove the user from the password / mapper
+   * Remove the user from any groups.
+</div>
+
+---++ Other registration controls
+
+Registration process is configured at %SCRIPTURL{"configure"}%#Registration$SecurityAndAuthentication
+
+---+++ Confirmation
+
+Registration can be configured to require a confirmation via the registered email address:
+   * An email is sent to the email address entered by the new user with a confirmation code.
+   * The user must enter the confirmation code into a dialog on the wiki to confirm the registration.
+   * The pending registration lifetime defaults to 6 hours.  If the user does not confirm within that time, the pending registration will be removed.
+
+---+++ Registration Email Requirements
+
+Normally Foswiki does not require unique email addresses. Multiple users can register using the same email address.   Enable the setting ={Register}{UniqueEmail}=  to prevent use of the same email by multiple users.
+
+Normally any email domain can be used for registration.  Set the _expert_ setting ={Register}{EmailFilter}= to restrict the domains usable for registration.  See the configure help for more details.
+
+See the configure help at %SCRIPTURL{"configure"}%#Registration$SecurityAndAuthentication for more details.
+
 ---++ Customizing registration Emails.
 Foswiki's Registration can send 3 emails whose output is governed by templates:
    1 User registration confirmation - =templates/registerconfirm.tmpl=
@@ -169,11 +195,12 @@ any files that are replaced when Foswiki is upgraded.
    4 _optional_ Copy and modify the the Wiki admin notification - =templates/registernotifyadmin.tmpl= to =templates/registernotifyadmin.approval.tmpl=
    5 Create a new template to override the registration response to the user:  =templates/messages.approval.tmpl=
    6 Edit your [[%LOCALSITEPREFS%]] topic and enable the new skin, and set the %<nop>REGISTRATIONAPPROVAL% and %<nop>REGISTRATIONAPPROVALEMAIL% variables
-   7 Enable confirmation email messages using %SCRIPTURL{"configure"}% to enable ={Register}{NeedVerification}=
+   7 Enable confirmation email messages using %SCRIPTURL{"configure"}%#Registration$SecurityAndAuthentication to enable ={Register}{NeedVerification}=
+   8 Also, set the ={Register}{ExpireAfter}= setting to a value long enough to ensure that the approver has a chance to process the request before it expires.
 
 The following examples assume that Step 1 chose =approval= as the skin name.  And the registration notifications sent to the user and Wiki admin do not need to be modified.
 
----+++!! Registration confirmation template =templates/registerconfirm.approval.tmpl=
+---+++!! Registration confirmation template =templates/registerconfirm.approval.tmpl= _(Step 2)_
 
 Copy the template:  =cp templates/registerconfirm.tmpl templates/registerconfirm.approval.tmpl= and edit to appear as follows.
 This email message will be sent to the address responsible for approving registrations.
@@ -195,26 +222,7 @@ Verification code %VERIFICATIONCODE%
 </verbatim>
 <blockquote class="foswikiHelp"> %T% *Note* The line following the =Content-Transfer= *must* be completely empty, with no spaces, or the email wil fail.</blockquote>
 
----+++!! Registration response message =templates/messages.approval.tmpl=
-
-Create a new template: =templates/messages.approval.tmpl= This template will
-override one message from the large collection of messages in =templates/messages.tmpl=
-
-This ="confirm"= message will be returned to the user when they submit the registration request.
-
-<verbatim class="tml">
-%TMPL:INCLUDE{"messages"}%
-%TMPL:DEF{"confirm"}%
----+++ %MAKETEXT{"Thank you for registering"}%
-
-Your request has been sent to %REGISTRATIONAPPROVAL% <%REGISTRATIONAPPROVALEMAIL%> who will normally approve your
-registration within 1-2 working days.
-
-Return to %USERSWEB%.%HOMETOPIC%
-%TMPL:END%
-</verbatim>
-
----+++!! Wiki Admin notification =templates/registernotifyadmin.approval.tmpl=
+---+++!! Wiki Admin notification =templates/registernotifyadmin.approval.tmpl= _(Step 4)_
 
 This is sent to the Admin upon successful registration.  This message is
 extended to provide confirmation to the approver that the registration
@@ -243,8 +251,26 @@ Content-Transfer-Encoding: 8bit
 %SCRIPTURL{"view"}%/%USERSWEB%/%WIKINAME%
 </verbatim>
 
+---+++!! Registration response message =templates/messages.approval.tmpl= _(Step 5)_
 
----+++!! Site preferences =%LOCALSITEPREFS%=
+Create a new template: =templates/messages.approval.tmpl= This template will
+override one message from the large collection of messages in =templates/messages.tmpl=
+
+This ="confirm"= message will be returned to the user when they submit the registration request.
+
+<verbatim class="tml">
+%TMPL:INCLUDE{"messages"}%
+%TMPL:DEF{"confirm"}%
+---+++ %MAKETEXT{"Thank you for registering"}%
+
+Your request has been sent to %REGISTRATIONAPPROVAL% <%REGISTRATIONAPPROVALEMAIL%> who will normally approve your
+registration within 1-2 working days.
+
+Return to %USERSWEB%.%HOMETOPIC%
+%TMPL:END%
+</verbatim>
+
+---+++!! Site preferences =%LOCALSITEPREFS%= _(Step 6)_
 
 Edit your [[%LOCALSITEPREFS%]] topic and enable the new skin, and set the %<nop>REGISTRATIONAPPROVAL% and %<nop>REGISTRATIONAPPROVALEMAIL% variables.  (Do not include the =#= shown in the below example.)
 <verbatim class="tml">
@@ -255,7 +281,32 @@ Edit your [[%LOCALSITEPREFS%]] topic and enable the new skin, and set the %<nop>
 </verbatim>
 <blockquote class="foswikiHelp"> %X% *Note* Be sure to add the REGISTRATIONAPPROVAL and REGISTRATIONAPPROVALEMAIL to the =Set FINALPREFERENCES= line.</blockquote>
 
+---+++!! Edit the Registration Configuration _(Steps 7-8)_
 
+<blockquote>
+   $ ={Register}{NeedVerification}=: This checkbox should be enabled in the "Security and Authentication" -> "Registration" tab.
+   $ ={Register}{ExpireAfter}=: Set to a value that is > than the longest delay expected for approval.  For ex.  a "Holiday weekend" - 3-day lifetime would require 259200 seconds.
+<div class="foswikiHelp">
+Set the pending registration timeout, in seconds. The pending registration
+will be cleared after this amount of time. The default is 6 hours (21600
+seconds). This is only used if {Register}{NeedVerification} is enabled.
+
+Note By default, registration expiry is done "on the fly" during the
+registration process. For best performance, you can set
+={Register}{ExpireAfter}= to a negative number, which will mean that Foswiki
+won't try to clean up expired registrations durning registration. Instead you
+should use a cron job to clean up expired sessions. The standard maintenance
+cron script =tools/tick_foswiki.pl= includes this function.
+
+Note that if you are using registration approval by 3rd party reviewers, this
+timer should most likely be significantly increased. 24 hours = 86400, 3 days
+= 259200.
+
+Pending registration requests are stored in the
+={WorkingDir}/registration_approvals= directory.
+</div>
+
+</blockquote>
 
 ---
 *Related Topics:* AdminDocumentationCategory
