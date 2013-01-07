@@ -298,7 +298,8 @@ sub noCheckinPending {
               1;    # don't need to open the file on Win32
             my $rcsTime  = ( stat( $this->{rcsFile} ) )[9];
             my $fileTime = ( stat( $this->{file} ) )[9];
-            $isValid = ( $fileTime > $rcsTime ) ? 0 : 1;
+            $isValid =
+              ( $fileTime - $rcsTime > 1000 ) ? 0 : 1; # grace period of one sec
         }
     }
     return $isValid;
@@ -309,10 +310,9 @@ sub ci {
     die "Pure virtual method";
 }
 
-# Protected for use only in subclasses. Check that the object has a history
-# and the .txt is consistent with that history.
+# Check that the object has a history and the .txt is consistent with that history.
 # returns true when damage was saved, returns false when there's no checkin pending
-sub _saveDamage {
+sub savePendingCheckin {
     my $this = shift;
     return 0 if $this->noCheckinPending();
 
@@ -391,7 +391,7 @@ sub addRevisionFromText {
     my $rev;
 
     # get a new rev id when we saved damage
-    if ( $this->_saveDamage() ) {
+    if ( $this->savePendingCheckin() ) {
         $rev = $this->getNextRevisionID();
     }
     $comment ||= '';
@@ -416,7 +416,7 @@ sub addRevisionFromStream {
     $this->init();
 
     # Commit any out-of-band damage to .txt
-    $this->_saveDamage();
+    $this->savePendingCheckin();
 
     $this->ci( 1, $stream, $comment, $user, $date );
 }
@@ -593,7 +593,19 @@ sub revisionExists {
     my ( $this, $rev ) = @_;
 
     # Rev numbers run from 1 to numRevisions
-    return $rev && $rev <= $this->_numRevisions();
+    my $numRevs;
+    if ( $this->noCheckinPending() ) {
+
+        # TOPICINFO may be OK
+        my $info = {};
+        $this->_getTOPICINFO($info);
+        $numRevs = $info->{version} || 1;
+    }
+    else {
+        $numRevs = $this->_numRevisions();
+    }
+
+    return $rev && $rev <= $numRevs;
 }
 
 =begin TML
