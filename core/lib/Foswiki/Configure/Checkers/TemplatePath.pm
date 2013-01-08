@@ -4,6 +4,8 @@ package Foswiki::Configure::Checkers::TemplatePath;
 use strict;
 use warnings;
 
+use Foswiki::Configure qw/:keys/;
+
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
@@ -14,42 +16,51 @@ sub check {
 
     my @path = split( ',', $Foswiki::cfg{TemplatePath} );
 
+    my $n        = 0;
+    my $expanded = '';
     foreach my $orig (@path) {
+        $n++;
         my $path = $orig;
         Foswiki::Configure::Load::expandValue($path);
+        $expanded .= "<li>$path";
 
         if ( $path =~ m/\$(?!name|web|skin)/ ) {
+            my $p = $path;
+            $p =~ s/\$(?:name|web|skin)//g;
+            $p = join( ', ', $p =~ /(\$\w*)/g );
             $e .= $this->ERROR(
-"Unknown token - not \$name, \$web, \$skin or \$Foswiki::cfg{...}, found in $orig"
+"Unknown token(s) $p - not \$name, \$web, \$skin or \$Foswiki::cfg{...}, found in item $n"
             );
         }
 
-        my ($cfgparm) = $orig =~ m/.*(\$Foswiki::cfg\{.*\})/;
-        if ($cfgparm) {
-            Foswiki::Configure::Load::expandValue($cfgparm);
-            $e .=
-              $this->ERROR("Unknown Foswiki::cfg variable referenced in $orig")
-              if ( $cfgparm eq 'undef' );
-        }
+        my (@vars) = ( $orig =~ m/(\$Foswiki::cfg$configItemRegex)/g );
+        foreach my $cfgparm (@vars) {
+            my $xpn = $cfgparm;
+            Foswiki::Configure::Load::expandValue( $xpn, 1 );
 
-        #}
+            unless ( defined $xpn ) {
+                $e .=
+                  $this->ERROR("$cfgparm is undefined, referenced in item $n");
+                next;
+            }
+        }
 
         my ( $dir, $file ) = $path =~ m#^\s*([^\$]+)(.*)$#;
 
         if ( $dir
             && ( substr( $dir, 0, 1 ) eq '/' || substr( $dir, 1, 1 ) eq ':' ) )
         {
-            $e .= $this->ERROR("Path $dir not found, at $orig")
+            $e .= $this->ERROR("Path $dir not found, in item $n")
               unless ( -e $dir && -d $dir );
         }
 
     }
-
-    my $expanded = $this->showExpandedValue( $Foswiki::cfg{TemplatePath} );
-    $expanded =~ s/to:/to:<ol><li>/;
-    $expanded =~ s/,/<li>/g;
-    $expanded =~ s,(</span></div>)$,</ol>$1,;
-    $e .= $expanded;
+    if ($expanded) {
+        $e .= $this->NOTE("Expands to:<ol>$expanded</ol>");
+    }
+    else {
+        $e .= $this->ERROR("Value must not be empty");
+    }
 
     return $e;
 }

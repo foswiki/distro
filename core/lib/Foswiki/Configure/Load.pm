@@ -187,41 +187,61 @@ CODE
 
 =begin TML
 
----++ StaticMethod expandValue($datum)
+---++ StaticMethod expandValue($datum, $mode)
 
 Expands references to Foswiki configuration items which occur in the
 values configuration items contained within the datum, which may be a
 hash reference or a scalar value. The replacement is done in-place.
 
+$mode - How to handle undefined values:
+   * false:  'undef' is returned when an undefined value is encountered.
+   * 1 : return undef if any undefined value is encountered.
+   * 2 : return  '' for any undefined value (including embedded)
+   * 3 : die if an undefined value is encountered.
+
 =cut
 
 sub expandValue {
+    my $undef;
+    _expandValue( $_[0], ( $_[1] || 0 ), $undef );
+
+    $_[0] = undef if ($undef);
+}
+
+sub _expandValue {
     if ( ref( $_[0] ) eq 'HASH' ) {
-        map { expandValue($_) } values %{ $_[0] };
+        expandValue( $_, $_[1] ) foreach ( values %{ $_[0] } );
     }
     elsif ( ref( $_[0] ) eq 'ARRAY' ) {
-        map { expandValue($_) } @{ $_[0] };
+        expandValue( $_, $_[1] ) foreach ( @{ $_[0] } );
 
         # Can't do this, because Windows uses an object (Regexp) for regular
         # expressions.
         #    } elsif (ref($_[0])) {
         #        Carp::confess("Can't handle a ".ref($_[0]));
     }
-    elsif ( defined( $_[0] ) ) {
-        while (
-            $_[0] =~ s/(\$Foswiki::cfg$configItemRegex)/_handleExpand($1)/ge )
-        {
-        }
+    else {
+        1 while ( defined( $_[0] )
+            && $_[0] =~
+            s/(\$Foswiki::cfg$configItemRegex)/_handleExpand($1, @_[1,2])/geso
+        );
     }
 }
 
 # Used to expand the $Foswiki::cfg variable in the expand* routines.
-# Resolves issue with defined but null variables expanding as "undef"
-# Tasks:Item5608
+# $item, $mode, $forceUndefResult
+#   0       1           2
+
 sub _handleExpand {
     my $val = eval $_[0];
-    $val = ( defined $val ) ? $val : 'undef';
-    return $val;
+    die "Error expanding $_[0]: $@" if ($@);
+
+    return $val                                      if ( defined $val );
+    return 'undef'                                   if ( !$_[1] );
+    return ''                                        if ( $_[1] == 2 );
+    die "Undefined value in expanded string $_[0]\n" if ( $_[1] == 3 );
+    $_[2] = 1;
+    return '';
 }
 
 =begin TML

@@ -140,6 +140,9 @@ item.
 
 Any embedded references to other Foswiki::cfg vars will be expanded.
 
+Use getCfgUndefOK if you want a real undef for undefined values rather
+than the string 'undef'.
+
 =cut
 
 sub getCfg {
@@ -148,6 +151,17 @@ sub getCfg {
 
     my $item = '$Foswiki::cfg' . $name;
     Foswiki::Configure::Load::expandValue($item);
+    return $item;
+}
+
+# $undef: 1 => embedded undef forces undef result
+#         2 => embedded undef replaced by 'undef'
+sub getCfgUndefOk {
+    my ( $this, $name, $undef ) = @_;
+    $name ||= $this->{item}->getKeys();
+
+    my $item = '$Foswiki::cfg' . $name;
+    Foswiki::Configure::Load::expandValue( $item, ( $undef || 1 ) );
     return $item;
 }
 
@@ -300,9 +314,10 @@ sub guessDirectory {
 
 =begin TML
 
----++ PROTECTED ObjectMethod showExpandedValue -> $html
+---++ PROTECTED ObjectMethod showExpandedValue($field) -> $html
 
 Return the expanded value of a parameter as a note for display.
+$field is the value of the field (not it's keys)
 
 =cut
 
@@ -310,24 +325,19 @@ sub showExpandedValue {
     my ( $this, $field ) = @_;
     my $msg = '';
 
-    if ( defined $field ) {
-        if ( $field =~ m/\$Foswiki::cfg/ ) {
-            Foswiki::Configure::Load::expandValue($field);
-            $msg = $this->NOTE( '<b>Note:</b> Expands to: ' . $field );
-        }
+    if ( defined $field && $field =~ m/\$Foswiki::cfg/ ) {
+        Foswiki::Configure::Load::expandValue( $field, 1 );
+        $msg = $this->NOTE(
+            '<b>Note:</b> Expands to: '
+              . (
+                defined $field
+                ? $field
+                : '<span class="configureUndefinedValue">undefined</span>'
+              )
+        );
     }
-    else {
-        my $exempt = $this->{item}{opts} =~ /\bU\b/;
-
-        if ( !$exempt && $this->{item}{opts} =~ /\bE\b/ ) {
-            my $ekeys = $this->{item}->getKeys;
-            $ekeys =~ s/\}$/_\}/;
-            $exempt = !$this->getItemCurrentValue($ekeys);
-        }
-
-        $msg = $this->WARN('The value of this field is undefined')
-          unless ($exempt);
-    }
+    $msg = $this->WARN('The value of this field is undefined')
+      if ( !defined $field && $this->{item}{opts} !~ /\b[EU]\b/ );
 
     return $msg;
 }

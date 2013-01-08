@@ -2053,7 +2053,7 @@ $Foswiki::cfg{SandboxWebName} = 'Sandbox';
 # you are doing!)
 $Foswiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
-# **STRING 70**
+# **STRING 70 FEEDBACK=auto**
 # Web.TopicName of the site-level local preferences topic. If this topic
 # exists, any settings in it will <b>override</b> settings in
 # {SitePrefsTopicName}.<br />
@@ -2093,7 +2093,7 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';
 
-# **STRING 70x10 s**
+# **STRING 70x10 FEEDBACK=auto s**
 # A comma-separated list of generic file name templates that defines the order
 # in which templates are assigned to skin path components.
 # The file name templates can either be absolute file names ending in ".tmpl"
