@@ -299,7 +299,7 @@ sub noCheckinPending {
             my $rcsTime  = ( stat( $this->{rcsFile} ) )[9];
             my $fileTime = ( stat( $this->{file} ) )[9];
             $isValid =
-              ( $fileTime - $rcsTime > 1000 ) ? 0 : 1; # grace period of one sec
+              ( $fileTime - $rcsTime > 1 ) ? 0 : 1;    # grace period of one sec
         }
     }
     return $isValid;
@@ -325,7 +325,7 @@ sub savePendingCheckin {
         my $rev =
           $this->revisionHistoryExists() ? $this->getLatestRevisionID() : 1;
 
-        $t =~ s/^%META:TOPICINFO{(.*)}%$//m;
+        $t =~ s/^%META:TOPICINFO{.*?}%\n//m;
         $t =
             '%META:TOPICINFO{author="'
           . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID
