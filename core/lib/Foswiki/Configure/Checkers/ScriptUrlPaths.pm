@@ -114,7 +114,11 @@ sub testPath {
 
     local $Foswiki::Net::LWPAvailable = 0 && $Foswiki::Net::LWPAvailable;
     local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
-    local $Foswiki::VERSION = $Foswiki::VERSION || '0.0';
+
+    unless ( defined $Foswiki::VERSION ) {
+        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+        $Foswiki::Version = '0.0' unless ($fwi);
+    }
 
     my $test   = '/Web/Topic/Env/Echo?configurationTest=yes';
     my $target = $this->getItemCurrentValue;
@@ -253,7 +257,7 @@ The correct setting for $keys is probably \"<tt>$server[0]</tt>\".  <a href='#' 
         last;
     }
     if ( $try > $limit ) {
-        $e .= $this->ERROR("Excessive redirects (>$limit) stopped trace.");
+        $e .= $this->ERROR("Excessive redirects (&gt;$limit) stopped trace.");
     }
     return $e;
 }

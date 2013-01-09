@@ -171,7 +171,15 @@ sub getExternalResource {
         }
 
         $url = '/' unless ($url);
-        my $req = "GET $url HTTP/1.0\r\nHost: $host:$port\r\n";
+        my $req = "GET $url HTTP/1.0\r\nHost: $host";
+        if (   $protocol eq 'http' && $port == 80
+            || $protocol eq 'https' && $port == 443 )
+        {
+            $req .= "\r\n";
+        }
+        else {
+            $req .= ":$port\r\n";
+        }
 
         my ( $proxyHost, $proxyPort );
         $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};

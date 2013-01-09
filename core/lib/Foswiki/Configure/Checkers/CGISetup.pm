@@ -12,8 +12,9 @@ Foswiki::Configure::Checkers::AUDITGROUP for CGI & Environment
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checkers::AUDITGROUP;
+use Foswiki::Configure qw/:cgi :auth/;
 
+use Foswiki::Configure::Checkers::AUDITGROUP;
 our @ISA = qw(Foswiki::Configure::Checkers::AUDITGROUP);
 
 # This provides the webserver & environment audit items
@@ -43,7 +44,7 @@ sub provideFeedback {
     $this->{results} ||= '';
 
     if ( $button == 101 ) {
-        $content = $this->analyzeWebserver;
+        ( $status, $content ) = $this->analyzeWebserver;
     }
     elsif ( $button == 102 ) {
         $content = $this->analyzeFoswiki;
@@ -81,19 +82,87 @@ sub provideFeedback {
 sub analyzeWebserver {
     my $this = shift;
 
-    my $content = '';
+    my $content =
+      CGI::Tr( CGI::td( { colspan => 99 }, '<h4>Environment Variables</h4>' ) );
 
-    for my $key ( sort keys %ENV ) {
-        my $value = $ENV{$key};
-        if ( $key eq 'HTTP_COOKIE' ) {
+    # Check the execution environment
 
-            # url decode for readability
-            $value =~ s/%7C/ | /go;
-            $value =~ s/%3D/=/go;
-            $value .= $this->NOTE('Cookie string decoded for readability.');
+    my ( $e, $XENV ) = $this->getExecEnv();
+
+    if ( $e =~ /Error:/ ) {
+        $e = $this->WARN(
+"Unable to query execution environment.<p>The analysis reflects only the configure environment."
+        ) . $e;
+        for my $key ( sort keys %ENV ) {
+            my $value = $ENV{$key};
+            if ( $key eq 'HTTP_COOKIE' ) {
+
+                # url decode for readability
+                $value =~ s/%7C/ | /go;
+                $value =~ s/%3D/=/go;
+                $value .= $this->NOTE('Cookie string decoded for readability.');
+            }
+            $content .= $this->setting( $key, $value );
         }
-        $content .= $this->setting( $key, $value );
     }
+    else {
+        my %keys = map { $_ => 1 } ( keys %ENV, keys %$XENV );
+
+        $content .= CGI::Tr(
+            CGI::td('<b>Variable</b>'),
+            CGI::td('<b>Environment</b>'),
+            CGI::td('<b>Value</b>')
+        );
+
+        for my $key ( sort keys %keys ) {
+            my ( $ce, $xe ) = ( exists $ENV{$key}, exists $XENV->{$key} );
+
+            my ( $cv, $xv ) = ( $ENV{$key}, $XENV->{$key} );
+            if ( $key eq 'HTTP_COOKIE' ) {
+                foreach ( $cv, $xv ) {
+                    next unless ( defined $_ );
+
+                    # url decode for readability
+                    s/%7C/ | /go;
+                    s/%3D/=/go;
+                }
+                $key .= $this->NOTE('Cookie string decoded for readability.');
+            }
+            if ( $ce && $xe ) {
+                if ( $cv eq $xv ) {
+                    $content .=
+                      CGI::Tr(
+                        CGI::th($key) . CGI::td('&nbsp;') . CGI::td($cv) );
+                }
+                else {
+                    $content .= CGI::Tr(
+                        CGI::th(
+                            { rowspan => 2, style => "vertical-align:middle" },
+                            $key
+                          )
+                          . CGI::td('configure')
+                          . CGI::td($cv)
+                    );
+                    $content .= CGI::Tr( CGI::td('execution') . CGI::td($xv) );
+                }
+            }
+            elsif ($ce) {
+                $content .=
+                  CGI::Tr(
+                    CGI::th($key) . CGI::td('configure') . CGI::td($cv) );
+            }
+            else {
+                $content .=
+                  CGI::Tr(
+                    CGI::th($key) . CGI::td('execution') . CGI::td($xv) );
+            }
+        }
+    }
+
+    $content .=
+        CGI::end_table()
+      . CGI::start_table()
+      . CGI::Tr( CGI::td( { colspan => 99 }, '<h4>General Environment</h4>' ) );
 
     # Check for writable install root.  This used to be (incorrectly)
     # associated with DOCUMENT_ROOT.
@@ -271,7 +340,115 @@ HERE
           . $this->NOTE('Your CGI scripts are executing as this user.')
     );
 
-    return $content;
+    return ( $e, $content );
+}
+
+# Return %XENV = env from the execution environment
+
+sub getExecEnv {
+    my $this = shift;
+
+    my $e    = '';
+    my $xenv = {};
+
+    require Foswiki::Net;
+    my $cookie = Foswiki::newCookie($session);
+    my $net    = Foswiki::Net->new;
+
+    # Flags must be defined and false.  Avoid 'used once' warnings.
+
+    local $Foswiki::Net::LWPAvailable = 0 && $Foswiki::Net::LWPAvailable;
+    local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
+    unless ( defined $Foswiki::VERSION ) {
+        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+        $Foswiki::Version = '0.0' unless ($fwi);
+    }
+
+    # 'attach' chosen because it is unlikely to be redirected.
+
+    my $test = '/Web/Topic/Env/Echo?configurationTest=yes';
+    my $target =
+        '$Foswiki::cfg{ScriptUrlPath}/'
+      . 'attach'
+      . '$Foswiki::cfg{ScriptSuffix}';
+
+    Foswiki::Configure::Load::expandValue($target);
+
+    my $url = $Foswiki::cfg{DefaultUrlHost} . $target . $test;
+
+    my ( $limit, $try ) = (10);
+    my @headers = ( Cookie => join( '=', $cookie->name, $cookie->value ), );
+
+    if ( ( my $user = $query->param('{ConfigureGUI}{AuditUsername}') ) ) {
+        my $password = $query->param('{ConfigureGUI}{AuditPassword}') || '';
+        require MIME::Base64;
+        my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
+        push @headers, Authorization => "Basic $auth";
+    }
+
+    for ( $try = 1 ; $try <= $limit ; $try++ ) {
+        my $response = $net->getExternalResource( $url, @headers );
+        if ( $response->is_error ) {
+            my $content = $response->content || '';
+            $content =~ s/<([^>]*)>/&lt;$1&gt;/g;
+            $e .=
+              $this->ERROR( "Failed to access \"<tt>$url</tt>\"<pre>"
+                  . $response->code . ' '
+                  . $response->message . "\n\n"
+                  . $content
+                  . "</pre>" );
+            last;
+        }
+        if ( $response->is_redirect ) {
+            $url = $response->header('location') || '';
+            unless ($url) {
+                $e .=
+                  $this->ERROR( "Redirected ("
+                      . $response->code . ") "
+                      . 'without a <i>location</i> header' );
+                last;
+            }
+            next;
+        }
+        my @data = split( /\r?\n/, ( $response->content || '' ) );
+        unless ( $url =~ m,^(https?://([^:/]+)(:\d+)?)(/.*)?\Q$test\E$, ) {
+            $e .= $this->ERROR("\"<tt>$url</tt>\" does not match request");
+            last;
+        }
+        my ( $host, $hname, $port, $path ) = ( $1, $2, $3, $4 );
+        if ( $host ne $Foswiki::cfg{DefaultUrlHost} ) {
+            $e .= $this->WARN(
+"\"<tt>$host</tt>\" does not match {DefaultUrlHost} (<tt>$Foswiki::cfg{DefaultUrlHost}</tt>)"
+            );
+        }
+
+        $path ||= '';
+        my @server = split( /\|/, $data[0], 3 );
+        if ( @server != 3 ) {
+            $e .= $this->ERROR(
+                "Server returned incorrect diagnostic data:<pre>$data[0]</pre>"
+            );
+        }
+
+        shift @data;
+        foreach my $line (@data) {
+            my ( $key, $value ) = split( /\|/, $line, 2 );
+            unless ( defined $key && defined $value ) {
+                $e .= $this->ERROR(
+                    "Server returned incorrect diagnostic data:<pre>$line</pre>"
+                );
+                next;
+            }
+            $value =~ s/%(..)/chr(oct("0x$1"))/ge;
+            $xenv->{$key} = $value;
+        }
+        last;
+    }
+    if ( $try > $limit ) {
+        $e .=
+          $this->ERROR("Excessive redirects (&gt;$limit) stopped diagnostic.");
+    }
+    return ( $e, $xenv );
 }
 
 sub analyzeFoswiki {

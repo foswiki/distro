@@ -25,17 +25,17 @@
 # {key}{s} [G:b G:b] [type] options
 #        Defines an audit group.
 #        {Key}{s} are the hash keys used to find the AuditGroup handler for this group
-#        There are checkers (Foswiki::Configure::Checkers::Key::s) for each group.
-#        Normally, these would be null derrivations from AUDITGROUP, but other things are possible.
+#                 There are checkers (Foswiki::Configure::Checkers::Key::s) for each group.
+#                 Normally, these would be null derrivations from AUDITGROUP, but other things are possible.
 #        G:b are the GroupName of the parameters to be audited, and the Audit Button number
-#        GroupNames _* are reserved for internal functions.  _none is used for environment data
-#        not directly related to any item.
-#        that is pressed to select that group.
+#                 that is pressed to select that group.
+#                 GroupNames _* are reserved for internal functions.  _none is used for environment data
+#                 not directly related to any item.
 #        type is the TYPE used to display the item.  Usually NULL, but can be any item in Types;
-#        e.g. when an audit produces a short result.  Defaults to NULL.
+#                 e.g. when an audit produces a short result.  Defaults to NULL.
 #        options are the usual item options - note that AUDIT is usually meaningless for
-#        these items (except when they have dual auditor/item roles),
-#        but FEEDBACK is used to define an audit button, CHECK and LABEL are also meaningful.
+#                 these items (except when they have dual auditor/item roles),
+#                 but FEEDBACK is used to define an audit button, CHECK and LABEL are also meaningful.
 #
 # __END__ Stops processing; legal notices or comments can be placed after this token.
 #
@@ -63,6 +63,19 @@
 #! Note that other items can be added by making them a member of one of these
 #! audit groups.  (e.g. to add {foo} checker to the Webserver audit, in
 #! Foswiki.spec, declare {foo} with AUDIT="CGI:0"
+
+{ConfigureGUI}{AuditUsername} [_none] [STRING]   80 U LABEL="Test user for verifying execution" 
+
+# If your server requires a login name (username) and password to access the Foswiki scripts, enter a
+# valid login name here to enable the Web server action button.  This login will only be used for
+# testing and will not be saved with the Foswiki configuration.
+
+{ConfigureGUI}{AuditPassword} [_none] [PASSWORD] 80 U LABEL="Test password for verifying execution" \
+                              DISPLAY_IF {ConfigureGUI}{AuditUsername}.length
+# If your server requires a login name (username) and password to access the Foswiki scripts,
+# enter the password for the test account here to enable the Web server action button.  This password
+# will only be used for  testing and will not be saved with the Foswiki configuration. <B>Note:</b>
+# only HTTP Basic authorization is supported for this function.
 
 {CGISetup} [CGI CORE:2 EXTN:3] NOLABEL AUDIT="CGI:101 CORE:102 EXTN:103" \
                                        FEEDBACK="Web server";pinfo='/test/pathinfo' \

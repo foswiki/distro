@@ -110,13 +110,13 @@ $Foswiki::cfg{ScriptSuffix} = '';
 # **STRING 80 LABEL="Test user for verifying paths" **
 # If your server requires a login name (username) and password to access the Foswiki scripts, enter a
 # valid login name here to enable the Verify action button.  This login will only be used for
-# testing and not be saved with the Foswiki configuration.
+# testing and will not be saved with the Foswiki configuration.
 $Foswiki::cfg{ConfigureGUI}{TestUsername} = '';
 
 # **PASSWORD 80 LABEL="Test password for verifying paths" DISPLAY_IF {ConfigureGUI}{TestUsername}.length**
 # If your server requires a login name (username) and password to access the Foswiki scripts,
 # enter the password for the test account here to enable the Verify action button.  This password
-# will only be used for  testing and not be saved with the Foswiki configuration. <B>Note:</b>
+# will only be used for  testing and will not be saved with the Foswiki configuration. <B>Note:</b>
 # only HTTP Basic authorization is supported for this function.
 $Foswiki::cfg{ConfigureGUI}{TestPassword} = '';
 

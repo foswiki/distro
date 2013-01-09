@@ -140,14 +140,22 @@ sub respond {
                         qw/SERVER_PROTOCOL SERVER_SOFTWARE/,
                         # Apache/common extensions
                         qw/DOCUMENT_ROOT PATH_TRANSLATED REQUEST_URI SCRIPT_FILENAME/,
-                        qw/SCRIPT_URL SERVER_ADDR/,
+                        qw/SCRIPT_URI SCRIPT_URL SERVER_ADDR SERVER_ADMIN SERVER_SIGNATURE/,
                         # HTTP headers
-                        grep /^HTTP_/, keys %ENV );
+                        grep( /^HTTP_/, keys %ENV ),
+                        grep( /^SSL_/, keys %ENV ),
+                        # Other
+                        qw/PATH/,
+                      );
 
         foreach my $var (sort @cgivars) {
             next unless( exists $ENV{$var} );
-            my $val = $ENV{$var} || \'%uu\';
-            $val =~ s/([%\\n|])/sprintf "%%%02x", ord $1/egms;
+            my $val = $ENV{$var};
+            if( defined $val ) {
+                $val =~ s/([%\\n|])/sprintf "%%%02x", ord $1/egms;
+            } else {
+                $val = \'%uu\';
+            }
             $txt .= join( \'|\', $var, $val ) . "\n";
         }
 
