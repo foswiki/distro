@@ -118,6 +118,10 @@ sub analyzeWebserver {
             my ( $ce, $xe ) = ( exists $ENV{$key}, exists $XENV->{$key} );
 
             my ( $cv, $xv ) = ( $ENV{$key}, $XENV->{$key} );
+            foreach ( $cv, $xv ) {
+                $_ = '<span class="configureUndefinedValue">undefined</span>'
+                  unless ( defined $_ );
+            }
             if ( $key eq 'HTTP_COOKIE' ) {
                 foreach ( $cv, $xv ) {
                     next unless ( defined $_ );
@@ -439,7 +443,12 @@ sub getExecEnv {
                 );
                 next;
             }
-            $value =~ s/%(..)/chr(oct("0x$1"))/ge;
+            if ( $value eq '%uu' ) {
+                $value = undef;
+            }
+            else {
+                $value =~ s/%(..)/chr(oct("0x$1"))/ge;
+            }
             $xenv->{$key} = $value;
         }
         last;
