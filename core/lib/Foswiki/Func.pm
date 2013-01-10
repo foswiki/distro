@@ -1294,7 +1294,7 @@ sub eachGroupMember {
 
 =begin TML
 
----+++ addUserToGroup( $group, $id, $create ) -> $boolean
+---+++ addUserToGroup( $id, $group, $create ) -> $boolean
 
    * $id can be a login name or a WikiName
 
