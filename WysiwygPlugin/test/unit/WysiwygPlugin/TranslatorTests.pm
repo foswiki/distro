@@ -2056,6 +2056,18 @@ HERE
         tml  => "fred *%WIKINAME%* fred",
         html => "<p>fred <b>$protecton%WIKINAME%$protectoff</b> fred</p>",
     },
+
+    #SMELL: Item12341 needs to be fixed.  This fails $ROUNDTRIP
+    {
+        exec => 0,
+        name => 'Item12341',
+        tml  => <<'TML',
+%SEARCH{
+  header="<div class='foswikiNotification'><span class='foswikiAlert'>$percntX$percnt *some alert* </span>"
+  footer="</div>"
+}%
+TML
+    },
     {
         exec => $TML2HTML | $ROUNDTRIP,
         name => 'Item2352',
