@@ -27,6 +27,9 @@ my $TML2HTML      = 1 << 0;    # test tml => html
 my $HTML2TML      = 1 << 1;    # test html => finaltml (default tml)
 my $ROUNDTRIP     = 1 << 2;    # test tml => => finaltml
 my $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
+my $RTFAIL        = 1 << 4;    # ROUNDTRIP test is expected to fail
+my $T2HFAIL       = 1 << 5;    # TML2HTML test is expected to fail
+my $H2TFAIL       = 1 << 6;    # HTML2TML test is expected to fail
                                #   and make the ROUNDTRIP test expect failure
 
 # Note: ROUNDTRIP is *not* the same as the combination of
@@ -2057,9 +2060,18 @@ HERE
         html => "<p>fred <b>$protecton%WIKINAME%$protectoff</b> fred</p>",
     },
 
+    #SMELL: Item10707 needs to be fixed.  This fails $ROUNDTRIP
+    {
+        exec => $ROUNDTRIP | $RTFAIL,
+        name => 'Item10707',
+        tml  => <<'TML',
+<span style='background-color: %WEBBGCOLOR%'> current color </span>
+TML
+    },
+
     #SMELL: Item12341 needs to be fixed.  This fails $ROUNDTRIP
     {
-        exec => 0,
+        exec => $ROUNDTRIP | $RTFAIL,
         name => 'Item12341',
         tml  => <<'TML',
 %SEARCH{
@@ -3755,6 +3767,10 @@ sub compareTML_HTML {
     my ( $web, $topic ) =
       ( $args->{web} || 'Current', $args->{topic} || 'TestTopic' );
 
+    if ( ( $args->{exec} ) & $T2HFAIL ) {
+        $this->expect_failure("Test expected to fail");
+    }
+
     my $page = $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
     $page =~ s/\/$web\/$topic.*$//;
     my $html = $args->{html} || '';
@@ -3815,6 +3831,10 @@ sub compareRoundTrip {
     my ( $this, $args ) = @_;
     my ( $web, $topic ) =
       ( $args->{web} || 'Current', $args->{topic} || 'TestTopic' );
+
+    if ( ( $args->{exec} ) & $RTFAIL ) {
+        $this->expect_failure("Test expected to fail");
+    }
 
     my $page = $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
     $page =~ s/\/$web\/$topic.*$//;
@@ -3890,6 +3910,10 @@ sub compareHTML_TML {
     my ( $this, $args ) = @_;
     my ( $web, $topic ) =
       ( $args->{web} || 'Current', $args->{topic} || 'TestTopic' );
+
+    if ( ( $args->{exec} ) & $H2TFAIL ) {
+        $this->expect_failure("Test expected to fail");
+    }
 
     my $page = $this->{session}->getScriptUrl( 1, 'view', $web, $topic );
     $page =~ s/\/$web\/$topic.*$//;
