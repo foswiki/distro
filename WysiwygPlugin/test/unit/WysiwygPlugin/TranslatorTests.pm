@@ -2060,10 +2060,10 @@ HERE
         html => "<p>fred <b>$protecton%WIKINAME%$protectoff</b> fred</p>",
     },
 
-    #SMELL: Item10707 needs to be fixed.  This fails $ROUNDTRIP
+    #SMELL: Item10107 needs to be fixed.  This fails $ROUNDTRIP
     {
         exec => $ROUNDTRIP | $RTFAIL,
-        name => 'Item10707',
+        name => 'Item10107',
         tml  => <<'TML',
 <span style='background-color: %WEBBGCOLOR%'> current color </span>
 TML
