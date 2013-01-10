@@ -94,6 +94,17 @@ sub text {
     return $res;
 }
 
+sub encode {
+    my $value = shift;
+
+     if( defined $value ) {
+         $value =~ s/([%\\n|])/sprintf "%%%02x", ord $1/egms;
+     } else {
+         $value = \'%uu\';
+     }
+    return $value;
+}
+
 sub respond {
     my $req = shift;
 
@@ -141,23 +152,29 @@ sub respond {
                         # Apache/common extensions
                         qw/DOCUMENT_ROOT PATH_TRANSLATED REQUEST_URI SCRIPT_FILENAME/,
                         qw/SCRIPT_URI SCRIPT_URL SERVER_ADDR SERVER_ADMIN SERVER_SIGNATURE/,
-                        # HTTP headers
-                        grep( /^HTTP_/, keys %ENV ),
-                        grep( /^SSL_/, keys %ENV ),
+                        # HTTP headers & SSL data
+                        grep( /^(?:HTTP|SSL)_/, keys %ENV ),
                         # Other
-                        qw/PATH/,
+                        qw/PATH MOD_PERL MOD_PERL_API_VERSION/,
                       );
 
         foreach my $var (sort @cgivars) {
             next unless( exists $ENV{$var} );
-            my $val = $ENV{$var};
-            if( defined $val ) {
-                $val =~ s/([%\\n|])/sprintf "%%%02x", ord $1/egms;
-            } else {
-                $val = \'%uu\';
-            }
-            $txt .= join( \'|\', $var, $val ) . "\n";
+            $txt .= "0$var|" . encode( $ENV{$var} ) . "\n";
         }
+
+        $txt .= \'1@INC|\' . join( \'|\', map { encode( $_ ) } @INC ) . "\n";
+        my $gid = \'\';
+        eval {
+            $gid = join( \',\', map { lc getgrgid($_) } split( \' \', $( ) );
+        };
+        if( $@ ) {
+            $gid = lc( qx(sh -c \'( id -un ; id -gn) 2>/dev/null\' 2>nul ));
+        }
+        $txt .= "1groups|" . encode( $gid ) . "\n";
+
+        $txt .= "1uid|" . encode(eval { getlogin() || getpwuid($>) } || \'\') . "\n";
+        $txt .= sprintf( "1umask|%03o\n", umask );
 
         return text( $req, $res, 200, "OK", $txt );
     }

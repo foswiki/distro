@@ -87,7 +87,7 @@ sub analyzeWebserver {
 
     # Check the execution environment
 
-    my ( $e, $XENV ) = $this->getExecEnv();
+    my ( $e, $XENV, $XMSC ) = $this->getExecEnv();
 
     if ( $e =~ /Error:/ ) {
         $e = $this->WARN(
@@ -104,69 +104,88 @@ sub analyzeWebserver {
             }
             $content .= $this->setting( $key, $value );
         }
+        $content .=
+          CGI::Tr(
+            CGI::td( { colspan => 99 }, '<h4>General Environment</h4>' ) );
+
+        # Report the Umask
+        my $pUmask = sprintf( '%03o', umask() );
+        $content .= $this->setting( 'UMASK', $pUmask );
+
+        $content .= $this->setting( '@INC library path',
+            join( CGI::br(), @INC ) . $this->NOTE(<<HERE) );
+This is the Perl library path, used to load Foswiki modules,
+third-party modules used by some plugins, and Perl built-in modules.
+HERE
+
+        my $groups = $::WebServer_gid;
+        $groups =~ s/,/, /go;
+        $content .= $this->setting(
+            'CGI user',
+            'userid = <strong>'
+              . $::WebServer_uid
+              . '</strong> groups = <strong>'
+              . $groups
+              . '</strong>'
+              . $this->NOTE('Your CGI scripts are executing as this user.')
+        );
     }
     else {
-        my %keys = map { $_ => 1 } ( keys %ENV, keys %$XENV );
-
         $content .= CGI::Tr(
             CGI::td('<b>Variable</b>'),
             CGI::td('<b>Environment</b>'),
             CGI::td('<b>Value</b>')
         );
+        $content .=
+          $this->displayMergedHashes( configure => \%ENV, execution => $XENV );
 
-        for my $key ( sort keys %keys ) {
-            my ( $ce, $xe ) = ( exists $ENV{$key}, exists $XENV->{$key} );
+        $content .=
+          CGI::Tr(
+            CGI::td( { colspan => 99 }, '<h4>General Environment</h4>' ) );
 
-            my ( $cv, $xv ) = ( $ENV{$key}, $XENV->{$key} );
-            foreach ( $cv, $xv ) {
-                $_ = '<span class="configureUndefinedValue">undefined</span>'
-                  unless ( defined $_ );
-            }
-            if ( $key eq 'HTTP_COOKIE' ) {
-                foreach ( $cv, $xv ) {
-                    next unless ( defined $_ );
+        # Report the Umask
+        my $pUmask = sprintf( '%03o', umask );
+        $content .= $this->displayMergedHashes(
+            configure => { UMASK => $pUmask },
+            execution => { UMASK => $XMSC->{umask}[0] }
+        );
 
-                    # url decode for readability
-                    s/%7C/ | /go;
-                    s/%3D/=/go;
-                }
-                $key .= $this->NOTE('Cookie string decoded for readability.');
-            }
-            if ( $ce && $xe ) {
-                if ( $cv eq $xv ) {
-                    $content .=
-                      CGI::Tr(
-                        CGI::th($key) . CGI::td('&nbsp;') . CGI::td($cv) );
-                }
-                else {
-                    $content .= CGI::Tr(
-                        CGI::th(
-                            { rowspan => 2, style => "vertical-align:middle" },
-                            $key
-                          )
-                          . CGI::td('configure')
-                          . CGI::td($cv)
-                    );
-                    $content .= CGI::Tr( CGI::td('execution') . CGI::td($xv) );
-                }
-            }
-            elsif ($ce) {
-                $content .=
-                  CGI::Tr(
-                    CGI::th($key) . CGI::td('configure') . CGI::td($cv) );
-            }
-            else {
-                $content .=
-                  CGI::Tr(
-                    CGI::th($key) . CGI::td('execution') . CGI::td($xv) );
-            }
-        }
+        # Perl @INC (lib path)
+        $content .= $this->displayMergedHashes(
+            configure => { '@INC library path' => join( CGI::br(), @INC ) },
+            execution => {
+                '@INC library path' => join( CGI::br(), @{ $XMSC->{'@INC'} } )
+            },
+            $this->NOTE( << "HERE" ) );
+This is the Perl library path, used to load Foswiki modules,
+third-party modules used by some plugins, and Perl built-in modules.
+HERE
+
+        my $groups = $::WebServer_gid;
+        $groups =~ s/,/, /go;
+        my $user =
+            'userid = <strong>'
+          . $::WebServer_uid
+          . '</strong> groups = <strong>'
+          . $groups
+          . '</strong>';
+        $groups = $XMSC->{groups}[0];
+        $groups =~ s/,/, /go;
+        my $xuser =
+            'userid = <strong>'
+          . $XMSC->{uid}[0]
+          . '</strong> groups = <strong>'
+          . $groups
+          . '</strong>';
+
+        $content .= $this->displayMergedHashes(
+            configure => { 'CGI user' => $user },
+            execution => { 'CGI user' => $xuser },
+            $this->NOTE('Your CGI scripts are executing as this user.')
+        );
+
+        $content .= CGI::end_table() . CGI::start_table();
     }
-
-    $content .=
-        CGI::end_table()
-      . CGI::start_table()
-      . CGI::Tr( CGI::td( { colspan => 99 }, '<h4>General Environment</h4>' ) );
 
     # Check for writable install root.  This used to be (incorrectly)
     # associated with DOCUMENT_ROOT.
@@ -191,21 +210,19 @@ The parent directory of {ScriptDir} differs from the parent of {DataDir}.
 parent directory (symbolic links from the parent to the child directories are OK.)
 DIFFS
 
-    # Report the Umask
-    my $pUmask = sprintf( '%03o', umask() );
-    $content .= $this->setting( 'UMASK', $pUmask );
-
     # Detect whether mod_perl was loaded into Apache
     # This won't work is most places because ServerTokens defaults to OS or less
     # in current distributions.
 
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
       ( exists $ENV{SERVER_SOFTWARE}
-          && ( $ENV{SERVER_SOFTWARE} =~ /mod_perl/ ) );
+          && ( $ENV{SERVER_SOFTWARE} =~ /mod_perl/ ) )
+      || ( exists $XENV->{SERVER_SOFTWARE}
+        && ( $XENV->{SERVER_SOFTWARE} =~ /mod_perl/ ) );
 
     # Detect whether we are actually running under mod_perl
     # - test for MOD_PERL alone, which is enough.
-    $Foswiki::cfg{DETECTED}{UsingModPerl} = ( exists $ENV{MOD_PERL} );
+    $Foswiki::cfg{DETECTED}{UsingModPerl} = exists $ENV{MOD_PERL};
 
     $Foswiki::cfg{DETECTED}{ModPerlVersion} =
       eval 'use mod_perl2; return $mod_perl2::VERSION';
@@ -265,11 +282,13 @@ HERE
     $content .= $this->setting( "Operating system", $n );
 
     # Perl version and type
-    $n = $];
+    if ( $] =~ /^(\d+)\.(\d{3})(\d{3})$/ ) {
+        $n = sprintf( "%d.%d.%d", $1, $2, $3 );
+    }
+    else {
+        $n = $];
+    }
     $n .= " ($Config::Config{osname})";
-    $n .= $this->NOTE(<<HERE);
-Note that by convention "Perl version 5.008" is referred to as "Perl version 5.8" and "Perl 5.008004" as "Perl 5.8.4" (i.e. ignore the leading zeros after the .)
-HERE
 
     if ( $] < 5.008 ) {
         $n .= $this->WARN(<<HERE);
@@ -282,43 +301,30 @@ HERE
 
     $content .= $this->setting( 'Perl version', $n );
 
-    # Perl @INC (lib path)
-    $content .= $this->setting( '@INC library path',
-        join( CGI::br(), @INC ) . $this->NOTE(<<HERE) );
-This is the Perl library path, used to load Foswiki modules,
-third-party modules used by some plugins, and Perl built-in modules.
-HERE
-
     $content .= $this->setting( 'CGI bin directory', $this->_getBinDir() );
 
     # mod_perl
-    if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
-        $n = $this->WARN("Used for this script - it should not be");
-    }
-    else {
-        $n =
-qq{Not used for this script (correct). mod_perl may be enabled for the other scripts. You can check this by visiting <a href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/System/InstalledPlugins" target="_blank" class="configureWikiLink">System.InstalledPlugins</a> in your wiki.};
-    }
-    if ( $Foswiki::cfg{DETECTED}{ModPerlLoaded} ) {
-        $n .= $this->NOTE("mod_perl is loaded into Apache");
-    }
-    else {
-        $n .= $this->NOTE( << "MODPERL" );
-mod_perl may not be loaded into Apache.  It is not reported present in the
-SERVER_SOFTWARE environment variable, but this is not definitive because
-the ServerTokens directive often is used to suppress this information.
-MODPERL
-    }
+    $n = '';
+    my $mpUsed = $Foswiki::cfg{DETECTED}{UsingModPerl}
+      || exists $XENV->{MOD_PERL};
 
     if ( $Foswiki::cfg{DETECTED}{ModPerlVersion} ) {
-        $n .= $this->NOTE( 'mod_perl version ',
-            $Foswiki::cfg{DETECTED}{ModPerlVersion} . " is installed" );
+        if ( $Foswiki::cfg{DETECTED}{ModPerlVersion} =~
+            /^(\d+)\.(\d{3})(\d{3})$/ )
+        {
+            $n = sprintf( "%d.%d.%d", $1, $2, $3 );
+        }
+        else {
+            $n = $Foswiki::cfg{DETECTED}{ModPerlVersion};
+        }
+        $n = "mod_perl version $n is installed";
+    }
+    else {
+        $n .= "Not detected";
     }
 
     # Check for a broken version of mod_perl 2.0
-    if (   $Foswiki::cfg{DETECTED}{UsingModPerl}
-        && $Foswiki::cfg{DETECTED}{ModPerlVersion} =~ /1\.99_?11/ )
-    {
+    if ( $mpUsed && $Foswiki::cfg{DETECTED}{ModPerlVersion} =~ /1\.99_?11/ ) {
 
         # Recommend mod_perl upgrade if using a mod_perl 2.0 version
         # with PATH_INFO bug (see Support.RegistryCookerBadFileDescriptor
@@ -328,23 +334,107 @@ Version $Foswiki::cfg{DETECTED}{ModPerlVersion} of mod_perl is known to have maj
 its use with Foswiki. 1.99_12 or higher is recommended.
 HERE
     }
+
+    if ( $Foswiki::cfg{DETECTED}{UsingModPerl} ) {
+        $n .=
+          $this->WARN("mod_perl is used for this script - it should not be");
+    }
+    else {
+        $n .= $this->NOTE(qq{mod_perl is not used for this script (correct).});
+
+        if ( exists $XENV->{MOD_PERL} ) {
+            $n .= $this->NOTE(
+qq{mod_perl is enabled for the other scripts.   (Only <tt>attach</tt> was tested.)}
+            );
+        }
+        elsif (%$XENV) {
+            $n .= $this->NOTE(
+qq{mod_perl is not enabled for (all) the other scripts.  (Only <tt>attach</tt> was tested.)}
+            );
+        }
+        else {
+            $n .= $this->NOTE(
+qq{mod_perl may be enabled for the other scripts. You can check this by visiting <a href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/System/InstalledPlugins" target="_blank" class="configureWikiLink">System.InstalledPlugins</a> in your wiki, or re-run this analysis once the problem preventing configure from querying the execution environment is resolved.}
+            );
+        }
+    }
+
+    if ( $Foswiki::cfg{DETECTED}{ModPerlLoaded} || $mpUsed ) {
+        $n .= $this->NOTE("mod_perl is loaded into Apache");
+    }
+    elsif ( $Foswiki::cfg{DETECTED}{ModPerlVersion} ) {
+        $n .= $this->NOTE( << "MODPERL" );
+mod_perl may not be loaded into Apache.  It is not reported present in the
+SERVER_SOFTWARE environment variable, but this is not definitive because
+the ServerTokens directive often is used to suppress this information.
+MODPERL
+    }
+
     $content .= $this->setting( 'mod_perl', $n );
 
-    # Defined in configure, used once here
-    my $groups = $::WebServer_gid || $::WebServer_gid;
-
-    $groups =~ s/,/, /go;    # improve readability with linebreaks
-    $content .= $this->setting(
-        'CGI user',
-        'userid = <strong>'
-          . $::WebServer_uid
-          . '</strong> groups = <strong>'
-          . $groups
-          . '</strong>'
-          . $this->NOTE('Your CGI scripts are executing as this user.')
-    );
-
     return ( $e, $content );
+}
+
+sub displayMergedHashes {
+    my $this = shift;
+    my ( $label1, $hash1, $label2, $hash2, $note ) = @_;
+
+    $note ||= '';
+
+    my $content = '';
+
+    my %keys = map { $_ => 1 } ( keys %$hash1, keys %$hash2 );
+
+    foreach my $key ( sort keys %keys ) {
+        my ( $exists1, $exists2 ) =
+          ( exists $hash1->{$key}, exists $hash2->{$key} );
+
+        my ( $value1, $value2 ) = ( $hash1->{$key}, $hash2->{$key} );
+        foreach ( $value1, $value2 ) {
+            $_ = '<span class="configureUndefinedValue">undefined</span>'
+              unless ( defined $_ );
+        }
+        if ( $key eq 'HTTP_COOKIE' ) {
+            foreach ( $value1, $value2 ) {
+                next unless ( defined $_ );
+
+                # url decode for readability
+                s/%7C/ | /go;
+                s/%3D/=/go;
+            }
+            $key .= $this->NOTE('Cookie string decoded for readability.');
+        }
+        if ( $exists1 && $exists2 ) {
+            if ( $value1 eq $value2 ) {
+                $content .=
+                  CGI::Tr( CGI::th($key)
+                      . CGI::td('&nbsp;')
+                      . CGI::td( $value1 . $note ) );
+            }
+            else {
+                $content .= CGI::Tr(
+                    CGI::th( { rowspan => 2, style => "vertical-align:middle" },
+                        $key )
+                      . CGI::td($label1)
+                      . CGI::td($value1)
+                );
+                $content .=
+                  CGI::Tr( CGI::td($label2) . CGI::td( $value2 . $note ) );
+            }
+        }
+        elsif ($exists1) {
+            $content .=
+              CGI::Tr(
+                CGI::th($key) . CGI::td($label1) . CGI::td( $value1 . $note ) );
+        }
+        else {
+            $content .=
+              CGI::Tr(
+                CGI::th($key) . CGI::td($label2) . CGI::td( $value2 . $note ) );
+        }
+    }
+
+    return $content;
 }
 
 # Return %XENV = env from the execution environment
@@ -354,6 +444,7 @@ sub getExecEnv {
 
     my $e    = '';
     my $xenv = {};
+    my $xmsc = {};
 
     require Foswiki::Net;
     my $cookie = Foswiki::newCookie($session);
@@ -436,20 +527,28 @@ sub getExecEnv {
 
         shift @data;
         foreach my $line (@data) {
-            my ( $key, $value ) = split( /\|/, $line, 2 );
-            unless ( defined $key && defined $value ) {
+            my ( $key, @value ) = split( /\|/, $line, -1 );
+            unless ( defined $key && @value ) {
                 $e .= $this->ERROR(
                     "Server returned incorrect diagnostic data:<pre>$line</pre>"
                 );
                 next;
             }
-            if ( $value eq '%uu' ) {
-                $value = undef;
+            foreach my $value (@value) {
+                if ( $value eq '%uu' ) {
+                    $value = undef;
+                }
+                else {
+                    $value =~ s/%(..)/chr(oct("0x$1"))/ge;
+                }
+            }
+            $key =~ s/^(.)//;
+            if ( $1 eq '0' ) {
+                $xenv->{$key} = join( '|', @value );
             }
             else {
-                $value =~ s/%(..)/chr(oct("0x$1"))/ge;
+                $xmsc->{$key} = [@value];
             }
-            $xenv->{$key} = $value;
         }
         last;
     }
@@ -457,7 +556,7 @@ sub getExecEnv {
         $e .=
           $this->ERROR("Excessive redirects (&gt;$limit) stopped diagnostic.");
     }
-    return ( $e, $xenv );
+    return ( $e, $xenv, $xmsc );
 }
 
 sub analyzeFoswiki {
