@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.7_002-RC1
+---+!! Foswiki Release 1.1.7_004-RC3
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -36,7 +36,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
-   * Foswiki 1.1.7_003-RC2 was built 06 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 9 fixes and 4 enhancements.
+   * Foswiki 1.1.7_004-RC3 was built 10 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 12 fixes and 4 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1764,16 +1764,18 @@ to your =bin/LocalLib.cfg=.
 <noautolink>
 ---+++!! Fixes
 
-| [[%BUGS%/Item11546][Item11546]] | Cant locate object method "TopicObject", in Foswiki/Prefs.pm line 311. |
+| [[%BUGS%/Item9357][Item9357]] | Login with illegal web results in Assert failure, or Uninitialized variable. |
+| [[%BUGS%/Item11546][Item11546]] | Can't locate object method "TopicObject", in Foswiki/Prefs.pm line 311. |
 | [[%BUGS%/Item11765][Item11765]] | Error message generated when creating a topic with a missing formtemplate topic pre-pends a web - even if there already is one. |
 | [[%BUGS%/Item12271][Item12271]] | Conditional dependency (ONLYIF option) is too restrictive to be all that useful. |
 | [[%BUGS%/Item12279][Item12279]] | Net::SMTP::SSL Email fails with SSL_verify_mode error on recent versions of IO::Socket::SSL |
 | [[%BUGS%/Item12285][Item12285]] | Resolve MAKETEXT vulnerabilities CVE-2012-6329 and CVE-2012-6330. |
 | [[%BUGS%/Item12297][Item12297]] | Conditional initializing a perl variable exposes a core perl bug. |
 | [[%BUGS%/Item12300][Item12300]] | Potential write on closed filehandle processing languages cache. |
-| [[%BUGS%/Item12301][Item12301]] | i18n->maketext calls in plugin init run before user language has been determined. |
-| [[%BUGS%/Item9357][Item9357]] | Login with illegal web results in Assert failure, or Uninitialized variable. |
-
+| [[%BUGS%/Item12301][Item12301]] | I18N->maketext calls in plugin init run before user language has been determined. |
+| [[%BUGS%/Item12310][Item12310]] | Update registration documentation and other documentation changes. |
+| [[%BUGS%/Item12336][Item12336]] | Update docs for Func::addUserToGroup. |
+| [[%BUGS%/Item12337][Item12337]] | Remove dependency on version 4.0 of HTML::TreeBuilder. |
 ---+++!! Enhancements
 
 | [[%BUGS%/Item12278][Item12278]] | TML WikiWord links need better handling by TMCE to avoid inconsistent links. |
