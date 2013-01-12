@@ -77,6 +77,21 @@ approver, as described in [[http://foswiki.org/Support/Faq12][FAQ 12]] and [[htt
 [[%BUGS%/Item12329][Item12329]] breaks this out to a separate timer for registration requests.   Default is 21600 seconds (6 hours).  If this setting is not in the configuration, the code will fall back to the ={Sessions}{ExpireAfter}=
 timer, and if that is not configured, the default is 36000 (10 hours).  Extend this setting to a longer value to give the approver ample time to process the request.
 
+---+++ When upgrading, a new setting is needed for PatternSkin
+
+If you are upgrading an existing Foswiki system, verify the following:
+   * Ensure that !Main.SitePreferences or System.DefaultPreferences have the setting for PATTERNSKIN_JQUERY_THEME.  <verbatim>   * Set PATTERNSKIN_JQUERY_THEME = PatternSkinTheme</verbatim>
+   * Be sure to run through an edit / save cycle in [[%SCRIPTURL{"configure"}%][bin/configure]].
+
+The new =System.DefaultPreferences= topic has this setting, but if you have customized you !DefaultPreferences, then this setting may need to be added.
+
+The save cycle of configure is necessary to register the new JQuery pattern theme in the configuration.  (If configure reports no changes,  make a minor change and save again, and configure will merge in the changed settings). Or edit the =LocalSite.cfg= file by hand and add
+
+<verbatim>
+$Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Url} =
+'$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/PatternSkinTheme/jquery-ui.css';
+$Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Enabled} = 1;</verbatim>
+
 
 ---++ Important changes since Foswiki 1.1.5
 
