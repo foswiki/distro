@@ -47,6 +47,7 @@ Foswiki 1.1 ships with the following:
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
+%STARTSECTION{"116delta"}%
 #Release01x01Changes
 ---++ Important changes since Foswiki 1.1.6
 
@@ -56,6 +57,23 @@ A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, 
 Release 1.1.7 also includes a security fix for configure that reduces exposure of important passwords in confirmation and log messages.
 
 See [[#Rel01x01x07Details]]
+
+---+++ Module version strings and new module dependency in 1.1.6 and 1.1.7 
+
+The Foswiki and default extension version strings have been changed from a developer oriented string _Foswiki-1.1.5, Tue, 10 Apr 2012, build 14595,_  to a simple perl version string - "v1.1.6".
+The "RELEASE" string will continue to be more descriptive and can be displayed with a new macro =%<nop>WIKIRELEASE%=.
+
+*This adds a new dependency on =version 0.77= - the Perl module version class.*
+   * Sites using Perl 5.10.1 or newer have the correct version of version.
+   * Sites on older versions of perl should install the latest =version= using CPAN or their system's package manager.
+
+<blockquote class="foswikiAlert"><b>%X% Before upgrading to Foswiki 1.1.6 or 1.1.7, verify that the installed version of CPAN:version is at least version =0.77=.   If not, upgrade CPAN:version before attempting to upgrade Foswiki!</b>  For example:
+<verbatim> perl -Mversion -e 'print "$version::VERSION\n"'
+0.9901
+</verbatim></blockquote>
+
+Note: Extensions may not have been upgraded to use the new 'dotted-decimal' version string format for dependency checking.
+If an extension includes a dependency on an SVN-style revision, Foswiki 1.1.6 assumes that the dependency is satisfied by a 'dotted-decimal' version.
 
 ---+++ Wysiwyg / !TinyMCE Editor changes
 
@@ -92,22 +110,11 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Url} =
 '$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/PatternSkinTheme/jquery-ui.css';
 $Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Enabled} = 1;</verbatim>
 
+%ENDSECTION{"116delta"}%
 
 ---++ Important changes since Foswiki 1.1.5
 
 Release 1.1.6 is a security focused and bug fix release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki. 
-
----+++ Module version strings have been changed
-
-The Foswiki and default extension version strings have been changed from a developer oriented string _Foswiki-1.1.5, Tue, 10 Apr 2012, build 14595,_  to a simple perl version string - "v1.1.6".
-The "RELEASE" string will continue to be more descriptive and can be displayed with a new macro =%<nop>WIKIRELEASE%=.
-
-*This adds a new dependency on =version 0.77= - the Perl module version class.*
-   * Sites using Perl 5.10.1 or newer have the correct version of version.
-   * Sites on older versions of perl should install the latest =version= using CPAN or their system's package manager.
-
-Note: Extensions may not have been upgraded to use the new 'dotted-decimal' version string format for dependency checking.
-If an extension includes a dependency on an SVN-style revision, Foswiki 1.1.6 assumes that the dependency is satisfied by a 'dotted-decimal' version.
 
 ---+++ Default format of "New Topic" links has changed.
 
