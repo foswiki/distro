@@ -43,26 +43,8 @@ sub new {
     my $class = shift;
     my $autoBuild;    #set if this is an automatic build
     my $commit;       #set if changes should be committed to the repo
+    my $nocheck;      #set to bypass git repo check
     my $name;
-
-    if ( my $gitdir = findPathToDir('.git') ) {
-        $cvs = 'git';
-        print
-"detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
-
-     # Verify that all files are committed and all commits are dcommmited to svn
-        my $gitstatus = `git status -uno`;
-        die
-          "***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
-          if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
-        my $gitlog = `git log -1`;
-        die "***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
-          if ( $gitlog !~ m/git-svn-id:/ );
-    }
-    else {
-        print "detected svn installation\n\n";
-        $cvs = 'svn';
-    }
 
     if ( scalar(@ARGV) > 1 ) {
         $name = pop(@ARGV);
@@ -80,6 +62,33 @@ sub new {
             $commit = 1;
             $name   = undef;
         }
+        if ( $name eq '-nocheck' ) {
+
+            $nocheck = 1;
+            $name    = undef;
+        }
+    }
+
+    if ( my $gitdir = findPathToDir('.git') ) {
+        $cvs = 'git';
+        print
+"detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
+
+     # Verify that all files are committed and all commits are dcommmited to svn
+        my $gitstatus = `git status -uno`;
+        unless ($nocheck) {
+            die
+"***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
+              if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
+            my $gitlog = `git log -1`;
+            die
+"***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
+              if ( $gitlog !~ m/git-svn-id:/ );
+        }
+    }
+    else {
+        print "detected svn installation\n\n";
+        $cvs = 'svn';
     }
 
     print <<END;
@@ -118,10 +127,10 @@ Current version of Foswiki.pm: $VERSION, RELEASE: $RELEASE
 
 Enter the type of build.
    - "test" or "rebuild" (the default) will rebuild the above version without modifying any files.
-   - "major", "minor", or "patch" will increment the release string for that level
-      and add _001 alpha version.
-   - "next" does the right thing incrementing the alpha level or the patch + alpha.
-   - "release" will remove the "_nnn" alpha level for an official release
+   - "major", "minor", or "patch" will "release" that level, removing the alpha level.
+   - "next" does the right thing incrementing the alpha level.
+   - "nextminor" sets patch to 999 and sets alpha level to 001
+   - "nextmajor" sets patch and minor to 999 and sets alpha to 001.
 
 \$RELEASE is automatically derived from the calculated \$VERSION, plus
 a name appended for descriptive purposes.
@@ -139,11 +148,11 @@ END
 or just press enter.",
             'test'
         );
-        while (
-            $buildtype !~ /^(major|minor|patch|release|test|rebuild|next)?$/ )
+        while ( $buildtype !~
+            /^(major|minor|patch|test|rebuild|next(ma.*?|mi.*?)?)?$/ )
         {
             $buildtype = Foswiki::Contrib::Build::prompt(
-"Enter major, minor, patch, release, test, rebuild, next, or press enter for test builds: ",
+"Enter major, minor, patch, test, rebuild, next, nextmajor, nextminor or press enter for test builds: ",
                 $buildtype
             );
         }
@@ -153,46 +162,38 @@ or just press enter.",
 
             $maj =~ s/v//;
 
-            if ( $buildtype eq 'release' ) {
+            if ( $buildtype eq 'major' ) {
 
-                # Ready to release, remove alpha suffix
-                $alpha = '';
-            }
-            elsif ( $buildtype eq 'major' ) {
-
-      # Starting a new major release, increment, reset minor & patch, set alpha.
+# Releasing a new major release, increment major, reset minor & patch, remove alpha..
                 $maj++;
                 $min   = 0;
                 $pat   = 0;
-                $alpha = '001';
+                $alpha = '';
             }
             elsif ( $buildtype eq 'minor' ) {
 
-              # Starting a new minor release, increment, reset patch, set alpha.
+    # Releasing a new minor release, increment minor, reset patch, remove alpha.
                 $min++;
                 $pat   = 0;
-                $alpha = '001';
+                $alpha = '';
             }
             elsif ( $buildtype eq 'patch' ) {
 
-                # New patch release, increment and set alpha
+                # Release patch release, increment and remove alpha
                 $pat++;
-                $alpha = '001';
+                $alpha = '';
             }
-            elsif ( $buildtype eq 'next' ) {
+            elsif ( $buildtype =~ /^next/ ) {
 
    # Just next in sequence,  If not alpha, increment patch, then increment alpha
                 if ($alpha) {
                     $alpha++;
                 }
                 else {
-                    $pat++;
                     $alpha = '001';
+                    $min   = 999 if ( $buildtype =~ /^nextma/ );
+                    $pat   = 999 if ( $buildtype =~ /^next(ma|mi)/ );
                 }
-            }
-            else {
-                $pat++;
-                $alpha = '001';
             }
 
             my $newver = "v$maj.$min.$pat";
