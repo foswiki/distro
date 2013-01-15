@@ -27,19 +27,21 @@ The following CPAN modules are not shipped with Foswiki. Note that Foswiki exten
 Modules marked as Required may still be optional if certain default core features are not used.
 
 | *Module* | *Required/Optional* | *Description* |
-| CGI::Session | Required | Sessions support is usually required. |
-| HTML::Entities | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
-| HTML::Parser | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
-| HTML::Tree | Required | Used by CompareRevisionAddOn. |
-| URI | Required | Used for email notifications of topic changes. [[Foswiki::Extensions.MailerContrib][MailerContrib]] |
-| LWP | Required | Used by the Configure Extensions Installer, and for external URL based INCLUDEs |
-| Digest::SHA | Optional | Required to use SHA1 password encoding, since Perl 5.9.3 part of core |
-| Crypt::PasswdMD5 | Optional | Required to use Apache or Crypt MD5 password encoding, and crypt encoding on Windows |
-| Win32::Console | Optional | May be required for I18N on Windows |
-| Archive::Tar | Optional | Required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
-| Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
-| Net::SMTP::SSL | Optional | Required by Net::SMPT to send email over SSL to providers such as gmail. |
-| Authen::SASL | Optional | Required by Net::SMTP if email server requires authentication. |
+| CPAN:CGI::Session | Required | Sessions support is usually required. |
+| CPAN:HTML::Entities | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
+| CPAN:HTML::Parser | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
+| CPAN:HTML::Tree | Required | Used by CompareRevisionAddOn. |
+| CPAN:URI | Required | Used for email notifications of topic changes. [[Foswiki::Extensions.MailerContrib][MailerContrib]] |
+| CPAN:LWP | Required | Used by the Configure Extensions Installer, and for external URL based INCLUDEs |
+| CPAN:version | Required | version >= 0.77 required for module version checks |
+| CPAN:Digest::SHA | Optional | Required to use SHA1 password encoding, since Perl 5.9.3 part of core |
+| CPAN:Crypt::PasswdMD5 | Optional | Required to use Apache or Crypt MD5 password encoding, and crypt encoding on Windows |
+| CPAN:Digest::SHA1 | Optional | Required by the Foswiki FileCache feature |
+| CPAN:Win32::Console | Optional | May be required for I18N on Windows |
+| CPAN:Archive::Tar | Optional | Required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
+| CPAN:Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
+| CPAN:Net::SMTP::SSL | Optional | Required by Net::SMPT to send email over SSL to providers such as gmail. |
+| CPAN:Authen::SASL | Optional | Required by Net::SMTP if email server requires authentication. |
 
 
 Most of them will probably already be available in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line like this:
@@ -61,6 +63,7 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =libhtml-tree-perl= | |
 | LWP | =libwww-perl= | |
+| version | =libversion-perl= | Must be version 0.77 or newer |
 | Digest::SHA | =libdigest-sha-perl= | |
 | Digest::SHA1 | =libdigest-sha1-perl= | |
 | URI | =liburi-perl= | |
@@ -84,6 +87,7 @@ Install apache2, rcs, and perl-CPAN
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =perl-HTML-Tree= | |
 | LWP | =perl-libwww-perl= | |
+| version | | Must be version 0.77 or newer |
 | Digest::SHA | =perl-Digest-SHA= | |
 | Digest::SHA1 | =perl-Digest-SHA1= | |
 | URI | =perl-URI= | |
