@@ -1,7 +1,7 @@
 /*
  * jQuery NatEdit plugin 
  *
- * Copyright (c) 2008-2012 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2013 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -598,7 +598,7 @@ $.NatEditor.prototype.setSelectionRange = function(start, end) {
 
   //$.log("setSelectionRange("+self.txtarea+", "+start+", "+end+")");
   $(self.txtarea).focus();
-  if (self.txtarea.createTextRange && !$.browser.opera) {
+  if (typeof(self.txtarea.createTextRange) !== 'undefined' && !$.browser.opera) {
     lineFeeds = self.txtarea.value.substring(0, start).replace(/[^\r]/g, "").length;
     range = self.txtarea.createTextRange();
     range.collapse(true);

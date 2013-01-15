@@ -11,7 +11,11 @@
 }
 .natEdit textarea,
 .natEditTextArea {
-  width:100% !important;
+  /* working around IE8 textarea bugs: make it think it gets a fixed width but then junk in min and max width 100% */
+  width:500px !important; 
+  min-width:100%;
+  max-width:100%;
+
   font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
   font-size:12px;
   line-height:1.5em;

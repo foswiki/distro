@@ -48,7 +48,7 @@
 <input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
 <input type="hidden" name="template" value="%URLPARAM{"template"}%" />%TMPL:END%
 
-%TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215 %TMPL:P{"natedit::options"}%}" wrap="virtual" name="text" rows="22" cols="70">%TEXT%</textarea>%TMPL:END%
+%TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215 %TMPL:P{"natedit::options"}%}" name="text" rows="22" cols="70">%TEXT%</textarea>%TMPL:END%
 %TMPL:DEF{"messages"}%<div id="natEditMessageContainer"></div>%TMPL:END%
 
 %TMPL:DEF{"formend"}%<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />

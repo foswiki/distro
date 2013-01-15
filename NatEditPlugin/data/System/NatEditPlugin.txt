@@ -55,11 +55,12 @@ is sufficient.
 %$INSTALL_INSTRUCTIONS%
 
 |  Author: | Michael Daum |
-|  Copyright &copy;: | 2007-2012 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2007-2013 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  15 Jan 2013 | added work-around for an IE8 bug in textareas |
 |  21 Dec 2012 | added in-edit upload support using Foswiki:Extensions/TopicInteractionPlugin |
 |  29 Oct 2012 | removed local button styles to allow theming via jquery-ui; use of NATEDIT_THEME is deprecated from now on|
 |  22 Oct 2012 | implemented improved list editing; rewrite of modal dialogs to use jquery-ui-dialog instead of the old simplemodal library |
