@@ -42,66 +42,62 @@ my $gitdir;
 sub new {
     my $class = shift;
     my $autoBuild;    #set if this is an automatic build
+    my $commit;       #set if changes should be committed to the repo
+    my $nocheck;      #set to bypass git repo check
     my $name;
-
-    if ( my $gitdir = findPathToDir('.git') ) {
-        $cvs = 'git';
-        print "detected git installation at $gitdir\n"
-          . "*Note*: svn will still be used to query the Repository"
-          . " for the list of release tags.\n";
-
-     # Verify that all files are committed and all commits are dcommmited to svn
-        my $gitstatus = `git status -uno`;
-        die "***\nuncommitted changes in tree - build aborted\n"
-          . "***\n$gitstatus\n"
-          if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
-        my $gitlog = `git log -1`;
-        die "***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
-          if ( $gitlog !~ m/git-svn-id:/ );
-    }
-    else {
-        print "detected svn installation\n\n";
-        $cvs = 'svn';
-    }
 
     if ( scalar(@ARGV) > 1 ) {
         $name = pop(@ARGV);
         if ( $name eq '-auto' ) {
 
             #build a name from major.minor.patch.-auto.svnrev
-            my $revlog = ( $cvs eq 'svn' ) ? `svn info ..` : `git svn info`;
-            my ($rev) = $revlog =~ /Revision: (\d*)/m;
-            $rev ||= 'LOCAL';
-            $name = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
+            my $rev = ( $cvs eq 'svn' ) ? `svn info ..` : `git svn info`;
+            $rev =~ /Revision: (\d*)/m;
+            $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $1;
             $autoBuild = 1;
+        }
+        if ( $name eq '-commit' ) {
+
+            # Commit the changes back to the repo
+            $commit = 1;
+            $name   = undef;
+        }
+        if ( $name eq '-nocheck' ) {
+
+            $nocheck = 1;
+            $name    = undef;
         }
     }
 
-    print <<END;
+    if ( my $gitdir = findPathToDir('.git') ) {
+        $cvs = 'git';
+        print
+"detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
 
-You are about to build Foswiki. If you are not building a release, for
-example you are building a package just for your own testing purposes,
-then you can leave it unnamed.
+     # Verify that all files are committed and all commits are dcommmited to svn
+        my $gitstatus = `git status -uno`;
+        unless ($nocheck) {
+            die
+"***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
+              if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
+            my $gitlog = `git log -1`;
+            die
+"***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
+              if ( $gitlog !~ m/git-svn-id:/ );
+        }
+    }
+    else {
+        print "detected svn installation\n\n";
+        $cvs = 'svn';
+    }
+
+    print <<END;
+You are about to build Foswiki.
 
 Note: DO NOT ATTEMPT TO GENERATE A RELEASE UNLESS ALL UNIT TESTS PASS.
 The unit tests are a critical part of the release process, as they
 establish the correct baseline functionality. If a unit test fails,
 any release package generated from that code is USELESS.
-
-If you provide a release name, Foswiki.pm will be automatically edited
-to insert the new name of the release. The updated Foswiki.pm will be
-checked in before the build starts.
-
-The release *must* be named according to the standard scheme i.e
-
-major.minor.patch[-qualifier]
-
-where -qualifier is optional (it usually somthing like -beta).
-
-This will be translated to appropriate package and topic names.
-
-(The release name can optionally be passed in a *second* parameter
-to the script e.g. perl build.pl release 4.6.5)
 
 I'm now looking in the tags for the designation of the *last* release....
 END
@@ -109,27 +105,128 @@ END
       split( '/\n', `svn ls http://svn.foswiki.org/tags` );
 
     unless ($autoBuild) {
-        if (
-            $name
-            || Foswiki::Contrib::Build::ask(
-                "Do you want to name this release?", 'n'
-            )
-          )
+
+        open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
+        local $/ = undef;
+        my $content = <PM>;
+        close(PM);
+
+        my $VERSION;
+        my ($version) = $content =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
+        substr( $version, 0, 0, 'use version 0.77; ' )
+          if ( $version =~ /version/ );
+        eval $version if ($version);
+
+        my $RELEASE;
+        my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
+        eval $release if ($release);
+
+        print <<END;
+
+Current version of Foswiki.pm: $VERSION, RELEASE: $RELEASE
+
+Enter the type of build.
+   - "test" or "rebuild" (the default) will rebuild the above version without modifying any files.
+   - "major", "minor", or "patch" will "release" that level, removing the alpha level.
+   - "next" does the right thing incrementing the alpha level.
+   - "nextminor" sets patch to 999 and sets alpha level to 001
+   - "nextmajor" sets patch and minor to 999 and sets alpha to 001.
+
+\$RELEASE is automatically derived from the calculated \$VERSION, plus
+a name appended for descriptive purposes.
+
+END
+        print <<END unless $commit;
+-commit option was not specified, nothing will be committed to the $cvs repository.
+If you are building a real release, Ctrl-c now and rerun:
+   perl ../tools/build.pl release -commit
+ 
+END
+
+        my $buildtype = Foswiki::Contrib::Build::prompt(
+"Enter the type of build:  If this is for personal use, enter \"test\"
+or just press enter.",
+            'test'
+        );
+        while ( $buildtype !~
+            /^(major|minor|patch|test|rebuild|next(ma.*?|mi.*?)?)?$/ )
         {
-            while ( $name !~ /^\d\.\d+\.\d+(-\w+)?$/ ) {
-                $name = Foswiki::Contrib::Build::prompt(
-                    "Enter name of this release: ", $name );
+            $buildtype = Foswiki::Contrib::Build::prompt(
+"Enter major, minor, patch, test, rebuild, next, nextmajor, nextminor or press enter for test builds: ",
+                $buildtype
+            );
+        }
+
+        unless ( $buildtype =~ /rebuild|test/ ) {
+            my ( $maj, $min, $pat, $alpha ) = split( /[._]/, $VERSION, 4 );
+
+            $maj =~ s/v//;
+
+            if ( $buildtype eq 'major' ) {
+
+# Releasing a new major release, increment major, reset minor & patch, remove alpha..
+                $maj++;
+                $min   = 0;
+                $pat   = 0;
+                $alpha = '';
+            }
+            elsif ( $buildtype eq 'minor' ) {
+
+    # Releasing a new minor release, increment minor, reset patch, remove alpha.
+                $min++;
+                $pat   = 0;
+                $alpha = '';
+            }
+            elsif ( $buildtype eq 'patch' ) {
+
+                # Release patch release, increment and remove alpha
+                $pat++;
+                $alpha = '';
+            }
+            elsif ( $buildtype =~ /^next/ ) {
+
+   # Just next in sequence,  If not alpha, increment patch, then increment alpha
+                if ($alpha) {
+                    $alpha++;
+                }
+                else {
+                    $alpha = '001';
+                    $min   = 999 if ( $buildtype =~ /^nextma/ );
+                    $pat   = 999 if ( $buildtype =~ /^next(ma|mi)/ );
+                }
             }
 
-            # SMELL: should really check that the name actually *follows* the
-            # last name generated
-            $name = 'Foswiki-' . $name;
-            open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
-            local $/ = undef;
-            my $content = <PM>;
-            close(PM);
+            my $newver = "v$maj.$min.$pat";
+            $newver .= "_$alpha" if ($alpha);
+
+            $content =~
+s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.77; \$VERSION = version->declare('$newver');/sm;
+
+            if (
+                Foswiki::Contrib::Build::ask(
+                    "Do you want to name this release?", 'n'
+                )
+              )
+            {
+                $name = Foswiki::Contrib::Build::prompt(
+                    "Enter release name (alpha, BetaN, or RCn)", '' );
+                while ( $name !~ /^(alpha|Beta\d|RC\d)?$/ ) {
+                    $name = Foswiki::Contrib::Build::prompt(
+                        "Enter name of this release (alpha, Beta# or RC#: ",
+                        $name );
+                }
+            }
+
+            my $rel = 'Foswiki-' . "$maj.$min.$pat";
+            $rel .= "_$alpha" if ($alpha);
+            $rel .= "-$name"  if ($name);
+
+            $name = $rel;
+
+            print "Building Release: $rel from Version: $newver\n";
+
             $content =~ /\$RELEASE\s*=\s*'(.*?)'/;
-            $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$name$2/;
+            $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$rel$2/;
             open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
             print PM $content;
             close(PM);
@@ -138,26 +235,24 @@ END
             # Foswiki.pm before building.
             my $tim = 'BUILD ' . $name . ' at ' . gmtime() . ' GMT';
             if ( $cvs eq 'svn' ) {
-                my $cmd = "svn propset LASTBUILD '$tim' ../lib/Foswiki.pm";
-                print `$cmd`;
 
-                #print "$cmd\n";
-                die $@ if $@;
-                $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-                print `$cmd`;
+                my $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
 
-                #print "$cmd\n";
+                print `$cmd` if $commit;
+                print "$cmd\n";
                 die $@ if $@;
             }
             else {
                 my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-                print `$cmd`;
+
+                print `$cmd` if $commit;
+                print "$cmd\n";
                 die $@ if $@;
             }
-
         }
         else {
-            $name = 'Foswiki';
+            # This is a rebuild, just use the same name.
+            $name = "$RELEASE";
         }
     }
 
