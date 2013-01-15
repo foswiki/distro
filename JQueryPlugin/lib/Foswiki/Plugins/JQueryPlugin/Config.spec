@@ -24,9 +24,13 @@ $Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilk
 $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 
 # **STRING**
+# List of plugins loaded by default on any page.
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3**
+# **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.0**
+# Note that starting with jQuery-1.9.0 deprecated features have been removed. If you are experiencing
+# problems with plugins still using deprecated features then add the <code>migrate</code> plugin to the list
+# of plugins loaded by default (see above).
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.8.3';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness**
@@ -126,6 +130,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Migrate}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Placeholder}{Enabled} = 1;

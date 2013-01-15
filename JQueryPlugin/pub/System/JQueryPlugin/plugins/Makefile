@@ -25,7 +25,7 @@ SUBDIRS=\
   masonry \
   media \
   metadata \
-  nifty \
+  migrate \
   placeholder \
   pnotify \
   popupwindow \

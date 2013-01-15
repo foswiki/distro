@@ -1,0 +1,37 @@
+%META:TOPICINFO{author="ProjectContributor" date="1258386347" format="1.1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"migrate"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin can be used to detect and restore APIs, features or functionality that have been deprecated in jQuery and removed as of version 1.9. They include:
+
+   * jQuery.browser docs
+   * jQuery.fn.andSelf() docs
+   * jQuery.sub() docs
+   * jQuery.fn.toggle() docs (_event click signature only_)
+   * "hover" pseudo-event name docs
+   * jQuery.fn.error() docs
+   * ajaxStart, ajaxSend, ajaxSuccess, ajaxError, ajaxComplete, ajaxStop global events on non-document targets docs
+   * Use of attrChange, attrName, relatedNode, srcElement on the Event object (use Event.originalEvent.attrChange etc. instead)
+   * jQuery.fn.attr() using the pass argument (undocumented)
+   * jQuery.attrFn object (undocumented)
+   * jQuery.fn.data() data events (undocumented)
+   * jQuery.fn.data("events") to retrieve event-related data (undocumented)
+
+See the warnings page for more information regarding messages the plugin generates.
+
+Use =%<nop>JQREQUIRE{"migrate"}%= to load the plugin into the page.
+
+The plugin can be included with versions of jQuery as old as 1.6.4 as a
+migration tool to identify potential upgrade issues. However, the plugin is
+*only required for version 1.9 or higher* to restore deprecated and removed
+functionality.
+
+%ENDSECTION{"summary"}%
