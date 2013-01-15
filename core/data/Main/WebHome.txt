@@ -2,7 +2,7 @@
 ---+!! Welcome to the <nop>%USERSWEB% web 
 Congratulations, you have finished installing Foswiki.
 
-This site is running Foswiki version *%WIKIRELEASE%*, Plugin API version *%PLUGINVERSION{}%*
+This site is running Foswiki release *%WIKIRELEASE%*, Plugin API version *%PLUGINVERSION{}%*
 
 To learn more about Foswiki, visit the [[%SYSTEMWEB%.WebHome][%SYSTEMWEB% web]]. Please ensure that the read/write
 permissions for each web on your site match your access control policies (see [[%SYSTEMWEB%.DefaultPreferences]] 
