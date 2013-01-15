@@ -74,11 +74,15 @@ use Foswiki::Plugins ();    # For the API version
 # $VERSION is referred to by Foswiki, and is the only global variable that
 # *must* exist in this package.  Two version formats are supported:
 #
-# Recommended:  Simple decimal version.   Use "1.2" format for releases, and
-# "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix.  This style
-# is set either by using the "parse" method, or by a simple assignment.
+# Recommended:  Simple decimal version.   Use "1.2" format for releases
+# Do NOT use the "v" prefix.  This style is set either by using the "parse"
+# method, or by a simple assignment.
 #
-#    our $VERSION = "1.20_001";
+#    our $VERSION = "1.20";
+#
+# If you intend to use the _nnn "alpha suffix, declare it using version->parse().
+#
+#    use version; our $VERSION = version->parse("1.20_001");
 #
 # Alternative:  Dotted triplet.  Use "v1.2.3" format for releases,  and
 # "v1.2.3_001" for "alpha" versions.  The v prefix is required.
