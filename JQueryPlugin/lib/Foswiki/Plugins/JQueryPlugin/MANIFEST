@@ -229,6 +229,9 @@ pub/System/JQueryPlugin/jquery-1.8.1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.8.2.js 0644
 pub/System/JQueryPlugin/jquery-1.8.2.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.8.2.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.8.3.js 0644
+pub/System/JQueryPlugin/jquery-1.8.3.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.8.3.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644

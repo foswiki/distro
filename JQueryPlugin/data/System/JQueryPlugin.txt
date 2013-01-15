@@ -122,11 +122,12 @@ reduce bandwidth and speed up interactive performance.
 
 ---++ Plugin Info
 |  Author(s): | Michael Daum |
-|  Copyright: | 2007-2012 Michael Daum http://michaeldaumconsulting.com, and Foswiki contributors. |
+|  Copyright: | 2007-2013 Michael Daum http://michaeldaumconsulting.com, and Foswiki contributors. |
 |  License: | GPL |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Jan 2013: | (4.60) - Item12345: added jquery-1.8.3, upgraded pnotify, masonry, scrollto, form, blockui, cycle |
 |  11 Dec 2012: | (4.50) - Item12229: improved transliteration of unicode characters in jquery.wikiword |
 |  26 Oct 2012: | Item12195: Default jquery version is jquery-1.8.2 now |
 |  24 Oct 2012: | Item12190: Chili enabled by default,  warning demoted to a note. |

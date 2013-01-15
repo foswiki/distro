@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'PNotify',
-            version      => '1.0.1',
+            version      => '1.2.0',
             author       => 'Hunter Perrin',
             homepage     => 'http://pines.sourceforge.net/pnotify/',
             css          => ['jquery.pnotify.default.css'],

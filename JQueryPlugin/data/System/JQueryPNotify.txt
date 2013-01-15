@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1336982694" format="1.1" reprev="4" version="4"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1357812954" format="1.1" reprev="6" version="6"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"pnotify"
@@ -19,36 +19,49 @@ Call =$.pnotify(options)= to show a notification.
 
 Most common options:
 
-   * =pnotify_title=: the title
-   * =pnotify_text=: the message text
-   * =pnotify_delay=: milliseconds to show the message
-   * =pnotify_opacity=: value from =0= (fully transparent) to =1= (opaque)
-   * =pnotify_nonblock=: =true= if items below the message should be clickable
-   * =pnotify_type=: ='error'= if an error message
+   * =title=: the title
+   * =text=: the message text
+   * =delay=: milliseconds to show the message
+   * =opacity=: value from =0= (fully transparent) to =1= (opaque)
+   * =nonblock=: =true= if items below the message should be clickable
+   * =type=: ='error'= if an error message
 
 | *Option* | *Comment* | *Default value* |
-| =pnotify_title= | The notice's title | =false= |
-| =pnotify_text= | The notice's text| =false= |
-| =pnotify_addclass= | Additional classes to be added to the notice (for custom styling) | "" |
-| =pnotify_nonblock= | Create a non-blocking notice; it lets the user click elements underneath it | =false= |
-| =pnotify_nonblock_opacity= | The opacity of the notice (if it's non-blocking) when the mouse is over it | =0.2= |
-| =pnotify_history= | Display a pull down menu to redisplay previous notices, and place the notice in the history | =true= |
-| =pnotify_width= | Width of the notice | ="300px"= |
-| =pnotify_min_height= | Minimum height of the notice; it will expand to fit content | ="16px"= |
-| =pnotify_type= | Type of the notice: ="notice"= or ="error"= | ="notice"= |
-| =pnotify_notice_icon= | The icon class to use if type is notice | ="ui-icon ui-icon-info"= |
-| =pnotify_error_icon= | The icon class to use if type is error | ="ui-icon ui-icon-alert"= |
-| =pnotify_animation= | The animation to use when displaying and hiding the notice. ="none"=, ="show"=, ="fade"=, and ="slide"= are built in to jQuery. Others require jQuery UI. Use an object with =effect_in= and =effect_out= to use different effects. | ="fade"= |
-| =pnotify_animate_speed= | Speed at which the notice animates in and out; ="slow"=, ="def"= or ="normal"=, ="fast"= or number of milliseconds | ="slow"= |
-| =pnotify_opacity= | Opacity of the notice | =1= |
-| =pnotify_shadow= | Display a drop shadow | =false= |
-| =pnotify_closer= | Provide a button for the user to manually close the notice | =true= |
-| =pnotify_hide= | After a delay, remove the notice | =true= |
-| =pnotify_delay= | Delay in milliseconds before the notice is removed | =8000= |
-| =pnotify_mouse_reset= | Reset the hide timer if the mouse moves over the notice | =true= |
-| =pnotify_remove= | Remove the notice's elements from the DOM after it is removed | =true= |
-| =pnotify_insert_brs= | Change newlines to =br= tags | =true= |
-| =pnotify_stack= | The stack on which the notices will be placed. Also controls the direction the notices stack. | ={"dir1": "down", "dir2": "left", "push": "bottom"}= |
+| =title= | The notice's title | =false= |
+| =title_escape= | Whether to escape the content of the title. (Not allow HTML.) | =false= |
+| =text= | The notice's text| =false= |
+| =text_escape= | Whether to escape the content of the text. (Not allow HTML.) | =false= |
+| =styling= | What styling classes to use. (Can be either jqueryui or bootstrap.) | =jqueryui= |
+| =addclass= | Additional classes to be added to the notice (for custom styling) | "" |
+| =cornerclass= | Class to be added to the notice for corner styling. | "" |
+| =nonblock= | Create a non-blocking notice; it lets the user click elements underneath it | =false= |
+| =nonblock_opacity= | The opacity of the notice (if it's non-blocking) when the mouse is over it | =0.2= |
+| =history= | Display a pull down menu to redisplay previous notices, and place the notice in the history | =false= |
+| =width= | Width of the notice | ="300px"= |
+| =min_height= | Minimum height of the notice; it will expand to fit content | ="16px"= |
+| =type= | Type of the notice. "notice", "info", "success", or "error" | ="notice"= |
+| =icon= | Set icon to true to use the default icon for the selected style/type, false for no icon, or a string for your own icon class. | =true= |
+| =animation= |The animation to use when displaying and hiding the notice. "none", "show", "fade", and "slide" are built in to jQuery. Others require jQuery UI. Use an object with effect_in and effect_out to use different effects. | ="fade"= |
+| =animate_speed= | Speed at which the notice animates in and out; ="slow"=, ="def"= or ="normal"=, ="fast"= or number of milliseconds | ="slow"= |
+| =opacity= | Opacity of the notice | =1= |
+| =shadow= | Display a drop shadow | =false= |
+| =closer= | Provide a button for the user to manually close the notice | =true= |
+| =closer_hover= | Only show the closer button on hover. | =true= |
+| =sticker= | Provide a button for the user to manually stick the notice. | =true= |
+| =sticker_hover= | Only show the sticker button on hover. | =true= |
+| =hide= | After a delay, remove the notice | =true= |
+| =delay= | Delay in milliseconds before the notice is removed | =8000= |
+| =mouse_reset= | Reset the hide timer if the mouse moves over the notice | =true= |
+| =remove= | Remove the notice's elements from the DOM after it is removed | =true= |
+| =insert_brs= | Change newlines to =br= tags | =true= |
+| =stack= | The stack on which the notices will be placed. Also controls the direction the notices stack. | ={"dir1": "down", "dir2": "left", "push": "bottom", "spacing1": 25, "spacing2": 25}= |
+| =before_init | function called when the message is being initialized | |
+| =after_init= | function called when the message has been initialized | |
+| =before_open | called when a message is about to be closed | |
+| =after_open= | called when the message has been displayed | |
+| =before_close= | called before a message is closed | |
+| =after_close= | called when a message has been closed | |
+
 		
 See for examples the [[http://pines.sourceforge.net/pnotify/][plugin example page]].
 
@@ -57,56 +70,94 @@ The plugin uses the jQuery UI CSS library for styling, which means it is fully a
 ---++ Examples
 %JQREQUIRE{"pnotify"}%
 
----++ A simple notice
-<a href="#" class="pnotifyHelloWorld">click me</a>
+   * <a href="#" class="pnotifyExample1">a simple notice</a>
+   * <a href="#" class="pnotifyExample2">a simple info</a>
+   * <a href="#" class="pnotifyExample3">a success message</a>
+   * <a href="#" class="pnotifyExample4">an error message</a>
+   * %BUTTON{"a customized one" class="simple" onclick="showMessage('Note', 'This is a notification. Click again to see more.')"}%%CLEAR%
+   * <a href="#" class="pnotifyExample5">an animated info message</a>
 
-%ADDTOZONE{"script" require="JQUERYPLUGIN::PNOTIFY" text="<literal>
+<literal>
 <script>
+var showMessage
 jQuery(function($) {
-  $('.pnotifyHelloWorld').click(function() {
+
+  $('.pnotifyExample1').click(function() {
     $.pnotify({
-       pnotify_text: 'Hello World',
-       pnotify_delay: 1000,
-       pnotify_closer: false,
-       pnotify_history: false
+       text: 'Hello World',
+       closer: false
     });
     return false;
   });
-});
-</script></literal>"}%
 
----++ A customized one
-%ADDTOZONE{"script" require="JQUERYPLUGIN::PNOTIFY" text="<literal>
-<script>
+  $('.pnotifyExample2').click(function() {
+    $.pnotify({
+       text: 'Hello World',
+       closer: false,
+       type: 'info'
+    });
+    return false;
+  });
+
+  $('.pnotifyExample3').click(function() {
+    $.pnotify({
+       text: 'Upload finished',
+       closer: false,
+       type: 'success'
+    });
+    return false;
+  });
+
+  $('.pnotifyExample4').click(function() {
+    $.pnotify({
+       text: 'Upload failed',
+       closer: false,
+       type: 'error'
+    });
+    return false;
+  });
+
+  $('.pnotifyExample5').click(function() {
+    $.pnotify({
+       text: 'an animated info message',
+       type: 'info',
+       animation: {
+         effect_in: 'drop',
+         options_in: {easing: 'easeOutBounce'},
+         effect_out: 'drop',
+         options_out: {easing: 'easeOutCubic'}
+       },
+       animation_speed: 700
+    });
+    return false;
+  });
+
    // example with a message stack
    var stack_topleft = {'dir1': 'down', 'dir2': 'right', 'push': 'top'};
-   function showMessage(title, text, err) {
-   	var err = Math.round(Math.random());
-   	var opts = {
-   		pnotify_title: title,
-   		pnotify_text: text,
-   		pnotify_addclass: 'stack-topleft',
-   		pnotify_stack: stack_topleft,
-   		pnotify_closer: false,
-   		pnotify_delay: 4000,
-   		pnotify_nonblock: true,
-   		pnotify_opacity: 0.9
-   	};
-   	if (err) {
-   		opts.pnotify_type = 'error';
-   	}
-   	jQuery.pnotify(opts);
+   showMessage = function(title, text, err) {
+     var err = Math.round(Math.random()),
+         opts = {
+           title: title,
+           text: text,
+           addclass: 'stack-topleft',
+           stack: stack_topleft,
+           closer: false,
+           delay: 4000,
+           nonblock: true,
+           opacity: 0.9
+         };
+     if (err) {
+       opts.pnotify_type = 'error';
+     }
+     $.pnotify(opts);
    };
-</script></literal>"}%
-
-%ADDTOZONE{"head" text="<literal>
+});
+</script>
 <style>
 .ui-pnotify.stack-topleft {
-	top: 15px;
-	left: 15px;
-	right: auto;
+   top: 15px;
+   left: 15px;
+   right: auto;
 }
-</style></literal>"}%
-
-%BUTTON{"Show message" onclick="showMessage('Note', 'This is a notification. Click again to see more.')"}%
-%CLEAR%
+</style>
+</literal>

@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Cycle',
-            version      => '2.9995',
+            version      => '2.9999.8',
             author       => 'M. Alsup',
             homepage     => 'http://www.malsup.com/jquery/cycle',
             javascript   => [ 'jquery.cycle.js', 'jquery.cycle.init.js' ],

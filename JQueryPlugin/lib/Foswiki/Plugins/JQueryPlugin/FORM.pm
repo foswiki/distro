@@ -27,7 +27,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Form',
-            version    => '2.80',
+            version    => '3.24',
             author     => 'M. Alsup',
             homepage   => 'http://malsup.com/jquery/form',
             javascript => ['jquery.form.js'],

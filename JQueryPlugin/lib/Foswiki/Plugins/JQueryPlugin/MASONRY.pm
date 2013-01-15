@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Masonry',
-            version      => '2.0.110524',
+            version      => '2.1.06',
             author       => 'David <nop>DeSandro',
             homepage     => 'http://desandro.com/resources/jquery-masonry',
             css          => ['jquery.masonry.css'],
