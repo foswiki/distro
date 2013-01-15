@@ -12,6 +12,7 @@ Cwd,>=0,cpan,Required, for base Foswiki
 Data::Dumper,>=0,cpan,Required, for base Foswiki
 Digest::MD5,>=0,cpan,Required, for base Foswiki
 Digest::SHA,>=0,cpan,Optional, may be required for password encryption
+Crypt::PasswdMD5,>=0,cpan,Required, for admin password hash and .htpasswd encoding
 Encode,>=2.01,cpan,Required for international characters
 Encode::compat,>=0,cpan,Optional, may be required for international characters
 Error,>=0.15,cpan,Required, for base Foswiki

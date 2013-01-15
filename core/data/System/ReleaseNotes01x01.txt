@@ -36,7 +36,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
-   * Foswiki 1.1.7_004-RC3 was built 10 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 12 fixes and 4 enhancements.
+   * Foswiki 1.1.7_004-RC3 was built 10 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 13 fixes and 4 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1798,6 +1798,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12310][Item12310]] | Update registration documentation and other documentation changes. |
 | [[%BUGS%/Item12336][Item12336]] | Update docs for Func::addUserToGroup. |
 | [[%BUGS%/Item12337][Item12337]] | Remove dependency on version 4.0 of HTML::TreeBuilder. |
+| [[%BUGS%/Item12347][Item12347]] | Undeclared dependency on Crypt::PasswdMD5. |
 ---+++!! Enhancements
 
 | [[%BUGS%/Item12278][Item12278]] | TML WikiWord links need better handling by TMCE to avoid inconsistent links. |
