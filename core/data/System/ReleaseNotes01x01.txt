@@ -20,6 +20,7 @@ Foswiki is released under the GNU General Public License.
 
 ---++ Foswiki Releases
 
+%TWISTY{showlink="Release 1.0 releases..." hidelink="hide Release 1.0"}%
    * Foswiki 1.0.0, the first Foswiki was released on 09 Jan 2009.
    * Foswiki 1.0.1, 1.0.2 and 1.0.3 were released internally in the development community, but were never publicly released.
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and only very few minor enhancements.
@@ -29,6 +30,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
+%ENDTWISTY{}%
    * Foswiki 1.1.0 was built 04 Oct 2010. It is a release with more than 270 bug fixes relative to 1.0.10 and more than 680 bug fixes relative to 1.0.0. And the release adds more than 100 enhancements. Foswiki 1.1.0 introduces jQuery Javascript user interface framework, improved topic history display, new QUERY and FORMAT macros, better userinterfaces for groups, much improved WYSIWYG editor, facelift of the default skin, much improved configure tool, and many more enhancements.
    * Foswiki 1.1.1 was built 25 Oct 2010. It is a release that fixes some important bugs that were introduced in 1.1.0. It is highly recommended that all running 1.1.0 upgrade to 1.1.1.
    * Foswiki 1.1.2 was built 09 Nov 2010. It is a release that fixes some very important bugs incl. a security related bug. Installations running 1.1.0 and 1.1.1 should be upgraded to 1.1.2
@@ -111,6 +113,10 @@ The save cycle of configure is necessary to register the new JQuery pattern them
 $Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Url} =
 '$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/PatternSkinTheme/jquery-ui.css';
 $Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Enabled} = 1;</verbatim>
+
+---+++ Minor change to =Main.WebHome=
+
+The [[Main.WebHome]] topic was changed to display the =%<nop>WIKIRELEASE%= macro instead of the =%<nop>WIKIVERSION%=.  =WIKIRELEASE= is a more friendly user readable version string.
 
 %ENDSECTION{"116delta"}%
 
