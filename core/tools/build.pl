@@ -98,8 +98,6 @@ Note: DO NOT ATTEMPT TO GENERATE A RELEASE UNLESS ALL UNIT TESTS PASS.
 The unit tests are a critical part of the release process, as they
 establish the correct baseline functionality. If a unit test fails,
 any release package generated from that code is USELESS.
-
-I'm now looking in the tags for the designation of the *last* release....
 END
     my @olds = sort grep { /^FoswikiRelease\d+x\d+x\d+$/ }
       split( '/\n', `svn ls http://svn.foswiki.org/tags` );
@@ -202,31 +200,25 @@ or just press enter.",
             $content =~
 s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.77; \$VERSION = version->declare('$newver');/sm;
 
-            if (
-                Foswiki::Contrib::Build::ask(
-                    "Do you want to name this release?", 'n'
+            $name = 'Foswiki-' . "$maj.$min.$pat";
+            $name .= "_$alpha" if ($alpha);
+
+            while (
+                !Foswiki::Contrib::Build::ask(
+                    "Do you want to name this release as $name?", 'n'
                 )
               )
             {
                 $name = Foswiki::Contrib::Build::prompt(
-                    "Enter release name (alpha, BetaN, or RCn)", '' );
-                while ( $name !~ /^(alpha|Beta\d|RC\d)?$/ ) {
-                    $name = Foswiki::Contrib::Build::prompt(
-                        "Enter name of this release (alpha, Beta# or RC#: ",
-                        $name );
-                }
+                    "Enter new release name, or press enter to accept default",
+                    $name
+                );
             }
 
-            my $rel = 'Foswiki-' . "$maj.$min.$pat";
-            $rel .= "_$alpha" if ($alpha);
-            $rel .= "-$name"  if ($name);
-
-            $name = $rel;
-
-            print "Building Release: $rel from Version: $newver\n";
+            print "Building Release: $name from Version: $newver\n";
 
             $content =~ /\$RELEASE\s*=\s*'(.*?)'/;
-            $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$rel$2/;
+            $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$name$2/;
             open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
             print PM $content;
             close(PM);
