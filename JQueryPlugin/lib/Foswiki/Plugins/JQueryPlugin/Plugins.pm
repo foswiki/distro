@@ -49,7 +49,7 @@ sub init {
     $currentTheme = $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
     # load jquery
-    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.4.3";
+    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.8.3";
     $jQuery .= ".uncompressed" if $debug;
     my $code =
 "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";

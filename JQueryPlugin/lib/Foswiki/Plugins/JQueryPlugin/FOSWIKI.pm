@@ -33,7 +33,7 @@ sub new {
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             javascript   => ['jquery.foswiki.js'],
-            dependencies => [ 'JQUERYPLUGIN', 'livequery' ],
+            dependencies => [ 'JQUERYPLUGIN', 'migrate', 'livequery' ],
             tags         => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
         ),
         $class
