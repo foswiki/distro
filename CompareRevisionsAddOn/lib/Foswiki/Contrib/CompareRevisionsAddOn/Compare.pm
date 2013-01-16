@@ -293,7 +293,8 @@ sub compare {
     $output .= $tmpl_after;
 
     # Item12337: part of alternative fix for Item11755
-    $output = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $output );
+    my $charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
+    $output = Encode::encode( $charset, $output );
 
     # Break circular references to avoid memory leaks. (Tasks:9127)
     $tree1 = $tree1->parent() while defined $tree1->parent();
@@ -328,7 +329,8 @@ sub _getTree {
     $text =~ s/\s*$//;
 
     # Item12337: part of alternative fix for Item11755
-    $text = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $text );
+    my $charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
+    $text = Encode::decode( $charset, $text );
 
     # Generate tree
 
