@@ -723,7 +723,7 @@ sub filter_file {
     open( $fh, '<', $from ) || die 'No source topic ' . $from . ' for filter';
     local $/ = undef;
     my $text = <$fh>;
-    $text = $this->$sub($text);
+    $text = $this->$sub($text) unless $from =~ /Dependency.pm$/;
     close($fh);
 
     unless ( $this->{-n} ) {
