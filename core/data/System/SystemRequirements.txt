@@ -38,7 +38,6 @@ Modules marked as Required may still be optional if certain default core feature
 | CPAN:Win32::Console | Optional | May be required for Internationalization on Windows |
 | CPAN:Archive::Tar | Optional | Required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
 | CPAN:Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
-| CPAN:Net::SMTP::SSL | Optional | Required by Net::SMPT to send email over SSL to providers such as gmail. |
 | CPAN:Authen::SASL | Optional | Required by Net::SMTP if email server requires authentication. |
 
 
@@ -64,7 +63,6 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | Digest::SHA | =libdigest-sha-perl= | |
 | Digest::SHA1 | =libdigest-sha1-perl= | |
 | URI | =liburi-perl= | |
-| Net::SMTP::SSL | =libnet-smtp-ssl= | |
 | Authen::SASL | =libauthen-sasl= | note, broken on Ubuntu 11.10 x64.  Install using CPAN! |
 
 After expanding the Foswiki archive, change the ownership of the files:
@@ -86,7 +84,6 @@ Install apache2, rcs, and perl-CPAN
 | Digest::SHA | =perl-Digest-SHA= | |
 | Digest::SHA1 | =perl-Digest-SHA1= | |
 | URI | =perl-URI= | |
-| Net::SMTP::SSL | =perl-Net-SMPT-SSL= | |
 | Authen::SASL | =perl-Authen-SASL= | |
 
 After expanding the Foswiki archive, change the ownership of the files:
