@@ -28,13 +28,14 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'Foswiki',
-            version      => '2.01',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => ['jquery.foswiki.js'],
-            dependencies => [ 'JQUERYPLUGIN', 'migrate', 'livequery' ],
-            tags         => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
+            name       => 'Foswiki',
+            version    => '2.01',
+            author     => 'Michael Daum',
+            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
+            javascript => ['jquery.foswiki.js'],
+            dependencies =>
+              [ 'JQUERYPLUGIN', 'JQUERYPLUGIN::MIGRATE', 'livequery' ],
+            tags => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
         ),
         $class
     );
