@@ -36,6 +36,7 @@ our @ISA = ('Foswiki::UserMapping');
 use Assert;
 use Error ();
 use Digest::MD5 qw(md5_hex);
+use Crypt::PasswdMD5 qw(apache_md5_crypt);
 
 our $DEFAULT_USER_CUID = 'BaseUserMapping_666';
 our $UNKNOWN_USER_CUID = 'BaseUserMapping_999';
