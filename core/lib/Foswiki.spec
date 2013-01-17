@@ -230,6 +230,14 @@ $Foswiki::cfg{OS} = '';
 # The value of Perl $OS
 $Foswiki::cfg{DetailedOS} = '';
 
+# **NUMBER EXPERT**
+# Maximum number of backup versions of LocalSite.cfg to retain when changes
+# are saved.  Enables you to recover quickly from accidental changes.
+# 0 does not save any backup versions.  -1 does not limit the number of versions
+# retained.  Caution: If the directory is not writable and this parameter is
+# non-zero, you will be unable to save the configuration.
+$Foswiki::cfg{MaxLSCBackups} = 10;
+
 #---+ Security and Authentication -- TABS
 # <p>The above tabs allow you to control most aspects of how Foswiki handles security
 # related activities.</p>
@@ -1664,13 +1672,6 @@ $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defi
 # **BOOLEAN**
 # Enable tracebacks in configure error messages.  Used for debugging;
 # $Foswiki::cfg{DebugTracebacks} = '';
-
-# **NUMBER**
-# Maximum number of backup versions of LocalSite.cfg to retain when changes
-# are saved.  Enables you to recover quickly from accidental changes.
-# 0 does not save any backup versions.  -1 does not limit the number of versions
-# retained.
-$Foswiki::cfg{MaxLSCBackups} = 10;
 
 #############################################################################
 #---+ Extensions -- TABS
