@@ -261,6 +261,7 @@ END
                 $this->_uploadTopic( $userAgent, $user, $pass, $f, \%newform );
             }
         }
+        closedir DIR;
     }
 
     return if ( $this->{-topiconly} );
