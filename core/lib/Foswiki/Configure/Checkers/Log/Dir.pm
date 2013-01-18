@@ -30,6 +30,7 @@ sub check {
                 $mess .= $this->ERROR("$ld/$f is not writable");
             }
         }
+        closedir $d;
     }
     else {
         mkdir($ld)
