@@ -1,50 +1,18 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Configure::Types::BOOLEAN;
+package Foswiki::Configure::Types::LOGVIEWER;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Type ();
-our @ISA = ('Foswiki::Configure::Type');
-
-sub prompt {
-    my ( $this, $id, $opts, $value, $class ) = @_;
-    return CGI::checkbox(
-        -name     => $id,
-        -checked  => ( $value ? 1 : 0 ),
-        -value    => 1,
-        -label    => '',
-        -onchange => 'valueChanged(this)',
-        -class    => $class,
-    );
-}
-
-sub string2value {
-    my ( $this, $val ) = @_;
-    return ( $val ? 1 : 0 );
-}
-
-sub equals {
-    my ( $this, $val, $def ) = @_;
-
-    return ( ( $val && $def ) || ( !$val && !$def ) );
-}
-
-sub value2string {
-    my $this = shift;
-    my ( $keys, $value, $logValue ) = @_;
-
-    $_[2] = '0' unless ( $value || !defined $logValue );
-
-    return $this->SUPER::value2string(@_);
-}
+use Foswiki::Configure::Types::NULL ();
+our @ISA = ('Foswiki::Configure::Types::SELECT');
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

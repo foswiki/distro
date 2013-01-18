@@ -202,7 +202,7 @@ sub _getOutsideRowHtml {
     my ( $class, $title, $data ) = @_;
 
     return CGI::Tr( {},
-        CGI::td( { class => $class, colspan => "3" }, "$title $data" ) );
+        CGI::td( { class => $class, colspan => "99" }, "$title $data" ) );
 }
 
 =begin TML

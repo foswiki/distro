@@ -494,6 +494,7 @@ lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure.pm 0444
 lib/Foswiki/Configure/AUDIT.pm 0444
 lib/Foswiki/Configure/CGI.pm 0444
+lib/Foswiki/Configure/LOGVIEWER.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
 lib/Foswiki/Configure/Checkers/AccessibleENV.pm 0444
 lib/Foswiki/Configure/Checkers/AllowInlineScript.pm 0444
@@ -553,6 +554,7 @@ lib/Foswiki/Configure/Checkers/HttpCompress.pm 0444
 lib/Foswiki/Configure/Checkers/Introduction.pm 0444
 lib/Foswiki/Configure/Checkers/LANGUAGE.pm 0444
 lib/Foswiki/Configure/Checkers/LanguageFileCompression.pm 0444
+lib/Foswiki/Configure/Checkers/LOGVIEWER.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Dir.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/LogFileName.pm 0444
@@ -642,6 +644,8 @@ lib/Foswiki/Configure/Pluggables/AUDIT.pm 0444
 lib/Foswiki/Configure/Pluggables/AUDIT.spec 0444
 lib/Foswiki/Configure/Pluggables/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/Pluggables/LANGUAGES.pm 0444
+lib/Foswiki/Configure/Pluggables/LOGVIEWER.pm 0444
+lib/Foswiki/Configure/Pluggables/LOGVIEWER/Error.pm 0444
 lib/Foswiki/Configure/Pluggables/PLUGINS.pm 0444
 lib/Foswiki/Configure/Pluggables/SCRIPTHASH.pm 0444
 lib/Foswiki/Configure/Root.pm 0444
@@ -655,6 +659,7 @@ lib/Foswiki/Configure/Types/BOOLGROUP.pm 0444
 lib/Foswiki/Configure/Types/EMAILADDRESS.pm 0444
 lib/Foswiki/Configure/Types/COMMAND.pm 0444
 lib/Foswiki/Configure/Types/LANGUAGE.pm 0444
+lib/Foswiki/Configure/Types/LOGVIEWER.pm 0444
 lib/Foswiki/Configure/Types/NUMBER.pm 0444
 lib/Foswiki/Configure/Types/NULL.pm 0444
 lib/Foswiki/Configure/Types/OCTAL.pm 0444
@@ -679,6 +684,7 @@ lib/Foswiki/Configure/UIs/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Configure/UIs/Introduction.pm 0444
 lib/Foswiki/Configure/UIs/Item.pm 0444
 lib/Foswiki/Configure/UIs/LANGUAGES.pm 0444
+lib/Foswiki/Configure/UIs/LOGVIEWER.pm 0444
 lib/Foswiki/Configure/UIs/MSWin32.pm 0444
 lib/Foswiki/Configure/UIs/PLUGINS.pm 0444
 lib/Foswiki/Configure/UIs/Root.pm 0444

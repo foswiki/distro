@@ -1011,6 +1011,34 @@ div.configureMessageBox {
     margin-right: 0;
 }
 
+tr.configureLogHeader,
+tr.configureLogHeader td,
+.configureLogHeader {
+    font-weight: bold;
+    background-color: #ededeb;
+}
+
+tr.configureLogDataEven td,
+.configureLogDataEven {
+    background-color: #d3e0e6;
+}
+
+tr.configureLogDataOdd td,
+.configureLogDataOdd {
+    background-color: #dbeff8;
+}
+
+tr.configureLogDataEven pre,
+tr.configureLogDataOdd pre {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-bottom: 0px;
+}
+tr.configureStdLog pre {
+    padding: 0px;
+    margin: 0px;
+}
+
 /* Responsive: Tablet to desktop */
 
 @media (min-width: 481px) and (max-width: 979px) {

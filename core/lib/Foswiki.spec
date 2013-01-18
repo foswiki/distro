@@ -2349,6 +2349,8 @@ $Foswiki::cfg{Plugins}{HomePagePlugin}{Module} =
 # Functions on this page perform extensive inspection and/or analysis of 
 # your configuration and its environment
 # *AUDIT* # Plugin generates Configuration audit tab
+#
+# *LOGVIEWER*
 
 1;
 __END__
