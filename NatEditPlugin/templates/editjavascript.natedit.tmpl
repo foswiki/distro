@@ -1,11 +1,2 @@
 %TMPL:INCLUDE{"editjavascript"}%
-%TMPL:DEF{"editjavascript"}%%JQREQUIRE{"natedit, blockui, form" warn="off"}%<!-- -->
-%ADDTOZONE{"script"
-  id="NATEDIT::ENABLEDPLUGINS"
-  requires="JQUERYPLUGIN::FOSWIKI::PREFERENCES"
-  text="<script>jQuery.extend(foswiki.preferences, { 
-  'MathModePluginEnabled': %IF{"context MathModePluginEnabled" then="true" else="false"}%,
-  'ImagePluginEnabled': %IF{"context ImagePluginEnabled" then="true" else="false"}%,
-  'TopicInteractionPluginEnabled': %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}% 
-});</script>"
-}%%TMPL:END%
+%TMPL:DEF{"editjavascript"}%%JQREQUIRE{"natedit"}%<!-- -->%TMPL:END%

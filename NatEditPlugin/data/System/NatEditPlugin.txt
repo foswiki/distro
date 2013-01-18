@@ -60,6 +60,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  18 Jan 2013 | improved compatibility with !PatternSkin |
 |  15 Jan 2013 | added work-around for an IE8 bug in textareas |
 |  21 Dec 2012 | added in-edit upload support using Foswiki:Extensions/TopicInteractionPlugin |
 |  29 Oct 2012 | removed local button styles to allow theming via jquery-ui; use of NATEDIT_THEME is deprecated from now on|

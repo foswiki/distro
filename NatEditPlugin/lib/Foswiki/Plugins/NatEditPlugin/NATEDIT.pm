@@ -50,9 +50,13 @@ sub new {
             documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
             javascript    => [ 'edit.js', 'jquery.natedit.js' ],
             dependencies  => [
-                'textboxlist', 'form',    'validate',         'ui',
-                'ui::dialog',  'tabpane', 'ui::autocomplete', 'focus',
-                'button',      'loader',  'uploader'
+                'JQUERYPLUGIN::FOSWIKI::PREFERENCES', 'textboxlist',
+                'form',                               'validate',
+                'ui',                                 'ui::dialog',
+                'tabpane',                            'ui::autocomplete',
+                'focus',                              'button',
+                'loader',                             'uploader',
+                'blockui'
             ],
         ),
         $class
@@ -89,6 +93,16 @@ sub init {
         "head",   "JQUERYPLUGIN::NATEDIT::THEME",
         <<"HERE", 'JQUERYPLUGIN::NATEDIT' );
 <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/$theme/styles.css?version=$this->{version}' type='text/css' media='all' />
+HERE
+
+    Foswiki::Func::addToZone(
+        "script", "NATEDIT::ENABLEDPLUGINS",
+        <<'HERE', "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
+<script>jQuery.extend(foswiki.preferences, { 
+  'MathModePluginEnabled': %IF{"context MathModePluginEnabled" then="true" else="false"}%,
+  'ImagePluginEnabled': %IF{"context ImagePluginEnabled" then="true" else="false"}%,
+  'TopicInteractionPluginEnabled': %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}% 
+});</script>
 HERE
 
 }
