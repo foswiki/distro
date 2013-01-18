@@ -12,6 +12,8 @@ Foswiki::Configure::Checkers::LOGVIEWER
 use strict;
 use warnings;
 
+use Fcntl qw(:flock);
+
 use Foswiki::Configure qw/:cgi :auth/;
 
 use Foswiki::Configure::Checker;
@@ -39,6 +41,7 @@ sub provideFeedback {
     $logType =~ s/FileName$//;
 
     if ( open( my $log, '<', "$dir/$file" ) ) {
+        my $locked = flock( $log, LOCK_SH );
 
         # builtin or plugin formatter
 
@@ -50,6 +53,8 @@ sub provideFeedback {
             ( $content, $status ) =
               $this->{item}{logtype}->formatLog( $this, $log );
         }
+        flock( $log, LOCK_UN ) if ($locked);
+        close($log);
     }
     else {
         $status = $this->ERROR("Unable to open $file: $!");

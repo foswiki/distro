@@ -14,6 +14,8 @@ package Foswiki::Configure::UIs::UPDATE;
 use strict;
 use warnings;
 
+use Fcntl qw(:flock SEEK_END);
+
 use Foswiki::Configure(qw/:DEFAULT :cgi/);
 
 use Foswiki::Configure::UI ();
@@ -73,16 +75,28 @@ sub commitChanges {
             $msg .= "<br />Created $logdir\n";
         }
         if ( open( my $lf, '>>', "$logdir/configure.log" ) ) {
+            my $locked =
+              eval { flock( $lf, LOCK_EX ) && seek( $lf, 0, SEEK_END ) };
+
             my $notes = $query->param('SaveChangesNotes');
+            my $lnotes;
             if ( $notes && $notes =~ /[^\s\r]/ ) {
-                print $lf "# -------- Start of Update --------\n";
-                print $lf "# $_\n" foreach ( split /\r?\n/, $notes );
+                $lnotes = "# -------- Start of Update --------\n";
+                $lnotes .= "# $_\n" foreach ( split /\r?\n/, $notes );
+                print $lf $lnotes
+                  . $this->{log}
+                  . "# --------- End of Update ---------\n";
             }
-            print $lf $this->{log};
-            print $lf "# --------- End of Update ---------\n" if ($notes);
+            else {
+                print $lf $this->{log};
+            }
+
+            flock( $lf, LOCK_UN ) if ($locked);
             close($lf) or die "Failed to close $logdir/configure.log:$!\n";
         }
     }
+    delete $this->{log};
+
     return $msg;
 }
 
