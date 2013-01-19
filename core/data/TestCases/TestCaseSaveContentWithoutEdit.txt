@@ -28,6 +28,14 @@ The actual content is:
 
 ---++++ Test #1: Passing URL Params to update fields in an existing topic
 
+If SavedContentExistingTopic %REVINFO{topic="SavedContentExistingTopic" format="r$rev"}% is not =r1=, <form name="save5" action="%SCRIPTURLPATH{save}%/TestCases/SavedContentExistingTopic" method="post">
+  <input type="hidden" name="action" value="quietsave">
+  <input type="hidden" name="cmd" value="delRev">
+  <input type="hidden" name="text" value="delRev test FAILED">
+  <input type="hidden" name="redirectto" value="TestCaseSaveContentWithoutEdit">
+  <input type="submit" class="foswikiSubmit" value="Revert it" /></form>
+
+
 <form name="save1" action="%SCRIPTURLPATH{save}%/TestCases" method="post">
   <input type="hidden" name="action" value="save">
   <input type="hidden" name="topic" value="SavedContentExistingTopic">
