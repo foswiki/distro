@@ -5,21 +5,59 @@ Description: Manual trivial fast sanity checks for script functions. Do them in 
 
 | *Script* | *Description* | *Test* |
 | =configure= | The most basic sanity check | <a href="%SCRIPTURLPATH%/configure">click here</a> |
-| =changes= | Should redirect to changes | <a href="%SCRIPTURLPATH%/changes%SCRIPTSUFFIX%/%WEB%/TestCaseQuickScriptsChecks">click here</a> |
+| =changes= | Should redirect to changes | <a href="%SCRIPTURLPATH%/changes%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck">click here</a> |
 | =edit= | Simple edit (save to create) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck?onlynewtopic=1&text=TEST%20PASSED%20-please%20save%20the%20topic">click here</a> |
 | =edit= | Simple edit (don't save) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck">click here</a> |
 | =manage= | | |
 | =oops= | Tested by quietsave, below | |
-| =preview= | __BROKEN, NEEDS TO BE POST__ Should redirect to preview (save the topic - its used in later tests) | <a href="%SCRIPTURLPATH%/preview%SCRIPTSUFFIX%/TestCases/WasteOfSpace?text=Cabbages%20And%20Kings%20WalrusMeat&topicparent=TestCaseQuickScriptsChecks">click here</a> |
+| =preview= | Should redirect to preview (save the topic - its used in later tests) | <form name="save0" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
+  <input type="hidden" name="action" value="preview"> \
+  <input type="hidden" name="text" value="Cabbages And Kings WalrusMeat"> \
+  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="newtopic" value=""> \
+  <input type="hidden" name="originalrev" value=""> \
+  <input type="hidden" name="settingstopic" value=""> \
+  <input type="hidden" name="templatetopic" value=""> \
+  <input type="hidden" name="forcenewrevision" value="1"> \
+  <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =rdiff=  | Compare WebHome 1.1 and 1.2 sequential | <a href="%SCRIPTURLPATH%/rdiff%SCRIPTSUFFIX%/TestCases/WebHome?rev1=1&rev2=2">click here</a> |
 | =rdiff=  | Compare WebHome 1.1 and 1.2 side by side | <a href="%SCRIPTURLPATH%/rdiff%SCRIPTSUFFIX%/TestCases/WebHome?rev1=1&rev2=2&render=sidebyside">click here</a> |
-| =save= | __BROKEN, NEEDS TO BE POST__ =action= = =save= Should redirect to view | <a href="%SCRIPTURLPATH%/save%SCRIPTSUFFIX%/TestCases/WasteOfSpace?action=save&text=Save%20PASSED&topicparent=TestCaseQuickScriptsChecks&forcerev=1">click here</a> |
-| =save= | __BROKEN, NEEDS TO BE POST__ =action= = =checkpoint= (should come back to edit) | <a href="%SCRIPTURLPATH%/save%SCRIPTSUFFIX%/TestCases/WasteOfSpace?action=checkpoint&text=Checkpoint-save%20PASSED&topicparent=TestCaseQuickScriptsChecks&forcerev=1">click here</a> |
-| =save= | __BROKEN, NEEDS TO BE POST__ =action= = =quietsave= (should redirect to view) | <a href="%SCRIPTURLPATH%/save%SCRIPTSUFFIX%/TestCases/WasteOfSpace?action=quietsave&text=Quietsave%20test%20PASSED&topicparent=TestCaseQuickScriptsChecks&forcerev=1">click here </a> |
-| =repRev= | __BROKEN, NEEDS TO BE POST__ =action= = =quietsave=, =cmd= = =repRev= if you are in Main.AdminGroup should redirect to view, and you should see "repRev test PASSED", otherwise you will be denied. | <a href="%SCRIPTURLPATH%/save%SCRIPTSUFFIX%/TestCases/WasteOfSpace?action=quietsave&cmd=repRev&text=RepRev%20test%20PASSED&topicparent=TestCaseQuickScriptsChecks&forcerev=1">click here </a> |
-| =delRev= | __BROKEN, NEEDS TO BE POST__ =action= = =save=, =cmd= = =delRev= - should delete the top revision, if you are in Main.AdminGroup, otherwise you will be denied. | <a href="%SCRIPTURLPATH%/save%SCRIPTSUFFIX%/TestCases/WasteOfSpace?action=quietsave&cmd=delRev&text=delRev%20test%20FAILED&topicparent=TestCaseQuickScriptsChecks&forcerev=1">click here </a> |
+| =save= | =action= = =save= Should redirect to view | <form name="save1" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
+  <input type="hidden" name="action" value="save"> \
+  <input type="hidden" name="text" value="Save PASSED"> \
+  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="forcenewrevision" value="1"> \
+  <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
+| =save= | =action= = =checkpoint= (should come back to edit) | <form name="save2" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
+  <input type="hidden" name="action" value="checkpoint"> \
+  <input type="hidden" name="text" value="Checkpoint-save PASSED"> \
+  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="forcenewrevision" value="1"> \
+  <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
+| =save= | =action= = =quietsave= (should redirect to view) | <form name="save3" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
+  <input type="hidden" name="action" value="quietsave"> \
+  <input type="hidden" name="text" value="quietsave test PASSED"> \
+  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="forcenewrevision" value="1"> \
+  <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
+| =repRev= | =action= = =quietsave=, =cmd= = =repRev= if you are in Main.AdminGroup should redirect to view, and you should see "repRev test PASSED", otherwise you will be denied. | <form name="save4" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
+  <input type="hidden" name="action" value="quietsave"> \
+  <input type="hidden" name="cmd" value="repRev"> \
+  <input type="hidden" name="text" value="repRev test PASSED"> \
+  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="forcenewrevision" value="1"> \
+  <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
+| =delRev= | =action= = =save=, =cmd= = =delRev= - should delete the top revision, if you are in Main.AdminGroup, otherwise you will be denied. | <form name="save5" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
+  <input type="hidden" name="action" value="quietsave"> \
+  <input type="hidden" name="cmd" value="delRev"> \
+  <input type="hidden" name="text" value="delRev test FAILED"> \
+  <input type="hidden" name="topicparent" value="QuickScriptsCheck"> \
+  <input type="hidden" name="forcenewrevision" value="1"> \
+  <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =search= | Search for the word "sanity" |<a href="%SCRIPTURLPATH%/search%SCRIPTSUFFIX%/TestCases/WasteOfSpace?search=sanity">click here</a> |
-| =statistics= | Should redirect to refreshed statistics |<a href="%SCRIPTURLPATH%/statistics%SCRIPTSUFFIX%/TestCases">click here</a> |
+| =statistics= | Should generate a statistics run, click link to review WebStatistics topic. | <form name="stats" action="%SCRIPTURLPATH{statistics}%/TestCases" method="post"> \
+  <input type="hidden" name="webs" value="TestCases"> \
+  <input type="submit" class="foswikiSubmit" value="Click here" /></form> |
 | =attach=, =upload= | Attach a file to topic WasteOfSpace | <a href="%SCRIPTURLPATH%/attach%SCRIPTSUFFIX%/%WEB%/WasteOfSpace">click here</a> |
 | =rename= | Rename topic WasteOfSpace. Rename it within this web, and take care to clear the checkboxes so this topic doesn't get munged. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/WasteOfSpace">click here</a> |
 | =rename= | Delete topic QuickScriptsCheck, checking refs within the current web _only_. | <a href="%SCRIPTURLPATH%/rename%SCRIPTSUFFIX%/TestCases/QuickScriptsCheck?newweb=Trash&nonwikiword=on&currentwebonly=on">click here</a> |
