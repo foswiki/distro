@@ -6,8 +6,8 @@ Description: Manual trivial fast sanity checks for script functions. Do them in 
 | *Script* | *Description* | *Test* |
 | =configure= | The most basic sanity check | <a href="%SCRIPTURLPATH%/configure">click here</a> |
 | =changes= | Should redirect to changes | <a href="%SCRIPTURLPATH%/changes%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck">click here</a> |
-| =edit= | Simple edit (save to create) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck?onlynewtopic=1&text=TEST%20PASSED%20-please%20save%20the%20topic">click here</a> |
-| =edit= | Simple edit (don't save) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck">click here</a> |
+| =edit= | Simple edit (save to create) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck?onlynewtopic=1&text=TEST%20PASSED%20-please%20save%20the%20topic"&t=%GMTIME{"$epoch"}%">click here</a> |
+| =edit= | Simple edit (don't save) | <a href="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/QuickScriptsCheck?t=%GMTIME{"$epoch"}%1">click here</a> |
 | =manage= | | |
 | =oops= | Tested by quietsave, below | |
 | =preview= | Should redirect to preview (save the topic - its used in later tests) | <form name="save0" action="%SCRIPTURLPATH{save}%/TestCases/WasteOfSpace" method="post"> \
@@ -65,5 +65,3 @@ Description: Manual trivial fast sanity checks for script functions. Do them in 
 | =viewfile= | Click on the links to =viewfile= the images | <a href="%SCRIPTURLPATH%/viewfile%SCRIPTSUFFIX%/%WEB%/%TOPIC%?filename=volcano.jpg&rev=1">revision 1</a> <a href="%SCRIPTURLPATH%/viewfile/%SCRIPTSUFFIX%/%WEB%/%TOPIC%?filename=volcano.jpg&rev=2">revision2</a> |
 
 %META:FILEATTACHMENT{name="volcano.jpg" attachment="volcano.jpg" attr="" comment="" date="1102080112" path="volcano.jpg" size="2637" tmpFilename="/usr/tmp/CGItemp3319" user="ProjectContributor" version="1"}%
-
-http://localhost/DEVELOP/bin/rename/TestCases/QuickScriptsCheck?newweb=Trash&nonwikiword=on&currentwebonly=on
