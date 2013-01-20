@@ -122,7 +122,7 @@ sub log {
         my ( $class, $fh, $threshold, $level ) = @_;
         my $this = $class->SUPER::new($fh);
         $this->{_threshold} = $threshold;
-        $this->{_level}     = $level;
+        $this->{_reqLevel}  = $level;
         return $this;
     }
 
@@ -138,15 +138,17 @@ sub log {
             shift @line;    # skip the leading empty cell
             next unless scalar(@line) && defined $line[0];
             if (
-                $line[0] =~ s/\s+$this->{_level}\s*$//    # test the level
+                $line[0] =~ s/\s+($this->{_reqLevel})\s*$//    # test the level
                   # accept a plain 'old' format date with no level only if reading info (statistics)
                 || $line[0] =~ /^\d{1,2} [a-z]{3} \d{4}/i
-                && $this->{_level} eq 'info'
+                && $this->{_reqLevel} =~ m/info/
               )
             {
+                $this->{_level} = $1 || 'info';
                 $line[0] = Foswiki::Time::parseTime( $line[0] );
                 next
-                  unless ( defined $line[0] ); # Skip record if time not decoded
+                  unless ( defined $line[0] )
+                  ;    # Skip record if time doesn't decode.
                 if ( $line[0] >= $this->{_threshold} ) {    # test the time
                     $this->{_nextEvent} = \@line;
                     return 1;
@@ -156,11 +158,57 @@ sub log {
         return 0;
     }
 
+    #
+    #   1 date of the event (seconds since the epoch)
+    #   1 login name of the user who triggered the event
+    #   1 the event name (the $action passed to =writeEvent=)
+    #   1 the Web.Topic that the event applied to
+    #   1 Extras (the $extra passed to =writeEvent=)
+    #   1 The IP address that was the source of the event (if known)
+    #
     sub next {
         my $this = shift;
-        my $data = $this->{_nextEvent};
+        my ( $fhash, $data ) =
+          parseRecord( $this->{_level}, $this->{_nextEvent} );
+
+        #my $data = $this->{_nextEvent};
         undef $this->{_nextEvent};
         return $data;
+    }
+
+    sub parseRecord {
+        my $level = shift;    # Level parsed from record or assumed.
+        my $data  = shift;    # Array ref of raw fields from record.
+        my %fhash;            # returned hash of identified fields
+        $fhash{level} = $level;
+        if ( $level eq 'info' ) {
+            $fhash{epoch}      = shift @$data;
+            $fhash{user}       = shift @$data;
+            $fhash{action}     = shift @$data;
+            $fhash{webTopic}   = shift @$data;
+            $fhash{extra}      = shift @$data;
+            $fhash{remoteAddr} = shift @$data;
+        }
+        elsif ( $level =~ m/warning|error|critical|alert|emergency/ ) {
+            $fhash{epoch} = shift @$data;
+            $fhash{extra} = join( ' ', @$data );
+        }
+        elsif ( $level eq 'debug' ) {
+            $fhash{epoch} = shift @$data;
+            $fhash{extra} = join( ' ', @$data );
+        }
+        return \%fhash,
+
+          (
+            [
+                $fhash{epoch},
+                $fhash{user}       || '',
+                $fhash{action}     || '',
+                $fhash{webTopic}   || '',
+                $fhash{extra}      || '',
+                $fhash{remoteAddr} || ''
+            ]
+          );
     }
 }
 

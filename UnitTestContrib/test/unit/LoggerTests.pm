@@ -332,7 +332,7 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
         }
 
         $this->{logger}
-          ->log( $level, $level, "Green", "Eg | gs", "and\n newline\n here",
+          ->log( $level, $level, "Green", "Eggs", "and\n newline\n here",
             $tmpIP );
     }
 
@@ -363,12 +363,17 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
           ( $Foswiki::cfg{Log}{Implementation} eq
               'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
 
-        my $vbar =
-          ( $Foswiki::cfg{Log}{Implementation} eq
-              'Foswiki::Logger::LogDispatch' ) ? '&#124;' : '&vbar;';
-        my $expected = join( $delim,
-            ( $level, 'Green', "Eg $vbar gs", "and\n newline\n here", $ipaddr )
-        );
+        my $expected =
+          ( $level eq 'info' )
+          ? join( $delim,
+            ( $level, 'Green', 'Eggs', "and\n newline\n here", $ipaddr ) )
+          : join(
+            $delim,
+            (
+                '', '', '', "$level Green Eggs and\n newline\n here $ipaddr",
+                ''
+            )
+          );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -409,7 +414,10 @@ sub verify_simpleWriteAndReplay {
         my $it = $this->{logger}->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
-        my $t    = shift( @{$data} );
+
+        #    require Data::Dumper;
+        #    print STDERR Data::Dumper::Dumper(\$data);
+        my $t = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
           if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
@@ -426,8 +434,11 @@ sub verify_simpleWriteAndReplay {
         my $delim =
           ( $Foswiki::cfg{Log}{Implementation} eq
               'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
+
         my $expected =
-          join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) );
+          ( $level eq 'info' )
+          ? join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          : join( $delim, ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -493,8 +504,11 @@ sub verify_simpleWriteAndReplayHashEventFilter {
         my $delim =
           ( $Foswiki::cfg{Log}{Implementation} eq
               'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
+
         my $expected =
-          join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) );
+          ( $level eq 'info' )
+          ? join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          : join( $delim, ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -568,8 +582,11 @@ sub verify_simpleWriteAndReplayHashInterface {
         my $delim =
           ( $Foswiki::cfg{Log}{Implementation} eq
               'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
+
         my $expected =
-          join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) );
+          ( $level eq 'info' )
+          ? join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          : join( $delim, ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -814,13 +831,13 @@ sub verify_filter {
     my $data;
     $this->assert( $it->hasNext() );
     $data = $it->next();
-    $this->assert_str_equals( "Shark", $data->[1] );
+    $this->assert_str_equals( "Shark", $data->[4] );
     $this->assert( $it->hasNext() );
     $data = $it->next();
-    $this->assert_str_equals( "Bite", $data->[1] );
+    $this->assert_str_equals( "Bite", $data->[4] );
     $this->assert( $it->hasNext() );
     $data = $it->next();
-    $this->assert_str_equals( "Hurts", $data->[1] );
+    $this->assert_str_equals( "Hurts", $data->[4] );
     $this->assert( !$it->hasNext() );
 
     return;
