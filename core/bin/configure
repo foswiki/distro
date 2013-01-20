@@ -22,6 +22,15 @@ our $VERSION = '3.0_001';
 
 sub log;
 
+END {
+    if ( exists $INC{'Foswiki.pm'} ) {
+        my $message =
+"Foswiki ERROR: Some module loaded Foswiki.pm into configure.  This is not permitted, and will cause unpredictable results, including corruption of the Foswiki configuration.  This is probably caused by a pluggable module, such as a checker, pluggable, or Foswiki Engine code that was inappropriately used (use, require) in configure.  This must be tracked-down and removed.\n";
+        print STDERR $message;
+        die $message;
+    }
+}
+
 # This is absolutely essential for error reporting. We load it using
 # an eval so we can report the problem.
 eval "use CGI::Carp qw(fatalsToBrowser)";
