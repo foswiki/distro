@@ -1812,7 +1812,7 @@ sub new {
         }
     }
     $this->{store} = $base->new();
-    ASSERT( $this->{store}, "no $base object created" );
+    ASSERT( $this->{store}, "no $base object created" ) if DEBUG;
 
     #Monitor::MARK("Created store");
 

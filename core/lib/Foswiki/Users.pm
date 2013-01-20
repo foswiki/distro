@@ -673,7 +673,7 @@ sub getLoginName {
     return $this->{cUID2Login}->{$cUID}
       if ( defined( $this->{cUID2Login}->{$cUID} ) );
 
-    ASSERT( $this->{basemapping} );
+    ASSERT( $this->{basemapping} ) if DEBUG;
     my $mapping = $this->_getMapping($cUID);
     my $login;
     if ( $cUID && $mapping ) {

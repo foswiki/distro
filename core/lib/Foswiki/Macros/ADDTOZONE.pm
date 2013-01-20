@@ -4,8 +4,6 @@ package Foswiki;
 use strict;
 use warnings;
 
-use Assert;
-
 sub ADDTOZONE {
     my ( $this, $params, $topicObject ) = @_;
 

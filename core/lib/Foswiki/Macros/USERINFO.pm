@@ -3,7 +3,6 @@ package Foswiki;
 
 use strict;
 use warnings;
-use Assert;
 
 # Set to true if user details should be cloaked.   Selected tokens will return an empty string.
 my $USERINFO_cloak = 0;

@@ -3,7 +3,6 @@ package Foswiki;
 
 use strict;
 use warnings;
-use Assert;
 
 use Foswiki::Plugins ();
 

@@ -258,7 +258,7 @@ sub filterByDate {
 # Sort a topic list using cached info
 sub sortTopics {
     my ( $listRef, $sortfield, $revSort ) = @_;
-    ASSERT($sortfield);
+    ASSERT($sortfield) if DEBUG;
 
     # don't spend time doing stuff to an empty list (or a list of one!)
     return if ( scalar(@$listRef) < 2 );

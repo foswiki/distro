@@ -165,7 +165,7 @@ etc). Fields and forms are looked up by calling the =getField= and
 
 sub evaluate {
     my $this = shift;
-    ASSERT( scalar(@_) % 2 == 0 );
+    ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
     my $result;
 
     print STDERR ( '  ' x $ind ) . $this->stringify() if MONITOR_EVAL;
