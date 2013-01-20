@@ -130,7 +130,11 @@ sub log {
         my $this = shift;
         return 1 if defined $this->{_nextEvent};
         while ( $this->SUPER::hasNext() ) {
-            my @line = split( /\s*\|\s*/, $this->SUPER::next() );
+            my $ln = $this->SUPER::next();
+            while ( substr( $ln, -1 ) ne '|' && $this->SUPER::hasNext() ) {
+                $ln .= "\n" . $this->SUPER::next();
+            }
+            my @line = split( /\s*\|\s*/, $ln );
             shift @line;    # skip the leading empty cell
             next unless scalar(@line) && defined $line[0];
             if (

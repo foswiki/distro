@@ -310,6 +310,72 @@ sub verify_LogDispatchCompatRoutines {
     return;
 }
 
+sub verify_simpleWriteAndReplayEmbeddedNewlines {
+    my $this   = shift;
+    my $time   = time;
+    my $ipaddr = '1.2.3.4';
+    my $tmpIP  = $ipaddr;
+
+    # Verify the three levels used by Foswiki; debug, info and warning
+    foreach my $level (qw(debug info warning)) {
+
+#  For the PlainFile::Obfuscating logger,  have the warning record hash the IP addrss
+#  SMELL: This is a bit bogus, as the logger only obfuscates the 6th parameter of the log call
+#  and this is *only* used for "info" type messages.  The unit test however calls all log types
+#  with multiple parameters, so Obfuscation happens on any log level.
+
+        if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile::Obfuscating'
+            && $level eq 'warning' )
+        {
+            $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+        }
+
+        $this->{logger}
+          ->log( $level, $level, "Green", "Eg | gs", "and\n newline\n here",
+            $tmpIP );
+    }
+
+    my $logIP =
+      ( $Foswiki::cfg{Log}{Implementation} eq
+          'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
+
+    foreach my $level (qw(debug info warning)) {
+        my $ipaddr = $logIP;
+        my $it = $this->{logger}->eachEventSince( $time, $level );
+        $this->assert( $it->hasNext(), $level );
+        my $data = $it->next();
+        my $t    = shift( @{$data} );
+        $this->assert( $t >= $time, "$t $time" );
+        $ipaddr = 'x.x.x.x'
+          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
+            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+            && $level eq 'info' );
+
+        $ipaddr = '109.104.118.183'
+          if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile::Obfuscating'
+            && $level eq 'warning' );
+
+# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
+        my $delim =
+          ( $Foswiki::cfg{Log}{Implementation} eq
+              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
+
+        my $vbar =
+          ( $Foswiki::cfg{Log}{Implementation} eq
+              'Foswiki::Logger::LogDispatch' ) ? '&#124;' : '&vbar;';
+        my $expected = join( $delim,
+            ( $level, 'Green', "Eg $vbar gs", "and\n newline\n here", $ipaddr )
+        );
+        $this->assert_str_equals( $expected, join( '.', @{$data} ) );
+        $this->assert( !$it->hasNext() );
+    }
+
+    return;
+}
+
 sub verify_simpleWriteAndReplay {
     my $this   = shift;
     my $time   = time;

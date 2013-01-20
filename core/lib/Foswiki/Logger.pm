@@ -85,9 +85,9 @@ sub log {
 
 =begin TML
 
----++ ObjectMethod eachEventSince($time, $level) -> $iterator
+---++ StaticMethod eachEventSince($time, \@levels, [qw/field list/]) -> $iterator
    * =$time= - a time in the past
-   * =$level= - log level to return events for.
+   * =\@levels= - log levels to return events for.
 
 Get an iterator over the list of all the events at the given level
 between =$time= and now.
