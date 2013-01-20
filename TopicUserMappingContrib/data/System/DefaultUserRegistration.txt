@@ -76,14 +76,17 @@
 <!--
 	Feedback whether registration is enabled and required browser settings (javascript and cookies must be on)
 -->
-%STARTSECTION{"notes"}%%IF{
-"not context registration_enabled"
-then="%INCLUDE{"%TOPIC%" section="note:registrationNotEnabled"}%"
-else="%IF{
+%STARTSECTION{"notes"}%%IF{"not context registration_supported"
+  then=" *%MAKETEXT{"Self registration is not supported by this site."}%* "
+  else="
+    %IF{"NOT context registration_enabled"
+      then="%INCLUDE{"%TOPIC%" section="note:registrationNotEnabled"}%"
+      else="%IF{
 	"$REGISTRATION_DISABLED='DISABLED'"
 	then="%INCLUDE{"%TOPIC%" section="note:registrationTemporarilyDisabled"}%"
 	else="%INCLUDE{"%TOPIC%" section="note:registrationOk"}%%INCLUDE{"%TOPIC%" section="note:requiredBrowserSettings"}%"
-}%"
+      }%"
+    }%"
 }%%ENDSECTION{"notes"}%
 
 %STARTSECTION{"note:registrationNotEnabled"}%%IF{
@@ -91,7 +94,7 @@ else="%IF{
    then="<strong>%MAKETEXT{"Registration is disabled either by configuration setting {EnableNewUserRegistration}, or due to errors with the password system.  Check the configuration for errors."}%</strong>
 
           %MAKETEXT{"If registration is not disabled by errors, administrators can still register users to this site using"}% [[%SYSTEMWEB%.BulkRegistration][BulkRegistration]]."
-   else="<strong>%MAKETEXT{"You cannot register on this site."}%</strong>"
+   else="<strong>%MAKETEXT{"New user registration is disabled on this site."}%</strong>"
 }%
 %ENDSECTION{"note:registrationNotEnabled"}%
 
@@ -112,7 +115,12 @@ else="%IF{
 <!--
 	The registration form
 -->
-%STARTSECTION{"form"}%<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+%STARTSECTION{"form"}%
+%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="$percentINCLUDE{\"%TOPIC%\" section=\"liveform\"}$percent"}%
+%ENDSECTION{"form"}%
+
+%STARTSECTION{"liveform"}%
+<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
 	<div class="foswikiFormSteps">
 		<div class="foswikiFormStep">
 			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required"}%</em></p>
@@ -124,7 +132,7 @@ else="%IF{
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
 </form>
-</div>%ENDSECTION{"form"}%
+</div>%ENDSECTION{"liveform"}%
 
 
 <!--
@@ -440,7 +448,6 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
 	Optional privacy information
 -->
 %STARTSECTION{"privacyInformation"}%<p> %MAKETEXT{"*Important:* the information provided in this form will be stored in a database on the web server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfuscated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact [_1] for details of the Data Protection Policy of this web server before registering." args="[[mailto:%WIKIWEBMASTER%?subject=Data%20Protection%20Policy][%WIKIWEBMASTER%]]"}%</p>%ENDSECTION{"privacyInformation"}%
-
 
 <!--
 	Test if user topic exists. Used for form validation.
