@@ -325,7 +325,7 @@ sub _parseFormDefinition {
             my ( $pre, $data, $post ) = @_;
 
             #push( @field, $data );
-            $field{ $indices[ $col++ ] } = $data || '';
+            $field{ $indices[ $col++ ] } = $data || '' if ( $indices[$col] );
         }
     };
 
