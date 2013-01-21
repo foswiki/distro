@@ -8,6 +8,7 @@ use Assert;
 
 use Foswiki::Logger ();
 use Foswiki::Configure::Load;
+use Fcntl qw(:flock);
 our @ISA = ('Foswiki::Logger');
 
 =begin TML
@@ -133,6 +134,7 @@ sub log {
 
     # Private subclass of LineIterator that splits events into fields
     package Foswiki::Logger::PlainFile::EventIterator;
+    use Fcntl qw(:flock);
     require Foswiki::LineIterator;
     @Foswiki::Logger::PlainFile::EventIterator::ISA = ('Foswiki::LineIterator');
 
@@ -142,6 +144,13 @@ sub log {
         $this->{_threshold} = $threshold;
         $this->{_reqLevel}  = $level;
         return $this;
+    }
+
+    sub DESTROY {
+        my $this = shift;
+        flock( delete $this->{handle}, LOCK_UN )
+          if ( defined $this->{logLocked} );
+        close( delete $this->{handle} ) if ( defined $this->{handle} );
     }
 
     sub hasNext {
@@ -280,12 +289,12 @@ sub eachEventSince {
         next unless -r $logfile;
         my $fh;
         if ( open( $fh, '<', $logfile ) ) {
-            push(
-                @iterators,
-                new Foswiki::Logger::PlainFile::EventIterator(
-                    $fh, $time, $level
-                )
-            );
+            my $logIt =
+              new Foswiki::Logger::PlainFile::EventIterator( $fh, $time,
+                $level );
+            push( @iterators, $logIt );
+            $logIt->{logLocked} =
+              eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
         }
         else {
 

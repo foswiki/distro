@@ -41,14 +41,6 @@ sub new {
     return $this;
 }
 
-sub DESTROY {
-    my $this = shift;
-
-    if ( $this->{handle} ) {
-        close( delete $this->{handle} ) or die "Log file close failed:$!\n";
-    }
-}
-
 =begin TML
 
 ---++ hasNext() -> $boolean
