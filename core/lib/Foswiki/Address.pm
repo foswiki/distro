@@ -934,12 +934,12 @@ sub _atomiseAsTOM {
                     $doneaccessor = 1;
                 }
             }
-            elsif (DEBUG) {    # form not /Form$/ or alias from disabled plugin
-                ASSERT(0);
+            else {    # form not /Form$/ or alias from disabled plugin
+                ASSERT(0) if DEBUG;
             }
         }
-        elsif (DEBUG) {        # Shouldn't get here
-            ASSERT(0);
+        else {        # Shouldn't get here
+            ASSERT(0) if DEBUG;
         }
         if ( not $doneselector and $6 ) {    # SOMETHING[...]
             if ($8) {                        # SOMETHING[a=b
