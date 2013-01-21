@@ -7,6 +7,7 @@ use utf8;
 use Assert;
 
 use Foswiki::Logger ();
+use Foswiki::AggregateIterator;
 use Foswiki::Configure::Load;
 use Fcntl qw(:flock);
 our @ISA = ('Foswiki::Logger');
@@ -136,7 +137,7 @@ sub log {
     package Foswiki::Logger::PlainFile::EventIterator;
     use Fcntl qw(:flock);
     require Foswiki::LineIterator;
-    @Foswiki::Logger::PlainFile::EventIterator::ISA = ('Foswiki::LineIterator');
+    our @ISA = ('Foswiki::LineIterator');
 
     sub new {
         my ( $class, $fh, $threshold, $level ) = @_;
@@ -148,7 +149,7 @@ sub log {
 
     sub DESTROY {
         my $this = shift;
-        flock( delete $this->{handle}, LOCK_UN )
+        flock( $this->{handle}, LOCK_UN )
           if ( defined $this->{logLocked} );
         close( delete $this->{handle} ) if ( defined $this->{handle} );
     }
