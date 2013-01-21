@@ -46,8 +46,8 @@ sub new {
         my $label;
         if ( $lang =~ /^(\w+)-(\w+)$/ ) {
             my ( $lname, $cname ) = (
-                ( code2language( $1, 'alpha-2' ) || '' ),
-                ( code2country( $2, 'alpha-2' ) || '' )
+                ( code2language( $1, LOCALE_CODE_ALPHA_2 ) || '' ),
+                ( code2country( $2, LOCALE_CODE_ALPHA_2 ) || '' )
             );
             if ( $lname && $cname ) {
                 $label = "$lname ($cname)";
