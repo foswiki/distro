@@ -72,6 +72,7 @@ sub _getBuildStrings {
             close $fh;
         }
         else {
+            $Foswiki::configureFork = 1;
             eval {
                 require Foswiki;
                 require Foswiki::Plugins;

@@ -108,6 +108,7 @@ sub provideFeedback {
                     close $fh;
                 }
                 else {
+                    $Foswiki::configureFork = 1;
                     eval { print $this->_mailFork($keys); };
                     print $@ if ($@);
                     exit(0);

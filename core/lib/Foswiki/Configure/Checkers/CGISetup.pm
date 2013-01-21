@@ -614,6 +614,7 @@ HERE
         }
         else {
             $Foswiki::cfg{ConfigurationFinished} = 1;
+            $Foswiki::configureFork = 1;
             eval 'require Foswiki';
             if ($@) {
                 $mess = $@;

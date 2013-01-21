@@ -47,6 +47,7 @@ sub install {
             close $fh;
         }
         else {
+            $Foswiki::configureFork = 1;
             eval { print _installFork(@_); };
             print $@ if ($@);
             exit(0);

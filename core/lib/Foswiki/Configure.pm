@@ -104,6 +104,9 @@ our $FALSE = 0;
 # under configure or the webserver.  Set by Dispatch.
 our $configureRunning;
 
+# Running in a fork of configure - safe to load Foswiki engine
+our $configureFork;
+
 # auth - authentication state
 our ( $newLogin, $session, );
 

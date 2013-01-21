@@ -23,7 +23,7 @@ our $VERSION = '3.0_001';
 sub log;
 
 END {
-    if ( exists $INC{'Foswiki.pm'} ) {
+    if ( exists $INC{'Foswiki.pm'} && !$Foswiki::configureFork ) {
         my $message =
 "Foswiki ERROR: Some module loaded Foswiki.pm into configure.  This is not permitted, and will cause unpredictable results, including corruption of the Foswiki configuration.  This is probably caused by a pluggable module, such as a checker, pluggable, or Foswiki Engine code that was inappropriately used (use, require) in configure.  This must be tracked-down and removed.\n";
         print STDERR $message;
