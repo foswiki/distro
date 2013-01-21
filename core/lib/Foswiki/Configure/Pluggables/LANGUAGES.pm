@@ -63,7 +63,7 @@ sub new {
             }
         }
         else {
-            $label = code2language($lang) || "$lang";
+            $label = code2language( $lang, LOCALE_CODE_ALPHA_2 ) || "$lang";
         }
 
         my $value = Foswiki::Configure::Value->new(
