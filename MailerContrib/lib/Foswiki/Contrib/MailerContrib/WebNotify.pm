@@ -70,8 +70,13 @@ the method will throw an exception.
 
 sub writeWebNotify {
     my $this = shift;
-    Foswiki::Func::saveTopicText( $this->{web}, $this->{topic},
-        $this->stringify(), 1, 1 );
+
+    # First remove overlaps
+    $this->_optimise();
+
+    # Then chuck it out
+    Foswiki::Func::saveTopic( $this->{web}, $this->{topic}, undef,
+        $this->stringify(), { ignorepermissions => 1, minor => 1 } );
 }
 
 =begin TML
@@ -95,6 +100,14 @@ sub getSubscriber {
         $this->{subscribers}{$name} = $subscriber;
     }
     return $subscriber;
+}
+
+# Optimise the webnotify to remove overlaps in subscription lists
+sub _optimise {
+    my $this = shift;
+    foreach my $subscriber ( values %{ $this->{subscribers} } ) {
+        $subscriber->optimise();
+    }
 }
 
 =begin TML

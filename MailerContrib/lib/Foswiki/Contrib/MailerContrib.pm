@@ -111,7 +111,8 @@ Modify a user's subscription in =WebNotify= for a web.
 sub changeSubscription {
     my ( $defaultWeb, $who, $topicList, $unsubscribe ) = @_;
 
-#we can get away with a normalise on a list of topics, so long as the list starts with a topic
+    # we can get away with a normalise on a list of topics, so long as
+    # the list starts with a topic
     my ( $web, $t ) =
       Foswiki::Func::normalizeWebTopicName( $defaultWeb, $topicList );
 
@@ -140,7 +141,8 @@ sub isSubscribedTo {
 
     my $subscribed = {
         currentWeb => $defaultWeb,
-        topicSub   => \&_isSubscribedToTopic
+        topicSub   => \&_isSubscribedToTopic,
+        webs       => {}
     };
 
     my $ret = parsePageList( $subscribed, $who, $topicList );
@@ -151,18 +153,16 @@ sub isSubscribedTo {
 
 sub _isSubscribedToTopic {
     my ( $subscribed, $who, $unsubscribe, $topic, $options, $childDepth ) = @_;
-
     require Foswiki::Contrib::MailerContrib::WebNotify;
     my ( $sweb, $stopic ) =
       Foswiki::Func::normalizeWebTopicName( $subscribed->{currentWeb}, $topic );
 
-    #TODO: extract this code so we only create $wn objects for each web once..
-    my $wn =
+    $subscribed->{webs}->{$sweb} ||=
       Foswiki::Contrib::MailerContrib::WebNotify->new( $sweb,
-        $Foswiki::cfg{NotifyTopicName} );
+        $Foswiki::cfg{NotifyTopicName}, 0 );
+    my $wn         = $subscribed->{webs}->{$sweb};
     my $subscriber = $wn->getSubscriber($who);
-
-    my $db = Foswiki::Contrib::MailerContrib::UpData->new($sweb);
+    my $db         = Foswiki::Contrib::MailerContrib::UpData->new($sweb);
 
     #TODO: need to check $childDepth topics too (somehow)
     if ( $subscriber->isSubscribedTo( $stopic, $db )
@@ -232,7 +232,7 @@ sub _processWeb {
     # Read the webnotify and load subscriptions
     my $wn =
       Foswiki::Contrib::MailerContrib::WebNotify->new( $web,
-        $Foswiki::cfg{NotifyTopicName} );
+        $Foswiki::cfg{NotifyTopicName}, 0 );
     if ( $wn->isEmpty() ) {
         print "\t$web has no subscribers\n" if $verbose;
     }

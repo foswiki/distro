@@ -109,26 +109,56 @@ sub getEmailAddressesForUser {
 
 # Add a subscription to an internal list, optimising the list so that
 # the fewest subscriptions are kept that are needed to cover all
-# topics.
-sub _addAndOptimise {
+# topics
+sub _add {
     my ( $this, $set, $new ) = @_;
-
-    # Don't add already covered duplicates
-    my $i = 0;
-    my @remove;
-    foreach my $known ( @{ $this->{$set} } ) {
-        return if $known->covers($new);
-        if ( $new->covers($known) ) {
-
-            # remove anything covered by the new subscription
-            unshift( @remove, $i );
-        }
-        $i++;
-    }
-    foreach $i (@remove) {
-        splice( @{ $this->{$set} }, $i, 1 );
-    }
     push( @{ $this->{$set} }, $new );
+}
+
+=begin TML
+
+---++ optimise()
+Optimise the lists of subscriptions and unsubscriptions by finding
+overlaps and eliminating them. Intended to be used before writing
+a new WebNotify.
+
+=cut
+
+# O(N^2)
+# Call before writing.
+sub optimise {
+    my $this = shift;
+
+    foreach my $set ( 'subscriptions', 'unsubscriptions' ) {
+        my @new_set = ();
+
+      NEW:
+        foreach my $new ( @{ $this->{$set} } ) {
+
+            # Don't add already covered duplicates
+            my $i = 0;
+            my @remove;
+            foreach my $known (@new_set) {
+                next NEW if $known->covers($new);
+                if ( $new->covers($known) ) {
+
+                    # remove anything covered by the new subscription
+                    unshift( @remove, $i );
+                }
+                $i++;
+            }
+            foreach $i (@remove) {
+                splice( @new_set, $i, 1 );
+            }
+            push( @new_set, $new );
+        }
+
+        # TODO: should look at removing redundant exclusions e.g.
+        # -SubScribe (2) when there is no positive subscription
+        # if there are no subscriptions, there is no point lugging
+        # around the unsubs
+        $this->{$set} = \@new_set;
+    }
 }
 
 # Subtract a subscription from an internal list. Do the best job
@@ -162,7 +192,7 @@ Add a new subscription to this subscriber object.
 sub subscribe {
     my ( $this, $subs ) = @_;
 
-    $this->_addAndOptimise( 'subscriptions', $subs );
+    $this->_add( 'subscriptions', $subs );
     $this->_subtract( 'unsubscriptions', $subs );
 }
 
@@ -182,7 +212,7 @@ to be notified of changes to this topic.
 sub unsubscribe {
     my ( $this, $subs ) = @_;
 
-    $this->_addAndOptimise( 'unsubscriptions', $subs );
+    $this->_add( 'unsubscriptions', $subs );
     if ( $subs->matches('*') ) {
 
         # -* makes no sense and causes evaluation problems.
@@ -190,9 +220,6 @@ sub unsubscribe {
     }
     $this->_subtract( 'subscriptions', $subs );
 
-#TODO: should look at removing redundant exclusions ie a - SubScribe (2) when there is no positive subscription
-
-    #if there are no subscriptions, there is no point luging around the unsubs
     if ( scalar( @{ $this->{'subscriptions'} } ) == 0 ) {
         undef @{ $this->{'unsubscriptions'} };
     }

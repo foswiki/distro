@@ -728,7 +728,6 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, $topicList
         )
     );
-
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
         $topicList, $unsubscribe );
     $this->assert(
