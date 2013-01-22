@@ -35,6 +35,11 @@ sub early_line {
     return 0;
 }
 
+sub end_of_input {
+    my $this = shift;
+    $this->{out} .= "EOF\n";
+}
+
 sub line {
     my $this = shift;
     $this->{out} .= "LL '$_[0]'\n";
@@ -232,7 +237,9 @@ IN
     $this->assert_html_equals( <<EXPECTED, $this->{out} );
 LL 'Testing testing 1 2 3'
 EL Spot EARLY_LINE_TRAP the dog
+<table>
 ELE
+</table>
 LL 'Hugh  Pugh'
 LL 'Barney McGrew'
 EOI
