@@ -590,6 +590,14 @@ NONNY
     @ri = Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic );
     $this->assert_matches( qr/2$/, $ri[2] );
 
+    ( $m, $t ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
+
+    # Make sure the meta is still there
+    $el = $m->get( 'PREFERENCE', 'Bird' );
+    $m->finish();
+    $this->assert_equals( 'Kakapo', $el->{value} );
+    $this->assert_equals( 'Gasp',   $t );
+
     return;
 }
 
