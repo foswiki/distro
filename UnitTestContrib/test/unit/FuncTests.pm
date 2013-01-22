@@ -581,12 +581,12 @@ NONNY
     # Make sure the meta got into the topic
     my ( $m, $t ) = Foswiki::Func::readTopic( $this->{test_web}, $topic );
     my $el = $m->get( 'PREFERENCE', 'Bird' );
-    $m->finish();
     $this->assert_equals( 'Kakapo', $el->{value} );
 
     # This should succeed
-    Foswiki::Func::saveTopic( $this->{test_web}, $topic, undef, 'Gasp',
+    Foswiki::Func::saveTopic( $this->{test_web}, $topic, $m, 'Gasp',
         { forcenewrevision => 1, ignorepermissions => 1 } );
+    $m->finish();
     @ri = Foswiki::Func::getRevisionInfo( $this->{test_web}, $topic );
     $this->assert_matches( qr/2$/, $ri[2] );
 

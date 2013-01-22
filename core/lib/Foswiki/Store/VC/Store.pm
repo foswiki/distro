@@ -332,8 +332,18 @@ sub getVersionInfo {
     my $loadedRev = $topicObject->getLoadedRev();
 
     if ( ( !defined($rev) || $loadedRev eq $rev ) ) {
-        $topicObject->loadVersion() unless $topicObject->latestIsLoaded();
-        $info = $topicObject->get('TOPICINFO');
+        if ( $topicObject->latestIsLoaded() ) {
+            $info = $topicObject->get('TOPICINFO');
+        }
+        else {
+            # Load into a new object to avoid blowing away the object we
+            # were passed; then selectively get the bits we want.
+            my $dummy = Foswiki::Meta->new($topicObject);
+            $dummy->loadVersion();
+            $info = $dummy->get('TOPICINFO');
+            $topicObject->put( 'TOPICINFO', $info );
+            $dummy->finish();
+        }
     }
 
     if ( not defined $info ) {
