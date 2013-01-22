@@ -314,10 +314,10 @@ sub addRow {
 
     my @vals = map { $_->{initial_value} } @{ $this->{colTypes} };
 
-    # widen up to the width of the previous row
+    # widen up to the width of the first (hopefully header) row
     my $count;
     if ( scalar( @{ $this->{rows} } ) ) {
-        my $count = scalar( @{ $this->{rows}->[ $row - 1 ]->{cols} } );
+        my $count = scalar( @{ $this->{rows}->[0]->{cols} } );
         while ( scalar(@vals) < $count ) {
             push( @vals, '' );
         }
