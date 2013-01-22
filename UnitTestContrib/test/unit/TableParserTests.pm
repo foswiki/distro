@@ -70,6 +70,11 @@ sub th {
     $this->{out} .= "<th pre='$_[0]' post='$_[2]'>$_[1]</th>\n";
 }
 
+sub end_of_input {
+    my $this = shift;
+    $this->{out} .= "EOI\n";
+}
+
 sub test_simple_table {
     my $this = shift;
 
@@ -84,6 +89,7 @@ IN
 <td pre=' ' post=' '>Table</td>
 </tr>
 </table>
+EOI
 EXPECTED
 }
 
@@ -101,6 +107,7 @@ IN
 <td pre=' ' post=' '>Table</td>
 </tr>
 </table>
+EOI
 EXPECTED
 }
 
@@ -138,6 +145,7 @@ IN
 <td pre='' post=''>Hair</td>
 </tr>
 </table>
+EOI
 EXPECTED
 }
 
@@ -165,6 +173,7 @@ IN
 <td pre=' ' post=' '>Fable</td>
 </tr>
 </table>
+EOI
 EXPECTED
 }
 
@@ -206,6 +215,7 @@ LL '<verbatim></verbatim>'
 <td pre=' ' post=' '>Table</td>
 </tr>
 </table>
+EOI
 EXPECTED
 }
 
@@ -225,6 +235,7 @@ EL Spot EARLY_LINE_TRAP the dog
 ELE
 LL 'Hugh  Pugh'
 LL 'Barney McGrew'
+EOI
 EXPECTED
 }
 
@@ -259,6 +270,7 @@ LL '|'
 <td pre=' ' post='  '></td>
 </tr>
 </table>
+EOI
 EXPECTED
 }
 
@@ -289,6 +301,7 @@ spoon="egg" }%'
 <td pre=' ' post=' '>B</td>
 </tr>
 </table>
+EOI
 EXPECTED
 }
 
