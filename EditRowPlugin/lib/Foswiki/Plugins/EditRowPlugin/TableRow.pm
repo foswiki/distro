@@ -72,9 +72,7 @@ sub setRow {
             }
             push(
                 @{ $this->{cols} },
-                Foswiki::Plugins::EditRowPlugin::TableCell->new(
-                    $this, $n + 1, @$val
-                )
+                Foswiki::Plugins::EditRowPlugin::TableCell->new( $this, @$val )
             );
         }
         $n++;
