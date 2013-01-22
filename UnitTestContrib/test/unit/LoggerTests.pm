@@ -297,12 +297,11 @@ sub verify_LogDispatchCompatRoutines {
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
-# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
-        my $delim =
-          ( $Foswiki::cfg{Log}{Implementation} eq
-              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
         my $expected =
-          join( $delim, ( "blah$level", 'Green', 'Eggs', 'and', $ipaddr ) );
+          ( $level eq 'info' )
+          ? join( '.', ( 'blah' . $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          : join( '.',
+            ( '', '', '', "blah$level Green Eggs and $ipaddr", '' ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -358,17 +357,12 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
-# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
-        my $delim =
-          ( $Foswiki::cfg{Log}{Implementation} eq
-              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
-
         my $expected =
           ( $level eq 'info' )
-          ? join( $delim,
+          ? join( '.',
             ( $level, 'Green', 'Eggs', "and\n newline\n here", $ipaddr ) )
           : join(
-            $delim,
+            '.',
             (
                 '', '', '', "$level Green Eggs and\n newline\n here $ipaddr",
                 ''
@@ -430,15 +424,10 @@ sub verify_simpleWriteAndReplay {
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
-# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
-        my $delim =
-          ( $Foswiki::cfg{Log}{Implementation} eq
-              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
-
         my $expected =
           ( $level eq 'info' )
-          ? join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
-          : join( $delim, ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
+          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          : join( '.', ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -500,15 +489,10 @@ sub verify_simpleWriteAndReplayHashEventFilter {
                 && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x' )
         ) ? 'x.x.x.x' : '1.2.3.4';
 
-# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
-        my $delim =
-          ( $Foswiki::cfg{Log}{Implementation} eq
-              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
-
         my $expected =
           ( $level eq 'info' )
-          ? join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
-          : join( $delim, ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
+          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          : join( '.', ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -578,15 +562,10 @@ sub verify_simpleWriteAndReplayHashInterface {
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
-# NOTE: LogDispatch joins all extra fields into a single message string insead of logging them into separate log fields.
-        my $delim =
-          ( $Foswiki::cfg{Log}{Implementation} eq
-              'Foswiki::Logger::LogDispatch' && $level ne 'info' ) ? ' ' : '.';
-
         my $expected =
           ( $level eq 'info' )
-          ? join( $delim, ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
-          : join( $delim, ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
+          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          : join( '.', ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
