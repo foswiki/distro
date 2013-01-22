@@ -36,9 +36,11 @@ This is a copy of the Foswiki 1.0 code.
 
 =cut
 
-use Foswiki::Time            ();
-use Foswiki::ListIterator    ();
-use Foswiki::Configure::Load ();
+use Foswiki::Time              ();
+use Foswiki::ListIterator      ();
+use Foswiki::AggregateIterator ();
+use Foswiki::Configure::Load   ();
+use Fcntl qw(:flock);
 
 # Local symbol used so we can override it during unit testing
 sub _time { return time() }
@@ -70,7 +72,8 @@ sub log {
         ( $level, @fields ) = @_;
     }
 
-    my $log = _getLogForLevel($level);
+    my $log = _getLogForLevel( [$level] );
+
     my $now = _time();
     $log = _expandDATE( $log, $now );
     my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
@@ -98,6 +101,7 @@ sub log {
         require Encode;
         $message = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $message, 0 );
     }
+
     if ( open( $file, $mode, $log ) ) {
         print $file "$message\n";
         close($file);
@@ -114,16 +118,25 @@ sub log {
 
     # Private subclass of LineIterator that splits events into fields
     package Foswiki::Logger::Compatibility::EventIterator;
+    use Fcntl qw(:flock);
     require Foswiki::LineIterator;
-    @Foswiki::Logger::Compatibility::EventIterator::ISA =
-      ('Foswiki::LineIterator');
+    our @ISA = ('Foswiki::LineIterator');
 
     sub new {
-        my ( $class, $fh, $threshold, $level ) = @_;
+        my ( $class, $fh, $threshold, $level, $numLevels, $version ) = @_;
         my $this = $class->SUPER::new($fh);
-        $this->{_threshold} = $threshold;
-        $this->{_reqLevel}  = $level;
+        $this->{_multilevel} = ( $numLevels > 1 );
+        $this->{_api}        = $version;
+        $this->{_threshold}  = $threshold;
+        $this->{_reqLevel}   = $level;
         return $this;
+    }
+
+    sub DESTROY {
+        my $this = shift;
+        flock( $this->{handle}, LOCK_UN )
+          if ( defined $this->{logLocked} );
+        close( delete $this->{handle} ) if ( defined $this->{handle} );
     }
 
     sub hasNext {
@@ -169,14 +182,13 @@ sub log {
     sub next {
         my $this = shift;
         my ( $fhash, $data ) =
-          parseRecord( $this->{_level}, $this->{_nextEvent} );
-
-        #my $data = $this->{_nextEvent};
+          $this->parseRecord( $this->{_level}, $this->{_nextEvent} );
         undef $this->{_nextEvent};
         return $data;
     }
 
     sub parseRecord {
+        my $this  = shift;
         my $level = shift;    # Level parsed from record or assumed.
         my $data  = shift;    # Array ref of raw fields from record.
         my %fhash;            # returned hash of identified fields
@@ -206,7 +218,8 @@ sub log {
                 $fhash{action}     || '',
                 $fhash{webTopic}   || '',
                 $fhash{extra}      || '',
-                $fhash{remoteAddr} || ''
+                $fhash{remoteAddr} || '',
+                $fhash{level},
             ]
           );
     }
@@ -227,7 +240,12 @@ This method cannot
 =cut
 
 sub eachEventSince {
-    my ( $this, $time, $level ) = @_;
+    my ( $this, $time, $level, $version ) = @_;
+
+    $level = ref $level ? $level : [$level];    # Convert level to array.
+    my $numLevels = scalar @$level;
+
+    #SMELL: Only returns a single logfile for now
     my $log = _getLogForLevel($level);
 
     # Find the year-month for the current time
@@ -243,6 +261,10 @@ sub eachEventSince {
         $logMonth = Foswiki::Time::formatTime( $time, '$mo',   'servertime' );
     }
 
+    # Convert requested level to a regex
+    my $reqLevel = join( '|', @$level );
+    $reqLevel = qr/(?:$reqLevel)/;
+
     # Enumerate over all the logfiles in the time range, creating an
     # iterator for each.
     my @iterators;
@@ -252,12 +274,12 @@ sub eachEventSince {
         $logfile =~ s/%DATE%/$logTime/g;
         my $fh;
         if ( open( $fh, '<', $logfile ) ) {
-            push(
-                @iterators,
-                new Foswiki::Logger::Compatibility::EventIterator(
-                    $fh, $time, $level
-                )
-            );
+            my $logIt =
+              new Foswiki::Logger::Compatibility::EventIterator( $fh, $time,
+                $reqLevel, $numLevels, $version );
+            $logIt->{logLocked} =
+              eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+            push( @iterators, $logIt );
         }
         else {
 
@@ -291,18 +313,22 @@ sub _getLogForLevel {
     my $log;
     my $defaultLogDir = '';
     $defaultLogDir = "$Foswiki::cfg{DataDir}/" if $Foswiki::cfg{DataDir};
-    if ( $level eq 'debug' ) {
-        $log = $Foswiki::cfg{DebugFileName}
-          || $defaultLogDir . 'debug%DATE%.txt';
-    }
-    elsif ( $level eq 'info' ) {
-        $log = $Foswiki::cfg{LogFileName} || $defaultLogDir . 'log%DATE%.txt';
-    }
-    else {
-        ASSERT( $level =~ /^(warning|error|critical|alert|emergency)$/ )
-          if DEBUG;
-        $log = $Foswiki::cfg{WarningFileName}
-          || $defaultLogDir . 'warn%DATE%.txt';
+
+    foreach my $lvl (@$level) {
+        if ( $lvl eq 'debug' ) {
+            $log = $Foswiki::cfg{DebugFileName}
+              || $defaultLogDir . 'debug%DATE%.txt';
+        }
+        elsif ( $lvl eq 'info' ) {
+            $log = $Foswiki::cfg{LogFileName}
+              || $defaultLogDir . 'log%DATE%.txt';
+        }
+        else {
+            ASSERT( $lvl =~ /^(warning|error|critical|alert|emergency)$/ )
+              if DEBUG;
+            $log = $Foswiki::cfg{WarningFileName}
+              || $defaultLogDir . 'warn%DATE%.txt';
+        }
     }
 
     # SMELL: Expand should not be needed, except if bin/configure tries
@@ -310,6 +336,7 @@ sub _getLogForLevel {
     # Windows seemed to be the most difficult to fix - this was the only thing
     # that I could find that worked all the time.
     Foswiki::Configure::Load::expandValue($log);    # Expand in place
+
     return $log;
 }
 

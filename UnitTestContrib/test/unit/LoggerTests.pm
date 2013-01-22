@@ -243,6 +243,79 @@ sub fixture_groups {
     return \@groups;
 }
 
+sub verify_LogDispatchCompatRoutinesMultiLevels {
+    my $this   = shift;
+    my $time   = time;
+    my $ipaddr = '1.2.3.4';
+    my $tmpIP  = $ipaddr;
+
+#  For the PlainFile::Obfuscating logger,  have the warning record hash the IP addrss
+#  SMELL: This is a bit bogus, as the logger only obfuscates the 6th parameter of the log call
+#  and this is *only* used for "info" type messages.  The unit test however calls all log types
+#  with multiple parameters, so Obfuscation happens on any log level.
+
+    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}
+      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+
+    if ( $Foswiki::cfg{Log}{Implementation} eq
+        'Foswiki::Logger::PlainFile::Obfuscating' )
+    {
+        $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+    }
+    $this->{logger}->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
+
+    my $logIP =
+      ( $Foswiki::cfg{Log}{Implementation} eq
+          'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
+
+    my @levels =
+      ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/ )
+      ? qw(debug info notice warning error critical alert emergency)
+      : qw(debug info warning error critical alert emergency);
+
+    my $testIP = $logIP;
+    my $it = $this->{logger}->eachEventSince( $time, \@levels );
+    $this->assert( $it->hasNext() );
+
+    my $logCounter;
+
+    while ( $it->hasNext() ) {
+        $logCounter++;
+        my $data  = $it->next();
+        my $level = @$data[6];
+        my $t     = shift( @{$data} );
+        $this->assert( $t >= $time, "$t $time" );
+        $testIP = 'x.x.x.x'
+          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
+            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
+            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+            && $level eq 'info' );
+
+        $testIP = '109.104.118.183'
+          if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::PlainFile::Obfuscating'
+            && $level eq 'warning' );
+
+        my $expected =
+          ( $level eq 'info' )
+          ? join( '.',
+            ( 'blah' . $level, 'Green', 'Eggs', 'and', $testIP, $level ) )
+          : join( '.',
+            ( '', '', '', "blah$level Green Eggs and $testIP", '', $level ) );
+        $this->assert_str_equals( $expected, join( '.', @{$data} ) );
+    }
+    $this->assert( $logCounter == 5 );
+
+    return;
+}
+
 sub verify_LogDispatchCompatRoutines {
     my $this   = shift;
     my $time   = time;
@@ -299,9 +372,10 @@ sub verify_LogDispatchCompatRoutines {
 
         my $expected =
           ( $level eq 'info' )
-          ? join( '.', ( 'blah' . $level, 'Green', 'Eggs', 'and', $ipaddr ) )
+          ? join( '.',
+            ( 'blah' . $level, 'Green', 'Eggs', 'and', $ipaddr, $level ) )
           : join( '.',
-            ( '', '', '', "blah$level Green Eggs and $ipaddr", '' ) );
+            ( '', '', '', "blah$level Green Eggs and $ipaddr", '', $level ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -359,13 +433,18 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
 
         my $expected =
           ( $level eq 'info' )
-          ? join( '.',
-            ( $level, 'Green', 'Eggs', "and\n newline\n here", $ipaddr ) )
+          ? join(
+            '.',
+            (
+                $level, 'Green', 'Eggs', "and\n newline\n here", $ipaddr,
+                $level
+            )
+          )
           : join(
             '.',
             (
                 '', '', '', "$level Green Eggs and\n newline\n here $ipaddr",
-                ''
+                '', $level
             )
           );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
@@ -426,8 +505,9 @@ sub verify_simpleWriteAndReplay {
 
         my $expected =
           ( $level eq 'info' )
-          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
-          : join( '.', ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
+          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr, $level ) )
+          : join( '.',
+            ( '', '', '', "$level Green Eggs and $ipaddr", '', $level ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -491,8 +571,9 @@ sub verify_simpleWriteAndReplayHashEventFilter {
 
         my $expected =
           ( $level eq 'info' )
-          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
-          : join( '.', ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
+          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr, $level ) )
+          : join( '.',
+            ( '', '', '', "$level Green Eggs and $ipaddr", '', $level ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -564,8 +645,9 @@ sub verify_simpleWriteAndReplayHashInterface {
 
         my $expected =
           ( $level eq 'info' )
-          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr ) )
-          : join( '.', ( '', '', '', "$level Green Eggs and $ipaddr", '' ) );
+          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr, $level ) )
+          : join( '.',
+            ( '', '', '', "$level Green Eggs and $ipaddr", '', $level ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
         $this->assert( !$it->hasNext() );
     }
@@ -612,6 +694,7 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
     $plainFileTestTime = time;                  # today
     $logger->log( 'info', "Porpoise" );
 
+    print STDERR "Calling eachEventSince info\n";
     my $it = $logger->eachEventSince( 0, 'info' );
     my $data;
     $this->assert( $it->hasNext() );

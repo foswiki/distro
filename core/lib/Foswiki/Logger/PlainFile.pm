@@ -85,7 +85,7 @@ sub log {
         ( $level, @fields ) = @_;
     }
 
-    my $log = _getLogForLevel($level);
+    my $log = _getLogForLevel( [$level] );
     my $now = _time();
     _rotate( $LEVEL2LOG{$level}, $log, $now );
     my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
@@ -140,10 +140,12 @@ sub log {
     our @ISA = ('Foswiki::LineIterator');
 
     sub new {
-        my ( $class, $fh, $threshold, $level ) = @_;
+        my ( $class, $fh, $threshold, $level, $numLevels, $version ) = @_;
         my $this = $class->SUPER::new($fh);
-        $this->{_threshold} = $threshold;
-        $this->{_reqLevel}  = $level;
+        $this->{_multilevel} = ( $numLevels > 1 );
+        $this->{_api}        = $version;
+        $this->{_threshold}  = $threshold;
+        $this->{_reqLevel}   = $level;
         return $this;
     }
 
@@ -189,14 +191,16 @@ sub log {
     sub next {
         my $this = shift;
         my ( $fhash, $data ) =
-          parseRecord( $this->{_level}, $this->{_nextEvent} );
+          $this->parseRecord( $this->{_level}, $this->{_nextEvent} );
 
-        #my $data = $this->{_nextEvent};
         undef $this->{_nextEvent};
         return $data;
+
+        #return ( $this->{_api} ) ? \$fhash : \$data;
     }
 
     sub parseRecord {
+        my $this  = shift;
         my $level = shift;    # Level parsed from record or assumed.
         my $data  = shift;    # Array ref of raw fields from record.
         my %fhash;            # returned hash of identified fields
@@ -217,6 +221,7 @@ sub log {
             $fhash{epoch} = shift @$data;
             $fhash{extra} = join( ' ', @$data );
         }
+
         return \%fhash,
 
           (
@@ -226,7 +231,8 @@ sub log {
                 $fhash{action}     || '',
                 $fhash{webTopic}   || '',
                 $fhash{extra}      || '',
-                $fhash{remoteAddr} || ''
+                $fhash{remoteAddr} || '',
+                $fhash{level},
             ]
           );
     }
@@ -237,9 +243,7 @@ sub log {
 ---++ StaticMethod eachEventSince($time, \@levels, [qw/field list/]) -> $iterator
    * =$time= - a time in the past
    * =\@levels= - log levels to return events for.
-   * =[ qw/field list/ ]=  - list of fields to return
-
-If field list is undef, operates in "legacy mode" 
+   * =$version= - Version 1 of API returns a hash instead of an array.
 
 See Foswiki::Logger for the interface.
 
@@ -252,11 +256,12 @@ This method cannot
 =cut
 
 sub eachEventSince {
-    my ( $this, $time, $level, $fields ) = @_;
+    my ( $this, $time, $level, $version ) = @_;
 
-    #$level = ref $level? $level :  [$level];
-    $fields ||= [qw/date login action web.topic extras ip/];
+    $level = ref $level ? $level : [$level];
+    my $numLevels = scalar @$level;
 
+    #SMELL:  Only returns a single logfile for now
     my $log = _getLogForLevel($level);
 
     # Find the year-month for the current time
@@ -267,6 +272,10 @@ sub eachEventSince {
     # Find the year-month for the first time in the range
     my $logYear  = Foswiki::Time::formatTime( $time, '$year', 'servertime' );
     my $logMonth = Foswiki::Time::formatTime( $time, '$mo',   'servertime' );
+
+    # Convert the requested level into a regular expression for the scan
+    my $reqLevel = join( '|', @$level );
+    $reqLevel = qr/(?:$reqLevel)/;
 
     # Get the names of all the logfiles in the time range
     my @logs;
@@ -292,10 +301,10 @@ sub eachEventSince {
         if ( open( $fh, '<', $logfile ) ) {
             my $logIt =
               new Foswiki::Logger::PlainFile::EventIterator( $fh, $time,
-                $level );
-            push( @iterators, $logIt );
+                $reqLevel, $numLevels, $version );
             $logIt->{logLocked} =
               eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+            push( @iterators, $logIt );
         }
         else {
 
@@ -312,14 +321,20 @@ sub eachEventSince {
 # Get the name of the log for a given reporting level
 sub _getLogForLevel {
     my $level = shift;
-    ASSERT( defined $LEVEL2LOG{$level} ) if DEBUG;
-    my $log = $Foswiki::cfg{Log}{Dir} . '/' . $LEVEL2LOG{$level} . '.log';
+    my $log;
 
-    # SMELL: Expand should not be needed, except if bin/configure tries
-    # to log to locations relative to $Foswiki::cfg{WorkingDir}, DataDir, etc.
-    # Windows seemed to be the most difficult to fix - this was the only thing
-    # that I could find that worked all the time.
-    Foswiki::Configure::Load::expandValue($log);
+    foreach my $lvl (@$level) {
+        ASSERT( defined $LEVEL2LOG{$lvl} ) if DEBUG;
+        $log = $Foswiki::cfg{Log}{Dir} . '/' . $LEVEL2LOG{$lvl} . '.log';
+
+      # SMELL: Expand should not be needed, except if bin/configure tries
+      # to log to locations relative to $Foswiki::cfg{WorkingDir}, DataDir, etc.
+      # Windows seemed to be the most difficult to fix - this was the only thing
+      # that I could find that worked all the time.
+        Foswiki::Configure::Load::expandValue($log);
+    }
+
+    #SMELL:  Only returns a single logfile for now
     return $log;
 }
 
