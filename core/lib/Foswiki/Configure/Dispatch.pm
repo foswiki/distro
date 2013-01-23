@@ -64,7 +64,10 @@ $pathinfo   = $query->path_info();
 }
 $action =~ tr/A-Za-z0-9_-//cd;
 
-my $usePinfo = 01;    # Check for OS/browser issues before turning on?
+# Use path style URIs except where the webserver can't deal with them.
+# So far, Microsoft IIS is reportedly unable to cope...
+
+my $usePinfo = ( $ENV{SERVER_SOFTWARE} || '' ) !~ /\b(Microsoft-IIS)\b/;
 
 # generate references to resources
 $resourceURI = $scriptName
@@ -711,14 +714,18 @@ sub _actionresource {
     # ensure that updated data is provided.  In particular, this
     # allows .css files to contain URIs (e.g. for background images.)
     # and still be cached.  Don't add anything dynamic.
+    # N.B. Since some webservers may want to direct-map resources,
+    # we'll replace the hard-coded query string with $resourceURI
+    # in the sane ones.
 
     ( $text, my $etag, my $zipped ) = $parser->getResource(
         $resource,
-        -remote     => 1,
-        -etag       => 1,
-        -binmode    => !$text,
-        -zipok      => $zipok,
-        RESOURCEURI => $resourceURI
+        -remote                      => 1,
+        -etag                        => 1,
+        -binmode                     => !$text,
+        -zipok                       => $zipok,
+        RESOURCEURI                  => $resourceURI,
+        '?action=resource&resource=' => $resourceURI,
     );
 
     defined $etag or htmlResponse( "$resource not found", 404 );

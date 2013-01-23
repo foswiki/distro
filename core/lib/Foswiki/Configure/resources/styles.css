@@ -181,13 +181,13 @@ body.configureShowOneSection .configureNotShowSection {
 	background-repeat:no-repeat;
 }
 .configureStatusOK {
-        background-image:url(%RESOURCEURI%icon_ok.png);
+        background-image:url(?action=resource&resource=icon_ok.png);
 }
 .configureStatusWarnings {
-	background-image:url(%RESOURCEURI%icon_warn.png);
+	background-image:url(?action=resource&resource=icon_warn.png);
 }
 .configureStatusErrors {
-	background-image:url(%RESOURCEURI%icon_error.png);
+	background-image:url(?action=resource&resource=icon_error.png);
 }
 
 .configureUndefinedValue {
@@ -241,7 +241,7 @@ table.configureFeedbackArray td {
 }
 
 div.configureFeedbackPending {
-    background-image:url(%RESOURCEURI%processing-bg.gif);
+    background-image:url(?action=resource&resource=processing-bg.gif);
     min-height: 16px;
     background-repeat:no-repeat;
     background-position:left;
@@ -471,17 +471,17 @@ ul li a.configureWarn:hover {
 ul li a.configureWarnAndError:link, 
 ul li a.configureWarnAndError:visited,
 ul li a.configureWarnAndError:hover {
-	background-image:url(%RESOURCEURI%icon_warn_and_error.png);
+	background-image:url(?action=resource&resource=icon_warn_and_error.png);
 }
 ul li a.configureError:link, 
 ul li a.configureError:visited,
 ul li a.configureError:hover {
-	background-image:url(%RESOURCEURI%icon_error.png);
+	background-image:url(?action=resource&resource=icon_error.png);
 }
 ul li a.configureWarn:link, 
 ul li a.configureWarn:visited,
 ul li a.configureWarn:hover {
-	background-image:url(%RESOURCEURI%icon_warn.png);
+	background-image:url(?action=resource&resource=icon_warn.png);
 }
 ul li.configureMenuSelected a.configureWarnAndError:link,
 ul li.configureMenuSelected a.configureWarnAndError:visited,
@@ -494,15 +494,15 @@ ul li.configureMenuSelected a.configureWarn:visited {
 }
 ul li.configureMenuSelected a.configureWarnAndError:link,
 ul li.configureMenuSelected a.configureWarnAndError:visited {
-	background-image:url(%RESOURCEURI%icon_warn_and_error.png);
+	background-image:url(?action=resource&resource=icon_warn_and_error.png);
 }
 ul li.configureMenuSelected a.configureError:link,
 ul li.configureMenuSelected a.configureError:visited {
-	background-image:url(%RESOURCEURI%icon_error.png);
+	background-image:url(?action=resource&resource=icon_error.png);
 }
 ul li.configureMenuSelected a.configureWarn:link,
 ul li.configureMenuSelected a.configureWarn:visited {
-	background-image:url(%RESOURCEURI%icon_warn.png);
+	background-image:url(?action=resource&resource=icon_warn.png);
 }
 /* --- TABLE ROWS & COLUMNS --- */
 /*
@@ -584,23 +584,23 @@ div.configureOk {
 	background-repeat:no-repeat;
 }
 div.configureError {
-	background-image:url(%RESOURCEURI%icon_error.png);
+	background-image:url(?action=resource&resource=icon_error.png);
 }
 div.configureWarn {
-	background-image:url(%RESOURCEURI%icon_warn.png);
+	background-image:url(?action=resource&resource=icon_warn.png);
 }
 div.configureDebug {
-        background-image:url(%RESOURCEURI%icon_debug.png);
+        background-image:url(?action=resource&resource=icon_debug.png);
 }
 div.configureUnsaved {
-        background-image:url(%RESOURCEURI%icon_changes.png);
+        background-image:url(?action=resource&resource=icon_changes.png);
 }
 div.configureNoChanges {
-        background-image:url(%RESOURCEURI%icon_nochanges.png);
+        background-image:url(?action=resource&resource=icon_nochanges.png);
 }
 
 div.configureOk {
-	background-image:url(%RESOURCEURI%icon_ok.png);
+	background-image:url(?action=resource&resource=icon_ok.png);
 }
 
 div.configureWarn ul,
@@ -731,7 +731,7 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.action {
 	padding:0 .5em 7px 27px;
 	background-position:0 0;
 	background-repeat:no-repeat;
-	background-image:url(%RESOURCEURI%icon_world.png);
+	background-image:url(?action=resource&resource=icon_world.png);
 }
 .configureExtensionsInstallControls {
     background: #EDF5FC;
@@ -768,13 +768,13 @@ table.configureExtensionsTable tr.configurePseudoInstalled td.action {
 
 /* Settings and other stuff only shown in expert mode */
 table.configureSectionValues tr.configureExpert th {
-	background-image:url(%RESOURCEURI%bg_expert.gif);
+	background-image:url(?action=resource&resource=bg_expert.gif);
 	background-repeat: repeat-y;
 	color:#7a6210;
 }
 
 .configureExpert { /* menu item */
-	background-image:url(%RESOURCEURI%bg_expert.gif);
+	background-image:url(?action=resource&resource=bg_expert.gif);
 	background-repeat: repeat-y;
 	color:#7a6210;
 }
@@ -859,7 +859,7 @@ a.configureExpert:hover,
 a.configureInfoText:link,
 a.configureInfoText:visited,
 a.configureInfoText:hover {
-	background-image:url(%RESOURCEURI%icon_up.gif);
+	background-image:url(?action=resource&resource=icon_up.gif);
 }
 a.configureNotExpert:link,
 a.configureNotExpert:visited,
@@ -867,7 +867,7 @@ a.configureNotExpert:hover,
 a.configureNotInfoText:link,
 a.configureNotInfoText:visited,
 a.configureNotInfoText:hover {
-	background-image:url(%RESOURCEURI%icon_down.gif);
+	background-image:url(?action=resource&resource=icon_down.gif);
 }
 .configureRootSection h2 {
 	margin-top:0.25em;
@@ -1037,6 +1037,15 @@ tr.configureLogDataOdd pre {
 tr.configureStdLog pre {
     padding: 0px;
     margin: 0px;
+}
+tr.configureStdLog table.configureLogDetail {
+    border: 0px none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+table.configureLogDetail td {
+    border: 0px none;
+    padding-top: 0;
 }
 
 /* Responsive: Tablet to desktop */

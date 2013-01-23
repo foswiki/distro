@@ -217,12 +217,19 @@ sub getFile {
         # Static content can use a weak validator.
         # N.B. Vars are only handled at the top level in
         # one pass over the interpolated text.
+        # the '?' hack is to fix URIs in styles.css - if it
+        # is direct-mapped, it doesn't pass thru here.
 
         unless ( $binmode || $zipped ) {
             $dynamic += $text =~
 s/%INCLUDE{(.*?)}%/$this->getResource($1, -binmode => $binmode)/ges;
             while ( my ( $k, $v ) = each %vars ) {
-                $dynamic += ( $text =~ s/\%$k\%/$v/gs );
+                if ( $k =~ /^\?/ ) {
+                    $dynamic += ( $text =~ s/\Q$k\E/$v/gs );
+                }
+                else {
+                    $dynamic += ( $text =~ s/\%$k\%/$v/gs );
+                }
             }
         }
     }
