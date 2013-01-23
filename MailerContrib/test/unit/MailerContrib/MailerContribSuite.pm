@@ -698,12 +698,46 @@ Before
    * %USERSWEB%.TestUser1: SpringCabbage
 After
 HERE
-    $wn->unsubscribe( "TestUser1", "SpringCabbage" );
+}
+
+sub _addRemoveCheck {
+    my ( $this, $wn, $add, $remove, $expect ) = @_;
+    $wn->subscribe( "TestUser1", $add ) if $add;
+    $wn->unsubscribe( "TestUser1", $remove ) if $remove;
     $this->assert_str_equals( <<HERE, $wn->stringify() );
 Before
-   * %USERSWEB%.TestUser1: 
+   * %USERSWEB%.TestUser1: $expect
 After
 HERE
+}
+
+sub test_addRemove {
+    my $this = shift;
+    my $s    = <<'HERE';
+   * TestUser1: SpringCabbage
+HERE
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName} );
+    $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
+    $meta->text("Before\n${s}After");
+    $meta->save();
+    $meta->finish();
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
+
+    $this->_addRemoveCheck(
+        $wn,
+        "EscherichiaColi ClostridiumDifficile SalmonellaEnterica",
+        undef,
+        "SpringCabbage EscherichiaColi ClostridiumDifficile SalmonellaEnterica"
+    );
+    $this->_addRemoveCheck( $wn, undef, "ClostridiumDifficile",
+        "SpringCabbage EscherichiaColi SalmonellaEnterica" );
+    $this->_addRemoveCheck( $wn, "ClostridiumDifficile", undef,
+        "SpringCabbage EscherichiaColi SalmonellaEnterica ClostridiumDifficile"
+    );
 }
 
 sub test_changeSubscription_and_isSubScribedTo_API {

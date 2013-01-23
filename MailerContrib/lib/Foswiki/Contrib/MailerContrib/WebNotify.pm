@@ -25,7 +25,7 @@ use Foswiki::Contrib::MailerContrib::Subscription ();
 
 =begin TML
 
----++ new($web, $topic)
+---++ ClassMethod new($web, $topic)
    * =$web= - web name
    * =$topic= - topic name
    * =$noexpandgroups= - True will prevent expansion of group subscriptions
@@ -61,7 +61,7 @@ sub new {
 
 =begin TML
 
----++ writeWebNotify()
+---++ ObjectMethod writeWebNotify()
 Write the object to the %NOTIFYTOPIC% topic it was read from.
 If there is a problem writing the topic (e.g. it is locked),
 the method will throw an exception.
@@ -81,7 +81,7 @@ sub writeWebNotify {
 
 =begin TML
 
----++ getSubscriber($name, $noAdd)
+---++ ObjectMethod getSubscriber($name, $noAdd)
    * =$name= - Name of subscriber (wikiname with no web or email address)
    * =$noAdd= - If false or undef, a new subscriber will be created for this name
 Get a subscriber from the list of subscribers, and return a reference
@@ -112,7 +112,7 @@ sub _optimise {
 
 =begin TML
 
----++ getSubscribers()
+---++ ObjectMethod getSubscribers()
 Get a list of all subscriber names (unsorted)
 
 =cut
@@ -125,7 +125,7 @@ sub getSubscribers {
 
 =begin TML
 
----++ subscribe($name, $topics, $depth, $options)
+---++ ObjectMethod subscribe($name, $topics, $depth, $options)
    * =$name= - Name of subscriber (wikiname with no web or email address)
    * =$topics= - wildcard expression giving topics to subscribe to
    * =$depth= - Child depth to scan (default 0)
@@ -162,7 +162,7 @@ sub subscribe {
 
 =begin TML
 
----++ unsubscribe($name, $topics, $depth)
+---++ ObjectMethod unsubscribe($name, $topics, $depth)
    * =$name= - Name of subscriber (wikiname with no web or email address)
    * =$topics= - wildcard expression giving topics to subscribe to
    * =$depth= - Child depth to scan (default 0)
@@ -198,7 +198,7 @@ sub unsubscribe {
 
 =begin TML
 
----++ stringify() -> string
+---++ ObjectMethod stringify([$subscribersOnly]) -> string
 Return a string representation of this object, in %NOTIFYTOPIC% format.
 
 Optional =$subscribersOnly= parameter to only print the parsed subscription list.
@@ -208,8 +208,7 @@ as it's different from the actual topic contents, but doesn't inform the user wh
 =cut
 
 sub stringify {
-    my $this = shift;
-    my $subscribersOnly = shift || 0;
+    my ( $this, $subscribersOnly ) = @_;
 
     my $page = '';
 
@@ -225,7 +224,7 @@ sub stringify {
 
 =begin TML
 
----++ processChange($change, $db, $changeSet, $seenSet, $allSet)
+---++ ObjectMethod processChange($change, $db, $changeSet, $seenSet, $allSet)
    * =$change= - ref of a Foswiki::Contrib::Mailer::Change
    * =$db= - Foswiki::Contrib::MailerContrib::UpData database of parent references
    * =$changeSet= - ref of a hash mapping emails to sets of changes
@@ -299,7 +298,7 @@ sub processChange {
 
 =begin TML
 
----++ processCompulsory($topic, $db, \%allSet)
+---++ ObjectMethod processCompulsory($topic, $db, \%allSet)
    * =$topic= - topic name
    * =$db= - Foswiki::Contrib::MailerContrib::UpData database of parent references
    * =\%allSet= - ref of a hash that maps topics to email addresses for news subscriptions
@@ -329,7 +328,7 @@ sub processCompulsory {
 
 =begin TML
 
----++ isEmpty() -> boolean
+---++ ObjectMethod isEmpty() -> boolean
 Return true if there are no subscribers
 
 =cut
@@ -339,7 +338,7 @@ sub isEmpty {
     return ( scalar( keys %{ $this->{subscribers} } ) == 0 );
 }
 
-# PRIVATE parse a topic extracting formatted lines
+# PRIVATE parse a webnotify topic extracting formatted lines
 sub _load {
     my $this = shift;
 
@@ -420,19 +419,35 @@ sub _load {
     }
 }
 
-# parse a pages list, adding subscriptions as appropriate
-# $unsubscribe is set to '-' by SubscribePlugin to force a '-' operation
+=begin TML
+
+---++ ObjectMethod parsePageSubscriptions($who, $spec, $unsubscribe)
+
+Parse a pages list, adding subscriptions for user $who as appropriate
+If $unsubscribe is set to '-' by SubscribePlugin to force a '-' operation
+
+=cut
+
+our @simple_subscriptions;
+
 sub parsePageSubscriptions {
     my ( $this, $who, $spec, $unsubscribe ) = @_;
 
     $this->{topicSub} = \&_subscribeTopic;
 
+    local @simple_subscriptions = ();
     my $ret =
       Foswiki::Contrib::MailerContrib::parsePageList( $this, $who, $spec,
         $unsubscribe );
     if ( $ret =~ m/\S/ ) {
         Foswiki::Func::writeWarning("Badly formatted page list at $who: $spec");
         return -1;
+    }
+
+    if ( scalar(@simple_subscriptions) ) {
+
+        #print "SIMPLES $who ".join(' ',@simple_subscriptions)."\n";
+        $this->subscribe( $who, join( ' ', @simple_subscriptions ), 0, 0 );
     }
     return;
 }
@@ -445,17 +460,25 @@ sub _subscribeTopic {
 
     #print STDERR "_subscribeTopic($topic)\n";
     my $opts = 0;
+    my $kids = $childDepth || 0;
     if ($options) {
         $opts |= Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC;
         if ( $options =~ /!/ ) {
             $opts |= Foswiki::Contrib::MailerContrib::Subscription::ALWAYS;
         }
     }
-    my $kids = $childDepth or 0;
     if ( $unsubscribe && $unsubscribe eq '-' ) {
         $this->unsubscribe( $who, $topic, $kids );
     }
+    elsif ( !$opts && !$childDepth ) {
+
+        # if this is a simple topic specification with no unusual options, and
+        # at childDepth 0, we can collect it into a group subscription for
+        # efficiency.
+        push( @simple_subscriptions, $topic );
+    }
     else {
+        # Otherwise we have to add a separate subscription record
         $this->subscribe( $who, $topic, $kids, $opts );
     }
 

@@ -24,7 +24,7 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 
 =begin TML
 
----++ new($name)
+---++ ClassMethod new($name)
    * =$name= - Wikiname, with no web, or email address, of user targeted for notification
 Create a new user.
 
@@ -32,14 +32,22 @@ Create a new user.
 
 sub new {
     my ( $class, $name ) = @_;
-    my $this = bless( { name => $name }, $class );
+    my $this = bless(
+        {
+            name => $name,
 
+            # emails => [],
+            # subscriptions => [],
+            # unsubscriptions => [],
+        },
+        $class
+    );
     return $this;
 }
 
 =begin TML
 
----++ getEmailAddresses() -> \@list
+---++ ObjectMethod getEmailAddresses() -> \@list
 Get a list of email addresses for the user(s) represented by this
 subscription
 
@@ -107,17 +115,9 @@ sub getEmailAddressesForUser {
     return $emails;
 }
 
-# Add a subscription to an internal list, optimising the list so that
-# the fewest subscriptions are kept that are needed to cover all
-# topics
-sub _add {
-    my ( $this, $set, $new ) = @_;
-    push( @{ $this->{$set} }, $new );
-}
-
 =begin TML
 
----++ optimise()
+---++ ObjectMethod optimise()
 Optimise the lists of subscriptions and unsubscriptions by finding
 overlaps and eliminating them. Intended to be used before writing
 a new WebNotify.
@@ -161,17 +161,27 @@ sub optimise {
     }
 }
 
-# Subtract a subscription from an internal list. Do the best job
-# you can in the face of wildcards.
+# Subtract a subscription from an internal list. If the removal expression
+# removes one or more existing expressions by exact matching, then return
+# true otherwise return false. Thus:
+#   * removing 'This*' from 'This* ThisThat' will remove 'This*' and
+#     'ThisThat' and return true.
+#   * removing '*That' will remove 'ThisThat' and return false.
+#   * removing 'T*' will remove 'This*' and 'ThisThat' and return false.
 sub _subtract {
-    my ( $this, $set, $new ) = @_;
+    my ( $this, $set, $dead ) = @_;
 
     my $i = 0;
     my @remove;
-    foreach my $known ( @{ $this->{$set} } ) {
-        if ( $new->covers($known) ) {
+    my $removed;
 
-            # remove anything covered by the new subscription
+    #print "Subtract ".$dead->stringify()." from ".$this->stringify()."\n";
+    foreach my $known ( @{ $this->{$set} } ) {
+        $removed = $known->filterExact( $dead->{topics} );
+        if ( $dead->covers($known) ) {
+
+          #print "DEAD ".$dead->stringify()." COVERS ".$known->stringify()."\n";
+          # remove anything covered by the dead subscription
             unshift( @remove, $i );
         }
         $i++;
@@ -179,26 +189,30 @@ sub _subtract {
     foreach $i (@remove) {
         splice( @{ $this->{$set} }, $i, 1 );
     }
+    return $removed;
 }
 
 =begin TML
 
----++ subscribe($subs)
+---++ ObjectMethod subscribe($subs)
    * =$subs= - Subscription object
-Add a new subscription to this subscriber object.
+Add a new subscription to this subscriber object. no optimisation is performed; if
+the subscription is already there, or is covered by another subscription, then it
+will still be added.
 
 =cut
 
 sub subscribe {
     my ( $this, $subs ) = @_;
 
-    $this->_add( 'subscriptions', $subs );
-    $this->_subtract( 'unsubscriptions', $subs );
+    push( @{ $this->{subscriptions} }, $subs );
+
+ #$this->_subtract( 'unsubscriptions', $subs ); disabled for performance reasons
 }
 
 =begin TML
 
----++ unsubscribe($subs)
+---++ ObjectMethod unsubscribe($subs)
    * =$subs= - Subscription object
 Add a new unsubscription to this subscriber object.
 The unsubscription will always be added, even if there is
@@ -212,16 +226,18 @@ to be notified of changes to this topic.
 sub unsubscribe {
     my ( $this, $subs ) = @_;
 
-    $this->_add( 'unsubscriptions', $subs );
     if ( $subs->matches('*') ) {
 
         # -* makes no sense and causes evaluation problems.
         $this->_subtract( 'unsubscriptions', $subs );
     }
-    $this->_subtract( 'subscriptions', $subs );
 
-    if ( scalar( @{ $this->{'subscriptions'} } ) == 0 ) {
-        undef @{ $this->{'unsubscriptions'} };
+    # If there was no exact match in the rmoval, then push a -
+    unless ( $this->_subtract( 'subscriptions', $subs ) ) {
+        push( @{ $this->{unsubscriptions} }, $subs );
+    }
+    if ( scalar( @{ $this->{subscriptions} } ) == 0 ) {
+        undef @{ $this->{unsubscriptions} };
     }
 }
 
@@ -249,7 +265,7 @@ sub isSubscribedTo {
 
 =begin TML
 
----++ isUnsubscribedFrom($topic) -> $subscription
+---++ ObjectMethod isUnsubscribedFrom($topic) -> $subscription
    * =$topic= - Topic object we are checking
    * =$db= - Foswiki::Contrib::MailerContrib::UpData database of parents
 Check if we have an unsubscription from the given topic. Return the subscription that matches if we do, undef otherwise.
@@ -270,7 +286,7 @@ sub isUnsubscribedFrom {
 
 =begin TML
 
----++ stringify() -> string
+---++ ObjectMethod stringify() -> string
 Return a string representation of this object, in Web<nop>Notify format.
 
 =cut

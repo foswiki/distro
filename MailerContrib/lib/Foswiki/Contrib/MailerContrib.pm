@@ -160,6 +160,7 @@ sub _isSubscribedToTopic {
     $subscribed->{webs}->{$sweb} ||=
       Foswiki::Contrib::MailerContrib::WebNotify->new( $sweb,
         $Foswiki::cfg{NotifyTopicName}, 0 );
+
     my $wn         = $subscribed->{webs}->{$sweb};
     my $subscriber = $wn->getSubscriber($who);
     my $db         = Foswiki::Contrib::MailerContrib::UpData->new($sweb);
