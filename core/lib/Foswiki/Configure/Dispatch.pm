@@ -923,7 +923,7 @@ sub newCookie {
     push @pars, -secure => 1 if ( $ENV{HTTPS} && $ENV{HTTPS} eq 'on' );
 
     # Can't include path since we test short URLs.
-    push @pars, -expires => "+" . COOKIEEXP;
+    push @pars, -path => '/', -expires => "+" . COOKIEEXP;
     $cookie = CGI->cookie(@pars);
     return $cookie;
 }
