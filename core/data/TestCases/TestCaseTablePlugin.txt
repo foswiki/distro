@@ -780,6 +780,25 @@ On IE 6 and 7: works only in section-only view.
 | 3 | ghi | pqr | 15 Jan 2006 |
 
 ---++ columnwidths
+---+++ Table with column widths, skin sensitivity
+*These columns MUST NOT WORD WRAP on Internet Explorer*
+
+%EDITTABLE{format="|text,40|date,11,,%d %b %Y|date,11,,%d %b %Y|text,20|"}%
+%TABLE{columnwidths="260,120,120,300" dataalign="left,center,center,left" headeralign="left,center,center,left" initsort="2" sort="on"}%
+| *Milestone* | *Planned* | *Forecast/Actual* | *Status* |
+| _Program Kickoff_ | 30 Oct 2012 | 02 Nov 2012 | Complete |
+| _Engineering Authorization_ | 30 Oct 2012 | 30 Oct 2012 | Complete |
+| Program Authorization | 30 Oct 2012 | 02 Nov 2012 | Complete |
+| Technical Requirements Document Released | 28 Sep 2012 | 28 Sep 2012 | Complete |
+| Technical Requirements Document Reviewed | 05 Oct 2012 | 12 Oct 2012 | Complete |
+| Technical Architecture Document Released | 19 Oct 2012 | 09 Nov 2012 | Complete |
+| Technical Architecture Document Reviewed | 26 Oct 2012 | 20 Nov 2012 | Complete |
+| Requirement and Architecture Complete | 02 Nov 2012 | 05 Jan 2012 | Complete |
+| Implentation Authorization | 16 Jan 2013 | 25 Jan 2013 | Small Delay |
+| Ready For System Test | 28 Jun 2013 | 28 Jun 2013 | |
+| Ship Acceptance Europe | 22 Oct 2013 | 22 Oct 2013 | |
+| Ship Acceptance Global | 22 Nov 2013 | 22 Nov 2013 | |
+
 ---+++ in percentage
 <verbatim>
 %TABLE{columnwidths="10%,20%,30%,40%"}%

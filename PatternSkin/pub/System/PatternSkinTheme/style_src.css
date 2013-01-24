@@ -400,8 +400,8 @@ table {
 /* GENERAL HTML ELEMENTS */
 
 html body {
-	font-family: sans-serif;
-	font-size: 14px;
+    font-family: arial,verdana,sans-serif;
+    font-size: small;
 }
 body {
 	line-height: 22px;
