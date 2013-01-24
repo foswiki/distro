@@ -56,6 +56,9 @@ sub test_simpleparams {
 }
 
 # Test that file uploads are cached
+# Item12367: make sure that a filename containing RFC 3986 reserved characters
+# works ('%' must be reserved by all implementations of percent encoding,
+# obviously)
 sub test_upload {
     my $this = shift;
     my $req  = new Foswiki::Request("");
@@ -66,10 +69,10 @@ sub test_upload {
     my ( %uploads, %headers ) = ();
     %headers = (
         'Content-Type'        => 'text/plain',
-        'Content-Disposition' => 'form-data; name="file"; filename="Temp.txt"'
+        'Content-Disposition' => 'form-data; name="file"; filename="Temp%.txt"'
     );
-    $req->param( file => "Temp.txt" );
-    $uploads{"Temp.txt"} = new Foswiki::Request::Upload(
+    $req->param( file => "Temp%.txt" );
+    $uploads{"Temp%.txt"} = new Foswiki::Request::Upload(
         headers => {%headers},
         tmpname => $tmp->filename,
     );
