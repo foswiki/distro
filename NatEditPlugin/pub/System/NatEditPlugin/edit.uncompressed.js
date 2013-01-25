@@ -4,6 +4,8 @@ function handleKeyDown () { }
 
 /* foswiki integration */
 (function($) {
+  "use strict";
+
   var editAction, $editForm;
 
   function showErrorMessage(msg) {

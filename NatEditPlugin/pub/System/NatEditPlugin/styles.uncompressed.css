@@ -108,8 +108,11 @@ ul.natEditHelpTools {
 }
 .natEditInsertLink h3 {
   float:left;
-  width:5em;
+  width:50px;
   margin-left:1px;
+}
+.natEditInsertLink .foswikiInputField {
+  width:380px;
 }
 .natEditInsertLink .natEditAttachments ul {
   margin:0;
