@@ -343,7 +343,7 @@ ENABLEJS
     $expander .=
 qq{<span id="${keys}expander" class="configureFeedbackExpander foswikiJSRequired">};
     $expander .=
-qq{<a href='#' onclick="return feedback.toggleXpndr(this,\\"${keys}status\\");" ><img src="${Foswiki::resourceURI}toggleopen.png" alt="Expand/condense feedback" title="Expand/condense feedback" /></a></span>};
+qq{<a href='#' onclick="return feedback.toggleXpndr(this,'\Q${keys}status\E');" ><img src="${Foswiki::resourceURI}toggleopen.png" alt="Expand/condense feedback" title="Expand/condense feedback" /></a></span>};
     $helpTextLink .= $expander;
 
     $check =

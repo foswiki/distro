@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.122";
+        var VERSION = "v3.123";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -130,6 +130,7 @@ var configure = (function ($) {
                 } else {
                     $(this).removeClass('foswikiMakeHidden');
                 }
+                return true;
             });
             $('.configureNotInfoText').each(function () {
                 if (antimode === 'none') {
@@ -137,6 +138,7 @@ var configure = (function ($) {
                 } else {
                     $(this).removeClass('foswikiMakeHidden');
                 }
+                return true;
             });
         },
 
@@ -373,6 +375,7 @@ var configure = (function ($) {
                     that.setDefaultSub(sectionParts.main, sectionParts.sub);
                 }
                 tabLinks[this.sectionId] = $(this).parent().get(0);
+                return true;
             });
         },
 
@@ -384,6 +387,7 @@ var configure = (function ($) {
                         loadImage(this);
                         $(this).removeClass('loadImage');
                     }
+                    return true;
                 });
                 allImagesLoaded = (p >= $(document).height());
             }
@@ -619,7 +623,7 @@ var configure = (function ($) {
             }
             $('#configureErrorSummary').html(statusLine);
 
-            $('[data-displayif]').each(function () {
+            $('tr [data-displayif]').each(function () {
                 var ele = $(this);
                 if( ele.find('div.configureWarn,div.configureError').size() ) {
                     ele.addClass('configureDisplayForced');
@@ -808,7 +812,7 @@ function valueChanged(el) {
 
      var ca = $(el).closest('tr.configureItemKeys').attr('data-change');
      if( ca !== undefined ) {
-         ca = "ca = function(ele) {" + ca + "}; ca(el);";
+         ca = "ca = function(ele) {" + ca + "}; ca.call(el,el);";
          eval( ca.toString() );
      }
     switch (el.type.toLowerCase()) {
@@ -836,6 +840,7 @@ function valueChanged(el) {
 
     $(showWhenNothingChangedElements).each(function () {
         $(this).addClass('foswikiHidden');
+        return true;
     });
 
     $(enableWhenSomethingChangedElements).each(function () {
@@ -852,6 +857,7 @@ function valueChanged(el) {
             }
         }
         $(this).disabled = false;
+        return true;
     });
 }
 
@@ -1104,7 +1110,7 @@ var feedback = ( function ($) {
                      * every conditionally-displayed item for any change..
                      */
                     if( vset ) {
-                        $("[data-displayif]").each(function () {
+                        $("tr[data-displayif]").each(function () {
                             $(this).triggerHandler('displayif_change');
                             return true;
                         });
@@ -1462,11 +1468,13 @@ $(document).ready(function () {
         } else {
             $(this).addClass('foswikiHidden');
         }
+        return true;
     });
     configure.initTabLinks();
 
     $(".showWhenNothingChanged").each(function () {
         showWhenNothingChangedElements.push(this);
+        return true;
     });
     $(".tabli a").click(function () {
         return configure.showSection(this.sectionId);
@@ -1481,6 +1489,7 @@ $(document).ready(function () {
     });
     $("a.configureDefaultValueLink").each(function () {
         configure.initDefaultLink(this);
+        return true;
     });
     $("a.configureDefaultValueLink", $("div.configureRootSection")).mouseover(function () {
         configure.showDefaultLinkToolTip(this);
@@ -1490,6 +1499,7 @@ $(document).ready(function () {
     });
     $(":input.foswikiFocus").each(function () {
         this.focus();
+        return true;
     });
     $("#closeMessages").click(function () {
         $("#messages").hide();
@@ -1497,25 +1507,36 @@ $(document).ready(function () {
     });
     var add_dependency = function ($el, name, cb) {
         var test = $el.attr("data-" + name);
-        //$el.attr("data-" + name, "");
-        // Add change handlers to all vars, identified by {\w+}{... syntax
-        test = test.replace(/((?:\{\w+\})+)/g, function (str, p1, offset) {
-            var selector = '[name="' + p1 + '"]';
+        /* $el.attr("data-" + name, "");
+         * Add change handlers to all vars, identified by {key}{... syntax
+         * Turn test expression into eval'able string for handler.
+         */
+        test = test.replace(/((?:\{(?:[a-zA-Z0-9_"'-])+\})+)/g, function (str, p1, offset) {
+            var selector = '[name="' + configure.utils.quoteName( p1 ) + '"]';
             $(selector).change(function () {
                 $el.triggerHandler(name + '_change');
             });
-            return "valueOf($('" + selector + "'))";
+            /* Inline valueOf for speed.
+             * return "valueOf($('" + selector + "'))";
+            */
+            if( $(selector).attr("type") === "checkbox" ) {
+                return "($('" + selector + "').is(':checked'))";
+            }
+            return "($('" + selector + "').val())";
         });
-        // Bind a change event handler to this dependent, which will be fired if any of
-        // the things it depends on changes.
+        /* Bind a change event handler to this dependent, which will be fired if any of
+         * the things it depends on changes.  The handler is unique, so don't bubble/propagate.
+         */
+        test = '(' + test + ')';
         $el.bind(name + '_change', function (e) {
-            cb($el, eval('(' + test + ')') ? true : false);
+            cb( $el, eval(test)? true : false );
+            return false;
         });
-        // Set up initial conditions by triggering the handler
+        /* Set up initial conditions by triggering the handler */
         $el.triggerHandler(name + '_change');
     };
 
-    $("[data-displayif]").each(function () {
+    $("tr").filter("[data-displayif],[data-enableif]").filter("[data-displayif]").each(function() {
         add_dependency($(this), "displayif", function ($el, tf) {
             if( tf ) {
                 $($el).removeClass('configureDisplayHidden' );
@@ -1523,8 +1544,8 @@ $(document).ready(function () {
                 $($el).addClass('configureDisplayHidden' );
             }
         });
-    });
-    $("[data-enableif]").each(function () {
+        return true;
+    }).end().filter("[data-enableif]").each(function () {
         add_dependency($(this), "enableif", function ($el, tf) {
             if (tf) {
                 $el.find("input,textarea").removeAttr('disabled').removeClass('foswikiSubmitDisabled');
@@ -1532,6 +1553,7 @@ $(document).ready(function () {
                 $el.find("input,textarea").attr('disabled', 'disabled').addClass('foswikiSubmitDisabled');
             }
         });
+        return true;
     });
                 
     $('.foswikiNonJS').hide();

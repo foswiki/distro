@@ -22,7 +22,7 @@ use version 0.77;
 
 # minimum version of client JavaScript that configure requires.
 #
-my $minScriptVersion = version->parse("v3.122");
+my $minScriptVersion = version->parse("v3.123");
 
 use Foswiki::Configure (qw/:DEFAULT :auth :cgi :config :session :trace/);
 

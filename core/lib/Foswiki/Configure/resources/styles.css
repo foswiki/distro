@@ -163,6 +163,9 @@ body.configureShowOneSection .configureNotShowSection {
 	background-color:#edf5fc;
 	background-color:rgba(237, 245, 252, 0.8);
 }
+div.configureActions div.foswikiRight {
+    vertical-align: middle;
+}
 .configureTools {
 	background-color:#edf5fc;
 	padding-top: .7em;
@@ -209,6 +212,8 @@ table.configureFeedbackSummaryTable td {
 .configureFeedbackSummaryCell .configureUnsaved,
 .configureFeedbackSummaryCell .configureNoChanges {
     display: inline-block;
+    zoom:1;
+    *display: inline;
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 22px;
@@ -280,7 +285,7 @@ div.configureFeedbackError H1 {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 14px;

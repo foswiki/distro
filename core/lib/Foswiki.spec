@@ -1900,7 +1900,7 @@ $Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 #          Net::SMTP (STARTTLS),\
 #          MailProgram \
 #          CHANGE="var s = $('[name=\"{SMTP}{MAILHOST}\"]');\
-#                  if( ele.options[ele.selectedIndex].value === 'MailProgram' )\
+#                  if( this.options[this.selectedIndex].value === 'MailProgram' )\
 #                    s.val(' ---- Unused when MailProgram selected ---');\
 #                  else { if( /^ ---- Unused/.test(s.val()) ){\
 #                         s.val(' ---- Enter e-mail server name to configure Net::SMTP ---');s.get(0).select();}}" **
@@ -2351,6 +2351,9 @@ $Foswiki::cfg{Plugins}{HomePagePlugin}{Module} =
 # *AUDIT* # Plugin generates Configuration audit tab
 #
 # *LOGVIEWER*
+# **STRING H**
+# Default severity selection for log viewer - not stored
+$Foswiki::cfg{ConfigureGUI}{LogViewer}{SystemLogs} = [ qw/debug info warning error critical alert emergency/ ];
 
 1;
 __END__

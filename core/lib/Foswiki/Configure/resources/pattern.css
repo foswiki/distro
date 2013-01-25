@@ -1237,8 +1237,8 @@ pre ul:last-child,
   *zoom: 1;
   padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 20px;
-  *line-height: 20px;
+  line-height: 18px;
+  *line-height: 18px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -1252,7 +1252,7 @@ pre ul:last-child,
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 13px;
@@ -1425,8 +1425,8 @@ pre ul:last-child,
   *zoom: 1;
   padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 20px;
-  *line-height: 20px;
+  line-height: 18px;
+  *line-height: 18px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -1440,7 +1440,7 @@ pre ul:last-child,
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 13px;
@@ -1525,8 +1525,8 @@ pre ul:last-child,
   *zoom: 1;
   padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 20px;
-  *line-height: 20px;
+  line-height: 18px;
+  *line-height: 18px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -1540,7 +1540,7 @@ pre ul:last-child,
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 13px;
@@ -1626,8 +1626,8 @@ pre ul:last-child,
   *zoom: 1;
   padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 20px;
-  *line-height: 20px;
+  line-height: 18px;
+  *line-height: 18px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -1641,7 +1641,7 @@ pre ul:last-child,
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 13px;
@@ -2034,7 +2034,7 @@ textarea.foswikiTextareaRawView:focus {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 13px;
@@ -4604,8 +4604,8 @@ label.ui-button.ui-state-active,
 a.jqButton {
   padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 20px;
-  *line-height: 20px;
+  line-height: 18px;
+  *line-height: 18px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -4619,7 +4619,7 @@ a.jqButton {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 13px;
@@ -4729,8 +4729,8 @@ a.jqButton.foswikiButtonCancel,
 .jqButton.foswikiButtonCancel {
   padding: 3px 9.799999999999999px 3px 9.799999999999999px;
   margin: 0 6px 0 0;
-  line-height: 20px;
-  *line-height: 20px;
+  line-height: 18px;
+  *line-height: 18px;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -4744,7 +4744,7 @@ a.jqButton.foswikiButtonCancel,
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  font-family: sans-serif;
+  font-family: Arial,sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 13px;
