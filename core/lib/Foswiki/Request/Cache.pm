@@ -155,10 +155,10 @@ sub load {
         # Load uploads
         while ( my $key = <$F> ) {
             chomp($key);
-            $key =
-              Foswiki::urlDecode( Foswiki::Sandbox::untaintUnchecked($key) );
-            print STDERR "CACHE $uid< upload $key\n" if (TRACE_CACHE);
-            $req->{uploads}->{$key} =
+            $key = Foswiki::Sandbox::untaintUnchecked($key);
+            my $decodedKey = Foswiki::urlDecode($key);
+            print STDERR "CACHE $uid< upload $decodedKey\n" if (TRACE_CACHE);
+            $req->{uploads}->{$decodedKey} =
               $this->_loadUpload( $this->_cacheFile($uid), $key );
         }
 
