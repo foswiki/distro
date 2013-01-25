@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.123";
+        var VERSION = "v3.124";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -255,7 +255,8 @@ var configure = (function ($) {
             url = document.location.toString().split("#")[0];
             sectionParts = this.getSectionParts(anchor);
             mainId = sectionParts.main;
-            subId = tabLinks[mainId] ? (sectionParts.sub || getSub(mainId) || this.getDefaultSub(mainId)) : this.getDefaultSub(mainId);
+            subId = tabLinks[mainId] ? (sectionParts.sub || getSub(mainId) || this.getDefaultSub(mainId)) :
+                                       this.getDefaultSub(mainId);
 
             if (!tabLinks[mainId]) {
                 mainId = menuState.defaultMain;
@@ -453,7 +454,8 @@ var configure = (function ($) {
              * without.  Visiting only the items with errors minimizes work.
              */
 
-            $('ul li a.configureWarn,ul li a.configureError,ul li a.configureWarnAndError').removeClass('configureWarn configureError configureWarnAndError' );
+            $('ul li a.configureWarn,ul li a.configureError,ul li a.configureWarnAndError').
+                removeClass('configureWarn configureError configureWarnAndError' );
             $('div[id$="Alerts"].foswikiAlert').not('.foswikiAlertInactive').addClass('foswikiAlertInactive');
 
             /* Find each item's error value & propagate it upwards.
@@ -588,7 +590,8 @@ var configure = (function ($) {
                     }
                     statusLine += "</span>";
                 }
-                $('#' + configure.utils.quoteName(alertDiv)).html(statusLine).removeClass('foswikiAlertInactive');
+                $('#' + configure.utils.quoteName(alertDiv)).html(statusLine).
+                    removeClass('foswikiAlertInactive');
             }
 
             /* Finally, the summary status bar
@@ -623,7 +626,7 @@ var configure = (function ($) {
             }
             $('#configureErrorSummary').html(statusLine);
 
-            $('tr [data-displayif]').each(function () {
+            $('tr[data-displayif]').each(function () {
                 var ele = $(this);
                 if( ele.find('div.configureWarn,div.configureError').size() ) {
                     ele.addClass('configureDisplayForced');
@@ -823,7 +826,8 @@ function valueChanged(el) {
     case "password":
     case "radio":
     case "checkbox":
-       if( $('[id^="' + configure.utils.quoteName(el.name) + 'feedreq"]').filter('[value="~"]').click().size() > 0 ) {
+       if( $('[id^="' + configure.utils.quoteName(el.name) + 'feedreq"]').
+                                  filter('[value="~"]').click().size() > 0 ) {
            break;
        }
         /* No feedback button found, fall through to default */
@@ -937,7 +941,9 @@ var feedback = ( function ($) {
              */
             m = m.replace(/<(\/)?pre>/gi, "<$1code>").replace(/\n/g, '<br />');
 
-            feedback.modalWindow(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').replace(/<crlf>/mg, "\n"));
+            feedback.modalWindow(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').
+                                   replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').
+                                   replace(/<crlf>/mg, "\n"));
         },
         sendFeedbackRequest: function ( posturl, requestData, boundary, stsWinId ) {
 
@@ -972,10 +978,12 @@ var feedback = ( function ($) {
                     /* Clear "working" status */
 
                     if( stsWindowId ) {
-                        $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
+                        $('#' + configure.utils.quoteName(stsWindowId)).
+                            replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedback\"></div>");
                     }
 
-                    feedback.modalWindow('<h1>' + xhr.status.toString() + " " + xhr.statusText + "</h1>" + xhr.responseText);
+                    feedback.modalWindow('<h1>' + xhr.status.toString() + " " + xhr.statusText +
+                                         "</h1>" + xhr.responseText);
                     return true;
                 },
                 /* Using complete ensures that jQuery provides xhr on success.
@@ -999,8 +1007,9 @@ var feedback = ( function ($) {
                     openModal = false,
                     errorsChanged = false;
 
-                    /* Validate that this script is the version that configure expects.  Configure sends the version it reads from this file, so a
-                     * mismatch indicates a caching problem (including the wrong .gz file, a network issue, or strange user behavior.)
+                    /* Validate that this script is the version that configure expects.  Configure sends
+                     * the version it reads from this file, so a mismatch indicates a caching problem
+                     * (including the wrong .gz file, a network issue, or strange user behavior.)
                      *
                      * An empty response should only be the reply to our initial version check.
                      * If you encounter these errors, one comon cause is that configure will send a .gz file
@@ -1011,15 +1020,20 @@ var feedback = ( function ($) {
                         if( data.length && data.charAt(0) === '<' ) {
                             feedback.modalWindowFromHTML(data);
                         } else {
-                            feedback.modalWindow( "Client javascript is version " + configure.getVERSION() + ", but configure requires " + (v && v.length? v : 'an unknown version') +
+                            feedback.modalWindow( "Client javascript is version " + configure.getVERSION() +
+                                                  ", but configure requires " +
+                                                  (v && v.length? v : 'an unknown version') +
                                                   "Try refreshing this window, clearing the browser's cache, and verifying that the Foswiki installation has the correct file." );
                         }
                         return true;
                     }
 
-                    /* Make sure this is a feedback response we understand.  We do this after the script version check because the version check diagnosis is more accurate.
-                     * Since the version check doesn't look at the data, it's OK to do the protocol version check after the script version check.  In any case, if the
-                     * script version is correct, but the protocol version is wrong, the .js file & Dispatch.pm (at least) do not match.
+                    /* Make sure this is a feedback response we understand.  We do this after the script
+                     * version check because the version check diagnosis is more accurate.
+                     * Since the version check doesn't look at the data, it's OK to do the protocol version
+                     * check after the script version check.  In any case, if the
+                     * script version is correct, but the protocol version is wrong, the .js file &
+                     * Dispatch.pm (at least) do not match.
                      */
                     v = xhr.getResponseHeader('X-Foswiki-FeedbackResponse');
                     if (v !== 'V1.0') {
@@ -1379,51 +1393,51 @@ var feedback = ( function ($) {
         setExpander: function(keys,xpn) {
             var img,
                 isxpn,
-                jwin,
-                jxpn,
+                $win,
+                $xpn,
                 win;
 
             if( xpn === undefined ) {
-                jxpn = $('#' + configure.utils.quoteName(keys + 'expander'));
+                $xpn = $('#' + configure.utils.quoteName(keys + 'expander'));
             } else {
-                jxpn = $(xpn);
+                $xpn = $(xpn);
             }
 
-            jwin = $('#' + configure.utils.quoteName(keys + 'status'));
-            if( ! jwin.is(':visible') ) {
+            $win = $('#' + configure.utils.quoteName(keys + 'status'));
+            if( ! $win.is(':visible') ) {
                 return true;
             }
 
-            win  = jwin.get(0);
-            isxpn = jwin.hasClass('configureFeedbackExpanded');
+            win  = $win.get(0);
+            isxpn = $win.hasClass('configureFeedbackExpanded');
 
-            img  = jxpn.find('img').get(0);
+            img  = $xpn.find('img').get(0);
 
             if( (isxpn && (win.clientHeight > standardFeedbackHeight)) ||
                  (win.clientHeight < win.scrollHeight) ) {
                 img.src = isxpn? img.src.replace(/open\.png$/, 'close.png') :
                                  img.src.replace(/close\.png$/, 'open.png');
-                jxpn.show();
+                $xpn.show();
             } else {
-                jxpn.hide();
-                jwin.removeClass('configureFeedbackExpanded');
+                $xpn.hide();
+                $win.removeClass('configureFeedbackExpanded');
                 img.src = img.src.replace(/close\.png$/, 'open.png');
             }
             return true;
         },
         toggleXpndr: function (xpn,keys) {
-            var jxpn = $(xpn),
-                img = jxpn.find('img').get(0),
-                win = $('#' + configure.utils.quoteName(keys));
+            var $xpn = $(xpn),
+                img = $xpn.find('img').get(0),
+                $win = $('#' + configure.utils.quoteName(keys));
 
-            if( win.hasClass('configureFeedbackExpanded') ) {
+            if( $win.hasClass('configureFeedbackExpanded') ) {
                 img.src = img.src.replace(/close\.png$/, 'open.png');
-                win.removeClass('configureFeedbackExpanded');
+                $win.removeClass('configureFeedbackExpanded');
             } else {
                 img.src = img.src.replace(/open\.png$/, 'close.png');
-                win.addClass('configureFeedbackExpanded');
+                $win.addClass('configureFeedbackExpanded');
                 $('body,html,window').scrollTop(Math.max(0,
-                        win.offset().top - $('div.configurePageHeader').get(0).clientHeight));
+                        $win.offset().top - $('div.configurePageHeader').get(0).clientHeight));
             }
             return false;
         }
@@ -1496,6 +1510,7 @@ $(document).ready(function () {
     });
     $(".configureToggleSections a").click(function () {
         configure.toggleSections();
+        return false;
     });
     $(":input.foswikiFocus").each(function () {
         this.focus();
@@ -1505,18 +1520,17 @@ $(document).ready(function () {
         $("#messages").hide();
         return false;
     });
-    var add_dependency = function ($el, name, cb) {
-        var test = $el.attr("data-" + name);
-        /* $el.attr("data-" + name, "");
-         * Add change handlers to all vars, identified by {key}{... syntax
+    var add_dependency = function ($el, handler, test, cb) {
+        /* Add change handlers to all vars in the test, identified by {key}{... syntax
          * Turn test expression into eval'able string for handler.
          */
         test = test.replace(/((?:\{(?:[a-zA-Z0-9_"'-])+\})+)/g, function (str, p1, offset) {
             var selector = '[name="' + configure.utils.quoteName( p1 ) + '"]';
             $(selector).change(function () {
-                $el.triggerHandler(name + '_change');
+                $el.triggerHandler(handler);
             });
-            /* Inline valueOf for speed.
+            /* Inline valueOf() for speed. This is the string eval'd to fetch the value of an item
+             * when a change occurs.
              * return "valueOf($('" + selector + "'))";
             */
             if( $(selector).attr("type") === "checkbox" ) {
@@ -1528,31 +1542,37 @@ $(document).ready(function () {
          * the things it depends on changes.  The handler is unique, so don't bubble/propagate.
          */
         test = '(' + test + ')';
-        $el.bind(name + '_change', function (e) {
+        $el.bind(handler, function (e) {
             cb( $el, eval(test)? true : false );
             return false;
         });
         /* Set up initial conditions by triggering the handler */
-        $el.triggerHandler(name + '_change');
+        $el.triggerHandler(handler);
     };
 
-    $("tr").filter("[data-displayif],[data-enableif]").filter("[data-displayif]").each(function() {
-        add_dependency($(this), "displayif", function ($el, tf) {
-            if( tf ) {
-                $($el).removeClass('configureDisplayHidden' );
-            } else {
-                $($el).addClass('configureDisplayHidden' );
-            }
-        });
-        return true;
-    }).end().filter("[data-enableif]").each(function () {
-        add_dependency($(this), "enableif", function ($el, tf) {
-            if (tf) {
-                $el.find("input,textarea").removeAttr('disabled').removeClass('foswikiSubmitDisabled');
-            } else {
-                $el.find("input,textarea").attr('disabled', 'disabled').addClass('foswikiSubmitDisabled');
-            }
-        });
+    $("tr").filter(".configureItemKeys").filter("[data-displayif],[data-enableif]").each(function() {
+        var $el = $(this);
+        var test = $el.attr('data-displayif');
+        if( test !== undefined ) {
+            add_dependency($el, "displayif_change", test, function ($el, tf) {
+                if( tf ) {
+                    $el.removeClass('configureDisplayHidden');
+                    feedback.setExpander($el.attr('data-keys'));
+                } else {
+                    $el.addClass('configureDisplayHidden');
+                }
+            });
+        }
+        test = $el.attr('data-enableif');
+        if( test !== undefined ) {
+            add_dependency($(this), "enableif_change", test, function ($el, tf) {
+                if (tf) {
+                    $el.find("input,textarea").removeAttr('disabled').removeClass('foswikiSubmitDisabled');
+                } else {
+                    $el.find("input,textarea").attr('disabled', 'disabled').addClass('foswikiSubmitDisabled');
+                }
+            });
+        }
         return true;
     });
                 
@@ -1563,7 +1583,7 @@ $(document).ready(function () {
 
     feedback.sendFeedbackRequest( document.location.pathname, '' );
 
-    // make sticky
+    /* make sticky */
     $('.navigation').affix({
       offset: {
         top: 0,
@@ -1573,6 +1593,7 @@ $(document).ready(function () {
     
     $(".extensionsHelp").click(function() {
         $(".configureExtensionsHelp").toggleClass("foswikiHidden");
+        return false;
     });
     
     configure.toggleExpertsMode('expert');
@@ -1588,7 +1609,7 @@ $(document).ready(function () {
 
 function setSubmitAction(button,action) {
     "use strict";
-    $(button.form).find('input[type="hidden"][name="action"]').val(action? action:button.value);
+    $(button.form).find('input[type="hidden"][name="action"]').val(action? action : button.value);
     return true;
 }
 
@@ -1735,7 +1756,9 @@ function doFeedback(key, pathinfo) {
         }
         $('#' + configure.utils.quoteName(key.id.replace(/feedreq\d+$/, 'expander'))).hide();
         stsWindowId = key.id.replace(/feedreq\d+$/, 'status');
-        $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId + "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" + working + "</span></div>");
+        $('#' + configure.utils.quoteName(stsWindowId)).replaceWith("<div id=\"" + stsWindowId +
+          "\" class=\"configureFeedbackPending configureInfo\"><span class=\"configureFeedbackPendingMessage\">" +
+          working + "</span></div>");
 
         if( feedback.modalIsOpen() ) {
             feedback.modalObject().resize(true);
@@ -1798,3 +1821,5 @@ function doFeedback(key, pathinfo) {
     feedback.sendFeedbackRequest( posturl, requestData, boundary, stsWindowId );
     return false;
 }
+
+/* EOF */
