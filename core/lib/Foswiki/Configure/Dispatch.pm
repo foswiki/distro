@@ -446,7 +446,7 @@ sub _getEnvironmentInfo {
         # Get names of primary and other groups.
         # This is down here because it takes 30s to execute on Strawberry perl
         $::WebServer_gid =
-          lc(qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ));
+          lc( qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ) || 'n/a' );
     }
 
     ###########################################################
