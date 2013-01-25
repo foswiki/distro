@@ -332,7 +332,7 @@ if ($@) {
     # Run command without stderr output, to avoid CGI giving error.
     # Get names of primary and other groups.
     # This is down here because it takes 30s to execute on Strawberry perl
-    $::WebServer_gid = lc(qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ));
+    $::WebServer_gid = lc(qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ) || 'n/a');
 }
 
 ###########################################################
