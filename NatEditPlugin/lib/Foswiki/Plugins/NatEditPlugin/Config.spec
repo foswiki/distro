@@ -8,3 +8,4 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{NatEdit}{Module} = 'Foswiki::Plugins::NatEd
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{NatEdit}{Enabled} = 1;
 
+1;
