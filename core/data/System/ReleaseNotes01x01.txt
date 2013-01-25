@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.7-RC4
+---+!! Foswiki Release 1.1.7-RC5
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -38,7 +38,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
-   * Foswiki 1.1.7-RC4 was built 15 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 13 fixes and 4 enhancements.
+   * Foswiki 1.1.7-RC5 was built 25 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 18 fixes and 4 enhancements.
 
 Note: RC4 changes the VERSION string from =1.1.7_004= to =1.1.6_005=.   This has no operational impact. It reflects a better understanding of how perl does version string comparisons.
 
@@ -113,6 +113,11 @@ The save cycle of configure is necessary to register the new JQuery pattern them
 $Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Url} =
 '$Foswiki::cfg{PubUrlPath}/$Foswiki::cfg{SystemWebName}/PatternSkinTheme/jquery-ui.css';
 $Foswiki::cfg{JQueryPlugin}{Themes}{PatternSkinTheme}{Enabled} = 1;</verbatim>
+
+---+++ Font changes
+
+A change made in 1.1.6 changed the default size and family of the body font.  This change resulted in unexpected word wrap in tables that had column widths set to avoid wrapping.  Foswiki 1.1.7 reverts the font setting back to that of Foswiki 1.1.5.
+Changes to the skin that impact layout should not have been made in a patch release.
 
 ---+++ Minor change to =Main.WebHome=
 
@@ -1797,6 +1802,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item9357][Item9357]] | Login with illegal web results in Assert failure, or Uninitialized variable. |
 | [[%BUGS%/Item11546][Item11546]] | Can't locate object method "TopicObject", in Foswiki/Prefs.pm line 311. |
 | [[%BUGS%/Item11765][Item11765]] | Error message generated when creating a topic with a missing formtemplate topic pre-pends a web - even if there already is one. |
+| [[%BUGS%/Item12231][Item12231]] | <code>bin/configure</code> fails to close opened file handles. |
 | [[%BUGS%/Item12271][Item12271]] | Conditional dependency (ONLYIF option) is too restrictive to be all that useful. |
 | [[%BUGS%/Item12279][Item12279]] | Net::SMTP::SSL Email fails with SSL_verify_mode error on recent versions of IO::Socket::SSL |
 | [[%BUGS%/Item12285][Item12285]] | Resolve MAKETEXT vulnerabilities CVE-2012-6329 and CVE-2012-6330. |
@@ -1804,9 +1810,14 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12300][Item12300]] | Potential write on closed filehandle processing languages cache. |
 | [[%BUGS%/Item12301][Item12301]] | I18N->maketext calls in plugin init run before user language has been determined. |
 | [[%BUGS%/Item12310][Item12310]] | Update registration documentation and other documentation changes. |
+| [[%BUGS%/Item12330][Item12330]] | <code>bin/configure</code> crashes when run using cygwin perl. |
 | [[%BUGS%/Item12336][Item12336]] | Update docs for Func::addUserToGroup. |
 | [[%BUGS%/Item12337][Item12337]] | Remove dependency on version 4.0 of HTML::TreeBuilder. |
 | [[%BUGS%/Item12347][Item12347]] | Undeclared dependency on Crypt::PasswdMD5. |
+| [[%BUGS%/Item12351][Item12351]] | A font size change in 1.1.6 broke tuned table layouts with undesired word wrapping.  Restore 1.1.5 font size.|
+| [[%BUGS%/Item12353][Item12353]] | Add configuration checker for <code>MaxLSCBackups</code> - prevent crash if directory containing LocalSite.cfg is not writable. |
+| [[%BUGS%/Item12368][Item12368]] | <code>bin/configure</code> crashes with undefined input to <code>lc</code on some versions of Windows. |
+
 ---+++!! Enhancements
 
 | [[%BUGS%/Item12278][Item12278]] | TML WikiWord links need better handling by TMCE to avoid inconsistent links. |
