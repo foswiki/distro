@@ -18,6 +18,45 @@ The exception may be thrown by plugins. If a plugin throws the exception, it
 will normally be caught and the browser redirected to a login screen (if the
 user is not logged in) or reported (if they are and just don't have access).
 
+---++ Throwing an exception
+
+If your code needs to abort processing and inform the user (or the higher level caller)
+that some operation was denied, throw an =AccessControlException=.
+
+<verbatim>
+    use Error qw(:try);
+    use Foswiki::AccessControlException;
+    ...
+    unless (
+        Foswiki::Func::checkAccessPermission(
+            "VIEW", $session->{user}, undef, $topic, $web
+        )
+      )
+    {
+        throw Foswiki::AccessControlException( "VIEW", $session->{user}, $web,
+            $topic,  $Foswiki::Meta::reason );
+    }
+</verbatim>
+
+---++ Catching an exception
+
+If you are calling a function that can detect and throw an access violation, and
+you would prefer to intercept the exception to perform some further processing,
+use the =try { } catch { }= structure.
+
+<verbatim>
+    my $exception;
+    try {
+        Foswiki::Func::moveWeb( "Oldweb", "Newweb" );
+    } catch Foswiki::AccessControlException with {
+        $exception = shift;
+    } otherwise {
+        ...
+    };
+</verbatim>
+
+---++ Notes
+
 *Since* _date_ indicates where functions or parameters have been added since
 the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
