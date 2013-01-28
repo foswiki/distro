@@ -69,8 +69,8 @@ sub check {
     else {
         $value = $this->getCfg($keys);
     }
-    my $validRE = "^[+-]?[$valid]";
-    $validRE .= ( $optionList[0]->{nullok}[0] ? '*' : '+' ) . '$';
+    my $validRE = "^(?:[+-]?[$valid]+)";
+    $validRE .= ( $optionList[0]->{nullok}[0] ? '?' : '' ) . '$';
 
     $e .= $this->ERROR(
         "Not a valid "
