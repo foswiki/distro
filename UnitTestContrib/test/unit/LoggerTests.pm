@@ -57,6 +57,23 @@ sub skip {
           'Log::Dispatch does not perform file rotation',
         'LoggerTests::verify_rotate_error_LogDispatchFileRollingLogger' =>
           'Log::Dispatch does not perform file rotation',
+        'LoggerTests::verify_eachEventSince_MultiLevelsV0_CompatibilityLogger'
+          => => 'Multilevel eachEvent not implemented yet',
+        'LoggerTests::verify_eachEventSince_MultiLevelsV1_CompatibilityLogger'
+          => => 'Multilevel eachEvent not implemented yet',
+        'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileLogger'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileObfuscatingLogger'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileRollingLogger'
+          => 'Multilevel eachEvent not implemented yet',
+        'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileLogger'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileObfuscatingLogger'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileRollingLogger'
+          => 'Multilevel eachEvent not implemented yet',
+
     );
 
     return $skip_tests{$test}
@@ -243,7 +260,7 @@ sub fixture_groups {
     return \@groups;
 }
 
-sub verify_LogDispatchCompatRoutinesMultiLevels {
+sub verify_eachEventSince_MultiLevelsV0 {
     my $this   = shift;
     my $time   = time;
     my $ipaddr = '1.2.3.4';
@@ -258,11 +275,23 @@ sub verify_LogDispatchCompatRoutinesMultiLevels {
     $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
       if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+    sleep 1;
     $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
     $this->{logger}
       ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    sleep 1;
+    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}
+      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    sleep 1;
+    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
 
     if ( $Foswiki::cfg{Log}{Implementation} eq
         'Foswiki::Logger::PlainFile::Obfuscating' )
@@ -285,33 +314,93 @@ sub verify_LogDispatchCompatRoutinesMultiLevels {
     $this->assert( $it->hasNext() );
 
     my $logCounter;
+    my $checkTime = 0;
 
+    # Verify that we got the 13 logs written, in ascending timestamp order.
+    while ( $it->hasNext() ) {
+        $logCounter++;
+        my $data = $it->next();
+
+        my $level = @$data[6];
+        my $t     = shift( @{$data} );
+        $this->assert( $t >= $checkTime, "$t not >=  $checkTime" );
+        $checkTime = $t;
+    }
+    $this->assert( $logCounter == 13 );
+
+    return;
+}
+
+sub verify_eachEventSince_MultiLevelsV1 {
+    my $this   = shift;
+    my $time   = time;
+    my $ipaddr = '1.2.3.4';
+    my $tmpIP  = $ipaddr;
+
+#  For the PlainFile::Obfuscating logger,  have the warning record hash the IP addrss
+#  SMELL: This is a bit bogus, as the logger only obfuscates the 6th parameter of the log call
+#  and this is *only* used for "info" type messages.  The unit test however calls all log types
+#  with multiple parameters, so Obfuscation happens on any log level.
+
+    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+    sleep 1;
+    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}
+      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    sleep 1;
+    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}
+      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    sleep 1;
+    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+      if $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/;
+
+    if ( $Foswiki::cfg{Log}{Implementation} eq
+        'Foswiki::Logger::PlainFile::Obfuscating' )
+    {
+        $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+    }
+    $this->{logger}->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
+
+    my $logIP =
+      ( $Foswiki::cfg{Log}{Implementation} eq
+          'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
+
+    my @levels =
+      ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/ )
+      ? qw(debug info notice warning error critical alert emergency)
+      : qw(debug info warning error critical alert emergency);
+
+    my $testIP = $logIP;
+    my $it = $this->{logger}->eachEventSince( $time, \@levels, 1 );
+    $this->assert( $it->hasNext() );
+
+    my $logCounter;
+    my $checkTime = 0;
+
+    # Verify that we got the 13 logs written, in ascending timestamp order.
     while ( $it->hasNext() ) {
         $logCounter++;
         my $data  = $it->next();
-        my $level = @$data[6];
-        my $t     = shift( @{$data} );
-        $this->assert( $t >= $time, "$t $time" );
-        $testIP = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
-            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
-            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
-            && $level eq 'info' );
+        my $level = $data->{level};
 
-        $testIP = '109.104.118.183'
-          if ( $Foswiki::cfg{Log}{Implementation} eq
-            'Foswiki::Logger::PlainFile::Obfuscating'
-            && $level eq 'warning' );
+        $this->assert(
+            $data->{epoch} >= $checkTime,
+            "$data->{epoch} not >=  $checkTime"
+        );
+        $checkTime = $data->{epoch};
 
-        my $expected =
-          ( $level eq 'info' )
-          ? join( '.',
-            ( 'blah' . $level, 'Green', 'Eggs', 'and', $testIP, $level ) )
-          : join( '.',
-            ( '', '', '', "blah$level Green Eggs and $testIP", '', $level ) );
-        $this->assert_str_equals( $expected, join( '.', @{$data} ) );
     }
-    $this->assert( $logCounter == 5 );
+    $this->assert( $logCounter == 13 );
 
     return;
 }
@@ -694,7 +783,7 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
     $plainFileTestTime = time;                  # today
     $logger->log( 'info', "Porpoise" );
 
-    print STDERR "Calling eachEventSince info\n";
+    #print STDERR "Calling eachEventSince info\n";
     my $it = $logger->eachEventSince( 0, 'info' );
     my $data;
     $this->assert( $it->hasNext() );
