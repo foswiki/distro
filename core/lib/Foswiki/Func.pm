@@ -1372,9 +1372,28 @@ A perl true result indicates that access is permitted.
 *Note* the weird parameter order is due to compatibility constraints with
 earlier releases.
 
-*Tip* if you want, you can use this method to check your own access control types. For example, if you:
+<blockquote class="foswikiHelp">
+%T% *Tip:* if you want, you can use this method to check your own access control types. For example, if you:
    * Set ALLOWTOPICSPIN = IncyWincy
 in =ThatWeb.ThisTopic=, then a call to =checkAccessPermission('SPIN', 'IncyWincy', undef, 'ThisTopic', 'ThatWeb', undef)= will return =true=.
+</blockquote>
+
+*Example code:*
+
+<verbatim>
+    use Error qw(:try);
+    use Foswiki::AccessControlException;
+    ...
+    unless (
+        Foswiki::Func::checkAccessPermission(
+            "VIEW", $session->{user}, undef, $topic, $web
+        )
+      )
+    {
+        throw Foswiki::AccessControlException( "VIEW", $session->{user}, $web,
+            $topic,  $Foswiki::Meta::reason );
+    }
+</verbatim>
 
 =cut
 
