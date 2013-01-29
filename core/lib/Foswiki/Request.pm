@@ -579,10 +579,10 @@ sub save {
     my ( $this, $fh ) = @_;
     local ( $\, $, ) = ( '', '' );
     foreach my $name ( $this->param ) {
-        my $key = Foswiki::urlEncode($name);
         foreach my $value ( $this->param($name) ) {
             $value = '' unless defined $value;
-            print $fh Foswiki::urlEncode($key), '=',
+            next if $name eq '' && $value eq '';    # Item12371
+            print $fh Foswiki::urlEncode($name), '=',
               Foswiki::urlEncode($value), "\n";
         }
     }
@@ -605,7 +605,7 @@ sub load {
     local $/ = "\n";
     while (<$file>) {
         chomp;
-        last if /^=/;
+        last if /^=$/;
         my ( $key, $value ) =
           map { defined $_ ? Foswiki::urlDecode($_) : $_ } split /=/;
         if ( exists $param{$key} ) {
