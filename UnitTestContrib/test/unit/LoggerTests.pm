@@ -57,10 +57,6 @@ sub skip {
           'Log::Dispatch does not perform file rotation',
         'LoggerTests::verify_rotate_error_LogDispatchFileRollingLogger' =>
           'Log::Dispatch does not perform file rotation',
-        'LoggerTests::verify_eachEventSince_MultiLevelsV0_CompatibilityLogger'
-          => => 'Multilevel eachEvent not implemented yet',
-        'LoggerTests::verify_eachEventSince_MultiLevelsV1_CompatibilityLogger'
-          => => 'Multilevel eachEvent not implemented yet',
         'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileLogger'
           => 'Multilevel eachEvent not implemented yet',
 'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileObfuscatingLogger'
