@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.7-RC5
+---+!! Foswiki Release 1.1.7-RC6
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -38,7 +38,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.4 was built 20 Dec 2011. It is a release that fixes some very important including some security related issues. It contains 143 fixes and 27 enhancements. jQuery has been updated to 1.7.1.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
-   * Foswiki 1.1.7-RC5 was built 25 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 19 fixes and 4 enhancements.
+   * Foswiki 1.1.7-RC6 was built 29 Jan 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
 
 Note: RC4 changes the VERSION string from =1.1.7_004= to =1.1.6_005=.   This has no operational impact. It reflects a better understanding of how perl does version string comparisons.
 
@@ -1818,6 +1818,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12353][Item12353]] | Add configuration checker for <code>MaxLSCBackups</code> - prevent crash if directory containing LocalSite.cfg is not writable. |
 | [[%BUGS%/Item12367][Item12367]] | Upload of filename containing special characters fails if redirected through strikeone validation. |
 | [[%BUGS%/Item12368][Item12368]] | <code>bin/configure</code> crashes with undefined input to <code>lc</code on some versions of Windows. |
+| [[%BUGS%/Item12371][Item12371]] | Request cache breaks when there is a POST parameter with empty name. |
 
 ---+++!! Enhancements
 
