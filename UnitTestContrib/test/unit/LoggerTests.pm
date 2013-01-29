@@ -576,10 +576,7 @@ sub verify_simpleWriteAndReplay {
         my $it = $this->{logger}->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
-
-        #    require Data::Dumper;
-        #    print STDERR Data::Dumper::Dumper(\$data);
-        my $t = shift( @{$data} );
+        my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
           if ( $Foswiki::cfg{Log}{Implementation} =~ /LogDispatch/
