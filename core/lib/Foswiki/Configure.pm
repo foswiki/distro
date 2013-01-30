@@ -77,7 +77,7 @@ use constant TRANSACTIONLOG => 0;
 # session Session management constants
 
 use constant SESSIONEXP  => '60m';            # Lifetime of interactive session
-use constant COOKIEEXP   => '61m';            # Lifetime of cookie
+use constant COOKIEEXP   => '10y';            # Lifetime of cookie
 use constant SAVEEXP     => '5m';             # Lifetime of cached save password
 use constant RESOURCEEXP => '1m';             # Resource access window
 use constant COOKIENAME  => 'FOSWIKICFG4SID'; # Change with DSN
