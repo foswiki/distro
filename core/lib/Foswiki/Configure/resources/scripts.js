@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.124";
+        var VERSION = "v3.125";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -878,6 +878,36 @@ function submitform() {
     document.update.submit();
 }
 
+function submitOnEnter(field, e ) {
+    "use strict";
+
+    var keycode;
+    if (window.event) keycode = window.event.keyCode;
+    else if (e) keycode = e.which;
+    else return true;
+
+    if (keycode == 13) {
+        field.form.submit();
+        return false;
+    }
+    return true;
+}
+
+function feedbackOnEnter(field, e ) {
+    "use strict";
+
+    var keycode;
+    if (window.event) keycode = window.event.keyCode;
+    else if (e) keycode = e.which;
+    else return true;
+
+    if (keycode == 13) {
+        $(field.form).find('.foswikiButton:first').click();
+        return false;
+    }
+    return true;
+}
+
 var feedback = ( function ($) {
     "use strict";
 
@@ -915,6 +945,7 @@ var feedback = ( function ($) {
             if( $('#configureModalContents').html(m).size() ) {
                 if( feedback.modalIsOpen() ) {
                     modalObject.resize(true);
+                    modalObject.elts.cont.find(":input.foswikiFocus:first").focus();
                 } else {
                     $('#activateConfigureModalWindow').click();
                 }
@@ -939,8 +970,9 @@ var feedback = ( function ($) {
              * switch to <code> as <pre> s used by CGI::Carp.  This should be removed
              * once the nyroModal CSS is fixed.
              */
-            m = m.replace(/<(\/)?pre>/gi, "<$1code>").replace(/\n/g, '<br />');
-
+            if( /<pre>/.test(m) ) {
+                m = m.replace(/<(\/)?pre>/gi, "<$1code>").replace(/\n/g, '<br />');
+            }
             feedback.modalWindow(m.replace(/\r?\n/mgi, '<crlf>').replace(/^.*<body[^>]*>/mgi, '').
                                    replace(/<\/body>.*$/mgi, '').replace(/<\/?html>/mgi, '').
                                    replace(/<crlf>/mg, "\n"));
@@ -962,7 +994,8 @@ var feedback = ( function ($) {
                 },
                 headers: {
                     'X-Foswiki-FeedbackRequest': 'V1.0',
-                    'X-Foswiki-ScriptVersion': configure.getVERSION()
+                    'X-Foswiki-ScriptVersion': configure.getVERSION(),
+                    'X-Foswiki-ClientTime': Math.round((new Date).getTime()/1000)
                 },
                 processData: false,
                 data: requestData,
@@ -1137,6 +1170,7 @@ var feedback = ( function ($) {
 
                     if( modalIsOpen ) {
                         modalObject.resize(true);
+                        modalObject.elts.cont.find(":input.foswikiFocus:first").focus();
                     } else {
                         if( openModal ) {
                             $('#activateConfigureModalWindow').click();

@@ -41,7 +41,18 @@
     Configure was unable to locate the version of its client javascript file.
     <p> Your Foswiki installation is corrupted or out of date.
 </#assign>
-
+<#assign scriptTimeSkew>
+    The time reported by your browser differs from the 
+    time reported by the server by more than ${maxTimeSkew}.<table><tbody>
+    <tr><td><strong>Browser time:</strong><td>${clientTime}
+    <tr><td><strong>Server time:</strong><td>${serverTime}</table>
+    <p> This can cause problems with authentication, logging and topic edits.
+   <p> Please correct the time on the machine running your browser and/or server.
+   <p> Note: The local times are in the server's time zone; the time zone of your 
+     browser does <strong>not</strong> need to match that of the server.
+   <p> We strongly suggest using NTP or SNTP ('Internet time' in windows) to maintain
+   the correct time for both clients and servers.
+</#assign>
 <body>
   <div class="configureFeedbackError">
     <h1><img src="%RESOURCEURI%icon_error.png">Invalid feedback request</h1>
@@ -64,7 +75,11 @@
         <#if etype == 6>
             ${scriptFileCorrupt}
        </#if>
+        <#if etype == 7>
+            ${scriptTimeSkew}
+       <#else>
         <p><b>Developers:</b> If you are running from trunk or pseudo-installed, executing ${resourcePath}/make_gz may resolve this error.
+       </#if>
    </div>
 </body>
 </html>

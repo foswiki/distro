@@ -22,7 +22,11 @@ use version 0.77;
 
 # minimum version of client JavaScript that configure requires.
 #
-my $minScriptVersion = version->parse("v3.124");
+my $minScriptVersion = version->parse("v3.125");
+
+# Maximum acceptable time skew between client and server (seconds)
+#
+my $maxTimeSkew = 5 * 60;    # No reason this can't be much less if NTP is used.
 
 use Foswiki::Configure (qw/:DEFAULT :auth :cgi :config :session :trace/);
 
@@ -352,6 +356,31 @@ sub _validatefeedbackUI {
 
     # Fast null response to version check request.
     htmlResponse('') unless $ENV{CONTENT_LENGTH};
+
+    my $clientTime = $query->http('X-Foswiki-ClientTime') || 0;
+    my $serverTime = time;
+    my $skew       = abs( $clientTime - $serverTime );
+    if ( $skew > $maxTimeSkew ) {
+        require POSIX;
+        my $tz = localtime($serverTime);    # Initialize tzname
+        $tz = POSIX::tzname() || 'server local';
+        if ( $maxTimeSkew >= 60 ) {
+            my $mins = sprintf( "%.0f", $maxTimeSkew / 60 );
+            $mins .= $mins == 1 ? ' minute' : ' minutes';
+            $maxTimeSkew = "$maxTimeSkew seconds ($mins)";
+        }
+        $clientTime =
+          gmtime($clientTime) . ' UTC' . ', ' . localtime($clientTime) . " $tz";
+        $serverTime =
+          gmtime($serverTime) . ' UTC' . ', ' . localtime($serverTime) . " $tz";
+
+        scriptVersionError(
+            7,
+            clientTime  => $clientTime,
+            serverTime  => $serverTime,
+            maxTimeSkew => $maxTimeSkew
+        );
+    }
 
     ::_loadBasicModule('Foswiki::Configure::Feedback');
     return;

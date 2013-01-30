@@ -13,9 +13,9 @@
 </#if>
 <#if displayStatus == 16><div class="foswikiNotification foswikiAlert"> Password incorrect. Try again below.</div></#if>
 <hr />
-  <form method="post" action="${formAction}" enctype="multipart/form-data" name="sessionTimeout">
+  <form method="post" action="${formAction}" enctype="multipart/form-data" name="sessionTimeout" >
     <input type="hidden" name="time" value="${time}"  />
-    <input type="password" name="password" size="30" maxlength="80" class='foswikiInputField' placeholder='Configure password' /><br />
+    <input type="password" name="password" size="30" maxlength="80" class='foswikiInputField foswikiFocus' placeholder='Configure password' onKeyPress="return feedbackOnEnter(this,event, '{ConfigureGUI}{Modals}{Login}feedreq2');" /><br />
 ${authenticationNeeded}
 <#assign actionButtonLabel>Login</#assign>
 ${actionButton}
