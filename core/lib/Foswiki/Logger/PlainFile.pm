@@ -388,7 +388,7 @@ interface, or the array returned for the original Version 0 interface.
         my %fhash;    # returned hash of identified fields
         $fhash{level}    = $this->{_level};
         $fhash{filename} = $this->{_filename}
-          if ($Foswiki::Logger::PlainFile::TRACE);
+          if (Foswiki::Logger::PlainFile::TRACE);
         if ( $this->{_level} eq 'info' ) {
             $fhash{epoch}      = @$data[0];
             $fhash{user}       = @$data[1];

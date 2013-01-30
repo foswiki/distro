@@ -40,6 +40,8 @@ use Foswiki::Time            ();
 use Foswiki::Configure::Load ();
 use Fcntl qw(:flock);
 
+use constant TRACE => 0;
+
 # Local symbol used so we can override it during unit testing
 sub _time { return time() }
 
@@ -371,7 +373,7 @@ interface, or the array returned for the original Version 0 interface.
         my %fhash;    # returned hash of identified fields
         $fhash{level}    = $this->{_level};
         $fhash{filename} = $this->{_filename}
-          if ($Foswiki::Logger::Compatibility::TRACE);
+          if (Foswiki::Logger::Compatibility::TRACE);
         if ( $this->{_level} eq 'info' ) {
             $fhash{epoch}      = @$data[0];
             $fhash{user}       = @$data[1];
@@ -488,8 +490,11 @@ sub eachEventSince {
             \@iterators );
     }
 
-    #use Data::Dumper;
-    #print STDERR Data::Dumper::Dumper( \@mergeIterators );
+    if (TRACE) {
+        require Data::Dumper;
+        print STDERR "Merge built for \@mergeIterators "
+          . Data::Dumper::Dumper( \@mergeIterators );
+    }
 
     return new Foswiki::Logger::Compatibility::MergeEventIterator(
         \@mergeIterators );
