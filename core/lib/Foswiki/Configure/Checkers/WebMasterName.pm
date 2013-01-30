@@ -23,9 +23,18 @@ sub check {
         my $keyfile = '$Foswiki::cfg{DataDir}' . "/SmimePrivateKey.pem";
         Foswiki::Configure::Load::expandValue($keyfile);
         if ( !( -r $certfile && -r $keyfile ) ) {
-            $e .= $this->ERROR(
-"S/MIME signing with self-signed certificate requested, but files are not present.  Please generate a certificate with the action button."
-            );
+            my $openSSLOk = eval { my $tmp = qx/openssl version 2>&1/; !$? };
+
+            if ($openSSLOk) {
+                $e .= $this->ERROR(
+"S/MIME signing with self-signed certificate requested, but files are not present.  Please generate a certificate with the action button or install a certificate under the Secure Email tab."
+                );
+            }
+            else {
+                $e .= $this->ERROR(
+"S/MIME signing requested, but files are not present.  Please a certificate and install it under the Secure Email tab.  To use the Foswiki action buttons to generate a certificate or certificate request, you must install OpenSSL."
+                );
+            }
         }
     }
 
