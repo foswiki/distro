@@ -21,6 +21,8 @@ foreach my $key ( grep /^working.*\.patch/, sort keys %{ $this->{_manifest} } )
             \%result );
         $msgs .=
           Foswiki::Configure::PatchFile::applyPatch( $this->{_root}, \%result );
+        $msgs .=
+          Foswiki::Configure::PatchFile::checkPatch( $this->{_root}, \%result );
     }
 
 }
