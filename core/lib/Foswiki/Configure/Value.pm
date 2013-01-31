@@ -350,7 +350,7 @@ sub asString {
         Carp::confess("Unexpected Type $tn encountered");
     }
 
-    if ( $this->{typename} eq 'PERL' ) {
+    if ( $this->{typename} eq 'PERL' || ref $value ) {
 
         # || $this->{typename} eq 'HASH'
         # || $this->{typename} eq 'ARRAY' ) {
