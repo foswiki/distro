@@ -13,7 +13,7 @@ $VERSION = eval $VERSION;
 use Exporter;
 our @ISA = ('Exporter');
 
-use constant DEBUG => $ENV{FOSWIKI_ASSERTS};
+use constant DEBUG => ( $ENV{FOSWIKI_ASSERTS} ) ? 1 : 0;
 our @EXPORT = qw(ASSERT UNTAINTED TAINT DEBUG);
 
 our $soft = 0;
