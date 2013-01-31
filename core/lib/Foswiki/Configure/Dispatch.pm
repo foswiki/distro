@@ -22,7 +22,7 @@ use version 0.77;
 
 # minimum version of client JavaScript that configure requires.
 #
-my $minScriptVersion = version->parse("v3.125");
+my $minScriptVersion = version->parse("v3.126");
 
 # Maximum acceptable time skew between client and server (seconds)
 #

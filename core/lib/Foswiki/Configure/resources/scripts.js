@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.125";
+        var VERSION = "v3.126";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -745,6 +745,29 @@ function resetToDefaultValue(inLink, inFormType, inName, inValue) {
         }
         oldValue = elem.options[elem.selectedIndex].value;
         elem.selectedIndex = index;
+    } else if (type === 'select-multiple') {
+        /* find selected elements */
+        oldValue = '[';
+        value = value.match(/'([^']*)'|(\d+)/g);
+        for( i = 0; i < value.length; i++ ) {
+            value[i] = value[i].replace( /'/g, '' );
+        }
+        for (index = 0; index < elem.options.length; index++) {
+            if( elem.options[index].selected ) {
+                if( oldValue !== '[' ) oldValue += ', ';
+                oldValue += "'" + elem.options[index].value + "'";
+                elem.options[index].selected = false;
+            }
+        }
+        for( i = 0; i < value.length; i++ ) {
+            for (index = 0; index < elem.options.length; index++) {
+                if (elem.options[index].value === value[i]) {
+                    elem.options[index].selected = true;
+                    break;
+                }
+            }
+        }
+        oldValue += ']';        
     } else if (type === 'radio') {
         oldValue = elem.checked;
         elem.checked = value;
