@@ -55,20 +55,21 @@ sub check {
     # Blank implies '/'; Display '/' rather than ''
     $dval = ( $value || '/' ) unless ( defined $dval );
 
-    # Attempt access
+    # Attempt access, but only if LSC is valid, or test will fail.
+    unless ($badLSC) {
 
-    my $t    = "/Web/Topic/Img/$script?configurationTest=yes";
-    my $ok   = $this->NOTE("Content under $dval is accessible.");
-    my $fail = $this->ERROR(
+        my $t    = "/Web/Topic/Img/$script?configurationTest=yes";
+        my $ok   = $this->NOTE("Content under $dval is accessible.");
+        my $fail = $this->ERROR(
 "Content under $dval is inaccessible.  Check the setting and webserver configuration."
-    );
-    $valobj->{errors}--;
+        );
+        $valobj->{errors}--;
 
-    my $qkeys = $keys;
-    $qkeys =~ s/([{}])/\\\\$1/g;
+        my $qkeys = $keys;
+        $qkeys =~ s/([{}])/\\\\$1/g;
 
-    $e .= $this->NOTE(
-        qq{<span class="foswikiJSRequired">
+        $e .= $this->NOTE(
+            qq{<span class="foswikiJSRequired">
 <span name="${keys}Wait">Please wait while the setting is tested.  Disregard any message that appears only briefly.</span>
 <span name="${keys}Ok">$ok</span>
 <span name="${keys}Error">$fail</span></span>
@@ -76,8 +77,9 @@ sub check {
 <img src="$value$t" style="margin-left:10px;height:15px;"
  onload='\$("[name=\\"${qkeys}Error\\"],[name=\\"${qkeys}Wait\\"]").hide().find("div.configureWarn,div.configureError").removeClass("configureWarn configureError");configure.toggleExpertsMode("");\$("[name=\\"${qkeys}Ok\\"]").show();'
  onerror='\$("[name=\\"${qkeys}Ok\\"],[name=\\"${qkeys}Wait\\"]").hide();\$("[name=\\"${qkeys}Error\\"]").show();'><br >If it does not appear, check the setting and webserver configuration.</span>}
-    );
-    $this->{JSContent} = 1;
+        );
+        $this->{JSContent} = 1;
+    }
 
     return $e;
 }
