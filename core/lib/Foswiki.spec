@@ -1856,7 +1856,7 @@ $Foswiki::cfg{Email}{SmimePendingKeyPassword} = '';
 
 # **BOOLEAN FEEDBACK=auto**
 # Enable to cause all e-mails sent by Foswiki to be signed using S/MIME.
-$Foswiki::cfg{Email}{EnableSMIME} = $TRUE;
+$Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 
 #---++ Certificate Management
 # The following paramenters can be used to specify commonly used components of the subject
