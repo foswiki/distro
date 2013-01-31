@@ -23,8 +23,9 @@ sub check {
     my $mess = $this->SUPER::check(@_);
     return $mess if ( $mess =~ /Error:/ );
 
-    my $t    = "/System/ProjectLogos/foswiki-logo.png";
-    my $ok   = $this->NOTE("Content under $value is accessible.");
+    my $t = "/System/ProjectLogos/foswiki-logo.png";
+    my $ok =
+      $this->NOTE_OK("Content under $value has been verified as accessible.");
     my $fail = $this->ERROR(
 "Content under $value is inaccessible.  Check the setting and webserver configuration."
     );

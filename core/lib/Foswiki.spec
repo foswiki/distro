@@ -49,11 +49,11 @@
 #              schemes:http,https \
 #              authtype:host" \
 #              M**
-#  This is the root of all Foswiki URLs e.g. http://myhost.com:123.
+#  This is the root of all Foswiki URLs e.g. http://myhost.com:123.  (Do not include the trailing slash.)
 # $Foswiki::cfg{DefaultUrlHost} = 'http://your.domain.com';
 
 # **BOOLEAN EXPERT**
-# Enable this parameter to force foswiki to ignore the hostname of the entered URL and generate all links using the <code>DefaultUrlHost</code>.
+# Enable this parameter to force foswiki to ignore the hostname in the URL entered by the user.  Foswiki will generate all links using the <code>DefaultUrlHost</code>.
 # <p>By default, foswiki will use whatever URL that was entered by the user to generate links. The only exception is the special "localhost"
 # name, which will be automatically replaced by the DefaultUrlHost.  In most installations this is the preferred behavior, however when using
 # SSL Accelerators, Reverse Proxys, and load balancers, the URL entered by the user may have been altered, and foswiki should be forced
@@ -73,9 +73,9 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # default disabled, restricting redirection to other domains. If a redirection
 # to a different host is attempted, the target URL is compared against this
 # list of additional trusted sites, and only if it matches is the redirect
-# permitted.<br />
-# Enter as a comma separated list of URLs (protocol, hostname and (optional)
-# port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>
+# permitted.
+# <p>Enter as a comma separated list of URLs (protocol, hostname and (optional)
+# port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>.  (Omit the trailing slash.)</p>
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **URLPATH FEEDBACK=auto FEEDBACK="Verify" CHECK="expand notrail" M**
@@ -83,19 +83,18 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # directory e.g. <code>/foswiki/bin</code><br />
 # <p />
 # See <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">ShorterUrlCookbook</a> for more information on setting up
-# Foswiki to use shorter script URLs.  The setting for the <code>view</code> script may be adjusted below.  Other scripts need to
-# be manually added to <code>lib/LocalSite.cfg</code>
+# Foswiki to use shorter script URLs.  The setting for the <code>view</code> script may be adjusted below.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
 # **NUMBER FEEDBACK=AUTO EXPERT**
 # This is the maximum number of files and directories that will be checked
 # for permissions for the pub and data Directory paths.  This limit is initially set to
-# 5000, which should be reasonable for a default installation.  If it is
+# 7000, which should be reasonable for a default installation.  If it is
 # exceeded, then an informational message is returned stating that incomplete
 # checking was performed.  If this is set to a large number on large installations,
-# then a significant delay will be incurred when configure is run, due to the
-# recursive directory checking.
-$Foswiki::cfg{PathCheckLimit} = 5000;
+# then a significant delay will be incurred when the <code>Validate Permissions</code> button
+# is pressed for the path, or the server audit is requested.
+$Foswiki::cfg{PathCheckLimit} = 7000;
 
 # **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin perms:D" M**
 # This is the file system path used to access the Foswiki bin
@@ -144,33 +143,34 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # Attachments URL path e.g. /foswiki/pub
 # <p /><b>Security Note:</b> files in this directory are *not*
 # protected by Foswiki access controls. If you require access controls, you
-# will have to use webserver controls (e.g. .htaccess on Apache)
+# will have to use webserver controls (e.g. .htaccess on Apache).
+# See the <a href="http://foswiki.org/Support/ApacheConfigGenerator" target="_blank">Apache Config Generator</a> for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
 # **PATH AUDIT="DIRS:1" FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rwD filter:',v$'" M**
-# Attachments store (file path, not URL), must match /foswiki/pub e.g.
-# /usr/local/foswiki/pub
+# Attachments store (file path, not URL), must match the attachments URL path <tt>/foswiki/pub</tt> e.g.
+# <tt>/usr/local/foswiki/pub</tt>  This directory is normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
 # **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:data perms:rwDpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
-# Topic files store (file path, not URL) e.g. /usr/local/foswiki/data
+# Topic files store (file path, not URL) e.g. <tt>/usr/local/foswiki/data</tt> This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
 # **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:tools perms:rD" M**
-# Tools directory e.g. /usr/local/foswiki/tools
+# Tools directory e.g. <tt>/usr/local/foswiki/tools</tt>   This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
 # **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:templates perms:rD" M**
-# Template directory e.g. /usr/local/foswiki/templates
+# Template directory e.g. <tt>/usr/local/foswiki/templates</tt>  This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
 # **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:locale perms:rD" M**
-# Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locale
+# Translation files directory (file path, not URL) e.g. <tt>/usr/local/foswiki/locale</tt>  This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
 # **PATH  AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:working perms:rw" M**
 # Directory where Foswiki stores files that are required for the management
-# of Foswiki, but are not required to be browsed from the web.
+# of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
 # directory:
 # <ul><li>{WorkingDir}<tt>/tmp</tt> - used for security-related temporary

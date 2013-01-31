@@ -58,8 +58,9 @@ sub check {
     # Attempt access, but only if LSC is valid, or test will fail.
     unless ($badLSC) {
 
-        my $t    = "/Web/Topic/Img/$script?configurationTest=yes";
-        my $ok   = $this->NOTE("Content under $dval is accessible.");
+        my $t = "/Web/Topic/Img/$script?configurationTest=yes";
+        my $ok =
+          $this->NOTE_OK("Content under $dval has been verfied as accessible.");
         my $fail = $this->ERROR(
 "Content under $dval is inaccessible.  Check the setting and webserver configuration."
         );

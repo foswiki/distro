@@ -38,7 +38,7 @@
         There are unresolved problems.</h3></#if>
     <#if totalErrors gt 0>
         ${totalErrors} error</#if><#if totalErrors gt 1>s</#if><#if totalErrors gt 0 && totalWarnings gt 0>&nbsp;and&nbsp;</#if><#if totalWarnings gt 0>${totalWarnings} warning</#if><#if totalWarnings gt 1>s</#if>
-    <#if passwordProblem gt 0><div class="configureMessageBox foswikiAlert configureWarn"><span><strong>Warning: </strong></span>You are not using browser (webserver) authentication to access configure, and you have not set a configure password.  To protect your wiki, we <strong>strongly</strong> recommend that you use at least one of these methods to secure your site. You can set a configure password with the <strong>Change password</strong> button on the configure task bar.</div></#if>
+    <#if passwordProblem gt 0><div class="configureMessageBox foswikiAlert configureWarn"><span><strong>Warning: </strong></span>You are not using browser (webserver) authentication to access configure, and you have not set a configure password.  To protect your wiki, we <strong>strongly</strong> recommend that you use at least one of those methods to secure your site. You can set a configure password with the <strong>Change password</strong> button on the configure task bar (bottom right of the screen).  Remember to save the configuration after setting the password..</div></#if>
     <#if someProblems gt 0>
     <p>We recommend that you resolve </#if>
        <#if someProblems == 1>this </#if>
