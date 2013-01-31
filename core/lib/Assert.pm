@@ -13,8 +13,7 @@ $VERSION = eval $VERSION;
 use Exporter;
 our @ISA = ('Exporter');
 
-my ($envAssert) = $ENV{FOSWIKI_ASSERTS} =~ m/^([01]|soft)$/;
-use constant DEBUG => $envAssert;
+use constant DEBUG => $ENV{FOSWIKI_ASSERTS};
 our @EXPORT = qw(ASSERT UNTAINTED TAINT DEBUG);
 
 our $soft = 0;
