@@ -3,8 +3,8 @@ package Foswiki::Contrib::PatternSkin;
 use strict;
 use warnings;
 
-use version; our $VERSION = version->declare("v5.4.20");
-our $RELEASE = '5.4.20';
+use version; our $VERSION = version->declare("v5.4.21");
+our $RELEASE = '5.4.21';
 our $SHORTDESCRIPTION =
 'Pattern skin provides a CSS based default look and feel - flexible and [[http://www.w3.org/][W3C]] compliant. Its layout and color scheme are designed to provide a nice, clean and productive editing environment';
 
@@ -12,7 +12,7 @@ our $SHORTDESCRIPTION =
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

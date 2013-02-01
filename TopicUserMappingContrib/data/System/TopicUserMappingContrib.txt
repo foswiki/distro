@@ -62,11 +62,12 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
 
-|  Contrib Author(s): | Copyright (C) 2007-2012 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
+|  Contrib Author(s): | Copyright (C) 2007-2013 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.3.7 (31 Jan 2013) | Foswikitask:Item12329: Document core change: Code that deletes stale registrations needs it's own expiration timer. |
 |  4.3.6 (28 Nov 2012) | Foswikitask:Item11821: Don't filter user names beginning with "Web" from BulkResetPassword <br />\
                          Foswikitask:Item11923: Better logging of changes to group membership. <br />\
                          Foswikitask:Item12003: FAQRebuildingWikiUsersTopic creates an invalid Main.WikiUsers topic <br />\

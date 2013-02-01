@@ -167,13 +167,14 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 
 ---++ Skin Info
 
-|  Copyright: | &copy; 2004-2012 Arthur Clemens, Foswiki contributors |
+|  Copyright: | &copy; 2004-2013 Arthur Clemens, Foswiki contributors |
 |  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.png" style="border:1px solid #eee;" alt="Click for full screen image" width="600" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  Version: | %$VERSION% | 
 |  Release: | %$RELEASE% |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  31 Jan 2013: | v.5.4.21: Foswikitask:Item12351: Restore font settings back to 1.1.5 defaults |
 |  26 May 2012: | v.5.4.20: !WebCreateNewTopicTemplate functionality moved to core. |
 |  06 Apr 2012: | v.5.4.19: Foswiki 1.1.5 release.  Minor documentation updates and changes for consistency. %BR%\
                    Foswikitask:Item11622: Add &lt;div> to revision information.%BR%\
