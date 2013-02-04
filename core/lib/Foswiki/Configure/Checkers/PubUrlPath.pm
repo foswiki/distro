@@ -39,7 +39,7 @@ sub check {
 <span class="foswikiNonJS">Content under $value is accessible if the Foswiki logo appears to the right of this text.
 <img src="$value$t" style="margin-left:10px;height:15px;"
  onload='\$("[name=\\"\\{PubUrlPath\\}Error\\"],[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Ok\\"]").show();'
- onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"],[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'><br >If it does not appear, check the setting and webserver configuration.</span>}
+ onerror='\$("[name=\\"\\{PubUrlPath\\}Ok\\"],[name=\\"\\{PubUrlPath\\}Wait\\"]").hide();\$("[name=\\"\\{PubUrlPath\\}Error\\"]").show();'><br />If it does not appear, check the setting and webserver configuration.</span>}
     );
     $this->{JSContent} = 1;
 

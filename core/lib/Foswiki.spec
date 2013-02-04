@@ -64,16 +64,16 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 #              parts:scheme,authority \
 #              authtype:hostip \
 #              expand' **
-# If your host has aliases (such as both www.mywiki.net and mywiki.net
+# If your host has aliases (such as both <tt>www.mywiki.net</tt> and <tt>mywiki.net</tt>
 # and some IP addresses) you need to tell Foswiki that redirecting to them
 # is OK. Foswiki uses redirection as part of its normal mode of operation
 # when it changes between editing and viewing.
-# To prevent Foswiki from being used in phishing attacks and to protect it
-# from middleman exploits, the security setting {AllowRedirectUrl} is by
+# <p>To prevent Foswiki from being used in phishing attacks and to protect it
+# from middleman exploits, the security setting <tt>{AllowRedirectUrl}</tt> is by
 # default disabled, restricting redirection to other domains. If a redirection
 # to a different host is attempted, the target URL is compared against this
 # list of additional trusted sites, and only if it matches is the redirect
-# permitted.
+# permitted.</p>
 # <p>Enter as a comma separated list of URLs (protocol, hostname and (optional)
 # port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>.  (Omit the trailing slash.)</p>
 $Foswiki::cfg{PermittedRedirectHostUrls} = '';
@@ -454,6 +454,7 @@ $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 #   Apache can be configured to ask for authorization information. Does
 #   not require client sessions, but works best with them enabled.
 # </li></ol>
+# <p>It is important to ensure that the chosen LoginManager is consistent with the Web Server configuration.
 $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 
 # **BOOLEAN EXPERT**
@@ -552,7 +553,7 @@ $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
 
 # **BOOLEAN EXPERT DISPLAY_IF {UserMappingManager}=="Foswiki::Users::TopicUserMapping"**
 # Enable this parameter to force the TopicUserMapping manager to directly manage email
-# accresses, and not pass management over to the PasswordManager. When enabled, TopicUserMapping
+# addresses, and not pass management over to the PasswordManager. When enabled, TopicUserMapping
 # will store addresses in the user topics.<br />
 # Default is disabled.  The PasswordManager will determine what is responsible for storing email addresses.<br />
 # <br />
@@ -576,13 +577,13 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 # **SELECTCLASS none,Foswiki::Users::*User**
 # Name of the password handler implementation. Foswiki ships with two alternative implementations:
 # <ol><li>
-# Foswiki::Users::HtPasswdUser - handles 'htpasswd' format files, with
+# <tt>Foswiki::Users::HtPasswdUser</tt> - handles 'htpasswd' format files, with
 #   passwords encoded as per the HtpasswdEncoding
 # </li><li>
-# Foswiki::Users::ApacheHtpasswdUser - should behave identically to
+# <tt>Foswiki::Users::ApacheHtpasswdUser</tt> - should behave identically to
 # HtpasswdUser for crypt encoding, but uses the CPAN:Apache::Htpasswd package to interact
 # with Apache. It is shipped mainly as a demonstration of how to write
-# a new password manager.  It is not recommended for production.
+# a new password manager.  <b>It is not recommended for production</b>.
 # </li></ol>
 # You can provide your own alternative by implementing a new subclass of
 # Foswiki::Users::Password, and pointing {PasswordManager} at it in
@@ -683,7 +684,7 @@ $Foswiki::cfg{AuthRealm} =
 # This option is not compatible with <tt>plain</tt> text passwords.
 $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 
-# **NUMBER CHECK="min:0" FEEDBACK=AUTO **
+# **NUMBER CHECK="min:0" FEEDBACK=AUTO DISPLAY_IF {PasswordManager}=="Foswiki::Users::HtPasswdUser" && {Htpasswd}{Encoding}=="bcrypt"**
 # Specify the cost that should be incured when computing the hash of a password.  This number should be increased as CPU speeds increase.
 # The iterations of the hash is roughly 2^cost - default is 8, or 256 iterations.
 #
@@ -698,6 +699,8 @@ $Foswiki::cfg{Htpasswd}{BCryptCost} = 8;
 # box appears during the user registration process, and is used to tell
 # the User Mapping module whether to map login names to wikinames or not
 # (if it supports mappings, that is).
+# <p>Note: TopicUserMapping stores the login name in the WikiUsers topic. Changing this value
+# on a system with established users can cause login issues.
 $Foswiki::cfg{Register}{AllowLoginName} = $FALSE;
 
 # **BOOLEAN**
@@ -755,7 +758,8 @@ $Foswiki::cfg{Register}{HidePasswd} = $TRUE;
 
 # **STRING 20 EXPERT**
 # The internal user that creates user topics on new registrations.
-# You are recommended not to change this.
+# You are recommended not to change this.  Note that if the default protection of the
+# users web (Main) is changed, this user must have write access to that web.
 $Foswiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';
 
 # **BOOLEAN**

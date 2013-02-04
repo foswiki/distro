@@ -60,7 +60,8 @@ sub check {
 
         my $t = "/Web/Topic/Img/$script?configurationTest=yes";
         my $ok =
-          $this->NOTE_OK("Content under $dval has been verfied as accessible.");
+          $this->NOTE_OK("Content under $dval has been verfied as accessible.")
+          . $this->NOTE("Press Verify button for more extensive tests");
         my $fail = $this->ERROR(
 "Content under $dval is inaccessible.  Check the setting and webserver configuration."
         );
@@ -77,7 +78,7 @@ sub check {
 <span class="foswikiNonJS">Content under $dval is accessible if a green check appears to the right of this text.
 <img src="$value$t" style="margin-left:10px;height:15px;"
  onload='\$("[name=\\"${qkeys}Error\\"],[name=\\"${qkeys}Wait\\"]").hide().find("div.configureWarn,div.configureError").removeClass("configureWarn configureError");configure.toggleExpertsMode("");\$("[name=\\"${qkeys}Ok\\"]").show();'
- onerror='\$("[name=\\"${qkeys}Ok\\"],[name=\\"${qkeys}Wait\\"]").hide();\$("[name=\\"${qkeys}Error\\"]").show();'><br >If it does not appear, check the setting and webserver configuration.</span>}
+ onerror='\$("[name=\\"${qkeys}Ok\\"],[name=\\"${qkeys}Wait\\"]").hide();\$("[name=\\"${qkeys}Error\\"]").show();'><br />If it does not appear, check the setting and webserver configuration.</span>}
         );
         $this->{JSContent} = 1;
     }
@@ -222,15 +223,17 @@ sub testPath {
                 }
                 else {
                     $e .= $this->ERROR(
-"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$viewtarget</tt>\"<br >
-Changing {ScriptUrlPaths}{view} to \"<tt>$server[0]</tt>\" will probably correct this error.   <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;{ScriptUrlPaths}{view}&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
+"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$viewtarget</tt>\"<br />
+Changing {ScriptUrlPaths}{view} to \"<tt>$server[0]</tt>\" will probably correct this error. (Server may be configured for Shorter URLs.) <br />
+<a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;{ScriptUrlPaths}{view}&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
                     );
                 }
             }
             else {
                 $e .= $this->ERROR(
-"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br >
-The correct setting for $keys is probably \"<tt>$server[0]</tt>\".  <a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;$keys&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
+"Server received \"<tt>$server[0]</tt>\", but the expected path is \"<tt>$target</tt>\"<br />
+The correct setting for $keys is probably \"<tt>$server[0]</tt>\".  (Server may be configured for Shorter URLs.) <br />
+<a href='#' class='foswikiButtonMini' onclick='return feedback.setValue(&quot;$keys&quot;, &quot;$server[0]&quot;);'>(Click to use this value)</a>"
                 );
             }
         }
@@ -240,7 +243,8 @@ The correct setting for $keys is probably \"<tt>$server[0]</tt>\".  <a href='#' 
         elsif ($root) {
             if ( $path eq $view ) {
                 $e .= $this->NOTE_OK(
-                    "Path \"<tt>$path</tt>\" is correct for short(er) URLs");
+"Path \"<tt>$path</tt>\" is correct for <tt>view</tt> with short(er) URLs"
+                );
             }
             else {
                 $this->ERROR( "Path used by "
