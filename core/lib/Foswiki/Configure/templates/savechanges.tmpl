@@ -21,15 +21,6 @@
              change your password
         </#if>
     </h2>
-    <#if changesList??>
-	 <div class='configureChangeList'>
-	   <table>
-	     <#list changesList as i>
-	       <tr><th>${i.key}</th><td>${i.value}</td></tr>
-	     </#list>
-	   </table>
-	 </div>
-    </#if>
     <#if someProblems gt 0>
         <div><h3></#if>
     <#if someProblems == 1>
@@ -53,6 +44,7 @@
 We recommend that you enter a reason for this configuration change in the box above.  This will be entered into the log and will assist you in the event that you need to back-track or audit changes in the future
         </div>
     </div>
+    ${authenticationNeeded}
 <p>
 </#assign>
 <#assign actionButtonLabel>Save changes</#assign>
@@ -64,6 +56,14 @@ We recommend that you enter a reason for this configuration change in the box ab
 <#if displayStatus == 1>
 <h2>There are no changes to save</h2>
 </#if>
-${authenticationNeeded}
+<#if changesList??>
+ <div class='configureChangeList'>
+   <table>
+     <#list changesList as i>
+       <tr><th>${i.key}</th><td>${i.value}</td></tr>
+     </#list>
+   </table>
+ </div>
+</#if>
   </form>
 </div> 
