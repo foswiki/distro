@@ -156,7 +156,7 @@ HERE
     }
 
     # Make %ENV safer for CGI - Assign a safe default for SafeEnvPath
-    $Foswiki::cfg{DETECTED}{originalPath} = $ENV{PATH} = '';
+    $Foswiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';
 
     if ( $Foswiki::cfg{SafeEnvPath} eq 'NOT SET' ) {
 
