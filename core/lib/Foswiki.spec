@@ -997,8 +997,9 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # are happy for e-mails to be made public to all Foswiki users,
 # then you can disable this option.  If you prefer to store email addresses directly in user
 # topics, see the TopicUserMapping expert setting under the UserMapping tab.</p>
-# <p>Note that if this option is set, then the <code>user</code> parameter to
-# <code>%USERINFO</code> is ignored for non-admin users.
+# <p>Note that if this option is set, then the <code>%USERINFO</code> macro will only expand
+# the <tt>$wikiname</tt>, <tt>$wikiusername</tt> and <tt>$isgroup</tt> tokens.
+# All other tokens are ignored for non-admin users.
 $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 
 # **BOOLEAN**
