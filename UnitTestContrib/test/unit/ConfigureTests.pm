@@ -155,8 +155,8 @@ EXAMPLE
     $saver->{valuer}  = $valuer;
     $saver->{root}    = $root;
     $saver->{content} = '';
-    my $out = $saver->_save();
-    $this->assert_str_equals( "1;\n", $out );
+    $saver->_save();
+    $this->assert_str_equals( "1;\n", $saver->{content} );
 
     # Change some values, make sure they get saved
     $cfg{MandatoryPath}    = 'fixed';
@@ -164,9 +164,9 @@ EXAMPLE
     $cfg{Types}{Chosen}    = 'Foswiki::Configure::Types::STRING';
     $cfg{OptionalRegex}    = qr/^X*$/;
     my $expected_regex = '\'^X*$\'';
-    $cfg{DontIgnore}  = 'now is';
+    $cfg{DontIgnore} = 'now is';
     $saver->{content} = '';
-    $out              = $saver->_save();
+    $saver->_save();
     my $expectacle = <<"EXAMPLE";
 \$Foswiki::cfg{MandatoryBoolean} = 0;
 \$Foswiki::cfg{MandatoryPath} = 'fixed';
@@ -176,7 +176,7 @@ EXAMPLE
 1;
 EXAMPLE
     my @a = split( "\n", $expectacle );
-    my @b = split( "\n", $out );
+    my @b = split( "\n", $saver->{content} );
 
     foreach my $a (@a) {
         $this->assert_str_equals( $a, shift @b );
@@ -338,7 +338,8 @@ EXAMPLE
     $saver->{valuer}  = $valuer;
     $saver->{root}    = $root;
     $saver->{content} = '';
-    my $out         = $saver->_save();
+    $saver->_save();
+    my $out         = $saver->{content};
     my $expectorate = <<'SPUTUM';
 $Foswiki::cfg{One} = 1;
 $Foswiki::cfg{Two} = 2;
@@ -356,6 +357,7 @@ sub test_UI {
     my %defaultCfg = ( Value => "before" );
     my %cfg        = ( Value => "after" );
     my $valuer     = Foswiki::Configure::Valuer->new( \%defaultCfg, \%cfg );
+    $Foswiki::resourceURI = 'configure';
 
     my ( $f1, $f1name ) =
       File::Temp::tempfile( DIR => $this->{tempdir} )
