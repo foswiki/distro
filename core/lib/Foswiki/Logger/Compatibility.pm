@@ -8,6 +8,9 @@ use Assert;
 
 use Foswiki::Logger ();
 our @ISA = ('Foswiki::Logger');
+use Foswiki::Logger::EventIterator          ();
+use Foswiki::Logger::AggregateEventIterator ();
+use Foswiki::Logger::MergeEventIterator     ();
 
 =begin TML
 
@@ -115,302 +118,6 @@ sub log {
     }
 }
 
-{
-
-=begin TML
-
----++ =Foswiki::Logger::Compatibility::MergeEventIterator=
-Private subclass of Foswiki::Iterator that
-   * Is passed a array reference of a list of iterator arrays.
-   * Scans across the list of iterators using snoopNext to find the iterator with the lowest timestamp
-   * returns true to hasNext if any iterator has any records available.
-   * returns the record with the lowest timestamp to the next() request.
-
-=cut
-
-    package Foswiki::Logger::Compatibility::MergeEventIterator;
-    require Foswiki::Iterator;
-    our @ISA = ('Foswiki::Iterator');
-
-    sub new {
-        my ( $class, $list ) = @_;
-        my $this = bless(
-            {
-                Itr_list_ref => $list,
-                process      => undef,
-                filter       => undef,
-                next         => undef,
-            },
-            $class
-        );
-        return $this;
-    }
-
-=begin TML
-
----+++ ObjectMethod hasNext() -> $boolean
-Scans all the iterators to determine if any of them have a record available.
-
-=cut
-
-    sub hasNext {
-        my $this = shift;
-
-        foreach my $It ( @{ $this->{Itr_list_ref} } ) {
-            return 1 if $It->hasNext();
-        }
-        return 0;
-    }
-
-=begin TML
-
----+++ ObjectMethod next() -> \$hash or @array
-Snoop all of the iterators to find the lowest timestamp record, and return the
-field hash, or field array, depending up on the requested API version.
-
-=cut
-
-    sub next {
-        my $this = shift;
-        my $lowIt;
-        my $lowest;
-
-        foreach my $It ( @{ $this->{Itr_list_ref} } ) {
-            next unless $It->hasNext();
-            my $nextRec = @{ $It->snoopNext() }[0];
-            my $epoch   = $nextRec->{epoch};
-
-            if ( !defined $lowest || $epoch <= $lowest ) {
-                $lowIt  = $It;
-                $lowest = $epoch;
-            }
-        }
-        return $lowIt->next();
-    }
-}
-
-{
-
-=begin TML
-
----++ =Foswiki::Logger::Compatibility::AggregateEventIterator=
-Private subclass of Foswiki::AggregateIterator that implements the snoopNext method
-
-=cut
-
-    # Private subclass of AggregateIterator that can snoop Events.
-    package Foswiki::Logger::Compatibility::AggregateEventIterator;
-    require Foswiki::AggregateIterator;
-    our @ISA = ('Foswiki::AggregateIterator');
-
-    sub new {
-        my ( $class, $list, $unique ) = @_;
-        my $this = bless(
-            {
-                Itr_list    => $list,
-                Itr_index   => 0,
-                index       => 0,
-                process     => undef,
-                filter      => undef,
-                next        => undef,
-                unique      => $unique,
-                unique_hash => {}
-            },
-            $class
-        );
-        return $this;
-    }
-
-=begin TML
-
----+++ ObjectMethod snoopNext() -> $boolean
-Return the field hash of the next availabable record.
-
-=cut
-
-    sub snoopNext {
-        my $this = shift;
-        return $this->{list}->snoopNext();
-    }
-
-}
-
-{
-
-=begin TML
-
----++ =Foswiki::Logger::Compatibility::EventIterator=
-Private subclass of LineIterator that
-   * Selects log records that match the requested begin time and levels.
-   * reasembles divided records into a single log record
-   * splits the log record into fields
-
-=cut
-
-    package Foswiki::Logger::Compatibility::EventIterator;
-    use Fcntl qw(:flock);
-    require Foswiki::LineIterator;
-    our @ISA = ('Foswiki::LineIterator');
-
-    sub new {
-        my ( $class, $fh, $threshold, $level, $numLevels, $version, $filename )
-          = @_;
-        my $this = $class->SUPER::new($fh);
-        $this->{_multilevel} = ( $numLevels > 1 );
-        $this->{_api}        = $version;
-        $this->{_threshold}  = $threshold;
-        $this->{_reqLevel}   = $level;
-        $this->{_filename}   = $filename || 'n/a';
-
-        #  print STDERR "EventIterator created for $this->{_filename} \n";
-        return $this;
-    }
-
-=begin TML
-
----+++ PrivateMethod DESTROY
-Cleans up opened files, closes them and clears the locks.
-
-=cut
-
-    sub DESTROY {
-        my $this = shift;
-        flock( $this->{handle}, LOCK_UN )
-          if ( defined $this->{logLocked} );
-        close( delete $this->{handle} ) if ( defined $this->{handle} );
-    }
-
-=begin TML
-
----+++ ObjectMethod hasNext() -> $boolean
-Reads records, reassembling them and skipping until a record qualifies per the requested time and levels.
-
-The next matching record is parsed and saved into an instance variable until requested.
-
-Returns true if a cached record is available.
-
-=cut
-
-    sub hasNext {
-        my $this = shift;
-        return 1 if defined $this->{_nextEvent};
-        while ( $this->SUPER::hasNext() ) {
-            my $ln = $this->SUPER::next();
-
-            # Merge records until record ends in |
-            while ( substr( $ln, -1 ) ne '|' && $this->SUPER::hasNext() ) {
-                $ln .= "\n" . $this->SUPER::next();
-            }
-
-            my @line = split( /\s*\|\s*/, $ln );
-            shift @line;    # skip the leading empty cell
-            next unless scalar(@line) && defined $line[0];
-
-            if (
-                $line[0] =~ s/\s+($this->{_reqLevel})\s*$//    # test the level
-                  # accept a plain 'old' format date with no level only if reading info (statistics)
-                || $line[0] =~ /^\d{1,2} [a-z]{3} \d{4}/i
-                && $this->{_reqLevel} =~ m/info/
-              )
-            {
-                $this->{_level} = $1 || 'info';
-                $line[0] = Foswiki::Time::parseTime( $line[0] );
-                next
-                  unless ( defined $line[0] )
-                  ;    # Skip record if time doesn't decode.
-                if ( $line[0] >= $this->{_threshold} ) {    # test the time
-                    $this->{_nextEvent}  = \@line;
-                    $this->{_nextParsed} = $this->formatData();
-                    return 1;
-                }
-            }
-        }
-        return 0;
-    }
-
-=begin TML
-
----+++ ObjectMethod snoopNext() -> $hashref
-Returns a hash of the fields in the next available record without
-moving the record pointer.  (If the file has not yet been read, the hasNext() method is called,
-which will read the file until it finds a matching record.
-
-=cut
-
-    sub snoopNext {
-        my $this = shift;
-        return $this->{_nextParsed};    # if defined $this->{_nextParsed};
-                                        #return undef unless $this->hasNext();
-                                        #return $this->{_nextParsed};
-    }
-
-=begin TML
-
----+++ ObjectMethod next() -> \$hash or @array
-Returns a hash, or an array of the fields in the next available record depending on the API version.
-
-=cut
-
-    sub next {
-        my $this = shift;
-        undef $this->{_nextEvent};
-        return $this->{_nextParsed}[0] if $this->{_api};
-        return $this->{_nextParsed}[1];
-    }
-
-=begin TML
-
----++ PrivateMethod formatData($this) -> ( $hashRef, @array )
-
-Used by the EventIterator to assemble the read log record into a hash for the Version 1
-interface, or the array returned for the original Version 0 interface.
-
-=cut
-
-    sub formatData {
-        my $this = shift;
-        my $data = $this->{_nextEvent};
-        my %fhash;    # returned hash of identified fields
-        $fhash{level}    = $this->{_level};
-        $fhash{filename} = $this->{_filename}
-          if (Foswiki::Logger::Compatibility::TRACE);
-        if ( $this->{_level} eq 'info' ) {
-            $fhash{epoch}      = @$data[0];
-            $fhash{user}       = @$data[1];
-            $fhash{action}     = @$data[2];
-            $fhash{webTopic}   = @$data[3];
-            $fhash{extra}      = @$data[4];
-            $fhash{remoteAddr} = @$data[5];
-        }
-        elsif ( $this->{_level} =~ m/warning|error|critical|alert|emergency/ ) {
-            $fhash{epoch} = @$data[0];
-            $fhash{extra} = join( ' ', @$data[ 1 .. $#$data ] );
-        }
-        elsif ( $this->{_level} eq 'debug' ) {
-            $fhash{epoch} = @$data[0];
-            $fhash{extra} = join( ' ', @$data[ 1 .. $#$data ] );
-        }
-
-        return (
-            [
-                \%fhash,
-
-                (
-                    [
-                        $fhash{epoch},
-                        $fhash{user}       || '',
-                        $fhash{action}     || '',
-                        $fhash{webTopic}   || '',
-                        $fhash{extra}      || '',
-                        $fhash{remoteAddr} || '',
-                        $fhash{level},
-                    ]
-                )
-            ]
-        );
-    }
-}
-
 =begin TML
 
 ---++ StaticMethod eachEventSince($time, $level) -> $iterator
@@ -466,7 +173,7 @@ sub eachEventSince {
             my $fh;
             if ( -f $logfile && open( $fh, '<', $logfile ) ) {
                 my $logIt =
-                  new Foswiki::Logger::Compatibility::EventIterator( $fh, $time,
+                  new Foswiki::Logger::EventIterator( $fh, $time,
                     $reqLevel, $numLevels, $version, $logfile );
                 $logIt->{logLocked} =
                   eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
@@ -486,8 +193,7 @@ sub eachEventSince {
             }
         }
         push @mergeIterators,
-          new Foswiki::Logger::Compatibility::AggregateEventIterator(
-            \@iterators );
+          new Foswiki::Logger::AggregateEventIterator( \@iterators );
     }
 
     if (TRACE) {
@@ -496,8 +202,7 @@ sub eachEventSince {
           . Data::Dumper::Dumper( \@mergeIterators );
     }
 
-    return new Foswiki::Logger::Compatibility::MergeEventIterator(
-        \@mergeIterators );
+    return new Foswiki::Logger::MergeEventIterator( \@mergeIterators );
 }
 
 # Expand %DATE% in a logfile name

@@ -226,6 +226,7 @@ sub fixture_groups {
         if ( opendir( my $D, "$dir/Foswiki/Logger" ) ) {
             foreach my $alg ( readdir $D ) {
                 next unless $alg =~ /^(\w+)\.pm$/;
+                next if $alg =~ /Iterator\.pm$/;
                 $algs{$1} = 1;
             }
             closedir($D);

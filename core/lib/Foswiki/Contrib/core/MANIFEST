@@ -809,6 +809,9 @@ lib/Foswiki/Logger.pm 0444
 lib/Foswiki/Logger/Compatibility.pm 0444
 lib/Foswiki/Logger/PlainFile.pm 0444
 lib/Foswiki/Logger/PlainFile/Obfuscating.pm 0444
+lib/Foswiki/Logger/AggregateEventIterator.pm 0444
+lib/Foswiki/Logger/EventIterator.pm 0444
+lib/Foswiki/Logger/MergeEventIterator.pm 0444
 lib/Foswiki/LoginManager.pm 0444
 lib/Foswiki/LoginManager/ApacheLogin.pm 0444
 lib/Foswiki/LoginManager/Session.pm 0444
