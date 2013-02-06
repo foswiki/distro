@@ -1,4 +1,4 @@
-VERSION = Foswiki-1.1.6
+VERSION = Foswiki-1.1.7
 RELEASE = -1
 TARFILE = $(VERSION).tgz
 DESTDIR = /Library/WebServer/Documents
