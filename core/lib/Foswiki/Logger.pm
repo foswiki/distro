@@ -123,6 +123,7 @@ method for "info" level events.
 | =$fhash->{agent}= | The user agent |
 | =$fhash->{timestamp}= | The time of the event |
 | =$fhash->{user}= | The logged in user, if any |
+| =$fhash->{webTopic}= | The current topic |
 | =$fhash->{remoteAddr}= | Remote IP Address |
 
 =cut
@@ -160,6 +161,13 @@ sub setCommonFields {
         $_[0]->{remoteAddr} =
           $Foswiki::Plugins::SESSION->{request}->remoteAddress() || ''
           if ( defined $Foswiki::Plugins::SESSION->{request} );
+    }
+
+    unless ( defined $_[0]->{webTopic} ) {
+        my $webTopic = $Foswiki::Plugins::SESSION->{webName} || '';
+        $webTopic .= '.' if ($webTopic);
+        $webTopic .= $Foswiki::Plugins::SESSION->{topicName} || '';
+        $_[0]->{webTopic} = $webTopic || '';
     }
 
     return;

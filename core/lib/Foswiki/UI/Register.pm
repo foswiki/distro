@@ -504,12 +504,16 @@ sub _registerSingleBulkUser {
         }
         $users->setEmails( $cUID, $row->{Email} );
 
+        my $loginName = '';
+        $loginName = ' (' . $row->{LoginName} . ')'
+          if ( $Foswiki::cfg{Register}{AllowLoginName} );
+
         $session->logger->log(
             {
                 level    => 'info',
                 action   => 'bulkregister',
                 webTopic => $row->{webName} . '.' . $row->{WikiName},
-                extra    => $row->{Email},
+                extra    => $row->{Email} . $loginName,
                 user     => $row->{WikiName}
             }
         );
@@ -1213,14 +1217,17 @@ sub _complete {
         # inform user and admin about the registration.
         $status = _emailRegistrationConfirmations( $session, $data );
 
+        my $loginName = '';
+        $loginName = ' (' . $data->{LoginName} . ')'
+          if ( $Foswiki::cfg{Register}{AllowLoginName} );
+
         $session->logger->log(
             {
                 level    => 'info',
                 action   => 'register',
                 webTopic => $Foswiki::cfg{UsersWebName} . '.'
-                  . $data->{WikiName}
-                  . "($data->{LoginName}) - $Foswiki::cfg{Register}{AllowLoginName} ",
-                extra => $data->{Email},
+                  . $data->{WikiName},
+                extra => $data->{Email} . $loginName,
                 user  => $data->{WikiName},
             }
         );
