@@ -1,3 +1,17 @@
+foswiki (1.1.7-1) stable; urgency=high
+
+  * upgrade to 1.1.7
+  * CVE-2012-6329
+  * CVE-2012-6330
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Mon, 11 Feb 2013 12:01:00 +1000 
+
+foswiki (1.1.6-2) stable; urgency=high
+
+  * patch for CVE-2012-6329
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Wed, 12 Dec 2012 12:01:00 +1000 
+
 foswiki (1.1.6-1) stable; urgency=high
 
   * upgrade to 1.1.6
