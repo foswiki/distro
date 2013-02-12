@@ -1,0 +1,21 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## Item12382-ssl-email-failure.dpatch by  <root@>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' foswiki-1.1.7~/lib/Foswiki/Net.pm foswiki-1.1.7/lib/Foswiki/Net.pm
+--- foswiki-1.1.7~/lib/Foswiki/Net.pm	2013-02-01 11:52:05.000000000 +1000
++++ foswiki-1.1.7/lib/Foswiki/Net.pm	2013-02-12 10:37:23.000000000 +1000
+@@ -591,8 +591,8 @@
+     if ( $this->{MAIL_METHOD} eq 'Net::SMTP::SSL' ) {
+ 
+         package Foswiki::Net::Mail;
+-        our @ISA = @Net::SMTP::ISA;
+-
++        our @ISA;
++        @ISA = @Net::SMTP::ISA unless defined @ISA;
+         @Net::SMTP::ISA = __PACKAGE__;
+ 
+         sub new {
