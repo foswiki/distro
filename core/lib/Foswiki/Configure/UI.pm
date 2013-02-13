@@ -1226,9 +1226,10 @@ sub checkPerlModules {
             if ( $mod_version < $mod->{minimumVersion} ) {
                 $n = $mod->{installedVersion};
                 $n .=
-                    ' installed. Version '
+                    ' installed. <span class="foswikiAlert">Version '
                   . $mod->{minimumVersion} . ' '
-                  . $mod->{disposition};
+                  . $mod->{disposition}
+                  . '</span>.';
                 $n .= ' ' . $mod->{usage} if $mod->{usage};
             }
         }

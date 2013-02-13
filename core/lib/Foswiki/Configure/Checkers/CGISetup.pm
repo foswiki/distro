@@ -274,6 +274,22 @@ HERE
         }
     }
 
+    # Item12285 - do we have a nasty Locale::Maktext version?
+    require Foswiki::Configure::Checkers::UserInterfaceInternationalisation;
+    my $maketext_vuln =
+      Foswiki::Configure::Checkers::UserInterfaceInternationalisation::have_vulnerable_maketext(
+      );
+    if ($maketext_vuln) {
+        if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
+            $content .=
+              $this->setting( 'Locale::Maktext', $this->ERROR($maketext_vuln) );
+        }
+        else {
+            $content .=
+              $this->setting( 'Locale::Maketext', $this->WARN($maketext_vuln) );
+        }
+    }
+
     #OS
     my $n =
         ucfirst( lc( $Config::Config{osname} ) ) . ' '
