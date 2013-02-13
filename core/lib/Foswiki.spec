@@ -1479,7 +1479,7 @@ $Foswiki::cfg{FormTypes} = [
 # {RCS}{filePermission} to be consistent with the system umask.
 $Foswiki::cfg{RCS}{overrideUmask} = $FALSE;
 
-# **OCTAL CHECK="min:000 max:777" FEEDBACK=AUTO EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **OCTAL CHECK="min:000 max:7777" FEEDBACK=AUTO EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # File security for new directories created by RCS stores. You may have
 # to adjust these
 # permissions to allow (or deny) users other than the webserver user access
@@ -1487,7 +1487,7 @@ $Foswiki::cfg{RCS}{overrideUmask} = $FALSE;
 # representing the standard UNIX permissions (e.g. 755 == rwxr-xr-x)
 $Foswiki::cfg{RCS}{dirPermission} = 0755;
 
-# **OCTAL CHECK="min:000 max:777" FEEDBACK=AUTO EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
+# **OCTAL CHECK="min:000 max:7777" FEEDBACK=AUTO EXPERT DISPLAY_IF /Foswiki::Store::Rcs/.test({Store}{Implementation})**
 # File security for new files created by RCS stores. You may have to adjust these
 # permissions to allow (or deny) users other than the webserver user access
 # to files that Foswiki creates.  This is an <strong>octal</strong> number
