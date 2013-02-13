@@ -140,6 +140,28 @@ sub test_escaping {
         ' This \\\'.`echo A`.\\\'  1 \\\'.`echo A`.\\\'  ', $result );
 }
 
+sub test_escaping_brackets {
+    my $this = shift;
+
+    # Make sure the real Locale::Maketext gets called
+    $Foswiki::cfg{UserInterfaceInternationalisation} = 1;
+
+    my $str = ' %MAKETEXT{"~~[quant,4,singular,plural~~]"}% ';
+
+    my $result = $topicObject->expandMacros($str);
+    $this->assert_str_equals( ' [quant,4,singular,plural] ', $result );
+
+    $str = ' %MAKETEXT{"~~~[quant,4,singular,plural~~~]"}% ';
+
+    $result = $topicObject->expandMacros($str);
+    $this->assert_str_equals( ' [quant,4,singular,plural] ', $result );
+
+    $str = ' %MAKETEXT{"~~~~[quant,4,singular,plural~~~]"}% ';
+
+    $result = $topicObject->expandMacros($str);
+    $this->assert_str_equals( ' [quant,4,singular,plural] ', $result );
+}
+
 sub test_invalid_args {
     my $this = shift;
 
