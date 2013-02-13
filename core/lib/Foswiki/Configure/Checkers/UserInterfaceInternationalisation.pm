@@ -7,7 +7,14 @@ use warnings;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
-my @required = (
+my $maketext_minver = 1.23;
+my @required        = (
+    {
+        name           => 'Locale::Maketext',
+        usage          => 'I18N translations',
+        minimumVersion => $maketext_minver,
+        disposition    => 'optional',
+    },
     {
         name  => 'Locale::Maketext::Lexicon',
         usage => 'I18N translations',
@@ -54,11 +61,42 @@ my @perl58 = (
     },
 );
 
+# Item12285
+sub have_vulnerable_maketext {
+    my ($this) = @_;
+    require Foswiki::Configure::Dependency;
+    my $dep = Foswiki::Configure::Dependency->new(
+        type    => 'perl',
+        module  => 'Locale::Maketext',
+        version => '>=$maketext_minver',
+    );
+    my ($result) = $dep->check();
+    my $maketext_ver =
+      eval { require Locale::Maketext; $Locale::Maketext::VERSION; } || '';
+
+    return $result ? '' : <<"HERE";
+Your version of Locale::Maktext $maketext_ver may introduce a dangerous code
+injection security vulnerability. Upgrade to version $maketext_minver or newer. See
+<a href="http://foswiki.org/Support/SecurityAlert-CVE-2012-6329">CVE-2012-6329</a>
+for more advice.
+HERE
+}
+
 sub check {
-    my $this = shift;
+    my $this     = shift;
+    my $vuln_msg = $this->have_vulnerable_maketext();
 
-    my $n = $this->checkPerlModules( 0, \@required );
+    my $n = '';
+    if ($vuln_msg) {
+        if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
+            $n .= $this->ERROR($vuln_msg);
+        }
+        else {
+            $n .= $this->WARN($vuln_msg);
+        }
+    }
 
+    $n .= $this->checkPerlModules( 0, \@required );
     if ( $] >= 5.008 ) {
         $n .= $this->checkPerlModules( 0, \@perl58 );
     }
