@@ -68,7 +68,7 @@ sub have_vulnerable_maketext {
     my $dep = Foswiki::Configure::Dependency->new(
         type    => 'perl',
         module  => 'Locale::Maketext',
-        version => '>=$maketext_minver',
+        version => ">=$maketext_minver",
     );
     my ($result) = $dep->check();
     my $maketext_ver =
