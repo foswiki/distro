@@ -17,8 +17,8 @@ sub MAKETEXT {
     $str =~ s/\]/~]/g;
 
     # restore already escaped stuff:
-    $str =~ s/~~\[/~[/g;
-    $str =~ s/~~\]/~]/g;
+    $str =~ s/~~+\[/~[/g;
+    $str =~ s/~~+\]/~]/g;
 
     my $max         = 0;
     my $min         = 1;
