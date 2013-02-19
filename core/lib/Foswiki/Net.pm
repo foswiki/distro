@@ -591,9 +591,12 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     if ( $this->{MAIL_METHOD} eq 'Net::SMTP::SSL' ) {
 
         package Foswiki::Net::Mail;
-        our @ISA = @Net::SMTP::ISA;
+        our @ISA;
 
-        @Net::SMTP::ISA = __PACKAGE__;
+        unless ( defined @ISA ) {
+            @ISA            = @Net::SMTP::ISA;
+            @Net::SMTP::ISA = __PACKAGE__;
+        }
 
         sub new {
             my $class = shift;
