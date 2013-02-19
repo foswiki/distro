@@ -1319,13 +1319,20 @@ sub _parseManifest {
 
     if ( $file =~ m/^data\/.*/ ) {
         ( $tweb, $ttopic ) = $file =~ /^data\/(.*)\/(.*?).txt$/;
-        unless ( length($tweb) > 0 && length($ttopic) > 0 ) {
+        unless ( defined $tweb
+            && defined $ttopic
+            && length($tweb) > 0
+            && length($ttopic) > 0 )
+        {
             return "$file is not a topic - file will be bypassed\n";
         }
     }
     if ( $file =~ m/^pub\/.*/ ) {
         ( $tweb, $ttopic, $tattach ) = $file =~ /^pub\/(.*)\/(.*?)\/([^\/]+)$/;
-        unless ( length($tweb) > 0
+        unless ( defined $tweb
+            && defined $ttopic
+            && defined $tattach
+            && length($tweb) > 0
             && length($ttopic) > 0
             && length($tattach) > 0 )
         {
