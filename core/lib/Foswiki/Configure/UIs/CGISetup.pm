@@ -122,11 +122,11 @@ HERE
       );
     if ($maketext_vuln) {
         if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
-            $content .=
+            $contents .=
               $this->setting( 'Locale::Maktext', $this->ERROR($maketext_vuln) );
         }
         else {
-            $content .=
+            $contents .=
               $this->setting( 'Locale::Maketext', $this->WARN($maketext_vuln) );
         }
     }
