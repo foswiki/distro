@@ -227,6 +227,7 @@ function handleKeyDown () { }
         if ($editForm.validate().form()) {
           submitHandler();
           $editForm.ajaxSubmit({
+            url: foswiki.getPreference('SCRIPTURL')+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
             beforeSubmit: function() {
               hideErrorMessage();
               $.blockUI({message:'<h1> Loading preview ... </h1>'});
