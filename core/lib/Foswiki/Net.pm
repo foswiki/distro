@@ -1141,29 +1141,31 @@ our ( $host, $port, $usessl, $starttls, $logcx, $verified, @sockopts,
 sub setup {
     ( my ( $this, $ssl, $tls ), $starttls, $host, $port, $logcx ) = @_;
 
-    @ISA = @Net::SMTP::ISA;
+    unless ( defined @ISA ) {
+        @ISA = @Net::SMTP::ISA;
 
-    $usessl = $ssl || $tls;
+        $usessl = $ssl || $tls;
 
-    if ( $usessl || $starttls ) {
-        $verified = $Foswiki::cfg{Email}{SSLVerifyServer} || -1;
+        if ( $usessl || $starttls ) {
+            $verified = $Foswiki::cfg{Email}{SSLVerifyServer} || -1;
 
-        push @sslopts,
-          SSL_version => ( ( $tls || $starttls ) ? 'TLSv1' : 'SSLv3' ),
-          SSL_verifycn_name => $host,
-          setupSSLoptions($this);
+            push @sslopts,
+              SSL_version => ( ( $tls || $starttls ) ? 'TLSv1' : 'SSLv3' ),
+              SSL_verifycn_name => $host,
+              setupSSLoptions($this);
+        }
+        else {
+            $verified = -1;
+        }
+
+        if ($usessl) {
+            @ISA = (
+                grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+                'IO::Socket::SSL'
+            );
+        }
+        @Net::SMTP::ISA = __PACKAGE__;
     }
-    else {
-        $verified = -1;
-    }
-
-    if ($usessl) {
-        @ISA = (
-            grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
-            'IO::Socket::SSL'
-        );
-    }
-    @Net::SMTP::ISA = __PACKAGE__;
 
     return;
 }
