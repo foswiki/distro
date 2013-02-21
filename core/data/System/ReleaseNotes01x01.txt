@@ -46,12 +46,21 @@ Foswiki is released under the GNU General Public License.
 Foswiki 1.1 ships with the following:
 
    * *Plugins:* !AutoViewTemplatePlugin, !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !HistoryPlugin, !InterwikiPlugin, !JQueryPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib, !PatchFoswikiContrib
+   * *Contribs:* !CompareRevisionsAddOn, !FamFamFamContrib, !JSCalendarContrib, !MailerContrib, !PatchFoswikiContrib, !TipsContrib, !TopicUserMappingContrib
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 %STARTSECTION{"116delta"}%
 #Release01x01Changes
+---++ Important changes since Foswiki 1.1.7
+
+Release 1.1.8 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2013-1666][SecurityAlert-CVE-2013-1666]].
+  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
+
+Release 1.1.8 also includes a configuration checker that will report an error if a vulnerable version of Locale::Maketext is installed.
+
+See [[#Rel01x01x08Details]]
+
 ---++ Important changes since Foswiki 1.1.6
 
 Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
