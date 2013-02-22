@@ -127,6 +127,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  22 Feb 2013: | (4.61) - Item12403: added support for checking jquery version, and versions of other plugins |
 |  15 Jan 2013: | (4.60) - Item12345: added jquery-1.8.3, upgraded pnotify, masonry, scrollto, form, blockui, cycle |
 |  11 Dec 2012: | (4.50) - Item12229: improved transliteration of unicode characters in jquery.wikiword |
 |  26 Oct 2012: | Item12195: Default jquery version is jquery-1.8.2 now |

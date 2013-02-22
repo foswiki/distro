@@ -12,6 +12,8 @@ my %themes;
 my $debug;
 my $currentTheme;
 
+use constant DEFAULT_JQUERY => "jquery-1.8.3";
+
 =begin TML
 
 ---+ package Foswiki::Plugins::JQueryPlugin
@@ -49,7 +51,7 @@ sub init {
     $currentTheme = $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
     # load jquery
-    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.8.3";
+    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || DEFAULT_JQUERY;
     $jQuery .= ".uncompressed" if $debug;
     my $code =
 "<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
@@ -208,7 +210,10 @@ sub load {
     my $normalizedName = lc($pluginName);
     my $pluginDesc     = $plugins{$normalizedName};
 
-    return undef unless $pluginDesc;
+    unless ($pluginDesc) {
+        print STDERR "ERROR: no such jQuery plugin $pluginName\n";
+        return undef;
+    }
 
     unless ( defined $pluginDesc->{instance} ) {
 
