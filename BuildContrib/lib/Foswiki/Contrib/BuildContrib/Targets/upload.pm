@@ -15,6 +15,9 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+use warnings;
+
 use LWP;
 use LWP::UserAgent;
 
@@ -128,7 +131,8 @@ END
     my $userAgent =
       new Foswiki::Contrib::Build::UserAgent( $this->{UPLOADTARGETSCRIPT},
         $this );
-    $userAgent->agent( 'ContribBuild/' . $VERSION . ' ' );
+    $userAgent->agent(
+        'ContribBuild/' . $Foswiki::Contrib::Build::VERSION . ' ' );
     $userAgent->cookie_jar( {} );
     $userAgent->timeout(420);
 
@@ -206,7 +210,7 @@ END
                   $response->request->uri,
                   $newform{formtemplate} = 'PackageForm';
                 if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-                    $newform{TopicClassification} = $1 . 'Package';
+                    $newform{ExtensionType} = $1 . 'Package';
                 }
             }
         }
@@ -237,11 +241,18 @@ END
             }
         }
 
+        # Assign a package form and set some basic defaults
         if ( !$formExists ) {
             $newform{formtemplate} ||= 'PackageForm';
-        }
-        if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-            $newform{TopicClassification} ||= $1 . 'Package';
+            if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
+                $newform{ExtensionType} ||= $1 . 'Package';
+                $newform{ExtensionType} =~ s/^AddOn/Contrib/;
+                $newform{SupportUrl} = 'Support.' . $this->{project};
+                $newform{DemoUrl}    = 'http://';
+                print STDERR "======= WARNING =======\n";
+                print STDERR
+"A default package form was created.  Please verify the setting on the uploaded topic\n";
+            }
         }
     }
 
@@ -346,6 +357,13 @@ sub _login {
 
 sub _uploadTopic {
     my ( $this, $userAgent, $user, $pass, $topic, $form ) = @_;
+
+    print STDERR "========= Form Data for review =========\n";
+    foreach my $k ( keys %$form ) {
+        next if ( $k eq 'text' );
+        printf "%-26s %s\n", $k, $form->{$k};
+    }
+    print STDERR "========================================\n";
 
     # send an edit request to get a validation key
     my $response = $userAgent->get(
