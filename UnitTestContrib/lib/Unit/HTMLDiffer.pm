@@ -38,7 +38,24 @@ sub _convert {
 
 sub _openTag {
     my ( $this, $tag, $attrs ) = @_;
-    my $a = join( ' ', map { $_ . '=' . $attrs->{$_} } sort keys %$attrs );
+
+    # Sort params of URL type attributes
+    foreach my $k ( keys %$attrs ) {
+        if ( $k eq 'href' ) {
+            my $url = $attrs->{$k};
+            if ( $url =~ s/\?(.*)$// ) {
+                my $params = $1;
+                my $anc    = '';
+                if ( $params =~ s/(#.*)$// ) {
+                    $anc = $1;
+                }
+                $url .= '?' . join( ';', sort split( /[;&]/, $params ) ) . $anc;
+                $attrs->{$k} = $url;
+            }
+        }
+    }
+    my $a =
+      join( ' ', map { $_ . '="' . $attrs->{$_} . '"' } sort keys %$attrs );
     $a = ' ' . $a if $a =~ /\S/;
     $this->{last_was_text} = 0;
     push( @{ $this->{items} }, '<' . $tag . $a . '>' );
@@ -120,7 +137,7 @@ sub diff {
             $ok = 1;
         }
         if ($ok) {
-            $okset .= $a . ' ';
+            $okset .= ( $diff->[1] || '' ) . ' ';
         }
         else {
             if ($okset) {
@@ -130,7 +147,7 @@ sub diff {
                 $okset = "";
             }
             if ($reporter) {
-                &$reporter( 0, $a, $b, $opts );
+                &$reporter( 0, $diff->[1] || '', $diff->[2] || '', $opts );
             }
             $failed = 1;
         }
@@ -180,7 +197,7 @@ sub html_matches {
 1;
 __DATA__
 
-Copyright (C) 2004-2010 Foswiki Contributors
+Copyright (C) 2004-2013 Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
