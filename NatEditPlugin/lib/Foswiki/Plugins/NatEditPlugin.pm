@@ -20,8 +20,8 @@ use Foswiki::Plugins    ();
 use Foswiki::Validation ();
 
 # Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("7.04");
-our $RELEASE           = '7.04';
+use version; our $VERSION = version->parse("7.05");
+our $RELEASE           = '7.05';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
@@ -166,6 +166,7 @@ s/((?:^|[\n\r])(?:\t|   )+\*\s+(?:Set|Local)\s+TOPICTITLE\s*=\s*)(.*)((?:$|[\r\n
 }
 
 ###############################################################################
+# make sure there's a new nonce for consecutive save+continues
 sub beforeEditHandler {
     my ( $text, $topic, $web, $error, $meta ) = @_;
 
@@ -201,7 +202,7 @@ sub beforeEditHandler {
 
     #print STDERR "nonce=$nonce\n";
 
-    $response->pushHeader( 'X-Foswiki-Nonce', $nonce ) if defined $nonce;
+    $response->pushHeader( 'X-Foswiki-Validation', $nonce ) if defined $nonce;
 }
 
 1;

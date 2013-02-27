@@ -8,6 +8,14 @@ function handleKeyDown () { }
 
   var editAction, $editForm;
 
+  function extractErrorMessage(text) {
+    if (text.match(/^<!DOCTYPE/)) {
+      text = $(text).find(".natErrorMessage").text().replace(/\s+/g, ' ').replace(/^\s+/, '') || '';
+    }
+
+    return text;
+  }
+
   function showErrorMessage(msg) {
     $("#natEditMessageContainer").addClass("foswikiErrorMessage").html(msg).hide().fadeIn("slow");
     $(window).trigger("resize");
@@ -205,12 +213,11 @@ function handleKeyDown () { }
                 $.blockUI({message:'<h1> Saving ... </h1>'});
               },
               error: function(xhr, textStatus, errorThrown) {
-                var message = $(xhr.response).find(".natErrorMessage").text().replace(/\s+/g, ' ').replace(/^\s+/, '') || textStatus;
-                $.unblockUI();
+                var message = extractErrorMessage(xhr.responseText) || textStatus;
                 showErrorMessage(message);
               },
-              success: function(data, textStatus, xhr) {
-                var nonce = xhr.getResponseHeader('X-Foswiki-Nonce');
+              complete: function(xhr, textStatus) {
+                var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
                 // patch in new nonce
                 $("input[name='validation_key']").each(function() {
                   $(this).val("?"+nonce);
@@ -233,7 +240,7 @@ function handleKeyDown () { }
               $.blockUI({message:'<h1> Loading preview ... </h1>'});
             },
             error: function(xhr, textStatus, errorThrown) {
-              var message = $(xhr.response).find(".natErrorMessage").text().replace(/\s+/g, ' ').replace(/^\s+/, '') || textStatus;
+              var message = extractErrorMessage(xhr.responseText) || textStatus;
               $.unblockUI();
               showErrorMessage(message);
             },

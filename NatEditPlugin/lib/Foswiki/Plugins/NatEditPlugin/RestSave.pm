@@ -59,14 +59,26 @@ sub handle {
     }
     catch Foswiki::OopsException with {
         $error  = shift;
-        $status = 500;
+        $status = 419;
     };
 
     # clear redirect enforced by a checkpoint action
     $response->deleteHeader( "Location", "Status" );
     $response->pushHeader( "Status", $status );
 
-    return ( defined $error ) ? $error->stringify : 'OK';
+    return ( defined $error ) ? stringifyError($error) : 'OK';
+}
+
+sub stringifyError {
+    my $error = shift;
+
+    my $s = '';
+
+    $s .= $error->{-text} if defined $error->{-text};
+    $s .= ' ' . join( ',', @{ $error->{params} } )
+      if defined $error->{params};
+
+    return $s;
 }
 
 sub toSiteCharSet {

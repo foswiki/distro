@@ -60,6 +60,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  27 Feb 2013 | re-fixed strikeone-protected save+continue; improved error handling dealing with !AntiWikiSpamPlugin-alike error messages  |
 |  20 Feb 2013 | fixed character encoding when previewing a topic on a non-utf8 site |
 |  25 Jan 2013 | fixed auto-start feature |
 |  18 Jan 2013 | improved compatibility with !PatternSkin |
@@ -163,4 +164,3 @@ is sufficient.
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
 %META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
-%META:PREFERENCE{name="NATSKIN_STYLE" title="NATSKIN_STYLE" type="Local" value="jazzynote"}%
