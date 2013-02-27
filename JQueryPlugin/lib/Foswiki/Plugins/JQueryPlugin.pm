@@ -16,7 +16,7 @@ use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
 # Simple decimal version, use parse method, no leading "v"
 use version; our $VERSION = version->parse("4.60");
-our $RELEASE           = '4.61';
+our $RELEASE           = '4.60';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -70,14 +70,7 @@ sub initPlugin {
 
 finish up the plugins container
 
-SMELL: I'd prefer a proper finishHandler, alas it does not exist
-SMELL: Item11349 - this never gets called from unit tests, see finishPlugin(),
-       added in Item1328 for 1.1.0
 =cut
-
-sub modifyHeaderHandler {
-    Foswiki::Plugins::JQueryPlugin::Plugins::finish();
-}
 
 sub finishPlugin {
     Foswiki::Plugins::JQueryPlugin::Plugins::finish();
