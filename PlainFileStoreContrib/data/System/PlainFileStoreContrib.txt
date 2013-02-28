@@ -1,7 +1,9 @@
 ---+!! PlainFileStoreContrib
-
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
 %TOC%
-
+<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Open_cardboard_box_husky.png" style="float:right" height="200px"/>
 %SHORTDESCRIPTION%
 
 An implementation of a Foswiki store using nothing more sophisticated than files.
@@ -10,11 +12,11 @@ Advantages:
    * Uses simple files - no shell commands used
    * Incorporates script for moving between store implementations
 
-The usual store implementations (RcsLite and !RcsWrap) use a version control tool - RCS. There are some issues with these implementations:
+The usual store implementations (!RcsLite and !RcsWrap) use a version control tool - RCS. There are some issues with these implementations:
    * !RcsWrap invokes external programs. These are reasonably fast, but cause major performance problems when used with a web server accelerator, such as =fcgi= or =mod_perl=. Most sites therefor use:
    * !RcsLite, which is a pure-perl implementation of RCS. This doesn't use any external programs _but_ is very inefficient with topics that have large numbers of versions.
 
-The PlainFileContrib implements topic and attachment histories by keeping a _complete file_ for each version of the topic/attachment. This means it is less efficient in terms of disk space than RCS - at least, it is less efficient for text files; binary files, such as images, are equal. For many sites this is an acceptable tradeoff, as disk space is relatively cheap, and Foswiki doesn't use much even with this store.
+The !PlainFileStoreContrib implements topic and attachment histories by keeping a _complete file_ for each version of the topic/attachment. This means it is less efficient in terms of disk space than RCS - at least, it is less efficient for text files; binary files, such as images, are equal. For many sites this is an acceptable tradeoff, as disk space is relatively cheap, and Foswiki doesn't use much even with this store.
 
    * Webs map to directories, like in the RCS stores
    * Topics are stored in web/topic.txt, like in the RCS stores
@@ -68,7 +70,7 @@ Many thanks to the following sponsors for supporting this work
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
 |  Author: | CrawfordCurrie http://c-dot.co.uk |
-|  Copyright &copy; 2012 Crawford Currie |
+|  Copyright &copy; 2012-2013 Crawford Currie |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
