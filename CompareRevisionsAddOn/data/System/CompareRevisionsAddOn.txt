@@ -54,11 +54,13 @@ Chooses _someskin_ for the output. See section [[#Templates][Templates]] below
 ---+++ Templates
 
 The output of the script is rendered by templates. Two templates are needed,
-==compare.tmpl== (or ==compare.skin.tmpl==) for the side-by-side format,
-and ==interweave.tmpl== (or ==interweave.skin.tmpl==) for the interwoven
-format.
+==comparesidebyside.tmpl== (or ==comparesidebyside.skin.tmpl==) for the
+side-by-side format, and ==compareinterweave.tmpl== (or
+==compareinterweave.skin.tmpl==) for the interwoven format. The default
+templates use a common ==compare.tmpl== (or ==complare.skin.tmpl==) for things
+used by both.
 
-The templates itself are broken into 7 parts
+The templates themselves are broken into 7 parts:
 
 <verbatim class="tml">
 template for start of page
@@ -87,8 +89,7 @@ and ==%<nop>TEXT2%== is replaced by the text of the new revision.
 In interwoven output, only ==%<nop>TEXT1%== is used.
 
 Examples for templates can be found in the default template files from
-the distribution (==compare.tmpl==, ==compare.pattern.tmpl==, ==interweave.tmpl==,
-==interweave.pattern.tmpl== ).
+the distribution (==compare.tmpl==, ==comparesidebyside.tmpl==, ==compareinterweave.tmpl==).
 
 ---+++ CSS Styles
 
