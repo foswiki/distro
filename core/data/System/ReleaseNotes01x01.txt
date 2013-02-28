@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.7_001
+---+!! Foswiki Release 1.1.8
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -39,7 +39,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.5 was built 10 Apr 2012. It is a release that fixes some very important issues including some security related issues. It contains 100 fixes and 20 enhancements.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
-   * Foswiki 1.1.7_001 was built 20 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 3 fixes..
+   * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
 
 ---++ Pre-installed Extensions
 
@@ -1845,6 +1845,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12382][Item12382]] | Unable to send more than one email using Net::SMTP::SSL due to code reusablity issue. |
 | [[%BUGS%/Item12391][Item12391]] | Fix CVE-2013-1666 vulnerability in MAKETEXT macro. |
 | [[%BUGS%/Item12398][Item12398]] | Configure crashes installing package with malformed manifest. |
+| [[%BUGS%/Item12408][Item12408]] | Documentation of template names on CompareRevisionsAddOn wiki page are wrong |
 
 </noautolink>
 
