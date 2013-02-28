@@ -46,6 +46,18 @@ Run the script without parameters to get instructions:
 $ tools/change_store.pl -I lib
 </verbatim>
 
+---++ Developer Notes
+Testing is performed using the standard system tests. Because some
+of these tests are written assuming a broken store (the RCS based stores
+have problems with "inconsistent topics") they are known to fail with
+the !PlainFileStore. The tests that are relevant to this store are:
+   * !HierarchicalWebsTests
+   * !StoreImplementationTests
+   * !StoreTests
+A subset of the VC* store tests may also be run as a sanity check,
+but expect failures as this store maintains a correct version history,
+unlike the RCS stores.
+
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
 
@@ -61,6 +73,7 @@ Many thanks to the following sponsors for supporting this work
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.2.1 (28 Feb 2013) | Foswiki:Tasks/Item12395: fix taint problems |
 |  1.2.0 (21 Jun 2012) | Added change_store.pl script; Corrected TOPICNFO handling |
 |  1.1.0 (30 Mar 2012) | Removed dependency on VC |
 |  1.0.0 (23 Mar 2012) | Initial version |

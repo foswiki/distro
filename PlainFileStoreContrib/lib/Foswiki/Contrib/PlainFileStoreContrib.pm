@@ -11,8 +11,8 @@ package Foswiki::Contrib::PlainFileStoreContrib;
 use strict;
 use warnings;
 
-our $VERSION = '$Rev: 11239 $';
-our $RELEASE = '1.2.0';
+our $VERSION = '1.2.1';
+our $RELEASE = '2013-02-28';
 our $SHORTDESCRIPTION =
   'A store implementation using plain text files for all versions of a topic';
 

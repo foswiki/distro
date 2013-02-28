@@ -44,6 +44,8 @@ use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
 use Foswiki::Users::BaseUserMapping        ();
 
+my $wptn = "/$Foswiki::cfg{WebPrefsTopicName}.txt";
+
 BEGIN {
 
     # Import the locale for sorting
@@ -65,7 +67,8 @@ sub readTopic {
     my ( $this, $meta, $version ) = @_;
 
     # check that the requested revision actually exists
-    my $nr = _numRevisions($meta);
+    my @revs = ();
+    my $nr = _numRevisions( \@revs, $meta );
     if ( defined $version && $version =~ /^\d+$/ ) {
         $version = $nr if ( $version == 0 || $version > $nr );
     }
@@ -77,7 +80,7 @@ sub readTopic {
         # not exist, then $rev is undef"
     }
 
-    my ( $text, $isLatest ) = _getRevision( $meta, undef, $version );
+    my ( $text, $isLatest ) = _getRevision( \@revs, $meta, undef, $version );
 
     unless ( defined $text ) {
         ASSERT( not $isLatest ) if DEBUG;
@@ -94,7 +97,7 @@ sub readTopic {
     # file is more recent than the youngest history file, then
     # use these defaults too.
     my %ri;
-    unless ( $isLatest && _latestIsNewer($meta) ) {
+    unless ( $isLatest && _latestIsNewer( \@revs, $meta ) ) {
 
         # The history metafile
         my $mf = _metaFile( $meta, undef, $version );
@@ -141,7 +144,6 @@ sub moveAttachment {
             newmeta       => $newTopicObject,
             newattachment => $newAttachment
         );
-        _recordChange( $oldTopicObject, $cUID, 0 );
     }
 }
 
@@ -173,7 +175,6 @@ sub copyAttachment {
             newmeta       => $newTopicObject,
             newattachment => $newAttachment
         );
-        _recordChange( $oldTopicObject, $cUID, 0 );
     }
 }
 
@@ -192,7 +193,8 @@ sub moveTopic {
 
     _saveDamage($oldTopicObject);
 
-    my $rev = _numRevisions($oldTopicObject);
+    my @revs;
+    my $rev = _numRevisions( \@revs, $oldTopicObject );
 
     _moveFile( _latestFile($oldTopicObject), _latestFile($newTopicObject) );
     _moveFile( _historyDir($oldTopicObject), _historyDir($newTopicObject) );
@@ -253,11 +255,6 @@ sub moveWeb {
         oldmeta  => $oldWebObject,
         newmeta  => $newWebObject
     );
-
-    # We have to log in the new web, otherwise we would re-create the dir with
-    # a useless .changes. See Item9278
-    _recordChange( $newWebObject, $cUID, 0,
-        'Moved from ' . $oldWebObject->web );
 }
 
 # Implement Foswiki::Store
@@ -285,7 +282,8 @@ sub getRevisionHistory {
         }
         return Foswiki::ListIterator->new( \@list );
     }
-    my $n = _numRevisions( $meta, $attachment );
+    my @revs;
+    my $n = _numRevisions( \@revs, $meta, $attachment );
 
     return Foswiki::Iterator::NumberRangeIterator->new( $n, 1 );
 }
@@ -294,7 +292,8 @@ sub getRevisionHistory {
 sub getNextRevision {
     my ( $this, $meta ) = @_;
 
-    return _numRevisions($meta) + 1;
+    my @revs;
+    return _numRevisions( \@revs, $meta ) + 1;
 }
 
 # Implement Foswiki::Store
@@ -303,8 +302,9 @@ sub getRevisionDiff {
 
     my $rev1 = $meta->getLoadedRev();
     my @list;
-    my ($text1) = _getRevision( $meta, undef, $rev1 );
-    my ($text2) = _getRevision( $meta, undef, $rev2 );
+    my @revs;
+    my ($text1) = _getRevision( \@revs, $meta, undef, $rev1 );
+    my ($text2) = _getRevision( \@revs, $meta, undef, $rev2 );
 
     my $lNew = _split($text1);
     my $lOld = _split($text2);
@@ -322,7 +322,8 @@ sub getVersionInfo {
     my ( $this, $meta, $rev, $attachment ) = @_;
 
     my $df;
-    my $nr = _numRevisions( $meta, $attachment );
+    my @revs;
+    my $nr = _numRevisions( \@revs, $meta, $attachment );
     my $is_latest = 0;
     if ( $rev && $rev > 0 && $rev < $nr ) {
         $df = _historyFile( $meta, $attachment, $rev );
@@ -341,7 +342,7 @@ sub getVersionInfo {
         $is_latest = 1;
     }
     my $info = {};
-    unless ( $is_latest && _latestIsNewer($meta) ) {
+    unless ( $is_latest && _latestIsNewer( \@revs, $meta ) ) {
 
         # We can trust the history metafile
         my $mf = _metaFile( $meta, $attachment, $rev );
@@ -363,7 +364,8 @@ sub saveAttachment {
 
     _saveDamage( $meta, $name );
 
-    my $rn = _numRevisions( $meta, $name ) + 1;
+    my @revs;
+    my $rn = _numRevisions( \@revs, $meta, $name ) + 1;
     my $verb = ( $meta->hasAttachment($name) ) ? 'update' : 'insert';
 
     my $latest = _latestFile( $meta, $name );
@@ -414,7 +416,8 @@ sub saveTopic {
     _saveDamage($meta);
 
     my $verb = ( -e _latestFile($meta) ) ? 'update' : 'insert';
-    my $rn = _numRevisions($meta) + 1;
+    my @revs;
+    my $rn = _numRevisions( \@revs, $meta ) + 1;
 
     # Fix TOPICINFO
     my $ti = $meta->get('TOPICINFO');
@@ -462,7 +465,8 @@ sub repRev {
 
     _saveDamage($meta);
 
-    my $rn = _numRevisions($meta);
+    my @revs;
+    my $rn = _numRevisions( \@revs, $meta );
     ASSERT( $rn, $meta->getPath ) if DEBUG;
     my $latest = _latestFile($meta);
     my $hf     = _historyFile( $meta, undef, $rn );
@@ -509,7 +513,8 @@ sub delRev {
 
     _saveDamage($meta);
 
-    my $rev = _numRevisions($meta);
+    my @revs;
+    my $rev = _numRevisions( \@revs, $meta );
     if ( $rev <= 1 ) {
         die 'PlainFile: Cannot delete initial revision of '
           . $meta->web . '.'
@@ -521,7 +526,8 @@ sub delRev {
 
     # Get the new top rev - which may or may not be -1, depending if
     # the history is complete or not
-    my $cur = _numRevisions($meta);
+    @revs = ();
+    my $cur = _numRevisions( \@revs, $meta );
     $hf = _historyFile( $meta, undef, $cur );
     my $thf = _latestFile($meta);
 
@@ -699,15 +705,20 @@ sub eachWeb {
 
     if ( opendir( $dh, $dir ) ) {
         @list = map {
-            Foswiki::Sandbox::untaint( $_, \&Foswiki::Sandbox::validateWebName )
+
+            # Tradeoff: correct validation of every web name, which allows
+            # non-web directories to be interleaved, thus:
+            #    Foswiki::Sandbox::untaint(
+            #           $_, \&Foswiki::Sandbox::validateWebName )
+            # versus a simple untaint, much better performance:
+            Foswiki::Sandbox::untaintUnchecked($_)
           }
 
           # The -e on the web preferences is used in preference to a
           # -d to avoid having to validate the web name each time. Since
           # the definition of a Web in this handler is "a directory with a
           # WebPreferences.txt in it", this works.
-          grep { !/\./ && -e "$dir/$_/$Foswiki::cfg{WebPrefsTopicName}.txt" }
-          readdir($dh);
+          grep { !/\./ && -e "$dir/$_$wptn" } readdir($dh);
         closedir($dh);
     }
 
@@ -814,15 +825,15 @@ sub getRevisionAtTime {
         return 1 if ( $time >= ( stat( _latestFile($meta) ) )[9] );
         return undef;
     }
-    my @revs = reverse sort grep { /^[0-9]+$/ } readdir($d);
-    closedir($d);
+    my @revs;
+    _loadRevs( \@revs, $hd );
 
-    if ( _latestIsNewer($meta) ) {
+    if ( _latestIsNewer( \@revs, $meta ) ) {
         return $revs[0] + 1
           if ( $time >= ( stat( _latestFile($meta) ) )[9] );
     }
 
-    foreach my $rev (@revs) {
+    foreach my $rev ( reverse @revs ) {
         return $rev if ( $time >= ( stat("$hd/$rev") )[9] );
     }
     return undef;
@@ -880,8 +891,8 @@ sub removeSpuriousLeases {
 # a string path (e.g. a web name)
 sub _getData {
     my ($what) = @_;
-    my $path = "$Foswiki::cfg{DataDir}/";
-    return "$path$what" unless ref($what);
+    my $path = $Foswiki::cfg{DataDir} . '/';
+    return $path . $what unless ref($what);
     return $path . $what->web unless $what->topic;
     return $path . $what->web . '/' . $what->topic;
 }
@@ -890,10 +901,23 @@ sub _getData {
 # a string path (e.g. a web name)
 sub _getPub {
     my ($what) = @_;
-    my $path = "$Foswiki::cfg{PubDir}/";
-    return "$path$what" unless ref($what);
+    my $path = $Foswiki::cfg{PubDir} . '/';
+    return $path . $what unless ref($what);
     return $path . $what->web unless $what->topic;
     return $path . $what->web . '/' . $what->topic;
+}
+
+# Load an array of the revisions stored in the given directory, sorted
+# most recent (highest numbered) revision first.
+sub _loadRevs {
+    my ( $revs, $dir ) = @_;
+    my $d;
+    opendir( $d, $dir ) or die "PlainFile: '$dir': $!";
+
+    # Read, untaint, sort in reverse
+    @$revs = sort { $b <=> $a }
+      map { /([0-9]+)/; $1 } grep { /^[0-9]+$/ } readdir($d);
+    closedir($d);
 }
 
 # Get the absolute file path to the latest version of a topic or attachment
@@ -970,7 +994,7 @@ sub _metaFile {
 
 # Get the number of revisions for a topic or attachment
 sub _numRevisions {
-    my ( $meta, $attachment ) = @_;
+    my ( $revs, $meta, $attachment ) = @_;
 
     return 0 unless -e _latestFile( $meta, $attachment );
 
@@ -980,19 +1004,15 @@ sub _numRevisions {
     # then only rev 1 exists
     return 1 unless -e $dir;
 
-    my $d;
-    opendir( $d, $dir ) or die "PlainFile: '$dir': $!";
-    my @revs = sort { $b <=> $a } grep { /^[0-9]+$/ } readdir($d);
-    closedir($d);
+    _loadRevs( $revs, $dir ) unless scalar @$revs;
+    return 1 unless scalar @$revs;    # one implicit revision
 
-    return 1 unless scalar @revs;    # one implicit revision
-         # If the head revision is inconsistent with the history,
-         # then there's another implicit revision
-    if ( _latestIsNewer( $meta, $attachment ) ) {
-        unshift( @revs, $revs[0] + 1 );
+    # If the head revision is inconsistent with the history,
+    # then there's another implicit revision
+    if ( _latestIsNewer( $revs, $meta, $attachment ) ) {
+        unshift( @$revs, $revs->[0] + 1 );
     }
-
-    return $revs[0];
+    return $revs->[0];
 }
 
 # If a latest file has a more recent file date than the corresponding
@@ -1014,7 +1034,8 @@ sub _saveDamage {
     my $latest = _latestFile( $meta, $attachment );
     return unless ( -e $latest );
 
-    my $rev = _latestIsNewer( $meta, $attachment, $latest );
+    my @revs;
+    my $rev = _latestIsNewer( \@revs, $meta, $attachment, $latest );
     return unless $rev;
 
     # No existing revs; create
@@ -1047,29 +1068,24 @@ sub _saveDamage {
 # file is newer, then return the rev that would be created
 # if we checked in.
 sub _latestIsNewer {
-    my ( $meta, $attachment, $latest ) = @_;
+    my ( $revs, $meta, $attachment, $latest ) = @_;
 
     $latest ||= _latestFile( $meta, $attachment );
 
     my $hd = _historyDir( $meta, $attachment );
-
     return 1 unless ( -e $hd );
 
-    # Is there a history?
-    my $d;
-    opendir( $d, $hd ) or die $!;
-    my @revs = sort grep { /^[0-9]+$/ } readdir($d);
-    closedir($d);
-    return 0 unless scalar(@revs);    # no history
+    _loadRevs( $revs, $hd ) unless scalar(@$revs);
+    return 0 unless scalar(@$revs);    # no history
 
-    my $topRev = $revs[$#revs];
+    my $topRev = $revs->[0];
     my $hf     = "$hd/$topRev";
 
     # Check the time on the history file; is the .txt newer?
     my $ht = ( stat($hf) )[9] || time;
     my $lt = ( stat($latest) )[9];
-    return 0 if ( $ht >= $lt );       # up to date
-    return $topRev + 1;               # we must create this
+    return 0 if ( $ht >= $lt );        # up to date
+    return $topRev + 1;                # we must create this
 }
 
 sub _readMetaFile {
@@ -1087,8 +1103,10 @@ sub _writeMetaFile {
 # Record a change in the web history
 sub recordChange {
     my $this = shift;
-    my %args = ( 'more', '', @_ );
+    my %args = @_;
+    $args{more} ||= '';
     ASSERT( $args{cuid} ) if DEBUG;
+    ASSERT( defined $args{more} ) if DEBUG;
 
     #    my ( $meta, $cUID, $rev, $more ) = @_;
     #    $more ||= '';
@@ -1146,7 +1164,10 @@ sub _openStream {
     my $stream;
 
     my $path;
-    if ( $opts{version} && $opts{version} < _numRevisions( $meta, $att ) ) {
+    my @revs;
+    if (   $opts{version}
+        && $opts{version} < _numRevisions( \@revs, $meta, $att ) )
+    {
         ASSERT( $mode !~ />/ ) if DEBUG;
         $path = _historyFile( $meta, $att, $opts{version} );
     }
@@ -1274,7 +1295,7 @@ sub _rmtree {
                     # Windows sometimes fails to delete files when
                     # subprocesses haven't exited yet, because the
                     # subprocess still has the file open. Live with it.
-                    print STDERR "WARNING: Failed to delete file $entry: $!\n";
+                    warn "WARNING: Failed to delete file $entry: $!";
                 }
             }
         }
@@ -1285,7 +1306,7 @@ sub _rmtree {
                 die "PlainFile: Failed to delete $root: $!";
             }
             else {
-                print STDERR "WARNING: Failed to delete $root: $!\n";
+                warn "WARNING: Failed to delete $root: $!";
             }
         }
     }
@@ -1307,9 +1328,9 @@ sub _getTimestamp {
 
 # Get a specific revision of a topic or attachment
 sub _getRevision {
-    my ( $meta, $attachment, $version ) = @_;
+    my ( $revs, $meta, $attachment, $version ) = @_;
 
-    my $nr = _numRevisions( $meta, $attachment );
+    my $nr = _numRevisions( $revs, $meta, $attachment );
     if ( $nr && $version && $version <= $nr ) {
         my $fn = _historyDir( $meta, $attachment ) . "/$version";
         if ( -e $fn ) {
