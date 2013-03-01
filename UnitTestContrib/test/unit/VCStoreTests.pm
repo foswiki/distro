@@ -138,9 +138,10 @@ sub _createInconsistentTopic {
             "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt")
     )[9];
 
-    # Wait for the clock to tick
+    # Wait for the clock to tick. This used to be 1s, but someone added
+    # a grace period into noCheckinPending so it has to be pushed out.
     my $x = time;
-    while ( time == $x ) {
+    while ( time <= $x + 2 ) {
         sleep 1;
     }
 
@@ -163,7 +164,8 @@ CRUD
 "$Foswiki::cfg{DataDir}/$this->{test_web}/$this->{test_topic}.txt"
             )
         )[9],
-        $then
+        $then,
+        $Foswiki::cfg{Store}{Implementation} =~ /Rcs/ ? 1 : 0
     );
 }
 
@@ -252,11 +254,16 @@ sub verify_NoHistory_TOPICINFO_getRevisionInfo {
 
 # Revision info must be consistent when retrieved from three places:
 # TOPICINFO, getVersionInfo and getRevisionHistory
+# Note: this test assumes that it is possible for the store implementation
+# to generate an inconsistent topic. If not, then it will fail.
+# At the moment only the RcsWrap and RcsLite stores are subject to
+# inconsistency, so the test should be skipped if the store implementation
+# is anything else.
 sub verify_InconsistentTopic_getRevisionInfo {
     my $this = shift;
 
     # Inconsistent cache with topicinfo
-    my ( $date, $then ) = $this->_createInconsistentTopic();
+    my ( $date, $then, $usingRCS ) = $this->_createInconsistentTopic();
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -264,12 +271,15 @@ sub verify_InconsistentTopic_getRevisionInfo {
     my $it = $this->{session}->{store}->getRevisionHistory($meta);
     $this->assert( $it->hasNext() );
 
-# Inconsistent topic should declare 2 versions; one in history, and one not checked in yet
+    # Inconsistent topic should declare 2 versions; one in history, and
+    # (RCS) one not checked in yet.
     $this->assert_num_equals( 2, $it->next() );
 
-    # The next revision will be 2 for the pending a checkin
+    # The next revision will be (RCS) 2 for the pending a checkin
+    my $expectRev = ( $usingRCS ? 2 : 3 );
+
     # 6
-    $this->assert_num_equals( 2,
+    $this->assert_num_equals( $expectRev,
         $this->{session}->{store}->getNextRevision($meta) );
 
     # The content should come from the mauled topic
@@ -278,8 +288,11 @@ sub verify_InconsistentTopic_getRevisionInfo {
 
     # check TOPICINFO as fetched from the cache
     my $ti = $meta->get('TOPICINFO');
-    $this->assert_num_equals( 77, $ti->{version} );
-    $this->assert_str_equals( 'SpongeBobSquarePants', $ti->{author} );
+    $expectRev = ( $usingRCS ? 77 : 2 );
+    $this->assert_num_equals( $expectRev, $ti->{version} );
+    if ($usingRCS) {
+        $this->assert_str_equals( 'SpongeBobSquarePants', $ti->{author} );
+    }
 
     # force a save so that the inconsistencies get fixed
     $meta->save();
@@ -363,7 +376,7 @@ sub verify_NoHistory_implicitSave {
 sub verify_Inconsistent_implicitSave {
     my $this = shift;
 
-    my ( $date, $then ) = $this->_createInconsistentTopic();
+    my ( $date, $then, $usingRCS ) = $this->_createInconsistentTopic();
 
 # Head of "history" will be 1, we've got one pending checkin, so latest revision
 # is reporting 2, the next revision will be 2.
@@ -433,11 +446,18 @@ sub verify_NoHistory_repRev {
     $this->{session}->{store}
       ->repRev( $meta, $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID );
     my $info = $this->{session}->{store}->getVersionInfo($meta);
+    my $usingRCS = ( $Foswiki::cfg{Store}{Implementation} =~ /Rcs/ );
 
-  # repRev degrades to a normal addRev when there's an implicit save triggered
-  # by inconsistent topic data. so rev 1 is associated to the oob change and now
-  # we are at rev 2.
-    $this->assert_num_equals( 2, $info->{version} );
+    if ($usingRCS) {
+
+        # repRev degrades to a normal addRev when there's an implicit save
+        # triggered by inconsistent topic data. so rev 1 is associated to
+        # the oob change and now we are at rev 2.
+        $this->assert_num_equals( 2, $info->{version} );
+    }
+    else {
+        $this->assert_num_equals( 1, $info->{version} );
+    }
     $this->assert_str_equals(
         $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
         $info->{author} );
@@ -456,7 +476,7 @@ sub verify_NoHistory_repRev {
 sub verify_Inconsistent_repRev {
     my $this = shift;
 
-    my ( $date, $then ) = $this->_createInconsistentTopic();
+    my ( $date, $then, $usingRCS ) = $this->_createInconsistentTopic();
 
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -467,8 +487,13 @@ sub verify_Inconsistent_repRev {
       ->repRev( $meta, $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID );
 
     my $info = $this->{session}->{store}->getVersionInfo($meta);
-    $this->assert_num_equals( 3, $info->{version} )
-      ;    # rev 2 has been used for the oob changes
+    if ($usingRCS) {
+        $this->assert_num_equals( 3, $info->{version} )
+          ;    # rev 2 has been used for the oob changes
+    }
+    else {
+        $this->assert_num_equals( 2, $info->{version} );
+    }
     $this->assert_str_equals(
         $Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,
         $info->{author} );
@@ -505,7 +530,7 @@ sub verify_NoHistory_getRevisionAtTime {
 sub verify_Inconsistent_getRevisionAtTime {
     my $this = shift;
 
-    my ( $date, $then ) = $this->_createInconsistentTopic();
+    my ( $date, $then, $usingRCS ) = $this->_createInconsistentTopic();
 
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -566,7 +591,7 @@ sub verify_NoHistory_saveAttachment {
 sub verify_Inconsistent_saveAttachment {
     my $this = shift;
 
-    my ( $date, $then ) = $this->_createInconsistentTopic();
+    my ( $date, $then, $usingRCS ) = $this->_createInconsistentTopic();
 
     $this->assert(
         open( my $FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" ) );
@@ -607,7 +632,7 @@ sub verify_Inconsistent_saveAttachment {
 # verify that the value of a FORMFIELD is taken from the text and not the head
 sub verify_Inconsistent_Item10993_FORMFIELD_from_text {
     my $this = shift;
-    my ( $date, $then ) = $this->_createInconsistentTopic();
+    my ( $date, $then, $usingRCS ) = $this->_createInconsistentTopic();
 
     $this->assert_str_equals(
         "Beaver=Beaver",

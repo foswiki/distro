@@ -693,7 +693,7 @@ sub verify_OutOfDate_RevInfo {
     $this->assert_str_equals( 'ThirdUser',    $info->{author} );
     $this->assert_str_equals( 'ThirdComment', $info->{comment} );
 
-    sleep 1;
+    sleep 2;
     open( FH, '>>', "$rcs->{file}" );
     print FH "Modified";
     close FH;
