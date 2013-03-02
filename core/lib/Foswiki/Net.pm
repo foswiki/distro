@@ -1141,7 +1141,7 @@ our ( $host, $port, $usessl, $starttls, $logcx, $verified, @sockopts,
 sub setup {
     ( my ( $this, $ssl, $tls ), $starttls, $host, $port, $logcx ) = @_;
 
-    unless ( defined @ISA ) {
+    unless (@ISA) {
         @ISA = @Net::SMTP::ISA;
 
         $usessl = $ssl || $tls;
