@@ -503,7 +503,7 @@ sub sysCommand {
 
     # Note:  Use of the file handle $fh returned here would be safer than
     # using the file name. But it is less portable, so filename wil have to do.
-    my ( $fh, $stderrCache ) = File::Temp->tempfile(
+    my ( $fh, $stderrCache ) = File::Temp::tempfile(
         "STDERR.$$.XXXXXXXXXX",
         DIR    => File::Spec->tmpdir(),
         UNLINK => 0
