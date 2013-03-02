@@ -593,7 +593,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
         package Foswiki::Net::Mail;
         our @ISA;
 
-        unless ( defined @ISA ) {
+        unless (@ISA) {
             @ISA            = @Net::SMTP::ISA;
             @Net::SMTP::ISA = __PACKAGE__;
         }
