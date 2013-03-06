@@ -1,3 +1,9 @@
+foswiki (1.1.8-1) stable; urgency=high
+
+  * upgrade to 1.1.8
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Web, 6 Mar 2013 12:01:00 +1000 
+
 foswiki (1.1.7-1) stable; urgency=high
 
   * upgrade to 1.1.7
