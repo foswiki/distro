@@ -48,10 +48,8 @@ use strict;
 use warnings;
 use Assert;
 
-our $ERRORKEY   = '_ERROR';
-our $DEFAULTKEY = '_DEFAULT';
-our $RAWKEY     = '_RAW';
-our $MARKER     = "\0";
+# Used in interpolation an regexes, so constant not appropriate
+our $MARKER = "\0";
 
 =begin TML
 
@@ -71,78 +69,112 @@ sub new {
     my ( $class, $string, $friendly ) = @_;
     my $this = bless( {}, $class );
 
-    $this->{$RAWKEY} = $string;
+    $this->{_RAW} = $string;
 
     return $this unless defined($string);
 
-    $string =~ s/\\(["'])/$MARKER.sprintf("%.2u", ord($1))/ge;    # escapes
+    # Escapes
+    $string =~ s/\\'/\x01/g;
+    $string =~ s/\\"/\x02/g;
 
-    my $sep = ( $friendly ? "[\\s,]" : "\\s" );
+    if ($friendly) {
+        _friendly( $this, $string );
+    }
+    else {
+        _unfriendly( $this, $string );
+    }
+    for ( values %$this ) {
+        s/\x01/'/g;
+        s/\x02/"/g;
+    }
+    return $this;
+}
+
+sub _unfriendly {
+    my ( $this, $string ) = @_;
+
     my $first = 1;
 
-    if ( !$friendly && $string =~ s/^\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/$2/s ) {
-        $this->{$DEFAULTKEY} = $1;
+    if ( $string =~ s/^\s*\"(.*?)\"\s*(?=[a-z0-9_]+\s*=\s*\"|$)//si ) {
+        $this->{_DEFAULT} = $1;
     }
     while ( $string =~ m/\S/s ) {
 
         # name="value" pairs
-        if ( $string =~ s/^$sep*(\w+)\s*=\s*\"(.*?)\"//is ) {
+        if ( $string =~ s/^\s*([a-z0-9_]+)\s*=\s*\"(.*?)\"//is ) {
             $this->{$1} = $2;
             $first = 0;
         }
 
         # simple double-quoted value with no name, sets the default
-        elsif ( $string =~ s/^$sep*\"(.*?)\"//os ) {
-            $this->{$DEFAULTKEY} = $1
-              unless defined( $this->{$DEFAULTKEY} );
+        elsif ( $string =~ s/^\s*\"(.*?)\"//os ) {
+            $this->{_DEFAULT} = $1
+              unless defined( $this->{_DEFAULT} );
             $first = 0;
         }
 
-        elsif ($friendly) {
-
-            # name='value' pairs
-            if ( $string =~ s/^$sep*(\w+)\s*=\s*'(.*?)'//is ) {
-                $this->{$1} = $2;
-            }
-
-            # name=value pairs
-            elsif ( $string =~ s/^$sep*(\w+)\s*=\s*([^\s,\}\'\"]*)//is ) {
-                $this->{$1} = $2;
-            }
-
-            # simple single-quoted value with no name, sets the default
-            elsif ( $string =~ s/^$sep*'(.*?)'//os ) {
-                $this->{$DEFAULTKEY} = $1
-                  unless defined( $this->{$DEFAULTKEY} );
-            }
-
-            # simple name with no value (boolean, or _DEFAULT)
-            elsif ( $string =~ s/^$sep*([a-z]\w*)\b//is ) {
-                my $key = $1;
-                $this->{$key} = 1;
-            }
-
-            # otherwise the whole string - sans padding - is the default
-            else {
-
-                # SMELL: unchecked implicit untaint?
-                if ( $string =~ m/^\s*(.*?)\s*$/s
-                    && !defined( $this->{$DEFAULTKEY} ) )
-                {
-                    $this->{$DEFAULTKEY} = $1;
-                }
-                last;
-            }
-        }
-
+        # Unquoted string not matching any recognised structure
         # SMELL: unchecked implicit untaint?
         elsif ( $string =~ m/^\s*(.*?)\s*$/s ) {
-            $this->{$DEFAULTKEY} = $1 if ($first);
+            $this->{_DEFAULT} = $1 if ($first);
             last;
         }
     }
-    foreach my $k ( keys %$this ) {
-        $this->{$k} =~ s/$MARKER(\d\d)/chr($1)/geo;    # escapes
+}
+
+sub _friendly {
+    my ( $this, $string ) = @_;
+
+    my $first = 1;
+
+    while ( $string =~ m/\S/s ) {
+
+        # name="value" pairs
+        if ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*=\s*\"(.*?)\"//is ) {
+            $this->{$1} = $2;
+            $first = 0;
+        }
+
+        # simple double-quoted value with no name, sets the default
+        elsif ( $string =~ s/^[\s,]*\"(.*?)\"//s ) {
+            $this->{_DEFAULT} = $1
+              unless defined( $this->{_DEFAULT} );
+            $first = 0;
+        }
+
+        # name='value' pairs
+        elsif ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*=\s*'(.*?)'//is ) {
+            $this->{$1} = $2;
+        }
+
+        # name=value pairs
+        elsif ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*=\s*([^\s,\}\'\"]*)//is ) {
+            $this->{$1} = $2;
+        }
+
+        # simple single-quoted value with no name, sets the default
+        elsif ( $string =~ s/^[\s,]*'(.*?)'//os ) {
+            $this->{_DEFAULT} = $1
+              unless defined( $this->{_DEFAULT} );
+        }
+
+        # simple name with no value (boolean, or _DEFAULT)
+        elsif ( $string =~ s/^[\s,]*([a-z][a-z0-9_]*)\b//is ) {
+            my $key = $1;
+            $this->{$key} = 1;
+        }
+
+        # otherwise the whole string - sans padding - is the default
+        else {
+
+            # SMELL: unchecked implicit untaint?
+            if ( $string =~ m/^\s*(.*?)\s*$/s
+                && !defined( $this->{_DEFAULT} ) )
+            {
+                $this->{_DEFAULT} = $1;
+            }
+            last;
+        }
     }
     return $this;
 }
@@ -159,7 +191,7 @@ sub isEmpty {
     my $this = shift;
 
     foreach my $k ( keys %$this ) {
-        return 0 if $k ne $RAWKEY;
+        return 0 if $k ne '_RAW';
     }
     return 1;
 }
@@ -196,8 +228,8 @@ sub stringify {
     my $key;
     my @ss;
     foreach $key ( sort keys %$this ) {
-        if ( $key ne $ERRORKEY && $key ne $RAWKEY ) {
-            my $es = ( $key eq $DEFAULTKEY ) ? '' : $key . '=';
+        if ( $key ne '_ERROR' && $key ne '_RAW' ) {
+            my $es = ( $key eq '_DEFAULT' ) ? '' : $key . '=';
             my $val = $this->{$key};
             $val =~ s/"/\\"/g;
             push( @ss, $es . '"' . $val . '"' );
@@ -236,7 +268,9 @@ sub extractValue {
 
         # test if format: { "value" ... }
         # SMELL: unchecked implicit untaint?
-        if ( $str =~ /(^|\=\s*\"[^\"]*\")\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/ ) {
+        if ( $str =~
+            /(^|\=\s*\"[^\"]*\")\s*\"(.*?)\"\s*([a-z0-9_]+\s*=\s*\"|$)/ )
+        {
 
             # is: %VAR{ "value" }%
             # or: %VAR{ "value" param="etc" ... }%
@@ -245,7 +279,7 @@ sub extractValue {
             $value = $2 if defined $2;    # distinguish between '' and "0";
 
         }
-        elsif ( ( $str =~ /^\s*\w+\s*=\s*\"([^\"]*)/ ) && ($1) ) {
+        elsif ( ( $str =~ /^\s*[a-z0-9_]+\s*=\s*\"([^\"]*)/ ) && ($1) ) {
 
             # is: %VAR{ name = "value" }%
             # do nothing, is not a standalone var
