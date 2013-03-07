@@ -43,6 +43,8 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
   <module>...  - one or more extensions to install (by name or git URL)
   -[A]utoconf  - make a simplistic LocalSite.cfg, using just the defaults in
                  lib/Foswiki.spec
+  -[L]ist      - list all the foswiki extensions that could be installed by asking
+                 all the extension repositories that are known from the .buildcontrib
 
 Examples:
   softlink and enable FirstPlugin and SomeContrib
@@ -84,12 +86,13 @@ my %config;
 my $do_genconfig;
 my @extensions_path;
 my %extensions_extra_config;
-my $autoenable    = 0;
-my $installing    = 1;
-my $autoconf      = 0;
-my $config_file   = $ENV{FOSWIKI_PSEUDOINSTALL_CONFIG};
-my $internal_gzip = eval { require Compress::Zlib; 1; };
-my %arg_dispatch  = (
+my $autoenable     = 0;
+my $installing     = 1;
+my $autoconf       = 0;
+my $listextensions = 0;
+my $config_file    = $ENV{FOSWIKI_PSEUDOINSTALL_CONFIG};
+my $internal_gzip  = eval { require Compress::Zlib; 1; };
+my %arg_dispatch   = (
     '-E' => sub {
         my ($cfg)  = @_;
         my ($extn) = shift(@ARGV);
@@ -120,6 +123,9 @@ my %arg_dispatch  = (
     },
     '-G' => sub {
         $do_genconfig = 1;
+    },
+    '-L' => sub {
+        $listextensions = 1;
     }
 );
 my %default_config = (
@@ -465,6 +471,23 @@ sub installModuleByName {
     return $libDir;
 }
 
+sub ListExtensions {
+
+    #get all the svn repo info
+    my @extensions;
+    foreach my $repo ( @{ $config{repos} } ) {
+        populateSVNRepoListings($repo);
+
+#TODO: do the same with git repo, and really should make pseudo-install grok zip ExtensionsWeb based...
+        push( @extensions, sort keys( %{ $repo->{extensions} } ) );
+
+        #TODO: i wonder if i can get a summary for them too :)
+    }
+    print "Extensions available: \n\t" . join( "\n\t", @extensions ) . "\n\n";
+}
+
+#TODO: can we cache these???
+#and also populate non-svn repos?
 sub populateSVNRepoListings {
     my ($svninfo) = @_;
     my $ctx;
@@ -1341,7 +1364,10 @@ sub run {
         Autoconf();
         exit 0 unless ( scalar(@ARGV) );
     }
-
+    if ($listextensions) {
+        ListExtensions();
+        exit 0 unless ( scalar(@ARGV) );
+    }
     unless ( $do_genconfig
         || scalar(@ARGV)
         || scalar( keys %extensions_extra_config ) )
