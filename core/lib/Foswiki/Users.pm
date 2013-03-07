@@ -263,8 +263,7 @@ sub initialiseUser {
 
     # For compatibility with older ways of building login managers,
     # plugins can provide an alternate login name.
-    my $plogin =
-      $this->{session}->{plugins}->load( $Foswiki::cfg{DisableAllPlugins} );
+    my $plogin = $this->{session}->{plugins}->load();
 
     #Monitor::MARK("Plugins loaded");
 

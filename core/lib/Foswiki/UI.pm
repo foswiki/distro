@@ -295,12 +295,17 @@ sub _execute {
     my $res;
 
     # If we get a known exception from new Foswiki(), then it must have
-    # come from one of the plugin handlers, which are initialised at this
-    # time (initPlugin, earlyInitPlugin for example). In this case the
+    # come from one of the plugin methods which are called at this
+    # time (initPlugin, earlyInitPlugin for example). The
     # setup of the Foswiki object is pretty much complete; we can safely
     # recover it from $Foswiki::Plugins::SESSION and clean it up.
     # Error::Simple and EngineException indicate something more
-    # basic, however, that we can't clean up.
+    # basic, however, that we can't easily clean up.
+    # Exception handling note: We need a session and a response for
+    # cleanup; depending on where the exception was raised, the session
+    # may have to be grabbed from $Foswiki::Plugins. Exception handlers
+    # need to be careful about using the response from the session, as
+    # it may already be polluted with non-exception-related crud.
     try {
 
      # DO NOT pass in $req->remoteUser here (even though it appears to be right)
@@ -383,8 +388,11 @@ sub _execute {
         $e->generate($session);
     }
     catch Foswiki::EngineException with {
-        my $e   = shift;
-        my $res = $e->{response};
+        my $e = shift;
+        $session ||= $Foswiki::Plugins::SESSION;
+        $res = $e->{response};
+
+        # Note: do *not* use the response from the session; see notes above
         unless ( defined $res ) {
             $res = new Foswiki::Response();
             $res->header( -type => 'text/html', -status => $e->{status} );
@@ -395,7 +403,6 @@ sub _execute {
             $res->print($html);
         }
         $Foswiki::engine->finalizeError( $res, $session->{request} );
-        return $e->{status};
     }
     catch Error::Simple with {
 
@@ -438,7 +445,6 @@ sub _execute {
         $res->print("Unspecified error");
     };
     $session->finish() if $session;
-
     return $res;
 }
 

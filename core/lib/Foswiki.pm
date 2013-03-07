@@ -1650,7 +1650,7 @@ sub normalizeWebTopicName {
 ---++ ClassMethod new( $defaultUser, $query, \%initialContext )
 
 Constructs a new Foswiki session object. A unique session object exists for
-ever transaction with Foswiki, for example every browser request, or every
+every transaction with Foswiki, for example every browser request, or every
 script run. Session objects do not persist between mod_perl runs.
 
    * =$defaultUser= is the username (*not* the wikiname) of the default
@@ -1748,7 +1748,6 @@ sub new {
     $this->{request}  = $query;
     $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
     $this->{response} = new Foswiki::Response();
-    $this->{digester} = new Digest::MD5();
 
     # This is required in case we get an exception during
     # initialisation, so that we have a session to handle it with.
@@ -1764,6 +1763,10 @@ sub new {
 
     $this->{context} = $initialContext;
 
+    # Construct the plugins objects and load the code for the plugins,
+    # calling any preload handlers.
+    $this->{plugins} = new Foswiki::Plugins($this);
+
     if ( $Foswiki::cfg{Cache}{Enabled} && $Foswiki::cfg{Cache}{Implementation} )
     {
         eval "require $Foswiki::cfg{Cache}{Implementation}";
@@ -1772,10 +1775,9 @@ sub new {
     }
 
     my $prefs = new Foswiki::Prefs($this);
-    $this->{prefs}   = $prefs;
-    $this->{plugins} = new Foswiki::Plugins($this);
+    $this->{prefs} = $prefs;
 
-    #construct the store object
+    # construct the store object
     my $base = $Foswiki::cfg{Store}{Implementation};
     use Class::Load qw/try_load_class/;
     my ( $ok, $error ) = try_load_class($base);
@@ -1789,7 +1791,8 @@ sub new {
               <=> $Foswiki::cfg{Store}{ImplementationClasses}{$b}
           } keys( %{ $Foswiki::cfg{Store}{ImplementationClasses} } );
 
-  #this allows us to add an arbitary set of mixins for things like recordChanges
+        # this allows us to add an arbitary set of mixins for things
+        # like recordChanges
         my $length = scalar(@classes);
         if ($length) {
 
@@ -1805,6 +1808,7 @@ sub new {
                     $base = $class;
                 }
                 else {
+
                     #just ignore it and move on to the next class..
                     #Foswiki::Func::Log(...)
                 }
@@ -1816,7 +1820,8 @@ sub new {
 
     #Monitor::MARK("Created store");
 
-    $this->{users} = new Foswiki::Users($this);
+    $this->{digester} = new Digest::MD5();
+    $this->{users}    = new Foswiki::Users($this);
 
     #Monitor::MARK("Created users object");
 
@@ -1952,6 +1957,7 @@ sub new {
         if (  !$this->topicExists( $web, $topic )
             && $this->webExists( $web . '/' . $topic ) )
         {
+
 #requested view/Web/Sub - when there is no Web.Sub topic, but there is such a web
             $web   = $web . '/' . $topic;
             $topic = $Foswiki::cfg{HomeTopicName};

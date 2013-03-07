@@ -81,9 +81,43 @@ sub new {
             session => $session,
             name    => $name || '',
             module  => $module,       # if undef, use discovery
+            errors  => []
         },
         $class
     );
+
+    my $p = $Foswiki::cfg{Plugins}{$name}{Module};
+
+    if ( defined $p ) {
+        eval "use $p";
+        if ($@) {
+            push(
+                @{ $this->{errors} },
+                "$p could not be loaded.  Errors were:\n$@\n----"
+            );
+            $this->{disabled} = 1;
+            $this->{reason}   = 'no_load_plugin';
+        }
+        else {
+            $this->{module} = $p;
+        }
+    }
+    else {
+        push(
+            @{ $this->{errors} },
+"$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} defined - re-run configure\n---"
+        );
+        $this->{disabled} = 1;
+        $this->{reason}   = 'no_plugin_module';
+    }
+    my $fn = "${p}::preload";
+    if ( !$this->{disabled} && defined &$fn ) {
+
+        # A preload handler can simply die if it doesn't like what it sees
+        no strict 'refs';
+        &$fn($session);
+        use strict 'refs';
+    }
 
     return $this;
 }
@@ -116,34 +150,10 @@ sub finish {
 # handlers. Return the user resulting from the user handler call.
 sub load {
     my ($this) = @_;
-    my $p = $Foswiki::cfg{Plugins}{ $this->{name} }{Module};
 
-    if ( defined $p ) {
-        eval "use $p";
-        if ($@) {
-            push(
-                @{ $this->{errors} },
-                "$p could not be loaded.  Errors were:\n$@\n----"
-            );
-            $this->{disabled} = 1;
-            $this->{reason}   = 'no_load_plugin';
-            return;
-        }
-        else {
-            $this->{module} = $p;
-        }
-    }
-    else {
-        push(
-            @{ $this->{errors} },
-"$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} defined - re-run configure\n---"
-        );
-        $this->{disabled} = 1;
-        $this->{reason}   = 'no_plugin_module';
-        return;
-    }
+    return if $this->{disabled};
 
-    my $noTopic = eval '$' . $p . '::NO_PREFS_IN_TOPIC';
+    my $noTopic = eval '$' . $this->{module} . '::NO_PREFS_IN_TOPIC';
     $this->{no_topic} = $noTopic;
     $this->{topicWeb} = undef;      # not known yet
 
@@ -163,13 +173,13 @@ sub load {
 
     # Get the description from the code, if present. if it's not there, it'll
     # be loaded as a preference from the plugin topic later
-    $this->{description} = eval '$' . $p . '::SHORTDESCRIPTION';
+    $this->{description} = eval '$' . $this->{module} . '::SHORTDESCRIPTION';
 
     # Set the session for this call stack
     local $Foswiki::Plugins::SESSION = $this->{session};
     ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
-    my $sub = $p . "::initPlugin";
+    my $sub = $this->{module} . "::initPlugin";
     if ( !defined(&$sub) ) {
         push( @{ $this->{errors} }, $sub . ' is not defined' );
         $this->{disabled} = 1;
@@ -177,7 +187,7 @@ sub load {
         return;
     }
 
-    $sub = $p . '::earlyInitPlugin';
+    $sub = $this->{module} . '::earlyInitPlugin';
     if ( defined(&$sub) ) {
         no strict 'refs';
         my $error = &$sub();
@@ -191,7 +201,7 @@ sub load {
     }
 
     my $user;
-    $sub = $p . '::initializeUserHandler';
+    $sub = $this->{module} . '::initializeUserHandler';
     if ( defined(&$sub) ) {
         no strict 'refs';
         $user = &$sub(
@@ -202,7 +212,7 @@ sub load {
         use strict 'refs';
     }
 
-    #print STDERR "Compile $p: ".timestr(timediff(new Benchmark, $begin))."\n";
+#print STDERR "Compile $this->{module}: ".timestr(timediff(new Benchmark, $begin))."\n";
 
     return $user;
 }

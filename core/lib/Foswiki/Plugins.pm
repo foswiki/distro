@@ -70,6 +70,9 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
 
+    # Load the plugins code and invoke preload handlers
+    $this->preload();
+
     unless ($inited) {
         Foswiki::registerTagHandler( 'PLUGINDESCRIPTIONS',
             \&_handlePLUGINDESCRIPTIONS );
@@ -107,30 +110,22 @@ sub finish {
 
 =begin TML
 
----++ ObjectMethod load($allDisabled) -> $loginName
+---++ ObjectMethod preload() -> $loginName
 
-Find all active plugins, and invoke the early initialisation.
-Has to be done _after_ prefs are read.
-
-Returns the user returned by the last =initializeUserHandler= to be
-called.
-
-If allDisabled is set, no plugin handlers will be called.
+Find all active plugins, load the code and and invoke the preload handler
 
 =cut
 
-sub load {
-    my ( $this, $allDisabled ) = @_;
-
+sub preload {
+    my ($this) = @_;
     my %lookup;
+    our @pluginList = ();
 
     my $session = $this->{session};
     my $query   = $session->{request};
 
-    my @pluginList = ();
     my %already;
-
-    unless ($allDisabled) {
+    unless ( $Foswiki::cfg{DisableAllPlugins} ) {
         if ( $query && defined( $query->param('debugenableplugins') ) ) {
             foreach
               my $pn ( split( /[,\s]+/, $query->param('debugenableplugins') ) )
@@ -176,17 +171,43 @@ sub load {
         }
     }
 
+    foreach my $pn (@pluginList) {
+        my $p;
+        unless ( $p = $lookup{$pn} ) {
+
+            # The 'new' will call the preload handler
+            $p = new Foswiki::Plugin( $session, $pn );
+        }
+        push @{ $this->{plugins} }, $p;
+        $lookup{$pn} = $p;
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod load($allDisabled) -> $loginName
+
+Find all active plugins, and invoke the early initialisation.
+Has to be done _after_ prefs are read.
+
+Returns the user returned by the last =initializeUserHandler= to be
+called.
+
+If allDisabled is set, no plugin handlers will be called.
+
+=cut
+
+sub load {
+    my ($this) = @_;
+
+    my $session = $this->{session};
+
     # Uncomment this to monitor plugin load times
     #Monitor::MARK('About to initPlugins');
 
     my $user;           # the user login name
     my $userDefiner;    # the plugin that is defining the user
-    foreach my $pn (@pluginList) {
-        my $p;
-        unless ( $p = $lookup{$pn} ) {
-            $p = new Foswiki::Plugin( $session, $pn );
-        }
-        push @{ $this->{plugins} }, $p;
+    foreach my $p ( @{ $this->{plugins} } ) {
         my $anotherUser = $p->load();
         if ($anotherUser) {
             if ($userDefiner) {
@@ -206,7 +227,6 @@ sub load {
             $this->{session}
               ->logger->log( 'warning', join( "\n", @{ $p->{errors} } ) );
         }
-        $lookup{$pn} = $p;
 
         # Uncomment this to monitor plugin load times
         #Monitor::MARK($pn);

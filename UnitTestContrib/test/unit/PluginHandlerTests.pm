@@ -75,34 +75,30 @@ sub tear_down {
     unlink( $this->{plugin_pm} );
     Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
     $this->SUPER::tear_down();
-
-    return;
 }
 
 # Build the plugin source, using the code passed in $code as the
-# body of the plugin. $code will normally be at least one handler
-# implementation, sometimes more than one.
+# body of the plugin. $pcode will normally be at least one handler
+# implementation, sometimes more than one. $disabled can be used to
+# disable the plugin.
 sub makePlugin {
-    my ( $this, $test, $code ) = @_;
+    my ( $this, $test, $pcode, $disabled ) = @_;
 
     $this->{plugin_name} = ucfirst("${test}Plugin");
     $this->{plugin_pm}   = $this->{code_root} . $this->{plugin_name} . ".pm";
 
-    $code = <<"HERE";
-package Foswiki::Plugins::$this->{plugin_name};
-
-use vars qw( \$called \$tester \$VERSION );
-\$called = {};
-\$VERSION = 999.911;
+    my $code = "package Foswiki::Plugins::$this->{plugin_name};" . <<'HERE';
+our $called = {};
+our $tester;
+our $VERSION = 999.911;
 
 sub initPlugin {
-    \$called->{initPlugin}++;
+    $called->{initPlugin}++;
     return 1;
 }
 # line 11
-$code
-1;
 HERE
+    $code .= $pcode . "\n1;";
 
     # Dump the handler code with line numbers
     # To help with debugging failures in the plugin handlers
@@ -135,12 +131,15 @@ EOF
     catch Error::Simple with {
         $this->assert( 0, shift->stringify() );
     };
-    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} =
+      ( $disabled ? 0 : 1 );
     $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module} =
       "Foswiki::Plugins::$this->{plugin_name}";
-    $this->createNewFoswikiSession();    # default user
+
+    # Set up $tester =
     eval "\$Foswiki::Plugins::$this->{plugin_name}::tester = \$this;";
-    $this->checkCalls( 1, 'initPlugin' );
+    $this->createNewFoswikiSession();    # default user
+    $this->checkCalls( $disabled ? 0 : 1, 'initPlugin' );
 
     return;
 }
@@ -185,7 +184,7 @@ sub beforeSaveHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
     # ensure we have a loaded rev
     $tester->assert($_[3]->getLoadedRev());
-     $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
+    $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
     $tester->assert_str_equals($tester->{test_web}, $_[2], "THREE $_[2]");
     $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
     $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
@@ -361,7 +360,7 @@ HERE
     return;
 }
 
-sub test_earlyInit {
+sub test_earlyInitPlugin {
     my $this = shift;
     $this->makePlugin( 'earlyInitPlugin', <<'HERE');
 sub earlyInitPlugin {
@@ -369,14 +368,14 @@ sub earlyInitPlugin {
     die "EIP $called->{earlyInitPlugin}" if  $called->{earlyInitPlugin};
     die "IP $called->{initPlugin}" if $called->{initPlugin};
     die "IUH $called->{initializeUserHandler}" if $called->{initializeUserHandler};
-    $called->{earlyInitPlugin}++;
+    $called->{earlyInitPlugin} = 1;
+    return undef;
 }
-
 sub initializeUserHandler {
     # $tester not set up yet
-    die "$called->{earlyInitPlugin}" unless $called->{earlyInitPlugin};
-    die "$called->{initPlugin}" unless !$called->{initPlugin};
-    die "$called->{initializeUserHandler}" unless !$called->{initializeUserHandler};
+    die "earlyInitPlugin" unless $called->{earlyInitPlugin};
+    die "initPlugin" unless !$called->{initPlugin};
+    die "initializeUserHandler" unless !$called->{initializeUserHandler};
     $called->{initializeUserHandler}++;
     my $ru = $_[0] || 'undef';
     die "RU $ru" unless $ru eq ($Foswiki::Plugins::SESSION->{remoteUser}||'undef');
@@ -391,6 +390,25 @@ HERE
     $this->checkCalls( 1, 'initializeUserHandler' );
 
     return;
+}
+
+sub test_earlyInitPlugin_with_die {
+    my $this = shift;
+    try {
+        $this->makePlugin( 'earlyInitPluginDie', <<'HERE');
+sub earlyInitPlugin {
+    die "Meistersinger";
+}
+HERE
+    }
+    catch Error::Simple with {} otherwise {
+        $this->assert( 0, "earlyInitPlugin exception lost" );
+    };
+    unlink( $this->{plugin_pm} );
+    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
+    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 0;
+    undef $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module};
+    $this->createNewFoswikiSession();    # for tear_down
 }
 
 # Test that the rendering handlers are called in the correct sequence.
@@ -887,6 +905,102 @@ sub writeHeaderHandler {
 }
 HERE
 
+    return;
+}
+
+sub test_preload {
+    my $this = shift;
+    $this->makePlugin( 'preload', <<'HERE');
+sub preload {
+    $tester->assert(!$called->{preload}, "Preload called");
+    $tester->assert(!$called->{earlyInitPlugin}, "EIP called");
+    $tester->assert(!$called->{initPlugin}, "Init called");
+    $called->{preload}++;
+}
+sub earlyInitPlugin {
+    $tester->assert(!$called->{initPlugin});
+    $tester->assert($called->{preload});
+    $called->{earlyInitPlugin}++;
+    return undef;
+}
+#sub initPlugin {
+#    print STDERR "IP ".Data::Dumper->Dump([$called])."\n";
+#    $tester->assert(!$called->{preload});
+#    $tester->assert(!$called->{earlyInitPlugin});
+#    $called->{initPlugin}++;
+#    return 1;
+#}
+HERE
+    $this->checkCalls( 1, 'initPlugin' );
+    $this->checkCalls( 1, 'earlyInitPlugin' );
+    $this->checkCalls( 1, 'preload' );
+}
+
+sub test_disabled {
+    my $this = shift;
+    $this->makePlugin( 'disabled', <<'HERE', 1 );
+sub preload {
+    $called->{preload}++;
+}
+sub earlyInitPlugin {
+    $called->{earlyInitPlugin}++;
+    return undef;
+}
+sub initPlugin {
+    $called->{initPlugin}++;
+    return 1;
+}
+HERE
+    $this->checkCalls( 0, 'preload' );
+    $this->checkCalls( 0, 'earlyInitPlugin' );
+    $this->checkCalls( 0, 'initPlugin' );
+}
+
+sub test_preload_with_die {
+    my $this = shift;
+    try {
+        $this->makePlugin( 'preloadDie', <<'HERE');
+sub preload {
+    die "Fledermaus";
+}
+HERE
+    }
+    catch Error::Simple with {} otherwise {
+        $this->assert( 0, "Preload exception lost" );
+    };
+    unlink( $this->{plugin_pm} );
+    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
+    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 0;
+    undef $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module};
+    $this->createNewFoswikiSession();    # for tear_down
+    return;
+}
+
+sub test_preload_with_EngineException {
+    my $this = shift;
+    try {
+        $this->makePlugin( 'preloadHandlerWithEngineException', <<'HERE');
+use Foswiki::EngineException;
+use Error qw( :try );
+
+sub preload {
+    throw Foswiki::EngineException( 404, 'Four Ought Fore' );
+}
+HERE
+    }
+    catch Foswiki::EngineException with {
+        my $e = shift;
+        $this->assert_equals( 404,               $e->{status} );
+        $this->assert_equals( 'Four Ought Fore', $e->{reason} );
+    }
+    otherwise {
+        $this->assert( 0, "Preload exception lost" );
+    };
+    unlink( $this->{plugin_pm} );
+    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
+    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 0;
+    undef $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module};
+    $this->createNewFoswikiSession();    # for tear_down
     return;
 }
 

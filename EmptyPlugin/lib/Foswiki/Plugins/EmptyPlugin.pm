@@ -222,12 +222,43 @@ sub initPlugin {
 
 =begin TML
 
+---+++ preload($class, $session)
+
+This method is called as early as possible in the processing of a request;
+before =initPlugin= is called, before any preferences are loaded, before
+even the store is loaded, and before the user has been identified.
+
+It is intended for use when there is sufficient information available
+from the request object and the environment to make a decision
+on something. For example, it could be used to check the source IP
+address of a request, and decide whether to service it or not.
+
+=preload= can use the methods of =Foswiki::Func= to access the request,
+but must not access the store, or any user or preference information.
+Caveat emptor! You have been warned!
+
+The best way to terminate the request from =preload= is to throw an
+exception. You can do this using a =die=, which will result in a
+=text/plain= response being sent to the client. More sophisticated
+implementations can use =Foswiki::OopsException= to craft a response.
+
+*Since:* Foswiki 1.2.0
+
+=cut
+
+# sub preload {
+#     die( "Terminate this session" );
+# }
+
+=begin TML
+
 ---++ earlyInitPlugin()
 
-This handler is called before any other handler, and before it has been
-determined if the plugin is enabled or not. Use it with great care!
-
-If it returns a non-null error string, the plugin will be disabled.
+This method is called after =preload= but before =initPlugin=. It is
+called after the Foswiki infrastructure has been set up. If it returns
+a non-null error string, the plugin will be disabled. You can also
+terminate the request from this method by throwing one of the
+exceptions handled by =Foswiki::UI= (for example, =Foswiki::OopsException=).
 
 =cut
 
