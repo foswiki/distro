@@ -452,20 +452,21 @@ sub installModuleByName {
     $manifest  = findRelativeTo(
         File::Spec->catdir( $moduleDir, 'lib', 'Foswiki', $subdir, $module ),
         'MANIFEST' );
-    if ( !-e $manifest ) {
+    unless ( $manifest && -e $manifest ) {
         $manifest = findRelativeTo(
             File::Spec->catdir( $moduleDir, 'lib', 'TWiki', $subdir, $module ),
             'MANIFEST'
         );
         $libDir = 'TWiki';
     }
-    if ( -e $manifest ) {
+    if ( $manifest && -e $manifest ) {
         installFromMANIFEST( $module, $moduleDir, $manifest, $ignoreBlock );
         update_gitignore_file($moduleDir);
     }
     else {
         $libDir = undef;
-        warn "---> No MANIFEST in $module (at $manifest)\n";
+        warn "---> No MANIFEST in $module"
+          . ( $manifest ? "(at $manifest)" : '' ) . "\n";
     }
 
     return $libDir;
