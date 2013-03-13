@@ -174,7 +174,7 @@ sub start {
 
     #marker so we can remove the above large output from the nightly emails
     print "\nUnit test run Summary:\n";
-    print " - Tested with perl $^V, from $^X\n";
+    print " - Tested with perl " . ( $^V =~ /^v5/ ? $^V : $] ) . " from $^X\n";
     my $actual_incorrect_failures = 0;
     my $actual_incorrect_passes   = 0;
     my $skipped_tests_total       = 0;
@@ -641,7 +641,7 @@ __DATA__
 
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2007-2010 Foswiki Contributors
+Copyright (C) 2007-2013 Foswiki Contributors
 All Rights Reserved.
 
 This program is free software; you can redistribute it and/or

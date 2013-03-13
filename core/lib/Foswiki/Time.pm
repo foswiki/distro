@@ -113,13 +113,13 @@ sub parseTime {
     $date =~ s/^\s*//;    #remove leading spaces without de-tainting.
     $date =~ s/\s*$//;
 
-    use Time::Local qw( timelocal timegm timelocal_nocheck timegm_nocheck);
+    use Time::Local qw( timelocal timegm);
 
     # NOTE: This routine *will break* if input is not one of below formats!
     my $timelocal =
       $defaultLocal
-      ? \&Time::Local::timelocal_nocheck
-      : \&Time::Local::timegm_nocheck;
+      ? \&Time::Local::timelocal
+      : \&Time::Local::timegm;
 
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
@@ -160,8 +160,7 @@ sub parseTime {
                 $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
                 $tzadj -= 0;
             }
-            return Time::Local::timegm_nocheck( $s, $m, $h, $D, $M, $Y ) -
-              $tzadj;
+            return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
         }
         return &$timelocal( $s, $m, $h, $D, $M, $Y );
     }
@@ -570,7 +569,7 @@ sub _parseDuration {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
