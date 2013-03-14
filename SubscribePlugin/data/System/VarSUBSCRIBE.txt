@@ -7,9 +7,9 @@ Anywhere in a topic or template:
 | =who= | Logged-in user | Who to subscribe (wikiname, no web) |
 | =topic= | Current topic | Topic to subscribe to. Wildcards may be used e.g. =topic="Item*"= will subscribe to all topics starting with =Item=. Use =topic="Main.*"= to subscribe to the !WebNotify for that web. |
 | =unsubscribe= | Not set | If set to "on", will *unsubscribe* the user |
-| =format= | Simple HTML Link with an action anchor "Subscribe" or "Unsubscribe" | Defines custom look-and-feel for subscribe link using the following format variables: =$topics=, =$url=, =$wikiname=, =$action= |
-| =formatunsubscribe= | =format= | Serves same function as =format=, but allows the user to define a different format than =subscribe=. |
+| =format= | Simple HTML link with an action anchor "Subscribe" or "Unsubscribe" | Defines custom look-and-feel for subscribe link using the following format variables: =$topics=, =$url=, =$wikiname=, =$action= *DEPRECATED do not use* |
+| =formatunsubscribe= | =format= | Serves same function as =format=, but allows the user to define a different format than =subscribe=. *DEPRECATED do not use* |
 
-   * The button toggles subscribe/unsubscribe if the user is already subscribed or vice versa. So after the next click on the button, the user will be unsubscribed.
-   * The plugin will do the best it can to optimise the subscription lists in WebNotify.
+The format of the Subscribe/Unsubscribe button is defined in a template file =templates/subscribe.tmpl=. The normal skin mechanisms can be used to override this with your own local definitions. The default template works with Javascript to provide a smooth interactive experience.
+
 %ENDSECTION{"subscribe_attributes"}%

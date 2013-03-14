@@ -28,9 +28,6 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 
 ---++ Configuration
 
-This plugin has been found to be extremely costly when processing highly
-complex WebNotify topics.  However in most environments, its not an issue.
-
 If you wish to limit the plugin to one or more webs, specifiy the list of Active Webs in one of the following ways.   This list is a comma-separates list of Web names.  A "Regular-expression" style wildcard can be used.  For
 example: =Main,Sandbox.*= would permit the Main web, Sandbox, including subwebs of Sandbox, or any web prefixed with Sandbox.
 
@@ -41,6 +38,8 @@ example: =Main,Sandbox.*= would permit the Main web, Sandbox, including subwebs 
 
 The configure setting takes precedence over the topic based preference setting.
 
+Templates for all forms and strings used by the plugin are specified in =templates/subscribe.tmpl=, which can be overridden using the standard [[Skins][Foswiki skins]] mechanisms.
+
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
@@ -49,29 +48,16 @@ The configure setting takes precedence over the topic based preference setting.
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright: | &copy; 2008, Crawford Currie,  2012 Foswiki Contributors |
+|  Copyright: | &copy; 2007-2013, Crawford Currie, 2008-2013 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  03 Mar 2012 | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
-|  03 Dec 2008 | Re-released for Foswiki |
-|  15 Oct 2008 | TWikibug:Item4115: enable subscriptions with (child), \
-                    TWikibug:Item5950: fix cross web SUBSCRIPTION indication (requires updated MailerContrib) \
-                    can now get feedback to %<nop>SUBSCRIBE{topic="*"}% \
-                    - TWiki:Main.SvenDowideit |
-|  25 May 2008 | TWikibug:Item5488: merged TWiki:Main.DavidPatterson's patch to fix deep subscription |
-|  25 Jan 2008 | TWikibug:Item4812: added TWiki:Main.BobGoldstein's noexpand patch for groups |
-|  9 Sep 2007 | TWikibug:Item4175 added MAKETEXT in case the string is available |
-|  13966 | TWikiBug:Item4155 Fixed for 4.0.x and 4.1.x |
-|  13787 | TWikibug:Item4010 - fix web subscription, and =format= parameters. - TWiki:Main.SvenDowideit |
-|  13525 | TWikibug:Item3731 - Update documentation topic. |
-|  13512 | TWikibug:Item3731 - final pre-release tweaks, result of testing on 4.1.2 |
-|  13510 | TWikibug:Item3731 - completed the plugin now that the Mailer updates are done |
-|  13506 | TWikibug:Item3731 - Update dependency to latest version of MailerContrib |
-|  13081 | TWikibug:Item3731 - Added SubscribePlugin, and cleaned up and updated APIs in MailerContrib |
-|  24 Apr 2007 | First version |
+|  3.0.0 (14 Mar 2013) | Foswikitask:Item2258: added template support. Foswikitask:Item2450: Fix subscription to subweb topics. Foswikitask:Item11015: Improve docs. Foswikitask:Item8095: Analyse and fix load failures. Foswikitask:Item11543: Add unit tests. Foswikitask:Item10045: Support non-ascii topic names. Foswikitask:Item11595: Use REST handler for post with strikeone. |
+|  2.1.0 (03 Mar 2012) | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
+|  1.0.1 (03 Dec 2008) | Re-released for Foswiki |
+|  0.0.1 (24 Apr 2007) | First version |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
