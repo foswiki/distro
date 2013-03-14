@@ -23,15 +23,7 @@ var style = document.createElement('div').style,
     moz = style['MozBorderRadius'] !== undefined,
     webkit = style['WebkitBorderRadius'] !== undefined,
     radius = style['borderRadius'] !== undefined || style['BorderRadius'] !== undefined,
-    mode = document.documentMode || 0,
-    noBottomFold = $.browser.msie && (($.browser.version < 8 && !mode) || mode < 8),
-
-    expr = $.browser.msie && (function() {
-        var div = document.createElement('div');
-        try { div.style.setExpression('width','0+0'); div.style.removeExpression('width'); }
-        catch(e) { return false; }
-        return true;
-    })();
+    mode = document.documentMode || 0;
 
 $.support = $.support || {};
 $.support.borderRadius = moz || webkit || radius; // so you can do:  if (!$.support.borderRadius) $('#myDiv').corner();
@@ -169,24 +161,7 @@ $.fn.corner = function(options) {
                         this.style.position = 'relative';
                     ds.position = 'absolute';
                     ds.bottom = ds.left = ds.padding = ds.margin = '0';
-                    if (expr)
-                        ds.setExpression('width', 'this.parentNode.offsetWidth');
-                    else
-                        ds.width = '100%';
-                }
-                else if (!bot && $.browser.msie) {
-                    if ($.css(this,'position') == 'static')
-                        this.style.position = 'relative';
-                    ds.position = 'absolute';
-                    ds.top = ds.left = ds.right = ds.padding = ds.margin = '0';
-                    
-                    // fix ie6 problem when blocked element has a border width
-                    if (expr) {
-                        bw = sz(this,'borderLeftWidth') + sz(this,'borderRightWidth');
-                        ds.setExpression('width', 'this.parentNode.offsetWidth - '+bw+'+ "px"');
-                    }
-                    else
-                        ds.width = '100%';
+                    ds.width = '100%';
                 }
                 else {
                     ds.position = 'relative';
@@ -202,7 +177,6 @@ $.fn.corner = function(options) {
                 }
                 
                 if (fold && $.support.boxModel) {
-                    if (bot && noBottomFold) continue;
                     for (c in opts) {
                         if (!opts[c]) continue;
                         if (bot && (c == 'TL' || c == 'TR')) continue;

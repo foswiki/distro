@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name    => 'Validate',
-            version => '1.9.0',
+            version => '1.11.0',
             author  => 'Joern Zaefferer',
             homepage =>
               'http://bassistance.de/jquery-plugins/jquery-plugin-validation',

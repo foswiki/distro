@@ -49,10 +49,6 @@ $.tabpane = {
         });
       }
 
-      if ($.browser.msie) {
-        thisOpts.animate = false; // force animation off on all msies because that fucks up font aliasing
-      }
-
       if (!$thisPane.is(".jqTabPaneInitialized")) {
         $thisPane.addClass("jqTabPaneInitialized");
 

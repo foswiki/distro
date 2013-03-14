@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1320871779" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" date="1358771265" format="1.1" version="17"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -230,7 +230,7 @@ jQuery(function($){
 <verbatim class="tml">
 %STARTSECTION{"user"}%<literal>%FORMAT{
   "%SEARCH{
-     "^%URLPARAM{"term" default="does not exist"}%.*"
+     ".*%URLPARAM{"term" default="does not exist"}%.*"
      type="regex"
      scope="topic"
      format="$percntIF{\"'$percntGROUPINFO{\"$topic\" format=\"$dollarname, \" limit=\"1\"}$percnt'=''\"

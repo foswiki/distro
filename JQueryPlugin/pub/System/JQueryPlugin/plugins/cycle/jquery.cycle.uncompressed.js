@@ -12,13 +12,6 @@
 
 var ver = '2.9999.8';
 
-// if $.support is not defined (pre jQuery 1.3) add what I need
-if ($.support === undefined) {
-	$.support = {
-		opacity: !($.browser.msie)
-	};
-}
-
 function debug(s) {
 	if ($.fn.cycle.debug)
 		log(s);

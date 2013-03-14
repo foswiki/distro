@@ -234,9 +234,9 @@ pub/System/JQueryPlugin/jquery-1.8.2.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.8.3.js 0644
 pub/System/JQueryPlugin/jquery-1.8.3.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.8.3.uncompressed.js 0644
-pub/System/JQueryPlugin/jquery-1.9.0.js 0644
-pub/System/JQueryPlugin/jquery-1.9.0.js.gz 0644
-pub/System/JQueryPlugin/jquery-1.9.0.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.9.1.js 0644
+pub/System/JQueryPlugin/jquery-1.9.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.9.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644
@@ -299,6 +299,7 @@ pub/System/JQueryPlugin/plugins/chili/recipes/php.js 0644
 pub/System/JQueryPlugin/plugins/chili/recipes/recipes.js 0644
 pub/System/JQueryPlugin/plugins/chili/recipes/sql.js 0644
 pub/System/JQueryPlugin/plugins/chili/recipes/tml.js 0644
+pub/System/JQueryPlugin/plugins/chili/recipes/xml.js 0644
 pub/System/JQueryPlugin/plugins/cookie/jquery.cookie.js 0644
 pub/System/JQueryPlugin/plugins/cookie/jquery.cookie.js.gz 0644
 pub/System/JQueryPlugin/plugins/cookie/jquery.cookie.uncompressed.js 0644

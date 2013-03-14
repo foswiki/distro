@@ -88,7 +88,7 @@
     }
 
     // keypress event
-    self.input.bind(($.browser.opera ? "keypress" : "keydown") + ".textboxlist", function(event) {
+    self.input.bind("keydown.textboxlist", function(event) {
       // track last key pressed
       if(event.keyCode == 13) {
         var val = self.input.val();

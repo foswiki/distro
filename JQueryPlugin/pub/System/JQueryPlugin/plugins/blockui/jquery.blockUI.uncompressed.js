@@ -31,7 +31,6 @@
 		var msie = /MSIE/.test(navigator.userAgent);
 		var ie6  = /MSIE 6.0/.test(navigator.userAgent);
 		var mode = document.documentMode || 0;
-		// var setExpr = msie && (($.browser.version < 8 && !mode) || mode < 8);
 		var setExpr = $.isFunction( document.createElement('div').style.setExpression );
 
 		// global $ methods for blocking/unblocking the entire page

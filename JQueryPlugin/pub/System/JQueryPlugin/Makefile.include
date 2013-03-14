@@ -12,6 +12,7 @@ JAVA=java
 GZIP=gzip
 CAT=cat
 PATCH=patch
+DEBUG=false
 
 .SUFFIXES: .js .css .jslint
 .PHONY: subdirs $(SUBDIRS)
@@ -31,8 +32,11 @@ jslint: subdirs $(TARGET:.js=.jslint)
 	@$(JSLINT) $< && touch $@
 
 %.js: %.uncompressed.js
-	@echo minifying $@ from $<
-	@$(MINIFYJS) $< > $@
+	@if $(DEBUG); then \
+	  echo creating $@ from $<; $(CAT) $< > $@; \
+	else \
+	  echo minifying $@ from $<; $(MINIFYJS) $< > $@; \
+	fi
 
 %.js: %_src.js
 	@echo minifying $@ from $<

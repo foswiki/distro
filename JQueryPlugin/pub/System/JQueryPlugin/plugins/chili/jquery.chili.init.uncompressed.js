@@ -4,7 +4,7 @@ jQuery(function($) {
   ChiliBook.codeLanguage = function( el ) {
     var $el = jQuery(el),
         recipeName = $el.attr("class") || '', 
-        re = /^.*\b(bash|cplusplus|csharp|css|delphi|html|java|js|lotusscript|php-f|php|recipes|sql|tml)\b.*$/;
+        re = /^.*\b(bash|cplusplus|csharp|css|delphi|html|java|js|lotusscript|php-f|php|recipes|sql|tml|xml)\b.*$/;
 
     return (recipeName && re.test(recipeName))?recipeName.replace(re, "$1"): '';
   }

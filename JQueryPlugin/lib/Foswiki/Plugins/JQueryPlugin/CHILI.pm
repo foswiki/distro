@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Chili',
-            version      => '2.2',
+            version      => '2.2_1',
             author       => 'Andrea Ercolino',
             homepage     => 'http://noteslog.com/chili/',
             javascript   => [ 'jquery.chili.js', 'jquery.chili.init.js' ],
@@ -52,7 +52,7 @@ NOTE: Please extend that file, not this notice.
 Additional copyrights apply to some or all of the code in this
 file as follows:
 
-Copyright (C) 2006-2010 Michael Daum http://michaeldaumconsulting.com
+Copyright (C) 2006-2013 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
