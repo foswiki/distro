@@ -136,6 +136,13 @@ sub test_escaping {
 ' %MAKETEXT{"This \\\\\'.`echo A`.\\\\\'  [*,_1,\\\\\'.`echo A`.\\\\\' ]" args="1"}% ';
 
     my $result = $topicObject->expandMacros($str);
+
+    if ( $result =~ m#This \\\\'.`echo# ) {
+        $this->expect_failure(
+'Item12420 - Doubled backslash found.  Was Locale::Maketext patched without updating version?'
+        );
+    }
+
     $this->assert_str_equals(
         ' This \\\'.`echo A`.\\\'  1 \\\'.`echo A`.\\\'  ', $result );
 }
