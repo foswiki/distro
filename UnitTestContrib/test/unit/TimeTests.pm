@@ -28,6 +28,32 @@ sub set_up {
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
     $this->{DisplayTimeValues} = $Foswiki::cfg{DisplayTimeValues};
+
+}
+
+sub skip {
+    my ( $this, $test ) = @_;
+
+    my %skip_tests = (
+        'TimeTests::test_parseTimeISO8601EarlyYears' => 1,
+        'TimeTests::test_parseTimeRCSEarlyYears'     => 1,
+    );
+
+    return unless defined $test && $skip_tests{$test};
+
+    return 'Dates before 1970 not supported before Foswiki 1.2'
+      if ( $this->check_dependency('Foswiki,<,1.2') );
+
+    my $badTime = 0;
+    eval ' Time::Local::timelocal(1,1,1,1,1,1901) ';
+
+    $badTime = 1 if $@;
+
+    return
+'Dates before Dec. 1901 not supported. Upgrade to Perl >= 5.12, or run on 64 bit system.'
+      if $badTime;
+
+    return;
 }
 
 sub tear_down {
@@ -117,12 +143,14 @@ sub test_parseTimeRCS {
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02 - 18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02-18:01:02" );
     $this->checkTime( 2, 1,  18, 2, 12, 2001, "2001-12-02.18:01:02" );
+}
+
+sub test_parseTimeRCSEarlyYears {
+    my $this = shift;
     $this->checkTime( 2, 1,  18, 2, 12, 1890, "1890-12-02.18:01:02" );
     $this->checkTime( 7, 59, 6,  2, 7,  1730, "1730-07-02.06:59:07" );
-    $this->expect_failure(
-        "Item19308: Support for dates < 1970 added to Rel 1.2")
-      if ( $this->check_dependency('Foswiki,<,1.2') );
-    $this->checkTime( 2, 1, 18, 2, 12, 1902, "1902-12-02.18:01:02" );
+    $this->checkTime( 2, 1,  18, 2, 12, 1902, "1902-12-02.18:01:02" );
+    $this->checkTime( 7, 59, 6,  2, 7,  1965, "1965-07-02.06:59:07" );
 }
 
 sub test_parseTimeISO8601 {
@@ -137,8 +165,6 @@ sub test_parseTimeISO8601 {
     $this->checkTime( 7, 59, 5,  2, 7, 1995, "1995-07-02T06:59:07+01:00" );
     $this->checkTime( 7, 59, 5,  2, 7, 1995, "1995-07-02T06:59:07+01" );
     $this->checkTime( 7, 59, 6,  2, 7, 1995, "1995-07-02T06:59:07Z" );
-    $this->checkTime( 7, 59, 6,  2, 7, 1890, "1890-07-02T06:59:07Z" );
-    $this->checkTime( 7, 59, 6,  2, 7, 1730, "1730-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 10,   "2010-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 99,   "1999-07-02T06:59:07Z" );
     $this->checkTime( 7, 59, 6,  2, 7, 29,   "2029-07-02T06:59:07Z" );
@@ -156,9 +182,23 @@ sub test_parseTimeISO8601 {
     $this->checkTime( 7, 59, 4, 2, 4, 1995, "1995-04-02T06:59:07", 1 );
     $this->checkTime( 7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07Z", 1 );
 
-    $this->expect_failure(
-        "Item19308: Support for dates < 1970 added to Rel 1.2")
-      if ( $this->check_dependency('Foswiki,<,1.2') );
+}
+
+sub test_parseTimeISO8601EarlyYears {
+    my $this = shift;
+
+    $this->checkTime( 7, 59, 6, 2, 7, 1890, "1890-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6, 2, 7, 1730, "1730-07-02T06:59:07Z" );
+    $this->checkTime( 7, 59, 6, 2, 7, 1965, "1965-07-02T06:59:07Z" );
+
+    if ( $^O eq 'MSWin32' ) {
+        $ENV{TZ} = 'GMT-1';
+    }
+    else {
+        $ENV{TZ} = 'Europe/Paris';
+    }
+    POSIX::tzset();
+
     $this->checkTime( 7, 59, 6, 2, 7, 1902, "1902-07-02T06:59:07Z" );
 
 }

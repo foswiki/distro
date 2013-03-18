@@ -1073,7 +1073,12 @@ $Foswiki::cfg{Site}{CharSet} = undef;
 
 # **SELECT gmtime,servertime**
 # Set the timezone (this only effects the display of times,
-# all internal storage is still in GMT). May be gmtime or servertime
+# all internal storage is still in GMT). May be gmtime or servertimeA
+# <p>This item is also used by configure to test if your perl supports early dates.
+# Foswiki will still work fine on older versions of perl, but wiki applications that use 
+# dates somewhere prior to 1970 might encounter issues. Configure tests if 1901-01-01
+# is handled by the perl localtime function.  Note, full support of early dates will
+# not be available until Foswiki 1.2.
 $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
 
 # **SELECT $day $month $year, $year-$mo-$day, $year/$mo/$day, $year.$mo.$day**
