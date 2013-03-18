@@ -223,9 +223,9 @@ sub load {
         }
 
         # Report initialisation errors
-        if ( $p->{errors} ) {
+        if ( $p->{errors} && @{ $p->{errors} } ) {
             $this->{session}
-              ->logger->log( 'warning', join( "\n", @{ $p->{errors} } ) );
+              ->logger->log( 'error', join( "\n", @{ $p->{errors} } ) );
         }
 
         # Uncomment this to monitor plugin load times
@@ -289,7 +289,7 @@ sub enable {
         }
 
         # Report initialisation errors
-        if ( $plugin->{errors} ) {
+        if ( $plugin->{errors} && @{ $plugin->{errors} } ) {
             $this->{session}
               ->logger->log( 'warning', join( "\n", @{ $plugin->{errors} } ) );
         }
@@ -399,7 +399,7 @@ sub _handleFAILEDPLUGINS {
 
     foreach my $plugin ( @{ $this->{plugins} } ) {
         my $td;
-        if ( $plugin->{errors} ) {
+        if ( $plugin->{errors} && @{ $plugin->{errors} } ) {
             $td = CGI::td(
                 { class => 'foswikiAlert' },
                 "\n<verbatim>\n"
