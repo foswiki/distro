@@ -159,7 +159,7 @@ sub compare {
 
     # Start the output
 
-    my $output = $tmpl_before;
+    my $output = '';
 
     # Compare the trees
 
@@ -243,6 +243,14 @@ sub compare {
 
     }
 
+    # Item12337: part of alternative fix for Item11755
+    my $charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
+    $output = Encode::encode( $charset, $output );
+
+    # Item12423: include rest of template after recoding
+    # (avoids double-encoding in header/footer)
+    $output = $tmpl_before . $output;
+
     # Print remainder of document
 
     my $revisions = "";
@@ -291,10 +299,6 @@ sub compare {
       ;    # remove <nop> and <noautolink> tags
 
     $output .= $tmpl_after;
-
-    # Item12337: part of alternative fix for Item11755
-    my $charset = $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1';
-    $output = Encode::encode( $charset, $output );
 
     # Break circular references to avoid memory leaks. (Tasks:9127)
     $tree1 = $tree1->parent() while defined $tree1->parent();
