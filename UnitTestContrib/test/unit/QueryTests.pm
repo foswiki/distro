@@ -535,9 +535,15 @@ sub verify_string_uops {
     $this->check( "length attachments",     eval => 2 );
     $this->check( "length META:PREFERENCE", eval => 5 );
     $this->check( "length 'five'",          eval => 4, simpler => 4 );
-    $this->check( "length info",            eval => 6 );
-    $this->check( "length (info)",          eval => 6 );
-    $this->check( "length notafield",       eval => 0 );
+
+    # This was changed from 5 to 6 by MichaelDaum in 15398 (Item11983) but
+    # he didn't record what the expected fields were; I'm guessing reprev?
+    # Anyway, there are only the 5 fields I would expect now:
+    # format version date rev author
+    $this->check( "length info",   eval => 5 );
+    $this->check( "length (info)", eval => 5 );
+
+    $this->check( "length notafield", eval => 0 );
 
     $this->check( "brace",         eval => 'Some text (really) we have text' );
     $this->check( "lc(brace)",     eval => 'some text (really) we have text' );
