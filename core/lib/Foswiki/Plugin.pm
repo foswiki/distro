@@ -101,6 +101,14 @@ sub new {
         else {
             $this->{module} = $p;
         }
+        my $fn = "${p}::preload";
+        if ( !$this->{disabled} && defined &$fn ) {
+
+            # A preload handler can simply die if it doesn't like what it sees
+            no strict 'refs';
+            &$fn($session);
+            use strict 'refs';
+        }
     }
     else {
         push(
@@ -109,14 +117,6 @@ sub new {
         );
         $this->{disabled} = 1;
         $this->{reason}   = 'no_plugin_module';
-    }
-    my $fn = "${p}::preload";
-    if ( !$this->{disabled} && defined &$fn ) {
-
-        # A preload handler can simply die if it doesn't like what it sees
-        no strict 'refs';
-        &$fn($session);
-        use strict 'refs';
     }
 
     return $this;
