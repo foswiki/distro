@@ -117,7 +117,7 @@ EXPECTED
     $this->assert( $in =~ s/(erpJS_trdata) ({.*})/$1/, $in );
     my $a_trdata = JSON::from_json( HTML::Entities::decode_entities($2) );
     $expected = <<EXPECTED;
-|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil'>edit</a>| <span class="erpJS_cell erpJS_tabledata erpJS_trdata"> A </span> <a name="erp_EDITTABLE_0_0"></a> |
+|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil foswikiIcon' title="Edit this row">edit</a>| <span class="erpJS_cell erpJS_tabledata erpJS_trdata"> A </span> <a name="erp_EDITTABLE_0_0"></a> |
 EXPECTED
     $this->assert_html_equals( $expected, $in );
 
@@ -189,10 +189,10 @@ INPUT
 <a name='erp_EDITTABLE_0'></a>
 <input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
 | #REF0# |
-<input type="hidden" name="erp_action" value=""  /><input type="submit" name="erp_action" value="saveTableCmd" title="Save" class="ui-icon ui-icon-disk erpNoJS_button" /><input type="submit" name="erp_action" value="cancelCmd" title="Cancel" class="ui-icon ui-icon-cancel erpNoJS_button" />
-<input class=ui-icon ui-icon-plusthick erpNoJS_button name=erp_action title=Add new row after this row / at the end type=submit value=addRowCmd>
+<input type="hidden" name="erp_action" value=""  /><input type="submit" name="erp_action" value="saveTableCmd" title="Save" class="ui-icon ui-icon-disk erpNoJS_button foswikiIcon" /><input type="submit" name="erp_action" value="cancelCmd" title="Cancel" class="ui-icon ui-icon-cancel erpNoJS_button foswikiIcon" />
+<input class="ui-icon ui-icon-plusthick erpNoJS_button foswikiIcon" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd">
 </input>
-<input class=ui-icon ui-icon-minusthick erpNoJS_button name=erp_action title=Delete this row / last row type=submit value=deleteRowCmd>
+<input class="ui-icon ui-icon-minusthick erpNoJS_button foswikiIcon" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd">
 </input>
 </form>
 EXPECTED
@@ -249,10 +249,10 @@ INPUT
 <a name='erp_EDITTABLE_0'></a>
 <input type="hidden" name="erp_EDITTABLE_0_format" value=""  />
 | #REF0# |
-<input type="hidden" name="erp_action" value=""  /><input class="ui-icon ui-icon-disk erpNoJS_button" name="erp_action" title="Save" type="submit" value="saveTableCmd"/><input class="ui-icon ui-icon-cancel erpNoJS_button" name="erp_action" title="Cancel" type="submit" value="cancelCmd"/>
-<input class=ui-icon ui-icon-plusthick erpNoJS_button name=erp_action title=Add new row after this row / at the end type=submit value=addRowCmd>
+<input type="hidden" name="erp_action" value=""  /><input class="ui-icon ui-icon-disk erpNoJS_button foswikiIcon" name="erp_action" title="Save" type="submit" value="saveTableCmd"/><input class="ui-icon ui-icon-cancel erpNoJS_button foswikiIcon" name="erp_action" title="Cancel" type="submit" value="cancelCmd"/>
+<input class="ui-icon ui-icon-plusthick erpNoJS_button foswikiIcon" name="erp_action" title="Add new row after this row / at the end" type="submit" value="addRowCmd">
 </input>
-<input class=ui-icon ui-icon-minusthick erpNoJS_button name=erp_action title=Delete this row / last row type=submit value=deleteRowCmd>
+<input class="ui-icon ui-icon-minusthick erpNoJS_button foswikiIcon" name="erp_action" title="Delete this row / last row" type="submit" value="deleteRowCmd">
 </input>
 </form>
 EXPECTED

@@ -690,8 +690,7 @@ sub _makeButton {
             name  => 'erp_action',
             value => $action,
             title => $title,
-            class => "ui-icon ui-icon-$icon erpNoJS_button foswikiIcon",
-            style => "width:16px"
+            class => "ui-icon ui-icon-$icon erpNoJS_button foswikiIcon"
         }
     );
 }
