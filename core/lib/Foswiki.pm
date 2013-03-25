@@ -2536,26 +2536,32 @@ sub expandMacrosOnTopicCreation {
 
             # Note that if named templateonly sections overlap,
             # the behaviour is undefined.
-            foreach my $s ( reverse @$sections ) {
-                if ( $s->{type} eq 'templateonly' ) {
-                    $ntext =
-                        substr( $ntext, 0, $s->{start} )
-                      . substr( $ntext, $s->{end}, length($ntext) );
-                }
-                else {
 
-                    # put back non-templateonly sections
-                    my $start = $s->remove('start');
-                    my $end   = $s->remove('end');
-                    $ntext =
-                        substr( $ntext, 0, $start )
-                      . '%STARTSECTION{'
-                      . $s->stringify() . '}%'
-                      . substr( $ntext, $start, $end - $start )
-                      . '%ENDSECTION{'
-                      . $s->stringify() . '}%'
-                      . substr( $ntext, $end, length($ntext) );
-                }
+            # First excise all templateonly sections
+            foreach my $s ( reverse @$sections ) {
+                next unless ( $s->{type} eq 'templateonly' );
+
+                $ntext =
+                    substr( $ntext, 0, $s->{start} )
+                  . substr( $ntext, $s->{end}, length($ntext) );
+            }
+
+            # Now restore the macros for other sections. This will break the
+            # section offset numbering, so has to be done after templateonly
+            # sections have been removed.
+            foreach my $s ( reverse @$sections ) {
+                next if ( $s->{type} eq 'templateonly' );
+
+                my $start = $s->remove('start');
+                my $end   = $s->remove('end');
+                $ntext =
+                    substr( $ntext, 0, $start )
+                  . '%STARTSECTION{'
+                  . $s->stringify() . '}%'
+                  . substr( $ntext, $start, $end - $start )
+                  . '%ENDSECTION{'
+                  . $s->stringify() . '}%'
+                  . substr( $ntext, $end, length($ntext) );
             }
             $text = $ntext;
         }
