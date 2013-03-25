@@ -12,6 +12,7 @@ use Foswiki::Contrib::MailerContrib();
 my $testWeb2;
 
 my @specs;
+my $high_bit_disabled = 0;
 
 my %expectedRevs = (
     TestTopic1    => "r1->r3",
@@ -85,18 +86,18 @@ sub set_up {
 
         # traditional subscriptions
         {
+
+            # IGNORED because it's the guest user
             entry     => "$this->{users_web}.WikiGuest - example\@example.com",
             email     => "example\@example.com",
-            topicsout => ""
-        },
-        {
+            topicsout => "" },
+        {    # LEGACY format
             entry => "$this->{users_web}.NonPerson - nonperson\@example.com",
             email => "nonperson\@example.com",
             topicsout => "*"
         },
 
-        # email subscription
-        {
+        {    # simple email subscription
             entry     => "person\@example.com",
             email     => "person\@example.com",
             topicsout => "*"
@@ -189,7 +190,8 @@ sub set_up {
             topicsout => ""
         },
 
-  # Item11138: no trailing space after : incorrectly results in subscribe to all
+        # Item11138: no trailing space after : incorrectly results
+        # in subscribe to all
         {
             email     => "email10\@example.com",
             entry     => "email10\@example.com :",
@@ -218,9 +220,10 @@ sub set_up {
             },
         );
     }
-    else {
+    elsif ( !$high_bit_disabled ) {
         print STDERR
           "WARNING: High-bit tests disabled for $Foswiki::cfg{Site}{CharSet}\n";
+        $high_bit_disabled = 1;
     }
 
     my $s = "";

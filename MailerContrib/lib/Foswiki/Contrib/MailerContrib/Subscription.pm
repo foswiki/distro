@@ -43,9 +43,8 @@ sub new {
     ASSERT( defined($opts) && $opts =~ /^\d*$/ ) if DEBUG;
 
     my $tre = $topics;
-    $tre =~ s/ +/|/g;        # convert wildcards to perl RE syntax
-    $tre =~ s/[^\w\*]//g;
-    $tre =~ s/\*/\.\*\?/g;
+    $tre =~ s/ +/|/g;         # space means alternate
+    $tre =~ s/\*/\.\*\?/g;    # convert wildcards to perl RE syntax
     my $this = bless(
         {
             topics => [ split( /\s+/, $topics ) ],
@@ -70,8 +69,9 @@ sub stringify {
     my $record = join(
         ' ',
         map {
-            # Protect non-alphanumerics in topic names
-            ( $_ =~ /[^*\w.]/ ) ? ( ( $_ =~ /'/ ) ? "\"$_\"" : "'$_'" ) : $_;
+
+            # Protect single and double quotes in topic names
+            ( $_ =~ /'/ ) ? "\"$_\"" : ( ( $_ =~ /"/ ) ? "'$_'" : $_ );
         } @{ $this->{topics} }
     );
     $record .= $this->getMode();

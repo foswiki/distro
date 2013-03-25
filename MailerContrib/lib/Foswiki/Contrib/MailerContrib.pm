@@ -26,8 +26,8 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-use version; our $VERSION = version->declare("v2.5.3");
-our $RELEASE          = '2.5.3';
+use version; our $VERSION = version->declare("v2.5.4");
+our $RELEASE          = '25 Mar 2013';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 our $verbose   = 0;
@@ -202,8 +202,10 @@ sub parsePageList {
     # TODO: refine the $2 regex to be proper web.topic/topic/* style..
     # $3: options
     # $4: child depth
+
     while ( $spec =~
-        s/^\s*([+-])?\s*([*\w.]+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?// )
+s/^\s*([+-])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
+      )
     {
         my ( $us, $webTopic, $options, $childDepth ) =
           ( $unsubscribe || $1 || '+', $2, $3, $4 || 0 );
@@ -321,8 +323,7 @@ sub _processSubscriptions {
 
     # Now generate emails for each recipient
     my $report = '';
-
-    if ( !$nochanges ) {
+    if ( !$nochanges && scalar( keys %changeset ) ) {
         $report .=
           _sendChangesMails( $web, \%changeset,
             Foswiki::Time::formatTime($timeOfLastNotify) );
