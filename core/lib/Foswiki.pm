@@ -2537,18 +2537,16 @@ sub expandMacrosOnTopicCreation {
             # Note that if named templateonly sections overlap,
             # the behaviour is undefined.
 
-            # First excise all templateonly sections
+            # First excise all templateonly sections by replacing
+            # with nulls of the same length. This keeps the string
+            # length the same so offsets remain current.
             foreach my $s ( reverse @$sections ) {
                 next unless ( $s->{type} eq 'templateonly' );
-
-                $ntext =
-                    substr( $ntext, 0, $s->{start} )
-                  . substr( $ntext, $s->{end}, length($ntext) );
+                my $r = "\0" x ( $s->{end} - $s->{start} );
+                substr( $ntext, $s->{start}, $s->{end} - $s->{start}, $r );
             }
 
-            # Now restore the macros for other sections. This will break the
-            # section offset numbering, so has to be done after templateonly
-            # sections have been removed.
+            # Now restore the macros for other sections.
             foreach my $s ( reverse @$sections ) {
                 next if ( $s->{type} eq 'templateonly' );
 
@@ -2563,6 +2561,9 @@ sub expandMacrosOnTopicCreation {
                   . $s->stringify() . '}%'
                   . substr( $ntext, $end, length($ntext) );
             }
+
+            # Chop the nulls
+            $ntext =~ s/\0*//g;
             $text = $ntext;
         }
 
