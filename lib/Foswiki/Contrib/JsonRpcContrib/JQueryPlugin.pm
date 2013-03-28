@@ -56,10 +56,18 @@ sub init {
 
   $this->SUPER::init();
 
-  my $text =
-"<literal><!--[if lte IE 7]>\n".
+  my $text = '';
+
+  # disabled support for < IE7
+  if (0) {
+
+  $text .= <<"HERE";
+<literal><!--[if lte IE 7]>
 $this->renderJS("json2.js").
-"<![endif]--></literal>";
+<![endif]--></literal>
+HERE
+
+  }
 
   Foswiki::Func::addToZone('script', 'JQUERYPLUGIN::JSON2', $text);
 }

@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2012 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2013 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,6 +15,10 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Contrib::JsonRpcContrib::Error;
+
+use strict;
+use warnings;
+
 use Error ();
 our @ISA = ('Error');    # base class
 

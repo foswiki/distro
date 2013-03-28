@@ -1,6 +1,6 @@
 # JSON-RPC for Foswiki
 #
-# Copyright (C) 2011-2012 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2011-2013 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -50,18 +50,20 @@ sub writeDebug {
 sub new {
   my $class = shift;
 
-  return bless({}, $class);
+  my $this = bless({}, $class);
+
+  return $this;
 }
 
 ################################################################################
 sub registerMethod {
-  my ($this, $namespace, $method, $fnref, %options) = @_;
+  my ($this, $namespace, $method, $fnref, $options) = @_;
 
   writeDebug("registerMethod($namespace, $method, $fnref)");
 
   $this->{handler}{$namespace}{$method} = {
     function => $fnref,
-    %options
+    options => $options
   };
 }
 
@@ -141,7 +143,7 @@ sub dispatch {
     no strict 'refs';
     my $function = $handler->{function};
     writeDebug("calling handler for ".$request->namespace.".".$request->method);
-    $result = &$function($session, $request, $session->{response});
+    $result = &$function($session, $request, $session->{response}, $handler->{options});
     use strict 'refs';
   } catch Foswiki::Contrib::JsonRpcContrib::Error with {
     my $error = shift;
@@ -183,6 +185,30 @@ sub getHandler {
 
   my $method = $request->method();
   return unless $method;
+
+  unless (defined $this->{handler}{$namespace}) {
+
+    # lazy register handler
+    if (defined $Foswiki::cfg{JsonRpcContrib}{Handler} && 
+        defined $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace} &&
+        defined $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method}) {
+
+      my $def = $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method};
+
+      writeDebug("compiling $def->{package} for $namespace.$method");
+      eval qq(use $def->{package});
+
+      # disable on error
+      if ($@) {
+        print STDERR "Error: $@\n";
+        $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method} = undef;
+        return;
+      }
+
+      my $sub = $def->{package}."::".$def->{function};
+      $this->registerMethod($namespace, $method, \&$sub, $def->{options});
+    }
+  }
 
   return unless defined $this->{handler}{$namespace};
 

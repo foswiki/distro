@@ -172,11 +172,12 @@ In case a namespace, method or parameters are specified as part of a JSON-RPC re
 -->
 
 |  Author(s): | Michael Daum|
-|  Copyright: | &copy; 2011-2012 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright: | &copy; 2011-2013 Michael Daum http://michaeldaumconsulting.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  20 Mar 2013: | added feature to define handlers in !LocalSite.cfg (Config.spec) so that pure contribs can implement backends now |
 |   1 Oct 2012: | added the async flag to the =$.jsonRpc= frontend to =$.ajax= |
 |   2 Aug 2012: | fixed json2 not loaded in IE7 (Foswiki:Main/JanKrueger) |
 |  16 Apr 2012: | fixed =jsonrpc= for apache's suexec |

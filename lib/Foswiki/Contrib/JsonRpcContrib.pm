@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# JsonRpcContrib is Copyright (C) 2011-2012 Michael Daum http://michaeldaumconsulting.com
+# JsonRpcContrib is Copyright (C) 2011-2013 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,8 +24,8 @@ use warnings;
 
 =cut
 
-our $VERSION = '$Rev$';
-our $RELEASE = '1.30';
+our $VERSION = '2.00';
+our $RELEASE = '2.00';
 our $SHORTDESCRIPTION = 'JSON-RPC interface for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SERVER;
