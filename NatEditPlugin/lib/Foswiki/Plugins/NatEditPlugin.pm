@@ -20,8 +20,8 @@ use Foswiki::Plugins    ();
 use Foswiki::Validation ();
 
 # Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("7.05");
-our $RELEASE           = '7.05';
+use version; our $VERSION = version->parse("7.06");
+our $RELEASE           = '7.06';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
@@ -79,11 +79,17 @@ sub initPlugin {
 sub beforeSaveHandler {
     my ( $text, $topic, $web, $meta ) = @_;
 
-    writeDebug("called beforeSaveHandler");
+    writeDebug("called beforeSaveHandler($web, $topic)");
 
     # find out if we received a TopicTitle
     my $request    = Foswiki::Func::getCgiQuery();
+    my $newTopic   = $request->param('newtopic');
     my $topicTitle = $request->param('TopicTitle');
+
+    if ( defined($newTopic) && $newTopic ne '' && $newTopic ne $topic ) {
+        writeDebug("not saving the topic being rename ... no action");
+        return;
+    }
 
     unless ( defined $topicTitle ) {
         writeDebug("didn't get a TopicTitle, nothing do here");
@@ -104,7 +110,7 @@ sub beforeSaveHandler {
 
     # find out if this topic can store the TopicTitle in its metadata
     if ( defined $fieldTopicTitle ) {
-        writeDebug("can deal with TopicTitles by itself");
+        writeDebug("storing it into the formfield");
 
         # however, check if we've got a TOPICTITLE preference setting
         # if so remove it. this happens if we stored a topic title but
@@ -113,6 +119,8 @@ sub beforeSaveHandler {
             writeDebug("removing redundant TopicTitles in preferences");
             $meta->remove( 'PREFERENCE', 'TOPICTITLE' );
         }
+
+        $fieldTopicTitle->{value} = $topicTitle;
         return;
     }
 
