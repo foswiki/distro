@@ -96,6 +96,14 @@ use Error qw( :try );
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
 
+# SMELL: This code uses the log field for the checkin comment. This field is alongside the actual text
+# of the revision, and is not recorded in the history. This is a PITA because it means the comment field
+# can't be retrieved without reading up to the text change for the version requested - even though foswiki
+# doesn't actually use that part of the info record for anything much. We could rework the store API to
+# separate the log info, but it would be a lot of work. Using this constant you can ignore the log info in
+# getInfo calls. The tests will fail, but the core will run a lot faster.
+use constant CAN_IGNORE_COMMENT => 0;    # 1
+
 #
 # As well as the field inherited from VC::Handler, the object for each file
 # read consists of the following fields:
@@ -120,12 +128,13 @@ sub new {
     my $this  = $class->SUPER::new(@_);
     unless ( $this->{initialised} ) {
         $this->{initialised} = 1;
+        $this->{state}       = 'admin.head';
         $this->{head}        = 0;
         $this->{access}      = '';
         $this->{symbols}     = '';
-        $this->{comment}     = '# ';     # Default comment for Rcs
+        $this->{comment}     = '# ';           # Default comment for Rcs
         $this->{desc}        = 'none';
-        initText($this);                 # Set default expand to 'o'
+        initText($this);                       # Set default expand to 'o'
     }
 
     return $this;
@@ -147,84 +156,116 @@ sub finish {
     undef $this->{desc};
 }
 
+my %is_space = ( ' ' => 1, "\t" => 1, "\n" => 1, "\r" => 1 );
+
 sub _readTo {
-    my ( $file, $char ) = @_;
+    my ( $file, $term ) = @_;
     my $buf = '';
     my $ch;
-    my $space  = 0;
+    my $space  = 1;   # there's a pseudo-newline before every new token
     my $string = '';
-    my $state  = '';
-    while ( read( $file, $ch, 1 ) ) {
-        if ( $ch eq '@' ) {
-            if ( $state eq '@' ) {
-                $state = 'e';
-                next;
-            }
-            elsif ( $state eq 'e' ) {
-                $state = '@';
-                $string .= '@';
-                next;
-            }
-            else {
-                $state = '@';
-                next;
-            }
-        }
-        else {
-            if ( $state eq 'e' ) {
-                $state = '';
-                if ( $char eq '@' ) {
-                    last;
-                }
+    my $state  = 0;   # 0 = looking for @, 1 = reading string, 2 = seen second @
 
-                # End of string
+    while ( read( $file, $ch, 1 ) ) {
+
+        if ( $ch eq '@' ) {
+            if ( $state == 1 ) {    # if $state eq '@'
+                $state = 2;         #     $state = 'e'
             }
-            elsif ( $state eq '@' ) {
-                $string .= $ch;
-                next;
-            }
-        }
-        if ( $ch =~ /\s/ ) {
-            if ( length($buf) == 0 ) {
-                next;
-            }
-            elsif ($space) {
-                next;
+            elsif ( $state == 2 ) {    # elsif $state eq 'e'
+                $state = 1;            #     $state = '@'
+                $string .= '@';
             }
             else {
+                $state = 1;            #     $state = '@'
+            }
+            next;
+        }
+
+        if ( $state == 2 ) {           # if $state eq 'e'
+            $state = 0;                #     $state = ''
+            last if ( $term eq '@' );  # End of string
+        }
+        elsif ( $state == 1 ) {        # if $state eq '@'
+            $string .= $ch;
+            next;
+        }
+
+        if ( $is_space{$ch} ) {
+            unless ($space) {
+                $buf .= ' ';
                 $space = 1;
-                $ch    = ' ';
             }
         }
         else {
             $space = 0;
-        }
-        $buf .= $ch;
-        if ( $ch eq $char ) {
-            last;
+            $buf .= $ch;
+            last if ( $ch eq $term );
         }
     }
+
+    #print STDERR "TOK: '$buf' STRING: '$string'\n";
     return ( $buf, $string );
 }
 
-# Make sure RCS file has been read in and there is history
-sub _ensureProcessed {
-    my ($this) = @_;
+# Ensure a ,v file is read. If $historyOnly is true, will only require
+# the history to be read; if it's false, the entire file (including
+# all changes) is required. If $upToVersion is set, then data will be
+# read up to and including that version, but no more. Thus:
+#
+# $downToVersion 0, $historyOnly=1
+#     Only the history for the head version will be read
+# $downToVersion -1, $historyOnly = 1
+#     Entire history will be read
+# $downToVersion N, $historyOnly=1
+#     Only the history will be read, up to version
+# $downToVersion 0, $historyOnly=0
+#     The entire history and the text for the head version will be read
+# $downToVersion -1, $historyOnly = 0
+#     Entire history and entire text will be read
+# $downToVersion N, $historyOnly=0
+#     Entire history and text for versions up to and including N will be read
+#
+# Common signatures are:
+# (0, 1) read the history for the most recent version only
+# (-1, 1) read the entire history but no text
+# (-1, 0) read the entire history and text
+# ($N, 0) read everything down to version N
 
-    return if $this->{state};
+sub _ensureRead {
+    my ( $this, $downToVersion, $historyOnly ) = @_;
 
-    if ( !$this->revisionHistoryExists() ) {
-        $this->{state} = 'nocommav';
-        return;
+    return
+         if $this->{state} eq 'parsed'
+      || $this->{state} eq 'nocommav'
+      || ( $historyOnly && $this->{state} eq 'desc' );
+
+    $downToVersion ||= 0;    # just in case
+
+    # If we only need tha latest and we already have the head, that's our rev
+    $downToVersion = $this->{head} if !$downToVersion && $this->{head};
+
+    $downToVersion = 1 if $downToVersion < 0;    # read everything
+
+    if ($downToVersion) {
+
+        # Don't read if we already have the info
+        if ( defined $this->{revs}->[$downToVersion] ) {
+            return
+              if $historyOnly || defined $this->{revs}->[$downToVersion]->{log};
+        }
     }
+
     my $fh;
     unless ( open( $fh, '<', $this->{rcsFile} ) ) {
-        warn( 'Failed to open ' . $this->{rcsFile} );
+
+        #warn( 'Failed to open ' . $this->{rcsFile} . ': ' . $!);
         $this->{state} = 'nocommav';
         return;
     }
     binmode($fh);
-    my $state   = 'admin.head';
+
+    my $state   = 'admin.head';    # reset to start
     my $term    = ';';
     my $string  = '';
     my $num     = '';
@@ -232,15 +273,25 @@ sub _ensureProcessed {
     my @revs    = ();
     my $dnum    = '';
 
+#print STDERR "Reading ".($historyOnly?'history':'everything')." to $downToVersion\n";
+
+# We *will* end up re-reading the history if we previously only read the history; there is
+# no way to restart the parse mid-stream (though an ftell and fseek would do it if we saved
+# the rest of the state)
     while (1) {
         ( $_, $string ) = _readTo( $fh, $term );
         last if ( !$_ );
+
+        #print STDERR "expecting $state: seeing $_\n";
 
         if ( $state eq 'admin.head' ) {
             if (/^head\s+([0-9]+)\.([0-9]+);$/o) {
                 ASSERT( $1 eq 1 ) if DEBUG;
                 $headNum = $2;
-                $state   = 'admin.access';    # Don't support branches
+
+               # If $downToVersion is 0, we now know what version to ready up to
+                $downToVersion = $headNum unless $downToVersion;
+                $state = 'admin.access';    # Don't support branches
             }
             else {
                 last;
@@ -298,6 +349,7 @@ sub _ensureProcessed {
             if (/^([0-9]+)\.([0-9]+)\s+date\s+(\d\d(\d\d)?(\.\d\d){5}?);$/) {
                 $state = 'delta.author';
                 $num   = $2;
+                last if $historyOnly && $num < $downToVersion;
                 require Foswiki::Time;
                 $revs[$num]->{date} = Foswiki::Time::parseTime($3);
             }
@@ -316,6 +368,7 @@ sub _ensureProcessed {
         }
         elsif ( $state eq 'desc' ) {
             if (/desc\s*$/) {
+                last if $historyOnly;
                 $this->{desc} = $string;
                 $state = 'deltatext.log';
             }
@@ -323,6 +376,7 @@ sub _ensureProcessed {
         elsif ( $state eq 'deltatext.log' ) {
             if (/\d+\.(\d+)\s+log\s+$/) {
                 $dnum = $1;
+                last if $dnum < $downToVersion;
                 $string =~ s/\n*$//o;
                 $revs[$dnum]->{log} = $string;
                 $state = 'deltatext.text';
@@ -340,7 +394,11 @@ sub _ensureProcessed {
         }
     }
 
-    unless ( $state eq 'parsed' ) {
+    unless ( $state eq 'parsed'
+        || $historyOnly  && $num < $downToVersion
+        || !$historyOnly && $dnum < $downToVersion
+        || $historyOnly  && $state eq 'desc' )
+    {
         warn( $this->{rcsFile} . ' is corrupt; parsed up to ' . $state );
 
         #ASSERT(0) if DEBUG;
@@ -434,7 +492,8 @@ sub initText {
 # implements VC::Handler
 sub _numRevisions {
     my ($this) = @_;
-    _ensureProcessed($this);
+
+    $this->_ensureRead( 0, 1 );    # min read
 
     # if state is nocommav, and the file exists, there is only one revision
     if ( $this->{state} eq 'nocommav' ) {
@@ -450,7 +509,7 @@ sub ci {
     # If the author is null, then we get a corrupt ,v
     ASSERT($author) if DEBUG;
 
-    _ensureProcessed($this);
+    $this->_ensureRead( -1, 0 );    # read all of everything
 
     if ($isStream) {
         $this->saveStream($data);
@@ -498,7 +557,7 @@ sub _writeMe {
 # implements VC::Handler
 sub repRev {
     my ( $this, $text, $comment, $user, $date ) = @_;
-    _ensureProcessed($this);
+    $this->_ensureRead( -1, 0 );
     _delLastRevision($this);
     return $this->ci( 0, $text, $comment, $user, $date );
 }
@@ -506,7 +565,7 @@ sub repRev {
 # implements VC::Handler
 sub deleteRevision {
     my ($this) = @_;
-    _ensureProcessed($this);
+    $this->_ensureRead( -1, 0 );
 
     # Can't delete revision 1
     return unless $this->{head} > 1;
@@ -532,7 +591,7 @@ sub _delLastRevision {
 sub revisionDiff {
     my ( $this, $rev1, $rev2, $contextLines ) = @_;
     my @list;
-    _ensureProcessed($this);
+
     my ($text1) = $this->getRevision($rev1);
     my ($text2) = $this->getRevision($rev2);
 
@@ -555,7 +614,7 @@ sub revisionDiff {
 sub getInfo {
     my ( $this, $version ) = @_;
 
-    _ensureProcessed($this);
+    $this->_ensureRead( $version, CAN_IGNORE_COMMENT );
 
     if (   ( $this->noCheckinPending() )
         && ( !$version || $version > $this->_numRevisions() ) )
@@ -645,13 +704,14 @@ sub getRevision {
 
     return $this->SUPER::getRevision($version) unless $version;
 
-    _ensureProcessed($this);
+    $this->_ensureRead( $version, 0 );
 
     return $this->SUPER::getRevision($version)
       if $this->{state} eq 'nocommav';
 
     my $head = $this->{head};
     return $this->SUPER::getRevision($version) unless $head;
+
     if ( $version == $head ) {
         return ( $this->{revs}[$version]->{text}, 1 );
     }
@@ -766,7 +826,7 @@ sub _addChunk {
 sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
-    _ensureProcessed($this);
+    $this->_ensureRead( -1, 1 );    # read history only
     if ( $this->{state} eq 'nocommav' ) {
         return ( $date >= ( stat( $this->{file} ) )[9] ) ? 1 : undef;
     }
