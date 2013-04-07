@@ -1119,9 +1119,9 @@ sub test_renameTopic_new_web_same_topic_name {
     $this->assert(
         !Foswiki::Func::topicExists( $this->{test_web}, 'OldTopic' ) );
 
-    # NOTE: this is a rename of a topic from one web to another. So line 14
-    # must be modified so that it continues to point at the original topic,
-    # which is now in a *different web*.
+    # NOTE: this is a rename of a topic from one web to another. However
+    # Development.ChangeRenameBehaviourOnRenamingLinks means that line
+    # 14 must now point to a topic in the *new* web.
     $this->check( $this->{new_web}, 'OldTopic', undef, <<"THIS", 4 );
 1 $this->{new_web}.OldTopic
 $this->{new_web}.OldTopic 2
@@ -1139,7 +1139,7 @@ OldTopic 4
 11 [[OldTopic][the text]]
 12 $this->{test_web}.NewTopic
 13 $this->{new_web}.OldTopic
-14 $this->{test_web}.OtherTopic
+14 OtherTopic
 15 $this->{test_web}.OtherTopic
 16 $this->{new_web}.OtherTopic
 17 MeMeOldTopicpick$this->{test_web}.OldTopicme
