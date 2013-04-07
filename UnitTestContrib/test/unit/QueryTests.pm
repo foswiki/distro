@@ -568,36 +568,37 @@ sub verify_numeric_uops_post11 {
     $this->check( "int -1.5", eval => -1, simpler => -1 );
     $this->check( "int ()",   eval => [], simpler => "()" );
     $this->check( "int notafield", eval => undef );
-    $this->check( "int 'foo'",     eval => 0, simpler => 0 );
-    $this->check( "d2n ()",        eval => [], simpler => '()' );
+    $this->check( "int 'foo'", eval => 0, simpler => 0 );
 }
 
-sub verify_numeric_uops {
+sub verify_date_uops {
     my $this = shift;
 
-    # Item10645 (?) GC checked into Release01x01:
-    my $dst = ( localtime(time) )[8];
-    my $zeroTime = ($dst) ? 3600 : 0;
-
+    # ISO time with timezone specifier
     $this->check(
-        "d2n '"
-          . Foswiki::Time::formatTime( $zeroTime, '$iso', 'servertime' ) . "'",
-
-        # Item10645 (?), prior to GC checkin Foswikirev:11117:
-        # $this->check(
-        #   "d2n '" . Foswiki::Time::formatTime( 0, '$iso', 'gmtime' ) . "'",
+        "d2n '1970-01-01T00:00:00Z'",
         eval    => 0,
         simpler => 0
     );
+
+    # Check string with no timezone specifier is parsed in server
+    # localtime
     my $t = time;
+    my @a = localtime($t);
+    $a[5] += 1900;
+    $a[4] += 1;
+    my $ts = sprintf( "%04d-%02d-%02dT%02d:%02d:%02d",
+        $a[5], $a[4], $a[3], $a[2], $a[1], $a[0] );
     $this->check(
-        "d2n '" . Foswiki::Time::formatTime( $t, '$iso', 'gmtime' ) . "'",
+        "d2n '$ts'",
         eval    => $t,
         simpler => $t,
     );
+
     $this->check( "d2n 'not a time'", eval => undef, simpler => 0 );
     $this->check( "d2n 0",            eval => undef, simpler => 0 );
     $this->check( "d2n notatime",     eval => undef );
+    $this->check( "d2n ()",           eval => [],    simpler => '()' );
 }
 
 sub verify_string_bops {
