@@ -78,9 +78,9 @@ sub _actionConfigure {
     my ( $action, $session, $cookie ) = @_;
 
     my $html;
-    if ( $insane && $query->param('abort') ) {
-        $html = $sanityStatement
-          ;    #?? abort is never set, and $sanityStatement is just an error div
+    if ( $insane || $query->param('abort') ) {
+        $html =
+          $sanityStatement; #Set abort to view sanity statement even when "sane"
     }
     else {
         $html = ( $sanityStatement || '' ) . ( redirectResults() || '' );
