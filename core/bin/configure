@@ -332,7 +332,8 @@ if ($@) {
     # Run command without stderr output, to avoid CGI giving error.
     # Get names of primary and other groups.
     # This is down here because it takes 30s to execute on Strawberry perl
-    $::WebServer_gid = lc(qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ) || 'n/a');
+    $::WebServer_gid =
+      lc( qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ) || 'n/a' );
 }
 
 ###########################################################
@@ -454,7 +455,7 @@ sub _dispatchContents {
     # Dispatcher methods return a boolean to indicate whether to generate a
     # link back to the main page at the end.
 
-    if ( $insane && $query->param('abort') ) {
+    if ( $insane || $query->param('abort') ) {
         print $sanityStatement;
     }
     else {
