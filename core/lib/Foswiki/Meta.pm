@@ -2247,6 +2247,7 @@ sub deleteMostRecentRevision {
     }
     finally {
         $this->_atomicUnlock($cUID);
+        $this->fireDependency();
     };
 
     # TODO: delete entry in .changes
@@ -2313,6 +2314,7 @@ sub replaceMostRecentRevision {
     }
     finally {
         $this->_atomicUnlock($cUID);
+        $this->fireDependency();
     };
 
     # write log entry
