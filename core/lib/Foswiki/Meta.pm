@@ -1063,8 +1063,11 @@ sub loadVersion {
     # it causes PlainFile to fail for no good reason. C.
     #ASSERT( not( $this->{_loadedRev} ) ) if DEBUG;
 
-    ( $this->{_loadedRev}, $this->{_latestIsLoaded} ) =
-      $this->{_session}->{store}->readTopic( $this, $rev );
+    # Note: Since Item12472, the store implementation is expected
+    # to call setLoadStatus() in readTopic
+    $this->setLoadStatus( undef, undef );
+    $this->{_session}->{store}->readTopic( $this, $rev );
+
     if ( defined( $this->{_loadedRev} ) ) {
 
         # Make sure text always has a value once loadVersion has been called
@@ -2419,6 +2422,21 @@ sub getLoadedRev {
     my $this = shift;
     _assertIsTopic($this) if DEBUG;
     return $this->{_loadedRev};
+}
+
+=begin TML
+
+---++ ObjectMethod setLoadStatus($rev, $isLatest)
+
+Used by the Store implementation to set the load status
+when a topic is read. Must be called by implementations of
+=Foswiki::Store::readTopic=. Do not use for anything else!
+
+=cut
+
+sub setLoadStatus {
+    my $this = shift;
+    ( $this->{_loadedRev}, $this->{_latestIsLoaded} ) = @_;
 }
 
 =begin TML

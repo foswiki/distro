@@ -194,7 +194,7 @@ sub haveAccess {
 sub _getACL {
     my ( $this, $meta, $mode ) = @_;
 
-    if ( defined $meta->{_topic} && !defined $meta->{_loadedRev} ) {
+    if ( defined $meta->topic && !defined $meta->getLoadedRev ) {
 
         # Lazy load the latest version.
         $meta->loadVersion();

@@ -174,6 +174,7 @@ sub readTopic {
 
     $gotRev ||= 1;    # anything going out here must be > 0
 
+    $topicObject->setLoadStatus( $gotRev, $isLatest );
     return ( $gotRev, $isLatest );
 }
 
@@ -331,7 +332,9 @@ sub getVersionInfo {
 
     my $loadedRev = $topicObject->getLoadedRev();
 
-    if ( ( !defined($rev) || $loadedRev eq $rev ) ) {
+    # loadedRev may be undef even after a successful topic load in
+    # META:TOPICINFO is missing from the topic.
+    if ( !defined($rev) || $loadedRev eq $rev ) {
         if ( $topicObject->latestIsLoaded() ) {
             $info = $topicObject->get('TOPICINFO');
         }

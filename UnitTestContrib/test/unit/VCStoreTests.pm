@@ -169,6 +169,26 @@ CRUD
     );
 }
 
+# Verify that a topic can be loaded even when there is no history and
+# no TOPICINFO, and that it will be loaded as rev 1
+sub verify_NoHistory_NoTOPICINFO_Item12472 {
+    my $this = shift;
+
+    # Create nohistory topic with no META:TOPICINFO
+    my $date = $this->_createNoHistoryTopic(0);
+
+    my $top_meta =
+      new Foswiki::Meta( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+
+    # Bypass Foswiki::Meta::loadVersion and call the store directly
+    # to ensure the load status is set.
+    my ( $r, $il ) = $this->{session}->{store}->readTopic( $top_meta, 1 );
+    $this->assert_num_equals( 1, $r );
+    $this->assert($il);
+    $this->assert_num_equals( 1, $top_meta->getLoadedRev() );
+}
+
 # Get revision info where there is no history (,v file)
 sub verify_NoHistory_NoTOPICINFO_getRevisionInfo {
     my $this = shift;

@@ -118,6 +118,11 @@ sub verify_simpleTopic {
     my ( $rev, $isLatest ) = $this->{sut}->readTopic($meta);
     $this->assert_num_equals( 1, $rev );
     $this->assert($isLatest);
+
+    # Item12472: verify that readTopic has called Meta::setLoadStatus
+    $this->assert_num_equals( 1, $meta->getLoadedRev );
+    $this->assert( $meta->latestIsLoaded );
+
     $this->assert_str_equals( "1 2 3", $meta->text );
     $meta->text("4 5 6");
     $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );

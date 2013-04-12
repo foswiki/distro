@@ -183,8 +183,8 @@ sub verify_CreateSimpleMetaTopic {
     $meta->remove('TOPICINFO');
     $readMeta->remove('TOPICINFO');
     foreach my $m ( $meta, $readMeta ) {
-        $m->{_preferences} = $m->{_session} = $m->{_latestIsLoaded} =
-          $m->{_loadedRev} = undef;
+        $m->{_preferences} = $m->{_session} = undef;
+        $m->setLoadStatus( undef, undef );
     }
     $this->assert_deep_equals( $meta, $readMeta );
     $meta->finish();

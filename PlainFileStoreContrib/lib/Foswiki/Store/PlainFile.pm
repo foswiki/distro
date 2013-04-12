@@ -84,6 +84,7 @@ sub readTopic {
 
     unless ( defined $text ) {
         ASSERT( not $isLatest ) if DEBUG;
+        $meta->setLoadStatus( undef, $isLatest );
         return ( undef, $isLatest );
     }
 
@@ -114,6 +115,7 @@ sub readTopic {
     # is out-of-date, then the author must be unknown to reflect
     # what happens on checking
 
+    $meta->setLoadStatus( $version, $isLatest );
     return ( $version, $isLatest );
 }
 

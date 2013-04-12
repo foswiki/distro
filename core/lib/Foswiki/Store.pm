@@ -169,6 +169,10 @@ the topic does not exist in the store, then =$rev= is =undef=. =$isLatest=
 will  be set to true if the version loaded (or not loaded) is the
 latest available version.
 
+Note: Implementations of this method *must* call
+=Foswiki::Meta::setLoadStatus($rev, $isLatest)=
+to set the load status of the meta object.
+
 =cut
 
 # SMELL: there is no way for a consumer of Store to determine if

@@ -225,7 +225,6 @@ while ( $wit->hasNext() ) {
         my $top_meta = new Foswiki::Meta( $session, $web_name, $top_name );
 
         my %att_tx = ();    # record of attachments transferred for this topic
-        my $i            = $source_store->getRevisionHistory($top_meta);
         my @top_rev_list = $source_store->getRevisionHistory($top_meta)->all;
         if ( $top_name =~ /^$no_history$/ ) {
 

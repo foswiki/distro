@@ -141,12 +141,12 @@ sub addMeta {
         $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
     }
     if (    ( defined($meta) and $meta ne '' )
-        and defined( $meta->{_latestIsLoaded} )
-        and defined( $meta->{_loadedRev} )
-        and ( $meta->{_loadedRev} > 0 ) )
+        and defined( $meta->latestIsLoaded )
+        and defined( $meta->getLoadedRev )
+        and ( $meta->getLoadedRev > 0 ) )
     {
-        ASSERT( $meta->{_latestIsLoaded} ) if DEBUG;
-        ASSERT( defined( $meta->{_loadedRev} ) and ( $meta->{_loadedRev} > 0 ) )
+        ASSERT( $meta->latestIsLoaded ) if DEBUG;
+        ASSERT( defined( $meta->getLoadedRev ) and ( $meta->getLoadedRev > 0 ) )
           if DEBUG;
     }
     else {
@@ -196,7 +196,7 @@ sub get {
     ASSERT( $meta->isa('Foswiki::Meta') ) if ( defined($meta) and DEBUG );
 
 #sadly, Search.pm actually beleives that it can send out for info on Meta objects that do not exist
-#ASSERT( defined($meta->{_loadedRev}) ) if ( defined($meta) and DEBUG );
+#ASSERT( defined($meta->getLoadedRev) ) if ( defined($meta) and DEBUG );
 
     if ( !defined($topic) ) {
 
