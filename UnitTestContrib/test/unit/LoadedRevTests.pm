@@ -178,10 +178,12 @@ SICK
     # Stomp the cache
     my $f;
 
-    # Wait for the clock to tick
+    # Wait for the clock to tick. This used to be a 1 second tick,
+    # but r16350 added a 1s grace period to the file time checks,
+    # so it had to be upped to 2
     my $x = time;
     while ( time == $x ) {
-        sleep 1;
+        sleep 2;
     }
 
     open( $f, '>',
