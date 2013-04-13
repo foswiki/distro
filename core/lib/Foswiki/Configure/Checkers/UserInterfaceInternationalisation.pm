@@ -75,7 +75,7 @@ sub have_vulnerable_maketext {
       eval { require Locale::Maketext; $Locale::Maketext::VERSION; } || '';
 
     return $result ? '' : <<"HERE";
-Your version of Locale::Maktext $maketext_ver may introduce a dangerous code
+Your version of Locale::Maketext $maketext_ver may introduce a dangerous code
 injection security vulnerability. Upgrade to version $maketext_minver or newer. See
 <a href="http://foswiki.org/Support/SecurityAlert-CVE-2012-6329">CVE-2012-6329</a>
 for more advice.
