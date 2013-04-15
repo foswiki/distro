@@ -601,6 +601,7 @@ sub formatResults {
     my %pager_formatting;
     if ( $params->{paging_on} )    #TODO: if can skip()
     {
+
         #TODO: this is a dangerous assumption that should be abstracted
         ASSERT( $infoCache->isa('Foswiki::Iterator::PagerIterator') ) if DEBUG;
 
@@ -1332,19 +1333,32 @@ hyphenated string.
 sub displayFormField {
     my ( $meta, $args ) = @_;
 
-    my $name      = $args;
+    my ( $name, @params ) = split( /,\s*/, $args );
     my $breakArgs = '';
-    my @params    = split( /\,\s*/, $args, 2 );
-    if ( @params > 1 ) {
-        $name      = $params[0] || '';
-        $breakArgs = $params[1] || 1;
+    my $nomap     = 0;
+    if (@params) {
+        if ( $params[0] eq 'stored' ) {
+
+            # The stored value is required
+            $nomap = 1;
+            shift @params;
+        }
+        $breakArgs = join( ',', @params );
     }
 
     # SMELL: this is a *terrible* idea. Not only does it munge the result
     # so it can only be used for display, it also munges it such that it
-    # can't be repaired by the options on %SEARCH.
-    return $meta->renderFormFieldForDisplay( $name, '$value',
-        { break => $breakArgs, protectdollar => 1, showhidden => 1 } );
+    # can't be repaired by the options on %SEARCH. The 'nomap' goes some
+    # way to curing the problem, but it's still not ideal :-(
+    return $meta->renderFormFieldForDisplay(
+        $name, '$value',
+        {
+            break         => $breakArgs,
+            protectdollar => 1,
+            showhidden    => 1,
+            nomap         => $nomap
+        }
+    );
 }
 
 #my ($callback, $cbdata) = setup_callback(\%params, $baseWebObject);

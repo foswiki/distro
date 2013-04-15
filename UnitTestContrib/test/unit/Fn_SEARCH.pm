@@ -1323,18 +1323,47 @@ This text is fill in text which is there to ensure that the unique word below do
    * Bullet 4
 HERE
 
+    # Create the form
+    Foswiki::Func::saveTopic( $this->{test_web}, "FormattedSearchForm", undef,
+        <<FORM);
+| *Name* | *Type* | *Size* | *Values* | *Tooltip message* |
+| Name | text | 40 | | |
+| Role | text | 40 | | |
+| Testsample | text | 40 | | |
+| Groupe | select+values | 1 | A: Tous=A, B: Financiers; Rapports =Bollocks, C: Négociation; Syndicat =C, | Quel est le groupe de diffusion du document? | |
+| Chinese | checkbox+values | 1 | 一=one, 二=two, 三=three | | |
+FORM
+
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, 'FormattedSearchTopic1' );
     $topicObject->put( 'TOPICPARENT',
         { name => "TestCaseAutoFormattedSearch" } );
     $topicObject->put( 'FORM', { name => "FormattedSearchForm" } );
-    $topicObject->put(
+    $topicObject->putKeyed(
         'FIELD',
         {
             name       => "Name",
             attributes => "",
             title      => "Name",
             value      => "!AnnaAnchor"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Groupe",
+            attributes => "",
+            title      => "Groupe",
+            value      => "Bollocks"
+        }
+    );
+    $topicObject->putKeyed(
+        'FIELD',
+        {
+            name       => "Chinese",
+            attributes => "",
+            title      => "Chinese",
+            value      => "three"
         }
     );
     $topicObject->text($text);
@@ -1498,6 +1527,29 @@ sub test_format_tokens_dont_expand {
 
     $this->assert_str_equals( "FormattedSearchTopic1 \$email \$html \$time",
         $result );
+
+    return;
+}
+
+sub test_format_stored_value {
+    my $this = shift;
+
+    $this->set_up_for_formatted_search();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" nonoise="on" format="$formfield(Groupe) $formfield(Groupe, stored):$formfield(Groupe,  stored,  3)"}%'
+      );
+
+    $this->assert_str_equals( "B: Financiers; Rapports  Bollocks:Bol- loc- ks",
+        $result );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Bullet" type="regex" nonoise="on" format="$formfield(Chinese) $formfield(Chinese, stored)"}%'
+      );
+
+    $this->assert_str_equals( "三 three", $result );
 
     return;
 }
