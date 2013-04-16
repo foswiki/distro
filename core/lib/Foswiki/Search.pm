@@ -1272,13 +1272,13 @@ sub displayFormField {
     my ( $meta, $args ) = @_;
 
     my ( $name, @params ) = split( /,\s*/, $args );
-    my $nomap     = 1;    # default is to show the unmapped value
-    my $breakArgs = '';
+    my $displayedVal = 0;    # default is to show the unmapped value
+    my $breakArgs    = '';
     if (@params) {
         if ( $params[0] eq 'display' ) {
 
             # The displayed value is required
-            $nomap = 0;
+            $displayedVal = 1;
             shift @params;
         }
         $breakArgs = join( ',', @params );
@@ -1294,7 +1294,7 @@ sub displayFormField {
             break         => $breakArgs,
             protectdollar => 1,
             showhidden    => 1,
-            nomap         => $nomap
+            display       => $displayedVal
         }
     );
 }

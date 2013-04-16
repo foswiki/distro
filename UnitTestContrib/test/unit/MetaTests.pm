@@ -30,29 +30,25 @@ my $args2 = {
     value => "3"
 };
 
-my $web   = "TemporaryZoopyDoopy";
+my $args3 = {
+    name  => "c",
+    value => "1"
+};
+
 my $topic = "NoTopic";
-my $m1;
 
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
     $this->createNewFoswikiSession();
 
-    $m1 = Foswiki::Meta->new( $this->{session}, $web, $topic );
-    $m1->put( "TOPICINFO", $args0 );
-    $m1->putKeyed( "FIELD", $args0 );
-    $m1->putKeyed( "FIELD", $args2 );
-
-    return;
-}
-
-sub tear_down {
-    my $this = shift;
-    $this->removeWebFixture( $this->{session}, $web )
-      if $this->{session}->webExists($web);
-    $m1->finish();
-    $this->SUPER::tear_down();
+    Foswiki::Func::saveTopic( $this->{test_web}, "MetaTestsForm", undef,
+        <<FORM);
+| *Name* | *Type* | *Size* | *Values* | *Tooltip message* |
+| a | text | 40 | | |
+| b | text | 40 | | |
+| c | select+values | 1 | one=1, two=2, three=3 | | |
+FORM
 
     return;
 }
@@ -60,7 +56,8 @@ sub tear_down {
 # Field that can only have one copy
 sub test_single {
     my $this = shift;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     $meta->put( "TOPICINFO", $args0 );
     my $vals = $meta->get("TOPICINFO");
@@ -79,7 +76,8 @@ sub test_single {
 
 sub test_multiple {
     my $this = shift;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     $meta->putKeyed( "FIELD", $args0 );
     my $vals = $meta->get( "FIELD", "a" );
@@ -106,7 +104,8 @@ sub test_multiple {
 # Field with value 0 and value ''  This does not cover Item8738
 sub test_zero_empty {
     my $this = shift;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     my $args_zero = {
         name  => "a",
@@ -135,7 +134,8 @@ sub test_zero_empty {
 
 sub test_removeSingle {
     my $this = shift;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     $meta->put( "TOPICINFO", $args0 );
     $this->assert( $meta->count("TOPICINFO") == 1, "Should be one item" );
@@ -149,7 +149,8 @@ sub test_removeSingle {
 
 sub test_removeMultiple {
     my $this = shift;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     $meta->putKeyed( "FIELD", $args0 );
     $meta->putKeyed( "FIELD", $args2 );
@@ -174,7 +175,8 @@ sub test_removeMultiple {
 
 sub test_foreach {
     my $this = shift;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     $meta->putKeyed( "FIELD", { name => "a", value => "aval" } );
     $meta->putKeyed( "FIELD", { name => "b", value => "bval" } );
@@ -223,14 +225,15 @@ sub fleegle {
 
 sub test_copyFrom {
     my $this = shift;
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
 
     $meta->putKeyed( "FIELD", { name => "a", value => "aval" } );
     $meta->putKeyed( "FIELD", { name => "b", value => "bval" } );
     $meta->putKeyed( "FIELD", { name => "c", value => "cval" } );
     $meta->put( "FINAGLE", { name => "a", value => "aval" } );
 
-    my $new = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $new = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
     $new->copyFrom($meta);
 
     my $d = {};
@@ -242,7 +245,7 @@ sub test_copyFrom {
     $this->assert_str_equals( "", $d->{collected} );
 
     $new->finish();
-    $new = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    $new = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
     $new->copyFrom( $meta, 'FIELD' );
 
     $new->forEachSelectedValue( qr/^FIELD$/, qr/^value$/, \&fleegle, $d );
@@ -252,7 +255,7 @@ sub test_copyFrom {
     $this->assert_str_equals( "", $d->{collected} );
 
     $new->finish();
-    $new = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    $new = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
     $new->copyFrom( $meta, 'FIELD', qr/^(a|b)$/ );
     $new->forEachSelectedValue( qr/^FIELD$/, qr/^value$/, \&fleegle, $d );
     $this->assert( $d->{collected} =~ s/FIELD.value:aval;// );
@@ -264,11 +267,25 @@ sub test_copyFrom {
     return;
 }
 
+sub test_formfield {
+    my $this = shift;
+
+    my $m1 = Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+    $m1->put( "TOPICINFO", $args0 );
+    $m1->putKeyed( "FORM", { name => "MetaTestsForm" } );
+    $m1->putKeyed( "FIELD", $args3 );
+
+    my $str = $m1->expandMacros('%META{"formfield" name="c" display="on"}%');
+    $this->assert_str_equals( "one", $str );
+    $str = $m1->expandMacros('%META{"formfield" name="c"}%');
+    $this->assert_str_equals( "1", $str );
+
+    $m1->finish();
+}
+
 sub test_parent {
     my $this = shift;
-    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->populateNewWeb();
-    $webObject->finish();
+    my $web  = $this->{test_web};
 
     my $testTopic = "TestParent";
     for my $depth ( 1 .. 5 ) {
