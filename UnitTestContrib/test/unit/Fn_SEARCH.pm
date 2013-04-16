@@ -1531,22 +1531,24 @@ sub test_format_tokens_dont_expand {
     return;
 }
 
-sub test_format_stored_value {
+sub test_format_displayed_value {
     my $this = shift;
 
     $this->set_up_for_formatted_search();
 
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"Bullet" type="regex" nonoise="on" format="$formfield(Groupe) $formfield(Groupe, stored):$formfield(Groupe,  stored,  3)"}%'
+'%SEARCH{"Bullet" type="regex" nonoise="on" format="$formfield(Groupe, display) $formfield(Groupe):$formfield(Groupe,  display,  3)"}%'
       );
 
-    $this->assert_str_equals( "B: Financiers; Rapports  Bollocks:Bol- loc- ks",
-        $result );
+    $this->assert_str_equals(
+"B: Financiers; Rapports  Bollocks:B: - Fin- anc- ier- s; - Rap- por- ts",
+        $result
+    );
 
     $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"Bullet" type="regex" nonoise="on" format="$formfield(Chinese) $formfield(Chinese, stored)"}%'
+'%SEARCH{"Bullet" type="regex" nonoise="on" format="$formfield(Chinese, display) $formfield(Chinese)"}%'
       );
 
     $this->assert_str_equals( "三 three", $result );

@@ -1334,13 +1334,13 @@ sub displayFormField {
     my ( $meta, $args ) = @_;
 
     my ( $name, @params ) = split( /,\s*/, $args );
+    my $nomap     = 1;    # default is to show the unmapped value
     my $breakArgs = '';
-    my $nomap     = 0;
     if (@params) {
-        if ( $params[0] eq 'stored' ) {
+        if ( $params[0] eq 'display' ) {
 
-            # The stored value is required
-            $nomap = 1;
+            # The displayed value is required
+            $nomap = 0;
             shift @params;
         }
         $breakArgs = join( ',', @params );
@@ -1348,7 +1348,7 @@ sub displayFormField {
 
     # SMELL: this is a *terrible* idea. Not only does it munge the result
     # so it can only be used for display, it also munges it such that it
-    # can't be repaired by the options on %SEARCH. The 'nomap' goes some
+    # can't be repaired by the options on %SEARCH. 'nomap' goes some
     # way to curing the problem, but it's still not ideal :-(
     return $meta->renderFormFieldForDisplay(
         $name, '$value',
