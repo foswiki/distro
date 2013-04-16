@@ -39,9 +39,8 @@ The first (unnamed) parameter indicates what meta-data we want to see:
         to be used in tables, etc. =$n= indicates a newline character.
       * =bar="..."=: by default, each vertical bar is rewritten to an HTML
         entity so as to not be mistaken for a table separator.
-Addition parameters give control over what is shown:
       * =display="on"= - only used with ="formfield"=, retrieves the *displayed* value of a =*+values= formfield type, as against the default, *stored*, value.
-   * =topic="Main.WebPreferences"= - optional parameter to select which topic to get thie meta-data from.
+   * =topic="Main.WebPreferences"= - optional parameter to select which topic to get the meta-data from.
 <blockquote class="foswikiHelp">%X% Use of ="formfield"= is *deprecated* in favour of the much
 more powerful =QUERY= macro.</blockquote>
 
