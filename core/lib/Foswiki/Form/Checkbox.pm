@@ -82,7 +82,7 @@ sub renderForDisplay {
 
     $this->getOptions();
 
-    if ( !$attrs->{nomap} && $this->isValueMapped() ) {
+    if ( $attrs->{display} && $this->isValueMapped() ) {
         my @vals = ();
         foreach my $val ( split( /\s*,\s*/, $value ) ) {
             if ( defined( $this->{valueMap}{$val} ) ) {

@@ -8,7 +8,7 @@ the topic view that relate to meta-data (attachments, forms etc.).
 Syntax: =%<nop>META{ "item" ...}%=
 
 Parameters:
-   * =topic="Main.WebPreferences"= - optional parameter to select whic topic to get thie meta-data from.
+The first (unnamed) parameter indicates what meta-data we want to see:
    * ="form"= - generates the table showing the form fields. See
      [[CompleteDocumentation#FormDefinition][Form Definition]].
    * ="attachments"= - generate a table of attachments
@@ -39,6 +39,9 @@ Parameters:
         to be used in tables, etc. =$n= indicates a newline character.
       * =bar="..."=: by default, each vertical bar is rewritten to an HTML
         entity so as to not be mistaken for a table separator.
+Addition parameters give control over what is shown:
+      * =display="on"= - only used with ="formfield"=, retrieves the *displayed* value of a =*+values= formfield type, as against the default, *stored*, value.
+   * =topic="Main.WebPreferences"= - optional parameter to select which topic to get thie meta-data from.
 <blockquote class="foswikiHelp">%X% Use of ="formfield"= is *deprecated* in favour of the much
 more powerful =QUERY= macro.</blockquote>
 
