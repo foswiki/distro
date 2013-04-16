@@ -1271,19 +1271,32 @@ hyphenated string.
 sub displayFormField {
     my ( $meta, $args ) = @_;
 
-    my $name      = $args;
+    my ( $name, @params ) = split( /,\s*/, $args );
+    my $nomap     = 1;    # default is to show the unmapped value
     my $breakArgs = '';
-    my @params    = split( /\,\s*/, $args, 2 );
-    if ( @params > 1 ) {
-        $name      = $params[0] || '';
-        $breakArgs = $params[1] || 1;
+    if (@params) {
+        if ( $params[0] eq 'display' ) {
+
+            # The displayed value is required
+            $nomap = 0;
+            shift @params;
+        }
+        $breakArgs = join( ',', @params );
     }
 
     # SMELL: this is a *terrible* idea. Not only does it munge the result
     # so it can only be used for display, it also munges it such that it
-    # can't be repaired by the options on %SEARCH.
-    return $meta->renderFormFieldForDisplay( $name, '$value',
-        { break => $breakArgs, protectdollar => 1, showhidden => 1 } );
+    # can't be repaired by the options on %SEARCH. 'nomap' goes some
+    # way to curing the problem, but it's still not ideal :-(
+    return $meta->renderFormFieldForDisplay(
+        $name, '$value',
+        {
+            break         => $breakArgs,
+            protectdollar => 1,
+            showhidden    => 1,
+            nomap         => $nomap
+        }
+    );
 }
 
 #my ($callback, $cbdata) = setup_callback(\%params, $baseWebObject);
