@@ -107,6 +107,13 @@ A major role of the =edit= script is new topic creation. Parameters that are mai
 | =topicparent= | Sets the parent topic. | |
 | _&lt;any name&gt;_ | This can be used in two ways; first, if the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. %ICON{"wip"}% Second, it can be expanded in the topic text during topic creation - see [[#NewTopicCreation][New topic creation]] below | |
 
+<blockquote>
+The following options are *only* available to the site Administrator.  They can "rewrite history" and should be used with caution only when absolutely necessary.
+| *Parameter name* | *Description* | *Default* |
+| =delRev= | *Administrators only* delete the most recent revision of the topic - all other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it.  This option returns you to an editor for the current version, but the edit is ignored, and save will delete the latest revision. | |
+| =repRev= | *Administrators only* replace the text of the most recent revision of the topic with the text in the =text= parameter. =text= must included embedded meta-data tags. All other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it. | |
+</blockquote>
+
 __Skin notes:__
 
 The =[[SkinTemplates#TemplatePreferences][EDIT_TEMPLATE]]= preference (or the =template= parameter) can be used to override the default 'edit' template on a per-web or per-topic basis.
