@@ -17,6 +17,8 @@ package Foswiki::Configure::Dependency;
 use strict;
 use warnings;
 
+use version 0.77;
+
 my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
 my $mnamess = join( '|', @MNAMES );
 my $MNAME   = qr/$mnamess/i;
@@ -261,6 +263,18 @@ sub _recover_versions {
     }
 }
 
+sub compare_using_cpan_version {
+
+    my $va   = shift;
+    my $verA = ( $va =~ /^v/ ) ? version->declare($va) : version->parse($va);
+    my $op   = shift;
+    $op = '==' if $op eq '=';
+    my $vb = shift;
+    my $verB = ( $vb =~ /^v/ ) ? version->declare($vb) : version->parse($vb);
+    my $comparison = "\$verA $op \$verB";
+    return eval $comparison;
+}
+
 =begin TML
 
 ---++ ObjectMethod compare_versions ($condition, $release) 
@@ -320,13 +334,14 @@ sub _compare_cpan_versions {
         $b =~ s/^(\d+)-(\d+)-(\d+)$/$3-$2-$1/;
     }
 
-    # Change separator characters to be the same,
-    # because X-Y-Z should compare equal to X.Y.Z
-    # and combine adjacent separators,
-    # because '6  jun 2009' should compare equal to '6 jun 2009'
+# Change separator characters to be the same,
+# because X-Y-Z should compare equal to X.Y.Z
+# and combine adjacent separators,
+# because '6  jun 2009' should compare equal to '6 jun 2009'
+# Note: _ is not changed,  it has special alpha significance for perl CPAN:version
     my $separator = '.';
-    $a =~ s([ ./_-]+)($separator)g;
-    $b =~ s([ ./_-]+)($separator)g;
+    $a =~ s([ ./-]+)($separator)g;
+    $b =~ s([ ./-]+)($separator)g;
 
     # Replace month-names with numbers and swap day-of-month and year
     # around to make them sortable as strings
@@ -344,10 +359,18 @@ s/(\d+)$separator($MNAME)$separator(\d+)/$3.$separator.$M2N{ lc($2) }.$separator
     $a = lc($a);
     $b = lc($b);
 
-    # remove a leading 'v' if both are of the form X.Y
+# See if these are sane perl version strings,  if so we can use CPAN version to compare
+    if ( $a =~ /^$version::LAX$/ && $b =~ /^$version::LAX$/ ) {
+
+#print STDERR "$a and $b match LAX version rules, TEST $op ";
+#print STDERR ( compare_using_cpan_version( $a, $op, $b )) ? " - TRUE\n" : " - FALSE \n";
+        return ( compare_using_cpan_version( $a, $op, $b ) );
+    }
+
+    # remove a leading 'v' if either are of the form X.Y
     # because vX.Y should compare equal to X.Y
     my $xDotYPattern = qr/^v?\s*\d+(?:$separator\d+)+/;
-    if ( $a =~ $xDotYPattern and $b =~ $xDotYPattern ) {
+    if ( $a =~ $xDotYPattern or $b =~ $xDotYPattern ) {
         $a =~ s/^v\s*//;
         $b =~ s/^v\s*//;
     }

@@ -638,7 +638,7 @@ sub test_compare_cpan_versions {
         [ 1, 10, '>=', 2 ],
         [ 0, 10, '=',  2 ],
 
-        [ 0, ' 10', '<',  2 ],
+        [ 0, ' 10', '<',  2 ],    #11
         [ 0, ' 10', '<=', 2 ],
         [ 1, ' 10', '>',  2 ],
         [ 1, ' 10', '>=', 2 ],
@@ -650,15 +650,22 @@ sub test_compare_cpan_versions {
         [ 1, '10 ', '>=', 2 ],
         [ 0, '10 ', '=',  2 ],
 
-        [ 0, 2, '<',  2 ],
+        [ 0, 2, '<',  2 ],        #21
         [ 1, 2, '<=', 2 ],
         [ 0, 2, '>',  2 ],
         [ 1, 2, '>=', 2 ],
         [ 1, 2, '=',  2 ],
 
+        # cpan decimal versions are compared as decimal numbers
+        #  1.3 should be newer than 1.13
+        [ 1, 1.1,  '>', 1 ],      #26
+        [ 1, 1.13, '>', 1 ],
+        [ 1, 1.23, '>', 1.13 ],
+        [ 1, 1.2,  '>', 1.13 ],
+
         # trailing and leading spaces should not affect
         # the value of a version nuumber
-        [ 1, ' 2',  '=', 2 ],
+        [ 1, ' 2',  '=', 2 ],       #30
         [ 1, '2 ',  '=', 2 ],
         [ 1, ' 2 ', '=', 2 ],
         [ 1, ' 2',  '=', ' 2' ],
@@ -672,80 +679,84 @@ sub test_compare_cpan_versions {
         [ 1, ' 2 ', '=', ' 2 ' ],
 
         # SVN-style revision numbers should be treated like integers
-        [ 1, '$Rev: 2 $', '<',  10 ],
+        [ 1, '$Rev: 2 $', '<',  10 ],    #42
         [ 1, '$Rev: 2 $', '<=', 10 ],
         [ 0, '$Rev: 2 $', '>',  10 ],
         [ 0, '$Rev: 2 $', '>=', 10 ],
         [ 0, '$Rev: 2 $', '=',  10 ],
 
-        [ 0, '$Rev: 10 $', '<',  2 ],
+        [ 0, '$Rev: 10 $', '<',  2 ],    #47
         [ 0, '$Rev: 10 $', '<=', 2 ],
         [ 1, '$Rev: 10 $', '>',  2 ],
         [ 1, '$Rev: 10 $', '>=', 2 ],
         [ 0, '$Rev: 10 $', '=',  2 ],
 
-        [ 0, '$Rev: 2 $', '<',  2 ],
+        [ 0, '$Rev: 2 $', '<',  2 ],     #52
         [ 1, '$Rev: 2 $', '<=', 2 ],
         [ 0, '$Rev: 2 $', '>',  2 ],
         [ 1, '$Rev: 2 $', '>=', 2 ],
         [ 1, '$Rev: 2 $', '=',  2 ],
 
         # compare X.Y and X
-        [ 1, 1.1, '<',  2 ],
+        [ 1, 1.1, '<',  2 ],             #57
         [ 1, 1.1, '<=', 2 ],
         [ 0, 1.1, '>',  2 ],
         [ 0, 1.1, '>=', 2 ],
         [ 0, 1.1, '=',  2 ],
 
-        # compare X.Y and X.Y.Z
-        [ 1, 1.1, '<',  '1.2.1' ],
-        [ 1, 1.1, '<=', '1.2.1' ],
-        [ 0, 1.1, '>',  '1.2.1' ],
-        [ 0, 1.1, '>=', '1.2.1' ],
+      # compare X.Y and X.Y.Z
+      #  - These tests change.  1.1 normalizes to 1.100 when compared with 1.2.1
+        [ 0, 1.1, '<',  '1.2.1' ],    #62
+        [ 0, 1.1, '<=', '1.2.1' ],
+        [ 1, 1.1, '>',  '1.2.1' ],
+        [ 1, 1.1, '>=', '1.2.1' ],
         [ 0, 1.1, '=',  '1.2.1' ],
 
         # Versions with _
-        [ 1, '2.36_04', '<',  '2.36_10' ],
+        [ 1, '2.36_04', '<',  '2.36_10' ],    #67
         [ 1, '2.36_04', '<=', '2.36_10' ],
         [ 0, '2.36_04', '>',  '2.36_10' ],
         [ 0, '2.36_04', '>=', '2.36_10' ],
         [ 0, '2.36_04', '=',  '2.36_10' ],
 
         # Letters in the version number
-        [ 1, '1.2.4.5-beta1', '<',  '1.2.4.5-beta2' ],
+        [ 1, '1.2.4.5-beta1', '<',  '1.2.4.5-beta2' ],    #72
         [ 1, '1.2.4.5-beta1', '<=', '1.2.4.5-beta2' ],
         [ 0, '1.2.4.5-beta1', '>',  '1.2.4.5-beta2' ],
         [ 0, '1.2.4.5-beta1', '>=', '1.2.4.5-beta2' ],
         [ 0, '1.2.4.5-beta1', '=',  '1.2.4.5-beta2' ],
 
         # Special case: beta versions are less than non-beta versions
-        [ 1, '1.2.4.5-beta1', '<',  '1.2.4.5' ],
+        [ 1, '1.2.4.5-beta1', '<',  '1.2.4.5' ],          #77
         [ 1, '1.2.4.5-beta1', '<=', '1.2.4.5' ],
         [ 0, '1.2.4.5-beta1', '>',  '1.2.4.5' ],
         [ 0, '1.2.4.5-beta1', '>=', '1.2.4.5' ],
         [ 0, '1.2.4.5-beta1', '=',  '1.2.4.5' ],
 
         # Letters in the version number
-        [ 1, '1.2.5', '<',  '1.2.5a' ],
+        [ 1, '1.2.5', '<',  '1.2.5a' ],                   #82
         [ 1, '1.2.5', '<=', '1.2.5a' ],
         [ 0, '1.2.5', '>',  '1.2.5a' ],
         [ 0, '1.2.5', '>=', '1.2.5a' ],
         [ 0, '1.2.5', '=',  '1.2.5a' ],
 
         # compare vX.Y with X.Y
-        [ 1, 'v1.2', '<',  '2.2' ],
+        [ 1, 'v1.2', '<',  'v2.2' ],                      #87
         [ 1, 'v1.2', '<=', '2.2' ],
         [ 0, 'v1.2', '>',  '2.2' ],
         [ 0, 'v1.2', '>=', '2.2' ],
         [ 0, 'v1.2', '=',  '2.2' ],
 
-        # Presence or absence of leading v
-        # makes no difference to the value of X.Y version numbers
-        [ 0, 'v1.2', '<',  '1.2' ],
-        [ 1, 'v1.2', '<=', '1.2' ],
-        [ 0, 'v1.2', '>',  '1.2' ],
-        [ 1, 'v1.2', '>=', '1.2' ],
-        [ 1, 'v1.2', '=',  '1.2' ],
+# Presence or absence of leading v
+# makes no difference to the value of X.Y version numbers
+# NOT TRUE:  Perl CPAN version "normalizes" the string.   "1.2" becomes 1.200 without the leading V.
+        [ 1, 'v1.2',   '<',  '1.2' ],
+        [ 0, 'v1.200', '<',  '1.2' ],
+        [ 1, 'v1.2',   '<=', '1.2' ],
+        [ 0, 'v1.2',   '>',  '1.2' ],
+        [ 0, 'v1.2',   '>=', '1.2' ],
+        [ 0, 'v1.2',   '=',  '1.2' ],
+        [ 1, 'v1.200', '=',  '1.2' ],
 
         # dd Mmm yyyy dates
         [ 1, '1 Jan 2009',  '<', '2 Jan 2009' ],
@@ -854,7 +865,9 @@ sub test_compare_cpan_versions {
         [ 0, undef, undef, undef ],
 
     );
+    my $case = 0;
     foreach my $set (@comparisons) {
+        $case++;
         my $expected = $set->[0];
         my $dep      = new Foswiki::Configure::Dependency(
             module           => "Test",
@@ -866,10 +879,143 @@ sub test_compare_cpan_versions {
             $expected,
             $actual,
             join( ' ',
+                '[',
+                map( { defined($_) ? $_ : 'undef' } @$set ),
+                '] should give',
+                $expected, 'case', $case )
+        );
+    }
+}
+
+sub test_compare_cpan_version_objects {
+    my ($this) = @_;
+
+# Each tuple describes one version comparison and the expected result
+# The first value is the expected result. 1 means "true" and 0 means "false.
+# The second and fourth values are the versions to compare.
+# The third value is the comparison operator as a string.
+#
+# This test also compares the result from CPAN:version with Foswiki::Configure::Dependency
+    my @comparisons = (
+
+        # Plain integer versions
+        [ 1, 2, '<',  10 ],
+        [ 1, 2, '<=', 10 ],
+        [ 0, 2, '>',  10 ],
+        [ 0, 2, '>=', 10 ],
+        [ 0, 2, '=',  10 ],
+
+        [ 0, 10, '<',  2 ],
+        [ 0, 10, '<=', 2 ],
+        [ 1, 10, '>',  2 ],
+        [ 1, 10, '>=', 2 ],
+        [ 0, 10, '=',  2 ],
+
+        [ 0, 2, '<',  2 ],
+        [ 1, 2, '<=', 2 ],
+        [ 0, 2, '>',  2 ],
+        [ 1, 2, '>=', 2 ],
+        [ 1, 2, '=',  2 ],
+
+        # compare X.Y and X
+        [ 1, 1.1, '<',  2 ],
+        [ 1, 1.1, '<=', 2 ],
+        [ 0, 1.1, '>',  2 ],
+        [ 0, 1.1, '>=', 2 ],
+        [ 0, 1.1, '=',  2 ],
+
+        # compare vX.Y.Z and X.Y.Z
+        [ 1, 'v1.1.0',    '<',  'v1.2.1' ],
+        [ 1, 'v1.1.0',    '<=', 'v1.2.1' ],
+        [ 0, 'v1.1.0',    '>',  'v1.2.1' ],
+        [ 0, 'v1.1.0',    '>=', 'v1.2.1' ],
+        [ 0, 'v1.1.0',    '=',  'v1.2.1' ],
+        [ 1, 'v1.110.0',  '>=', 'v1.99.1' ],
+        [ 0, 'v1.11.0',   '>=', 'v1.99.1' ],
+        [ 1, 'v001.11.1', '=',  'v1.11.1' ],
+
+        # compare X.Y and vX.Y.Z
+        [ 0, '1.1', '<',  'v1.2.1' ],    # 1.1. normalizes to 1.100
+        [ 0, '1.1', '<=', 'v1.2.1' ],
+
+        # Versions with alpha/beta  _
+        [ 1, '2.36_04', '<',  '2.36_10' ],
+        [ 1, '2.36_04', '<=', '2.36_10' ],
+        [ 0, '2.36_04', '>',  '2.36_10' ],
+        [ 0, '2.36_04', '>=', '2.36_10' ],
+        [ 0, '2.36_04', '=',  '2.36_10' ],
+        [ 1, '2.36_04', '>',  '2.36' ],
+        [ 1, '2.37',    '>',  '2.36_04' ],
+
+        # cpan decimal versions are compared as decimal numbers
+        #  1.3 should be newer than 1.13
+        [ 1, 1.1,  '>', 1 ],
+        [ 1, 1.13, '>', 1 ],
+        [ 1, 1.23, '>', 1.13 ],
+        [ 1, 1.2,  '>', 1.13 ],
+
+        # Versions with _
+        [ 1, '2.36_04', '<',  '2.36_10' ],
+        [ 1, '2.36_04', '<=', '2.36_10' ],
+        [ 0, '2.36_04', '>',  '2.36_10' ],
+        [ 0, '2.36_04', '>=', '2.36_10' ],
+        [ 0, '2.36_04', '=',  '2.36_10' ],
+
+    );
+
+    foreach my $set (@comparisons) {
+        my $expected = $set->[0];
+        my $dep      = new Foswiki::Configure::Dependency(
+            module           => "Test",
+            type             => 'cpan',
+            installedVersion => $set->[1]
+        );
+        my $actual = $dep->compare_versions( $set->[2], $set->[3] ) ? 1 : 0;
+
+        use version qw/is_lax parse stringify/;
+        $set->[2] = '==' if $set->[2] eq '=';
+        my $ver1;
+        my $ver2;
+
+        if ( $set->[1] =~ /v/ ) {
+            $ver1 = version->declare("$set->[1]");
+        }
+        else {
+            $ver1 = version->parse("$set->[1]");
+        }
+        if ( $set->[3] =~ /v/ ) {
+            $ver2 = version->declare("$set->[3]");
+        }
+        else {
+            $ver2 = version->parse("$set->[3]");
+        }
+        my $ver1n = eval { $ver1->normal };
+        my $ver2n = eval { $ver2->normal };
+
+        unless (
+            eval {
+                     version->parse("$set->[1]")->is_lax
+                  && version->parse("$set->[3]")->is_lax;
+            }
+          )
+        {
+            print STDERR " ($set->[1]) or ($set->[3]) - BAD VERSION STRING\n";
+            next;
+        }
+
+        my $versionCond = eval "\$ver1 $set->[2] \$ver2;";
+        $versionCond ||= '0';
+        $this->assert_equals( $versionCond, $actual,
+"CPAN::version ($versionCond) and Dependency($actual) disagree on  \"($set->[1]) ($ver1n) ($set->[2]) ($set->[3]) ($ver2n)\"\n"
+        );
+
+        $this->assert_equals(
+            $expected,
+            $actual,
+            join( ' ',
                 '[', map( { defined($_) ? $_ : 'undef' } @$set ),
                 '] should give', $expected )
         );
     }
 }
-
 1;
