@@ -378,7 +378,7 @@ _hello world_
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
-3 </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
+Three </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
 HERE
     $meta->finish();
     ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
@@ -399,9 +399,9 @@ Defect
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
-2
+Two 
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 7 </td><td>
-2 
+Two 
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 8 </td><td>
 Two 
 </td></tr>%IF{"context preview" then="</noautolink>"}%
