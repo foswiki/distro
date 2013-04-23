@@ -615,7 +615,11 @@ sub renderForDisplay {
             # Legacy; was %A_TITLE% before it was $title
             $row =~ s/%A_TITLE%/\$title/g;
             $row =~ s/%A_VALUE%/\$value/g;    # Legacy
-            $text .= $fieldDef->renderForDisplay( $row, $fm->{value} );
+
+            # display => 1 gets mapped values (rather than raw)
+            $text .=
+              $fieldDef->renderForDisplay( $row, $fm->{value},
+                { display => 1 } );
         }
     }
     return '' if $hasAllFieldsHidden;

@@ -1059,6 +1059,8 @@ sub renderFORMFIELD {
             my $value = $field->{value};
             $text = $default if !length($value);
             $text =~ s/\$title/$title/go;
+
+            # raw field value
             $text =~ s/\$value/$value/go;
             $text =~ s/\$name/$name/g;
             if ( $text =~ m/\$form/ ) {
