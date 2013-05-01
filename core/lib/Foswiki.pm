@@ -403,7 +403,16 @@ BEGIN {
     };
 
     $macros{LANG} = sub {
-        $Foswiki::cfg{Site}{Locale} =~ m/^([a-z]+_[a-z]+)/i ? $1 : 'en_US';
+        my $lang = 'en';    # the default
+        if (   $Foswiki::cfg{UseLocale}
+            && $Foswiki::cfg{Site}{Locale} =~ m/^([a-z]+)(?:_([a-z]+))?/i )
+        {
+
+# Locale identifiers use _ as the separator in the language, but a minus sign is required
+# for HTML (see http://www.ietf.org/rfc/rfc1766.txt)
+            $lang = $1 . ( $2 ? "-$2" : '' );
+        }
+        return $lang;
     };
 
     # Set up pre-compiled regexes for use in rendering.  All regexes with

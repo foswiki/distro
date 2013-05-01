@@ -1,11 +1,10 @@
 %META:TOPICINFO{author="ProjectContributor" date="1284886057" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarLANG
----+++ LANG -- the =lang= attribute of generated HTML pages
+---+++ LANG -- the language specified by the server locale
+This macro is used to generate the =lang= (and =xml:lang=) attribute in generated HTML pages. If ={UseLocale}= is enabled, it is calculated from the [[%SCRIPTURLPATH{"configure"}%#Locale$Internationalisation][configure]] setting of ={Site}{Locale}=. Otherwise it defaults to =en= (English).
    * In templates the =lang= attribute is defined like this:
-   <verbatim class="tml"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%"></verbatim>
-   * The value is read from [[%SCRIPTURLPATH{"configure"}%#Locale$Internationalisation][configure]] setting ={Site}{Locale}=
+   <verbatim><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%"></verbatim>
    * Do not confuse =LANG= with [[VarLANGUAGE][LANGUAGE]]
    * Syntax: =%<nop>LANG%=
    * Expands to: =%LANG%= 
-<!--%JQREQUIRE{"chili"}%-->
