@@ -1030,7 +1030,7 @@ $Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 # international character sets.</p>
 
 # **BOOLEAN**
-# Enable the used of {Site}{Locale}
+# Enable the use of {Site}{Locale}.
 $Foswiki::cfg{UseLocale} = $FALSE;
 
 # **STRING 50**
@@ -1052,13 +1052,13 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # characters.
 # <br />
 # Examples:<br />
-# <code>en_US.ISO-8859-1</code> - Standard US ISO-8859-1 (default)<br />
+# <code>en.utf8</code> - English encoded using UTF8<br />
+# <code>en_US.ISO-8859-1</code> - US english with ISO-8859-1 encoding<br />
 # <code>de_AT.ISO-8859-15</code> - Austria with ISO-8859-15 for Euro<br />
-# <code>ru_RU.KOI8-R</code> - Russia<br />
+# <code>ru_RU.KOI8-R</code> - Russian encoded using KOI8-R<br />
 # <code>ja_JP.eucjp</code> - Japan <br />
 # <code>C</code> - English only; no I18N features regarding character
 # encodings and external programs.<br />
-# UTF-8 locale like en_US.utf8 is still considered experimental
 $Foswiki::cfg{Site}{Locale} = 'en_US.ISO-8859-1';
 
 # **STRING 50 **
@@ -1076,7 +1076,7 @@ $Foswiki::cfg{Site}{CharSet} = undef;
 # all internal storage is still in GMT). May be gmtime or servertimeA
 # <p>This item is also used by configure to test if your perl supports early dates.
 # Foswiki will still work fine on older versions of perl, but wiki applications that use 
-# dates somewhere prior to 1970 might encounter issues. Configure tests if 1901-01-01
+# dates somewhere prior to 1970 might encounter issues. 'configure' tests if 1901-01-01
 # is handled by the perl localtime function.  Note, full support of early dates will
 # not be available until Foswiki 1.2.
 $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
