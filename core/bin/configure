@@ -175,7 +175,7 @@ our $WebServer_uid = '';
 
 eval { $WebServer_uid = getlogin() || getpwuid($>) || ''; };
 
-my $localLibFailure;
+our $localLibFailure;
 
 sub _loadBasicModule {
     my ($module) = @_;
@@ -245,7 +245,7 @@ chdir($1);
 my @root = File::Spec->splitdir($1);
 my $setlib = File::Spec->catfile( @root, 'setlib.cfg' );
 pop(@root);
-my $scriptName = Foswiki::getScriptName();
+our $scriptName = Foswiki::getScriptName();
 
 # Try to load the LocalLib.cfg optional overload
 eval "require '$setlib';";
@@ -282,8 +282,8 @@ our $badLSC;
 our $insane;
 our $time = time();
 
-my $url = $query->url();
-my $action = $query->param('action') || 'Configure';
+our $url = $query->url();
+our $action = $query->param('action') || 'Configure';
 
 our $DEFAULT_FIELD_WIDTH_NO_CSS = '70';
 
