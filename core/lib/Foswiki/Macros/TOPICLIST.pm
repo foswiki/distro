@@ -32,7 +32,7 @@ sub TOPICLIST {
     while ( $it->hasNext() ) {
         my $item = $it->next();
 
-        my $topicObject = Foswiki::Meta->new( $this, $web, $topic );
+        my $topicObject = Foswiki::Meta->new( $this, $web, $item );
         next unless $topicObject->haveAccess("VIEW");
 
         my $line = $format;
