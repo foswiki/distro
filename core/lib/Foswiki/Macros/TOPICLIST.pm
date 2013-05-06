@@ -31,6 +31,10 @@ sub TOPICLIST {
     my $it = $webObject->eachTopic();
     while ( $it->hasNext() ) {
         my $item = $it->next();
+
+        my $topicObject = Foswiki::Meta->new( $this, $web, $topic );
+        next unless $topicObject->haveAccess("VIEW");
+
         my $line = $format;
         $line =~ s/\$web\b/$web/g;
         $line =~ s/\$topic\b/$item/g;
