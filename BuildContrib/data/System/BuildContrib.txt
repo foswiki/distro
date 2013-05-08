@@ -582,6 +582,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  1.7.1 (8 May 2013) | Foswikitask:Item12492: expose test output while running tests Foswikitask:Item11851: minor bugfixes |
 |  1.7.0 (11 May 2012) | Foswikitask:Item11716: correct paths in generated MANIFEST; Foswikitask:Item11851: internal maintenance |
 |  1.6.3 (18 Aug 2011) | Foswikitask:Item11014: Improve error message if installer not run from Foswiki root. |
 |  1.6.2 (13 Jul 2011) | Foswikitask:Item10963: Perl cleanup of qw() quoting |

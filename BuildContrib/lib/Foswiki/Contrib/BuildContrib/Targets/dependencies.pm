@@ -15,6 +15,7 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
 use B::PerlReq;
 
 =begin TML

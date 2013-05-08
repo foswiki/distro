@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 =begin TML
 
 ---++++ target_installer
@@ -76,7 +78,7 @@ sub target_installer {
     # Find the template on @INC
     my $template;
     foreach my $d (@INC) {
-        my $dir = `dirname $d`;
+        my $dir = `dirname "$d"`;
         chop($dir);
         my $file =
           $dir . '/lib/Foswiki/Contrib/BuildContrib/TEMPLATE_installer.pl';

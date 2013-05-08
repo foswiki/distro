@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 my @tidyFilters = ( { RE => qr/\.pl$/ }, { RE => qr/\.pm$/ }, );
 my $collector;
 

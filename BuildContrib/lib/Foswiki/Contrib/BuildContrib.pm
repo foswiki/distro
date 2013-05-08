@@ -1,8 +1,8 @@
 package Foswiki::Contrib::BuildContrib;
 use strict;
 
-use version 0.77; our $VERSION = version->declare("v2.0.0");
-our $RELEASE = '2.0.0';
+use version 0.77; our $VERSION = version->declare("v1.7.1");
+our $RELEASE = '8 May 2013';
 
 our $SHORTDESCRIPTION =
 'Automates build and packaging process, including installer generation, for extension modules.';

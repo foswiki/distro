@@ -55,7 +55,9 @@ else {
 }
 
 unless ( $templateModule && -d $templateModule ) {
-    usage( error => "Template directory ($templateModule) does not exist" );
+    usage( error =>
+"Template directory (./$templateModule) does not exist; it must be present in the current directory"
+    );
 }
 
 print "Creating $def{MODULE} from templates in $templateModule\n";
@@ -446,7 +448,9 @@ sub usage {
 Usage: $0 <name of new extension> [ existing extension ]
 
 This script will generate a new extension in a directory under the
-current directory, suitable for building using the BuildContrib.
+current directory, suitable for building using the BuildContrib. It
+is normally run at the root of a Foswiki checkout, where existing
+extensions are found in subdirectories.
 
 You pass the name of your new extension - which must end in Skin,
 JQueryPlugin, Plugin, or Contrib - to the script. For example,

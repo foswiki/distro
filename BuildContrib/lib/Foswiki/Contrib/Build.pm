@@ -395,8 +395,8 @@ sub new {
         }
         print STDERR <<ERROR;
 
-SVN keword based version string detected.  \$Date or \$Rev detected.
-SVN revision strings are no longer supported.
+\$VERSION string containing \$Date or \$Rev detected.
+Keyword-based \$VERSION strings are no longer supported.
 Please update to a real Perl version string.
 
 ERROR

@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 my %minifiers;    # functions used to minify
 
 my @compressFilters = (
@@ -281,7 +283,8 @@ sub _yuiMinify {
     my $cmd;
 
     if ( $cmdtype == 2 ) {
-        $cmd = "java -jar $basedir/tools/yuicompressor.jar --type $type $from";
+        $cmd =
+"java -jar $Foswiki::Contrib::Build::basedir/tools/yuicompressor.jar --type $type $from";
     }
     else {
         $cmd = "yui-compressor --type $type $from";
@@ -311,7 +314,7 @@ sub _haveYUI {
     if ( not $? ) {
         $result = 1;
     }
-    elsif ( -e "$basedir/tools/yuicompressor.jar" ) {
+    elsif ( -e "$Foswiki::Contrib::Build::basedir/tools/yuicompressor.jar" ) {
 
         # Do we have java?
         $info = `java -version 2>&1` || '';
