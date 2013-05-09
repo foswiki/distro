@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-10 19:00+0200\n"
+"PO-Revision-Date: 2013-05-09 07:05+0200\n"
 "Last-Translator: Guido <gdo@leader.it>\n"
 "Language-Team: <it@li.org>\n"
 "Language: it\n"
@@ -270,9 +270,8 @@ msgid "(delete)"
 msgstr "(cancella)"
 
 #: core/templates/messages.tmpl:715
-#, fuzzy
 msgid "(disabled)"
-msgstr "Edit tabella"
+msgstr "(disabilitato)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -1433,9 +1432,8 @@ msgid "Edit"
 msgstr "Modifica"
 
 #: core/data/System/VarMAKETEXT.txt:60
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,minuto) "
+msgstr "Modifica %*(%1,file)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
