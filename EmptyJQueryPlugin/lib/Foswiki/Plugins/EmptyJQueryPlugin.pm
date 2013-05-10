@@ -16,31 +16,25 @@ use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
-# *must* exist in this package.  Two version formats are supported:
+# *must* exist in this package. Two formats are supported; the Foswiki
+# convention is to use the "v1.2.3" format described in "perldoc version".
+# Foswiki also supports a simpler tuple, such as "1.2.3". This format
+# can be used when this identifier is taken from another source, such as
+# the version number of the JQuery plugin that this module encapsulates. 
 #
-# Recommended:  Dotted triplet.  Use "v1.2.3" format for releases,  and
-# "v1.2.3_001" for "alpha" versions.  The v prefix is required.
-# This format uses the "declare" format
-#     use version; our $VERSION = version->declare("v1.2.0");
+# You are strongly recommended to keep the version number in lock-step
+# between the JQuery plugin and the Foswiki plugin.
 #
-# Alternative:  Simple decimal version.   Use "1.2" format for releases, and
-# "1.2_001" for "alpha" versions.  Do NOT use the "v" prefix.  This style
-# must be set using the "parse" method
-#    use version; our $VERSION = version->parse("1.20_001");
-#
-# Note:  Alpha versions compare as numerically lower than the non-alpha version
-# so the versions in ascending order are:
-#   v1.2.1_001 -> v1.2.1 -> v1.2.2_001 -> v1.2.2
-#
-# These statements MUST be on the same line. See "perldoc version" for more
-# information on version strings.
 use version; our $VERSION = version->declare("v1.0.0_001");
 
-our $RELEASE = '03 Mar 2010';
+# The RELEASE is used in the Foswiki Extensions installer
+our $RELEASE = '%$CREATED_DATE%';
 
-# Short description of this plugin
-# One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
-our $SHORTDESCRIPTION = 'Your New Jquery plugin module..';
+# One line description of the module
+our $SHORTDESCRIPTION = '%$CREATED_SHORTDESCRIPTION%';
+
+# Author information
+our $AUTHOR = '%$CREATED_AUTHOR%';
 
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -78,28 +72,27 @@ sub initPlugin {
 __END__
 This copyright information applies to the EmptyJQueryPlugin:
 
-# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# EmptyJQueryPlugin is Copyright (C) 2010 Foswiki Contributors
-# 
-# The Javascript files packaged with this plugin are Copyright (C) and licensed
-# separately by their respective authors, please review those files separately
-# for more detailed information.
-#
-# Foswiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
-#
-#
-# This license applies to EmptyJQueryPlugin and to any derivatives.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# For licensing info read LICENSE file in the root of this distribution.
+Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2010-%$CREATED_YEAR% Foswiki Contributors
+ 
+The Javascript files packaged with this plugin are Copyright (C) and licensed
+separately by their respective authors, please review those files separately
+for more detailed information.
+
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+This license applies to EmptyJQueryPlugin and to any derivatives:
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+For licensing info read LICENSE file in the root of this distribution.

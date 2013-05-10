@@ -3,7 +3,7 @@
 #
 # Author: Crawford Currie http://c-dot.co.uk
 #
-# Copyright (C) 2008-2012 FoswikiContributors. All rights reserved.
+# Copyright (C) 2008-2013 FoswikiContributors. All rights reserved.
 # FoswikiContributors are listed in the AUTHORS file in the root of
 # the distribution.
 #
@@ -23,6 +23,11 @@ use warnings;
 
 use File::Path ();
 
+our @ISOMONTH = (
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+);
+
 # The script works by creating a new directory structure from an
 # existing DS, either an Empty* template or a user-specified
 # existing DS. First, a file-set of required files is built up
@@ -40,17 +45,34 @@ my %def;
 $def{MODULE} = $ARGV[0];
 usage() unless $def{MODULE};
 
-$def{MODULE} =~ /^.*?(Skin|JQueryPlugin|Plugin|Contrib|AddOn)$/;
-$def{TYPE} = $1;
-usage() unless $def{TYPE};
-
-$def{STUBS} = $def{TYPE} =~ /Plugin$/ ? 'Plugins' : 'Contrib';
-
+# Determine the template module to use, either from an explicit parameter
+# or by finding an appropriate Empty* template module
 our $templateModule;
 if ( $#ARGV >= 1 ) {
     $templateModule = $ARGV[1];
 }
 else {
+    my @types;
+    if ( opendir( D, '.' ) ) {
+        foreach my $dir ( readdir(D) ) {
+            if ( -d $dir && $dir =~ /^Empty(.*)$/ ) {
+                push( @types, $1 );
+            }
+        }
+    }
+    unless (@types) {
+        usage( error =>
+"No Empty* templates found in the current directory. A template with the same type as the extension you are creating must be present in the current directory (or you must give an explicit template name)"
+        );
+    }
+
+    my $types_re = join( '|', @types );
+    $def{MODULE} =~ /^.*?($types_re)$/;
+    $def{TYPE} = $1;
+    usage() unless $def{TYPE};
+
+    $def{STUBS} = $def{TYPE} =~ /Plugin$/ ? 'Plugins' : 'Contrib';
+
     $templateModule = "Empty$def{TYPE}";
 }
 
@@ -62,13 +84,17 @@ unless ( $templateModule && -d $templateModule ) {
 
 print "Creating $def{MODULE} from templates in $templateModule\n";
 
-$def{SHORTDESCRIPTION} =
+$def{CREATED_SHORTDESCRIPTION} =
   prompt( "Enter a one-line description of the extension: ", '' );
-$def{SHORTDESCRIPTION} =~ s/'/\\'/g;
+$def{CREATED_SHORTDESCRIPTION} =~ s/'/\\'/g;
 
-$def{AUTHOR} =
+$def{CREATED_AUTHOR} =
   prompt( "Enter the wikiname of the author (e.g. ThomasHardy): ", '' );
 
+my @t = localtime( time() );
+$def{CREATED_YEAR} = sprintf( "%04d", $t[5] + 1900 );
+$def{CREATED_DATE} =
+  sprintf( "%02d %s %04d", $t[3] + 1, $ISOMONTH[ $t[4] ], $t[5] + 1900 );
 my $modPath = "lib/Foswiki/$def{STUBS}/$def{MODULE}";
 
 my $fileset = {
@@ -85,7 +111,7 @@ my $fileset = {
     },
     "$modPath/Config.spec" => {
         template => "lib/Foswiki/$def{STUBS}/$templateModule/Config.spec",
-        extract  => \&commonEmptyExtract
+        extract  => \&configSpecExtract
     },
     "$modPath/MANIFEST" => {
         template   => "lib/Foswiki/$def{STUBS}/$templateModule/MANIFEST",
@@ -117,20 +143,22 @@ if ( $def{TYPE} eq 'JQueryPlugin' ) {
     # Add in the extra files a JQuery plugin requires
     $fileset->{"$modPath/$def{JQUERYPLUGINMODULE}.pm"} = {
         template => "lib/Foswiki/Plugins/EmptyJQueryPlugin/YOUR.pm",
-        extract  => \&jqpPMExtract
+        extract  => \&YOURpmExtract
     };
 
     $fileset->{"data/System/JQuery$def{JQUERYPLUGIN}.txt"} = {
         template => "data/System/JQueryYour.txt",
-        extract  => \&jqpExtract
+        extract  => \&commonEmptyExtract
     };
 
     $fileset->{"pub/System/$def{MODULE}/jquery.$def{JQUERYPLUGINMODULELC}.js"}
       = {
         template => "pub/System/EmptyJQueryPlugin/jquery.your.js",
-        extract  => \&jqpPMExtract
+        extract  => \&commonEmptyExtract
       };
 }
+
+#print "PREMO ".join(', ', map { $_->{template} } values %$fileset)."\n";
 
 # If we have a template dir, override the default files with those from the template
 # and add any missing.
@@ -305,9 +333,16 @@ sub manifest {
                 $mask = eval $1;
                 $e    = $2;
             }
-            if ( $fileset->{$f} ) {
-                $fileset->{$f}->{extra} = $e if $e;
-                $fileset->{$f}->{mask} = $mask;
+            my $found;
+            while ( my ( $k, $v ) = each %$fileset ) {
+                if ( $v->{template} eq $f ) {
+                    $found = $v;
+                    last;
+                }
+            }
+            if ($found) {
+                $found->{extra} = $e if $e;
+                $found->{mask} = $mask;
             }
             else {
                 add2Manifest( "manifest", $f, $mask, $e );
@@ -327,6 +362,7 @@ sub manifest {
 
 sub add2Manifest {
     my ( $what, $f, $mask, $e ) = @_;
+
     my $rw = \&commonEmptyExtract;
     if ( $f =~ /\.(\w+)/ ) {
         my $fn = "${1}EmptyExtract";
@@ -351,43 +387,42 @@ sub add2Manifest {
 sub commonEmptyExtract {
     my $s = shift;
     die unless defined $s;
+    if ( defined $def{JQUERYPLUGIN} ) {
+        $s =~
+s/(Foswiki::Plugins::EmptyJQueryPlugin::)YOUR/$1$def{JQUERYPLUGINMODULE}/g;
+        $s =~ s/"Your"/$def{JQUERYPLUGIN}/g;
+        $s =~ s/"your"/$def{JQUERYPLUGINMODULELC}/g;
+    }
     $s =~ s/$templateModule/%\$MODULE%/g;
     return $s;
+}
+
+sub YOURpmExtract {
+    my $s = shift;
+    die unless defined $s;
+    $s =~ s/Your/$def{JQUERYPLUGIN}/g;
+    $s =~ s/YOUR/$def{JQUERYPLUGINMODULE}/g;
+    $s =~ s/your/$def{JQUERYPLUGINMODULELC}/g;
+    return commonEmptyExtract($s);
+}
+
+sub configSpecExtract {
+    my $s = shift;
+    die unless defined $s;
+    $s =~ s/\{Your\}/\{$def{JQUERYPLUGIN}\}/g;
+    $s =~ s/YOUR/$def{JQUERYPLUGINMODULE}/g;
+    return commonEmptyExtract($s);
 }
 
 sub manifestExtract {
     my $s = shift;
 
-    # Rename templatemodule to this module
-    $s =~ s/$templateModule/$def{MODULE}/gs;
-
-    $s = commonEmptyExtract($s);
-
-    # Special case for renaming
-    $s =~ s/your\.(\w+)$/'%$JQUERYPLUGINMODULELC%'.$1/e;
-    $s =~ s/Your\.(\w+)$/'%$JQUERYPLUGIN%'..$1/e;
-    $s =~ s/YOUR\.(\w+)$/'%$JQUERYPLUGINMODULE%'.$1/e;
-    return $s;
-}
-
-sub pmEmptyExtract {
-    my $s = commonEmptyExtract(shift);
-    $s =~ s/^# change the package name.*$//m;    # we're doing it!
-    $s =~ s/(\$SHORTDESCRIPTION = ').*?'/$1.'%$SHORTDESCRIPTION%'."';"/e;
-    return $s;
-}
-
-sub jqpExtract {
-    my $s = commonEmptyExtract(shift);
-    $s =~ s/Your/%\$JQUERYPLUGIN%/sg;
-    $s =~ s/YOUR/%\$JQUERYPLUGINMODULE%/sg;
-    return $s;
-}
-
-sub jqpPMExtract {
-    my $s = jqpExtract(shift);
-    $s =~ s/your/%\$JQUERYPLUGINMODULELC%/sg;
-    return $s;
+    if ( defined $def{JQUERYPLUGIN} ) {
+        $s =~ s/Your/$def{JQUERYPLUGIN}/g;
+        $s =~ s/YOUR/$def{JQUERYPLUGINMODULE}/g;
+        $s =~ s/your/$def{JQUERYPLUGINMODULELC}/g;
+    }
+    return commonEmptyExtract($s);
 }
 
 # Prompt for a yes/no answer, with possible default to be applied
@@ -452,13 +487,13 @@ current directory, suitable for building using the BuildContrib. It
 is normally run at the root of a Foswiki checkout, where existing
 extensions are found in subdirectories.
 
-You pass the name of your new extension - which must end in Skin,
+You pass the name of your new extension - which must end in
 JQueryPlugin, Plugin, or Contrib - to the script. For example,
 
-$0 MyNewSkin
+$0 MyNewPlugin
 
-will create the directory structure and support files for a new skin
-called "MyNewSkin"
+will create the directory structure and support files for a new plugin
+called "MyNewPlugin"
 
 You can also build a new extension using sources from an existing
 extension.  When you build from an existing extension, copies of all

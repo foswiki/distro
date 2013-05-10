@@ -7,14 +7,17 @@ One line description, required for extensions repository catalog.
 
 %SHORTDESCRIPTION%
 
+%TOC%
+
 Learn how to create your own plugin in %SYSTEMWEB%.DevelopingPlugins.
 
 ---++ Preferences
 
 Plugin preferences should be set using =configure=, as described in
-%SYSTEMWEB%.DevelopingPlugins. You can also use
-[[%SYSTEMWEB%.PreferenceSettings][preference settings]] to define any
-user-controllable configuration. You are strongly advised
+%SYSTEMWEB%.DevelopingPlugins.
+
+You can also use [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
+to define any user-controllable configuration. You are strongly advised
 to use the name of the plugin as a prefix, to avoid the risk of namespace
 clashes with other extensions that may try to use the same name.
 
@@ -30,13 +33,13 @@ clashes with other extensions that may try to use the same name.
 
 ---++ Info
 
-|  Author: | Foswiki:Main.PluginAuthor |
-|  Copyright: | &copy; 2012, Foswiki Contributors |
+|  Author: | %$CREATED_AUTHOR% |
+|  Copyright: | %$CREATEDYEAR%, %$CREATED_AUTHOR%, All Rights Reserved |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Release: | %$RELEASE% |
+|  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.0.0 (XX Mmm 20XX): | Initial version |
+|  1.0.0 (%$CREATEDATE%): | Initial version |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
-

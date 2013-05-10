@@ -9,15 +9,15 @@ our @ISA = 'Unit::TestSuite';
 
 sub name { 'EmptyPluginSuite' }
 
+# List the modules that contain the extension-specific tests you
+# want to run. These tests are run when you 'perl build.pl test'
 sub include_tests { qw(EmptyPluginTests) }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Author: %$AUTHOR%
-
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-%$CREATEDYEAR% Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -3,8 +3,11 @@
 package Foswiki::Plugins::EmptyJQueryPlugin::YOUR;
 use strict;
 use warnings;
+
 use Foswiki::Plugins::JQueryPlugin::Plugin;
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+
+use Foswiki::Plugins::EmptyJQueryPlugin (); # for version information
 
 =begin TML
 
@@ -30,14 +33,17 @@ sub new {
         $class->SUPER::new(
             $session,
             name          => 'your',
-            version       => '0.0.1',
-            author        => 'The Author of the JQuery plugin',
-            homepage      => 'jq module\'s URL',
+	    # Use the version number from the Foswiki plugin; this keeps the
+	    # version number in lock-step between the JQuery plugin and
+	    # the Foswiki plugin.
+            version       => $Foswiki::Plugins::EmptyJQueryPlugin::VERSION,
+            author        => $Foswiki::Plugins::EmptyJQueryPlugin::AUTHOR,
+            homepage      => 'JQuery module\'s URL',
             documentation => "$Foswiki::cfg{SystemWebName}.JQueryYour",
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/EmptyJQueryPlugin/your',
             javascript    => ['jquery.your.js']
 
-              #    ,css => ['jquery.your.js']
+              #    ,css => ['jquery.your.css']
         ),
         $class
     );
@@ -50,7 +56,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

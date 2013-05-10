@@ -1,4 +1,4 @@
-%META:TOPICPARENT{name="Plugins"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -21,13 +21,13 @@ Available [[JQueryPlugin][jQuery]] plugins:
 
 ---++ Info
 
-|  Author: | %$AUTHOR% |
-|  Copyright: | &copy; 2011, Foswiki Contributors |
+|  Author: | %$CREATED_AUTHOR% |
+|  Copyright: | &copy; %$CREATEDYEAR%, %$CREATED_AUTHOR%, All Rights Reserved |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Release: | %$RELEASE% |
+|  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  1.0.0 (XX Mmm 20XX) | Initial release |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
-
