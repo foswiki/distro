@@ -50,7 +50,8 @@ sub check {
 "Locale::Msgfmt can not be loaded, unable to compile strings."
                   );
             }
-            my $umask = umask( oct(777) - $Foswiki::cfg{RCS}{filePermission} );
+            my $umask =
+              umask( oct(777) - $Foswiki::cfg{Store}{filePermission} );
             eval {
                 Locale::Msgfmt::msgfmt(
                     {

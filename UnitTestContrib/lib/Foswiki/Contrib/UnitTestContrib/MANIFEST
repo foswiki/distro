@@ -23,7 +23,6 @@ test/unit/AddToHeadTests.pm 0644
 test/unit/AddressTests.pm 0644
 test/unit/AdminOnlyAccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
-test/unit/AutoAttachTests.pm 0644
 test/unit/CacheTests.pm 0644
 test/unit/ClientTests.pm 0644
 test/unit/ConfigureTests.pm 0644
@@ -81,7 +80,6 @@ test/unit/PasswordTests.pm 0644
 test/unit/PluginHandlerTests.pm 0644
 test/unit/PrefsTests.pm 0644
 test/unit/QueryTests.pm 0644
-test/unit/RCSHandlerTests.pm 0644
 test/unit/RESTTests.pm 0644
 test/unit/RegisterTests.pm 0644
 test/unit/RenameTests.pm 0644
@@ -108,8 +106,6 @@ test/unit/UnitTestContrib/EavesdropTests.pm 0644
 test/unit/UnitTestContrib/UnitTestContribSuite.pm 0644
 test/unit/UnitTestContrib/UnitTestContribTests.pm 0644
 test/unit/UploadScriptTests.pm 0644
-test/unit/VCMetaTests.pm 0644
-test/unit/VCStoreTests.pm 0644
 test/unit/VariableTests.pm 0644
 test/unit/ViewFileScriptTests.pm 0644
 test/unit/ViewParamSectionTests.pm 0644

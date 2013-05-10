@@ -882,7 +882,7 @@ sub getDefaultUserName {
 Return the cUID of the specified user. A cUID is a unique identifier which
 is assigned by Foswiki for each user.
 BEWARE: While the default TopicUserMapping uses a cUID that looks like a user's
-LoginName, some characters are modified to make them compatible with rcs.
+LoginName, some characters may be modified to make them compatible with rcs.
 Other usermappings may use other conventions - the !JoomlaUserMapping
 for example, has cUIDs like 'JoomlaeUserMapping_1234'.
 

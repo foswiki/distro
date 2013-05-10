@@ -1,0 +1,28 @@
+!noci
+# Doc and config information
+data/System/RCSStoreContrib.txt 0644 Documentation page
+lib/Foswiki/Contrib/RCSStoreContrib.pm  Perl module 
+lib/Foswiki/Contrib/RCSStoreContrib/Config.spec 0444 Configuration
+lib/Foswiki/Configure/Checkers/RCSChecker.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/ExtOption.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/ciCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/ciDateCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/coCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/delRevCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/diffCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/histCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/infoCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/initBinaryCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/initTextCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/lockCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/rlogDateCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/tmpBinaryCmd.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/unlockCmd.pm 0444
+# Implementation
+lib/Foswiki/Store/RcsLite.pm 0444
+lib/Foswiki/Store/RcsWrap.pm 0444
+lib/Foswiki/Store/VC/Handler.pm 0444
+lib/Foswiki/Store/VC/RcsLiteHandler.pm 0444
+lib/Foswiki/Store/VC/RcsWrapHandler.pm 0444
+lib/Foswiki/Store/VC/Store.pm 0444
+

@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::RCS::overrideUmask;
+package Foswiki::Configure::Checkers::Store::overrideUmask;
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
@@ -22,15 +22,15 @@ sub check {
         oct(777) - (
             (
                 (
-                    $Foswiki::cfg{RCS}{dirPermission} + 0 |
-                      $Foswiki::cfg{RCS}{filePermission} + 0
+                    $Foswiki::cfg{Store}{dirPermission} + 0 |
+                      $Foswiki::cfg{Store}{filePermission} + 0
                 ) & oct(777)
             )
         )
     );
     my $oReqUmask = sprintf( '%03o', $reqUmask );
 
-    if ( $Foswiki::cfg{RCS}{overrideUmask} ) {
+    if ( $Foswiki::cfg{Store}{overrideUmask} ) {
         $e = $this->NOTE(<<PERM1);
 The system umask will be overriden to $oReqUmask.
 PERM1
@@ -42,9 +42,9 @@ PERM1
 # If there are any extra bits on in the system umask, some file permissions will be blocked!
         if ( ( $sysUmask | $reqUmask ) ne $reqUmask ) {
             my $oDirPermission =
-              sprintf( '%03o', $Foswiki::cfg{RCS}{dirPermission} );
+              sprintf( '%03o', $Foswiki::cfg{Store}{dirPermission} );
             my $oFilePermission =
-              sprintf( '%03o', $Foswiki::cfg{RCS}{filePermission} );
+              sprintf( '%03o', $Foswiki::cfg{Store}{filePermission} );
             $e = $this->ERROR(<<PERM2);
 The system umask ($oSysUmask) is not compatible with the configured directory and file permissions.
 A umask of $oReqUmask is required to support the configured Directory and File masks of $oDirPermission and $oFilePermission.

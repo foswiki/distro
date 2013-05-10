@@ -172,8 +172,8 @@ sub provideFeedback {
         $e .= $this->NOTE("File count: $this->{filecount} ");
     }
 
-    my $dperm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
-    my $fperm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
+    my $dperm = sprintf( '%04o', $Foswiki::cfg{Store}{dirPermission} );
+    my $fperm = sprintf( '%04o', $Foswiki::cfg{Store}{filePermission} );
 
     if ( $this->{fileErrors} ) {
         my $insufficientMsg =
@@ -184,7 +184,7 @@ sub provideFeedback {
         $e .= $this->ERROR(<<ERRMSG)
 $insufficientMsg Insufficient permissions
 could prevent Foswiki or the web server from accessing or updating the files.
-<p>Verify that the Store expert settings of {RCS}{filePermission} ($fperm) and {RCS}{dirPermission} ($dperm)
+<p>Verify that the Store expert settings of {Store}{filePermission} ($fperm) and {Store}{dirPermission} ($dperm)
 are set correctly for your environment and correct the file permissions listed below.
 ERRMSG
     }
@@ -206,7 +206,7 @@ PREFS
         $e .= $this->WARN(<< "PERMS");
 $this->{excessPerms} or more directories appear to have more access permission than requested in the Store configuration.
 <p>Excess permissions might allow other users on the web server to have undesired access to the files.
-<p>Verify that the Store expert settings of {RCS}{filePermission} ($fperm} and {RCS}{dirPermission}) ($dperm})
+<p>Verify that the Store expert settings of {Store}{filePermission} ($fperm} and {Store}{dirPermission}) ($dperm})
 are set correctly for your environment and correct the file permissions listed below.  (Files were not checked for
 excessive permissions.)
 PERMS

@@ -65,7 +65,8 @@ sub prepare {
     my $this = shift;
     my $req;
 
-    if ( $Foswiki::cfg{RCS}{overrideUmask} && $Foswiki::cfg{OS} ne 'WINDOWS' ) {
+    if ( $Foswiki::cfg{Store}{overrideUmask} && $Foswiki::cfg{OS} ne 'WINDOWS' )
+    {
 
 # Note: The addition of zero is required to force dirPermission and filePermission
 # to be numeric.   Without the additition, certain values of the permissions cause
@@ -75,8 +76,8 @@ sub prepare {
             (
                 oct(777) - (
                     (
-                        $Foswiki::cfg{RCS}{dirPermission} + 0 |
-                          $Foswiki::cfg{RCS}{filePermission} + 0
+                        $Foswiki::cfg{Store}{dirPermission} + 0 |
+                          $Foswiki::cfg{Store}{filePermission} + 0
                     )
                 ) & oct(777)
             )
@@ -84,8 +85,8 @@ sub prepare {
 
 #my $umask = sprintf('%04o', umask() );
 #$oldUmask = sprintf('%04o', $oldUmask );
-#my $dirPerm = sprintf('%04o', $Foswiki::cfg{RCS}{dirPermission}+0 );
-#my $filePerm = sprintf('%04o', $Foswiki::cfg{RCS}{filePermission}+0 );
+#my $dirPerm = sprintf('%04o', $Foswiki::cfg{Store}{dirPermission}+0 );
+#my $filePerm = sprintf('%04o', $Foswiki::cfg{Store}{filePermission}+0 );
 #print STDERR " ENGINE changes $oldUmask to  $umask  from $dirPerm and $filePerm \n";
     }
 

@@ -207,7 +207,7 @@ will return an array of the values of the Published field in all versions author
 
 %X% When you access the topic history using the =versions= field, the history of the topic is loaded with the *most recent revision first* i.e. at index [0]. So versions[1] does *not* refer to version 1 of the topic; it refers to the version at position 1 in the array i.e. one before the most recent revision. If you want to access the version numbered '1', then you must use =versions[info.version=1]= (or =versions[-1]=).
 
-%X% WARNING: The standard Foswiki store uses an external tool called =RCS= to store topic histories. RCS has _very_ poor performance when it comes to recovering all versions. For this reason you should avoid use of queries that use =versions=.
+%X% WARNING: Some of the Foswiki store implementations use an external tool called =RCS= to store topic histories. RCS has very poor performance when it comes to recovering all versions. For this reason you should avoid use of queries that use =versions= if you are using one of these stores.
 
 ---++ Gotchas
    * Remember that in the query language, topic names are _constants_. You cannot write =%USERSWEB%.UserTopic/UserForm.firstName= because =%USERSWEB%.UserTopic= will be interpreted as a form field name. If you want to refer to topics you *must* enclose the topic name in quotes i.e. ='%USERSWEB%.UserTopic'/UserForm.firstName=

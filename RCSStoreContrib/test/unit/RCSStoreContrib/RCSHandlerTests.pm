@@ -22,6 +22,9 @@ use Foswiki::Store::VC::RcsWrapHandler;
 use File::Path;
 use FoswikiStoreTestCase ();
 
+use Time::HiRes;
+use Benchmark qw(:hireswallclock);
+
 my $testWeb = "TestRcsWebTests";
 my $user    = "TestUser1";
 
@@ -63,6 +66,7 @@ sub fixture_groups {
     my $groups = [];
 
     push( @$groups, 'RcsLite' );
+    return ($groups);
 
     if ( FoswikiStoreTestCase::rcs_is_installed() ) {
         push( @$groups, 'RcsWrap' );
@@ -973,6 +977,7 @@ sub item945_checkHistory {
         my $rcs =
           "Foswiki::Store::VC::Rcs${rcsType}Handler"->new( new StoreStub,
             $testWeb, $testTopic );
+	#print STDERR "Check ".`cat $Foswiki::cfg{DataDir}/$testWeb/$testTopic.txt,v`."\n";
         $this->item945_checkHistoryRcs( $rcs, $depth );
         $rcs->finish();
     }
@@ -1038,4 +1043,35 @@ sub test_Item945_diff {
     $this->assert_equals( $content{@rcsTypes} );
 }
 
+sub deverify_Item11476_worst_case_performance {
+    # Create lots of revs. We're not so worried about the time taken
+    # to create a new rev as we are about the time taken to read basic
+    # info, such as number of revisions.
+    my $rcs;
+    my $topic = "RcsTimeTest";
+    local $| = 1;
+    $rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
+    for (my $i = 1; $i < 1000; $i++) {
+	my $string1 = <<HERE;
+%META:TOPICINFO{author="Author$i" date="$time" format="1.1" version="$i"}%
+$i men went to mow, went to mow a meadow,
+$i men, $i - 1 men, $i - 2 men... 1 man and his dog,
+went to mow a meadow
+HERE
+	$rcs->addRevisionFromText( $string1, "$i", "Author$i" );
+	print ".";
+    }
+    print STDERR "Generated\n";
+    $Foswiki::Store::VC::RcsLiteHandler::trace = 1;
+    my $t0 = Benchmark->new();
+    for (my $i = 1; $i < 100; $i++) {
+	$rcs = $class->new( new StoreStub, $testWeb, $topic, "" );
+	$rcs->getInfo();
+	print ".";
+    }
+    my $t1 = Benchmark->new();
+    print STDERR "Timed\n";
+    my $td = timediff($t1, $t0);
+    print "the code took:",timestr($td),"\n";   
+}
 1;

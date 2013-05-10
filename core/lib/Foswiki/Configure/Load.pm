@@ -43,12 +43,16 @@ our $FALSE = 0;
 # Configuration items that have been deprecated and must be mapped to
 # new configuration items. The value is mapped unchanged.
 our %remap = (
-    '{StoreImpl}'          => '{Store}{Implementation}',
-    '{AutoAttachPubFiles}' => '{RCS}{AutoAttachPubFiles}',
-    '{QueryAlgorithm}'     => '{Store}{QueryAlgorithm}',
-    '{SearchAlgorithm}'    => '{Store}{SearchAlgorithm}',
-    '{RCS}{FgrepCmd}'      => '{Store}{FgrepCmd}',
-    '{RCS}{EgrepCmd}'      => '{Store}{EgrepCmd}',
+    '{StoreImpl}'           => '{Store}{Implementation}',
+    '{AutoAttachPubFiles}'  => '{RCS}{AutoAttachPubFiles}',
+    '{QueryAlgorithm}'      => '{Store}{QueryAlgorithm}',
+    '{SearchAlgorithm}'     => '{Store}{SearchAlgorithm}',
+    '{RCS}{FgrepCmd}'       => '{Store}{FgrepCmd}',
+    '{RCS}{EgrepCmd}'       => '{Store}{EgrepCmd}',
+    '{RCS}{overrideUmask}'  => '{Store}{overrideUmask}',
+    '{RCS}{dirPermission}'  => '{Store}{dirPermission}',
+    '{RCS}{filePermission}' => '{Store}{filePermission}',
+    '{RCS}{WorkAreaDir}'    => '{Store}{WorkAreaDir}'
 );
 
 =begin TML

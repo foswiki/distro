@@ -40,11 +40,9 @@ Foswiki deletes topics by moving them to the hidden =Trash= web.
 
 Deleted topics are moved to a special ==Trash== web - they are NOT physically erased from the server. All webs share the same =Trash= - in case of a name conflict with a topic already existing in the =Trash= web, the user is alerted and asked to choose a new name.
 
-The =Trash= web should be be cleared periodically, by archiving (saving) the text and RCS files if required (recommended), then deleting them from the =pub/Trash= and =data/Trash= directories. 
+See your chosen store implementations' topic for additional details related to
+keeping your trash clean.
 
-<blockquote class="foswikiHelp">%X% This can only be done from on the server, not through the browser. %T% Be sure to recreate the empty !TrashAttachments after you remove it.
-
-%T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access.</blockquote>
 ---++ Redirecting from an old topic
 
 The default "new topic" screen tells the user when a topic being created

@@ -6,7 +6,7 @@ package Foswiki::Store::SearchAlgorithms::Forking;
 ---+ package Foswiki::Store::SearchAlgorithms::Forking
 Implements Foswiki::Store::Interfaces::SearchAlgorithm
 
-Forking implementation of RCS store search. Uses grep.
+Forking implementation of flat file store search. Uses grep.
 
 =cut
 

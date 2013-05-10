@@ -1,0 +1,37 @@
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+---+!! RCSStoreContrib
+
+%SHORTDESCRIPTION%
+
+%TOC%
+
+*Foswiki 1.2.0 and later only*
+
+This is the modern implementation of the classic Foswiki RCS based store. It has been moved into a contrib as other store implementations have emerged, and the RCS store's status as "the one and only" store implementation has been eroded.
+
+---++ Managing Topics
+The =Trash= web should be be cleared periodically, by archiving (saving) the text and RCS files if required (recommended), then deleting them from the =pub/Trash= and =data/Trash= directories. 
+
+<blockquote class="foswikiHelp">%X% This can only be done from on the server, not through the browser. %T% Be sure to recreate the empty !TrashAttachments after you remove it.
+
+%T% Since simple FTP access to the ==Trash== directory is all that is required for maintenance, it is possible to grant =Trash= admin privileges to multiple users, while strictly limiting server access.</blockquote>
+
+---++ Installation
+%$INSTALL_INSTRUCTIONS%
+
+---++ Info
+
+|  Author: | FoswikiContributor |
+|  Copyright &copy;: | Foswiki Contributors |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.0.0 (10 May 2013): | Initial version, abstracted from core |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
+
+

@@ -21,7 +21,7 @@ Pictorially,
 
    * MANIFEST
       * ={path/file.name}=  Distributed filename root is Foswiki root.
-         * ={ci}= - Flag specifying if file should be checked into the RCS system
+         * ={ci}= - Flag specifying if file should be checked into the revision control system
          * ={perms}= - File permissions in Linux octal string format
          * ={md5}= - MD5 checksum of file - optional
          * ={web}= - Web/Subweb name if topic or attachment
@@ -277,9 +277,9 @@ sub log {
           split( /[\/\\]+/, $this->logfile(), -1 );    # -1 allows directories
         pop(@path);
         if ( scalar(@path) ) {
-            umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
+            umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
             File::Path::mkpath( join( '/', @path ),
-                0, $Foswiki::cfg{RCS}{dirPermission} );
+                0, $Foswiki::cfg{Store}{dirPermission} );
         }
     }
 
@@ -740,9 +740,9 @@ sub _moveFile {
     pop(@path);
     if ( !$this->{_options}->{SIMULATE} || $force ) {
         if ( scalar(@path) ) {
-            umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
+            umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
             File::Path::mkpath( join( '/', @path ),
-                0, $Foswiki::cfg{RCS}{dirPermission} );
+                0, $Foswiki::cfg{Store}{dirPermission} );
         }
 
         if ( !File::Copy::move( "$from", $to ) ) {

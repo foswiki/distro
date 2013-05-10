@@ -6,7 +6,7 @@ package Foswiki::Store::SearchAlgorithms::PurePerl;
 ---+ package Foswiki::Store::SearchAlgorithms::PurePerl
 Implements Foswiki::Store::Interfaces::SearchAlgorithm
 
-Pure perl implementation of the RCS search.
+Pure perl implementation of the flat file search in Forking.pm.
 
 =cut
 

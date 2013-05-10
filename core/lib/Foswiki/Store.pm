@@ -20,10 +20,8 @@ are signalled using exceptions. Foswiki::AccessControlException is
 used for access control exceptions, and Error::Simple for all other
 types of error.
 
-Reference implementations of this base class are =Foswiki::Store::RcsWrap=
-and =Foswiki::Store::RcsLite= (these are both implemented in terms of
-VC::Store, which is an abstract implementation of a store based on a
-version control system).
+The reference implementations of this base class =Foswiki::Store::PlainFileStore=,
+which can be obtained from PlainFileStoreContrib.
 
 Methods of this class and all subclasses should *only* be called from
 =Foswiki= and =Foswiki::Meta=. All other system components must delegate

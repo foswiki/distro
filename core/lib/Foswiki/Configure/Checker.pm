@@ -361,8 +361,8 @@ Basic checks:
 All failures of the basic checks are reported back to the caller.
 
 Enhanced checks:
-   * d - Directory permission matches the permissions in {RCS}{dirPermission}
-   * f - File permission matches the permission in {RCS}{filePermission}  (FUTURE)
+   * d - Directory permission matches the permissions in {Store}{dirPermission}
+   * f - File permission matches the permission in {Store}{filePermission}  (FUTURE)
    * p - Verify that a WebPreferences exists for each web
 
 If > 20 enhanced errors are encountered, reporting is stopped to avoid excessive
@@ -411,13 +411,13 @@ sub checkTreePerms {
 
     if ( $perms =~ /d/ && -d $path ) {
         my $mode = ( stat($path) )[2] & oct(7777);
-        if ( $mode != $Foswiki::cfg{RCS}{dirPermission} ) {
+        if ( $mode != $Foswiki::cfg{Store}{dirPermission} ) {
             my $omode = sprintf( '%04o', $mode );
-            my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{dirPermission} );
+            my $operm = sprintf( '%04o', $Foswiki::cfg{Store}{dirPermission} );
             if (
                 (
-                    ( $mode | $Foswiki::cfg{RCS}{dirPermission} )
-                    ^ $Foswiki::cfg{RCS}{dirPermission}
+                    ( $mode | $Foswiki::cfg{Store}{dirPermission} )
+                    ^ $Foswiki::cfg{Store}{dirPermission}
                 )
               )
             {
@@ -426,8 +426,8 @@ sub checkTreePerms {
 "$path - directory permission $omode differs from requested $operm - check directory for possible excess permissions"
                 );
             }
-            if ( ( $mode & $Foswiki::cfg{RCS}{dirPermission} ) !=
-                $Foswiki::cfg{RCS}{dirPermission} )
+            if ( ( $mode & $Foswiki::cfg{Store}{dirPermission} ) !=
+                $Foswiki::cfg{Store}{dirPermission} )
             {
                 $permErrs .= $this->getEmptyStringUnlessUnderLimit(
                     'fileErrors',
@@ -439,13 +439,13 @@ sub checkTreePerms {
 
     if ( $perms =~ /f/ && -f $path ) {
         my $mode = ( stat($path) )[2] & oct(7777);
-        if ( $mode != $Foswiki::cfg{RCS}{filePermission} ) {
+        if ( $mode != $Foswiki::cfg{Store}{filePermission} ) {
             my $omode = sprintf( '%04o', $mode );
-            my $operm = sprintf( '%04o', $Foswiki::cfg{RCS}{filePermission} );
+            my $operm = sprintf( '%04o', $Foswiki::cfg{Store}{filePermission} );
             if (
                 (
-                    ( $mode | $Foswiki::cfg{RCS}{filePermission} )
-                    ^ $Foswiki::cfg{RCS}{filePermission}
+                    ( $mode | $Foswiki::cfg{Store}{filePermission} )
+                    ^ $Foswiki::cfg{Store}{filePermission}
                 )
               )
             {
@@ -454,8 +454,8 @@ sub checkTreePerms {
 "$path - file permission $omode differs from requested $operm - check file for possible excess permissions"
                 );
             }
-            if ( ( $mode & $Foswiki::cfg{RCS}{filePermission} ) !=
-                $Foswiki::cfg{RCS}{filePermission} )
+            if ( ( $mode & $Foswiki::cfg{Store}{filePermission} ) !=
+                $Foswiki::cfg{Store}{filePermission} )
             {
                 $permErrs .= $this->getEmptyStringUnlessUnderLimit(
                     'fileErrors',
@@ -672,75 +672,6 @@ See <a href="http://www.perl.com/doc/manual/html/pod/perlre.html">perl.com</a> f
 MESS
     }
     return '';
-}
-
-my $rcsverRequired = 5.7;
-
-=begin TML
-
----++ PROTECTED ObjectMethod checkRCSProgram($prog) -> $html
-Specific to RCS, this method checks that the given program is available.
-Check is only activated when the selected store implementation is RcsWrap.
-
-=cut
-
-sub checkRCSProgram {
-    my ( $this, $key ) = @_;
-
-    return 'NOT USED IN THIS CONFIGURATION'
-      unless $Foswiki::cfg{Store}{Implementation} eq 'Foswiki::Store::RcsWrap';
-
-    my $mess = '';
-    my $err  = '';
-    my $prog = $Foswiki::cfg{RCS}{$key} || '';
-    $prog =~ s/^\s*(\S+)\s.*$/$1/;
-    $prog =~ /^(.*)$/;
-    $prog = $1;
-    if ( !$prog ) {
-        $err .= $key . ' is not set';
-    }
-    else {
-        my $version = `$prog -V` || '';
-        if (
-            $version !~ /Can't exec/
-
-            # "Can't exec" has been observed on some systems,
-            # despite perlop saying `` returns undef if the prog
-            # can't be run. See Foswikitask:Item1011
-            && $version =~ /(\d+(\.\d+)+)/
-          )
-        {
-            $version = $1;
-        }
-        else {
-            $err .= $this->ERROR( $prog
-                  . ' did not return a version number (or might not exist..)' );
-        }
-
-        # Item11955 - '5.8.1' < 5.7 results in a warning (non-numeric compare)
-        # Best practice is to use CPAN:version, but isn't core until perl 5.10.
-        # So instead let's make the comparison work by stripping out sub-decimal
-        ASSERT( $rcsverRequired =~ /^\d+(\.\d+)?$/ ) if DEBUG;
-        if ( $version =~ /\D(\d+(\.\d+)?)/ && $1 < $rcsverRequired ) {
-
-            # RCS too old
-            $err .=
-                $prog
-              . ' is too old, upgrade to version '
-              . $rcsverRequired
-              . ' or higher.';
-        }
-    }
-    if ($err) {
-        $mess .= $this->ERROR(
-            $err . <<'HERE'
-Foswiki will probably not work with this RCS setup. Either correct the setup, or
-switch to RcsLite. To enable RCSLite you need to change the setting of
-{Store}{Implementation} to 'Foswiki::Store::RcsLite'.
-HERE
-        );
-    }
-    return $mess;
 }
 
 sub getValueObject { return; }

@@ -45,6 +45,9 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
+    # tests assume RCS
+    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
+
     require Foswiki::Configure::UIs::EXTEND;
     my @root = File::Spec->splitdir( $Foswiki::cfg{DataDir} );
     pop(@root);
@@ -1376,9 +1379,9 @@ DONE
     $pkg->finish();
     undef $pkg;
 
-   #
-   #   Install the package - as a fresh install, no checkin or rcs files created
-   #
+    #
+    #   Install the package - as a fresh install, no checkin or files created
+    #
 
     _makePackage( $tempdir, $extension );
     $pkg =
@@ -1437,9 +1440,9 @@ HERE
     $pkg->finish();
     undef $pkg;
 
-   #
-   # Install a 2nd time - RCS files should be created when checkin is requested.
-   #
+    #
+    # Install a 2nd time - files should be created when checkin is requested.
+    #
     _makePackage( $tempdir, $extension );
 
     my $pkg2 =
@@ -2083,31 +2086,6 @@ DONE
     undef $pkg;
 
     return;
-}
-
-#Item11955
-sub test_checkRCSProgram {
-    my ($this) = @_;
-    my $checkerObj =
-      Foswiki::Configure::Checker->new('Test::Foswiki::Configure::Dummy');
-
-    $this->assert( !exists $Foswiki::cfg{RCS}{foo} );
-    local $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsWrap';
-
-    # Don't forget that the cmd is sanitized/untainted...
-    local $Foswiki::cfg{RCS}{foo} = 'rcs';
-    $this->assert( !$checkerObj->checkRCSProgram('foo') );
-
-    return;
-}
-
-{
-
-    package Test::Foswiki::Configure::Dummy;
-    use Foswiki::Configure::UIs::Value();
-    local our @ISA = 'Foswiki::Configure::UIs::Value';
-
-    sub inc { }
 }
 
 1;

@@ -489,6 +489,8 @@ sub test_FormTypes {
     my $text;
     my $result;
 
+    # if this test fails, check $Foswiki::cfg{FormTypes} is defined,
+    # and 'FormTypes' is included in AccessibleCFG.
     $text = <<PONG;
 %QUERY{"{FormTypes}[].types"}%
 PONG

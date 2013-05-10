@@ -9,12 +9,11 @@ Low client and server base requirements are core features that keep Foswiki wide
 
 ---+++ Server Requirements
 
-Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands and <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. It should be able to run on any server platform that meets the following requirements.
+Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as Unix and Unix-like systems (including Linux and OSX), on which it uses a number of shell commands. It should be able to run out-of-the-box on any server platform that meets the following requirements.
 
 | *Resource* | *Required Server Environment* |
 | Perl | 5.8.8 or higher |
-| RCS (Revision Control System)| 5.7 or higher (including GNU =diff=) <br /> Optional. Foswiki includes a pure Perl implementation of RCS (!RcsLite) that can be used instead, at the cost of performance |
-| GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl !RcsLite. <br /> Install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
+| GNU diff | GNU diff 2.7 or higher is required when not using the all-Perl !RcsLite. <br /> If using an RCS-based store, then install within the PATH if not included with RCS (check version with =diff -v=) <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
 | Other external programs | =fgrep, egrep= |
 | Cron/scheduler | &bull; Unix: =cron= <br />&bull; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
 | Web server | Apache is well supported; for information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |

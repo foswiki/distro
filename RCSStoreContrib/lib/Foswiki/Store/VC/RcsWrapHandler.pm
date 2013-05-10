@@ -149,7 +149,7 @@ sub ci {
               . $rcsOutput
               . ( (DEBUG) ? $stderr : '' ) );
     }
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
 }
 
 # implements VC::Handler
@@ -186,7 +186,7 @@ sub repRev {
         $rcsOut = $Foswiki::cfg{RCS}{ciDateCmd} . "\n" . $rcsOut;
         return $rcsOut;
     }
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
 }
 
 # implements VC::Handler
@@ -209,7 +209,7 @@ sub _deleteRevision {
             $Foswiki::cfg{RCS}{unlockCmd} . ' failed: ' . $rcsOut );
     }
 
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
 
     ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{delRevCmd},
@@ -523,7 +523,7 @@ sub _lock {
                   . $rcsOutput );
         }
     }
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
 }
 
 # implements VC::Handler

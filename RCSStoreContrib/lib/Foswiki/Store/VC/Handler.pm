@@ -178,7 +178,7 @@ sub mkPathTo {
     my ( $volume, $path, undef ) = File::Spec->splitpath($file);
     $path = File::Spec->catpath( $volume, $path, '' );
 
-    eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
+    eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} ); };
     if ($@) {
         throw Error::Simple("VC::Handler: failed to create ${path}: $!");
     }
@@ -1050,7 +1050,7 @@ sub saveStream {
       || throw Error::Simple(
         'VC::Handler: close ' . $this->{file} . ' failed: ' . $! );
 
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{file} );
 }
 
 sub copyFile {

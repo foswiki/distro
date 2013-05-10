@@ -81,7 +81,7 @@ sub provideFeedback {
     }
 
     # Automatic upgrade of work_areas
-    my $existing = $Foswiki::cfg{RCS}{WorkAreaDir} || '';
+    my $existing = $Foswiki::cfg{Store}{WorkAreaDir} || '';
     $existing =~ s/\$Foswiki::cfg({\w+})+/eval "$Foswiki::cfg$1"/ge;
     if ( $existing && -d $existing ) {
 
@@ -92,12 +92,12 @@ sub provideFeedback {
         }
         else {
             $e .= $this->WARN( "
-You have an existing {RCS}{WorkAreaDir} ($Foswiki::cfg{RCS}{WorkAreaDir}),
+You have an existing {Store}{WorkAreaDir} ($Foswiki::cfg{Store}{WorkAreaDir}),
 so I have copied the contents of that directory into the new
 $d/work_areas. You should delete the old
-$Foswiki::cfg{RCS}{WorkAreaDir} when you are happy with
+$Foswiki::cfg{Store}{WorkAreaDir} when you are happy with
 the upgrade." );
-            delete( $Foswiki::cfg{RCS}{WorkAreaDir} );
+            delete( $Foswiki::cfg{Store}{WorkAreaDir} );
         }
     }
 

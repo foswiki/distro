@@ -1,14 +1,14 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::RCS::initTextCmd;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+package Foswiki::Configure::Checkers::RCS::histCmd;
+use Foswiki::Configure::::Checkers::RCSChecker ();
+our @ISA = ('Foswiki::Configure::Checkers::RCSChecker');
 
 use strict;
 use warnings;
 
 sub check {
     my $this = shift;
-    return $this->checkRCSProgram('initTextCmd');
+    return $this->checkRCSProgram('histCmd');
 }
 
 1;

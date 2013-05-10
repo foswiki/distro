@@ -168,7 +168,7 @@ To make it easier to follow the instructions in this section, you can view this 
 #SearchAlgorithm
 ---+++ Step 8: Choose an appropriate search algorithm for your Operating System
 
-On the =Store= pane in =configure= you will find the setting ={RCS}{SearchAlgorithm}=.
+On the =Store= pane in =configure= you will find the setting ={Store}{SearchAlgorithm}=.
 
 By default it is set to =Foswiki::Store::SearchAlgorithms::Forking= which is what you should keep if you install Foswiki in Linux or any other Unix type operating system.
 

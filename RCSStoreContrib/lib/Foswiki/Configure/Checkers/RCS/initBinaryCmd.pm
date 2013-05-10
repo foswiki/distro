@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::RCS::initBinaryCmd;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Foswiki::Configure::Checkers::RCSChecker ();
+our @ISA = ('Foswiki::Configure::Checkers::RCSChecker');
 
 use strict;
 use warnings;

@@ -541,7 +541,7 @@ sub _writeMe {
     my ($this) = @_;
     my $out;
 
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{rcsFile} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{rcsFile} );
     unless ( open( $out, '>', $this->{rcsFile} ) ) {
         throw Error::Simple(
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
@@ -551,7 +551,7 @@ sub _writeMe {
         _write( $this, $out );
         close($out);
     }
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{rcsFile} );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $this->{rcsFile} );
 }
 
 # implements VC::Handler
