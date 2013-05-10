@@ -55,6 +55,19 @@ BEGIN {
     }
 }
 
+sub new {
+    my $class = shift;
+    my $this  = $class->SUPER::new(@_);
+
+    # Compatibility with old config settings
+    unless ( defined $Foswiki::cfg{Store}{filePermission} ) {
+        $Foswiki::cfg{Store}{filePermission} =
+          $Foswiki::cfg{RCS}{filePermission};
+        $Foswiki::cfg{Store}{dirPermission} = $Foswiki::cfg{RCS}{dirPermission};
+    }
+    return $this;
+}
+
 sub finish {
     my $this = shift;
     $this->SUPER::finish();
@@ -1201,7 +1214,7 @@ sub _saveFile {
     close($fh)
       or die("PlainFile: failed to close file $file: $!");
 
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $file );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $file );
 
     return;
 }
@@ -1220,7 +1233,7 @@ sub _saveStream {
     }
     close($F) or die "PlainFile: close $file failed: $!";
 
-    chmod( $Foswiki::cfg{RCS}{filePermission}, $file );
+    chmod( $Foswiki::cfg{Store}{filePermission}, $file );
 }
 
 # Move a file or directory from one absolute file path to another.
@@ -1269,9 +1282,11 @@ sub _mkPathTo {
     # SMELL:  Sites running Apache with SuexecUserGroup will
     # have a forced "safe" umask. Override umask here to allow
     # correct dirPermissions to be applied
-    umask( oct(777) - $Foswiki::cfg{RCS}{dirPermission} );
+    umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
 
-    eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
+    eval {
+        File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} );
+    };
     if ($@) {
         die("PlainFile: failed to create ${path}: $!");
     }
