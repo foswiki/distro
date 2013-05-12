@@ -294,6 +294,13 @@ All types can be followed by a comma-separated list of _attributes_.
 | =5x80= | means "use a 5 row, 80 column textarea". Can be used with any text entry field type, such as STRING, COMMAND, PERL etc. |
 | =DISPLAY_IF= | means this option is conditionally displayed based on some Javascript expression (see below for more) |
 | =ENABLE_IF= | means this option is conditionally enabled based on some Javascript expression (see below for more) |
+As of Foswiki 1.2.0 you can also use the =ENHANCE= type to enhance the documentation for an already-existing =$Foswiki::cfg= value. For example:
+<verbatim>
+# **ENHANCE {Store}{Implementation}**
+# Documentation for a new store implementation here
+</verbatim>
+=ENHANCE= does not have a corresponding =$Foswiki::cfg= value, just a documentation block.
+
 See =lib/Foswiki.spec= for many more examples.
 
 =Config.spec= files are also used for other (non-plugin) extensions. in this case they are stored under the =Contrib= directory instead of the =Plugins= directory.
