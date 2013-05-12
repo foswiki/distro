@@ -237,7 +237,7 @@ sub enableIf {
     return $this->{enableIf} || '';
 }
 
-# See Foswiki::Configure::Item
+# Get the keys used for this value e.g. {Store}{Implementation}
 sub getKeys {
     my $this = shift;
     return $this->{keys};
@@ -297,7 +297,8 @@ sub getSectionObject {
 =begin TML
 
 ---++ ObjectMethod getValueObject($keys)
-Get the value
+This is a leaf object, so there's no recursive search to be done; we just
+return $this if the keys match.
 
 =cut
 

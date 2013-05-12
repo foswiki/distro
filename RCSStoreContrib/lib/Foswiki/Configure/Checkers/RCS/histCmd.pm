@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::RCS::histCmd;
-use Foswiki::Configure::::Checkers::RCSChecker ();
+use Foswiki::Configure::Checkers::RCSChecker ();
 our @ISA = ('Foswiki::Configure::Checkers::RCSChecker');
 
 use strict;

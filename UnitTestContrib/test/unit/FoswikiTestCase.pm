@@ -657,6 +657,7 @@ sub set_up {
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
     my $query = new Unit::Request();
+    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
     my $tmp = new Foswiki( undef, $query );
     ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     $tmp->finish();
@@ -953,6 +954,7 @@ sub createNewFoswikiSession {
     $this->{test_topicObject}->finish()           if $this->{test_topicObject};
     $this->{session}->finish()                    if $this->{session};
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
     $this->{session} = Foswiki->new( $user, $query, @args );
     $this->{request} = $this->{session}{request};
     ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;

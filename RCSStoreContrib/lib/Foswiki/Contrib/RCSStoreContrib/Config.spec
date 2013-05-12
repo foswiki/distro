@@ -1,13 +1,22 @@
 # ---+ Extensions
 # ---++ RCSStoreContrib
-# <ul>
-# <li>RcsWrap uses normal RCS executables.</li>
-# <li>RcsLite uses a 100% Perl simplified implementation of RCS.
-# RcsLite is useful if you don't have, and can't install, RCS - for
-# example, on a hosted platform. It will work, and is compatible with
-# RCS, but is not quite as fast.</li>
-# </ul>
-
+# **ENHANCE {Store}{Implementation}**
+# <dl><dt>RcsWrap</dt><dd>
+# (installed by the RCSStoreContrib) uses the 'rcs' revision control
+# system to store the history of topics and attachments. It calls the rcs
+# executables directly, and requires rcs to be installed on the server.
+# It's a good choice for sites that have a pre-existing Foswiki (or TWiki)
+# where compatibility with existing data and scripts is paramount.
+# Performance is generally good on most platforms except Windows.</dd></dl>
+# **ENHANCE {Store}{Implementation}**
+# <dl><dt>RcsLite</dt><dd>
+# uses a pure-perl simplified implementation of the 'rcs' revision
+# control system.
+# It's a good choice for sites that have a pre-existing Foswiki (or TWiki)
+# where compatibility with existing data and scripts is paramount, but 
+# RcsWrap cannot be used; for example, on  hosted platform where 'rcs'
+# cannot be installed, or on Windows where RcsWrap performance is poor.
+# </dd></dl>
 # **BOOLEAN**
 # Some file-based Store implementations (RcsWrap and RcsLite) store
 # attachment meta-data separately from the actual attachments.

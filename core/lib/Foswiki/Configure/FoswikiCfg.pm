@@ -431,7 +431,14 @@ sub _parse {
 
             # **STRING 30 EXPERT**
             _pusht( \@settings, $open ) if $open;
-            $open = new Foswiki::Configure::Value( $1, opts => $2 );
+            if ( $1 eq 'ENHANCE' ) {
+
+                # Enhance the description of an existing value
+                $open = $root->getValueObject($2);
+            }
+            else {
+                $open = new Foswiki::Configure::Value( $1, opts => $2 );
+            }
         }
 
         elsif ( $l =~ /^(#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=(.*)$/ ) {
@@ -564,9 +571,11 @@ sub _parse {
 
 sub _pusht {
     my ( $a, $n ) = @_;
+    Carp::confess "_pusht called with undef" if ( !defined $n );
     foreach my $v (@$a) {
-        Carp::confess "_pusht called with undef" if ( !defined $n );
-        Carp::confess "$a" if ( $v eq $n );
+
+        # OK IFF we are processing **ENHANCE**
+        return if ( $v eq $n );
     }
     push( @$a, $n );
 }

@@ -12,11 +12,16 @@ sub check {
 
     my $mess = '';
 
-    if (    ( $^O eq 'MSWin32' )
+    if ( !$Foswiki::cfg{Store}{Implementation} ) {
+        $mess .= $this->ERROR(<<EOF);
+You *must* select a store implementation.
+EOF
+    }
+    elsif ( ( $^O eq 'MSWin32' )
         and ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap/ ) )
     {
-        $mess .= $this->ERROR(<<EOF);
-RcsWrap does not work well on Windows, please use RcsLite.
+        $mess .= $this->WARN(<<EOF);
+RcsWrap has poor performance on Windows. You are recommended to choose a different store implementation.
 EOF
     }
 
