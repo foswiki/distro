@@ -781,6 +781,25 @@ sub fireDependency {
     return $cache->fireDependency( $_[0]->{_web}, $_[0]->{_topic} );
 }
 
+=begin TML
+
+---++ ObjectMethod isCacheable() -> $boolean
+
+Return true if page caching is enabled and this topic object is cacheable.
+
+=cut
+
+sub isCacheable {
+    my $this = shift;
+
+    return 0 unless $Foswiki::cfg{Cache}{Enabled};
+
+    my $cache = $this->{_session}->{cache};
+    return 0 unless $cache;
+
+    return $cache->isCacheable( $this->{_web}, $this->{_topic} );
+}
+
 ############# WEB METHODS #############
 
 =begin TML
