@@ -263,6 +263,12 @@ sub cachePage {
     $variation->{expire} = CGI::Util::expire_calc($expire)
       if defined $expire;
 
+    unless ( defined $variation->{expire} && $variation->{expire} =~ /^\d+$/ ) {
+        print STDERR
+"WARNING: expire value not recognized as a proper cache expiration value\n";
+        $variation->{expire} = undef;
+    }
+
     # store page variation
     $this->setPageVariation( $web, $topic, $variationKey, $variation );
 
@@ -653,11 +659,9 @@ sub finish {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Copyright (C) 2006-2010 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
