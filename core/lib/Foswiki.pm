@@ -3046,7 +3046,7 @@ sub _processMacros {
 
     my $dirtyAreas = {};
     $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
-      if $Foswiki::cfg{Cache}{Enabled};
+      if $topicObject->isCacheable();
 
     my @queue = split( /(%)/, $text );
     my @stack;
@@ -3163,7 +3163,8 @@ sub _processMacros {
     }
 
     putBackBlocks( \$stackTop, $dirtyAreas, 'dirtyarea' )
-      if $Foswiki::cfg{Cache}{Enabled};
+      if $topicObject->isCacheable();
+
     putBackBlocks( \$stackTop, $verbatim, 'verbatim' );
 
     #print STDERR "FINAL $stackTop\n";
@@ -3383,7 +3384,7 @@ sub expandMacros {
     # take out dirty areas
     my $dirtyAreas = {};
     $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
-      if $Foswiki::cfg{Cache}{Enabled};
+      if $topicObject->isCacheable();
 
     # Require defaults for plugin handlers :-(
     my $webContext   = $topicObject->web   || $this->{webName};
@@ -3429,7 +3430,7 @@ sub expandMacros {
 
     # restore dirty areas
     putBackBlocks( \$text, $dirtyAreas, 'dirtyarea' )
-      if $Foswiki::cfg{Cache}{Enabled};
+      if $topicObject->isCacheable();
 
     putBackBlocks( \$text, $verbatim, 'verbatim' );
 
