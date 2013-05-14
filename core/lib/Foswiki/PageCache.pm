@@ -263,9 +263,9 @@ sub cachePage {
     $variation->{expire} = CGI::Util::expire_calc($expire)
       if defined $expire;
 
-    unless ( defined $variation->{expire} && $variation->{expire} =~ /^\d+$/ ) {
+    if ( defined $variation->{expire} && $variation->{expire} !~ /^\d+$/ ) {
         print STDERR
-"WARNING: expire value not recognized as a proper cache expiration value\n";
+"WARNING: expire value '$variation->{expire}' is not recognized as a proper cache expiration value\n";
         $variation->{expire} = undef;
     }
 
@@ -378,8 +378,8 @@ sub isCacheable {
     my $session = $Foswiki::Plugins::SESSION;
 
     # POSTs aren't cacheable
-    my $request = $session->{request};
-    $isCacheable = 0 if $request->method eq 'POST';
+    my $method = $session->{request}->method;
+    $isCacheable = 0 if $method && $method eq 'POST';
 
     if ($isCacheable) {
 
