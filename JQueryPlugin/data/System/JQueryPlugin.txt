@@ -121,12 +121,16 @@ reduce bandwidth and speed up interactive performance.
 <blockquote class="foswikiHelp"> %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.</blockquote>
 
 ---++ Plugin Info
-|  Author(s): | Michael Daum |
-|  Copyright: | 2007-2013 Michael Daum http://michaeldaumconsulting.com, and Foswiki contributors. |
+|  Maintainer(s): | Michael Daum |
+|  Copyright: | 2007-2013 Foswiki Contributors http://foswiki.org |
 |  License: | GPL |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 May 2013: | (4.70) - Item12345: added jquery-1.9.1 and jquery-2.0.0; \
+                           removed themeswitcher as it isn't supported and non-functional anymore; \
+                           upgraded to jquery-ui-1.10.3; \
+                           upgraded form, rating, masonry |
 |  15 Jan 2013: | (4.60) - Item12345: added jquery-1.8.3, upgraded pnotify, masonry, scrollto, form, blockui, cycle |
 |  11 Dec 2012: | (4.50) - Item12229: improved transliteration of unicode characters in jquery.wikiword |
 |  28 Nov 2012: | (4.45) - Release with Foswiki 1.1.6 <br />\

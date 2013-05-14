@@ -186,9 +186,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Tabpane}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{TextboxList}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Themeswitcher}{Enabled} = 1;
-
-# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 1;
 
 # **BOOLEAN**

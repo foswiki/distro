@@ -1,15 +1,11 @@
 /*
  * jQuery Shrinkurls plugin 1.1
  *
- * http://michaeldaumconsulting.com
- *
- * Copyright (c) 2007-2010 Michael Daum 
+ * Copyright (c) 2007-2013 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
- *
- * Revision: $Id$
  *
  */
 

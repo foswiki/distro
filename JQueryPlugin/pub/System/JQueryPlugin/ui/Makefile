@@ -18,21 +18,24 @@ SOURCES=\
   jquery.ui.core.js\
   jquery.ui.widget.js\
   jquery.ui.mouse.js\
-  jquery.ui.position.js\
   jquery.ui.draggable.js\
   jquery.ui.droppable.js\
   jquery.ui.resizable.js\
   jquery.ui.selectable.js\
   jquery.ui.sortable.js\
+  jquery.ui.effect.js\
   jquery.ui.accordion.js\
   jquery.ui.autocomplete.js\
   jquery.ui.button.js\
-  jquery.ui.dialog.js\
-  jquery.ui.slider.js\
-  jquery.ui.tabs.js\
   jquery.ui.datepicker.js\
+  jquery.ui.dialog.js\
+  jquery.ui.menu.js \
+  jquery.ui.position.js\
   jquery.ui.progressbar.js\
-  jquery.ui.effect.js\
+  jquery.ui.slider.js\
+  jquery.ui.spinner.js \
+  jquery.ui.tabs.js\
+  jquery.ui.tooltip.js \
   jquery.ui.effect-blind.js\
   jquery.ui.effect-bounce.js\
   jquery.ui.effect-clip.js\
@@ -53,4 +56,3 @@ SOURCES=\
 jquery-ui.uncompressed.js: $(SOURCES) Makefile
 	@echo creating $@
 	@$(CAT) $(SOURCES) > $@
-

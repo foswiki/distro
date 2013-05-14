@@ -41,7 +41,6 @@ SUBDIRS=\
   supersubs \
   tabpane \
   textboxlist \
-  themeswitcher \
   tmpl \
   tooltip \
   treeview \
