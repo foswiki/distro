@@ -1915,6 +1915,12 @@ sub new {
         }
     }
 
+    # Set the requestedWebName before applying defaults - used by statistics
+    # generation.   Note:  This is validated using Topic name rules to permit
+    # names beginning with lower case.
+    $this->{requestedWebName} =
+      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateTopicName );
+
     #non-'' ?topic
     if ( $query->param('topic') ) {
         $topic          = $query->param('topic');
@@ -1937,12 +1943,6 @@ sub new {
     $topic =
       Foswiki::Sandbox::untaint( $topic, \&Foswiki::Sandbox::validateTopicName )
       || $Foswiki::cfg{HomeTopicName};
-
-    # Set the requestedWebName before applying defaults - used by statistics
-    # generation.   Note:  This is validated using Topic name rules to permit
-    # names beginning with lower case.
-    $this->{requestedWebName} =
-      Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateTopicName );
 
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
