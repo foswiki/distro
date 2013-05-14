@@ -89,7 +89,7 @@ jQuery(function($) {
   });
 
   // dialog link
-  $(".jqUIDialogLink").live("click.uidialoglink", function() {
+  $(document).on("click.uidialoglink", ".jqUIDialogLink", function() {
     var $this = $(this), 
         href = $this.attr("href"),
         opts = $.extend({}, dialogLinkDefaults, $this.metadata());

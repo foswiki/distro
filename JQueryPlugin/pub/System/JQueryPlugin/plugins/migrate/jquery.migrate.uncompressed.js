@@ -15,6 +15,7 @@ jQuery.migrateWarnings = [];
 
 // Set to true to prevent console output; migrateWarnings still maintained
 jQuery.migrateMute = true;
+jQuery.migrateTrace = false;
 
 // Show a message on the console so devs know we're active
 if ( !jQuery.migrateMute && window.console && window.console.log ) {

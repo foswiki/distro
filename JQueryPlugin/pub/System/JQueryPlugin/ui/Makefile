@@ -32,20 +32,20 @@ SOURCES=\
   jquery.ui.tabs.js\
   jquery.ui.datepicker.js\
   jquery.ui.progressbar.js\
-  jquery.effects.core.js\
-  jquery.effects.blind.js\
-  jquery.effects.bounce.js\
-  jquery.effects.clip.js\
-  jquery.effects.drop.js\
-  jquery.effects.explode.js\
-  jquery.effects.fade.js\
-  jquery.effects.fold.js\
-  jquery.effects.highlight.js\
-  jquery.effects.pulsate.js\
-  jquery.effects.scale.js\
-  jquery.effects.shake.js\
-  jquery.effects.slide.js\
-  jquery.effects.transfer.js
+  jquery.ui.effect.js\
+  jquery.ui.effect-blind.js\
+  jquery.ui.effect-bounce.js\
+  jquery.ui.effect-clip.js\
+  jquery.ui.effect-drop.js\
+  jquery.ui.effect-explode.js\
+  jquery.ui.effect-fade.js\
+  jquery.ui.effect-fold.js\
+  jquery.ui.effect-highlight.js\
+  jquery.ui.effect-pulsate.js\
+  jquery.ui.effect-scale.js\
+  jquery.ui.effect-shake.js\
+  jquery.ui.effect-slide.js\
+  jquery.ui.effect-transfer.js
 
 
 -include ../Makefile.include
