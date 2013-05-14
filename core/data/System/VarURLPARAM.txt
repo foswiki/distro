@@ -7,7 +7,7 @@
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | ="name"= | The name of a URL parameter | required |
-     | =default="..."= | Default value in case parameter is empty or missing | empty string |
+     | =default="..."= | Default value, used if the parameter is not present | empty string |
      | =newline="&lt;br /&gt;"= | Convert newlines in textarea to other delimiters | no conversion |
      | =encode="off"= <br /> =encode="entity"= <br /> =encode="safe"= <br /> =encode="url"= <br /> =encode="quote"= | Control how special characters are encoded <hr /> =off=: No encoding. Avoid using this when possible. See the security warning below. <hr /> =entity=: Encode special characters into HTML entities. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]] for more details. <hr /> =safe=: Encode characters ='"&lt;&gt;%= into HTML entities. <hr /> =url=: Encode special characters for URL parameter use, like a double quote into =%22= <hr /> =quote=: Escape double quotes with backslashes (=\"=), does not change other characters; required when feeding URL parameters into other macros. | "safe" |
      | =multiple="on"= %BR% =multiple="[<nop>[$item]]"= | If set, gets all selected elements of a =&lt;select multiple="multiple"&gt;= tag. A format can be specified, with =$item= indicating the element, e.g. =multiple="Option: $item"= (also supports the standard [[format tokens]]) | first element |
