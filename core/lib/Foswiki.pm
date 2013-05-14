@@ -1896,9 +1896,7 @@ sub new {
         $this->{scriptUrlPath} = $1;
     }
 
-#set the defaults for web&topic
-#Development.AddWebParamToAllCgiScripts: enables bin/script?topic=WebPreferences;defaultweb=Sandbox
-    my $web = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+    my $web   = '';
     my $topic = '';
 
 #if the user has only asked for the web portion, then we can make a better guess (view/One/Two/Three/ is just a web (trailing /))
@@ -1946,7 +1944,12 @@ sub new {
     $this->{requestedWebName} =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateTopicName );
 
-    # Validate web name from path info
+    # Set the default for web
+    # Development.AddWebParamToAllCgiScripts: enables
+    # bin/script?topic=WebPreferences;defaultweb=Sandbox
+    $web ||= $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+
+    # Validate web name from path info or default
     $web =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName )
       || '';
