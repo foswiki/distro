@@ -1296,12 +1296,14 @@ table.ui-datepicker-inline {
   white-space:normal;
   border:0px solid #fff;
 }
-.ui-jqgrid.ui-widget-content tr th {
-  padding:0.3em 0.8em;
-}
 .ui-jqgrid .ui-jqgrid-bdiv td {
   background-color:transparent;
 }
+.ui-jqgrid .ui-jqgrid-htable th:first-child {
+  padding-left:0;
+  padding-right:0;
+}
+.ui-jqgrid .
 .ui-jqgrid .ui-priority-secondary,
 .ui-jqgrid .ui-priority-secondary td,
 .ui-jqgrid td.ui-jqgrid-sortcol {

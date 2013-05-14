@@ -28,10 +28,10 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'UI::Autocomplete',
-            version      => '1.8.21',
+            version      => '1.8.23',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://docs.jquery.com/UI/Autocomplete',
+            homepage     => 'http://api.jqueryui.com/autocomplete/',
             javascript   => ['jquery.ui.autocomplete.init.js'],
             dependencies => [ 'ui', ],
         ),

@@ -94,7 +94,7 @@ jQuery(function($) {
         href = $this.attr("href"),
         opts = $.extend({}, dialogLinkDefaults, $this.metadata());
 
-    if (href.match(/^https?:/)) {
+    if (href.match(/^(https?:)|\//)) {
       // this is a link to remote data
       $.ajax({
         url: href, 

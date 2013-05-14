@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Migrate',
-            version    => '1.1.1',
+            version    => '1.2.1',
             author     => 'jQuery Foundation, Inc. and other contributors',
             homepage   => 'https://github.com/jquery/jquery-migrate/',
             javascript => ['jquery.migrate.js'],
