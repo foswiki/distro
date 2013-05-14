@@ -21,6 +21,7 @@
 	padding: 0;
 	position: absolute;
 	width: 1px;
+        display:none;
 }
 .ui-helper-reset {
 	margin: 0;
