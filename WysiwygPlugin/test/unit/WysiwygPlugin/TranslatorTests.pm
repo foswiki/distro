@@ -187,10 +187,10 @@ BLAH
         name => 'codeToFromHtml',
         html => <<'BLAH',
 <p>
-<span class="WYSIWYG_TT">Code</span>
+<span class="WYSIWYG_TT">&Alpha; Code</span>
 </p>
 BLAH
-        tml => '=Code='
+        tml => '=&Alpha; Code='
     },
     {
         exec => $ROUNDTRIP,

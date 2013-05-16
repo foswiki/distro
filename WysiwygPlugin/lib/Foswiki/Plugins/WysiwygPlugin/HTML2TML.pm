@@ -148,7 +148,6 @@ sub convert {
     $text =~ s/\&\#x22;/\&quot;/goi;
     $text =~ s/\&\#160;/\&nbsp;/goi;
 
-    require HTML::Entities;
     HTML::Entities::_decode_entities( $text, WC::safeEntities() );
 
     #print STDERR "decodedent[". debugEncode($text). "]\n\n";
@@ -163,7 +162,8 @@ sub convert {
     #print STDERR "notrep2ent[". debugEncode($text). "]\n\n";
 
     # $text is now Unicode characters that are representable
-    # in the site charset. Convert to the site charset:
+    # in the site charset.
+    # Convert to the site charset:
     if ( WC::encoding() =~ /^utf-?8/ ) {
 
         # nothing to do, already in unicode

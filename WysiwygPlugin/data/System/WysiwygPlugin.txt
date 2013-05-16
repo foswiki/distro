@@ -183,11 +183,12 @@ Many thanks to the following sponsors for supporting this work:
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]], Foswiki Contributors |
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr %BR% \
-               &copy; 2008-2012 Foswiki Contributors |
+               &copy; 2008-2013 Foswiki Contributors |
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  1.1.16 (16 May 2013) | Foswikitask:Item12444: Fix problem with entities being expanded to unrepresentable characters |
 |  1.1.15 (16 Dec 2012) | Foswikitask:Item12297: Minor perlcritic coding change | 
 |         (21 Dec 2012) | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. |
 |  1.1.14 (28 Nov 2012) | Foswikitask:Item11912: Clean up hex markers left behind by TinyMCEPlugin <br />\

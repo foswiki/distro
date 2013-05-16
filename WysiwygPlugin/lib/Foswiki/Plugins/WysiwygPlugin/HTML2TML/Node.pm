@@ -31,6 +31,7 @@ use vars qw( $reww );
 
 use Foswiki::Plugins::WysiwygPlugin::Constants;
 use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC;
+use HTML::Entities ();
 
 my %jqueryChiliClass = map { $_ => 1 }
   qw( cplusplus csharp css bash delphi html java js
@@ -647,8 +648,10 @@ sub _flatten {
         $text =~ s/[$WC::PON$WC::POFF]//g;
 
         unless ( $options & $WC::KEEP_ENTITIES ) {
-            require HTML::Entities;
-            $text = HTML::Entities::decode_entities($text);
+
+            # This will decode only those entities that
+            # have a representation in the site charset.
+            WC::decodeRepresentableEntities($text);
 
             # &nbsp; decodes to \240, which we want to make a space.
             $text =~ s/\240/$WC::NBSP/g;
@@ -1325,9 +1328,9 @@ sub _verbatim {
     $options |= $WC::PROTECTED | $WC::KEEP_ENTITIES | $WC::BR2NL | $WC::KEEP_WS;
     my ( $flags, $text ) = $this->_flatten($options);
 
-    # decode once, and once only
-    require HTML::Entities;
-    $text = HTML::Entities::decode_entities($text);
+    # decode once, and once only. This will decode only those
+    # entities than have a representation in the site charset.
+    WC::decodeRepresentableEntities($text);
 
     # &nbsp; decodes to \240, which we want to make a space.
     $text =~ s/\240/$WC::NBSP/g;
