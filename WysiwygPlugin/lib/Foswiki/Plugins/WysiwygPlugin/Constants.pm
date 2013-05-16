@@ -5,6 +5,8 @@ use strict;
 use warnings;
 
 use Encode;
+use HTML::Entities;
+use Assert;
 
 # HTML elements that are strictly block type, as defined by
 # http://www.htmlhelp.com/reference/html40/block.html.
@@ -234,13 +236,10 @@ sub convertNotRepresentabletoEntity {
             # characters representable in the site charset
             $siteCharsetRepresentable = '';
             for my $code ( 0 .. 255 ) {
-                my $unicodeChar =
-                  Encode::decode( encoding(), chr($code), Encode::FB_PERLQQ );
-                if ( $unicodeChar =~ /^\\x/ ) {
-
-                    # code is not valid, so skip it
-                }
-                else {
+                eval {
+                    my $unicodeChar =
+                      Encode::decode( encoding(), chr($code),
+                        Encode::FB_CROAK );
 
                     # Escape codes in the standard ASCII range, as necessary,
                     # to avoid special interpretation by perl
@@ -248,11 +247,12 @@ sub convertNotRepresentabletoEntity {
                       if ord($unicodeChar) <= 127;
 
                     $siteCharsetRepresentable .= $unicodeChar;
-                }
+                };
+
+                # otherwise ignore
             }
         }
 
-        require HTML::Entities;
         $_[0] =
           HTML::Entities::encode_entities( $_[0],
             "^$siteCharsetRepresentable" );
@@ -280,10 +280,9 @@ our @safeEntities = qw(
   oslash ugrave uacute ucirc  uuml   yacute thorn  yuml
 );
 
-# Mapping from entity names to characters
+# Get a hash that maps the safe entities values to unicode characters
 our $safe_entities;
 
-# Get a hash that maps the safe entities values to unicode characters
 sub safeEntities {
     unless ($safe_entities) {
         foreach my $entity (@safeEntities) {
@@ -291,10 +290,46 @@ sub safeEntities {
             # Decode the entity name to unicode
             my $unicode = HTML::Entities::decode_entities("&$entity;");
 
-            $safe_entities->{"$entity"} = $unicode;
+            $safe_entities->{$entity} = $unicode;
         }
     }
     return $safe_entities;
+}
+
+# Given a string encoded using {Site}{CharSet}, decode all entities in
+# it that can be mapped to the encoding, and return a string encoded
+# used the {Site}{CharSet}
+our $representable_entities;
+
+sub decodeRepresentableEntities {
+    if ( !$representable_entities ) {
+        if ( encoding() =~ /^utf-?8/ ) {
+
+            # UTF-8 can do all entities
+            $representable_entities = \%HTML::Entities::entity2char;
+        }
+        else {
+
+            # Filter the entity set to those that can be
+            # represented in the site charset
+            while ( my ( $entity, $unicode ) =
+                each %HTML::Entities::entity2char )
+            {
+                eval {
+                    my $uncool = $unicode;
+                    Encode::encode( encoding(), $uncool, Encode::FB_CROAK );
+                };
+                unless ($@) {
+
+                    # $unicode can be encoded in the site charset
+                    $representable_entities->{$entity} = $unicode;
+                }
+            }
+        }
+    }
+    HTML::Entities::_decode_entities( $_[0], $representable_entities );
+    $_[0] = Encode::encode( encoding(), $_[0] );
+    return $_[0];
 }
 
 # Debug
