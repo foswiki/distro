@@ -1,0 +1,100 @@
+%META:TOPICPARENT{name="Plugins"}%
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+---+!! Empty Plugin
+
+%SHORTDESCRIPTION%
+
+RPC interface to Foswiki configuration data. This plugin provides
+access to all Foswiki configuration data, supports running
+server-side checkers, and allows you to save modifications.
+
+Callers must authenticate as admins, or the request will be rejected with
+a 403 status.
+
+Note that this interface does not do everything that =configure= does.
+The intent is to provide an interface to support those who want to
+build their own configuration interface in Javascript. Most relevant is
+that this interface will *fail* unless Foswiki has been minimally
+configured (LocalSite.cfg exists).
+
+---++ Remote Procedure Call (RPC) interface
+RPC calls are handled via either of the =JsonRpcContrib= or the =XmlRPCContrib=. 
+The following procedures are supported:
+   * =getspec= - Retrieve the first .spec entry that exactly matches the
+     parameters passed in. For example, =title=Store= will retrieve the
+     entire spec subtree for the section called 'Store'.
+     =keys:"{Store}{Implementation}"= will retrieve the spec for that one entry.  the structure passed here is a search; it is a template for the single .spec entry for which the spec is required. You cannot pass a list; if you require the spec for a subsection, retrieve the section title.
+     See below for information on how specs are represented.
+   * =getcfg= - Retrieve the current setting value of one or more keys.
+     The =keys= parameter can be used to pass in a list of key names
+     (e.g. =keys:["{Store}{Implementation}","{DataDir}"]= )
+     to get values for. If there isn't at least one =key= parameter,
+     returns the entire configuration hash. All keys must be found, or
+     an error will be thrown. Results are returned in a has mapping
+     key name to current value.
+   * =check= - Runs the server-side checkers on the data passed in the
+     =config= parameter, which must be a configuration hash. For example,
+     the ={Mail}{Server}= entry would be checked by passing in the JSON
+     ={"Mail":{"Server":"newvalue"}}=. You can pass as many configuration
+     items as you want. The results of the check are reported in an array
+     where each entry is a hash with fields =keys=, =level= (e.g. =warnings, =errors=) and =message=.
+   * =changecfg= - Lets you change configuration values and clear them. Changes will be saved.
+     *Does not check the configuration*. Takes two parameters:
+      * =clear= - array of keys to clear from the configuration. Keys will be cleared even if they have a .spec entry.
+      * =set= - hash mapping key names to new values. Clears are done *before* sets.
+      Result is a string reporting the outcome.
+
+---++ Invocation examples
+
+---+++ json-rpc
+Call using a URL of the format:
+
+=%SCRIPTURL{"jsonrpc"}%/configure=
+
+while POSTing a request encoded according to the JSON-RPC 2.0 specification:
+
+<verbatim>
+{
+  jsonrpc: "2.0", 
+  method: "getspec", 
+  params: {
+     keys: [ "{DataDir}", "{Store}{Implementation}" ]
+  }, 
+  id: "caller's id"
+}
+</verbatim>
+
+---+++ xml-rpc
+
+---++ .spec format
+All .spec entries have a =type= (which is =SECTION= for sections). They also may
+have =description= and =children=.
+
+SECTIONs have:
+   * =title=
+ 
+Configuration entries (such as ={DataDir}=) have:
+   * =keys=
+   * =options=
+   * =optional=
+   * =defined=
+
+---++ Installation
+%$INSTALL_INSTRUCTIONS%
+The plugin uses two other extensions, the =JsonRpcContrib= and the =XmlRpcContrib=, to provide support for these two different calling methods. Install the extension appropriate to the calling method you intend to use.
+
+---++ Info
+
+|  Author: | CrawfordCurrie |
+|  Copyright: | 2013, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Version: | %$VERSION% |
+|  Release: | %$RELEASE% |
+|  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.0.0 (29 May 2013): | Initial version |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |

@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" date="1297286796" format="1.1" version="1"}%
+%META:TOPICPARENT{name="ConfigurePlugin"}%
+---+!! Testing !ConfigurePlugin 
+
+SOME EXAMPLES OF THE PLUGIN
+
+__Related:__ %SYSTEMWEB%.ConfigurePlugin

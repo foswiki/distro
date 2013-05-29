@@ -1,0 +1,371 @@
+# See bottom of file for default license and copyright information
+
+=begin TML
+
+---+ package Foswiki::Plugins::ConfigurePlugin
+
+TODO:
+
+Implement check
+Implement save
+
+=cut
+
+package Foswiki::Plugins::ConfigurePlugin;
+
+use strict;
+use warnings;
+use version; our $VERSION = version->declare("v1.0.0_001");
+use Assert;
+
+use Foswiki::Plugins::ConfigurePlugin::SpecEntry ();
+
+our $RELEASE          = '29 May 2013';
+our $SHORTDESCRIPTION = '=configure= done using json-rpc or xml-rpc calls';
+
+our $NO_PREFS_IN_TOPIC = 1;
+
+sub initPlugin {
+    my ( $topic, $web, $user, $installWeb ) = @_;
+    my $ok = 0;
+    if ( eval 'require Foswiki::Contrib::JsonRpcContrib' ) {
+        foreach my $method (qw(getcfg getspec check changecfg deletecfg)) {
+            Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure',
+                $method, JSONwrap($method) );
+        }
+        $ok = 1;
+    }
+    else { die $@ }
+    if ( eval 'require Foswiki::Contrib::XmlRpcContrib' ) {
+        foreach my $method (qw(getcfg getspec check changecfg deletecfg)) {
+            Foswiki::Contrib::XmlRpcContrib::registerRPCHandler( $method,
+                \&$method );
+        }
+        $ok = 1;
+    }
+
+    return $ok;
+}
+
+sub JSONwrap {
+    my $method = shift;
+    return sub {
+        my ( $session, $request ) = @_;
+        no strict 'refs';
+        return &$method( $session, $request->{data}->{params} );
+        use strict 'refs';
+      }
+}
+
+sub configure {
+    my ( $session, $params ) = @_;
+    my ( $status, $data ) = ( 0, '' );
+
+    if ( Foswiki::Func::isAnAdmin() ) {
+        my $verb = $params->{verb};
+        if ( defined $verb && defined &$verb ) {
+            ( $status, $data ) = &$verb( $params->{params} );
+        }
+        else {
+            $verb = 'UNDEFINED' unless defined $verb;
+            ( $status, $data ) = ( 400, "Bad verb '$verb'" );
+        }
+    }
+    else {
+        ( $status, $data ) = ( 403, "We wants our rights, precious!" );
+    }
+
+    return ( $status, $status >= 400 ? $data : undef, $data );
+}
+
+# Look for the value of one or more keys.
+# params: 'keys' - list of key names to recover values for
+# If there isn't at least one 'key' parameter, returns the
+# entire configuration hash.
+sub getcfg {
+    my ( $session, $params ) = @_;
+
+    # Reload Foswiki::cfg without expansions
+    $Foswiki::cfg{ConfigurationFinished} = 0;
+    Foswiki::Configure::Load::readConfig( 1, 1 );
+
+    my $keys = $params->{keys};    # expect a list
+    my $what;
+    if ( defined $keys ) {
+        $what = {};
+        foreach my $key (@$keys) {
+            if ( $key !~
+/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/
+              )
+            {
+                return ( 400, "Bad key '$key'" );
+            }
+            else {
+                $key = $1;         # Implicit untaint
+            }
+            my $val = eval "exists \$Foswiki::cfg$key";
+            if ( !$val ) {
+                return ( 404, "$key not defined" );
+            }
+            eval "\$what->$key=\$Foswiki::cfg$key";
+            if ($@) {
+                return ( 500, $@ );
+            }
+        }
+    }
+    else {
+        $what = \%Foswiki::cfg;
+    }
+    return ( 200, undef, $what );
+}
+
+# use a search to find a configuration item spec
+sub getspec {
+    my ( $session, $params ) = @_;
+    my $search;
+
+    while ( my ( $k, $e ) = each %$params ) {
+        if ( $k =~ /^(.*)$/ ) {
+            $search ||= {};
+            $search->{$k} = $e;
+        }
+    }
+    my $root = Foswiki::Plugins::ConfigurePlugin::SpecEntry::loadSpecFiles();
+    my $what;
+    if ($search) {
+        $what = $root->findSpecEntry(%$search);
+        if ( !$what ) {
+            require Data::Dumper;
+            return ( 404, Data::Dumper->Dump( [$search], ["Not_found"] ) );
+        }
+    }
+    else {
+        $what = $root;
+    }
+    return ( 200, undef, $what );
+}
+
+sub check {
+    my ( $session, $params ) = @_;
+    unless ( scalar keys %$params ) {
+        $params = \%Foswiki::cfg;    # debug; force full check of old config
+    }
+
+    # Load the spec files so we can find the type checker
+    my $root = Foswiki::Plugins::ConfigurePlugin::SpecEntry::loadSpecFiles();
+
+    # Set the new values, based on finding points where there is a
+    # spec entry with keys.
+    $root->set($params);
+
+    # now check them
+    my @report = $root->check($params);
+    return ( 200, \@report );
+}
+
+sub changecfg {
+    my ( $session, $params ) = @_;
+    my $changes   = $params->{set};      # expect a hash
+    my $deletions = $params->{clear};    # expect an array of keys
+    my $added     = 0;
+    my $changed   = 0;
+    my $cleared   = 0;
+
+    # Reload Foswiki::cfg without expansions
+    $Foswiki::cfg{ConfigurationFinished} = 0;
+    Foswiki::Configure::Load::readConfig( 1, 1 );
+
+    if ( defined $deletions ) {
+        foreach my $key (@$deletions) {
+            if ( $key !~
+/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/
+              )
+            {
+
+                # Abort
+                return ( 400, "Bad key '$key'" );
+            }
+            else {
+                $key =
+                  Foswiki::Plugins::ConfigurePlugin::SpecEntry::safeKeys($1)
+                  ;    # Implicit untaint
+            }
+            $cleared += eval "exists \$Foswiki::cfg$key" ? 1 : 0;
+            eval "delete \$Foswiki::cfg$key";
+        }
+    }
+    if ( defined $changes ) {
+        while ( my ( $key, $value ) = each %$changes ) {
+            if ( $key !~
+/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/
+              )
+            {
+
+                # Abort
+                return ( 400, "Bad key '$key'" );
+            }
+            else {
+                $key =
+                  Foswiki::Plugins::ConfigurePlugin::SpecEntry::safeKeys($1)
+                  ;    # Implicit untaint
+            }
+            if ( eval "exists \$Foswiki::cfg$key" ) {
+                my $oval = eval "\$Foswiki::cfg$key";
+                if ( ref($oval) || $oval =~ /^[0-9]+$/ ) {
+                    $changed++ if $oval != $value;
+                }
+                else {
+                    $changed++ if $oval ne $value;
+                }
+            }
+            else {
+                $added++;
+            }
+            eval "\$Foswiki::cfg$key=\$value";
+        }
+    }
+    if ( $changed || $added || $cleared ) {
+        _save();
+    }
+
+    $Foswiki::cfg{ConfigurationFinished} = 0;
+    Foswiki::Configure::Load::readConfig( 0, 1 );
+
+    return ( 200, undef,
+        "Added: $added; Changed: $changed; Cleared: $cleared" );
+}
+
+sub _save {
+    my $lsc = Foswiki::Plugins::ConfigurePlugin::SpecEntry::findFileOnPath(
+        'Foswiki.spec')
+      || '';
+    $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
+
+    my $content;
+    my ( @backups, $backup );
+    while ( -f $lsc ) {
+
+        if ( open( F, '<', $lsc ) ) {
+            local $/ = undef;
+            $content = <F>;
+            close(F);
+        }
+        else {
+            last if ( $!{ENOENT} );    # Race: file disappeared
+            die "Unable to read $lsc: $!\n";    # Serious error
+        }
+
+        $Foswiki::cfg{MaxLSCBackups} ||= 0;
+
+        last unless ( $Foswiki::cfg{MaxLSCBackups} );
+
+        # Save backup copy of current configuration (even if insane)
+
+        require Errno;
+        require Fcntl;
+        Fcntl->import(qw/:DEFAULT/);
+        require File::Spec;
+
+        my ( $mode, $uid, $gid, $atime, $mtime ) = ( stat(_) )[ 2, 4, 5, 8, 9 ];
+
+        # Find a reasonable starting point for the new backup's name
+
+        my $n = 0;
+        my ( $vol, $dir, $file ) = File::Spec->splitpath($lsc);
+        $dir = File::Spec->catpath( $vol, $dir, 'x' );
+        chop $dir;
+        if ( opendir( my $d, $dir ) ) {
+            @backups =
+              sort { $b <=> $a }
+              map { /^$file\.(\d+)$/ ? ($1) : () } readdir($d);
+            my $last = $backups[0];
+            $n = $last if ( defined $last );
+            $n++;
+            closedir($d);
+        }
+        else {
+            $n = 1;
+            unshift @backups, $n++ while ( -e "$lsc.$n" );
+        }
+
+        # Find the actual filename and open for write
+
+        my $open;
+        my $um = umask(0);
+        unshift @backups, $n++
+          while (
+            !(
+                $open = sysopen( F, "$lsc.$n",
+                    O_WRONLY() | O_CREAT() | O_EXCL(), $mode & 07777
+                )
+            )
+            && $!{EEXIST}
+          );
+        if ($open) {
+            $backup = "$lsc.$n";
+            unshift @backups, $n;
+            print F $content;
+            close(F);
+            utime $atime, $mtime, $backup;
+            chown $uid, $gid, $backup;
+        }
+        else {
+            die "Unable to open $lsc.$n for write: $!\n";
+        }
+        umask($um);
+        last;
+    }
+    my $oldContent = $content || '';
+
+    $content = <<'HERE';
+# Local site settings for Foswiki. This file is managed by the system,
+# though you can also make (careful!) manual changes with a text editor.
+# See the Foswiki.spec file in this directory for documentation
+# Extensions are documented in the Config.spec file in the Plugins/<extension>
+# or Contrib/<extension> directories  (Do not remove the following blank line.)
+
+HERE
+    my $root = Foswiki::Plugins::ConfigurePlugin::SpecEntry::loadSpecFiles();
+    my ( $lines, $requires ) = $root->lscify( \%Foswiki::cfg );
+    if ($requires) {
+        $content .= join( '', map { "require $_;\n" } keys %$requires );
+    }
+    $content .= join( '', @$lines ) . "1;\n";
+
+    my $um = umask(007);    # Contains passwords, no world access to new file
+    open( F, '>', $lsc )
+      || die "Could not open $lsc for write: $!\n";
+    print F $content;
+    close(F) or die "Close failed for $lsc: $!\n";
+    umask($um);
+    if ( $backup && ( my $max = $Foswiki::cfg{MaxLSCBackups} ) >= 0 ) {
+        while ( @backups > $max ) {
+            my $n = pop @backups;
+            unlink "$lsc.$n";
+        }
+    }
+}
+
+1;
+
+__END__
+
+Author: Crawford Currie http://c-dot.co.uk
+
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2013-2013 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

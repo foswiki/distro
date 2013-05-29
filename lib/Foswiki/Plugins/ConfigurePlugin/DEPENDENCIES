@@ -1,0 +1,2 @@
+Foswiki::Plugins::JsonRpcContrib,>=0,perl,JSON interface
+Foswiki::Plugins::XmlRpcContrib,>=0,perl,XML interface
