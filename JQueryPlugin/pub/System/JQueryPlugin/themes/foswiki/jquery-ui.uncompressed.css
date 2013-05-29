@@ -628,15 +628,13 @@ a.ui-state-active:hover,
 /* Menu 
 ----------------------------------*/
 .ui-menu {
-  font-size:0.923em; /* 12px */
+  position: relative;
   list-style:none;
   padding: 0px;
   margin: 0;
   display:inline-block;
-  border:1px solid #ccc;
-  -webkit-box-shadow: 0px 1px 5px #bcbcbc;
-     -moz-box-shadow: 0px 1px 5px #bcbcbc;
-          box-shadow: 0px 1px 5px #bcbcbc;
+  border:1px solid #c2c4c4;
+  box-shadow: 2px 2px 2px rgba(128, 128, 128, 0.2);
 }
 .ui-menu .ui-menu {
   margin-top: -3px;
@@ -658,6 +656,7 @@ a.ui-state-active:hover,
   text-decoration:none;
   display:block;
   padding:0.25em 0.7em; 
+  padding-right: 20px;
 }
 .ui-menu .ui-menu-item a.ui-state-focus,
 .ui-menu .ui-menu-item a.ui-state-hover,
@@ -676,13 +675,9 @@ a.ui-state-active:hover,
 .ui-menu .ui-state-disabled a {
   cursor: default;
 }
-.ui-menu-icons {
-  position: relative;
-}
 .ui-menu-icons .ui-menu-item a {
   position: relative;
   padding-left: 30px;
-  padding-right: 20px;
 }
 .ui-menu .ui-icon {
   position: absolute;

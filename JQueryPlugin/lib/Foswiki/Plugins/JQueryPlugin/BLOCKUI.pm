@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'blockUI',
-            version    => '2.54',
+            version    => '2.59',
             author     => 'M. Alsup',
             homepage   => 'http://malsup.com/jquery/block/',
             css        => ['jquery.blockUI.css'],

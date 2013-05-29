@@ -273,7 +273,7 @@ if ( !jQuery.browser ) {
 }
 
 // Warn if the code tries to get jQuery.browser
-migrateWarnProp( jQuery, "browser", jQuery.browser, "jQuery.browser is deprecated" );
+//migrateWarnProp( jQuery, "browser", jQuery.browser, "jQuery.browser is deprecated" );
 
 jQuery.sub = function() {
 	function jQuerySub( selector, context ) {

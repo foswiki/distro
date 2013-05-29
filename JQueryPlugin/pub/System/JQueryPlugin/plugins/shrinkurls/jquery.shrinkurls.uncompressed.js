@@ -1,5 +1,5 @@
 /*
- * jQuery Shrinkurls plugin 1.1
+ * jQuery Shrinkurls plugin 2.00
  *
  * Copyright (c) 2007-2013 Foswiki Contributors http://foswiki.org
  *
@@ -30,47 +30,61 @@
  */
 
 (function($) {
-$.fn.extend({
-  shrinkUrls: function(settings) {
-    settings = $.extend({
-      whitespace:false,
-      trunc:'tail'
-    }, settings || {});
+  "use strict";
 
-    return this.each(function() {
-      var text = $(this).text();
-      var txtlength = text.length;
-      if ((txtlength > settings.size) && 
-          (!settings.include || text.match(settings.include)) &&
-          (!settings.exclude || !text.match(settings.exclude)) &&
-          (settings.whitespace || !text.match(/\s/))) {
-        var firstPart = "";
-        var lastPart = "";
-        var middlePart = "";
-        //$.log("length="+txtlength+", text="+text);
-        switch (settings.trunc) {
-          case 'head':
-            lastPart = text.substring(txtlength-settings.size+1,txtlength);
-            break;
-          case 'middle':
-            firstPart = text.substring(0,settings.size/2);
-            lastPart = text.substring(txtlength-settings.size/2+1,txtlength);
-            break;
-          default:
-          case 'tail':
-            firstPart = text.substring(0,settings.size-1);
-            break;
-        }
-        var origText = text;
-        text = firstPart + "&hellip;" + lastPart;
-        var title = $(this).attr('title');
-        if (!title) {
-          title = origText;
-        }
-        $(this).html(text).attr('title',title);
-      }
+  $.fn.extend({
 
+    shrinkUrls: function(settings) {
+      settings = $.extend({
+        size:25,
+        whitespace:false,
+        trunc:'tail'
+      }, settings || {});
+
+      return this.each(function() {
+        var text = $(this).text();
+        var txtlength = text.length;
+        if ((txtlength > settings.size) && 
+            (!settings.include || text.match(settings.include)) &&
+            (!settings.exclude || !text.match(settings.exclude)) &&
+            (settings.whitespace || !text.match(/\s/))) {
+          var firstPart = "";
+          var lastPart = "";
+          var middlePart = "";
+          //$.log("length="+txtlength+", text="+text);
+          switch (settings.trunc) {
+            case 'head':
+              lastPart = text.substring(txtlength-settings.size+1,txtlength);
+              break;
+            case 'middle':
+              firstPart = text.substring(0,settings.size/2);
+              lastPart = text.substring(txtlength-settings.size/2+1,txtlength);
+              break;
+            default:
+            case 'tail':
+              firstPart = text.substring(0,settings.size-1);
+              break;
+          }
+          var origText = text;
+          text = firstPart + "&hellip;" + lastPart;
+          var title = $(this).attr('title');
+          if (!title) {
+            title = origText;
+          }
+          $(this).html(text).attr('title',title);
+        }
+
+      });
+    }
+  });
+
+  $(function() {
+    $(".jqShrinkUrls").livequery(function() {
+      var $this = $(this), 
+          opts = $.extend({}, $this.data());
+
+      $this.find("a:not(.jqInitedShrinkUrl)").addClass("jqInitedShrinkUrl").shrinkUrls(opts);
     });
-  }
-});
+  });
+
 })(jQuery);

@@ -27,7 +27,7 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # List of plugins loaded by default on any page.
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-2.0.0**
+# **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-2.0.0, jquery-2.0.1**
 # Note that starting with jQuery-1.9.1 deprecated features have been removed. If you are experiencing
 # problems with plugins still using deprecated features then add the <code>migrate</code> plugin to the list
 # of plugins loaded by default (see above). Further note that starting with jQuery-2.0 support for Internet Explorer 6/7/8
@@ -71,8 +71,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Button}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{BlockUI}{Enabled} = 1;
 
 # **BOOLEAN**
-# Note that this plugin is corrupts the displayed text on Firefox 7 and Safari Rev. 6-17-2011 due to errors in the underlying regular expression  code.
-# The issue is fixed in Firefox 8.  This has been enabled again by default.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Chili}{Enabled} = 1;
 
 # **BOOLEAN**

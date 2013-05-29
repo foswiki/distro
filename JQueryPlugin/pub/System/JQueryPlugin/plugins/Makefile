@@ -33,7 +33,6 @@ SUBDIRS=\
   rating \
   scrollto \
   serialscroll \
-  shake \
   shrinkurls \
   simplemodal \
   slimbox \

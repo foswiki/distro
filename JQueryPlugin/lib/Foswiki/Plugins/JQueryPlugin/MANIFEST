@@ -65,7 +65,6 @@ data/System/VarTAB.txt 0644
 data/System/VarTABPANE.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
-lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Chili/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
@@ -240,9 +239,15 @@ pub/System/JQueryPlugin/jquery-1.8.3.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.9.1.js 0644
 pub/System/JQueryPlugin/jquery-1.9.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.9.1.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.10.0.js 0644
+pub/System/JQueryPlugin/jquery-1.10.0.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.10.0.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-2.0.0.js 0644
 pub/System/JQueryPlugin/jquery-2.0.0.js.gz 0644
 pub/System/JQueryPlugin/jquery-2.0.0.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-2.0.1.js 0644
+pub/System/JQueryPlugin/jquery-2.0.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-2.0.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644
@@ -511,9 +516,6 @@ pub/System/JQueryPlugin/plugins/shake/jquery.shake.js 0644
 pub/System/JQueryPlugin/plugins/shake/jquery.shake.js.gz 0644
 pub/System/JQueryPlugin/plugins/shake/jquery.shake.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/shake/Makefile 0644
-pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.init.js 0644
-pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.init.js.gz 0644
-pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.js 0644
 pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.js.gz 0644
 pub/System/JQueryPlugin/plugins/shrinkurls/jquery.shrinkurls.uncompressed.js 0644
