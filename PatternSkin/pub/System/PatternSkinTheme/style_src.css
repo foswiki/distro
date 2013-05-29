@@ -384,14 +384,6 @@ table {
 
 /* GENERAL HTML ELEMENTS */
 
-/* apply a natural box layout model to all elements */
-/* http://paulirish.com/2012/box-sizing-border-box-ftw/ */
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
 html body {
 	font-family: Arial, sans-serif;
 	font-size: 14px;
@@ -1757,7 +1749,6 @@ input[type='file'],
 input[type='password'],
 .foswikiInputField {
   padding: 4px 6px;
-  height: auto;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1784,14 +1775,10 @@ input[type='password']::-webkit-input-placeholder,
 .foswikiInputField::-webkit-input-placeholder {
   color: #aaaaaa;
 }
-textarea:hover,
-.foswikiTextarea:hover,
 input[type='text']:hover,
 input[type='file']:hover,
 input[type='password']:hover,
 .foswikiInputField:hover,
-textarea:focus,
-.foswikiTextarea:focus,
 input[type='text']:focus,
 input[type='file']:focus,
 input[type='password']:focus,
@@ -1850,13 +1837,6 @@ input[type="color"],
 .foswikiInputField  + .foswikiButtonMini,
 .foswikiTextArea  + .foswikiButtonMini {
   margin-left: .5em;
-}
-input,
-textarea {
-  width: 210px;
-}
-textarea {
-  height: auto;
 }
 input[type="file"],
 input[type="image"],
@@ -1951,7 +1931,6 @@ table .foswikiInputField {
 textarea[readonly],
 input[readonly],
 .foswikiInputFieldReadOnly,
-textarea[readonly]:hover,
 input[readonly]:hover,
 .foswikiInputFieldReadOnly:hover,
 textarea[readonly]:active,
@@ -1978,7 +1957,6 @@ input[disabled],
 textarea[disabled],
 .foswikiInputFieldDisabled,
 input[disabled]:hover,
-textarea[disabled]:hover,
 .foswikiInputFieldDisabled:hover,
 input[disabled]:active,
 textarea[disabled]:active,
@@ -2009,11 +1987,6 @@ textarea.foswikiEditTextarea {
   min-height: 100px;
   padding: 5px;
   margin: 0;
-}
-textarea.foswikiTextareaRawView,
-textarea.foswikiTextareaRawView:hover,
-textarea.foswikiTextareaRawView:focus {
-  color: #333333;
 }
 /* PATTERNTOOLBAR */
 .patternToolBar > a:link,
