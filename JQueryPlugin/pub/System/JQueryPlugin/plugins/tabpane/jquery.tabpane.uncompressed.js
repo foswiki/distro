@@ -1,13 +1,11 @@
 /*
  * jQuery Tabpane plugin 1.2
  *
- * Copyright (c) 2008-2011 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2013 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
- *
- * Revision: $Id$
  *
  */
 var bottomBarHeight = -1;
@@ -47,10 +45,6 @@ $.tabpane = {
         }).each(function() {
           $.tabpane.switchTab($thisPane, thisOpts, this.id);
         });
-      }
-
-      if ($.browser.msie) {
-        thisOpts.animate = false; // force animation off on all msies because that fucks up font aliasing
       }
 
       if (!$thisPane.is(".jqTabPaneInitialized")) {

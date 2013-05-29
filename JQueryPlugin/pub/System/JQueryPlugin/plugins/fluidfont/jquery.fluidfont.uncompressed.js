@@ -1,15 +1,13 @@
 /*
  * jQuery fluid font plugin 1.0
  *
- * Copyright (c) 2009-2010 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2009-2013 Foswiki Contributors http://foswiki.org
  *
  * inspired by TextZooming by James Newbery http://www.tinnedfruit.com/sandbox/textzoom.html
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
- *
- * Revision: $Id$
  *
  */
 

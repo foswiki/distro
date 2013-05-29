@@ -25,7 +25,7 @@ SUBDIRS=\
   masonry \
   media \
   metadata \
-  nifty \
+  migrate \
   placeholder \
   pnotify \
   popupwindow \
@@ -33,7 +33,6 @@ SUBDIRS=\
   rating \
   scrollto \
   serialscroll \
-  shake \
   shrinkurls \
   simplemodal \
   slimbox \
@@ -41,7 +40,6 @@ SUBDIRS=\
   supersubs \
   tabpane \
   textboxlist \
-  themeswitcher \
   tmpl \
   tooltip \
   treeview \

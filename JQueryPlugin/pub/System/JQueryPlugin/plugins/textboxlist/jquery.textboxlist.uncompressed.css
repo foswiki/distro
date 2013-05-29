@@ -1,10 +1,6 @@
 /* css definitions for jquery.textboxlist plugin */
 
-.jqTextboxListContainer {
-  font-size:13px;
-}
 .jqTextboxListContainer input {
-  _float:left; /* IE6 doesn't know inline-block*/
   margin:2px 0px;
 }
 .jqTextboxListValue {
@@ -13,7 +9,6 @@
   margin:2px 5px 2px 0px;
   background:#DEE7F8;
   position:relative;
-  _float:left; /* IE6 doesn't know inline-block*/
   display:inline-block;
 }
 .jqTextboxListEnableClose .jqTextboxListValue {

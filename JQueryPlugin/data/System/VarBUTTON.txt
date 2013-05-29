@@ -27,7 +27,7 @@
               </ul> | button | 
    * Example: <verbatim class="tml">%BUTTON{
     "%MAKETEXT{"Submit"}%"
-    click="confirm('Are your sure?')"
+    onclick="confirm('Are your sure?')"
   }%
   %BUTTON{
     "%MAKETEXT{"Cancel"}%"
@@ -36,7 +36,7 @@
   }% %CLEAR%</verbatim>
    * Expands as: <div>%BUTTON{
     "%MAKETEXT{"Submit"}%"
-    click="confirm('Are your sure?')"
+    onclick="confirm('Are your sure?')"
   }%
   %BUTTON{
     "%MAKETEXT{"Cancel"}%"

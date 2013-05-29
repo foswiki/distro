@@ -28,10 +28,10 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'UI::Autocomplete',
-            version      => '1.8.21',
+            version      => '1.10.3',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://docs.jquery.com/UI/Autocomplete',
+            homepage     => 'http://api.jqueryui.com/autocomplete/',
             javascript   => ['jquery.ui.autocomplete.init.js'],
             dependencies => [ 'ui', ],
         ),
@@ -46,14 +46,12 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
 Additional copyrights apply to some or all of the code in this
 file as follows:
-
-Copyright (C) 2011 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

@@ -89,12 +89,12 @@ jQuery(function($) {
   });
 
   // dialog link
-  $(".jqUIDialogLink").live("click.uidialoglink", function() {
+  $(document).on("click.uidialoglink", ".jqUIDialogLink", function() {
     var $this = $(this), 
         href = $this.attr("href"),
         opts = $.extend({}, dialogLinkDefaults, $this.metadata());
 
-    if (href.match(/^https?:/)) {
+    if (href.match(/^(https?:)|\//)) {
       // this is a link to remote data
       $.ajax({
         url: href, 

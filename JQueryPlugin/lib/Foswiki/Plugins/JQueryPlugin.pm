@@ -14,9 +14,9 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-# Simple decimal version, no leading "v"
-our $VERSION           = '4.45';
-our $RELEASE           = '4.45';
+# Simple decimal version, use parse method, no leading "v"
+use version; our $VERSION = version->parse("4.70");
+our $RELEASE           = '4.70';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -70,14 +70,7 @@ sub initPlugin {
 
 finish up the plugins container
 
-SMELL: I'd prefer a proper finishHandler, alas it does not exist
-SMELL: Item11349 - this never gets called from unit tests, see finishPlugin(),
-       added in Item1328 for 1.1.0
 =cut
-
-sub modifyHeaderHandler {
-    Foswiki::Plugins::JQueryPlugin::Plugins::finish();
-}
 
 sub finishPlugin {
     Foswiki::Plugins::JQueryPlugin::Plugins::finish();
@@ -424,14 +417,9 @@ sub handleJQueryPlugins {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2006-2012 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

@@ -1,7 +1,7 @@
 /*
  * jQuery textbox list plugin 2.1
  *
- * Copyright (c) 2009-2012 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2009-2013 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -88,7 +88,7 @@
     }
 
     // keypress event
-    self.input.bind(($.browser.opera ? "keypress" : "keydown") + ".textboxlist", function(event) {
+    self.input.bind("keydown.textboxlist", function(event) {
       // track last key pressed
       if(event.keyCode == 13) {
         var val = self.input.val();

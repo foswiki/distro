@@ -28,13 +28,14 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'Foswiki',
-            version      => '2.01',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => ['jquery.foswiki.js'],
-            dependencies => [ 'JQUERYPLUGIN', 'livequery' ],
-            tags         => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
+            name       => 'Foswiki',
+            version    => '2.01',
+            author     => 'Michael Daum',
+            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
+            javascript => ['jquery.foswiki.js'],
+            dependencies =>
+              [ 'JQUERYPLUGIN', 'JQUERYPLUGIN::MIGRATE', 'livequery' ],
+            tags => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
         ),
         $class
     );
@@ -92,18 +93,12 @@ sub init {
 
 1;
 __END__
-Author: Michael Daum, http://michaeldaumconsulting.com
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2006-2010 Michael Daum http://michaeldaumconsulting.com
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

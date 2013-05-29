@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315479654" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" date="1368687524" format="1.1" version="2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"shrinkurls"
@@ -39,7 +39,7 @@ Add the class name ==jqShrinkUrls== to a container to process all anchors inside
 
 <verbatim class="tml">
 %JQREQUIRE{"shrinkurls"}%
-<div class="jqShrinkUrls {size:25, whitespace:true}">
+<div class="jqShrinkUrls" data-size="25" data-whitespace="true">
    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
 </div>
 </verbatim>
@@ -48,14 +48,14 @@ Add the class name ==jqShrinkUrls== to a container to process all anchors inside
 
 %JQREQUIRE{"shrinkurls"}%
 
-<div class="jqShrinkUrls {size:25, whitespace:true}">
+<div class="jqShrinkUrls" data-size="25"  data-whitespace="true">
    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
 </div>
 
-<div class="jqShrinkUrls {size:25, whitespace:true, trunc:'middle'}">
+<div class="jqShrinkUrls" data-size="25" data-whitespace="true" data-trunc="middle">
    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
 </div>
 
-<div class="jqShrinkUrls {size:25, whitespace:true, trunc:'head'}">
+<div class="jqShrinkUrls" data-size="25" data-whitespace="true" data-trunc="head">
    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vehicula est et felis imperdi</a>
 </div>
