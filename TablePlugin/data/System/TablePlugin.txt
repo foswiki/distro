@@ -197,6 +197,8 @@ Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  28 May 2013 | 1.142: Foswikitask:Item12480 - memory leak amasses css styles from all visited pages |
+|  28 Nov 2012 | 1.141: Foswikitask:Item12233 - Don't generate table sort links when rendering static html. |
 |  06 Apr 2012 | 1.140: Arthur Clemens: Foswikitask:Item11354 adds warning message when =include= parameter fails. |
 |  10 Jan 2012 | 1.139: Michael Daum: Foswikitask:Item11423 fixed disabling default table attributes when setting them to the empty string |
 |  12 Dec 2011 | 1.138: George Clark: Foswikitask:Item11350 TablePlugin issues a die if included table is not found. |

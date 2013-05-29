@@ -130,6 +130,7 @@ sub _init {
     $currTablePre         = '';
     $combinedTableAttrs   = {};
     $tableSpecificAttrs   = {};
+    $styles               = {};
 }
 
 # called one time
@@ -606,10 +607,10 @@ sub _processTableRow {
         }
         if ( $l1 >= 2 ) {
             if ( $l2 <= 1 ) {
-                $attr->{align} = 'right';
+                $attr->{style} = 'text-align:right';
             }
             else {
-                $attr->{align} = 'center';
+                $attr->{style} = 'text-align:center';
             }
         }
         if ( $span <= 2 ) {
@@ -689,7 +690,7 @@ sub _processTableRow {
                     if (@headerAlign) {
                         my $align =
                           @headerAlign[ $colCount % ( $#headerAlign + 1 ) ];
-                        $attr->{align} = $align;
+                        $attr->{style} = "text-align:$align";
                     }
                 }
 
@@ -723,7 +724,7 @@ sub _processTableRow {
                     if (@dataAlign) {
                         my $align =
                           @dataAlign[ $colCount % ( $#dataAlign + 1 ) ];
-                        $attr->{align} = $align;
+                        $attr->{style} = "text-align:$align";
                     }
                 }
 
@@ -1317,8 +1318,7 @@ sub _writeStyleToHead {
 $styleText
 </style>
 EOS
-    $header =~ s/(.*?)\s*$/$1/;    # remove last newline
-    Foswiki::Func::addToHEAD( $inId, $header, $HEAD_ID_DEFAULT_STYLE );
+    Foswiki::Func::addToZone( "head", $inId, $header, $HEAD_ID_DEFAULT_STYLE );
 }
 
 =pod

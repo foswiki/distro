@@ -9,8 +9,8 @@ use strict;
 use warnings;
 
 # Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("1.140");
-our $RELEASE = '1.140';
+use version; our $VERSION = version->parse("1.142");
+our $RELEASE = '1.142';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -188,7 +188,7 @@ sub _writeStyleToHead {
 $styleText
 </style>
 EOS
-    Foswiki::Func::addToHEAD( "TABLEPLUGIN_${web}_${topic}", $header );
+    Foswiki::Func::addToZone( "head", "TABLEPLUGIN_${web}_${topic}", $header );
 }
 
 =pod
