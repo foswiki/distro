@@ -192,13 +192,15 @@ function handleKeyDown () { }
       $("#save").click(function() {
         editAction = "save";
         submitHandler();
+        document.title = "Saving ...";
         $.blockUI({message:'<h1> Saving ... </h1>'});
         $editForm.submit();
         return false;
       });
     
       $("#checkpoint").click(function(el) {
-        var topicName = foswiki.getPreference("TOPIC") || '';
+        var topicName = foswiki.getPreference("TOPIC") || '',
+            origTitle = document.title;
         editAction = el.currentTarget.id;
         if ($editForm.validate().form()) {
           submitHandler();
@@ -210,6 +212,7 @@ function handleKeyDown () { }
               url: foswiki.getPreference('SCRIPTURL')+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
               beforeSubmit: function() {
                 hideErrorMessage();
+                document.title = "Saving ...";
                 $.blockUI({message:'<h1> Saving ... </h1>'});
               },
               error: function(xhr, textStatus, errorThrown) {
@@ -222,6 +225,7 @@ function handleKeyDown () { }
                 $("input[name='validation_key']").each(function() {
                   $(this).val("?"+nonce);
                 });
+                document.title = origTitle;
                 $.unblockUI();
               }
             });
@@ -287,11 +291,6 @@ function handleKeyDown () { }
         submitHandler();
         $editForm.submit();
         return false;
-      });
-
-      // fix browser back button quirks where checked radio buttons loose their state
-      $("input[checked=checked]").each(function() {
-        $(this).attr('checked', 'checked');
       });
 
       /* add clientside form validation */

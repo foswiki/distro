@@ -1294,7 +1294,7 @@ $.NatEditor.prototype.initInsertLinkDialog = function($dialog) {
           $thumbnail.hide();
         }
       }
-    }).data("autocomplete")._renderItem = function(ul, item) {
+    }).data("ui-autocomplete")._renderItem = function(ul, item) {
       if (typeof(item.label) !== "undefined") {
         return $("<li></li>")
           .data("item.autocomplete", item)

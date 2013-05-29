@@ -137,8 +137,12 @@ ul.natEditHelpTools {
 
 /* pattern skin tweaks */
 .patternEditPage #patternMainContents {
-  margin:0;
-  padding:12px 20px;
+  margin:0 !important;
+  padding:1em 1em 0 !important;
+}
+.patternEditPage .foswikiTopic {
+  margin-top:0 !important;
+  margin-bottom:0 !important;
 }
 .patternEditPage .natEditTitle {
   font-size:145%;
@@ -152,7 +156,3 @@ ul.natEditHelpTools {
   margin-top:0;
   font-size:127%;
 }
-.patternEditPage .foswikiTopic {
-  margin-top:0;
-}
-

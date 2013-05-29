@@ -54,13 +54,27 @@ sub handle {
         $theSelected = $form->{name} if $form;
     }
     $theSelected = 'none' unless $theSelected;
+    $theSelected =~ s/\//\./g;
 
     my $legalForms = Foswiki::Func::getPreferencesValue( 'WEBFORMS', $theWeb );
     $legalForms =~ s/^\s*//;
     $legalForms =~ s/\s*$//;
-    my %forms = map { $_ => 1 } split( /[,\s]+/, $legalForms );
-    my @forms = sort keys %forms;
-    push @forms, 'none';
+    my %forms = map {
+        my ( $formWeb, $formTopic ) =
+          $session->normalizeWebTopicName( $theWeb, $_ );
+        $_ => {
+            web   => $formWeb,
+            topic => $formTopic,
+            name  => $_
+          }
+    } split( /[,\s]+/, $legalForms );
+    my @forms = sort { $a->{topic} cmp $b->{topic} } values %forms;
+    push @forms,
+      {
+        web   => '',
+        topic => 'none',
+        name  => 'none',
+      };
 
     my @formList = '';
     my $index    = 0;
@@ -68,15 +82,13 @@ sub handle {
         $index++;
         my $text    = $theFormat;
         my $checked = '';
-        $checked = 'checked' if $form eq $theSelected;
-        my ( $formWeb, $formTopic ) =
-          $session->normalizeWebTopicName( $theWeb, $form );
+        $checked = 'checked' if $form->{name} eq $theSelected;
 
         $text =~ s/\$index/$index/g;
         $text =~ s/\$checked/$checked/g;
-        $text =~ s/\$name/$form/g;
-        $text =~ s/\$formWeb/$formWeb/g;
-        $text =~ s/\$formTopic/$formTopic/g;
+        $text =~ s/\$name/$form->{name}/g;
+        $text =~ s/\$formWeb/$form->{web}/g;
+        $text =~ s/\$formTopic/$form->{topic}/g;
 
         push @formList, $text;
     }

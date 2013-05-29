@@ -86,7 +86,13 @@ sub beforeSaveHandler {
     my $newTopic   = $request->param('newtopic');
     my $topicTitle = $request->param('TopicTitle');
 
-    if ( defined($newTopic) && $newTopic ne '' && $newTopic ne $topic ) {
+# the "newtopic" urlparam either holds a new topic name in case of a rename action,
+# or a boolean flag indicating that the topic being created is a new topic
+    if (   defined($newTopic)
+        && $newTopic ne ''
+        && $newTopic ne '1'
+        && $newTopic ne $topic )
+    {
         writeDebug("not saving the topic being rename ... no action");
         return;
     }
