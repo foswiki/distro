@@ -130,6 +130,7 @@ sub _init {
     $currTablePre         = '';
     $combinedTableAttrs   = {};
     $tableSpecificAttrs   = {};
+    $styles               = {};
 }
 
 # called one time

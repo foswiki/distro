@@ -9,8 +9,8 @@ use strict;
 use warnings;
 
 # Simple decimal version, no leading "v"
-our $VERSION = '1.141';
-our $RELEASE = '1.141';
+our $VERSION = '1.142';
+our $RELEASE = '1.142';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
