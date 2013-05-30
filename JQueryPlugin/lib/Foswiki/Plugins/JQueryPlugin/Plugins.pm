@@ -51,12 +51,31 @@ sub init {
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.8.3";
     $jQuery .= ".uncompressed" if $debug;
-    my $code =
-"<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>";
+    my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} || "";
+    $jQueryIE .= ".uncompressed" if $debug;
+
+    my $code;
+
+    if ($jQueryIE) {
+        $code = <<"HERE";
+<literal><!--[if lt IE 9]>
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
+<!--<![endif]-->
+</literal>
+HERE
+    }
+    else {
+        $code = <<"HERE";
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
+HERE
+    }
 
     # switch on noconflict mode
     $code .=
-      "\n<script type='text/javascript'>var \$j = jQuery.noConflict();</script>"
+      "<script type='text/javascript'>var \$j = jQuery.noConflict();</script>"
       if $Foswiki::cfg{JQueryPlugin}{NoConflict};
 
     Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $code );
@@ -75,7 +94,7 @@ sub init {
 
 =begin TML
 
----++ ObjectMethod createPlugin( $pluginName, ... ) -> $plugin 
+---++ ObjectMethod createPlugin( $pluginName, ... ) -> $plugin
 
 Helper method to establish plugin dependencies. See =load()=.
 
@@ -95,7 +114,7 @@ Helper method to switch on a theme. Returns true
 if =$themeName= has been loaded successfully. Note that a previously
 loaded theme will be replaced with the new one as there can only
 be one theme per html page. The $url parameter optionally specifies
-from where to load the theme. It defaults to the url registered 
+from where to load the theme. It defaults to the url registered
 in =configure= for the named theme.
 
 =cut
@@ -191,7 +210,7 @@ sub finish {
 
 ---++ ObjectMethod load ( $pluginName ) -> $plugin
 
-Loads a plugin and runs its initializer. 
+Loads a plugin and runs its initializer.
 
 parameters
    * =$pluginName=: name of plugin
@@ -231,13 +250,13 @@ sub load {
 ---++ ObjectMethod expandVariables( $format, %params) -> $string
 
 Helper function to expand standard escape sequences =$percnt=, =$nop=,
-=$n= and =$dollar=. 
+=$n= and =$dollar=.
 
    * =$format=: format string to be expaneded
    * =%params=: optional hash array containing further key-value pairs to be
-     expanded as well, that is all occurences of =$key= will 
+     expanded as well, that is all occurences of =$key= will
      be replaced by its =value= as defined in %params
-   * =$string=: returns the resulting text 
+   * =$string=: returns the resulting text
 
 =cut
 
@@ -348,7 +367,7 @@ sub getPlugins {
 
 ---++ ClassMethod getRandom () -> $integer
 
-returns a random positive integer between 1 and 10000. 
+returns a random positive integer between 1 and 10000.
 this can be used to
 generate html element IDs which are not
 allowed to clash within the same html page,
