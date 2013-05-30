@@ -108,7 +108,7 @@ sub encode  {
   my $id = $this->id();
   $message->{id} = $id if defined $id; 
 
-  return $this->parser->encode($message);
+  return $this->parser->convert_blessed->encode($message);
 }
 
 ##############################################################################
