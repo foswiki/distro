@@ -143,6 +143,8 @@ sub header {
     }
 
     $type ||= 'text/html' unless defined($type);
+    $charset ||= 'iso-8859-1';
+
     $type .= "; charset=$charset"
       if $type ne ''
       and $type =~ m!^text/!

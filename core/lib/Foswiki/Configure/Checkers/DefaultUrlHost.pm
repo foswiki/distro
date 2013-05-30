@@ -25,7 +25,8 @@ sub check {
         }
     }
     else {
-        my $protocol = $Foswiki::query->url() || 'http://' . $ENV{HTTP_HOST};
+        my $protocol = $Foswiki::query ? $Foswiki::query->url() : undef;
+        $protocol ||= 'http://' . ( $ENV{HTTP_HOST} || 'localhost' );
         $protocol =~ s(^(.*?://.*?)/.*$)($1);
         $Foswiki::cfg{DefaultUrlHost} = $protocol;
         $this->{GuessedValue}         = $protocol;

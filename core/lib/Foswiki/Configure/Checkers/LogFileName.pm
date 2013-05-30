@@ -18,7 +18,7 @@ sub check {
 
         $mess .= $this->NOTE( <<NOTE );
 This setting might be used by old plugins that have not been migrated to the Foswiki API.
-If not provided, Foswik core will provide a default setting of  <code>$Foswiki::cfg{Log}{Dir}/event.log</code>.
+If not provided, the Foswiki core will provide a default setting of  <code>$Foswiki::cfg{Log}{Dir}/event.log</code>.
 NOTE
         my $logger = $Foswiki::cfg{Log}{Implementation};
         $logger =~ s/Foswiki::Logger:://;

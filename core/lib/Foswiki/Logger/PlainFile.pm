@@ -119,7 +119,10 @@ sub log {
         print $file "$message\n";
         close($file);
     }
-    else {
+    elsif ( $Foswiki::cfg{isVALID} ) {
+
+        # Only whine if there is a known good configuration (in which case
+        # $Foswiki::cfg{Log}{Dir} will be set sensibly)
         if ( !-w $log ) {
             die
 "ERROR: Could not open logfile $log for write. Your admin should 'configure' now and fix the errors!\n";

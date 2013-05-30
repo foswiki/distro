@@ -340,6 +340,17 @@ BEGIN {
         $Foswiki::cfg{isVALID} = 1;
     }
 
+    unless ( $Foswiki::cfg{isVALID} ) {
+
+        # Special hack to support the new ConfigurePlugin. If we were
+        # unable to load a valid LSC, try to load the plugin. If this
+        # fails we will carry blindly on.
+        eval 'require Foswiki::Plugins::ConfigurePlugin';
+        print STDERR
+"WARNING: failed to load ConfigurePlugin to support bootstrap configuration: $@\n"
+          if $@;
+    }
+
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
@@ -1787,7 +1798,8 @@ sub new {
     $this->{prefs} = $prefs;
 
     # construct the store object
-    my $base = $Foswiki::cfg{Store}{Implementation};
+    my $base = $Foswiki::cfg{Store}{Implementation}
+      || 'Foswiki::Store::PlainFile';
     use Class::Load qw/try_load_class/;
     my ( $ok, $error ) = try_load_class($base);
     ASSERT( $ok, $error ) if DEBUG;
