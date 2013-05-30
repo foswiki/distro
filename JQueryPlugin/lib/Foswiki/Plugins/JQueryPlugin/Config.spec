@@ -35,7 +35,7 @@ $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 # has been dropped. Use jQuery-1.9 in case you still need to cover these browsers.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.8.3';
 
-# **SELECT same, jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0**
+# **SELECT , jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0**
 # Use a different jQuery library for Internet Explorer 6/7/8. Since jQuery-2.0 these old browsers aren't suppored anymore.
 # Use one of the jQuery-1.x libraries to still serve a compatible jQuery to these browsers. Or leave it empty to use the same 
 # library version for all browsers.
