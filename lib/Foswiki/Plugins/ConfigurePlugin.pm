@@ -4,11 +4,6 @@
 
 ---+ package Foswiki::Plugins::ConfigurePlugin
 
-TODO:
-
-Implement check
-Implement save
-
 =cut
 
 package Foswiki::Plugins::ConfigurePlugin;
@@ -18,64 +13,36 @@ use warnings;
 use version; our $VERSION = version->declare("v1.0.0_001");
 use Assert;
 
+use Foswiki::Contrib::JsonRpcContrib             ();
 use Foswiki::Plugins::ConfigurePlugin::SpecEntry ();
 
 our $RELEASE          = '29 May 2013';
-our $SHORTDESCRIPTION = '=configure= done using json-rpc or xml-rpc calls';
+our $SHORTDESCRIPTION = '=configure= interface using json-rpc';
 
 our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
-    my $ok = 0;
-    if ( eval 'require Foswiki::Contrib::JsonRpcContrib' ) {
-        foreach my $method (qw(getcfg getspec check changecfg deletecfg)) {
-            Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure',
-                $method, JSONwrap($method) );
-        }
-        $ok = 1;
-    }
-    else { die $@ }
-    if ( eval 'require Foswiki::Contrib::XmlRpcContrib' ) {
-        foreach my $method (qw(getcfg getspec check changecfg deletecfg)) {
-            Foswiki::Contrib::XmlRpcContrib::registerRPCHandler( $method,
-                \&$method );
-        }
-        $ok = 1;
+
+    foreach my $method (qw(getcfg getspec check changecfg deletecfg)) {
+        Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure', $method,
+            _JSONwrap($method) );
     }
 
-    return $ok;
+    return 1;
 }
 
-sub JSONwrap {
+sub _JSONwrap {
     my $method = shift;
     return sub {
         my ( $session, $request ) = @_;
+
+        # Check rights to use this interface - admins only
+        die "We wants our rights, precious!" unless Foswiki::Func::isAnAdmin();
         no strict 'refs';
-        return &$method( $session, $request->{data}->{params} );
+        return &$method( $request->params() );
         use strict 'refs';
       }
-}
-
-sub configure {
-    my ( $session, $params ) = @_;
-    my ( $status, $data ) = ( 0, '' );
-
-    if ( Foswiki::Func::isAnAdmin() ) {
-        my $verb = $params->{verb};
-        if ( defined $verb && defined &$verb ) {
-            ( $status, $data ) = &$verb( $params->{params} );
-        }
-        else {
-            $verb = 'UNDEFINED' unless defined $verb;
-            ( $status, $data ) = ( 400, "Bad verb '$verb'" );
-        }
-    }
-    else {
-        ( $status, $data ) = ( 403, "We wants our rights, precious!" );
-    }
-
-    return ( $status, $status >= 400 ? $data : undef, $data );
 }
 
 # Look for the value of one or more keys.
@@ -83,7 +50,7 @@ sub configure {
 # If there isn't at least one 'key' parameter, returns the
 # entire configuration hash.
 sub getcfg {
-    my ( $session, $params ) = @_;
+    my $params = shift;
 
     # Reload Foswiki::cfg without expansions
     $Foswiki::cfg{ConfigurationFinished} = 0;
@@ -94,34 +61,24 @@ sub getcfg {
     if ( defined $keys ) {
         $what = {};
         foreach my $key (@$keys) {
-            if ( $key !~
-/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/
-              )
-            {
-                return ( 400, "Bad key '$key'" );
-            }
-            else {
-                $key = $1;         # Implicit untaint
-            }
-            my $val = eval "exists \$Foswiki::cfg$key";
-            if ( !$val ) {
-                return ( 404, "$key not defined" );
-            }
+            die "Bad key '$key'"
+              unless $key =~
+/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
+            $key = $1;             # Implicit untaint for use in eval
+            die "$key not defined" unless eval "exists \$Foswiki::cfg$key";
             eval "\$what->$key=\$Foswiki::cfg$key";
-            if ($@) {
-                return ( 500, $@ );
-            }
+            die $@ if $@;
         }
     }
     else {
         $what = \%Foswiki::cfg;
     }
-    return ( 200, undef, $what );
+    return $what;
 }
 
-# use a search to find a configuration item spec
+# Use a search to find a configuration item spec
 sub getspec {
-    my ( $session, $params ) = @_;
+    my $params = shift;
     my $search;
 
     while ( my ( $k, $e ) = each %$params ) {
@@ -136,17 +93,19 @@ sub getspec {
         $what = $root->findSpecEntry(%$search);
         if ( !$what ) {
             require Data::Dumper;
-            return ( 404, Data::Dumper->Dump( [$search], ["Not_found"] ) );
+            die Data::Dumper->Dump( [$search], ["Not_found"] );
         }
     }
     else {
         $what = $root;
     }
-    return ( 200, undef, $what );
+    return $what;
 }
 
+# Run checkers on the configuration data passed in, or the whole current
+# LSC if nothing is passed.
 sub check {
-    my ( $session, $params ) = @_;
+    my $params = shift;
     unless ( scalar keys %$params ) {
         $params = \%Foswiki::cfg;    # debug; force full check of old config
     }
@@ -160,11 +119,12 @@ sub check {
 
     # now check them
     my @report = $root->check($params);
-    return ( 200, \@report );
+    return \@report;
 }
 
+# Save changes to the LSC, making backups as required
 sub changecfg {
-    my ( $session, $params ) = @_;
+    my $params    = shift;
     my $changes   = $params->{set};      # expect a hash
     my $deletions = $params->{clear};    # expect an array of keys
     my $added     = 0;
@@ -177,38 +137,24 @@ sub changecfg {
 
     if ( defined $deletions ) {
         foreach my $key (@$deletions) {
-            if ( $key !~
-/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/
-              )
-            {
+            die "Bad key '$key'"
+              unless $key =~
+/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
 
-                # Abort
-                return ( 400, "Bad key '$key'" );
-            }
-            else {
-                $key =
-                  Foswiki::Plugins::ConfigurePlugin::SpecEntry::safeKeys($1)
-                  ;    # Implicit untaint
-            }
+            # Implicit untaint
+            $key = Foswiki::Plugins::ConfigurePlugin::SpecEntry::safeKeys($1);
             $cleared += eval "exists \$Foswiki::cfg$key" ? 1 : 0;
             eval "delete \$Foswiki::cfg$key";
         }
     }
     if ( defined $changes ) {
         while ( my ( $key, $value ) = each %$changes ) {
-            if ( $key !~
-/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/
-              )
-            {
+            die "Bad key '$key'"
+              unless $key =~
+/^($Foswiki::Plugins::ConfigurePlugin::SpecEntry::configItemRegex)$/;
 
-                # Abort
-                return ( 400, "Bad key '$key'" );
-            }
-            else {
-                $key =
-                  Foswiki::Plugins::ConfigurePlugin::SpecEntry::safeKeys($1)
-                  ;    # Implicit untaint
-            }
+            # Implicit untaint
+            $key = Foswiki::Plugins::ConfigurePlugin::SpecEntry::safeKeys($1);
             if ( eval "exists \$Foswiki::cfg$key" ) {
                 my $oval = eval "\$Foswiki::cfg$key";
                 if ( ref($oval) || $oval =~ /^[0-9]+$/ ) {
@@ -231,8 +177,7 @@ sub changecfg {
     $Foswiki::cfg{ConfigurationFinished} = 0;
     Foswiki::Configure::Load::readConfig( 0, 1 );
 
-    return ( 200, undef,
-        "Added: $added; Changed: $changed; Cleared: $cleared" );
+    return "Added: $added; Changed: $changed; Cleared: $cleared";
 }
 
 sub _save {

@@ -10,7 +10,7 @@ our @ISA = qw( FoswikiTestCase );
 use strict;
 use warnings;
 use Foswiki;
-use CGI;
+use Error qw(:try);
 
 use Foswiki::Plugins::ConfigurePlugin;
 
@@ -33,6 +33,7 @@ sub set_up {
     my $c = <F>;
     close F;
     $this->{safe_lsc} = $c;
+    $Foswiki::Plugins::SESSION = $this->{session};
 }
 
 sub tear_down {
@@ -55,49 +56,53 @@ sub tear_down {
 }
 
 sub test_getcfg {
-    my $this = shift;
+    my $this   = shift;
     my $params = { "keys" => [ "{DataDir}", "{Store}{Implementation}" ] };
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::getcfg( $this->{session}, $params );
-    $this->assert_num_equals( 200, $result[0] );
-    $this->assert_null( $result[1] );
+    my $result = Foswiki::Plugins::ConfigurePlugin::getcfg($params);
     $this->assert_deep_equals(
         {
             Store => { Implementation => $Foswiki::cfg{Store}{Implementation} },
             DataDir => $Foswiki::cfg{DataDir}
         },
-        $result[2]
+        $result
     );
 }
 
 sub test_getcfg_all {
     my $this   = shift;
     my $params = {};
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::getcfg( $this->{session}, $params );
-    $this->assert_num_equals( 200, $result[0] );
-    $this->assert_null( $result[1] );
-    $this->assert_deep_equals( \%Foswiki::cfg, $result[2] );
+    my $result = Foswiki::Plugins::ConfigurePlugin::getcfg($params);
+    $this->assert_deep_equals( \%Foswiki::cfg, $result );
 }
 
 sub test_getcfg_badkey {
     my $this = shift;
     my $params = { "keys" => ["Not a key"] };
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::getcfg( $this->{session}, $params );
-    $this->assert_num_equals( 400, $result[0] );
-    $this->assert_str_equals( "Bad key 'Not a key'", $result[1] );
-    $this->assert_null( $result[2] );
+    try {
+        Foswiki::Plugins::ConfigurePlugin::getcfg($params);
+    }
+    catch Error::Simple with {
+        my $mess = shift;
+        $this->assert_matches( qr/^Bad key 'Not a key'/, $mess );
+    }
+    otherwise {
+        $this->assert(0);
+    };
 }
 
 sub test_getcfg_nokey {
     my $this = shift;
     my $params = { "keys" => ["{Peed}{Skills}"] };
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::getcfg( $this->{session}, $params );
-    $this->assert_num_equals( 404, $result[0] );
-    $this->assert_str_equals( "{Peed}{Skills} not defined", $result[1] );
-    $this->assert_null( $result[2] );
+    try {
+        Foswiki::Plugins::ConfigurePlugin::getcfg($params);
+    }
+    catch Error::Simple with {
+        my $mess = shift;
+        $this->assert_matches( qr/^{Peed}{Skills} not defined/, $mess );
+    }
+    otherwise {
+        $this->assert(0);
+    };
 }
 
 # For stripping parents in the spec tree if needed for print debug
@@ -120,13 +125,9 @@ sub unparent {
 }
 
 sub test_getspec {
-    my $this = shift;
+    my $this   = shift;
     my $params = { "keys" => "{DataDir}" };
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::getspec( $this->{session}, $params );
-    $this->assert_num_equals( 200, $result[0] );
-    $this->assert_null( $result[1] );
-    my $spec = $result[2];
+    my $spec   = Foswiki::Plugins::ConfigurePlugin::getspec($params);
     $this->assert_str_equals( 'PATH',      $spec->{type} );
     $this->assert_str_equals( '{DataDir}', $spec->{keys} );
 }
@@ -134,20 +135,23 @@ sub test_getspec {
 sub test_getspec_badkey {
     my $this = shift;
     my $params = { "keys" => "{BadKey}" };
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::getspec( $this->{session}, $params );
-    $this->assert_num_equals( 404, $result[0] );
-    $this->assert_matches( qr/^\$Not_found = {\s*\'keys\' => \'{BadKey}\'\s*};/,
-        $result[1] );
+    try {
+        Foswiki::Plugins::ConfigurePlugin::getspec($params);
+    }
+    catch Error::Simple with {
+        my $mess = shift;
+        $this->assert_matches(
+            qr/^\$Not_found = {\s*\'keys\' => \'{BadKey}\'\s*};/, $mess );
+    }
+    otherwise {
+        $this->assert(0);
+    };
 }
 
 sub test_check {
-    my $this = shift;
+    my $this   = shift;
     my $params = { Log => { Implementation => 'Foswiki::Logger::PlainFile' } };
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::check( $this->{session}, $params );
-    $this->assert_num_equals( 200, $result[0] );
-    my $report = $result[1];
+    my $report = Foswiki::Plugins::ConfigurePlugin::check($params);
     $this->assert_num_equals( 1, scalar @$report );
     $report = $report->[0];
     $this->assert_str_equals( '{Log}{Implementation}', $report->{keys} );
@@ -171,11 +175,8 @@ sub test_changecfg {
             '{TestKey}'     => 'newval'
         }
     };
-    my @result =
-      Foswiki::Plugins::ConfigurePlugin::changecfg( $this->{session}, $params );
-    $this->assert( 200, $result[0] );
-    $this->assert_null( $result[1] );
-    $this->assert_str_equals( 'Added: 3; Changed: 1; Cleared: 2', $result[2] );
+    my $result = Foswiki::Plugins::ConfigurePlugin::changecfg($params);
+    $this->assert_str_equals( 'Added: 3; Changed: 1; Cleared: 2', $result );
     $this->assert_str_equals( 'newtestkey', $Foswiki::cfg{'Test-Key'} );
     $this->assert( !exists $Foswiki::cfg{Test}{Key} );
     $this->assert( !exists $Foswiki::cfg{TestDontCountMe} );
