@@ -24,7 +24,8 @@ $Foswiki::cfg{JQueryPlugin}{IconSearchPath} = 'FamFamFamSilkIcons, FamFamFamSilk
 $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 
 # **STRING**
-# List of plugins loaded by default on any page.
+# List of plugins loaded by default on any page. Note that you need at least the "migrate" plugin being loaded by default in case you are using 
+# a newer jQuery library. Starting with jquery-1.9.1 all deprecated methods have been removed from it and put into the "migrate" plugin.
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
 # **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-2.0.0, jquery-2.0.1**
@@ -33,6 +34,12 @@ $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 # of plugins loaded by default (see above). Further note that starting with jQuery-2.0 support for Internet Explorer 6/7/8
 # has been dropped. Use jQuery-1.9 in case you still need to cover these browsers.
 $Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-1.8.3';
+
+# **SELECT same, jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0**
+# Use a different jQuery library for Internet Explorer 6/7/8. Since jQuery-2.0 these old browsers aren't suppored anymore.
+# Use one of the jQuery-1.x libraries to still serve a compatible jQuery to these browsers. Or leave it empty to use the same 
+# library version for all browsers.
+$Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = '';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
