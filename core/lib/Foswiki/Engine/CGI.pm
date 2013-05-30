@@ -25,7 +25,10 @@ use Foswiki::Response        ();
 
 sub run {
     my $this = shift;
-    unless ( $Foswiki::cfg{isVALID} ) {
+    my $req  = $this->prepare;
+    unless ( $Foswiki::cfg{isVALID}
+        || $req->http('x-requested-with') eq 'XMLHttpRequest' )
+    {
         print STDOUT "Content-type: text/html\n\n";
         print STDOUT '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"'
           . "\n    "
@@ -36,7 +39,6 @@ sub run {
 "If you've already done this, then your <code>lib/LocalSite.cfg</code> is most likely damaged\n</body></html>";
         exit 1;
     }
-    my $req = $this->prepare;
     if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
         my $res = Foswiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
