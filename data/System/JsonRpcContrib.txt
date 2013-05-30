@@ -177,6 +177,7 @@ In case a namespace, method or parameters are specified as part of a JSON-RPC re
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  30 May 2013: | fixed serializing blessed data (Foswiki:Main/CrawfordCurrie) |
 |  20 Mar 2013: | added feature to define handlers in !LocalSite.cfg (Config.spec) so that pure contribs can implement backends now |
 |   1 Oct 2012: | added the async flag to the =$.jsonRpc= frontend to =$.ajax= |
 |   2 Aug 2012: | fixed json2 not loaded in IE7 (Foswiki:Main/JanKrueger) |
