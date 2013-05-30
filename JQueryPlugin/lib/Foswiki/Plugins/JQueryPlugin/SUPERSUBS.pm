@@ -27,7 +27,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name    => 'Supersubs',
-            version => '0.2b',
+            version => '0.3b',
             author  => 'Joel Birch',
             homepage =>
               'http://users.tpg.com.au/j_birch/plugins/superfish/#sample5',

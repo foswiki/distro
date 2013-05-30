@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name    => 'hoverIntent',
-            version => 'r6',
+            version => 'r7',
             author  => 'Brian Cherne',
             homepage =>
               'http://cherne.net/brian/resources/jquery.hoverIntent.htm',

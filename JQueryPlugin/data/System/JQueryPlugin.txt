@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1360672210" format="1.1" version="15"}%
+%META:TOPICINFO{author="ProjectContributor" date="1360672210" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -127,6 +127,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  30 May 2013: | (4.80) - Item12519: upgraded superfish, supersubs and hoverintent |
 |  29 May 2013: | (4.70) - Item12345: added jquery-1.9.1, jquery-1.10.0, jquery-2.0.0, jquery-2.0.1; \
                            removed themeswitcher as it isn't supported and non-functional anymore; \
                            upgraded to jquery-ui-1.10.3; \
