@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1283708998" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1369926831" format="1.1" reprev="1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"superfish"
@@ -28,10 +28,6 @@ Features:
 ---++ Examples
 %JQREQUIRE{"supersubs"}%
 
-
----+++ Using <nop>TreePlugin
-Requires Foswiki:Extensions.TreePlugin
-
 %ADDTOZONE{"script" 
     tag="SUPERFISH::DEMO" 
     text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>
@@ -41,6 +37,11 @@ Requires Foswiki:Extensions.TreePlugin
     requires="JQUERYPLUGIN::SUPERSUBS"
 }%
 
+---+++ Using <nop>TreePlugin
+Requires Foswiki:Extensions.TreePlugin
+
+<verbatim class="foswikiHidden">
+%STARTSECTION{"treeplugin_example"}%
 <ul id="tree-demo" class="sf-menu"><li><a name="topiclist" class="sf-with-ul">Topics...</a><span class="sf-sub-indicator">&#187;</span>
 %TREE{
   web="%URLPARAM{"qweb" default="%BASEWEB%"}%"
@@ -48,407 +49,404 @@ Requires Foswiki:Extensions.TreePlugin
   nodiv="1"
 }%</li>
 </ul><!-- close the sf-menu -->
-<br clear="all"/>
+%CLEAR%
+%ENDSECTION{"treeplugin_example"}%
+</verbatim>
+%IF{"context TreePluginEnabled" then="$percntINCLUDE{\"%TOPIC%\" section=\"treeplugin_example\"}$percnt" else="%RED% !TreePlugin not enabled %ENDCOLOR%"}%
 
 ---+++ Basic style
-From [[http://users.tpg.com.au/j_birch/plugins/superfish/#sample2]]
-
-
-<ul id="sample-menu-2" class="sf-menu">
-        <li class="current">
-                <a class="sf-with-ul" href="#a">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li>
-                                <a href="#aa">menu item</a>
-                        </li>
-                        <li class="current">
-                                <a class="sf-with-ul" href="#ab">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li class="current"><a href="#">menu item</a></li>
-                                        <li><a href="#aba">menu item</a></li>
-                                        <li><a href="#abb">menu item</a></li>
-                                        <li><a href="#abc">menu item</a></li>
-                                        <li><a href="#abd">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                </ul>
-        </li>
-        <li>
-                <a href="#">menu item</a>
-        </li>
-        <li>
-                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                </ul>
-        </li>
-        <li>
-                <a href="#">menu item</a>
-        </li>
+<ul id="sample-menu-1" class="sf-menu">
+ <li class="current">
+   <a href="#a">menu item</a>
+   <ul>
+     <li>
+       <a href="#aa">menu item</a>
+     </li>
+     <li class="current">
+       <a href="#ab">menu item</a>
+       <ul>
+         <li class="current"><a href="#">menu item</a></li>
+         <li><a href="#aba">menu item</a></li>
+         <li><a href="#abb">menu item</a></li>
+         <li><a href="#abc">menu item</a></li>
+         <li><a href="#abd">menu item</a></li>
+       </ul>
+     </li>
+     <li>
+       <a href="#">menu item</a>
+       <ul>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+       </ul>
+     </li>
+     <li>
+       <a href="#">menu item</a>
+       <ul>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+       </ul>
+     </li>
+   </ul>
+ </li>
+ <li>
+   <a href="#">menu item</a>
+ </li>
+ <li>
+   <a href="#">menu item</a>
+   <ul>
+     <li>
+       <a href="#">menu item</a>
+       <ul>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+       </ul>
+     </li>
+     <li>
+       <a href="#">menu item</a>
+       <ul>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+       </ul>
+     </li>
+     <li>
+       <a href="#">menu item</a>
+       <ul>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+       </ul>
+     </li>
+     <li>
+       <a href="#">menu item</a>
+       <ul>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+       </ul>
+     </li>
+     <li>
+       <a href="#">menu item</a>
+       <ul>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+         <li><a href="#">menu item</a></li>
+       </ul>
+     </li>
+   </ul>
+ </li>
+ <li>
+   <a href="#">menu item</a>
+ </li> 
 </ul>
-<br clear="all"/>
+%CLEAR%
 
 ---+++ Vertical Style
-From [[http://users.tpg.com.au/j_birch/plugins/superfish/#sample3]]
 
 <ul id="sample-menu-3" class="sf-menu sf-vertical">
+    <li class="current">
+      <a href="#a">menu item</a>
+      <ul>
+        <li>
+          <a href="#aa">menu item</a>
+        </li>
         <li class="current">
-                <a class="sf-with-ul" href="#a">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li>
-                                <a href="#aa">menu item</a>
-                        </li>
-                        <li class="current">
-                                <a class="sf-with-ul" href="#ab">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li class="current"><a href="#">menu item</a></li>
-                                        <li><a href="#aba">menu item</a></li>
-                                        <li><a href="#abb">menu item</a></li>
-                                        <li><a href="#abc">menu item</a></li>
-                                        <li><a href="#abd">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                </ul>
+          <a href="#ab">menu item</a>
+          <ul>
+            <li class="current"><a href="#">menu item</a></li>
+            <li><a href="#aba">menu item</a></li>
+            <li><a href="#abb">menu item</a></li>
+            <li><a href="#abc">menu item</a></li>
+            <li><a href="#abd">menu item</a></li>
+          </ul>
         </li>
         <li>
-                <a href="#">menu item</a>
+          <a href="#">menu item</a>
+          <ul>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+          </ul>
         </li>
         <li>
-                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                </ul>
+          <a href="#">menu item</a>
+          <ul>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">menu item</a>
+    </li>
+    <li>
+      <a href="#">menu item</a>
+      <ul>
+        <li>
+          <a href="#">menu item</a>
+          <ul>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+          </ul>
         </li>
         <li>
-                <a href="#">menu item</a>
+          <a href="#">menu item</a>
+          <ul>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+          </ul>
         </li>
+        <li>
+          <a href="#">menu item</a>
+          <ul>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">menu item</a>
+          <ul>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">menu item</a>
+          <ul>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+            <li><a href="#">menu item</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">menu item</a>
+    </li> 
 </ul>
-<br clear="all"/>
+%CLEAR%
 
 ---+++ Nav-bar Style
-From [[http://users.tpg.com.au/j_birch/plugins/superfish/#sample4]]
-
-*NB:* Supersubs 0.2b messes up nav-bar style.
 
 <ul id="sample-menu-4" class="sf-menu sf-navbar">
-        <li>
-                <a class="sf-with-ul" href="#">long menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li><a href="#">subitem 1a</a></li>
-                        <li><a href="#">subitem 1b</a></li>
-                        <li><a href="#">subitem 1c</a></li>
-                        <li><a href="#">subitem 1d</a></li>
-                </ul>
-        </li>
-        <li class="current">
-                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li>
-                                <a class="sf-with-ul" href="#">subitem 2a<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#aba">menu item</a></li>
-                                        <li><a href="#abb">menu item</a></li>
-                                        <li><a href="#abc">menu item</a></li>
-                                        <li><a href="#abd">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li class="current">
-                                <a class="sf-with-ul" href="#">path to current<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#aba">menu item</a></li>
-                                        <li><a href="#abb">menu item</a></li>
-                                        <li class="current"><a href="#abc">current page</a></li>
-                                        <li><a href="#abd">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">subitem 2c<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#aba">menu item</a></li>
-                                        <li><a href="#abb">menu item</a></li>
-                                        <li><a href="#abc">menu item</a></li>
-                                        <li><a href="#abd">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li><a href="#">subitem 2d</a></li>
-                </ul>
-        </li>
-        <li>
-                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li><a href="#">if no subitems, duplicate parent item href and use this as descriptive label</a></li>
-                </ul>
-        </li>
-        <li>
-                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li><a href="#">subitem 4a</a></li>
-                        <li><a href="#">subitem 4b</a></li>
-                        <li><a href="#">subitem 4c</a></li>
-                        <li><a href="#">subitem 4d</a></li>
-                </ul>
-        </li>
-        <li>
-                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li><a href="#">subitem 5a</a></li>
-                        <li><a href="#">subitem 5b</a></li>
-                        <li><a href="#">subitem 5c</a></li>
-                        <li><a href="#">subitem 5d</a></li>
-                </ul>
-        </li>
+  <li>
+    <a href="#">long menu item</a>
+    <ul>
+      <li><a href="#">subitem 1a</a></li>
+      <li><a href="#">subitem 1b</a></li>
+      <li><a href="#">subitem 1c</a></li>
+      <li><a href="#">subitem 1d</a></li>
+    </ul>
+  </li>
+  <li class="current">
+    <a href="#">menu item</a>
+    <ul>
+      <li>
+        <a href="#">subitem 2a</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#aba">menu item</a></li>
+          <li><a href="#abb">menu item</a></li>
+          <li><a href="#abc">menu item</a></li>
+          <li><a href="#abd">menu item</a></li>
+        </ul>
+      </li>
+      <li class="current">
+        <a href="#">path to current</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#aba">menu item</a></li>
+          <li><a href="#abb">menu item</a></li>
+          <li class="current"><a href="#abc">current page</a></li>
+          <li><a href="#abd">menu item</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">subitem 2c</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#aba">menu item</a></li>
+          <li><a href="#abb">menu item</a></li>
+          <li><a href="#abc">menu item</a></li>
+          <li><a href="#abd">menu item</a></li>
+        </ul>
+      </li>
+      <li><a href="#">subitem 2d</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#">menu item</a>
+    <ul>
+      <li><a href="#">if no subitems, duplicate parent item href and use this as descriptive label</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#">menu item</a>
+    <ul>
+      <li><a href="#">subitem 4a</a></li>
+      <li><a href="#">subitem 4b</a></li>
+      <li><a href="#">subitem 4c</a></li>
+      <li><a href="#">subitem 4d</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#">menu item</a>
+    <ul>
+      <li><a href="#">subitem 5a</a></li>
+      <li><a href="#">subitem 5b</a></li>
+      <li><a href="#">subitem 5c</a></li>
+      <li><a href="#">subitem 5d</a></li>
+    </ul>
+  </li>
 </ul>
-<br clear="all"/>
+%CLEAR%
 
 ---++++ Supersubs
-From [[http://users.tpg.com.au/j_birch/plugins/superfish/#sample5]]
-<blockquote cite="http://users.tpg.com.au/j_birch/plugins/superfish/#sample5">
+
+<blockquote>
 This menu uses the optional Supersubs plugin (currently beta) to make the sub-menu widths variable. The fixed width set in the CSS is overridden and all menu items within a sub-menu are altered to match the width of their widest sibling. This is most commonly used to make all menu items fit on one line so that they are all of equal height.
 
 Note that Supersubs needs to be called before Superfish in the initialisation chain...</blockquote>
+
 <ul id="sample-menu-5" class="sf-menu">
-        <li class="current">
-                <a class="sf-with-ul" href="#a">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li>
-                                <a href="#aa">menu item that is quite long</a>
-                        </li>
-                        <li class="current">
-                                <a class="sf-with-ul" href="#ab">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li class="current"><a href="#">menu item that is even longer still!</a></li>
-                                        <li><a href="#aba">menu item</a></li>
-                                        <li><a href="#abb">menu item</a></li>
-                                        <li><a href="#abc">menu item</a></li>
-                                        <li><a href="#abd">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                </ul>
-        </li>
-        <li>
-                <a href="#">menu item</a>
-        </li>
-        <li>
-                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                <ul>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">short</a></li>
-                                        <li><a href="#">short</a></li>
-                                        <li><a href="#">short</a></li>
-                                        <li><a href="#">short</a></li>
-                                        <li><a href="#">short</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                        <li>
-                                <a class="sf-with-ul" href="#">menu item<span class="sf-sub-indicator"> &#187;</span></a>
-                                <ul>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                        <li><a href="#">menu item</a></li>
-                                </ul>
-                        </li>
-                </ul>
-        </li>
-        <li>
-                <a href="#">menu item</a>
-        </li>
+  <li class="current">
+    <a href="#a">menu item</a>
+    <ul>
+      <li>
+        <a href="#aa">menu item that is quite long</a>
+      </li>
+      <li class="current">
+        <a href="#ab">menu item</a>
+        <ul>
+          <li class="current"><a href="#">menu item that is even longer still!</a></li>
+          <li><a href="#aba">menu item</a></li>
+          <li><a href="#abb">menu item</a></li>
+          <li><a href="#abc">menu item</a></li>
+          <li><a href="#abd">menu item</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">menu item</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">menu item</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="#">menu item</a>
+  </li>
+  <li>
+    <a href="#">menu item</a>
+    <ul>
+      <li>
+        <a href="#">menu item</a>
+        <ul>
+          <li><a href="#">short</a></li>
+          <li><a href="#">short</a></li>
+          <li><a href="#">short</a></li>
+          <li><a href="#">short</a></li>
+          <li><a href="#">short</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">menu item</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">menu item</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">menu item</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">menu item</a>
+        <ul>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+          <li><a href="#">menu item</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="#">menu item</a>
+  </li> 
 </ul>
-<br clear="all"/>
+%CLEAR%
 
 <!--
    * Set NOWYSIWYG = 1

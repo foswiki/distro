@@ -560,12 +560,8 @@ pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.css.gz 0644
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.js 0644
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.js.gz 0644
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.uncompressed.css 0644
-pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.uncompressed.css.diff 0644
 pub/System/JQueryPlugin/plugins/superfish/jquery.superfish.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/superfish/Makefile 0644
-pub/System/JQueryPlugin/plugins/superfish/MenuArrow.gif 0644
-pub/System/JQueryPlugin/plugins/superfish/MenuArrow.png 0644
-pub/System/JQueryPlugin/plugins/superfish/MenuShadow.png 0644
 pub/System/JQueryPlugin/plugins/supersubs/jquery.supersubs.js 0644
 pub/System/JQueryPlugin/plugins/supersubs/jquery.supersubs.js.gz 0644
 pub/System/JQueryPlugin/plugins/supersubs/jquery.supersubs.uncompressed.js 0644
