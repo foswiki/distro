@@ -1,6 +1,8 @@
 !noci
 data/System/ConfigurePlugin.txt 0644 Documentation page
-data/Sandbox/PluginTestConfigurePlugin.txt 0644 Examples
 lib/Foswiki/Plugins/ConfigurePlugin.pm 0444 Perl module
 lib/Foswiki/Plugins/ConfigurePlugin/Config.spec 0444 Configuration
 lib/Foswiki/Plugins/ConfigurePlugin/SpecEntry.pm 0444 Perl module
+pub/System/ConfigurePlugin/configure.js
+pub/System/ConfigurePlugin/configure.css
+pub/System/ConfigurePlugin/configure.html

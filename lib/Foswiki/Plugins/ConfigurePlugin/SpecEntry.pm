@@ -52,8 +52,12 @@ sub findSpecEntry {
 
 sub _appendDescription {
     my ( $this, $desc ) = @_;
-    $this->{description} ||= '';
-    $this->{description} .= $desc;
+    if ( $this->{description} ) {
+        $this->{description} .= " $desc";
+    }
+    else {
+        $this->{description} = $desc;
+    }
 }
 
 # Add a new entry to the queue for adding to the tree.
@@ -436,6 +440,8 @@ sub set {
 
 # Check the configuration settings given in the $data against the
 # checkers for the corresponding type.
+our $guess_val;
+
 sub check {
     my ( $this, $data, @path ) = @_;
     my @report;
@@ -454,18 +460,25 @@ sub check {
                 eval "require $chcl";
                 die $@ if $@;
 
+                # Monkey-patch the checker so we know if the value
+                # was guessed
+                local $guess_val = undef;
+                my $guess = sub {
+                    $guess_val = eval "\$Foswiki::cfg$keypath";
+                };
+                eval "*{${chcl}::guessed}=\$guess";
+
                 # Invoke the checker
                 my $checker = $chcl->new($spec);
                 my $message = $checker->check($spec);
-                if ($message) {
-                    push(
-                        @report,
-                        {
-                            level   => $next_level,
-                            keys    => $keypath,
-                            message => $message
-                        }
-                    );
+                if ( $message || defined $guess_val ) {
+                    my $whine = {
+                        level => $next_level,
+                        keys  => $keypath
+                    };
+                    $whine->{message} = $message   if $message;
+                    $whine->{guess}   = $guess_val if defined $guess_val;
+                    push( @report, $whine );
                 }
             }
         }
