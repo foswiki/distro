@@ -24,22 +24,22 @@ Constructor
 =cut
 
 sub new {
-  my $class = shift;
+    my $class = shift;
 
-  my $this = bless(
-    $class->SUPER::new(
-      name => 'JsonRpc',
-      version => '1.0',
-      author => 'Michael Daum',
-      homepage => 'http://foswiki.org/Extensions/JsonRpcContrib',
-      javascript => ['jquery.jsonrpc.js'],
-      puburl => '%PUBURLPATH%/%SYSTEMWEB%/JsonRpcContrib',
-      dependencies => ['JQUERYPLUGIN::JSON2'],
-    ),
-    $class
-  );
+    my $this = bless(
+        $class->SUPER::new(
+            name         => 'JsonRpc',
+            version      => '1.0',
+            author       => 'Michael Daum',
+            homepage     => 'http://foswiki.org/Extensions/JsonRpcContrib',
+            javascript   => ['jquery.jsonrpc.js'],
+            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JsonRpcContrib',
+            dependencies => ['JQUERYPLUGIN::JSON2'],
+        ),
+        $class
+    );
 
-  return $this;
+    return $this;
 }
 
 =begin TML
@@ -51,25 +51,25 @@ add json2 for browsers <= IE7
 =cut
 
 sub init {
-  my $this = shift;
-  return 0 if $this->{isInit};
+    my $this = shift;
+    return 0 if $this->{isInit};
 
-  $this->SUPER::init();
+    $this->SUPER::init();
 
-  my $text = '';
+    my $text = '';
 
-  # disabled support for < IE7
-  if (0) {
+    # disabled support for < IE7
+    if (0) {
 
-  $text .= <<"HERE";
+        $text .= <<"HERE";
 <literal><!--[if lte IE 7]>
 $this->renderJS("json2.js").
 <![endif]--></literal>
 HERE
 
-  }
+    }
 
-  Foswiki::Func::addToZone('script', 'JQUERYPLUGIN::JSON2', $text);
+    Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN::JSON2', $text );
 }
 
 1;

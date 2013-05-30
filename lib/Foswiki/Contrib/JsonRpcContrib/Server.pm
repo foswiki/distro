@@ -20,12 +20,13 @@ use strict;
 use warnings;
 
 use Error qw( :try );
-use Foswiki::Func ();
-use Foswiki::Contrib::JsonRpcContrib::Error ();
-use Foswiki::Contrib::JsonRpcContrib::Request ();
+use Foswiki::Func                              ();
+use Foswiki::Contrib::JsonRpcContrib::Error    ();
+use Foswiki::Contrib::JsonRpcContrib::Request  ();
 use Foswiki::Contrib::JsonRpcContrib::Response ();
 
-use constant DEBUG => 0; # toggle me
+# SMELL: constant DEBUG blocks use of ASSERT
+use constant DEBUG => 0;    # toggle me
 
 # Error codes for json-rpc response
 # -32700: Parse error - Invalid JSON was received by the server.
@@ -42,177 +43,210 @@ use constant DEBUG => 0; # toggle me
 ################################################################################
 # static
 sub writeDebug {
-  print STDERR '- JsonRpcContrib::Server - '.$_[0]."\n" if DEBUG;
+    print STDERR '- JsonRpcContrib::Server - ' . $_[0] . "\n" if DEBUG;
 }
 
 ################################################################################
 # constructor
 sub new {
-  my $class = shift;
+    my $class = shift;
 
-  my $this = bless({}, $class);
+    my $this = bless( {}, $class );
 
-  return $this;
+    return $this;
 }
 
 ################################################################################
 sub registerMethod {
-  my ($this, $namespace, $method, $fnref, $options) = @_;
+    my ( $this, $namespace, $method, $fnref, $options ) = @_;
 
-  writeDebug("registerMethod($namespace, $method, $fnref)");
+    writeDebug("registerMethod($namespace, $method, $fnref)");
 
-  $this->{handler}{$namespace}{$method} = {
-    function => $fnref,
-    options => $options
-  };
+    $this->{handler}{$namespace}{$method} = {
+        function => $fnref,
+        options  => $options
+    };
 }
 
 ################################################################################
 sub dispatch {
-  my ($this, $session) = @_;
+    my ( $this, $session ) = @_;
 
-  writeDebug("called dispatch");
+    writeDebug("called dispatch");
 
-  $Foswiki::Plugins::SESSION = $session;
-  $this->{session} = $session;
+    $Foswiki::Plugins::SESSION = $session;
+    $this->{session} = $session;
 
-  my $request;
-  try {
-    $request = new Foswiki::Contrib::JsonRpcContrib::Request($session);
-  } catch Foswiki::Contrib::JsonRpcContrib::Error with {
-    my $error = shift;
-    Foswiki::Contrib::JsonRpcContrib::Response->print($session, 
-      code => $error->{code},
-      message => $error->{message}
-    );
-  };
-  return unless defined $request;
+    my $request;
+    try {
+        $request = new Foswiki::Contrib::JsonRpcContrib::Request($session);
+    }
+    catch Foswiki::Contrib::JsonRpcContrib::Error with {
+        my $error = shift;
+        Foswiki::Contrib::JsonRpcContrib::Response->print(
+            $session,
+            code    => $error->{code},
+            message => $error->{message}
+        );
+    };
+    return unless defined $request;
 
-  # get topic parameter and set the location overriding any other value derived from the namespace param
-  my $topic = $request->param("topic") || $Foswiki::cfg{HomeTopicName};
-  ($session->{webName}, $session->{topicName}) = Foswiki::Func::normalizeWebTopicName($Foswiki::cfg{UsersWebName}, $topic);
-  writeDebug("topic=$topic");
+    # get topic parameter and set the location overriding any
+    #  other value derived from the namespace param
+    my $topic = $request->param("topic") || $Foswiki::cfg{HomeTopicName};
+    ( $session->{webName}, $session->{topicName} ) =
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+        $topic );
+    writeDebug("topic=$topic");
 
-  # get handler for this namespace
-  my $handler = $this->getHandler($request);
-  unless (defined $handler) {
-    Foswiki::Contrib::JsonRpcContrib::Response->print($session, 
-      code => -32601,
-      message => "Invalid invocation - unknown handler for ".$request->namespace().".".$request->method(), 
-      id => $request->id()
-    );
+    # get handler for this namespace
+    my $handler = $this->getHandler($request);
+    unless ( defined $handler ) {
+        Foswiki::Contrib::JsonRpcContrib::Response->print(
+            $session,
+            code    => -32601,
+            message => "Invalid invocation - unknown handler for "
+              . $request->namespace() . "."
+              . $request->method(),
+            id => $request->id()
+        );
+        return;
+    }
+
+    # if there's login info, try and apply it
+    my $userName = $request->param("username");
+    if ($userName) {
+        writeDebug("checking password for $userName");
+        my $pass = $request->param("password") || '';
+        unless ( $session->{users}->checkPassword( $userName, $pass ) ) {
+            Foswiki::Contrib::JsonRpcContrib::Response->print(
+                $session,
+                code    => 401,
+                message => "Access denied",
+                id      => $request->id()
+            );
+            return;
+        }
+
+        my $cUID     = $session->{users}->getCanonicalUserID($userName);
+        my $wikiName = $session->{users}->getWikiName($cUID);
+        $session->{users}->getLoginManager()
+          ->userLoggedIn( $userName, $wikiName );
+    }
+
+    # validate the request
+    if ( $handler->{validate} ) {
+        my $nonce = $request->param('validation_key');
+        if (
+            !defined($nonce)
+            || !Foswiki::Validation::isValidNonce(
+                $session->getCGISession(), $nonce
+            )
+          )
+        {
+            Foswiki::Contrib::JsonRpcContrib::Response->print(
+                $session,
+                code    => -32600,
+                message => "Invalid validation code",
+                id      => $request->id()
+            );
+            return;
+        }
+    }
+
+    # call
+    my $code = 0;
+    my $result;
+    try {
+        no strict 'refs';
+        my $function = $handler->{function};
+        writeDebug( "calling handler for "
+              . $request->namespace . "."
+              . $request->method );
+        $result =
+          &$function( $session, $request, $session->{response},
+            $handler->{options} );
+        use strict 'refs';
+    }
+    catch Foswiki::Contrib::JsonRpcContrib::Error with {
+        my $error = shift;
+        $result = $error->{message};
+        $code   = $error->{code};
+    }
+    catch Error::Simple with {
+        my $error = shift;
+        $result = $error->{-text};
+        $code   = 1;                 # unknown error
+    };
+
+    # finally
+    my $redirectto = $request->param("redirectto");
+    if ( $code == 0 && defined $redirectto ) {
+        my $url;
+        if ( $redirectto =~ /^https?:/ ) {
+            $url = $redirectto;
+        }
+        else {
+            $url =
+              $session->getScriptUrl( 1, 'view', $session->{webName},
+                $redirectto );
+        }
+        $session->redirect($url);
+    }
+    else {
+        Foswiki::Contrib::JsonRpcContrib::Response->print(
+            $session,
+            code    => $code,
+            message => $result,
+            id      => $request->id()
+        );
+    }
+
     return;
-  }
-
-  # if there's login info, try and apply it
-  my $userName = $request->param("username");
-  if ($userName) {
-    writeDebug("checking password for $userName");
-    my $pass = $request->param("password") || '';
-    unless($session->{users}->checkPassword($userName, $pass)) {
-      Foswiki::Contrib::JsonRpcContrib::Response->print($session, 
-        code => 401, 
-        message =>"Access denied", 
-        id => $request->id()
-      );
-      return;
-    }
-
-    my $cUID = $session->{users}->getCanonicalUserID($userName);
-    my $wikiName = $session->{users}->getWikiName($cUID);
-    $session->{users}->getLoginManager()->userLoggedIn($userName, $wikiName);
-  }
-
-  # validate the request
-  if ($handler->{validate}) {
-    my $nonce = $request->param('validation_key');
-    if ( !defined($nonce) || !Foswiki::Validation::isValidNonce($session->getCGISession(), $nonce)) {
-      Foswiki::Contrib::JsonRpcContrib::Response->print($session,
-        code => -32600, 
-        message => "Invalid validation code", 
-        id => $request->id()
-      );
-      return;
-    }
-  }
-
-  # call 
-  my $code = 0;
-  my $result;
-  try {
-    no strict 'refs';
-    my $function = $handler->{function};
-    writeDebug("calling handler for ".$request->namespace.".".$request->method);
-    $result = &$function($session, $request, $session->{response}, $handler->{options});
-    use strict 'refs';
-  } catch Foswiki::Contrib::JsonRpcContrib::Error with {
-    my $error = shift;
-    $result = $error->{message};
-    $code = $error->{code};
-  } catch Error::Simple with {
-    my $error = shift;
-    $result = $error->{-text};
-    $code = 1; # unknown error
-  };
-
-  # finally
-  my $redirectto = $request->param("redirectto");
-  if ($code == 0 && defined $redirectto) {
-    my $url;
-    if ($redirectto =~ /^https?:/) {
-      $url = $redirectto;
-    } else {
-      $url = $session->getScriptUrl(1, 'view', $session->{webName}, $redirectto );
-    }
-    $session->redirect($url);
-  } else {
-    Foswiki::Contrib::JsonRpcContrib::Response->print($session,
-      code => $code,
-      message => $result,
-      id => $request->id()
-    );
-  }
-
-  return;
 }
 
 ################################################################################
 sub getHandler {
-  my ($this, $request) = @_;
+    my ( $this, $request ) = @_;
 
-  my $namespace = $request->namespace();
-  return unless $namespace;
+    my $namespace = $request->namespace();
+    return unless $namespace;
 
-  my $method = $request->method();
-  return unless $method;
+    my $method = $request->method();
+    return unless $method;
 
-  unless (defined $this->{handler}{$namespace}) {
+    unless ( defined $this->{handler}{$namespace} ) {
 
-    # lazy register handler
-    if (defined $Foswiki::cfg{JsonRpcContrib}{Handler} && 
-        defined $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace} &&
-        defined $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method}) {
+        # lazy register handler
+        if (   defined $Foswiki::cfg{JsonRpcContrib}{Handler}
+            && defined $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}
+            && defined $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}
+            {$method} )
+        {
 
-      my $def = $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method};
+            my $def =
+              $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method};
 
-      writeDebug("compiling $def->{package} for $namespace.$method");
-      eval qq(use $def->{package});
+            writeDebug("compiling $def->{package} for $namespace.$method");
+            eval qq(use $def->{package});
 
-      # disable on error
-      if ($@) {
-        print STDERR "Error: $@\n";
-        $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method} = undef;
-        return;
-      }
+            # disable on error
+            if ($@) {
+                print STDERR "Error: $@\n";
+                $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method} =
+                  undef;
+                return;
+            }
 
-      my $sub = $def->{package}."::".$def->{function};
-      $this->registerMethod($namespace, $method, \&$sub, $def->{options});
+            my $sub = $def->{package} . "::" . $def->{function};
+            $this->registerMethod( $namespace, $method, \&$sub,
+                $def->{options} );
+        }
     }
-  }
 
-  return unless defined $this->{handler}{$namespace};
+    return unless defined $this->{handler}{$namespace};
 
-  return $this->{handler}{$namespace}{$method};
+    return $this->{handler}{$namespace}{$method};
 }
 
 1;

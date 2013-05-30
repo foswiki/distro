@@ -20,106 +20,106 @@ use strict;
 use warnings;
 
 use JSON ();
-use constant DEBUG => 0; # toggle me
+use constant DEBUG => 0;    # toggle me
 
 ################################################################################
 sub new {
-  my $class = shift;
-  my $session = shift;
+    my $class   = shift;
+    my $session = shift;
 
-  my $this = {
-    session => $session,
-    @_
-  };
+    my $this = {
+        session => $session,
+        @_
+    };
 
-  return bless($this, $class);
+    return bless( $this, $class );
 }
 
 ##############################################################################
 # static constructor
 sub print {
-  my $class = shift;
-  my $session = shift;
+    my $class   = shift;
+    my $session = shift;
 
-  my $this = $class->new($session, @_);
+    my $this = $class->new( $session, @_ );
 
-  $this->{session}->{response}->header(
-    -status  => $this->code()?500:200,
-    -type    => 'text/plain',
-  );
+    $this->{session}->{response}->header(
+        -status => $this->code() ? 500 : 200,
+        -type => 'text/plain',
+    );
 
-  $this->{session}->{response}->print($this->encode());
+    $this->{session}->{response}->print( $this->encode() );
 }
 
 ##############################################################################
 sub id {
-  my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
 
-  $this->{id} = $value if defined $value;
-  return $this->{id};
+    $this->{id} = $value if defined $value;
+    return $this->{id};
 }
 
 ##############################################################################
 sub code {
-  my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
 
-  $this->{code} = $value if defined $value;
-  return ($this->{code} || 0);
+    $this->{code} = $value if defined $value;
+    return ( $this->{code} || 0 );
 }
 
 ##############################################################################
 sub message {
-  my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
 
-  $this->{message} = $value if defined $value;
-  return $this->{message};
+    $this->{message} = $value if defined $value;
+    return $this->{message};
 }
 
 ################################################################################
 sub isError {
-  my $this = shift;
+    my $this = shift;
 
-  return ($this->code() == 0)?0:1;
+    return ( $this->code() == 0 ) ? 0 : 1;
 }
 
-
 ################################################################################
-sub encode  {
-  my $this = shift;
+sub encode {
+    my $this = shift;
 
-  my $code = $this->code();
-  my $message = $this->message();
+    my $code    = $this->code();
+    my $message = $this->message();
 
-  if ($this->isError()) {
-    $message = {
-      jsonrpc => "2.0",
-      error => {
-        code => $code,
-        message => $message,
-      },
-    };
-  } else {
-    $message = {
-      jsonrpc => "2.0",
-      result => $message,
-    };
-  }
+    if ( $this->isError() ) {
+        $message = {
+            jsonrpc => "2.0",
+            error   => {
+                code    => $code,
+                message => $message,
+            },
+        };
+    }
+    else {
+        $message = {
+            jsonrpc => "2.0",
+            result  => $message,
+        };
+    }
 
-  my $id = $this->id();
-  $message->{id} = $id if defined $id; 
+    my $id = $this->id();
+    $message->{id} = $id if defined $id;
 
-  return $this->parser->convert_blessed->encode($message);
+    return $this->parser->convert_blessed->encode($message);
 }
 
 ##############################################################################
 sub parser {
-  my $this = shift;
+    my $this = shift;
 
-  unless (defined $this->{parser}) {
-    $this->{parser} = new JSON;
-  }
+    unless ( defined $this->{parser} ) {
+        $this->{parser} = new JSON;
+    }
 
-  return $this->{parser};
+    return $this->{parser};
 }
 
 1;
