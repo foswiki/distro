@@ -127,6 +127,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  31 May 2013: | (4.81) - Item12520: added jquery-1.10.1 and jquery-2.0.2 |
 |  30 May 2013: | (4.80) - Item12519: upgraded superfish, supersubs and hoverintent |
 |  29 May 2013: | (4.70) - Item12345: added jquery-1.9.1, jquery-1.10.0, jquery-2.0.0, jquery-2.0.1; \
                            removed themeswitcher as it isn't supported and non-functional anymore; \
