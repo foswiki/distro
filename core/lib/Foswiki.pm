@@ -486,7 +486,7 @@ BEGIN {
         $regex{webNameRegex} = $regex{webNameBaseRegex};
     }
     $regex{defaultWebNameRegex} = qr/_[$regex{mixedAlphaNum}_]+/o;
-    $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}_]+/o;
+    $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}:._]+/o;
     $regex{abbrevRegex}         = qr/[$regex{upperAlpha}]{3,}s?\b/o;
 
     $regex{topicNameRegex} =
