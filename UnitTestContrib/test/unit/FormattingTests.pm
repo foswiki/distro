@@ -19,6 +19,7 @@ my %link_tests = (
     ''           => { autolink => 0 },
     '#'          => { autolink => 0, fragment => undef },
     '#f'         => { autolink => 0, fragment => 'f' },
+    '#Foo.Bar'   => { autolink => 0, fragment => 'Foo.Bar' },
     '?'          => { autolink => 0, query => '' },
     '?q'         => { autolink => 0, query => 'q' },
     '?q=r'       => { autolink => 0, query => 'q=r' },
