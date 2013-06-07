@@ -28,10 +28,10 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'WikiWord',
-            version      => '2.0',
+            version      => '2.1',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => [ 'jquery.wikiword.js', 'jquery.wikiword.init.js' ],
+            javascript   => ['jquery.wikiword.js'],
             dependencies => ['livequery']
         ),
         $class

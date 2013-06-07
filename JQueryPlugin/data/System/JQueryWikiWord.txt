@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1272460160" format="1.1" rev="4" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1370598988" format="1.1" version="2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"wikiword"
@@ -39,7 +39,7 @@ to derive the !WikiWord using metadata of the following format:
   </div>
   <div class="foswikiFormStep">
     <h3>Year:</h3>
-    <select id="prjYear" name="prjYear">
+    <select class="foswikiSelect" id="prjYear" name="prjYear">
       <option></option>
       <option>2005</option>
       <option>2006</option>
