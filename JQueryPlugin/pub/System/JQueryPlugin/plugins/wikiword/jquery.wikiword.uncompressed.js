@@ -1,13 +1,11 @@
 /*
- * jQuery WikiWord plugin 2.0
+ * jQuery WikiWord plugin 2.1
  *
  * Copyright (c) 2008-2013 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
- *
- * Revision: $Id$
  *
  */
 
@@ -23,11 +21,11 @@ $.wikiword = {
       'C', 'È': 'E', 'É': 'E', 'Ê': 'E', 'Ë': 'E', 'Ì': 'I', 'Í': 'I', 'Î': 'I',
       'Ï': 'I', 'Ð': 'D', 'Ñ': 'N', 'Ò': 'O', 'Ó': 'O', 'Ô': 'O', 'Õ': 'O', 'Ö':
       'Oe', 'Ő': 'O', 'Ø': 'O', 'Ù': 'U', 'Ú': 'U', 'Û': 'U', 'Ü': 'Ue', 'Ű': 'U',
-      'Ý': 'Y', 'Þ': 'TH', 'ß': 'ss', 'à':'a', 'á':'a', 'â': 'a', 'ã': 'a', 'äe':
-      'a', 'å': 'a', 'æ': 'ae', 'ç': 'c', 'è': 'e', 'é': 'e', 'ê': 'e', 'ë': 'e',
+      'Ý': 'Y', 'Þ': 'TH', 'ß': 'ss', 'à':'a', 'á':'a', 'â': 'a', 'ã': 'a', 'ä':
+      'ae', 'å': 'a', 'æ': 'ae', 'ç': 'c', 'è': 'e', 'é': 'e', 'ê': 'e', 'ë': 'e',
       'ì': 'i', 'í': 'i', 'î': 'i', 'ï': 'i', 'ð': 'd', 'ñ': 'n', 'ò': 'o', 'ó':
       'o', 'ô': 'o', 'õ': 'o', 'ö': 'oe', 'ő': 'o', 'ø': 'o', 'ù': 'u', 'ú': 'u',
-      'û': 'u', 'üe': 'u', 'ű': 'u', 'ý': 'y', 'þ': 'th', 'ÿ': 'y',
+      'û': 'u', 'ü': 'ue', 'ű': 'u', 'ý': 'y', 'þ': 'th', 'ÿ': 'y',
 
       // LATIN_SYMBOLS
       '©':'(c)',
@@ -174,8 +172,16 @@ $.wikiword = {
 };
 
 /* register by extending jquery */
+$.fn.wikiword = $.wikiword.build;
+
+/* init */
 $(function() {
-  $.fn.wikiword = $.wikiword.build;
+  $(".jqWikiWord:not(.jqInitedWikiWord)").livequery(function() {
+    var $this = $(this), options;
+    $this.addClass("jqInitedWikiWord");
+    options = $.extend({}, $this.metadata());
+    $this.wikiword(options.source, options);
+  });
 });
 
 })(jQuery);

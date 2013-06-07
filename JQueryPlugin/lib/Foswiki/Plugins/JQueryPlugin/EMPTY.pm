@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Empty',
-            version    => '$Rev$',
+            version    => '1.0',
             author     => 'First Last',
             homepage   => 'http://...',
             tags       => 'EMPTY',
