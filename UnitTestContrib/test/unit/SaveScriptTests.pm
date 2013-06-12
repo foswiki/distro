@@ -1197,7 +1197,8 @@ sub test_1897 {
     my ( $repRevDate, $repRevAuth, $repRevRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
     $this->assert_equals( 1, $repRevRev );
-    $this->assert_str_equals( "Sweaty\ncat\n", $text2 );
+    $this->assert_str_equals( "Sweaty\ncat\n",          $text2 );
+    $this->assert_str_equals( $this->{test_user_login}, $repRevAuth );
     $this->assert( $repRevDate != $orgDate );
 
     # User B saves; make sure we get a merge notice.
@@ -1233,6 +1234,67 @@ sub test_1897 {
 "<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>",
         $text
     );
+    $meta->finish();
+
+    return;
+}
+
+sub test_cmdEqualsReprev {
+    my $this = shift;
+
+    # make sure we have time to complete the test
+    $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
+
+    $this->createNewFoswikiSession( $this->{test_user_login} );
+
+    my ($oldmeta) = Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+    my $oldtext = $testtext1;
+    my $query;
+    $oldmeta->setEmbeddedStoreForm($oldtext);
+
+    $this->assert_str_equals( $testtext1, $oldmeta->getEmbeddedStoreForm() );
+
+    # First, user A saves to create rev 1
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+    $meta->copyFrom($oldmeta);
+    $meta->text("Les Miserables");
+    $meta->save();
+    $meta->finish();
+
+    ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+
+    my $info = $meta->getRevisionInfo();
+    my ( $orgDate, $orgAuth, $orgRev ) =
+      ( $info->{date}, $info->{author}, $info->{version} );
+
+    my $original = "${orgRev}_$orgDate";
+    sleep(1);    # tick the clock to ensure the date changes
+
+    # admin reprevs to create rev 1 again with new text
+    $query = Unit::Request->new(
+        {
+            action => ['save'],
+            text   => ["A Tale of Two Cities"],
+            cmd    => ['repRev'],
+            topic  => [ $this->{test_web} . '.RepRev' ]
+        }
+    );
+
+    $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
+    $this->captureWithKey( save => $UI_FN, $this->{session} );
+
+    # make sure it's still rev 1 as expected
+    my $text2;
+    ( $meta, $text2 ) = Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+
+    $info = $meta->getRevisionInfo();
+    my ( $repRevDate, $repRevAuth, $repRevRev ) =
+      ( $info->{date}, $info->{author}, $info->{version} );
+    $this->assert_equals( $orgRev, $repRevRev );
+    $this->assert_str_equals( "A Tale of Two Cities", $text2 );
+    $this->assert_str_equals( $orgAuth,               $repRevAuth );
+    $this->assert_num_equals( $orgDate, $repRevDate );
     $meta->finish();
 
     return;

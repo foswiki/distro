@@ -111,7 +111,7 @@ A major role of the =edit= script is new topic creation. Parameters that are mai
 The following options are *only* available to the site Administrator.  They can "rewrite history" and should be used with caution only when absolutely necessary.
 | *Parameter name* | *Description* | *Default* |
 | =delRev= | *Administrators only* delete the most recent revision of the topic - all other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it.  This option returns you to an editor for the current version, but the edit is ignored, and save will delete the latest revision. | |
-| =repRev= | *Administrators only* replace the text of the most recent revision of the topic with the text in the =text= parameter. =text= must included embedded meta-data tags. All other parameters are ignored. You have to be an administrator to use this, and not all store implementations will support it. | |
+| =repRev= | *Administrators only* replace the text of the most recent revision of the topic with the text in the =text= parameter. =text= may include embedded meta-data tags. As far as possible, the original author and date of the revision being replaced are retained. You have to be an administrator to use this, and not all store implementations will support it. | |
 </blockquote>
 
 __Skin notes:__

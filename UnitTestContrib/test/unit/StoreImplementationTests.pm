@@ -382,19 +382,29 @@ sub verify_saveTopic {
 
 sub verify_repRevTopic {
     my $this = shift;
+    my $deffo_cuid =
+      Foswiki::Func::getCanonicalUserID( Foswiki::Func::getDefaultUserName() );
 
     $this->_makeWeb();
 
+    # Create topic with a single rev
     my $meta =
       Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
-    $meta->text("Web 1 Topic 1");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $meta->text("Web 1 Topic 1 Test 1");
+    $this->{sut}->saveTopic( $meta, $deffo_cuid );
 
-    # A repRev blows away the first rev, so we can play whatever tricks we like
-    # with the date - there's can't be an earlier rev.
+    # Replace that rev
+
+    # A repRev when there is only one rev blows away that rev, so we
+    # can play whatever tricks we like with the date - there can't be
+    # an earlier rev.
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta->text("Web 1 Topic 1 Test 2");
     $this->{sut}->repRev( $meta, $this->{test_user_cuid}, forcedate => 1000 );
     my $info = $this->{sut}->getVersionInfo($meta);
     $this->assert_num_equals( 1, $info->{version} );
+    $this->assert_str_equals( $this->{test_user_cuid}, $info->{author} );
     $this->expect_failure( 'Item11708 Store API fixed in Foswiki 1.2+',
         with_dep => 'Foswiki,<,1.2' );
     $this->assert( $info->{date} - 1000 < 5, $info->{date} );
@@ -402,6 +412,27 @@ sub verify_repRevTopic {
 # SMELL: Following test commented out because RcsWrap and RcsLite both fail when
 # forcedate is used
 #    $this->assert($this->{sut}->getApproxRevTime($this->{t_web}, $this->{t_topic}) - 1000 < 5);
+
+    # Save another change to force a different user
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta->text("Web 1 Topic 1 Test 3");
+    $this->{sut}->saveTopic( $meta, $deffo_cuid, { forcenewrevision => 1 } );
+    $info = $this->{sut}->getVersionInfo($meta);
+    $this->assert_num_equals( 2, $info->{version} );
+    $this->assert_str_equals( $deffo_cuid, $info->{author} );
+
+    # repRev it
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta->text("Web 1 Topic 1 Test 4");
+    $this->{sut}->repRev( $meta, $deffo_cuid, forcedate => 1000 );
+    $info = $this->{sut}->getVersionInfo($meta);
+    $this->assert_num_equals( 2, $info->{version} );
+
+    # Note: it's the responsibility of the caller to set the topic info
+    # correctly before calling the store repRev method
+    $this->assert_str_equals( $deffo_cuid, $info->{author} );
 }
 
 sub verify_eachChange {

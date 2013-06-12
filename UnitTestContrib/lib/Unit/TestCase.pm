@@ -410,7 +410,7 @@ Fail the test if $got != $expected. Comparison is deep. $message is optional.
 =cut
 
 sub assert_deep_equals {
-    my ( $this, $expected, $got, $mess, $sniffed ) = @_;
+    my ( $this, $expected, $got, $mess, $sniffed, @path ) = @_;
 
     $sniffed = {} unless $sniffed;
 
@@ -432,7 +432,7 @@ sub assert_deep_equals {
 
         for ( 0 .. $#$expected ) {
             $this->assert_deep_equals( $expected->[$_], $got->[$_], $mess,
-                $sniffed );
+                $sniffed, @path, '[]' );
         }
     }
     elsif ( UNIVERSAL::isa( $expected, 'HASH' ) ) {
@@ -440,7 +440,7 @@ sub assert_deep_equals {
         my %matched;
         for ( keys %$expected ) {
             $this->assert_deep_equals( $expected->{$_}, $got->{$_}, $mess,
-                $sniffed );
+                $sniffed, @path, "{$_}" );
             $matched{$_} = 1;
         }
         for ( keys %$got ) {
@@ -451,7 +451,8 @@ sub assert_deep_equals {
         || UNIVERSAL::isa( $expected, 'SCALAR' ) )
     {
         $this->assert_equals( ref($expected), ref($got), $mess );
-        $this->assert_deep_equals( $$expected, $$got, $mess, $sniffed );
+        $this->assert_deep_equals( $$expected, $$got, $mess, $sniffed, @path,
+            'ref' );
     }
     else {
         $this->assert_equals( $expected, $got, $mess );
