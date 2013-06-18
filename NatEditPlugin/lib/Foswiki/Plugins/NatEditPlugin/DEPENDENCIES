@@ -1,5 +1,4 @@
 Foswiki::Plugins::JQueryPlugin,>=4.2,perl,Required.
-Foswiki::Plugins::SetVariablePlugin,>=2.10,perl,Optional.
 Foswiki::Plugins::TopicInteractionPlugin,>=3.20,perl,Optional, require to upload attachments from within the editor.
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
 Foswiki::Plugins::ZonePlugin,>=3.1,perl,Required. required for Foswiki < 1.1

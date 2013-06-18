@@ -60,6 +60,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  18 Jun 2013 | removed dependency on <nop>SetVariablePlugin |
 |  28 Mar 2013 | fixed storing the <nop>TopicTitle changing during a rename action only to the topic being renamed |
 |  27 Feb 2013 | re-fixed strikeone-protected save+continue; improved error handling dealing with !AntiWikiSpamPlugin-alike error messages  |
 |  20 Feb 2013 | fixed character encoding when previewing a topic on a non-utf8 site |

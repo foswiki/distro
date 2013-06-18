@@ -20,18 +20,20 @@ function handleKeyDown () { }
     $("#natEditMessageContainer").addClass("foswikiErrorMessage").html(msg).hide().fadeIn("slow");
     $(window).trigger("resize");
   }
+
   function hideErrorMessage() {
     $("#natEditMessageContainer").removeClass("foswikiErrorMessage").hide();
     $(window).trigger("resize");
   }
 
   function setPermission(type, rules) {
+    var key, val;
     $(".permset_"+type).each(function() { 
       $(this).val("undefined");
     });
-    for (var key in rules) {
+    for (key in rules) {
       if (1) {
-        var val = rules[key];
+        val = rules[key];
         $.log("EDIT: setting #"+key+"_"+type+"="+val); 
         $("#"+key+"_"+type).val(val);
       }
@@ -39,10 +41,11 @@ function handleKeyDown () { }
   }
 
   function switchOnDetails(type) {
+    var names = [], val;
+
     $("#details_"+type+"_container").slideDown(300);
-    var names = [];
     $("input[name='Local+PERMSET_"+type.toUpperCase()+"_DETAILS']").each(function() {
-      var val = $(this).val();
+      val = $(this).val();
       if (val && val != '') {
         names.push(val);
       }
@@ -62,8 +65,8 @@ function handleKeyDown () { }
   }
 
   function setPermissionSet(permSet) {
-    $.log("EDIT: called setPermissionSet "+permSet);
     var wikiName = foswiki.getPreference("WIKINAME");
+    $.log("EDIT: called setPermissionSet "+permSet);
     switch(permSet) {
       /* change rules */
       case 'default_change':
@@ -135,6 +138,8 @@ function handleKeyDown () { }
   }
 
   $(function() {
+    var scriptUrl = foswiki.getPreference('SCRIPTURL'),
+        systemWeb = foswiki.getPreference('SYSTEMWEB');
 
     // add submit handler
     $("form[name=EditForm]").livequery(function() {
@@ -209,7 +214,7 @@ function handleKeyDown () { }
             $editForm.submit();
           } else {
             $editForm.ajaxSubmit({
-              url: foswiki.getPreference('SCRIPTURL')+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+              url: scriptUrl+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
               beforeSubmit: function() {
                 hideErrorMessage();
                 document.title = "Saving ...";
@@ -238,7 +243,7 @@ function handleKeyDown () { }
         if ($editForm.validate().form()) {
           submitHandler();
           $editForm.ajaxSubmit({
-            url: foswiki.getPreference('SCRIPTURL')+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+            url: scriptUrl+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
             beforeSubmit: function() {
               hideErrorMessage();
               $.blockUI({message:'<h1> Loading preview ... </h1>'});
@@ -353,14 +358,12 @@ function handleKeyDown () { }
         $(this).wrap("<div></div>").parent().prepend("<b>"+$(this).attr('name')+": </b>");
       });
     }
-    var scriptUrl = foswiki.getPreference('SCRIPTURL');
-    var systemWeb = foswiki.getPreference('SYSTEMWEB');
 
     $("#details_change, #details_view").textboxlist({
       onSelect: function(input) {
-        var currentValues = input.currentValues;
+        var currentValues = input.currentValues,
+            type = (input.opts.inputName=="Local+PERMSET_CHANGE_DETAILS")?"change":"view";
         $.log("EDIT: currentValues="+currentValues);
-        var type = (input.opts.inputName=="Local+PERMSET_CHANGE_DETAILS")?"change":"view";
         setPermission(type, {
           allow: currentValues.join(", ")
         });
@@ -371,6 +374,9 @@ function handleKeyDown () { }
       $(this).blur();
     });
     $("#permissionsForm input[type=radio]").click(function() {
+      setPermissionSet($(this).attr('id'));
+    });
+    $("#permissionsForm input[type=radio]:checked").each(function() {
       setPermissionSet($(this).attr('id'));
     });
   });

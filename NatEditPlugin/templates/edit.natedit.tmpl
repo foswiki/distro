@@ -60,7 +60,7 @@
 %TMPL:END%
 
 %TMPL:DEF{"tabpane"}%%TABPANE{automaxexpand="on" minheight="300" animate="on" select="%URLPARAM{"natedittab"}%"}%
-%TMPL:P{"firsttab"}%%TMPL:P{"formfields"}%%TMPL:P{"settingstab"}%%TMPL:P{context="SetVariablePluginEnabled" then="permissionstab"}%%TMPL:P{"moretabs"}%%TMPL:P{"helptab"}%%ENDTABPANE%%TMPL:END%
+%TMPL:P{"firsttab"}%%TMPL:P{"formfields"}%%TMPL:P{"settingstab"}%%TMPL:P{"permissionstab"}%%TMPL:P{"moretabs"}%%TMPL:P{"helptab"}%%ENDTABPANE%%TMPL:END%
 
 %TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%
 
@@ -111,37 +111,39 @@
 <noautolink>
 <h2 style='margin-top:0'>%MAKETEXT{"Permissions"}%</h2>
 <div class="foswikiFormSteps" id="permissionsForm">
-  <input type="hidden" name="Set+ALLOWTOPICVIEW" value="%GETVAR{"ALLOWTOPICVIEW" default="undefined"}%" class="permset_view" id="allow_view" />
-  <input type="hidden" name="Set+DENYTOPICVIEW" value="%GETVAR{"DENYTOPICVIEW" default="undefined"}%" class="permset_view" id="deny_view" />
-  <input type="hidden" name="Set+ALLOWTOPICCHANGE" value="%GETVAR{"ALLOWTOPICCHANGE" default="undefined"}%" class="permset_change" id="allow_change" />
-  <input type="hidden" name="Set+DENYTOPICCHANGE" value="%GETVAR{"DENYTOPICCHANGE" default="undefined"}%" class="permset_change" id="deny_change" />
+  <input type="hidden" name="Set+ALLOWTOPICVIEW" value="undefined" class="permset_view" id="allow_view" />
+  <input type="hidden" name="Set+DENYTOPICVIEW" value="undefined" class="permset_view" id="deny_view" />
+  <input type="hidden" name="Set+ALLOWTOPICCHANGE" value="undefined" class="permset_change" id="allow_change" />
+  <input type="hidden" name="Set+DENYTOPICCHANGE" value="undefined" class="permset_change" id="deny_change" />
   <input type="hidden" name="Default+ALLOWTOPICVIEW" value="undefined" />
   <input type="hidden" name="Default+ALLOWTOPICCHANGE" value="undefined" />
   <input type="hidden" name="Default+DENYTOPICVIEW" value="undefined" />
   <input type="hidden" name="Default+DENYTOPICCHANGE" value="undefined" />
   <input type="hidden" name="Default+PERMSET_VIEW" value="default" />
   <input type="hidden" name="Default+PERMSET_CHANGE" value="default" />
+  <input type="hidden" name="Default+PERMSET_VIEW_DETAILS" value="" />
+  <input type="hidden" name="Default+PERMSET_CHANGE_DETAILS" value="" />
   <div class="foswikiFormStep">
     <h3>%MAKETEXT{"Users who may view"}%:</h3>
-      <input type="radio" class="foswikiRadioButton" id="default_view" name="Local+PERMSET_VIEW" value="default" %IF{"$'PERMSET_VIEW'='default' OR isempty 'PERMSET_VIEW'" then="checked='checked'"}% /> 
+      <input type="radio" class="foswikiRadioButton" id="default_view" name="Local+PERMSET_VIEW" value="default" %IF{"$'PERMSET_VIEW'='default' OR isempty 'PERMSET_VIEW'" then="checked"}% /> 
       <label for="default_view" title='%MAKETEXT{"default as defined in the [_1]" args="<nop>%WEBPREFSTOPIC%"}%'>%MAKETEXT{"Default"}%</label>
 
-      <input type="radio" class="foswikiRadioButton" id="everybody_view" name="Local+PERMSET_VIEW" value="everybody" %IF{"$'PERMSET_VIEW'='everybody'" then="checked='checked'"}% /> 
+      <input type="radio" class="foswikiRadioButton" id="everybody_view" name="Local+PERMSET_VIEW" value="everybody" %IF{"$'PERMSET_VIEW'='everybody'" then="checked"}% /> 
       <label for="everybody_view" title="%MAKETEXT{"public view access"}%">%MAKETEXT{"Everybody"}%</label>
 
-      <input type="radio" class="foswikiRadioButton" id="registered_users_view" name="Local+PERMSET_VIEW" value="registeredusers" %IF{"$'PERMSET_VIEW'='registeredusers'" then="checked='checked'"}% /> 
+      <input type="radio" class="foswikiRadioButton" id="registered_users_view" name="Local+PERMSET_VIEW" value="registeredusers" %IF{"$'PERMSET_VIEW'='registeredusers'" then="checked"}% /> 
       <label for="registered_users_view" title='%MAKETEXT{"restrict read access to users that have an account on this site"}%'>%MAKETEXT{"Registered users"}%</label>
 
-      <input type="radio" class="foswikiRadioButton" id="just_author_view" name="Local+PERMSET_VIEW" value="justauthor" %IF{"$'PERMSET_VIEW'='justauthor'" then="checked='checked'"}% />
+      <input type="radio" class="foswikiRadioButton" id="just_author_view" name="Local+PERMSET_VIEW" value="justauthor" %IF{"$'PERMSET_VIEW'='justauthor'" then="checked"}% />
       <label for="just_author_view" title='%MAKETEXT{"restrict access to [_1]" args="%SPACEOUT{"%WIKINAME%"}%"}%'>%MAKETEXT{"Just me"}%</label>
 
-      <input type="radio" class="foswikiRadioButton" id="nobody_view" name="Local+PERMSET_VIEW" value="nobody" %IF{"$'PERMSET_VIEW'='nobody'" then="checked='checked'"}% /> 
+      <input type="radio" class="foswikiRadioButton" id="nobody_view" name="Local+PERMSET_VIEW" value="nobody" %IF{"$'PERMSET_VIEW'='nobody'" then="checked"}% /> 
       <label for="nobody_view" title='%MAKETEXT{"strictly deny any access to this topic"}%'>%MAKETEXT{"Nobody"}%</label>
 
       <table class="foswikiNullTable" cellspacing="0" cellpadding="0">
         <tr>
           <td>
-            <input type="radio" class="foswikiRadioButton" id="details_view_toggle" name="Local+PERMSET_VIEW" value="details" %IF{"$'PERMSET_VIEW'='details'" then="checked='checked'"}% />
+            <input type="radio" class="foswikiRadioButton" id="details_view_toggle" name="Local+PERMSET_VIEW" value="details" %IF{"$'PERMSET_VIEW'='details'" then="checked"}% />
           </td>
           <td>
             <label for="details_view_toggle" title='%MAKETEXT{"specify a list of users and/or groups"}%'>&nbsp;%MAKETEXT{"Specific users/groups"}%</label>
@@ -151,8 +153,7 @@
           <td></td>
           <td>
             <div id="details_view_container" %IF{"$'PERMSET_VIEW'!='details'" then="style='display:none'"}%>
-              <input type="text" class="foswikiInputField" size="40" id="details_view" autocomplete="off" name="Local+PERMSET_VIEW_DETAILS" value="%GETVAR{"PERMSET_VIEW_DETAILS"}%" />
-              <input type="hidden" name="Default+PERMSET_VIEW_DETAILS" value="" />
+              <input type="text" class="foswikiInputField" size="40" id="details_view" autocomplete="off" name="Local+PERMSET_VIEW_DETAILS" value="%PERMSET_VIEW_DETAILS{default=""}%" />
             </div>
           </td>
         </tr>
@@ -160,22 +161,22 @@
   </div>
   <div class="foswikiFormStep">
     <h3>%MAKETEXT{"Users who may edit"}%:</h3>
-    <input type="radio" class="foswikiRadioButton" id="default_change" name="Local+PERMSET_CHANGE" value="default" %IF{"$'PERMSET_CHANGE'='default' OR isempty 'PERMSET_CHANGE'" then="checked='checked'"}% /> 
+    <input type="radio" class="foswikiRadioButton" id="default_change" name="Local+PERMSET_CHANGE" value="default" %IF{"$'PERMSET_CHANGE'='default' OR isempty 'PERMSET_CHANGE'" then="checked"}% /> 
     <label for="default_change" title='%MAKETEXT{"default as defined in the [_1]" args="<nop>%WEBPREFSTOPIC%"}%'>%MAKETEXT{"Default"}%</label>
 
-    <input type="radio" class="foswikiRadioButton" id="registered_users_change" name="Local+PERMSET_CHANGE"  value="registeredusers" %IF{"$'PERMSET_CHANGE'='registeredusers'" then="checked='checked'"}% /> 
+    <input type="radio" class="foswikiRadioButton" id="registered_users_change" name="Local+PERMSET_CHANGE"  value="registeredusers" %IF{"$'PERMSET_CHANGE'='registeredusers'" then="checked"}% /> 
     <label for="registered_users_change" title='%MAKETEXT{"restrict write access to users that have an account on this site"}%'>%MAKETEXT{"Registered users"}%</label>
 
-    <input type="radio" class="foswikiRadioButton" id="just_author_change" name="Local+PERMSET_CHANGE" value="justauthor" %IF{"$'PERMSET_CHANGE'='justauthor'" then="checked='checked'"}% />
+    <input type="radio" class="foswikiRadioButton" id="just_author_change" name="Local+PERMSET_CHANGE" value="justauthor" %IF{"$'PERMSET_CHANGE'='justauthor'" then="checked"}% />
     <label for="just_author_change" title='%MAKETEXT{"restrict access to [_1]" args="%SPACEOUT{"%WIKINAME%"}%"}%'>%MAKETEXT{"Just me"}%</label>
 
-    <input type="radio" class="foswikiRadioButton" id="nobody_change" name="Local+PERMSET_CHANGE" value="nobody" %IF{"$'PERMSET_CHANGE'='nobody'" then="checked='checked'"}% /> 
+    <input type="radio" class="foswikiRadioButton" id="nobody_change" name="Local+PERMSET_CHANGE" value="nobody" %IF{"$'PERMSET_CHANGE'='nobody'" then="checked"}% /> 
     <label for="nobody_change" title='%MAKETEXT{"strictly deny write access to this topic"}%'>%MAKETEXT{"Nobody"}%</label>
 
     <table class="foswikiNullTable" cellspacing="0" cellpadding="0">
       <tr>
         <td>
-          <input type="radio" class="foswikiRadioButton" id="details_change_toggle" name="Local+PERMSET_CHANGE" value="details" %IF{"$'PERMSET_CHANGE'='details'" then="checked='checked'"}% />
+          <input type="radio" class="foswikiRadioButton" id="details_change_toggle" name="Local+PERMSET_CHANGE" value="details" %IF{"$'PERMSET_CHANGE'='details'" then="checked"}% />
         </td>
         <td>
           <label for="details_change_toggle" title='%MAKETEXT{"specify a list of users and/or groups"}%'>&nbsp;%MAKETEXT{"Specific users/groups"}%</label>
@@ -185,8 +186,7 @@
         <td></td>
         <td>
           <div id="details_change_container" %IF{"$'PERMSET_CHANGE'!='details'" then="style='display:none'"}%>
-            <input type="text" class="foswikiInputField" size="40" id="details_change" autocomplete="off" name="Local+PERMSET_CHANGE_DETAILS" value="%GETVAR{"PERMSET_CHANGE_DETAILS"}%" />
-            <input type="hidden" name="Default+PERMSET_CHANGE_DETAILS" value="" />
+            <input type="text" class="foswikiInputField" size="40" id="details_change" autocomplete="off" name="Local+PERMSET_CHANGE_DETAILS" value="%PERMSET_CHANGE_DETAILS{default=""}%" />
           </div>
         </td>
       </tr>
