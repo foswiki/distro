@@ -255,7 +255,7 @@ function handleKeyDown () { }
             },
             success: function(data, textStatus) {
               var $window = $(window),
-                  height = Math.round(parseInt($window.height() * 0.6, 10));
+                  height = Math.round(parseInt($window.height() * 0.6, 10)),
                   width = Math.round(parseInt($window.width() * 0.6, 10));
 
               $.unblockUI();
