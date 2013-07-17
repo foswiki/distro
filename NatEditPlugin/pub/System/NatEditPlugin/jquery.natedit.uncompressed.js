@@ -550,7 +550,7 @@ $.NatEditor.prototype.getSelectionRange = function() {
     $(self.txtarea).focus();
    
     text = self.txtarea.value;
-    c = "\01";
+    c = "\x01";
     range = document.selection.createRange();
     selection = range.text || "";
     rangeCopy = range.duplicate();
@@ -1153,8 +1153,8 @@ $.NatEditor.openDialog = function() {
 $.NatEditor.prototype.initUploadDialog = function($dialog) {
   var self = this, $uploader = $dialog.parent();
 
-  $uploader.find(".ui-button:eq(0)").addClass("jqUploaderBrowse").css({zIndex:2000});
-  $uploader.find(".ui-button:eq(1)").addClass("jqUploaderStart");
+  $uploader.find(".ui-button:eq(1)").addClass("jqUploaderBrowse").css({zIndex:2000});
+  $uploader.find(".ui-button:eq(2)").addClass("jqUploaderStart");
   $uploader.addClass("jqUploader {" +
     "url: '"  + self.opts.uploadUrl + "', " +
     "success: function(uploader, files) { jQuery.NatEditor.closeUploadDialog(files, '"+self.id+"', '"+$dialog.attr("id")+"'); }" +
