@@ -22,7 +22,7 @@
 %TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
-%TMPL:DEF{"content"}%%TMPL:P{"contenttitle"}%%TMPL:P{"messages"}%%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%%TMPL:P{"tabpane"}%%TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%%TMPL:P{"editjavascript"}%%TMPL:END%
+%TMPL:DEF{"content"}%%TMPL:P{"contenttitle"}%%TMPL:P{"messages"}%%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%%TMPL:P{"tabpane"}%%TMPL:P{"bottomtopicactions"}%%TMPL:P{"editcaptcha"}%%TMPL:P{"formend"}%%TMPL:P{"editjavascript"}%%TMPL:END%
 
 %TMPL:DEF{"formstart"}%<div class="natEditContainer">
 <form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%" method="post" validate="%TMPL:P{"validationrules"}%">
@@ -51,8 +51,16 @@
 %TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit {autoMaxExpand:true, minHeight:215 %TMPL:P{"natedit::options"}%}" name="text" rows="22" cols="70">%TEXT%</textarea>%TMPL:END%
 %TMPL:DEF{"messages"}%<div id="natEditMessageContainer"></div>%TMPL:END%
 
-%TMPL:DEF{"formend"}%<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
+%TMPL:DEF{"formend"}%<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" /> 
 </form></div>%TMPL:END%
+
+%TMPL:DEF{"editcaptcha"}%%TMPL:P{context="CaptchaEnableSave" then="editcaptcha::impl"}%%TMPL:END%
+%TMPL:DEF{"editcaptcha::impl"}%<div class="jqUIDialog foswikiFormSteps {modal:true, resizable:false, width:'auto', draggable:true, appendTo:'#EditForm'}" id="editcaptcha" title="%MAKETEXT{"Please validate"}%" >
+%CAPTCHAFORM{validateonsubmit="off"}%
+<a class="jqUIDialogButton jqUIDialogSubmit {icon:'ui-icon-disk'}">%MAKETEXT{"Save"}%</a> 
+<a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
+</div>
+%TMPL:END%
 
 %TMPL:DEF{"help"}%%TMPL:P{"edithelp"}%%TMPL:END%
 %TMPL:DEF{"pagehelp"}%

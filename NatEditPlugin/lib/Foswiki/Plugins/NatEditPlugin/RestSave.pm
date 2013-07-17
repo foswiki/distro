@@ -66,7 +66,7 @@ sub handle {
     $response->deleteHeader( "Location", "Status" );
     $response->pushHeader( "Status", $status );
 
-    return ( defined $error ) ? stringifyError($error) : 'OK';
+    return ( defined $error ) ? stringifyError($error) : '';
 }
 
 sub stringifyError {

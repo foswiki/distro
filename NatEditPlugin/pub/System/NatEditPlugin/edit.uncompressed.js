@@ -195,47 +195,80 @@ function handleKeyDown () { }
 
       /* add click handler */
       $("#save").click(function() {
-        editAction = "save";
-        submitHandler();
-        document.title = "Saving ...";
-        $.blockUI({message:'<h1> Saving ... </h1>'});
-        $editForm.submit();
+        var $editCaptcha = $("#editcaptcha"), buttons,
+            doIt = function() {
+              editAction = "save";
+              submitHandler();
+              document.title = "Saving ...";
+              $.blockUI({message:'<h1> Saving ... </h1>'});
+              $editForm.submit();
+            };
+
+        if ($editCaptcha.length) {
+          buttons = $editCaptcha.dialog("option", "buttons");
+          buttons[0].click = function() {
+            if ($editCaptcha.find(".jqCaptcha").data("captcha").validate()) {
+              $editCaptcha.dialog("close");
+              doIt();
+            }
+          };
+          $editCaptcha.dialog("option", "buttons", buttons).dialog("open");
+        } else {
+          doIt();
+        }
         return false;
       });
     
       $("#checkpoint").click(function(el) {
         var topicName = foswiki.getPreference("TOPIC") || '',
-            origTitle = document.title;
-        editAction = el.currentTarget.id;
-        if ($editForm.validate().form()) {
-          submitHandler();
-          if (topicName.match(/AUTOINC|XXXXXXXXXX/)) {// || (typeof(tinyMCE) !== 'object')) {
-            // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
-            $editForm.submit();
-          } else {
-            $editForm.ajaxSubmit({
-              url: scriptUrl+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
-              beforeSubmit: function() {
-                hideErrorMessage();
-                document.title = "Saving ...";
-                $.blockUI({message:'<h1> Saving ... </h1>'});
-              },
-              error: function(xhr, textStatus, errorThrown) {
-                var message = extractErrorMessage(xhr.responseText) || textStatus;
-                showErrorMessage(message);
-              },
-              complete: function(xhr, textStatus) {
-                var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
-                // patch in new nonce
-                $("input[name='validation_key']").each(function() {
-                  $(this).val("?"+nonce);
-                });
-                document.title = origTitle;
-                $.unblockUI();
+            origTitle = document.title,
+            $editCaptcha = $("#editcaptcha"), buttons,
+            doIt = function() {
+              editAction = el.currentTarget.id;
+              if ($editForm.validate().form()) {
+                submitHandler();
+                if (topicName.match(/AUTOINC|XXXXXXXXXX/)) {// || (typeof(tinyMCE) !== 'object')) {
+                  // don't ajax when we don't know the resultant URL (can change this if the server tells it to us..)
+                  $editForm.submit();
+                } else {
+                  $editForm.ajaxSubmit({
+                    url: scriptUrl+'/rest/NatEditPlugin/save', // SMELL: use this one for REST as long as the normal save can't cope with REST
+                    beforeSubmit: function() {
+                      hideErrorMessage();
+                      document.title = "Saving ...";
+                      $.blockUI({message:'<h1> Saving ... </h1>'});
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                      var message = extractErrorMessage(xhr.responseText) || textStatus;
+                      showErrorMessage(message);
+                    },
+                    complete: function(xhr, textStatus) {
+                      var nonce = xhr.getResponseHeader('X-Foswiki-Validation');
+                      // patch in new nonce
+                      $("input[name='validation_key']").each(function() {
+                        $(this).val("?"+nonce);
+                      });
+                      document.title = origTitle;
+                      $.unblockUI();
+                    }
+                  });
+                }
               }
-            });
-          }
+        };
+
+        if ($editCaptcha.length) {
+          buttons = $editCaptcha.dialog("option", "buttons");
+          buttons[0].click = function() {
+            if ($editCaptcha.find(".jqCaptcha").data("captcha").validate()) {
+              $editCaptcha.dialog("close");
+              doIt();
+            }
+          };
+          $editCaptcha.dialog("option", "buttons", buttons).dialog("open");
+        } else {
+          doIt();
         }
+        
         return false;
       });
       $("#preview").click(function() {
