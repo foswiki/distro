@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1292007999" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1292007729" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InterwikiPlugin"}%
----++ <nop>Inter-Wiki Link Rules (or Links to other Sites)
+---+ <nop>Inter-Wiki Link Rules (or Links to other Sites)
 
 This topic lists all aliases needed to map inter-wiki links to external wikis/sites.
 
@@ -14,7 +14,11 @@ Whenever you write ==ExternalSite:Page== it will be linked automatically to the 
    * Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
    * The Alias must start with an upper case letter and may contain alphanumeric letters.
    * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
-   * *Note:* The Tooltip Text must not contain any HTML tags (including ==&lt;nop&gt;== escape code), no internal %SYSTEMWEB%.WikiWord links, and no external links. Hint: Escape =='WikiWords'== and =='$page'==.
+   * The Tooltip Text must not contain:
+      * any HTML tags (including ==&lt;nop&gt;== escape code),
+      * any internal %SYSTEMWEB%.WikiWord links
+      * any external links.
+      * Hint: Escape =='WikiWords'== and =='$page'==.
 
 #AddingYourOwn
 ---+++ Adding your own Inter-Wiki Links
