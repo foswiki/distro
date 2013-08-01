@@ -20,7 +20,6 @@ sub EXPAND {
         $meta = new Foswiki::Meta( $this, $web, $topic );
         return $this->inlineAlert( 'alerts', 'EXPAND_noaccess', $scope )
           unless $meta->haveAccess('VIEW');
-        $this->{prefs}->popTopicContext();
         $this->{prefs}->pushTopicContext( $web, $topic );
     }
     else {
@@ -30,8 +29,6 @@ sub EXPAND {
     my $expansion = $meta->expandMacros($macro);
     if ($scope) {
         $this->{prefs}->popTopicContext();
-        $this->{prefs}
-          ->pushTopicContext( $this->{webName}, $this->{topicName} );
     }
     return $expansion;
 }
