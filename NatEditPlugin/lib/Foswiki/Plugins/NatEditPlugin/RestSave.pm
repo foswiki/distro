@@ -16,31 +16,32 @@ use strict;
 use warnings;
 use Foswiki::UI::Save      ();
 use Foswiki::OopsException ();
+use Foswiki::Validation    ();
 use Encode                 ();
 use Error qw( :try );
 
 sub handle {
     my ( $session, $plugin, $verb, $response ) = @_;
 
-    my $query = $session->{request};
+    my $request = $session->{request};
 
     # transform to site charset
-    foreach my $key ( $query->param() ) {
-        my @val = $query->param($key);
+    foreach my $key ( $request->param() ) {
+        my @val = $request->param($key);
 
         # hack to prevent redirecting
         if ( $key eq 'redirectto' && @val && $val[0] eq '' ) {
 
             #print STDERR "deleting bogus redirectto\n";
-            $query->delete($key);
+            $request->delete($key);
             next;
         }
 
         if ( ref $val[0] eq 'ARRAY' ) {
-            $query->param( $key, [ map( toSiteCharSet($_), @{ $val[0] } ) ] );
+            $request->param( $key, [ map( toSiteCharSet($_), @{ $val[0] } ) ] );
         }
         else {
-            $query->param( $key, [ map( toSiteCharSet($_), @val ) ] );
+            $request->param( $key, [ map( toSiteCharSet($_), @val ) ] );
         }
     }
 
@@ -65,6 +66,17 @@ sub handle {
     # clear redirect enforced by a checkpoint action
     $response->deleteHeader( "Location", "Status" );
     $response->pushHeader( "Status", $status );
+
+    # add validation key to HTTP header
+    my $cgis = $session->getCGISession();
+    my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
+    my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+    $response->pushHeader(
+        'X-Foswiki-Validation',
+        Foswiki::Validation::generateValidationKey(
+            $cgis, $context, $usingStrikeOne
+        )
+    );
 
     return ( defined $error ) ? stringifyError($error) : '';
 }
