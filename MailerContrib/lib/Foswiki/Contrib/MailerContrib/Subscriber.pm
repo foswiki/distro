@@ -226,18 +226,15 @@ to be notified of changes to this topic.
 sub unsubscribe {
     my ( $this, $subs ) = @_;
 
-    if ( $subs->matches('*') ) {
+    # If there was no exact match in the removal, then push a -
+    if (
+        !$this->_subtract( 'subscriptions', $subs )
 
-        # -* makes no sense and causes evaluation problems.
-        $this->_subtract( 'unsubscriptions', $subs );
-    }
-
-    # If there was no exact match in the rmoval, then push a -
-    unless ( $this->_subtract( 'subscriptions', $subs ) ) {
+        # - * causes evaluation problems.
+        && !$subs->matches('*')
+      )
+    {
         push( @{ $this->{unsubscriptions} }, $subs );
-    }
-    if ( scalar( @{ $this->{subscriptions} } ) == 0 ) {
-        undef @{ $this->{unsubscriptions} };
     }
 }
 

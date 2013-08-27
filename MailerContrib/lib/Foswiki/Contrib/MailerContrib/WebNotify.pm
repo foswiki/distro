@@ -446,6 +446,9 @@ If $unsubscribe is set to '-' by SubscribePlugin to force a '-' operation
 
 =cut
 
+# If we see a simple topic specification with no unusual options, and
+# at childDepth 0, we can collect it into a group subscription for
+# efficiency.
 our @simple_subscriptions;
 
 sub parsePageSubscriptions {
@@ -489,9 +492,6 @@ sub _subscribeTopic {
     }
     elsif ( !$opts && !$childDepth ) {
 
-        # if this is a simple topic specification with no unusual options, and
-        # at childDepth 0, we can collect it into a group subscription for
-        # efficiency.
         push( @simple_subscriptions, $topic );
     }
     else {

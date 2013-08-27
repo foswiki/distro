@@ -994,6 +994,42 @@ EXPECT
     $this->assert_equals( $expect, $wn->stringify() );
 }
 
+sub test_12525 {
+    my $this = shift;
+
+    # start by removing all subscriptions
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName} );
+    $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
+    $meta->text("Before\nAfter\n");
+    $meta->save();
+    $meta->finish();
+
+    my $defaultWeb = $this->{test_web};
+    my $who        = 'TestUser1';
+    my $topicList  = 'WebHome';
+    my $unsubscribe;
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
+
+    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
+        '*' );
+    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
+        'SomeBogusTopic', '-' );
+    $this->assert(
+        Foswiki::Contrib::MailerContrib::isSubscribedTo(
+            $defaultWeb, $who, 'WebHome'
+        )
+    );
+    $this->assert(
+        !Foswiki::Contrib::MailerContrib::isSubscribedTo(
+            $defaultWeb, $who, 'SomeBogusTopic'
+        )
+    );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

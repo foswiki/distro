@@ -26,8 +26,8 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-use version; our $VERSION = version->declare("v2.5.4");
-our $RELEASE          = '25 Mar 2013';
+use version; our $VERSION = version->declare("v2.5.5");
+our $RELEASE          = '27 Aug 2013';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 our $verbose   = 0;
@@ -204,7 +204,7 @@ sub parsePageList {
     # $4: child depth
 
     while ( $spec =~
-s/^\s*([+-])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
+s/^\s*([-+])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
       )
     {
         my ( $us, $webTopic, $options, $childDepth ) =
@@ -212,8 +212,6 @@ s/^\s*([+-])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\
         $webTopic =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
         &{ $object->{topicSub} }
           ( $object, $who, $us, $webTopic, $options, $childDepth );
-
-        #go
     }
     return $spec;
 }
@@ -359,11 +357,11 @@ sub _sendChangesMails {
     $mailtmpl =
       Foswiki::Func::expandCommonVariables( $mailtmpl,
         $Foswiki::cfg{HomeTopicName}, $web );
-    if ( $Foswiki::cfg{RemoveImgInMailnotify} ) {
+    if ( $Foswiki::cfg{MailerContrib}{RemoveImgInMailnotify} ) {
 
         # change images to [alt] text if there, else remove image
-        $mailtmpl =~ s/<img\s[^>]*\balt=\"([^\"]+)[^>]*>/[$1]/goi;
-        $mailtmpl =~ s/<img src=.*?[^>]>//goi;
+        $mailtmpl =~ s/<img\s[^>]*\balt=\"([^\"]+)[^>]*>/[$1]/gi;
+        $mailtmpl =~ s/<img\s[^>]*\bsrc=.*?[^>]>//gi;
     }
 
     my $sentMails = 0;
