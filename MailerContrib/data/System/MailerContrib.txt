@@ -247,7 +247,7 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://wikigardens.com][WikiGardens]]
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004, Wind River Systems; 2009-2010 Foswiki Contributors |
+|  Copyright &copy;: | 2004, Wind River Systems; 2009-2013 Foswiki Contributors |
 |  License: | GPL |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
@@ -271,20 +271,7 @@ Many thanks to the following sponsors for supporting this work:
 |  2.0.2 (20 Sep 2009) | Small documentation update for Foswiki 1.0.7 release (RELEASE and adding parent) |
 |  2.0.1 (23 Apr 2009) | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  2.0.0 (03 Dec 2008) | Re-released for the Foswiki project |
-|  5269 | Minor doc fixes |
-|  5266 | Doc tidy-ups, added filtering of _ webs, added obsolete lock script |
-|  5264 | Changed default to add web name to user name (I hope) |
-|  5263 | Minor doc tidyups |
-|  5261 | Documentation changes, and fixed to scan all webs. |
-|  5253 | runnable as CGI script, minor bugfixes, removed dependency on DBCacheContrib |
-|  5234 | Minor doc changes |
-|  5231 | Made a change an object, added unit tests to CVS, lots of testing. |
-|  4 March 2005 | 1.010 Dakar release ready. |
-|  12 Oct 2004 | 1.004 Added support for anti-subscriptions. Doc fixes from TWiki:Main.PeterThoeny. Bug fixes to permissions code. Back-off and retry if the mailer can't be reached (should really be in Net::sendEmail) |
-|  6 Oct 2004 | 1.003 Excluded _ webs from processing, added =bin/remove_obsolete_locks= for full reverse-compatibility |
-|  1 Oct 2004 | 1.002 Peter<nop>Thoeny provided additional documentation |
-|  27 Sep 2004 | 1.001 runnable as CGI script, minor bugfixes, removed dependency on DB<nop>CacheContrib |
-|  8 Sep 2004 | 1.000 Initial version |
+|  8 Sep 2004 | 1.000 Initial (tm)wiki version |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
