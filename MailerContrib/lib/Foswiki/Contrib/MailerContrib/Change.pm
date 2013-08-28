@@ -72,7 +72,7 @@ sub merge {
     ASSERT( $this->isa('Foswiki::Contrib::MailerContrib::Change') )  if DEBUG;
     ASSERT( $other->isa('Foswiki::Contrib::MailerContrib::Change') ) if DEBUG;
 
-    if ( $other->{CURR_REV} > $this->{CURR_REV} ) {
+    if ( $other->{TIME} > $this->{TIME} ) {
         $this->{CURR_REV} = $other->{CURR_REV};
         $this->{AUTHOR}   = $other->{AUTHOR};
         $this->{TIME}     = $other->{TIME};

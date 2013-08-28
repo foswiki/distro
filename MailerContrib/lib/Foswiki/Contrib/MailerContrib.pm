@@ -27,7 +27,7 @@ use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
 use version; our $VERSION = version->declare("v2.5.5");
-our $RELEASE          = '2.5.5';
+our $RELEASE          = '27 Aug 2013';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 our $verbose   = 0;
@@ -111,7 +111,8 @@ Modify a user's subscription in =WebNotify= for a web.
 sub changeSubscription {
     my ( $defaultWeb, $who, $topicList, $unsubscribe ) = @_;
 
-#we can get away with a normalise on a list of topics, so long as the list starts with a topic
+    # we can get away with a normalise on a list of topics, so long as
+    # the list starts with a topic
     my ( $web, $t ) =
       Foswiki::Func::normalizeWebTopicName( $defaultWeb, $topicList );
 
@@ -140,7 +141,8 @@ sub isSubscribedTo {
 
     my $subscribed = {
         currentWeb => $defaultWeb,
-        topicSub   => \&_isSubscribedToTopic
+        topicSub   => \&_isSubscribedToTopic,
+        webs       => {}
     };
 
     my $ret = parsePageList( $subscribed, $who, $topicList );
@@ -151,18 +153,17 @@ sub isSubscribedTo {
 
 sub _isSubscribedToTopic {
     my ( $subscribed, $who, $unsubscribe, $topic, $options, $childDepth ) = @_;
-
     require Foswiki::Contrib::MailerContrib::WebNotify;
     my ( $sweb, $stopic ) =
       Foswiki::Func::normalizeWebTopicName( $subscribed->{currentWeb}, $topic );
 
-    #TODO: extract this code so we only create $wn objects for each web once..
-    my $wn =
+    $subscribed->{webs}->{$sweb} ||=
       Foswiki::Contrib::MailerContrib::WebNotify->new( $sweb,
-        $Foswiki::cfg{NotifyTopicName} );
-    my $subscriber = $wn->getSubscriber($who);
+        $Foswiki::cfg{NotifyTopicName}, 0 );
 
-    my $db = Foswiki::Contrib::MailerContrib::UpData->new($sweb);
+    my $wn         = $subscribed->{webs}->{$sweb};
+    my $subscriber = $wn->getSubscriber($who);
+    my $db         = Foswiki::Contrib::MailerContrib::UpData->new($sweb);
 
     #TODO: need to check $childDepth topics too (somehow)
     if ( $subscriber->isSubscribedTo( $stopic, $db )
@@ -201,16 +202,16 @@ sub parsePageList {
     # TODO: refine the $2 regex to be proper web.topic/topic/* style..
     # $3: options
     # $4: child depth
+
     while ( $spec =~
-        s/^\s*([+-])?\s*([*\w.]+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?// )
+s/^\s*([-+])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
+      )
     {
         my ( $us, $webTopic, $options, $childDepth ) =
           ( $unsubscribe || $1 || '+', $2, $3, $4 || 0 );
         $webTopic =~ s/^(['"])(.*)\1$/$2/;    # remove quotes
         &{ $object->{topicSub} }
           ( $object, $who, $us, $webTopic, $options, $childDepth );
-
-        #go
     }
     return $spec;
 }
@@ -232,7 +233,7 @@ sub _processWeb {
     # Read the webnotify and load subscriptions
     my $wn =
       Foswiki::Contrib::MailerContrib::WebNotify->new( $web,
-        $Foswiki::cfg{NotifyTopicName} );
+        $Foswiki::cfg{NotifyTopicName}, 0 );
     if ( $wn->isEmpty() ) {
         print "\t$web has no subscribers\n" if $verbose;
     }
@@ -320,8 +321,7 @@ sub _processSubscriptions {
 
     # Now generate emails for each recipient
     my $report = '';
-
-    if ( !$nochanges ) {
+    if ( !$nochanges && scalar( keys %changeset ) ) {
         $report .=
           _sendChangesMails( $web, \%changeset,
             Foswiki::Time::formatTime($timeOfLastNotify) );
@@ -357,11 +357,11 @@ sub _sendChangesMails {
     $mailtmpl =
       Foswiki::Func::expandCommonVariables( $mailtmpl,
         $Foswiki::cfg{HomeTopicName}, $web );
-    if ( $Foswiki::cfg{RemoveImgInMailnotify} ) {
+    if ( $Foswiki::cfg{MailerContrib}{RemoveImgInMailnotify} ) {
 
         # change images to [alt] text if there, else remove image
-        $mailtmpl =~ s/<img\s[^>]*\balt=\"([^\"]+)[^>]*>/[$1]/goi;
-        $mailtmpl =~ s/<img src=.*?[^>]>//goi;
+        $mailtmpl =~ s/<img\s[^>]*\balt=\"([^\"]+)[^>]*>/[$1]/gi;
+        $mailtmpl =~ s/<img\s[^>]*\bsrc=.*?[^>]>//gi;
     }
 
     my $sentMails = 0;
@@ -601,7 +601,7 @@ sub _sendNewsletterMail {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

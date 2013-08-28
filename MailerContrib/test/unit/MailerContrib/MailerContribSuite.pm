@@ -12,6 +12,7 @@ use Foswiki::Contrib::MailerContrib();
 my $testWeb2;
 
 my @specs;
+my $high_bit_disabled = 0;
 
 my %expectedRevs = (
     TestTopic1    => "r1->r3",
@@ -85,18 +86,18 @@ sub set_up {
 
         # traditional subscriptions
         {
+
+            # IGNORED because it's the guest user
             entry     => "$this->{users_web}.WikiGuest - example\@example.com",
             email     => "example\@example.com",
-            topicsout => ""
-        },
-        {
+            topicsout => "" },
+        {    # LEGACY format
             entry => "$this->{users_web}.NonPerson - nonperson\@example.com",
             email => "nonperson\@example.com",
             topicsout => "*"
         },
 
-        # email subscription
-        {
+        {    # simple email subscription
             entry     => "person\@example.com",
             email     => "person\@example.com",
             topicsout => "*"
@@ -189,7 +190,8 @@ sub set_up {
             topicsout => ""
         },
 
-  # Item11138: no trailing space after : incorrectly results in subscribe to all
+        # Item11138: no trailing space after : incorrectly results
+        # in subscribe to all
         {
             email     => "email10\@example.com",
             entry     => "email10\@example.com :",
@@ -218,9 +220,10 @@ sub set_up {
             },
         );
     }
-    else {
+    elsif ( !$high_bit_disabled ) {
         print STDERR
           "WARNING: High-bit tests disabled for $Foswiki::cfg{Site}{CharSet}\n";
+        $high_bit_disabled = 1;
     }
 
     my $s = "";
@@ -698,12 +701,46 @@ Before
    * %USERSWEB%.TestUser1: SpringCabbage
 After
 HERE
-    $wn->unsubscribe( "TestUser1", "SpringCabbage" );
+}
+
+sub _addRemoveCheck {
+    my ( $this, $wn, $add, $remove, $expect ) = @_;
+    $wn->subscribe( "TestUser1", $add ) if $add;
+    $wn->unsubscribe( "TestUser1", $remove ) if $remove;
     $this->assert_str_equals( <<HERE, $wn->stringify() );
 Before
-   * %USERSWEB%.TestUser1: 
+   * %USERSWEB%.TestUser1: $expect
 After
 HERE
+}
+
+sub test_addRemove {
+    my $this = shift;
+    my $s    = <<'HERE';
+   * TestUser1: SpringCabbage
+HERE
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName} );
+    $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
+    $meta->text("Before\n${s}After");
+    $meta->save();
+    $meta->finish();
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
+
+    $this->_addRemoveCheck(
+        $wn,
+        "EscherichiaColi ClostridiumDifficile SalmonellaEnterica",
+        undef,
+        "SpringCabbage EscherichiaColi ClostridiumDifficile SalmonellaEnterica"
+    );
+    $this->_addRemoveCheck( $wn, undef, "ClostridiumDifficile",
+        "SpringCabbage EscherichiaColi SalmonellaEnterica" );
+    $this->_addRemoveCheck( $wn, "ClostridiumDifficile", undef,
+        "SpringCabbage EscherichiaColi SalmonellaEnterica ClostridiumDifficile"
+    );
 }
 
 sub test_changeSubscription_and_isSubScribedTo_API {
@@ -728,7 +765,6 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, $topicList
         )
     );
-
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
         $topicList, $unsubscribe );
     $this->assert(
@@ -956,6 +992,42 @@ EXPECT
       new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
         'TestWebNotify', 1 );
     $this->assert_equals( $expect, $wn->stringify() );
+}
+
+sub test_12525 {
+    my $this = shift;
+
+    # start by removing all subscriptions
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName} );
+    $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
+    $meta->text("Before\nAfter\n");
+    $meta->save();
+    $meta->finish();
+
+    my $defaultWeb = $this->{test_web};
+    my $who        = 'TestUser1';
+    my $topicList  = 'WebHome';
+    my $unsubscribe;
+    my $wn =
+      new Foswiki::Contrib::MailerContrib::WebNotify( $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
+
+    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
+        '*' );
+    Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
+        'SomeBogusTopic', '-' );
+    $this->assert(
+        Foswiki::Contrib::MailerContrib::isSubscribedTo(
+            $defaultWeb, $who, 'WebHome'
+        )
+    );
+    $this->assert(
+        !Foswiki::Contrib::MailerContrib::isSubscribedTo(
+            $defaultWeb, $who, 'SomeBogusTopic'
+        )
+    );
 }
 
 1;
