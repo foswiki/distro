@@ -260,8 +260,12 @@ sub searchWeb {
     my $format = $params{format};
 
     $params{multiple} = Foswiki::isTrue( $params{multiple} );
-    $params{nonoise}  = Foswiki::isTrue( $params{nonoise} );
-    $params{noempty}  = Foswiki::isTrue( $params{noempty}, $params{nonoise} );
+
+    # Let the search know we're only concerned with one hit per file
+    $params{files_without_match} = not Foswiki::isTrue( $params{multiple} );
+
+    $params{nonoise} = Foswiki::isTrue( $params{nonoise} );
+    $params{noempty} = Foswiki::isTrue( $params{noempty}, $params{nonoise} );
 ###    $params{zeroresults} = Foswiki::isTrue( ( $params{zeroresults} ), $params{nonoise} );
 
     #TODO: refactorme
