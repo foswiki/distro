@@ -82,6 +82,13 @@ use constant DEFAULT_NEWLINKFORMAT => <<'NLF';
 <span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span>
 NLF
 
+my %list_types = (
+    A => 'upper-alpha',
+    a => 'lower-alpha',
+    i => 'lower-roman',
+    I => 'upper-roman'
+);
+
 BEGIN {
 
     # Do a dynamic 'use locale' for this module
@@ -941,8 +948,8 @@ sub _externalLink {
           # before touching this
           # Note:  & is already encoded,  so don't encode any entities
           # See http://foswiki.org/Tasks/Item10905
-            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;                  # "&abc;"
-            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;        # "&#123;"
+            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;              # "&abc;"
+            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;    # "&#123;"
             $url =~ s/([^\w$REMARKER$REEND])/'&#'.ord($1).';'/ge;
             $url =~ s/$REMARKER(#x?[0-9a-f]+)$REEND/&$1;/goi;
             $url =~ s/$REMARKER(\w+)$REEND/&$1;/go;
@@ -998,7 +1005,7 @@ sub _escape {
 
     my $chars = join( '', keys(%ESCAPED) );
     $txt =~ s/([$chars])/$ESCAPED{$1}/g;
-    $txt =~ s/[\s]/%20/g;                  # Any folding white space
+    $txt =~ s/[\s]/%20/g;    # Any folding white space
     return $txt;
 }
 
@@ -1339,7 +1346,9 @@ sub getRenderedVersion {
                 my $ot = $3;
                 $ot =~ s/^(.).*/$1/;
                 if ( $ot !~ /^\d$/ ) {
-                    $ot = ' type="' . $ot . '"';
+
+                    # Use style="list-type-type:"
+                    $ot = ' style="list-style-type:' . $list_types{$ot} . '"';
                 }
                 else {
                     $ot = '';
