@@ -309,6 +309,10 @@ sub finalizeError {
     my ( $this, $res, $req ) = @_;
     $this->finalizeHeaders( $res, $req );
     $this->finalizeBody( $res, $req );
+
+    # Item12590: prevent duplicated output by later call to finalize()
+    $res->body('');
+    $res->outputHasStarted(1);
 }
 
 =begin TML
