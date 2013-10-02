@@ -192,12 +192,28 @@ class CatAnimal {
 ---++ Ordered List
 ---+++ Expected
 <!-- expected OL -->
-<ol><li> Sushi</li></ol><p />
-<ol><li type="A"> Sushi</li></ol><p />
-<ol><li type="i"> Sushi</li></ol><p />
-<ol><li> Sushi</li>
-<li type="A"> Sushi</li>
-<li type="i"> Sushi</li></ol>
+<ol>
+<li> Sushi </li></ol> <p></p>
+<ol><li style="list-style-type:upper-alpha"> Sushi </li></ol> <p></p>
+<ol> <li style="list-style-type:lower-roman"> Sushi </li></ol> <p></p>
+<ol> <li> Sushi </li>
+<li style="list-style-type:upper-alpha"> Sushi </li>
+<li style="list-style-type:lower-roman"> Sushi </li></ol>
+<p></p>
+<ol> <li> Sushi </li>
+<li style="list-style-type:upper-alpha"> Sushi </li>
+<li style="list-style-type:upper-roman"> Sushi </li>
+<li style="list-style-type:lower-alpha"> Sushi </li>
+<li style="list-style-type:lower-roman"> Sushi </li></ol>
+<p></p>
+<ol> <li> Sushi
+<ol> <li style="list-style-type:upper-alpha"> Sushi
+<ol> <li style="list-style-type:upper-roman"> Sushi
+</li></ol>
+</li></ol> </li>
+<li style="list-style-type:lower-alpha"> Sushi <ol>
+<li style="list-style-type:lower-roman"> Sushi </li></ol>
+</li></ol>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
@@ -210,6 +226,18 @@ class CatAnimal {
 	1. Sushi
 	A. Sushi
 	i. Sushi
+
+   1. Sushi
+   A. Sushi
+   I. Sushi
+   a. Sushi
+   i. Sushi
+
+   1. Sushi
+      A. Sushi
+         I. Sushi
+   a. Sushi
+      i. Sushi
 <!-- /actual -->
 
 ---++ Nested bullets & numbers lists
