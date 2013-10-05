@@ -81,11 +81,18 @@ sub init {
     }
     catch Error::Simple with {
         $error = shift;
-
-        my $msg =
-            "ERROR: unable to create tables in Foswiki::PageCache::DBI: "
-          . $DBI::errstr . "\n"
-          . $error;
+        my $msg;
+        if ( defined $DBI::errstr ) {
+            $msg =
+                "ERROR: unable to create tables in Foswiki::PageCache::DBI: "
+              . $DBI::errstr . "\n"
+              . $error;
+        }
+        else {
+            $msg =
+"ERROR: unable to use configured DBI in Foswiki::PageCache::DBI: \n"
+              . $error;
+        }
 
         print STDERR $msg . "\n";
         $Foswiki::cfg{Cache}{Enabled} = 0;
