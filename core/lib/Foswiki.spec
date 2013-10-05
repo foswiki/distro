@@ -625,9 +625,9 @@ $Foswiki::cfg{Htpasswd}{LockFileName} =
 # cache the password file, reading it only once on initization.
 $Foswiki::cfg{Htpasswd}{GlobalCache} = $FALSE;
 
-# **BOOLEAN DISPLAY_IF {PasswordManager}=="Foswiki::Users::HtPasswdUser"**
+# **BOOLEAN EXPERT DISPLAY_IF {PasswordManager}=="Foswiki::Users::HtPasswdUser"**
 # Enable this option if the .htpasswd file can be updated either external to Foswiki
-# or by another Foswiki instance.  When enabled, Foswiki will verify the timestamp of
+# or by another Foswiki instance, and <tt>GlobalCache</tt> is enabled.  When enabled, Foswiki will verify the timestamp of
 # the file and will invalidate the cache if the file has been changed. This is only useful
 # if Foswiki is running in a <tt>mod_perl</tt> or <tt>fcgi</tt> envinroment.
 $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
