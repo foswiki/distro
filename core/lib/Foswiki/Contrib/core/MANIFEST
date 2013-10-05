@@ -507,6 +507,7 @@ lib/Foswiki/Configure/Checkers/ConfigureGUI/PATHINFO.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/SMIME/InstallCert.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/Debug.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/DependencyFilter.pm 0444
+lib/Foswiki/Configure/Checkers/Cache/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/RootDir.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ClientChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ClientServerChecker.pm 0444

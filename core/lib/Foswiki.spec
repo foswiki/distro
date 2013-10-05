@@ -1561,7 +1561,7 @@ $Foswiki::cfg{Cache}{WebDependencies} =
 $Foswiki::cfg{Cache}{DependencyFilter} =
   '$Foswiki::cfg{SystemWebName}\..*|$Foswiki::cfg{TrashWebName}\..*|TWiki\..*';
 
-# **SELECTCLASS Foswiki::PageCache::DBI::*  DISPLAY_IF {Cache}{Enabled}**
+# **SELECTCLASS Foswiki::PageCache::DBI::*  FEEDBACK=AUTO DISPLAY_IF {Cache}{Enabled}**
 # Select the cache implementation. The default page cache implementation
 # is based on DBI (http://dbi.perl.org) which requires a working DBI driver to
 # connect to a database. This database will hold all cached data as well as the
