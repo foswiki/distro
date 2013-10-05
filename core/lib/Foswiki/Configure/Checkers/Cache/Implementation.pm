@@ -11,19 +11,26 @@ use Foswiki::Configure::Dependency;
 
 sub check {
     my $this = shift;
-    my $e    = '';
+    my $e    = q{};
 
-    my $implementation = $Foswiki::cfg{Cache}{Implementation} || '';
+    my $implementation = $Foswiki::cfg{Cache}{Implementation} || q{};
     my ($module) = $implementation =~ m/Foswiki::PageCache::(.*)/;
 
-    return unless ( $module && ( $module ne 'DBI::Generic' ) );
+    return if ( !$module || ( $module eq 'DBI::Generic' ) );
 
     $module =~ s/^DBI::/DBD::/;
 
     $e =
       $this->checkPerlModule( $module, "Required to use $implementation.", 0 );
 
-    return ( ( $e =~ m/Not installed./ ) ? $this->ERROR($e) : $this->NOTE($e) );
+    if ( $Foswiki::cfg{Cache}{Enabled} ) {
+        return (
+            ( $e =~ m/Not installed./ ) ? $this->ERROR($e) : $this->NOTE($e) );
+    }
+    else {
+        return (
+            ( $e =~ m/Not installed./ ) ? $this->WARN($e) : $this->NOTE($e) );
+    }
 }
 
 1;
