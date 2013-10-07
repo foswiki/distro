@@ -472,6 +472,20 @@ $Foswiki::cfg{Trace}{LoginManager} = 0;
 $Foswiki::cfg{AuthScripts} =
 'attach,compareauth,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';
 
+# **REGEX EXPERT**
+# Regular expression matching the scripts that should be allowed to accept the 
+# <tt>username</tt> and <tt>password</tt> parameters other than the login script.  Older versions of
+# Foswiki would accept the username and password parameter on any script.
+# The =login= and =logon= script will always accept the username and password, but only from POST requests.
+# In order to add support for the <tt>rest</tt> and <tt>restauth>> scripts, specify <tt>^(view|rest)(auth)?$/
+$Foswiki::cfg{Session}{AcceptUserPwParam} = qr/^view(auth)?$/;
+
+# **BOOLEAN EXPERT**
+# For backwards compatibility, enable this setting if you want
+# <tt>username</tt> and <tt>password</tt> parameters to be accepted on a GET request when provided as part
+# of the query string.  It is more secure to restrict login operations to POST requests only.
+$Foswiki::cfg{Session}{AcceptUserPwParamOnGET} = $FALSE;
+
 # **BOOLEAN EXPERT DISPLAY_IF {LoginManager}=='Foswiki::LoginManager::TemplateLogin'**
 # Browsers typically remember your login and passwords to make authentication
 # more convenient for users. If your Foswiki is used on public terminals,

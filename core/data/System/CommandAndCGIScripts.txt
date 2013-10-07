@@ -65,6 +65,10 @@ All the scripts accept a number of common parameters. The first two components o
 
 Where revision parameters are required, individual versions are identified by positive, non-zero integers. Versions start with 1 and are sequencial. For compatibility reasons, Some scripts accept revision numbers with '1.' (or even 'r1.') prepended to the number, but this usage is deprecated and should be corrected when encountered.
 
+<blockquote class="foswikiHelp">*Note:* Prior releases of Foswiki would accept the undocumented =username= and =password= parameter on any script.
+Foswiki 1.1.9 restricts this to the =view= script and only on POST transactions unless overridden in the Foswiki configuration.
+</blockquote>
+
 ---+++ =attach=
 Despite the name, this script doesn't actually attach a file to a topic - for that, use =upload=. This script is part of the transactions sequence executed when a file is uploaded from the browser. it just generates the "new attachment" page for a topic.
 
@@ -145,6 +149,8 @@ Used for logging in with !TemplateLoginManager, and for interactive validation o
 | =password= | password of user logging in | |
 | =username= | username of user logging in (if set, login will attempt to authenticate) | |
 | =usernamestep= | used to initialise the =username= input field in the login form (will not attempt to authenticate) | |
+
+<blockquote class="foswikiHelp"> *%T% Note:* The =login= script will only accept the username and password fields when submitted with a POST.</blockquote>
 
 ---+++ =logon=
 Used for logging in when Web Server authentication is being used (e.g. !ApacheLoginManager). The script does nothing; it is purely a placeholder for triggering the login process. The webserver must be set up to require a valid user to access this script, thus triggering the webserver login process.
@@ -378,6 +384,9 @@ The =rest= script supports the following parameters:
 | =redirectto= | Redirect to this topic or URL after successfully running the rest function. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | None. |
 | =password= | See =username= | |
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you can pass a username and password to the server (though see below for a preferred way to pass authentication information). |
+
+<blockquote class="foswikiHelp"> *%X% Note:* As of 1.1.9, the =rest= script no longer will accept the username and password fields by default. If the prior behavior is required, it can be enabled in =bin/configure=
+by setting =$Foswiki::cfg{Session}{AcceptUserPwParam} = /^rest$/;=.   Note that even with this enabled, the =rest= script requires that the username and password be entered using POST.</blockquote>
 
 REST scripts that require a topic context must use the standard =topic= parameter to pass the topic name, as the URL path is used to identify the REST function. If not defined, then the topic context in REST handlers will be [[%USERSWEB%.%HOMETOPIC%]].
 
