@@ -1062,7 +1062,7 @@ sub _isRedirectSafe {
     my $redirect = shift;
 
     return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
-    return 1 if $redirect =~ m#^/#;    # relative URL - OK
+    return 1 if $redirect =~ m#^/#;                    # relative URL - OK
 
     #TODO: this should really use URI
     # Compare protocol, host name and port number
@@ -1911,6 +1911,11 @@ sub new {
     my $web   = '';
     my $topic = '';
 
+    # Set the default for web if specified
+    # Development.AddWebParamToAllCgiScripts: enables
+    # bin/script?topic=WebPreferences;defaultweb=Sandbox
+    $web = $query->param('defaultweb') || '';
+
 #if the user has only asked for the web portion, then we can make a better guess (view/One/Two/Three/ is just a web (trailing /))
     my $topicSpecified = 0;
 
@@ -1956,10 +1961,12 @@ sub new {
       Foswiki::Sandbox::untaint( $topic, \&Foswiki::Sandbox::validateTopicName )
       || $Foswiki::cfg{HomeTopicName};
 
-    # Set the default for web
-    # Development.AddWebParamToAllCgiScripts: enables
-    # bin/script?topic=WebPreferences;defaultweb=Sandbox
-    $web ||= $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+# Set the default for web
+#
+# SMELL: This appears to be useless.  normalizeWebTopicName will always assign a default
+# By now $web is always set.
+#
+    $web ||= $Foswiki::cfg{UsersWebName};
 
     # Validate web name from path info or default
     $web =
