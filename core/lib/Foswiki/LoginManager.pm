@@ -410,9 +410,30 @@ sub loadSession {
 
         # if we couldn't get the login manager or the http session to tell
         # us who the user is, check the username and password URI params.
+        #
+        # Note that this code only applies to scripts other than login.
+        # The login script is handled separately.
 
-        my $login = $session->{request}->param('username');
-        my $pass  = $session->{request}->param('password');
+        my $script = $session->{request}->base_action();
+
+        my $login;
+        my $pass;
+
+        if ( defined $Foswiki::cfg{Session}{AcceptUserPwParam}
+            && $script =~ m/$Foswiki::cfg{Session}{AcceptUserPwParam}/ )
+        {
+            if (
+                $Foswiki::cfg{Session}{AcceptUserPwParamOnGET}
+                || ( defined $session->{request}->method()
+                    && uc( $session->{request}->method() ) eq 'POST' )
+              )
+            {
+                $login = $session->{request}->param('username');
+                $pass  = $session->{request}->param('password');
+                $session->{request}->delete( 'username', 'password' );
+            }
+        }
+
         if ( $login && defined $pass && $pwchecker ) {
             my $validation = $pwchecker->checkPassword( $login, $pass );
             unless ($validation) {
