@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1327969587" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1381201345" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Site Statistics
 %TOC%
@@ -185,7 +185,7 @@ If you want to have these access settings copied to new <nop>%STATISTICSTOPIC% t
    1 Copy topic !WebStatisticsTemplate from %SYSTEMWEB% web to %USERSWEB% web
    1 Edit the topic settings (via the "More" link) and write (if you want to restrict topics views to logged in users):
    <pre>
-      * Set DENYTOPICVIEW = WikiGuest
+      * Set%NOP% DENYTOPICVIEW = WikiGuest
 </pre>
 
 For existing <nop>%STATISTICSTOPIC% topics you will need to write these settings manually.
