@@ -3418,8 +3418,8 @@ sub summariseChanges {
     $orev = $nrev - 1 unless defined($orev);
 
     ASSERT( $orev =~ /^\s*\d+\s*/ ) if DEBUG;    # looks like a number
-    ASSERT( $orev >= 0 ) if DEBUG;
-    ASSERT( $nrev >= $orev ) if DEBUG;
+    ASSERT( $orev >= 0 )            if DEBUG;
+    ASSERT( $nrev >= $orev )        if DEBUG;
 
     unless ( defined $this->{_loadedRev} && $this->{_loadedRev} eq $nrev ) {
         $this = $this->load($nrev);
