@@ -3323,13 +3323,16 @@ sub _summariseTextWithSearchContext {
 #NOTE: this is duplicating the F::Search::Node code, and probably the F::Q:: =~ parse
 #and the SearchAlgo already deals with this issue to some degree (i'm not sure it does unmatched [ etc)
 
+    my $tToken;
     my @tokens = map {
+
+        $tToken = $_;    # copy  $_ to avoid changing the passed token
 
 #we get a crash if the tokem is not a valid regex. - for eg a single lone *
 #actually need to escape all things that would trash the regex
 #TODO: this needs to be extracted from here and Forking.pm and pushed into F::Search::Node
-        s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g if ( $type ne 'regex' );
-        $_
+        $tToken =~ s#([][|/\\\$\^*()+{};@?.{}])#\\$1#g if ( $type ne 'regex' );
+        $tToken;
     } grep { !/^!.*$/ } @{ $searchOptions->{tokens} };
     my $keystrs = join( '|', @tokens );
 
