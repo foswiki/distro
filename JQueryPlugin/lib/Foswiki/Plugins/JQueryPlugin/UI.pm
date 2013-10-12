@@ -32,7 +32,7 @@ sub new {
             version      => '1.10.3',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://docs.jquery.com/UI',
+            homepage     => 'http://api.jqueryui.com/',
             javascript   => [ 'jquery-ui.js', ],
             dependencies => [ 'metadata', 'livequery', 'easing' ],
         ),
