@@ -94,8 +94,8 @@ HERE
   # making use of deprecated and removed features
     unless ( $defaultPlugins =~ /\bmigrate\b/i ) {
         if ( $jQuery =~ /^jquery-(\d+)\.(\d+)\.(\d+)/ ) {
-            my $jqVersion = $1 * 1000 + $2 * 100 + $3;
-            if ( $jqVersion > 1900 ) {
+            my $jqVersion = $1 * 10000 + $2 * 100 + $3;
+            if ( $jqVersion > 10900 ) {
                 createPlugin("Migrate");
             }
         }
