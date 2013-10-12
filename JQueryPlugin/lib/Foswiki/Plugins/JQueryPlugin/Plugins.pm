@@ -58,10 +58,10 @@ sub init {
 
     if ($jQueryIE) {
         $code = <<"HERE";
-<literal><!--[if lt IE 9]>
+<literal><!--[if lte IE 9]>
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
 <![endif]-->
-<!--[if gte IE 9]><!-->
+<!--[if gt IE 9]><!-->
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQuery.js'></script>
 <!--<![endif]-->
 </literal>
@@ -353,7 +353,7 @@ sub getPlugins {
 
     my @plugins = ();
     foreach my $key ( sort keys %plugins ) {
-        next if $key eq 'empty';    # skip this one
+        next if $key eq 'empty';                      # skip this one
         next if $include && $key !~ /^($include)$/;
         my $pluginDesc = $plugins{$key};
         my $plugin     = load( $pluginDesc->{name} );
