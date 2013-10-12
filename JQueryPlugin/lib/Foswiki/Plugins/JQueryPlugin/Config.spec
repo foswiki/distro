@@ -194,7 +194,8 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{TextboxList}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Tmpl}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 1;
+# Warning: this plugin is deprecated. Please use the tooltip plugin part of the jQuery-ui package.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Tooltip}{Enabled} = 0;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Treeview}{Enabled} = 1;
@@ -231,6 +232,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Datepicker'}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Progressbar'}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Tooltip'}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Validate}{Enabled} = 1;
