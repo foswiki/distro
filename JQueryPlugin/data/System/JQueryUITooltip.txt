@@ -1,0 +1,130 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1380268113" format="1.1" reprev="6" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+
+%TOC%
+
+---++ Summary
+%JQPLUGINS{"ui::tooltip"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+To load the library into the current wiki page, add this somewhere on the page:
+
+<verbatim class="tml">
+%JQREQUIRE{"ui::tooltip"}%
+</verbatim>
+%JQREQUIRE{"ui::tooltip"}%
+
+This will initialize all DOM elements with a =jqUITooltip= css class and add a jQuery-ui tooltip to it.
+
+<verbatim class="tml">
+<a href="#" class="jqUITooltip" title="This is the tooltip content">hover me</a>
+</verbatim>
+
+<a href="#" class="jqUITooltip" title="This is the tooltip content">hover me</a>
+
+The plugin will also delegate the feature to all elements in a =jqUITooltip= container by means of delegation.
+This means that all elements contained in a =jqUITooltip= container will be tooltip-enabled.
+By default any content of a =title= attribute will serve as the content for the tooltip displayed
+when hovering over this element.
+
+<verbatim class="tml">
+<div class="jqUITooltip">
+   * <a href="#" title="This is the tooltip content">hover me</a>
+   * <a href="#" title="This is the tooltip content">hover me</a>
+   * <a href="#" title="This is the tooltip content">hover me</a>
+   * <a href="#" title="This is the tooltip content">hover me</a>
+</div>
+</verbatim>
+
+<div class="jqUITooltip">
+   * <a href="#" title="This is the tooltip content">hover me</a>
+   * <a href="#" title="This is the tooltip content">hover me</a>
+   * <a href="#" title="This is the tooltip content">hover me</a>
+   * <a href="#" title="This is the tooltip content">hover me</a>
+</div>
+
+---++ Parameters
+
+The plugin comes with a set of convenient parameters that can be specified using HTML5 data attributes. See the examples below.
+
+| *Name* | *Description* | *Default* |
+| arrow | boolean flag to display a small arrow next to the tooltip pointing to its root element |
+| delay | milliseconds delay before the tooltip appears | 500 | 
+| duration | duration of the animation to show/hide the tooltip | 200 |
+| position | specifies the position of the tooltip relative to the element it appears at; this can either be one of the standard position specifiers known to jQuery or one of the short-cuts =bottom=, =top=, =left=, =right= | default |
+| theme | specifies one of the predefined look&feel settings; possible values: =default=, =transparent=, =info=, =error=, =help=, =frame= | default |
+| track | boolean flag to switch on/off the tooltip to follow the mouse pointer | true |
+
+---++ Examples
+
+---+++!! Use of HTML data attributes
+<verbatim class="tml">
+<table class="foswikiLayoutTable jqUITooltip" data-theme="info" data-position="bottom" data-arrow="true" data-delay="0">
+<tr>
+  <th>First Name:</th>
+  <th>Last Name:</th>
+</tr>
+<tr>
+  <td>
+    <input type="text" class="foswikiInputField" title="Please insert your first name" size="30" />
+  </td>
+  <td>
+    <input type="text" class="foswikiInputField" title="Please insert your last name" size="30" />
+  </td>
+</tr>
+</table>
+</verbatim>
+
+<table class="foswikiLayoutTable jqUITooltip" data-theme="info" data-position="bottom" data-arrow="true" data-delay="0">
+<tr>
+  <th>First Name:</th>
+  <th>Last Name:</th>
+</tr>
+<tr>
+  <td>
+    <input type="text" class="foswikiInputField" title="Please insert your first name" size="30" />
+  </td>
+  <td>
+    <input type="text" class="foswikiInputField" title="Please insert your last name" size="30" />
+  </td>
+</tr>
+</table>
+
+---+++!! Themes
+<table class="foswikiLayoutTable">
+<tr>
+  <th>Default:</th>
+  <td><input id="age" title="We ask for your age only for statistical purposes." class="foswikiInputField jqUITooltip" data-theme="default" data-position="right" data-arrow="true" data-delay="0" /></td>
+</tr>
+<tr>
+  <th>Transparent:</th>
+  <td><input id="age" title="We ask for your age only for statistical purposes." class="foswikiInputField jqUITooltip" data-theme="transparent" data-position="right" data-arrow="true" data-delay="0" /></td>
+</tr>
+<tr>
+  <th>Info:</th>
+  <td><input id="age" title="We ask for your age only for statistical purposes." class="foswikiInputField jqUITooltip" data-theme="info" data-position="right" data-arrow="true" data-delay="0" /></td>
+</tr>
+<tr>
+  <th>Error:</th>
+  <td><input id="age" title="We ask for your age only for statistical purposes." class="foswikiInputField jqUITooltip" data-theme="error" data-position="right" data-arrow="true" data-delay="0" /></td>
+</tr>
+<tr>
+  <th>Help:</th>
+  <td><input id="age" title="We ask for your age only for statistical purposes." class="foswikiInputField jqUITooltip" data-theme="help" data-position="right" data-arrow="true" data-delay="0" /></td>
+</tr>
+<tr>
+  <th>Frame:</th>
+  <td><input id="age" title="We ask for your age only for statistical purposes." class="foswikiInputField jqUITooltip" data-theme="frame" data-position="right" data-arrow="true" data-delay="0" /></td>
+</tr>
+</table>

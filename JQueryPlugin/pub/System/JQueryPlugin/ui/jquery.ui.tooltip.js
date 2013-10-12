@@ -297,7 +297,7 @@ $.widget( "ui.tooltip", {
 		if ( !event || event.type === "mouseover" ) {
 			events.mouseleave = "close";
 		}
-		if ( !event || event.type === "focusin" ) {
+		if ( !event || event.type === "focusin" || event.type == "mouseover" ) {
 			events.focusout = "close";
 		}
 		this._on( true, target, events );

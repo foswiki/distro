@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1360672210" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1378458912" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -38,13 +38,12 @@ Whether writing your own plugins or writing Javascript code in topics, you shoul
 Foswiki %SYSTEMWEB%.JQueryCodingStandards.
 
 ---++ jQuery References and tutorials
-   * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
-   * [[http://docs.jquery.com/Tutorials][Tutorials]]
-   * [[http://docs.jquery.com/Main_Page][Reference API]]
+   * [[http://learn.jquery.com/about-jquery/how-jquery-works/][How jQuery Works]]
+   * [[http://http://learn.jquery.com/][jQuery Learning Center]]
+   * [[http://api.jquery.com/][jQuery API Documentatiom]]
    * [[http://jqapi.com][Alternative jQuery Documentation and API Browser]]
-   * [[http://docs.jquery.com/Using_jQuery_with_Other_Libraries][Using jQuery with other libraries]]
-   * [[http://docs.jquery.com/Plugins][Plugin repository]]
-   * [[http://www.learningjquery.com/2010/07/great-ways-to-learn-jquery][Great Ways to Learn jQuery]]
+   * [[http://learn.jquery.com/using-jquery-core/avoid-conflicts-other-libraries/][Avoiding Conflicts with Other Libraries]]
+   * [[http://plugins.jquery.com/][The jQuery Plugin Registry]]
 
 ---++ Macros
 
@@ -127,6 +126,7 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|               | (4.83) - Item12567: fix version check in =configure= | 
 |  07 Jun 2013: | (4.82) - Item12528: fixed char mapping in jquery.wikiword |
 |  31 May 2013: | (4.81) - Item12520: added jquery-1.10.1 and jquery-2.0.2 |
 |  30 May 2013: | (4.80) - Item12519: upgraded superfish, supersubs and hoverintent |

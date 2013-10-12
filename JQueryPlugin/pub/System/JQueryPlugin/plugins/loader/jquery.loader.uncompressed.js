@@ -125,7 +125,7 @@ jQuery(function($) {
         if (typeof(self.container) !== 'undefined') {
           self.container.remove();
         }
-        self.container = $("<div />").append(data).insertAfter($elem);
+        self.container = $("<div class='jqLoaderContainer' />").append(data).insertAfter($elem);
     
         $elem.trigger("onload.jqloader", self);
 

@@ -65,13 +65,12 @@ a.jqButton:hover {
 }
 .jqButtonSimple span {
   padding:0px;
-  text-decoration:underline;
 }
 .jqButtonSimple span span {
-  padding:0px 0px 0px 23px;
+  padding:0px 0px 0px 20px;
 }
 .jqButton .jqButtonIcon {
-  padding:0px 0px 0px 23px;
+  padding:0px 0px 0px 20px;
 }
 .jqButton:active .jqButtonIcon,
 .jqButton .jqButtonIcon {

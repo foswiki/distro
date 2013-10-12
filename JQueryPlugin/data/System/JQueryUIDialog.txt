@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1342004918" format="1.1" reprev="3" version="3"}%
+%META:TOPICINFO{author="ProjectContributor" date="1378463537" format="1.1" reprev="3" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -32,7 +32,7 @@ To load the library into the current wiki page, add this somewhere on the page:
 %JQREQUIRE{"ui::dialog"}%
 </verbatim>
 
-This will initialized the following css classes to build the dialog widgets:
+This will initialize the following css classes to build the dialog widgets:
 
    * =jqUIDialog=: dialog definition  
    * =jqUIDialogLink=: anchor pointing to a dialog 
@@ -144,7 +144,7 @@ $("#mydialog").bind("dialogclose", function() {
 ---+++ Drop-down login dialog
 <a href="#dialog" class="jqUIDialogLink">Login</a>
 
-<div id="dialog" title="%MAKETEXT{"Login"}%" class="jqUIDialog {modal:true, position:'center', width:'auto', show: {effect: 'drop', direction: 'up', duration:'fast'}, hide:{ effect: 'drop', direction: 'up', duration:'fast' }}">
+<div id="dialog" title="%MAKETEXT{"Login"}%" class="jqUIDialog {modal:true, position:'center top', width:'auto', show: {effect: 'drop', direction: 'up', duration:'fast'}, hide:{ effect: 'drop', direction: 'up', duration:'fast' }}">
 <!-- position:'top' would be nicer but doesn't work for some reasons -->
   <table class='foswikiLayoutTable'>
     <tr>

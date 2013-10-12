@@ -9,7 +9,8 @@ TARGET=\
   jquery.ui.dialog.init.js \
   jquery.ui.button.init.js \
   jquery.ui.datepicker.init.js \
-  jquery.ui.progressbar.init.js
+  jquery.ui.progressbar.init.js \
+  jquery.ui.tooltip.init.js
 
 # TODO: not yet init'ed widgets
 # droppable, selectable, sortable

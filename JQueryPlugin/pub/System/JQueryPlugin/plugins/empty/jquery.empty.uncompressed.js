@@ -1,64 +1,60 @@
 /*
  * jQuery Empty plugin 1.0
  *
- * Copyright (c) 20xxx your name url://... 
+ * Copyright (c) 20xx Your Name http://... 
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Revision: $Id$
- *
  * How to proceed: 
  *    1 copy this file into a file named jquery.plugin-name.js
- *    2 replace the strings "empty" with plugin-name in this file
+ *    2 replace the strings "Empty" with "pluginName" in this file
+ *    3 edit the global defaults
+ *    4 refine the init method
  *
  */
 
-/***************************************************************************
- * plugin definition 
- */
-(function($) {
+;(function($, window, document) {
 
-  $.empty = {
+  // Create the defaults once
+  var pluginName = "Empty",
+      defaults = {
+        foo: "bar"
+      };
 
-      
-    /***********************************************************************
-     * constructor
-     */
-    build: function(options) {
-      $.log("called empty()");
-     
-      // build main options before element iteration
-      var opts = $.extend({}, $.empty.defaults, options);
-     
-      // iterate and reformat each matched element
-      return this.each(function() {
-        var $this = $(this);
-        
-        // build element specific options. 
-        // note you may want to install the Metadata plugin
-        var thisOpts = $.extend(opts, $this.metadata());
+  // The actual plugin constructor 
+  function Empty(elem, options) { 
+    var self = this;
 
-        // do it ...
-      });
-    },
+    self.$elem = $(elem); 
 
-    /***************************************************************************
-     * helper function
-     */
-    helper: function() {
-    },
+    // gather options by merging global defaults, plugin defaults and element defaults
+    self.options = $.extend({}, defaults, options, self.$elem.data()); 
+    self.init(); 
+  } 
 
-    /***************************************************************************
-     * plugin defaults
-     */
-    defaults: {
-      //key: 'value'
-    }
-  };
+  Empty.prototype.init = function () { 
+    var self = this;
+    // Place initialization logic here 
+    // You already have access to the DOM element and 
+    // the options via the instance, e.g. this.element 
+    // and this.options 
+  }; 
 
-  /* register by extending jquery */
-  $.fn.empty = $.empty.build;
+  // A plugin wrapper around the constructor, 
+  // preventing against multiple instantiations 
+  $.fn[pluginName] = function (options) { 
+    return this.each(function () { 
+      if (!$.data(this, pluginName)) { 
+        $.data(this, pluginName, new Empty(this, options)); 
+      } 
+    }); 
+  } 
 
-})(jQuery);
+  // Enable declarative widget instanziation 
+  $(".jq"+pluginName).livequery(function() {
+  });
+
+})(jQuery, window, document);
+

@@ -30,6 +30,7 @@ ul.jqTabGroup {
   list-style:none;
   display:block;
   float:left;
+  overflow:visible !important;
 }
 ul.jqTabGroup li {
   float:left;

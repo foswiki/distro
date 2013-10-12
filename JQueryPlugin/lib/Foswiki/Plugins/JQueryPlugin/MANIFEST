@@ -50,6 +50,7 @@ data/System/JQueryTmpl.txt 0644
 data/System/JQueryTooltip.txt 0644
 data/System/JQueryTreeview.txt 0644
 data/System/JQueryUI.txt 0644
+data/System/JQueryUITooltip.txt 0644
 data/System/JQueryValidate.txt 0644
 data/System/JQueryWikiWord.txt 0644
 data/System/VarBUTTON.txt 0644
@@ -66,6 +67,7 @@ data/System/VarTABPANE.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
 lib/Foswiki/Form/Rating.pm 0644
@@ -123,6 +125,7 @@ lib/Foswiki/Plugins/JQueryPlugin/UI.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/PROGRESSBAR.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/SLIDER.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/TABS.pm 0644
+lib/Foswiki/Plugins/JQueryPlugin/UI/TOOLTIP.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/BUTTON.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/DATEPICKER.pm 0644
 lib/Foswiki/Plugins/JQueryPlugin/UI/AUTOCOMPLETE.pm 0644
@@ -896,6 +899,9 @@ pub/System/JQueryPlugin/ui/jquery.ui.tabs.init.js.gz 0644
 pub/System/JQueryPlugin/ui/jquery.ui.tabs.init.uncompressed.js 0644
 pub/System/JQueryPlugin/ui/jquery.ui.tabs.js 0644
 pub/System/JQueryPlugin/ui/jquery.ui.tooltip.js 0644
+pub/System/JQueryPlugin/ui/jquery.ui.tooltip.init.js 0644
+pub/System/JQueryPlugin/ui/jquery.ui.tooltip.init.js.gz 0644
+pub/System/JQueryPlugin/ui/jquery.ui.tooltip.init.uncompressed.js 0644
 pub/System/JQuerySlimbox/IMG_1190.JPG 0644
 pub/System/JQuerySuperfish/example.js 0644
 tools/jslint4java.jar 0444

@@ -31,7 +31,7 @@ sub new {
             version      => '1.10.3',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://docs.jquery.com/UI/Dialog',
+            homepage     => 'http://api.jqueryui.com/dialog/',
             javascript   => ['jquery.ui.dialog.init.js'],
             dependencies => [ 'ui', ],
         ),

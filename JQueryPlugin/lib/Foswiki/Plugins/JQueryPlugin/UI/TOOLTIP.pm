@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Plugins::JQueryPlugin::UI::DATEPICKER;
+package Foswiki::Plugins::JQueryPlugin::UI::TOOLTIP;
 use strict;
 use warnings;
 
@@ -8,9 +8,9 @@ our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
----+ package Foswiki::Plugins::JQueryPlugin::UI::DATEPICKER
+---+ package Foswiki::Plugins::JQueryPlugin::UI::TOOLTOP
 
-This is the perl stub for the jquery.ui.datepicker plugin.
+This is the perl stub for the jquery.ui.tooltip plugin.
 
 =cut
 
@@ -27,12 +27,12 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'UI::Datepicker',
+            name         => 'UI::Tooltip',
             version      => '1.10.3',
             puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
             author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://api.jqueryui.com/datepicker/',
-            javascript   => ['jquery.ui.datepicker.init.js'],
+            homepage     => 'http://api.jqueryui.com/tooltip/',
+            javascript   => ['jquery.ui.tooltip.init.js'],
             dependencies => [ 'ui', ],
         ),
         $class

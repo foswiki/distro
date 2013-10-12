@@ -14,9 +14,8 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-# Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("4.82");
-our $RELEASE           = '4.82';
+our $VERSION           = '4.83';
+our $RELEASE           = '4.83';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -329,7 +328,7 @@ sub handleJQueryIcon {
     my $img = $iconFormat;
     $img =~ s/\$iconPath/$iconPath/g;
     $img =~ s/\$iconClass/$iconClass/g;
-    $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
+    $img =~ s/\$iconAlt/alt='$iconAlt' /g       if $iconAlt;
     $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
     $img =~ s/\$(iconAlt|iconTitle)//go;
 
