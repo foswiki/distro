@@ -166,8 +166,8 @@ $.tabpane = {
       } else {
         // animate height
         if (thisOpts.animate) {
-          $newContainer.height('auto');
           if (effect != 'none') {
+            $newContainer.height('auto');
             newHeight = $newContainer.height();
             if (isInnerContainer) {
               $newContainer.height(oldHeight).animate({
