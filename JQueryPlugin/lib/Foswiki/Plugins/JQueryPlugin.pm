@@ -14,8 +14,8 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-our $VERSION           = '4.83';
-our $RELEASE           = '4.83';
+our $VERSION           = '4.90';
+our $RELEASE           = '4.90';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
