@@ -52,7 +52,7 @@ msgstr "%1 (standard)"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - Registreringsfejl for %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:227
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -83,7 +83,7 @@ msgstr "%1 gruppe side opgraderet"
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 er en liste over andre Foswiki brugere."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 er blevet godkendt og registreret med e-mail-adressen %2"
 
@@ -165,7 +165,7 @@ msgstr "%1 for at tilrette præferencer for det enkelte web"
 msgid "%1 to start working on the new web"
 msgstr "%1 for at komme i gang med at arbejde med det nye web"
 
-#: core/templates/messages.tmpl:655 core/templates/messages.tmpl:666
+#: core/templates/messages.tmpl:665 core/templates/messages.tmpl:676
 msgid "%1 topic does not exist"
 msgstr "siden %1 eksisterer ikke"
 
@@ -177,7 +177,7 @@ msgstr "%1 prøvede at registrere med e-mail-adressen %2"
 #   $date,
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:269
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 blev omdøbt eller flyttet fra %2 den %3 af %4"
 
@@ -273,7 +273,7 @@ msgstr "(slet vedhæftet fil)"
 msgid "(delete)"
 msgstr "(slet)"
 
-#: core/templates/messages.tmpl:715
+#: core/templates/messages.tmpl:725
 #, fuzzy
 msgid "(disabled)"
 msgstr "Editér tabel"
@@ -532,7 +532,7 @@ msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr ""
 "Nogle filnavne vil blive tilføjet =.txt= som endelse af sikkerhedshensyn"
 
-#: core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -554,7 +554,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En e-mail med en bekræftelse er sendt til %1"
 
-#: core/templates/messages.tmpl:642
+#: core/templates/messages.tmpl:642 core/templates/messages.tmpl:652
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -776,7 +776,7 @@ msgstr "Vedhæft ny fil"
 msgid "Attachment"
 msgstr "Vedhæftet fil"
 
-#: core/templates/messages.tmpl:672
+#: core/templates/messages.tmpl:682
 msgid "Attachment '%1' does not exist"
 msgstr "Den vedhæftede fil '%1' findes ikke"
 
@@ -1063,7 +1063,7 @@ msgstr "Vælg en ny formular for %1"
 msgid "Clear all"
 msgstr "Nulstil alle"
 
-#: core/lib/Foswiki/Render.pm:247
+#: core/lib/Foswiki/Render.pm:254
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1115,9 +1115,9 @@ msgid "Conflict"
 msgstr "Konflikt"
 
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
-#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
-#: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
+#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:662
+#: core/templates/messages.tmpl:673 core/templates/messages.tmpl:679
+#: core/templates/messages.tmpl:687 core/templates/messages.tmpl:696
 msgid "Contact %1 if you have any questions."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
@@ -1230,7 +1230,7 @@ msgstr "Opret er ikke specificeret og gruppe findes ikke"
 msgid "Create personal sidebar"
 msgstr "Opret personlig venstre-menu"
 
-#: core/templates/messages.tmpl:650
+#: core/templates/messages.tmpl:660
 msgid "Create the topic"
 msgstr "Opret siden"
 
@@ -1390,27 +1390,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "E-mail-adressen er opdateret!"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE fejlede - =type= can ikke bruges sammen med =old= og =new="
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE fejlede - både =old= og =new= skal angives"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE fejlede - værdien '%PARAM1%' er gentaget i =old= "
 
-#: core/templates/messages.tmpl:694
+#: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND fejlede - adgang til '%PARAM1%' afvist"
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:702
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND fejlede - ingen macro"
 
-#: core/templates/messages.tmpl:693
+#: core/templates/messages.tmpl:703
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND fejlede - ingen side '%PARAM1%'"
 
@@ -1514,7 +1514,7 @@ msgstr ""
 "Vælg et sidenavn der er et [[%SYSTEMWEB%.WikiWord][WikiWord]] eller afkryds "
 "non-<nop>WikiWord i afkrydsningsfeltet"
 
-#: core/templates/messages.tmpl:703
+#: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
 msgstr "Der skete en fejl under indlæsning af plugin. See fejl nedenfor."
 
@@ -1671,7 +1671,7 @@ msgid "Globe"
 msgstr "Globe"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:685
 msgid "Go back"
 msgstr "Tilbage"
 
@@ -1687,7 +1687,7 @@ msgstr ""
 msgid "Go back in your browser and save your changes locally."
 msgstr "Gå tilbage i din browser, og gem dine opdateringer lokalt."
 
-#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:710 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -1753,7 +1753,7 @@ msgstr ""
 "Hierarkiske webs er for øjeblikket slået fra, du kan ikke oprette "
 "underordnede webs."
 
-#: core/data/System/ManagingTopics.txt:98
+#: core/data/System/ManagingTopics.txt:100
 msgid "History"
 msgstr "Historik"
 
@@ -1854,7 +1854,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "If du er usikker på hvad dette betyder, læs %1"
 
-#: core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:640 core/templates/messages.tmpl:650
 msgid "If you came here by clicking on a question mark link"
 msgstr "Hvis du kom hertil ved at klikke på et spørgsmålstegns-link"
 
@@ -1894,7 +1894,7 @@ msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 msgid "If you have any questions, please contact %1."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:150
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:176
 #: core/templates/registernotify.tmpl:25
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -1909,11 +1909,11 @@ msgstr ""
 "Hvis du modtog et link til denne side i en e-mail eller du bare ønsker at se "
 "siden, [[%1][fortryd save]] og gå til %2."
 
-#: core/templates/messages.tmpl:649
+#: core/templates/messages.tmpl:659
 msgid "If you want to create the topic"
 msgstr "Hvis du vil oprette siden"
 
-#: core/templates/messages.tmpl:645
+#: core/templates/messages.tmpl:655
 msgid "If you would like to create this web"
 msgstr "Hvis du vil oprette dette web"
 
@@ -2187,6 +2187,10 @@ msgstr "Manglende felter"
 msgid "Missing action command"
 msgstr "Manglende aktionskommando (action command)"
 
+#: core/templates/messages.tmpl:637
+msgid "Missing or illegal web name"
+msgstr ""
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
@@ -2257,7 +2261,7 @@ msgstr "Flyt side til web:"
 msgid "Move/Rename"
 msgstr "Flyt/Omdøb"
 
-#: core/lib/Foswiki/Search.pm:1180
+#: core/lib/Foswiki/Search.pm:1184
 msgid "NEW"
 msgstr "NY"
 
@@ -2381,7 +2385,7 @@ msgstr ""
 "websteder)"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
@@ -2601,7 +2605,7 @@ msgstr ""
 "Dobbelt-tjek venligst at du har stavet %1 korrekt og forsøg igen. Hvis du må "
 "opgive, send venligst en mail til %2."
 
-#: core/templates/messages.tmpl:698
+#: core/templates/messages.tmpl:708
 msgid "Please notify your %1 administrator."
 msgstr "Advisér venligst din %1-administrator."
 
@@ -2616,11 +2620,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr "Plugin handlers"
 
-#: core/templates/messages.tmpl:713
+#: core/templates/messages.tmpl:723
 msgid "Plugin module did not return true. See errors below."
 msgstr "Plugin modul gav en fejl. Se fejl nedenfor."
 
-#: core/templates/messages.tmpl:705
+#: core/templates/messages.tmpl:715
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 "Plugin modul var ikke defineret. Tjek konfigurationen. Se fejl nedenfor."
@@ -2659,7 +2663,7 @@ msgstr "Printbar version af denne side (p)"
 msgid "Properties"
 msgstr "Ekstra muligheder"
 
-#: core/lib/Foswiki/Render.pm:255
+#: core/lib/Foswiki/Render.pm:262
 msgid "Put it back..."
 msgstr "Flyt siden tilbage..."
 
@@ -2957,7 +2961,7 @@ msgstr "Sandbox (sandkasse) test web til at prøve og eksperimentere."
 msgid "Save table"
 msgstr "Gem tabel"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:241
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:18
 #: core/templates/registerfailedremoved.tmpl:19
 #: core/templates/registernotifyadmin.tmpl:16
@@ -3150,7 +3154,7 @@ msgstr "Sammenligning af revisioner ved siden af hinanden"
 msgid "Size"
 msgstr "Størrelse"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:141
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:167
 #: core/templates/registernotify.tmpl:15
 msgid "Some add schedule information and vacation notice."
 msgstr "Andre tilføjer deres kalender eller evt. ferie-beskeder."
@@ -3169,7 +3173,7 @@ msgstr ""
 "forespørgsel to gange når du klikker på et link. Såfremt dette er tilfældet "
 "er det muligt at du faktisk allerede *er* registreret succesfuldt."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:140
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:166
 #: core/templates/registernotify.tmpl:14
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -3223,8 +3227,8 @@ msgstr "Statistik"
 msgid "Submit"
 msgstr "Send"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:152
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:237
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:178
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:245
 #: core/templates/registerfailednotremoved.tmpl:14
 #: core/templates/registerfailedremoved.tmpl:15
 #: core/templates/registernotify.tmpl:18
@@ -3274,7 +3278,7 @@ msgstr ""
 "TIP: For at søge efter sider, der indeholder =\"SOAP\"=, =\"WSDL\"= og "
 "strengen =\"web service\"= men ikke =\"shampoo\"=, skriv følgende:"
 
-#: core/templates/messages.tmpl:660
+#: core/templates/messages.tmpl:670
 msgid "Template %1 does not exist"
 msgstr "Skabelon %1 eksisterer ikke"
 
@@ -3282,7 +3286,7 @@ msgstr "Skabelon %1 eksisterer ikke"
 msgid "Text body"
 msgstr "Kildetekst"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:208
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:264
 #: core/templates/messages.tmpl:183 core/templates/messages.tmpl:223
 msgid "Thank you for registering"
 msgstr "Tak fordi du registrerede dig"
@@ -3303,7 +3307,7 @@ msgstr ""
 "Tak fordi du registrerede dig som bruger i e-samarbejds-platformen %1. Din "
 "aktiveringskode er %2."
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
 msgstr "Denne bruger er allerede aktiveret"
 
@@ -3325,7 +3329,7 @@ msgid "The %1 topic already exists"
 msgstr "Siden %1 eksisterer allerede"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:647
 msgid "The %1 web does not exist"
 msgstr "%1-webbet eksisterer ikke"
 
@@ -3529,7 +3533,7 @@ msgstr "Siden er i et gammelt format"
 msgid "The two passwords you entered do not match."
 msgstr "De to adgangskoder du har indtastet er ikke ens."
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:692
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 "Brugeren %1 er allerede aktiveret, og skulle nu være godkendt til at logge "
@@ -3628,7 +3632,7 @@ msgstr "Dette er også kendt som Cross-site Request Forgery, or CSRF."
 msgid "This is an automated e-mail from %1."
 msgstr "Dette er en automatisk e-mail notifikation fra %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:241
 #: core/templates/registerfailednotremoved.tmpl:8
 #: core/templates/registerfailedremoved.tmpl:8
 #: core/templates/registernotifyadmin.tmpl:8
@@ -3740,7 +3744,7 @@ msgstr "Til web"
 msgid "To web:"
 msgstr "Til web:"
 
-#: core/templates/messages.tmpl:697
+#: core/templates/messages.tmpl:707
 msgid "Too many recursions parsing template %1"
 msgstr "For mange rekursioner under gemmengang af skabelon %1"
 
@@ -4095,7 +4099,7 @@ msgstr ""
 "Advarsel: Dette websted tillader ikke brug af %<nop>INCLUDE% til inkludering "
 "af URL'er"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:422
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "BEMÆRK: \\'incluce\\'-siden <nop>%1 findes ikke!"
 
@@ -4103,7 +4107,7 @@ msgstr "BEMÆRK: \\'incluce\\'-siden <nop>%1 findes ikke!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:448
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "BEMÆRK: tabel-definitionen i \\'incluce\\'-siden %1 findes ikke!"
 
@@ -4226,15 +4230,15 @@ msgstr ""
 "efter), så skal web-navnet starte med en underscore (_) og må derudover kun "
 "indeholde bogstaver og tal."
 
-#: core/templates/messages.tmpl:673
+#: core/templates/messages.tmpl:683
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Du forsøger at tilgå en vedhæftet fil der ikke eksisterer."
 
-#: core/templates/messages.tmpl:661
+#: core/templates/messages.tmpl:671
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Du forsøger at oprette en side fra en skabelon der ikke eksisterer."
 
-#: core/templates/messages.tmpl:656
+#: core/templates/messages.tmpl:666
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
@@ -4242,11 +4246,11 @@ msgstr ""
 "Du forsøger at udføre en handling på en side der ikke eksisterer (handling "
 "'%1')."
 
-#: core/templates/messages.tmpl:667
+#: core/templates/messages.tmpl:677
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Du forsøger at omdøbe en side der ikke eksisterer."
 
-#: core/templates/messages.tmpl:646
+#: core/templates/messages.tmpl:656
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4264,7 +4268,7 @@ msgstr ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:149
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:175
 #: core/templates/registernotify.tmpl:24
 msgid "You can change your password at via %1"
 msgstr "Du kan skifte din adgangskode v.h.a. %1"
@@ -4288,7 +4292,7 @@ msgstr ""
 "Du kan ikke manuelt bekræfte denne ændring fordi enten Cookies eller "
 "Javascript er deaktiveret i din browser."
 
-#: core/templates/messages.tmpl:700
+#: core/templates/messages.tmpl:710
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
@@ -4328,7 +4332,7 @@ msgstr ""
 "aktuelle regler, hvis de forekommer uhensigtsmæssige eller synes for "
 "restriktive."
 
-#: core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:694
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4433,7 +4437,7 @@ msgstr "Din adgangskode er opdateret til %1."
 msgid "Your password has not been changed."
 msgstr "Din adgangskode er ikke ændret."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:164
 #: core/templates/registernotify.tmpl:12
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -4505,31 +4509,31 @@ msgstr ""
 "[mellemrum] = [værdi]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:328
+#: core/lib/Foswiki/I18N.pm:331
 msgid "_language_name"
 msgstr "Dansk"
 
-#: core/lib/Foswiki/Meta.pm:1837
+#: core/lib/Foswiki/Meta.pm:1827
 msgid "access denied on root"
 msgstr "adgang til root nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1775
+#: core/lib/Foswiki/Meta.pm:1765
 msgid "access denied on topic"
 msgstr "adgang til siden nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1810
+#: core/lib/Foswiki/Meta.pm:1800
 msgid "access denied on web"
 msgstr "adgang til webbet nægtet"
 
-#: core/lib/Foswiki/Meta.pm:1847
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access not allowed on root"
 msgstr "adgang til root ikke tilladt "
 
-#: core/lib/Foswiki/Meta.pm:1794
+#: core/lib/Foswiki/Meta.pm:1784
 msgid "access not allowed on topic"
 msgstr "adgang til siden ikke tilladt "
 
-#: core/lib/Foswiki/Meta.pm:1822
+#: core/lib/Foswiki/Meta.pm:1812
 msgid "access not allowed on web"
 msgstr "adgang til webbet ikke tilladt "
 
@@ -4569,7 +4573,7 @@ msgstr "forskelle"
 msgid "don't forget to check your Topic Settings"
 msgstr "glem ikke at tjekke dine side-instillinger (Topic Settings)"
 
-#: core/templates/messages.tmpl:711
+#: core/templates/messages.tmpl:721
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr "earlyInitPlugin fejlede. Se fejl nedenfor."
 
@@ -4599,7 +4603,7 @@ msgstr "i kildetekst-format"
 msgid "indicates mandatory fields"
 msgstr "angiver obligatoriske felter"
 
-#: core/templates/messages.tmpl:707 core/templates/messages.tmpl:709
+#: core/templates/messages.tmpl:717 core/templates/messages.tmpl:719
 msgid "initPlugin was not defined. See errors below."
 msgstr "initPlugin var ikke defineret. Se fejl nedenfor."
 

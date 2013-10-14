@@ -54,7 +54,7 @@ msgstr "(削除)"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - %2 (%3) の登録にエラーが発生しました。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:227
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -86,7 +86,7 @@ msgstr "%1グループのトピックは更新しました。"
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 は他のFoswikiユーザーがあるリストを持っています。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 は既に電子メールアドレスの %2に登録されました"
@@ -171,7 +171,7 @@ msgstr "%1 ウェブプロパティをカスタマイズします"
 msgid "%1 to start working on the new web"
 msgstr "%1 は新ウェブ上で仕事を始めます"
 
-#: core/templates/messages.tmpl:655 core/templates/messages.tmpl:666
+#: core/templates/messages.tmpl:665 core/templates/messages.tmpl:676
 msgid "%1 topic does not exist"
 msgstr "%1 トピックは存在しません"
 
@@ -184,7 +184,7 @@ msgstr "%1 は電子メールアドレスの %2 に登録しようとしまし�
 #   $date,
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:269
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 は %3 に %4 で %2 から 移動します"
 
@@ -281,7 +281,7 @@ msgstr "(添付ファイルを削除します)"
 msgid "(delete)"
 msgstr "(削除)"
 
-#: core/templates/messages.tmpl:715
+#: core/templates/messages.tmpl:725
 #, fuzzy
 msgid "(disabled)"
 msgstr "テーブルを編集します"
@@ -533,7 +533,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "安全のため、複数のファイルに=.txt=拡張子をつけました"
 
-#: core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -554,7 +554,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認のメールが %1 に送信されました"
 
-#: core/templates/messages.tmpl:642
+#: core/templates/messages.tmpl:642 core/templates/messages.tmpl:652
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -783,7 +783,7 @@ msgstr "新しいファイルを添付します"
 msgid "Attachment"
 msgstr "添付ファイル"
 
-#: core/templates/messages.tmpl:672
+#: core/templates/messages.tmpl:682
 msgid "Attachment '%1' does not exist"
 msgstr "添付ファイル'%1'が存在しません"
 
@@ -1068,7 +1068,7 @@ msgstr " %1 のために新しいフォームを選択します"
 msgid "Clear all"
 msgstr "全てクリアします"
 
-#: core/lib/Foswiki/Render.pm:247
+#: core/lib/Foswiki/Render.pm:254
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1117,9 +1117,9 @@ msgid "Conflict"
 msgstr "一致しません"
 
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
-#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
-#: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
+#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:662
+#: core/templates/messages.tmpl:673 core/templates/messages.tmpl:679
+#: core/templates/messages.tmpl:687 core/templates/messages.tmpl:696
 msgid "Contact %1 if you have any questions."
 msgstr "何か疑問がございましたら、 %1までご連絡ください"
 
@@ -1231,7 +1231,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "個人サイドバーを作成します"
 
-#: core/templates/messages.tmpl:650
+#: core/templates/messages.tmpl:660
 msgid "Create the topic"
 msgstr "トピックを作成します"
 
@@ -1387,27 +1387,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "電子メールの変更に成功しました!"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE故障 - =type= は=old=と=new=と共に使用ができません。"
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE故障 - =old=と=new=と一緒に提出しなければなりません。"
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE 故障 - トークン '%PARAM1%' は =old=に群発です。 "
 
-#: core/templates/messages.tmpl:694
+#: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "拡大故障 - '%PARAM1%'への接続は許されませんでした。"
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:702
 msgid "EXPAND failed - no macro"
 msgstr "拡大故障 - マクロはありません。"
 
-#: core/templates/messages.tmpl:693
+#: core/templates/messages.tmpl:703
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "拡大故障 -  '%PARAM1%'と呼ぶトピックは存在ではありません。"
 
@@ -1514,7 +1514,7 @@ msgstr ""
 "トピック名が%1に一致する名称を選択してください。又はノンWikiWordにチェックを"
 "入れてください。"
 
-#: core/templates/messages.tmpl:703
+#: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1672,7 +1672,7 @@ msgid "Globe"
 msgstr "閉じる"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:685
 msgid "Go back"
 msgstr "戻る"
 
@@ -1687,7 +1687,7 @@ msgstr "前のページに戻って全ての必須項目を入力します"
 msgid "Go back in your browser and save your changes locally."
 msgstr "前のページに戻って全ての変更をローカルに保存します"
 
-#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:710 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -1751,7 +1751,7 @@ msgstr "ヘルプを隠します"
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 
-#: core/data/System/ManagingTopics.txt:98
+#: core/data/System/ManagingTopics.txt:100
 #, fuzzy
 msgid "History"
 msgstr "履歴"
@@ -1846,7 +1846,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:640 core/templates/messages.tmpl:650
 msgid "If you came here by clicking on a question mark link"
 msgstr "クエスチョンマークをクリックしてここに来た場合"
 
@@ -1886,7 +1886,7 @@ msgstr "何か疑問がございましたら、%1までご連絡ください。"
 msgid "If you have any questions, please contact %1."
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:150
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:176
 #: core/templates/registernotify.tmpl:25
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -1901,11 +1901,11 @@ msgstr ""
 "このトピックへのリンクがメールで届いた場合、又は只このトピックを見たいだけの"
 "場合は、[[%1][保存を取り消し]]  %2へ行ってください"
 
-#: core/templates/messages.tmpl:649
+#: core/templates/messages.tmpl:659
 msgid "If you want to create the topic"
 msgstr "トピックを作成したい場合"
 
-#: core/templates/messages.tmpl:645
+#: core/templates/messages.tmpl:655
 msgid "If you would like to create this web"
 msgstr "このウェブを作成したい場合"
 
@@ -2186,6 +2186,10 @@ msgstr "複数のフィールドが失われました"
 msgid "Missing action command"
 msgstr "アクションコマンドが失われました"
 
+#: core/templates/messages.tmpl:637
+msgid "Missing or illegal web name"
+msgstr ""
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
@@ -2259,7 +2263,7 @@ msgstr "トピックをウェブに移動します："
 msgid "Move/Rename"
 msgstr "移動/リネーム"
 
-#: core/lib/Foswiki/Search.pm:1180
+#: core/lib/Foswiki/Search.pm:1184
 msgid "NEW"
 msgstr "新"
 
@@ -2384,7 +2388,7 @@ msgid ""
 msgstr "注意：この添付ファイルを参照すると、どんなURLであっても切断されます"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
@@ -2608,7 +2612,7 @@ msgstr ""
 "%1が正確にスペルされていることをご確認してもう一度試してください。それでもだ"
 "めな場合は、%2にメールしてください。"
 
-#: core/templates/messages.tmpl:698
+#: core/templates/messages.tmpl:708
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr " %1 管理者 %2までご連絡ください"
@@ -2622,11 +2626,11 @@ msgstr "%1にアクセスしてお使いのパスワードを覚えやすいの�
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/templates/messages.tmpl:713
+#: core/templates/messages.tmpl:723
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:705
+#: core/templates/messages.tmpl:715
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -2666,7 +2670,7 @@ msgstr "title='このトピックの印刷用バージョン' accesskey='p'>印�
 msgid "Properties"
 msgstr "プロパティ"
 
-#: core/lib/Foswiki/Render.pm:255
+#: core/lib/Foswiki/Render.pm:262
 #, fuzzy
 msgid "Put it back..."
 msgstr "戻る"
@@ -2969,7 +2973,7 @@ msgstr ""
 msgid "Save table"
 msgstr "テーブルを保存します"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:241
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:18
 #: core/templates/registerfailedremoved.tmpl:19
 #: core/templates/registernotifyadmin.tmpl:16
@@ -3170,7 +3174,7 @@ msgstr ""
 msgid "Size"
 msgstr "サイズ"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:141
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:167
 #: core/templates/registernotify.tmpl:15
 msgid "Some add schedule information and vacation notice."
 msgstr "いくつかの追加スケジュールと休暇自動通知"
@@ -3190,7 +3194,7 @@ msgstr ""
 "あったとすれば、それはあなたが既に確実に登録に成功したことを意味するのかもし"
 "れません。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:140
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:166
 #: core/templates/registernotify.tmpl:14
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -3240,8 +3244,8 @@ msgstr "統計"
 msgid "Submit"
 msgstr "確定"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:152
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:237
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:178
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:245
 #: core/templates/registerfailednotremoved.tmpl:14
 #: core/templates/registerfailedremoved.tmpl:15
 #: core/templates/registernotify.tmpl:18
@@ -3292,7 +3296,7 @@ msgstr ""
 "TIP:  =\"SOAP\"=, =\"WSDL\"= =\"web service\"= を含む、但し =\"shampoo\"=, "
 "write:を含まない全てのトピックを検索します"
 
-#: core/templates/messages.tmpl:660
+#: core/templates/messages.tmpl:670
 msgid "Template %1 does not exist"
 msgstr "テンプレート%1は存在しません"
 
@@ -3300,7 +3304,7 @@ msgstr "テンプレート%1は存在しません"
 msgid "Text body"
 msgstr "テキスト内容"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:208
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:264
 #: core/templates/messages.tmpl:183 core/templates/messages.tmpl:223
 msgid "Thank you for registering"
 msgstr "ご登録ありがとうございました"
@@ -3321,7 +3325,7 @@ msgstr ""
 " %1 コラボレーションプラットフォームをご登録してありがとうございました。あな"
 "たの検証コードは%2です。"
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
 msgstr ""
 
@@ -3344,7 +3348,7 @@ msgid "The %1 topic already exists"
 msgstr "トピック%1は既に存在しています"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:647
 msgid "The %1 web does not exist"
 msgstr "%1ウェブは存在しません"
 
@@ -3530,7 +3534,7 @@ msgstr "トピックは古いフォーマットです"
 msgid "The two passwords you entered do not match."
 msgstr "二つのパスワードが一致しません。"
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:692
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
@@ -3620,7 +3624,7 @@ msgstr ""
 msgid "This is an automated e-mail from %1."
 msgstr "これは %1 より自動的に送信されたメールです。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:241
 #: core/templates/registerfailednotremoved.tmpl:8
 #: core/templates/registerfailedremoved.tmpl:8
 #: core/templates/registernotifyadmin.tmpl:8
@@ -3730,7 +3734,7 @@ msgstr "ウェブへ:"
 msgid "To web:"
 msgstr "ウェブへ:"
 
-#: core/templates/messages.tmpl:697
+#: core/templates/messages.tmpl:707
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4098,7 +4102,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告： このウェブサイトでは %<nop>INCLUDE% リンクは使用できません"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:422
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
@@ -4108,7 +4112,7 @@ msgstr "警告：'include'トピックは存在しません！"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:448
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告：'include'トピックは存在しません！"
@@ -4233,26 +4237,26 @@ msgstr ""
 "テンプレートウェブ(新しいウェブを作成するためのウェブ)をお使いになりたい場合"
 "は、アンダースコアで始まる英数字のみからなる名称を選んでください"
 
-#: core/templates/messages.tmpl:673
+#: core/templates/messages.tmpl:683
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "%1しようとする添付ファイルは存在しません。"
 
-#: core/templates/messages.tmpl:661
+#: core/templates/messages.tmpl:671
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "作成しようとするトピックのテンプレートは存在しません。"
 
-#: core/templates/messages.tmpl:656
+#: core/templates/messages.tmpl:666
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr "トピックが存在したいため、操作できない (操作: %1)"
 
-#: core/templates/messages.tmpl:667
+#: core/templates/messages.tmpl:677
 msgid "You are trying to rename a topic that does not exist."
 msgstr "リネームしようとするトピックは存在しません。"
 
-#: core/templates/messages.tmpl:646
+#: core/templates/messages.tmpl:656
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4270,7 +4274,7 @@ msgstr ""
 "fuchsia, green, lime, olive, yellow, navy, blue, teal, or aqua)を使うこともで"
 "きます"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:149
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:175
 #: core/templates/registernotify.tmpl:24
 msgid "You can change your password at via %1"
 msgstr "%1を通じてパスワードを変更することができます"
@@ -4290,7 +4294,7 @@ msgid ""
 "are disabled in your browser."
 msgstr ""
 
-#: core/templates/messages.tmpl:700
+#: core/templates/messages.tmpl:710
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
@@ -4324,7 +4328,7 @@ msgid ""
 msgstr ""
 "環境設定に不具合がある場合は、Wikiの管理者に変更してもらうことができます。"
 
-#: core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:694
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4419,7 +4423,7 @@ msgstr "あなたのパスワードは %1に変更されました"
 msgid "Your password has not been changed."
 msgstr "あなたのパスワードは %1に変更されました"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:164
 #: core/templates/registernotify.tmpl:12
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -4487,31 +4491,31 @@ msgstr ""
 "[3のスペース] * [スペース] Set [スペース] VARIABLENNAME [スペース] = [値]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:328
+#: core/lib/Foswiki/I18N.pm:331
 msgid "_language_name"
 msgstr "日本語"
 
-#: core/lib/Foswiki/Meta.pm:1837
+#: core/lib/Foswiki/Meta.pm:1827
 msgid "access denied on root"
 msgstr "アクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1775
+#: core/lib/Foswiki/Meta.pm:1765
 msgid "access denied on topic"
 msgstr "トピックへのアクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1810
+#: core/lib/Foswiki/Meta.pm:1800
 msgid "access denied on web"
 msgstr "ウェブへのアクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1847
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access not allowed on root"
 msgstr "アクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1794
+#: core/lib/Foswiki/Meta.pm:1784
 msgid "access not allowed on topic"
 msgstr "トピックへのアクセスが拒否されました"
 
-#: core/lib/Foswiki/Meta.pm:1822
+#: core/lib/Foswiki/Meta.pm:1812
 msgid "access not allowed on web"
 msgstr "ウェブへのアクセスが拒否されました"
 
@@ -4552,7 +4556,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "トピック設定のチェックを忘れないでください"
 
-#: core/templates/messages.tmpl:711
+#: core/templates/messages.tmpl:721
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -4583,7 +4587,7 @@ msgstr "元のテキストフォーマット"
 msgid "indicates mandatory fields"
 msgstr "必須入力項目を明示します"
 
-#: core/templates/messages.tmpl:707 core/templates/messages.tmpl:709
+#: core/templates/messages.tmpl:717 core/templates/messages.tmpl:719
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
@@ -5167,9 +5171,10 @@ msgstr "なぜ確認するか問われているか"
 #~ msgstr "%1の中の全てのトピック"
 
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return launchWindow"
-#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
-#~ "more information about attaching files."
+#~ "Please see <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' "
+#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
+#~ "files."
 #~ msgstr ""
 #~ "<a target='Macros' onclick=\"return launchWindow('%1','FileAttachment')\" "
 #~ "href='' rel='nofollow'>添付ファイル</a> を参照すると、もっと多くの添付ファ"
@@ -5215,13 +5220,13 @@ msgstr "なぜ確認するか問われているか"
 #~ "てください。二回目はエラーが発生しなくなります"
 
 #~ msgid ""
-#~ "&lt;a target='ManagingWebs' onclick=\"return launchWindow"
-#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'&gt;Get help on managing "
-#~ "webs&lt;/a&gt;"
+#~ "&lt;a target='ManagingWebs' onclick=\"return "
+#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'&gt;Get help "
+#~ "on managing webs&lt;/a&gt;"
 #~ msgstr ""
-#~ "&lt;a target='ManagingWebs' onclick=\"return launchWindow"
-#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'&gt;ウェブ管理のヘルプ情報"
-#~ "をもらいします&lt;/a&gt;"
+#~ "&lt;a target='ManagingWebs' onclick=\"return "
+#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'&gt;ウェブ管理"
+#~ "のヘルプ情報をもらいします&lt;/a&gt;"
 
 #~ msgid "&lt;em&gt;in all public webs&lt;/em&gt;"
 #~ msgstr "&lt;em&gt;全てのパブリックウェブにあります&lt;/em&gt;"

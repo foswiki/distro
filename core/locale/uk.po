@@ -56,7 +56,7 @@ msgstr "(вилучити)"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - Помилка реєстрації %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:227
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -86,7 +86,7 @@ msgstr ""
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 містить список інших користувачів Foswiki"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 зареєстрований з адресою електронної пошти %2"
@@ -172,7 +172,7 @@ msgstr "%1 щоб налаштувати параметри для розділ�
 msgid "%1 to start working on the new web"
 msgstr "%1 щоб почати працювати в новому розділі"
 
-#: core/templates/messages.tmpl:655 core/templates/messages.tmpl:666
+#: core/templates/messages.tmpl:665 core/templates/messages.tmpl:676
 msgid "%1 topic does not exist"
 msgstr "тема %1 не існує"
 
@@ -182,7 +182,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 зареєстрований з адресою електронної пошти %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:269
 #, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 переміщена з %2 до %3 користувачем %4"
@@ -288,7 +288,7 @@ msgstr "(вилучити файл)"
 msgid "(delete)"
 msgstr "(вилучити)"
 
-#: core/templates/messages.tmpl:715
+#: core/templates/messages.tmpl:725
 #, fuzzy
 msgid "(disabled)"
 msgstr "Редагувати таблицю"
@@ -542,7 +542,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Розширення =.txt= додано до деяких імен файлів з міркувань безпеки"
 
-#: core/templates/messages.tmpl:638
+#: core/templates/messages.tmpl:638 core/templates/messages.tmpl:648
 #, fuzzy
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
@@ -564,7 +564,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Лист підтвердження відправлений по електронній пошті: %1"
 
-#: core/templates/messages.tmpl:642
+#: core/templates/messages.tmpl:642 core/templates/messages.tmpl:652
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -801,7 +801,7 @@ msgstr "Прикріпити новий файл"
 msgid "Attachment"
 msgstr "Прикріплений файл"
 
-#: core/templates/messages.tmpl:672
+#: core/templates/messages.tmpl:682
 msgid "Attachment '%1' does not exist"
 msgstr "Файл '%1' не існує"
 
@@ -1097,7 +1097,7 @@ msgstr "Виберіть нову форму для %1"
 msgid "Clear all"
 msgstr "Очистити усе"
 
-#: core/lib/Foswiki/Render.pm:247
+#: core/lib/Foswiki/Render.pm:254
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1148,9 +1148,9 @@ msgid "Conflict"
 msgstr "Конфлікт"
 
 #: core/templates/messages.tmpl:621 core/templates/messages.tmpl:627
-#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:652
-#: core/templates/messages.tmpl:663 core/templates/messages.tmpl:669
-#: core/templates/messages.tmpl:677 core/templates/messages.tmpl:686
+#: core/templates/messages.tmpl:631 core/templates/messages.tmpl:662
+#: core/templates/messages.tmpl:673 core/templates/messages.tmpl:679
+#: core/templates/messages.tmpl:687 core/templates/messages.tmpl:696
 msgid "Contact %1 if you have any questions."
 msgstr "Зв'яжіться з %1 якщо у Вас є питання."
 
@@ -1270,7 +1270,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Створити особисту панель"
 
-#: core/templates/messages.tmpl:650
+#: core/templates/messages.tmpl:660
 msgid "Create the topic"
 msgstr "Створити тему"
 
@@ -1430,27 +1430,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Адреса електронної пошти успішно змінена!"
 
-#: core/templates/messages.tmpl:689
+#: core/templates/messages.tmpl:699
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr ""
 
-#: core/templates/messages.tmpl:690
+#: core/templates/messages.tmpl:700
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr ""
 
-#: core/templates/messages.tmpl:691
+#: core/templates/messages.tmpl:701
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr ""
 
-#: core/templates/messages.tmpl:694
+#: core/templates/messages.tmpl:704
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr ""
 
-#: core/templates/messages.tmpl:692
+#: core/templates/messages.tmpl:702
 msgid "EXPAND failed - no macro"
 msgstr ""
 
-#: core/templates/messages.tmpl:693
+#: core/templates/messages.tmpl:703
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr ""
 
@@ -1557,7 +1557,7 @@ msgstr ""
 "виберіть таку назву теми, яка була б %1.ВікіІм'я або переконаєтеся в тому, "
 "що Ви вирішили використовувати не-ВікіІмена"
 
-#: core/templates/messages.tmpl:703
+#: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -1719,7 +1719,7 @@ msgid "Globe"
 msgstr "Закрити"
 
 #: core/templates/foswiki.tmpl:130 core/templates/messages.tmpl:493
-#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:675
+#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:685
 msgid "Go back"
 msgstr "Повернутися"
 
@@ -1738,7 +1738,7 @@ msgstr ""
 "Поверніться <a href=\"javascript:history.go(-1)\">на попередню сторінку</a>, "
 "використовуючи стандартну навігацію браузера і збережіть Ваші зміни локально."
 
-#: core/templates/messages.tmpl:700 core/templates/validate.tmpl:30
+#: core/templates/messages.tmpl:710 core/templates/validate.tmpl:30
 msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
@@ -1802,7 +1802,7 @@ msgstr ""
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
 msgstr ""
 
-#: core/data/System/ManagingTopics.txt:98
+#: core/data/System/ManagingTopics.txt:100
 #, fuzzy
 msgid "History"
 msgstr "Історія"
@@ -1898,7 +1898,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:640
+#: core/templates/messages.tmpl:640 core/templates/messages.tmpl:650
 msgid "If you came here by clicking on a question mark link"
 msgstr "Якщо Ви потрапили сюди клацнувши на знак питання"
 
@@ -1938,7 +1938,7 @@ msgstr ""
 msgid "If you have any questions, please contact %1."
 msgstr "Якщо у Вас є які-небудь питання, будь ласка, пишіть %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:150
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:176
 #: core/templates/registernotify.tmpl:25
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -1953,11 +1953,11 @@ msgstr ""
 "просто хотіли на неї подивитися [[%1][відмініть збереження]] щоб перейти до "
 "%2."
 
-#: core/templates/messages.tmpl:649
+#: core/templates/messages.tmpl:659
 msgid "If you want to create the topic"
 msgstr "Якщо Ви хочете створити тему"
 
-#: core/templates/messages.tmpl:645
+#: core/templates/messages.tmpl:655
 msgid "If you would like to create this web"
 msgstr "Якщо Ви хочете створити цей розділ"
 
@@ -2244,6 +2244,10 @@ msgstr "Відсутні поля"
 msgid "Missing action command"
 msgstr "Не визначена дія, пов'язана з командою"
 
+#: core/templates/messages.tmpl:637
+msgid "Missing or illegal web name"
+msgstr ""
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
 msgid "Modify search"
@@ -2317,7 +2321,7 @@ msgstr "Перемістити тему до розділу:"
 msgid "Move/Rename"
 msgstr "Перемістити / перейменувати"
 
-#: core/lib/Foswiki/Search.pm:1180
+#: core/lib/Foswiki/Search.pm:1184
 msgid "NEW"
 msgstr "НОВА"
 
@@ -2444,7 +2448,7 @@ msgstr ""
 "цього переміщення."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
 #: core/templates/messages.tmpl:355 core/templates/messages.tmpl:413
 #: core/templates/registerconfirm.tmpl:13
 #: core/templates/registernotify.tmpl:22
@@ -2678,7 +2682,7 @@ msgstr ""
 "Будь ласка, перевірте правильність написання %1 та спробуйте ще раз. Якщо Ви "
 "здивовані, будь ласка, відправте електронний лист за адресою %2."
 
-#: core/templates/messages.tmpl:698
+#: core/templates/messages.tmpl:708
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -2696,11 +2700,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/templates/messages.tmpl:713
+#: core/templates/messages.tmpl:723
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:705
+#: core/templates/messages.tmpl:715
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -2739,7 +2743,7 @@ msgstr ""
 msgid "Properties"
 msgstr "Властивості"
 
-#: core/lib/Foswiki/Render.pm:255
+#: core/lib/Foswiki/Render.pm:262
 #, fuzzy
 msgid "Put it back..."
 msgstr "повернути на місце"
@@ -3041,7 +3045,7 @@ msgstr ""
 msgid "Save table"
 msgstr "Зберегти таблицю"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:241
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:18
 #: core/templates/registerfailedremoved.tmpl:19
 #: core/templates/registernotifyadmin.tmpl:16
@@ -3242,7 +3246,7 @@ msgstr ""
 msgid "Size"
 msgstr "Розмір"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:141
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:167
 #: core/templates/registernotify.tmpl:15
 msgid "Some add schedule information and vacation notice."
 msgstr ""
@@ -3263,7 +3267,7 @@ msgstr ""
 "таким чином, що один і той же запит відправляється двічі. Можливо, що Ви "
 "*вже* реєструвалися."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:140
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:166
 #: core/templates/registernotify.tmpl:14
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -3314,8 +3318,8 @@ msgstr "Статистика"
 msgid "Submit"
 msgstr "Застосувати"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:152
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:237
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:178
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:245
 #: core/templates/registerfailednotremoved.tmpl:14
 #: core/templates/registerfailedremoved.tmpl:15
 #: core/templates/registernotify.tmpl:18
@@ -3366,7 +3370,7 @@ msgstr ""
 "\"WSDL\"=, а також словосполучення =\"web service\"=, без слова =\"shampoo"
 "\"=, введіть:"
 
-#: core/templates/messages.tmpl:660
+#: core/templates/messages.tmpl:670
 #, fuzzy
 msgid "Template %1 does not exist"
 msgstr "Розділ %1 не існує"
@@ -3375,7 +3379,7 @@ msgstr "Розділ %1 не існує"
 msgid "Text body"
 msgstr "У тексті сторінки"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:208
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:264
 #: core/templates/messages.tmpl:183 core/templates/messages.tmpl:223
 msgid "Thank you for registering"
 msgstr "Спасибі за реєстрацію"
@@ -3397,7 +3401,7 @@ msgstr ""
 "Спасибі, що Ви реєструвалися на інформаційному ресурсі %1, платформі для "
 "спільної творчості та роботи. Ваш код підтвердження %2."
 
-#: core/templates/messages.tmpl:680
+#: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
 msgstr ""
 
@@ -3419,7 +3423,7 @@ msgid "The %1 topic already exists"
 msgstr "Тема %1 вже існує"
 
 #. ($parent)
-#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:637
+#: core/lib/Foswiki/UI/Manage.pm:178 core/templates/messages.tmpl:647
 msgid "The %1 web does not exist"
 msgstr "Розділ %1 не існує"
 
@@ -3609,7 +3613,7 @@ msgstr "Тема в старому форматі"
 msgid "The two passwords you entered do not match."
 msgstr "Два введених Вами паролі не співпадають."
 
-#: core/templates/messages.tmpl:682
+#: core/templates/messages.tmpl:692
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr ""
 
@@ -3704,7 +3708,7 @@ msgstr ""
 msgid "This is an automated e-mail from %1."
 msgstr "Це автоматичне повідомлення від %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:241
 #: core/templates/registerfailednotremoved.tmpl:8
 #: core/templates/registerfailedremoved.tmpl:8
 #: core/templates/registernotifyadmin.tmpl:8
@@ -3813,7 +3817,7 @@ msgstr "У розділ:"
 msgid "To web:"
 msgstr "У розділ:"
 
-#: core/templates/messages.tmpl:697
+#: core/templates/messages.tmpl:707
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4184,7 +4188,7 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Увага: Цей сайт не дозволяє використовувати %<nop>INCLUDE% для URL адрес"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:422
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Примітка: ця тема не існує"
@@ -4194,7 +4198,7 @@ msgstr "Примітка: ця тема не існує"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Примітка: ця тема не існує"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:448
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Примітка: ця тема не існує"
@@ -4324,29 +4328,29 @@ msgstr ""
 "вибирайте ім'я, що починається з символу підкреслення і не містить інших "
 "символів, окрім букв та цифр."
 
-#: core/templates/messages.tmpl:673
+#: core/templates/messages.tmpl:683
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Ви намагаєтеся %1 неіснуючий файл."
 
-#: core/templates/messages.tmpl:661
+#: core/templates/messages.tmpl:671
 #, fuzzy
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:656
+#: core/templates/messages.tmpl:666
 #, fuzzy
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:667
+#: core/templates/messages.tmpl:677
 #, fuzzy
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
 
-#: core/templates/messages.tmpl:646
+#: core/templates/messages.tmpl:656
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -4364,7 +4368,7 @@ msgstr ""
 "silver,  gray, white, maroon, red, purple, fuchsia, green, lime, olive, "
 "yellow, navy, blue, teal или aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:149
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:175
 #: core/templates/registernotify.tmpl:24
 msgid "You can change your password at via %1"
 msgstr "Ви можете змінити свій пароль при допомозі %1"
@@ -4384,7 +4388,7 @@ msgid ""
 "are disabled in your browser."
 msgstr ""
 
-#: core/templates/messages.tmpl:700
+#: core/templates/messages.tmpl:710
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
@@ -4419,7 +4423,7 @@ msgstr ""
 "Ви можете спробувати попросити Вашого адміністратора Wiki змінити "
 "налаштування якщо вони не підходять Вашому оточенню."
 
-#: core/templates/messages.tmpl:684
+#: core/templates/messages.tmpl:694
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -4515,7 +4519,7 @@ msgstr "Ваш пароль змінений на %1."
 msgid "Your password has not been changed."
 msgstr "Ваш пароль змінений на %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:138
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:164
 #: core/templates/registernotify.tmpl:12
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -4585,31 +4589,31 @@ msgstr ""
 "[кратне 3-м пропускам] * [пропуск] Set [пропуск] ІМ'ЯЗМІННОЇ [пропуск] = "
 "[значення]"
 
-#: core/lib/Foswiki/I18N.pm:328
+#: core/lib/Foswiki/I18N.pm:331
 msgid "_language_name"
 msgstr "Українська"
 
-#: core/lib/Foswiki/Meta.pm:1837
+#: core/lib/Foswiki/Meta.pm:1827
 msgid "access denied on root"
 msgstr "доступ відхилений"
 
-#: core/lib/Foswiki/Meta.pm:1775
+#: core/lib/Foswiki/Meta.pm:1765
 msgid "access denied on topic"
 msgstr "доступ до теми відхилений"
 
-#: core/lib/Foswiki/Meta.pm:1810
+#: core/lib/Foswiki/Meta.pm:1800
 msgid "access denied on web"
 msgstr "доступ до розділу відхилений"
 
-#: core/lib/Foswiki/Meta.pm:1847
+#: core/lib/Foswiki/Meta.pm:1837
 msgid "access not allowed on root"
 msgstr "доступ заборонений"
 
-#: core/lib/Foswiki/Meta.pm:1794
+#: core/lib/Foswiki/Meta.pm:1784
 msgid "access not allowed on topic"
 msgstr "доступ до теми заборонений"
 
-#: core/lib/Foswiki/Meta.pm:1822
+#: core/lib/Foswiki/Meta.pm:1812
 msgid "access not allowed on web"
 msgstr "доступ до розділу заборонений"
 
@@ -4650,7 +4654,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "не забудьте перевірити налаштування Вашої персональної сторінки"
 
-#: core/templates/messages.tmpl:711
+#: core/templates/messages.tmpl:721
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -4681,7 +4685,7 @@ msgstr "у вигляді початкового тексту"
 msgid "indicates mandatory fields"
 msgstr "указує обов'язкові поля"
 
-#: core/templates/messages.tmpl:707 core/templates/messages.tmpl:709
+#: core/templates/messages.tmpl:717 core/templates/messages.tmpl:719
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 
@@ -5255,9 +5259,10 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='Macros' onclick=\"return launchWindow"
-#~ "('%1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for "
-#~ "more information about attaching files."
+#~ "Please see <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' "
+#~ "rel='nofollow'>FileAttachment</a> for more information about attaching "
+#~ "files."
 #~ msgstr ""
 #~ "*Подсказка:* Вы можете прочитать в <a target='Macros' onclick=\"return "
 #~ "launchWindow('%1','FileAttachment')\" href='' "
@@ -5329,13 +5334,13 @@ msgstr ""
 #~ "сработать."
 
 #~ msgid ""
-#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
-#~ "('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing "
-#~ "webs</a>"
+#~ "<a target='ManagingWebs' onclick=\"return "
+#~ "launchWindow('%1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on "
+#~ "managing webs</a>"
 #~ msgstr ""
-#~ "<a target='ManagingWebs' onclick=\"return launchWindow"
-#~ "('%1','УправлениеРазделами')\" href='%2' rel='nofollow'>Справка по "
-#~ "Управлению Разделами</a>"
+#~ "<a target='ManagingWebs' onclick=\"return "
+#~ "launchWindow('%1','УправлениеРазделами')\" href='%2' "
+#~ "rel='nofollow'>Справка по Управлению Разделами</a>"
 
 #~ msgid ""
 #~ "<span class='twikiAlert'><b>Do not forget</b></span> to save your changes."
