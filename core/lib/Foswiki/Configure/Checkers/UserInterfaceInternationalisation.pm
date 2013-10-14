@@ -78,7 +78,12 @@ sub have_vulnerable_maketext {
 Your version of Locale::Maketext $maketext_ver may introduce a dangerous code
 injection security vulnerability. Upgrade to version $maketext_minver or newer. See
 <a href="http://foswiki.org/Support/SecurityAlert-CVE-2012-6329">CVE-2012-6329</a>
-for more advice.
+for more advice.<br />
+Foswiki includes its own fix for older versions. However, some distributions of
+Locale::Maketext have fixed this issue without updating the version number, and this
+combination will result in misformatted output in some cases. You can install an
+up-to-date version from CPAN to fix that and get rid of this message, until your
+distribution provides a correctly versioned package.
 HERE
 }
 
