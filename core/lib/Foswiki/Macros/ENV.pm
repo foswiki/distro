@@ -25,6 +25,12 @@ sub ENV {
     elsif ( $key eq 'REMOTE_ADDR' ) {
         $val = $this->{request}->remoteAddress;
     }
+    elsif ( $key eq 'PATH_INFO' ) {
+        $val = $ENV{$key};
+        if ( $val && $val =~ m/['"]/g ) {
+            $val = substr( $val, 0, ( ( pos $val ) - 1 ) );
+        }
+    }
     else {
 
         # TSA SMELL: Foswiki::Request doesn't support

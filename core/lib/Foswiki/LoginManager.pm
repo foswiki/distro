@@ -585,6 +585,10 @@ sub redirectToLoggedOutUrl {
         $path_info = '/' . $web . '/' . $topic;
     }
 
+    if ( $path_info =~ m/['"]/ ) {
+        $path_info = substr( $path_info, 0, ( ( pos $path_info ) - 1 ) );
+    }
+
     my $redirectUrl;
     if ($path_info) {
         $redirectUrl = $session->{request}->url() . $path_info;

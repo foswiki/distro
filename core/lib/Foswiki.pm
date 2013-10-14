@@ -1921,6 +1921,11 @@ sub new {
 
     #look at the url path
     my $pathInfo = $query->path_info();
+
+    # Truncate the path_info at the first quote
+    if ( $pathInfo =~ m/['"]/g ) {
+        $pathInfo = substr( $pathInfo, 0, ( ( pos $pathInfo ) - 1 ) );
+    }
     if ( $pathInfo && $pathInfo =~ m|^/+(.+)| ) {
         $pathInfo = $1;
         if ( $pathInfo =~ m|[./]| ) {
