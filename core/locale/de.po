@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-26 00:09+0200\n"
-"Last-Translator: Oliver <oliver@wiki-one.net>\n"
+"PO-Revision-Date: 2013-10-14 17:29+0200\n"
+"Last-Translator: Michael <daum@michaeldaumconsulting.com>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
 msgid "%*(%1,day) "
-msgstr "%*(%1,Tag)"
+msgstr "%*(%1,Tag) "
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:485
@@ -64,7 +64,7 @@ msgstr "%1 Web"
 
 #: core/templates/messages.tmpl:518
 msgid "%1 added to the %2 group. "
-msgstr "%1 wurde der Gruppe %2 hinzugefügt."
+msgstr "%1 wurde der Gruppe %2 hinzugefügt. "
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
@@ -278,9 +278,8 @@ msgid "(delete)"
 msgstr "(löschen)"
 
 #: core/templates/messages.tmpl:725
-#, fuzzy
 msgid "(disabled)"
-msgstr "Tabelle editieren"
+msgstr "(deaktiviert)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -994,19 +993,19 @@ msgstr "Sprache wechseln"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr "Verweise in Topics ändern, die auf !%1 zeigen (alle Webs):"
+msgstr "Verweise in Topics ändern, die aus allen Webs auf !%1 zeigen:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr "Verweise in Topics ändern, die auf !%1 zeigen (nur im %2 Web):"
+msgstr "Verweise in Topics ändern, die aus dem %2 Web auf !%1 zeigen:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr "Verweise in Topics ändern, die auf %1 zeigen (alle Webs):"
+msgstr "Verweise in Topics ändern, die aus allen Webs auf %1 zeigen:"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr "Verweise in Topics ändern, die auf %1 zeigen (nur im %2 Web):"
+msgstr "Verweise in Topics ändern, die aus dem %2 Web auf %1 zeigen:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
@@ -1447,9 +1446,8 @@ msgid "Edit"
 msgstr "Editieren"
 
 #: core/data/System/VarMAKETEXT.txt:60
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,Minute) "
+msgstr "Editiere %*(%1,Datei) "
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1638,7 +1636,7 @@ msgid ""
 "Wikipedia]]."
 msgstr ""
 "Für weitere Informationen über CSRF (cross-site request forgery) und die "
-"damit für Sie potentiell verbundenen Gefahren, siehe"
+"damit für Sie potentiell verbundenen Gefahren, siehe [[%1][Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -2010,7 +2008,7 @@ msgstr "Inkorrekter %1"
 
 #: core/templates/messages.tmpl:311
 msgid "Incorrect %1.WikiNames:"
-msgstr "Inkorrekter [[%1.WikiNames][<nop>WikiName]]:"
+msgstr "Inkorrekte [[%1.WikiNames][<nop>WikiNamen]]:"
 
 #: core/templates/messages.tmpl:105
 msgid "Incorrect Password"
