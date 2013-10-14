@@ -90,6 +90,11 @@ sub preparePath {
     # PATH_INFO is '/Main/WebHome', i.e. the text after the script name;
     # invalid PATH_INFO is often a full path starting with '/cgi-bin/...'.
     my $pathInfo = $ENV{PATH_INFO} || '';
+
+    if ( $pathInfo =~ m/['"]/g ) {
+        $pathInfo = substr( $pathInfo, 0, ( ( pos $pathInfo ) - 1 ) );
+    }
+
     unless ( defined $ENV{SCRIPT_NAME} ) {
 
         # CGI/1.1 (rfc3875) states that the server MUST set

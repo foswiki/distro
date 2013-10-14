@@ -1044,7 +1044,7 @@ sub _isRedirectSafe {
     my $redirect = shift;
 
     return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
-    return 1 if $redirect =~ m#^/#;    # relative URL - OK
+    return 1 if $redirect =~ m#^/#;                    # relative URL - OK
 
     #TODO: this should really use URI
     # Compare protocol, host name and port number
@@ -1858,6 +1858,12 @@ sub new {
     }
 
     my $pathInfo = $query->path_info();
+
+    # Truncate the path_info at any quote
+    if ( $pathInfo =~ m/['"]/g ) {
+        $pathInfo = substr( $pathInfo, 0, ( ( pos $pathInfo ) - 1 ) );
+    }
+
     $pathInfo =~ s|//+|/|g;    # multiple //'s are illogical
 
     # Get the web and topic names from PATH_INFO

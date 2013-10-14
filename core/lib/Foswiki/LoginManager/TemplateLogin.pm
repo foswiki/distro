@@ -262,6 +262,12 @@ sub login {
     # TODO: add JavaScript password encryption in the template
     $origurl ||= '';
 
+    # Truncate the path_info at first quote
+    my $path_info = $query->path_info();
+    if ( $path_info =~ m/['"]/g ) {
+        $path_info = substr( $path_info, 0, ( ( pos $path_info ) - 1 ) );
+    }
+
     # Set session preferences that will be expanded when the login
     # template is instantiated
     $session->{prefs}->setSessionPreferences(
@@ -273,7 +279,7 @@ sub login {
         # Could have used %ENV{PATH_INFO} (after extending {AccessibleENV})
         # but decided against it as the path_info might have been rewritten
         # from the original env var.
-        PATH_INFO => $query->path_info(),
+        PATH_INFO => $path_info,
         BANNER    => $banner,
         NOTE      => $note,
         ERROR     => $error
