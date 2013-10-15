@@ -1,8 +1,3 @@
-/*
-To compress this file you can use Dojo ShrinkSafe compressor at
-http://alex.dojotoolkit.org/shrinksafe/
-*/
-
 /**
 Singleton class. Requires behaviour.js from BehaviourContrib.
 */

@@ -488,6 +488,7 @@ You can override some default settings in the plugin by setting the following [[
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Oct 2013 | 1.6.18 Foswikitask:Item12597: fixed collapse/expand all |
 |  28 Nov 2012 | 1.6.17 Foswikitask:Item12079: Scripts added to the wrong zone <br />\
                  Foswikitask:Item11267: Convert to perl version strings. |
 |  18 Sep 2012 | 1.6.16 Foswikitask:Item11983: fixed script being added to the wrong zone |
