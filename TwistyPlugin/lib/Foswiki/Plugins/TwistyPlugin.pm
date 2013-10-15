@@ -17,8 +17,8 @@ use warnings;
 use vars qw( @twistystack $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-use version; our $VERSION = version->declare("v1.6.16");
-our $RELEASE = '1.6.16';
+use version; our $VERSION = version->declare("v1.6.18");
+our $RELEASE = '1.6.18';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -265,9 +265,9 @@ sub _twistyBtn {
          $params->{ $twistyControlState . 'imgleft' }
       || $params->{'imgleft'}
       || '';
-    $img      =~ s/['\"]//go;
+    $img =~ s/['\"]//go;
     $imgright =~ s/['\"]//go;
-    $imgleft  =~ s/['\"]//go;
+    $imgleft =~ s/['\"]//go;
     my $imgTag =
       ( $img ne '' ) ? '<img src="' . $img . '" border="0" alt="" />' : '';
     my $imgRightTag =
@@ -338,9 +338,9 @@ sub _createHtmlProperties {
     push( @classList, $class ) if $class && !$isTrigger;
     push( @classList, 'twistyRememberSetting' )
       if Foswiki::Func::isTrue($remember);
-    push( @classList, 'twistyForgetSetting' ) if $remember eq 'off';
-    push( @classList, 'twistyStartHide' )     if $startHidden;
-    push( @classList, 'twistyStartShow' )     if $startShown;
+    push( @classList, 'twistyForgetSetting' )  if $remember eq 'off';
+    push( @classList, 'twistyStartHide' )      if $startHidden;
+    push( @classList, 'twistyStartShow' )      if $startShown;
     push( @classList, 'twistyFirstStartHide' ) if $firstStartHidden;
     push( @classList, 'twistyFirstStartShow' ) if $firstStartShown;
 
@@ -469,7 +469,7 @@ sub _wrapInContainerDivIfNoJavascripClose {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
