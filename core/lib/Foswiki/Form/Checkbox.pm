@@ -92,7 +92,7 @@ sub renderForEdit {
     my $session = $this->{session};
     my $extra   = '';
     if ( $this->{type} =~ m/\+buttons/ ) {
-        $extra = CGI::br();
+        $extra = "<div class='foswikiButtonBox'>";
         $extra .= CGI::button(
             -class   => 'foswikiButton',
             -value   => $session->i18n->maketext('Set all'),
@@ -100,7 +100,6 @@ sub renderForEdit {
               . $this->{name}
               . ']").prop("checked", true);',
         );
-        $extra .= '&nbsp;';
         $extra .= CGI::button(
             -class   => 'foswikiButton',
             -value   => $session->i18n->maketext('Clear all'),
@@ -108,6 +107,7 @@ sub renderForEdit {
               . $this->{name}
               . ']").prop("checked", true);',
         );
+        $extra .= "</div>";
     }
     $value = '' unless defined($value) && length($value);
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
