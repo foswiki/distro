@@ -556,13 +556,13 @@ p=align;
 param=name,type,value,valuetype;
 pre=width;
 q=cite;
-table=align,bgcolor,frame,rules,summary,width;
+table=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
 tbody=align,char,charoff,valign;
-td=abbr,align,axis,bgcolor,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
+td=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
 tfoot=align,char,charoff,valign;
-th=abbr,align,axis,bgcolor,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
+th=abbr,align,axis,bgcolor,.*?background-color:.*,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
 thead=align,char,charoff,valign;
-tr=bgcolor,char,charoff,valign;
+tr=bgcolor,.*?background-color:.*,char,charoff,valign;
 ul=compact,type;
 DEFAULT
         foreach my $def ( split( /;\s*/s, $protection ) ) {
@@ -578,9 +578,13 @@ DEFAULT
     }
     foreach my $row (@protectedByAttr) {
         if ( $tag =~ /^$row->{tag}$/i ) {
+
+            #print STDERR
+            #  "Matched $tag, looking for ^($row->{attrs})\$ in $attr\n";
             if ( $attr =~ /^($row->{attrs})$/i ) {
 
- #print STDERR "Protecting  $tag with $attr matches $row->{attrs} \n";    #debug
+            #   print STDERR
+            #     "Protecting  $tag with $attr matches $row->{attrs} \n"; #debug
                 return 1;
             }
         }
@@ -797,8 +801,8 @@ sub _restUpload {
     $fileComment =~ s/\s+/ /go;
     $fileComment =~ s/^\s*//o;
     $fileComment =~ s/\s*$//o;
-    $fileName    =~ s/\s*$//o;
-    $filePath    =~ s/\s*$//o;
+    $fileName =~ s/\s*$//o;
+    $filePath =~ s/\s*$//o;
 
     unless (
         Foswiki::Func::checkAccessPermission(
