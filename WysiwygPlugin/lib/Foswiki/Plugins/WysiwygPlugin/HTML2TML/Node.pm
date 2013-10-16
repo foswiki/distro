@@ -1041,6 +1041,16 @@ sub _isConvertableTableRow {
                 return 0 unless $rowspan;
                 $rowspan->[$colIdx] = $kid->{attrs}->{rowspan} - 1;
             }
+            my %atts = %{ $kid->{attrs} };
+            foreach my $key ( keys %atts ) {
+
+                #print STDERR "Found Row/Cell Attr $key = $atts{$key} \n";
+                return 0
+                  if ( $key eq 'style'
+                    && $atts{$key} =~ /(background|border)/ )
+                  ;    # Preserve Custom border / background
+            }
+
         }
         $text =~ s/&nbsp;/$WC::NBSP/g;
         $text =~ s/&#160;/$WC::NBSP/g;
@@ -1926,6 +1936,19 @@ sub _handleTABLE {
     # Should really look at the table attrs, but to heck with it
 
     return ( 0, undef ) if ( $options & $WC::NO_BLOCK_TML );
+
+    my %atts = %{ $this->{attrs} };
+
+    #   foreach my $key ( keys %atts ) {
+    #       print STDERR "Found TABLE Attr $key = $atts{$key} \n";
+    #       }
+
+# Preserve HTML if non-default options are requested for padding, spacing, border.
+    return ( 0, undef )
+      if ( defined $atts{cellpadding} && $atts{cellpadding} ne '0' );
+    return ( 0, undef )
+      if ( defined $atts{cellspacing} && $atts{cellspacing} ne '1' );
+    return ( 0, undef ) if ( defined $atts{border} && $atts{border} ne '1' );
 
     my @table;
     return ( 0, undef )

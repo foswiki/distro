@@ -543,11 +543,91 @@ BLAH
     },
     {
         exec => $HTML2TML,
+        name => 'Item12448_IgnoreDefaultAttrs',
+        html => <<'HERE',
+<table border="1" cellspacing="1" cellpadding="0">
+<tbody>
+<tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
+<tr>b0<td colspan="2">b1</td><td>b3</td></tr>
+<tr>c0<td>c1</td><td>c2</td><td>c3</td></tr>
+</tbody>
+</table>
+HERE
+        tml => <<'HERE'
+| a1 | a2 | a3 |
+| b1 || b3 |
+| c1 | c2 | c3 |
+HERE
+    },
+
+    #<tr><td border-style: solid; border-width: 1px;">asdf</td>
+    {
+        exec => $HTML2TML,
+        name => 'Item12448_PreserveTableCellAttrs',
+        html => <<'HERE',
+<table border="1" cellspacing="1" cellpadding="0">
+<tbody>
+<tr><td style="border-color: #35c953; ">asdf</td></tr>
+</tbody>
+</table>
+<p/><p/>
+<table border="1" cellspacing="1" cellpadding="0">
+<tbody>
+<tr><td style="background-color: #e9154c;">asdf</td></tr>
+</tbody>
+</table>
+HERE
+        tml => <<'HERE'
+<table border="1" cellpadding="0" cellspacing="1"> <tbody> <tr><td style="border-color: #35c953; ">asdf</td></tr> </tbody> </table>
+
+<table border="1" cellpadding="0" cellspacing="1"> <tbody> <tr><td style="background-color: #e9154c;">asdf</td></tr> </tbody> </table>
+HERE
+    },
+    {
+        exec => $HTML2TML,
+        name => 'Item12448_PreserveTableAttrs',
+        html => <<'HERE',
+<table border="0" cellspacing="1" cellpadding="0">
+<tbody>
+<tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
+<tr>b0<td colspan="2">b1</td><td>b3</td></tr>
+<tr>c0<td>c1</td><td>c2</td><td>c3</td></tr>
+</tbody>
+</table>
+<p/>
+<p/>
+<table border="1" cellspacing="9" cellpadding="0">
+<tbody>
+<tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
+<tr>b0<td colspan="2">b1</td><td>b3</td></tr>
+<tr>c0<td>c1</td><td>c2</td><td>c3</td></tr>
+</tbody>
+</table>
+<p/>
+<p/>
+<table border="1" cellspacing="1" cellpadding="3">
+<tbody>
+<tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
+<tr>b0<td colspan="2">b1</td><td>b3</td></tr>
+<tr>c0<td>c1</td><td>c2</td><td>c3</td></tr>
+</tbody>
+</table>
+HERE
+        tml => <<'HERE'
+<table border="0" cellpadding="0" cellspacing="1"> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan="2">b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
+
+<table border="1" cellpadding="0" cellspacing="9"> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan="2">b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
+
+<table border="1" cellpadding="3" cellspacing="1"> <tbody> <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr> <tr>b0<td colspan="2">b1</td><td>b3</td></tr> <tr>c0<td>c1</td><td>c2</td><td>c3</td></tr> </tbody> </table>
+HERE
+    },
+    {
+        exec => $HTML2TML,
         name => 'kupuTable_NoTablePlugin',
         setup =>
           sub { Foswiki::Func::getContext()->{'TablePluginEnabled'} = 0; },
         html => <<'HERE',
-<table cellspacing="0" cellpadding="8" border="1" class="plain" _moz_resizing="true">
+<table cellspacing="1" cellpadding="0" border="1" class="plain" _moz_resizing="true">
 <tbody>
 <tr>a0<td>a1</td><td>a2</td><td>a3</td></tr>
 <tr>b0<td colspan="2">b1</td><td>b3</td></tr>
@@ -767,7 +847,7 @@ HERE
         name => 'Item2618_ExtraneousCaretMarkerInTables',
         exec => $HTML2TML | $ROUNDTRIP,
         html => <<"HERE",
-$deleteme<table border="0"> <tbody> 
+$deleteme<table border="1"> <tbody> 
   <tr> <td>Foo</td> <span id="__caret"> </span> <td>a</td> </tr>
 </tbody> </table>
 HERE
