@@ -95,15 +95,19 @@ sub renderForEdit {
         my $boxes = scalar( @{ $this->getOptions() } );
         $extra = CGI::br();
         $extra .= CGI::button(
-            -class   => 'foswikiCheckbox',
+            -class   => 'foswikiButton',
             -value   => $session->i18n->maketext('Set all'),
-            -onClick => 'checkAll(this,2,' . $boxes . ',true)'
+            -onClick => 'jQuery(this).parents("form").find("input[name='
+              . $this->{name}
+              . ']").prop("checked", true);',
         );
         $extra .= '&nbsp;';
         $extra .= CGI::button(
-            -class   => 'foswikiCheckbox',
+            -class   => 'foswikiButton',
             -value   => $session->i18n->maketext('Clear all'),
-            -onClick => 'checkAll(this,1,' . $boxes . ',false)'
+            -onClick => 'jQuery(this).parents("form").find("input[name='
+              . $this->{name}
+              . ']").prop("checked", true);',
         );
     }
     $value = '' unless defined($value) && length($value);
