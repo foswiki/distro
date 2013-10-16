@@ -937,7 +937,17 @@ sub _isConvertableListItem {
 sub _isConvertableTable {
     my ( $this, $options, $table ) = @_;
 
+    #print STDERR "*** CHECK TABLE ***\n";
     return 0 if ( $this->_isProtectedByAttrs() );
+    return 0
+      if (
+        length $this->{attrs}->{style}
+        && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+            'style', $this->{attrs}
+        )
+      );
+
+    #print STDERR "*** END CHECK TABLE ***\n";
 
     my $rowspan = undef;
     $rowspan = [] if Foswiki::Func::getContext()->{'TablePluginEnabled'};
@@ -1044,11 +1054,15 @@ sub _isConvertableTableRow {
             my %atts = %{ $kid->{attrs} };
             foreach my $key ( keys %atts ) {
 
-                #print STDERR "Found Row/Cell Attr $key = $atts{$key} \n";
+  #print STDERR "Found Row/Cell Attr $key = $atts{$key} for tag $kid->{tag} \n";
                 return 0
-                  if ( $key eq 'style'
-                    && $atts{$key} =~ /(background|border)/ )
-                  ;    # Preserve Custom border / background
+
+                  if (
+                    $key eq 'style'
+                    && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+                        $kid->{tag}, $atts{$key}
+                    )
+                  );
             }
 
         }
@@ -1949,6 +1963,17 @@ sub _handleTABLE {
     return ( 0, undef )
       if ( defined $atts{cellspacing} && $atts{cellspacing} ne '1' );
     return ( 0, undef ) if ( defined $atts{border} && $atts{border} ne '1' );
+
+    #use Data::Dumper;
+    #print STDERR Data::Dumper::Dumper( \%atts);
+
+    return 0
+      if (
+        defined $atts{style}
+        && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+            'table', $atts{style}
+        )
+      );
 
     my @table;
     return ( 0, undef )

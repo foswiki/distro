@@ -104,13 +104,13 @@ in the plugin:
         PARAM=name,type,value,valuetype;
         PRE=width;
         Q=cite;
-        TABLE=align,bgcolor,frame,rules,summary,width;
+        TABLE=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
         TBODY=align,char,charoff,valign;
-        TD=abbr,align,axis,bgcolor,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
+        TD=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
         TFOOT=align,char,charoff,valign;
-        TH=abbr,align,axis,bgcolor,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
+        TH=abbr,align,axis,bgcolor,.*?background-color:.*,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
         THEAD=align,char,charoff,valign;
-        TR=bgcolor,char,charoff,valign;
+        TR=bgcolor,.*?background-color:.*,char,charoff,valign;
         UL=compact,type
 %ENDSECTION{"WYSIWYGPLUGIN_STICKYBITS"}%
 -->
