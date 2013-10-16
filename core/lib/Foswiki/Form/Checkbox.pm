@@ -104,7 +104,6 @@ sub renderForEdit {
     my $session = $this->{session};
     my $extra   = '';
     if ( $this->{type} =~ m/\+buttons/ ) {
-        my $boxes = scalar( @{ $this->getOptions() } );
         $extra = CGI::br();
         $extra .= CGI::button(
             -class   => 'foswikiButton',
