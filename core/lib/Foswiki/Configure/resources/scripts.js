@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.126";
+        var VERSION = "v3.127";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -841,28 +841,6 @@ function valueChanged(el) {
          ca = "ca = function(ele) {" + ca + "}; ca.call(el,el);";
          eval( ca.toString() );
      }
-    switch (el.type.toLowerCase()) {
-    case "select-one":
-    case "select-multiple":
-    case "text":
-    case "textarea":
-    case "password":
-    case "radio":
-    case "checkbox":
-       if( $('[id^="' + configure.utils.quoteName(el.name) + 'feedreq"]').
-                                  filter('[value="~"]').click().size() > 0 ) {
-           break;
-       }
-        /* No feedback button found, fall through to default */
-    default:
-        if( statusTimer == undefined ) {
-            statusImmediate++;
-            doFeedback(unsaved);
-        } else {
-            statusDeferred++;
-        }
-        break;
-    }
     $(el).addClass('foswikiValueChanged');
 
     $(showWhenNothingChangedElements).each(function () {
