@@ -76,7 +76,14 @@ If a matching tag is found, that matches any of the attributes listed,
 the tag will not be converted back to TML.
 You can use perl regular expressions to match tag and attribute names, so
 =.*=id,on.*= will ensure that any tag with an id or =on*= event handler is kept as
-HTML.   
+HTML.
+
+Note:  HTML has been gradually deprecating HTML attributes, replacing
+them with equivalent styles.  For example, the table, row and cell background
+color attribute: =bgcolor="#123456"= has been deprecated, replaced with =style="background-color: #123456;"=
+A limited subset of tags ( =table, th, tr, td= ) will match against both the
+attributes and the style components.  Styles have been added to the default
+setting.
 
 The default setting for this preference are hard coded in the plugin.  If you
 wish to change the settings, the following list is the default setting coded
