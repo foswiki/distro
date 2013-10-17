@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.127";
+        var VERSION = "v3.128";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -831,7 +831,9 @@ var unsaved = { id:'{ConfigureGUI}{Unsaved}status', value:'Not a button' },
 Global fuction
 Value changes. Event when a value is edited; enables the save changes
 button. Also clicks feedback request button(s) for auto-feedback items.
-The ^= is because 'feedreq' is followed by a button number.
+The ^= is because 'feedreq' is followed by a button number.  The feedback
+button has a value of ~ for auto-checked items,  and a real button name
+when a manually selected button.
  */
 function valueChanged(el) {
     "use strict";
@@ -841,6 +843,32 @@ function valueChanged(el) {
          ca = "ca = function(ele) {" + ca + "}; ca.call(el,el);";
          eval( ca.toString() );
      }
+    switch (el.type.toLowerCase()) {
+    case "select-one":
+    case "select-multiple":
+    case "text":
+    case "textarea":
+    case "password":
+    case "radio":
+    case "checkbox":
+       if( $('[id^="' + configure.utils.quoteName(el.name) + 'feedreq"]').
+                                  filter('[value="~"]').click().size() > 0 ) {
+            /* There is an element "SomeNamefeedreq*" tha has a value of '~'
+               This is set when the element has an auto-check (hidden) button
+               So we have to run the post to get feedback
+             */
+            if( statusTimer == undefined ) {
+                statusImmediate++;
+                doFeedback(unsaved);
+            } else {
+                statusDeferred++;
+            }
+            break;
+       }
+        /* No feedback button found, fall through to default */
+    default:
+        break;
+    }
     $(el).addClass('foswikiValueChanged');
 
     $(showWhenNothingChangedElements).each(function () {
