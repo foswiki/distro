@@ -9,6 +9,7 @@
 
 application/atom+xml            atom
 application/font-tdpfr          pfr
+application/font-woff           woff
 application/java-archive        jar
 application/mac-binhex40        hqx
 application/mac-compactpro      cpt
@@ -29,8 +30,10 @@ application/rdf+xml             rdf
 application/rss+xml             rss 
 application/rtf                 rtf
 application/toolbook            tbk
+application/x-font-ttf          ttf
 application/vnd.adobe.air-application-installer-package+zip air
 application/vnd.mozilla.xul+xml xul 
+application/vnd.ms-fontobject   eot
 application/vnd.ms-excel        xls xlb xlt
 application/vnd.ms-powerpoint   ppt pps 
 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet		xlsx
@@ -157,7 +160,7 @@ text/tab-separated-values       tsv
 text/vnd.sun.j2me.app-descriptor    jad 
 text/vnd.wap.wml                wml
 text/vnd.wap.wmlscript          wmls 
-text/xml                        rdf
+text/xml                        rdf xsl xslt fo xml
 text/x-bibtex                   bib
 text/x-java-source              java javafrag
 text/x-setext                   etx
