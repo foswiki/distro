@@ -322,8 +322,38 @@ sub getRevisionDiff {
 
 sub getAttachmentVersionInfo {
     my ( $this, $topicObject, $rev, $attachment ) = @_;
-    my $handler = $this->getHandler( $topicObject, $attachment );
-    return $handler->getInfo( $rev || 0 );
+
+    my $info;
+
+    if ( !defined($rev) ) {
+        my $attachInfo = $topicObject->get('FILEATTACHMENT');
+
+        # rewrite to info format similar to TOPICINFO
+        if ( defined $attachInfo ) {
+            $info->{date} =
+                 $attachInfo->{date}
+              || $attachInfo->{movedwhen}
+              || time();
+
+            $info->{author} =
+                 $attachInfo->{user}
+              || $attachInfo->{moveby}
+              || $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
+
+            $info->{version} = 1
+              unless defined $attachInfo->{version};
+
+            $info->{comment} = $attachInfo->{comment}
+              if defined $attachInfo->{comment};
+        }
+    }
+
+    if ( !defined($info) ) {
+        my $handler = $this->getHandler( $topicObject, $attachment );
+        $info = $handler->getInfo( $rev || 0 );
+    }
+
+    return $info;
 }
 
 sub getVersionInfo {
