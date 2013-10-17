@@ -941,7 +941,8 @@ sub _isConvertableTable {
     return 0 if ( $this->_isProtectedByAttrs() );
     return 0
       if (
-        length $this->{attrs}->{style}
+           defined $this->{attrs}->{style}
+        && length $this->{attrs}->{style}
         && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
             'style', $this->{attrs}
         )
