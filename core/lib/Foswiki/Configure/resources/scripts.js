@@ -9,7 +9,7 @@ var configure = (function ($) {
 
 	"use strict";
 
-        var VERSION = "v3.128";
+        var VERSION = "v3.129";
         /* Do not merge, move or change format of VERSION, parsed by perl.
          */
 
@@ -1731,12 +1731,16 @@ function doFeedback(key, pathinfo) {
 /*    $(KeyIdSelector).closest('form').find(":input:enabled").not(':file,:submit,:reset,:button').each(function (index) {
 */
 
-    $('form').find(":input:enabled").not(':file,:submit,:reset,:button').each(function (index) {
+    $(':input:enabled').not(':file,:submit,:reset,:button').each(function (index) {
         var opts,
             i,
             ilen,
             ctlName,
             txt;
+
+        if (!this.form) { /* eliminate any fields that are outside a form */
+            return true;
+        }
 
         ctlName = this.name;
         if (!ctlName.length) {
