@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1358771265" format="1.1" version="17"}%
+%META:TOPICINFO{author="ProjectContributor" date="1358771265" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
