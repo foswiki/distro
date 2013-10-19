@@ -1,9 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302985731" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1382154996" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
+---++ Foswiki Release 1.1.9 Alpha 1 - 19 Oct 2013
+
+Foswiki 1.1.9 Alpha 1 was built 19 Oct 2013. It is a release that contains 34 fixes and 4 enhancements..
 ---++ Foswiki Release 1.1.8 - 28 Feb 2013
 
 Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.

@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.8
+---+!! Foswiki Release 1.1.9 Alpha 1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -40,6 +40,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
+   * Foswiki 1.1.9 Alpha 1 was built 19 Oct 2013. It is a release that contains 34 fixes and 4 enhancements..
 
 ---++ Pre-installed Extensions
 
@@ -50,8 +51,17 @@ Foswiki 1.1 ships with the following:
    * *Skins:* !PatternSkin
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
-%STARTSECTION{"116delta"}%
 #Release01x01Changes
+---++ Important changes since Foswiki 1.1.8
+
+Release 1.1.9 fixes several important bugs.  Several are security related and we strongly recommend that sites upgrade to this release.
+It also addresses a very significant memory leak in the TablePlugin, especially important in sites that use FastCGI or Mod_Perl.
+
+Release 1.1.9 addresses several issues that impact sites that have upgraded or will upgrade to newer versions of perl and CPAN modules.  We strongly
+recommend that foswiki be upgraded to 1.1.9 prior to updating to a new release of perl or CPAN modules.
+
+See [[#Rel01x01x09Details]]
+
 ---++ Important changes since Foswiki 1.1.7
 
 Release 1.1.8 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2013-1666][SecurityAlert-CVE-2013-1666]].
@@ -130,8 +140,6 @@ Changes to the skin that impact layout should not have been made in a patch rele
 ---+++ Minor change to =Main.WebHome=
 
 The [[Main.WebHome]] topic was changed to display the =%<nop>WIKIRELEASE%= macro instead of the =%<nop>WIKIVERSION%=.  =WIKIRELEASE= is a more friendly user readable version string.
-
-%ENDSECTION{"116delta"}%
 
 ---++ Important changes since Foswiki 1.1.5
 
@@ -1587,6 +1595,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item11444][Item11444]] | Document {WarningsAreErrors} in EmptyPlugin |
 | [[%BUGS%/Item11445][Item11445]] | SANDBOXWEB macro is undefined. |
 | [[%BUGS%/Item11446][Item11446]] | The rest script needs better endPoint handling |
+| [[%BUGS%/Item11448][Item11448]] | WYSIWYG-Editor: Table Cell Background Color and other table styling lost on save. |
 | [[%BUGS%/Item11450][Item11450]] | SpreadSheetPlugin $ABOVE() thinks rows are zero-based |
 | [[%BUGS%/Item11452][Item11452]] | MetaCache robustness: remove from cache on =$topicObject->finish()= |
 | [[%BUGS%/Item11453][Item11453]] | Convert RenderListPlugin to use preRenderingHandler |
@@ -1848,6 +1857,54 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12408][Item12408]] | Documentation of template names on CompareRevisionsAddOn wiki page are wrong |
 
 </noautolink>
+
+#Rel01x01x09Details
+---++ Foswiki Patch Release 1.1.9 Details
+<noautolink>
+---+++ Fixes
+
+| [[%BUGS%/Item12064][Item12064]] | In data forms, buttons "Set all" and "Clear all" do nothing when clicked. |
+| [[%BUGS%/Item12413][Item12413]] | Crash in Foswiki/Net.pm when using perl 5.16 and later. |
+| [[%BUGS%/Item12414][Item12414]] | File::Temp->tempfile() will cause die in upcoming release of File::Temp |
+| [[%BUGS%/Item12420][Item12420]] | Debian patches Locale::Maketext without incrementing the $VERSION |
+| [[%BUGS%/Item12423][Item12423]] | Wrong encoding for compare |
+| [[%BUGS%/Item12439][Item12439]] | SiteToolStatistics page requires login to view |
+| [[%BUGS%/Item12444][Item12444]] | Wysiwyg error: "Wide character in subroutine entry" |
+| [[%BUGS%/Item12446][Item12446]] | Dependency check is inconsistent with Perl version comparisons |
+| [[%BUGS%/Item12461][Item12461]] | Locale::MakeText warnings should be spelled correctly |
+| [[%BUGS%/Item12464][Item12464]] | ManagingTopics documentation for reverting a topic is wrong |
+| [[%BUGS%/Item12466][Item12466]] | SEARCH formfield method returning label instead of value in select+value fields |
+| [[%BUGS%/Item12471][Item12471]] | "Print on closed file handle" crash in configure checker when LocalSite.cfg cannot be written. |
+| [[%BUGS%/Item12474][Item12474]] | replace yuicompressor with a better state-of-the-art tool |
+| [[%BUGS%/Item12478][Item12478]] | Documentation incorrect for URLPARAM default= parameter. |
+| [[%BUGS%/Item12480][Item12480]] | Memory leak in TablePlugin amasses css styles from all visited pages |
+| [[%BUGS%/Item12482][Item12482]] | Incorrect derivation of value for 'lang' and 'xml:lang' attributes |
+| [[%BUGS%/Item12476][Item12476]] | Improved parsing of URLs |
+| [[%BUGS%/Item12491][Item12491]] | TOPICLIST does not respect access rights |
+| [[%BUGS%/Item12520][Item12520]] | add jquery-1.10.1 and jquery-2.0.2 bugfix releases |
+| [[%BUGS%/Item12526][Item12526]] | Bracketed links don't recognize all anchors generated for TML headings |
+| [[%BUGS%/Item12528][Item12528]] | wrong map while downgrading chars in wikiword's map |
+| [[%BUGS%/Item12555][Item12555]] | Improve wording for InterWiki Link Rules |
+| [[%BUGS%/Item12559][Item12559]] | scope in EXPAND messes up the topic context (hot fix available) |
+| [[%BUGS%/Item12567][Item12567]] | Version check in configure for JQuery plugins doesn't work correctly |
+| [[%BUGS%/Item12570][Item12570]] | Ordered Lists: type= needs to be removed and replaced with style="list-style-type:" |
+| [[%BUGS%/Item12585][Item12585]] | Missing configuration of {files_without_match} parameter/option in Search.pm |
+| [[%BUGS%/Item12589][Item12589]] | Login information (username or Password) left in Query or Cookie Data |
+| [[%BUGS%/Item12590][Item12590]] | Certain exceptions are rendered twice |
+| [[%BUGS%/Item12594][Item12594]] | Some keyword searces run exponentially longer with more topics in web. |
+| [[%BUGS%/Item12597][Item12597]] | Expand/Collapse all in TwistyPlugin behaves as a toggle |
+| [[%BUGS%/Item12599][Item12599]] | use jQuery-1.9x (not 2.0.x) for IE9  |
+| [[%BUGS%/Item12602][Item12602]] | force-load jquery-migrate when using jquery > 1.9.x |
+| [[%BUGS%/Item12604][Item12604]] | add web font mimetypes |
+
+---+++ Enhancements
+
+| [[%BUGS%/Item12345][Item12345]] | upgrade jquery and other 3rd party plugins |
+| [[%BUGS%/Item12518][Item12518]] | add support for jquery-2.x without disturbing oldIEs |
+| [[%BUGS%/Item12519][Item12519]] | upgrade superfish to latest version |
+| [[%BUGS%/Item12600][Item12600]] | minor changes to jquery components |
+</noautolink>
+
 
  <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
