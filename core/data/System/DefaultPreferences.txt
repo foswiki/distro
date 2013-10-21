@@ -83,11 +83,20 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
          * This is exactly equivalent to:
       * #Set LINKTOOLTIPINFO = on
 
+<blockquote>
+---+++ Deprecated editor settings
+These settings are overridden by an editor cookie that is set when using the
+Sizing and font buttons on the lower right corner of the edit window.  These
+settings will be ignored once a =FOSWIKIPREF= cooke has been set.  They will
+be removed from Foswiki 1.2.0.
+
    * Horizontal size of text edit box: (can be overwritten by user preferences)
       * Set EDITBOXWIDTH = 70
 
    * Vertical size of text edit box: (can be overwritten by user preferences)
       * Set EDITBOXHEIGHT = 22
+
+</blockquote>
 
    * Style of text edit box. Set to =width: 99%= for full window width (default; this will override the EDITBOXWIDTH setting), or =width: auto= to disable. This setting works for IE and some other recent browsers. (can be overwritten by user preferences)
       * Set EDITBOXSTYLE = width:99%
