@@ -8,8 +8,8 @@
 | NOAUTOLINK | select | 1 | off,on | Boolean | S |
 | INCLUDEWARNING | text | 30 | on, off | Boolean | S |
 | LINKTOOLTIPINFO | text | 30 | | Format of tooltip info | S |
-| EDITBOXWIDTH | text | 30 | 70 | Horizontal size of text edit box. | S |
-| EDITBOXHEIGHT | text | 30 | 15 | Vertical size of text edit box. | S |
+| EDITBOXWIDTH | text | 30 | 70 | Horizontal size of text edit box. Deprecated, ignored if editor box size is set using buttons in lower right corner of the window. | S |
+| EDITBOXHEIGHT | text | 30 | 15 | Vertical size of text edit box. Deprecated, ignored if editor box size is set using buttons in lower right corner of the window. | S |
 | EDITBOXSTYLE | text | 30 | width: 99% | CSS style | S |
 | PREVIEWBGIMAGE | text | 30 | %PUBURLPATH%/%SYSTEMWEB%/PreviewBackground/preview2bg.gif | Image URL | S |
 | FORCENEWREVISIONCHECKBOX | select | 1 | , checked="checked" | Select checked to enable | S |

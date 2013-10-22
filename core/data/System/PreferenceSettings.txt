@@ -122,4 +122,11 @@ Then, when they are editing any other topic, they will get a 10 high edit box. H
 Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to get a listing of the values of all macros in their evaluation order, so you can see macro scope if you get confused.
 <!-- %JQREQUIRE{"chili"}% -->
 
+<blockquote class="foswikiHelp"> *Deprecation warning*.  The setting used in
+this example, EDITBOXHEIGHT, is being deprecated and will be remove from
+Foswiki 1.2.  Note that if the edit box size is changed using the javascript
+controls in the lower right corner of the edit box window, those settings will
+be used, and the EDITBOX* settings will be ignored.
+</blockquote>
+
 %META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1350962092" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
