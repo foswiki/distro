@@ -62,6 +62,16 @@ sub target_compress {
 sub _build_js {
     my ( $this, $to ) = @_;
 
+    # First try uglify
+    if ( !$minifiers{js} ) {
+        my $ug = _haveUglifyJS();
+        if ($ug) {
+            $minifiers{js} = sub {
+                return $this->_UglifyJS( @_, 'js', $ug );
+            };
+        }
+    }
+
     if ( !$minifiers{js} ) {
         my $yui = _haveYUI();
 
@@ -299,6 +309,23 @@ sub _yuiMinify {
     return $out;
 }
 
+sub _UglifyJS {
+    my ( $this, $from, $to, $type, $cmdtype ) = @_;
+    my $lcall = $ENV{'LC_ALL'};
+    my $cmd;
+
+    $cmd = "uglifyjs $from";
+
+    unless ( $this->{-n} ) {
+        $cmd .= " -o $to";
+    }
+
+    warn "$cmd\n";
+    my $out = `$cmd`;
+    $ENV{'LC_ALL'} = $lcall;
+    return $out;
+}
+
 =begin TML
 
 ---++++ _haveYUI
@@ -321,6 +348,24 @@ sub _haveYUI {
         if ( not $? ) {
             $result = 2;
         }
+    }
+
+    return $result;
+}
+
+=begin TML
+
+---++++ _haveUglifyJS
+return 1 if we have Uglify as a command yui-compressor
+
+=cut
+
+sub _haveUglifyJS {
+    my $info   = `uglifyjs -h 2>&1`;
+    my $result = 0;
+
+    if ( not $? ) {
+        $result = 1;
     }
 
     return $result;
