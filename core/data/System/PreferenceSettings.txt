@@ -1,6 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1350962098" format="1.1" version="1"}%
-%META:TOPICPARENT{name="AdminToolsCategory"}%
-#SettingPrefs
+%META:TOPICPARENT{name="AdminToolsCategory"}% #SettingPrefs
 #PreferencesMacros
 ---++!! Preference Settings
 A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that will be expanded in your output. A preference setting looks like this: <p /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value= <p /> Example:
@@ -21,19 +20,13 @@ In this list, =Set= statements which occur at numerically higher locations overr
 
      <img src="%ATTACHURLPATH%/prefs-stack.jpg" alt="prefs-stack.jpg" width='467' height='373' />
 
-%I% preference settings can easily be disabled with a # sign. Example:%BR%
-   <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
-%I% You can hide preference settings in the output by enclosing them in HTML comments; for example,<verbatim>
-<!--
-   * Set HIDDEN = This will be invisible in the output
--->
-</verbatim>
+---++ Writing preference settings
+Preference settings are written as a simple bullet. In TML, they are written
+as =3-spaces,asterisk,equals,value=
+   <verbatim class="tml">   * Set MYSETTING = My setting value</verbatim>
 
-If you are setting a preference and using it in the same topic, note that Foswiki reads all the preference settings from the saved version of the topic before it displays anything.  This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
-
-Also note that Foswiki always reads the setting from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
-
-And especially important, *preference settings are never overridden or set in "%<nop>INCLUDE{" topics.* %IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
+When using the Wysiwyg editor, click the "Bullet" button and write the setting
+as a simple bullet.  Don't include the asterisk.
 
 Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
 
@@ -48,7 +41,41 @@ Whatever you include in your macro will be expanded on display, exactly as if it
    * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the preference settings in the web's !WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample preference setting in WebPreferences:
 <verbatim class="tml">   * Set MYLOGO = %PUBURL%/%WEB%/LogoTopic/mylogo.gif</verbatim>
 
+Preference settings are *case sensitive*.   (Foswiki by convention always writes settings in upper case.)
+
+<verbatim class="tml">
+   * Set lower = This is LOWER
+   * Set LOWER = This is UPPER
+   * Set LoWeR = This is MIXED
+Expand %lower%, %LOWER% and %LoWeR%
+</verbatim>
+Expand %lower%, %LOWER% and %LoWeR%.
+
+%I% preference settings can easily be disabled with a # sign. Example:%BR%
+   <verbatim class="tml">   * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser</verbatim>
+
+---+++ Hiding preference settings
+%I% You can hide preference settings in the output by enclosing them in HTML comments; for example,<verbatim>
+<!--
+   * Set HIDDEN = This will be invisible in the output
+-->
+</verbatim>
+
 You can also set preference settings in a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are known as 'meta' preferences and are not visible in the topic text, but take effect nevertheless.
+
+<div class="foswikiHelp">%X% *Caution*  If your topic will be used in an INCLUDE, it is recommended to not use HTML comments.  instead, set preferences
+into the topic metadata  by using the "Edit Settings for this topic" button on the "More topic actions" page.  Settings in an included topic are always ignored,
+but nested comments will break the HTML.</div>
+
+---+++ Order of perference settings
+
+If you are setting a preference and using it in the same topic, note that Foswiki reads all the preference settings from the saved version of the topic before it displays anything.  This means you can use a setting anywhere in the topic, even if you set it at the very end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
+
+---+++ Preference settings and topic revision history
+
+Foswiki always reads the settings from the most current topic revision, so viewing older revisions of a topic can show unexpected results.
+
+And especially important, *preference settings are never overridden or set in "%<nop>INCLUDE{" topics.* %IF{"%BASETOPIC%=Macros" then="in the below example about weather conditions, note the difference in the CONDITIONS expansion" }%
 
 #MacroParam
 ---+++ Parameters
