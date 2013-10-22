@@ -1,4 +1,4 @@
-%META:TOPICPARENT{name="ReleaseHistory"}%
+jk%META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.9 Alpha 1
 
@@ -40,7 +40,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
-   * Foswiki 1.1.9 Alpha 1 was built 19 Oct 2013. It is a release that contains 34 fixes and 4 enhancements..
+   * Foswiki 1.1.9 Alpha 1 was built 22 Oct 2013. It is a release that contains 34 fixes and 4 enhancements..
 
 ---++ Pre-installed Extensions
 
@@ -57,8 +57,13 @@ Foswiki 1.1 ships with the following:
 Release 1.1.9 fixes several important bugs.  Several are security related and we strongly recommend that sites upgrade to this release.
 It also addresses a very significant memory leak in the TablePlugin, especially important in sites that use FastCGI or Mod_Perl.
 
+The =%<nop>TOPICLIST%= macro now omits topics that cannot be read by the user.  Foswiki should not reveal the presence of topics to users who don't have the authority to view the topic.
+
 Release 1.1.9 addresses several issues that impact sites that have upgraded or will upgrade to newer versions of perl and CPAN modules.  We strongly
 recommend that foswiki be upgraded to 1.1.9 prior to updating to a new release of perl or CPAN modules.
+
+Two serious performance issues have been corrected.  The TablePlugin amassed CSS from all visited topics, growing with each view. And an error in SEARCH
+caused exponential growth of the search expressions which could cause out of memory issues on the server.
 
 See [[#Rel01x01x09Details]]
 
@@ -718,7 +723,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item1378][Item1378]] | Popup-Window for new links in Rich-Text-Editor is too small. |
 | [[%BUGS%/Item1383][Item1383]] | Plugin Topic PREFERENCES still used in core plugins |
 | [[%BUGS%/Item1392][Item1392]] | (IE only) Cursor jumps to beginning unintendedly in WYSIWYG-editor |
-| [[%BUGS%/Item1394][Item1394]] | %PINK is converted in the Rich Text Editor |
+| [[%BUGS%/Item1394][Item1394]] | %<nop>PINK% is converted in the Rich Text Editor |
 | [[%BUGS%/Item1415][Item1415]] | Change _default.WebPreferences to limit access to AdminGroup only |
 | [[%BUGS%/Item1417][Item1417]] | Getting below a table in the Rich Text Editor is difficult / Disturbing cursor movements. |
 | [[%BUGS%/Item1448][Item1448]] | Change of the handling of unique anchor names in TOC |
