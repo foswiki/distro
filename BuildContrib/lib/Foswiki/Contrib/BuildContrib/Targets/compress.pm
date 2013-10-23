@@ -62,10 +62,10 @@ sub _build_js {
 
     # First try uglify
     if ( !$minifiers{js} ) {
-        my $ug = _haveUglifyJS();
+        my $ug = _haveuglifyjs();
         if ($ug) {
             $minifiers{js} = sub {
-                return $this->_UglifyJS( @_, 'js', $ug );
+                return $this->_uglifyjs( @_, 'js', $ug );
             };
         }
     }
@@ -113,6 +113,16 @@ sub _build_js {
 
 sub _build_css {
     my ( $this, $to ) = @_;
+
+    # First try cssmin
+    if ( !$minifiers{css} ) {
+        my $cm = _havecssmin();
+        if ($cm) {
+            $minifiers{css} = sub {
+                return $this->_cssmin( @_, 'css', $ug );
+            };
+        }
+    }
 
     if ( !$minifiers{css} ) {
         my $yui = _haveYUI();
@@ -306,7 +316,32 @@ sub _yuiMinify {
     return $out;
 }
 
-sub _UglifyJS {
+sub _cssmin {
+    my ( $this, $from, $to, $type, $cmdtype ) = @_;
+    my $lcall = $ENV{'LC_ALL'};
+    my $cmd;
+
+    $cmd = "cssmin $from";
+
+    warn "$cmd\n";
+    my $out = `$cmd`;
+
+    unless ( $this->{-n} ) {
+        if ( open( F, '>', $to ) ) {
+            local $/ = undef;
+            print F $out;
+            close(F);
+        }
+        else {
+            die "$to: $!";
+        }
+    }
+
+    $ENV{'LC_ALL'} = $lcall;
+    return $out;
+}
+
+sub _uglifyjs {
     my ( $this, $from, $to, $type, $cmdtype ) = @_;
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
@@ -352,13 +387,31 @@ sub _haveYUI {
 
 =begin TML
 
----++++ _haveUglifyJS
-return 1 if we have Uglify as a command yui-compressor
+---++++ _haveuglifyjs
+return 1 if we have uglify as a command uglify 
 
 =cut
 
-sub _haveUglifyJS {
+sub _haveuglifyjs {
     my $info   = `uglifyjs -h 2>&1`;
+    my $result = 0;
+
+    if ( not $? ) {
+        $result = 1;
+    }
+
+    return $result;
+}
+
+=begin TML
+
+---++++ _havecssmin
+return 1 if we have cssmin as a command
+
+=cut
+
+sub _havecssmin {
+    my $info   = `cssmin -h 2>&1`;
     my $result = 0;
 
     if ( not $? ) {
