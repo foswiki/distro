@@ -207,8 +207,8 @@ sub compare {
         # go deeper into the tree
 
         if (   $action->[0] eq 'c'
-            && ref( $action->[1] )    eq $HTMLElement
-            && ref( $action->[2] )    eq $HTMLElement
+            && ref( $action->[1] ) eq $HTMLElement
+            && ref( $action->[2] ) eq $HTMLElement
             && $action->[1]->starttag eq $action->[2]->starttag )
         {
 
@@ -596,7 +596,7 @@ sub getRevInfo {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
