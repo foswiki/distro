@@ -126,7 +126,14 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|               | (4.83) - Item12567: fix version check in =configure= | 
+|  23 Oct 2013: | (4.90) - Release with Foswiki 1.1.9 \
+                  Item12567: fix checking of version number in configure \
+                  Item12577: deprecate jquery-tooltip in favour of jquery-ui-tooltip \
+                  Item12596: improve documentation of jquery-ui \
+                  Item12583: revert version string to simple float not to break installation on RHEL and SLES \
+                  Item12599: use jQuery-1.9x (not 2.0.x) for IE9 \
+                  Item12600: various minor changes to jquery components |
+|  12 Oct 2013: | (4.83) - Item12567: fix version check in =configure= (not released) | 
 |  07 Jun 2013: | (4.82) - Item12528: fixed char mapping in jquery.wikiword |
 |  31 May 2013: | (4.81) - Item12520: added jquery-1.10.1 and jquery-2.0.2 |
 |  30 May 2013: | (4.80) - Item12519: upgraded superfish, supersubs and hoverintent |

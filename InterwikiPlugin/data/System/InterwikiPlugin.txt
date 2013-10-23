@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302438947" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1302438808" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -52,12 +52,13 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 ---++ Plugin Info
 
 |  Author: | Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny |
-|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2011 %SYSTEMWEB%.ProjectContributor |
+|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2012 %SYSTEMWEB%.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  12 Nov 1012: (1.1.6) | update CPAN link to goto metacpan and remove some ancient links that have been broken for years |
+|  23 Oct 2013: (1.1.7) | Foswikitask:Item12555: Documentation updates |
+|  12 Nov 1012: (1.1.6) | update CPAN link to goto metacpan and remove some ancient links that have been broken for years. Convert to perl version strings |
 |  05 Dec 2011: (1.1.2) | Release with Foswiki 1.1.4 - Minor code and documentation cleanup |
 |  30 Oct 2011: | Foswiki:Main.GeorgeClark - Add support for quoted page references from TimotheLitt (Foswikitask:Item10872) |
 |  10 Apr 2011: | Foswiki:Main.AndrewJones - Links can now be formatted (Foswikitask:Item10619) |
