@@ -9,6 +9,7 @@
       * =type="expandvariables"= - all macros inside an "expandvariables" type section gets expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
       * =type="templateonly"= - start position of text to be removed when a template topic is used. This is used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
    * Syntax: =%<nop>STARTSECTION{"name"}% ................... %<nop>ENDSECTION{"name"}%=
+   * Syntax: =%<nop>STARTSECTION{"name" type="section"}% .... %<nop>ENDSECTION{"name" type="section"}%= _(type="section" is the default)_
    * Syntax: =%<nop>STARTSECTION{type="include"}% ........... %<nop>ENDSECTION{type="include"}%=
    * Syntax: =%<nop>STARTSECTION{type="expandvariables"}% ... %<nop>ENDSECTION{type="expandvariables"}%=
    * Syntax: =%<nop>STARTSECTION{type="templateonly"}% ...... %<nop>ENDSECTION{type="templateonly"}%=
