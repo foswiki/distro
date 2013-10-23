@@ -155,8 +155,16 @@ Does nothing by default. This is the first target executed, and can be overridde
 Usually only used if your extension includes Javascript or CSS, this target
 [[http://en.wikipedia.org/wiki/Minification_(programming)][minifies]] a file
 to generate another that is functionally identical, but smaller for faster
-download. It uses CPAN:JavaScript::Minifier and CPAN:CSS::Minifier to perform
-the compression.
+download. It will search for an avaliable minifier:
+
+   * [[https://npmjs.org/package/uglify-js][UglifyJS]] *Recommended*
+   * [[http://www.yuiblog.com/blog/2012/10/16/state-of-yui-compressor/][yuicompressor]]
+   * CPAN:JavaScript::Minifier and CPAN:CSS::Minifier
+
+To make the recommended compressor avaliable on your system, first install
+[[http://nodejs.org/][Node.js]],   and then use "npm" to install the
+compressors:  =npm install -g uglifyjs=  and =npm install -g cssmin=
+This will install both uglify and MinCSS.
 
 The compression can work with a number of different naming schemes, depending
 on what files you refer to in your MANIFEST. For example, the name mappings
