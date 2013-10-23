@@ -139,6 +139,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  23 Oct 2013 (1.1.11) | Foswikitask:Item12423: fix double encoding in header on UTF-8 sites |
 |  28 Feb 2013 (1.1.10) | Foswikitask:Item12408: use correct template names in docs |
 |  31 Jan 2013 (1.1.9) | Foswikitask:Item12337: Remove undocumented dependency on CPAN:HTML::TreeBuilder >= 4.0 |
 |  28 Nov 2012 (1.1.8) | Foswikitask:Item11267: Convert to perl version strings, <br />\
