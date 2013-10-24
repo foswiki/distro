@@ -49,5 +49,3 @@ Inline include of [[JSCalendarContrib]] HTML for use in forms.
   requires="JSCalendarContrib/calendar-setup"
 }%%ENDSECTION{"loadCalendar"}%%STOPINCLUDE%
 </verbatim>
-
-%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%

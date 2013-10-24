@@ -82,7 +82,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 | Change History: | |
-|  01 Nov 2012 | Button icon made transparent. |
+|  28 Nov 2012 | Foswikitask:Item12213: Button icon made transparent.  Foswikitask:Item11267: Convert to perl version strings.  |
 |  06 Apr 2012 | Foswikitask:Item11568: Re-introduce style options and updated default calendar style.%BR%\
                  Foswikitask:Item11701: Fallback to numbers for month if month name is expected, but numbers are entered. |
 |  29 Nov 2011 | Revert changes since 30 July.  Bump release to 1.5. |
