@@ -9,9 +9,9 @@ use Error qw(:try);
 use Foswiki::AccessControlException ();
 
 # =========================
-# Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("1.9");
-our $RELEASE           = '1.9';
+#   Simple decimal version,  no leading "v"
+our $VERSION           = "1.11";
+our $RELEASE           = '1.11';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
@@ -248,7 +248,7 @@ sub _handleHeadFoot {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
