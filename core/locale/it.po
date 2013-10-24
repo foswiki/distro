@@ -1241,7 +1241,7 @@ msgstr "Crea la barra laterale personale"
 msgid "Create the topic"
 msgstr "Crea la pagina"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2868,7 +2868,7 @@ msgstr "Ripristino Password"
 msgid "Reset password"
 msgstr "Ripristino della password"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Ripristino e impostazione delle password non sono gestite da Foswiki"
 
@@ -3120,7 +3120,7 @@ msgstr "Le selezioni di ricerca si applicano al \"corpo del testo\""
 msgid "Sequential"
 msgstr "Sequenziali"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Definisci tutto"
 

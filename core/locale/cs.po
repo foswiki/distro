@@ -1213,7 +1213,7 @@ msgstr "Vaše osobní stránka"
 msgid "Create the topic"
 msgstr "Vytvořit článek"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2827,7 +2827,7 @@ msgstr "Znovunastav heslo"
 msgid "Reset password"
 msgstr "Znovunastav heslo"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Resetování a nastavování hesla není zajištěno prostředky Foswiki"
 
@@ -3074,7 +3074,7 @@ msgstr "Pro vyhledávání v textu jsou aktivována omezení."
 msgid "Sequential"
 msgstr "Sekvenčně"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Nastav vše"
 

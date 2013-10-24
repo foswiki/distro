@@ -1266,7 +1266,7 @@ msgstr "Създаване на личен страничен панел"
 msgid "Create the topic"
 msgstr "Създаване на Страницата"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2894,7 +2894,7 @@ msgstr "Нулиране на Парола"
 msgid "Reset password"
 msgstr "Нулиране на Парола"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3145,7 +3145,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "Последователно"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Отбелязване на всички"
 

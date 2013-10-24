@@ -1252,7 +1252,7 @@ msgstr "Crear una recuadro adicional personal"
 msgid "Create the topic"
 msgstr "Crear el tema"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2897,7 +2897,7 @@ msgstr "Reinicializar contraseña"
 msgid "Reset password"
 msgstr "Reinicializar contraseña"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Reiniciar y definir la contraseña no es manejado por Foswiki"
 
@@ -3150,7 +3150,7 @@ msgstr "Aplicación de selecciones a buscar en el \"cuerpo del texto\""
 msgid "Sequential"
 msgstr "Secuencial"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Seleccionar todos"
 

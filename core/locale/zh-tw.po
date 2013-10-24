@@ -1179,7 +1179,7 @@ msgstr "建立個人側欄"
 msgid "Create the topic"
 msgstr "建立主題"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2731,7 +2731,7 @@ msgstr "重設密碼"
 msgid "Reset password"
 msgstr "重設密碼"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "重設或設定密碼並非由 Foswiki 處理"
 
@@ -2973,7 +2973,7 @@ msgstr "選項套用於搜尋「文字框」"
 msgid "Sequential"
 msgstr "連續的"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "全設"
 

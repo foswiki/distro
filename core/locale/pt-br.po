@@ -1242,7 +1242,7 @@ msgstr "Criar barra de menu pessoal"
 msgid "Create the topic"
 msgstr "Criar o tópico"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2869,7 +2869,7 @@ msgstr "Restaurar senha"
 msgid "Reset password"
 msgstr "Restaurar senha"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Restauração e configuração de senha não são executadas pelo Foswiki"
 
@@ -3119,7 +3119,7 @@ msgstr "Seleções aplicam-se para buscas no conteúdo textual."
 msgid "Sequential"
 msgstr "Sequencial"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Selecionar todos"
 

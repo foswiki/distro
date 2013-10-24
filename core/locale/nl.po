@@ -1237,7 +1237,7 @@ msgstr "Persoonlijke navigatie aanmaken"
 msgid "Create the topic"
 msgstr "Maak deze pagina aan"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2876,7 +2876,7 @@ msgstr "Wachtwoord opnieuw instellen"
 msgid "Reset password"
 msgstr "Wachtwoord instellen"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 "Opnieuw instellen van het wachtwoord wordt niet ondersteund door Foswiki"
@@ -3127,7 +3127,7 @@ msgstr "Gekozen opties hebben betrekking op zoeken in \"Tekst\""
 msgid "Sequential"
 msgstr "Sequentieel"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Vink aan"
 

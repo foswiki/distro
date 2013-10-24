@@ -1243,7 +1243,7 @@ msgstr "Créer menu personnel"
 msgid "Create the topic"
 msgstr "Créer la page"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2901,7 +2901,7 @@ msgstr "Réinitialisation de votre mot de passe"
 msgid "Reset password"
 msgstr "Réinitialisation de votre mot de passe"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 "La réinitialisation et la définition des mots de passe ne sont pas gérées "
@@ -3164,7 +3164,7 @@ msgstr "Les sélections s'appliquent aux recherches dans le \"corps du texte\""
 msgid "Sequential"
 msgstr "À la suite"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Tout sélectionner"
 

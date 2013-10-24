@@ -1250,7 +1250,7 @@ msgstr "Luo henkilökohtainen sivupaneeli"
 msgid "Create the topic"
 msgstr "Luo aihe"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2900,7 +2900,7 @@ msgstr "Resetoi salasana"
 msgid "Reset password"
 msgstr "Resetoi salasana"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr ""
 
@@ -3150,7 +3150,7 @@ msgstr ""
 msgid "Sequential"
 msgstr "Peräkkäinen"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Aseta kaikki"
 

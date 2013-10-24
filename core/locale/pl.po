@@ -1238,7 +1238,7 @@ msgstr "Utwórz własny pasek boczny"
 msgid "Create the topic"
 msgstr "Utwórz temat"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2866,7 +2866,7 @@ msgstr "Resetowanie hasła"
 msgid "Reset password"
 msgstr "Zresetuj hasło"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "Przywracanie i ustawianie hasła nie jest obsługiwane przez Foswiki"
 
@@ -3116,7 +3116,7 @@ msgstr "Zaznaczenie dotyczy wyszukiwania w \"treści tekstu\""
 msgid "Sequential"
 msgstr "Sekwencyjnie"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "Ustaw wszystko"
 

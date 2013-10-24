@@ -1214,7 +1214,7 @@ msgstr "개인 사이드바 생성"
 msgid "Create the topic"
 msgstr "토픽 생성"
 
-#: core/data/System/DefaultPreferences.txt:389
+#: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
 #: core/lib/Foswiki/Render.pm:82
@@ -2823,7 +2823,7 @@ msgstr "비밀번호 재설정"
 msgid "Reset password"
 msgstr "비밀번호 재설정"
 
-#: core/data/System/DefaultPreferences.txt:197
+#: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
 msgstr "비밀번호를 재설정하거나 설정하는 것은 Foswiki 에서 처리하지 않습니다"
 
@@ -3066,7 +3066,7 @@ msgstr "선택사항은 \"text body\" 내부 검색에 적용"
 msgid "Sequential"
 msgstr "순차적"
 
-#: core/lib/Foswiki/Form/Checkbox.pm:99
+#: core/lib/Foswiki/Form/Checkbox.pm:98
 msgid "Set all"
 msgstr "전부 선택"
 
