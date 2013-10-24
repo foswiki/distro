@@ -93,6 +93,13 @@ sub test_ICON {
         $html . $this->{reliconurl} . '/doc.png" alt="doc" />' . $postHtml,
         $t );
 
+    $t = Foswiki::Func::expandCommonVariables('%ICON{"doc" quote="\'"}%');
+    $this->assert_matches( qr/'/, $t );
+    $t = Foswiki::Func::expandCommonVariables('%ICON{"doc" quote="\\""}%');
+    $this->assert_matches( qr/"/, $t );
+    $t = Foswiki::Func::expandCommonVariables('%ICON{"doc" quote="$quot"}%');
+    $this->assert_matches( qr/\$quot/, $t );
+
     # SMELL: depends on _filetypes.txt being correct
     $t = Foswiki::Func::expandCommonVariables(
         '%ICON{"unknown.tgz" default="argh" alt="bunshop"}%');

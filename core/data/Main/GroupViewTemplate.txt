@@ -158,16 +158,16 @@ div.wikiGroupsAction {
 then='
 ---++ %MAKETEXT{"Administration"}%
 '}%
-%ICON{"useradd"}% <a href='%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=text;section=group_add;groupname=%groupname%' alt='%MAKETEXT{"Add members..."}%' title='%MAKETEXT{"Add members..."}%' class='jqUIDialogLink  {cache:false}'>%MAKETEXT{"Add members..."}%</a>
+%ICON{"useradd" quote="\""}% <a href='%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=text;section=group_add;groupname=%groupname%' alt='%MAKETEXT{"Add members..."}%' title='%MAKETEXT{"Add members..."}%' class='jqUIDialogLink  {cache:false}'>%MAKETEXT{"Add members..."}%</a>
 %IF{"$allowremove"
-   then='%BR%%ICON{"userdelete"}% <a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=text;section=group_remove;groupname=%groupname%" alt="%MAKETEXT{"Remove members..."}%" title="%MAKETEXT{"Remove members..."}%" class="jqUIDialogLink {cache:false}">%MAKETEXT{"Remove members..."}%</a>'
+   then='%BR%%ICON{"userdelete" quote="\""}% <a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=text;section=group_remove;groupname=%groupname%" alt="%MAKETEXT{"Remove members..."}%" title="%MAKETEXT{"Remove members..."}%" class="jqUIDialogLink {cache:false}">%MAKETEXT{"Remove members..."}%</a>'
 }%
 %IF{
    "$allowremove AND 
    istopic '%USERSWEB%.%groupname%' AND 
    not ( '%USERSWEB%.%groupname%'/preferences[name='VIEW_TEMPLATE'].value = 'GroupView' )
    "
-   then='%BR%%ICON{"wrench"}% <a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=text;section=group_upgrade;groupname=%groupname%" alt="%MAKETEXT{"Upgrade group topic..."}%" title="%MAKETEXT{"Upgrade group topic..."}%" class="jqUIDialogLink {cache:false}">%MAKETEXT{"Upgrade group topic..."}%</a>'
+   then='%BR%%ICON{"wrench" quote="\""}% <a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=text;section=group_upgrade;groupname=%groupname%" alt="%MAKETEXT{"Upgrade group topic..."}%" title="%MAKETEXT{"Upgrade group topic..."}%" class="jqUIDialogLink {cache:false}">%MAKETEXT{"Upgrade group topic..."}%</a>'
 }%
 <!-- /changegroup -->%ENDSECTION{"changegroup"}%
 </verbatim>

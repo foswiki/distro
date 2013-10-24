@@ -22,7 +22,7 @@ TODO: Sven's not sure this code belongs here - its only use appears to be the IC
 =cut
 
 sub render {
-    my ( $session, $url, $alt ) = @_;
+    my ( $session, $url, $alt, $quote ) = @_;
 
     if ( !defined($alt) ) {
 
@@ -35,6 +35,15 @@ sub render {
     $html =~ s/%WIDTH%/16/g;
     $html =~ s/%HEIGHT%/16/g;
     $html =~ s/%ALT%/$alt/ge;
+
+    $quote ||= '';
+
+    return $html if ( !$quote || $html =~ /$quote/ );
+
+    if ( $html =~ /(['"])/ ) {
+        my $q = $1;
+        $html =~ s/$q/$quote/g;
+    }
 
     return $html;
 }

@@ -181,7 +181,8 @@ sub ICON {
     return Foswiki::Render::IconImage::render(
         $this,
         $this->_getIconUrl( 0, $path ),
-        $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else'
+        $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else',
+        $params->{quote},
     );
 }
 

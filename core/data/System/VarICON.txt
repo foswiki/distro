@@ -18,5 +18,13 @@
       * =%<nop>ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%= displays %ICON{"http://trunk.foswiki.org/pub/%SYSTEMWEB%/DocumentGraphics/xsl.gif"}%
    * Graphic samples: %ICON{"arrowbright"}% =arrowbright=, %ICON{"bubble"}% =bubble=, %ICON{"choice-yes"}% =choice-yes=, %ICON{"hand"}% =hand=
    * File type samples: %ICON{"bmp"}% =bmp=, %ICON{"doc"}% =doc=, %ICON{"gif"}% =gif=, %ICON{"hlp"}% =hlp=, %ICON{"html"}% =html=, %ICON{"mp3"}% =mp3=, %ICON{"pdf"}% =pdf=, %ICON{"ppt"}% =ppt=, %ICON{"txt"}% =txt=, %ICON{"xls"}% =xls=, %ICON{"xml"}% =xml=, %ICON{"zip"}% =zip=
+
+If you find that ICON is producing broken HTML when it is used in another macro e.g. for formatting search results, then this may be because it is
+using the wrong kind of quotes for the context. You can control the quotes
+it uses using the =quote= parameter, for example:
+   * =%<nop>ICON{"pdf" quote="\""}%= displays as %ICON{"pdf" quote="\""}%
+   * =%<nop>ICON{"pdf" quote="'"}%= displays as %ICON{"pdf" quote="'"}%
+You can also use formatting tokens such as =$quot= and =$dollar=.
+
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURLPATH][ICONURLPATH]], %WIKIPREFSTOPIC%, FileAttachments, %ICONTOPIC%
 
