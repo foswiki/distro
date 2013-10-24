@@ -23,11 +23,44 @@ use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 
+# ****
+# CGI.pm has a private class called CGITempFile which is used to hold
+# a handle to a temporary file. The idea is that when the CGI object
+# is reaped, the temporary files are automatically unlinked. However,
+# when Sandbox::sysCommand is invoked - for example, by loading a topic
+# before the uploads have been processed - a subprocess is created that
+# gets a copy of the parent process, including these objects. When the
+# subprocess terminates, the CGITempFiles are DESTROYed and the external
+# files unlinked, leaving the parent process with pointers to non-
+# existant temporary files.
+#
+# We solve this problem by patching the DESTROY method on CGITempFile so
+# that the temporary files are only ever destroyed by the parent process,
+# and never by the child. We do this by comparing the PID with a PID
+# recorded when the CGI object is constructed.
+
+our $CONSTRUCTOR_PID;
+our $SAVE_DESTROY;
+eval {
+    # In an eval in case it's ever removed from CGI
+    $SAVE_DESTROY = \&CGITempFile::DESTROY;
+};
+if ( defined $SAVE_DESTROY ) {
+    no warnings 'redefine';
+    *CGITempFile::DESTROY = sub {
+        if ( $$ == $CONSTRUCTOR_PID ) {
+
+            # Parent process, unlink the temp file
+            &$SAVE_DESTROY(@_);
+        }
+    };
+}
+
 sub run {
     my $this = shift;
     my $req  = $this->prepare;
     unless ( $Foswiki::cfg{isVALID}
-        || $req->http('x-requested-with') eq 'XMLHttpRequest' )
+        || ( $req->http('x-requested-with') || '' ) eq 'XMLHttpRequest' )
     {
         print STDOUT "Content-type: text/html\n\n";
         print STDOUT '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"'
@@ -153,6 +186,11 @@ sub prepareBody {
     my ( $this, $req ) = @_;
 
     return unless $ENV{CONTENT_LENGTH};
+
+    # Record the master process so we don't reap temp files in
+    # sub-processes (see long comment ****)
+    $CONSTRUCTOR_PID = $$;
+
     my $cgi = new CGI();
     my $err = $cgi->cgi_error;
     throw Foswiki::EngineException( $1, $2 )
