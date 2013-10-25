@@ -349,7 +349,7 @@ sub _uglifyjs {
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
 
-    $cmd = "uglifyjs $from";
+    $cmd = "uglifyjs --ascii $from";
 
     unless ( $this->{-n} ) {
         $cmd .= " -o $to";
@@ -396,7 +396,7 @@ return 1 if we have uglify as a command uglify
 =cut
 
 sub _haveuglifyjs {
-    my $info   = `uglifyjs -h 2>&1`;
+    my $info   = `echo ''|uglifyjs 2>&1`;
     my $result = 0;
 
     if ( not $? ) {
