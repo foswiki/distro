@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-14 17:29+0200\n"
+"PO-Revision-Date: 2013-10-25 14:56+0200\n"
 "Last-Translator: Michael <daum@michaeldaumconsulting.com>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
 "Language: de\n"
@@ -50,7 +50,7 @@ msgstr "%1 (Standard)"
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - Registrierung von %2 (%3) fehlgeschlagen!"
+msgstr "%1 - Registrierung von %2 (%3) fehlgeschlagen"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:235
 #: core/templates/registernotify.tmpl:3
@@ -625,7 +625,7 @@ msgstr "Aktionen"
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:455
 msgid "Add"
-msgstr "hinzufügen"
+msgstr "Hinzufügen"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
@@ -956,7 +956,7 @@ msgstr "Konnte Web %1 nicht anlegen, da es bereits existiert"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Konnte %1 nicht nach %2 umbenennen, da es bereits existiert"
+msgstr "Konnte %1 nicht nach %2 umbenennen, da es bereits existiert."
 
 #: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
@@ -1560,7 +1560,7 @@ msgstr "Fehler beim Speichern des Topics"
 
 #: core/templates/messages.tmpl:598
 msgid "Error: File attachment at %1,%2 does not exist"
-msgstr "Fehler: Dateianhang von %1, %2 existiert nicht"
+msgstr "Fehler: Dateianhang an %1, %2 existiert nicht"
 
 #: core/templates/messages.tmpl:600
 msgid ""
@@ -1572,7 +1572,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:599
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
-msgstr "Fehler: Nicht unterstütztes Protokoll. (Muss 'http://domain/..' sein)"
+msgstr "Fehler: Nicht unterstütztes Protokoll. (Muss 'http://domain/...' sein)"
 
 #: core/templates/messages.tmpl:287
 msgid "Errors"
@@ -1610,7 +1610,7 @@ msgstr "Die mit %1 gekennzeichneten sind Pflichtfelder"
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 msgid "Fields marked <span class='required'>*</span> are required"
 msgstr ""
-"Die mit <span class=\"required\">*</span> gekennzeichneten Felder sind "
+"Die mit <span class='required'>*</span> gekennzeichneten Felder sind "
 "Pflichtfelder"
 
 #: core/templates/messages.tmpl:409
@@ -1636,7 +1636,7 @@ msgid ""
 "Wikipedia]]."
 msgstr ""
 "Für weitere Informationen über CSRF (cross-site request forgery) und die "
-"damit für Sie potentiell verbundenen Gefahren, siehe [[%1][Wikipedia]]."
+"damit für Sie potentiell verbundenen Gefahren, sehen Sie [[%1][Wikipedia]]."
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1677,8 +1677,7 @@ msgid ""
 "that the persons using the browsers intentionally sent them."
 msgstr ""
 "Foswiki überprüft alle Anfragen, die es von Browsern erhält, und versucht zu "
-"gewährleisten, dass die Personen, die die Browser benutzen, diese Anfragen "
-"absichtlich gesendet haben."
+"gewährleisten, dass diese Anfragen absichtlich gesendet wurden."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -1686,7 +1685,7 @@ msgstr "Foswiki-Passwort zurücksetzen für %1"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
-msgstr "Mehr Informationen über Dateianhänge."
+msgstr "Mehr Informationen über Dateianhänge"
 
 #: core/templates/settings.tmpl:25
 msgid "Get help on setting topic preferences"
@@ -2226,7 +2225,7 @@ msgstr "Fehlender Aktionsbefehl"
 
 #: core/templates/messages.tmpl:637
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "Fehlender oder unerlaubter Web-Name"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
@@ -2363,7 +2362,7 @@ msgstr "Neuer Web-Name:"
 
 #: core/templates/more.tmpl:158
 msgid "Newer revision:"
-msgstr "Neuere Revision"
+msgstr "Neuere Revision:"
 
 #: JQueryPlugin/data/System/JQueryTmpl.txt:207
 msgid "Next"
@@ -2609,7 +2608,7 @@ msgstr "Bitte geben Sie das Passwort des Wiki-Administrators ein"
 msgid "Please go _back_ in your browser and try a new name."
 msgstr ""
 "Bitte gehen Sie mit Ihrem Browser _zurück_ und versuchen Sie einen neuen "
-"Namen"
+"Namen."
 
 #: core/templates/messages.tmpl:425
 msgid "Please go back in your browser and check again."
@@ -2622,7 +2621,7 @@ msgid ""
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
 "Bitten gehen Sie mit Ihrem Browser zurück und wählen Sie einen Topic Namen, "
-"der ein [[%SYSTEMWEB%.WikiWord][<nop>WikiWort]] ist oder erlauben Sie die "
+"der ein [[%SYSTEMWEB%.WikiWord][WikiWort]] ist oder erlauben Sie die "
 "Verwendung von Nicht-<nop>WikiWörter in der Auswahlbox"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
@@ -2713,7 +2712,7 @@ msgstr "Zurück verschieben..."
 
 #: core/data/System/WebSearch.txt:207
 msgid "Query Search"
-msgstr "Strukturierte Suche (Query Search)"
+msgstr "Strukturierte Suche"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 msgid "Question"
@@ -2940,8 +2939,8 @@ msgid ""
 msgstr ""
 "Wiederherstellen speichert eine exakte Kopie der ausgewählten Version in "
 "eine neue Version. Jede Version wird in der Versionsübersicht gespeichert "
-"und kann eingesehen und Wiederhergestellt werden. Anhänge werden nicht "
-"verändert!"
+"und kann eingesehen und Wiederhergestellt werden. Beachten Sie bitte, dass "
+"Anhänge nicht verändert werden."
 
 #: core/templates/more.tmpl:180
 msgid "Restoring is disabled because this topic is at revision 1."
@@ -3095,7 +3094,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:382
 msgid "See %1 for information about Form Definitions."
-msgstr "Konsultieren Sie %1 für Informationen über Formulardefinitionen"
+msgstr "Konsultieren Sie %1 für Informationen über Formulardefinitionen."
 
 #: core/templates/messages.tmpl:510 core/templates/messages.tmpl:520
 #: core/templates/messages.tmpl:527 core/templates/messages.tmpl:560
@@ -3635,7 +3634,7 @@ msgstr ""
 #: core/templates/messages.tmpl:394
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
-"Es sollte eine Zeile geben, die %1 inkludiert, bitte nach %2 (oder %2) "
+"Es sollte eine Zeile geben, die %1 inkludiert, bitte nach %2 (oder %3) "
 "schauen"
 
 #: core/templates/messages.tmpl:506
@@ -3686,7 +3685,7 @@ msgstr ""
 "Dies ist ein Abonnement-Service, um automatisch per E-Mail benachrichtigt zu "
 "werden, wenn ein Topic im %1 Web sich geändert hat. Um sich für diesen "
 "Service anzumelden fügen Sie einfach ihren %2 in alphabetischer Reihenfolge "
-"zu dieser Liste hinzu."
+"zu dieser Liste hinzu:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
@@ -3704,7 +3703,7 @@ msgstr "Dies ist eine automatisierte E-Mail von %1."
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
 "Dies ist eine automatisierte E-Mail Benachrichtung über die "
-"Benutzerregistrierung in %1"
+"Benutzerregistrierung in %1."
 
 #: core/data/Trash/WebHome.txt:2
 msgid ""
@@ -3779,7 +3778,7 @@ msgstr "Titel"
 
 #: core/templates/renameconfirm.tmpl:16
 msgid "To attachment:"
-msgstr "Zu Anhang"
+msgstr "Zu Anhang:"
 
 #: core/data/System/WebSearch.txt:285
 msgid ""
@@ -3902,7 +3901,7 @@ msgstr "Topics im %1 Web:"
 
 #: core/data/System/WebSearch.txt:232
 msgid "Topics per web"
-msgstr "Topics per Web"
+msgstr "Topics pro Web"
 
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
@@ -4173,7 +4172,7 @@ msgstr "Warnung: Diese Seite erlaubt kein %<nop>INCLUDE% von URLs"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "Warnung: Das einzubindende Topic <nop>%1 existiert nicht."
+msgstr "Warnung: Das einzubindende Topic <nop>%1 existiert nicht!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
@@ -4212,7 +4211,7 @@ msgstr "Willkommen im %1 Web"
 #: core/templates/messages.tmpl:272
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr ""
-"Während versucht wird <noautolink>%1</noautolink> eine Mail zu schicken."
+"Während versucht wird, <noautolink>%1</noautolink> eine Mail zu schicken."
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Who"
@@ -4504,9 +4503,9 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
-"Ihr Name wird online angezeigt. Beachten Sie, dass dieser ein eindeutiger "
-"[[%SYSTEMWEB%.WikiName][Wiki Name]] sein muss. Standardmäßig wird er aus dem "
-"Vor- und Nachnamen abgeleitet."
+"Ihr Name so, wie er online angezeigt wird. Beachten Sie, dass dieser ein "
+"eindeutiger [[%SYSTEMWEB%.WikiName][Wiki Name]] sein muss. Standardmäßig "
+"wird er aus dem Vor- und Nachnamen abgeleitet."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
 msgid "Your password"
@@ -4562,7 +4561,7 @@ msgstr "Ihre Signatur zum Kopieren/Einfügen"
 
 #: core/templates/edit.tmpl:48
 msgid "Your signature to copy/paste:"
-msgstr "Ihre Signatur zum Kopieren/Einfügen"
+msgstr "Ihre Signatur zum Kopieren/Einfügen:"
 
 #: core/templates/messages.tmpl:209
 msgid ""
@@ -4584,7 +4583,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:393
 msgid "[[%1][Debug topic text]]."
-msgstr "[[%1][Topic-Text austesten(debuggen)]]."
+msgstr "[[%1][Topic-Text testen]]."
 
 #: core/templates/settings.tmpl:27
 msgid ""
