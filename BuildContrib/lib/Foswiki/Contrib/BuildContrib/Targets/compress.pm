@@ -64,16 +64,15 @@ sub _build_js {
 
     # First try uglify
     if ( !$minifiers{js} ) {
-        my $ug = _haveuglifyjs();
-        if ($ug) {
+        if ( $this->_haveuglifyjs() ) {
             $minifiers{js} = sub {
-                return $this->_uglifyjs( @_, 'js', $ug );
+                return $this->_uglifyjs( @_, 'js' );
             };
         }
     }
 
     if ( !$minifiers{js} ) {
-        my $yui = _haveYUI();
+        my $yui = $this->_haveYUI();
 
         if ($yui) {
             $minifiers{js} = sub {
@@ -118,16 +117,15 @@ sub _build_css {
 
     # First try cssmin
     if ( !$minifiers{css} ) {
-        my $cm = _havecssmin();
-        if ($cm) {
+        if ( $this->_havecssmin() ) {
             $minifiers{css} = sub {
-                return $this->_cssmin( @_, 'css', $ug );
+                return $this->_cssmin( @_, 'css' );
             };
         }
     }
 
     if ( !$minifiers{css} ) {
-        my $yui = _haveYUI();
+        my $yui = $this->_haveYUI();
 
         if ($yui) {
             $minifiers{css} = sub {
@@ -304,7 +302,7 @@ sub _yuiMinify {
 
     if ( $cmdtype == 2 ) {
         $cmd =
-"java -jar $Foswiki::Contrib::Build::basedir/tools/yuicompressor.jar --type $type $from";
+"java -jar $this->{basedir}/tools/yuicompressor.jar --type $type $from";
     }
     else {
         $cmd = "yui-compressor --type $type $from";
@@ -320,7 +318,7 @@ sub _yuiMinify {
 }
 
 sub _cssmin {
-    my ( $this, $from, $to, $type, $cmdtype ) = @_;
+    my ( $this, $from, $to ) = @_;
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
 
@@ -345,7 +343,7 @@ sub _cssmin {
 }
 
 sub _uglifyjs {
-    my ( $this, $from, $to, $type, $cmdtype ) = @_;
+    my ( $this, $from, $to ) = @_;
     my $lcall = $ENV{'LC_ALL'};
     my $cmd;
 
@@ -354,6 +352,8 @@ sub _uglifyjs {
     unless ( $this->{-n} ) {
         $cmd .= " -o $to";
     }
+
+    $cmd .= ' --ascii';
 
     warn "$cmd\n";
     my $out = `$cmd`;
@@ -370,13 +370,14 @@ return 2 if we have YUI as a jar file in tools
 =cut
 
 sub _haveYUI {
+    my $this   = shift;
     my $info   = `yui-compressor -h 2>&1`;
     my $result = 0;
 
     if ( not $? ) {
         $result = 1;
     }
-    elsif ( -e "$Foswiki::Contrib::Build::basedir/tools/yuicompressor.jar" ) {
+    elsif ( -e "$this->{basedir}/tools/yuicompressor.jar" ) {
 
         # Do we have java?
         $info = `java -version 2>&1` || '';
@@ -396,6 +397,7 @@ return 1 if we have uglify as a command uglify
 =cut
 
 sub _haveuglifyjs {
+    my $this   = shift;
     my $info   = `echo ''|uglifyjs 2>&1`;
     my $result = 0;
 
@@ -414,6 +416,7 @@ return 1 if we have cssmin as a command
 =cut
 
 sub _havecssmin {
+    my $this   = shift;
     my $info   = `cssmin -h 2>&1`;
     my $result = 0;
 
