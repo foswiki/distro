@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-24 19:06+0200\n"
+"PO-Revision-Date: 2013-10-25 18:45+0200\n"
 "Last-Translator: CrawfordCurrie <foswiki@c-dot.co.uk>\n"
 "Language-Team: Norwegian <LL@li.org>\n"
 "Language: no\n"
@@ -1399,7 +1399,7 @@ msgstr "Rediger"
 
 #: core/data/System/VarMAKETEXT.txt:60
 msgid "Edit %*(%1,file)"
-msgstr "Rediger %*(%1,minutt) "
+msgstr "Rediger %*(%1,fil) "
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
