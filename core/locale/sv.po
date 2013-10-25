@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2011-11-23 00:31+0200\n"
+"PO-Revision-Date: 2013-10-25 19:49+0200\n"
 "Last-Translator: Erik <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "Language: sv\n"
@@ -70,9 +70,8 @@ msgstr "%1 tillagd i gruppen %2."
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 borttagen från gruppen %2."
+msgstr "%1 kan inte tas bort från %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -275,9 +274,8 @@ msgid "(delete)"
 msgstr "(ta bort)"
 
 #: core/templates/messages.tmpl:725
-#, fuzzy
 msgid "(disabled)"
-msgstr "Redigera tabell"
+msgstr "(inaktiverad)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -806,9 +804,8 @@ msgid "Attachments"
 msgstr "Bifogade filer"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "Bifogade filer till %1"
+msgstr "Bifogade filer %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -899,12 +896,12 @@ msgstr ""
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "ÄNDRING tillåts inte av %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "ÄNDRING tillåts inte för %1 av %2"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
@@ -1080,7 +1077,7 @@ msgstr "Färgen %1 har ogiltigt format"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Kom in"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1223,7 +1220,7 @@ msgstr "Skapa ny sida"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Skapa specificerades inte och gruppen existerar inte"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1422,9 +1419,8 @@ msgid "Edit"
 msgstr "Redigera"
 
 #: core/data/System/VarMAKETEXT.txt:60
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,minut) "
+msgstr "Redigera %*(%1,fil) "
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -1505,15 +1501,14 @@ msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Skriv in administratörsanvändarnamn eller inloggning angiven i %1"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:121
-#, fuzzy
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Gå bakåt i webbläsaren och välj ett sidnamn som är ett [[%SYSTEMWEB%."
-"WikiWord][WikiOrd]] eller kryssa för att tillåta icke-<nop>WikiOrd"
+"Ange ämne som [[%SYSTEMWEB%.WikiWord][WikiOrd]] eller eller kryssa för att "
+"tillåta icke-<nop>WikiOrd"
 
 #: core/templates/messages.tmpl:713
 msgid "Error encountered loading the plugin. See errors below."
-msgstr ""
+msgstr "Fel vid försök att läsa in insticksmodulen. Se felmeddelanden nedan."
 
 #: core/templates/messages.tmpl:270
 msgid "Error registering new user"
@@ -1565,7 +1560,7 @@ msgstr "Insticksmoduler som inte fungerar"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:315
 msgid "Failed to add user: "
-msgstr ""
+msgstr "Misslyckades att lägga till användare:"
 
 #: core/templates/messages.tmpl:611
 msgid "Failed to include URL %1"
@@ -1703,7 +1698,7 @@ msgstr "Grupp"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:941
 #: core/lib/Foswiki/UserMapping.pm:344
 msgid "Group does not exist and create not permitted"
-msgstr ""
+msgstr "Gruppen existerar inte och det är inte tillåtet att skapa"
 
 #: core/data/Main/WikiGroups.txt:28
 msgid "Group name"
@@ -1711,7 +1706,7 @@ msgstr "Gruppnamn"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:887
 msgid "Group names must end in Group"
-msgstr ""
+msgstr "Gruppnamn måste sluta på \"Group\""
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:15
 #: PatternSkin/data/System/WebLeftBarExample.txt:7
@@ -1804,6 +1799,9 @@ msgid ""
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
 msgstr ""
+"Om Foswiki inte kan hitta en registrerad e-postadress till dig i den hemliga "
+"databasen, kommer du inte att kunna nollställa ditt lösenord eller dra "
+"fördel av e-postnotifieringar när sidor ändras."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -1995,7 +1993,7 @@ msgstr "Felaktig aktiveringskod"
 
 #: core/templates/messages.tmpl:249
 msgid "Invalid Input"
-msgstr ""
+msgstr "Ogiltig inmatning"
 
 #: core/templates/messages.tmpl:326 core/templates/messages.tmpl:334
 #: core/templates/messages.tmpl:342
@@ -2129,9 +2127,8 @@ msgstr "Logga in med användarnamn och lösenord"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: core/templates/foswiki.tmpl:41
-#, fuzzy
 msgid "Login"
-msgstr "Användarnamn"
+msgstr "Inloggning"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
 msgid "Login name"
@@ -2146,9 +2143,8 @@ msgid "Logon"
 msgstr "Logga in"
 
 #: core/templates/foswiki.tmpl:43
-#, fuzzy
 msgid "Logout"
-msgstr "Logga in"
+msgstr "Utloggning"
 
 #: core/templates/messages.tmpl:285
 msgid "Mail to"
@@ -2177,7 +2173,7 @@ msgstr "Tangentbordskommandon som saknas"
 
 #: core/templates/messages.tmpl:637
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "Avdelningsnamn saknas eller är ogiltigt"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
@@ -2255,7 +2251,7 @@ msgstr "NY"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
