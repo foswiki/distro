@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-25 20:57+0200\n"
+"PO-Revision-Date: 2013-10-26 23:36+0200\n"
 "Last-Translator: Erik <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "Language: sv\n"
@@ -2297,6 +2297,7 @@ msgstr "Nytt lösenord"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
 msgid "New password did not match existing password for this user"
 msgstr ""
+"Det nya lösenordet var inte samma som befintligt lösenord för användaren"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2504,9 +2505,8 @@ msgid "Password reset failed"
 msgstr "Misslyckades att nollställa lösenord"
 
 #: core/templates/messages.tmpl:174
-#, fuzzy
 msgid "Passwords disabled"
-msgstr "Misslyckades att nollställa lösenord"
+msgstr "Lösenord inaktiverade"
 
 #: core/templates/messages.tmpl:255
 msgid "Passwords do not match"
@@ -2602,11 +2602,13 @@ msgstr "Hanterare för insticksmoduler"
 
 #: core/templates/messages.tmpl:723
 msgid "Plugin module did not return true. See errors below."
-msgstr ""
+msgstr "Insticksmodulen returnerade inte \"true\". Se felmeddelanden nedan."
 
 #: core/templates/messages.tmpl:715
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
+"Insticksmodulen inte definierad. Kontrollera konfigurationen. Se "
+"felmeddelanden nedan."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:13
@@ -3053,7 +3055,7 @@ msgstr "Se ändringar sedan:"
 
 #: core/lib/Foswiki/Plugins.pm:261
 msgid "See the DISABLEDPLUGINS preference setting."
-msgstr ""
+msgstr "Se inställningen DISABLEDPLUGINS."
 
 #: core/templates/changeform.tmpl:12
 msgid "Select"
@@ -3219,7 +3221,7 @@ msgstr "Inskickat innehåll:"
 
 #: core/templates/viewtopicactionbuttons.tmpl:76
 msgid "Subscribe"
-msgstr ""
+msgstr "Prenumerera"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
 #: MailerContrib/templates/mailnotify.tmpl:88
@@ -3348,9 +3350,8 @@ msgid "The Administrator has disabled new user registration."
 msgstr "Administratören har stängt av registrering av nya användare."
 
 #: core/templates/messages.tmpl:176
-#, fuzzy
 msgid "The Administrator has disabled password changes."
-msgstr "Administratören har stängt av registrering av nya användare."
+msgstr "Administratören har stängt av lösenordsbyte."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
@@ -3416,15 +3417,13 @@ msgstr ""
 "sparat en sida. Då tar Foswiki det säkra före det osäkra."
 
 #: core/templates/messages.tmpl:335
-#, fuzzy
 msgid "The e-mail address for this account has been rejected."
-msgstr "E-postadressen för detta användarnamn är inte giltigt."
+msgstr "E-postadressen för detta konto godtogs inte."
 
 #: core/templates/messages.tmpl:343
-#, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
-msgstr "E-postadressen för detta användarnamn är inte giltigt."
+msgstr "E-postadressen för detta konto är redan registrerat av annan användare."
 
 #: core/templates/messages.tmpl:327
 msgid "The e-mail address for this account is not valid."
@@ -3437,6 +3436,10 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"E-postadressen anges normalt inte på din användarsida. Om du vill avslöja en "
+"adress för andra användare, kan du manuellt redigera din användarsida och "
+"lägga till en adress.  Det måste inte vara samma adress som används internt "
+"av Foswiki."
 
 #: core/templates/messages.tmpl:607
 msgid "The entry for user %1 was missing in the password system."
@@ -3514,7 +3517,7 @@ msgstr "Användaren %1 har redan aktiverats och ska kunna logga in."
 
 #: core/templates/messages.tmpl:250
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "Värdet för =%1= godtogs inte."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
