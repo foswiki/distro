@@ -48,7 +48,7 @@ eval {
 if ( defined $SAVE_DESTROY ) {
     no warnings 'redefine';
     *CGITempFile::DESTROY = sub {
-        if ( $$ == $CONSTRUCTOR_PID ) {
+        if ( defined $CONSTRUCTOR_PID && $$ == $CONSTRUCTOR_PID ) {
 
             # Parent process, unlink the temp file
             &$SAVE_DESTROY(@_);
