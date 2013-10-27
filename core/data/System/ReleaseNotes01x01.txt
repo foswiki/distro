@@ -1,4 +1,4 @@
-jk%META:TOPICPARENT{name="ReleaseHistory"}%
+%META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.9 Alpha 1
 
