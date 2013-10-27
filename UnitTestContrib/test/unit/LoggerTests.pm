@@ -192,7 +192,7 @@ sub fixture_groups {
     foreach my $alg ( keys %algs ) {
         my $fn;
         if ( $alg eq 'LogDispatch' ) {
-            foreach my $lt qw(File FileRolling) {
+            foreach my $lt (qw(File FileRolling)) {
                 $fn = $alg . $lt . 'Logger';
                 push( @groups, $fn );
             }

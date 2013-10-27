@@ -199,7 +199,12 @@ sub _expandAttrs {
         return $comment;
     }
     elsif ( $attr eq 'ATTRS' ) {
-        return $info->{attr} or "&nbsp;";
+        if ( $info->{attr} ) {
+            return $info->{attr};
+        }
+        else {
+            return "&nbsp;";
+        }
     }
     elsif ( $attr eq 'FILE' ) {
         return $file;
@@ -302,8 +307,8 @@ sub getAttachmentLink {
 
     # I18N: Site specified %ATTACHEDIMAGEFORMAT% or %ATTACHEDFILELINKFORMAT%,
     # ensure that filename is URL encoded - first $name must be URL.
-    $fileLink =~ s/\$name/$fileURL/;        # deprecated
-    $fileLink =~ s/\$name/$attName/;        # deprecated, see Item1814
+    $fileLink =~ s/\$name/$fileURL/;    # deprecated
+    $fileLink =~ s/\$name/$attName/;    # deprecated, see Item1814
     $fileLink =~ s/\$filename/$attName/g;
     $fileLink =~ s/\$fileurl/$fileURL/g;
 
