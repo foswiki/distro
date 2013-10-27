@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-27 11:40+0200\n"
+"PO-Revision-Date: 2013-10-27 21:41+0200\n"
 "Last-Translator: Erik <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "Language: sv\n"
@@ -4266,13 +4266,12 @@ msgstr ""
 "eller Javascript är avstängt i din webbläsare."
 
 #: core/templates/messages.tmpl:710
-#, fuzzy
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
-"Det går inte att manuellt bekräfta denna ändring, eftersom antingen cookies "
-"eller Javascript är avstängt i din webbläsare."
+"Det går inte att fortsätta eftersom antingen cookies eller Javascript är "
+"avstängt i din webbläsare."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
 msgid "You cannot register on this site."
@@ -4401,9 +4400,8 @@ msgid "Your password has been changed to %1."
 msgstr "Ditt lösenord ändrades till %1."
 
 #: core/templates/messages.tmpl:180
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Ditt lösenord ändrades till %1."
+msgstr "Ditt lösenord har inte ändrats."
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:164
 #: core/templates/registernotify.tmpl:12
@@ -4546,7 +4544,7 @@ msgstr "glöm inte att kontrollera dina sidinställningar"
 
 #: core/templates/messages.tmpl:721
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin misslyckades.   Se felmeddelanden nedan."
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 #: core/templates/formtables.tmpl:21
@@ -4576,7 +4574,7 @@ msgstr "anger obligatoriska fält"
 
 #: core/templates/messages.tmpl:717 core/templates/messages.tmpl:719
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin inte definierad. Se felmeddelanden nedan."
 
 #: core/data/System/SiteChanges.txt:44
 msgid "last change"
@@ -4617,9 +4615,8 @@ msgid "retrieved at %1"
 msgstr "hämtades %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(version %1)"
+msgstr "version %1"
 
 #: core/data/System/SiteChanges.txt:23
 msgid "the beginning"
@@ -4688,16 +4685,13 @@ msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Sida vid sida' accesskey='s'>&Sida vid sida"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Redigera denna sida' accesskey='e'>Redig&era"
+msgstr "title='Prenumerera på denna sida' accesskey='s'>Prenumerera (&s)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:16
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr ""
-"title='Utskriftsvänlig version av denna sida' accesskey='p'>Utskriftsvänlig "
-"(&P)"
+"title='Avbryt prenumeration på denna sida' accesskey='s'>&Sluta prenumerera"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:144
 #: core/templates/viewtopicactionbuttons.tmpl:11
