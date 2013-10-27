@@ -106,7 +106,7 @@ sub test_simple_upload {
         createlink       => 0,
         changeproperties => 0,
     );
-    $this->assert_matches( qr/^Status: 302/, $result );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
     $this->assert(
         open(
             my $F,
@@ -329,7 +329,7 @@ sub test_propschanges {
         filecomment      => 'Grease the stoat.',
         changeproperties => 1,
     );
-    $this->assert_matches( qr/^Status: 302/, $result );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
     $result = $this->do_upload(
         'Flappadoodle.txt',
         $data,
@@ -340,7 +340,7 @@ sub test_propschanges {
         linkformat  => '\n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment',
         changeproperties => 1
     );
-    $this->assert_matches( qr/^Status: 302/, $result );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -383,7 +383,7 @@ sub test_linkformat {
         linkformat  => '\n   * [[%ATTACHURL%/$fileurl][$filename]]: $comment',
         changeproperties => 1
     );
-    $this->assert_matches( qr/^Status: 302/, $result );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -405,7 +405,7 @@ qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate t
 '$n |$year-$mo $wday|Effort $lt--        |[[%ATTACHURL%/$name][%ICON{$fileext}% $name]]| received from $comment |',
         changeproperties => 1
     );
-    $this->assert_matches( qr/^Status: 302/, $result );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
     ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 
@@ -448,7 +448,7 @@ sub test_imagelink {
         createlink       => 0,
         changeproperties => 0,
     );
-    $this->assert_matches( qr/^Status: 302/, $result );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
     $filename = Assert::TAINT($filename);
     $result   = $this->do_upload(
         $filename,
@@ -459,7 +459,7 @@ sub test_imagelink {
         createlink       => 1,
         changeproperties => 1
     );
-    $this->assert_matches( qr/^Status: 302/, $result );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
 

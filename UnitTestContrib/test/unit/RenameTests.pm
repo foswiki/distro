@@ -1369,7 +1369,7 @@ THIS
 
     my ($text) = $this->captureWithKey( rename => $UI_FN, $this->{session} );
     my $ext = $Foswiki::cfg{ScriptSuffix};
-    $this->assert_matches( qr/^Status:\s+302/s, $text );
+    $this->assert_matches( qr/^Status:\s+302/ms, $text );
 
     my $ss = '/view' . $Foswiki::cfg{ScriptSuffix} . '/';
     $ss = $Foswiki::cfg{ScriptUrlPaths}{view} . '/'
