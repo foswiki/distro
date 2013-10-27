@@ -232,7 +232,7 @@ sub call_UI_FN {
     }
 
     my $status = 666;
-    if ( $header =~ /Status: (\d*)./ ) {
+    if ( $header =~ /^Status: (\d*).*/ms ) {
         $status = $1;
     }
 
