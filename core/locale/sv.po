@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-26 23:36+0200\n"
+"PO-Revision-Date: 2013-10-27 11:40+0200\n"
 "Last-Translator: Erik <er-boktid@aman.se>\n"
 "Language-Team: Swedish <N/A>\n"
 "Language: sv\n"
@@ -3549,9 +3549,8 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Det bör finnas en rad som innehåller %1, se efter %2 (eller %3)"
 
 #: core/templates/messages.tmpl:506
-#, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
-msgstr "Fel inträffade när %1 skulle läggas till i gruppen %2."
+msgstr "Fel inträffade vid försök att lägga till i gruppen %2. %1"
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
@@ -3908,14 +3907,13 @@ msgstr "Använd mall:"
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
 msgid "User %1 does not have CHANGE permission on %2."
-msgstr ""
+msgstr "Användaren %1 har inte behörigheten CHANGE på %2."
 
 #. ($cuid)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1121
 #: core/lib/Foswiki/UserMapping.pm:364
-#, fuzzy
 msgid "User %1 not in group, cannot be removed"
-msgstr "%1 är medlem av minst en grupp och kan inte tas bort"
+msgstr "Användaren %1 finns inte i gruppen och kan inte tas bort"
 
 #: core/templates/messages.tmpl:10
 msgid "User Account %1 Deleted"
@@ -3937,12 +3935,12 @@ msgstr "Användare"
 #. ($Group)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:883
 msgid "Users cannot be added to %1"
-msgstr ""
+msgstr "Användare kan inte läggas till i %1"
 
 #. ($groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
 msgid "Users cannot be removed from %1"
-msgstr ""
+msgstr "Användare kan inte tas bort från %1"
 
 #: core/templates/messages.tmpl:192
 msgid ""
@@ -3969,7 +3967,6 @@ msgid "View"
 msgstr "visa"
 
 #: core/templates/foswiki.tmpl:155
-#, fuzzy
 msgid "View complete topic history"
 msgstr "Visa komplett historik för sidan"
 
@@ -4058,9 +4055,8 @@ msgid "Warning: Can't find topic %1.%2"
 msgstr "Varning: Kan inte hitta sidan %1.%2"
 
 #: core/templates/messages.tmpl:601
-#, fuzzy
 msgid "Warning: Can't find web %1 for topic %2"
-msgstr "Varning: Kan inte hitta sidan %1.%2"
+msgstr "Varning: Kan inte hitta avdelning %1 för sida %2"
 
 #: core/lib/Foswiki/UI/Register.pm:1026
 msgid "Warning: Could not send confirmation email"
@@ -4078,18 +4074,16 @@ msgstr ""
 "Varning: Denna webbplats tillåter inte %<nop>INCLUDE% för att inkludera URLer"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
-#, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
-msgstr "Varning: Denna \\'include\\'-sida finns inte!"
+msgstr "Varning: \\'include\\'-sida <nop>%1 finns inte!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Varning: Denna \\'include\\'-sida finns inte!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
-#, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
-msgstr "Varning: Denna \\'include\\'-sida finns inte!"
+msgstr "Varning: Tabelldefinition på \\'include\\'-sida finns inte!"
 
 #: core/data/System/SiteChanges.txt:45
 msgid "Web"
@@ -4211,9 +4205,8 @@ msgstr ""
 "börjar med understreck och har bara alfanumeriska tecken."
 
 #: core/templates/messages.tmpl:683
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Du försöker utföra %1 på en bifogad fil som inte existerar."
+msgstr "Du försöker nå en bifogad fil som inte finns."
 
 #: core/templates/messages.tmpl:671
 msgid "You are trying to create a topic from a template that does not exist."
@@ -4261,6 +4254,8 @@ msgstr "Du kan ge denna avdelning ett nytt namn."
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
+"Du kan inte lägga till användare i en grupp som saknas om inte alternativet "
+"\"skapa\" är valt.."
 
 #: core/templates/validate.tmpl:28
 msgid ""
