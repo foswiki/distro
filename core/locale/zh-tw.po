@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-12-09 09:26+0200\n"
+"PO-Revision-Date: 2013-10-28 05:57+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -275,9 +275,8 @@ msgid "(delete)"
 msgstr "(刪除)"
 
 #: core/templates/messages.tmpl:725
-#, fuzzy
 msgid "(disabled)"
-msgstr "編輯表格"
+msgstr "(停用)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -1356,9 +1355,8 @@ msgid "Edit"
 msgstr "編輯"
 
 #: core/data/System/VarMAKETEXT.txt:60
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,分鐘) "
+msgstr "編輯 %*(%1,檔案)"
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -2076,7 +2074,7 @@ msgstr "缺少功能命令"
 
 #: core/templates/messages.tmpl:637
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "無子網或名稱不符"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
