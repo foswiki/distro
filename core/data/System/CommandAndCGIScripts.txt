@@ -23,12 +23,26 @@ In the CGI environment parameters are passed to the scripts via the URL and URL 
 ---++++ Command-line
 You *must* be have the =bin= directory on the perl path to run the scripts from the command line. To avoid issues with file permissions, run the scripts as the web server user such as =nobody= or =www=.
 
-Parameters are passed on the command line using '-name' - for example,
+Parameters are passed on the command line using two possible formats:
+
+   * Traditional command line "switch" style format:  =-name value=,  The "-" prefix for the keyword is required.
 <verbatim class="bash">
 $ cd /usr/local/foswiki/bin
 $ save -topic MyWeb.MyTopic -user admin -action save -text "New text of the topic"
 </verbatim>
+   * Keyword format: =parameter=value=.   A "-" prefix is optional.
+<verbatim class="bash">
+$ cd /usr/local/foswiki/bin
+$ save topic=MyWeb.MyTopic user=admin action=save text="New text of the topic"
+</verbatim>
 All parameters require a value, even if that is the empty string. Note that parameters passed on the command-line should *not* be URL-encoded.
+
+---+++++ "Authentication" in the command line environment
+
+Unlike the CGI environment, the default user for command line operations is =AdminUser=.
+
+   * The =-user= parameter is specific to the command line and is not recognized by in the web environment.  It allows a user to be specified without requiring that the password be supplied.  It is *only* active from the command line.
+   * The =-username= / =-password= parameters are processed by the authentication system and require the password be authenticated.  Depending upon the authentication implementation, it may or may not be usable in the command line environment.
 
 When calling a =tools= script from the command line, you normally need to be cd'd to the =bin directory e.g.
 <verbatim class="bash">

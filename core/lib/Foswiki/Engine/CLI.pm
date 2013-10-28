@@ -33,7 +33,7 @@ sub run {
         if ( $arg =~ /^-?([a-z0-9_]+)=(.*)$/i ) {
             ( $name, $arg ) = ( TAINT($1), TAINT($2) );
         }
-        elsif ( $arg =~ /^-([a-z0-9_]+)/ ) {
+        elsif ( $arg =~ /^-([a-z0-9_]+)/i ) {
             ( $name, $arg ) = ( TAINT($1), shift(@args) );
         }
         if ( $name && $name eq 'user' ) {
