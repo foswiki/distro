@@ -674,7 +674,7 @@ sub _installAttachments {
     my $feedback  = '';
     my $errors    = '';
 
-    foreach my $key ( keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
+    foreach my $key ( sort keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
         my $tfile =
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
@@ -890,7 +890,7 @@ sub listFiles {
     my ( $this, $installed ) = @_;
 
     my @files;
-    foreach my $key ( keys( %{ $this->{_manifest} } ) ) {
+    foreach my $key ( sort keys( %{ $this->{_manifest} } ) ) {
         next if ( $key eq 'ATTACH' );
         if ($installed) {
             my $target =
@@ -902,7 +902,7 @@ sub listFiles {
             push( @files, $key );
         }
     }
-    return sort(@files);
+    return @files;
 }
 
 =begin TML
@@ -988,7 +988,7 @@ sub uninstall {
     }
 
     # foreach file in the manifest, remove the file.
-    foreach my $key ( keys( %{ $this->{_manifest} } ) ) {
+    foreach my $key ( sort keys( %{ $this->{_manifest} } ) ) {
 
         next if ( $key eq 'ATTACH' );
 
