@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-18 00:38+0200\n"
-"Last-Translator: Raul F <RaulFRodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2013-10-29 21:55+0200\n"
+"Last-Translator: Guilain <guilain@cabannes.info>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -267,9 +267,8 @@ msgid "(delete)"
 msgstr "(supprimer)"
 
 #: core/templates/messages.tmpl:725
-#, fuzzy
 msgid "(disabled)"
-msgstr "Modifier le tableau"
+msgstr "(désactiver)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -1433,9 +1432,8 @@ msgid "Edit"
 msgstr "Modifier"
 
 #: core/data/System/VarMAKETEXT.txt:60
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,minute) "
+msgstr "Modifier %*(%1,le ficher) "
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -2220,7 +2218,7 @@ msgstr "Commande manquante"
 
 #: core/templates/messages.tmpl:637
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "Nom de web manquant ou invalide"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
