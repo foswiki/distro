@@ -234,7 +234,7 @@ sub test_render_raw {
 
     ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on' );
-    $this->assert_matches( qr#.*$topic2txtarea$topic2rawON.*#,
+    $this->assert_html_matches( $topic2txtarea . $topic2rawON,
         $text, "Unexpected output from raw=on" );
     $this->assert_matches( qr#^Content-Type: text/html#ms,
         $hdr, "raw=on should return text/html - got $hdr" );
@@ -252,8 +252,15 @@ sub test_render_raw {
 
     ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug' );
-    $this->assert_matches( qr#.*$topic2txtarea$topic2metaQ$topic2rawON.*#,
-        $text, "Unexpected output from raw=debug" );
+    my ( $txttag, $txtarea, $txttail ) =
+      $text =~ m{.*?(<textarea .*?>)(.*?)(</textarea>).*}s;
+    $this->assert_html_matches( $topic2txtarea, $txttag,
+        "Unexpected tag output from raw=debug" );
+    $this->assert_matches(
+        $topic2metaQ . $topic2rawON,
+        $txtarea . $txttail,
+        "Unexpected body output from raw=debug"
+    );
     $this->assert_matches( qr#^Content-Type: text/html#ms,
         $hdr, "raw=debug should return text/html - got $hdr" );
 
