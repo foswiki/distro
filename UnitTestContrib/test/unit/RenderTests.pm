@@ -174,11 +174,11 @@ HERE
       Foswiki::Func::renderText( $topicObject->text(), $topicObject->web,
         $topicObject->topic );
     _cut_the_crap( \$rendered );
-    $this->assert_str_equals( $expected, $rendered . "\n" );
+    $this->assert_html_equals( $expected, $rendered . "\n" );
 
     my $tml = $topicObject->renderTML( $topicObject->text() );
     _cut_the_crap( \$tml );
-    $this->assert_str_equals( $expected, $tml . "\n" );
+    $this->assert_html_equals( $expected, $tml . "\n" );
 
 }
 
@@ -230,7 +230,7 @@ HERE
       Foswiki::Func::renderText( $topicObject->text(), $topicObject->web,
         $topicObject->topic );
     _cut_the_crap( \$rendered );
-    $this->assert_str_equals( <<"EXPECTED", $rendered . "\n" );
+    $this->assert_html_equals( <<"EXPECTED", $rendered . "\n" );
  <ol>
 <li> <a href="${scriptUrlPath}OkTopic" title="on ">OkTopic</a>
 </li> <li> <a href="${scriptUrlPath}OkATopic" title="on ">OkATopic</a>
@@ -245,7 +245,7 @@ EXPECTED
 
     my $tml = $topicObject->renderTML( $topicObject->text() );
     _cut_the_crap( \$tml );
-    $this->assert_str_equals( <<"EXPECTED", $tml . "\n" );
+    $this->assert_html_equals( <<"EXPECTED", $tml . "\n" );
  <ol>
 <li> <a href="${scriptUrlPath}OkTopic" title="on ">OkTopic</a>
 </li> <li> <a href="${scriptUrlPath}OkATopic" title="on ">OkATopic</a>
