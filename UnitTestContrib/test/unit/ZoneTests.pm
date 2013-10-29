@@ -148,7 +148,7 @@ sub test_7 {
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1"}%
-%ADDTOZONE{zone="test" id="id2" text="text2"}%
+%ADDTOZONE{zone="test" id="id2" text="text2" requires="id1"}%
 HERE
     my $expect = "text1\ntext2";
 
@@ -167,7 +167,7 @@ sub test_8 {
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1"}%
-%ADDTOZONE{zone="test" id="id2" text="text2"}%
+%ADDTOZONE{zone="test" id="id2" text="text2" requires="id1"}%
 HERE
     my $expect = "text1text2";
 
