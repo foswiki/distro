@@ -1340,14 +1340,11 @@ sub test_addform {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     try {
         my ($text) = $this->captureWithKey( save => $UI_FN, $this->{session} );
-        $this->assert_matches( qr/input value="TestForm1" name="formtemplate"/,
-            $text );
-        $this->assert_matches( qr/value="TestForm2" name="formtemplate"/,
-            $text );
-        $this->assert_matches( qr/value="TestForm3" name="formtemplate"/,
-            $text );
-        $this->assert_matches( qr/value="TestForm4" name="formtemplate"/,
-            $text );
+
+        foreach my $val (qw(TestForm1 TestForm2 TestForm3 TestForm4)) {
+            ( my $tf ) = $text =~ m/.*(<input .*?value="$val".*?>).*/;
+            $this->assert_matches( qr/name="formtemplate"/, $tf );
+        }
     }
     catch Error::Simple with {
         $this->assert( 0, shift );
