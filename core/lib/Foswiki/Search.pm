@@ -1141,6 +1141,19 @@ sub formatResult {
         delete $customKeys->{$key};
     }
 
+    #SMELL:  Because hash order is not predictable,  any user supplied
+    # format which might contain other $format tokens must be expanded first,
+    # otherwise the results are unpredictable.
+    # For example,  pagerformat contains $ntopics.  If $ntopics expands first,
+    # then pagerformat,  then ntopics will remain un-expanded in the output.
+    # Since key processing order is unpredictable, add any potentially nested
+    # keys here
+    foreach my $key ('\$pager') {
+        next unless defined $customKeys->{$key};
+        $out =~ s/$key/&{$customKeys->{$key}}()/ges;
+        delete $customKeys->{$key};
+    }
+
     foreach my $key ( keys(%$customKeys) ) {
         $out =~ s/$key/&{$customKeys->{$key}}()/ges;
     }
