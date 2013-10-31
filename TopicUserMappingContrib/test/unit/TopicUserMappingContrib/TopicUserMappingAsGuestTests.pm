@@ -347,7 +347,8 @@ sub verify_secretGroupIsHiddenFromGROUPINFO {
 }%
 HERE
     chomp($result);
-    $this->assert_str_equals( $expected, $result );
+    $this->assert_does_not_match( qr{(Secret|Hidden)Group}, $result,
+        "HiddenGroup or SecretGroup revealed in $result" );
 
     return;
 }
