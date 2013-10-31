@@ -339,24 +339,28 @@ sub test_HEAD_merged_with_SCRIPT {
 %ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
 %ADDTOZONE{zone="script" id="misc7" text="script::misc7"}%
 HERE
-    my $expect = <<'HERE';
-HEAD:
-head::misc7<!--misc7-->
-text2<!--head2-->
-text1<!--head1-->
-text4<!--script4-->
-text3<!--script3-->
-text6<!--script6: requires= missing ids: something-missing-->
-text5<!--head5-->
-script::misc7<!--misc7-->
-SCRIPT:
-HERE
-    chomp($expect);
+
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = "HEAD:\n" . $this->{session}->_renderZone( "head", );
     $result =
       $result . "\nSCRIPT:" . $this->{session}->_renderZone( "script", );
-    $this->assert_equals( $expect, $result );
+
+    foreach (
+        'HEAD:.*?script::misc7<!--misc7-->.*?SCRIPT:$'
+        ,    # Occurs somewhere, in HEAD zone
+        'HEAD:.*?head::misc7<!--misc7-->.*?SCRIPT:$',  # Occurs anywhere in HEAD
+        'HEAD:.*?text2<!--head2-->.*?text1<!--head1-->.*?SCRIPT:'
+        ,                                              # text1 requires head2
+'HEAD:.*?<!--script4-->.*?<!--script3-->.*?<!--script6: requires= missing ids: something-missing-->.*?text5<!--head5-->.*?SCRIPT:'
+        ,    # head5 requires scripts 4, 3 & 6
+        'HEAD:.*?text4<!--script4-->.*?text3<!--script3-->.*?SCRIPT:'
+        ,    # script3 requires script4
+'HEAD:.*?text2<!--head2-->.*?text6<!--script6: requires= missing ids: something-missing-->.*?SCRIPT:'
+        ,    # script6 anywhere in SCRIPT zone
+      )
+    {
+        $this->assert_matches( qr/$_/s, $result );
+    }
 
     return;
 }
@@ -379,23 +383,30 @@ sub test_HEAD_split_from_SCRIPT {
 %ADDTOZONE{zone="head" id="misc7" text="head::misc7"}%
 %ADDTOZONE{zone="script" id="misc7" text="script::misc7"}%
 HERE
-    my $expect = <<'HERE';
-HEAD:
-head::misc7<!--misc7-->
-text2<!--head2-->
-text1<!--head1-->
-text5<!--head5: requires= missing ids: script4, script3, script6-->
-SCRIPT:
-script::misc7<!--misc7-->
-text4<!--script4: requires= missing ids: head2-->
-text6<!--script6: requires= missing ids: head2, something-missing-->
-text3<!--script3-->
-HERE
-    chomp($expect);
+
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = "HEAD:\n" . $this->{session}->_renderZone("head");
     $result = $result . "\nSCRIPT:\n" . $this->{session}->_renderZone("script");
-    $this->assert_equals( $expect, $result );
+
+    foreach (
+        "HEAD:.*?SCRIPT:.*?script::misc7<!--misc7-->"
+        ,    # Occurs somewhere, in SCRIPT zone
+        "HEAD:.*?head::misc7<!--misc7-->.*?SCRIPT:",   # Occurs anywhere in HEAD
+        "HEAD:.*?text2<!--head2-->.*?text1<!--head1-->.*?SCRIPT:"
+        ,                                              # text1 requires head2
+"HEAD:.*?text5<!--head5: requires= missing ids: script4, script3, script6-->.*?SCRIPT:"
+        ,    # head5 somewhere in HEAD zone
+"SCRIPT:.*?text4<!--script4: requires= missing ids: head2-->.*?text3<!--script3-->"
+        ,    # script3 requires script4
+"SCRIPT:.*?text6<!--script6: requires= missing ids: head2, something-missing-->"
+        ,    # script6 anywhere in SCRIPT zone
+      )
+    {
+        $this->assert_matches( qr/$_/s, $result );
+    }
+
+    $this->assert_does_not_match( qr/this-text-will-be-ignored/, $result )
+      ;      # Should not appear
 
     return;
 }
@@ -477,32 +488,38 @@ sub test_legacy_tag_param_compatibility {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $tml       = <<'HERE';
-%ADDTOHEAD{                  "head1" text="text1" requires="head2"}%
-%ADDTOZONE{zone="head"    id="head2" text="this-text-will-be-ignored"}%
-%ADDTOZONE{zone="head"   tag="head2" text="text2"}%
-%ADDTOZONE{"script"      tag="script3" text="text3" requires="script4"}%
-%ADDTOZONE{zone="script" tag="script4" text="text4" requires="head2"}%
-%ADDTOHEAD{                    "head5" text="text5" requires="script4"}%
-%ADDTOZONE{zone="head"    id="misc7" text="head::misc7"}%
-%ADDTOZONE{zone="script"  id="misc7" text="script::misc7"}%
+ %ADDTOHEAD{                  "head1" text="text1" requires="head2"}%
+ %ADDTOZONE{zone="head"    id="head2" text="this-text-will-be-ignored"}%
+ %ADDTOZONE{zone="head"   tag="head2" text="text2"}%
+ %ADDTOZONE{"script"      tag="script3" text="text3" requires="script4"}%
+ %ADDTOZONE{zone="script" tag="script4" text="text4" requires="head2"}%
+ %ADDTOHEAD{                    "head5" text="text5" requires="script4"}%
+ %ADDTOZONE{zone="head"    id="misc7" text="head::misc7"}%
+ %ADDTOZONE{zone="script"  id="misc7" text="script::misc7"}%
 HERE
-    my $expect = <<'HERE';
-HEAD:
-head::misc7<!--misc7-->
-text2<!--head2-->
-text1<!--head1-->
-text5<!--head5: requires= missing ids: script4-->
-SCRIPT:
-script::misc7<!--misc7-->
-text4<!--script4: requires= missing ids: head2-->
-text3<!--script3-->
-HERE
-    chomp($expect);
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result = "HEAD:\n" . $this->{session}->_renderZone("head");
     $result = $result . "\nSCRIPT:\n" . $this->{session}->_renderZone("script");
-    $this->assert_equals( $expect, $result );
 
+    foreach (
+        'HEAD:.*?head::misc7<!--misc7-->.*?SCRIPT:'
+        ,    # Occurs somewhere, in HEAD zone
+        'HEAD:.*?SCRIPT.*?script::misc7<!--misc7-->'
+        ,    # Occurs anywhere in SCRIPT zone
+        'HEAD:.*?text2<!--head2-->.*?text1<!--head1-->.*?SCRIPT:'
+        ,    # text1 requires head2
+        'HEAD:.*?text5<!--head5: requires= missing ids: script4-->.*?SCRIPT:'
+        ,    # script req missing in head zone
+        'HEAD:.*?SCRIPT:.*?text4<!--script4: requires= missing ids: head2-->.*?'
+        ,    # head req missing in script
+'HEAD:.*?SCRIPT:.*?text4<!--script4: requires= missing ids: head2-->.*?text3<!--script3-->'
+        ,    # script3 requires scrip4
+      )
+    {
+        $this->assert_matches( qr/$_/s, $result );
+    }
+    $this->assert_does_not_match( qr/this-text-will-be-ignored/, $result )
+      ;      # Should not appear
     return;
 }
 
