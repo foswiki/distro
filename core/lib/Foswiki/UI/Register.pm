@@ -1176,7 +1176,8 @@ sub _populateUserTopicForm {
     return ( $meta, '' ) unless $form;
 
     foreach my $field ( @{ $form->getFields() } ) {
-        foreach my $fd ( @{ $data->{form} } ) {
+        foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } )
+        {
             next unless $fd->{name} eq $field->{name};
             next if $SKIPKEYS{ $fd->{name} };
             my $item = $meta->get( 'FIELD', $fd->{name} );
@@ -1198,7 +1199,7 @@ sub _populateUserTopicForm {
         }
     }
     my $leftoverText = '';
-    foreach my $fd ( @{ $data->{form} } ) {
+    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
         unless ( $inform{ $fd->{name} } || $SKIPKEYS{ $fd->{name} } ) {
             $leftoverText .= "   * $fd->{name}: $fd->{value}\n";
         }
@@ -1210,7 +1211,7 @@ sub _populateUserTopicForm {
 sub _getRegFormAsTopicContent {
     my $data = shift;
     my $text;
-    foreach my $fd ( @{ $data->{form} } ) {
+    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
         next if $SKIPKEYS{ $fd->{name} };
         my $title = $fd->{name};
         $title =~ s/([a-z0-9])([A-Z0-9])/$1 $2/go;    # Spaced
@@ -1291,7 +1292,7 @@ sub _buildConfirmationEmail {
     #       like in multi-part mime - txt & html
     my ( $before, $after ) = split( /%FORMDATA%/, $templateText );
     $before .= $loginName;
-    foreach my $fd ( @{ $data->{form} } ) {
+    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
         my $name  = $fd->{name};
         my $value = $fd->{value};
 
@@ -1311,7 +1312,6 @@ sub _buildConfirmationEmail {
     $templateText =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
 
     # remove <nop> and <noautolink> tags
-
     return $templateText;
 }
 
@@ -1569,7 +1569,7 @@ sub _validateRegistration {
         );
     }
     my @missing = ();
-    foreach my $fd ( @{ $data->{form} } ) {
+    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
         if ( ( $fd->{required} ) && ( !$fd->{value} ) ) {
             push( @missing, $fd->{name} );
         }
