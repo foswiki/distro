@@ -588,6 +588,10 @@ img {
 	border-width:0 0 1px 0;
 	vertical-align:middle;
 }
+.patternEditPage .foswikiFormTable td td,
+.patternEditPage .foswikiFormTable td th {
+	border-style:none;
+}
 table.foswikiFormTable {
 	margin:0 0 5px 0;
 	border-collapse:collapse;
@@ -1858,7 +1862,6 @@ input[type="file"] {
   line-height: 30px;
 }
 select {
-  width: 220px;
   border: 1px solid #bbb;
   background-color: #ffffff;
 }
