@@ -67,7 +67,6 @@ sub set_up {
 
             #turn off warnings until we have fixed errors
             'show-warnings' => 1,
-            'char-encoding' => 'ascii',
 
             #'accessibility-check'	=> 3,
             'drop-empty-paras' => 0
