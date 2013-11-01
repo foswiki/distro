@@ -34,7 +34,7 @@ function handleKeyDown () { }
     for (key in rules) {
       if (1) {
         val = rules[key];
-        $.log("EDIT: setting #"+key+"_"+type+"="+val); 
+        //$.log("EDIT: setting #"+key+"_"+type+"="+val); 
         $("#"+key+"_"+type).val(val);
       }
     }
@@ -51,7 +51,7 @@ function handleKeyDown () { }
       }
     });
     names = names.join(', ');
-    $.log("EDIT: switchOnDetails - names="+names);
+    //$.log("EDIT: switchOnDetails - names="+names);
     setPermission(type, {
       allow: names
     });
@@ -66,7 +66,7 @@ function handleKeyDown () { }
 
   function setPermissionSet(permSet) {
     var wikiName = foswiki.getPreference("WIKINAME");
-    $.log("EDIT: called setPermissionSet "+permSet);
+    //$.log("EDIT: called setPermissionSet "+permSet);
     switch(permSet) {
       /* change rules */
       case 'default_change':
@@ -172,9 +172,7 @@ function handleKeyDown () { }
         $editForm.find("input[name='action_cancel']").val('');
         $editForm.find("input[name='action_"+editAction+"']").val(actionValue);
 
-        if (typeof(foswikiStrikeOne) != 'undefined') {
-          foswikiStrikeOne($editForm[0]);
-        }
+        StrikeOne.submit($editForm[0]);
 
         if ((typeof(tinyMCE) === 'object') && (typeof(tinyMCE.editors) === 'object')) {
           $.each(tinyMCE.editors, function(index, editor) {
@@ -396,7 +394,7 @@ function handleKeyDown () { }
       onSelect: function(input) {
         var currentValues = input.currentValues,
             type = (input.opts.inputName=="Local+PERMSET_CHANGE_DETAILS")?"change":"view";
-        $.log("EDIT: currentValues="+currentValues);
+        //$.log("EDIT: currentValues="+currentValues);
         setPermission(type, {
           allow: currentValues.join(", ")
         });

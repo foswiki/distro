@@ -60,6 +60,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  01 Nov 2013 | working around IE10 incompatibility of its own proprietary edit api for textareas |
 |  07 Aug 2013 | fixed generation of a new validation key in a save+continue |
 |  17 Jul 2013 | added support for <nop>CaptchaPlugin |
 |  18 Jun 2013 | removed dependency on <nop>SetVariablePlugin |

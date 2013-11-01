@@ -31,6 +31,9 @@ $.NatEditor = function(txtarea, opts) {
     self.opts.showWysiwyg = true;
   }
     
+  if (typeof(self.txtarea.selectionStart) === 'undefined') {
+    self.oldIE = true; /* all IEs up to IE9; IE10 has got selectionStart/selectionEnd */
+  }
 
   // dont do both: disable autoMaxExpand if we autoExpand
   if (self.opts.autoExpand) {
@@ -140,7 +143,6 @@ $.NatEditor.prototype.handleLineFeed = function(ev) {
 
   prevLine = text.substring(startPos, endPos);
 
-
   if (ev.shiftKey) {
     if (prevLine.match(/^((?:   )+)(\*|\d+| ) /)) {
       list = RegExp.$1+"  "; 
@@ -168,12 +170,13 @@ $.NatEditor.prototype.handleLineFeed = function(ev) {
     prefix = text.substr(0, endPos);
     postfix = text.substr(endPos);
 
-    if (document.selection && !$.browser.opera) { // IE
+    if (self.oldIE) {
       list = "\r\n" + list;
     } else {
       list = "\n" + list;
     }
   }
+
 
   self.txtarea.value = prefix + list + postfix;
   self.setCaretPosition(prefix.length + list.length);
@@ -546,7 +549,7 @@ $.NatEditor.prototype.getSelectionRange = function() {
 
   //$.log("called getSelectionRange()");
 
-  if (document.selection && !$.browser.opera) { // IE
+  if (self.oldIE) {
     $(self.txtarea).focus();
    
     text = self.txtarea.value;
@@ -557,6 +560,7 @@ $.NatEditor.prototype.getSelectionRange = function() {
     rangeCopy.moveToElementText(self.txtarea);
     range.text = c;
     pos = (rangeCopy.text.indexOf(c));
+
    
     range.moveStart("character", -1);
     range.text = selection;
@@ -565,7 +569,7 @@ $.NatEditor.prototype.getSelectionRange = function() {
       pos = text.length;
       selection = "";
     }
-   
+
     self.txtarea.selectionStart = pos;
    
     if (selection == "") {
@@ -1004,7 +1008,7 @@ $.NatEditor.prototype.autoExpand = function() {
   window.setTimeout(function() {
     text = self.txtarea.value+'x';
     if (text == self._lastText) {
-      $.log("suppressing events");
+      //$.log("suppressing events");
       return;
     }
     self._lastText = text;
