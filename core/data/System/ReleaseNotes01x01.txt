@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.9 Alpha 1
+---+!! Foswiki Release 1.1.9 RC1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -40,7 +40,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
-   * Foswiki 1.1.9 Alpha 1 was built 22 Oct 2013. It is a release that contains 34 fixes and 4 enhancements..
+   * Foswiki 1.1.9 RC1 was built 03 Nov 2013. It is a release that contains 37 fixes and 4 enhancements..
 
 ---++ Pre-installed Extensions
 
@@ -65,7 +65,22 @@ recommend that foswiki be upgraded to 1.1.9 prior to updating to a new release o
 Two serious performance issues have been corrected.  The TablePlugin amassed CSS from all visited topics, growing with each view. And an error in SEARCH
 caused exponential growth of the search expressions which could cause out of memory issues on the server.
 
-See [[#Rel01x01x09Details]]
+See [[#Rel01x01x09Details]] for details.
+
+---+++ Known Issues
+
+| [[%BUGS%/Item12618][Item21618]] | Search ordering can be inconsistent using perl 5.18.1 and newer. Older versions of perl are not impacted. |
+
+Perl 5.18 has made a very significant change in how hash tables are randomized and stored.  See [[http://search.cpan.org/dist/perl-5.18.0/pod/perldelta.pod#Hash_overhaul][5.18 perldelta]]
+for more information.   The change has had some minor impact on Foswiki, most of which were test failures, not core code issues, and were fixed in [[%BUGS%/Item12615][Item21615]].  It did however
+result in discovery of some core bugs that were also fixed.
+
+The following differences have been noticed when running under Perl 5.18:
+   * The order of search results order when the requested sort has duplicates is unpredictable.  Ex:  When sorting by "modified", the order of multiple topics modified at the exact same time will be unpredictable..
+   * The order of groups presented by =%USERINFO= macro is unpredictable.
+   * The order of data in a =perl= formatted =%QUERY= result is unpredictable.
+
+Any data internally stored by Foswiki or extensions using a perl hash array will be presented in unpredictable order.
 
 ---++ Important changes since Foswiki 1.1.7
 
@@ -1869,6 +1884,7 @@ to your =bin/LocalLib.cfg=.
 ---+++ Fixes
 
 | [[%BUGS%/Item12064][Item12064]] | In data forms, buttons "Set all" and "Clear all" do nothing when clicked. |
+| [[%BUGS%/Item12084][Item12084]] | Can't use an undefined value as a symbol reference in =lib/Foswiki/Request/Upload.pm= when uploading an attachment. |
 | [[%BUGS%/Item12413][Item12413]] | Crash in Foswiki/Net.pm when using perl 5.16 and later. |
 | [[%BUGS%/Item12414][Item12414]] | File::Temp->tempfile() will cause die in upcoming release of File::Temp |
 | [[%BUGS%/Item12420][Item12420]] | Debian patches Locale::Maketext without incrementing the $VERSION |
@@ -1901,6 +1917,9 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12599][Item12599]] | use jQuery-1.9x (not 2.0.x) for IE9  |
 | [[%BUGS%/Item12602][Item12602]] | force-load jquery-migrate when using jquery > 1.9.x |
 | [[%BUGS%/Item12604][Item12604]] | add web font mimetypes |
+| [[%BUGS%/Item12614][Item21614]] | Convert to modern CSS and JS Compressors: uglifyJS and minCSS (Foswiki build process) |
+| [[%BUGS%/Item12615][Item21615]] | CLI script parameter processing is inconsistent -parm=value vs. -parm value. |
+| [[%BUGS%/Item12616][Item12616]] | Issues introduced by perl 5.18 hash rewrite. |
 
 ---+++ Enhancements
 
