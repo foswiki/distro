@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2012-11-16 16:38+0200\n"
+"PO-Revision-Date: 2013-11-03 03:28+0200\n"
 "Last-Translator: Arthur <arthur@visiblearea.com>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -271,9 +271,8 @@ msgid "(delete)"
 msgstr "(verwijderen)"
 
 #: core/templates/messages.tmpl:725
-#, fuzzy
 msgid "(disabled)"
-msgstr "Bewerk tabel"
+msgstr "(gedeactiveerd)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -1425,9 +1424,8 @@ msgid "Edit"
 msgstr "Bewerken"
 
 #: core/data/System/VarMAKETEXT.txt:60
-#, fuzzy
 msgid "Edit %*(%1,file)"
-msgstr "%*(%1,minuut,minuten) "
+msgstr "Bewerk %*(%1,bestand) "
 
 #: core/templates/oopsleaseconflict.tmpl:25
 msgid "Edit Anyway"
@@ -2199,7 +2197,7 @@ msgstr "Ontbrekende actieopdracht"
 
 #: core/templates/messages.tmpl:637
 msgid "Missing or illegal web name"
-msgstr ""
+msgstr "Ontbrekende of illegale web naam"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:48
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:41
