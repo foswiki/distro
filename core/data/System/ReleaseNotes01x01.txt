@@ -55,15 +55,15 @@ Foswiki 1.1 ships with the following:
 ---++ Important changes in Foswiki 1.1.9  (This release)
 
 Release 1.1.9 fixes a number of important bugs.  Several are security related and we strongly recommend that sites upgrade to this release.
-It also addresses a very significant memory leak in the TablePlugin, especially important in sites that use FastCGI or Mod_Perl.
-
-The =%<nop>TOPICLIST%= macro now omits topics that cannot be read by the user.  Foswiki should not reveal the presence of topics to users who don't have the authority to view the topic.
+   * The =%<nop>TOPICLIST%= macro now omits topics that cannot be read by the user.  Foswiki should not reveal the presence of topics to users who don't have the authority to view the topic.
+   * Login using url parameters has been restricted.  Details below..
 
 Release 1.1.9 addresses several issues that impact sites that have upgraded or will upgrade to newer versions of perl and CPAN modules.  We strongly
 recommend that foswiki be upgraded to 1.1.9 prior to updating to a new release of perl or CPAN modules.
 
 Two serious performance issues have been corrected.  The TablePlugin amassed CSS from all visited topics, growing with each view. And an error in SEARCH
-caused exponential growth of the search expressions which could cause out of memory issues on the server.
+caused exponential growth of the search expressions which could cause out of memory issues on the server.  These could be especially severe for sites using
+FastCGI or Mod_Perl.
 
 See [[#Rel01x01x09Details]] for details.
 
@@ -77,8 +77,7 @@ Tooltip plugin with the new UI::Tooltip. Upgraders should visit =bin/configure= 
 
 Note that although the jquery autocomplete plugin was replaced with ui::autocomplete back in Foswiki release 1.1.4, recent changes to jquery
 required some additional changes to some UI::Autocomplete examples.   See
-[[http://trac.foswiki.org/changeset/17042/branches/Release01x01/JQueryPlugin/data/System/JQueryAjaxHelper.txt][Revision
-17042]] for details of this change.
+[[http://trac.foswiki.org/changeset/17042/branches/Release01x01/JQueryPlugin/data/System/JQueryAjaxHelper.txt][Revision 17042]] for details of this change.
 
 ---+++ Changes to login using URL parameters
 
@@ -99,7 +98,7 @@ result in discovery of some core bugs that were also fixed.
 Sites upgrading to perl 5.18 should carefully test foswiki and review the open tasks at [[http://foswiki.org/Tasks/PlatformPerl518]].  Please report any new issues there.
 
 The following differences have been noticed when running under Perl 5.18, and have *not* been corrected:
-   * The order of search results order when the requested sort has duplicates is unpredictable.  Ex:  When sorting by "modified", the order of multiple topics modified at the exact same time will be unpredictable. ([%BUGS%/Item12618][Task Item12618]])
+   * The order of search results order when the requested sort has duplicates is unpredictable.  Ex:  When sorting by "modified", the order of multiple topics modified at the exact same time will be unpredictable. ([[%BUGS%/Item12618][Task Item12618]])
    * The order of groups presented by =%USERINFO=  and =%GROUPINFO= macros is unpredictable. As a result, the order of groups listed by the Main.WikiGroups topic change on each page view. ([[%BUGS%/Item12635][Task Item12635]])
    * The order of data in a =perl= formatted =%QUERY= result is unpredictable. (No plan to fix)
 
