@@ -1,6 +1,6 @@
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.9 RC1
+---+!! Foswiki Release 1.1.9 RC2
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -40,7 +40,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.6 was built 02 Dec 2012. It is a release that fixes some important issues including some minor security related issues. It contains 94 fixes and 27 enhancements.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
-   * Foswiki 1.1.9 RC1 was built 03 Nov 2013. It is a release that contains 37 fixes and 4 enhancements..
+   * Foswiki 1.1.9 RC2 was built 05 Nov 2013. It is a release that contains 40 fixes and 4 enhancements..
 
 ---++ Pre-installed Extensions
 
@@ -52,9 +52,9 @@ Foswiki 1.1 ships with the following:
    * *Compatibility support* - !TWikiCompatibilityPlugin
 
 #Release01x01Changes
----++ Important changes since Foswiki 1.1.8
+---++ Important changes in Foswiki 1.1.9  (This release)
 
-Release 1.1.9 fixes several important bugs.  Several are security related and we strongly recommend that sites upgrade to this release.
+Release 1.1.9 fixes a number of important bugs.  Several are security related and we strongly recommend that sites upgrade to this release.
 It also addresses a very significant memory leak in the TablePlugin, especially important in sites that use FastCGI or Mod_Perl.
 
 The =%<nop>TOPICLIST%= macro now omits topics that cannot be read by the user.  Foswiki should not reveal the presence of topics to users who don't have the authority to view the topic.
@@ -67,22 +67,45 @@ caused exponential growth of the search expressions which could cause out of mem
 
 See [[#Rel01x01x09Details]] for details.
 
----+++ Known Issues
+---+++ JQuery upgrade
 
-| [[%BUGS%/Item12618][Item21618]] | Search ordering can be inconsistent using perl 5.18.1 and newer. Older versions of perl are not impacted. |
+This release ships with several upgraded versions of JQuery, and changes the default release to version =1.8.3=.  It also replaces the deprecated JQuery
+Tooltip plugin with the new UI::Tooltip. Upgraders should visit =bin/configure= and make the following changes to the Jquery configuration:
+   * Update ={JQueryPlugin}{JQueryVersion}= to version =1.8.3=
+   * Disable ={JQueryPlugin}{Plugins}{Tooltip}{Enabled}= and
+   * Enable ={JQueryPlugin}{Plugins}{'UI::Tooltip'}{Enabled}=
 
-Perl 5.18 has made a very significant change in how hash tables are randomized and stored.  See [[http://search.cpan.org/dist/perl-5.18.0/pod/perldelta.pod#Hash_overhaul][5.18 perldelta]]
-for more information.   The change has had some minor impact on Foswiki, most of which were test failures, not core code issues, and were fixed in [[%BUGS%/Item12615][Item21615]].  It did however
+Note that although the jquery autocomplete plugin was replaced with ui::autocomplete back in Foswiki release 1.1.4, recent changes to jquery
+required some additional changes to some UI::Autocomplete examples.   See
+[[http://trac.foswiki.org/changeset/17042/branches/Release01x01/JQueryPlugin/data/System/JQueryAjaxHelper.txt][Revision
+17042]] for details of this change.
+
+---+++ Changes to login using URL parameters
+
+All versions of foswiki previously allowed the username and password parameters to be provided on the URL. For ex:
+=bin/view/Myweb/SomeTopic?username=JoeUser;password=SEcrET=.   Foswiki 1.1.9 has been changed to further restrict login:
+   * username and password will only be accepted on POST type operations. a simple GET url with username and password will not accept the supplied credentials.
+      * The previous behaviour can be restored by enabling =$Foswiki::cfg{Session}{AcceptUserPwParamOnGET}= in the configuration
+   * username and password will only be accepted as login credentials on the =view=, =viewauth= and =login= scripts.
+      * Other scripts can be authorized by configuring =$Foswiki::cfg{Session}{AcceptUserPwParam}=
+
+---+++ Improved compatibility with Perl 5.18+
+
+Foswiki 1.1.9 has been tested with perl 5.18+.  Perl 5.18 has made a very significant change in how hash tables are randomized and stored.
+See [[http://search.cpan.org/dist/perl-5.18.0/pod/perldelta.pod#Hash_overhaul][5.18 perldelta]]
+for more information.   The change has had some minor impact on Foswiki, most of which were test failures, not core code issues, and were fixed in [[%BUGS%/Item12616][Item12616]].  It did however
 result in discovery of some core bugs that were also fixed.
 
-The following differences have been noticed when running under Perl 5.18:
-   * The order of search results order when the requested sort has duplicates is unpredictable.  Ex:  When sorting by "modified", the order of multiple topics modified at the exact same time will be unpredictable..
-   * The order of groups presented by =%USERINFO= macro is unpredictable.
-   * The order of data in a =perl= formatted =%QUERY= result is unpredictable.
+Sites upgrading to perl 5.18 should carefully test foswiki and review the open tasks at [[http://foswiki.org/Tasks/PlatformPerl518]].  Please report any new issues there.
+
+The following differences have been noticed when running under Perl 5.18, and have *not* been corrected:
+   * The order of search results order when the requested sort has duplicates is unpredictable.  Ex:  When sorting by "modified", the order of multiple topics modified at the exact same time will be unpredictable. ([%BUGS%/Item12618][Task Item12618]])
+   * The order of groups presented by =%USERINFO=  and =%GROUPINFO= macros is unpredictable. As a result, the order of groups listed by the Main.WikiGroups topic change on each page view. ([[%BUGS%/Item12635][Task Item12635]])
+   * The order of data in a =perl= formatted =%QUERY= result is unpredictable. (No plan to fix)
 
 Any data internally stored by Foswiki or extensions using a perl hash array will be presented in unpredictable order.
 
----++ Important changes since Foswiki 1.1.7
+---++ Important changes in Foswiki 1.1.8
 
 Release 1.1.8 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2013-1666][SecurityAlert-CVE-2013-1666]].
   It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
@@ -91,7 +114,7 @@ Release 1.1.8 also includes a configuration checker that will report an error if
 
 See [[#Rel01x01x08Details]]
 
----++ Important changes since Foswiki 1.1.6
+---++ Important changes in Foswiki 1.1.7
 
 Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
 A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 1.2.0
@@ -100,7 +123,7 @@ Release 1.1.7 also includes a security fix for configure that reduces exposure o
 
 See [[#Rel01x01x07Details]]
 
----+++ Module version strings and new module dependency in 1.1.6 and 1.1.7 
+---+++ Module version strings and new module dependency in 1.1.6 and 1.1.7
 
 The Foswiki and default extension version strings have been changed from a developer oriented string _Foswiki-1.1.5, Tue, 10 Apr 2012, build 14595,_  to a simple perl version string - "v1.1.6".
 The "RELEASE" string will continue to be more descriptive and can be displayed with a new macro =%<nop>WIKIRELEASE%=.
@@ -161,7 +184,7 @@ Changes to the skin that impact layout should not have been made in a patch rele
 
 The [[Main.WebHome]] topic was changed to display the =%<nop>WIKIRELEASE%= macro instead of the =%<nop>WIKIVERSION%=.  =WIKIRELEASE= is a more friendly user readable version string.
 
----++ Important changes since Foswiki 1.1.5
+---++ Important changes in Foswiki 1.1.6
 
 Release 1.1.6 is a security focused and bug fix release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki. 
 
@@ -247,7 +270,7 @@ Foswiki allows for <code>&lt;nop&gt;</code>, however any other unencoded &lt; an
 Foswiki upgrade packages and manual upgrade procedures typically do not upgrade any !WebHome topics. The 1.1.6 upgrade package will include a new !WebHome for the Sandbox web. If you upgrade manually, you should copy the =data/Sandbox/WebHome.txt= file from the full Foswiki distribution onto your system.
 If you have a customized Sandbox !WebHome topic, and use the upgrade package, you may need to revert back to your customized topic or re-customize the new version.
 
----++ Important changes since Foswiki 1.1.4
+---++ Important changes in Foswiki 1.1.5
 
 Release 1.1.5 is a security focused release.  There are a number of fixes and small enhancements designed to improve the security of Foswiki.
 
@@ -311,7 +334,7 @@ In order to force rotation and avoid extended web server response time:
 
 The plainfile logger will now report additional information on the rotation process, including displaying bad records to STDERR.   Edit =lib/Foswiki/Logger/Plainfile.pm= and change the line  =use constant TRACE => 0;= to use =constant TRACE => 1;= to enable more detailed debug messages.
 
----++ Important changes since Foswiki 1.1.3
+---++ Important changes in Foswiki 1.1.4
 
 ---+++ 1.1.3 may have changed some =form.name= MetaData to contain fully-qualified (with web name prefix) values
 In Foswiki 1.1.4 this problem has been fixed by [[%BUGS%/Item10874][Item10874]], however, users upgrading from 1.1.3 may wish to review the following information to determine if they need to take action on their existing SEARCHes or !DataForm topics.
@@ -443,7 +466,7 @@ Also the SpreadSheetPlugin was synchronized with features added to the TWiki ver
 The changes to JSCalendarContrib made post 1.1.3, and released in JSCalendarContrib version 1.4.x have been reverted. The changes attempted to make dates stored in the formfields format per the requested JSCalendarContrib format. However it was incompatible with alternative date formats that were not understood by the core Foswiki time code.
 JSCalendarContrib saves dates in whatever format is set in the configuration ={JSCalendarContrib}{format}=.  If the format is changed, Foswiki makes no attempt to change the displayed format of existing dates.  The format can be updated by re-selecting the date using the calendar display.
 
----++ Important changes since Foswiki 1.1.2
+---++ Important changes in Foswiki 1.1.3
 
 ---+++ SEARCHDEFAULTTTYPE restored
 
@@ -459,7 +482,7 @@ The default search type used in the WebSearch page was not carried forward from 
 | 1.0 to 1.1.4 | Default type is =word=, configuration setting no longer used. | No Change | Default type changes from =word= to configured =%<nop>SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%)= |
 | 1.1.x to 1.1.4 | No Change | Default changes from =word= to configured =%SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%=  | Default type changes from =word= to configured =%<nop>SEARCHDEFAULTTTYPE% (%SEARCHDEFAULTTTYPE%)= |
 
----++ Important Changes since Foswiki 1.1.2
+---++ Important Changes in Foswiki 1.1.2
 
 ---+++ Changes to %<nop>GROUPS% and %<nop>GROUPINFO% Macros
 
@@ -478,7 +501,7 @@ Foswiki 1.1 changed the logging format and the default location of the log files
 
 As of 1.1.3, if any of the 1.0 Debug, Warning or Log filenames are found, the "compatibility" logger will be used regardless of the =Implementation= setting.
 
----++ Important changes since Foswiki 1.0.10
+---++ Important changes in Foswiki 1.1.0
 
 Foswiki 1.1 has many improvements that end users as well as administrators will appreciate. In addition Foswiki 1.1 comes with a lot of "under the hood" improvements to the core code, with the goal of making it easier to plug in work from other projects, such as jQuery, !KinoSearch, Solr and others. Work has been made to improve the definition of internal APIs to allow other not-yet-written modules, such as store implementations, to plug in. Most of these modifications should be invisible to the end user and the admin, but are important to position Foswiki for the next generation of improvements. Here is a list of the most important enhancements in Foswiki 1.1.0
 
@@ -1920,13 +1943,16 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12614][Item21614]] | Convert to modern CSS and JS Compressors: uglifyJS and minCSS (Foswiki build process) |
 | [[%BUGS%/Item12615][Item21615]] | CLI script parameter processing is inconsistent -parm=value vs. -parm value. |
 | [[%BUGS%/Item12616][Item12616]] | Issues introduced by perl 5.18 hash rewrite. |
+| [[%BUGS%/Item12631][Item12631]] | JQuery ui-autocomplete examples are not functional. |
+| [[%BUGS%/Item12632][Item12632]] | The upstream jquery-ui draggable module uses the wrong position of draggable elements in firefox. |
+| [[%BUGS%/Item12633][Item12633]] | JQuery ui-spinner not functional due to missing css. |
 
 ---+++ Enhancements
 
-| [[%BUGS%/Item12345][Item12345]] | upgrade jquery and other 3rd party plugins |
-| [[%BUGS%/Item12518][Item12518]] | add support for jquery-2.x without disturbing oldIEs |
-| [[%BUGS%/Item12519][Item12519]] | upgrade superfish to latest version |
-| [[%BUGS%/Item12600][Item12600]] | minor changes to jquery components |
+| [[%BUGS%/Item12345][Item12345]] | upgrade jquery and other 3rd party plugins. |
+| [[%BUGS%/Item12518][Item12518]] | add support for jquery-2.x without disturbing oldIEs. |
+| [[%BUGS%/Item12519][Item12519]] | upgrade superfish to latest version. |
+| [[%BUGS%/Item12600][Item12600]] | minor changes to jquery components. |
 </noautolink>
 
 
