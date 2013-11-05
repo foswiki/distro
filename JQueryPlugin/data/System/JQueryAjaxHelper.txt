@@ -61,7 +61,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="<nop>%URLPARAM{"format" encode="quote" default="{\\"label\\":\\"$topic\\", \\"webtopic\\":\\"$web.$topic\\"}"}%"
+  format="<nop>%URLPARAM{"format" encode="quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$web.$topic\\"}"}%"
   separator=","
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"
@@ -211,7 +211,7 @@ The following section is used by the section above; it adds a special Javascript
 %STARTSECTION{"userselector::js"}%<literal>
 <script type="text/javascript">
 jQuery(function($){
-  $(".jqUserSelector").data("autocomplete")._renderItem = function(ul, item) {
+  $(".jqUserSelector").data("ui-autocomplete")._renderItem = function(ul, item) {
     if (typeof(item.label) !== 'undefined') {
       return $("<li></li>")
         .data("item.autocomplete", item)
@@ -246,7 +246,11 @@ jQuery(function($){
   header="[$n"
   format="  {\"label\":\"<nop>$item\", 
     \"email\":\"$percntUSERINFO{\"$item\" format=\"$emails\"}$percnt\", 
-    \"img\":\"$percntFORMFIELD{\"Photo\" topic=\"%USERSWEB%.$item\" default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" }$percnt\"
+    \"img\":\"$percntFORMFIELD{\"Photo\" 
+      topic=\"%USERSWEB%.$item\" 
+      default=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" 
+      alttext=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/nobody.gif\" 
+    }$percnt\"
   }"
   separator=",$n"
   footer="$n]"
