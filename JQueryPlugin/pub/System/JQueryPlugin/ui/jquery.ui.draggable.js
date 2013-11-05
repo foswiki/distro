@@ -534,7 +534,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 				this.offset.click.top	-												// Click offset (relative to the element)
 				this.offset.relative.top -												// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.parent.top +												// The offsetParent's offset without borders (offset + border)
-				( this.cssPosition === "fixed" ? -this.scrollParent.scrollTop() : this.offset.scroll.top )
+				( this.cssPosition === "fixed" ? -this.scrollParent.scrollTop() : 0 /*this.offset.scroll.top*/ ) /* chrome returns a zero, firefox the correct scroll.top ... which however disturbs the arithmetics */
 			),
 			left: (
 				pageX -																	// The absolute mouse position
