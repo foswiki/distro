@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-29 21:55+0200\n"
-"Last-Translator: Guilain <guilain@NOSPAMcabannes.info>\n"
+"PO-Revision-Date: 2013-11-07 14:43+0200\n"
+"Last-Translator: Raul F <RaulFRodriguez10@gmail.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -268,7 +268,7 @@ msgstr "(supprimer)"
 
 #: core/templates/messages.tmpl:725
 msgid "(disabled)"
-msgstr "(désactiver)"
+msgstr "(désactivé)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
