@@ -589,7 +589,7 @@ $(document).ready(function() {
 			$(row).removeClass('configureExpert');
 		}
 	});
-	$(".configureRootSection table.configureSectionValues div.configureWarning").each(function() {
+	$(".configureRootSection table.configureSectionValues div.configureWarn").each(function() {
 		var row = $(this).parent().parent().get(0);
 		if (row) {
 			$(row).removeClass('configureExpert');
