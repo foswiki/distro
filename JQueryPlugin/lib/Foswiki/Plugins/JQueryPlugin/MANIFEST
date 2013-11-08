@@ -67,6 +67,7 @@ data/System/VarTABPANE.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Themeswitcher/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Tooltip/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Nifty/Enabled.pm 0644
 lib/Foswiki/Form/Color.pm 0644
