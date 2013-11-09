@@ -126,8 +126,9 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  23 Oct 2013: | (4.90) - Release with Foswiki 1.1.9 \
-                  Item12567: fix checking of version number in configure \
+|  08 Nov 2013: | (4.91) - Release with Foswiki 1.1.9 \
+                  Item12650: Add config error for removed Themeswitcher plugin |
+|  23 Oct 2013: | (4.90) - Item12567: fix checking of version number in configure \
                   Item12577: deprecate jquery-tooltip in favour of jquery-ui-tooltip \
                   Item12596: improve documentation of jquery-ui \
                   Item12583: revert version string to simple float not to break installation on RHEL and SLES \
