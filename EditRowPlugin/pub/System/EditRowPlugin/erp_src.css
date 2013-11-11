@@ -64,5 +64,5 @@ a.erp_drag_button:hover {
     padding: 0;
     margin: 0 5px;
     border: none;
-    width: 16px;
+    width: 16px !important;
 }
