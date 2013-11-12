@@ -669,7 +669,6 @@ table.foswikiFormTable {
 }
 .foswikiAttachments table {
 	line-height:1.5em; /*S1*/
-	width:auto;
 	width:100%;
 }
 .foswikiAttachments .foswikiTable th {
@@ -1846,8 +1845,7 @@ input[type='text'],
 input[type='file'],
 input[type='password'],
 .foswikiInputField {
-  padding: 4px 6px;
-  height: auto;
+  padding: 3px 5px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -1920,7 +1918,7 @@ input[type="color"],
 .uneditable-input,
 .foswikiInputField {
   vertical-align: middle;
-  padding: 4px 6px;
+  padding: 3px 5px;
   margin-bottom: 0;
 }
 .foswikiInputField  + .foswikiButton,
@@ -1941,35 +1939,9 @@ input[type="color"],
 .foswikiTextArea  + .foswikiButtonMini {
   margin-left: .5em;
 }
-textarea {
-  height: auto;
-}
-input[type="file"],
-input[type="image"],
-input[type="submit"],
-input[type="reset"],
-input[type="button"],
-input[type="radio"],
-input[type="checkbox"] {
-  width: auto;
-}
-select,
-input[type="file"] {
-  height: 30px;
-  /* In IE7, the height of the select element cannot be changed by height, only font-size */
-
-  *margin-top: 4px;
-  /* For IE7, add top margin to align select with labels */
-
-  line-height: 30px;
-}
 select {
   border: 1px solid #bbb;
   background-color: #ffffff;
-}
-select[multiple],
-select[size] {
-  height: auto;
 }
 select:focus,
 input[type="file"]:focus,
