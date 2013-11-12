@@ -194,27 +194,27 @@ sub getID {
 =begin TML
 
 ---++ ObjectMethod getFirstBodyRow() -> $integer
-Get the row index of the first row after the header.
+Get the 0-based row index of the first row after the header.
 
 =cut
 
 sub getFirstBodyRow {
     my $this = shift;
 
-    return $this->{headerrows} + 1;
+    return $this->{headerrows};
 }
 
 =begin TML
 
 ---++ ObjectMethod getLastBodyRow() -> $integer
-Get the row index of the last row before the footer.
+Get the 0-based row index of the last row before the footer.
 
 =cut
 
 sub getLastBodyRow {
     my $this = shift;
 
-    return scalar( @{ $this->{rows} } ) - $this->{footerrows};
+    return $#{ $this->{rows} } - $this->{footerrows};
 }
 
 =begin TML
@@ -377,17 +377,20 @@ Move a row
 sub moveRow {
     my ( $this, $from, $to ) = @_;
 
-    if ( $to > scalar( @{ $this->{rows} } ) ) {
-        $to = scalar( @{ $this->{rows} } );
-    }
-    my @moving = splice( @{ $this->{rows} }, $from, 1 );
-    if ( $from < $to ) {
+    return if $to == $from;
 
-        # from is below to, so decrement the $to row
-        $to--;
+    my @moving = splice( @{ $this->{rows} }, $from, 1 );
+
+    # compensate for row just removed
+    my $rto = ( $to > $from ) ? $to - 1 : $to;
+
+    if ( $rto >= scalar( @{ $this->{rows} } ) ) {
+        push( @{ $this->{rows} }, @moving );
     }
-    splice( @{ $this->{rows} }, $to, 0, @moving );
-    $this->_renumber( $from < $to ? $from : $to );
+    else {
+        splice( @{ $this->{rows} }, $rto, 0, @moving );
+    }
+    $this->_renumber();
 }
 
 =begin TML
@@ -402,9 +405,8 @@ sub upRow {
     my ( $this, $row ) = @_;
     my $tmp = $this->{rows}->[$row];
     $this->{rows}->[$row] = $this->{rows}->[ $row - 1 ];
-    $this->{rows}->[$row]->number($row);
     $this->{rows}->[ $row - 1 ] = $tmp;
-    $tmp->number( $row - 1 );
+    $this->_renumber( $row - 1 );
 }
 
 =begin TML
@@ -417,11 +419,10 @@ Move a row down one position in the table
 
 sub downRow {
     my ( $this, $row ) = @_;
-    my $tmp = $this->{rows}->[ $row - 1 ];
-    $this->{rows}->[ $row - 1 ] = $this->{rows}->[$row];
-    $this->{rows}->[$row]->number( $row - 1 );
-    $this->{rows}->[$row] = $tmp;
-    $tmp->number($row);
+    my $tmp = $this->{rows}->[$row];
+    $this->{rows}->[$row] = $this->{rows}->[ $row + 1 ];
+    $this->{rows}->[ $row + 1 ] = $tmp;
+    $this->_renumber($row);
 }
 
 # PROTECTED method that parses a column type specification

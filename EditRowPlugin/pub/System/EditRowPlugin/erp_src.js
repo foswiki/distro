@@ -1,7 +1,7 @@
 /**
  * Support for EditRowPlugin
  * 
- * Copyright (c) 2009-2011 Foswiki Contributors
+ * Copyright (c) 2009-2013 Foswiki Contributors
  * Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
  * All Rights Reserved. Foswiki Contributors are listed in the
  * AUTHORS file in the root of this distribution.
@@ -24,146 +24,149 @@
     var editing_element;
 
     // Date editable
-    $.editable.addInputType('datepicker', {
-        element : function(settings, original) {
-            var input = $('<input>');
-            if (settings.width  != 'none')
-                input.width(settings.width);
-            if (settings.height != 'none')
-                input.height(settings.height);
-            input.attr('autocomplete', 'off');
-            $(this).append(input);
-            return(input);
-        },
-        plugin : function(settings, original) {
-            /* Workaround for missing parentNode in IE */
-            var form = this;
-            settings.onblur = 'ignore';
-            var inp = $(this).find('input');
-            var cal = new Calendar(
-                1, null,
-                function (cal, date) { // onSelected
-                    cal.hide();
-                    inp.val(date);
-                    $(form).trigger("submit");
-                },
-                function (cal) { // onClose
-                    cal.hide();
-                    original.reset.apply(original, [ form ]);
-                    $(original).addClass(settings.cssdecoration);
-                });
-            cal.showsOtherMonths = true;
-            cal.setRange(1900, 2070);
-            cal.create();
-            if (settings.format) {
-                cal.showsTime = (settings.format.search(/%H|%I|%k|%l|%M|%p|%P/) != -1);
-                cal.setDateFormat(settings.format);
-            }
-            cal.parseDate(original.revert.replace(/^\s+/, ''));
-            cal.showAtElement(inp[0], "Br");
-        }});
-
-    // Radio button editable
-    $.editable.addInputType('radio', {
-        element : function(settings, original) {
-            // 'this' is the form
-            var hinput = $('<input type="hidden" id="' + settings.name
-                           + '" name="' + settings.name + '" value="" />');
-            // *Must* be first
-            $(this).append(hinput);
-            var key, input, checked, id, cnt = 1;
-            for (key in settings.data) {
-                id = settings.name + "_button" + cnt;
-                $(this).append('<label for="' + id + '">' +
-                               settings.data[key] + '</label>');
-                checked = (key === settings.text) ? ' checked="checked"' : "";
-                input = $('<input type="radio" name="' + settings.name +
-                          '_buttons" id="' + id + '"' + checked + ' value="'
-                          + key + '" />');
+    if ($.editable) {
+        $.editable.addInputType('datepicker', {
+            element : function(settings, original) {
+                var input = $('<input>');
+                if (settings.width  != 'none')
+                    input.width(settings.width);
+                if (settings.height != 'none')
+                    input.height(settings.height);
+                input.attr('autocomplete', 'off');
                 $(this).append(input);
-                input.click(function() {
-                    $('#' + settings.name).val($(this).val());
-                });
-                cnt++;
-            }
-            return hinput;
-        }
-    });
-
-    // The default JEditable select does not retain the sorting of the selection options,
-    // so we need a sorted version. Assumes three keys in the json data: 'order', 'keys'
-    // and 'selected'. 'order' is an array containing the sort order of the keys; 'keys'
-    // contains the key mapped to the string title of the key; and 'selected' contains
-    // the string value of the currently selected key.
-    $.editable.addInputType('erpselect', {
-        element : function(settings, original) {
-            var select = $('<select />');
-            $(this).append(select);
-            return(select);
-        },
-        content: function(data, settings, original) {
-	    console.debug("content");
-            /* If it is string assume it is json. */
-            if (String == data.constructor) {      
-                eval ('var json = ' + data);
-            } else {
-                /* Otherwise assume it is a hash already. */
-                var json = data;
-            }
-
-            for (var i in json.order) {
-                var key = json.order[i];
-                if (json.keys[key] == null)
-                    continue;
-                var option = $('<option />').val(key).append(json.keys[key]);
-                $('select', this).append(option);    
-            }
-            /* Loop option again to set selected. IE needed this... */ 
-            $('select', this).children().each(function() {
-                if ($(this).val() == json.selected || 
-                    $(this).text() == $.trim(original.revert)) {
-                    $(this).attr('selected', 'selected');
-                }
-            });
-        }
-    });
-
-    // Checkbox editable
-    $.editable.addInputType('checkbox', {
-        element : function(settings, original) {
-            // 'this' is the form
-            // data is CSV list
-            var hinput = $('<input type="hidden" id="' + settings.name
-                           + '" name="' + settings.name + '" value="" />');
-            // *Must* be first
-            $(this).append(hinput);
-            var key, input, checked, id, cnt = 1;
-            var picked = new RegExp(
-                "\\b(" + settings.text.replace(/\s*,\s*/, "|") + ")\\b");
-            for (key in settings.data) {
-                id = settings.name + "_button" + cnt;
-                checked = picked.test(key) ? ' checked="checked"' : '';
-                input = $('<input type="checkbox" name="' + settings.name +
-                          '_buttons" id="' + id + '"' + checked + ' value="'
-                          + key + '" />');
-                $(this).append(input);
-                $(this).append('<label for="' + id + '">' +
-                               settings.data[key] + '</label>');
-                input.change(function() {
-                    // The :checked selector doesn't work :-(
-                    var vs = 'input[name="' + settings.name + '_buttons"]';
-                    var vals = [];
-                    $(vs).each(function(i, e) {
-                        if ($(e).attr("checked"))
-                            vals.push($(e).val());
+                return(input);
+            },
+            plugin : function(settings, original) {
+                /* Workaround for missing parentNode in IE */
+                var form = this;
+                settings.onblur = 'ignore';
+                var inp = $(this).find('input');
+                var cal = new Calendar(
+                    1, null,
+                    function (cal, date) { // onSelected
+                        cal.hide();
+                        inp.val(date);
+                        $(form).trigger("submit");
+                    },
+                    function (cal) { // onClose
+                        cal.hide();
+                        original.reset.apply(original, [ form ]);
+                        $(original).addClass(settings.cssdecoration);
                     });
-                    $('#' + settings.name).val(vals.join(','));
-                });
-                cnt++;
+                cal.showsOtherMonths = true;
+                cal.setRange(1900, 2070);
+                cal.create();
+                if (settings.format) {
+                    cal.showsTime = (settings.format.search(/%H|%I|%k|%l|%M|%p|%P/) != -1);
+                    cal.setDateFormat(settings.format);
+                }
+                cal.parseDate(original.revert.replace(/^\s+/, ''));
+                cal.showAtElement(inp[0], "Br");
+            }});
+
+        // Radio button editable
+        $.editable.addInputType('radio', {
+            element : function(settings, original) {
+                // 'this' is the form
+                var hinput = $('<input type="hidden" id="' + settings.name
+                               + '" name="' + settings.name + '" value="" />');
+                // *Must* be first
+                $(this).append(hinput);
+                var key, input, checked, id, cnt = 1;
+                for (key in settings.data) {
+                    id = settings.name + "_button" + cnt;
+                    $(this).append('<label for="' + id + '">' +
+                                   settings.data[key] + '</label>');
+                    checked = (key === settings.text) ? ' checked="checked"' : "";
+                    input = $('<input type="radio" name="' + settings.name +
+                              '_buttons" id="' + id + '"' + checked + ' value="'
+                              + key + '" />');
+                    $(this).append(input);
+                    input.click(function() {
+                        $('#' + settings.name).val($(this).val());
+                    });
+                    cnt++;
+                }
+                return hinput;
             }
-            return hinput;
-        }
-    });
+        });
+
+        // The default JEditable select does not retain the sorting of
+        // the selection options, so we need a sorted version. Assumes
+        // three keys in the json data: 'order', 'keys' and 'selected'.
+        // 'order' is an array containing the sort order of the keys;
+        // 'keys' contains the key mapped to the string title of the key; and
+        // 'selected' contains the string value of the currently selected key.
+        $.editable.addInputType('erpselect', {
+            element : function(settings, original) {
+                var select = $('<select />');
+                $(this).append(select);
+                return(select);
+            },
+            content: function(data, settings, original) {
+                console.debug("content");
+                /* If it is string assume it is json. */
+                if (String == data.constructor) {      
+                    eval ('var json = ' + data);
+                } else {
+                    /* Otherwise assume it is a hash already. */
+                    var json = data;
+                }
+
+                for (var i in json.order) {
+                    var key = json.order[i];
+                    if (json.keys[key] == null)
+                        continue;
+                    var option = $('<option />').val(key).append(json.keys[key]);
+                    $('select', this).append(option);    
+                }
+                /* Loop option again to set selected. IE needed this... */ 
+                $('select', this).children().each(function() {
+                    if ($(this).val() == json.selected || 
+                        $(this).text() == $.trim(original.revert)) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
+            }
+        });
+
+        // Checkbox editable
+        $.editable.addInputType('checkbox', {
+            element : function(settings, original) {
+                // 'this' is the form
+                // data is CSV list
+                var hinput = $('<input type="hidden" id="' + settings.name
+                               + '" name="' + settings.name + '" value="" />');
+                // *Must* be first
+                $(this).append(hinput);
+                var key, input, checked, id, cnt = 1;
+                var picked = new RegExp(
+                    "\\b(" + settings.text.replace(/\s*,\s*/, "|") + ")\\b");
+                for (key in settings.data) {
+                    id = settings.name + "_button" + cnt;
+                    checked = picked.test(key) ? ' checked="checked"' : '';
+                    input = $('<input type="checkbox" name="' + settings.name +
+                              '_buttons" id="' + id + '"' + checked + ' value="'
+                              + key + '" />');
+                    $(this).append(input);
+                    $(this).append('<label for="' + id + '">' +
+                                   settings.data[key] + '</label>');
+                    input.change(function() {
+                        // The :checked selector doesn't work :-(
+                        var vs = 'input[name="' + settings.name + '_buttons"]';
+                        var vals = [];
+                        $(vs).each(function(i, e) {
+                            if ($(e).attr("checked"))
+                                vals.push($(e).val());
+                        });
+                        $('#' + settings.name).val(vals.join(','));
+                    });
+                    cnt++;
+                }
+                return hinput;
+            }
+        });
+    }
 
     var onDrop = function(event, container, dragee, rows) {
         var target = $(event.target);
@@ -189,14 +192,20 @@
         // dragee and target are both TRs
         var target_data = target.data('erp_data');
         var dragee_data = dragee.data('erp_data');
-	// Can't use erp_row without a refresh - either renumber the rows,
-	// or compute the offset
         var old_pos = dragee_data.erp_row;
-        var new_pos = target_data.erp_row;
+        var new_pos;
+        if (target_data != null)
+            new_pos = target_data.erp_row;
+        else {
+            if (target.next().size() > 0)
+                new_pos = 0;
+            else
+                new_pos = target.parent().children().size();
+        }
 
-	var table = container.closest('table');
+        var table = container.closest('table');
         var move_data = $.extend({ noredirect: 1 }, target_data,
-				 table.data('erp_data'));
+                                 table.data('erp_data'));
         if (edge == 'bottom')
             new_pos++;
         
@@ -210,10 +219,13 @@
         move_data.erp_action = 'moveRowCmd';
         move_data.old_pos = old_pos;
         move_data.new_pos = new_pos;
+	if (move_data.erp_row == null)
+	    move_data.erp_row = old_pos;
         // Tell the server *not* to return us to edit mode
         move_data.erp_stop_edit = 1;
 
         // The request will update the entire container.
+	table.css('cursor', 'wait');
         $.ajax({
             url: foswiki.getPreference('SCRIPTURLPATH') + '/rest/EditRowPlugin/save',
             type: "POST",
@@ -245,16 +257,17 @@
                     dragee.insertBefore(target);
                 else
                     dragee.insertAfter(target);
+		table.css('cursor', 'auto');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Cancel the drag
                 dragee.fadeTo("fast", 1.0);
-                container.css("cursor", "auto");
-		var mess = jqXHR.responseText;
-		if (mess && mess.indexOf('RESPONSE') == 0)
+                table.css("cursor", "auto");
+                var mess = jqXHR.responseText;
+                if (mess && mess.indexOf('RESPONSE') == 0)
                     mess = mess.replace(/^RESPONSE/, ': ');
-		else
-		    mess = '';
+                else
+                    mess = '';
                 alert("Error " + jqXHR.status + " - Failed to move row" + mess);
             }
         });
@@ -272,15 +285,15 @@
 
     var makeRowDraggable = function(tr) {
         // Add a "drag handle" element to the first cell of the row
-        var container = tr.closest("thead,tbody,table");
+        var container = tr.closest("thead,tbody,tfoot,table");
         tr.find("td").first().each(
             function () {
-		var handle = $("<a href='#' class='ui-icon-arrow-2-n-s erp_drag_button ui-icon' title='Click and drag to move row'>move</a>");
-		// Note we need the extra <div class="erpJS_container" for positioning.
-		// It is *not* sufficient to set the class on the td
-		var div = $("<div class='erpJS_container'></div>");
-		div.append(handle);
-		$(this).append(div);
+                var handle = $("<a href='#' class='ui-icon-arrow-2-n-s erp_drag_button ui-icon' title='Click and drag to move row'>move</a>");
+                // Note we need the extra <div class="erpJS_container" for positioning.
+                // It is *not* sufficient to set the class on the td
+                var div = $("<div class='erpJS_container'></div>");
+                div.append(handle);
+                $(this).append(div);
                 handle.draggable({
                     // constrain to the containing table
                     containment: container,
@@ -291,7 +304,7 @@
                     },
                     start: function(event, ui) {
                         tr.fadeTo("fast", 0.3); // to show it's moving
-                        var rows = container.find(".editRowPluginRow");
+                        var rows = container.find("tr");
                         rows.not(tr).not('.drag-helper').droppable({
                             drop: function(event, ui) {
                                 onDrop(event, container, tr, rows);
@@ -315,11 +328,11 @@
         // because the row index may change if rows are moved/added/deleted
         submitdata: function(value, settings) {
             var sd = $.extend(
-		{ erp_action: "saveCellCmd",
-		  noredirect: 1 },
-		$(this).data('erp_data'),
-		$(this).closest('tr').data('erp_data'),
-		$(this).closest('table').data('erp_data'));
+                { erp_action: "saveCellCmd",
+                  noredirect: 1 },
+                $(this).data('erp_data'),
+                $(this).closest('tr').data('erp_data'),
+                $(this).closest('table').data('erp_data'));
             return sd;
         },
 
@@ -386,42 +399,43 @@
     };
 
     var attachEditControls = function(el) {
-	var p = el.data('erp_data');
+        var p = el.data('erp_data');
 
         if (!p || !p.type || p.type == 'label')
-	    return;
+            return;
 
-	// Add edit trigger button (yellow stain)
-	// Note we need the extra <div class="erpJS_container" for positioning. It
-	// is *not* sufficient to set the class on the td
-	var div = $("<div class='erpJS_container'></div>");
-	var button = $('<div class="erpJS_editButton" title="Click to edit"></div>');
-	div.append(button);
-	el.closest("td").prepend(div);
+        // Add edit trigger button (yellow stain)
+        // Note we need the extra <div class="erpJS_container" for positioning. It
+        // is *not* sufficient to set the class on the td
+        var div = $("<div class='erpJS_container'></div>");
+        var button = $('<div class="erpJS_editButton" title="Click to edit"></div>');
+        div.append(button);
+        el.closest("td").prepend(div);
 
         // Action on edit cell
         button.click(function() {
             // Send the event to the span
-	    editing_element = el;
+            editing_element = el;
             el.triggerHandler('erp_edit');
         });
 
         // Attach the edit control functions. Delay this until we are hovered
-	// over.
-	var cb = (p.type == "text" || p.type == "textarea") ?
-	    textCallback : otherCallback;
-	p = $.extend(
-	    {
-		event: "erp_edit",
-		placeholder: '<div class="erp_empty"></div>',
-		callback: cb,
-		tooltip: ''
-	    },
-	    p,
-	    editControls
-	);
-	var url = foswiki.getPreference('SCRIPTURLPATH') + '/rest/EditRowPlugin/save';
-        el.editable(url, p);
+        // over.
+        var cb = (p.type == "text" || p.type == "textarea") ?
+            textCallback : otherCallback;
+        p = $.extend(
+            {
+                event: "erp_edit",
+                placeholder: '<div class="erp_empty"></div>',
+                callback: cb,
+                tooltip: ''
+            },
+            p,
+            editControls
+        );
+        var url = foswiki.getPreference('SCRIPTURLPATH') + '/rest/EditRowPlugin/save';
+        if (el.editable)
+            el.editable(url, p);
     };
 
     var erp_dataDirty = false;
@@ -431,10 +445,10 @@
     // decorate the table with handlers for cell edit, row edit, and row move
     instrument = function(context) {
 
-	// Move metadata into $.data. We have to do this completely because
-	// table data is attached to only one cell, and that cell may not
-	// be the first in the table (for example, if it has been sorted
-	// away by the TablePlugin)
+        // Move metadata into $.data. We have to do this completely because
+        // table data is attached to only one cell, and that cell may not
+        // be the first in the table (for example, if it has been sorted
+        // away by the TablePlugin)
         context.find('span.erpJS_cell').each(function(index, value) {
 
             // Extract meta-data from the class attribute
@@ -446,44 +460,44 @@
                 //alert("This should not fail");
             }
 
-	    if (!p)
-		return;
+            if (!p)
+                return;
 
-	    if (p.tabledata) {
-		// Data to be moved up to the table
-		var table = $(this).closest("table");
+            if (p.tabledata) {
+                // Data to be moved up to the table
+                var table = $(this).closest("table");
                 table.data('erp_data', p.tabledata);
-		table.addClass('erp_editable');
-		delete p.tabledata;
-	    }
+                table.addClass('erp_editable');                
+                delete p.tabledata;
+            }
 
-	    if (p.trdata) {
-		// Data to be moved up to the row
-		var tr = $(this).closest("tr");
+            if (p.trdata) {
+                // Data to be moved up to the row
+                var tr = $(this).closest("tr");
                 tr.data('erp_data', p.trdata);
-		tr.addClass("editRowPluginRow");
-		tr.addClass('ui-draggable');
-		delete p.trdata;
-	    }
+                tr.addClass("editRowPluginRow");
+                tr.addClass('ui-draggable');
+                delete p.trdata;
+            }
 
-	    // Rewrite submitimg and cancelimg to HTML buttons for
-	    // passing to $.editable
-	    if (p.submitimg) {
-		p.submit = "<button type='submit'><img src='" +
-		    foswiki.getPreference('PUBURLPATH') +
-		    '/System/EditRowPlugin/' + p.submitimg + "' /></button>";
-		delete p.submitimg;
-	    }
-	    if (p.cancelimg) {
-		p.cancel = "<button type='submit'><img src='" +
-		    foswiki.getPreference('PUBURLPATH') +
-		    '/System/EditRowPlugin/' + p.cancelimg + "' /></button>";
-		delete p.cancelimg;
-	    }
+            // Rewrite submitimg and cancelimg to HTML buttons for
+            // passing to $.editable
+            if (p.submitimg) {
+                p.submit = "<button type='submit'><img src='" +
+                    foswiki.getPreference('PUBURLPATH') +
+                    '/System/EditRowPlugin/' + p.submitimg + "' /></button>";
+                delete p.submitimg;
+            }
+            if (p.cancelimg) {
+                p.cancel = "<button type='submit'><img src='" +
+                    foswiki.getPreference('PUBURLPATH') +
+                    '/System/EditRowPlugin/' + p.cancelimg + "' /></button>";
+                delete p.cancelimg;
+            }
 
-	    // Data for the cell
+            // Data for the cell
             $(this).data('erp_data', p);
-	});
+        });
 
         context.find('.erpJS_input').change(function() {
             erp_dataDirty = true;
@@ -529,37 +543,37 @@
             return sortTable(this, false, md.headrows, md.footrows);
         });
 
-	var current_row = null;
-	$('tr.ui-draggable').mouseover(
-	    function(e) {
-		var tr = $(this);
+        var current_row = null;
+        $('tr.ui-draggable').mouseover(
+            function(e) {
+                var tr = $(this);
 
-		if (!tr.is(".erp_instrumented")) {
-		    tr.addClass("erp_instrumented");
+                if (!tr.is(".erp_instrumented")) {
+                    tr.addClass("erp_instrumented");
 
-		    // Add drag control if the table has >1 rows
-		    if (tr.closest("tbody,table").children().length > 1)
-			makeRowDraggable(tr);
+                    // Add drag control if the table has >1 rows
+                    if (tr.closest("tbody,table").children().length > 1)
+                        makeRowDraggable(tr);
 
-		    // Attach an editor to each editable cell
-		    tr.find('span.erpJS_cell').each(function(index, value) {
-			attachEditControls($(this));
-		    });
-		}
-		if (!current_row || tr[0] != current_row[0]) {
-		    if (current_row) {
-			current_row.find('.erpJS_container').fadeOut();
-		    }
-		    tr.find('.erp_drag_button,.erpJS_container').fadeIn();
-		    current_row = tr;
-		}
-	    });
+                    // Attach an editor to each editable cell
+                    tr.find('span.erpJS_cell').each(function(index, value) {
+                        attachEditControls($(this));
+                    });
+                }
+                if (!current_row || tr[0] != current_row[0]) {
+                    if (current_row) {
+                        current_row.find('.erpJS_container').fadeOut();
+                    }
+                    tr.find('.erp_drag_button,.erpJS_container').fadeIn();
+                    current_row = tr;
+                }
+            });
     };
     $.ajaxSetup({
-	error: function (jqXHR, textStatus, errorThrown) {
-	    if (jqXHR.status == 401)
-		alert("Please log in before editing");
-	}});
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status == 401)
+                alert("Please log in before editing");
+        }});
     $(function() {
         instrument($(document));
     });

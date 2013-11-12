@@ -100,7 +100,6 @@ sub render {
         }
         else {
 
-            # SMELL: this makes footers editable
             my $sopts   = {};
             my $trigger = '';
             if ( $this->can_edit() ) {

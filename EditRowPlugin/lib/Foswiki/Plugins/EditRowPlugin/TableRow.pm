@@ -83,7 +83,8 @@ sub setRow {
 #TODO: unless its a header=""
 sub can_edit {
     my $this = shift;
-    return $this->{table}->can_edit();
+    return $this->{table}->can_edit()
+      && !( $this->isFooter() || $this->isFooter() );
 }
 
 # add URL params needed to address this row
@@ -152,7 +153,7 @@ sub render {
         return $s;
     }
 
-    # Not for edit, or orientation horizontal, or JS required
+    # Not for edit, or orientation horizontal
     my $text;
 
     $opts->{in_row}             = $this;

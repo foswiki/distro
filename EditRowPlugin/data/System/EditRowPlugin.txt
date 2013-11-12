@@ -177,7 +177,7 @@ then="enabled in this site. Click on the buttons to try it out."}%
 <img src="%ATTACHURLPATH%/screenshot2.png"></div>
 When a table is editable and Javascript is enabled, then when the user rolls the mouse over a table row:
    * individual table cells have a yellow stain <img src="%ATTACHURL%/editbutton.png"> on the corner that can be clicked to open an in-place editor,
-   * table rows can be manually sorted using drag-and-drop, by dragging the %UICON%arrowthick-2-n-s%NOCIU% (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
+   * table rows *that contain at least one editable cell* can be manually sorted using drag-and-drop, by dragging the %UICON%arrowthick-2-n-s%NOCIU% (though beware that a =TABLE= tag with an =initsort= will override this, which can be confusing),
 Table columns can be sorted in the browser, by clicking the heading above the row.
 
 Note that javascript editing is automatically disabled if:
@@ -255,10 +255,11 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Author(s): | Crawford Currie http://c-dot.co.uk |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
-|  Copyright: | &copy; 2007-2011 Wind<nop>River Inc. |
+|  Copyright: | &copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2013 Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  3.0.4 (11 Nov 2013) | Foswiki:Tasks/Item12132 Workaround for CSS problem in PatternSkin |
+|  3.0.5 (12 Nov 2013) | Foswiki:Tasks/Item12654: Fixed interactive row moving, add wait cursor during REST request |
+|  3.0.4 (11 Nov 2013) | Foswiki:Tasks/Item12132: Workaround for CSS problem in PatternSkin |
 |  3.0.3 (8 Jan 2013) | Foswiki:Tasks/Item12144: add foswikiIcon to icons Foswiki:Tasks/Item12148: added missing tooltips, changed stain cursor to match button behaviour |
 |  3.0.2 (19 Aug 2012) | Foswiki:Tasks/Item10770: Don't expand macros in select values |
 |  3.0.1 (28 Jan 2012) | Foswiki:Tasks/Item11381: automatically disable JS if rest script is in {AuthScripts} and no-one is logged in |
@@ -281,30 +282,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  2.0.2 (2 Feb 2011) | Foswiki:Tasks/Item2016: doesn't save "0" in table cells; fixed.Foswiki:Tasks/Item2229: needs better headings support; fixed. Foswiki:Tasks/Item1186: textarea newlines are not saved with whitespace around br; fixed. Foswiki:Tasks/Item9091: orientrowedit=vertical does not show the header labels; fixed. Foswiki:Tasks/Item9775: missing section headings from Config.spec; fixed. |
 |  2.0.1 (24 Feb 2009) | Foswikitask:Item1139: fixed restoration of labels after an edit Foswikitask:Item1140: fixed loading of multi-valued parameters |
 |  2.0.0 (15 Feb 2009) | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |
-|  15 May 2008: | helptopics were getting munged because of use of BR to replace newlines. This was to prevent accidental table concatenation, but breaks other things worse so I removed it. handle comments with embedded tables. don't count generated tables in the table count. typo was causing strange behaviour with row management tools. fixed problem with included tables. changed default behaviour for empty cells to ignore pre-existing spaces if there is no other content. row moving was failing on 4.1.2 due to bad URL construction. |
-|  8 Mar 2008 | fixed problem with editing of tables embedded from an included topic added Jeff Crawford's patch to fix multiline textareas |
-|  4 Jan 2008 | fixed destructive save when add row is pressed outside edit mode |
-|  13 Dec 2007 | removed beforeCommonTagsHandler, which was causing problems when interacting with other plugins that use unregistered tag handlers. |
-|  23 Nov 2007 | remove duplicated %EDITCELL |
-|  9 Nov 2007 | added missing _src.js versions to MANIFEST |
-|  6 Nov 2007 | fixed problem with embedded variables |
-|  20 Oct 2007 | support %EDITCELL rework the rules for associating tag with adjacent table avoid expanding variables on edit |
-|  18 Oct 2007 | added automatic save on row add added %EDITCELL support fixed validation of date change |
-|  26 Sep 2007 | eep table in full-table edit mode after a row is added dd JS to handle navigating away with pending changes (requires BehaviourContrib) |
-|  10 Sep 2007 | an use row buttons to delete the header, even though headerrows is set row" parameter not supported eader parameter not correctly handled eader row gets eaten |
-|  13685 | upport for =helptopic= and =disable=, which allows more flexible configuration of the UI, especially when vertical editing |
-|  13641 | mproved the table anchors for a better editing experience. Fixed calendar formats. Fixed table footer sorting. Disabled label edits. Fixed multi-malued checkboxes. |
-|  13615 | dded initial values support ixed included tables. Also fixed a bug with variable expansion reported in the dev topic. |
-|  13609 | fixed colspan. Also added support for headerrows and footerrows parameters from %TABLE |
-|  13560 | roblems with blank lines, multi-value edits, and line continuations resolved |
-|  13596 | dded =orientrowedit=, global control options, fixed issue with wikiwords in edited data, added column sorting |
-|  13487 |  fixed infinite loop when included format doesn't exist |
-|  13359 |  can now edit top row of tables. Also now writes row numbers back to the topic, which was needed to support some compatible apps. |
-|  13335 | Fixed broken date prompt, and problem with radio buttons, improved and documented REST interface for Javascript authors |
-|  13291 | Added full table editing, including moving rows within the table |
-|  13161 | Bulletproofed against issues with rows that are shorter or longer than the format. |
-|  13159 | Fixed issue with short rows, and added perms check. Thanks also to Foswiki:Main.MichaelDaum for more fixes and testing. Now works on IE. |
-|  13148 | Bugfixes |
+|  Earlier version history can be found in the Subversion repository |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home Page: | http://foswiki.org/Extensions/EditRowPlugin |
 

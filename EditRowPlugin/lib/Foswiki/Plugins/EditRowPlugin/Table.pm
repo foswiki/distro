@@ -221,7 +221,7 @@ sub render {
 
         # Editing a zero-row table causes automatic creation of a single
         # row. This is to support the creation of a new table in the
-        # presence of an EDITTABLE macro witho no data.
+        # presence of an EDITTABLE macro with no data.
         $this->addRow(-1);
 
         # A row added this way will be used for an edit, so needs assigned
@@ -427,7 +427,6 @@ sub getEditor {
     unless ($editor) {
         my $class = "Foswiki::Plugins::EditRowPlugin::Editor::$colDef->{type}";
         eval("require $class");
-        ASSERT( !$@, $@ ) if DEBUG;
         if ($@) {
             Foswiki::Func::writeWarning(
                 "EditRowPlugin could not load cell type $class: $@");
@@ -584,7 +583,7 @@ sub saveData {
 sub addRowCmd {
     my ( $this, $urps ) = @_;
     my @cols;
-    my $row = $urps->{erp_row};
+    my $row = $urps->{erp_row} + 1;
 
     unless ( $urps->{erp_unchanged} ) {
         $this->saveData($urps);    # in case data has changed
@@ -610,20 +609,19 @@ sub deleteRowCmd {
 
     $this->saveData($urps);    # in case data has changed
 
-    my $row = $urps->{erp_row};
+    my $row = $urps->{erp_row} + 1;
 
     return unless $this->deleteRow($row);
 
     return if $urps->{erp_row} < 0;    # full table edit?
-    $urps->{erp_row} = $row;
 
     # Make sure that the active row is a non-header, non-footer row
-    if ( $urps->{erp_row} < $this->getFirstLiveRow() ) {
-        $urps->{erp_row} = $this->getFirstLiveRow();
+    if ( $urps->{erp_row} < $this->getFirstBodyRow() ) {
+        $urps->{erp_row} = $this->getFirstBodyRow();
     }
-    if ( $urps->{erp_row} > $this->getLastLiveRow() ) {
-        $urps->{erp_row} = $this->getLastLiveRow();
-        if ( $urps->{erp_row} < $this->getFirstLiveRow() ) {
+    if ( $urps->{erp_row} > $this->getLastBodyRow() ) {
+        $urps->{erp_row} = $this->getLastBodyRow();
+        if ( $urps->{erp_row} < $this->getFirstBodyRow() ) {
 
             # No active rows left
             $urps->{erp_row} = -1;
@@ -637,9 +635,19 @@ sub deleteRowCmd {
 # SMELL: does no saveData; dangerous?
 sub moveRowCmd {
     my ( $this, $urps ) = @_;
-    $this->moveRow( $urps->{old_pos}, $urps->{new_pos} );
-    $this->{attrs}->{js} = 'rowmoved';
-    return $this->render( { with_controls => 1 }, {} );
+    if (   $urps->{old_pos} >= $this->getFirstBodyRow()
+        && $urps->{old_pos} <= $this->getLastBodyRow() )
+    {
+        if ( $urps->{new_pos} < $this->getFirstBodyRow() ) {
+            $urps->{new_pos} = $this->getFirstBodyRow();
+        }
+        elsif ( $urps->{new_pos} > $this->getLastBodyRow() ) {
+            $urps->{new_pos} = $this->getLastBodyRow() + 1;
+        }
+        $this->moveRow( $urps->{old_pos}, $urps->{new_pos} );
+        $this->{attrs}->{js} = 'rowmoved';
+    }
+    return $this->render( { with_controls => 0 }, {} );
 }
 
 # Action on move up; save and shift row
@@ -648,7 +656,10 @@ sub moveRowCmd {
 sub upRowCmd {
     my ( $this, $urps ) = @_;
     $this->saveData($urps);
-    $this->upRow( $urps->{erp_row}-- );
+    if ( $urps->{erp_row} > $this->getFirstBodyRow() ) {
+        $this->upRow( $urps->{erp_row} );
+        $urps->{erp_row}--;
+    }
 }
 
 # Action on move down; save and shift row
@@ -657,7 +668,10 @@ sub upRowCmd {
 sub downRowCmd {
     my ( $this, $urps ) = @_;
     $this->saveData($urps);
-    $this->downRow( $urps->{erp_row}++ );
+    if ( $urps->{erp_row} < $this->getLastBodyRow() ) {
+        $this->downRow( $urps->{erp_row} );
+        $urps->{erp_row}++;
+    }
 }
 
 # Action on edit cancelled

@@ -16,7 +16,7 @@ use Foswiki::Func ();
 
 =begin TML
 
----++ ClassMethod new($table, $precruft, $postcruft [, $cols]) -> $row
+---++ ClassMethod new($table, $precruft, $postcruft [, \@cols]) -> $row
 Construct a new table row, associated with the given table.
    * =$table= - the table the row is associated with
    * =$precruft= - text found before the opening | at the start of the row
