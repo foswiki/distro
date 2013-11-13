@@ -258,6 +258,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2013 Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  3.0.6 (13 Nov 2013) | Foswiki:Tasks/Item11920 syntax error in JS was causing failure on IE 7 |
 |  3.0.5 (12 Nov 2013) | Foswiki:Tasks/Item12654: Fixed interactive row moving, add wait cursor during REST request |
 |  3.0.4 (11 Nov 2013) | Foswiki:Tasks/Item12132: Workaround for CSS problem in PatternSkin |
 |  3.0.3 (8 Jan 2013) | Foswiki:Tasks/Item12144: add foswikiIcon to icons Foswiki:Tasks/Item12148: added missing tooltips, changed stain cursor to match button behaviour |

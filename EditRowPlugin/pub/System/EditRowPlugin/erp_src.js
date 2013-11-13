@@ -361,7 +361,7 @@
                 alert(mess.replace(/^RESPONSE/, ''));
         },
 
-        onblur: 'cancel',
+        onblur: 'cancel'
     };
 
     var editCallback = function(el, value, settings, val2data) {
