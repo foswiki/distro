@@ -4,9 +4,9 @@
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
----++ Foswiki Release 1.1.9 RC2 - 5 Nov 2013
+---++ Foswiki Release 1.1.9 RC3 - 13 Nov 2013
 
-Foswiki 1.1.9 RC2 was built 03 Nov 2013. It is a release that contains 40 fixes and 4 enhancements.
+Foswiki 1.1.9 RC3 was built 13 Nov 2013. It is a release that contains 43 fixes and 4 enhancements.
 
 ---++ Foswiki Release 1.1.8 - 28 Feb 2013
 
