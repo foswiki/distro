@@ -703,7 +703,7 @@ sub test_getExternalResource {
         qr/text\/html; charset=utf-8/s,
         lc( $response->header('content-type') )
     );
-    $this->assert_matches( qr/Welcome to DevelopBranch TWiki/s,
+    $this->assert_matches( qr/Welcome to the TWiki Development Server/s,
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
@@ -715,7 +715,7 @@ sub test_getExternalResource {
     $this->assert_str_equals( 'OK', $response->message() );
     $this->assert_str_equals( 'text/html; charset=UTF-8',
         $response->header('content-type') );
-    $this->assert_matches( qr/Welcome to DevelopBranch TWiki/s,
+    $this->assert_matches( qr/Welcome to the TWiki Development Server/s,
         $response->content() );
     $this->assert( !$response->is_error() );
     $this->assert( !$response->is_redirect() );
