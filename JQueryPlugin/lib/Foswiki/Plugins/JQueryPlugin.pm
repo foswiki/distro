@@ -277,10 +277,10 @@ sub handleJQueryTheme {
     my $themeName = $params->{_DEFAULT}
       || $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
-    my $warn = $params->{warn} || '';
+    my $warn = Foswiki::Func::isTrue( $params->{warn}, 1 );
 
     return _inlineError("No such theme $themeName")
-      if !createTheme($themeName) && $warn ne 'off';
+      if !createTheme($themeName) && $warn;
 
     return '';
 }

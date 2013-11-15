@@ -6,7 +6,8 @@
      the list of available and active plugins. While loading a plugin, additional plugins it may depend on are loaded as well.
      Information about these dependencies is stored within the plugins themselves and can't be changed. Dependencies also make
      sure the javascript code is added to the html page in the right order. It uses [[VarADDTOZONE][ADDTOZONE]]
-     to aggregate javascript and css at the right place on the html page.
+     to aggregate javascript and css at the right place on the html page. 
+   * Note: in case of an error JQREQUIRE will produce an inline HTML error message. 
    * Parameters:
      | *Parameter:* | *Description:* | *Default:* |
      | "plugin[, plugin, plugin]" | list of plugins to be loaded | |
