@@ -105,6 +105,7 @@ if ( $options{-clean} ) {
         ($x) = $x =~ /^(.*)$/;
         File::Path::rmtree($x) if $x;
     }
+
     closedir $dataDir;
 
     $rmDir = $Foswiki::cfg{PubDir};
@@ -118,9 +119,8 @@ if ( $options{-clean} ) {
 
     my $logDir = Cwd::getcwd() . '/testlogs';
     if ( -d $logDir ) {
-        File::Path::rmtree($logDir);
+        File::Path::rmtree($1) if $logDir =~ /^(.*)$/;
     }
-
 }
 
 if ( not $options{-worker} ) {

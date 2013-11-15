@@ -256,8 +256,7 @@ sub handleJQueryRequire {
     my $errorMsg = '';
     foreach my $pluginName ( split( /\s*,\s*/, $plugins ) ) {
         my $plugin = createPlugin( $pluginName, $session );
-        $errorMsg .=
-          "<div class='foswikiAlert'>Error: no such plugin $pluginName</div>"
+        $errorMsg .= _error("No such plugin $pluginName")
           if !$plugin && $warn;
     }
 
@@ -280,7 +279,7 @@ sub handleJQueryTheme {
 
     my $warn = $params->{warn} || '';
 
-    return "<div class='foswikiAlert'>Error: no such theme $themeName</div>"
+    return _error("No such theme $themeName")
       if !createTheme($themeName) && $warn ne 'off';
 
     return '';
@@ -410,6 +409,12 @@ sub handleJQueryPlugins {
       Foswiki::Plugins::JQueryPlugin::Plugins::expandVariables($theSeparator);
 
     return $theHeader . join( $theSeparator, @result ) . $theFooter;
+}
+
+sub _error {
+    my $mess = shift;
+    return
+      "<script type=\"text/javascript\">alert(\"JQuery Error: $mess\"</script>";
 }
 
 1;

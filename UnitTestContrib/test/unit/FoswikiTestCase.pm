@@ -197,7 +197,7 @@ my %foswiki_things = (
 
         return ( $this->check_plugin_enabled('MongoDBPlugin')
               || $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/
-              || $Foswiki::cfg{Store}{QueryAlgorithm}  =~ /MongoDB/ );
+              || $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ );
     },
     'ShortURLs' => sub {
         return ( exists $Foswiki::cfg{ScriptUrlPaths}{view}
@@ -622,22 +622,53 @@ sub set_up {
     else {
         open( F, "../../lib/MANIFEST" ) || die $!;
     }
+    my @moreConfig;
     local $/ = "\n";
     while (<F>) {
-        if (/^!include .*?([^\/]+Plugin)$/) {
+        if (/^!include .*?([^\/]+)\/([^\/]+)$/) {
+            my ( $subdir, $extension ) = ( $1, $2 );
+            chomp $extension;
 
             # Don't enable EmptyPlugin - Disabled by default
-            next if $1 eq 'EmptyPlugin';
-            unless ( exists $Foswiki::cfg{Plugins}{$1}{Module} ) {
-                $Foswiki::cfg{Plugins}{$1}{Module} = 'Foswiki::Plugins::' . $1;
-                print STDERR "WARNING: $1 has no module defined, "
-                  . "it might not load!\n"
-                  . "\tGuessed it to $Foswiki::cfg{Plugins}{$1}{Module}\n";
+            if ( $extension =~ /Plugin$/ && $extension ne 'EmptyPlugin' ) {
+                unless ( exists $Foswiki::cfg{Plugins}{$extension}{Module} ) {
+                    $Foswiki::cfg{Plugins}{$extension}{Module} =
+                      'Foswiki::Plugins::' . $extension;
+                    print STDERR "WARNING: $extension has no module defined, "
+                      . "it might not load!\n"
+                      . "\tGuessed it to $Foswiki::cfg{Plugins}{$extension}{Module}\n";
+                }
+                $Foswiki::cfg{Plugins}{$extension}{Enabled} = 1;
             }
-            $Foswiki::cfg{Plugins}{$1}{Enabled} = 1;
+
+            # Is there a Config.spec?
+            if (
+                open( G, "<",
+                    "../../lib/Foswiki/$subdir/$extension/Config.spec"
+                )
+              )
+            {
+                local $/ = undef;
+                my $config = <G>;
+                close(G);
+
+                # Add the config unless already defined in LocalSite.cfg
+                $config =~
+s/((\$Foswiki::cfg{.*?})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "exists $2"); ''/ges;
+            }
         }
     }
     close(F);
+
+    # Additional config picked up from plugins Config.spec's
+    if ( scalar @moreConfig ) {
+        unshift( @moreConfig, 'my $FALSE = 0; my $TRUE = 1;' );
+        my $cmd = join( "\n", @moreConfig );
+
+        #print STDERR $cmd; # Additional config from enabled extensions
+        eval $cmd;
+        die $@ if $@;
+    }
 
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
@@ -879,7 +910,7 @@ sub captureWithKey {
 
     # Now we have to manually craft the validation checkings
     require Foswiki::Validation;
-    my $cgis = $fatwilly->getCGISession;
+    my $cgis      = $fatwilly->getCGISession;
     my $strikeone = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
     my $key =
       Foswiki::Validation::addValidationKey( $cgis, $action, $strikeone );
