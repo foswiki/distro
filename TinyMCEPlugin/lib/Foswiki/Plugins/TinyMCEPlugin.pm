@@ -125,14 +125,18 @@ sub installTinyMCE {
     my $sectionName = shift;
     my $init        = shift;
 
+    require Foswiki::Plugins::JQueryPlugin;
+    Foswiki::Plugins::JQueryPlugin::createPlugin("tinymce");
+
 # Inline JS to set config? Heresy! Well, we were encoding into <meta tags
 # but this caused problems with non-8bit encodings (See Item9973). Given
 # that we blindly eval'd the unescaped TINYMCEPLUGIN_INIT anyway, PaulHarvey
 # doesn't think it was any more secure anyway. Alternative is to use
 # https://github.com/douglascrockford/JSON-js lib
 #TODO: move this into a wysiwyg.tinymce.tmpl file, and call it from wysiwyg rather than tinymce
+
     my $scripts = <<"SCRIPT";
-%JQREQUIRE{"TinyMCE"}%<script type="text/javascript">
+<script type="text/javascript">
 init = {
   $init
 };
