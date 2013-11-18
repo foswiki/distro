@@ -1173,6 +1173,7 @@ Foswiki::Plugins::RequiredTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 3
 Foswiki::Plugins::UnneededTriggeredModule,>=0.1,( $Foswiki::Plugins::VERSION < 2.1 ),perl,Required
 Foswiki::Contrib::OptionalDependency,>=14754,1,perl,optional module
 Foswiki::Contrib::UnitTestContrib::MultiDottedVersion,>=14754,1,perl,Required
+Foswiki::Contrib::QuickMenuSkin,>=14754,1,perl,Required
 File::Spec, >0,1,cpan,This module is shipped as part of standard perl
 Cwd, >55,1,cpan,This module is shipped as part of standard perl
 htmldoc, >24.3,1,c,Required for generating PDF
@@ -1493,13 +1494,19 @@ Installed:  MyPlugin_installer to $Foswiki::cfg{WorkingDir}/configure/pkgdata
       $pkg2->checkDependencies();
 
     my $mods;
+    my $mnames;
     foreach my $dep ( @{$wiki} ) {
-        $mods .= "$dep->{module};";
+        $mods   .= "$dep->{module};";
+        $mnames .= "$dep->{name};";
     }
     $this->assert_str_equals(
-"Foswiki::Plugins::RequiredTriggeredModule;Foswiki::Contrib::UnitTestContrib::MultiDottedVersion;",
-        $mods, 'Wiki modules to be installed'
+"Foswiki::Plugins::RequiredTriggeredModule;Foswiki::Contrib::UnitTestContrib::MultiDottedVersion;Foswiki::Contrib::QuickMenuSkin;",
+        $mods, 'Wiki modules to be installed: got:' . $mods
     );
+
+    $this->assert_str_equals(
+        'RequiredTriggeredModule;UnitTestContrib;QuickMenuSkin;',
+        $mnames, 'Wiki module names to be installed: got:' . $mnames );
 
     $mods = '';
     foreach my $dep ( @{$install} ) {
@@ -1708,6 +1715,10 @@ Foswiki::Contrib::OptionalDependency version >=14754 required
 
 Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version >= 14754 required
  -- installed version is 1.23.4
+ -- Description: Required
+
+Foswiki::Contrib::QuickMenuSkin version >=14754 required
+ -- perl module is not installed
  -- Description: Required
 
 Cwd version > 55 required

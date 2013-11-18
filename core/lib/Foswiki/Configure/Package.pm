@@ -1479,7 +1479,7 @@ sub checkDependencies {
             my $pack     = $2;
             my $packname = $3;
             $packname .= $pack
-              if ( $pack eq 'Contrib' && $packname !~ /Contrib$|AddOn$/ );
+              if ( $pack eq 'Contrib' && $packname !~ /Contrib$|AddOn$|Skin$/ );
             $dep->{name} = $packname;
             push( @wiki, $dep )
               unless ( $dep->{description} =~ m/^[Oo]ptional/ );
