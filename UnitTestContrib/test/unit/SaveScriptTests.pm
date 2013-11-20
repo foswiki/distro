@@ -1288,13 +1288,17 @@ sub test_cmdEqualsReprev {
     my $text2;
     ( $meta, $text2 ) = Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
 
+    # make sure original rev info is preserved
     $info = $meta->getRevisionInfo();
     my ( $repRevDate, $repRevAuth, $repRevRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
     $this->assert_equals( $orgRev, $repRevRev );
     $this->assert_str_equals( "A Tale of Two Cities", $text2 );
     $this->assert_str_equals( $orgAuth,               $repRevAuth );
-    $this->assert_num_equals( $orgDate, $repRevDate );
+
+    # The new rev is offset by 60s to avoid problems with revision control
+    # systems (see note in Meta.pm)
+    $this->assert_num_equals( $orgDate + 60, $repRevDate );
     $meta->finish();
 
     return;

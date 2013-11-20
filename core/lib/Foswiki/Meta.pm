@@ -2329,7 +2329,7 @@ sub replaceMostRecentRevision {
     $this->setRevisionInfo(%$info);
 
     try {
-        $this->{_session}->{store}->repRev( $this, $cUID, @_ );
+        $this->{_session}->{store}->repRev( $this, $info->{author}, @_ );
     }
     finally {
         $this->_atomicUnlock($cUID);
