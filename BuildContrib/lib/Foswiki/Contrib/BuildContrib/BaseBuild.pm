@@ -88,7 +88,18 @@ sub readManifest {
     while ( $line = <$pf> ) {
         next if $line =~ /^\s*(?:#|$)/;
         if ( $line =~ /^!include\s+(\S+)\s*$/ ) {
-            push( @otherModules, $1 );
+            my $incFile = $1;
+            if ( -f $incFile ) {
+                my ( $nfiles, $notherModules, $noptions ) =
+                  Foswiki::Contrib::BuildContrib::BaseBuild::readManifest(
+                    $baseDir, '', $incFile, sub { exit(1) } );
+                push @files,        @$nfiles;
+                push @otherModules, @$notherModules;
+                %options = ( %options, %$noptions );
+            }
+            else {
+                push( @otherModules, $incFile );
+            }
         }
         elsif ( $line =~ /^!option\s+(\w+)\s*(.*)$/ ) {
             $options{$1} = $2;
