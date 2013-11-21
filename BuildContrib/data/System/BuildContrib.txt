@@ -362,6 +362,8 @@ directive or the end of the file, will not be checked in when installing
 to Foswiki 1.0.1 or later
 
 ---++++ =!include=
+
+---+++++ =!include= _&lt;path to extension directory&gt;_
 MANIFESTs can also include other extensions that have been packaged using
 !BuildContrib. For example,
 <verbatim>
@@ -370,6 +372,32 @@ MANIFESTs can also include other extensions that have been packaged using
 This will include the !WysiwygPlugin in the release package.
 
 Note that there is a script in the Foswiki =tools= directory called =check_manifest.pl= that can be run at any time to check the contents of your MANIFEST against what is checked into Subversion.
+
+---+++++ =!include= _&lt;path to extension MANIFEST* file &gt;_
+When the target is a file, and not a directory, !BuildContrib will recursively
+process the MANIFEST file inline.  This is useful when an extension packages a
+complex 3rd party tool, for example, the TinyMCE Editor, and includes multiple
+versions.  Each copy of the tool can be included with it's own MANIFEST:
+
+Primary MANFIEST
+<verbatim>
+...
+pub/System/TinyMCEPlugin/screenshot.png 0644
+!include MANIFEST349
+!include MANIFEST357
+!include MANIFEST408
+pub/System/TinyMCEPlugin/tinymce.gif 0644
+...
+</verbatim>
+
+Manifest for !TinyMCE version 3.4.9
+<verbatim>
+!noci
+pub/System/TinyMCEPlugin/tinymce-3.4.9/LICENSE.TXT 0644
+#pub/System/TinyMCEPlugin/tinymce-3.4.9/build.bat 0644
+#pub/System/TinyMCEPlugin/tinymce-3.4.9/build.xml 0644
+...
+</verbatim>
 
 ---++++ =!option=
 =!option= is a general directive used to define global options. Currently
