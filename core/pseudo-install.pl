@@ -727,7 +727,7 @@ sub gitCloneFromURL {
 }
 
 sub installFromMANIFEST {
-    my ( $module, $moduleDir, $manifest, $ignoreBlock ) = @_;
+    my ( $module, $moduleDir, $manifest, $ignoreBlock, $nodeps ) = @_;
 
     trace "Using manifest from $manifest";
 
@@ -735,6 +735,17 @@ sub installFromMANIFEST {
       or die "Cannot open manifest $manifest for reading: $!";
     foreach my $file (<$df>) {
         chomp($file);
+        if ( $file =~ /^!include\s+(\S+)\s*$/ ) {
+            my $incfile = $1;
+            trace
+              "Found include MANIFEST $incfile, process $moduleDir/$incfile";
+            if ( -f $incfile ) {
+                installFromMANIFEST( $module, $moduleDir,
+                    $moduleDir . '/' . $incfile,
+                    $ignoreBlock, 1 );
+                next;
+            }
+        }
         next unless $file =~ /^\w+/;
         $file =~ s/\s.*$//;
         next if -d File::Spec->catdir( $moduleDir, $file );
@@ -782,7 +793,7 @@ sub installFromMANIFEST {
     }
 
     # process dependencies, if we are installing
-    if ($installing) {
+    if ( $installing && !$nodeps ) {
         my $deps = $manifest;
         $deps =~ s/MANIFEST/DEPENDENCIES/;
         if ( open( $df, '<', $deps ) ) {
@@ -1504,8 +1515,8 @@ sub merge_gitignore {
             if ( $match_rule =~ /\*/ ) {
 
                 # Normalise the rule
-                $old_rule   =~ s/^\s*//;
-                $old_rule   =~ s/\s*$//;
+                $old_rule =~ s/^\s*//;
+                $old_rule =~ s/\s*$//;
                 $match_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
 
                 # It's a wildcard
