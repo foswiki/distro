@@ -7,5 +7,7 @@ pub/System/ConfigurePlugin/base.css
 pub/System/ConfigurePlugin/configure.css
 pub/System/ConfigurePlugin/configure.html
 pub/System/ConfigurePlugin/configure.js
+pub/System/ConfigurePlugin/foswiki-icon.ico
+pub/System/ConfigurePlugin/foswiki-logo.png
 pub/System/ConfigurePlugin/pattern.css
 pub/System/ConfigurePlugin/resig.js
