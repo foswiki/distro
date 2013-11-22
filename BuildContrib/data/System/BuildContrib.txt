@@ -383,9 +383,9 @@ Primary MANFIEST
 <verbatim>
 ...
 pub/System/TinyMCEPlugin/screenshot.png 0644
-!include MANIFEST349
-!include MANIFEST357
-!include MANIFEST408
+!include lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST-3.4.9
+!include lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST-3.5.7
+!include lib/Foswiki/Plugins/TinyMCEPlugin/MANIFEST-4.0.8
 pub/System/TinyMCEPlugin/tinymce.gif 0644
 ...
 </verbatim>

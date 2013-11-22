@@ -89,10 +89,12 @@ sub readManifest {
         next if $line =~ /^\s*(?:#|$)/;
         if ( $line =~ /^!include\s+(\S+)\s*$/ ) {
             my $incFile = $1;
-            if ( -f $incFile ) {
+
+            #print STDERR "Processing nested manifest $incFile\n";
+            if ( -f $baseDir . '/' . $incFile ) {
                 my ( $nfiles, $notherModules, $noptions ) =
                   Foswiki::Contrib::BuildContrib::BaseBuild::readManifest(
-                    $baseDir, '', $incFile, sub { exit(1) } );
+                    $baseDir, "$baseDir/", $incFile, sub { exit(1) } );
                 push @files,        @$nfiles;
                 push @otherModules, @$notherModules;
                 %options = ( %options, %$noptions );
@@ -169,6 +171,7 @@ sub readManifest {
         }
     }
     close $pf;
+
     return ( \@files, \@otherModules, \%options );
 }
 
