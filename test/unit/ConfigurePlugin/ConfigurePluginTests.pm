@@ -128,8 +128,46 @@ sub test_getspec {
     my $this   = shift;
     my $params = { "keys" => "{DataDir}" };
     my $spec   = Foswiki::Plugins::ConfigurePlugin::getspec($params);
-    $this->assert_str_equals( 'PATH',      $spec->{type} );
-    $this->assert_str_equals( '{DataDir}', $spec->{keys} );
+    $this->assert_num_equals( 1, scalar @$spec );
+    $spec = $spec->[0];
+    $this->assert_str_equals( 'PATH',                 $spec->{type} );
+    $this->assert_str_equals( '{DataDir}',            $spec->{keys} );
+    $this->assert_str_equals( $Foswiki::cfg{DataDir}, $spec->{value} );
+}
+
+sub test_getspec_children {
+    my $this = shift;
+    my $use_section;
+    my $params = { children => 1 };
+    my $ss = Foswiki::Plugins::ConfigurePlugin::getspec($params);
+    $this->assert_num_equals( 1, scalar(@$ss) );
+    $this->assert_equals( "ROOT", $ss->[0]->{type} );
+    $this->assert_null( $ss->[0]->{title} );
+    $this->assert( scalar( @{ $ss->[0]->{children} } ) );
+
+    foreach my $spec ( @{ $ss->[0]->{children} } ) {
+        $this->assert( $spec->{type} eq 'SECTION', $spec->{type} );
+        $this->assert_null( $spec->{children} );
+        if ( !$use_section ) {
+            $use_section = $spec->{title};
+        }
+    }
+
+    $params = { parent => { title => $use_section }, children => 0 };
+    $ss = Foswiki::Plugins::ConfigurePlugin::getspec($params);
+    foreach my $spec (@$ss) {
+        $this->assert_equals( $use_section, $spec->{parent}->{title} );
+        $this->assert_null( $spec->{children} );
+    }
+
+    $params = { title => $use_section, children => 1 };
+    $ss = Foswiki::Plugins::ConfigurePlugin::getspec($params);
+    foreach my $spec (@$ss) {
+        $this->assert_not_null( $spec->{children} );
+        foreach my $subspec ( @{ $spec->{children} } ) {
+            $this->assert_null( $subspec->{children} );
+        }
+    }
 }
 
 sub test_getspec_badkey {
@@ -150,12 +188,15 @@ sub test_getspec_badkey {
 
 sub test_check {
     my $this   = shift;
-    my $params = { Log => { Implementation => 'Foswiki::Logger::PlainFile' } };
+    my $params = { "{Log}{Implementation}" => 'Foswiki::Logger::PlainFile' };
     my $report = Foswiki::Plugins::ConfigurePlugin::check($params);
     $this->assert_num_equals( 1, scalar @$report );
     $report = $report->[0];
     $this->assert_str_equals( '{Log}{Implementation}', $report->{keys} );
     $this->assert_str_equals( 'warnings',              $report->{level} );
+    $this->assert_str_equals( 'Logging and Statistics',
+        $report->{sections}->[0] );
+    $this->assert_str_equals( 'Logging', $report->{sections}->[1] );
     $this->assert_matches( qr/On busy systems/, $report->{message} );
 }
 
@@ -192,12 +233,14 @@ sub test_changecfg {
     local $/ = undef;
     my $c = <F>;
     close F;
+
     $c =~ s/^\$Foswiki::cfg/\$blah/gm;
     my %blah;
     eval $c;
-    die $@ if $@;
-    $Foswiki::cfg{ConfigurationFinished} = 0;
+    %Foswiki::cfg = ();    #{ConfigurationFinished} = 0;
     Foswiki::Configure::Load::readConfig( 1, 1 );
+
+    #die Data::Dumper->Dump([$Foswiki::cfg{Plugins}]);
     $this->assert_deep_equals( \%Foswiki::cfg, \%blah );
 }
 

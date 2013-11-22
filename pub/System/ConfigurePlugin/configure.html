@@ -1,20 +1,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title> Configure </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <base href="../.." /><!--[if IE]></base><![endif]-->
-    <script type='text/javascript' src='System/JQueryPlugin/jquery-1.7.2.uncompressed.js'></script>
-    <script type='text/javascript' src='System/JQueryPlugin/plugins/livequery/jquery.livequery.uncompressed.js?version=1.3.1'></script>
-    <script type='text/javascript' src='System/JsonRpcContrib/jquery.jsonrpc.js'></script>
+    <title>Foswiki Configuration</title>
+    <meta content="noindex" name="robots" />
+    <link type="image/x-icon" rel="icon" href="/foswiki/trunk/core/bin/configure/resource/favicon.ico" />
+    <link type="image/x-icon" rel="shortcut icon" href="/foswiki/trunk/core/bin/configure/resource/favicon.ico" />
+    <script type="text/javascript" src="System/JQueryPlugin/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="System/JQueryPlugin/ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="System/JsonRpcContrib/jquery.jsonrpc.js"></script>
     <script type="text/javascript" src="System/JavascriptFiles/strikeone_src.js"></script>
+    <script type="text/javascript" src="System/ConfigurePlugin/resig.uncompressed.js"></script>
+    <script type="text/javascript" src="System/ConfigurePlugin/types.uncompressed.js"></script>
     <script type="text/javascript" src="System/ConfigurePlugin/configure.uncompressed.js"></script>
-    <style type="text/css" media="all">
-      @import url('System/ConfigurePlugin/configure.uncompressed.css')
+    <link type="text/css" media="all" rel="stylesheet" href="System/ConfigurePlugin/base.uncompressed.css" />
+    <link type="text/css" media="all" rel="stylesheet" href="System/ConfigurePlugin/pattern.uncompressed.css" />
+    <link type="text/css" media="all" rel="stylesheet" href="System/ConfigurePlugin/configure.uncompressed.css" />
     </style>
   </head>
   <body>
+    <h1>Foswiki Configuration</h1>
+    <button id="checkButton" disabled="disabled">Check All</button>
+    <div id="checkReport"><div class="contents"></div></div>
     <div id="root">
+      <div class="children">
+	<div class="loading">Loading ...</div>
+      </div>
     </div>
   </body>
 </html>

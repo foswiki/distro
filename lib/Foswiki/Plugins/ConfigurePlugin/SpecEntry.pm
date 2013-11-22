@@ -1,4 +1,3 @@
-# See bottom of file for license and copyright information
 package Foswiki::Plugins::ConfigurePlugin::SpecEntry;
 
 # A SpecEntry represents a single entry in a .spec file - either a
@@ -11,10 +10,12 @@ use Data::Structure::Util;
 
 our $configItemRegex = qr/(?:\{(?:'[^']+'|"[^"]+"|[-:\w]+)\})+/o;
 
+my %key_cache = ();
+
 sub new {
     my $class = shift;
-
-    return bless( {@_}, $class );
+    my $this = bless( {@_}, $class );
+    return $this;
 }
 
 sub createSpecEntry {
@@ -22,32 +23,80 @@ sub createSpecEntry {
     return new Foswiki::Plugins::ConfigurePlugin::SpecEntry(@_);
 }
 
-sub findSpecEntry {
-    my $this     = shift;
-    my %search   = @_;
-    my $mismatch = 0;
-    my $match    = 1;
-    while ( my ( $k, $e ) = each %search ) {
-        $match = 0 unless ( defined $this->{$k} && $this->{$k} eq $e );
+# Get a list of all known keys in the spec
+sub getAllKeys {
+    return keys %key_cache;
+}
+
+sub getSectionPath {
+    my $this = shift;
+    my $path;
+
+    if ( $this->{parent} ) {
+        $path = $this->{parent}->getSectionPath();
+        push( @$path, $this->{parent}->{title} ) if $this->{parent}->{title};
     }
+    else {
+        $path = [];
+    }
+    return $path;
+}
 
-    # there was no search, or the search matched all terms
-    return $this if $match;
+sub _matches {
+    my ( $this, %search ) = @_;
+    my $match = 1;
 
-    # Search pending
-    if ( 0 && $this->{_pending} ) {
-        foreach my $child ( @{ $this->{_pending} } ) {
-            my $cvo = $child->findSpecEntry(@_);
-            return $cvo if $cvo;
+    while ( my ( $k, $e ) = each %search ) {
+        if ( $k eq 'parent' ) {
+            unless ( $this->{parent}
+                && $this->{parent}->_matches(%$e) )
+            {
+                $match = 0;
+                last;
+            }
+        }
+        elsif ( !defined $this->{$k} || $this->{$k} ne $e ) {
+            $match = 0;
+            last;
         }
     }
+    return $match;
+}
+
+# An empty search matches the first thing found
+# If there are search terms, then the entire subtree is searched,
+# but the shallowest matching node is returned
+# All search terms must be matched
+# Within this module we use the key_cache for simple key searches,
+# for performance.
+sub findSpecEntries {
+    my $this   = shift;
+    my %search = @_;
+
+    my $match = $this->_matches(%search);
+
+    # Return without searching the subtree if this node matches
+    if ($match) {
+
+#print STDERR "$this->{type}:".($this->{keys}||$this->{title}||'?')." D".($this->{depth}||'?')." matches\n";
+        return ($this);
+    }
+
+    my @result = ();
+
+    # Search pending (used during loading)
+    #if ( $this->{_pending} ) {
+    #    foreach my $child ( @{ $this->{_pending} } ) {
+    #        push(@result, $child->findSpecEntries(@_));
+    #    }
+    #}
 
     # Search children
     foreach my $child ( @{ $this->{children} } ) {
-        my $cvo = $child->findSpecEntry(@_);
-        return $cvo if $cvo;
+        push( @result, $child->findSpecEntries(@_) );
     }
-    return undef;
+
+    return @result;
 }
 
 sub _appendDescription {
@@ -109,6 +158,9 @@ sub findFileOnPath {
 sub loadSpecFiles {
     my $this = new Foswiki::Plugins::ConfigurePlugin::SpecEntry;
 
+    %key_cache = ();
+    $this->{type} = 'ROOT';
+
     my $file = findFileOnPath('Foswiki.spec');
     if ($file) {
         $this->_parse($file);
@@ -151,15 +203,18 @@ sub _mergePendingEntries {
 
     foreach my $item ( @{ $this->{_pending} } ) {
         if ( $item->{type} && $item->{type} eq 'SECTION' ) {
-            my $ns = $this->findSpecEntry(
+            my @ns = $this->findSpecEntries(
                 title => $item->{title},
                 depth => $item->{depth}
             );
-            if ($ns) {
+            if ( scalar(@ns) ) {
+
+                die "Multiple $item->{title} sections at depth $item->{depth}"
+                  if scalar(@ns) > 1;
 
                 # the section is already there
                 $depth   = $item->{depth};
-                $section = $ns;
+                $section = $ns[0];
             }
             else {
                 while ( $depth > $item->{depth} - 1 ) {
@@ -188,10 +243,13 @@ sub _mergePendingEntries {
         # keys (first loaded always takes precedence, irrespective
         # of which section it is in)
         if ( defined $item->{keys} ) {
-            my $vo = $this->findSpecEntry( keys => $item->{keys} );
+
+            #my @vo = $this->findSpecEntries( keys => $item->{keys} );
+            #next if scalar(@vo);
+            next if $key_cache{ $item->{keys} };
 
             # SMELL: warning?
-            next if $vo;
+            $key_cache{ $item->{keys} } = $item;
         }
 
         $section->addChild($item);
@@ -240,13 +298,47 @@ sub _parse {
             $this->_addPendingEntry($open) if $open;
             if ( $1 eq 'ENHANCE' ) {
 
-                # Enhance the description of an existing value
-                $open = $this->findSpecEntry( keys => $2 );
+          # Enhance the description of an existing value
+          #my @open = $this->findSpecEntries( keys => $2 );
+          #die "$2 doesn't match a single known spec" unless scalar(@open) == 1;
+          #$open = $open[0];
+                $open = $key_cache{$2};
+                die "$2 doesn't match a known spec" unless $open;
             }
             else {
+                my ( $type, $opts ) = ( $1, $2 );
+
+                # SMELL: hate this, but it's hard-coded into the
+                # SELECT class type so have to duplicate it here.
+                my @other = ();
+                if ( $type =~ /^SELECT/ ) {
+                    my $size = 1;
+                    my $mult = '';
+                    my @choices;
+                    if ( $opts =~ s/\s*!mult(?::(\d+))?\b// ) {
+                        $size = ( $1 && $1 > 2 ) ? $1 : 5;
+                        $mult = 'multiple ';
+                    }
+                    if ( $type eq 'SELECTCLASS' ) {
+                        foreach my $opt ( split( /,\s*/, $opts ) ) {
+                            if ( $opt eq 'none' ) {
+                                unshift( @choices, 'none' );
+                            }
+                            else {
+                                push( @choices, _findClasses($opt) );
+                            }
+                        }
+                    }
+                    else {
+                        @choices = split( /,\s*/, $opts );
+                    }
+                    push( @other, ( choices => [@choices] ) );
+                    $opts = "$mult$size";
+                }
                 $open = $this->createSpecEntry(
-                    type    => $1,
-                    options => _expandOptions( $1, $2 )
+                    type    => $type,
+                    options => $opts,
+                    @other
                 );
             }
         }
@@ -261,7 +353,9 @@ sub _parse {
             }
 
             # my $tentativeVal = $3; # Possibly line 1 of many
-            if ( $open && $open->{type} eq 'SECTION' ) {
+            if ( $open
+                && ( $open->{type} eq 'SECTION' || $open->{type} eq 'ROOT' ) )
+            {
                 $this->_addPendingEntry($open);
                 $open = undef;
             }
@@ -270,15 +364,40 @@ sub _parse {
             # these keys, we don't need to add another. But if there
             # isn't, we do.
             if ( !$open ) {
-                $open = $this->findSpecEntry( keys => $keys );
+
+                #my @o = $this->findSpecEntries( keys => $keys );
+                #die "$keys matches multiple specs" if scalar(@o) > 1;
+                #$open = $o[0] if scalar(@o);
+                $open = $key_cache{$keys};
 
                 # Create an untyped value if the keys are not already known
                 $open = $this->createSpecEntry( type => 'UNKNOWN' )
                   unless $open;
+                $key_cache{$keys} = $open;
             }
             $open->{optional} = 1 if $optional;
-            $open->{defined} = [ $file, 0 + $. ];
+            $open->{defined} = [ $file, 0 + $. ];    # debugging
             $open->{keys} = $keys;
+            my $val = eval "\$Foswiki::cfg$keys";    # unexpanded value
+            if ( $open->{type} eq 'PERL' ) {
+
+                # Collapse PERL to a string
+                require Data::Dumper;
+                my $d = Data::Dumper->new( [$val], ['x'] );
+                $d->Sortkeys(1);
+                $val = $d->Dump;
+                $val =~ s/^\$x = (.*);\s*$/$1/s;
+                $val =~ s/^     //gm;
+            }
+
+            # Convert regexp to string, because JsonRpcContrib falls
+            # over when trying to serialise regexps
+            if ( ref($val) eq 'Regexp' ) {
+                $open->{value} = "$val";
+            }
+            else {
+                $open->{value} = $val;
+            }
             $this->_addPendingEntry($open);
             $open = undef;
         }
@@ -323,14 +442,6 @@ sub _parse {
     close(F);
     $this->_addPendingEntry($open) if $open;
     $this->_mergePendingEntries();
-}
-
-sub _expandOptions {
-    my ( $type, $options ) = @_;
-    if ( $type eq 'SELECTCLASS' ) {
-        return [ _findClasses($options) ];
-    }
-    return $options;
 }
 
 # $pattern is a wildcard expression that matches classes e.g.
@@ -409,86 +520,116 @@ sub safeKey {
     return "'$k'";
 }
 
-our $next_level;    # localised in sub check(), set in sub inc()
-
-# Set new values for the entries in the data structure passed.
-# note: the spec is used to determine *where* to set values.
-sub set {
-    my ( $this, $data, @path ) = @_;
-    my @report;
-    local $next_level;
-
-    if ( scalar(@path) ) {
-        my $keypath = '{' . join( '}{', @path ) . '}';
-        my $spec = $this->findSpecEntry( keys => $keypath );
-        if ( $spec && defined $spec->{keys} ) {    # not a SECTION!
-                # This is a specced level; we will take the entire data
-                # under this point as the new value.
-                # Stomp Foswiki::cfg with our new value for checking
-                # and return
-            eval "\$Foswiki::cfg$keypath=\$data";
-            die $@ if $@;
-            return;    # don't recurse any deeper
-        }
-    }
-    if ( ref($data) eq 'HASH' ) {
-        while ( my ( $sk, $se ) = each %$data ) {
-            $this->set( $se, ( @path, safeKey($sk) ) );
-        }
-    }
-}
+our %level_counts;    # localised in sub check(), set in sub inc()
 
 # Check the configuration settings given in the $data against the
 # checkers for the corresponding type.
 our $guess_val;
 
+# A report always is generated for every key listed in $data. A report has fields:
+# =keys= - the key path
+# =level= - 'information', 'warnings' or 'errors'
+# =message= - the message string (may be null)
+# Non-information reports may also have =sections=. This is an array of section
+# titles leading from the root down to the key. It is used to locate the report
+# in the user interface.
+# Guessed fields may also have a =guess=.
 sub check {
-    my ( $this, $data, @path ) = @_;
+    my ( $this, $data ) = @_;
     my @report;
-    local $next_level;
 
-    if ( scalar(@path) ) {
-        my $keypath = '{' . join( '}{', @path ) . '}';
-        my $spec = $this->findSpecEntry( keys => $keypath );
-        if ($spec) {
-            my $checkerClass =
-              'Foswiki::Configure::Checkers::' . join( '::', @path );
-            my @checkers = _findClasses($checkerClass);
-            foreach my $chcl (@checkers) {
+    my %prio = ( information => 1, warnings => 2, errors => 3 );
 
-                # Load the checker
-                eval "require $chcl";
-                die $@ if $@;
+    foreach my $keypath ( keys %$data ) {
+        my $reported = 0;
 
-                # Monkey-patch the checker so we know if the value
-                # was guessed
-                local $guess_val = undef;
-                my $guess = sub {
-                    $guess_val = eval "\$Foswiki::cfg$keypath";
+        #my @spec = $this->findSpecEntries( keys => $keypath );
+        #die "$keypath has no, or multiple, specs" unless scalar(@spec) == 1;
+        #my $spec = $spec[0];
+        my $spec = $key_cache{$keypath};
+        unless ($spec) {
+            my @spec = $this->findSpecEntries( keys => $keypath );
+            $spec = $spec[0];
+            die "ASSERT FAILURE $keypath" if $spec;
+        }
+        die "$keypath has no spec" unless $spec;
+        my $path = join(
+            '::', grep { defined $_ && !/^$/ }
+              split( /[}{]/, $keypath )
+        );
+        my $checkerClass = 'Foswiki::Configure::Checkers::' . $path;
+        my @checkers     = _findClasses($checkerClass);
+        foreach my $chcl (@checkers) {
+
+            # Load the checker
+            eval "require $chcl";
+            if ($@) {
+                print STDERR $@;
+                next;
+            }
+
+            # Monkey-patch the checker so we know if the value
+            # was guessed
+            local $guess_val = undef;
+            my $guess = sub {
+                $guess_val = eval "\$Foswiki::cfg$keypath";
+            };
+            eval "*{${chcl}::guessed}=\$guess";
+
+            # Invoke the checker
+            my $checker = $chcl->new($spec);
+            local %level_counts = ();
+            my $message = $checker->check($spec);
+            if ( $message || defined $guess_val ) {
+                my $worst = 'information';
+                foreach my $level ( keys %prio ) {
+                    if (   $level_counts{$level}
+                        && $prio{$level} > $prio{$worst} )
+                    {
+                        $worst = $level;
+                    }
+                }
+
+                # Upgrade to a warning if the field value was guessed
+                $worst = 'warnings'
+                  if $worst eq 'information' && defined $guess_val;
+                my $whine = {
+                    level   => $worst,
+                    keys    => $keypath,
+                    message => $message ? $message : ''
                 };
-                eval "*{${chcl}::guessed}=\$guess";
+                $whine->{sections} = $spec->getSectionPath()
+                  if ( $worst ne 'information' );
+                $whine->{guess} = $guess_val if defined $guess_val;
+                push( @report, $whine );
+                $reported = 1;
+            }
 
-                # Invoke the checker
-                my $checker = $chcl->new($spec);
-                my $message = $checker->check($spec);
-                if ( $message || defined $guess_val ) {
+            # Certain keys can be used to pass a value to some
+            # audit checkers e.g. CGI::Setup
+            if ( $checker->can('provideFeedback') ) {
+                $message =
+                  $checker->provideFeedback( $spec, $data->{$keypath} );
+                if ($message) {
                     my $whine = {
-                        level => $next_level,
-                        keys  => $keypath
+                        level   => 'information',
+                        keys    => $keypath,
+                        message => $message
                     };
-                    $whine->{message} = $message   if $message;
-                    $whine->{guess}   = $guess_val if defined $guess_val;
                     push( @report, $whine );
+                    $reported = 1;
                 }
             }
         }
-    }
-    if ( ref($data) eq 'HASH' ) {
-        while ( my ( $sk, $se ) = each %$data ) {
-            push( @report, $this->check( $se, ( @path, safeKey($sk) ) ) );
+        unless ($reported) {
+            my $whine = {
+                level   => 'information',
+                keys    => $keypath,
+                message => ''
+            };
+            push( @report, $whine );
         }
     }
-
     return @report;
 }
 
@@ -512,64 +653,62 @@ sub _loadRawLSC {
 
 # Traverse LSC generating LSC format output
 sub lscify {
-    my ( $this, $data,, @path ) = @_;
+    my ( $this, $data, @path ) = @_;
 
     my @content;
-    my %requires;
     if ( scalar(@path) ) {
         my $keypath = '{' . join( '}{', @path ) . '}';
-        my $spec = $this->findSpecEntry( keys => $keypath );
-        if ($spec) {
-            if ( defined $spec->{keys} ) {
 
-                # This is a specced level; we will take the entire data
-                # under this point as the new value.
-                # Stomp Foswiki::cfg with our new value for checking
-                # and return
-                my $type = "Foswiki::Configure::Types::$spec->{type}";
-                eval "require $type";
-                unless ($@) {
-                    my $nval = eval "\$Foswiki::cfg$keypath";
-                    die $@ if $@;
-                    my ( $string, $require ) =
-                      $type->new->value2string( $keypath, $nval );
-                    push( @content, $string );
-                    $requires{$require} = 1 if $require;
-                    return ( \@content, \%requires );
-                }
+        #my @ss = $this->findSpecEntries( keys => $keypath );
+        #die "Problem at $keypath" if scalar(@ss) > 1;
+        #my $spec = $ss[0];
+        my $spec = ( $key_cache{$keypath} );
+        if ( $spec && defined $spec->{keys} ) {
+
+            # This is a specced level; we will take the entire data
+            # under this point as the new value.
+            # Stomp Foswiki::cfg with our new value for checking
+            # and return
+            unless ($@) {
+                my $nval = eval "\$Foswiki::cfg$keypath";
+                die $@ if $@;
+                my $string = _value2string( $keypath, $nval );
+                push( @content, $string );
+                return \@content;
             }
-            else {
-                push( @content, "# $spec->{title}" );
-            }
+        }
+        elsif ( $spec->{title} ) {
+            push( @content, "# $spec->{title}" );
         }
     }
     if ( ref($data) eq 'HASH' ) {
         foreach my $sk ( sort keys %$data ) {
-            my ( $c, $r ) =
-              $this->lscify( $data->{$sk}, ( @path, safeKey($sk) ) );
+            my $c = $this->lscify( $data->{$sk}, ( @path, safeKey($sk) ) );
             push( @content, @$c );
-            map { $requires{$_} = 1 } keys %$r;
         }
     }
     else {
 
         # Something else; unspecced and not a hash.
-        require Foswiki::Configure::Type;
         my $keypath = '{' . join( '}{', @path ) . '}';
-        my $val = eval "\$Foswiki::cfg$keypath";
-        my ( $var, $require ) =
-          Foswiki::Configure::Type->new->value2string( $keypath, $val );
-        $requires{$require} = 1 if $require;
+        my $val     = eval "\$Foswiki::cfg$keypath";
+        my $var     = _value2string( $keypath, $val );
         push( @content, $var );
     }
-    return ( \@content, \%requires );
+    return \@content;
+}
+
+# Used to generate appropriate lines values for storing in LocalSite.cfg.
+sub _value2string {
+    my ( $kp, $val ) = @_;
+    return Data::Dumper->Dump( [$val], ["\$Foswiki::cfg$kp"] );
 }
 
 ######### CRUFT TO SUPPORT CHECKERS ###############
 # Done this clumsy way to avoid changing the checker code.
 sub inc {
     my ( $this, $level ) = @_;
-    $next_level = $level;
+    $level_counts{$level}++;
 }
 
 sub getKeys {
@@ -585,7 +724,7 @@ sub feedback {
 }
 
 1;
-1;
+
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

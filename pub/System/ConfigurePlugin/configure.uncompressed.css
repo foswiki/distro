@@ -1,14 +1,69 @@
-.section {
-}
-
-.keys {
-    margin-top: 1em;
+/* Badge used to show that we're waiting for initial jsonRpc call that
+ * loads the .spec */
+.loading {
     font-weight: bold;
+    font-size: 16pt;
+    margin: 2em;
 }
 
-.description {
+/* The "check all" button */
+#checkButton {
+    float: right;
+    margin:1em;
 }
 
-.children {
+/* A node in the spec tree */
+div.node {
+    padding: 0.5em;
+}
+
+/* section node h* */
+.section {
+    /* Section heading */
+}
+
+/* leaf node span */
+.keys {
+    font-weight: bold;
+    margin-right: 1em;
+}
+
+/* Open/close div inside .node */
+.contents {
+}
+
+.node.closed > .contents {
+    display: none;
+}
+
+.node.open > .contents {
+    display: block;
+}
+
+/* Inside .contents, text description */
+div.description {
+}
+
+/* Just subnodes, inside .contents */
+div.children {
     margin-left: 1em;
 }
+
+/* Used to record that a leaf node has been populated with a value */
+.valued {
+}
+
+/* Classes added to elements that have been checked. All of these
+ * may be added; we want errors > warnings > information */
+.information {
+}
+
+.warnings {
+    border: 2pt solid orange;
+}
+
+.errors {
+    border: 2pt solid red;
+}
+
+

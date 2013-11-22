@@ -3,6 +3,9 @@ data/System/ConfigurePlugin.txt 0644 Documentation page
 lib/Foswiki/Plugins/ConfigurePlugin.pm 0444 Perl module
 lib/Foswiki/Plugins/ConfigurePlugin/Config.spec 0444 Configuration
 lib/Foswiki/Plugins/ConfigurePlugin/SpecEntry.pm 0444 Perl module
-pub/System/ConfigurePlugin/configure.js
+pub/System/ConfigurePlugin/base.css
 pub/System/ConfigurePlugin/configure.css
 pub/System/ConfigurePlugin/configure.html
+pub/System/ConfigurePlugin/configure.js
+pub/System/ConfigurePlugin/pattern.css
+pub/System/ConfigurePlugin/resig.js

@@ -37,6 +37,7 @@ BEGIN {
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
+    # Register each of the RPC methods with JsonRpcContrib
     foreach my $method (qw(getcfg getspec check changecfg deletecfg)) {
         Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure', $method,
             _JSONwrap($method) );
@@ -50,15 +51,15 @@ sub _JSONwrap {
     return sub {
         my ( $session, $request ) = @_;
 
-# Check rights to use this interface - admins only
-#        die "We wants our rights, precious!" unless Foswiki::Func::isAnAdmin();
+        # Check rights to use this interface - admins only
+        die "We wants our rights, precious!" unless Foswiki::Func::isAnAdmin();
         no strict 'refs';
         return &$method( $request->params() );
         use strict 'refs';
       }
 }
 
-# Look for the value of one or more keys.
+# Retrieve for the value of one or more keys.
 # params: 'keys' - list of key names to recover values for
 # If there isn't at least one 'key' parameter, returns the
 # entire configuration hash.
@@ -66,9 +67,8 @@ sub getcfg {
     my $params = shift;
 
     # Reload Foswiki::cfg without expansions
-    $Foswiki::cfg{ConfigurationFinished} = 0;
+    %Foswiki::cfg = ();
     Foswiki::Configure::Load::readConfig( 1, 1 );
-
     my $keys = $params->{keys};    # expect a list
     my $what;
     if ( defined $keys ) {
@@ -92,46 +92,96 @@ sub getcfg {
 # Use a search to find a configuration item spec
 sub getspec {
     my $params = shift;
+
+    # Reload Foswiki::cfg without expansions so we get the unexpanded
+    # values in the spec structure
+    %Foswiki::cfg = ();
+    Foswiki::Configure::Load::readConfig( 1, 1 );
+
+    my $root = Foswiki::Plugins::ConfigurePlugin::SpecEntry::loadSpecFiles();
+
     my $search;
+    my $child_levels;
+    my @roots = ($root);
 
     while ( my ( $k, $e ) = each %$params ) {
-        if ( $k =~ /^(.*)$/ ) {
+        if ( $k eq 'children' ) {
+            $child_levels = $e;
+        }
+        else {
             $search ||= {};
             $search->{$k} = $e;
         }
     }
-    my $root = Foswiki::Plugins::ConfigurePlugin::SpecEntry::loadSpecFiles();
-    my $what;
+
+    my @matches = ();
     if ($search) {
-        $what = $root->findSpecEntry(%$search);
-        if ( !$what ) {
-            require Data::Dumper;
-            die Data::Dumper->Dump( [$search], ["Not_found"] );
-        }
+        @matches = $root->findSpecEntries(%$search);
     }
     else {
-        $what = $root;
+        @matches = ($root);
     }
-    return $what;
+
+    if ( defined $child_levels ) {
+
+        # Children to a fixed depth only; prune
+        foreach my $m (@matches) {
+            _prune( $m, $child_levels );
+        }
+    }
+
+    return \@matches;
+}
+
+# 0 will prune children
+# 1 will prune children-of-children
+sub _prune {
+    my ( $node, $level ) = @_;
+
+    if ( $level == 0 ) {
+        delete $node->{children};
+    }
+    elsif ( $node->{children} ) {
+        foreach my $c ( @{ $node->{children} } ) {
+            _prune( $c, $level - 1 );
+        }
+    }
 }
 
 # Run checkers on the configuration data passed in, or the whole current
 # LSC if nothing is passed.
 sub check {
     my $params = shift;
-    unless ( scalar keys %$params ) {
-        $params = \%Foswiki::cfg;    # debug; force full check of old config
-    }
 
     # Load the spec files so we can find the type checker
     my $root = Foswiki::Plugins::ConfigurePlugin::SpecEntry::loadSpecFiles();
 
-    # Set the new values, based on finding points where there is a
-    # spec entry with keys.
-    $root->set($params);
+    if ( scalar keys %$params ) {
+
+        # Set the new values while we check them
+        while ( my ( $keypath, $value ) = each %$params ) {
+
+            # Ignore a value setting to undefined. This is used to indicate
+            # that the current value is to be checked, rather than a new
+            # value being passed in.
+            if ( defined $value ) {
+                eval "\$Foswiki::cfg$keypath=\$value";
+                die $@ if $@;
+            }
+        }
+    }
+    else {
+
+        # Pull current keys and values from $Foswiki::cfg
+        my @keys = $root->getAllKeys();
+        foreach my $k (@keys) {
+            $params->{$k} = eval '\$Foswiki::cfg$k';
+        }
+    }
 
     # now check them
     my @report = $root->check($params);
+
     return \@report;
 }
 
@@ -250,7 +300,7 @@ sub _save {
 
         my $open;
         my $um = umask(0);
-        unshift @backups, $n++
+        unshift( @backups, $n++ )
           while (
             !(
                 $open = sysopen( F, "$lsc.$n",
@@ -261,11 +311,11 @@ sub _save {
           );
         if ($open) {
             $backup = "$lsc.$n";
-            unshift @backups, $n;
+            unshift( @backups, $n );
             print F $content;
             close(F);
-            utime $atime, $mtime, $backup;
-            chown $uid, $gid, $backup;
+            utime( $atime, $mtime, $backup );
+            chown( $uid, $gid, $backup );
         }
         else {
             die "Unable to open $lsc.$n for write: $!\n";
