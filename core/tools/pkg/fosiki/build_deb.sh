@@ -4,21 +4,21 @@ if [ -e /tmp/build_deb ]; then
 	echo '/tmp/build_deb already exists, please move aside'
 	exit -1;
 fi
-if [ ! -e Foswiki-1.1.8.tgz ]; then
-	echo 'need Foswiki-1.1.8.tgz file to build'
+if [ ! -e Foswiki-1.1.9.tgz ]; then
+	echo 'need Foswiki-1.1.9.tgz file to build'
 	exit -1;
 fi
 
 mkdir /tmp/build_deb
 cp -r debian /tmp/build_deb/
-cp Foswiki-1.1.8.tgz /tmp/build_deb/foswiki_1.1.8.orig.tar.gz
+cp Foswiki-1.1.9.tgz /tmp/build_deb/foswiki_1.1.9.orig.tar.gz
 
 cd /tmp/build_deb
-tar zxvf /tmp/build_deb/foswiki_1.1.8.orig.tar.gz
+tar zxvf /tmp/build_deb/foswiki_1.1.9.orig.tar.gz
 
 #add * to allow for -beta, -auto etc
-mv /tmp/build_deb/Foswiki-1.1.8*/ /tmp/build_deb/foswiki-1.1.8/
-cd /tmp/build_deb/foswiki-1.1.8
+mv /tmp/build_deb/Foswiki-1.1.9*/ /tmp/build_deb/foswiki-1.1.9/
+cd /tmp/build_deb/foswiki-1.1.9
 
 mv ../debian .
 
@@ -31,7 +31,7 @@ find . -name .svn -exec rm -rf '{}' \;
 dpkg-buildpackage -rfakeroot
 
 #TODO
-#interdiff -z foswiki_4.1.2-{8,9}.diff.gz
+#interdiff -z foswiki_4.1.2-{9,9}.diff.gz
 #upload this too
 
 #update the debian repos on distributedINFORMATION.com
@@ -42,7 +42,7 @@ dpkg-buildpackage -rfakeroot
 ##############################
 # CREATING PATCHES
 # 1. run a build_deb.sh
-# 2. cd /tmp/build_deb/foswiki-1.1.8
+# 2. cd /tmp/build_deb/foswiki-1.1.9
 # 3. run dpatch-edit-patch your-new-patchname
 # 4. once its at a shell, make your change and type 'exit'
 # 4a. if you want to discard, 'exit 260' will work
