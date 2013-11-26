@@ -34,7 +34,19 @@ use strict;
 use warnings;
 
 use Assert;
-use Foswiki ();
+
+# In some environments, e.g. configure, we do NOT want Foswiki.pm
+# use Foswiki::Time qw/-nofoswiki/ for that.  Since this module
+# doesn't use Exporter, we don't need anything complicated.
+
+sub import {
+    my $class = shift;
+
+    unless ( @_ && $_[0] eq '-nofoswiki' ) {
+        require Foswiki;
+    }
+}
+
 use POSIX qw( strftime );
 
 # Constants
@@ -124,7 +136,9 @@ sub parseTime {
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
     #TODO: allow /.: too
-    if ( $date =~ /(\d+)[-\s]+([a-z]{3})[-\s]+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
+    if ( $date =~
+        /(\d+)[-\s]+([a-z]{3})[-\s]+(\d+)(?:[-\s]+(\d+):(\d+)(?::(\d+))?)?/i )
+    {
         my $year = $3;
 
         #$year -= 1900 if ( $year > 1900 );
@@ -134,7 +148,7 @@ sub parseTime {
 
         #TODO: %MON2NUM needs to be updated to use i8n
         #TODO: and should really work for long form of the month name too.
-        return &$timelocal( 0, $5 || 0, $4 || 0, $1, $mon, $year );
+        return &$timelocal( $6 || 0, $5 || 0, $4 || 0, $1, $mon, $year );
     }
 
     # ISO date 2001-12-31T23:59:59+01:00
