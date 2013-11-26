@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+      <title>{#foswikibuttons_dlg.attach_dialog_title}</title>
+      <script language="javascript" type="text/javascript" src="../../tinymce/jscripts/tiny_mce/tiny_mce_popup.js"></script>
+      <script language="javascript" type="text/javascript" src="../../tinymce/jscripts/tiny_mce/utils/mctabs.js"></script>
+      <script language="javascript" type="text/javascript" src="../../tinymce/jscripts/tiny_mce/utils/form_utils.js"></script>
+      <script language="javascript" type="text/javascript" src="../../foswiki_tiny.js"></script>
+      <script language="javascript" type="text/javascript" src="jscripts/attach.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/popup.css" />
+      <base target="_self" />
+  </head>
+  <body>
+      <form id="upload_form" target="status_frame" enctype="multipart/form-data" method="post">
+          <fieldset>
+              <legend>{#foswikibuttons_dlg.fieldset_general_tab}</legend>
+              <div class="error">
+                  <p>{#foswikibuttons_dlg.attach_error_autoinc}</p>
+              </div>
+          </fieldset>
+          <div style="float: right">
+              <input type="hidden" name="topic" value="" id="upload_form_topic"/>
+              <input type="button" id="cancel" name="close" value="{#foswikibuttons_dlg.close}" onclick="tinyMCEPopup.close();" />
+          </div>
+      </form>
+  </body>
+</html>

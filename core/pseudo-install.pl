@@ -997,7 +997,7 @@ sub generateAlternateVersion {
         $compress = 1;
     }
     if (  !$found
-        && $file =~ /^(.+)(\.(?:un)?compressed|_src)(\..+)$/
+        && $file =~ /^(.+)(\.(?:un)?compressed|_src|\.min)(\..+)$/
         && -f File::Spec->catfile( $moduleDir, $1 . $3 ) )
     {
         linkOrCopy $moduleDir, $file, $1 . $3, $link;
@@ -1005,7 +1005,7 @@ sub generateAlternateVersion {
     }
     elsif ( !$found && $file =~ /^(.+)(\.[^\.]+)$/ ) {
         my ( $src, $ext ) = ( $1, $2 );
-        for my $kind (qw( .uncompressed .compressed _src )) {
+        for my $kind (qw( .uncompressed .compressed _src .min )) {
             my $srcfile = $src . $kind . $ext;
 
             if ( -f File::Spec->catfile( $moduleDir, $srcfile ) ) {
