@@ -33,7 +33,7 @@ This logger implementation maps groups of levels to a single logfile, viz.
 
 =cut
 
-use Foswiki::Time ();
+use Foswiki::Time qw(-nofoswiki);
 
 use constant TRACE => 0;
 

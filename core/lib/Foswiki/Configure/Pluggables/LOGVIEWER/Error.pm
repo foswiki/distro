@@ -26,6 +26,7 @@ our @ISA =
 #
 # return list of LOGVIEWER items - logFileItem will do all the work.
 #                                  $keys, $ButtonLabel, directory => filename list used if $keys is empty.
+#                                  Optional item help.
 # list may be empty.
 
 sub discover {
@@ -37,7 +38,8 @@ sub discover {
       $class->logFileItem(
         '{ErrorFileName}', 'Errors',
         $logdir  => 'error%DATE%.txt',
-        $datadir => 'error%DATE%.txt'
+        $datadir => 'error%DATE%.txt',
+qq(Foswiki error log<br />$Foswiki::Configure::Pluggables::LOGVIEWER::stdLogHelp)
       );
 
     return @items;

@@ -503,6 +503,8 @@ lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
 lib/Foswiki/Configure/Checkers/CGISetup.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigParams.pm 0444
+lib/Foswiki/Configure/Checkers/ConfigureGUI/LogViewer/EndTime.pm 0444
+lib/Foswiki/Configure/Checkers/ConfigureGUI/LogViewer/StartTime.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/PATHINFO.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/SMIME/InstallCert.pm 0444
 lib/Foswiki/Configure/Checkers/Cache/Debug.pm 0444
@@ -531,6 +533,7 @@ lib/Foswiki/Configure/Checkers/AUDITGROUP.pm 0444
 lib/Foswiki/Configure/Checkers/DebugFileName.pm 0444
 lib/Foswiki/Configure/Checkers/DefaultUrlHost.pm 0444
 lib/Foswiki/Configure/Checkers/DispScriptUrlPath.pm 0444
+lib/Foswiki/Configure/Checkers/DATE.pm 0444
 lib/Foswiki/Configure/Checkers/EMAILADDRESS.pm 0444
 lib/Foswiki/Configure/Checkers/Email/EnableSMIME.pm 0444
 lib/Foswiki/Configure/Checkers/Email/MailMethod.pm 0444
@@ -645,6 +648,7 @@ lib/Foswiki/Configure/Types/BOOLEAN.pm 0444
 lib/Foswiki/Configure/Types/BOOLGROUP.pm 0444
 lib/Foswiki/Configure/Types/EMAILADDRESS.pm 0444
 lib/Foswiki/Configure/Types/COMMAND.pm 0444
+lib/Foswiki/Configure/Types/DATE.pm 0444
 lib/Foswiki/Configure/Types/LANGUAGE.pm 0444
 lib/Foswiki/Configure/Types/LOGVIEWER.pm 0444
 lib/Foswiki/Configure/Types/NUMBER.pm 0444

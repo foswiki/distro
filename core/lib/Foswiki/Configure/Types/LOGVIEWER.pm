@@ -5,7 +5,7 @@ package Foswiki::Configure::Types::LOGVIEWER;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Types::NULL ();
+use Foswiki::Configure::Types::SELECT ();
 our @ISA = ('Foswiki::Configure::Types::SELECT');
 
 1;

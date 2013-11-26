@@ -41,6 +41,12 @@ with CGI accelerators such as mod_perl.
 
 =cut
 
+our $configureRunning;
+if ( $configureRunning && !$configureFork ) {
+    require Carp;
+    Carp::confess("I was loaded when running under configure");
+}
+
 use strict;
 use warnings;
 use Assert;
