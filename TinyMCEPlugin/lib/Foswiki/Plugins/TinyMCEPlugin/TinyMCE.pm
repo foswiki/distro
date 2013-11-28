@@ -71,10 +71,8 @@ sub new {
             homepage      => 'http://foswiki.org/Extensions/TinyMCEPlugin',
             documentation => "$Foswiki::cfg{SystemWebName}.TinyMCEPlugin",
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin',
-            javascript    => [
-                'foswiki_tiny.js', 'foswiki.js',
-                '/' . $tmceVersion . $tmcePath
-            ],
+            javascript =>
+              [ 'foswiki_tiny.js', 'foswiki.js', $tmceVersion . $tmcePath ],
             dependencies => ['JQUERYPLUGIN::FOSWIKI']
         ),
         $class
@@ -99,7 +97,6 @@ sub renderJS {
     $text .= '?version=' . $this->{version} if ( $this->{version} =~ '$Rev$' );
     $text =
       "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
-    print STDERR "renderJS returns:  $text\n";
     return $text;
 }
 

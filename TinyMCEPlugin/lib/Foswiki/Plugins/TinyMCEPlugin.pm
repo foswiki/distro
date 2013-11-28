@@ -64,10 +64,22 @@ sub _TMCEPLUGINURL {
       ? 'editor_plugin_src'
       : 'plugin';
 
+# By default all foswiki plugins are in top directory.  However test versions of
+# TinyMCE can provide local copies.  If directory exists, use it.
+    if (
+        -f "$Foswiki::cfg{PubDir}/$Foswiki::cfg{SystemWebName}/TinyMCEPlugin/$tmceVersion/plugins/$plugin/${pluginName}.js"
+      )
+    {
+        $tmceVersion .= '/';
+    }
+    else {
+        $tmceVersion = '';
+    }
+
     return
         "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/"
       . $tmceVersion
-      . "/plugins/$plugin/${pluginName}.js";
+      . "plugins/$plugin/${pluginName}.js";
 
 }
 
