@@ -276,8 +276,8 @@ sub target_stage {
     # Create a Foswiki-* directory to hold everything, so the archive is safer
     $this->{rootTmpDir} = File::Temp::tempdir( CLEANUP => 1 );
     $this->{tmpDir} =
-      File::Spec->catdir( $this->{rootTmpDir},
-        $this->{name} || $this->{project} );
+      File::Spec->catdir( $this->{rootTmpDir}, $this->{name} || split / /,
+        $this->{project} );
     $this->makepath( $this->{tmpDir} );
     $this->SUPER::target_stage();
 
