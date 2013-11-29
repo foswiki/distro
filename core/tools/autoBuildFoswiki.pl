@@ -20,6 +20,10 @@ use Getopt::Long;
 
 # local config, should be moved to an external file in $ENV{HOME}?
 my $stable_branch = 'Release01x01';    # what branch to check out with --stable
+my $webspace_scp =
+  '~/public_html/foswiki/';            # path to webspace as understood by scp
+my $webspace_url = 'http://fschlich.userpage.fu-berlin.de/foswiki/'
+  ;                                    # path to webspace for browsers
 
 # options
 my $SvensAutomatedBuilds = 0;
@@ -110,10 +114,13 @@ unless ( $errorcode == 0 ) {
 
     chdir($foswikihome);
     if ($SvensAutomatedBuilds) {
-`scp Foswiki* distributedinformation\@distributedinformation.com:~/www/Foswiki_$foswikiBranch/`;
-        sendEmail( 'foswiki-svn@lists.sourceforge.net',
-"Subject: Foswiki $foswikiBranch has Unit test FAILURES\n\n see http://fosiki.com/Foswiki_$foswikiBranch/ for output files.\n"
-              . $unittestErrors );
+        `scp Foswiki* $webspace_scp$foswikiBranch/`;
+        sendEmail(
+            $mail_to,
+            "[AUTOTEST] Foswiki $foswikiBranch has Unit test FAILURES",
+            " see $webspace_url$foswikiBranch/ for output files.\n"
+              . $unittestErrors
+        );
     }
     die "\n\n$errorcode: unit test failures - need to fix them first\n";
 }
@@ -155,11 +162,12 @@ chdir('lib');
 chdir($foswikihome);
 if ($SvensAutomatedBuilds) {
 
-    #push the files to my server - http://fosiki.com/
-`scp ../*/*.zip distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/`;
-`scp ../*/*.tgz distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/`;
-`scp ../*/*.md5 distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/`;
-`scp Foswiki* distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/`;
+    #push the files to the server
+    `scp ../*/*.zip $webspace_scp$foswikiBranch/`;
+    `scp ../*/*.tgz $webspace_scp$foswikiBranch/`;
+    `scp ../*/*.md5 $webspace_scp$foswikiBranch/`;
+    `scp Foswiki*   $webspace_scp$foswikiBranch/`;
+
     my $buildOutput      = `ls -alh *auto*`;
     my $emailDestination = 'Builds@fosiki.com';
     if ( $buildOutput eq '' ) {
