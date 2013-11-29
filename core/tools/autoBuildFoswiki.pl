@@ -19,6 +19,9 @@ use warnings;
 use Getopt::Long;
 
 # local config, should be moved to an external file in $ENV{HOME}?
+my $mail_from =
+  'fschlich@zedat.fu-berlin.de';    # also recipient in case of "nothing to say"
+my $mail_to = 'foswiki-svn@lists.sourceforge.net';
 my $stable_branch = 'Release01x01';    # what branch to check out with --stable
 my $webspace_scp =
   '~/public_html/foswiki/';            # path to webspace as understood by scp
@@ -169,57 +172,35 @@ if ($SvensAutomatedBuilds) {
     `scp Foswiki*   $webspace_scp$foswikiBranch/`;
 
     my $buildOutput      = `ls -alh *auto*`;
-    my $emailDestination = 'Builds@fosiki.com';
+    my $emailDestination = $mail_from;
     if ( $buildOutput eq '' ) {
 
         #Raise the alarm, no files actually built
         $buildOutput .=
 "\nERROR: Unit test did not fail, but no output files found, please consult build log.\n";
-        $emailDestination = 'foswiki-svn@lists.sourceforge.net';
+        $emailDestination = $mail_to;
     }
     $buildOutput .= "\n";
     $buildOutput .=
       `grep 'All tests passed' $foswikihome/Foswiki-UnitTests.log`;
-    sendEmail( $emailDestination,
-"Subject: Foswiki $foswikiBranch built OK\n\n see http://fosiki.com/Foswiki_$foswikiBranch/ for output files.\n"
-          . $buildOutput );
-}
-
-sub getLocalSite {
-    my $foswikidir = shift;
-
-    #   open(TS, "$foswikidir/lib/Foswiki.spec");
-    #   local $/ = undef;
-    #   my $localsite = <TS>;
-    #   close(TS);
-    my $localsite = `grep 'Foswiki::cfg' $foswikidir/lib/Foswiki.spec`;
-
-    $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
-    $localsite =~ s|# \$Foswiki|\$Foswiki|g;
-
-    return $localsite;
-}
-
-#Yes, this email setup only works for Sven - will look at re-using the .settings file CC made for BuildContrib
-sub sendEmail {
-    return unless ($SvensAutomatedBuilds);
-    my $toAddress = shift;
-    my $text      = shift;
-    use Net::SMTP;
-
-    my $smtp = Net::SMTP->new(
-        'mail.iinet.net.au',
-        Hello => 'sven.home.org.au',
-        Debug => 0
+    sendEmail(
+        $emailDestination,
+        "[AUTOBUILD] Foswiki $foswikiBranch built OK",
+        " see $webspace_url$foswikiBranch/ for output files.\n" . $buildOutput
     );
+}
 
-    $smtp->mail('SvenDowideit@WikiRing.com');
-    $smtp->to($toAddress);
+sub sendEmail {
+    my ( $to, $subject, $body ) = @_;
 
-    $smtp->data();
-    $smtp->datasend("To: $toAddress\n");
-    $smtp->datasend($text);
-    $smtp->dataend();
-
-    $smtp->quit;
+    # send mail
+    open( MAIL,
+        "|/usr/sbin/sendmail -t -oi -oem"
+          || print STDERR "Error sending mail\n" );
+    print MAIL "From: $mail_from\n";
+    print MAIL "To: $to\n";
+    print MAIL "Subject: $subject\n";
+    print MAIL "\n";
+    print MAIL "$body\n";
+    close MAIL;
 }
