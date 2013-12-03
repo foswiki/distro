@@ -248,6 +248,10 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
         }
     }
 
+    # make sure the project name (and hence the files we generate)
+    # do not contain spaces
+    $name =~ s/\s/_/g;
+
     my $this = $class->SUPER::new( $name, "Foswiki" );
     return $this;
 }
@@ -276,8 +280,8 @@ sub target_stage {
     # Create a Foswiki-* directory to hold everything, so the archive is safer
     $this->{rootTmpDir} = File::Temp::tempdir( CLEANUP => 1 );
     $this->{tmpDir} =
-      File::Spec->catdir( $this->{rootTmpDir}, $this->{name} || split / /,
-        $this->{project} );
+      File::Spec->catdir( $this->{rootTmpDir},
+        $this->{name} || $this->{project} );
     $this->makepath( $this->{tmpDir} );
     $this->SUPER::target_stage();
 
