@@ -1,13 +1,9 @@
-/* Badge used to show that we're waiting for initial jsonRpc call that
- * loads the .spec */
-.loading {
-    font-weight: bold;
-    font-size: 16pt;
-    margin: 2em;
+html body {
+	font-family: Arial, sans-serif;
+	font-size: 13px;
 }
 
-/* The "check all" button */
-#checkButton {
+.top_level_button {
     float: right;
     margin:1em;
 }
@@ -17,36 +13,26 @@ div.node {
     padding: 0.5em;
 }
 
-/* section node h* */
-.section {
-    /* Section heading */
-}
-
-/* leaf node span */
 .keys {
     font-weight: bold;
     margin-right: 1em;
 }
 
-/* Open/close div inside .node */
-.contents {
+.value_modified {
+    color: pink;
 }
 
-.node.closed > .contents {
+.closed > .description {
     display: none;
 }
 
-.node.open > .contents {
+.open > .description {
     display: block;
 }
 
 /* Inside .contents, text description */
-div.description {
-}
-
-/* Just subnodes, inside .contents */
-div.children {
-    margin-left: 1em;
+.description {
+    
 }
 
 /* Used to record that a leaf node has been populated with a value */
@@ -55,15 +41,101 @@ div.children {
 
 /* Classes added to elements that have been checked. All of these
  * may be added; we want errors > warnings > information */
-.information {
+div.information {
 }
 
-.warnings {
-    border: 2pt solid orange;
+.reports > .warnings {
+    background-image: url(warningsIcon.png);
+    padding-left: 22px;
+    background-position: left 45%;
+    background-repeat: no-repeat;
+    color: #AA0;
 }
 
-.errors {
-    border: 2pt solid red;
+.reports > .errors {
+    background-image: url(errorsIcon.png);
+    padding-left: 22px;
+    background-position: left 45%;
+    background-repeat: no-repeat;
+    color: #A00;
 }
 
+.tab.warnings {
+    background-image: url(warningsIcon.png);
+    padding-right: 22px;
+    background-position: right 45%;
+    background-repeat: no-repeat;
+    color: #AA0;
+}
 
+.tab.errors {
+    background-image: url(errorsIcon.png);
+    padding-right: 22px;
+    background-position: right 45%;
+    background-repeat: no-repeat;
+    color: #A00;
+}
+
+.tab.warnings.errors {
+    background-image: url(warningsAndErrorsIcon.png);
+    padding-right: 44px;
+    background-position: right 45%;
+    background-repeat: no-repeat;
+}
+
+.key_controls {
+    border: 1px solid black;
+    width: 44px;
+    height: 22px;
+    float:right;
+}
+
+/* Shown if value has been modified in this session */
+.undo_button {
+    display: none;
+    width: 22px !important;
+    height: 22px !important;
+}
+
+.undo-icon {
+    background-image: url("undo-modified-icon.png") !important;
+}
+
+.value_modified > .undo_button {
+    display: inline;
+}
+
+/* Button shown if value differs from default */
+.default_button {
+    display: inline;
+    width: 22px !important;
+    height: 22px !important;
+}
+
+.default-icon {
+    background-image: url("reset-icon.png") !important;
+}
+
+.value_default > .default_button {
+    display: none;
+}
+
+.expert {
+    display: block;
+    background-image: url(expert.png);
+    padding-left: 60px !important;
+    background-position: left 45%;
+    background-repeat: no-repeat;
+}
+
+.inexpert {
+    display: none;
+}
+
+.inexpert .warnings {
+    display: block;
+}
+
+.inexpert .errors {
+    display: block;
+}

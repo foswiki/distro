@@ -1,25 +1,34 @@
 # See bottom of file for license and copyright information
-package ConfigurePluginSuite;
+
+package Foswiki::Plugins::ConfigurePlugin::LOGVIEWER;
 
 use strict;
 use warnings;
 
-use Unit::TestSuite;
-our @ISA = 'Unit::TestSuite';
+# Refer to PLUGINS.pm for information on how this works
+sub load {
+    my ($factory) = @_;
 
-sub name { 'ConfigurePluginSuite' }
-
-# List the modules that contain the extension-specific tests you
-# want to run. These tests are run when you 'perl build.pl test'
-sub include_tests { qw(ConfigurePluginTests SaveTests) }
+    # Add a button to navigate away and load the UI
+    return (
+        $factory->createSpecEntry(
+            type  => "BUTTON",
+            title => "Log Viewer",
+            uri   => "logviewer.html"
+        )
+    );
+}
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

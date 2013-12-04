@@ -1,13 +1,26 @@
 !noci
 data/System/ConfigurePlugin.txt 0644 Documentation page
 lib/Foswiki/Plugins/ConfigurePlugin.pm 0444 Perl module
+lib/Foswiki/Plugins/ConfigurePlugin/AUDIT.pm 0444
 lib/Foswiki/Plugins/ConfigurePlugin/Config.spec 0444 Configuration
+lib/Foswiki/Plugins/ConfigurePlugin/FINDEXTENSIONS.pm 0444
+lib/Foswiki/Plugins/ConfigurePlugin/LANGUAGES.pm 0444
+lib/Foswiki/Plugins/ConfigurePlugin/LOGVIEWER.pm 0444
+lib/Foswiki/Plugins/ConfigurePlugin/PLUGINS.pm 0444
 lib/Foswiki/Plugins/ConfigurePlugin/SpecEntry.pm 0444 Perl module
-pub/System/ConfigurePlugin/base.css
-pub/System/ConfigurePlugin/configure.css
-pub/System/ConfigurePlugin/configure.html
-pub/System/ConfigurePlugin/configure.js
-pub/System/ConfigurePlugin/foswiki-icon.ico
-pub/System/ConfigurePlugin/foswiki-logo.png
-pub/System/ConfigurePlugin/pattern.css
-pub/System/ConfigurePlugin/resig.js
+lib/Foswiki/Plugins/ConfigurePlugin/TESTEMAIL.pm 0444
+pub/System/ConfigurePlugin/checkWhirly.gif 0444
+pub/System/ConfigurePlugin/configure.css 0444
+pub/System/ConfigurePlugin/configure.html 0444
+pub/System/ConfigurePlugin/configure.js 0444
+pub/System/ConfigurePlugin/errorsIcon.png 0444
+pub/System/ConfigurePlugin/expert.png 0444
+pub/System/ConfigurePlugin/foswiki-icon.ico 0444
+pub/System/ConfigurePlugin/foswiki-logo.png 0444
+pub/System/ConfigurePlugin/loadWhirly.gif 0444
+pub/System/ConfigurePlugin/reset-icon.png 0444
+pub/System/ConfigurePlugin/resig.js 0444
+pub/System/ConfigurePlugin/undo-modified-icon.png 0444
+pub/System/ConfigurePlugin/warningsAndErrorsIcon.png 0444
+pub/System/ConfigurePlugin/warningsIcon.png 0444
+

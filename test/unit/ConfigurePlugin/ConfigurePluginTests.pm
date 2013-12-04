@@ -24,45 +24,28 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-    $this->{test_work_dir} = $Foswiki::cfg{WorkingDir};
-    open( F, '<',
-        Foswiki::Plugins::ConfigurePlugin::SpecEntry::findFileOnPath(
-            'LocalSite.cfg')
-    ) || die $@;
-    local $/ = undef;
-    my $c = <F>;
-    close F;
-    $this->{safe_lsc} = $c;
     $Foswiki::Plugins::SESSION = $this->{session};
-}
-
-sub tear_down {
-    my $this = shift;
-
-    # make sure the correct config comes back
-    $Foswiki::cfg{ConfigurationFinished} = 0;
-    Foswiki::Configure::Load::readConfig( 0, 0 );
-
-    # Got to restore this, otherwise SUPER::tear_down will eat
-    # the one restored from LSC
-    $Foswiki::cfg{WorkingDir} = $this->{test_work_dir};
-    open( F, '>',
-        Foswiki::Plugins::ConfigurePlugin::SpecEntry::findFileOnPath(
-            'LocalSite.cfg')
-    ) || die $@;
-    print F $this->{safe_lsc};
-    close(F);
-    $this->SUPER::tear_down();
 }
 
 sub test_getcfg {
     my $this   = shift;
-    my $params = { "keys" => [ "{DataDir}", "{Store}{Implementation}" ] };
+    my $params = {
+        "keys" => [
+            "{Plugins}{ConfigurePlugin}{Test}{STRING}",
+            "{Plugins}{ConfigurePlugin}{Test}{COMMAND}"
+        ]
+    };
     my $result = Foswiki::Plugins::ConfigurePlugin::getcfg($params);
     $this->assert_deep_equals(
         {
-            Store => { Implementation => $Foswiki::cfg{Store}{Implementation} },
-            DataDir => $Foswiki::cfg{DataDir}
+            Plugins => {
+                ConfigurePlugin => {
+                    Test => {
+                        STRING  => 'STRING',
+                        COMMAND => 'COMMAND'
+                    }
+                }
+            }
         },
         $result
     );
@@ -126,13 +109,35 @@ sub unparent {
 
 sub test_getspec {
     my $this   = shift;
-    my $params = { "keys" => "{DataDir}" };
-    my $spec   = Foswiki::Plugins::ConfigurePlugin::getspec($params);
+    my %params = ( keys => '{Plugins}{ConfigurePlugin}{Test}{STRING}' );
+    my $spec   = Foswiki::Plugins::ConfigurePlugin::getspec( \%params );
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
-    $this->assert_str_equals( 'PATH',                 $spec->{type} );
-    $this->assert_str_equals( '{DataDir}',            $spec->{keys} );
-    $this->assert_str_equals( $Foswiki::cfg{DataDir}, $spec->{value} );
+    $this->assert_str_equals( 'STRING',      $spec->{type} );
+    $this->assert_str_equals( $params{keys}, $spec->{keys} );
+    $this->assert_str_equals( 'STRING',      $spec->{spec_value} );
+
+    $params{keys} = '{Plugins}{ConfigurePlugin}{Test}{empty}';
+    $spec = Foswiki::Plugins::ConfigurePlugin::getspec( \%params );
+    $this->assert_num_equals( 1, scalar @$spec );
+    $spec = $spec->[0];
+    $this->assert_str_equals( 'PATH',        $spec->{type} );
+    $this->assert_str_equals( $params{keys}, $spec->{keys} );
+    $this->assert_str_equals( 'empty',       $spec->{spec_value} );
+}
+
+sub test_getspec_no_LSC {
+    my $this = shift;
+
+    # Kill the config
+    $Foswiki::cfg = ();
+
+    # Make sure we can still getspec without the whole shebange
+    # going up in flames
+    my $spec = Foswiki::Plugins::ConfigurePlugin::getspec( {} );
+    $this->assert_num_equals( 1, scalar @$spec );
+    $spec = $spec->[0];
+    $this->assert_str_equals( 'ROOT', $spec->{type} );
 }
 
 sub test_getspec_children {
@@ -168,6 +173,8 @@ sub test_getspec_children {
             $this->assert_null( $subspec->{children} );
         }
     }
+
+    # Check pluggables
 }
 
 sub test_getspec_badkey {
@@ -186,62 +193,59 @@ sub test_getspec_badkey {
     };
 }
 
+use Foswiki::Configure::Checker;
+{
+
+    package Foswiki::Configure::Checkers::Plugins::ConfigurePlugin::Test::STRING;
+    our @ISA = ('Foswiki::Configure::Checker');
+
+    sub check {
+        my ( $this, $val ) = @_;
+        return
+            $this->ERROR('Error')
+          . $this->WARN('Warning')
+          . $this->NOTE('Note');
+    }
+}
+
 sub test_check {
     my $this   = shift;
-    my $params = { "{Log}{Implementation}" => 'Foswiki::Logger::PlainFile' };
+    my $params = { "{Plugins}{ConfigurePlugin}{Test}{STRING}" => 'Theory' };
     my $report = Foswiki::Plugins::ConfigurePlugin::check($params);
     $this->assert_num_equals( 1, scalar @$report );
     $report = $report->[0];
-    $this->assert_str_equals( '{Log}{Implementation}', $report->{keys} );
-    $this->assert_str_equals( 'warnings',              $report->{level} );
-    $this->assert_str_equals( 'Logging and Statistics',
-        $report->{sections}->[0] );
-    $this->assert_str_equals( 'Logging', $report->{sections}->[1] );
-    $this->assert_matches( qr/On busy systems/, $report->{message} );
+    $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{STRING}',
+        $report->{keys} );
+    $this->assert_str_equals( 'errors',          $report->{level} );
+    $this->assert_str_equals( 'Extensions',      $report->{sections}->[0] );
+    $this->assert_str_equals( 'ConfigurePlugin', $report->{sections}->[1] );
+    $this->assert_str_equals( 'Testing',         $report->{sections}->[2] );
+    $this->assert_matches( qr/Error/,   $report->{message} );
+    $this->assert_matches( qr/Warning/, $report->{message} );
+    $this->assert_matches( qr/Note/,    $report->{message} );
 }
 
-sub test_changecfg {
+sub test_check_dependencies {
     my $this = shift;
-    $Foswiki::cfg{Test}{Key}  = 'value1';
-    $Foswiki::cfg{'Test-Key'} = 'value2';
-    $Foswiki::cfg{'TestKey'}  = 'value3';
-    delete $Foswiki::cfg{TestA};
-    delete $Foswiki::cfg{TestB}{Ruin};
+
+    # DEPENDS depends on H and EXPERT
     my $params = {
-        clear => [ '{Test-Key}', '{Test}{Key}', '{TestDontCountMe}' ],
-        set   => {
-            '{TestA}'       => 'Shingle',
-            '{TestB}{Ruin}' => 'Ribbed',
-            '{Test-Key}'    => 'newtestkey',
-            '{TestKey}'     => 'newval'
-        }
+        '{Plugins}{ConfigurePlugin}{Test}{H}' => 'fruitbat',
+        'check_dependent'                     => 1
     };
-    my $result = Foswiki::Plugins::ConfigurePlugin::changecfg($params);
-    $this->assert_str_equals( 'Added: 3; Changed: 1; Cleared: 2', $result );
-    $this->assert_str_equals( 'newtestkey', $Foswiki::cfg{'Test-Key'} );
-    $this->assert( !exists $Foswiki::cfg{Test}{Key} );
-    $this->assert( !exists $Foswiki::cfg{TestDontCountMe} );
-    $this->assert_str_equals( "Shingle", $Foswiki::cfg{TestA} );
-    $this->assert_str_equals( "Ribbed",  $Foswiki::cfg{TestB}{Ruin} );
-
-    # Check it was written correctly
-    delete $Foswiki::cfg{Test};
-    open( F, '<',
-        Foswiki::Plugins::ConfigurePlugin::SpecEntry::findFileOnPath(
-            'LocalSite.cfg')
-    ) || die $@;
-    local $/ = undef;
-    my $c = <F>;
-    close F;
-
-    $c =~ s/^\$Foswiki::cfg/\$blah/gm;
-    my %blah;
-    eval $c;
-    %Foswiki::cfg = ();    #{ConfigurationFinished} = 0;
-    Foswiki::Configure::Load::readConfig( 1, 1 );
-
-    #die Data::Dumper->Dump([$Foswiki::cfg{Plugins}]);
-    $this->assert_deep_equals( \%Foswiki::cfg, \%blah );
+    my $report = Foswiki::Plugins::ConfigurePlugin::check($params);
+    $this->assert_num_equals( 2, scalar @$report );
+    my ( $first, $second );
+    if ( $report->[0]->{keys} =~ /DEPENDS/ ) {
+        ( $first, $second ) = ( $report->[0], $report->[1] );
+    }
+    else {
+        ( $first, $second ) = ( $report->[1], $report->[0] );
+    }
+    $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{DEPENDS}',
+        $first->{keys} );
+    $this->assert_str_equals( '{Plugins}{ConfigurePlugin}{Test}{H}',
+        $second->{keys} );
 }
 
 1;

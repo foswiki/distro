@@ -69,13 +69,16 @@ key name to current value.
 Runs the server-side checkers on a set of keys, optionally with
 new candidate values. The keys to be checked are passed in as key-value
 pairs. If you don't pass anything, all known keys will be checked.
-If you pass =null= for a value, then the existing value for that key in !LocalSite.cfg
-will be checked. For example,
+If you pass =null= for a value, then the existing value for that key in !LocalSite.cfg will be checked. For example,
 the ={Mail}{Server}= entry with a new value would be checked by passing in the JSON
-={"Mail":{"Server":"newvalue"}}=. You can pass as many configuration
-items as you want, or none, in which case a
-check will be run on *all* configuration items. The results of the
-check are reported in an array where each entry is a hash with fields =keys=, =level= (e.g. =warnings=, =errors=), and =message=.
+={"Mail":{"Server":"newvalue"}}=.
+
+You can pass as many configuration items as you want. If you allso pass the parameter =check_dependent= with a true value, then any other keys that depend
+on the keys you pass will also be added to the check. If you don't pass
+in any items, check will be run on *all* configuration items.
+
+The results of the check are reported in an array where each entry is a
+hash with fields =keys=, =level= (e.g. =warnings=, =errors=), and =message=.
 
 Non-information reports may also have =sections=, which
 is an array of section titles leading from the root down to the key.
