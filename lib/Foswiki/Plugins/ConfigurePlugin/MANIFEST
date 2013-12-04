@@ -7,6 +7,7 @@ lib/Foswiki/Plugins/ConfigurePlugin/FINDEXTENSIONS.pm 0444
 lib/Foswiki/Plugins/ConfigurePlugin/LANGUAGES.pm 0444
 lib/Foswiki/Plugins/ConfigurePlugin/LOGVIEWER.pm 0444
 lib/Foswiki/Plugins/ConfigurePlugin/PLUGINS.pm 0444
+lib/Foswiki/Plugins/ConfigurePlugin/SCRIPTHASH.pm 0444
 lib/Foswiki/Plugins/ConfigurePlugin/SpecEntry.pm 0444 Perl module
 lib/Foswiki/Plugins/ConfigurePlugin/TESTEMAIL.pm 0444
 pub/System/ConfigurePlugin/checkWhirly.gif 0444
