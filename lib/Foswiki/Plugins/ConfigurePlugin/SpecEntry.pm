@@ -658,7 +658,7 @@ sub check {
             # Invoke the checker
             my $checker = $chcl->new($spec);
             local %level_counts = ();
-            my $message = $checker->check( $spec, 0 );
+            my $message = $checker->check($spec);
             if ( $message || defined $guess_val ) {
                 my $worst = 'information';
                 foreach my $level ( keys %prio ) {
