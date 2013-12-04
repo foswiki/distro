@@ -375,9 +375,18 @@ var main = function($) {
                         label = entry.keys;
                     var $head = $('<div class="keys">' + label + '</div>');
                     $node.append($head);
-                    $head.click(function() {
-                        toggle_description($(this).parent());
-                    });
+                    if (entry.description) {
+                        var $infob = $('<button class="info_button"></button>');
+                        $head.append($infob);
+                        $infob.click(function() {
+                            toggle_description($(this).closest('.keyed'));
+                        }).button({
+                            icons: {
+                                primary: "info-icon"
+                            },
+                            text: false
+                        });
+                    }
                 } else if (entry.title != null) {
                     // unkeyed type e.g. BUTTON
                     id = _id_ify(entry.title);

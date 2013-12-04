@@ -14,6 +14,7 @@ div.node {
 }
 
 .keys {
+    font-family: "Courier New", Courier, monospacecourier;
     font-weight: bold;
     margin-right: 1em;
 }
@@ -93,8 +94,8 @@ div.information {
 /* Shown if value has been modified in this session */
 .undo_button {
     display: none;
-    width: 22px !important;
-    height: 22px !important;
+    width: 20px !important;
+    height: 20px !important;
 }
 
 .undo-icon {
@@ -108,8 +109,8 @@ div.information {
 /* Button shown if value differs from default */
 .default_button {
     display: inline;
-    width: 22px !important;
-    height: 22px !important;
+    width: 20px !important;
+    height: 20px !important;
 }
 
 .default-icon {
@@ -118,6 +119,16 @@ div.information {
 
 .value_default > .default_button {
     display: none;
+}
+
+.info_button {
+    margin-left: 1em;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.info-icon {
+    background-image: url("info-icon.png") !important;
 }
 
 .expert {
