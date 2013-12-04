@@ -16,7 +16,7 @@ sub check {
     my $keys = ref $valobj ? $valobj->getKeys : $valobj;
 
     my $value =
-        $query->request_method eq 'POST'
+        $query && $query->request_method eq 'POST'
       ? $query->param($keys)
       : $this->getCfg($keys);
 

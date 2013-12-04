@@ -113,7 +113,8 @@ sub log {
     }
     elsif ( utf8::is_utf8($message) ) {
         require Encode;
-        $message = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $message, 0 );
+        $message = Encode::encode( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1',
+            $message, 0 );
     }
     if ( open( $file, $mode, $log ) ) {
         print $file "$message\n";
