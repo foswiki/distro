@@ -31,11 +31,11 @@ to derive the !WikiWord using metadata of the following format:
 
 ---++ Examples
 <div class="foswikiFormSteps">
-  <h2>Add Project</h2>
+  <h2>New Project</h2>
   <form action="%SCRIPTURLPATH{"edit"}%/%WEB%" />
   <div class="foswikiFormStep">
     <h3>Title:</h3>
-    <input type="text" id="prjTitle" size="60" name="TopicTitle" />
+    <input type="text" id="prjTitle" size="60" name="TopicTitle" class="foswikiInputField" />
   </div>
   <div class="foswikiFormStep">
     <h3>Year:</h3>
@@ -52,7 +52,7 @@ to derive the !WikiWord using metadata of the following format:
   </div>
   <div class="foswikiFormStep">
     <h3>Project topic:</h3>
-    <input type="text" id="prjTopic" size="60" name="topic" class="jqWikiWord {source:'#prjTitle, #prjYear', prefix:'Project', initial:'Project...', suffix:'AUTOINC0'}" />
+    <input type="text" id="prjTopic" size="60" name="topic" class="foswikiInputField jqWikiWord {source:'#prjTitle, #prjYear', prefix:'Project', initial:'Project...', suffix:'AUTOINC0'}" />
   </div>
   <div class="foswikiFormStep foswikiFormLast">
     %BUTTON{"Submit" icon="tick" type="submit"}%

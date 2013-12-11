@@ -32,7 +32,7 @@ sub new {
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             javascript   => ['jquery.wikiword.js'],
-            dependencies => ['livequery']
+            dependencies => [ 'livequery', 'metadata' ]
         ),
         $class
     );

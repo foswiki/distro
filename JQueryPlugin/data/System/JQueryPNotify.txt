@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1357812954" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1385734949" format="1.1" reprev="2" version="2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"pnotify"
@@ -55,9 +55,9 @@ Most common options:
 | =remove= | Remove the notice's elements from the DOM after it is removed | =true= |
 | =insert_brs= | Change newlines to =br= tags | =true= |
 | =stack= | The stack on which the notices will be placed. Also controls the direction the notices stack. | ={"dir1": "down", "dir2": "left", "push": "bottom", "spacing1": 25, "spacing2": 25}= |
-| =before_init | function called when the message is being initialized | |
+| =before_init= | function called when the message is being initialized | |
 | =after_init= | function called when the message has been initialized | |
-| =before_open | called when a message is about to be closed | |
+| =before_open= | called when a message is about to be closed | |
 | =after_open= | called when the message has been displayed | |
 | =before_close= | called before a message is closed | |
 | =after_close= | called when a message has been closed | |
@@ -84,7 +84,7 @@ jQuery(function($) {
 
   $('.pnotifyExample1').click(function() {
     $.pnotify({
-       text: 'Hello World',
+       text: $(this).text(),
        closer: false
     });
     return false;
@@ -92,7 +92,7 @@ jQuery(function($) {
 
   $('.pnotifyExample2').click(function() {
     $.pnotify({
-       text: 'Hello World',
+       text: $(this).text(),
        closer: false,
        type: 'info'
     });
@@ -101,7 +101,7 @@ jQuery(function($) {
 
   $('.pnotifyExample3').click(function() {
     $.pnotify({
-       text: 'Upload finished',
+       text: $(this).text(),
        closer: false,
        type: 'success'
     });
@@ -110,7 +110,7 @@ jQuery(function($) {
 
   $('.pnotifyExample4').click(function() {
     $.pnotify({
-       text: 'Upload failed',
+       text: $(this).text(),
        closer: false,
        type: 'error'
     });
@@ -119,7 +119,7 @@ jQuery(function($) {
 
   $('.pnotifyExample5').click(function() {
     $.pnotify({
-       text: 'an animated info message',
+       text: $(this).text(),
        type: 'info',
        animation: {
          effect_in: 'drop',

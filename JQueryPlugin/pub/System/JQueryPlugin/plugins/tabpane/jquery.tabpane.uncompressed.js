@@ -19,12 +19,12 @@ $.tabpane = {
   build: function(options) {
     // build main options before element iteration
     var opts = $.extend({}, $.tabpane.defaults, options), prevHash;
-   
+
     // iterate and reformat each matched element
     return this.each(function() {
       var $thisPane = $(this),
           thisOpts = $.extend({}, opts, $thisPane.metadata()),
-          $tabContainer, $tabGroup;
+          $tabContainer, $tabGroup, index;
 
       function initCurrentTab() {
         var currentHash = window.location.hash.replace(/^.*#/, "");
@@ -104,8 +104,8 @@ $.tabpane = {
    */
   switchTab: function($thisPane, thisOpts, newTabId) {
     var oldTabId = thisOpts.currentTabId,
-        $newTab  = jQuery("#"+newTabId),
-        $oldTab = jQuery("#"+oldTabId),
+        $newTab  = $("#"+newTabId),
+        $oldTab = $("#"+oldTabId),
         $newContainer = $newTab.find('.jqTabContents:first'),
         $oldContainer = $oldTab.find('.jqTabContents:first'),
         oldHeight = $oldContainer.height(), // why does the container not work
@@ -115,7 +115,7 @@ $.tabpane = {
       return;
     }
 
-    $.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
+    //$.log("TABPANE: switching from "+oldTabId+" to "+newTabId);
 
     $oldTab.removeClass("current");
     $newTab.addClass("current");
@@ -192,7 +192,7 @@ $.tabpane = {
       
       // after click handler
       if (typeof(data.afterHandler) == "function") {
-        //jQuery.log("exec "+data.afterHandler);
+        //$.log("exec "+data.afterHandler);
         data.afterHandler.call(this, oldTabId, newTabId);
       }
 
@@ -201,9 +201,9 @@ $.tabpane = {
 
     // async loader
     if (typeof(data.url) != "undefined") {
-      $innerContainer.load(data.url, undefined, function(response, status, xhr) {
+      $innerContainer.load(data.url, undefined, function() {
         if (typeof(data.afterLoadHandler) == "function") {
-          //jQuery.log("after load handler "+command);
+          //$.log("after load handler "+command);
           data.afterLoadHandler.call(this, oldTabId, newTabId);
         }
         _finally();
@@ -222,8 +222,8 @@ $.tabpane = {
    */
   autoMaxExpand: function($thisPane, opts) {
     window.setTimeout(function() {
-      jQuery.tabpane.fixHeight($thisPane, opts);
-      jQuery(window).one("resize", function() {
+      $.tabpane.fixHeight($thisPane, opts);
+      $(window).one("resize", function() {
         $.tabpane.autoMaxExpand($thisPane, opts);
       });
     }, 100);
@@ -237,7 +237,7 @@ $.tabpane = {
         paneOffset = $container.offset(),
         paneTop, windowHeight, height, $debug;
 
-    jQuery.log("TABPANE: called fixHeight()");
+    //$.log("TABPANE: called fixHeight()");
 
     if (typeof(paneOffset) == 'undefined') {
       return;
@@ -245,24 +245,21 @@ $.tabpane = {
 
     paneTop = paneOffset.top; // || $container[0].offsetTop;
     if (bottomBarHeight <= 0) {
-      bottomBarHeight = jQuery('.natEditBottomBar').outerHeight(true);
+      bottomBarHeight = $('.natEditBottomBar').outerHeight(true) + parseInt($container.css('padding-bottom'), 10) *2.5;
     }
 
-    windowHeight = jQuery(window).height();
+    windowHeight = $(window).height();
     if (!windowHeight) {
       windowHeight = window.innerHeight; // woops, jquery, whats up for konqi
     }
 
-    height = windowHeight-paneTop-2*bottomBarHeight+0.5;
+    height = windowHeight - paneTop - bottomBarHeight;
     $debug = $("#DEBUG");
     if ($debug.length) {
       height -= $debug.outerHeight(true);
     }
-
-    //jQuery.log("tabpane: container="+$container.parent().attr('id')+" paneTop="+paneTop+" bottomBarHeight="+bottomBarHeight+" height="+height+" minHeight="+opts.minHeight);
-
     if (opts && opts.minHeight && height < opts.minHeight) {
-      //jQuery.log("tabpane: minHeight reached");
+      //$.log("tabpane: minHeight reached");
       height = opts.minHeight;
     }
 

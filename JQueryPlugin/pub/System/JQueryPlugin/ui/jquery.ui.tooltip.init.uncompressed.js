@@ -1,6 +1,6 @@
 jQuery(function($) {
   var defaults = {
-    delay:700,
+    delay:1000,
     duration:200,
     showEffect:"fadeIn",
     hideEffect:"fadeOut",
@@ -65,19 +65,19 @@ jQuery(function($) {
     if (typeof(opts.position) === 'string') {
       switch(opts.position) {
         case "bottom": 
-          opts.position = {"my":"center top", "at":"center bottom+10"}; 
+          opts.position = {"my":"center top", "at":"center bottom+13"}; 
           opts.track = false;
           break;
         case "top": 
-          opts.position = {"my":"center bottom", "at":"center top-10"}; 
+          opts.position = {"my":"center bottom", "at":"center top-13"}; 
           opts.track = false;
           break;
         case "right": 
-          opts.position = {"my":"left middle", "at":"right+10 middle"}; 
+          opts.position = {"my":"left middle", "at":"right+13 middle"}; 
           opts.track = false;
           break;
         case "left": 
-          opts.position = {"my":"right middle", "at":"left-10 middle"}; 
+          opts.position = {"my":"right middle", "at":"left-13 middle"}; 
           opts.track = false;
           break;
         default: 

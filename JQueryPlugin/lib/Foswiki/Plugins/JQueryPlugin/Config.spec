@@ -44,7 +44,7 @@ $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = '';
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness**
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
 
-# ---+++ Default themes
+# ---+++ JQuery Themes
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Base}{Enabled} = 1;
 
@@ -63,7 +63,7 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 1;
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Themes}{Foswiki}{Enabled} = 1;
 
-# ---+++ Default plugins
+# ---+++ JQuery Plugins
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Bgiframe}{Enabled} = 1;
 
@@ -96,6 +96,9 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Farbtastic}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Focus}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{FontAwesome}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Form}{Enabled} = 1;
@@ -187,26 +190,15 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Treeview}{Enabled} = 1;
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{UI}{Enabled} = 1;
 
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Autocomplete'}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Resizable'}{Enabled} = 1;
-
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Draggable'}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Loader}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Accordion'}{Enabled} = 1;
 
 # **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Tabs'}{Enabled} = 1;
-
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Slider'}{Enabled} = 1;
-
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Dialog'}{Enabled} = 1;
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Autocomplete'}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Button'}{Enabled} = 1;
@@ -215,7 +207,22 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Button'}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Datepicker'}{Enabled} = 1;
 
 # **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Dialog'}{Enabled} = 1;
+
+# **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Progressbar'}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Resizable'}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Slider'}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Spinner'}{Enabled} = 1;
+
+# **BOOLEAN**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Tabs'}{Enabled} = 1;
 
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{'UI::Tooltip'}{Enabled} = 1;
@@ -226,10 +233,8 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Validate}{Enabled} = 1;
 # **BOOLEAN**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 
-# **BOOLEAN**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Loader}{Enabled} = 1;
 
-# ---+++ Deprecated plugins
+# ---+++ Deprecated JQuery Plugins
 # Any plugins listed here should be disabled.  They will be removed in a future release of Foswiki.
 # If enabled, they will be generate a Warning if deprecated, and an Error if the module has been removed from
 # the Foswiki distribution.

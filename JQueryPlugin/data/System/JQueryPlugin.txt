@@ -126,6 +126,12 @@ reduce bandwidth and speed up interactive performance.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  11 Dec 2013: | (5.00) - new modules fontawesome, ui::spinner; \
+                           upgraded slimbox and media module; \
+                           improvements to =foswiki= theme for jquery-ui; \
+                           modernize button module; \
+                           fixed dependencies of wikiword module; \
+                           new =tmpl= REST handler to load jquery templates asynchronously |
 |  08 Nov 2013: | (4.91) - Release with Foswiki 1.1.9 \
                   Item12650: Add config error for removed Themeswitcher plugin |
 |  23 Oct 2013: | (4.90) - Item12567: fix checking of version number in configure \

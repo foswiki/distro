@@ -14,8 +14,8 @@ Container for jQuery and plugins
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 
-our $VERSION           = '4.91';
-our $RELEASE           = '4.91';
+our $VERSION           = '5.00';
+our $RELEASE           = '5.00';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -61,6 +61,9 @@ sub initPlugin {
         Foswiki::Func::setPreferencesValue( "CLEAR",
             "<span class='foswikiClear'></span>" );
     }
+
+    # jquery.tmpl
+    Foswiki::Func::registerRESTHandler( 'tmpl', \&handleRestTmpl );
 
     return 1;
 }
@@ -145,8 +148,25 @@ Handles the =%<nop>BUTTON% tag.
 
 sub handleButton {
     my $session = shift;
+
     my $plugin = createPlugin( 'Button', $session );
     return $plugin->handleButton(@_) if $plugin;
+    return '';
+}
+
+=begin TML
+
+---++ handleRestTmpl($session, $params, $topic, $web) -> $result
+
+Handles the tmpl rest handler
+
+=cut
+
+sub handleRestTmpl {
+    my $session = shift;
+
+    my $plugin = createPlugin( 'tmpl', $session );
+    return $plugin->restTmpl( $session, @_ ) if $plugin;
     return '';
 }
 
@@ -160,6 +180,7 @@ Handles the =%<nop>POPUPWINDOW% tag.
 
 sub handlePopUpWindow {
     my $session = shift;
+
     my $plugin = createPlugin( 'PopUpWindow', $session );
     return $plugin->handlePopUpWindow(@_) if $plugin;
     return '';
@@ -175,6 +196,7 @@ Handles the =%<nop>TOGGLE% tag.
 
 sub handleToggle {
     my $session = shift;
+
     my $plugin = createPlugin( 'Toggle', $session );
     return $plugin->handleToggle(@_) if $plugin;
     return '';
@@ -190,6 +212,7 @@ Handles the =%<nop>TABPANE% tag.
 
 sub handleTabPane {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleTabPane(@_) if $plugin;
     return '';
@@ -205,6 +228,7 @@ Handles the =%<nop>TAB% tag.
 
 sub handleTab {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleTab(@_) if $plugin;
     return '';
@@ -220,6 +244,7 @@ Handles the =%<nop>ENDTAB% tag.
 
 sub handleEndTab {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleEndTab(@_) if $plugin;
     return '';
@@ -235,6 +260,7 @@ Handles the =%<nop>ENDTABPANE% tag.
 
 sub handleEndTabPane {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleEndTabPane(@_) if $plugin;
     return '';
@@ -413,7 +439,7 @@ sub handleJQueryPlugins {
 
 sub _inlineError {
     my $msg = shift;
-    return "<div class='foswikiAlert>$msg</div>";
+    return "<div class='foswikiAlert'>$msg</div>";
 }
 
 1;

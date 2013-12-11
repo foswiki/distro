@@ -61,7 +61,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="<nop>%URLPARAM{"format" encode="quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$web.$topic\\"}"}%"
+  format="<nop>%URLPARAM{"format" encode="quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$topic\\"}"}%"
   separator=","
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"

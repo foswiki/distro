@@ -168,7 +168,9 @@ sub registerPlugin {
     $class ||= $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Module}
       || 'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
 
-    Foswiki::Func::getContext()->{ $pluginName . 'Enabled' } = 1;
+    my $contextID = $pluginName . 'Registered';
+    $contextID =~ s/\W//g;
+    Foswiki::Func::getContext()->{$contextID} = 1;
 
     return $plugins{ lc($pluginName) } = {
         'class'    => $class,
@@ -363,7 +365,7 @@ sub getPlugins {
 
     my @plugins = ();
     foreach my $key ( sort keys %plugins ) {
-        next if $key eq 'empty';                      # skip this one
+        next if $key eq 'empty';
         next if $include && $key !~ /^($include)$/;
         my $pluginDesc = $plugins{$key};
         my $plugin     = load( $pluginDesc->{name} );

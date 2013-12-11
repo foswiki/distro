@@ -162,7 +162,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 						/se|sw|s/.test(i) ? "Bottom" :
 						/^e$/.test(i) ? "Right" : "Left" ].join("");
 
-					target.css(padPos, padWrapper);
+					//target.css(padPos, padWrapper); ### WHY?
 
 					this._proportionallyResize();
 

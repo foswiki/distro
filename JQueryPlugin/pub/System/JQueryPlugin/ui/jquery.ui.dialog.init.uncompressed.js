@@ -72,15 +72,29 @@ jQuery(function($) {
       opts.draggable = false;
     }
 
-    $this.bind("dialogopen", function() {
-      var $container = $(this).parent();
-
-      // remove focus marker from first button
-      $container.find(".ui-dialog-buttonpane .ui-state-focus").removeClass("ui-state-focus");
-
-    });
-
     $this.removeClass("jqUIDialog").dialog(opts);
+    if (opts.alsoResize) {
+      $this.dialog("widget").bind("resize", function(ev, ui) {
+        var deltaHeight = ui.size.height - ui.originalSize.height || 0,
+            deltaWidth = ui.size.width - ui.originalSize.width || 0;
+        $this.find(opts.alsoResize).each(function() {
+          var elem = $(this),
+              elemHeight = elem.data("origHeight"),
+              elemWidth = elem.data("origWidth");
+
+          if (typeof(elemHeight) === 'undefined') {
+            elemHeight = elem.height();
+            elem.data("origHeight",elemHeight);
+          }
+          if (typeof(elemWidth) === 'undefined') {
+            elemWidth = elem.width();
+            elem.data("origWidth",elemWidth);
+          }
+          elem.height(elemHeight+deltaHeight);
+          elem.width(elemWidth+deltaWidth);
+        });
+      });
+    }
   });
 
   // dialog link
@@ -108,7 +122,7 @@ jQuery(function($) {
           $content.data("autoOpen", true);
         },
         error: function(xhr) {
-          alert("Error "+xhr.status+": "+xhr.statusText);
+          throw("ERROR: can't load dialog xhr=",xhr);
         }
       }); 
     } else {

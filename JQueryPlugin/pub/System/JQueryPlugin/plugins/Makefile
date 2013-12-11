@@ -14,6 +14,7 @@ SUBDIRS=\
   farbtastic \
   fluidfont \
   focus \
+  fontawesome \
   form \
   foswiki \
   gradient \
