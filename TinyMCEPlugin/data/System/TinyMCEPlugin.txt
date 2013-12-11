@@ -165,11 +165,11 @@ Below is the default configuration. If it is to be modified, it should be copied
 "theme_advanced_resize_horizontal" : false,
 "theme_advanced_resizing" : true,
 "theme_advanced_path" : false,
-"theme_advanced_statusbar_location" : "bottom",
+"theme_advanced_statusbar_location" : "none",
 "skin" : "%IF{
     "defined 'TINYMCEPLUGIN_MCESKIN'"
     then="%TINYMCEPLUGIN_MCESKIN%"
-    else="%STARTSECTION{"MCESKIN"}%o2k7%ENDSECTION{"MCESKIN"}%"
+    else="%STARTSECTION{"MCESKIN"}%default%ENDSECTION{"MCESKIN"}%"
 }%",
 %IF{
     "defined 'TINYMCEPLUGIN_MCESKIN_VARIANT' AND $'TINYMCEPLUGIN_MCESKIN_VARIANT'"

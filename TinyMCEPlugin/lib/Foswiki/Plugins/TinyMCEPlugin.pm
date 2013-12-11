@@ -7,8 +7,8 @@ use warnings;
 
 use Assert;
 
-use version; our $VERSION = version->declare("v1.2.9");
-our $RELEASE           = '1.2.9';
+our $VERSION           = '1.29';
+our $RELEASE           = '1.29';
 our $SHORTDESCRIPTION  = 'Integration of the Tiny MCE WYSIWYG Editor';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -176,19 +176,10 @@ sub installTinyMCE {
     require Foswiki::Plugins::JQueryPlugin;
     Foswiki::Plugins::JQueryPlugin::createPlugin("tinymce");
 
-# Inline JS to set config? Heresy! Well, we were encoding into <meta tags
-# but this caused problems with non-8bit encodings (See Item9973). Given
-# that we blindly eval'd the unescaped TINYMCEPLUGIN_INIT anyway, PaulHarvey
-# doesn't think it was any more secure anyway. Alternative is to use
-# https://github.com/douglascrockford/JSON-js lib
-#TODO: move this into a wysiwyg.tinymce.tmpl file, and call it from wysiwyg rather than tinymce
-
     my $scripts = <<"SCRIPT";
 <script type="text/javascript">
-init = {
-  $init
-};
-FoswikiTiny.install(init);
+jQuery(function(\$) { FoswikiTiny.install(); });
+FoswikiTiny.init = {$init};
 </script>
 SCRIPT
 
