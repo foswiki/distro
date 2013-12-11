@@ -291,7 +291,7 @@ sub render {
   if ($this->{frontend} eq 'lightbox') {
     require Foswiki::Plugins::JQueryPlugin;
 
-    if ($context->{'PrettyPhotoEnabled'}) {
+    if ($context->{'PrettyPhotoEnabled'} || $context->{'PrettyPhotoRegistered'}) {
       Foswiki::Plugins::JQueryPlugin::createPlugin('prettyphoto');
       $class .= ' jqPrettyPhoto';
     } else {

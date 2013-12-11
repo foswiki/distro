@@ -1,4 +1,3 @@
-data/Main/UserListByPhotograph.txt 0644
 data/System/ImageGalleryPlugin.txt 0644
 data/System/VarIMAGEGALLERY.txt 0644
 data/System/VarNRIMAGES.txt 0644
@@ -20,5 +19,4 @@ pub/System/ImageGalleryPlugin/style.css 0644
 pub/System/ImageGalleryPlugin/style.css.gz 0644
 pub/System/ImageGalleryPlugin/style.uncompressed.css 0644
 pub/System/ImageGalleryPlugin/wave.jpg 0644
-pub/System/ImageGalleryPlugin/wikiringlogo40x40.png 0644
 pub/System/ImageGalleryPlugin/wintermountains.jpg 0644
