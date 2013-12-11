@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1321804319" format="1.1" reprev="2" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="autosave" date="1356278781" format="1.1" version="3"}%
 ---+!! %TOPIC%
 <img class="foswikiRight" src="%ATTACHURL%/logo.png">
 %$SHORTDESCRIPTION%
