@@ -14,7 +14,6 @@ This is just a stopgap for now, Arthur is working on a real skin :)
    * Local FOSWIKI_COLORS_URL = %URLPARAM{"colors" default="%PUBURLPATH%/%SYSTEMWEB%/PatternSkinTheme2012/colors.css"}%
    * Local COLUMNS_RELATIVE = %URLPARAM{"column" default="%SYSTEMWEB%/PatternSkinTheme2012/column_right.css"}%
    * Local PATTERNSKIN_COLUMNS = %PUBURLPATH%/%COLUMNS_RELATIVE%
-   * Local PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
    * Local PATTERNSKIN_THEME_VARIANT_RELATIVE = %URLPARAM{"variant" default="%SYSTEMWEB%/PatternSkinTheme2012/variant_foswiki_noframe.css"}%
    * !Local PATTERNSKIN_THEME_VARIANT = %PUBURLPATH%/%PATTERNSKIN_THEME_VARIANT_RELATIVE%
    * Local PATTERNSKIN_NAVIGATION_TOPIC = %URLPARAM{"navigation" default="%SYSTEMWEB%/PatternSkinTheme2012Navigation"}%
@@ -74,7 +73,7 @@ Yes, this need to be re-done by pushing the bits to the WebCreateNewTopicCompone
 <input type="hidden" name="topic" value="%newtopic%" />
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="onlynewtopic" value="off" />
-%FORMAT{"SKIN, FOSWIKI_LAYOUT_URL, FOSWIKI_STYLE_URL, FOSWIKI_COLORS_URL, PATTERNSKIN_JQUERY_THEME, PATTERNSKIN_COLUMNS, PATTERNSKIN_THEME_VARIANT, WEBHEADERART, WEBHEADERBGCOLOR" type="string" format="<input type='hidden' name='Set+$item' value='$percnt$item$percnt' />"}%
+%FORMAT{"SKIN, FOSWIKI_LAYOUT_URL, FOSWIKI_STYLE_URL, FOSWIKI_COLORS_URL, PATTERNSKIN_COLUMNS, PATTERNSKIN_THEME_VARIANT, WEBHEADERART, WEBHEADERBGCOLOR" type="string" format="<input type='hidden' name='Set+$item' value='$percnt$item$percnt' />"}%
 <input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Set this Skin and theme for this User"}%' />
 </form>%ENDSECTION{"themesettings"}%
 </verbatim>
@@ -96,7 +95,6 @@ Skin styles:
    * Set FOSWIKI_STYLE_URL = %DISPLAY_FOSWIKI_STYLE_URL%
    * Set FOSWIKI_COLORS_URL = %DISPLAY_FOSWIKI_COLORS_URL%
 Theme variants:
-   * Set PATTERNSKIN_JQUERY_THEME = PatternSkinTheme
    * Set PATTERNSKIN_COLUMNS = %DISPLAY_PATTERNSKIN_COLUMNS%
    * Set PATTERNSKIN_THEME_VARIANT =
 Navigation:

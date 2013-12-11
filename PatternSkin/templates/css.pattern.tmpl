@@ -2,15 +2,11 @@
 %TMPL:DEF{"styles:default"}%%TMPL:P{"styles:screen"}%
 %TMPL:P{"styles:print"}%%TMPL:END%
 
-
 %TMPL:DEF{"styles:screen"}%<style type="text/css" media="all">
 %IF{ "$ FOSWIKI_LAYOUT_URL" then="@import url('%FOSWIKI_LAYOUT_URL%');"}%
 %IF{ "$ FOSWIKI_STYLE_URL"  then="@import url('%FOSWIKI_STYLE_URL%');"}%
 %IF{ "$ FOSWIKI_COLORS_URL" then="@import url('%FOSWIKI_COLORS_URL%');"}%
-</style>%IF{
-    "$PATTERNSKIN_JQUERY_THEME"
-    then="$percntJQTHEME{$quot%PATTERNSKIN_JQUERY_THEME%$quot}$percnt"
-}%%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:P{"styles:dynamic"}%%TMPL:END%
+</style>%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:P{"styles:dynamic"}%%TMPL:END%
 
 
 %TMPL:DEF{"styles:print"}%<style type="text/css" media="%IF{'$\'URLPARAM{cover}\'=\'print\'' then='all' else='print'}%">
