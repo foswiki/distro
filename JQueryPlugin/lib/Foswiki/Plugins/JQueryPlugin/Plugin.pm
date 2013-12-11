@@ -130,7 +130,7 @@ sub init {
         $footer, join( ', ', @dependencies )
     );
 
-    my $ontextID = $this->{name} . 'Enabled';
+    my $contextID = $this->{name} . 'Enabled';
     $contextID =~ s/\W//g;
     Foswiki::Func::getContext()->{$contextID} = 1;
 
