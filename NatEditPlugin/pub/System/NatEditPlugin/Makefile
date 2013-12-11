@@ -1,8 +1,5 @@
 FOSWIKI_ROOT?=~/foswiki/trunk/core
-TARGET= \
-  edit.js \
-  jquery.natedit.js \
-  styles.css
+TARGET= jquery.natedit.js styles.css
 
 SUBDIRS=default
 

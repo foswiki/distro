@@ -1,38 +1,166 @@
 /* natedit base styles */
-.natEdit {
-  margin:0 10px 0 0;
+.ui-natedit {
+  margin:0;
 }
-.natEditContainer {
+
+.ui-natedit-container {
   margin-top:1em;
 }
-.natEditContainer .jqTabContents {
+.ui-natedit-container .jqTabContents {
   overflow-x:hidden;
   overflow-y:auto;
 }
-.natEdit textarea,
-.natEditTextArea {
+
+#EditForm .ui-natedit textarea {
   /* working around IE8 textarea bugs: make it think it gets a fixed width but then junk in min and max width 100% */
   width:500px !important; 
   min-width:100%;
   max-width:100%;
+}
+.ui-natedit textarea {
+  box-sizing:border-box;
 
   font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
   font-size:12px;
   line-height:1.5em;
   resize: none;
+  overflow-x:hidden;
 }
-ul.natEditButtonBox {
-  margin:0px 10px 0px 0px;
-  padding:0px;
-  float:left;
-}
-ul.natEditHelpTools {
-  float:right;
-}
-.natEditHiddenToolBar {
-  visibility:hidden; /* becomes visible during load event */
+.ui-natedit-toolbar {
+  margin:5px 0 0;
 }
 
+.ui-natedit-menu-button,
+.ui-natedit-button,
+.ui-natedit-buttons {
+  margin-right:10px;
+  margin-bottom:10px;
+  float:left;
+}
+
+.ui-natedit-buttons .ui-button {
+  float:left;
+  margin-bottom:0;
+}
+
+.ui-natedit-toolbar,
+.ui-natedit-toolbar .fa {
+  /*line-height:18px;*/
+}
+.ui-natedit-toolbar .ui-natedit-underline i { /* underline-icon fix */
+  font-size:107%;
+}
+
+.ui-natedit .ui-natedit-menu {
+  display:none;
+  position:absolute;
+  z-index:91;
+}
+
+.ui-natedit .ui-menu { 
+  /* http://colorzilla.com/gradient-editor/#ffffff+0,f0f0f0+100;Custom */
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMGYwZjAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9*/
+  background: -moz-linear-gradient(top, #ffffff 0%, #f0f0f0 100%); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f0f0f0)); 
+  background: -webkit-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
+  background: -o-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
+  background: -ms-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); 
+  background: linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* W3C */
+  background: linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* W3C */
+  background: #fff\9; /* IE8 */
+}
+
+.ui-natedit-h1 { font-size:125%; font-weight:bold; }
+.ui-natedit-h2 { font-size:120%; font-weight:bold; }
+.ui-natedit-h3 { font-size:115%; font-weight:bold; }
+.ui-natedit-h4 { font-size:110%; font-weight:bold; }
+.ui-natedit-h5 { font-size:105%; font-weight:bold; }
+.ui-natedit-h6 { font-size:100%; font-weight:bold; }
+.ui-natedit-preformatted { font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace; }
+.ui-natedit-quote { font-style:italic; }
+
+.ui-natedit .ui-natedit-menu:before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 15px;
+  border-style: solid;
+  border-width: 10px;
+  border-color: transparent transparent #bcbcbc transparent;
+  display: block;
+  width: 0;
+  z-index: 0;
+}
+.ui-natedit .ui-natedit-menu:after {
+  content: "";
+  position: absolute;
+  top: -19px;
+  left: 15px;
+  border-style: solid;
+  border-width: 10px;
+  border-color: transparent transparent #ffffff transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+}
+
+/* dialogs */
+.ui-natedit-dialog-content th {
+  min-width:4em;
+}
+
+.ui-dialog .ui-natedit-dialog-content .foswikiLayoutTable,
+.ui-dialog .ui-natedit-dialog-content .foswikiFormSteps {
+  margin:0 0 0 4px;
+  padding:0;
+  border:0;
+  width:100%;
+}
+
+.ui-natedit-insert-color-content .farbtastic {
+  margin:0 auto;
+}
+.ui-natedit-insert-color-content .foswikiInputField {
+  width:90%;
+  margin:1em auto 0;
+  display:block;
+}
+
+.ui-natedit-insert-color-content form {
+  width:300px;
+}
+
+/* helper used for auto-expand feature */
+.ui-natedit-auto-expand-helper {
+  top:-999px; 
+  left:0; 
+  right:auto; 
+  bottom:auto; 
+  border:0; 
+  padding:0; 
+  margin:0;
+  height:0 !important; 
+  min-height:0 !important; 
+  overflow:hidden; 
+  position:absolute;
+  resize:none;
+  word-wrap:break-word; 
+  -webkit-box-sizing:content-box; 
+     -moz-box-sizing:content-box; 
+          box-sizing:content-box; 
+  -webkit-transition:none; 
+     -moz-transition:none;
+          transition:none; 
+}
+
+/* topic info: fields above the text area  */
+.natEditTopicInfo table th,
+.natEditTopicInfo table td {
+  padding:0em 0.5em 0.5em 0em;
+}
+
+
+/* bottom bar on save screen */
 .natEditBottomBar {
   margin-top:10px;
   margin-bottom:10px;
@@ -49,14 +177,7 @@ ul.natEditHelpTools {
   list-style:none;
   background:inherit;
 }
-#topic_resize,
-#topic_2WYSIWYG,
-#wysiwyg {
-  display:none;
-}
-#topic_tbl, #topic_ifr {
-  width:100% !important; 
-}
+
 .natEditToolBar ul li a span {
   display:none;
 }
@@ -69,9 +190,6 @@ ul.natEditHelpTools {
   float:left;
 }
 
-.natEditTopicInfo {
-  margin:0em 0em 0.5em;
-}
 .natEditForceNewRevision label,
 .natEditForceNewRevision input {
   margin:4px;
@@ -81,10 +199,6 @@ ul.natEditHelpTools {
 .natEditFontButtons {
   margin:0.5em;
   float:right;
-}
-
-.foswikiForm {
-  clear:both;
 }
 
 /* RevCommentPlugin support */
@@ -102,37 +216,29 @@ ul.natEditHelpTools {
   border:0px;
 }
 
-/* dialogs */
-.natEditInsertLink .jqTabContents {
-  margin-bottom:1em;
+/* plugins */
+.ui-natedit-colorpicker,
+.ui-natedit-datepicker,
+.ui-button.ui-natedit-switch-to-wysiwyg {
+  display:none;
 }
-.natEditInsertLink h3 {
-  float:left;
-  width:50px;
-  margin-left:1px;
-}
-.natEditInsertLink .foswikiInputField {
-  width:380px;
-}
-.natEditInsertLink .natEditAttachments ul {
-  margin:0;
-  padding:0;
-  list-style:none;
-}
-.natEditInsertLink .natEditAttachments li {
-  width:100%;
-  float:left;
-}
-.natEditInsertLink .natEditAttachments li:last-child {
-  margin-bottom:0;
-  border-bottom:0;
-}
-.natEditInsertLink .natEditAttachmentsInfo {
-  margin-left:4em;
+.ui-natedit-colorpicker-enabled .ui-natedit-colorpicker,
+.ui-natedit-datepicker-enabled .ui-natedit-datepicker,
+.ui-natedit-wysiwyg-enabled .ui-button.ui-natedit-switch-to-wysiwyg {
+  display:block;
 }
 
-.natEditInsertLink .natEditAttachments input {
+/* TinyMCEPlugin tweaks */
+table.mceToolbar {
+  float:left;
+}
+#topic_resize,
+#topic_2WYSIWYG,
+#wysiwyg {
   display:none;
+}
+#topic_tbl, #topic_ifr {
+  width:100% !important; 
 }
 
 /* pattern skin tweaks */

@@ -1,3 +1,138 @@
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar"}%
+  %TMPL:P{"edittoolbar::start"}%
+  %TMPL:P{"edittoolbar::paragraphbuttons"}%
+  %TMPL:P{"edittoolbar::paragraphmenu"}%
+  %TMPL:P{"edittoolbar::typobuttons"}%
+  %TMPL:P{"edittoolbar::typomenu"}%
+  %TMPL:P{"edittoolbar::alignbuttons"}%
+  %TMPL:P{"edittoolbar::listbuttons"}%
+  %TMPL:P{"edittoolbar::insertbuttons"}%
+  %TMPL:P{"edittoolbar::insertmenu"}%
+  %TMPL:P{"edittoolbar::toolsbuttons"}%
+  %TMPL:P{"edittoolbar::end"}%
+%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::start"}%<div class="ui-natedit-toolbar ui-helper-clearfix jqUITooltip" data-theme="info" data-position="top" data-arrow="true">%TMPL:END%
+%TMPL:DEF{"edittoolbar::end"}%</div>%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::paragraphbuttons"}%<!-- -->
+  <a href="#" class="ui-natedit-menu-button ui-natedit-paragraph" data-menu=".ui-natedit-paragraph-menu" title="%MAKETEXT{"Format selected text"}%">%MAKETEXT{"Paragraph"}%</a>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::paragraphmenu"}%<!-- -->
+  <ul class="ui-natedit-menu ui-natedit-paragraph-menu">
+    <li class="ui-natedit-h1"><a href="#" data-markup="h1Markup" data-type="line">%MAKETEXT{"Heading 1"}%</a></li>
+    <li class="ui-natedit-h2"><a href="#" data-markup="h2Markup" data-type="line">%MAKETEXT{"Heading 2"}%</a></li>
+    <li class="ui-natedit-h3"><a href="#" data-markup="h3Markup" data-type="line">%MAKETEXT{"Heading 3"}%</a></li>
+    <li class="ui-natedit-h4"><a href="#" data-markup="h4Markup" data-type="line">%MAKETEXT{"Heading 4"}%</a></li>
+    <li class="ui-natedit-h5"><a href="#" data-markup="h5Markup" data-type="line">%MAKETEXT{"Heading 5"}%</a></li>
+    <li class="ui-natedit-h6"><a href="#" data-markup="h6Markup" data-type="line">%MAKETEXT{"Heading 6"}%</a></li>
+    <li class="ui-natedit-verbatim"><a href="#" data-markup="verbatimMarkup">%MAKETEXT{"Verbatim"}%</a></li>
+    <li class="ui-natedit-quoted"><a href="#" data-markup="quoteMarkup">%MAKETEXT{"Blockquote"}%</a></li>
+  </ul>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::typobuttons"}%<!-- -->
+  <div class="ui-natedit-buttons ui-natedit-typo-buttons">
+    <a class="ui-natedit-bold" href="#" title="%MAKETEXT{"Bold"}%" data-markup="boldMarkup"><i class="fa fa-bold"></i></a>
+    <a class="ui-natedit-italic" href="#" title="%MAKETEXT{"Italic"}%" data-markup="italicMarkup"><i class="fa fa-italic"></i></a>
+    <a class="ui-natedit-underline" href="#" title="%MAKETEXT{"Underline"}%" data-markup="underlineMarkup"><i class="fa fa-underline"></i></a>
+    <a class="ui-natedit-menu-button ui-natedit-more-typo" href="#" title="%MAKETEXT{"More character formats"}%" data-menu=".ui-natedit-more-typo-menu"><i class="fa fa-font"></i></a>
+  </div>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::typomenu"}%<!-- -->
+  <ul class="ui-natedit-menu ui-natedit-more-typo-menu">
+    <li><a href="#" data-markup="strikeMarkup"><i class="ui-icon fa fa-strikethrough"></i> %MAKETEXT{"Strikethrough"}%</a></li>
+    <li><a href="#" data-markup="superscriptMarkup"><i class="ui-icon fa fa-superscript"></i> %MAKETEXT{"Superscript"}%</a></li>
+    <li><a href="#" data-markup="subscriptMarkup"><i class="ui-icon fa fa-subscript"></i> %MAKETEXT{"Subscript"}%</a></li>
+    <li><a href="#" data-markup="monoMarkup"> Monospace</a></li>
+  </ul>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::alignbuttons"}%<!-- -->
+  <div class="ui-natedit-buttons ui-natedit-align-buttons">
+    <a href="#" title="%MAKETEXT{"Align left"}%" data-markup="leftMarkup"><i class="fa fa-align-left"></i></a>
+    <a href="#" title="%MAKETEXT{"Center align"}%" data-markup="centerMarkup"><i class="fa fa-align-center"></i></a>
+    <a href="#" title="%MAKETEXT{"Justify text"}%" data-markup="justifyMarkup"><i class="fa fa-align-justify"></i></a>
+    <a href="#" title="%MAKETEXT{"Align right"}%" data-markup="rightMarkup"><i class="fa fa-align-right"></i></a>
+  </div>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::listbuttons"}%<!-- -->
+  <div class="ui-natedit-buttons ui-natedit-list-buttons">
+    <a href="#" title="%MAKETEXT{"Numbered list"}%" data-markup="numberedListMarkup" data-type="line"><i class="fa fa-list-ol"></i></a>
+    <a href="#" title="%MAKETEXT{"Bullet list"}%" data-markup="bulletListMarkup" data-type="line"><i class="fa fa-list-ul"></i></a>
+    <a href="#" title="%MAKETEXT{"Indent"}%" data-markup="indentMarkup" data-type="line"><i class="fa fa-indent"></i></a>
+    <a href="#" title="%MAKETEXT{"Outdent"}%" data-markup="outdentMarkup" data-type="line"><i class="fa fa-outdent"></i></a>
+  </div>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::insertbuttons"}%<!-- -->
+  <div class="ui-natedit-buttons ui-natedit-insert-object-buttons">
+    <a href="#" title="%MAKETEXT{"Insert a new table"}%" data-dialog="inserttable" data-okay-handler="handleInsertTable"><i class="fa fa-table"></i></a>
+    <a href="#" title="%MAKETEXT{"Insert a link"}%" data-dialog="insertlink" data-okay-handler="handleInsertLink" data-open-handler="initLinkDialog" data-opts-handler="parseLinkSelection"><i class="fa fa-link"></i></a>
+    <a href="#" title="%MAKETEXT{"Insert an attachment"}%" data-dialog="insertattachment" data-okay-handler="handleInsertAttachment" data-open-handler="initAttachmentsDialog" data-opts-handler="parseLinkSelection" data-cancel-handler="cancelAttachmentsDialog"><i class="fa fa-paperclip"></i></a>
+    <!-- a href="#" title="Insert image" data-dialog="insertimage"><i class="fa fa-picture-o"></i></a -->
+    <a href="#" class="ui-natedit-menu-button ui-natedit-insert" title="%MAKETEXT{"More objects to insert"}%" data-menu=".ui-natedit-more-insert-menu"><i class="fa fa-plus"></i></a>
+  </div>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::insertmenu"}%<!-- -->
+  <ul class="ui-natedit-menu ui-natedit-more-insert-menu jqUITooltip" data-theme="info" data-position="left" data-arrow="true">
+    <!-- li><a href="#" title="%MAKETEXT{"Insert an icon"}%"><i class="ui-icon fa fa-asterisk"></i> %MAKETEXT{"Icon"}%</a></li -->
+    <!-- li><a href='#' title='%MAKETEXT{"Insert an emoticon"}%'><i class='ui-icon fa fa-smile-o'></i> %MAKETEXT{"Emoticon"}%</a> </li -->
+    <!-- li><a href="#" title="%MAKETEXT{"Insert a symbol"}%"><i class="ui-icon fa">&#937;</i> %MAKETEXT{"Symbol"}%</a></li -->
+    <li class="ui-natedit-colorpicker"><a href='#' title='%MAKETEXT{"Insert a color code"}%' data-dialog='insertcolor' data-open-handler='initColorDialog' data-okay-handler='handleInsertColor' data-opts-handler='parseColorSelection'><i class='ui-icon fa fa-tint'></i> %MAKETEXT{"Color"}%</a></li>
+    <li class="ui-natedit-datepicker"><a href='#' title='%MAKETEXT{"Insert a date"}%'><i class='ui-icon fa fa-calendar'></i> %MAKETEXT{"Date"}%</a></li>
+%IF{"context OEmbedPluginEnabled"
+  then="<li><a href='#' title='%MAKETEXT{"Embed external object"}%'><i class='ui-icon fa fa-film'></i> %MAKETEXT{"OEmbed"}%</a></li>"
+}%<!-- -->
+    <!-- li><a href="#" title="%MAKETEXT{"Insert a new table"}%" data-dialog="inserttable" data-okay-handler="handleInsertTable"><i class="ui-icon fa fa-table"></i> %MAKETEXT{"Table"}%</a></li -->
+    <!-- li><a href="#" title="%MAKETEXT{"Insert a link to a topic or an external resource"}%" data-dialog="insertlink" data-okay-handler="handleInsertLink" data-open-handler="initLinkDialog" data-opts-handler="parseLinkSelection"><i class="ui-icon fa fa-link"></i> %MAKETEXT{"Link"}%</a></li -->
+    <!-- li><a href="#" title="%MAKETEXT{"Insert an attachment"}%" data-dialog="insertattachment" data-okay-handler="handleInsertAttachment" data-open-handler="initAttachmentsDialog" data-opts-handler="parseLinkSelection" data-cancel-handler="cancelAttachmentsDialog"><i class="ui-icon fa fa-paperclip"></i> %MAKETEXT{"Attachment"}%</a></li -->
+    <!-- li><a href="#" title="%MAKETEXT{"Insert a link to a user-profile"}%"><i class="ui-icon fa">@</i> User mention</a></li -->
+    <li><a href="#" title="%MAKETEXT{"Insert your signature"}%" data-markup="signatureMarkup"><i class="ui-icon fa fa-pencil-square-o"></i> %MAKETEXT{"Signature"}%</a></li>
+    <li><a href="#" title="%MAKETEXT{"Insert a horizontal ruler"}%" data-markup="horizRulerMarkup"><i class="ui-icon fa fa-minus"></i> %MAKETEXT{"Horizontal ruler"}%</a></li>
+    <li class="ui-natedit-formula"><a href="#" title="%MAKETEXT{"Insert a mathematical formula"}%" data-markup="mathMarkup"><i class="ui-icon fa">&#931;</i> %MAKETEXT{"Formula"}%</a></li>
+    <!-- li>-</li -->
+    <!-- li><a href="#" title="%MAKETEXT{"Insert a macro"}%"><i class="ui-icon fa fa-gears"></i> %MAKETEXT{"Macro"}%</a></li -->
+  </ul>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::toolsbuttons"}%<!-- -->
+  <div class="ui-natedit-buttons ui-natedit-tools-buttons">
+    <a href='#' class="ui-natedit-undo" title='%MAKETEXT{"Undo last change"}%' data-handler='handleUndo'><i class='fa fa-rotate-left'></i></a>
+    <a href='#' class="ui-natedit-redo" title='%MAKETEXT{"Redo previous change"}%' data-handler='handleRedo'><i class='fa fa-rotate-right'></i></a>
+    <a href='#' class='ui-natedit-switch-to-wysiwyg' title='%MAKETEXT{"Switch to wysiwyg"}%' data-handler='switchToWYSIWYG'><i class='fa fa-refresh'></i></a>
+    <a href="#" class="ui-natedit-menu-button ui-natedit-tools" title="%MAKETEXT{"More tools"}%" data-menu=".ui-natedit-tools-menu"><i class="fa fa-wrench"></i></a>
+  </div>
+  %TMPL:P{"edittoolbar::toolsmenu"}%
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"edittoolbar::toolsmenu"}%<!-- -->
+  <ul class="ui-natedit-menu ui-natedit-tools-menu">
+    <li><a href="#" title="%MAKETEXT{"Sort selected lines ascending"}%" data-handler="handleSortAscending"><i class="ui-icon fa fa-sort-amount-asc"></i> %MAKETEXT{"Sort ascending"}%</a></li>
+    <li><a href="#" title="%MAKETEXT{"Sort selected lines descending"}%" data-handler="handleSortDescending"><i class="ui-icon fa fa-sort-amount-desc"></i> %MAKETEXT{"Sort descending"}%</a></li>
+    <li><a href="#" data-dialog="searchreplace" data-modal="false" data-okay-text="%MAKETEXT{"Replace"}%" data-cancel-text="%MAKETEXT{"Close"}%" data-okay-handler="handleSearchReplace"><i class="ui-icon fa fa-search"></i> %MAKETEXT{"Search && Replace"}%</a></li>
+    <li><a href="#"><i class="ui-icon fa fa-usd"></i> %MAKETEXT{"Escape markup"}%</a></li>
+    <li><a href="#"><i class="ui-icon fa">%</i> %MAKETEXT{"Unescape markup"}%</a></li>
+  </ul>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
 %TMPL:DEF{"bottomtopicactions"}%<div class="natEditBottomBar">
 <ul>%TMPL:P{"saveorrestorebutton"}%%TMPL:P{"checkpointbutton"}%%TMPL:P{"previewbutton"}%%TMPL:P{"formbutton"}%%TMPL:P{"changeform"}%%TMPL:P{"cancelbutton"}%%TMPL:P{"forcenewrevision"}%</ul>
 %CLEAR%
@@ -7,28 +142,31 @@
   "%MAKETEXT{"Restore"}%" 
   title="%MAKETEXT{"Restore and exit"}%" 
   icon="tick" 
-  id="save" 
+  class="ui-natedit-save" 
+  href="#save"
   accesskey="r" 
 }%%TMPL:END%
 %TMPL:DEF{"savebutton"}%%BUTTON{
   "%MAKETEXT{"Save"}%" 
   title="%MAKETEXT{"Save and exit"}%" 
   icon="tick" 
-  id="save" 
+  class="ui-natedit-save" 
+  href="#save"
   accesskey="s" 
 }%%TMPL:END%
 %TMPL:DEF{"restoreandcontinuebutton"}%%BUTTON{
   "%MAKETEXT{"Restore and Continue"}%" 
   title="%MAKETEXT{"Restore and continue editing"}%" 
   icon="disk" 
-  id="checkpoint" 
+  class="ui-natedit-checkpoint" 
   accesskey="w" 
 }%%TMPL:END%
 %TMPL:DEF{"saveandcontinuebutton"}%%BUTTON{
   "%MAKETEXT{"Save and Continue"}%" 
   title="%MAKETEXT{"Save and continue editing"}%" 
   icon="disk"
-  id="checkpoint" 
+  class="ui-natedit-checkpoint" 
+  href="#checkpoint"
   accesskey="w" 
 }%%TMPL:END%
 %TMPL:DEF{"checkpointbutton"}%<li class="natEditCheckpointButton">%IF{"defined 'rev'"
@@ -43,7 +181,8 @@
   "%MAKETEXT{"Preview"}%" 
   title="%MAKETEXT{"Preview your changes"}%" 
   icon="eye" 
-  id="preview" 
+  class="ui-natedit-preview" 
+  href="#preview"
   accesskey="p" 
 }%</li>%TMPL:END%
 %TMPL:DEF{"cancelbutton"}%<li class="natEditCancelButton">%BUTTON{
@@ -51,10 +190,18 @@
   title="%MAKETEXT{"Abandon changes and exit"}%" 
   href="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?release_lock=1"
   icon="cross" 
-  id="cancel" 
+  class="ui-natedit-cancel" 
+  href="#cancel"
   accesskey="c" 
 }% </li>%TMPL:END%
 %TMPL:DEF{"formbutton"}%<li class="natEditFormButton">%NATFORMBUTTON{
-  "$percntBUTTON{\"$action\" accesskey=\"f\" title=\"$title\" icon=\"application_form\" id=\"$id\"}$percnt"
+  "$percntBUTTON{\"$action\" 
+    accesskey=\"f\" 
+    title=\"$title\" 
+    icon=\"application_form\" 
+    class=\"ui-natedit-$id\"
+    href=\"#$id\"
+  }$percnt"
 }%</li>%TMPL:END%
 %TMPL:DEF{"forcenewrevision"}%<li class="natEditForceNewRevision"><label for="forcenewrevision"><input type="checkbox" title="%MAKETEXT{"Creates a new topic revision when saving"}%" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% />%MAKETEXT{"Force new revision"}%</label></li>%TMPL:END%
+

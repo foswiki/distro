@@ -17,7 +17,8 @@ package Foswiki::Plugins::NatEditPlugin::NATEDIT;
 use strict;
 use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki::Func                          ();
+use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
@@ -42,21 +43,23 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name          => 'NatEdit',
-            version       => '3.03',
+            version       => '3.10',
             author        => 'Michael Daum',
             homepage      => 'http://foswiki.org/Extensions/NatEditPlugin',
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',
             css           => ['styles.css'],
             documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
-            javascript    => [ 'edit.js', 'jquery.natedit.js' ],
+            javascript    => ['jquery.natedit.js'],
             dependencies  => [
                 'JQUERYPLUGIN::FOSWIKI::PREFERENCES', 'textboxlist',
+                'pnotify',                            'fontawesome',
                 'form',                               'validate',
                 'ui',                                 'ui::dialog',
-                'tabpane',                            'ui::autocomplete',
-                'focus',                              'button',
-                'loader',                             'uploader',
-                'blockui'
+                'ui::tooltip',                        'tabpane',
+                'ui::autocomplete',                   'ui::button',
+                'button',                             'loader',
+                'uploader',                           'blockui',
+                'tmpl',
             ],
         ),
         $class
@@ -78,33 +81,18 @@ sub init {
 
     return unless $this->SUPER::init();
 
-    my $theme = Foswiki::Func::getPreferencesValue("NATEDIT_THEME");
-
-    if ($theme) {
-        Foswiki::Func::writeWarning(
-            "use of NATEDIT_THEME is deprecated. please use a jquery-ui theme."
-        );
-    }
-    else {
-        $theme = 'default';
-    }
-
-    Foswiki::Func::addToZone(
-        "head",   "JQUERYPLUGIN::NATEDIT::THEME",
-        <<"HERE", 'JQUERYPLUGIN::NATEDIT' );
-<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/$theme/styles.css?version=$this->{version}' type='text/css' media='all' />
-HERE
-
     Foswiki::Func::addToZone(
         "script", "NATEDIT::ENABLEDPLUGINS",
         <<'HERE', "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
 <script>jQuery.extend(foswiki.preferences, { 
   'MathModePluginEnabled': %IF{"context MathModePluginEnabled" then="true" else="false"}%,
   'ImagePluginEnabled': %IF{"context ImagePluginEnabled" then="true" else="false"}%,
-  'TopicInteractionPluginEnabled': %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}% 
+  'TopicInteractionPluginEnabled': %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}%,
+  'TinyMCEEnabled': %IF{"context TinyMCEEnabled" then="true" else="false"}% ,
+  'FarbtasticEnabled': %IF{"context FarbtasticEnabled" then="true" else="false"}%,
+  'UIDatepickerEnabled': %IF{"context UIDatepickerEnabled" then="true" else="false"}% 
 });</script>
 HERE
-
 }
 
 1;

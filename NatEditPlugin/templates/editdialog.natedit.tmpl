@@ -1,67 +1,146 @@
-%TMPL:INCLUDE{"dialog"}%
 %{ ################################################################################ }%
-%TMPL:DEF{"inserttable"}%<div class="natEditInsertTable jqUIDialog {modal:true, draggable:true, width:'auto', position:{my:'top', at:'top', of:'#%URLPARAM{"editor"}%'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Create a new table"}%">
-  <form>
-    <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
-    <table class="foswikiLayoutTable" width="100%">
-      <tr>
-        <th>%MAKETEXT{"Headings"}%:</th>
-        <td><input type="text" id="natEditInsertTableHeads" size="20" name="heads" class="foswikiInputField" value="1" /></td>
-      </tr>
-      <tr>
-        <th>%MAKETEXT{"Rows"}%:</th>
-        <td><input type="text" id="natEditInsertTableRows" size="20" name="rows" class="foswikiInputField" value="4" /></td>
-      </tr>
-      <tr>
-        <th>%MAKETEXT{"Columns"}%:</th>
-        <td><input type="text" id="natEditInsertTableCols" size="20" name="cols" class="foswikiInputField" value="4" /></td>
-      </tr>
-      <tr>
-        <th>%MAKETEXT{"Editable"}%:</th>
-        <td>
-          <label><input type="radio" name="editable" class="foswikiRadioButton" value="true" />%MAKETEXT{"Yes"}%</label>&nbsp;
-          <label><input type="radio" name="editable" class="foswikiRadioButton" value="false" checked="checked" />%MAKETEXT{"No"}%</label>
-        </td>
-      </tr>
-    </table>
-    <a class="jqUIDialogButton jqUIDialogSubmit {icon:'ui-icon-circle-check'}">%MAKETEXT{"OK"}%</a> 
-    <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
-  </form>
+%TMPL:DEF{"insertcolor"}%<div class="ui-natedit-dialog-content ui-natedit-insert-color-content" data-title="%MAKETEXT{"Insert a color code"}%">
+<form>
+<div class="ui-natedit-colorpicker"></div>
+<input type="text" name="color" class="foswikiInputField" size="10" value="${selection}" />
+</form>
 </div>%TMPL:END%
+
 %{ ################################################################################ }%
-%TMPL:DEF{"insertlink"}%<!-- -->
+%TMPL:DEF{"searchreplace"}%<div class="ui-natedit-dialog-content ui-natedit-search-replace-content" data-title="%MAKETEXT{"Search && Replace"}%">
+<form>
+  <table class="foswikiLayoutTable">
+    <tr>
+      <th>%MAKETEXT{"Search"}%</th>
+      <td><input type="text" name="search" class="foswikiInputField" value="${selection}" size="30" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Replace"}%</th>
+      <td><input type="text" name="replace" class="foswikiInputField" value="" size="30" /></td>
+    </tr>
+    <tr>
+      <th></th>
+      <td>
+        <label><input type="checkbox" name="ignorecase" class="foswikiRadioButton" value="1" checked /> %MAKETEXT{"ignore case"}%</label>
+      </td>
+    </tr>
+  </table>
+</form>
+</div>
+
+%{ ################################################################################ }%
+%TMPL:DEF{"inserttable"}%<div class="ui-natedit-dialog-content ui-natedit-insert-table-content" data-title="%MAKETEXT{"Create a new table"}%">
+<form>
+  <table class="foswikiLayoutTable">
+    <tr>
+      <th>%MAKETEXT{"Headings"}%</th>
+      <td><input type="text" id="natEditInsertTableHeads" size="20" name="heads" class="foswikiInputField" value="1" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Rows"}%</th>
+      <td><input type="text" id="natEditInsertTableRows" size="20" name="rows" class="foswikiInputField" value="4" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Columns"}%</th>
+      <td><input type="text" id="natEditInsertTableCols" size="20" name="cols" class="foswikiInputField" value="4" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Editable"}%</th>
+      <td>
+        <label><input type="radio" name="editable" class="foswikiRadioButton" value="true" />%MAKETEXT{"Yes"}%</label>&nbsp;
+        <label><input type="radio" name="editable" class="foswikiRadioButton" value="false" checked="checked" />%MAKETEXT{"No"}%</label>
+      </td>
+    </tr>
+  </table>
+</form>
+</div>%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"insertattachment"}%<div class="ui-natedit-dialog-content ui-natedit-insert-attachment-content" data-title="%MAKETEXT{"Insert an attachment"}%">
 %TMPL:P{"insertlink::start"}%<!-- -->
-%TMPL:P{"insertlink::topic"}%<!-- -->
 %TMPL:P{"insertlink::attachment"}%<!-- -->
-%TMPL:P{"insertlink::external"}%<!-- -->
 %TMPL:P{"insertlink::end"}%<!-- -->
-%TMPL:P{"insertlink::uploader"}%<!-- -->
-<!-- -->%TMPL:END%
-
-%TMPL:DEF{"insertlink::start"}%<!-- -->
-<div class="natEditInsertLink jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:550, position:{my:'top', at:'top', of:'#%URLPARAM{"editor"}%'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Insert link"}%">
-  <form>
-    <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
-    %TABPANE{class="plain"}%
-<!-- -->%TMPL:END%
-
-%TMPL:DEF{"insertlink::end"}%<!-- -->
-    %ENDTABPANE%
-    <div class="foswikiFormStep">
-      <h3>%MAKETEXT{"Text"}%:</h3>
-      <input type="text" size="50" name="linktext" class="foswikiInputField selection" value="" />
-    </div>
-    <a class="jqUIDialogButton jqUIDialogSubmit {icon:'ui-icon-circle-check'}">%MAKETEXT{"OK"}%</a> 
-    <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a> 
-  </form>
 </div>%TMPL:END%
 
+%{ ################################################################################ }%
+%TMPL:DEF{"insertlink"}%<div class="ui-natedit-dialog-content ui-natedit-insert-link-content" data-title="%MAKETEXT{"Insert a link"}%">
+%TMPL:P{"insertlink::start"}%
+%TABPANE{class="plain"}%
+%TAB{"%MAKETEXT{"Topic"}%" id="topic"}%%TMPL:P{"insertlink::topic"}%%ENDTAB%
+%TAB{"%MAKETEXT{"External"}%" id="external"}%%TMPL:P{"insertlink::external"}%%ENDTAB%
+%ENDTABPANE%
+%TMPL:P{"insertlink::end"}%
+</div>%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"insertlink::start"}%<form>%TMPL:END%
+%TMPL:DEF{"insertlink::end"}%</form>%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"insertlink::topic"}%<!-- -->
+  <table class="foswikiLayoutTable">
+    <tr>
+      <th>%MAKETEXT{"Web"}%</th>
+      <td><input type="text" size="50" name="web" class="foswikiInputField" value="${web}" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Topic"}%</th>
+      <td><input type="text" size="50" name="topic" class="foswikiInputField" value="${topic}" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Text"}%</th>
+      <td><input type="text" size="50" name="linktext_topic" class="foswikiInputField" value="${selection}" /></td>
+    </tr>
+  </table>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"insertlink::external"}%<!-- -->
+  <table class="foswikiLayoutTable">
+    <tr>
+      <th>%MAKETEXT{"Url"}%</th>
+      <td><input type="text" size="50" name="url" class="foswikiInputField empty" value="${url}" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Text"}%</th>
+      <td><input type="text" size="50" name="linktext_external" class="foswikiInputField" value="${selection}" /></td>
+    </tr>
+  </table>
+<!-- -->%TMPL:END%
+
+%{ ################################################################################ }%
+%TMPL:DEF{"insertlink::attachment"}%<!-- -->
+  <table class="foswikiLayoutTable">
+    <tr>
+      <th>%MAKETEXT{"Web"}%</th>
+      <td><input type="text" size="50" name="web" class="foswikiInputField" value="${web}" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Topic"}%</th>
+      <td><input type="text" size="50" name="topic" class="foswikiInputField" value="${topic}" /></td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"File"}%</th>
+      <td><input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="${file}" />
+        %IF{"context 'TopicInteractionPluginEnabled'"
+          then="<span class='ui-natedit-uploader jqUITooltip' data-theme='info' data-position='top' data-arrow='true'>
+                  <a href='#' class='ui-natedit-uploader-button' style='vertical-align:middle' title='%MAKETEXT{"Upload a file"}%'>%JQICON{"add"}%</a>
+                  <a href='#' class='ui-natedit-uploader-cancel' style='vertical-align:middle;display:none' title='%MAKETEXT{"Cancel upload"}%'>%JQICON{"delete"}%</a>
+               </span>"
+        }%</td>
+    </tr>
+    <tr>
+      <th>%MAKETEXT{"Text"}%</th>
+      <td><input type="text" size="50" name="linktext_attachment" class="foswikiInputField" value="${selection}" /></td>
+    </tr>
+  </table>
+<!-- -->%TMPL:END%
 
 %{ ################################################################################ }%
 %TMPL:DEF{"uploader"}%<div class="natEditUploader jqUIDialog foswikiFormSteps {modal:true, draggable:true, width:600, position:{my:'top', at:'top', of:'#uploadLink'}, open:jQuery.NatEditor.openDialog}" title="%MAKETEXT{"Upload"}%">
   <form>
     <input type="hidden" name="editor" value="%URLPARAM{"editor"}%" />
-    <input type="hidden" name="topic" value="%WEB%.%TOPIC%" />
+    <input type="hidden" name="topic" value="${topic}" />
     <input type="hidden" name="autostart" value="true" class="jqUploaderAutoStart" /> 
     <div class="foswikiFormStep">
       <div class="jqUploaderFilesContainer">
@@ -75,74 +154,3 @@
   %CLEAR%
 </div>
 %TMPL:END%
-
-%{ ################################################################################ }%
-%TMPL:DEF{"insertlink::topic"}%<!-- -->
-%TAB{"%MAKETEXT{"Topic"}%" id="topic"}%
-  <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Web"}%:</h3>
-    <input type="text" size="50" name="web" class="foswikiInputField jqFocus" value="" /> 
-  </div>
-  <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Topic"}%:</h3>
-    <input type="text" size="50" name="topic" class="foswikiInputField empty" value="" /> 
-  </div>
-%ENDTAB%
-<!-- -->%TMPL:END%
-
-%{ ################################################################################ }%
-%TMPL:DEF{"insertlink::attachment"}%<!-- -->
-%TAB{"%MAKETEXT{"Attachment"}%" id="attachment"}%
-  <img class="foswikiRight foswikiImage natEditAttachmentThumbnail" />
-  <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Web"}%:</h3>
-    <input type="text" size="50" name="web" class="foswikiInputField" value="" /> 
-  </div>
-  <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Topic"}%:</h3>
-    <input type="text" size="50" name="topic" class="foswikiInputField" value="" /> 
-  </div>
-  <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"File"}%:</h3>
-    <input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="" />
-%IF{"context 'TopicInteractionPluginEnabled'"
-  then="<a href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?template=editdialog;dialog=uploader;editor=%URLPARAM{"editor"}%' class='jqUIDialogLink {cache:false}' id='uploadLink' style='vertical-align:middle' title='%MAKETEXT{"Upload a file"}%'>%JQICON{"add"}%</a>"
-}%<!-- -->
-  </div>
-%ENDTAB%
-<!-- -->%TMPL:END%
-
-%TMPL:DEF{"insertlink::attachment::list"}%%ATTACHMENTS{
-  warn="off"
-  header="[$n"
-  separator=",$n"
-  footer="$n]"
-  casesensitive="off"
-  include=".*%URLPARAM{"term"}%.*"
-  format=" {
-    \"label\": \"$name\", 
-    \"img\": \"$percntIF{
-      \"lc('$name')=~'.*\.(gif|jpe?g|png)$' and context ImagePluginEnabled\"
-      then=\"%SCRIPTURL{"rest"}%/ImagePlugin/resize?topic=%WEB%.%TOPIC%;file=$name;size=48x48>\"
-      else=\"$percntMIMEICON{\"$name\" size=\"48\" format=\"$dollarurl\"}$percnt\"
-    }$percnt\",
-    \"size\": \"$sizeK\",
-    \"comment\": \"$percntENCODE{\"$comment\" type=\"quote\"}$percnt\"
-  }"
-}%%TMPL:END%
-
-
-%{ ################################################################################ }%
-%TMPL:DEF{"insertlink::external"}%<!-- -->
-%TAB{"%MAKETEXT{"External"}%" id="external"}%
-  <div class="foswikiFormStep">
-    <h3>%MAKETEXT{"Url"}%:</h3>
-    <input type="text" size="50" name="url" class="foswikiInputField empty" value="" />
-  </div>
-%ENDTAB%
-<!-- -->%TMPL:END%
-
-%{ ################################################################################ }%
-%TMPL:P{
-  %URLPARAM{"dialog"}%
-}%

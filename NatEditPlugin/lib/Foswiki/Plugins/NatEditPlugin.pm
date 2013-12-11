@@ -19,8 +19,8 @@ use Foswiki::Func       ();
 use Foswiki::Plugins    ();
 use Foswiki::Validation ();
 
-our $VERSION           = '7.11';
-our $RELEASE           = '7.11';
+our $VERSION           = '8.00';
+our $RELEASE           = '8.00';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
@@ -63,6 +63,14 @@ sub initPlugin {
         sub {
             require Foswiki::Plugins::NatEditPlugin::RestSave;
             return Foswiki::Plugins::NatEditPlugin::RestSave::handle(@_);
+        }
+    );
+
+    Foswiki::Func::registerRESTHandler(
+        "attachments",
+        sub {
+            require Foswiki::Plugins::NatEditPlugin::RestAttachments;
+            return Foswiki::Plugins::NatEditPlugin::RestAttachments::handle(@_);
         }
     );
 

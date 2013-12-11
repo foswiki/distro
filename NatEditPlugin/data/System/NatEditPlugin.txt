@@ -60,6 +60,7 @@ is sufficient.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  12 Dec 2013 | rewrite all of the js code; make it themable using jquery-ui |
 |  01 Nov 2013 | working around IE10 incompatibility of its own proprietary edit api for textareas |
 |  07 Aug 2013 | fixed generation of a new validation key in a save+continue |
 |  17 Jul 2013 | added support for <nop>CaptchaPlugin |
