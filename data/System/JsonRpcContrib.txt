@@ -224,7 +224,8 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  30 May 2013: | Foswiki:Main/CrawfordCurrie added support for serialising objects, and rewrote some of the documentation |
+|  11 Dec 2013: | removed dependency on JSON::XS |
+|  30 May 2013: | added support for serialising objects, and rewrote some of the documentation (Foswiki:Main/CrawfordCurrie) |
 |  20 Mar 2013: | added feature to define handlers in !LocalSite.cfg (Config.spec) so that pure contribs can implement backends now |
 |   1 Oct 2012: | added the async flag to the =$.jsonRpc= frontend to =$.ajax= |
 |   2 Aug 2012: | fixed json2 not loaded in IE7 (Foswiki:Main/JanKrueger) |
