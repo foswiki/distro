@@ -828,12 +828,12 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
   self.form.find("input[name='action_cancel']").val('');
   self.form.find("input[name='action_" + editAction + "']").val(actionValue);
 
-  StrikeOne.submit(self.form[0]);
+  if (typeof(StrikeOne) !== 'undefined') {
+    StrikeOne.submit(self.form[0]);
+  }
 
   if ((typeof(tinyMCE) === 'object') && (typeof(tinyMCE.editors) === 'object')) {
-    $.each(tinyMCE.editors, function(index, editor) {
-      editor.onSubmit.dispatch();
-    });
+    tinyMCE.triggerSave();
   }
 
   self.form.trigger("beforeSubmit.natedit", self, editAction);
