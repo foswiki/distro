@@ -303,18 +303,13 @@ if (!foswiki) foswiki = {};
             $(this).removeClass('foswikiMakeVisible');
           });
             $('.twistyContent').livequery(function() {
-            var ref = foswiki.TwistyPlugin.init(this);
-            var $this = $(this);
-            var speed;
+            var ref = foswiki.TwistyPlugin.init(this), 
+                $this = $(this), speed;
             if ($this.get(0).tagName == 'SPAN') {
               // do not animate spans because the animation turns inline display into block
               speed = 0;
             } else {
-              speed = foswiki.getPreference('TWISTYANIMATIONSPEED') || 0;
-              /* .getPreference() returns a string or null, but .animate() wants an integer or a string */
-              if (RegExp(/^\d+$/).test(speed)) {
-                speed = parseInt(speed);
-              }
+              speed = 600;
             }
             ref.speed = speed;
           });

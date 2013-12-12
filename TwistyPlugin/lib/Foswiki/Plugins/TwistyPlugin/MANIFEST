@@ -9,6 +9,7 @@ data/System/VarTWISTYSHOW.txt 0644
 data/System/VarTWISTYTOGGLE.txt 0644
 lib/Foswiki/Plugins/TwistyPlugin.pm 0644
 lib/Foswiki/Plugins/TwistyPlugin/TWISTY.pm 0644
+pub/System/TwistyPlugin/Makefile 0644
 pub/System/TwistyPlugin/twisty.js 0644
 pub/System/TwistyPlugin/twisty.js.gz 0644
 pub/System/TwistyPlugin/twisty.uncompressed.js 0644
