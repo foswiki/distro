@@ -165,14 +165,16 @@ UndoManager.prototype.saveState = function(mode) {
       return;
     }
 
-    if (currentState.value == self.editor.txtarea.value || (mode != "none" && mode == self.mode)) {
+    if (currentState.value == self.editor.txtarea.value 
+        || (mode != "none" && mode == self.mode)
+        || (mode === "whitespace" && self.mode === "typing")) {
       // reuse the current state if it is just a move operation
-      $.log("NATEDIT: reuse current state");
+      $.log("NATEDIT: reuse current state in mode=",mode);
+      self.mode = mode;
       currentState.init();
       return;
     }
   }
-
 
   $.log("NATEDIT: mode=",mode);
   self.mode = mode;
@@ -180,7 +182,8 @@ UndoManager.prototype.saveState = function(mode) {
   self.undoPtr++;
   $.log("NATEDIT: save state at undoPtr=",self.undoPtr);
 
-  self.undoBuf[self.undoPtr] = new TextareaState(self.editor);
+  currentState = new TextareaState(self.editor);
+  self.undoBuf[self.undoPtr] = currentState;
   self.undoBuf[self.undoPtr+1] = undefined;
 
   self.updateGui();
