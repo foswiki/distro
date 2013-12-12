@@ -3,7 +3,7 @@ package Foswiki::Plugins::JQueryPlugin::Plugins;
 
 use strict;
 use warnings;
-use Foswiki::Func;
+use Foswiki::Func();
 
 my @iconSearchPath;
 my %iconCache;
