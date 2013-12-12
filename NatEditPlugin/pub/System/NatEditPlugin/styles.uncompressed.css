@@ -217,13 +217,9 @@
 }
 
 /* plugins */
-.ui-natedit-colorpicker,
-.ui-natedit-datepicker,
 .ui-button.ui-natedit-switch-to-wysiwyg {
   display:none;
 }
-.ui-natedit-colorpicker-enabled .ui-natedit-colorpicker,
-.ui-natedit-datepicker-enabled .ui-natedit-datepicker,
 .ui-natedit-wysiwyg-enabled .ui-button.ui-natedit-switch-to-wysiwyg {
   display:block;
 }

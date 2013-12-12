@@ -832,7 +832,7 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
     StrikeOne.submit(self.form[0]);
   }
 
-  if ((typeof(tinyMCE) === 'object') && (typeof(tinyMCE.editors) === 'object')) {
+  if (typeof(tinyMCE) !== 'undefined') {
     tinyMCE.triggerSave();
   }
 
