@@ -73,7 +73,7 @@ sub new {
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin',
             javascript =>
               [ 'foswiki_tiny.js', 'foswiki.js', $tmceVersion . $tmcePath ],
-            dependencies => ['JQUERYPLUGIN::FOSWIKI']
+            dependencies => ['foswiki']
         ),
         $class
     );
