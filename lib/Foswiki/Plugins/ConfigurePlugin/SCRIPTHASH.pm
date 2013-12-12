@@ -12,8 +12,12 @@ use warnings;
 sub load {
     my ($factory) = @_;
 
-    # Find the script directory from $0
-    my $bindir = $0;
+    use FindBin qw($Bin);    # $Script $RealBin $RealScript);
+     #print STDERR "FindBin resolved: bin: $Bin script: $Script realbin: $RealBin realscript: $RealScript \n";
+     # Note: Might need FindBin::again() if bin directory resolved elsewhere in a persistent perl environment
+     # See https://metacpan.org/pod/FindBin for workaround as again() is a recent addition
+
+    my $bindir = $Bin;
     $bindir =~ s#[^/\\]*$##;
 
     # Can't do any more if we can't open it
