@@ -40,7 +40,7 @@ TextareaState.prototype.restore = function() {
   self.editor.txtarea.scrollTop = self.scrollTop;
   self.editor.setSelectionRange(self.selectionStart, self.selectionEnd);
 
-  $(window).trigger("resize.natedit");
+  $(window).trigger("resize");
 };
 
 TextareaState.prototype.isUnchanged = function() {
@@ -679,7 +679,7 @@ $.NatEditor.prototype.showToolbar = function() {
   self.txtarea.value = tmp;
 
   if (self.opts.autoMaxExpand) {
-    $(window).trigger("resize.natedit");
+    $(window).trigger("resize");
   }
 };
 
@@ -698,7 +698,7 @@ $.NatEditor.prototype.hideToolbar = function() {
   self.txtarea.value = tmp;
 
   if (self.opts.autoMaxExpand) {
-    $(window).trigger("resize.natedit");
+    $(window).trigger("resize");
   }
 };
 
@@ -1701,7 +1701,7 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   newHeight = windowHeight - elem.offset().top - self.bottomHeight - parseInt(elem.css('padding-bottom'), 10) *2 - 2;
-  
+
   if ($debug.length) {
     newHeight -= $debug.height();
   }
@@ -1715,7 +1715,10 @@ $.NatEditor.prototype.fixHeight = function() {
   }
 
   if (elem.is(":visible")) {
+    $.log("NATEDIT: fixHeight height=",newHeight);
     elem.height(newHeight);
+  } else {
+    $.log("NATEDIT: not fixHeight elem not yet visible");
   }
 };
 
@@ -1877,10 +1880,13 @@ $.NatEditor.prototype.dialog = function(opts) {
           }
 
           $this.find("input").on("keydown", function(ev) {
-            if (ev.keyCode == 13) {
-              ev.preventDefault();
-              $this.dialog("close");
-              dfd.resolve($this[0]);
+            var $input = $(this);
+            if (!$input.is(".ui-autocomplete-input") || !$input.data("ui-autocomplete").menu.element.is(":visible")) {
+              if (ev.keyCode == 13) {
+                ev.preventDefault();
+                $this.dialog("close");
+                dfd.resolve($this[0]);
+              }
             }
           });
 
@@ -1962,7 +1968,7 @@ $.NatEditor.prototype.searchReplace = function(search, replace, ignoreCase) {
     self.txtarea.scrollTop = scrollTop;
 
     if (self.opts.autoMaxExpand) {
-      $(window).trigger("resize.natedit");
+      $(window).trigger("resize");
     }
     self.undoManager.saveState("command");
   }

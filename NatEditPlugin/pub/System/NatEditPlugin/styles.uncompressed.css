@@ -4,7 +4,7 @@
 }
 
 .ui-natedit-container {
-  margin-top:1em;
+  margin-top:14px;
 }
 .ui-natedit-container .jqTabContents {
   overflow-x:hidden;
@@ -156,7 +156,7 @@
 /* topic info: fields above the text area  */
 .natEditTopicInfo table th,
 .natEditTopicInfo table td {
-  padding:0em 0.5em 0.5em 0em;
+  padding:0 7px 7px 7px;
 }
 
 
@@ -195,10 +195,6 @@
   margin:4px;
   border:0px;
   vertical-align:middle;
-}
-.natEditFontButtons {
-  margin:0.5em;
-  float:right;
 }
 
 /* RevCommentPlugin support */
