@@ -443,7 +443,7 @@ $.NatEditor.prototype.initGui = function() {
   self.container.data("natedit", self);
 
   /* flag enabled plugins */
-  if (foswiki.getPreference("TinyMCEEnabled")) {
+  if (typeof(tinyMCE) !== 'undefined') {
     self.container.addClass("ui-natedit-wysiwyg-enabled");
   }
   if (foswiki.getPreference("FarbtasticEnabled")) {
@@ -657,6 +657,9 @@ $.NatEditor.prototype.initToolbar = function() {
 
     // ask undo manager for gui changes
     self.undoManager.updateGui();
+
+    // set trigger resize again as the toolbar changed its height
+    $(window).trigger("resize");
   });
 };
 
@@ -836,7 +839,10 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
   }
 
   if (typeof(tinyMCE) !== 'undefined') {
-    tinyMCE.triggerSave();
+    //tinyMCE.triggerSave();
+    $.each(tinyMCE.editors, function(index, editor) { 
+        editor.onSubmit.dispatch(); 
+    }); 
   }
 
   self.form.trigger("beforeSubmit.natedit", self, editAction);
@@ -1375,7 +1381,9 @@ $.NatEditor.prototype.insertLineTag = function(markup) {
       startPos, endPos, 
       text, scrollTop, theSelection, 
       pre, post, lines, modifiedSelection,
-      i, line, subst;
+      i, line, subst, 
+      listRegExp = new RegExp(/^(( {3})*)( {3})(\* |\d+ |\d+\. )/),
+      nrSpaces = 0;
 
   //$.log("called insertLineTag(..., ",markup,")");
 
@@ -1398,14 +1406,20 @@ $.NatEditor.prototype.insertLineTag = function(markup) {
   modifiedSelection = '';
   for (i = 0; i < lines.length; i++) {
     line = lines[i];
-    
+
     if (line.match(/^\s*$/)) {
       // don't append tagOpen to empty lines
       subst = line;
     } else {
       // special case - undent (remove 3 spaces, and bullet or numbered list if outdenting away)
-      if ((tagOpen == '') && (sampleText == '') && (tagClose == '')) {
+      if ((tagOpen == '' && sampleText == '' && tagClose == '')) {
         subst = line.replace(/^ {3}(\* |\d+ |\d+\. )?/, '');
+      }
+
+      // special case - list transform
+      else if (listRegExp.test(line) && ( tagOpen == '   1 ' || tagOpen == '   * ')) {
+        nrSpaces = RegExp.$1.length; 
+        subst = line.replace(listRegExp, '$1' + tagOpen) + tagClose;
       } else {
         subst = tagOpen + line + tagClose;
       }
@@ -1419,8 +1433,12 @@ $.NatEditor.prototype.insertLineTag = function(markup) {
 
   self.txtarea.value = pre + modifiedSelection + post;
 
-  startPos += tagOpen.length;
-  endPos = startPos + modifiedSelection.length - tagOpen.length - tagClose.length;
+  if (lines.length == 1) {
+    startPos += nrSpaces + tagOpen.length;
+    endPos = startPos + modifiedSelection.length - tagOpen.length - tagClose.length - nrSpaces;
+  } else {
+    endPos = nrSpaces + startPos + modifiedSelection.length + 1;
+  }
 
   //$.log("finally, startPos="+startPos+" endPos="+endPos);
 
@@ -2556,7 +2574,7 @@ $(function() {
   $.NatEditor.defaults.scriptUrl = foswiki.getPreference("SCRIPTURL");
   $.NatEditor.defaults.pubUrl = foswiki.getPreference("PUBURL");
   $.NatEditor.defaults.signatureMarkup = ['-- ', foswiki.getPreference("WIKIUSERNAME"), ' - '+foswiki.getPreference("SERVERTIME")];
-  $.NatEditor.defaults.showToolbar = foswiki.getPreference("TinyMCEEnabled")?false:true;
+  $.NatEditor.defaults.showToolbar = typeof(tinyMCE) === 'undefined' ? true : false;
 
   // listen for natedit
   $(".natedit").livequery(function() {
