@@ -1501,7 +1501,7 @@ sub _handleA {
             my $anchor = $3 || '';
 
             # if the clean text is the known topic we can ignore it
-            if ( ( $cleantext eq $href || $href =~ /\.$cleantext$/ )
+            if ( ( $cleantext eq $href || $href =~ /\.\Q$cleantext\E$/ )
                 && !$forceTML )
             {
                 return ( 0,
