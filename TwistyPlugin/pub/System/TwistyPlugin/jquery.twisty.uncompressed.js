@@ -309,7 +309,7 @@ if (!foswiki) foswiki = {};
               // do not animate spans because the animation turns inline display into block
               speed = 0;
             } else {
-              speed = 600;
+              speed = 200;
             }
             ref.speed = speed;
           });
