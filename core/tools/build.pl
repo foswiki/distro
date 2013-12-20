@@ -46,6 +46,28 @@ sub new {
     my $nocheck;      #set to bypass git repo check
     my $name;
 
+    if ( my $gitdir = findPathToDir('.git') ) {
+        $cvs = 'git';
+        print
+"detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
+
+     # Verify that all files are committed and all commits are dcommmited to svn
+        my $gitstatus = `git status -uno`;
+        unless ($nocheck) {
+            die
+"***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
+              if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
+            my $gitlog = `git log -1`;
+            die
+"***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
+              if ( $gitlog !~ m/git-svn-id:/ );
+        }
+    }
+    else {
+        print "detected svn installation\n\n";
+        $cvs = 'svn';
+    }
+
     if ( scalar(@ARGV) > 1 ) {
         $name = pop(@ARGV);
         if ( $name eq '-auto' ) {
@@ -67,28 +89,6 @@ sub new {
             $nocheck = 1;
             $name    = undef;
         }
-    }
-
-    if ( my $gitdir = findPathToDir('.git') ) {
-        $cvs = 'git';
-        print
-"detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
-
-     # Verify that all files are committed and all commits are dcommmited to svn
-        my $gitstatus = `git status -uno`;
-        unless ($nocheck) {
-            die
-"***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
-              if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
-            my $gitlog = `git log -1`;
-            die
-"***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
-              if ( $gitlog !~ m/git-svn-id:/ );
-        }
-    }
-    else {
-        print "detected svn installation\n\n";
-        $cvs = 'svn';
     }
 
     print <<END;
