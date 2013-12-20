@@ -133,7 +133,9 @@ unless ( $errorcode == 0 ) {
 chdir($foswikihome);
 
 #TODO: add a performance BM & compare to something golden.
-`perl tools/MemoryCycleTests.pl > $foswikihome/Foswiki-MemoryCycleTests.log 2>&1`;
+chdir('tools');
+`perl MemoryCycleTests.pl > $foswikihome/Foswiki-MemoryCycleTests.log 2>&1`;
+chdir($foswikihome);
 `/usr/bin/perlcritic --severity 5 --statistics --top 20 --exclude=Variables::ProtectPrivateVars lib/  > $foswikihome/Foswiki-PerlCritic.log 2>&1`;
 `/usr/bin/perlcritic --severity 5 --statistics --top 20 --exclude=Variables::ProtectPrivateVars bin/ >> $foswikihome/Foswiki-PerlCritic.log 2>&1`;
 
