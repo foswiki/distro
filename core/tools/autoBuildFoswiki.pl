@@ -43,9 +43,17 @@ if ($verbose) {
     print STDERR "building branch $foswikiBranch\n";
 }
 
+# SVN checkout / update
 unless ( -e $foswikiBranch ) {
     print STDERR "doing a fresh checkout\n" if $verbose;
-    `svn co http://svn.foswiki.org/$foswikiBranch > Foswiki-svn.log`;
+    if ( $foswikiBranch eq 'trunk' ) {
+        `svn co http://svn.foswiki.org/$foswikiBranch > Foswiki-svn.log`;
+    }
+    else {
+        # check out a branch
+`svn co http://svn.foswiki.org/branches/$foswikiBranch > Foswiki-svn.log`;
+    }
+    die "SVN checkout failed" if $?;
     chdir( $foswikiBranch . '/core' );
 }
 else {
@@ -53,7 +61,7 @@ else {
     #TODO: should really do an svn revert..
     print STDERR "using existing checkout, removing ? files" if $verbose;
     chdir($foswikiBranch);
-    `svn status | grep ? | sed 's/?/rm -r/' | sh > Foswiki-svn.log`;
+    `svn status | grep ? | sed 's/?/rm -rv/' | sh > Foswiki-svn.log`;
     `svn up --accept 'theirs-full' >> Foswiki-svn.log`;
     chdir('core');
 }
@@ -61,7 +69,7 @@ else {
 my $foswikihome = `pwd`;
 chomp($foswikihome);
 
-`mkdir working/tmp`;
+`mkdir -p working/tmp`;
 `chmod 777 working/tmp`;
 `chmod 777 lib`;
 
