@@ -13,24 +13,45 @@
 #
 
 use strict;
+use warnings;
 
+use Getopt::Long;
+
+# local config, should be moved to an external file in $ENV{HOME}?
+my $stable_branch = 'Release01x01';    # what branch to check out with --stable
+
+# options
 my $SvensAutomatedBuilds = 0;
-if ( grep( '-sven', @ARGV ) ) {
-    $SvensAutomatedBuilds = 1;
-    print STDERR "doing an automated Sven build";
+my $foswikiBranch        = 'trunk';
+my $update               = 0;
+my $verbose              = 0;
+
+GetOptions(
+    autobuild => \$SvensAutomatedBuilds,
+    stable    => sub { $foswikiBranch = $stable_branch },
+    update    => \$update,
+    verbose   => \$verbose,
+) or die "unknown option, use --autobuild, --stable, --verbose";
+
+if ($update) {
+`curl http://svn.foswiki.org/trunk/core/tools/autoBuildFoswiki.pl > autoBuildFoswiki.pl`;
+    exit;
 }
 
-my $foswikiBranch = 'Release01x01';
+if ($verbose) {
+    print STDERR "doing an automated Sven build\n" if $SvensAutomatedBuilds;
+    print STDERR "building branch $foswikiBranch\n";
+}
 
 unless ( -e $foswikiBranch ) {
-    print STDERR "doing a fresh checkout\n";
-    `svn co http://svn.foswiki.org/branches/$foswikiBranch > Foswiki-svn.log`;
+    print STDERR "doing a fresh checkout\n" if $verbose;
+    `svn co http://svn.foswiki.org/$foswikiBranch > Foswiki-svn.log`;
     chdir( $foswikiBranch . '/core' );
 }
 else {
 
     #TODO: should really do an svn revert..
-    print STDERR "using existing checkout, removing ? files";
+    print STDERR "using existing checkout, removing ? files" if $verbose;
     chdir($foswikiBranch);
     `svn status | grep ? | sed 's/?/rm -r/' | sh > Foswiki-svn.log`;
     `svn up --accept 'theirs-full' >> Foswiki-svn.log`;
@@ -49,7 +70,8 @@ chomp($foswikihome);
 
 `perl -wT pseudo-install.pl -A developer`;
 
-#run unit tests
+print "run unit tests\n" if $verbose;
+
 #TODO: testrunner should exit == 0 if no errors?
 chdir('test/unit');
 
@@ -87,6 +109,9 @@ unless ( $errorcode == 0 ) {
     die "\n\n$errorcode: unit test failures - need to fix them first\n";
 }
 
+######################################################
+# go on if there are no unit test failures
+
 chdir($foswikihome);
 
 #TODO: add a performance BM & compare to something golden.
@@ -105,7 +130,7 @@ chdir($foswikihome);
 #
 #
 
-print "\n\n ready to build release\n";
+print "\n\n ready to build release\n" if $verbose;
 
 #TODO: clean the setup again
 #   1.  Install developer plugins (hard copy)
@@ -181,4 +206,3 @@ sub sendEmail {
 
     $smtp->quit;
 }
-1;
