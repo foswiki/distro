@@ -161,7 +161,7 @@ print "\n\n ready to build release\n" if $verbose;
 #   4. perl build.pl release
 #      * Note: if you specify a release name the script will attempt to commit to svn
 chdir('lib');
-`export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
+`export FOSWIKI_LIBS=$foswikihome/lib:$foswikihome/lib/CPAN/lib; export FOSWIKI_HOME=$foswikihome; perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
 
 chdir($foswikihome);
 if ($SvensAutomatedBuilds) {
