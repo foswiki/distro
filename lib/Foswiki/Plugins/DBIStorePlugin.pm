@@ -17,8 +17,9 @@ sub initPlugin {
         # Will not enable this plugin if recordChange is present
         return 0;
     }
+
     require Foswiki::Contrib::DBIStoreContrib::DBIStore;
-    $shim = Foswiki::Contrib::DBIStoreContrib::DBIStore->new();
+    $shim = Foswiki::Contrib::DBIStoreContrib::DBIStore->createShim();
     die "Cannot create store shim" unless $shim;
 
     # If the getField method is missing, then get it from the BruteForce
@@ -30,19 +31,28 @@ sub initPlugin {
         *Foswiki::Store::QueryAlgorithms::DBIStoreContrib::getField =
           \&Foswiki::Store::QueryAlgorithms::BruteForce::getField;
     }
-    print STDERR "Constructed store shim\n";
+
+    # Normally preloading only occurs when the DB first connects, which
+    # only happens when a topic is moved or saved. To short-circuit this,
+    # the plugin supports the "?dbistore_init" parameter, which will
+    # do that chore.
+    if ( Foswiki::Func::getRequestObject->param('dbistore_init') ) {
+        $shim->reset($Foswiki::Plugins::SESSION);
+    }
+
     return 1;
 }
 
 # Store operations that *should* call the relevant store shim functions
-# _insert($meta)
-# _update($old, $new)
+# Should call insert($meta):
+#    -none-
+# Should call update($old, $new):
 #    moveTopic
 #    moveWeb
 #    saveTopic (no $new)
 #    repRev(no $new)
 #    delRev (no $new)
-# _remove($old)
+# Should call remove($old):
 #    remove
 # Some may not be called in the plugin, due to the inherent shittiness of
 # the handler architecture.
@@ -51,7 +61,7 @@ sub initPlugin {
 sub afterSaveHandler {
 
     # $text, $topic, $web, $error, $meta
-    $shim->_update( $_[4] );
+    $shim->update( $_[4] );
 }
 
 # Required for a web or topic move
@@ -62,7 +72,7 @@ sub afterRenameHandler {
       new Foswiki::Meta( $Foswiki::Plugins::SESSION, $oldWeb, $oldTopic );
     my $new =
       new Foswiki::Meta( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
-    $shim->_update( $old, $new );
+    $shim->update( $old, $new );
 }
 
 1;

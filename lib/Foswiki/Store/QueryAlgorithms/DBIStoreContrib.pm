@@ -12,10 +12,9 @@ package Foswiki::Store::QueryAlgorithms::DBIStoreContrib;
 use strict;
 use warnings;
 
-#use Foswiki::Store::Interfaces::SearchAlgorithm ();
-use Foswiki::Store::Interfaces::QueryAlgorithm ();
-our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
+our @ISA;
 
+use Assert;
 use Foswiki::Search::Node                       ();
 use Foswiki::Meta                               ();
 use Foswiki::Search::InfoCache                  ();
@@ -24,11 +23,19 @@ use Foswiki::MetaCache                          ();
 use Foswiki::Query::Node                        ();
 use Foswiki::Contrib::DBIStoreContrib::DBIStore ();
 
-BEGIN {
-    eval 'require  Foswiki::Store::Interfaces::SearchAlgorithm';
-    if ($@) {
+# Debug prints
+use constant MONITOR => 1;
 
-        # Foswiki 1,1 or earlier
+BEGIN {
+    eval 'require Foswiki::Store::Interfaces::QueryAlgorithm';
+    if ($@) {
+        print STDERR "Compatibility mode\n" if MONITOR;
+        undef $@;
+
+        # Foswiki 1.1 or earlier
+        #require Foswiki::Query::QueryAlgorithms; # empty class
+        #@ISA = ('Foswiki::Query::QueryAlgorithms');
+
         require Foswiki::Search::InfoCache;
         *getListOfWebs   = \&Foswiki::Search::InfoCache::_getListOfWebs;
         *getOptionFilter = sub {
@@ -77,14 +84,14 @@ BEGIN {
     else {
 
         # Foswiki > 1.1
+
+        @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
+
         *getListOfWebs =
           \&Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs;
         *getOptionFilter = \&Foswiki::Search::InfoCache::getOptionFilter;
     }
 }
-
-# Debug prints
-use constant MONITOR => 0;
 
 =begin TML
 
@@ -100,8 +107,19 @@ sub new {
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
     my ( $this, $query, $interestingTopics, $session, $options ) = @_;
-    ASSERT( defined($this) )
-      ; #Sven changed the API to OO based to allow re-use of boilerplate version of query sub()
+    unless (
+        UNIVERSAL::isa(
+            $this, 'Foswiki::Store::QueryAlgorithms::DBIStoreContrib'
+        )
+      )
+    {
+
+        # Sven changed the API to OO based to allow re-use of
+        # boilerplate version of query sub(). In the process he broke
+        # it for 1.1 :-( This is the repair.
+        $this = undef;
+        ( $query, $interestingTopics, $session, $options ) = @_;
+    }
 
     print STDERR "Initial query: " . $query->stringify() . "\n" if MONITOR;
 
@@ -146,8 +164,7 @@ sub query {
     # can use to refine the topic set
 
     require Foswiki::Contrib::DBIStoreContrib::HoistSQL;
-    my $hoistedSQL = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist($query)
-      || 1;
+    my $hoistedSQL = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist($query);
 
     if ($hoistedSQL) {
         print STDERR "Hoisted '$hoistedSQL', remaining query: "
@@ -161,15 +178,33 @@ sub query {
         }
     }
     my $sql =
-        'SELECT tid FROM topic WHERE '
+        'SELECT web,name FROM topic WHERE '
       . ( $hoistedSQL ? "$hoistedSQL AND " : '' )
       . "topic.web IN ("
       . join( ',', map { "'$_'" } @interestingWebs ) . ')';
 
-    if ( $interestingTopics && $interestingTopics->hasNext() ) {
-        $sql .= " AND topic.name IN ("
-          . join( ',', map { "'$_'" } $interestingTopics->all() ) . ')';
-    }    # otherwise there is no topic name filter
+    if ($interestingTopics) {
+
+        # Deprecated
+        if ( $interestingTopics->hasNext() ) {
+            $sql .= " AND topic.name IN ("
+              . join( ',', map { "'$_'" } $interestingTopics->all() ) . ')';
+        }
+    }
+    elsif ( $options->{includeTopics} || $options->{excludeTopics} ) {
+        if ( $options->{includeTopics} ) {
+            my $expr =
+              Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
+              ->wildcard( 'topic.name', $options->{includeTopics} );
+            $sql .= " AND $expr" if $expr;
+        }
+        if ( $options->{excludeTopics} ) {
+            my $expr =
+              Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
+              ->wildcard( 'topic.name', $options->{excludeTopics} );
+            $sql .= " AND NOT($expr)" if $expr;
+        }
+    }
 
     $sql .= ' ORDER BY web,name';
 
@@ -226,10 +261,13 @@ sub query {
     #TODO: $options should become redundant
     $resultset->sortResults($options);
 
-    #add permissions check
+    return $resultset unless ($this);    # Foswiki 1.1
+
+    # Foswiki 1.2 and later....
+    # Add permissions check
     $resultset = $this->addACLFilter( $resultset, $options );
 
-    #add paging if applicable.
+    # Add paging if applicable.
     return $this->addPager( $resultset, $options );
 }
 

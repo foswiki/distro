@@ -6,30 +6,44 @@
 
 %TOC%
 
-This extension (currently) implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, and to a lesser extent with [[http://www.mysql.com/][MySQL]].
+This extension (currently) implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, [[http://www.mysql.com/][MySQL]], and [[http://www.postgresql.org/][Postgresql]].
 
 We get over the fact that SQL does not implement all the query search features of Foswiki by _hoisting_ SQL expressions out of the Foswiki search statements, leaving behind only those parts of the expression that SQL can't handle.
 
-The extension is currently classed as experimental because the SQL schema (and the query generator) are (probably) sub-optimal, and require extensive tuning.
+The extension is currently classed as experimental because the SQL schema (and the query generator) are (probably) sub-optimal, and require tuning.
 
 The longer term goal is to implement a full back-end store using an SQL RDBMS, rather than just a simple cache as at present.
 
-Mapping to another DBMS *should* be as simple as setting up a different
-DSN (but life is rarely that simple. Not all DBs implement the REGEXP
-operator, for example). Please go ahead and try, though.
+Note that regular expression searches are mapped to whatever regular expression
+support exists in the database. Regular expressions that use more than the standard POSIX syntax are unlikely to work.
 
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
    * Go to =configure= and:
-      1 Set a DSN for the contrib in the 'Extensions' section (the default is for sqlite3),
+      1 Set a DSN etc. for the contrib in the 'Extensions' section (the default is for sqlite3),
       1 Select =Foswiki::Store::QueryAlgorithms::DBIStoreContrib= for the ={Store}{QueryAlgorithm}= *EXPERT* setting
       1 *For Foswiki > 1.1* only
          * add =Foswiki::Contrib::DBIStoreContrib::DBIStore= to the ={Store}{ImplementationClasses}= *EXPERT* setting in the 'Store' section
          * select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting
       1 *For Foswiki 1.1 only*
+         * Select Foswiki::Store::QueryAlgorithms::DBIStoreContrib for the ={Store}{QueryAlgorithm}= configuration setting
          * enable the integrated =DBIStorePlugin=
-         * search -> query mapping is *not* supported
+
+---+++ !MySQL Notes
+The !MySQL database user needs at least the following privileges:
+SELECT, INSERT, CREATE, and DROP.
+
+---+++ Postgresql Notes
+
+---+++ Microsoft SQL Server Notes
+If you are using Windows authentication for users on SQL Server, then the simplest
+thing to do is to use the ODBC driver with DBIStoreContrib and create a data
+source for SQL Server in the ODBC Administrator which uses Windows authentication.
+Then set an empty username and password for !DBIStoreContrib.
+
+---+++ SQLite Notes
+SQLite requires the =pcre= module to be installed to support regular expression searches. The path to this module is set up in =configure=.
 
 ---++ How it works
 ---+++ Searches and Queries

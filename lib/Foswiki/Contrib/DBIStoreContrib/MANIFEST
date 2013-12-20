@@ -2,10 +2,16 @@
 !noci
 data/System/DBIStoreContrib.txt 0644 Documentation
 data/System/DBIStorePlugin.txt 0644 Documentation
+data/System/DBIStoreContribRegexTests.txt 0644 Documentation
 lib/Foswiki/Contrib/DBIStoreContrib.pm 0644 Perl module
 lib/Foswiki/Contrib/DBIStoreContrib/Config.spec 0644 Configuration
-lib/Foswiki/Contrib/DBIStoreContrib/HoistSQL.pm
 lib/Foswiki/Contrib/DBIStoreContrib/DBIStore.pm
+lib/Foswiki/Contrib/DBIStoreContrib/HoistSQL.pm
+lib/Foswiki/Contrib/DBIStoreContrib/Personality.pm
+lib/Foswiki/Contrib/DBIStoreContrib/Personality/mysql.pm
+lib/Foswiki/Contrib/DBIStoreContrib/Personality/ODBC.pm
+lib/Foswiki/Contrib/DBIStoreContrib/Personality/Pg.pm
+lib/Foswiki/Contrib/DBIStoreContrib/Personality/SQLite.pm
 lib/Foswiki/Plugins/DBIStorePlugin.pm
 lib/Foswiki/Store/QueryAlgorithms/DBIStoreContrib.pm 0444
 lib/Foswiki/Store/SearchAlgorithms/DBIStoreContrib.pm 0444

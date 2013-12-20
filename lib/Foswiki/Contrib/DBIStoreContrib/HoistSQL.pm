@@ -14,8 +14,9 @@ package Foswiki::Contrib::DBIStoreContrib::HoistSQL;
 
 use strict;
 
-use Foswiki::Infix::Node ();
-use Foswiki::Query::Node ();
+use Foswiki::Contrib::DBIStoreContrib ();
+use Foswiki::Infix::Node              ();
+use Foswiki::Query::Node              ();
 
 # Try to optimise a query by hoisting SQL searches
 # out of the query.
@@ -30,27 +31,27 @@ use Foswiki::Query::Node ();
 # number=99 AND string='String' AND (moved.by='AlbertCamus'
 #    OR moved.by ~ '*bert*')
 # This can be fully hoisted, to
-# SELECT topic.name FROM topic,FIELD,MOVED
+# SELECT topic.web,topic.name FROM topic
 # WHERE
-#  EXISTS(
+#  topic.tid IN (
 #   SELECT tid FROM FIELD
-#    WHERE FIELD.tid=topic.tid AND FIELD.name='number' AND FIELD.value=99)
+#    WHERE FIELD.name='number' AND FIELD.value=99)
 # AND
-#  EXISTS(
+#  topic.tid IN (
 #   SELECT tid FROM FIELD
-#    WHERE FIELD.tid=topic.tid AND FIELD.name='string'
+#    WHERE FIELD.name='string'
 #          AND FIELD.string='String')
 # AND (
-#   EXISTS(
-#    SELECT tid FROM FIELD
-#     WHERE MOVED.tid=topic.tid AND MOVED.by='AlbertCamus')
+#   topic.tid IN (
+#    SELECT tid FROM MOVED
+#     WHERE MOVED.by='AlbertCamus')
 #  OR
-#   EXISTS(
-#    SELECT tid FROM FIELD
-#     WHERE MOVED.tid=topic.tid AND MOVED.by LIKE '%bert%')
+#   topic.tid IN (
+#    SELECT tid FROM MOVED
+#     WHERE MOVED.by LIKE '%bert%')
 # )
 
-use constant MONITOR => 0;
+use constant MONITOR => 1;
 
 # MUST BE KEPT IN LOCKSTEP WITH Foswiki::Infix::Node
 # Declared again here because the constants are not defined
@@ -100,7 +101,7 @@ sub hoist {
         return hoist( $node->{params}[0], "$indent(" );
     }
 
-    print STDERR "${indent}hoist ", $node->stringify(), "\n" if MONITOR;
+    print STDERR "${indent}hoist " . $node->stringify() . "\n" if MONITOR;
     if ( $node->{op}->{name} eq 'and' ) {
         my $lhs = hoist( $node->{params}[0], "${indent}l" );
         my $rhs = _hoistB( $node->{params}[1], "${indent}r" );
@@ -128,7 +129,7 @@ sub hoist {
         }
     }
 
-    print STDERR "\tFAILED\n" if MONITOR;
+    print STDERR "\tFAILED" . $node->stringify() . "\n" if MONITOR;
     return undef;
 }
 
@@ -193,16 +194,10 @@ sub _hoistC {
         ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}l" );
         $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && $rhs ) {
-            my $escape = '';
-            $rhs = quotemeta($rhs);
-            if ( $rhs =~ /'/ ) {
-                $rhs =~ s/([s'])/s$1/g;
-                $escape = " ESCAPE 's'";
-            }
-            $rhs =~ s/\\\?/./g;
-            $rhs =~ s/\\\*/.*/g;
             print STDERR "${indent}L~R\n" if MONITOR;
-            $test = "$lhs REGEXP '^(?s:$rhs)\$'$escape";
+            $test =
+              Foswiki::Contrib::DBIStoreContrib::DBIStore::personality->regexp(
+                $lhs, $op, $rhs );
             $test = "NOT($test)" if $negated;
         }
     }
@@ -210,22 +205,19 @@ sub _hoistC {
         ( $lhs, $table ) = _hoistValue( $node->{params}[0], "${indent}l" );
         $rhs = _hoistConstant( $node->{params}[1] );
         if ( $lhs && $rhs ) {
-            my $escape = '';
-            if ( $rhs =~ /'/ ) {
-                $rhs =~ s/([s'])/s$1/g;
-                $escape = " ESCAPE 's'";
-            }
             print STDERR "${indent}L=~R\n" if MONITOR;
-            $test = "$lhs REGEXP '$rhs'$escape";
+
+            # Different syntax for different DB engines :-(
+            $test =
+              Foswiki::Contrib::DBIStoreContrib::DBIStore::personality->regexp(
+                $lhs, $op, $rhs );
             $test = "NOT($test)" if $negated;
         }
     }
     if ( $table && $test ) {
         if ( $table ne 'topic' ) {
-
-            # Have to use an EXISTS if the sub-test refers to another table
             return <<SQL;
-EXISTS(SELECT * FROM $table WHERE $table.tid=topic.tid AND $test)
+topic.tid IN (SELECT tid FROM $table WHERE $test)
 SQL
         }
         else {
@@ -243,7 +235,6 @@ SQL
 # <rootfield> may be aliased
 # Returns a partial SQL statement that can be followed by a condition for
 # testing the value.
-# A limited set of functions - UPPER, LOWER,
 sub _hoistValue {
     my ( $node, $indent ) = @_;
     my $op = ref( $node->{op} ) ? $node->{op}->{name} : '';
@@ -277,6 +268,8 @@ sub _hoistValue {
             && $lhs->{op} == NAME
             && $rhs->{op} == NAME )
         {
+
+            # NAME.NAME
             $lhs = $lhs->{params}[0];
             $rhs = $rhs->{params}[0];
             if ( $Foswiki::Query::Node::aliases{$lhs} ) {
@@ -284,16 +277,16 @@ sub _hoistValue {
             }
             if ( $lhs =~ /^META:(\w+)/ ) {
 
-                return ( "$1.$rhs", $1 );
+                # Must quote table name, otherwise it will be treated
+                # as lowercase.
+                return ( "$1.$rhs", "\"$1\"" );
             }
-
-            if ( $rhs eq 'text' ) {
+            elsif ( $rhs eq 'text' ) {
 
                 # Special case for the text body
                 return ( 'topic.text', 'topic' );
             }
-
-            if ( $rhs eq 'raw' ) {
+            elsif ( $rhs eq 'raw' ) {
 
                 # Special case for the text body
                 return ( 'topic.raw', 'topic' );
@@ -301,9 +294,17 @@ sub _hoistValue {
 
             # Otherwise assume the term before the dot is the form name
             return (
-"EXISTS(SELECT * FROM FORM WHERE FORM.tid=topic.tid AND FORM.name='$lhs') AND FIELD.name='$rhs' AND FIELD.value",
-                "FIELD"
+"\"FIELD\".tid IN (SELECT tid FROM \"FORM\" WHERE \"FORM\".name='$lhs') AND \"FIELD\".name='$rhs' AND \"FIELD\".value",
+                'field'
             );
+        }
+        elsif ( !ref( $rhs->{op} )
+            && ref( $lhs->{op} )
+            && $rhs->{op} == NAME )
+        {
+
+            # complex.NAME
+            # TODO
         }
     }
     elsif ( !ref( $node->{op} ) && $node->{op} == NAME ) {
@@ -315,12 +316,14 @@ sub _hoistValue {
             return ( "topic.$1", 'topic' );
         }
         else {
-            return ( "FIELD.name='$node->{params}[0]' AND FIELD.value",
-                'FIELD' );
+
+            # Want the value of a field
+            return ( "\"FIELD\".name='$node->{params}[0]' AND \"FIELD\".value",
+                '"FIELD"' );
         }
     }
 
-    print STDERR "\tFAILED\n" if MONITOR;
+    print STDERR "\tFAILED2 " . $node->stringify() . "\n" if MONITOR;
     return ( undef, undef );
 }
 

@@ -2,11 +2,12 @@
 package Foswiki::Contrib::DBIStoreContrib;
 
 use strict;
+use Foswiki ();
 
-our $VERSION = '$Rev$';    # version of *this file*.
+our $VERSION = '1.1';    # version of *this file*.
 
-our $RELEASE = '1.0';
+our $RELEASE = '12 Dec 2013';
 
 our $SHORTDESCRIPTION =
-  '(Experimental) use of DBI to implement an SQL query search';
+'Use DBI to implement searching using an SQL database. Supports SQL queries over Form data.';
 

@@ -1,6 +1,4 @@
-# Dependencies for DBIStoreContrib
-# Example:
-# Time::ParseDate,>=2003.0211,cpan,Required.
-# Foswiki::Plugins,>=1.2,perl,Requires version 1.2 of handler API.
-DBD::Pg,>=1.49,cpan,Required.
 DBI,>=0.1,cpan,Required.
+DBD::Pg,>=1.49,cpan,Optional,Required for PostgreSQL.
+DBD::MySql,>=0,cpan,Optional,Required for MySQL.
+DBD::SQLite3,>=0,cpan,Optional,Required for SQLite, and for testing.
