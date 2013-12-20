@@ -248,6 +248,10 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
         }
     }
 
+    # make sure the project name (and hence the files we generate)
+    # do not contain spaces
+    $name =~ s/\s/_/g;
+
     my $this = $class->SUPER::new( $name, "Foswiki" );
     return $this;
 }
