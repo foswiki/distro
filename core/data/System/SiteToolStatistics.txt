@@ -102,10 +102,11 @@ By default, the statistics script may be run by anyone, however the user must ha
 ---+++ Configuring for automatic operation
 You can automatically generate usage statistics for all webs. To enable this:
 
-   * The <nop>%STATISTICSTOPIC% topic must be present in all webs where you want to have statistics. See below for how to create the <nop>%STATISTICSTOPIC% topic.
+   * By default, the <nop>%STATISTICSTOPIC% topic must be present in all webs where you want to have statistics. See below for how to create the <nop>%STATISTICSTOPIC% topic.
    * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the <nop>%STATISTICSTOPIC% topics in all top level webs. (Sub-webs are not processed by default).
-   * The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems.
-   * Example crontab entry: %BR% =0 0 * * * (cd /path/to/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
+   * %X% *Caution:* The script *must* run as the same user as the Web Server CGI scripts. This varies by platform, but is typically =apache=, =www=. or =nobody= on many systems.  Verify this before running statistics from the command line or cron.  If the ownership of critical files is changed, it can render the Foswiki server inoperable.
+   * Example crontab entry to process all webs and subwebs containing a !WebStatistics topic: %BR% =0 0 * * * (cd /path/to/bin; ./statistics -subwebs 1 &gt;/dev/null 2&gt;&amp;1)=
+      * This crontab entry should be installed for the web server user, not =root=!
 <blockquote class="foswikiHelp">
 %T% There is a workaround in case you can't run the script as the CGI user. Use the =curl= or =wget= tools available on most distributions. These two examples perform the same function using curl and wget in the crontab. You should only use one of them.
 <verbatim>
@@ -125,10 +126,11 @@ When running from the command line or a cron job, you can pass parameters to the
 <verbatim class="bash">
 ./statistics -logdate 200605 -webs Userweb,Sandbox -autocreate 1 -subwebs 1
 </verbatim>
-| *Parameter* | *Usage* | *Default* |
-| =-logdate= | Specify date of logfile in YYYYDD format. | Current logfile |
-| =-webs= | Comma separated list of webs | All top level webs |
-| =-autocreate= | 1 to enable inclusion of subwebs | =disabled=. Subwebs must be explicitly listed in =-webs= to be processed. |
+| *Parameter* | *Description* | *Default* |
+| =autocreate= | Flag to request auto-creation of missing !WebStatistics topics. 0=false 1=true | _(See logging and statistics page in =bin/configure=.)_ |
+| =logdate= | Generate statistics for the specified year/month, spacified as =YYYYMM= | _current month_ |
+| =subwebs= | Flag to request processing of subwebs of the requested webs. 0=false 1=true | 0 _(Subwebs are not processed)_ |
+| =webs= | comma-separated list of webs. | _all accessible webs_ |
 
 ---+++ Creating the <nop>%STATISTICSTOPIC% topics
 As of release 1.1.4 of Foswiki, the !WebStatistics topics are no longer shipped by default. The =bin/statistics= script can automatically create the required topics when enabled in the configuration, or when requested by URL Parameter =autocreate=1=.

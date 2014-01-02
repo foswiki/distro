@@ -526,20 +526,27 @@ This cgi script has been deprecated. When called, it will redirect to the WebSea
 <!--
    * Set ISSTATISTICSTOPIC = %IF{"istopic '%STATISTICSTOPIC%'" else="!WebStatistics" then="[[$percntSTATISTICSTOPIC$percnt][WebStatistics]]"}%
 -->
+
+<div class="foswikiHelp">%X% *Note:* This script is no longer callable using a
+simple HTTP "GET" operation.  It must be called using the POST method using a
+form.
+</div>
+
 Refresh the %ISSTATISTICSTOPIC% topics in range of webs.
 | *Parameter* | *Description* | *Default* |
-| =logdate= | YYYYMM to generate statistics for | _current month_ |
-| =webs= | comma-separated list of webs to run stats on | _all accessible webs_ |
+| =autocreate= | Flag to request auto-creation of missing !WebStatistics topics. 0=false 1=true | _(See logging and statistics page in =bin/configure=.)_ |
+| =logdate= | Generate statistics for the specified year/month, spacified as =YYYYMM= | _current month_ |
+| =subwebs= | Flag to request processing of subwebs of the requested webs. 0=false 1=true | 0 _(Subwebs are not processed)_ |
+| =webs= | comma-separated list of webs. | _all accessible webs_ |
 
-for example:
-   1 from browser %SCRIPTURL{"statistics"}% updates _all user webs_
-   2 from browser %SCRIPTURL{"statistics"}%?webs=Userweb,%SANDBOXWEB% updates _Userweb,%SANDBOXWEB%_
-   3 from browser %SCRIPTURL{"statistics"}%/%WEB%/ updates %WEB%
-   4 from command line bin/statistics updates _all user webs_
-   5 from command line bin/statistics -webs=Userweb,%SANDBOXWEB% updates _Userweb,%SANDBOXWEB%_
-   6 from command line bin/statistics %WEB%.<nop>WebHome updates %WEB%
+Command line examples:  (All run by first changing to the =foswiki/bin= directory)
+<div class="foswikiAlert">%X% *Caution:* This script writes to foswiki system files.  It *must* be run as the web server user.  If ownership of critical system files is changed, it may disrupt the web server!
+</div>
+   1 ==./statistics== updates _all user webs, excluding subwebs_
+   1 ==./statistics webs=Userweb,%SANDBOXWEB% subwebs=1== updates _Userweb and %SANDBOXWEB% including subwebs_
+   1 ==./statistics -webs %WEB% -autocreate 1== updates %WEB%, creating a missing !WebStatistics topic if permitted by configuration.
 
-see SiteTools#WebStatistics for more details on %ISSTATISTICSTOPIC% and how to update statistics using cron.
+see SiteToolStatistics for more details on %ISSTATISTICSTOPIC%, a form you can POST to update statistics, and how to update statistics using cron.
 
 ---+++ =upload=
 Uploads an attachment to a topic. The HTTP request is expected to be in =multipart/form-data= format.
