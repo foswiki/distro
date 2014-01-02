@@ -71,16 +71,17 @@ The following API can be used by administrators to delete a user's account.
    * The user is removed from any groups
 
 <!-- %JQREQUIRE{"ui, ui::autocomplete"}% -->
-<h3>Enter user to be removed</h3>
 <form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
+---++++!! Enter user to be removed
 %INCLUDE{"%SYSTEMWEB%.JQueryAjaxHelper" section="userselector" INPUT_NAME="user" MULTI="false"}%
 <hr />
-<h4>Remove user topic:</h4>
-<input type="checkbox" checked="checked" name="removeTopic' class="foswikiInputField">
+---++++!! Remove user topic?
+<input type="checkbox" id="removeTopic" name="removeTopic" checked="checked" class="foswikiCheckbox" /> _(Check to remove topic)_ 
+Prefix for deleted topic: <input type="text" name="topicPrefix" class="foswikiInputField" value="DeletedUser" /> _(Follow topic naming rules)_
 <hr />
-<input type="hidden" name="action" value="deleteUserAccount">
+<input type="hidden" name="action" value="deleteUserAccount" />
 <input type="submit" class="foswikiSubmit" value="Remove User" />
 </form>
 </div>

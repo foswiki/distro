@@ -289,6 +289,13 @@
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"bad_prefix"}%
+---+++ %MAKETEXT{"Incorrect Prefix"}%
+%MAKETEXT{"The prefix you entered for the deleted user is not valid as a topic name."}%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"reset_ok"}%
 %PARAM1%
 
@@ -328,13 +335,15 @@
 %TMPL:END%
 %{==============================================================================}%
 %TMPL:DEF{"remove_user_done"}%
----+++ %MAKETEXT{"User Account [_1] Deleted" args="!%PARAM1%"}%
+<noautolink>
+---+++ %MAKETEXT{"User Account [_1] Deleted" args="%PARAM1%"}%
 %MAKETEXT{"The user has been removed from the Authentication System."}%
 
 <h3>%MAKETEXT{"Details:"}%</h3>
 <pre>
 %PARAM2%
 </pre>
+</noautolink>
 
 %MAKETEXT{"Return to [_1]" args="[[%WEB%.%TOPIC%]]"}%
 %TMPL:END%

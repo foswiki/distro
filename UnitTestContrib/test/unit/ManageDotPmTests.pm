@@ -1095,6 +1095,148 @@ qr/user removed from Mapping Manager.*user removed from EricCartmanGroup.*user t
     );
 }
 
+sub verify_deleteUserWithPrefix {
+    my $this = shift;
+
+    my $ret = $this->registerUserExceptionTwk( 'eric', 'Eric', 'Cartman',
+        'eric@example.com' );
+    $this->assert_null( $ret, "Respect mah authoritah" );
+    $this->{new_user_wikiname} = 'EricCartman';
+    $this->{new_user_login}    = 'eric';
+
+    $this->assert(
+        Foswiki::Func::addUserToGroup(
+            $this->{new_user_wikiname}, $this->{new_user_wikiname} . 'Group',
+            1
+        )
+    );
+
+    # Test with an invalid prefix
+
+    my $query = Unit::Request->new(
+        {
+            'user'      => $this->{new_user_wikiname},
+            action      => 'deleteUserAccount',
+            removeTopic => '1',
+            topicPrefix => 'foo@#$',
+        }
+    );
+    my $uname =
+      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
+
+    $this->createNewFoswikiSession( 'AdminUser', $query );
+    $query->method('POST');
+    $query->path_info("/System/ManagingUsers");
+    my $resp   = '';
+    my $out    = '';
+    my $result = '';
+    my $err    = '';
+    try {
+        ( $resp, $result, $out, $err ) =
+          $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( '500',     $e->{status},   $e->stringify() );
+        $this->assert_str_equals( 'bad_prefix', $e->{def}, $e->stringify() );
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+
+    # Test again, with a valid prefix
+
+    $query = Unit::Request->new(
+        {
+            'user'      => $this->{new_user_wikiname},
+            action      => 'deleteUserAccount',
+            removeTopic => '1',
+            topicPrefix => 'KilledKenny',
+        }
+    );
+    $uname =
+      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
+
+    $this->createNewFoswikiSession( 'AdminUser', $query );
+    $query->method('POST');
+    $query->path_info("/System/ManagingUsers");
+    $resp   = '';
+    $out    = '';
+    $result = '';
+    $err    = '';
+    try {
+        ( $resp, $result, $out, $err ) =
+          $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "remove_user_done", $e->{def},
+            $e->stringify() );
+        $this->assert_str_equals(
+            'EricCartman',
+            ${ $e->{params} }[0],
+            ${ $e->{params} }[0]
+        );
+        $this->assert_matches(
+qr/user removed from Mapping Manager.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.KilledKennyEricCartman[0-9]{10,10}/s,
+            ${ $e->{params} }[1]
+        );
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+
+    $this->assert(
+        !Foswiki::Func::isGroupMember(
+            $this->{new_user_wikiname},
+            $this->{new_user_wikiname} . 'Group'
+        )
+    );
+
+    # User should be gone from the passwords DB
+    # OK to use filenames; FoswikiFnTestCase forces password manager to
+    # HtPasswdUser
+    $this->assert_null(
+        `grep $this->{new_user_login} $Foswiki::cfg{Htpasswd}{FileName}`)
+      if $Foswiki::cfg{Register}{AllowLoginName};
+    $this->assert_null(
+        `grep $this->{new_user_wikiname} $Foswiki::cfg{Htpasswd}{FileName}`);
+
+    my ( $crap, $wu ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        $Foswiki::cfg{UsersTopicName} );
+    $this->assert( $wu !~ /$this->{new_user_wikiname}/s );
+    $this->assert( $wu !~ /$this->{new_user_login}/s );
+
+    $this->assert(
+        !Foswiki::Func::topicExists(
+            $Foswiki::cfg{UsersWebName},
+            $this->{new_user_wikiname}
+        )
+    );
+}
+
 sub test_createDefaultWeb {
     my $this   = shift;
     my $newWeb = $this->{test_web} . 'NewExtra';    #no, this is not nested

@@ -722,11 +722,12 @@ NB. deleteUser is invoked from the =manage= script.
 sub deleteUser {
     my $session = shift;
 
-    my $webName = $session->{webName};
-    my $topic   = $session->{topicName};
-    my $query   = $session->{request};
-    my $cUID    = $session->{user};
-    my $user    = $query->param('user');
+    my $webName     = $session->{webName};
+    my $topic       = $session->{topicName};
+    my $query       = $session->{request};
+    my $cUID        = $session->{user};
+    my $user        = $query->param('user');
+    my $topicPrefix = $query->param('topicPrefix');
 
     # Check that the method was POST
     if (   $query
@@ -755,10 +756,12 @@ sub deleteUser {
 
     Foswiki::UI::checkValidationKey($session);
 
+    # Default behavior is to leave the user topic in place. Checkbox parameters
+    # are not submitted unless checked.
     my $removeTopic =
       ( defined $query->param('removeTopic') )
       ? $query->param('removeTopic')
-      : 1;
+      : 0;
 
     # This is the old behavior - remove the current logged in user.  For safety
     # Make sure the requested user = current user.
@@ -802,9 +805,22 @@ sub deleteUser {
         }
     }
 
+    if ( $removeTopic && $query->param('topicPrefix') ) {
+        $topicPrefix = Foswiki::Sandbox::untaint( $query->param('topicPrefix'),
+            \&Foswiki::Sandbox::validateTopicName );
+        throw Foswiki::OopsException(
+            'register',
+            web   => $webName,
+            topic => $topic,
+            def   => 'bad_prefix'
+        ) unless ($topicPrefix);
+    }
+
+    $topicPrefix ||= 'DeletedUser';
+
     my ( $m, $lm ) =
       _processDeleteUser(
-        { cuid => $user, removeTopic => $removeTopic, prefix => "DeletedUser" }
+        { cuid => $user, removeTopic => $removeTopic, prefix => $topicPrefix }
       );
 
     Foswiki::Func::writeWarning("$cUID: $lm");
