@@ -272,16 +272,13 @@ sub _collectLogData {
         my $line = $it->next();
         my $date = shift(@$line);
         last if $date > $end;    # Stop processing when we've done one month
-        my $logFileUserName;
 
-        while ( !$logFileUserName && scalar(@$line) ) {
-            $logFileUserName = shift @$line;
+        my $logFileUserName = shift @$line;
 
-            # Use Func::getCanonicalUserID because it accepts login,
-            # wikiname or web.wikiname
-            $logFileUserName =
-              Foswiki::Func::getCanonicalUserID($logFileUserName);
-        }
+        # Use Func::getCanonicalUserID because it accepts login,
+        # wikiname or web.wikiname
+        my $canonicalUID = Foswiki::Func::getCanonicalUserID($logFileUserName);
+        $logFileUserName = $canonicalUID if ($canonicalUID);
 
         my ( $opName, $webTopic, $notes, $ip ) = @$line;
 
