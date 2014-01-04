@@ -1215,6 +1215,7 @@ sub checkPerlModules {
     foreach my $mod (@$mods) {
         $mod->{minimumVersion} ||= 0;
         $mod->{disposition}    ||= '';
+        $mod->{condition}      ||= '>=';
         my $n = '';
 
         my $type = $mod->{name} =~ /^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
@@ -1222,11 +1223,9 @@ sub checkPerlModules {
         my $dep = Foswiki::Configure::Dependency->new(
             module  => $mod->{name},
             type    => $type,
-            version => ">=$mod->{minimumVersion}",
+            version => $mod->{condition} . $mod->{minimumVersion},
         );
         my ( $ok, $msg ) = $dep->check();
-
-        print STDERR "$msg OK= $ok\n";
 
         if ( $dep->{installed} ) {
             $mod->{installedVersion} =

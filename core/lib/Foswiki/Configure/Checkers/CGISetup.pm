@@ -859,8 +859,8 @@ sub _loadDEPENDENCIES {
         next unless $line;
         my @row = split( /,\s*/, $line, 4 );
         next unless ( scalar(@row) == 4 && $row[2] eq 'cpan' );
-        my $ver = $row[1];
-        $ver =~ s/[<>=]//g;
+        my ( $cond, $ver ) = $row[1] =~ m/^([=<>!]*)(.*)$/;
+        $cond ||= '>=';
         $row[0] =~ /([\w:]+)/;    # check and untaint
         my $modname = $1;
 
@@ -915,6 +915,7 @@ s,\[\[(https?://[^\]]+)\]\[([^\]]+)\](?:\[[^\]]*\])?\],$dlink"$1">$2</a>,gms;
                 usage          => $usage,
                 minimumVersion => $ver || 0,
                 minVersionUser => $who,
+                condition      => $cond,
                 disposition    => lc($dispo),
                 users          => [$who],
             }
