@@ -347,14 +347,20 @@ BEGIN {
     }
 
     unless ( $Foswiki::cfg{isVALID} ) {
+        if ( !$Foswiki::configureFork ) {
 
-        # Special hack to support the new ConfigurePlugin. If we were
-        # unable to load a valid LSC, try to load the plugin. If this
-        # fails we will carry blindly on.
-        eval 'require Foswiki::Plugins::ConfigurePlugin';
-        print STDERR
+            # configureFork is set when configure intentionally loads Foswiki.pm
+            # And has set the environment to prevent the reloading and overlay
+            # of the configuration hash
+
+            # Special hack to support the new ConfigurePlugin. If we were
+            # unable to load a valid LSC, try to load the plugin. If this
+            # fails we will carry blindly on.
+            eval 'require Foswiki::Plugins::ConfigurePlugin';
+            print STDERR
 "WARNING: failed to load ConfigurePlugin to support bootstrap configuration: $@\n"
-          if $@;
+              if $@;
+        }
     }
 
     if ( $Foswiki::cfg{UseLocale} ) {

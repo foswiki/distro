@@ -632,8 +632,13 @@ HERE
             close $fh;
         }
         else {
+
+# Prevent Foswiki::Configure::Load::readConfig() from reloading the configuration
+# And tell Foswiki.pm that it has been intentionally forked from configure
+# so that ConfigurePlugin hack and other error checks are bypassed.
             $Foswiki::cfg{ConfigurationFinished} = 1;
             $Foswiki::configureFork = 1;
+
             eval 'require Foswiki';
             if ($@) {
                 $mess = $@;
