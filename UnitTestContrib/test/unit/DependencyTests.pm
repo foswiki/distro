@@ -44,7 +44,7 @@ sub test_check_dep_last_resort1 {
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
     $this->assert_matches(
-qr/Foswiki::Contrib::UnitTestContrib::LastResortWontLoad version v1.2.3_100 loaded/,
+qr/Foswiki::Contrib::UnitTestContrib::LastResortWontLoad version v1.2.3_100 installed/,
         $message
     );
 }
@@ -77,7 +77,7 @@ sub test_check_foswiki_rev {
     );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/^Foswiki version Foswiki-(.*) loaded$/,
+    $this->assert_matches( qr/^Foswiki version Foswiki-(.*) installed$/,
         $message );
 
 }
@@ -86,12 +86,12 @@ sub test_check_dep_carp {
     my ($this) = @_;
 
     # Check a normally installed dependency
-    # 1, Carp v1.03 loaded
+    # 1, Carp v1.03 installed
     my $dep =
       new Foswiki::Configure::Dependency( type => "cpan", module => "Carp" );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Carp version .* loaded/, $message );
+    $this->assert_matches( qr/Carp version .* installed/, $message );
 
 }
 
@@ -99,7 +99,7 @@ sub test_check_dep_carp_with_version {
     my ($this) = @_;
 
     # Check a normally installed dependency
-    # 1, Carp v1.03 loaded
+    # 1, Carp v1.03 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "cpan",
         module  => "Carp",
@@ -107,7 +107,7 @@ sub test_check_dep_carp_with_version {
     );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Carp version .* loaded/, $message );
+    $this->assert_matches( qr/Carp version .* installed/, $message );
 
 }
 
@@ -134,7 +134,7 @@ sub test_check_dep_version_with_superior {
     my ($this) = @_;
 
     # Check a normal installed dependency with a superior sign
-    # 1, HTML::Parser v1.05 loaded
+    # 1, HTML::Parser v1.05 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "cpan",
         module  => "HTML::Parser",
@@ -142,7 +142,8 @@ sub test_check_dep_version_with_superior {
     );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/HTML::Parser version \d+\.\d+ loaded/, $message );
+    $this->assert_matches( qr/HTML::Parser version \d+\.\d+ installed/,
+        $message );
 
 }
 
@@ -150,7 +151,7 @@ sub test_check_dep_version_with_inferior {
     my ($this) = @_;
 
     # Check a normal installed dependency with an inferior
-    # 1, HTML::Parser v1.05 loaded
+    # 1, HTML::Parser v1.05 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "cpan",
         module  => "HTML::Parser",
@@ -158,7 +159,8 @@ sub test_check_dep_version_with_inferior {
     );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok, $HTML::Parser::VERSION );
-    $this->assert_matches( qr/HTML::Parser version \d+\.\d+ loaded/, $message );
+    $this->assert_matches( qr/HTML::Parser version \d+\.\d+ installed/,
+        $message );
 
 }
 
@@ -185,7 +187,7 @@ sub test_check_dep_version_with_rev {
     my ($this) = @_;
 
     # Check a normal installed dependency with a $Rev$ version number
-    # 1, Foswiki::Contrib::JSCalendarContrib v1234 loaded
+    # 1, Foswiki::Contrib::JSCalendarContrib v1234 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
         module  => "Foswiki::Plugins::SmiliesPlugin",
@@ -194,7 +196,7 @@ sub test_check_dep_version_with_rev {
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
-        qr/Foswiki::Plugins::SmiliesPlugin version .* loaded/, $message );
+        qr/Foswiki::Plugins::SmiliesPlugin version .* installed/, $message );
     $this->assert( $message =~ /version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
@@ -204,7 +206,7 @@ sub test_check_dep_version_with_implied_svn {
     my ($this) = @_;
 
     # Check a normal installed dependency with a svn version number
-    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
@@ -213,8 +215,9 @@ sub test_check_dep_version_with_implied_svn {
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
-        qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* loaded/,
-        $message );
+        qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* installed/,
+        $message
+    );
     $this->assert( $message =~ /version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
@@ -224,7 +227,7 @@ sub test_check_dep_version_with_explicit_svn {
     my ($this) = @_;
 
     # Check a normal installed dependency with a svn version number
-    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
@@ -233,8 +236,9 @@ sub test_check_dep_version_with_explicit_svn {
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
-        qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* loaded/,
-        $message );
+        qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion .* installed/,
+        $message
+    );
     $this->assert( $message =~ /version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
@@ -244,7 +248,7 @@ sub test_check_dep_version_with_unsatisfied_explicit_svn {
     my ($this) = @_;
 
     # Check a normal installed dependency with a svn version number
-    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
@@ -265,7 +269,7 @@ sub test_check_dep_version_with_unsatisfied_svn {
     my ($this) = @_;
 
     # Check a normal installed dependency with a svn version number
-    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 loaded
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1234 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
@@ -286,7 +290,7 @@ sub test_check_dep_version_with_multi_part_number {
     my ($this) = @_;
 
     # Check a normal installed dependency with a 1.23.4 version number
-    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1.23.4 loaded
+    # 1, Foswiki::Contrib::UnitTestContrib::MultiDottedVersion v1.23.4 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
         module  => "Foswiki::Contrib::UnitTestContrib::MultiDottedVersion",
@@ -295,7 +299,7 @@ sub test_check_dep_version_with_multi_part_number {
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
-qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version 1\.23\.4 loaded/,
+qr/Foswiki::Contrib::UnitTestContrib::MultiDottedVersion version 1\.23\.4 installed/,
         $message
     );
 }
@@ -328,7 +332,7 @@ sub test_check_dep_version_with_underscore {
     my ($this) = @_;
 
     # Check a normal installed dependency with a version number that includes _
-    # 1, Algorithm::Diff v1.19_01 loaded
+    # 1, Algorithm::Diff v1.19_01 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
         module  => "Algorithm::Diff",
@@ -336,8 +340,8 @@ sub test_check_dep_version_with_underscore {
     );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok );
-    $this->assert_matches( qr/Algorithm::Diff version \d+\.\d+(?:_\d+)? loaded/,
-        $message );
+    $this->assert_matches(
+        qr/Algorithm::Diff version \d+\.\d+(?:_\d+)? installed/, $message );
 
 }
 

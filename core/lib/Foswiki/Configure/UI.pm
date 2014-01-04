@@ -23,7 +23,8 @@ use Cwd qw( abs_path );
 use FindBin ();
 use Digest::MD5 qw(md5_hex);
 use File::Spec qw(splitpath catpath splitdir catdir);
-use Foswiki::Configure::Load ();
+use Foswiki::Configure::Load       ();
+use Foswiki::Configure::Dependency ();
 
 our $totwarnings;
 our $toterrors;
@@ -356,7 +357,7 @@ sub getUrl {
     my ( $this, $url ) = @_;
 
     unless ( defined $Foswiki::VERSION ) {
-        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
         die "No Foswiki.pm\n" unless ($fwi);
     }
     require Foswiki::Net;
@@ -1216,14 +1217,21 @@ sub checkPerlModules {
         $mod->{disposition}    ||= '';
         my $n = '';
 
-        my ( $installed, $mod_version ) = extractModuleVersion( $mod->{name} );
+        my $type = $mod->{name} =~ /^(Foswiki|TWiki)\b/ ? 'perl' : 'cpan';
 
-        if ($installed) {
-            $mod_version ||= 0;
-            $mod_version =~ s/(\d+(\.\d*)?).*/$1/;    # keep 99.99 style only
+        my $dep = Foswiki::Configure::Dependency->new(
+            module  => $mod->{name},
+            type    => $type,
+            version => ">=$mod->{minimumVersion}",
+        );
+        my ( $ok, $msg ) = $dep->check();
 
-            $mod->{installedVersion} = $mod_version || 'Unknown version';
-            if ( $mod_version < $mod->{minimumVersion} ) {
+        print STDERR "$msg OK= $ok\n";
+
+        if ( $dep->{installed} ) {
+            $mod->{installedVersion} =
+              $dep->{installedVersion} || 'Unknown version';
+            unless ($ok) {
                 $n = $mod->{installedVersion};
                 $n .=
                     ' installed. <span class="foswikiAlert">Version '
@@ -1248,11 +1256,11 @@ sub checkPerlModules {
             }
         }
         else {
-            $mod_version ||= 'Unknown version';
-            $n = $mod_version . ' installed.';
-            $n .= ' ' . $mod->{usage} if $mod->{usage};
+            $n = $dep->{installedVersion} ||= 'Unknown version';
+            $n .= ' installed. ' . $mod->{usage} if $mod->{usage};
             $n = $this->NOTE($n);
         }
+
         if ($useTR) {
             my $modname = $mod->{name};
             if ( $useTR == 2 )
@@ -1283,96 +1291,6 @@ sub checkPerlModule {
         ]
     );
     return $error;
-}
-
-=begin TML
-
----++ StaticMethod extractModuleVersion ($moduleName, $magic) -> ($moduleFound, $moduleVersion, $modulePath)
-
-Locates a module in @INC and parses it to determine its version.  If the second parameter is
-true, it magically handles Foswiki.pm's version construction.
-
-Returns:
-  $moduleFound - True if the module was found (and could be opended for read)
-  $moduleVersion - The module version that was extracted, or undef if none was found.
-  $modulePath - The full path to the module.
-
-Require was used previously, but it doesn't scale and can have side-effects such a
-loading many unused dependencies, even LocalSite.cfg if it's a Foswiki module.
-
-Since $VERSION is usually declared early in a module, we can also avoid reading
-most of (most) files.
-
-This parser was inspired by Module::Extract::VERSION, though this is simplified and
-has special magic for the Foswiki build.
-
-=cut
-
-sub extractModuleVersion {
-    my $module    = shift;
-    my $FoswikiPM = shift;
-
-    my $file = $module;
-    $file =~ s,::,/,g;
-    $file .= '.pm';
-    my ( $mod_version, $mod_release );
-    $mod_release = '';
-
-    foreach my $dir (@INC) {
-        open( my $mf, '<', "$dir/$file" ) or next;
-        local $/ = "\n";
-        local $_;
-        my $pod;
-        while (<$mf>) {
-            chomp;
-            if (/^=cut/) {
-                $pod = 0;
-                next;
-            }
-            if (/^=/) {
-                $pod = 1;
-                next;
-            }
-            next if ($pod);
-            s/\s*#.*$//;
-            if ($FoswikiPM) {
-                if (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=~\s*(.*?);/) {
-                    my $exp = $1;
-                    $exp =~ s/\$RELEASE/\$mod_release/g;
-                    eval "\$mod_version =~ $exp;";
-                    die "Failed to eval $1 from $_ in $file at line $.: $@\n"
-                      if ($@);
-                    last;
-                }
-                if (
-/\$VERSION\s*=\s*version->(?:new|parse|declare)\s*\(\s*"([vV]\d+\.\d+\.\d+(?:_\d+)?)"\s*\)/
-                  )
-                {
-                    $mod_version = $1;
-                    last;
-                }
-                if (
-/^\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=[^~]\s*(.*?);/
-                  )
-                {
-                    eval "\$mod_" . lc($1) . " = $2;";
-                    die "Failed to eval $2 from $_ in $file at line $.: $@\n"
-                      if ($@);
-                    next;
-                }
-                next;
-            }
-            next unless (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(.*?);/);
-            eval "\$mod_version = $1;";
-
-    # die "Failed to eval $1 from $_ in $file at line $. $@\n" if( $@ ); # DEBUG
-            last;
-        }
-        close $mf;
-        return ( 1, $mod_version, "$dir/$file" );
-    }
-
-    return ( 0, undef );
 }
 
 sub getTemplateParser {

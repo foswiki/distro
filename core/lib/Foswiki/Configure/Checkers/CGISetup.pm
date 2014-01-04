@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure qw/:cgi :auth/;
+use Foswiki::Configure::Dependency ();
 
 use Foswiki::Configure::Checkers::AUDITGROUP;
 our @ISA = qw(Foswiki::Configure::Checkers::AUDITGROUP);
@@ -472,7 +473,7 @@ sub getExecEnv {
     local $Foswiki::Net::LWPAvailable = 0 && $Foswiki::Net::LWPAvailable;
     local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
     unless ( defined $Foswiki::VERSION ) {
-        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
         $Foswiki::Version = '0.0' unless ($fwi);
     }
 
@@ -599,7 +600,8 @@ sub analyzeFoswiki {
     $Foswiki::cfg{ConfigurationFinished} = 1;    # Necessary?
 
     my ( $fwinst, $fwver ) =
-      Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 'magic' );
+      Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki',
+        'magic' );
     my $mess;
     if ($fwinst) {
         $mess = "Foswiki.pm (Version: <strong>$fwver</strong>) found";
@@ -890,7 +892,7 @@ s,\[\[(https?://[^\]]+)\]\[([^\]]+)\](?:\[[^\]]*\])?\],$dlink"$1">$2</a>,gms;
             push @{ $info->{users} }, $who;
             my $prevVer = $info->{minimumVersion};
             $prevVer =~ s/(\d+(\.\d*)?).*/$1/;
-            $ver     =~ s/(\d+(\.\d*)?).*/$1/;
+            $ver =~ s/(\d+(\.\d*)?).*/$1/;
             if ( $ver > $prevVer ) {
                 $info->{minimumVersion} = $ver;
                 $info->{minVersionUser} = $who;

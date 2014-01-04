@@ -130,6 +130,7 @@ Create an object instance representing a single dependency, as read from DEPENDE
       * =description      => text=
 
    * Instance variables set by calling studyInstallation() or indirectly by calling check() 
+      * =installed        => True if module is installed=
       * =installedVersion => $VERSION string from module=
       * =installedRelease => $RELEASE string from module (or $VERSION)=
       * =notes            => text   Notes on condition of module= (ex. fails due to missing dependency)
@@ -208,7 +209,7 @@ LALA
         }
     }
     return ( 1, <<LALA );
-$this->{module} version $this->{installedRelease} loaded
+$this->{module} version $this->{installedRelease} installed
 LALA
 }
 
@@ -228,110 +229,44 @@ sub studyInstallation {
     my $this        = shift;
     my $load_errors = '';
 
+    my ( $inst, $ver, $loc, $rel );
+
     if ( !$this->{module} ) {
         my $lib = ( $this->{name} =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
         foreach my $namespace (qw(Foswiki TWiki)) {
             my $path = $namespace . '::' . $lib . '::' . $this->{name};
-            eval "require $path";
-            unless ( $@ && $@ =~ m/^Can't locate $path/ ) {
+            ( $inst, $ver, $loc, $rel ) =
+              extractModuleVersion( $path, 'magic' );
+            if ($inst) {
                 $this->{module} = $path;
-                $load_errors = $@ if ($@);
                 last;
             }
         }
     }
+    else {
+        ( $inst, $ver, $loc, $rel ) =
+          extractModuleVersion( $this->{module}, 'magic' );
+    }
+
+    if ($inst) {
+        $this->{installedVersion} = $ver;
+        $this->{installedRelease} = $rel || $ver;
+        $this->{installed}        = 1;
+        if ( -l $loc ) {
+
+            # Assume pseudo-installed
+            $this->{installedVersion} = '9999.99_999';
+        }
+    }
+    else {
+        $this->{notes}            = "module is not installed";
+        $this->{installedVersion} = '';
+        $this->{installedRelease} = '';
+        return 0;
+    }
+
     return 0 unless $this->{module};
-
-    unless ($load_errors) {
-        eval "require $this->{module}";
-        $load_errors = $@ if ($@);
-    }
-
-    my $path = $this->{module};
-    $path =~ s#::#/#g;
-    $path .= '.pm';
-
-    if ( $load_errors =~ m/^Can't locate $path/ ) {
-        $this->{notes} = "module is not installed";
-        return;
-    }
-    elsif ( $load_errors =~ m/^(Couldn't require|Can't locate|Insecure dep)/ ) {
-        $this->{notes} = "module missing required dependencies";
-        print STDERR
-"Unexpected errors attempting to determine version of dependency\n$load_errors\n";
-        return 1 if ( $this->_recover_versions($path) );
-        return;
-    }
-    elsif ( $load_errors =~ m/^Died/ ) {
-        $this->{notes} = "module died with errors when loaded";
-        print STDERR
-"Unexpected errors attempting to determine version of dependency\n$load_errors\n";
-        return 1 if ( $this->_recover_versions($path) );
-        return;
-    }
-    elsif ($load_errors) {
-        $this->{notes} = "Unknown errors loading module";
-        print STDERR
-"Unexpected errors attempting to determine version of dependency\n$load_errors\n";
-        return 1 if ( $this->_recover_versions($path) );
-        return;
-    }
-
-    no strict 'refs';
-    $this->{installedVersion} = ${"$this->{module}::VERSION"} || 0;
-    $this->{installedRelease} = ${"$this->{module}::RELEASE"}
-      || $this->{installedVersion};
-    use strict 'refs';
-
-    # Check if it's pseudo installed. Only works on platforms that
-    # support soft links (and assumes the pseudo-install was -l)
-    $path = $this->{module};
-    $path =~ s#::#/#g;
-    $path .= '.pm';
-    foreach my $dir (@INC) {
-        if ( -e "$dir/$path" ) {
-            if ( -l "$dir/$path" ) {
-
-                # Assume pseudo-installed
-                $this->{installedVersion} = '9999.99_999';
-            }
-            last;
-        }
-    }
-
     return 1;
-}
-
-sub _recover_versions {
-    my ( $this, $path ) = @_;
-    foreach my $dir (@INC) {
-        if ( -e "$dir/$path" ) {
-
-            my $modfh = open my $mod, '<', "$dir/$path";
-            if ( !$modfh ) {
-                return 0;
-            }
-            my $file_contents = do { local $/; <$mod> };
-            my $VERSION;
-            my $RELEASE;
-
-            my ($version) = $file_contents =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
-            my ($release) =
-              $file_contents =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
-
-            substr( $version, 0, 0, 'use version; ' )
-              if ( $version =~ /version/ );
-
-            eval $version if ($version);
-            eval $release if ($release);
-
-            $this->{installedVersion} = $VERSION || 0;
-            $this->{installedRelease} = $RELEASE || $this->{installedVersion};
-
-            return 1;
-
-        }
-    }
 }
 
 sub compare_using_cpan_version {
@@ -739,6 +674,99 @@ sub _digitise_tuples {
     return ( $a, $b );
 }
 
+=begin TML
+
+---++ StaticMethod extractModuleVersion ($moduleName, $magic) -> ($moduleFound, $moduleVersion, $modulePath)
+
+Locates a module in @INC and parses it to determine its version.  If the second parameter is
+true, it magically handles Foswiki.pm's version construction.
+
+Returns:
+  $moduleFound - True if the module was found (and could be opended for read)
+  $moduleVersion - The module version that was extracted, or undef if none was found.
+  $modulePath - The full path to the module.
+
+Require was used previously, but it doesn't scale and can have side-effects such a
+loading many unused dependencies, even LocalSite.cfg if it's a Foswiki module.
+
+Since $VERSION is usually declared early in a module, we can also avoid reading
+most of (most) files.
+
+This parser was inspired by Module::Extract::VERSION, though this is simplified and
+has special magic for the Foswiki build.
+
+=cut
+
+sub extractModuleVersion {
+    my $module    = shift;
+    my $FoswikiPM = shift;
+
+    my $file = $module;
+    $file =~ s,::,/,g;
+    $file .= '.pm';
+
+    # If module is available but no version, don't return undefined
+    my $mod_version = '0';
+    my $mod_release = '0';
+
+    foreach my $dir (@INC) {
+        open( my $mf, '<', "$dir/$file" ) or next;
+        local $/ = "\n";
+        local $_;
+        my $pod;
+        while (<$mf>) {
+            chomp;
+            if (/^=cut/) {
+                $pod = 0;
+                next;
+            }
+            if (/^=/) {
+                $pod = 1;
+                next;
+            }
+            next if ($pod);
+            next if m/eval/; # Some modules issue $VERSION = eval $VERSION ... bypass that line
+            s/\s*#.*$//;
+            if ($FoswikiPM) {
+                last if ( $mod_version && $mod_release );
+                if (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=~\s*(.*?);/) {
+                    my $exp = $1;
+                    $exp =~ s/\$RELEASE/\$mod_release/g;
+                    eval "\$mod_version =~ $exp;";
+                    die "1-Failed to eval $1 from $_ in $file at line $.: $@\n"
+                      if ($@);
+                    last;
+                }
+
+                if (
+/\$VERSION\s*=\s*version->(?:new|parse|declare)\s*\(\s*['"]([vV]?\d+\.\d+(?:\.\d+)?(?:_\d+)?)['"]\s*\)/
+                  )
+                {
+                    $mod_version = $1;
+                }
+                if (
+/^\s*(?:our\s+)?\$(?:\w*::)*(RELEASE|VERSION)\s*=(?!~)\s*(.*);/
+                  )
+                {
+                    eval "\$mod_" . lc($1) . " = $2;";
+                    die "2-Failed to eval $2 from $_ in $file at line $.: $@\n"
+                      if ($@);
+                    next;
+                }
+                next;
+            }
+            next unless (/^\s*(?:our\s+)?\$(?:\w*::)*VERSION\s*=\s*(.*?);/);
+            eval "\$mod_version = $1;";
+
+    # die "Failed to eval $1 from $_ in $file at line $. $@\n" if( $@ ); # DEBUG
+            last;
+        }
+        close $mf;
+        return ( 1, $mod_version, "$dir/$file", $mod_release );
+    }
+
+    return ( 0, undef );
+}
 1;
 __END__
 Author: Crawford Currie http://wikiring.com

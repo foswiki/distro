@@ -21,6 +21,7 @@ use warnings;
 
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');
+use Foswiki::Configure::Dependency ();
 
 my $installRoot;
 
@@ -70,7 +71,7 @@ sub _installFork {
     require File::Spec;
     require Cwd;
 
-    ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+    ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
     die "No Foswiki.pm\n" unless ($fwi);
 
 #   The safest directory to use for the foswiki root is probably DataDir.

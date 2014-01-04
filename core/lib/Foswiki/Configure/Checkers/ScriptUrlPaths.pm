@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use Foswiki::Configure qw/:cgi :auth/;
+use Foswiki::Configure::Dependency ();
 
 require Foswiki::Configure::Checkers::URLPATH;
 our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
@@ -120,7 +121,7 @@ sub testPath {
     local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
 
     unless ( defined $Foswiki::VERSION ) {
-        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::UI::extractModuleVersion( 'Foswiki', 1 );
+        ( my $fwi, $Foswiki::VERSION ) = Foswiki::Configure::Dependency::extractModuleVersion( 'Foswiki', 1 );
         $Foswiki::Version = '0.0' unless ($fwi);
     }
 

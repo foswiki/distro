@@ -1556,8 +1556,8 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)^ -- perl m
     );
 
     #print "===== INSTALLED =======\n$installed\n";
-    $this->assert_matches( qr/^File::Spec(.*)loaded/ms, $installed,
-        'Installed module File::Spec' );
+    $this->assert_matches( qr/^File::Spec(.*)installed/ms,
+        $installed, 'Installed module File::Spec' );
 
     #
     #  Now uninistall the package
