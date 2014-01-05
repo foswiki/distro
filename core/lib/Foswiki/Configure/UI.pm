@@ -1210,11 +1210,6 @@ sub _encode_Digest {
 #   installedVersion - the version installed (or 'Unknown version')
 sub checkPerlModules {
     my ( $this, $useTR, $mods ) = @_;
-    my $corelist = 0;
-
-    # Module::CoreList was added in perl v5.8.9
-    eval "require Module::CoreList";
-    $corelist = 1 unless ($@);
 
     my $e = '';
     foreach my $mod (@$mods) {
@@ -1248,7 +1243,6 @@ sub checkPerlModules {
         else {
             $n = 'Not installed. ' . $mod->{usage};
         }
-
         if ($n) {
             if ( $mod->{disposition} eq 'required' ) {
                 $n = $this->ERROR($n);
@@ -1263,18 +1257,6 @@ sub checkPerlModules {
         else {
             $n = $dep->{installedVersion} ||= 'Unknown version';
             $n .= ' installed. ' . $mod->{usage} if $mod->{usage};
-            if ($corelist) {
-                if (
-                    my $rel = Module::CoreList::first_release(
-                        $mod->{name}, $mod->{minimumVersion}
-                    )
-                  )
-                {
-                    $n .=
-"<br/>$mod->{name} $mod->{condition}$mod->{minimumVersion} is a core module, since perl "
-                      . version->parse($rel)->normal();
-                }
-            }
             $n = $this->NOTE($n);
         }
 
