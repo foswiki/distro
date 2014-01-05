@@ -33,7 +33,6 @@ Modules marked as Required may still be optional if certain default core feature
 | CPAN:LWP | Required | Used by the Configure Extensions Installer, and for external URL based INCLUDEs |
 | CPAN:version | Required | version >= 0.77 required for module version checks |
 | CPAN:Digest::SHA | Optional | Required to use SHA1 password encoding, since Perl 5.9.3 part of core |
-| CPAN:Digest::SHA1 | Optional | Required by the Foswiki PageCaching feature |
 | CPAN:Win32::Console | Optional | May be required for Internationalization on Windows |
 | CPAN:Archive::Tar | Optional | Required by the Extensions Installer in configure if command line tar or unzip is not available, since Perl 5.9.3 part of core. |
 | CPAN:Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
@@ -60,7 +59,6 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | LWP | =libwww-perl= | |
 | version | =libversion-perl= | Must be version 0.77 or newer |
 | Digest::SHA | =libdigest-sha-perl= | |
-| Digest::SHA1 | =libdigest-sha1-perl= | |
 | URI | =liburi-perl= | |
 | Authen::SASL | =libauthen-sasl= | note, broken on Ubuntu 11.10 x64.  Install using CPAN! |
 
@@ -81,7 +79,6 @@ Install apache2, rcs, and perl-CPAN
 | LWP | =perl-libwww-perl= | |
 | version | | Must be version 0.77 or newer |
 | Digest::SHA | =perl-Digest-SHA= | |
-| Digest::SHA1 | =perl-Digest-SHA1= | |
 | URI | =perl-URI= | |
 | Authen::SASL | =perl-Authen-SASL= | |
 
