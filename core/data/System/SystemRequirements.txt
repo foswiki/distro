@@ -95,6 +95,45 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 %ENDTWISTY{}%
 
+---++++!! Gentoo (ebuild) based distributions
+%TWISTY{ showlink="Show Gentoo details" hidelink="Hide RPM details"}%
+
+Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
+
+| *Perl Module* | *Package to install* | *Notes* |
+| HTML::Parser | =dev-perl/HTML-Parser= | |
+| HTML::Entities | | included with HTML::Parser |
+| HTML::Tree | =dev-perl/HTML-Tree= | |
+| LWP | =dev-perl/libwww-perl= | |
+| version | =perl-core/version= | Must be version 0.77 or newer, included with perl |
+| Digest::SHA | =perl-core/Digest-SHA= | Included with perl |
+| URI | =dev-perl/URI= | |
+| Authen::SASL | =dev-perl/Authen-SASL= | Optional, needed for authenticated SMTP |
+| IO::Socket::SSL | =dev-perl/IO-Socket-SSL= | Optional, support encrypted email connection:  STARTTLS or SSL |
+
+The below modules ship with Foswiki as a "last resort",  install these
+packages to update them to more recent versions:
+
+| *Perl Module* | *Package to install* | *Notes* |
+| Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
+| Cache::* | =dev-perl/Cache-Cache= | |
+| CGI::Session | =dev-perl/CGI-Session= | |
+| Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
+| CSS::Minifier | =dev-perl/CSS-Minifier= | |
+| Error | =dev-perl/Error= | |
+| JavaScript::Minifier | =dev-perl/JavaScript-Minifier= | |
+| Locale::Maketext | =perl-core/locale-maketext= | Included with perl core.  Versions older than 1.23 have security issues! |
+| Locale::Maketext::Lexicon | =dev-perl/locale-maketext-lexicon= | |
+| Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | |
+| Sort::Maker | (no ebuild available ) | |
+
+
+After expanding the Foswiki archive, change the ownership of the files:
+   * =chown -R apache:apache /var/www/path-to-foswiki=
+
+%ENDTWISTY{}%
+
+
 </noautolink>
 #ClientRequirements
 ---+++ Client Requirements
