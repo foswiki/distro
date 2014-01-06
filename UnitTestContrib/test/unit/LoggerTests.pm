@@ -694,6 +694,8 @@ sub verify_simpleWriteAndReplayHashInterface {
                     action     => 'Green',
                     webTopic   => 'Eggs',
                     extra      => 'and',
+                    agent      => 'flim',
+                    blah       => 'at 11',
                     remoteAddr => $tmpIP
                 }
             );
@@ -728,7 +730,8 @@ sub verify_simpleWriteAndReplayHashInterface {
 
         my $expected =
           ( $level eq 'info' )
-          ? join( '.', ( $level, 'Green', 'Eggs', 'and', $ipaddr, $level ) )
+          ? join( '.',
+            ( $level, 'Green', 'Eggs', 'and flim at 11', $ipaddr, $level ) )
           : join( '.',
             ( '', '', '', "$level Green Eggs and $ipaddr", '', $level ) );
         $this->assert_str_equals( $expected, join( '.', @{$data} ) );
@@ -955,6 +958,39 @@ sub test_LogDispatchFileRollingEachEventSinceOnSeveralLogs {
     no warnings 'redefine';
     *Foswiki::Logger::LogDispatch::_time = $cache;
     use warnings 'redefine';
+
+    return;
+}
+
+# Test specific to LogDispatch File logger
+sub test_LogDispatchFileFiltered {
+    my $this = shift;
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 0;
+    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+        'events' => 'info:info:(?i)green|BLUE',
+        'error'  => 'notice:emergency',
+        'debug'  => 'debug:debug',
+    };
+    require Foswiki::Logger::LogDispatch;
+    my $logger = Foswiki::Logger::LogDispatch->new();
+
+    $logger->log( 'info', "Seal GREEN" );
+    $logger->log( 'info', "Dolphin" );
+    $logger->log( 'info', "Whale blue" );
+    $logger->log( 'info', "Porpoise" );
+
+    my $it = $logger->eachEventSince( 0, 'info' );
+    my $data;
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_str_equals( "Seal GREEN", $data->[1] );
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_str_equals( "Whale blue", $data->[1] );
+    $this->assert( !$it->hasNext() );
 
     return;
 }

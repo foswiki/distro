@@ -209,10 +209,8 @@ sub getOldCall {
 
     Foswiki::Logger::setCommonFields($fhash);
     my $level = $fhash->{level};
+    delete $fhash->{level};
     if ( $level eq 'info' ) {
-        push( @fields, $fhash->{user}     || '' );
-        push( @fields, $fhash->{action}   || '' );
-        push( @fields, $fhash->{webTopic} || '' );
 
         # Implement the core event filter
         return undef
@@ -220,9 +218,19 @@ sub getOldCall {
             && defined $Foswiki::cfg{Log}{Action}{ $fhash->{action} }
             && !$Foswiki::cfg{Log}{Action}{ $fhash->{action} } );
 
+        foreach my $key (qw( user action webTopic )) {
+            push( @fields, $fhash->{$key} || '' );
+            delete $fhash->{$key};
+        }
+
         # The original writeEvent appended the agent to the extra field
+        # New version will append agent and any other unaccounted for fields
         my $extra = $fhash->{extra} || '';
-        $extra .= $fhash->{agent} || '';
+        delete $fhash->{extra};
+        foreach my $key ( sort keys %$fhash ) {
+            next if $key eq 'remoteAddr';
+            $extra .= " $fhash->{$key}";
+        }
         push( @fields, $extra );
         push( @fields, $fhash->{remoteAddr} || '' );
     }
