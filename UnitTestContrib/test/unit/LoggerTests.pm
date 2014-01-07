@@ -3,6 +3,7 @@
 package LoggerTests;
 use strict;
 use warnings;
+use utf8;
 use FoswikiTestCase();
 our @ISA = qw( FoswikiTestCase );
 
@@ -57,17 +58,29 @@ sub skip {
           'Log::Dispatch does not perform file rotation',
         'LoggerTests::verify_rotate_error_LogDispatchFileRollingLogger' =>
           'Log::Dispatch does not perform file rotation',
-        'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileLogger'
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileLogger_CharsetUtf8'
           => 'Multilevel eachEvent not implemented yet',
-'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileObfuscatingLogger'
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileObfuscatingLogger_CharsetUtf8'
           => 'Multilevel eachEvent not implemented yet',
-'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileRollingLogger'
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileRollingLogger_CharsetUtf8'
           => 'Multilevel eachEvent not implemented yet',
-        'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileLogger'
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileLogger_CharsetUtf8'
           => 'Multilevel eachEvent not implemented yet',
-'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileObfuscatingLogger'
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileObfuscatingLogger_CharsetUtf8'
           => 'Multilevel eachEvent not implemented yet',
-'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileRollingLogger'
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileRollingLogger_CharsetUtf8'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileLogger_Charset8859'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileObfuscatingLogger_Charset8859'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV0_LogDispatchFileRollingLogger_Charset8859'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileLogger_Charset8859'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileObfuscatingLogger_Charset8859'
+          => 'Multilevel eachEvent not implemented yet',
+'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileRollingLogger_Charset8859'
           => 'Multilevel eachEvent not implemented yet',
 
     );
@@ -220,6 +233,14 @@ sub LogDispatchFileRollingLogger {
     return;
 }
 
+sub CharsetUtf8 {
+    $Foswiki::cfg{Site}{CharSet} = 'utf8';
+}
+
+sub Charset8859 {
+    $Foswiki::cfg{Site}{CharSet} = 'iso-8859-1';
+}
+
 sub fixture_groups {
     my %algs;
     foreach my $dir (@INC) {
@@ -254,7 +275,7 @@ sub fixture_groups {
         }
     }
 
-    return \@groups;
+    return ( \@groups, ( [ 'CharsetUtf8', 'Charset8859' ] ) );
 }
 
 sub verify_eachEventSince_MultiLevelsV0 {
@@ -990,6 +1011,44 @@ sub test_LogDispatchFileFiltered {
     $this->assert( $it->hasNext() );
     $data = $it->next();
     $this->assert_str_equals( "Whale blue", $data->[1] );
+    $this->assert( !$it->hasNext() );
+
+    return;
+}
+
+sub verify_logAndReplayUnicode {
+    my $this    = shift;
+    my $bytestr = "lower delta as a string: \xce\xb4";
+    my $unicode = "lower delta as a string: \x{3b4}";
+    print STDERR "Attempting to log bytestring\n";
+    $this->{logger}->log( 'info', 'info', $bytestr );
+    print STDERR "Attempting to log unicode \n";
+    $this->{logger}->log( 'info', 'info', $unicode );
+    print "Logged Data (bytestr) "
+      . ( ( utf8::is_utf8($bytestr) ) ? "is" : "is not" )
+      . " UTF8\n";
+    print "Logged Data (unicode) "
+      . ( ( utf8::is_utf8($unicode) ) ? "is" : "is not" )
+      . " UTF8\n";
+
+    my $it = $this->{logger}->eachEventSince( 0, 'info' );
+    my $data;
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    $this->assert_str_equals( $bytestr, $data->[2],
+        'byte string is corrupted' );
+    print "Returned Data (bytestr) "
+      . ( ( utf8::is_utf8( $data->[2] ) ) ? "is" : "is not" )
+      . " UTF8\n";
+    print STDERR "$data->[2]\n";
+    $this->assert( $it->hasNext() );
+    $data = $it->next();
+    print "Returned Data (unicode) "
+      . ( ( utf8::is_utf8( $data->[2] ) ) ? "is" : "is not" )
+      . " UTF8\n";
+    print STDERR "$data->[2]\n";
+    $this->assert_str_equals( $bytestr, $data->[2],
+        'unicode string is corrupted' );
     $this->assert( !$it->hasNext() );
 
     return;
