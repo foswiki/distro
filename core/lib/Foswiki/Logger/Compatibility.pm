@@ -1,4 +1,25 @@
 # See bottom of file for license and copyright information
+package Foswiki::Logger::Compatibility::EventIterator;
+use strict;
+use warnings;
+use utf8;
+use Assert;
+
+use Fcntl qw(:flock);
+
+# Internal class for Logfile iterators.
+# So we don't break encapsulation of file handles.  Open / Close in same file.
+our @ISA = qw/Foswiki::Logger::EventIterator/;
+
+# # Object destruction
+# # Release locks and file
+sub DESTROY {
+    my $this = shift;
+    flock( $this->{handle}, LOCK_UN )
+      if ( defined $this->{logLocked} );
+    close( delete $this->{handle} ) if ( defined $this->{handle} );
+}
+
 package Foswiki::Logger::Compatibility;
 
 use strict;
@@ -39,7 +60,7 @@ This is a copy of the Foswiki 1.0 code.
 
 =cut
 
-use Foswiki::Time            ();
+use Foswiki::Time qw(-nofoswiki);
 use Foswiki::Configure::Load ();
 use Fcntl qw(:flock);
 
@@ -173,7 +194,7 @@ sub eachEventSince {
             my $fh;
             if ( -f $logfile && open( $fh, '<', $logfile ) ) {
                 my $logIt =
-                  new Foswiki::Logger::EventIterator( $fh, $time,
+                  new Foswiki::Logger::Compatibility::EventIterator( $fh, $time,
                     $reqLevel, $numLevels, $version, $logfile );
                 $logIt->{logLocked} =
                   eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.

@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Logger::PlainFile;
+package Foswiki::Logger::EventIterator;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use Assert;
 
 =begin TML
 
----++ =Foswiki::Logger::PlainFile::EventIterator=
+---++ =Foswiki::Logger::EventIterator=
 Private subclass of LineIterator that
    * Selects log records that match the requested begin time and levels.
    * reasembles divided records into a single log record
@@ -17,7 +17,6 @@ Private subclass of LineIterator that
 =cut
 
 package Foswiki::Logger::EventIterator;
-use Fcntl qw(:flock);
 require Foswiki::LineIterator;
 our @ISA = ('Foswiki::LineIterator');
 
@@ -35,20 +34,6 @@ sub new {
 
     #  print STDERR "EventIterator created for $this->{_filename} \n";
     return $this;
-}
-
-=begin TML
-
----+++ PrivateMethod DESTROY
-Cleans up opened files, closes them and clears the locks.
-
-=cut
-
-sub DESTROY {
-    my $this = shift;
-    flock( $this->{handle}, LOCK_UN )
-      if ( defined $this->{logLocked} );
-    close( delete $this->{handle} ) if ( defined $this->{handle} );
 }
 
 =begin TML
@@ -79,7 +64,7 @@ sub hasNext {
 
         if (
             $line[0] =~ s/\s+($this->{_reqLevel})\s*$//    # test the level
-              # accept a plain 'old' format date with no level only if reading info (statistics)
+             # accept a plain 'old' format date with no level only if reading info (statistics)
             || $line[0] =~ /^\d{1,2} [a-z]{3} \d{4}/i
             && $this->{_reqLevel} =~ m/info/
           )
