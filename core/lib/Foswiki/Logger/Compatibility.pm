@@ -115,10 +115,12 @@ sub log {
     my $file;
     my $mode = '>>';
 
-    # Item10764, SMELL UNICODE: actually, perhaps we should open the stream this
-    # way for any encoding, not just utf8. Babar says: check what Catalyst does.
+  # Item10764, SMELL UNICODE: actually, perhaps we should open the stream this
+  # way for any encoding, not just utf8. Babar says: check what Catalyst does.
+  # Item12027: this only makes sense for Unicode strings, not UTF-8 byte strings
     if (   $Foswiki::cfg{Site}{CharSet}
-        && $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/ )
+        && $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/
+        && utf8::is_utf8($message) )
     {
         $mode .= ":encoding($Foswiki::cfg{Site}{CharSet})";
     }
