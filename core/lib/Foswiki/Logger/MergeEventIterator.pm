@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Logger::PlainFile;
+package Foswiki::Logger::MergeEventIterator;
 
 use strict;
 use warnings;
@@ -17,7 +17,6 @@ Private subclass of Foswiki::Iterator that
 
 =cut
 
-package Foswiki::Logger::MergeEventIterator;
 require Foswiki::Iterator;
 our @ISA = ('Foswiki::Iterator');
 

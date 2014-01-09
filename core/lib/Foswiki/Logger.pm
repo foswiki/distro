@@ -85,11 +85,12 @@ sub log {
 
 =begin TML
 
----++ StaticMethod eachEventSince($time, \@levels, [qw/field list/]) -> $iterator
+---++ StaticMethod eachEventSince($time, \@levels, $api) -> $iterator
    * =$time= - a time in the past
    * =\@levels= - log levels to return events for.
+   * API version.  If true, return hash name => value, otherwise return fixed list
 
-Get an iterator over the list of all the events at the given level
+Get an iterator over the list of all the events at the given level(s)
 between =$time= and now.
 
 Events are returned in *oldest-first* order.

@@ -23,14 +23,12 @@ our @ISA = ('Foswiki::LineIterator');
 use constant TRACE => 0;
 
 sub new {
-    my ( $class, $fh, $threshold, $level, $numLevels, $version, $filename ) =
-      @_;
+    my ( $class, $fh, $threshold, $level, $version, $filename ) = @_;
     my $this = $class->SUPER::new($fh);
-    $this->{_multilevel} = ( $numLevels > 1 );
-    $this->{_api}        = $version;
-    $this->{_threshold}  = $threshold;
-    $this->{_reqLevel}   = $level;
-    $this->{_filename}   = $filename || 'n/a';
+    $this->{_api}       = $version;
+    $this->{_threshold} = $threshold;
+    $this->{_reqLevel}  = $level;
+    $this->{_filename}  = $filename || 'n/a';
 
     #  print STDERR "EventIterator created for $this->{_filename} \n";
     return $this;

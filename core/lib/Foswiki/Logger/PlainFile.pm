@@ -175,7 +175,6 @@ sub eachEventSince {
     my ( $this, $time, $level, $version ) = @_;
 
     $level = ref $level ? $level : [$level];
-    my $numLevels = scalar @$level;
 
     my @log4level = _getLogsForLevel($level);
 
@@ -222,7 +221,7 @@ sub eachEventSince {
             if ( open( $fh, '<', $logfile ) ) {
                 my $logIt =
                   new Foswiki::Logger::PlainFile::EventIterator( $fh, $time,
-                    $reqLevel, $numLevels, $version, $logfile );
+                    $reqLevel, $version, $logfile );
                 $logIt->{logLocked} =
                   eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
                                                   #   print STDERR " pushed iterator for $reqLevel \n";

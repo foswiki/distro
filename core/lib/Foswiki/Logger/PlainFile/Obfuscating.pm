@@ -14,12 +14,11 @@ our @ISA = ('Foswiki::Logger::PlainFile');
 
 =begin TML
 
----+ package Foswiki::Logger::PlainFile
+---+ package Foswiki::Logger::PlainFile::Obfuscating
 
-Plain file implementation of the Foswiki Logger interface. Mostly
-compatible with TWiki (and Foswiki 1.0.0) log files, except that dates
-are recorded using ISO format, and include the time, and it dies when
-a log can't be written (rather than printing a warning).
+Plain file implementation of the Foswiki Logger interface, with obfuscation
+of IP addresses.  See Foswiki::Logger::PlainFile for further details.
+This implementation only implements log() call.
 
 This logger implementation maps groups of levels to a single logfile, viz.
    * =debug= messages are output to $Foswiki::cfg{Log}{Dir}/debug.log
@@ -71,27 +70,6 @@ sub log {
     }
 
     $this->SUPER::log(@_);
-}
-
-=begin TML
-
----++ StaticMethod eachEventSince($time, $level) -> $iterator
-
-See Foswiki::Logger for the interface.
-
-This logger implementation maps groups of levels to a single logfile, viz.
-   * =info= messages are output together.
-   * =warning=, =error=, =critical=, =alert=, =emergency= messages are
-     output together.
-This method cannot 
-
-=cut
-
-sub eachEventSince {
-
-    #my ( $this, $time, $level ) = @_;
-    my $this = shift;
-    $this->SUPER::eachEventSince(@_);
 }
 
 1;
