@@ -350,7 +350,7 @@ sub _collectLogData {
             # ignore template webs.  (Regex copied from Foswiki::WebFilter)
             if ( defined $webTopic ) {
                 my ( $w, $t ) = split( /\./, $webTopic );
-                next if $w =~ /(?:^_|\/_)/;
+                next if $w && $w =~ /(?:^_|\/_)/;
             }
 
             $session->logger->log( 'debug',
