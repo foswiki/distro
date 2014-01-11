@@ -82,7 +82,12 @@ sub skip {
           => 'Multilevel eachEvent not implemented yet',
 'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileRollingLogger_Charset8859'
           => 'Multilevel eachEvent not implemented yet',
-
+'LoggerTests::verify_logAndReplayUnicode_CompatibilityLogger_Charset8859'
+          => 'Item12027: Should logging of unicode characters be supported in a Charset8859 system',
+        'LoggerTests::verify_logAndReplayUnicode_ObfuscatingLogger_Charset8859'
+          => 'Item12027: Should logging of unicode characters be supported in a Charset8859 system',
+        'LoggerTests::verify_logAndReplayUnicode_PlainFileLogger_Charset8859'
+          => 'Item12027: Should logging of unicode characters be supported in a Charset8859 system',
     );
 
     return $skip_tests{$test}
