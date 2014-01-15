@@ -106,7 +106,7 @@ sub new {
 
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
-    my ( $this, $query, $interestingTopics, $session, $options ) = @_;
+    my ( $this, $query, $topics, $session, $options ) = @_;
     unless (
         UNIVERSAL::isa(
             $this, 'Foswiki::Store::QueryAlgorithms::DBIStoreContrib'
@@ -118,15 +118,16 @@ sub query {
         # boilerplate version of query sub(). In the process he broke
         # it for 1.1 :-( This is the repair.
         $this = undef;
-        ( $query, $interestingTopics, $session, $options ) = @_;
+        ( $query, $topics, $session, $options ) = @_;
     }
 
     print STDERR "Initial query: " . $query->stringify() . "\n" if MONITOR;
 
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
-    $query->simplify( tom => $context, data => $context );
-    print STDERR "Simplified to: " . $query->stringify() . "\n" if MONITOR;
+
+    #    $query->simplify( tom => $context, data => $context );
+    #    print STDERR "Simplified to: " . $query->stringify() . "\n" if MONITOR;
 
     my $isAdmin = $session->{users}->isAdmin( $session->{user} );
 
@@ -136,7 +137,8 @@ sub query {
     my $searchAllFlag = ( $webNames =~ /(^|[\,\s])(all|on)([\,\s]|$)/i );
     my @webs = getListOfWebs( $webNames, $recurse, $searchAllFlag );
 
-    my @interestingWebs;
+    my %hoist_control;
+
     foreach my $web (@webs) {
 
         # can't process what ain't thar
@@ -153,60 +155,41 @@ sub query {
             && ( $thisWebNoSearchAll || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} )
         {
-            push( @interestingWebs, $web );
+            push( @{ $hoist_control{iwebs} }, $web );
         }
     }
 
     # Got to be something worth searching for
-    return [] unless scalar(@interestingWebs);
+    return [] unless scalar( @{ $hoist_control{iwebs} } );
+
+    if ($topics) {
+
+        # Deprecated
+        if ( $topics->hasNext() ) {
+            $hoist_control{itopics} = [ $topics->all() ];
+        }
+    }
+    elsif ( $options->{includeTopics} ) {
+        $hoist_control{itopics} = $options->{includeTopics};
+    }
+
+    if ( $options->{excludeTopics} ) {
+        $hoist_control{etopics} = $options->{excludeTopics};
+    }
+    $hoist_control{table} = 'topic';
 
     # Try and hoist regular expressions out of the query that we
     # can use to refine the topic set
 
-    require Foswiki::Contrib::DBIStoreContrib::HoistSQL;
-    my $hoistedSQL = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist($query);
-
-    if ($hoistedSQL) {
-        print STDERR "Hoisted '$hoistedSQL', remaining query: "
-          . $query->stringify . "\n"
-          if MONITOR;
-
-        # Did hoisting eliminate the dynamic query?
-        if ( $query->evaluatesToConstant() ) {
-            print STDERR "\t...eliminated static query\n" if MONITOR;
-            $query = undef;
-        }
-    }
-    my $sql =
-        'SELECT web,name FROM topic WHERE '
-      . ( $hoistedSQL ? "$hoistedSQL AND " : '' )
-      . "topic.web IN ("
-      . join( ',', map { "'$_'" } @interestingWebs ) . ')';
-
-    if ($interestingTopics) {
-
-        # Deprecated
-        if ( $interestingTopics->hasNext() ) {
-            $sql .= " AND topic.name IN ("
-              . join( ',', map { "'$_'" } $interestingTopics->all() ) . ')';
-        }
-    }
-    elsif ( $options->{includeTopics} || $options->{excludeTopics} ) {
-        if ( $options->{includeTopics} ) {
-            my $expr =
-              Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
-              ->wildcard( 'topic.name', $options->{includeTopics} );
-            $sql .= " AND $expr" if $expr;
-        }
-        if ( $options->{excludeTopics} ) {
-            my $expr =
-              Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
-              ->wildcard( 'topic.name', $options->{excludeTopics} );
-            $sql .= " AND NOT($expr)" if $expr;
-        }
-    }
-
-    $sql .= ' ORDER BY web,name';
+    $query = Foswiki::Contrib::DBIStoreContrib::HoistSQL::rewrite($query);
+    Foswiki::Contrib::DBIStoreContrib::HoistSQL::reorder( $query, \$query );
+    print STDERR "Rewritten "
+      . Foswiki::Contrib::DBIStoreContrib::HoistSQL::recreate($query) . "\n"
+      if MONITOR;
+    my $sql = 'SELECT web,name FROM topic WHERE '
+      . Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist( $query,
+        \%hoist_control )
+      . ' ORDER BY web,name';
 
     print STDERR "Generated SQL: $sql\n" if MONITOR;
 
@@ -283,7 +266,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
