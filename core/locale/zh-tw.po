@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2013-10-28 05:57+0200\n"
+"PO-Revision-Date: 2014-01-15 09:34+0200\n"
 "Last-Translator: Chung-Han <dr3939@gmail.com>\n"
 "Language-Team: Foswiki Chinese <dr3939 AT gmail.com>\n"
 "Language: zh_TW\n"
@@ -77,7 +77,7 @@ msgstr "%1 無法自 %2 內移出"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
-msgstr "更新 %1 群組主題。"
+msgstr "%1 群組主題更新。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:67
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -101,7 +101,7 @@ msgstr "%1 已使用電子郵件地址 %2 註冊"
 
 #: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
-msgstr "％1 已收到來自您瀏覽器發出的可疑修改要求。"
+msgstr "％1 已收到您瀏覽器發出的可疑修改請求。"
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -145,7 +145,7 @@ msgstr "%1 可能仍在編輯 %2 。"
 
 #: core/data/System/WebChanges.txt:3
 msgid "%1 recent changes in %2 Web"
-msgstr "子網 %2 內的更新 %1 "
+msgstr "子網 %2 內的更新 %1"
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
