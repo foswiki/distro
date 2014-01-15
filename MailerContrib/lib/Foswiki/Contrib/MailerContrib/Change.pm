@@ -111,13 +111,17 @@ sub expandHTML {
         }
     }
 
-    $html =~ s/%TOPICNAME%/$this->{TOPIC}/g;
+    $template =~ s/%WEB%/$this->{WEB}/g;
+    $template =~ s/%TOPIC%/$this->{TOPIC}/g;
+    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;    # deprecated DO NOT USE!
     $html =~ s/%AUTHOR%/$this->{AUTHOR}/g;
     my $tim = Foswiki::Time::formatTime( $this->{TIME} );
     $html =~ s/%TIME%/$tim/go;
     $html =~ s/%CUR_REV%/$this->{CURR_REV}/g;
     $html =~ s/%BASE_REV%/$this->{BASE_REV}/g;
+
     my $frev = '';
+
     if ( $this->{CURR_REV} ) {
         if ( $this->{CURR_REV} > 1 ) {
             $frev = 'r' . $this->{BASE_REV} . '-&gt;r' . $this->{CURR_REV};
@@ -176,9 +180,9 @@ sub expandPlain {
     $template =~ s/%TIME%/$tim/g;
     $template =~ s/%CUR_REV%/$this->{CURR_REV}/g;
     $template =~ s/%BASE_REV%/$this->{BASE_REV}/g;
-    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;    # deprecated DO NOT USE!
     $template =~ s/%WEB%/$this->{WEB}/g;
     $template =~ s/%TOPIC%/$this->{TOPIC}/g;
+    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;    # deprecated DO NOT USE!
 
     my $frev = '';
 
@@ -241,10 +245,14 @@ sub expandDiff {
     $template =~ s/%TIME%/$tim/g;
     $template =~ s/%CUR_REV%/$this->{CURR_REV}/g;
     $template =~ s/%BASE_REV%/$this->{BASE_REV}/g;
-    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;    # deprecated DO NOT USE!
+    $template =~ s/%WEB%/$this->{WEB}/g;
     $template =~ s/%TOPIC%/$this->{TOPIC}/g;
+    $template =~ s/%TOPICNAME%/$this->{TOPIC}/g;    # deprecated DO NOT USE!
+
     my $frev = '';
+
     if ( $this->{CURR_REV} ) {
+
         if ( $this->{CURR_REV} > 1 ) {
             $frev = 'r' . $this->{BASE_REV} . '->r' . $this->{CURR_REV};
         }
