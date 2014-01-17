@@ -10,31 +10,16 @@ query matching.
 
 =cut
 
-=pod
-
-For SQL, at any given point, we need to know the table that is being referenced,the WHERE condition, and the rows being selected from the table.
-
-[ takes a table and a WHERE, and returns a table
-. takes a table and a name, and returns a SELECT
-
->= takes a SELECT and a constant (or a constant and a select, or a select and a select, or a constant and a constant) and returns WHERE
-
-AND takes a WHERE and a WHERE and returns a compound WHERE
-
-Rewriting based on precedence
-Adjust precedence before the parse?
-
-=cut
-
 package Foswiki::Contrib::DBIStoreContrib::HoistSQL;
 
 use strict;
 use Assert;
 
-use Foswiki::Contrib::DBIStoreContrib ();
-use Foswiki::Infix::Node              ();
-use Foswiki::Query::Node              ();
-use Foswiki::Query::Parser            ();
+use Foswiki::Contrib::DBIStoreContrib                ();
+use Foswiki::Infix::Node                             ();
+use Foswiki::Query::Node                             ();
+use Foswiki::Query::Parser                           ();
+use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
 
 # A Foswiki query parser
 our $parser;
@@ -49,9 +34,6 @@ use constant {
     NAME   => 1,
     NUMBER => 2,
     STRING => 3,
-
-    TABLE_NAME => 4,
-    SELECTOR   => 5
 };
 
 BEGIN {
@@ -76,6 +58,7 @@ to replace any hoisted parts with unconditional true/false values.
 
 =cut
 
+# Operators that can be mapped directly to SQL
 my %bop_map = (
     and  => 'AND',
     or   => 'OR',
@@ -92,39 +75,58 @@ my %uop_map = (
     length => 'LENGTH'
 );
 
+# Types of expansion required during hoisting
 use constant {
-    EXPR  => 1,
-    TABLE => 2
+    CONDITION => 1,
+    TABLE     => 2,
+    ROOT      => 3
 };
 
 my $tempTable = 0;
 
 sub hoist {
     my ( $node, $control, $type ) = @_;
-    $type ||= EXPR;    # query algorithm wants a table
+
+    # The default context table is 'topic'. As soon as we go into a
+    # SELECT, the context table may change. In a /, the context table
+    # is still 'topic'
+    $type ||= CONDITION;    # query algorithm wants a condition
 
     my $op = $node->{op}->{name} if ref( $node->{op} );
 
     my $res;
     if ( !ref( $node->{op} ) ) {
         $res = _constant( $node, 1, $control );
-        if ( $type == EXPR ) {
-        }
-        else {
-        }
     }
     elsif ( $bop_map{$op} ) {
-        my $lhs = hoist( $node->{params}[0], $control, EXPR );
-        my $rhs = hoist( $node->{params}[1], $control, EXPR );
+        ASSERT( $type == CONDITION, $node->stringify() );
+        my $lhs = hoist( $node->{params}[0], $control, CONDITION );
+        my $rhs = hoist( $node->{params}[1], $control, CONDITION );
         $lhs = "($lhs)" if ref( $node->{params}[0]->{op} );
         $rhs = "($rhs)" if ref( $node->{params}[1]->{op} );
         $res = "$lhs $bop_map{$op} $rhs";
-        ASSERT( $type == EXPR, $node->stringify() );
+    }
+    elsif ( $op eq '=~' ) {
+        ASSERT( $type == CONDITION, $node->stringify() );
+        my $lhs = hoist( $node->{params}[0], $control, CONDITION );
+        my $rhs = hoist( $node->{params}[1], $control, CONDITION );
+        $rhs =~ s/^"(.*)"$/$1/;
+        $res = Foswiki::Contrib::DBIStoreContrib::DBIStore::personality->regexp(
+            $lhs, $op, $rhs );
+    }
+    elsif ( $op eq '~' ) {
+        ASSERT( $type == CONDITION, $node->stringify() );
+        my $lhs = hoist( $node->{params}[0], $control, CONDITION );
+        my $rhs = hoist( $node->{params}[1], $control, CONDITION );
+        $rhs =~ s/^"(.*)"$/$1/;
+        $res =
+          Foswiki::Contrib::DBIStoreContrib::DBIStore::personality->wildcard(
+            $lhs, $rhs );
     }
     elsif ( $uop_map{$op} ) {
         my $child = hoist( $node->{params}[0], $control );
         $res = "$uop_map{$op}($child)";
-        ASSERT( $type == EXPR, $node->stringify() );
+        ASSERT( $type == CONDITION, $node->stringify() );
     }
     elsif ( $op eq '[' ) {
         my $lhs = hoist( $node->{params}[0], $control, TABLE );
@@ -140,10 +142,10 @@ sub hoist {
         }
         my %sc = %$control;
         $sc{table} = $t1;
-        my $where = hoist( $node->{params}[1], \%sc, EXPR );
+        my $where = hoist( $node->{params}[1], \%sc, CONDITION );
         $res =
           "SELECT * from $lhs WHERE $t1.tid=$control->{table}.tid AND $where";
-        $res = "EXISTS($res)" if ( $type == EXPR );
+        $res = "EXISTS($res)" if ( $type == CONDITION );
     }
     elsif ( $op eq '.' ) {
         my $lhs = hoist( $node->{params}[0], $control, TABLE );
@@ -159,20 +161,28 @@ sub hoist {
         }
         my %sc = %$control;
         $sc{table} = $t1;
-        my $where = hoist( $node->{params}[1], \%sc, EXPR );
+        my $where = hoist( $node->{params}[1], \%sc, CONDITION );
         $res =
           "SELECT * FROM $lhs WHERE $t1.tid=$control->{table}.tid AND $where";
-        $res = "EXISTS($res)" if ( $type == EXPR );
+        $res = "EXISTS($res)" if ( $type == CONDITION );
     }
     elsif ( $op eq '/' ) {
 
         # A lookup in another topic
+        my $t1 = $control->{table};
+        my $c  = _constant( $node->{params}[0], 0 );
         my $sc = {
-            table   => $control->{table},
+            table   => $t1,
             iwebs   => $control->{iweb},
-            itopics => [ _constant( $node->{params}[0], 0 ) ]
+            itopics => [$c]
         };
-        $res = hoist( $node->{params}[1], $sc, EXPR );
+        my $lhs = hoist( $node->{params}[1], $sc, CONDITION );
+        my $partial = " WHERE";
+        if ( $t1 ne 'topic' ) {
+            $partial = ",$t1 WHERE topic.tid=$t1.tid AND";
+        }
+        $res =
+          "EXISTS(SELECT tid FROM topic${partial} topic.name='$c' AND $lhs)";
     }
     else {
         ASSERT( 0, "Don't know how to hoist $op" . recreate($node) );
@@ -266,20 +276,12 @@ sub _expand_relist {
 Rewrite a Foswiki query parse tree to eliminate certain types
 of subexpression, and so simplify subsequent SQL extraction.
 
-   * X -> fields[name='X'].value
-   * info.Y -> META:TOPICINFO.Y
-   * formname.Y -> Y -> fields[name='X'].value
-   * X.Y => fields[name='X'].Y
-   * fields[name='X'].Y -> META:FIELD[name='X'].Y
-   * X[N] -> X[ROW_INDEX='N']
-
 =cut
 
-# SMELL: must clone the query
 sub rewrite {
     my ( $node, $context ) = @_;
 
-    $context ||= 'ROOT';
+    $context ||= ROOT;
 
     my $before;
     $before = recreate($node) if MONITOR;
@@ -287,7 +289,7 @@ sub rewrite {
 
     unless ( ref( $node->{op} ) ) {
         if ( $node->{op} == NAME ) {
-            if ( $context eq 'ROOT' ) {
+            if ( $context == ROOT ) {
 
                 # A name floating around in an expression.
                 $parser ||= new Foswiki::Query::Parser();
@@ -312,8 +314,8 @@ sub rewrite {
             # information to determine how it should be parsed. We don't have
             # all that context here, so we have to do the best we can with what
             # we have, and rewrite it as a []
-            my $lhs = rewrite( $node->{params}[0], 'TABLE' );
-            my $rhs = rewrite( $node->{params}[1], 'SELECTOR' );
+            my $lhs = rewrite( $node->{params}[0], TABLE );
+            my $rhs = rewrite( $node->{params}[1], CONDITION );
 
             # RHS must be a key.
             die "Illegal RHS of . " . recreate($rhs)
@@ -354,10 +356,9 @@ sub rewrite {
         elsif ( $op eq '[' ) {
 
             # Convert a row number constant into a condition
-            my $lhs = $node->{params}[0] =
-              rewrite( $node->{params}[0], 'TABLE' );
+            my $lhs = $node->{params}[0] = rewrite( $node->{params}[0], TABLE );
             my $rhs = $node->{params}[1] =
-              rewrite( $node->{params}[1], 'WHERE' );
+              rewrite( $node->{params}[1], CONDITION );
             if ( !ref( $lhs->{op} ) && $lhs->{op} == NUMBER ) {
                 my $n = $lhs->{params}[0];
                 $node->{params}[1] = $parser->parse("ROW_INDEX=$n");
@@ -429,8 +430,8 @@ my %reorder = (
     # prec gives the new precedence of the operator.
     # child gives the index of the subnode that has the
     # selector (the RHS for / and . operators).
-    '/' => { prec => 275, child => 1 },
-    '.' => { prec => 250, child => 1 }
+    '/' => { prec => 250, child => 1 },
+    '.' => { prec => 275, child => 1 }
 );
 
 sub reorder {
@@ -516,7 +517,7 @@ sub recreate {
         my @oa;
         for ( my $i = 0 ; $i < $node->{op}->{arity} ; $i++ ) {
             my $nprec = $node->{op}->{prec};
-            $nprec++ if $i == 0;
+            $nprec++ if $i > 0;
             $nprec = 0 if $node->{op}->{close};
             push( @oa, recreate( $node->{params}[$i], $nprec ) );
         }

@@ -181,6 +181,7 @@ sub query {
     # Try and hoist regular expressions out of the query that we
     # can use to refine the topic set
 
+    require Foswiki::Contrib::DBIStoreContrib::HoistSQL;
     $query = Foswiki::Contrib::DBIStoreContrib::HoistSQL::rewrite($query);
     Foswiki::Contrib::DBIStoreContrib::HoistSQL::reorder( $query, \$query );
     print STDERR "Rewritten "
@@ -191,6 +192,7 @@ sub query {
         \%hoist_control )
       . ' ORDER BY web,name';
 
+    $query = undef;    # not needed any more
     print STDERR "Generated SQL: $sql\n" if MONITOR;
 
     my $topicSet =
