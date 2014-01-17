@@ -63,25 +63,26 @@ sub getOptions {
         if ( $session->topicExists( $fieldWeb, $fieldTopic ) ) {
 
             my $meta = Foswiki::Meta->load( $session, $fieldWeb, $fieldTopic );
-            next unless $meta->haveAccess('VIEW');
+            if ( $meta->haveAccess('VIEW') ) {
 
-            # Process SEARCHES for Lists
-            my $text = $meta->expandMacros( $meta->text() );
+                # Process SEARCHES for Lists
+                my $text = $meta->expandMacros( $meta->text() );
 
-            # SMELL: yet another table parser
-            my $inBlock = 0;
-            foreach ( split( /\r?\n/, $text ) ) {
-                if (/^\s*\|\s*\*Name\*\s*\|/) {
-                    $inBlock = 1;
-                }
-                elsif (/^\s*\|\s*([^|]*?)\s*\|(?:\s*([^|]*?)\s*\|)?/) {
-                    if ($inBlock) {
-                        push( @vals, TAINT($1) );
-                        $descr{$1} = $2 if defined $2;
+                # SMELL: yet another table parser
+                my $inBlock = 0;
+                foreach ( split( /\r?\n/, $text ) ) {
+                    if (/^\s*\|\s*\*Name\*\s*\|/) {
+                        $inBlock = 1;
                     }
-                }
-                else {
-                    $inBlock = 0;
+                    elsif (/^\s*\|\s*([^|]*?)\s*\|(?:\s*([^|]*?)\s*\|)?/) {
+                        if ($inBlock) {
+                            push( @vals, TAINT($1) );
+                            $descr{$1} = $2 if defined $2;
+                        }
+                    }
+                    else {
+                        $inBlock = 0;
+                    }
                 }
             }
         }
