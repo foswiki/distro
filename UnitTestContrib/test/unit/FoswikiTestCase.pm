@@ -157,7 +157,7 @@ sub _onceOnlyChecks {
     }
     mkdir($t)
       || die "Could not create $t: $!\nUser running tests "
-      . "has to be able to create directories in $Foswiki::cfg{DataDir}";
+      . 'has to be able to create directories in $Foswiki::cfg{DataDir}';
     rmdir($t) || die "Could not remove $t: $!";
 
     # Make sure we can disallow write permissions. Foswiki tests should
@@ -616,12 +616,9 @@ sub set_up {
     }
 
     # then reenable only those listed in MANIFEST
-    if ( $ENV{FOSWIKI_HOME} && -e "$ENV{FOSWIKI_HOME}/lib/MANIFEST" ) {
-        open( F, "$ENV{FOSWIKI_HOME}/lib/MANIFEST" ) || die $!;
-    }
-    else {
-        open( F, "../../lib/MANIFEST" ) || die $!;
-    }
+    my $home = $ENV{FOSWIKI_HOME} || '../..';
+    $home = '../..' unless -e "$ENV{FOSWIKI_HOME}/lib/MANIFEST";
+    open( F, "$home/lib/MANIFEST" ) || die $!;
     my @moreConfig;
     local $/ = "\n";
     while (<F>) {
@@ -668,6 +665,18 @@ s/((\$Foswiki::cfg{.*?})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "ex
         #print STDERR $cmd; # Additional config from enabled extensions
         eval $cmd;
         die $@ if $@;
+    }
+
+    # Take a look at installed contribs and see if they demand any
+    # additional setup.
+    if ( opendir( F, "$home/lib/Foswiki/Contrib" ) ) {
+        foreach my $d ( grep { /^[A-Za-z]+Contrib$/ } readdir(F) ) {
+            next unless -e "$home/lib/Foswiki/Contrib/$d/UnitTestSetup.pm";
+            my $setup = "Foswiki::Contrib::$d" . '::UnitTestSetup';
+            eval "require $setup" || die $@;
+            $setup->set_up();
+        }
+        closedir(F);
     }
 
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
