@@ -197,7 +197,7 @@ my %foswiki_things = (
 
         return ( $this->check_plugin_enabled('MongoDBPlugin')
               || $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/
-              || $Foswiki::cfg{Store}{QueryAlgorithm}  =~ /MongoDB/ );
+              || $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ );
     },
     'ShortURLs' => sub {
         return ( exists $Foswiki::cfg{ScriptUrlPaths}{view}
@@ -616,12 +616,9 @@ sub set_up {
     }
 
     # then reenable only those listed in MANIFEST
-    if ( $ENV{FOSWIKI_HOME} && -e "$ENV{FOSWIKI_HOME}/lib/MANIFEST" ) {
-        open( F, "$ENV{FOSWIKI_HOME}/lib/MANIFEST" ) || die $!;
-    }
-    else {
-        open( F, "../../lib/MANIFEST" ) || die $!;
-    }
+    my $home = $ENV{FOSWIKI_HOME} || '../..';
+    $home = '../..' unless -e "$ENV{FOSWIKI_HOME}/lib/MANIFEST";
+    open( F, "$home/lib/MANIFEST" ) || die $!;
     local $/ = "\n";
     while (<F>) {
         if (/^!include .*?([^\/]+Plugin)$/) {
@@ -638,6 +635,18 @@ sub set_up {
         }
     }
     close(F);
+
+    # Take a look at installed contribs and see if they demand any
+    # additional setup.
+    if ( opendir( F, "$home/lib/Foswiki/Contrib" ) ) {
+        foreach my $d ( grep { /^[A-Za-z]+Contrib$/ } readdir(F) ) {
+            next unless -e "$home/lib/Foswiki/Contrib/$d/UnitTestSetup.pm";
+            my $setup = "Foswiki::Contrib::$d" . '::UnitTestSetup';
+            eval "require $setup" || die $@;
+            $setup->set_up();
+        }
+        closedir(F);
+    }
 
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
@@ -867,7 +876,7 @@ sub captureWithKey {
 
     # Now we have to manually craft the validation checkings
     require Foswiki::Validation;
-    my $cgis = $fatwilly->getCGISession;
+    my $cgis      = $fatwilly->getCGISession;
     my $strikeone = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
     my $key =
       Foswiki::Validation::addValidationKey( $cgis, $action, $strikeone );
