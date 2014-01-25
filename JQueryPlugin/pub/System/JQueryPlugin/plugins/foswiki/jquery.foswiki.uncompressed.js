@@ -1,7 +1,6 @@
 /**
- * foswiki setups wrt jQuery
+ * Foswiki setups wrt jQuery
  *
- * $Rev$
 */
 var foswiki = foswiki || {
   preferences: {}

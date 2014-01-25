@@ -223,7 +223,7 @@ $.tabpane = {
   autoMaxExpand: function($thisPane, opts) {
     window.setTimeout(function() {
       $.tabpane.fixHeight($thisPane, opts);
-      $(window).one("resize", function() {
+      $(window).one("resize.tabpane", function() {
         $.tabpane.autoMaxExpand($thisPane, opts);
       });
     }, 100);
@@ -267,6 +267,7 @@ $.tabpane = {
       return;
     }
 
+    $.log("TABPANE: fixHeight height=",height);
     $container.height(height);
   },
 

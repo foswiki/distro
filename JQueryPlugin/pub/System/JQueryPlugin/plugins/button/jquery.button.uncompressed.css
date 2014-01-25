@@ -39,12 +39,17 @@ a.jqButton:hover {
   color:#C60206;
 }
 
+.jqButton {
+  font-size:14px;
+  line-height:23px;
+  vertical-align:middle;
+}
+
 .jqButton span {
   background-image:url(btn_left.gif);
   background-position:top left;
   background-repeat:no-repeat;
   cursor:pointer;
-  line-height:23px;
   padding:0px 5px 0px 8px;
   margin:0px 3px 0px 0px;
   display: inline-block;
