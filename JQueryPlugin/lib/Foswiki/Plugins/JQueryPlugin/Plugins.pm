@@ -49,8 +49,8 @@ sub init {
     $currentTheme = $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
     # load jquery
-    my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs}
-      || "jquery-1.11.0";
+    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
+      || "jquery-2.1.0";
     $jQuery .= ".uncompressed" if $debug;
 
     my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs}
