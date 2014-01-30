@@ -1,5 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231367690" format="1.1" version="1"}%
-%MAKETEXT{"This is the Trash. Here you can undelete topics; deleted attachments are in TrashAttachment." args="<b><nop>%WEB%</b>"}%
+%IF{"context EcoTrashPluginEnabled"
+    then='$percntINCLUDE{"%WEB%.WebTrashManager" section="WebHomeText"}$percnt'
+    else='%MAKETEXT{"This is the [_1] web. Here you can find and undelete topics (including their attachments); attachments deleted from topics are in the TrashAttachment topic." args="<b><nop>%WEB%</b>"}%'}%
 
 %RED%
 %MAKETEXT{"Security Note:"}%
