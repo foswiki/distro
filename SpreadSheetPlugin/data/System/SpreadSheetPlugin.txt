@@ -49,7 +49,6 @@ The action of this Plugin is triggered by the ==%<nop>CALC{"..."}%== macro, whic
    * Formulae can also be placed outside of tables; they can reference cells in the preceeding table
    * Formulae can be placed in a FormattedSearch, but the CALC needs to be escaped. Learn how to [[#CalcInFormattedSearch][use a CALC in a formatted search]]
 
-
 ---++ Built-in Functions
 
 Conventions for Syntax:
@@ -298,14 +297,14 @@ This function has two modes of operation.
 ---+++ HEXDECODE( hexcode ) -- convert hexadecimal code to string
    * Decode a hexadecimal string, typically encoded with $HEXENCODE().
    * Syntax: ==$HEXDECODE( hexcode )==
-   * Example: ==%<nop>CALC{"$HEXDECODE(687474703A2F2F7477696B692E6F72672F)"}%== returns ==http://twiki.org/==
+   * Example: ==%<nop>CALC{"$HEXDECODE(687474703A2F2F666F7377696B692E6F72672F)"}%== returns ==http://foswiki.org/==
    * Related: =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
 #FuncHEXENCODE
 ---+++ HEXENCODE( text ) -- encode text into hexadecimal code
    * Each character of =text= is encoded into two hexadecimal numbers.
    * Syntax: ==$HEXENCODE( text )==
-   * Example: ==%<nop>CALC{"$HEXENCODE(<nop>http://twiki.org/)"}%== returns ==687474703A2F2F7477696B692E6F72672F==
+   * Example: ==%<nop>CALC{"$HEXENCODE(<nop>http://foswiki.org/)"}%== returns ==687474703A2F2F666F7377696B692E6F72672F==
    * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
 #FuncIF
@@ -402,7 +401,6 @@ This function has two modes of operation.
    * Syntax: ==$LISTNONEMPTY( list )==
    * Example: ==%<nop>CALC{"$LISTNONEMPTY(, Apple, Orange, , Kiwi)"}%== returns ==Apple, Orange, Kiwi==
    * Related: =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=
-
 
 #FuncLISTRAND
 ---+++ LISTRAND( list ) -- get one random element of a list
@@ -876,11 +874,12 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 ---++ Info
 
-|  Copyright: | Copyright (C) 2001-2012 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2012 Foswiki Contributors  |
+|  Copyright: | Copyright (C) 2001-2012 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2014 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  31 Jan 2014: | Foswikitask:Item12739: fixed use of uninitialized value |
 |  05 Nov 2012: | Foswikitask:Item8417: add VarCALCULATE macro to be used within the normal macro evaluation order. (name chosen for comaptibility ) |
 |  15 Oct 2012: | Foswikitask:Item12153: Use proper format of %<nop>SCRIPTURL% in CALC demo. |
 |  06 Apr 2012: (1.1.6) | Foswikitask:Item11523 - support $comma, $sp in SUBSTITUTE, REPLACE.<br />\
@@ -950,4 +949,3 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
-

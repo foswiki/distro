@@ -136,7 +136,7 @@ sub _doCalc {
     $text =~ s/([\(\)])/_addNestingLevel($1, \$level)/ge;
     $text = _doFunc( "MAIN", $text );
 
-    if ( ( $rPos >= 0 ) && ( $cPos >= 0 ) ) {
+    if ( defined($rPos) && defined($cPos) && $rPos >= 0 && $cPos >= 0 ) {
 
         # update cell in table matrix
         $tableMatrix[$rPos][$cPos] = $text;
@@ -230,9 +230,9 @@ sub _doFunc {
 # Format FORMAT(TYPE, precision, value) returns formatted value -- JimStraus - 05 Jan 2003
         my ( $format, $res, $value ) = split( /,\s*/, $theAttr );
         $format =~ s/^\s*(.*?)\s*$/$1/;    #Strip leading and trailing spaces
-        $res    =~ s/^\s*(.*?)\s*$/$1/;
-        $value  =~ s/^\s*(.*?)\s*$/$1/;
-        $res    =~ m/^(.*)$/;              # SMELL why do we need to untaint
+        $res =~ s/^\s*(.*?)\s*$/$1/;
+        $value =~ s/^\s*(.*?)\s*$/$1/;
+        $res =~ m/^(.*)$/;                 # SMELL why do we need to untaint
         $res = $1;
         if ( $format eq "DOLLAR" ) {
             my $neg = 0;
@@ -1022,7 +1022,7 @@ sub _doFunc {
         $time  = 0  unless ($time);
         $value = 0  unless ($value);
         $scale = "" unless ($scale);
-        $time  =~ s/.*?([0-9]+).*/$1/      || 0;
+        $time =~ s/.*?([0-9]+).*/$1/       || 0;
         $value =~ s/.*?(\-?[0-9\.]+).*/$1/ || 0;
         $value *= 60            if ( $scale =~ /^min/i );
         $value *= 3600          if ( $scale =~ /^hou/i );
@@ -1138,7 +1138,7 @@ sub _doFunc {
             $sep =~ s/\$sp/ /g;
             $sep =~ s/\$(nop|empty)//g
               ; # make sure $nop appears before $n otherwise you end up with "\nop"
-            $sep    =~ s/\$n/\n/g;
+            $sep =~ s/\$n/\n/g;
             $result =~ s/, /$sep/g;
         }
     }
@@ -1300,7 +1300,7 @@ sub _doFunc {
 
     }
     elsif ( $theFunc eq "HEXDECODE" ) {
-        $theAttr =~ s/[^0-9A-Fa-f]//g;                     # only hex numbers
+        $theAttr =~ s/[^0-9A-Fa-f]//g;    # only hex numbers
         $theAttr =~ s/.$// if ( length($theAttr) % 2 );    # must be set of two
         $result = pack( "H*", $theAttr );
 
@@ -1366,7 +1366,7 @@ sub _safeEvalPerl {
 
     # Allow only simple math with operators - + * / % ( )
     $theText =~ s/\%\s*[^\-\+\*\/0-9\.\(\)]+//g; # defuse %hash but keep modulus
-      # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
+     # keep only numbers and operators (shh... don't tell anyone, we support comparison operators)
     $theText =~ s/[^\!\<\=\>\-\+\*\/\%0-9e\.\(\)]*//g;
     $theText =~ s/(^|[^\.])\b0+(?=[0-9])/$1/g
       ;    # remove leading 0s to defuse interpretation of numbers as octals
@@ -1888,7 +1888,7 @@ sub _workingDays {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

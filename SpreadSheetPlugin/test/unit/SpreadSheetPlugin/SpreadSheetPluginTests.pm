@@ -379,11 +379,11 @@ sub test_FORMAT {
         $this->CALC('$FORMAT(COMMA, 2, 12345.6789)') eq '12,345.68' );
     $this->assert(
         $this->CALC('$FORMAT(DOLLAR, 2, 12345.67)') eq '$12,345.67' );
-    $this->assert( $this->CALC('$FORMAT(KB, 2, 1234567)')   eq '1205.63 KB' );
-    $this->assert( $this->CALC('$FORMAT(MB, 2, 1234567)')   eq '1.18 MB' );
+    $this->assert( $this->CALC('$FORMAT(KB, 2, 1234567)') eq '1205.63 KB' );
+    $this->assert( $this->CALC('$FORMAT(MB, 2, 1234567)') eq '1.18 MB' );
     $this->assert( $this->CALC('$FORMAT(KBMB, 2, 1234567)') eq '1.18 MB' );
-    $this->assert( $this->CALC('$FORMAT(KBMB, 2, 1234567890)')   eq '1.15 GB' );
-    $this->assert( $this->CALC('$FORMAT(NUMBER, 1, 12345.67)')   eq '12345.7' );
+    $this->assert( $this->CALC('$FORMAT(KBMB, 2, 1234567890)') eq '1.15 GB' );
+    $this->assert( $this->CALC('$FORMAT(NUMBER, 1, 12345.67)') eq '12345.7' );
     $this->assert( $this->CALC('$FORMAT(PERCENT, 1, 0.1234567)') eq '12.3%' );
 }
 
@@ -516,11 +516,11 @@ EXPECT
 
 sub test_LEFTSTRING {
     my ($this) = @_;
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg)')      eq 'a' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 0)')   eq '' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 5)')   eq 'abcde' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 12)')  eq 'abcdefg' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -3)')  eq 'abcd' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg)') eq 'a' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 0)') eq '' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 5)') eq 'abcde' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 12)') eq 'abcdefg' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -3)') eq 'abcd' );
     $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -12)') eq '' );
 
     my $inTable = <<'TABLE';
@@ -578,16 +578,16 @@ sub test_LISTITEM {
 
 sub test_LISTJOIN {
     my ($this) = @_;
-    $this->assert( $this->CALC('$LISTJOIN(,1,2,3)')       eq '1, 2, 3' );
+    $this->assert( $this->CALC('$LISTJOIN(,1,2,3)') eq '1, 2, 3' );
     $this->assert( $this->CALC('$LISTJOIN($comma,1,2,3)') eq '1,2,3' );
-    $this->assert( $this->CALC('$LISTJOIN($n,1,2,3)')     eq "1\n2\n3" );
-    $this->assert( $this->CALC('$LISTJOIN($sp,1,2,3)')    eq "1 2 3" );
-    $this->assert( $this->CALC('$LISTJOIN( ,1,2,3)')      eq "1 2 3" );
-    $this->assert( $this->CALC('$LISTJOIN(  ,1,2,3)')     eq "1  2  3" );
-    $this->assert( $this->CALC('$LISTJOIN(:,1,2,3)')      eq "1:2:3" );
-    $this->assert( $this->CALC('$LISTJOIN(::,1,2,3)')     eq "1::2::3" );
-    $this->assert( $this->CALC('$LISTJOIN(0,1,2,3)')      eq "10203" );
-    $this->assert( $this->CALC('$LISTJOIN($nop,1,2,3)')   eq '123' );
+    $this->assert( $this->CALC('$LISTJOIN($n,1,2,3)') eq "1\n2\n3" );
+    $this->assert( $this->CALC('$LISTJOIN($sp,1,2,3)') eq "1 2 3" );
+    $this->assert( $this->CALC('$LISTJOIN( ,1,2,3)') eq "1 2 3" );
+    $this->assert( $this->CALC('$LISTJOIN(  ,1,2,3)') eq "1  2  3" );
+    $this->assert( $this->CALC('$LISTJOIN(:,1,2,3)') eq "1:2:3" );
+    $this->assert( $this->CALC('$LISTJOIN(::,1,2,3)') eq "1::2::3" );
+    $this->assert( $this->CALC('$LISTJOIN(0,1,2,3)') eq "10203" );
+    $this->assert( $this->CALC('$LISTJOIN($nop,1,2,3)') eq '123' );
     $this->assert( $this->CALC('$LISTJOIN($empty,1,2,3)') eq '123' );
 }
 
@@ -718,10 +718,10 @@ sub test_LOG {
 
 sub test_LOWER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$LOWER(lowercase)')            eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER(LOWERCASE)')            eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER(lOwErCaSe)')            eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER()')                     eq '' );
+    $this->assert( $this->CALC('$LOWER(lowercase)') eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER(LOWERCASE)') eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER(lOwErCaSe)') eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER()') eq '' );
     $this->assert( $this->CALC('$LOWER(`~!@#$%^&*_+{}|:"<>?)') eq
           q(`~!@#$%^&*_+{}|:"<>?) );
 }
@@ -834,7 +834,7 @@ EXPECT
 
 sub test_PROPER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$PROPER(a small STEP)')   eq 'A Small Step' );
+    $this->assert( $this->CALC('$PROPER(a small STEP)') eq 'A Small Step' );
     $this->assert( $this->CALC('$PROPER(f1 (formula-1))') eq 'F1 (Formula-1)' );
 }
 
@@ -889,9 +889,9 @@ EXPECT
 
 sub test_RIGHTSTRING {
     my ($this) = @_;
-    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg)')     eq 'g' );
-    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 0)')  eq '' );
-    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 5)')  eq 'cdefg' );
+    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg)') eq 'g' );
+    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 0)') eq '' );
+    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 5)') eq 'cdefg' );
     $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 10)') eq 'abcdefg' );
     $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, -2)') eq '' );
 }
@@ -1054,7 +1054,7 @@ sub test_SUBSTITUTE {
     my ($this) = @_;
     $this->assert(
         $this->CALC('$SUBSTITUTE(Good morning, morning, day)') eq 'Good day' );
-    $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002, 2, 3)')   eq 'Q3-3003' );
+    $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002, 2, 3)') eq 'Q3-3003' );
     $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002,2, 3, 3)') eq 'Q2-2003' );
     $this->assert_equals( $this->CALC('$SUBSTITUTE(Q2-2003-2, -, $comma)'),
         'Q2,2003,2' );
@@ -1156,7 +1156,7 @@ sub test_TODAY {
 
 sub test_TRANSLATE {
     my ($this) = @_;
-    $this->assert( $this->CALC('$TRANSLATE(boom,bm,cl)')        eq 'cool' );
+    $this->assert( $this->CALC('$TRANSLATE(boom,bm,cl)') eq 'cool' );
     $this->assert( $this->CALC('$TRANSLATE(one, two,$comma,;)') eq 'one; two' );
 }
 
@@ -1167,10 +1167,10 @@ sub test_TRIM {
 
 sub test_UPPER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$UPPER(uppercase)')            eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER(UPPERCASE)')            eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER(uPpErCaSe)')            eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER()')                     eq '' );
+    $this->assert( $this->CALC('$UPPER(uppercase)') eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER(UPPERCASE)') eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER(uPpErCaSe)') eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER()') eq '' );
     $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:"<>?)') eq
           q(`~!@#$%^&*_+{}|:"<>?) );
 }
@@ -1248,7 +1248,7 @@ sub test_XOR {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
