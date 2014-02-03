@@ -24,13 +24,21 @@ use Foswiki::Query::Node                        ();
 use Foswiki::Contrib::DBIStoreContrib::DBIStore ();
 
 # Debug prints
-use constant MONITOR => 1;
+use constant MONITOR => 0;
 
 BEGIN {
     eval 'require Foswiki::Store::Interfaces::QueryAlgorithm';
     if ($@) {
         print STDERR "Compatibility mode\n" if MONITOR;
         undef $@;
+
+        # Create shim if necessary
+        Foswiki::Contrib::DBIStoreContrib::DBIStore->createShim();
+
+        push(
+            @{ $Foswiki::cfg{Operators}{Query} },
+            'Foswiki::Contrib::DBIStoreContrib::OP_number'
+        );
 
         # Foswiki 1.1 or earlier
         #require Foswiki::Query::QueryAlgorithms; # empty class
@@ -107,12 +115,7 @@ sub new {
 # See Foswiki::Query::QueryAlgorithms.pm for details
 sub query {
     my ( $this, $query, $topics, $session, $options ) = @_;
-    unless (
-        UNIVERSAL::isa(
-            $this, 'Foswiki::Store::QueryAlgorithms::DBIStoreContrib'
-        )
-      )
-    {
+    unless ( UNIVERSAL::isa( $this, __PACKAGE__ ) ) {
 
         # Sven changed the API to OO based to allow re-use of
         # boilerplate version of query sub(). In the process he broke
@@ -170,30 +173,28 @@ sub query {
         }
     }
     elsif ( $options->{includeTopics} ) {
-        $hoist_control{itopics} = $options->{includeTopics};
+        $hoist_control{itopics} = [ split( ',', $options->{includeTopics} ) ];
     }
 
     if ( $options->{excludeTopics} ) {
-        $hoist_control{etopics} = $options->{excludeTopics};
+        $hoist_control{etopics} = [ split( ',', $options->{excludeTopics} ) ];
     }
-    $hoist_control{table} = 'topic';
 
     # Try and hoist regular expressions out of the query that we
     # can use to refine the topic set
 
     require Foswiki::Contrib::DBIStoreContrib::HoistSQL;
-    $query = Foswiki::Contrib::DBIStoreContrib::HoistSQL::rewrite($query);
-    Foswiki::Contrib::DBIStoreContrib::HoistSQL::reorder( $query, \$query );
-    print STDERR "Rewritten "
-      . Foswiki::Contrib::DBIStoreContrib::HoistSQL::recreate($query) . "\n"
-      if MONITOR;
-    my $sql = 'SELECT web,name FROM topic WHERE '
-      . Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist( $query,
-        \%hoist_control )
+    my $hoisted = Foswiki::Contrib::DBIStoreContrib::HoistSQL::hoist($query);
+    my $sql =
+        'SELECT web,name FROM topic WHERE '
+      . $hoisted
+      . _expand_arguments( \%hoist_control )
       . ' ORDER BY web,name';
 
     $query = undef;    # not needed any more
-    print STDERR "Generated SQL: $sql\n" if MONITOR;
+    print STDERR "Generated SQL:\n"
+      . Foswiki::Contrib::DBIStoreContrib::HoistSQL::_format_SQL($sql) . "\n"
+      if MONITOR;
 
     my $topicSet =
       Foswiki::Contrib::DBIStoreContrib::DBIStore::DBI_query( $session, $sql );
@@ -256,11 +257,200 @@ sub query {
     return $this->addPager( $resultset, $options );
 }
 
+# Expand web and topic limits to SQL expressions that can be
+# appended to the end of the WHERE clause for the search.
+sub _expand_arguments {
+    my $control = shift;
+    my @exprs;
+    if ( $control->{iwebs} ) {
+        push( @exprs, _expand_relist( $control->{iwebs}, 'web', 0 ) );
+    }
+    if ( $control->{ewebs} ) {
+        push( @exprs, _expand_relist( $control->{ewebs}, 'web', 1 ) );
+    }
+    if ( $control->{itopics} ) {
+        push( @exprs, _expand_relist( $control->{itopics}, 'name', 0 ) );
+    }
+    if ( $control->{etopics} ) {
+        push( @exprs, _expand_relist( $control->{etopics}, 'name', 1 ) );
+    }
+    my $controls = join( ' AND ', @exprs );
+    return '' unless $controls;
+    return " AND $controls";
+}
+
+# Expand a literal or regex list, used for matching topic and web names, to
+# an SQL expression
+sub _expand_relist {
+    my ( $list, $column, $negate ) = @_;
+    $negate = ( $negate ? 'NOT ' : '' );
+
+    my @exprs;
+    my @in;
+    foreach my $s (@$list) {
+        ASSERT( defined $s ) if DEBUG;
+        my $q = quotemeta($s);
+        if ( $q ne $s ) {
+            push(
+                @exprs,
+                Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
+                  ->wildcard(
+                    $column, $s
+                  )
+            );
+        }
+        else {
+            push( @in, $s );
+        }
+    }
+    if ( scalar(@in) == 1 ) {
+        push( @exprs, "$column='$in[0]'" );
+    }
+    elsif ( scalar(@in) > 1 ) {
+        push( @exprs, "$column IN ( " . join( ',', map { "'$_'" } @in ) . ')' );
+    }
+    return "$negate(" . join( ' AND ', @exprs ) . ')';
+}
+
 # Get a referenced topic
 # See Foswiki::Store::Interfaces::QueryAlgorithms.pm for details
 sub getRefTopic {
     my ( $this, $relativeTo, $w, $t ) = @_;
     return Foswiki::Meta->load( $relativeTo->session, $w, $t );
+}
+
+# SMELL: At the present time getField is implemented by querying the
+# meta-data object loaded from the store. Can we do this more
+# efficiently/consistently by mapping to SQL?
+sub getField {
+    my ( $this, $node, $data, $field ) = @_;
+
+    my $result;
+    if ( UNIVERSAL::isa( $data, 'Foswiki::Meta' ) ) {
+
+        # The object being indexed is a Foswiki::Meta object, so
+        # we have to use a different approach to treating it
+        # as an associative array. The first thing to do is to
+        # apply our "alias" shortcuts.
+        my $realField = $field;
+        if ( $Foswiki::Query::Node::aliases{$field} ) {
+            $realField = $Foswiki::Query::Node::aliases{$field};
+        }
+        if ( $realField eq 'META:TOPICINFO' ) {
+
+            # Ensure the revision info is populated from the store
+            $data->getRevisionInfo();
+        }
+        if ( $realField =~ s/^META:// ) {
+            if ( $Foswiki::Query::Node::isArrayType{$realField} ) {
+
+                # Array type, have to use find
+                my @e = $data->find($realField);
+                $result = \@e;
+            }
+            else {
+                $result = $data->get($realField);
+            }
+        }
+        elsif ( $realField eq 'name' ) {
+
+            # Special accessor to compensate for lack of a topic
+            # name anywhere in the saved fields of meta
+            return $data->topic();
+        }
+        elsif ( $realField eq 'text' ) {
+
+            # Special accessor to compensate for lack of the topic text
+            # name anywhere in the saved fields of meta
+            return $data->text();
+        }
+        elsif ( $realField eq 'web' ) {
+
+            # Special accessor to compensate for lack of a web
+            # name anywhere in the saved fields of meta
+            return $data->web();
+        }
+        elsif ( $data->topic() ) {
+
+            # The field name isn't an alias, check to see if it's
+            # the form name
+            my $form = $data->get('FORM');
+            if ( $form && $field eq $form->{name} ) {
+
+                # SHORTCUT;it's the form name, so give me the fields
+                # as if the 'field' keyword had been used.
+                # TODO: This is where multiple form support needs to reside.
+                # Return the array of FIELD for further indexing.
+                my @e = $data->find('FIELD');
+                return \@e;
+            }
+            else {
+
+                # SHORTCUT; not a predefined name; assume it's a field
+                # 'name' instead.
+                # SMELL: Needs to error out if there are multiple forms -
+                # or perhaps have a heuristic that gives access to the
+                # uniquely named field.
+                $result = $data->get( 'FIELD', $field );
+                $result = $result->{value} if $result;
+            }
+        }
+    }
+    elsif ( ref($data) eq 'ARRAY' ) {
+
+        # Array objects are returned during evaluation, e.g. when
+        # a subset of an array is matched for further processing.
+
+        # Indexing an array object. The index will be one of:
+        # 1. An integer, which is an implicit index='x' query
+        # 2. A name, which is an implicit name='x' query
+        if ( $field =~ /^\d+$/ ) {
+
+            # Integer index
+            $result = $data->[$field];
+        }
+        else {
+
+            # String index
+            my @res;
+
+            # Get all array entries that match the field
+            foreach my $f (@$data) {
+                my $val = getField( undef, $node, $f, $field );
+                push( @res, $val ) if defined($val);
+            }
+            if ( scalar(@res) ) {
+                $result = \@res;
+            }
+            else {
+
+                # The field name wasn't explicitly seen in any of the records.
+                # Try again, this time matching 'name' and returning 'value'
+                foreach my $f (@$data) {
+                    next unless ref($f) eq 'HASH';
+                    if (   $f->{name}
+                        && $f->{name} eq $field
+                        && defined $f->{value} )
+                    {
+                        push( @res, $f->{value} );
+                    }
+                }
+                if ( scalar(@res) ) {
+                    $result = \@res;
+                }
+            }
+        }
+    }
+    elsif ( ref($data) eq 'HASH' ) {
+
+        # A hash object may be returned when a sub-object of a Foswiki::Meta
+        # object has been matched.
+        $result = $data->{ $node->{params}[0] };
+    }
+    else {
+        $result = $node->{params}[0];
+    }
+    return $result;
 }
 
 1;

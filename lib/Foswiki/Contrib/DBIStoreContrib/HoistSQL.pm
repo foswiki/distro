@@ -17,6 +17,7 @@ use Assert;
 
 use Foswiki::Contrib::DBIStoreContrib                ();
 use Foswiki::Infix::Node                             ();
+use Foswiki::Infix::Error                            ();
 use Foswiki::Query::Node                             ();
 use Foswiki::Query::Parser                           ();
 use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
@@ -27,6 +28,7 @@ our $parser;
 use constant MONITOR =>
   Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
 
+# Type identifiers.
 # FIRST 3 MUST BE KEPT IN LOCKSTEP WITH Foswiki::Infix::Node
 # Declared again here because the constants are not defined
 # in Foswiki 1.1 and earlier
@@ -34,7 +36,19 @@ use constant {
     NAME   => 1,
     NUMBER => 2,
     STRING => 3,
+
+    UNKNOWN  => 0,
+    BOOLEAN  => 4,
+    SELECTOR => 5,    # Temporary, synonymous with UNKNOWN
 };
+
+# Used to pass context and type information around
+use constant {
+    VALUE => 6,
+    TABLE => 7,
+};
+
+my $table_name_RE = qr/^\w+$/;
 
 BEGIN {
 
@@ -48,6 +62,38 @@ BEGIN {
     }
 }
 
+# Frequently used SQL constructs
+sub _SELECT {
+    my ( $line, $pick, %opts ) = @_;
+    my $info = MONITOR ? "/*$line*/" : '';
+    my $sql = "SELECT$info $pick";
+    while ( my ( $opt, $val ) = each %opts ) {
+
+        # We don't generate the construct if it maps to undef
+        next unless defined $val;
+
+        # Bracket sub-selects for FROM etc
+        $val = "($val)" if ( $val =~ /^SELECT/ );
+        $sql .= " $opt $val";
+    }
+    return $sql;
+}
+
+sub _AS {
+    my %args = @_;
+    my @terms;
+    while ( my ( $what, $alias ) = each %args ) {
+        $what = "($what)" if $what !~ /^\w+$/;
+        push( @terms, "$what AS $alias" );
+    }
+    return join( ',', @terms );
+}
+
+sub _UNION {
+    my ( $a, $b ) = @_;
+    return "$a UNION $b";
+}
+
 =begin TML
 
 ---++ ObjectMethod hoist($query) -> $sql_statement
@@ -58,456 +104,795 @@ to replace any hoisted parts with unconditional true/false values.
 
 =cut
 
-# Operators that can be mapped directly to SQL
-my %bop_map = (
-    and  => 'AND',
-    or   => 'OR',
-    '='  => '=',
-    '!=' => '!=',
-    '<'  => '<',
-    '>'  => '>',
-);
+# Operators that can be mapped directly to SQL, the expansion required
+# for their operands and whether they have a boolean result that can
+# be used in a select or not
+sub _simple_uop {
+    my ( $opn, $type, $arg, $atype ) = @_;
+    $arg = _cast( $arg, $atype, $type );
+    return ( "$opn($arg)", $type );
+}
+
+sub _boolean_uop {
+    my ( $opn, $arg, $atype ) = @_;
+    return _simple_uop( $opn, BOOLEAN, $arg );
+}
 
 my %uop_map = (
-    not    => 'NOT',
-    lc     => 'LOWER',
-    uc     => 'UPPER',
-    length => 'LENGTH'
+    not => sub { _boolean_uop( 'NOT', @_ ) },
+    lc     => sub { _simple_uop( 'LOWER', STRING, @_ ) },
+    uc     => sub { _simple_uop( 'UPPER', STRING, @_ ) },
+    length => sub {
+        my ( $arg, $atype ) = @_;
+        if ( $atype == UNKNOWN ) {
+
+            # Assume a table
+            return ( "COUNT(*)", NUMBER );
+        }
+        else {
+            return _simple_uop( 'LENGTH', NUMBER, @_ );
+        }
+    },
+    d2n => sub {
+        my ( $arg, $atype ) = @_;
+        if ( $atype != NUMBER ) {
+            $arg = _personality->d2n($arg);
+        }
+        return ( $arg, NUMBER );
+    },
+    int => sub { },                                  # handled in rewrite
+    '-' => sub { _simple_uop( '-', NUMBER, @_ ) },
+    '+' => sub { _simple_uop( '+', NUMBER, @_ ) },
 );
 
-# Types of expansion required during hoisting
-use constant {
-    CONDITION => 1,
-    TABLE     => 2,
-    ROOT      => 3
-};
+# A bop returning a number
+sub _numeric_bop {
+    my ( $opn, $lhs, $lhs_type, $rhs, $rhs_type ) = @_;
+    $lhs = _cast( $lhs, $lhs_type, NUMBER );
+    $rhs = _cast( $rhs, $rhs_type, NUMBER );
+    return ( "($lhs)$opn($rhs)", NUMBER );
+}
 
-my $tempTable = 0;
+# A bop returning a number or a string
+sub _flexi_bop {
+    my ( $opn, $lhs, $lhs_type, $rhs, $rhs_type ) = @_;
+    my $ot = NUMBER;
+    if ( $lhs_type == STRING || $rhs_type == STRING ) {
+        $ot = STRING;
+    }
+    $lhs = _cast( $lhs, $lhs_type, $ot );
+    $rhs = _cast( $rhs, $rhs_type, $ot );
+    return ( "($lhs)$opn($rhs)", $ot );
+}
+
+# A bop returning a boolean
+sub _boolean_bop {
+    my ( $opn, $lhs, $lhs_type, $rhs, $rhs_type ) = @_;
+    if ( $lhs_type == NUMBER || $rhs_type == NUMBER ) {
+        $lhs = _cast( $lhs, $lhs_type, NUMBER );
+        $rhs = _cast( $rhs, $rhs_type, NUMBER );
+    }
+    elsif ( $lhs_type == STRING || $rhs_type == STRING ) {
+        $lhs = _cast( $lhs, $lhs_type, STRING );
+        $rhs = _cast( $rhs, $rhs_type, STRING );
+    }
+    return ( "($lhs)$opn($rhs)", BOOLEAN );
+}
+
+my %bop_map = (
+    and => sub { _boolean_bop( 'AND', @_ ) },
+    or  => sub { _boolean_bop( 'OR',  @_ ) },
+    ',' => sub { throw new Foswiki::Infix::Error("Unsupported ',' operator"); },
+    'in' =>
+      sub { throw new Foswiki::Infix::Error("Unsupported 'in' operator"); },
+    '-' => sub { _flexi_bop( '-',   @_ ) },
+    '+' => sub { _flexi_bop( '+',   @_ ) },
+    '*' => sub { _numeric_bop( '*', @_ ) },
+    '/' => sub { _numeric_bop( '/', @_ ) },
+    '=' => sub {
+        my ( $lhs, $lhs_type, $rhs, $rhs_type ) = @_;
+
+        # Special case
+        if ( $lhs eq 'NULL' ) {
+            return ( '0=0', BOOLEAN ) if ( $rhs eq 'NULL' );
+            return ( "($rhs) IS NULL", BOOLEAN );
+        }
+        elsif ( $rhs eq 'NULL' ) {
+            return ( "($lhs) IS NULL", BOOLEAN );
+        }
+        return _boolean_bop( '=', @_ );
+    },
+    '!=' => sub { _boolean_bop( '!=', @_ ) },
+    '<'  => sub { _boolean_bop( '<',  @_ ) },
+    '>'  => sub { _boolean_bop( '>',  @_ ) },
+    '<=' => sub { _boolean_bop( '<=', @_ ) },
+    '>=' => sub { _boolean_bop( '>=', @_ ) },
+    '~'  => sub {
+        my ( $lhs, $lhst, $rhs, $rhst ) = @_;
+        my $expr = _personality->wildcard( $lhs, $rhs );
+        return ( $expr, BOOLEAN );
+    },
+    '=~' => sub {
+        my ( $lhs, $rhs ) = @_;
+        my $expr = _personality->regexp( $lhs, "=~", $rhs );
+        return ( $expr, BOOLEAN );
+    },
+
+);
+
+my $temp_id = 0;
+
+sub _alias {
+    my $line = shift;
+    my $tid = 't' . ( $temp_id++ );
+    $tid .= "_$line" if MONITOR;
+    return $tid;
+}
+
+sub _personality {
+    return Foswiki::Contrib::DBIStoreContrib::DBIStore::personality;
+}
 
 sub hoist {
-    my ( $node, $control, $type ) = @_;
+    my ($query) = @_;
+
+    # Simplify the parse tree, work out type information.
+    $query = _rewrite( $query, UNKNOWN );
+    print STDERR "Rewritten " . recreate($query) . "\n" if MONITOR;
+
+    # Top level selectors are relative to the 'topic' table
+    my %h = _hoist( $query, 'topic' );
+    if ( $h{sql} =~ /^SELECT/ ) {
+        $h{sql} = "EXISTS($h{sql})";
+    }
+    elsif ( $h{is_table_name} ) {
+        $h{sql} = "EXISTS(SELECT * FROM $h{sql})";
+    }
+    elsif ( $h{type} == NUMBER ) {
+        $h{sql} = "($h{sql})!= 0";
+    }
+    elsif ( $h{type} == STRING ) {
+        $h{sql} = "($h{sql})!=\"\"";
+    }
+    return $h{sql};
+}
+
+# Params: ($node, $in_table)
+# $node - the node being processed
+# $in_table - the table in which lookup is being performed. A simple ID.
+#
+# Return: %result with keys:
+# sql - the generated SQL
+# type - type of the subexpression
+# is_table_name - true if the statement yields a table (even if not a SELECT)
+# selector - optional selector indicating the single column name chosen
+# in the subquery
+#
+# Any sub-expression generates a query that yields a table. That table
+# has an associated column (or columns). So,
+# TOPICINFO yields (SELECT * FROM TOPICINFO) if it's used raw
+# TOPICINFO.blah yields (SELECT blah FROM TOPICINFO)
+# fields[name="blah"] yields (SELECT * FROM FIELD WHERE name="blah")
+# 'Topic'/fields[name='blah'].value yields (SELECT value FROM (SELECT * FROM topic,(SELECT * FROM FIELD WHERE name="blah") AS t1 WHERE topic.tid=t1.tid AND topic.name="Topic")
+# tname/sexpr ->
+# (SELECT * FROM topic,sexpr AS t1 WHERE topic.tid=t1.tid AND topic.name=tname
+#                                                             [ $lhs_where   ]
+
+sub _hoist {
+    my ( $node, $in_table ) = @_;
 
     # The default context table is 'topic'. As soon as we go into a
     # SELECT, the context table may change. In a /, the context table
     # is still 'topic'
-    $type ||= CONDITION;    # query algorithm wants a condition
 
-    my $op = $node->{op}->{name} if ref( $node->{op} );
+    my $op    = $node->{op}->{name}  if ref( $node->{op} );
+    my $arity = $node->{op}->{arity} if ref( $node->{op} );
+    my $cq    = _personality->string_quote;
 
-    my $res;
+    my %result;
+    $result{type} = UNKNOWN;
+
     if ( !ref( $node->{op} ) ) {
-        $res = _constant( $node, 1, $control );
-    }
-    elsif ( $bop_map{$op} ) {
-        ASSERT( $type == CONDITION, $node->stringify() );
-        my $lhs = hoist( $node->{params}[0], $control, CONDITION );
-        my $rhs = hoist( $node->{params}[1], $control, CONDITION );
-        $lhs = "($lhs)" if ref( $node->{params}[0]->{op} );
-        $rhs = "($rhs)" if ref( $node->{params}[1]->{op} );
-        $res = "$lhs $bop_map{$op} $rhs";
-    }
-    elsif ( $op eq '=~' ) {
-        ASSERT( $type == CONDITION, $node->stringify() );
-        my $lhs = hoist( $node->{params}[0], $control, CONDITION );
-        my $rhs = hoist( $node->{params}[1], $control, CONDITION );
-        $rhs =~ s/^"(.*)"$/$1/;
-        $res = Foswiki::Contrib::DBIStoreContrib::DBIStore::personality->regexp(
-            $lhs, $op, $rhs );
-    }
-    elsif ( $op eq '~' ) {
-        ASSERT( $type == CONDITION, $node->stringify() );
-        my $lhs = hoist( $node->{params}[0], $control, CONDITION );
-        my $rhs = hoist( $node->{params}[1], $control, CONDITION );
-        $rhs =~ s/^"(.*)"$/$1/;
-        $res =
-          Foswiki::Contrib::DBIStoreContrib::DBIStore::personality->wildcard(
-            $lhs, $rhs );
-    }
-    elsif ( $uop_map{$op} ) {
-        my $child = hoist( $node->{params}[0], $control );
-        $res = "$uop_map{$op}($child)";
-        ASSERT( $type == CONDITION, $node->stringify() );
+        if ( $node->{op} eq STRING ) {
+            $result{sql}  = "$cq$node->{params}[0]$cq";
+            $result{type} = STRING;
+        }
+        elsif ( $node->{op} == NAME ) {
+
+            # A simple name
+            my $name = $node->{params}[0];
+            if ( $name =~ /^META:(\w+)$/ ) {
+
+                # Name of a table
+                $result{sql}           = _personality->safe_id($1);
+                $result{is_table_name} = 1;
+                $result{type}          = STRING;
+            }
+            elsif ( $name eq 'undefined' ) {
+                $result{sql}  = 'NULL';
+                $result{type} = UNKNOWN;
+            }
+            else {
+
+                # Name of a field
+                $name = _personality->safe_id($name);
+                $result{sql} = $in_table ? "$in_table.$name" : $name;
+                $result{type} = STRING;
+            }
+        }
+        else {
+            $result{sql}  = $node->{params}[0];
+            $result{type} = $node->{op};
+        }
     }
     elsif ( $op eq '[' ) {
-        my $lhs = hoist( $node->{params}[0], $control, TABLE );
-        my $t1;
-        if ( $lhs =~ /^\w+$/ ) {    # simple table name
-            $t1 = $lhs;
+        my %lhs = _hoist( $node->{params}[0], $in_table );
+
+        my $from_alias;
+        my $tid_constraint = '';
+        if ( $lhs{is_table_name} || $lhs{sql} =~ /^SELECT/ ) {
+
+            $from_alias = _alias(__LINE__);
+            $lhs{sql} = _AS( $lhs{sql} => $from_alias );
+
+            if ( $lhs{is_table_name} && $in_table ) {
+                $tid_constraint = " AND $from_alias.tid=$in_table.tid";
+            }
         }
         else {
-
-            # Use temporary table
-            $t1 = 't' . ( $tempTable++ );
-            $lhs = "($lhs) AS $t1";
+            throw new Foswiki::Infix::Error( "Expected a table on the LHS of [",
+                recreate($node) );
         }
-        my %sc = %$control;
-        $sc{table} = $t1;
-        my $where = hoist( $node->{params}[1], \%sc, CONDITION );
-        $res =
-          "SELECT * from $lhs WHERE $t1.tid=$control->{table}.tid AND $where";
-        $res = "EXISTS($res)" if ( $type == CONDITION );
+
+        my %where = _hoist( $node->{params}[1], $from_alias );
+
+        if ( $where{sql} =~ /^SELECT/ ) {
+            $where{sql} = "EXISTS($where{sql})";
+        }
+        elsif ( $where{is_table_name} ) {
+
+            # Hum. TABLE[TABLE_NAME]
+            throw new Foswiki::Infix::Error(
+                "Cannot use a table name here",
+                recreate($node),
+                recreate( $node->{params}[1] )
+            );
+        }
+        elsif ( $result{type} == STRING ) {
+
+            # A simple non-table expression
+            $where{sql} = "($where{sql})!=$cq$cq";
+        }
+        elsif ( $result{type} == NUMBER ) {
+            $where{sql} = "($where{sql})!=0";
+        }
+
+        $result{sql} = _SELECT(
+            __LINE__,
+            '*',
+            FROM  => $lhs{sql},
+            WHERE => "$where{sql}$tid_constraint"
+        );
+        $result{type} = STRING;
+
+        # No . here, so no selector
     }
     elsif ( $op eq '.' ) {
-        my $lhs = hoist( $node->{params}[0], $control, TABLE );
-        my $t1;
-        if ( $lhs =~ /^\w+$/ ) {    # simple table name
-            $t1 = $lhs;
+        my %lhs = _hoist( $node->{params}[0], $in_table );
+
+        # SMELL: ought to be able to support an expression generating
+        # a selector name on the RHS. But that's just too hard in SQL.
+        my $rhs = $node->{params}[1];
+        if ( ref( $rhs->{op} ) || $rhs->{op} != NAME ) {
+            throw new Foswiki::Infix::Error(
+                "Expected a selector name on the RHS of .",
+                recreate($node) );
+        }
+        $result{sel} = $rhs->{params}[0];
+
+        if ( $lhs{sql} =~ /^SELECT/ ) {
+            my $lhs_alias = _alias(__LINE__);
+            $result{sql} = _SELECT(
+                __LINE__,
+                "$result{sel},$lhs_alias.tid",
+                FROM => _AS( $lhs{sql} => $lhs_alias )
+            );
+        }
+        elsif ( $lhs{is_table_name} ) {
+            my $alias = _alias(__LINE__);
+            $result{sql} = _SELECT(
+                __LINE__,
+                "$alias.$result{sel},"
+                  . ( $in_table ? "$in_table.tid" : 'tid' ),
+                FROM => _AS( $lhs{sql} => $alias ),
+
+                # Only need WHERE if the LHS is not the in_table
+                WHERE => "$alias.tid=" . ( $in_table ? "$in_table.tid" : 'tid' )
+            );
         }
         else {
-
-            # Use temporary table
-            $t1 = 't' . ( $tempTable++ );
-            $lhs = "($lhs) AS $t1";
+            throw new Foswiki::Infix::Error( "Expected a table on the LHS of .",
+                recreate($node) );
         }
-        my %sc = %$control;
-        $sc{table} = $t1;
-        my $where = hoist( $node->{params}[1], \%sc, CONDITION );
-        $res =
-          "SELECT * FROM $lhs WHERE $t1.tid=$control->{table}.tid AND $where";
-        $res = "EXISTS($res)" if ( $type == CONDITION );
+        $result{type} = STRING;
     }
     elsif ( $op eq '/' ) {
 
         # A lookup in another topic
-        my $t1 = $control->{table};
-        my $c  = _constant( $node->{params}[0], 0 );
-        my $sc = {
-            table   => $t1,
-            iwebs   => $control->{iweb},
-            itopics => [$c]
-        };
-        my $lhs = hoist( $node->{params}[1], $sc, CONDITION );
-        my $partial = " WHERE";
-        if ( $t1 ne 'topic' ) {
-            $partial = ",$t1 WHERE topic.tid=$t1.tid AND";
+
+        my $topic_alias = _alias(__LINE__);
+
+        # Expect a condition that yields a topic name on the LHS
+        my $lhs = $node->{params}[0];
+        my %lhs = _hoist( $node->{params}[0], $topic_alias );
+        my $lhs_where;
+        my $select = '';
+        if ( $lhs{sql} =~ /^SELECT/ ) {
+            my $tnames = _alias(__LINE__);
+            $select = _AS( $lhs{sql} => $tnames ) . ',';
+            my $tname_sel = $tnames;
+            $tname_sel = "$tnames.$lhs{sel}" if $lhs{sel};
+            $lhs_where = "($topic_alias.name IN $tname_sel OR "
+              . "($topic_alias.web||\".\"||$topic_alias.name) IN $tname_sel)";
         }
-        $res =
-          "EXISTS(SELECT tid FROM topic${partial} topic.name='$c' AND $lhs)";
-    }
-    else {
-        ASSERT( 0, "Don't know how to hoist $op" . recreate($node) );
-    }
-    print STDERR "HOISTED " . recreate($node) . " ->\n$res\n" if MONITOR;
-    return $res;
-}
+        elsif ( $lhs{is_table_name} ) {
 
-# All tables have a tid, so we can collect the tables used and make sure they
-# all have the same tid.
-
-sub _constant {
-    my ( $node, $quote, $control ) = @_;
-    ASSERT( !ref( $node->{op} ) ) if DEBUG;
-    if ( $node->{op} eq STRING ) {
-        return $quote ? "\"$node->{params}[0]\"" : $node->{params}[0];
-    }
-    elsif ( $node->{op} == NAME ) {
-
-        # A simple name
-        my $name = $node->{params}[0];
-        if ( $name =~ /^META:(\w+)/ ) {
-
-            # Name of a table
-            return $quote ? "'$1'" : $1;
+            # Table name with no select. Useless.
+            throw new Foswiki::Infix::Error( "Table name cannot be used here",
+                recreate($node), recreate($lhs) );
         }
         else {
 
-            # Name of a field
-            return "$control->{table}.$name";
+            # Not a selector or simple table name, must be a simple
+            # expression yielding a selector
+            $lhs_where = "($lhs{sql}) IN "
+              . "($topic_alias.name,$topic_alias.web||\".\"||$topic_alias.name)";
         }
-    }
-    else {
-        return $node->{params}[0];
-    }
-}
 
-# Expand web and topic limits to SQL expressions
-sub _expand_controls {
-    my $control = shift;
-    my @exprs;
-    if ( $control->{iwebs} ) {
-        push( @exprs, _expand_relist( $control->{iwebs}, 'web', 0 ) );
-    }
-    if ( $control->{ewebs} ) {
-        push( @exprs, _expand_relist( $control->{ewebs}, 'web', 1 ) );
-    }
-    if ( $control->{itopics} ) {
-        push( @exprs, _expand_relist( $control->{itopics}, 'name', 0 ) );
-    }
-    if ( $control->{etopics} ) {
-        push( @exprs, _expand_relist( $control->{etopics}, 'name', 0 ) );
-    }
-    my $controls = join( ' AND ', @exprs );
-    return '' unless $controls;
-    return "(tid IN (SELECT tid FROM topic WHERE $controls))";
-}
+        # Expand the RHS *without* a constraint on the topic table
+        my %rhs = _hoist( $node->{params}[1], undef );
+        unless ( $rhs{sql} =~ /^SELECT/ || $rhs{is_table_name} ) {
 
-# Expand a literal or regex list, used for matching topic and web names, to
-# an SQL expression
-sub _expand_relist {
-    my ( $list, $column, $negate ) = @_;
+            # We *could* handle this without an error, but it would
+            # be pretty meaningless e.g. 'Topic'/1
+            throw new Foswiki::Infix::Error(
+                "Expected a table expression on the RHS of /",
+                recreate($node) );
+        }
+        $result{sel} = $rhs{sel};
 
-    my @exprs;
-    my @in;
-    foreach my $s (@$list) {
-        ASSERT( defined $s ) if DEBUG;
-        my $q = quotemeta($s);
-        if ( $q ne $s ) {
-            push(
-                @exprs,
-                Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
-                  ->wildcard(
-                    $column, $s
-                  )
+        my $sexpr_alias = _alias(__LINE__);
+
+        my $tid_constraint = "$sexpr_alias.tid IN ("
+          . _SELECT( __LINE__,
+            'tid',
+            FROM  => _AS( 'topic', $topic_alias ),
+            WHERE => $lhs_where
+          ) . ")";
+
+        $result{sql} = _SELECT(
+            __LINE__,
+            '*',    # select all columns (which will include tid)
+            FROM  => $select . _AS( $rhs{sql} => $sexpr_alias ),
+            WHERE => $tid_constraint
+        );
+
+        $result{type} = $rhs{type};
+    }
+    elsif ( $arity == 2 && defined $bop_map{$op} ) {
+
+        my $lhs           = $node->{params}[0];
+        my %lhs           = _hoist( $lhs, $in_table );
+        my $lhs_is_SELECT = $lhs{sql} =~ /^SELECT/;
+
+        my $rhs           = $node->{params}[1];
+        my %rhs           = _hoist( $rhs, $in_table );
+        my $rhs_is_SELECT = $rhs{sql} =~ /^SELECT/;
+
+        my $opfn = $bop_map{$op};
+
+        if (   ( $lhs_is_SELECT || $lhs{is_table_name} )
+            && ( $rhs_is_SELECT || $rhs{is_table_name} ) )
+        {
+
+            # TABLE - TABLE
+
+            my $lhs_alias = _alias(__LINE__);
+            my $rhs_alias = _alias(__LINE__);
+
+            $result{sel} = _alias(__LINE__);
+            if ( $op eq 'or' ) {
+
+                # Special case for OR, because the OR operator
+                # doesn't work the way the other operators do when
+                # it's used in a double-from. Not sure why, it ought
+                # to work AFAICT from RTFM, but it doesn't.
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( "1=1" => $result{sel} ) . ",tid",
+                    FROM => _UNION(
+                        _SELECT( __LINE__, 'tid', FROM => $lhs{sql} ),
+                        _SELECT( __LINE__, 'tid', FROM => $rhs{sql} )
+                    )
+                );
+                $result{type} = BOOLEAN;
+
+            }
+            else {
+                my $l_sel = $lhs_alias;
+                $l_sel = "$lhs_alias.$lhs{sel}" if $lhs{sel};
+
+                my $r_sel = $rhs_alias;
+                $r_sel = "$rhs_alias.$rhs{sel}" if $rhs{sel};
+
+                my ( $expr, $optype ) = &$opfn(
+                    $l_sel => $lhs{type},
+                    $r_sel => $rhs{type}
+                );
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( $expr => $result{sel} ) . ",$lhs_alias.tid",
+                    FROM => _AS(
+                        $lhs{sql} => $lhs_alias,
+                        $rhs{sql} => $rhs_alias
+                    ),
+                    WHERE => $optype == BOOLEAN ? $result{sel} : undef
+                );
+
+                $result{type} = $optype;
+            }
+
+        }
+        elsif ( $lhs_is_SELECT || $lhs{is_table_name} ) {
+
+            # TABLE - CONSTANT
+            my $lhs_alias = _alias(__LINE__);
+            my $l_sel     = $lhs_alias;
+            $l_sel = "$lhs_alias.$lhs{sel}" if $lhs{sel};
+
+            $result{sel} = _alias(__LINE__);
+            my ( $expr, $optype ) = &$opfn(
+                $l_sel    => $lhs{type},
+                $rhs{sql} => $rhs{type}
+            );
+            $result{sql} = _SELECT(
+                __LINE__,
+                _AS( $expr => $result{sel} ) . ",tid",
+                FROM => _AS( $lhs{sql} => $lhs_alias ),
+                WHERE => $optype == BOOLEAN ? $result{sel} : undef
+            );
+
+            $result{type} = $optype;
+
+        }
+        elsif ($rhs_is_SELECT) {
+
+            # CONSTANT - TABLE
+            my $rhs_alias = _alias(__LINE__);
+            my $r_sel     = $rhs_alias;
+            $r_sel = "$rhs_alias.$rhs{sel}" if $rhs{sel};
+
+            $result{sel} = _alias(__LINE__);
+            my ( $expr, $optype ) = &$opfn(
+                $lhs{sql} => $lhs{type},
+                $r_sel    => $rhs{type}
+            );
+            $result{sql} = _SELECT(
+                __LINE__,
+                _AS( $expr => $result{sel} ),
+                FROM => _AS( $rhs{sql} => $rhs_alias ),
+                WHERE => $optype == BOOLEAN ? $result{sel} : undef
+            );
+            $result{type} = $optype;
+        }
+        else {
+
+            # CONSTANT - CONSTANT
+            ( $result{sql}, $result{type} ) = &$opfn(
+                $lhs{sql} => $lhs{type},
+                $rhs{sql} => $rhs{type}
             );
         }
+    }
+    elsif ( $arity == 1 && defined $uop_map{$op} ) {
+        my $opfn = $uop_map{$op};
+        my %kid = _hoist( $node->{params}[0], $in_table );
+        if ( $kid{sql} =~ /^SELECT/ || $kid{is_table_name} ) {
+            my $arg_alias = _alias(__LINE__);
+            my $arg_sel   = $arg_alias;
+            $arg_sel = "$arg_alias.$kid{sel}" if $kid{sel};
+            $result{sel} = _alias(__LINE__);
+            my ( $expr, $optype ) = &$opfn( $arg_sel => UNKNOWN );
+            $result{sql} = _SELECT(
+                __LINE__,
+                _AS( $expr => $result{sel} ) . ",tid",
+                FROM => _AS( $kid{sql} => $arg_alias ),
+                WHERE => $optype == BOOLEAN ? $result{sel} : undef
+            );
+            $result{type} = $optype;
+        }
         else {
-            push( @in, $s );
+            ( $result{sql}, $result{type} ) = &$opfn( $kid{sql}, $kid{type} );
         }
     }
-    if ( scalar(@in) ) {
-        push( @exprs,
-            "$column IN ( " . join( ',', map { "\"$_\"" } @in ) . ')' );
+    else {
+        throw new Foswiki::Infix::Error(
+            "Don't know how to hoist $op" . recreate($node) );
     }
-    return ( $negate ? 'NOT' : '' ) . '(' . join( ' AND ', @exprs ) . ')';
+    if (MONITOR) {
+        print STDERR "Hoist " . recreate($node) . " ->\n";
+        print STDERR "select $result{sel} from\n" if $result{sel};
+        print STDERR "table name\n"               if $result{is_table_name};
+        print STDERR _format_SQL( $result{sql} ) . "\n";
+    }
+    return %result;
 }
 
-=begin TML
+# Generate a cast statement, if necessary.
+# from a child node type.
+# $arg - the SQL being cast
+# $type - the current type of the $arg (may be UNKNOWN)
+# $tgt_type - the target type of the cast (may be UNKNOWN)
+sub _cast {
+    my ( $arg, $type, $tgt_type ) = @_;
+    return $arg if $tgt_type == UNKNOWN || $type == $tgt_type;
+    if ( $tgt_type == BOOLEAN ) {
+        if ( $type == NUMBER ) {
+            $arg = "$arg!=0";
+        }
+        else {
+            $arg = "$arg!=\"\"";
+        }
+    }
+    elsif ( $tgt_type == NUMBER ) {
+        $arg = 'CAST(' . _AS( $arg => 'FLOAT' ) . ')';
+    }
+    elsif ( $type != UNKNOWN ) {
+        $arg = 'CAST(' . _AS( $arg => 'TEXT' ) . ')';
+    }
+    return $arg;
+}
 
-Rewrite a Foswiki query parse tree to eliminate certain types
-of subexpression, and so simplify subsequent SQL extraction.
-
-=cut
-
-sub rewrite {
+# _rewrite( $node, $context ) -> $node
+# Rewrite a Foswiki query parse tree to prepare it for SQL hoisting.
+# $context is one of:
+#    * UNKNOWN - the node being processed is in the context of the topic table
+#    * VALUE - context of a WHERE
+#    * TABLE - context of a table expression e.g. LHS of a [
+# Analysis of the parse tree to determine the semantics of names, and
+# the rewriting of shorthand expressions to their full form.
+sub _rewrite {
     my ( $node, $context ) = @_;
-
-    $context ||= ROOT;
 
     my $before;
     $before = recreate($node) if MONITOR;
     my $rewrote = 0;
 
-    unless ( ref( $node->{op} ) ) {
-        if ( $node->{op} == NAME ) {
-            if ( $context == ROOT ) {
+    my $op = $node->{op};
 
-                # A name floating around in an expression.
+    if ( !ref($op) ) {
+        if ( $op == NAME ) {
+            my $name = $node->{params}[0];
+            my $tname = $Foswiki::Query::Node::aliases{$name} || $name;
+
+            if ( $context == UNKNOWN ) {
+
+                # A name floating around loose in an expression is
+                # implicitly a column in the topic table.
                 $parser ||= new Foswiki::Query::Parser();
-                $node =
-                  $parser->parse("META:FIELD[name='$node->{params}[0]'].value");
-                $rewrote = 1;
-            }
-        }
-    }
-    else {
+                if ( $name =~ /^(name|web|text|raw)$/ ) {
 
-        my $op = $node->{op}->{name};
-        if ( $op eq '(' ) {
-
-            # Can simply eliminate this
-            $node    = $node->{params}[0];
-            $rewrote = 1;
-        }
-        elsif ( $op eq '.' ) {
-
-            # The legacy of the . operator means it really requires context
-            # information to determine how it should be parsed. We don't have
-            # all that context here, so we have to do the best we can with what
-            # we have, and rewrite it as a []
-            my $lhs = rewrite( $node->{params}[0], TABLE );
-            my $rhs = rewrite( $node->{params}[1], CONDITION );
-
-            # RHS must be a key.
-            die "Illegal RHS of . " . recreate($rhs)
-              unless !ref( $rhs->{op} ) && $rhs->{op} == NAME;
-
-            if ( !ref( $lhs->{op} ) && $lhs->{op} == NAME ) {
-
-                # Simple name on the LHS. Either a form name or a
-                # table name.
-                $parser ||= new Foswiki::Query::Parser();
-                my $select_from = $lhs->{params}[0];
-
-                if ( $Foswiki::Query::Node::aliases{$select_from} ) {
-                    $select_from = $Foswiki::Query::Node::aliases{$select_from};
+                    $node =
+                      _rewrite( $parser->parse("META:topic.$name"), $context );
+                    $rewrote = __LINE__;
                 }
-                if ( $select_from =~ /^META:(\w+)/ ) {
+                elsif ( $name ne 'undefined' ) {
 
-                    # It's a table name. Rewrite name as META:
-                    $lhs->{params}[0] = $select_from;
+                    # A table on it's own in the root doesn't make
+                    # a lot of sense. Deal with it anyway.
+                    if ( $tname =~ /^META:\w+$/ ) {
+                        $node->{params}[0] = $tname;
+                        $node->{is_table}  = 1;
+                        $rewrote           = __LINE__;
+                    }
+                    else {
+                        $node = _rewrite(
+                            $parser->parse(
+                                "META:FIELD[name='$node->{params}[0]'].value"),
+                            $context
+                        );
+                        $rewrote = __LINE__;
+                    }
+                }
+            }
+            elsif ( $context == TABLE ) {
 
-          #                    $node = $parser->parse(
-          #                        "META:${1}[name='$rhs->{params}[0]'].value");
-          #                    $rewrote = 1;
+                if ( $tname =~ /^META:\w+$/ ) {
+                    $node->{params}[0] = $tname;
+                    $node->{is_table}  = 1;
+                    $rewrote           = __LINE__;
                 }
                 else {
 
-                  # Otherwise the LHS must be a form name. Since we only support
-                  # one form per topic, we can rewrite this as a field select,
-                  # and add a constraint on the topic using the META:FORM table.
-                  # Constraint is "META:FORM.name='$lhs->{params}[0]'"
-                    $parser ||= new Foswiki::Query::Parser();
-                    $node = $parser->parse(
-                        "META:FIELD[name='$rhs->{params}[0]'].value");
-                    $rewrote = 1;
+                    # An unknown name where a table is expected?
+                    # It may be a form name?
+                    $rewrote = __LINE__;
                 }
             }
-        }
-        elsif ( $op eq '[' ) {
+            else {    # $context = VALUE
 
-            # Convert a row number constant into a condition
-            my $lhs = $node->{params}[0] = rewrite( $node->{params}[0], TABLE );
-            my $rhs = $node->{params}[1] =
-              rewrite( $node->{params}[1], CONDITION );
-            if ( !ref( $lhs->{op} ) && $lhs->{op} == NUMBER ) {
-                my $n = $lhs->{params}[0];
-                $node->{params}[1] = $parser->parse("ROW_INDEX=$n");
-                $rewrote = 1;
-            }
-            elsif ( !ref( $lhs->{op} ) && $lhs->{op} == NAME ) {
+                if ( $tname =~ /^META:\w+$/ ) {
 
-                # Simple name on the LHS. Must be a table name.
-                my $select_from = $lhs->{params}[0];
-
-                if ( $Foswiki::Query::Node::aliases{$select_from} ) {
-                    $select_from = $Foswiki::Query::Node::aliases{$select_from};
-                }
-                if ( $select_from =~ /^META:(\w+)/ ) {
-
-                    # It's a table name. Rewrite name as META:
-                    $lhs->{params}[0] = $select_from;
-                    $rewrote = 1;
-
-                    # name type is TABLE
+                    # This is going to end badly
+                    $node->{params}[0] = $tname;
+                    $node->{is_table}  = 1;
+                    $rewrote           = __LINE__;
                 }
                 else {
-                    ASSERT(0) if DEBUG;
+
+                    # Name used as a selector
+                    $node->{is_selector} = 1;
+                    $rewrote = __LINE__;
                 }
             }
         }
         else {
-            for ( my $i = 0 ; $i < $node->{op}->{arity} ; $i++ ) {
-                $node->{params}[$i] = rewrite( $node->{params}[$i], $context );
-            }
+
+            # STRING or NUMBER
+            $rewrote = __LINE__;
         }
     }
-    print STDERR "Rewrote $before as " . recreate($node) . "\n"
-      if MONITOR && $rewrote;
+    elsif ( $op->{name} eq '(' ) {
+
+        # Can simply eliminate this
+        $node = _rewrite( $node->{params}[0], $context );
+        $rewrote = __LINE__;
+    }
+    elsif ( $op->{name} eq 'int' ) {
+
+        $node = _rewrite( $node->{params}[0], $context );
+        $rewrote = __LINE__;
+    }
+    elsif ( $op->{name} eq '.' ) {
+
+        # The legacy of the . operator means it really requires context
+        # information to determine how it should be parsed. We don't have
+        # all that context here, so we have to do the best we can with what
+        # we have, and rewrite it as a []
+        my $lhs = _rewrite( $node->{params}[0], TABLE );
+        my $rhs = _rewrite( $node->{params}[1], VALUE );
+
+        unless ( $lhs->{is_table} ) {
+            print STDERR __LINE__
+              . " lhs may not be a table."
+              . recreate($lhs) . "\n";
+        }
+
+        # RHS must be a key.
+        die "Illegal RHS of . " . recreate($rhs)
+          unless $rhs->{is_selector};
+
+        if ( !$lhs->{is_table} && !ref( $lhs->{op} ) ) {
+
+            # The LHS must be a form name. Since we only support
+            # one form per topic, we can rewrite this as a field select,
+            # and add a constraint on the topic using the META:FORM table.
+            # Constraint is "META:FORM.name='$lhs->{params}[0]'"
+            $parser ||= new Foswiki::Query::Parser();
+
+            # Must rewrite to infer types
+            $node = _rewrite(
+                $parser->parse("META:FIELD[name='$rhs->{params}[0]'].value"),
+                $context );
+            $rewrote = __LINE__;
+        }
+        else {
+
+            # The result of the subquery might be a table or a single
+            # value, but either way we have to treat it as a table.
+            $node->{is_table} = 1;
+            $rewrote = __LINE__;
+        }
+    }
+    elsif ( $op->{name} eq '[' ) {
+
+        my $lhs = _rewrite( $node->{params}[0], TABLE );
+        my $rhs = _rewrite( $node->{params}[1], VALUE );
+
+        $node->{is_table} = 1;
+    }
+    else {
+        for ( my $i = 0 ; $i < $op->{arity} ; $i++ ) {
+            my $nn = _rewrite( $node->{params}[$i], $context );
+            $node->{params}[$i] = $nn;
+        }
+        my $nop = $op->{name};
+    }
+
+    print STDERR "$rewrote: Rewrote $before as " . recreate($node) . "\n"
+      if MONITOR;
     return $node;
+}
+
+# Simple SQL formatter for the type of expression generated by this module
+sub _format_SQL {
+    my ($sql) = @_;
+
+    # Assumes balanced brackets - won't work if \( or \) present
+    my @ss = ();
+
+    # Replace escaped quotes
+    my $cq = _personality->string_quote;
+    $sql =~ s/(\\$cq)/push(@ss,$1); "![$#ss]!"/ges;
+
+    # Replace quoted strings
+    $sql =~ s/($cq([^$cq])*$cq)/push(@ss,$1); "![$#ss]!"/ges;
+
+    # Replace bracketed subexpressions
+    my $n = 0;
+    while ( $sql =~ s/\(([^\(\)]*?)\)/<$n:$1:$n>/s ) {
+        $n++;
+    }
+
+    # Find and format the first region
+    $sql = _format_region( $sql, '' );
+
+    # Break remaining long lines on AND and OR
+    my @lines = split( /\n/, $sql );
+    my @nlines = ();
+    foreach my $line (@lines) {
+        my $ind = '';
+        if ( $line =~ /^(\s+)/ ) {
+            $ind = $1;
+        }
+        $ind = " $ind";
+        while ( $line =~ /[^\n]{80}/ ) {
+            last unless ( $line =~ s/(.{5}.*?\S +)(AND|OR|ORDER)/$ind$2/s );
+            push( @nlines, $1 );
+        }
+        push( @nlines, $line ) if $line =~ /\S/;
+    }
+    $sql = join( "\n", @nlines );
+
+    # Replace strings
+    while ( $sql =~ s/!\[(\d+)\]!/$ss[$1]/gs ) {
+    }
+    return $sql;
+}
+
+sub _format_region {
+    my ( $sql, $indent ) = @_;
+    if ( $sql =~ /^(.*?)<(\d+):(.*):\2>(.*)$/s ) {
+        my ( $before, $subexpr, $after ) = ( $1, $3, $4 );
+        $before =~ s/(?<=\S) +(FROM|WHERE|UNION|SELECT)\b/\n$indent$1/gs;
+        my $abrack    = '';
+        my $subindent = $indent;
+        if ( $subexpr =~ /^SELECT/ ) {
+            $before    .= "\n$indent";
+            $subindent .= " ";
+            $abrack = "\n$indent";
+        }
+        $sql =
+            "$before("
+          . _format_region( $subexpr, $subindent )
+          . "$abrack)"
+          . _format_region( $after, $indent );
+    }
+    else {
+        $sql =~ s/(?<=\S) +(FROM|WHERE|UNION|SELECT)\b/\n$indent$1/gs;
+    }
+    return $sql;
 }
 
 =begin TML
 
-Reorder parse tree based on modified precedence rules,
-to make SQL extraction easier. For example,
+---++ StaticMethod recreate( $node ) -> $string
 
-OR{<{.{/{'AnT',info},version},1.1},n/a}
-          OR
-         /  \
-        <   n/a
-       / \
-      .  '1.1'
-     / \
-   '/'  version
-  /   \
-'AnT'  info
-
-OR{/{'AnT',<{.{info,version},1.1}},n/a}
-      OR
-     /   \
-   '/'   n/a
-  /   \
-'AnT'  <  
-      / \
-     .    1.1
-    / \
-info   version
+Unparse a Foswiki query expression from a parse tree. Should be
+part of the Foswiki::Query::Node class, but isn't :-(
 
 =cut
 
-my %reorder = (
-
-    # prec gives the new precedence of the operator.
-    # child gives the index of the subnode that has the
-    # selector (the RHS for / and . operators).
-    '/' => { prec => 250, child => 1 },
-    '.' => { prec => 275, child => 1 }
-);
-
-sub reorder {
-    my ( $node, $root, @parents ) = @_;
-
-    return unless ref( $node->{op} );
-    my $op = $node->{op}->{name};
-    my $ro = $reorder{$op};
-    my $branch;
-    if (   defined $ro
-        && scalar(@parents)
-        && _prec( $parents[0]->{op} ) > $ro->{prec} )
-    {
-        print STDERR "Reorder "
-          . recreate($node)
-          . " because "
-          . "prec($op) <= prec($parents[0]->{op}->{name})" . "\n"
-          if MONITOR;
-
-        my $prec  = $ro->{prec};
-        my $child = $ro->{child};
-        my $i     = 0;
-        while ( $i < scalar(@parents) && _prec( $parents[$i]->{op} ) > $prec ) {
-            $i++;
-        }
-        if ($i) {
-            my $current_parent = $parents[0];
-
-            # Find which branch of the current parent the $node
-            # is on
-            $branch = _find_child( $current_parent, $node );
-            $current_parent->{params}[$branch] = $node->{params}[1];
-
-            if ( $i < scalar(@parents) ) {
-                my $new_parent = $parents[$i];
-
-                # Find the branch that the next parent is on
-                $branch = _find_child( $new_parent, $parents[ $i - 1 ] );
-                $node->{params}[$child]        = $new_parent->{params}[$branch];
-                $new_parent->{params}[$branch] = $node;
-                splice( @parents, 0, $i );
-            }
-            else {
-                $node->{params}[$child] = $$root;
-                $$root                  = $node;
-                @parents                = ();
-            }
-            print STDERR "After reordering " . recreate($$root) . "\n"
-              if MONITOR;
-        }
-    }
-    for ( $branch = 0 ; $branch < $node->{op}->{arity} ; $branch++ ) {
-        reorder( $node->{params}[$branch], $root, $node, @parents );
-    }
-}
-
-sub _prec {
-    my $op = shift;
-    return $reorder{ $op->{name} }->{prec} if defined $reorder{ $op->{name} };
-    return $op->{prec};
-}
-
-sub _find_child {
-    my ( $node, $child ) = @_;
-    my $branch = 0;
-    while ($branch < $node->{op}->{arity}
-        && $node->{params}[$branch] != $child )
-    {
-        $branch++;
-    }
-    ASSERT( $branch >= 0 && $branch < $node->{op}->{arity} )
-      if DEBUG;
-    return $branch;
-}
-
-# Regenerate a Foswiki query expression from a parse tree
 sub recreate {
     my ( $node, $pprec ) = @_;
     $pprec ||= 0;
@@ -523,15 +908,20 @@ sub recreate {
         }
         my $nop = $node->{op}->{name};
         if ( scalar(@oa) == 1 ) {
-            $nop = "$nop " if $nop =~ /\w$/ && $oa[0] =~ /^\w/;
-            $s = "$nop$oa[0]";
+            if ( $node->{op}->{close} ) {
+                $s = "$node->{op}->{name}$oa[0]$node->{op}->{close}";
+            }
+            else {
+                $nop = "$nop " if $nop =~ /\w$/ && $oa[0] =~ /^\w/;
+                $s = "$nop$oa[0]";
+            }
         }
         elsif ( scalar(@oa) == 2 ) {
             if ( $node->{op}->{close} ) {
                 $s = "$oa[0]$node->{op}->{name}$oa[1]$node->{op}->{close}";
             }
             else {
-                $nop = " $nop" if ( $nop =~ /^\w/ && $oa[0] =~ /\w$/ );
+                $nop = " $nop" if ( $nop =~ /^\w/ && $oa[0] =~ /[\w)]$/ );
                 $nop = "$nop " if ( $nop =~ /\w$/ && $oa[1] =~ /^\w/ );
                 $s = "$oa[0]$nop$oa[1]";
             }
@@ -542,7 +932,7 @@ sub recreate {
         $s = "($s)" if ( $node->{op}->{prec} < $pprec );
     }
     elsif ( $node->{op} == STRING ) {
-        $s = "\"$node->{params}[0]\"";
+        $s = "'$node->{params}[0]'";
     }
     else {
         $s = $node->{params}[0];

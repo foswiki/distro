@@ -15,7 +15,28 @@ use Assert;
 sub new {
     my ( $class, $dbistore ) = @_;
     my $this = bless( { store => $dbistore }, $class );
+
+    # SQL reserved words. The following words are reserved in all of
+    # PostgresSQL, ANSI SQL, MySQL and SQLite so provide a good
+    # working basis. Personality modules should extend this list.
+    $this->reserve(
+        qw(
+          ALL ALTER AND AS ASC BETWEEN BY CASCADE CASE CHECK COLLATE COLUMN
+          CONSTRAINT CREATE CROSS CURRENT_DATE CURRENT_TIME CURRENT_TIMESTAMP
+          DEFAULT DELETE DESC DISTINCT DROP ELSE EXISTS FOR FOREIGN FROM GROUP
+          HAVING IN INDEX INNER INSERT INTO IS JOIN KEY LEFT LIKE NOT NULL ON OR
+          ORDER OUTER PRIMARY REFERENCES RESTRICT RIGHT SELECT SET TABLE THEN TO
+          UNION UNIQUE UPDATE VALUES WHEN WHERE WITH
+          )
+    );
     return $this;
+}
+
+# Protected - for use by subclasses only
+# Register reserved words
+sub reserve {
+    my $this = shift;
+    map { $this->{reserved}->{$_} = 1 } @_;
 }
 
 # Execute any SQL commands required to start the DB in ANSI mode.
@@ -38,92 +59,160 @@ SQL
     return scalar(@rows);
 }
 
-# Construct an SQL expression to execute the given regular expression
-# match.
-#   * =$rhs= - right hand side of the match
-#   * =$op= - forwiki operation, either '~' (LIKE) or '=~' (REGEXP/RLIKE)
-#   * $lhs - the regular expression (foswiki syntax)
-# ANSI standard is SIMILAR TO. We do a best-guess mapping - each engine will probably
-# be different :-(
+=begin TML
+
+Construct an SQL expression to execute the given regular expression
+match.
+  * =$rhs= - right hand side of the match
+  * =$op= - forwiki operation, either '~' (LIKE) or '=~' (REGEXP/RLIKE)
+  * $lhs - the regular expression (foswiki syntax)
+be different :-(
+
+=cut
+
 sub regexp {
     my ( $this, $lhs, $op, $rhs ) = @_;
     my $escape = '';
     if ( $op eq '=~' ) {
-
- # ANSI
- # | denotes alternation (either of two alternatives).
- # * denotes repetition of the previous item zero or more times.
- # + denotes repetition of the previous item one or more times.
- # Parentheses () can be used to group items into a single logical item.
- # A bracket expression [...] specifies a character class, just as in POSIX
- # regular expressions.
- # Notice that bounded repetition (? and {...}) are not provided.
- # Dot (.) is not a metacharacter.
- # As with LIKE, a backslash disables the special meaning of any of these
- # metacharacters; or a different escape character can be specified with ESCAPE.
- # % and _ are zero or more or one char respectively.
-        $rhs =~ s/(?<=[^\\])(\(.*\)|\[.*?\]|\\.|.)\?/($1|)/g;    # ?
-        $rhs =~ s/(?<=[^\\])\\n/\n/g;
-        $rhs =~ s/(?<=[^\\])\\r/\r/g;
-        $rhs =~ s/(?<=[^\\])\\t/\t/g;
-        $rhs =~ s/(?<=[^\\])\\d/[0-9]/g;
-        $rhs =~ s/(?<=[^\\])\\D/[^0-9]/g;
-        $rhs =~ s/(?<=[^\\])\\w/[a-zA-Z_]/g;
-        $rhs =~ s/(?<=[^\\])\\W/[^a-zA-Z_]/g;
-        $rhs =~ s/(?<=[^\\])\\b//g;                              # not supported
-        $rhs =~ s/(?<=[^\\])\{\d+(,\d*)?\}//g;                   # not supported
-        $rhs =~ s/(?<=[^\\])\./_/g;                              # . -> _
-        $rhs =~ s/'/\\'/g;
-        $op = 'SIMILAR TO';
+        $op = "SIMILAR TO";
     }
     else {
-
-        # wildcard match ('*' will match any number of characters,
-        # '?' will match any single character
-        if ( $rhs =~ /['_%\[\]]/ ) {    # quotemeta ANSI LIKE
-            $rhs =~ s/([s'_%\[\]])/s$1/g;
-            $escape = "s";
-        }
-        $rhs =~ s/\*/%/g;
-        $rhs =~ s/\?/_/g;
-        $op = 'LIKE';
+        $op = "LIKE";
     }
-    return "$lhs $op '$rhs'" . ( $escape ? " ESCAPE '$escape'" : '' );
+
+    if ( $rhs =~ s/^\"(.*)\"/$1/ ) {
+
+        # String constant
+        if ( $op eq 'SIMILAR TO' ) {
+
+            # ANSI
+            # | denotes alternation (either of two alternatives).
+            # * denotes repetition of the previous item zero or
+            # more times.
+            # + denotes repetition of the previous item one or
+            # more times.
+            # Parentheses () can be used to group items into a
+            # single logical item.
+            # A bracket expression [...] specifies a character
+            # class, just as in POSIX regular expressions.
+            # Notice that bounded repetition (? and {...}) are
+            # not provided.
+            # Dot (.) is not a metacharacter.
+            # As with LIKE, a backslash disables the special meaning
+            # of any of these metacharacters; or a different escape
+            # character can be specified with ESCAPE.
+            # % and _ are zero or more or one char respectively.
+            $rhs =~ s/(?<=[^\\])(\(.*\)|\[.*?\]|\\.|.)\?/($1|)/g;    # ?
+            $rhs =~ s/(?<=[^\\])\\n/\n/g;
+            $rhs =~ s/(?<=[^\\])\\r/\r/g;
+            $rhs =~ s/(?<=[^\\])\\t/\t/g;
+            $rhs =~ s/(?<=[^\\])\\d/[0-9]/g;
+            $rhs =~ s/(?<=[^\\])\\D/[^0-9]/g;
+            $rhs =~ s/(?<=[^\\])\\w/[a-zA-Z_]/g;
+            $rhs =~ s/(?<=[^\\])\\W/[^a-zA-Z_]/g;
+            $rhs =~ s/(?<=[^\\])\\b//g;               # not supported
+            $rhs =~ s/(?<=[^\\])\{\d+(,\d*)?\}//g;    # not supported
+            $rhs =~ s/(?<=[^\\])\./_/g;               # . -> _
+            $rhs =~ s/'/\\'/g;
+        }
+        else {
+
+            # wildcard match ('*' will match any number of characters,
+            # '?' will match any single character
+            if ( $rhs =~ /['_%\[\]]/ ) {    # quotemeta ANSI LIKE
+                $rhs =~ s/([s'_%\[\]])/s$1/g;
+                $escape = "s";
+            }
+            $rhs =~ s/\*/%/g;
+            $rhs =~ s/\?/_/g;
+        }
+        $rhs = "\"$rhs\"";
+    }
+    return "$lhs $op $rhs" . ( $escape ? " ESCAPE '$escape'" : '' );
 }
 
-# Construct an SQL expression that will match a Foswiki wildcard
-# name match.
-#
-# Default is ANSI standard.
-# ANSI wildcards in LIKE are:
-#  _ (underscore)
-#	 Any one character. For example, a_ matches ab and ac, but not a.
-#  % (percent)
-#	 Any string of zero or more characters. For example, bl% matches
-#	 bl and bla.
-#  []
-#	 Any single character in the specified range or set. For example,
-#	 T[oi]m matches Tom or Tim.
-#  [^]
-#	 Any single character not in the specified range or set. For
-#	 example, M[^c] matches Mb and Md, but not Mc.
-#
-# Foswiki uses * wildcards, and separates alternatives with comma, so this
-# is easy to do.
+=begin TML
+
+Construct an SQL expression that will match a Foswiki wildcard
+name match.
+
+Default is ANSI standard.
+ANSI wildcards in LIKE are:
+ _ (underscore)
+ Any one character. For example, a_ matches ab and ac, but not a.
+ % (percent)
+ Any string of zero or more characters. For example, bl% matches
+ bl and bla.
+ []
+ Any single character in the specified range or set. For example,
+ T[oi]m matches Tom or Tim.
+ [^]
+ Any single character not in the specified range or set. For
+ example, M[^c] matches Mb and Md, but not Mc.
+Foswiki uses * wildcards, and separates alternatives with comma, so this
+is easy to do.
+
+=cut
+
 sub wildcard {
     my ( $this, $lhs, $rhs ) = @_;
     my @exprs;
-    foreach my $spec ( split( /(?:,\s*|\|)/, $rhs ) ) {
-        if ( $spec =~ s/\*/%/g ) {
+    if ( $rhs =~ s/^\"(.*)\"$/$1/ ) {
+        foreach my $spec ( split( /(?:,\s*|\|)/, $rhs ) ) {
+            $spec =~ s/(['.])/\\$1/g;
+            my $like = 0;
+            $like = 1 if $spec =~ s/\*/.*/g;
+            $like = 1 if $spec =~ s/\?/./g;
 
-            # Use a LIKE
-            push( @exprs, "$lhs LIKE '$spec'" );
-        }
-        else {
-            push( @exprs, "$lhs = '$spec'" );
+            if ($like) {
+                $spec = "^$spec\$";
+                push( @exprs, $this->regexp( $lhs, '=~', "\"$spec\"" ) );
+            }
+            else {
+                push( @exprs, "$lhs='$spec'" );
+            }
         }
     }
     return join( ' OR ', @exprs );
+}
+
+=begin TML
+
+Convert a Foswiki time string to a number.
+This implementation is for SQLite - there is no support in ANSI.
+
+=cut
+
+sub d2n {
+    my ( $this, $arg ) = @_;
+
+    return "CAST(strftime(\"%s\", $arg) AS FLOAT)";
+}
+
+=begin TML
+
+Make sure the ID is safe to use in this dialect of SQL.
+Unsafe IDs should be quoted using the dialect's identifier
+quoting rule. The default is to double-quote it.
+
+=cut
+
+sub safe_id {
+    my ( $this, $id ) = @_;
+    if ( $this->{reserved}->{$id} ) {
+        $id = "\"$id\"";
+    }
+    return $id;
+}
+
+=begin TML
+
+Quote character for character strings - default is '
+
+=cut
+
+sub string_quote {
+    return "'";
 }
 
 1;

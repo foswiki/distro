@@ -40,6 +40,7 @@ sub initPlugin {
         $shim->reset($Foswiki::Plugins::SESSION);
     }
 
+    print STDERR "DBIStorePlugin initialised\n";
     return 1;
 }
 

@@ -26,7 +26,7 @@ use Error ':try';
 use Assert;
 use Encode;
 
-use constant MONITOR => 1;
+use constant MONITOR => 0;
 
 # TODO: SMELL: convert to using $session->{store} perhaps?
 our $db;             # singleton instance of this class
@@ -138,9 +138,11 @@ SQL
     # No tables, or we've had a hard reset
     print STDERR "Loading DB schema\n" if MONITOR;
     $this->_createTables();
-    print STDERR "Schema loaded; preloading content\n" if MONITOR;
-    $this->_preload($session);
-    print STDERR "DB preloaded\n" if MONITOR;
+    unless ($Foswiki::inUnitTestMode) {
+        print STDERR "Schema loaded; preloading content\n" if MONITOR;
+        $this->_preload($session);
+        print STDERR "DB preloaded\n" if MONITOR;
+    }
 
     return 1;
 }
@@ -388,13 +390,15 @@ sub DBI_query {
     my @names;
     eval {
         $db->_connect($session);
-        print STDERR "DO $sql\n" if MONITOR;
         my $sth = $db->{handle}->prepare($sql);
         $sth->execute();
         while ( my @row = $sth->fetchrow_array() ) {
             push( @names, "$row[0]/$row[1]" );
         }
-        print STDERR "HITS: " . scalar(@names) . "\n" if MONITOR;
+        print STDERR "HITS: "
+          . scalar(@names) . "\n"
+          . join( "\n", map { "\t$_" } @names ) . "\n"
+          if MONITOR;
     };
     if ($@) {
         print STDERR "$@\n" if MONITOR;

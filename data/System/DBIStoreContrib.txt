@@ -6,16 +6,96 @@
 
 %TOC%
 
-This extension (currently) implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, [[http://www.mysql.com/][MySQL]], and [[http://www.postgresql.org/][Postgresql]].
+This extension caches wiki data and implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, [[http://www.mysql.com/][MySQL]], and [[http://www.postgresql.org/][Postgresql]].
 
-We get over the fact that SQL does not implement all the query search features of Foswiki by _hoisting_ SQL expressions out of the Foswiki search statements, leaving behind only those parts of the expression that SQL can't handle.
+---++ Database Schema
+The database schema reflects 1:1 the schema of Foswiki topics. The following tables exist by default:
 
-The extension is currently classed as experimental because the SQL schema (and the query generator) are (probably) sub-optimal, and require tuning.
+=topic= %BR%
+Contains all wiki topics. 
+   * =tid= - this column contains a numeric identifier that uniquely identifies the topic
+   * =web= - the web name
+   * =name= - the topic name
+   * =text= - the full text of the topic, without embedded meta-data
+   * =raw= - the full text of the topic including embedded meta-data
 
-The longer term goal is to implement a full back-end store using an SQL RDBMS, rather than just a simple cache as at present.
+=metatypes= %BR%
+Contains the names of all meta-tables.
+   * =name= - table name, e.g. =TOPICINFO=, =FORM= etc
 
-Note that regular expression searches are mapped to whatever regular expression
-support exists in the database. Regular expressions that use more than the standard POSIX syntax are unlikely to work.
+At a minimum, =metatypes= will include the names of all the
+tables listed below. The columns of these tables have identical semantics
+(and syntax) to their corresponding =%META:= statements
+
+=TOPICINFO= %BR%
+   * =TEXT author=
+   * =TEXT version=
+   * =TEXT date=
+   * =TEXT format=
+   * =TEXT reprev=
+   * =TEXT rev=
+   * =TEXT comment=
+   * =TEXT encoding=
+
+=TOPICMOVED= %BR%
+   * =TEXT from=
+   * =TEXT to=
+   * =TEXT by=
+   * =TEXT date=
+
+=TOPICPARENT= %BR%
+   * =TEXT name=
+
+=FILEATTACHMENT= %BR%
+   * =TEXT name=
+   * =TEXT version=
+   * =TEXT path=
+   * =TEXT size=
+   * =TEXT date=
+   * =TEXT user=
+   * =TEXT comment=
+   * =TEXT attr=
+
+=FORM= %BR%
+   * =TEXT name=
+
+=FIELD= %BR%
+   * =TEXT name=
+   * =TEXT value=
+   * =TEXT title=
+
+=PREFERENCE= %BR%
+   * =TEXT name=
+   * =TEXT value=
+   * =TEXT type=
+
+Note that file attachments are *not* stored in the database at this time.
+
+---++ Limitations
+---+++ Regular Expressions
+Regular expression searches are mapped to whatever regular expression
+support exists in the database. Most SQL databases support sophisticated
+regular expression matching; however there are features of the default
+Perl syntax supported by Foswiki that cannot be mapped to the databases.
+Regular expressions written using this extended syntax may fail.
+
+---+++ Numeric comparison
+Foswiki "knows" when two values in the database can be compared using numeric, as against lexical, comparison (the =, <, >, <= and >= operators). SQL doesn't have this kind of support, and has to be explicitly *told* whether a the values being compared are numeric or lexical.
+
+If one of the things being compared is explicitly a number, then numeric comparison will be used by default.
+
+If the query expression isn't explicit about the type to be used, you can use the =is_number()= operator to indicate when one side represents a number or =is_string()= when it is a string. You only need to use =number= / =string= on one side of an expression. For example,
+
+   * =%<nop>SEARCH{"info.version<'1.1'"}%= will always use lexical comparison
+   * =%<nop>SEARCH{"info.version<1.1"}%= will always use numeric comparison
+   * =%<nop>SEARCH{"info.version<is_number('1.1')"}%= will use numeric comparison
+   * =%<nop>SEARCH{"info.version<is_string(1.1)"}%= will use lexical comparison
+
+---+++ Date comparison
+Date conversion using the =d2n= operator is not supported.
+
+---+++ Row indexes
+Integer indexes are not supported. Use queries instead.
 
 ---++ Installation Instructions
 

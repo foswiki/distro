@@ -15,9 +15,6 @@ use Assert;
 use Foswiki::Search::InfoCache                       ();
 use Foswiki::Query::Parser                           ();
 use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
-use Foswiki::Store::Interfaces::QueryAlgorithm();
-
-@ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
 =begin TML
 
@@ -35,18 +32,25 @@ sub new {
 # Implements Foswiki::Store::Interfaces::SearchAlgorithm
 sub query {
     my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
+    my $tokens;
 
-    if ( $query->isEmpty() ) {
-        return new Foswiki::Search::InfoCache( $session, '' );
+    if ( UNIVERSAL::isa( $this, __PACKAGE__ ) ) {
+        $tokens = $query->tokens();
+    }
+    else {
+        ( $query, $inputTopicSet, $session, $options ) = @_;
+        $tokens = $query->{tokens};
     }
 
-    print STDERR "Search " . $query->stringify() . "\n"
-      if Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
+    if ( scalar( @{$tokens} ) == 0 ) {
+        return new Foswiki::Search::InfoCache( $session, '' );
+    }
 
     # Convert the search to a query
     # AND search - search once for each token, ANDing result together
     my @ands;
-    foreach my $token ( @{ $query->tokens() } ) {
+    my @ors;
+    foreach my $token ( @{$tokens} ) {
 
         my $tokenCopy = $token;
 
@@ -61,13 +65,11 @@ sub query {
 
         $tokenCopy = "\\b$tokenCopy\\b" if $options->{wordboundaries};
 
-        my %topicMatches;
-        my @ors;
         if ( $options->{scope} ne 'text' ) {    # topic or all
             my $expr = $tokenCopy;
 
             $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
-            $expr = "(?i:$expr)" unless $options->{casesensitive};
+            $expr = "(?i:$expr)"     unless $options->{casesensitive};
             push( @ors, "${invert}name =~ '$expr'" );
         }
 
@@ -76,13 +78,13 @@ sub query {
             my $expr = $tokenCopy;
 
             $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
-            $expr = "(?i:$expr)" unless $options->{casesensitive};
+            $expr = "(?i:$expr)"     unless $options->{casesensitive};
 
             push( @ors, "${invert}raw =~ '$expr'" );
         }
         push( @ands, '(' . join( $invert ? ' AND ' : ' OR ', @ors ) . ')' );
-
     }
+
     my $queryParser = Foswiki::Query::Parser->new();
     my $search = join( ' AND ', @ands );
     print STDERR "Search generated query $search\n"
@@ -90,9 +92,8 @@ sub query {
 
     $query = $queryParser->parse($search);
 
-    #NEED TO RECODE THIS TO USE THE Algo OBJECT..
-    return Foswiki::Store::QueryAlgorithms::DBIStoreContrib::query( undef,
-        $query, $inputTopicSet, $session, $options );
+    return Foswiki::Store::QueryAlgorithms::DBIStoreContrib::query( $query,
+        $inputTopicSet, $session, $options );
 }
 
 1;
