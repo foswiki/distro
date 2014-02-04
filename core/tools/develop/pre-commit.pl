@@ -1,6 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+
+# Pick up BuildContrib version of Perl::Tidy
+use lib '/home/trunk.foswiki.org/BuildContrib/lib';
 use Perl::Tidy;
 use Text::Diff;
 use File::Spec;
@@ -43,7 +46,8 @@ Item12345: Item12346: fixed foo, updated release notes
    root of the extension calls for it, see:
    http://foswiki.org/Development/TIDY
 
-NB Getting rejected commits with perltidy older than v20120714?
+NB Getting rejected commits with perltidy? We are checking
+   using version $Perl::Tidy::VERSION
    See http://foswiki.org/Development/PerlTidy#Versions
 --------------------------------------------------------------
 EOF
@@ -81,10 +85,10 @@ my %tidyOption;
 sub getTidyOptions {
     my $file = shift;
     return undef unless $file =~ /\.p[ml]$/;    # Only perl files
-    return undef if $file =~ m#/lib/CPAN/lib/#; # Not CPAN modules
+    return undef if $file =~ m#/lib/CPAN/lib/#;               # Not CPAN modules
     return $tidyOption{$file} if exists $tidyOption{$file};
 
-    my $tidyOptions = undef;                    # Defaults to skip
+    my $tidyOptions = undef;                                  # Defaults to skip
     my ( $volume, $directory ) = File::Spec->splitpath($file);
     my @pathList;    # Save examined hierarchy to update cache
     my @path = File::Spec->splitdir($directory);
