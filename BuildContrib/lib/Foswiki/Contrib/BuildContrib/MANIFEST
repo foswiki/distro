@@ -22,6 +22,7 @@ lib/Foswiki/Contrib/BuildContrib/Targets/dependencies.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/installer.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/POD.pm 0444
 lib/Foswiki/Contrib/BuildContrib/TEMPLATE_installer.pl 0444 Installer template
+lib/Perl/Tidy.pm
 pub/System/BuildContrib/logo.gif 0444 Image
 create_new_extension.pl 0555 Wizard for creating new extensions
 pub/System/BuildContrib/wikiringlogo20x20.png 0660
