@@ -4,8 +4,8 @@
 
 ---+ package Foswiki::Contrib::DBIStoreContrib::HoistSQL
 
-Static functions to extract SQL expressions from queries. The SQL can
-be used to pre-filter topics cached in an SQL DB for more efficient
+Static functions to extract SQL expressions from queries. The SQL is
+used to pre-filter topics cached in an SQL DB for more efficient
 query matching.
 
 =cut
@@ -25,8 +25,7 @@ use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
 # A Foswiki query parser
 our $parser;
 
-use constant MONITOR =>
-  Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
+use constant MONITOR => 0;
 
 # Type identifiers.
 # FIRST 3 MUST BE KEPT IN LOCKSTEP WITH Foswiki::Infix::Node
@@ -36,19 +35,24 @@ use constant {
     NAME   => 1,
     NUMBER => 2,
     STRING => 3,
-
-    UNKNOWN  => 0,
-    BOOLEAN  => 4,
-    SELECTOR => 5,    # Temporary, synonymous with UNKNOWN
 };
 
-# Used to pass context and type information around
+# Additional types local to this module - must not overlap known
+# types
 use constant {
-    VALUE => 6,
-    TABLE => 7,
+    UNKNOWN => 0,
+
+    # Gap for 1.2 types HASH and META
+
+    BOOLEAN  => 10,
+    SELECTOR => 11,    # Temporary, synonymous with UNKNOWN
+
+    VALUE => 12,
+    TABLE => 13,
 };
 
-my $table_name_RE = qr/^\w+$/;
+our $table_name_RE = qr/^\w+$/;
+our $cq;
 
 BEGIN {
 
@@ -62,7 +66,42 @@ BEGIN {
     }
 }
 
+# Coverage; add _COVER(__LINE__) where you want a visit recorded.
+use constant COVER => 1;
+our %covered;
+
+BEGIN {
+    if (COVER) {
+        open( F, '<', __FILE__ );
+        local $/ = "\n";
+        my $lno = 0;
+        while ( my $l = <F> ) {
+            $lno++;
+            if ( $l =~ /_COVER\(__LINE__\)/ ) {
+                $covered{$lno} = 0;
+            }
+        }
+        close(F);
+    }
+}
+
+sub _COVER {
+    $covered{ $_[0] }++;
+}
+
+END {
+    if (COVER) {
+        open( F, '>', "coverage" );
+        print F join( "\n", map { "$_ $covered{$_}" } sort keys %covered )
+          . "\n";
+        close(F);
+    }
+}
+
 # Frequently used SQL constructs
+
+# Generate SQL SELECT statement.
+# _SELECT(__LINE__, pick, FROM =>, WHERE => etc )
 sub _SELECT {
     my ( $line, $pick, %opts ) = @_;
     my $info = MONITOR ? "/*$line*/" : '';
@@ -73,41 +112,45 @@ sub _SELECT {
         next unless defined $val;
 
         # Bracket sub-selects for FROM etc
-        $val = "($val)" if ( $val =~ /^SELECT/ );
+        if ( $val =~ /^SELECT/ ) {
+            $val = "($val)";
+        }
         $sql .= " $opt $val";
     }
     return $sql;
 }
 
+# Generate AS statement
+# _AS(thing => alias)
 sub _AS {
     my %args = @_;
     my @terms;
     while ( my ( $what, $alias ) = each %args ) {
-        $what = "($what)" if $what !~ /^\w+$/;
-        push( @terms, "$what AS $alias" );
+        if ( defined $alias ) {
+            $what = "($what)"
+              if $what !~ /^\w+$/
+              && $what !~ /^(["']).*\1$/
+              && $what !~ /^\([^()]*\)$/;
+            push( @terms, "$what AS $alias" );
+        }
+        else {
+            push( @terms, $what );
+        }
     }
     return join( ',', @terms );
 }
 
+# Generate UNION statement
 sub _UNION {
     my ( $a, $b ) = @_;
     return "$a UNION $b";
 }
 
-=begin TML
-
----++ ObjectMethod hoist($query) -> $sql_statement
-
-This top-level method hoists SQL from a query. The return value
-is a valid, stand-alone SQL query. The query is modified on-the-fly
-to replace any hoisted parts with unconditional true/false values.
-
-=cut
-
-# Operators that can be mapped directly to SQL, the expansion required
-# for their operands and whether they have a boolean result that can
-# be used in a select or not
+# Mapping operators to SQL. Functions accept the arguments and their
+# inferred types.
 sub _simple_uop {
+
+    # Simple unary operator
     my ( $opn, $type, $arg, $atype ) = @_;
     $arg = _cast( $arg, $atype, $type );
     return ( "$opn($arg)", $type );
@@ -115,7 +158,7 @@ sub _simple_uop {
 
 sub _boolean_uop {
     my ( $opn, $arg, $atype ) = @_;
-    return _simple_uop( $opn, BOOLEAN, $arg );
+    return _simple_uop( $opn, BOOLEAN, $arg, $atype );
 }
 
 my %uop_map = (
@@ -130,13 +173,16 @@ my %uop_map = (
             return ( "COUNT(*)", NUMBER );
         }
         else {
-            return _simple_uop( 'LENGTH', NUMBER, @_ );
+            if ( $atype ne STRING ) {
+                $arg = _cast( $arg, $atype, STRING );
+            }
+            return ( _personality()->length($arg), NUMBER );
         }
     },
     d2n => sub {
         my ( $arg, $atype ) = @_;
         if ( $atype != NUMBER ) {
-            $arg = _personality->d2n($arg);
+            $arg = _personality()->d2n($arg);
         }
         return ( $arg, NUMBER );
     },
@@ -182,19 +228,20 @@ sub _boolean_bop {
 my %bop_map = (
     and => sub { _boolean_bop( 'AND', @_ ) },
     or  => sub { _boolean_bop( 'OR',  @_ ) },
-    ',' => sub { throw new Foswiki::Infix::Error("Unsupported ',' operator"); },
-    'in' =>
-      sub { throw new Foswiki::Infix::Error("Unsupported 'in' operator"); },
-    '-' => sub { _flexi_bop( '-',   @_ ) },
-    '+' => sub { _flexi_bop( '+',   @_ ) },
-    '*' => sub { _numeric_bop( '*', @_ ) },
-    '/' => sub { _numeric_bop( '/', @_ ) },
+    ','  => sub { throw Foswiki::Infix::Error("Unsupported ',' operator"); },
+    'in' => sub { throw Foswiki::Infix::Error("Unsupported 'in' operator"); },
+    '-'  => sub { _flexi_bop( '-', @_ ) },
+    '+'  => sub { _flexi_bop( '+', @_ ) },
+    '*'  => sub { _numeric_bop( '*', @_ ) },
+    '/'  => sub { _numeric_bop( '/', @_ ) },
     '=' => sub {
         my ( $lhs, $lhs_type, $rhs, $rhs_type ) = @_;
 
         # Special case
         if ( $lhs eq 'NULL' ) {
-            return ( '0=0', BOOLEAN ) if ( $rhs eq 'NULL' );
+            if ( $rhs eq 'NULL' ) {
+                return ( '0=0', BOOLEAN );
+            }
             return ( "($rhs) IS NULL", BOOLEAN );
         }
         elsif ( $rhs eq 'NULL' ) {
@@ -209,17 +256,18 @@ my %bop_map = (
     '>=' => sub { _boolean_bop( '>=', @_ ) },
     '~'  => sub {
         my ( $lhs, $lhst, $rhs, $rhst ) = @_;
-        my $expr = _personality->wildcard( $lhs, $rhs );
+        my $expr = _personality()->wildcard( $lhs, $rhs );
         return ( $expr, BOOLEAN );
     },
     '=~' => sub {
-        my ( $lhs, $rhs ) = @_;
-        my $expr = _personality->regexp( $lhs, "=~", $rhs );
+        my ( $lhs, $lhst, $rhs, $rhst ) = @_;
+        my $expr = _personality()->regexp( $lhs, $rhs );
         return ( $expr, BOOLEAN );
     },
 
 );
 
+# Generate a unique alias for a table or column
 my $temp_id = 0;
 
 sub _alias {
@@ -229,12 +277,27 @@ sub _alias {
     return $tid;
 }
 
+# Get the personailty module
 sub _personality {
     return Foswiki::Contrib::DBIStoreContrib::DBIStore::personality;
 }
 
+=begin TML
+
+---++ ObjectMethod hoist($query) -> $sql_statement
+
+The main method in this module generates SQL from a query. The return value
+is a valid, stand-alone SQL query. This is a complete mapping of a
+Foswiki query to SQL.
+
+=cut
+
 sub hoist {
     my ($query) = @_;
+
+    $cq ||= _personality->string_quote;
+
+    print STDERR "HOISTING " . recreate($query) . "\n" if MONITOR;
 
     # Simplify the parse tree, work out type information.
     $query = _rewrite( $query, UNKNOWN );
@@ -242,21 +305,25 @@ sub hoist {
 
     # Top level selectors are relative to the 'topic' table
     my %h = _hoist( $query, 'topic' );
+    my $alias = undef;    #_alias(__LINE__);
     if ( $h{sql} =~ /^SELECT/ ) {
-        $h{sql} = "EXISTS($h{sql})";
+        $h{sql} = "topic.tid IN (SELECT tid FROM ($h{sql}))";
     }
     elsif ( $h{is_table_name} ) {
-        $h{sql} = "EXISTS(SELECT * FROM $h{sql})";
+        $h{sql} = "topic.tid in (SELECT tid FROM ($h{sql}))";
     }
     elsif ( $h{type} == NUMBER ) {
         $h{sql} = "($h{sql})!= 0";
     }
     elsif ( $h{type} == STRING ) {
-        $h{sql} = "($h{sql})!=\"\"";
+        $h{sql} = "($h{sql})!=$cq$cq";
     }
+    print STDERR _format_SQL( 'SELECT web,name FROM topic WHERE ' . $h{sql} )
+      . "\n";
     return $h{sql};
 }
 
+# The function that does the actual work
 # Params: ($node, $in_table)
 # $node - the node being processed
 # $in_table - the table in which lookup is being performed. A simple ID.
@@ -287,7 +354,6 @@ sub _hoist {
 
     my $op    = $node->{op}->{name}  if ref( $node->{op} );
     my $arity = $node->{op}->{arity} if ref( $node->{op} );
-    my $cq    = _personality->string_quote;
 
     my %result;
     $result{type} = UNKNOWN;
@@ -336,11 +402,12 @@ sub _hoist {
             $lhs{sql} = _AS( $lhs{sql} => $from_alias );
 
             if ( $lhs{is_table_name} && $in_table ) {
-                $tid_constraint = " AND $from_alias.tid=$in_table.tid";
+
+  #-MySQL                $tid_constraint = " AND $from_alias.tid=$in_table.tid";
             }
         }
         else {
-            throw new Foswiki::Infix::Error( "Expected a table on the LHS of [",
+            throw Foswiki::Infix::Error( "Expected a table on the LHS of [",
                 recreate($node) );
         }
 
@@ -352,18 +419,18 @@ sub _hoist {
         elsif ( $where{is_table_name} ) {
 
             # Hum. TABLE[TABLE_NAME]
-            throw new Foswiki::Infix::Error(
+            throw Foswiki::Infix::Error(
                 "Cannot use a table name here",
                 recreate($node),
                 recreate( $node->{params}[1] )
             );
         }
-        elsif ( $result{type} == STRING ) {
+        elsif ( $where{type} == STRING ) {
 
             # A simple non-table expression
             $where{sql} = "($where{sql})!=$cq$cq";
         }
-        elsif ( $result{type} == NUMBER ) {
+        elsif ( $where{type} == NUMBER ) {
             $where{sql} = "($where{sql})!=0";
         }
 
@@ -384,7 +451,7 @@ sub _hoist {
         # a selector name on the RHS. But that's just too hard in SQL.
         my $rhs = $node->{params}[1];
         if ( ref( $rhs->{op} ) || $rhs->{op} != NAME ) {
-            throw new Foswiki::Infix::Error(
+            throw Foswiki::Infix::Error(
                 "Expected a selector name on the RHS of .",
                 recreate($node) );
         }
@@ -402,16 +469,19 @@ sub _hoist {
             my $alias = _alias(__LINE__);
             $result{sql} = _SELECT(
                 __LINE__,
-                "$alias.$result{sel},"
-                  . ( $in_table ? "$in_table.tid" : 'tid' ),
+                "$alias.$result{sel},$alias.tid",
                 FROM => _AS( $lhs{sql} => $alias ),
 
-                # Only need WHERE if the LHS is not the in_table
-                WHERE => "$alias.tid=" . ( $in_table ? "$in_table.tid" : 'tid' )
+         #-MySQL                # Only need WHERE if the LHS is not the in_table
+         #-MySQL                WHERE => (!$in_table || $lhs{sql} ne $in_table)
+         #-MySQL                ? ("$alias.tid=" . ( $in_table
+         #-MySQL                                     ? "$in_table.tid"
+         #-MySQL                                     : 'tid' ))
+         #-MySQL                : undef
             );
         }
         else {
-            throw new Foswiki::Infix::Error( "Expected a table on the LHS of .",
+            throw Foswiki::Infix::Error( "Expected a table on the LHS of .",
                 recreate($node) );
         }
         $result{type} = STRING;
@@ -424,7 +494,7 @@ sub _hoist {
 
         # Expect a condition that yields a topic name on the LHS
         my $lhs = $node->{params}[0];
-        my %lhs = _hoist( $node->{params}[0], $topic_alias );
+        my %lhs = _hoist( $node->{params}[0], undef );
         my $lhs_where;
         my $select = '';
         if ( $lhs{sql} =~ /^SELECT/ ) {
@@ -432,13 +502,13 @@ sub _hoist {
             $select = _AS( $lhs{sql} => $tnames ) . ',';
             my $tname_sel = $tnames;
             $tname_sel = "$tnames.$lhs{sel}" if $lhs{sel};
-            $lhs_where = "($topic_alias.name IN $tname_sel OR "
-              . "($topic_alias.web||\".\"||$topic_alias.name) IN $tname_sel)";
+            $lhs_where = "($topic_alias.name=$tname_sel OR "
+              . "($topic_alias.web||$cq.$cq||$topic_alias.name)=$tname_sel)";
         }
         elsif ( $lhs{is_table_name} ) {
 
             # Table name with no select. Useless.
-            throw new Foswiki::Infix::Error( "Table name cannot be used here",
+            throw Foswiki::Infix::Error( "Table name cannot be used here",
                 recreate($node), recreate($lhs) );
         }
         else {
@@ -446,7 +516,7 @@ sub _hoist {
             # Not a selector or simple table name, must be a simple
             # expression yielding a selector
             $lhs_where = "($lhs{sql}) IN "
-              . "($topic_alias.name,$topic_alias.web||\".\"||$topic_alias.name)";
+              . "($topic_alias.name,$topic_alias.web||$cq.$cq||$topic_alias.name)";
         }
 
         # Expand the RHS *without* a constraint on the topic table
@@ -455,7 +525,7 @@ sub _hoist {
 
             # We *could* handle this without an error, but it would
             # be pretty meaningless e.g. 'Topic'/1
-            throw new Foswiki::Infix::Error(
+            throw Foswiki::Infix::Error(
                 "Expected a table expression on the RHS of /",
                 recreate($node) );
         }
@@ -472,7 +542,7 @@ sub _hoist {
 
         $result{sql} = _SELECT(
             __LINE__,
-            '*',    # select all columns (which will include tid)
+            "$sexpr_alias.*",    # select all columns (which will include tid)
             FROM  => $select . _AS( $rhs{sql} => $sexpr_alias ),
             WHERE => $tid_constraint
         );
@@ -507,13 +577,17 @@ sub _hoist {
                 # doesn't work the way the other operators do when
                 # it's used in a double-from. Not sure why, it ought
                 # to work AFAICT from RTFM, but it doesn't.
+                my $union_alias = _alias(__LINE__);
+                my $lhs_sql =
+                  _SELECT( __LINE__, 'tid',
+                    FROM => _AS( $lhs{sql}, "x$lhs_alias" ) );
+                my $rhs_sql =
+                  _SELECT( __LINE__, 'tid',
+                    FROM => _AS( $rhs{sql}, "x$rhs_alias" ) );
                 $result{sql} = _SELECT(
                     __LINE__,
                     _AS( "1=1" => $result{sel} ) . ",tid",
-                    FROM => _UNION(
-                        _SELECT( __LINE__, 'tid', FROM => $lhs{sql} ),
-                        _SELECT( __LINE__, 'tid', FROM => $rhs{sql} )
-                    )
+                    FROM => _AS( _UNION( $lhs_sql, $rhs_sql ), $union_alias )
                 );
                 $result{type} = BOOLEAN;
 
@@ -529,16 +603,27 @@ sub _hoist {
                     $l_sel => $lhs{type},
                     $r_sel => $rhs{type}
                 );
-                $result{sql} = _SELECT(
-                    __LINE__,
-                    _AS( $expr => $result{sel} ) . ",$lhs_alias.tid",
-                    FROM => _AS(
-                        $lhs{sql} => $lhs_alias,
-                        $rhs{sql} => $rhs_alias
-                    ),
-                    WHERE => $optype == BOOLEAN ? $result{sel} : undef
-                );
-
+                if ( $optype == BOOLEAN ) {
+                    $result{sql} = _SELECT(
+                        __LINE__,
+                        _AS( '1=1' => $result{sel} ) . ",$lhs_alias.tid",
+                        FROM => _AS(
+                            $lhs{sql} => $lhs_alias,
+                            $rhs{sql} => $rhs_alias
+                        ),
+                        WHERE => $expr
+                    );
+                }
+                else {
+                    $result{sql} = _SELECT(
+                        __LINE__,
+                        _AS( $expr => $result{sel} ) . ",$lhs_alias.tid",
+                        FROM => _AS(
+                            $lhs{sql} => $lhs_alias,
+                            $rhs{sql} => $rhs_alias
+                        ),
+                    );
+                }
                 $result{type} = $optype;
             }
 
@@ -555,12 +640,21 @@ sub _hoist {
                 $l_sel    => $lhs{type},
                 $rhs{sql} => $rhs{type}
             );
-            $result{sql} = _SELECT(
-                __LINE__,
-                _AS( $expr => $result{sel} ) . ",tid",
-                FROM => _AS( $lhs{sql} => $lhs_alias ),
-                WHERE => $optype == BOOLEAN ? $result{sel} : undef
-            );
+            if ( $optype == BOOLEAN ) {
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( "1=1" => $result{sel} ) . ",$lhs_alias.tid",
+                    FROM  => _AS( $lhs{sql} => $lhs_alias ),
+                    WHERE => $expr
+                );
+            }
+            else {
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( $expr => $result{sel} ) . ",$lhs_alias.tid",
+                    FROM => _AS( $lhs{sql} => $lhs_alias )
+                );
+            }
 
             $result{type} = $optype;
 
@@ -577,12 +671,21 @@ sub _hoist {
                 $lhs{sql} => $lhs{type},
                 $r_sel    => $rhs{type}
             );
-            $result{sql} = _SELECT(
-                __LINE__,
-                _AS( $expr => $result{sel} ),
-                FROM => _AS( $rhs{sql} => $rhs_alias ),
-                WHERE => $optype == BOOLEAN ? $result{sel} : undef
-            );
+            if ( $optype == BOOLEAN ) {
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( '1=1' => $result{sel} ) . ',tid',
+                    FROM  => _AS( $rhs{sql} => $rhs_alias ),
+                    WHERE => $expr
+                );
+            }
+            else {
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( $expr => $result{sel} ) . ',tid',
+                    FROM => _AS( $rhs{sql} => $rhs_alias )
+                );
+            }
             $result{type} = $optype;
         }
         else {
@@ -603,12 +706,21 @@ sub _hoist {
             $arg_sel = "$arg_alias.$kid{sel}" if $kid{sel};
             $result{sel} = _alias(__LINE__);
             my ( $expr, $optype ) = &$opfn( $arg_sel => UNKNOWN );
-            $result{sql} = _SELECT(
-                __LINE__,
-                _AS( $expr => $result{sel} ) . ",tid",
-                FROM => _AS( $kid{sql} => $arg_alias ),
-                WHERE => $optype == BOOLEAN ? $result{sel} : undef
-            );
+            if ( $optype == BOOLEAN ) {
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( '1=1' => $result{sel} ) . ",tid",
+                    FROM  => _AS( $kid{sql} => $arg_alias ),
+                    WHERE => $expr
+                );
+            }
+            else {
+                $result{sql} = _SELECT(
+                    __LINE__,
+                    _AS( $expr => $result{sel} ) . ",tid",
+                    FROM => _AS( $kid{sql} => $arg_alias )
+                );
+            }
             $result{type} = $optype;
         }
         else {
@@ -616,7 +728,7 @@ sub _hoist {
         }
     }
     else {
-        throw new Foswiki::Infix::Error(
+        throw Foswiki::Infix::Error(
             "Don't know how to hoist $op" . recreate($node) );
     }
     if (MONITOR) {
@@ -641,14 +753,14 @@ sub _cast {
             $arg = "$arg!=0";
         }
         else {
-            $arg = "$arg!=\"\"";
+            $arg = "$arg!=$cq$cq";
         }
     }
     elsif ( $tgt_type == NUMBER ) {
-        $arg = 'CAST(' . _AS( $arg => 'FLOAT' ) . ')';
+        $arg = _personality->cast_to_numeric($arg);
     }
     elsif ( $type != UNKNOWN ) {
-        $arg = 'CAST(' . _AS( $arg => 'TEXT' ) . ')';
+        $arg = _personality->cast_to_text($arg);
     }
     return $arg;
 }
@@ -822,7 +934,6 @@ sub _format_SQL {
     my @ss = ();
 
     # Replace escaped quotes
-    my $cq = _personality->string_quote;
     $sql =~ s/(\\$cq)/push(@ss,$1); "![$#ss]!"/ges;
 
     # Replace quoted strings

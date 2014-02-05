@@ -35,11 +35,6 @@ BEGIN {
         # Create shim if necessary
         Foswiki::Contrib::DBIStoreContrib::DBIStore->createShim();
 
-        push(
-            @{ $Foswiki::cfg{Operators}{Query} },
-            'Foswiki::Contrib::DBIStoreContrib::OP_number'
-        );
-
         # Foswiki 1.1 or earlier
         #require Foswiki::Query::QueryAlgorithms; # empty class
         #@ISA = ('Foswiki::Query::QueryAlgorithms');

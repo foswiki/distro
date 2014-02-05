@@ -64,71 +64,15 @@ SQL
 Construct an SQL expression to execute the given regular expression
 match.
   * =$rhs= - right hand side of the match
-  * =$op= - forwiki operation, either '~' (LIKE) or '=~' (REGEXP/RLIKE)
-  * $lhs - the regular expression (foswiki syntax)
+  * $lhs - the regular expression (perl syntax)
 be different :-(
 
 =cut
 
 sub regexp {
-    my ( $this, $lhs, $op, $rhs ) = @_;
-    my $escape = '';
-    if ( $op eq '=~' ) {
-        $op = "SIMILAR TO";
-    }
-    else {
-        $op = "LIKE";
-    }
+    my ( $this, $lhs, $rhs ) = @_;
 
-    if ( $rhs =~ s/^\"(.*)\"/$1/ ) {
-
-        # String constant
-        if ( $op eq 'SIMILAR TO' ) {
-
-            # ANSI
-            # | denotes alternation (either of two alternatives).
-            # * denotes repetition of the previous item zero or
-            # more times.
-            # + denotes repetition of the previous item one or
-            # more times.
-            # Parentheses () can be used to group items into a
-            # single logical item.
-            # A bracket expression [...] specifies a character
-            # class, just as in POSIX regular expressions.
-            # Notice that bounded repetition (? and {...}) are
-            # not provided.
-            # Dot (.) is not a metacharacter.
-            # As with LIKE, a backslash disables the special meaning
-            # of any of these metacharacters; or a different escape
-            # character can be specified with ESCAPE.
-            # % and _ are zero or more or one char respectively.
-            $rhs =~ s/(?<=[^\\])(\(.*\)|\[.*?\]|\\.|.)\?/($1|)/g;    # ?
-            $rhs =~ s/(?<=[^\\])\\n/\n/g;
-            $rhs =~ s/(?<=[^\\])\\r/\r/g;
-            $rhs =~ s/(?<=[^\\])\\t/\t/g;
-            $rhs =~ s/(?<=[^\\])\\d/[0-9]/g;
-            $rhs =~ s/(?<=[^\\])\\D/[^0-9]/g;
-            $rhs =~ s/(?<=[^\\])\\w/[a-zA-Z_]/g;
-            $rhs =~ s/(?<=[^\\])\\W/[^a-zA-Z_]/g;
-            $rhs =~ s/(?<=[^\\])\\b//g;               # not supported
-            $rhs =~ s/(?<=[^\\])\{\d+(,\d*)?\}//g;    # not supported
-            $rhs =~ s/(?<=[^\\])\./_/g;               # . -> _
-            $rhs =~ s/'/\\'/g;
-        }
-        else {
-
-            # wildcard match ('*' will match any number of characters,
-            # '?' will match any single character
-            if ( $rhs =~ /['_%\[\]]/ ) {    # quotemeta ANSI LIKE
-                $rhs =~ s/([s'_%\[\]])/s$1/g;
-                $escape = "s";
-            }
-            $rhs =~ s/\*/%/g;
-            $rhs =~ s/\?/_/g;
-        }
-        $rhs = "\"$rhs\"";
-    }
-    return "$lhs $op $rhs" . ( $escape ? " ESCAPE '$escape'" : '' );
+    return "$lhs REGEXP $rhs";
 }
 
 =begin TML
@@ -152,12 +96,14 @@ ANSI wildcards in LIKE are:
 Foswiki uses * wildcards, and separates alternatives with comma, so this
 is easy to do.
 
+The default implementation uses the regexp function to match.
+
 =cut
 
 sub wildcard {
     my ( $this, $lhs, $rhs ) = @_;
     my @exprs;
-    if ( $rhs =~ s/^\"(.*)\"$/$1/ ) {
+    if ( $rhs =~ s/^'(.*)'$/$1/ ) {
         foreach my $spec ( split( /(?:,\s*|\|)/, $rhs ) ) {
             $spec =~ s/(['.])/\\$1/g;
             my $like = 0;
@@ -166,7 +112,7 @@ sub wildcard {
 
             if ($like) {
                 $spec = "^$spec\$";
-                push( @exprs, $this->regexp( $lhs, '=~', "\"$spec\"" ) );
+                push( @exprs, $this->regexp( $lhs, "'$spec'" ) );
             }
             else {
                 push( @exprs, "$lhs='$spec'" );
@@ -189,6 +135,16 @@ sub d2n {
     return "CAST(strftime(\"%s\", $arg) AS FLOAT)";
 }
 
+=begin
+
+Calculate the character length of a string
+
+=cut
+
+sub length {
+    return "LENGTH($_[1])";
+}
+
 =begin TML
 
 Make sure the ID is safe to use in this dialect of SQL.
@@ -203,6 +159,28 @@ sub safe_id {
         $id = "\"$id\"";
     }
     return $id;
+}
+
+=begin TML
+
+Cast a datum to a numeric type for comparison
+
+=cut
+
+sub cast_to_numeric {
+    my ( $this, $d ) = @_;
+    return "CAST(($d) AS NUMERIC)";
+}
+
+=begin TML
+
+Cast a datum to a character string type for comparison
+
+=cut
+
+sub cast_to_text {
+    my ( $this, $d ) = @_;
+    return "CAST(($d) AS TEXT)";
 }
 
 =begin TML

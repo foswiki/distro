@@ -16,19 +16,65 @@ sub startup {
 }
 
 sub regexp {
-    my ( $this, $lhs, $op, $rhs ) = @_;
+    my ( $this, $lhs, $rhs ) = @_;
+
+    unless ( $rhs =~ s/^'(.*)'$/$1/s ) {
+
+        # Somewhat risky....
+        return "$lhs REGEXP $rhs";
+    }
+
+    # MySQL uses POSIX regular expressions.
+
+    # The macro parser does horrible things with \, causing \\
+    # to become \\\. Force it back to \\
+    $rhs =~ s/\\{3}/\\\\/g;
+    if ( quotemeta($rhs) eq $rhs ) {
+        return "$lhs='$rhs'";
+    }
+
+    # POSIX has no support for (?i: etc
+    $rhs =~ s/^\(\?[a-z]+:(.*)\)$/$1/;              # remove (?:i)
+                                                    # Nor hex character codes
     $rhs =~ s/\\x([0-9a-f]{2})/_char("0x$1")/gei;
     $rhs =~ s/\\x{([0-9a-f]+)}/_char("0x$1")/gei;
-    return $this->SUPER::regexp( $lhs, $op, $rhs ) if ( $op eq '~' );
+
+    # Nor \d, \D
     $rhs =~ s/(^|(?<=[^\\]))\\d/[0-9]/g;
     $rhs =~ s/(^|(?<=[^\\]))\\D/[^0-9]/g;
+
+    # Nor \s, \S, \w, \W
     $rhs =~ s/(^|(?<=[^\\]))\\s/[ \011\012\015]/g;
     $rhs =~ s/(^|(?<=[^\\]))\\S/[^ \011\012\015]/g;
     $rhs =~ s/(^|(?<=[^\\]))\\w/[a-zA-Z0-9_]/g;
     $rhs =~ s/(^|(?<=[^\\]))\\W/[^a-zA-Z0-9_]/g;
-    $rhs =~ s/\\\\/\\\\\\\\/g;
+
+    # Convert X? to (X|)
+    $rhs =~ s/(?<=[^\\])(\(.*\)|\[.*?\]|\\.|.)\?/($1|)/g;    # ?
+         # Handle special characters
+    $rhs =~ s/(?<=[^\\])\\n/\n/g;             # will this work?
+    $rhs =~ s/(?<=[^\\])\\r/\r/g;
+    $rhs =~ s/(?<=[^\\])\\t/\t/g;
+    $rhs =~ s/(?<=[^\\])\\b//g;               # not supported
+    $rhs =~ s/(?<=[^\\])\{\d+(,\d*)?\}//g;    # not supported
+                                              # Escape '
     $rhs =~ s/'/\\'/g;
+
     return "$lhs REGEXP '$rhs'";
+}
+
+sub cast_to_numeric {
+    my ( $this, $d ) = @_;
+    return "CAST(($d) AS DECIMAL)";
+}
+
+sub cast_to_text {
+    my ( $this, $d ) = @_;
+    return "CAST(($d) AS CHAR)";
+}
+
+sub length {
+    return "char_length($_[1])";
 }
 
 1;

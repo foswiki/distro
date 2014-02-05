@@ -69,7 +69,7 @@ sub query {
             my $expr = $tokenCopy;
 
             $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
-            $expr = "(?i:$expr)"     unless $options->{casesensitive};
+            $expr = "(?i:$expr)" unless $options->{casesensitive};
             push( @ors, "${invert}name =~ '$expr'" );
         }
 
@@ -78,7 +78,7 @@ sub query {
             my $expr = $tokenCopy;
 
             $expr = quotemeta($expr) unless ( $options->{type} eq 'regex' );
-            $expr = "(?i:$expr)"     unless $options->{casesensitive};
+            $expr = "(?i:$expr)" unless $options->{casesensitive};
 
             push( @ors, "${invert}raw =~ '$expr'" );
         }

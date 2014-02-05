@@ -33,6 +33,28 @@ sub new {
 sub startup {
     my $this = shift;
     $this->{store}->{handle}->do("SET client_min_messages = 'warning'");
+    $this->{store}->{handle}->do(<<'DO');
+CREATE OR REPLACE FUNCTION make_number(TEXT) RETURNS NUMERIC as $$
+DECLARE
+i NUMERIC;
+BEGIN
+    i := $1::NUMERIC;
+    return i;
+EXCEPTION WHEN invalid_text_representation THEN
+    return 0;
+END;
+$$ LANGUAGE PLPGSQL IMMUTABLE STRICT;
+DO
+}
+
+sub cast_to_numeric {
+    my ( $this, $d ) = @_;
+    return "make_number($d)";
+}
+
+sub safe_id {
+    my ( $this, $id ) = @_;
+    return "\"$id\"";
 }
 
 sub _char {
@@ -49,7 +71,11 @@ sub regexp {
     # Postgresql supports full POSIX regexes. Just need to escape
     # single quote.
     $rhs =~ s/'/\\'/g;
-    return "$lhs ~ '$rhs'";
+    return "$lhs ~ E'$rhs'";
+}
+
+sub length {
+    return "char_length($_[1])";
 }
 
 1;
