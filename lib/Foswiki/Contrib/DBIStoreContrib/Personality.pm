@@ -39,10 +39,23 @@ sub reserve {
     map { $this->{reserved}->{$_} = 1 } @_;
 }
 
-# Execute any SQL commands required to start the DB in ANSI mode.
-# The default is no specific setup.
+=begin
+
+---++ startup()
+Execute any SQL commands required to start the DB in ANSI mode.
+The default is no specific setup.
+
+=cut
+
 sub startup {
 }
+
+=begin TML
+
+---+ table_exists(table_name [, table_name]*) -> boolean
+Determine if a table exists
+
+=cut
 
 sub table_exists {
     my $this = shift;
@@ -61,10 +74,34 @@ SQL
 
 =begin TML
 
+---++ require_COMMIT() -> $boolean
+True if there is an automatic transaction opened that requires a commit.
+The default is TRUE which works for SQLite, MySQL and Postgresql.
+
+=cut
+
+sub requires_COMMIT {
+    return 1;
+}
+
+=begin TML
+
+---++ text_type() -> string
+Get the name of the TEXT type, used to store variable-length strings.
+
+=cut
+
+sub text_type {
+    return 'TEXT';
+}
+
+=begin TML
+
+---++ rgexp($lhs, $rhs) -> $sql
 Construct an SQL expression to execute the given regular expression
 match.
   * =$rhs= - right hand side of the match
-  * $lhs - the regular expression (perl syntax)
+  * =$lhs= - the regular expression (perl syntax)
 be different :-(
 
 =cut
@@ -77,6 +114,7 @@ sub regexp {
 
 =begin TML
 
+---++ wildcard($lhs, $rhs) -> $sql
 Construct an SQL expression that will match a Foswiki wildcard
 name match.
 
@@ -124,6 +162,7 @@ sub wildcard {
 
 =begin TML
 
+---++ d2n($timestring) -> $isosecs
 Convert a Foswiki time string to a number.
 This implementation is for SQLite - there is no support in ANSI.
 
@@ -142,11 +181,13 @@ Calculate the character length of a string
 =cut
 
 sub length {
-    return "LENGTH($_[1])";
+    my ( $this, $s ) = @_;
+    return "LENGTH($s)";
 }
 
 =begin TML
 
+---++ safe_id($id) -> $safeid
 Make sure the ID is safe to use in this dialect of SQL.
 Unsafe IDs should be quoted using the dialect's identifier
 quoting rule. The default is to double-quote it.
@@ -163,6 +204,7 @@ sub safe_id {
 
 =begin TML
 
+---++ cast_to_numeric($sql) -> $sql
 Cast a datum to a numeric type for comparison
 
 =cut
@@ -174,23 +216,34 @@ sub cast_to_numeric {
 
 =begin TML
 
+---++ cast_to_string($sql) -> $sql
 Cast a datum to a character string type for comparison
 
 =cut
 
 sub cast_to_text {
     my ( $this, $d ) = @_;
-    return "CAST(($d) AS TEXT)";
+    return "CAST(($d) AS " . $this->text_type() . "TEXT)";
 }
 
 =begin TML
 
+---++ string_quote() -> $quote_char
 Quote character for character strings - default is '
 
 =cut
 
 sub string_quote {
     return "'";
+}
+
+sub make_comment {
+    my $this = shift;
+    return '/*' . join( ' ', @_ ) . '*/';
+}
+
+sub true {
+    return '1=1';
 }
 
 1;

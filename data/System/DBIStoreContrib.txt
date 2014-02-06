@@ -148,6 +148,11 @@ Here's an overview of the important bits of the contrib:
    * =lib/Foswiki/Store/QueryAlgorithms/DBIStoreContrib.pm= - the query algorithm
    * =lib/Foswiki/Store/SearchAlgorithms/DBIStoreContrib.pm= - the search algorithm
 
+The subversion repository (but not the official release) contains a fixed version of DBI::Shell from CPAN. This
+can be useful when debugging SQL server, or for simply understanding the tables. Run it using:
+
+=perl -I &lt;path to DBIStoreContrib checkout&gt;/lib -MDBI::Shell &lt;dsn from configure&gt; &lt;username&gt; &lt;password&gt;=
+
 ---++ Info
 
 |  Author(s): | Crawford Currie http://c-dot.co.uk |

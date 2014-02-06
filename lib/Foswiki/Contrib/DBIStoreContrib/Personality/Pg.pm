@@ -34,7 +34,7 @@ sub startup {
     my $this = shift;
     $this->{store}->{handle}->do("SET client_min_messages = 'warning'");
     $this->{store}->{handle}->do(<<'DO');
-CREATE OR REPLACE FUNCTION make_number(TEXT) RETURNS NUMERIC as $$
+CREATE OR REPLACE FUNCTION make_number(TEXT) RETURNS NUMERIC AS $$
 DECLARE
 i NUMERIC;
 BEGIN

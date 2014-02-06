@@ -26,11 +26,12 @@ use Error ':try';
 use Assert;
 use Encode;
 
-use constant MONITOR => 0;
+use constant MONITOR => 1;
 
 # TODO: SMELL: convert to using $session->{store} perhaps?
 our $db;             # singleton instance of this class
 our $personality;    # personality module for the selected DSN
+our ( $CQ, $TEXT );
 
 our @TABLES = keys(%Foswiki::Meta::VALIDATE);    # META: types
 
@@ -116,6 +117,8 @@ sub _connect {
 
     # Custom code to put DB's into ANSI mode and clean up error reporting
     personality()->startup();
+    $CQ   = personality()->string_quote();
+    $TEXT = personality()->text_type();
 
     # Check if the DB is initialised with a quick sniff of the tables
     # to see if all the ones we expect are there
@@ -151,7 +154,7 @@ SQL
 sub _createTableForMETA {
     my ( $this, $t ) = @_;
     my $cols =
-      join( ",\n", map { " \"$_\" TEXT" } keys %{ $this->{schema}->{$t} } );
+      join( ",\n", map { " \"$_\" $TEXT" } keys %{ $this->{schema}->{$t} } );
     $this->{handle}->do(<<SQL);
 CREATE TABLE "$t" (
  tid INT,
@@ -176,10 +179,10 @@ sub _createTables {
     $this->{handle}->do(<<SQL);
 CREATE TABLE topic (
  tid  INT PRIMARY KEY,
- web  TEXT,
- name TEXT,
- text TEXT,
- raw  TEXT,
+ web  $TEXT,
+ name $TEXT,
+ text $TEXT,
+ raw  $TEXT,
  UNIQUE (tid)
 )
 SQL
@@ -187,7 +190,7 @@ SQL
     # Now create the meta-table of known META: tables
     $this->{handle}->do(<<SQL);
 CREATE TABLE metatypes (
- name TEXT
+ name $TEXT
 )
 SQL
 
@@ -196,7 +199,7 @@ SQL
         print STDERR "Creating table for $t\n" if MONITOR;
         $this->_createTableForMETA($t);
     }
-    $this->{handle}->do('COMMIT');
+    $this->{handle}->do('COMMIT') if personality()->requires_COMMIT();
 }
 
 # Load all existing webs and topics into the cache DB (expensive)
@@ -208,7 +211,7 @@ sub _preload {
         my $web = $wit->next();
         $this->_preloadWeb( $web, $session );
     }
-    $this->{handle}->do('COMMIT');
+    $this->{handle}->do('COMMIT') if personality()->requires_commit();
 }
 
 # Preload a single web - PRIVATE
@@ -219,9 +222,10 @@ sub _preloadWeb {
     while ( $tit->hasNext() ) {
         my $t = $tit->next();
         my $topic = Foswiki::Meta->load( $session, $w, $t );
-        print STDERR "Preloading topic $w/$t\n";    # if MONITOR;
+        print STDERR "Preloading topic $w/$t\n" if MONITOR;
         $this->insert($topic);
     }
+
     my $wit = $web->eachWeb();
     while ( $wit->hasNext() ) {
         $this->_preloadWeb( $w . '/' . $wit->next(), $session );

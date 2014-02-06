@@ -59,6 +59,40 @@ sub startup {
     my $this = shift;
 
     $this->{store}->{handle}->do('set QUOTED_IDENTIFIER ON');
+    $this->{store}->{handle}->do(<<'SQL');
+ALTER FUNCTION make_number(@Val VARCHAR(MAX)) RETURNS FLOAT AS
+BEGIN
+ DECLARE @Res AS FLOAT
+ IF ISNUMERIC(@Val) = 1
+  BEGIN
+   SET @Res = CONVERT(FLOAT, @Val)
+  END
+ ELSE
+  SET @Res = 0
+ RETURN @Res
+END
+SQL
+}
+
+sub cast_to_numeric {
+    my ( $this, $d ) = @_;
+    return "dbo.make_number($d)";
+}
+
+sub requires_COMMIT {
+    return 0;
+}
+
+sub text_type {
+    return "VARCHAR(MAX)";
+}
+
+sub make_comment {
+    return '';    # no support
+}
+
+sub true {
+    return 'CAST(1 AS BIT)';
 }
 
 1;

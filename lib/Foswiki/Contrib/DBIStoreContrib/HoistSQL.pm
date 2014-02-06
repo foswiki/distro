@@ -25,7 +25,7 @@ use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
 # A Foswiki query parser
 our $parser;
 
-use constant MONITOR => 0;
+use constant MONITOR => 1;
 
 # Type identifiers.
 # FIRST 3 MUST BE KEPT IN LOCKSTEP WITH Foswiki::Infix::Node
@@ -104,7 +104,7 @@ END {
 # _SELECT(__LINE__, pick, FROM =>, WHERE => etc )
 sub _SELECT {
     my ( $line, $pick, %opts ) = @_;
-    my $info = MONITOR ? "/*$line*/" : '';
+    my $info = MONITOR ? _personality()->make_comment($line) : '';
     my $sql = "SELECT$info $pick";
     while ( my ( $opt, $val ) = each %opts ) {
 
@@ -240,7 +240,7 @@ my %bop_map = (
         # Special case
         if ( $lhs eq 'NULL' ) {
             if ( $rhs eq 'NULL' ) {
-                return ( '0=0', BOOLEAN );
+                return ( _personality->true(), BOOLEAN );
             }
             return ( "($rhs) IS NULL", BOOLEAN );
         }
@@ -305,12 +305,12 @@ sub hoist {
 
     # Top level selectors are relative to the 'topic' table
     my %h = _hoist( $query, 'topic' );
-    my $alias = undef;    #_alias(__LINE__);
+    my $alias = _alias(__LINE__);    # SQL server requires this!
     if ( $h{sql} =~ /^SELECT/ ) {
-        $h{sql} = "topic.tid IN (SELECT tid FROM ($h{sql}))";
+        $h{sql} = "topic.tid IN (SELECT tid FROM ($h{sql}) AS $alias)";
     }
     elsif ( $h{is_table_name} ) {
-        $h{sql} = "topic.tid in (SELECT tid FROM ($h{sql}))";
+        $h{sql} = "topic.tid in (SELECT tid FROM ($h{sql}) AS alias)";
     }
     elsif ( $h{type} == NUMBER ) {
         $h{sql} = "($h{sql})!= 0";
@@ -586,7 +586,7 @@ sub _hoist {
                     FROM => _AS( $rhs{sql}, "x$rhs_alias" ) );
                 $result{sql} = _SELECT(
                     __LINE__,
-                    _AS( "1=1" => $result{sel} ) . ",tid",
+                    _AS( _personality()->true() => $result{sel} ) . ",tid",
                     FROM => _AS( _UNION( $lhs_sql, $rhs_sql ), $union_alias )
                 );
                 $result{type} = BOOLEAN;
@@ -606,7 +606,8 @@ sub _hoist {
                 if ( $optype == BOOLEAN ) {
                     $result{sql} = _SELECT(
                         __LINE__,
-                        _AS( '1=1' => $result{sel} ) . ",$lhs_alias.tid",
+                        _AS( _personality->true() => $result{sel} )
+                          . ",$lhs_alias.tid",
                         FROM => _AS(
                             $lhs{sql} => $lhs_alias,
                             $rhs{sql} => $rhs_alias
@@ -643,7 +644,8 @@ sub _hoist {
             if ( $optype == BOOLEAN ) {
                 $result{sql} = _SELECT(
                     __LINE__,
-                    _AS( "1=1" => $result{sel} ) . ",$lhs_alias.tid",
+                    _AS( _personality->true() => $result{sel} )
+                      . ",$lhs_alias.tid",
                     FROM  => _AS( $lhs{sql} => $lhs_alias ),
                     WHERE => $expr
                 );
@@ -674,7 +676,7 @@ sub _hoist {
             if ( $optype == BOOLEAN ) {
                 $result{sql} = _SELECT(
                     __LINE__,
-                    _AS( '1=1' => $result{sel} ) . ',tid',
+                    _AS( _personality->true() => $result{sel} ) . ',tid',
                     FROM  => _AS( $rhs{sql} => $rhs_alias ),
                     WHERE => $expr
                 );
@@ -709,7 +711,7 @@ sub _hoist {
             if ( $optype == BOOLEAN ) {
                 $result{sql} = _SELECT(
                     __LINE__,
-                    _AS( '1=1' => $result{sel} ) . ",tid",
+                    _AS( _personality->true() => $result{sel} ) . ",tid",
                     FROM  => _AS( $kid{sql} => $arg_alias ),
                     WHERE => $expr
                 );
