@@ -59,7 +59,13 @@ sub compare {
     my $context = $query->param('context');
     $context = Foswiki::Func::getPreferencesValue("COMPARECONTEXT")
       unless defined($context);
-    $context = -1 unless defined($context) && $context =~ /^\d+$/;
+    if ( defined $context ) {
+        $context =~ s/^(\d+).*$/$1/;
+        $context ||= 0;
+    }
+    else {
+        $context = -1;
+    }
 
     # Get Revisions. rev2 default to maxrev, rev1 to rev2-1
 
@@ -85,6 +91,8 @@ sub compare {
     # are not rendered with twisty tables
 
     my $savedskin = $query->param('skin');
+    $savedskin =~ s/[^$Foswiki::regex{mixedAlphaNum}.,\s]//go
+      if defined $savedskin;
     $query->param( 'skin', 'classic' );
 
     # Get the HTML trees of the specified versions
@@ -207,8 +215,8 @@ sub compare {
         # go deeper into the tree
 
         if (   $action->[0] eq 'c'
-            && ref( $action->[1] ) eq $HTMLElement
-            && ref( $action->[2] ) eq $HTMLElement
+            && ref( $action->[1] )    eq $HTMLElement
+            && ref( $action->[2] )    eq $HTMLElement
             && $action->[1]->starttag eq $action->[2]->starttag )
         {
 
@@ -255,9 +263,16 @@ sub compare {
 
     my $revisions = "";
     my $i         = $maxrev;
+    my %uri_args  = ( render => $renderStyle );
+    $uri_args{skin}    = $savedskin if $savedskin;
+    $uri_args{context} = $context   if $context >= 0;
     while ( $i > 0 ) {
-        $revisions .=
-"  <a href=\"%SCRIPTURLPATH%/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%?rev=$i\">r$i</a>";
+        my $url = Foswiki::Func::getScriptUrl(
+            $webName, $topic, 'compare',
+            rev => $i,
+            %uri_args
+        );
+        $revisions .= "<a href=\"$url\">r$i</a>";
 
         last
           if $i == 1
@@ -267,19 +282,13 @@ sub compare {
             $revisions .= "  &lt;";
         }
         else {
-            $revisions .=
-"  <a href=\"%SCRIPTURLPATH%/compare%SCRIPTSUFFIX%/%WEB%/%TOPIC%?rev1=$i&rev2="
-              . ( $i - 1 )
-              . (
-                $query->param('skin') ? '&skin=' . $query->param('skin') : '' )
-              . (
-                $query->param('context')
-                ? '&context=' . $query->param('context')
-                : ''
-              )
-              . '&render='
-              . $renderStyle
-              . '">&lt;</a>';
+            $url = Foswiki::Func::getScriptUrl(
+                $webName, $topic, 'compare',
+                rev1 => $i,
+                rev2 => $i - 1,
+                %uri_args
+            );
+            $revisions .= " <a href=\"$url\">&lt;</a>";
         }
         $i--;
     }
