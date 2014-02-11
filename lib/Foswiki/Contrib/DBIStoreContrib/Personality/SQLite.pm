@@ -65,9 +65,6 @@ sub regexp {
     # The macro parser does horrible things with \, causing \\
     # to become \\\. Force it back to \\
     $rhs =~ s/\\{3}/\\\\/g;
-    if ( quotemeta($rhs) ne $rhs ) {
-        return "($lhs)='$rhs'";
-    }
 
     # SQLite uses PCRE, which supports all of Perl except hex
     # char codes

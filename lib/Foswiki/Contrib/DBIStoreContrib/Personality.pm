@@ -36,10 +36,12 @@ sub new {
 # Register reserved words
 sub reserve {
     my $this = shift;
-    map { $this->{reserved}->{$_} = 1 } @_;
+    foreach (@_) {
+        $this->{reserved}->{$_} = 1;
+    }
 }
 
-=begin
+=begin TML
 
 ---++ startup()
 Execute any SQL commands required to start the DB in ANSI mode.
@@ -97,7 +99,7 @@ sub text_type {
 
 =begin TML
 
----++ rgexp($lhs, $rhs) -> $sql
+---++ regexp($lhs, $rhs) -> $sql
 Construct an SQL expression to execute the given regular expression
 match.
   * =$rhs= - right hand side of the match
@@ -149,8 +151,9 @@ sub wildcard {
             $like = 1 if $spec =~ s/\?/./g;
 
             if ($like) {
-                $spec = "^$spec\$";
-                push( @exprs, $this->regexp( $lhs, "'$spec'" ) );
+                $spec = "'^$spec\$'";
+                my $res = $this->regexp( $lhs, $spec );
+                push( @exprs, $res );
             }
             else {
                 push( @exprs, "$lhs='$spec'" );
@@ -223,7 +226,7 @@ Cast a datum to a character string type for comparison
 
 sub cast_to_text {
     my ( $this, $d ) = @_;
-    return "CAST(($d) AS " . $this->text_type() . "TEXT)";
+    return "CAST(($d) AS " . $this->text_type() . ')';
 }
 
 =begin TML

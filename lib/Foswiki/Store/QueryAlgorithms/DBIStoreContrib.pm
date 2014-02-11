@@ -24,7 +24,7 @@ use Foswiki::Query::Node                        ();
 use Foswiki::Contrib::DBIStoreContrib::DBIStore ();
 
 # Debug prints
-use constant MONITOR => 0;
+use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 
 BEGIN {
     eval 'require Foswiki::Store::Interfaces::QueryAlgorithm';
@@ -290,7 +290,7 @@ sub _expand_relist {
                 @exprs,
                 Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
                   ->wildcard(
-                    $column, $s
+                    $column, "'$s'"
                   )
             );
         }
@@ -298,6 +298,7 @@ sub _expand_relist {
             push( @in, $s );
         }
     }
+
     if ( scalar(@in) == 1 ) {
         push( @exprs, "$column='$in[0]'" );
     }

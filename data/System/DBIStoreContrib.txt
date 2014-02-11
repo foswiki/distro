@@ -110,6 +110,19 @@ Integer indexes are not supported. Use queries instead.
          * Select Foswiki::Store::QueryAlgorithms::DBIStoreContrib for the ={Store}{QueryAlgorithm}= configuration setting
          * enable the integrated =DBIStorePlugin=
 
+---+++ Testing
+
+Basic tests for queries can be found in the DBIStoreTest topic.
+
+---+++ Reloading the database
+
+Should it become necessary to reload the DBI database - for example, because
+changes to topics have been made outside of Foswiki - then you can click on the following link to re-load the database. *WARNING* on a large site this may take a very long time. You may have to run it from the command-line,
+using a command like this:
+<verbatim>
+./view topic=System.DBIStoreTest skin=text dbistore_reset=1
+</verbatim>
+
 ---+++ !MySQL Notes
 The !MySQL database user needs at least the following privileges:
 SELECT, INSERT, CREATE, and DROP.

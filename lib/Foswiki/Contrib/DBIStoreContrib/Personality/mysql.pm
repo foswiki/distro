@@ -29,9 +29,6 @@ sub regexp {
     # The macro parser does horrible things with \, causing \\
     # to become \\\. Force it back to \\
     $rhs =~ s/\\{3}/\\\\/g;
-    if ( quotemeta($rhs) eq $rhs ) {
-        return "$lhs='$rhs'";
-    }
 
     # POSIX has no support for (?i: etc
     $rhs =~ s/^\(\?[a-z]+:(.*)\)$/$1/;              # remove (?:i)

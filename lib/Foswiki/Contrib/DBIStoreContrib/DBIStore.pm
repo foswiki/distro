@@ -26,7 +26,7 @@ use Error ':try';
 use Assert;
 use Encode;
 
-use constant MONITOR => 1;
+use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 
 # TODO: SMELL: convert to using $session->{store} perhaps?
 our $db;             # singleton instance of this class
@@ -211,7 +211,7 @@ sub _preload {
         my $web = $wit->next();
         $this->_preloadWeb( $web, $session );
     }
-    $this->{handle}->do('COMMIT') if personality()->requires_commit();
+    $this->{handle}->do('COMMIT') if personality()->requires_COMMIT();
 }
 
 # Preload a single web - PRIVATE

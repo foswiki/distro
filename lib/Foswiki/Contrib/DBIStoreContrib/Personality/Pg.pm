@@ -32,6 +32,9 @@ sub new {
 
 sub startup {
     my $this = shift;
+    $this->{store}->{handle}->{AutoCommit} = 1;
+
+    #    $this->{store}->{handle}->do('\\set ON_ERROR_ROLLBACK true');
     $this->{store}->{handle}->do("SET client_min_messages = 'warning'");
     $this->{store}->{handle}->do(<<'DO');
 CREATE OR REPLACE FUNCTION make_number(TEXT) RETURNS NUMERIC AS $$
@@ -45,6 +48,10 @@ EXCEPTION WHEN invalid_text_representation THEN
 END;
 $$ LANGUAGE PLPGSQL IMMUTABLE STRICT;
 DO
+}
+
+sub requires_COMMIT {
+    return 0;    # AUTOCOMMIT is on
 }
 
 sub cast_to_numeric {
@@ -63,15 +70,22 @@ sub _char {
 }
 
 sub regexp {
-    my ( $this, $lhs, $op, $rhs ) = @_;
+    my ( $this, $lhs, $rhs ) = @_;
+
+    unless ( $rhs =~ s/^'(.*)'$/$1/s ) {
+        return "$lhs ~ $rhs";    # risky!
+    }
+
+    my $i = ( $rhs =~ s/^\(\?i:(.*)\)$/$1/s ) ? '*' : '';
+
     $rhs =~ s/\\x([0-9a-f]{2})/_char("0x$1")/gei;
     $rhs =~ s/\\x{([0-9a-f]+)}/_char("0x$1")/gei;
-    return $this->SUPER::regexp( $lhs, $op, $rhs ) if ( $op eq '~' );
 
     # Postgresql supports full POSIX regexes. Just need to escape
     # single quote.
     $rhs =~ s/'/\\'/g;
-    return "$lhs ~ E'$rhs'";
+    $rhs =~ s/\\/\\/g;
+    return "$lhs ~$i E'$rhs'";
 }
 
 sub length {

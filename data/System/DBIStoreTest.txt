@@ -1,0 +1,54 @@
+<!--
+<verbatim>
+   * Set SOP = topic="DBIStoreTest*" nonoise="on" format="" footer="$ntopics" separator=""
+   * Set QOP = type="query" %SOP%
+   * Set TA = %IF{"
+   * Set TB = =0%SEARCH{
+   * Set TC = %QOP%}%" then="OK" else=" $percntRED$percnt *FAIL* $percntENDCOLOR$percnt "}%
+</verbatim>
+-->
+This topic is used for testing the DBIStoreContrib.
+Note that this topic, and the DBIStoreTestForm topic,
+have to be present in the database cache for the tests to work.
+
+To reset the cache, click on %SCRIPTURL{"view"}%/%WEB%/%WOPIC%?dbistore_init=1 (slow)
+
+<!-- TA number of hist TB search query TC -->
+   * Non-query: %IF{"2=0%SEARCH{"1" %SOP%}%" then="OK" else="$percntRED$percnt *FAIL* $percntENDCOLOR$percnt"}%
+   * False: %TA% 0 %TB% "0" %TC%
+   * True: %TA% 2 %TB% "1" %TC%
+   * Table.selector: %TA% 2 %TB% "form.name='DBIStoreTestForm' AND length('x')=1" %TC%
+   * Array: %TA% 1 %TB% "fields[name='string'].value='String'" %TC%
+   * Field: %TA% 2 %TB% "number" %TC%
+   * Boolean field: %TA% 0 %TB% "boolean" %TC%
+   * Field cmp: %TA% 1 %TB% "number=99" %TC%
+   * Simple regex: %TA% 2 %TB% "'AA'=~'A'" %TC%
+   * Simple LIKE: %TA% 1 %TB% "name~'DBIStoreT*orm'" %TC%
+   * Simple AND: %TA% 1 %TB% "number=99 AND string='String'" %TC%
+   * Simple OR: %TA% 1 %TB% "number=99 OR string='String'" %TC%
+   * Const-table cmp: %TA% 1 %TB% "666=fields[name='number'].value" %TC%
+   * Table-const cmp: %TA% 1 %TB% "fields[name='number'].value=666" %TC%
+   * Simple ref true: %TA% 2 %TB% "'DBIStoreTestForm'/number=666" %TC%
+   * Simple ref false: %TA% 0 %TB% "'DBIStoreTest'/number=666" %TC%
+   * Complex re: %TA% 1 %TB% "fields[name="string" AND value=~'^St.(i|n).*'].name!=''" %TC%
+   * Constant op field: %TA% 1 %TB% "fields[99=value].name" %TC%
+   * Complex conjunction: %TA% 2 %TB% "number=99 OR ( string='test' AND not boolean )" %TC%
+   * name=undefined: %TA% 0 %TB% "name=undefined" %TC%
+   * undefined=name: %TA% 0 %TB% "undefined=name" %TC%
+   * undefined=undefined: %TA% 2 %TB% "undefined=undefined" %TC%
+   * Length(num): %TA% 2 %TB% "length(99)" %TC%
+   * Length(str): %TA% 2 %TB% "length('99')>0" %TC%
+   * Deep where: %TA% 2 %TB% "fields[value=fields[name='number'].value].name" %TC%
+   * No such field: %TA% 0 %TB% "fields['x'].name='x'" %TC%
+   * Numeric index   %#TA% 1 %#TB% "fields[0].name='number'" %#TC%
+   * Table Ref      %TA% 2 %TB% "'DBIStoreTest'/META:FORM.name='DBIStoreTestForm'" %TC%
+   * Complex ref     %TA% 2 %TB% "(fields[name='Other'].value)/META:FORM.name='DBIStoreTestForm'" %TC%
+   * Escapes  %TA% 0 %TB% "name =~ '\\\' OR name ~ '\\\' OR name = '\\\'" %TC%
+   * Table=Table     %TA% 0 %TB% "fields=attachments" %TC%
+
+%META:FORM{name="DBIStoreTestForm"}%
+%META:FIELD{name="number" attributes="" title="number" value="99"}%
+%META:FIELD{name="string" attributes="" title="string" value="String"}%
+%META:FIELD{name="boolean" attributes="" title="boolean" value=""}%
+%META:FIELD{name="Other" attributes="" title="Other" value="DBIStoreTestForm"}%
+%META:PREFERENCE{name="Red" value="0"}%

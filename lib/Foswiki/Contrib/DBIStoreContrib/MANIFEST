@@ -2,7 +2,8 @@
 !noci
 data/System/DBIStoreContrib.txt 0644 Documentation
 data/System/DBIStorePlugin.txt 0644 Documentation
-data/System/DBIStoreContribRegexTests.txt 0644 Documentation
+data/System/DBIStoreTest.txt 0644 Tests
+data/System/DBIStoreTestForm.txt 0644 Tests
 lib/Foswiki/Contrib/DBIStoreContrib.pm 0644 Perl module
 lib/Foswiki/Contrib/DBIStoreContrib/Config.spec 0644 Configuration
 lib/Foswiki/Contrib/DBIStoreContrib/DBIStore.pm

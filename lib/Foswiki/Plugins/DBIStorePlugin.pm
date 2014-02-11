@@ -34,13 +34,15 @@ sub initPlugin {
 
     # Normally preloading only occurs when the DB first connects, which
     # only happens when a topic is moved or saved. To short-circuit this,
-    # the plugin supports the "?dbistore_init" parameter, which will
+    # the plugin supports the "?dbistore_reset" parameter, which will
     # do that chore.
-    if ( Foswiki::Func::getRequestObject->param('dbistore_init') ) {
+    if ( Foswiki::Func::getRequestObject->param('dbistore_reset')
+        && Foswiki::Func::isAnAdmin() )
+    {
+        print STDERR "DBIStore resetting\n";
         $shim->reset($Foswiki::Plugins::SESSION);
     }
 
-    print STDERR "DBIStorePlugin initialised\n";
     return 1;
 }
 
