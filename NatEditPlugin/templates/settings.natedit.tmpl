@@ -13,9 +13,22 @@
 <input type="hidden" name="originalrev" value="%ORIGINALREV%" />
 %JQREQUIRE{"focus, natedit, blockui"}%%TABPANE%
 %TAB{"%MAKETEXT{"Preferences"}%"}%
-<textarea class="foswikiTextArea jqFocus" name="text" id="topic" wrap="virtual" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
+<textarea class="foswikiTextArea natedit" name="text" id="topic" wrap="virtual" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
 %ENDTAB%
 %TMPL:P{"helptab"}%%ENDTABPANE%
 %TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%</form>%TMPL:END%
 
-%TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"help"}% %ENDTAB%%TMPL:END%
+%TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"settingshelp"}% %ENDTAB%%TMPL:END%
+
+%TMPL:DEF{"settingshelp"}%<!-- -->
+<h2>%MAKETEXT{"Help"}%</h2>
+<div class="natEditHelp">
+%MAKETEXT{"Each preference has the syntax"}% 
+
+<pre>
+%MAKETEXT{"~[multiple of 3 spaces~] * ~[space~] Set ~[space~] VARIABLENAME ~[space~] = ~[value~]"}%
+</pre>
+
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/PreferenceSettings" target="_blank">%MAKETEXT{"Get help on setting topic preferences"}%</a>
+</div>
+<!-- -->%TMPL:END%

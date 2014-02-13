@@ -6,6 +6,8 @@
 .ui-natedit-container {
   margin-top:14px;
 }
+
+.natEditPreviewDialog,
 .ui-natedit-container .jqTabContents {
   overflow-x:hidden;
   overflow-y:auto;
@@ -18,7 +20,9 @@
   max-width:100%;
 }
 .ui-natedit textarea {
-  box-sizing:border-box;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 
   font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
   font-size:12px;

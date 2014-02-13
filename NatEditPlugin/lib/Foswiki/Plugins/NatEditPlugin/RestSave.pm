@@ -71,14 +71,29 @@ sub handle {
     my $cgis = $session->getCGISession();
     my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
     my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
-    $response->pushHeader(
-        'X-Foswiki-Validation',
-        Foswiki::Validation::generateValidationKey(
-            $cgis, $context, $usingStrikeOne
-        )
-    );
+    $response->pushHeader( 'X-Foswiki-Validation',
+        _generateValidationKey( $cgis, $context, $usingStrikeOne ) );
 
     return ( defined $error ) ? stringifyError($error) : '';
+}
+
+# compatibility wrapper
+sub _generateValidationKey {
+
+    my $nonce;
+    if ( Foswiki::Validation->can("generateValidationKey") ) {
+        $nonce = Foswiki::Validation::generateValidationKey(@_);
+    }
+    else
+    { # extract from "<input type='hidden' name='validation_key' value='?$nonce' />";
+
+        my $html = Foswiki::Validation::addValidationKey(@_);
+        if ( $html =~ /value='\?(.*?)'/ ) {
+            $nonce = $1;
+        }
+    }
+
+    return $nonce;
 }
 
 sub stringifyError {

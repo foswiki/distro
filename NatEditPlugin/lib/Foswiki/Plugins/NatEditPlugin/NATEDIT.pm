@@ -88,8 +88,7 @@ sub init {
   'MathModePluginEnabled': %IF{"context MathModePluginEnabled" then="true" else="false"}%,
   'ImagePluginEnabled': %IF{"context ImagePluginEnabled" then="true" else="false"}%,
   'TopicInteractionPluginEnabled': %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}%,
-  'FarbtasticEnabled': %IF{"context FarbtasticEnabled" then="true" else="false"}%,
-  'UIDatepickerEnabled': %IF{"context UIDatepickerEnabled" then="true" else="false"}% 
+  'FarbtasticEnabled': %IF{"context FarbtasticEnabled" then="true" else="false"}%
 });</script>
 HERE
 }

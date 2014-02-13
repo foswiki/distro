@@ -4,4 +4,6 @@ Foswiki::Plugins::TopicInteractionPlugin,>=3.20,perl,Optional, require to upload
 Foswiki::Plugins::ImagePlugin,>=3.20,perl,Optional
 Foswiki::Plugins::MathModePlugin,>=4.20,perl,Optional
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
+Foswiki::Plugins::SetVariablePlugin,>=2.33,perl,Required. required for Foswiki < 1.2
+ONLYIF ( $Foswiki::Plugins::VERSION < 2.1)
 Foswiki::Plugins::ZonePlugin,>=3.1,perl,Required. required for Foswiki < 1.1

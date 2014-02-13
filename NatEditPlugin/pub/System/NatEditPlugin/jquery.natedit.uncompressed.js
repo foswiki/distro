@@ -449,9 +449,6 @@ $.NatEditor.prototype.initGui = function() {
   if (foswiki.getPreference("FarbtasticEnabled")) {
     self.container.addClass("ui-natedit-colorpicker-enabled");
   }
-  if (foswiki.getPreference("UIDatepickerEnabled")) {
-    self.container.addClass("ui-natedit-datepicker-enabled");
-  }
 
   if (self.opts.resizable) {
     // test for native resize
@@ -772,7 +769,8 @@ $.NatEditor.prototype.showMessage = function(type, msg, title) {
     hide:(type === "error"?false:true),
     type:type,
     sticker:false,
-    closer_hover:false
+    closer_hover:false,
+    delay: (type === "error"?8000:1000)
   });
 };
 
@@ -2087,6 +2085,68 @@ $.NatEditor.prototype.parseColorSelection = function() {
 };
 
 /*****************************************************************************
+ * init the date dialog
+ */
+$.NatEditor.prototype.openDatePicker = function(ev, ui) {
+  var self = this,
+      elem,
+      date,
+      selection = self.getSelection();
+
+  if (selection === '') {
+    date = new Date();
+  } else {
+    try {
+      date = new Date(selection)
+    } catch (e) {
+      self.showMessage("error", "invalid date '"+selection+"'");
+    };
+  }
+
+  if (typeof(self.datePicker) === 'undefined') {
+      elem = $('<div class="ui-natedit-datepicker"/>').css("position", "absolute").appendTo("body").hide();
+
+    self.overlay = $("<div>")
+      .addClass("ui-widget-overlay ui-front")
+      .hide()
+      .appendTo("body")
+      .on("click", function() {
+        self.datePicker.hide();
+        self.overlay.hide();
+      });
+
+    self.datePicker = elem.datepicker({
+        onSelect: function() {
+         var date = self.datePicker.datepicker("getDate");
+          self.datePicker.hide();
+          self.overlay.hide();
+          self.remove();
+          self.insertTag(['', self.formatDate(date), '']);
+        }
+    }).draggable({handle:'.ui-widget-header'}).zIndex(self.overlay.zIndex()+1);
+
+  }
+
+  self.overlay.show();
+  self.datePicker.datepicker("setDate", date);
+    
+  self.datePicker.show().focus().position({my:'center', at:'center', of:window});
+
+  return false;
+};
+
+/*****************************************************************************
+ * format a date the foswiki way
+ */
+$.NatEditor.prototype.formatDate = function(date) {
+  var self = this,
+
+  // TODO: make it smarter
+  date = date.toDateString().split(/ /);
+  return date[2]+' '+date[1]+' '+date[3];
+};
+
+/*****************************************************************************
  * inserts the color code
  */
 $.NatEditor.prototype.handleInsertColor = function(elem) {
@@ -2529,7 +2589,7 @@ $.NatEditor.defaults = {
   indentMarkup: ['   ','',''],
   outdentMarkup: ['','',''],
   mathMarkup: ['<latex title="Example">\n','\\sum_{x=1}^{n}\\frac{1}{x}','\n</latex>'],
-  signatureMarkup: ['-- ', '%WIKINAME%, ' - '%DATE%'],
+  signatureMarkup: ['-- ', '[[%WIKINAME%]], ' - '%DATE%'],
   horizRulerMarkup: ['', '---', '\n'],
 
   escapeTmlTransform: function (string) {
@@ -2573,14 +2633,13 @@ $(function() {
   $.NatEditor.defaults.systemWeb = foswiki.getPreference("SYSTEMWEB");
   $.NatEditor.defaults.scriptUrl = foswiki.getPreference("SCRIPTURL");
   $.NatEditor.defaults.pubUrl = foswiki.getPreference("PUBURL");
-  $.NatEditor.defaults.signatureMarkup = ['-- ', foswiki.getPreference("WIKIUSERNAME"), ' - '+foswiki.getPreference("SERVERTIME")];
+  $.NatEditor.defaults.signatureMarkup = ['-- ', '[['+foswiki.getPreference("WIKIUSERNAME")+']]', ' - '+foswiki.getPreference("SERVERTIME")];
   $.NatEditor.defaults.showToolbar = typeof(tinyMCE) === 'undefined' ? true : false;
 
   // listen for natedit
   $(".natedit").livequery(function() {
     $(this).natedit();
   });
-
 
 });
 
