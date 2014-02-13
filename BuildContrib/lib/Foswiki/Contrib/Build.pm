@@ -882,7 +882,12 @@ sub cp {
         print 'cp ' . $from . ' ' . $to . "\n";
     }
     unless ( $this->{-n} ) {
-        if ( -d $from ) {
+        if ( -l $from ) {
+            my $link = readlink($from);
+            symlink( $link, $to )
+              || warn "Warning: Failed to create link from $to to $link: $!";
+        }
+        elsif ( -d $from ) {
             unless ( -e $to ) {
                 mkdir($to) || warn 'Warning: Failed to make ' . $to . ': ' . $!;
             }

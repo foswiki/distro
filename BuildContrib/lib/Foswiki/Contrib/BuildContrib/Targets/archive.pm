@@ -46,10 +46,10 @@ sub target_archive {
 # and argument for group and user must be passed in as separate parameters.
         print STDERR
           "tar --owner / --group  not supported.  Recommend building as root\n";
-        $this->sys_action( 'tar', '-czhpf', $project . '.tgz', '*' );
+        $this->sys_action( 'tar', '-czpf', $project . '.tgz', '*' );
     }
     else {
-        $this->sys_action( 'tar', '--owner', '0', '--group', '0', '-czhpf',
+        $this->sys_action( 'tar', '--owner', '0', '--group', '0', '-czpf',
             $project . '.tgz', '*' );
     }
 

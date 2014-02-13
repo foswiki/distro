@@ -57,6 +57,7 @@ sub target_stage {
             $this->{basedir} . '/' . $project . '.txt'
         );
     }
+
     $this->apply_perms( $this->{files}, $this->{tmpDir} );
 
     if ( $this->{other_modules} ) {

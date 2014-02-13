@@ -164,8 +164,12 @@ sub readManifest {
                 close $fh;
                 $n->{md5} = $md5->hexdigest;
             }
-            else {
-                warn "File $name does not exist on disk!";
+            elsif ( -l "$baseDir/$name" ) {
+                warn
+"WARNING: File $name is a symbolic link - may not work on all target platforms";
+            }
+            elsif ( !-d "$baseDir/$name" ) {
+                warn "WARNING: File $name does not exist on disk!";
             }
             push( @files, $n );
         }
