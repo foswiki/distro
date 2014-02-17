@@ -157,7 +157,7 @@
     </label>
 
     <label title='%MAKETEXT{"restrict access to [_1]" args="%SPACEOUT{"%WIKINAME%"}%"}%'>
-      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='{"allow":"%WIKINAME%"}' name="Local+PERMSET_VIEW" value="justauthor" %IF{"$'PERMSET_VIEW'='justauthor'" then="checked"}% />
+      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='{"allow":"%WIKINAME%"}' name="Local+PERMSET_VIEW" value="justauthor" %IF{"$'PERMSET_VIEW'='justauthor' and $'ALLOWTOPICVIEW'='%WIKINAME%'" then="checked"}% />
       %MAKETEXT{"Just me"}%
     </label>
 
@@ -167,12 +167,12 @@
     </label>
 
     <label title='%MAKETEXT{"specify a list of users and/or groups"}%'>
-      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='details' name="Local+PERMSET_VIEW" value="details" %IF{"$'PERMSET_VIEW'='details'" then="checked"}% />
+      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='details' name="Local+PERMSET_VIEW" value="details" %IF{"$'PERMSET_VIEW'='details' or $'PERMSET_VIEW'='justauthor' and $'ALLOWTOPICVIEW'!='%WIKINAME%'" then="checked"}% />
       %MAKETEXT{"Specific users/groups"}%
     </label>
 
     <div class="ui-natedit-details-container" %IF{"$'PERMSET_VIEW'!='details'" then="style='display:none'"}%>
-      <input type="text" class="foswikiInputField" size="40" data-perm-type="view" data-perms='details' autocomplete="off" name="Local+PERMSET_VIEW_DETAILS" value="%PERMSET_VIEW_DETAILS{default=""}%" />
+      <input type="text" class="foswikiInputField" size="40" data-perm-type="view" data-perms='details' autocomplete="off" name="Local+PERMSET_VIEW_DETAILS" value="%IF{"$'PERMSET_VIEW'='justauthor' and $'ALLOWTOPICVIEW'!='%WIKINAME%'" then="%ALLOWTOPICVIEW%" else="%PERMSET_VIEW_DETAILS{default=""}%"}%" />
     </div>
   </div>
   <div class="foswikiFormStep ui-natedit-change-perms">
@@ -188,7 +188,7 @@
     </label>
 
     <label title='%MAKETEXT{"restrict access to [_1]" args="%SPACEOUT{"%WIKINAME%"}%"}%'>
-      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='{"allow":"%WIKINAME%"}' name="Local+PERMSET_CHANGE" value="justauthor" %IF{"$'PERMSET_CHANGE'='justauthor'" then="checked"}% />
+      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='{"allow":"%WIKINAME%"}' name="Local+PERMSET_CHANGE" value="justauthor" %IF{"$'PERMSET_CHANGE'='justauthor' and $'ALLOWTOPICCHANGE'='%WIKINAME%'" then="checked"}% />
       %MAKETEXT{"Just me"}%
     </label>
 
@@ -198,12 +198,12 @@
     </label>
 
     <label title='%MAKETEXT{"specify a list of users and/or groups"}%'>
-      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='details' name="Local+PERMSET_CHANGE" value="details" %IF{"$'PERMSET_CHANGE'='details'" then="checked"}% />
+      <input type="radio" class="foswikiRadioButton" data-perm-type="change" data-perms='details' name="Local+PERMSET_CHANGE" value="details" %IF{"$'PERMSET_CHANGE'='details' or $'PERMSET_CHANGE'='justauthor' and $'ALLOWTOPICCHANGE'!='%WIKINAME%'" then="checked"}% />
       %MAKETEXT{"Specific users/groups"}%
     </label>
 
     <div class="ui-natedit-details-container" %IF{"$'PERMSET_CHANGE'!='details'" then="style='display:none'"}%>
-      <input type="text" class="foswikiInputField" size="40" data-perm-type="change" data-perms='details' autocomplete="off" name="Local+PERMSET_CHANGE_DETAILS" value="%PERMSET_CHANGE_DETAILS{default=""}%" />
+      <input type="text" class="foswikiInputField" size="40" data-perm-type="change" data-perms='details' autocomplete="off" name="Local+PERMSET_CHANGE_DETAILS" value="%IF{"$'PERMSET_CHANGE'='justauthor' and $'ALLOWTOPICCHANGE'!='%WIKINAME%'" then="%ALLOWTOPICCHANGE%" else="%PERMSET_CHANGE_DETAILS{default=""}%"}%" />
     </div>
   </div>
 </div>

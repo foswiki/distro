@@ -498,7 +498,7 @@ $.NatEditor.prototype.initGui = function() {
   });
 
   // init
-  self.form.find(".ui-natedit-permissions-form input[type=radio]:checked").each(function() {
+  self.form.find(".ui-natedit-permissions-form input[type=radio]:checked").not(":disabled").each(function() {
     setPermissionSet($(this).data());
   });
 
