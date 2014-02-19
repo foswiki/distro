@@ -153,10 +153,11 @@ if ( ( $redirect = $session->param('redirect') ) ) {
 ::_loadBasicModule(
     qw/Foswiki::Configure::Util Foswiki::Configure::TemplateParser/);
 
-# Validate request
+# Validate request.
 
 dispatch( '_validate', $action, \&invalidDispatch, $session, $cookie );
 
+# Note that a resource request never returns!
 ###########################################################
 # From this point on we shouldn't have any more "fatal" (to configure)
 # errors, so we can report errors in the browser (i.e. without using die)

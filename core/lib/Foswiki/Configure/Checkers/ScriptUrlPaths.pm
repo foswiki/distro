@@ -164,9 +164,11 @@ sub testPath {
         my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
         push @headers, Authorization => "Basic $auth";
     }
+    push( @headers, 'X-Requested-With' => 'FoswikiReflectionRequest' );
 
     for ( $try = 1 ; $try <= $limit ; $try++ ) {
         my $response = $net->getExternalResource( $url, @headers );
+
         if ( $response->is_error ) {
             my $content = $response->content || '';
             $content =~ s/<([^>]*)>/&lt;$1&gt;/g;

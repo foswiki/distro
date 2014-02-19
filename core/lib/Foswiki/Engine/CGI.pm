@@ -57,10 +57,16 @@ if ( defined $SAVE_DESTROY ) {
 }
 
 sub run {
-    my $this = shift;
-    my $req  = $this->prepare;
-    unless ( $Foswiki::cfg{isVALID}
-        || ( $req->http('x-requested-with') || '' ) eq 'XMLHttpRequest' )
+    my $this      = shift;
+    my $req       = $this->prepare;
+    my $requestor = $req->http('x-requested-with') || '';
+    unless (
+           $Foswiki::cfg{isVALID}
+        || $requestor eq 'XMLHttpRequest'
+
+   # Configure uses FoswikiReflectionRequest to query values before LSC is ready
+        || $requestor eq 'FoswikiReflectionRequest'
+      )
     {
         print STDOUT "Content-type: text/html\n\n";
         print STDOUT '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"'
