@@ -241,7 +241,7 @@ sub _parse {
                 push( @opers, $op );
                 $lastTokWasOper = 1;
             }
-            elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
+            elsif ( $$input =~ s/^\s*(['"])(|(?:\\.|[^\\])+?)\1// ) {
                 my $q   = $1;
                 my $val = $2;
                 print STDERR "Operand: qs '$val'\n" if MONITOR_PARSER;
