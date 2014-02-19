@@ -299,10 +299,10 @@ sub loadSession {
 
     return $authUser if $ENV{NO_FOSWIKI_SESSION};
 
-    if ( $Foswiki::cfg{UseClientSessions}
-        && !$session->inContext('command_line') )
+    if (   $Foswiki::cfg{UseClientSessions}
+        && !$session->inContext('command_line')
+        && $Foswiki::cfg{WorkingDir} )
     {
-
         $this->{_haveCookie} = $session->{request}->header('Cookie');
 
         _trace( $this,

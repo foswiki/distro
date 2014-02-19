@@ -373,8 +373,11 @@ sub body {
         {
             require Encode;
 
-#used to encode to 'iso-8859-1', but that seems wrong in light of the cfg settings
-            $body = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $body, 0 );
+            # used to encode to 'iso-8859-1', but that seems wrong in
+            # light of the cfg settings
+            $body =
+              Encode::encode( $Foswiki::cfg{Site}{CharSet} || 'iso-8859-1',
+                $body, 0 );
         }
         $this->{headers}->{'Content-Length'} = length($body);
         $this->{body} = $body;
