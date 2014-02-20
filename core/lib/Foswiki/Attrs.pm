@@ -238,6 +238,47 @@ sub stringify {
     return join( ' ', @ss );
 }
 
+=begin TML
+
+---++ StaticMethod findFirstOccurenceAttrs($macro, $text) -> $args
+
+Extract the first occurence of a macro from the text, taking into
+account balancing %{}%'s. For example, given $macro=X and $text="X%Y{%X{%X{}%}%}%Y"
+it will return "%X{}%". Given $text="%X%" it will return ''. Given "YYY" it
+will return undef, because neither "%X%" nor "%X{}%" occur.
+
+=cut
+
+sub findFirstOccurenceAttrs {
+    my ( $macro, $text ) = @_;
+    return undef unless $text =~ /\%${macro}[%{]/s;
+    my @queue = split( /(%[A-Za-z0-9_]*{|}%|\%${macro}\%)/, $text );
+    my $eat   = 0;
+    my $eaten = '';
+    while ( scalar(@queue) ) {
+        my $token = shift @queue;
+        if ($eat) {
+            if ( $token =~ /^%[A-Za-z0-9_]*{$/ ) {
+                $eat++;
+            }
+            elsif ( $eat && $token eq '}%' ) {
+                $eat--;
+                return $eaten if ( !$eat );
+            }
+            $eaten .= $token;
+        }
+        else {
+            if ( $token eq "\%${macro}%" ) {
+                return '';
+            }
+            elsif ( $token eq "\%${macro}\{" ) {
+                $eat = 1;
+            }
+        }
+    }
+    return '';
+}
+
 # ---++ StaticMethod extractValue() -> $string
 #
 # Legacy support, formerly known as extractNameValuePair. This
