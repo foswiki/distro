@@ -3,3 +3,5 @@ lib/Foswiki/Contrib/FastCGIEngineContrib.pm 0644
 lib/Foswiki/Engine/FastCGI.pm 0644
 lib/Foswiki/Engine/FastCGI/ProcManager.pm 0644
 data/System/FastCGIEngineContrib.txt 0644
+tools/foswiki.defaults 0644
+tools/foswiki.init-script 0644

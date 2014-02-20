@@ -12,6 +12,7 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 
 package Foswiki::Engine::FastCGI;
 
+use Foswiki::Sandbox ();
 use Foswiki::Engine::CGI;
 our @ISA = qw( Foswiki::Engine::CGI );
 
@@ -50,11 +51,14 @@ threads and fcgi backend processes that are allowed to be spawned by the web ser
 =cut
 
 our $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} || 100;
+our $sock = 0;
 
 sub run {
     my ( $this, $listen, $args ) = @_;
 
-    my $sock = 0;
+    # untaint pidfile
+    $args->{pidfile} = Foswiki::Sandbox::untaintUnchecked($args->{pidfile});
+
     if ($listen) {
         $sock = FCGI::OpenSocket( $listen, 100 )
           or die "Failed to create FastCGI socket: $!";
@@ -75,6 +79,7 @@ sub run {
                 {
                     n_processes => $args->{nproc},
                     pid_fname   => $args->{pidfile},
+                    quiet       => $args->{quiet}
                 }
             );
             $manager->pm_manage();
@@ -122,7 +127,7 @@ sub run {
         $manager && $manager->pm_post_dispatch();
     }
     reExec() if $hupRecieved || $maxRequests == 0;
-    FCGI::CloseSocket($sock) if $sock;
+    closeSocket($sock);
 }
 
 sub preparePath {
@@ -151,7 +156,15 @@ sub write {
     syswrite STDOUT, $_[1];
 }
 
+sub closeSocket {
+    return unless $sock;
+    FCGI::CloseSocket($sock);
+    $sock = 0;
+}
+
 sub reExec {
+    closeSocket();
+
     require Config;
     $ENV{PERL5LIB} .= join $Config::Config{path_sep}, @INC;
     $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
@@ -197,7 +210,6 @@ Daemonize process. Currently not portable...
 =cut
 
 sub daemonize {
-    print "FastCGI daemon started (pid $$)\n";
     umask(0);
     chdir File::Spec->rootdir;
     open STDIN,  File::Spec->devnull or die $!;
@@ -212,7 +224,7 @@ __END__
 FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
 http://foswiki.org/
 
-Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+Copyright (C) 2008-2014 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 contributors. Foswiki contributors are listed in the AUTHORS file in the root
 of Foswiki distribution.
 

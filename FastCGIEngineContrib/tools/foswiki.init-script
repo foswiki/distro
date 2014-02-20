@@ -1,0 +1,99 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          foswiki
+# Required-Start:    $syslog $remote_fs $network
+# Required-Stop:     $syslog $remote_fs $network
+# Should-Start:      fam
+# Should-Stop:       fam
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start the foswiki backend server.
+### END INIT INFO
+
+DESC="Foswiki backend server"
+NAME=foswiki
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+USER=www-data
+GRPOUP=www-data
+
+FOSWIKI_ROOT=/var/www/foswiki
+
+FOSWIKI_FCGI=foswiki.fcgi
+FOSWIKI_BIND=127.0.0.1:9000
+FOSWIKI_CHILDREN=5
+FOSWIKI_PIDFILE=/var/run/$NAME.pid
+
+# Include defaults if available
+if [ -f /etc/default/$NAME ] ; then
+    . /etc/default/$NAME
+fi
+
+FOSWIKI_DAEMON=$FOSWIKI_ROOT/bin/$FOSWIKI_FCGI
+FOSWIKI_DAEMON_OPTS="-n $FOSWIKI_CHILDREN -l $FOSWIKI_BIND -p $FOSWIKI_PIDFILE -d -q"
+
+start() {
+        log_daemon_msg "Starting $DESC" $NAME
+	:> $FOSWIKI_PIDFILE
+	chown $USER:$GROUP $FOSWIKI_PIDFILE
+        if ! start-stop-daemon --start --oknodo --quiet \
+	    --chuid $USER:$GROUP \
+	    --chdir $FOSWIKI_ROOT/bin \
+            --pidfile $FOSWIKI_PIDFILE \
+	    --exec $FOSWIKI_DAEMON -- $FOSWIKI_DAEMON_OPTS
+        then
+            log_end_msg 1
+        else
+            log_end_msg 0
+        fi
+}
+
+stop() {
+        log_daemon_msg "Stopping $DESC" $NAME
+        if start-stop-daemon --stop --retry 30 --oknodo --quiet --pidfile $FOSWIKI_PIDFILE 
+        then
+            rm -f $FOSWIKI_PIDFILE
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
+}
+
+reload() {
+        log_daemon_msg "Reloading $DESC" $NAME
+        if start-stop-daemon --stop --signal HUP --oknodo --quiet --pidfile $FOSWIKI_PIDFILE 
+        then
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
+}
+
+status() {
+	status_of_proc -p "$FOSWIKI_PIDFILE" "$FOSWIKI_DAEMON" $NAME 
+}
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  reload) 
+    reload
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  status)
+    status
+    ;;
+  *)
+    echo "Usage: $NAME {start|stop|restart|reload|status}"
+    exit 1
+    ;;
+esac

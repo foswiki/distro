@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# Copyright (C) 2008-2014 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
 # contributors. Foswiki contributors are listed in the AUTHORS file in the root
 # of Foswiki distribution.
 #
@@ -46,7 +46,7 @@ Foswiki::Engine::FastCGI::reExec() unless $@ =~ /^Insecure dependency in eval/;
 
 my @argv = @ARGV;
 
-my ( $listen, $nproc, $pidfile, $manager, $detach, $help );
+my ( $listen, $nproc, $pidfile, $manager, $detach, $help, $quiet );
 GetOptions(
     'listen|l=s'  => \$listen,
     'nproc|n=i'   => \$nproc,
@@ -54,6 +54,7 @@ GetOptions(
     'manager|M=s' => \$manager,
     'daemon|d'    => \$detach,
     'help|?'      => \$help,
+    'quiet|q'       => \$quiet
 );
 
 pod2usage(1) if $help;
@@ -73,6 +74,7 @@ $Foswiki::engine->run(
         pidfile => $pidfile,
         manager => $manager,
         detach  => $detach,
+        quiet   => $quiet
     }
 );
 
@@ -88,6 +90,7 @@ foswiki.fcgi [options]
     -p --pidfile    File used to write pid to
     -M --manager    FCGI manager class
     -d --daemon     Detach from terminal and keeps running as a daemon
+    -q --quiet      Disable notification messages
     -? --help       Display this help and exits
 
   Note:
