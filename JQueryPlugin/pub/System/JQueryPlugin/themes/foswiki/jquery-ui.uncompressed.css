@@ -826,6 +826,8 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-dialog .foswikiFormSteps {
   margin:0px;
   background-color:transparent;
+  padding:0;
+  border:0;
 }
 
 .ui-dialog .ui-dialog-titlebar,
@@ -1860,7 +1862,6 @@ table.ui-datepicker-inline {
 }
 .ui-pnotify .ui-pnotify-container { 
   background:#DEEBFA;
-  border:1px solid #A3D9FD;
   border:1px solid #7FBEE9;
   color:#005884;
   -moz-border-radius: 3px; 

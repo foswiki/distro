@@ -121,11 +121,16 @@ reduce bandwidth and speed up interactive performance.
 
 ---++ Plugin Info
 |  Maintainer(s): | Michael Daum |
-|  Copyright: | 2007-2013 Foswiki Contributors http://foswiki.org |
+|  Copyright: | 2007-2014 Foswiki Contributors http://foswiki.org |
 |  License: | GPL |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  21 Feb 2014: | (5.10) - Item12734: added jQuery-1.11, jQuery-2.10, jquery-ui-1.10.4; \
+                           reverted patch to jquery.ui.tooltip; \
+                           reapplied patch to jquery.ui.draggable preventing hopping modal dialogs and such; \
+                           fix hopping position of hepler element in jquery.ui.sortable; \
+                           now defaulting to the latest jQuery version |
 |  11 Dec 2013: | (5.00) - new modules fontawesome, ui::spinner; \
                            upgraded slimbox and media module; \
                            improvements to =foswiki= theme for jquery-ui; \

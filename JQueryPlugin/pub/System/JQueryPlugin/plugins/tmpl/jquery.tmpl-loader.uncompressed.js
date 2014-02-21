@@ -3,7 +3,7 @@
  *
  * loads a jquery.template from an url and compiles it
  *
- * Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+ * Copyright (C) 2010-2014 Foswiki Contributors. Foswiki Contributors
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

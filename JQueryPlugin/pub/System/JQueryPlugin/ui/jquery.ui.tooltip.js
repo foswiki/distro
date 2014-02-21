@@ -1,8 +1,8 @@
 /*!
- * jQuery UI Tooltip 1.10.3
+ * jQuery UI Tooltip 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
@@ -43,7 +43,7 @@ function removeDescribedBy( elem ) {
 }
 
 $.widget( "ui.tooltip", {
-	version: "1.10.3",
+	version: "1.10.4",
 	options: {
 		content: function() {
 			// support: IE<9, Opera in jQuery <1.7
@@ -297,7 +297,7 @@ $.widget( "ui.tooltip", {
 		if ( !event || event.type === "mouseover" ) {
 			events.mouseleave = "close";
 		}
-		if ( !event || event.type === "focusin" || event.type == "mouseover" ) {
+		if ( !event || event.type === "focusin" ) {
 			events.focusout = "close";
 		}
 		this._on( true, target, events );

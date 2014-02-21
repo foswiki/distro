@@ -3,7 +3,7 @@ FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 
 MINIFYJS=$(shell if which uglifyjs >/dev/null; then echo $(NODE_MINIFYJS); else if which java >/dev/null; then echo $(YUI_MINIFYJS); else echo $(PERL_MINIFYJS); fi; fi)
-MINIFYCSS=$(shell if which ssmin >/dev/null; then echo $(NODE_MINIFYCSS); else if which java >/dev/null; then echo $(YUI_MINIFYCSS); else echo $(PERL_MINIFYCSS); fi; fi)
+MINIFYCSS=$(shell if which cssmin >/dev/null; then echo $(NODE_MINIFYCSS); else if which java >/dev/null; then echo $(YUI_MINIFYCSS); else echo $(PERL_MINIFYCSS); fi; fi)
 
 NODE_MINIFYJS="uglifyjs -b beautify=false,ascii-only=true"
 NODE_MINIFYCSS="cssmin"

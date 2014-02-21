@@ -1,8 +1,8 @@
 /*!
- * jQuery UI Draggable 1.10.3
+ * jQuery UI Draggable 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
@@ -16,7 +16,7 @@
 (function( $, undefined ) {
 
 $.widget("ui.draggable", $.ui.mouse, {
-	version: "1.10.3",
+	version: "1.10.4",
 	widgetEventPrefix: "drag",
 	options: {
 		addClasses: true,
@@ -534,7 +534,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 				this.offset.click.top	-												// Click offset (relative to the element)
 				this.offset.relative.top -												// Only for relative positioned nodes: Relative offset from element to offset parent
 				this.offset.parent.top +												// The offsetParent's offset without borders (offset + border)
-				( this.cssPosition === "fixed" ? -this.scrollParent.scrollTop() : 0 /*this.offset.scroll.top*/ ) /* chrome returns a zero, firefox the correct scroll.top ... which however disturbs the arithmetics */
+				( this.cssPosition === "fixed" ? -this.scrollParent.scrollTop() : 0 /*this.offset.scroll.top*/ ) /* FIXES jumping dialogs */
 			),
 			left: (
 				pageX -																	// The absolute mouse position
