@@ -135,6 +135,11 @@ thing to do is to use the ODBC driver with DBIStoreContrib and create a data
 source for SQL Server in the ODBC Administrator which uses Windows authentication.
 Then set an empty username and password for !DBIStoreContrib.
 
+SQL Server does not come equipped with regular expression matching, which is
+required for Foswiki, so you wil need to install a regular expression library.
+The default personality module included in this module requires the user function =dbo.fn_RegExIsMatch= to stub the =.NET= !RegEx class. Instructions for building and installing this user function can be found at
+http://www.codeproject.com/Articles/19502/A-T-SQL-Regular-Expression-Library-for-SQL-Server
+
 ---+++ SQLite Notes
 SQLite requires the =pcre= module to be installed to support regular expression searches. The path to this module is set up in =configure=.
 

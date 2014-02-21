@@ -117,8 +117,8 @@ sub _connect {
 
     # Custom code to put DB's into ANSI mode and clean up error reporting
     personality()->startup();
-    $CQ   = personality()->string_quote();
-    $TEXT = personality()->text_type();
+    $CQ   = personality()->{string_quote};
+    $TEXT = personality()->{text_type};
 
     # Check if the DB is initialised with a quick sniff of the tables
     # to see if all the ones we expect are there
@@ -199,7 +199,7 @@ SQL
         print STDERR "Creating table for $t\n" if MONITOR;
         $this->_createTableForMETA($t);
     }
-    $this->{handle}->do('COMMIT') if personality()->requires_COMMIT();
+    $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
 }
 
 # Load all existing webs and topics into the cache DB (expensive)
@@ -211,7 +211,7 @@ sub _preload {
         my $web = $wit->next();
         $this->_preloadWeb( $web, $session );
     }
-    $this->{handle}->do('COMMIT') if personality()->requires_COMMIT();
+    $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
 }
 
 # Preload a single web - PRIVATE

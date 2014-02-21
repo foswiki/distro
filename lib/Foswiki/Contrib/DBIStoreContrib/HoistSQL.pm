@@ -48,10 +48,17 @@ use constant {
 
     VALUE => 12,
     TABLE => 13,
+
+    # An integer type used where DB doesn't support a BOOLEAN type
+    PSEUDO_BOOL => 14,
 };
 
 our $table_name_RE = qr/^\w+$/;
-our $cq;
+
+# Pseudo-constants, from the Personality
+our $CQ;               # character string quote
+our $TRUE;
+our $TRUE_TYPE;
 
 BEGIN {
 
@@ -230,6 +237,10 @@ sub _boolean_bop {
         $lhs = _cast( $lhs, $lhs_type, STRING );
         $rhs = _cast( $rhs, $rhs_type, STRING );
     }
+    else {
+        $lhs = _cast( $lhs, $lhs_type, BOOLEAN );
+        $rhs = _cast( $rhs, $rhs_type, BOOLEAN );
+    }
     return ( "($lhs)$opn($rhs)", BOOLEAN );
 }
 
@@ -248,7 +259,7 @@ my %bop_map = (
         # Special case
         if ( $lhs eq 'NULL' ) {
             if ( $rhs eq 'NULL' ) {
-                return ( _personality()->true(), BOOLEAN );
+                return ( $TRUE, $TRUE_TYPE );
             }
             return ( "($rhs) IS NULL", BOOLEAN );
         }
@@ -305,7 +316,11 @@ Will die with a message if there is a diagnosable problem.
 sub hoist {
     my ($query) = @_;
 
-    $cq ||= _personality()->string_quote;
+    unless ( defined $TRUE ) {
+        $CQ        = _personality()->{string_quote};
+        $TRUE      = _personality()->{true_value};
+        $TRUE_TYPE = _personality()->{true_type};
+    }
 
     print STDERR "HOISTING " . recreate($query) . "\n" if MONITOR;
 
@@ -326,7 +341,7 @@ sub hoist {
         $h{sql} = "($h{sql})!= 0";
     }
     elsif ( $h{type} == STRING ) {
-        $h{sql} = "($h{sql})!=$cq$cq";
+        $h{sql} = "($h{sql})!=$CQ$CQ";
     }
     return $h{sql};
 }
@@ -375,7 +390,7 @@ sub _hoist {
             # Conbvert to an escaped SQL string
             my $s = $node->{params}[0];
             $s =~ s/\\/\\\\/g;
-            $result{sql}  = "$cq$s$cq";
+            $result{sql}  = "$CQ$s$CQ";
             $result{type} = STRING;
         }
         elsif ( $node->{op} == NAME ) {
@@ -439,9 +454,12 @@ sub _hoist {
         elsif ( $where{type} == STRING ) {
 
             # A simple non-table expression
-            $where{sql} = "($where{sql})!=$cq$cq";
+            $where{sql} = "($where{sql})!=$CQ$CQ";
         }
         elsif ( $where{type} == NUMBER ) {
+            $where{sql} = "($where{sql})!=0";
+        }
+        elsif ( $where{type} == BOOLEAN ) {
             $where{sql} = "($where{sql})!=0";
         }
 
@@ -514,7 +532,7 @@ sub _hoist {
             my $tname_sel = $tnames;
             $tname_sel = "$tnames.$lhs{sel}" if $lhs{sel};
             $lhs_where = "($topic_alias.name=$tname_sel OR "
-              . "($topic_alias.web||$cq.$cq||$topic_alias.name)=$tname_sel)";
+              . "($topic_alias.web||$CQ.$CQ||$topic_alias.name)=$tname_sel)";
         }
         elsif ( $lhs{is_table_name} ) {
 
@@ -526,7 +544,7 @@ sub _hoist {
             # Not a selector or simple table name, must be a simple
             # expression yielding a selector
             $lhs_where = "($lhs{sql}) IN "
-              . "($topic_alias.name,$topic_alias.web||$cq.$cq||$topic_alias.name)";
+              . "($topic_alias.name,$topic_alias.web||$CQ.$CQ||$topic_alias.name)";
         }
 
         # Expand the RHS *without* a constraint on the topic table
@@ -632,11 +650,11 @@ sub _hoist {
 
                 $result{sql} = _SELECT(
                     select => 'DISTINCT '
-                      . _AS( _personality()->true() => $result{sel} ) . ",tid",
+                      . _AS( $TRUE => $result{sel} ) . ",tid",
                     FROM    => _AS( $union_sql, $union_alias ),
                     monitor => __LINE__
                 );
-                $result{type}       = BOOLEAN;
+                $result{type}       = $TRUE_TYPE;
                 $result{ignore_tid} = 0;
             }
             else {
@@ -662,8 +680,9 @@ sub _hoist {
                 );
                 my $where;
                 if ( $optype == BOOLEAN ) {
-                    $where = $expr;
-                    $expr  = _personality()->true();
+                    $where  = $expr;
+                    $expr   = $TRUE;
+                    $optype = $TRUE_TYPE;
                 }
 
                 my $ret_tid   = "$lhs_alias.tid";
@@ -704,8 +723,9 @@ sub _hoist {
 
             my $where;
             if ( $optype == BOOLEAN ) {
-                $where = $expr;
-                $expr  = _personality()->true();
+                $where  = $expr;
+                $expr   = $TRUE;
+                $optype = $TRUE_TYPE;
             }
 
             my $ret_tid   = "$lhs_alias.tid";
@@ -721,7 +741,7 @@ sub _hoist {
                 select => _AS( $expr => $result{sel} ) . ",$ret_tid",
                 FROM    => $tid_table . _AS( $lhs{sql} => $lhs_alias ),
                 WHERE   => $where,
-                monitor => __LINE__
+                monitor => __LINE__ . " $op"
             );
             $result{type} = $optype;
 
@@ -743,8 +763,9 @@ sub _hoist {
 
             my $where = '_IGNORE_';
             if ( $optype == BOOLEAN ) {
-                $where = $expr;
-                $expr  = _personality()->true();
+                $where  = $expr;
+                $expr   = $TRUE;
+                $optype = $TRUE_TYPE;
             }
 
             my $ret_tid   = "$rhs_alias.tid";
@@ -786,8 +807,9 @@ sub _hoist {
 
             my $where = '_IGNORE_';
             if ( $optype == BOOLEAN ) {
-                $where = $expr;
-                $expr  = _personality()->true();
+                $where  = $expr;
+                $expr   = $TRUE;
+                $optype = $TRUE_TYPE;
             }
             my $ret_tid   = 'tid';
             my $tid_table = '';
@@ -834,8 +856,11 @@ sub _cast {
         if ( $type == NUMBER ) {
             $arg = "$arg!=0";
         }
+        elsif ( $type == PSEUDO_BOOL ) {
+            return "$arg=" . $TRUE;
+        }
         else {
-            $arg = "$arg!=$cq$cq";
+            $arg = "$arg!=$CQ$CQ";
         }
     }
     elsif ( $tgt_type == NUMBER ) {
@@ -1016,10 +1041,10 @@ sub _format_SQL {
     my @ss = ();
 
     # Replace escaped quotes
-    $sql =~ s/(\\$cq)/push(@ss,$1); "![$#ss]!"/ges;
+    $sql =~ s/(\\$CQ)/push(@ss,$1); "![$#ss]!"/ges;
 
     # Replace quoted strings
-    $sql =~ s/($cq([^$cq])*$cq)/push(@ss,$1); "![$#ss]!"/ges;
+    $sql =~ s/($CQ([^$CQ])*$CQ)/push(@ss,$1); "![$#ss]!"/ges;
 
     # Replace bracketed subexpressions
     my $n = 0;

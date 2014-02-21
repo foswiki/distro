@@ -12,16 +12,45 @@ use Assert;
 # have a database personality module, which provides these custom
 # operations in a consistent way.
 
+=begin TML
+
+{string_quote} is the quote character to use for character
+strings - default is '
+
+{true_value} and {true_type} For DB's that
+don't support a true BOOLEAN type, the true_type can be PSEUDO_BOOL,
+in which case boolean operations on the data will always be preceded
+by =1.
+
+{text_type} the name of the TEXT type, used to store variable-length
+strings.
+
+{requires_COMMIT} is 1 if the DB requires a COMMIT at the end of the
+initial transaction.
+The default is TRUE which works for SQLite, MySQL and Postgresql.
+
+=cut
+
 sub new {
     my ( $class, $dbistore ) = @_;
-    my $this = bless( { store => $dbistore }, $class );
+    my $this = bless(
+        {
+            store           => $dbistore,
+            requires_COMMIT => 1,
+            string_quote    => "'",
+            text_type       => 'TEXT',
+            true_value      => '1=1',
+            true_type => Foswiki::Contrib::DBIStoreContrib::HoistSQL::BOOLEAN,
+        },
+        $class
+    );
 
     # SQL reserved words. The following words are reserved in all of
-    # PostgresSQL, ANSI SQL, MySQL and SQLite so provide a good
+    # PostgresSQL, MySQL, SQLite and T-SQL so provide a good
     # working basis. Personality modules should extend this list.
     $this->reserve(
         qw(
-          ALL ALTER AND AS ASC BETWEEN BY CASCADE CASE CHECK COLLATE COLUMN
+          ADD ALL ALTER AND AS ASC BETWEEN BY CASCADE CASE CHECK COLLATE COLUMN
           CONSTRAINT CREATE CROSS CURRENT_DATE CURRENT_TIME CURRENT_TIMESTAMP
           DEFAULT DELETE DESC DISTINCT DROP ELSE EXISTS FOR FOREIGN FROM GROUP
           HAVING IN INDEX INNER INSERT INTO IS JOIN KEY LEFT LIKE NOT NULL ON OR
@@ -72,29 +101,6 @@ SQL
 
     #print STDERR scalar(@rows)." tables exist of ".scalar(@_)."\n";
     return scalar(@rows);
-}
-
-=begin TML
-
----++ require_COMMIT() -> $boolean
-True if there is an automatic transaction opened that requires a commit.
-The default is TRUE which works for SQLite, MySQL and Postgresql.
-
-=cut
-
-sub requires_COMMIT {
-    return 1;
-}
-
-=begin TML
-
----++ text_type() -> string
-Get the name of the TEXT type, used to store variable-length strings.
-
-=cut
-
-sub text_type {
-    return 'TEXT';
 }
 
 =begin TML
@@ -226,27 +232,19 @@ Cast a datum to a character string type for comparison
 
 sub cast_to_text {
     my ( $this, $d ) = @_;
-    return "CAST(($d) AS " . $this->text_type() . ')';
+    return "CAST(($d) AS $this->{text_type})";
 }
 
 =begin TML
 
----++ string_quote() -> $quote_char
-Quote character for character strings - default is '
+---++ make_comment() -> $comment_string
+Make a comment string
 
 =cut
-
-sub string_quote {
-    return "'";
-}
 
 sub make_comment {
     my $this = shift;
     return '/*' . join( ' ', @_ ) . '*/';
-}
-
-sub true {
-    return '1=1';
 }
 
 1;
@@ -256,7 +254,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2013 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2013-2014 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 
