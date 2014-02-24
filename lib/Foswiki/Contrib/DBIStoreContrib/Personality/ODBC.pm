@@ -91,9 +91,8 @@ sub regexp {
         return "dbo.fn_RegExIsMatch($lhs,$rhs,1)=1";    # risky!
     }
     $rhs =~ s/'/\\'/g;
-    $rhs =~ s/\\/\\/g;
+    $rhs =~ s/\\/\\\\/g;
 
-    # SMELL:
     return "dbo.fn_RegExIsMatch($lhs,'$rhs',1)=1";
 }
 
