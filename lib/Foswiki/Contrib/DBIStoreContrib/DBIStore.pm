@@ -20,11 +20,12 @@ database (on the other side of DBI).
 use strict;
 use warnings;
 
-use DBI;
-use Foswiki::Meta;
-use Error ':try';
 use Assert;
 use Encode;
+use DBI;
+
+use Foswiki::Meta                     ();
+use Foswiki::Contrib::DBIStoreContrib ();
 
 use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 
@@ -33,7 +34,9 @@ our $db;             # singleton instance of this class
 our $personality;    # personality module for the selected DSN
 our ( $CQ, $TEXT );
 
-our @TABLES = keys(%Foswiki::Meta::VALIDATE);    # META: types
+# META: types. We need to populate this as late as possible, to take
+# account of calles to registerMeta
+our $TABLES;    # META: types
 
 # @ISA not used, as its set by magic, and we don't want to import more functions
 # our @ISA = ('Foswiki::Store::Store');
@@ -91,7 +94,8 @@ sub _connect {
     # organising it as a hash keyed on table name e.g. 'FILEATTACHMENT'
     # and sub-keyed on attribute name e.g. 'name'
     $this->{schema} = {};
-    foreach my $type (@TABLES) {
+    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
+    foreach my $type (@$TABLES) {
         my @keys;
         foreach my $g (qw(require allow other)) {
             if ( defined $Foswiki::Meta::VALIDATE{$type}->{$g} ) {
@@ -167,7 +171,8 @@ SQL
 
     # If it's not a default table, add it to the list of tables
     # (unless it's already there).
-    push( @TABLES, $t ) unless grep { $t } @TABLES;
+    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
+    push( @$TABLES, $t ) unless grep { $t } @$TABLES;
 }
 
 # Create all the base tables in the DB (including all default META: tables) - PRIVATE
@@ -195,7 +200,8 @@ CREATE TABLE metatypes (
 SQL
 
     # Create the tables for each known META: type
-    foreach my $t (@TABLES) {
+    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
+    foreach my $t (@$TABLES) {
         print STDERR "Creating table for $t\n" if MONITOR;
         $this->_createTableForMETA($t);
     }
@@ -267,7 +273,7 @@ sub recordChange {
         $this->insert( $args{newmeta} );
     }
     elsif ( $args{verb} eq 'update' ) {
-        $this->_update( $args{oldmeta}, $args{newmeta} );
+        $this->update( $args{oldmeta}, $args{newmeta} );
     }
     else {
 
@@ -284,7 +290,7 @@ sub update {
     eval {
         $this->_inner_remove($old);
         $this->_inner_insert( $new || $old );
-        $this->{handle}->do('COMMIT');
+        $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
     };
     if ($@) {
         print STDERR "$@\n" if MONITOR;
@@ -317,11 +323,31 @@ sub _inner_insert {
     foreach my $type ( keys %$mo ) {
 
         # Make sure it's registered.
-        next unless ( defined $Foswiki::Meta::VALIDATE{$type} );
+        next
+          unless ( defined $Foswiki::Meta::VALIDATE{$type}
+            || $Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA}
+            && $type =~ /^[A-Z][A-Z0-9_]+$/ );
 
-        # If it's not default, we may have to create the table
-        $this->_createTableForMETA($type)
-          unless personality()->table_exists($type);
+        unless ( personality()->table_exists($type) ) {
+
+            if ( !$this->{schema}->{$type} ) {
+
+                # registerMeta does not declare the columns, so we have
+                # to guess them.
+                # Use these entries as a template for the schema. We
+                # read *all* entries to maximise the chance of getting all
+                # columns.
+                my %attrs;
+                foreach my $item ( $mo->find($type) ) {
+                    foreach ( keys(%$item) ) {
+                        $attrs{$_} = 1;
+                    }
+                }
+                $this->{schema}->{$type} = \%attrs;
+                print STDERR "Grazed new table $type\n" if MONITOR;
+            }
+            $this->_createTableForMETA($type);
+        }
 
         # Insert this row
         my $data = $mo->{$type};
@@ -347,7 +373,7 @@ sub insert {
 
     eval {
         $this->_inner_insert($mo);
-        $this->{handle}->do('COMMIT');
+        $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
     };
     if ($@) {
         print STDERR "$@\n" if MONITOR;
@@ -365,8 +391,11 @@ sub _inner_remove {
 
     my $tid = $tids->[0];
     print STDERR "\tRemove $tid\n" if MONITOR;
-    foreach my $table ( 'topic', @TABLES ) {
-        $this->{handle}->do("DELETE FROM \"$table\" WHERE tid = '$tid'");
+    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
+    foreach my $table ( 'topic', @$TABLES ) {
+        if ( personality()->table_exists($table) ) {
+            $this->{handle}->do("DELETE FROM \"$table\" WHERE tid = '$tid'");
+        }
     }
 }
 
@@ -376,7 +405,7 @@ sub remove {
 
     eval {
         $this->_inner_remove($mo);
-        $this->{handle}->do('COMMIT');
+        $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
     };
     if ($@) {
         print STDERR "$@\n" if MONITOR;

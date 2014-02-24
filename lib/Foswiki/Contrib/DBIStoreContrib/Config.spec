@@ -20,3 +20,9 @@ $Foswiki::cfg{Plugins}{DBIStorePlugin}{Enabled} = 0;
 # installed on Debian Linux using apt-get install sqlite3-pcre
 # (or similar on other systems).
 $Foswiki::cfg{Extensions}{DBIStoreContrib}{SQLite}{PCRE} = '/usr/lib/sqlite3/pcre.so';
+#  **BOOLEAN**
+# Set to true to automatically create new tables when unregistered META is
+# encountered in topic text. This should not normally be required, as plugins
+# should register all META that they create. Note that only META:NAME where
+# NAME matches /^[A-Z][A_Z0-9_]+$/ will be loaded.
+$Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA} = 0;

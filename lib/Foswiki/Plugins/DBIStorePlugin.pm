@@ -32,18 +32,23 @@ sub initPlugin {
           \&Foswiki::Store::QueryAlgorithms::BruteForce::getField;
     }
 
+    return 1;
+}
+
+sub commonTagsHandler {
+
     # Normally preloading only occurs when the DB first connects, which
     # only happens when a topic is moved or saved. To short-circuit this,
     # the plugin supports the "?dbistore_reset" parameter, which will
-    # do that chore.
+    # do that chore. Only admins can call it. It's done this late in
+    # the pipeline to ensure plugins have had a chance to register META
+    # requirements.
     if ( Foswiki::Func::getRequestObject->param('dbistore_reset')
         && Foswiki::Func::isAnAdmin() )
     {
         print STDERR "DBIStore resetting\n";
         $shim->reset($Foswiki::Plugins::SESSION);
     }
-
-    return 1;
 }
 
 # Store operations that *should* call the relevant store shim functions
