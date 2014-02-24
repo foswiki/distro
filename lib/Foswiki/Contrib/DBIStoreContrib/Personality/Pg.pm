@@ -108,7 +108,7 @@ sub regexp {
     # single quote.
     $rhs =~ s/'/\\'/g;
     $rhs =~ s/\\/\\/g;
-    return "$lhs ~$i E'$rhs'";
+    return "$lhs ~$i '$rhs'";
 }
 
 sub length {

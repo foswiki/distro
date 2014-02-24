@@ -5,6 +5,8 @@ use strict;
 use warnings;
 use Assert;
 
+use Foswiki::Contrib::DBIStoreContrib ();
+
 # We try to use the ANSI SQL standard as far as possible, for the most
 # part different SQL DB implementations support it fairly well. However
 # they all have nuances, and there are areas where the support is not
@@ -40,7 +42,7 @@ sub new {
             string_quote    => "'",
             text_type       => 'TEXT',
             true_value      => '1=1',
-            true_type => Foswiki::Contrib::DBIStoreContrib::HoistSQL::BOOLEAN,
+            true_type       => Foswiki::Contrib::DBIStoreContrib::BOOLEAN,
         },
         $class
     );
@@ -199,15 +201,13 @@ sub length {
 ---++ safe_id($id) -> $safeid
 Make sure the ID is safe to use in this dialect of SQL.
 Unsafe IDs should be quoted using the dialect's identifier
-quoting rule. The default is to double-quote it.
+quoting rule. The default is to double-quote all identifiers.
 
 =cut
 
 sub safe_id {
     my ( $this, $id ) = @_;
-    if ( $this->{reserved}->{$id} ) {
-        $id = "\"$id\"";
-    }
+    $id = "\"$id\"";
     return $id;
 }
 
@@ -245,6 +245,18 @@ Make a comment string
 sub make_comment {
     my $this = shift;
     return '/*' . join( ' ', @_ ) . '*/';
+}
+
+=begin TML
+
+---++ strcat($str1 [$str2 [, ... strN]) -> $concatenated
+Use the SQL string concatenation operator to concatente strings.
+
+=cut
+
+sub strcat {
+    my $this = shift;
+    return join( '||', @_ );
 }
 
 1;

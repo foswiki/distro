@@ -1,8 +1,7 @@
-%META:TOPICINFO{author="SimianApe" comment="pending" date="1392048186" format="1.1" version="2"}%
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
 | number |  text | 10 | | A Number | |
 | string | text | 32 | | A String | |
-| boolean | checkbox | | | A Checkbox |
+| boolean | radio | 1 | Boolean | A Checkbox |
 | Other | text | 32 | | Another topic |
 
 This topic defines a form used for testing the DBIStoreContrib.

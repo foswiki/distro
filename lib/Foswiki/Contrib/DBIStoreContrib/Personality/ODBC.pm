@@ -31,10 +31,9 @@ sub new {
           TRY_CONVERT TSEQUAL UNPIVOT UPDATETEXT USE USER VARYING VIEW WAITFOR
           WHILE WITHIN GROUP WRITETEXT/
     );
-    $this->{text_type}  = 'VARCHAR(MAX)';
-    $this->{true_value} = 'CAST(1 AS BIT)';
-    $this->{true_type} =
-      Foswiki::Contrib::DBIStoreContrib::HoistSQL::PSEUDO_BOOL;
+    $this->{text_type}       = 'VARCHAR(MAX)';
+    $this->{true_value}      = 'CAST(1 AS BIT)';
+    $this->{true_type}       = Foswiki::Contrib::DBIStoreContrib::PSEUDO_BOOL;
     $this->{requires_COMMIT} = 0;
 
     return $this;
@@ -50,13 +49,13 @@ sub startup {
     my $exists = $this->{store}->{handle}->do(<<'SQL');
 SELECT 1 WHERE OBJECT_ID('dbo.foswiki_CONVERT') IS NOT NULL
 SQL
-    unless ($exists) {
+    if ( $exists == 0 ) {
 
         # make_number derived from is_numeric by Dmitri Golovan of Micralyne.
         $this->{store}->{handle}->do(<<'SQL');
 CREATE FUNCTION foswiki_CONVERT( @value VARCHAR(MAX) ) RETURNS FLOAT AS
 BEGIN
-  (
+  RETURN (
     CASE
       WHEN @value NOT LIKE '%[^-0-9.+]%'
            AND (
@@ -100,6 +99,11 @@ sub regexp {
 
 sub length {
     return "LEN($_[1])";
+}
+
+sub strcat {
+    my $this = shift;
+    return join( '+', @_ );
 }
 
 1;

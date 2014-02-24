@@ -57,10 +57,6 @@ sub regexp {
 
     # MySQL uses POSIX regular expressions.
 
-    # The macro parser does horrible things with \, causing \\
-    # to become \\\. Force it back to \\
-    $rhs =~ s/\\{3}/\\\\/g;
-
     # POSIX has no support for (?i: etc
     $rhs =~ s/^\(\?[a-z]+:(.*)\)$/$1/;              # remove (?:i)
                                                     # Nor hex character codes
@@ -87,6 +83,7 @@ sub regexp {
     $rhs =~ s/(?<=[^\\])\{\d+(,\d*)?\}//g;    # not supported
                                               # Escape '
     $rhs =~ s/'/\\'/g;
+    $rhs =~ s/\\/\\\\/g;
 
     return "$lhs REGEXP '$rhs'";
 }

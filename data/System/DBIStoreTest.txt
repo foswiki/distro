@@ -20,7 +20,7 @@ To reset the cache, click on %SCRIPTURL{"view"}%/%WEB%/%WOPIC%?dbistore_init=1 (
    * Table.selector: %TA% 2 %TB% "form.name='DBIStoreTestForm' AND length('x')=1" %TC%
    * Array: %TA% 1 %TB% "fields[name='string'].value='String'" %TC%
    * Field: %TA% 2 %TB% "number" %TC%
-   * Boolean field: %TA% 0 %TB% "boolean" %TC%
+   * Boolean field: %TA% 1 %TB% "boolean" %TC%
    * Field cmp: %TA% 1 %TB% "number=99" %TC%
    * Simple regex: %TA% 2 %TB% "'AA'=~'A'" %TC%
    * Simple LIKE: %TA% 1 %TB% "name~'DBIStoreT*orm'" %TC%
@@ -44,11 +44,12 @@ To reset the cache, click on %SCRIPTURL{"view"}%/%WEB%/%WOPIC%?dbistore_init=1 (
    * Table Ref      %TA% 2 %TB% "'DBIStoreTest'/META:FORM.name='DBIStoreTestForm'" %TC%
    * Complex ref     %TA% 2 %TB% "(fields[name='Other'].value)/META:FORM.name='DBIStoreTestForm'" %TC%
    * Escapes  %TA% 0 %TB% "name =~ '\\\' OR name ~ '\\\' OR name = '\\\'" %TC%
-   * Table=Table     %TA% 0 %TB% "fields=attachments" %TC%
+   * Escapes  %TA% 0 %TB% "name =~ '\\.x.y\\\'" %TC%
+   * Table=Table     %#TA% 0 %#TB% "fields=attachments" %#TC%
 
 %META:FORM{name="DBIStoreTestForm"}%
 %META:FIELD{name="number" attributes="" title="number" value="99"}%
 %META:FIELD{name="string" attributes="" title="string" value="String"}%
-%META:FIELD{name="boolean" attributes="" title="boolean" value=""}%
+%META:FIELD{name="boolean" attributes="" title="boolean" value="Boolean"}%
 %META:FIELD{name="Other" attributes="" title="Other" value="DBIStoreTestForm"}%
 %META:PREFERENCE{name="Red" value="0"}%

@@ -26,39 +26,25 @@ our $parser;
 
 use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 
-# Type identifiers.
-# FIRST 3 MUST BE KEPT IN LOCKSTEP WITH Foswiki::Infix::Node
-# Declared again here because the constants are not defined
-# in Foswiki 1.1 and earlier
-use constant {
-    NAME   => 1,
-    NUMBER => 2,
-    STRING => 3,
-};
-
-# Additional types local to this module - must not overlap known
-# types
-use constant {
-    UNKNOWN => 0,
-
-    # Gap for 1.2 types HASH and META
-
-    BOOLEAN  => 10,
-    SELECTOR => 11,    # Temporary, synonymous with UNKNOWN
-
-    VALUE => 12,
-    TABLE => 13,
-
-    # An integer type used where DB doesn't support a BOOLEAN type
-    PSEUDO_BOOL => 14,
-};
-
 our $table_name_RE = qr/^\w+$/;
 
 # Pseudo-constants, from the Personality
-our $CQ;               # character string quote
+our $CQ;    # character string quote
 our $TRUE;
 our $TRUE_TYPE;
+
+# Copy constants for shorthand
+use constant {
+    NAME        => Foswiki::Contrib::DBIStoreContrib::NAME,
+    NUMBER      => Foswiki::Contrib::DBIStoreContrib::NUMBER,
+    STRING      => Foswiki::Contrib::DBIStoreContrib::STRING,
+    UNKNOWN     => Foswiki::Contrib::DBIStoreContrib::UNKNOWN,
+    BOOLEAN     => Foswiki::Contrib::DBIStoreContrib::BOOLEAN,
+    SELECTOR    => Foswiki::Contrib::DBIStoreContrib::SELECTOR,
+    VALUE       => Foswiki::Contrib::DBIStoreContrib::VALUE,
+    TABLE       => Foswiki::Contrib::DBIStoreContrib::TABLE,
+    PSEUDO_BOOL => Foswiki::Contrib::DBIStoreContrib::PSEUDO_BOOL,
+};
 
 BEGIN {
 
@@ -328,17 +314,36 @@ sub hoist {
     $query = _rewrite( $query, UNKNOWN );
     print STDERR "Rewritten " . recreate($query) . "\n" if MONITOR;
 
-    # Top level selectors are relative to the 'topic' table
     my %h = _hoist( $query, 'topic' );
     my $alias = _alias(__LINE__);    # SQL server requires this!
-    if ( $h{sql} =~ /^SELECT/ ) {
+    if ( $h{is_table_name} ) {
         $h{sql} = "topic.tid IN (SELECT tid FROM ($h{sql}) AS $alias)";
     }
-    elsif ( $h{is_table_name} ) {
-        $h{sql} = "topic.tid in (SELECT tid FROM ($h{sql}) AS alias)";
+    elsif ( $h{sql} =~ /^SELECT/ ) {
+
+        # It's a table; test if the selector is a true value
+        my $where = '';
+        if ( $h{sel} ) {
+            if ( $h{type} == NUMBER || $h{type} == PSEUDO_BOOL ) {
+                $where = '!=0';
+            }
+            elsif ( $h{type} == STRING ) {
+                $where = "!=$CQ$CQ";
+            }
+            else {
+                $where = '';    # BOOLEAN
+            }
+            $where = " WHERE $h{sel}$where";
+        }
+        my $a2 = _alias(__LINE__);    # SQL server requires this!
+             # This rather clumsy construction is required because SQL server
+             # can't use an aliased column in the WHERE condition of the same
+             # SELECT.
+        $h{sql} =
+"topic.tid IN (SELECT tid FROM (SELECT * FROM ($h{sql}) AS $a2 $where) AS $alias)";
     }
-    elsif ( $h{type} == NUMBER ) {
-        $h{sql} = "($h{sql})!= 0";
+    elsif ( $h{type} == NUMBER || $h{type} == PSEUDO_BOOL ) {
+        $h{sql} = "($h{sql})!=0";
     }
     elsif ( $h{type} == STRING ) {
         $h{sql} = "($h{sql})!=$CQ$CQ";
@@ -459,16 +464,19 @@ sub _hoist {
         elsif ( $where{type} == NUMBER ) {
             $where{sql} = "($where{sql})!=0";
         }
-        elsif ( $where{type} == BOOLEAN ) {
+        elsif ( $where{type} == PSEUDO_BOOL ) {
             $where{sql} = "($where{sql})!=0";
         }
+
+        my $where = "$where{sql}$tid_constraint";
 
         $result{sql} = _SELECT(
             select  => '*',
             FROM    => $lhs{sql},
-            WHERE   => "$where{sql}$tid_constraint",
+            WHERE   => $where,
             monitor => __LINE__
         );
+        $result{has_where}  = length($where);
         $result{type}       = STRING;
         $result{ignore_tid} = $lhs{ignore_tid};
 
@@ -526,13 +534,14 @@ sub _hoist {
         my %lhs = _hoist( $node->{params}[0], undef );
         my $lhs_where;
         my $select = '';
+        my $wtn    = _personality()
+          ->strcat( "$topic_alias.web", "$CQ.$CQ", "$topic_alias.name" );
         if ( $lhs{sql} =~ /^SELECT/ ) {
             my $tnames = _alias(__LINE__);
             $select = _AS( $lhs{sql} => $tnames ) . ',';
             my $tname_sel = $tnames;
             $tname_sel = "$tnames.$lhs{sel}" if $lhs{sel};
-            $lhs_where = "($topic_alias.name=$tname_sel OR "
-              . "($topic_alias.web||$CQ.$CQ||$topic_alias.name)=$tname_sel)";
+            $lhs_where = "($topic_alias.name=$tname_sel OR ($wtn)=$tname_sel)";
         }
         elsif ( $lhs{is_table_name} ) {
 
@@ -543,8 +552,7 @@ sub _hoist {
 
             # Not a selector or simple table name, must be a simple
             # expression yielding a selector
-            $lhs_where = "($lhs{sql}) IN "
-              . "($topic_alias.name,$topic_alias.web||$CQ.$CQ||$topic_alias.name)";
+            $lhs_where = "($lhs{sql}) IN ($topic_alias.name,$wtn)";
         }
 
         # Expand the RHS *without* a constraint on the topic table
@@ -576,6 +584,7 @@ sub _hoist {
             monitor => __LINE__
         );
 
+        $result{has_where}  = 1;
         $result{type}       = $rhs{type};
         $result{ignore_tid} = 1;
     }
@@ -703,7 +712,8 @@ sub _hoist {
                     WHERE   => $where,
                     monitor => __LINE__
                 );
-                $result{type} = $optype;
+                $result{has_where} = length($where);
+                $result{type}      = $optype;
             }
         }
         elsif ( $lhs_is_SELECT || $lhs{is_table_name} ) {
@@ -743,7 +753,8 @@ sub _hoist {
                 WHERE   => $where,
                 monitor => __LINE__ . " $op"
             );
-            $result{type} = $optype;
+            $result{has_where} = length($where);
+            $result{type}      = $optype;
 
         }
         elsif ($rhs_is_SELECT) {
@@ -761,7 +772,7 @@ sub _hoist {
                 $r_sel    => $rhs{type}
             );
 
-            my $where = '_IGNORE_';
+            my $where;
             if ( $optype == BOOLEAN ) {
                 $where  = $expr;
                 $expr   = $TRUE;
@@ -783,7 +794,8 @@ sub _hoist {
                 WHERE   => $where,
                 monitor => __LINE__
             );
-            $result{type} = $optype;
+            $result{has_where} = length($where);
+            $result{type}      = $optype;
         }
         else {
 
@@ -805,7 +817,7 @@ sub _hoist {
             $result{ignore_tid} = 0;
             my ( $expr, $optype ) = &$opfn( $arg_sel => UNKNOWN );
 
-            my $where = '_IGNORE_';
+            my $where;
             if ( $optype == BOOLEAN ) {
                 $where  = $expr;
                 $expr   = $TRUE;
@@ -822,10 +834,11 @@ sub _hoist {
             $result{sql} = _SELECT(
                 select => _AS( $expr => $result{sel} ) . ",$ret_tid",
                 FROM    => $tid_table . _AS( $kid{sql} => $arg_alias ),
-                WHERE   => $expr,
+                WHERE   => $where,
                 monitor => __LINE__
             );
-            $result{type} = $optype;
+            $result{has_where} = length($expr);
+            $result{type}      = $optype;
         }
         else {
             ( $result{sql}, $result{type} ) = &$opfn( $kid{sql}, $kid{type} );
