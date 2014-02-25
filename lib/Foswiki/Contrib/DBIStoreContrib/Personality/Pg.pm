@@ -82,11 +82,6 @@ sub cast_to_numeric {
     return "make_number($d)";
 }
 
-sub safe_id {
-    my ( $this, $id ) = @_;
-    return "\"$id\"";
-}
-
 sub _char {
     my $hex = 0 + shift;
     return quotemeta( chr($hex) );

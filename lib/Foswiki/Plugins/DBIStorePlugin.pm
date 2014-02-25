@@ -3,10 +3,13 @@
 
 package Foswiki::Plugins::DBIStorePlugin;
 
+use strict;
+use warnings;
+
 use Foswiki::Contrib::DBIStoreContrib ();
 
-our $VERSION           = $Foswiki::Plugins::DBIStoreContrib::VERSION;
-our $RELEASE           = $Foswiki::Plugins::DBIStoreContrib::RELEASE;
+our $VERSION           = $Foswiki::Contrib::DBIStoreContrib::VERSION;
+our $RELEASE           = $Foswiki::Contrib::DBIStoreContrib::RELEASE;
 our $NO_PREFS_IN_TOPIC = 1;
 
 our $shim;
@@ -14,7 +17,8 @@ our $shim;
 sub initPlugin {
     if ( defined &Foswiki::Store::recordChange ) {
 
-        # Will not enable this plugin if recordChange is present
+        # Will not enable this plugin if recordChange is present,
+        # as this is Foswiki >=1.2
         return 0;
     }
 
@@ -46,8 +50,13 @@ sub commonTagsHandler {
     if ( Foswiki::Func::getRequestObject->param('dbistore_reset')
         && Foswiki::Func::isAnAdmin() )
     {
-        print STDERR "DBIStore resetting\n";
+        Foswiki::Func::getRequestObject->delete('dbistore_reset');
         $shim->reset($Foswiki::Plugins::SESSION);
+    }
+    elsif ( Foswiki::Func::getRequestObject->param('dbistore_update') ) {
+        my ( $text, $topic, $web, $included, $meta ) = @_;
+        Foswiki::Func::getRequestObject->delete('dbistore_update');
+        $shim->update($meta);
     }
 }
 
@@ -74,8 +83,11 @@ sub afterSaveHandler {
 
 # Required for a web or topic move
 sub afterRenameHandler {
+    my ( $oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic,
+        $newAttachment ) = @_;
 
-    # $oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic, $newAttachment
+    return if $oldAttachment;
+
     my $old =
       new Foswiki::Meta( $Foswiki::Plugins::SESSION, $oldWeb, $oldTopic );
     my $new =

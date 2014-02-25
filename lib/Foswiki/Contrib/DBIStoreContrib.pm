@@ -4,10 +4,11 @@ package Foswiki::Contrib::DBIStoreContrib;
 use strict;
 use Foswiki ();
 
-our $VERSION = '1.1';           # version of *this file*.
-our $RELEASE = '12 Dec 2013';
+our $VERSION = '1.1';           # plugin version is also locked to this
+our $RELEASE = '25 Feb 2014';
 
-use constant MONITOR => 1;
+# Very verbose debugging. Used by all modules in the suite.
+use constant MONITOR => 0;
 
 our $SHORTDESCRIPTION =
 'Use DBI to implement searching using an SQL database. Supports SQL queries over Form data.';
@@ -40,3 +41,25 @@ use constant {
     PSEUDO_BOOL => 14,
 };
 
+1;
+__DATA__
+
+Author: Crawford Currie http://c-dot.co.uk
+
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
+
+Copyright (C) 2013-2014 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

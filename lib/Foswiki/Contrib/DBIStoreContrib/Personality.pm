@@ -97,12 +97,46 @@ sub table_exists {
     # MySQL, Postgresql, MS SQL Server
     my $sql = <<SQL;
 SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
-    WHERE TABLE_NAME IN ($tables)
+ WHERE TABLE_NAME IN ($tables)
 SQL
     my @rows = $this->{store}->{handle}->selectrow_array($sql);
-
-    #print STDERR scalar(@rows)." tables exist of ".scalar(@_)."\n";
     return scalar(@rows);
+}
+
+=begin TML
+
+---+ column_exists(table_name, column_name) -> boolean
+Determine if a column exists
+
+=cut
+
+sub column_exists {
+    my ( $this, $table, $column ) = @_;
+
+    # MySQL, Postgresql, MS SQL Server
+    my $sql = <<SQL;
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
+ WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'
+SQL
+    return $this->{store}->{handle}->selectrow_arrayref($sql);
+}
+
+=begin TML
+
+---+ get_columns(table_name) -> @list
+Get a list of column names for the given table
+
+=cut
+
+sub get_columns {
+    my ( $this, $table ) = @_;
+
+    # MySQL, Postgresql, MS SQL Server
+    my $sql = <<SQL;
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
+ WHERE TABLE_NAME = '$table'
+SQL
+    return @{ $this->{store}->{handle}->selectcol_arrayref($sql) };
 }
 
 =begin TML
@@ -207,6 +241,7 @@ quoting rule. The default is to double-quote all identifiers.
 
 sub safe_id {
     my ( $this, $id ) = @_;
+    $id =~ s/[^A-Za-z0-9_]//gs;    # protect against bad data
     $id = "\"$id\"";
     return $id;
 }

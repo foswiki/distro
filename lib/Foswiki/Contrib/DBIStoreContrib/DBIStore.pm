@@ -9,8 +9,9 @@ Implements a Foswiki::Store shim to add to Store.
 For Foswiki 1.2.0 and later, it's a partial implementation of the Store class
 that will be inserted into the object hierarchy at object creation time.
 
-For Foswiki <1.2.0 (which does not support recordChange) it is simply a
-set of functions used by the DBIStoreContribPlugin to maintain the DB.
+For Foswiki <1.2.0 (which does not support recordChange in the form
+necessary to invoke the handler here) it is simply a set of functions
+used by the DBIStorePlugin to maintain the DB.
 
 Object that listens to low level store events, and maintains an SQL
 database (on the other side of DBI).
@@ -33,10 +34,6 @@ use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 our $db;             # singleton instance of this class
 our $personality;    # personality module for the selected DSN
 our ( $CQ, $TEXT );
-
-# META: types. We need to populate this as late as possible, to take
-# account of calles to registerMeta
-our $TABLES;    # META: types
 
 # @ISA not used, as its set by magic, and we don't want to import more functions
 # our @ISA = ('Foswiki::Store::Store');
@@ -74,105 +71,95 @@ sub DESTROY {
     }
 }
 
+sub _say {
+    print STDERR join( "\n", @_ ) . "\n";
+}
+
 # Connect on demand - PRIVATE
 sub _connect {
     my ( $this, $session, $hard_reset ) = @_;
 
     return 1 if $this->{handle} && !$hard_reset;
 
-    if ($Foswiki::inUnitTestMode) {
+    $this->{schema} ||= {};
 
-        # Change the DSN to a SQLite test db, which is held in the data
-        # area; that way it will be ripped down by -clean
-        $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =
-          "dbi:SQLite:dbname=$Foswiki::cfg{DataDir}/TemporarySQLiteCache";
-        $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username} = '';
-        $Foswiki::cfg{Extensions}{DBIStoreContrib}{Password} = '';
-    }
+    unless ( $this->{handle} ) {
 
-    # $this->{schema} re-expresses the schema declared in Meta::VALIDATE by
-    # organising it as a hash keyed on table name e.g. 'FILEATTACHMENT'
-    # and sub-keyed on attribute name e.g. 'name'
-    $this->{schema} = {};
-    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
-    foreach my $type (@$TABLES) {
-        my @keys;
-        foreach my $g (qw(require allow other)) {
-            if ( defined $Foswiki::Meta::VALIDATE{$type}->{$g} ) {
-                push( @keys, @{ $Foswiki::Meta::VALIDATE{$type}->{$g} } );
-            }
+        if ($Foswiki::inUnitTestMode) {
+
+            # Change the DSN to a SQLite test db, which is held in the data
+            # area; that way it will be ripped down by -clean
+            $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =
+"dbi:SQLite:dbname=$Foswiki::cfg{WorkingDir}/TemporarySQLiteCache";
+            $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username} = '';
+            $Foswiki::cfg{Extensions}{DBIStoreContrib}{Password} = '';
         }
-        foreach my $key (@keys) {
-            $this->{schema}->{$type}->{$key} = 1;
-        }
+
+        _say "CONNECT $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN}..."
+          if MONITOR;
+
+        $this->{handle} = DBI->connect(
+            $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN},
+            $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username},
+            $Foswiki::cfg{Extensions}{DBIStoreContrib}{Password},
+            { RaiseError => 1, AutoCommit => 1 }
+        ) or die $DBI::errstr;
+
+        _say "Connected" if MONITOR;
+
+        # Custom code to put DB's into ANSI mode and clean up error reporting
+        personality()->startup();
+
+        $CQ   = personality()->{string_quote};
+        $TEXT = personality()->{text_type};
     }
-
-    print STDERR "CONNECT $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN}...\n"
-      if MONITOR;
-
-    $this->{handle} = DBI->connect(
-        $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN},
-        $Foswiki::cfg{Extensions}{DBIStoreContrib}{Username},
-        $Foswiki::cfg{Extensions}{DBIStoreContrib}{Password},
-        { RaiseError => 1, AutoCommit => 0 }
-    ) or die $DBI::errstr;
-
-    print STDERR "Connected\n" if MONITOR;
-
-    # Custom code to put DB's into ANSI mode and clean up error reporting
-    personality()->startup();
-    $CQ   = personality()->{string_quote};
-    $TEXT = personality()->{text_type};
 
     # Check if the DB is initialised with a quick sniff of the tables
     # to see if all the ones we expect are there
     if ( personality()->table_exists( 'metatypes', 'topic' ) ) {
         return 1 unless ($hard_reset);
-        print STDERR "HARD RESET\n" if MONITOR;
+        _say "HARD RESET" if MONITOR;
 
         # Hard reset; strip down all existing tables
-        my $tables = $this->{handle}->selectcol_arrayref( <<SQL );
-SELECT name FROM metatypes
-SQL
-        push( @$tables, 'topic' );
-        push( @$tables, 'metatypes' );
-        foreach my $table (@$tables) {
-            $this->{handle}->do("DROP TABLE \"$table\"")
-              if personality()->table_exists($table);
+
+        # The metatypes table is how we know which tables are ours.
+        my $tables =
+          $this->{handle}->selectcol_arrayref('SELECT name FROM metatypes');
+
+        foreach my $table ( @$tables, 'topic', 'metatypes' ) {
+            if ( personality()->table_exists($table) ) {
+                $this->{handle}
+                  ->do( 'DROP TABLE ' . personality()->safe_id($table) );
+            }
         }
     }
 
-    # No tables, or we've had a hard reset
-    print STDERR "Loading DB schema\n" if MONITOR;
+    # No topic table, or we've had a hard reset
+    _say "Loading DB schema" if MONITOR;
     $this->_createTables();
-    unless ($Foswiki::inUnitTestMode) {
-        print STDERR "Schema loaded; preloading content\n" if MONITOR;
-        $this->_preload($session);
-        print STDERR "DB preloaded\n" if MONITOR;
-    }
 
+    # We only preload after a hard reset
+    if ( $hard_reset && !$Foswiki::inUnitTestMode ) {
+        _say "Schema loaded; preloading content" if MONITOR;
+        $this->_preload($session);
+        _say "DB preloaded" if MONITOR;
+    }
     return 1;
 }
 
 # Create the table for the given META - PRIVATE
 sub _createTableForMETA {
-    my ( $this, $t ) = @_;
-    my $cols =
-      join( ",\n", map { " \"$_\" $TEXT" } keys %{ $this->{schema}->{$t} } );
-    $this->{handle}->do(<<SQL);
-CREATE TABLE "$t" (
- tid INT,
-$cols
-)
-SQL
+    my ( $this, $t, @colnames ) = @_;
+    my $cols = join( ',',
+        'tid INT', map { personality()->safe_id($_) . " $TEXT" } @colnames );
+    my $sn  = personality()->safe_id($t);
+    my $sql = "CREATE TABLE $sn ( $cols )";
+    _say $sql if MONITOR;
+    $this->{handle}->do($sql);
+    $this->{schema}->{$t} = { map { $_ => 1 } @colnames };
 
     # Add the table to the table of tables
-    $this->{handle}->do("INSERT INTO metatypes (name) VALUES ( '$t' )");
-
-    # If it's not a default table, add it to the list of tables
-    # (unless it's already there).
-    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
-    push( @$TABLES, $t ) unless grep { $t } @$TABLES;
+    $this->{handle}->do("INSERT INTO metatypes (name) VALUES ( $CQ$t$CQ )");
 }
 
 # Create all the base tables in the DB (including all default META: tables) - PRIVATE
@@ -199,11 +186,26 @@ CREATE TABLE metatypes (
 )
 SQL
 
-    # Create the tables for each known META: type
-    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
-    foreach my $t (@$TABLES) {
-        print STDERR "Creating table for $t\n" if MONITOR;
-        $this->_createTableForMETA($t);
+    # Create the tables for each registered META: type
+    $this->{schema} = {};
+    foreach my $type ( keys(%Foswiki::Meta::VALIDATE) ) {
+        _say "Creating VALIDATE table for $type" if MONITOR;
+        my @attrs;
+        my $t = $Foswiki::Meta::VALIDATE{$type};
+        if ($t) {
+
+            # Get the col names from VALIDATE
+            foreach my $g (qw(require allow other)) {
+                if ( defined $t->{$g} ) {
+
+                    # The if is critical; without it, we change the schema
+                    foreach ( @{ $t->{$g} } ) {
+                        push( @attrs, $_ );
+                    }
+                }
+            }
+        }
+        $this->_createTableForMETA( $type, @attrs );
     }
     $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
 }
@@ -228,8 +230,8 @@ sub _preloadWeb {
     while ( $tit->hasNext() ) {
         my $t = $tit->next();
         my $topic = Foswiki::Meta->load( $session, $w, $t );
-        print STDERR "Preloading topic $w/$t\n" if MONITOR;
-        $this->insert($topic);
+        _say "Preloading topic $w/$t" if MONITOR;
+        $this->_inner_insert($topic);
     }
 
     my $wit = $web->eachWeb();
@@ -238,19 +240,203 @@ sub _preloadWeb {
     }
 }
 
+sub _convertToUTF8 {
+    my $text = shift;
+    $text = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $text );
+    $text = Encode::encode( 'utf-8', $text );
+    return $text;
+}
+
+sub _inner_insert {
+    my ( $this, $mo ) = @_;
+    return unless defined $mo->topic();
+
+    $this->_connect( $mo->session() );
+    my $tid = $this->{handle}->selectrow_array('SELECT MAX(tid) FROM topic;')
+      || 0;
+    $tid++;
+    _say "\tInsert $tid" if MONITOR;
+    my $text = _convertToUTF8( $mo->text() );
+    my $esf  = _convertToUTF8( $mo->getEmbeddedStoreForm() );
+    $this->{handle}
+      ->do( 'INSERT INTO topic (tid,web,name,text,raw) VALUES (?,?,?,?,?)',
+        {}, $tid, $mo->web(), $mo->topic(), $text, $esf );
+
+    foreach my $type ( keys %$mo ) {
+
+        # Make sure it's registered.
+        next
+          unless ( defined $Foswiki::Meta::VALIDATE{$type}
+            || $Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA}
+            && $type =~ /^[A-Z][A-Z0-9_]+$/ );
+
+        # Make sure the table exists
+        unless ( $this->{schema}->{$type} ) {
+
+            # The table is not in the schema
+            if ( personality()->table_exists($type) ) {
+
+                # Pull the column names from the DB
+                $this->{schema}->{$type} =
+                  { map { $_ => 1 } personality()->get_columns($type) };
+            }
+            else {
+                # The table is not in the DB either
+                my %attrs;
+                my $t = $Foswiki::Meta::VALIDATE{$type};
+                if ($t) {
+
+                    # Get the col names from VALIDATE
+                    foreach my $g (qw(require allow other)) {
+                        if ( defined $t->{$g} ) {
+                            foreach ( @{ $t->{$g} } ) {
+                                $attrs{$_} = 1;
+                            }
+                        }
+                    }
+                }
+
+                # Check the entries to ensure we have picked up all the
+                # columns. We read *all* entries so we get all columns.
+                foreach my $item ( $mo->find($type) ) {
+                    foreach ( keys(%$item) ) {
+                        $attrs{$_} = 1;
+                    }
+                }
+                _say "Creating fly table for $type" if MONITOR;
+                $this->_createTableForMETA( $type, keys %attrs );
+            }
+        }
+
+        # The table might be in the schema but not in the database
+        # if it is deleted from the database while we are not looking.
+        # Table deletion is very rare, and admin only, so this is an
+        # acceptable risk.
+
+        # Insert this row
+        my $data = $mo->{$type};
+
+        foreach my $item (@$data) {
+            my @kns = keys(%$item);
+
+            # Check that the table is configured to accept this data
+            foreach my $kn (@kns) {
+                unless ( $this->{schema}->{$type}->{$kn} ) {
+
+                    # The column is not in the schema
+                    unless ( personality()->column_exists( $type, $kn ) ) {
+
+                        # The column might be in the DB but not in
+                        # the schema. This is unlikely, but possible.
+                        $this->{handle}->do( 'ALTER TABLE '
+                              . personality()->safe_id($type) . ' ADD '
+                              . personality()->safe_id($kn)
+                              . " $TEXT" );
+                    }
+                    $this->{schema}->{$type} =
+                      { map { $_ => 1 } personality()->get_columns($type) };
+                }
+
+                # The column might be in the schema but not in the DB
+                # if there was a race condition and someone deleted the
+                # table under us. Table deletion is very rare, and admin
+                # only, so this is an acceptable risk.
+            }
+
+            unshift( @kns, 'tid' );
+            my $sql =
+                'INSERT INTO '
+              . personality()->safe_id($type) . ' ('
+              . join( ',', map { personality()->safe_id($_) } @kns )
+              . ") VALUES ("
+              . join( ',', map { '?' } @kns ) . ")";
+            shift(@kns);
+
+            _say "$sql [tid," . join( ',', map { $item->{$_} } @kns ) . ']'
+              if MONITOR;
+
+            #_say "$sql tid,"
+            #    . join(';', map { (defined $item->{$_}?$item->{$_}:"") } @kns)
+            #    if MONITOR;
+            $this->{handle}->do( $sql, {},
+                $tid, map { _convertToUTF8( $item->{$_} ) } @kns );
+        }
+    }
+}
+
+sub _inner_remove {
+    my ( $this, $mo ) = @_;
+    $this->_connect( $mo->session() );
+    my $sql = "SELECT tid FROM topic WHERE topic.web='" . $mo->web() . "'";
+    $sql .= " AND topic.name='" . $mo->topic() . "'" if defined $mo->topic();
+    my $tids = $this->{handle}->selectcol_arrayref($sql);
+    return unless scalar(@$tids);
+
+    my $tid = $tids->[0];
+    _say "\tRemove $tid" if MONITOR;
+    my $tables =
+      $this->{handle}->selectcol_arrayref('SELECT name FROM metatypes');
+    foreach my $table ( 'topic', @$tables ) {
+        if ( personality()->table_exists($table) ) {
+            my $tn = personality()->safe_id($table);
+            $this->{handle}->do("DELETE FROM $tn WHERE tid=$CQ$tid$CQ");
+        }
+    }
+}
+
+=begin TML
+
+---++ StaticMethod personality() -> $personality
+Static access to the database personaility module; used to get access to
+the regexp composition etc.
+
+=cut
+
+sub personality {
+
+    unless ($personality) {
+        ASSERT( $db,
+            "Fatal error: trying to use personality before DBIStore is ready" )
+          if DEBUG;
+
+        $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =~ /^dbi:(.*?):/i;
+        my $module = "Foswiki::Contrib::DBIStoreContrib::Personality::$1";
+
+        eval "require $module";
+        if ($@) {
+            _say $@ if MONITOR;
+            die "Failed to load personality module $module";
+        }
+        $personality = $module->new($db);
+    }
+    return $personality;
+}
+
+=begin TML
+
+---++ ObjectMethod reset($session)
+Reset the DB by dropping existing tables (if they exist) and preloading.
+
+=cut
+
+sub reset {
+    my ( $this, $session ) = @_;
+
+    # Connect with hard reset
+    eval { $this->_connect( $session, 1 ); };
+    if ($@) {
+        _say $@ if MONITOR;
+        die $@;
+    }
+}
+
 =begin TML
 
 ---++ ObjectMethod recordChange(%args)
 Record that the store item changed, and who changed it
 
-This is a private method to be called only from the store internals, but it can be used by 
-$Foswiki::Cfg{Store}{ImplementationClasses} to chain in to eveavesdrop on Store events
-
-        cuid          => $cUID,
-        revision      => $rev,
-        verb          => $verb,
-        newmeta       => $topicObject,
-        newattachment => $name
+Only called in Foswiki 1.2 and later. Prior to that, the plugin handlers
+are used to trigger updates.
 
 =cut
 
@@ -281,10 +467,18 @@ sub recordChange {
     }
 }
 
-# Update a topic by removing the $old and ringing in the $new - or operations to
-# that effect.
+=begin TML
+
+---++ ObjectMethod update($old, $new)
+Update a topic by removing the $old and ringing in the $new - or operations to
+that effect.
+
+=cut
+
 sub update {
     my ( $this, $old, $new ) = @_;
+
+    personality();
 
     # SMELL: there's got to be a better way
     eval {
@@ -293,128 +487,64 @@ sub update {
         $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
     };
     if ($@) {
-        print STDERR "$@\n" if MONITOR;
+        _say $@ if MONITOR;
         die $@;
     }
 }
 
-sub _convertToUTF8 {
-    my $text = shift;
-    $text = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $text );
-    $text = Encode::encode( 'utf-8', $text );
-    return $text;
-}
+=begin TML
 
-sub _inner_insert {
-    my ( $this, $mo ) = @_;
-    return unless defined $mo->topic();
+---++ ObjectMethod insert($meta)
+Insert a topic into the topics table - PUBLIC
 
-    $this->_connect( $mo->session() );
-    my $tid = $this->{handle}->selectrow_array('SELECT MAX(tid) FROM topic;')
-      || 0;
-    $tid++;
-    print STDERR "\tInsert $tid\n" if MONITOR;
-    my $text = _convertToUTF8( $mo->text() );
-    my $esf  = _convertToUTF8( $mo->getEmbeddedStoreForm() );
-    $this->{handle}
-      ->do( 'INSERT INTO topic (tid,web,name,text,raw) VALUES (?,?,?,?,?)',
-        {}, $tid, $mo->web(), $mo->topic(), $text, $esf );
+=cut
 
-    foreach my $type ( keys %$mo ) {
-
-        # Make sure it's registered.
-        next
-          unless ( defined $Foswiki::Meta::VALIDATE{$type}
-            || $Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA}
-            && $type =~ /^[A-Z][A-Z0-9_]+$/ );
-
-        unless ( personality()->table_exists($type) ) {
-
-            if ( !$this->{schema}->{$type} ) {
-
-                # registerMeta does not declare the columns, so we have
-                # to guess them.
-                # Use these entries as a template for the schema. We
-                # read *all* entries to maximise the chance of getting all
-                # columns.
-                my %attrs;
-                foreach my $item ( $mo->find($type) ) {
-                    foreach ( keys(%$item) ) {
-                        $attrs{$_} = 1;
-                    }
-                }
-                $this->{schema}->{$type} = \%attrs;
-                print STDERR "Grazed new table $type\n" if MONITOR;
-            }
-            $this->_createTableForMETA($type);
-        }
-
-        # Insert this row
-        my $data = $mo->{$type};
-        foreach my $item (@$data) {
-
-            # Filter attrs by those legal in the schema
-            my @kn = grep { $this->{schema}->{$type}->{$_} } keys(%$item);
-            my @kl = ( 'tid', @kn );
-            my $sql =
-                "INSERT INTO \"$type\" ("
-              . join( ',', map { "\"$_\"" } @kl )
-              . ") VALUES ("
-              . join( ',', map { '?' } @kl ) . ")";
-            $this->{handle}
-              ->do( $sql, {}, $tid, map { _convertToUTF8( $item->{$_} ) } @kn );
-        }
-    }
-}
-
-# Insert a topic into the topics table - PUBLIC
 sub insert {
     my ( $this, $mo ) = @_;
+
+    personality();
 
     eval {
         $this->_inner_insert($mo);
         $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
     };
     if ($@) {
-        print STDERR "$@\n" if MONITOR;
+        _say $@ if MONITOR;
         die $@;
     }
 }
 
-sub _inner_remove {
-    my ( $this, $mo ) = @_;
-    $this->_connect( $mo->session() );
-    my $sql = "SELECT tid FROM topic WHERE topic.web='" . $mo->web() . "'";
-    $sql .= " AND topic.name='" . $mo->topic() . "'" if defined $mo->topic();
-    my $tids = $this->{handle}->selectcol_arrayref($sql);
-    return unless scalar(@$tids);
+=begin TML
 
-    my $tid = $tids->[0];
-    print STDERR "\tRemove $tid\n" if MONITOR;
-    $TABLES ||= [ keys(%Foswiki::Meta::VALIDATE) ];
-    foreach my $table ( 'topic', @$TABLES ) {
-        if ( personality()->table_exists($table) ) {
-            $this->{handle}->do("DELETE FROM \"$table\" WHERE tid = '$tid'");
-        }
-    }
-}
+---++ ObjectMethod remove($meta)
 
-# Delete a topic identified by a Meta object from the table of topics
+Delete a topic identified by a Meta object from the table of topics
+
+=cut
+
 sub remove {
     my ( $this, $mo ) = @_;
+
+    personality();
 
     eval {
         $this->_inner_remove($mo);
         $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
     };
     if ($@) {
-        print STDERR "$@\n" if MONITOR;
+        _say $@ if MONITOR;
         die $@;
     }
 }
 
-# STATIC method invoked by Foswiki::Store::QueryAlgorithms::DBIStoreContrib
-# to perform the actual database query.
+=begin TML
+
+---++ StaticMethod DBI_query( $sessio, $sql )
+STATIC method invoked by Foswiki::Store::QueryAlgorithms::DBIStoreContrib
+to perform the actual database query.
+
+=cut
+
 sub DBI_query {
     my ( $session, $sql ) = @_;
 
@@ -428,49 +558,13 @@ sub DBI_query {
         while ( my @row = $sth->fetchrow_array() ) {
             push( @names, "$row[0]/$row[1]" );
         }
-        print STDERR "HITS: "
-          . scalar(@names) . "\n"
-          . join( "\n", map { "\t$_" } @names ) . "\n"
-          if MONITOR;
+        _say 'HITS: ' . scalar(@names), map { "\t$_" } @names if MONITOR;
     };
     if ($@) {
-        print STDERR "$@\n" if MONITOR;
+        _say "$@\n" if MONITOR;
         die $@;
     }
     return \@names;
-}
-
-# Static access to the database personaility module; used to get access to
-# the regexp composition.
-sub personality {
-    ASSERT( $db,
-        "Fatal error: trying to use personality before DBIStore is ready" )
-      if DEBUG;
-
-    unless ($personality) {
-        $Foswiki::cfg{Extensions}{DBIStoreContrib}{DSN} =~ /^dbi:(.*?):/i;
-        my $module = 'Foswiki::Contrib::DBIStoreContrib::Personality::' . $1;
-
-        eval "require $module";
-        if ($@) {
-            print STDERR $@;
-            die "Failed to load personality module $module";
-        }
-        $personality = $module->new($db);
-    }
-    return $personality;
-}
-
-# Reset the DB by dropping existing tables (if they exist) and preloading.
-sub reset {
-    my ( $this, $session ) = @_;
-
-    # Connect with hard reset
-    eval { $this->_connect( $session, 1 ); };
-    if ($@) {
-        print STDERR "$@\n" if MONITOR;
-        die $@;
-    }
 }
 
 1;
@@ -480,7 +574,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2010-2014 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

@@ -116,12 +116,32 @@ Basic tests for queries can be found in the DBIStoreTest topic.
 
 ---+++ Reloading the database
 
-Should it become necessary to reload the DBI database - for example, because
-changes to topics have been made outside of Foswiki - then you can click on the following link to re-load the database. *WARNING* on a large site this may take a very long time. You may have to run it from the command-line,
+It may become necessary to reload the DBI database - for example, because
+changes to topics have been made outside of Foswiki.
+
+---++++ Foswiki <1.20
+Click on the following link to clear down and re-load the entire database. *WARNING* on a large site this may take a very long time. You may prefer to run it from the command-line,
 using a command like this:
 <verbatim>
 ./view topic=System.DBIStoreTest skin=text dbistore_reset=1
 </verbatim>
+You can also update an individual topic by passing =dbistore_update= to a
+view of the topic. For example,
+<verbatim>
+./view topic=System.DBIStoreTest skin=text dbistore_update=1
+</verbatim>
+will update the DB for System.DBIStoreTest *only*.
+
+---++++ Foswiki 1.2 and later
+To be completed
+
+---+++ Unknown meta-data *EXPERT*
+
+Normally the module will only record recognised meta-data in the database,
+and so make it accessible for searching. "Recognised" meta-data is meta-data
+created by the core and by plugins that use the =Foswiki::Func::registerMETA=
+method to announce meta-data to the system. In exceptional circumstances you
+can override this behaviour by setting the ={Extensions}{DBIStoreContrib}{AutoloadUnknownMETA}= control in =configure=. This will cause *all* meta-data being recorded in the database, even if the plugin which is supposed to register it is missing, broken, or simply too old to do the right thing.
 
 ---+++ !MySQL Notes
 The !MySQL database user needs at least the following privileges:

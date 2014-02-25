@@ -46,6 +46,23 @@ SQL
     return scalar(@rows);
 }
 
+sub column_exists {
+    my ( $this, $table, $column ) = @_;
+    my $sql = <<SQL;
+PRAGMA table_info($table)
+SQL
+    return $this->{store}->{handle}->selectall_arrayref($sql);
+}
+
+sub get_columns {
+    my ( $this, $table, $column ) = @_;
+    my $sql = <<SQL;
+PRAGMA table_info($table)
+SQL
+    my $rows = $this->{store}->{handle}->selectall_arrayref($sql);
+    return map { $_->[1] } @$rows;
+}
+
 sub regexp {
     my ( $this, $lhs, $rhs ) = @_;
 
