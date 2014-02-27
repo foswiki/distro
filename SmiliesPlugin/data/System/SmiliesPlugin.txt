@@ -11,6 +11,7 @@ To add others, attach new icons to this topic and tweak the table below.
 
 %SMILIES%
 
+<!--
 | *Notation*                            | *Image*                        | *Description* |
 | <nop>:) <nop>:-) <nop>:smile:         | emoticon-0100-smile.gif        | smile |
 | <nop>;) <nop>;-) <nop>:wink:          | emoticon-0105-wink.gif         | "wink" |
@@ -101,6 +102,7 @@ To add others, attach new icons to this topic and tweak the table below.
 | <nop>:malthe:                         | emoticon-0187-malthe.gif       | malthe |
 | <nop>:tauri:  <nop>:rolleyes:         | emoticon-0188-tauri.gif        | tauri |
 | <nop>:priidu:                         | emoticon-0189-priidu.gif       | priidu |
+-->
 
 ---++ <nop>%TOPIC% Global Settings
 
