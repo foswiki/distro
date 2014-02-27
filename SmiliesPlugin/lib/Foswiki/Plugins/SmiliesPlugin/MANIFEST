@@ -1,23 +1,90 @@
-!noci
 data/System/SmiliesPlugin.txt 0644
 lib/Foswiki/Plugins/SmiliesPlugin.pm 0444
-pub/System/SmiliesPlugin/biggrin.gif 0644
-pub/System/SmiliesPlugin/confused.gif 0644
-pub/System/SmiliesPlugin/cool.gif 0644
-pub/System/SmiliesPlugin/devil.gif 0644
-pub/System/SmiliesPlugin/devilwink.gif 0644
-pub/System/SmiliesPlugin/eek.gif 0644
-pub/System/SmiliesPlugin/frown.gif 0644
-pub/System/SmiliesPlugin/indifferent.gif 0644
-pub/System/SmiliesPlugin/mad.gif 0644
-pub/System/SmiliesPlugin/redface.gif 0644
-pub/System/SmiliesPlugin/rolleyes.gif 0644
-pub/System/SmiliesPlugin/smile.gif 0644
-pub/System/SmiliesPlugin/tongue.gif 0644
-pub/System/SmiliesPlugin/wink.gif 0644
-pub/System/SmiliesPlugin/sealed.gif 0644
-pub/System/SmiliesPlugin/thumbs.gif 0644
-pub/System/SmiliesPlugin/yes.gif 0644
-pub/System/SmiliesPlugin/no.gif 0644
-pub/System/SmiliesPlugin/love.gif 0644
-pub/System/SmiliesPlugin/skull.gif 0644
+pub/System/SmiliesPlugin/emoticon-0184-tmi.gif
+pub/System/SmiliesPlugin/emoticon-0136-giggle.gif
+pub/System/SmiliesPlugin/emoticon-0153-brokenheart.gif
+pub/System/SmiliesPlugin/emoticon-0105-wink.gif
+pub/System/SmiliesPlugin/emoticon-0131-angel.gif
+pub/System/SmiliesPlugin/emoticon-0159-music.gif
+pub/System/SmiliesPlugin/emoticon-0139-bow.gif
+pub/System/SmiliesPlugin/emoticon-0166-cake.gif
+pub/System/SmiliesPlugin/emoticon-0141-whew.gif
+pub/System/SmiliesPlugin/emoticon-0161-phone.gif
+pub/System/SmiliesPlugin/emoticon-0168-drink.gif
+pub/System/SmiliesPlugin/emoticon-0160-movie.gif
+pub/System/SmiliesPlugin/emoticon-0167-beer.gif
+pub/System/SmiliesPlugin/emoticon-0147-emo.gif
+pub/System/SmiliesPlugin/emoticon-0100-smile.gif
+pub/System/SmiliesPlugin/emoticon-0107-sweating.gif
+pub/System/SmiliesPlugin/emoticon-0169-dance.gif
+pub/System/SmiliesPlugin/emoticon-0143-smirk.gif
+pub/System/SmiliesPlugin/emoticon-0157-sun.gif
+pub/System/SmiliesPlugin/emoticon-0171-star.gif
+pub/System/SmiliesPlugin/emoticon-0180-bug.gif
+pub/System/SmiliesPlugin/emoticon-0132-envy.gif
+pub/System/SmiliesPlugin/emoticon-0164-cash.gif
+pub/System/SmiliesPlugin/emoticon-0183-swear.gif
+pub/System/SmiliesPlugin/emoticon-0162-coffee.gif
+pub/System/SmiliesPlugin/emoticon-0185-heidy.gif
+pub/System/SmiliesPlugin/emoticon-0134-bear.gif
+pub/System/SmiliesPlugin/emoticon-0142-happy.gif
+pub/System/SmiliesPlugin/emoticon-0135-makeup.gif
+pub/System/SmiliesPlugin/emoticon-0110-tongueout.gif
+pub/System/SmiliesPlugin/emoticon-0188-tauri.gif
+pub/System/SmiliesPlugin/emoticon-0129-call.gif
+pub/System/SmiliesPlugin/emoticon-0113-sleepy.gif
+pub/System/SmiliesPlugin/emoticon-0108-speechless.gif
+pub/System/SmiliesPlugin/emoticon-0137-clapping.gif
+pub/System/SmiliesPlugin/emoticon-0155-flower.gif
+pub/System/SmiliesPlugin/emoticon-0179-headbang.gif
+pub/System/SmiliesPlugin/emoticon-0177-toivo.gif
+pub/System/SmiliesPlugin/emoticon-0172-mooning.gif
+pub/System/SmiliesPlugin/emoticon-0175-drunk.gif
+pub/System/SmiliesPlugin/emoticon-0181-fubar.gif
+pub/System/SmiliesPlugin/emoticon-0152-heart.gif
+pub/System/SmiliesPlugin/emoticon-0133-wait.gif
+pub/System/SmiliesPlugin/emoticon-0146-punch.gif
+pub/System/SmiliesPlugin/emoticon-0125-mmm.gif
+pub/System/SmiliesPlugin/emoticon-0145-shake.gif
+pub/System/SmiliesPlugin/emoticon-0140-rofl.gif
+pub/System/SmiliesPlugin/emoticon-0102-bigsmile.gif
+pub/System/SmiliesPlugin/emoticon-0112-wondering.gif
+pub/System/SmiliesPlugin/emoticon-0123-party.gif
+pub/System/SmiliesPlugin/emoticon-0174-bandit.gif
+pub/System/SmiliesPlugin/emoticon-0189-priidu.gif
+pub/System/SmiliesPlugin/emoticon-0109-kiss.gif
+pub/System/SmiliesPlugin/emoticon-0116-evilgrin.gif
+pub/System/SmiliesPlugin/emoticon-0151-skype.gif
+pub/System/SmiliesPlugin/emoticon-0148-yes.gif
+pub/System/SmiliesPlugin/emoticon-0187-malthe.gif
+pub/System/SmiliesPlugin/emoticon-0176-smoke.gif
+pub/System/SmiliesPlugin/emoticon-0173-middlefinger.gif
+pub/System/SmiliesPlugin/emoticon-0156-rain.gif
+pub/System/SmiliesPlugin/emoticon-0163-pizza.gif
+pub/System/SmiliesPlugin/emoticon-0158-time.gif
+pub/System/SmiliesPlugin/emoticon-0178-rock.gif
+pub/System/SmiliesPlugin/emoticon-0121-angry.gif
+pub/System/SmiliesPlugin/emoticon-0138-thinking.gif
+pub/System/SmiliesPlugin/emoticon-0101-sadsmile.gif
+pub/System/SmiliesPlugin/emoticon-0165-muscle.gif
+pub/System/SmiliesPlugin/emoticon-0124-worried.gif
+pub/System/SmiliesPlugin/emoticon-0118-yawn.gif
+pub/System/SmiliesPlugin/emoticon-0149-no.gif
+pub/System/SmiliesPlugin/emoticon-0150-handshake.gif
+pub/System/SmiliesPlugin/emoticon-0106-crying.gif
+pub/System/SmiliesPlugin/emoticon-0115-inlove.gif
+pub/System/SmiliesPlugin/emoticon-0144-nod.gif
+pub/System/SmiliesPlugin/emoticon-0154-mail.gif
+pub/System/SmiliesPlugin/emoticon-0126-nerd.gif
+pub/System/SmiliesPlugin/emoticon-0182-poolparty.gif
+pub/System/SmiliesPlugin/emoticon-0114-dull.gif
+pub/System/SmiliesPlugin/emoticon-0130-devil.gif
+pub/System/SmiliesPlugin/emoticon-0119-puke.gif
+pub/System/SmiliesPlugin/emoticon-0103-cool.gif
+pub/System/SmiliesPlugin/emoticon-0117-talking.gif
+pub/System/SmiliesPlugin/emoticon-0170-ninja.gif
+pub/System/SmiliesPlugin/emoticon-0128-hi.gif
+pub/System/SmiliesPlugin/emoticon-0120-doh.gif
+pub/System/SmiliesPlugin/emoticon-0111-blush.gif
+pub/System/SmiliesPlugin/emoticon-0122-itwasntme.gif
+pub/System/SmiliesPlugin/emoticon-0127-lipssealed.gif

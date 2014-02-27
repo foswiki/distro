@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1292364716" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1393508102" format="1.1" reprev="3" version="3"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ The Smilies Plugin <nop>:-)
 
@@ -9,35 +9,98 @@ This plugin automatically converts certain smilies to a nice small icon.
 Here is the list of smilies supported by this plugin.
 To add others, attach new icons to this topic and tweak the table below.
 
-| *You type*        | *You see*                   | *Emotion* |
-| <nop>:-)          | %ATTACHURL%/smile.gif       | "smile" |
-| <nop>:)           | %ATTACHURL%/smile.gif       | "smile" |
-| <nop>8-)          | %ATTACHURL%/cool.gif        | "cool!" |
-| <nop>:cool:       | %ATTACHURL%/cool.gif        | "cool!" |
-| <nop>:-I          | %ATTACHURL%/indifferent.gif | "indifferent" |
-| <nop>:(           | %ATTACHURL%/frown.gif       | "frown" |
-| <nop>:-(          | %ATTACHURL%/frown.gif       | "frown" |
-| <nop>:o           | %ATTACHURL%/redface.gif     | "embarrassment" |
-| <nop>:D           | %ATTACHURL%/biggrin.gif     | "big grin" |
-| <nop>:-D          | %ATTACHURL%/biggrin.gif     | "big grin" |
-| <nop>;)           | %ATTACHURL%/wink.gif        | "wink" |
-| <nop>;-)          | %ATTACHURL%/wink.gif        | "wink" |
-| <nop>:p           | %ATTACHURL%/tongue.gif      | "stick out tongue" |
-| <nop>:-p          | %ATTACHURL%/tongue.gif      | "stick out tongue" |
-| <nop>:rolleyes:   | %ATTACHURL%/rolleyes.gif    | "roll eyes (sarcastic)" |
-| <nop>:mad:        | %ATTACHURL%/mad.gif         | "mad" |
-| <nop>:eek:        | %ATTACHURL%/eek.gif         | "eek!" |
-| <nop>:confused:   | %ATTACHURL%/confused.gif    | "confused" |
-| <nop>&nbsp;>:-)   | %ATTACHURL%/devil.gif       | "evil" |
-| <nop>:devil:      | %ATTACHURL%/devil.gif       | "evil" |
-| <nop>&nbsp;>;-)   | %ATTACHURL%/devilwink.gif   | "devilish" |
-| <nop>:devilish:   | %ATTACHURL%/devilwink.gif   | "devilish" |
-| <nop>:-X          | %ATTACHURL%/sealed.gif      | "my lips are sealed" |
-| <nop>:ok:         | %ATTACHURL%/thumbs.gif      | "thumbs up" |
-| <nop>:yes:        | %ATTACHURL%/yes.gif         | "yes" |
-| <nop>:no:         | %ATTACHURL%/no.gif          | "no" |
-| <nop>:love:       | %ATTACHURL%/love.gif        | "I love it!" |
-| <nop>:skull:      | %ATTACHURL%/skull.gif       | "dead!" |
+%SMILIES%
+
+| *Notation*                            | *Image*                        | *Description* |
+| <nop>:) <nop>:-) <nop>:smile:         | emoticon-0100-smile.gif        | smile |
+| <nop>;) <nop>;-) <nop>:wink:          | emoticon-0105-wink.gif         | "wink" |
+| <nop>:( <nop>:-( <nop>:frown:         | emoticon-0101-sadsmile.gif     | frown, sad smile |
+| <nop>:D <nop>:-D <nop>:biggrin:       | emoticon-0102-bigsmile.gif     | big grin |
+| <nop>8-) <nop>:cool:                  | emoticon-0103-cool.gif         | cool |
+| <nop>:o <nop>:-o <nop>:blush:         | emoticon-0111-blush.gif        | embarrassment, blush |
+| <nop>;( <nop>;-( <nop>:cry:           | emoticon-0106-crying.gif       | cry |
+| <nop>(:I <nop>:sweat:                 | emoticon-0107-sweating.gif     | sweating |
+| <nop>:I <nop>:-I <nop>:speechless:    | emoticon-0108-speechless.gif   | indifferent, speechless |
+| <nop>:* <nop>:-* <nop>:kiss:          | emoticon-0109-kiss.gif         | kiss |
+| <nop>:p <nop>:-p <nop>:tongue:        | emoticon-0110-tongueout.gif    | stick out tongue |
+| <nop>:^) <nop>:wonder:                | emoticon-0112-wondering.gif    | wondering |
+| <nop>I-) <nop>:snooze:                | emoticon-0113-sleepy.gif       | sleepy, snooze |
+| <nop>I-( <nop>:dull:                  | emoticon-0114-dull.gif         | dull |
+| <nop>:love:                           | emoticon-0115-inlove.gif       | I love it! |
+| <nop>]:) <nop>]:-) <nop>>;-) <nop>:evilgrin: <nop>:devilish: | emoticon-0116-evilgrin.gif | evil grin |
+| <nop>:talk:                           | emoticon-0117-talking.gif      | talking |
+| <nop>I() <nop>I-() <nop>:yawn:        | emoticon-0118-yawn.gif         | yawn |
+| <nop>:& <nop>:-& <nop>:puke:          | emoticon-0119-puke.gif         | puke |
+| <nop>:doh: <nop>:eek:                 | emoticon-0120-doh.gif          | doh |
+| <nop>:@ <nop>:-@ <nop>:angry:         | emoticon-0121-angry.gif        | angry |
+| <nop>:wasntme:                        | emoticon-0122-itwasntme.gif    | oops, wasn't me |
+| <nop>:party:                          | emoticon-0123-party.gif        | party |
+| <nop>:S <nop>:-S <nop>:s <nop>:-s   <nop>:confused: <nop>:worried:     | emoticon-0124-worried.gif | worried, confused |
+| <nop>:mmm:                            | emoticon-0125-mmm.gif          | joy |
+| <nop>8-I <nop>B-I <nop>:nerd:         | emoticon-0126-nerd.gif         | nerd |
+| <nop>:-X <nop>:lipssealed:            | emoticon-0127-lipssealed.gif   | my lips are sealed |
+| <nop>:hi:                             | emoticon-0128-hi.gif           | me waving |
+| <nop>:call:                           | emoticon-0129-call.gif         | call me back |
+| <nop>>:-)  <nop>:devil:               | emoticon-0130-devil.gif        | evil |
+| <nop>:angel:                          | emoticon-0131-angel.gif        | angel |
+| <nop>:envy:                           | emoticon-0132-envy.gif         | envy |
+| <nop>:wait:                           | emoticon-0133-wait.gif         | hey, wait a sec |
+| <nop>:bear:                           | emoticon-0134-bear.gif         | bear, hug |
+| <nop>:hug:                            | emoticon-0134-bear.gif         | bear, hug |
+| <nop>:makeup:                         | emoticon-0135-makeup.gif       | makeup, lips |
+| <nop>:giggle:                         | emoticon-0136-giggle.gif       | covered laugh |
+| <nop>:clap:                           | emoticon-0137-clapping.gif     | clapping hands |
+| <nop>:? <nop>:-? <nop>:think:         | emoticon-0138-thinking.gif     | thinking |
+| <nop>:bow:                            | emoticon-0139-bow.gif          | bow |
+| <nop>:rofl:                           | emoticon-0140-rofl.gif         | rolling on the floor laughing  |
+| <nop>:wew:                            | emoticon-0141-whew.gif         | whew |
+| <nop>:whew:                           | emoticon-0141-whew.gif         | whew |
+| <nop>:happy:                          | emoticon-0142-happy.gif        | happy |
+| <nop>:smirk:                          | emoticon-0143-smirk.gif        | smirk |
+| <nop>:nod:                            | emoticon-0144-nod.gif          | nod |
+| <nop>:shake:                          | emoticon-0145-shake.gif        | shake |
+| <nop>:punch:                          | emoticon-0146-punch.gif        | punch |
+| <nop>:emo:                            | emoticon-0147-emo.gif          | emo |
+| <nop>:yes: <nop>:ok:                  | emoticon-0148-yes.gif          | yes |
+| <nop>:no:                             | emoticon-0149-no.gif           | no |
+| <nop>:handshake:                      | emoticon-0150-handshake.gif    | handshake |
+| <nop>:heart:                          | emoticon-0152-heart.gif        | heart |
+| <nop>:brokenheart:                    | emoticon-0153-brokenheart.gif  | broken heart|
+| <nop>:mail:                           | emoticon-0154-mail.gif         | mail |
+| <nop>:flower:                         | emoticon-0155-flower.gif       | flower |
+| <nop>:rain:                           | emoticon-0156-rain.gif         | rain |
+| <nop>:sun:                            | emoticon-0157-sun.gif          | sun |
+| <nop>:time:                           | emoticon-0158-time.gif         | time |
+| <nop>:music:                          | emoticon-0159-music.gif        | music |
+| <nop>:movie:                          | emoticon-0160-movie.gif        | movie, film |
+| <nop>:phone:                          | emoticon-0161-phone.gif        | phone |
+| <nop>:coffee:                         | emoticon-0162-coffee.gif       | coffee |
+| <nop>:pizza:                          | emoticon-0163-pizza.gif        | pizza |
+| <nop>:cash:                           | emoticon-0164-cash.gif         | cash |
+| <nop>:muscle:                         | emoticon-0165-muscle.gif       | muscle |
+| <nop>:cake:                           | emoticon-0166-cake.gif         | cake |
+| <nop>:beer:                           | emoticon-0167-beer.gif         | beer |
+| <nop>:drink:                          | emoticon-0168-drink.gif        | drink |
+| <nop>:dance:                          | emoticon-0169-dance.gif        | dance |
+| <nop>:ninja:                          | emoticon-0170-ninja.gif        | ninja |
+| <nop>:star:                           | emoticon-0171-star.gif         | star |
+| <nop>:morning:                        | emoticon-0172-mooning.gif      | morning |
+| <nop>:finger:                         | emoticon-0173-middlefinger.gif | finger |
+| <nop>:bandit:                         | emoticon-0174-bandit.gif       | bandit |
+| <nop>:drunk:                          | emoticon-0175-drunk.gif        | drunk |
+| <nop>:smoke:                          | emoticon-0176-smoke.gif        | smoke |
+| <nop>:toivo:                          | emoticon-0177-toivo.gif        | tovio |
+| <nop>:rock:                           | emoticon-0178-rock.gif         | rock |
+| <nop>:headbang: <nop>:mad:            | emoticon-0179-headbang.gif     | head bang, getting mad |
+| <nop>:bug:                            | emoticon-0180-bug.gif          | bug |
+| <nop>:foobar:                         | emoticon-0181-fubar.gif        | foobar |
+| <nop>:poolparty:                      | emoticon-0182-poolparty.gif    | pool party |
+| <nop>:swear:                          | emoticon-0183-swear.gif        | swear |
+| <nop>:tmi:                            | emoticon-0184-tmi.gif          | tmi |
+| <nop>:heidy:                          | emoticon-0185-heidy.gif        | heidy |
+| <nop>:malthe:                         | emoticon-0187-malthe.gif       | malthe |
+| <nop>:tauri:  <nop>:rolleyes:         | emoticon-0188-tauri.gif        | tauri |
+| <nop>:priidu:                         | emoticon-0189-priidu.gif       | priidu |
 
 ---++ <nop>%TOPIC% Global Settings
 
@@ -48,23 +111,23 @@ You can override the default settings for the plugin by defining the following [
 | *Preference* | *Meaning* | *Default* |
 | =SMILIESPLUGIN_TOPIC= | The name of the topic containing your Smilies. Use format =web.topic=. | %SYSTEMWEB%.SmiliesPlugin |
 | =SMILIESPLUGIN_FORMAT= | The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). | <verbatim class="tml"><img
+    class='smily'
     src='$url'
     alt='$tooltip'
     title='$tooltip'
-    border='0' /></verbatim> If possible, use single quotes for html attributes |
+     /></verbatim> If possible, use single quotes for html attributes |
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
-   * Test if the plugin is correctly installed: you will see a series of icons on next line: <br />
-        :-) :) :cool: :( :o :D ;) :p :rolleyes: :mad: :eek: :confused: >:-) >;-) :-X :ok: :yes: :no: :love: :skull:
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2008-2012 Foswiki Contributors. Copyright (C) 2001-2007 Andrea Sterbini, Peter Thoeny, peter@thoeny.org and TWiki Contributors. |
+|  Copyright: | Copyright (C) 2008-2014 Foswiki Contributors. Copyright (C) 2001-2007 Andrea Sterbini, Peter Thoeny, peter@thoeny.org and TWiki Contributors. |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  27 Feb 2014: | modernized code and icon set |
 |  05 Oct 2012: | use single quotes to enable use of smilies within Macros |
 |  05 Dec 2011: | Version released with Foswiki 1.1.4. Minor code cleanup. |
 |  11 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
@@ -84,33 +147,99 @@ You can override the default settings for the plugin by defining the following [
 |  23 Nov 2001: | Added TOPIC and FORMAT setting |
 |  10 Jun 2001: | Packaged into ZIP |
 |  28 Feb 2001: | Initial version |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Home: | Foswiki:Extensions/%TOPIC% |
+|  Support: | Foswiki:Support/%TOPIC% |
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="biggrin.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="confused.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="cool.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="eek.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="frown.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="indifferent.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="mad.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="redface.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="rolleyes.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="smile.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="tongue.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="wink.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="devil.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="devilwink.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="sealed.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="thumbs.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="yes.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="no.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="love.gif" attr="h" version="1.1"}%
-%META:FILEATTACHMENT{name="skull.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="emoticon-0189-priidu.gif" attachment="emoticon-0189-priidu.gif" attr="" comment="" date="1393492485" size="1876" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0188-tauri.gif" attachment="emoticon-0188-tauri.gif" attr="" comment="" date="1393492506" size="2425" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0187-malthe.gif" attachment="emoticon-0187-malthe.gif" attr="" comment="" date="1393492497" size="4146" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0185-heidy.gif" attachment="emoticon-0185-heidy.gif" attr="" comment="" date="1393492525" size="2715" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0184-tmi.gif" attachment="emoticon-0184-tmi.gif" attr="" comment="" date="1393492501" size="1250" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0183-swear.gif" attachment="emoticon-0183-swear.gif" attr="" comment="" date="1393492502" size="1889" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0182-poolparty.gif" attachment="emoticon-0182-poolparty.gif" attr="" comment="" date="1393492488" size="434" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0181-fubar.gif" attachment="emoticon-0181-fubar.gif" attr="" comment="" date="1393492491" size="1453" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0180-bug.gif" attachment="emoticon-0180-bug.gif" attr="" comment="" date="1393492492" size="1744" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0179-headbang.gif" attachment="emoticon-0179-headbang.gif" attr="" comment="" date="1393492487" size="3959" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0178-rock.gif" attachment="emoticon-0178-rock.gif" attr="" comment="" date="1393492493" size="1825" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0177-toivo.gif" attachment="emoticon-0177-toivo.gif" attr="" comment="" date="1393492505" size="3674" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0176-smoke.gif" attachment="emoticon-0176-smoke.gif" attr="" comment="" date="1393492479" size="1648" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0175-drunk.gif" attachment="emoticon-0175-drunk.gif" attr="" comment="" date="1393492494" size="1683" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0174-bandit.gif" attachment="emoticon-0174-bandit.gif" attr="" comment="" date="1393492526" size="584" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0173-middlefinger.gif" attachment="emoticon-0173-middlefinger.gif" attr="" comment="" date="1393492517" size="1806" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0172-mooning.gif" attachment="emoticon-0172-mooning.gif" attr="" comment="" date="1393492519" size="1248" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0171-star.gif" attachment="emoticon-0171-star.gif" attr="" comment="" date="1393492496" size="557" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0170-ninja.gif" attachment="emoticon-0170-ninja.gif" attr="" comment="" date="1393492516" size="1021" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0169-dance.gif" attachment="emoticon-0169-dance.gif" attr="" comment="" date="1393492511" size="1349" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0168-drink.gif" attachment="emoticon-0168-drink.gif" attr="" comment="" date="1393492517" size="934" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0167-beer.gif" attachment="emoticon-0167-beer.gif" attr="" comment="" date="1393492503" size="3608" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0166-cake.gif" attachment="emoticon-0166-cake.gif" attr="" comment="" date="1393492520" size="1140" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0165-muscle.gif" attachment="emoticon-0165-muscle.gif" attr="" comment="" date="1393492484" size="1189" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0164-cash.gif" attachment="emoticon-0164-cash.gif" attr="" comment="" date="1393492491" size="988" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0163-pizza.gif" attachment="emoticon-0163-pizza.gif" attr="" comment="" date="1393492516" size="1330" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0162-coffee.gif" attachment="emoticon-0162-coffee.gif" attr="" comment="" date="1393492477" size="687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0161-phone.gif" attachment="emoticon-0161-phone.gif" attr="" comment="" date="1393492525" size="2451" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0160-movie.gif" attachment="emoticon-0160-movie.gif" attr="" comment="" date="1393492510" size="1916" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0159-music.gif" attachment="emoticon-0159-music.gif" attr="" comment="" date="1393492495" size="1445" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0158-time.gif" attachment="emoticon-0158-time.gif" attr="" comment="" date="1393492482" size="1399" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0157-sun.gif" attachment="emoticon-0157-sun.gif" attr="" comment="" date="1393492490" size="665" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0156-rain.gif" attachment="emoticon-0156-rain.gif" attr="" comment="" date="1393492508" size="619" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0155-flower.gif" attachment="emoticon-0155-flower.gif" attr="" comment="" date="1393492519" size="1967" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0154-mail.gif" attachment="emoticon-0154-mail.gif" attr="" comment="" date="1393492475" size="1656" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0153-brokenheart.gif" attachment="emoticon-0153-brokenheart.gif" attr="" comment="" date="1393492498" size="2710" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0152-heart.gif" attachment="emoticon-0152-heart.gif" attr="" comment="" date="1393492494" size="2426" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0151-skype.gif" attachment="emoticon-0151-skype.gif" attr="" comment="" date="1393492511" size="1320" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0150-handshake.gif" attachment="emoticon-0150-handshake.gif" attr="" comment="" date="1393492499" size="4818" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0149-no.gif" attachment="emoticon-0149-no.gif" attr="" comment="" date="1393492522" size="1351" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0148-yes.gif" attachment="emoticon-0148-yes.gif" attr="" comment="" date="1393492489" size="1526" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0147-emo.gif" attachment="emoticon-0147-emo.gif" attr="" comment="" date="1393492495" size="1799" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0146-punch.gif" attachment="emoticon-0146-punch.gif" attr="" comment="" date="1393492527" size="4498" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0145-shake.gif" attachment="emoticon-0145-shake.gif" attr="" comment="" date="1393492484" size="1595" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0144-nod.gif" attachment="emoticon-0144-nod.gif" attr="" comment="" date="1393492507" size="1827" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0143-smirk.gif" attachment="emoticon-0143-smirk.gif" attr="" comment="" date="1393492512" size="1263" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0142-happy.gif" attachment="emoticon-0142-happy.gif" attr="" comment="" date="1393492481" size="1205" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0141-whew.gif" attachment="emoticon-0141-whew.gif" attr="" comment="" date="1393492483" size="2655" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0140-rofl.gif" attachment="emoticon-0140-rofl.gif" attr="" comment="" date="1393492529" size="2596" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0139-bow.gif" attachment="emoticon-0139-bow.gif" attr="" comment="" date="1393492510" size="1657" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0138-thinking.gif" attachment="emoticon-0138-thinking.gif" attr="" comment="" date="1393492478" size="1055" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0137-clapping.gif" attachment="emoticon-0137-clapping.gif" attr="" comment="" date="1393492500" size="1301" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0136-giggle.gif" attachment="emoticon-0136-giggle.gif" attr="" comment="" date="1393492503" size="1006" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0135-makeup.gif" attachment="emoticon-0135-makeup.gif" attr="" comment="" date="1393492514" size="2023" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0134-bear.gif" attachment="emoticon-0134-bear.gif" attr="" comment="" date="1393492509" size="2687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0133-wait.gif" attachment="emoticon-0133-wait.gif" attr="" comment="" date="1393492492" size="1758" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0132-envy.gif" attachment="emoticon-0132-envy.gif" attr="" comment="" date="1393492477" size="2478" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0131-angel.gif" attachment="emoticon-0131-angel.gif" attr="" comment="" date="1393492499" size="1291" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0130-devil.gif" attachment="emoticon-0130-devil.gif" attr="" comment="" date="1393492523" size="1535" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0129-call.gif" attachment="emoticon-0129-call.gif" attr="" comment="" date="1393492508" size="2314" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0128-hi.gif" attachment="emoticon-0128-hi.gif" attr="" comment="" date="1393492524" size="2210" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0127-lipssealed.gif" attachment="emoticon-0127-lipssealed.gif" attr="" comment="" date="1393492481" size="2581" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0126-nerd.gif" attachment="emoticon-0126-nerd.gif" attr="" comment="" date="1393492522" size="1340" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0125-mmm.gif" attachment="emoticon-0125-mmm.gif" attr="" comment="" date="1393492507" size="997" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0124-worried.gif" attachment="emoticon-0124-worried.gif" attr="" comment="" date="1393492476" size="1160" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0123-party.gif" attachment="emoticon-0123-party.gif" attr="" comment="" date="1393492488" size="4035" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0122-itwasntme.gif" attachment="emoticon-0122-itwasntme.gif" attr="" comment="" date="1393492504" size="1295" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0121-angry.gif" attachment="emoticon-0121-angry.gif" attr="" comment="" date="1393492524" size="4810" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0120-doh.gif" attachment="emoticon-0120-doh.gif" attr="" comment="" date="1393492497" size="2828" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0119-puke.gif" attachment="emoticon-0119-puke.gif" attr="" comment="" date="1393492527" size="2313" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0118-yawn.gif" attachment="emoticon-0118-yawn.gif" attr="" comment="" date="1393492529" size="1437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0117-talking.gif" attachment="emoticon-0117-talking.gif" attr="" comment="" date="1393492520" size="1266" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0116-evilgrin.gif" attachment="emoticon-0116-evilgrin.gif" attr="" comment="" date="1393492476" size="1409" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0115-inlove.gif" attachment="emoticon-0115-inlove.gif" attr="" comment="" date="1393492480" size="2791" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0114-dull.gif" attachment="emoticon-0114-dull.gif" attr="" comment="" date="1393492501" size="1064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0113-sleepy.gif" attachment="emoticon-0113-sleepy.gif" attr="" comment="" date="1393492486" size="834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0112-wondering.gif" attachment="emoticon-0112-wondering.gif" attr="" comment="" date="1393492521" size="1114" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0111-blush.gif" attachment="emoticon-0111-blush.gif" attr="" comment="" date="1393492518" size="1370" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0110-tongueout.gif" attachment="emoticon-0110-tongueout.gif" attr="" comment="" date="1393492489" size="1009" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0109-kiss.gif" attachment="emoticon-0109-kiss.gif" attr="" comment="" date="1393492486" size="1390" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0108-speechless.gif" attachment="emoticon-0108-speechless.gif" attr="" comment="" date="1393492515" size="795" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0107-sweating.gif" attachment="emoticon-0107-sweating.gif" attr="" comment="" date="1393492512" size="2297" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0106-crying.gif" attachment="emoticon-0106-crying.gif" attr="" comment="" date="1393492478" size="1360" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0105-wink.gif" attachment="emoticon-0105-wink.gif" attr="" comment="" date="1393492505" size="1027" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0103-cool.gif" attachment="emoticon-0103-cool.gif" attr="" comment="" date="1393492482" size="1086" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0102-bigsmile.gif" attachment="emoticon-0102-bigsmile.gif" attr="" comment="" date="1393492514" size="1410" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0101-sadsmile.gif" attachment="emoticon-0101-sadsmile.gif" attr="" comment="" date="1393492513" size="1048" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="emoticon-0100-smile.gif" attachment="emoticon-0100-smile.gif" attr="" comment="" date="1393492480" size="806" user="ProjectContributor" version="1"}%
