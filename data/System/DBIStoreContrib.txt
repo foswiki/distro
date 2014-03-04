@@ -23,51 +23,8 @@ Contains all wiki topics.
 Contains the names of all meta-tables.
    * =name= - table name, e.g. =TOPICINFO=, =FORM= etc
 
-At a minimum, =metatypes= will include the names of all the
-tables listed below. The columns of these tables have identical semantics
-(and syntax) to their corresponding =%META:= statements
-
-=TOPICINFO= %BR%
-   * =TEXT author=
-   * =TEXT version=
-   * =TEXT date=
-   * =TEXT format=
-   * =TEXT reprev=
-   * =TEXT rev=
-   * =TEXT comment=
-   * =TEXT encoding=
-
-=TOPICMOVED= %BR%
-   * =TEXT from=
-   * =TEXT to=
-   * =TEXT by=
-   * =TEXT date=
-
-=TOPICPARENT= %BR%
-   * =TEXT name=
-
-=FILEATTACHMENT= %BR%
-   * =TEXT name=
-   * =TEXT version=
-   * =TEXT path=
-   * =TEXT size=
-   * =TEXT date=
-   * =TEXT user=
-   * =TEXT comment=
-   * =TEXT attr=
-
-=FORM= %BR%
-   * =TEXT name=
-
-=FIELD= %BR%
-   * =TEXT name=
-   * =TEXT value=
-   * =TEXT title=
-
-=PREFERENCE= %BR%
-   * =TEXT name=
-   * =TEXT value=
-   * =TEXT type=
+The full schema, including the types used to represent different data can
+be found in =configure= under the settings for the Extension.
 
 Note that file attachments are *not* stored in the database at this time.
 
@@ -96,6 +53,14 @@ Date conversion using the =d2n= operator is not supported.
 
 ---+++ Row indexes
 Integer indexes are not supported. Use queries instead.
+
+---+++ Representational types
+The type defined in the schema must be long enough to store any possible
+value for the given field, but be as short as possible to maximise the
+DB's chance of building a decent index for it.
+
+---+++ length of an array
+The =length()= operator only works on string data, not on tables.
 
 ---++ Installation Instructions
 

@@ -20,15 +20,18 @@ To reload this topic, click on %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?dbistore_update
 To reload the companion form topic, click on %SCRIPTURL{"view"}%/%WEB%/DBIStoreTestForm?dbistore_update=1
 
 <!-- TA number of hist TB search query TC -->
-   * Non-query: %XA 2 %XB "1" %SOP%%XD%
    * False: %XA% 0 %XB% "0" %XC%
    * True: %XA% 2 %XB% "1" %XC%
-   * Table.selector: %XA% 2 %XB% "form.name='DBIStoreTestForm' AND length('x')=1" %XC%
-   * Array: %XA% 1 %XB% "fields[name='string'].value='String'" %XC%
-   * Field: %XA% 2 %XB% "number" %XC%
+   * > literal: %XA% 0 %XB% "3>20" %XC%
+   * < literal: %XA% 0 %XB% "'3'<'20'" %XC%
+   * Simple regex: %XA% 2 %XB% "'AA'=~'A'" %XC%
+   * Numeric Field: %XA% 2 %XB% "number" %XC%
    * Boolean field: %XA% 1 %XB% "boolean" %XC%
    * Field cmp: %XA% 1 %XB% "number=99" %XC%
-   * Simple regex: %XA% 2 %XB% "'AA'=~'A'" %XC%
+   * Field cmp: %XA% 1 %XB% "99=number" %XC%
+   * Field uop: %XA% 1 %XB% "length(number)=2" %XC%
+   * Array: %XA% 1 %XB% "fields[name='string'].value='String'" %XC%
+   * Table.selector: %XA% 2 %XB% "form.name='DBIStoreTestForm' AND length('x')=1" %XC%
    * Simple LIKE: %XA% 1 %XB% "name~'DBIStoreT*orm'" %XC%
    * Simple AND: %XA% 1 %XB% "number=99 AND string='String'" %XC%
    * Simple OR: %XA% 1 %XB% "number=99 OR string='String'" %XC%
@@ -52,6 +55,7 @@ To reload the companion form topic, click on %SCRIPTURL{"view"}%/%WEB%/DBIStoreT
    * Escapes  %XA% 0 %XB% "name =~ '\\\' OR name ~ '\\\' OR name = '\\\'" %XC%
    * Escapes  %XA% 0 %XB% "name =~ '\\.x.y\\\'" %XC%
    * Table=Table     %#TA% 0 %#TB% "fields=attachments" %#TC%
+   * Non-query: %XA 2 %XB "1" %SOP%%XD%
 
 %META:FORM{name="DBIStoreTestForm"}%
 %META:FIELD{name="number" attributes="" title="number" value="99"}%

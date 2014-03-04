@@ -31,7 +31,10 @@ sub new {
           TRY_CONVERT TSEQUAL UNPIVOT UPDATETEXT USE USER VARYING VIEW WAITFOR
           WHILE WITHIN GROUP WRITETEXT/
     );
-    $this->{text_type}       = 'VARCHAR(MAX)';
+
+    # Override the default type in the schema
+    $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{_DEFAULT}{type} =
+      'VARCHAR(MAX)';
     $this->{true_value}      = 'CAST(1 AS BIT)';
     $this->{true_type}       = Foswiki::Contrib::DBIStoreContrib::PSEUDO_BOOL;
     $this->{requires_COMMIT} = 0;
@@ -51,30 +54,37 @@ SELECT 1 WHERE OBJECT_ID('dbo.foswiki_CONVERT') IS NOT NULL
 SQL
     if ( $exists == 0 ) {
 
-        # make_number derived from is_numeric by Dmitri Golovan of Micralyne.
+        # Error-tolerant number conversion. Works like perl.
         $this->{store}->{handle}->do(<<'SQL');
 CREATE FUNCTION foswiki_CONVERT( @value VARCHAR(MAX) ) RETURNS FLOAT AS
-BEGIN
-  RETURN (
-    CASE
-      WHEN @value NOT LIKE '%[^-0-9.+]%'
-           AND (
-             CHARINDEX('.', @value) = 0
-             OR
-             CHARINDEX('.', @value) > 0 AND LEN(@value) > 1
-             AND LEN(@value) - LEN(REPLACE(@value, '.', '')) = 1
-           ) 
-           AND (
-             CHARINDEX('-', @value)=0
-             OR
-             CHARINDEX('-', @value) = 1 AND LEN(@value) > 1
-             AND CHARINDEX('-', @value, 2) = 0
-           )
-      THEN CONVERT(FLOAT, @value)
-      ELSE 0
-    END
-  )
-END
+ BEGIN
+  IF @value LIKE '%[^-+0-9eE]%' RETURN 0
+  IF NOT ( @value LIKE '[0-9]%' OR @value LIKE '[-+][0-9]%') RETURN 0
+  -- definitely have a number; just need to find the end
+  DECLARE @s INT
+  DECLARE @ss VARCHAR(2)
+  SET @s = 1
+  IF @value LIKE '[-+]%' SET @s = 2
+  SET @ss = SUBSTRING(@value, @s, 2)
+  WHILE @ss LIKE '[0-9]%'
+   BEGIN
+    SET @s = @s + 1
+    SET @ss = SUBSTRING(@value, @s, 2);
+   END
+  IF @ss LIKE '.[0-9eE]'
+   BEGIN -- fractional part
+    SET @s = @s + 1;
+    WHILE SUBSTRING(@value, @s, 1) LIKE '[0-9]' SET @s = @s + 1
+    SET @ss = SUBSTRING(@value, @s, 2);
+   END
+  IF @ss LIKE '[eE][-+0-9]'
+   BEGIN --- exponent
+    SET @s = @s + 2; -- skip e and sign or first digit
+    WHILE SUBSTRING(@value, @s, 1) LIKE '[0-9]' SET @s = @s + 1
+   END
+  IF @s <= DATALENGTH(@value) RETURN 0
+  RETURN CONVERT(FLOAT, @value)
+ END
 SQL
     }
 }

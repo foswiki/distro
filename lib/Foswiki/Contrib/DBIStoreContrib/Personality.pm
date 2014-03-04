@@ -37,12 +37,28 @@ sub new {
     my ( $class, $dbistore ) = @_;
     my $this = bless(
         {
-            store           => $dbistore,
-            requires_COMMIT => 1,
-            string_quote    => "'",
-            text_type       => 'TEXT',
-            true_value      => '1=1',
-            true_type       => Foswiki::Contrib::DBIStoreContrib::BOOLEAN,
+            store => $dbistore,
+
+            # The quote to use around constant strings
+            string_quote => "'",
+
+            # If the DB is running *without* auto-commit enabled, then this
+            # is required.
+            requires_COMMIT => 0,
+
+            # A DB with native BOOLEAN can use a simple boolean expression
+            # here. Without BOOLEAN support a more convoluted route is
+            # required.
+            true_value => '1=1',
+
+            # If the DB has a native BOOLEAN type this is BOOLEAN. If it
+            # has to use a BIT value, this will be PSEUDO_BOOL.
+            true_type => Foswiki::Contrib::DBIStoreContrib::BOOLEAN,
+
+            # Numeric shadow columns? If true, generate a FLOAT column
+            # for each META: column, and do a perl data conversion of
+            # the text data into it when saving.
+            use_shadows => 0,
         },
         $class
     );
@@ -86,7 +102,8 @@ sub startup {
 =begin TML
 
 ---+ table_exists(table_name [, table_name]*) -> boolean
-Determine if a table exists
+Determine if a table exists. All tables named in parameters
+must exist.
 
 =cut
 
@@ -99,8 +116,8 @@ sub table_exists {
 SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
  WHERE TABLE_NAME IN ($tables)
 SQL
-    my @rows = $this->{store}->{handle}->selectrow_array($sql);
-    return scalar(@rows);
+    my $rows = $this->{store}->{handle}->selectall_arrayref($sql);
+    return scalar(@$rows) == scalar(@_);
 }
 
 =begin TML
@@ -187,14 +204,13 @@ sub wildcard {
     my @exprs;
     if ( $rhs =~ s/^'(.*)'$/$1/ ) {
         foreach my $spec ( split( /(?:,\s*|\|)/, $rhs ) ) {
-            $spec =~ s/(['.])/\\$1/g;
             my $like = 0;
-            $like = 1 if $spec =~ s/\*/.*/g;
-            $like = 1 if $spec =~ s/\?/./g;
+            $like = 1 if $spec =~ s/(['.%_])/[$1]/g;
+            $like = 1 if $spec =~ s/\*/%/g;
+            $like = 1 if $spec =~ s/\?/_/g;
 
             if ($like) {
-                $spec = "'^$spec\$'";
-                my $res = $this->regexp( $lhs, $spec );
+                my $res = "$lhs LIKE '$spec'";
                 push( @exprs, $res );
             }
             else {
@@ -267,7 +283,10 @@ Cast a datum to a character string type for comparison
 
 sub cast_to_text {
     my ( $this, $d ) = @_;
-    return "CAST(($d) AS $this->{text_type})";
+    return
+        "CAST(($d) AS "
+      . $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{_DEFAULT}{type}
+      . ')';
 }
 
 =begin TML
@@ -292,6 +311,37 @@ Use the SQL string concatenation operator to concatente strings.
 sub strcat {
     my $this = shift;
     return join( '||', @_ );
+}
+
+=begin TML
+
+---++ column_type($table, $column) -> $typename
+Determine the best text type to use to represent the given column.
+
+The default implementation uses the
+{Extensions}{DBIStoreContrib}{Schema} table to map from a
+table name, column name to a type.
+
+=cut
+
+sub column_type {
+    my ( $this, $table, $column ) = @_;
+
+    my $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$table};
+    $l = $l->{$column} if $l;
+    if ( defined $l ) {
+
+        # If the type name starts with an underscore, map to a default
+        # type name
+        if ( $l =~ /^_/ ) {
+            $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$l};
+            ASSERT($l) if DEBUG;
+        }
+        return $l->{type};
+    }
+    print STDERR "WARNING: Could not determine a type for $table.$column\n"
+      if DEBUG;
+    return $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{_DEFAULT}{type};
 }
 
 1;

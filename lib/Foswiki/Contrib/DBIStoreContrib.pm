@@ -4,8 +4,8 @@ package Foswiki::Contrib::DBIStoreContrib;
 use strict;
 use Foswiki ();
 
-our $VERSION = '1.1';           # plugin version is also locked to this
-our $RELEASE = '25 Feb 2014';
+our $VERSION = '1.1';          # plugin version is also locked to this
+our $RELEASE = '4 Mar 2014';
 
 # Very verbose debugging. Used by all modules in the suite.
 use constant MONITOR => 0;

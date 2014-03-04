@@ -59,7 +59,7 @@ BEGIN {
 }
 
 # Coverage; add _COVER(__LINE__) where you want a visit recorded.
-use constant COVER => 1;
+use constant COVER => 0;
 our %covered;
 
 BEGIN {
@@ -102,16 +102,17 @@ sub _SELECT {
         $info = _personality()->make_comment( $opts{monitor} );
     }
     my $pick = $opts{select};
-    my $sql  = "SELECT$info $pick";
+    if ( ref($pick) ) {
+        $pick = join( ',', @$pick );
+    }
+    my $sql = "SELECT$info $pick";
     while ( my ( $opt, $val ) = each %opts ) {
-        next unless ( $opt =~ /^[A-Z]/
-            && defined $val );
+        next unless ( $opt && $opt =~ /^[A-Z]/ && defined $val );
+        $val = [$val] unless ( ref($val) );
 
-        # Bracket sub-selects for FROM etc
-        if ( $val =~ /^SELECT/ ) {
-            $val = "($val)";
-        }
-        $sql .= " $opt $val";
+        # Bracket subqueries for FROM etc
+        $sql .=
+          " $opt " . join( ',', map { $_ =~ /^SELECT/ ? "($_)" : $_ } @$val );
     }
     return $sql;
 }
@@ -168,17 +169,10 @@ my %uop_map = (
     uc     => sub { _simple_uop( 'UPPER', STRING, @_ ) },
     length => sub {
         my ( $arg, $atype ) = @_;
-        if ( $atype == UNKNOWN ) {
-
-            # Assume a table
-            return ( "COUNT(*)", NUMBER );
+        if ( $atype != STRING && $atype != UNKNOWN ) {
+            $arg = _cast( $arg, $atype, STRING );
         }
-        else {
-            if ( $atype ne STRING ) {
-                $arg = _cast( $arg, $atype, STRING );
-            }
-            return ( _personality()->length($arg), NUMBER );
-        }
+        return ( _personality()->length($arg), NUMBER );
     },
     d2n => sub {
         my ( $arg, $atype ) = @_;
@@ -319,7 +313,7 @@ sub hoist {
     if ( $h{is_table_name} ) {
         $h{sql} = "topic.tid IN (SELECT tid FROM ($h{sql}) AS $alias)";
     }
-    elsif ( $h{sql} =~ /^SELECT/ ) {
+    elsif ( $h{is_select} ) {
 
         # It's a table; test if the selector is a true value
         my $where = '';
@@ -390,7 +384,7 @@ sub _hoist {
     $result{type} = UNKNOWN;
 
     if ( !ref( $node->{op} ) ) {
-        if ( $node->{op} eq STRING ) {
+        if ( $node->{op} == STRING ) {
 
             # Conbvert to an escaped SQL string
             my $s = $node->{params}[0];
@@ -431,7 +425,7 @@ sub _hoist {
 
         my $from_alias;
         my $tid_constraint = '';
-        if ( $lhs{is_table_name} || $lhs{sql} =~ /^SELECT/ ) {
+        if ( $lhs{is_table_name} || $lhs{is_select} ) {
 
             $from_alias = _alias(__LINE__);
             $lhs{sql} = _AS( $lhs{sql} => $from_alias );
@@ -447,7 +441,7 @@ sub _hoist {
 
         my %where = _hoist( $node->{params}[1], $from_alias );
 
-        if ( $where{sql} =~ /^SELECT/ ) {
+        if ( $where{is_select} ) {
             $where{sql} = "EXISTS($where{sql})";
         }
         elsif ( $where{is_table_name} ) {
@@ -476,6 +470,7 @@ sub _hoist {
             WHERE   => $where,
             monitor => __LINE__
         );
+        $result{is_select}  = 1;
         $result{has_where}  = length($where);
         $result{type}       = STRING;
         $result{ignore_tid} = $lhs{ignore_tid};
@@ -493,32 +488,23 @@ sub _hoist {
         }
         $result{sel} = $rhs->{params}[0];
 
-        if ( $lhs{sql} =~ /^SELECT/ ) {
-            my $lhs_alias = _alias(__LINE__);
-            $result{sql} = _SELECT(
-                select  => "$result{sel},$lhs_alias.tid",
-                FROM    => _AS( $lhs{sql} => $lhs_alias ),
-                monitor => __LINE__
-            );
+        my $alias   = _alias(__LINE__);
+        my @selects = ("$alias.tid");
+        if ( $lhs{is_select} ) {
+            push( @selects, $result{sel} );
         }
         elsif ( $lhs{is_table_name} ) {
-            my $alias = _alias(__LINE__);
-            $result{sql} = _SELECT(
-                select => "$alias.$result{sel},$alias.tid",
-                FROM   => _AS( $lhs{sql} => $alias ),
-
-         #-MySQL                # Only need WHERE if the LHS is not the in_table
-         #-MySQL                WHERE => (!$in_table || $lhs{sql} ne $in_table)
-         #-MySQL                ? ("$alias.tid=" . ( $in_table
-         #-MySQL                                     ? "$in_table.tid"
-         #-MySQL                                     : 'tid' ))
-         #-MySQL                : undef
-                monitor => __LINE__
-            );
+            push( @selects, "$alias.$result{sel}" );
         }
         else {
             _abort( "Expected a table on the LHS of '.':", $node );
         }
+        $result{sql} = _SELECT(
+            select  => \@selects,
+            FROM    => _AS( $lhs{sql} => $alias ),
+            monitor => __LINE__
+        );
+        $result{is_select}  = 1;
         $result{type}       = STRING;
         $result{ignore_tid} = $lhs{ignore_tid};
 
@@ -533,12 +519,12 @@ sub _hoist {
         my $lhs = $node->{params}[0];
         my %lhs = _hoist( $node->{params}[0], undef );
         my $lhs_where;
-        my $select = '';
-        my $wtn    = _personality()
+        my @selects;
+        my $wtn = _personality()
           ->strcat( "$topic_alias.web", "$CQ.$CQ", "$topic_alias.name" );
-        if ( $lhs{sql} =~ /^SELECT/ ) {
+        if ( $lhs{is_select} ) {
             my $tnames = _alias(__LINE__);
-            $select = _AS( $lhs{sql} => $tnames ) . ',';
+            push( @selects, _AS( $lhs{sql} => $tnames ) );
             my $tname_sel = $tnames;
             $tname_sel = "$tnames.$lhs{sel}" if $lhs{sel};
             $lhs_where = "($topic_alias.name=$tname_sel OR ($wtn)=$tname_sel)";
@@ -557,7 +543,7 @@ sub _hoist {
 
         # Expand the RHS *without* a constraint on the topic table
         my %rhs = _hoist( $node->{params}[1], undef );
-        unless ( $rhs{sql} =~ /^SELECT/ || $rhs{is_table_name} ) {
+        unless ( $rhs{is_select} || $rhs{is_table_name} ) {
 
             # We *could* handle this without an error, but it would
             # be pretty meaningless e.g. 'Topic'/1
@@ -570,38 +556,38 @@ sub _hoist {
         my $tid_constraint = "$sexpr_alias.tid IN ("
           . _SELECT(
             select  => 'tid',
-            FROM    => _AS( 'topic', $topic_alias ),
+            FROM    => _AS( 'topic' => $topic_alias ),
             WHERE   => $lhs_where,
             monitor => __LINE__
           ) . ")";
 
+        push( @selects, _AS( $rhs{sql} => $sexpr_alias ) );
         $result{sql} = _SELECT(
 
             # select all columns (which will include tid)
             select  => "$sexpr_alias.*",
-            FROM    => $select . _AS( $rhs{sql} => $sexpr_alias ),
+            FROM    => \@selects,
             WHERE   => $tid_constraint,
             monitor => __LINE__
         );
 
+        $result{is_select}  = 1;
         $result{has_where}  = 1;
         $result{type}       = $rhs{type};
         $result{ignore_tid} = 1;
     }
     elsif ( $arity == 2 && defined $bop_map{$op} ) {
 
-        my $lhs           = $node->{params}[0];
-        my %lhs           = _hoist( $lhs, $in_table );
-        my $lhs_is_SELECT = $lhs{sql} =~ /^SELECT/;
+        my $lhs = $node->{params}[0];
+        my %lhs = _hoist( $lhs, $in_table );
 
-        my $rhs           = $node->{params}[1];
-        my %rhs           = _hoist( $rhs, $in_table );
-        my $rhs_is_SELECT = $rhs{sql} =~ /^SELECT/;
+        my $rhs = $node->{params}[1];
+        my %rhs = _hoist( $rhs, $in_table );
 
         my $opfn = $bop_map{$op};
 
-        if (   ( $lhs_is_SELECT || $lhs{is_table_name} )
-            && ( $rhs_is_SELECT || $rhs{is_table_name} ) )
+        if (   ( $lhs{is_select} || $lhs{is_table_name} )
+            && ( $rhs{is_select} || $rhs{is_table_name} ) )
         {
 
             # TABLE - TABLE
@@ -658,11 +644,12 @@ sub _hoist {
                 my $union_sql = _UNION( $lhs_sql, $rhs_sql );
 
                 $result{sql} = _SELECT(
-                    select => 'DISTINCT '
-                      . _AS( $TRUE => $result{sel} ) . ",tid",
+                    select =>
+                      [ 'DISTINCT ' . _AS( $TRUE => $result{sel} ), 'tid' ],
                     FROM    => _AS( $union_sql, $union_alias ),
                     monitor => __LINE__
                 );
+                $result{is_select}  = 1;
                 $result{type}       = $TRUE_TYPE;
                 $result{ignore_tid} = 0;
             }
@@ -701,9 +688,8 @@ sub _hoist {
                     $tid_table = 'topic,';
                 }
                 $result{sql} = _SELECT(
-                    select => 'DISTINCT '
-                      . _AS( $expr => $result{sel} )
-                      . ",$ret_tid",
+                    select =>
+                      [ 'DISTINCT ' . _AS( $expr => $result{sel} ), $ret_tid ],
                     FROM => $tid_table
                       . _AS(
                         $lhs{sql} => $lhs_alias,
@@ -712,90 +698,36 @@ sub _hoist {
                     WHERE   => $where,
                     monitor => __LINE__
                 );
+                $result{is_select} = 1;
                 $result{has_where} = length($where);
                 $result{type}      = $optype;
             }
         }
-        elsif ( $lhs_is_SELECT || $lhs{is_table_name} ) {
+        elsif ( $lhs{is_select} || $lhs{is_table_name} ) {
 
             # TABLE - CONSTANT
-            my $lhs_alias = _alias(__LINE__);
-            my $l_sel     = $lhs_alias;
-            $l_sel = "$lhs_alias.$lhs{sel}" if $lhs{sel};
-
-            $result{sel}        = _alias(__LINE__);
-            $result{ignore_tid} = 0;
-
-            my ( $expr, $optype ) = &$opfn(
-                $l_sel    => $lhs{type},
-                $rhs{sql} => $rhs{type}
-            );
-
-            my $where;
-            if ( $optype == BOOLEAN ) {
-                $where  = $expr;
-                $expr   = $TRUE;
-                $optype = $TRUE_TYPE;
-            }
-
-            my $ret_tid   = "$lhs_alias.tid";
-            my $tid_table = '';
-            if ( $lhs{ignore_tid} ) {
-
-                # ignore tid coming from the subexpression
-                $ret_tid   = 'topic.tid';
-                $tid_table = 'topic,';
-            }
-
-            $result{sql} = _SELECT(
-                select => _AS( $expr => $result{sel} ) . ",$ret_tid",
-                FROM    => $tid_table . _AS( $lhs{sql} => $lhs_alias ),
-                WHERE   => $where,
-                monitor => __LINE__ . " $op"
-            );
-            $result{has_where} = length($where);
-            $result{type}      = $optype;
-
+            my $operate = sub {
+                my $sel = shift;
+                return &$opfn(
+                    $sel      => $lhs{type},
+                    $rhs{sql} => $rhs{type}
+                );
+            };
+            _genSingleTableSELECT( \%lhs, $operate, \%result,
+                __LINE__ . " $op" );
         }
-        elsif ($rhs_is_SELECT) {
+        elsif ( $rhs{is_select} ) {
 
             # CONSTANT - TABLE
-            my $rhs_alias = _alias(__LINE__);
-            my $r_sel     = $rhs_alias;
-            $r_sel = "$rhs_alias.$rhs{sel}" if $rhs{sel};
-
-            $result{sel}        = _alias(__LINE__);
-            $result{ignore_tid} = 0;
-
-            my ( $expr, $optype ) = &$opfn(
-                $lhs{sql} => $lhs{type},
-                $r_sel    => $rhs{type}
-            );
-
-            my $where;
-            if ( $optype == BOOLEAN ) {
-                $where  = $expr;
-                $expr   = $TRUE;
-                $optype = $TRUE_TYPE;
-            }
-
-            my $ret_tid   = "$rhs_alias.tid";
-            my $tid_table = '';
-            if ( $rhs{ignore_tid} ) {
-
-                # ignore tid coming from the subexpression
-                $ret_tid   = 'topic.tid';
-                $tid_table = 'topic,';
-            }
-
-            $result{sql} = _SELECT(
-                select => _AS( $expr => $result{sel} ) . ",$ret_tid",
-                FROM    => $tid_table . _AS( $rhs{sql} => $rhs_alias ),
-                WHERE   => $where,
-                monitor => __LINE__
-            );
-            $result{has_where} = length($where);
-            $result{type}      = $optype;
+            my $operate = sub {
+                my $sel = shift;
+                return &$opfn(
+                    $lhs{sql} => $lhs{type},
+                    $sel      => $rhs{type}
+                );
+            };
+            _genSingleTableSELECT( \%rhs, $operate, \%result,
+                __LINE__ . " $op" );
         }
         else {
 
@@ -809,36 +741,14 @@ sub _hoist {
     elsif ( $arity == 1 && defined $uop_map{$op} ) {
         my $opfn = $uop_map{$op};
         my %kid = _hoist( $node->{params}[0], $in_table );
-        if ( $kid{sql} =~ /^SELECT/ || $kid{is_table_name} ) {
-            my $arg_alias = _alias(__LINE__);
-            my $arg_sel   = $arg_alias;
-            $arg_sel = "$arg_alias.$kid{sel}" if $kid{sel};
-            $result{sel}        = _alias(__LINE__);
-            $result{ignore_tid} = 0;
-            my ( $expr, $optype ) = &$opfn( $arg_sel => UNKNOWN );
+        if ( $kid{is_select} || $kid{is_table_name} ) {
+            my $operate = sub {
+                my $sel = shift;
+                return &$opfn( $sel => UNKNOWN );
+            };
+            _genSingleTableSELECT( \%kid, $operate, \%result,
+                __LINE__ . " $op" );
 
-            my $where;
-            if ( $optype == BOOLEAN ) {
-                $where  = $expr;
-                $expr   = $TRUE;
-                $optype = $TRUE_TYPE;
-            }
-            my $ret_tid   = 'tid';
-            my $tid_table = '';
-            if ( $kid{ignore_tid} ) {
-
-                # ignore tid coming from the subexpression
-                $ret_tid   = 'topic.tid';
-                $tid_table = 'topic,';
-            }
-            $result{sql} = _SELECT(
-                select => _AS( $expr => $result{sel} ) . ",$ret_tid",
-                FROM    => $tid_table . _AS( $kid{sql} => $arg_alias ),
-                WHERE   => $where,
-                monitor => __LINE__
-            );
-            $result{has_where} = length($expr);
-            $result{type}      = $optype;
         }
         else {
             ( $result{sql}, $result{type} ) = &$opfn( $kid{sql}, $kid{type} );
@@ -848,13 +758,52 @@ sub _hoist {
     else {
         _abort( "Don't know how to hoist '$op':", $node );
     }
-    if (MONITOR) {
-        print STDERR "Hoist " . recreate($node) . " ->\n";
-        print STDERR "select $result{sel} from\n" if $result{sel};
-        print STDERR "table name\n"               if $result{is_table_name};
-        print STDERR _format_SQL( $result{sql} ) . "\n";
-    }
+
+   #    if (MONITOR) {
+   #        print STDERR "Hoist " . recreate($node) . " ->\n";
+   #        print STDERR "select $result{sel} from\n" if $result{sel};
+   #        print STDERR "table name\n"               if $result{is_table_name};
+   #        print STDERR _format_SQL( $result{sql} ) . "\n";
+   #    }
     return %result;
+}
+
+sub _genSingleTableSELECT {
+    my ( $table, $operate, $result, $monitor ) = @_;
+
+    my $alias = _alias(__LINE__);
+    my $sel   = $alias;
+    $sel = "$alias.$table->{sel}" if $table->{sel};
+
+    $result->{sel}        = _alias(__LINE__);
+    $result->{ignore_tid} = 0;
+    my ( $expr, $optype ) = &$operate($sel);
+
+    my $where;
+    if ( $optype == BOOLEAN ) {
+        $where  = $expr;
+        $expr   = $TRUE;
+        $optype = $TRUE_TYPE;
+    }
+
+    my $ret_tid = "$alias.tid";
+    my @froms = ( _AS( $table->{sql} => $alias ) );
+    if ( $table->{ignore_tid} ) {
+
+        # ignore tid coming from the subexpression
+        $ret_tid = 'topic.tid';
+        unshift( @froms, 'topic' );
+    }
+
+    $result->{sql} = _SELECT(
+        select  => [ _AS( $expr => $result->{sel} ), $ret_tid ],
+        FROM    => \@froms,
+        WHERE   => $where,
+        monitor => $monitor
+    );
+    $result->{is_select} = 1;
+    $result->{has_where} = length($where);
+    $result->{type}      = $optype;
 }
 
 # Generate a cast statement, if necessary.

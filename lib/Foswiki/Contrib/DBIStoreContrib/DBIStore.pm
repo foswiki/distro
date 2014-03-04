@@ -33,7 +33,7 @@ use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 # TODO: SMELL: convert to using $session->{store} perhaps?
 our $db;             # singleton instance of this class
 our $personality;    # personality module for the selected DSN
-our ( $CQ, $TEXT );
+our $CQ;             # character string quote
 
 # @ISA not used, as its set by magic, and we don't want to import more functions
 # our @ISA = ('Foswiki::Store::Store');
@@ -81,8 +81,6 @@ sub _connect {
 
     return 1 if $this->{handle} && !$hard_reset;
 
-    $this->{schema} ||= {};
-
     unless ( $this->{handle} ) {
 
         if ($Foswiki::inUnitTestMode) {
@@ -110,27 +108,51 @@ sub _connect {
         # Custom code to put DB's into ANSI mode and clean up error reporting
         personality()->startup();
 
-        $CQ   = personality()->{string_quote};
-        $TEXT = personality()->{text_type};
+        $CQ = personality()->{string_quote};
     }
 
     # Check if the DB is initialised with a quick sniff of the tables
     # to see if all the ones we expect are there
     if ( personality()->table_exists( 'metatypes', 'topic' ) ) {
+        if (MONITOR) {
+
+            # Check metatypes integrity
+            my $tables =
+              $this->{handle}->selectcol_arrayref('SELECT name FROM metatypes');
+            foreach my $table (@$tables) {
+                unless ( personality()->table_exists($table) ) {
+                    _say "$table is in metatypes but does not exist";
+                }
+            }
+        }
         return 1 unless ($hard_reset);
         _say "HARD RESET" if MONITOR;
+    }
+    elsif (MONITOR) {
+        _say "Base tables don't exist";
+        ASSERT(0);
+    }
 
-        # Hard reset; strip down all existing tables
+    # Hard reset; strip down all existing tables
 
-        # The metatypes table is how we know which tables are ours.
-        my $tables =
+    # The metatypes table is how we know which tables are ours. Add
+    # this to the schema.
+    my @tables = keys %{ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} };
+    if ( personality()->table_exists('metatypes') ) {
+        my $mts =
           $this->{handle}->selectcol_arrayref('SELECT name FROM metatypes');
-
-        foreach my $table ( @$tables, 'topic', 'metatypes' ) {
-            if ( personality()->table_exists($table) ) {
-                $this->{handle}
-                  ->do( 'DROP TABLE ' . personality()->safe_id($table) );
+        foreach my $t (@$mts) {
+            unless ( grep( /^$t$/, @tables ) ) {
+                push( @tables, $t );
             }
+        }
+    }
+
+    foreach my $table (@tables) {
+        if ( personality()->table_exists($table) ) {
+            $this->{handle}
+              ->do( 'DROP TABLE ' . personality()->safe_id($table) );
+            _say "Dropped $table" if MONITOR;
         }
     }
 
@@ -149,17 +171,40 @@ sub _connect {
 
 # Create the table for the given META - PRIVATE
 sub _createTableForMETA {
-    my ( $this, $t, @colnames ) = @_;
-    my $cols = join( ',',
-        'tid INT', map { personality()->safe_id($_) . " $TEXT" } @colnames );
+    my ( $this, $t ) = @_;
+    my $schema = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$t};
+
+    # Create table
+    my $cols = join(
+        ',',
+        'tid INT',
+        map {
+                personality()->safe_id($_) . ' '
+              . personality()->column_type( $t, $_ )
+        } grep( !/^_/, keys %$schema )
+    );
     my $sn  = personality()->safe_id($t);
     my $sql = "CREATE TABLE $sn ( $cols )";
     _say $sql if MONITOR;
     $this->{handle}->do($sql);
-    $this->{schema}->{$t} = { map { $_ => 1 } @colnames };
 
     # Add the table to the table of tables
     $this->{handle}->do("INSERT INTO metatypes (name) VALUES ( $CQ$t$CQ )");
+
+    # Create indexes
+    while ( my ( $col, $v ) = each %$schema ) {
+        $v = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$v}
+          unless ( ref($v) );
+        if ( $v->{index} ) {
+            my $sql =
+                'CREATE INDEX '
+              . personality()->safe_id("IX_${t}_${col}") . ' ON '
+              . personality()->safe_id($t) . '('
+              . personality()->safe_id($col) . ')';
+            _say $sql if MONITOR;
+            $this->{handle}->do($sql);
+        }
+    }
 }
 
 # Create all the base tables in the DB (including all default META: tables) - PRIVATE
@@ -168,44 +213,32 @@ sub _createTables {
 
     # Create the topic table. This links the web name, topic name,
     # topic text and raw text of the topic.
-    $this->{handle}->do(<<SQL);
-CREATE TABLE topic (
- tid  INT PRIMARY KEY,
- web  $TEXT,
- name $TEXT,
- text $TEXT,
- raw  $TEXT,
- UNIQUE (tid)
-)
-SQL
+    my @cols = ('tid  INT PRIMARY KEY');
+    foreach my $c (qw/web name text raw/) {
+        push( @cols,
+                personality()->safe_id($c) . ' '
+              . personality()->column_type( 'topic', $c ) );
+    }
+    my $colst = join( ',', @cols );
+    $this->{handle}->do("CREATE TABLE topic ($colst,UNIQUE (tid))");
 
     # Now create the meta-table of known META: tables
-    $this->{handle}->do(<<SQL);
-CREATE TABLE metatypes (
- name $TEXT
-)
-SQL
+    $this->{handle}->do( 'CREATE TABLE metatypes(name '
+          . personality()->column_type( 'metatypes', 'name' )
+          . ')' );
 
     # Create the tables for each registered META: type
-    $this->{schema} = {};
-    foreach my $type ( keys(%Foswiki::Meta::VALIDATE) ) {
-        _say "Creating VALIDATE table for $type" if MONITOR;
-        my @attrs;
-        my $t = $Foswiki::Meta::VALIDATE{$type};
-        if ($t) {
+    foreach my $type (
+        keys( %{ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} } ) )
+    {
 
-            # Get the col names from VALIDATE
-            foreach my $g (qw(require allow other)) {
-                if ( defined $t->{$g} ) {
+        next if $type =~ /^(_.*|topic|metatypes)$/;
 
-                    # The if is critical; without it, we change the schema
-                    foreach ( @{ $t->{$g} } ) {
-                        push( @attrs, $_ );
-                    }
-                }
-            }
+        my $t = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$type};
+        unless ( $t =~ /^_/ ) {
+            _say "Creating table for $type" if MONITOR;
+            $this->_createTableForMETA($type);
         }
-        $this->_createTableForMETA( $type, @attrs );
     }
     $this->{handle}->do('COMMIT') if personality()->{requires_COMMIT};
 }
@@ -266,45 +299,42 @@ sub _inner_insert {
 
         # Make sure it's registered.
         next
-          unless ( defined $Foswiki::Meta::VALIDATE{$type}
+          unless (
+            defined $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$type}
             || $Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA}
             && $type =~ /^[A-Z][A-Z0-9_]+$/ );
 
         # Make sure the table exists
-        unless ( $this->{schema}->{$type} ) {
+        my $schema = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$type};
 
-            # The table is not in the schema
+        unless ($schema) {
+
+            # The table is not in the schema. Is it in the DB?
             if ( personality()->table_exists($type) ) {
 
                 # Pull the column names from the DB
-                $this->{schema}->{$type} =
-                  { map { $_ => 1 } personality()->get_columns($type) };
+                $schema =
+                  { map { $_ => '_DEFAULT' }
+                      personality()->get_columns($type) };
+                $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$type} =
+                  $schema;
             }
             else {
-                # The table is not in the DB either
-                my %attrs;
-                my $t = $Foswiki::Meta::VALIDATE{$type};
-                if ($t) {
-
-                    # Get the col names from VALIDATE
-                    foreach my $g (qw(require allow other)) {
-                        if ( defined $t->{$g} ) {
-                            foreach ( @{ $t->{$g} } ) {
-                                $attrs{$_} = 1;
-                            }
-                        }
-                    }
-                }
+                # The table is not in the DB either. Try deduce the schema
+                # from the data.
+                $schema = {};
 
                 # Check the entries to ensure we have picked up all the
                 # columns. We read *all* entries so we get all columns.
                 foreach my $item ( $mo->find($type) ) {
-                    foreach ( keys(%$item) ) {
-                        $attrs{$_} = 1;
+                    foreach my $col ( keys(%$item) ) {
+                        $schema->{$col} ||= '_DEFAULT';
                     }
                 }
                 _say "Creating fly table for $type" if MONITOR;
-                $this->_createTableForMETA( $type, keys %attrs );
+                $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}->{$type} =
+                  $schema;
+                $this->_createTableForMETA($type);
             }
         }
 
@@ -321,20 +351,20 @@ sub _inner_insert {
 
             # Check that the table is configured to accept this data
             foreach my $kn (@kns) {
-                unless ( $this->{schema}->{$type}->{$kn} ) {
+                unless ( $schema->{$kn} ) {
 
                     # The column is not in the schema
                     unless ( personality()->column_exists( $type, $kn ) ) {
 
                         # The column might be in the DB but not in
                         # the schema. This is unlikely, but possible.
+                        $schema->{$kn} =
+                          personality()->column_type( $type, $kn );
                         $this->{handle}->do( 'ALTER TABLE '
                               . personality()->safe_id($type) . ' ADD '
-                              . personality()->safe_id($kn)
-                              . " $TEXT" );
+                              . personality()->safe_id($kn) . ' '
+                              . $schema->{$kn} );
                     }
-                    $this->{schema}->{$type} =
-                      { map { $_ => 1 } personality()->get_columns($type) };
                 }
 
                 # The column might be in the schema but not in the DB
@@ -355,9 +385,6 @@ sub _inner_insert {
             _say "$sql [tid," . join( ',', map { $item->{$_} } @kns ) . ']'
               if MONITOR;
 
-            #_say "$sql tid,"
-            #    . join(';', map { (defined $item->{$_}?$item->{$_}:"") } @kns)
-            #    if MONITOR;
             $this->{handle}->do( $sql, {},
                 $tid, map { _convertToUTF8( $item->{$_} ) } @kns );
         }
