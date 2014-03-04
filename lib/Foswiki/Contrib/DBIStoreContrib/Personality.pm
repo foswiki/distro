@@ -313,37 +313,6 @@ sub strcat {
     return join( '||', @_ );
 }
 
-=begin TML
-
----++ column_type($table, $column) -> $typename
-Determine the best text type to use to represent the given column.
-
-The default implementation uses the
-{Extensions}{DBIStoreContrib}{Schema} table to map from a
-table name, column name to a type.
-
-=cut
-
-sub column_type {
-    my ( $this, $table, $column ) = @_;
-
-    my $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$table};
-    $l = $l->{$column} if $l;
-    if ( defined $l ) {
-
-        # If the type name starts with an underscore, map to a default
-        # type name
-        if ( $l =~ /^_/ ) {
-            $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$l};
-            ASSERT($l) if DEBUG;
-        }
-        return $l->{type};
-    }
-    print STDERR "WARNING: Could not determine a type for $table.$column\n"
-      if DEBUG;
-    return $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{_DEFAULT}{type};
-}
-
 1;
 __DATA__
 

@@ -175,14 +175,10 @@ sub _createTableForMETA {
     my $schema = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$t};
 
     # Create table
-    my $cols = join(
-        ',',
+    my $cols = join( ',',
         'tid INT',
-        map {
-                personality()->safe_id($_) . ' '
-              . personality()->column_type( $t, $_ )
-        } grep( !/^_/, keys %$schema )
-    );
+        map { personality()->safe_id($_) . ' ' . _column( $t, $_ )->{type} }
+          grep( !/^_/, keys %$schema ) );
     my $sn  = personality()->safe_id($t);
     my $sql = "CREATE TABLE $sn ( $cols )";
     _say $sql if MONITOR;
@@ -216,15 +212,14 @@ sub _createTables {
     my @cols = ('tid  INT PRIMARY KEY');
     foreach my $c (qw/web name text raw/) {
         push( @cols,
-                personality()->safe_id($c) . ' '
-              . personality()->column_type( 'topic', $c ) );
+            personality()->safe_id($c) . ' ' . _column( 'topic', $c )->{type} );
     }
     my $colst = join( ',', @cols );
     $this->{handle}->do("CREATE TABLE topic ($colst,UNIQUE (tid))");
 
     # Now create the meta-table of known META: tables
     $this->{handle}->do( 'CREATE TABLE metatypes(name '
-          . personality()->column_type( 'metatypes', 'name' )
+          . _column( 'metatypes', 'name' )->{type}
           . ')' );
 
     # Create the tables for each registered META: type
@@ -278,6 +273,35 @@ sub _convertToUTF8 {
     $text = Encode::decode( $Foswiki::cfg{Site}{CharSet}, $text );
     $text = Encode::encode( 'utf-8', $text );
     return $text;
+}
+
+sub _truncate {
+    my ( $data, $size ) = @_;
+    return $data unless defined($size) && length($data) > $size;
+    print STDERR 'Truncating ' . length($data) . " to $size\n"
+      if MONITOR;
+    return substr( $data, 0, $size - 3 ) . '...';
+}
+
+# Get the column schema for the given column.
+sub _column {
+    my ( $table, $column ) = @_;
+
+    my $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$table};
+    $l = $l->{$column} if $l;
+    if ( defined $l ) {
+
+        # If the type name starts with an underscore, map to a default
+        # type name
+        if ( $l =~ /^_/ ) {
+            $l = $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{$l};
+            ASSERT($l) if DEBUG;
+        }
+        return $l;
+    }
+    print STDERR "WARNING: Could not determine a type for $table.$column\n"
+      if DEBUG;
+    return $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema}{_DEFAULT};
 }
 
 sub _inner_insert {
@@ -358,12 +382,15 @@ sub _inner_insert {
 
                         # The column might be in the DB but not in
                         # the schema. This is unlikely, but possible.
-                        $schema->{$kn} =
-                          personality()->column_type( $type, $kn );
+
+                        # _column will give us the default if the column
+                        # name isn't matched
+                        $schema->{$kn} = _column( $type, $kn );
+
                         $this->{handle}->do( 'ALTER TABLE '
                               . personality()->safe_id($type) . ' ADD '
                               . personality()->safe_id($kn) . ' '
-                              . $schema->{$kn} );
+                              . $schema->{$kn}->{type} );
                     }
                 }
 
@@ -382,11 +409,21 @@ sub _inner_insert {
               . join( ',', map { '?' } @kns ) . ")";
             shift(@kns);
 
-            _say "$sql [tid," . join( ',', map { $item->{$_} } @kns ) . ']'
+            _say "$sql [tid,"
+              . join( ',', map { _truncate( $item->{$_}, 80 ) } @kns ) . ']'
               if MONITOR;
 
-            $this->{handle}->do( $sql, {},
-                $tid, map { _convertToUTF8( $item->{$_} ) } @kns );
+            $this->{handle}->do(
+                $sql,
+                {},
+                $tid,
+                map {
+                    _truncate(
+                        _convertToUTF8( $item->{$_} ),
+                        _column( $type, $_ )->{truncate_to}
+                      )
+                } @kns
+            );
         }
     }
 }

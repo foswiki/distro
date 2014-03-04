@@ -674,9 +674,9 @@ sub _hoist {
                     $l_sel => $lhs{type},
                     $r_sel => $rhs{type}
                 );
-                my $where;
+                my $where = "($lhs_alias.tid=$rhs_alias.tid)";
                 if ( $optype == BOOLEAN ) {
-                    $where  = $expr;
+                    $where .= " AND ($expr)";
                     $expr   = $TRUE;
                     $optype = $TRUE_TYPE;
                 }

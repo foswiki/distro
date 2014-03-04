@@ -35,6 +35,10 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA} = 0;
 # the column.
 # The pseudo-type _DEFAULT must exist and must be a text type.
 # If {index} is true, then an index will be created for that column.
+# If {truncate_to} is set to a length, then the value of that field
+# stored in the DB will be truncated to that length. This only affects
+# searching. If truncate_to is not set, then trying to store a value
+# longer than the field accepts will be an error.
 $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
     _DEFAULT => { type => 'TEXT' },
     _USERNAME => { type => 'VARCHAR(64)', index => 1 },
@@ -74,7 +78,7 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
         size => { type => 'VARCHAR(32)' },
         date => '_DATE',
         user => '_USERNAME',
-        comment => { type => 'VARCHAR(512)' },
+        comment => { type => 'VARCHAR(512)', truncate_to => 512 },
         attr => { type => 'VARCHAR(32)' },
     },
     FORM => {
@@ -82,12 +86,12 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
     },
     FIELD => {
         name => { type => 'VARCHAR(128)', index => 1 },
-        value => { type => 'VARCHAR(512)', index => 1 },
+        value => { type => 'VARCHAR(512)', index => 1, truncate_to => 512 },
         title => { type => 'VARCHAR(256)' },
     },
     PREFERENCE => {
         name => { type => 'VARCHAR(64)', index => 1 },
-        value => { type => 'VARCHAR(512)' },
+        value => _DEFAULT,
         type => { type => 'VARCHAR(32)' },
     }
 };
