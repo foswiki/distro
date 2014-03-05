@@ -82,7 +82,6 @@ sub regexp {
     $rhs =~ s/(?<=[^\\])\\b//g;               # not supported
     $rhs =~ s/(?<=[^\\])\{\d+(,\d*)?\}//g;    # not supported
                                               # Escape '
-    $rhs =~ s/'/\\'/g;
     $rhs =~ s/\\/\\\\/g;
 
     return "$lhs REGEXP '$rhs'";

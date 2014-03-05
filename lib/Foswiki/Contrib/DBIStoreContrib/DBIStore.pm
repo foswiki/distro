@@ -33,7 +33,6 @@ use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 # TODO: SMELL: convert to using $session->{store} perhaps?
 our $db;             # singleton instance of this class
 our $personality;    # personality module for the selected DSN
-our $CQ;             # character string quote
 
 # @ISA not used, as its set by magic, and we don't want to import more functions
 # our @ISA = ('Foswiki::Store::Store');
@@ -107,8 +106,6 @@ sub _connect {
 
         # Custom code to put DB's into ANSI mode and clean up error reporting
         personality()->startup();
-
-        $CQ = personality()->{string_quote};
     }
 
     # Check if the DB is initialised with a quick sniff of the tables
@@ -185,7 +182,7 @@ sub _createTableForMETA {
     $this->{handle}->do($sql);
 
     # Add the table to the table of tables
-    $this->{handle}->do("INSERT INTO metatypes (name) VALUES ( $CQ$t$CQ )");
+    $this->{handle}->do("INSERT INTO metatypes (name) VALUES ( '$t' )");
 
     # Create indexes
     while ( my ( $col, $v ) = each %$schema ) {
@@ -443,7 +440,7 @@ sub _inner_remove {
     foreach my $table ( 'topic', @$tables ) {
         if ( personality()->table_exists($table) ) {
             my $tn = personality()->safe_id($table);
-            $this->{handle}->do("DELETE FROM $tn WHERE tid=$CQ$tid$CQ");
+            $this->{handle}->do("DELETE FROM $tn WHERE tid='$tid'");
         }
     }
 }

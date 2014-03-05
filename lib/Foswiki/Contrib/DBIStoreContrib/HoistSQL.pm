@@ -29,7 +29,6 @@ use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 our $table_name_RE = qr/^\w+$/;
 
 # Pseudo-constants, from the Personality
-our $CQ;    # character string quote
 our $TRUE;
 our $TRUE_TYPE;
 
@@ -297,7 +296,6 @@ sub hoist {
     my ($query) = @_;
 
     unless ( defined $TRUE ) {
-        $CQ        = _personality()->{string_quote};
         $TRUE      = _personality()->{true_value};
         $TRUE_TYPE = _personality()->{true_type};
     }
@@ -322,7 +320,7 @@ sub hoist {
                 $where = '!=0';
             }
             elsif ( $h{type} == STRING ) {
-                $where = "!=$CQ$CQ";
+                $where = "!=''";
             }
             else {
                 $where = '';    # BOOLEAN
@@ -340,7 +338,7 @@ sub hoist {
         $h{sql} = "($h{sql})!=0";
     }
     elsif ( $h{type} == STRING ) {
-        $h{sql} = "($h{sql})!=$CQ$CQ";
+        $h{sql} = "($h{sql})!=''";
     }
     return $h{sql};
 }
@@ -386,10 +384,13 @@ sub _hoist {
     if ( !ref( $node->{op} ) ) {
         if ( $node->{op} == STRING ) {
 
-            # Conbvert to an escaped SQL string
+            # Convert to an escaped SQL string
             my $s = $node->{params}[0];
             $s =~ s/\\/\\\\/g;
-            $result{sql}  = "$CQ$s$CQ";
+
+            # Escape single quote by doubling it (SQL standard)
+            $s =~ s/'/''/gs;
+            $result{sql}  = "'$s'";
             $result{type} = STRING;
         }
         elsif ( $node->{op} == NAME ) {
@@ -453,7 +454,7 @@ sub _hoist {
         elsif ( $where{type} == STRING ) {
 
             # A simple non-table expression
-            $where{sql} = "($where{sql})!=$CQ$CQ";
+            $where{sql} = "($where{sql})!=''";
         }
         elsif ( $where{type} == NUMBER ) {
             $where{sql} = "($where{sql})!=0";
@@ -494,7 +495,8 @@ sub _hoist {
             push( @selects, $result{sel} );
         }
         elsif ( $lhs{is_table_name} ) {
-            push( @selects, "$alias.$result{sel}" );
+            push( @selects,
+                "$alias." . _personality()->safe_id( $result{sel} ) );
         }
         else {
             _abort( "Expected a table on the LHS of '.':", $node );
@@ -521,12 +523,13 @@ sub _hoist {
         my $lhs_where;
         my @selects;
         my $wtn = _personality()
-          ->strcat( "$topic_alias.web", "$CQ.$CQ", "$topic_alias.name" );
+          ->strcat( "$topic_alias.web", "'.'", "$topic_alias.name" );
         if ( $lhs{is_select} ) {
             my $tnames = _alias(__LINE__);
             push( @selects, _AS( $lhs{sql} => $tnames ) );
             my $tname_sel = $tnames;
-            $tname_sel = "$tnames.$lhs{sel}" if $lhs{sel};
+            $tname_sel = "$tnames." . _personality()->safe_id( $lhs{sel} )
+              if $lhs{sel};
             $lhs_where = "($topic_alias.name=$tname_sel OR ($wtn)=$tname_sel)";
         }
         elsif ( $lhs{is_table_name} ) {
@@ -667,8 +670,10 @@ sub _hoist {
                         $node
                     );
                 }
-                my $l_sel = "$lhs_alias.$lhs{sel}";
-                my $r_sel = "$rhs_alias.$rhs{sel}";
+                my $l_sel =
+                  "$lhs_alias." . _personality()->safe_id( $lhs{sel} );
+                my $r_sel =
+                  "$rhs_alias." . _personality()->safe_id( $rhs{sel} );
 
                 my ( $expr, $optype ) = &$opfn(
                     $l_sel => $lhs{type},
@@ -773,7 +778,8 @@ sub _genSingleTableSELECT {
 
     my $alias = _alias(__LINE__);
     my $sel   = $alias;
-    $sel = "$alias.$table->{sel}" if $table->{sel};
+    $sel = "$alias." . _personality()->safe_id( $table->{sel} )
+      if $table->{sel};
 
     $result->{sel}        = _alias(__LINE__);
     $result->{ignore_tid} = 0;
@@ -822,7 +828,7 @@ sub _cast {
             return "$arg=" . $TRUE;
         }
         else {
-            $arg = "$arg!=$CQ$CQ";
+            $arg = "$arg!=''";
         }
     }
     elsif ( $tgt_type == NUMBER ) {
@@ -1003,10 +1009,10 @@ sub _format_SQL {
     my @ss = ();
 
     # Replace escaped quotes
-    $sql =~ s/(\\$CQ)/push(@ss,$1); "![$#ss]!"/ges;
+    $sql =~ s/('')/push(@ss,$1); "![$#ss]!"/ges;
 
     # Replace quoted strings
-    $sql =~ s/($CQ([^$CQ])*$CQ)/push(@ss,$1); "![$#ss]!"/ges;
+    $sql =~ s/('([^'])*')/push(@ss,$1); "![$#ss]!"/ges;
 
     # Replace bracketed subexpressions
     my $n = 0;

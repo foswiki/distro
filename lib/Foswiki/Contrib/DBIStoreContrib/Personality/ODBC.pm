@@ -100,7 +100,6 @@ sub regexp {
     unless ( $rhs =~ s/^'(.*)'$/$1/s ) {
         return "dbo.fn_RegExIsMatch($lhs,$rhs,1)=1";    # risky!
     }
-    $rhs =~ s/'/\\'/g;
     $rhs =~ s/\\/\\\\/g;
 
     return "dbo.fn_RegExIsMatch($lhs,'$rhs',1)=1";

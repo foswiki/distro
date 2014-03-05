@@ -286,6 +286,9 @@ sub _expand_relist {
         ASSERT( defined $s ) if DEBUG;
         my $q = quotemeta($s);
         if ( $q ne $s ) {
+
+            # Double up single quotes (SQL standard)
+            $s =~ s/'/''/g;
             push(
                 @exprs,
                 Foswiki::Contrib::DBIStoreContrib::DBIStore::personality

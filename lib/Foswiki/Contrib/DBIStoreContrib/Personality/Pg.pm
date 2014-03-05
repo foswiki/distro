@@ -99,10 +99,8 @@ sub regexp {
     $rhs =~ s/\\x([0-9a-f]{2})/_char("0x$1")/gei;
     $rhs =~ s/\\x{([0-9a-f]+)}/_char("0x$1")/gei;
 
-    # Postgresql supports full POSIX regexes. Just need to escape
-    # single quote.
-    $rhs =~ s/'/\\'/g;
-    $rhs =~ s/\\/\\/g;
+    # Postgresql supports full POSIX regexes.
+
     return "$lhs ~$i '$rhs'";
 }
 

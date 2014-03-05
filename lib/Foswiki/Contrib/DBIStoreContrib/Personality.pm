@@ -16,9 +16,6 @@ use Foswiki::Contrib::DBIStoreContrib ();
 
 =begin TML
 
-{string_quote} is the quote character to use for character
-strings - default is '
-
 {true_value} and {true_type} For DB's that
 don't support a true BOOLEAN type, the true_type can be PSEUDO_BOOL,
 in which case boolean operations on the data will always be preceded
@@ -38,9 +35,6 @@ sub new {
     my $this = bless(
         {
             store => $dbistore,
-
-            # The quote to use around constant strings
-            string_quote => "'",
 
             # If the DB is running *without* auto-commit enabled, then this
             # is required.
@@ -197,6 +191,9 @@ is easy to do.
 
 The default implementation uses the regexp function to match.
 
+Note: the string input to this function must have single quotes already
+doubled up.
+
 =cut
 
 sub wildcard {
@@ -204,13 +201,19 @@ sub wildcard {
     my @exprs;
     if ( $rhs =~ s/^'(.*)'$/$1/ ) {
         foreach my $spec ( split( /(?:,\s*|\|)/, $rhs ) ) {
-            my $like = 0;
-            $like = 1 if $spec =~ s/(['.%_])/[$1]/g;
+            my $like   = 0;
+            my $escape = '';
+            if ( $spec =~ s/([%_])/\0$1/g ) {
+                $spec =~ s/!/!!/g;
+                $spec =~ s/\0/!/g;
+                $like   = 1;
+                $escape = ' ESCAPE \'!\'';
+            }
             $like = 1 if $spec =~ s/\*/%/g;
             $like = 1 if $spec =~ s/\?/_/g;
 
             if ($like) {
-                my $res = "$lhs LIKE '$spec'";
+                my $res = "$lhs LIKE '$spec'$escape";
                 push( @exprs, $res );
             }
             else {
