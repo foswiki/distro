@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1393508102" format="1.1" reprev="3" version="3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1393593747" format="1.1" reprev="3" version="4"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ The Smilies Plugin <nop>:-)
 
@@ -23,7 +23,7 @@ To add others, attach new icons to this topic and tweak the table below.
 | <nop>(:I <nop>:sweat:                 | emoticon-0107-sweating.gif     | sweating |
 | <nop>:I <nop>:-I <nop>:speechless:    | emoticon-0108-speechless.gif   | indifferent, speechless |
 | <nop>:* <nop>:-* <nop>:kiss:          | emoticon-0109-kiss.gif         | kiss |
-| <nop>:p <nop>:-p <nop>:tongue:        | emoticon-0110-tongueout.gif    | stick out tongue |
+| <nop>:P <nop>:-P <nop>:p <nop>:-p <nop>:tongue:        | emoticon-0110-tongueout.gif    | stick out tongue |
 | <nop>:^) <nop>:wonder:                | emoticon-0112-wondering.gif    | wondering |
 | <nop>I-) <nop>:snooze:                | emoticon-0113-sleepy.gif       | sleepy, snooze |
 | <nop>I-( <nop>:dull:                  | emoticon-0114-dull.gif         | dull |

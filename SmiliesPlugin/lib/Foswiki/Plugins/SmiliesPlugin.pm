@@ -41,7 +41,7 @@ sub preRenderingHandler {
 
 sub _addToZone {
     Foswiki::Func::addToZone( "head", "SMILIESPLUGIN",
-"<style>.smily { height:1.5em; max-height:19px; vertical-align:text-bottom; }</style>"
+"<style type='text/css' media='all'>.smily { height:1.5em; max-height:19px; vertical-align:text-bottom; }</style>"
     );
 }
 
