@@ -11,8 +11,8 @@
 <ul> \
 <li> =$name= expands to the group name, and (for users list only) </li>\
 <li> =$wikiname=, =$username= and =$wikiusername= to the relevant strings. </li>\
-<li> =$allowschange= returns 0 (false) or 1 (true) if that group can be modified by the current user. </li>\
-<li> =$allowschange(!UserWikiName)= returns 0 (false) or 1 (true) if that group can be modified by the specified user (does not work for groups yet.). </li>\
+<li> =$allowschange= returns 0 (false) or 1 (true) if the group can be modified by the group member being processed. </li>\
+<!--<li> =$allowschange(!UserWikiName)= returns 0 (false) or 1 (true) if that group can be modified by the specified user (does not work for groups yet.). </li>\-->
 <li> The standard FormatTokens are also supported. </li>\
 </ul>| =$name= for groups list, =$wikiusername= for users list |
      | =separator= | separator between items in the list | =,= |
