@@ -301,7 +301,13 @@
 	.foswikiGrayText a:visited {
 		color:#666; /*T7*/
 	}
-
+	/* Item11035 */
+	html, body {
+	    height: auto;
+	}
+	#patternFloatWrap {
+	    float: none;
+	}
 	
 	/* define custom print styles here */
 
