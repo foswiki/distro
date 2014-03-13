@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1274253154" format="1.1" version="1"}%
 %META:TOPICPARENT{name="SiteTools"}%
 ---+ %IF{
 	"defined web AND $web!='all'"

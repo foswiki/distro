@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1281821986" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 ---+ Developer Documentation
 

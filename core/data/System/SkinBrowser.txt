@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1316627806" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 ---+ Skin Browser
 

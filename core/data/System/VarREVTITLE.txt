@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1331139711" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarREVTITLE
 ---+++ REVTITLE -- =(r1)= The requested revision as displayed in topic breadcrumbs 

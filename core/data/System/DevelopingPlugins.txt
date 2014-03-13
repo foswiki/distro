@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1307718511" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%

@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="KipLubliner" comment="save topic" date="1353552818" format="1.1" version="2"}%
 ---+!! Page Caching
 
 %TOC%

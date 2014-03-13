@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1331139711" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarREVARG
 ---+++ REVARG -- =&rev=n= URL revision parameter of current topic

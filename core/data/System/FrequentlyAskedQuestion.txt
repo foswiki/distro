@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282646414" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 %INCLUDE{"FrequentlyAskedQuestions"}%
 <!-- <verbatim class="tml"> The "Summary" section is used in an example in %SYSTEMWEB%.Macros.

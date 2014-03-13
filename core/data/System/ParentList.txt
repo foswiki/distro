@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1337979799" format="1.1" version="1"}%
 ---+!! Parent list
 Generated list of (potential) parent topics.
 

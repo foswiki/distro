@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1301344768" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 
 ---+!! Installation Guide

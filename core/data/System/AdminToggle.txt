@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1330381560" format="1.1" version="1"}%
 ---+ Group Member Toggle
 
 This topic implements a button that will turn Admin status on or off for the

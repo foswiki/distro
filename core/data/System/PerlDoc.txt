@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1303184283" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %DOC_TITLE%
 <form class='foswikiForm' action='%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc'>

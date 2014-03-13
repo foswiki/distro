@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1350962098" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}% #SettingPrefs
 #PreferencesMacros
 ---++!! Preference Settings

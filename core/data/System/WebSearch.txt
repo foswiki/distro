@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1309487021" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 

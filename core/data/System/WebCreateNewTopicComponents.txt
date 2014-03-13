@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1252413407" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%TOPIC%
 This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.

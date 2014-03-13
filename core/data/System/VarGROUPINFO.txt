@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1300569664" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarGROUPINFO
 ---+++ GROUPINFO{"name"} -- retrieve details about a group
