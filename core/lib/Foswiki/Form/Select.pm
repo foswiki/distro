@@ -129,6 +129,7 @@ sub renderForEdit {
 
     my $choices = '';
 
+    $value = '' unless defined $value;
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
     foreach my $item ( @{ $this->getOptions() } ) {
         my $option = $item
