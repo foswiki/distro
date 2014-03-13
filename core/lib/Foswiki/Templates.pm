@@ -32,6 +32,7 @@ package Foswiki::Templates;
 
 use strict;
 use warnings;
+use Sort::Maker ();
 use Assert;
 
 use Foswiki::Attrs ();
@@ -506,8 +507,7 @@ sub _readTemplateFile {
         }
     }
 
-    use Sort::Maker;
-    my $sorter = make_sorter(
+    my $sorter = Sort::Maker::make_sorter(
         qw( ST ),
         number => '$_->{primary}',
         number => '$_->{secondary}',
