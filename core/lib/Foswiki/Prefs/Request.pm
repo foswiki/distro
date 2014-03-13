@@ -145,9 +145,7 @@ sub _applyRules {
 1;
 __END__
 
-Copyright (C) 2007-2011 Michael Daum http://michaeldaumconsulting.com
-
-Copyright (C) 2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2012-2013 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
