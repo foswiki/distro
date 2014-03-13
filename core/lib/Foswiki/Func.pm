@@ -1785,7 +1785,11 @@ sub readAttachment {
 ---+++ createWeb( $newWeb, $baseWeb, $opts )
 
    * =$newWeb= is the name of the new web.
-   * =$baseWeb= is the name of an existing web (a template web). If the base web is a system web, all topics in it will be copied into the new web. If it is a normal web, only topics starting with 'Web' will be copied. If no base web is specified, an empty web (with no topics) will be created. If it is specified but does not exist, an error will be thrown.
+   * =$baseWeb= is the name of an existing web (a template web). If the base
+     web is a system web, all topics in it will be copied into the new web. If it is
+     a normal web, only topics starting with 'Web' will be copied. If no base web is
+     specified, an empty web (with no topics) will be created. If it is specified
+     but does not exist, an error will be thrown.
    * =$opts= is a ref to a hash that contains settings to be modified in
 the web preferences topic in the new web.
 
@@ -2255,8 +2259,6 @@ to $topic. If $newAttachment is undef, it defaults to $attachment. If all of $ne
 
 The destination topic must already exist, but the destination attachment must
 *not* exist.
-
-Rename an attachment to $Foswiki::cfg{TrashWebName}.TrashAttament to delete it.
 
 <verbatim>
 use Error qw( :try );
@@ -2877,7 +2879,7 @@ The =\%options= hash may contain the following options:
    * =web= - The web/s to search in - string can have the same form as the =web= param of SEARCH (if not specified, defaults to BASEWEB)
    * =casesensitive= - false to ignore case (default true)
    * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per 
-   * topic, excludetopic and other params as per SEARCH
+     topic, excludetopic and other params as per SEARCH
 
 To iterate over the returned topics use:
 <verbatim>
