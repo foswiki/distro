@@ -333,8 +333,8 @@ sub deleteDependencies {
     else {
 
         #writeDebug("DELETE dependencies of $webTopic");
-        $this->{dbh}
-          ->do("delete from $this->{depsTable} where from_topic = '$webTopic'");
+        $this->{dbh}->do( "delete from $this->{depsTable} where from_topic = ?",
+            undef, $webTopic );
     }
 }
 
