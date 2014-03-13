@@ -20,6 +20,9 @@ default behaviour if no value is given.
 ---+++ General Information
 ---++++ CGI environment
 In the CGI environment parameters are passed to the scripts via the URL and URL parameters. Environment variables are also used to determine the user performing the action. If the environment is not set up, the default user is used (usually =guest=).
+---+++++ Character Encodings and Ajax
+Requests that are made using Ajax always pass parameters encoded using UTF-8, independent of the ={Site}{Charset}= used. For this reason, scripts (such as =save=) that accept text parameters should *not* be called using Ajax if the server is *not* using a UTF-8 ={Site}{CharSet}=. Functions that are called through the =rest= script must be written bearing in mind that data they receive from CGI parameters will be Unicode, and must be converted to the ={Site}{Charset}= before processing.
+
 ---++++ Command-line
 You *must* be have the =bin= directory on the perl path to run the scripts from the command line. To avoid issues with file permissions, run the scripts as the web server user such as =nobody= or =www=.
 
@@ -399,9 +402,6 @@ The =rest= script supports the following parameters:
 | =password= | See =username= | |
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you can pass a username and password to the server (though see below for a preferred way to pass authentication information). |
 
-<blockquote class="foswikiHelp"> *%X% Note:* As of 1.1.9, the =rest= script no longer will accept the username and password fields by default. If the prior behavior is required, it can be enabled in =bin/configure=
-by setting =$Foswiki::cfg{Session}{AcceptUserPwParam} = /^rest$/;=.   Note that even with this enabled, the =rest= script requires that the username and password be entered using POST.</blockquote>
-
 REST scripts that require a topic context must use the standard =topic= parameter to pass the topic name, as the URL path is used to identify the REST function. If not defined, then the topic context in REST handlers will be [[%USERSWEB%.%HOMETOPIC%]].
 
 The function is free to use any other query parameters for its own purposes.
@@ -424,6 +424,9 @@ $.ajax({
 </verbatim>
 
 <blockquote class="foswikiHelp"> %X% The =rest= script should *always* be configured to require authentication in any site that is using =ApacheLogin=. Otherwise there is a risk of opening up major security holes. So make sure you add it to the ={AuthScripts}= list in =configure=.</blockquote>
+
+<blockquote class="foswikiHelp"> *%X% Note:* As of 1.1.9, the =rest= script no longer will accept the username and password fields by default. If the prior behavior is required, it can be enabled in =bin/configure=
+by setting =$Foswiki::cfg{Session}{AcceptUserPwParam} = /^rest$/;=.   Note that even with this enabled, the =rest= script requires that the username and password be entered using POST.</blockquote>
 
 ---++++ Invocation Examples
 
