@@ -62,7 +62,7 @@ sub renderForEdit {
     $value .=
       CGI::span( { -class => 'foswikiMakeVisible' }, '&nbsp;' . $button );
     if ($topicObject) {
-        $value = $topicObject->renderTML( $topicObject->expandMacros($value) );
+        $value = $topicObject->expandMacros($value);
     }
     else {
 
