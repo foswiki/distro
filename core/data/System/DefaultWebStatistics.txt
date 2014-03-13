@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ Statistics documentation
 The following section - namely the help text and the statistics table headings -  is included into each <nop>%STATISTICSTOPIC% topic. If you want to tailor the help text, copy the first section of this topic into [[%USERSWEB%.Default%STATISTICSTOPIC%]] so that your changes are not lost after upgrading Foswiki to a new release.

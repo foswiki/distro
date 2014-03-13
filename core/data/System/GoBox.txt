@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 ---+ Go Box
 The box at the top or sidebar of each page, also called Jump box. 

@@ -1,2 +1,3 @@
+%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
 %META:TOPICPARENT{name="StandardColors"}%
 %INCLUDE{"VarENDCOLOR" section="varcolor" color="BLACK" includingtopic="%INCLUDINGTOPIC%"}%

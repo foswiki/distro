@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 
 This site is running Foswiki version *%WIKIVERSION%* %IF{ "$ 'ENV{MOD_PERL}' = 'not set'" else="under *%ENV{MOD_PERL}%* "}%, Release *%WIKIRELEASE%*,  Foswiki API version *%PLUGINVERSION{}%* 

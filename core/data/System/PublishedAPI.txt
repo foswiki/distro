@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
 | *Name* | *First Published* | *Comment* |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func][Foswiki::Func]] | 1.1.5 | Main API. |
 | [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]] | 1.1.5 | Parameter passing for custom macros |
