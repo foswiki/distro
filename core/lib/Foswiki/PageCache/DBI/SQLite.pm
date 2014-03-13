@@ -34,9 +34,9 @@ sub new {
         ),
         $class
     );
-    $this->{filename} ||= $Foswiki::cfg{WorkingDir} . '/sqlite.db',
 
-      $this->{dsn} = 'dbi:SQLite:dbname=' . $this->{filename};
+    $this->{filename} ||= $Foswiki::cfg{WorkingDir} . '/sqlite.db';
+    $this->{dsn} = 'dbi:SQLite:dbname=' . $this->{filename};
 
     return $this->init;
 }
