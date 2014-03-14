@@ -13,4 +13,6 @@ pub/System/SlideShowPlugin/next.gif 0644
 pub/System/SlideShowPlugin/prev.gif 0644
 pub/System/SlideShowPlugin/startpres.gif 0644
 pub/System/SlideShowPlugin/slideshow.css 0644
+pub/System/SlideShowPlugin/slideshow.css.gz 0644
+pub/System/SlideShowPlugin/slideshow.uncompressed.css 0644
 templates/view.slideshow.tmpl 0444
