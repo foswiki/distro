@@ -496,13 +496,10 @@ sub test_500 {
 }
 
 # Test the topic context
-#  - Item12055: PopTopicContext in rest handler looses default context.
+#  - Item12055: PopTopicContext in rest handler loses default context.
 sub test_topic_context {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'context', \&rest_context );
-
-    $this->expect_failure(
-        "Item12055: PopTopicContext in rest handler looses default context");
 
     my $query = Unit::Request->new( { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/context' );

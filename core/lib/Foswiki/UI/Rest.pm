@@ -102,8 +102,9 @@ sub rest {
 
         # No topic specified, but we still have to set a topic to stop
         # plugins being passed the subject and verb in place of a topic.
-        $session->{webName}   = $Foswiki::cfg{UsersWebName};
-        $session->{topicName} = $Foswiki::cfg{HomeTopicName};
+        Foswiki::Func::popTopicContext();
+        Foswiki::Func::pushTopicContext( $Foswiki::cfg{UsersWebName},
+            $Foswiki::cfg{HomeTopicName} );
     }
 
     my $cache = $session->{cache};
