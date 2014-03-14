@@ -399,6 +399,7 @@ sub _parse {
     open( F, '<', $file ) || return '';
     local $/ = "\n";
     my $open = undef;    # current setting or section
+    my $isEnhancing = 0; # Is the current $open an existing item being enhanced?
     my @settings;
     my $sectionNum = 0;
 
@@ -434,10 +435,12 @@ sub _parse {
             if ( $1 eq 'ENHANCE' ) {
 
                 # Enhance the description of an existing value
-                $open = $root->getValueObject($2);
+                $open        = $root->getValueObject($2);
+                $isEnhancing = 1;
             }
             else {
                 $open = new Foswiki::Configure::Value( $1, opts => $2 );
+                $isEnhancing = 0;
             }
         }
 
@@ -455,7 +458,7 @@ sub _parse {
             #            my $tentativeVal = $3; # Possibly line 1 of many
             if ( $open && $open->isa('SectionMarker') ) {
                 _pusht( \@settings, $open );
-                $open = undef;
+                undef $open;
             }
 
             # If there is already a UI object for
@@ -468,7 +471,8 @@ sub _parse {
                 next if ( _getValueObject( $keys, \@settings ) );
 
                 # This is an untyped value.
-                $open = new Foswiki::Configure::Value('UNKNOWN');
+                $open        = new Foswiki::Configure::Value('UNKNOWN');
+                $isEnhancing = 0;
             }
             $open->set( _defined =>
                   ( $optional ? [ \$file, $., undef ] : [ \$file, $. ] ) );
@@ -478,7 +482,8 @@ sub _parse {
               if ( $open->isa('Foswiki::Configure::Value') );
             $open->set( keys => $keys );
             _pusht( \@settings, $open );
-            $open = undef;
+            $open        = undef;
+            $isEnhancing = 0;
         }
 
         elsif ( $l =~ /^#\s*\*([A-Z]+)\*/ ) {
@@ -490,7 +495,7 @@ sub _parse {
                     \@settings );
             };
             if ($p) {
-                if ($open) {
+                if ( $open && !$isEnhancing ) {
                     if ( $open->isa('Foswiki::Configure::Value') ) {
                         my $otype = $open->getTypeName;
                         push @errors,
@@ -526,6 +531,7 @@ sub _parse {
                     undef $open;
                 }
             }
+            $isEnhancing = 0;
         }
 
         elsif ( $l =~ /^#\s*---\+(\+*) *(.*?)$/ ) {
@@ -534,7 +540,7 @@ sub _parse {
             # Only load the first section if we don't have LocalSite.cfg
             last if ( $sectionNum && !$haveLSC );
             $sectionNum++;
-            if ($open) {
+            if ( $open && !$isEnhancing ) {
 
                # We have an open item.  If it's a value, we don't want to create
                # it since that will confuse the UI.  Report such errors.
@@ -548,6 +554,7 @@ sub _parse {
                 }
             }
             $open = new SectionMarker( length($1), $2 );
+            $isEnhancing = 0;
         }
 
         elsif ( $l =~ /^#\s?(.*)$/ ) {
@@ -557,7 +564,7 @@ sub _parse {
         }
     }
     close(F);
-    if ($open) {
+    if ( $open && !$isEnhancing ) {
         if ( $open->isa('Foswiki::Configure::Value') ) {
             my $otype = $open->getTypeName;
             push @errors, [ $file, $., "Incomplete $otype declaration" ];
