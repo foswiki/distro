@@ -109,8 +109,8 @@ This is the code used in the [[Sandbox.WebHome]] form:
 	requires=""
 }%%ENDSECTION{"js"}%
 
-%STARTSECTION{"formstart" defaultweb="%INCLUDINGWEB%"}%<form name="newtopicform" action="%SCRIPTURLPATH{manage}%/%defaultweb%/" method="post">
-<input type="hidden" name="action" value="create" />
+%STARTSECTION{"formstart" defaultweb="%INCLUDINGWEB%"}%<form name="newtopicform" action="%SCRIPTURLPATH{edit}%/%defaultweb%/">
+<input type="hidden" name="t" value="%GMTIME{"$epoch"}%" />
 <input type="hidden" name="onlynewtopic" value="on" />%ENDSECTION{"formstart"}%
 
 %STARTSECTION{"webname"}%    <select name="defaultweb" class="foswikiSelect"> 
