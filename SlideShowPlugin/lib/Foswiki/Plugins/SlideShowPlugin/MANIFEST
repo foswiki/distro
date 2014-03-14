@@ -1,0 +1,16 @@
+!noci
+data/System/SlideShowPlugin.txt 0644
+data/System/VarSLIDESHOWEND.txt 0644
+data/System/VarSLIDESHOWSTART.txt 0644
+lib/Foswiki/Plugins/SlideShowPlugin.pm 0444
+lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm 0444
+pub/System/SlideShowPlugin/clearpixel.gif 0644 For older slideshow templates that use this image to set the height 
+pub/System/SlideShowPlugin/endpres.gif 0644
+pub/System/SlideShowPlugin/first.gif 0644
+pub/System/SlideShowPlugin/last.gif 0644
+pub/System/SlideShowPlugin/logo.gif 0644
+pub/System/SlideShowPlugin/next.gif 0644
+pub/System/SlideShowPlugin/prev.gif 0644
+pub/System/SlideShowPlugin/startpres.gif 0644
+pub/System/SlideShowPlugin/slideshow.css 0644
+templates/view.slideshow.tmpl 0444

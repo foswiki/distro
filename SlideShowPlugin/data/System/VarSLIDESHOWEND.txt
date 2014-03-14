@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1284873580" format="1.1" version="1"}%
+%META:TOPICPARENT{name="SlideShowPlugin"}%
+#VarSLIDESHOWEND
+---+++ SLIDESHOWEND -- end slideshow
+   * The =%<nop>SLIDESHOWEND%= macro is handled by the SlideShowPlugin
+   * Syntax: =%<nop>SLIDESHOWEND%=
+   * Example: See SLIDESHOWSTART
+   * Related: [[#VarSLIDESHOWSTART][SLIDESHOWSTART]], SlideShowPlugin

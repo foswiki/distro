@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="ProjectContributor" date="1290624506" format="1.1" version="1"}%
+%META:TOPICPARENT{name="SlideShowPlugin"}%
+#VarSLIDESHOWSTART
+---+++ SLIDESHOWSTART -- convert a topic with headings into a slideshow
+   * The =%<nop>SLIDESHOWSTART%= macro is handled by the SlideShowPlugin
+   * Syntax: =%<nop>SLIDESHOWSTART%=
+   * Syntax: =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%=
+   * Example:<verbatim class="tml"> %SLIDESHOWSTART%
+ ---++ Sample Slide 1
+    * Bullet 1
+    * Bullet 2
+ ---++ Sample Slide 2
+    * Bullet 1
+    * Bullet 2
+ %SLIDESHOWEND%</verbatim>
+   * Expands as:
+%SLIDESHOWSTART%
+---++!! Sample Slide 1
+   * Bullet 1
+   * Bullet 2
+---++!! Sample Slide 2
+   * Bullet 1
+   * Bullet 2
+%SLIDESHOWEND%
+
+   * Related: [[#VarSLIDESHOWEND][SLIDESHOWEND]], SlideShowPlugin
+<!--%JQREQUIRE{"chili"}%-->

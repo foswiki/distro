@@ -1,0 +1,61 @@
+html body {
+	height:100%; /* needed for container min-height */
+}
+.slideshowPane {
+	position:relative;
+	padding:0 1em 1em 1em;
+	margin:0 0 100% 0;
+	height:1%;
+}
+.slideshowPane .slideshowHeader {
+	border-bottom:1px solid #666;
+	padding:.5em 0 .5em 0;
+}
+.slideshowPane .slideshowToolbar {
+	color:#666;
+	margin:0;
+	padding:0 0 .25em 0;
+	text-align:right;
+	font-size:94%;
+}
+.slideshowPane .slideshowHeader p {
+	color:#666;
+	margin:0;
+	padding:0;
+	text-align:right;
+	font-size:94%;
+}
+.slideshowPane .slideshowHeader h1 {
+	color:#360;
+	margin:0;
+	padding:0;
+}
+.slideshowPane .slideshowContent {
+	margin:2em 0 1em 0;
+	font-size:150%;
+	line-height:150%;
+	height:400px;
+}
+.slideshowPane .slideshowContent font {
+	line-height:100%;
+}
+.slideshowPane .slideshowFooter {}
+.slideshowPane .slideshowFooter,
+.slideshowPane .slideshowFooter h3,
+.slideshowPane .slideshowFooter h4 {
+	color:#888;
+}
+.slideshowPane .slideshowControls {
+	white-space:nowrap;
+}
+.slideshowPane .slideshowHeader .slideshowControls {
+	float:right;
+	clear:both;
+}
+.slideshowPane a.slideshowControlButton {
+	margin-left:5px;
+}
+a.slideshowControlButton:hover {
+	text-decoration:none;
+	background:none;
+}
