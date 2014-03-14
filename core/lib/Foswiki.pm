@@ -1075,7 +1075,7 @@ sub _isRedirectSafe {
     my $redirect = shift;
 
     return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
-    return 1 if $redirect =~ m#^/#;                    # relative URL - OK
+    return 1 if $redirect =~ m#^/#;    # relative URL - OK
 
     #TODO: this should really use URI
     # Compare protocol, host name and port number
@@ -1682,6 +1682,31 @@ sub normalizeWebTopicName {
 
 =begin TML
 
+---++ StaticMethod load_package( $full_package_name )
+
+Will cleanly load the package or fail. This is better than 'eval "require $package"'.
+
+It is not perfect for Perl < 5.10. For Perl 5.8, if somewhere else 'eval "require $package"' 
+was used *earlier* for a module that fails to load, then not only is the failure not detected
+then. Neither will it be detected here.
+
+The recommendation is to replace all dynamic require calls in Foswiki to be replaced with this call.
+
+This functionality used to be done via module Class::Load, but that had painful dependencies.
+
+See http://blog.fox.geek.nz/2010/11/searching-design-spec-for-ultimate.html for the gory details.
+
+=cut
+
+sub load_package {
+    my $fullname = shift;
+    $fullname =~ s{::}{/}g;
+    $fullname .= '.pm';
+    require $fullname;
+}
+
+=begin TML
+
 ---++ ClassMethod new( $defaultUser, $query, \%initialContext )
 
 Constructs a new Foswiki session object. A unique session object exists for
@@ -1815,9 +1840,9 @@ sub new {
     # construct the store object
     my $base = $Foswiki::cfg{Store}{Implementation}
       || 'Foswiki::Store::PlainFile';
-    use Class::Load qw/try_load_class/;
-    my ( $ok, $error ) = try_load_class($base);
-    ASSERT( $ok, $error ) if DEBUG;
+
+    load_package($base);
+
     if ( ( $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} ) ) {
 
         #TODO: sort it.
@@ -1835,19 +1860,11 @@ sub new {
             #rejig the store impl's ISA to usse each Class  in order.'
             foreach my $class (@classes) {
                 next if ( $class eq 'Enabled' );
-                my ( $ok, $error ) = try_load_class($class);
-                ASSERT( $ok, $error ) if DEBUG;
-                if ($ok) {
-                    no strict 'refs';
-                    @{ $class . '::ISA' } = ($base);
-                    use strict 'refs';
-                    $base = $class;
-                }
-                else {
-
-                    #just ignore it and move on to the next class..
-                    #Foswiki::Func::Log(...)
-                }
+                load_package($class);
+                no strict 'refs';
+                @{ $class . '::ISA' } = ($base);
+                use strict 'refs';
+                $base = $class;
             }
         }
     }
