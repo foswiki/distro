@@ -61,10 +61,10 @@ sub parse {
     while ( my ( $key, $value ) = each %{ $_[2] } ) {
         $value = '' if !defined $value;    # preserve 0 value
                                            # simple key-value substitution
+        $_[1] =~ s/\$\{$key(\?.*?)\}/_handleQueryExpressions($key,$2,$_[2])/ges;
         $_[1] =~ s/\$\{$key\}/$value/gs;
     }
 
-    $_[1] =~ s/\$\{(.*?)(\?.*?)\}/_handleQueryExpressions($1,$2,$_[2])/ges;
     return $_[1];
 }
 
