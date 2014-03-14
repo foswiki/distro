@@ -32,7 +32,6 @@ package Foswiki::Templates;
 
 use strict;
 use warnings;
-use Sort::Maker ();
 use Assert;
 
 use Foswiki::Attrs ();
@@ -514,15 +513,19 @@ sub _readTemplateFile {
         }
     }
 
-    my $sorter = Sort::Maker::make_sorter(
-        qw( ST ),
-        number => '$_->{primary}',
-        number => '$_->{secondary}',
-        number => '$_->{tertiary}'
-    );
-
     # sort
-    @candidates = $sorter->(@candidates);
+    @candidates = sort {
+        foreach my $i (qw/primary secondary tertiary/)
+        {
+            if ( $a->{$i} < $b->{$i} ) {
+                return -1;
+            }
+            elsif ( $a->{$i} > $b->{$i} ) {
+                return 1;
+            }
+        }
+        return 0;
+    } @candidates;
 
     foreach my $candidate (@candidates) {
         my $file = $candidate->{file};
