@@ -144,7 +144,7 @@ sub preload {
                         sub {
                             my $pn = shift;
                             throw Error::Simple('Bad debugenableplugins')
-                              unless $pn =~ /^\w+$/;
+                              unless $pn =~ /^[a-zA-Z0-9_]+$/;
                             return $pn;
                         }
                     )
