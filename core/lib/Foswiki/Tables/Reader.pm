@@ -21,6 +21,13 @@ use Assert;
 use Foswiki::Attrs          ();
 use Foswiki::Tables::Parser ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new($table_class) -> $parser

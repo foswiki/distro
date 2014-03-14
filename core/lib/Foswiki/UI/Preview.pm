@@ -12,6 +12,13 @@ use Foswiki::OopsException ();
 
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub preview {
     my $session = shift;
 

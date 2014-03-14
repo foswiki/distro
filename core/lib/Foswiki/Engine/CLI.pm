@@ -24,6 +24,13 @@ use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub run {
     my $this = shift;
     my @args = @ARGV;    # Copy, so original @ARGV doesn't get modified

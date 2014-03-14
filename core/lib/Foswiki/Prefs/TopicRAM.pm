@@ -21,6 +21,13 @@ our @ISA = qw(Foswiki::Prefs::BaseBackend);
 
 use Foswiki::Prefs::Parser ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my ( $proto, $topicObject ) = @_;
 

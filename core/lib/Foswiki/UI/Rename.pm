@@ -18,6 +18,13 @@ use Error qw(:try);
 use Foswiki::UI     ();
 use Foswiki::Render ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our $MARKER = "\02\03";
 
 =begin TML

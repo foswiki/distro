@@ -63,6 +63,13 @@ use Foswiki::Plugins ();
 use Error qw( :try );
 use CGI::Util ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Enable output
 use constant TRACE => 0;
 

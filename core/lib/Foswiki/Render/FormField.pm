@@ -7,6 +7,13 @@ use warnings;
 use Foswiki       ();
 use Foswiki::Meta ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ObjectMethod render ( $session, %params, $topic, $web ) -> $html

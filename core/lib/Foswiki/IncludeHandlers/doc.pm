@@ -17,6 +17,13 @@ use warnings;
 
 use Foswiki ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 use constant PUBLISHED_API_TOPIC => 'PublishedAPI';
 
 # Include embedded doc in a core module

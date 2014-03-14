@@ -19,6 +19,13 @@ use warnings;
 use Error ();
 our @ISA = ('Error');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ ClassMethod new( $status, $reason [, $response] )

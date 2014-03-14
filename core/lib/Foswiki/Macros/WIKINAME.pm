@@ -5,6 +5,13 @@ use strict;
 use warnings;
 use Foswiki::Macros::USERINFO;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # DEPRECATED, now implemented using %USERINFO%
 sub WIKINAME {
     my ( $this, $params ) = @_;

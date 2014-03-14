@@ -21,6 +21,13 @@ use Assert;
 
 use Foswiki ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticFunction parse( $topicObject, $prefs )

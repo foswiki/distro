@@ -17,6 +17,13 @@ use constant MONITOR => 0;
 use strict;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my ( $class, $session ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;

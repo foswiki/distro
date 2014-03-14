@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # DEPRECATED
 # This routine is deprecated as of TWiki 4.1,
 # and is maintained only for backward compatibility.

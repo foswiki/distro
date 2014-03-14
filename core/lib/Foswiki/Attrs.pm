@@ -48,6 +48,13 @@ use strict;
 use warnings;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Used in interpolation an regexes, so constant not appropriate
 our $MARKER = "\0";
 

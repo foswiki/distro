@@ -18,6 +18,13 @@ use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Counter used to generate unique placeholders for when we lift blocks
 # (such as <verbatim> out of the text during rendering.
 our $placeholderMarker = 0;
@@ -68,15 +75,6 @@ my %list_types = (
     i => 'lower-roman',
     I => 'upper-roman'
 );
-
-BEGIN {
-
-    # Do a dynamic 'use locale' for this module
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 
@@ -1623,8 +1621,8 @@ sub _externalLink {
           # before touching this
           # Note:  & is already encoded,  so don't encode any entities
           # See http://foswiki.org/Tasks/Item10905
-            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;              # "&abc;"
-            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;    # "&#123;"
+            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;                  # "&abc;"
+            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;        # "&#123;"
             $url =~ s/([^\w$REMARKER$REEND])/'&#'.ord($1).';'/ge;
             $url =~ s/$REMARKER(#x?[0-9a-f]+)$REEND/&$1;/goi;
             $url =~ s/$REMARKER(\w+)$REEND/&$1;/go;

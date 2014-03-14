@@ -19,6 +19,13 @@ use Foswiki::UI            ();
 use Foswiki::OopsException ();
 use Foswiki::Form          ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod edit( $session )

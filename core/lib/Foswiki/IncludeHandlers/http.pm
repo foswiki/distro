@@ -17,6 +17,13 @@ use warnings;
 
 use Foswiki ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Fetch content from a URL for inclusion by an INCLUDE
 sub INCLUDE {
     my ( $ignore, $session, $control, $options ) = @_;

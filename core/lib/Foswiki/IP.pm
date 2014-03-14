@@ -17,6 +17,13 @@ use Socket qw/SOCK_RAW AF_INET inet_ntoa inet_aton/;
 use Exporter;
 our @ISA = (qw/Exporter/);
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 #our @EXPORT;
 our @EXPORT_OK   = (qw/$IPv6Avail/);
 our %EXPORT_TAGS = (

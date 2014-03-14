@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub URLPARAM {
     my ( $this, $params ) = @_;
     my $param     = $params->{_DEFAULT} || '';

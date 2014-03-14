@@ -38,6 +38,13 @@ use File::Temp ();
 
 use Foswiki ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Set to 1 to trace commands to STDERR, and redirect STDERR from
 # the command subprocesses to /tmp/foswiki_sandbox.log
 use constant TRACE => 0;

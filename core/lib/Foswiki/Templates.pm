@@ -37,6 +37,13 @@ use Assert;
 
 use Foswiki::Attrs ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Enable TRACE to get HTML comments in the output showing where templates
 # (both DEFs and files) open and close. Will probably bork the output, so
 # normally you should use it with a bin/view command-line.

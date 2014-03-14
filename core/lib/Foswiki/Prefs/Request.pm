@@ -4,6 +4,13 @@ package Foswiki::Prefs::Request;
 use strict;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 Support setting topic preferences when saving a topic.

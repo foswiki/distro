@@ -20,6 +20,13 @@ use Error qw( :try );
 use Assert;
 use Scalar::Util ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new() -> $engine

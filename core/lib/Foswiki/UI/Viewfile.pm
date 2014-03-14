@@ -19,6 +19,13 @@ use Foswiki::UI            ();
 use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod viewfile( $session, $web, $topic, $query )

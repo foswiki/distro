@@ -18,6 +18,13 @@ package Foswiki::Prefs::Web;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new( $session )

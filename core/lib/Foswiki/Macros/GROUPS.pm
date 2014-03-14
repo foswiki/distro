@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Legacy
 sub GROUPS {
     my ( $this, $params ) = @_;

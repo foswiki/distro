@@ -15,6 +15,11 @@ use warnings;
 
 BEGIN {
 
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+
     #Monitor::MARK("Start of BEGIN block in UI.pm");
     $Foswiki::cfg{SwitchBoard} ||= {};
 

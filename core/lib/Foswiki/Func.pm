@@ -63,6 +63,13 @@ use Foswiki::Meta                   ();
 use Foswiki::AccessControlException ();
 use Foswiki::Sandbox                ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Given $web, $web and $topic, or $web $topic and $attachment, validate
 # and untaint each of them and return. If any fails to validate it will
 # be returned as undef.

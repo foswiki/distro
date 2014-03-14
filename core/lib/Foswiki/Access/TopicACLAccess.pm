@@ -23,6 +23,13 @@ use Foswiki::Address ();
 use Foswiki::Meta    ();
 use Foswiki::Users   ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my ( $class, $session ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;

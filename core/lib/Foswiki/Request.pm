@@ -38,6 +38,13 @@ use IO::File ();
 use CGI::Util qw(rearrange);
 use Time::HiRes ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub getTime {
     my $this     = shift;
     my $endTime  = [Time::HiRes::gettimeofday];

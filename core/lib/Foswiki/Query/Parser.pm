@@ -18,6 +18,13 @@ use strict;
 use warnings;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 use Foswiki::Infix::Parser ();
 our @ISA = ('Foswiki::Infix::Parser');
 

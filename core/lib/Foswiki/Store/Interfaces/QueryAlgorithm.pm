@@ -20,6 +20,13 @@ use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
 use Foswiki::Iterator::PagerIterator();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 use constant MONITOR => 0;
 
 =begin TML

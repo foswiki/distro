@@ -9,6 +9,13 @@ our @ISA = ('Foswiki::Users::Password');
 use Assert;
 use Error qw( :try );
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ package Foswiki::Users::ApacheHtpasswdUser

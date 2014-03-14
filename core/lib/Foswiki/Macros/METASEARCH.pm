@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # DEPRECATED
 
 # callback for search function to collate results

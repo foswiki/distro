@@ -6,6 +6,13 @@ use warnings;
 
 use Locale::Maketext;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub MAKETEXT {
     my ( $this, $params ) = @_;
 

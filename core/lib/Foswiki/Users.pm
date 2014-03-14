@@ -66,6 +66,13 @@ use Foswiki::LoginManager      ();
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new ($session)
@@ -77,12 +84,6 @@ and the user mapping chosen in the configuration.
 sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
-
-    # Do a dynamic 'use locale' for this module
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
 
     # making basemapping
     my $implBaseUserMappingManager = $Foswiki::cfg{BaseUserMappingManager}

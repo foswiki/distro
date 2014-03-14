@@ -44,6 +44,13 @@ use Foswiki::Form::ListFieldDefinition ();
 use Foswiki::AccessControlException    ();
 use Foswiki::OopsException             ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # The following are reserved as URL parameters to scripts and may not be
 # used as field names in forms.
 my %reservedFieldNames = map { $_ => 1 }
@@ -348,13 +355,14 @@ sub createField {
     my $type = shift;
 
     # The untaint is required for the validation *and* the ucfirst, which
-    # retaints when use locale is in force
+    # retaints when use locale is in force (hence we do the validation *after*
+    # the ucfirst)
     my $class = Foswiki::Sandbox::untaint(
         $type,
         sub {
-            my $class = shift;
-            $class =~ /^(\w*)/;    # cut off +buttons etc
-            return 'Foswiki::Form::' . ucfirst($1);
+            my $class = ucfirst(shift);
+            $class =~ /^([a-zA-Z0-9_]*)/;    # cut off +buttons etc
+            return "Foswiki::Form::$1";
         }
     );
     eval 'require ' . $class;

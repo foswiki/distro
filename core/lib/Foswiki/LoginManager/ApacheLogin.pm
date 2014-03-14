@@ -28,6 +28,13 @@ use Assert;
 use Foswiki::LoginManager ();
 our @ISA = ('Foswiki::LoginManager');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new ($session)

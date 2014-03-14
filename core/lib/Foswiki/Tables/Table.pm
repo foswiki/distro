@@ -15,6 +15,13 @@ use Assert;
 
 use Foswiki::Tables::Row ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ new($tno, $row_class, $topicObject, $tno, $spec, $attrs)

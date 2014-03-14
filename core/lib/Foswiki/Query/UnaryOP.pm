@@ -6,6 +6,13 @@ use warnings;
 use Foswiki::Query::OP;
 our @ISA = ('Foswiki::Query::OP');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my $class = shift;
     return $class->SUPER::new( arity => 1, @_ );

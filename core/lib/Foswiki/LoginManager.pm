@@ -55,6 +55,13 @@ use Error qw( :try );
 
 use Foswiki::Sandbox ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Marker chars
 our $M1 = chr(5);
 our $M2 = chr(6);

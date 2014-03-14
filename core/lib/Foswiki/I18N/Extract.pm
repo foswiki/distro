@@ -17,6 +17,11 @@ use warnings;
 our $initError;
 
 BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+
     require Locale::Maketext::Extract;
     if ($@) {
         $initError = $@;

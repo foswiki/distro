@@ -15,6 +15,13 @@ use warnings;
 
 use Foswiki ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod search( $session )

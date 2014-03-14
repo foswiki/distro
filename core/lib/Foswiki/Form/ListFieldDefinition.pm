@@ -18,6 +18,13 @@ use Assert;
 use Foswiki::Form::FieldDefinition ();
 our @ISA = ('Foswiki::Form::FieldDefinition');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ObjectMethod finish()

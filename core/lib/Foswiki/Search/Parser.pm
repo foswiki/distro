@@ -17,6 +17,13 @@ use Error qw( :try );
 
 use Foswiki::Search::Node ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our $MARKER = "\0";
 
 =begin TML

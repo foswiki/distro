@@ -23,6 +23,13 @@ use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # ****
 # CGI.pm has a private class called CGITempFile which is used to hold
 # a handle to a temporary file. The idea is that when the CGI object

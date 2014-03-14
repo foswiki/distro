@@ -7,6 +7,13 @@ use warnings;
 use Foswiki::Store ();
 use Foswiki::Meta  ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub FORMFIELD {
     my ( $this, $args, $topicObject ) = @_;
     if ( $args->{topic} ) {

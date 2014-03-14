@@ -75,6 +75,13 @@ use constant TRACEATTACH               => 0;
 use constant STRINGIFIED_WEB_SEPARATOR => '/';
 use constant STRINGIFIED_TOPIC_SEPARATOR => '.';
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 my $EXISTASLIST_DEFAULT = [qw(attachment topic)];
 my $EXISTAS_DEFAULT     = { attachment => 1, topic => 1 };
 my %atomiseAs           = (

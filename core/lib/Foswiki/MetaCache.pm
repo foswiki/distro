@@ -28,6 +28,13 @@ use Foswiki::Users::BaseUserMapping ();
 
 use constant TRACE => 0;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new($session)

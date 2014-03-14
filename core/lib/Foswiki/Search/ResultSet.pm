@@ -23,6 +23,13 @@ our @ISA = ('Foswiki::Iterator');
 use Foswiki::Search::InfoCache;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ new(\@list)

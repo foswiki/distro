@@ -10,6 +10,13 @@ use Foswiki::Logger::PlainFile ();
 use Foswiki::Configure::Load;
 use Digest::MD5 qw( md5_hex );
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our @ISA = ('Foswiki::Logger::PlainFile');
 
 =begin TML

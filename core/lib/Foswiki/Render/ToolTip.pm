@@ -8,6 +8,13 @@ use Foswiki       ();
 use Foswiki::Meta ();
 use Foswiki::Time ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod render($session, $web, $topic, $template) -> $text

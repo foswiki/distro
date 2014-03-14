@@ -14,6 +14,13 @@ use Assert;
 
 use Foswiki::Func ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new($table, $precruft, $postcruft [, \@cols]) -> $row

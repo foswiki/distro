@@ -20,6 +20,13 @@ use warnings;
 use Foswiki::Prefs::BaseBackend ();
 our @ISA = qw(Foswiki::Prefs::BaseBackend);
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my ( $proto, $values ) = @_;
 

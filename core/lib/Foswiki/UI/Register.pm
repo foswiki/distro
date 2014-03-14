@@ -20,6 +20,13 @@ use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
 use Foswiki::UI            ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Keys from the user data that should *not* be included in
 # the user topic.
 my %SKIPKEYS = (

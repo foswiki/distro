@@ -16,6 +16,13 @@ use warnings;
 use Foswiki::Query::Node ();
 our @ISA = ('Foswiki::Query::Node');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Used wherever a plain string is expected, this method
 # suppresses automatic lookup of names in meta-data
 sub _evaluate {

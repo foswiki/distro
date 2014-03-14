@@ -15,6 +15,13 @@ use warnings;
 use Assert;
 use Error qw( :try );
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Some day this may usefully be an infix node
 #use Foswiki::Infix::Node ();
 #our @ISA = ('Foswiki::Infix::Node');

@@ -5,6 +5,13 @@ use strict;
 use warnings;
 my @DIG = map { chr($_) } ( 0 .. 9 );
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Returns a decimal number encoded as a string where each digit is
 # replaced by an unprintable character
 sub _s2d {

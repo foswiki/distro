@@ -17,6 +17,13 @@ use warnings;
 use Foswiki::Iterator ();
 our @ISA = ('Foswiki::Iterator');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ new( $fh )

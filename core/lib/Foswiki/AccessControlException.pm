@@ -87,6 +87,13 @@ use warnings;
 use Error ();
 our @ISA = ('Error');    # base class
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ ClassMethod new($mode, $user, $web, $topic, $reason)

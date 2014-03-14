@@ -35,6 +35,13 @@ use warnings;
 
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # In some environments, e.g. configure, we do NOT want Foswiki.pm
 # use Foswiki::Time qw/-nofoswiki/ for that.  Since this module
 # doesn't use Exporter, we don't need anything complicated.

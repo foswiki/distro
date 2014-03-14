@@ -22,6 +22,13 @@ use Foswiki::UI            ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod manage( $session )

@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # DEPRECATED
 # This routine was introduced to URL encode Mozilla UTF-8 POST URLs in the
 # TWiki Feb2003 release - encoding is no longer needed since UTF-URLs are now

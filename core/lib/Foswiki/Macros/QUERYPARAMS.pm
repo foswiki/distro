@@ -5,6 +5,13 @@ use strict;
 use warnings;
 require Foswiki::Macros::ENCODE;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub QUERYPARAMS {
     my ( $this, $params ) = @_;
     return '' unless $this->{request};

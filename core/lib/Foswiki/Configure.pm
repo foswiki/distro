@@ -22,6 +22,13 @@ use Exporter;
 
 our @ISA = (qw/Exporter/);
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub do_import {
     return Foswiki->export_to_level( 2, @_ );
 }

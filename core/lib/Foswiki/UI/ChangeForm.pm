@@ -19,6 +19,13 @@ use Foswiki       ();
 use Foswiki::Form ();
 use Foswiki::Func ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ ClassMethod generate( $session, $web, $topic, $editaction )

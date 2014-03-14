@@ -6,6 +6,13 @@ use warnings;
 
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ package Foswiki::Logger

@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # applyPatternToIncludedText( $text, $pattern ) -> $text
 # Apply a pattern on included text to extract a subset
 # Package-private; used by IncludeHandlers.

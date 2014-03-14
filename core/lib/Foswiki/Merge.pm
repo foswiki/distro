@@ -16,6 +16,13 @@ use Assert;
 
 use CGI ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod merge2( $arev, $a, $brev, $b, $sep, $session, $info )

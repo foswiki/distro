@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 #| $web | web and  |
 #| $topic | topic to display the name for |
 #| $formatString | format string (like in search) |

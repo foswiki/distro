@@ -12,6 +12,13 @@ use Foswiki       ();
 use Foswiki::UI   ();
 use Foswiki::Time ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Command handler for changes command
 sub changes {
     my $session = shift;

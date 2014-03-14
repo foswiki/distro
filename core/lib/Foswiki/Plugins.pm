@@ -20,6 +20,13 @@ use Assert;
 
 use Foswiki::Plugin ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ PUBLIC constant $VERSION

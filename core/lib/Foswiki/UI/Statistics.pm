@@ -26,8 +26,6 @@ use Foswiki::Meta                   ();
 use Foswiki::AccessControlException ();
 
 BEGIN {
-
-    # Do a dynamic 'use locale' for this module
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();

@@ -5,6 +5,13 @@ use strict;
 use warnings;
 use Foswiki::Serialise ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our $evalParser;    # could share $ifParser from IF.pm
 
 sub QUERY {
@@ -12,7 +19,12 @@ sub QUERY {
     my $result;
     my $expr = $params->{_DEFAULT};
     $expr = '' unless defined $expr;
-    my $style = lc( $params->{style} || 'default' );
+    my $style = ucfirst( lc( $params->{style} || 'default' ) );
+    if ( $style =~ /[^a-zA-Z0-9_]/ ) {
+        return "%RED%QUERY: invalid 'style' parameter passed%ENDCOLOR%";
+    }
+    $style = Foswiki::Sandbox::untaintUnchecked($style);
+
     my $rev = $params->{rev};
 
     # FORMFIELD does its own caching.

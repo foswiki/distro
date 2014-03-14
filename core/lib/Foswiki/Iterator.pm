@@ -25,6 +25,13 @@ use Assert;
 #debug Iterators
 use constant MONITOR => 0;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ hasNext() -> $boolean

@@ -4,6 +4,13 @@ package Foswiki;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub TOPICLIST {
     my ( $this, $params ) = @_;
     my $format = $params->{_DEFAULT} || $params->{'format'} || '$topic';

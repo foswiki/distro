@@ -6,6 +6,13 @@ use warnings;
 use utf8;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ =Foswiki::Logger::EventIterator=
@@ -62,7 +69,7 @@ sub hasNext {
 
         if (
             $line[0] =~ s/\s+($this->{_reqLevel})\s*$//    # test the level
-             # accept a plain 'old' format date with no level only if reading info (statistics)
+              # accept a plain 'old' format date with no level only if reading info (statistics)
             || $line[0] =~ /^\d{1,2} [a-z]{3} \d{4}/i
             && $this->{_reqLevel} =~ m/info/
           )

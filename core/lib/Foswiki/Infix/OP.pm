@@ -32,6 +32,13 @@ by the parser.
 
 =cut
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my ( $class, %opts ) = @_;
     return bless( \%opts, $class );

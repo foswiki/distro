@@ -15,6 +15,13 @@ use Assert;
 
 use constant MONITOR => 0;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new($session)

@@ -10,6 +10,13 @@ use warnings;
 use Foswiki::I18N ();
 our @ISA = ('Foswiki::I18N');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my $class = shift;
     my $this = bless( {}, $class );

@@ -18,6 +18,13 @@ our @ISA = ('Foswiki::Query::OP');
 use Assert;
 use Foswiki::Meta ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my $class = shift;
     return $class->SUPER::new( arity => 2, name => 'allows', prec => 600 );

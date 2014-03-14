@@ -6,6 +6,13 @@ use warnings;
 
 use Foswiki::Plugins ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub SET {
     my ( $this, $params, $topicObject ) = @_;
 

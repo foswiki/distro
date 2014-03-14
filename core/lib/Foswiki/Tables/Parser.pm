@@ -19,6 +19,13 @@ use Assert;
 
 use constant TRACE => 0;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ StaticMethod parse( $text, \&dispatch )

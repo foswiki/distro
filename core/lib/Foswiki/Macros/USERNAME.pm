@@ -5,6 +5,13 @@ use strict;
 use warnings;
 require Foswiki::Macros::USERINFO;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # DEPRECATED functionality, now implemented using %USERINFO%
 # move to compatibility plugin in Foswiki 2.0
 sub USERNAME {

@@ -16,6 +16,13 @@ use warnings;
 use Error ();
 our @ISA = ('Error');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my ( $class, $message, $expr, $at ) = @_;
     if ( defined $expr && length($expr) ) {

@@ -4,6 +4,13 @@ package Foswiki::WebFilter;
 use strict;
 use warnings;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # PH made these lazy getters rather than globals in Item11349
 my $public;
 my $user;

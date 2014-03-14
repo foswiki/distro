@@ -15,6 +15,13 @@ use warnings;
 use Foswiki ();
 use Error qw( :try );
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our %restDispatch;
 
 =begin TML

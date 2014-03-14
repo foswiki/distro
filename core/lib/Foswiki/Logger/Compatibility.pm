@@ -7,6 +7,13 @@ use Assert;
 
 use Fcntl qw(:flock);
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Internal class for Logfile iterators.
 # So we don't break encapsulation of file handles.  Open / Close in same file.
 our @ISA = qw/Foswiki::Logger::EventIterator/;

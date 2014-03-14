@@ -28,10 +28,6 @@ use Foswiki::Infix::Error             ();
 use constant MONITOR => 0;
 
 BEGIN {
-
-    # 'Use locale' for internationalisation of Perl sorting and searching -
-    # main locale settings are done in Foswiki::setupLocale
-    # Do a dynamic 'use locale' for this module
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();

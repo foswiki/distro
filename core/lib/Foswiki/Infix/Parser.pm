@@ -25,6 +25,13 @@ use Error qw( :try );
 use Foswiki::Infix::Error ();
 use Foswiki::Infix::Node  ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Set to 1 for debug
 use constant MONITOR_PARSER => 0;
 

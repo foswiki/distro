@@ -14,6 +14,13 @@ use Foswiki::Meta      ();
 use Foswiki::Store::Interfaces::QueryAlgorithm ();
 our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ package Foswiki::Store::Interfaces::SearchAlgorithm

@@ -12,6 +12,13 @@ Abstract model of a table cell, suitable for use with the tables parser.
 use strict;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Default format if no other format is defined for a cell
 my $defCol ||= { type => 'text', size => 20, values => [] };
 

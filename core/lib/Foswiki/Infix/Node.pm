@@ -15,6 +15,13 @@ use strict;
 use warnings;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # 1 for debug
 use constant MONITOR => 0;
 

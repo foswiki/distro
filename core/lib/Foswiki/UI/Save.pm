@@ -21,6 +21,13 @@ use Foswiki::Meta           ();
 use Foswiki::OopsException  ();
 use Foswiki::Prefs::Request ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Used by save and preview
 sub buildNewTopic {
     my ( $session, $topicObject, $script ) = @_;

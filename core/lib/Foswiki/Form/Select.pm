@@ -8,6 +8,13 @@ our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);

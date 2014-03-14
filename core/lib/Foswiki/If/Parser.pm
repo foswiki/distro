@@ -28,6 +28,13 @@ use Foswiki::If::OP_isempty ();
 use Foswiki::If::OP_istopic ();
 use Foswiki::If::OP_isweb   ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 # Additional operators specific to IF statements (not available in other
 # query types)
 use constant OPS => qw(allows context defined dollar ingroup isempty

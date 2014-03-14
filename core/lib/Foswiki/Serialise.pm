@@ -5,6 +5,13 @@ use strict;
 use warnings;
 use Foswiki ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ package Foswiki::Serialise
@@ -64,14 +71,12 @@ sub deserialise {
 #in the event of trouble, return 'Simplified'
 sub getSerialiser {
     my $session = shift;
-    my $originalstyle = shift || 'Simplified';
+    my $style = shift || 'Simplified';
 
-    return $serialisers{$originalstyle}
-      if ( defined( $serialisers{$originalstyle} ) );
+    return $serialisers{$style}
+      if ( defined( $serialisers{$style} ) );
 
-    my $style = $originalstyle;
     $style = 'Simplified' if ( $style eq 'default' );
-    $style = ucfirst($style);
     my $module = "Foswiki::Serialise::$style";
 
     eval "require $module";
@@ -82,7 +87,7 @@ sub getSerialiser {
     # objects here, but they're just singletons we let hang around for minor
     # perf reasons. See Item11349
     $cereal = $module->new() if ( not defined($cereal) );
-    $serialisers{$originalstyle} = $cereal;
+    $serialisers{$style} = $cereal;
     return $cereal;
 }
 

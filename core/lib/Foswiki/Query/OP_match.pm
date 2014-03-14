@@ -14,6 +14,13 @@ use warnings;
 use Foswiki::Query::ConditionalOP ();
 our @ISA = ('Foswiki::Query::ConditionalOP');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 sub new {
     my $class = shift;
     return $class->SUPER::new( name => '=~', prec => 500 );

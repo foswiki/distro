@@ -38,6 +38,13 @@ use Assert;
 use Error ();
 use Foswiki::Func;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ PROTECTED ClassMethod new ($session, $mapping_id)

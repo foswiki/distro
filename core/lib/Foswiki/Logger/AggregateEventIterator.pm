@@ -6,6 +6,13 @@ use warnings;
 use utf8;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ =Foswiki::Logger::PlainFile::AggregateEventIterator=

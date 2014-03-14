@@ -22,6 +22,13 @@ use Assert;
 
 use CGI::Util ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new() -> $response

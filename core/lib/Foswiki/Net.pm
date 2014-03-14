@@ -21,6 +21,13 @@ use Error qw( :try );
 
 use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our $LWPAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 our $SSLAvailable;      # Set to defined false to prevent using SSL

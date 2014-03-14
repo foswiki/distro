@@ -14,6 +14,13 @@ use strict;
 use warnings;
 use Assert;
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our $MARKER = "\0";
 
 =begin TML
@@ -409,8 +416,8 @@ sub getAttachmentLink {
 
     # I18N: Site specified %ATTACHEDIMAGEFORMAT% or %ATTACHEDFILELINKFORMAT%,
     # ensure that filename is URL encoded - first $name must be URL.
-    $fileLink =~ s/\$name/$fileURL/;    # deprecated
-    $fileLink =~ s/\$name/$attName/;    # deprecated, see Item1814
+    $fileLink =~ s/\$name/$fileURL/;        # deprecated
+    $fileLink =~ s/\$name/$attName/;        # deprecated, see Item1814
     $fileLink =~ s/\$filename/$attName/g;
     $fileLink =~ s/\$fileurl/$fileURL/g;
     $fileLink =~ s/\$fileext/$fileExt/;

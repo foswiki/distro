@@ -22,6 +22,13 @@ use Assert;
 use Error qw( :try );
 use Fcntl qw( :DEFAULT :flock );
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our ( $GlobalCache, $GlobalTimestamp );
 
 sub PasswordData {
@@ -65,17 +72,6 @@ sub ClearCache {
 
 # Set TRACE to 1 to enable detailed trace of password activity
 use constant TRACE => 0;
-
-# 'Use locale' for internationalisation of Perl sorting in getTopicNames
-# and other routines - main locale settings are done in Foswiki::setupLocale
-BEGIN {
-
-    # Do a dynamic 'use locale' for this module
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 sub new {
     my ( $class, $session ) = @_;

@@ -18,6 +18,13 @@ use Assert;
 use Foswiki::Iterator ();
 our @ISA = ('Foswiki::Iterator');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod new( $iter, $sub )

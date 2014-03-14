@@ -58,6 +58,13 @@ use Foswiki::Meta                   ();
 use Foswiki::Sandbox                ();
 use Foswiki::AccessControlException ();
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 our $STORE_FORMAT_VERSION = '1.1';
 
 =begin TML

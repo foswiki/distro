@@ -6,6 +6,13 @@ use warnings;
 use Foswiki::ListIterator ();
 our @ISA = ('Foswiki::ListIterator');
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 =begin TML
 
 ---+ package Foswiki::Search::InfoCache
