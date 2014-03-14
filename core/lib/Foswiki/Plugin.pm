@@ -389,6 +389,7 @@ sub topicWeb {
           my $web ( split( /[, ]+/, $Foswiki::cfg{Plugins}{WebSearchPath} ),
             $session->{webName} )
         {
+            $web = Foswiki::Sandbox::untaintUnchecked($web);    # Item11953
             if ( $session->topicExists( $web, $this->{name} ) ) {
                 $this->{topicWeb} = $web;
                 last;

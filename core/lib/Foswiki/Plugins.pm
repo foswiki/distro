@@ -161,6 +161,8 @@ sub preload {
                     # multiple times! Thus their handlers can be called
                     # more than once. This is *desireable*.
                     if ( $Foswiki::cfg{Plugins}{$plugin}{Enabled} ) {
+                        $plugin = Foswiki::Sandbox::untaintUnchecked($plugin)
+                          ;    # Item 11953
                         push( @pluginList, $plugin );
                         $already{$plugin} = 1;
                     }
