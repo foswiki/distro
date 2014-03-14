@@ -1185,8 +1185,12 @@ $Foswiki::cfg{LanguageFileCompression} = $FALSE;
 # of the programs that Foswiki calls when your wiki content uses
 # international character sets.</p>
 
-# **BOOLEAN**
-# Enable the use of {Site}{Locale}.
+# **BOOLEAN EXPERT**
+# Enable the use of {Site}{Locale}. WARNING: Perl locales are badly broken
+# in some versions of perl. For this reason locales are disabled in Foswiki.
+# If you enable them they can be made to work, but you will have to disable
+# taint checks, and collation will only work with single-byte character
+# sets.
 $Foswiki::cfg{UseLocale} = $FALSE;
 
 # **STRING 50 DISPLAY_IF {UseLocale}**
