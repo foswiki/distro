@@ -37,6 +37,8 @@ IO::File,>=1.10,cpan,Required, for base Foswiki (upload)
 IO::Socket::IP,>=0.14,cpan,Optional, required for IPv6
 IO::Socket::SSL,>=1.80,cpan,Optional, required for configuring TLS/SSL wikis or SSL e-mail
 Lingua::EN::Sentence,>=0,cpan,Optional, may be required for generating new language files
+Locale::Country,>=0,cpan,Optional, required for internationalisation
+Locale::Language,>=0,cpan,Optional, required for internationalisation
 Locale::Maketext,>=0,cpan,Optional, may be required for international characters
 Locale::Maketext::Lexicon,>=0,cpan,Optional, may be required for international characters
 LWP,>=0,cpan,Optional, needed by the Configure Extensions installer,for external URL based INCLUDEs and URL item verification
@@ -45,8 +47,9 @@ Mozilla::CA,>=20110904,cpan,Optional, SSL host verification for e-mail and other
 Net::SMTP,>=2.29,cpan,Optional, required for sending mail if sendmail not available on server
 POSIX,>=1,cpan,Required, for base Foswiki
 Socket,>=2.001,cpan,Required, for base Foswiki
-Sort::Maker,0.06,cpan, Required, for base Foswiki
 Symbol,>=0,cpan,Optional, may be required for international characters
+UNIVERSAL,>=0,cpan,Required,Basic perl module
 Unicode::MapUTF8,>=0,cpan,Optional, This is required for international characters for Perl 5.6. Do not install this for Perl 5.8 or later.
 version,>=0.77,cpan,Required, Used for standard perl version strings
 Win32::Console,>=0,cpan,Optional, may be required for  international characters on Windows 
+
