@@ -10,7 +10,6 @@ lib/Foswiki/Contrib/CpanContrib/DEPENDENCIES 0444
 lib/CPAN/lib/List/MoreUtils.pm 0444
 lib/CPAN/lib/Crypt/PasswdMD5.pm 0444
 lib/CPAN/lib/Error.pm 0444
-lib/CPAN/lib/Sort/Maker.pm 0444
 lib/CPAN/lib/IPC/Run/IO.pm 0444
 lib/CPAN/lib/IPC/Run/Win32Pump.pm 0444
 lib/CPAN/lib/IPC/Run/Debug.pm 0444
