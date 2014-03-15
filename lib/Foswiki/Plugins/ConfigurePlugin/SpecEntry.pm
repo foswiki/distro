@@ -688,7 +688,7 @@ sub check {
             # audit checkers e.g. CGI::Setup
             if ( $checker->can('provideFeedback') ) {
                 $message =
-                  $checker->provideFeedback( $spec, $data->{$keypath} );
+                  $checker->provideFeedback( $spec, 1, $data->{$keypath} );
                 if ($message) {
                     my $whine = {
                         level   => 'information',

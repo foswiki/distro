@@ -46,7 +46,7 @@ sub load {
         # 1. It has a shebang line
         local $/ = "\n";
         my $line = <$sf>;
-        next unless $line =~ /^#!.*\bperl\b/;
+        next unless $line && $line =~ /^#!.*\bperl\b/;
 
         # 2. It refers to $Foswiki::engine->run somewhere before __END__
         my $n = 1;
