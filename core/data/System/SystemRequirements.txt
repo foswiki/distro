@@ -69,6 +69,12 @@ they were put into an additional extension. See Foswiki:Extensions.CpanContrib. 
 Install apache and rcs ==apt-get install apache2 rcs==
 
 | *Perl Module* | *Package to install* | *Notes* |
+| Algorith::Diff | =libalgorithm-diff-perl= |
+| Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= |
+| Data::Dumper | =libdata-dumper-simple-perl= |
+| Digest::MD5 | =libdigest-md5-file-perl= |
+| Encode | =libencode-perl= |
+| Error | =liberror-perl= |
 | HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =libhtml-tree-perl= | |
