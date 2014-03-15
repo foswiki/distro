@@ -640,6 +640,10 @@ lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.css 0444
 lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.min.js 0444
 lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.min.js.gz 0444
 lib/Foswiki/Configure/resources/legend.html 0444
+lib/Foswiki/Configure/resources/nav_discard.png 0444
+lib/Foswiki/Configure/resources/nav_home.png 0444
+lib/Foswiki/Configure/resources/nav_logout.png 0444
+lib/Foswiki/Configure/resources/nav_save.png 0444
 lib/Foswiki/Configure/resources/next.gif 0444
 lib/Foswiki/Configure/resources/pattern.css 0444
 lib/Foswiki/Configure/resources/processing-bg.gif 0444
