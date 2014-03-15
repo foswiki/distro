@@ -225,6 +225,10 @@ See PatternSkinCssCookbookNoTopBar
 #LeftBar
 ---++ Left bar
 
+---+++ I want to customize the side bar
+
+In order to customize your left bar in each web, just copy _YourWeb_.WebLeftBarExample to _YourWeb_.WebLeftBar an put your customizations there.
+
 ---+++ I want to hide the side bar
 
 *Using templates:* %BR%
