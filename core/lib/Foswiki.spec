@@ -37,9 +37,6 @@
 
 #############################################################################
 #---+ General path settings
-# <p><strong>If you are a first-time installer:</strong> once you have set
-# up the eight paths below, your wiki should work - try it. You can
-# always come back and tweak other settings later.</p>
 # <p><b>Security Note:</b> Only the URL paths listed below should
 # be browseable from the web. If you expose any other directories (such as
 # lib or templates) you are opening up routes for possible hacking attempts.</p>
@@ -60,7 +57,7 @@
 # to return the <code>DefaultUrlHost</code>.</p>
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URL CHECK='nullok list:"\\\\s*,\\\\s*" \
+# **URL EXPERT CHECK='nullok list:"\\\\s*,\\\\s*" \
 #              parts:scheme,authority \
 #              authtype:hostip \
 #              expand' **
@@ -86,7 +83,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # Foswiki to use shorter script URLs.  The setting for the <code>view</code> script may be adjusted below.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
-# **NUMBER FEEDBACK=AUTO EXPERT**
+# **NUMBER EXPERT FEEDBACK=AUTO**
 # This is the maximum number of files and directories that will be checked
 # for permissions for the pub and data Directory paths.  This limit is initially set to
 # 7000, which should be reasonable for a default installation.  If it is
@@ -96,7 +93,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # is pressed for the path, or the server audit is requested.
 $Foswiki::cfg{PathCheckLimit} = 7000;
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin perms:D" M**
+# **PATH EXPERT AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:bin silentguess: perms:D" M**
 # This is the file system path used to access the Foswiki bin
 # directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
@@ -106,20 +103,20 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# **STRING 80 LABEL="Test user for verifying paths" **
+# **STRING 80 EXPERT LABEL="Test user for verifying paths"**
 # If your server requires a login name (username) and password to access the Foswiki scripts, enter a
 # valid login name here to enable the Verify action button.  This login will only be used for
 # testing and will not be saved with the Foswiki configuration.
 $Foswiki::cfg{ConfigureGUI}{TestUsername} = '';
 
-# **PASSWORD 80 LABEL="Test password for verifying paths" DISPLAY_IF {ConfigureGUI}{TestUsername}.length**
+# **PASSWORD 80 EXPERT LABEL="Test password for verifying paths" DISPLAY_IF {ConfigureGUI}{TestUsername}.length**
 # If your server requires a login name (username) and password to access the Foswiki scripts,
 # enter the password for the test account here to enable the Verify action button.  This password
 # will only be used for  testing and will not be saved with the Foswiki configuration. <B>Note:</b>
 # only HTTP Basic authorization is supported for this function.
 $Foswiki::cfg{ConfigureGUI}{TestPassword} = '';
 
-# **URLPATH FEEDBACK=auto FEEDBACK="Verify" CHECK='expand nullok notrail' AUDIT='URI:0' E M U**
+# **URLPATH EXPERT FEEDBACK=auto FEEDBACK="Verify" CHECK='expand nullok notrail' AUDIT='URI:0' E M U**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script including any suffix.
 # (This is an exception override, so the ScriptSuffix is not automatically added.)
@@ -147,28 +144,28 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # See the <a href="http://foswiki.org/Support/ApacheConfigGenerator" target="_blank">Apache Config Generator</a> for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
-# **PATH AUDIT="DIRS:1" FEEDBACK="Validate Permissions" CHECK="guess:pub perms:rwD filter:',v$'" M**
+# **PATH EXPERT AUDIT="DIRS:1" FEEDBACK="Validate Permissions" CHECK="guess:pub silentguess: perms:rwD filter:',v$'" M**
 # Attachments store (file path, not URL), must match the attachments URL path <tt>/foswiki/pub</tt> e.g.
 # <tt>/usr/local/foswiki/pub</tt>  This directory is normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:data perms:rwDpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
+# **PATH EXPERT AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:data silentguess: perms:rwDpd filter:',v$'" CHECK="perms:r filter:'\\\\.txt$'" M**
 # Topic files store (file path, not URL) e.g. <tt>/usr/local/foswiki/data</tt> This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:tools perms:rD" M**
+# **PATH EXPERT AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:tools silentguess: perms:rD" M**
 # Tools directory e.g. <tt>/usr/local/foswiki/tools</tt>   This directory must not be web accessible.
 # $Foswiki::cfg{ToolsDir} = '/home/httpd/foswiki/tools';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:templates perms:rD" M**
+# **PATH EXPERT AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:templates silentguess: perms:rD" M**
 # Template directory e.g. <tt>/usr/local/foswiki/templates</tt>  This directory must not be web accessible.
 # $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
-# **PATH AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:locale perms:rD" M**
+# **PATH EXPERT AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:locale silentguess: perms:rD" M**
 # Translation files directory (file path, not URL) e.g. <tt>/usr/local/foswiki/locale</tt>  This directory must not be web accessible.
 # $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
-# **PATH  AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:working perms:rw" M**
+# **PATH EXPERT AUDIT="DIRS" FEEDBACK="Validate Permissions" CHECK="guess:working silentguess: perms:rw" M**
 # Directory where Foswiki stores files that are required for the management
 # of Foswiki, but are not required to be accessed from the web.
 # A number of subdirectories will be created automatically under this
@@ -195,7 +192,7 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # </ul>
 # $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
 
-# **PATH**
+# **PATH EXPERT**
 # This is used to override the default system temporary file location.
 # Set this if you wish to have control over where working tmp files are
 # created.  It substitutes as the environment <tt>TempfileDir</tt> setting which
