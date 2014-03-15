@@ -175,6 +175,10 @@ body.configureShowOneSection .configureNotShowSection {
 .configureStatusErrors {
 	background-image:url(?action=resource&resource=icon_error.png);
 }
+.configureStatusWidget {
+    padding-right: 1ex;
+    margin-right: 1ex;
+}
 
 .configureUndefinedValue {
     color:gray;

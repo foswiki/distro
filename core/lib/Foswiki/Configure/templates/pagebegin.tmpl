@@ -59,7 +59,9 @@
         ${logout}
     <#if hasMainActionButtons??>
         <div class="configureActions foswikiRight">
-            <#if !firstTime??><span id="configureErrorSummary"></span>
+            <#if !firstTime??>
+            <span class="configureStatusWidget">
+                <span id="configureErrorSummary"></span>
                     <input type="hidden" disabled="disabled"
                            id="configureFeedbackWorkingText"
                            title="I18n - Not form data"
@@ -68,6 +70,7 @@
                         <span class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status">${unsavedNotice}</span>
                     </span>
             ${errorsButton}${warningsButton}
+            </span>
             </#if>
                 <input type="hidden" name="action" value="Configure" />
             <span class="configureMainActions" style="padding-right: 1ex;">

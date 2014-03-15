@@ -1367,6 +1367,11 @@ var feedback = ( function ($) {
                     break;
                 case 'r':
                     $('#configureModalContents').html(kpair[2]);
+                    if (kpair[2].match(/New configuration saved/) && $('#WelcomeBody').length) {
+                        // This is probably the first LSC save. We'll want to reload the page now.
+                        window.location.reload();
+                        return false;
+                    }
                     break;
                 case 'a':
                     $('#configureModalContents').append(kpair[2]);
