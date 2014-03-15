@@ -119,17 +119,13 @@ $Foswiki::cfg{ConfigureGUI}{TestPassword} = '';
 # **URLPATH FEEDBACK=auto FEEDBACK="Verify" CHECK='expand nullok notrail' AUDIT='URI:0' E M U**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script including any suffix.
-# (This is an exception override, so the ScriptSuffix is not automatically added.)
-# e.g. <code>/foswiki/bin/view.pl</code><br />  Note:  The default is acceptable except when shorter URLs are used.
-# <p />
-# If you are using Shorter URL's, then this is typically set to the base path of your wiki, which should be the value
-# of {ScriptUrlPath} excluding <code>/bin</code>. e.g. if your {ScriptUrlPath} is either empty or set to <code>/bin</code> leave
-# <code>{ScriptUrlPaths}{view}</code> empty; if it is set to something like <code>/directory/bin</code> set it to <code>/directory</code>
-# <p />
-# Do not change
-# this unless your Web Server configuration has been set to use shorter URLs.  See also the Foswiki
-# <a href="http://foswiki.org/Support/ApacheConfigGenerator" target="_new">Apache Config Generator</a> and
-# <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">Shorter URL Cookbook</a>
+# You should leave this as it is, unless your web server is configured for short URLs
+# (e.g. using Foswiki's <a href="http://foswiki.org/Support/ApacheConfigGenerator" target="_new">Apache Config Generator</a>).
+# If it is, replace this with the base path of your wiki, i.e. the value of
+# {ScriptUrlPath} with the <code>/bin</code> suffix removed
+# (so you'll have to leave this field empty if your wiki lives at the top level).
+# <p></p>
+# More information: <a href="http://foswiki.org/Support/ShorterUrlCookbook" target="_new">Shorter URL Cookbook</a>
 $Foswiki::cfg{ScriptUrlPaths}{view} =
   '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
