@@ -39,7 +39,7 @@
       throw "ERROR: no url specified in loadTmpl";
     }
 
-    opts.name = opts.name || getUniqueTemplateName();
+    opts.name = opts.name || opts.url || getUniqueTemplateName();
 
     // look up queue for requests already loading
     var promise = queue[opts.url];

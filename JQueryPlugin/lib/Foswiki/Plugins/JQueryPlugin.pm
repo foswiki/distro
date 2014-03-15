@@ -340,22 +340,40 @@ sub handleJQueryIcon {
     my $iconName  = $params->{_DEFAULT} || '';
     my $iconAlt   = $params->{alt}      || $iconName;
     my $iconTitle = $params->{title}    || '';
-    my $iconFormat = $params->{format}
-      || '<img src=\'$iconPath\' class=\'$iconClass\' $iconAlt$iconTitle/>';
-    my $iconPath =
-      Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
+    my $iconFormat = $params->{format};
+    my $iconStyle  = $params->{style};
+    my $iconPath;
+    my $iconClass;
 
-    return '' unless $iconPath;
+    # fontawesome
+    if ( $iconName =~ /^fa\-/ ) {
+        $iconFormat = '<i class=\'$iconClass\' $iconStyle $iconTitle></i>';
+        $iconPath   = '';
+        $iconClass  = "foswikiIcon jqIcon fa $iconName";
+    }
 
-    my $iconClass = "foswikiIcon jqIcon";
+    # default img based
+    else {
+        $iconFormat =
+'<img src=\'$iconPath\' class=\'$iconClass\' $iconStyle $iconAlt$iconTitle/>'
+          unless $iconFormat;
+        $iconPath =
+          Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
+        return '' unless $iconPath;
+
+        $iconClass = "foswikiIcon jqIcon";
+    }
+
     $iconClass .= " $params->{class}" if $params->{class};
 
     my $img = $iconFormat;
+    $img =~ s/\$iconName/$iconName/g;
     $img =~ s/\$iconPath/$iconPath/g;
     $img =~ s/\$iconClass/$iconClass/g;
+    $img =~ s/\$iconStyle/style='$iconStyle'/g if $iconStyle;
     $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
     $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
-    $img =~ s/\$(iconAlt|iconTitle)//go;
+    $img =~ s/\$(iconAlt|iconTitle|iconStyle)//go;
 
     return $img;
 }

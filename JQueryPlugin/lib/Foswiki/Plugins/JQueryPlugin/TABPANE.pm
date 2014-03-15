@@ -3,7 +3,8 @@ package Foswiki::Plugins::JQueryPlugin::TABPANE;
 use strict;
 use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki::Func                          ();
+use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
@@ -28,12 +29,12 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Tabpane',
-            version      => '1.2.1',
+            version      => '1.2.2',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
             css          => ['jquery.tabpane.css'],
-            javascript   => [ 'jquery.tabpane.js', 'jquery.tabpane.init.js' ],
+            javascript   => ['jquery.tabpane.js'],
             dependencies => [ 'metadata', 'livequery' ],
         ),
         $class
@@ -63,6 +64,10 @@ sub handleTabPane {
 
     $autoMaxExpand = ( $autoMaxExpand eq 'on' ) ? 'true' : 'false';
     $animate       = ( $animate       eq 'on' ) ? 'true' : 'false';
+
+    if ( Foswiki::Func::getContext()->{static} ) {
+        $class .= " jqInitedTabpane jqStatic";
+    }
 
     return
 "<div class=\"jqTabPane $class {select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}\">";

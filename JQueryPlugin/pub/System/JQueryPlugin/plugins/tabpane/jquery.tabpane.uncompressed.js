@@ -285,4 +285,12 @@ $.tabpane = {
 
 $.fn.tabpane = $.tabpane.build;
 
+$(function() {
+  $(".jqTabPane:not(.jqInitedTabpane)").livequery(function() {
+    var $this = $(this);
+    $this.addClass("jqInitedTabpane");
+    $this.tabpane();
+  });
+});
+
 })(jQuery);

@@ -595,9 +595,6 @@ pub/System/JQueryPlugin/plugins/supersubs/jquery.supersubs.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/supersubs/Makefile 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.css 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.css.gz 0644
-pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.init.js 0644
-pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.init.js.gz 0644
-pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.init.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.js 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.js.gz 0644
 pub/System/JQueryPlugin/plugins/tabpane/jquery.tabpane.uncompressed.css 0644

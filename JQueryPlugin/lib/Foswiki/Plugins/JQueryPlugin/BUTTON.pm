@@ -88,17 +88,14 @@ sub handleButton {
     $theText = "<span> $theText </span>";
 
     if ($theTarget) {
-        my $url;
-
         if ( $theTarget =~ /^(http|\/).*$/ ) {
-            $url = $theTarget;
+            $theHref = $theTarget;
         }
         else {
             my ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( $theWeb, $theTarget );
-            $url = Foswiki::Func::getViewUrl( $web, $topic );
+            $theHref = Foswiki::Func::getViewUrl( $web, $topic );
         }
-        $theOnClick .= ";window.location.href=\"$url\";";
     }
 
     my @class = ();

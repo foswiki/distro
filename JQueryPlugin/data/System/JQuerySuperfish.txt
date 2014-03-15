@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1369926831" format="1.1" reprev="1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1393328760" format="1.1" reprev="2" version="2"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"superfish"
@@ -28,13 +28,16 @@ Features:
 ---++ Examples
 %JQREQUIRE{"supersubs"}%
 
-%ADDTOZONE{"script" 
-    tag="SUPERFISH::DEMO" 
-    text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>
-          <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css' type='text/css'/>
-          <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css' type='text/css'/>
-          <script type='text/javascript' src='%ATTACHURLPATH%/example.js'></script>"
-    requires="JQUERYPLUGIN::SUPERSUBS"
+%ADDTOZONE{"head" 
+   id="SUPERFISH::DEMO" 
+   text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>
+         <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css' type='text/css'/>
+         <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css' type='text/css'/>"
+}%
+%ADDTOZONE{"script"
+   id="SUPERFISH::DEMO" 
+   text="<script type='text/javascript' src='%ATTACHURLPATH%/example.js'></script>"
+   requires="JQUERYPLUGIN::SUPERFISH,JQUERYPLUGIN::SUPERSUBS"
 }%
 
 ---+++ Using <nop>TreePlugin
@@ -83,7 +86,7 @@ Requires Foswiki:Extensions.TreePlugin
        </ul>
      </li>
      <li>
-       <a href="#">menu item</a>
+       <a href="#">menu item </a>
        <ul>
          <li><a href="#">menu item</a></li>
          <li><a href="#">menu item</a></li>
@@ -152,9 +155,6 @@ Requires Foswiki:Extensions.TreePlugin
      </li>
    </ul>
  </li>
- <li>
-   <a href="#">menu item</a>
- </li> 
 </ul>
 %CLEAR%
 
