@@ -333,57 +333,69 @@ sub sortTopics {
         $info->{editby} =
           $info->{tom}->session->{users}->getWikiName( $info->{editby} );
     }
-    if ($revSort) {
-        @{$listRef} = map { $_->[1] }
-          sort { _compare( $b->[0], $a->[0] ) }
-          map { [ $metacache->get($_)->{$sortfield}, $_ ] } @{$listRef};
-    }
-    else {
-        @{$listRef} = map { $_->[1] }
-          sort { _compare( $a->[0], $b->[0] ) }
-          map { [ $metacache->get($_)->{$sortfield}, $_ ] } @{$listRef};
-    }
+    @{$listRef} = map { $_->[1] }
+      sort { _compare( $b, $a, $revSort ) }
+      map { [ $metacache->get($_)->{$sortfield}, $_ ] } @{$listRef};
 }
 
 # RE for a full-spec floating-point number
 our $NUMBER = qr/^[-+]?[0-9]+(\.[0-9]*)?([Ee][-+]?[0-9]+)?$/s;
 
 sub _compare {
-    my $x = shift;
-    my $y = shift;
+    my ( $a, $b, $reverse ) = @_;
+    my ( $x, $y );
+    if ($reverse) {
+        $x = $a->[0];
+        $y = $b->[0];
+    }
+    else {
+        $x = $b->[0];
+        $y = $a->[0];
+    }
 
     ASSERT( defined($x) ) if DEBUG;
     ASSERT( defined($y) ) if DEBUG;
 
+    my $comparison;
     if ( $x =~ /$NUMBER/o && $y =~ /$NUMBER/o ) {
 
         # when sorting numbers do it largest first; this is just because
         # this is what date comparisons need.
-        return $y <=> $x;
-    }
-
-    my $datex = undef;
-    my $datey = undef;
-
-    # parseTime can error if you give it a date out of range so we skip
-    # testing if pure number
-    # We skip testing for dates the first character is not a digit
-    # as all formats we recognise as dates are
-    if (   $x =~ /^\d/
-        && $x !~ /$NUMBER/o
-        && $y =~ /^\d/
-        && $y !~ /$NUMBER/o )
-    {
-        $datex = Foswiki::Time::parseTime($x);
-        $datey = Foswiki::Time::parseTime($y) if $datex;
-    }
-
-    if ( $datex && $datey ) {
-        return $datey <=> $datex;
+        $comparison = $y <=> $x;
     }
     else {
-        return $y cmp $x;
+
+        my $datex = undef;
+        my $datey = undef;
+
+        # parseTime can error if you give it a date out of range so we skip
+        # testing if pure number
+        # We skip testing for dates the first character is not a digit
+        # as all formats we recognise as dates are
+        if (   $x =~ /^\d/
+            && $x !~ /$NUMBER/o
+            && $y =~ /^\d/
+            && $y !~ /$NUMBER/o )
+        {
+            $datex = Foswiki::Time::parseTime($x);
+            $datey = Foswiki::Time::parseTime($y) if $datex;
+        }
+
+        if ( $datex && $datey ) {
+            $comparison = $datey <=> $datex;
+        }
+        else {
+            $comparison = $y cmp $x;
+        }
     }
+
+    # tie breaker if keys are equal
+    # reverse order will not apply to the secondary search key
+    if ( $comparison == 0 ) {
+        $comparison = $b->[1] cmp $a->[1];
+    }
+
+    return $comparison;
 }
 
 =begin TML

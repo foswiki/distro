@@ -5875,7 +5875,7 @@ sub test_orderTopic {
       $this->{test_topicObject}->expandMacros( $search . 'order="modified"}%' );
 
     $this->assert_str_equals(
-"QueryTopicThree,QueryTopicTwo,QueryTopic,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic",
+"QueryTopicThree,QueryTopic,QueryTopicTwo,WebPreferences,TestTopicSEARCH,OkTopic,OkATopic,OkBTopic",
         $result
     );
 
@@ -5885,7 +5885,7 @@ sub test_orderTopic {
 
 #be very careful with this test and the one above - the change in order between QueryTopicTwo,QueryTopic is due to them having the same date, so its sorting by topicname
     $this->assert_str_equals(
-"OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopicTwo,QueryTopic,QueryTopicThree",
+"OkBTopic,OkATopic,OkTopic,TestTopicSEARCH,WebPreferences,QueryTopic,QueryTopicTwo,QueryTopicThree",
         $result
     );
 
@@ -5902,7 +5902,7 @@ sub test_orderTopic {
 #    );
 #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
     $this->assert_matches(
-qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopicTwo \(simon\),QueryTopic \(simon\)$/,
+qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopic \(simon\),QueryTopicTwo \(simon\)$/,
         $result
     );
 
@@ -5919,7 +5919,7 @@ qr/^QueryTopicThree \(Gerald\),.*WikiGuest\),QueryTopicTwo \(simon\),QueryTopic 
 #    );
 #needed to allow for store based differences in non-specified fields (ie, if sort on editby, then topic order is random - dependent on store impl)
     $this->assert_matches(
-qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree \(Gerald\)$/,
+qr/^QueryTopic \(simon\),QueryTopicTwo \(simon\),.*\(WikiGuest\),QueryTopicThree \(Gerald\)$/,
         $result
     );
 
@@ -5948,7 +5948,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
 
 #$this->assert_str_equals( "QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
+"QueryTopic (1234),QueryTopicTwo (7),QueryTopicThree (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -5960,7 +5960,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
 
 #$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)", $result );
     $this->assert_str_equals(
-"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)",
+"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (-0.12),QueryTopicTwo (8),QueryTopic (098)",
         $result
     );
 
@@ -5971,7 +5971,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
 
 #$this->assert_str_equals( "QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
+"QueryTopic (098),QueryTopicTwo (8),QueryTopicThree (-0.12),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -5983,7 +5983,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
 
 #$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)", $result );
     $this->assert_str_equals(
-"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)",
+"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicTwo (2),QueryTopicThree (10),QueryTopic (11)",
         $result
     );
 
@@ -5994,7 +5994,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
 
 #$this->assert_str_equals( "QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
+"QueryTopic (11),QueryTopicThree (10),QueryTopicTwo (2),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -6006,7 +6006,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
 
 #$this->assert_str_equals( "OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)", $result );
     $this->assert_str_equals(
-"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)",
+"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (Jason),QueryTopicTwo (John),QueryTopic (Pedro)",
         $result
     );
 
@@ -6017,7 +6017,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
 
 #$this->assert_str_equals( "QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()", $result );
     $this->assert_str_equals(
-"QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
+"QueryTopic (Pedro),QueryTopicTwo (John),QueryTopicThree (Jason),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
@@ -6027,7 +6027,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
           . 'order="formfield(Date)" format="$topic ($formfield(Date))"}%' );
 
     $this->assert_str_equals(
-"OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic (),QueryTopicThree (30 Jan 2010),QueryTopicTwo (15 Nov 2010),QueryTopic (12 Dec 2010)",
+"OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences (),QueryTopicThree (30 Jan 2010),QueryTopicTwo (15 Nov 2010),QueryTopic (12 Dec 2010)",
         $result
     );
 
@@ -6037,7 +6037,7 @@ qr/^QueryTopicTwo \(simon\),QueryTopic \(simon\),.*\(WikiGuest\),QueryTopicThree
       );
 
     $this->assert_str_equals(
-"QueryTopic (12 Dec 2010),QueryTopicTwo (15 Nov 2010),QueryTopicThree (30 Jan 2010),OkTopic (),OkBTopic (),WebPreferences (),TestTopicSEARCH (),OkATopic ()",
+"QueryTopic (12 Dec 2010),QueryTopicTwo (15 Nov 2010),QueryTopicThree (30 Jan 2010),OkATopic (),OkBTopic (),OkTopic (),TestTopicSEARCH (),WebPreferences ()",
         $result
     );
 
