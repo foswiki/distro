@@ -35,33 +35,73 @@ sub parse {
     # remove <#-- ... --> comments
     $_[1] =~ s/\<\#--.*?--\>//gos;
 
-    my $pattern = '
-      \<                    # open tag
-      \#                    # #
-      [[:space:]]*          # any space
-      (if|list|assign)      # i1: operator
-      [[:space:]]*          # any space
-      (.*?)                 # i2: expression
-      [[:space:]]*          # any space
-      \>                    # close tag
-      (.*?)                 # i3: contents
-      \<                    # open tag
-      /#                    # /#
-      [[:space:]]*          # any space
-      \\1                   # reference to operator
-      [[:space:]]*          # any space
-      \>                    # close tag
-      ';
-    _stripCommentsFromRegex($pattern);
+    # Parse <#foo></#foo> blocks, possibly nested
+    my @open_blocks;
+    while (
+        $_[1] =~ m{
+      (?:
+        \<                    # open tag
+        \#                    # # (opening block)
+        [[:space:]]*          # any space
+        (if|list|assign)      # i1: operator
+        [[:space:]]*          # any space
+        (.*?)                 # i2: expression
+        [[:space:]]*          # any space
+        \>                    # close tag
+      |
+        \<                    # open tag
+        /\#                   # /# (closing block)
+        [[:space:]]*          # any space
+        (if|list|assign)      # i3: operator
+        [[:space:]]*          # any space
+        \>                    # close tag
+      )
+    }gx
+      )
+    {
+        if ( defined($1) ) {
 
-    #Foswiki::log("pattern=$pattern");
+            # <#foo>
+            my ( $op, $expr ) = ( $1, $2 );
 
-    $_[1] =~ s/$pattern/$_[0]->_evaluateExpression($1, $2, $3, $_[2])/ges;
+            # Remember all the details about this one
+            push @open_blocks, [ $op, $expr, $-[0], $+[0] ];
+        }
+        else {
+            # </#foo>
+            my $op = $3;
+            my ( $close_start, $close_end ) = ( $-[0], $+[0] );
+            my $open = pop @open_blocks;
+            if ( !defined $open ) {
+                die "Unexpected </#$op> in template: $_[1]";
+            }
+            if ( $op ne $open->[0] ) {
+                die
+"Found </#$op> which doesn't match previous <#$open->[0]> in template: $_[1]";
+            }
+
+            # Don't evaluate inner blocks just yet; they'll be eval'd when we
+            # re-parse the contents of the outer one
+            # i.e. don't evaluate contents of #if before the #if itself has
+            # been decided
+            next if @open_blocks;
+
+            my $result =
+              $_[0]->_evaluateExpression( $open->[0], $open->[1],
+                substr( $_[1], $open->[3], $close_start - $open->[3] ), $_[2] );
+            substr( $_[1], $open->[2], $close_end - $open->[2] ) = $result;
+            pos( $_[1] ) = $open->[2] + length($result);
+        }
+    }
+    if (@open_blocks) {
+        die
+"Unclosed <#$open_blocks[0][0] $open_blocks[0][1]> in template: $_[1]";
+    }
 
     while ( my ( $key, $value ) = each %{ $_[2] } ) {
         $value = '' if !defined $value;    # preserve 0 value
                                            # simple key-value substitution
-        $_[1] =~ s/\$\{$key(\?.*?)\}/_handleQueryExpressions($key,$2,$_[2])/ges;
+        $_[1] =~ s/\$\{$key(\?.*?)\}/_handleQueryExpressions($key,$1,$_[2])/ges;
         $_[1] =~ s/\$\{$key\}/$value/gs;
     }
 
