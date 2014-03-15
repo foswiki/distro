@@ -94,6 +94,15 @@ sub renderHtml {
     }
 
     if ( $section->{opts} =~ /TABS/ ) {
+        my $tabs = $section->{controls}{tabs};
+
+        # Sort tabs for e.g. extensions tabs
+        if ( @$tabs && $section->{opts} =~ /SORTBUTFIRST/ ) {
+            my $first = shift @$tabs;
+            @$tabs = sort { $a->{text} cmp $b->{text} } @$tabs;
+            unshift @$tabs, $first;
+        }
+
         $navigation = $section->{controls}->generateTabs($depth);
     }
 

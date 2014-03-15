@@ -2114,7 +2114,7 @@ $Foswiki::cfg{MimeTypesFileName} = '$Foswiki::cfg{DataDir}/mime.types';
 # $Foswiki::cfg{DebugTracebacks} = '';
 
 #############################################################################
-#---+ Extensions -- TABS
+#---+ Extensions -- TABS SORTBUTFIRST
 
 #---++ Extension operation and maintenance
 # <ul>
