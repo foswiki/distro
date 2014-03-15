@@ -26,6 +26,16 @@ The following CPAN modules are not shipped with Foswiki. Note that Foswiki exten
 Modules marked as Required may still be optional if certain default core features are not used.
 
 | *Module* | *Required/Optional* | *Description* |
+| CPAN::Algorithm::Diff | Required | |
+| CPAN::B::Deparse | Required | |
+| CPAN::CGI | Required | Versions 2.89, 3.37, 3.43, and 3.47 should be avoided for I18N. Most version from 3.15 and onwards should work. Note: As of perl 5.19.7, CGI is no longer shipped with perl core and must be installed using CPAN. |
+| CPAN::CGI::Cookie | Required | Version >=1.24 (part of CGI) |
+| CPAN::CGI::Util | Required | Installs as part of CGI. |
+| CPAN::Crypt::PasswdMD5 | Required | Used for admin password hash and .htpasswd encoding |
+| CPAN::Data::Dumper | Required | |
+| CPAN::Digest::MD5 | Required | |
+| CPAN::Encode | Required | Used for international characters |
+| CPAN::Error | Required | Version >=0.15 |
 | CPAN:HTML::Entities | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
 | CPAN:HTML::Parser | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
 | CPAN:HTML::Tree | Required | Used by CompareRevisionsAddOn. |
@@ -38,12 +48,15 @@ Modules marked as Required may still be optional if certain default core feature
 | CPAN:Archive::Zip | Optional | Alternative to Archive::Tar, used by the Extensions Installer if Archive::Tar and command line tar and unzip also unavailable |
 | CPAN:Authen::SASL | Optional | Required by Net::SMTP if email server requires authentication. |
 
-
 Most of them will probably already be available in your installation. You can check version numbers with the =configure= script, or if you're still trying to get to that point, check from the command line like this:
 <verbatim class="bash">
 perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 </verbatim>
 For more detailed dependency information, try the script =dependencies_installer.pl= located in the =tools= directory, which makes perl module installation easier. Run it with option =-h= to understand basics. This script requires confirmation before it actually does something.
+
+Foswiki ships with a copy of =CGI::Session= in order to run the =configure= script.
+
+The following dependencies are usually met by the Perl core installation: =Carp=, =CGI= (see note above), =Config=, =Cwd=, =Exporter=, =File::Basename=, =File::Glob=, =FileHandle=, =File::Path=, =File::Spec=, =File::Temp=, =IO::File=, =MIME::Base64=, =POSIX=, =Socket= and =UNIVERSAL=.
 
 ---+++ Specific distribution details
 <noautolink>
@@ -94,6 +107,9 @@ After expanding the Foswiki archive, change the ownership of the files:
 Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 
 | *Perl Module* | *Package to install* | *Notes* |
+| Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
+| Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
+| Error | =dev-perl/Error= | |
 | HTML::Parser | =dev-perl/HTML-Parser= | |
 | HTML::Entities | | included with HTML::Parser |
 | HTML::Tree | =dev-perl/HTML-Tree= | |
@@ -103,29 +119,17 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | URI | =dev-perl/URI= | |
 | Authen::SASL | =dev-perl/Authen-SASL= | Optional, needed for authenticated SMTP |
 | IO::Socket::SSL | =dev-perl/IO-Socket-SSL= | Optional, support encrypted email connection:  STARTTLS or SSL |
-
-The below modules ship with Foswiki as a "last resort",  install these
-packages to update them to more recent versions:
-
-| *Perl Module* | *Package to install* | *Notes* |
-| Algorithm::Diff | =dev-perl/Algorithm-Diff= | |
-| Cache::* | =dev-perl/Cache-Cache= | |
-| CGI::Session | =dev-perl/CGI-Session= | |
-| Crypt::PasswdMD5 | =dev-perl/Crypt-PasswdMD5= | |
-| CSS::Minifier | =dev-perl/CSS-Minifier= | |
-| Error | =dev-perl/Error= | |
-| JavaScript::Minifier | =dev-perl/JavaScript-Minifier= | |
 | Locale::Maketext | =perl-core/locale-maketext= | Included with perl core.  Versions older than 1.23 have security issues! |
-| Locale::Maketext::Lexicon | =dev-perl/locale-maketext-lexicon= | |
-| Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | |
-| Sort::Maker | (no ebuild available ) | |
-
+| Locale::Maketext::Lexicon | =dev-perl/locale-maketext-lexicon= | Optional, needed for internationalization |
+| Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | Optional, needed for internationalization |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
 
 %ENDTWISTY{}%
 
+The were once CPAN modules shipped with prior versions of Foswiki as a "last resort". Since they are needed only in rare situations,
+they were put into an additional extension. See Foswiki:Extensions.CpanContrib. Install this packages if cannot install Perl modules otherwise.
 
 </noautolink>
 #ClientRequirements

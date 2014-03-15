@@ -41,6 +41,7 @@ Locale::Country,>=0,cpan,Optional, required for internationalisation
 Locale::Language,>=0,cpan,Optional, required for internationalisation
 Locale::Maketext,>=0,cpan,Optional, may be required for international characters
 Locale::Maketext::Lexicon,>=0,cpan,Optional, may be required for international characters
+Locale::Msgfmt,>=0,cpan,Optional, may be required for international characters
 LWP,>=0,cpan,Optional, needed by the Configure Extensions installer,for external URL based INCLUDEs and URL item verification
 MIME::Base64,>=0,cpan,Required, for base Foswiki
 Mozilla::CA,>=20110904,cpan,Optional, SSL host verification for e-mail and other SSL/TLS connections
