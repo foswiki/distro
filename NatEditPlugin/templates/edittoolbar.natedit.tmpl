@@ -127,8 +127,8 @@
     <li><a href="#" title="%MAKETEXT{"Sort selected lines ascending"}%" data-handler="handleSortAscending"><i class="ui-icon fa fa-sort-amount-asc"></i> %MAKETEXT{"Sort ascending"}%</a></li>
     <li><a href="#" title="%MAKETEXT{"Sort selected lines descending"}%" data-handler="handleSortDescending"><i class="ui-icon fa fa-sort-amount-desc"></i> %MAKETEXT{"Sort descending"}%</a></li>
     <li><a href="#" data-dialog="searchreplace" data-modal="false" data-okay-text="%MAKETEXT{"Replace"}%" data-cancel-text="%MAKETEXT{"Close"}%" data-okay-handler="handleSearchReplace"><i class="ui-icon fa fa-search"></i> %MAKETEXT{"Search && Replace"}%</a></li>
-    <li><a href="#"><i class="ui-icon fa fa-usd"></i> %MAKETEXT{"Escape markup"}%</a></li>
-    <li><a href="#"><i class="ui-icon fa">%</i> %MAKETEXT{"Unescape markup"}%</a></li>
+    <li><a href="#" data-handler="handleEscapeTML"><i class="ui-icon fa fa-usd"></i> %MAKETEXT{"Escape markup"}%</a></li>
+    <li><a href="#" data-handler="handleUnescapeTML"><i class="ui-icon fa">%</i> %MAKETEXT{"Unescape markup"}%</a></li>
   </ul>
 <!-- -->%TMPL:END%
 

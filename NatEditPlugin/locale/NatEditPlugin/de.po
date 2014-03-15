@@ -533,7 +533,7 @@ msgstr "Url"
 
 #: templates/edit.natedit.tmpl:179
 msgid "Users who may edit"
-msgstr "Benutzer mit Schreibreichten"
+msgstr "Benutzer mit Schreibrechten"
 
 #: templates/edit.natedit.tmpl:143
 msgid "Users who may view"

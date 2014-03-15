@@ -837,7 +837,6 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
   }
 
   if (typeof(tinyMCE) !== 'undefined') {
-    //tinyMCE.triggerSave();
     $.each(tinyMCE.editors, function(index, editor) { 
         editor.onSubmit.dispatch(); 
     }); 
@@ -1259,7 +1258,6 @@ $.NatEditor.prototype.getSelectionRange = function() {
     rangeCopy.moveToElementText(self.txtarea);
     range.text = c;
     pos = (rangeCopy.text.indexOf(c));
-
    
     range.moveStart("character", -1);
     range.text = selection;
@@ -1635,6 +1633,33 @@ $.NatEditor.prototype.insertLink = function(opts) {
   self.insertTag(['', markup, '']);
 };
 
+/*****************************************************************************
+ * handler for escape tml 
+ */
+$.NatEditor.prototype.handleEscapeTML = function(ev, elem) {
+  var self = this, 
+      selection = self.getSelection() || '';
+
+  selection = self.escapeTML(selection);
+
+  self.remove();
+  self.insertTag(['', selection, '']);
+};
+
+/*****************************************************************************
+ * handler for unescape tml 
+ */
+$.NatEditor.prototype.handleUnescapeTML = function(ev, elem) {
+  var self = this, 
+      selection = self.getSelection() || '';
+
+  selection = self.unescapeTML(selection);
+
+  self.remove();
+  self.insertTag(['', selection, '']);
+};
+
+
 /*************************************************************************
  * Replaces all foswiki TML special characters with their escaped counterparts.
  * See Foswiki:System.FormatTokens
@@ -1647,10 +1672,13 @@ $.NatEditor.prototype.escapeTML = function(inValue) {
   text = text.replace(/\$/g, '$dollar');
   text = text.replace(/%/g, '$percnt');
   text = text.replace(/"/g, '\\"');
-  text = text.replace(/&/g, '$amp');
-  text = text.replace(/>/g, '$gt');
-  text = text.replace(/</g, '$lt');
-  text = text.replace(/,/g, '$comma');
+
+// SMELL: below aren't supported by all plugins; they don't play a role in TML parsing anyway
+
+//  text = text.replace(/&/g, '$amp');
+//  text = text.replace(/>/g, '$gt');
+//  text = text.replace(/</g, '$lt');
+//  text = text.replace(/,/g, '$comma');
 
   return text;
 };
@@ -2591,14 +2619,6 @@ $.NatEditor.defaults = {
   mathMarkup: ['<latex title="Example">\n','\\sum_{x=1}^{n}\\frac{1}{x}','\n</latex>'],
   signatureMarkup: ['-- ', '[[%WIKINAME%]], ' - '%DATE%'],
   horizRulerMarkup: ['', '---', '\n'],
-
-  escapeTmlTransform: function (string) {
-    return this.escapeTML(string);
-  },
-  unescapeTmlTransform: function(string) {
-    return this.unescapeTML(string);
-  },
-
   autoHideToolbar: false,
   autoMaxExpand:false,
   minHeight:0,
