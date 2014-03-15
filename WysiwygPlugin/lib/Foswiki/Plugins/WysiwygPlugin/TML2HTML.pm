@@ -354,11 +354,20 @@ sub _processTags {
     return $stackTop;
 }
 
+sub _percentHighBit {
+    my $url = shift;
+    return $url if $Foswiki::cfg{Site}{CharSet} eq 'utf-8';
+    $url =~ s/([\x80-\xFF])/'%'.ord($1)/g;
+    return $url;
+}
+
 sub _expandURL {
     my ( $this, $url ) = @_;
 
-    return $url unless ( $this->{opts}->{expandVarsInURL} );
-    return $this->{opts}->{expandVarsInURL}->( $url, $this->{opts} );
+    if ( $this->{opts}->{expandVarsInURL} ) {
+        $url = $this->{opts}->{expandVarsInURL}->( $url, $this->{opts} );
+    }
+    return _percentHighBit($url);
 }
 
 # Lifted straight out of DevelopBranch Render.pm
@@ -986,6 +995,7 @@ m/$startww(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}($Fos
         $class = " class='$class'";
     }
 
+    $url = _percentHighBit($url);
     return $this->_liftOutGeneral(
         "<a$class$dataWikiword href=\"$url\">$text<\/a>",
         { tag => 'NONE', protect => 0, tmltag => 0 }
