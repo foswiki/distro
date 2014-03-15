@@ -444,6 +444,15 @@ ul.configureSubTab li a.configureWarn:visited {
 	padding-right:30px; /* width of icon 16 + 24 extra spacing */
 }
 
+/* --- MAIN PAGES --- */
+
+.configureCommonTasks {
+    list-style-type: none;
+}
+.configureCommonTasks li {
+    margin-bottom: 1ex;
+}
+
 ul li a.configureWarnAndError:link, 
 ul li a.configureWarnAndError:visited,
 ul li a.configureWarnAndError:hover,

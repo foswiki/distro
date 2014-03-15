@@ -199,7 +199,7 @@ $Foswiki::cfg{ScriptUrlPaths}{view} =
 # will not be used by perl for security reasons.
 #$Foswiki::cfg{TempfileDir} = '/tmp';
 
-# **PATH FEEDBACK=On-Change M**
+# **PATH EXPERT FEEDBACK=On-Change M**
 # You can override the default PATH setting to control
 # where Foswiki looks for external programs, such as grep.
 # By restricting this path to just a few key

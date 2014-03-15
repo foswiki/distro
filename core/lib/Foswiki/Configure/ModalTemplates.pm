@@ -151,7 +151,7 @@ sub _renderButton {
 
     my $text = qq{<input type='hidden' name="TYPEOF:$actor" value="UNKNOWN">};
     $text .=
-qq{<button type="button" value="$type" id="${actor}feedreq$type" class="foswikiButton" onclick="return doFeedback(this);">\${${templateItem}Label}</button>}
+qq{<button type="button" value="$type" id="${actor}feedreq$type" class="foswikiButton \${${templateItem}Class}" onclick="return doFeedback(this);">\${${templateItem}Label}</button>}
       unless ( $options & 1 );
 
     if ( $options & 2 ) {
@@ -162,8 +162,9 @@ qq{<button type="button" value="$type" id="${actor}feedreq$type" class="foswikiB
     });</script>};
     }
 
-    $templateArgs->{$templateItem} = $text;
+    $templateArgs->{$templateItem}             = $text;
     $templateArgs->{ $templateItem . 'Label' } = $label;
+    $templateArgs->{ $templateItem . 'Class' } = '';
 
     return $this;
 }

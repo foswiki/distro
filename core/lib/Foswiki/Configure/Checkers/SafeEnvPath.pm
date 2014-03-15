@@ -48,7 +48,6 @@ sub check {
                 push @safePath, $component;
             }
             $Foswiki::cfg{SafeEnvPath} = join( $pathSep, @safePath );
-            $check .= $this->guessed();
         }
         else {
 

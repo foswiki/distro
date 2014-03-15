@@ -30,6 +30,7 @@ sub renderHtml {
         SCRIPTSUFFIX  => $Foswiki::cfg{ScriptSuffix},
         ADMINGROUP    => $Foswiki::cfg{SuperAdminGroup},
         RESOURCEURI   => $Foswiki::resourceURI,
+        ACTIONURI     => $Foswiki::actionURI,
     );
 
     # do not simply return the contents as we want to have

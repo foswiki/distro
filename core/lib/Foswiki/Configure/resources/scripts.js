@@ -374,6 +374,16 @@ var configure = (function ($) {
                 $('.navigation').hide();
                 // Get rid of the .yui_b wrapper
                 $('.configureRootSection').unwrap();
+
+                if ($('#WelcomeBody').length) {
+                    // Hide a few more things not needed during first run
+                    $('.configureDefaultValueLink').hide();
+                    $('.configureFeedbackExpander').hide();
+                    $('#GeneralPathSettingsAlerts').hide();
+                    $('h2').hide();
+                    $('.configureFeedback:contains("I guessed this setting")').hide();
+                    configure.toggleInfoMode();
+                }
             }
             $(".tabli a").each(function () {
                 var sectionParts = that.getSectionParts(this.hash);

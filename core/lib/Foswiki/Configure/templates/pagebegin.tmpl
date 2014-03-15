@@ -59,7 +59,7 @@
         ${logout}
     <#if hasMainActionButtons??>
         <div class="configureActions foswikiRight">
-            <#if !firstTime??><span id="configureErrorSummary"></span></#if>
+            <#if !firstTime??><span id="configureErrorSummary"></span>
                     <input type="hidden" disabled="disabled"
                            id="configureFeedbackWorkingText"
                            title="I18n - Not form data"
@@ -67,15 +67,19 @@
                     <span class="configureFeedbackSummaryTable">
                         <span class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status">${unsavedNotice}</span>
                     </span>
-                <input type="hidden" name="action" value="Configure" />
             ${errorsButton}${warningsButton}
+            </#if>
+                <input type="hidden" name="action" value="Configure" />
             <span class="configureMainActions" style="padding-right: 1ex;">
                 <#assign saveButtonLabel><img src="%RESOURCEURI%nav_save.png" alt="" />Save</#assign>
+                <#assign saveButtonClass>foswikiSubmit</#assign>
                 ${saveButton}<!--
                 <#assign discardButtonLabel><img src="%RESOURCEURI%nav_discard.png" alt="" title="Discard all changes" />Discard</#assign>
+                <#assign discardButtonClass>foswikiButtonCancel</#assign>
                 -->${discardButton}
-                <#assign passwordButtonLabel>Change password</#assign>
-                ${passwordButton}
+                <#if !firstTime??>
+                <button class="foswikiButton"><img src="%RESOURCEURI%nav_home.png" alt="" />Your Wiki</button>
+                </#if>
             </span>
         </div>
     </#if>
