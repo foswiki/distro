@@ -152,32 +152,15 @@ Just customize the attached =slideshow.css= file to improve the view.
 The part between the rulers defines the default format of a slide:
 <verbatim class="tml">
 %STARTINCLUDE%
-<table width="100%" border="0" cellspacing="0" cellpadding="5">
-<tr bgcolor="#B9DAFF"><td valign="middle" width="2%">
-<img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png" border="0" alt="Slide Show" />&nbsp;</td>
-<td valign="middle" align="center">
-<font size="+3" color="#000000">%SLIDETITLE%</font></td>
-<td align="right" valign="middle">
-%SLIDENAVNEXT%&nbsp;</td>
-</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="3">
-<tr bgcolor="#FFFFFF"><td width="1">
-<img src="%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/clearpixel.gif" width="1" height="480" alt="" /></td>
-<td valign="top">
-%BR%
-<font size="+2" color="#003399">
+<div class="slideText">
+<h1>%SLIDETITLE%</h1>
 %SLIDETEXT%
-</font></td></tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr bgcolor="#FFFFCC"><td valign="middle">
-%SLIDENAVALL%&nbsp;[[%BASETOPIC%][Exit]]</td>
-<td valign="middle" align="right">
-<font size="-1" color="#666666">Slide %SLIDENUM% of %SLIDEMAX%</font></td>
-<td valign="middle" align="right">
-<font size="-2" color="#666666"> COPYRIGHT &copy; %SERVERTIME{$year}% Acme Inc.</font></td></tr>
-</table>
+</div>
+<div class="slideShowFooter">
+<div class="foswikiRight slideShowControls">%SLIDENAVALL%</div>
+<div class="foswikiLeft slideShowNum">Slide %SLIDENUM% of %SLIDEMAX%</div>
+%CLEAR%
+</div>
 %STOPINCLUDE% 
 </verbatim>
 
@@ -188,7 +171,7 @@ The part between the rulers defines the default format of a slide:
 ---++ Plugin info
 
 |  Author: | Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens |
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2012 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2014 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
@@ -218,17 +201,5 @@ The part between the rulers defines the default format of a slide:
 |  23 Nov 2002: | Added =%<nop>SLIDENAVLAST%= template keyword; using print Skin for presentation mode |
 |  19 Nov 2002: | Added "Start presentation" and "End presentation" buttons; added =%<nop>SLIDENAVFIRST%=, =%<nop>SLIDENAVPREV%=, =%<nop>SLIDENAVNEXT%= template keywords |
 |  17 Nov 2002: | Initial version |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
-
----
-*Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
-
-%META:FILEATTACHMENT{name="next.gif" attr="h" comment="Next button" date="1037510613" path="next.gif" size="993" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="prev.gif" attr="h" comment="Prev button" date="1037510599" path="prev.gif" size="993" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="clearpixel.gif" attr="h" comment="Clear pixel for spacing" date="1037523452" path="clearpixel.gif" size="807" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="startpres.gif" attr="h" comment="Start Presentation button" date="1037759933" path="startpres.gif" size="2065" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="endpres.gif" attr="h" comment="End Presentation button" date="1037759950" path="endpres.gif" size="2066" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="first.gif" attr="h" comment="First slide button" date="1037951064" path="first.gif" size="1010" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="last.gif" attr="h" comment="Last slide button" date="1037951080" path="last.gif" size="1014" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="slideshow.css" attachment="slideshow.css" attr="h" comment="" date="1232310261" path="slideshow.css" size="4" version="1"}%

@@ -1,24 +1,65 @@
 # See bottom of file for license and copyright information
+package Foswiki::Plugins::SlideShowPlugin::SlideShow;
 
 use strict;
 use warnings;
-use Foswiki::Func;
 
-package Foswiki::Plugins::SlideShowPlugin::SlideShow;
+use Foswiki::Func ();
 
-use vars qw( $imgRoot $installWeb );
+sub new {
+    my ( $class, $params ) = @_;
 
-sub init {
-    $installWeb = shift;
-    $imgRoot    = '%PUBURLPATH%/' . $installWeb . '/SlideShowPlugin';
+    return bless( {}, $class );
 }
 
-sub handler {
-    my ( $text, $theTopic, $theWeb ) = @_;
+sub init {
+    my ( $this, $args, $web, $topic ) = @_;
 
-    my $textPre  = "";
-    my $textPost = "";
-    my $args     = "";
+    $this->{web}   = $web;
+    $this->{topic} = $topic;
+
+    $this->{hideComments} =
+      Foswiki::Func::isTrue(
+        Foswiki::Func::getPreferencesValue('SLIDESHOWPLUGIN_HIDECOMMENTS')
+          || '' );
+
+    $this->{commentLabel} =
+      Foswiki::Func::getPreferencesValue('SLIDESHOWPLUGIN_COMMENTS_LABEL')
+      || 'Comments';
+
+    $this->{defaultTemplateTopic} =
+      Foswiki::Func::getPreferencesValue("SLIDESHOWPLUGIN_TEMPLATE")
+      || "SlideShowPlugin";
+
+    my %params = Foswiki::Func::extractParameters($args);
+    $this->{params} = \%params;
+
+    my $request = Foswiki::Func::getRequestObject();
+    $this->{queryString} = $request->queryString;
+
+    my @params;
+    foreach my $name ( $request->param ) {
+        next if $name =~ /\b(slideshow|cover)\b/;
+
+        my $key = _urlEncode($name);
+        push @params,
+          map { $key . "=" . _urlEncode( defined $_ ? $_ : '' ) }
+          $request->param($name);
+    }
+
+    $this->{queryString} = join( ';', @params );
+    $this->{slideTemplate} = $this->readSlideTemplate;
+
+    return $this;
+}
+
+sub renderSlideShow {
+    my ( $this, $text, $topic, $web ) = @_;
+
+    # parse out slideshow text
+    my $textPre  = '';
+    my $textPost = '';
+    my $args     = '';
     if ( $text =~ /^(.*)%SLIDESHOWSTART%(.*)$/s ) {
         $textPre = $1;
         $text    = $2;
@@ -32,23 +73,15 @@ sub handler {
         $text     = $1;
         $textPost = $2;
     }
+    $text =~ s/%SLIDESHOW/%<nop>SLIDESHOW/g;
+
+    $this->init( $args, $web, $topic, $text );
 
     # Make sure we don't end up back in the handler again
     # SMELL: there should be a better block
-    $text =~ s/%SLIDESHOW/%<nop>SLIDESHOW/g;
 
     my $query = Foswiki::Func::getCgiQuery();
-
-    # Build query string based on existingURL parameters
-    my $queryParams = '?slideshow=on;skin=slideshow';
-    foreach my $name ( $query->param ) {
-        next
-          if ( $name =~ /(text|keywords|web|topic|slideshow|skin|cover|\#)/ );
-        $queryParams .=
-          ';' . urlEncode($name) . '=' . urlEncode( $query->param($name) );
-    }
-
-    if ( $query && $query->param('slideshow') ) {
+    if ( $query && Foswiki::Func::isTrue( $query->param('slideshow') ) ) {
 
         # in presentation mode
 
@@ -57,8 +90,9 @@ sub handler {
         $textPost = '';
 
         $textPre .= "\n#StartPresentation\n";
-        $textPre .=
-          renderSlideNav( $theWeb, $theTopic, 1, 1, "e", $queryParams );
+
+        #        $textPre .=
+        #          $this->renderSlideNav( 1, 1, "e" );
 
         my $slideMax = 0;
 
@@ -70,17 +104,6 @@ sub handler {
             my @slides = split( /[\n\r]\-\-\-+$level\!* /, $text );
             $text = "";
 
-            my $hideComments = Foswiki::Func::isTrue(
-                Foswiki::Func::getPreferencesValue(
-                    'SLIDESHOWPLUGIN_HIDECOMMENTS')
-                  || ''
-            );
-
-            my $commentLabel = Foswiki::Func::getPreferencesValue(
-                'SLIDESHOWPLUGIN_COMMENTS_LABEL')
-              || 'Comments';
-
-            my $tmplText     = readTmplText( $theWeb, $args );
             my $slideText    = "";
             my $slideTitle   = "";
             my $slideBody    = "";
@@ -94,30 +117,34 @@ sub handler {
                 $slideBody  = $2 || '';
                 $slideComment = '';
                 if ( $slideBody =~
-                    s/(\-\-\-+\+$level+\!*\s*$commentLabel.*)//is )
+                    s/(\-\-\-+\+$level+\!*\s*$this->{commentLabel}.*)//is )
                 {
-                    $slideComment = $1 if !$hideComments;
+                    $slideComment = $1 unless $this->{hideComments};
                 }
                 push( @titles, $slideTitle );
-                $slideText = $tmplText;
+                my $isLastClass =
+                  ( $slideNum >= $slideMax ) ? ' slideShowLastSlide' : '';
+                my $isFirstClass =
+                  ( $slideNum == 1 ) ? ' slideShowFirstSlide' : '';
+                $slideText = $this->{slideTemplate};
                 $slideText =~ s/%SLIDETITLE%/$slideTitle/go;
                 $slideText =~ s/%SLIDETEXT%/$slideBody/go;
                 $slideText =~ s/%SLIDENUM%/$slideNum/go;
                 $slideText =~ s/%SLIDEMAX%/$slideMax/go;
-                $slideText =~ s/%SLIDENAV%/renderSlideNav(
-                    $theWeb, $theTopic, $slideNum, $slideMax, "fpn", $queryParams )/geo;
-                $slideText =~ s/%SLIDENAVALL%/renderSlideNav(
-                    $theWeb, $theTopic, $slideNum, $slideMax, "flpn", $queryParams )/geo;
-                $slideText =~ s/%SLIDENAVFIRST%/renderSlideNav(
-                    $theWeb, $theTopic, $slideNum, $slideMax, "f", $queryParams )/geo;
-                $slideText =~ s/%SLIDENAVPREV%/renderSlideNav(
-                    $theWeb, $theTopic, $slideNum, $slideMax, "p", $queryParams )/geo;
-                $slideText =~ s/%SLIDENAVNEXT%/renderSlideNav(
-                    $theWeb, $theTopic, $slideNum, $slideMax, "n", $queryParams )/geo;
-                $slideText =~ s/%SLIDENAVLAST%/renderSlideNav(
-                    $theWeb, $theTopic, $slideNum, $slideMax, "l", $queryParams )/geo;
+                $slideText =~ s/%SLIDENAV%/$this->renderSlideNav(
+                    $slideNum, $slideMax, "fpn" )/geo;
+                $slideText =~ s/%SLIDENAVALL%/$this->renderSlideNav(
+                    $slideNum, $slideMax, "fpnlx" )/geo;
+                $slideText =~ s/%SLIDENAVFIRST%/$this->renderSlideNav(
+                    $slideNum, $slideMax, "f" )/geo;
+                $slideText =~ s/%SLIDENAVPREV%/$this->renderSlideNav(
+                    $slideNum, $slideMax, "p" )/geo;
+                $slideText =~ s/%SLIDENAVNEXT%/$this->renderSlideNav(
+                    $slideNum, $slideMax, "n" )/geo;
+                $slideText =~ s/%SLIDENAVLAST%/$this->renderSlideNav(
+                    $slideNum, $slideMax, "l" )/geo;
                 $slideText =
-                    "<div class='slideshowPane' id='GoSlide"
+"<div class='slideShowPane$isFirstClass$isLastClass' id='GoSlide"
                   . $slideNum
                   . "'>$slideText</div>";
                 $text .= "\n#AGoSlide$slideNum\n$slideText";
@@ -127,15 +154,12 @@ sub handler {
                 $text .= "%BR%\n\n" x 20;
                 $slideNum++;
             }
-            $text =~
-s/%TOC(?:\{.*?\})*%/renderSlideToc( $theWeb, $theTopic, $queryParams, @titles )/geo;
+            $text =~ s/%TOC(?:\{.*?\})*%/$this->renderSlideToc( @titles )/geo;
             $text .= "\n#GoSlide$slideNum\n";
         }
 
-        $text = "$textPre\n$text\n";
-        $text .= renderSlideNav( $theWeb, $theTopic, $slideMax + 1,
-            $slideMax, "f p e", $queryParams );
-        $text .= $textPost;
+        $text = "<div class='slideShow'>\n$textPre\n$text\n";
+        $text .= $textPost . "\n</div>\n";
 
     }
     else {
@@ -152,7 +176,7 @@ s/([\n\r]\-\-\-+$level\!*) ([^\n\r]+)/"$1 Slide " . $slideNum++ . ": $2"/ges;
         }
         $text =
             "$textPre \n#StartPresentation\n"
-          . renderSlideNav( $theWeb, $theTopic, 1, 1, "s", $queryParams )
+          . $this->renderSlideNav( 1, 1, "s" )
           . "\n$text $textPost";
     }
 
@@ -160,67 +184,51 @@ s/([\n\r]\-\-\-+$level\!*) ([^\n\r]+)/"$1 Slide " . $slideNum++ . ": $2"/ges;
 }
 
 sub renderSlideNav {
-    my ( $theWeb, $theTopic, $theNum, $theMax, $theButtons, $qstring ) = @_;
-    my $prev    = $theNum - 1 || 1;
-    my $next    = $theNum + 1;
-    my $text    = "<span class='slideshowControls'>";
-    my $viewUrl = Foswiki::Func::getViewUrl( $theWeb, $theTopic );
+    my ( $this, $current, $max, $theButtons ) = @_;
+
+    my $prev = $current - 1 || 1;
+    my $next = $current + 1;
+    $next = $max if $next > $max;
+
+    my $viewUrl = Foswiki::Func::getViewUrl( $this->{web}, $this->{topic} );
+    my $queryString = '?' . 'slideshow=on;cover=slideshow';
+    $queryString .= ';' . $this->{queryString} if $this->{queryString};
 
     # format buttons
     $theButtons =~ s/f/%BUTTON_FIRST%/;
     $theButtons =~ s/l/%BUTTON_LAST%/;
-    $theButtons =~ s/p/%BUTTON_PREVIOUS%/;
+    $theButtons =~ s/p/%BUTTON_PREV%/;
     $theButtons =~ s/n/%BUTTON_NEXT%/;
     $theButtons =~ s/s/%BUTTON_START%/;
     $theButtons =~ s/e/%BUTTON_END%/;
+    $theButtons =~ s/x/%BUTTON_EXIT%/;
 
-    # f
+    $theButtons =~ s/%BUTTON_FIRST%/%TMPL:P{"BUTTON_FIRST" %params%}%/g;
+    $theButtons =~ s/%BUTTON_LAST%/%TMPL:P{"BUTTON_LAST" %params%}%/g;
+    $theButtons =~ s/%BUTTON_PREV%/%TMPL:P{"BUTTON_PREV" %params%}%/g;
+    $theButtons =~ s/%BUTTON_NEXT%/%TMPL:P{"BUTTON_NEXT" %params%}%/g;
+    $theButtons =~ s/%BUTTON_EXIT%/%TMPL:P{"BUTTON_EXIT" %params%}%/g;
+    $theButtons =~ s/%BUTTON_EXIT%/%TMPL:P{"BUTTON_EXIT" %params%}%/g;
     $theButtons =~
-s/%BUTTON_FIRST%/htmlButton('First', "$viewUrl$qstring#GoSlide1", 'first.gif', 'First slide')/e;
+s/%BUTTON_START%/%BUTTON{"%MAKETEXT{"Start presentation"}%" class="slideShowStart" href="$viewUrl$queryString#GoSlide1" icon="image"}%/g;
 
-    # l
     $theButtons =~
-s/%BUTTON_LAST%/htmlButton('Last', "$viewUrl$qstring#GoSlide$theMax", 'last.gif', 'Last slide')/e;
+s/%params%/max="$max" next="$next" prev="$prev" viewurl="$viewUrl" querystring="$queryString"/g;
 
-    # p
-    $theButtons =~
-s/%BUTTON_PREVIOUS%/htmlButton('Previous', "$viewUrl$qstring#GoSlide$prev", 'prev.gif', 'Previous slide')/e;
+    print STDERR "theButtons=$theButtons\n";
 
-    # n
-    $theButtons =~
-s/%BUTTON_NEXT%/htmlButton('Next', "$viewUrl$qstring#GoSlide$next", 'next.gif', 'Next slide')/e;
-
-    # s
-    $theButtons =~
-s/%BUTTON_START%/htmlButton('Start', "$viewUrl$qstring#GoSlide1", 'startpres.gif', 'Start presentation')/e;
-
-    # e
-    my $anchor = 'StartPresentation';
-    $theButtons =~
-s/%BUTTON_END%/htmlButton('End', "$viewUrl#$anchor", 'endpres.gif', 'End presentation')/e;
-
+    my $text = "<span class='slideShowControls'>";
     $text .= $theButtons;
-
     $text .= '</span>';
     return $text;
 }
 
-sub htmlButton {
-    my ( $id, $url, $imgName, $label ) = @_;
-
-    my $button = '';
-    $button .=
-"<a href='$url' class='slideshowControlButton slideshow$id'><img src='$imgRoot/$imgName' border='0' alt='$label' \/><\/a>";
-
-    return $button;
-}
-
 sub renderSlideToc {
-    my ( $theWeb, $theTopic, $params, @theTitles ) = @_;
+    my ( $this, $params, @theTitles ) = @_;
 
     my $slideNum = 1;
     my $text     = '';
-    my $viewUrl  = Foswiki::Func::getViewUrl( $theWeb, $theTopic );
+    my $viewUrl  = Foswiki::Func::getViewUrl( $this->{web}, $this->{topic} );
     foreach (@theTitles) {
         $text .= "\t\* ";
         $text .= "<a href=\"$viewUrl$params#GoSlide$slideNum\">";
@@ -230,52 +238,40 @@ sub renderSlideToc {
     return $text;
 }
 
-sub readTmplText {
-    my ( $theWeb, $theArgs ) = @_;
+sub readSlideTemplate {
+    my $this = shift;
 
-    my $tmplTopic = Foswiki::Func::extractNameValuePair( $theArgs, "template" );
-    unless ($tmplTopic) {
-        $theWeb = $installWeb;
-        $tmplTopic =
-          Foswiki::Func::getPreferencesValue("SLIDESHOWPLUGIN_TEMPLATE")
-          || "SlideShowPlugin";
-    }
-    if ( $tmplTopic =~ /^([^\.]+)\.(.*)$/o ) {
-        $theWeb    = $1;
-        $tmplTopic = $2;
-    }
-    my ( $meta, $text ) = Foswiki::Func::readTopic( $theWeb, $tmplTopic );
+    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{web},
+        $this->{params}{template} || $this->{defaultTemplateTopic} );
+
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
     # remove everything before %STARTINCLUDE% and after %STOPINCLUDE%
-    $text =~ s/.*?%STARTINCLUDE%//os;
-    $text =~ s/%STOPINCLUDE%.*//os;
-
     unless ($text) {
-        $text = htmlAlert(
-            "$installWeb.SlideShowPlugin Error:",
-            "Slide template topic <nop>$theWeb.$tmplTopic not found or empty!"
-              . "%SLIDETITLE%\n\n%SLIDETEXT%"
-        );
+        return _htmlAlert( "%SYSTEMWEB%.SlideShowPlugin Error:",
+            "Slide template topic <nop>$web.$topic not found or empty!" );
     }
-    elsif ( $text =~ /%SLIDETITLE%/ && $text =~ /%SLIDETEXT%/ ) {
 
-        # assume that format is OK
-    }
-    else {
-        $text = htmlAlert(
-            "$installWeb.SlideShowPlugin Error:",
+    $text =~ s/.*?%STARTINCLUDE%//s;
+    $text =~ s/%STOPINCLUDE%.*//s;
+
+    unless ( $text =~ /%SLIDETITLE%/ && $text =~ /%SLIDETEXT%/ ) {
+        return _htmlAlert(
+            "%SYSTEMWEB%.SlideShowPlugin Error:",
             "Missing =%<nop>SLIDETITLE%= or =%<nop>SLIDETEXT%= in "
-              . "slide template topic $theWeb.$tmplTopic.\n\n"
-              . "%SLIDETITLE%\n\n%SLIDETEXT%"
+              . "slide template topic [[$web.$topic]].\n\n"
         );
     }
-    $text =~ s/%WEB%/$theWeb/go;
-    $text =~ s/%TOPIC%/$tmplTopic/go;
-    $text =~ s/%ATTACHURL%/%PUBURL%\/$theWeb\/$tmplTopic/go;
+
+    # SMELL: these override system vars..sort of reproduces INCLUDE
+    $text =~ s/%WEB%/$web/go;
+    $text =~ s/%TOPIC%/$topic/go;
+    $text =~ s/%ATTACHURL%/%PUBURL%\/$web\/$topic/go;
+
     return $text;
 }
 
-sub htmlAlert {
+sub _htmlAlert {
     my ( $alertMessage, $message ) = @_;
 
     return
@@ -283,7 +279,7 @@ sub htmlAlert {
 
 }
 
-sub urlEncode {
+sub _urlEncode {
     my $text = shift;
     $text =~ s/([^0-9a-zA-Z-_.:~!*'()\/%])/'%'.sprintf('%02x',ord($1))/ge;
     $text =~ s/\%20/+/g;
@@ -294,7 +290,7 @@ sub urlEncode {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -5,7 +5,19 @@
 %TMPL:DEF{"simpleheader"}%%TMPL:END%
 %TMPL:DEF{"topicinfo"}%%TMPL:END%
 %TMPL:DEF{"standardfooter"}%%TMPL:END%
+%TMPL:DEF{"sidebar"}%%TMPL:END%
+
+%TMPL:DEF{"slideshow::css"}%<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css' media='all' />%TMPL:END%
 
 %TMPL:DEF{"content"}%%TEXT%
 #TopicEnd
+%ADDTOZONE{"head" id="SLIDESHOWPLUGIN::CSS" text="%TMPL:P{"slideshow::css"}%"}%
 %TMPL:END%
+
+%TMPL:DEF{"BUTTON_FIRST"}%%BUTTON{"%MAKETEXT{"First"}%" class="simple slideShowFirst" icon="control_start_blue" href="%viewurl%%querystring%#GoSlide1"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_LAST"}%%BUTTON{"%MAKETEXT{"Last"}%" class="simple slideShowLast" icon="control_end_blue" href="%viewurl%%querystring%#GoSlide%max%"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_PREV"}%%BUTTON{"%MAKETEXT{"Previous"}%" class="simple slideShowPrev" icon="control_rewind" href="%viewurl%%querystring%#GoSlide%prev%"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_NEXT"}%%BUTTON{"%MAKETEXT{"Next"}%" class="simple slideShowNext" icon="control_fastforward_blue" href="%viewurl%%querystring%#GoSlide%next%"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_EXIT"}%%BUTTON{"%MAKETEXT{"Exit"}%" class="simple slideShowExit" target="%BASEWEB%.%BASETOPIC%" icon="cross"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_START"}%%BUTTON{"%MAKETEXT{"Start presentation"}%" class="slideShowStart" href="%viewurl%%querystring%#GoSlide1" icon="image"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_END"}%%%BUTTON{"End presentation" icon="cross" class="slideShowEnd" href="%viewurl%%querystring%#StartPresentation"}%%TMPL:END%

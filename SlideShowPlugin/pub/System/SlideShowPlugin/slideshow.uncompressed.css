@@ -1,61 +1,57 @@
-html body {
-	height:100%; /* needed for container min-height */
+html {
+  overflow:hidden !important; 
+  background:#fff;
 }
-.slideshowPane {
-	position:relative;
-	padding:0 1em 1em 1em;
-	margin:0 0 100% 0;
-	height:1%;
+.slideShow {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:#fff;
+  overflow:hidden;
+  z-index:999;
 }
-.slideshowPane .slideshowHeader {
-	border-bottom:1px solid #666;
-	padding:.5em 0 .5em 0;
+.slideShowPane {
+  padding:0 1.5em;
+  height:100%;
+  position:relative;
+  -webkit-box-sizing:border-box; 
+     -moz-box-sizing:border-box;
+          box-sizing:border-box;
 }
-.slideshowPane .slideshowToolbar {
-	color:#666;
-	margin:0;
-	padding:0 0 .25em 0;
-	text-align:right;
-	font-size:94%;
+.slideText {
+  font-size:1.5em;
+  line-height:1.5;
 }
-.slideshowPane .slideshowHeader p {
-	color:#666;
-	margin:0;
-	padding:0;
-	text-align:right;
-	font-size:94%;
+.slideText h1 {
+  font-size:1.6em;
+  line-height:2.0;
+  border-bottom:1px solid #eee;
+  margin:0 -1.5em;
+  padding:0 1.5em;
 }
-.slideshowPane .slideshowHeader h1 {
-	color:#360;
-	margin:0;
-	padding:0;
+
+.slideShowNum {
+  margin-left:0.5em;
 }
-.slideshowPane .slideshowContent {
-	margin:2em 0 1em 0;
-	font-size:150%;
-	line-height:150%;
-	height:400px;
+.slideShowFooter {
+  position:absolute;
+  padding:0;
+  bottom:0;
+  left:0;
+  width:100%;
 }
-.slideshowPane .slideshowContent font {
-	line-height:100%;
+.slideShowFirstSlide .slideShowFirst,
+.slideShowFirstSlide .slideShowPrev,
+.slideShowLastSlide .slideShowLast,
+.slideShowLastSlide .slideShowNext {
+  filter:     alpha(opacity=50); /* IE 6,7,8 */
+  -ms-filter: "alpha(opacity=50)"; /* IE 8 */
+  opacity:0.5;
 }
-.slideshowPane .slideshowFooter {}
-.slideshowPane .slideshowFooter,
-.slideshowPane .slideshowFooter h3,
-.slideshowPane .slideshowFooter h4 {
-	color:#888;
-}
-.slideshowPane .slideshowControls {
-	white-space:nowrap;
-}
-.slideshowPane .slideshowHeader .slideshowControls {
-	float:right;
-	clear:both;
-}
-.slideshowPane a.slideshowControlButton {
-	margin-left:5px;
-}
-a.slideshowControlButton:hover {
-	text-decoration:none;
-	background:none;
+
+/* pattern fixes */
+#patternScreen #patternPage {
+  position:inherit;
 }
