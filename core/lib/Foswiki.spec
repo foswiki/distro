@@ -116,7 +116,7 @@ $Foswiki::cfg{ConfigureGUI}{TestUsername} = '';
 # only HTTP Basic authorization is supported for this function.
 $Foswiki::cfg{ConfigureGUI}{TestPassword} = '';
 
-# **URLPATH FEEDBACK=auto FEEDBACK="Verify" CHECK='expand nullok notrail' AUDIT='URI:0' E M U**
+# **URLPATH FEEDBACK=auto FEEDBACK="Verify" CHECK='expand nullok notrail' AUDIT='URI:0' M U**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
 # This is the complete path used to access the Foswiki view script including any suffix.
 # You should leave this as it is, unless your web server is configured for short URLs
