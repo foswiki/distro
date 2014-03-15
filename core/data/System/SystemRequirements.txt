@@ -26,16 +26,16 @@ The following CPAN modules are not shipped with Foswiki. Note that Foswiki exten
 Modules marked as Required may still be optional if certain default core features are not used.
 
 | *Module* | *Required/Optional* | *Description* |
-| CPAN::Algorithm::Diff | Required | |
-| CPAN::B::Deparse | Required | |
-| CPAN::CGI | Required | Versions 2.89, 3.37, 3.43, and 3.47 should be avoided for I18N. Most version from 3.15 and onwards should work. Note: As of perl 5.19.7, CGI is no longer shipped with perl core and must be installed using CPAN. |
-| CPAN::CGI::Cookie | Required | Version >=1.24 (part of CGI) |
-| CPAN::CGI::Util | Required | Installs as part of CGI. |
-| CPAN::Crypt::PasswdMD5 | Required | Used for admin password hash and .htpasswd encoding |
-| CPAN::Data::Dumper | Required | |
-| CPAN::Digest::MD5 | Required | |
-| CPAN::Encode | Required | Used for international characters |
-| CPAN::Error | Required | Version >=0.15 |
+| CPAN:Algorithm::Diff | Required | |
+| CPAN:B::Deparse | Required | |
+| CPAN:CGI | Required | Versions 2.89, 3.37, 3.43, and 3.47 should be avoided for I18N. Most version from 3.15 and onwards should work. Note: As of perl 5.19.7, CGI is no longer shipped with perl core and must be installed using CPAN. |
+| CPAN:CGI::Cookie | Required | Version >=1.24 (part of CGI) |
+| CPAN:CGI::Util | Required | Installs as part of CGI. |
+| CPAN:Crypt::PasswdMD5 | Required | Used for admin password hash and .htpasswd encoding |
+| CPAN:Data::Dumper | Required | |
+| CPAN:Digest::MD5 | Required | |
+| CPAN:Encode | Required | Used for international characters |
+| CPAN:Error | Required | Version >=0.15 |
 | CPAN:HTML::Entities | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
 | CPAN:HTML::Parser | Required | Used for [[Foswiki:Extensions.WysiwygPlugin][WYSIWYG Editing]] |
 | CPAN:HTML::Tree | Required | Used by CompareRevisionsAddOn. |
@@ -57,6 +57,9 @@ For more detailed dependency information, try the script =dependencies_installer
 Foswiki ships with a copy of =CGI::Session= in order to run the =configure= script.
 
 The following dependencies are usually met by the Perl core installation: =Carp=, =CGI= (see note above), =Config=, =Cwd=, =Exporter=, =File::Basename=, =File::Glob=, =FileHandle=, =File::Path=, =File::Spec=, =File::Temp=, =IO::File=, =MIME::Base64=, =POSIX=, =Socket= and =UNIVERSAL=.
+
+There were once CPAN modules shipped with prior versions of Foswiki as a "last resort". Since they are needed only in rare situations,
+they were put into an additional extension. See Foswiki:Extensions.CpanContrib. Install this packages if cannot install Perl modules otherwise.
 
 ---+++ Specific distribution details
 <noautolink>
@@ -127,9 +130,6 @@ After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
 
 %ENDTWISTY{}%
-
-The were once CPAN modules shipped with prior versions of Foswiki as a "last resort". Since they are needed only in rare situations,
-they were put into an additional extension. See Foswiki:Extensions.CpanContrib. Install this packages if cannot install Perl modules otherwise.
 
 </noautolink>
 #ClientRequirements
