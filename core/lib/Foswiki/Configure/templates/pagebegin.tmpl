@@ -59,8 +59,7 @@
         ${logout}
     <#if hasMainActionButtons??>
         <div class="configureActions foswikiRight">
-            <span id="configureErrorSummary"></span>
-                <#if firstTime??><span id="configureFixSoon">(we will solve this in a minute)</span></#if>
+            <#if !firstTime??><span id="configureErrorSummary"></span></#if>
                     <input type="hidden" disabled="disabled"
                            id="configureFeedbackWorkingText"
                            title="I18n - Not form data"

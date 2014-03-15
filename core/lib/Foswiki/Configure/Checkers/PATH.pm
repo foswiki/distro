@@ -58,7 +58,9 @@ sub check {
             return $this->ERROR(".spec error: no guess") unless ($dir);
             $silent = 1
               if ( exists $opts->{perms} && $opts->{perms}[0] =~ /D/ );
-            $e .= $this->guessDirectory( $keys, $rootkey, $dir, $silent );
+            my $guessResult =
+              $this->guessDirectory( $keys, $rootkey, $dir, $silent );
+            $e .= $guessResult unless exists $opts->{silentguess};
         }
     }
 

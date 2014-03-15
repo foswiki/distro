@@ -223,6 +223,11 @@ sub load {
         );
         $root->visit($this);
     }
+
+    # Skip rendering warning messages on first run -- the user already knows
+    # we don't have a working setup yet
+    return unless $haveLSC;
+
     if ( @errors || @warnings ) {
         my $errors = SectionMarker->new( 0, qq{Configuration file errors} );
         if (@errors) {
@@ -259,6 +264,7 @@ sub load {
             }
             $errors->addToDesc("</ul>");
         }
+
         my $item = new Foswiki::Configure::Value( 'BOOLEAN', keys => 'DUMMY' );
         _extractSections( [ $errors, $item ], $root );
 

@@ -368,6 +368,13 @@ var configure = (function ($) {
 
         initTabLinks: function () {
             var that = this;
+            if (!$(".tabli").length) {
+                // Just show all of 'em
+                $('body').removeClass('configureShowOneSection');
+                $('.navigation').hide();
+                // Get rid of the .yui_b wrapper
+                $('.configureRootSection').unwrap();
+            }
             $(".tabli a").each(function () {
                 var sectionParts = that.getSectionParts(this.hash);
                 this.sectionId = sectionParts.main;

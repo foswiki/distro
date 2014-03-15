@@ -99,6 +99,10 @@ sub renderHtml {
 
     my $outText = '';
     if ( $depth == 1 ) {
+
+        # Hide tabs when there are few of them anyway
+        $navigation = '' if @{ $section->{controls}{tabs} } < 3;
+
         $outText =
           Foswiki::Configure::UI->getTemplateParser()->readTemplate('main');
         $outText = Foswiki::Configure::UI->getTemplateParser()->parse(
