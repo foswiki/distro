@@ -586,9 +586,12 @@ sub configureScreen {
         $ui,
         'time' => $time,    # use time to make sure we never allow cacheing
         logoutdata(),
-        'formAction' => $scriptName,
-        'messages'   => $uiMessages,
-        'style'      => ( $badLSC || $insane ) ? 'Bad' : 'Good',
+        'formAction'           => $scriptName,
+        'messages'             => $uiMessages,
+        'style'                => ( $badLSC || $insane ) ? 'Bad' : 'Good',
+        'hasMainActionButtons' => 1,
+        'firstTime' => $isFirstTime ? 1 : undef,
+        'unsavedNotice' => $Foswiki::unsavedChangesNotice,
     );
 
     my $html =
@@ -602,6 +605,21 @@ sub configureScreen {
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
 
+    $template->renderActivationButton(    # buttonID => ModalModule
+        passwordButton => 'ChangePassword'
+    );
+    $template->renderActivationButton( discardButton => 'DiscardChanges' );
+    $template->renderActivationButton( saveButton    => 'SaveChanges' );
+    $template->renderActivationButton( errorsButton  => 'DisplayErrors', 1 );
+    $template->renderActivationButton(
+        warningsButton => 'DisplayErrors',
+        1
+    );
+    $template->renderFeedbackWindow( statusBarFeedback => 'SaveChanges' );
+
+    # parsed twice for MODAL.pm
+    $html = Foswiki::Configure::UI::getTemplateParser()
+      ->parse( $html, $template->getArgs );
     $html = Foswiki::Configure::UI::getTemplateParser()
       ->parse( $html, $template->getArgs );
 

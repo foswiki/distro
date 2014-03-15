@@ -21,34 +21,6 @@
 		</div>
 		
 	</div>
-	<div id="ft">
-		<div class="configureActions">
-			<div class="section configureActionsContents">
-			    <div class="foswikiLeft">
-                                <span id="configureErrorSummary"></span>
-                    <#if firstTime == 1><span id="configureFixSoon">(we will solve this in a minute)</span></#if>
-                    <input type="hidden" disabled="disabled"
-                           id="configureFeedbackWorkingText"
-                           title="I18n - Not form data"
-                           value="Working...">
-                    <span class="configureFeedbackSummaryTable">
-                        <span class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status">${unsavedNotice}</span>
-                    </span>
-			    </div>
-                <input type="hidden" name="action" value="Configure" />
-${errorsButton}${warningsButton}
-
-                             <div class="foswikiRight">
-<#assign passwordButtonLabel>Change password</#assign>
-${passwordButton}
-<#assign discardButtonLabel>Discard changes</#assign>
-${discardButton}
-<#assign saveButtonLabel>Save changes</#assign>
-${saveButton}
-                             </div>
-			</div>
-		</div>
-	</div>
 
 </div>
 

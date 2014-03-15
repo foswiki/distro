@@ -1,28 +1,16 @@
 <#-- Template used for Feedback pending summary div -->
 
-<#assign noPending>
-<div class="configureNoChanges"><span>
-     No unsaved changes</span>
-</#assign>
-
-<#assign onePending>
-    <div class="configureUnsaved"><span>
-    1 unsaved change<#if timesaved??>,&nbsp;from ${timesaved}</#if>
-</#assign>
-
-<#assign nPending>
-    <div class="configureUnsaved"><span>
-    ${pendingCount} unsaved changes<#if timesaved??>,&nbsp;from ${timesaved}</#if>
-</#assign>
-
 <#if pendingCount == 0>
- <#assign unsavedDetailButton>${noPending}</#assign>
+ <#assign unsavedDetailButton>
+    <div class="configureNoChanges"><span>No unsaved changes</span></div>
+ </#assign>
 </#if>
-<#if pendingCount == 1> 
- <#assign unsavedDetailButtonLabel>${onePending}</#assign>
-</#if>
-<#if pendingCount gt 1 > 
+<#if pendingCount gt 0><#assign unsavedDetailButtonLabel>
+  <span class="configureUnsaved">
+    <#if pendingCount == 1>1 unsaved change</#if><#--
+    --><#if pendingCount gt 1>${pendingCount} unsaved changes</#if><#--
+    --><#if timesaved??>,&nbsp;from ${timesaved}</#if>
      <#assign unsavedDetailButtonLabel>${nPending}</#assign>
-</#if>
+  </span>
+</#assign></#if>
 ${unsavedDetailButton}
-</span></div>

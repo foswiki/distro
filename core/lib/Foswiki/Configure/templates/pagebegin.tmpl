@@ -2,7 +2,9 @@
     <#if loggedin??>
         <form method="post" action="${formAction}" enctype="multipart/form-data" name="logoutForm">
             <input type="hidden" name="time" value="${time}"  />
-            <input type="submit" class="foswikiButton foswikiButtonSmall foswikiRight" title="Logout of configure and return to the wiki" value="Logout" />
+            <button class="foswikiButton foswikiRight" title="Logout of configure and return to the wiki">
+                <img src="%RESOURCEURI%nav_logout.png" alt="" />Logout
+            </button>
             <input type="hidden" name="action" value="Logout">
         </form>
     </#if>
@@ -55,6 +57,29 @@
 <div class="configurePageHeader">
     <div class="section">
         ${logout}
+    <#if hasMainActionButtons??>
+        <div class="configureActions foswikiRight">
+            <span id="configureErrorSummary"></span>
+                <#if firstTime??><span id="configureFixSoon">(we will solve this in a minute)</span></#if>
+                    <input type="hidden" disabled="disabled"
+                           id="configureFeedbackWorkingText"
+                           title="I18n - Not form data"
+                           value="Working...">
+                    <span class="configureFeedbackSummaryTable">
+                        <span class="configureFeedbackSummaryCell" id="{ConfigureGUI}{Unsaved}status">${unsavedNotice}</span>
+                    </span>
+                <input type="hidden" name="action" value="Configure" />
+            ${errorsButton}${warningsButton}
+            <span class="configureMainActions" style="padding-right: 1ex;">
+                <#assign saveButtonLabel><img src="%RESOURCEURI%nav_save.png" alt="" />Save</#assign>
+                ${saveButton}<!--
+                <#assign discardButtonLabel><img src="%RESOURCEURI%nav_discard.png" alt="" title="Discard all changes" />Discard</#assign>
+                -->${discardButton}
+                <#assign passwordButtonLabel>Change password</#assign>
+                ${passwordButton}
+            </span>
+        </div>
+    </#if>
         <div class="configureLogo">
             <a href="${scriptName}"><img src="%RESOURCEURI%foswiki-configure-logo.png" alt="Foswiki configuration" /></a>
         </div>

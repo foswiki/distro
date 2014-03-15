@@ -146,26 +146,6 @@ body.configureShowOneSection .configureNotShowSection {
 	display:block;	
 }
 
-.configureActions {
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-}
-.configureActionsContents {
-	border-top:1px solid #aaa;
-	text-align:right;
-	padding-top:.7em;
-	padding-bottom: .7em;
-	background-color:#edf5fc;
-	background-color:rgba(237, 245, 252, 0.8);
-}
-div.configureActions div.foswikiRight {
-    vertical-align: middle;
-}
 .configureTools {
 	background-color:#edf5fc;
 	padding-top: .7em;
@@ -176,10 +156,13 @@ div.configureActions div.foswikiRight {
 .configureTools span {
 	margin:0 0 0 .3em;
 }
+#configureErrorSummary > * {
+	margin: 0 1ex;
+}
 .configureStatusOK,
 .configureStatusWarnings,
 .configureStatusErrors {
-	padding:7px 1em 7px 22px;
+	padding:7px 7px 7px 22px;
 	background-position:0 45%;
 	background-repeat:no-repeat;
 }
@@ -578,7 +561,7 @@ div.configureInfoText {
 	margin:.5em 0;
 	color:green;
 }
-div.configureUnsaved,
+span.configureUnsaved,
 div.configureNoChanges,
 div.configureError,
 div.configureWarn,
@@ -597,7 +580,7 @@ div.configureWarn {
 div.configureDebug {
         background-image:url(?action=resource&resource=icon_debug.png);
 }
-div.configureUnsaved {
+span.configureUnsaved {
         background-image:url(?action=resource&resource=icon_changes.png);
 }
 div.configureNoChanges {
@@ -795,7 +778,8 @@ table.configureSectionValues tr.configureExpert th {
 /* note */
 span.configureMandatory {
 	font-size:94%;
-	color:#9933cc;
+	font-weight: bold;
+	color:#990000;
 }
 
 .configureMandatory input {
@@ -933,39 +917,6 @@ div.configureMessageBox {
 .installDependency {
 }
 
-/* legend */
-
-.configureLegend {
-    margin: 20px 0 0 0;
-    padding: 20px;
-    background: #f2f2f2;
-}
-.configureLegend h3 {
-    color: #555;
-}
-.configureLegend .item {
-    background: #fff;
-    border: 1px solid #eee;
-    padding: 15px;
-    margin: 0 0 10px 0;
-}
-.configureLegend .configureMessageBox {
-    margin: 5px 0;
-}
-.configureLegend .item p {
-    margin-bottom: 0;
-    color: #666;
-}
-.configureLegend .configureMessageBox.configureWarn,
-.configureLegend .configureMessageBox.configureError {
-    padding: 1em;
-    padding-left: 3em;
-    background-position: 1em 45%;
-}
-.configureLegend .configureMessageBox [class^=configureFeedbackButton] {
-    margin: 5px 0 0 0;
-}
-
 .foswikiSubmitDisabled,
 .foswikiSubmitDisabled:hover,
 .foswikiSubmitDisabled:active {
@@ -990,6 +941,10 @@ div.configureMessageBox {
 .foswikiImage a:hover img {
    border-color:#06c;
    background:#fff;
+}
+
+button img {
+   padding-right: 1ex;
 }
 
 .foswikiNotification.foswikiGood {

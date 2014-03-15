@@ -99,40 +99,15 @@ sub renderHtml {
 
     my $outText = '';
     if ( $depth == 1 ) {
-        my $isFirstTime = (
-            $Foswiki::Configure::UI::firsttime
-              && ( $Foswiki::Configure::UI::totwarnings
-                || $Foswiki::Configure::UI::toterrors )
-          )
-          || 0;
-
-        my $template = Foswiki::Configure::ModalTemplates->new(
-            $root,
-            'navigation'    => $navigation,
-            'contents'      => $contents,
-            'firstTime'     => $isFirstTime,
-            'unsavedNotice' => $Foswiki::unsavedChangesNotice,
+        $outText =
+          Foswiki::Configure::UI->getTemplateParser()->readTemplate('main');
+        $outText = Foswiki::Configure::UI->getTemplateParser()->parse(
+            $outText,
+            {
+                navigation => $navigation,
+                contents   => $contents,
+            }
         );
-        $template->renderActivationButton(    # buttonID => ModalModule
-            passwordButton => 'ChangePassword'
-        );
-        $template->renderActivationButton( discardButton => 'DiscardChanges' );
-        $template->renderActivationButton( saveButton    => 'SaveChanges' );
-        $template->renderActivationButton( errorsButton => 'DisplayErrors', 1 );
-        $template->renderActivationButton(
-            warningsButton => 'DisplayErrors',
-            1
-        );
-        $template->renderFeedbackWindow( statusBarFeedback => 'SaveChanges' );
-
-        my $templateArgs = $template->getArgs;
-
-        # parsed twice for MODAL.pm
-        $outText = $template->extractArgs('main');
-        $outText = Foswiki::Configure::UI::getTemplateParser()
-          ->parse( $outText, $templateArgs );
-        $outText = Foswiki::Configure::UI::getTemplateParser()
-          ->parse( $outText, $templateArgs );
     }
     else {
         my $alertActive =

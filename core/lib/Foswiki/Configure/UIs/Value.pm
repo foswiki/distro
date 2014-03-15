@@ -186,9 +186,6 @@ qq{<span style='display:none' id="${keys}feedmsg$n"><span class="configureFeedba
         }
         $buttons .= '</tbody></table>' if ($tbl);
         $feedback = qq{<span class="foswikiJSRequired">$buttons</span>};
-        $index .=
-qq{<span class="configureCheckOnChange"><img src="${Foswiki::resourceURI}autocheck.png" title="This field will be automatically verified when you change it" alt="Autochecked field"></span>}
-          if ($ac);
     }
     else {
         $feedback = '';
