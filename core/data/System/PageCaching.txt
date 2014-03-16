@@ -65,7 +65,8 @@ Examples for valid cache expiry values are:
    * +30s: 30 seconds from now
    * +10m: ten minutes from now
    * +1h: one hour from now
-   * +3m: in three months
+   * +1d: one day from now
+   * +3M: in three months
    * +10y: in ten years time
    * Thursday, 25-Apr-1999 00:40:33 GMT  at the indicated time & date
 
