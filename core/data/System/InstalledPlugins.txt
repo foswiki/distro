@@ -1,9 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
+---+ Installed Plugins
 
 This site is running Foswiki version *%WIKIVERSION%* %IF{ "$ 'ENV{MOD_PERL}' = 'not set'" else="under *%ENV{MOD_PERL}%* "}%, Release *%WIKIRELEASE%*,  Foswiki API version *%PLUGINVERSION{}%* 
-
----+ Installed Plugins
 
 Here is a list of the plugins currently installed and enabled in the
 [[%SCRIPTURLPATH{"configure"}%][%ICON{"wrench"}% configuration]] on this
@@ -14,7 +13,6 @@ Foswiki site:
 Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"}%][%ICON{"wrench"}% configure]].  
 Plugins shown in the above list as _(disabled)_ are enabled in the
 configuration but either encountered errors or are disabled in Site, Web or another preference settings topic (see %SYSTEMWEB%.PreferenceSettings )
-
 
 See [[Plugins]] for more detailed description of how to install and use Plugins.
 
