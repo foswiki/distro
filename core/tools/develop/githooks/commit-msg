@@ -1,0 +1,80 @@
+#!/usr/bin/perl
+#
+use strict;
+use warnings;
+
+use LWP::Simple;
+
+my $failmsg = '';
+
+my $logmsg = do {
+    local $/ = undef;
+    open my $fh, "<", $ARGV[0]
+      or die "could not open $ARGV[0]: $!";
+    <$fh>;
+};
+
+$failmsg = "No Bug item in log message\n" unless ( $logmsg =~ /^Item\d+\s*:/ );
+
+my @items;
+$logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
+foreach my $item (@items) {
+    my $url   = "http://foswiki.org/Tasks/ItemStatusQuery?item=$item;skin=text";
+    my $state = get $url;
+
+    unless ( defined $state ) {
+        fail(
+"ERROR: GET on Tasks.ItemStatusQuery failed.  Check http://foswiki.org/Tasks/ItemStatusQuery\n"
+        );
+    }
+
+    $failmsg .= "$item does not exist\n" unless $state;
+
+    if ( $state =~
+        /^(Waiting for Release|Closed|No Action Required|Proposal Required)$/ )
+    {
+        $failmsg .= "$item is in $state state; cannot check in\n";
+    }
+
+}
+
+fail($failmsg) if $failmsg;
+
+exit 0;
+
+# PLEASE keep this message in sync with
+# http://foswiki.org/Development/SvnRepository#RulesForCheckins
+sub fail {
+    my $message = shift;
+    print STDERR <<"EOF";
+--------------------------------------------------------------
+Illegal checkin to Foswiki:
+
+=====
+$message=====
+
+http://foswiki.org/Development/SvnRepository#RulesForCheckins
+Rules - checkins must:
+1. Have a comment...
+2. ...with relevant ItemNNN topics in the first line, example:
+
+Item12345: Item12346: fixed foo, updated release notes
+
+3. Use ItemNNN topics which are open at the time of checkin,
+   I.E. *not* one of: Closed, Waiting For Release, No Action
+   or Proposal Required
+4. Have "tidied" source code if the TIDY control file in the
+   root of the extension calls for it, see:
+   http://foswiki.org/Development/TIDY
+
+NB Getting rejected commits with perltidy? We are checking
+   using version ##FIXME: Perl::Tidy::VERSION
+   See http://foswiki.org/Development/PerlTidy#Versions
+
+----------------COMMIT MESSAGE FOLLOWS------------------------
+EOF
+
+    print STDERR $logmsg;
+    exit 1;
+}
+
