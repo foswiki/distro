@@ -25,8 +25,7 @@ If you use the official artwork on your own site you must link back to Foswiki.o
 <a href="http://foswiki.org/">
 <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif"\
     alt="This site is powered by Foswiki"\
-    title="This site is powered by Foswiki"\
-    border="0" />
+    title="This site is powered by Foswiki" />
 </a></verbatim>
 
 If you create your own skin you are encouraged to add this small logo at the bottom of your skin.
