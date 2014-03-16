@@ -231,12 +231,12 @@ For your own skin you are encouraged to show a small 88x31 pixel logo at the bot
 <verbatim class="tml"><a href="http://foswiki.org/">
      <img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif"\
           alt="Powered by Foswiki" width="88" height="31"\
-          title="Powered by Foswiki" border="0" />
+          title="Powered by Foswiki" />
 </a></verbatim>
 
 Generating:
 
-<a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="Powered by Foswiki" width="88" height="31" title="Powered by Foswiki" border="0" /></a>
+<a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-badge.gif" alt="Powered by Foswiki" width="88" height="31" title="Powered by Foswiki" /></a>
 
 The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
 
