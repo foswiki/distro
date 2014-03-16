@@ -6,15 +6,17 @@ use warnings;
 use LWP::Simple;
 
 my $failmsg = '';
+my $logmsg;
 
-my $logmsg = do {
+{
     local $/ = undef;
     open my $fh, "<", $ARGV[0]
       or die "could not open $ARGV[0]: $!";
-    <$fh>;
+    $logmsg = <$fh>;
+    close $fh;
 };
 
-$failmsg = "No Bug item in log message\n" unless ( $logmsg =~ /^Item\d+\s*:/ );
+fail("No Bug item in log message\n") unless ( $logmsg =~ /^Item\d+\s*:/ );
 
 my @items;
 $logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
@@ -23,9 +25,9 @@ foreach my $item (@items) {
     my $state = get $url;
 
     unless ( defined $state ) {
-        fail(
-"ERROR: GET on Tasks.ItemStatusQuery failed.  Check http://foswiki.org/Tasks/ItemStatusQuery\n"
-        );
+        $failmsg .=
+"ERROR: GET on Tasks.ItemStatusQuery failed.  Check http://foswiki.org/Tasks/ItemStatusQuery\n";
+        fail($failmsg);
     }
 
     $failmsg .= "$item does not exist\n" unless $state;
@@ -48,7 +50,7 @@ sub fail {
     my $message = shift;
     print STDERR <<"EOF";
 --------------------------------------------------------------
-Illegal checkin to Foswiki:
+Illegal Foswiki commit:
 
 =====
 $message=====
