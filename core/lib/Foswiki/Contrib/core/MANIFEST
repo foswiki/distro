@@ -351,9 +351,6 @@ data/System/WebTopicEditTemplate.txt 0644
 data/System/WebTopicList.txt 0644
 data/System/WebsTable.txt 0644
 data/System/WelcomeGuest.txt 0644
-data/System/WikiApplications.txt 0644
-data/System/WikiApplicationsViewSectionTemplate.txt 0644
-data/System/WikiApplicationsViewTemplate.txt 0644
 data/System/WikiCulture.txt 0644
 data/System/WikiName.txt 0644
 data/System/WikiNotation.txt 0644
