@@ -1,8 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1394884254" format="1.1" reprev="2" version="2"}%
 %META:TOPICPARENT{name="UsersGuide"}%
+---+!! %TOPIC%
 This is a short introduction to Foswiki.
 
 %SLIDESHOWSTART%
+
+---++!! A short introduction to Foswiki
+
+%TOC%
 
 ---++ What is a Wiki?
 <img src="%ATTACHURL%/hula.gif" alt="Hula girl"  width="113" height="111" align="right" />
@@ -96,7 +101,6 @@ The header of a Foswiki page is generally highlighted, and will usually contain 
        </td>
    </tr>
 </table>
-
 
 ---++ The menu - part 1
 
@@ -392,6 +396,7 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
 %SLIDESHOWEND%
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
+
 %META:FILEATTACHMENT{name="myco.gif" attachment="myco.gif" attr="h" comment="" date="1394884241" size="1834" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="whiteboard.gif" attachment="whiteboard.gif" attr="h" comment="" date="1394884243" size="13471" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="SAP_logo.gif" attachment="SAP_logo.gif" attr="h" comment="" date="1394884244" size="2711" user="ProjectContributor" version="1"}%
