@@ -20,8 +20,7 @@ sub init {
 
     $this->{hideComments} =
       Foswiki::Func::isTrue(
-        Foswiki::Func::getPreferencesValue('SLIDESHOWPLUGIN_HIDECOMMENTS')
-          || '' );
+        Foswiki::Func::getPreferencesValue('SLIDESHOWPLUGIN_HIDECOMMENTS'), 1 );
 
     $this->{commentLabel} =
       Foswiki::Func::getPreferencesValue('SLIDESHOWPLUGIN_COMMENTS_LABEL')
@@ -96,32 +95,34 @@ sub renderSlideShow {
 
         my $slideMax = 0;
 
-        if ( $text =~ /(.*?[\n\r])\-\-\-+(\++)\!* (.*)/s ) {
+        if ( $text =~ /(.*?[\n\r])\-\-\-+(\++)(\!* .*)/s ) {
             $textPre .= $1;
             $text = $3;
             my $level = $2;
             $level =~ s/\+/\\\+/go;
-            my @slides = split( /[\n\r]\-\-\-+$level\!* /, $text );
+            my @slides = split( /[\n\r]\-\-\-+$level(?=\!* )/, $text );
             $text = "";
 
-            my $slideText    = "";
-            my $slideTitle   = "";
-            my $slideBody    = "";
-            my $slideComment = "";
-            my $slideNum     = 1;
+            my $slideText     = "";
+            my $slideTitle    = "";
+            my $slideBody     = "";
+            my $slideComment  = "";
+            my $slideNum      = 1;
+            my $suppressTitle = 0;
             $slideMax = @slides;
             my @titles = ();
             foreach (@slides) {
-                next unless /^([^\n\r]*)(.*)$/s;
-                $slideTitle = $1 || '';
-                $slideBody  = $2 || '';
+                next unless /^(\!*)?([^\n\r]*)(.*)$/s;
+                $suppressTitle = $1 ? 1 : 0;
+                $slideTitle = $2 || '';
+                $slideBody  = $3 || '';
                 $slideComment = '';
                 if ( $slideBody =~
                     s/(\-\-\-+\+$level+\!*\s*$this->{commentLabel}.*)//is )
                 {
-                    $slideComment = $1 unless $this->{hideComments};
+                    $slideComment = "\n$1\n" if !$this->{hideComments};
                 }
-                push( @titles, $slideTitle );
+                push( @titles, ( $suppressTitle ? "!!" : "" ) . $slideTitle );
                 my $isLastClass =
                   ( $slideNum >= $slideMax ) ? ' slideShowLastSlide' : '';
                 my $isFirstClass =
@@ -149,12 +150,10 @@ sub renderSlideShow {
                   . "'>$slideText</div>";
                 $text .= "\n#AGoSlide$slideNum\n$slideText";
 
-                $slideComment = $slideComment ? "\n$slideComment\n" : '';
                 $text =~ s/%SLIDECOMMENT%/$slideComment/gs;
-                $text .= "%BR%\n\n" x 20;
                 $slideNum++;
             }
-            $text =~ s/%TOC(?:\{.*?\})*%/$this->renderSlideToc( @titles )/geo;
+            $text =~ s/%TOC(?:\{.*?\})?%/$this->renderSlideToc( @titles )/geo;
             $text .= "\n#GoSlide$slideNum\n";
         }
 
@@ -215,8 +214,6 @@ s/%BUTTON_START%/%BUTTON{"%MAKETEXT{"Start presentation"}%" class="slideShowStar
     $theButtons =~
 s/%params%/max="$max" next="$next" prev="$prev" viewurl="$viewUrl" querystring="$queryString"/g;
 
-    print STDERR "theButtons=$theButtons\n";
-
     my $text = "<span class='slideShowControls'>";
     $text .= $theButtons;
     $text .= '</span>';
@@ -224,18 +221,22 @@ s/%params%/max="$max" next="$next" prev="$prev" viewurl="$viewUrl" querystring="
 }
 
 sub renderSlideToc {
-    my ( $this, $params, @theTitles ) = @_;
+    my ( $this, @titles ) = @_;
 
-    my $slideNum = 1;
-    my $text     = '';
-    my $viewUrl  = Foswiki::Func::getViewUrl( $this->{web}, $this->{topic} );
-    foreach (@theTitles) {
-        $text .= "\t\* ";
-        $text .= "<a href=\"$viewUrl$params#GoSlide$slideNum\">";
-        $text .= " $_ </a>\n";
-        $slideNum++;
+    my $viewUrl = Foswiki::Func::getViewUrl( $this->{web}, $this->{topic} );
+    my $queryString = '?' . 'slideshow=on;cover=slideshow';
+    $queryString .= ';' . $this->{queryString} if $this->{queryString};
+
+    my @result = ();
+    my $index  = 0;
+    foreach my $title (@titles) {
+        $index++;
+        next if $title =~ /^!!/;
+        push @result,
+"   * <a class='slideShowTocLink' href=\"$viewUrl$queryString#GoSlide$index\">$title</a>";
     }
-    return $text;
+
+    return return join( "\n", @result );
 }
 
 sub readSlideTemplate {

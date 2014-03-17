@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1314565169" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1395043797" format="1.1" version="2"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -79,7 +79,7 @@ This is a short example of a slideshow.
 You should see a "Start presentation" button if this plugin is installed:
 
 %SLIDESHOWSTART%
----++ Introduction
+---++!! Introduction
 This is slide one. 
 
 %TOC%
@@ -155,6 +155,7 @@ The part between the rulers defines the default format of a slide:
 <div class="slideText">
 <h1>%SLIDETITLE%</h1>
 %SLIDETEXT%
+%SLIDECOMMENT%
 </div>
 <div class="slideShowFooter">
 <div class="foswikiRight slideShowControls">%SLIDENAVALL%</div>

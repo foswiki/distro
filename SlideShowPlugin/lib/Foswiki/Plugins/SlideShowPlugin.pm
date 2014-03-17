@@ -11,6 +11,7 @@ our $SHORTDESCRIPTION =
 our $NO_PREFS_IN_TOPIC = 1;
 
 our $core;
+
 sub initPlugin {
 
     # check for Plugins.pm versions
@@ -28,8 +29,8 @@ sub commonTagsHandler {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
     if ( $_[0] =~ /%SLIDESHOWSTART/ ) {
         unless ($core) {
-          require Foswiki::Plugins::SlideShowPlugin::SlideShow;
-          $core = new Foswiki::Plugins::SlideShowPlugin::SlideShow();
+            require Foswiki::Plugins::SlideShowPlugin::SlideShow;
+            $core = new Foswiki::Plugins::SlideShowPlugin::SlideShow();
         }
         $_[0] = $core->renderSlideShow(@_);
     }
