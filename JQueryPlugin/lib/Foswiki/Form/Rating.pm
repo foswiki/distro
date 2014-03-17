@@ -127,7 +127,7 @@ sub renderForEdit {
 
         $result .= "/>\n";
     }
-    $result .= '<input type="hidden" name="' . $this->{name} . '" value="0" />';
+    $result .= '<input type="hidden" name="' . $this->{name} . '" value="" />';
     $result .= "</div>\n";
 
     return ( '', $result );
