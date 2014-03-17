@@ -22,6 +22,9 @@ use File::Spec;
 
 # PLEASE keep this message in sync with
 # http://foswiki.org/Development/SvnRepository#RulesForCheckins
+
+my $failmsg = '';
+
 sub fail {
     my $message = shift;
     print STDERR <<"EOF";
@@ -100,12 +103,15 @@ foreach my $file (@files) {
 sub check_perltidy {
     my $file = shift;
 
-    # Function should get it from the cache anyway
+    my $tidyOptions = getTidyOptions($file);
+    return unless defined $tidyOptions;
+
+    print STDERR "Checking tidy for $file\n";
+
     open( my $fh, '<', $file ) or die("Unable to open file");
     my @input = <$fh>;
     close $fh;
 
-    my $tidyOptions = getTidyOptions($file);
     my @tidyed;
     perltidy(
         source      => \@input,
@@ -113,16 +119,28 @@ sub check_perltidy {
         argv        => $tidyOptions,
     );
     my $diff = diff( \@input, \@tidyed );
-    fail("$file is not tidy; cannot check in:\n$diff") if $diff;
+    $failmsg .= "$file is not tidy; cannot check in:\n$diff" if $diff;
 }
+
+fail($failmsg) if ($failmsg);
 
 exit 0;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
+and TWiki Contributors. All Rights Reserved. TWiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+Based on parts of Ward Cunninghams original Wiki and JosWiki.
+Copyright (C) 1998 Markus Peter - SPiN GmbH (warpi@spin.de)
+Some changes by Dave Harris (drh@bhresearch.co.uk) incorporated
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
