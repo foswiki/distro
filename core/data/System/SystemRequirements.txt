@@ -71,9 +71,7 @@ Install apache and rcs ==apt-get install apache2 rcs==
 | *Perl Module* | *Package to install* | *Notes* |
 | Algorith::Diff | =libalgorithm-diff-perl= |
 | Crypt::PasswdMD5 | =libcrypt-passwdmd5-perl= |
-| Data::Dumper | =libdata-dumper-simple-perl= |
-| Digest::MD5 | =libdigest-md5-file-perl= |
-| Encode | =libencode-perl= |
+| Encode | =libencode-perl= (maybe required if your version is outdated) |
 | Error | =liberror-perl= |
 | HTML::Parser | =libhtml-parser-perl= | |
 | HTML::Entities | | included with HTML::Parser |
