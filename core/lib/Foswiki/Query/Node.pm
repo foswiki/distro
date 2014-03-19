@@ -127,7 +127,6 @@ sub newLeaf {
     if (   $type == Foswiki::Infix::Node::NAME
         && $val =~ /^({[A-Z][A-Z0-9_]*})+$/i )
     {
-        $val = $1;
 
         # config var name, make sure it's accessible.
         unless ( defined $isAccessibleCfg ) {
