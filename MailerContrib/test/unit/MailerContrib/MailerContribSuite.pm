@@ -90,7 +90,9 @@ sub set_up {
             # IGNORED because it's the guest user
             entry     => "$this->{users_web}.WikiGuest - example\@example.com",
             email     => "example\@example.com",
-            topicsout => "" },
+            topicsout => ""
+        },
+
         {    # LEGACY format
             entry => "$this->{users_web}.NonPerson - nonperson\@example.com",
             email => "nonperson\@example.com",
@@ -202,6 +204,14 @@ sub set_up {
             email     => "jeltz\@vogsphere.com",
             entry     => "ProstectnicVogonJeltz - jeltz\@vogsphere.com",
             topicsout => "*"
+        },
+
+        # Item12786: "TestTopic111" should not match
+        # "FakeTestTopic1 FakeTestTopic11"
+        {
+            email     => "email11\@example.com",
+            entry     => "email11\@example.com: FakeTestTopic1 FakeTestTopic11",
+            topicsout => ""
         }
     );
 
@@ -1026,6 +1036,21 @@ sub test_12525 {
     $this->assert(
         !Foswiki::Contrib::MailerContrib::isSubscribedTo(
             $defaultWeb, $who, 'SomeBogusTopic'
+        )
+    );
+}
+
+# Test for Item12786: If subscribed to TestTopic1 and TestTopic 11 it should not match TestTopic111
+sub test_doNotMatchPrefix {
+    my $this = shift;
+
+    my $defaultWeb = $this->{test_web};
+    my $who        = 'email11@example.com';
+    my $topicList  = 'FakeTestTopic111';
+
+    $this->assert(
+        !Foswiki::Contrib::MailerContrib::isSubscribedTo(
+            $defaultWeb, $who, $topicList
         )
     );
 }

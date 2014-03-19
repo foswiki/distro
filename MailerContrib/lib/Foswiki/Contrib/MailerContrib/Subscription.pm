@@ -50,7 +50,7 @@ sub new {
             topics => [ split( /\s+/, $topics ) ],
             depth   => $depth || 0,
             options => $opts  || 0,
-            topicsRE => qr/^$tre$/
+            topicsRE => qr/^(?:$tre)$/
         },
         $class
     );
