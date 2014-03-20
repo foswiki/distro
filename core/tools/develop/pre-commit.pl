@@ -17,9 +17,10 @@ use File::Spec;
 # perl pre-commit.pl test -m "Item12806: eat lead sucker" pre-commit.pl
 # so long as PERL5LIB contains BuildContrib/lib and core/lib
 
-my $WINDOW = 3 * 24 * 60 * 60;    # 3 day window for date in %META
-my $REPOS  = '';
-my $logmsg = '';
+my $WINDOW_DAYS = 3;                             # window for date in %META
+my $WINDOW      = $WINDOW_DAYS * 24 * 60 * 60;
+my $REPOS       = '';
+my $logmsg      = '';
 my $dataDir;
 my $rev     = '';
 my $SVNLOOK = 'svn';
@@ -28,7 +29,8 @@ my @status  = ();
 my $testing = 1;
 
 if ( $ARGV[0] eq 'test' ) {
-    eval 'require Cwd' || die $@;
+    eval 'use Cwd';
+    die $@ if $@;
     my @lib = File::Spec->splitdir( Cwd::abs_path($0) );
     pop(@lib);
     pop(@lib);
@@ -63,8 +65,10 @@ else {
 }
 
 # Pick up BuildContrib version of Perl::Tidy
-require Perl::Tidy;
-require Foswiki::Attrs;
+eval 'use Perl::Tidy';
+die $@ if $@;
+eval 'use Foswiki::Attrs';
+die $@ if $@;
 
 # PLEASE keep this message in sync with
 # http://foswiki.org/Development/SvnRepository#RulesForCheckins
@@ -92,7 +96,9 @@ Item12345: Item12346: fixed foo, updated release notes
 
 5. .txt files in web directories must have META:TOPICINFO with
    the author "ProjectContributor", a version of 1 and a date
-   within three days of the checkin.
+   within $WINDOW_DAYS days of the checkin. Any FILEATTACHMENTs must
+   has the "ProjectContributor" author, a version of 1 and a date
+   with $WINDOW_DAYS days of the checkin.
 
 Getting rejected commits with perltidy? We are checking using
 version $Perl::Tidy::VERSION
@@ -229,9 +235,9 @@ sub checkFILEATTACHMENT {
 }
 
 sub check {
-    my $file = shift;
+    my ( $file, $rev ) = @_;
 
-    my @input = getFile($file);
+    my @input = getFile( $file, $rev );
     fail "$?: $SVNLOOK cat $rev $REPOS $file;\n" . join( "\n", @input )
       if $?;
 
@@ -287,7 +293,7 @@ my @files =
   map { chomp; [ split( /\s+/, $_, 2 ) ] } @status;
 
 foreach my $file (@files) {
-    check($file);
+    check( $file, $rev );
 }
 
 exit 0;
