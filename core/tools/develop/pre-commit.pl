@@ -2,13 +2,8 @@
 use strict;
 use warnings;
 
-# Pick up BuildContrib version of Perl::Tidy
-use lib '/home/trunk.foswiki.org/BuildContrib/lib';
-use lib '/home/trunk.foswiki.org/core/lib';
-use Perl::Tidy;
 use Text::Diff;
 use File::Spec;
-use Foswiki::Attrs;
 
 # PRE-COMMIT HOOK for Foswiki Subversion
 #
@@ -22,9 +17,10 @@ use Foswiki::Attrs;
 # perl pre-commit.pl test -m "Item12806: eat lead sucker" pre-commit.pl
 # so long as PERL5LIB contains BuildContrib/lib and core/lib
 
-my $REPOS   = '';
-my $logmsg  = '';
-my $dataDir = '../../data';
+my $WINDOW = 3 * 24 * 60 * 60;    # 3 day window for date in %META
+my $REPOS  = '';
+my $logmsg = '';
+my $dataDir;
 my $rev     = '';
 my $SVNLOOK = 'svn';
 my $changed = 'status';
@@ -32,29 +28,43 @@ my @status  = ();
 my $testing = 1;
 
 if ( $ARGV[0] eq 'test' ) {
+    eval 'require Cwd' || die $@;
+    my @lib = File::Spec->splitdir( Cwd::abs_path($0) );
+    pop(@lib);
+    pop(@lib);
+    pop(@lib);
+    eval "use lib '" . join( '/', @lib, 'lib' ) . "'";
+    $dataDir = join( '/', @lib, 'data' );
     shift @ARGV;
-    while ( my $a = shift @ARGV ) {
+
+    while ( $a = shift @ARGV ) {
         if ( $a eq '-m' ) {
             $logmsg = shift @ARGV;
         }
         else {
-            eval 'require Cwd';
             $a = Cwd::abs_path($a);
             push( @status, "M $a\n" );
         }
     }
 }
 else {
+    eval "use lib '/home/trunk.foswiki.org/BuildContrib/lib'";
+    eval "use lib '/home/trunk.foswiki.org/core/lib'";
+    $dataDir = "/home/foswiki.org/public_html/data";
+    $SVNLOOK = '/usr/local/bin/svnlook';
+
     $REPOS = $ARGV[0];
     my $TXN = $ARGV[1];
-    $dataDir = "/home/foswiki.org/public_html/data";
     $rev     = "-t $TXN";
-    $SVNLOOK = '/usr/local/bin/svnlook';
     $logmsg  = `$SVNLOOK log $rev $REPOS`;
     $changed = 'changed';
     @status  = `$SVNLOOK $changed $rev $REPOS`;
     $testing = 0;
 }
+
+# Pick up BuildContrib version of Perl::Tidy
+require Perl::Tidy;
+require Foswiki::Attrs;
 
 # PLEASE keep this message in sync with
 # http://foswiki.org/Development/SvnRepository#RulesForCheckins
@@ -169,20 +179,53 @@ sub getTidyOptions {
 
 # Return error message if TOPICINFO is bad per the rules.
 sub checkTOPICINFO {
-    my $ti = shift;
-    return 'no TOPICINFO' unless ( $ti =~ /^%META:TOPICINFO{(.*)}%$/ );
+    my ( $ti, $err ) = @_;
+    unless ( $ti =~ /^%META:TOPICINFO{(.*)}%$/ ) {
+        push( @$err, 'No TOPICINFO' );
+        return;
+    }
     my $attrs = new Foswiki::Attrs($1);
     my $auth = $attrs->{author} || 'unknown user';
-    return "wrong author '$auth', must be 'ProjectContributor'"
+    push( @$err,
+        "TOPICINFO: wrong author '$auth', must be 'ProjectContributor'" )
       unless ( $auth eq 'ProjectContributor' );
     my $date = $attrs->{date} || 0;
     my $t = time;
-    return "bad date $date, must be within 3 days of $t"
+    push( @$err, "TOPICINFO: date must be within $WINDOW seconds of $t" )
       unless $date =~ /^\d+$/
-      && abs( $t - $date ) < 3 * 24 * 60 * 60;
+      && abs( $t - $date ) < $WINDOW;
     my $ver = $attrs->{version} || 0;
-    return "bad version $ver, must be 1" unless $attrs->{version} eq '1';
-    return undef;
+    push( @$err, "TOPICINFO: version must be 1" )
+      unless $attrs->{version} eq '1';
+}
+
+sub checkFILEATTACHMENT {
+    my ( $lines, $err ) = @_;
+    foreach my $meta (@$lines) {
+        if ( $meta =~ /^%META:FILEATTACHMENT{(.*)}%/ ) {
+            my $attrs = new Foswiki::Attrs($1);
+            my $name = $attrs->{name} || '';
+            if ($name) {
+                $name = " '$name'";
+            }
+            else {
+                push( @$err, "FILEATTACHMENT has no name" );
+            }
+            my $auth = $attrs->{user} || 'unknown user';
+            push( @$err,
+"FILEATTACHMENT$name wrong user '$auth', must be 'ProjectContributor'"
+            ) unless ( $auth eq 'ProjectContributor' );
+            my $date = $attrs->{date} || 0;
+            my $t = time;
+            push( @$err, "date must be within $WINDOW seconds of $t" )
+              unless $date =~ /^\d+$/
+              && abs( $t - $date ) < $WINDOW;
+            my $ver = $attrs->{version} || 0;
+            push( @$err, "version must be 1" )
+              unless $attrs->{version} eq '1';
+        }
+    }
+    return $err;
 }
 
 sub check {
@@ -197,9 +240,13 @@ sub check {
     my @tidyed;
     my $err;
     if ( $file =~ /\.txt$/ ) {
-        my $err = checkTOPICINFO( $input[0] );
-        fail("$file TOPICINFO is inconsistent; cannot check in: $err")
-          if $err;
+        my @err;
+        checkTOPICINFO( $input[0], \@err ),
+          checkFILEATTACHMENT( \@input, \@err );
+        fail(   "$file meta-data is incorrect; cannot check in:\n"
+              . join( "\n", @err )
+              . "\n" )
+          if scalar(@err);
     }
     else {
         perltidy(
