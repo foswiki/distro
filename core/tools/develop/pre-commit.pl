@@ -36,6 +36,7 @@ if ( $ARGV[0] eq 'test' ) {
     pop(@lib);
     pop(@lib);
     eval "use lib '" . join( '/', @lib, 'lib' ) . "'";
+    die $@ if $@;
     $dataDir = join( '/', @lib, 'data' );
     shift @ARGV;
 
@@ -51,7 +52,9 @@ if ( $ARGV[0] eq 'test' ) {
 }
 else {
     eval "use lib '/home/trunk.foswiki.org/BuildContrib/lib'";
+    die $@ if $@;
     eval "use lib '/home/trunk.foswiki.org/core/lib'";
+    die $@ if $@;
     $dataDir = "/home/foswiki.org/public_html/data";
     $SVNLOOK = '/usr/local/bin/svnlook';
 
