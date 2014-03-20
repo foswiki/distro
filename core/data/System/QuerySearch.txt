@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1395334541" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -120,8 +120,8 @@ String constants are always delimited by single-quotes. You can use backslash =\
 | =\n= | newline |
 | =\t= | tab |
 | =\033= | octal character code |
-| =\x7f | hexadecimal character code |
-| =\x{1234} | heaxadecimal wide character code |
+| =\x7f= | hexadecimal character code |
+| =\x{1234}= | hexadecimal wide character code |
 | =\\= | a single =\= | 
 All other occurrences of backslashes are carried through into the string, so =\d= means =\d= (unless the string is used as a regular expression, in which case it means any digit).
 
