@@ -66,3 +66,9 @@ body {
 .foswikiContentFooter {
 	clear:both;
 }
+@media (max-width:870px) {
+  .patternRevInfo,
+  .patternMetaMenu form[name="changeLanguage"] {
+        display:none;
+  }
+}

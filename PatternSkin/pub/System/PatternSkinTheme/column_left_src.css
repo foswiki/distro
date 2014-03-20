@@ -10,3 +10,14 @@ depends on global settings in layout.css
 	width:16em;
 	margin-left:-16em;
 }
+@media (max-width:870px) {
+  #patternOuter {
+          margin-left:0;
+  }
+  #patternSideBar {
+          display:none;
+  }
+  #patternMainContents {
+          margin-left:0;
+  }
+}
