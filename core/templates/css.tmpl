@@ -4,13 +4,9 @@
 %TMPL:P{"styles:iespecific"}%
 %TMPL:P{"templatestyle"}%%TMPL:END%
 %{}%
-%TMPL:DEF{"styles:base"}%<style type="text/css" media="all">
-@import url('%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css');
-</style>%TMPL:END%
+%TMPL:DEF{"styles:base"}%<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css' media='all' />%TMPL:END%
 %{}%
-%TMPL:DEF{"styles:default"}%<style type="text/css" media="all">
-@import url('%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/default.css');
-</style>%TMPL:END%
+%TMPL:DEF{"styles:default"}%<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/default.css' media='all' />%TMPL:END%
 %{}%
 %TMPL:DEF{"styles:iespecific"}%<!--[if IE]><style type="text/css" media="screen">
 pre {
