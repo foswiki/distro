@@ -7,10 +7,12 @@
 %TMPL:DEF{"standardfooter"}%%TMPL:END%
 %TMPL:DEF{"sidebar"}%%TMPL:END%
 
+%TMPL:DEF{"slideshow::js"}%<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/SlideShowPlugin/slideshow.js'></script>%TMPL:END%
 %TMPL:DEF{"slideshow::css"}%<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css' media='all' />%TMPL:END%
 
 %TMPL:DEF{"content"}%%TEXT%
 #TopicEnd
+%ADDTOZONE{"script" id="SLIDESHOWPLUGIN::JS" text="%TMPL:P{"slideshow::js"}%"}%
 %ADDTOZONE{"head" id="SLIDESHOWPLUGIN::CSS" text="%TMPL:P{"slideshow::css"}%"}%
 %TMPL:END%
 

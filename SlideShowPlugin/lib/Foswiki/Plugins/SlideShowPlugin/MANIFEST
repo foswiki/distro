@@ -4,6 +4,9 @@ data/System/VarSLIDESHOWEND.txt 0644
 data/System/VarSLIDESHOWSTART.txt 0644
 lib/Foswiki/Plugins/SlideShowPlugin.pm 0444
 lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm 0444
+pub/System/SlideShowPlugin/slideshow.js 0644
+pub/System/SlideShowPlugin/slideshow.js.gz 0644
+pub/System/SlideShowPlugin/slideshow.uncompressed.js 0644
 pub/System/SlideShowPlugin/slideshow.css 0644
 pub/System/SlideShowPlugin/slideshow.css.gz 0644
 pub/System/SlideShowPlugin/slideshow.uncompressed.css 0644
