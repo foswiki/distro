@@ -51,15 +51,43 @@ sub init {
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
       || "jquery-2.1.0";
+
+    # test for the jquery library to be present
+    unless ( -e $Foswiki::cfg{PubDir} . '/'
+        . $Foswiki::cfg{SystemWebName}
+        . '/JQueryPlugin/'
+        . $jQuery
+        . '.js' )
+    {
+        Foswiki::Func::writeWarning(
+"CAUTION: jQuery $jQuery not found. please fix the {JQueryPlugin}{JQueryVersion} settings."
+        );
+        $jQuery = "jquery-2.1.0";
+    }
+
     $jQuery .= ".uncompressed" if $debug;
 
-    my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs}
-      || "jquery-1.11.0";
-    $jQueryIE .= ".uncompressed" if $debug;
+    my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
+    $jQueryIE = "jquery-1.11.0" unless defined $jQueryIE;
 
     my $code;
-
     if ($jQueryIE) {
+
+        # test for the jquery library to be present
+        unless ( -e $Foswiki::cfg{PubDir} . '/'
+            . $Foswiki::cfg{SystemWebName}
+            . '/JQueryPlugin/'
+            . $jQueryIE
+            . '.js' )
+        {
+            Foswiki::Func::writeWarning(
+"CAUTION: jQuery $jQueryIE not found. please fix the {JQueryPlugin}{JQueryVersionForOldIEs} settings."
+            );
+            $jQuery = "jquery-1.11.0";
+        }
+
+        $jQueryIE .= ".uncompressed" if $debug;
+
         $code = <<"HERE";
 <literal><!--[if lte IE 9]>
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
