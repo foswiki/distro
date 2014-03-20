@@ -63,12 +63,8 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 ---------------------------------------------------
 }%%TMPL:DEF{"windowtitle"}%<title>%TMPL:P{"titleaction"}% <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%%{
 ---------------------------------------------------
-Item2476: Put IE8 into compatibility mode to work around slow, erratic textarea }%
-%TMPL:DEF{"ie8compatibilitymode"}%%IF{"$EDIT_FORCE_IE8_COMPATIBILITYMODE='on'" then="<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\"/>"}%%TMPL:END%%{
----------------------------------------------------
 }%%TMPL:DEF{"head"}%<head>
 	%TMPL:P{"windowtitle"}%
-        %TMPL:P{context="edit" then="ie8compatibilitymode"}%
 	<meta http-equiv="Content-Type" content="text/html; charset=%CHARSET%" /> <meta name="robots" content="noindex" /> %HTTP_EQUIV_ON_VIEW%
 	<link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
 	<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />

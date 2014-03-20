@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1395336630" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -103,9 +103,6 @@ be removed from Foswiki 1.2.0.
 
    * Style of the user signature
       * Set SIGNATUREFORMAT = -- %WIKIUSERNAME% - %DATE%
-
-   * Work-around for sluggish/erratic wikitext editing in Internet Explorer 8. When this browser is in standards mode, at least some versions suffer sluggish response to keystrokes and erratic scrolling. For skins that are aware of it, this setting forces IE8 into compatibility mode for the edit template only.
-      * Set EDIT_FORCE_IE8_COMPATIBILITYMODE = on
 
    * Default state of the *Force New Revision* (ForceNewRevision) check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
       * Set FORCENEWREVISIONCHECKBOX =
