@@ -17,7 +17,11 @@ use Foswiki::Attrs;
 #
 # STDERR ends up on the users' terminal
 
-# Defaults are test settings
+# Defaults are test settings - pass test as the first parameter to
+# test a specific checkin. Works off-server as well, e.g.
+# perl pre-commit.pl test -m "Item12806: eat lead sucker" pre-commit.pl
+# so long as PERL5LIB contains BuildContrib/lib and core/lib
+
 my $REPOS   = '';
 my $logmsg  = '';
 my $dataDir = '../../data';
