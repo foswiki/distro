@@ -1515,8 +1515,8 @@ sub merge_gitignore {
             if ( $match_rule =~ /\*/ ) {
 
                 # Normalise the rule
-                $old_rule =~ s/^\s*//;
-                $old_rule =~ s/\s*$//;
+                $old_rule   =~ s/^\s*//;
+                $old_rule   =~ s/\s*$//;
                 $match_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
 
                 # It's a wildcard
@@ -1600,12 +1600,40 @@ sub update_gitignore_file {
     return;
 }
 
+sub update_githooks_dir {
+    my ($moduleDir) = @_;
+
+    my $hooks_src = File::Spec->catdir( 'tools', 'develop', 'githooks' );
+
+    # Check for .git directories,  and copy in hooks if needed
+    foreach my $gitdir ( '.', '..' ) {
+        my $hooks_tgt = File::Spec->catdir( $gitdir, '.git', 'hooks' );
+        my $target_dir =
+          File::Spec->catdir( $moduleDir, $gitdir, '.git', 'hooks' );
+        if ( -d $target_dir ) {
+            foreach my $hook (
+                qw( applypatch-msg commit-msg post-commit post-update pre-applypatch pre-commit pre-rebase prepare-commit-msg post-receive update)
+              )
+            {
+                next unless ( -f File::Spec->catfile( $hooks_src, $hook ) );
+                unlink File::Spec->catfile( $target_dir, $hook )
+                  if ( -e File::Spec->catfile( $target_dir, $hook ) );
+                linkOrCopy $moduleDir,
+                  File::Spec->catfile( $hooks_src, $hook ),
+                  File::Spec->catfile( $hooks_tgt, $hook ),
+                  $CAN_LINK;
+            }
+        }
+    }
+}
+
 init();
 exec_opts();
 init_config();
 init_extensions_path();
 run();
 update_gitignore_file($basedir);
+update_githooks_dir($basedir);
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

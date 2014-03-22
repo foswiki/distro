@@ -13,6 +13,10 @@ use LWP::Simple;
 #
 # STDERR ends up on the users' terminal
 
+# These are not used here except to keep the error message in sync with pre-commit
+my $WINDOW_DAYS = 3;                             # window for date in %META
+my $WINDOW      = $WINDOW_DAYS * 24 * 60 * 60;
+
 my $failmsg = '';
 my $logmsg;
 
