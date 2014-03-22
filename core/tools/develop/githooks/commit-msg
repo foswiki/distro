@@ -58,29 +58,36 @@ sub fail {
     my $message = shift;
     print STDERR <<"EOF";
 --------------------------------------------------------------
-Illegal Foswiki commit:
+Illegal checkin to Foswiki git repo found in pre-commit:
 
-=====
-$message=====
+=======
+$message
+=======
 
-http://foswiki.org/Development/SvnRepository#RulesForCheckins
-Rules - checkins must:
+http://foswiki.org/Development/GitRepository#RulesForCheckins
+Rules - files being checked in must:
 1. Have a comment...
-2. ...with relevant ItemNNN topics in the first line, example:
+2. ...with relevant ItemNNN task topics in the first line, e.g.
 
 Item12345: Item12346: fixed foo, updated release notes
 
-3. Use ItemNNN topics which are open at the time of checkin,
-   I.E. *not* one of: Closed, Waiting For Release, No Action
-   or Proposal Required
-4. Have "tidied" source code if the TIDY control file in the
-   root of the extension calls for it, see:
+3. Refer to ItemNNN task topics which are open at the time of
+   checkin, i.e. *not* one of: Closed, Waiting For Release,
+   No Action or Proposal Required
+
+4. .pl and .pm files must be "tidied" if the TIDY control file
+   in the root of the extension calls for it, see:
    http://foswiki.org/Development/TIDY
 
-NB Getting rejected commits with perltidy? We are checking
-   using version ##FIXME: Perl::Tidy::VERSION
-   See http://foswiki.org/Development/PerlTidy#Versions
+5. .txt files in web directories must have META:TOPICINFO with
+   the author "ProjectContributor", a version of 1 and a date
+   within $WINDOW_DAYS days of the checkin. Any FILEATTACHMENTs must
+   has the "ProjectContributor" author, a version of 1 and a date
+   with $WINDOW_DAYS days of the checkin.
 
+Getting rejected commits with perltidy? We are checking using
+version $Perl::Tidy::VERSION
+See http://foswiki.org/Development/PerlTidy#Versions
 ------------TRUNCATED COMMIT MESSAGE FOLLOWS------------------------
 EOF
     $logmsg =~ s/^# Untracked files:.*//ms;

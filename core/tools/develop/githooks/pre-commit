@@ -8,60 +8,150 @@ use warnings;
 #  SMELL:  This works because the pre-commit runs in the root of the checkout
 #  Assumes that BuildContrib is always available.
 
-use lib 'BuildContrib/lib';
-
-use Perl::Tidy;
 use Text::Diff;
 use File::Spec;
 
+BEGIN {
+    unshift @INC, './core/lib';    # Pick up foswiki libs
+    unshift @INC,
+      './BuildContrib/lib';        # Pick up BuildContrib version of PerlTidy
+}
+
+# Require these at runtime because we need to use the modified libpath
+require Foswiki::Attrs;
+require Perl::Tidy;
+
 # PRE-COMMIT CLIENT HOOK for Foswiki git
 #
-# The pre-commit hook tests that the all perl files are tidy.
+# The pre-commit hook tests
+#  - that the all perl files are tidy.
+#  - All TOPICINFO have ProjectContributor, version 1, and recent timestamp
 #
 # STDERR ends up on the users' terminal
 
-# PLEASE keep this message in sync with
-# http://foswiki.org/Development/SvnRepository#RulesForCheckins
+my $WINDOW_DAYS = 3;                             # window for date in %META
+my $WINDOW      = $WINDOW_DAYS * 24 * 60 * 60;
 
 my $failmsg = '';
+my %tidyOption;
+
+# Verify that code is cleanly formatted, but only for files which are:
+# - all .pl and .pm files
+# - files in bin/ with the perl shebang
+# - excluding anything in lib/CPAN
+
+my @files = split( "\n", `git diff-index --cached --name-only HEAD` );
+foreach my $file (@files) {
+
+    # CompareRevisionsAddon has a crafted demo topic,  don't
+    # force the date or revision in TOPICINFO.
+    next if $file =~ /CompareRevisionsAddOnDemoTopic.txt(?:,v)?$/;
+    next if $file =~ /MANIFEST|DEPENDENCIES|TIDY|Makefile/;
+
+    if ( $file =~ /\.p[ml]$/ ) {
+
+        # Not CPAN modules
+        next if $file =~ m#/lib/CPAN/lib/#;
+    }
+    elsif ( $file =~
+m/\.(?:js|css|html|gif|jpe?g|png|ps|psd|gz|zip|pot?|tmpl|svg|patch|json|spec)$/
+      )
+    {
+        next;
+    }
+    elsif ( $file =~ m#\.txt$# ) {
+
+        # Not .txt in a web
+        next unless $file =~ m#/data/#;
+    }
+    elsif ( $file =~ /,v$/ ) {
+        print STDERR <<EOF;
+!!! WARNING: ,v RCS files are normally not checked in to git !!!
+             Be certain you really want to do this!";
+
+EOF
+        next;
+    }
+
+    # Need to open the rest to check further
+
+    open( my $fh, '<', $file ) or die("Unable to open file");
+    my @input = <$fh>;
+    close $fh;
+
+    if ( $file =~ /\.txt$/ ) {
+        my @err;
+        checkTOPICINFO( $input[0], \@err );
+        checkFILEATTACHMENT( \@input, \@err );
+        $failmsg .=
+          "\nERROR: $file meta-data is incorrect; cannot check in:\n"
+          . join( "\n", @err ) . "\n"
+          if scalar(@err);
+    }
+    else {
+        check_perltidy( \@input, $file );
+    }
+}
+
+#print STDERR Data::Dumper::Dumper( \%tidyOption );
+fail($failmsg) if ($failmsg);
+
+exit 0;
+
+# ============== END OF MAIN ===================
+
+# PLEASE keep this message in sync with
+# http://foswiki.org/Development/SvnRepository#RulesForCheckins
 
 sub fail {
     my $message = shift;
     print STDERR <<"EOF";
 --------------------------------------------------------------
-Illegal checkin to Foswiki git repo:
+Illegal checkin to Foswiki git repo found in pre-commit:
 
 =======
-$message=======
+$message
+=======
 
-http://foswiki.org/Development/SvnRepository#RulesForCheckins
+http://foswiki.org/Development/GitRepository#RulesForCheckins
+Rules - files being checked in must:
+1. Have a comment...
+2. ...with relevant ItemNNN task topics in the first line, e.g.
 
-Rule: - checkin must have "tidied" source code if the TIDY control file in the
-root of the extension calls for it, see: http://foswiki.org/Development/TIDY
+Item12345: Item12346: fixed foo, updated release notes
 
-NB Getting rejected commits with perltidy? We are checking
-   using version Perl::Tidy $Perl::Tidy::VERSION
-   See http://foswiki.org/Development/PerlTidy#Versions
+3. Refer to ItemNNN task topics which are open at the time of
+   checkin, i.e. *not* one of: Closed, Waiting For Release,
+   No Action or Proposal Required
+
+4. .pl and .pm files must be "tidied" if the TIDY control file
+   in the root of the extension calls for it, see:
+   http://foswiki.org/Development/TIDY
+
+5. .txt files in web directories must have META:TOPICINFO with
+   the author "ProjectContributor", a version of 1 and a date
+   within $WINDOW_DAYS days of the checkin. Any FILEATTACHMENTs must
+   has the "ProjectContributor" author, a version of 1 and a date
+   with $WINDOW_DAYS days of the checkin.
+
+Getting rejected commits with perltidy? We are checking using
+version $Perl::Tidy::VERSION
+See http://foswiki.org/Development/PerlTidy#Versions
 --------------------------------------------------------------
 EOF
     exit 1;
 }
 
-# Verify that code is cleanly formatted, but only for files which were not
-# removed, and end in .pm or .pl, and are not CPAN libraries
-my %tidyOption;
-
 # Returns undef when file should be skipped,
 # otherwise returns perltidy options to be used (can be empty for defaults)
 sub getTidyOptions {
     my $file = shift;
-    return undef unless $file =~ /\.p[ml]$/;    # Only perl files
-    return undef if $file =~ m#/lib/CPAN/lib/#; # Not CPAN modules
     return $tidyOption{$file} if exists $tidyOption{$file};
 
-    my $tidyOptions = undef;                    # Defaults to skip
+    my $tidyOptions = undef;    # Defaults to skip
     my ( $volume, $directory ) = File::Spec->splitpath($file);
-    my @pathList;    # Save examined hierarchy to update cache
+
+    my @pathList;               # Save examined hierarchy to update cache
     my @path = File::Spec->splitdir($directory);
     while ( defined pop @path ) {
         my $path = File::Spec->catdir(@path);
@@ -95,36 +185,77 @@ sub getTidyOptions {
     return $tidyOption{$file} = $tidyOptions;
 }
 
-my @files = split( "\n", `git diff-index --cached --name-only HEAD` );
-foreach my $file (@files) {
-    check_perltidy($file);
-}
-
 sub check_perltidy {
-    my $file = shift;
+    my ( $input, $file ) = @_;
+
+    return
+      unless ( $file =~ /\.p[ml]$/
+        || $input->[0] =~ m(^#!\s*/usr/bin/perl) );
 
     my $tidyOptions = getTidyOptions($file);
     return unless defined $tidyOptions;
 
-    print STDERR "Checking tidy for $file\n";
-
-    open( my $fh, '<', $file ) or die("Unable to open file");
-    my @input = <$fh>;
-    close $fh;
-
     my @tidyed;
-    perltidy(
-        source      => \@input,
+    Perl::Tidy::perltidy(
+        source      => $input,
         destination => \@tidyed,
         argv        => $tidyOptions,
     );
-    my $diff = diff( \@input, \@tidyed );
-    $failmsg .= "$file is not tidy; cannot check in:\n$diff" if $diff;
+    my $diff = diff( $input, \@tidyed );
+    $failmsg .= "\nERROR: $file is not tidy; cannot check in:\n$diff"
+      if $diff;
 }
 
-fail($failmsg) if ($failmsg);
+# Return error message if TOPICINFO is bad per the rules.
+sub checkTOPICINFO {
+    my ( $ti, $err ) = @_;
+    unless ( $ti =~ /^%META:TOPICINFO{(.*)}%$/ ) {
+        push( @$err, 'No TOPICINFO' );
+        return;
+    }
+    my $attrs = new Foswiki::Attrs($1);
+    my $auth = $attrs->{author} || 'unknown user';
+    push( @$err,
+        "TOPICINFO: wrong author '$auth', must be 'ProjectContributor'" )
+      unless ( $auth eq 'ProjectContributor' );
+    my $date = $attrs->{date} || 0;
+    my $t = time;
+    push( @$err, "TOPICINFO: date must be within $WINDOW seconds of $t" )
+      unless $date =~ /^\d+$/
+      && abs( $t - $date ) < $WINDOW;
+    my $ver = $attrs->{version} || 0;
+    push( @$err, "TOPICINFO: version must be 1" )
+      unless $attrs->{version} eq '1';
+}
 
-exit 0;
+sub checkFILEATTACHMENT {
+    my ( $lines, $err ) = @_;
+    foreach my $meta (@$lines) {
+        if ( $meta =~ /^%META:FILEATTACHMENT{(.*)}%/ ) {
+            my $attrs = new Foswiki::Attrs($1);
+            my $name = $attrs->{name} || '';
+            if ($name) {
+                $name = " '$name'";
+            }
+            else {
+                push( @$err, "FILEATTACHMENT has no name" );
+            }
+            my $auth = $attrs->{user} || 'unknown user';
+            push( @$err,
+"FILEATTACHMENT$name wrong user '$auth', must be 'ProjectContributor'"
+            ) unless ( $auth eq 'ProjectContributor' );
+            my $date = $attrs->{date} || 0;
+            my $t = time;
+            push( @$err, "date must be within $WINDOW seconds of $t" )
+              unless $date =~ /^\d+$/
+              && abs( $t - $date ) < $WINDOW;
+            my $ver = $attrs->{version} || 0;
+            push( @$err, "version must be 1" )
+              unless $attrs->{version} eq '1';
+        }
+    }
+    return $err;
+}
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
