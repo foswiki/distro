@@ -9,6 +9,8 @@ use Error ':try';
 use Foswiki       ();
 use Foswiki::Func ();
 
+use constant TRACE => 0;
+
 # REST handler for table row edit get. Gets the raw content of a
 # single table cell. URL params:
 #    * erp_topic
@@ -75,6 +77,10 @@ sub process {
         my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
         my $content = $parser->parse( $text, $meta, $urps );
 
+        if (TRACE) {
+            require Data::Dumper;
+            print STDERR Data::Dumper->Dump( [$urps], ['GET'] );
+        }
       LINE:
         foreach my $table (@$content) {
             if (

@@ -9,6 +9,8 @@ use Error ':try';
 use Foswiki       ();
 use Foswiki::Func ();
 
+use constant TRACE => 0;
+
 # REST handler for table row edit save with redirect on completion.
 # The noredirect URL parameter can be passed to prevent
 # the redirection. If it is set, the request will respond with a 500
@@ -131,6 +133,11 @@ sub process {
 
         # Turn off editing if the erp_stop_edit flag is set in the request
         $no_return = 1 if $query->param('erp_stop_edit');
+
+        if (TRACE) {
+            require Data::Dumper;
+            print STDERR Data::Dumper->Dump( [$urps], [$action] );
+        }
 
       LINE:
         foreach my $line (@$content) {

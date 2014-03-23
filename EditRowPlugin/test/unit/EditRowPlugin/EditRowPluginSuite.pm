@@ -310,8 +310,8 @@ INPUT
     $this->assert_equals( '["B","D"]', $this->gettit( 1, undef, 1 ) );
     $this->assert_equals( '[["A","B"],["C","D"]]', $this->gettit(1) );
 
-    $this->assert_equals( '"C"', $this->gettit( 1, -1, 0 ) );
-    $this->assert_equals( '"D"', $this->gettit( 1, -1, -1 ) );
+    #$this->assert_equals( '"C"', $this->gettit( 1, -1, 0 ) );
+    #$this->assert_equals( '"D"', $this->gettit( 1, -1, -1 ) );
 }
 
 sub test_rest_save {

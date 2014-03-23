@@ -49,21 +49,35 @@ sub parse {
 
                 # add a header if the header param is defined and
                 # the table has no rows.
-                my $line     = $t->{attrs}->{header};
-                my $precruft = '';
-                $precruft = $1 if $line =~ s/^(\s*\|)//;
-                my $postcruft = '';
-                $postcruft = $1 if $line =~ s/(\|\s*)$//;
-                my @cols = split( /\|/, $line, -1 );
+                my $line = $t->{attrs}->{header};
+                if ( !$t->totalRows() ) {
+                    my $precruft = '';
+                    $precruft = $1 if $line =~ s/^(\s*\|)//;
+                    my $postcruft = '';
+                    $postcruft = $1 if $line =~ s/(\|\s*)$//;
+                    my @cols = split( /\|/, $line, -1 );
 
-                my $row = $t->addRow(0);
-                $row->setRow( \@cols );
-                $row->isHeader(1);
-                $t->{headerrows} = 1;
+                    my $row = $t->addRow(0);
+                    $row->setRow( \@cols );
+                    $row->isHeader(1);
+                    $t->{headerrows} = 1 unless $t->{headerrows};
+                }
+                else {
+                    $t->{headerrows} ||= 1;
+                }
+            }
+            elsif ( !defined $t->{headerrows} ) {
 
-#                unshift( @{ $t->{rows} }, $row );
-#test to see if there are both header & headerrows set, or if the parsed table already has the header in it
-#try to coaless, and to use these to set the header row to be read only
+                # Neither header nor headerrows defined. Examine the
+                # rows to see if we can detect an implicit header.
+                my $i = 0;
+                while ($i < $t->totalRows()
+                    && $t->{rows}->[$i]->isHeader() )
+                {
+                    $t->{headerrows} ||= 0;
+                    $t->{headerrows}++;
+                    $i++;
+                }
             }
         }
         else {

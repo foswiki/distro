@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1395591064" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -86,13 +87,18 @@ Parameters:
      Number of rows to treat as headers. Header rows are not 
      editable, and will not be sorted. =headerislabel= is also 
      supported for EditTablePlugin compatibility (equivalent 
-     to =headerrows="1"=) |
+     to =headerrows="1"=)
    * ==header== -
      Specify the single-row header format of a new table. For example,
-     ="%VBAR%*Food*%VBAR%*Drink*%VBAR%"=. Provided to allow you to create a new table in a document, and to have a header that is truely readonly.
+     ="%VBAR%*Food*%VBAR%*Drink*%VBAR%"=. Provided to allow you to create a new table in a document, and to have a header that is truly readonly. If =header=
+     is defined on an empty table then a header row will be automatically
+     created.<br />
+     NOTE: if neither =header= nor =headerrows= is given, but there are
+     existing headers in the table (rows in which every column is bold)
+     then those rows will automatically be taken as the table header.
    * ==footerrows== -
      Number of rows to treat as footers. Footer rows are not 
-     editable and will not be sorted. |
+     editable and will not be sorted.
    * ==orientrowedit== -
      unique to !EditRowPlugin, this parameter controls the 
      orientation of a row when it is being edited. It can be
@@ -289,12 +295,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot2.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="edittable.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="quiet.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="addrow.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="example3.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="example4.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="example5.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1395591064" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%

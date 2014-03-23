@@ -53,11 +53,9 @@ sub new {
     my $this = $class->SUPER::new( $spec, $attrs );
     $this->{editable} = $attrs->{isEditable};
 
-    # EditTablePlugin compatibility; headerrows trumps headierislabel
+    # EditTablePlugin compatibility; headerrows trumps headerislabel
     $attrs->{headerrows} = 1
       if !defined $attrs->{headerrows} && $attrs->{headerislabel};
-    $attrs->{headerrows} ||= 0;
-    $attrs->{footerrows} ||= 0;
 
     my $disable =
       defined( $attrs->{disable} )
@@ -122,16 +120,16 @@ sub getTopic {
 # Calculate row labels
 sub _assignLabels {
     my $this  = shift;
-    my $heads = $this->{headerrows};
+    my $heads = $this->getHeaderRows();
 
     while ( $heads-- > 0 ) {
-        if ( $heads < scalar( @{ $this->{rows} } ) ) {
+        if ( $heads < $this->totalRows() ) {
             $this->{rows}->[$heads]->isHeader(1);
         }
     }
-    my $tails = $this->{footerrows};
+    my $tails = $this->getFooterRows();
     while ( $tails > 0 ) {
-        if ( $tails < scalar( @{ $this->{rows} } ) ) {
+        if ( $tails < $this->totalRows() ) {
             $this->{rows}->[ -$tails ]->isFooter(1);
         }
         $tails--;
@@ -217,7 +215,7 @@ sub render {
     my %render_opts = ( need_tabledata => 1 );
 
     my $fake_row = 0;
-    if ( $editing && scalar( @{ $this->{rows} } ) == 0 ) {
+    if ( $editing && $this->totalRows() == 0 ) {
 
         # Editing a zero-row table causes automatic creation of a single
         # row. This is to support the creation of a new table in the
@@ -442,7 +440,7 @@ sub getEditor {
 
 # Get the cols for the given row, padding out with empty cols if
 # the row is shorter than the type def for the table.
-sub _getCols {
+sub _getColsFromURPs {
     my ( $this, $urps, $row ) = @_;
     my $attrs    = $this->{attrs};
     my $headRows = $attrs->{headerrows};
@@ -483,7 +481,7 @@ sub saveTableCmd {
     my ( $this, $urps ) = @_;
 
     # Whole table (sans header and footer rows)
-    my $end = scalar( @{ $this->{rows} } ) - $this->{attrs}->{footerrows};
+    my $end = $this->totalRows() - $this->getFooterRows();
     if ( $end <= 0 ) {
         $end = 0;
 
@@ -504,10 +502,14 @@ sub saveTableCmd {
             }
         } while ($rowSeen);
     }
-    for ( my $i = $this->{attrs}->{headerrows} ; $i < $end ; $i++ ) {
-        my $cols = $this->_getCols( $urps, $i );
-        $this->{rows}->[$i]->setRow($cols);
-    }
+
+    # Why did I do this? Header rows should not change; the url params don't
+    # contain values for them. This code seems superfluous, but I didn't explain
+    # it :-(
+    #    for ( my $i = $this->getHeaderRows() ; $i < $end ; $i++ ) {
+    #        my $cols = $this->_getColsFromURPs( $urps, $i );
+    #        $this->{rows}->[$i]->setRow($cols);
+    #    }
 }
 
 # Action on row saved
@@ -518,7 +520,7 @@ sub saveRowCmd {
     my ( $this, $urps ) = @_;
     my $row = $urps->{erp_row};
     if ( $row >= 0 ) {
-        my $cols = $this->_getCols( $urps, $row );
+        my $cols = $this->_getColsFromURPs( $urps, $row );
         $this->{rows}->[$row]->setRow($cols);
     }
 }
@@ -556,6 +558,8 @@ sub getCell {
     my ( $this, $urps ) = @_;
     my $row = $urps->{erp_row};
     my $col = $urps->{erp_col};
+    undef $row if $row < 0;    # whole-table or whole-column requests
+    undef $col if $col < 0;
     return $this->getCellData( $row, $col );
 }
 
@@ -583,20 +587,23 @@ sub saveData {
 sub addRowCmd {
     my ( $this, $urps ) = @_;
     my @cols;
-    my $row = $urps->{erp_row} + 1;
 
     unless ( $urps->{erp_unchanged} ) {
         $this->saveData($urps);    # in case data has changed
     }
 
-    $this->addRow($row);
-
     # -1 means full table edit; -2 means a row is being added to
     # a table not currently being edited
     if ( $urps->{erp_row} >= 0 ) {
 
+        $this->addRow( $urps->{erp_row} + 1 );
+
         # Make the current row the one we just added
         $urps->{erp_row}++;
+    }
+    else {
+        # Add before footer
+        $this->addRow( $this->totalRows() );
     }
 }
 
@@ -609,7 +616,10 @@ sub deleteRowCmd {
 
     $this->saveData($urps);    # in case data has changed
 
-    my $row = $urps->{erp_row} + 1;
+    my $row =
+        $urps->{erp_row} >= 0
+      ? $urps->{erp_row}
+      : $this->totalRows() + $urps->{erp_row};
 
     return unless $this->deleteRow($row);
 
@@ -717,7 +727,7 @@ sub generateEditButtons {
     my ( $this, $id, $multirow, $wholeTable ) = @_;
     my $attrs     = $this->{attrs};
     my $topRow    = ( $id == ( $attrs->{headerrows} || 0 ) );
-    my $sz        = scalar( @{ $this->{rows} } );
+    my $sz        = $this->totalRows();
     my $bottomRow = ( $id == $sz - ( $attrs->{footerrows} || 0 ) );
     $id = "_$id" if $id;
 
