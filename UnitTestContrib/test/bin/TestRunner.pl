@@ -125,8 +125,13 @@ if ( $options{-clean} ) {
 
 if ( not $options{-worker} ) {
     require Foswiki;
-    testForFiles( $Foswiki::cfg{DataDir}, '/Temp*' );
-    testForFiles( $Foswiki::cfg{PubDir},  '/Temp*' );
+    if ( defined $Foswiki::cfg{DataDir} && $Foswiki::cfg{DataDir} ne 'NOT SET' )
+    {
+        testForFiles( $Foswiki::cfg{DataDir}, '/Temp*' );
+    }
+    if ( defined $Foswiki::cfg{PubDir} && $Foswiki::cfg{PubDir} ne 'NOT SET' ) {
+        testForFiles( $Foswiki::cfg{PubDir}, '/Temp*' );
+    }
 }
 
 my $testrunner = Unit::TestRunner->new( { TAP => defined( $options{-tap} ) } );
@@ -146,7 +151,7 @@ exit $exit;
 sub testForFiles {
     my $testDir = shift;
     my $pattrn  = shift;
-    opendir( DIR, "$testDir" );
+    opendir( DIR, $testDir ) || die "Could not open $testDir";
     my @list = grep { s/^($pattrn)/$testDir\/$1\n/ } readdir(DIR);
     die "Please remove @list (or run with the -clean option) to run tests\n"
       if ( scalar(@list) );
