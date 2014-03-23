@@ -437,11 +437,14 @@ lib/Foswiki/Configure/Checkers/Cache/RootDir.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ClientChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ClientServerChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/EmailChecker.pm 0444
+lib/Foswiki/Configure/Checkers/Certificate/KeyPasswordChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/KeyChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate/ServerChecker.pm 0444
 lib/Foswiki/Configure/Checkers/Certificate.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigParams.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/MODAL.pm 0444
+lib/Foswiki/Configure/Checkers/ConfigureGUI/LogViewer/RecordLimit.pm 0444
+lib/Foswiki/Configure/Checkers/ConfigureGUI/LogViewer/RecordMatch.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/ChangePassword.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/DiscardChanges.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/DisplayErrors.pm 0444
@@ -450,6 +453,7 @@ lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/SaveChanges.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/SessionTimeout.pm 0444
 lib/Foswiki/Configure/Checkers/ConfigureGUI/Modals/UnsavedDetail.pm 0444
 lib/Foswiki/Configure/Checkers/DisksAndStorage.pm 0444
+lib/Foswiki/Configure/Checkers/DisplayTimeValues.pm 0444
 lib/Foswiki/Configure/Checkers/EnableEmail.pm 0444
 lib/Foswiki/Configure/ModalTemplates.pm 0444
 lib/Foswiki/Configure/Checkers/AUDITGROUP.pm 0444
@@ -506,6 +510,7 @@ lib/Foswiki/Configure/Checkers/REGEX.pm 0444
 lib/Foswiki/Configure/Checkers/Register/AllowLoginName.pm 0444
 lib/Foswiki/Configure/Checkers/Register/EmailFilter.pm 0444
 lib/Foswiki/Configure/Checkers/Register/ExpireAfter.pm 0444
+lib/Foswiki/Configure/Checkers/Register/NeedApproval.pm 0444
 lib/Foswiki/Configure/Checkers/Register/NeedVerification.pm 0444
 lib/Foswiki/Configure/Checkers/RegistrationApprovals.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/MAILHOST.pm 0444
@@ -611,7 +616,6 @@ lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Valuer.pm 0444
 lib/Foswiki/Configure/Visitor.pm 0444
 lib/Foswiki/Configure/resources/ajaxLoader.gif 0444
-lib/Foswiki/Configure/resources/autocheck.png 0444
 lib/Foswiki/Configure/resources/base.css 0444
 lib/Foswiki/Configure/resources/base.css.gz 0444
 lib/Foswiki/Configure/resources/bg_expert.gif 0444
@@ -636,7 +640,6 @@ lib/Foswiki/Configure/resources/jquery-1.8.2.min.js.gz 0444
 lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.css 0444
 lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.min.js 0444
 lib/Foswiki/Configure/resources/jquery.nyroModal-2.custom.min.js.gz 0444
-lib/Foswiki/Configure/resources/legend.html 0444
 lib/Foswiki/Configure/resources/nav_discard.png 0444
 lib/Foswiki/Configure/resources/nav_home.png 0444
 lib/Foswiki/Configure/resources/nav_logout.png 0444
@@ -661,6 +664,7 @@ lib/Foswiki/Configure/templates/discardchanges.tmpl 0444
 lib/Foswiki/Configure/templates/errorsandwarnings.tmpl 0444
 lib/Foswiki/Configure/templates/extensions.tmpl 0444
 lib/Foswiki/Configure/templates/feedback.tmpl 0444
+lib/Foswiki/Configure/templates/feedbackerror.tmpl 0444
 lib/Foswiki/Configure/templates/feedbackprotocol.tmpl 0444
 lib/Foswiki/Configure/templates/feedbackunsaved.tmpl 0444
 lib/Foswiki/Configure/templates/findextensionsintro.tmpl 0444
@@ -831,6 +835,7 @@ lib/Foswiki/Query/OP_not.pm 0444
 lib/Foswiki/Query/OP_ob.pm 0444
 lib/Foswiki/Query/OP_or.pm 0444
 lib/Foswiki/Query/OP_plus.pm 0444
+lib/Foswiki/Query/OP_pos.pm 0444
 lib/Foswiki/Query/OP_ref.pm 0444
 lib/Foswiki/Query/OP_times.pm 0444
 lib/Foswiki/Query/OP_uc.pm 0444
