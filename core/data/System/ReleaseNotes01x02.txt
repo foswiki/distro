@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1395597014" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -89,7 +89,15 @@ Because this could lead to undeterministic behaviour, the syntax is now more con
 }%
 </verbatim>
 
+---+++ Major change to ICON macro and templates
+Foswiki:Development.HtmlAttributesShouldUseSingleQuotes has changed the ICON
+macro to generate singe quotes by default.  This has no impact unless the
+%ICON macro is being expanded inside a single-quote delimited macro.  
 
+In order to simplify migration, a new =quote== parameter has been added to the
+ICON macro. =%<nop>ICON{"pdf" quote="\""}%= generates the html using double
+quotes delimiters.  See System.VarICON for more details.
+. 
 ---++ Foswiki Release 1.2 Details
 
 ---+++ Fixes
