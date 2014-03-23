@@ -97,6 +97,7 @@ test/unit/StoreImplementationTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TableParserTests.pm 0644
 test/unit/TableReaderTests.pm 0644
+test/unit/TableTests.pm 0644
 test/unit/TOCTests.pm 0644
 test/unit/TemplatesTests.pm 0644
 test/unit/TimeTests.pm 0644
