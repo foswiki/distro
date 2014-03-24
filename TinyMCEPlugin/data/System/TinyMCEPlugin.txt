@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" comment="pending" date="1335534328" format="1.1" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" comment="pending" date="1395685240" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -81,9 +81,9 @@ Below is the default configuration. If it is to be modified, it should be copied
     then=", %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
 }%",
 "foswiki_plugin_urls" : {
-    "foswiki" : "%TMCEPLUGINURL{foswiki}%",
-    "foswikibuttons" : "%TMCEPLUGINURL{foswikibuttons}%",
-    "foswikiimage" : "%TMCEPLUGINURL{foswikiimage}%" },
+    "foswiki" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
+    "foswikibuttons" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
+    "foswikiimage" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js" },
 "foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
 "foswiki_vars" : {
     "PUBURLPATH" : "%PUBURLPATH%",
@@ -212,7 +212,6 @@ Example:
 | =TINYMCEPLUGIN_ENTITY_ENCODING= | %INCLUDE{"%TOPIC%" section="ENTITY_ENCODING"}% | Controls how entities/characters get processed by !TinyMCE. Allowed values: =named, numeric, raw= |
 | =TINYMCEPLUGIN_MCESKIN= | %INCLUDE{"%TOPIC%" section="MCESKIN"}% | The !TinyMCE skin to use. Possible values: =default, highcontrast, o2k7= |
 | =TINYMCEPLUGIN_MCESKIN_VARIANT= | %INCLUDE{"%TOPIC%" section="MCESKIN_VARIANT"}% | A !TinyMCE skin may have _variants_. =o2k7= skin has =silver= and =black= variants. |
-| =TINYMCEPLUGIN_MCEVERSION= | _(As set in configure)_ | Used to override the configured version, useful for testing a new version of the editor without making  it the default: ex. =tinymce-4.0,11= |
 
 ---+++ Browser Specific Settings
 Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO, UNKNOWN and SAFARI. For example,
@@ -421,6 +420,6 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1395685240" comment="screenshot"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1395685240" attr="h" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1395685240" user="ProjectContributor" comment="" version="1"}%

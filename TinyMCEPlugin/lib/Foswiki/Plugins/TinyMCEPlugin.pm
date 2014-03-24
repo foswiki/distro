@@ -32,43 +32,7 @@ sub initPlugin {
         return 0;
     }
 
-    Foswiki::Func::registerTagHandler( 'TMCEPLUGINURL', \&_TMCEPLUGINURL );
-
     return 1;
-}
-
-# The function used to handle the %EXAMPLETAG{...}% macro
-# You would have one of these for each macro you want to process.
-sub _TMCEPLUGINURL {
-    my ( $session, $params, $topic, $web, $topicObject ) = @_;
-
-    my $plugin = $params->{_DEFAULT} || 'foswiki';
-
-    # Different versions of TMCE change the plugin API.   To Do:
-    #  - 3.x  uses _src suffix for non-minified
-    #    module is named editor_plugin.js
-    #  - 4.x uses _min for minified versions
-    #    module is named plugin.min.js
-    #
-    my $tmceVersion =
-      $Foswiki::cfg{Plugins}{TinyMCEPlugin}{TinyMCEVersion} || 'tinymce-3.5.10';
-    if (   Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_MCEVERSION')
-        && Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_MCEVERSION') =~
-        m/^(tinymce-\d+\.\d+\.\d+)$/ )
-    {
-        $tmceVersion = $1;
-    }
-
-    my $pluginName =
-      ( substr( $tmceVersion, 0, 9 ) eq 'tinymce-3' )
-      ? 'editor_plugin_src'
-      : 'plugin';
-
-    return
-        "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/"
-      . $tmceVersion
-      . "/plugins/$plugin/${pluginName}.js";
-
 }
 
 sub _notAvailable {

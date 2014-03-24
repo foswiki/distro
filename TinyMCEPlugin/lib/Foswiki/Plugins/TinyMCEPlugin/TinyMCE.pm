@@ -40,18 +40,6 @@ Constructor
 sub new {
     my $class = shift;
     my $session = shift || $Foswiki::Plugins::SESSION;
-    my $tmceVersion =
-      $Foswiki::cfg{Plugins}{TinyMCEPlugin}{TinyMCEVersion} || 'tinymce-3.5.10';
-    if (   Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_MCEVERSION')
-        && Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_MCEVERSION') =~
-        m/^(tinymce-\d+\.\d+\.\d+)$/ )
-    {
-        $tmceVersion = $1;
-    }
-    my $tmcePath =
-      ( substr( $tmceVersion, 0, 9 ) eq 'tinymce-3' )
-      ? '/tinymce/jscripts/tiny_mce/tiny_mce.js'
-      : '/tinymce/js/tinymce/tinymce.min.js';
 
     # URL-encode the version number to include in the .js URLs, so that
     # the browser re-fetches the .js when this plugin is upgraded.
@@ -73,7 +61,7 @@ sub new {
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin',
             javascript    => [
                 'foswiki_tiny.js', 'foswiki.js',
-                '/' . $tmceVersion . $tmcePath
+                '/tinymce/jscripts/tiny_mce/tiny_mce.js'
             ],
             dependencies => ['foswiki']
         ),
@@ -86,20 +74,12 @@ sub new {
 sub renderJS {
     my ( $this, $text ) = @_;
 
-    if ( $text =~ m/tinymce-4/ ) {
-        $text =~ s/\.min\.js$/.js/
-          if ( $this->{debug} )
-          || ( Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_DEBUG') );
-    }
-    else {
-        $text =~ s/\.js$/_src.js/
-          if ( $this->{debug} )
-          || ( Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_DEBUG') );
-    }
+    $text =~ s/\.js$/_src.js/
+      if ( $this->{debug} )
+      || ( Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_DEBUG') );
     $text .= '?version=' . $this->{version} if ( $this->{version} =~ '$Rev$' );
     $text =
       "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
-    print STDERR "renderJS returns:  $text\n";
     return $text;
 }
 
