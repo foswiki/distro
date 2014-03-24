@@ -536,6 +536,9 @@ Rows must exist. The rows must be editable rows unless =$any_row= is true.
 If =$any_row= is false, the table will be made consistent (missing
 header/footer rows added) before anything else is done.
 
+If $to is outside the editable part of the table, the row will be moved
+to the first or last editable position respectively.
+
 Returns true if the move succeeded.
 
 =cut
@@ -546,13 +549,11 @@ sub moveRow {
     $this->makeConsistent() unless $any_row;
 
     return 0 if $to == $from;
-
     return 0
       unless $this->isEditableRow($from)
       || $any_row && $from >= 0 && $from < $this->totalRows();
-    return 0
-      unless $this->isEditableRow($to)
-      || $any_row && $to >= 0 && $to < $this->totalRows();
+    $to = $this->getHeaderRows()      if $to < $this->getHeaderRows();
+    $to = $this->getLastBodyRow() + 1 if $to > $this->getLastBodyRow();
 
     my @moving = splice( @{ $this->{rows} }, $from, 1 );
 
