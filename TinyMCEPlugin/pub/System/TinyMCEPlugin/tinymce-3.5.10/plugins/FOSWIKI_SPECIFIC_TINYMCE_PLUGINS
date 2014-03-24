@@ -1,0 +1,2 @@
+This directory contains foswiki-specific TMCE plugins. They are loaded
+from the URLs defined in foswiki_plugin_urls in TINYMCEPLUGIN_INIT.
