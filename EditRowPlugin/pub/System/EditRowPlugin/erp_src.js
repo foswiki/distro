@@ -279,7 +279,7 @@
             .find('table')
             .append(helper.addClass("drag-helper"))
             .end();
-        dv.css("margin-left", tr.offset().left + "px");
+        //dv.css("margin-left", tr.offset().left + "px");
         return dv;
     };
 
@@ -298,7 +298,7 @@
                     // constrain to the containing table
                     containment: container,
                     axis: 'y',
-                    appendTo: 'body',
+                    appendTo: container,
                     helper: function(event) {
                         return dragHelper(tr);
                     },
@@ -321,7 +321,7 @@
     var editControls = {
         onedit: function(settings, self) {
             // Hide the edit button
-             $(self).next().hide();
+            $(self).next().hide();
         },
 
         // use a function to get the submit data from the store
@@ -414,7 +414,7 @@
 
         // Action on edit cell
         button.click(function() {
-            // Send the event to the span
+            // Send the event to the cell
             editing_element = el;
             el.triggerHandler('erp_edit');
         });
@@ -449,7 +449,7 @@
         // table data is attached to only one cell, and that cell may not
         // be the first in the table (for example, if it has been sorted
         // away by the TablePlugin)
-        context.find('span.erpJS_cell').each(function(index, value) {
+        context.find('.erpJS_cell').each(function(index, value) {
 
             // Extract meta-data from the class attribute
             var p, m, c = $(this).attr("class");
@@ -535,7 +535,7 @@
             return cont;
         });
 
-        context.find('span.erpJS_sort').click(function() {
+        context.find('.erpJS_sort').click(function() {
             var m = /{(.*)}/.exec($(this).attr("class"));
             var md = {};
             if (m)
@@ -544,7 +544,7 @@
         });
 
         var current_row = null;
-        $('tr.ui-draggable').mouseover(
+        $('.ui-draggable').mouseover(
             function(e) {
                 var tr = $(this);
 
@@ -556,7 +556,7 @@
                         makeRowDraggable(tr);
 
                     // Attach an editor to each editable cell
-                    tr.find('span.erpJS_cell').each(function(index, value) {
+                    tr.find('.erpJS_cell').each(function(index, value) {
                         attachEditControls($(this));
                     });
                 }

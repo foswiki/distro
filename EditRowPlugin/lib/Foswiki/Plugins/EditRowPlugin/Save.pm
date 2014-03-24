@@ -176,12 +176,9 @@ sub process {
         # Use a row anchor within range of the row being edited as
         # the goto target
         my $anchor = 'erp_' . $urps->{erp_table};
-        if ( $urps->{erp_row} > 5 ) {
-            my $before = $urps->{erp_row} - 1;
-            $anchor .= '_' . $before;
-        }
-        else {
-            $anchor .= '_1';
+        if ( $urps->{erp_row} > 3 ) {
+            my $before = $urps->{erp_row} - 3;
+            $anchor .= "_${before}";
         }
         my @p = ( '#' => $anchor );
         unless ($no_return) {

@@ -38,10 +38,8 @@ sub getEditAnchor {
 # reasonable amount of context (3 rows) above the edited row
 sub getRowAnchor {
     my $this       = shift;
-    my $row_anchor = 1;
-    if ( $this->{number} > 3 ) {
-        $row_anchor = $this->{number} - 1;
-    }
+    my $row_anchor = $this->{number} - 3;
+    $row_anchor = 0 if $row_anchor < 0;
     return 'erp_' . $this->{table}->getID() . '_' . $row_anchor;
 }
 
@@ -100,8 +98,9 @@ sub getURLParams {
 # js - assumed, preferred or ignored
 sub render {
     my ( $this, $opts, $render_opts ) = @_;
-    my $id            = $this->getID();
-    my $addAnchor     = 1;
+    my $id = $this->getID();
+
+    # The row anchor is added into a cell at the first opportunity
     my $anchor        = '<a name="' . $this->getAnchor() . '"></a> ';
     my $empties       = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
     my @cols          = ();
@@ -114,7 +113,7 @@ sub render {
           $this->{table}->generateEditButtons( $this->{number},
             $opts->{orient} eq 'vertical', 0 )
           . $anchor;
-        $addAnchor = 0;
+        $anchor = '';
     }
 
     if ( $editing && $opts->{orient} eq 'vertical' ) {
@@ -165,17 +164,17 @@ sub render {
         # Add the row anchor for editing. It's added to the first non-empty
         # cell or, failing that, the first cell. This is to minimise the
         # risk of breaking up implied colspans.
-        if ( $addAnchor && $opts->{js} ne 'assumed' && $text =~ /\S/ ) {
+        if ( $anchor && $opts->{js} ne 'assumed' && $text =~ /\S/ ) {
 
             # If the cell has *'s, it is seen by TablePlugin as a header.
-            # We have to respect that.
+            # We have to respect that, and put the anchor inside the *'s.
             if ( $text =~ /^(\s*.*)(\*\s*)$/ ) {
-                $text = $1 . $anchor . $2;
+                $text = "$1$anchor$2";
             }
             else {
-                $text .= $anchor;
+                $text .= "$anchor";
             }
-            $addAnchor = 0;
+            $anchor = '';
         }
         push( @cols, $text );
     }
@@ -191,6 +190,10 @@ sub render {
                 unshift( @cols, $buttons );
             }
             my $help = $this->{table}->generateHelp();
+            if ($anchor) {
+                $help .= $anchor;
+                $anchor = '';
+            }
             push( @cols, "\n", $help, '', $empties ) if $help;
         }
         else {
@@ -202,9 +205,9 @@ sub render {
                 # The ** fools TablePlugin into thinking this is a header.
                 # Otherwise it disables sorting :-(
                 my $text = '';
-                if ($addAnchor) {
+                if ($anchor) {
                     $text .= $anchor;
-                    $addAnchor = 0;
+                    $anchor = '';
                 }
                 if ($buttons_right) {
                     push( @cols, " *$text* " );
@@ -233,9 +236,9 @@ sub render {
                     "<a href='$url' title='Edit this row' class='"
                   . ( $opts->{js} ne 'ignored' ? 'erpJS_willDiscard' : '' )
                   . " ui-icon ui-icon-pencil foswikiIcon'>edit</a>";
-                if ($addAnchor) {
+                if ($anchor) {
                     $buttons .= $anchor;
-                    $addAnchor = 0;
+                    $anchor = 0;
                 }
 
                 #if ($opts->{js} ne 'ignored') {
@@ -249,17 +252,19 @@ sub render {
                     unshift( @cols, $buttons );
                 }
             }
-            if ($addAnchor) {
+            if ($anchor) {
 
                 # All cells were empty; we have to shoehorn the anchor into the
                 # final cell.
                 my $cell = pop(@cols);
                 $cell->{text} .= $anchor;
+                $anchor = '';
                 push( @cols,
                     $cell->render( { col_defs => $opts->{col_defs} } ) );
             }
         }
     }
+    ASSERT( !$anchor ) if DEBUG;
     my $s = join( '|', @cols );
     return "$this->{precruft}|$s|$this->{postcruft}";
 }

@@ -654,7 +654,8 @@ sub moveRowCmd {
         elsif ( $urps->{new_pos} > $this->getLastBodyRow() ) {
             $urps->{new_pos} = $this->getLastBodyRow() + 1;
         }
-        $this->moveRow( $urps->{old_pos}, $urps->{new_pos} );
+        my $moved = $this->moveRow( $urps->{old_pos}, $urps->{new_pos} );
+        ASSERT($moved) if DEBUG;
         $this->{attrs}->{js} = 'rowmoved';
     }
     return $this->render( { with_controls => 0 }, {} );

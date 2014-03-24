@@ -142,7 +142,7 @@ sub render {
                     }
                 }
             }
-            $text = CGI::span( $sopts, " $text " );
+            $text = CGI::div( $sopts, " $text " );
         }
     }
     $text =~ s/%/&#37;/g;    # prevent further macro expansion Item10770
