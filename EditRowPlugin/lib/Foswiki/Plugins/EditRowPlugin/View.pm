@@ -105,7 +105,7 @@ sub process {
             UNIVERSAL::isa( $_, 'Foswiki::Plugins::EditRowPlugin::Table' ) );
         my $line = '';
         $table = $_;
-        $table->{editable} = !$editIsDisabled;
+        $table->{editable} = 0 if $editIsDisabled;
         $table->{attrs}->{js} = 'ignored' if $jsIsDisabled;
         if (   $table->{editable}
             && $active_topic   eq $urps->{erp_topic}
