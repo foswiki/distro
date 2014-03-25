@@ -75,21 +75,25 @@ EOF
 
     # Need to open the rest to check further
 
-    open( my $fh, '<', $file ) or die("Unable to open file");
-    my @input = <$fh>;
-    close $fh;
+    if ( open( my $fh, '<', $file ) ) {
 
-    if ( $file =~ /\.txt$/ ) {
-        my @err;
-        checkTOPICINFO( $input[0], \@err );
-        checkFILEATTACHMENT( \@input, \@err );
-        $failmsg .=
-          "\nERROR: $file meta-data is incorrect; cannot check in:\n"
-          . join( "\n", @err ) . "\n"
-          if scalar(@err);
-    }
-    else {
-        check_perltidy( \@input, $file );
+        # Files being deleted won't be there
+        # so just skip files that don't open.
+        my @input = <$fh>;
+        close $fh;
+
+        if ( $file =~ /\.txt$/ ) {
+            my @err;
+            checkTOPICINFO( $input[0], \@err );
+            checkFILEATTACHMENT( \@input, \@err );
+            $failmsg .=
+              "\nERROR: $file meta-data is incorrect; cannot check in:\n"
+              . join( "\n", @err ) . "\n"
+              if scalar(@err);
+        }
+        else {
+            check_perltidy( \@input, $file );
+        }
     }
 }
 
