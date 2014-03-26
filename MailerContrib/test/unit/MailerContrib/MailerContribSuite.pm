@@ -15,30 +15,32 @@ my @specs;
 my $high_bit_disabled = 0;
 
 my %expectedRevs = (
-    TestTopic1    => "r1->r3",
-    TestTopic11   => "r1->r2",
-    TestTopic111  => "r1->r2",
-    TestTopic112  => "r1->r2",
-    TestTopic12   => "r1->r2",
-    TestTopic121  => "r1->r2",
-    TestTopic122  => "r1->r2",
-    TestTopic1221 => "r1->r2",
-    TestTopic2    => "r2->r3",
-    TestTopic21   => "r1->r2",
+    TestTopic1      => "r1->r3",
+    TestTopic11     => "r1->r2",
+    TestTopic111    => "r1->r2",
+    TestTopic112    => "r1->r2",
+    TestTopic12     => "r1->r2",
+    TestTopic121    => "r1->r2",
+    TestTopic122    => "r1->r2",
+    TestTopic1221   => "r1->r2",
+    TestTopic2      => "r2->r3",
+    TestTopic21     => "r1->r2",
+    TestTopicDenied => "r1->r2"
 );
 
 my %finalText = (
     TestTopic1 =>
 "beedy-beedy-beedy oh dear, said TWiki, shortly before exploding into a million shards of white hot metal as the concentrated laser fire of a thousand angry public website owners poured into it.",
-    TestTopic11   => "fire laser beams",
-    TestTopic111  => "Doctor Theopolis",
-    TestTopic112  => "Buck, I'm dying",
-    TestTopic12   => "Wow! A real Wookie!",
-    TestTopic121  => "Where did I put my silver jumpsuit?",
-    TestTopic122  => "That danged robot",
-    TestTopic1221 => "What's up, Buck?",
-    TestTopic2    => "roast my nipple-nuts",
-    TestTopic21   => "smoke me a kipper, I'll be back for breakfast",
+    TestTopic11     => "fire laser beams",
+    TestTopic111    => "Doctor Theopolis",
+    TestTopic112    => "Buck, I'm dying",
+    TestTopic12     => "Wow! A real Wookie!",
+    TestTopic121    => "Where did I put my silver jumpsuit?",
+    TestTopic122    => "That danged robot",
+    TestTopic1221   => "What's up, Buck?",
+    TestTopic2      => "roast my nipple-nuts",
+    TestTopic21     => "smoke me a kipper, I'll be back for breakfast",
+    TestTopicDenied => "   * Set ALLOWTOPICVIEW = TestUser1\n",
 
     # High-bit chars - assumes {Site}{CharSet} is set for a high-bit
     # encoding. No tests for multibyte encodings :-(
@@ -82,132 +84,137 @@ sub set_up {
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     @FoswikiFnTestCase::mails = ();
 
+    # Each spec corresponds to a line in WebNotify, and should yield subs
+    # for a single email address
     @specs = (
 
-        # traditional subscriptions
         {
-
-            # IGNORED because it's the guest user
+            name      => "IGNORED because it's the guest user",
             entry     => "$this->{users_web}.WikiGuest - example\@example.com",
             email     => "example\@example.com",
-            topicsout => "" },
+            topicsout => ""
+        },
 
-        {    # LEGACY format
+        {
+            name  => "LEGACY format",
             entry => "$this->{users_web}.NonPerson - nonperson\@example.com",
             email => "nonperson\@example.com",
-            topicsout => "*"
+            topicsout => "* -TestTopicDenied"
         },
 
-        {    # simple email subscription
+        {
+            name      => "simple email subscription",
             entry     => "person\@example.com",
             email     => "person\@example.com",
-            topicsout => "*"
+            topicsout => "* -TestTopicDenied"
         },
 
-        # wikiname subscription
         {
+            name      => "simple wikiname subscription to everything",
             entry     => "TestUser1",
             email     => "test1\@example.com",
             topicsout => "*"
         },
 
-        # wikiname subscription
         {
+            name      => "web.wikiname subscription",
             entry     => "%USERSWEB%.TestUser2",
             email     => "test2\@example.com",
-            topicsout => "*"
+            topicsout => "* -TestTopicDenied"
         },
 
-        # groupname subscription
         {
+            name      => "groupname subscription",
             entry     => "TestGroup",
             email     => "test3\@example.com",
-            topicsout => "TestTopic1"
+            topicsout => "* -TestTopicDenied"
         },
 
-        # single topic with one level of children
         {
+            name      => "single topic with one level of children",
             entry     => "'email1\@example.com': TestTopic1 (1)",
             email     => "email1\@example.com",
             topicsout => "TestTopic1 TestTopic11 TestTopic12",
         },
 
-        # single topic with 2 levels of children
         {
+            name  => "single topic with 2 levels of children",
             entry => "TestUser1 : TestTopic1 (2)",
             email => "test1\@example.com",
             topicsout =>
 "TestTopic1 TestTopic11 TestTopic111 TestTopic112 TestTopic12 TestTopic121 TestTopic122"
         },
 
-        # single topic with 3 levels of children
         {
+            name  => "single topic with 3 levels of children",
             email => "email3\@example.com",
             entry => "email3\@example.com : TestTopic1 (3)",
             topicsout =>
 "TestTopic1 TestTopic11 TestTopic111 TestTopic112 TestTopic12 TestTopic121 TestTopic122 TestTopic1221"
         },
 
-        # Comma separated list of subscriptions
         {
+            name  => "Comma separated list of subscriptions",
             email => "email4\@example.com",
             entry => "email4\@example.com: TestTopic1 (0), 'TestTopic2' (3)",
             topicsout => "TestTopic1 TestTopic2 TestTopic21"
         },
 
-        # mix of commas, pluses and minuses
         {
+            name  => "mix of commas, pluses and minuses",
             email => "email5\@example.com",
             entry =>
 "email5\@example.com: TestTopic1 + 'TestTopic2'(3), -'TestTopic21'",
             topicsout => "TestTopic1 TestTopic2"
         },
 
-        # wildcard
         {
+            name      => "wildcard",
             email     => "email6\@example.com",
             entry     => "email6\@example.com: TestTopic1*1",
-            topicsout => "TestTopic11 TestTopic111"
+            topicsout => "TestTopic11 TestTopic111 TestTopic121 TestTopic1221"
         },
 
-        # wildcard unsubscription
         {
+            name  => "wildcard unsubscription",
             email => "email7\@example.com",
             entry => "email7\@example.com: TestTopic*1 - \\\n   'TestTopic2*'",
-            topicsout => "TestTopic1 TestTopic11 TestTopic121",
+            topicsout =>
+              "TestTopic1 TestTopic11 TestTopic111 TestTopic1221 TestTopic121",
         },
 
-        # Strange group name; just checking parser, here
         {
+            name      => "Strange group name; just checking parser, here",
             email     => "email8\@example.com",
             entry     => "'IT:admins': TestTopic1",
             topicsout => "",
         },
 
-        # Item9898: trailing space
         {
+            name      => "Item9898: trailing space",
             email     => "email9\@example.com",
             entry     => "FruitBat:  ",
             topicsout => ""
         },
 
-        # Item11138: no trailing space after : incorrectly results
-        # in subscribe to all
         {
+            name =>
+"Item11138: no trailing space after : incorrectly results in subscribe to all",
             email     => "email10\@example.com",
             entry     => "email10\@example.com :",
             topicsout => ""
         },
 
         {
+            name      => "wikiname allowed, email denied",
             email     => "jeltz\@vogsphere.com",
             entry     => "ProstectnicVogonJeltz - jeltz\@vogsphere.com",
-            topicsout => "*"
+            topicsout => "* -TestTopicDenied"
         },
 
-        # Item12786: "TestTopic111" should not match
-        # "FakeTestTopic1 FakeTestTopic11"
         {
+            name =>
+"Item12786: 'TestTopic111' should not match 'FakeTestTopic1 FakeTestTopic11'",
             email     => "email11\@example.com",
             entry     => "email11\@example.com: FakeTestTopic1 FakeTestTopic11",
             topicsout => ""
@@ -215,7 +222,8 @@ sub set_up {
     );
 
     if (  !$Foswiki::cfg{Site}{CharSet}
-        || $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859/ )
+        || $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859/
+        || $Foswiki::cfg{Site}{CharSet} =~ /^utf-8/ )
     {
 
         # High-bit chars - assumes {Site}{CharSet} is set for a high-bit
@@ -223,6 +231,7 @@ sub set_up {
         push(
             @specs,    # Francais
             {
+                name      => "High bit",
                 email     => "test1\@example.com",
                 entry     => "TestUser1 : Requêtes*",
                 topicsout => "RequêtesNon RequêtesOui",
@@ -257,11 +266,6 @@ sub set_up {
             $meta->save();
             $meta->finish();
         }
-
-        ($meta) = Foswiki::Func::readTopic( $web, "TestTopicDenied" );
-        $meta->text("   * Set ALLOWTOPICVIEW = TestUser1");
-        $meta->save();
-        $meta->finish();
 
         # add a second rev to TestTopic2 so the base rev is 2
         ($meta) = Foswiki::Func::readTopic( $web, "TestTopic2" );
@@ -313,27 +317,50 @@ sub testSimple {
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
     my %matched;
-    foreach my $message (@FoswikiFnTestCase::mails) {
+    foreach my $msg (@FoswikiFnTestCase::mails) {
+        my $message = $msg;
         next unless $message;
         $message =~ /^To: (.*)$/m;
         my $mailto = $1;
-        $this->assert( $mailto, $message );
+        $this->assert($mailto);
+        $message =
+          join( "\n", grep { /^- \w+ \(/ } split( /\n/, $message ) ) . "\n";
         foreach my $spec (@specs) {
             if ( $mailto eq $spec->{email} ) {
                 $this->assert( !$matched{$mailto}, $mailto );
                 $matched{$mailto} = 1;
                 my $xpect = $spec->{topicsout};
-                if ( $xpect eq '*' ) {
-                    $xpect = join ' ', keys %expectedRevs;
-                }
+                my @tops;
                 foreach my $x ( split( /\s+/, $xpect ) ) {
-                    $this->assert_matches( qr/^- $x \(.*\) $expectedRevs{$x}/m,
-                        $message );
-
-                    #$this->assert_matches(qr/$finalText{$x}/m, $message);
-                    $message =~ s/^- $x \(.*\n//m;
+                    next unless defined $x && $x ne '';
+                    if ( $x eq '*' ) {
+                        @tops = keys %expectedRevs;
+                    }
+                    elsif ( $x =~ s/^-// ) {
+                        @tops = grep { !/^$x$/ } @tops;
+                    }
+                    else {
+                        push( @tops, $x );
+                    }
                 }
-                $this->assert_does_not_match( qr/^- \w+ \(/, $message );
+                foreach my $x (@tops) {
+                    unless (
+                        $message =~ s/^- $x \(.*\) $expectedRevs{$x}.*$//m )
+                    {
+                        $this->assert( 0,
+                                "$mailto should see changes to "
+                              . join( ' ', @tops ) . "\n"
+                              . " but $x was missing from the mail" );
+                    }
+                }
+
+                # Make sure no other topics crept through
+                if ( $message =~ /^- \w+ \(/m ) {
+                    $this->assert( 0,
+                            "$mailto should see changes to "
+                          . join( ' ', @tops ) . "\n"
+                          . " but the mail also had\n$message" );
+                }
                 last;
             }
         }
@@ -342,7 +369,7 @@ sub testSimple {
         if ( $spec->{topicsout} ne "" ) {
             $this->assert(
                 $matched{ $spec->{email} },
-                "Expected mails for "
+                "$spec->{name}: Expected mails for "
                   . $spec->{email}
                   . " but only got "
                   . join( " ", keys %matched )
@@ -351,7 +378,7 @@ sub testSimple {
         else {
             $this->assert(
                 !$matched{ $spec->{email} },
-                "Unexpected mails for "
+                "$spec->{name}: Unexpected mails for "
                   . $spec->{email}
                   . " (got "
                   . join( " ", keys %matched )
