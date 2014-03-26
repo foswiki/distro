@@ -9,7 +9,7 @@ our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki::Contrib::MailerContrib();
 
-my $testWeb2;
+my $subWeb;
 
 my @specs;
 my $high_bit_disabled = 0;
@@ -63,10 +63,10 @@ sub set_up {
 
     my $text;
 
-    $testWeb2 = "$this->{test_web}/SubWeb";
+    $subWeb = "$this->{test_web}/SubWeb";
 
     # Will get torn down when the parent web dies
-    my $webObject = $this->populateNewWeb($testWeb2);
+    my $webObject = $this->populateNewWeb($subWeb);
     $webObject->finish();
 
     $this->registerUser( "tu1", "Test", "User1", "test1\@example.com" );
@@ -248,7 +248,9 @@ sub set_up {
     foreach my $spec (@specs) {
         $s .= "   * $spec->{entry}\n";
     }
-    foreach my $web ( $this->{test_web}, $testWeb2 ) {
+
+    # Create the same test data in two separate webs
+    foreach my $web ( $this->{test_web}, $subWeb ) {
         my ($meta) =
           Foswiki::Func::readTopic( $web, $Foswiki::cfg{NotifyTopicName} );
         $meta->put( "TOPICPARENT", { name => "$web.WebHome" } );
@@ -308,26 +310,19 @@ sub set_up {
     # OK, we should have a bunch of changes
 }
 
-sub testSimple {
+sub checkSpecs {
     my $this = shift;
 
-    my @webs = ( $this->{test_web}, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
-
-    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
-
+    # Check that expected - and only specced - mails were received
     my %matched;
-    foreach my $msg (@FoswikiFnTestCase::mails) {
-        my $message = $msg;
+    foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
         $message =~ /^To: (.*)$/m;
         my $mailto = $1;
-        $this->assert($mailto);
-        $message =
-          join( "\n", grep { /^- \w+ \(/ } split( /\n/, $message ) ) . "\n";
+        $this->assert( $mailto, $message );
         foreach my $spec (@specs) {
             if ( $mailto eq $spec->{email} ) {
-                $this->assert( !$matched{$mailto}, $mailto );
+                $this->assert( !$matched{$mailto} );
                 $matched{$mailto} = 1;
                 my $xpect = $spec->{topicsout};
                 my @tops;
@@ -369,62 +364,6 @@ sub testSimple {
         if ( $spec->{topicsout} ne "" ) {
             $this->assert(
                 $matched{ $spec->{email} },
-                "$spec->{name}: Expected mails for "
-                  . $spec->{email}
-                  . " but only got "
-                  . join( " ", keys %matched )
-            );
-        }
-        else {
-            $this->assert(
-                !$matched{ $spec->{email} },
-                "$spec->{name}: Unexpected mails for "
-                  . $spec->{email}
-                  . " (got "
-                  . join( " ", keys %matched )
-            );
-        }
-    }
-}
-
-sub testSubweb {
-    my $this = shift;
-
-    my @webs = ( $testWeb2, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
-
-    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
-
-    my %matched;
-    foreach my $message (@FoswikiFnTestCase::mails) {
-        next unless $message;
-        $message =~ /^To: (.*)$/m;
-        my $mailto = $1;
-        $this->assert( $mailto, $message );
-        foreach my $spec (@specs) {
-            if ( $mailto eq $spec->{email} ) {
-                $this->assert( !$matched{$mailto} );
-                $matched{$mailto} = 1;
-                my $xpect = $spec->{topicsout};
-                if ( $xpect eq '*' ) {
-                    $xpect = join ' ', keys %expectedRevs;
-                }
-                foreach my $x ( split( /\s+/, $xpect ) ) {
-                    $this->assert_matches( qr/^- $x \(.*\) $expectedRevs{$x}/m,
-                        $message );
-
-                    #$this->assert_matches(qr/$finalText{$x}/m, $message);
-                    $message =~ s/^- $x \(.*\n//m;
-                }
-                $this->assert_does_not_match( qr/^- \w+ \(/, $message );
-                last;
-            }
-        }
-    }
-    foreach my $spec (@specs) {
-        if ( $spec->{topicsout} ne "" ) {
-            $this->assert(
-                $matched{ $spec->{email} },
                 "Expected mails for "
                   . $spec->{email}
                   . " but only saw mails for "
@@ -441,6 +380,27 @@ sub testSubweb {
             );
         }
     }
+}
+
+sub testSimple {
+    my $this = shift;
+
+    my @webs = ( $this->{test_web}, $this->{users_web} );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
+
+    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
+    $this->checkSpecs();
+}
+
+sub testSubweb {
+    my $this = shift;
+
+    my @webs = ( $subWeb, $this->{users_web} );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
+
+    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
+
+    $this->checkSpecs();
 }
 
 sub testCovers {
