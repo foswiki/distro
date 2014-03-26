@@ -167,9 +167,11 @@ sub getTidyOptions {
         my $tidyFile = File::Spec->catpath( $volume, $path, 'TIDY' );
         my @tidyOptions = `$SVNLOOK cat $rev $REPOS $tidyFile 2>/dev/null`;
         if ( $? == 0 ) {          # Found a TIDY file, check its content
+            print STDERR "$tidyFile: " . join( "\n", @tidyOptions ) . "\n"
+              if $testing;
             $tidyOptions = '';    # Defaults to check
             for (@tidyOptions) {
-                if (/^(?:perl\s+)OFF$/) {
+                if (/^(?:perl\s+)?OFF$/i) {
                     $tidyOptions = undef;
                     last;
                 }
