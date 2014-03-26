@@ -45,9 +45,13 @@ if ( $ARGV[0] eq 'test' ) {
             $logmsg = shift @ARGV;
         }
         else {
+            print STDERR"$a\n";
             $a = Cwd::abs_path($a);
             push( @status, "M $a\n" );
         }
+    }
+    if ( !scalar(@status) ) {
+        @status = split( /\n/, `svn status` );
     }
 }
 else {
@@ -161,7 +165,7 @@ sub getTidyOptions {
         $tidyOptions = $tidyOption{$path} and last if exists $tidyOption{$path};
         push @pathList, $path;    # To update cache hierachy
         my $tidyFile = File::Spec->catpath( $volume, $path, 'TIDY' );
-        my @tidyOptions = `$SVNLOOK cat $rev $REPOS $file 2>/dev/null`;
+        my @tidyOptions = `$SVNLOOK cat $rev $REPOS $tidyFile 2>/dev/null`;
         if ( $? == 0 ) {          # Found a TIDY file, check its content
             $tidyOptions = '';    # Defaults to check
             for (@tidyOptions) {
@@ -268,7 +272,9 @@ sub check {
     }
 }
 
-fail("No Task Item in log message") unless ( $logmsg =~ /\bItem\d+\s*:/ );
+unless ($testing) {
+    fail("No Task Item in log message") unless ( $logmsg =~ /\bItem\d+\s*:/ );
+}
 
 my @items;
 $logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
@@ -292,8 +298,10 @@ foreach my $item (@items) {
 
 my @files =
   map { $_->[1] }
-  grep { $_->[0] !~ /^D/ && defined getTidyOptions( $_->[1] ) }
+  grep { $_->[0] !~ /^[?D]/ && defined getTidyOptions( $_->[1] ) }
   map { chomp; [ split( /\s+/, $_, 2 ) ] } @status;
+
+print STDERR "Checking " . join( ' ', @files ) . "\n" if $testing;
 
 foreach my $file (@files) {
     check( $file, $rev );
