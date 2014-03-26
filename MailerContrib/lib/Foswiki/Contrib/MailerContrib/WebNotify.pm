@@ -249,6 +249,7 @@ sub processChange {
             $change->{author}
         )
     };
+    print STDERR "Process change to $web.$topic\n" if TRACE;
 
     foreach my $name ( keys %{ $this->{subscribers} } ) {
         my $subscriber = $this->{subscribers}{$name};
@@ -263,6 +264,7 @@ sub processChange {
             {
                 print "$name has no permission to view $this->{web}.$topic\n"
                   if TRACE;
+                next;
             }
 
             print "$name will be notified of changes to $topic\n" if TRACE;
@@ -280,7 +282,7 @@ sub processChange {
                         )
                         && $authors{$email}
                       );
-                    print "\tusing email $email\n" if TRACE;
+                    print STDERR "\tusing email $email\n" if TRACE;
                     if ( $subs->{options} &
                         Foswiki::Contrib::MailerContrib::Subscription::FULL_TOPIC
                       )
@@ -433,7 +435,7 @@ sub _load {
             }
         }
     }
-    print "LOADED " . $this->stringify() if TRACE;
+    print STDERR "LOADED " . $this->stringify() if TRACE;
 }
 
 =begin TML

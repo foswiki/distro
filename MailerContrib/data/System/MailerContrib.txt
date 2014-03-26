@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="autosave" date="1389779659" format="1.1" version="2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1395772281" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -198,7 +198,7 @@ The changes emails sent to subscribers are based on a Foswiki template called =m
 The default template sends multipart emails containing both HTML and plaintext versions.
 
 <blockquote class="foswikiHelp"> %X% Avoid editing the distributed =mailnotify.tmpl= file, or you will regret it later when it gets overwritten when you upgrade Foswiki. Instead, you should either use a skin setting to choose the template file, or use the web part of the [[%SYSTEMWEB%.SkinTemplates#FindingTemplates][template search path rules]]. 
-
+   
 It is recommended to use the skin method, as it is easier to control, and requires less hacking around. Especially if you need to use the same tailoring for many (or all) webs.</blockquote>
 
    * Simple global tailoring used in all webs using your normal default skin
@@ -207,11 +207,11 @@ It is recommended to use the skin method, as it is easier to control, and requir
    * Using a dummy skin name globally
       * In [[%USERSWEB%.SitePreferences]], define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
       * Create a =templates/mailnotify.notifyskin.tmpl= with your tailorings
-
+   
    * Using a dummy skin name per web
       * In each web where you want a special mailnotify template, add the setting =* Set SKIN = notifywebname,pattern= where the notifywebname is the dummy skin name for this web and the pattern in this example is the real skin.
       * For each web where you need a special mailnotify template, create a =templates/mailnotify.notifywebname.tmpl= with your tailorings
-
+   
    * Using the web path in the templates directory
       * For each web where you want a special mailnotify, create subdirectories in =templates= with the same names as the webs and place a =templates/mailnotify.tmpl= in these subdirectories with your tailorings
 
@@ -253,10 +253,11 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  2.6.0 (25 Mar 2014) | Foswiki:Tasks/Item12786: fix flooding with unintended mails Foswiki:Tasks/Item12823: mark cron-generated mails as per RFC 3834 |
 |  2.5.5 (27 Aug 2013) | Foswiki:Tasks/Item12525: fix removal of subscriptions |
 |  2.5.4 (25 Mar 2013) | Foswiki:Tasks/Item12447: correct support for character encodings |
-|  2.5.3 (11 Sep 2012) | Foswiki:Tasks/Item12072: undocument non-existent =-user= parameter and update faulty examples; %BR% \
-                         Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics |
+|  2.5.3 (11 Sep 2012) | Foswiki:Tasks/Item12072: undocument non-existent =-user= parameter and update faulty examples |
+|  | Foswiki:Tasks/Item11138: Empty subscription without trailing space after colon is treated as wildcard for all topics |
 |  2.5.2 (2 Dec 2011) | Foswiki 1.1.4 Release:  Foswiki:Tasks/Item11138: Foswiki:Tasks/Item11131: Document behavior with group subscriptions, Resolve issue with trailing spaces impacting subscriptions |
 |  2.5.1 (25 Jul 2011) | Foswiki:Tasks/Item10980: fix case where interaction with SubscribePlugin could potentially break cached CGI (fcgid/mod_perl) |
 |  2.5.0 (5 Apr 2011) | Foswiki:Tasks/Item9459: add DIFF template for improved change presentation |
@@ -276,5 +277,5 @@ Many thanks to the following sponsors for supporting this work:
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1395772281" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1395772281" attr="h" comment="" version="1"}%
