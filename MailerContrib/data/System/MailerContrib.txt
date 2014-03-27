@@ -253,6 +253,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  2.70  (27 Mar 2014) | Foswiki:Tasks/Item12717: fix inconsistencies in template expansion of mailnotify |
 |  2.60  (25 Mar 2014) | Foswiki:Tasks/Item12786: fix flooding with unintended mails Foswiki:Tasks/Item12823: mark cron-generated mails as per RFC 3834, Foswiki:Tasks/Item12583: Convert to simple decimal version. |
 |  2.5.5 (27 Aug 2013) | Foswiki:Tasks/Item12525: fix removal of subscriptions |
 |  2.5.4 (25 Mar 2013) | Foswiki:Tasks/Item12447: correct support for character encodings |
