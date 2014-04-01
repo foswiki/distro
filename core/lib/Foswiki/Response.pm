@@ -253,7 +253,7 @@ sub setDefaultHeaders {
         $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
         unless ( exists $this->{headers}->{$hdr} ) {
             if ( $hdr eq 'Status' ) {
-                $this->status($hdr);
+                $this->status($value);
             }
             elsif ( $hdr eq 'Expires' ) {
                 $value = CGI::Util::expires( $value, 'http' );
