@@ -32,6 +32,10 @@ sub renderForDisplay {
     return 'SOUR';
 }
 
+sub getDisplayValue {
+    return 'TART';
+}
+
 1;
 CODE
 
@@ -365,48 +369,49 @@ sub test_render_formfield_with_form {
     my $text   = $meta->text;
     my $res    = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm foswikiFormStep">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep"><h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
 *no web*
-</td></tr>%IF{"context preview" then="</noautolink>"}%SOUR%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr>SOUR<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
 _hello world_
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
 ,   * high
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
-Three </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div>
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
+Three </td></tr></table></div>
 HERE
     $meta->finish();
     ($meta) = Foswiki::Func::readTopic( $this->{test_web}, $testtopic1 );
     $text = $meta->text;
-    $res  = $meta->renderFormForDisplay();
-
+    $this->{session}->enterContext('preview');
+    $res = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
-<div class="foswikiForm foswikiFormStep">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm foswikiFormStep"><noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 ---+ Example problem
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
 *Defect*
-</td></tr>%IF{"context preview" then="</noautolink>"}%SOUR%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr></noautolink>SOUR<noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
 Defect, None
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
 Defect
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
+</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 6 </td><td>
 Two 
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 7 </td><td>
+</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 7 </td><td>
 Two 
-</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 8 </td><td>
+</td></tr></noautolink><noautolink><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 8 </td><td>
 Two 
-</td></tr>%IF{"context preview" then="</noautolink>"}%
+</td></tr></noautolink>
 </table></div>
 HERE
+    $this->{session}->leaveContext('preview');
     return;
 }
 
@@ -506,44 +511,44 @@ TOPIC
 Form definition 'NonExistantPluginTestForm' not found
 </span>
 <div class="foswikiForm foswikiFormStep">
-%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%
-<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>%IF{"context preview" then="<noautolink>"}%
+<h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>
+<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td>
   <td> Example </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TopicClassification </td>
   <td> SkinPackage </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnFoswiki </td>
   <td>  </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnTWiki </td>
   <td>  </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnOS </td>
   <td> AnyOS </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> ShouldRunOnOS </td>
   <td> AnyOS </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> DemoUrl </td>
   <td> http:// </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> DevelopedInSVN </td>
   <td> No </td>
- </tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%
+ </tr>
  <tr valign='top'>
   <td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td>
   <td> ContactAuthorFirst </td>
- </tr>%IF{"context preview" then="</noautolink>"}%
+ </tr>
 </table>
 </div>
 
