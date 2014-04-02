@@ -274,10 +274,26 @@ sub handleRequest {
     {
         $res = new Foswiki::Response();
         $res->header( -type => 'text/html', -status => '405' );
-        $res->print( 'Bad Request: '
+        $res->print( '<H1>Bad Request:</H1>  The request method: '
               . uc( $req->method() )
-              . ' denied for '
-              . $req->action() );
+              . ' is denied for the '
+              . $req->action()
+              . ' action.' );
+        if ( uc( $req->method() ) eq 'GET' ) {
+            $res->print( '<br/><br/>'
+                  . 'The <tt><b>'
+                  . $req->action()
+                  . '</b></tt> script can only be called with the <tt>POST</tt> type method'
+                  . '<br/><br/>'
+                  . 'For example:<br/>'
+                  . '&nbsp;&nbsp;&nbsp;<tt>&lt;form method="post" action="%SCRIPTURL{'
+                  . $req->action()
+                  . '}%/%WEB%/%TOPIC%"&gt;</tt><br/>'
+                  . '<br/><br/>See <a href="http://foswiki.org/System/CommandAndCGIScripts#A_61'
+                  . $req->action()
+                  . '_61">System.CommandAndCGIScripts</a> for more information.'
+            );
+        }
         return $res;
     }
     $res = _execute( $req, \&$sub, %{ $dispatcher->{context} } );
