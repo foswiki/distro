@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718137" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1396410293" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarINCLUDE
 ---+++ INCLUDE{"topic"} -- include other topic.
@@ -15,7 +15,7 @@
      | =section="name"= | Includes only the specified named section, as defined in the included topic by the [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION{"name" type="section"} ]] and [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION{"name" type="section"}]] macros. Nothing is shown if the named section does not exists. =section=""= is equivalent to not specifying a section | |
      | =PARONE="val 1"%BR% PARTWO="val 2"= | Any other parameter will be defined as a macro within the scope of the included topic. The example parameters on the left will result in =%<nop>PARONE%= and =%<nop>PARTWO%= being defined within the included topic. | |
    * Examples: See IncludeTopicsAndWebPages
-   * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[#VarINCLUDEURL][INCLUDE("URL")]], [[#VarINCLUDEdoc][INCLUDE("doc:")]] ,[[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]]
+   * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[#VarINCLUDEURL][INCLUDE("URL")]], [[#VarINCLUDEdoc][INCLUDE("doc:")]] ,[[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDINCLUDE][ENDINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]]
 #VarINCLUDEURL
 ---+++ INCLUDE{"url"} -- include a web page
    * Syntax: =%<nop>INCLUDE{"http://..." ...}%=  (See also the topic form of =%<nop>INCLUDE%=)

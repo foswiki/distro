@@ -213,6 +213,7 @@ data/System/VarDISPLAYTIME.txt 0644
 data/System/VarEDITACTION.txt 0644
 data/System/VarENCODE.txt 0644
 data/System/VarENDCOLOR.txt 0644
+data/System/VarENDINCLUDE.txt 0644
 data/System/VarENDSECTION.txt 0644
 data/System/VarENV.txt 0644
 data/System/VarEXPAND.txt 0644
@@ -295,6 +296,7 @@ data/System/VarSTARTINCLUDE.txt 0644
 data/System/VarSTARTSECTION.txt 0644
 data/System/VarSTATISTICSTOPIC.txt 0644
 data/System/VarSTOPINCLUDE.txt 0644
+data/System/VarSTOPSECTION.txt 0644
 data/System/VarSYSTEMWEB.txt 0644
 data/System/VarT.txt 0644
 data/System/VarTEAL.txt 0644

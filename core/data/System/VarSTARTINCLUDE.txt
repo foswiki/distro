@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1396410293" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSTARTINCLUDE
 ---+++ STARTINCLUDE -- start position of topic text if included
-   * If present in included topic, start to include text from this location up to the end, or up to the location of the =%<nop>STOPINCLUDE%= macro. A normal view of the topic shows everything exept the =%<nop>STARTINCLUDE%= macro itself.
+   * If present in included topic, start to include text from this location up to the end, or up to the location of the =%<nop>ENDINCLUDE%= macro. A normal view of the topic shows everything except the =%<nop>STARTINCLUDE%= macro itself.
    * Syntax: =%<nop>STARTINCLUDE%=
    <blockquote class="foswikiHelp">%T% If you want more than one part of the topic included, use =%<nop>STARTSECTION{type="include"}%= instead</blockquote>
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDINCLUDE][ENDINCLUDE]]
 

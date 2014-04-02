@@ -120,7 +120,7 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
     Foswiki::putBackBlocks( \$pod, \%removedblocks, 'verbatim', 'verbatim' );
 
     $pod =~ s/.*?%STARTINCLUDE%//s;
-    $pod =~ s/%STOPINCLUDE%.*//s;
+    $pod =~ s/%(?:END|STOP)INCLUDE%.*//s;
     if ($howSmelly) {
         my $podSmell =
             '<blockquote class="foswikiAlert">'

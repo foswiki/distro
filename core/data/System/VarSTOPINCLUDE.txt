@@ -1,8 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1396410293" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSTOPINCLUDE
----+++ STOPINCLUDE -- end position of topic text if included
-   * If present in included topic, stop to include text at this location and ignore the remaining text. A normal view of the topic shows everyting exept the =%<nop>STOPINCLUDE%= macro itself.
-   * Syntax: =%<nop>STOPINCLUDE%=
+---+++ STOPINCLUDE -- Alias for [[VarENDINCLUDE][ENDINCLUDE]]
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]]
 

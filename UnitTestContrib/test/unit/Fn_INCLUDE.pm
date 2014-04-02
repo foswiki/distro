@@ -70,7 +70,7 @@ sub run_test_simple {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-        '1 %STARTINCLUDE%2%STOPINCLUDE% 3' );
+        '1 %STARTINCLUDE%2%ENDINCLUDE% 3' );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 2 B',
         Foswiki::Func::expandCommonVariables(
@@ -90,7 +90,7 @@ sub run_test_simple {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-'1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{type="include"}%2%STOPSECTION{type="include"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 24 B',
@@ -101,7 +101,7 @@ sub run_test_simple {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-        '1 %STARTSECTION%2%ENDSECTION% 3' );
+        '1 %STARTSECTION%2%STOPSECTION% 3' );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 1 2 3 B',
         Foswiki::Func::expandCommonVariables(
@@ -121,7 +121,7 @@ sub run_test_simple {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 2 B',
@@ -132,7 +132,7 @@ sub run_test_simple {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 2 B',
@@ -143,7 +143,7 @@ sub run_test_simple {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $includeError ? "A  B" : 'A 2 B',
@@ -157,7 +157,7 @@ sub run_test_simple {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $noSectionError ? "A  B" : 'A 2 B',
@@ -325,7 +325,7 @@ sub test_simple_section {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-        '1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3' );
+        '1 %STARTSECTION{type="include"}%2%STOPSECTION{type="include"}% 3' );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 2 B',
         Foswiki::Func::expandCommonVariables(
@@ -339,7 +339,7 @@ sub test_simple_section {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-'1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 24 B',
@@ -368,7 +368,7 @@ sub test_simple_section {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-        '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3' );
+        '1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3' );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 1 2 3 B',
         Foswiki::Func::expandCommonVariables(
@@ -382,7 +382,7 @@ sub test_simple_section {
     );
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
-'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 2 B',
@@ -451,7 +451,7 @@ sub test_select_first_that_defines_section {
     }
 
     Foswiki::Func::saveTopic( $this->{test_web}, 'NoSection', undef,
-'1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->test_simple_section(
         'section_name',
@@ -469,7 +469,7 @@ sub test_select_first_that_defines_section {
 
     if ( !$this->check_dependency('Foswiki,<,1.2') ) {
         Foswiki::Func::saveTopic( $this->{test_web}, 'TheSection', undef,
-'1 %STARTSECTION{"section_name"}%::%ENDSECTION{"section_name"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
+'1 %STARTSECTION{"section_name"}%::%ENDSECTION{"section_name"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
         );
         $this->assert_str_equals(
             'A :: B',
@@ -607,7 +607,7 @@ sub test_3158 {
 Snurfle
 %STARTSECTION{"suction"}%
 Such a section!
-%ENDSECTION{"suction"}%
+%STOPSECTION{"suction"}%
 Out of scope
 THIS
     $inkyDink->save();
@@ -657,11 +657,11 @@ sub test_5649 {
 Snurfle
 %STARTSECTION{"suction"}%
 Such a section!
-%ENDSECTION{"suction"}%
+%STOPSECTION{"suction"}%
 Out of scope
 THIS
     my $handledTopicText = $topicText;
-    $handledTopicText =~ s/%(START|END)SECTION{"suction"}%//g;
+    $handledTopicText =~ s/%(START|STOP|END)SECTION{"suction"}%//g;
 
     my ($inkyDink) =
       Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
@@ -953,7 +953,7 @@ HERE
 
     Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic . 'Next',
         undef, <<'HERE' );
-%STARTSECTION{"one" one="_"}% %one% %two% - %INCLUDE{"%nest%" section="one" one="%one%"}% - %three% %last% %ENDSECTION{"one" last="999"}%
+%STARTSECTION{"one" one="_"}% %one% %two% - %INCLUDE{"%nest%" section="one" one="%one%"}% - %three% %last% %STOPSECTION{"one" last="999"}%
 HERE
 
     $this->assert_str_equals(

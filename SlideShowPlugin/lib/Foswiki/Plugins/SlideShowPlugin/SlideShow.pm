@@ -242,19 +242,20 @@ sub renderSlideToc {
 sub readSlideTemplate {
     my $this = shift;
 
-    my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $this->{web},
+    my ( $web, $topic ) =
+      Foswiki::Func::normalizeWebTopicName( $this->{web},
         $this->{params}{template} || $this->{defaultTemplateTopic} );
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
-    # remove everything before %STARTINCLUDE% and after %STOPINCLUDE%
+    # remove everything before %STARTINCLUDE% and after %STOP/ENDINCLUDE%
     unless ($text) {
         return _htmlAlert( "%SYSTEMWEB%.SlideShowPlugin Error:",
             "Slide template topic <nop>$web.$topic not found or empty!" );
     }
 
     $text =~ s/.*?%STARTINCLUDE%//s;
-    $text =~ s/%STOPINCLUDE%.*//s;
+    $text =~ s/%(?:END|STOP)INCLUDE%.*//s;
 
     unless ( $text =~ /%SLIDETITLE%/ && $text =~ /%SLIDETEXT%/ ) {
         return _htmlAlert(

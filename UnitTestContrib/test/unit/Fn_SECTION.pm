@@ -119,12 +119,40 @@ sub test_sections8 {
     );
 }
 
+sub test_sections8S {
+    my $this = shift;
+
+    # Unnamed sections of different types overlap
+    my $text =
+'0%STARTSECTION{type="include"}%1%STARTSECTION{type="templateonly"}%2%STOPSECTION{type="include"}%3%STOPSECTION{type="templateonly"}%4';
+    my ( $nt, $s ) = Foswiki::parseSections($text);
+    $this->assert_str_equals( "01234", $nt );
+    $this->assert_str_equals(
+'end="3" name="_SECTION0" start="1" type="include";end="4" name="_SECTION1" start="2" type="templateonly"',
+        dumpsec($s)
+    );
+}
+
 sub test_sections9 {
     my $this = shift;
 
     # Named sections of same type overlap
     my $text =
 '0%STARTSECTION{"one"}%1%STARTSECTION{"two"}%2%ENDSECTION{"one"}%3%ENDSECTION{"two"}%4';
+    my ( $nt, $s ) = Foswiki::parseSections($text);
+    $this->assert_str_equals( "01234", $nt );
+    $this->assert_str_equals(
+'end="3" name="one" start="1" type="section";end="4" name="two" start="2" type="section"',
+        dumpsec($s)
+    );
+}
+
+sub test_sections9S {
+    my $this = shift;
+
+    # Named sections of same type overlap
+    my $text =
+'0%STARTSECTION{"one"}%1%STARTSECTION{"two"}%2%STOPSECTION{"one"}%3%STOPSECTION{"two"}%4';
     my ( $nt, $s ) = Foswiki::parseSections($text);
     $this->assert_str_equals( "01234", $nt );
     $this->assert_str_equals(
@@ -147,6 +175,20 @@ sub test_sections10 {
     );
 }
 
+sub test_sections10S {
+    my $this = shift;
+
+    # Named sections nested
+    my $text =
+'0%STARTSECTION{name="one"}%1%STARTSECTION{name="two"}%2%STOPSECTION{name="two"}%3%STOPSECTION{name="one"}%4';
+    my ( $nt, $s ) = Foswiki::parseSections($text);
+    $this->assert_str_equals( "01234", $nt );
+    $this->assert_str_equals(
+'end="4" name="one" start="1" type="section";end="3" name="two" start="2" type="section"',
+        dumpsec($s)
+    );
+}
+
 # For test_manysections, Item10316
 sub _manysections_inc {
     my ( $this, $section ) = @_;
@@ -160,27 +202,27 @@ HERE
 }
 
 sub _manysections_setup {
-    my ($this) = @_;
-    my $junk   = "I am a fish.\n" x 100;
-    my $text   = <<"HERE";
+    my ( $this, $end ) = @_;
+    my $junk = "I am a fish.\n" x 100;
+    my $text = <<"HERE";
 Pre-INCLUDEable %STARTINCLUDE% In-the-INCLUDEable bit $junk
-%STARTSECTION{"1"}% 1 content $junk%ENDSECTION{"1"}%
+%STARTSECTION{"1"}% 1 content $junk%${end}SECTION{"1"}%
 %STARTSECTION{"2"}% 2 content
-%STARTSECTION{"21"}% 2.1 content $junk%ENDSECTION{"21"}%
+%STARTSECTION{"21"}% 2.1 content $junk%${end}SECTION{"21"}%
 %STARTSECTION{"22"}% 2.2 content
-%STARTSECTION{"221"}% 2.2.1 content $junk%ENDSECTION{"221"}%
-%STARTSECTION{"222" ignored="asd"}% 2.2.2 content $junk%ENDSECTION{"222"}%
-%STARTSECTION{"223"}% 2.2.3 content $junk%ENDSECTION{"223" ignoreend="oooooo"}%
-%STARTSECTION{"224"}% 2.2.4 start continued content $junk%ENDSECTION{"224"}%
-%STARTSECTION{"224"}% 2.2.4b continue continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"22"}%
-%STARTSECTION{"23"}% 2.3 content %STARTSECTION{"224"}% 2.2.4c continue again continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"23"}%
-%STARTSECTION{"224"}% 2.2.4d continue yet again continued content $junk%ENDSECTION{"224"}%
+%STARTSECTION{"221"}% 2.2.1 content $junk%${end}SECTION{"221"}%
+%STARTSECTION{"222" ignored="asd"}% 2.2.2 content $junk%${end}SECTION{"222"}%
+%STARTSECTION{"223"}% 2.2.3 content $junk%${end}SECTION{"223" ignoreend="oooooo"}%
+%STARTSECTION{"224"}% 2.2.4 start continued content $junk%${end}SECTION{"224"}%
+%STARTSECTION{"224"}% 2.2.4b continue continued content $junk%${end}SECTION{"224"}%$junk%${end}SECTION{"22"}%
+%STARTSECTION{"23"}% 2.3 content %STARTSECTION{"224"}% 2.2.4c continue again continued content $junk%${end}SECTION{"224"}%$junk%${end}SECTION{"23"}%
+%STARTSECTION{"224"}% 2.2.4d continue yet again continued content $junk%${end}SECTION{"224"}%
 $junk
-%ENDSECTION{"2"}%
+%${end}SECTION{"2"}%
 Still-in-the-INCLUDEable bit
-%STARTSECTION{"224"}% 2.2.4e continue yet again more continued content $junk%ENDSECTION{"224"}%
-$junk%STOPINCLUDE% Post-INCLUDEable 
-%STARTSECTION{"3"}% 3 content %STARTSECTION{"224"}% 2.2.4f continue yet again even more continued content $junk%ENDSECTION{"224"}%$junk%ENDSECTION{"3"}%
+%STARTSECTION{"224"}% 2.2.4e continue yet again more continued content $junk%${end}SECTION{"224"}%
+$junk%${end}INCLUDE% Post-INCLUDEable
+%STARTSECTION{"3"}% 3 content %STARTSECTION{"224"}% 2.2.4f continue yet again even more continued content $junk%${end}SECTION{"224"}%$junk%${end}SECTION{"3"}%
 HERE
     my ($topicObj) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -232,9 +274,21 @@ HERE
     );
 }
 
-sub test_manysections {
+sub test_manysections_END {
     my ($this) = @_;
-    my %sections = $this->_manysections_setup();
+    my %sections = $this->_manysections_setup('END');
+
+    foreach my $section ( keys %sections ) {
+        $this->assert_str_equals( $sections{$section},
+            $this->_manysections_inc($section) );
+    }
+
+    return;
+}
+
+sub test_manysections_STOP {
+    my ($this) = @_;
+    my %sections = $this->_manysections_setup('STOP');
 
     foreach my $section ( keys %sections ) {
         $this->assert_str_equals( $sections{$section},
@@ -246,7 +300,7 @@ sub test_manysections {
 
 sub test_manysections_timing {
     my ($this)      = @_;
-    my %sections    = $this->_manysections_setup();
+    my %sections    = $this->_manysections_setup('STOP');
     my $numsections = scalar( keys %sections );
     my $numcycles   = 50;
     my $benchmark   = timeit(

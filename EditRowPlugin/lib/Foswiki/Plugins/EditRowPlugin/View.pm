@@ -187,7 +187,7 @@ sub process {
           )
         {
             $precruft  = "<!-- STARTINCLUDE $_[2].$_[1] -->\n";
-            $postcruft = "\n<!-- STOPINCLUDE $_[2].$_[1] -->";
+            $postcruft = "\n<!-- (?:END|STOP)INCLUDE $_[2].$_[1] -->";
         }
         $_         = $precruft . $line . $postcruft;
         $hasTables = 1;

@@ -305,12 +305,14 @@ BEGIN {
 
         # Constant tag strings _not_ dependent on config. These get nicely
         # optimised by the compiler.
+        STOPSECTION  => sub { '' },
         ENDSECTION   => sub { '' },
         WIKIVERSION  => sub { $VERSION },
         WIKIRELEASE  => sub { $RELEASE },
         STARTSECTION => sub { '' },
         STARTINCLUDE => sub { '' },
         STOPINCLUDE  => sub { '' },
+        ENDINCLUDE   => sub { '' },
     );
     $contextFreeSyntax{IF} = 1;
 
@@ -2490,7 +2492,9 @@ sub parseSections {
     my $seq    = 0;
     my $ntext  = '';
     my $offset = 0;
-    foreach my $bit ( split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $text ) ) {
+    foreach
+      my $bit ( split( /(%(?:START|STOP|END)SECTION(?:{.*?})?%)/, $text ) )
+    {
         if ( $bit =~ /^%STARTSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
 
@@ -2523,7 +2527,7 @@ sub parseSections {
             $sections{$id}  = $attrs;
             push( @list, $attrs );
         }
-        elsif ( $bit =~ /^%ENDSECTION(?:{(.*)})?%$/ ) {
+        elsif ( $bit =~ /^%(?:END|STOP)SECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
 
             # SMELL: unchecked implicit untaint?

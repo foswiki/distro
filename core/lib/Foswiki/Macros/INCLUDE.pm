@@ -218,7 +218,7 @@ sub _includeTopic {
         # a section is explicitly defined
         if ( !$control->{section} ) {
             $text =~ s/.*?%STARTINCLUDE%//s;
-            $text =~ s/%STOPINCLUDE%.*//s;
+            $text =~ s/%(?:END|STOP)INCLUDE%.*//s;
         }
 
         # prevent dirty areas in included topics from being parsed

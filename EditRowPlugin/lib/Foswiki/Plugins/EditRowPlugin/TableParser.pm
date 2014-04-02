@@ -35,7 +35,7 @@ sub parse {
 
     # them from processing as tables by converting them to verbatim.
     $text =~ s/<!-- (STARTINCLUDE .*?) -->/<verbatim \001="$1">/g;
-    $text =~ s/<!-- (STOPINCLUDE .*?) -->/<\/verbatim \001="$1">/g;
+    $text =~ s/<!-- ((?:END|STOP)INCLUDE .*?) -->/<\/verbatim \001="$1">/g;
 
     $this->SUPER::parse( $text, $meta );
 
@@ -82,7 +82,7 @@ sub parse {
         }
         else {
 
-            # STARTINCLUDE/STOPINCLUDE support
+            # STARTINCLUDE/STOP/ENDINCLUDE support
             $t =~ s/<\/?verbatim \001="(.*?)">/<!-- $1 -->/gs;
         }
         push( @result, $t );
