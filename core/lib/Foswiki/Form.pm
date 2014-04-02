@@ -663,6 +663,7 @@ sub renderForDisplay {
     $templates->readTemplate('formtables');
 
     my $text = $templates->expandTemplate('FORM:display:header');
+    $text =~ s/\$title/$this->getPath()/ge;
 
     my $rowTemplate        = $templates->expandTemplate('FORM:display:row');
     my $hasAllFieldsHidden = 1;
@@ -674,21 +675,20 @@ sub renderForDisplay {
             $hasAllFieldsHidden = 0;
             my $row = $rowTemplate;
 
-            # Legacy; was %A_TITLE% before it was $title
+            # Legacy; handle special macros
             $row =~ s/%A_TITLE%/\$title/g;
-            $row =~ s/%A_VALUE%/\$value/g;    # Legacy
+            $row =~ s/%A_VALUE%/\$value(display)/g;    # Legacy
 
-            # display => 1 gets mapped values (rather than raw)
-            $text .=
-              $fieldDef->renderForDisplay( $row, $fm->{value},
-                { display => 1 } );
+            $text .= $fieldDef->renderForDisplay( $row, $fm->{value} );
         }
     }
     return '' if $hasAllFieldsHidden;
 
-    $text .= $templates->expandTemplate('FORM:display:footer');
+    my $footer = $templates->expandTemplate('FORM:display:footer');
+    $footer =~ s/\$title/$this->getPath()/ge;
+    $text .= $footer;
 
-    # substitute remaining placeholders in footer and header
+    # Legacy: substitute remaining placeholders in header and footer
     $text =~ s/%A_TITLE%/$this->getPath()/ge;
 
     return $text;

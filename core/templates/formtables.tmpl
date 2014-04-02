@@ -1,21 +1,27 @@
-%{ This is a default template }%%{ These templates define the form attached at the bottom of viewed page. }%
+%{ This is a default template }%
 
-%{ Header definition for topic attachments and top table in attach screen }%
+%{These templates define the form attached at the bottom of viewed page. }%
+
+%TMPL:DEF{noal}%<noautolink>%TMPL:END%
+%TMPL:DEF{nonoal}%</noautolink>%TMPL:END%
+
+%{ Header definition for topic attachments and top table in attach screen.
+   The $title token will be expanded }%
 %TMPL:DEF{FORM:display:header}%
 <div class="foswikiForm">
-<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr><th class='foswikiFormTableHRow foswikiFirstCol' colspan='2'>%IF{"context preview" then="%TMPL:P{FORM:display:titlename}%" else="%TMPL:P{FORM:display:titlelink}%"}% </th></tr>%TMPL:END%
+<table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><tr><th class='foswikiFormTableHRow foswikiFirstCol' colspan='2'>%TMPL:P{context="preview" then="FORM:display:titlename" else="FORM:display:titlelink"}% </th></tr>%TMPL:END%
 
-%{ Each row }%
-%TMPL:DEF{FORM:display:row}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> %A_TITLE%</td><td> %A_VALUE% </td></tr>%IF{"context preview" then="</noautolink>"}%%TMPL:END%
+%{ Each row, all field tokens will be expanded }%
+%TMPL:DEF{FORM:display:row}%%TMPL:P{context="preview" then="noal"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> $title</td><td> $value(display) </td></tr>%TMPL:P{context="preview" then="nonoal"}%%TMPL:END%
 
-%{ Footer }%
+%{ Footer. The $title token will be expanded }%
 %TMPL:DEF{FORM:display:footer}%</table></div>%TMPL:END%
 
 
-%TMPL:DEF{FORM:display:titlelink}% %A_TITLE% %TMPL:P{FORM:display:editlink}%%TMPL:END%
+%TMPL:DEF{FORM:display:titlelink}% $title %TMPL:P{FORM:display:editlink}%%TMPL:END%
 
 
-%TMPL:DEF{FORM:display:titlename}%<noautolink> %A_TITLE% </noautolink>%TMPL:END%
+%TMPL:DEF{FORM:display:titlename}%<noautolink> $title </noautolink>%TMPL:END%
 
 
 %TMPL:DEF{FORM:display:editlink}%<span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span>%TMPL:END%

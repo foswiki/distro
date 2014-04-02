@@ -1334,13 +1334,13 @@ sub displayFormField {
     my ( $meta, $args ) = @_;
 
     my ( $name, @params ) = split( /,\s*/, $args );
-    my $displayedVal = 0;    # default is to show the unmapped value
-    my $breakArgs    = '';
+    my $format    = '$value';    # default is to show the unmapped value
+    my $breakArgs = '';
     if (@params) {
         if ( $params[0] eq 'display' ) {
 
             # The displayed value is required
-            $displayedVal = 1;
+            $format = '$value(display)';
             shift @params;
         }
         $breakArgs = join( ',', @params );
@@ -1351,12 +1351,11 @@ sub displayFormField {
     # can't be repaired by the options on %SEARCH. 'nomap' goes some
     # way to curing the problem, but it's still not ideal :-(
     return $meta->renderFormFieldForDisplay(
-        $name, '$value',
+        $name, $format,
         {
             break         => $breakArgs,
             protectdollar => 1,
-            showhidden    => 1,
-            display       => $displayedVal
+            showhidden    => 1
         }
     );
 }

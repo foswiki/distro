@@ -350,15 +350,26 @@ sub createMetaKeyValues {
 
 =begin TML
 
----++ ObjectMethod renderForDisplay($format, $attrs) -> $html
+---++ ObjectMethod renderForDisplay($format, $value, $attrs) -> $html
 
 Render the field for display, under the control of $attrs.
 
-The following vars in $format are expanded:
-   $title - title of the form field
-   $value - expanded to the *protected* value of the form field
-
 The value is protected by Foswiki::Render::protectFormFieldValue.
+
+=$attrs= interpreted are:
+   * =showhidden= - set to override H attribute
+   * =newline= - replace newlines with this (default &lt;br>)
+   * =bar= - replace vbar with this (default &amp;#124)
+   * =break= - boolean, set to hyphenate
+   * =protectdollar= - set to escape $
+
+The following tokens in =$format= are expanded:
+   * =$title= - title of the form field
+   * =$value= - expanded to the *protected* value of the form field
+   * =$attributes= - from the field definition
+   * =$type= - from the field definition
+   * =$size= - from the field definition
+   * =$definingTopic= - topic in which the field is defined
 
 =cut
 
@@ -373,10 +384,16 @@ sub renderForDisplay {
     }
 
     require Foswiki::Render;
-    $value = Foswiki::Render::protectFormFieldValue( $value, $attrs );
-
     $format =~ s/\$title/$this->{title}/g;
-    $format =~ s/\$value/$this->renderValueForDisplay($value)/ge;
+    if ( $format =~ /\$value\(display\)/ ) {
+        my $vd = Foswiki::Render::protectFormFieldValue(
+            $this->getDisplayValue($value), $attrs );
+        $format =~ s/\$value\(display\)/$vd/g;
+    }
+    if ( $format =~ /\$value/ ) {
+        my $v = Foswiki::Render::protectFormFieldValue( $value, $attrs );
+        $format =~ s/\$value/$v/g;
+    }
     $format =~ s/\$name/$this->{name}/g;
     $format =~ s/\$attributes/$this->{attributes}/g;
     $format =~ s/\$type/$this->{type}/g;
@@ -389,18 +406,20 @@ sub renderForDisplay {
 
 =begin TML
 
----++ ObjectMethod renderValueForDisplay($value) -> $html
+---++ ObjectMethod getDisplayValue($value) -> $html
 
-Render the field value for display, to be overridden by subclasses.
-Default implementation passes the value unchanged.
+Given a value for this form field, return the *mapped* value suitable for
+display. This is used when a form field must be displayed using a different
+format to the way the value is stored.
+
+The default does nothing.
 
 =cut
 
-sub renderValueForDisplay {
+sub getDisplayValue {
+    my ( $this, $value ) = @_;
 
-    # my ( $this, $value ) = @_;
-
-    return $_[1];
+    return $value;
 }
 
 # Debug

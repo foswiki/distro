@@ -84,25 +84,22 @@ sub isMultiValued { return 1; }
 
 sub isValueMapped { return shift->{type} =~ /\+values/; }
 
-sub renderForDisplay {
-    my ( $this, $format, $value, $attrs ) = @_;
+sub getDisplayValue {
+    my ( $this, $value ) = @_;
+
+    return $value unless $this->isValueMapped();
 
     $this->getOptions();
-
-    if ( $attrs->{display} && $this->isValueMapped() ) {
-        my @vals = ();
-        foreach my $val ( split( /\s*,\s*/, $value ) ) {
-            if ( defined( $this->{valueMap}{$val} ) ) {
-                push @vals, $this->{valueMap}{$val};
-            }
-            else {
-                push @vals, $val;
-            }
+    my @vals = ();
+    foreach my $val ( split( /\s*,\s*/, $value ) ) {
+        if ( defined( $this->{valueMap}{$val} ) ) {
+            push @vals, $this->{valueMap}{$val};
         }
-        $value = join( ", ", @vals );
+        else {
+            push @vals, $val;
+        }
     }
-
-    return $this->SUPER::renderForDisplay( $format, $value, $attrs );
+    return join( ", ", @vals );
 }
 
 sub renderForEdit {

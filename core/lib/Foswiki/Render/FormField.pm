@@ -69,14 +69,19 @@ sub render {
             $found = 1;
             my $value = $field->{value};
             $text = $default if !length($value);
-            $text =~ s/\$title/$title/go;
-            $text =~ s/\$value/$value/go;
+            $text =~ s/\$title/$title/g;
+            $text =~ s/\$value(display)//go;
+
+            $text =~ s/\$value/$value/g;
             $text =~ s/\$name/$name/g;
-            if ( $text =~ m/\$form/ ) {
+
+            # $formname is correct. $form works but is deprecated for
+            # compatibility with SEARCH{format}
+            if ( $text =~ m/\$form(name)?/ ) {
                 my @defform = $formTopicObject->find('FORM');
                 my $form  = $defform[0];     # only one form per topic
                 my $fname = $form->{name};
-                $text =~ s/\$form/$fname/g;
+                $text =~ s/\$form(name)?/$fname/g;
             }
 
             last;                            # one hit suffices

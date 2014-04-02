@@ -1,10 +1,11 @@
 %TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"action_activatable_edit_or_create"}%%TMPL:P{"action_activatable_attach"}%%TMPL:P{"action_activatable_subscribe"}%%TMPL:P{"action_printable"}%%TMPL:P{"action_revisions"}%%TMPL:P{"action_backlinks_simple"}%%TMPL:P{"action_raw_or_view"}%%TMPL:P{"action_activatable_raw_edit"}%%TMPL:P{"activatable_more"}%%TMPL:END%
 
+%TMPL:DEF{nowysiwyg}%;nowysiwyg=1%TMPL:END%
 
-%TMPL:DEF{"create_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%IF{"context TinyMCEPluginEnabled" else=";nowysiwyg=1"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a></span>%TMPL:END%
+%TMPL:DEF{"create_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a></span>%TMPL:END%
 
 
-%TMPL:DEF{"edit_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%IF{"context TinyMCEPluginEnabled" then="" else=";nowysiwyg=1"}%' rel='nofollow' %MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%</a></span>%TMPL:END%
+%TMPL:DEF{"edit_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%</a></span>%TMPL:END%
 
 %TMPL:DEF{"raw_edit_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%;nowysiwyg=1' rel='nofollow' %MAKETEXT{"title='Edit Wiki text' accesskey='w'>Edit &wiki text"}%</a></span>%TMPL:END%
 
@@ -101,11 +102,7 @@
 
 %TMPL:DEF{"backlinks_simple"}%%TMPL:P{"backlinks_link"}%%TMPL:END%
 
-%TMPL:DEF{"action_backlinks_simple"}%%TMPL:P{"backlinks_simple"}%%TMPL:P{"sep"}%%TMPL:END%
-
-
-
-%TMPL:DEF{"history_rdiff"}%%TMPL:P{"history_rdiff_link"}%%TMPL:END%
+%TMPL:DEF{"action_backlinks_simple"}%%TMPL:P{"backlinks_simple"}%%TMPL:P{"sep"}%%TMPL:END%:%TMPL:DEF{"history_rdiff"}%%TMPL:P{"history_rdiff_link"}%%TMPL:END%
 
 
 %TMPL:DEF{"history_history"}%%TMPL:P{"history_history_link"}%%TMPL:END%

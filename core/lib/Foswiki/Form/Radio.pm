@@ -67,15 +67,16 @@ sub getOptions {
     return $vals;
 }
 
-sub renderForDisplay {
-    my ( $this, $format, $value, $attrs ) = @_;
+sub getDisplayValue {
+    my ( $this, $value ) = @_;
 
     $this->getOptions();
 
+    # SMELL: shouldn't this be in getDisplayValue?
     if ( defined( $this->{valueMap}{$value} ) ) {
         $value = $this->{valueMap}{$value};
     }
-    return $this->SUPER::renderForDisplay( $format, $value, $attrs );
+    return $value;
 }
 
 sub renderForEdit {

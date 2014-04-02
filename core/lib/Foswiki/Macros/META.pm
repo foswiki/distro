@@ -45,8 +45,13 @@ sub META {
     elsif ( $option eq 'formfield' ) {
 
         # a formfield from within topic text
-        return $topicObject->renderFormFieldForDisplay( $params->get('name'),
-            '$value', $params );
+        return $topicObject->renderFormFieldForDisplay(
+            $params->get('name'),
+            Foswiki::isTrue( $params->{display} )
+            ? '$value(display)'
+            : '$value',
+            $params
+        );
     }
     elsif ( $option eq 'attachments' ) {
 
