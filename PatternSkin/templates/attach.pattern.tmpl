@@ -44,7 +44,7 @@ class="foswikiHelp"
 <noautolink><input type="hidden" name="filename" value="%FILENAME%" /> 
 <input class="foswikiInputField" type="file" name="filepath" value="%FILEPATH%" size="70" /></noautolink>
 </div>
-%IF{"context BatchUploadPluginEnabled" then="$percntTMPL:P{$quotbatchupload$quot}$percnt"}%%TMPL:END%
+%TMPL:P{context="BatchUploadPluginEnabled" then="batchupload"}%%TMPL:END%
 
 %TMPL:DEF{"batchupload"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Upload multiple attachments in one zip file"}%

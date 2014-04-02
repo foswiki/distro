@@ -14,7 +14,7 @@
 %TMPL:DEF{ATTACH:files:tableformat}%%TABLE{%TMPL:P{"commonattachtableattributes"}%summary="%MAKETEXT{"Topic attachments"}%" caption="%MAKETEXT{"Topic attachments"}%"}%%TMPL:END%
 
 %{ Header for topic attachment table }%
-%TMPL:DEF{ATTACH:files:header}%<div class="foswikiAttachments foswikiFormStep">
+%TMPL:DEF{ATTACH:files:header}%<div class="foswikiAttachments foswikiFormStep" style="overflow:auto">
 %TMPL:P{context="TablePluginEnabled" then="ATTACH:files:tableformat"}%
 %TMPL:P{"topicattachmentwisty"}%
 %TMPL:P{ATTACH:files:header(toprow)}%
