@@ -122,6 +122,51 @@ sub verify_CreateWeb {
     return;
 }
 
+sub verify_CreateWebWithAttachments {
+    my $this = shift;
+
+    my $webObject = $this->populateNewWeb( $web, '_default' );
+    my $it        = $webObject->eachTopic();
+    my $topic     = $it->next();
+    my $top = Foswiki::Meta->load( $this->{session}, $webObject->web, $topic );
+    my $fh;
+    open( $fh, '>', "$Foswiki::cfg{TempfileDir}/$topic" );
+    $this->assert($fh);
+    my $nonsense = time . <<NONSENSE;
+Twas brillig, and the slithy toves
+did gyre and gimbal in the wabe.
+All mimsy were the borogroves,
+and the mome raths outgrabe.
+NONSENSE
+    print $fh $nonsense;
+    close($fh);
+    open( $fh, '<', "$Foswiki::cfg{TempfileDir}/$topic" );
+    $top->attach(
+        name          => 'Nom',
+        dontlog       => 1,
+        comment       => 'Idiot',
+        hide          => 1,
+        stream        => $fh,
+        notopicchange => 1
+    );
+    close($fh);
+    $top->save();
+    $webObject->finish();
+    unlink "$Foswiki::cfg{TempfileDir}/$topic";
+
+    # make another web, using the one we created as a template
+    $webObject = $this->populateNewWeb( "Another$web", $web );
+
+    $top = Foswiki::Meta->load( $this->{session}, $webObject->web, $topic );
+    $fh = $top->openAttachment( 'Nom', '<' );
+    $this->assert($fh);
+    local $/;
+    $this->assert_str_equals( $nonsense, <$fh> );
+    close($fh);
+    $webObject->finish();
+    return;
+}
+
 # Create a web using non-existent Web - it should not create the web
 sub verify_CreateWebWithNonExistantBaseWeb {
     my $this = shift;
