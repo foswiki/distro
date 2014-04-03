@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1396504243" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarMETA
 ---+++ META -- displays meta-data
@@ -41,7 +41,5 @@ The first (unnamed) parameter indicates what meta-data we want to see:
         entity so as to not be mistaken for a table separator.
       * =display="on"= - only used with ="formfield"=, retrieves the *displayed* value of a =*+values= formfield type, as against the default, *stored*, value.
    * =topic="Main.WebPreferences"= - optional parameter to select which topic to get the meta-data from.
-<blockquote class="foswikiHelp">%X% Use of ="formfield"= is *deprecated* in favour of the much
-more powerful =QUERY= macro.</blockquote>
 
 Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarQUERY][QUERY]]
