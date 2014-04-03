@@ -354,22 +354,30 @@ sub createMetaKeyValues {
 
 Render the field for display, under the control of $attrs.
 
-The value is protected by Foswiki::Render::protectFormFieldValue.
+(protected) means the resulting string is run through
+Foswiki::Render::protectFormFieldValue.
 
-=$attrs= interpreted are:
-   * =showhidden= - set to override H attribute
-   * =newline= - replace newlines with this (default &lt;br>)
-   * =bar= - replace vbar with this (default &amp;#124)
-   * =break= - boolean, set to hyphenate
-   * =protectdollar= - set to escape $
-
-The following tokens in =$format= are expanded:
-   * =$title= - title of the form field
-   * =$value= - expanded to the *protected* value of the form field
-   * =$attributes= - from the field definition
-   * =$type= - from the field definition
-   * =$size= - from the field definition
-   * =$definingTopic= - topic in which the field is defined
+   * =format= - the format to be expanded. The following tokens are available:
+      * =$title= - title of the form field. if this is not available
+        from the value, then the default title is taken from the form
+        field definition.
+      * =$value= - expanded to the (protected) value of the form field
+        *before mapping*
+      * =$value(display) - expanded to the (protected) value of the form
+        field *after* mapping
+      * =$attributes= - from the field definition
+      * =$type= - from the field definition
+      * =$size= - from the field definition
+      * =$definingTopic= - topic in which the field is defined
+   * =$value= - the scalar value of the field
+   * =$attrs= - attributes. Fields used are:
+      * =showhidden= - set to override H attribute
+      * =newline= - replace newlines with this (default &lt;br>)
+      * =bar= - replace vbar with this (default &amp;#124)
+      * =break= - boolean, set to hyphenate
+      * =protectdollar= - set to escape $
+      * =usetitle= - if set, use this for the title rather than the title
+        from the form definition
 
 =cut
 
@@ -383,8 +391,12 @@ sub renderForDisplay {
         }
     }
 
+    my $title = $this->{title};    # default
+    $title = $attrs->{usetitle} if defined $attrs->{usetitle};
+
     require Foswiki::Render;
-    $format =~ s/\$title/$this->{title}/g;
+
+    $format =~ s/\$title/$title/g;
     if ( $format =~ /\$value\(display\)/ ) {
         my $vd = Foswiki::Render::protectFormFieldValue(
             $this->getDisplayValue($value), $attrs );
@@ -400,6 +412,11 @@ sub renderForDisplay {
     $format =~ s/\$size/$this->{size}/g;
     my $definingTopic = $this->{definingTopic} || 'FIELD';
     $format =~ s/\$definingTopic/$definingTopic/g;
+
+    # remove nop exclamation marks from form field value before it is put
+    # inside a format like [[$topic][$formfield()]] that prevents it being
+    # detected
+    $format =~ s/!($Foswiki::regex{wikiWordRegex})/<nop>$1/gs;
 
     return $format;
 }

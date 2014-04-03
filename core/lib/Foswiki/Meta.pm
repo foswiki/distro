@@ -1789,7 +1789,6 @@ sub renderFormFieldForDisplay {
     my ( $this, $name, $format, $attrs ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    my $value;
     my $mf = $this->get( 'FIELD', $name );
     unless ($mf) {
 
@@ -1800,13 +1799,6 @@ sub renderFormFieldForDisplay {
     }
     return '' unless $mf;    # field not found
 
-    $value = $mf->{value};
-
-    # remove nop exclamation marks from form field value before it is put
-    # inside a format like [[$topic][$formfield()]] that prevents it being
-    # detected
-    $value =~ s/!(\w+)/<nop>$1/gos;
-
     my $fname = $this->getFormName();
     if ($fname) {
         require Foswiki::Form;
@@ -1816,7 +1808,9 @@ sub renderFormFieldForDisplay {
               new Foswiki::Form( $this->{_session}, $this->{_web}, $fname );
             my $field = $form->getField($name);
             if ($field) {
-                $result = $field->renderForDisplay( $format, $value, $attrs );
+                $attrs->{usetitle} = $mf->{title};
+                $result =
+                  $field->renderForDisplay( $format, $mf->{value}, $attrs );
             }
         }
         catch Foswiki::OopsException with {
@@ -1832,8 +1826,9 @@ sub renderFormFieldForDisplay {
     if ($f) {
         $format =~ s/\$title/$f->{title}/;
         require Foswiki::Render;
-        $value = Foswiki::Render::protectFormFieldValue( $value, $attrs );
-        $format =~ s/\$value/$value/;
+        my $value =
+          Foswiki::Render::protectFormFieldValue( $mf->{value}, $attrs );
+        $format =~ s/\$value(\([^)]*\))?/$value/;
     }
     return $format;
 }

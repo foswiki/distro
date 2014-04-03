@@ -1702,6 +1702,11 @@ See http://blog.fox.geek.nz/2010/11/searching-design-spec-for-ultimate.html for 
 
 sub load_package {
     my $fullname = shift;
+
+    # Is it already loaded? If so, it might be an internal class an missing
+    # from @INC, so skip it. See perldoc UNIVERSAL for what this does.
+    return if eval { $fullname->isa($fullname) };
+
     $fullname =~ s{::}{/}g;
     $fullname .= '.pm';
     require $fullname;

@@ -16,6 +16,7 @@ BEGIN {
 
 sub FORMFIELD {
     my ( $this, $args, $topicObject ) = @_;
+
     if ( $args->{topic} ) {
         my $web = $args->{web} || $topicObject->web;
         my $topic = $args->{topic};
@@ -32,8 +33,85 @@ sub FORMFIELD {
         $args->{rev} =
           Foswiki::Store::cleanUpRevID( $args->{rev} || $cgiRev ) || '';
     }
-    require Foswiki::Render::FormField;
-    return Foswiki::Render::FormField::render( $this, $args, $topicObject );
+
+    my $formField = $args->{_DEFAULT};
+    return '' unless defined $formField;
+
+    my $text;
+
+    my $fdef = $topicObject->get( 'FIELD', $formField );
+    if ( $fdef && ( !defined $fdef->{value} || $fdef->{value} eq '' ) ) {
+
+        # SMELL: weird; ignores format=
+        $text = $args->{default} || '';
+        $text =~ s/!($Foswiki::regex{wikiWordRegex})/<nop>$1/gs;
+        return $text;
+    }
+
+    my $altText = $args->{alttext};
+    my $default = $args->{default};
+    my $rev     = $args->{rev} || '';
+    my $format  = $args->{format};
+
+    $altText = '' unless defined $altText;
+    $default = '' unless defined $default;
+
+    unless ( defined $format ) {
+        $format = '$value';
+    }
+
+    my $formTopicObject = $this->{_ffCache}{ $topicObject->getPath() . $rev };
+
+    unless ($formTopicObject) {
+        $formTopicObject =
+          Foswiki::Meta->load( $this, $topicObject->web, $topicObject->topic,
+            $rev );
+        unless ( $formTopicObject->haveAccess('VIEW') ) {
+
+            # Access violation, create dummy meta with empty text, so
+            # it looks like it was already loaded.
+            $formTopicObject = Foswiki::Meta->new( $this, $topicObject->web,
+                $topicObject->topic, '' );
+        }
+
+        $this->{_ffCache}{ $formTopicObject->getPath() . $rev } =
+          $formTopicObject;
+    }
+
+    my $found = 0;
+    my $field = $formTopicObject->get( 'FIELD', $formField );
+    if ($field) {
+        my $name = $field->{name};
+        my $title = $field->{title} || $name;
+        $text = $formTopicObject->renderFormFieldForDisplay(
+            $name, $format,
+            {
+                showhidden => 1,
+                usetitle   => $field->{title}
+            }
+        );
+        $text = $default unless length($text);
+    }
+    else {
+        $text = $altText || '';
+    }
+
+    # $formname is correct. $form works but is deprecated for
+    # compatibility with SEARCH{format}
+    if ( $text =~ m/\$form(name)?/ ) {
+        my @defform = $formTopicObject->find('FORM');
+        my $form    = $defform[0];                     # only one form per topic
+        my $fname   = '';
+        $fname = $form->{name} if $form;
+        $text =~ s/\$form(name)?/$fname/g;
+    }
+
+    $text = Foswiki::expandStandardEscapes($text);
+
+    # render nop exclamation marks before words as <nop>
+    $text =~ s/!($Foswiki::regex{wikiWordRegex})/<nop>$1/gs;
+
+    return $text;
 }
 
 1;
@@ -41,7 +119,7 @@ sub FORMFIELD {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
