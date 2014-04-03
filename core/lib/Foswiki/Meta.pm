@@ -884,7 +884,34 @@ sub populateNewWeb {
             next unless ( $sys || $topic =~ /^Web/ );
             my $to =
               Foswiki::Meta->load( $this->{_session}, $templateWeb, $topic );
+
+            # Open attachment filehandles
+            my %attfh;
+            foreach my $sfa ( $to->find('FILEATTACHMENT') ) {
+                my $fh = $to->openAttachment( $sfa->{name}, '<' );
+                $attfh{ $sfa->{name} } = {
+                    fh      => $fh,
+                    date    => $sfa->{date},
+                    user    => $sfa->{user},
+                    comment => $sfa->{comment}
+                };
+            }
             $to->saveAs( $this->{_web}, $topic, ( forcenewrevision => 1 ) );
+
+            # copy fileattachments
+            while ( my ( $fa, $sfa ) = each %attfh ) {
+                $session->{store}->saveAttachment(
+                    $to, $fa,
+                    $sfa->{fh},
+                    $sfa->{user},
+                    {
+                        forcedate => $sfa->{date},
+                        minor     => 1,
+                        comment   => $sfa->{comment}
+                    }
+                );
+                close( $sfa->{fh} );
+            }
         }
     }
 

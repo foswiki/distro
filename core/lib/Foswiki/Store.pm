@@ -635,16 +635,24 @@ sub eachChange {
 =begin TML
 
 ---++ ObjectMethod recordChange(%args)
-Record that the store item changed, and who changed it
+Record that the store item changed, and who changed it, and why
 
-This is a private method to be called only from the store internals, but it can be used by 
-$Foswiki::Cfg{Store}{ImplementationClasses} to chain in to eveavesdrop on Store events
+This is a private method to be called only from the store internals,
+but it can be used by  $Foswiki::Cfg{Store}{ImplementationClasses} to
+chain in to eveavesdrop on Store events
 
-        cuid          => $cUID,
-        revision      => $rev,
-        verb          => $verb,
-        newmeta       => $topicObject,
-        newattachment => $name
+   * cuid - who is making the change
+   * revision - the revision of the topic or attachment that the change appears in
+   * verb - the action - one of
+      * =update= - a web, topic or attachment has been modified
+      * =insert= - a web, topic or attachment is being inserted
+      * =remove= - a topic or attachment is being removed
+      * =autoattach= - special case of =insert= for autoattachments
+   * newmeta - Foswiki::Meta object for the new object (not remove)
+   * newattachment - attachment name (not remove)
+   * oldmeta - Foswiki::Meta object for the origin of a move (move, remove only)
+   * oldattachment - origin of move (move, remove only)
+   * more - descriptive text containing store-specific flags
 
 =cut
 
