@@ -417,18 +417,19 @@ sub getRenderedVersion {
         elsif ( $line =~ m/^\S/ ) {
             $isList = 0;
         }
-        elsif ( $line =~ m/^(\t|   )+\S/ ) {
+        elsif ( $line =~ m/^(\t| {3})+\S/ ) {
             if ( $line =~
-                s/^((\t|   )+)\$\s(([^:]+|:[^\s]+)+?):\s/<dt> $3 <\/dt><dd> / )
+                s/^((?:\t| {3})+)\$\s*([^:]+):\s*/<dt> $2 <\/dt><dd> / )
             {
 
                 # Definition list
                 _addListItem( $this, \@result, 'dl', 'dd', '', $1 );
                 $isList = 1;
             }
-            elsif ( $line =~ s/^((\t|   )+)(\S+?):\s/<dt> $3<\/dt><dd> /o ) {
+            elsif ( $line =~ s/^((?:\t| {3})+)(\S+?):\s*/<dt> $2 <\/dt><dd> / )
+            {
 
-                # Definition list
+                # Definition list (deprecated)
                 _addListItem( $this, \@result, 'dl', 'dd', '', $1 );
                 $isList = 1;
             }
