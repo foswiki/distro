@@ -413,15 +413,21 @@ DONE
 
     foreach my $handler ( keys %$restHandlers ) {
         $out .= "| $Foswiki::cfg{SystemWebName}.$handler | ||||\n";
-        foreach my $verb ( keys $restHandlers->{$handler} ) {
+        foreach my $verb ( keys %{ $restHandlers->{$handler} } ) {
+            my $method =
+              ( defined $restHandlers->{$handler}{$verb}{http_allow} )
+              ? $restHandlers->{$handler}{$verb}{http_allow}
+              : 'undef';
+            my $authenticate =
+              ( defined $restHandlers->{$handler}{$verb}{authenticate} )
+              ? $restHandlers->{$handler}{$verb}{authenticate}
+              : 'undef';
+            my $validate =
+              ( defined $restHandlers->{$handler}{$verb}{validate} )
+              ? $restHandlers->{$handler}{$verb}{validate}
+              : 'undef';
             $out .=
-                "| | $verb | "
-              . ( $restHandlers->{$handler}{$verb}{http_allow} || 'any' )
-              . ' | '
-              . ( $restHandlers->{$handler}{$verb}{validate} || 'false' )
-              . ' | '
-              . ( $restHandlers->{$handler}{$verb}{authenticate} || 'false' )
-              . ' | '
+                "| | $verb | $method | $validate | $authenticate | "
               . ( $restHandlers->{$handler}{$verb}{description} || '' )
               . " |\n";
         }

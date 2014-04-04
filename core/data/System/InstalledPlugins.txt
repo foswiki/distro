@@ -35,6 +35,10 @@ See %SYSTEMWEB%.SkinBrowser for an overview of the installed Skins.
 
 ---+++ Registered REST Handlers
 
+This table shows all registered REST handler verbs by extension.  =undef=
+means the handler will use the default core handler security, which will be
+changing in Foswiki 1.2
+
 %RESTHANDLERS%
 
 
