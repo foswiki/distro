@@ -1502,8 +1502,14 @@ sub test_definitions {
  <li> Level 1 <dl>
  <dt> Another Term </dt><dd> The definition
  </dd> <dt> Term2</dt><dd> Deprecated form
+ </dd> <dt> Term-2</dt><dd> Deprecated form
  </dd></dl> 
  </li></ul> 
+<p></p>
+   Notthis:Ignore me
+  Northis: Ignore me
+   \$ Notthis:either
+  \$ This: is wrong
 EXPECTED
     my $actual = <<'ACTUAL';
 
@@ -1513,7 +1519,12 @@ Indented 2
    * Level 1
       $ Another Term: The definition
       Term2: Deprecated form
+      Term-2: Deprecated form
 
+   Notthis:Ignore me
+  Northis: Ignore me
+   $ Notthis:either
+  $ This: is wrong
 ACTUAL
     $this->do_test( $expected, $actual );
 }
