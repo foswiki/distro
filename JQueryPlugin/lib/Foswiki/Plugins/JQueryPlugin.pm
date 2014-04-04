@@ -63,7 +63,8 @@ sub initPlugin {
     }
 
     # jquery.tmpl
-    Foswiki::Func::registerRESTHandler( 'tmpl', \&handleRestTmpl );
+    Foswiki::Func::registerRESTHandler( 'tmpl', \&handleRestTmpl,
+        authenticate => 0 );
 
     return 1;
 }
