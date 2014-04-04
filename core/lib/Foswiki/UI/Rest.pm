@@ -24,6 +24,11 @@ BEGIN {
 
 our %restDispatch;
 
+# Used by Plugin diagnostics to access all the registered handlers
+sub getRegisteredHandlers {
+    return \%restDispatch;
+}
+
 =begin TML
 
 ---++ StaticMethod registerRESTHandler( $subject, $verb, \&fn, %options )

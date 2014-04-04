@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1396571990" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Installed Plugins
 
@@ -33,7 +33,10 @@ See %SYSTEMWEB%.SkinBrowser for an overview of the installed Skins.
 ---++ Plugin Diagnostics
 %FAILEDPLUGINS%
 
-*Note:* The diagnostics are provided by the =%<nop>FAILEDPLUGINS%= macro
+---+++ Registered REST Handlers
+
+%RESTHANDLERS%
+
 
 ---
 *Related Topics:* [[Plugins]], %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, SkinBrowser

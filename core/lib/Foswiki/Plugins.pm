@@ -86,6 +86,7 @@ sub new {
         Foswiki::registerTagHandler( 'ACTIVATEDPLUGINS',
             \&_handleACTIVATEDPLUGINS );
         Foswiki::registerTagHandler( 'FAILEDPLUGINS', \&_handleFAILEDPLUGINS );
+        Foswiki::registerTagHandler( 'RESTHANDLERS',  \&_handleRESTHANDLERS );
         $inited = 1;
     }
 
@@ -391,6 +392,42 @@ sub haveHandlerFor {
 
     return 0 unless defined( $this->{registeredHandlers}{$handlerName} );
     return scalar( @{ $this->{registeredHandlers}{$handlerName} } );
+}
+
+# %RESTHANDLERS% reports the registred rest handlers and a bit of information
+# about them
+#
+sub _handleRESTHANDLERS {
+    my $this = shift->{plugins};
+
+    # SMELL:  This needs some auth checking and either redaction
+    #         or just disable this macro for non-admins
+
+    require Foswiki::UI::Rest;
+    my $restHandlers = Foswiki::UI::Rest::getRegisteredHandlers();
+    my $out          = <<DONE
+||| Requested core security |||
+| Extension | REST Verb | http<br/>allow | Strikeone | require<br/>authentication |
+DONE
+      ;    #Collect output for display
+
+    foreach my $handler ( keys %$restHandlers ) {
+        $out .= "| $Foswiki::cfg{SystemWebName}.$handler | ||||\n";
+        foreach my $verb ( keys $restHandlers->{$handler} ) {
+            $out .=
+                "| | $verb | "
+              . ( $restHandlers->{$handler}{$verb}{http_allow} || 'any' )
+              . ' | '
+              . ( $restHandlers->{$handler}{$verb}{validate} || 'false' )
+              . ' | '
+              . ( $restHandlers->{$handler}{$verb}{authenticate} || 'false' )
+              . ' | '
+              . ( $restHandlers->{$handler}{$verb}{description} || '' )
+              . " |\n";
+        }
+    }
+
+    return $out;
 }
 
 # %FAILEDPLUGINS reports reasons why plugins failed to load
