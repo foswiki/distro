@@ -49,11 +49,18 @@ sub renderForDisplay {
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
 
-    my $result =
-"<div class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</div>";
-    $format =~ s/\$value/$result/g;
+    my $displayValue = $this->getDisplayValue($value);
+    $format =~ s/\$value\(display\)/$displayValue/g;
+    $format =~ s/\$value/$value/g;
 
     return $this->SUPER::renderForDisplay( $format, $value, $attrs );
+}
+
+sub getDisplayValue {
+    my ( $this, $value ) = @_;
+
+    return
+"<span class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</span>";
 }
 
 1;
