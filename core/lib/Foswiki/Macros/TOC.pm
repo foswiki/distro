@@ -188,6 +188,10 @@ sub TOC {
         $text =~ s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+
                    ($|[\s\,\.\;\:\!\?\)])/$1$2$3/gx;
 
+        # need to pick <nop> out separately as it may be nested
+        # inside a HTML tag without a problem
+        $text =~ s/<nop>//g;
+
         # Prevent manual links
         $text =~ s/<[\/]?a\b[^>]*>//gi;
 

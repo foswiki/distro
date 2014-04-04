@@ -155,6 +155,10 @@ sub make {
     # remove double bracket link
     $text =~ s/\[(?:\[.*?\])?\[(.*?)\]\s*\]/$1/g;
 
+    # need to pick <nop> out separately as it may be nested
+    # inside a HTML tag without a problem
+    $text =~ s/<nop>//g;
+
     # remove HTML tags and entities
     $text =~ s/<\/?[a-zA-Z][^>]*>//gi;
     $text =~ s/&#?[a-zA-Z0-9]+;//g;
