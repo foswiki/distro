@@ -234,7 +234,7 @@ $.NatEditor = function(txtarea, opts) {
   self.opts = $.extend({}, opts, $txtarea.data());
   self.txtarea = txtarea;
   self.id = foswiki.getUniqueID();
-  self.form = $txtarea.closest("form");
+  self.form = $(txtarea.form);
  
   if (typeof(self.txtarea.selectionStart) === 'undefined') {
     self.oldIE = true; /* all IEs up to IE9; IE10 has got selectionStart/selectionEnd */
@@ -535,7 +535,7 @@ $.NatEditor.prototype.switchToWYSIWYG = function(ev) {
 $.NatEditor.prototype.initToolbar = function() {
   var self = this, 
       $txtarea = $(self.txtarea),
-      url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?load="+self.opts.toolbar;
+      url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?topic="+self.opts.web+"."+self.opts.topic+"&load="+self.opts.toolbar;
 
   // load toolbar
   $.loadTmpl({
@@ -851,9 +851,11 @@ $.NatEditor.prototype.beforeSubmit = function(editAction) {
 $.NatEditor.prototype.initForm = function() {
   var self = this, formRules;
 
-  if (typeof(self.form) === 'undefined' || self.form.length === 0) {
+  if (typeof(self.form) === 'undefined' || self.form.length === 0 || self.form.data("isInitialized")) {
     return;
   }
+
+  self.form.data("isInitialized", true);
 
   /* remove the second TopicTitle */
   self.form.find("input[name='TopicTitle']:eq(1)").parents(".foswikiFormStep").remove();
@@ -1874,7 +1876,7 @@ $.NatEditor.prototype.dialog = function(opts) {
   }
 
   if (typeof(opts.url) === 'undefined' && typeof(opts.name) !== 'undefined') {
-    opts.url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?load=editdialog&name="+opts.name;
+    opts.url = self.opts.scriptUrl+"/rest/JQueryPlugin/tmpl?topic="+self.opts.web+"."+self.opts.topic+"&load=editdialog&name="+opts.name;
   }
 
   opts = $.extend({}, defaults, opts);
