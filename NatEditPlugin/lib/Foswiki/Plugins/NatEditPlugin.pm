@@ -63,7 +63,8 @@ sub initPlugin {
         sub {
             require Foswiki::Plugins::NatEditPlugin::RestSave;
             return Foswiki::Plugins::NatEditPlugin::RestSave::handle(@_);
-        }
+        },
+        authenticate => 0
     );
 
     Foswiki::Func::registerRESTHandler(
@@ -71,7 +72,8 @@ sub initPlugin {
         sub {
             require Foswiki::Plugins::NatEditPlugin::RestAttachments;
             return Foswiki::Plugins::NatEditPlugin::RestAttachments::handle(@_);
-        }
+        },
+        authenticate => 0
     );
 
     $doneNonce = 0;
