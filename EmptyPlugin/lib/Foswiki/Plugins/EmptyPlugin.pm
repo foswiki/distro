@@ -169,8 +169,17 @@ sub initPlugin {
     Foswiki::Func::registerTagHandler( 'EXAMPLETAG', \&_EXAMPLETAG );
 
     # Allow a sub to be called from the REST interface
-    # using the provided alias
-    Foswiki::Func::registerRESTHandler( 'example', \&restExample );
+    # using the provided alias.  This example enables strong
+    # core enforced security for the handler, and is the default configuration
+    # as of Foswiki 1.1.2
+
+    Foswiki::Func::registerRESTHandler(
+        'example', \&restExample,
+        authenticate => 1,  # Set to 0 if handler should be useable by WikiGuest
+        validate     => 1,  # Set to 0 to disable StrikeOne CSRF protection
+        http_allow => 'POST', # Set to 'GET,POST' to allow use HTTP GET and POST
+        description => 'Example handler for Empty Plugin'
+    );
 
     # Plugin correctly initialized
     return 1;

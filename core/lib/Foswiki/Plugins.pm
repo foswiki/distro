@@ -406,13 +406,13 @@ sub _handleRESTHANDLERS {
     require Foswiki::UI::Rest;
     my $restHandlers = Foswiki::UI::Rest::getRegisteredHandlers();
     my $out          = <<DONE
-| *Extension* | *REST Verb* | *HTTP<br />Method* | *Validation* | *Requires<br />Authentication* |
+| *Extension* | *REST Verb* | *HTTP<br />Method* | *Validation* | *Requires<br />Authentication* | *Description* |
 DONE
       ;    #Collect output for display
 
     foreach my $handler ( sort keys %$restHandlers ) {
         $out .=
-          "| [[$Foswiki::cfg{SystemWebName}.$handler][$handler]] | |||||\n";
+          "| [[$Foswiki::cfg{SystemWebName}.$handler][$handler]] | ||||||\n";
         foreach my $verb ( keys %{ $restHandlers->{$handler} } ) {
             my $method =
               ( defined $restHandlers->{$handler}{$verb}{http_allow} )
@@ -426,7 +426,11 @@ DONE
               ( defined $restHandlers->{$handler}{$verb}{validate} )
               ? $restHandlers->{$handler}{$verb}{validate}
               : 'undef';
-            $out .= "| | $verb | $method | $validate | $authenticate |\n";
+            $out .=
+                "| | $verb | $method | $validate | $authenticate | "
+              . ( $restHandlers->{$handler}{$verb}{description} || '' )
+              . " |\n";
+
         }
     }
 
