@@ -177,6 +177,7 @@ data/System/TextEditor.txt 0644
 data/System/TextFormattingRules.txt 0644
 data/System/TimBernersLee.txt 0644
 data/System/TimeSpecifications.txt 0644
+data/System/TML.txt 0644
 data/System/TopicClassification.txt 0644
 data/System/TopicDoesNotExistViewTemplate.txt 0644
 data/System/TopicsAndWebs.txt 0644
@@ -358,6 +359,7 @@ data/System/WikiName.txt 0644
 data/System/WikiNotation.txt 0644
 data/System/WikiSyntax.txt 0644
 data/System/WikiSyntaxSummary.txt 0644
+data/System/WikiText.txt 0644
 data/System/WikiWikiClones.txt 0644
 data/System/WikiWord.txt 0644
 data/System/YouAreHere.txt 0644

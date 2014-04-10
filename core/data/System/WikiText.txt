@@ -1,0 +1,12 @@
+%META:TOPICINFO{author="ProjectContributor" date="1397091812" format="1.1" version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
+---+!! What is an !WikiText?
+
+WikiText is another name for TML or <b>T</b>opic <b>M</b>arkup <b>L</b>anguage. It is the native syntax used to
+author Topics or Pages in Foswiki. To view the WikiText, click the ="View wiki text"= button at the bottom bar of the page.  This is also referred to as the
+=raw view= of a Topic.
+
+To edit WikiText, eiither click the ="Edit wiki text"= button found on the bottom bar of a topic,   or when editing in
+the Wysiwyg editor, click the [WikiText] button in the top toolbar.
+
+For more information see WikiSyntaxSummary and WikiSyntax.
