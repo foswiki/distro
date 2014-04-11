@@ -393,6 +393,41 @@ THIS
     return;
 }
 
+# Test that DENYWEB works when DENYTOPIC also set
+sub test_denyweb_denytopic {
+    my $this = shift;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    $topicObject->text(<<"THIS");
+If DENYWEB is set to a list of wikiname
+    * people in the list are DENIED access
+   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    # renew Foswiki, so WebPreferences gets re-read
+    $this->createNewFoswikiSession();
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(<<'THIS');
+If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
+    * access is PERMITTED _i.e _ no-one is denied access to this topic
+   * Set DENYTOPICVIEW = MrWhite  
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    $this->DENIED( "VIEW", $MrOrange );
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->PERMITTED( "VIEW", $MrYellow );
+    $this->DENIED( "VIEW", $MrWhite );
+    $this->DENIED( "view", $MrBlue );
+
+    return;
+}
+
 # Test that ALLOWWEB works in a top-level web with no finalisation
 sub test_allow_web {
     my $this = shift;
