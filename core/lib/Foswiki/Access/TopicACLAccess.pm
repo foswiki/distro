@@ -94,8 +94,8 @@ sub haveAccess {
     my ( $allow, $deny );
     if ( $meta->{_topic} ) {
 
-        my $allow = $this->_getACL( $meta, 'ALLOWTOPIC' . $mode );
-        my $deny  = $this->_getACL( $meta, 'DENYTOPIC' . $mode );
+        $allow = $this->_getACL( $meta, 'ALLOWTOPIC' . $mode );
+        $deny  = $this->_getACL( $meta, 'DENYTOPIC' . $mode );
 
         # Check DENYTOPIC
         if ( defined($deny) ) {
@@ -131,18 +131,13 @@ sub haveAccess {
 
     if ( $meta->{_web} ) {
 
-        # Check DENYWEB, but only if DENYTOPIC is not set (even if it
-        # is empty - empty means "don't deny anybody")
-        unless ( defined($deny) ) {
-            $deny = $this->_getACL( $meta, 'DENYWEB' . $mode );
-            if ( defined($deny)
-                && $session->{users}->isInUserList( $cUID, $deny ) )
-            {
-                $this->{failure} =
-                  $session->i18n->maketext('access denied on web');
-                print STDERR 'c ' . $this->{failure}, "\n" if MONITOR;
-                return 0;
-            }
+        $deny = $this->_getACL( $meta, 'DENYWEB' . $mode );
+        if ( defined($deny)
+            && $session->{users}->isInUserList( $cUID, $deny ) )
+        {
+            $this->{failure} = $session->i18n->maketext('access denied on web');
+            print STDERR 'c ' . $this->{failure}, "\n" if MONITOR;
+            return 0;
         }
 
         # Check ALLOWWEB. If this is defined and not overridden by
