@@ -215,7 +215,7 @@ sub test_underscore {
     # name starts with underscore: error
     my $result = $topicObject->expandMacros('%MAKETEXT{"_edit"}%');
     $this->assert_str_equals(
-'<span class="foswikiAlert">Error: MAKETEXT argument\'s can\'t start with an underscore ("_").</span>',
+'<span class="foswikiAlert">Error: MAKETEXT arguments can\'t start with an underscore ("_").</span>',
         $result
     );
 }
