@@ -268,7 +268,7 @@ sub maketext {
 
         return CGI::span(
             { -class => 'foswikiAlert' },
-            "Error: MAKETEXT argument's can't start with an underscore (\"_\")."
+            "Error: MAKETEXT arguments can't start with an underscore (\"_\")."
         );
     }
 
