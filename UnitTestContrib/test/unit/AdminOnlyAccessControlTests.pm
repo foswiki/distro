@@ -189,7 +189,7 @@ THIS
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
@@ -214,7 +214,7 @@ THIS
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
@@ -239,7 +239,7 @@ THIS
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
@@ -264,7 +264,7 @@ THIS
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
@@ -290,7 +290,7 @@ THIS
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
@@ -325,7 +325,7 @@ THIS
     $this->createNewFoswikiSession( undef, $topicquery );
     $this->DENIED( "VIEW", $MrWhite );
     $this->createNewFoswikiSession( undef, $topicquery );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->createNewFoswikiSession( undef, $topicquery );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
@@ -359,7 +359,7 @@ THIS
     $this->createNewFoswikiSession();
     $this->DENIED( "VIEW", $MrWhite );
     $this->createNewFoswikiSession();
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
@@ -400,7 +400,7 @@ THIS
     $this->createNewFoswikiSession();
     $this->DENIED( "VIEW", $MrWhite );
     $this->createNewFoswikiSession();
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
@@ -436,7 +436,7 @@ THIS
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
@@ -473,7 +473,7 @@ THIS
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
@@ -503,7 +503,7 @@ THIS
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrWhite );
-    $this->DENIED( "view", $MrBlue );
+    $this->DENIED( "VIEW", $MrBlue );
     $this->PERMITTED( "VIEW", 'BaseUserMapping_333' );
 
     return;
