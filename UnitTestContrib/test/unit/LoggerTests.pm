@@ -145,6 +145,8 @@ sub skip {
                   => 'Missing Log::Dispatch',
                 'LoggerTests::test_LogDispatchFileEachEventSinceOnSeveralLogs'
                   => 'Missing Log::Dispatch',
+                'LoggerTests::test_LogDispatchFileFiltered' =>
+                  'Missing Log::Dispatch',
 'LoggerTests::test_LogDispatchFileRollingEachEventSinceOnSeveralLogs'
                   => 'Missing Log::Dispatch',
 'LoggerTests::verify_eachEventSinceOnEmptyLog_LogDispatchFileRollingLogger'
