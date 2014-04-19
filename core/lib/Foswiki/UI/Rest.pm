@@ -238,7 +238,7 @@ sub rest {
             $err =
               'ERROR: (405) Bad Request: ' . uc( $req->method() ) . ' denied';
             $res->print($err);
-            throw Foswiki::EngineException( 404, $err, $res );
+            throw Foswiki::EngineException( 405, $err, $res );
         }
     }
 

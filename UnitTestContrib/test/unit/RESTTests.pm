@@ -313,7 +313,7 @@ sub test_http_allow {
     }
     catch Foswiki::EngineException with {
         my $e = shift;
-        $this->assert_equals( 404, $e->{status}, $e );
+        $this->assert_equals( 405, $e->{status}, $e );
     }
     otherwise {
         $this->assert(0);
