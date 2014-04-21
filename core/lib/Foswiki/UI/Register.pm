@@ -16,6 +16,7 @@ use Assert;
 use Error qw( :try );
 
 use Foswiki                ();
+use Foswiki::LoginManager  ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
 use Foswiki::UI            ();
@@ -2130,6 +2131,14 @@ sub _processDeleteUser {
     else {
         $message    .= " - User not known to the Mapping Manager \n";
         $logMessage .= "unknown to Mapping, ";
+    }
+
+    # Kill any user sessions by removing the session files
+    my $uid = $cUID || $wikiname;
+    my $uSess = Foswiki::LoginManager::removeUserSessions($uid);
+    if ($uSess) {
+        $message    .= " - removed $uSess \n";
+        $logMessage .= "removed: $uSess, ";
     }
 
     # If a group topic has been entered, don't remove it.

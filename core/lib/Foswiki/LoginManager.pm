@@ -1382,6 +1382,45 @@ sub _skinSelect {
     return CGI::Select( { name => 'stickskin' }, $options );
 }
 
+=begin TML
+
+---++ StaticMethod removeUserSessions()
+
+Delete session files for a user that is being removed from the system.
+Removing the Session prevents any further damage from a spammer when the
+account has been removed.
+
+This is a static method, but requires Foswiki::cfg. It is designed to be
+run from a session.
+
+=cut
+
+sub removeUserSessions {
+    my $user = shift;
+    ASSERT($user) if DEBUG;
+
+    my $msg = '';
+
+    opendir( my $tmpdir, "$Foswiki::cfg{WorkingDir}/tmp" ) || return '';
+    foreach my $fn ( grep( /^cgisess_/, readdir($tmpdir) ) ) {
+        my ($file) = $fn =~ m/^(cgisess_.*)$/;
+
+        open my $sessfile, '<', "$Foswiki::cfg{WorkingDir}/tmp/$file"
+          or next;
+        while (<$sessfile>) {
+            if (m/'AUTHUSER' => '$user'/) {
+                close $sessfile;
+                unlink "$Foswiki::cfg{WorkingDir}/tmp/$file";
+                $msg .= $file . ', ';
+                last;
+            }
+        }
+        close $sessfile if $sessfile;
+    }
+    closedir $tmpdir;
+    return $msg;
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
