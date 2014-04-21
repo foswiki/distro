@@ -20,6 +20,8 @@ my $REG_UI_FN;
 my $MAN_UI_FN;
 my $REG_TMPL;
 
+my $session_id;    # Capture session ID immediately after registering a new user
+
 # Set up the test fixture
 sub set_up {
     my $this = shift;
@@ -218,6 +220,10 @@ sub _registerUserException {
     otherwise {
         $exception = Error::Simple->new();
     };
+
+# Capture the session id for the user we just registered.  This is used to confirm
+# that the deleteUser removes the correct cgisess_ file.
+    $session_id = Foswiki::Func::getSessionValue('_SESSION_ID');
 
     # Reload caches
     my $q = $this->{request};
@@ -1009,6 +1015,8 @@ sub verify_deleteUserAsAdmin {
     $this->{new_user_wikiname} = 'EricCartman';
     $this->{new_user_login}    = 'eric';
 
+    $this->assert( -e "$Foswiki::cfg{WorkingDir}/tmp/cgisess_$session_id" );
+
     $this->assert(
         Foswiki::Func::addUserToGroup(
             $this->{new_user_wikiname}, $this->{new_user_wikiname} . 'Group',
@@ -1048,7 +1056,7 @@ sub verify_deleteUserAsAdmin {
             ${ $e->{params} }[0]
         );
         $this->assert_matches(
-qr/user removed from Mapping Manager.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.DeletedUserEricCartman[0-9]{10,10}/s,
+qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.DeletedUserEricCartman[0-9]{10,10}/s,
             ${ $e->{params} }[1]
         );
     }
@@ -1065,6 +1073,8 @@ qr/user removed from Mapping Manager.*user removed from EricCartmanGroup.*user t
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
+
+    $this->assert( !-e "$Foswiki::cfg{WorkingDir}/tmp/cgisess_$session_id" );
 
     $this->assert(
         !Foswiki::Func::isGroupMember(
@@ -1190,7 +1200,7 @@ sub verify_deleteUserWithPrefix {
             ${ $e->{params} }[0]
         );
         $this->assert_matches(
-qr/user removed from Mapping Manager.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.KilledKennyEricCartman[0-9]{10,10}/s,
+qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*user topic moved to $this->{trash_web}\.KilledKennyEricCartman[0-9]{10,10}/s,
             ${ $e->{params} }[1]
         );
     }
