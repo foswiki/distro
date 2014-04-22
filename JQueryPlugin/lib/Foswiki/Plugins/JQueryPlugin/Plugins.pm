@@ -105,9 +105,14 @@ HERE
     }
 
     # switch on noconflict mode
-    $code .=
-      "<script type='text/javascript'>var \$j = jQuery.noConflict();</script>"
-      if $Foswiki::cfg{JQueryPlugin}{NoConflict};
+    if ( $Foswiki::cfg{JQueryPlugin}{NoConflict} ) {
+        my $noConflict = 'noconflict';
+        $noConflict .= ".uncompressed" if $debug;
+
+        $code .= <<"HERE";
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$noConflict.js'></script>
+HERE
+    }
 
     Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $code );
 

@@ -6,7 +6,7 @@ use Foswiki::Func                           ();
 
 use strict;
 use warnings;
-use constant DEBUG => 0;
+use constant TRACE => 0;
 
 =begin TML
 
@@ -42,7 +42,7 @@ sub new {
         # emit a deprecation warning
         print STDERR
 "$package constructor called with deprecated session object in $file:$line\n"
-          if DEBUG;
+          if TRACE;
         shift;    # ... it off the args
     }
 

@@ -93,6 +93,7 @@
 				function getObject(data) {
 					if('string' === typeof data) {
 						data = eval('(' + data + ')');
+                                                //data = $.parseJSON(data);
 					}
 
 					return data;

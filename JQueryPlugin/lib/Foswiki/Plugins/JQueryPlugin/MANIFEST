@@ -224,6 +224,9 @@ pub/System/JQueryPlugin/i18n/jquery.ui.datepicker-zh-TW.js 0644
 pub/System/JQueryPlugin/images/nobody.gif 0644
 pub/System/JQueryPlugin/images/spinner_arrows.gif 0644
 pub/System/JQueryPlugin/images/spinner.gif 0644
+pub/System/JQueryPlugin/noconflict.js 0644
+pub/System/JQueryPlugin/noconflict.js.gz 0644
+pub/System/JQueryPlugin/noconflict.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.7.1.js 0644
 pub/System/JQueryPlugin/jquery-1.7.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.7.1.uncompressed.js 0644

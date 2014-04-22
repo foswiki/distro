@@ -1,5 +1,6 @@
 SUBDIRS=plugins themes ui
 TARGET=\
+  noconflict.js \
   jquery-1.7.1.js \
   jquery-1.7.2.js \
   jquery-1.8.0.js \
