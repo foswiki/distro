@@ -306,32 +306,38 @@ sub rest {
         $error = 1;
     };
 
+    if ( !$error ) {
+
 # Used by CommentPlugin rest handler to redirect to an alternate topic.
 # Note that this might be better validated before dispatching the rest handler
 # however the CommentPlugin handler modifies the endPoint and validating it early
 # fails.
 
-    # endPoint still supported for compatibility
-    my $target = $session->redirectto( $req->param('endPoint') );
+        # endPoint still supported for compatibility
+        my $target = $session->redirectto( $req->param('endPoint') );
 
-    if ( !$error && defined($target) ) {
-        $session->redirect($target);
+        if ( defined($target) ) {
+            $session->redirect($target);
+        }
+        else {
+            if (   defined $req->param('redirectto')
+                || defined $req->param('endPoint') )
+            {
+                $session->{response}->header(
+                    -status  => 403,
+                    -type    => 'text/plain',
+                    -charset => 'UTF-8'
+                );
+                $session->{response}
+                  ->print( 'ERROR: (404) Invalid REST invocation - '
+                      . ' redirectto does not refer to a valid redirect target'
+                  );
+                return;
+            }
+        }
     }
-    elsif (
-        !$error
-        && (   defined $req->param('redirectto')
-            || defined $req->param('endPoint') )
-      )
-    {
-        $session->{response}->header(
-            -status  => 403,
-            -type    => 'text/plain',
-            -charset => 'UTF-8'
-        );
-        $session->{response}->print( 'ERROR: (404) Invalid REST invocation - '
-              . ' redirectto does not refer to a valid redirect target' );
-    }
-    elsif ($result) {
+
+    if ($result) {
 
         # If the handler doesn't want to handle all the details of the
         # response, they can return a page here and get it 200'd
