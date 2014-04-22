@@ -12,10 +12,11 @@ use Foswiki::Func ();
 our %cache = ();
 our $current;
 
-our $VERSION           = '2.00';
-our $RELEASE           = '05 Oct 2012';
+our $VERSION           = '2.01';
+our $RELEASE           = '2.01';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Render smilies like :-) as icons';
+our $doneHeader        = 0;
 
 sub initPlugin {
 
@@ -24,6 +25,8 @@ sub initPlugin {
     my $web   = $Foswiki::cfg{SystemWebName};
     my $topic = Foswiki::Func::getPreferencesValue('SMILIESPLUGIN_TOPIC')
       || "SmiliesPlugin";
+
+    $doneHeader = 0;
 
     _loadSmilies( $web, $topic );
 
@@ -40,8 +43,10 @@ sub preRenderingHandler {
 }
 
 sub _addToZone {
+    return if $doneHeader;
+    $doneHeader = 1;
     Foswiki::Func::addToZone( "head", "SMILIESPLUGIN",
-"<style type='text/css' media='all'>.smily { height:1.5em; max-height:19px; vertical-align:text-bottom; }</style>"
+"<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/SmiliesPlugin/smilies.css' type='text/css' media='all' />"
     );
 }
 
