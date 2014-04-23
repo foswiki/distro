@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2013 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2007-2014 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,7 @@ use warnings;
 use Foswiki::Func       ();
 use Foswiki::Plugins    ();
 use Foswiki::Validation ();
+use Foswiki::Sandbox();
 
 our $VERSION           = '8.00';
 our $RELEASE           = '8.00';
@@ -27,11 +28,11 @@ our $baseWeb;
 our $baseTopic;
 our $doneNonce;
 
-use constant DEBUG => 0;    # toggle me
+use constant TRACE => 0;    # toggle me
 
 ###############################################################################
 sub writeDebug {
-    return unless DEBUG;
+    return unless TRACE;
     print STDERR "- NatEditPlugin - " . $_[0] . "\n";
 
     #Foswiki::Func::writeDebug("- NatEditPlugin - $_[0]");
@@ -91,9 +92,14 @@ sub beforeSaveHandler {
     writeDebug("called beforeSaveHandler($web, $topic)");
 
     # find out if we received a TopicTitle
-    my $request    = Foswiki::Func::getCgiQuery();
-    my $newTopic   = $request->param('newtopic');
+    my $request = Foswiki::Func::getCgiQuery();
+
+    my $newTopic = $request->param('newtopic');
+    $newTopic = Foswiki::Sandbox::untaint( $newTopic,
+        \&Foswiki::Sandbox::validateTopicName );
+
     my $topicTitle = $request->param('TopicTitle');
+    $topicTitle = Foswiki::Sandbox::untaintUnchecked($topicTitle);
 
 # the "newtopic" urlparam either holds a new topic name in case of a rename action,
 # or a boolean flag indicating that the topic being created is a new topic
