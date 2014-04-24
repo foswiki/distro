@@ -190,13 +190,14 @@ sub test_check_dep_version_with_rev {
     # 1, Foswiki::Contrib::JSCalendarContrib v1234 installed
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
-        module  => "Foswiki::Plugins::SmiliesPlugin",
+        module  => "Foswiki::Contrib::UnitTestContrib::DateBasedRelease",
         version => ">=20 Sep 2009"
     );
     my ( $ok, $message ) = $dep->check();
     $this->assert_equals( 1, $ok, $message );
     $this->assert_matches(
-        qr/Foswiki::Plugins::SmiliesPlugin version .* installed/, $message );
+        qr/Foswiki::Contrib::UnitTestContrib::DateBasedRelease .* installed/,
+        $message );
     $this->assert( $message =~ /version (\d+) /, $message );
     my $revision = $1;
     $this->assert( $revision ne '999999' );
