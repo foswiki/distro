@@ -288,7 +288,7 @@ sub loadSession {
     my ( $this, $defaultUser, $pwchecker ) = @_;
     my $session = $this->{session};
 
-    _trace( $this, "loadSession\n" );
+    _trace( $this, "loadSession" );
 
     $defaultUser = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined($defaultUser) );
@@ -409,7 +409,10 @@ sub loadSession {
           if ( !defined($authUser)
             || $sessionUser && $sessionUser eq $Foswiki::cfg{AdminUserLogin} );
     }
+
     if ( !$authUser ) {
+
+        _trace( $this, "No session, checking URI Params for a user" );
 
         # if we couldn't get the login manager or the http session to tell
         # us who the user is, check the username and password URI params.
@@ -422,24 +425,54 @@ sub loadSession {
         my $login;
         my $pass;
 
-        if ( defined $Foswiki::cfg{Session}{AcceptUserPwParam}
-            && $script =~ m/$Foswiki::cfg{Session}{AcceptUserPwParam}/ )
+# If we are in the CLI environment, then the only option is to pass "URL parameters"
+#  - The CLI overrides the "defaultUser" to be admin.  CLI runs as admin by default.
+#  - -username/-password parameters allow CLI to use conventional authentication
+
+        if (   $session->inContext('command_line')
+            && $session->{request}->param('username') )
         {
-            if (
-                $Foswiki::cfg{Session}{AcceptUserPwParamOnGET}
-                || ( defined $session->{request}->method()
-                    && uc( $session->{request}->method() ) eq 'POST' )
-              )
+            $login = $session->{request}->param('username');
+            $pass = $session->{request}->param('password') || '';
+            $session->{request}->delete( 'username', 'password' );
+
+# CLI defaults to Admin User,  but if a user/pass was provided on the cli,  and was wrong,
+# we probably don't want to fall back to Admin, so override the default.
+            $defaultUser = $Foswiki::cfg{DefaultUserLogin};
+
+            _trace( $this,
+"CLI Credentials $login accepted from command line for further validation"
+            );
+        }
+
+# If the configuration allows URL params, and the correct HTTP method is in use,
+# Then accept the username & password,  and delete them from the request to avoid
+# them being accessed later.
+        if ( !$login ) {
+            if (   defined $session->{request}->param('username')
+                && defined $Foswiki::cfg{Session}{AcceptUserPwParam}
+                && $script =~ m/$Foswiki::cfg{Session}{AcceptUserPwParam}/ )
             {
-                $login = $session->{request}->param('username');
-                $pass  = $session->{request}->param('password');
-                $session->{request}->delete( 'username', 'password' );
+                if (
+                    $Foswiki::cfg{Session}{AcceptUserPwParamOnGET}
+                    || ( defined $session->{request}->method()
+                        && uc( $session->{request}->method() ) eq 'POST' )
+                  )
+                {
+                    $login = $session->{request}->param('username');
+                    $pass  = $session->{request}->param('password');
+                    $session->{request}->delete( 'username', 'password' );
+                    _trace( $this,
+                        "URI Credentials $login accepted for further validation"
+                    );
+                }
             }
         }
 
+        # Implements the X-Authorization header if one is present
+        # Nothing was in the query params. Check query headers.
         if ( !$login ) {
 
-            # Nothing in the query params. Check query headers.
             my $auth = $session->{request}->http('X-Authorization');
             if ( defined $auth ) {
                 _trace( $this, "X-Authorization: $auth" );
@@ -454,20 +487,20 @@ sub loadSession {
                     if ( $cred =~ /:/ ) {
                         ( $login, $pass ) = split( ':', $cred, 2 );
                         _trace( $this,
-                            "Login credentials taken from query headers" );
+"Login credentials taken from query headers for further validation"
+                        );
                     }
                 }    # TODO: implement FoswikiDigest here
             }
         }
-        else {
-            _trace( $this, "Login credentials taken from query parameters" );
-        }
 
+        # A login credential was found,  verify the userid & password
         if ( $login && defined $pass && $pwchecker ) {
+            _trace( $this, "Validating password for $login" );
             my $validation = $pwchecker->checkPassword( $login, $pass );
             unless ($validation) {
-                my $res = $session->{response};
-                my $err = "ERROR: (401) Can't login as $login";
+                _trace( $this,
+                    "URI validation FAILED:  Falling back to $defaultUser" );
 
                 # Item1953: You might think that this is needed:
                 #    $res->header( -type => 'text/html', -status => '401' );
@@ -479,15 +512,16 @@ sub loadSession {
                 undef $login;
             }
             $authUser = $login || $defaultUser;
-            _trace( $this, "URI params say user is $authUser" );
+            _trace( $this, "After password validation, user is: $authUser" );
         }
         else {
 
             # Last ditch attempt; if a user was passed in to this function,
-            # then use it (it is normally {remoteUser} from the session
-            # object)
+            # then use it (it is normally {remoteUser} from the session object
+            # or the -user parameter in the command_line (defaults to admin)
             $authUser = $defaultUser;
-            _trace( $this, "Falling back to $authUser" ) if $authUser;
+            _trace( $this, "Falling back to DEFAULT USER: $defaultUser" )
+              if $authUser;
 
         }
     }
@@ -717,15 +751,15 @@ sub expireDeadSessions {
 
 =begin TML
 
----++ ObjectMethod userLoggedIn( $login, $wikiname)
+---++ ObjectMethod userLoggedIn( $authUser, $wikiname)
 
 Called when the user is known. It's invoked from Foswiki::UI::Register::finish
-for instance,
+and from loadSession (above) once credentials are validated.
    1 when the user follows the link in their verification email message
    2 or when the session store is read
    3 when the user authenticates (via templatelogin / sudo)
 
-   * =$login= - string login name
+   * =$authUser= - string login name
    * =$wikiname= - string wikiname
 
 =cut
@@ -737,11 +771,32 @@ sub userLoggedIn {
     if ( $session->{users} ) {
         $session->{user} = $session->{users}->getCanonicalUserID($authUser);
     }
-    return
-      if $session->inContext('command_line')
-      || $session->{remoteUser}
-      && $authUser
-      && $authUser eq $session->{remoteUser};    # same user
+
+    if ( $session->inContext('command_line') ) {
+
+        # Command line is automatically 'authenticated' unless the guest user
+        # is explicitly requested.  No need for cgi sessions so just return.
+        $session->enterContext('authenticated')
+          if ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} );
+        _trace( $this,
+            'userLoggedIn: CLI Session established for: ' . $authUser );
+        return;
+    }
+
+    if (   $session->{remoteUser}
+        && $authUser
+        && $authUser eq $session->{remoteUser} )
+    {
+        # SMELL:  I think this should also set authenticated,  but it doesn't
+        # and I'm unsure if I should change it.  Adding a trace to help.
+        #$session->enterContext('authenticated');
+        _trace( $this,
+                'Not authenticated;  '
+              . $session->{remoteUser}
+              . ' already matches '
+              . $authUser );
+        return;
+    }
 
     if ( $Foswiki::cfg{UseClientSessions} ) {
 
@@ -774,7 +829,9 @@ sub userLoggedIn {
         _trace( $this,
                 'Authenticated; converting from '
               . ( $session->{remoteUser} || 'undef' ) . ' to '
-              . $authUser );
+              . $authUser
+              . ' - default '
+              . $Foswiki::cfg{DefaultUserLogin} );
 
         # SMELL: right now anyone that makes a template login url can log
         # in multiple times - should i forbid it
@@ -812,7 +869,8 @@ sub userLoggedIn {
 
         # flush the session, to try to fix Item1820 and Item2234
         $this->{_cgisession}->flush();
-        die $this->{_cgisession}->errstr() if $this->{_cgisession}->errstr();
+        die $this->{_cgisession}->errstr()
+          if $this->{_cgisession}->errstr();
     }
 }
 

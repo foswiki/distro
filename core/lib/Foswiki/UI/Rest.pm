@@ -158,36 +158,6 @@ sub rest {
       "computing REST for $session->{webName}.$session->{topicName}\n"
       if $Foswiki::cfg{Cache}{Debug};
 
-    # If there's login info, try and apply it
-    my $login = $req->param('username');
-    if ($login) {
-        my $pass = $req->param('password');
-        my $validation = $session->{users}->checkPassword( $login, $pass );
-        unless ($validation) {
-            $res->header( -type => 'text/html', -status => '401' );
-            $err = "ERROR: (401) Can't login as $login";
-            $res->print($err);
-            throw Foswiki::EngineException( 401, $err, $res );
-        }
-
-        my $cUID     = $session->{users}->getCanonicalUserID($login);
-        my $WikiName = $session->{users}->getWikiName($cUID);
-        $session->{users}->getLoginManager()->userLoggedIn( $login, $WikiName );
-    }
-
-    # Check that the REST script is authorised under the standard
-    # {AuthScripts} contract
-    try {
-        $session->getLoginManager()->checkAccess();
-    }
-    catch Error with {
-        my $e = shift;
-        $res->header( -type => 'text/html', -status => '401' );
-        $err = "ERROR: (401) $e";
-        $res->print($err);
-        throw Foswiki::EngineException( 401, $err, $res );
-    };
-
     my $pathInfo = $req->path_info();
 
     # Foswiki rest invocations are defined as having a subject (pluginName)
@@ -232,18 +202,25 @@ sub rest {
 
     # Check the method is allowed
     if ( $record->{http_allow} && defined $req->method() ) {
-        my %allowed = map { $_ => 1 } split( /[,\s]+/, $record->{http_allow} );
-        unless ( $allowed{ uc( $req->method() ) } ) {
-            $res->header( -type => 'text/html', -status => '405' );
-            $err =
-              'ERROR: (405) Bad Request: ' . uc( $req->method() ) . ' denied';
-            $res->print($err);
-            throw Foswiki::EngineException( 405, $err, $res );
+        unless ( $session->inContext('command_line') ) {
+            my %allowed =
+              map { $_ => 1 } split( /[,\s]+/, $record->{http_allow} );
+            unless ( $allowed{ uc( $req->method() ) } ) {
+                $res->header( -type => 'text/html', -status => '405' );
+                $err =
+                    'ERROR: (405) Bad Request: '
+                  . uc( $req->method() )
+                  . ' denied';
+                $res->print($err);
+                throw Foswiki::EngineException( 405, $err, $res );
+            }
         }
     }
 
     # Check someone is logged in
     if ( $record->{authenticate} ) {
+
+        # no need to exempt cli.  LoginManager sets authenticated correctly.
         unless ( $session->inContext('authenticated')
             || $Foswiki::cfg{LoginManager} eq 'none' )
         {
@@ -256,24 +233,26 @@ sub rest {
 
     # Validate the request
     if ( $record->{validate} ) {
-        my $nonce = $req->param('validation_key');
-        if (
-            !defined($nonce)
-            || !Foswiki::Validation::isValidNonce(
-                $session->getCGISession(), $nonce
-            )
-          )
-        {
-            $res->header( -type => 'text/html', -status => '403' );
-            $err = "ERROR: (403) Invalid validation code";
-            $res->print($err);
-            throw Foswiki::EngineException( 403, $err, $res );
-        }
+        unless ( $session->inContext('command_line') ) {
+            my $nonce = $req->param('validation_key');
+            if (
+                !defined($nonce)
+                || !Foswiki::Validation::isValidNonce(
+                    $session->getCGISession(), $nonce
+                )
+              )
+            {
+                $res->header( -type => 'text/html', -status => '403' );
+                $err = "ERROR: (403) Invalid validation code";
+                $res->print($err);
+                throw Foswiki::EngineException( 403, $err, $res );
+            }
 
-        # SMELL: Note we don't expire the validation code. If we expired it,
-        # then subsequent requests using the same code would have to be
-        # interactively confirmed, which isn't really an option with
-        # an XHR.
+            # SMELL: Note we don't expire the validation code. If we expired it,
+            # then subsequent requests using the same code would have to be
+            # interactively confirmed, which isn't really an option with
+            # an XHR.
+        }
     }
 
     my $function = $record->{function};

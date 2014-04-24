@@ -83,6 +83,127 @@ sub rest_context {
     return "$newweb";
 }
 
+# A REST handler for checking authentication
+sub rest_authtest {
+    my ( $session, $subject, $verb ) = @_;
+
+    my $auth  = ( $session->inContext('authenticated') ) ? 'AUTH'  : 'UNAUTH';
+    my $cli   = ( $session->inContext('command_line') )  ? 'CLI'   : 'CGI';
+    my $adm   = ( Foswiki::Func::isAnAdmin() )           ? 'ADMIN' : '';
+    my $guest = ( Foswiki::Func::isGuest() )             ? 'GUEST' : '';
+
+    return "RESULTS:$auth.$cli.$adm.$guest";
+}
+
+# Test the authentication methods
+sub test_authmethods {
+    my $this = shift;
+
+    $Foswiki::cfg{Session}{AcceptUserPwParam}      = qr/^rest(auth)?$/;
+    $Foswiki::cfg{Session}{AcceptUserPwParamOnGET} = 1;
+
+    Foswiki::Func::registerRESTHandler(
+        'trial', \&rest_authtest,
+        authenticate => 1,  # Set to 0 if handler should be useable by WikiGuest
+        validate     => 1,  # Set to 0 to disable StrikeOne CSRF protection
+        http_allow => 'POST', # Set to 'GET,POST' to allow use HTTP GET and POST
+        description => 'Example handler for Empty Plugin'
+    );
+
+    my $query = Unit::Request->new( { action => ['rest'], } );
+
+    $query->setUrl( '/'
+          . __PACKAGE__
+          . "/trial?username=$this->{test_user_login};password=''" );
+    $query->method('post');
+    $query->action('rest');
+
+    my $text;
+
+    # SMELL:  This test needs to really test a username / password
+    # on the URL.  I've been unable to get the test user to validate
+    # a with a password.  So this passes, because the test is broken,
+    # not because the id/password didn't validate
+    #
+    # Auth failed session - should fail with 401 due to invalid password
+    #
+    $this->createNewFoswikiSession( undef, $query );
+    try {
+        ($text) = $this->capture( $UI_FN, $this->{session} );
+    }
+    catch Foswiki::EngineException with {
+        my $e = shift;
+        $this->assert_equals( 401, $e->{status}, $e );
+    }
+    otherwise {
+        $this->assert(0);
+    };
+
+    # Auth but no validation key - fail with 403
+    #
+    $query->path_info( '/' . __PACKAGE__ . '/trial' );
+    $query->method('post');
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+
+    try {
+        ($text) = $this->capture( $UI_FN, $this->{session} );
+    }
+    catch Foswiki::EngineException with {
+        my $e = shift;
+        $this->assert_equals( 403, $e->{status}, $e );
+    }
+    otherwise {
+        $this->assert(0);
+    };
+
+    # Auth and key, but GET, not post,  fail with 405
+    #
+    $query->path_info( '/' . __PACKAGE__ . '/trial' );
+    $query->method('get');
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+
+    try {
+        ($text) = $this->capture( $UI_FN, $this->{session} );
+    }
+    catch Foswiki::EngineException with {
+        my $e = shift;
+        $this->assert_equals( 405, $e->{status}, $e );
+    }
+    otherwise {
+        $this->assert(0);
+    };
+
+    # Authenticated,  POST and validation key - should work
+    #
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $query->method('post');
+    ($text) = $this->captureWithKey( rest => $UI_FN, $this->{session} );
+
+    $this->assert_matches( qr/RESULTS:AUTH\.CGI\.\./, $text );
+
+    Foswiki::Func::registerRESTHandler(
+        'trial', \&rest_authtest,
+        authenticate => 0,  # Set to 0 if handler should be useable by WikiGuest
+        validate     => 1,  # Set to 0 to disable StrikeOne CSRF protection
+        http_allow => 'POST', # Set to 'GET,POST' to allow use HTTP GET and POST
+        description => 'Example handler for Empty Plugin'
+    );
+
+    # Unauthenticated, POST with validation key - Now should work
+    #
+    $this->createNewFoswikiSession( 'guest', $query );
+    ($text) = $this->captureWithKey( rest => $UI_FN, $this->{session} );
+    $this->assert_matches( qr/RESULTS:UNAUTH\.CGI\.\.GUEST/, $text );
+
+    # Authenticated, POST with validation key from Admin User
+    #
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
+    ($text) = $this->captureWithKey( rest => $UI_FN, $this->{session} );
+    $this->assert_matches( qr/RESULTS:AUTH\.CGI\.ADMIN\./, $text );
+
+    return;
+}
+
 # Simple no-options REST call
 sub test_simple {
     my $this = shift;
