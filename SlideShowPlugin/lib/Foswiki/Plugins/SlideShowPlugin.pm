@@ -4,7 +4,7 @@ package Foswiki::Plugins::SlideShowPlugin;
 use strict;
 use warnings;
 
-our $VERSION = '2.2.0';
+use version; our $VERSION = version->declare("v2.2.0");
 our $RELEASE = '2.2.0';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';
