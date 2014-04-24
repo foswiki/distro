@@ -107,10 +107,13 @@ sub haveAccess {
                     return 0;
                 }
             }
-            else {
+            elsif ( $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} )
+            {
 
                 # If DENYTOPIC is empty, don't deny _anyone_
-                print STDERR "DENYTOPIC is empty\n" if MONITOR;
+                # DEPRECATED SYNTAX.   Recommended replace with "ALLOWTOPIC=*"
+                print STDERR "Access allowed: deprecated DENYTOPIC is empty\n"
+                  if MONITOR;
                 return 1;
             }
         }

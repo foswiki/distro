@@ -577,6 +577,17 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 # </li></ol>
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
+# **BOOLEAN**
+# Optionally restore the deprecated empty DENY ACL behavior.   If this setting is enabled,
+# the "Empty" DENY ACL is interpreted as  "Deny nobody", which is equivalent to "Allow all".
+# It is recommended that this setting remain disabled,  and that
+# these rules be replaced with the  * wildcard on the ALLOW setting:
+# <pre>
+#    * Set DENYTOPICVIEW =        Should be replaced with:
+#    * Set ALLOWTOPICVIEW = *
+# </pre>
+$Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = $FALSE;
+
 #---++ Passwords
 # <p>The password manager handles the passwords database, and provides
 # password lookup, and optionally password change, services to the rest of

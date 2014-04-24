@@ -428,6 +428,160 @@ THIS
     return;
 }
 
+# Test that empty DENYTOPIC overrides DENYWEB
+sub test_denyweb_empty_denytopic {
+    my $this = shift;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    $topicObject->text(<<"THIS");
+If DENYWEB is set to a list of wikiname
+    * people in the list are DENIED access
+   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(<<'THIS');
+If DENYTOPIC is set to empty string
+   1. Everyone is PERMITTED
+   * Set DENYTOPICVIEW = 
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    # Verify that the new "empty deny" rule is ignored
+    # Also passes on Foswiki <1.2
+    $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = 1;
+
+    # renew Foswiki, so WebPreferences gets re-read
+    $this->createNewFoswikiSession();
+
+    $this->PERMITTED( "VIEW", $MrOrange );
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->PERMITTED( "VIEW", $MrYellow );
+    $this->PERMITTED( "VIEW", $MrWhite );
+    $this->PERMITTED( "view", $MrBlue );
+
+    # renew Foswiki, so WebPreferences gets re-read
+    if ( $this->check_dependency('Foswiki,>=,1.2') ) {
+
+        $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = 0;
+        $this->createNewFoswikiSession();
+
+        $this->DENIED( "VIEW", $MrOrange );
+        $this->PERMITTED( "VIEW", $MrGreen );
+        $this->PERMITTED( "VIEW", $MrYellow );
+        $this->PERMITTED( "VIEW", $MrWhite );
+        $this->DENIED( "view", $MrBlue );
+    }
+
+    return;
+}
+
+# Test that DENYTOPIC * wildcard overrides DENYWEB *
+sub test_wildcard_denyweb_allow_topic {
+    my $this = shift;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    $topicObject->text(<<"THIS");
+If DENYWEB is set to the wildcard
+    * everyone is DENIED access
+   * Set DENYWEBVIEW = * 
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(<<"THIS");
+Except ALLOW at the topic will override DENY at web.
+   1. Everyone is PERMITTED
+   * Set ALLOWTOPICVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    # renew Foswiki, so WebPreferences gets re-read
+    $this->createNewFoswikiSession();
+    $this->PERMITTED( "VIEW", $MrOrange );
+    $this->DENIED( "VIEW", $MrGreen );
+    $this->DENIED( "VIEW", $MrYellow );
+    $this->DENIED( "VIEW", $MrWhite );
+    $this->PERMITTED( "view", $MrBlue );
+
+    return;
+}
+
+# Test that ALLOWTOPIC * wildcard overrides DENYWEB
+sub test_denyweb_wildcard_topic {
+    my $this = shift;
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName} );
+    $topicObject->text(<<"THIS");
+If DENYWEB is set to a list of wikiname
+    * people in the list are DENIED access
+   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(<<'THIS');
+If DENYTOPIC is set to empty string
+   1. Everyone is PERMITTED
+   * Set ALLOWTOPICVIEW = * 
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    # Verify that the new "empty deny" rule is ignored
+    # Also passes on Foswiki <1.2
+    $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = 1;
+
+    # renew Foswiki, so WebPreferences gets re-read
+    $this->createNewFoswikiSession();
+    $this->PERMITTED( "VIEW", $MrOrange );
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->PERMITTED( "VIEW", $MrYellow );
+    $this->PERMITTED( "VIEW", $MrWhite );
+    $this->PERMITTED( "view", $MrBlue );
+
+    return;
+}
+
+# Test that ALLOWTOPIC doesn't override DENYTOPIC wildcard
+sub test_denytopic_wild_allowtopic {
+    my $this = shift;
+
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $topicObject->text(<<'THIS');
+If DENYTOPIC is set to empty string
+   1. Everyone is PERMITTED
+   * Set DENYTOPICVIEW = *
+   * Set ALLOWTOPICVIEW = this->{users_web}.MrOrange %USERSWEB%.MrBlue
+THIS
+    $topicObject->save();
+    $topicObject->finish();
+
+    # renew Foswiki, so WebPreferences gets re-read
+    $this->createNewFoswikiSession();
+    $this->DENIED( "VIEW", $MrOrange );
+    $this->DENIED( "VIEW", $MrGreen );
+    $this->DENIED( "VIEW", $MrYellow );
+    $this->DENIED( "VIEW", $MrWhite );
+    $this->DENIED( "view", $MrBlue );
+
+    return;
+}
+
 # Test that ALLOWWEB works in a top-level web with no finalisation
 sub test_allow_web {
     my $this = shift;

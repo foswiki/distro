@@ -645,6 +645,11 @@ sub isInUserList {
 
     foreach my $ident (@$userlist) {
 
+        # The Wildcard match.  Any user matches the "*" identifier.
+        if ( $ident eq '*' ) {
+            return 1;
+        }
+
         my $identCUID = $this->getCanonicalUserID($ident);
 
         if ( defined $identCUID ) {
