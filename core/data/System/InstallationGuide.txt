@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1398376373" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 
 ---+!! Installation Guide
@@ -55,6 +55,17 @@ File ownership depends upon the operating system and distribution.
 | RedHat, Fedora, CentOS, Gentoo, Mandriva | =chown -R apache:apache path/to/foswiki= |
 | debian, Ubuntu, Kubuntu | =chown -R www-data:www-data /path/to/foswiki= |
 | Suse | =chown -R wwwrun:www /path/to/foswiki= |
+| FreeBSD | =chown -R www:wwwadmin /path/to/foswiki= |
+
+=/path/to/foswiki= should include the top level Foswiki directory, without a trailing slash.  For ex,   if the Foswiki distribution was extracted to
+=/var/www/Foswiki-1.1.9=  then  the command is =chown -R apache:apache /var/www/Foswiki-1.1.9=  without the trailing slash.   The ownership of the
+=Foswiki-1.1.9= directory should change as well.   =ls -lad /path/to/foswiki= to check.
+
+For example, using the default location on FreeBSD:
+<verbatim>
+[admin@foswiki ~]$ ls -lad /usr/local/www/apache22/data/Foswiki
+drwxr-xr-x  14 www  wwwadmin  1536 Apr 24 20:30 /usr/local/www/apache22/data/Foswiki
+</verbatim>
 
 The default file and directory access permissions as set by the distribution define a reasonable security level that will work for many types of installations, including shared hosting. Nonetheless, you should verify that the web server user has read access to all files and directories beneath the =foswiki= directory, and execute access for all directories. Also verify that the =data= and =pub= directories and all the subdirectories and files beneath them allow write access for the web server user.
 
