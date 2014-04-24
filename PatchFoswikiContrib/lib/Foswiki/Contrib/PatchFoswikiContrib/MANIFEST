@@ -1,6 +1,6 @@
 !noci
 data/System/PatchFoswikiContrib.txt 0644
-lib/Foswiki/Contrib/PatchFoswikiContrib.pm 0444
+data/System/PatchFoswikiContribPlugin.txt 0644
 lib/CPAN/lib/Text/Diff.pm 0444
 lib/CPAN/lib/Text/Diff/Config.pm 0444
 lib/CPAN/lib/Text/Diff/Table.pm 0444
@@ -8,6 +8,3 @@ lib/CPAN/lib/Text/Patch.pm 0444
 lib/Foswiki/Configure/PatchFile.pm 0444
 lib/Foswiki/Contrib/PatchFoswikiContrib.pm 0444
 lib/Foswiki/Plugins/PatchFoswikiContribPlugin.pm 0444
-lib/Foswiki/Contrib/PatchFoswikiContrib/Config.spec 0444
-working/configure/patch/Item11267-001.patch 0644 Patch to remove use of HEAD for pseudo installed extensions
-working/configure/patch/Item11267-002.patch 0644 Patch to treat decimal versions as newer than SVN revision based versions.

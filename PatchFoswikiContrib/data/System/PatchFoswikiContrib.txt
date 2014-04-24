@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1398214712" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = File patch tool for Foswiki
@@ -12,34 +13,21 @@ One line description, required for extensions repository catalog.
 
 This extension allows you to "hotfix" urgent issues on your Foswiki system.  It has been tested on Foswiki 1.1.0 and beyond.  It does not work on Foswiki 1.0.
 
-When this extension is installed, it adds some required libraries to your Foswiki system, and then in the Post-installation exit, applies any patch files found in the manifest.  This extension ships with a hotfix for the following items:
+When this extension is installed, it adds some required libraries to your Foswiki system, and includes a plugin to display an inventory of patches on the system.  This extension does not ship with any patches.
 
-| *Original Issue* | *Patch File* | *Description* |
-| [[http://foswiki.org/Tasks/Item12225][Item12225]] | =Item11267-001= | Extensions released with new style Perl version strings prevents installation of any further extensions. |
-| [[http://foswiki.org/Tasks/Item11267][Item11267]] | =Item11267-002= | Extensions are re-installed because of dependency on svn Revision levels. |
+Patches are only applied if the target file is an _exact_ match to the original file.  There is no attempt to do "fuzzy" patching.
 
-Patches are only applied if the target file is an _exact_ match to the original file.  There is no attempt to do "fuzzy" patching.   Note however that a patch can be built to cover multiple versions of the file.
-
-There is no "dependency" between patches.  Patches are installed in order of their patch file name.  In the above patch list, =Item11267-001.patch= makes unrelated changes to the file patched in =Item11267-002.patch=, but __must__ be installed first so that the patch signatures match.
+There is no "dependency" between patches.  Patches are installed in order of their patch file name. 
 
 Patches will be mapped from the default Foswiki filename to the directory location used on the target system.
 
 Before any file is patched, a backup is copied to =working/configure/backup/&lt;Itemxxxx-nnn-YYYMMDD-HHMMSS&gt;=.  If archive tools are found on the system, a zip or tar archive is created of the backup.
 
----++ Patch files found on this system
-
-This report lists the patch files found in the =working/configure/patch=
-directory.  The patch summary is displayed, followed by a list of each
-candidate patch.  The *Status* column is set to:
-   * *N/A*: This version of the patch does not apply to this file. The file might have been subsequently modified by another patch or by manual edit.
-   * *PATCHED*: The patch appears to have been applied, and no other modifications have been made to the file.
-   * *APPLIES*: The patch matches and is eligible to be applied.
-
-%PATCHREPORT%
+%INCLUDE{"PatchFoswikiContribPlugin" section="patchreport"}%
 
 ---++ Building a patch
 
-Currently a separate version of this extension has to be built for each patch.  The only patches installed are those identified in the manifest of the contrib.  This extension adds some infrastructure that a future Foswiki could
+A separate version of a patch extension has to be built for each patch.  The only patches installed are those identified in the manifest of the Extension.  This extension adds some infrastructure that a future Foswiki could
 use to apply patches from configure.
 
 ---+++ Create a patch file
@@ -71,60 +59,6 @@ To build a patch file,
       * Calculate the diff: =diff -Naur lib/Foswiki/Target/File.pm lib/Foswiki/Target/File.pm.new >> Itemxxxx-xxx.patch=
       * Edit the patch file to build the ~~~PATCH record and remove the md5sum record.
 
-Here is an example patch file for the Foswiki 1.1.5 and Foswiki 1.l.4 versions of the files. (EXTENSIONS.pm was not modified between 1.1.4 and 1.1.5):
-<verbatim>
-Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
-Date:   Mon Nov 5 05:07:25 2012 +0000
-
-    Item12225: Don't use "HEAD" to detect pseudo install.
-
-    A real, non-pseudo-installed extension will crash configure if a
-    perl version object is compared to an alpha string.
-
-    9999.99_999 will be used to indicate a pseudo-installed release.
-
-    git-svn-id: http://svn.foswiki.org/trunk@15909 0b4bb1d4-4e5a-0410-9cc4-b2b747904278
-
-~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
---- lib/Foswiki/Configure/Dependency.pm 2012-11-07 23:46:56.378148979 -0500
-+++ lib/Foswiki/Configure/Dependency.pm.new     2012-11-07 23:46:14.091649218 -0500
-@@ -220,7 +220,7 @@
-             if ( -l "$dir/$path" ) {
-
-                 # Assume pseudo-installed
--                $this->{installedVersion} = 'HEAD';
-+                $this->{installedVersion} = '9999.99_999';
-             }
-             last;
-         }
-
-~~~PATCH 76e28354522a6d6cccc76c66f99d2424 lib/Foswiki/Configure/UIs/EXTENSIONS.pm (Foswiki 1.1.0-1.1.5)
---- lib/Foswiki/Configure/UIs/EXTENSIONS.pm     2012-11-07 23:45:21.269274066 -0500
-+++ lib/Foswiki/Configure/UIs/EXTENSIONS.pm.new 2012-11-07 23:46:39.844344573 -0500
-@@ -280,7 +280,7 @@
-         if ( $ext->{installedRelease} ) {
-
-             # The module is installed; check the version
--            if ( $ext->{installedVersion} eq 'HEAD' ) {
-+            if ( $ext->{installedVersion} eq '9999.99_999' ) {
-
-                 # pseudo-installed
-                 $install = 'pseudo-installed';
-
-~~~PATCH 4e525d29a245785ae810316835c18e62 lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.4)
---- lib/Foswiki/Configure/Dependency.pm 2011-12-20 10:33:22.000000000 -0500
-+++ lib/Foswiki/Configure/Dependency.pm 2012-11-08 17:05:55.982213647 -0500
-@@ -220,7 +220,7 @@
-             if ( -l "$dir/$path" ) {
-
-                 # Assume pseudo-installed
--                $this->{installedVersion} = 'HEAD';
-+                $this->{installedVersion} = '9999.99_999';
-             }
-             last;
-         }
-
-</verbatim>
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
@@ -137,6 +71,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  2.0 (22 Apr 2014) | Foswikitask:Item12863: Restructure PatchFoswikiContrib to remove obsolete patches originally shipped with the extension. |
 |  1.5 (26 Dec 2012) | Foswikitask:Item12312: Add reporting of patch status,%BR%\
                        Foswikitask:Item12314: Add feature to reverse a patch.%BR%\
                        Note that there are no changes to the patches shipped in this version.|

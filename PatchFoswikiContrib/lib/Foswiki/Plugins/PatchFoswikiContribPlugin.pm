@@ -19,8 +19,8 @@ use Foswiki::Func                 ();    # The plugins API
 use Foswiki::Plugins              ();    # For the API version
 use Foswiki::Configure::PatchFile ();
 
-our $VERSION = '1.5';
-our $RELEASE = '1.5';
+our $VERSION = '2.0';
+our $RELEASE = '2.0';
 
 our $SHORTDESCRIPTION =
   'Helper plugin to list patch files, and their application status.';
@@ -72,6 +72,9 @@ sub _PATCHREPORT {
 
         closedir($d);
     }
+
+    $ret ||=
+      '<div class="foswikiAlert">%X% No patches found on this system!</div>';
     return $ret;
 }
 
