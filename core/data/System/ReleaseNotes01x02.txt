@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1395597014" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1398367593" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -43,7 +43,86 @@ Foswiki 1.2 is shipped with the following:
 
 #Release01x02Changes
 ---++ Important changes since Foswiki 1.2
+
+---+++ Authentication and Authorization
+
    * users can authenticate via 'TemplateLogin' with their email address
+
+---++++ Deprecation of empty DENY rules
+
+The intention to deprecate the use of an empty =DENYTOPIC&lt;action&gt;= rule to act as an "ALLOW all" has been completed.   This has been a
+pending change predating Foswiki 1.0.0.
+
+<blockquote class="foswikiHelp">%X% *ACTION REQUIRED* Any topics in the system that allow access by supplying an empty DENYTOPIC
+rule need to be updated.  A utility has been provided to find and convert existing empty DENY rules to the new ALLOW format.
+You can choose to defer this action by enabling =$Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny}= in the _Security and Authentication_
+section under the _Access control_ tab.
+</blockquote>
+
+With release 1.2 of Foswiki, a new ACL rule, the asterisk,  is used as a
+wildcard to match *any* user, including the guest user, !WikiGuest. Prior to
+Foswiki 1.2,  a topic could be made accessable to everyone by coding
+an empty =DENYTOPIC&lt;action&gt;= rule.   This rule is no longer active by
+default.
+
+A conversion tool is availabe in the tools directory.  =tools/convertTopicSettings.pl=  It can perform the following actions:
+   * Convert empty =DENYTOPIC&lt;action&gt;= rules to the corresponding <tt>ALLOWTOPIC&lt;action&gt;= *</tt>
+   * Optionally convert inline ACLs into META settings.   This is recommended for Foswiki 1.2
+   * Optionally convert __all__ inline settings into META settings.  
+
+<verbatim>
+# perl -I bin tools/convertTopicSettings -fixdeny
+
+# SYNOPSIS
+#    convertTopicSettings [-update] [-fixdeny] [-convert] [-all] [-verbose]
+#    [-debug] [WEB ...]
+#
+# DESCRIPTION
+#
+#    -update: topics will be updated.  Without the -update
+#    option, candidate topic changes will be reported but will not be written.
+#
+#    -fixdeny: Removes empty DENYTOPIC rules, replacing them with ALLOWTOPIC
+#    wildcard
+#
+#    -convert: Convert Preference into META settings.  Inline ACLs are
+#    removed.
+#
+#    -all:     Convert all settings from inline sets to meta settings.
+#    Default is to
+#              process ACL settings
+#
+#    -verbose: Report details on what is changed.
+#
+#    -debug:   Print additional detailed information
+#
+#    If you specify web names, only those specified are processed. Otherwise,
+#    all writable webs are processed.
+#
+# WARNING
+#    This script uses the Foswiki APIs.  It MUST be run as the web server user
+#    (apache, or www-data depending on the distribution).  If run as root, it
+#    will make the foswiki log unusable by the foswiki web server.
+#
+</verbatim>
+
+---++ New Pluggable Access Control implementations.
+
+Foswiki has made the Access Control implementation "Pluggable".  New ACL
+methods may be more easily implemented in the future.  The default method is 
+=$Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';=.
+
+Two additional methods are now included which may be of help to the
+Administrator:
+
+   $ =AdminOnlyAccess=: When selected, all requests for access are denied except when requested by users in the AdminGroup.
+   $ =TopicACLReadOnlyAccess=: The topic ACLs are applied as usual, but any access other than VIEW access is denied, except for users in the AdminGroup
+
+<blockquote class="foswikiHelp">%X% *Caution:* These controls are enforced at
+the ACL Level.  Extensions have the ability to ignore access controls.  If an
+extension fails to check for access permission, then these new methods will
+not block access.
+</blockquote>
 
 ---+++ Configure has been given a major restructuring
 

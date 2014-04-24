@@ -14,7 +14,7 @@
 
 # You must add the Foswiki bin dir to the
 # search path for this script, so it can find the rest of Foswiki e.g.
-# perl -I /usr/local/Foswiki/bin /usr/local/Foswiki/tools/rewriteTopicACLs
+# perl -I bin tools/convertTopicSettings -fixdeny -update Sandbox
 
 # SYNOPSIS
 #    convertTopicSettings [-update] [-fixdeny] [-convert] [-all] [-verbose] [-debug] [WEB ...]
@@ -63,6 +63,8 @@ my $convert;
 my $verbose;
 my $debug;
 
+my $savedTopics = 0;    # Global counter of saved topics
+
 my $session = Foswiki->new('unknown');    #$Foswiki::cfg{AdminUserLogin} );
 
 GetOptions(
@@ -86,12 +88,15 @@ foreach my $web (@weblist) {
     my $topicCounter = 0;
     foreach my $topic ( Foswiki::Func::getTopicList($web) ) {
 
-        #next unless ( $topic =~ /TestTopic/ );
+        next unless ( $topic =~ /TestTopic/ );
+
         next if ( $topic eq $Foswiki::cfg{WebPrefsTopicName} );
         scanTopic( $web, $topic );
         $topicCounter++;
     }
-    print STDERR "Processed $topicCounter topics in $web\n";
+    print STDERR
+      "Processed $topicCounter topics in $web;  Updated $savedTopics\n";
+    $savedTopics = 0;
 }
 
 exit 0;
@@ -105,16 +110,9 @@ sub scanTopic {
     my %aclHash = ();
     print STDERR "Processing $web.$topic\n" if $verbose;
 
-    use Data::Dumper;
-    print STDERR "=================$topic BEFORE====================\n"
+    _dumpTopic( "$topic BEFORE", $topicObject->getEmbeddedStoreForm() )
       if $debug;
-    print STDERR Data::Dumper::Dumper( \$text ) if $debug;
-
-    my $newText = parse( $topicObject, \%aclHash );
-
-    print STDERR "=================$topic AFTER=====================\n"
-      if $debug;
-    print STDERR Data::Dumper::Dumper( \$newText ) if $debug;
+    my $newText = parse( \$topicObject, \%aclHash );
 
     if ( %aclHash && $verbose ) {
         foreach my $type ( keys %aclHash ) {
@@ -126,12 +124,16 @@ sub scanTopic {
         }
     }
 
+    print STDERR "$topic.$web text has been updated.\n"
+      unless ( $text eq $newText );
+
     if ($update) {
         $topicObject->text($newText);
         if ( $convert && %aclHash ) {
             foreach my $type ( keys %aclHash ) {
                 next if ( $type eq 'fixup' );
                 foreach my $key ( keys %{ $aclHash{$type} } ) {
+                    print STDERR "PUT $key value $aclHash{$type}{ $key, } \n";
                     $topicObject->putKeyed(
                         'PREFERENCE',
                         {
@@ -144,15 +146,31 @@ sub scanTopic {
                 }
             }
         }
-        if ( $text ne $newText ) {
+        if ( $text ne $newText || $aclHash{fixup} ) {
+            _dumpTopic( "$topic AFTER", $topicObject->getEmbeddedStoreForm() )
+              if $debug;
             my $newrev = $topicObject->save();
             print STDERR "Saved $web.$topic as rev $newrev\n";
+            $savedTopics++;
             print STDERR
 "---------------------------------------------------------------------------------------------------\n";
         }
     }
 
     return;
+}
+
+sub _dumpTopic {
+
+    print STDERR "================= $_[0] =====================\n";
+    require Data::Dumper;
+    print STDERR Data::Dumper::Dumper( \$_[1] );
+
+#my $hex = '';
+#foreach my $ch ( split ( //, $newText ) ) {
+#    $hex .= ( $ch lt "\x20" || $ch gt "\x7e" ) ? "\'" . unpack("H2",$ch) . "\'" : $ch;
+#	}
+#print STDERR "($hex)\n";
 }
 
 =begin TML
@@ -172,17 +190,22 @@ Parse settings from the topic and return the cleaned topic text..
 sub parse {
     my ( $topicObject, $prefs ) = @_;
 
+    #use Data::Dumper;
+    #print STDERR Data::Dumper::Dumper( \$topicObject );
+
     # Process text first
     my $key   = '';
     my $value = '';
     my $type;
-    my $text = $topicObject->text();
+    my $text = $$topicObject->text();
     $text = '' unless defined $text;
     my @newText;
     my $line;
 
  # This processes the topic text line-by-line to capture multi-line preferences.
-    foreach $line ( split( "\n", $text ) ) {
+ # Use -1 limit so that trailing lines are preserved
+
+    foreach $line ( split( /\n/ms, $text, -1 ) ) {
 
         if ( $line =~ m/$Foswiki::regex{setVarRegex}/os ) {
 
@@ -200,7 +223,7 @@ sub parse {
 
             unless ( $all || $key =~ m/^(?:ALLOW|DENY)(?:WEB|TOPIC)/ ) {
                 $type = undef;
-                print STDERR "Not an ACL: $key = $value\n";
+                print STDERR "Not an ACL: $key = $value\n" if $verbose;
             }
 
             # Convert the empty DENY here so it can be written inline.
@@ -245,18 +268,24 @@ sub parse {
     push @newText, $line if defined $line;
 
     # Now process PREFERENCEs
-    my @fields = $topicObject->find('PREFERENCE');
+    my @fields = $$topicObject->find('PREFERENCE');
     foreach my $field (@fields) {
         print STDERR
 "d - Found a meta pref: $field->{type} / $field->{name} /  $field->{value} \n"
           if $debug;
+
+        # Copy the values, convert_DENY updates in place!
+        my $key   = $field->{name};
+        my $value = $field->{value};
         $type = $field->{type} || 'Set';
-        insert_pref( $prefs, $type, $field->{name}, $field->{value} );
+        if ( convert_DENY( $prefs, $type, $key, $value ) ) {
+            print STDERR "Removing $type, $field->{name} \n";
+            $$topicObject->remove( 'PREFERENCE', $field->{name} );
+        }
+        insert_pref( $prefs, $type, $key, $value );
     }
 
-    # If original topic didn't end with a newline, don't add one.
-    my $nl = ( substr( $text, -1 ) eq "\n" ) ? "\n" : '';
-    return join( "\n", @newText ) . $nl;
+    return join( "\n", @newText );
 
     #    #### Code to process prefs in Forms ... NOT USED ###
     #    # Note that the use of the "S" attribute to support settings in
