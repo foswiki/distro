@@ -232,26 +232,29 @@ sub rest {
     }
 
     # Validate the request
-    if ( $record->{validate} ) {
-        unless ( $session->inContext('command_line') ) {
-            my $nonce = $req->param('validation_key');
-            if (
-                !defined($nonce)
-                || !Foswiki::Validation::isValidNonce(
-                    $session->getCGISession(), $nonce
-                )
-              )
-            {
-                $res->header( -type => 'text/html', -status => '403' );
-                $err = "ERROR: (403) Invalid validation code";
-                $res->print($err);
-                throw Foswiki::EngineException( 403, $err, $res );
-            }
+    # SMELL: We can't use Foswiki::UI::checkValidationKey.
+    # The common reoutine expires the key, but if we expired it,
+    # then subsequent requests using the same code would have to be
+    # interactively confirmed, which isn't really an option with
+    # an XHR.  Also, the common routine throws a ValidationException
+    # and we want a simple engine exception here.
+    if (   $record->{validate}
+        && $Foswiki::cfg{Validation}{Method} ne 'none'
+        && !$session->inContext('command_line') )
+    {
 
-            # SMELL: Note we don't expire the validation code. If we expired it,
-            # then subsequent requests using the same code would have to be
-            # interactively confirmed, which isn't really an option with
-            # an XHR.
+        my $nonce = $req->param('validation_key');
+        if (
+            !defined($nonce)
+            || !Foswiki::Validation::isValidNonce(
+                $session->getCGISession(), $nonce
+            )
+          )
+        {
+            $res->header( -type => 'text/html', -status => '403' );
+            $err = "ERROR: (403) Invalid validation code";
+            $res->print($err);
+            throw Foswiki::EngineException( 403, $err, $res );
         }
     }
 
