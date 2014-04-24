@@ -571,10 +571,13 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 #---++ Access Control
 # **SELECTCLASS Foswiki::Access::*Access**
 # <ol><li>
-# TopicACLAccess is the normal foswiki ACL system, as documented throught the setup guides.
+# <tt>TopicACLAccess</tt> is the normal foswiki ACL system, as documented throught the setup guides.
 # </li><li>
-# AdminOnlyAccess denies all non-admins (not in the AdminGroup) any access to the wiki - useful for site maintainence.
+# <tt>AdminOnlyAccess</tt> denies all non-admins (not in the AdminGroup) any access to the wiki - useful for site maintainence.
+# </li><li>
+# <tt>TopicACLReadOnlyAccess</tt> denies all non-admins any update access to the wiki, and falls back to <tt>TopicACLAccess</tt> for VIEW access checks  - also useful for site maintenance.
 # </li></ol>
+# Note:  The AdminOnly and ReadOnly access controls do not necessarly provide absolute control.  Some extensions (non-default) have been written to allow anonymous updates.  If an operation does not check for access permission, then it will not get blocked by these controls.
 $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
 # **BOOLEAN**
