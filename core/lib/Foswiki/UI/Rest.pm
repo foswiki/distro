@@ -290,10 +290,11 @@ sub rest {
 
     if ( !$error ) {
 
-# Used by CommentPlugin rest handler to redirect to an alternate topic.
-# Note that this might be better validated before dispatching the rest handler
-# however the CommentPlugin handler modifies the endPoint and validating it early
-# fails.
+        # endpoint is now deprecated, but may still be
+        # used by old rest handlers to redirect to an alternate topic.
+        # Note that this might be better validated before dispatching
+        # the rest handler however come handlers modify
+        # the endPoint and validating it early fails.
 
         # endPoint still supported for compatibility
         my $target = $session->redirectto( $req->param('endPoint') );
