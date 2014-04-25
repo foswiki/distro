@@ -128,8 +128,10 @@ sub prompt {
             $hiddenFields .=
               CGI::hidden( -name => 'comment_action', -value => 'save' );
 
-            $hiddenFields .=
-              CGI::hidden( -name => 'endPoint', -value => $endPoint );
+            if ($endPointReq) {
+                $hiddenFields .=
+                  CGI::hidden( -name => 'redirectto', -value => $endPoint );
+            }
 
             $hiddenFields .=
               CGI::hidden( -name => 'comment_type', -value => $type );
@@ -187,6 +189,7 @@ sub prompt {
         else {
             my $startform = CGI::start_form(
                 -name   => $type . $idx,
+                -class  => 'commentPluginForm',
                 -id     => $type . $idx,
                 -action => $url,
                 -method => 'post'
@@ -216,25 +219,18 @@ sub _expandPromptParams {
     return $default;
 }
 
-# PUBLIC build new topic text
-sub save {
+# PUBLIC build new topic text using exsting topic text and URL params
+# Return the full new topic text, and the position and output for
+# sending back in response to a REST request.
+sub comment {
 
-    my ( $text, $web, $topic ) = @_;
+    my ( $query, $web, $topic ) = @_;
+
+    return ( undef, undef ) unless $query;
+
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
     $text = '' unless defined $text;
-
-    my $query = Foswiki::Func::getCgiQuery();
-    return undef unless $query;
-
-    unless ( $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} ) {
-        unless ( Foswiki::Func::getContext()->{'authenticated'} ) {
-            my $authRest =
-              Foswiki::Func::getScriptUrl( undef, undef, 'restauth' )
-              . '/CommentPlugin/comment';
-            Foswiki::Func::redirectCgiQuery( undef, $authRest, 1 );
-            throw Error::Simple('restauth-redirect');
-        }
-    }
 
     my $wikiName = Foswiki::Func::getWikiName();
     my $mode     = $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave}
@@ -242,6 +238,7 @@ sub save {
     my $access =
       Foswiki::Func::checkAccessPermission( $mode, $wikiName, $text, $topic,
         $web );
+
     unless ($access) {
 
         # user has no permission to change the topic
@@ -297,11 +294,6 @@ sub save {
 
     $output = '' unless defined($output);
 
-    #make sure the anchor or location exits
-    if ( defined($location) and not( $text =~ /(?<!location\=\")($location)/ ) )
-    {
-        undef $location;
-    }
     if ( defined($anchor) and $text !~ /^$anchor\s*$/m ) {
         undef $anchor;
     }
@@ -321,6 +313,11 @@ sub save {
         }
         else {
             if ($location) {
+
+                # When matching an arbitrary location, we make sure
+                # the location isn't preceded by location=", which
+                # would indicate a match in the COMMENT macro. Not a
+                # cast-iron solution, but it mostly works.
                 if ( $position eq 'BEFORE' ) {
                     $text .= $output
                       unless (
@@ -373,7 +370,7 @@ sub save {
         $text =~ s/(%COMMENT({.*?})?%)/_remove_nth($1,\$idx,$remove)/eg;
     }
 
-    return $text;
+    return ( $meta, $text, $position, $output );
 }
 
 # PRIVATE embed output if this comment is the interesting one

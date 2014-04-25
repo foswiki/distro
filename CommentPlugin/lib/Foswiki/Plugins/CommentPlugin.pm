@@ -12,8 +12,9 @@ use Error ':try';
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
-use version; our $VERSION = version->declare("v2.0.3");
-our $RELEASE = '2.0.3';
+# Please use major.minor
+use version; our $VERSION = version->declare("v2.1");
+our $RELEASE = '25 Apr 2014';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -31,9 +32,23 @@ sub initPlugin {
     Foswiki::Func::registerRESTHandler(
         'comment', \&_restSave,
 
-        # validate   => 1, # TODO: needs javascript work
+        validate     => 1,
+        authenticate => $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment}
+        ? 0
+        : 1,
         http_allow => 'POST'
     );
+
+    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'Comment',
+        'Foswiki::Plugins::CommentPlugin::JQuery' );
+    unless (
+        Foswiki::Plugins::JQueryPlugin::createPlugin(
+            "Comment", $Foswiki::Plugins::SESSION
+        )
+      )
+    {
+        die 'Failed to register JQuery plugin';
+    }
 
     if (   (DEBUG)
         && $web   eq $Foswiki::cfg{SystemWebName}
@@ -55,6 +70,7 @@ sub _COMMENT {
     # Check the context has 'view' script
     my $context  = Foswiki::Func::getContext();
     my $disabled = '';
+
     if ( $context->{command_line} ) {
         $disabled = Foswiki::Func::expandCommonVariables(
 '%MAKETEXT{"Commenting is disabled while running from the command line"}%'
@@ -89,8 +105,8 @@ sub _COMMENT {
 # to be able to bypass the permissions checking that the save script
 # would do. We handle the return in several different ways; first, if
 # everything is OK, we set a 200 status and drop back to allow any
-# endPoint to be handled. Second, if we get an exception, and the
-# 'comment_ajax' parameter is set, we return a 500 status. If the
+# redirectto to be handled. Second, if we get an exception, and the
+# request came from AJAX, we return a 500 status. If the
 # parameter is not set, we pass the exception on to the UI package.
 
 sub _restSave {
@@ -111,9 +127,9 @@ sub _restSave {
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
 
     unless ( Foswiki::Func::webExists($web) ) {
-        if ( $query->param('comment_ajax') ) {
+        if ( $query->header('X-Requested-With') eq 'XMLHttpRequest' ) {
             $response->header( -status => 500 );
-            $response->body(shift);
+            $response->body("No such web '$web'");
         }
         else {
             throw Foswiki::OopsException(
@@ -135,9 +151,9 @@ sub _restSave {
     unless ($topic) {
 
         # validation failed - illegal name, don't have a topic name
-        if ( $query->param('comment_ajax') ) {
+        if ( $query->header('X-Requested-With') eq 'XMLHttpRequest' ) {
             $response->header( -status => 500 );
-            $response->body(shift);
+            $response->body("No such topic '$topic'");
         }
         else {
             throw Foswiki::OopsException(
@@ -149,46 +165,62 @@ sub _restSave {
         }
     }
 
-   # SMELL: Foswiki.pm ensures that the web cannot access a topic beginning with
-   # lower case letter,  so force it here as well.
-    $topic = ucfirst($topic);
-
-    if ( $query->param('redirectto') ) {
-        Foswiki::Func::writeWarning(
-"CommentPlugin: obsolete redirectto parameter overriding endPoint in $web.$topic"
-        );
-        $query->param(
-            -name  => 'endPoint',
-            -value => $query->param('redirectto')
-        );
-    }
+    my $isXHR =
+      ( ( $query->header('X-Requested-With') || '' ) eq 'XMLHttpRequest' );
 
     try {
         require Foswiki::Plugins::CommentPlugin::Comment;
 
-        my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
-
         # The save function does access control checking
-        $text =
-          Foswiki::Plugins::CommentPlugin::Comment::save( $text, $web, $topic );
+        my ( $meta, $text, $position, $output ) =
+          Foswiki::Plugins::CommentPlugin::Comment::comment( $query, $web,
+            $topic );
 
-        if ( defined $text ) {
+        $response->header( -status => 200 );
+        if ( defined $meta ) {
 
             # Don't save anything if nothing to save
             Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
                 { ignorepermissions => 1 } );
 
-            $response->header( -status => 200 );
-            $response->body("$web.$topic");
+            if ($isXHR) {
+                $response->pushHeader( 'X-Foswiki-Comment' => $position );
+
+                # Add new validation key to HTTP header
+                if ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' ) {
+                    require Foswiki::Validation;
+                    my $context =
+                      $query->url( -full => 1, -path => 1, -query => 1 )
+                      . time();
+                    my $cgis = $session->getCGISession();
+                    my $nonce;
+                    if ( Foswiki::Validation->can('generateValidationKey') ) {
+                        $nonce =
+                          Foswiki::Validation::generateValidationKey( $cgis,
+                            $context, 1 );
+                    }
+                    else {
+                        # Pre 1.2.0 compatibility
+                        my $html = Foswiki::Validation::addValidationKey( $cgis,
+                            $context, 1 );
+                        $nonce = $1 if ( $html =~ /value=['"]\?(.*?)['"]/ );
+                    }
+                    $response->pushHeader( 'X-Foswiki-Validation' => $nonce )
+                      if defined $nonce;
+                }
+                $response->body(
+                    Foswiki::Func::renderText( $output, $web, $topic ) );
+            }
         }
     }
     catch Foswiki::AccessControlException with {
-        if ( $query->param('comment_ajax') ) {
+        my $e = shift;
+        if ($isXHR) {
             $response->header( -status => 404 );
             $response->body(shift);
         }
         else {
-            shift->throw();
+            $e->throw();
         }
     }
     catch Error::Simple with {
@@ -196,19 +228,21 @@ sub _restSave {
 
         # Redirect already requested to clear the endpoint
         if ( $e =~ 'restauth-redirect' ) {
-            $query->param( endPoint => '' );
+            $query->param( redirectto => '' );
         }
         else {
             $e->throw();
         }
     }
     otherwise {
-        if ( $query->param('comment_ajax') ) {
+        my $e = shift;
+
+        if ($isXHR) {
             $response->header( -status => 500 );
-            $response->body(shift);
+            $response->body($e);
         }
         else {
-            shift->throw();
+            $e->throw();
         }
     };
     return undef;
@@ -218,7 +252,7 @@ sub _restSave {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

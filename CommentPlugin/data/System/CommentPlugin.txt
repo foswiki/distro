@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302471544" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1398447460" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
-*Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.*
+Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.
 
 %TOC{title="On this page:"}%
 
@@ -21,6 +21,8 @@ what is placed into topics.
 
 Supports custom access controls, allowing you to use it to add content to
 topics where the commenting user doesn't have CHANGE permissions.
+
+Uses Javascript to ensure feedback is as rapid as possible.
 
 ---++ Syntax
 #StandardAttrs
@@ -44,20 +46,6 @@ The =target= attribute may specify a web, and may also specify an anchor within 
 %COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
 This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
-
----++++ Location relative to an arbitrary text string
-Getting more sophisticated, you can also specify a regular expression for the target location using the =location= parameter. The target topic is searched for the regular expression, and the comment inserted relative to the string that the search matched. For example,
-<verbatim class="tml">
-%COMMENT{type="above" location="Flights of Fancy"}%
-</verbatim>
-will place comments above the first occurrence of the string =Flights of Fancy= in the current topic.
-
-*Warning* of course, if a user's comment contains the string "Flights of Fancy" they may and up _changing the location_ for the next comment! Also, if you use a tag in the location, then you've just inserted another tag in the page that contains the =%COMMENT=! So be very careful how you specify the RE for =location=. Note that the RE is matched using Perl "multiple line" mode, so ^ and $ match the start of a line and the end of a line respectively. %BR%
-Also note that you cannot have the text =location="= just before the location.
-
-I look forward to someone leveraging this feature to create - for example - threaded conversations using =%COMMENT=.
-
-If you specify an anchor _and_ a =location=, the anchor will be ignored.
 
 ---+++ Default templates
 Templates are used to define the "comment style" i.e. how comments appear in the page. The default is to add comments in "Blog like" style using bulleted lists, with the most recent comment at the top, but many other styles are available such as tables or Wiki thread mode comments. It is easy to define your own customer styles as well.
@@ -171,18 +159,17 @@ the =%<nop>COMMENTPROMPT%= macro.
 | =comment_type= | Type of the OUTPUT template |
 | =comment_index= | Zero-based index of the %COMMENT in the source topic. Used to place a post relative to an existing %COMMENT. |
 | =comment_anchor= | Anchor taken from the =target= spec |
-| =comment_location= | As passed to %COMMENT |
 | =comment_nonotify= | As passed to %COMMENT |
 | =comment_remove= | Zero-based index of a %COMMENT to remove from the target topic |
 | =comment_nopost= | As passed to %COMMENT |
 | =comment_templatetopic= | As passed to %COMMENT |
 | =comment_target= | Alternate save topic as passed to %COMMENT |
-Note that =comment_location= overrides =comment_anchor=, and both override =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
+Note that =comment_anchor= overrides =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
 <verbatim class="tml">
 <form method="post" action="%SCRIPTURL{restauth}%/CommentPlugin/comment" >
 <input type="submit" value="I Approve" />
 <input type="hidden" name="topic" value="%WEB%/%TOPIC%" />
-<input type="hidden" name="endPoint" value="%WEB%/%TOPIC%" />
+<input type="hidden" name="redirectto" value="%WEB%/%TOPIC%" />
 <input type="hidden" name="comment_action" value="save" />
 <input type="hidden" name="comment_type" value="bottom" />
 <input type="hidden" name="comment" value="I Approve" />
@@ -223,7 +210,7 @@ Example comment:
 ---+++ The =OUTPUT= template
 The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual macros are available in the =PROMPT= definition, but note that they get expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
 
-There are also four position tags that are used to indicate where the comment should be placed, relative to the =location= defined in the =%COMMENT= tag:
+There are also four position tags that are used to indicate where the comment should be placed, relative to the location defined in the =%COMMENT= tag:
 
     | =%<nop>POS:TOP%= | If present, comments will be inserted *at the top of the topic* i.e. before any other text |
     | =%<nop>POS:BOTTOM%= | If present, comments will be inserted *at the end of the topic* i.e. after all existing text |
@@ -272,9 +259,10 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | |
-|  22 Feb 2012 | Foswikitask:Item11448 - Implement {GuestCanComment}. If enabled, guests can comment on topics that they can not edit. |
-|  30 Jan 2012 | Foswikitask:Item11447 - "noform" examples not working - add comment_target parameter.|
-|  15 Jan 2012 | Foswikitask:Item11443 - better handling if target topic or web do not exist. |
+|  2.1 (25 Apr 2014) | Foswikitask:Item10191: Recoded REST as a proper JQuery plugin, with correctly formatted insertions. Note that the old =location= parameter has been *removed*, as it never worked properly, could cause damage to topics, and could not work with client comments. If you were using it, apologies, but it had to go. Correct use of validation and authentication. Ready for 1.2.0. |
+|  2.0.3 (22 Feb 2012) | Foswikitask:Item11448 - Implement {GuestCanComment}. If enabled, guests can comment on topics that they can not edit. |
+|  2.0.2 (30 Jan 2012) 12887 | Foswikitask:Item11447 - "noform" examples not working - add comment_target parameter.|
+|  2.0.1 (15 Jan 2012) | Foswikitask:Item11443 - better handling if target topic or web do not exist. |
 |  10 Apr 2011 | Foswikitask:Item10263 - remove wrap="soft" to make templates validate. |
 |  19 Nov 2010 | Foswikitask:Item10050 - CommentPlugin prompt must not add newlines that prevent COMMENT inside TML tables |
 |  21 Oct 2010 | Foswikitask:Item3499 - support COMMENT (and other) ACL preferences%BR%\
@@ -296,4 +284,4 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" date="1398447500" comment="" version="1"}%

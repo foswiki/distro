@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284873420" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1398447500" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 #VarCOMMENT
 ---+++ COMMENT{ _attributes_ } -- insert an edit box into the topic to easily add comments.
@@ -9,7 +9,6 @@
      | =type= | This is the name of the template to use for this comment. Comment templates are defined in a Foswiki template - see [[CommentPlugin#TemPlates][Customisation]], below. If this attribute is not defined, the type is whatever is defined by COMMENTPLUGIN_DEFAULT_TYPE, either in this topic or in your WebPreferences. | =below= |
      | =default= | Default text to put into the prompt. | |
      | =target= | Name of the topic to add the comment to | the current topic |
-     | =location= | Regular expression specifying the comment location in the target topic. Read _carefully_ the CommentPlugin documentation! | |
      | =mode= | For compatibility with older versions only, synonymous with =type= | |
      | =nonotify= | Set to "on" to disable change notification for target topics | =off= |
      | =noform= | Set to "on" to disable the automatic form that is generated around your comment prompt if you don't provide a =FORM= template. See [[%SANDBOXWEB%.CommentPluginExamples#noform][CommentPluginExamples:noform]] for an example. | =off= |

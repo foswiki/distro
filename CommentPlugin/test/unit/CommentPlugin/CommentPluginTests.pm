@@ -30,6 +30,7 @@ sub set_up {
     Foswiki::Func::getContext()->{view} = 1;
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
     $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
+    $Foswiki::cfg{Plugins}{CommentPlugin}{TestMode}        = 1;
 
     return;
 }
@@ -157,12 +158,13 @@ HERE
     $this->assert( scalar( $dattrs =~ s/\s+action=\"(.*?)\"// ), $dattrs );
     $this->assert_str_equals( $url, $1 );
     $dattrs =~ s#application/x-www-form-urlencoded#multipart/form-data#;
-    $this->assert_str_equals(
-        'enctype="multipart/form-data" id="' . $type . '0"',
-        trim($dattrs) );
+    $this->assert( scalar( $dattrs =~ s#class="commentPluginForm"## ) );
+    $this->assert( scalar( $dattrs =~ s#enctype="multipart/form-data"## ) );
+    $this->assert( scalar( $dattrs =~ s#id="${type}0"## ) );
+    $this->assert_str_equals( "", trim($dattrs) );
 
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
         return;
     }
@@ -234,7 +236,7 @@ HERE
     $this->assert_matches( qr/name=\"comment\"/, $dattrs );
     my $mess = $2;
     $this->assert_str_equals( "The Message", $mess );
-    $this->assert_matches( qr/<input\s+\s*type="submit"\s*value=\".*?"\s*\/>/i,
+    $this->assert_matches( qr/<input\s+\s*type="button"\s*value=\".*?"\s*\/>/i,
         $html );
 
     # Compose the query
@@ -376,7 +378,7 @@ sub test_reverseCompat {
     $this->assert_matches( qr/form [^>]*name=\"after0\"/,        $html );
     $this->assert_matches( qr/rows=\"99\"/,                      $html );
     $this->assert_matches( qr/cols=\"104\"/,                     $html );
-    $this->assert_matches( qr/type=\"submit\"\s+value=\"HoHo\"/, $html );
+    $this->assert_matches( qr/type=\"button\"\s+value=\"HoHo\"/, $html );
 
     return;
 }
@@ -390,12 +392,12 @@ sub verify_redirectto_redirects {
     );
 
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
         $this->assert_matches(
-qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences".*?)\s*\/>/,
             $html
         );
     }
@@ -422,7 +424,7 @@ qr/<span class='foswikiAlert'> Target web does not exist: '$this->{test_web}MISS
     );
 
     $this->assert_matches(
-qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences#AnchOr".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences#AnchOr".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
@@ -432,7 +434,7 @@ qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences#AnchOr".
     );
 
     $this->assert_matches(
-qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences\?blah=01".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences\?blah=01".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
@@ -442,7 +444,7 @@ qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences\?blah=01
     );
 
     $this->assert_matches(
-qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
@@ -453,7 +455,7 @@ qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences\?blah=01
     );
 
     $this->assert_matches(
-qr/<input ([^>]*name="endPoint" value="$systemweb.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$systemweb.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
@@ -463,7 +465,7 @@ qr/<input ([^>]*name="endPoint" value="$systemweb.WebPreferences\?blah=01#AnchOr
     );
 
     $this->assert_matches(
-qr/<input ([^>]*name="endPoint" value="$this->{test_web}.WebPreferences#AnchOr\?blah=01".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences#AnchOr\?blah=01".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
@@ -477,7 +479,7 @@ sub verify_locationOverridesAnchor {
     );
 
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
@@ -501,7 +503,7 @@ HERE
     my $html = Foswiki::Func::expandCommonVariables('%COMMENT{nopost="on"}%');
 
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
@@ -551,7 +553,7 @@ HERE
     my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
@@ -609,7 +611,7 @@ HERE
       Foswiki::Func::expandCommonVariables('%COMMENT{default="wibble"}%');
 
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
@@ -632,7 +634,7 @@ HERE
     my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
@@ -694,7 +696,7 @@ HERE
 
     $html = removeEscapes($html);
     if ( Foswiki::Func::getContext()->{static} ) {
-        $this->assert_matches( qr/'Commenting is disabled for static viewing'/,
+        $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
@@ -744,10 +746,12 @@ HERE
 sub verify_acl_COMMENT {
     my $this = shift;
 
+    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 0;
+
     my $sample = <<HERE;
-   * Set DENYTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
-   * Set DENYTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}
-   * Set ALLOWTOPICCOMMENT = $Foswiki::cfg{DefaultUserWikiName}
+   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
+   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set ALLOWTOPICCOMMENT = $this->{test_user_wikiname}
 %COMMENT%
 HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
@@ -770,7 +774,7 @@ HERE
     my ( $responseText, $result, $stdout, $stderr );
 
     # First make sure we can't *change* it
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
 
     # invoke the save handler
     eval {
@@ -780,13 +784,12 @@ HERE
         );
     };
 
-    $this->assert($@);
     $this->assert_matches( qr"AccessControlException", $@ );
 
     # Now make sure we *can* change it, given COMMENT access
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
 
     # invoke the save handler
     eval {
@@ -795,21 +798,21 @@ HERE
             $this->{session}
         );
     };
-    $this->assert( !$@ );
+    $this->assert( !$@, $@ );
     $this->assert_matches( qr/Status: 200/, $responseText );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
     $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
     $this->assert_str_equals( <<HERE, $text );
-   * Set DENYTOPICCHANGE = WikiGuest
-   * Set DENYTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}
-   * Set ALLOWTOPICCOMMENT = WikiGuest
+   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
+   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set ALLOWTOPICCOMMENT = $this->{test_user_wikiname}
 
 
 This is the comment
 
--- TemporaryCommentPluginTestsUsersWeb.WikiGuest - DATE
+-- $this->{users_web}.$this->{test_user_wikiname} - DATE
 %COMMENT%
 HERE
 }
@@ -829,10 +832,10 @@ HERE
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => "Arfle barfle gloop",
-            'comment_ajax'   => 1,
             topic            => "$this->{test_web}.$this->{test_topic}",
         }
     );
+    $query->header( 'X-Requested-With' => 'XMLHttpRequest' );
     $query->path_info("/CommentPlugin/comment");
     my ( $responseText, $result, $stdout, $stderr );
     $this->createNewFoswikiSession( undef, $query );
@@ -843,46 +846,6 @@ HERE
         );
     };
     $this->assert_matches( qr/Status: 404/, $responseText );
-
-}
-
-sub verify_guest_comment_redirect {
-    my $this = shift;
-    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 0;
-
-    my $sample = <<HERE;
-   * Set ALLOWTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
-%COMMENT%
-HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
-        $sample );
-
-    my $query = Unit::Request->new(
-        {
-            'comment_action' => 'save',
-            'comment_type'   => 'returntab',
-            'redirectto' =>
-              "$this->{test_web}.$this->{test_topic}\?tab=discuss",
-            'endPoint' => "$this->{test_web}.$this->{test_topic}#BLAH",
-            'comment'  => "This is the comment",
-            'topic'    => "$this->{test_web}.$this->{test_topic}"
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
-
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    my $text = "Ignore this text";
-
-    # invoke the save handler
-    # $responseText, $result, $stdout, $stderr
-    my ( $response, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
-
-    $this->assert_matches( qr/^Status: 302/ms, $response );
-    $this->assert_matches(
-qr/Location:.*\/restauth\/CommentPlugin\/comment\?foswiki_redirect_cache.*/ms,
-        $response
-    );
 
 }
 
@@ -941,9 +904,8 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
             'comment_type'   => 'returntab',
             'redirectto' =>
               "$this->{test_web}.$this->{test_topic}\?tab=discuss",
-            'endPoint' => "$this->{test_web}.$this->{test_topic}#BLAH",
-            'comment'  => $comm,
-            'topic'    => "$this->{test_web}.$this->{test_topic}"
+            'comment' => $comm,
+            'topic'   => "$this->{test_web}.$this->{test_topic}"
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -961,17 +923,6 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
         qr/^Location:.*\/$this->{test_web}\/$this->{test_topic}\?tab=discuss/ms,
         $response
     );
-
-    open( my $fh, '<', $warningLog )
-      || die "$warningLog: $!";
-    local $/ = undef;
-    $this->assert_matches(
-        qr/CommentPlugin: obsolete redirectto parameter overriding endPoint/ms,
-        <$fh>
-    );
-    close($fh) || die "$warningLog: $!";
-    unlink "$warningLog"
-      if ( -f "$warningLog" );
 
     return;
 }
