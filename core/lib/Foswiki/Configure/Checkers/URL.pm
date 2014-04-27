@@ -234,8 +234,9 @@ sub _checkEntry {
                                 );
                             }
                         }
-                        $e .= $this->ERROR("${id}$auth has no IP addresses")
-                          unless ( @{ $hi->{addrs} } );
+                        $e .= $this->ERROR(
+"${id}$auth has no IP addresses. Verify DNS or hostname."
+                        ) unless ( @{ $hi->{addrs} } );
                     }
                     else {
                         $e .= $this->ERROR(

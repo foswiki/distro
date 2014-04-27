@@ -21,7 +21,13 @@ sub check {
         if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m,^https?://$host,i ) {
             return $mess
               . $this->WARN( 'Current setting does not match HTTP_HOST ',
-                $ENV{HTTP_HOST} );
+                $ENV{HTTP_HOST} )
+              . $this->NOTE(
+                    'If url hostname is correct, set this field to <tt>http://'
+                  . $host
+                  . '</tt> or if using SSL, <tt>https://'
+                  . $host
+                  . '</tt>' );
         }
     }
     else {
