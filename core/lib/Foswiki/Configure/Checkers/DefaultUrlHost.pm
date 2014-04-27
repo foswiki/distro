@@ -23,11 +23,13 @@ sub check {
               . $this->WARN( 'Current setting does not match HTTP_HOST ',
                 $ENV{HTTP_HOST} )
               . $this->NOTE(
-                    'If url hostname is correct, set this field to <tt>http://'
+                    'If the URL hostname is correct, set this to <tt>http://'
                   . $host
                   . '</tt> or if using SSL, <tt>https://'
                   . $host
-                  . '</tt>' );
+                  . '</tt> '
+                  . 'If this setting and the URL are both correct, you could also add the URL to the \'expert setting\' <tt>PermittedRedirectHostUrls</tt>.'
+              );
         }
     }
     else {
