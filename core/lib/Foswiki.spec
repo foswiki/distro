@@ -465,6 +465,15 @@ $Foswiki::cfg{Trace}{LoginManager} = 0;
 $Foswiki::cfg{AuthScripts} =
 'attach,compareauth,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';
 
+# **BOOLEAN**
+# Foswiki 1.2 has removed the <tt>rest</tt> script from the list of <tt>{AuthScripts}</tt>.  Instead of providing blanket
+# security for <tt>rest</tt>, each handler is now responsible to set its individual requirements for 3 options:
+# <i>authentication</i>, <i>validation</i> and <i>http_allow</i>ed methods (POST vs. GET).  The defaults for these
+# 3 options have been changed to default to be secure, and handlers can exempt these checks based upon their specific requirements.
+# <p>Enable this setting to restore the original insecure defaults.   A warning will be displayed if this parameter is enabled
+# and <tt>rest</tt> is not listed in <tt>{AuthScripts}</tt></p>
+$Foswiki::cfg{InsecureREST} = $TRUE;
+
 # **REGEX EXPERT**
 # Regular expression matching the scripts that should be allowed to accept the 
 # <tt>username</tt> and <tt>password</tt> parameters other than the login script.  Older versions of

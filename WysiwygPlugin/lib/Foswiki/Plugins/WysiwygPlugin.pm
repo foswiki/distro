@@ -79,14 +79,22 @@ sub initPlugin {
     Foswiki::Func::registerTagHandler( 'WYSIWYG_SECRET_ID',
         sub { _execute( '_SECRET_ID', @_ ) } );
 
+    # The WYSIWYG REST handlers all check for appropriate access.
+    # Core does not need to enforce access or validation.
+    my %opts = (
+        authenticate => 0,
+        validate     => 0,
+        http_allow   => 'GET,POST',
+    );
+
     Foswiki::Func::registerRESTHandler( 'tml2html',
-        sub { _execute( '_restTML2HTML', @_ ) } );
+        sub { _execute( '_restTML2HTML', @_ ) }, %opts );
     Foswiki::Func::registerRESTHandler( 'html2tml',
-        sub { _execute( '_restHTML2TML', @_ ) } );
+        sub { _execute( '_restHTML2TML', @_ ) }, %opts );
     Foswiki::Func::registerRESTHandler( 'upload',
-        sub { _execute( '_restUpload', @_ ) } );
+        sub { _execute( '_restUpload', @_ ) }, %opts );
     Foswiki::Func::registerRESTHandler( 'attachments',
-        sub { _execute( '_restAttachments', @_ ) } );
+        sub { _execute( '_restAttachments', @_ ) }, %opts );
 
     # Plugin correctly initialized
     return 1;

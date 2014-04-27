@@ -90,6 +90,9 @@ sub rest {
     my $res = $session->{response};
     my $err;
 
+    # Referer is useful for logging REST request errors
+    my $referer = ( defined $ENV{HTTP_REFERER} ) ? $ENV{HTTP_REFERER} : '';
+
     # Must define topic param in the query to avoid plugins being
     # passed the path_info when the are initialised. We can't affect
     # the path_info, but we *can* persuade Foswiki to ignore it.
@@ -100,6 +103,8 @@ sub rest {
             $err = 'ERROR: (400) Invalid REST invocation'
               . " - Invalid topic parameter $topic\n";
             $res->print($err);
+            $session->logger->log( 'warning', "REST rejected: " . $err,
+                " - $referer", );
             throw Foswiki::EngineException( 400, $err, $res );
         }
     }
@@ -169,6 +174,8 @@ sub rest {
         $err =
           "ERROR: (400) Invalid REST invocation - $pathInfo is malformed\n";
         $res->print($err);
+        $session->logger->log( 'warning', "REST rejected: " . $err,
+            " - $referer", );
 
         $res->print(
             "\nusage: ./rest /PluginName/restHandler param=value\n\n" . join(
@@ -196,8 +203,18 @@ sub rest {
             'ERROR: (404) Invalid REST invocation - '
           . $pathInfo
           . ' does not refer to a known handler';
+        $session->logger->log( 'warning', "REST rejected: " . $err,
+            " - $referer", );
         $res->print($err);
         throw Foswiki::EngineException( 404, $err, $res );
+    }
+
+    # This allows us to remove rest from the list of {AuthScripts} list
+    # Individual rest handlers should explicitly set their own requirements.
+    unless ( $Foswiki::cfg{InsecureREST} ) {
+        $record->{http_allow}   = 'POST' unless defined $record->{http_allow};
+        $record->{authenticate} = 1      unless defined $record->{authenticate};
+        $record->{validate}     = 1      unless defined $record->{validate};
     }
 
     # Check the method is allowed
@@ -211,6 +228,11 @@ sub rest {
                     'ERROR: (405) Bad Request: '
                   . uc( $req->method() )
                   . ' denied';
+                $session->logger->log(
+                    'warning',
+                    "REST rejected: " . $err,
+                    " $subject/$verb - $referer",
+                );
                 $res->print($err);
                 throw Foswiki::EngineException( 405, $err, $res );
             }
@@ -226,6 +248,11 @@ sub rest {
         {
             $res->header( -type => 'text/html', -status => '401' );
             $err = "ERROR: (401) $pathInfo requires you to be logged in";
+            $session->logger->log(
+                'warning',
+                "REST rejected: " . $err,
+                " $subject/$verb - $referer"
+            );
             $res->print($err);
             throw Foswiki::EngineException( 401, $err, $res );
         }
@@ -253,6 +280,11 @@ sub rest {
         {
             $res->header( -type => 'text/html', -status => '403' );
             $err = "ERROR: (403) Invalid validation code";
+            $session->logger->log(
+                'warning',
+                "REST rejected: " . $err,
+                " $subject/$verb - $referer"
+            );
             $res->print($err);
             throw Foswiki::EngineException( 403, $err, $res );
         }
@@ -312,7 +344,7 @@ sub rest {
                     -charset => 'UTF-8'
                 );
                 $session->{response}
-                  ->print( 'ERROR: (404) Invalid REST invocation - '
+                  ->print( 'ERROR: (403) Invalid REST invocation - '
                       . ' redirectto does not refer to a valid redirect target'
                   );
                 return;

@@ -106,7 +106,17 @@ A conversion tool is availabe in the tools directory.  =tools/convertTopicSettin
 #
 </verbatim>
 
----++ New Pluggable Access Control implementations.
+---+++ REST Script default security has changed:
+
+Foswiki 1.2 has removed the =rest= script from the list of ={AuthScripts}=.  Instead of providing blanket 
+security for =rest=, each handler is now responsible to set its individual requirements for 3 options:
+<i>authentication</i>, <i>validation</i> and <i>http_allow</i>ed methods (POST vs. GET).  The defaults for these
+3 options have been changed to default to be secure, and handlers can exempt these checks based upon their specific requirements.
+
+A new configuration option has been added to the _Security and Authentication_ section, _Login_ tab: ={InsecureREST}=. Enable this setting to restore the old insecure
+defaults for REST handlers.  If enabled, and =rest= is not listed in ={AuthScripts}=, a warning will be displayed.
+
+---+++ New Pluggable Access Control implementations.
 
 Foswiki has made the Access Control implementation "Pluggable".  New ACL
 methods may be more easily implemented in the future.  The default method is 
