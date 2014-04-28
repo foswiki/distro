@@ -1578,6 +1578,13 @@ $Foswiki::cfg{MergeHeadAndScriptZones} = $FALSE;
 # This setting will switch on/off caching.
 $Foswiki::cfg{Cache}{Enabled} = $FALSE;
 
+# **BOOLEAN EXPERT DISPLAY_IF {Cache}{Enabled}**
+# Enable cache debug - UI::View and UI::Rest record debug messages.
+$Foswiki::cfg{Cache}{Debug} = $FALSE;
+
+# This setting will switch on/off caching.
+$Foswiki::cfg{Cache}{Enabled} = $FALSE;
+
 # **PATH DISPLAY_IF {Cache}{Enabled}**
 # Specify the directory where binary large objects will be stored.
 $Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
