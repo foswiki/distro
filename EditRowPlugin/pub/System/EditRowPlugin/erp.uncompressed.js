@@ -1,12 +1,15 @@
 /**
  * Support for EditRowPlugin
  * 
- * Copyright (c) 2009-2013 Foswiki Contributors
- * Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
+ * Copyright (c) 2009-2014 Foswiki Contributors
+ * Copyright (C) 2007 WindRiver Inc.
  * All Rights Reserved. Foswiki Contributors are listed in the
  * AUTHORS file in the root of this distribution.
  * NOTE: Please extend that file, not this notice.
- * 
+ *
+ * Additional copyrights apply to portions of this file as follows: 
+ * Copyright (C) 2007 TWiki Contributors.
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -17,7 +20,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * 
- * Do not remove this copyright notice.
+ * Do not remove this notice.
  */
 (function($) {
     var instrument;
@@ -190,8 +193,8 @@
                 ? 'top' :'bottom';
         }
         // dragee and target are both TRs
-        var target_data = target.data('erp_data');
-        var dragee_data = dragee.data('erp_data');
+        var target_data = target.data('erp-data');
+        var dragee_data = dragee.data('erp-data');
         var old_pos = dragee_data.erp_row;
         var new_pos;
         if (target_data != null)
@@ -205,7 +208,7 @@
 
         var table = container.closest('table');
         var move_data = $.extend({ noredirect: 1 }, target_data,
-                                 table.data('erp_data'));
+                                 table.data('erp-data'));
         if (edge == 'bottom')
             new_pos++;
         
@@ -330,9 +333,15 @@
             var sd = $.extend(
                 { erp_action: "saveCellCmd",
                   noredirect: 1 },
-                $(this).data('erp_data'),
-                $(this).closest('tr').data('erp_data'),
-                $(this).closest('table').data('erp_data'));
+                $(this).data('erp-data'),
+                $(this).closest('tr').data('erp-data'),
+                $(this).closest('table').data('erp-data'));
+            var form = $(this).closest('form');
+            if ( form.length > 0 && form[0].validation_key ) {
+                if (typeof(StrikeOne) !== 'undefined')
+                    StrikeOne.submit(form[0]);
+                $.extend(sd, { validation_key: form[0].validation_key.value });
+            }
             return sd;
         },
 
@@ -364,28 +373,20 @@
         onblur: 'cancel'
     };
 
+    // Success callback. This just handles the JEditable callback;
+    // any other operations requiring the full XHR are handled in
+    // the onSaveComplete handler.
     var editCallback = function(el, value, settings, val2data) {
-        if (value.indexOf("RESPONSE") != 0) {
-            // We got something other than a REST response -
-            // probably an auth prompt. Need to edit the
-            // login form and clear noredirect so that the
-            // save knows to complete in an unRESTful way.
-            // Note that this should really prompt in a pop-up dialog.
-            $(el).replaceWith($(value).find(
-                "form[name='loginform']"));
-            $("form[name='loginform'] input[name='noredirect']")
-                .remove();
-        } else {
-            value = value.replace(/^RESPONSE/, '');
-            $(el).html(value);
-            if (val2data) {
-                // Add changed text (unexpanded) to settings
-                settings.data = value;
-            }
-            el.isSubmitting = false;
-            $(el).parent().find('.erp_clock_button').remove();
-            $(el).next().show();
+        
+        value = value.replace(/^RESPONSE/, '');
+        $(el).html(value);
+        if (val2data) {
+            // Add changed text (unexpanded) to settings
+            settings.data = value;
         }
+        el.isSubmitting = false;
+        $(el).parent().find('.erp_clock_button').remove();
+        $(el).next().show();
     };
 
     // callback for text edit controls
@@ -398,15 +399,32 @@
         editCallback(this, value, settings, false);
     };
 
-    var attachEditControls = function(el) {
-        var p = el.data('erp_data');
+    // Handle AJAX completion (success and error)
+    var onSaveComplete = function(jqXHR, status) {
+        // Update the strikeone nonce
+        var nonce = jqXHR.getResponseHeader('X-Foswiki-Validation');
+        // patch in new nonce
+        if (nonce) {
+            $("input[name='validation_key']").each(function() {
+                $(this).val("?" + nonce);
+            });
+        }
+        if (status != 'success') {
+            alert(jqXHR.responseText);
+        }
+    };
+
+    // Attach a JEditable 
+    var attachJEditable = function(el) {
+        var p = el.data('erp-data');
 
         if (!p || !p.type || p.type == 'label')
             return;
 
         // Add edit trigger button (yellow stain)
-        // Note we need the extra <div class="erpJS_container" for positioning. It
-        // is *not* sufficient to set the class on the td
+        // Note we need the extra <div class="erpJS_container" for
+        // positioning. It is *not* sufficient to set the class on
+        // the td
         var div = $("<div class='erpJS_container'></div>");
         var button = $('<div class="erpJS_editButton" title="Click to edit"></div>');
         div.append(button);
@@ -419,21 +437,23 @@
             el.triggerHandler('erp_edit');
         });
 
-        // Attach the edit control functions. Delay this until we are hovered
-        // over.
-        var cb = (p.type == "text" || p.type == "textarea") ?
-            textCallback : otherCallback;
         p = $.extend(
             {
                 event: "erp_edit",
                 placeholder: '<div class="erp_empty"></div>',
-                callback: cb,
-                tooltip: ''
+                callback: (p.type == "text" || p.type == "textarea")
+                    ? textCallback : otherCallback,
+                tooltip: '',
+                // SMELL: use undocumented ajaxoptions
+                ajaxoptions: {
+                    complete: onSaveComplete
+                }
             },
             p,
             editControls
         );
-        var url = foswiki.getPreference('SCRIPTURLPATH') + '/rest/EditRowPlugin/save';
+        var url = foswiki.getPreference('SCRIPTURLPATH')
+            + '/rest/EditRowPlugin/save';
         if (el.editable)
             el.editable(url, p);
     };
@@ -441,8 +461,9 @@
     var erp_dataDirty = false;
     var erp_dirtyVeto = false;
 
-    // For a given context (the whole document, or a single table during editing)
-    // decorate the table with handlers for cell edit, row edit, and row move
+    // For a given context (the whole document, or a single table
+    // during editing) decorate the table with handlers for cell edit,
+    // row edit, and row move
     instrument = function(context) {
 
         // Move metadata into $.data. We have to do this completely because
@@ -451,52 +472,35 @@
         // away by the TablePlugin)
         context.find('.erpJS_cell').each(function(index, value) {
 
-            // Extract meta-data from the class attribute
-            var p, m, c = $(this).attr("class");
-            if (m = /({.*})/.exec(c)) {
-                p = eval('(' + m[1] + ')');
-                $(this).attr("class", c.replace(/\s*{.*}/, ''));
-            } else {
-                //alert("This should not fail");
-            }
-
-            if (!p)
-                return;
-
-            if (p.tabledata) {
-                // Data to be moved up to the table
+            // Get table meta-data
+            var p = $(this).data('erp-tabledata');
+            if (p) {
+                // Data to be moved up to the containing table
                 var table = $(this).closest("table");
-                table.data('erp_data', p.tabledata);
+                table.data('erp-data', p);
                 table.addClass('erp_editable');                
-                delete p.tabledata;
             }
 
-            if (p.trdata) {
-                // Data to be moved up to the row
+            p = $(this).data('erp-trdata');
+            if (p) {
+                // Data to be moved up to the containing row
                 var tr = $(this).closest("tr");
-                tr.data('erp_data', p.trdata);
-                tr.addClass("editRowPluginRow");
+                tr.data('erp-data', p);
                 tr.addClass('ui-draggable');
-                delete p.trdata;
             }
 
-            // Rewrite submitimg and cancelimg to HTML buttons for
-            // passing to $.editable
-            if (p.submitimg) {
-                p.submit = "<button type='submit'><img src='" +
-                    foswiki.getPreference('PUBURLPATH') +
-                    '/System/EditRowPlugin/' + p.submitimg + "' /></button>";
-                delete p.submitimg;
+            // Rewrite submitimg and cancelimg to HTML buttons
+            // for passing to $.editable
+            p = $(this).data('erp-data');
+            if (p) {
+                $.each(p, function(name, img) {
+                    if (name.indexOf('img') == name.length - 3) {
+                        name = name.replace(/img$/, '');
+                        p[name] = "<button type='submit'><img src='"
+                            + img + "' /></button>";
+                    }
+                });
             }
-            if (p.cancelimg) {
-                p.cancel = "<button type='submit'><img src='" +
-                    foswiki.getPreference('PUBURLPATH') +
-                    '/System/EditRowPlugin/' + p.cancelimg + "' /></button>";
-                delete p.cancelimg;
-            }
-
-            // Data for the cell
-            $(this).data('erp_data', p);
         });
 
         context.find('.erpJS_input').change(function() {
@@ -557,7 +561,7 @@
 
                     // Attach an editor to each editable cell
                     tr.find('.erpJS_cell').each(function(index, value) {
-                        attachEditControls($(this));
+                        attachJEditable($(this));
                     });
                 }
                 if (!current_row || tr[0] != current_row[0]) {

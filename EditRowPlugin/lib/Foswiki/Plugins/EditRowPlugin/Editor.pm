@@ -79,20 +79,24 @@ sub jQueryMetadata {
     return $data;
 }
 
+# Used by subclasses
 sub _addSaveButton {
     my ( $this, $data ) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
 
     # JS will rewrite this URL to some HTML
-    $data->{submitimg} = "save.png";
+    $data->{submitimg} =
+      "$purl/$Foswiki::cfg{SystemWebName}/EditRowPlugin/save.png";
 }
 
+# Used by subclasses
 sub _addCancelButton {
     my ( $this, $data ) = @_;
     my $purl = Foswiki::Func::getPubUrlPath();
 
     # JS will rewrite this URL to some HTML
-    $data->{cancelimg} = "stop.png";
+    $data->{cancelimg} =
+      "$purl/$Foswiki::cfg{SystemWebName}/EditRowPlugin/stop.png";
 }
 
 =begin TML

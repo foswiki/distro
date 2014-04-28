@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1395591064" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1398701030" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -264,7 +264,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007-2011 Wind<nop>River Inc.<br/> &copy; 2008-2013 Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  3.0.7 (24 Mar 2014) | Foswiki:Tasks/Item12814 disable edit on tables with no macro Foswiki:Tasks/Item128120 fix row moving, zero-width edit boxes on Chromium, and header clearing on table edit close |
+|  3.0.7 (28 Apr 2014) | Foswiki:Tasks/Item12814 disable edit on tables with no macro Foswiki:Tasks/Item128120 fix row moving, zero-width edit boxes on Chromium, and header clearing on table edit close. Foswiki:Tasks/Item12871: support StrikeOne validation and clean REST authentication checking |
 |  3.0.6 (13 Nov 2013) | Foswiki:Tasks/Item11920 syntax error in JS was causing failure on IE 7 |
 |  3.0.5 (12 Nov 2013) | Foswiki:Tasks/Item12654: Fixed interactive row moving, add wait cursor during REST request |
 |  3.0.4 (11 Nov 2013) | Foswiki:Tasks/Item12132: Workaround for CSS problem in PatternSkin |
@@ -296,12 +296,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{date="1395591064" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1395591064" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1398701030" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%

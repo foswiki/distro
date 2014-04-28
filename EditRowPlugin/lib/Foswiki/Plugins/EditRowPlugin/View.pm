@@ -113,15 +113,20 @@ sub process {
         {
 
             my $active_row = $urps->{erp_row};
+
+            my $saveUrl =
+              Foswiki::Func::getScriptUrl( 'EditRowPlugin', 'save', 'rest',
+                %{ $_->getURLParams() } );
+            $line .= CGI::start_form(
+                -method => 'POST',
+                -name   => "erp_form_" . $table->getID(),
+                -action => $saveUrl
+            );
+
+            # js="assumed" doesn't actually use the form, execept as a
+            # vehicle for validation. js="assumed" extracts the necessary
+            # from the erp-data attached to the table.
             unless ( $table->{attrs}->{js} eq 'assumed' ) {
-                my $saveUrl =
-                  Foswiki::Func::getScriptUrl( 'EditRowPlugin', 'save', 'rest',
-                    %{ $_->getURLParams() } );
-                $line .= CGI::start_form(
-                    -method => 'POST',
-                    -name   => "erp_form_" . $table->getID(),
-                    -action => $saveUrl
-                );
                 $line .= CGI::hidden( 'erp_topic',   $active_topic );
                 $line .= CGI::hidden( 'erp_version', $active_version );
                 $line .= CGI::hidden( 'erp_table',   $table->getID() );
@@ -162,11 +167,20 @@ sub process {
                     real_table => $real_table
                 }
               ) . "\n";
-            $line .= CGI::end_form() unless $table->{attrs}->{js} eq 'assumed';
+            $line .= CGI::end_form();
             $needHead = 1;
         }
         else {
-            $line = $table->render( { with_controls => $table->{editable} } );
+            if ( $table->{attrs}->{js} ne 'ignored' ) {
+
+                # Action-less form just used to hang validation from
+                $line .= CGI::start_form(
+                    -method => 'POST',
+                    -name   => "erp_form_" . $table->getID()
+                );
+            }
+            $line .= $table->render( { with_controls => $table->{editable} } );
+            $line .= CGI::end_form() if $table->{attrs}->{js} ne 'ignored';
         }
 
         $table->finish();

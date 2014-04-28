@@ -140,6 +140,8 @@ sub process {
         }
 
       LINE:
+
+        # Not really each line, actually each line-or-table-object
         foreach my $line (@$content) {
             if (
                 UNIVERSAL::isa(
@@ -213,10 +215,31 @@ sub process {
             $result = $mess || '';
         }
 
-        # The leading text RESPONSE is done so that a single 0 value can
+        # The leading text RESPONSE is required so that a single 0 value can
         # be returned - see Item10794
         $response->body("RESPONSE$result");
 
+        # Add new validation key to HTTP header
+        if ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' ) {
+            require Foswiki::Validation;
+            my $context =
+              $query->url( -full => 1, -path => 1, -query => 1 ) . time();
+            my $cgis = $session->getCGISession();
+            my $nonce;
+            if ( Foswiki::Validation->can('generateValidationKey') ) {
+                $nonce =
+                  Foswiki::Validation::generateValidationKey( $cgis,
+                    $context, 1 );
+            }
+            else {
+                # Pre 1.2.0 compatibility
+                my $html =
+                  Foswiki::Validation::addValidationKey( $cgis, $context, 1 );
+                $nonce = $1 if ( $html =~ /value=['"]\?(.*?)['"]/ );
+            }
+            $response->pushHeader( 'X-Foswiki-Validation' => $nonce )
+              if defined $nonce;
+        }
     }
     else {
         Foswiki::Func::redirectCgiQuery( undef, $url );

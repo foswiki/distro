@@ -109,37 +109,38 @@ sub render {
 
                 # Editors can set "uneditable" if the cell is not to
                 # have an editor
-                unless ( $data->{uneditable} ) {
+                unless ( $data->{uneditable} || $opts->{js} eq 'ignored' ) {
 
-                    #if ($opts->{js} ne 'ignored') {
-                    # add any edit-specific HTML here
-                    #}
-                    my @css_classes = ('erpJS_cell');
+                    # The cell is editable, and JS is enabled (assumed or
+                    # preferred). Decorate the cell with the information
+                    # required for stain edits.
 
                     # Because we generate a TML table, we have no way
                     # to attach table meta-data and row meta-data. So
                     # we attach it to the first cell in the table/row, and
                     # move it to the right place when JS loads.
+                    # Any table row that has a cell with class
+                    # erpJS_cell will be made draggable
+                    my @css_classes = ('erpJS_cell');
+
                     if ( $render_opts->{need_tabledata} ) {
-                        my $tabledata = $this->{row}->{table}->getURLParams();
-                        $data->{tabledata} = $tabledata;
-                        push( @css_classes, 'erpJS_tabledata' );
+                        $sopts->{'data-erp-tabledata'} =
+                          JSON::to_json(
+                            $this->{row}->{table}->getURLParams() );
                         $render_opts->{need_tabledata} = 0;
                     }
+
                     if ( $render_opts->{need_trdata} ) {
-                        $data->{trdata} = $this->{row}->getURLParams();
-                        push( @css_classes, 'erpJS_trdata' );
+                        $sopts->{'data-erp-trdata'} =
+                          JSON::to_json( $this->{row}->getURLParams() );
                         $render_opts->{need_trdata} = 0;
                     }
 
-                    # Add the cell data
-                    # Note: Any table row that has a cell with erpJS_cell
-                    # will be made draggable
-                    if ( $opts->{js} ne 'ignored' ) {
-                        $data = JSON::to_json( $this->getURLParams(%$data) );
-                        $sopts->{class} =
-                          join( ' ', @css_classes ) . ' ' . $data;
-                    }
+                    # Finally add the column to the data for the cell
+                    $sopts->{'data-erp-data'} =
+                      JSON::to_json( $this->getURLParams(%$data) );
+
+                    $sopts->{class} = join( ' ', @css_classes );
                 }
             }
             $text = CGI::div( $sopts, " $text " );

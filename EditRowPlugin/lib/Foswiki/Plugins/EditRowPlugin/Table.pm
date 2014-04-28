@@ -526,11 +526,11 @@ sub saveRowCmd {
 }
 
 # Action on single cell saved (JEditable)
-# URL params:
+# Uses URL params:
 #    * erp_row
 #    * erp_col
-#    * CELLDATA - equiv to erp_cell_<tableid>_<rowno>_<colno>,
-#      used to help keep url size down
+#    * CELLDATA - Save uses this as the name of the parameter that
+#      contains the new value of the cell.
 sub saveCellCmd {
     my ( $this, $urps ) = @_;
 
@@ -558,8 +558,10 @@ sub getCell {
     my ( $this, $urps ) = @_;
     my $row = $urps->{erp_row};
     my $col = $urps->{erp_col};
-    undef $row if $row < 0;    # whole-table or whole-column requests
-    undef $col if $col < 0;
+
+    # whole-table or whole-column requests
+    undef $row if defined $row && $row < 0;
+    undef $col if defined $col && $col < 0;
     return $this->getCellData( $row, $col );
 }
 
@@ -708,6 +710,8 @@ sub generateHelp {
     return $help;
 }
 
+# Make a button for js != "assumed" mode. Buttons all submit a
+# POST (even cancel).
 sub _makeButton {
     my ( $action, $icon, $title, $attrs ) = @_;
     return CGI::submit(

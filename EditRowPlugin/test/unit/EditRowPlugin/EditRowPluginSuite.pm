@@ -81,8 +81,16 @@ INPUT
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
 
+    $this->assert( $in =~ s/^(<form[^>]*>)\s*(.*?)<\/form>$/$2/s, $in );
+
+    my $f = $1;
+    $f =~ s/action=(["']).*?\1/action="valid"/;
+    $this->assert_html_equals( <<HTML, "$f</form>" );
+<form method="post" action="valid" enctype="multipart/form-data" name="erp_form_EDITTABLE_0"></form>
+HTML
+
     # anchor
-    $this->assert( $in =~ s/^<a name='erp_EDITTABLE_0'><\/a>\s*//, $in );
+    $this->assert( $in =~ s/^<a name='erp_EDITTABLE_0'><\/a>\s*//s, $in );
 
     # edit button
     $this->assert( $in =~ s/(<a name='erp_EDITTABLE_0'>.*)$//s, $in );
@@ -112,23 +120,31 @@ EXPECTED
         erp_topic => "$this->{test_web}.$this->{test_topic}",
         erp_table => "EDITTABLE_0",
         erp_row   => 0,
-        '#'       => "erp_EDITTABLE_0_1"
+        '#'       => "erp_EDITTABLE_0_0"
     );
-    $this->assert( $in =~ s/(erpJS_trdata) ({.*})/$1/, $in );
-    my $a_trdata = JSON::from_json( HTML::Entities::decode_entities($2) );
+    $this->assert( $in =~ s/(data-erp-tabledata)=(["'])(.*?)\2/$1/, $in );
+    my $a_tabledata = JSON::from_json( HTML::Entities::decode_entities($3) );
+    $this->assert( $in =~ s/(data-erp-trdata)=(["'])(.*?)\2/$1/, $in );
+    my $a_trdata = JSON::from_json( HTML::Entities::decode_entities($3) );
+    $this->assert( $in =~ s/(data-erp-data)=(["'])(.*?)\2/$1/, $in );
+    my $a_celldata = JSON::from_json( HTML::Entities::decode_entities($3) );
+
     $expected = <<EXPECTED;
-|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil foswikiIcon' title="Edit this row">edit</a>| <span class="erpJS_cell erpJS_tabledata erpJS_trdata"> A </span> <a name="erp_EDITTABLE_0_0"></a> |
+|<a href='$viewurl' class='erpJS_willDiscard ui-icon ui-icon-pencil foswikiIcon' title="Edit this row">edit</a>| <div class="erpJS_cell" data-erp-data="data-erp-data" data-erp-trdata="data-erp-trdata" data-erp-tabledata="data-erp-tabledata"> A </div> <a name="erp_EDITTABLE_0_0"></a> |
 EXPECTED
     $this->assert_html_equals( $expected, $in );
 
-    my $e_trdata = {
+    my $e_tabledata = {
+        erp_version => "VERSION",
+        erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        erp_table   => "EDITTABLE_0"
+    };
+
+    my $e_trdata = { erp_row => 0 };
+
+    $a_celldata->{submitimg} =~ s/^.*\/(save.png)$/$1/;
+    my $e_celldata = {
         width     => "20em",
-        trdata    => { erp_row => 0 },
-        tabledata => {
-            erp_version => "VERSION",
-            erp_topic   => "$this->{test_web}.$this->{test_topic}",
-            erp_table   => "EDITTABLE_0"
-        },
         loadurl   => $loadurl,
         submitimg => "save.png",
         name      => "CELLDATA",
@@ -136,7 +152,9 @@ EXPECTED
         erp_col   => 0,
         size      => 20
     };
-    $this->assert_deep_equals( $e_trdata, $a_trdata );
+    $this->assert_deep_equals( $e_tabledata, $a_tabledata );
+    $this->assert_deep_equals( $e_trdata,    $a_trdata );
+    $this->assert_deep_equals( $e_celldata,  $a_celldata );
 }
 
 # Default is JS preferred

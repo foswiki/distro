@@ -14,8 +14,13 @@ our @refs;
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
-    Foswiki::Func::registerRESTHandler( 'get',  \&get );
-    Foswiki::Func::registerRESTHandler( 'save', \&save );
+    Foswiki::Func::registerRESTHandler( 'get', \&get );
+    Foswiki::Func::registerRESTHandler(
+        'save', \&save,
+        validate     => 1,
+        authenticate => 1,
+        http_allow   => 'POST'
+    );
     @refs = ();
 
     return 1;
@@ -82,11 +87,14 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2008-2011 Foswiki Contributors
-Copyright (c) 2007 WindRiver Inc. and TWiki Contributors.
+Copyright (c) 2008-2014 Foswiki Contributors
+Copyright (c) 2007 WindRiver Inc.
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to portions of this file as follows:
+Copyright (c) 2007 TWiki Contributors.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
