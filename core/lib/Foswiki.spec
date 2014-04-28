@@ -926,7 +926,7 @@ $Foswiki::cfg{UploadFilter} =
 # include paths and skin names. This is a filter <b>out</b>, so if any of the
 # characters matched by this expression are seen in names, they will be
 # removed.
-$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]#\x00-\x1f]/;
+$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'\x26;|\x3c>\[\]#\x00-\x1f]/;
 
 # **BOOLEAN EXPERT**
 # If this is set, then the search module will use more relaxed
