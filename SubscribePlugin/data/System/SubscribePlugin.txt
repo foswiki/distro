@@ -1,3 +1,5 @@
+%META:TOPICINFO{author="ProjectContributor" date="1398704133" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
 
@@ -48,17 +50,17 @@ Templates for all forms and strings used by the plugin are specified in =templat
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright: | &copy; 2007-2013, Crawford Currie, 2008-2013 Foswiki Contributors |
+|  Copyright: | &copy; 2007-2014, Crawford Currie http://c-dot.co.uk %BR% &copy; 2008-2014 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  3.0.0 (14 Mar 2013) | Foswikitask:Item2258: added template support. Foswikitask:Item2450: Fix subscription to subweb topics. Foswikitask:Item11015: Improve docs. Foswikitask:Item8095: Analyse and fix load failures. Foswikitask:Item11543: Add unit tests. Foswikitask:Item10045: Support non-ascii topic names. Foswikitask:Item11595: Use REST handler for post with strikeone. |
-|  2.1.0 (03 Mar 2012) | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
-|  1.0.1 (03 Dec 2008) | Re-released for Foswiki |
-|  0.0.1 (24 Apr 2007) | First version |
+|  3.1 (28 Apr 2014) | Foswikitask:Item12872: Add CSRF validation support |
+|  3.0 (14 Mar 2013) | Foswikitask:Item2258: added template support. Foswikitask:Item2450: Fix subscription to subweb topics. Foswikitask:Item11015: Improve docs. Foswikitask:Item8095: Analyse and fix load failures. Foswikitask:Item11543: Add unit tests. Foswikitask:Item10045: Support non-ascii topic names. Foswikitask:Item11595: Use REST handler for post with strikeone. |
+|  2.0 (03 Mar 2012) | GeorgeClark - Foswikitask:Item11594 - Add ActiveWebs configuration. |
+|  1.0 (03 Dec 2008) | Released for Foswiki |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1398704133" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1398704133" user="ProjectContributor"}%

@@ -28,6 +28,7 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
+    $Foswiki::cfg{Validation}{Method} = 'none';
     $UI_FN ||= $this->getUIFn('rest');
     $restURL =
       Foswiki::Func::getScriptUrlPath( 'SubscribePlugin', 'subscribe', 'rest' );
@@ -145,7 +146,7 @@ sub test_rest_subscribe {
 
     # Minimalist subscribe request
     my $this = shift;
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request->new( { action => ['rest'] } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
     $query->param( topic => "$this->{test_web}.$this->{test_topic}" );

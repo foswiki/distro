@@ -1,15 +1,24 @@
 # See the bottom of the file for description, copyright and license information
 package Foswiki::Plugins::SubscribePlugin;
 
+=begin TML
+
+This plugin supports a subscription button that, when embedded in a topic,
+will add the clicker to the WebNotify for that topic. It uses the API
+published by the MailerContrib to manage the subscriptions in WebNotify.
+
+WikiGuest cannot be subscribed, only logged-in users.
+
+=cut
+
 use strict;
 use Foswiki::Func ();
 use Assert;
 use Error ':try';
 use JSON;
 
-# Simple decimal version, use parse method, no leading "v"
-use version; our $VERSION = version->parse("2.0");
-our $RELEASE = '2.0';
+our $VERSION = '3.1';
+our $RELEASE = '28 Apr 2014';
 our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -20,7 +29,7 @@ our $TOPIC;
 our $tmpls;
 
 sub initPlugin {
-    ( $TOPIC, $WEB ) = @_;
+    my ( $TOPIC, $WEB ) = @_;
 
     Foswiki::Func::getContext()->{'SubscribePluginAllowed'} = 1;
 
@@ -43,7 +52,12 @@ sub initPlugin {
       if ( Foswiki::Func::getContext()->{'static'} );
 
     Foswiki::Func::registerTagHandler( 'SUBSCRIBE', \&_SUBSCRIBE );
-    Foswiki::Func::registerRESTHandler( 'subscribe', \&_rest_subscribe );
+    Foswiki::Func::registerRESTHandler(
+        'subscribe', \&_rest_subscribe,
+        authenticate => 1,
+        validate     => 1,
+        http_allow   => 'POST'
+    );
 
     undef $tmpls;
     return 1;
@@ -165,6 +179,28 @@ sub _rest_subscribe {
         -type    => 'text/json',
         -charset => 'UTF-8'
     );
+
+    # Add new validation key to HTTP header
+    if ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' ) {
+        require Foswiki::Validation;
+        my $context =
+          $query->url( -full => 1, -path => 1, -query => 1 ) . time();
+        my $cgis = $session->getCGISession();
+        my $nonce;
+        if ( Foswiki::Validation->can('generateValidationKey') ) {
+            $nonce =
+              Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
+        }
+        else {
+            # Pre 1.2.0 compatibility
+            my $html =
+              Foswiki::Validation::addValidationKey( $cgis, $context, 1 );
+            $nonce = $1 if ( $html =~ /value=['"]\?(.*?)['"]/ );
+        }
+        $response->pushHeader( 'X-Foswiki-Validation' => $nonce )
+          if defined $nonce;
+    }
+
     $response->body(
         JSON::to_json(
             {
@@ -236,7 +272,7 @@ __END__
 
 Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2007, 2013 Crawford Currie http://c-dot.co.uk
+Copyright (C) 2007-2014 Crawford Currie http://c-dot.co.uk
 and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
@@ -254,9 +290,3 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 For licensing info read LICENSE file in the Foswiki root.
 
 Author: Crawford Currie http://c-dot.co.uk
-
-This plugin supports a subscription button that, when embedded in a topic,
-will add the clicker to the WebNotify for that topic. It uses the API
-published by the MailerContrib to manage the subscriptions in WebNotify.
-
-WikiGuest cannot be subscribed, only logged-in users.
