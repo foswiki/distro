@@ -51,9 +51,6 @@
 .ui-natedit-toolbar .fa {
   line-height:17px;
 }
-.ui-natedit-toolbar .ui-natedit-underline i { /* underline-icon fix */
-  font-size:107%;
-}
 
 .ui-natedit .ui-natedit-menu {
   display:none;
