@@ -64,8 +64,9 @@ sub new {
 
 ---++ ObjectMethod writeWebNotify()
 Write the object to the %NOTIFYTOPIC% topic it was read from.
-If there is a problem writing the topic (e.g. it is locked),
-the method will throw an exception.
+If there is a problem writing the topic (e.g. it is locked), or the
+current user is not authorised to write it, then the method will
+throw an exception.
 
 =cut
 
@@ -77,7 +78,7 @@ sub writeWebNotify {
 
     # Then chuck it out
     Foswiki::Func::saveTopic( $this->{web}, $this->{topic}, undef,
-        $this->stringify(), { ignorepermissions => 1, minor => 1 } );
+        $this->stringify(), { minor => 1 } );
 }
 
 =begin TML
@@ -525,7 +526,7 @@ sub _emailWarn {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2014 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

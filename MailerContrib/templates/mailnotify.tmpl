@@ -48,6 +48,11 @@
   <a href="%SCRIPTURL{"view"}%/%WEB%/%NOTIFYTOPIC%">%SCRIPTURL{"view"}%/%WEB%/%NOTIFYTOPIC%</a> </p>
 %TMPL:END%
 --------------------------------
+%TMPL:DEF{HTML:diff}%- %TOPIC% (%AUTHOR%, %TIME%) %REVISION%
+  <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%">%SCRIPTURL{"view"}%/%ENCODE{%WEB%}%/%ENCODE{%TOPIC%}%
+%TEXTHEAD%
+%TMPL:END%
+--------------------------------
 %TMPL:DEF{PLAIN:before}%%TMPL:END%
 --------------------------------
 %TMPL:DEF{PLAIN:middle}%- %TOPIC% (%AUTHOR%, %TIME%) %REVISION%
@@ -57,14 +62,10 @@
 --------------------------------
 %TMPL:DEF{PLAIN:after}%%TMPL:END%
 --------------------------------
-%TMPL:DEF{DIFF:before}%%TMPL:END%
---------------------------------
-%TMPL:DEF{DIFF:middle}%- %TOPIC% (%AUTHOR%, %TIME%) %REVISION%
+%TMPL:DEF{PLAIN:diff}%- %TOPIC% (%AUTHOR%, %TIME%) %REVISION%
 %SCRIPTURL{"view"}%/%ENCODE{%WEB%}%/%ENCODE{%TOPIC%}%
 %TEXTHEAD%
 %TMPL:END%
---------------------------------
-%TMPL:DEF{DIFF:after}%%TMPL:END%
 --------------------------------
 %TMPL:DEF{MailNotifyBody}%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 To: %EMAILTO%
@@ -97,3 +98,4 @@ Content-Transfer-Encoding: 8bit
 
 --=_=0i0k0i0w0s0o0fXuOi0E0A--
 %TMPL:END%
+

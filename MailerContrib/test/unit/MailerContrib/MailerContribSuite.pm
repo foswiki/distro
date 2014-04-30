@@ -384,7 +384,12 @@ sub testSimple {
     my $this = shift;
 
     my @webs = ( $this->{test_web}, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        \@webs, undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -395,7 +400,12 @@ sub testSubweb {
     my $this = shift;
 
     my @webs = ( $testWeb2, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        \@webs, undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -538,8 +548,13 @@ HERE
     $meta->text("Before\n${s}After");
     $meta->save();
     $meta->finish();
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     $this->assert( !scalar @FoswikiFnTestCase::mails,
         "Should not send any mail!" );
@@ -563,8 +578,13 @@ HERE
     $meta->text("Before\n${s}After");
     $meta->save();
     $meta->finish();
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -593,8 +613,13 @@ HERE
     $meta->text("Before\n${s}After");
     $meta->save();
     $meta->finish();
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -660,8 +685,13 @@ sub testExpansion_1847 {
     $meta->finish();
 
     # Launch mailNotify
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     for my $message (@FoswikiFnTestCase::mails) {
         next unless $message;

@@ -14,3 +14,7 @@ $Foswiki::cfg{MailerContrib}{EmailFilterIn} = '';
 # Remove IMG tags in notification mails.
 $Foswiki::cfg{MailerContrib}{RemoveImgInMailnotify} = $TRUE;
 
+# **STRING 80**
+# A comma-separated list of user preference names that will be respected
+# when sending out emails.
+$Foswiki::cfg{MailerContrib}{RespectUserPrefs} = 'LANGUAGE';

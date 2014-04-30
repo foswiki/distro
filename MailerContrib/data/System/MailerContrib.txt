@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1395934404" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1398870671" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -100,6 +100,9 @@ Note that when using the "news mode" =!= or =?= specifiers the entire topic text
 
 In addition, the =%<nop>STARTPUBLISH%= and =%<nop>STOPPUBLISH%= markers used by Foswiki:Extensions.PublishPlugin to delimit the text to be published are respected in news mode.
 
+---+++ Per-user preferences
+When emails are generated, they take into account a _subset_ of the user preferences of the user being mailed to (where these can be determined from user topics in the wiki), allowing things like (for example) user language preferences to be taken into account. The subset of preferences that is respected is defined =configure= setting ={MailerContrib}{RespectUserPrefs}= and defaults to =LANGUAGE=.
+
 ---++ Foswiki/Contrib/MailerContrib code library
 The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Contrib::MailerContrib::WebNotify][the documentation for the !WebNotify class]] as their starting point.
 
@@ -123,6 +126,7 @@ The script is used as follows:%BR%
 | =-q= | Don't print progress information |
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
+| =-noreset= | Don't reset the timestamp after this run. The next run will repeat the same changes notified in this run |
 | <code style="white-space:nowrap"><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
 <blockquote class="foswikiHelp">%X% Be careful what user you use to run this script. It will write the
@@ -188,13 +192,12 @@ The changes emails sent to subscribers are based on a Foswiki template called =m
 | =HTML:before= | Section of an HTML email before the changes |
 | =HTML:middle= | Repeated in an HTML email for each change |
 | =HTML:after= | Section of an HTML email after the changes |
+| =HTML:diff= | Topic diffs in HTML format |
 | =PLAIN:before= | Section of a plain text email before the changes |
 | =PLAIN:middle= | Repeated in a plain text email for each changes |
 | =PLAIN:after= | Section of a plain text email after the changes |
-| =DIFF:before= | Section of a plain text email before the changes |
-| =DIFF:middle= | Repeated in a plain text email for each changes |
-| =DIFF:after= | Section of a plain text email after the changes |
-| =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, %<nop>PLAIN_TEXT% from the =PLAIN:*= templates, and %<nop>DIFF_TEXT from the =DIFF:*= templates%. |
+| =PLAIN:diff= | Topic diffs in plain text format |
+| =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, %<nop>PLAIN_TEXT% from the =PLAIN:*= templates. The definitions may contain %<nop>DIFF_TEXT%. |
 The default template sends multipart emails containing both HTML and plaintext versions.
 
 <blockquote class="foswikiHelp"> %X% Avoid editing the distributed =mailnotify.tmpl= file, or you will regret it later when it gets overwritten when you upgrade Foswiki. Instead, you should either use a skin setting to choose the template file, or use the web part of the [[%SYSTEMWEB%.SkinTemplates#FindingTemplates][template search path rules]]. 
@@ -253,6 +256,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  2.80  (28 Apr 2014) | Foswiki:Tasks/Item8425: support relative links better. Foswiki:Tasks/Item11507: support changing LANGUAGE via user preferences |
 |  2.70  (27 Mar 2014) | Foswiki:Tasks/Item12717: fix inconsistencies in template expansion of mailnotify |
 |  2.60  (25 Mar 2014) | Foswiki:Tasks/Item12786: fix flooding with unintended mails Foswiki:Tasks/Item12823: mark cron-generated mails as per RFC 3834, Foswiki:Tasks/Item12583: Convert to simple decimal version. |
 |  2.5.5 (27 Aug 2013) | Foswiki:Tasks/Item12525: fix removal of subscriptions |
@@ -278,5 +282,5 @@ Many thanks to the following sponsors for supporting this work:
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1395772281" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1395772281" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1398870671" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1398870671" attr="h" comment="" version="1"}%
