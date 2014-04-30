@@ -2179,6 +2179,22 @@ sub i18n {
 
 =begin TML
 
+---++ ObjectMethod reset_i18n()
+Kill the i18n object, if there is one, to force language re-initialisation.
+Essential for changing language dynamically.
+
+=cut
+
+sub reset_i18n {
+    my $this = shift;
+
+    return unless $this->{i18n};
+    $this->{i18n}->finish();
+    undef $this->{i18n};
+}
+
+=begin TML
+
 ---++ ObjectMethod logger()
 
 =cut
