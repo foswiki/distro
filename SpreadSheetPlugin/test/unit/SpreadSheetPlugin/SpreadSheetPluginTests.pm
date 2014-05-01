@@ -11,13 +11,13 @@ use Foswiki::Plugins::SpreadSheetPlugin();
 use Foswiki::Plugins::SpreadSheetPlugin::Calc();
 
 my %skip_tests = (
-    'SpreadSheetPluginTests::test_IF'       => '$IF not implemented',
+
+    #'SpreadSheetPluginTests::test_IF'       => '$IF not implemented',
     'SpreadSheetPluginTests::test_LISTRAND' => '$LISTRAND not implemented',
     'SpreadSheetPluginTests::test_LISTSHUFFLE' =>
       '$LISTSHUFFLE not implemented',
-    'SpreadSheetPluginTests::test_SETIFEMPTY' => '$SETIFEMPTY not implemented',
-    'SpreadSheetPluginTests::test_T'          => '$T not implemented',
-    'SpreadSheetPluginTests::test_TODAY'      => '$TODAY not implemented',
+    'SpreadSheetPluginTests::test_T'     => '$T not implemented',
+    'SpreadSheetPluginTests::test_TODAY' => '$TODAY not implemented',
 );
 
 sub skip {
@@ -86,8 +86,6 @@ sub CALC {
 }
 
 #sub test_MAIN {}
-#sub test_EXEC {}
-#sub test_NOEXEC {}
 
 sub test_ABOVE {
     my ($this) = @_;
@@ -336,6 +334,29 @@ sub test_EXACT {
     $this->assert( $this->CALC('$EXACT(  , )') == 1 );
 }
 
+sub test_EXEC {
+    my ($this) = @_;
+
+    my $topicText = <<'HERE';
+%CALC{"$SET(msg,$NOEXEC(Hi $GET(name)))"}%
+
+   * %CALC{"$SET(name, Tom)$EXEC($GET(msg))"}%
+   * %CALC{"$SET(name, Jerry)$EXEC($GET(msg))"}%
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+
+
+   * Hi Tom
+   * Hi Jerry
+HERE
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
+}
+
 sub test_EXISTS {
     my ($this) = @_;
     $this->assert(
@@ -379,11 +400,11 @@ sub test_FORMAT {
         $this->CALC('$FORMAT(COMMA, 2, 12345.6789)') eq '12,345.68' );
     $this->assert(
         $this->CALC('$FORMAT(DOLLAR, 2, 12345.67)') eq '$12,345.67' );
-    $this->assert( $this->CALC('$FORMAT(KB, 2, 1234567)') eq '1205.63 KB' );
-    $this->assert( $this->CALC('$FORMAT(MB, 2, 1234567)') eq '1.18 MB' );
+    $this->assert( $this->CALC('$FORMAT(KB, 2, 1234567)')   eq '1205.63 KB' );
+    $this->assert( $this->CALC('$FORMAT(MB, 2, 1234567)')   eq '1.18 MB' );
     $this->assert( $this->CALC('$FORMAT(KBMB, 2, 1234567)') eq '1.18 MB' );
-    $this->assert( $this->CALC('$FORMAT(KBMB, 2, 1234567890)') eq '1.15 GB' );
-    $this->assert( $this->CALC('$FORMAT(NUMBER, 1, 12345.67)') eq '12345.7' );
+    $this->assert( $this->CALC('$FORMAT(KBMB, 2, 1234567890)')   eq '1.15 GB' );
+    $this->assert( $this->CALC('$FORMAT(NUMBER, 1, 12345.67)')   eq '12345.7' );
     $this->assert( $this->CALC('$FORMAT(PERCENT, 1, 0.1234567)') eq '12.3%' );
 }
 
@@ -476,11 +497,35 @@ sub test_HEXDECODE_HEXENCODE {
 
 sub test_IF {
     my ($this) = @_;
-    warn '$IF not implemented';
+
+    #    warn '$IF not implemented';
 
 #    $this->assert( $this->CALC( '$IF($T(R1:C5) > 1000, Over Budget, OK)' ) eq 'OK' );	#==Over Budget== if value in R1:C5 is over 1000, ==OK== if not
 #    $this->assert( $this->CALC( '$IF($EXACT($T(R1:C2),), empty, $T(R1:C2))' ) eq '' );	#returns the content of R1:C2 or ==empty== if empty
 #    $this->assert( $this->CALC( '$SET(val, $IF($T(R1:C2) == 0, zero, $T(R1:C2)))' ) eq '?' );	#sets a variable conditionally
+
+    my $topicText = <<"HERE";
+| 1 | | 3 | 4 | 2000 |
+
+   * %CALC{\$IF(\$T(R1:C5) > 1000, Over Budget, OK)}%
+   * %CALC{\$IF(\$EXACT(\$T(R1:C2),), empty, \$T(R1:C2))}%
+%CALC{\$SET(val, \$IF(\$T(R1:C3) == 3, three, \$T(R1:C2)))}%
+   * %CALC{\$GET(val)}%
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+| 1 | | 3 | 4 | 2000 |
+
+   * Over Budget
+   * empty
+
+   * three
+HERE
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_INSERTSTRING {
@@ -495,6 +540,8 @@ sub test_INT {
     my ($this) = @_;
     $this->assert( $this->CALC('$INT(10 / 4)') == 2 );
     $this->assert( $this->CALC('$INT($VALUE(09))') == 9 );
+    $this->assert(
+        $this->CALC('$INT(10 / 0)') eq 'ERROR: Illegal division by zero' );
 }
 
 sub test_LEFT {
@@ -516,11 +563,11 @@ EXPECT
 
 sub test_LEFTSTRING {
     my ($this) = @_;
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg)') eq 'a' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 0)') eq '' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 5)') eq 'abcde' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 12)') eq 'abcdefg' );
-    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -3)') eq 'abcd' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg)')      eq 'a' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 0)')   eq '' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 5)')   eq 'abcde' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, 12)')  eq 'abcdefg' );
+    $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -3)')  eq 'abcd' );
     $this->assert( $this->CALC('$LEFTSTRING(abcdefg, -12)') eq '' );
 
     my $inTable = <<'TABLE';
@@ -578,16 +625,16 @@ sub test_LISTITEM {
 
 sub test_LISTJOIN {
     my ($this) = @_;
-    $this->assert( $this->CALC('$LISTJOIN(,1,2,3)') eq '1, 2, 3' );
+    $this->assert( $this->CALC('$LISTJOIN(,1,2,3)')       eq '1, 2, 3' );
     $this->assert( $this->CALC('$LISTJOIN($comma,1,2,3)') eq '1,2,3' );
-    $this->assert( $this->CALC('$LISTJOIN($n,1,2,3)') eq "1\n2\n3" );
-    $this->assert( $this->CALC('$LISTJOIN($sp,1,2,3)') eq "1 2 3" );
-    $this->assert( $this->CALC('$LISTJOIN( ,1,2,3)') eq "1 2 3" );
-    $this->assert( $this->CALC('$LISTJOIN(  ,1,2,3)') eq "1  2  3" );
-    $this->assert( $this->CALC('$LISTJOIN(:,1,2,3)') eq "1:2:3" );
-    $this->assert( $this->CALC('$LISTJOIN(::,1,2,3)') eq "1::2::3" );
-    $this->assert( $this->CALC('$LISTJOIN(0,1,2,3)') eq "10203" );
-    $this->assert( $this->CALC('$LISTJOIN($nop,1,2,3)') eq '123' );
+    $this->assert( $this->CALC('$LISTJOIN($n,1,2,3)')     eq "1\n2\n3" );
+    $this->assert( $this->CALC('$LISTJOIN($sp,1,2,3)')    eq "1 2 3" );
+    $this->assert( $this->CALC('$LISTJOIN( ,1,2,3)')      eq "1 2 3" );
+    $this->assert( $this->CALC('$LISTJOIN(  ,1,2,3)')     eq "1  2  3" );
+    $this->assert( $this->CALC('$LISTJOIN(:,1,2,3)')      eq "1:2:3" );
+    $this->assert( $this->CALC('$LISTJOIN(::,1,2,3)')     eq "1::2::3" );
+    $this->assert( $this->CALC('$LISTJOIN(0,1,2,3)')      eq "10203" );
+    $this->assert( $this->CALC('$LISTJOIN($nop,1,2,3)')   eq '123' );
     $this->assert( $this->CALC('$LISTJOIN($empty,1,2,3)') eq '123' );
 }
 
@@ -718,10 +765,10 @@ sub test_LOG {
 
 sub test_LOWER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$LOWER(lowercase)') eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER(LOWERCASE)') eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER(lOwErCaSe)') eq 'lowercase' );
-    $this->assert( $this->CALC('$LOWER()') eq '' );
+    $this->assert( $this->CALC('$LOWER(lowercase)')            eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER(LOWERCASE)')            eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER(lOwErCaSe)')            eq 'lowercase' );
+    $this->assert( $this->CALC('$LOWER()')                     eq '' );
     $this->assert( $this->CALC('$LOWER(`~!@#$%^&*_+{}|:"<>?)') eq
           q(`~!@#$%^&*_+{}|:"<>?) );
 }
@@ -750,6 +797,8 @@ sub test_MOD {
 sub test_NOP {
     my ($this) = @_;
     $this->assert( $this->CALC('$NOP(abcd)') eq 'abcd' );
+    $this->assert(
+        $this->CALC('$NOP($perabc$percntdef$quot)') eq '%abc%cntdef"' );
 }
 
 sub test_NOT {
@@ -834,7 +883,7 @@ EXPECT
 
 sub test_PROPER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$PROPER(a small STEP)') eq 'A Small Step' );
+    $this->assert( $this->CALC('$PROPER(a small STEP)')   eq 'A Small Step' );
     $this->assert( $this->CALC('$PROPER(f1 (formula-1))') eq 'F1 (Formula-1)' );
 }
 
@@ -889,9 +938,9 @@ EXPECT
 
 sub test_RIGHTSTRING {
     my ($this) = @_;
-    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg)') eq 'g' );
-    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 0)') eq '' );
-    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 5)') eq 'cdefg' );
+    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg)')     eq 'g' );
+    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 0)')  eq '' );
+    $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 5)')  eq 'cdefg' );
     $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, 10)') eq 'abcdefg' );
     $this->assert( $this->CALC('$RIGHTSTRING(abcdefg, -2)') eq '' );
 }
@@ -954,7 +1003,22 @@ sub test_SEARCH {
 }
 
 sub test_SETIFEMPTY {
-    warn '$SETIFEMPTY not implemented';
+    my ($this) = @_;
+    my $topicText = <<"HERE";
+(%CALC{\$SET( result, here)}%%CALC{\$SETIFEMPTY(result, there)}%%CALC{\$SETIFEMPTY(another, there)}%)
+
+   * %CALC{\$GET(result)}%
+   * %CALC{\$GET(another)}%
+HERE
+    my $actual   = Foswiki::Func::expandCommonVariables($topicText);
+    my $expected = <<'EXPECT';
+()
+
+   * here
+   * there
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_SETM {
@@ -1054,7 +1118,7 @@ sub test_SUBSTITUTE {
     my ($this) = @_;
     $this->assert(
         $this->CALC('$SUBSTITUTE(Good morning, morning, day)') eq 'Good day' );
-    $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002, 2, 3)') eq 'Q3-3003' );
+    $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002, 2, 3)')   eq 'Q3-3003' );
     $this->assert( $this->CALC('$SUBSTITUTE(Q2-2002,2, 3, 3)') eq 'Q2-2003' );
     $this->assert_equals( $this->CALC('$SUBSTITUTE(Q2-2003-2, -, $comma)'),
         'Q2,2003,2' );
@@ -1066,10 +1130,18 @@ sub test_SUBSTITUTE {
 
 sub test_SUBSTRING {
     my ($this) = @_;
-    $this->assert( $this->CALC('$SUBSTRING(abcdefghijk, 3, 5)') eq 'cdefg' );
+    $this->assert( $this->CALC('$SUBSTRING(abcdefg,hijk, 3, 5)') eq 'cdefg' );
     $this->assert(
-        $this->CALC('$SUBSTRING(abcdefghijk, 3, 20)') eq 'cdefghijk' );
-    $this->assert( $this->CALC('$SUBSTRING(abcdefghijk, -5, 3)') eq 'ghi' );
+        $this->CALC('$SUBSTRING(ab,cdefghijk, 4, 20)') eq 'cdefghijk' );
+    $this->assert( $this->CALC('$SUBSTRING(a,bcdefghijk, -5, 3)') eq 'ghi' );
+}
+
+sub test_MIDSTRING {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$MIDSTRING(abcdefghijk, 3, 5)') eq 'cdefg' );
+    $this->assert(
+        $this->CALC('$MIDSTRING(abcdefghijk, 3, 20)') eq 'cdefghijk' );
+    $this->assert( $this->CALC('$MIDSTRING(abcdefghijk, -5, 3)') eq 'ghi' );
 }
 
 sub test_SUM {
@@ -1080,6 +1152,13 @@ sub test_SUM {
 }
 
 sub test_SUMDAYS {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$SUMDAYS(2w, 1, 2d, 4h)') == 13.5 );
+}
+
+sub test_DURATION {
+
+    # DURATION - Same as SUMDAYS - undocumented
     my ($this) = @_;
     $this->assert( $this->CALC('$SUMDAYS(2w, 1, 2d, 4h)') == 13.5 );
 }
@@ -1156,7 +1235,7 @@ sub test_TODAY {
 
 sub test_TRANSLATE {
     my ($this) = @_;
-    $this->assert( $this->CALC('$TRANSLATE(boom,bm,cl)') eq 'cool' );
+    $this->assert( $this->CALC('$TRANSLATE(boom,bm,cl)')        eq 'cool' );
     $this->assert( $this->CALC('$TRANSLATE(one, two,$comma,;)') eq 'one; two' );
 }
 
@@ -1165,12 +1244,19 @@ sub test_TRIM {
     $this->assert( $this->CALC('$TRIM( eat  spaces  )') eq 'eat spaces' );
 }
 
+sub test_unknown {
+    my ($this) = @_;
+
+    $this->assert( $this->CALC('$ANOTHER(value )') eq '' );
+    $this->assert( $this->CALC('$ANOTHER')         eq '$ANOTHER' );
+}
+
 sub test_UPPER {
     my ($this) = @_;
-    $this->assert( $this->CALC('$UPPER(uppercase)') eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER(UPPERCASE)') eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER(uPpErCaSe)') eq 'UPPERCASE' );
-    $this->assert( $this->CALC('$UPPER()') eq '' );
+    $this->assert( $this->CALC('$UPPER(uppercase)')            eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER(UPPERCASE)')            eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER(uPpErCaSe)')            eq 'UPPERCASE' );
+    $this->assert( $this->CALC('$UPPER()')                     eq '' );
     $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:"<>?)') eq
           q(`~!@#$%^&*_+{}|:"<>?) );
 }
@@ -1228,20 +1314,12 @@ sub test_XOR {
     $this->assert( $this->CALC('$XOR(10, 1)') == 0 );
 }
 
-# undocumented - same as $SUMDAYS
-#sub test_DURATION {
-#}
-
 # deprecated and undocumented
 #sub test_MULT {
 #}
 
 # undocumted - same as $AVERAGE
 #sub test_MEAN {
-#}
-
-# undocumented (same as $SUBSTRING)
-#sub test_MIDSTRING {
 #}
 
 1;
