@@ -5,14 +5,14 @@
 %TMPL:DEF{"create_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Create new topic' accesskey='c'>&Create"}%</a></span>%TMPL:END%
 
 
-%TMPL:DEF{"edit_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%</a></span>%TMPL:END%
+%TMPL:DEF{"edit_topic_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%%TMPL:P{context="TinyMCEPluginEnabled" else="nowysiwyg"}%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Edit this topic text' accesskey='e'>&Edit"}%" else="%MAKETEXT{"title='Edit this topic text' >Edit"}%" }% </a></span>%TMPL:END%
 
 %TMPL:DEF{"raw_edit_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURL{"edit"}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%%TMPL:P{"url_param_editaction"}%;nowysiwyg=1' rel='nofollow' %MAKETEXT{"title='Edit Wiki text' accesskey='w'>Edit &wiki text"}%</a></span>%TMPL:END%
 
 %TMPL:DEF{"view_topic_link"}%<span><a href='%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a></span>%TMPL:END%
 
 
-%TMPL:DEF{"attach_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURLPATH{"attach"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %MAKETEXT{"title='Attach an image or document to this topic' accesskey='a'>&Attach"}%</a></span>%TMPL:END%
+%TMPL:DEF{"attach_link"}%<span class="foswikiRequiresChangePermission"><a href='%SCRIPTURLPATH{"attach"}%/%BASEWEB%/%BASETOPIC%' rel='nofollow' %IF{"context footer_text" then="%MAKETEXT{"title='Attach an image or document to this topic' accesskey='a'>&Attach"}%" else="%MAKETEXT{"title='Attach an image or document to this topic'>Attach"}%" }%</a></span>%TMPL:END%
 
 %TMPL:DEF{"subscribe_link"}%<span>%SUBSCRIBE{format="<a href='$url' rel='nofollow' %MAKETEXT{"title='Subscribe to this topic' accesskey='s'>&Subscribe"}%</a>" formatunsubscribe="<a href='$url' rel='nofollow' %MAKETEXT{"title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"}%</a>"}%</span>%TMPL:END%
 
