@@ -350,6 +350,7 @@ sub _getTree {
     my $tree = new HTML::TreeBuilder;
     $tree->implicit_body_p_tag(1);
     $tree->p_strict(1);
+    $tree->no_expand_entities(1);
     $tree->parse($text);
     $tree->eof;
     $tree->elementify;
