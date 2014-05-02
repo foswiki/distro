@@ -247,11 +247,18 @@ BEGIN {
         PLUGINVERSION => sub {
             $_[0]->{plugins}->getPluginVersion( $_[1]->{_DEFAULT} );
         },
-        PUBURL            => sub { $_[0]->getPubUrl(1) },
-        PUBURLPATH        => sub { $_[0]->getPubUrl(0) },
-        QUERY             => undef,
-        QUERYPARAMS       => undef,
-        QUERYSTRING       => sub { $_[0]->{request}->queryString() },
+        PUBURL      => sub { $_[0]->getPubUrl(1) },
+        PUBURLPATH  => sub { $_[0]->getPubUrl(0) },
+        QUERY       => undef,
+        QUERYPARAMS => undef,
+        QUERYSTRING => sub {
+            my $s = $_[0]->{request}->queryString();
+
+            # Aggressively encode QUERYSTRING (even more than the
+            # default) because it might be leveraged for XSS
+            $s =~ s/(['\/])/'%'.sprintf('%02x', ord($1))/ge;
+            return $s;
+        },
         RELATIVETOPICPATH => undef,
         REMOTE_ADDR =>
 
@@ -1063,8 +1070,11 @@ sub generateHTTPHeaders {
         $_[3] = $text;
     }
 
-    $hopts->{"X-FoswikiAction"} = $this->{request}->action;
-    $hopts->{"X-FoswikiURI"}    = $this->{request}->uri;
+    $hopts->{'X-FoswikiAction'} = $this->{request}->action;
+    $hopts->{'X-FoswikiURI'}    = $this->{request}->uri;
+
+    # Turn off XSS protection in DEBUG so it doesn't mask problems
+    $hopts->{'X-XSS-Protection'} = 0 if DEBUG;
 
     # The headers method resets all headers to what we pass
     # what we want is simply ensure our headers are there
