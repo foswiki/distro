@@ -12,10 +12,6 @@ use Foswiki::Plugins::SpreadSheetPlugin::Calc();
 
 my %skip_tests = (
 
-    #'SpreadSheetPluginTests::test_IF'       => '$IF not implemented',
-    'SpreadSheetPluginTests::test_LISTRAND' => '$LISTRAND not implemented',
-    'SpreadSheetPluginTests::test_LISTSHUFFLE' =>
-      '$LISTSHUFFLE not implemented',
     'SpreadSheetPluginTests::test_T'     => '$T not implemented',
     'SpreadSheetPluginTests::test_TODAY' => '$TODAY not implemented',
 );
@@ -670,7 +666,30 @@ sub test_LISTMAP {
 }
 
 sub test_LISTRAND {
-    warn '$LISTRAND not implemented';
+    my ($this) = @_;
+    my $list =
+'Apple, Orange, Bananna, Kiwi, Moe, Curly, Larry, Shemp, Cessna, Piper, Bonanza, Cirrus, Tesla, Ford, GM, Chrysler ';
+    my $rand1 = $this->CALC("\$LISTRAND($list)");
+    my $rand2 = $this->CALC("\$LISTRAND($list)");
+    my $rand3 = $this->CALC("\$LISTRAND($list)");
+    $this->assert( $this->CALC("\$LISTSIZE($rand1)") == 1 );
+    $this->assert( $this->CALC("\$LISTSIZE($rand2)") == 1 );
+    $this->assert( $this->CALC("\$LISTSIZE($rand3)") == 1 );
+
+#SMELL: This might fail,  It is random, so it's possible the same response will come back more than once.
+    $this->assert( ( $rand1 ne $rand2 ) or ( $rand2 ne $rand3 ) );
+    $this->assert_matches(
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler/,
+        $rand1
+    );
+    $this->assert_matches(
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler/,
+        $rand2
+    );
+    $this->assert_matches(
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler/,
+        $rand3
+    );
 }
 
 sub test_LISTREVERSE {
@@ -680,7 +699,20 @@ sub test_LISTREVERSE {
 }
 
 sub test_LISTSHUFFLE {
-    warn '$LISTSHUFFLE not implemented';
+    my ($this)   = @_;
+    my $list     = 'Apple, Orange, Apple, Kiwi, Moe, Curly, Larry, Shemp ';
+    my $shuffle1 = $this->CALC("\$LISTSHUFFLE($list)");
+    my $shuffle2 = $this->CALC("\$LISTSHUFFLE($shuffle1)");
+    my $shuffle3 = $this->CALC("\$LISTSHUFFLE($list)");
+    $this->assert( $this->CALC("\$LISTSIZE($shuffle1)") == 8 );
+    $this->assert( $this->CALC("\$LISTSIZE($shuffle2)") == 8 );
+    $this->assert( $this->CALC("\$LISTSIZE($shuffle3)") == 8 );
+
+#SMELL: This might fail,  It is random, so it's possible the same response will come back more than once.
+    $this->assert( $list     ne $shuffle1 );
+    $this->assert( $list     ne $shuffle2 );
+    $this->assert( $shuffle1 ne $shuffle2 );
+    $this->assert( $shuffle2 ne $shuffle3 );
 }
 
 sub test_LISTSIZE {
