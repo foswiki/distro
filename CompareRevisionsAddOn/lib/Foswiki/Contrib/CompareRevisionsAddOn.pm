@@ -4,10 +4,12 @@ use strict;
 # Also update CompareRevisionsAddOnPlugin
 use version; our $VERSION = version->declare("v1.1.11");
 
+our $VERSION = '1.112';
+
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.  Keep in sync with $VERSION
-our $RELEASE = '1.1.11';
+our $RELEASE = '1.112';
 
 our $SHORTDESCRIPTION =
 'Compares two revisions of a document. In contrast to normal _rdiff_, the comparison is done with the rendered HTML output.';
@@ -16,7 +18,7 @@ our $SHORTDESCRIPTION =
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

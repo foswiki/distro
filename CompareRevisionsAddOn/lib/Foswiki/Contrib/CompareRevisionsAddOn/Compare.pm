@@ -350,6 +350,7 @@ sub _getTree {
     my $tree = new HTML::TreeBuilder;
     $tree->implicit_body_p_tag(1);
     $tree->p_strict(1);
+    $tree->no_expand_entities(1);
     $tree->parse($text);
     $tree->eof;
     $tree->elementify;
@@ -605,7 +606,7 @@ sub getRevInfo {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
