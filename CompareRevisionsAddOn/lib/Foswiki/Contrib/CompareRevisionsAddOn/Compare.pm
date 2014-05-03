@@ -350,7 +350,9 @@ sub _getTree {
     my $tree = new HTML::TreeBuilder;
     $tree->implicit_body_p_tag(1);
     $tree->p_strict(1);
-    $tree->no_expand_entities(1);
+
+# SMELL: This option is only valid on HTML:Treebuilder >= 4.0.  See Item12337 and Item12407
+#    $tree->no_expand_entities(1);
     $tree->parse($text);
     $tree->eof;
     $tree->elementify;
@@ -543,8 +545,9 @@ sub _getTextWithClass {
     if ( ref($element) eq $HTMLElement ) {
         _addClass( $element, $class ) if $class;
 
-        # Item11755: prevent entity mangling
-        return $element->as_HTML( '', undef, {} );
+# Item11755: prevent entity mangling
+# SMELL: Alternative to  $tree->no_expand_entities(1);  See Item12337 and Item12407
+        return $element->as_HTML( '<>&', undef, {} );
     }
     elsif ($class) {
         return '<span class="' . $class . '">' . $element . '</span>';
