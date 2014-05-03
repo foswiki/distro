@@ -140,6 +140,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  01 May 2014 (1.112)  | Foswikitask:Item12407: Don't decode entities during comparson |
+|  10 Feb 2014          | Foswikitask:Item12741: Formatting parameters not passed on the referenced scripts |
 |  23 Oct 2013 (1.1.11) | Foswikitask:Item12423: fix double encoding in header on UTF-8 sites |
 |  28 Feb 2013 (1.1.10) | Foswikitask:Item12408: use correct template names in docs |
 |  31 Jan 2013 (1.1.9) | Foswikitask:Item12337: Remove undocumented dependency on CPAN:HTML::TreeBuilder >= 4.0 |
