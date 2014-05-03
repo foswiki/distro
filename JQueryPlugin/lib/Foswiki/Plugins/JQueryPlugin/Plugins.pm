@@ -62,13 +62,13 @@ sub init {
         Foswiki::Func::writeWarning(
 "CAUTION: jQuery $jQuery not found. please fix the {JQueryPlugin}{JQueryVersion} settings."
         );
-        $jQuery = "jquery-2.1.0";
+        $jQuery = "jquery-2.1.1";
     }
 
     $jQuery .= ".uncompressed" if $debug;
 
     my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
-    $jQueryIE = "jquery-1.11.0" unless defined $jQueryIE;
+    $jQueryIE = "jquery-1.11.1" unless defined $jQueryIE;
 
     my $code;
     if ($jQueryIE) {

@@ -257,6 +257,9 @@ pub/System/JQueryPlugin/jquery-1.10.1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.11.0.js 0644
 pub/System/JQueryPlugin/jquery-1.11.0.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.11.0.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.11.1.js 0644
+pub/System/JQueryPlugin/jquery-1.11.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.11.1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-2.0.0.js 0644
 pub/System/JQueryPlugin/jquery-2.0.0.js.gz 0644
 pub/System/JQueryPlugin/jquery-2.0.0.uncompressed.js 0644
@@ -269,6 +272,9 @@ pub/System/JQueryPlugin/jquery-2.0.2.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-2.1.0.js 0644
 pub/System/JQueryPlugin/jquery-2.1.0.js.gz 0644
 pub/System/JQueryPlugin/jquery-2.1.0.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-2.1.1.js 0644
+pub/System/JQueryPlugin/jquery-2.1.1.js.gz 0644
+pub/System/JQueryPlugin/jquery-2.1.1.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css 0644
