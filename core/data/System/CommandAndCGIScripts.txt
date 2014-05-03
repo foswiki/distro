@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1316607717" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399105882" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -66,7 +66,7 @@ All the scripts accept a number of common parameters. The first two components o
 
 | *Parameter* | *Description* | *Default* |
 | =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | |
-| =debugenableplugins= | During debugging it can be useful to selectively disable all but a subset of plugins. This parameter allows the caller to specify a comma-separated list of plugins that should be enabled. | |
+| =debugenableplugins= | During debugging it can be useful to selectively disable all but a subset of plugins. This parameter allows the caller to specify a comma-separated list of plugins that should be enabled. It can only be used when =$ENV{FOSWIKI_ASSERTS}= is set to 1 in =bin/LocalLib.cfg=. | |
 | =foswikioriginalquery= | The original query that was being made before a redirect for user confirmation was required. | |
 | =foswiki_redirect_cache= | Foswiki sometimes caches long lists of parameters that must survive over a sequence of browser redirects. This parameter identifies one of these caches. The parameter value is a "magic number" that uniquely idenitifies a file in the =working/tmp= directory. These files have a very short lifetime, and are destroyed when the cache is read. | |
 | =logout= | requests the !LoginManager to log the current user out (this happens at the begining of the request so will terminate any other operation requested) | |
@@ -434,16 +434,15 @@ The =rest= script assumes that it will be called with URL in the form:
 
 =http://my.host/bin/rest/&lt;subject&gt;/&lt;verb&gt;=
 
-where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =Foswiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function.
-
-=&lt;subject&gt;= and =&lt;verb&gt;= are checked for illegal characters exactly in the same way as the web and topic names.
+where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =Foswiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function. If you need to
+pass a topic name, then this is passed in the =topic= URL parameter.
 
 As an example, the EmptyPlugin has registered a function to be used with the =rest= script under the subject *EmptyPlugin* and the verb *example*. 
 
 The URL to call this function from a browser would be:
-   * =%SCRIPTURL{rest}%/EmptyPlugin/example?debugenableplugins=EmptyPlugin=
+   * =%SCRIPTURL{rest}%/EmptyPlugin/example?topic=My.TopicName=
 alternatively, to run it from the commandline:
-   * =cd foswiki/bin ; ./rest /EmptyPlugin/example debugenableplugins=EmptyPlugin=
+   * =cd foswiki/bin ; ./rest /EmptyPlugin/example -topic=My.TopicName=
 
 Note that for Plugins to register REST handlers, they must be enabled in =configure=.
 

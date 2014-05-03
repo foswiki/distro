@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1395336630" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399105882" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -294,7 +294,6 @@ be removed from Foswiki 1.2.0.
       * Currently, %<nop>DISABLEDPLUGINS% is set to "%DISABLEDPLUGINS%"
    * Currently activated Plugins: %ACTIVATEDPLUGINS%
 
-   * %T% *NOTE:* You can enable/disable Plugins by passing a comma-separated list of Plugin names in the =debugenableplugins= url parameter; for example, %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?debugenableplugins=SmiliesPlugin will display this topic with all Plugins disabled except the SmiliesPlugin.
    * Detailed diagnostics can be found in InstalledPlugins
    * Legacy settings:
       * Set INSTALLEDPLUGINS = The INSTALLEDPLUGINS macro is no longer supported. You can set the Plugins execution order using the [[%SCRIPTURLPATH{"configure"}%][configure]] interface.

@@ -134,7 +134,16 @@ sub preload {
 
     my %already;
     unless ( $Foswiki::cfg{DisableAllPlugins} ) {
-        if ( $query && defined( $query->param('debugenableplugins') ) ) {
+
+        # debugenableplugins only supported in DEBUG and unit test modes
+        if (
+            $query
+            && defined(
+                $query->param('debugenableplugins')
+                  && ( DEBUG || $query->isa('Unit::Request') )
+            )
+          )
+        {
             foreach
               my $pn ( split( /[,\s]+/, $query->param('debugenableplugins') ) )
             {
