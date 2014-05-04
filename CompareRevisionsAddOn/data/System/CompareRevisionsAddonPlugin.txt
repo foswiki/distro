@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1305665402" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399169357" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CompareRevisionsAddOn"}%
 
 ---+ !CompareRevisionsAddOn Plugin
@@ -27,11 +27,16 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 ---++ Plugin Info
 
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
-|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2012 Kenneth Lavrsen and Foswiki Contributors |
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2014 Kenneth Lavrsen and Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  01 May 2014 (1.112)  | Foswikitask:Item12407: Don't decode entities during comparson. Convert to simple decimal version. |
+|  10 Feb 2014          | Foswikitask:Item12741: Formatting parameters not passed on the referenced scripts |
+|  23 Oct 2013 (1.1.11) | Foswikitask:Item12423: fix double encoding in header on UTF-8 sites |
+|  28 Feb 2013 (1.1.10) | Foswikitask:Item12408: use correct template names in docs |
+|  31 Jan 2013 (1.1.9) | Foswikitask:Item12337: Remove undocumented dependency on CPAN:HTML::TreeBuilder >= 4.0 |
 |  28 Nov 2012 (1.1.8) | Foswikitask:Item11267: Convert to perl version strings, <br />\
                          Foswikitask:Item11755: Compare breaks characterset encoding. <br />\
                          Foswikitask:Item11930: Read settings from Main.SitePreferences |
