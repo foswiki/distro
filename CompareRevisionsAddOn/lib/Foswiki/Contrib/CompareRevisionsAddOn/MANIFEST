@@ -10,6 +10,7 @@ lib/Foswiki/Contrib/CompareRevisionsAddOn.pm 0444
 lib/Foswiki/Contrib/CompareRevisionsAddOn/Compare.pm 0444
 lib/Foswiki/Contrib/CompareRevisionsAddOn/Config.spec 0444
 lib/Foswiki/Configure/Checkers/SwitchBoard/compareauth.pm 0444
+lib/Foswiki/Configure/Checkers/Plugins/CompareRevisionsAddonPlugin/Enabled.pm 0444
 pub/System/CompareRevisionsAddOn/interweave.png 0644
 pub/System/CompareRevisionsAddOn/sidebyside.png 0644
 templates/compare.tmpl 0444
