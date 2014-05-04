@@ -28,6 +28,7 @@ my $class_c1    = 'craCompareChange1';
 my $class_c2    = 'craCompareChange2';
 my $interweave;
 my $scripturl;
+my $v40plus = HTML::TreeBuilder->can('no_expand_entities');
 
 sub compare {
     my $session = shift;
@@ -351,8 +352,9 @@ sub _getTree {
     $tree->implicit_body_p_tag(1);
     $tree->p_strict(1);
 
-# SMELL: This option is only valid on HTML:Treebuilder >= 4.0.  See Item12337 and Item12407
-#    $tree->no_expand_entities(1);
+# SMELL: This next option is only valid on HTML:Treebuilder >= 4.0.  See Item12337 and Item12407
+# On older versions of TreeBuilder, escaped html like &lt;pre&gt; will be un-escaped
+    $tree->no_expand_entities(1) if $v40plus;
     $tree->parse($text);
     $tree->eof;
     $tree->elementify;
@@ -547,7 +549,10 @@ sub _getTextWithClass {
 
 # Item11755: prevent entity mangling
 # SMELL: Alternative to  $tree->no_expand_entities(1);  See Item12337 and Item12407
-        return $element->as_HTML( '<>&', undef, {} );
+# This fix is not 100%,  but helps in some cases.  The real solution is to install
+# latest HTML::Tree.
+        my $entities = ($v40plus) ? '' : '<>&';
+        return $element->as_HTML( $entities, undef, {} );
     }
     elsif ($class) {
         return '<span class="' . $class . '">' . $element . '</span>';
