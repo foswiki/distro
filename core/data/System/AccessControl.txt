@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398349876" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399280257" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -158,7 +158,7 @@ Remember when opening up access to specific topics within a restricted web that 
    * ==Set <nop>DENYTOPICVIEW = <nop>== <br />This means the same as not setting it at all. (As of Foswiki 1.2, the empty DENY setting is now meaningless, _unless explicitly overridden by your installation_.
 
 <blockquote class="foswikiHelp">
-If your administrator has enabled the old behavior, (Enabled ={AccessControlACL}{enableDeprecatedEmptyDeny}= in the Foswiki configuration )  an empty DENY setting means _do not deny anyone the right to access_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.  In Foswiki 1.2, this function is replaced by setting ALLOW to the * wildcard. See the next section:
+If your administrator has enabled the old behavior, (Enabled ={AccessControlACL}{EnableDeprecatedEmptyDeny}= in the Foswiki configuration )  an empty DENY setting means _do not deny anyone the right to access_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.  In Foswiki 1.2, this function is replaced by setting ALLOW to the * wildcard. See the next section:
 </blockquote>
 ---++++ Wildcard matching
 

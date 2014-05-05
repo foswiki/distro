@@ -107,7 +107,7 @@ sub haveAccess {
                     return 0;
                 }
             }
-            elsif ( $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} )
+            elsif ( $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} )
             {
 
                 # If DENYTOPIC is empty, don't deny _anyone_

@@ -598,7 +598,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 #    * Set DENYTOPICVIEW =        Should be replaced with:
 #    * Set ALLOWTOPICVIEW = *
 # </pre>
-$Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = $FALSE;
+$Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
 #---++ Passwords
 # <p>The password manager handles the passwords database, and provides
@@ -879,7 +879,8 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{Validation}{Method}',
     '{Register}{DisablePasswordConfirmation}',
     '{TemplateLogin}{AllowLoginUsingEmailAddress}',
-    '{FormTypes}'
+    '{FormTypes}',
+    '{AccessControlACL}{EnableDeprecatedEmptyDeny}'
 ];
 
 # **BOOLEAN**

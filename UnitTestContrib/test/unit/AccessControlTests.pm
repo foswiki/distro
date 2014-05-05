@@ -454,7 +454,7 @@ THIS
 
     # Verify that the new "empty deny" rule is ignored
     # Also passes on Foswiki <1.2
-    $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = 1;
+    $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = 1;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -468,7 +468,7 @@ THIS
     # renew Foswiki, so WebPreferences gets re-read
     if ( $this->check_dependency('Foswiki,>=,1.2') ) {
 
-        $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = 0;
+        $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = 0;
         $this->createNewFoswikiSession();
 
         $this->DENIED( "VIEW", $MrOrange );
@@ -543,7 +543,7 @@ THIS
 
     # Verify that the new "empty deny" rule is ignored
     # Also passes on Foswiki <1.2
-    $Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny} = 1;
+    $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = 1;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();

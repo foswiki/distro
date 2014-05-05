@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398367593" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399280302" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -55,7 +55,7 @@ pending change predating Foswiki 1.0.0.
 
 <blockquote class="foswikiHelp">%X% *ACTION REQUIRED* Any topics in the system that allow access by supplying an empty DENYTOPIC
 rule need to be updated.  A utility has been provided to find and convert existing empty DENY rules to the new ALLOW format.
-You can choose to defer this action by enabling =$Foswiki::cfg{AccessControlACL}{enableDeprecatedEmptyDeny}= in the _Security and Authentication_
+You can choose to defer this action by enabling =$Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny}= in the _Security and Authentication_
 section under the _Access control_ tab.
 </blockquote>
 
