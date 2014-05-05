@@ -147,7 +147,7 @@
     </label>
 
     <label title="%MAKETEXT{"public view access"}%">
-      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='{"deny":" "}' name="Local+PERMSET_VIEW" value="everybody" %IF{"$'PERMSET_VIEW'='everybody'" then="checked"}% /> 
+      <input type="radio" class="foswikiRadioButton" data-perm-type="view" data-perms='%IF{"'%QUERY{"{AccessControlACL}{EnableDeprecatedEmptyDeny}"}%'='0'" then="{\"allow\":\"*\"}" else="{\"deny\":\" \"}"}%' name="Local+PERMSET_VIEW" value="everybody" %IF{"$'PERMSET_VIEW'='everybody'" then="checked"}% /> 
       %MAKETEXT{"Everybody"}%
     </label>
 
