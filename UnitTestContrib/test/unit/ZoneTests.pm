@@ -12,9 +12,11 @@ sub set_up {
     $this->SUPER::set_up();
 
     # Disable plugins which add noise
-    $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 0;
-    $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 0;
-    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled}  = 0;
+    $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled}  = 0;
+    $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled}  = 0;
+    $Foswiki::cfg{Plugins}{TablePlugin}{Enabled}   = 0;
+    $Foswiki::cfg{Plugins}{CommentPlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 0;
 
     my $query = Unit::Request->new("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
