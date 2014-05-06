@@ -93,6 +93,7 @@ sub stringify {
     # Jeff Crawford, Item5043:
     # replace linefeeds with breaks to support multiline textareas
     my $text = $this->{text};
+    return '' unless defined $text;
     $text =~ s# *[\r\n]+ *# <br \/> #g;
 
     # Remove tactical spaces

@@ -530,7 +530,7 @@ sub deleteRow {
 Move a row
    * =$from= 0-based index of the row to move
    * =$to= 0-based index of the target position (before =$from= is removed!)
-    * =$any_row= - true to request moving of header and footer rows
+   * =$any_row= - true to request moving of header and footer rows
 Rows must exist. The rows must be editable rows unless =$any_row= is true.
 
 If =$any_row= is false, the table will be made consistent (missing
@@ -552,8 +552,10 @@ sub moveRow {
     return 0
       unless $this->isEditableRow($from)
       || $any_row && $from >= 0 && $from < $this->totalRows();
-    $to = $this->getHeaderRows()      if $to < $this->getHeaderRows();
-    $to = $this->getLastBodyRow() + 1 if $to > $this->getLastBodyRow();
+    unless ($any_row) {
+        $to = $this->getHeaderRows()      if $to < $this->getHeaderRows();
+        $to = $this->getLastBodyRow() + 1 if $to > $this->getLastBodyRow();
+    }
 
     my @moving = splice( @{ $this->{rows} }, $from, 1 );
 
