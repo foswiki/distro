@@ -233,7 +233,7 @@ exit(1);
 sub _validateConfigure {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $method !~ /^(GET|POST)$/ ) {
+    if ( defined $method && $method !~ /^(GET|POST)$/ ) {
         invalidRequest( "", 405, Allow => 'GET,POST' );
     }
 
@@ -1040,7 +1040,7 @@ sub htmlResponse {
     my ( $moreOutput, $noRedirect, $errForm ) = $flags =~ /(.)(.)(.)$/;
     $noRedirect = 1 if (@feedbackHeaders);
 
-    if ( $method eq 'POST' && !$noRedirect ) {
+    if ( defined $method && $method eq 'POST' && !$noRedirect ) {
         htmlRedirect(
             'DisplayResults',
             {
@@ -1057,7 +1057,7 @@ sub htmlResponse {
         400 => { msg => 'Invalid Request' },
         401 => { msg => 'Not authorized' },
         404 => { msg => 'Not found' },
-        405 => { msg => "Method $method not allowed" },
+        405 => { msg => "Method " . ( $method || 'undef' ) . " not allowed" },
       }->{$status}
       or die "Invalid status";
 
