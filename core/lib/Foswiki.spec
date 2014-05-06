@@ -600,6 +600,29 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 # </pre>
 $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
+# **SELECT authenticated,acl,all**
+# Choose which users will have access to the "raw" topic views.
+# Default is "authenticated",  so that guest users can not view the raw topic contents.  This
+# avoids indexing of raw topic context by bots and crawlers.
+# If set to <tt>acl</tt>, then access is controlled by setting <tt>ALLOW</tt> or <tt>DENY</tt>
+# <tt>WEB</tt> or <tt>TOPIC RAW</tt>   for ex:
+# <pre>
+#   * Set ALLOWTOPICRAW = DevelopersGroup
+# </pre>
+$Foswiki::cfg{FeatureAccess}{AllowRaw} = 'authenticated';
+
+# **SELECT authenticated,acl,all**
+# Choose which users will have access to the topic history.
+# Default is "authenticated",  so that guest users can not view the topic history.
+# This can also reduce bot workload by denying web crawlers access to topic history.
+# If set to <tt>acl</tt>, then access is controlled on a topic or web basis by setting <tt>ALLOW</tt> or <tt>DENY</tt>
+# <tt>WEB</tt> or <tt>TOPIC HISTORY</tt>   for ex:
+# <pre>
+#   * Set DENYTOPICHISTORY = WikiGuest
+# </pre>
+# Note that this setting also controls access to the <tt>rdiff</tt> and <tt>compare</tt> scripts.
+$Foswiki::cfg{FeatureAccess}{AllowHistory} = 'authenticated';
+
 #---++ Passwords
 # <p>The password manager handles the passwords database, and provides
 # password lookup, and optionally password change, services to the rest of

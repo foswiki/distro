@@ -55,6 +55,8 @@ sub view {
     my $query = $session->{request};
     my $web   = $session->{webName};
     my $topic = $session->{topicName};
+    my $user  = $session->{user};
+    my $users = $session->{users};
 
     if ( defined $query->param('release_lock')
         && $query->param('release_lock') ne '' )
@@ -121,6 +123,8 @@ sub view {
       if $Foswiki::cfg{Cache}{Debug};
 
     my $raw = $query->param('raw') || '';
+    my $requestedRev = $query->param('rev');
+
     my $contentType = $query->param('contenttype');
 
     my $logEntry = '';
@@ -131,9 +135,8 @@ sub view {
 
     Foswiki::UI::checkWebExists( $session, $web, 'view' );
 
-    my $requestedRev;
-    if ( defined $query->param('rev') ) {
-        $requestedRev = Foswiki::Store::cleanUpRevID( $query->param('rev') );
+    if ( defined $requestedRev ) {
+        $requestedRev = Foswiki::Store::cleanUpRevID($requestedRev);
         unless ($requestedRev) {
 
             # Invalid request, remove it from the query.
@@ -157,6 +160,40 @@ sub view {
         # not say it is because the TOPICINFO could be up the spout
         $topicObject = Foswiki::Meta->load( $session, $web, $topic );
         Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+
+        # If we are applying control to the raw view:
+        if (   $raw
+            && defined $Foswiki::cfg{FeatureAccess}{AllowRaw}
+            && $Foswiki::cfg{FeatureAccess}{AllowRaw} ne 'all' )
+        {
+
+            if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
+                throw Foswiki::AccessControlException( 'authenticated',
+                    $session->{user}, $web, $topic, $Foswiki::Meta::reason )
+                  unless $session->inContext("authenticated");
+            }
+            else {
+                Foswiki::UI::checkAccess( $session, 'RAW', $topicObject )
+                  unless $topicObject->haveAccess('CHANGE');
+            }
+        }
+
+        # If we are applying control to the revisions:
+        if (   $requestedRev
+            && defined $Foswiki::cfg{FeatureAccess}{AllowHistory}
+            && $Foswiki::cfg{FeatureAccess}{AllowHistory} ne 'all' )
+        {
+
+            if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' )
+            {
+                throw Foswiki::AccessControlException( 'authenticated',
+                    $session->{user}, $web, $topic, $Foswiki::Meta::reason )
+                  unless $session->inContext("authenticated");
+            }
+            else {
+                Foswiki::UI::checkAccess( $session, 'HISTORY', $topicObject );
+            }
+        }
 
         $revIt = $topicObject->getRevisionHistory();
 

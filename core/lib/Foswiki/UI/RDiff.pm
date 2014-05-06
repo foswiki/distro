@@ -548,6 +548,38 @@ sub diff {
         $isMultipleDiff = 1;
     }
 
+    # If we are applying control to the raw view:
+    if (   $renderStyle eq 'debug'
+        && defined $Foswiki::cfg{FeatureAccess}{AllowRaw}
+        && $Foswiki::cfg{FeatureAccess}{AllowRaw} ne 'all' )
+    {
+
+        if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
+            throw Foswiki::AccessControlException( 'authenticated',
+                $session->{user}, $web, $topic, $Foswiki::Meta::reason )
+              unless $session->inContext("authenticated");
+        }
+        else {
+            Foswiki::UI::checkAccess( $session, 'RAW', $topicObject )
+              unless $topicObject->haveAccess('CHANGE');
+        }
+    }
+
+    # If we are applying control to the revisions:
+    if ( defined $Foswiki::cfg{FeatureAccess}{AllowHistory}
+        && $Foswiki::cfg{FeatureAccess}{AllowHistory} ne 'all' )
+    {
+
+        if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' ) {
+            throw Foswiki::AccessControlException( 'authenticated',
+                $session->{user}, $web, $topic, $Foswiki::Meta::reason )
+              unless $session->inContext("authenticated");
+        }
+        else {
+            Foswiki::UI::checkAccess( $session, 'HISTORY', $topicObject );
+        }
+    }
+
     my %toms;
 
     do {

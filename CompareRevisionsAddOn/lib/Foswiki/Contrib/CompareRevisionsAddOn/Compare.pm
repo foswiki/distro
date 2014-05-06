@@ -45,6 +45,21 @@ sub compare {
     my $topicObject = Foswiki::Meta->load( $session, $webName, $topic );
     Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
+    # If we are applying control to the revisions:
+    if ( defined $Foswiki::cfg{FeatureAccess}{AllowHistory}
+        && $Foswiki::cfg{FeatureAccess}{AllowHistory} ne 'all' )
+    {
+
+        if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' ) {
+            throw Foswiki::AccessControlException( 'authenticated',
+                $session->{user}, $webName, $topic, $Foswiki::Meta::reason )
+              unless $session->inContext("authenticated");
+        }
+        else {
+            Foswiki::UI::checkAccess( $session, 'HISTORY', $topicObject );
+        }
+    }
+
     $scripturl = Foswiki::Func::getScriptUrl( $webName, $topic, 'compare' );
 
     # Check, if interweave or sidebyside
