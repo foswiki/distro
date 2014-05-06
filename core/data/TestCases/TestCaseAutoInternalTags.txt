@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="SimianApe" date="1229981030" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399379775" format="1.1" version="1"}%
 Description: Tag tests that can be automated
 
 [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
@@ -123,9 +123,9 @@ Designed by: Crawford Currie
   <td><!-- actual -->FORMFIELD %FORMFIELD{"" topic="" alttext="" default="" format="$value"}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>FORMFIELD{"Slash Slash Escape" alttext="" default="" format="'$name'=$quot$value$quot $title in $quot$form$quot"}</td>
+  <td>FORMFIELD{"SlashSlashEscape" alttext="" default="" format="'$name'=$quot$value$quot $title in $quot$form$quot"}</td>
   <td><!-- expected wendydive -->FORMFIELD 'SlashSlashEscape'="One" Slash Slash Escape in "ThisForm"<!-- /expected --></td>
-  <td><!-- actual -->FORMFIELD %FORMFIELD{"Slash Slash Escape" alttext="" default="" format="'$name'=$quot$value$quot $title in $quot$form$quot"}%<!-- /actual --></td>
+  <td><!-- actual -->FORMFIELD %FORMFIELD{"SlashSlashEscape" alttext="" default="" format="'$name'=$quot$value$quot $title in $quot$form$quot"}%<!-- /actual --></td>
  </tr>
  <tr>
   <td>SPACEDTOPIC</td>
