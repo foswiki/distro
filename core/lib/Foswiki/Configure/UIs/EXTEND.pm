@@ -155,6 +155,11 @@ sub _getSession {
 # See Item9944 for more background.
     $Foswiki::cfg{Cache}{Enabled} = 0;
 
+# SMELL: Disable all plugins.   Several plugins have issues when the environment is not
+# a true foswiki session.  This might cause some handlers to miss a few topic updates,
+# but should make the extension installer more reliable
+    $Foswiki::cfg{DisableAllPlugins} = 1;
+
     my $session = new Foswiki($user);
 
     return $session;

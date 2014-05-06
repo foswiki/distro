@@ -120,6 +120,11 @@ $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
 # This might leave stale cache entries for topics updated by the installer.
 $Foswiki::cfg{Cache}{Enabled} = 0;
 
+# SMELL: Disable all plugins.   Several plugins have issues when the environment is not
+# a true foswiki session.  This might cause some handlers to miss a few topic updates,
+# but should make the extension installer more reliable
+$Foswiki::cfg{DisableAllPlugins} = 1;
+
 unless ( eval { require Foswiki } ) {
     _stop("Can't load Foswiki: $@");
 }
