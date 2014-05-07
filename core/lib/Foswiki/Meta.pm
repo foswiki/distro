@@ -892,7 +892,7 @@ sub populateNewWeb {
                 $attfh{ $sfa->{name} } = {
                     fh      => $fh,
                     date    => $sfa->{date},
-                    user    => $sfa->{user},
+                    user    => $sfa->{user} || $session->{user},
                     comment => $sfa->{comment}
                 };
             }
