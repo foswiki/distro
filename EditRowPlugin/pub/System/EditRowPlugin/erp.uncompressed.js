@@ -227,6 +227,17 @@
         // Tell the server *not* to return us to edit mode
         move_data.erp_stop_edit = 1;
 
+        $('input[name="validation_key"]').first().each(
+            function() {
+                var vkey = $(this);
+                vkey.closest('form').each(
+                    function() {
+                        if (typeof(StrikeOne) !== 'undefined')
+                            StrikeOne.submit(this);
+                    });
+                move_data.validation_key = vkey.val();
+            });
+
         // The request will update the entire container.
 	table.css('cursor', 'wait');
         $.ajax({
@@ -336,12 +347,16 @@
                 $(this).data('erp-data'),
                 $(this).closest('tr').data('erp-data'),
                 $(this).closest('table').data('erp-data'));
-            var form = $(this).closest('form');
-            if ( form.length > 0 && form[0].validation_key ) {
-                if (typeof(StrikeOne) !== 'undefined')
-                    StrikeOne.submit(form[0]);
-                $.extend(sd, { validation_key: form[0].validation_key.value });
-            }
+
+            $(this).closest('form').each(
+                function() {
+                    if (typeof(StrikeOne) !== 'undefined')
+                        StrikeOne.submit(this);
+                    $(this).find('input[name="validation_key"]').each(
+                        function() {
+                            sd.validation_key = $(this).val();
+                        });
+                });
             return sd;
         },
 

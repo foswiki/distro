@@ -22,9 +22,8 @@ use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 sub new {
-    my $class   = shift;
+    my $class = shift;
     my $session = shift || $Foswiki::Plugins::SESSION;
-    my $src     = (DEBUG) ? '_src' : '';
 
     my $this = $class->SUPER::new(
         $session,
@@ -33,9 +32,9 @@ sub new {
         author        => 'Crawford Currie',
         homepage      => 'http://foswiki.org/Extensions/EditRowPlugin',
         puburl        => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin',
-        css           => ["erp${src}.css"],
+        css           => ["erp.css"],
         documentation => "$Foswiki::cfg{SystemWebName}.EditRowPlugin",
-        javascript    => [ "erp${src}.js", "TableSort${src}.js" ],
+        javascript    => [ "erp.js", "TableSort.js" ],
         dependencies  => [ 'UI', 'JEditable', "Theme" ]
     );
 

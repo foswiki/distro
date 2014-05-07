@@ -174,7 +174,7 @@ sub render {
             else {
                 $text .= "$anchor";
             }
-            $anchor = '';
+            undef $anchor;
         }
         push( @cols, $text );
     }
@@ -192,7 +192,7 @@ sub render {
             my $help = $this->{table}->generateHelp();
             if ($anchor) {
                 $help .= $anchor;
-                $anchor = '';
+                undef $anchor;
             }
             push( @cols, "\n", $help, '', $empties ) if $help;
         }
@@ -207,7 +207,7 @@ sub render {
                 my $text = '';
                 if ($anchor) {
                     $text .= $anchor;
-                    $anchor = '';
+                    undef $anchor;
                 }
                 if ($buttons_right) {
                     push( @cols, " *$text* " );
@@ -238,7 +238,7 @@ sub render {
                   . " ui-icon ui-icon-pencil foswikiIcon'>edit</a>";
                 if ($anchor) {
                     $buttons .= $anchor;
-                    $anchor = 0;
+                    undef $anchor;
                 }
 
                 #if ($opts->{js} ne 'ignored') {
@@ -258,13 +258,13 @@ sub render {
                 # final cell.
                 my $cell = pop(@cols);
                 $cell->{text} .= $anchor;
-                $anchor = '';
+                undef $anchor;
                 push( @cols,
                     $cell->render( { col_defs => $opts->{col_defs} } ) );
             }
         }
+        ASSERT( !$anchor ) if DEBUG;
     }
-    ASSERT( !$anchor ) if DEBUG;
     my $s = join( '|', @cols );
     return "$this->{precruft}|$s|$this->{postcruft}";
 }
