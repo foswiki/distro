@@ -2,8 +2,6 @@ package Foswiki::Contrib::CompareRevisionsAddOn;
 use strict;
 
 # Also update CompareRevisionsAddOnPlugin
-use version; our $VERSION = version->declare("v1.1.11");
-
 our $VERSION = '1.112';
 
 # This is a free-form string you can use to "name" your own plugin version.
