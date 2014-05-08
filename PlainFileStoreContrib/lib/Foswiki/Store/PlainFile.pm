@@ -516,6 +516,7 @@ sub repRev {
         revision => $rn,
         more     => join( ', ', @log ),
         verb     => 'update',
+        oldmeta  => $meta,
         newmeta  => $meta
     );
 
