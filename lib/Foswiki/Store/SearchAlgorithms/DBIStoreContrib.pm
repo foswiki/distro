@@ -15,6 +15,7 @@ use Assert;
 use Foswiki::Search::InfoCache                       ();
 use Foswiki::Query::Parser                           ();
 use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
+use Foswiki::Func                                    ();
 
 =begin TML
 
@@ -87,7 +88,7 @@ sub query {
 
     my $queryParser = Foswiki::Query::Parser->new();
     my $search = join( ' AND ', @ands );
-    print STDERR "Search generated query $search\n"
+    Foswiki::Func::writeDebug("Search generated query $search")
       if Foswiki::Store::QueryAlgorithms::DBIStoreContrib::MONITOR;
 
     $query = $queryParser->parse($search);

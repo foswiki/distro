@@ -31,10 +31,10 @@ The default is TRUE which works for SQLite, MySQL and Postgresql.
 =cut
 
 sub new {
-    my ( $class, $dbistore ) = @_;
+    my ($class) = @_;
     my $this = bless(
         {
-            store => $dbistore,
+            dbh => undef,    # Set in startup
 
             # If the DB is running *without* auto-commit enabled, then this
             # is required.
@@ -84,13 +84,16 @@ sub reserve {
 
 =begin TML
 
----++ startup()
+---++ startup($dbh)
 Execute any SQL commands required to start the DB in ANSI mode.
-The default is no specific setup.
+Subclasses must call superclass.
 
 =cut
 
 sub startup {
+    my ( $this, $dbh ) = @_;
+    ASSERT($dbh) if DEBUG;
+    $this->{dbh} = $dbh;
 }
 
 =begin TML
@@ -104,13 +107,14 @@ must exist.
 sub table_exists {
     my $this = shift;
     my $tables = join( ',', map { "'$_'" } @_ );
+    ASSERT( $this->{dbh} ) if DEBUG;
 
     # MySQL, Postgresql, MS SQL Server
     my $sql = <<SQL;
 SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
  WHERE TABLE_NAME IN ($tables)
 SQL
-    my $rows = $this->{store}->{handle}->selectall_arrayref($sql);
+    my $rows = $this->{dbh}->selectall_arrayref($sql);
     return scalar(@$rows) == scalar(@_);
 }
 
@@ -123,13 +127,14 @@ Determine if a column exists
 
 sub column_exists {
     my ( $this, $table, $column ) = @_;
+    ASSERT( $this->{dbh} ) if DEBUG;
 
     # MySQL, Postgresql, MS SQL Server
     my $sql = <<SQL;
 SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
  WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$column'
 SQL
-    return $this->{store}->{handle}->selectrow_arrayref($sql);
+    return $this->{dbh}->selectrow_arrayref($sql);
 }
 
 =begin TML
@@ -141,13 +146,14 @@ Get a list of column names for the given table
 
 sub get_columns {
     my ( $this, $table ) = @_;
+    ASSERT( $this->{dbh} ) if DEBUG;
 
     # MySQL, Postgresql, MS SQL Server
     my $sql = <<SQL;
 SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
  WHERE TABLE_NAME = '$table'
 SQL
-    return @{ $this->{store}->{handle}->selectcol_arrayref($sql) };
+    return @{ $this->{dbh}->selectcol_arrayref($sql) };
 }
 
 =begin TML

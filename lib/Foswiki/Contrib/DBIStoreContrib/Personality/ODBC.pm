@@ -43,19 +43,20 @@ sub new {
 }
 
 sub startup {
-    my $this = shift;
+    my ( $this, $dbh ) = @_;
+    $this->SUPER::startup($dbh);
 
-    $this->{store}->{handle}->do('set QUOTED_IDENTIFIER ON');
+    $this->{dbh}->do('set QUOTED_IDENTIFIER ON');
 
     # There's no way in T-SQL to conditionally create a function
     # without using dynamic SQL, so we have to do this the hard way.
-    my $exists = $this->{store}->{handle}->do(<<'SQL');
+    my $exists = $this->{dbh}->do(<<'SQL');
 SELECT 1 WHERE OBJECT_ID('dbo.foswiki_CONVERT') IS NOT NULL
 SQL
     if ( $exists == 0 ) {
 
         # Error-tolerant number conversion. Works like perl.
-        $this->{store}->{handle}->do(<<'SQL');
+        $this->{dbh}->do(<<'SQL');
 CREATE FUNCTION foswiki_CONVERT( @value VARCHAR(MAX) ) RETURNS FLOAT AS
  BEGIN
   IF @value LIKE '%[^-+0-9eE]%' RETURN 0

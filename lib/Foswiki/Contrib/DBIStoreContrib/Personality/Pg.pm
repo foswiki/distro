@@ -3,6 +3,7 @@ package Foswiki::Contrib::DBIStoreContrib::Personality::Pg;
 
 use strict;
 use warnings;
+use Assert;
 
 use Foswiki::Contrib::DBIStoreContrib::Personality ();
 our @ISA = ('Foswiki::Contrib::DBIStoreContrib::Personality');
@@ -59,12 +60,15 @@ sub new {
 }
 
 sub startup {
-    my $this = shift;
-    $this->{store}->{handle}->{AutoCommit} = 1;
+    my ( $this, $dbh ) = @_;
 
-    #    $this->{store}->{handle}->do('\\set ON_ERROR_ROLLBACK true');
-    $this->{store}->{handle}->do("SET client_min_messages = 'warning'");
-    $this->{store}->{handle}->do(<<'DO');
+    $this->SUPER::startup($dbh);
+    ASSERT( $this->{dbh} ) if DEBUG;
+    $this->{dbh}->{AutoCommit} = 1;
+
+    #    $this->{dbh}->do('\\set ON_ERROR_ROLLBACK true');
+    $this->{dbh}->do("SET client_min_messages = 'warning'");
+    $this->{dbh}->do(<<'DO');
 CREATE OR REPLACE FUNCTION make_number(TEXT) RETURNS NUMERIC AS $$
 DECLARE i NUMERIC;
 BEGIN

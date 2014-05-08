@@ -24,11 +24,12 @@ sub new {
 }
 
 sub startup {
-    my $this = shift;
+    my ( $this, $dbh ) = @_;
+    $this->SUPER::startup($dbh);
 
     # Load PCRE, required for regexes
-    $this->{store}->{handle}->sqlite_enable_load_extension( my $_enabled = 1 );
-    $this->{store}->{handle}->prepare(
+    $this->{dbh}->sqlite_enable_load_extension( my $_enabled = 1 );
+    $this->{dbh}->prepare(
 "SELECT load_extension('$Foswiki::cfg{Extensions}{DBIStoreContrib}{SQLite}{PCRE}')"
     );
 }
@@ -40,9 +41,9 @@ sub table_exists {
 SELECT name FROM sqlite_master
     WHERE type='table' AND name IN ($tables)
 SQL
-    my @rows = $this->{store}->{handle}->selectrow_array($sql);
+    my @rows = $this->{dbh}->selectrow_array($sql);
 
-    #print STDERR scalar(@rows)." tables exist of ".scalar(@_)."\n";
+   #Foswiki::Func::writeDebug( scalar(@rows)." tables exist of ".scalar(@_)."");
     return scalar(@rows);
 }
 
@@ -51,7 +52,7 @@ sub column_exists {
     my $sql = <<SQL;
 PRAGMA table_info($table)
 SQL
-    return $this->{store}->{handle}->selectall_arrayref($sql);
+    return $this->{dbh}->selectall_arrayref($sql);
 }
 
 sub get_columns {
@@ -59,7 +60,7 @@ sub get_columns {
     my $sql = <<SQL;
 PRAGMA table_info($table)
 SQL
-    my $rows = $this->{store}->{handle}->selectall_arrayref($sql);
+    my $rows = $this->{dbh}->selectall_arrayref($sql);
     return map { $_->[1] } @$rows;
 }
 

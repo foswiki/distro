@@ -20,6 +20,7 @@ use Foswiki::Infix::Node                             ();
 use Foswiki::Query::Node                             ();
 use Foswiki::Query::Parser                           ();
 use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
+use Foswiki::Func                                    ();
 
 # A Foswiki query parser
 our $parser;
@@ -275,9 +276,9 @@ sub _alias {
     return $tid;
 }
 
-# Get the personailty module
+# Get the personalty module
 sub _personality {
-    return Foswiki::Contrib::DBIStoreContrib::DBIStore::personality;
+    return Foswiki::Contrib::DBIStoreContrib::personality;
 }
 
 =begin TML
@@ -300,11 +301,11 @@ sub hoist {
         $TRUE_TYPE = _personality()->{true_type};
     }
 
-    print STDERR "HOISTING " . recreate($query) . "\n" if MONITOR;
+    Foswiki::Func::writeDebug( "HOISTING " . recreate($query) ) if MONITOR;
 
     # Simplify the parse tree, work out type information.
     $query = _rewrite( $query, UNKNOWN );
-    print STDERR "Rewritten " . recreate($query) . "\n" if MONITOR;
+    Foswiki::Func::writeDebug( "Rewritten " . recreate($query) ) if MONITOR;
 
     my %h = _hoist( $query, 'topic' );
     my $alias = _alias(__LINE__);    # SQL server requires this!
@@ -764,12 +765,12 @@ sub _hoist {
         _abort( "Don't know how to hoist '$op':", $node );
     }
 
-   #    if (MONITOR) {
-   #        print STDERR "Hoist " . recreate($node) . " ->\n";
-   #        print STDERR "select $result{sel} from\n" if $result{sel};
-   #        print STDERR "table name\n"               if $result{is_table_name};
-   #        print STDERR _format_SQL( $result{sql} ) . "\n";
-   #    }
+#    if (MONITOR) {
+#        Foswiki::Func::writeDebug( "Hoist " . recreate($node) . " ->");
+#        Foswiki::Func::writeDebug( "select $result{sel} from") if $result{sel};
+#        Foswiki::Func::writeDebug( "table name")               if $result{is_table_name};
+#        Foswiki::Func::writeDebug( _format_SQL( $result{sql} ) . "");
+#    }
     return %result;
 }
 
@@ -950,9 +951,8 @@ sub _rewrite {
         my $rhs = _rewrite( $node->{params}[1], VALUE );
 
         unless ( $lhs->{is_table} ) {
-            print STDERR __LINE__
-              . " lhs may not be a table."
-              . recreate($lhs) . "\n"
+            Foswiki::Func::writeDebug(
+                __LINE__ . " lhs may not be a table." . recreate($lhs) )
               if MONITOR;
         }
 
@@ -996,7 +996,8 @@ sub _rewrite {
         my $nop = $op->{name};
     }
 
-    print STDERR "$rewrote: Rewrote $before as " . recreate($node) . "\n"
+    Foswiki::Func::writeDebug(
+        "$rewrote: Rewrote $before as " . recreate($node) )
       if MONITOR;
     return $node;
 }

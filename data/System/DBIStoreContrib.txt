@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1399560863" format="1.1" version="1"}%
 ---+!! !DBIStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -6,10 +7,37 @@
 
 %TOC%
 
-This extension caches wiki data and implements search operations (query and text search) using the Perl DBI interface to SQL databases. It has been tested with [[http://www.sqlite.org/][SQLite]], the popular lightweight implementation of an SQL relational database, [[http://www.mysql.com/][MySQL]], and [[http://www.postgresql.org/][Postgresql]].
+This extension supports the storing of wiki data in an SQL database. Works with Foswiki 1.1.9
+and later.
+
+At this point in time, it works as a mirror of an existing store (e.g. PlainFile, RCS)
+   1. With all searching operations performed using SQL _or_
+   2. With just structured queries performed using the store _or_
+   3. Simply to support other clients querying data using SQL.
+However it may be extended to be a full store implementation at
+some point in the future.
+
+The extension has been designed to be *fully compatible* with existing
+=%SEARCH= expressions, and is useable with all well-written extensions (those
+that have been written to use the Foswiki::Func API, and do not perform
+direct-to-disk file operations).
+
+It has been tested with
+[[http://www.sqlite.org/][SQLite]],
+[[http://www.mysql.com/][MySQL]],
+[[http://www.postgresql.org/][Postgresql]], and
+[[www.microsoft.com/SQL][Microsoft SQL Server]].
+
+Note however that there are many different versions of these databases and
+campatibility with any given version cannot be guaranteed.
 
 ---++ Database Schema
-The database schema reflects 1:1 the schema of Foswiki topics. The following tables exist by default:
+The database schema reflects 1:1 the schema of Foswiki topics. The following tables
+exist by default:
+
+=web= %BR%
+Contains full hierarchical names of all webs
+   * =name= - web name
 
 =topic= %BR%
 Contains all wiki topics. 
@@ -26,9 +54,7 @@ Contains the names of all meta-tables.
 The full schema, including the types used to represent different data can
 be found in =configure= under the settings for the Extension.
 
-Note that file attachments are *not* stored in the database at this time.
-
----++ Limitations
+---++ Search Limitations
 ---+++ Regular Expressions
 Regular expression searches are mapped to whatever regular expression
 support exists in the database. Most SQL databases support sophisticated
@@ -69,7 +95,7 @@ The =length()= operator only works on string data, not on tables.
       1 Set a DSN etc. for the contrib in the 'Extensions' section (the default is for sqlite3),
       1 Select =Foswiki::Store::QueryAlgorithms::DBIStoreContrib= for the ={Store}{QueryAlgorithm}= *EXPERT* setting
       1 *For Foswiki > 1.1* only
-         * add =Foswiki::Contrib::DBIStoreContrib::DBIStore= to the ={Store}{ImplementationClasses}= *EXPERT* setting in the 'Store' section
+         * Set ={Store}{ImplementationClasses}{Foswiki::Contrib::DBIStoreContrib::DBIStore}= *EXPERT* setting in =LocalSite.cfg= to =$TRUE=.
          * select =Foswiki::Store::SearchAlgorithms::DBIStoreContrib= for the ={Store}{SearchAlgorithm}= setting
       1 *For Foswiki 1.1 only*
          * Select Foswiki::Store::QueryAlgorithms::DBIStoreContrib for the ={Store}{QueryAlgorithm}= configuration setting
@@ -159,11 +185,12 @@ can be useful when debugging SQL server, or for simply understanding the tables.
 ---++ Info
 
 |  Author(s): | Crawford Currie http://c-dot.co.uk |
-|  Copyright: | &copy; 2010 C-Dot Consultants |
+|  Copyright: | &copy; 2010-2014 C-Dot Consultants |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.0 (8 May 2014) | First version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | http://foswiki.org/bin/view/Extensions/DBIStoreContrib |
 |  Support: | http://foswiki.org/bin/view/Support/DBIStoreContrib |

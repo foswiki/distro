@@ -44,15 +44,19 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
     _USERNAME => { type => 'VARCHAR(64)', index => 1 },
     _DATE => { type => 'VARCHAR(32)' },
     topic => {
+        _level => 0,
+        tid  => { type => 'INT', primary => 1 }
         web  => { type => 'VARCHAR(256)', index => 1 },
         name => { type => 'VARCHAR(128)', index => 1 },
         text => '_DEFAULT',
         raw  => '_DEFAULT'
         },
     metatypes => {
+        _level => 0,
         name => { type => 'VARCHAR(63)', index => 1 },
         },
     TOPICINFO => {
+        _level => 1,
         author => '_USERNAME',
         version => { type => 'VARCHAR(256)' },
         date => '_DATE',
@@ -63,15 +67,18 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
         encoding => { type => 'VARCHAR(32)' },
     },
     TOPICMOVED => {
+        _level => 1,
         from => { type => 'VARCHAR(256)' },
         to => { type => 'VARCHAR(256)' },
         by => { type => 'VARCHAR(256)' },
         date => '_DATE',
     },
     TOPICPARENT => {
+        _level => 1,
         name => { type => 'VARCHAR(256)', index => 1 },
     },
     FILEATTACHMENT => {
+        _level => 1,
         name => { type => 'VARCHAR(256)', index => 1 },
         version => { type => 'VARCHAR(32)' },
         path => { type => 'VARCHAR(256)' },
@@ -80,16 +87,21 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
         user => '_USERNAME',
         comment => { type => 'VARCHAR(512)', truncate_to => 512 },
         attr => { type => 'VARCHAR(32)' },
+
+        raw  => { type => 'BYTEA' }
     },
     FORM => {
+        _level => 1,
         name => { type => 'VARCHAR(256)', index => 1 },
     },
     FIELD => {
+        _level => 1,
         name => { type => 'VARCHAR(128)', index => 1 },
         value => { type => 'VARCHAR(512)', index => 1, truncate_to => 512 },
         title => { type => 'VARCHAR(256)' },
     },
     PREFERENCE => {
+        _level => 1,
         name => { type => 'VARCHAR(64)', index => 1 },
         value => _DEFAULT,
         type => { type => 'VARCHAR(32)' },

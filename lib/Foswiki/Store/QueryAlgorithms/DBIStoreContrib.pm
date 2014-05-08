@@ -15,13 +15,14 @@ use warnings;
 our @ISA;
 
 use Assert;
-use Foswiki::Search::Node                       ();
-use Foswiki::Meta                               ();
-use Foswiki::Search::InfoCache                  ();
-use Foswiki::Search::ResultSet                  ();
-use Foswiki::MetaCache                          ();
-use Foswiki::Query::Node                        ();
-use Foswiki::Contrib::DBIStoreContrib::DBIStore ();
+use Foswiki::Search::Node             ();
+use Foswiki::Meta                     ();
+use Foswiki::Search::InfoCache        ();
+use Foswiki::Search::ResultSet        ();
+use Foswiki::MetaCache                ();
+use Foswiki::Query::Node              ();
+use Foswiki::Contrib::DBIStoreContrib ();
+use Foswiki::Func                     ();
 
 # Debug prints
 use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
@@ -29,11 +30,8 @@ use constant MONITOR => Foswiki::Contrib::DBIStoreContrib::MONITOR;
 BEGIN {
     eval 'require Foswiki::Store::Interfaces::QueryAlgorithm';
     if ($@) {
-        print STDERR "Compatibility mode\n" if MONITOR;
+        Foswiki::Func::writeDebug("Compatibility mode") if MONITOR;
         undef $@;
-
-        # Create shim if necessary
-        Foswiki::Contrib::DBIStoreContrib::DBIStore->createShim();
 
         # Foswiki 1.1 or earlier
         #require Foswiki::Query::QueryAlgorithms; # empty class
@@ -119,13 +117,14 @@ sub query {
         ( $query, $topics, $session, $options ) = @_;
     }
 
-    print STDERR "Initial query: " . $query->stringify() . "\n" if MONITOR;
+    Foswiki::Func::writeDebug( "Initial query: " . $query->stringify() )
+      if MONITOR;
 
     # Fold constants
     my $context = Foswiki::Meta->new( $session, $session->{webName} );
 
-    #    $query->simplify( tom => $context, data => $context );
-    #    print STDERR "Simplified to: " . $query->stringify() . "\n" if MONITOR;
+#    $query->simplify( tom => $context, data => $context );
+#    Foswiki::Func::writeDebug( "Simplified to: " . $query->stringify() ) if MONITOR;
 
     my $isAdmin = $session->{users}->isAdmin( $session->{user} );
 
@@ -187,12 +186,16 @@ sub query {
       . ' ORDER BY web,name';
 
     $query = undef;    # not needed any more
-    print STDERR "Generated SQL:\n"
-      . Foswiki::Contrib::DBIStoreContrib::HoistSQL::_format_SQL($sql) . "\n"
+    Foswiki::Func::writeDebug( "Generated SQL:"
+          . Foswiki::Contrib::DBIStoreContrib::HoistSQL::_format_SQL($sql) )
       if MONITOR;
 
-    my $topicSet =
-      Foswiki::Contrib::DBIStoreContrib::DBIStore::DBI_query( $session, $sql );
+    my $topicSet = [];
+    my $sth      = Foswiki::Contrib::DBIStoreContrib::query($sql);
+    while ( my @row = $sth->fetchrow_array() ) {
+        push( @$topicSet, "$row[0]/$row[1]" );
+    }
+
     my $filter = getOptionFilter($options);
 
     # Collate results into one-per-web result sets to mimic the old
@@ -213,7 +216,8 @@ sub query {
           new Foswiki::Search::InfoCache($Foswiki::Plugins::SESSION);
 
         if ($query) {
-            print STDERR "Evaluating " . $meta->getPath() . "\n" if MONITOR;
+            Foswiki::Func::writeDebug( "Evaluating " . $meta->getPath() )
+              if MONITOR;
 
             # this 'lazy load' will become useful when @$topics becomes
             # an infoCache
@@ -223,7 +227,7 @@ sub query {
                 $results{$Iweb}->addTopic($meta);
             }
             else {
-                print STDERR "NO MATCH for " . $query->stringify . "\n"
+                Foswiki::Func::writeDebug( "NO MATCH for " . $query->stringify )
                   if MONITOR;
             }
         }
@@ -291,10 +295,9 @@ sub _expand_relist {
             $s =~ s/'/''/g;
             push(
                 @exprs,
-                Foswiki::Contrib::DBIStoreContrib::DBIStore::personality
-                  ->wildcard(
+                Foswiki::Contrib::DBIStoreContrib::personality->wildcard(
                     $column, "'$s'"
-                  )
+                )
             );
         }
         else {

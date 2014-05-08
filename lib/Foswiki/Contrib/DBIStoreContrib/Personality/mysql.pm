@@ -39,11 +39,12 @@ sub new {
 }
 
 sub startup {
-    my ($this) = @_;
+    my ( $this, $dbh ) = @_;
+    $this->SUPER::startup($dbh);
 
     # MySQL has to be kicked in the ANSIs
-    $this->{store}->{handle}->do("SET sql_mode='ANSI'");
-    $this->{store}->{handle}->do('SELECT @sql_mode');
+    $this->{dbh}->do("SET sql_mode='ANSI'");
+    $this->{dbh}->do('SELECT @sql_mode');
 }
 
 sub regexp {

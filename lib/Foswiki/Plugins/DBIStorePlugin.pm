@@ -7,15 +7,19 @@ use strict;
 use warnings;
 
 use Foswiki::Contrib::DBIStoreContrib ();
+use Foswiki::Store                    ();
+use Foswiki::Func                     ();
 
 our $VERSION           = $Foswiki::Contrib::DBIStoreContrib::VERSION;
 our $RELEASE           = $Foswiki::Contrib::DBIStoreContrib::RELEASE;
 our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION =
+'Use DBI to implement searching using an SQL database. Supports SQL queries over Form data.';
 
 our $shim;
 
 sub initPlugin {
-    if ( defined &Foswiki::Store::recordChange ) {
+    if ( $Foswiki::Plugins::SESSION->{store}->can('recordChange') ) {
 
         # Will not enable this plugin if recordChange is present,
         # as this is Foswiki >=1.2
@@ -51,19 +55,19 @@ sub commonTagsHandler {
         && Foswiki::Func::isAnAdmin() )
     {
         Foswiki::Func::getRequestObject->delete('dbistore_reset');
-        $shim->reset($Foswiki::Plugins::SESSION);
+        Foswiki::Contrib::DBIStoreContrib::reset($Foswiki::Plugins::SESSION);
     }
     elsif ( Foswiki::Func::getRequestObject->param('dbistore_update') ) {
         my ( $text, $topic, $web, $included, $meta ) = @_;
         Foswiki::Func::getRequestObject->delete('dbistore_update');
-        $shim->update($meta);
+        Foswiki::Contrib::DBIStoreContrib::start();
+        Foswiki::Contrib::DBIStoreContrib::remove($meta);
+        Foswiki::Contrib::DBIStoreContrib::insert($meta);
+        Foswiki::Contrib::DBIStoreContrib::commit();
     }
 }
 
-# Store operations that *should* call the relevant store shim functions
-# Should call insert($meta):
-#    -none-
-# Should call update($old, $new):
+# Store operations that *should* call the relevant store functions
 #    moveTopic
 #    moveWeb
 #    saveTopic (no $new)
@@ -78,21 +82,25 @@ sub commonTagsHandler {
 sub afterSaveHandler {
 
     # $text, $topic, $web, $error, $meta
-    $shim->update( $_[4] );
+    my $meta = $_[4];
+    Foswiki::Contrib::DBIStoreContrib::start();
+    Foswiki::Contrib::DBIStoreContrib::remove($meta);
+    Foswiki::Contrib::DBIStoreContrib::insert($meta);
+    Foswiki::Contrib::DBIStoreContrib::commit();
 }
 
 # Required for a web or topic move
 sub afterRenameHandler {
-    my ( $oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic,
-        $newAttachment ) = @_;
+    my ( $oldWeb, $oldTopic, $olda, $newWeb, $newTopic, $newa ) = @_;
 
-    return if $oldAttachment;
-
-    my $old =
+    my $oldo =
       new Foswiki::Meta( $Foswiki::Plugins::SESSION, $oldWeb, $oldTopic );
-    my $new =
+    my $newo =
       new Foswiki::Meta( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
-    $shim->update( $old, $new );
+    Foswiki::Contrib::DBIStoreContrib::start();
+    Foswiki::Contrib::DBIStoreContrib::remove( $oldo, $olda );
+    Foswiki::Contrib::DBIStoreContrib::insert( $newo, $newa );
+    Foswiki::Contrib::DBIStoreContrib::commit();
 }
 
 1;
