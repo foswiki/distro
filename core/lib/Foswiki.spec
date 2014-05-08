@@ -1322,18 +1322,18 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 #############################################################################
 #---+ Store -- TABS
 #---++ Store Implementation
-# <p>Foswiki supports different back-end store implementations.</p>
+# Foswiki supports different back-end store implementations.
 # **SELECTCLASS Foswiki::Store::* **
 # Store implementation.
 $Foswiki::cfg{Store}{Implementation} = '';
 
-# **BOOLEAN EXPERT**
-# enabling this will allow customisation of the Foswiki Store implementation selected
-# above.
-# If any customisations are installed, you will see a list of full class names of classes 
-# that can selectivly overide the store. Each key will the full Class name, and its value 
-# will determine its order. Zero means disabled.
-$Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = $TRUE;
+# **PERL EXPERT**
+# Customisation of the Foswiki Store implementation selected above. This allows
+# extension modules to hook into the store implementation at a very low level.
+# Full class names of customisations must be added to the list, in the order in
+# which they will appear in the inheritance hierarchy of the final store
+# implementation.
+$Foswiki::cfg{Store}{ImplementationClasses} = [];
 
 # **BOOLEAN EXPERT**
 # Set to enable (hierarchical) sub-webs. Without this setting, Foswiki will only

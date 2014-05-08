@@ -1860,31 +1860,19 @@ sub new {
 
     load_package($base);
 
-    if ( ( $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} ) ) {
-
-        #TODO: sort it.
-        my @classes =
-          sort {
-            $Foswiki::cfg{Store}{ImplementationClasses}{$a}
-              <=> $Foswiki::cfg{Store}{ImplementationClasses}{$b}
-          } keys( %{ $Foswiki::cfg{Store}{ImplementationClasses} } );
+    foreach my $class ( @{ $Foswiki::cfg{Store}{ImplementationClasses} } ) {
 
         # this allows us to add an arbitary set of mixins for things
         # like recordChanges
-        my $length = scalar(@classes);
-        if ($length) {
 
-            #rejig the store impl's ISA to usse each Class  in order.'
-            foreach my $class (@classes) {
-                next if ( $class eq 'Enabled' );
-                load_package($class);
-                no strict 'refs';
-                @{ $class . '::ISA' } = ($base);
-                use strict 'refs';
-                $base = $class;
-            }
-        }
+        # Rejig the store impl's ISA to use each Class  in order.'
+        load_package($class);
+        no strict 'refs';
+        @{ $class . '::ISA' } = ($base);
+        use strict 'refs';
+        $base = $class;
     }
+
     $this->{store} = $base->new();
     ASSERT( $this->{store}, "no $base object created" ) if DEBUG;
 
