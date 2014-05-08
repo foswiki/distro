@@ -357,7 +357,7 @@ sub _processTags {
 sub _percentHighBit {
     my $url = shift;
     return $url if $Foswiki::cfg{Site}{CharSet} eq 'utf-8';
-    $url =~ s/([\x80-\xFF])/'%'.ord($1)/g;
+    $url =~ s/([\x80-\xFF])/'%'.ord($1)/ge;
     return $url;
 }
 
