@@ -11,10 +11,9 @@ package Foswiki::Contrib::PlainFileStoreContrib;
 use strict;
 use warnings;
 
-our $VERSION = '1.2.1';
-our $RELEASE = '2013-02-28';
-our $SHORTDESCRIPTION =
-  'A store implementation using plain text files for all versions of a topic';
+our $VERSION          = '1.3';
+our $RELEASE          = '2013-02-28';
+our $SHORTDESCRIPTION = 'Store Foswiki data using plain text files';
 
 1;
 
@@ -23,7 +22,7 @@ Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Author: CrawfordCurrie
 
-Copyright (C) 2012 Crawford Currie http://c-dot.co.uk
+Copyright (C) 2012-2014 Crawford Currie http://c-dot.co.uk
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

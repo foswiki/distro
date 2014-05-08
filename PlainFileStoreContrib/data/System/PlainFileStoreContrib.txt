@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1399553949" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -6,30 +7,27 @@
 <img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Open_cardboard_box_husky.png" style="float:right" height="200px"/>
 %SHORTDESCRIPTION%
 
-An implementation of a Foswiki store using nothing more sophisticated than files.
+This is a full implementation of a Foswiki store that uses nothing more sophisticated than plain files and directories In the Foswiki spirit these files are organised in a simple and clear structure using intention-revealing file names.
 
 Advantages:
    * Uses simple files - no shell commands used
    * Incorporates script for moving between store implementations
 
-The usual store implementations (!RcsLite and !RcsWrap) use a version control tool - RCS. There are some issues with these implementations:
-   * !RcsWrap invokes external programs. These are reasonably fast, but cause major performance problems when used with a web server accelerator, such as =fcgi= or =mod_perl=. Most sites therefor use:
+The traditional store implementations (!RcsLite and !RcsWrap) use a version control methodology called. RCS uses something called "deltas" to represent the differences between successive versions of topics. This has the advantage that the store is kept reasonably small, but there are some issues with these implementations:
+   * !RcsWrap invokes external programs. These are reasonably fast, but can cause major performance problems when used with a web server accelerator, such as =fcgi= or =mod_perl=. Most sites using accelerators therefore use:
    * !RcsLite, which is a pure-perl implementation of RCS. This doesn't use any external programs _but_ is very inefficient with topics that have large numbers of versions.
 
 The !PlainFileStoreContrib implements topic and attachment histories by keeping a _complete file_ for each version of the topic/attachment. This means it is less efficient in terms of disk space than RCS - at least, it is less efficient for text files; binary files, such as images, are equal. For many sites this is an acceptable tradeoff, as disk space is relatively cheap, and Foswiki doesn't use much even with this store.
 
    * Webs map to directories, like in the RCS stores
-   * Topics are stored in web/topic.txt, like in the RCS stores
-   * Topic histories are in web/topic,pfv/
-   * Attachments are in web/topic/attachment, like in the RCS stores
-   * Attachment histories are in web/topic/attachment,pfv/
-   * Histories consist of files numbered for the revision they store
+   * Topics are stored in =data/web/topic.txt=, like in the RCS stores
+   * Topic histories are in =data/web/topic,pfv/=
+   * Attachments are in =pub/web/topic/attachment=, like in the RCS stores
+   * Attachment histories are in =pub/web/topic/attachment,pfv/=
+   * Meta-data is stored in a separate file =data/web/topic.m= or =pub/web/topic/attachment.m=
+   * Histories consist of files numbered for the revision they store (each with a corresponding metafile)
 The latest rev also has a history file (note: this means that
 everything is stored at least twice; same as in the RCS stores)
-
-There is currently no way to move from an RCS-based store to a !PlainFile store, so this extension has to be regarded
-as experimental at this stage. If there is sufficient interest, I will develop tools to support migration to and from
-RCS histories.
 
 Developers note: this contrib is tested using the standard store unit tests.
 
@@ -70,15 +68,15 @@ Many thanks to the following sponsors for supporting this work
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
 |  Author: | CrawfordCurrie http://c-dot.co.uk |
-|  Copyright &copy; 2012-2013 Crawford Currie |
+|  Copyright: | &copy; 2012-2013 Crawford Currie |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.2.1 (28 Feb 2013) | Foswiki:Tasks/Item12395: fix taint problems |
-|  1.2.0 (21 Jun 2012) | Added change_store.pl script; Corrected TOPICNFO handling |
-|  1.1.0 (30 Mar 2012) | Removed dependency on VC |
-|  1.0.0 (23 Mar 2012) | Initial version |
+|  1.3 (28 Feb 2013) | Foswiki:Tasks/Item12395: fix taint problems |
+|  1.2 (21 Jun 2012) | Added change_store.pl script; Corrected TOPICNFO handling |
+|  1.1 (30 Mar 2012) | Removed dependency on VC |
+|  1.0 (23 Mar 2012) | Initial version |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 

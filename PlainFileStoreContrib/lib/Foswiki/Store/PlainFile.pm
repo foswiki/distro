@@ -1200,7 +1200,6 @@ sub _openStream {
 # Save a file
 sub _saveFile {
     my ( $file, $text ) = @_;
-
     _mkPathTo($file);
     my $fh;
     open( $fh, '>', $file )
