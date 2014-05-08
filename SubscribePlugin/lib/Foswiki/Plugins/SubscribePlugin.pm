@@ -23,9 +23,6 @@ our $SHORTDESCRIPTION =
 'This is a companion plugin to the MailerContrib. It allows you to trivially add a "Subscribe me" link to topics to get subscribed to changes.';
 our $NO_PREFS_IN_TOPIC = 1;
 
-our $WEB;
-our $TOPIC;
-
 our $tmpls;
 
 sub initPlugin {
