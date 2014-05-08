@@ -1,12 +1,16 @@
-%TMPL:DEF{sp:subscribe}%%{
+%{----------------------------------------
+Simple 'Subscribe' button text
+}%%TMPL:DEF{sp:subscribe}%%{
 }%%MAKETEXT{"Subscribe"}%%{
 }%%TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:unsubscribe}%%{
+%{----------------------------------------
+Simple 'Unsubscribe' button text
+}%%TMPL:DEF{sp:unsubscribe}%%{
 }%%MAKETEXT{"Unsubscribe"}%%{
 }%%TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:form}%
+%{----------------------------------------
+Form carrying all the parameters required for a "subscribe" request
+}%%TMPL:DEF{sp:form}%
 <form class="subscribe_form" action="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe" method="POST">
 <div class="subscribe_changing foswikiHidden">%MAKETEXT{"Changing..."}%</div>
 <input type="hidden" name="subscribe_topic" value="%PARAM1%" />
@@ -15,8 +19,9 @@
 <a class="subscribe_button">%TMPL:P{sp:subscribe}%</a>
 </form>
 %TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:unform}%
+%{----------------------------------------
+Form carrying all the parameters for an "unsubscribe" request
+}%%TMPL:DEF{sp:unform}%
 <form class="subscribe_form" action="%SCRIPTURLPATH{rest}%/SubscribePlugin/subscribe" method="POST">
 <div class="subscribe_changing foswikiHidden">%MAKETEXT{"Changing..."}%</div>
 <input type="hidden" name="subscribe_topic" value="%PARAM1%" />
@@ -25,29 +30,35 @@
 <a class="subscribe_button">%TMPL:P{sp:unsubscribe}%</a>
 </form>
 %TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:no_subscribe_topic}%%{
+%{----------------------------------------
+Error message
+}%%TMPL:DEF{sp:no_subscribe_topic}%%{
 }%%MAKETEXT{"No topic to subscribe to"}%%{
 }%%TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:cannot_subscribe}%%{
+%{----------------------------------------
+Error message
+}%%TMPL:DEF{sp:cannot_subscribe}%%{
 }%%MAKETEXT("[_1] cannot subscribe", args="%PARAM1%"}%%{
 }%%TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:bad_subscriber}%%{
+%{----------------------------------------
+Error message
+}%%TMPL:DEF{sp:bad_subscriber}%%{
 }%%MAKETEXT{"Bad subscriber '[_1]'" args="%PARAM1%"}%%{
 }%%TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:cannot_change}%%{
+%{----------------------------------------
+Error message
+}%%TMPL:DEF{sp:cannot_change}%%{
 }%%MAKETEXT{"Cannot change subscription: [_1]" args="%PARAM1%"}%%{
 }%%TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:subscribe_done}%%{
+%{----------------------------------------
+Error message
+}%%TMPL:DEF{sp:subscribe_done}%%{
 alt: %MAKETEXT{"[_1] has been subscribed" args="%PARAM1%,%PARAM2%,%PARAM3%"
 }%%TMPL:P{sp:unsubscribe}%%{
 }%%TMPL:END%
-%{----------------------------------------}%
-%TMPL:DEF{sp:unsubscribe_done}%%{
+%{----------------------------------------
+Error message
+}%%TMPL:DEF{sp:unsubscribe_done}%%{
 alt: %MAKETEXT{"[_1] has been unsubscribed" args="%PARAM1%,%PARAM2%,%PARAM3%"
 }%%TMPL:P{sp:subscribe}%%{
 }%%TMPL:END%

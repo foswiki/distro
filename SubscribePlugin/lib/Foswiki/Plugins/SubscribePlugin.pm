@@ -134,7 +134,8 @@ sub _SUBSCRIBE {
 }
 
 # subscribe_topic (topic is used if subscribe_topic is missing)
-# subscribe_subscriber
+# subscribe_subscriber (current user is used if missing)
+# unsubscribe (will unsubscribe if true, subscribe otherwise)
 sub _rest_subscribe {
     my ( $session, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();

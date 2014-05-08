@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398704133" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399554942" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -42,8 +42,27 @@ The configure setting takes precedence over the topic based preference setting.
 
 Templates for all forms and strings used by the plugin are specified in =templates/subscribe.tmpl=, which can be overridden using the standard [[Skins][Foswiki skins]] mechanisms.
 
+---++ REST handler
+
+The plugin uses a REST handler to perform the actual subscription. This handler
+is also available for other clients wishing to use the subscription service.
+
+=.../rest/SubscribePlugin/subscribe=
+
+Parameters:
+   * =subscribe_topic= topic to subscribe to/unsubscribe from. Value of =topic= parameter is used if missing. Use Web.Topic format to specify a web.
+   * =subscribe_subscriber= WikiName of user to subscribe/unsubscribe. Current user is used if missing.
+   * =unsubscribe= true to unsubscribe. Default is to subscribe.
+Note that the calling user *must* be authenticated, and *must* have write permission for the !WebNotify topic in the relevant web. 
+
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
+
+A word of warning; if you used !SubscribePlugin before version 3.1, please note that the use of GET requests for subscriptions is no longer supported. That means that any simple links constructed using the =format= parameter will not work.
+
+The recommended solutions are (in order of preference):
+   1 Recode to use the !SubscribePlugin templates
+   1 Add =class="subscribe_button"= to any link in the =format= parameter
 
 ---++ Plugin Info
 
@@ -62,5 +81,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0 (03 Dec 2008) | Released for Foswiki |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1398704133" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1398704133" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1399554942" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1399554942" user="ProjectContributor"}%
