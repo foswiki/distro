@@ -450,7 +450,8 @@ sub _sendChangesMails {
             $sentMails++;
         }
     }
-    print "\t$sentMails change notifications from $web\n";
+    print "\t$sentMails change notifications from $web\n"
+      if $options->{verbose};
 }
 
 sub _generateChangeDetail {
