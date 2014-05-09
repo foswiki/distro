@@ -151,7 +151,8 @@ sub test_macroParams {
         TING  => '%DEFAULT% %DEFAULT{default="tong"}%',
         ALING => '\'%DEFAULT%\' \'%DEFAULT{default="tong"}%\'',
         TOOT  => '\'%NOP%\'',
-        WOOF  => '%MIAOW{default="$quot$percent$quot"}%'
+        WOOF  => '%MIAOW{default="$quot$percent$quot"}%',
+        Test  => '"%arg{default="%DEFAULT{default="Y"}%"}%"'
     );
     my $input = <<'INPUT';
 | gloop | %BARFLE{default="gloop"}% |
@@ -162,6 +163,9 @@ sub test_macroParams {
 | 'sweet' | %TOOT{NOP="sweet"}% |
 | "%" | %WOOF% |
 | p"r"r | %WOOF{MIAOW="p$quot()r$quot()r"}% |
+| Test | %Test% |
+| Test{"X"} | %Test{"X"}% |
+| Test{arg="Z"} | %Test{arg="Z"}% |
 INPUT
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -176,6 +180,9 @@ INPUT
 | 'sweet' | 'sweet' |
 | "%" | "%" |
 | p"r"r | p"r"r |
+| Test | "Y" |
+| Test{"X"} | "X" |
+| Test{arg="Z"} | "Z" |
 EXPECTED
     $this->assert_str_equals( $expected, $result );
     $topicObject->finish();

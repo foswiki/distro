@@ -3170,7 +3170,7 @@ sub _processMacros {
                 # SMELL: unchecked implicit untaint?
                 my ( $expr, $tag, $args ) = ( $1, $2, $3 );
 
-                #print STDERR ' ' x $tell,"POP $tag\n";
+                #Foswiki::Func::writeDebug("POP $tag") if $tracing;
                 #Monitor::MARK("Before $tag");
                 my $e = &$tagf( $this, $tag, $args, $topicObject );
 
@@ -3178,7 +3178,7 @@ sub _processMacros {
 
                 if ( defined($e) ) {
 
-                    #print STDERR ' ' x $tell--,"EXPANDED $tag -> $e\n";
+                  #Foswiki::Func::writeDebug("EXPANDED $tag -> $e") if $tracing;
                     $stackTop = pop(@stack);
 
                     # Don't bother recursively expanding unless there are
@@ -3195,17 +3195,17 @@ sub _processMacros {
                 }
                 else {
 
-                    #print STDERR ' ' x $tell++,"EXPAND $tag FAILED\n";
-                    # To handle %NOP
-                    # correctly, we have to handle the %VAR% case differently
-                    # to the %VAR{}% case when a variable expansion fails.
-                    # This is so that recursively define variables e.g.
-                    # %A%B%D% expand correctly, but at the same time we ensure
-                    # that a mismatched }% can't accidentally close a context
-                    # that was left open when a tag expansion failed.
-                    # However TWiki didn't do this, so for compatibility
-                    # we have to accept that %NOP can never be fixed. if it
-                    # could, then we could uncomment the following:
+                   #Foswiki::Func::writeDebug("EXPAND $tag FAILED") if $tracing;
+                   # To handle %NOP
+                   # correctly, we have to handle the %VAR% case differently
+                   # to the %VAR{}% case when a variable expansion fails.
+                   # This is so that recursively define variables e.g.
+                   # %A%B%D% expand correctly, but at the same time we ensure
+                   # that a mismatched }% can't accidentally close a context
+                   # that was left open when a tag expansion failed.
+                   # However TWiki didn't do this, so for compatibility
+                   # we have to accept that %NOP can never be fixed. if it
+                   # could, then we could uncomment the following:
 
                     #if( $stackTop =~ /}$/ ) {
                     #    # %VAR{...}% case
@@ -3263,21 +3263,34 @@ sub _expandMacroOnTopicRendering {
     my ( $this, $tag, $args, $topicObject ) = @_;
 
     require Foswiki::Attrs;
-    my $attrs;
 
     my $e = $this->{prefs}->getPreference($tag);
     if ( defined $e ) {
         if ( $args && $args =~ /\S/ ) {
-            $attrs = new Foswiki::Attrs( $args, 0 );
-            $attrs->{DEFAULT} = $attrs->{_DEFAULT};
+            my $attrs = new Foswiki::Attrs( $args, 0 );
+
             $e = $this->_processMacros(
                 $e,
                 sub {
+                    # Expand %DEFAULT and any parameter tags
                     my ( $this, $tag, $args, $topicObject ) = @_;
-                    return
-                      defined $attrs->{$tag}
-                      ? expandStandardEscapes( $attrs->{$tag} )
-                      : undef;
+                    my $tattrs = new Foswiki::Attrs($args);
+
+                    if ( $tag eq 'DEFAULT' ) {
+
+                        # Define the %DEFAULT macro to return the value
+                        # passed (if any) or the default= parameter (if
+                        # present) otherwise.
+                        return $attrs->{_DEFAULT} if defined $attrs->{_DEFAULT};
+                        return $tattrs->{default} if defined $tattrs->{default};
+
+                        # No default and no value - kill it.
+                        return '';
+                    }
+                    my $val = $attrs->{$tag};
+                    $val = $tattrs->{default} unless defined $val;
+                    return expandStandardEscapes($val) if defined $val;
+                    return undef;
                 },
                 $topicObject,
                 1
@@ -3296,11 +3309,14 @@ sub _expandMacroOnTopicRendering {
             die $@ if $@;
         }
 
-        $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
+        my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
         $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
     }
     elsif ( $args && $args =~ /\S/ ) {
-        $attrs = new Foswiki::Attrs($args);
+
+        # Arbitrary %SOMESTRING{default="xxx"}% will expand to xxx
+        # in the absence of any definition.
+        my $attrs = new Foswiki::Attrs($args);
         if ( defined $attrs->{default} ) {
             $e = expandStandardEscapes( $attrs->{default} );
         }
