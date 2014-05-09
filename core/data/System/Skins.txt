@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399652638" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
 
@@ -199,7 +199,7 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 | =%A_URL%= | =viewfile= URL that will recover the file |
 | =%A_REV%= | Revision of this file |
 | =%A_ICON%= | A file icon suitable for representing the attachment content |
-| =%A_FILE%= | The name of the file. To get the 'pub' url of the file, use =%<nop>PUBURL%/%<nop>WEB%/%<nop>TOPIC%/%<nop>A_FILE%= |
+| =%A_FILE%= | The name of the file. To get the 'pub' URL of the file, use =%<nop>PUBURL%/%<nop>WEB%/%<nop>TOPIC%/%<nop>A_FILE%= |
 | =%A_SIZE%= | The size of the file |
 | =%A_DATE%= | The date the file was uploaded |
 | =%A_USER%= | The user who uploaded it |
@@ -267,10 +267,10 @@ This pushes a different skin to the front of the skin search path, so the final 
 There is also a =cover= URL parameter that can be used to push yet more skin names in front of the =COVER= preference.
 
 So the final value of the skin path is given by:
-   1 value of the =cover= url parameter
+   1 value of the =cover= URL parameter
    2 value of the =COVER= preference
-   3 value of the =skin= url parameter, if it is non-null
-   4 value of the =SKIN= preference, if the =skin= url parameter is not given
+   3 value of the =skin= URL parameter, if it is non-null
+   4 value of the =SKIN= preference, if the =skin= URL parameter is not given
 
 For example, if we have
 <pre class="tml">   * Set SKIN = muscle,bone
@@ -278,16 +278,20 @@ For example, if we have
 and a URL with the parameter =?cover=hair,dermis= then the final skin path will
 be =hair=, =dermis=, =epidermis=, =muscle=, =bone=.
 
-Or we might specify a =skin= url parameter, =?skin=flesh=. With the same preferences this will set the skin path =epidermis=, =flesh=.
+Or we might specify a =skin= URL parameter, =?skin=flesh=. With the same preferences this will set the skin path =epidermis=, =flesh=.
 
-Note that you cannot use the =cover= url parameter to _remove_ a skin applied by the =COVER= preference. Once a =COVER= preference is defined, it is always applied.
+Note that you cannot use the =cover= URL parameter to _remove_ a skin applied by the =COVER= preference. Once a =COVER= preference is defined, it is always applied.
 
 #HardCodedSkins
----++ Hard-Coded Skins
+---++ Hard-Coded Skins and Covers
 
-The =text= skin is reserved for Foswiki internal use.
+   $ ==text==: The =text= skin is reserved for Foswiki internal use.
 
-Skin names starting with =rss= also have a special meaning; if one or more of the skins in the skin path starts with 'rss' then 8-bit characters will be encoded as XML entities in the output, and the =content-type= header will be forced to =text/xml=.
+   $ ==rss*==: Skin names starting with =rss= also have a special meaning; if one or more of the skins in the skin path starts with 'rss' then 8-bit characters will be encoded as XML entities in the output, and the =content-type= header will be forced to =text/xml=.
+
+   $ ==cover=print==: The =cover= URL parameter has some hardcoded effects that are not present when the same setting is prepended to the skin.  The templates set the CSS =media= type by examining the =cover= value.
+      * =cover=print= sets =media="all"= for the =print.css= stylesheet.  This causes the CSS to render identically for all media. What you see on the screen will be similar to what will be printed.
+      * =skin=print,pattern= links to the =print.css= stylesheet only for print media.  This causes the CSS to honor the current media.  The screen results will be different from what is actually printed.
 
 ---
 *Related Topics:* SkinTemplates, SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
