@@ -912,9 +912,8 @@ sub verify_eachChange {
 sub verify_StoreClassSettings {
     my $this = shift;
 
-    $Foswiki::cfg{Store}{ImplementationClasses}{Enabled} = 5;
-    $Foswiki::cfg{Store}{ImplementationClasses}
-      {'Foswiki::Store::StoreTestFilter'} = 1;
+    $Foswiki::cfg{Store}{ImplementationClasses} =
+      ['Foswiki::Store::StoreTestFilter'];
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
     $this->verify_eachChange();
 
