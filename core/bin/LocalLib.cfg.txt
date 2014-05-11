@@ -10,10 +10,12 @@ use vars qw( $foswikiLibPath $CPANBASE );
 
 # -------------- Path to lib directory containing Foswiki.pm. 
 #
-# REQUIRED
+# OPTIONAL
 # The absolute path to the 'lib' directory in your installation..
 # Windows users:  Use forward slash - C:/absolute/path/to/lib
 #                 backslash like C:\ will not work
+#
+# This setting is typically not required.  Foswiki just does the right thing.
 
 $foswikiLibPath = '/absolute/path/to/your/lib';
 
@@ -23,25 +25,15 @@ $foswikiLibPath = '/absolute/path/to/your/lib';
 # "Web Server Environment".
 
 # OPTIONAL
-# By default Foswiki ships some CPAN modules in "$foswikiLibPath/CPAN/lib".
-# These modules will be used unless $CPANBASE is properly set by uncommenting
-# the following definition and providing an existing alternative path. If the
-# path does not exist (invalid value) then Foswiki won't use any such path and
-# if the setting is uncommented but left empty (undefined) then the default path
-# will be prepended to the "@INC library path" while by default it is appended.
-
-# $CPANBASE = '/path/to/dir';         # Keep commented: Default path appended
-# $CPANBASE = '/path/to/dir';         # Uncommented: Your path appended
-# $CPANBASE = '/path/to/invalid/dir'; # Uncommented: Invalid, nothing added
-# $CPANBASE = '';                     # Uncommented: Default path prepended
-
-
-# OPTIONAL
 # If you need to use perl modules that are not installed in the standard
 # directories (e.g. you have downloaded extra modules for use with plugins)
 # then you can add the absolute paths to those modules below. You can list
 # as many directories as you want, each directory within quotes, and 
 # directories separated by commas.
+#
+# Foswiki automatically adds '/path/to/foswiki/lib/CPAN/lib' to the end of
+# the @INC path as a last resort for some important modules.  If you want them
+# to override the system libs,  add that path here:
 
 # @localPerlLibPath = ( '/path/to/dir', '/path/to/another/dir', );
 
@@ -82,7 +74,7 @@ $foswikiLibPath = '/absolute/path/to/your/lib';
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

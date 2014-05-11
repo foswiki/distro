@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399280302" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1399774897" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -20,11 +20,11 @@ Foswiki is released under the GNU General Public License.
 ---++ Foswiki Releases
 
    * Foswiki 1.0.0, the first Foswiki was released on 09 Jan 2009.
-   * Foswiki 1.0.1, 1.0.2 and 1.0.3 were released internally in the development community, but were never publicly released. 
+   * Foswiki 1.0.1, 1.0.2 and 1.0.3 were released internally in the development community, but were never publicly released.
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and only very few minor enhancements.
    * Foswiki 1.0.5 was built 25 Apr 2009. It is a patch release with more than 150 bug fixes relative to 1.0.0 and a few enhancements. This patch release further enhances the robustness and the security of the Foswiki software.
    * Foswiki 1.0.6 was built 21 Jun 2009. It is a patch release with more than 200 bug fixes relative to 1.0.0 and some enhancements. This version introduces a major enhancement in security against Cross-Site Request Forgery. Further more a central translation framework got introduced which ease the translation process and enables all users to contribute to translations.
-   * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 240 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2. 
+   * Foswiki 1.0.7 was built 20 Sep 2009. It is a patch release with more than 240 bug fixes relative to 1.0.0 and some enhancements. This release fixes some serious issues introduced by the CSRF fix and the redirect cache fix in 1.0.6. Major enhancement that also fixes many annoying editor bugs is the upgrade of the !Tiny MCE editor to version 3.2.2.
    * Foswiki 1.0.8 was built 29 Nov 2009. It is a patch release with more than 280 bug fixes relative to 1.0.0 and some enhancements. This release fixes a short list of quite annoying old bugs incl a bug that prevented efficient use of MailerContrib for producing newsletters. The Wysiwyg editor has been upgraded with the latest Tiny MCE editor release 3.2.7.
    * Foswiki 1.0.9 was built 17 Jan 2010. It is a patch release with more than 320 bug fixes relative to 1.0.0 and several enhancements. This release fixes many bugs in the Wysiwyg editor, bugs related to more advanced wiki applications and bugs in the Plugin API. It contains several bug fixes and enhancements related to security and spam fighting.
    * Foswiki 1.0.10 was built 08 Sep 2010 as a patch release with more than 410 bug fixes relative to 1.0.0. It is assumed to be the last 1.0.X release.
@@ -43,6 +43,23 @@ Foswiki 1.2 is shipped with the following:
 
 #Release01x02Changes
 ---++ Important changes since Foswiki 1.2
+
+---+++ Perl libraries and paths
+
+Foswiki no longer ships the required Perl CPAN libraries for use as a last
+resort. If it is not possible or convenient to install perl libraries, then
+install the Foswiki:Extensions.CpanContrib to get pre-built libraries
+for Foswiki to use.
+
+The setup of the perl =@INC= path has been simplified, and the =foswiki/bin/LocalLib.cfg=
+setting for =$CPANBASE= has been completely eliminated.  A simple method of
+adding libraries to the top of the @INC path is provided in the new example
+=foswiki/bin/LocalLib.txt= shipped with foswiki.
+
+<blockquote class="foswikiHelp">%X% *ACTION REQUIRED* If you have are upgrading an existing system and
+have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
+copy using the updated =foswiki/bin/LocalLib.cfg.txt=
+</blockquote>
 
 ---+++ Authentication and Authorization
 
@@ -68,7 +85,7 @@ default.
 A conversion tool is availabe in the tools directory.  =tools/convertTopicSettings.pl=  It can perform the following actions:
    * Convert empty =DENYTOPIC&lt;action&gt;= rules to the corresponding <tt>ALLOWTOPIC&lt;action&gt;= *</tt>
    * Optionally convert inline ACLs into META settings.   This is recommended for Foswiki 1.2
-   * Optionally convert __all__ inline settings into META settings.  
+   * Optionally convert __all__ inline settings into META settings.
 
 <verbatim>
 # perl -I bin tools/convertTopicSettings -fixdeny
@@ -108,7 +125,7 @@ A conversion tool is availabe in the tools directory.  =tools/convertTopicSettin
 
 ---+++ REST Script default security has changed:
 
-Foswiki 1.2 has removed the =rest= script from the list of ={AuthScripts}=.  Instead of providing blanket 
+Foswiki 1.2 has removed the =rest= script from the list of ={AuthScripts}=.  Instead of providing blanket
 security for =rest=, each handler is now responsible to set its individual requirements for 3 options:
 <i>authentication</i>, <i>validation</i> and <i>http_allow</i>ed methods (POST vs. GET).  The defaults for these
 3 options have been changed to default to be secure, and handlers can exempt these checks based upon their specific requirements.
@@ -119,7 +136,7 @@ defaults for REST handlers.  If enabled, and =rest= is not listed in ={AuthScrip
 ---+++ New Pluggable Access Control implementations.
 
 Foswiki has made the Access Control implementation "Pluggable".  New ACL
-methods may be more easily implemented in the future.  The default method is 
+methods may be more easily implemented in the future.  The default method is
 =$Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';=.
 
 Two additional methods are now included which may be of help to the
@@ -136,7 +153,7 @@ not block access.
 
 ---+++ Configure has been given a major restructuring
 
-   * Configure now requires JavaScript.  
+   * Configure now requires JavaScript.
       * Configuration parameters are Checked and saved through ajax.
       * Configure only transmits changed settings, greatly reducing the required bandwith and improving performance.
    * Configure has been changed to behave more like a classic "shopping cart"
@@ -155,7 +172,7 @@ not block access.
 
 ---++++ Changes to confgigure Authentication
 
-   * Configure requires a password to access the configuration.  
+   * Configure requires a password to access the configuration.
    * Configure now trusts the Session login.   If your web server is configured to authenticate the user, configure will not prompt for a password
    * The "admin" superuser password is now optional:
       * If set, configure requires that it be entered to save
@@ -181,12 +198,12 @@ Because this could lead to undeterministic behaviour, the syntax is now more con
 ---+++ Major change to ICON macro and templates
 Foswiki:Development.HtmlAttributesShouldUseSingleQuotes has changed the ICON
 macro to generate singe quotes by default.  This has no impact unless the
-%ICON macro is being expanded inside a single-quote delimited macro.  
+%ICON macro is being expanded inside a single-quote delimited macro.
 
 In order to simplify migration, a new =quote== parameter has been added to the
 ICON macro. =%<nop>ICON{"pdf" quote="\""}%= generates the html using double
 quotes delimiters.  See System.VarICON for more details.
-. 
+.
 ---++ Foswiki Release 1.2 Details
 
 ---+++ Fixes
