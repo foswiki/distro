@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1289333272" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1400051171" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
@@ -23,7 +23,6 @@
    * DocumentGraphics
    * SkinBrowser
    * InstalledPlugins
-   * WikiApplications
 
    * <b>%MAKETEXT{"Admin Maintenance"}%</b>
    * [[ReferenceManual][Reference Manual]]
