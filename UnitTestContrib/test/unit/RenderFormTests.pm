@@ -730,9 +730,8 @@ HERE
 
     }
 
-    $Foswiki::cfg{Store}{ImplementationClasses} = [
-        'Foswiki::Store::UnitTestFilter';
-    ];
+    $Foswiki::cfg{Store}{ImplementationClasses} =
+      ['Foswiki::Store::UnitTestFilter'];
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
     my $formObj =
       Foswiki::Form->new( $this->{session}, $this->{test_web},
