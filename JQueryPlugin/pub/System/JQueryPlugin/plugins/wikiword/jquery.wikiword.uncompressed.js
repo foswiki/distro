@@ -1,5 +1,5 @@
 /*
- * jQuery WikiWord plugin 2.1
+ * jQuery WikiWord plugin 2.20
  *
  * Copyright (c) 2008-2014 Foswiki Contributors http://foswiki.org
  *
@@ -83,17 +83,14 @@ $.wikiword = {
   build: function(source, options) {
    
     // build main options before element iteration
-    var opts = $.extend({}, $.fn.wikiword.defaults, options);
-
-    var $source = $(source);
+    var opts = $.extend({}, 
+        $.fn.wikiword.defaults, options),
+        $source = $(source);
 
     // iterate and reformat each matched element
     return this.each(function() {
-      var $this = $(this);
-
-      // build element specific options. 
-      // note you may want to install the Metadata plugin
-      var thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
+      var $this = $(this),
+          thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
 
       $source.change(function() {
         $.wikiword.handleChange($source, $this, thisOpts);
@@ -115,10 +112,10 @@ $.wikiword = {
     if (result || !thisOpts.initial) {
       result = $.wikiword.wikify(result);
 
-      if (thisOpts.suffix) {
+      if (thisOpts.suffix && result.indexOf(thisOpts.suffix, result.length - thisOpts.suffix.length) == -1) {
         result += thisOpts.suffix;
       }
-      if (thisOpts.prefix) {
+      if (thisOpts.prefix && result.indexOf(thisOpts.prefix) !== 0) {
         result = thisOpts.prefix+result;
       }
     } else {
@@ -139,10 +136,10 @@ $.wikiword = {
    */
   wikify: function (source) {
 
-    var result = '', c;
+    var result = '', c, i;
 
     // transliterate unicode chars
-    for (var i = 0; i < source.length; i++) {
+    for (i = 0; i < source.length; i++) {
       c = source[i];
       result += $.wikiword.downgradeMap[c] || c;
     }

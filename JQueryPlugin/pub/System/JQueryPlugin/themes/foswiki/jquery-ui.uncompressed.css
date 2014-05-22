@@ -662,6 +662,7 @@ a.ui-state-highlight.ui-state-hover,
   max-height:22em; /* for 10 menu items */
   overflow-y:auto;
   overflow-x:hidden;
+  z-index:1000;
 }	
 .ui-autocomplete .ui-menu-item a {
   color:#111;
