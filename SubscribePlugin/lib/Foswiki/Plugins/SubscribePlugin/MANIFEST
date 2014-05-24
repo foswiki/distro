@@ -3,7 +3,8 @@ data/System/VarSUBSCRIBE.txt 0664 Documentation
 lib/Foswiki/Plugins/SubscribePlugin.pm 0444 Perl module
 lib/Foswiki/Plugins/SubscribePlugin/Config.spec 0444 Configuration
 lib/Foswiki/Plugins/SubscribePlugin/JQuery.pm 0444 JQuery plugin
-pub/System/SubscribePlugin/wikiringlogo20x20.png 0444 Logo
-pub/System/SubscribePlugin/subscribe_plugin.uncompressed.js 0444
-pub/System/SubscribePlugin/subscribe_plugin.js 0444
+pub/System/SubscribePlugin/wikiringlogo20x20.png 0644 Logo
+pub/System/SubscribePlugin/subscribe_plugin.uncompressed.js 0644
+pub/System/SubscribePlugin/subscribe_plugin.js 0644
+pub/System/SubscribePlugin/logo.gif 644
 templates/subscribe.tmpl 0444
