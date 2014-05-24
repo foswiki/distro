@@ -11,6 +11,6 @@ lib/Foswiki/Plugins/CommentPlugin/Comment.pm 0444 Plugin Perl module
 lib/Foswiki/Plugins/CommentPlugin/Config.spec 0444 Configuration module
 lib/Foswiki/Plugins/CommentPlugin/JQuery.pm 0644
 lib/Foswiki/Configure/Checkers/Plugins/CommentPlugin/GuestCanComment.pm 0644
-pub/System/CommentPlugin/wikiringlogo20x20.png 0660
-pub/System/CommentPlugin/comment.js 0660
+pub/System/CommentPlugin/wikiringlogo20x20.png 0644
+pub/System/CommentPlugin/comment.js 0644
 
