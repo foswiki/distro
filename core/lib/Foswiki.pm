@@ -178,8 +178,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare("v1.1.999_999");
-    $RELEASE = 'Foswiki-1.1.999_999-svn';
+    use version 0.77; $VERSION = version->declare("v1.2.0_999");
+    $RELEASE = 'Foswiki-1.2.0_999 svn';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded
