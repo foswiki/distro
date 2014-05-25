@@ -83,6 +83,8 @@ the form tag.
 sub addValidationKey {
     my ( $cgis, $context, $strikeone ) = @_;
 
+    return '' unless ($cgis);
+
     my $nonce = generateValidationKey( $cgis, $context, $strikeone );
 
     # Don't use CGI::hidden; it will inherit the URL param value of
@@ -368,7 +370,7 @@ sub _getSecret {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2009-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

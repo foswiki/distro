@@ -74,6 +74,12 @@ our %readOnlySK = ( %secretSK, AUTHUSER => 1, SUDOFROMAUTHUSER => 1 );
 
 use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
 
+# GusestSessions should default to enabled, since much of Foswiki depends on
+# having a valid session.
+my $guestSessions =
+  ( !defined $Foswiki::cfg{Sessions}{EnableGuestSessions}
+      || $Foswiki::cfg{Sessions}{EnableGuestSessions} );
+
 =begin TML
 
 ---++ StaticMethod makeLoginManager( $session ) -> $Foswiki::LoginManager
@@ -295,7 +301,9 @@ sub loadSession {
 
     # Try and get the user from the webserver. This is referred to as
     # the "webserver user". the webserver user is authenticated by some
-    # means beyond foswiki e.g. Basic Auth
+    # means beyond foswiki e.g. Basic Auth.  getUser is defined in the
+    # LoginManager.  The default returns undef.
+
     my $authUser = $this->getUser($this);
     _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
 
@@ -304,8 +312,12 @@ sub loadSession {
     # is made by a search engine bot, depending on how the web server
     # is configured
 
-    return $authUser if $ENV{NO_FOSWIKI_SESSION};
+    if ( $ENV{NO_FOSWIKI_SESSION} ) {
+        _trace( $this, "ENV{NO_FOSWIKI_SESSION} blocked the session" );
+        return $authUser;
+    }
 
+    # Client sessions processing either cookie or IP2SID based:
     if (   $Foswiki::cfg{UseClientSessions}
         && !$session->inContext('command_line')
         && $Foswiki::cfg{WorkingDir} )
@@ -317,99 +329,59 @@ sub loadSession {
             ? "Cookie $this->{_haveCookie}"
             : "No cookie " );
 
-        # Item3568: CGI::Session from 4.0 already does the -d and creates the
-        # sessions directory if it does not exist. For performance reasons we
-        # only test for and create session file directory for older
-        # CGI::Session
-        my $sessionDir = "$Foswiki::cfg{WorkingDir}/tmp";
-        if ( $Foswiki::LoginManager::Session::VERSION < 4.0 ) {
-            unless (
-                -d $sessionDir
-                || (   mkdir( $Foswiki::cfg{WorkingDir} )
-                    && mkdir($sessionDir) )
-              )
-            {
-                die "Could not create $sessionDir for storing sessions";
-            }
-        }
+        # rough check - if we have a cookie for the SID,
+        # or we are using IP2SID mapping then keep going.
+        if (
+            (
+                   $this->{_haveCookie}
+                && $this->{_haveCookie} =~ m/FOSWIKISID=([^\s]*)/
+            )
+            || $Foswiki::cfg{Sessions}{MapIP2SID}
+          )
+        {
+            _trace( $this, " ... Found session id $1" )
+              unless ( $Foswiki::cfg{Sessions}{MapIP2SID} );
 
-        # force an appropriate umask
-        my $oldUmask =
-          umask(
-            oct(777) - ( ( $Foswiki::cfg{Session}{filePermission} + 0 ) ) &
-              oct(777) );
+            if ( $Foswiki::cfg{Sessions}{MapIP2SID} ) {
 
-     #my $umask = sprintf('%04o', umask() );
-     #$oldUmask = sprintf('%04o', $oldUmask );
-     #my $filePerm = sprintf('%04o', $Foswiki::cfg{Session}{filePermission}+0 );
-     #print STDERR "login manager changes $oldUmask to $umask from $filePerm\n";
+                # map the end user IP address to a session ID
+                my $sid = $this->_IP2SID();
 
-        # First, see if there is a cookied session, creating a new session
-        # if necessary.
-        if ( $Foswiki::cfg{Sessions}{MapIP2SID} ) {
+                $this->{_cgisession} = $this->_loadCreateCGISession($sid);
 
-            # map the end user IP address to a session ID
-
-            my $sid = $this->_IP2SID();
-            if ($sid) {
-                $this->{_cgisession} = Foswiki::LoginManager::Session->new(
-                    undef, $sid,
-                    {
-                        Directory => $sessionDir,
-                        UMask     => $Foswiki::cfg{Session}{filePermission}
-                    }
-                );
+                _trace( $this, "New IP2SID session" ) unless ($sid);
+                $this->_IP2SID( $this->{_cgisession}->id() );
             }
             else {
 
-                # The IP address was not mapped; create a new session
+                # IP mapping is off; use the request cookie
+                $this->{_cgisession} =
+                  $this->_loadCreateCGISession( $session->{request} );
 
-                $this->{_cgisession} = Foswiki::LoginManager::Session->new(
-                    undef, undef,
-                    {
-                        Directory => $sessionDir,
-                        UMask     => $Foswiki::cfg{Session}{filePermission}
-                    }
-                );
-                _trace( $this, "New IP2SID session" );
-                $this->_IP2SID( $this->{_cgisession}->id() );
             }
+
+            die Foswiki::LoginManager::Session->errstr()
+              unless $this->{_cgisession};
+
+            # Get the authorised user stored in the session
+
+            my $sessionUser = Foswiki::Sandbox::untaintUnchecked(
+                $this->{_cgisession}->param('AUTHUSER') );
+
+            _trace( $this, "AUTHUSER from session is $sessionUser" )
+              if defined $sessionUser;
+
+            # An admin user stored in the session can override the webserver
+            # user; handy for sudo
+
+            $authUser = $sessionUser
+              if ( !defined($authUser)
+                || $sessionUser
+                && $sessionUser eq $Foswiki::cfg{AdminUserLogin} );
         }
-        else {
-
-            # IP mapping is off; use the request cookie
-
-            $this->{_cgisession} = Foswiki::LoginManager::Session->new(
-                undef,
-                $session->{request},
-                {
-                    Directory => $sessionDir,
-                    UMask     => $Foswiki::cfg{Session}{filePermission}
-                }
-            );
-        }
-
-        # restore old umask
-        umask($oldUmask);
-
-        die Foswiki::LoginManager::Session->errstr()
-          unless $this->{_cgisession};
-
-        # Get the authorised user stored in the session
-
-        my $sessionUser = Foswiki::Sandbox::untaintUnchecked(
-            $this->{_cgisession}->param('AUTHUSER') );
-
-        _trace( $this, "AUTHUSER is $sessionUser" ) if defined $sessionUser;
-
-        # An admin user stored in the session can override the webserver
-        # user; handy for sudo
-
-        $authUser = $sessionUser
-          if ( !defined($authUser)
-            || $sessionUser && $sessionUser eq $Foswiki::cfg{AdminUserLogin} );
     }
 
+    # Checking for URI parameters
     if ( !$authUser ) {
 
         _trace( $this, "No session, checking URI Params for a user" );
@@ -422,12 +394,15 @@ sub loadSession {
 
         my $script = $session->{request}->base_action();
 
-        my $login;
-        my $pass;
+        my $login;    # username from CLI/URI parameters
+        my $pass;     # password from CLI/URI parameters
 
-# If we are in the CLI environment, then the only option is to pass "URL parameters"
-#  - The CLI overrides the "defaultUser" to be admin.  CLI runs as admin by default.
-#  - -username/-password parameters allow CLI to use conventional authentication
+        # If we are in the CLI environment, then
+        # the only option is to pass "URL parameters"
+        #  - The CLI overrides the "defaultUser" to
+        #    be admin.  CLI runs as admin by default.
+        #  - -username/-password parameters allow
+        #    CLI to use conventional authentication
 
         if (   $session->inContext('command_line')
             && $session->{request}->param('username') )
@@ -436,8 +411,10 @@ sub loadSession {
             $pass = $session->{request}->param('password') || '';
             $session->{request}->delete( 'username', 'password' );
 
-# CLI defaults to Admin User,  but if a user/pass was provided on the cli,  and was wrong,
-# we probably don't want to fall back to Admin, so override the default.
+            # CLI defaults to Admin User,  but if a
+            # user/pass was provided on the cli,  and was wrong,
+            # we probably don't want to fall back
+            # to Admin, so override the default.
             $defaultUser = $Foswiki::cfg{DefaultUserLogin};
 
             _trace( $this,
@@ -445,9 +422,12 @@ sub loadSession {
             );
         }
 
-# If the configuration allows URL params, and the correct HTTP method is in use,
-# Then accept the username & password,  and delete them from the request to avoid
-# them being accessed later.
+        # If the configuration allows URL params,
+        # and the correct HTTP method is in use,
+        # Then accept the username & password,
+        # and delete them from the request to avoid
+        # them being accessed later.
+
         if ( !$login ) {
             if (   defined $session->{request}->param('username')
                 && defined $Foswiki::cfg{Session}{AcceptUserPwParam}
@@ -519,6 +499,7 @@ sub loadSession {
             # Last ditch attempt; if a user was passed in to this function,
             # then use it (it is normally {remoteUser} from the session object
             # or the -user parameter in the command_line (defaults to admin)
+            # Also used in unit tests when creating a newFoswikiSession
             $authUser = $defaultUser;
             _trace( $this, "Falling back to DEFAULT USER: $defaultUser" )
               if $authUser;
@@ -530,8 +511,12 @@ sub loadSession {
     # was no better information available.
 
     # is this a logout?
-    if (   ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
-        && ( $session->{request} && $session->{request}->param('logout') ) )
+    if (
+        ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
+        && (   $this->{_cgisession}
+            && $session->{request}
+            && $session->{request}->param('logout') )
+      )
     {
 
         # SMELL: is there any way to get evil data into the CGI session such
@@ -559,7 +544,27 @@ sub loadSession {
     }
     $session->{request}->delete('logout');
 
-    $this->userLoggedIn($authUser);
+    # SMELL:  EXPERIMENTAL - Guest sessions can be made optional:
+    #  - unset $Foswiki::cfg{Sessions}{EnableGuestSessions}
+    # No sense creating or keeping sessions for guest users.
+    # Note that if guests can comment, update, or otherwise POST to
+    # Foswiki, then Guest Sessions should be enabled.
+
+    # Call to getLoggedIn inserts the auth user into the cgi session
+    $this->userLoggedIn($authUser)
+      unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
+        && !$guestSessions );
+
+    # Cleanup unused guest sessions
+    if (   $this->{_cgisession}
+        && !$guestSessions
+        && $authUser eq $Foswiki::cfg{DefaultUserLogin} )
+    {
+        $this->{_cgisession}->delete();
+        $this->{_cgisession}->flush();
+        $this->{_cgisession} = undef;
+        $this->_delSessionCookieFromResponse();
+    }
 
     if ( $this->{_cgisession} ) {
         $session->{prefs}->setInternalPreferences(
@@ -767,6 +772,11 @@ and from loadSession (above) once credentials are validated.
 sub userLoggedIn {
     my ( $this, $authUser, $wikiName ) = @_;
 
+    _trace( $this,
+            "userLoggedIn called with "
+          . ( $authUser || 'undef' ) . " - "
+          . ( $wikiName || 'undef' ) );
+
     my $session = $this->{session};
     if ( $session->{users} ) {
         $session->{user} = $session->{users}->getCanonicalUserID($authUser);
@@ -783,52 +793,33 @@ sub userLoggedIn {
         return;
     }
 
-    if (   $session->{remoteUser}
-        && $authUser
-        && $authUser eq $session->{remoteUser} )
-    {
-        # SMELL:  I think this should also set authenticated,  but it doesn't
-        # and I'm unsure if I should change it.  Adding a trace to help.
-        #$session->enterContext('authenticated');
-        _trace( $this,
-                'Not authenticated;  '
-              . $session->{remoteUser}
-              . ' already matches '
-              . $authUser );
-        return;
-    }
-
     if ( $Foswiki::cfg{UseClientSessions} ) {
 
         # create new session if necessary
         unless ( $this->{_cgisession} ) {
 
-            # force an appropriate umask
-            my $oldUmask =
-              umask(
-                oct(777) - ( ( $Foswiki::cfg{Session}{filePermission} + 0 ) ) &
-                  oct(777) );
-
-            $this->{_cgisession} = Foswiki::LoginManager::Session->new(
-                undef,
-                $session->{request},
-                {
-                    Directory => "$Foswiki::cfg{WorkingDir}/tmp",
-                    UMask     => $Foswiki::cfg{Session}{filePermission}
-                }
-            );
-
-            # restore old umask
-            umask($oldUmask);
+            _trace( $this,
+                "Creating a new client session - _cgisession is empty" );
+            $this->{_cgisession} =
+              $this->_loadCreateCGISession( $session->{request} );
 
             die Foswiki::LoginManager::Session->errstr()
               unless $this->{_cgisession};
         }
     }
+
+    my $sessUser = $this->{_cgisession}->param('AUTHUSER')
+      || $Foswiki::cfg{DefaultUserLogin};
+
+    _trace( $this, "====   Initial user is $sessUser" );
+    _trace( $this,
+        "====   Remote user is " . $session->{request}->remoteUser() )
+      if defined $session->{request}->remoteUser();
+
     if ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} ) {
         _trace( $this,
                 'Authenticated; converting from '
-              . ( $session->{remoteUser} || 'undef' ) . ' to '
+              . ( $session->{remoteUser} || $sessUser || 'undef' ) . ' to '
               . $authUser
               . ' - default '
               . $Foswiki::cfg{DefaultUserLogin} );
@@ -867,10 +858,45 @@ sub userLoggedIn {
     }
     if ( $Foswiki::cfg{UseClientSessions} ) {
 
-        # flush the session, to try to fix Item1820 and Item2234
-        $this->{_cgisession}->flush();
-        die $this->{_cgisession}->errstr()
-          if $this->{_cgisession}->errstr();
+        # The user has changed.  Create a new session.
+        if ( $sessUser ne $authUser ) {
+
+            my $oldid   = $this->{_cgisession}->id();
+            my $dataref = $this->{_cgisession}->dataref();
+
+# SMELL: Needed to both delete and undef the old sesson or for some reason
+# Session->new() manages to find / use the old session and the ID doesn't change
+            $this->{_cgisession}->delete();
+            $this->{_cgisession}->flush();
+            $this->{_cgisession} = undef;
+
+            # Don't make a session for the guest user.
+            unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
+                && !$guestSessions )
+
+            {
+                $this->{_cgisession} =
+                  $this->_loadCreateCGISession( $session->{request} );
+                _trace( $this,
+                    "Changed SID from $oldid to "
+                      . $this->{_cgisession}->id() );
+                foreach my $key ( keys %$dataref ) {
+                    next if ( substr( $key, 0, 1 ) eq '_' );
+                    $this->{_cgisession}->param( $key, $dataref->{$key} );
+                    _trace( $this,
+                        " - $key = " . ( $dataref->{$key} || 'undef' ) );
+                }
+
+            }
+        }
+
+        if ( $this->{_cgisession} ) {
+
+            # flush the session, to try to fix Item1820 and Item2234
+            $this->{_cgisession}->flush();
+            die $this->{_cgisession}->errstr()
+              if $this->{_cgisession}->errstr();
+        }
     }
 }
 
@@ -1023,6 +1049,48 @@ s/(<form[^>]*(?<=\s)(?:action)=(["']))(.*?)(\2[^>]*>)/$1._rewriteFORM( $this,$3,
     $_[0] =~ s/%SKINSELECT%/_skinSelect( $this )/geo;
 }
 
+sub _loadCreateCGISession {
+    my $this = shift;
+    my $sid  = shift;    #IP, Object  or undef
+
+    _trace( $this, "_loadCreateCGISession called ..." );
+
+    # Item3568: CGI::Session from 4.0 already does the -d and creates the
+    # sessions directory if it does not exist. For performance reasons we
+    # only test for and create session file directory for older
+    # CGI::Session
+    my $sessionDir = "$Foswiki::cfg{WorkingDir}/tmp";
+    if ( $Foswiki::LoginManager::Session::VERSION < 4.0 ) {
+        unless (
+            -d $sessionDir
+            || (   mkdir( $Foswiki::cfg{WorkingDir} )
+                && mkdir($sessionDir) )
+          )
+        {
+            die "Could not create $sessionDir for storing sessions";
+        }
+    }
+
+    # force an appropriate umask
+    my $oldUmask =
+      umask(
+        oct(777) - ( ( $Foswiki::cfg{Session}{filePermission} + 0 ) ) &
+          oct(777) );
+
+    my $newsess = Foswiki::LoginManager::Session->new(
+        undef, $sid,
+        {
+            Directory => $sessionDir,
+            UMask     => $Foswiki::cfg{Session}{filePermission}
+        }
+    );
+
+    # restore old umask
+    umask($oldUmask);
+
+    return $newsess;
+}
+
 sub _addSessionCookieToResponse {
     my $this = shift;
 
@@ -1051,6 +1119,24 @@ sub _addSessionCookieToResponse {
 
         $cookie->expires($exp);
     }
+
+    $this->{session}->{response}->cookies( [$cookie] );
+}
+
+sub _delSessionCookieFromResponse {
+    my $this = shift;
+
+    _trace( $this, "Session cookie deleted " );
+
+    my $cookie = CGI::Cookie->new(
+        -name     => $Foswiki::LoginManager::Session::NAME,
+        -value    => '',
+        -path     => '/',
+        -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
+        -httponly => 1,
+        -secure   => $this->{session}->{request}->secure,
+        -expires  => '-1d'
+    );
 
     $this->{session}->{response}->cookies( [$cookie] );
 }
@@ -1483,7 +1569,7 @@ sub removeUserSessions {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

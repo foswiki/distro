@@ -173,13 +173,16 @@ sub login {
     my $topic  = $session->{topicName};
     my $web    = $session->{webName};
 
-    my $cgisession = $this->{_cgisession};
+# CAUTION:  LoginManager::userLoggedIn() will delete and recreate the CGI Session.
+# Do not make a local copy of $this->{_cgisession}, or it will point to a deleted
+# session once the user has been logged in.
 
-    $cgisession->param( 'REMEMBER', $remember ) if $cgisession;
-    if (   $cgisession
-        && $cgisession->param('AUTHUSER')
+    $this->{_cgisession}->param( 'REMEMBER', $remember )
+      if $this->{_cgisession};
+    if (   $this->{_cgisession}
+        && $this->{_cgisession}->param('AUTHUSER')
         && $loginName
-        && $loginName ne $cgisession->param('AUTHUSER') )
+        && $loginName ne $this->{_cgisession}->param('AUTHUSER') )
     {
         $banner = $session->templates->expandTemplate('LOGGED_IN_BANNER');
         $note   = $session->templates->expandTemplate('NEW_USER_NOTE');
@@ -233,8 +236,8 @@ sub login {
             # that we're using BaseMapper..
             $query->delete('sudo');
 
-            $cgisession->param( 'VALIDATION', $validation )
-              if $cgisession;
+            $this->{_cgisession}->param( 'VALIDATION', $validation )
+              if $this->{_cgisession};
             if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
@@ -335,7 +338,7 @@ sub login {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2014 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

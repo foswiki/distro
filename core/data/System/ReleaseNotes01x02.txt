@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399774897" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1400984562" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -82,7 +82,7 @@ Foswiki 1.2,  a topic could be made accessable to everyone by coding
 an empty =DENYTOPIC&lt;action&gt;= rule.   This rule is no longer active by
 default.
 
-A conversion tool is availabe in the tools directory.  =tools/convertTopicSettings.pl=  It can perform the following actions:
+A conversion tool is available in the tools directory.  =tools/convertTopicSettings.pl=  It can perform the following actions:
    * Convert empty =DENYTOPIC&lt;action&gt;= rules to the corresponding <tt>ALLOWTOPIC&lt;action&gt;= *</tt>
    * Optionally convert inline ACLs into META settings.   This is recommended for Foswiki 1.2
    * Optionally convert __all__ inline settings into META settings.
@@ -123,7 +123,7 @@ A conversion tool is availabe in the tools directory.  =tools/convertTopicSettin
 #
 </verbatim>
 
----+++ REST Script default security has changed:
+---++++ REST Script default security has changed:
 
 Foswiki 1.2 has removed the =rest= script from the list of ={AuthScripts}=.  Instead of providing blanket
 security for =rest=, each handler is now responsible to set its individual requirements for 3 options:
@@ -133,7 +133,7 @@ security for =rest=, each handler is now responsible to set its individual requi
 A new configuration option has been added to the _Security and Authentication_ section, _Login_ tab: ={InsecureREST}=. Enable this setting to restore the old insecure
 defaults for REST handlers.  If enabled, and =rest= is not listed in ={AuthScripts}=, a warning will be displayed.
 
----+++ New Pluggable Access Control implementations.
+---++++ New Pluggable Access Control implementations.
 
 Foswiki has made the Access Control implementation "Pluggable".  New ACL
 methods may be more easily implemented in the future.  The default method is
@@ -150,6 +150,33 @@ the ACL Level.  Extensions have the ability to ignore access controls.  If an
 extension fails to check for access permission, then these new methods will
 not block access.
 </blockquote>
+
+---+++ Improved CGI Session security
+
+---++++ Session IDs
+
+In Foswiki 1.2, sessions ID's will be changed whenever the user identity changes.  This improves the resistance to certain session hijack attacks.
+This is not believed to have any negative impact, however there is a race condition if the user uses multiple browser tabs, and authenticates in one
+tab while the other tabs are interacting with the server (for ex. a long running attachment upload in one tab, followed by a sudo login in another tab.
+The session ID in use for the upload will be deleted because of the sudo login and results are unpredictable.
+
+This change is important for security purposes and cannot be disabled.
+
+---++++ Sessions and Roaming or Mobile Users
+
+In Foswiki 1.2, =$Foswiki::cfg{Sessions}{UseIPMatching}= has been enabled by default.  This change can improve security by
+reducing the exposure to certain session hijack attacks.  However it can be disruptive to mobile users.  It is also of limited use when
+users access the wiki through a proxy or other devices that might cause multiple users to share the same IP address.
+
+With =UseIPMatching= enabled,  =CGI::Session= code will compare the current user's IP Address to the address that was used when the session was initially created.
+If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
+There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface.
+
+---++++ Optional Sessions for Guest users
+
+_EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
+However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, then guest sessions should be enabled. See the
+[[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface for more information.
 
 ---+++ Configure has been given a major restructuring
 

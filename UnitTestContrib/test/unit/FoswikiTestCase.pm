@@ -197,7 +197,7 @@ my %foswiki_things = (
 
         return ( $this->check_plugin_enabled('MongoDBPlugin')
               || $Foswiki::cfg{Store}{SearchAlgorithm} =~ /MongoDB/
-              || $Foswiki::cfg{Store}{QueryAlgorithm} =~ /MongoDB/ );
+              || $Foswiki::cfg{Store}{QueryAlgorithm}  =~ /MongoDB/ );
     },
     'ShortURLs' => sub {
         return ( exists $Foswiki::cfg{ScriptUrlPaths}{view}
@@ -722,6 +722,9 @@ s/((\$Foswiki::cfg{.*?})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "ex
     $Foswiki::cfg{AdminUserLogin}      = 'root';
     $Foswiki::cfg{SuperAdminGroup}     = 'AdminGroup';
 
+    # The unit tests really need CGI sessions or captureWithKey fails
+    $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
+
     # This must be done *after* disabling/enabling the plugins
     # so that tests derived from this class can enable additional plugins.
     # (Core plugins may be disabled, but their initPlugin method will still
@@ -919,7 +922,7 @@ sub captureWithKey {
 
     # Now we have to manually craft the validation checkings
     require Foswiki::Validation;
-    my $cgis      = $fatwilly->getCGISession;
+    my $cgis = $fatwilly->getCGISession;
     my $strikeone = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
     my $key =
       Foswiki::Validation::addValidationKey( $cgis, $action, $strikeone );
@@ -1021,7 +1024,7 @@ __DATA__
 
 Author: Crawford Currie, http://c-dot.co.uk
 
-Copyright (C) 2008-2010 Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors
 
 Additional copyrights apply to some or all of the code in this file
 as follows:

@@ -533,6 +533,7 @@ lib/Foswiki/Configure/Checkers/ScriptUrlPath.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPaths/view.pm 0444
 lib/Foswiki/Configure/Checkers/ScriptUrlPaths.pm 0444
 lib/Foswiki/Configure/Checkers/Sessions/ExpireAfter.pm 0444
+lib/Foswiki/Configure/Checkers/Sessions/EnableGuestSessions.pm 0444
 lib/Foswiki/Configure/Checkers/Site/CharSet.pm 0444
 lib/Foswiki/Configure/Checkers/Site/Locale.pm 0444
 lib/Foswiki/Configure/Checkers/Store/EgrepCmd.pm 0444

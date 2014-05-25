@@ -22,6 +22,14 @@ by guests will not be possible.
 EOF
             );
         }
+        if ( !$Foswiki::cfg{Sessions}{EnableGuestSessions} ) {
+            $msg .= $this->WARN(
+                <<'EOF'
+Guest sessions should be enabled so that Foswiki validation can be performed.
+The StrikeOne key is stored in the session.
+EOF
+            );
+        }
     }
     else {
 
@@ -52,7 +60,7 @@ EOF
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

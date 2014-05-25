@@ -342,19 +342,30 @@ $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 # If empty, this defaults to the current host.
 $Foswiki::cfg{Sessions}{CookieRealm} = '';
 
-# **BOOLEAN EXPERT DISPLAY_IF {UseClientSessions}**
-# It is possible to enable a check that the user trying to use a session
-# is on the same IP address that was used when the session was created.
-# This gives a small increase in security. Public web sites can easily be
+# **BOOLEAN DISPLAY_IF {UseClientSessions}**
+# Enable this option to prevent a session from being accessed by
+# more than one IP Address. This gives some protection against session hijack attacks.
+# <br/><br/>
+# This option may or may not be helpful, Public web sites can easily be
 # accessed by different users from the same IP address when they access
 # through the same proxy gateway, meaning that the protection is limited.
 # Additionally, people get more and more mobile using a mix of LAN, WLAN,
 # and 3G modems and they will often change IP address several times per day.
-# For these users IP matching causes the need to re-authenticate all the time.
-# IP matching is therefore disabled by default and should only be enabled if
-# you are sure the users IP address never changes during the lifetime of a
-# session.
-$Foswiki::cfg{Sessions}{UseIPMatching} = 0;
+# For these users IP matching causes the need to re-authenticate whenever
+# their IP Address changes and is quite inconvenient..
+# <br/><br/>
+# Note that the <tt>CGI::Session</tt> tutorial strongly recommends use of
+# IP Matching for security purposes, so it is now enabled by default.
+$Foswiki::cfg{Sessions}{UseIPMatching} = 1;
+
+# **BOOLEAN DISPLAY_IF {UseClientSessions}**
+# On prior versions of Foswiki, every user is given their own CGI Session.
+# Disable this setting to block creation of session for guest users.
+# <br/><br/>
+# This is EXPERIMENTAL.  Some parts of Foswiki will not function without a
+# CGI Session.  This includes scripts that update, and any wiki applications
+# that make use of session variables.
+$Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
 
 # **BOOLEAN EXPERT DISPLAY_IF {UseClientSessions}**
 # For compatibility with older versions, Foswiki supports the mapping of the
