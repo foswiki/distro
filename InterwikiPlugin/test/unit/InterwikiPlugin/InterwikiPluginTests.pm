@@ -196,6 +196,33 @@ HERE
     );
 }
 
+sub test_link_with_topic_macro {
+    my $this            = shift;
+    my $localRulesTopic = "LocalInterWikis";
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $localRulesTopic, undef,
+        <<'HERE');
+---+++ Local rules
+<noautolink>
+| *Alias:* | *URL:* | *Tooltip Text:* |
+| WebHome | http://rule.invalid.url?page=%WEB%. | Local rule |
+</nautolink>
+HERE
+
+    Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
+        "$this->{test_web}.$localRulesTopic" );
+    Foswiki::Plugins::InterwikiPlugin::initPlugin(
+        $this->{test_web},  $this->{test_topic},
+        $this->{test_user}, $Foswiki::cfg{SystemWebName}
+    );
+
+    $this->assert_html_equals(
+"<a class=\"interwikiLink\" href=\"http://rule.invalid.url?page=$this->{test_web}.Topage\" title=\"Local rule\"><noautolink>WebHome:Topage</noautolink></a>",
+        Foswiki::Func::renderText( "WebHome:Topage", $this->{test_web} )
+    );
+}
+
+# http://foswiki.org/Tasks/Item10151
 # http://foswiki.org/Tasks/Item10151
 sub test_link_with_parentheses {
     my $this = shift;
