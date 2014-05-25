@@ -84,8 +84,8 @@ sub initPlugin {
             );
             return 1;
         }
-        my $text =
-          Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
+        my ( $meta, $text ) =
+          Foswiki::Func::readTopic( $interWeb, $interTopic );
 
         # '| alias | URL | ...' table and extract into 'alias', "URL" list
         $text =~
