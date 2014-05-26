@@ -24,6 +24,7 @@ svn update --accept 'theirs-full'
 # Install the default modules
 cd core
 perl -T pseudo-install.pl -link default
+perl -T pseudo-install.pl -link FoswikiOrgPlugin
 
 # Remove broken links
 find -L . -type l -exec rm \{\} \;
