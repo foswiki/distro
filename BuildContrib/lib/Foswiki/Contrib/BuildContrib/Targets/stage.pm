@@ -45,7 +45,7 @@ sub target_stage {
                 #print "FILTER $file->{name} $filter->{RE} $filter->{filter}\n";
                 my $fn = $filter->{filter};
                 $this->$fn(
-                    $this->{basedir} . '/' . $file->{name},
+                    $this->{tmpDir} . '/' . $file->{name},
                     $this->{tmpDir} . '/' . $file->{name}
                 );
             }
