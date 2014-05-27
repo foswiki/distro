@@ -117,10 +117,7 @@ sub rest {
             $Foswiki::cfg{HomeTopicName} );
     }
 
-    # SMELL:  How does returning the cache for Main/WebHome make sense for
-    # a rest handler results.   See Item12915.  Temporarily disabling cache.
-    my $cache = 0;    # $session->{cache};
-
+    my $cache = $session->{cache};
     my $cachedPage;
     $cachedPage = $cache->getPage( $session->{webName}, $session->{topicName} )
       if $cache;
