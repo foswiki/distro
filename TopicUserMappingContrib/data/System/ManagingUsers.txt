@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1303098887" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1401261139" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -150,6 +150,7 @@ Subject: %MAKETEXT{
    "[_1] - Registration for [_2] ([_3])"
    args="%WIKITOOLNAME%, %WIKINAME%, %EMAILADDRESS%"
 }%
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 Content-Type: text/plain; charset=%CHARSET%
 Content-Transfer-Encoding: 8bit
@@ -216,6 +217,7 @@ This email message will be sent to the address responsible for approving registr
 To: %REGISTRATIONAPPROVAL% <%REGISTRATIONAPPROVALEMAIL%>
 CC: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 Subject: Registration request by %FIRSTLASTNAME% <%EMAILADDRESS%>
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 Content-Type: text/plain; charset=%CHARSET%
 Content-Transfer-Encoding: 8bit
@@ -239,7 +241,7 @@ succeeded.
 To: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
 Cc: %REGISTRATIONAPPROVAL% <%REGISTRATIONAPPROVALEMAIL%>
 Subject: %MAKETEXT{"[_1] - Registration for [_2] ([_3])" args="%WIKITOOLNAME%, %WIKINAME%, %EMAILADDRESS%"}%
-
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 Content-Type: text/plain; charset=%CHARSET%
 Content-Transfer-Encoding: 8bit
