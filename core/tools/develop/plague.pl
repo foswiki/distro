@@ -94,6 +94,7 @@ __DATA__
 From: tasks
 To: %EMAILTO%
 Subject: Tasks are waiting for feedback from you
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit

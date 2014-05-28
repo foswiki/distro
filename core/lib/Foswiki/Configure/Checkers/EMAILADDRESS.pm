@@ -192,6 +192,7 @@ SMIME
 From: "$Foswiki::cfg{WebMasterName}" <$Foswiki::cfg{WebMasterEmail}>
 To: $addrs
 Subject: Test of Foswiki e-mail to $keys
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 Content-Type: multipart/alternative; boundary="=_=0i0k0i0w0s0o0fXuOi0E0A"
 Content-ID: <parta.08030205.07080409\@foswiki.org>
