@@ -212,9 +212,7 @@ sub rest {
     # This allows us to remove rest from the list of {AuthScripts} list
     # Individual rest handlers should explicitly set their own requirements.
     unless ( $Foswiki::cfg{LegacyRESTSecurity} ) {
-        $record->{http_allow}   = 'POST' unless defined $record->{http_allow};
-        $record->{authenticate} = 1      unless defined $record->{authenticate};
-        $record->{validate}     = 1      unless defined $record->{validate};
+        $record->{authenticate} = 1 unless defined $record->{authenticate};
     }
 
     # Check the method is allowed
