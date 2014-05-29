@@ -483,7 +483,7 @@ $Foswiki::cfg{AuthScripts} =
 # 3 options have been changed to default to be secure, and handlers can exempt these checks based upon their specific requirements.
 # <p>Enable this setting to restore the original insecure defaults.   A warning will be displayed if this parameter is enabled
 # and <tt>rest</tt> is not listed in <tt>{AuthScripts}</tt></p>
-$Foswiki::cfg{InsecureREST} = $TRUE;
+$Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 
 # **REGEX EXPERT**
 # Regular expression matching the scripts that should be allowed to accept the 

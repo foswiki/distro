@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1396571990" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1401324697" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ Installed Plugins
 
@@ -35,12 +35,16 @@ See %SYSTEMWEB%.SkinBrowser for an overview of the installed Skins.
 
 ---+++ Registered REST Handlers
 
+%IF{ "$USERNAME ingroup 'AdminGroup'" then="
 This table shows all registered REST handler verbs by extension.  =undef=
-means the handler will use the default core handler security, which will be
-changing in Foswiki 1.2
+means the handler will use the default core handler security.
 
 %RESTHANDLERS%
+"
+         else="
+%MAKETEXT{"The details about REST Handlers are only available to users with Admin authority."}%
 
+" }%
 
 ---
 *Related Topics:* [[Plugins]], %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, SkinBrowser

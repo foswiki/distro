@@ -409,8 +409,9 @@ sub haveHandlerFor {
 sub _handleRESTHANDLERS {
     my $this = shift->{plugins};
 
-    # SMELL:  This needs some auth checking and either redaction
-    #         or just disable this macro for non-admins
+    return
+'%MAKETEXT{"The details about REST Handlers are only available to users with Admin authority."}%'
+      unless ( $SESSION->{users}->isAdmin( $SESSION->{user} ) );
 
     require Foswiki::UI::Rest;
     my $restHandlers = Foswiki::UI::Rest::getRegisteredHandlers();

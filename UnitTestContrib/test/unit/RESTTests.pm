@@ -18,7 +18,7 @@ our $UI_FN;
 
 sub set_up {
     my $this = shift;
-    $Foswiki::cfg{InsecureREST} = 1;
+    $Foswiki::cfg{LegacyRESTSecurity} = 1;
     $this->SUPER::set_up();
     $UI_FN ||= $this->getUIFn('rest');
 

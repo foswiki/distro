@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::InsecureREST;
+package Foswiki::Configure::Checkers::LegacyRESTSecurity;
 
 use strict;
 use warnings;
@@ -11,7 +11,7 @@ sub check {
     my $this = shift;
     my $msg  = '';
 
-    if ( $Foswiki::cfg{InsecureREST} ) {
+    if ( $Foswiki::cfg{LegacyRESTSecurity} ) {
 
         unless ( $Foswiki::cfg{AuthScripts}
             && $Foswiki::cfg{AuthScripts} =~ m/\brest\b/ )
@@ -19,7 +19,7 @@ sub check {
 
             return $this->WARN(
                 <<'EOF'
-The <tt>rest</tt> script is not listed in the <tt>{AuthScripts}</tt> list, and <tt>{InsecureREST}</tt>
+The <tt>rest</tt> script is not listed in the <tt>{AuthScripts}</tt> list, and <tt>{LegacyRESTSecurity}</tt>
 has been enabled.  <tt>rest</tt> handlers are not provided with any default security.  Be sure that this is
 what you want.
 EOF

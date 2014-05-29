@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1400984562" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1401324697" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -130,7 +130,7 @@ security for =rest=, each handler is now responsible to set its individual requi
 <i>authentication</i>, <i>validation</i> and <i>http_allow</i>ed methods (POST vs. GET).  The defaults for these
 3 options have been changed to default to be secure, and handlers can exempt these checks based upon their specific requirements.
 
-A new configuration option has been added to the _Security and Authentication_ section, _Login_ tab: ={InsecureREST}=. Enable this setting to restore the old insecure
+A new configuration option has been added to the _Security and Authentication_ section, _Login_ tab: ={LegacyRESTSecurity}=. Enable this setting to restore the old insecure
 defaults for REST handlers.  If enabled, and =rest= is not listed in ={AuthScripts}=, a warning will be displayed.
 
 ---++++ New Pluggable Access Control implementations.
