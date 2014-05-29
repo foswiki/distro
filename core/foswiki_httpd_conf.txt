@@ -184,15 +184,19 @@ BrowserMatch "^gsa-crawler" NO_FOSWIKI_SESSION
     Allow from all
     Deny from env=blockAccess
 
-    # If you have PHP4 or PHP5 installed as Apache module make sure the directive below is enabled
-    # If you do not have PHP installed you will need to comment out the directory below
-    # to avoid errors.
-    # If PHP is installed as CGI this flag is not needed and will in fact make Apache fail
-    php_admin_flag engine off
+    # If you have PHP installed as Apache module, one of the below directives will ensure
+    # that it is disabled.   The "ifmodule" statements should prevent this from causing
+    # errors if php is not installed.
 
-    # If you have PHP3 installed as Apache module make sure the directive below is enabled
-    # If PHP is installed as CGI this flag is not needed and will in fact make Apache fail
-    #php3_engine off
+    <ifmodule mod_php3.c>
+        php3_engine off
+    </ifmodule>
+    <ifmodule mod_php4.c>
+        php_admin_flag engine off
+    </ifmodule>
+    <ifmodule mod_php5.c>
+        php_admin_flag engine off
+    </ifmodule>
 
     # This line will redefine the mime type for the most common types of scripts
     AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
