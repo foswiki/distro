@@ -14,12 +14,19 @@ our @refs;
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
-    Foswiki::Func::registerRESTHandler( 'get', \&get );
+    Foswiki::Func::registerRESTHandler(
+        'get', \&get,
+        authenticate => 0,                       # Checks access permissions
+        validate     => 0,                       # Can't update,
+        http_allow   => 'GET,POST',
+        comment      => 'Retrieve table data.'
+    );
     Foswiki::Func::registerRESTHandler(
         'save', \&save,
-        validate     => 1,
-        authenticate => 1,
-        http_allow   => 'POST'
+        authenticate => 1,         # Block save unless authenticated
+        validate     => 1,         # Check the strikeone / embedded CSRF key
+        http_allow   => 'POST',    # Restrict to POST for updates
+        comment => 'Save table data.'
     );
     @refs = ();
 
