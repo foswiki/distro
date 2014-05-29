@@ -209,10 +209,24 @@ sub rest {
         throw Foswiki::EngineException( 404, $err, $res );
     }
 
-    # This allows us to remove rest from the list of {AuthScripts} list
-    # Individual rest handlers should explicitly set their own requirements.
-    unless ( $Foswiki::cfg{LegacyRESTSecurity} ) {
-        $record->{authenticate} = 1 unless defined $record->{authenticate};
+    # Log warnings if defaults are needed.
+    if (   !defined $record->{http_allow}
+        || !defined $record->{authenticate}
+        || !defined $record->{validate} )
+    {
+        my $msg;
+        if ( $Foswiki::cfg{LegacyRESTSecurity} ) {
+            $msg =
+'WARNING: This REST handler does not specify http_allow, validate and/or authenticate.   LegacyRESTSecurity is enabled.  This handler may be insecure and should be examined:';
+        }
+        else {
+            $msg =
+'WARNING: This REST handler does not specify http_allow, validate and/or authenticate. Foswiki has chosen secure defaults:';
+            $record->{http_allow} = 'POST' unless defined $record->{http_allow};
+            $record->{authenticate} = 1 unless defined $record->{authenticate};
+            $record->{validate}     = 1 unless defined $record->{validate};
+        }
+        $session->logger->log( 'warning', $msg, " $subject/$verb - $referer", );
     }
 
     # Check the method is allowed

@@ -73,7 +73,11 @@ JS
         'check',
         sub {
             return getCore( shift, debug => DEBUG )->handleRESTCheck(@_);
-        }
+        },
+        authenticate => 0,       # Safe.  initPlugin bails if user not an admin.
+        validate     => 0,       # Doesn't update.
+        http_allow   => 'GET',
+        description => 'Check if any extensions are out-of-date',
     );
 
     return 1;

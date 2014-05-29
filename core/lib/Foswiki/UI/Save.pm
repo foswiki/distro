@@ -630,6 +630,8 @@ WARN
         return;
     }
 
+    # This is where the permissions are checked.  Error will be thrown
+    # if the save won't be allowed.
     my ( $saveOpts, $merged, $attachments ) =
       buildNewTopic( $session, $topicObject, 'save' );
 

@@ -63,8 +63,14 @@ sub initPlugin {
     }
 
     # jquery.tmpl
-    Foswiki::Func::registerRESTHandler( 'tmpl', \&handleRestTmpl,
-        authenticate => 0 );
+    Foswiki::Func::registerRESTHandler(
+        'tmpl', \&handleRestTmpl,
+        authenticate => 0,             # Safe.  Expands templates.
+        validate     => 0,             # Doesn't update.
+        http_allow   => 'GET,POST',    # Can't update so doesn't matter
+        description =>
+          'Load and expand a template in current web/topic context.'
+    );
 
     return 1;
 }
