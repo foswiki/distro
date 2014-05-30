@@ -16,17 +16,17 @@ sub initPlugin {
 
     Foswiki::Func::registerRESTHandler(
         'get', \&get,
-        authenticate => 0,                       # Checks access permissions
-        validate     => 0,                       # Can't update,
+        authenticate => 0,            # Checks access permissions
+        validate     => 0,            # Can't update,
         http_allow   => 'GET,POST',
-        comment      => 'Retrieve table data.'
+        description => 'Gets the raw content of a single table cell.'
     );
     Foswiki::Func::registerRESTHandler(
         'save', \&save,
-        authenticate => 1,         # Block save unless authenticated
-        validate     => 1,         # Check the strikeone / embedded CSRF key
-        http_allow   => 'POST',    # Restrict to POST for updates
-        comment => 'Save table data.'
+        authenticate => 1,            # Block save unless authenticated
+        validate     => 1,            # Check the strikeone / embedded CSRF key
+        http_allow   => 'POST',       # Restrict to POST for updates
+        description => 'Save a table row.'
     );
     @refs = ();
 
