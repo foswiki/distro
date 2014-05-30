@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1401410854" format="1.1" version="1"}%
 ---+!! Page Caching
 
 %TOC%
@@ -125,7 +125,7 @@ When enabling the page cache in configure by switching on ={Cache}{Enabled}= eve
 is cached. This might be too aggressive for some topics or webs that you want to exclude
 from page caching all together. 
 
-First choice is to try and figure out how to make a page cacheable at least partial using [[#dirtyarea]][dirty areas]].
+First choice is to try and figure out how to make a page cacheable at least partial using [[#dirtyarea][dirty areas]].
 If that doesn't work out or is simply to complicated to get right, a page or a complete web
 can be flagged to be non-cacheable all together. That way they won't ever end up in the cache store.
 
