@@ -2124,7 +2124,9 @@ $Foswiki::cfg{NumberOfRevisions} = 4;
 # displayed when viewing the entire history of a page. The compared revisions
 # will be evenly spaced across the history of the page e.g. if the page has
 # 100 revisions and we have set this option to 10, we will see differences
-# between r100 and r90, r90 and r80, r80 and r70 and so on.
+# between r100 and r90, r90 and r80, r80 and r70 and so on.<br/><br/>
+# This is only active for the <tt>bin/rdiff</tt> command.  It is not used by the
+# CompareRevisionsAddOn.
 $Foswiki::cfg{MaxRevisionsInADiff} = 25;
 
 # **NUMBER CHECK="min:0" FEEDBACK=AUTO **
