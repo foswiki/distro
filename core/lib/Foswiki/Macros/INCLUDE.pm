@@ -43,17 +43,18 @@ sub applyPatternToIncludedText {
 }
 
 # Replace web references in a topic. Called from forEachLine, applying to
-# each non-verbatim and non-literal line.
+# each non-verbatim and non-literal line.   The in_noautolink option is
+# set by Foswiki::Render when processing a line inside a noautolink block.
 sub _fixupIncludedTopic {
     my ( $text, $options ) = @_;
 
     my $fromWeb = $options->{web};
 
-    unless ( $options->{in_noautolink} ) {
+    unless ( $options->{Pref_NOAUTOLINK} || $options->{in_noautolink} ) {
 
         # 'TopicName' to 'Web.TopicName'
         $text =~
-s#(?:^|(?<=[\s(]))($Foswiki::regex{wikiWordRegex})(?=\s|\)|$)#$fromWeb.$1#go;
+s#(?:^|(?<=[\s(]))($Foswiki::regex{wikiWordRegex})(?=\s|\)|$)#$fromWeb.$1#g;
     }
 
     # Handle explicit [[]] everywhere
@@ -70,7 +71,7 @@ sub _fixIncludeLink {
 
     # Detect absolute and relative URLs and web-qualified wikinames
     if ( $link =~
-m#^($Foswiki::regex{webNameRegex}\.|$Foswiki::regex{defaultWebNameRegex}\.|$Foswiki::regex{linkProtocolPattern}:|/)#o
+m#^($Foswiki::regex{webNameRegex}\.|$Foswiki::regex{defaultWebNameRegex}\.|$Foswiki::regex{linkProtocolPattern}:|/)#
       )
     {
         if ($label) {
@@ -314,15 +315,20 @@ sub _includeTopic {
             # If needed, fix all 'TopicNames' to 'Web.TopicNames' to get the
             # right context so that links continue to work properly
             if ( $includedWeb ne $includingTopicObject->web ) {
-                my $removed = {};
+                my $noautolink = Foswiki::isTrue(
+                    $this->{prefs}->getPreference('NOAUTOLINK') );
 
+          # pre and noautolink parms are used by Foswiki::Render to determine
+          # whether or not to process those blocks.
+          # Pref_NOAUTOLINK passes the preference setting to _fixupIncludedTopic
                 $text = $this->renderer->forEachLine(
                     $text,
                     \&_fixupIncludedTopic,
                     {
-                        web        => $includedWeb,
-                        pre        => 1,
-                        noautolink => 1
+                        web             => $includedWeb,
+                        pre             => 1,
+                        noautolink      => 1,
+                        Pref_NOAUTOLINK => $noautolink,
                     }
                 );
 

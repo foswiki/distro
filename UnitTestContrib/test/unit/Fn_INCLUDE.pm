@@ -982,4 +982,91 @@ HERE
 
 }
 
+# Test that web references are correctly expanded when a topic is included
+# from another web. Verifies that web preference NOAUTOLINK is honored.
+sub test_webExpansion_NOAUTOLINK {
+    my $this = shift;
+
+    my ($m) = Foswiki::Func::readTopic( "$this->{test_web}", 'WebPreferences' );
+
+    #print STDERR "WEBPREFS: " . $m->text() . "\n";
+    $m->text("   * Set NOAUTOLINK = on \n\n");
+    $m->save();
+
+    #print STDERR "WEBPREFS: " . $m->text() . "\n";
+    $m->finish();
+
+    ($m) = Foswiki::Func::readTopic( "$this->{other_web}", 'WebPreferences' );
+    $m->text("   * Set NOAUTOLINK = on\n");
+    $m->save();
+    $m->finish();
+
+    # Have to restart to clear prefs cache
+    $this->createNewFoswikiSession();
+
+#print STDERR "NOAUTOLINK: " .Foswiki::Func::getPreferencesValue( "NOAUTOLINK" );
+
+    # Create topic to include
+    my $includedTopic = "TopicToInclude";
+    my ($inkyDink) =
+      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+    $inkyDink->text( <<THIS);
+<literal>
+1 [[$includedTopic][one]] $includedTopic
+</literal>
+<verbatim>
+2 [[$includedTopic][two]] $includedTopic
+</verbatim>
+<pre>
+3 [[$includedTopic][three]] $includedTopic
+</pre>
+4 [[$includedTopic][four]] [[$includedTopic]] $includedTopic
+5 [[$includedTopic][five]] $includedTopic
+$includedTopic 6
+7 ($includedTopic)
+8 #$includedTopic
+9 [[System.$includedTopic]]
+10 [[$includedTopic]]
+11 [[http://fleegle][$includedTopic]]
+12 [[#anchor][$includedTopic]]
+13 [[#$includedTopic][$includedTopic]]
+THIS
+    $inkyDink->save();
+
+    # Expand an include in the context of the test web
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    my $text = $topicObject->expandMacros(
+        "%INCLUDE{$this->{other_web}.$includedTopic}%");
+    my @get    = split( /\n/, $text );
+    my @expect = split( /\n/, <<THIS);
+<literal>
+1 [[$includedTopic][one]] $includedTopic
+</literal>
+<verbatim>
+2 [[$includedTopic][two]] $includedTopic
+</verbatim>
+<pre>
+3 [[$this->{other_web}.$includedTopic][three]] $this->{other_web}.$includedTopic
+</pre>
+4 [[$this->{other_web}.$includedTopic][four]] [[$this->{other_web}.$includedTopic][$includedTopic]] $includedTopic
+5 [[$this->{other_web}.$includedTopic][five]] $this->{other_web}.$includedTopic
+$this->{other_web}.$includedTopic 6
+7 ($this->{other_web}.$includedTopic)
+8 #$includedTopic
+9 [[System.$includedTopic]]
+10 [[$this->{other_web}.$includedTopic][$includedTopic]]
+11 [[http://fleegle][$includedTopic]]
+12 [[#anchor][$includedTopic]]
+13 [[#$includedTopic][$includedTopic]]
+THIS
+    $this->expect_failure(
+'This test will fail. The NOAUTOLINK preference is not being passed through'
+    );
+    while ( my $e = pop(@expect) ) {
+        $this->assert_str_equals( $e, pop(@get) );
+    }
+
+}
+
 1;
