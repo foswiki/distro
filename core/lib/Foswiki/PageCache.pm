@@ -99,6 +99,7 @@ Generate a key for the current webtopic being produced; this reads
 information from the current session and url params, as follows:
     * the server serving the request (HTTP_HOST)
     * the port number of the server serving the request (HTTP_PORT)
+    * the action used to render the page (view or rest)
     * the language of the current session, if any
     * all session parameters EXCEPT:
           o Those starting with an underscore
@@ -127,9 +128,10 @@ sub genVariationKey {
 
     my $session    = $Foswiki::Plugins::SESSION;
     my $request    = $session->{request};
+    my $action     = substr( ( $request->{action} || 'view' ), 0, 4 );
     my $serverName = $request->server_name || $Foswiki::cfg{DefaultUrlHost};
     my $serverPort = $request->server_port || 80;
-    $variationKey = '::' . $serverName . '::' . $serverPort;
+    $variationKey = '::' . $serverName . '::' . $serverPort . '::' . $action;
 
     # add a flag to distinguish compressed from uncompressed cache entries
     $variationKey .= '::'
