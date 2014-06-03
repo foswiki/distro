@@ -647,6 +647,16 @@ HERE
 "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"consider yourself warned\"}%"
       );
     $this->assert_str_equals( 'consider yourself warned', $text );
+
+    #custom warning with delayed evaluation
+    $text =
+      $this->{test_topicObject}->expandMacros(
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"\$percntX\$percnt consider yourself \$quotwarned\$quot\"}%"
+      );
+    $this->assert_matches(
+qr#<img src="/pub/System/DocumentGraphics/warning.png" alt="ALERT!" title="ALERT!" width="16" height="16" /> consider yourself "warned"#,
+        $text
+    );
 }
 
 # INCLUDE{"" section=""}% should act as though section was not set (ie, return the entire topic)

@@ -114,7 +114,7 @@ sub _includeWarning {
             $argument = shift;
         }
         $warn =~ s/\$topic/$argument/go if $argument;
-        return $warn;
+        return Foswiki::expandStandardEscapes($warn);
     }    # else fail silently
     return '';
 }
