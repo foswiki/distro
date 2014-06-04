@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Logger::EventIterator;
+package Foswiki::Iterator::EventIterator;
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ BEGIN {
 
 =begin TML
 
----++ =Foswiki::Logger::EventIterator=
+---++ =Foswiki::Iterator::EventIterator=
 Private subclass of LineIterator that
    * Selects log records that match the requested begin time and levels.
    * reasembles divided records into a single log record
@@ -23,7 +23,7 @@ Private subclass of LineIterator that
 
 =cut
 
-package Foswiki::Logger::EventIterator;
+package Foswiki::Iterator::EventIterator;
 require Foswiki::LineIterator;
 our @ISA = ('Foswiki::LineIterator');
 

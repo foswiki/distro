@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Logger::MergeEventIterator;
+package Foswiki::Iterator::MergeEventIterator;
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ BEGIN {
 
 =begin TML
 
----++ =Foswiki::Logger::PlainFile::MergeEventIterator=
+---++ =Foswiki::Iterator::MergeEventIterator=
 Private subclass of Foswiki::Iterator that
    * Is passed a array reference of a list of iterator arrays.
    * Scans across the list of iterators using snoopNext to find the iterator with the lowest timestamp

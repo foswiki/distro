@@ -16,7 +16,7 @@ BEGIN {
 
 # Internal class for Logfile iterators.
 # So we don't break encapsulation of file handles.  Open / Close in same file.
-our @ISA = qw/Foswiki::Logger::EventIterator/;
+our @ISA = qw/Foswiki::Iterator::EventIterator/;
 
 # # Object destruction
 # # Release locks and file
@@ -34,10 +34,10 @@ use warnings;
 use utf8;
 use Assert;
 
-use Foswiki::Logger                         ();
-use Foswiki::Logger::EventIterator          ();
-use Foswiki::Logger::AggregateEventIterator ();
-use Foswiki::Logger::MergeEventIterator     ();
+use Foswiki::Logger                           ();
+use Foswiki::Iterator::EventIterator          ();
+use Foswiki::Iterator::AggregateEventIterator ();
+use Foswiki::Iterator::MergeEventIterator     ();
 use Foswiki::Configure::Load;
 use Fcntl qw(:flock);
 our @ISA = ('Foswiki::Logger');
@@ -243,7 +243,7 @@ sub eachEventSince {
         }
 
         push @mergeIterators,
-          new Foswiki::Logger::AggregateEventIterator( \@iterators );
+          new Foswiki::Iterator::AggregateEventIterator( \@iterators );
     }
 
     if (TRACE) {
@@ -252,7 +252,7 @@ sub eachEventSince {
           . Data::Dumper::Dumper( \@mergeIterators );
     }
 
-    return new Foswiki::Logger::MergeEventIterator( \@mergeIterators );
+    return new Foswiki::Iterator::MergeEventIterator( \@mergeIterators );
 }
 
 # Get the name of the log for a given reporting level

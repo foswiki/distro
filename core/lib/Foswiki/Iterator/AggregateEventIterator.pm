@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Logger::PlainFile;
+package Foswiki::Iterator::AggregateEventIterator;
 
 use strict;
 use warnings;
@@ -15,13 +15,12 @@ BEGIN {
 
 =begin TML
 
----++ =Foswiki::Logger::PlainFile::AggregateEventIterator=
+---++ =Foswiki::Iterator::AggregateEventIterator=
 Private subclass of Foswiki::AggregateIterator that implements the snoopNext method
 
 =cut
 
 # Private subclass of AggregateIterator that can snoop Events.
-package Foswiki::Logger::AggregateEventIterator;
 require Foswiki::AggregateIterator;
 our @ISA = ('Foswiki::AggregateIterator');
 
