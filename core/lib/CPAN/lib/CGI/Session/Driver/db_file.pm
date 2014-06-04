@@ -1,6 +1,6 @@
 package CGI::Session::Driver::db_file;
 
-# $Id: db_file.pm 447 2008-11-01 03:46:08Z markstos $
+# $Id$
 
 use strict;
 
@@ -12,132 +12,133 @@ use CGI::Session::Driver;
 use Fcntl qw( :DEFAULT :flock );
 use vars qw( @ISA $VERSION $FILE_NAME $UMask $NO_FOLLOW );
 
-@ISA       = ("CGI::Session::Driver");
-$VERSION   = '4.38';
-$FILE_NAME = "cgisess.db";
-$UMask     = 0660;
-$NO_FOLLOW = eval { O_NOFOLLOW } || 0;
+@ISA         = ( "CGI::Session::Driver" );
+$VERSION     = '4.43';
+$FILE_NAME   = "cgisess.db";
+$UMask       = 0660;
+$NO_FOLLOW   = eval { O_NOFOLLOW } || 0;
 
 sub init {
     my $self = shift;
 
-    $self->{FileName} ||= $CGI::Session::Driver::db_file::FILE_NAME;
+    $self->{FileName}  ||= $CGI::Session::Driver::db_file::FILE_NAME;
     unless ( $self->{Directory} ) {
         $self->{Directory} = dirname( $self->{FileName} );
-        $self->{Directory} = File::Spec->tmpdir()
-          if $self->{Directory} eq '.'
-              && substr( $self->{FileName}, 0, 1 ) ne '.';
-        $self->{FileName} = basename( $self->{FileName} );
+        $self->{Directory} = File::Spec->tmpdir() if $self->{Directory} eq '.' && substr($self->{FileName},0,1) ne '.';
+        $self->{FileName}  = basename( $self->{FileName} );
     }
     unless ( -d $self->{Directory} ) {
         require File::Path;
-        File::Path::mkpath( $self->{Directory} )
-          or return $self->set_error("init(): couldn't mkpath: $!");
+        File::Path::mkpath($self->{Directory}) or return $self->set_error("init(): couldn't mkpath: $!");
     }
-
-    $self->{UMask} = $CGI::Session::Driver::db_file::UMask
-      unless exists $self->{UMask};
-
+    
+    $self->{UMask} = $CGI::Session::Driver::db_file::UMask unless exists $self->{UMask};
+    
     return 1;
 }
+
 
 sub retrieve {
     my $self = shift;
     my ($sid) = @_;
     croak "retrieve(): usage error" unless $sid;
 
-    return 0 unless -f $self->_db_file;
-    my ( $dbhash, $unlock ) = $self->_tie_db_file(O_RDONLY) or return;
-    my $datastr = $dbhash->{$sid};
+    return 0 unless -f $self->_db_file; 
+    my ($dbhash, $unlock) = $self->_tie_db_file(O_RDONLY) or return;
+    my $datastr =  $dbhash->{$sid};
     untie(%$dbhash);
     $unlock->();
     return $datastr || 0;
 }
 
+
 sub store {
     my $self = shift;
-    my ( $sid, $datastr ) = @_;
+    my ($sid, $datastr) = @_;
     croak "store(): usage error" unless $sid && $datastr;
 
-    my ( $dbhash, $unlock ) = $self->_tie_db_file( O_RDWR, LOCK_EX ) or return;
+    my ($dbhash, $unlock) = $self->_tie_db_file(O_RDWR, LOCK_EX) or return;
     $dbhash->{$sid} = $datastr;
     untie(%$dbhash);
     $unlock->();
     return 1;
 }
 
+
+
 sub remove {
     my $self = shift;
     my ($sid) = @_;
     croak "remove(): usage error" unless $sid;
 
-    my ( $dbhash, $unlock ) = $self->_tie_db_file( O_RDWR, LOCK_EX ) or return;
+    
+    my ($dbhash, $unlock) = $self->_tie_db_file(O_RDWR, LOCK_EX) or return;
     delete $dbhash->{$sid};
     untie(%$dbhash);
     $unlock->();
     return 1;
 }
 
-sub DESTROY { }
+
+sub DESTROY {}
+
 
 sub _lock {
     my $self = shift;
-    my ( $db_file, $lock_type ) = @_;
+    my ($db_file, $lock_type) = @_;
 
     croak "_lock(): usage error" unless $db_file;
     $lock_type ||= LOCK_SH;
 
     my $lock_file = $db_file . '.lck';
     if ( -l $lock_file ) {
-        unlink($lock_file)
-          or die $self->set_error(
-"_lock(): '$lock_file' appears to be a symlink and I can't remove it: $!"
-          );
+        unlink($lock_file) or 
+          die $self->set_error("_lock(): '$lock_file' appears to be a symlink and I can't remove it: $!");
     }
-    sysopen( LOCKFH, $lock_file, O_RDWR | O_CREAT | $NO_FOLLOW )
-      or die "couldn't create lock file '$lock_file': $!";
-
-    flock( LOCKFH, $lock_type ) or die "couldn't lock '$lock_file': $!";
+    sysopen(LOCKFH, $lock_file, O_RDWR|O_CREAT|$NO_FOLLOW) or die "couldn't create lock file '$lock_file': $!";
+    
+        
+    flock(LOCKFH, $lock_type)                   or die "couldn't lock '$lock_file': $!";
     return sub {
-        close(LOCKFH);    # && unlink($lock_file); # keep the lock file around
+        close(LOCKFH); # && unlink($lock_file); # keep the lock file around
         1;
     };
 }
 
+
+
 sub _tie_db_file {
-    my $self = shift;
-    my ( $o_mode, $lock_type ) = @_;
-    $o_mode ||= O_RDWR | O_CREAT;
-
-# DB_File will not touch a file unless it recognizes the format
-# we can't detect the version of the underlying database without some very heavy checks so the easiest thing is
-# to disable this for opening of the database
-
+    my $self                 = shift;
+    my ($o_mode, $lock_type) = @_;
+    $o_mode     ||= O_RDWR|O_CREAT;
+    
+    # DB_File will not touch a file unless it recognizes the format
+    # we can't detect the version of the underlying database without some very heavy checks so the easiest thing is
+    # to disable this for opening of the database
+    
     # # protect against symlinks
     # $o_mode     |= $NO_FOLLOW;
 
-    my $db_file = $self->_db_file;
-    my $unlock = $self->_lock( $db_file, $lock_type );
+    my $db_file     = $self->_db_file;
+    my $unlock = $self->_lock($db_file, $lock_type);
     my %db;
-
-    my $create = !-e $db_file;
-
+        
+    my $create = ! -e $db_file;
+    
     if ( -l $db_file ) {
         $create = 1;
-        unlink($db_file)
-          or return $self->set_error(
-"_tie_db_file(): '$db_file' appears to be a symlink and I can't remove it: $!"
-          );
+        unlink($db_file) or 
+          return $self->set_error("_tie_db_file(): '$db_file' appears to be a symlink and I can't remove it: $!");
     }
-
-    $o_mode = O_RDWR | O_CREAT | O_EXCL if $create;
-
-    unless ( tie %db, "DB_File", $db_file, $o_mode, $self->{UMask} ) {
+    
+    $o_mode = O_RDWR|O_CREAT|O_EXCL if $create;
+    
+    unless( tie %db, "DB_File", $db_file, $o_mode, $self->{UMask} ){
         $unlock->();
         return $self->set_error("_tie_db_file(): couldn't tie '$db_file': $!");
     }
 
-    return ( \%db, $unlock );
+    return (\%db, $unlock);
 }
 
 sub _db_file {
@@ -149,22 +150,22 @@ sub traverse {
     my $self = shift;
     my ($coderef) = @_;
 
-    unless ( $coderef && ref($coderef) && ( ref $coderef eq 'CODE' ) ) {
+    unless ( $coderef && ref($coderef) && (ref $coderef eq 'CODE') ) {
         croak "traverse(): usage error";
     }
 
-    my ( $dbhash, $unlock ) = $self->_tie_db_file( O_RDWR, LOCK_SH );
-    unless ($dbhash) {
-        return $self->set_error(
-            "traverse(): couldn't get db handle, " . $self->errstr );
+    my ($dbhash, $unlock) = $self->_tie_db_file(O_RDWR, LOCK_SH);
+    unless ( $dbhash ) {
+        return $self->set_error( "traverse(): couldn't get db handle, " . $self->errstr );
     }
-    while ( my ( $sid, undef ) = each %$dbhash ) {
-        $coderef->($sid);
+    while ( my ($sid, undef) = each %$dbhash ) {
+        $coderef->( $sid );
     }
     untie(%$dbhash);
     $unlock->();
     return 1;
 }
+
 
 1;
 
@@ -178,8 +179,8 @@ CGI::Session::Driver::db_file - CGI::Session driver for BerkeleyDB using DB_File
 
 =head1 SYNOPSIS
 
-    $s = new CGI::Session("driver:db_file", $sid);
-    $s = new CGI::Session("driver:db_file", $sid, {FileName=>'/tmp/cgisessions.db'});
+    $s = CGI::Session->new("driver:db_file", $sid);
+    $s = CGI::Session->new("driver:db_file", $sid, {FileName=>'/tmp/cgisessions.db'});
 
 =head1 DESCRIPTION
 

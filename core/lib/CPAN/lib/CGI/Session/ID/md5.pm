@@ -1,21 +1,21 @@
 package CGI::Session::ID::md5;
 
-# $Id: md5.pm 420 2008-07-08 01:23:06Z markstos $
+# $Id$
 
 use strict;
 use Digest::MD5;
 use CGI::Session::ErrorHandler;
 
-$CGI::Session::ID::md5::VERSION = '4.33';
+$CGI::Session::ID::md5::VERSION = '4.43';
 @CGI::Session::ID::md5::ISA     = qw( CGI::Session::ErrorHandler );
 
 *generate = \&generate_id;
-
 sub generate_id {
-    my $md5 = new Digest::MD5();
-    $md5->add( $$, time(), rand(time) );
+    my $md5 = Digest::MD5->new();
+    $md5->add($$ , time() , rand(time) );
     return $md5->hexdigest();
 }
+
 
 1;
 
@@ -28,7 +28,7 @@ CGI::Session::ID::md5 - default CGI::Session ID generator
 =head1 SYNOPSIS
 
     use CGI::Session;
-    $s = new CGI::Session("id:md5", undef);
+    $s = CGI::Session->new("id:md5", undef);
 
 =head1 DESCRIPTION
 

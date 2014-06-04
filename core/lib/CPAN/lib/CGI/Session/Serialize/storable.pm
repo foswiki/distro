@@ -1,13 +1,13 @@
 package CGI::Session::Serialize::storable;
 
-# $Id: storable.pm 447 2008-11-01 03:46:08Z markstos $
+# $Id$
 
 use strict;
 use Storable;
 require CGI::Session::ErrorHandler;
 
-$CGI::Session::Serialize::storable::VERSION = '4.38';
-@CGI::Session::Serialize::storable::ISA     = ("CGI::Session::ErrorHandler");
+$CGI::Session::Serialize::storable::VERSION = '4.43';
+@CGI::Session::Serialize::storable::ISA               = ( "CGI::Session::ErrorHandler" );
 
 =pod
 
@@ -32,7 +32,7 @@ C<set_error()|CGI::Session::ErrorHandler/"set_error()">
 =cut
 
 sub freeze {
-    my ( $self, $data ) = @_;
+    my ($self, $data) = @_;
     return Storable::freeze($data);
 }
 
@@ -47,7 +47,7 @@ using C<set_error()|CGI::Session::ErrorHandler/"set_error()">
 =cut
 
 sub thaw {
-    my ( $self, $string ) = @_;
+    my ($self, $string) = @_;
     return Storable::thaw($string);
 }
 

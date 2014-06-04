@@ -1,36 +1,37 @@
 package CGI::Session::Driver::mysql;
 
-# $Id: mysql.pm 447 2008-11-01 03:46:08Z markstos $
+# $Id$
 
 use strict;
 use Carp;
 use CGI::Session::Driver::DBI;
 
-@CGI::Session::Driver::mysql::ISA     = qw( CGI::Session::Driver::DBI );
-$CGI::Session::Driver::mysql::VERSION = '4.38';
+@CGI::Session::Driver::mysql::ISA       = qw( CGI::Session::Driver::DBI );
+$CGI::Session::Driver::mysql::VERSION   = '4.43';
 
 sub _mk_dsnstr {
-    my ( $class, $dsn ) = @_;
-    unless ( $class && $dsn && ref($dsn) && ( ref($dsn) eq 'HASH' ) ) {
+    my ($class, $dsn) = @_;
+    unless ( $class && $dsn && ref($dsn) && (ref($dsn) eq 'HASH')) {
         croak "_mk_dsnstr(): usage error";
     }
 
     my $dsnstr = $dsn->{DataSource};
     if ( $dsn->{Socket} ) {
-        $dsnstr .= sprintf( ";mysql_socket=%s", $dsn->{Socket} );
+        $dsnstr .= sprintf(";mysql_socket=%s", $dsn->{Socket});
     }
     if ( $dsn->{Host} ) {
-        $dsnstr .= sprintf( ";host=%s", $dsn->{Host} );
+        $dsnstr .= sprintf(";host=%s", $dsn->{Host});
     }
     if ( $dsn->{Port} ) {
-        $dsnstr .= sprintf( ";port=%s", $dsn->{Port} );
+        $dsnstr .= sprintf(";port=%s", $dsn->{Port});
     }
     return $dsnstr;
 }
 
+
 sub init {
     my $self = shift;
-    if ( $self->{DataSource} && ( $self->{DataSource} !~ /^dbi:mysql/i ) ) {
+    if ( $self->{DataSource} && ($self->{DataSource} !~ /^dbi:mysql/i) ) {
         $self->{DataSource} = "dbi:mysql:database=" . $self->{DataSource};
     }
 
@@ -42,27 +43,22 @@ sub init {
 
 sub store {
     my $self = shift;
-    my ( $sid, $datastr ) = @_;
+    my ($sid, $datastr) = @_;
     croak "store(): usage error" unless $sid && $datastr;
 
     my $dbh = $self->{Handle};
-    $dbh->do(
-        "INSERT INTO "
-          . $self->table_name
-          . " ($self->{IdColName}, $self->{DataColName}) VALUES(?, ?) ON DUPLICATE KEY UPDATE $self->{DataColName} = ?",
-        undef,
-        $sid,
-        $datastr,
-        $datastr
-      )
-      or return $self->set_error( "store(): \$dbh->do failed " . $dbh->errstr );
+    $dbh->do("INSERT INTO " . $self->table_name .
+			 " ($self->{IdColName}, $self->{DataColName}) VALUES(?, ?) ON DUPLICATE KEY UPDATE $self->{DataColName} = ?",
+			 undef, $sid, $datastr, $datastr)
+        or return $self->set_error( "store(): \$dbh->do failed " . $dbh->errstr );
     return 1;
 }
+
 
 sub table_name {
     my $self = shift;
 
-    return $self->SUPER::table_name(@_);
+    return  $self->SUPER::table_name(@_);
 }
 
 1;
@@ -77,11 +73,11 @@ CGI::Session::Driver::mysql - CGI::Session driver for MySQL database
 
 =head1 SYNOPSIS
 
-    $s = new CGI::Session( 'driver:mysql', $sid);
-    $s = new CGI::Session( 'driver:mysql', $sid, { DataSource  => 'dbi:mysql:test',
+    $s = CGI::Session->new( 'driver:mysql', $sid);
+    $s = CGI::Session->new( 'driver:mysql', $sid, { DataSource  => 'dbi:mysql:test',
                                                    User        => 'sherzodr',
                                                    Password    => 'hello' });
-    $s = new CGI::Session( 'driver:mysql', $sid, { Handle => $dbh } );
+    $s = CGI::Session->new( 'driver:mysql', $sid, { Handle => $dbh } );
 
 =head1 DESCRIPTION
 
@@ -97,7 +93,7 @@ defined as a primary key, or at least "unique", like this:
 
 To use different column names, change the 'create table' statement, and then simply do this:
 
-    $s = new CGI::Session('driver:mysql', undef,
+    $s = CGI::Session->new('driver:mysql', undef,
     {
         TableName=>'session',
         IdColName=>'my_id',
@@ -107,7 +103,7 @@ To use different column names, change the 'create table' statement, and then sim
 
 or
 
-    $s = new CGI::Session('driver:mysql', undef,
+    $s = CGI::Session->new('driver:mysql', undef,
     {
         TableName=>'session',
         IdColName=>'my_id',
@@ -119,9 +115,9 @@ or
 
 B<mysql> driver supports all the arguments documented in L<CGI::Session::Driver::DBI|CGI::Session::Driver::DBI>. In addition, I<DataSource> argument can optionally leave leading "dbi:mysql:" string out:
 
-    $s = new CGI::Session( 'driver:mysql', $sid, {DataSource=>'shopping_cart'});
+    $s = CGI::Session->new( 'driver:mysql', $sid, {DataSource=>'shopping_cart'});
     # is the same as:
-    $s = new CGI::Session( 'driver:mysql', $sid, {DataSource=>'dbi:mysql:shopping_cart'});
+    $s = CGI::Session->new( 'driver:mysql', $sid, {DataSource=>'dbi:mysql:shopping_cart'});
 
 =head2 BACKWARDS COMPATIBILITY
 

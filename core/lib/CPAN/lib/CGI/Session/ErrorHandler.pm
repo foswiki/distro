@@ -1,9 +1,9 @@
 package CGI::Session::ErrorHandler;
 
-# $Id: ErrorHandler.pm 447 2008-11-01 03:46:08Z markstos $
+# $Id$
 
 use strict;
-$CGI::Session::ErrorHandler::VERSION = '4.38';
+$CGI::Session::ErrorHandler::VERSION = '4.43';
 
 =pod
 
@@ -42,7 +42,7 @@ sub set_error {
     my $message = shift;
     $class = ref($class) || $class;
     no strict 'refs';
-    ${"$class\::errstr"} = sprintf( $message || "", @_ );
+    ${ "$class\::errstr" } = $message || "";
     return;
 }
 
@@ -55,13 +55,12 @@ Returns whatever value was set by the most recent call to set_error(). If no mes
 =cut 
 
 *error = \&errstr;
-
 sub errstr {
     my $class = shift;
-    $class = ref($class) || $class;
+    $class = ref( $class ) || $class;
 
     no strict 'refs';
-    return ${"$class\::errstr"} || '';
+    return ${ "$class\::errstr" } || '';
 }
 
 =head1 LICENSING
