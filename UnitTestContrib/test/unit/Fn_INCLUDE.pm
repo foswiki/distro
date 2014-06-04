@@ -654,7 +654,7 @@ HERE
 "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"\$percntX\$percnt consider yourself \$quotwarned\$quot\"}%"
       );
     $this->assert_matches(
-qr#<img src="/pub/System/DocumentGraphics/warning.png" alt="ALERT!" title="ALERT!" width="16" height="16" /> consider yourself "warned"#,
+qr#<img src=".*System/DocumentGraphics/warning.png" alt="ALERT!" title="ALERT!" width="16" height="16" /> consider yourself "warned"#,
         $text
     );
 }
