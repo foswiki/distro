@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1401892615" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -7,7 +8,17 @@ One line description, required for extensions repository catalog.
 
 %SHORTDESCRIPTION%
 
-In the old days Foswiki shipped some CPAN modules which it depends on. From 1.2 on they were removed from Foswiki_base_dir/lib/CPAN/lib. In case you need them you can install this contrib.
+Versions of Foswiki prior to 1.2 shipped a subset of the Perl CPAN modules required to run Foswiki. As of Foswiki 1.2, these CPAN modules have been removed from =&lt;foswiki_install_dir&gt;/lib/CPAN/lib=. 
+On systems where you are not permitted to install CPAN modules, you can install this contrib to provide the majority of the Foswiki Perl dependencies.  However if it's possible to install CPAN modules, 
+we recommend installing them locally rather than installing this Contrib.
+
+This contrib ships with all CPAN modules that are required for a fully functional default Foswiki installation, __with the following exceptions:__
+
+   * =bcrypt= encryption cannot be used for local password storage. CPAN:Crypt::Eksblowfish::Bcrypt is not provided. Note that use of =bcrypt= is unusual, but a warning will be displayed in configure.
+   * WYSIWYG editing will not be usable. The CPAN:HTML::Parser and CPAN:HTML::Entities modules are not provided.
+   * SSL Email will not be functional (required to use Google's gmail as an email service).  CPAN:Net::SSLeay is not included.
+
+These modules are not provided because they are not available in a "pure perl" implemenation and must be compiled for the target system.  In addition, CPAN:Net::SSLeay has dependencies on the non-perl package !OpenSSL.
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
@@ -15,7 +26,7 @@ In the old days Foswiki shipped some CPAN modules which it depends on. From 1.2 
 ---++ Info
 
 |  Author: | OliverKrueger |
-|  Copyright: | &copy; %$CREATEDYEAR%, OliverKrueger, All Rights Reserved |
+|  Copyright: | &copy; %$CREATEDYEAR%, OliverKrueger, Foswiki Contributors,  All Rights Reserved |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
