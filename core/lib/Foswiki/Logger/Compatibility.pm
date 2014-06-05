@@ -137,7 +137,9 @@ sub log {
     }
 
     if ( open( $file, $mode, $log ) ) {
+        _lock($file);
         print $file "$message\n";
+        _unlock($file);
         close($file);
     }
     else {
@@ -146,6 +148,20 @@ sub log {
     if ( $level =~ /^(error|critical|alert|emergency)$/ ) {
         print STDERR "$message\n";
     }
+}
+
+sub _lock {    # borrowed from Log::Dispatch::FileRotate, Thanks!
+    my $fh = shift;
+    eval { flock( $fh, LOCK_EX ) }; # Ignore lock errors,   not all platforms support flock
+                                    # Make sure we are at the EOF
+    seek( $fh, 0, 2 );
+    return 1;
+}
+
+sub _unlock {    # borrowed from Log::Dispatch::FileRotate, Thanks!
+    my $fh = shift;
+    eval { flock( $fh, LOCK_UN ) };
+    return 1;
 }
 
 =begin TML
