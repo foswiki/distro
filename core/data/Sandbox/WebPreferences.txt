@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282479879" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1402008794" format="1.1" version="1"}%
 ---+!! <nop>%WEB% Web Preferences
 
 %TOC%
@@ -19,13 +19,14 @@
 
 ---++ Access control
 
-Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.
+Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.  Empty settings are not meaningful.
+Use ==*== to indicate everyone including the guest users.   DENY the WikiGuest user to restrict an action to authenticated (logged-in) users.
 
    * Set DENYWEBVIEW = 
    * Set ALLOWWEBVIEW = 
-   * Set DENYWEBCHANGE = 
+   * Set DENYWEBCHANGE = %USERSWEB%.WikiGuest
    * Set ALLOWWEBCHANGE = 
-   * Set DENYWEBRENAME = 
+   * Set DENYWEBRENAME = %USERSWEB%.WikiGuest
    * Set ALLOWWEBRENAME = 
 Users or groups allowed to change or rename this <nop>%TOPIC% topic
 

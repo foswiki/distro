@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1288883282" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1402008308" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
@@ -21,15 +21,15 @@
 
 ---++ Access control
 
-Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.
-Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web.
+Users or groups who are allowed to view, change and rename topics in the <nop>%WEB% web.  Empty settings are not meaningful.
+Use ==*== to indicate everyone including the guest users.   DENY the WikiGuest user to restrict an action to authenticated (logged-in) users.
 If you intend to lock down the %USERSWEB% to only allow registration, you need to add the built in =RegistrationAgent= to the =ALLOWWEBCHANGE= setting.
 
    * Set DENYWEBVIEW = 
    * Set ALLOWWEBVIEW = 
-   * Set DENYWEBCHANGE = 
+   * Set DENYWEBCHANGE = %USERSWEB%.WikiGuest
    * Set ALLOWWEBCHANGE = 
-   * Set DENYWEBRENAME = 
+   * Set DENYWEBRENAME = %USERSWEB%.WikiGuest
    * Set ALLOWWEBRENAME = 
 
 Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
