@@ -1,5 +1,5 @@
 /*
- * jQuery WikiWord plugin 2.20
+ * jQuery WikiWord plugin 3.00
  *
  * Copyright (c) 2008-2014 Foswiki Contributors http://foswiki.org
  *
@@ -83,14 +83,17 @@ $.wikiword = {
   build: function(source, options) {
    
     // build main options before element iteration
-    var opts = $.extend({}, 
-        $.fn.wikiword.defaults, options),
+    var opts = $.extend({}, $.wikiword.defaults, options),
         $source = $(source);
 
     // iterate and reformat each matched element
     return this.each(function() {
       var $this = $(this),
           thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
+
+      // generate RegExp for filtered chars
+      thisOpts.allowedRegex = new RegExp('['+thisOpts.allow+']+', "g");
+      thisOpts.forbiddenRegex = new RegExp('[^'+thisOpts.allow+']+', "g");
 
       $source.change(function() {
         $.wikiword.handleChange($source, $this, thisOpts);
@@ -103,23 +106,23 @@ $.wikiword = {
   /***************************************************************************
    * handler for source changes
    */
-  handleChange: function(source, target, thisOpts) {
+  handleChange: function(source, target, opts) {
     var result = '';
     source.each(function() {
       result += $(this).is(':input')?$(this).val():$(this).text();
     });
 
-    if (result || !thisOpts.initial) {
-      result = $.wikiword.wikify(result);
+    if (result || !opts.initial) {
+      result = $.wikiword.wikify(result, opts);
 
-      if (thisOpts.suffix && result.indexOf(thisOpts.suffix, result.length - thisOpts.suffix.length) == -1) {
-        result += thisOpts.suffix;
+      if (opts.suffix && result.indexOf(opts.suffix, result.length - opts.suffix.length) == -1) {
+        result += opts.suffix;
       }
-      if (thisOpts.prefix && result.indexOf(thisOpts.prefix) !== 0) {
-        result = thisOpts.prefix+result;
+      if (opts.prefix && result.indexOf(opts.prefix) !== 0) {
+        result = opts.prefix+result;
       }
     } else {
-      result = thisOpts.initial;
+      result = opts.initial;
     }
 
     target.each(function() {
@@ -134,7 +137,7 @@ $.wikiword = {
   /***************************************************************************
    * convert a source string to a valid WikiWord
    */
-  wikify: function (source) {
+  wikify: function (source, opts) {
 
     var result = '', c, i;
 
@@ -145,12 +148,12 @@ $.wikiword = {
     }
 
     // capitalize
-    result = result.replace(/[a-zA-Z\d]+/g, function(a) {
+    result = result.replace(opts.allowedRegex, function(a) {
         return a.charAt(0).toLocaleUpperCase() + a.substr(1);
     });
 
-    // remove all non-mixedalphanums
-    result = result.replace(/[^a-zA-Z\d]/g, "");
+    // remove all forbidden chars
+    result = result.replace(opts.forbiddenRegex, "");
 
     // remove all spaces
     result = result.replace(/\s/g, "");
@@ -164,7 +167,8 @@ $.wikiword = {
   defaults: {
     suffix: '',
     prefix: '',
-    initial: ''
+    initial: '',
+    allow: 'a-zA-Z\\d'
   }
 };
 

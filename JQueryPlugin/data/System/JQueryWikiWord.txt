@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1370598988" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1402036889" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"wikiword"
@@ -25,7 +25,8 @@ to derive the !WikiWord using metadata of the following format:
   source:'selector', /* e.g. '#projectTitle' */
   initial:'initial value', /* e.g. 'Project...' */
   prefix:'string to be prefixed to the wiki word', /* e.g. 'Project' */
-  suffix:'string to be appended to the wiki word' /* e.g. 'AUTOINC0' */
+  suffix:'string to be appended to the wiki word', /* e.g. 'AUTOINC0' */
+  allow:'characters that are allowed in a wiki word' /* e.g. 'a-zA-Z\\d' */
 }
 </verbatim>
 
@@ -52,7 +53,7 @@ to derive the !WikiWord using metadata of the following format:
   </div>
   <div class="foswikiFormStep">
     <h3>Project topic:</h3>
-    <input type="text" id="prjTopic" size="60" name="topic" class="foswikiInputField jqWikiWord {source:'#prjTitle, #prjYear', prefix:'Project', initial:'Project...', suffix:'AUTOINC0'}" />
+    <input type="text" id="prjTopic" size="60" name="topic" class="foswikiInputField jqWikiWord {source:'#prjTitle, #prjYear', prefix:'Project', initial:'Project...', suffix:'AUTOINC0', allow:'a-zA-Z\\d\-_'}" />
   </div>
   <div class="foswikiFormStep foswikiFormLast">
     %BUTTON{"Submit" icon="tick" type="submit"}%

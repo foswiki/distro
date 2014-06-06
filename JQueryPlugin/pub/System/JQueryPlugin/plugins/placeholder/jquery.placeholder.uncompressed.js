@@ -16,7 +16,7 @@
   };
 
   $.fn.placeholder = function(options) {
-    var opts = $.extend(defaults, options);
+    var opts = $.extend({}, defaults, options);
 
     $('[placeholder]').focus(function() {
       var input = $(this);
