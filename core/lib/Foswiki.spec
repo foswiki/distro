@@ -1923,7 +1923,7 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 # an SSL (or STARTTLS) connection.
 # This verifies the identity of the server to which mail is sent.
 #
-$Foswiki::cfg{Email}{SSLVerifyServer} = $TRUE;
+$Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 
 # **PATH EXPERT FEEDBACK=auto \
 #               FEEDBACK="Check Contents";\
@@ -2065,9 +2065,10 @@ $Foswiki::cfg{WebPrefsTopicName} = 'WebPreferences';
 $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
 # **STRING 20**
-# Name of the web where usertopics are stored. If you
+# Name of the web where user and group topics are stored. If you
 # change this setting, you must make sure the web exists and contains
-# appropriate content, and upgrade scripts may no longer work
+# appropriate content including all user and group templates.  Note that
+# this web also houses the SitePreferences topic.
 # (i.e. don't change it unless you are <b>certain</b> that you know what
 # you are doing!)
 $Foswiki::cfg{UsersWebName} = 'Main';

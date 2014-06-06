@@ -515,17 +515,32 @@ sub autoconfigPerl {
         Carp::confess($@);
     };
 
-    my $e = $this->NOTE("Attempting to configure Net::SMTP");
+    my $e      = $this->NOTE("Attempting to configure Net::SMTP");
+    my $trySSL = 1;
 
-    eval {
-        require IO::Handle;
-        require IO::Socket::SSL;
-        IO::Socket::SSL->import('debug2')
-          if ( $options->{debugssl}[0] );
-    };
+    my $IOHandleAvail = eval "require IO::Handle";
     return $this->perlFailed( $e,
-        "Net::SMTP and IO::Socket::SSL are required to autoconfigure mail", @_ )
+        "IO::Handle is required to auto configure Net::SMTP mail", @_ )
       if ($@);
+    eval "require Net::SSLeay";
+    if ($@) {
+        $e .= $this->NOTE(
+"Net::SSLeay is required to auto configure Net::SMTP mail over SSL - trying plain SMTP"
+        );
+        $trySSL = 0;
+    }
+    else {
+        eval "require IO::Socket::SSL";
+        if ($@) {
+            $e .= $this->NOTE(
+"IO::Socket::SSL is required to auto configure Net::SMTP mail over SSL"
+            );
+            $trySSL = 0;
+        }
+    }
+
+    IO::Socket::SSL->import('debug2')
+      if ( $trySSL && $options->{debugssl}[0] );
 
     # Enable IPv6 if it's available
 
@@ -592,11 +607,19 @@ sub autoconfigPerl {
 
     # Get SSL options common to all secure connection methods
 
-    ( $e, my ( $sslNoVerify, $sslVerify ) ) =
-      setupSSLoptions( $log, $this, $e );
+    my @methods;
+    my $sslNoVerify;
+    my $sslVerify;
 
-    # Connection methods in priority order
-    my @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
+    if ($trySSL) {
+        ( $e, $sslNoVerify, $sslVerify ) = setupSSLoptions( $log, $this, $e );
+
+        # Connection methods in priority order
+        @methods = (qw/starttls-v starttls tls-v tls ssl-v ssl smtp/);
+    }
+    else {
+        @methods = (qw/smtp/);
+    }
 
     # Configuration data for each method.  Ports in priority order.
 
@@ -635,20 +658,22 @@ sub autoconfigPerl {
 
     # Generate configurations with peer verification
 
-    foreach my $method (@methods) {
-        if ( $method =~ /^(.*)-v$/ ) {
-            if (@$sslVerify) {
-                die "Invalid config for $method\n"
-                  unless ( exists $config{$1} );
+    if ($trySSL) {
+        foreach my $method (@methods) {
+            if ( $method =~ /^(.*)-v$/ ) {
+                if (@$sslVerify) {
+                    die "Invalid config for $method\n"
+                      unless ( exists $config{$1} );
 
-                $config{$method} = { %{ $config{$1} } };
-                $config{$method}{ssl} =
-                  [ @{ $config{$method}{ssl} }, @$sslVerify ];
-                $config{$method}{id}     = uc($1) . " WITH host verification";
-                $config{$method}{verify} = 1;
-            }
-            else {
-                delete $config{$method};
+                    $config{$method} = { %{ $config{$1} } };
+                    $config{$method}{ssl} =
+                      [ @{ $config{$method}{ssl} }, @$sslVerify ];
+                    $config{$method}{id} = uc($1) . " WITH host verification";
+                    $config{$method}{verify} = 1;
+                }
+                else {
+                    delete $config{$method};
+                }
             }
         }
     }
@@ -657,6 +682,7 @@ sub autoconfigPerl {
 
     foreach my $method (@methods) {
         next unless ( exists $config{$method} );
+        next if ( !$trySSL && exists $config{$method}{ssl} );
         if ( $method !~ /-v$/ && exists $config{$method}{ssl} ) {
             push @{ $config{$method}{ssl} }, @$sslNoVerify;
             $config{$method}{id} = uc($method) . " with NO host verification";

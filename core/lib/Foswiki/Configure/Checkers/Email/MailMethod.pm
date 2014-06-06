@@ -67,6 +67,30 @@ HERE
         $n .= $this->NOTE($e);
     }
 
+    #SMELL:  Not sure what the mimimum recommended versions of these modules are
+    if ( $Foswiki::cfg{Email}{MailMethod} =~ m/SSL|TLS/ ) {
+        $e =
+          $this->checkPerlModule( 'Net::SSLeay',
+            'Required for Secure SMTP Support', 1.40 );
+
+        if ( $e =~ m/Not installed/ ) {
+            $n .= $this->ERROR($e);
+        }
+        else {
+            $n .= $this->NOTE($e);
+        }
+
+        $e =
+          $this->checkPerlModule( 'IO::Socket::SSL',
+            'Required for Secure SMTP Support', 1.40 );
+
+        if ( $e =~ m/Not installed/ ) {
+            $n .= $this->ERROR($e);
+        }
+        else {
+            $n .= $this->NOTE($e);
+        }
+    }
     return $n;
 }
 
