@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
 # Principally intended for converting between RCS and PlainFileStore, this
 # script should also work with any other pair of filestore inmplementations.
 use strict;
