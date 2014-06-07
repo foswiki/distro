@@ -422,8 +422,11 @@ sub _rotate {
     # Sook up the rest of the current log
     $line ||= '';
     $/ = undef;
-    my $curLog = $line . <$lf>;
+    my $remainingLog = <$lf>;
     close($lf);
+
+    my $curLog = $line;
+    $curLog .= $remainingLog if defined $remainingLog;
 
     foreach my $month ( keys %months ) {
         my $bf;

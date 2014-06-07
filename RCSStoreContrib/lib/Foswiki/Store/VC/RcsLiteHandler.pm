@@ -346,7 +346,7 @@ sub _ensureRead {
             || $state eq 'admin.postExpand'
             || $state eq 'delta.date' )
         {
-            if (/^([0-9]+)\.([0-9]+)\s+date\s+(\d\d(\d\d)?(\.\d\d){5}?);$/) {
+            if (/^([0-9]+)\.([0-9]+)\s+date\s+(\d\d(\d\d)?(\.\d\d){5});$/) {
                 $state = 'delta.author';
                 $num   = $2;
                 last if $historyOnly && $num < $downToVersion;
