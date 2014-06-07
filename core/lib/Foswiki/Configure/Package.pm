@@ -675,7 +675,7 @@ sub _installAttachments {
     my $feedback  = '';
     my $errors    = '';
 
-    foreach my $key ( keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
+    foreach my $key ( sort keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
         my $tfile =
           Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
