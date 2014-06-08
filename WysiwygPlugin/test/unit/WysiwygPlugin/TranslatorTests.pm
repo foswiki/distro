@@ -1873,7 +1873,7 @@ hijk',
           . (
             ( $Foswiki::cfg{Site}{CharSet} || '' ) =~ /utf-?8/i
             ? Encode::encode( 'utf8', "\x0419" )
-            : "\xc9"
+            : "%201"
           )
           . "/T-logo-16x16.gif' /></p>",
         tml      => '<img src="%ATTACHURLPATH%/T-logo-16x16.gif" />',
