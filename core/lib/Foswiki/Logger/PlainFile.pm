@@ -63,7 +63,7 @@ This logger implementation maps groups of levels to a single logfile, viz.
 
 use Foswiki::Time qw(-nofoswiki);
 
-use constant TRACE => 0;
+use constant TRACE => 1;
 
 # Map from a log level to the root of a log file name
 our %LEVEL2LOG = (
@@ -293,7 +293,8 @@ sub _getLogsForLevel {
 
 sub _time2month {
     my $time = shift;
-    my @t    = gmtime($time);
+    return undef unless ( defined $time );
+    my @t = gmtime($time);
     $t[5] += 1900;
     return sprintf( '%0.4d%0.2d', $t[5], $t[4] + 1 );
 }
@@ -388,7 +389,7 @@ sub _rotate {
                   if (TRACE);
                 next;
             }
-            $eventMonth = _time2month( Foswiki::Time::parseTime( $event[1] ) );
+            $eventMonth = _time2month($tempMonth);
         }
 
         if ( !defined $eventMonth ) {
