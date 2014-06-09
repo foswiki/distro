@@ -381,6 +381,13 @@ sub _rotate {
         }
         else {
             print STDERR ">> Non-ISO date string encountered\n" if (TRACE);
+            my $tempMonth = Foswiki::Time::parseTime( $event[1] );
+            unless ( defined $tempMonth ) {
+                print STDERR
+                  ">> BAD LOGFILE LINE - skip $line - line $linecount in $log\n"
+                  if (TRACE);
+                next;
+            }
             $eventMonth = _time2month( Foswiki::Time::parseTime( $event[1] ) );
         }
 
