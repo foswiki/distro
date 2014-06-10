@@ -63,7 +63,7 @@ This logger implementation maps groups of levels to a single logfile, viz.
 
 use Foswiki::Time qw(-nofoswiki);
 
-use constant TRACE => 1;
+use constant TRACE => 0;
 
 # Map from a log level to the root of a log file name
 our %LEVEL2LOG = (
