@@ -65,11 +65,10 @@ sub initPlugin {
             require Foswiki::Plugins::NatEditPlugin::RestSave;
             return Foswiki::Plugins::NatEditPlugin::RestSave::handle(@_);
         },
-        authenticate =>
-          0,    # This handler calls UI::Save, which checks permissions
-        validate   => 0,         # and verifies the validation key if enabled.
-        http_allow => 'POST',    # Updates, restrict to POST.
-        description => 'Call UI::Save to save or preview results of an edit.'
+        authenticate => 1,         # save always requires authentication
+        validate     => 1,         # and validation
+        http_allow   => 'POST',    # updates: restrict to POST.
+        description => 'Save or preview results of an edit.'
     );
 
     Foswiki::Func::registerRESTHandler(
@@ -78,10 +77,10 @@ sub initPlugin {
             require Foswiki::Plugins::NatEditPlugin::RestAttachments;
             return Foswiki::Plugins::NatEditPlugin::RestAttachments::handle(@_);
         },
-        authenticate => 0,             # Handler checks it's own security.
-        validate     => 0,             # Doesn't update.
-        http_allow   => 'GET,POST',    # Doesn't update.
-        description => 'Expand the list of attachments..'
+        authenticate => 0,             # handler checks it's own security.
+        validate     => 0,             # doesn't update.
+        http_allow   => 'GET,POST',    # doesn't update.
+        description => 'Expand the list of attachments.'
     );
 
     $doneNonce = 0;
