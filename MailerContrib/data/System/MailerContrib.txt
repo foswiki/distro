@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398870671" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1402971656" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -127,6 +127,7 @@ The script is used as follows:%BR%
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
 | =-noreset= | Don't reset the timestamp after this run. The next run will repeat the same changes notified in this run |
+| =-nomail= | Don't actually send mail,  just show what would be done.  Be sure to include =-noreset= or the timestamp will be reset even though no mail was sent. |
 | <code style="white-space:nowrap"><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
 <blockquote class="foswikiHelp">%X% Be careful what user you use to run this script. It will write the
@@ -177,9 +178,22 @@ To learn more about cron and crontab, Google for =crontab=.
 %X% *Note:* Even if you run separate =-nonews= and =-nochanges= cron jobs, the subscriptions using the "?" feature will only show the topics that changed since last time the =mailnotify= script was run even if it was run with =-nonews=. Separate newsletter jobs work best with the unconditional "!" mode.</blockquote>
 
 ---+++ Triggering mail notification from the browser
-You can also the mailer from within the browser, using a REST handler. For example, to notify changes in all webs, link to =%SCRIPTURL{rest}%/MailerContribPlugin/notify=. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
+You can also the mailer from within the browser, using a REST handler.
 
-Because there is a risk that a stupid person could lock up your server by
+For example, to notify changes in all webs, POST to =%<nop>SCRIPTURL{rest}%/MailerContribPlugin/notify=. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
+
+| =nonews=1= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
+| =nochanges=1= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
+| =noreset=1= | Don't reset the timestamp after this run. The next run will repeat the same changes notified in this run |
+| =nomail=1= | Don't actually send mail,  just show what would be done.  Be sure to include =-noreset= or the timestamp will be reset even though no mail was sent. |
+| <code style="white-space:nowrap"><i>webs=web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
+| <code style="white-space:nowrap"><i>excludewebs=web1 web2 ... webN</i></code> | List of webs to exclude, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
+
+<form name="mailnotify" action="%SCRIPTURLPATH{rest}%/MailerContribPlugin/notify" method="post">
+<input type="submit" class="foswikiSubmit" value="Run notify" />
+</form>
+(Admin authority required!)
+Because there is a risk that someone could lock up your server by
 firing multiple notification requests at it, the REST handler is only
 accessible to administrators.
 
@@ -251,11 +265,12 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://wikigardens.com][WikiGardens]]
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004, Wind River Systems; 2009-2013 Foswiki Contributors |
+|  Copyright &copy;: | 2004, Wind River Systems; 2009-2014 Foswiki Contributors |
 |  License: | GPL |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | |
+|  2.81  (16 Jun 2014) | Foswiki:Tasks/Item12839: Fully specify the REST security parameters. Foswiki:Tasks/Item12943: notify REST handler crashes with invalid array ref. |
 |  2.80  (28 Apr 2014) | Foswiki:Tasks/Item8425: support relative links better. Foswiki:Tasks/Item11507: support changing LANGUAGE via user preferences |
 |  2.70  (27 Mar 2014) | Foswiki:Tasks/Item12717: fix inconsistencies in template expansion of mailnotify |
 |  2.60  (25 Mar 2014) | Foswiki:Tasks/Item12786: fix flooding with unintended mails Foswiki:Tasks/Item12823: mark cron-generated mails as per RFC 3834, Foswiki:Tasks/Item12583: Convert to simple decimal version. |
@@ -282,5 +297,5 @@ Many thanks to the following sponsors for supporting this work:
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1398870671" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1398870671" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1402971656" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1402971656" attr="h" comment="" version="1"}%

@@ -26,8 +26,8 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-our $VERSION          = '2.80';
-our $RELEASE          = '28 Apr 2014';
+our $VERSION          = '2.81';
+our $RELEASE          = '2.81';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 # PROTECTED STATIC ensure the contrib is internally initialised
@@ -47,6 +47,7 @@ sub initContrib {
       * =news= - true to process news
       * =changes= - true to process changes
       * =reset= - true to reset the clock after processing
+      * =mail= - true to send emails from this run 
 Main entry point.
 
 Process the Web<nop>Notify topics in each web and generate and issue
