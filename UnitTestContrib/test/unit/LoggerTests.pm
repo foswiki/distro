@@ -1097,7 +1097,7 @@ sub PlainFileTestStat {
     return ( 0, 0, $mode, 0, 0, 0, 0, 99, 0, $mtime, 0, 0, 0, 0 );
 }
 
-sub DISABLE_verify_rotate_events {
+sub verify_rotate_events {
     my ( $this, $num_events ) = @_;
 
     return
@@ -1214,7 +1214,7 @@ sub DISABLE_verify_rotate_events {
 }
 
 # Item12022
-sub DISABLE_verify_timing_rotate_events {
+sub verify_timing_rotate_events {
     my ($this) = @_;
 
    # On PH's 2.0GHz VMs, rotating logs ~500k rows takes around a minute,
@@ -1227,7 +1227,7 @@ sub DISABLE_verify_timing_rotate_events {
     return $this->verify_rotate_events(15000);
 }
 
-sub DISABLE_verify_rotate_debug {
+sub verify_rotate_debug {
     my $this = shift;
 
     return
@@ -1313,7 +1313,7 @@ sub DISABLE_verify_rotate_debug {
     return;
 }
 
-sub DISABLE_verify_rotate_error {
+sub verify_rotate_error {
     my $this = shift;
 
     return
