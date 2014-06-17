@@ -82,12 +82,6 @@ sub skip {
           => 'Multilevel eachEvent not implemented yet',
 'LoggerTests::verify_eachEventSince_MultiLevelsV1_LogDispatchFileRollingLogger_Charset8859'
           => 'Multilevel eachEvent not implemented yet',
-'LoggerTests::verify_logAndReplayUnicode_CompatibilityLogger_Charset8859'
-          => 'Item12027: Should logging of unicode characters be supported in a Charset8859 system',
-        'LoggerTests::verify_logAndReplayUnicode_ObfuscatingLogger_Charset8859'
-          => 'Item12027: Should logging of unicode characters be supported in a Charset8859 system',
-        'LoggerTests::verify_logAndReplayUnicode_PlainFileLogger_Charset8859'
-          => 'Item12027: Should logging of unicode characters be supported in a Charset8859 system',
     );
 
     return $skip_tests{$test}
@@ -808,6 +802,10 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
     $plainFileTestTime = time;                  # today
     $logger->log( 'info', "Porpoise" );
 
+    no warnings 'redefine';
+    *Foswiki::Logger::PlainFile::_time = $cache;
+    use warnings 'redefine';
+
     #print STDERR "Calling eachEventSince info\n";
     my $it = $logger->eachEventSince( 0, 'info' );
     my $data;
@@ -842,10 +840,6 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
     $this->assert_equals( $plainFileTestTime, $data->[0] );
     $this->assert_str_equals( "Porpoise", $data->[1] );
     $this->assert( !$it->hasNext() );
-
-    no warnings 'redefine';
-    *Foswiki::Logger::PlainFile::_time = $cache;
-    use warnings 'redefine';
 
     return;
 }
@@ -1182,6 +1176,11 @@ sub verify_rotate_events {
     $logger->log( 'debug',     'Salve nauta' );
     $logger->log( 'alert',     'Salve nauta' );
 
+    no warnings 'redefine';
+    *Foswiki::Logger::PlainFile::_time = $timecache;
+    *Foswiki::Logger::PlainFile::_stat = $statcache;
+    use warnings 'redefine';
+
     local $/ = undef;
     $this->assert( open( my $F, '<', $lfn ) );
     my $e = <$F>;
@@ -1204,11 +1203,6 @@ sub verify_rotate_events {
             $e );
         $this->assert( close($F) );
     }
-
-    no warnings 'redefine';
-    *Foswiki::Logger::PlainFile::_time = $timecache;
-    *Foswiki::Logger::PlainFile::_stat = $statcache;
-    use warnings 'redefine';
 
     return;
 }
@@ -1285,6 +1279,11 @@ sub verify_rotate_debug {
     $logger->log( 'debug',     'Salve nauta' );
     $logger->log( 'alert',     'Salve nauta' );
 
+    no warnings 'redefine';
+    *Foswiki::Logger::PlainFile::_time = $timecache;
+    *Foswiki::Logger::PlainFile::_stat = $statcache;
+    use warnings 'redefine';
+
     local $/ = undef;
     $this->assert( open( my $F, '<', $lfn ) );
     my $e = <$F>;
@@ -1305,11 +1304,6 @@ sub verify_rotate_debug {
         "| 2000-01-31T23:59:00Z debug | Nil carborundum illegitami |\n", $e );
     $this->assert( close($F) );
 
-    no warnings 'redefine';
-    *Foswiki::Logger::PlainFile::_time = $timecache;
-    *Foswiki::Logger::PlainFile::_stat = $statcache;
-    use warnings 'redefine';
-
     return;
 }
 
@@ -1325,6 +1319,7 @@ sub verify_rotate_error {
     no warnings 'redefine';
     *Foswiki::Logger::PlainFile::_time = \&PlainFileTestTime;
     *Foswiki::Logger::PlainFile::_stat = \&PlainFileTestStat;
+    use warnings 'redefine';
 
     $Foswiki::Logger::PlainFile::dontRotate = 1;
 
@@ -1370,6 +1365,11 @@ sub verify_rotate_error {
     $logger->log( 'debug',     'Salve nauta' );
     $logger->log( 'alert',     'Salve nauta' );
 
+    no warnings 'redefine';
+    *Foswiki::Logger::PlainFile::_time = $timecache;
+    *Foswiki::Logger::PlainFile::_stat = $statcache;
+    use warnings 'redefine';
+
     local $/ = undef;
     $this->assert( open( my $F, '<', $lfn ) );
     my $e = <$F>;
@@ -1399,10 +1399,6 @@ FILE
 | 2000-01-31T23:59:00Z alert | Nil carborundum illegitami |
 FILE
     $this->assert( close($F) );
-
-    *Foswiki::Logger::PlainFile::_time = $timecache;
-    *Foswiki::Logger::PlainFile::_stat = $statcache;
-    use warnings 'redefine';
 
     return;
 }

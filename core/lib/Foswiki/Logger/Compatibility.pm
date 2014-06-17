@@ -125,18 +125,13 @@ sub log {
   # Item10764, SMELL UNICODE: actually, perhaps we should open the stream this
   # way for any encoding, not just utf8. Babar says: check what Catalyst does.
   # Item12027: this only makes sense for Unicode strings, not UTF-8 byte strings
-    if (   $Foswiki::cfg{Site}{CharSet}
-        && $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/
-        && utf8::is_utf8($message) )
-    {
-        $mode .= ":encoding($Foswiki::cfg{Site}{CharSet})";
-    }
-    elsif ( utf8::is_utf8($message) ) {
+    unless ( utf8::is_utf8($message) ) {
         require Encode;
-        $message = Encode::encode( $Foswiki::cfg{Site}{CharSet}, $message, 0 );
+        $message = Encode::decode( 'utf-8', $message, 0 );
     }
 
     if ( open( $file, $mode, $log ) ) {
+        binmode $file, ":encoding(utf-8)";
         _lock($file);
         print $file "$message\n";
         _unlock($file);
