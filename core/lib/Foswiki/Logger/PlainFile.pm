@@ -118,7 +118,7 @@ sub log {
     my @logs = _getLogsForLevel( [$level] );
     my $log  = shift @logs;
     _rotate( $LEVEL2LOG{$level}, $log, $now );
-    my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
+    my $time = Foswiki::Time::formatTime( $now, 'iso', 'servertime' );
 
     # Unfortunate compatibility requirement; need the level, but the old
     # logfile format doesn't allow us to add fields. Since we are changing
@@ -286,7 +286,7 @@ sub _getLogsForLevel {
 sub _time2month {
     my $time = shift;
     return undef unless ( defined $time );
-    my @t = gmtime($time);
+    my @t = localtime($time);
     $t[5] += 1900;
     return sprintf( '%0.4d%0.2d', $t[5], $t[4] + 1 );
 }
@@ -304,6 +304,7 @@ sub _rotate {
 
     # Work out the current month
     my $curMonth = _time2month($now);
+    print STDERR "Current MONTH = $curMonth\n" if (TRACE);
 
     # After this check, don't check again for a month.
     $curMonth =~ /(\d{4})(\d{2})/;

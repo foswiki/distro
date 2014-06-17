@@ -1110,12 +1110,31 @@ sub PlainFileTestStat {
     return ( 0, 0, $mode, 0, 0, 0, 0, 99, 0, $mtime, 0, 0, 0, 0 );
 }
 
+sub _tzOffset {
+
+# Calculate the timezone offset, so the test verify the correctly formatted time.
+    use Time::Local;
+    my @t   = localtime(time);
+    my $sec = timegm(@t) - timelocal(@t);
+
+    my $sign = ( $sec < 0 ) ? '-' : '+';
+    $sec = abs($sec);
+    my $min = $sec / 60, $sec %= 60;
+    $sec = "0$sec" if $sec < 10;
+    my $hrs = $min / 60, $min %= 60;
+    $min = "0$min" if $min < 10;
+    $hrs = "0$hrs" if $hrs < 10;
+    return "$sign$hrs:$min";
+}
+
 sub verify_rotate_events {
     my ( $this, $num_events ) = @_;
 
     return
       unless $Foswiki::cfg{Log}{Implementation} =~
       '^Foswiki::Logger::PlainFile';
+
+    my $tzOffset = _tzOffset();
 
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
@@ -1126,7 +1145,7 @@ sub verify_rotate_events {
 
     $Foswiki::Logger::PlainFile::dontRotate = 1;
 
-    my $then = Foswiki::Time::parseTime("2000-02-01T00:00Z");
+    my $then = Foswiki::Time::parseTime("2000-02-01T00:00$tzOffset");
 
     $plainFileTestTime = $then;
     $mode              = oct(777);
@@ -1140,7 +1159,7 @@ sub verify_rotate_events {
     $this->assert( !-e $lfn );
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
-    $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
+    $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59$tzOffset");
 
     # If perf testing, log $num_events
     if ($num_events) {
@@ -1203,7 +1222,8 @@ sub verify_rotate_events {
     local $/ = undef;
     $this->assert( open( my $F, '<', $lfn ) );
     my $e = <$F>;
-    $this->assert_equals( "| 2000-02-01T00:00:00Z info | Salve nauta |\n", $e );
+    $this->assert_equals(
+        "| 2000-02-01T00:00:00$tzOffset info | Salve nauta |\n", $e );
     $this->assert( close($F) );
 
     # We should see the creation of a backup log with
@@ -1218,8 +1238,9 @@ sub verify_rotate_events {
         $this->assert( open( $F, '<', $backup ) );
         $e = <$F>;
         $this->assert_equals(
-            "| 2000-01-31T23:59:00Z info | Nil carborundum illegitami |\n",
-            $e );
+"| 2000-01-31T23:59:00$tzOffset info | Nil carborundum illegitami |\n",
+            $e
+        );
         $this->assert( close($F) );
     }
 
@@ -1247,6 +1268,8 @@ sub verify_rotate_debug {
       unless $Foswiki::cfg{Log}{Implementation} =~
       '^Foswiki::Logger::PlainFile';
 
+    my $tzOffset = _tzOffset();
+
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
     no warnings 'redefine';
@@ -1256,7 +1279,7 @@ sub verify_rotate_debug {
 
     $Foswiki::Logger::PlainFile::dontRotate = 1;
 
-    my $then = Foswiki::Time::parseTime("2000-02-01T00:00Z");
+    my $then = Foswiki::Time::parseTime("2000-02-01T00:00$tzOffset");
 
     $plainFileTestTime = $then;
     $mode              = oct(777);
@@ -1270,7 +1293,7 @@ sub verify_rotate_debug {
     $this->assert( !-e $lfn );
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
-    $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
+    $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59$tzOffset");
     $logger->log( 'info',      'Nil carborundum illegitami' );
     $logger->log( 'warning',   'Nil carborundum illegitami' );
     $logger->log( 'critical',  'Nil carborundum illegitami' );
@@ -1306,8 +1329,8 @@ sub verify_rotate_debug {
     local $/ = undef;
     $this->assert( open( my $F, '<', $lfn ) );
     my $e = <$F>;
-    $this->assert_equals( "| 2000-02-01T00:00:00Z debug | Salve nauta |\n",
-        $e );
+    $this->assert_equals(
+        "| 2000-02-01T00:00:00$tzOffset debug | Salve nauta |\n", $e );
     $this->assert( close($F) );
 
     # We should see the creation of a backup log with
@@ -1320,7 +1343,9 @@ sub verify_rotate_debug {
     $this->assert( open( $F, '<', $backup ) );
     $e = <$F>;
     $this->assert_equals(
-        "| 2000-01-31T23:59:00Z debug | Nil carborundum illegitami |\n", $e );
+        "| 2000-01-31T23:59:00$tzOffset debug | Nil carborundum illegitami |\n",
+        $e
+    );
     $this->assert( close($F) );
 
     return;
@@ -1333,6 +1358,8 @@ sub verify_rotate_error {
       unless $Foswiki::cfg{Log}{Implementation} =~
       '^Foswiki::Logger::PlainFile';
 
+    my $tzOffset = _tzOffset();
+
     my $timecache = \&Foswiki::Logger::PlainFile::_time;
     my $statcache = \&Foswiki::Logger::PlainFile::_stat;
     no warnings 'redefine';
@@ -1342,7 +1369,7 @@ sub verify_rotate_error {
 
     $Foswiki::Logger::PlainFile::dontRotate = 1;
 
-    my $then = Foswiki::Time::parseTime("2000-02-01T00:00Z");
+    my $then = Foswiki::Time::parseTime("2000-02-01T00:00$tzOffset");
 
     $plainFileTestTime = $then;
     $mode              = oct(777);
@@ -1356,7 +1383,7 @@ sub verify_rotate_error {
     $this->assert( !-e $lfn );
 
     # Create the log, the entry should be stamped at $then - 1000 (last month)
-    $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59Z");
+    $plainFileTestTime = Foswiki::Time::parseTime("2000-01-31T23:59$tzOffset");
     $logger->log( 'info',      'Nil carborundum illegitami' );
     $logger->log( 'warning',   'Nil carborundum illegitami' );
     $logger->log( 'critical',  'Nil carborundum illegitami' );
@@ -1393,12 +1420,12 @@ sub verify_rotate_error {
     $this->assert( open( my $F, '<', $lfn ) );
     my $e = <$F>;
     $this->assert( close($F) );
-    $this->assert_equals( $e, <<'FILE' );
-| 2000-02-01T00:00:00Z warning | Salve nauta |
-| 2000-02-01T00:00:00Z critical | Salve nauta |
-| 2000-02-01T00:00:00Z emergency | Salve nauta |
-| 2000-02-01T00:00:00Z error | Salve nauta |
-| 2000-02-01T00:00:00Z alert | Salve nauta |
+    $this->assert_equals( $e, <<"FILE" );
+| 2000-02-01T00:00:00$tzOffset warning | Salve nauta |
+| 2000-02-01T00:00:00$tzOffset critical | Salve nauta |
+| 2000-02-01T00:00:00$tzOffset emergency | Salve nauta |
+| 2000-02-01T00:00:00$tzOffset error | Salve nauta |
+| 2000-02-01T00:00:00$tzOffset alert | Salve nauta |
 FILE
 
     # We should see the creation of a backup log with
@@ -1410,12 +1437,12 @@ FILE
 
     $this->assert( open( $F, '<', $backup ) );
     $e = <$F>;
-    $this->assert_equals( $e, <<'FILE' );
-| 2000-01-31T23:59:00Z warning | Nil carborundum illegitami |
-| 2000-01-31T23:59:00Z critical | Nil carborundum illegitami |
-| 2000-01-31T23:59:00Z emergency | Nil carborundum illegitami |
-| 2000-01-31T23:59:00Z error | Nil carborundum illegitami |
-| 2000-01-31T23:59:00Z alert | Nil carborundum illegitami |
+    $this->assert_equals( $e, <<"FILE" );
+| 2000-01-31T23:59:00$tzOffset warning | Nil carborundum illegitami |
+| 2000-01-31T23:59:00$tzOffset critical | Nil carborundum illegitami |
+| 2000-01-31T23:59:00$tzOffset emergency | Nil carborundum illegitami |
+| 2000-01-31T23:59:00$tzOffset error | Nil carborundum illegitami |
+| 2000-01-31T23:59:00$tzOffset alert | Nil carborundum illegitami |
 FILE
     $this->assert( close($F) );
 
