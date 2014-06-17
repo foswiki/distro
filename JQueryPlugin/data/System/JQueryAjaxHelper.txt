@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1358771265" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1403006917" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -285,7 +285,7 @@ or later).
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
-     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;topic=%SOURCE%;query=%QUERY%;skin=text',
+     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text',
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
@@ -303,7 +303,7 @@ jQuery(function($){
    * =query=: query to perform
 <verbatim class="tml">
 %STARTSECTION{"query"}%<noautolink>%QUERY{
-  "%URLPARAM{"query" default="query missing"}%"
+  "'%URLPARAM{"source" default="%BASEWEB%.%BASETOPIC%"}%'/%URLPARAM{"query" default="query missing"}%"
   style="json"
 }%</noautolink>%ENDSECTION{"query"}%
 </verbatim>
