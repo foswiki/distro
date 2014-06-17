@@ -108,7 +108,7 @@ sub log {
 
     my $now = _time();
     $log = _expandDATE( $log, $now );
-    my $time = Foswiki::Time::formatTime( $now, 'iso', 'servertime' );
+    my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
 
     # Unfortunate compatibility requirement; need the level, but the old
     # logfile format doesn't allow us to add fields. Since we are changing

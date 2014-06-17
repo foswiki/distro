@@ -118,7 +118,7 @@ sub log {
     my $log  = shift @logs;
     my $now  = _time();
     _rotate( $LEVEL2LOG{$level}, $log, $now );
-    my $time = Foswiki::Time::formatTime( $now, 'iso', 'servertime' );
+    my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
 
     # Unfortunate compatibility requirement; need the level, but the old
     # logfile format doesn't allow us to add fields. Since we are changing
