@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1310008714" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1403037761" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -19,13 +19,13 @@ Twisty has a fallback mechanism in case !JavaScript is not available: all conten
 
 ---++ Usage examples
 ---+++ Triad
+
 A Twisty consists of 3 elements:
    1 Show button
    1 Hide button
    1 Collapsing content ('Toggle')
-   
-The typical !TwistyPlugin triad will look like this (pseudo code):
 
+The typical !TwistyPlugin triad will look like this (pseudo code):
 <verbatim class="tml">
 %TWISTYSHOW{}% %TWISTYHIDE{}%
 (there may be other things between buttons and content)
@@ -35,7 +35,6 @@ The typical !TwistyPlugin triad will look like this (pseudo code):
 ---+++ Shorthand
 
 The Twisty triad is conveniently packed into shorthand =%<nop>TWISTY{some parameters}% Collapsing content %<nop>ENDTWISTY%=:
-
 <verbatim class="tml">
 %TWISTY{}%
 my twisty content
@@ -51,10 +50,10 @@ Will generate:
 You may have noticed that no parameters are passed to =%<nop>TWISTY{}%= but the show and hide links _do_ have text! The default values are fetched from plugin settings =TWISTYSHOWLINK= and =TWISTYHIDELINK=, see [[#PluginSettings][Plugin Settings]] below.
 
 ---+++ Block or inline
+
 The default display mode of Twisty is =div=, that is, the contents is displayed as block element, displayed on the next line.
 
 If you want to show the Twisty contents on the same line - inline - use =mode="span"=:
-
 <verbatim class="tml">
 %TWISTY{
 mode="span"
@@ -71,8 +70,7 @@ mode="span"
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
-Note that if animations are on (using =TWISTYPLUGIN_TWISTYANIMATIONSPEED=), you won't see animations with inline mode. 
-
+Note that if animations are on (using =TWISTYPLUGIN_TWISTYANIMATIONSPEED=), you won't see animations with inline mode.
 
 ---+++ Twisty with icons
 <verbatim class="tml">
@@ -118,9 +116,8 @@ hideimgright="%ICONURLPATH{toggleclose-small}%"
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
-
-
 ---+++ Make it remember
+
 To store the last state in a FOSWIKIPREF cookie, add the parameter =remember="on"=.%BR%
 To test this, reload the page after toggling.
 
@@ -145,7 +142,6 @@ remember="on"
 %ENDTWISTY%
 
 If a Twisty state has been stored in a FOSWIKIPREF cookie before, it can be cleared by using =remember="off"=:
-
 <verbatim class="tml">
 %TWISTY{
     showlink="Show..."
@@ -169,7 +165,6 @@ and topic names. If remember option is set, a counter that increments for each
 twisty is appended, otherwise a random value is, so AJAX calls will not kill
 JS, as IDs have to be unique.
 
-
 <verbatim class="tml">
 %TWISTY{
     id="currentCustomerList"
@@ -182,15 +177,14 @@ my customer list
 </verbatim>
 
 Note that =id= sets a site wide cookie. To create a unique id, add topic or web macros:
+
 <verbatim class="tml">
 id="%WEB%_%TOPIC%_currentCustomerList"
 </verbatim>
 
-
-
 ---+++ Make it obey
-To let the Twisty start with its content folded open, add parameter =start="show"=. 
 
+To let the Twisty start with its content folded open, add parameter =start="show"=.
 <verbatim class="tml">
 %TWISTY{
     showlink="Show..."
@@ -210,7 +204,6 @@ my twisty content
 %ENDTWISTY%
 
 Likewise use =start="hide"= to start with hidden content.
-
 <verbatim class="tml">
 %TWISTY{
     showlink="Show..."
@@ -228,13 +221,11 @@ my twisty content
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
-
-
 
 ---+++ Make it obey only the first time
+
 To let the Twisty start with its content folded open the first time the visitor sees the Twisty, add the parameter =firststart="show"=.
 If =remember="on"= is used, subsequential visits to the page will display the Twisty according the cookie setting.
-
 <verbatim class="tml">
 %TWISTY{
     showlink="Show..."
@@ -252,7 +243,6 @@ my twisty content
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
-
 
 ---+++ Other use: hide interface parts in case of no !JavaScript
 
@@ -263,7 +253,6 @@ my twisty content
 You can use Twisty to show interface elements that should only be visible with !JavaScript enabled. For instance the textbox control buttons in the edit screen need !JavaScript to work. If a visitor does not have !JavaScript on it would not make sense to show these buttons.
 
 Put the "JavaScript content" in an almost bare bones Twisty. Write =showlink="" hidelink=""= to not display any default link texts.
-
 <verbatim class="tml">
 %TWISTY{
     link=""
@@ -282,12 +271,11 @@ Put the "JavaScript content" in an almost bare bones Twisty. Write =showlink="" 
 <input type="submit" class="foswikiButton" value="You surely have !JavaScript" />
 %ENDTWISTY%
 
-Do not forget to set =start="show"= to show the Twisty content at all. 
+Do not forget to set =start="show"= to show the Twisty content at all.
 
 When !JavaScript is off, the button should be invisible.
 
 This code will show the button when !JavaScript is off:
-
 <verbatim class="tml">
 %TWISTY{
     link=""
@@ -304,11 +292,9 @@ This code will show the button when !JavaScript is off:
 <input type="submit" class="foswikiButton" value="You might have !JavaScript" />
 %ENDTWISTY%
 
-
-
 ---+++ Styling the Twisty
-Use parameter =class= to style the content div or class:
 
+Use parameter =class= to style the content div or class:
 <verbatim class="tml">
 %TWISTY{
     showlink="Show..."
@@ -328,10 +314,9 @@ Generates: %BR%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
-
 ---+++ Styling the Twisty link or button
-Use parameter =linkclass= to style the twisty links:
 
+Use parameter =linkclass= to style the twisty links:
 <verbatim class="tml">
 %TWISTY{
     showlink="Show..."
@@ -351,11 +336,9 @@ linkclass="foswikiButton"
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
-
 ---+++ All on, all off
 
 You can toggle all Twisties on or off at once by putting a link or button on the page with class =twistyExpandAll= or =twistyCollapseAll=.
-
 <verbatim class="tml">
 <button class="twistyExpandAll foswikiButton">Expand all</button>
 <button class="twistyCollapseAll foswikiButton">Collapse all</button>
@@ -367,22 +350,39 @@ Creates these controls:
 <button class="twistyCollapseAll foswikiButton">Collapse all</button>
 
 When you want to use links, write:
-
 <verbatim class="tml">
 #VarTOGGLE
 
-<a href="#TOGGLE" class="twistyExpandAll">Expand all</a>  
-<a href="#TOGGLE" class="twistyCollapseAll">Collapse all</a>
+<a href="#TOGGLE" class="twistyExpandAll">Expand all</a>  <a href="#TOGGLE" class="twistyCollapseAll">Collapse all</a>
 </verbatim>
-
 
 #VarTOGGLE
 
-<a href="#TOGGLE" class="twistyExpandAll">Expand all</a>  
-<a href="#TOGGLE" class="twistyCollapseAll">Collapse all</a>
+[[#TOGGLE][Expand all]]  
+[[#TOGGLE][Collapse all]]
 
+---+++ Twisties inside other elements
+
+Twisties generate a =&lt;div&gt;= or a =&lt;span&gt;= so it's important to not divide the Twisty element across other elements such as lists.   In order to use a twisty within a list,  be sure that the twisty is closed before moving to the next list entry:
+
+| *<b>Incorrect</b>* | *<b>Correct</b>* | *<b>Example</b>* |
+| <verbatim>
+   * L1
+   * L2 %TWISTY{}% Some content
+%ENDTWISTY{}%
+   * L3</verbatim> | <verbatim>
+   * L1
+   * L2 %TWISTY{}% Some content %ENDTWISTY{}
+   * L3
+
+</verbatim> | <ul> <li>L1</li> <li>L2 %TWISTY{}% Some content %ENDTWISTY{}%</li> <li>L3</li> </ul> |
+| | <verbatim>
+   * L1
+   * L2 %TWISTY{mode="span"}% Some content %ENDTWISTY{}
+   * L3</verbatim> | <ul> <li>L1</li> <li>L2 %TWISTY{mode="span"}% Some content %ENDTWISTY{}%</li> <li>L3</li> </ul> |
 
 ---++ Special syntax: format tokens
+
 If you use other macros inside TWISTY parameters chances are it will mess up the macro, or the rendered html. Use format tokens to 'delay' rendering of these variables until the Twisty parameters are parsed.
 
 The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
@@ -394,14 +394,13 @@ The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 | =$percnt= | Percent sign (=%=) |
 | =$dollar= | Dollar sign (=$=) |
 
-
 For example, to show an icon inside the link, do not write:
+
 <verbatim class="tml">
 link="%Y%"
 </verbatim>
 
 but use format tokens:
-
 <verbatim class="tml">
 link="$percntY$percnt"
 </verbatim>
@@ -417,13 +416,11 @@ my twisty content
 %ENDTWISTY%
 
 Or a more complex example using %SYSTEMWEB%.SpreadSheetPlugin; do not write:
-
 <verbatim class="tml">
 link="Count: (%CALC{"$GET(infoCount)"}%)"
 </verbatim>
 
 but use format tokens:
-
 <verbatim class="tml">
 link="Count: ($percntCALC{$quot$dollarGET(infoCount)$quot}$percnt)"
 </verbatim>
@@ -437,6 +434,7 @@ ID is then appended with either a counter that counts from 1 for each
 twisty if remember option is set, or a random number (useful for AJAX calls).
 
 ---++ Syntax
+
 %INCLUDE{VarTWISTY}%
 %INCLUDE{VarENDTWISTY}%
 %INCLUDE{VarTWISTYBUTTON}%
@@ -444,7 +442,6 @@ twisty if remember option is set, or a random number (useful for AJAX calls).
 %INCLUDE{VarTWISTYHIDE}%
 %INCLUDE{VarTWISTYTOGGLE}%
 %INCLUDE{VarENDTWISTYTOGGLE}%
-
 
 ---++ Notes for developers
 ---+++ CSS classes
@@ -460,37 +457,39 @@ twisty if remember option is set, or a random number (useful for AJAX calls).
 | =.twistyInited1= | behavior class: state is set to shown |
 | =.twistyInited0= | behavior class: state is set to hidden |
 
-
-
 #PluginSettings
 ---++ Plugin Settings
 
-You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
+You can override some default settings in the plugin by setting the following [[System.PreferenceSettings][preferences]].
 | *Preference* | *Meaning* | *Default* |
 | =TWISTYPLUGIN_TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
 | =TWISTYPLUGIN_TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
 | =TWISTYPLUGIN_TWISTYMODE= | Either =div= or =span= | =span= |
 | =TWISTYPLUGIN_TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
 | =TWISTYPLUGIN_TWISTYANIMATIONSPEED= | Speed of animation: 'fast', 'slow', or integer milliseconds | =0= (no animation) |
-
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
-   
+
 ---++ Plugin Installation Instructions
+
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Plugin Info
 
 |  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
-|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2013 |
+|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, Foswiki Contributors 2008-2014 |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  17 Jun 2014 | 1.62 Foswikitask:Item12597: Expand/Collapse all is acting as a toggle.<br />\
+                      Foswikitask:Item12694 Default to fast animation speed.<br/>\
+                      Foswikitask:Item12583: Change to simple decimal version,<br/>\
+                      Foswikitask:Item10986: Better documentation for twisties in lists. |
 |  15 Oct 2013 | 1.6.18 Foswikitask:Item12597: fixed collapse/expand all |
 |  28 Nov 2012 | 1.6.17 Foswikitask:Item12079: Scripts added to the wrong zone <br />\
-                 Foswikitask:Item11267: Convert to perl version strings. |
+                        Foswikitask:Item11267: Convert to perl version strings. |
 |  18 Sep 2012 | 1.6.16 Foswikitask:Item11983: fixed script being added to the wrong zone |
 |  05 Dec 2011 | 1.6.15 Released with Foswiki 1.1.4 - minor changes |
 |  07 Jul 2011 | 1.6.14 Foswikitask:Item10946: fixed requesting of defunct/missing jquery.twisty.css |
@@ -507,9 +506,8 @@ You can override some default settings in the plugin by setting the following [[
 |  24 Aug 2010 | 1.6.3 Foswikitask:Item8573: Fix new dependency on JQueryPlugin |
 |  25 Aug 2010 | 1.6.2 Foswikitask:Item9515: Fix compatibility with browsers running without js (content should always be shown) |
 |  20 Aug 2010 | 1.6.1 Foswikitask:Item9499: Added preference variable to set show/hide transition animation speed (default to none) |
-|  15 Aug 2010 | 1.6.0<br/>\
- Foswikitask:Item9422: Implement as JQueryPlugin::Plugin; emit =display: none= style on hidden twisties to avoid relying on CSS/JS<br/>\
- Foswikitask:Item9415: Documentation changes<br/> |
+|  15 Aug 2010 | 1.6.0 Foswikitask:Item9422: Implement as JQueryPlugin::Plugin; emit =display: none= style on hidden twisties to avoid relying on CSS/JS<br />\
+                       Foswikitask:Item9415: Documentation changes |
 |  27 Jul 2010 | 1.5.6 Foswiki:Tasks.Item9387: Fixed jQuery JS |
 |  13 Mar 2010 | 1.5.5 Fixed id generated in subwebs. |
 |  12 Feb 2010 | 1.5.4 Fixed jquery twisties, improved templates structure |
