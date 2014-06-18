@@ -60,6 +60,7 @@ sub set_up {
       Foswiki::Func::readTopic( $this->{users_web}, "ReservoirDogsGroup" );
     $topicObject->text(<<"THIS");
    * Set GROUP = MrWhite, $this->{users_web}.MrBlue
+   * Set ALLOWTOPICVIEW = $this->{users_web}.ReservoirDogsGroup
 THIS
     $topicObject->save();
     $topicObject->finish();

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399280257" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1403053504" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -64,6 +64,11 @@ By default any member of a group has access rights to both adding and removing u
 The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
       * *Caution* This is set in the "Topic Settings" and not inline in the topic text!
+
+%T% If you want to hide a group and its list of members, you can set =ALLOWTOPICVIEW= on the group. For example:
+   * ==Set <nop>ALLOWTOPICVIEW = %USERSWEB%.<nop>SecretGroup==
+      * This group will be usable in the ACL of any topic,  but is only visible to members of the group.
+      * *Caution* As with the the prior example, this is set in the "Topic Settings" and not inline in the topic text!
 
 <blockquote class="foswikiHelp">
 %X% Foswiki has strict formatting rules. Settings *must* be entered as a bullet point.
