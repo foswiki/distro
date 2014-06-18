@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1402971656" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1403065051" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -39,7 +39,7 @@ The general format of a subscription is:
 
 _three spaces_ =*= _subscriber_ [ =:= _topics_ ]
 
-Where _subscriber_ can be a [[%SYSTEMWEB%.WikiName][WikiName]], an email address, or a group name. If _subscriber_ contains any characters that are not legal in an email address, then it must be enclosed in 'single' or "double" quotes. %X% *Note:* The guest user %USERSWEB%.WikiGuest does not have an email address mapped to it, and will never receive email regardless of the configuraion of that user.
+Where _subscriber_ can be a [[%SYSTEMWEB%.WikiName][WikiName]], an email address, or a group name. If _subscriber_ contains any characters that are not legal in an email address, then it must be enclosed in 'single' or "double" quotes. %X% *Note:* The guest user %USERSWEB%.WikiGuest does not have an email address mapped to it, and will never receive email regardless of the configuration of that user.
 
 _topics_ is an optional space-separated list of topics:
    * ... *without* a _Web._ prefix
