@@ -814,12 +814,18 @@ sub verify_resetEmailOkay {
 
 sub verify_bulkRegister {
     my $this = shift;
+    $Foswiki::cfg{MinPasswordLength} = 2;
 
     my $testReg = <<'EOM';
-| FirstName | LastName | Email | WikiName | LoginName | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
-| Test | User | Martin.Cleaver@BCS.org.uk |  TestBulkUser1 | a | A | B | C |
-| Test | User2 | Martin.Cleaver@BCS.org.uk | TestBulkUser2 | b | A | B | C |
-| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | c | A | B | C |
+| FirstName | LastName | Email | WikiName | LoginName | Password | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
+| Test | User1  | Martin.Cleaver@BCS.org.uk | TestBulkUser1 | tbu1 | Secret | A | B | Works with allowLogin |
+| Test | User2 | Martin.Cleaver@BCS.org.uk | TestBulkUser2 | | Secret | A | B | Works with dont allowLogin |
+| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | tbu3 | Secret | A | B | Works with allowLogin |
+| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | tbu3 | Secret | A | B | Dup user with allowLogin |
+| Test | User4 | Martin.Cleaver@BCS.org.uk | TestBulkUser4 | | Secret | A | B | Works with dont allow |
+| Test | User4 | Martin.Cleaver@BCS.org.uk | TestBulkUser4 | | Secret | A | B | Dup user with dontAllow |
+| Test | Badpass | Martin.Cleaver@BCS.org.uk | TestBadpass | | S | A | B | Bad password with dont allow |
+| Test | Badpass | Martin.Cleaver@BCS.org.uk | TestBadpass | tbp | S | A | B | Bad password with allow |
 EOM
 
     my $regTopic = 'UnprocessedRegistrations2';
@@ -849,11 +855,16 @@ EOM
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $this->{session}->{topicName} = $regTopic;
     $this->{session}->{webName}   = $this->{test_web};
+
+    my ( $responseText, $result, $stdout, $stderr );
+
     try {
-        $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
+        ( $responseText, $result, $stdout, $stderr ) =
+          $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
     }
     catch Foswiki::OopsException with {
         my $e = shift;
+        print STDERR $e->stringify();
         $this->assert( 0, $e->stringify() . " UNEXPECTED" );
 
     }
@@ -871,6 +882,65 @@ EOM
         $this->assert( 0, "expected an oops redirect" );
     };
     $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+
+    #use Data::Dumper;
+    #print STDERR Data::Dumper::Dumper( \$responseText );
+    #print STDERR Data::Dumper::Dumper( \$result );
+    #print STDERR Data::Dumper::Dumper( \$stdout );
+    #print STDERR Data::Dumper::Dumper( \$stderr );
+
+    $this->assert( Foswiki::Func::topicExists( $this->{test_web}, $regTopic ) );
+
+# SMELL:  The registration log is created in UsersWeb, and not in the web containing the
+# list of users to be registered.   Needs some thought.
+    $this->assert(
+        Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $logTopic ) );
+
+    my $readMeta =
+      Foswiki::Meta->load( $this->{session}, $Foswiki::cfg{UsersWebName},
+        $logTopic );
+    my $topicText = $readMeta->text();
+
+    #print STDERR Data::Dumper::Dumper( \$topicText );
+
+    my @expected;
+
+    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+        push @expected, qw(TestBulkUser1 TestBulkUser3);
+        $this->assert_matches(
+qr/The System.LoginName is a required parameter. Registration rejected./,
+            $topicText
+        );
+        $this->assert_matches(
+qr/You cannot register twice, the name 'tbu3' is already registered\./,
+            $topicText
+        );
+    }
+    else {
+        push @expected, qw(TestBulkUser2 TestBulkUser4);
+        $this->assert_matches(
+qr/The System.LoginName \(tbu3\) is not allowed for this installation/,
+            $topicText
+        );
+        $this->assert_matches(
+qr/You cannot register twice, the name 'TestBulkUser4' is already registered\./,
+            $topicText
+        );
+    }
+
+    foreach my $wikiname (@expected) {
+        $this->assert(
+            Foswiki::Func::topicExists(
+                $Foswiki::cfg{UsersWebName}, $wikiname
+            ),
+            "Missing $wikiname"
+        );
+    }
+
+    $this->assert_matches(
+qr/---\+\+ Registering TestBadpass.*---\+\+\+ Bad password.*This site requires at least 2 character passwords/ms,
+        $topicText
+    );
 
     return;
 }

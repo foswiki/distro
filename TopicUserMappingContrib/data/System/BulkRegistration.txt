@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282571475" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1403108175" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ManagingUsers"}%
 ---+ Bulk Registration
 
@@ -21,10 +21,9 @@ If you are administrator, you will take these actions:
 Below are the details.
 
 ---++ Settings
-   * Define where to pick up the table of users to register
+   * Define where to pick up the table of users to register.  It can be in any web, but defaults to the %USERSWEB% web.
       * Set REGISTERTOPIC = %USERSWEB%.UnprocessedRegistrations
-   * Use this to define where to log the bulk registration process. It needs
-     to be a topic name in this web.
+   * Use this to define where to log the bulk registration process. It will be saved to the %USERSWEB% web.
       * Set LOGTOPIC = %REGISTERTOPIC%Log
    * Set this to 1 to make the bulk registration overwrite any existing user
      topics. By default, existing user topics are left alone.
@@ -33,13 +32,14 @@ Below are the details.
 ---++ The user table
 This table is a template for user data that will be written to the new user topics. If you stick to these basic fields you can just use the first example below. If you want to write more data (like phone number or country) read the section [[#CustomizingUserData][Customizing user data]] as well.
 
+If the =Password= field is not included, then use the BulkResetPasswlrd topic to assign new passwords.   If a password is included, it must be a valid password (> minimum length, etc.)
 ---+++ Example format
 The following should be inserted into your %REGISTERTOPIC% as a table. This is the most simple format:
 <verbatim class="tml">
 <noautolink>
 %EDITTABLE{}%
 | FirstName | LastName | Email | WikiName |
-| Test | User | you@example.com | TestUser |
+| Test | User | you@your.domain | TestUser |
 </noautolink>
 </verbatim>
 
@@ -59,12 +59,15 @@ Any fields you define in this table will end up in the User's topic. If a form (
 If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields you define here. Otherwise they will disappear when the user edits their home topic!
 
 ---++++ Mandatory fields
-   * !WikiName 
-   * !FirstName
-   * !LastName 
+   * =WikiName=
+   * =FirstName=
+   * =LastName=
 
 ---++++ Optional fields
-   * LoginName - if not set will register with WikiName
+   * =LoginName= - __Required if the system is configured to__ ==AllowLoginName==
+   * =Email= - If not provided, you must set a password, or password reset will not be possible.
+   * =Password= - If not provided, set passwords later using BulkResetPassword.
+   * =Confirm= - If provided, it must match the =Password= field.  If missing, it will not be checked.
 
 ---++++ Customized table example
 Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
@@ -95,12 +98,12 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 
 ---++ <nop>%REGISTERTOPIC%
 
-%INCLUDE{"%REGISTERTOPIC%" warn="off"}%
+%INCLUDE{"%REGISTERTOPIC%" warn="%X% Topic does not exist"}%
 
 
 ---++ <nop>%LOGTOPIC%
 
-%INCLUDE{"%LOGTOPIC%" warn="off"}%
+%INCLUDE{"%LOGTOPIC%" warn="Topic will be created during registration run."}%
 
 ---
 *Related Topics:* AdminToolsCategory

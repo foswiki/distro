@@ -416,7 +416,16 @@ sub bulkRegister {
             $log .= "---++ Failed to register user on row $n: no !WikiName\n";
             next;
         }
-        $row->{LoginName} = $row->{WikiName} unless $row->{LoginName};
+
+   # If a password is provided but no Confirm column, just
+   # set Confirm to the password.   Confirmation really doesn't make sense here,
+        unless ( exists $row->{Password} && exists $row->{Confirm} ) {
+            if ( exists $row->{Password} ) {
+                $row->{Confirm} = $row->{Password};
+            }
+        }
+
+        #$row->{LoginName} = $row->{WikiName} unless $row->{LoginName};
 
         $log .= _registerSingleBulkUser( $session, \@fields, $row, $settings );
     }
@@ -430,13 +439,13 @@ sub bulkRegister {
     ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
 
     #-- Save the LogFile as designated, link back to the source topic
-    $meta = Foswiki::Meta->new( $session, $logWeb, $logTopic, $log );
-    unless ( $meta->haveAccess('CHANGE') ) {
+    my $lmeta = Foswiki::Meta->new( $session, $logWeb, $logTopic, $log );
+    unless ( $lmeta->haveAccess('CHANGE') ) {
         throw Foswiki::AccessControlException( 'CHANGE', $session->{user},
             $logWeb, $logTopic, $Foswiki::Meta::reason );
     }
-    $meta->put( 'TOPICPARENT', { name => $web . '.' . $topic } );
-    $meta->save();
+    $lmeta->put( 'TOPICPARENT', { name => $web . '.' . $topic } );
+    $lmeta->save();
 
     $session->leaveContext('absolute_urls');
 
@@ -465,6 +474,7 @@ sub _registerSingleBulkUser {
         return ( undef, $log );
     }
 
+    my $tryError = '';
     try {
 
   #SMELL: Field Validations
@@ -479,8 +489,10 @@ sub _registerSingleBulkUser {
     catch Foswiki::OopsException with {
         my $e = shift;
         $log .= '<blockquote>' . $e->stringify($session) . "</blockquote>\n";
-        return $log . "$b1 Registration failed\n";
+        $tryError = "$b1 Registration failed\n";
     };
+
+    return $log . $tryError if ($tryError);
 
     #-- Generation of the page is done from the {form} subhash,
     # so align the two
@@ -1577,7 +1589,7 @@ sub _validateRegistration {
         }
     }
 
-    if ( !defined( $data->{LoginName} ) ) {
+    unless ( defined( $data->{LoginName} ) && $data->{LoginName} ) {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
 
             # Login name is required, barf
@@ -1585,7 +1597,7 @@ sub _validateRegistration {
                 'register',
                 web    => $data->{webName},
                 topic  => $session->{topicName},
-                def    => 'bad_loginname',
+                def    => 'miss_loginname',
                 params => ['undefined']
             );
         }
@@ -1602,8 +1614,8 @@ sub _validateRegistration {
                 'register',
                 web    => $data->{webName},
                 topic  => $session->{topicName},
-                def    => 'bad_loginname',
-                params => ['not allowed']
+                def    => 'unsupport_loginname',
+                params => [ $data->{LoginName} ]
             );
         }
     }

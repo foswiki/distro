@@ -200,6 +200,20 @@
 %MAKETEXT{"Please contact [_1] if you have any questions." args="<a href='mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%WIKITOOLNAME% Registration Question"}%'>%WIKIWEBMASTER%</a>"}%
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"unsupport_loginname"}%
+---+++ %MAKETEXT{"Unsupported [_1]" args="%SYSTEMWEB%.LoginName"}%
+%MAKETEXT{"The [_1] ([_2]) is not allowed for this installation. Registration rejected." args="%SYSTEMWEB%.LoginName,%PARAM1%"}%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"miss_loginname"}%
+---+++ %MAKETEXT{"Incorrect [_1]" args="%SYSTEMWEB%.LoginName"}%
+%MAKETEXT{"The [_1] is a required parameter. Registration rejected." args="%SYSTEMWEB%.LoginName"}%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"bad_loginname"}%
 ---+++ %MAKETEXT{"Incorrect [_1]" args="%SYSTEMWEB%.LoginName"}%
 %MAKETEXT{"'[_1]' is not a valid [_2] " args="%PARAM1%,%SYSTEMWEB%.LoginName"}%
