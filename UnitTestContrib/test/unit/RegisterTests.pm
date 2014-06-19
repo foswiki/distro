@@ -2149,9 +2149,9 @@ sub test_Item12205 {
           ? 'attention'
           : 'register';
         $this->assert_str_equals( $template, $e->{template}, $e->stringify() );
-        $this->assert_str_equals( "bad_loginname", $e->{def}, $e->stringify() );
-        $this->assert_matches( 'not allowed', $e->{params}->[0],
+        $this->assert_str_equals( "unsupport_loginname", $e->{def},
             $e->stringify() );
+        $this->assert_matches( 'somename', $e->{params}->[0], $e->stringify() );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
