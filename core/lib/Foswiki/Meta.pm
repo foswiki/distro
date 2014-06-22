@@ -2997,6 +2997,7 @@ See also =attach= if this function is too basic for you.
 sub openAttachment {
     my ( $this, $attachment, $mode, @opts ) = @_;
     _assertIsTopic($this) if DEBUG;
+    ASSERT($attachment)   if DEBUG;
 
     return $this->{_session}->{store}
       ->openAttachment( $this, $attachment, $mode, @opts );

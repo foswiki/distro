@@ -1772,6 +1772,8 @@ sub readAttachment {
     ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
 
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($attachment)                if DEBUG;
+
     my $result;
 
     my $topicObject =

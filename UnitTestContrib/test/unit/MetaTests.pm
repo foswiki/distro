@@ -591,6 +591,22 @@ sub test_testAttachment {
     return;
 }
 
+# Item10475.  Reading a undef attachment returns the topic text.
+sub test_undef_attach {
+    my $this = shift;
+    $this->expect_failure('Undefined attachment should assert.');
+
+# openAttachment of an undefined attachment returns the file handle for the topic.
+# Assert in Meta should catch it.
+    my $fh = $this->{test_topicObject}->openAttachment( undef, '<' );
+    my $data = <$fh>;
+    close $fh;
+
+    $this->assert( length($data) );
+
+    return;
+}
+
 # Make sure that badly-formed meta tags in text are validated on save
 sub test_validateMetaTagsInText {
     my $this = shift;
