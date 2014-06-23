@@ -1,0 +1,626 @@
+%META:TOPICINFO{author="ProjectContributor" date="1403538101" format="1.1" version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+%JQREQUIRE{"fontawesome" warn="off"}%
+
+%JQPLUGINS{"loader"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%STARTSECTION{"summary"}%
+This plugin adds support for the fontawesom icon font. Icons are accessible via the =%JQICON= macro.
+%ENDSECTION{"summary"}%
+<literal>
+<style>
+.overview {
+  float:left;
+}
+.overview .entry {
+  padding:0 1em 1em 0;
+  width:15em;
+  float:left;
+}
+</style>
+</literal>
+---++ Brand Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-android"}% fa-android</span>
+<span class='entry'>%JQICON{"fa-adn"}% fa-adn</span>
+<span class='entry'>%JQICON{"fa-apple"}% fa-apple</span>
+<span class='entry'>%JQICON{"fa-behance"}% fa-behance</span>
+<span class='entry'>%JQICON{"fa-behance-square"}% fa-behance-square</span>
+<span class='entry'>%JQICON{"fa-bitbucket"}% fa-bitbucket</span>
+<span class='entry'>%JQICON{"fa-bitbucket-square"}% fa-bitbucket-square</span>
+<span class='entry'>%JQICON{"fa-btc"}% fa-btc</span>
+<span class='entry'>%JQICON{"fa-bitcoin"}% fa-bitcoin <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-css3"}% fa-css3</span>
+<span class='entry'>%JQICON{"fa-codepen"}% fa-codepen</span>
+<span class='entry'>%JQICON{"fa-delicious"}% fa-delicious</span>
+<span class='entry'>%JQICON{"fa-digg"}% fa-digg</span>
+<span class='entry'>%JQICON{"fa-dribbble"}% fa-dribbble</span>
+<span class='entry'>%JQICON{"fa-dropbox"}% fa-dropbox</span>
+<span class='entry'>%JQICON{"fa-drupal"}% fa-drupal</span>
+<span class='entry'>%JQICON{"fa-facebook"}% fa-facebook</span>
+<span class='entry'>%JQICON{"fa-facebook-square"}% fa-facebook-square</span>
+<span class='entry'>%JQICON{"fa-flickr"}% fa-flickr</span>
+<span class='entry'>%JQICON{"fa-foursquare"}% fa-foursquare</span>
+<span class='entry'>%JQICON{"fa-empire"}% fa-empire</span>
+<span class='entry'>%JQICON{"fa-ge"}% fa-ge <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-git"}% fa-git</span>
+<span class='entry'>%JQICON{"fa-git-square"}% fa-git-square</span>
+<span class='entry'>%JQICON{"fa-github"}% fa-github</span>
+<span class='entry'>%JQICON{"fa-github-alt"}% fa-github-alt</span>
+<span class='entry'>%JQICON{"fa-github-square"}% fa-github-square</span>
+<span class='entry'>%JQICON{"fa-gittip"}% fa-gittip</span>
+<span class='entry'>%JQICON{"fa-google"}% fa-google</span>
+<span class='entry'>%JQICON{"fa-google-plus"}% fa-google-plus</span>
+<span class='entry'>%JQICON{"fa-google-plus-square"}% fa-google-plus-square</span>
+<span class='entry'>%JQICON{"fa-html5"}% fa-html5</span>
+<span class='entry'>%JQICON{"fa-hacker-news"}% fa-hacker-news</span>
+<span class='entry'>%JQICON{"fa-instagram"}% fa-instagram</span>
+<span class='entry'>%JQICON{"fa-joomla"}% fa-joomla</span>
+<span class='entry'>%JQICON{"fa-linkedin"}% fa-linkedin</span>
+<span class='entry'>%JQICON{"fa-linkedin-square"}% fa-linkedin-square</span>
+<span class='entry'>%JQICON{"fa-linux"}% fa-linux</span>
+<span class='entry'>%JQICON{"fa-maxcdn"}% fa-maxcdn</span>
+<span class='entry'>%JQICON{"fa-openid"}% fa-openid</span>
+<span class='entry'>%JQICON{"fa-pagelines"}% fa-pagelines</span>
+<span class='entry'>%JQICON{"fa-pied-piper-alt"}% fa-pied-piper-alt</span>
+<span class='entry'>%JQICON{"fa-pied-piper"}% fa-pied-piper</span>
+<span class='entry'>%JQICON{"fa-pied-piper-square"}% fa-pied-piper-square <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-pinterest"}% fa-pinterest</span>
+<span class='entry'>%JQICON{"fa-pinterest-square"}% fa-pinterest-square</span>
+<span class='entry'>%JQICON{"fa-qq"}% fa-qq</span>
+<span class='entry'>%JQICON{"fa-rebel"}% fa-rebel</span>
+<span class='entry'>%JQICON{"fa-ra"}% fa-ra <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-renren"}% fa-renren</span>
+<span class='entry'>%JQICON{"fa-share-alt"}% fa-share-alt</span>
+<span class='entry'>%JQICON{"fa-share-alt-square"}% fa-share-alt-square</span>
+<span class='entry'>%JQICON{"fa-skype"}% fa-skype</span>
+<span class='entry'>%JQICON{"fa-slack"}% fa-slack</span>
+<span class='entry'>%JQICON{"fa-soundcloud"}% fa-soundcloud</span>
+<span class='entry'>%JQICON{"fa-spotify"}% fa-spotify</span>
+<span class='entry'>%JQICON{"fa-stack-exchange"}% fa-stack-exchange</span>
+<span class='entry'>%JQICON{"fa-stack-overflow"}% fa-stack-overflow</span>
+<span class='entry'>%JQICON{"fa-steam"}% fa-steam</span>
+<span class='entry'>%JQICON{"fa-steam-square"}% fa-steam-square</span>
+<span class='entry'>%JQICON{"fa-stumbleupon-circle"}% fa-stumbleupon-circle</span>
+<span class='entry'>%JQICON{"fa-stumbleupon"}% fa-stumbleupon</span>
+<span class='entry'>%JQICON{"fa-tencent-weibo"}% fa-tencent-weibo</span>
+<span class='entry'>%JQICON{"fa-trello"}% fa-trello</span>
+<span class='entry'>%JQICON{"fa-tumblr"}% fa-tumblr</span>
+<span class='entry'>%JQICON{"fa-tumblr-square"}% fa-tumblr-square</span>
+<span class='entry'>%JQICON{"fa-twitter"}% fa-twitter</span>
+<span class='entry'>%JQICON{"fa-twitter-square"}% fa-twitter-square</span>
+<span class='entry'>%JQICON{"fa-vk"}% fa-vk</span>
+<span class='entry'>%JQICON{"fa-vimeo-square"}% fa-vimeo-square</span>
+<span class='entry'>%JQICON{"fa-vine"}% fa-vine</span>
+<span class='entry'>%JQICON{"fa-weibo"}% fa-weibo</span>
+<span class='entry'>%JQICON{"fa-weixin"}% fa-weixin</span>
+<span class='entry'>%JQICON{"fa-wechat"}% fa-wechat <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-windows"}% fa-windows</span>
+<span class='entry'>%JQICON{"fa-wordpress"}% fa-wordpress</span>
+<span class='entry'>%JQICON{"fa-xing"}% fa-xing</span>
+<span class='entry'>%JQICON{"fa-xing-square"}% fa-xing-square</span>
+<span class='entry'>%JQICON{"fa-yahoo"}% fa-yahoo</span>
+<span class='entry'>%JQICON{"fa-youtube"}% fa-youtube</span>
+<span class='entry'>%JQICON{"fa-youtube-play"}% fa-youtube-play</span>
+<span class='entry'>%JQICON{"fa-youtube-square"}% fa-youtube-square</span>
+<span class='entry'>%JQICON{"fa-deviantart"}% fa-deviantart</span>
+<span class='entry'>%JQICON{"fa-jsfiddle"}% fa-jsfiddle</span>
+<span class='entry'>%JQICON{"fa-reddit"}% fa-reddit</span>
+<span class='entry'>%JQICON{"fa-reddit-square"}% fa-reddit-square</span>
+</div>
+%CLEAR%
+---++ Currency Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-btc"}% fa-btc</span>
+<span class='entry'>%JQICON{"fa-bitcoin"}% fa-bitcoin <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-eur"}% fa-eur</span>
+<span class='entry'>%JQICON{"fa-euro"}% fa-euro <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-gbp"}% fa-gbp</span>
+<span class='entry'>%JQICON{"fa-inr"}% fa-inr</span>
+<span class='entry'>%JQICON{"fa-rupee"}% fa-rupee <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-jpy"}% fa-jpy</span>
+<span class='entry'>%JQICON{"fa-cny"}% fa-cny <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-rmb"}% fa-rmb <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-yen"}% fa-yen <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-krw"}% fa-krw</span>
+<span class='entry'>%JQICON{"fa-won"}% fa-won <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-money"}% fa-money</span>
+<span class='entry'>%JQICON{"fa-rub"}% fa-rub</span>
+<span class='entry'>%JQICON{"fa-ruble"}% fa-ruble <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-rouble"}% fa-rouble <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-try"}% fa-try</span>
+<span class='entry'>%JQICON{"fa-turkish-lira"}% fa-turkish-lira <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-usd"}% fa-usd</span>
+<span class='entry'>%JQICON{"fa-dollar"}% fa-dollar <span class='foswikiGrayText'>(alias)</span></span>
+</div>
+%CLEAR%
+---++ Directional Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-angle-double-down"}% fa-angle-double-down</span>
+<span class='entry'>%JQICON{"fa-angle-double-left"}% fa-angle-double-left</span>
+<span class='entry'>%JQICON{"fa-angle-double-right"}% fa-angle-double-right</span>
+<span class='entry'>%JQICON{"fa-angle-double-up"}% fa-angle-double-up</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-down"}% fa-arrow-circle-down</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-left"}% fa-arrow-circle-left</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-o-down"}% fa-arrow-circle-o-down</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-o-left"}% fa-arrow-circle-o-left</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-o-right"}% fa-arrow-circle-o-right</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-o-up"}% fa-arrow-circle-o-up</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-right"}% fa-arrow-circle-right</span>
+<span class='entry'>%JQICON{"fa-arrow-circle-up"}% fa-arrow-circle-up</span>
+<span class='entry'>%JQICON{"fa-arrows"}% fa-arrows</span>
+<span class='entry'>%JQICON{"fa-arrows-alt"}% fa-arrows-alt</span>
+<span class='entry'>%JQICON{"fa-arrows-h"}% fa-arrows-h</span>
+<span class='entry'>%JQICON{"fa-arrows-v"}% fa-arrows-v</span>
+<span class='entry'>%JQICON{"fa-caret-down"}% fa-caret-down</span>
+<span class='entry'>%JQICON{"fa-caret-left"}% fa-caret-left</span>
+<span class='entry'>%JQICON{"fa-caret-right"}% fa-caret-right</span>
+<span class='entry'>%JQICON{"fa-caret-square-o-down"}% fa-caret-square-o-down</span>
+<span class='entry'>%JQICON{"fa-toggle-down"}% fa-toggle-down <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-square-o-left"}% fa-caret-square-o-left</span>
+<span class='entry'>%JQICON{"fa-toggle-left"}% fa-toggle-left <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-square-o-right"}% fa-caret-square-o-right</span>
+<span class='entry'>%JQICON{"fa-toggle-right"}% fa-toggle-right <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-square-o-up"}% fa-caret-square-o-up</span>
+<span class='entry'>%JQICON{"fa-toggle-up"}% fa-toggle-up <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-up"}% fa-caret-up</span>
+<span class='entry'>%JQICON{"fa-chevron-circle-down"}% fa-chevron-circle-down</span>
+<span class='entry'>%JQICON{"fa-chevron-circle-left"}% fa-chevron-circle-left</span>
+<span class='entry'>%JQICON{"fa-chevron-circle-right"}% fa-chevron-circle-right</span>
+<span class='entry'>%JQICON{"fa-chevron-circle-up"}% fa-chevron-circle-up</span>
+<span class='entry'>%JQICON{"fa-hand-o-down"}% fa-hand-o-down</span>
+<span class='entry'>%JQICON{"fa-hand-o-left"}% fa-hand-o-left</span>
+<span class='entry'>%JQICON{"fa-hand-o-right"}% fa-hand-o-right</span>
+<span class='entry'>%JQICON{"fa-hand-o-up"}% fa-hand-o-up</span>
+<span class='entry'>%JQICON{"fa-long-arrow-down"}% fa-long-arrow-down</span>
+<span class='entry'>%JQICON{"fa-long-arrow-left"}% fa-long-arrow-left</span>
+<span class='entry'>%JQICON{"fa-long-arrow-right"}% fa-long-arrow-right</span>
+<span class='entry'>%JQICON{"fa-long-arrow-up"}% fa-long-arrow-up</span>
+<span class='entry'>%JQICON{"fa-angle-down"}% fa-angle-down</span>
+<span class='entry'>%JQICON{"fa-angle-left"}% fa-angle-left</span>
+<span class='entry'>%JQICON{"fa-angle-right"}% fa-angle-right</span>
+<span class='entry'>%JQICON{"fa-angle-up"}% fa-angle-up</span>
+<span class='entry'>%JQICON{"fa-arrow-down"}% fa-arrow-down</span>
+<span class='entry'>%JQICON{"fa-arrow-left"}% fa-arrow-left</span>
+<span class='entry'>%JQICON{"fa-arrow-right"}% fa-arrow-right</span>
+<span class='entry'>%JQICON{"fa-arrow-up"}% fa-arrow-up</span>
+<span class='entry'>%JQICON{"fa-chevron-down"}% fa-chevron-down</span>
+<span class='entry'>%JQICON{"fa-chevron-left"}% fa-chevron-left</span>
+<span class='entry'>%JQICON{"fa-chevron-right"}% fa-chevron-right</span>
+<span class='entry'>%JQICON{"fa-chevron-up"}% fa-chevron-up</span>
+</div>
+%CLEAR%
+---++ File Type Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-file-archive-o"}% fa-file-archive-o</span>
+<span class='entry'>%JQICON{"fa-file-zip-o"}% fa-file-zip-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-file-audio-o"}% fa-file-audio-o</span>
+<span class='entry'>%JQICON{"fa-file-sound-o"}% fa-file-sound-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-file-code-o"}% fa-file-code-o</span>
+<span class='entry'>%JQICON{"fa-file-excel-o"}% fa-file-excel-o</span>
+<span class='entry'>%JQICON{"fa-file"}% fa-file</span>
+<span class='entry'>%JQICON{"fa-file-o"}% fa-file-o</span>
+<span class='entry'>%JQICON{"fa-file-text"}% fa-file-text</span>
+<span class='entry'>%JQICON{"fa-file-text-o"}% fa-file-text-o</span>
+<span class='entry'>%JQICON{"fa-file-image-o"}% fa-file-image-o</span>
+<span class='entry'>%JQICON{"fa-file-photo-o"}% fa-file-photo-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-file-picture-o"}% fa-file-picture-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-file-pdf-o"}% fa-file-pdf-o</span>
+<span class='entry'>%JQICON{"fa-file-powerpoint-o"}% fa-file-powerpoint-o</span>
+<span class='entry'>%JQICON{"fa-file-video-o"}% fa-file-video-o</span>
+<span class='entry'>%JQICON{"fa-file-movie-o"}% fa-file-movie-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-file-word-o"}% fa-file-word-o</span>
+</div>
+%CLEAR%
+---++ Form Control Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-check-square"}% fa-check-square</span>
+<span class='entry'>%JQICON{"fa-check-square-o"}% fa-check-square-o</span>
+<span class='entry'>%JQICON{"fa-circle"}% fa-circle</span>
+<span class='entry'>%JQICON{"fa-circle-o"}% fa-circle-o</span>
+<span class='entry'>%JQICON{"fa-dot-circle-o"}% fa-dot-circle-o</span>
+<span class='entry'>%JQICON{"fa-minus-square"}% fa-minus-square</span>
+<span class='entry'>%JQICON{"fa-minus-square-o"}% fa-minus-square-o</span>
+<span class='entry'>%JQICON{"fa-plus-square"}% fa-plus-square</span>
+<span class='entry'>%JQICON{"fa-plus-square-o"}% fa-plus-square-o</span>
+<span class='entry'>%JQICON{"fa-square"}% fa-square</span>
+<span class='entry'>%JQICON{"fa-square-o"}% fa-square-o</span>
+</div>
+%CLEAR%
+---++ Medical Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-h-square"}% fa-h-square</span>
+<span class='entry'>%JQICON{"fa-plus-square"}% fa-plus-square</span>
+<span class='entry'>%JQICON{"fa-stethoscope"}% fa-stethoscope</span>
+<span class='entry'>%JQICON{"fa-wheelchair"}% fa-wheelchair</span>
+<span class='entry'>%JQICON{"fa-ambulance"}% fa-ambulance</span>
+<span class='entry'>%JQICON{"fa-hospital-o"}% fa-hospital-o</span>
+<span class='entry'>%JQICON{"fa-medkit"}% fa-medkit</span>
+<span class='entry'>%JQICON{"fa-user-md"}% fa-user-md</span>
+</div>
+%CLEAR%
+---++ Spinner Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-circle-o-notch"}% fa-circle-o-notch</span>
+<span class='entry'>%JQICON{"fa-spinner"}% fa-spinner</span>
+<span class='entry'>%JQICON{"fa-cog"}% fa-cog</span>
+<span class='entry'>%JQICON{"fa-gear"}% fa-gear <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-refresh"}% fa-refresh</span>
+</div>
+%CLEAR%
+---++ Text Editor Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-chain-broken"}% fa-chain-broken</span>
+<span class='entry'>%JQICON{"fa-unlink"}% fa-unlink <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-clipboard"}% fa-clipboard</span>
+<span class='entry'>%JQICON{"fa-paste"}% fa-paste <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-columns"}% fa-columns</span>
+<span class='entry'>%JQICON{"fa-file"}% fa-file</span>
+<span class='entry'>%JQICON{"fa-file-o"}% fa-file-o</span>
+<span class='entry'>%JQICON{"fa-file-text"}% fa-file-text</span>
+<span class='entry'>%JQICON{"fa-file-text-o"}% fa-file-text-o</span>
+<span class='entry'>%JQICON{"fa-files-o"}% fa-files-o</span>
+<span class='entry'>%JQICON{"fa-copy"}% fa-copy <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-floppy-o"}% fa-floppy-o</span>
+<span class='entry'>%JQICON{"fa-save"}% fa-save <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-indent"}% fa-indent</span>
+<span class='entry'>%JQICON{"fa-link"}% fa-link</span>
+<span class='entry'>%JQICON{"fa-chain"}% fa-chain <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-outdent"}% fa-outdent</span>
+<span class='entry'>%JQICON{"fa-dedent"}% fa-dedent <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-paperclip"}% fa-paperclip</span>
+<span class='entry'>%JQICON{"fa-repeat"}% fa-repeat</span>
+<span class='entry'>%JQICON{"fa-rotate-right"}% fa-rotate-right <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-scissors"}% fa-scissors</span>
+<span class='entry'>%JQICON{"fa-cut"}% fa-cut <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-strikethrough"}% fa-strikethrough</span>
+<span class='entry'>%JQICON{"fa-underline"}% fa-underline</span>
+<span class='entry'>%JQICON{"fa-undo"}% fa-undo</span>
+<span class='entry'>%JQICON{"fa-rotate-left"}% fa-rotate-left <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-align-center"}% fa-align-center</span>
+<span class='entry'>%JQICON{"fa-align-justify"}% fa-align-justify</span>
+<span class='entry'>%JQICON{"fa-align-left"}% fa-align-left</span>
+<span class='entry'>%JQICON{"fa-align-right"}% fa-align-right</span>
+<span class='entry'>%JQICON{"fa-bold"}% fa-bold</span>
+<span class='entry'>%JQICON{"fa-eraser"}% fa-eraser</span>
+<span class='entry'>%JQICON{"fa-font"}% fa-font</span>
+<span class='entry'>%JQICON{"fa-header"}% fa-header</span>
+<span class='entry'>%JQICON{"fa-italic"}% fa-italic</span>
+<span class='entry'>%JQICON{"fa-list"}% fa-list</span>
+<span class='entry'>%JQICON{"fa-list-alt"}% fa-list-alt</span>
+<span class='entry'>%JQICON{"fa-list-ol"}% fa-list-ol</span>
+<span class='entry'>%JQICON{"fa-list-ul"}% fa-list-ul</span>
+<span class='entry'>%JQICON{"fa-paragraph"}% fa-paragraph</span>
+<span class='entry'>%JQICON{"fa-subscript"}% fa-subscript</span>
+<span class='entry'>%JQICON{"fa-superscript"}% fa-superscript</span>
+<span class='entry'>%JQICON{"fa-table"}% fa-table</span>
+<span class='entry'>%JQICON{"fa-text-height"}% fa-text-height</span>
+<span class='entry'>%JQICON{"fa-text-width"}% fa-text-width</span>
+<span class='entry'>%JQICON{"fa-th"}% fa-th</span>
+<span class='entry'>%JQICON{"fa-th-large"}% fa-th-large</span>
+<span class='entry'>%JQICON{"fa-th-list"}% fa-th-list</span>
+</div>
+%CLEAR%
+---++ Video Player Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-arrows-alt"}% fa-arrows-alt</span>
+<span class='entry'>%JQICON{"fa-compress"}% fa-compress</span>
+<span class='entry'>%JQICON{"fa-expand"}% fa-expand</span>
+<span class='entry'>%JQICON{"fa-play-circle"}% fa-play-circle</span>
+<span class='entry'>%JQICON{"fa-play-circle-o"}% fa-play-circle-o</span>
+<span class='entry'>%JQICON{"fa-youtube-play"}% fa-youtube-play</span>
+<span class='entry'>%JQICON{"fa-backward"}% fa-backward</span>
+<span class='entry'>%JQICON{"fa-eject"}% fa-eject</span>
+<span class='entry'>%JQICON{"fa-fast-backward"}% fa-fast-backward</span>
+<span class='entry'>%JQICON{"fa-fast-forward"}% fa-fast-forward</span>
+<span class='entry'>%JQICON{"fa-forward"}% fa-forward</span>
+<span class='entry'>%JQICON{"fa-pause"}% fa-pause</span>
+<span class='entry'>%JQICON{"fa-play"}% fa-play</span>
+<span class='entry'>%JQICON{"fa-step-backward"}% fa-step-backward</span>
+<span class='entry'>%JQICON{"fa-step-forward"}% fa-step-forward</span>
+<span class='entry'>%JQICON{"fa-stop"}% fa-stop</span>
+</div>
+%CLEAR%
+---++ Web Application Icons
+<div class='overview'>
+<span class='entry'>%JQICON{"fa-anchor"}% fa-anchor</span>
+<span class='entry'>%JQICON{"fa-archive"}% fa-archive</span>
+<span class='entry'>%JQICON{"fa-file-archive-o"}% fa-file-archive-o</span>
+<span class='entry'>%JQICON{"fa-file-zip-o"}% fa-file-zip-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-arrows"}% fa-arrows</span>
+<span class='entry'>%JQICON{"fa-arrows-h"}% fa-arrows-h</span>
+<span class='entry'>%JQICON{"fa-arrows-v"}% fa-arrows-v</span>
+<span class='entry'>%JQICON{"fa-file-audio-o"}% fa-file-audio-o</span>
+<span class='entry'>%JQICON{"fa-file-sound-o"}% fa-file-sound-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-bar-chart-o"}% fa-bar-chart-o</span>
+<span class='entry'>%JQICON{"fa-bars"}% fa-bars</span>
+<span class='entry'>%JQICON{"fa-navicon"}% fa-navicon <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-reorder"}% fa-reorder <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-bell-o"}% fa-bell-o</span>
+<span class='entry'>%JQICON{"fa-bomb"}% fa-bomb</span>
+<span class='entry'>%JQICON{"fa-bookmark-o"}% fa-bookmark-o</span>
+<span class='entry'>%JQICON{"fa-briefcase"}% fa-briefcase</span>
+<span class='entry'>%JQICON{"fa-bug"}% fa-bug</span>
+<span class='entry'>%JQICON{"fa-building"}% fa-building</span>
+<span class='entry'>%JQICON{"fa-building-o"}% fa-building-o</span>
+<span class='entry'>%JQICON{"fa-bullseye"}% fa-bullseye</span>
+<span class='entry'>%JQICON{"fa-car"}% fa-car</span>
+<span class='entry'>%JQICON{"fa-automobile"}% fa-automobile <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-square-o-down"}% fa-caret-square-o-down</span>
+<span class='entry'>%JQICON{"fa-toggle-down"}% fa-toggle-down <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-square-o-left"}% fa-caret-square-o-left</span>
+<span class='entry'>%JQICON{"fa-toggle-left"}% fa-toggle-left <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-square-o-right"}% fa-caret-square-o-right</span>
+<span class='entry'>%JQICON{"fa-toggle-right"}% fa-toggle-right <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-caret-square-o-up"}% fa-caret-square-o-up</span>
+<span class='entry'>%JQICON{"fa-toggle-up"}% fa-toggle-up <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-check"}% fa-check</span>
+<span class='entry'>%JQICON{"fa-check-circle"}% fa-check-circle</span>
+<span class='entry'>%JQICON{"fa-check-circle-o"}% fa-check-circle-o</span>
+<span class='entry'>%JQICON{"fa-check-square"}% fa-check-square</span>
+<span class='entry'>%JQICON{"fa-check-square-o"}% fa-check-square-o</span>
+<span class='entry'>%JQICON{"fa-child"}% fa-child</span>
+<span class='entry'>%JQICON{"fa-circle"}% fa-circle</span>
+<span class='entry'>%JQICON{"fa-circle-o"}% fa-circle-o</span>
+<span class='entry'>%JQICON{"fa-circle-o-notch"}% fa-circle-o-notch</span>
+<span class='entry'>%JQICON{"fa-circle-thin"}% fa-circle-thin</span>
+<span class='entry'>%JQICON{"fa-clock-o"}% fa-clock-o</span>
+<span class='entry'>%JQICON{"fa-cloud"}% fa-cloud</span>
+<span class='entry'>%JQICON{"fa-cloud-download"}% fa-cloud-download</span>
+<span class='entry'>%JQICON{"fa-cloud-upload"}% fa-cloud-upload</span>
+<span class='entry'>%JQICON{"fa-code"}% fa-code</span>
+<span class='entry'>%JQICON{"fa-file-code-o"}% fa-file-code-o</span>
+<span class='entry'>%JQICON{"fa-coffee"}% fa-coffee</span>
+<span class='entry'>%JQICON{"fa-compass"}% fa-compass</span>
+<span class='entry'>%JQICON{"fa-crosshairs"}% fa-crosshairs</span>
+<span class='entry'>%JQICON{"fa-cube"}% fa-cube</span>
+<span class='entry'>%JQICON{"fa-cubes"}% fa-cubes</span>
+<span class='entry'>%JQICON{"fa-cutlery"}% fa-cutlery</span>
+<span class='entry'>%JQICON{"fa-database"}% fa-database</span>
+<span class='entry'>%JQICON{"fa-desktop"}% fa-desktop</span>
+<span class='entry'>%JQICON{"fa-dot-circle-o"}% fa-dot-circle-o</span>
+<span class='entry'>%JQICON{"fa-download"}% fa-download</span>
+<span class='entry'>%JQICON{"fa-ellipsis-h"}% fa-ellipsis-h</span>
+<span class='entry'>%JQICON{"fa-ellipsis-v"}% fa-ellipsis-v</span>
+<span class='entry'>%JQICON{"fa-envelope"}% fa-envelope</span>
+<span class='entry'>%JQICON{"fa-envelope-o"}% fa-envelope-o</span>
+<span class='entry'>%JQICON{"fa-envelope-square"}% fa-envelope-square</span>
+<span class='entry'>%JQICON{"fa-file-excel-o"}% fa-file-excel-o</span>
+<span class='entry'>%JQICON{"fa-exchange"}% fa-exchange</span>
+<span class='entry'>%JQICON{"fa-exclamation-circle"}% fa-exclamation-circle</span>
+<span class='entry'>%JQICON{"fa-exclamation-triangle"}% fa-exclamation-triangle</span>
+<span class='entry'>%JQICON{"fa-warning"}% fa-warning <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-external-link"}% fa-external-link</span>
+<span class='entry'>%JQICON{"fa-external-link-square"}% fa-external-link-square</span>
+<span class='entry'>%JQICON{"fa-eye"}% fa-eye</span>
+<span class='entry'>%JQICON{"fa-eye-slash"}% fa-eye-slash</span>
+<span class='entry'>%JQICON{"fa-fax"}% fa-fax</span>
+<span class='entry'>%JQICON{"fa-female"}% fa-female</span>
+<span class='entry'>%JQICON{"fa-film"}% fa-film</span>
+<span class='entry'>%JQICON{"fa-filter"}% fa-filter</span>
+<span class='entry'>%JQICON{"fa-flag-o"}% fa-flag-o</span>
+<span class='entry'>%JQICON{"fa-flask"}% fa-flask</span>
+<span class='entry'>%JQICON{"fa-folder"}% fa-folder</span>
+<span class='entry'>%JQICON{"fa-folder-open"}% fa-folder-open</span>
+<span class='entry'>%JQICON{"fa-folder-open-o"}% fa-folder-open-o</span>
+<span class='entry'>%JQICON{"fa-folder-o"}% fa-folder-o</span>
+<span class='entry'>%JQICON{"fa-frown-o"}% fa-frown-o</span>
+<span class='entry'>%JQICON{"fa-gamepad"}% fa-gamepad</span>
+<span class='entry'>%JQICON{"fa-gavel"}% fa-gavel</span>
+<span class='entry'>%JQICON{"fa-legal"}% fa-legal <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-glass"}% fa-glass</span>
+<span class='entry'>%JQICON{"fa-globe"}% fa-globe</span>
+<span class='entry'>%JQICON{"fa-graduation-cap"}% fa-graduation-cap</span>
+<span class='entry'>%JQICON{"fa-mortar-board"}% fa-mortar-board <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-hdd-o"}% fa-hdd-o</span>
+<span class='entry'>%JQICON{"fa-heart"}% fa-heart</span>
+<span class='entry'>%JQICON{"fa-heart-o"}% fa-heart-o</span>
+<span class='entry'>%JQICON{"fa-history"}% fa-history</span>
+<span class='entry'>%JQICON{"fa-file-image-o"}% fa-file-image-o</span>
+<span class='entry'>%JQICON{"fa-file-photo-o"}% fa-file-photo-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-file-picture-o"}% fa-file-picture-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-info"}% fa-info</span>
+<span class='entry'>%JQICON{"fa-info-circle"}% fa-info-circle</span>
+<span class='entry'>%JQICON{"fa-keyboard-o"}% fa-keyboard-o</span>
+<span class='entry'>%JQICON{"fa-language"}% fa-language</span>
+<span class='entry'>%JQICON{"fa-laptop"}% fa-laptop</span>
+<span class='entry'>%JQICON{"fa-lemon-o"}% fa-lemon-o</span>
+<span class='entry'>%JQICON{"fa-level-down"}% fa-level-down</span>
+<span class='entry'>%JQICON{"fa-level-up"}% fa-level-up</span>
+<span class='entry'>%JQICON{"fa-life-ring"}% fa-life-ring</span>
+<span class='entry'>%JQICON{"fa-life-bouy"}% fa-life-bouy <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-life-saver"}% fa-life-saver <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-support"}% fa-support <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-lightbulb-o"}% fa-lightbulb-o</span>
+<span class='entry'>%JQICON{"fa-bolt"}% fa-bolt</span>
+<span class='entry'>%JQICON{"fa-flash"}% fa-flash <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-male"}% fa-male</span>
+<span class='entry'>%JQICON{"fa-meh-o"}% fa-meh-o</span>
+<span class='entry'>%JQICON{"fa-microphone-slash"}% fa-microphone-slash</span>
+<span class='entry'>%JQICON{"fa-minus-circle"}% fa-minus-circle</span>
+<span class='entry'>%JQICON{"fa-minus-square"}% fa-minus-square</span>
+<span class='entry'>%JQICON{"fa-minus-square-o"}% fa-minus-square-o</span>
+<span class='entry'>%JQICON{"fa-mobile"}% fa-mobile</span>
+<span class='entry'>%JQICON{"fa-mobile-phone"}% fa-mobile-phone <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-money"}% fa-money</span>
+<span class='entry'>%JQICON{"fa-moon-o"}% fa-moon-o</span>
+<span class='entry'>%JQICON{"fa-music"}% fa-music</span>
+<span class='entry'>%JQICON{"fa-file-pdf-o"}% fa-file-pdf-o</span>
+<span class='entry'>%JQICON{"fa-paper-plane"}% fa-paper-plane</span>
+<span class='entry'>%JQICON{"fa-send"}% fa-send <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-paper-plane-o"}% fa-paper-plane-o</span>
+<span class='entry'>%JQICON{"fa-send-o"}% fa-send-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-paw"}% fa-paw</span>
+<span class='entry'>%JQICON{"fa-pencil-square"}% fa-pencil-square</span>
+<span class='entry'>%JQICON{"fa-pencil-square-o"}% fa-pencil-square-o</span>
+<span class='entry'>%JQICON{"fa-edit"}% fa-edit <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-phone"}% fa-phone</span>
+<span class='entry'>%JQICON{"fa-phone-square"}% fa-phone-square</span>
+<span class='entry'>%JQICON{"fa-picture-o"}% fa-picture-o</span>
+<span class='entry'>%JQICON{"fa-photo"}% fa-photo <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-image"}% fa-image <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-plus-circle"}% fa-plus-circle</span>
+<span class='entry'>%JQICON{"fa-plus-square"}% fa-plus-square</span>
+<span class='entry'>%JQICON{"fa-plus-square-o"}% fa-plus-square-o</span>
+<span class='entry'>%JQICON{"fa-power-off"}% fa-power-off</span>
+<span class='entry'>%JQICON{"fa-file-powerpoint-o"}% fa-file-powerpoint-o</span>
+<span class='entry'>%JQICON{"fa-puzzle-piece"}% fa-puzzle-piece</span>
+<span class='entry'>%JQICON{"fa-question"}% fa-question</span>
+<span class='entry'>%JQICON{"fa-question-circle"}% fa-question-circle</span>
+<span class='entry'>%JQICON{"fa-rss-square"}% fa-rss-square</span>
+<span class='entry'>%JQICON{"fa-recycle"}% fa-recycle</span>
+<span class='entry'>%JQICON{"fa-reply"}% fa-reply</span>
+<span class='entry'>%JQICON{"fa-mail-reply"}% fa-mail-reply <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-search"}% fa-search</span>
+<span class='entry'>%JQICON{"fa-search-minus"}% fa-search-minus</span>
+<span class='entry'>%JQICON{"fa-search-plus"}% fa-search-plus</span>
+<span class='entry'>%JQICON{"fa-share"}% fa-share</span>
+<span class='entry'>%JQICON{"fa-mail-forward"}% fa-mail-forward <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-share-alt"}% fa-share-alt</span>
+<span class='entry'>%JQICON{"fa-share-alt-square"}% fa-share-alt-square</span>
+<span class='entry'>%JQICON{"fa-share-square"}% fa-share-square</span>
+<span class='entry'>%JQICON{"fa-share-square-o"}% fa-share-square-o</span>
+<span class='entry'>%JQICON{"fa-sign-in"}% fa-sign-in</span>
+<span class='entry'>%JQICON{"fa-sign-out"}% fa-sign-out</span>
+<span class='entry'>%JQICON{"fa-sitemap"}% fa-sitemap</span>
+<span class='entry'>%JQICON{"fa-sliders"}% fa-sliders</span>
+<span class='entry'>%JQICON{"fa-smile-o"}% fa-smile-o</span>
+<span class='entry'>%JQICON{"fa-sort"}% fa-sort</span>
+<span class='entry'>%JQICON{"fa-unsorted"}% fa-unsorted <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-sort-alpha-asc"}% fa-sort-alpha-asc</span>
+<span class='entry'>%JQICON{"fa-sort-alpha-desc"}% fa-sort-alpha-desc</span>
+<span class='entry'>%JQICON{"fa-sort-amount-asc"}% fa-sort-amount-asc</span>
+<span class='entry'>%JQICON{"fa-sort-amount-desc"}% fa-sort-amount-desc</span>
+<span class='entry'>%JQICON{"fa-sort-asc"}% fa-sort-asc</span>
+<span class='entry'>%JQICON{"fa-sort-up"}% fa-sort-up <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-sort-desc"}% fa-sort-desc</span>
+<span class='entry'>%JQICON{"fa-sort-down"}% fa-sort-down <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-sort-numeric-asc"}% fa-sort-numeric-asc</span>
+<span class='entry'>%JQICON{"fa-sort-numeric-desc"}% fa-sort-numeric-desc</span>
+<span class='entry'>%JQICON{"fa-space-shuttle"}% fa-space-shuttle</span>
+<span class='entry'>%JQICON{"fa-spinner"}% fa-spinner</span>
+<span class='entry'>%JQICON{"fa-square"}% fa-square</span>
+<span class='entry'>%JQICON{"fa-square-o"}% fa-square-o</span>
+<span class='entry'>%JQICON{"fa-star"}% fa-star</span>
+<span class='entry'>%JQICON{"fa-star-half-o"}% fa-star-half-o</span>
+<span class='entry'>%JQICON{"fa-star-half-empty"}% fa-star-half-empty <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-star-half-full"}% fa-star-half-full <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-star-o"}% fa-star-o</span>
+<span class='entry'>%JQICON{"fa-suitcase"}% fa-suitcase</span>
+<span class='entry'>%JQICON{"fa-sun-o"}% fa-sun-o</span>
+<span class='entry'>%JQICON{"fa-tachometer"}% fa-tachometer</span>
+<span class='entry'>%JQICON{"fa-dashboard"}% fa-dashboard <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-tasks"}% fa-tasks</span>
+<span class='entry'>%JQICON{"fa-taxi"}% fa-taxi</span>
+<span class='entry'>%JQICON{"fa-cab"}% fa-cab <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-terminal"}% fa-terminal</span>
+<span class='entry'>%JQICON{"fa-thumb-tack"}% fa-thumb-tack</span>
+<span class='entry'>%JQICON{"fa-thumbs-o-down"}% fa-thumbs-o-down</span>
+<span class='entry'>%JQICON{"fa-thumbs-o-up"}% fa-thumbs-o-up</span>
+<span class='entry'>%JQICON{"fa-ticket"}% fa-ticket</span>
+<span class='entry'>%JQICON{"fa-times"}% fa-times</span>
+<span class='entry'>%JQICON{"fa-times-circle"}% fa-times-circle</span>
+<span class='entry'>%JQICON{"fa-times-circle-o"}% fa-times-circle-o</span>
+<span class='entry'>%JQICON{"fa-trash-o"}% fa-trash-o</span>
+<span class='entry'>%JQICON{"fa-tree"}% fa-tree</span>
+<span class='entry'>%JQICON{"fa-umbrella"}% fa-umbrella</span>
+<span class='entry'>%JQICON{"fa-university"}% fa-university</span>
+<span class='entry'>%JQICON{"fa-institution"}% fa-institution <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-bank"}% fa-bank <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-unlock-alt"}% fa-unlock-alt</span>
+<span class='entry'>%JQICON{"fa-upload"}% fa-upload</span>
+<span class='entry'>%JQICON{"fa-user"}% fa-user</span>
+<span class='entry'>%JQICON{"fa-users"}% fa-users</span>
+<span class='entry'>%JQICON{"fa-group"}% fa-group <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-video-camera"}% fa-video-camera</span>
+<span class='entry'>%JQICON{"fa-file-video-o"}% fa-file-video-o</span>
+<span class='entry'>%JQICON{"fa-file-movie-o"}% fa-file-movie-o <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-wheelchair"}% fa-wheelchair</span>
+<span class='entry'>%JQICON{"fa-file-word-o"}% fa-file-word-o</span>
+<span class='entry'>%JQICON{"fa-wrench"}% fa-wrench</span>
+<span class='entry'>%JQICON{"fa-adjust"}% fa-adjust</span>
+<span class='entry'>%JQICON{"fa-asterisk"}% fa-asterisk</span>
+<span class='entry'>%JQICON{"fa-ban"}% fa-ban</span>
+<span class='entry'>%JQICON{"fa-barcode"}% fa-barcode</span>
+<span class='entry'>%JQICON{"fa-beer"}% fa-beer</span>
+<span class='entry'>%JQICON{"fa-bell"}% fa-bell</span>
+<span class='entry'>%JQICON{"fa-book"}% fa-book</span>
+<span class='entry'>%JQICON{"fa-bookmark"}% fa-bookmark</span>
+<span class='entry'>%JQICON{"fa-bullhorn"}% fa-bullhorn</span>
+<span class='entry'>%JQICON{"fa-calendar"}% fa-calendar</span>
+<span class='entry'>%JQICON{"fa-calendar-o"}% fa-calendar-o</span>
+<span class='entry'>%JQICON{"fa-camera"}% fa-camera</span>
+<span class='entry'>%JQICON{"fa-camera-retro"}% fa-camera-retro</span>
+<span class='entry'>%JQICON{"fa-certificate"}% fa-certificate</span>
+<span class='entry'>%JQICON{"fa-code-fork"}% fa-code-fork</span>
+<span class='entry'>%JQICON{"fa-cog"}% fa-cog</span>
+<span class='entry'>%JQICON{"fa-gear"}% fa-gear <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-cogs"}% fa-cogs</span>
+<span class='entry'>%JQICON{"fa-gears"}% fa-gears <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-comment"}% fa-comment</span>
+<span class='entry'>%JQICON{"fa-comment-o"}% fa-comment-o</span>
+<span class='entry'>%JQICON{"fa-comments"}% fa-comments</span>
+<span class='entry'>%JQICON{"fa-comments-o"}% fa-comments-o</span>
+<span class='entry'>%JQICON{"fa-credit-card"}% fa-credit-card</span>
+<span class='entry'>%JQICON{"fa-crop"}% fa-crop</span>
+<span class='entry'>%JQICON{"fa-eraser"}% fa-eraser</span>
+<span class='entry'>%JQICON{"fa-exclamation"}% fa-exclamation</span>
+<span class='entry'>%JQICON{"fa-fighter-jet"}% fa-fighter-jet</span>
+<span class='entry'>%JQICON{"fa-fire"}% fa-fire</span>
+<span class='entry'>%JQICON{"fa-fire-extinguisher"}% fa-fire-extinguisher</span>
+<span class='entry'>%JQICON{"fa-flag"}% fa-flag</span>
+<span class='entry'>%JQICON{"fa-flag-checkered"}% fa-flag-checkered</span>
+<span class='entry'>%JQICON{"fa-gift"}% fa-gift</span>
+<span class='entry'>%JQICON{"fa-headphones"}% fa-headphones</span>
+<span class='entry'>%JQICON{"fa-home"}% fa-home</span>
+<span class='entry'>%JQICON{"fa-inbox"}% fa-inbox</span>
+<span class='entry'>%JQICON{"fa-key"}% fa-key</span>
+<span class='entry'>%JQICON{"fa-leaf"}% fa-leaf</span>
+<span class='entry'>%JQICON{"fa-location-arrow"}% fa-location-arrow</span>
+<span class='entry'>%JQICON{"fa-lock"}% fa-lock</span>
+<span class='entry'>%JQICON{"fa-magic"}% fa-magic</span>
+<span class='entry'>%JQICON{"fa-magnet"}% fa-magnet</span>
+<span class='entry'>%JQICON{"fa-map-marker"}% fa-map-marker</span>
+<span class='entry'>%JQICON{"fa-microphone"}% fa-microphone</span>
+<span class='entry'>%JQICON{"fa-minus"}% fa-minus</span>
+<span class='entry'>%JQICON{"fa-pencil"}% fa-pencil</span>
+<span class='entry'>%JQICON{"fa-plane"}% fa-plane</span>
+<span class='entry'>%JQICON{"fa-plus"}% fa-plus</span>
+<span class='entry'>%JQICON{"fa-print"}% fa-print</span>
+<span class='entry'>%JQICON{"fa-qrcode"}% fa-qrcode</span>
+<span class='entry'>%JQICON{"fa-quote-left"}% fa-quote-left</span>
+<span class='entry'>%JQICON{"fa-quote-right"}% fa-quote-right</span>
+<span class='entry'>%JQICON{"fa-random"}% fa-random</span>
+<span class='entry'>%JQICON{"fa-refresh"}% fa-refresh</span>
+<span class='entry'>%JQICON{"fa-reply-all"}% fa-reply-all</span>
+<span class='entry'>%JQICON{"fa-mail-reply-all"}% fa-mail-reply-all <span class='foswikiGrayText'>(alias)</span></span>
+<span class='entry'>%JQICON{"fa-retweet"}% fa-retweet</span>
+<span class='entry'>%JQICON{"fa-road"}% fa-road</span>
+<span class='entry'>%JQICON{"fa-rocket"}% fa-rocket</span>
+<span class='entry'>%JQICON{"fa-rss"}% fa-rss</span>
+<span class='entry'>%JQICON{"fa-shield"}% fa-shield</span>
+<span class='entry'>%JQICON{"fa-shopping-cart"}% fa-shopping-cart</span>
+<span class='entry'>%JQICON{"fa-signal"}% fa-signal</span>
+<span class='entry'>%JQICON{"fa-spoon"}% fa-spoon</span>
+<span class='entry'>%JQICON{"fa-star-half"}% fa-star-half</span>
+<span class='entry'>%JQICON{"fa-tablet"}% fa-tablet</span>
+<span class='entry'>%JQICON{"fa-tag"}% fa-tag</span>
+<span class='entry'>%JQICON{"fa-tags"}% fa-tags</span>
+<span class='entry'>%JQICON{"fa-thumbs-down"}% fa-thumbs-down</span>
+<span class='entry'>%JQICON{"fa-thumbs-up"}% fa-thumbs-up</span>
+<span class='entry'>%JQICON{"fa-tint"}% fa-tint</span>
+<span class='entry'>%JQICON{"fa-trophy"}% fa-trophy</span>
+<span class='entry'>%JQICON{"fa-truck"}% fa-truck</span>
+<span class='entry'>%JQICON{"fa-unlock"}% fa-unlock</span>
+<span class='entry'>%JQICON{"fa-volume-down"}% fa-volume-down</span>
+<span class='entry'>%JQICON{"fa-volume-off"}% fa-volume-off</span>
+<span class='entry'>%JQICON{"fa-volume-up"}% fa-volume-up</span>
+</div>
+%CLEAR%

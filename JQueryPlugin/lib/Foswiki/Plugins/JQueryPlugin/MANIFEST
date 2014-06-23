@@ -1,7 +1,6 @@
 !noci
 data/System/JQueryAjaxHelper.txt 0644
 data/System/JQueryAutocomplete.txt 0644
-data/System/JQueryUIAutocomplete.txt 0644
 data/System/JQueryBgiframe.txt 0644
 data/System/JQueryBlockUI.txt 0644
 data/System/JQueryButton.txt 0644
@@ -16,6 +15,7 @@ data/System/JQueryEmpty.txt 0644
 data/System/JQueryFarbtastic.txt 0644
 data/System/JQueryFluidFont.txt 0644
 data/System/JQueryFocus.txt 0644
+data/System/JQueryFontAwesome.txt 0644
 data/System/JQueryForm.txt 0644
 data/System/JQueryFoswiki.txt 0644
 data/System/JQueryGradient.txt 0644
@@ -45,25 +45,26 @@ data/System/JQuerySuperfish.txt 0644
 data/System/JQuerySupersubs.txt 0644
 data/System/JQueryTabpane.txt 0644
 data/System/JQueryTextboxList.txt 0644
-data/System/JQueryUIDialog.txt 0644
 data/System/JQueryTmpl.txt 0644
 data/System/JQueryTooltip.txt 0644
 data/System/JQueryTreeview.txt 0644
-data/System/JQueryUI.txt 0644
+data/System/JQueryUIAutocomplete.txt 0644
+data/System/JQueryUIDialog.txt 0644
 data/System/JQueryUITooltip.txt 0644
+data/System/JQueryUI.txt 0644
 data/System/JQueryValidate.txt 0644
 data/System/JQueryWikiWord.txt 0644
 data/System/VarBUTTON.txt 0644
-data/System/VarENDTAB.txt 0644
 data/System/VarENDTABPANE.txt 0644
-data/System/VarJQICON.txt 0644
+data/System/VarENDTAB.txt 0644
 data/System/VarJQICONPATH.txt 0644
+data/System/VarJQICON.txt 0644
 data/System/VarJQPLUGINS.txt 0644
 data/System/VarJQREQUIRE.txt 0644
 data/System/VarJQTHEME.txt 0644
 data/System/VarPOPUPWINDOW.txt 0644
-data/System/VarTAB.txt 0644
 data/System/VarTABPANE.txt 0644
+data/System/VarTAB.txt 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/JQueryVersion.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Autocomplete/Enabled.pm 0644
 lib/Foswiki/Configure/Checkers/JQueryPlugin/Plugins/Shake/Enabled.pm 0644
