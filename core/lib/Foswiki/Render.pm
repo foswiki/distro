@@ -557,8 +557,8 @@ sub getRenderedVersion {
         \&verbatimCallBack );
     $text =~ s|\n?<nop>\n$||o;    # clean up clutch
 
-    $this->_putBackProtected( \$text, 'script', $removed, \&_filterScript );
-    Foswiki::putBackBlocks( \$text, $removed, 'literal', '', \&_filterLiteral );
+    $this->_putBackProtected( \$text, 'script', $removed );
+    Foswiki::putBackBlocks( \$text, $removed, 'literal', '' );
     $this->_putBackProtected( \$text, 'literal', $removed );
     Foswiki::putBackBlocks( \$text, $removed, 'dirtyarea' )
       if $Foswiki::cfg{Cache}{Enabled};
@@ -1712,23 +1712,6 @@ sub _adjustH {
         }
     }
     return $out;
-}
-
-# Only put script and literal sections back if they are allowed by options
-sub _filterLiteral {
-    my $val = shift;
-    return $val if ( $Foswiki::cfg{AllowInlineScript} );
-    return CGI::comment(
-'<literal> is not allowed on this site - denied by deprecated {AllowInlineScript} setting'
-    );
-}
-
-sub _filterScript {
-    my $val = shift;
-    return $val if ( $Foswiki::cfg{AllowInlineScript} );
-    return CGI::comment(
-'<script> is not allowed on this site - denied by deprecated {AllowInlineScript} setting'
-    );
 }
 
 # _takeOutProtected( \$text, $re, $id, \%map ) -> $text

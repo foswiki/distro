@@ -198,6 +198,13 @@ sub skip {
             }
         },
         {
+            condition => { with_dep => 'Foswiki,>=,1.1_9999' },
+            tests     => {
+                'FormattingTests::test_Item3431a' =>
+                  'AllowInlineScript dropped from Foswiki 1.2',
+            }
+        },
+        {
             condition => { without_dep => 'Class::Unload' },
             tests     => {
                 'FormattingTests::test_shortAcronyms' =>

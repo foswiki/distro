@@ -867,7 +867,6 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{Register}{NeedApproval}',
     '{Register}{Approvers}',
     '{Register}{RegistrationAgentWikiName}',
-    '{AllowInlineScript}',
     '{DenyDotDotInclude}',
     '{UploadFilter}',
     '{NameFilter}',
@@ -926,13 +925,6 @@ $Foswiki::cfg{AccessibleCFG} = [
 # {PROXY}{PORT}) if your server is behind a firewall and you allow %INCLUDE of
 # external webpages (see Proxies).
 $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
-
-# **BOOLEAN**
-# Used to disallow the use of SCRIPT and LITERAL tags in topics by removing
-# them from the body of topics during rendering.
-# <font color="red">This setting is fundamentally unsafe and is now
-# DEPRECATED</font> - use <a href="http://foswiki.org/Extensions/SafeWikiPlugin">SafeWikiPlugin</a> instead.
-$Foswiki::cfg{AllowInlineScript} = $TRUE;
 
 # **BOOLEAN EXPERT**
 # If a login name (or an internal user id) cannot be mapped to a wikiname,
