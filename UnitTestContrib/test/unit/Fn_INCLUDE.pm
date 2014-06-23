@@ -997,25 +997,6 @@ HERE
 sub test_webExpansion_NOAUTOLINK {
     my $this = shift;
 
-    my ($m) = Foswiki::Func::readTopic( "$this->{test_web}", 'WebPreferences' );
-
-    #print STDERR "WEBPREFS: " . $m->text() . "\n";
-    $m->text("   * Set NOAUTOLINK = on \n\n");
-    $m->save();
-
-    #print STDERR "WEBPREFS: " . $m->text() . "\n";
-    $m->finish();
-
-    ($m) = Foswiki::Func::readTopic( "$this->{other_web}", 'WebPreferences' );
-    $m->text("   * Set NOAUTOLINK = on\n");
-    $m->save();
-    $m->finish();
-
-    # Have to restart to clear prefs cache
-    $this->createNewFoswikiSession();
-
-#print STDERR "NOAUTOLINK: " .Foswiki::Func::getPreferencesValue( "NOAUTOLINK" );
-
     # Create topic to include
     my $includedTopic = "TopicToInclude";
     my ($inkyDink) =
@@ -1043,6 +1024,8 @@ $includedTopic 6
 THIS
     $inkyDink->save();
 
+    Foswiki::Func::setPreferencesValue( 'NOAUTOLINK', 'on' );
+
     # Expand an include in the context of the test web
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
@@ -1057,12 +1040,12 @@ THIS
 2 [[$includedTopic][two]] $includedTopic
 </verbatim>
 <pre>
-3 [[$this->{other_web}.$includedTopic][three]] $this->{other_web}.$includedTopic
+3 [[$this->{other_web}.$includedTopic][three]] $includedTopic
 </pre>
 4 [[$this->{other_web}.$includedTopic][four]] [[$this->{other_web}.$includedTopic][$includedTopic]] $includedTopic
-5 [[$this->{other_web}.$includedTopic][five]] $this->{other_web}.$includedTopic
-$this->{other_web}.$includedTopic 6
-7 ($this->{other_web}.$includedTopic)
+5 [[$this->{other_web}.$includedTopic][five]] $includedTopic
+$includedTopic 6
+7 ($includedTopic)
 8 #$includedTopic
 9 [[System.$includedTopic]]
 10 [[$this->{other_web}.$includedTopic][$includedTopic]]
@@ -1070,9 +1053,7 @@ $this->{other_web}.$includedTopic 6
 12 [[#anchor][$includedTopic]]
 13 [[#$includedTopic][$includedTopic]]
 THIS
-    $this->expect_failure(
-'This test will fail. The NOAUTOLINK preference is not being passed through'
-    );
+
     while ( my $e = pop(@expect) ) {
         $this->assert_str_equals( $e, pop(@get) );
     }
