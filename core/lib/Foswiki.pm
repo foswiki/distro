@@ -1,4 +1,4 @@
-# See bottom of file for license and copyright information
+
 package Foswiki;
 
 =begin TML
@@ -578,8 +578,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     $regex{mixedAlphaNumRegex} = qr/[$regex{mixedAlphaNum}]*/o;
 
     # %TAG% name
-    $regex{tagNameRegex} =
-      '[' . $regex{mixedAlpha} . '][' . $regex{mixedAlphaNum} . '_:]*';
+    $regex{tagNameRegex} = '[A-Z][A-Za-z0-9_:]*';
 
     # Set statement in a topic
     $regex{bulletRegex} = '^(?:\t|   )+\*';
@@ -588,9 +587,6 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
       $regex{setRegex} . '(' . $regex{tagNameRegex} . ')\s*=\s*(.*)$';
 
     # Character encoding regexes
-
-    # 7-bit ASCII only
-    $regex{validAsciiStringRegex} = qr/^[\x00-\x7F]+$/o;
 
     # Regex to match only a valid UTF-8 character, taking care to avoid
     # security holes due to overlong encodings by excluding the relevant
@@ -664,11 +660,41 @@ use Foswiki::Plugins  ();
 use Foswiki::Store    ();
 use Foswiki::Users    ();
 
+=begin TML
+
+---++ ObjectMethod UTF82SiteCharSet($octets) -> $octets
+
+   * =$octets= - a byte string possibly containing UTF-8 encoded characters
+Returns a byte styring encoded using the {Site}{CharSet}. Note that
+conversions may fail silently.
+
+Convert a byte string possibly encoded using UTF8 to the {Site}{CharSet}
+encoding.
+
+From http://en.wikipedia.org/wiki/Percent-encoding
+
+"The generic URI syntax mandates that new URI schemes that provide for the
+representation of character data in a URI must, in effect, represent
+characters from the unreserved set without translation, and should
+convert all other characters to bytes according to UTF-8, and then
+percent-encode those values. This requirement was introduced in January
+2005 with the publication of RFC 3986."
+
+Thus we know that any request string processed by Foswiki will be UTF-8
+encoded bytes. We need a way to get from those bytes into a string
+encoded using the {Site}{CharSet}, and this function is it.
+
+This function should be called on any URL components obtained from CGI
+functions (such as path_info() and param()) and CGI environment variables
+(such as PATH_INFO) before incorporation into topics or HTML output.
+
+=cut
+
 sub UTF82SiteCharSet {
     my ( $this, $text ) = @_;
 
     # Detect character encoding of the full topic name from URL
-    return if ( $text =~ $regex{validAsciiStringRegex} );
+    return if ( $text =~ /^[\x00-\x7F]+$/ );
 
     # SMELL: all this regex stuff should go away.
     # If not UTF-8 - assume in site character set, no conversion required
@@ -2952,7 +2978,7 @@ sub innerExpandMacros {
     );
 
     # Escape ' !%VARIABLE%'
-    $$text =~ s/(?<=\s)!%($regex{tagNameRegex})/&#37;$1/g;
+    $$text =~ s/(?<=\s)!%($regex{tagNameRegex})/&#37;$1/go;
 
     # Make sure func works, for registered tag handlers
     if (SINGLE_SINGLETONS) {
@@ -3469,7 +3495,7 @@ sub expandMacros {
 
     return '' unless defined $text;
 
-    # Plugin Hook (for cache Plugins only)
+    # Plugin Hook
     $this->{plugins}
       ->dispatch( 'beforeCommonTagsHandler', $text, $topicObject->topic,
         $topicObject->web, $topicObject );
