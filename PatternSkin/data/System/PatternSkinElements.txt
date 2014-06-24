@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1351352095" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1403575723" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Pattern Skin Elements
 Some intro text.
@@ -725,15 +725,35 @@ text="<style>
 ---++ Search results and search form
 
 <noautolink>
-<h1><a name="Web_Search"></a> Web Search </h1>
-<p />
-<span class="patternSearched">Searched: <b>caching</b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
-<h4 class="patternSearchResultsHeader" style="background-color:#FFD8AA"><span class="foswikiLeft"><b>Results from Foswiki web</b> retrieved at 00:46 (GMT)</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4>
-<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURL{"view"}%/System/HeadlinesPlugin"><b>HeadlinesPlugin</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURL{"view"}%/Main/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURL{"rdiff"}%/System/HeadlinesPlugin" rel='nofollow'>27 May 2006 - 07:56</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">Headlines Plugin Description This plugin displays RSS and ATOM feeds from news sites. Use it to build news portals that show headline news. Note: Syndic8.com ...</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURL{"view"}%/System/TWikiAjaxContrib"><b>TWikiAjaxContrib</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURL{"view"}%/Main/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev">r2 - <a href="%SCRIPTURL{"rdiff"}%/System/TWikiAjaxContrib" rel='nofollow'>02 Nov 2006 - 22:04</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">TWikiAjaxContrib TWikiAjaxContrib provides a convenience wrapper class around Yahoo's Connection Manager (AJAX). Goals are: To make it possible for plugins ...</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURL{"view"}%/System/TWikiAjaxContribExamples"><b>TWikiAjaxContribExamples</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURL{"view"}%/Main/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev">r2 - <a href="%SCRIPTURL{"rdiff"}%/System/TWikiAjaxContribExamples" rel='nofollow'>02 Nov 2006 - 22:04</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">!TWikiAjaxContrib Examples Code examples and demos for TWikiAjaxContrib. Default loading indicator Because Foswiki files are served along dynamic urls we cannot use ...</div><!--/foswikiSummary-->
-</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResultCount" id="twikiBottomResultCount">Number of topics: <b>3</b></div><!--/patternSearchResultCount-->
-<p />
+</div><h2 id="Search_results"> Search results </h2>
+<div><span class='foswikiIcon'><img src='/pub/System/DocumentGraphics/rss-small.png' width='16' height='16' alt='rss-small' /></span>
+ <a href='%SCRIPTURL{"view"}%/System/WebRss?search=caching;type=word;excludetopic=WebSearch,WebHome,WebStatistics;web=System;recurse=;limit=all;scope=all;casesensitive=off'>Get notified on changes on this search</a></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b>caching</b></span>
+<span id="foswikiNumberOfResultsContainer"></span></div>
+<h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at 01:55 (GMT)</h4>
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/System/AdminDocumentationCategory"><b>AdminDocumentationCategory</b></a>
+<div class="foswikiSummary"><b>&hellip;</b>  of the Foswiki Page <em>Caching</em> features. Page caching is the <b>&hellip;</b>  process of storing (<em>caching</em>) this HTML on the server, as  <b>&hellip;</b>
+</div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/AdminDocumentationCategory" rel='nofollow'>13 Mar 2014 - 13:42</a></span> 
+<span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
+
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/System/InstallationGuide"><b>InstallationGuide</b></a>
+<div class="foswikiSummary"><b>&hellip;</b> . However, as your browser is <em>caching</em> your login, you must restart  <b>&hellip;</b> </div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/InstallationGuide" rel='nofollow'>24 Apr 2014 - 21:52</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
+
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/System/PageCaching"><b>PageCaching</b></a>
+<div class="foswikiSummary">Page <em>Caching</em> By default, Foswiki pages are <b>&hellip;</b>  the page is requested. Page <em>caching</em> is the process of storing ( <b>&hellip;</b> <em>caching</em>) this HTML on the server, as  <b>&hellip;</b>  rendered from scratch. Page <em>caching</em> can significantly improve the <b>&hellip;</b> </div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/PageCaching" rel='nofollow'>30 May 2014 - 00:47</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
+
+<div class="foswikiSearchResult"><div class="foswikiTopRow">
+<a href="/System/PatternSkinElements"><b>PatternSkinElements</b></a> <div class="foswikiSummary"><b>&hellip;</b>  form Web Search Searched: <em>caching</em> Results from Foswiki web <b>&hellip;</b> </div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/PatternSkinElements" rel='nofollow'>27 Oct 2012 - 15:34</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
+
+<div class="foswikiSearchResultCount">Number of topics: <span>4</span></div>
+
 <a name="foswikiSearchForm"></a>
 <div class="foswikiPageForm">
 <form action="%SCRIPTURL{"view"}%/System/WebSearch">
