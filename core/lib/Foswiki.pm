@@ -578,7 +578,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     $regex{mixedAlphaNumRegex} = qr/[$regex{mixedAlphaNum}]*/o;
 
     # %TAG% name
-    $regex{tagNameRegex} = '[A-Z][A-Za-z0-9_:]*';
+    $regex{tagNameRegex} = '[A-Za-z][A-Za-z0-9_:]*';
 
     # Set statement in a topic
     $regex{bulletRegex} = '^(?:\t|   )+\*';
