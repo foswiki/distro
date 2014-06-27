@@ -92,8 +92,10 @@ $.wikiword = {
           thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
 
       // generate RegExp for filtered chars
-      thisOpts.allowedRegex = new RegExp('['+thisOpts.allow+']+', "g");
-      thisOpts.forbiddenRegex = new RegExp('[^'+thisOpts.allow+']+', "g");
+      if (typeof(thisOpts.allow) !== 'undefined') {
+        thisOpts.allowedRegex = new RegExp('['+thisOpts.allow+']+', "g");
+        thisOpts.forbiddenRegex = new RegExp('[^'+thisOpts.allow+']+', "g");
+      }
 
       $source.change(function() {
         $.wikiword.handleChange($source, $this, thisOpts);
@@ -141,6 +143,8 @@ $.wikiword = {
 
     var result = '', c, i;
 
+    opts = opts || $.wikiword.defaults;
+
     // transliterate unicode chars
     for (i = 0; i < source.length; i++) {
       c = source[i];
@@ -168,7 +172,8 @@ $.wikiword = {
     suffix: '',
     prefix: '',
     initial: '',
-    allow: 'a-zA-Z\\d'
+    allowedRegex: new RegExp('[a-zA-Z\\d]+', "g"),
+    forbiddenRegex: new RegExp('[^a-zA-Z\\d]+', "g")
   }
 };
 
