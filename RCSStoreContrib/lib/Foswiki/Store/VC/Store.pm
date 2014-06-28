@@ -183,6 +183,9 @@ sub moveAttachment {
         $newAttachment, $cUID )
       = @_;
 
+    ASSERT($oldAttachment) if DEBUG;
+    ASSERT($newAttachment) if DEBUG;
+
     my $handler = $this->getHandler( $oldTopicObject, $oldAttachment );
     if ( $handler->storedDataExists() ) {
         $handler->moveAttachment( $this, $newTopicObject->web,
@@ -205,6 +208,9 @@ sub copyAttachment {
         $newAttachment, $cUID )
       = @_;
 
+    ASSERT($oldAttachment) if DEBUG;
+    ASSERT($newAttachment) if DEBUG;
+
     my $handler = $this->getHandler( $oldTopicObject, $oldAttachment );
     if ( $handler->storedDataExists() ) {
         $handler->copyAttachment( $this, $newTopicObject->web,
@@ -222,6 +228,7 @@ sub copyAttachment {
 
 sub attachmentExists {
     my ( $this, $topicObject, $att ) = @_;
+    ASSERT($att) if DEBUG;
     my $handler = $this->getHandler( $topicObject, $att );
     return $handler->storedDataExists();
 }
@@ -287,12 +294,14 @@ sub moveWeb {
 
 sub testAttachment {
     my ( $this, $topicObject, $attachment, $test ) = @_;
+    ASSERT($attachment) if DEBUG;
     my $handler = $this->getHandler( $topicObject, $attachment );
     return $handler->test($test);
 }
 
 sub openAttachment {
     my ( $this, $topicObject, $att, $mode, @opts ) = @_;
+    ASSERT($att) if DEBUG;
 
     my $handler = $this->getHandler( $topicObject, $att );
     return $handler->openStream( $mode, @opts );
@@ -322,6 +331,7 @@ sub getRevisionDiff {
 
 sub getAttachmentVersionInfo {
     my ( $this, $topicObject, $rev, $attachment ) = @_;
+    ASSERT($attachment) if DEBUG;
 
     my $info;
 
@@ -396,6 +406,7 @@ sub getVersionInfo {
 
 sub saveAttachment {
     my ( $this, $topicObject, $name, $stream, $cUID, $options ) = @_;
+    ASSERT($name) if DEBUG;
 
     my $handler = $this->getHandler( $topicObject, $name );
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';

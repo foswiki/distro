@@ -134,19 +134,20 @@ sub readTopic {
 
 # Implement Foswiki::Store
 sub moveAttachment {
-    my ( $this, $oldTopicObject, $oldAttachment, $newTopicObject,
-        $newAttachment, $cUID )
-      = @_;
+    my ( $this, $oldTopicObject, $oldAtt, $newTopicObject, $newAtt, $cUID ) =
+      @_;
+    ASSERT($oldAtt) if DEBUG;
+    ASSERT($newAtt) if DEBUG;
 
     # No need to save damage; we're not looking inside
 
-    my $oldLatest = _latestFile( $oldTopicObject, $oldAttachment );
+    my $oldLatest = _latestFile( $oldTopicObject, $oldAtt );
     if ( -e $oldLatest ) {
-        my $newLatest = _latestFile( $newTopicObject, $newAttachment );
+        my $newLatest = _latestFile( $newTopicObject, $newAtt );
         _moveFile( $oldLatest, $newLatest );
         _moveFile(
-            _historyDir( $oldTopicObject, $oldAttachment ),
-            _historyDir( $newTopicObject, $newAttachment )
+            _historyDir( $oldTopicObject, $oldAtt ),
+            _historyDir( $newTopicObject, $newAtt )
         );
 
         $this->recordChange(
@@ -155,31 +156,33 @@ sub moveAttachment {
             revision      => 0,
             verb          => 'update',
             oldmeta       => $oldTopicObject,
-            oldattachment => $oldAttachment,
+            oldattachment => $oldAtt,
             newmeta       => $newTopicObject,
-            newattachment => $newAttachment
+            newattachment => $newAtt
         );
     }
 }
 
 # Implement Foswiki::Store
 sub copyAttachment {
-    my ( $this, $oldTopicObject, $oldAttachment, $newTopicObject,
-        $newAttachment, $cUID )
-      = @_;
+    my ( $this, $oldTopicObject, $oldAtt, $newTopicObject, $newAtt, $cUID ) =
+      @_;
+
+    ASSERT($oldAtt) if DEBUG;
+    ASSERT($newAtt) if DEBUG;
 
     # No need to save damage; we're not looking inside
 
     my $oldbase = _getPub($oldTopicObject);
-    if ( -e "$oldbase/$oldAttachment" ) {
+    if ( -e "$oldbase/$oldAtt" ) {
         my $newbase = _getPub($newTopicObject);
         _copyFile(
-            _latestFile( $oldTopicObject, $oldAttachment ),
-            _latestFile( $newTopicObject, $newAttachment )
+            _latestFile( $oldTopicObject, $oldAtt ),
+            _latestFile( $newTopicObject, $newAtt )
         );
         _copyFile(
-            _historyDir( $oldTopicObject, $oldAttachment ),
-            _historyDir( $newTopicObject, $newAttachment )
+            _historyDir( $oldTopicObject, $oldAtt ),
+            _historyDir( $newTopicObject, $newAtt )
         );
 
         $this->recordChange(
@@ -188,7 +191,7 @@ sub copyAttachment {
             revision      => 0,
             verb          => 'insert',
             newmeta       => $newTopicObject,
-            newattachment => $newAttachment
+            newattachment => $newAtt
         );
     }
 }
@@ -196,6 +199,8 @@ sub copyAttachment {
 # Implement Foswiki::Store
 sub attachmentExists {
     my ( $this, $meta, $att ) = @_;
+
+    ASSERT($att) if DEBUG;
 
     # No need to save damage; we're not looking inside
     return -e _latestFile( $meta, $att )
@@ -274,14 +279,16 @@ sub moveWeb {
 
 # Implement Foswiki::Store
 sub testAttachment {
-    my ( $this, $meta, $attachment, $test ) = @_;
-    my $fn = _latestFile( $meta, $attachment );
+    my ( $this, $meta, $att, $test ) = @_;
+    ASSERT($att) if DEBUG;
+    my $fn = _latestFile( $meta, $att );
     return eval "-$test '$fn'";
 }
 
 # Implement Foswiki::Store
 sub openAttachment {
     my ( $this, $meta, $att, $mode, @opts ) = @_;
+    ASSERT($att) if DEBUG;
     return _openStream( $meta, $att, $mode, @opts );
 }
 
@@ -377,11 +384,14 @@ sub saveAttachment {
     # SMELL: $options not currently supported by the core
     my ( $this, $meta, $name, $stream, $cUID, $options ) = @_;
 
+    ASSERT($name) if DEBUG;
+
     _saveDamage( $meta, $name );
 
     my @revs;
     my $rn = _numRevisions( \@revs, $meta, $name ) + 1;
-    my $verb = ( $meta->hasAttachment($name) ) ? 'update' : 'insert';
+    my $verb =
+      ( $this->attachmentExists( $meta, $name ) ) ? 'update' : 'insert';
 
     my $latest = _latestFile( $meta, $name );
     _saveStream( $latest, $stream );
