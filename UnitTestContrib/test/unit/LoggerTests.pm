@@ -787,26 +787,36 @@ sub PlainFileTestTime {
 sub test_PlainFileEachEventSinceOnSeveralLogs {
     my $this   = shift;
     my $logger = Foswiki::Logger::PlainFile->new();
-    my $cache  = \&Foswiki::Logger::PlainFile::_time;
-    no warnings 'redefine';
-    *Foswiki::Logger::PlainFile::_time = \&PlainFileTestTime;
-    use warnings 'redefine';
+
+    # Write out the logfiles manually.  Log rotate code doesn't handle
+    # the contrived dates well.
 
     $plainFileTestTime = 3600;
-    $logger->log( 'info', "Seal" );
+    open( my $lf, '>', "$logDir/events.197001" ) or die "open failed";
+    print $lf '| '
+      . Foswiki::Time::formatTime( $plainFileTestTime, 'iso', 'gmtime' )
+      . " info | Seal |\n";
+    close $lf;
     my $firstTime = time - 2 * 32 * 24 * 60 * 60;
     $plainFileTestTime = $firstTime;    # 2 months ago
-    $logger->log( 'info', "Dolphin" );
+    open( $lf, '>', "$logDir/events.201404" ) or die "open failed";
+    print $lf '| '
+      . Foswiki::Time::formatTime( $plainFileTestTime, 'iso', 'gmtime' )
+      . " info | Dolphin |\n";
+    close $lf;
     $plainFileTestTime += 32 * 24 * 60 * 60;    # 1 month ago
-    $logger->log( 'info', "Whale" );
-    $plainFileTestTime = time;                  # today
-    $logger->log( 'info', "Porpoise" );
+    open( $lf, '>', "$logDir/events.201405" ) or die "open failed";
+    print $lf '| '
+      . Foswiki::Time::formatTime( $plainFileTestTime, 'iso', 'gmtime' )
+      . " info | Whale |\n";
+    close $lf;
+    open( $lf, '>', "$logDir/events.log" ) or die "open failed";
+    my $now = time();
+    print $lf '| '
+      . Foswiki::Time::formatTime( $now, 'iso', 'gmtime' )
+      . " info | Porpoise |\n";
+    close $lf;
 
-    no warnings 'redefine';
-    *Foswiki::Logger::PlainFile::_time = $cache;
-    use warnings 'redefine';
-
-    #print STDERR "Calling eachEventSince info\n";
     my $it = $logger->eachEventSince( 0, 'info' );
     my $data;
     $this->assert( $it->hasNext() );
@@ -822,7 +832,7 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
     $this->assert_str_equals( "Whale", $data->[1] );
     $this->assert( $it->hasNext() );
     $data = $it->next();
-    $this->assert_equals( $plainFileTestTime, $data->[0] );
+    $this->assert_equals( $now, $data->[0] );
     $this->assert_str_equals( "Porpoise", $data->[1] );
     $this->assert( !$it->hasNext() );
 
@@ -837,7 +847,7 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
     $this->assert_str_equals( "Whale", $data->[1] );
     $this->assert( $it->hasNext() );
     $data = $it->next();
-    $this->assert_equals( $plainFileTestTime, $data->[0] );
+    $this->assert_equals( $now, $data->[0] );
     $this->assert_str_equals( "Porpoise", $data->[1] );
     $this->assert( !$it->hasNext() );
 
@@ -1021,16 +1031,19 @@ sub verify_logAndReplayUnicode {
     my $this    = shift;
     my $bytestr = "lower delta as a string: \xce\xb4";
     my $unicode = "lower delta as a string: \x{3b4}";
-    print STDERR "Attempting to log bytestring\n";
+
+    #print STDERR "Attempting to log bytestring\n";
     $this->{logger}->log( 'info', 'info', $bytestr );
-    print STDERR "Attempting to log unicode \n";
+
+    #print STDERR "Attempting to log unicode \n";
     $this->{logger}->log( 'info', 'info', $unicode );
-    print "Logged Data (bytestr) "
-      . ( ( utf8::is_utf8($bytestr) ) ? "is" : "is not" )
-      . " UTF8\n";
-    print "Logged Data (unicode) "
-      . ( ( utf8::is_utf8($unicode) ) ? "is" : "is not" )
-      . " UTF8\n";
+
+    #print "Logged Data (bytestr) "
+    #  . ( ( utf8::is_utf8($bytestr) ) ? "is" : "is not" )
+    #  . " UTF8\n";
+    #print "Logged Data (unicode) "
+    #  . ( ( utf8::is_utf8($unicode) ) ? "is" : "is not" )
+    #  . " UTF8\n";
 
     my $it = $this->{logger}->eachEventSince( 0, 'info' );
     my $data;
@@ -1038,16 +1051,18 @@ sub verify_logAndReplayUnicode {
     $data = $it->next();
     $this->assert_str_equals( $bytestr, $data->[2],
         'byte string is corrupted' );
-    print "Returned Data (bytestr) "
-      . ( ( utf8::is_utf8( $data->[2] ) ) ? "is" : "is not" )
-      . " UTF8\n";
-    print STDERR "$data->[2]\n";
+
+    #print "Returned Data (bytestr) "
+    #  . ( ( utf8::is_utf8( $data->[2] ) ) ? "is" : "is not" )
+    #  . " UTF8\n";
+    #print STDERR "$data->[2]\n";
     $this->assert( $it->hasNext() );
     $data = $it->next();
-    print "Returned Data (unicode) "
-      . ( ( utf8::is_utf8( $data->[2] ) ) ? "is" : "is not" )
-      . " UTF8\n";
-    print STDERR "$data->[2]\n";
+
+    #print "Returned Data (unicode) "
+    #  . ( ( utf8::is_utf8( $data->[2] ) ) ? "is" : "is not" )
+    #  . " UTF8\n";
+    #print STDERR "$data->[2]\n";
     $this->assert_str_equals( $bytestr, $data->[2],
         'unicode string is corrupted' );
     $this->assert( !$it->hasNext() );

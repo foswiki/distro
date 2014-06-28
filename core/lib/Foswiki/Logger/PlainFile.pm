@@ -114,9 +114,9 @@ sub log {
         ( $level, @fields ) = @_;
     }
 
+    my $now  = _time();
     my @logs = _getLogsForLevel( [$level] );
     my $log  = shift @logs;
-    my $now  = _time();
     _rotate( $LEVEL2LOG{$level}, $log, $now );
     my $time = Foswiki::Time::formatTime( $now, 'iso', 'gmtime' );
 
@@ -145,7 +145,6 @@ sub log {
         binmode $file, ":encoding(utf-8)";
         _lock($file);
         print $file "$message\n";
-        _unlock($file);
         close($file);
     }
     elsif ( $Foswiki::cfg{isVALID} ) {
@@ -170,12 +169,6 @@ sub _lock {    # borrowed from Log::Dispatch::FileRotate, Thanks!
     eval { flock( $fh, LOCK_EX ) }; # Ignore lock errors,   not all platforms support flock
                                     # Make sure we are at the EOF
     seek( $fh, 0, 2 );
-    return 1;
-}
-
-sub _unlock {    # borrowed from Log::Dispatch::FileRotate, Thanks!
-    my $fh = shift;
-    eval { flock( $fh, LOCK_UN ) };
     return 1;
 }
 
@@ -205,6 +198,9 @@ sub eachEventSince {
     # Find the year-month for the first time in the range
     my $logYear  = Foswiki::Time::formatTime( $time, '$year', 'servertime' );
     my $logMonth = Foswiki::Time::formatTime( $time, '$mo',   'servertime' );
+
+    print STDERR "Scanning $logYear:$logMonth thru $nowLogYear:$nowLogMonth\n"
+      if (TRACE);
 
     # Convert the requested level into a regular expression for the scan
     my $reqLevel = join( '|', @$level );
@@ -333,131 +329,29 @@ sub _rotate {
     print STDERR "compare $modMonth,  $curMonth\n" if (TRACE);
     return if ( $modMonth == $curMonth );
 
-    # The log was last modified in a month that was not the current month.
-    # Rotate older entries out into month-by-month logfiles.
-
-    # Open the current log
-    my $lf;
-    unless ( open( $lf, '<', $log ) ) {
-        print STDERR
-          "ERROR: PlainFile Logger could not open logfile $log for read: $! \n";
+    my $lockfile;
+    unless ( open( $lockfile, '>', $log . 'LOCK' ) ) {
+        print STDERR "ERROR: PlainFile Logger could not open $log.LOCK: $! \n";
         return;
     }
+    flock( $lockfile, LOCK_EX );
 
-    my %months;
+    my $newname = $log;
+    $newname =~ s/log$/$modMonth/;
+    print STDERR "Renaming from $log to $newname \n" if (TRACE);
 
-    local $/ = "\n";
-    my $line;
-    my $linecount;
-    my $stashline = '';
-    while ( $line = <$lf> ) {
-        $stashline .= $line;
-        my @event = split( /\s*\|\s*/, $line );
-        $linecount++;
-        if ( scalar(@event) > 7 ) {
-            print STDERR "Bad log "
-              . join( ' | ', @event )
-              . " | - Skipped \n "
-              if (TRACE);
-            $stashline = '';
-            next;
-        }
-
-        unless ( $event[1] ) {
-            print STDERR
-              "BAD LOGFILE LINE - skip $line - line $linecount in $log\n"
-              if (TRACE);
-            next;
-        }
-
-        #Item12022: parseTime bogs the CPU down here, so try a dumb regex first
-        # (assuming ISO8601 format Eg. 2000-01-31T23:59:00Z). Result: 4x speedup
-        my $eventMonth;
-        if ( $event[1] =~ /^(\d{4})-(\d{2})-\d{2}T[0-9:]+Z\b/ ) {
-            $eventMonth = $1 . $2;
-        }
-        else {
-            print STDERR ">> Non-ISO date string encountered\n" if (TRACE);
-            my $tempMonth = Foswiki::Time::parseTime( $event[1] );
-            unless ( defined $tempMonth ) {
-                print STDERR
-                  ">> BAD LOGFILE LINE - skip $line - line $linecount in $log\n"
-                  if (TRACE);
-                next;
-            }
-            $eventMonth = _time2month($tempMonth);
-        }
-
-        if ( !defined $eventMonth ) {
-
-            print STDERR
-              ">> Bad time in log - skip: $line - line $linecount in $log\n"
-              if (TRACE);
-            next;
-        }
-
-        if ( $eventMonth < $curMonth ) {
-            push( @{ $months{$eventMonth} }, $stashline );
-            $stashline = '';
-        }
-        else {
-
-            # Reached the start of log entries for this month
-            print STDERR ">> Reached start of this month - count $linecount \n"
-              if (TRACE);
-            last;
-        }
-    }
-    print STDERR " Months "
-      . join( ' ', keys %months )
-      . " - processed $linecount records \n"
-      if (TRACE);
-
-    if ( !scalar( keys %months ) ) {
-
-        # no old months, we're done. The modify time on the current
-        # log will be touched by the next write, so we won't attempt
-        # to rotate again until next month.
-        print STDERR ">> No old months\n" if (TRACE);
+    unless ( -e $newname ) {
+        open( my $lf, '>>', $log );
+        _lock($lf);
+        rename $log, $newname;
         close($lf);
-        return;
+        unlink $log . 'LOCK';
+    }
+    else {
+        print STDERR "ROTATE SKIPPED - prior log ($log) exists\n";
+        unlink $log . 'LOCK';
     }
 
-    # Sook up the rest of the current log
-    $line ||= '';
-    $/ = undef;
-    my $remainingLog = <$lf>;
-    close($lf);
-
-    my $curLog = $line;
-    $curLog .= $remainingLog if defined $remainingLog;
-
-    foreach my $month ( keys %months ) {
-        my $bf;
-        my $backup = $log;
-        $backup =~ s/log$/$month/;
-        if ( -e $backup ) {
-            print STDERR
-"ERROR: PlainFile Logger could not create $backup - file exists\n";
-            return;
-        }
-        unless ( open( $bf, '>', $backup ) ) {
-            print STDERR
-              "ERROR: PlainFile Logger could not create $backup - $! \n";
-            return;
-        }
-        print $bf join( '', @{ $months{$month} } );
-        close($bf);
-    }
-
-    # Finally rewrite the shortened current log
-    unless ( open( $lf, '>', $log ) ) {
-        print STDERR
-"ERROR: PlainFile Logger could not open logfile $log for write: $! \n";
-        return;
-    }
-    print $lf $curLog;
-    close($lf);
 }
 
 1;
