@@ -572,7 +572,7 @@ sub session {
     return $_[0]->{_session};
 }
 
-# Assert helper
+# Assert helpers
 sub _assertIsTopic {
     my $this = shift;
     ASSERT( $this->isa('Foswiki::Meta') );
@@ -583,6 +583,13 @@ sub _assertIsWeb {
     my $this = shift;
     ASSERT( $this->isa('Foswiki::Meta') );
     ASSERT( $this->{_web} && !$this->{_topic}, 'not a web object' );
+}
+
+# Does not test attachment existance, just validity of the name
+sub _assertIsAttachment {
+    my ( $this, $name ) = @_;
+    $this->_assertIsTopic();
+    ASSERT( $name, 'not a valid attachment name' );
 }
 
 =begin TML
@@ -2698,7 +2705,7 @@ sub getAttachmentRevisionInfo {
 ---++ ObjectMethod attach ( %opts )
 
    * =%opts= may include:
-      * =name= - Name of the attachment
+      * =name= - Name of the attachment - required
       * =dontlog= - don't add to statistics
       * =comment= - comment for save
       * =hide= - if the attachment is to be hidden in normal topic view
@@ -2733,7 +2740,7 @@ sub attach {
     my %opts = @_;
     my $action;
     my $plugins = $this->{_session}->{plugins};
-    _assertIsTopic($this) if DEBUG;
+    _assertIsAttachment( $this, $opts{name} ) if DEBUG;
 
 # make sure we don't save a half-loaded topic stub...which indeed - smell - is possible
     $this->loadVersion() unless $this->latestIsLoaded();
@@ -2914,7 +2921,7 @@ in the object only)
 
 sub hasAttachment {
     my ( $this, $name ) = @_;
-    _assertIsTopic($this) if DEBUG;
+    _assertIsAttachment( $this, $name ) if DEBUG;
     return $this->{_session}->{store}->attachmentExists( $this, $name );
 }
 
@@ -2952,7 +2959,7 @@ Errors will be signalled by an Error::Simple exception.
 
 sub testAttachment {
     my ( $this, $attachment, $test ) = @_;
-    _assertIsTopic($this) if DEBUG;
+    _assertIsAttachment( $this, $attachment ) if DEBUG;
 
     $this->addDependency();
 
@@ -2996,8 +3003,8 @@ See also =attach= if this function is too basic for you.
 
 sub openAttachment {
     my ( $this, $attachment, $mode, @opts ) = @_;
-    _assertIsTopic($this) if DEBUG;
-    ASSERT($attachment)   if DEBUG;
+    _assertIsAttachment( $this, $attachment ) if DEBUG;
+    ASSERT($attachment) if DEBUG;
 
     return $this->{_session}->{store}
       ->openAttachment( $this, $attachment, $mode, @opts );
@@ -3020,8 +3027,8 @@ sub moveAttachment {
     my $to   = shift;
     my %opts = @_;
     my $cUID = $opts{user} || $this->{_session}->{user};
-    _assertIsTopic($this) if DEBUG;
-    _assertIsTopic($to)   if DEBUG;
+    _assertIsAttachment( $this, $name ) if DEBUG;
+    _assertIsTopic($to) if DEBUG;
 
     my $newName = $opts{new_name} || $name;
 
@@ -3103,8 +3110,8 @@ sub copyAttachment {
     my $to   = shift;
     my %opts = @_;
     my $cUID = $opts{user} || $this->{_session}->{user};
-    _assertIsTopic($this) if DEBUG;
-    _assertIsTopic($to)   if DEBUG;
+    _assertIsAttachment( $this, $name ) if DEBUG;
+    _assertIsTopic($to) if DEBUG;
 
     my $newName = $opts{new_name} || $name;
 

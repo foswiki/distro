@@ -195,7 +195,8 @@ sub readTopic {
 Move an attachment from one topic to another.
 
 The caller to this routine should check that all topics are valid, and
-access is permitted.
+access is permitted. $oldAttachment and $newAttachment must be given and
+may not be perl false.
 
 =cut
 
@@ -212,7 +213,8 @@ sub moveAttachment {
 Copy an attachment from one topic to another.
 
 The caller to this routine should check that all topics are valid, and
-access is permitted.
+access is permitted. $oldAttachment and $newAttachment must be given and
+may not be perl false.
 
 =cut
 

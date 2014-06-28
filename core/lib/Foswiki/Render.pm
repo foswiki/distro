@@ -641,7 +641,7 @@ sub TML2PlainText {
             $text =~ s/%(\w+({.*?}))%/$1/g;      # defuse
         }
         else {
-            $text =~ s/%$Foswiki::regex{tagNameRegex}({.*?})?%//g;    # remove
+            $text =~ s/%$Foswiki::regex{tagNameRegex}({.*?})?%//go;    # remove
         }
     }
 
