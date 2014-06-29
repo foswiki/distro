@@ -177,6 +177,20 @@ function type(chr) {
 				rng.select();
 				rng.execCommand('Delete', false, null);
 			} else {
+				var rng = editor.selection.getRng();
+
+				if (rng.startContainer.nodeType == 1 && rng.collapsed) {
+					var nodes = rng.startContainer.childNodes, lastNode = nodes[nodes.length - 1];
+
+					// If caret is at <p>abc|</p> and after the abc text node then move it to the end of the text node
+					// Expand the range to include the last char <p>ab[c]</p> since IE 11 doesn't delete otherwise
+					if (rng.startOffset >= nodes.length - 1 && lastNode && lastNode.nodeType == 3 && lastNode.data.length > 0) {
+						rng.setStart(lastNode, lastNode.data.length - 1);
+						rng.setEnd(lastNode, lastNode.data.length);
+						editor.selection.setRng(rng);
+					}
+				}
+
 				editor.getDoc().execCommand('Delete', false, null);
 			}
 		} else if (typeof(chr) == 'string') {
@@ -197,8 +211,9 @@ function type(chr) {
 }
 
 function cleanHtml(html) {
-	html = html.toLowerCase().replace(/[\r\n]+/g, '');
-	html = html.replace(/ (sizcache|nodeindex|sizset|data\-mce\-expando)="[^"]*"/g, '');
+	html = html.toLowerCase().replace(/[\r\n]+/gi, '');
+	html = html.replace(/ (sizcache[0-9]+|sizcache|nodeindex|sizset[0-9]+|sizset|data\-mce\-expando|data\-mce\-selected)="[^"]*"/gi, '');
+	html = html.replace(/<span[^>]+data-mce-bogus[^>]+>[\u200B\uFEFF]+<\/span>|<div[^>]+data-mce-bogus[^>]+><\/div>/gi, '');
 
 	return html;
 }

@@ -482,9 +482,15 @@
 					// Store away the selection when it's changed to it can be restored later with a editor.focus() call
 					if (isIE) {
 						t.onInit.add(function(ed) {
-							ed.dom.bind(ed.getBody(), 'beforedeactivate keydown', function() {
-								ed.lastIERng = ed.selection.getRng();
+							ed.dom.bind(ed.getBody(), 'beforedeactivate keydown keyup', function() {
+								ed.bookmark = ed.selection.getBookmark(1);
 							});
+						});
+
+						t.onNodeChange.add(function(ed) {
+							if (document.activeElement.id == ed.id + "_ifr") {
+								ed.bookmark = ed.selection.getBookmark(1);
+							}
 						});
 					}
 				}
@@ -522,10 +528,12 @@
 				t.iframeHTML += '<base href="' + t.documentBaseURI.getURI() + '" />';
 
 			// IE8 doesn't support carets behind images setting ie7_compat would force IE8+ to run in IE7 compat mode.
-			if (s.ie7_compat)
-				t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=7" />';
-			else
-				t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+			if (tinymce.isIE8) {
+				if (s.ie7_compat)
+					t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=7" />';
+				else
+					t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+			}
 
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
@@ -887,8 +895,9 @@
 			var oed, self = this, selection = self.selection, contentEditable = self.settings.content_editable, ieRng, controlElm, doc = self.getDoc(), body;
 
 			if (!skip_focus) {
-				if (self.lastIERng) {
-					selection.setRng(self.lastIERng);
+				if (self.bookmark) {
+					selection.moveToBookmark(self.bookmark);
+					self.bookmark = null;
 				}
 
 				// Get selected control element
@@ -909,7 +918,7 @@
 					body = self.getBody();
 
 					// Check for setActive since it doesn't scroll to the element
-					if (body.setActive) {
+					if (body.setActive && ! tinymce.isIE11) {
 						body.setActive();
 					} else {
 						body.focus();
@@ -1418,9 +1427,7 @@
 			self.save();
 
 			// defer the call to hide to prevent an IE9 crash #4921
-			setTimeout(function() {
-				DOM.hide(self.getContainer());
-			}, 1);
+			DOM.hide(self.getContainer());
 			DOM.setStyle(self.id, 'display', self.orgDisplay);
 		},
 
@@ -1849,11 +1856,19 @@
 		 * @method remove
 		 */
 		remove : function() {
-			var self = this, elm = self.getContainer();
+			var self = this, elm = self.getContainer(), doc = self.getDoc();
 
 			if (!self.removed) {
 				self.removed = 1; // Cancels post remove event execution
-				self.hide();
+
+				// Fixed bug where IE has a blinking cursor left from the editor
+				if (isIE && doc)
+					doc.execCommand('SelectAll');
+
+				// We must save before we hide so Safari doesn't crash
+				self.save();
+
+				DOM.setStyle(self.id, 'display', self.orgDisplay);
 
 				// Don't clear the window or document if content editable
 				// is enabled since other instances might still be present

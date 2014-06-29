@@ -3713,7 +3713,7 @@ and displays a table of colors for the user to pick from.
 </description>
 </method>
 <method name="hideMenu" summary="Hides the color menu.">
-<description>Hides the color menu. The optional event parameter is used to check where the event occured so it
+<description>Hides the color menu. The optional event parameter is used to check where the event occurred so it
 doesn't close them menu if it was a event inside the menu.
 </description>
 <param name="e" type="Event">
@@ -4410,7 +4410,7 @@ tinymce.create('tinymce.plugins.ExamplePlugin', {
 </description>
 </method>
 <method name="hideMenu" summary="Hides the menu.">
-<description>Hides the menu. The optional event parameter is used to check where the event occured so it
+<description>Hides the menu. The optional event parameter is used to check where the event occurred so it
 doesn't close them menu if it was a event inside the menu.
 </description>
 <param name="e" type="Event">

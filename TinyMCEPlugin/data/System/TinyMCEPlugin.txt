@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="pending" date="1395685240" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404004786" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -169,7 +169,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "skin" : "%IF{
     "defined 'TINYMCEPLUGIN_MCESKIN'"
     then="%TINYMCEPLUGIN_MCESKIN%"
-    else="%STARTSECTION{"MCESKIN"}%default%ENDSECTION{"MCESKIN"}%"
+    else="%STARTSECTION{"MCESKIN"}%o2k7%ENDSECTION{"MCESKIN"}%"
 }%",
 %IF{
     "defined 'TINYMCEPLUGIN_MCESKIN_VARIANT' AND $'TINYMCEPLUGIN_MCESKIN_VARIANT'"
@@ -308,12 +308,13 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
-                &copy; 2010-2012 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
+                &copy; 2010-2014 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |             | This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
 |  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
 |  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
 |  1.2.9 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.7 |
@@ -420,6 +421,6 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1395685240" comment="screenshot"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1395685240" attr="h" user="ProjectContributor" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1395685240" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1404005046" comment="screenshot"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1404005046" attr="h" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1404005046" user="ProjectContributor" comment="" version="1"}%
