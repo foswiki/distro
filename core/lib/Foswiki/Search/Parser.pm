@@ -45,11 +45,13 @@ sub _initialise {
     return if ( $this->{initialised} );
 
     # Build pattern of stop words
+    my $WMARK = chr(0);                      # Set a word marker
     my $prefs = $this->{session}->{prefs};
     ASSERT($prefs) if DEBUG;
     $this->{stopwords} = $prefs->getPreference('SEARCHSTOPWORDS') || '';
-    $this->{stopwords} =~ s/[\s\,]+/\|/go;
-    $this->{stopwords} =~ s/[\(\)]//go;
+    $this->{stopwords} =~ s/[\s\,]+/$WMARK/g;
+    $this->{stopwords} = quotemeta $this->{stopwords};
+    $this->{stopwords} =~ s/\\$WMARK/|/g;
 
     $this->{initialised} = 1;
 }

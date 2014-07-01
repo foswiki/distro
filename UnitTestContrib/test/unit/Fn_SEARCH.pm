@@ -4479,6 +4479,46 @@ sub verify_search_type_regex {
     return;
 }
 
+# Item12951: Verify that regex characters in the stopwords string are not interpreted.
+sub verify_stop_words_regex_meta_search_word {
+    my $this = shift;
+
+    use Foswiki::Func;
+    my $origSetting = Foswiki::Func::getPreferencesValue('SEARCHSTOPWORDS');
+    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS',
+        'xxx luv ,kiss, bye, i.e., a(b)' );
+
+    my $TEST_TEXT  = "xxx i.e. Shamira IEEE a(b)";
+    my $TEST_TOPIC = 'StopWordTestTopic';
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, $TEST_TOPIC );
+    $topicObject->text($TEST_TEXT);
+    $topicObject->save();
+    $topicObject->finish();
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"IEEE" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
+    $this->assert_matches( qr/$TEST_TOPIC/, $result );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"a(b)" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
+    $this->assert_str_equals( '', $result );
+
+    $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"i.e." type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
+    $this->assert_str_equals( '', $result );
+
+    Foswiki::Func::setPreferencesValue( 'SEARCHSTOPWORDS', $origSetting );
+
+    return;
+}
+
 sub verify_stop_words_search_word {
     my $this = shift;
 
