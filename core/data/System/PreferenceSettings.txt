@@ -1,5 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
-%META:TOPICPARENT{name="AdminToolsCategory"}% #SettingPrefs
+%META:TOPICINFO{author="ProjectContributor" date="1404418604" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
+#SettingPrefs
 #PreferencesMacros
 ---++!! Preference Settings
 A _preference setting_ lets you define a simple [[%SYSTEMWEB%.Macros][macro]] that will be expanded in your output. A preference setting looks like this: <p /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value= <p /> Example:
@@ -129,4 +130,4 @@ controls in the lower right corner of the edit box window, those settings will
 be used, and the EDITBOX* settings will be ignored.
 </blockquote>
 
-%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1350962092" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="prefs-stack.jpg" attachment="prefs-stack.jpg" attr="h" comment="" date="1404419003" path="prefs-stack.jpg" size="52064" user="ProjectContributor" version="1"}%
