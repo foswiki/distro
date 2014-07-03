@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718138" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404395344" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSEARCH
 
@@ -18,7 +18,7 @@
      | =limit="all"= <br /> =limit="16"= | Limit the number of topics from which results will be returned. This is done after sorting if =order= is specified. Note that this does not limit the number of hits from the same topic when you have multiple="on". | All results |
      | =date="..."= | limits the results to those pages with latest edit time in the given [[TimeSpecifications#TimeIntervals][time interval]].  | All results |
      | =reverse="on"= | Reverse the direction of the search. Does only apply to key specified by =order=. | Ascending search |
-     | =casesensitive="on"= | Case sensitive search | Ignore case |
+     | =casesensitive="on"= | Case sensitive search. (For =type=query= searches, =casesensitive= is always ==on==.  See QuerySearch for more flexible case comparison options.) | Ignore case |
      | =bookview="on"= | BookView search, e.g. show complete topic text. Very resource demanding. Use only with small result sets | Show entire topic content. |
      | =nonoise="on"= | Shorthand for =nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"= | Off |
      | =nosummary="on"= | Show topic title only | Show topic summary |

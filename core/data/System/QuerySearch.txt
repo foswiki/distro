@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1395334541" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404395344" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -176,6 +176,14 @@ When a query is applied to a topic, the goal is to reduce to a TRUE or FALSE val
 
 A query matches if the query returns one or more values when it is applied to the topic. So if I have a very simple query, such as ="attachments"=, then this will return TRUE for all topics that have one or more attachments. If I write ="attachments[size>1024 AND name ~ '*.gif']"= then it will return TRUE for all topics that have at least one attachment larger than 1024 bytes with a name ending in =.gif=.
 
+---++ Case sensitivity
+
+The =type=query= search is always case sensitive, with the exceptions of:
+   * operator names (=and= and =AND= are the same)
+   * constants (=now= and =NOW= are the same)
+Everything else is case sensitive.    In order to do comparisons that are case insensitive, the recommended solution is to  Use the ==lc()== or ==uc()== functions to convert either side of the comparison to be lower or upper case.
+This is further demonstrated below in the examples.
+
 ---++ Working with arrays
 A number of fields in a topic are _arrays_, meaning that they refer to a list of values rather than a single value. Arrays are accessed using the square brackets ([]) and dot (.) operators.
 
@@ -222,6 +230,7 @@ will return an array of the values of the Published field in all versions author
    * =preferences[name='FaveColour' AND value='Tangerine']= - true if the topic has the given [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and value
    * =Person/(<nop>ClothesForm[name='Headgear'].value ~ '*Bowler*' AND attachments[name~'*hat.gif' AND date < d2n('2007-01-01')])= - true if the form attached to the topic has a field called =Person= that has a value that is the name of a topic, and that topic contains the form =<nop>ClothesForm=, with a field called =Headgear=, and the value of that field contains the string ='Bowler'=, and the topic also has at least one attachment that has a name matching =*hat.gif= and a date before 1st Jan 2007. (Phew!)
    * =length(fields[NOT lc(attributes)=~'h'])= - the number of fields that are not hidden
+   * =lc(name)=~'.*ann.*'= - Would match Anne, Maryann, !MaryAnn,  !AnnMarie...
 
 ---+++ Search examples
 Find all topics that are children of this topic in the current web
@@ -247,6 +256,10 @@ Find all topics that have a field 'Threat' set to 'Amber' and 'cold virus' somew
 Find all topics newer than one week old
 <verbatim class="tml">
 %SEARCH{"info.date >= %CALC{"$TIMEADD($TIME(), -7, day)"}%" type="query"}%
+</verbatim>
+Search for topic based upon browser input
+<verbatim class="tml">
+%SEARCH{"lc(name)=~lc('.*%URLPARAM{"q"}%.*')" type="query"}%
 </verbatim>
 __Related Topics:__ SearchHelp, VarSEARCH, FormattedSearch, Foswiki:System/QuerySearchPatternCookbook
 <!-- %JQREQUIRE{"chili"}% -->
