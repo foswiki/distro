@@ -625,6 +625,10 @@ sub load {
         last if /^=$/;
         my ( $key, $value ) =
           map { defined $_ ? Foswiki::urlDecode($_) : $_ } split /=/;
+
+        # Item12956: Split returns only a single entry in array for null values.
+        # save sets null values to '',  so load needs to restore '', not undef
+        $value = '' unless defined $value;
         if ( exists $param{$key} ) {
             push @{ $param{$key} }, $value;
         }
