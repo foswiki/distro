@@ -93,7 +93,7 @@ simple=s1
 simple2=s2
 multi=m1
 multi=m2
-undef=
+empty=
 =
 EOF
     );
@@ -115,7 +115,8 @@ EOF
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number o values' );
     $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter value' );
     $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter value' );
-    $this->assert_null( $req->param('undef'), 'Wrong parameter value' );
+    $this->assert_str_equals( '', $req->param('empty'),
+        'Wrong parameter value' );
 }
 
 sub test_action {
@@ -696,7 +697,7 @@ simple=s1
 simple2=s2
 multi=m1
 multi=m2
-undef=
+empty=
 =
 EOF
     );
@@ -719,7 +720,8 @@ EOF
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number o values' );
     $this->assert_str_equals( 'm1', $values[0],     'Wrong parameter value' );
     $this->assert_str_equals( 'm2', $values[1],     'Wrong parameter value' );
-    $this->assert_null( $req->param('undef'), 'Wrong parameter value' );
+    $this->assert_str_equals( '', $req->param('empty'),
+        'Wrong parameter value' );
 }
 
 sub test_upload {
