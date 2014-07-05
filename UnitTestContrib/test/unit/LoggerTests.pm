@@ -797,15 +797,19 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
       . Foswiki::Time::formatTime( $plainFileTestTime, 'iso', 'gmtime' )
       . " info | Seal |\n";
     close $lf;
-    my $firstTime = time - 2 * 32 * 24 * 60 * 60;
+    my $firstTime = time - ( 2 * 32 * 24 * 60 * 60 );
     $plainFileTestTime = $firstTime;    # 2 months ago
-    open( $lf, '>', "$logDir/events.201404" ) or die "open failed";
+    my $lfname =
+      Foswiki::Time::formatTime( $firstTime, '$year$mo', 'servertime' );
+    open( $lf, '>', "$logDir/events.$lfname" ) or die "open failed";
     print $lf '| '
       . Foswiki::Time::formatTime( $plainFileTestTime, 'iso', 'gmtime' )
       . " info | Dolphin |\n";
     close $lf;
     $plainFileTestTime += 32 * 24 * 60 * 60;    # 1 month ago
-    open( $lf, '>', "$logDir/events.201405" ) or die "open failed";
+    $lfname =
+      Foswiki::Time::formatTime( $plainFileTestTime, '$year$mo', 'servertime' );
+    open( $lf, '>', "$logDir/events.$lfname" ) or die "open failed";
     print $lf '| '
       . Foswiki::Time::formatTime( $plainFileTestTime, 'iso', 'gmtime' )
       . " info | Whale |\n";
