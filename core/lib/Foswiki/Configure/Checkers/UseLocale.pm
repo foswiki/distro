@@ -20,8 +20,6 @@ my @required = (
     },
 );
 
-my @perl56 = ();
-
 my @perl58 = (
     {
         name => 'Unicode::Normalize',
@@ -38,12 +36,17 @@ sub check {
 
     my $n = $this->checkPerlModules( 0, \@required );
 
-    if ( $] >= 5.008 ) {
-        $n .= $this->checkPerlModules( 0, \@perl58 );
-    }
-    else {
-        $n .= $this->checkPerlModules( 0, \@perl56 );
-    }
+    $n .= $this->checkPerlModules( 0, \@perl58 );
+
+    $n .= $this->ERROR(
+        <<HERE
+Perl Locales are known to have issues.  Perl taint checking (the -T flag)
+must be disables if UseLocale is enabled.  Even with taint checking disabled
+there are a number of know issues with Foswiki Locales.   For known issues
+see:  <a href="http://foswiki.org/Tasks/I18N">Foswiki I18N tasks</a>
+HERE
+    );
+
     if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
 
         # Warn re known broken locale setup
@@ -54,12 +57,6 @@ or ActiveState Perl, respectively) - turning off {Site}{LocaleRegexes} is
 recommended unless you know your version of Perl has working locale support.
 HERE
         );
-    }
-
-    # Warn against Perl 5.6 or lower for UTF-8
-    if ( $] < 5.008 ) {
-        $n .= $this->WARN( "Perl 5.8 is required if you are using Foswiki",
-            " experimental UTF-8 support\n" );
     }
 
     # Check for 'useperlio' in Config on Perl 5.8 or higher - required
