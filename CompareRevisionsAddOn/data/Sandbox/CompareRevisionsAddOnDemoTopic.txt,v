@@ -48,7 +48,7 @@ Here is a changed paragraph. Lorem Ipsum dolor sit amet, conecteur adipiscing fe
 
 Here is a paragraph. Pellentesque velit. Aliquam era volutpat. Duis sagittis nibh sed justo.
 
--- Main.ProjectContributor
+-- %USERSWEB%.ProjectContributor
 @
 
 
@@ -78,5 +78,5 @@ a21 1
 Here is a new paragraph. Pellentesque velit. Aliquam era volutpat. Duis sagittis nibh sed justo.
 d23 1
 a23 1
--- Main.ProjectContributor - 13 Apr 2006
+-- %USERSWEB%.ProjectContributor - 13 Apr 2006
 @
