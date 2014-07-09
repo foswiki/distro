@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1401324697" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404871157" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 1.2 - not released yet
 %RED% These are not actual release notes, but a collection of documented changes that we should not forget to mention. %ENDCOLOR%
@@ -61,7 +61,7 @@ have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
 copy using the updated =foswiki/bin/LocalLib.cfg.txt=
 </blockquote>
 
----+++ Authentication and Authorization
+---+++ Authentication, Authorization and Security
 
    * users can authenticate via 'TemplateLogin' with their email address
 
@@ -151,9 +151,9 @@ extension fails to check for access permission, then these new methods will
 not block access.
 </blockquote>
 
----+++ Improved CGI Session security
+---++++ Improved CGI Session security
 
----++++ Session IDs
+---+++++ Session IDs
 
 In Foswiki 1.2, sessions ID's will be changed whenever the user identity changes.  This improves the resistance to certain session hijack attacks.
 This is not believed to have any negative impact, however there is a race condition if the user uses multiple browser tabs, and authenticates in one
@@ -162,7 +162,7 @@ The session ID in use for the upload will be deleted because of the sudo login a
 
 This change is important for security purposes and cannot be disabled.
 
----++++ Sessions and Roaming or Mobile Users
+---+++++ Sessions and Roaming or Mobile Users
 
 In Foswiki 1.2, =$Foswiki::cfg{Sessions}{UseIPMatching}= has been enabled by default.  This change can improve security by
 reducing the exposure to certain session hijack attacks.  However it can be disruptive to mobile users.  It is also of limited use when
@@ -172,11 +172,16 @@ With =UseIPMatching= enabled,  =CGI::Session= code will compare the current user
 If the IP address has changed, then the session is invalidated and the user is required to re-authenticate.
 There is further information about this option in the [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface.
 
----++++ Optional Sessions for Guest users
+---+++++ Optional Sessions for Guest users
 
 _EXPERIMENTAL_ feature: In %WIKITOOLNAME% version 1.2, sessions can be suppressed for guest users.   This is believed safe if guests have no ability to update.
 However if guests are permitted to update, such as by using the CommentPlugin, or if any wiki applications make use Session Variables, then guest sessions should be enabled. See the
 [[%SCRIPTURLPATH{"configure"}%#SecurityAndAuthentication][configure]] interface for more information.
+
+---++++ Deprecated =AllowInlineScript= configuration setting removed
+
+The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts are always allowed.
+Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control javascript within topics.
 
 ---+++ Configure has been given a major restructuring
 
