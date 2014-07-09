@@ -6,7 +6,7 @@
 
 ---++ Purpose
 
-Template webs were created to act as templates in creating webs.  It is now possible to create webs via the %SYSTEMWEB%.ManagingWebs topic.  In the not so distant past webs were created by hand.  The data directory contains the different webs such as *Sandbox* and *%SYSTEMWEB%*.  A web that begins with an underscore &quot;_&quot; character is considered invisible and a template.  All files in the *_default* (or any other web that begins with an underscore) template web will be copied into your new web.  The [[_default.%HOMETOPIC%][_default]] web template contains the following topics: =<nop>%HOMETOPIC%, <nop>WebChanges, <nop>WebIndex, <nop>WebNotify, <nop>WebPreferences, <nop>WebSearch and <nop>WebTopicList.=
+Template webs were created to act as templates in creating webs.  It is now possible to create webs via the %SYSTEMWEB%.ManagingWebs topic.  In the not so distant past webs were created by hand.  The data directory contains the different webs such as *%SANDBOXWEB%* and *%SYSTEMWEB%*.  A web that begins with an underscore &quot;_&quot; character is considered invisible and a template.  All files in the *_default* (or any other web that begins with an underscore) template web will be copied into your new web.  The [[_default.%HOMETOPIC%][_default]] web template contains the following topics: =<nop>%HOMETOPIC%, <nop>WebChanges, <nop>WebIndex, <nop>WebNotify, <nop>WebPreferences, <nop>WebSearch and <nop>WebTopicList.=
 
 ---++ Customizing
 

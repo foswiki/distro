@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398701030" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404876093" version="1"}%
 ---+!! !EditRowPlugin
 <!--
 One line description, required for extensions repository catalog.
@@ -128,7 +128,7 @@ An individual edit field type can be defined for each individual table cell. Pla
 __Note:__ The =%<nop>EDITCELL{}%= macro cannot be used by itself; place an =%<nop>EDITTABLE{ }%= macro at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= macros.
 
 ---++ Examples
-Copy the following examples and paste them into a topic in the Sandbox web
+Copy the following examples and paste them into a topic in the %SANDBOXWEB% web
 (or another web where you have write access). The !EditRowPlugin is
 %IF{"{Plugins}{EditRowPlugin}{Enabled}"
 else=" *not* enabled on this site, so the examples will be disabled."
@@ -296,12 +296,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please use the Foswiki support pages to ask questions and report problems instead. -->
 
-%META:FILEATTACHMENT{date="1398701030" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{date="1398701030" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="screenshot1.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="screenshot2.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="wikiringlogo20x20.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="edittable.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="quiet.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="addrow.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="example3.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="example4.png" user="ProjectContributor" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{date="1404876093" name="example5.png" user="ProjectContributor" attr="h" comment="" version="1"}%

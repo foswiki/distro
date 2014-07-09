@@ -107,8 +107,8 @@ Each web has:
       * [[#TopicNames][topic naming rules]] apply to web names
       * there is no ability to refer to _subwebs_ with a _relative_ path, i.e. they must always be _fully qualified_ - referred to in full, with the parent web(s) prefixed
          * the '.' and '/' characters serve as _path delimiters_ to a web or topic
-         * example: [[Sandbox/MySubWeb/MySubSubWeb.MyTopic]]
-         * it is possible in Foswiki to have a subweb which is the same name as a topic. For this reason, if there is a web named =Sandbox/MySubWeb=, navigating to it must be done so using a trailing slash, i.e. =Sandbox/MySubWeb/=. Without the trailing slash, Foswiki tries to display the _topic_ named =Sandbox.MySubWeb=
+         * example: [[%SANDBOXWEB%/MySubWeb/MySubSubWeb.MyTopic]]
+         * it is possible in Foswiki to have a subweb which is the same name as a topic. For this reason, if there is a web named =%SANDBOXWEB%/MySubWeb=, navigating to it must be done so using a trailing slash, i.e. =%SANDBOXWEB%/MySubWeb/=. Without the trailing slash, Foswiki tries to display the _topic_ named =%SANDBOXWEB%.MySubWeb=
    * WebPreferences topic
       * sets PreferenceSettings to be inherited by all contained topics, e.g. [[AccessControl][access controls]], and:
          * =FINALPREFERENCES= to prevent subwebs and topics from overriding inherited PreferenceSettings

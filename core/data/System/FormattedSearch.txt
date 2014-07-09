@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404876093" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Formatted Search
@@ -168,13 +168,13 @@ To get this (simulated):
 </thead>
 <tbody>
   <tr class="foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
-    <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/IncorrectDllVersionW32PTH10DLL">IncorrectDllVersionW32PTH10DLL</a>  </td>
-    <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin">OsWin</a>  </td>
+    <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/IncorrectDllVersionW32PTH10DLL">IncorrectDllVersionW32PTH10DLL</a>  </td>
+    <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsWin">OsWin</a>  </td>
     <td>  95/98  </td>
   </tr>
   <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-     <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/WinDoze95Crash">WinDoze95Crash</a>  </td>
-     <td>  <a href="%SCRIPTURLPATH{"view"}%/Sandbox/OsWin">OsWin</a>  </td>
+     <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/WinDoze95Crash">WinDoze95Crash</a>  </td>
+     <td>  <a href="%SCRIPTURLPATH{"view"}%/%SANDBOXWEB%/OsWin">OsWin</a>  </td>
      <td>  95  </td>
   </tr>
 </tbody>

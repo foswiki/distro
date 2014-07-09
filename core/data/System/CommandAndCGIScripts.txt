@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399105882" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404875256" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -610,8 +610,8 @@ This is a very simple script to get the content of a web site, either using GET 
    * Usage:    =geturl.pl &lt;host&gt; &lt;path&gt; [&lt;port&gt; [&lt;header&gt;]]=
    * Example:  =geturl.pl some.domain /some/dir/file.html 80=
    * Will get: =http://some.domain:80/some/dir/file.html=
-   * Example:  =geturl.pl POST some.domain /bin/statistics?webs=Sandbox=
-   * Will post: =http://some.domain/bin/statistics?webs=Sandbox= triggering a statistics run
+   * Example:  =geturl.pl POST some.domain /bin/statistics?webs=%SANDBOXWEB%=
+   * Will post: =http://some.domain/bin/statistics?webs=%SANDBOXWEB%= triggering a statistics run
 
 ---+++ =rewriteshebang.pl=
 Simple script to rewrite the =#!/usr/bin/perl= [[http://en.wikipedia.org/wiki/Shebang_%28Unix%29][shebang]] lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').

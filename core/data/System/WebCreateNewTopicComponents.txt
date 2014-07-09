@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404875256" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%TOPIC%
 This topic is meant for developers. It contains =INCLUDE= sections to build a "create new topic" form.
@@ -29,7 +29,7 @@ Create a form with an "auto increment" name, and with customised INCLUDE section
 ---+++ Customizing the order and layout
 See the component table below what parts you can use to construct a form.
 
-This is the code used in the [[Sandbox.WebHome]] form:
+This is the code used in the [[%SANDBOXWEB%.WebHome]] form:
 <verbatim>
 %INCLUDE{
     "%SYSTEMWEB%.WebCreateNewTopicComponents"
@@ -114,10 +114,10 @@ This is the code used in the [[Sandbox.WebHome]] form:
 <input type="hidden" name="onlynewtopic" value="on" />%ENDSECTION{"formstart"}%
 
 %STARTSECTION{"webname"}%    <select name="defaultweb" class="foswikiSelect"> 
-     <option>Sandbox</option>
+     <option>%SANDBOXWEB%</option>
     %SEARCH{
         type="query"
-        web="all,-Sandbox"
+        web="all,-%SANDBOXWEB%"
         topic="%WEBPREFSTOPIC%"
         "1"
         format="<option>$web</option>"

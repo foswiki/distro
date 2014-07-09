@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398447500" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404875256" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
 ---+!! Templates for CommentPlugin
@@ -7,7 +7,7 @@ See [[%SYSTEMWEB%.CommentPlugin#Customisation][CommentPlugin: Customisation]] fo
 
 While this topic can be viewed as a topic, it is used by the CommentPlugin as a template file. The syntax is the same as used for the templates used for presentation in skins - see SkinTemplates. The important content in here is in the verbatim blocks. The rest of the topic is just comments.
 
-%ICON{"hand"}% See Sandbox.CommentPluginExamples to view rendered templates
+%ICON{"hand"}% See %SANDBOXWEB%.CommentPluginExamples to view rendered templates
 
 <div class="foswikiBroadcastMessage" style="background-color:#ffc;">WARNING: THIS FILE WILL BE OVERWRITTEN WHEN YOU UPGRADE THE COMMENT PLUGIN</div>
 
@@ -31,7 +31,7 @@ Short comment, signed and dated
 %TMPL:DEF{outputoneliner}%   * %URLPARAM{"comment" encode="off"}% -- %WIKIUSERNAME% - %GMTIME{"$day $month $year"}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#Default][Default]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#Default][Default]]
 
 
 
@@ -48,7 +48,7 @@ Comments, signed and dated, added at top of file
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#top][top]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#top][top]]
 
 
 
@@ -62,7 +62,7 @@ Comments, signed and dated, added at end of file
 %TMPL:DEF{OUTPUT:bottom}%%POS:BOTTOM%%TMPL:P{outputoneliner}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#bottom][bottom]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#bottom][bottom]]
 
 
 
@@ -76,7 +76,7 @@ Comments, signed and dated, added immediately before anchor
 %TMPL:DEF{OUTPUT:above}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#above][above]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#above][above]]
 
 
 
@@ -95,7 +95,7 @@ Bullet item added immediately before anchor. The input field width is passed wit
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#bulletabove][bulletabove]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#bulletabove][bulletabove]]
 
 
 
@@ -114,7 +114,7 @@ Wiki thread mode comment, signed and dated
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#threadmode][threadmode]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#threadmode][threadmode]]
 
 
 
@@ -134,7 +134,7 @@ Comments, signed and dated, added recurse after comment box.
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#belowthreadmode][belowthreadmode]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#belowthreadmode][belowthreadmode]]
 
 
 
@@ -149,7 +149,7 @@ Comments, signed and dated, added immediately below anchor
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#below][below]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#below][below]]
 
 
 
@@ -165,7 +165,7 @@ anchor/location/COMMENT
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#tableprepend][tableprepend]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#tableprepend][tableprepend]]
 
 
 
@@ -180,7 +180,7 @@ Comments, signed and dated, added at end of table above the anchor/location/COMM
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#tableappend][tableappend]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#tableappend][tableappend]]
 
 
 
@@ -194,7 +194,7 @@ Comments, signed and dated, added at end of table above the anchor/location/COMM
 %POS:BEFORE%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#after][after]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#after][after]]
 
 
 
@@ -217,7 +217,7 @@ Action added to action table directly above comment box
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#action][action]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#action][action]]
 
 
 
@@ -237,7 +237,7 @@ Tablerows adding on end
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#table][table]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#table][table]]
 
 
 
@@ -260,7 +260,7 @@ Talk using TOC adding on end
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#toctalk][toctalk]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#toctalk][toctalk]]
 
 
 
@@ -281,7 +281,7 @@ Create a list of annotated bookmarks
 %TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#bookmark][bookmark]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#bookmark][bookmark]]
 
 
 
@@ -302,7 +302,7 @@ Post to a different topic and return to here. The comment =target= is set in the
 %TMPL:DEF{OUTPUT:return}%%POS:BEFORE%%TMPL:P{OUTPUT:threadmode}%%TMPL:END%
 </verbatim>
 
-%ICON{"hand"}% See rendered template [[Sandbox.CommentPluginExamples#return][return]]
+%ICON{"hand"}% See rendered template [[%SANDBOXWEB%.CommentPluginExamples#return][return]]
 
 
 ---++ Include !UserComments

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399554942" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404876093" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -31,12 +31,12 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 ---++ Configuration
 
 If you wish to limit the plugin to one or more webs, specifiy the list of Active Webs in one of the following ways.   This list is a comma-separates list of Web names.  A "Regular-expression" style wildcard can be used.  For
-example: =Main,Sandbox.*= would permit the Main web, Sandbox, including subwebs of Sandbox, or any web prefixed with Sandbox.
+example: =Main,%SANDBOXWEB%.*= would permit the Main web, %SANDBOXWEB%, including subwebs of %SANDBOXWEB%, or any web prefixed with %SANDBOXWEB%.
 
    * [[%SCRIPTURL{"configure"}%#SubscribePlugin$Extensions][configure -> Extensions -> SubscribePlugin]]
-      * ={Plugins}{SubscribePlugin}{ActiveWebs} = "Main,Sandbox.*=
+      * ={Plugins}{SubscribePlugin}{ActiveWebs} = "Main,%SANDBOXWEB%.*=
    * As a standard preference setting, set in Main.SitePreferences or individual WebPreferences topics.
-      * =Set SUBSCRIBEPLUGIN_ACTIVEWEBS = Main,Sandbox.*=
+      * =Set SUBSCRIBEPLUGIN_ACTIVEWEBS = Main,%SANDBOXWEB%.*=
 
 The configure setting takes precedence over the topic based preference setting.
 
@@ -81,5 +81,5 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  1.0 (03 Dec 2008) | Released for Foswiki |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1399554942" user="ProjectContributor"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1399554942" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1" date="1404876093" user="ProjectContributor"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1" date="1404876093" user="ProjectContributor"}%
