@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399105882" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -397,7 +397,7 @@ be removed from Foswiki 1.2.0.
    * User-friendly synonyms for system webs
       * Set DOCWEB = %SYSTEMWEB%
 
-   * Show extra help for !ApacheLogin users for Main.AdminUser login
+   * Show extra help for !ApacheLogin users for %USERSWEB%.AdminUser login
       * Set ADMINLOGIN = %IF{"{LoginManager} = 'Foswiki::LoginManager::ApacheLogin' AND NOT context authenticated"
         then="Foswiki is configured using <nop>ApacheLogin, please [[%LOGINURL%][login]] as a normal user first. Then the Admin Login will replace this text"
         else="[[%SCRIPTURL{login}%/%BASEWEB%/%BASETOPIC%?sudo=sudo][internal admin login]] (use the username suggested in and the password set for [[%SCRIPTURLPATH{"configure"}%][configure]])."}%

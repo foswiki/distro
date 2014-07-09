@@ -22,7 +22,7 @@ Create a form with an "auto increment" name, and with customised INCLUDE section
     "%SYSTEMWEB%.WebCreateNewTopicComponents"
     section="newtopic"
     newtopic="TestTopicAUTOINC0"
-    override="Main.TopicFields,%BASEWEB%.TopicFieldsForWeb"
+    override="%USERSWEB%.TopicFields,%BASEWEB%.TopicFieldsForWeb"
 }%
 </verbatim>
 

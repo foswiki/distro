@@ -17,8 +17,8 @@ Example (only works if plugin is installed, and you are logged in - you are: %WI
 but clicking it will *not* unsubscribe the individual user.  If a user wishes to unsubscribe as an exception, manually add a "negative subscription" to the WebNotify topic.  Ex:  If !JoeUser is a member of !SomeGroup,
 then the user can unsubscribe manually:
 <noautolink>
-   * Main.SomeGroup : *
-   * Main.JoeUser : - UndesiredTopic
+   * %USERSWEB%.SomeGroup : *
+   * %USERSWEB%.JoeUser : - UndesiredTopic
 </noautolink>
 
 ---++ Access Controls
@@ -31,12 +31,12 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 ---++ Configuration
 
 If you wish to limit the plugin to one or more webs, specifiy the list of Active Webs in one of the following ways.   This list is a comma-separates list of Web names.  A "Regular-expression" style wildcard can be used.  For
-example: =Main,%SANDBOXWEB%.*= would permit the Main web, %SANDBOXWEB%, including subwebs of %SANDBOXWEB%, or any web prefixed with %SANDBOXWEB%.
+example: =%USERSWEB%,%SANDBOXWEB%.*= would permit the %USERSWEB% web, %SANDBOXWEB%, including subwebs of %SANDBOXWEB%, or any web prefixed with %SANDBOXWEB%.
 
    * [[%SCRIPTURL{"configure"}%#SubscribePlugin$Extensions][configure -> Extensions -> SubscribePlugin]]
-      * ={Plugins}{SubscribePlugin}{ActiveWebs} = "Main,%SANDBOXWEB%.*=
-   * As a standard preference setting, set in Main.SitePreferences or individual WebPreferences topics.
-      * =Set SUBSCRIBEPLUGIN_ACTIVEWEBS = Main,%SANDBOXWEB%.*=
+      * ={Plugins}{SubscribePlugin}{ActiveWebs} = "%USERSWEB%,%SANDBOXWEB%.*=
+   * As a standard preference setting, set in %USERSWEB%.SitePreferences or individual WebPreferences topics.
+      * =Set SUBSCRIBEPLUGIN_ACTIVEWEBS = %USERSWEB%,%SANDBOXWEB%.*=
 
 The configure setting takes precedence over the topic based preference setting.
 

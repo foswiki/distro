@@ -126,7 +126,7 @@ Activate, and if required, configure the installed extensions in =configure=.
    * =find data -name '*,v' -exec rcs -u -M '{}' \;=
    * =find pub -name '*,v' -exec rcs -u -M '{}' \;=
 
-*Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; (by default, either %SYSTEMWEB% or TWiki), Main, Trash, %SANDBOXWEB%, _default, and _empty.
+*Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; (by default, either %SYSTEMWEB% or TWiki), %USERSWEB%, Trash, %SANDBOXWEB%, _default, and _empty.
    * Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
    * *Note:* Foswiki's =WebChanges= topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or change them in the same chronological order as the old file timestamps.
 

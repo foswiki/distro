@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399652638" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Skins
 
@@ -16,7 +16,7 @@ Topic text is not affected by the choice of skin, though a skin can be defined t
 
 ---++ Changing the default skin
 
-%WIKITOOLNAME% by default ships with the PatternSkin activated. You can set the skin for the whole site (via Main.SitePreferences), a single web (via its WebPreferences topic) or topic, for each user individually, or even per request - see [[#Activating_Skins][Activating Skins]] below for more details.
+%WIKITOOLNAME% by default ships with the PatternSkin activated. You can set the skin for the whole site (via %USERSWEB%.SitePreferences), a single web (via its WebPreferences topic) or topic, for each user individually, or even per request - see [[#Activating_Skins][Activating Skins]] below for more details.
 
 ---++ Defining Skins
 
@@ -87,7 +87,7 @@ To create a customisation of the Pattern skin, where you _only_ want to remove t
 %TMPL:DEF{"edit_topic_link"}%%TMPL:END%
 %TMPL:DEF{"edit_wysiwyg_link"}%%TMPL:END%
 </verbatim>
-and then set =SKIN=yourlocal,pattern= in Main.SitePreferences, a particular web's WebPreferences, or in an individual topic, depending on the desired scope of the skin.
+and then set =SKIN=yourlocal,pattern= in %USERSWEB%.SitePreferences, a particular web's WebPreferences, or in an individual topic, depending on the desired scope of the skin.
 
 ---++ Settings in Skins
 

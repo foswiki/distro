@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404004786" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -188,9 +188,9 @@ Below is the default configuration. If it is to be modified, it should be copied
 %ENDTWISTY%
 
 Example:
-   * Create <nop>Main.TinyMCEPlugin, copying the text above
-   * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in Main.SitePreferences or <nop>MyWeb.WebPreferences:%BR%\
-   <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = Main.TinyMCEPlugin</verbatim>
+   * Create <nop>%USERSWEB%.TinyMCEPlugin, copying the text above
+   * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in %USERSWEB%.SitePreferences or <nop>MyWeb.WebPreferences:%BR%\
+   <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = %USERSWEB%.TinyMCEPlugin</verbatim>
 
 ---+++ Settings
 | *Variable* | *Default* | *Description* |
@@ -421,6 +421,6 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1404005046" comment="screenshot"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1404005046" attr="h" user="ProjectContributor" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1404005046" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" user="ProjectContributor" version="1" date="1404914085" comment="screenshot"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" date="1404914085" attr="h" user="ProjectContributor" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" date="1404914085" user="ProjectContributor" comment="" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1401261139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404914085" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -319,4 +319,4 @@ Pending registration requests are stored in the
 ---
 *Related Topics:* AdminDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.AdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="%USERSWEB%.AdminGroup"}%
