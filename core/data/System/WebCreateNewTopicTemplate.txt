@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
 %{<verbatim class="tml">
 ===================================================
 	Create new topic template
-	This template uses parts from System.WebCreateNewTopicComponents.
+	This template uses parts from %SYSTEMWEB%.WebCreateNewTopicComponents.
 ===================================================
 }%%TMPL:INCLUDE{"view"}%%{
 ---------------------------------------------------

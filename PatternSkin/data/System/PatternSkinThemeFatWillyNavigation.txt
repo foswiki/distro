@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1328484070" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
@@ -30,7 +30,7 @@ Include meta navigation with:
 }%
 %INCLUDE{
     "%TOPIC%" section="topbarbutton"
-    ID="" DESTWEB="System" DESTTOPIC="WebHome" LABEL="Documentation"
+    ID="" DESTWEB="%SYSTEMWEB%" DESTTOPIC="WebHome" LABEL="Documentation"
 }%
 %INCLUDE{
     "%TOPIC%" section="topbarbutton"

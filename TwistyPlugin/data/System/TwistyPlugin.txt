@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1403037761" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! <nop>%TOPIC%
 
@@ -460,7 +460,7 @@ twisty if remember option is set, or a random number (useful for AJAX calls).
 #PluginSettings
 ---++ Plugin Settings
 
-You can override some default settings in the plugin by setting the following [[System.PreferenceSettings][preferences]].
+You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 | *Preference* | *Meaning* | *Default* |
 | =TWISTYPLUGIN_TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
 | =TWISTYPLUGIN_TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |

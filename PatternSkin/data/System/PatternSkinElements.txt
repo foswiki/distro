@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1403575723" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! Pattern Skin Elements
 Some intro text.
@@ -260,7 +260,7 @@ Numbered list:
 
 ---++ Links
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. [[System.WebHome]] Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum DoesNotExist Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. [[%SYSTEMWEB%.WebHome]] Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum DoesNotExist Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
 
 
 ---+ Header
@@ -270,7 +270,7 @@ Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. No
 </div>
 <div class='foswikiHelp'>
 Available help:
-   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="System.FileAttachment"}% for more information about attaching files.
+   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="%SYSTEMWEB%.FileAttachment"}% for more information about attaching files.
    * <strong>Bug:</strong> Internet Explorer 4.0 or earlier: If you get an "Internal Server Error" message when you upload a file, you need to try again. It should work the second time.
 </div>
 
@@ -290,7 +290,7 @@ Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. No
 </div>
 <div class='foswikiHelp'>
 Available help:
-   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="System.FileAttachment"}% for more information about attaching files.
+   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="%SYSTEMWEB%.FileAttachment"}% for more information about attaching files.
    * <strong>Bug:</strong> Internet Explorer 4.0 or earlier: If you get an "Internal Server Error" message when you upload a file, you need to try again. It should work the second time.
 </div>
 
@@ -310,7 +310,7 @@ Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. No
 </div>
 <div class='foswikiHelp'>
 Available help:
-   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="System.FileAttachment"}% for more information about attaching files.
+   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="%SYSTEMWEB%.FileAttachment"}% for more information about attaching files.
    * <strong>Bug:</strong> Internet Explorer 4.0 or earlier: If you get an "Internal Server Error" message when you upload a file, you need to try again. It should work the second time.
 </div>
 
@@ -330,7 +330,7 @@ Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. No
 </div>
 <div class='foswikiHelp'>
 Available help:
-   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="System.FileAttachment"}% for more information about attaching files.
+   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="%SYSTEMWEB%.FileAttachment"}% for more information about attaching files.
    * <strong>Bug:</strong> Internet Explorer 4.0 or earlier: If you get an "Internal Server Error" message when you upload a file, you need to try again. It should work the second time.
 </div>
 
@@ -469,7 +469,7 @@ Using =%<nop>BUTTON{}%=
 
 <noautolink>
 <div class="natEditBottomBar">
-<ul><li class="natEditSaveButton"><a id="save" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="s" title="Save and exit"><span> <span class="jqButtonIcon" style="background-image:url(/pub/System/FamFamFamSilkIcons/tick.png)">Save</span> </span></a></li><li class="natEditCheckpointButton"><a id="checkpoint" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="w" title="Save and continue editing"><span> <span class="jqButtonIcon" style="background-image:url(/pub/System/FamFamFamSilkIcons/disk.png)">Save and Continue</span> </span></a></li><li class="natEditPreviewButton"><a id="preview" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="p" title="Preview your changes"><span> <span class="jqButtonIcon" style="background-image:url(/pub/System/FamFamFamSilkIcons/eye.png)">Preview</span> </span></a></li><li class="natEditFormButton"><a id="replaceform" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="f" title="Change the current form of Sandbox.FoswikiFormStepsTest"><span> <span class="jqButtonIcon" style="background-image:url(/pub/System/FamFamFamSilkIcons/application_form.png)">Change form</span> </span></a></li><li class="natEditCancelButton"><a id="cancel" class="jqButton jqButtonDefault jqInitedButton" href="/Sandbox/FoswikiFormStepsTest?release_lock=1" accesskey="c" title="Abandon changes and exit"><span> <span class="jqButtonIcon" style="background-image:url(/pub/System/FamFamFamSilkIcons/cross.png)">Cancel</span> </span></a> </li></ul>
+<ul><li class="natEditSaveButton"><a id="save" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="s" title="Save and exit"><span> <span class="jqButtonIcon" style="background-image:url(/pub/%SYSTEMWEB%/FamFamFamSilkIcons/tick.png)">Save</span> </span></a></li><li class="natEditCheckpointButton"><a id="checkpoint" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="w" title="Save and continue editing"><span> <span class="jqButtonIcon" style="background-image:url(/pub/%SYSTEMWEB%/FamFamFamSilkIcons/disk.png)">Save and Continue</span> </span></a></li><li class="natEditPreviewButton"><a id="preview" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="p" title="Preview your changes"><span> <span class="jqButtonIcon" style="background-image:url(/pub/%SYSTEMWEB%/FamFamFamSilkIcons/eye.png)">Preview</span> </span></a></li><li class="natEditFormButton"><a id="replaceform" class="jqButton jqButtonDefault jqInitedButton" href="#" accesskey="f" title="Change the current form of Sandbox.FoswikiFormStepsTest"><span> <span class="jqButtonIcon" style="background-image:url(/pub/%SYSTEMWEB%/FamFamFamSilkIcons/application_form.png)">Change form</span> </span></a></li><li class="natEditCancelButton"><a id="cancel" class="jqButton jqButtonDefault jqInitedButton" href="/Sandbox/FoswikiFormStepsTest?release_lock=1" accesskey="c" title="Abandon changes and exit"><span> <span class="jqButtonIcon" style="background-image:url(/pub/%SYSTEMWEB%/FamFamFamSilkIcons/cross.png)">Cancel</span> </span></a> </li></ul>
 </div>
 </noautolink>
 
@@ -493,18 +493,18 @@ Help text
 =.foswikiHelp=
 
 <div class='foswikiHelp'>
-<strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="System.FileAttachment"}% for more information about attaching files.
+<strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="%SYSTEMWEB%.FileAttachment"}% for more information about attaching files.
 </div>
 
 <div class='foswikiHelp'>
 Available help:
-   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="System.FileAttachment"}% for more information about attaching files.
+   * <strong>Help:</strong> Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="%SYSTEMWEB%.FileAttachment"}% for more information about attaching files.
    * <strong>Bug:</strong> Internet Explorer 4.0 or earlier: If you get an "Internal Server Error" message when you upload a file, you need to try again. It should work the second time.
 </div>
 
 <div class='foswikiHelp'>
 ---++ Help
-Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="System.FileAttachment"}% for more information about attaching files.
+Please see %POPUPWINDOW{"%SYSTEMWEB%.FileAttachment" label="%SYSTEMWEB%.FileAttachment"}% for more information about attaching files.
 </div>
 
 ---++ Images
@@ -726,42 +726,42 @@ text="<style>
 
 <noautolink>
 </div><h2 id="Search_results"> Search results </h2>
-<div><span class='foswikiIcon'><img src='/pub/System/DocumentGraphics/rss-small.png' width='16' height='16' alt='rss-small' /></span>
- <a href='%SCRIPTURL{"view"}%/System/WebRss?search=caching;type=word;excludetopic=WebSearch,WebHome,WebStatistics;web=System;recurse=;limit=all;scope=all;casesensitive=off'>Get notified on changes on this search</a></div>
+<div><span class='foswikiIcon'><img src='/pub/%SYSTEMWEB%/DocumentGraphics/rss-small.png' width='16' height='16' alt='rss-small' /></span>
+ <a href='%SCRIPTURL{"view"}%/%SYSTEMWEB%/WebRss?search=caching;type=word;excludetopic=WebSearch,WebHome,WebStatistics;web=System;recurse=;limit=all;scope=all;casesensitive=off'>Get notified on changes on this search</a></div>
 <div class="foswikiSearchResultsHeader"><span>Searched: <b>caching</b></span>
 <span id="foswikiNumberOfResultsContainer"></span></div>
 <h4 class="foswikiSearchResultsHeader" style="border-color:#FFD8AA"><b>Results from System web</b> retrieved at 01:55 (GMT)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/System/AdminDocumentationCategory"><b>AdminDocumentationCategory</b></a>
+<a href="/%SYSTEMWEB%/AdminDocumentationCategory"><b>AdminDocumentationCategory</b></a>
 <div class="foswikiSummary"><b>&hellip;</b>  of the Foswiki Page <em>Caching</em> features. Page caching is the <b>&hellip;</b>  process of storing (<em>caching</em>) this HTML on the server, as  <b>&hellip;</b>
 </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/AdminDocumentationCategory" rel='nofollow'>13 Mar 2014 - 13:42</a></span> 
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/%SYSTEMWEB%/AdminDocumentationCategory" rel='nofollow'>13 Mar 2014 - 13:42</a></span> 
 <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
 
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/System/InstallationGuide"><b>InstallationGuide</b></a>
+<a href="/%SYSTEMWEB%/InstallationGuide"><b>InstallationGuide</b></a>
 <div class="foswikiSummary"><b>&hellip;</b> . However, as your browser is <em>caching</em> your login, you must restart  <b>&hellip;</b> </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/InstallationGuide" rel='nofollow'>24 Apr 2014 - 21:52</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/%SYSTEMWEB%/InstallationGuide" rel='nofollow'>24 Apr 2014 - 21:52</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
 
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/System/PageCaching"><b>PageCaching</b></a>
+<a href="/%SYSTEMWEB%/PageCaching"><b>PageCaching</b></a>
 <div class="foswikiSummary">Page <em>Caching</em> By default, Foswiki pages are <b>&hellip;</b>  the page is requested. Page <em>caching</em> is the process of storing ( <b>&hellip;</b> <em>caching</em>) this HTML on the server, as  <b>&hellip;</b>  rendered from scratch. Page <em>caching</em> can significantly improve the <b>&hellip;</b> </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/PageCaching" rel='nofollow'>30 May 2014 - 00:47</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/%SYSTEMWEB%/PageCaching" rel='nofollow'>30 May 2014 - 00:47</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
 
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
-<a href="/System/PatternSkinElements"><b>PatternSkinElements</b></a> <div class="foswikiSummary"><b>&hellip;</b>  form Web Search Searched: <em>caching</em> Results from Foswiki web <b>&hellip;</b> </div></div>
-<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/System/PatternSkinElements" rel='nofollow'>27 Oct 2012 - 15:34</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
+<a href="/%SYSTEMWEB%/PatternSkinElements"><b>PatternSkinElements</b></a> <div class="foswikiSummary"><b>&hellip;</b>  form Web Search Searched: <em>caching</em> Results from Foswiki web <b>&hellip;</b> </div></div>
+<div class="foswikiBottomRow"><span class="foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="/bin/rdiff/%SYSTEMWEB%/PatternSkinElements" rel='nofollow'>27 Oct 2012 - 15:34</a></span> <span class="foswikiSRAuthor">by <a href="/Usersweb/ProjectContributor">ProjectContributor</a> </span></div> </div>
 
 <div class="foswikiSearchResultCount">Number of topics: <span>4</span></div>
 
 <a name="foswikiSearchForm"></a>
 <div class="foswikiPageForm">
-<form action="%SCRIPTURL{"view"}%/System/WebSearch">
+<form action="%SCRIPTURL{"view"}%/%SYSTEMWEB%/WebSearch">
 <table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td colspan="2" class="first">
   <input type="text" class="foswikiInputField" name="search" value="caching" size="40" /> 
-  <input type="submit" class="foswikiSubmit" value='Search' /><span class="foswikiSmall">&nbsp;&nbsp;<a href="%SCRIPTURL{"view"}%/System/WebSearchAdvanced">Advanced search</a> | <a href="%SCRIPTURL{"view"}%/System/SearchHelp">Help</a></span>
+  <input type="submit" class="foswikiSubmit" value='Search' /><span class="foswikiSmall">&nbsp;&nbsp;<a href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/WebSearchAdvanced">Advanced search</a> | <a href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/SearchHelp">Help</a></span>
 <div class="foswikiSmall" style="padding:1em 0 0 0;">TIP: to search for all topics that contain <code>"SOAP"</code>, <code>"WSDL"</code>, a literal <code>"web service"</code>, but not <code>"shampoo"</code>, write: <code>soap wsdl "web service" -shampoo</code></div>
 </td>
 </tr>
@@ -800,7 +800,7 @@ text="<style>
         <input type="checkbox" class="foswikiCheckbox" id="hidefile" name="hidefile" /><label for="hidefile">Do not show attachment in table</label> <span class="foswikiGrayText">Attachments will not be shown in topic view page.</span>
     </div>
     <div class="patternTopicActions foswikiFormStep">
-        <span class="patternActionButtons"><input type="submit" class="foswikiSubmit" value="Upload file" /> <span><a href="/bin/view/System/PatternSkinElements" title="Back to topic" accesskey="c" rel="nofollow"><span class="foswikiAccessKey">C</span>ancel</a></span>
+        <span class="patternActionButtons"><input type="submit" class="foswikiSubmit" value="Upload file" /> <span><a href="/bin/view/%SYSTEMWEB%/PatternSkinElements" title="Back to topic" accesskey="c" rel="nofollow"><span class="foswikiAccessKey">C</span>ancel</a></span>
         </span>
     </div>
 </div>

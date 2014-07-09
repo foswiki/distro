@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404874980" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UsersGuide"}%
 ---+!! Topics
 %TOC%
 <div style="float: right; width: 307px; padding-left: 1em;">
 #SystemWebFigure
-  <div style="padding-bottom: 1em;"> *Figure:* depiction of WebHome, ReferenceManual, ManagingTopics, ManagingWebs, MainFeatures topics contained in the System web</div>
+  <div style="padding-bottom: 1em;"> *Figure:* depiction of WebHome, ReferenceManual, ManagingTopics, ManagingWebs, MainFeatures topics contained in the %SYSTEMWEB% web</div>
   <img src="%ATTACHURLPATH%/diagram.png" width="307px" height="438px"/>
 </div>
 #TopicDefinition
@@ -45,7 +45,7 @@ Each topic has:
       * Example: parent topic
          * new topics are automatically made a "child" of the topic it was created from
          * parent relationship allows hierarchical, parent-child navigation
-         * See [[#SystemWebFigure][Figure of System web]]
+         * See [[#SystemWebFigure][Figure of %SYSTEMWEB% web]]
    * [[?template=backlinksweb][backlinks]]
       * a list of all topics that reference a given topic (see <a href="#topic-actions" class="foswikiLink">"%MAKETEXT{"More topic actions"}%"</a>)
 
@@ -135,4 +135,4 @@ See [[ManagingWebs]]
 ---
 *Related Topics:* UserDocumentationCategory, AdminDocumentationCategory, ManagingTopics, ManagingWebs
 
-%META:FILEATTACHMENT{name="diagram.png" version="1.1"}%
+%META:FILEATTACHMENT{name="diagram.png" version="1" date="1404874855" user="ProjectContributor"}%

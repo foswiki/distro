@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1317439563" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
 <noautolink>
 <!--
-	Read general customisation instructions in System.UserAuthentication
+	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
 	
 	To create a custom UserRegistration page yourself:
 	1. make a copy of this topic in your %SYSTEM% web

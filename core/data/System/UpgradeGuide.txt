@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718136" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -57,7 +57,7 @@ For purposes of discussion, the following conventions are used:
    * =&lt;newwiki&gt;= refers to the directory in which the new installation is located; it is assumed to be immediately below the root directory of your web server
    * =&lt;old_users_web&gt;= refers to the web in which the user topics are located in the old installation. The default value is the *%USERSWEB%* web. The web is specified in the =Store settings= pane of the =configure= page, in the ={UsersWebName}= setting (visible when Expert mode is enabled).
    * =&lt;old_system_web&gt;= refers to the web used for documentation and default preferences in the old installation. In *Foswiki*, the default value is the *%SYSTEMWEB%* web; in *TWiki*, the default value is the *TWiki* web. The web is specified in the =Store settings= pane of the =configure= page, in the ={SystemWebName}= setting (visible when Expert mode is enabled).
-\
+
 After the upgrade, in the new installation, the %USERSWEB% web is used for user topics and site preferences, and the %SYSTEMWEB% web is used to hold documentation and default preferences.
 
 The =configure= page mentioned in this document is accessible via your web browser at <kbd>http://yourdomain/&lt;newwiki&gt;/bin/configure</kbd>&nbsp;.
@@ -126,7 +126,7 @@ Activate, and if required, configure the installed extensions in =configure=.
    * =find data -name '*,v' -exec rcs -u -M '{}' \;=
    * =find pub -name '*,v' -exec rcs -u -M '{}' \;=
 
-*Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; (by default, either System or TWiki), Main, Trash, %SANDBOXWEB%, _default, and _empty.
+*Copy your local webs* over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; (by default, either %SYSTEMWEB% or TWiki), Main, Trash, %SANDBOXWEB%, _default, and _empty.
    * Make sure the data and pub directories, as well as the files within them, are readable and writeable by the web server user.
    * *Note:* Foswiki's =WebChanges= topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or change them in the same chronological order as the old file timestamps.
 

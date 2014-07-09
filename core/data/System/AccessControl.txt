@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1403053504" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1404873298" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -323,7 +323,7 @@ Use the following setup is used to "lock down" the Wiki to logged in users, whil
       * <b>Set &lt;nop&gt;DENYWEBVIEW = !WikiGuest </b>Set this in each %WEBPREFSTOPIC% topic:
       * *Set &lt;nop&gt;ALLOWTOPICVIEW = ** Set this in each topic that needs to be unlocked for unauthenticated users.
       * *Note:* ALLOWTOPICVIEW is evaluated before DENYWEBVIEW. Access is permitted if the authenticated person (or wildcard) is in the ALLOWTOPICVIEW list.
- The list of topics that need to be unlocked in the System web for login, password reset, registration, and guest access when the %SYSTEMWEB% has been locked down is rather extensive.
+ The list of topics that need to be unlocked in the %SYSTEMWEB% web for login, password reset, registration, and guest access when the %SYSTEMWEB% has been locked down is rather extensive.
 ---+++ Show control settings
 
 You can list the access controls affecting a topic using the [[VarSHOWPREFERENCE][%%NOP%SHOWPREFERENCE{}%]] macro in the topic, thus:
@@ -335,7 +335,7 @@ For this topic, this displays:
 
 ---+++ Hide control settings
 
-To hide access control settings from normal browser viewing, you can put them into the _topic [[System.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
+To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
