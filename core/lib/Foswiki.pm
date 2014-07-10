@@ -888,6 +888,10 @@ JS
     # cache final page, but only view
     my $cachedPage;
     if ( $contentType ne 'text/plain' ) {
+
+        # Remove <nop> and <noautolink> tags
+        $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
+
         if ( $Foswiki::cfg{Cache}{Enabled}
             && ( $this->inContext('view') || $this->inContext('rest') ) )
         {
@@ -895,14 +899,9 @@ JS
             $this->{cache}->renderDirtyAreas( \$text )
               if $cachedPage && $cachedPage->{isdirty};
         }
-        else {
 
-            # remove <dirtyarea> tags
-            $text =~ s/<\/?dirtyarea[^>]*>//go;
-        }
-
-        # Remove <nop> and <noautolink> tags
-        $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
+        # remove <dirtyarea> tags
+        $text =~ s/<\/?dirtyarea[^>]*>//go;
 
         # Check that the templates specified clean HTML
         if (DEBUG) {
@@ -1011,11 +1010,19 @@ sub generateHTTPHeaders {
     # add http compression and conditional cache controls
     if ( !$this->inContext('command_line') && $text ) {
 
-        if (   $Foswiki::cfg{HttpCompress}
-            && $ENV{'HTTP_ACCEPT_ENCODING'}
-            && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i )
+        if (
+            $Foswiki::cfg{HttpCompress}
+            && (
+                (
+                       $ENV{'HTTP_ACCEPT_ENCODING'}
+                    && $ENV{'HTTP_ACCEPT_ENCODING'} =~ /(x-gzip|gzip)/i
+                )
+
+                || $ENV{'SPDY'}
+            )
+          )  # SMELL: non-standard way to detect spdy protocol set by web server
         {
-            my $encoding = $1;
+            my $encoding = $1 || 'gzip';
             $hopts->{'Content-Encoding'} = $encoding;
             $hopts->{'Vary'}             = 'Accept-Encoding';
 
@@ -1040,7 +1047,7 @@ sub generateHTTPHeaders {
             # only know situation this can happen is for older browsers like IE6
             # which does not understand gzip'ed http encodings
             require Compress::Zlib;
-            $text = Compress::Zlib::memGunzip($text);
+            $text = Compress::Zlib::memGunzip( $cachedPage->{data} );
         }
 
         # we need to force the browser into a check on every
