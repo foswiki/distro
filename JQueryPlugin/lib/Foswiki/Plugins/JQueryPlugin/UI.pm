@@ -63,7 +63,7 @@ sub init {
     my $langTag = $session->i18n->language();
     my $messagePath =
         $Foswiki::cfg{SystemWebName}
-      . '/JQueryPlugin/i18n/ui.datepicker-'
+      . '/JQueryPlugin/i18n/jquery.ui.datepicker-'
       . $langTag . '.js';
 
     my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;

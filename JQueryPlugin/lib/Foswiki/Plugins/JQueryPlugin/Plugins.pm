@@ -356,10 +356,6 @@ sub getIconUrlPath {
     my $iconPath = $iconCache{$iconName};
 
     unless ($iconPath) {
-        my $iconWeb = $Foswiki::cfg{SystemWebName};
-        my $pubSystemDir =
-          $Foswiki::cfg{PubDir} . '/' . $Foswiki::cfg{SystemWebName};
-
         foreach my $item (@iconSearchPath) {
             my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName(
                 $Foswiki::cfg{SystemWebName}, $item );

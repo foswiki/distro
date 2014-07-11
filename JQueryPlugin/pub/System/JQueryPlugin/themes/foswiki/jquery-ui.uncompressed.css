@@ -1558,6 +1558,13 @@ table.ui-datepicker-inline {
     height: 200px; /*must have*/
 }
 
+.ui-datepicker .ui-datepicker-title select {
+  border:0;
+  padding:0;
+  background:transparent;
+  box-shadow:none;
+}
+
 /* jqGrid 
 ----------------------------------*/
 .ui-jqgrid.ui-widget-content {
