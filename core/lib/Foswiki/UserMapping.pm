@@ -423,9 +423,6 @@ sub isInGroup {
         $scanning{$u} = 1;
 
         return 1 if $u eq $cUID;
-        if ( $expand && $this->isGroup($u) ) {
-            return 1 if $this->isInGroup( $cUID, $u );
-        }
     }
     return 0;
 }
