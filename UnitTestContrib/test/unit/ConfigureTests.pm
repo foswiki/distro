@@ -426,6 +426,7 @@ sub test_Util_mapTarget {
     my $saveMime   = $Foswiki::cfg{MimeTypesFileName};
 
     $Foswiki::cfg{TrashWebName} = $this->{trash_web};
+    $Foswiki::cfg{UsersWebName} = 'Main';
 
     # Remap system web
 
@@ -660,13 +661,16 @@ sub test_Util_getMappedWebTopic {
     my $savePrefs  = $Foswiki::cfg{WebPrefsTopicName};
     my $saveMime   = $Foswiki::cfg{MimeTypesFileName};
 
+    # Make sure local config has expected defaults
+    $Foswiki::cfg{SystemWebName} = 'System';
+    $Foswiki::cfg{UsersWebName}  = 'Main';
+
     $Foswiki::cfg{TrashWebName} = $this->{trash_web};
 
     my $wname = '';
     my $tname = '';
 
     # Remap system web
-
     my $file = 'data/System/System.txt';
     ( $wname, $tname ) = Foswiki::Configure::Util::getMappedWebTopic("$file");
     $this->assert_str_equals( 'System', $wname );
