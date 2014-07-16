@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1405484547" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TextFormattingRules"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
@@ -137,72 +137,6 @@ _this does not _
 
 _This works_,%BR%
 _this does not _
-</td>
-</tr>
-<tr valign="top">
-<td>
- *Verbatim (Literal) Text:* %BR%
- Surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags.%BR% %BR%
-%T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
-%X% Preferences settings (* Set NAME = value) are set within verbatim tags.
-</td><td>
-<verbatim>
-<verbatim>
-class CatAnimal {
-  void purr() {
-    <code here>
-  }
-}
-</verbatim>
-</verbatim>
-</td><td>
-<verbatim>
-class CatAnimal {
-  void purr() {
-    <code here>
-  }
-}
-</verbatim>
-</td>
-</tr>
-<tr valign="top">
-<td>
- *Verbatim (Literal) Code Highlighting:* %BR%
- Surround code excerpts and other formatted text e.g. with =&lt;verbatim class="bash"&gt;= and =&lt;/verbatim&gt;= tags.%BR% %BR%
-%I% This type of code highlighting is based on Chili - the jQuery code highlighter plugin. Please find supported class attributes in %BASEWEB%.JQueryChili.%BR% %BR%
-%T% =verbatim= tags disable HTML code. Use =&lt;pre class="bash"&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
-%X% Preferences settings (* Set NAME = value) are set within verbatim tags.
-</td><td>
-<verbatim>
-<verbatim class="bash">
-#!/bin/bash
-while [ -n "$(ls . ~/ \
-~/pub* /var/www 2>/dev/null \
-| fgrep foswiki )" ] ; do
- clear
- printf "\nFoswiki rules!\n"
- sleep 10
- clear
- printf "\nFoswiki still rules!\n"
- sleep 10
-done; exit 0
-</verbatim>
-</verbatim>
-</td><td>
-<verbatim class="bash">
-#!/bin/bash
-while [ -n "$(ls . ~/ \
-~/pub* /var/www 2>/dev/null \
-| fgrep foswiki )" ] ; do
- clear
- printf "\nFoswiki rules!\n"
- sleep 10
- clear
- printf "\nFoswiki still rules!\n"
- sleep 10
-done; exit 0
-
-</verbatim>
 </td>
 </tr>
 <tr valign="top">
@@ -481,12 +415,18 @@ The rules described under *Forced Links* apply for internal link references.
 <td>
  *Prevent a Link:* %BR%
  Prevent a WikiWord from being linked by prepending it with an exclamation point.
+ %BR% %T% Note that you can also use the &lt;nop&gt; tag.
 </td><td>
 <verbatim class="tml">
 !SunOS
+
+<nop>SomeWiki
 </verbatim>
 </td><td>
+
 !SunOS
+
+<nop>SomeWiki
 </td>
 </tr>
 <tr valign="top">
@@ -511,6 +451,8 @@ The rules described under *Forced Links* apply for internal link references.
 <td>
 *Mailto Links:* %BR%
 E-mail addresses are linked automatically. To create e-mail links that have more descriptive link text, specify subject lines or message bodies, or omit the e-mail address, you can write =[<nop>[mailto:user@domain][descriptive text]]=.
+
+%X% automatic linking of email addresses is _not_ blocked by =&lt;noautolink&gt;=, Escape with a ! to prevent auto linking.
 </td><td>
 <verbatim class="tml">
 a@b.com
@@ -518,6 +460,8 @@ a@b.com
 [[mailto:a@b.com][Mail]]
 
 [[mailto:?subject=Hi][Hi]]
+
+!a@b.com
 </verbatim>
 </td><td>
 
@@ -527,6 +471,48 @@ a@b.com
 [Mail]]
 
 [[mailto:?subject=Hi][Hi]]
+
+!a@b.com
+</td>
+</tr>
+<tr valign="top">
+<td>
+*Escaping Macros* %BR%
+Prevent a Macro from being expanded by prepending it with an exclamation point.
+
+%T% To expand the macro, but escape any wikiword it expands into, use the &lt;nop&gt; tag.
+</td><td>
+<verbatim class="tml">
+!%TOPIC%
+
+<nop>%TOPIC%
+</verbatim>
+</td><td>
+
+!%TOPIC%
+
+<nop>%TOPIC%
+</td>
+</tr>
+<tr valign="top">
+<td>
+*Controlling how content is rendered:* %BR%
+There are 3 ways to control how your topic content is rendered. This is done with three HTML or
+pseudo-HTML tags: =&lt;literal&gt;, &lt;verbatim&gt;= and &lt;pre&gt;  They
+control whether or not: 
+   * Wiki markup (TML) is rendered
+   * Macros (ex: <tt>%<nop>TOPIC%</tt>) are expanded
+   * HTML is rendered
+   * White space preserved
+These are explained in more details in the next sections, but are summarized to the right:
+</td>
+<td colspan="2">
+<table>
+<tr><td></td><td>TML</td><td>HTML</td><td>Macros</td><td>White%BR%Space</td> </tr>
+<tr><td> =&lt;verbatim&gt;= </td><td>%X%</td><td>%X%</td><td>%X%</td><td>%Y%</td></tr>
+<tr><td> =&lt;literal&gt;= </td><td>%X%</td><td>%Y%</td><td>%X%</td><td>%X%</td></tr>
+<tr><td> =&lt;pre&gt;= </td><td>%X%</td><td>%Y%</td><td>%Y%</td><td>%Y%</td></tr>
+</table>
 </td>
 </tr>
 <tr>
@@ -550,6 +536,72 @@ a@b.com
 <literal>
 | Not | A | Table |
 </literal>
+</td>
+</tr>
+<tr valign="top">
+<td>
+ *Verbatim (Literal) Text:* %BR%
+ Surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags.%BR% %BR%
+%T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
+%X% Preferences settings (* Set NAME = value) are set within verbatim tags.
+</td><td>
+<verbatim>
+<verbatim>
+class CatAnimal {
+  void purr() {
+    <code here>
+  }
+}
+</verbatim>
+</verbatim>
+</td><td>
+<verbatim>
+class CatAnimal {
+  void purr() {
+    <code here>
+  }
+}
+</verbatim>
+</td>
+</tr>
+<tr valign="top">
+<td>
+ *Verbatim (Literal) Code Highlighting:* %BR%
+ Surround code excerpts and other formatted text e.g. with =&lt;verbatim class="bash"&gt;= and =&lt;/verbatim&gt;= tags.%BR% %BR%
+%I% This type of code highlighting is based on Chili - the jQuery code highlighter plugin. Please find supported class attributes in %BASEWEB%.JQueryChili.%BR% %BR%
+%T% =verbatim= tags disable HTML code. Use =&lt;pre class="bash"&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
+%X% Preferences settings (* Set NAME = value) are set within verbatim tags.
+</td><td>
+<verbatim>
+<verbatim class="bash">
+#!/bin/bash
+while [ -n "$(ls . ~/ \
+~/pub* /var/www 2>/dev/null \
+| fgrep foswiki )" ] ; do
+ clear
+ printf "\nFoswiki rules!\n"
+ sleep 10
+ clear
+ printf "\nFoswiki still rules!\n"
+ sleep 10
+done; exit 0
+</verbatim>
+</verbatim>
+</td><td>
+<verbatim class="bash">
+#!/bin/bash
+while [ -n "$(ls . ~/ \
+~/pub* /var/www 2>/dev/null \
+| fgrep foswiki )" ] ; do
+ clear
+ printf "\nFoswiki rules!\n"
+ sleep 10
+ clear
+ printf "\nFoswiki still rules!\n"
+ sleep 10
+done; exit 0
+
+</verbatim>
 </td>
 </tr>
 <tr>
