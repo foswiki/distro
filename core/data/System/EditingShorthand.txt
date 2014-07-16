@@ -415,18 +415,27 @@ The rules described under *Forced Links* apply for internal link references.
 <td>
  *Prevent a Link:* %BR%
  Prevent a WikiWord from being linked by prepending it with an exclamation point.
- %BR% %T% Note that you can also use the &lt;nop&gt; tag.
+
+%T% Note that you can also use the &lt;nop&gt; tag, but _any_ markup adjacent to a wikiword will prevent automatic linking because the word is no longer space delimitied.
 </td><td>
 <verbatim class="tml">
 !SunOS
 
 <nop>SomeWiki
+
+<b>SomeWiki</b>
+
+=SomeWiki=
 </verbatim>
 </td><td>
 
 !SunOS
 
 <nop>SomeWiki
+
+<b>SomeWiki</b>
+
+=SomeWiki=
 </td>
 </tr>
 <tr valign="top">
@@ -504,14 +513,16 @@ control whether or not:
    * Macros (ex: <tt>%<nop>TOPIC%</tt>) are expanded
    * HTML is rendered
    * White space preserved
+   * Auto linking of !WikiWords and Email addresses occurs
 These are explained in more details in the next sections, but are summarized to the right:
 </td>
 <td colspan="2">
 <table>
-<tr><td></td><td>TML</td><td>HTML</td><td>Macros</td><td>White%BR%Space</td> </tr>
-<tr><td> =&lt;verbatim&gt;= </td><td>%X%</td><td>%X%</td><td>%X%</td><td>%Y%</td></tr>
-<tr><td> =&lt;literal&gt;= </td><td>%X%</td><td>%Y%</td><td>%X%</td><td>%X%</td></tr>
-<tr><td> =&lt;pre&gt;= </td><td>%X%</td><td>%Y%</td><td>%Y%</td><td>%Y%</td></tr>
+<tr><td></td><td>TML</td><td>HTML</td><td>Macros</td><td>White%BR%Space</td><td> Auto Link%BR%WikiWord</td><td>Auto Link%BR%Email</td></tr>
+<tr><td> =&lt;verbatim&gt;= </td><td>%X%</td><td>%X%</td><td>%X%</td><td>%Y%</td><td>%X%</td><td>%X%</td></tr>
+<tr><td> =&lt;literal&gt;= </td><td>%X%</td><td>%Y%</td><td>%Y%</td><td>%X%</td><td>%X%</td><td>%X%</td></tr>
+<tr><td> =&lt;pre&gt;= </td><td>%X%</td><td>%Y%</td><td>%Y%</td><td>%Y%</td><td>%X%</td><td>%X%</td></tr>
+<tr><td> =&lt;noautolink&gt;= </td><td>%Y%</td><td>%Y%</td><td>%Y%</td><td>%X%</td><td>%X%</td><td>%Y%</td></tr>
 </table>
 </td>
 </tr>
