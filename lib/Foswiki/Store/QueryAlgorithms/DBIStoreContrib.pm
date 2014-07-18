@@ -279,10 +279,9 @@ sub _expand_arguments {
 }
 
 # Expand a literal or regex list, used for matching topic and web names, to
-# an SQL expression
+# an SQL expression. The list is comma separated, where comma means 'OR'
 sub _expand_relist {
     my ( $list, $column, $negate ) = @_;
-    $negate = ( $negate ? 'NOT ' : '' );
 
     my @exprs;
     my @in;
@@ -311,7 +310,7 @@ sub _expand_relist {
     elsif ( scalar(@in) > 1 ) {
         push( @exprs, "$column IN ( " . join( ',', map { "'$_'" } @in ) . ')' );
     }
-    return "$negate(" . join( ' AND ', @exprs ) . ')';
+    return ( $negate ? 'NOT ' : '' ) . '(' . join( ' OR ', @exprs ) . ')';
 }
 
 # Get a referenced topic

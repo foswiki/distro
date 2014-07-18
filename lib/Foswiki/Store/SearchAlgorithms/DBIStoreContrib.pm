@@ -16,6 +16,14 @@ use Foswiki::Search::InfoCache                       ();
 use Foswiki::Query::Parser                           ();
 use Foswiki::Store::QueryAlgorithms::DBIStoreContrib ();
 use Foswiki::Func                                    ();
+our @ISA;
+
+BEGIN {
+    eval 'require Foswiki::Store::Interfaces::SearchAlgorithm';
+    unless ($@) {
+        @ISA = ('Foswiki::Store::Interfaces::SearchAlgorithm');
+    }
+}
 
 =begin TML
 

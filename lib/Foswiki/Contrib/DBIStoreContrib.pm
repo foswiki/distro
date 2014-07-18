@@ -21,8 +21,8 @@ use Foswiki       ();
 use Foswiki::Func ();
 use DBI           ();
 
-our $VERSION = '1.0';          # plugin version is also locked to this
-our $RELEASE = '8 May 2014';
+our $VERSION = '1.1';            # plugin version is also locked to this
+our $RELEASE = '18 July 2014';
 
 # Very verbose debugging. Used by all modules in the suite.
 use constant MONITOR => 0;
