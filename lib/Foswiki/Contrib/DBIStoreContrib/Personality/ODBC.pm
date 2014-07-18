@@ -115,6 +115,15 @@ sub strcat {
     return join( '+', @_ );
 }
 
+sub d2n {
+    my ( $this, $arg ) = @_;
+
+    # Convert date string to number
+    # 22088800 = number of seconds from 1900-01-01 to start of epoch
+    # 86400 = number of seconds in a day
+    return "(CAST(CONVERT(datetime, $arg) AS FLOAT) * 86400 - 22088800)";
+}
+
 1;
 __DATA__
 
