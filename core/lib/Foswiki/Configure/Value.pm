@@ -70,7 +70,7 @@ use constant ATTRSPEC => {
     MULTIPLE    => {},         # Allow multiple select
     HIDDEN      => {},
     MUST_ENABLE => {},
-    UNDEFINEDOK => {},
+    UNDEFINEDOK => {},         # Allow non-existant values
     SPELLCHECK  => {},
     EXPERT      => {},
     DISPLAY_IF  => { openclose => 1 },
@@ -123,7 +123,7 @@ sub new {
 sub parseTypeParams {
     my ( $this, $str ) = @_;
 
-    if ( $this->{typename} =~ /^SELECT/ ) {
+    if ( $this->{typename} =~ /^(SELECT|BOOLGROUP)/ ) {
 
         # SELECT types *always* start with a comma-separated list of
         # things to select from. These things may be words or wildcard
