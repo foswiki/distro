@@ -1,0 +1,23 @@
+%META:TOPICINFO{author="ProjectContributor" date="1402037814" format="1.1" version="1"}%
+---+!! !ConfigureContrib
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+Legacy =configure=. To be replaced by something much nicer.
+
+|  Author(s): | Foswiki Contributors |
+|  Copyright: | Copyright &copy; 2014 Foswiki |
+|  License: |  [[http://www.gnu.org/licenses/old-licenses/gpl-2.0.html][Gnu General Public License v2]] |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Home page: | http://foswiki.org/bin/view/Extensions/ConfigureContrib |
+|  Support: | http://foswiki.org/bin/view/Support/ConfigureContrib |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
+
