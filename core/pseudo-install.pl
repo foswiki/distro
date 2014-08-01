@@ -1538,6 +1538,7 @@ init_config();
 init_extensions_path();
 run();
 update_gitignore_file($basedir);
+update_githooks_dir($basedir);
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
