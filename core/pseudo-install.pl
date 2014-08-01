@@ -462,13 +462,13 @@ sub installModuleByName {
     if ( $manifest && -e $manifest ) {
         installFromMANIFEST( $module, $moduleDir, $manifest, $ignoreBlock );
         update_gitignore_file($moduleDir);
-        update_githooks_dir( $moduleDir, $module );
     }
     else {
         $libDir = undef;
         warn "---> No MANIFEST in $module"
           . ( $manifest ? "(at $manifest)" : '' ) . "\n";
     }
+    update_githooks_dir( $moduleDir, $module );
 
     return $libDir;
 }
@@ -1610,46 +1610,63 @@ sub update_githooks_dir {
     $module ||= '';
     use Cwd;
 
-    my $hooks_src = File::Spec->catdir( 'tools', 'develop', 'githooks' );
+    trace
+"UPDATE_GITHOOKS_DIR:  Called with   $moduleDir   module:  $module  current dir: "
+      . Cwd::cwd() . "\n";
+
+    my $hooks_src =
+      File::Spec->catdir( Cwd::cwd(), 'tools', 'develop', 'githooks' );
 
     # Check for .git directories,  and copy in hooks if needed
     foreach my $gitdir ( '.', '..' ) {
-        my $hooks_tgt = File::Spec->catdir( $gitdir, '.git', 'hooks' );
-        my $target_dir =
-          File::Spec->catdir( $moduleDir, $gitdir, '.git', 'hooks' );
-        my $gitmodule_target_dir =
-          File::Spec->catdir( $gitdir, '.git', 'modules', $module, 'hooks' );
+        my $repo_hooks_tgt = File::Spec->catdir( $gitdir, '.git', 'hooks' );
         my $gitmodule_hooks_tgt =
           File::Spec->catdir( $gitdir, '.git', 'modules', $module, 'hooks' );
+
+        my $repo_target_dir =
+          File::Spec->catdir( $moduleDir, $gitdir, '.git', 'hooks' );
+        my $gitmodule_target_dir =
+          File::Spec->catdir( Cwd::cwd(), $gitdir, '.git', 'modules', $module,
+            'hooks' );
+
+        trace
+          "Scanning $gitmodule_target_dir for hooks - source in $hooks_src \n";
 
         foreach my $hook (
             qw( applypatch-msg commit-msg post-commit post-update pre-applypatch pre-commit pre-rebase prepare-commit-msg post-receive update)
           )
         {
             next unless ( -f File::Spec->catfile( $hooks_src, $hook ) );
+            trace "Installing hook: "
+              . File::Spec->catfile( $hooks_src, $hook ) . "\n";
 
             if ($module) {
+                trace "Checking for submodule for $module in: "
+                  . $gitmodule_target_dir . "\n";
                 if ( -d $gitmodule_target_dir ) {
-                    unlink File::Spec->catfile( $gitmodule_target_dir, $hook )
+                    unlink _cleanPath(
+                        File::Spec->catfile( $gitmodule_target_dir, $hook ) )
                       if (
                         -e File::Spec->catfile( $gitmodule_target_dir, $hook )
                       );
-                    linkOrCopy '.',
-                      File::Spec->catfile( $hooks_src,           $hook ),
-                      File::Spec->catfile( $gitmodule_hooks_tgt, $hook ),
+                    linkOrCopy '',
+                      File::Spec->catfile( $hooks_src,            $hook ),
+                      File::Spec->catfile( $gitmodule_target_dir, $hook ),
                       $CAN_LINK;
                 }
             }
-            else {
-                if ( -d $target_dir ) {
-                    unlink _cleanPath(
-                        File::Spec->catfile( $target_dir, $hook ) )
-                      if ( -e File::Spec->catfile( $target_dir, $hook ) );
-                    linkOrCopy $moduleDir,
-                      File::Spec->catfile( $hooks_src, $hook ),
-                      File::Spec->catfile( $hooks_tgt, $hook ),
-                      $CAN_LINK;
-                }
+            trace "Checking for conventional repo:  $repo_target_dir\n";
+            if ( -d $repo_target_dir ) {
+                trace " Trying to unlink "
+                  . _cleanPath( File::Spec->catfile( $repo_target_dir, $hook ) )
+                  . "\n";
+                unlink _cleanPath(
+                    File::Spec->catfile( $repo_target_dir, $hook ) )
+                  if ( -e File::Spec->catfile( $repo_target_dir, $hook ) );
+                linkOrCopy '',
+                  File::Spec->catfile( $hooks_src,       $hook ),
+                  File::Spec->catfile( $repo_target_dir, $hook ),
+                  $CAN_LINK;
             }
         }
     }
@@ -1661,7 +1678,7 @@ init_config();
 init_extensions_path();
 run();
 update_gitignore_file($basedir);
-update_githooks_dir($basedir);
+update_githooks_dir( $basedir, 'core' );
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
