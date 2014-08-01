@@ -1,0 +1,154 @@
+#!/usr/bin/perl
+# See bottom of file for license and copyright information
+
+use strict;
+use warnings;
+
+BEGIN {
+    # Look in the current and parent directories for libraries
+    # With git submodules, the current directory is one lib lower than
+    # with a normal git repo during the commit
+
+    if ( -d './core' ) {
+        unshift @INC, './core/lib';    # Pick up foswiki libs
+    }
+    elsif ( -d '../core' ) {
+        unshift @INC, '../core/lib';    # Pick up foswiki libs
+    }
+    else {
+        print STDERR
+          "Unable to find the location of the foswiki core directory\n";
+        print STDERR
+"Be sure that foswiki core has been installed before attempting to commit changes\n";
+        die "The pre-commit-msg exit won't work - commit aborted";
+    }
+    if ( -d './BuildContrib' ) {
+        unshift @INC,
+          './BuildContrib/lib';    # Pick up BuildContrib version of PerlTidy
+    }
+    elsif ( -d '../BuildContrib' ) {
+        unshift @INC,
+          '../BuildContrib/lib';    # Pick up BuildContrib version of PerlTidy
+    }
+    else {
+        print STDERR "Unable to find the location of BuildContrib\n";
+        print STDERR
+"Be sure that BuildContrib has been pseudo-installed before attempting to commit changes\n";
+        die "The pre-commit-msg exit won't work - commit aborted";
+    }
+}
+
+use LWP::Simple;
+
+# COMMIT-MSG CLIENT HOOK for Foswiki git
+#
+# The commit-msg hook tests that the message identifies one or more
+# tasks, and that each task is in a state to accept checkins.
+#
+# STDERR ends up on the users' terminal
+
+# These are not used here except to keep the error message in sync with pre-commit
+my $WINDOW_DAYS = 3;                             # window for date in %META
+my $WINDOW      = $WINDOW_DAYS * 24 * 60 * 60;
+
+my $failmsg = '';
+my $logmsg;
+
+{
+    local $/ = undef;
+    open my $fh, "<", $ARGV[0]
+      or die "could not open $ARGV[0]: $!";
+    $logmsg = <$fh>;
+    close $fh;
+};
+
+fail("No Bug item in log message\n") unless ( $logmsg =~ /^Item\d+\s*:/ );
+
+my @items;
+$logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
+foreach my $item (@items) {
+    my $url   = "http://foswiki.org/Tasks/ItemStatusQuery?item=$item;skin=text";
+    my $state = get $url;
+
+    unless ( defined $state ) {
+        $failmsg .=
+"ERROR: GET on Tasks.ItemStatusQuery failed.  Check http://foswiki.org/Tasks/ItemStatusQuery\n";
+        fail($failmsg);
+    }
+
+    $failmsg .= "$item does not exist\n" unless $state;
+
+    if ( $state =~
+        /^(Waiting for Release|Closed|No Action Required|Proposal Required)$/ )
+    {
+        $failmsg .= "$item is in $state state; cannot check in\n";
+    }
+
+}
+
+fail($failmsg) if $failmsg;
+
+exit 0;
+
+# PLEASE keep this message in sync with
+# http://foswiki.org/Development/SvnRepository#RulesForCheckins
+sub fail {
+    my $message = shift;
+    print STDERR <<"EOF";
+--------------------------------------------------------------
+Illegal checkin to Foswiki git repo found in pre-commit:
+
+=======
+$message
+=======
+
+http://foswiki.org/Development/GitRepository#RulesForCheckins
+Rules - files being checked in must:
+1. Have a comment...
+2. ...with relevant ItemNNN task topics in the first line, e.g.
+
+Item12345: Item12346: fixed foo, updated release notes
+
+3. Refer to ItemNNN task topics which are open at the time of
+   checkin, i.e. *not* one of: Closed, Waiting For Release,
+   No Action or Proposal Required
+
+4. .pl and .pm files must be "tidied" if the TIDY control file
+   in the root of the extension calls for it, see:
+   http://foswiki.org/Development/TIDY
+
+5. .txt files in web directories must have META:TOPICINFO with
+   the author "ProjectContributor", a version of 1 and a date
+   within $WINDOW_DAYS days of the checkin. Any FILEATTACHMENTs must
+   has the "ProjectContributor" author, a version of 1 and a date
+   with $WINDOW_DAYS days of the checkin.
+
+Getting rejected commits with perltidy? We are checking using
+version $Perl::Tidy::VERSION
+See http://foswiki.org/Development/PerlTidy#Versions
+------------TRUNCATED COMMIT MESSAGE FOLLOWS------------------------
+EOF
+    $logmsg =~ s/^# Untracked files:.*//ms;
+    print STDERR $logmsg;
+    exit 1;
+}
+
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
+

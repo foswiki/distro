@@ -1,0 +1,312 @@
+#!/usr/bin/perl
+# See bottom of file for license and copyright information
+
+use strict;
+use warnings;
+
+# Pick up BuildContrib version of Perl::Tidy
+#  SMELL:  This works because the pre-commit runs in the root of the checkout
+#  Assumes that BuildContrib is always available.
+
+use Text::Diff;
+use File::Spec;
+
+BEGIN {
+    # Look in the current and parent directories for libraries
+    # With git submodules, the current directory is one lib lower than
+    # with a normal git repo during the commit
+
+    if ( -d './core' ) {
+        unshift @INC, './core/lib';    # Pick up foswiki libs
+    }
+    elsif ( -d '../core' ) {
+        unshift @INC, '../core/lib';    # Pick up foswiki libs
+    }
+    else {
+        print STDERR
+          "Unable to find the location of the foswiki core directory\n";
+        print STDERR
+"Be sure that foswiki core has been installed before attempting to commit changes\n";
+        die "The pre-commit-msg exit won't work - commit aborted";
+    }
+    if ( -d './BuildContrib' ) {
+        unshift @INC,
+          './BuildContrib/lib';    # Pick up BuildContrib version of PerlTidy
+    }
+    elsif ( -d '../BuildContrib' ) {
+        unshift @INC,
+          '../BuildContrib/lib';    # Pick up BuildContrib version of PerlTidy
+    }
+    else {
+        print STDERR "Unable to find the location of BuildContrib\n";
+        print STDERR
+"Be sure that BuildContrib has been pseudo-installed before attempting to commit changes\n";
+        die "The pre-commit-msg exit won't work - commit aborted";
+    }
+}
+
+# Require these at runtime because we need to use the modified libpath
+require Foswiki::Attrs;
+require Perl::Tidy;
+
+# PRE-COMMIT CLIENT HOOK for Foswiki git
+#
+# The pre-commit hook tests
+#  - that the all perl files are tidy.
+#  - All TOPICINFO have ProjectContributor, version 1, and recent timestamp
+#
+# STDERR ends up on the users' terminal
+
+my $WINDOW_DAYS = 3;                             # window for date in %META
+my $WINDOW      = $WINDOW_DAYS * 24 * 60 * 60;
+
+my $failmsg = '';
+my %tidyOption;
+
+# Verify that code is cleanly formatted, but only for files which are:
+# - all .pl and .pm files
+# - files in bin/ with the perl shebang
+# - excluding anything in lib/CPAN
+
+my @files = split( "\n", `git diff-index --cached --name-only HEAD` );
+foreach my $file (@files) {
+
+    # CompareRevisionsAddon has a crafted demo topic,  don't
+    # force the date or revision in TOPICINFO.
+    next if $file =~ /CompareRevisionsAddOnDemoTopic.txt(?:,v)?$/;
+    next if $file =~ /MANIFEST|DEPENDENCIES|TIDY|Makefile/;
+
+    if ( $file =~ /\.p[ml]$/ ) {
+
+        # Not CPAN modules
+        next if $file =~ m#/lib/CPAN/lib/#;
+    }
+    elsif ( $file =~
+m/\.(?:js|css|html|gif|jpe?g|png|ps|psd|gz|zip|pot?|tmpl|svg|patch|json|spec)$/
+      )
+    {
+        next;
+    }
+    elsif ( $file =~ m#\.txt$# ) {
+
+        # Not .txt in a web
+        next unless $file =~ m#/data/#;
+    }
+    elsif ( $file =~ /,v$/ ) {
+        print STDERR <<EOF;
+!!! WARNING: ,v RCS files are normally not checked in to git !!!
+             Be certain you really want to do this!";
+
+EOF
+        next;
+    }
+
+    # Need to open the rest to check further
+
+    if ( open( my $fh, '<', $file ) ) {
+
+        # Files being deleted won't be there
+        # so just skip files that don't open.
+        my @input = <$fh>;
+        close $fh;
+
+        if ( $file =~ /\.txt$/ ) {
+            my @err;
+            checkTOPICINFO( $input[0], \@err );
+            checkFILEATTACHMENT( \@input, \@err );
+            $failmsg .=
+              "\nERROR: $file meta-data is incorrect; cannot check in:\n"
+              . join( "\n", @err ) . "\n"
+              if scalar(@err);
+        }
+        else {
+            check_perltidy( \@input, $file );
+        }
+    }
+}
+
+#print STDERR Data::Dumper::Dumper( \%tidyOption );
+fail($failmsg) if ($failmsg);
+
+exit 0;
+
+# ============== END OF MAIN ===================
+
+# PLEASE keep this message in sync with
+# http://foswiki.org/Development/SvnRepository#RulesForCheckins
+
+sub fail {
+    my $message = shift;
+    print STDERR <<"EOF";
+--------------------------------------------------------------
+Illegal checkin to Foswiki git repo found in pre-commit:
+
+=======
+$message
+=======
+
+http://foswiki.org/Development/GitRepository#RulesForCheckins
+Rules - files being checked in must:
+1. Have a comment...
+2. ...with relevant ItemNNN task topics in the first line, e.g.
+
+Item12345: Item12346: fixed foo, updated release notes
+
+3. Refer to ItemNNN task topics which are open at the time of
+   checkin, i.e. *not* one of: Closed, Waiting For Release,
+   No Action or Proposal Required
+
+4. .pl and .pm files must be "tidied" if the TIDY control file
+   in the root of the extension calls for it, see:
+   http://foswiki.org/Development/TIDY
+
+5. .txt files in web directories must have META:TOPICINFO with
+   the author "ProjectContributor", a version of 1 and a date
+   within $WINDOW_DAYS days of the checkin. Any FILEATTACHMENTs must
+   has the "ProjectContributor" author, a version of 1 and a date
+   with $WINDOW_DAYS days of the checkin.
+
+Getting rejected commits with perltidy? We are checking using
+version $Perl::Tidy::VERSION
+See http://foswiki.org/Development/PerlTidy#Versions
+--------------------------------------------------------------
+EOF
+    exit 1;
+}
+
+# Returns undef when file should be skipped,
+# otherwise returns perltidy options to be used (can be empty for defaults)
+sub getTidyOptions {
+    my $file = shift;
+    return $tidyOption{$file} if exists $tidyOption{$file};
+
+    my $tidyOptions = undef;    # Defaults to skip
+    my ( $volume, $directory ) = File::Spec->splitpath($file);
+
+    my @pathList;               # Save examined hierarchy to update cache
+    my @path = File::Spec->splitdir($directory);
+    while ( defined pop @path ) {
+        my $path = File::Spec->catdir(@path);
+        $tidyOptions = $tidyOption{$path} and last if exists $tidyOption{$path};
+        push @pathList, $path;    # To update cache hierachy
+        my $tidyFile = File::Spec->catpath( $volume, $path, 'TIDY' );
+        next unless ( -f $tidyFile );
+        open( my $fh, '<', $tidyFile ) or die("Unable to open file");
+        my @tidyOptions = <$fh>;
+        close $fh;
+
+        if ( $? == 0 ) {          # Found a TIDY file, check its content
+            $tidyOptions = '';    # Defaults to check
+            for (@tidyOptions) {
+                if (/^(?:perl\s+)OFF$/) {
+                    $tidyOptions = undef;
+                    last;
+                }
+                if (/^perl\s*(.*)$/) {
+                    $tidyOptions = $1;
+                    last;
+                }
+            }
+            last;
+        }
+    }
+
+    # Update cache for the entire paths
+    for my $path (@pathList) {
+        $tidyOption{$path} = $tidyOptions;
+    }
+
+    return $tidyOption{$file} = $tidyOptions;
+}
+
+sub check_perltidy {
+    my ( $input, $file ) = @_;
+
+    return
+      unless ( $file =~ /\.p[ml]$/
+        || $input->[0] =~ m(^#!\s*/usr/bin/perl) );
+
+    my $tidyOptions = getTidyOptions($file);
+    return unless defined $tidyOptions;
+
+    my @tidyed;
+    Perl::Tidy::perltidy(
+        source      => $input,
+        destination => \@tidyed,
+        argv        => $tidyOptions,
+    );
+    my $diff = diff( $input, \@tidyed );
+    $failmsg .= "\nERROR: $file is not tidy; cannot check in:\n$diff"
+      if $diff;
+}
+
+# Return error message if TOPICINFO is bad per the rules.
+sub checkTOPICINFO {
+    my ( $ti, $err ) = @_;
+    unless ( $ti =~ /^%META:TOPICINFO{(.*)}%$/ ) {
+        push( @$err, 'No TOPICINFO' );
+        return;
+    }
+    my $attrs = new Foswiki::Attrs($1);
+    my $auth = $attrs->{author} || 'unknown user';
+    push( @$err,
+        "TOPICINFO: wrong author '$auth', must be 'ProjectContributor'" )
+      unless ( $auth eq 'ProjectContributor' );
+    my $date = $attrs->{date} || 0;
+    my $t = time;
+    push( @$err, "TOPICINFO: date must be within $WINDOW seconds of $t" )
+      unless $date =~ /^\d+$/
+      && abs( $t - $date ) < $WINDOW;
+    my $ver = $attrs->{version} || 0;
+    push( @$err, "TOPICINFO: version must be 1" )
+      unless $attrs->{version} eq '1';
+}
+
+sub checkFILEATTACHMENT {
+    my ( $lines, $err ) = @_;
+    foreach my $meta (@$lines) {
+        if ( $meta =~ /^%META:FILEATTACHMENT{(.*)}%/ ) {
+            my $attrs = new Foswiki::Attrs($1);
+            my $name = $attrs->{name} || '';
+            if ($name) {
+                $name = " '$name'";
+            }
+            else {
+                push( @$err, "FILEATTACHMENT has no name" );
+            }
+            my $auth = $attrs->{user} || 'unknown user';
+            push( @$err,
+"FILEATTACHMENT$name wrong user '$auth', must be 'ProjectContributor'"
+            ) unless ( $auth eq 'ProjectContributor' );
+            my $date = $attrs->{date} || 0;
+            my $t = time;
+            push( @$err, "date must be within $WINDOW seconds of $t" )
+              unless $date =~ /^\d+$/
+              && abs( $t - $date ) < $WINDOW;
+            my $ver = $attrs->{version} || 0;
+            push( @$err, "version must be 1" )
+              unless $attrs->{version} eq '1';
+        }
+    }
+    return $err;
+}
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
+
+

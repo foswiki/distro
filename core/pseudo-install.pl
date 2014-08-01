@@ -324,7 +324,7 @@ sub error {
 
 sub trace {
 
-    #warn "...",@_,"\n";
+    #warn "...", @_, "\n";
 
     return;
 }
@@ -441,9 +441,10 @@ sub installModuleByName {
         );
         $libDir = 'TWiki';
     }
-    if ( -e $manifest ) {
+    if ( $manifest && -e $manifest ) {
         installFromMANIFEST( $module, $moduleDir, $manifest, $ignoreBlock );
         update_gitignore_file($moduleDir);
+        update_githooks_dir( $moduleDir, $module );
     }
     else {
         $libDir = undef;
@@ -1475,6 +1476,60 @@ sub update_gitignore_file {
     }
 
     return;
+}
+
+# install the githooks.  If called with a module name  (ie.  "CommentPlugin")
+# then we might be in a .git "superproject" structure,  so look for a .git/modules/$module/hooks
+# directory.   otherwise a final call at the end will install into the primary .git/hooks location
+
+sub update_githooks_dir {
+    my ( $moduleDir, $module ) = @_;
+    $module ||= '';
+    use Cwd;
+
+    my $hooks_src = File::Spec->catdir( 'tools', 'develop', 'githooks' );
+
+    # Check for .git directories,  and copy in hooks if needed
+    foreach my $gitdir ( '.', '..' ) {
+        my $hooks_tgt = File::Spec->catdir( $gitdir, '.git', 'hooks' );
+        my $target_dir =
+          File::Spec->catdir( $moduleDir, $gitdir, '.git', 'hooks' );
+        my $gitmodule_target_dir =
+          File::Spec->catdir( $gitdir, '.git', 'modules', $module, 'hooks' );
+        my $gitmodule_hooks_tgt =
+          File::Spec->catdir( $gitdir, '.git', 'modules', $module, 'hooks' );
+
+        foreach my $hook (
+            qw( applypatch-msg commit-msg post-commit post-update pre-applypatch pre-commit pre-rebase prepare-commit-msg post-receive update)
+          )
+        {
+            next unless ( -f File::Spec->catfile( $hooks_src, $hook ) );
+
+            if ($module) {
+                if ( -d $gitmodule_target_dir ) {
+                    unlink File::Spec->catfile( $gitmodule_target_dir, $hook )
+                      if (
+                        -e File::Spec->catfile( $gitmodule_target_dir, $hook )
+                      );
+                    linkOrCopy '.',
+                      File::Spec->catfile( $hooks_src,           $hook ),
+                      File::Spec->catfile( $gitmodule_hooks_tgt, $hook ),
+                      $CAN_LINK;
+                }
+            }
+            else {
+                if ( -d $target_dir ) {
+                    unlink _cleanPath(
+                        File::Spec->catfile( $target_dir, $hook ) )
+                      if ( -e File::Spec->catfile( $target_dir, $hook ) );
+                    linkOrCopy $moduleDir,
+                      File::Spec->catfile( $hooks_src, $hook ),
+                      File::Spec->catfile( $hooks_tgt, $hook ),
+                      $CAN_LINK;
+                }
+            }
+        }
+    }
 }
 
 init();
