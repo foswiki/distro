@@ -452,7 +452,7 @@ sub installModuleByName {
     $manifest  = findRelativeTo(
         File::Spec->catdir( $moduleDir, 'lib', 'Foswiki', $subdir, $module ),
         'MANIFEST' );
-    if ( !-e $manifest ) {
+    unless ( $manifest && -e $manifest ) {
         $manifest = findRelativeTo(
             File::Spec->catdir( $moduleDir, 'lib', 'TWiki', $subdir, $module ),
             'MANIFEST'
@@ -466,7 +466,8 @@ sub installModuleByName {
     }
     else {
         $libDir = undef;
-        warn "---> No MANIFEST in $module (at $manifest)\n";
+        warn "---> No MANIFEST in $module"
+          . ( $manifest ? "(at $manifest)" : '' ) . "\n";
     }
 
     return $libDir;
@@ -1515,8 +1516,8 @@ sub merge_gitignore {
             if ( $match_rule =~ /\*/ ) {
 
                 # Normalise the rule
-                $old_rule =~ s/^\s*//;
-                $old_rule =~ s/\s*$//;
+                $old_rule   =~ s/^\s*//;
+                $old_rule   =~ s/\s*$//;
                 $match_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
 
                 # It's a wildcard
