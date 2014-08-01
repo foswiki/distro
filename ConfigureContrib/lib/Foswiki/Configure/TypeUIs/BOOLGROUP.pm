@@ -10,12 +10,7 @@ our @ISA = ('Foswiki::Configure::TypeUI');
 sub prompt {
     my ( $this, $model, $value, $class ) = @_;
     
-    my @selected;
-    if ( defined($value) ) {
-        foreach my $sel ( split( /,\s*/, $value ) ) {
-            push @selected, $sel;
-        }
-    }
+    my @selected = split( /,\s*/, defined $value ? $value : '' );
     
     return CGI::checkbox_group(
         -name     => $model->{keys},
@@ -25,6 +20,7 @@ sub prompt {
         -onchange => 'valueChanged(this)',
         -rows     => 1,
         -columns  => scalar @{$model->{select_from}},
+        -class => $class
         );
 }
 
