@@ -12,9 +12,37 @@ use Text::Diff;
 use File::Spec;
 
 BEGIN {
-    unshift @INC, './core/lib';    # Pick up foswiki libs
-    unshift @INC,
-      './BuildContrib/lib';        # Pick up BuildContrib version of PerlTidy
+    # Look in the current and parent directories for libraries
+    # With git submodules, the current directory is one lib lower than
+    # with a normal git repo during the commit
+
+    if ( -d './core' ) {
+        unshift @INC, './core/lib';    # Pick up foswiki libs
+    }
+    elsif ( -d '../core' ) {
+        unshift @INC, '../core/lib';    # Pick up foswiki libs
+    }
+    else {
+        print STDERR
+          "Unable to find the location of the foswiki core directory\n";
+        print STDERR
+"Be sure that foswiki core has been installed before attempting to commit changes\n";
+        die "The pre-commit-msg exit won't work - commit aborted";
+    }
+    if ( -d './BuildContrib' ) {
+        unshift @INC,
+          './BuildContrib/lib';    # Pick up BuildContrib version of PerlTidy
+    }
+    elsif ( -d '../BuildContrib' ) {
+        unshift @INC,
+          '../BuildContrib/lib';    # Pick up BuildContrib version of PerlTidy
+    }
+    else {
+        print STDERR "Unable to find the location of BuildContrib\n";
+        print STDERR
+"Be sure that BuildContrib has been pseudo-installed before attempting to commit changes\n";
+        die "The pre-commit-msg exit won't work - commit aborted";
+    }
 }
 
 # Require these at runtime because we need to use the modified libpath
