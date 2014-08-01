@@ -7,8 +7,8 @@
 Handling for loading configuration information (Foswiki.spec, Config.spec and
 LocalSite.cfg) as efficiently and flexibly as possible.
 
-This reads *values* from these files and does *not* parse the structured comments. For that,
-see FoswikiCfg.pm
+This reads *values* from these files and does *not* parse the
+structured comments or build a spec database. For that, see LoadSpec.pm
 
 =cut
 
@@ -17,26 +17,12 @@ package Foswiki::Configure::Load;
 use strict;
 use warnings;
 
-use Foswiki::Configure(qw/:keys/);
-
-# This should be (but isn't yet) the one place in Foswiki that knows the
-# syntax of a valid configuration item.  Note that this has changed, notably
-# permitting strange characters for modules and internationization.  It
-# proably should be any hash key, but isn't.  At least, not yet.
+# This should be the one place in Foswiki that knows the syntax of valid
+# configuration item keys. Only simple scalar hash keys are supported.
 #
-# The current choice validates that quotes match, but doesn't allow \' or \".
-# This seems the best compromise between strict checking to catch errors
-# early, and flexibility (that other code can't cope with as yet.
-#
-# - quotes with \. escapes
-#$configItemRegex = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[-:\w]+)\})+/o;
-# - Quotes, no \. escapes
-$configItemRegex = qr/(?:\{(?:'[^']+'|"[^"]+"|[-:\w]+)\})+/o;
+our $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
 
-# - Traditional - doesn't check quotes or allow \. escapes.
-#$configItemRegex = qr/(?:\{[-:\w'"]+\})+/o;
-
-# These are already in Foswiki:: - Does anyone know they are in Configure::Load?
+# Generic booleans, used in some older LSC's
 our $TRUE  = 1;
 our $FALSE = 0;
 
@@ -66,7 +52,7 @@ overriding the custom code again, we use an "unconfigurable" key
 =$cfg{ConfigurationFinished}= as an indicator.
 
 Note that this method is called by Foswiki and configure, and *only* reads
-Foswiki.spec= to get defaults. Other spec files (those for extensions) are
+=Foswiki.spec= to get defaults. Other spec files (those for extensions) are
 *not* read.
 
 The assumption is that =configure= will be run when an extension is installed,
@@ -74,10 +60,10 @@ and that will add the config values to LocalSite.cfg, so no defaults are
 needed. Foswiki.spec is still read because so much of the core code doesn't
 provide defaults, and it would be silly to have them in two places anyway.
 
-$noexpand can be set to suppress expansion of $Foswiki vars embedded in
-values.
-
-$nospec can be set when the caller (in particular, BasicSanity) knows that Foswiki.spec has already been read.
+   * =$noexpand= - suppress expansion of $Foswiki vars embedded in
+     values.
+   * =$nospec= - can be set when the caller knows that Foswiki.spec
+     has already been read.
 
 =cut
 
@@ -86,13 +72,14 @@ sub readConfig {
     my $nospec   = shift;
 
     return if $Foswiki::cfg{ConfigurationFinished};
-    my $validLSC =
-      1;    # Assume it's valid - will be set false if errors detected.
+
+    # Assume LocalSite.cfg is valid - will be set false if errors detected.
+    my $validLSC = 1;
 
     # Read Foswiki.spec and LocalSite.cfg
     # (Suppress Foswiki.spec if already read)
 
-    my @files = qw( Foswiki.spec LocalSite.cfg);
+    my @files = qw( Foswiki.spec LocalSite.cfg );
     shift @files if ($nospec);
 
     for my $file (@files) {
@@ -130,7 +117,7 @@ GOLLYGOSH
     }
 
     # If we got this far without definitions for key variables, then
-    # we need to default them. otherwise we get peppered with
+    # we need to default them. Otherwise we get peppered with
     # 'uninitialised variable' alerts later.
 
     foreach my $var (
@@ -198,7 +185,8 @@ values configuration items contained within the datum, which may be a
 hash reference or a scalar value. The replacement is done in-place.
 
 $mode - How to handle undefined values:
-   * false:  'undef' is returned when an undefined value is encountered.
+   * false:  'undef' (string) is returned when an undefined value is
+     encountered.
    * 1 : return undef if any undefined value is encountered.
    * 2 : return  '' for any undefined value (including embedded)
    * 3 : die if an undefined value is encountered.
@@ -212,6 +200,9 @@ sub expandValue {
     $_[0] = undef if ($undef);
 }
 
+# $_[0] - value being expanded
+# $_[1] - $mode
+# $_[2] - $undef (return)
 sub _expandValue {
     if ( ref( $_[0] ) eq 'HASH' ) {
         expandValue( $_, $_[1] ) foreach ( values %{ $_[0] } );
@@ -222,20 +213,19 @@ sub _expandValue {
         # Can't do this, because Windows uses an object (Regexp) for regular
         # expressions.
         #    } elsif (ref($_[0])) {
-        #        Carp::confess("Can't handle a ".ref($_[0]));
+        #        die("Can't handle a ".ref($_[0]));
     }
     else {
         1 while ( defined( $_[0] )
             && $_[0] =~
-            s/(\$Foswiki::cfg$configItemRegex)/_handleExpand($1, @_[1,2])/geso
-        );
+            s/(\$Foswiki::cfg$ITEMREGEX)/_handleExpand($1, @_[1,2])/geso );
     }
 }
 
 # Used to expand the $Foswiki::cfg variable in the expand* routines.
-# $item, $mode, $forceUndefResult
-#   0       1           2
-
+# $_[0] - $item
+# $_[1] - $mode
+# $_[2] - $undef
 sub _handleExpand {
     my $val = eval $_[0];
     die "Error expanding $_[0]: $@" if ($@);
@@ -261,7 +251,7 @@ yet been saved to =LocalSite.cfg=.
 
 Returns a reference to a list of the errors it saw.
 
-SEE ALSO: Foswiki::Configure::FoswikiCfg::load
+SEE ALSO: Foswiki::Configure::LoadSpec
 
 =cut
 
@@ -368,7 +358,7 @@ sub _loadDefaultsFrom {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

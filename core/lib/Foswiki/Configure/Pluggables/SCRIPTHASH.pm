@@ -1,5 +1,3 @@
-# -*- mode: CPerl; -*-
-
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Pluggables::SCRIPTHASH;
@@ -14,54 +12,72 @@ package Foswiki::Configure::Pluggables::SCRIPTHASH;
 use strict;
 use warnings;
 
-use File::Spec;
-use Foswiki::Configure qw/:config/;
+use File::Spec ();
+use FindBin    ();
 
-use Foswiki::Configure::Pluggable;
-our @ISA = (qw/Foswiki::Configure::Pluggable/);
+use Foswiki::Configure::LoadSpec ();
 
-sub new {
-    my $class = shift;
-    my ( $file, $root, $settings ) = @_;
+sub construct {
+    my ( $settings, $file, $line ) = @_;
 
-    my $fileLine = $.;
-    my @items;
-
-    my $bindir = Foswiki::Configure::UI->new( {} )->{bin};
+    my $bindir = $Foswiki::cfg{ScriptDir};
     unless ($bindir) {
-        push @Foswiki::Configure::FoswikiCfg::errors,
-          [ $file, $fileLine, "Unable to locate scripts directory in root?" ];
-        return 1;
+        $bindir = $FindBin::Bin;
+        unless ( -e "$bindir/setlib.cfg" ) {
+            $bindir =
+              Foswiki::Configure::FileUtil::findFileOnPath('../bin/setlib.cfg');
+            $bindir =~ s{/setlib.cfg$}{} if $bindir;
+        }
+    }
+    unless ($bindir) {
+        die "Unable to locate scripts directory";
     }
 
     my $dh;
     unless ( opendir( $dh, $bindir ) ) {
-        push @Foswiki::Configure::FoswikiCfg::errors,
-          [ $file, $fileLine, "Unable to read scripts directory: $!" ];
-        return 1;
+        die "Unable to read scripts directory $bindir: $!";
     }
 
-    foreach my $file ( sort grep { !/^\./ && -f $_ && -x _ } readdir($dh) ) {
-        $file =~ /^([\w_-]+)$/ or next;
-        $file = $1;
+    foreach my $filename ( sort readdir($dh) ) {
+        next if $filename =~ /^\./;
 
-        my $script = $file;
-        $script =~ s/$Foswiki::cfg{ScriptSuffix}$//
-          if ( defined $Foswiki::cfg{ScriptSuffix} );
+        # validate and untaint
+        next unless $filename =~ /^([-A-Za-z_.]+)$/;
+        $filename = $1;
+        my $script;
+        my $default;
+
+        if ( $Foswiki::cfg{ScriptSuffix} ) {
+            next unless $filename =~ /^(.*)\.$Foswiki::cfg{ScriptSuffix}$/;
+            $script = $1;
+            $default =
+              "\$Foswiki::cfg{ScriptUrlPath}/$1\$Foswiki::cfg{ScriptSuffix}";
+        }
+        else {
+            $script  = $filename;
+            $default = "\$Foswiki::cfg{ScriptUrlPath}/$script";
+        }
 
         my $keys = "{ScriptUrlPaths}{$script}";
 
-        next
-          if (
-            Foswiki::Configure::FoswikiCfg::_getValueObject( $keys, $settings )
-          );
+        # Check it's not already declared
+        foreach my $item (@$settings) {
+            if ( $item->getValueObject($keys) ) {
+
+                # already been declared outside of *SCRIPTHASH*
+                next;
+            }
+        }
+
+        next unless -f $filename;
+        next unless -x $filename;
 
         # Script must use Foswiki::engine to be redirectable.
 
         my $sf;
-        unless ( open( $sf, '<', File::Spec->catfile( $bindir, $file ) ) ) {
-            push @Foswiki::Configure::FoswikiCfg::errors,
-              [ $file, $fileLine, "Unable to inspect $bindir/$file: $!" ];
+        unless ( open( $sf, '<', File::Spec->catfile( $bindir, $filename ) ) ) {
+            Foswiki::Configure::LoadSpec::error( $file, $line,
+                "Unable to inspect $bindir/$filename: $!" );
             next;
         }
 
@@ -80,32 +96,21 @@ sub new {
         next unless ($engine);
 
         # Create the item under the current heading
-
-        my $value = Foswiki::Configure::Value->new('SCRIPTHASH');
-
-        # Don't include a _defined item; besides being meaningless,
-        # the users actually require non-existant keys
-
-        $value->set(
-            keys => $keys,
-            desc => "Full URL for $script script.  Rarely modified.",
+        my $value = Foswiki::Configure::Value->new(
+            'SCRIPTHASH',
+            keys        => $keys,
+            desc        => "Full URL for $script script.  Rarely modified.",
+            EXPERT      => 1,
+            MUST_ENABLE => 1,
+            default     => "'$default'",
             opts =>
-'FEEDBACK=auto FEEDBACK="Verify" EXPERT E CHECK="expand nullok notrail"',
+              'FEEDBACK=AUTO FEEDBACK="Verify" CHECK="expand nullok notrail"',
         );
 
-        $value->addAuditGroup(qw/PARS:0 URI:0/);
-        Foswiki::Configure::FoswikiCfg::_pusht( $settings, $value );
-
-        unless ( exists $Foswiki::defaultCfg->{ScriptUrlPaths}{$script} ) {
-            $Foswiki::defaultCfg->{ScriptUrlPaths}{$script} =
-                '$Foswiki::cfg{ScriptUrlPath}/'
-              . $script
-              . '$Foswiki::cfg{ScriptSuffix}';
-        }
+        $value->set( opts => 'AUDIT="PARS:0 URI:0"' );
+        push( @$settings, $value );
     }
     closedir $dh;
-
-    return 1;
 }
 
 1;
@@ -113,16 +118,9 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-TWiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

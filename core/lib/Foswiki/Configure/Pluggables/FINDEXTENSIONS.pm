@@ -16,21 +16,18 @@ use warnings;
 use Foswiki::Configure::Pluggable ();
 our @ISA = ('Foswiki::Configure::Pluggable');
 
-sub new {
-    my ($class) = @_;
+sub construct {
+    my ( $class, $settings, $file, $line ) = @_;
 
-    # Create a new unnamed section. The section is unnamed because
     # *FINDEXTENSIONS* is already placed in an appropriate section in
-    # Foswiki.spec.
-    my $this = $class->SUPER::new('');
-    return $this;
+    # Foswiki.spec. There are no additional configuration items required.
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

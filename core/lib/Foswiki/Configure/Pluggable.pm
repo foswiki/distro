@@ -4,18 +4,43 @@
 
 ---+ package Foswiki::Configure::Pluggable
 
-Support for placeholders in a configuration that represent a pluggable
-UI block, i.e the blocks used for downloading extensions, managing
-plugins, and managing languages.
+A Pluggable is a code module that generates items for a hard-coded block
+in a configuration, marked by *NAME* in the .spec.
 
-A pluggable block may be a simple section with dynamically generated
-configuration entries (e.g. generated programatically after inspecting
-the disk) and/or may have special semantics, or may have a special UI which
-may override the behaviors of a standard item. Normally pluggables
-are sections, containing values and other sections. If this isn't
-appropriate, you will have to implement a new visit() function for
-iterating over the model.  visit() must expose all Value items for
-checkers and saving configuration data.
+Pluggables are used for blocks in the configuration that cannot be handled
+by the configuration abstraction, for example blocks used for
+downloading extensions, managing plugins, and managing languages.
+
+A pluggable block will normally inject programatically
+generated configuration entries (subclasses of Foswiki::Configure::Item) into
+the configuration, usually by appending to the $open configuration item
+(which will normally be a Foswiki::Configure::Section).
+
+Pluggable implementations are loaded by the parser by calling the
+=load= static method in this class. The implementations are packages
+in Foswiki::Configure::Pluggables, and must provide at least the following
+function:
+
+---++ StaticMethod construct( \@settings, $file, $line )
+
+Implemented by subclasses to create the pluggable. Pluggables are
+created in-place, by generating and adding Foswiki::Configure::Item
+objects and adding them to the settings array.
+
+   * =\@settings= - ref to the top level array of settings
+   * =$file=, =$line= - file and line in the .spec that triggered the pluggable
+
+Note that there is no need for constructors to worry about the hierarchical
+structure of .spec. The structure is only generated after all items have
+been generated, by analysis of section markers placed in the settings array.
+So items should be added by simply pushing them into @$settings. However,
+should a pluggable require a structure within the containing section, it is
+OK to push new =Foswiki::Configure::Section= objects to @$settings and
+populate them using =->addChild=.
+
+Note also that values added by pluggables should *NOT* have defined_at
+set. The presence of this field is used to indicate whether a field was
+defined explicitly, or in a pluggable.
 
 =cut
 
@@ -24,37 +49,31 @@ package Foswiki::Configure::Pluggable;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Section ();
-our @ISA = ('Foswiki::Configure::Section');
-
 =begin TML
 
----++ StaticMethod load($id) -> $pluggableSection
+---++ StaticMethod load($id)
 
-Loads a pluggable section from Foswiki::Configure::Pluggables::
+Loads a pluggable section from =Foswiki::Configure::Pluggables::$id=
+
+Will die if there's a problem.
+
+Returns the result from the Pluggable class's =construct=
 
 =cut
 
 sub load {
     my $name = shift;
-    my ( $file, $root, $settings ) = @_;
 
     my $modelName = 'Foswiki::Configure::Pluggables::' . $name;
-    eval "use $modelName";
-    Carp::confess $@ if $@;
-
-    no strict 'refs';
-    my $model = $modelName->new(@_);
-    use strict 'refs';
-
-    return $model;
+    eval "require $modelName; ${modelName}::construct(\@_);";
+    die $@ if $@;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

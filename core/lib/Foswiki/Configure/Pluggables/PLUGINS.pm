@@ -13,90 +13,76 @@ package Foswiki::Configure::Pluggables::PLUGINS;
 use strict;
 use warnings;
 
-use Foswiki::Configure::Pluggable ();
-our @ISA = ('Foswiki::Configure::Pluggable');
+use Foswiki::Configure::Value    ();
+use Foswiki::Configure::FileUtil ();
 
-use Foswiki::Configure::Type  ();
-use Foswiki::Configure::Value ();
-
-my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
-
-sub new {
-    my ($class) = @_;
-
-    # Create a new section for plugins. This is an unnamed subsection
-    # because *PLUGINS* occurs within a ---++ Plugins section already
-    my $this = $class->SUPER::new('');
-    my %modules;
+sub construct {
+    my ( $settings, $file, $line ) = @_;
 
     # Inspect @INC to find plugins
-    my $classes      = $scanner->findClasses('Foswiki::Plugins::*Plugin');
-    my $twikiclasses = $scanner->findClasses('TWiki::Plugins::*Plugin');
-    push( @$classes, @$twikiclasses );
+    my @classes = (
+        Foswiki::Configure::FileUtil::findPackages('Foswiki::Plugins::*Plugin'),
+        Foswiki::Configure::FileUtil::findPackages('TWiki::Plugins::*Plugin')
+    );
 
-    foreach my $module (@$classes) {
-        my $simple = $module;
-        $simple =~ s/^.*::([^:]*)/$1/;
+    my %modules;
+
+    foreach my $module (@classes) {
+        my $pluginName = $module;
+        $pluginName =~ s/^.*::([^:]*)/$1/;
 
         # only add the first instance of any plugin, as only
         # the first can get loaded from @INC.
-        $modules{$simple} = $module;
+        next if $modules{$pluginName};
+
+        $modules{$pluginName} = $module;
     }
-    foreach my $module ( sort { lc($a) cmp lc($b) } keys %modules ) {
-        next
-          if ( $module eq 'EmptyPlugin' )
-          ;    #don't show EmptyPlugin, and don't add it to the cfg
-        $this->addChild(
-            new Foswiki::Configure::Value(
+
+    my %expert;
+
+    # Add any others present in $Foswiki::cfg but not found on @INC,
+    # but mark them as EXPERT unless enabled.
+    foreach my $pluginName ( keys %{ $Foswiki::cfg{Plugins} } ) {
+        next if $modules{$pluginName};
+        next unless ref( $Foswiki::cfg{Plugins}{$pluginName} );
+        $modules{$pluginName} = "Foswiki::Plugins::$pluginName";
+        $expert{$pluginName}  = !$Foswiki::cfg{Plugins}{$pluginName}{Enabled};
+    }
+
+    foreach my $plugin ( sort { lc($a) cmp lc($b) } keys %modules ) {
+
+        # ignore EmptyPlugin
+        next if ( $plugin eq 'EmptyPlugin' );
+
+        # Add {Enabled} key
+        push(
+            @$settings,
+            Foswiki::Configure::Value->new(
                 'BOOLEAN',
-                parent => $this,
-                keys   => '{Plugins}{' . $module . '}{Enabled}',
+                keys    => "{Plugins}{$plugin}{Enabled}",
+                default => '0',                             # Not enabled
+                EXPERT  => $expert{$plugin}
             )
         );
-        $this->addChild(
-            new Foswiki::Configure::Value(
+        push(
+            @$settings,
+            Foswiki::Configure::Value->new(
                 'STRING',
-                parent      => $this,
-                keys        => '{Plugins}{' . $module . '}{Module}',
-                expertsOnly => 1
+                keys    => "{Plugins}{$plugin}{Module}",
+                default => "'$modules{$plugin}'",
+                EXPERT  => 1
             )
         );
-        $Foswiki::cfg{Plugins}{$module}{Module} ||= $modules{$module};
-    }
 
-    foreach my $plug ( keys %{ $Foswiki::cfg{Plugins} } ) {
-        next unless ( $plug =~ m/Plugin$/ );
-        my $simple = $plug;
-        $simple =~ s/^.*::([^:]*)/$1/;
-        unless ( $modules{$simple} ) {
-            $modules{$simple} = $plug;
-            $this->addChild(
-                new Foswiki::Configure::Value(
-                    'BOOLEAN',
-                    parent      => $this,
-                    keys        => '{Plugins}{' . $plug . '}{Enabled}',
-                    expertsOnly => !$Foswiki::cfg{Plugins}{$plug}{Enabled}
-                )
-            );
-            $this->addChild(
-                new Foswiki::Configure::Value(
-                    'STRING',
-                    parent      => $this,
-                    keys        => '{Plugins}{' . $plug . '}{Module}',
-                    expertsOnly => 1
-                )
-            );
-        }
+        $Foswiki::cfg{Plugins}{$plugin}{Module} ||= $modules{$plugin};
     }
-
-    return $this;
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

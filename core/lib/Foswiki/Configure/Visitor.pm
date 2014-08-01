@@ -3,13 +3,11 @@
 =begin TML
 
 ---+ package Foswiki::Configure::Visitor
-Node visitor interface
+Node visitor interface for traversing a .spec tree
 
 =cut
 
 package Foswiki::Configure::Visitor;
-
-use Carp;
 
 =begin TML
 
@@ -21,7 +19,7 @@ Return 1 to continue the visit, or 0 to terminate it.
 
 =cut
 
-sub startVisit { Carp::confess 'Pure virtual method' }
+sub startVisit { die 'Pure virtual method' }
 
 =begin TML
 
@@ -33,7 +31,7 @@ Return 1 to continue the visit, or 0 to terminate it.
 
 =cut
 
-sub endVisit { Carp::confess 'Pure virtual method' }
+sub endVisit { die 'Pure virtual method' }
 
 1;
 __END__

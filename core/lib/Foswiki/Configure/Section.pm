@@ -5,8 +5,11 @@ package Foswiki::Configure::Section;
 
 ---+ package Foswiki::Configure::Section
 
-A tree node in a configuration item tree; a collection of configuration
-items and subsections.
+A collection node in a configuration item tree; a collection
+of configuration items and subsections.
+
+IMPORTANT: there are some naming conventions for fields that apply to
+all subclasses of this class. See Foswiki::Configure::Item for details.
 
 =cut
 
@@ -16,25 +19,31 @@ use warnings;
 use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');
 
+# Attributes legal on a section header
+use constant ATTRSPEC => {
+    TABS   => {},
+    EXPERT => {},
+    SORTED => {}
+};
+
 =begin TML
 
----++ ClassMethod new($head, $opts)
-   * $head - headline e.g. 'Security Settings'
-   * $opts - options
+---++ ClassMethod new(@opts)
+   * =@opts= - array of key-value options, e.g. headline => 'Security Settings'
 
-Constructor
+Constructor.
 
 =cut
 
 sub new {
-    my ( $class, $head, $opts ) = @_;
+    my ( $class, @opts ) = @_;
 
-    my $this = $class->SUPER::new();
-    $this->{headline} = $head;
-    $this->{opts} = $opts || '';
-
-    @{ $this->{children} } = ();
-    @{ $this->{values} }   = ();
+    my $this = $class->SUPER::new(
+        children  => [],
+        headline  => 'UNKNOWN',
+        _vobCache => {},          # Do not serialise
+        @opts
+    );
 
     return $this;
 }
@@ -49,35 +58,42 @@ Add a child node under this node.
 sub addChild {
     my ( $this, $child ) = @_;
     foreach my $kid ( @{ $this->{children} } ) {
-        Carp::confess if $child eq $kid;
+        die "Subnode already present; cannot add again" if $child eq $kid;
     }
-    $child->{parent} = $this;
-
-    if ( $child->isa('Foswiki::Configure::Value') ) {
-        push( @{ $this->{values} }, $child );
-    }
+    $child->{_parent} = $this;
 
     push( @{ $this->{children} }, $child );
 
+    $this->_addToVobCache($child);
 }
 
-# See Foswiki::Configure::Item
-# A section is expert if any of it's children are expert.
-sub isExpertsOnly {
-    my $this = shift;
-    if ( !defined( $this->{isExpert} ) ) {
-        $this->{isExpert} = 1;
-        foreach my $kid ( @{ $this->{children} } ) {
-            if ( !$kid->isExpertsOnly() ) {
-                $this->{isExpert} = 0;
-                last;
-            }
+# The _vobCache provides fast access to value items
+sub _addToVobCache {
+    my ( $this, $child ) = @_;
+
+    if ( $child->isa('Foswiki::Configure::Section') ) {
+        while ( my ( $k, $v ) = each %{ $child->{_vobCache} } ) {
+            $this->{_vobCache}->{$k} = $v;
         }
     }
-    return $this->{isExpert};
+    else {
+        $this->{_vobCache}->{ $child->{keys} } = $child;
+    }
+    $this->{_parent}->_addToVobCache($child) if $this->{_parent};
 }
 
 # See Foswiki::Configure::Item
+sub hasDeep {
+    my ( $this, $attrname ) = @_;
+    return 1 if $this->{$attrname};
+    foreach my $kid ( @{ $this->{children} } ) {
+        return 1 if $kid->hasDeep($attrname);
+    }
+    return 0;
+}
+
+# See Foswiki::Configure::Item
+# Visit each of the children of this node in turn.
 sub visit {
     my ( $this, $visitor ) = @_;
     my %visited;
@@ -108,31 +124,18 @@ sub getSectionObject {
 }
 
 # See Foswiki::Configure::Item
+# Keys are only present on leaf items, so recursively query until we
+# find the appropriate leaf Value.
 sub getValueObject {
     my ( $this, $keys ) = @_;
-    foreach my $child ( @{ $this->{children} } ) {
-        my $cvo = $child->getValueObject($keys);
-        return $cvo if $cvo;
-    }
-    return;
-}
-
-# See Foswiki::Configure::Item
-# See if this section is changed from the default values.
-sub needsSaving {
-    my ( $this, $valuer ) = @_;
-    my $count = 0;
-    foreach my $child ( @{ $this->{children} } ) {
-        $count += $child->needsSaving($valuer);
-    }
-    return $count;
+    return $this->{_vobCache}->{$keys};
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

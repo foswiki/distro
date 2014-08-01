@@ -2,6 +2,7 @@
 !include ../AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin
 !include ../CompareRevisionsAddOn/lib/Foswiki/Contrib/CompareRevisionsAddOn
 !include ../CommentPlugin/lib/Foswiki/Plugins/CommentPlugin
+!include ../ConfigureContrib/lib/Foswiki/Contrib/ConfigureContrib
 !include ../EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
 !include ../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin
 !include ../FamFamFamContrib/lib/Foswiki/Contrib/FamFamFamContrib
