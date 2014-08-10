@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROOT=/usr/home/trunkgit.foswiki.org
+ROOT=/usr/home/trunk.foswiki.org
 PROD=/home/foswiki.org/public_html
 
 #ROOT=/var/www/github/foswiki
