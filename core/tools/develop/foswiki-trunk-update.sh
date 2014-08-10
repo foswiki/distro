@@ -7,7 +7,7 @@ PROD=/home/foswiki.org/public_html
 #PROD=/var/www/foswiki/trunk/core
 
 cd $ROOT/core
-git reset HEAD --hard lib/Foswiki.pm
+git checkout lib/Foswiki.pm
 git status -uno
 git stash save
 
@@ -33,7 +33,8 @@ git submodule foreach 'git clean -fdx \
 
 # Pull the superproject.  If anything changed, then run an init to pick up new default extensions
 echo Run git pull, and if changes, init the submodules
-[[ $(git pull) = *Already\ up-to-date.* ]] git submodule sync
+git pull
+git submodule sync
 git submodule update --init
 
 # Update all the submodules
