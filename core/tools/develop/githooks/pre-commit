@@ -91,6 +91,7 @@ m/\.(?:js|css|html|gif|jpe?g|png|ps|psd|gz|zip|pot?|tmpl|svg|patch|json|spec)$/
 
         # Not .txt in a web
         next unless $file =~ m#/data/#;
+        next if $file =~ m#/data/TestCases/#;
     }
     elsif ( $file =~ /,v$/ ) {
         print STDERR <<EOF;
