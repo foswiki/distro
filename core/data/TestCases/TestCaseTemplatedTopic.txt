@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
 
 
 Description: Manual test to check creation of topics with a template topic.

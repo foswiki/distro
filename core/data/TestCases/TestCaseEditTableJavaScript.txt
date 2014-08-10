@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1244997115" format="1.1" version="1"}%
 ---+ !EditTablePlugin and javascript interface
 
 Description: Manual test textareas in %SYSTEMWEB%.EditTablePlugin. Tests that the javascript interface works correctly in saving all changes that are done on the screen.

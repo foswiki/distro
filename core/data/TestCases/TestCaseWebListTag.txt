@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
 
 Description: Tests for WEBLIST tag
 <table border="1"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>

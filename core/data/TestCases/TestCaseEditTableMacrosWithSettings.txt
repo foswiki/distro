@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1244998141" format="1.1" version="1"}%
 ---+ !TablePlugin and !EditTablePlugin test case - mixed order of EDITTABLE and TABLE tags
 _combined with macros_
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1132220938" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1226241394" format="1.1" version="1"}%
 ---+!! %TOPIC%
 
 Description: include a topic from a subweb

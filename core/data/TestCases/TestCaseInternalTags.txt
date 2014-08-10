@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1158898025" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1229276996" format="1.1" version="1"}%
 
 Description: Test cases for internal tags *NOT INCLUDING* URLPARAM, SEARCH OR METASEARCH
 
