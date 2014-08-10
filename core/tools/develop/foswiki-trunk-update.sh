@@ -9,7 +9,7 @@ PROD=/home/foswiki.org/public_html
 cd $ROOT/core
 git checkout lib/Foswiki.pm
 git status -uno
-git stash save
+git stash save --quiet
 
 cd $ROOT
 # Make sure there are no other manual edits in the way
@@ -31,28 +31,41 @@ git submodule foreach 'git clean -fdx \
 --exclude="data/configur*" --exclude="data/debug*" --exclude="data/error*" --exclude="data/events*" --exclude="data/log*" --exclude="data/warn*" \
 || :'
 
-# Pull the superproject.  If anything changed, then run an init to pick up new default extensions
+# Pull the superproject,  then run sync and init to pick up new extensions
 echo Run git pull, and if changes, init the submodules
 git pull
 git submodule sync
 git submodule update --init
 
-# Update all the submodules
+# Update all the submodules to their latest commit
 echo Running git submodule update --remote
 git submodule update --remote
+
+# Note, this leaves the submodules in a detached state
+# We could do a git submodule foreach git checkout master
+# but by not doing this,  it's possible to have different extensions running
+# different branches per their .gitmodules configuration.
 
 # Remove broken links.
 echo Removing broken links
 find -L . -type l -exec rm \{\} \;
 
-# Install the default modules, and optional extensions
+# Restore the modified files, install the default modules, and optional extensions
 cd $ROOT/core
-git stash pop
+git stash pop --quiet
 perl -T pseudo-install.pl -link default
 perl -T pseudo-install.pl -link FoswikiOrgPlugin
+# Before adding any extensions here,  add them to the superproject
+# git submodule add -b <branch> https://github.com/foswiki/<extension>.git  <extension>
+# and push to the trunk.foswiki.org branch.
+
+# Copy any files from the foswiki.org site that are lost during the git clean.
+cp -a $PROD/data/System/WebLeftBarFoswikiWebsList.txt* $ROOT/core/data/System/.
+cp -a $PROD/data/System/FoswikiSiteChanges.txt* $ROOT/core/data/System/.
+cp -a $PROD/data/System/WebTopBar* $ROOT/core/data/System/.
 
 # Modify Foswiki.pm to show the last revision
-REV=`git rev-parse --short=12 HEAD`
+REV=`git log --abbrev=12 --format=format:%h:%ci -1`
 cd lib
 sed -e "s/\(RELEASE = '\)/\1GIT: $REV: /" Foswiki.pm > Foswiki.pm.new
 mv Foswiki.pm.new Foswiki.pm
