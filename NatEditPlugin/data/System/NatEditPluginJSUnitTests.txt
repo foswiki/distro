@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1186040402" format="1.1" reprev="1.2" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1407719154" format="1.1" version="1"}%
 <script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/NatEditContrib/edit.js"></script>
