@@ -12,7 +12,6 @@ use FindBin;
 use File::Path qw(mkpath rmtree);
 
 use Foswiki::Configure::Util           ();
-use Foswiki::Configure::FoswikiCfg     ();
 use Foswiki::Configure::Root           ();
 use Foswiki::Configure::Valuer         ();
 use Foswiki::Configure::UI             ();
@@ -151,6 +150,7 @@ EXAMPLE
         $defaultCfg{$k} = $cfg{$k};
     }
 
+    require Foswiki::Configure::FoswikiCfg;
     Foswiki::Configure::FoswikiCfg::_parse( $fhname, $root, 1 );
 
     # nothing should have changed
@@ -205,6 +205,7 @@ $Foswiki::cfg{One} = 'One';
 1;
 EXAMPLE
     $f1->close();
+    require Foswiki::Configure::FoswikiCfg;
     Foswiki::Configure::FoswikiCfg::_parse( $f1name, $root );
 
     $this->assert_not_null( $root->getValueObject('{One}') );
@@ -241,6 +242,7 @@ $Foswiki::cfg{Plugins}{CommentPlugin}{Enabled} = 0;
 1;
 EXAMPLE
     $f1->close();
+    require Foswiki::Configure::FoswikiCfg;
     Foswiki::Configure::FoswikiCfg::_parse( $f1name, $root );
     my $vo = $root->getValueObject('{Plugins}{CommentPlugin}{Enabled}');
     $this->assert_not_null($vo);
@@ -269,6 +271,7 @@ $Foswiki::cfg{Two} = 'One';
 1;
 EXAMPLE
     $f1->close();
+    require Foswiki::Configure::FoswikiCfg;
     Foswiki::Configure::FoswikiCfg::_parse( $f1name, $root );
 
     my $vo = $root->getValueObject('{One}');
@@ -330,6 +333,7 @@ $cfg{Three} = 'Three';
 1;
 EXAMPLE
     $f1->close();
+    require Foswiki::Configure::FoswikiCfg;
     Foswiki::Configure::FoswikiCfg::_parse( $f1name, $root, 1 );
     foreach my $k ( keys %cfg ) {
         $defaultCfg{$k} = $cfg{$k};
