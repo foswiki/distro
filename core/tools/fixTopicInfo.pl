@@ -62,7 +62,7 @@ foreach my $fn (@filelist) {
     }
 
     my $status = `git status --short $fn`;
-    next if ( '??' eq substr( $status, 0, 2 ) || !length($status) );
+    next if ( '??' eq substr( $status, 0, 2 ) || length($status) );
 
     print "\nPROCESSING $fn\n";
     my ( $gitHash, $commitDate, $svnRev ) = getCommitInfo($fn);
