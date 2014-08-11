@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1104704823" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1104704823" format="1.1" version="1"}%
 Test fixture - this is a topic that has been moved from a topic called MovedFrom
 %META:FORM{name="ThisForm"}%
 %META:FIELD{name="Squeegle" title="Squeegle" value="Hugh Pugh Barney McGrew"}%

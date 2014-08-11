@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.1" version="1"}%
 ---+!! BDD tests for !JavascriptFiles
 Description: BDD test cases for foswiki-distributed !JavaScript files. Currently only tests =foswikiDate.js=. These tests require Foswiki:Extensions.JasmineBddContrib to run.
 

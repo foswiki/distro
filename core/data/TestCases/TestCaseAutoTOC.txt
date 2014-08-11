@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.1" version="1"}%
 
 Description: tests for TOCs included from other topics and with funny deprecated syntaxes.
 

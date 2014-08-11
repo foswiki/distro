@@ -1,3 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.1" version="1"}%
 
 i hope to eventually see this topic again one day...

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.1" version="1"}%
 ---+!! Unit tests for !JavascriptFiles
 Description: Test cases for Foswiki-distributed !JavaScript files. These tests require Foswiki:Extensions.JSUnitContrib to run.
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="1"}%
 ---+ Table followed by Editable table with lots of CALC
 
 Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macros and manual test of adding rows with TABLE and EDITTABLE containing other macros
