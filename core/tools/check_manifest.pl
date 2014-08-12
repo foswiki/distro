@@ -8,13 +8,18 @@ use Cwd;
 use File::Spec;
 use File::Find;
 
-my $manifest    = shift || 'MANIFEST';
-my @skip        = qw(tools test working logs);
-my $cvs         = 'subversion';
+my $manifest = shift || 'MANIFEST';
+my @skip =
+  qw(tools test working logs MANIFEST DEPENDENCIES build\.pl PREINSTALL TIDY .*?\.psd .*?\.xcf);
+my $cvs = 'subversion';
 my $skipPattern = join( '|', @skip );
+
+#print "SKIPPING $skipPattern\n";
 my @lost;    # Files on disk not in MANIFEST
 my %man;     # Hash of MANIFEST content: file => perm
 my %alt;     # Hash of alternate version of _src file
+my $checkperm = 0;
+my @manfiles;
 
 # Search the current working directory and its parents
 # for a directory called like the first parameter
@@ -40,10 +45,12 @@ sub isFileInManifest {
         my $cmode = ( stat($diskfile) )[2] & 07777;
         printf "Permissions for $file differ"
           . " in MANIFEST ($mode) and on disk (%lo)\n", $cmode
-          if oct( 0 + $mode ) != $cmode;
+          if ( $checkperm && oct( 0 + $mode ) != $cmode );
     }
     else {
-        return if $file =~ m#^(?:$skipPattern)/#o;    # For git
+        return if $file =~ m#^(?:$skipPattern)/#;    # For git
+              #print "Checking ($file) against  #/(?:$skipPattern)\$# \n";
+        return if $file =~ m#(?:^|/)(?:$skipPattern)$#;    # For git
         return if $file =~ m#/TestCases/#;
         push @lost, $file;
     }
@@ -51,6 +58,10 @@ sub isFileInManifest {
     # Try to save file alternate versions, just in case
     $alt{"$file.gz"}++;
     if ( $file =~ /^(.*)_src(\..*)$/ ) {
+        $alt{"$1$2"}++;
+        $alt{"$1$2.gz"}++;
+    }
+    if ( $file =~ /^(.*)\.uncompressed(\..*)$/ ) {
         $alt{"$1$2"}++;
         $alt{"$1$2.gz"}++;
     }
@@ -80,22 +91,29 @@ unless ( -f $manifest ) {
     File::Find::find(
         sub {
             /^MANIFEST\z/ && ( $manifest = $File::Find::name );
+            push @manfiles, $manifest if /^MANIFEST\z/;
         },
         File::Spec->catdir( $root, 'lib' )
     );
 }
 die "No such MANIFEST $manifest" unless -e $manifest;
 
+#foreach my $mf ( @manfiles ) {
+#  print " .. FOUND $mf \n";
+#  }
+
 open my $man, '<', $manifest or die "Can't open $manifest for reading: $!";
+print "Processing manifest $manifest\n";
 while (<$man>) {
     next if /^!include/;
-    $man{$1} = $2 if /^(\S+)\s+(\d+)/;
+    $man{$1} = $2 if /^#?(\S+)\s+(\d+)/;
 }
 close $man;
 
 if ( my $gitdir = findPathToDir('.git') ) {
     $cvs = 'git';
-    help($cvs);
+
+    #help($cvs);
     for my $file ( split /\n/, qx{cd $root && git ls-files} ) {
         $file =~ s#^$root/##;        # Should never happen, but safer
         $file =~ s#^(?:\.\./)*##;    # If checking not from top level
