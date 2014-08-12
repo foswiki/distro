@@ -241,9 +241,13 @@ my %bop_map = (
             if ( $rhs eq 'NULL' ) {
                 return ( $TRUE, $TRUE_TYPE );
             }
+
+            # Need EXISTS condition
             return ( "($rhs) IS NULL", BOOLEAN );
         }
         elsif ( $rhs eq 'NULL' ) {
+
+            # Need EXISTS condition
             return ( "($lhs) IS NULL", BOOLEAN );
         }
         return _boolean_bop( '=', @_ );

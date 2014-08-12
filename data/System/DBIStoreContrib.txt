@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1399560863" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="save topic" date="1401385201" format="1.1" version="1"}%
 ---+!! !DBIStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -190,6 +190,7 @@ can be useful when debugging SQL server, or for simply understanding the tables.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.1 (12 Aug 2014) | Fixes for Foswikitask:Item12989 and Foswikitask:Item12990: |
 |  1.0 (8 May 2014) | First version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | http://foswiki.org/bin/view/Extensions/DBIStoreContrib |

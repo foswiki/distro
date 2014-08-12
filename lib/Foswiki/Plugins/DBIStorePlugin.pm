@@ -16,19 +16,18 @@ our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Use DBI to implement searching using an SQL database. Supports SQL queries over Form data.';
 
-our $shim;
+use constant TRACE => 0;
 
 sub initPlugin {
     if ( $Foswiki::Plugins::SESSION->{store}->can('recordChange') ) {
 
         # Will not enable this plugin if recordChange is present,
         # as this is Foswiki >=1.2
+        Foswiki::Func::writeDebug(
+            "DBIStorePlugin not required; can recordChange")
+          if TRACE;
         return 0;
     }
-
-    require Foswiki::Contrib::DBIStoreContrib::DBIStore;
-    $shim = Foswiki::Contrib::DBIStoreContrib::DBIStore->createShim();
-    die "Cannot create store shim" unless $shim;
 
     # If the getField method is missing, then get it from the BruteForce
     # module that it was moved from.
@@ -54,12 +53,16 @@ sub commonTagsHandler {
     if ( Foswiki::Func::getRequestObject->param('dbistore_reset')
         && Foswiki::Func::isAnAdmin() )
     {
+        Foswiki::Func::writeDebug('DBIStorePlugin: Resetting') if TRACE;
         Foswiki::Func::getRequestObject->delete('dbistore_reset');
         Foswiki::Contrib::DBIStoreContrib::reset($Foswiki::Plugins::SESSION);
     }
     elsif ( Foswiki::Func::getRequestObject->param('dbistore_update') ) {
         my ( $text, $topic, $web, $included, $meta ) = @_;
         Foswiki::Func::getRequestObject->delete('dbistore_update');
+        Foswiki::Func::writeDebug(
+            'DBIStorePlugin: Update ' . $meta->getPath() )
+          if TRACE;
         Foswiki::Contrib::DBIStoreContrib::start();
         Foswiki::Contrib::DBIStoreContrib::remove($meta);
         Foswiki::Contrib::DBIStoreContrib::insert($meta);
@@ -83,6 +86,9 @@ sub afterSaveHandler {
 
     # $text, $topic, $web, $error, $meta
     my $meta = $_[4];
+    Foswiki::Func::writeDebug(
+        "DBIStorePlugin::afterSaveHandler " . $meta->getPath() )
+      if TRACE;
     Foswiki::Contrib::DBIStoreContrib::start();
     Foswiki::Contrib::DBIStoreContrib::remove($meta);
     Foswiki::Contrib::DBIStoreContrib::insert($meta);
@@ -93,6 +99,13 @@ sub afterSaveHandler {
 sub afterRenameHandler {
     my ( $oldWeb, $oldTopic, $olda, $newWeb, $newTopic, $newa ) = @_;
 
+    Foswiki::Func::writeDebug( "DBIStorePlugin::afterRenameHandler $oldWeb."
+          . ( $oldTopic || '' ) . ':'
+          . ($olda)
+          . " to $newWeb."
+          . ( $newTopic || '' ) . ':'
+          . ( $newa || '' ) )
+      if TRACE;
     my $oldo =
       new Foswiki::Meta( $Foswiki::Plugins::SESSION, $oldWeb, $oldTopic );
     my $newo =
@@ -100,6 +113,23 @@ sub afterRenameHandler {
     Foswiki::Contrib::DBIStoreContrib::start();
     Foswiki::Contrib::DBIStoreContrib::remove( $oldo, $olda );
     Foswiki::Contrib::DBIStoreContrib::insert( $newo, $newa );
+    Foswiki::Contrib::DBIStoreContrib::commit();
+}
+
+# Required for an upload
+sub afterUploadHandler {
+    my ( $attrs, $meta ) = @_;
+    Foswiki::Func::writeDebug( "DBIStorePlugin::afterUploadHandler "
+          . $meta->getPath() . ':'
+          . $attrs->{attachment} )
+      if TRACE;
+    Foswiki::Contrib::DBIStoreContrib::start();
+    Foswiki::Contrib::DBIStoreContrib::remove( $meta, $attrs->{attachment} );
+
+    # The topic is saved too, but without invoking the afterSaveHandler :-(
+    Foswiki::Contrib::DBIStoreContrib::remove($meta);
+    Foswiki::Contrib::DBIStoreContrib::insert($meta);
+    Foswiki::Contrib::DBIStoreContrib::insert( $meta, $attrs->{attachment} );
     Foswiki::Contrib::DBIStoreContrib::commit();
 }
 

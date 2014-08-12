@@ -157,7 +157,8 @@ sub query {
     }
 
     # Got to be something worth searching for
-    return [] unless scalar( @{ $hoist_control{iwebs} } );
+    return new Foswiki::Search::ResultSet( [] )
+      unless $hoist_control{iwebs} && scalar( @{ $hoist_control{iwebs} } );
 
     if ($topics) {
 

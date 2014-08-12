@@ -25,20 +25,28 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{SQLite}{PCRE} = '/usr/lib/sqlite3/pcr
 # encountered in topic text. This should not normally be required, as plugins
 # should register all META that they create. Note that only META:NAME where
 # NAME matches /^[A-Z][A_Z0-9_]+$/ will be loaded.
+# Note that searching fiels that are created 'on the fly' is potentially
+# risky, as if the field is missing from a topic it will not be present
+# in the table, so finding topics without that field becomes tricky.
+# It is always better to register META.
 $Foswiki::cfg{Extensions}{DBIStoreContrib}{AutoloadUnknownMETA} = 0;
 # **PERL**
+# Specify how to construct the database. Each table is given with a
+# list of the columns and their data types.
 # If a column isn't found in the schema, it will use the _DEFAULT type.
 # You should extend this table as required by extra meta-data found in
 # your wiki.
 # If an entry for a column is a string starting with an underscore,
 # that string will be used as an index to get the 'real' schema for
 # the column.
-# The pseudo-type _DEFAULT must exist and must be a text type.
 # If {index} is true, then an index will be created for that column.
 # If {truncate_to} is set to a length, then the value of that field
 # stored in the DB will be truncated to that length. This only affects
 # searching. If truncate_to is not set, then trying to store a value
 # longer than the field accepts will be an error.
+# The pseudo-type _DEFAULT must exist and must be a text type, ideally
+# supporting arbitrary length text strings. Possible types are TEXT
+# for Postgresql, SQLite and MySQL, and VARCHAR(MAX) for SQL Server.
 $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
     _DEFAULT => { type => 'TEXT' },
     _USERNAME => { type => 'VARCHAR(64)', index => 1 },
@@ -86,9 +94,7 @@ $Foswiki::cfg{Extensions}{DBIStoreContrib}{Schema} = {
         date => '_DATE',
         user => '_USERNAME',
         comment => { type => 'VARCHAR(512)', truncate_to => 512 },
-        attr => { type => 'VARCHAR(32)' },
-
-        raw  => { type => 'BYTEA' }
+        attr => { type => 'VARCHAR(32)' }
     },
     FORM => {
         _level => 1,

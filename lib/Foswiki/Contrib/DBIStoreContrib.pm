@@ -22,7 +22,7 @@ use Foswiki::Func ();
 use DBI           ();
 
 our $VERSION = '1.1';            # plugin version is also locked to this
-our $RELEASE = '18 July 2014';
+our $RELEASE = '12 Aug 2014';
 
 # Very verbose debugging. Used by all modules in the suite.
 use constant MONITOR => 0;
@@ -333,7 +333,7 @@ sub disconnect {
 
 =begin TML
 
----++ StaticMethod insert($meta [, $attachment, $data])
+---++ StaticMethod insert($meta [, $attachment])
 Insert an object into the database
 
 May throw an execption if SQL failed.
@@ -341,7 +341,7 @@ May throw an execption if SQL failed.
 =cut
 
 sub insert {
-    my ( $mo, $attachment, $data ) = @_;
+    my ( $mo, $attachment ) = @_;
 
     _connect();
 
@@ -352,20 +352,26 @@ sub insert {
         # Note that we DO NOT explicitly add the META:FILEATTACHMENT
         # entry table here.
         # That is done at a much higher level in Foswiki::Meta when the
-        # referring topic has it's meta-data rewritten.
-        # Here we simply clear down the raw data stored for the attachment.
-        # TODO: get the attachment data
-        my $tid =
-          $dbh->selectrow_array( 'SELECT tid FROM topic '
-              . "WHERE web='"
-              . $mo->web
-              . " AND name='"
-              . $mo->topic
-              . "'" );
-        ASSERT($tid) if DEBUG;
-        $dbh->do( "UPDATE FILEATTACHMENT "
-              . " SET raw='$data'"
-              . " WHERE tid='$tid' AND name='$attachment'" );
+        # referring topic has it's meta-data rewritten. Here we (will)
+        # simply load a serialised version of the attachment data, if
+        # the =serialised= column is specified in the schema.
+        if ( $personality->column_exists( 'FILEATTACHMENT', 'serialised' ) ) {
+
+            # Pull in the attachment data
+            my $tid =
+              $dbh->selectrow_array( 'SELECT tid FROM topic '
+                  . "WHERE web='"
+                  . $mo->web
+                  . " AND name='"
+                  . $mo->topic
+                  . "'" );
+            ASSERT($tid) if DEBUG;
+
+       # TODO:
+       #           $dbh->do( 'UPDATE ' . $personality->safe_id('FILEATTACHMENT')
+       #                     . " SET serialised='$data'"
+       #                     . " WHERE tid='$tid' AND name='$attachment'" );
+        }
     }
     elsif ( defined $mo->topic() ) {
 
@@ -523,17 +529,21 @@ sub remove {
         # That is done at a much higher level in Foswiki::Meta when the
         # referring topic has it's meta-data rewritten.
         # Here we simply clear down the raw data stored for the attachment.
-        my $tid =
-          $dbh->selectrow_array( 'SELECT tid FROM topic '
-              . "WHERE web='"
-              . $mo->web
-              . " AND name='"
-              . $mo->topic
-              . "'" );
-        ASSERT($tid) if DEBUG;
-        $dbh->do( "UPDATE FILEATTACHMENT "
-              . " SET raw=''"
-              . " WHERE tid='$tid' AND name='$attachment'" );
+        if ( $personality->column_exists( 'FILEATTACHMENT', 'serialised' ) ) {
+            my $tid =
+              $dbh->selectrow_array( 'SELECT tid FROM topic '
+                  . "WHERE web='"
+                  . $mo->web
+                  . "' AND name='"
+                  . $mo->topic
+                  . "'" );
+            ASSERT($tid) if DEBUG;
+
+      # TODO:
+      #            $dbh->do( 'UPDATE ' . $personality->safe_id('FILEATTACHMENT')
+      #                      . " SET serialised=''"
+      #                      . " WHERE tid='$tid' AND name='$attachment'" );
+        }
     }
     else {
 
