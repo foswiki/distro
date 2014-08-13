@@ -55,6 +55,7 @@ cd $ROOT/core
 git stash pop --quiet
 perl -T pseudo-install.pl -link default
 perl -T pseudo-install.pl -link FoswikiOrgPlugin
+perl -T pseudo-install.pl -link FoswikirefsPlugin
 # Before adding any extensions here,  add them to the superproject
 # git submodule add -b <branch> https://github.com/foswiki/<extension>.git  <extension>
 # and push to the trunk.foswiki.org branch.
