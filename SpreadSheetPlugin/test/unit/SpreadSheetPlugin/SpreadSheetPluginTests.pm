@@ -1231,6 +1231,16 @@ sub test_TIME {
         $this->CALC('$TIME(2003/12/31 - 23:59:59)'),
         $this->CALC('$TIME(DOY2003.365.23.59.59)')
     );
+
+    # test year in 2 digit notation (00..79 => 20xx, 80..99 => 19xx)
+    $this->assert_equals( '338947200',  # 28 Sep 1980
+        $this->CALC('$TIME(28 Sep 80 GMT)') );
+    $this->assert_equals( '938476800',  # 28 Sep 1999
+        $this->CALC('$TIME(28 Sep 99 GMT)') );
+    $this->assert_equals( '970099200',  # 28 Sep 2000
+        $this->CALC('$TIME(28 Sep 00 GMT)') );
+    $this->assert_equals( '3463084800', # 28 Sep 2079
+        $this->CALC('$TIME(28 Sep 79 GMT)') );
 }
 
 sub test_TIMEADD {
