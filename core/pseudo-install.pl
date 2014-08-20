@@ -45,6 +45,7 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
                  lib/Foswiki.spec
   -[L]ist      - list all the foswiki extensions that could be installed by asking
                  all the extension repositories that are known from the .buildcontrib
+  -[s]vn       - Create subversion connections for git-svn usage
 
 Examples:
   softlink and enable FirstPlugin and SomeContrib
@@ -87,6 +88,7 @@ my $do_genconfig;
 my @extensions_path;
 my %extensions_extra_config;
 my $autoenable     = 0;
+my $svnconnect     = 0;
 my $installing     = 1;
 my $autoconf       = 0;
 my $listextensions = 0;
@@ -114,6 +116,9 @@ my %arg_dispatch   = (
     },
     '-m' => sub {
         $autoenable = 0;
+    },
+    '-s' => sub {
+        $svnconnect = 1;
     },
     '-A' => sub {
         $autoconf = 1;
@@ -638,7 +643,7 @@ sub cloneModuleByName {
             cloneModuleByURL( $config{clone_dir}, $url );
             if ( -d $moduleDir ) {
                 $cloned = 1;
-                if ( $config{repos}->[$repoIndex]->{svn} ) {
+                if ( $svnconnect && $config{repos}->[$repoIndex]->{svn} ) {
                     connectGitRepoToSVNByRepoURL( $module, $moduleDir,
                         $config{repos}->[$repoIndex]->{svn} );
                 }
@@ -652,7 +657,9 @@ sub cloneModuleByName {
             $repoIndex = $repoIndex + 1;
         }
     }
-    if ( !checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) ) {
+    if ( $svnconnect
+        && !checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) )
+    {
         my $svnRepo = getSVNRepoByModuleBranchName( 'core', 'Release01x01' );
 
         print "It seems your 'core' checkout isn't connected to a svn repo... ";
