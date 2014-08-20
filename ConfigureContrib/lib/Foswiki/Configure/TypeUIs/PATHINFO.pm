@@ -13,7 +13,7 @@ our @ISA = ('Foswiki::Configure::TypeUIs::STRING');
 sub prompt {
     my ( $this, $model, $value, $class ) = @_;
 
-    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+    my $size = $Foswiki::Configure::DEFAULT_FIELD_WIDTH_NO_CSS;
 
     return CGI::textfield(
         {

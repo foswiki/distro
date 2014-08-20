@@ -73,7 +73,7 @@ sub _getBuildStrings {
             close $fh;
         }
         else {
-            $Foswiki::configureFork = 1;
+            $Foswiki::Configure::configureFork = 1;
             eval {
                 require Foswiki;
                 require Foswiki::Plugins;
@@ -151,7 +151,7 @@ sub _getListOfExtensions {
                       )
                     {
                         $errorMsg .=
-" you probably need to add the optional <code>,username,password)</code> options to the repository definition";
+" you probably need to add the optional =,username,password)= options to the repository definition";
                     }
                     push( @{ $this->{errors} }, $errorMsg );
                 }

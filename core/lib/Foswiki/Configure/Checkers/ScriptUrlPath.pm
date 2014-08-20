@@ -1,0 +1,70 @@
+# See bottom of file for license and copyright information
+package Foswiki::Configure::Checkers::ScriptUrlPath;
+
+use strict;
+use warnings;
+
+use Foswiki::Configure::Checkers::URLPATH ();
+our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
+
+sub check_current_value {
+    my ($this, $reporter) = @_;
+
+    # Check Script URL Path against REQUEST_URI
+    my $value  = $this->getCfg();
+    my $report = '';
+
+    # SMELL: using the query, though in this case it looks OK
+    my $guess = $ENV{REQUEST_URI} || $ENV{SCRIPT_NAME} || '';
+
+    if ( !$value || $value eq 'NOT SET' ) {
+        if ( $guess =~ s{/+configure\b.*$}{} ) {
+            $reporter->ERROR("No value set; proceeding with a guess '$guess'");
+            $this->{GuessedValue} = $guess;
+            $this->SUPER::check_current_value($reporter);
+        }
+        else {
+            $reporter->ERROR(<<"HERE");
+This web server does not set REQUEST_URI or SCRIPT_NAME
+so this setting cannot be guessed.
+HERE
+            return;
+        }
+        $Foswiki::cfg{ScriptUrlPath} = $guess;
+        $value = $guess;
+    }
+
+    $this->SUPER::check_current_value($reporter);
+
+    if ( $value =~ /\/+$/ ) {
+        $reporter->WARN(
+            'A trailing / is not recommended');
+    }
+}
+
+1;
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
+TWiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

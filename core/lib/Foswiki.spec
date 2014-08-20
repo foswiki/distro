@@ -57,7 +57,7 @@
 # to return the <code>DefaultUrlHost</code>.</p>
 $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 
-# **URL EXPERT CHECK='nullok list:"\\\\s*,\\\\s*" \
+# **URILIST EXPERT CHECK='nullok \
 #              parts:scheme,authority \
 #              authtype:hostip \
 #              expand' **
@@ -103,18 +103,18 @@ $Foswiki::cfg{PathCheckLimit} = 7000;
 # if your webserver requires an extension.
 $Foswiki::cfg{ScriptSuffix} = '';
 
-# **STRING 80 EXPERT LABEL="Test user for verifying paths"**
+# **STRING 80 EXPERT NOSAVE LABEL="Test user for verifying paths"**
 # If your server requires a login name (username) and password to access the Foswiki scripts, enter a
 # valid login name here to enable the Verify action button.  This login will only be used for
 # testing and will not be saved with the Foswiki configuration.
-$Foswiki::cfg{ConfigureGUI}{TestUsername} = '';
+$Foswiki::cfg{TestUsername} = '';
 
-# **PASSWORD 80 EXPERT LABEL="Test password for verifying paths" DISPLAY_IF="{ConfigureGUI}{TestUsername}.length"**
+# **PASSWORD 80 EXPERT NOSAVE LABEL="Test password for verifying paths" DISPLAY_IF="{ConfigureGUI}{TestUsername}.length"**
 # If your server requires a login name (username) and password to access the Foswiki scripts,
 # enter the password for the test account here to enable the Verify action button.  This password
 # will only be used for  testing and will not be saved with the Foswiki configuration. <B>Note:</b>
 # only HTTP Basic authorization is supported for this function.
-$Foswiki::cfg{ConfigureGUI}{TestPassword} = '';
+$Foswiki::cfg{TestPassword} = '';
 
 # **URLPATH FEEDBACK=AUTO FEEDBACK="label='Verify'" CHECK='expand nullok notrail' AUDIT='URI:0' MANDATORY**
 #! n.b. options should match Pluggables/SCRIPTHASH.pm for dynamic path items
@@ -1706,7 +1706,7 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 # and other expert settings controlling the email process.</p>
 # <p>Certificates for Secure Email may be obtained from a vendor or private certificate authority.  You can also use the action buttons below to generate certificates or certificate requests if OpenSSL is installed.
 
-# **EMAILADDRESS 30 FEEDBACK=AUTO FEEDBACK="label='Send Test Email'"**
+# **EMAILADDRESS 30 FEEDBACK=AUTO FEEDBACK="label='Send Test Email';wizard='SendTestEmail'"**
 # Wiki administrator's e-mail address e.g. <code>webmaster@example.com</code>
 # (used in <code>%WIKIWEBMASTER%</code>)
 # NOTE: must be a single valid email address
@@ -1715,19 +1715,20 @@ $Foswiki::cfg{WebMasterEmail} = '';
 # **STRING 30 FEEDBACK=AUTO \
 #   FEEDBACK="label='Generate S/MIME Certificate';span=2; \
 #             title='Generate a self-signed certficate for the WebMaster.  \
-#                    This allows immediate use of signed email.'" \
-#   CHECK="expires:1y passlen:15,35 O:'Foswiki Customers' \
-#          OU:'Self-signed certificates'" \
-##         !C:US ST:'Mass Bay' L:'Greater Boston' \
+#                    This allows immediate use of signed email.'; \
+#             wizard='GenerateSMIMECertificate'"\
 #   FEEDBACK="label='Generate S/MIME CSR';col=1;\
 #             title='Generate a Certificate Signing Request for the \
 #                    WebMaster. This request must be signed by a \
 #                    Certificate Authority to create a certificate, \
-#                    then installed.'" \
+#                    then installed.';\
+#             wizard='GenerateCSR'"\
 #   FEEDBACK="label='Cancel CSR';\
 #             title='Cancel a pending Certificate Signing request. \
 #                    This destroys the private key associated with \
-#                    the request.'" **
+#                    the request.';\
+#             wizard='CancelSMIMECertificate'"\
+# **
 # Wiki administrator's name address, for use in mails (first name and
 # last name, e.g. <tt>Fred Smith</tt>) (used in %WIKIWEBMASTERNAME%)
 # <p>The action buttons are used to generate certificates for S/MIME signed email.  There are
@@ -1766,14 +1767,7 @@ $Foswiki::cfg{SMTP}{Username} = '';
 # Password for your {SMTP}{Username}.
 $Foswiki::cfg{SMTP}{Password} = '';
 
-# **BOOLEAN   FEEDBACK=AUTO \
-#             FEEDBACK="label='Auto-configure';\
-#                       wait='Contacting your e-mail server, this may take several minutes...';\
-#                       title='Attempts to automatically configure e-mail by scanning your system and contacting your mail server'" \
-#             FEEDBACK="label='Reset';\
-#                       title='Reset to default mail configuration'" \
-#             CHECK="prefer:perl" \
-#             **
+# **BOOLEAN FEEDBACK="label='Auto-configure Email'; wizard='AutoConfigureEmail'" **
 # Enable email globally.  Un-check this option to disable all outgoing
 # email from Foswiki.  Use the action button to auto-configure e-mail service.
 #
@@ -1785,7 +1779,7 @@ $Foswiki::cfg{EnableEmail} = $TRUE;
 # is a standard for public key encryption and signing of MIME encoded email messages.
 # Messages generated by the server will be signed using an X.509 certificate.
 
-# **PATH FEEDBACK=AUTO DISPLAY_IF="{Email}{EnableSMIME}"**
+# **PATH FEEDBACK=AUTO DISPLAY_IF="{EnableEmail} && {Email}{EnableSMIME}"**
 # Specify the file containing the administrator's X.509 certificate.  It
 # must be in PEM format. <p>
 # If your issuer requires an intermediate CA certificate(s), include them in this
@@ -1794,7 +1788,7 @@ $Foswiki::cfg{EnableEmail} = $TRUE;
 # or a certificate installed from a Foswiki-generated CSR.
 $Foswiki::cfg{Email}{SmimeCertificateFile} = '';
 
-# **PATH FEEDBACK=AUTO DISPLAY_IF="{Email}{EnableSMIME}"**
+# **PATH FEEDBACK=AUTO DISPLAY_IF="{EnableEmail} && {Email}{EnableSMIME}"**
 # Specify the file containing the private key corresponding to the administrator's X.509 certificate.
 # It must be in PEM format.  <p><em>Be sure that this file is only readable by the
 # Foswiki software; it must NOT be readable by users!</em>
@@ -1802,7 +1796,7 @@ $Foswiki::cfg{Email}{SmimeCertificateFile} = '';
 # or a certificate installed from a Foswiki-generated CSR.
 $Foswiki::cfg{Email}{SmimeKeyFile} = '';
 
-# **PASSWORD 30 FEEDBACK=AUTO DISPLAY_IF="{Email}{EnableSMIME}"**
+# **PASSWORD 30 FEEDBACK=AUTO DISPLAY_IF="{EnableEmail} && {Email}{EnableSMIME}"**
 # If the file containing the certificate's private key is encrypted, specify the password.
 # Otherwise leave blank.
 # <p>Currently only DES3 encryption is supported, but you can convert other files with
@@ -1817,7 +1811,7 @@ $Foswiki::cfg{Email}{SmimeKeyPassword} = '';
 # This field never displays.  It holds the password for an uninstalled S/MIME private key.
 $Foswiki::cfg{Email}{SmimePendingKeyPassword} = '';
 
-# **BOOLEAN FEEDBACK=AUTO**
+# **BOOLEAN FEEDBACK=AUTO DISPLAY_IF="{EnableEmail}"**
 # Enable to cause all e-mails sent by Foswiki to be signed using S/MIME.
 $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 
@@ -1825,34 +1819,25 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 # The following paramenters can be used to specify commonly used components of the subject
 # name for Certificate Signing Requests.<p>
 # You can also install a signed certificate with the action button if OpenSSL is installed.
-# **STRING LABEL="Country Code"**
+# **STRING LABEL="Country Code" DISPLAY_IF="{EnableEmail}"**
 # ISO country code (2 letters)
 $Foswiki::cfg{Email}{SmimeCertC} = '';
 
-# **STRING LABEL="State or Province"**
+# **STRING LABEL="State or Province" DISPLAY_IF="{EnableEmail}"**
 # State or Province
 $Foswiki::cfg{Email}{SmimeCertST} = '';
 
-# **STRING LABEL="Locality"**
+# **STRING LABEL="Locality" DISPLAY_IF="{EnableEmail}"**
 # Locality (city or town)
 $Foswiki::cfg{Email}{SmimeCertL} = '';
 
-# **STRING LABEL="Organization"**
+# **STRING LABEL="Organization" DISPLAY_IF="{EnableEmail}"**
 # Organization - Required
 $Foswiki::cfg{Email}{SmimeCertO} = '';
 
-# **STRING LABEL="Organizational Unit"**
+# **STRING LABEL="Organizational Unit" DISPLAY_IF="{EnableEmail}"**
 # Organizational unit (e.g. Department) - Required
 $Foswiki::cfg{Email}{SmimeCertOU} = '';
-
-# **STRING 70x10 NOSPELLCHECK NOLABEL \
-#           FEEDBACK="label='Display CSR';\
-#                     title='Display pending Certificate Signing Request'" \
-#           FEEDBACK="label='Install Certificate';\
-#                     title='Install a signed certificate'" \
-#           FEEDBACK="label='Display Certificate';col=2; \
-#                     title='Display the active certificate'" **
-$Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 
 #---++ Advanced Setup
 # These are settings for advanced or uncommon configurations, and for debugging.
@@ -1863,6 +1848,7 @@ $Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 #          'Net::SMTP (TLS)',\
 #          'Net::SMTP (STARTTLS)',\
 #          MailProgram \
+#          DISPLAY_IF="{EnableEmail}"\
 #          CHANGE="var s = $('[name=\"{SMTP}{MAILHOST}\"]');\
 #                  if( this.options[this.selectedIndex].value === 'MailProgram' )\
 #                    s.val(' ---- Unused when MailProgram selected ---');\
@@ -1878,13 +1864,13 @@ $Foswiki::cfg{ConfigureGUI}{SMIME}{InstallCert} = '';
 # blank.  You'll be told if the server requires a username and password.
 $Foswiki::cfg{Email}{MailMethod} = 'Net::SMTP';
 
-# **COMMAND DISPLAY_IF="{Email}{MailMethod} == 'MailProgram'"**
+# **COMMAND DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'"**
 # This needs to be a command-line program that accepts
 # MIME format mail messages on standard input, and mails them.
 $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 
 # **STRING 30 EXPERT \
-#          DISPLAY_IF="{Email}{MailMethod} == 'MailProgram'"**
+#          DISPLAY_IF="{EnableEmail} && {Email}{MailMethod} == 'MailProgram'"**
 # These flags are passed to the mail program selected by {MailProgram}
 # when {SMTP}{Debug} is enabled in addition to any specified with
 # the program.  These flags should enable tracing of the SMTP
@@ -1898,12 +1884,12 @@ $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 
 $Foswiki::cfg{SMTP}{DebugFlags} = '-X /dev/stderr';
 
-# **BOOLEAN**
+# **BOOLEAN FEEDBACK=AUTO DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})"**
 # Set this option on to enable debug
 # mode in SMTP. Output will go to the webserver error log.
 $Foswiki::cfg{SMTP}{Debug} = 0;
 
-# **STRING 30 FEEDBACK=AUTO DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod})"**
+# **STRING 30 FEEDBACK=AUTO DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})"**
 # Mail domain sending mail, required. SMTP
 # requires that you identify the server sending mail. If not set, <b>Auto-configure</b> or
 # <tt>Net::SMTP</tt> will guess it for you. Example: foswiki.your.company.
@@ -1911,7 +1897,7 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
 
 # **BOOLEAN FEEDBACK=AUTO \
-#           DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod})"**
+#           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})"**
 # Verify that server's certificate contains the expected hostname when using 
 # an SSL (or STARTTLS) connection.
 # This verifies the identity of the server to which mail is sent.
@@ -1921,7 +1907,7 @@ $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 # **PATH EXPERT FEEDBACK=AUTO \
 #               FEEDBACK="label='Check Contents';\
 #                   title='Reports how many certificates are in the file'" \
-#               DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
+#               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue certificates.
 # You do not need to include intermedite CAs in this file.
@@ -1933,7 +1919,7 @@ $Foswiki::cfg{Email}{SSLCaFile} = '';
 #                         wait="Examining every certificate and CRL; this may take some time...";\
 #                         title="Examines every file in the directory and verifies that the contents look like \
 #                                certificates/and/or CRLs"' \
-#               DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
+#               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the directory used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue certificates.
 # You do not need to include intermedite CAs in this directory.
@@ -1943,7 +1929,7 @@ $Foswiki::cfg{Email}{SSLCaFile} = '';
 $Foswiki::cfg{Email}{SSLCaPath} = '';
 
 # **BOOLEAN EXPERT FEEDBACK=AUTO \
-#           DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
+#           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Enable this option to verify that the server's certificate has not been revoked
 # by the issuing authority.  If you enable this option, you should ensure that you
 # have a mechanism established to periodically obtain updated CRLs from the CAs that
@@ -1961,7 +1947,7 @@ $Foswiki::cfg{Email}{SSLCheckCRL} = $FALSE;
 $Foswiki::cfg{Email}{SSLCrlFile} = '';
 
 # **PATH EXPERT FEEDBACK=AUTO \
-#             DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod})"**
+#             DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})"**
 # If your email server requires a X.509 client certificate, specify the path
 # to the file that contains it.
 # (This is unusual.)
@@ -1969,7 +1955,7 @@ $Foswiki::cfg{Email}{SSLCrlFile} = '';
 $Foswiki::cfg{Email}{SSLClientCertFile} = '';
 
 # **PATH EXPERT FEEDBACK=AUTO \
-#             DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLClientCertFile}.length"**
+#             DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLClientCertFile}.length"**
 # Specify the file containing the private key corresponding to the X.509 certificate
 # used to connect to the server..
 # It must be in PEM format.  <p><em>Be sure that this file is only readable by the
@@ -1977,16 +1963,16 @@ $Foswiki::cfg{Email}{SSLClientCertFile} = '';
 $Foswiki::cfg{Email}{SSLClientKeyFile} = '';
 
 # **PASSWORD 30 FEEDBACK=AUTO EXPERT \
-#            DISPLAY_IF="/^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLClientKeyFile}.length"**
+#            DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLClientKeyFile}.length"**
 # If the file containing the certificate's private key is encrypted, specify the password.
 # Otherwise leave blank.
 $Foswiki::cfg{Email}{SSLClientKeyPassword} = '';
 
-# **BOOLEAN EXPERT**
+# **BOOLEAN EXPERT DISPLAY_IF="{EnableEmail}"**
 # Send email Date header using local "server time" instead of GMT
 $Foswiki::cfg{Email}{Servertime} = $FALSE;
 
-# **REGEX 80 EXPERT**
+# **REGEX 80 EXPERT DISPLAY_IF="{EnableEmail}"**
 # This parameter is used to determine which Top Level domains are vaild
 # when auto-linking email addresses.  It is also used by UserRegistration to
 # validate email addresses.  Note, this parameter <em>only</em> controls
@@ -2317,17 +2303,6 @@ $Foswiki::cfg{Plugins}{HomePagePlugin}{Module} =
 # your configuration and its environment
 # ---++
 # *AUDIT* # Plugin generates Configuration audit tab
-#
-# ---++ Logfile Viewer
-# View log files
-# *LOGVIEWER*
-#
-# **STRING H**
-# Default severity selection for log viewer - not stored
-$Foswiki::cfg{ConfigureGUI}{LogViewer}{SystemLogs} = [ qw/debug info warning error critical alert emergency/ ];
-# Default max records to display in log viewer - not stored
-# **NUMBER H**
-$Foswiki::cfg{ConfigureGUI}{LogViewer}{RecordLimit} = 200;
 
 1;
 __END__

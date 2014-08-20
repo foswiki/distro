@@ -34,9 +34,9 @@ command.com (aka 'DOS Prompt'), and Cygwin's 'bash'
 <p>
 To use 'bash' with ActiveState or other Win32 Perl you should set the
 PERL5SHELL environment variable to something like
-<tt><strong>c:/YOURCYGWINDIR/bin/bash.exe -c</strong></tt>
+=<strong>c:/YOURCYGWINDIR/bin/bash.exe -c</strong>=
 This should be set in the System Environment, and ideally set directly in the
-web server (e.g. using the Apache <tt>SetEnv</tt> directive).
+web server (e.g. using the Apache =SetEnv= directive).
 HERE
 
     if ($isActivePerl) {

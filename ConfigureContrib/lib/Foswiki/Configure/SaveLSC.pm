@@ -55,18 +55,6 @@ Generate .cfg file format output
 
 =cut
 
-sub lscFileName {
-    my $lsc = Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg');
-
-    return $lsc if ($lsc);
-
-    # If not found on the path, park it beside Foswiki.spec
-    $lsc = Foswiki::Configure::FileUtil::findFileOnPath('Foswiki.spec') || '';
-    $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
-
-    return $lsc;
-}
-
 sub save {
     my ( $root, $valuer, $logger, $insane ) = @_;
 
@@ -77,7 +65,7 @@ sub save {
     $this->{root}    = $root;
     $this->{content} = '';
 
-    my $lsc = lscFileName();
+    my $lsc = Foswiki::Configure::FileUtil::lscFileName();
 
     my ( @backups, $backup );
 

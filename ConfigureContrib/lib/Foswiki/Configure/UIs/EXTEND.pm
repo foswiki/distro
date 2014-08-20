@@ -48,7 +48,7 @@ sub install {
             close $fh;
         }
         else {
-            $Foswiki::configureFork = 1;
+            $Foswiki::Configure::configureFork = 1;
             eval { print _installFork(@_); };
             print $@ if ($@);
             exit(0);
@@ -62,7 +62,6 @@ sub install {
 
 sub _installFork {
     my $this  = shift;
-    my $query = $Foswiki::query;
 
     require Foswiki::Configure::Package;
     require Foswiki::Configure::Util;
@@ -91,10 +90,10 @@ sub _installFork {
 
     $this->findRepositories();
 
-    my $processExt = $query->param('processExt') || '';
-    my $useCache   = $query->param('useCache')   || '';
-    my @remove     = $query->param('remove');
-    my @add        = $query->param('add');
+    my $processExt = $Foswiki::Configure::query->param('processExt') || '';
+    my $useCache   = $Foswiki::Configure::query->param('useCache')   || '';
+    my @remove     = $Foswiki::Configure::query->param('remove');
+    my @add        = $Foswiki::Configure::query->param('add');
 
     if ( $processExt && $processExt eq 'dep' ) {
         my @extensions = sort ( @add, @remove );

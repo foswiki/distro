@@ -31,7 +31,7 @@ sub prompt {
 # while ( $value =~ s/^\(\?\^:(.*)\)/$1/ ) { }
 # $value =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
 
-    my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+    my $size = $Foswiki::Configure::DEFAULT_FIELD_WIDTH_NO_CSS;
 
     # percentage size should be set in CSS
 
@@ -75,40 +75,6 @@ sub equals {
 1;
 __END__
 
-### Retained for documentation ###
-
-=begin TML
----++ ClassMethod makeChecker( $item, $keys )
-
-Instantiates a default (Foswiki::Configure::Checkers::REGEX) checker for this type
-and binds it to this item.
-
-Invoked when an item has no item-specific checker.
-
-$item is the UI configuration item being processed
-$keys are the %Foswiki::cfg hash keys (E.g. '{Module}{FooRegex}') for this item.
-
-This is left as an example of how one can write a makeChecker method.  It is not required,
-since it implements the (new) default behavior of the UI, which also handles inheritance.
-
-makeChecker is still invoked if present, for compatibility and to allow for non-default mappings
-of typename to checkername.
-
-=cut
-
-sub makeChecker {
-    my $type = shift;
-
-    my $class = ref( $type );
-    $class =~ s/^Foswiki::Configure::TypeUIs::/Foswiki::Configure::Checkers::/ or die "Can't makeChecker for $class\n";
-
-    eval "require $class;";
-    die "Unable to makeChecker for ${class}:$@\n" if( $@ );
-    return $class->new(@_);
-}
-
-1;
-__END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors

@@ -74,8 +74,8 @@ sub startVisit {
 \$hasMissingValue = !exists \$Foswiki::cfg$keys ||
      !ref( \$Foswiki::cfg$keys) && \$Foswiki::cfg$keys =~ /NOT SET/;
 \$Foswiki::cfg$keys = \$default unless ( exists \$Foswiki::cfg$keys );
-\$Foswiki::defaultCfg->$keys = \$default
-    unless( exists \$Foswiki::defaultCfg->$keys );
+\$Foswiki::Configure::defaultCfg->$keys = \$default
+    unless( exists \$Foswiki::Configure::defaultCfg->$keys );
 SCRIPT
 
         # Report unless default was provided by the item.

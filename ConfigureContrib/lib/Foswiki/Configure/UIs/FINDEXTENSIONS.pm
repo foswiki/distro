@@ -36,7 +36,7 @@ sub renderHtml {
         $template,
         {
             'hasError'  => $bad,
-            'actionURI' => $Foswiki::actionURI,
+            'actionURI' => $Foswiki::Configure::actionURI,
         }
     );
     $output .= $template;

@@ -1,22 +1,14 @@
-
 # See bottom of file for license and copyright information
+package Foswiki::Configure;
 
 use strict;
 use warnings;
 
-# Continuation of configure initialization.  This is the boostrap/dispatcher
-# that manages everything after loading setlib.cfg - which has setup the
-# library path so that the other pieces of configure can be loaded.
-#
-# It is separate to allow globals to be defined in Foswiki::Configure, as
-# with all the other modules.
+# This module is loaded by the =configure= script once the basic path
+# has been established. the role of the module is to act as a dispatcher
+# for CGI requests to other modules in the Configure family.
 #
 # This module is invoked by 'use', and should never return.
-
-# We are configuring $Foswiki::cfg, so we need to be in package Foswiki from
-# now on.
-
-package Foswiki;
 
 use version 0.77;
 
@@ -30,19 +22,19 @@ my $minScriptVersion = version->parse("v3.126");
 #
 my $maxTimeSkew = 5 * 60;    # No reason this can't be much less if NTP is used.
 
-use Foswiki::Configure (qw/:DEFAULT :auth :cgi :config :session :trace/);
+use Foswiki::Configure ();
 
-$query                = CGI->new;
-$unsavedChangesNotice = '';
+$Foswiki::Configure::query                = CGI->new;
+$Foswiki::Configure::unsavedChangesNotice = '';
 
 # NOT exported, used if code needs to know whether running
 # under configure or the webserver.  Webserver will never load Dispatch.
 
-our $configureRunning = 1;
+$Foswiki::Configure::configureRunning = 1;
 
 my $action;
 my @feedbackHeaders;
-if ( $query->http('X-Foswiki-FeedbackRequest') ) {
+if ( $Foswiki::Configure::query->http('X-Foswiki-FeedbackRequest') ) {
     @feedbackHeaders = (
         -type                        => 'application/octet-stream',
         'X-Foswiki-FeedbackResponse' => 'V1.0',
@@ -50,23 +42,21 @@ if ( $query->http('X-Foswiki-FeedbackRequest') ) {
     $action = 'feedbackUI';
 }
 else {
-    $action = $query->param('action');
+    $action = $Foswiki::Configure::query->param('action');
     die "Invalid protocol\n" if ( defined $action && $action eq 'feedbackUI' );
 }
-$query->delete('action');
+$Foswiki::Configure::query->delete('action');
 
-$time = time();
-
-$url        = $query->url();
-$scriptName = Foswiki::Configure::CGI::getScriptName();
-$method     = $query->request_method();
-$pathinfo   = $query->path_info();
+$Foswiki::Configure::url        = $Foswiki::Configure::query->url();
+$Foswiki::Configure::scriptName = Foswiki::Configure::CGI::getScriptName();
+$Foswiki::Configure::method     = $Foswiki::Configure::query->request_method();
+$Foswiki::Configure::pathinfo   = $Foswiki::Configure::query->path_info();
 
 {
-    my $pinfo = $pathinfo;
+    my $pinfo = $Foswiki::Configure::pathinfo;
     $pinfo =~ s,^/,,;
-    @pathinfo = split( '/', $pinfo ) if ( defined $pinfo );
-    $action ||= $pathinfo[0] || 'Configure';
+    @Foswiki::Configure::pathinfo = split( '/', $pinfo ) if ( defined $pinfo );
+    $action ||= $Foswiki::Configure::pathinfo[0] || 'Configure';
 }
 $action =~ tr/A-Za-z0-9_-//cd;
 
@@ -76,13 +66,13 @@ $action =~ tr/A-Za-z0-9_-//cd;
 my $usePinfo = ( $ENV{SERVER_SOFTWARE} || '' ) !~ /\b(Microsoft-IIS)\b/;
 
 # generate references to resources
-$resourceURI = $scriptName
+$Foswiki::Configure::resourceURI = $Foswiki::Configure::scriptName
   . (
     $usePinfo
     ? "/resource/"
     : "?action=resource&resource="
   );
-$actionURI = $scriptName
+$Foswiki::Configure::actionURI = $Foswiki::Configure::scriptName
   . (
     $usePinfo
     ? "/"
@@ -90,18 +80,18 @@ $actionURI = $scriptName
   );
 
 print STDERR "CFG Entered: '$action' "
-  . $query->request_method . " - "
-  . $query->url() . " - "
-  . ( $query->path_info() || 'mt' ) . ' - '
-  . ( $query->cookie(COOKIENAME) || 'nocookie' ) . ' '
+  . $Foswiki::Configure::query->request_method . " - "
+  . $Foswiki::Configure::query->url() . " - "
+  . ( $Foswiki::Configure::query->path_info() || 'mt' ) . ' - '
+  . ( $Foswiki::Configure::query->cookie(Foswiki::Configure::COOKIENAME) || 'nocookie' ) . ' '
   . (
-    TRANSACTIONLOG > 1
+    Foswiki::Configure::TRANSACTIONLOG > 1
     ? join( ', ',
-        map { ( "$_=" . ( $query->param($_) || 'mt' ) ) } sort $query->param() )
+        map { ( "$_=" . ( $Foswiki::Configure::query->param($_) || 'mt' ) ) } sort $Foswiki::Configure::query->param() )
     : ''
   )
   . "\n"
-  if (TRANSACTIONLOG);
+  if (Foswiki::Configure::TRANSACTIONLOG);
 
 # Make sure we can handle this request
 
@@ -109,7 +99,7 @@ exists { _getValidActions('_validate') }->{$action} or invalidRequest();
 
 #print STDERR "\nNEW TRANSACTION: $action \n";
 
-$DEFAULT_FIELD_WIDTH_NO_CSS = '70';
+$Foswiki::Configure::DEFAULT_FIELD_WIDTH_NO_CSS = '70';
 
 # Minimal modules needed to handle validation (and resources)
 
@@ -118,7 +108,7 @@ $DEFAULT_FIELD_WIDTH_NO_CSS = '70';
 # Obtain any existing session for validation and authentication
 
 {
-    my $sid = $query->cookie(COOKIENAME) || undef;
+    my $sid = $Foswiki::Configure::query->cookie(Foswiki::Configure::COOKIENAME) || undef;
     if ( defined $sid && $sid =~ m/^([\w_-]+)$/ ) {
         $sid = $1;
     }
@@ -128,24 +118,24 @@ $DEFAULT_FIELD_WIDTH_NO_CSS = '70';
 
     # Do we need a more permanent place than tmpdir (carts)?
 
-    $session =
-      CGI::Session->load( SESSION_DSN, $sid,
+    $Foswiki::Configure::session =
+      CGI::Session->load( Foswiki::Configure::SESSION_DSN, $sid,
         { Directory => File::Spec->tmpdir } )
       or die CGI::Session->errstr();
 
-    if ( RT80346 && $session->dataref->{SESSION_ID} ) {
-        $session->dataref->{SESSION_ID} =~ /^(.*)$/;
-        $session->dataref->{SESSION_ID} = $1;
+    if ( (Foswiki::Configure::RT80346) && $Foswiki::Configure::session->dataref->{SESSION_ID} ) {
+        $Foswiki::Configure::session->dataref->{SESSION_ID} =~ /^(.*)$/;
+        $Foswiki::Configure::session->dataref->{SESSION_ID} = $1;
     }
 }
-my $cookie = newCookie($session);
+my $cookie = newCookie($Foswiki::Configure::session);
 
 # Any redirect action supersedes request
 
-if ( ( $redirect = $session->param('redirect') ) ) {
-    print STDERR "Redirect action: $action => $redirect\n" if (TRANSACTIONLOG);
-    $action = $redirect;
-    $session->clear('redirect');
+if ( ( $Foswiki::Configure::redirect = $Foswiki::Configure::session->param('redirect') ) ) {
+    print STDERR "Redirect action: $action => $Foswiki::Configure::redirect\n" if (Foswiki::Configure::TRANSACTIONLOG);
+    $action = $Foswiki::Configure::redirect;
+    $Foswiki::Configure::session->clear('redirect');
 
   # Should always be valid, but in case of a stale session file, we check anyway
 
@@ -157,7 +147,7 @@ if ( ( $redirect = $session->param('redirect') ) ) {
 
 # Validate request.
 
-dispatch( '_validate', $action, \&invalidDispatch, $session, $cookie );
+dispatch( '_validate', $action, \&invalidDispatch, $Foswiki::Configure::session, $cookie );
 
 # Note that a resource request never returns!
 ###########################################################
@@ -199,11 +189,11 @@ _getEnvironmentInfo();
 my $messageType;
 
 dispatch( '_authenticate', $action, sub { htmlResponse( "", 401 ) },
-    $session, $cookie );
+    $Foswiki::Configure::session, $cookie );
 
 # Dispatch the action (should not return)
 
-dispatch( '_action', $action, \&invalidDispatch, $session, $cookie );
+dispatch( '_action', $action, \&invalidDispatch, $Foswiki::Configure::session, $cookie );
 
 invalidRequest("$action handling incomplete");
 
@@ -236,7 +226,7 @@ exit(1);
 sub _validateConfigure {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( defined $method && $method !~ /^(GET|POST)$/ ) {
+    if ( defined $Foswiki::method && $Foswiki::method !~ /^(GET|POST)$/ ) {
         invalidRequest( "", 405, Allow => 'GET,POST' );
     }
 
@@ -247,7 +237,7 @@ sub _validateConfigure {
 sub _validateSavechanges {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'POST' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
 
@@ -258,7 +248,7 @@ sub _validateSavechanges {
 sub _validateMakemorechanges {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'POST' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
 
@@ -269,7 +259,7 @@ sub _validateMakemorechanges {
 sub _validateFindMoreExtensions {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'GET' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'GET' ) {
         invalidRequest( "", 405, Allow => 'GET' );
     }
 
@@ -280,7 +270,7 @@ sub _validateFindMoreExtensions {
 sub _validateManageExtensions {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'POST' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
 
@@ -291,10 +281,10 @@ sub _validateManageExtensions {
 sub _validateManageExtensionsResponse {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'GET' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'GET' ) {
         invalidRequest( "", 405, Allow => 'GET' );
     }
-    invalidRequest( "Not valid interactively", 400 ) unless ($redirect);
+    invalidRequest( "Not valid interactively", 400 ) unless ($Foswiki::Configure::redirect);
 
     ::_loadBasicModule('Foswiki::Configure::MainScreen');
     return;
@@ -303,12 +293,12 @@ sub _validateManageExtensionsResponse {
 sub _validatefeedbackUI {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'POST' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
 
     # Protocol version check
-    my $version = $query->http('X-Foswiki-FeedbackRequest');
+    my $version = $Foswiki::Configure::query->http('X-Foswiki-FeedbackRequest');
     unless ( defined $version
         && ( my $fmtOK = ( $version =~ /^V(\d+)\.(\d+)(\.\d+)?$/ ) )
         && $1 == 1 )
@@ -319,7 +309,7 @@ sub _validatefeedbackUI {
 
     # Script version check - catch browser cache issues, .gz issues,
     # people switching sessions...and botched installations.
-    $version = $query->http('X-Foswiki-ScriptVersion');
+    $version = $Foswiki::Configure::query->http('X-Foswiki-ScriptVersion');
     unless ( defined $version ) {
         scriptVersionError(4);
     }
@@ -361,7 +351,7 @@ sub _validatefeedbackUI {
     # Fast null response to version check request.
     htmlResponse('') unless $ENV{CONTENT_LENGTH};
 
-    my $clientTime = $query->http('X-Foswiki-ClientTime') || 0;
+    my $clientTime = $Foswiki::Configure::query->http('X-Foswiki-ClientTime') || 0;
     my $serverTime = time;
     my $skew       = abs( $clientTime - $serverTime );
     if ( $skew > $maxTimeSkew ) {
@@ -403,7 +393,7 @@ sub scriptVersionError {
     $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            RESOURCEURI => $resourceURI,
+            RESOURCEURI => $Foswiki::Configure::resourceURI,
             resourcePath =>
               "$Foswiki::foswikiLibPath/Foswiki/Configure/resources",
             protocolVersion => '',
@@ -432,16 +422,18 @@ sub _loadSiteConfig {
     # Subset UI for these checks
 
     my $stub = new Foswiki::Configure::Item();
-    my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
+    $stub->{typename} = 'BasicSanity';
+    $stub->{keys} = 'BasicSanity';
+    my $sanityUI = Foswiki::Configure::UI::loadChecker( $stub );
 
     # This "checker" actually loads the LocalSite.cfg and Foswiki.spec files
 
-    $sanityStatement = $sanityUI->check();
+    $Foswiki::Configure::sanityStatement = $sanityUI->checkSanity();
 
     # Bad LocalSite.cfg, errors (no file, no path, not writable, perl syntax)
 
-    $badLSC = $sanityUI->lscIsBad();
-    $insane = $sanityUI->insane();
+    $Foswiki::Configure::badLSC = $sanityUI->lscIsBad();
+    $Foswiki::Configure::insane = $sanityUI->insane();
 
     return;
 }
@@ -487,44 +479,44 @@ sub _getEnvironmentInfo {
     # but it has to be duplicated because we don't want to deal
     # with loading Foswiki just yet.
 
-    unless ( $cfg{DetailedOS} ) {
-        $cfg{DetailedOS} = $^O;
-        unless ( $cfg{DetailedOS} ) {
+    unless ( $Foswiki::cfg{DetailedOS} ) {
+        $Foswiki::cfg{DetailedOS} = $^O;
+        unless ( $Foswiki::cfg{DetailedOS} ) {
             require Config;
             no warnings 'once';
-            $cfg{DetailedOS} = $Config::Config{osname};
+            $Foswiki::cfg{DetailedOS} = $Config::Config{osname};
         }
     }
-    unless ( $cfg{OS} ) {
-        if ( $cfg{DetailedOS} =~ /darwin/i ) {    # MacOS X
-            $cfg{OS} = 'UNIX';
+    unless ( $Foswiki::cfg{OS} ) {
+        if ( $Foswiki::cfg{DetailedOS} =~ /darwin/i ) {    # MacOS X
+            $Foswiki::cfg{OS} = 'UNIX';
         }
-        elsif ( $cfg{DetailedOS} =~ /Win/i ) {
-            $cfg{OS} = 'WINDOWS';
+        elsif ( $Foswiki::cfg{DetailedOS} =~ /Win/i ) {
+            $Foswiki::cfg{OS} = 'WINDOWS';
         }
-        elsif ( $cfg{DetailedOS} =~ /vms/i ) {
-            $cfg{OS} = 'VMS';
+        elsif ( $Foswiki::cfg{DetailedOS} =~ /vms/i ) {
+            $Foswiki::cfg{OS} = 'VMS';
         }
-        elsif ( $cfg{DetailedOS} =~ /bsdos/i ) {
-            $cfg{OS} = 'UNIX';
+        elsif ( $Foswiki::cfg{DetailedOS} =~ /bsdos/i ) {
+            $Foswiki::cfg{OS} = 'UNIX';
         }
-        elsif ( $cfg{DetailedOS} =~ /dos/i ) {
-            $cfg{OS} = 'DOS';
+        elsif ( $Foswiki::cfg{DetailedOS} =~ /dos/i ) {
+            $Foswiki::cfg{OS} = 'DOS';
         }
-        elsif ( $cfg{DetailedOS} =~ /^MacOS$/i ) {    # MacOS 9 or earlier
-            $cfg{OS} = 'MACINTOSH';
+        elsif ( $Foswiki::cfg{DetailedOS} =~ /^MacOS$/i ) {    # MacOS 9 or earlier
+            $Foswiki::cfg{OS} = 'MACINTOSH';
         }
-        elsif ( $cfg{DetailedOS} =~ /os2/i ) {
-            $cfg{OS} = 'OS2';
+        elsif ( $Foswiki::cfg{DetailedOS} =~ /os2/i ) {
+            $Foswiki::cfg{OS} = 'OS2';
         }
         else {
-            $cfg{OS} = 'UNIX';
+            $Foswiki::cfg{OS} = 'UNIX';
         }
     }
 
     # Remember what we detected previously, for use by Checkers
-    if ( $scriptName =~ /(\.\w+)$/ ) {
-        $cfg{DETECTED}{ScriptExtension} = $1;
+    if ( $Foswiki::Configure::scriptName =~ /(\.\w+)$/ ) {
+        $Foswiki::cfg{DETECTED}{ScriptExtension} = $1;
     }
 }
 
@@ -535,7 +527,7 @@ sub _getEnvironmentInfo {
 sub unsavedChangesNotice {
     my ( $updated, $includeTime, $timeSaved ) = @_;
 
-    return '' unless ( loggedIn($session) || $badLSC || $query->auth_type );
+    return '' unless ( loggedIn($Foswiki::Configure::session) || $Foswiki::Configure::badLSC || $Foswiki::Configure::query->auth_type );
 
     require Foswiki::Configure::ModalTemplates;
 
@@ -573,7 +565,7 @@ sub log {
     my ($message) = @_;
 
     $message ||= '';
-    my $log = $cfg{DebugFileName} || 'ConfigureError.log';
+    my $log = $Foswiki::cfg{DebugFileName} || 'ConfigureError.log';
     my $file;
     if ( open( $file, '>>', $log ) ) {
         print $file "$message\n";
@@ -596,7 +588,7 @@ You may be able to correct this error by installing the missing $1 module.
 HERE
 
         }
-        htmlResponse( $msg, ERROR_FORM );
+        htmlResponse( $msg, Foswiki::Configure::ERROR_FORM );
     }
     return $ui;
 }
@@ -604,7 +596,7 @@ HERE
 sub _validateDiscardChanges {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'POST' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
 
@@ -615,7 +607,7 @@ sub _validateDiscardChanges {
 sub _validateLogout {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'POST' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'POST' ) {
         invalidRequest( "", 405, Allow => 'POST' );
     }
 
@@ -636,11 +628,11 @@ sub _validateLogout {
 sub _validateresource {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'GET' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'GET' ) {
         invalidRequest( "", 405, Allow => 'GET' );
     }
 
-    my $resource = $query->param('resource') || $pathinfo[1];
+    my $resource = $Foswiki::Configure::query->param('resource') || $Foswiki::Configure::pathinfo[1];
 
     defined($resource) or return "No resource specified";
 
@@ -684,7 +676,7 @@ sub _actionresource {
 
     #    my( $action, $session, $cookie ) = @_;
 
-    my $resource = $query->param('resource') || $pathinfo[1];
+    my $resource = $Foswiki::Configure::query->param('resource') || $Foswiki::Configure::pathinfo[1];
 
     defined($resource) or return "No resource specified";
 
@@ -692,7 +684,7 @@ sub _actionresource {
       or return "Invalid resource name $resource";    # filter-in and untaint
     $resource = $1;
 
-    #ignore $query->param('type') and set it using the extension
+    #ignore $Foswiki::Configure::query->param('type') and set it using the extension
     my $type = 'text/plain; charset=UTF-8';
     if ( $resource =~ /\.([^.]+)$/ ) {
         $type = {
@@ -724,7 +716,7 @@ sub _actionresource {
     my $zipok;
     my $text = ( $type =~ m,^text/, );
     if ($text) {
-        my @accept = split( /,\s*/, ( $query->http('Accept-Encoding') || '' ) );
+        my @accept = split( /,\s*/, ( $Foswiki::Configure::query->http('Accept-Encoding') || '' ) );
         foreach my $accept (@accept) {
             if ( $accept =~ /^(?:(?:gzip|\*)(?:\s*;\s*q=\d+(?:\.\d+)?)?)\s*$/ )
             {
@@ -741,7 +733,7 @@ sub _actionresource {
     # allows .css files to contain URIs (e.g. for background images.)
     # and still be cached.  Don't add anything dynamic.
     # N.B. Since some webservers may want to direct-map resources,
-    # we'll replace the hard-coded query string with $resourceURI
+    # we'll replace the hard-coded query string with $Foswiki::Configure::resourceURI
     # in the sane ones.
 
     ( $text, my $etag, my $zipped ) = $parser->getResource(
@@ -750,8 +742,8 @@ sub _actionresource {
         -etag                        => 1,
         -binmode                     => !$text,
         -zipok                       => $zipok,
-        RESOURCEURI                  => $resourceURI,
-        '?action=resource&resource=' => $resourceURI,
+        RESOURCEURI                  => $Foswiki::Configure::resourceURI,
+        '?action=resource&resource=' => $Foswiki::Configure::resourceURI,
     );
 
     defined $etag or htmlResponse( "$resource not found", 404 );
@@ -763,10 +755,10 @@ sub _actionresource {
 
     push @headers,
       (
-        RESOURCECACHETIME > 0
+        Foswiki::Configure::RESOURCECACHETIME > 0
         ? (
-            Cache_Control => ( 'private, max-age=' . RESOURCECACHETIME ),
-            -expires      => ( '+' . RESOURCECACHETIME . 's' ),
+            Cache_Control => ( 'private, max-age=' . Foswiki::Configure::RESOURCECACHETIME ),
+            -expires      => ( '+' . Foswiki::Configure::RESOURCECACHETIME . 's' ),
           )
         : (
             Cache_Control => 'no-cache',
@@ -786,7 +778,7 @@ sub _actionresource {
     # Note that we must not return entity headers with a weak validator and
     # should not for a strong one.  So we dont.
 
-    if ( ( my $htags = $query->http('If-None-Match') ) ) {
+    if ( ( my $htags = $Foswiki::Configure::query->http('If-None-Match') ) ) {
         foreach my $htag ( split /\s*,\s*/, $htags ) {
             $htag =~ m,^\s*((?:W/)?"[^"]+")\s*$, or next;
             if ( $1 eq $etag ) {
@@ -818,7 +810,7 @@ sub establishSession {
         $_[0]    = $session;
         $_[1]    = $cookie;
 
-        if (RT80346) {
+        if (Foswiki::Configure::RT80346) {
             $session->dataref->{SESSION_ID} =~ /^(.*)$/;
             $session->dataref->{SESSION_ID} = $1;
         }
@@ -828,7 +820,7 @@ sub establishSession {
       . $session->id . ' '
       . ( $session->param('_PASSWD_OK') || 'f' )
       . ( $session->param('_SAVE_OK')   || 'f' ) . "\n"
-      if (SESSIONTRACE);
+      if (Foswiki::Configure::SESSIONTRACE);
 }
 
 # Session state variables.
@@ -843,13 +835,13 @@ sub loggedIn {
 
     print STDERR "Strace: Islog "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
-      if (SESSIONTRACE);
+      if (Foswiki::Configure::SESSIONTRACE);
     return 1 if ( $session->param('_PASSWD_OK') );
 
-    return 0 unless ( $query->auth_type() );    # Basic, Digest, ...
+    return 0 unless ( $Foswiki::Configure::query->auth_type() );    # Basic, Digest, ...
 
     return 0
-      unless ( $cfg{Password} && !$query->param('changePassword') );
+      unless ( $Foswiki::cfg{Password} && !$Foswiki::Configure::query->param('changePassword') );
 
     refreshLoggedIn($session);                  # OK to rely on browser
 
@@ -861,10 +853,10 @@ sub refreshLoggedIn {
 
     print STDERR "Strace: Reflog "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
-      if (SESSIONTRACE);
-    $newLogin = !$session->param('_PASSWD_OK');
+      if (Foswiki::Configure::SESSIONTRACE);
+    $Foswiki::Configure::newLogin = !$session->param('_PASSWD_OK');
     $session->param( '_PASSWD_OK', 1 );
-    $session->expires( '_PASSWD_OK', SESSIONEXP );
+    $session->expires( '_PASSWD_OK', Foswiki::Configure::SESSIONEXP );
 
     return 1;
 }
@@ -878,7 +870,7 @@ sub saveAuthorized {
 
     print STDERR "Strace: isSave "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
-      if (SESSIONTRACE);
+      if (Foswiki::Configure::SESSIONTRACE);
     return $session->param('_SAVE_OK');
 }
 
@@ -887,9 +879,9 @@ sub refreshSaveAuthorized {
 
     print STDERR "Strace: Refsave "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
-      if (SESSIONTRACE);
+      if (Foswiki::Configure::SESSIONTRACE);
     $session->param( '_SAVE_OK', 1 );
-    $session->expires( '_SAVE_OK', SAVEEXP );
+    $session->expires( '_SAVE_OK', Foswiki::Configure::SAVEEXP );
 
     return 1;
 }
@@ -903,7 +895,7 @@ sub activeSession {
 
     print STDERR "Strace: Isact "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
-      if (SESSIONTRACE);
+      if (Foswiki::Configure::SESSIONTRACE);
     return $session->param('_RES_OK');
 }
 
@@ -912,9 +904,9 @@ sub refreshSession {
 
     print STDERR "Strace: refact "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
-      if (SESSIONTRACE);
+      if (Foswiki::Configure::SESSIONTRACE);
     $session->param( '_RES_OK', 1 );
-    $session->expires( '_RES_OK', RESOURCEEXP );
+    $session->expires( '_RES_OK', Foswiki::Configure::RESOURCEEXP );
 
     return 1;
 }
@@ -928,7 +920,7 @@ sub closeSession {
 
     print STDERR "Strace: close "
       . join( ', ', ( caller(1) )[ 0, 3, 1, 2 ] ) . "\n"
-      if (SESSIONTRACE);
+      if (Foswiki::Configure::SESSIONTRACE);
 
     $session->clear(
         [qw/_PASSWD_OK _SAVE_OK _RES_OK redirect redirectResults/] );
@@ -945,11 +937,11 @@ sub closeSession {
 sub newCookie {
     my $session = shift;
 
-    my @pars = ( -name => COOKIENAME, -value => $session->id );
+    my @pars = ( -name => Foswiki::Configure::COOKIENAME, -value => $session->id );
     push @pars, -secure => 1 if ( $ENV{HTTPS} && $ENV{HTTPS} eq 'on' );
 
     # Can't include path since we test short URLs.
-    push @pars, -path => '/', -expires => "+" . COOKIEEXP;
+    push @pars, -path => '/', -expires => "+" . Foswiki::Configure::COOKIEEXP;
     $cookie = CGI->cookie(@pars);
     return $cookie;
 }
@@ -1006,7 +998,7 @@ sub invalidRequest {
     my $status = shift;
     $status = 400 unless ( defined $status );
 
-    htmlResponse( $reason, $status + ERROR_FORM, @_ );
+    htmlResponse( $reason, $status + Foswiki::Configure::ERROR_FORM, @_ );
 }
 
 # ######################################################################
@@ -1036,7 +1028,7 @@ sub htmlResponse {
     my ( $moreOutput, $noRedirect, $errForm ) = $flags =~ /(.)(.)(.)$/;
     $noRedirect = 1 if (@feedbackHeaders);
 
-    if ( defined $method && $method eq 'POST' && !$noRedirect ) {
+    if ( defined $Foswiki::method && $Foswiki::method eq 'POST' && !$noRedirect ) {
         htmlRedirect(
             'DisplayResults',
             {
@@ -1053,7 +1045,7 @@ sub htmlResponse {
         400 => { msg => 'Invalid Request' },
         401 => { msg => 'Not authorized' },
         404 => { msg => 'Not found' },
-        405 => { msg => "Method " . ( $method || 'undef' ) . " not allowed" },
+        405 => { msg => "Method " . ( $Foswiki::method || 'undef' ) . " not allowed" },
       }->{$status}
       or die "Invalid status";
 
@@ -1085,7 +1077,7 @@ sub htmlResponse {
 
         unless ( $moreOutput || length($html) < 2048 ) {
             my @accept =
-              split( /,\s*/, ( $query->http('Accept-Encoding') || '' ) );
+              split( /,\s*/, ( $Foswiki::Configure::query->http('Accept-Encoding') || '' ) );
             foreach my $accept (@accept) {
                 if ( $accept =~
                     /^(?:(?:gzip|\*)(?:\s*;\s*q=\d+(?:\.\d+)?)?)\s*$/ )
@@ -1107,20 +1099,20 @@ sub htmlResponse {
 
     # With the data in final form, header can be generated.
 
-    push @_, -cookie => $cookie if ( defined $cookie && $session );
+    push @_, -cookie => $cookie if ( defined $cookie && $Foswiki::Configure::session );
 
     unshift @_, ( Content_Length => length($html) )
       unless ($moreOutput);
 
-    $html = $query->header(
+    $html = $Foswiki::Configure::query->header(
         -status       => "$status " . $sts->{msg},
         -Content_type => 'text/html; charset=utf8',
         @feedbackHeaders, @_,
     ) . $html;
 
-    if ($session) {
-        refreshSession($session);
-        $session->flush;
+    if ($Foswiki::Configure::session) {
+        refreshSession($Foswiki::Configure::session);
+        $Foswiki::Configure::session->flush;
     }
 
     print $html;
@@ -1142,13 +1134,13 @@ sub htmlRedirect {
     my $action = shift;
     my $content = ( @_ == 1 ? $_[0] : join( '', @_ ) );
 
-    if ($session) {
-        $session->param( 'redirectResults', $content );
-        $session->param( 'redirect',        $action );
-        refreshSession($session);
+    if ($Foswiki::Configure::session) {
+        $Foswiki::Configure::session->param( 'redirectResults', $content );
+        $Foswiki::Configure::session->param( 'redirect',        $action );
+        refreshSession($Foswiki::Configure::session);
     }
 
-    rawRedirect($scriptName);
+    rawRedirect($Foswiki::Configure::scriptName);
 }
 
 # ######################################################################
@@ -1156,8 +1148,8 @@ sub htmlRedirect {
 # ######################################################################
 
 sub redirectResults {
-    my $results = $session->param('redirectResults');
-    $session->clear('redirectResults');
+    my $results = $Foswiki::Configure::session->param('redirectResults');
+    $Foswiki::Configure::session->clear('redirectResults');
 
     return $results;
 }
@@ -1169,15 +1161,15 @@ sub redirectResults {
 sub rawRedirect {
     my $destination = shift;
 
-    if ($session) {
-        $session->flush;
+    if ($Foswiki::Configure::session) {
+        $Foswiki::Configure::session->flush;
     }
 
     my $body = << "REDIRECT";
 <html><head></head><body>Results at <a href="$destination">$destination</a></body></html>
 REDIRECT
 
-    print $query->redirect(
+    print $Foswiki::Configure::query->redirect(
         -uri            => $destination,
         -status         => '303 Results ready',
         -Content_Type   => 'text/html; charset=utf8',
@@ -1195,7 +1187,7 @@ REDIRECT
 sub _validateDisplayResults {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->request_method() ne 'GET' ) {
+    if ( $Foswiki::Configure::query->request_method() ne 'GET' ) {
         invalidRequest( "", 405, Allow => 'GET' );
     }
 

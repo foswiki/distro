@@ -147,7 +147,7 @@ sub _getTemplate {
 
     no warnings 'once';
     my $template =
-      $this->getTemplate( $templateName, RESOURCEURI => $Foswiki::resourceURI );
+      $this->getTemplate( $templateName, RESOURCEURI => $Foswiki::Configure::resourceURI );
 
     return $template;
 }
@@ -224,6 +224,7 @@ sub getFile {
             $dynamic += $text =~
 s/%INCLUDE{(.*?)}%/$this->getResource($1, -binmode => $binmode)/ges;
             while ( my ( $k, $v ) = each %vars ) {
+                die "FUCK $k" unless defined $v;
                 if ( $k =~ /^\?/ ) {
                     $dynamic += ( $text =~ s/\Q$k\E/$v/gs );
                 }

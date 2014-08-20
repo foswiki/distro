@@ -73,6 +73,7 @@ use constant ATTRSPEC => {
     UNDEFINEDOK => {},         # Allow non-existant values
     SPELLCHECK  => {},
     EXPERT      => {},
+    SAVE        => {},
     DISPLAY_IF  => { openclose => 1 },
     ENABLE_IF   => { openclose => 1 },
 
@@ -274,6 +275,23 @@ sub _CHECK {
     die "CHECK parse failed, expected name at $str in $ostr"
       if $str !~ /^\s*$/;
     push( @{ $this->{CHECK} }, \%options );
+}
+
+=begin TML
+
+---++ ObjectMethod getChecks() -> @checks
+Get the array of checks specified by the CHECK option in the .spec
+
+=cut
+
+sub getChecks {
+    my ($this) = @_;
+
+    if (ref($this->{CHECK}) eq 'ARRAY') {
+        return @{$this->{CHECK}};
+    } else {
+        return ();
+    }
 }
 
 # A value is a leaf, so this is a NOP.

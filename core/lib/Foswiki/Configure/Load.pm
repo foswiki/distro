@@ -182,7 +182,7 @@ CODE
 
 Expands references to Foswiki configuration items which occur in the
 values configuration items contained within the datum, which may be a
-hash reference or a scalar value. The replacement is done in-place.
+hash or array reference, or a scalar value. The replacement is done in-place.
 
 $mode - How to handle undefined values:
    * false:  'undef' (string) is returned when an undefined value is

@@ -24,7 +24,7 @@ sub prompt {
             -disabled => 'disabled',
             -name     => $model->{keys},
             -value    => '',
-            -size => '1',    #$Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS,
+            -size => '1',    #$Foswiki:Configure:::DEFAULT_FIELD_WIDTH_NO_CSS,
         },
     );
 }

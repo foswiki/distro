@@ -16,7 +16,7 @@ use warnings;
 
 use Fcntl qw(:flock SEEK_END);
 
-use Foswiki::Configure(qw/:DEFAULT :cgi/);
+use Foswiki::Configure ();#(qw/:DEFAULT :cgi/);
 
 use Foswiki::Configure::UI ();
 our @ISA = ('Foswiki::Configure::UI');

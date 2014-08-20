@@ -1,4 +1,3 @@
-# -*- mode: CPerl; -*-
 # See bottom of file for license and copyright information
 
 use warnings;

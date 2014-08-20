@@ -11,9 +11,9 @@ use strict;
 
 package Foswiki::Configure::Feedback;
 
-use Foswiki::Configure(qw/:auth :cgi :config :feedback :keys/);
+use Foswiki::Configure ();#(qw/:auth :cgi :config :feedback :keys/);
 
-$changesDiscarded = 0;
+$Foswiki::Configure::changesDiscarded = 0;
 
 require Foswiki::Configure::Root;
 require Foswiki::Configure::Valuer;
@@ -45,7 +45,7 @@ feedback request has been received.
 
     package Foswiki;
 
-    use Foswiki::Configure qw/:auth :cgi/;
+    use Foswiki::Configure ();#qw/:auth :cgi/;
 
     sub _authenticatefeedbackUI {
         my ( $action, $session, $cookie ) = @_;
@@ -53,13 +53,13 @@ feedback request has been received.
         # feedback tags along with the main UI, but has a small window
         # for while login screens are being produced.
 
-        if ( loggedIn($session) || $badLSC || $query->auth_type ) {
+        if ( loggedIn($session) || $Foswiki::Configure::badLSC || $Foswiki::Configure::query->auth_type ) {
             refreshLoggedIn($session);
 
             return;
         }
 
-        if ( ( $query->param('FeedbackRequest') || '' ) eq
+        if ( ( $Foswiki::Configure::query->param('FeedbackRequest') || '' ) eq
             '{ConfigureGUI}{Modals}{Login}feedreq1' )
         {
             refreshSession($session);
@@ -90,16 +90,15 @@ feedback request has been received.
             return;
         }
 
-        my $checker =
-          Foswiki::Configure::UI::loadChecker(
-            'ConfigureGUI::Modals::SessionTimeout', $ui );
+        $ui->{keys} = $keys;
+        my $feedbacker = Foswiki::Configure::UI::loadFeedbacker( $ui );
 
         local $Foswiki::Configure::UI::feedbackEnabled = 1;
 
-        my $html = $checker->provideFeedback( $value, 1, 'No button' );
-        $html .= $checker->provideFeedback( $value, 2, 'No button' );
+        my $html = $feedbacker->provideFeedback( 1, 'No button' );
+        $html .= $feedbacker->provideFeedback( 2, 'No button' );
 
-        Foswiki::Configure::Feedback::deliverResponse( [ $keys => $html ],
+        _deliverResponse( [ $keys => $html ],
             undef );
 
         # Does not return
@@ -131,7 +130,6 @@ sub new {
 
 sub deliver {
     my ( $action, $session, $cookie ) = @_;
-    my $query = $Foswiki::query;
 
     local $Foswiki::Configure::UI::feedbackEnabled = 1;
 
@@ -141,7 +139,7 @@ sub deliver {
     my $valuer = Foswiki::Configure::Valuer->new( \%Foswiki::cfg );
 
     # Get request from CGI
-    my $request = $query->param('FeedbackRequest');
+    my $request = $Foswiki::Configure::query->param('FeedbackRequest');
 
     # Handle an unsaved changes request without any checking or UI
 
@@ -151,12 +149,12 @@ sub deliver {
     my $cart = Foswiki::Configure::Feedback::Cart->get($session);
 
     if ( $request eq '{ConfigureGUI}{Unsaved}status' ) {
-        $cart->loadParams($query);
-        my $modified = $valuer->loadCGIParams( $query, \%updated );
-        $cart->removeParams($query);
+        $cart->loadParams($Foswiki::Configure::query);
+        my $modified = $valuer->loadCGIParams( $Foswiki::Configure::query, \%updated );
+        $cart->removeParams($Foswiki::Configure::query);
 
-        checkpointChanges( $session, $query, \%updated );
-        deliverResponse( [], \%updated );
+        checkpointChanges( $session, $Foswiki::Configure::query, \%updated );
+        _deliverResponse( [], \%updated );
 
         # Does not return
     }
@@ -165,9 +163,9 @@ sub deliver {
 
     $this->{oldCfg} = _copy( \%Foswiki::cfg );
 
-    $cart->loadParams($query);
+    $cart->loadParams($Foswiki::Configure::query);
 
-    my $modified = $valuer->loadCGIParams( $query, \%updated );
+    my $modified = $valuer->loadCGIParams( $Foswiki::Configure::query, \%updated );
 
     $pendingChanges = $modified + $cart->param;
 
@@ -184,7 +182,7 @@ sub deliver {
     $this->{checks} = [];
 
     # 0 = no other; 1 = only changes; 2 = all
-    $this->{checkall} = $query->param('DEBUG') ? 2 : 1;
+    $this->{checkall} = $Foswiki::Configure::query->param('DEBUG') ? 2 : 1;
     $this->{changed} = \%updated;
 
     # Decode feedback button request
@@ -192,7 +190,7 @@ sub deliver {
     $request =~ /^(\{.*\})feedreq(\d+)$/ or die "Invalid FB target $request\n";
     $this->{request}     = $1;
     $this->{button}      = $2;
-    $this->{buttonValue} = $query->param('FeedbackButtonValue');
+    $this->{buttonValue} = $Foswiki::Configure::query->param('FeedbackButtonValue');
 
     $this->{fbpass} = 1;
 
@@ -208,7 +206,7 @@ sub deliver {
         if ( ref( $this->{checkall} ) eq 'ARRAY' ) {
             my @items = @{ $this->{checkall} };
             while (@items) {
-                $this->{checkall} = $query->param('DEBUG') ? 2 : 1;
+                $this->{checkall} = $Foswiki::Configure::query->param('DEBUG') ? 2 : 1;
                 my $item   = shift @items;
                 my $button = 1;
                 die "Bad FB chain $item from $this->{request}\n"
@@ -278,23 +276,23 @@ sub deliver {
         bless( $this, __PACKAGE__ );
     }
 
-    if ( $changesDiscarded == 1 ) {
+    if ( $Foswiki::Configure::changesDiscarded == 1 ) {
         %Foswiki::cfg = ( %{ _copy( $this->{oldCfg} ) } );
     }
     else {
 
-        unless ( $changesDiscarded == -1 ) {    # unless saved
+        unless ( $Foswiki::Configure::changesDiscarded == -1 ) {    # unless saved
             $this->{valuer} =                   # Find changes
               Foswiki::Configure::Valuer->new( {} );
 
             $root->visit($this);
         }
 
-        $cart->removeParams($query);
+        $cart->removeParams($Foswiki::Configure::query);
 
         $updated{$_} = 1 foreach ( $cart->param() );
 
-        checkpointChanges( $session, $query, \%updated );
+        checkpointChanges( $session, $Foswiki::Configure::query, \%updated );
     }
 
     my $fb = $this->{fb};
@@ -304,14 +302,14 @@ sub deliver {
     for my $key ( keys %{ $this->{errors} } ) {
         next if ( $key =~ m/\{ConfigureGUI}/ );
 
-        my $old = $query->param("${key}errors");
+        my $old = $Foswiki::Configure::query->param("${key}errors");
         $old = "0 0" unless ( defined $old );
         my $new = $this->{errors}{$key};
         push @$fb, "${key}errors" => $ui->FB_GUIVAL( "${key}errors", $new )
           if ( $new ne $old );
     }
 
-    deliverResponse( $fb, \%updated );
+    _deliverResponse( $fb, \%updated );
 }
 
 # ######################################################################
@@ -385,7 +383,7 @@ sub loadConfig {
     }
 
     # Only read the first section if LSC is bad
-    $Foswiki::Configure::LoadSpec::FIRST_SECTION_ONLY ||= $badLSC;
+    $Foswiki::Configure::LoadSpec::FIRST_SECTION_ONLY ||= $Foswiki::Configure::badLSC;
     Foswiki::Configure::LoadSpec::readSpec($root);
 
     # Verification not required here
@@ -564,7 +562,7 @@ sub checkpointChanges {
 # Deliver feedback response message
 # ######################################################################
 
-sub deliverResponse {
+sub _deliverResponse {
     my $fb      = shift;
     my $updated = shift;
 
@@ -595,7 +593,7 @@ sub deliverResponse {
 
     push @$fb,
       '{ConfigureGUI}{Unsaved}' => Foswiki::unsavedChangesNotice($updated)
-      if ( $updated && ( loggedIn($session) || $badLSC || $query->auth_type ) );
+      if ( $updated && ( loggedIn($session) || $Foswiki::Configure::badLSC || $Foswiki::Configure::query->auth_type ) );
 
     # Feedback is ordered so that commands from chained checkers execute in the
     # specified order.  Internally, checkers can produce arbitrary mixes of
@@ -675,8 +673,11 @@ sub startVisit {
         # Retain for AUDIT reruns to save load and allow audit
         # to save state
 
-        $visitee->{_fbchecker} = my $checker = $visitee->{_fbchecker}
-          || Foswiki::Configure::UI::loadChecker( $keys, $visitee );
+        my $checker = $visitee->{_checker}
+          || Foswiki::Configure::UI::loadChecker( $visitee );
+        my $feedbacker = $visitee->{_feedbacker}
+          || Foswiki::Configure::UI::loadFeedbacker( $visitee );
+        $visitee->{_feedbacker} = = $feedbacker;
 
         # Multiple checks possible in audit AUDITGROUP.  The arbitrary
         # upper bound here is simply to catch a loop where a
@@ -690,10 +691,10 @@ sub startVisit {
         # See if it provides feedback.  If not, just re-check.
 
         my $button = $this->{button};
-        if ( $checker && $button && $checker->can('provideFeedback') ) {
+        if ( $feedbacker && $button ) {
             push @{ $this->{checks} }, $keys;
             my ( $text, $checkall ) = eval {
-                $checker->provideFeedback( $visitee, $button,
+                $feedbacker->provideFeedback( $button,
                     $this->{buttonValue} );
             };
             if ($@) {
@@ -743,12 +744,13 @@ sub startVisit {
 
         $this->defaultOptions( $visitee, $keys );
 
-        $visitee->{_fbchecker} = my $checker = $visitee->{_fbchecker}
-          || Foswiki::Configure::UI::loadChecker( $keys, $visitee );
+        my $checker = $visitee->{_checker}
+          || Foswiki::Configure::UI::loadChecker( $visitee );
+        $visitee->{_checker} = $checker;
 
         if ($checker) {
             push @{ $this->{checks} }, $keys;
-            my $check = eval { return $checker->check($visitee); };
+            my $check = eval { return $checker->check($checker->{item}); };
             if ($@) {
                 $check = $checker->ERROR(
 "Checker for $keys failed: check for .spec issues: <pre>$@</pre>"

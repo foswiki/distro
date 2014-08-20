@@ -15,7 +15,7 @@ package Foswiki::Configure::TypeUIs::PERL;
 use strict;
 use warnings;
 
-use Foswiki::Configure qw/:cgi/;
+use Foswiki::Configure ();#qw/:cgi/;
 
 require Foswiki::Configure::TypeUI;
 our @ISA = ('Foswiki::Configure::TypeUI');
@@ -26,7 +26,7 @@ sub defaultOptions {
     my ( $this, $value ) = @_;
 
     # Force textarea.  Default no spellcheck, autocheck
-    my $size = $value->{SIZE} || $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+    my $size = $value->{SIZE} || $Foswiki::Configure::DEFAULT_FIELD_WIDTH_NO_CSS;
 
     if ( !defined $value->{SIZE} || $value->{SIZE} =~ /^\d+$/ ) {
         $value->{SIZE} = "${size}x10";
@@ -49,34 +49,6 @@ sub prompt {
     return $this->SUPER::prompt( $model, $v, $class );
 }
 
-# verify that the string is a legal rvalue according to the grammar
-sub _rvalue {
-    my ( $s, $term ) = @_;
-    while ( length($s) > 0 && ( !$term || $s !~ s/^\s*$term// ) ) {
-        if ( $s =~ s/^\s*'//s ) {
-            my $escaped = 0;
-            while ( length($s) > 0 && $s =~ s/^(.)//s ) {
-                last if ( $1 eq "'" && !$escaped );
-                $escaped = ( $escaped ? 0 : $1 eq '\\' );
-            }
-        }
-        elsif ( $s =~ s/^\s*(\w+)//s ) {
-        }
-        elsif ( $s =~ s/^\s*\[//s ) {
-            $s = _rvalue( $s, ']' );
-        }
-        elsif ( $s =~ s/^\s*{//s ) {
-            $s = _rvalue( $s, '}' );
-        }
-        elsif ( $s =~ s/^\s*(,|=>)//s ) {
-        }
-        else {
-            last;
-        }
-    }
-    return $s;
-}
-
 sub string2value {
     my ( $this, $val ) = @_;
 
@@ -88,7 +60,7 @@ sub string2value {
 
         # Unable to parse.  If configure is running
         # allow checker to handle diagnostic.
-        return if ($Foswiki::configureRunning);
+        return if ($Foswiki::Configure::configureRunning);
 
         # Parse failed, LSC is corrupt. Only way to report is die.
         $val = 'undef' unless ( defined $val );
@@ -99,7 +71,7 @@ sub string2value {
     $val =~ /(.*)/s;    # parsed, so safe to untaint
     $val = eval $1;
     return $val if ( defined $val );
-    return if ($Foswiki::configureRunning);
+    return if ($Foswiki::Configure::configureRunning);
     die "Types::PERL: Parsed but invalid data: $@";
 }
 

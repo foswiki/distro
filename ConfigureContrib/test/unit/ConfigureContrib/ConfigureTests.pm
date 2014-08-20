@@ -359,7 +359,7 @@ sub test_UI {
     my %defaultCfg = ( Value => "before" );
     my %cfg        = ( Value => "after" );
     my $valuer     = Foswiki::Configure::Valuer->new( \%cfg );
-    $Foswiki::resourceURI = 'configure';
+    $Foswiki::Configure::resourceURI = 'configure';
 
     my ( $f1, $f1name ) =
       File::Temp::tempfile( DIR => $this->{tempdir} )

@@ -7,7 +7,7 @@ package Foswiki::Configure::ModalTemplates;
 
 # This package provides support routines for invoking and using modal screens.
 
-use Foswiki::Configure (qw/:auth :cgi/);
+use Foswiki::Configure ();#qw/:auth :cgi/;
 
 # $ui should be the triggering item - it can be a checker or any subclass of UI
 
@@ -30,11 +30,11 @@ sub new {
     my $self = {
         ui   => $ui,
         args => {
-            time          => $time,
-            formAction    => $scriptName,
-            scriptName    => $scriptName,
-            RESOURCEURI   => $resourceURI,
-            configureUrl  => $url,
+            time          => $Foswiki::Configure::time,
+            formAction    => $Foswiki::Configure::scriptName,
+            scriptName    => $Foswiki::Configure::scriptName,
+            RESOURCEURI   => $Foswiki::Configure::resourceURI,
+            configureUrl  => $Foswiki::Configure::url,
             frontpageUrl  => $frontpageUrl,
             displayStatus => 0,
             hasPassword   => (
@@ -212,8 +212,8 @@ sub passwordRequiredForm {
     if ( $query->auth_type()
         && Foswiki::Configure::UI::passwordState eq 'PASSWORD_NOT_SET' )
     {
-        refreshLoggedIn($session);
-        refreshSaveAuthorized($session);
+        refreshLoggedIn($Foswiki::Configure::session);
+        refreshSaveAuthorized($Foswiki::Configure::session);
 
         return ( 'BROWSER_AUTHENTICATED',
             $this->{ui}->FB_MODAL( '#configureAuthenticateForm', '' ) );
@@ -229,13 +229,13 @@ sub passwordRequiredForm {
         $query->delete('password');
         my $status = Foswiki::Configure::UI::checkPassword($password);
         if ( $status eq 'OK' || $status eq 'PASSWORD_NOT_SET' ) {
-            refreshLoggedIn($session);
-            refreshSaveAuthorized($session);
+            refreshLoggedIn($Foswiki::Configure::session);
+            refreshSaveAuthorized($Foswiki::Configure::session);
 
             return ( $status,
                 $this->{ui}->FB_MODAL( '#configureAuthenticateForm', '' ) );
         }
-        $displayStatus = $MESSAGE_TYPE->{$status};
+        $displayStatus = $Foswiki::MESSAGE_TYPE->{$status};
     }
     $this->addArgs( displayStatus => $displayStatus );
 

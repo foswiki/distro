@@ -29,8 +29,8 @@ sub renderHtml {
         SCRIPTURLPATH => $Foswiki::cfg{ScriptUrlPath},
         SCRIPTSUFFIX  => $Foswiki::cfg{ScriptSuffix},
         ADMINGROUP    => $Foswiki::cfg{SuperAdminGroup},
-        RESOURCEURI   => $Foswiki::resourceURI,
-        ACTIONURI     => $Foswiki::actionURI,
+        RESOURCEURI   => $Foswiki::Configure::resourceURI,
+        ACTIONURI     => $Foswiki::Configure::actionURI,
     );
 
     # do not simply return the contents as we want to have

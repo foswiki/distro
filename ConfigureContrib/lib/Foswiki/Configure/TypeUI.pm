@@ -18,7 +18,7 @@ package Foswiki::Configure::TypeUI;
 use strict;
 use warnings;
 
-use CGI qw( :any );
+use Assert;
 
 use Foswiki::Configure::TypeUIs::UNKNOWN;
 
@@ -42,6 +42,7 @@ Load the named type object
 
 sub load {
     my ( $id, $keys ) = @_;
+    ASSERT($id) if DEBUG;
     my $typer = $knownTypes{$id};
     unless ($typer) {
         my $failinfo;
@@ -98,7 +99,7 @@ sub prompt {
 
     }
     else {
-        my $size = $Foswiki::DEFAULT_FIELD_WIDTH_NO_CSS;
+        my $size = $Foswiki::Configure::DEFAULT_FIELD_WIDTH_NO_CSS;
         if ( defined $model->{SIZE} && $model->{SIZE} =~ /(\d+)/ ) {
             $size = $1;
         }

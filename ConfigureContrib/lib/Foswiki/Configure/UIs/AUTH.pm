@@ -39,9 +39,9 @@ sub params {
     my @params = ();
 
     # Pass URL params through, except those below
-    foreach my $param ( $Foswiki::query->param ) {
+    foreach my $param ( $Foswiki::Configure::query->param ) {
         next if ( $nonos{$param} );
-        my @values = $Foswiki::query->param($param);
+        my @values = $Foswiki::Configure::query->param($param);
         foreach my $value (@values) {
             push( @params, Foswiki::Configure::UI::hidden( $param, $value ) );
         }

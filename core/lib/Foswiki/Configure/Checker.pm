@@ -1,0 +1,527 @@
+# See bottom of file for license and copyright information
+
+=begin TML
+
+---+ package Foswiki::Configure::Checker;
+
+Base class of all checkers. Checkers give checking and guessing support
+for configuration values. Checkers are designed to be totally independent
+of UI.
+
+All 'Value' type configuration items in the model can have a checker.
+Further, if a value doesn't have an individual checker, there may
+be an associated type checker. If an item has an individual checker,
+it's type checker is *not* invoked.
+
+A checker can provide _any or all_ of three functions,
+=check_current_value=, =check_potential_value=, and commit_new_value=.
+These are described below.
+
+Checkers *never* modify =$Foswiki::cfg=.
+
+Checker objects are not instantiated directly. Rather, they are generated
+using the =loadChecker= factory method described below.
+
+=cut
+
+package Foswiki::Configure::Checker;
+
+use strict;
+use warnings;
+
+use Data::Dumper ();
+use File::Spec   ();
+
+use Assert;
+
+use Foswiki::Configure::Load ();
+
+use constant GUESSED_MESSAGE => <<HERE;
+I had to guess this setting in order to continue checking. You must
+confirm this setting (and any other guessed settings) and save
+correct values before changing any other settings.
+HERE
+
+# Construct a new Checker, attaching the given $item from the model.
+# This is not normally used by other classes, but is provided in case
+# a subclass needs to override it for any reason.
+sub new {
+    my ( $class, $item ) = @_;
+
+    my $this = bless( { item => $item }, $class );
+}
+
+=begin TML
+
+---++ StaticMethod loadChecker($item) -> $checker
+
+Loads the Foswiki::Configure::Checker subclass for the
+given $item. For example, given the $item->{keys} '{Beans}{Mung}', it
+will try and load Foswiki::Configure::Checkers::Beans::Mung
+
+An item may specify a different checker to load if it has the
+CHECKER attribute. This will be interpreted as keys for the 'real' checker
+to lead for this item.
+
+If the item doesn't have a subclass defined, the item's type class may
+define a generic checker for that type.  If so, it is instantiated
+for this item.
+
+Finally, we will see if $item's type, or one it inherits from
+has a generic checker.  If so, that's instantiated.
+
+Returns the checker that's created or undef if no such checker is found.
+
+Will die if the checker exists but fails to compile.
+
+$item is passed on to the checker's constructor.
+
+=cut
+
+sub loadChecker {
+    my ( $item ) = @_;
+
+    # Convert {key}{s} to key::s, removing illegal characters
+    # [-_\w] are legal. - => _.
+    my $id = $item->{keys};
+    $id =~ s{\{([^\}]*)\}}{
+        my $lbl = $1;
+        $lbl =~ tr,-_a-zA-Z0-9\x00-\xff,__a-zA-Z0-9,d;
+        $lbl . '::'}ge
+            and substr( $id, -2 ) = '';
+
+    my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
+    my @packages = Foswiki::Configure::FileUtil::findPackages($checkClass);
+
+    unless (scalar(@packages)) {
+        # See if a generic type checker exists for this type
+        my $checkClass = 'Foswiki::Configure::Checkers::' . $item->{typename};
+        @packages = Foswiki::Configure::FileUtil::findPackages($checkClass);
+    }
+    return undef unless (scalar(@packages));
+
+    $checkClass = $packages[0];
+
+    eval "require $checkClass";
+    if ($@) {
+        die "Failed to load checker class $checkClass: $@";
+    }
+
+    return $checkClass->new( $item );
+}
+
+=begin TML
+
+---++ ObjectMethod check_current_value($reporter)
+    * =$reporter= - report logger; use ERROR, WARN etc on this
+      object to record information.
+
+The value to be checked is taken from $Foswiki::cfg. This is the
+baseline check for values already in $Foswiki::cfg, and needs to
+be as fast as possible (it should not do any heavy processing).
+
+See also: check_potential_value, commit_new_value
+
+Old checkers may not provide =check_current_value= but instead
+use the older signature =check=.
+
+=cut
+
+sub check_current_value {
+    my ($this, $reporter) = @_;
+
+    # If we get all the way back up the inheritance tree without
+    # finding a check_current_value implementation, then see if
+    # there is a check().
+    if ($this->can('check')) {
+        $this->{reporter} = $reporter;
+        $this->check($this->{item});
+        delete $this->{reporter};
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod check_potential_value($string, $reporter)
+    * =$string= - string representing the potential new value
+    * =$reporter= - report logger; use ERROR, WARN etc on this
+      object to record information.
+
+Given a string that represents a potential value for the item
+handled by this checker, check if the value is acceptable. When
+this checker is called, $Foswiki::cfg has been updated with the
+new value (and any other values that have changed). =check_current_value()=
+has *not* been called on the new value yet (though do not assume
+this, as it may not be true for all calls to this method.)
+
+This is the place to perform heaviweight checks, such as file
+permissions. However this method should *not* attempt to modify the
+configuration or derive new values. That is the role of Wizards.
+
+The default potential value check is a NOP.
+
+See also: check_current_value, commit_new_value
+
+=cut
+
+sub check_potential_value {
+    my ($this, $string, $reporter) = @_;
+}
+
+=begin TML
+
+---++ ObjectMethod commit_new_value(\%oldCfg, $reporter) -> $boolean
+    * =$reporter= - report logger; use ERROR, WARN etc on this
+      object to record information.
+
+We have a new value for this item that has been checked through
+calls to =check_potential_value= and =check_current_value=, and
+are going to commit it. This handler is provided to perform any
+heaviweight processing required, such as file generation/cleanup.
+
+When this method is called, $Foswiki::cfg has already been updated
+with this (and any other) new value(s). The *old* $Foswiki::cfg
+(prior to any pending changes) is passed in =\%oldCfg=. However this
+method *must not* attempt to modify $Foswiki::cfg in any way.
+
+The method should return true if the configuration is good.
+Any errors that occur during processing that are fatal to the
+new configuration should be reported using the reporter.
+
+The default handler is a NOP.
+
+See also: check_current_value, check_potential_value
+
+=cut
+
+sub commit_new_value {
+    my ($this, $oldCfg, $reporter) = @_;
+}
+
+=begin TML
+
+---++ ObjectMethod getCfg([$keys]) -> $expanded_value
+Get the value of the named configuration var.
+   * =$keys= - optional keys to retrieve e.g
+     =getCfg("{Validation}{ExpireKeyOnUse}")=. Defaults to the
+    keys of the item associated with the checker.
+
+Any embedded references to other Foswiki::cfg vars will be expanded.
+Note that any embedded references to undefined variables will be
+expanded as the string 'undef'. Use =getCfgUndefOk= if you want a
+real undef for undefined values rather than the string.
+
+Synonymous with:
+<verbatim>
+my $x = '$Foswiki::cfg{Keys}';
+Foswiki::Configure::Load::expandValue($x, 0);
+</verbatim>
+Thus it returns the value as Foswiki will see it (i.e. with undef
+expanded as the string 'undef')
+
+=cut
+
+sub getCfg {
+    my ( $this, $name ) = @_;
+    $name ||= $this->{item}->{keys};
+    ASSERT($this->{reporter}) if DEBUG;
+
+    my $item = '$Foswiki::cfg' . $name;
+    Foswiki::Configure::Load::expandValue($item);
+    return $item;
+}
+
+=begin TML
+
+---++ ObjectMethod getCfgUndefOk([$keys]) -> $expanded_value
+
+As =getCfg=, except that =undef= will not be expanded to the string 'undef'.
+Note that recursive expansion of embedded =$Foswiki::cfg= will also return
+undef, and will result in a program error.
+
+=cut
+
+sub getCfgUndefOk {
+    # $undef provided for check() compatibility; new callers must not use it
+    my ( $this, $name, $undef ) = @_;
+    $name ||= $this->{item}->{keys};
+    ASSERT($this->{reporter}) if DEBUG;
+
+    my $item = '$Foswiki::cfg' . $name;
+    Foswiki::Configure::Load::expandValue( $item, defined $undef ? $undef : 1 );
+    return $item;
+}
+
+###################################################################
+# Compatibility methods
+
+# Provided for compatibility; if a checker tries to call SUPER::check and
+# the superclass only has check_current_value, it will fold back to here.
+sub check {
+    my ($this) = @_;
+
+    # Subclasses often use SUPER::check, so make sure it's there.
+    # Passing the checker as the reporter is a bit of a hack, but
+    # OK by design.
+    ASSERT($this->can('check_current_value')) if DEBUG;
+    $this->check_current_value($this);
+}
+
+# Provided for use by check() implementations *only* new checkers
+# *must not* call this.
+sub NOTE {
+    my $this = shift;
+    $this->{reporter}->NOTE(@_);
+    return join(' ', @_);
+}
+
+# Provided for use by check() implementations *only* new checkers
+# *must not* call this.
+sub NOTE_OK {
+    my $this = shift;
+    ASSERT($this->{reporter}) if DEBUG;
+    $this->{reporter}->CONFIRM(@_);   
+    return join(' ', @_);
+}
+
+# Provided for use by check() implementations *only* new checkers
+# *must not* call this.
+sub WARN {
+    my $this = shift;
+    ASSERT($this->{reporter}) if DEBUG;
+    $this->{item}->inc('warningcount');
+    $this->{reporter}->WARN(@_);
+    return join(' ', @_);
+}
+
+# Provided for use by check() implementations *only* new checkers
+# *must not* call this.
+sub ERROR {
+    my $this = shift;
+    ASSERT($this->{reporter}) if DEBUG;
+    $this->{item}->inc('errorcount');
+    $this->{reporter}->ERROR(@_);
+    return join(' ', @_);
+}
+
+# Set the value of the checked configuration var.
+# $keys are optional.
+# Provided for use by check() implementations *only* new checkers
+# *must not* call this.
+sub setItemValue {
+    my ($this, $value, $keys) = @_;
+    $keys ||= $this->{item}->{keys};
+    ASSERT($this->{reporter}) if DEBUG;
+
+    eval "\$Foswiki::cfg$keys = \$value;";
+    if ($@) {
+        die "Unable to set value $value for $keys\n";
+    }
+    return wantarray ? ( $keys, $value ) : $keys;
+}
+
+# Provided for use by check() implementations *only* new checkers
+# *must not* call this.
+sub getItemCurrentValue {
+    my $this = shift;
+    my $keys = shift || $this->{item}->{keys};
+    ASSERT($this->{reporter}) if DEBUG;
+    my $value = eval "\$Foswiki::cfg$keys";
+    if ($@) {
+        die "Unable to get value for $keys\n";
+    }
+    return $value;
+}
+
+# Get the default value of the checked configuration var.
+# $keys is optional
+# Provided for use by check() implementations *only* new checkers
+# *must not* call this.
+sub getItemDefaultValue {
+    my $this = shift;
+    my $keys = shift || $this->{item}->{keys};
+
+    no warnings 'once';
+    my $value = eval "\$$Foswiki::Configure::defaultCfg->$keys";
+    if ($@) {
+        die "Unable to get default $value for $keys\n";
+    }
+    return $value;
+}
+
+###################################################################
+# Support methods, used by subclasses
+
+=begin TML
+
+---++ PROTECTED ObjectMethod warnAboutWindowsBackSlashes($path) -> $html
+
+Generate a warning if the supplied pathname includes windows-style
+path separators.
+
+PROVIDED FOR COMPATIBILITY ONLY - DO NOT USE! Use inheritance of
+Checkers::PATH behaviour instead.
+
+=cut
+
+sub warnAboutWindowsBackSlashes {
+    my ( $this, $path ) = @_;
+    if ( $path =~ /\\/ ) {
+        return $this->WARN(
+                'You should use c:/path style slashes, not c:\path in "'
+              . $path
+              . '"' );
+    }
+}
+
+=begin TML
+
+---++ PROTECTED ObjectMethod guessMajorDir($cfg, $dir, $silent) -> $report
+
+Try and guess the path of one of the major directories, by looking relative
+to the absolute pathname of the dir where configure is being run.
+
+=cut
+
+sub guessMajorDir {
+    my ($this, $cfg) = @_;
+
+    return $this->guessDirectory( "{$cfg}", undef, @_ );
+}
+
+=begin TML
+
+---++ PROTECTED ObjectMethod guessDirectory($keys, $dir, $root, $silent) -> $html
+
+Guesses the location of any directory, not just a major key.
+
+   * $keys - the full {key}{spec} to be guessed
+   * $dir - the default subdirectory name
+   * $root - {key}{spec} of default parent.  undef to use install root.
+   * $silent - No error if the directory does not exist.
+
+Requires that root directory is valid (or guessed before its subdirectories)
+Special case for {ScriptDir}, as that's where the guessing starts for a
+brand new install.
+
+=cut
+
+sub guessDirectory {
+    my ( $this, $keys, $root, $dir, $silent ) = @_;
+
+    my $msg = '';
+    my $val = $this->getCfg($keys);
+    if ( !$val || $val eq 'NOT SET' || $val eq 'undef' ) {
+        my $guess;
+        if ( $keys eq '{ScriptDir}' ) {
+            require FindBin;
+            $FindBin::Bin =~ /^(.*)$/;
+            $guess = $1;
+        }
+        else {
+            my @root =
+              File::Spec->splitdir( $this->getCfg( $root || '{ScriptDir}' ) );
+            pop @root unless ($root);
+            $guess = File::Spec->catfile( @root, $dir );
+        }
+        $guess =~ s|\\|/|g;
+        $this->setItemValue($guess);
+        $msg = GUESSED_MESSAGE;
+        $val = $this->getCfg($keys);
+    }
+    unless ( $silent || -d $val ) {
+        my $fwcval = $this->getItemCurrentValue();
+        $msg .=
+          $this->ERROR( "Directory '$fwcval'"
+              . ( $val eq $fwcval ? '' : " ($val)" )
+              . "  does not exist" );
+    }
+    return $msg;
+}
+
+=begin TML
+
+---++ PROTECTED ObjectMethod showExpandedValue($field, $reporter)
+
+Return the expanded value of a parameter as a note for display.
+$field is the value of the field (not it's keys)
+
+=cut
+
+sub showExpandedValue {
+    my ( $this, $reporter ) = @_;
+
+    my $field = eval "\$Foswiki::cfg$this->{item}->{keys}";
+
+    if (defined $field) {
+        if (ref($field)) {
+            local $Data::Dumper::Indent = 2;
+            $field = Data::Dumper->Dump([$field]);
+            $field =~ s/\$.*?= //;
+            $reporter->NOTE("Expands to: ", "PREFORMAT:$field");
+        } else {
+            $reporter->NOTE("Expands to: =$field=");
+        }
+    } elsif (!$this->{item}->{UNDEFINEDOK}) {
+        $reporter->ERROR('May not be undefined');
+    } elsif (!$this->{item}->{MUST_ENABLE}) {
+        $reporter->WARN('The value of this field is undefined');
+    }
+}
+
+
+=begin TML
+
+---++ PROTECTED ObjectMethod checkGnuProgram($prog) -> $html
+
+See Foswiki::Configure::FileUtil
+
+=cut
+
+sub checkGnuProgram {
+    my ( $this, $prog ) = @_;
+
+    Foswiki::Configure::FileUtil::checkGNUProgram($prog, $this);
+    return '';
+}
+
+# Strip traceback from die and carp for a user message
+
+sub stripTraceback {
+    my ( $this, $message ) = @_;
+
+    return '' unless ( length $message );
+
+    return $message if ( $Foswiki::cfg::{DebugTracebacks} );
+
+    $message = ( split( /\n/, $message ) )[0];
+    $message =~ s/ at .*? line \d+\.$//;
+    return $message;
+}
+
+1;
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some or all of the code in this
+file as follows:
+
+Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
+TWiki Contributors are listed in the AUTHORS file in the root
+of this distribution. NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.

@@ -24,13 +24,6 @@ sub string2value {
     return $this->SUPER::string2value($qval);
 }
 
-sub makeChecker {
-    my $type = shift;
-    my ( $item, $keys ) = @_;
-
-    return Foswiki::Configure::Checkers::ScriptUrlPaths->new($item);
-}
-
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

@@ -30,7 +30,7 @@ sub renderHtml {
         SCRIPTURLPATH => $Foswiki::cfg{ScriptUrlPath},
         SCRIPTSUFFIX  => $Foswiki::cfg{ScriptSuffix},
         ADMINGROUP    => $Foswiki::cfg{SuperAdminGroup},
-        RESOURCEURI   => $Foswiki::resourceURI,
+        RESOURCEURI   => $Foswiki::Configure::resourceURI,
         MESSAGES      => $messages,
     );
 

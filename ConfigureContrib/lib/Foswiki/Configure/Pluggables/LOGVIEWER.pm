@@ -18,6 +18,18 @@ use File::Basename ();
 use Foswiki::Configure::Value ();
 use Foswiki::Configure::Load  ();
 
+#
+# ---++ Logfile Viewer
+# View log files
+# *LOGVIEWER*
+#
+# **STRING H**
+# Default severity selection for log viewer - not stored
+#$Foswiki::cfg{ConfigureGUI}{LogViewer}{SystemLogs} = [ qw/debug info warning error critical alert emergency/ ];
+# Default max records to display in log viewer - not stored
+# **NUMBER H**
+#$Foswiki::cfg{ConfigureGUI}{LogViewer}{RecordLimit} = 200;
+
 our @SEVERITIES =
   ( 'debug', 'info', 'warning', 'error', 'critical', 'alert', 'emergency' );
 

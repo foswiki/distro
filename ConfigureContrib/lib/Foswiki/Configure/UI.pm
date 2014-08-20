@@ -99,9 +99,6 @@ sub new {
 
     $this->{root} = $roots[0];
 
-    $this->{filecount} =
-      0;    # Used by recursive checkTreePerms to count files and limit
-
     return $this;
 }
 
@@ -201,146 +198,6 @@ sub loadUI {
 
 =begin TML
 
----++ StaticMethod loadChecker($id, $item) -> $checker
-
-Loads the Foswiki::Configure::Checker subclass for the
-given $id. For example, given the id '{Beans}{Mung}', it
-will try and load Foswiki::Configure::Checkers::Beans::Mung
-
-Also called by 'clever' code with 'CheckerName'.
-
-If the id doesn't have a subclass defined, the item's type class may
-define a generic checker for that type.  If so, it is instantiated
-for this item.
-
-Finally, we will see if $item's type, or one it inherits from
-has a generic checker.  If so, that's instantiated.
-
-Returns the checker that's created or undef if no such checker is found.
-
-Will die if the checker exists but fails to compile.
-
-$item is passed on to the checker's constructor.
-
-=cut
-
-sub loadChecker {
-    my ( $keys, $item ) = @_;
-    my $id = $keys;
-
-    # Convert {key}{s} to key::s, removing illegal characters
-    # [-_\w] are legal. - => _.
-    $id =~ s/\{([^}]*)\}/my $lbl = $1;
-                          $lbl =~ tr,-_a-zA-Z0-9\x00-\xff,__a-zA-Z0-9,d;
-                          $lbl . '::'/ge
-      and substr( $id, -2 ) = '';
-    my $checkClass = 'Foswiki::Configure::Checkers::' . $id;
-    eval "use $checkClass ()";
-
-    # Can't locate errors are OK, compile failures are not.
-    if ($@) {
-        die $@ unless ( $@ =~ /Can't locate / );
-
-        # See if type wants to generate a generic checker
-        my $type =
-          Foswiki::Configure::TypeUI::load( $item->{typename}, $item->{keys} );
-        return unless ($type);
-        if ( $type->can('makeChecker') ) {
-            return $type->makeChecker( $item, $keys );
-        }
-
-        # Finally, see if a generic checker exists for this type
-        $checkClass = _findTypeChecker( ref($type) );
-        return unless ($checkClass);
-    }
-
-    return $checkClass->new($item);
-}
-
-# Private routine _findTypeChecker
-#
-# Locates a default/generic checker for a Type
-# Maps Foswiki::Configure::TypeUIs::<type> =>
-#      Foswiki::Configure::Checkers::<type>
-# If a direct mapping is not found, walks the Type's @ISA to
-# determine if a default checker can be inherited.
-#
-# Caches search results (including failure) so that the search
-# is only done once/Type.
-#
-# Returns the name of checker class; that class has been required.
-
-my %typeCheckerClass;
-
-sub _findTypeChecker {
-    my $tclass = shift;
-
-    return $typeCheckerClass{$tclass}
-      if ( exists $typeCheckerClass{$tclass} );
-
-    my $cclass = _loadTypeChecker($tclass);
-    return $cclass if ($cclass);
-
-    # Look for a generic checker in this type's ISA in
-    # case we can inherit one.
-    my @isa = eval "\@${tclass}::ISA";
-    return undef unless (@isa);
-
-    foreach my $iclass (@isa) {
-        $cclass = _loadTypeChecker($iclass);
-        return $cclass if ($cclass);
-    }
-
-    # Nothing in this class's immediate ISA
-    # See if any ancestor inherits a checker.
-    foreach my $iclass (@isa) {
-        my @aisa = eval "\@${iclass}::ISA";
-        next unless (@aisa);
-
-        foreach my $aclass (@aisa) {
-            my $cclass = _findTypeChecker($aclass);
-            return $cclass if ($cclass);
-        }
-    }
-
-    $typeCheckerClass{$tclass} = undef;
-    return undef;
-}
-
-# Attempt to load a checker based on a Type's class
-# Return checker class name with checker loaded if successful
-# Return undef if checker not found
-# die if found but compile errors
-#
-# Update cache if we have a definite result.
-
-sub _loadTypeChecker {
-    my $tclass = shift;
-
-    my $cclass = $tclass;
-    unless ( $cclass =~
-        s/^Foswiki::Configure::TypeUIs::/Foswiki::Configure::Checkers::/ )
-    {
-
-        # Stop if not in Types (Usually stops at Type; Checker.pm
-        # is not a useful generic checker.
-
-        $typeCheckerClass{$tclass} = undef;
-        return undef;
-    }
-
-    eval "use $cclass ()";
-    unless ($@) {
-        $typeCheckerClass{$tclass} = $cclass;
-        return $cclass;
-    }
-    die $@ unless ( $@ =~ /Can't locate / );
-
-    return undef;
-}
-
-=begin TML
-
 ---++ ObjectMethod getUrl() -> $response
 
 Returns a response object as described in Foswiki::Net
@@ -392,66 +249,6 @@ sub makeID {
     $str =~ s/\s(\w)/uc($1)/ge;
     $str =~ s/\W//g;
     return $str;
-}
-
-=begin TML
-
----++ ObjectMethod NOTE(...)
-
-Generate HTML for an informational note.
-
-=cut
-
-sub NOTE {
-    my $this = shift;
-    return CGI::div( { class => 'configureInfo' },
-        CGI::span( {}, join( "\n", @_ ) ) );
-}
-
-=begin TML
-
----++ ObjectMethod NOTE_OK(...)
-
-Generate HTML for a note, but with the class configureOK
-
-=cut
-
-sub NOTE_OK {
-    my $this = shift;
-    return CGI::div( { class => 'configureOk' },
-        CGI::span( {}, join( "\n", @_ ) ) );
-}
-
-=begin TML
-
----++ ObjectMethod WARN(...)
-
-Generate HTML for a warning, and flag it in the model.
-
-=cut
-
-sub WARN {
-    my $this = shift;
-    $this->{item}->inc('warningcount');
-    $totwarnings++;
-    return CGI::div( { class => 'foswikiAlert configureWarn' },
-        CGI::span( {}, CGI::strong( {}, 'Warning: ' ) . join( "\n", @_ ) ) );
-}
-
-=begin TML
-
----++ ObjectMethod ERROR(...)
-
-Generate HTML for an error, and flag it in the model.
-
-=cut
-
-sub ERROR {
-    my $this = shift;
-    $this->{item}->inc('errorcount');
-    $toterrors++;
-    return CGI::div( { class => 'foswikiAlert configureError' },
-        CGI::span( {}, CGI::strong( {}, 'Error: ' ) . join( "\n", @_ ) ) );
 }
 
 =begin TML
@@ -1221,7 +1018,7 @@ sub checkPerlModules {
             type    => $type,
             version => $mod->{condition} . $mod->{minimumVersion},
         );
-        my ( $ok, $msg ) = $dep->check();
+        my ( $ok, $msg ) = $dep->checkDependency();
 
         if ( $dep->{installed} ) {
             $mod->{installedVersion} =
@@ -1267,7 +1064,7 @@ qq{$modname<br /><a href="https://metacpan.org/module/$modname" class="configure
         }
         else {
             $e .=
-"<div class='configureSetting'><code>$mod->{name}:</code> $n</div>";
+"<div class='configureSetting'>=$mod->{name}:= $n</div>";
         }
     }
     return $e;
@@ -1302,7 +1099,7 @@ sub getTemplateParser {
 
         # skin can be set using url parameter 'skin'
         my $skin;
-        $skin = $Foswiki::query->param('skin') if $Foswiki::query;
+        $skin = $Foswiki::Configure::query->param('skin') if $Foswiki::Configure::query;
         $templateParser->setSkin($skin) if $skin;
     }
     return $templateParser;

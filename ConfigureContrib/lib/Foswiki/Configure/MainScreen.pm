@@ -10,9 +10,12 @@ loaded for resource or feedback requests.
 
 =cut
 
+use strict;
 use Assert;
-use Foswiki::Configure(qw/:auth :config/);
+
+use Foswiki::Configure (); #(qw/:auth :config/);
 use Foswiki::Configure::VerifyCfg ();
+use Foswiki::Configure::UI ();
 
 # ######################################################################
 # Main screen for configure
@@ -25,11 +28,11 @@ sub _authenticateConfigure {
 
     _loadSiteConfig();
 
-    if ( loggedIn($session) || $badLSC || $query->auth_type ) {
-        $messageType = $MESSAGE_TYPE->{OK};
+    if ( loggedIn($session) || $Foswiki::Configure::badLSC || $Foswiki::Configure::query->auth_type ) {
+        $Foswiki::Configure::messageType = $Foswiki::Configure::UI::MESSAGE_TYPE->{OK};
         refreshLoggedIn($session);
         refreshSaveAuthorized($session)
-          if ( $query->param('password') || $badLSC );
+          if ( $Foswiki::Configure::query->param('password') || $Foswiki::Configure::badLSC );
         return;
     }
 
@@ -80,12 +83,12 @@ sub _actionConfigure {
     my ( $action, $session, $cookie ) = @_;
 
     my $html;
-    if ( $insane || $query->param('abort') ) {
+    if ( $Foswiki::Configure::insane || $Foswiki::Configure::query->param('abort') ) {
         $html =
-          $sanityStatement; #Set abort to view sanity statement even when "sane"
+          $Foswiki::Configure::sanityStatement; #Set abort to view sanity statement even when "sane"
     }
     else {
-        $html = ( $sanityStatement || '' ) . ( redirectResults() || '' );
+        $html = ( $Foswiki::Configure::sanityStatement || '' ) . ( redirectResults() || '' );
         $html = configureScreen($html);
     }
 
@@ -104,24 +107,24 @@ sub _authenticateFindMoreExtensions {
     _loadSiteConfig();
 
     if ( loggedIn($session) ) {
-        $messageType = $MESSAGE_TYPE->{OK};
+        $Foswiki::Configure::messageType = $Foswiki::Configure::UI::MESSAGE_TYPE->{OK};
         refreshLoggedIn($session);
-        refreshSaveAuthorized($session) if ( $query->param('cfgAccess') );
+        refreshSaveAuthorized($session) if ( $Foswiki::Configure::query->param('cfgAccess') );
         return;
     }
 
     lscRequired( $action, $session, $cookie );
 
-    ( my $authorised, $messageType ) =
-      Foswiki::Configure::UI::authorised($query);
+    ( my $authorised, $Foswiki::Configure::messageType ) =
+      Foswiki::Configure::UI::authorised($Foswiki::Configure::query);
 
     if ($authorised) {
         refreshLoggedIn($session);
-        refreshSaveAuthorized($session) if ( $query->param('cfgAccess') );
+        refreshSaveAuthorized($session) if ( $Foswiki::Configure::query->param('cfgAccess') );
         return;
     }
 
-    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
+    htmlResponse( _screenAuthorize( $action, $Foswiki::Configure::messageType, 0 ) );
 
     # does not return
 }
@@ -141,7 +144,7 @@ sub _actionFindMoreExtensions {
     $contentTemplate = Foswiki::Configure::UI::getTemplateParser()->parse(
         $contentTemplate,
         {
-            'formAction'         => $scriptName,
+            'formAction'         => $Foswiki::Configure::scriptName,
             'table'              => $table,
             'errors'             => $errors,
             'consultedLocations' => $consultedLocations,
@@ -153,7 +156,7 @@ sub _actionFindMoreExtensions {
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
     $html = Foswiki::Configure::UI::getTemplateParser()
-      ->parse( $html, { time => $time, logoutdata() } );
+      ->parse( $html, { time => $Foswiki::Configure::time, logoutdata() } );
     $html .= $contentTemplate;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
@@ -161,9 +164,9 @@ sub _actionFindMoreExtensions {
     $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'time' => $time,    # use time to make sure we never allow cacheing
+            'time' => $Foswiki::Configure::time,    # use time to make sure we never allow cacheing
             logoutdata(),
-            'formAction' => $scriptName,
+            'formAction' => $Foswiki::Configure::scriptName,
         }
     );
 
@@ -188,7 +191,7 @@ sub _authenticateManageExtensions {
     lscRequired( $action, $session, $cookie );
 
     if ( saveAuthorized($session) ) {
-        $messageType = $MESSAGE_TYPE->{
+        $Foswiki::Configure::messageType = $Foswiki::Configure::UI::MESSAGE_TYPE->{
             $Foswiki::cfg{Password}
             ? 'OK'
             : 'PASSWORD_NOT_SET'
@@ -198,8 +201,8 @@ sub _authenticateManageExtensions {
         return;
     }
 
-    ( my $authorised, $messageType ) =
-      Foswiki::Configure::UI::authorised($query);
+    ( my $authorised, $Foswiki::Configure::messageType ) =
+      Foswiki::Configure::UI::authorised($Foswiki::Configure::query);
 
     if ($authorised) {
         refreshLoggedIn($session);
@@ -207,7 +210,7 @@ sub _authenticateManageExtensions {
         return;
     }
 
-    htmlResponse( _screenAuthorize( $action, $messageType, 0 ) );
+    htmlResponse( _screenAuthorize( $action, $Foswiki::Configure::messageType, 0 ) );
 
     # does not return
 }
@@ -215,21 +218,21 @@ sub _authenticateManageExtensions {
 sub _actionManageExtensions {
     my ( $action, $session, $cookie ) = @_;
 
-    if ( $query->param('confirmChanges') ) {
-        $query->delete('confirmChanges');
+    if ( $Foswiki::Configure::query->param('confirmChanges') ) {
+        $Foswiki::Configure::query->delete('confirmChanges');
 
         # Here from a POST, we redirect to an internal GET
         # Collect the required parameters
         my %arg;
         foreach my $arg (qw/time processExt useCache add remove/) {
-            $arg{$arg} = [ $query->param($arg) ];
-            $query->delete($arg);
+            $arg{$arg} = [ $Foswiki::Configure::query->param($arg) ];
+            $Foswiki::Configure::query->delete($arg);
         }
         htmlRedirect( 'ManageExtensionsResponse', \%arg );
     }
     else {
-        ## $query->param( 'action', $action );
-        htmlResponse( _screenAuthorize( $action, $messageType, 1 ), )
+        ## $Foswiki::Configure::query->param( 'action', $action );
+        htmlResponse( _screenAuthorize( $action, $Foswiki::Configure::messageType, 1 ), )
           ;    #NO_REDIRECT );
     }
 }
@@ -257,8 +260,8 @@ sub _actionManageExtensionsResponse {
     $args && ref($args) eq 'HASH' or invalidRequest( "Invalid Redirect", 400 );
 
     foreach my $arg ( keys %$args ) {
-        $query->delete($arg);
-        $query->param( $arg, @{ $args->{$arg} } );
+        $Foswiki::Configure::query->delete($arg);
+        $Foswiki::Configure::query->param( $arg, @{ $args->{$arg} } );
     }
 
     my $root = new Foswiki::Configure::Root();
@@ -273,13 +276,13 @@ sub _actionManageExtensionsResponse {
     $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'time' => $time,    # use time to make sure we never allow cacheing
+            'time' => $Foswiki::Configure::time,    # use time to make sure we never allow cacheing
             logoutdata()
         }
     );
     Foswiki::Configure::UI::getTemplateParser()->cleanupTemplateResidues($html);
 
-    htmlResponse( $html, MORE_OUTPUT );
+    htmlResponse( $html, Foswiki::Configure::MORE_OUTPUT );
 
     $ui = _checkLoadUI( 'EXTEND', $root );
 
@@ -298,7 +301,7 @@ sub _actionManageExtensionsResponse {
         $html,
         {
             'frontpageUrl' => $frontpageUrl,
-            'configureUrl' => $url,
+            'configureUrl' => $Foswiki::Configure::url,
         }
     );
 
@@ -327,21 +330,21 @@ sub _screenAuthorize {
 
     $ui = _checkLoadUI( 'AUTH', $root );
 
-    $query->delete( 'time', 'cfgAccess', 'formAction' );
+    $Foswiki::Configure::query->delete( 'time', 'cfgAccess', 'formAction' );
 
-    $query->param( 'action', $transact );
+    $Foswiki::Configure::query->param( 'action', $transact );
 
     $params = join( "\n", $ui->params() );
 
     my $contentTemplate = Foswiki::Configure::UI::getTemplateParser()
       ->readTemplate( $confirm ? 'confirm' : 'authorize' );
 
-    my $changePassword = $Foswiki::query->param('changePassword') || undef;
+    my $changePassword = $Foswiki::Configure::query->param('changePassword') || undef;
 
     my ( $errors, $warnings ) = (0) x 2;
-    for my $param ( $Foswiki::query->param ) {
+    for my $param ( $Foswiki::Configure::query->param ) {
         next unless ( $param =~ /^\{.*\}errors$/ );
-        my $value = $Foswiki::query->param($param);
+        my $value = $Foswiki::Configure::query->param($param);
         if ( $value =~ /^(\d+) (\d+)$/ ) {
             $errors   += $1;
             $warnings += $2;
@@ -352,19 +355,19 @@ sub _screenAuthorize {
 # displayStatus  - 1 = No Changes,  2 = Changes,  4 = No Extensions, 8 = Extensions, 16 = (Free), 32 = Login
 
     my %args = (
-        'time'           => $time,
+        'time'           => $Foswiki::Configure::time,
         'main'           => $contents,
         'hasPassword'    => $hasPassword,
-        'formAction'     => $scriptName,
-        'scriptName'     => $scriptName,
+        'formAction'     => $Foswiki::Configure::scriptName,
+        'scriptName'     => $Foswiki::Configure::scriptName,
         'params'         => $params,
         'messageType'    => $messageType,
-        'configureUrl'   => $url,
+        'configureUrl'   => $Foswiki::Configure::url,
         'changePassword' => $changePassword,
         'changesList'    => [],
         'modifiedCount'  => 0,
         'items'          => [],
-        'extAction'      => $action,
+        'extAction'      => $Foswiki::Configure::action,
         'extAddCount'    => 0,
         'extRemoveCount' => 0,
         'extAddItems'    => [],
@@ -381,16 +384,16 @@ sub _screenAuthorize {
     my $html =
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pagebegin');
     $html = Foswiki::Configure::UI::getTemplateParser()
-      ->parse( $html, { time => $time, logoutdata() } );
+      ->parse( $html, { time => $Foswiki::Configure::time, logoutdata() } );
     $html .= $contentTemplate;
     $html .=
       Foswiki::Configure::UI::getTemplateParser()->readTemplate('pageend');
     $html = Foswiki::Configure::UI::getTemplateParser()->parse(
         $html,
         {
-            'time' => $time,
+            'time' => $Foswiki::Configure::time,
             logoutdata(),
-            'formAction'     => $scriptName,
+            'formAction'     => $Foswiki::Configure::scriptName,
             'extAddCount'    => 0,
             'extRemoveCount' => 0,
         }
@@ -420,17 +423,17 @@ sub _screenAuthManageExtensions {
     my $transact = shift;
     my $args     = shift;
 
-    my $processExt = $query->param('processExt') || 'all';
+    my $processExt = $Foswiki::Configure::query->param('processExt') || 'all';
     my @remove;
     my @add;
 
-    foreach my $ext ( $query->param('remove') ) {
+    foreach my $ext ( $Foswiki::Configure::query->param('remove') ) {
         $ext =~ m,^(?:([\w._-]+)/([\w._-]+))$, or next;
         my ( $repo, $extn ) = ( $1, $2 );
         push( @remove, "<td>$extn</td>" );
     }
 
-    foreach my $ext ( $query->param('add') ) {
+    foreach my $ext ( $Foswiki::Configure::query->param('add') ) {
         $ext =~ m,^(?:([\w._-]+)/([\w._-]+))$, or next;
         my ( $repo, $extn ) = ( $1, $2 );
         push( @add, "<td>$extn</td><td>from $repo</td>" );
@@ -481,17 +484,17 @@ sub configureScreen {
     my $messages;
 
     # If coming from the save action, or insane, pick up the messages
-    if ($insane) {
+    if ($Foswiki::Configure::insane) {
         $messages =
 "<h2 class='foswikiAlert' style='margin-top:0px;'>Internal error - proceed with caution</h2>";
     }
     $messages .= shift;
 
     my $contents    = '';
-    my $isFirstTime = $badLSC;
+    my $isFirstTime = $Foswiki::Configure::badLSC;
 
     #allow debugging of checker's guesses by showing the entire UI
-    $isFirstTime = 0 if ( $query->param('DEBUG') );
+    $isFirstTime = 0 if ( $Foswiki::Configure::query->param('DEBUG') );
 
     Foswiki::Configure::UI::reset($isFirstTime);
     my $valuer = new Foswiki::Configure::Valuer( \%Foswiki::cfg );
@@ -499,21 +502,21 @@ sub configureScreen {
     # If there's already a notice, don't use the cart
     # E.g. MakeMoreChanges...
 
-    unless ( $unsavedChangesNotice || $badLSC ) {
+    unless ( $Foswiki::Configure::unsavedChangesNotice || $Foswiki::Configure::badLSC ) {
         require Foswiki::Configure::Feedback::Cart;
 
         my ( $cart, $cartValid ) =
-          Foswiki::Configure::Feedback::Cart->get($session);
+          Foswiki::Configure::Feedback::Cart->get($Foswiki::Configure::session);
 
-        my $timeSaved = $cart->loadQuery($query);
+        my $timeSaved = $cart->loadQuery($Foswiki::Configure::query);
         my %updated;
         if ( defined $timeSaved ) {
-            $valuer->loadCGIParams( $query, \%updated );
-            $cart->removeParams($query);
+            $valuer->loadCGIParams( $Foswiki::Configure::query, \%updated );
+            $cart->removeParams($Foswiki::Configure::query);
         }
 
-        $unsavedChangesNotice =
-          unsavedChangesNotice( \%updated, $newLogin && $cartValid,
+        $Foswiki::Configure::unsavedChangesNotice =
+          unsavedChangesNotice( \%updated, $Foswiki::Configure::newLogin && $cartValid,
             $timeSaved );
     }
 
@@ -522,7 +525,7 @@ sub configureScreen {
 
     # Load special sections used as placeholders
 
-    my $intro = 'Foswiki::Configure::Checkers::'
+    my $intro = 'Foswiki::Configure::FeedbackCheckers::'
       . ( $isFirstTime ? 'Welcome' : 'Introduction' );
     eval "require $intro";
     Carp::confess $@ if $@;
@@ -584,7 +587,7 @@ sub configureScreen {
     $contents .= $ui->createUI( $root, $valuer );
 
     my $showSecurityStatement =
-      ( !$isFirstTime && !loggedIn($session) && !$Foswiki::query->auth_type() )
+      ( !$isFirstTime && !loggedIn($Foswiki::Configure::session) && !$Foswiki::Configure::query->auth_type() )
       ? 1
       : undef;
 
@@ -592,14 +595,14 @@ sub configureScreen {
 
     my $template = Foswiki::Configure::ModalTemplates->new(
         $ui,
-        'time' => $time,    # use time to make sure we never allow cacheing
+        'time' => $Foswiki::Configure::time,    # use time to make sure we never allow cacheing
         logoutdata(),
-        'formAction'           => $scriptName,
+        'formAction'           => $Foswiki::Configure::scriptName,
         'messages'             => $uiMessages,
-        'style'                => ( $badLSC || $insane ) ? 'Bad' : 'Good',
+        'style'                => ( $Foswiki::Configure::badLSC || $Foswiki::Configure::insane ) ? 'Bad' : 'Good',
         'hasMainActionButtons' => 1,
         'firstTime' => $isFirstTime ? 1 : undef,
-        'unsavedNotice' => $Foswiki::unsavedChangesNotice,
+        'unsavedNotice' => $Foswiki::Configure::unsavedChangesNotice,
     );
 
     my $html =
@@ -641,9 +644,9 @@ sub configureScreen {
 
 sub logoutdata {
     return (
-        scriptName => $scriptName,
+        scriptName => $Foswiki::Configure::scriptName,
         loggedin   => 1,
-    ) if ( loggedIn($session) );
+    ) if ( loggedIn($Foswiki::Configure::session) );
 
     return ();
 }
@@ -680,7 +683,7 @@ sub _actionLogout {
 sub lscRequired {
     my ( $action, $session, $cookie ) = @_;
 
-    return unless ($badLSC);
+    return unless ($Foswiki::Configure::badLSC);
 
     invalidRequest( "Not available until LocalSite.cfg has been repaired",
         200 );

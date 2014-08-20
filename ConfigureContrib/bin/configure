@@ -178,7 +178,7 @@ $| = 1;    # no buffering on STDOUT
 # so that we can use Foswiki::Configure to access global symbols with 'our'
 # aliases.
 
-::_loadBasicModule(qw/Foswiki::Configure::Dispatch/);
+::_loadBasicModule('Foswiki::Configure::Dispatch');
 
 # This should never return
 die "Configure:Dispatch returned to configure boostrap!\n";

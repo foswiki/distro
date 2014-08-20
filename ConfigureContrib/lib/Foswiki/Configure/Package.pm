@@ -1461,7 +1461,7 @@ sub checkDependencies {
         $trig = " -- Triggered by $dep->{trigger}\n"
           unless ( $dep->{trigger} eq '1' );
 
-        my ( $ok, $msg ) = $dep->check();
+        my ( $ok, $msg ) = $dep->checkDependency();
         if ($ok) {
             $installed .= "$msg$trig\n";
             next;
@@ -1516,7 +1516,7 @@ sub installDependencies {
     my %cpanlist;
 
     foreach my $dep ( @{ $this->checkDependencies('wiki') } ) {
-        my ( $ok, $msg ) = $dep->check();
+        my ( $ok, $msg ) = $dep->checkDependency();
         unless ($ok) {
             my $deppkg = new Foswiki::Configure::Package(
                 $this->{_root},    $dep->{name},

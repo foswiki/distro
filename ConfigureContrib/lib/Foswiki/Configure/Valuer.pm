@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use Assert;
-use Foswiki::Configure(qw/:keys/);
+use Foswiki::Configure ();#(qw/:keys/);
 
 use Foswiki::Configure::TypeUI ();
 use Foswiki::Configure::Load   ();

@@ -3,76 +3,7 @@
 use strict;
 use warnings;
 
-# Provide the global symbols
-#
-# For historical reasons (and compability with existing checkers) the global symbols
-# live in Foswiki::.
-
 package Foswiki::Configure;
-
-# Support "use Foswiki::Configure"; import must import from the Foswiki namespace
-
-sub import {
-    return Foswiki::do_import(@_);
-}
-
-package Foswiki;
-
-use Exporter;
-
-our @ISA = (qw/Exporter/);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-sub do_import {
-    return Foswiki->export_to_level( 2, @_ );
-}
-
-# Group the globals into reasonable subsets to reduce namespace pollution
-# Try not to use :all.  Everything should be in at least one tag, so @EXPORT_OK,
-# which is automagically populated from the tags, should be empty.
-
-our @EXPORT      = (qw/%cfg $TRUE $FALSE/);
-our @EXPORT_OK   = ();
-our %EXPORT_TAGS = (
-    auth => [
-        qw/$badLSC $newLogin $session $MESSAGE_TYPE/,
-        qw/closeSession establishSession loggedIn refreshLoggedIn saveAuthorized refreshSaveAuthorized activeSession refreshSession/,
-    ],
-    cgi => [
-        qw/$actionURI $redirect $method $pathinfo @pathinfo $query $resourceURI $scriptName $time $url $DEFAULT_FIELD_WIDTH_NO_CSS/,
-        qw/invalidRequest htmlResponse htmlRedirect redirectResults rawRedirect/,
-    ],
-    config =>
-      [qw/$badLSC $insane $sanityStatement $unsavedChangesNotice $defaultCfg/],
-    feedback => [qw/$pendingChanges $changesDiscarded/],
-    keys     => [qw/$Foswiki::Configure::Load::ITEMREGEX/],
-    session  => [
-        qw/SESSIONEXP COOKIEEXP SAVEEXP RESOURCEEXP COOKIENAME RESOURCECACHETIME SESSION_DSN RT80346/,
-        qw/establishSession/,
-    ],
-    trace => [qw/SESSIONTRACE TRANSACTIONLOG/],
-    util  => [qw/sortHashkeyList/],
-);
-
-# Set EXPORT_OK for all tag members & construct :all
-
-{
-    my %seen;
-    for my $taglist ( values %EXPORT_TAGS ) {
-        my @new = grep { !$seen{$_}++ } @$taglist;
-        push @EXPORT_OK, @new;
-        push @{ $EXPORT_TAGS{all} }, @new;
-    }
-    push @{ $EXPORT_TAGS{all} }, grep { !$seen{$_}++ } @EXPORT;
-}
-
-our %cfg;
 
 # ########### Configurable constants
 
@@ -101,12 +32,6 @@ use constant SESSION_DSN =>
   "driver:file;serializer:default;id:md5";    # Use Cookie 3
 use constant RT80346 => 0;                    # Set with Storable until fixed...
 
-# ################ Common symbols and global state
-
-# 'constants' used in Foswiki.spec
-our $TRUE  = 1;
-our $FALSE = 0;
-
 # Used if code needs to know whether running
 # under configure or the webserver.  Set by Dispatch.
 our $configureRunning;
@@ -115,14 +40,14 @@ our $configureRunning;
 our $configureFork;
 
 # auth - authentication state
-our ( $newLogin, $session, );
-
-our $MESSAGE_TYPE;
-*MESSAGE_TYPE = \$Foswiki::Configure::UI::MESSAGE_TYPE;
-*MESSAGE_TYPE = \$Foswiki::Configure::UI::MESSAGE_TYPE;
+our $newLogin;
+our $session;
 
 # config = configuration state
-our ( $badLSC, $insane, $sanityStatement, $defaultCfg, );
+our $badLSC;
+our $insane;
+our $sanityStatement;
+our $defaultCfg;
 our $unsavedChangesNotice;
 
 # cgi - CGI-related
@@ -132,12 +57,21 @@ use constant MORE_OUTPUT => 100_000;
 use constant NO_REDIRECT => 10_000;
 use constant ERROR_FORM  => 1_000;
 
-our ( $actionURI, $redirect, $method, $pathinfo, @pathinfo, $query,
-    $resourceURI, $scriptName, $time, $url, $DEFAULT_FIELD_WIDTH_NO_CSS, );
+our $actionURI;
+our $redirect;
+our $method;
+our $pathinfo;
+our @pathinfo;
+our $query;
+our $resourceURI;
+our $scriptName;
+our $time = time();
+our $url;
+our $DEFAULT_FIELD_WIDTH_NO_CSS;
 
 # feedback - Feedback-related
 
-our ( $pendingChanges, $changesDiscarded, );
+our $pendingChanges;
 
 # keys - manipulating configuration keys
 
@@ -147,11 +81,28 @@ our ( $pendingChanges, $changesDiscarded, );
 # trace - trace control flags
 # See constants above
 
+package Foswiki;
+
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
+our %cfg;
+
+# ################ Common symbols and global state
+
+# 'constants' used in Foswiki.spec
+our $TRUE  = 1;
+our $FALSE = 0;
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
