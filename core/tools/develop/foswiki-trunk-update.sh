@@ -21,6 +21,7 @@ git reset HEAD --hard
 # - Logs in data: debug, error, event and configure
 
 git clean -fdx \
+--exclude="logs" \
 --exclude="core/bin/LocalLib*" --exclude="core/lib/LocalSite*" \
 --exclude="core/working" \
 --exclude="core/data/Main" --exclude="core/pub/Main" \
@@ -37,6 +38,7 @@ git pull --force
 
 # Remove broken links.
 echo Removing broken links
+cd $ROOT
 find -L . -type l -exec rm \{\} \;
 
 # Restore the modified files, install the default modules, and optional extensions
