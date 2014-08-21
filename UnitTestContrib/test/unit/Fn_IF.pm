@@ -22,7 +22,7 @@ sub new {
         module  => "Foswiki",
         version => ">=1.2"
     );
-    ( $post11, my $message ) = $dep->check();
+    ( $post11, my $message ) = $dep->checkDependency();
 
     return $class->SUPER::new( 'IF', @args );
 }

@@ -295,7 +295,7 @@ sub test_directLookupInUsertopic {
         module  => "Foswiki",
         version => ">=1.2"
     );
-    my ( $post11, $depmsg ) = $dep->check();
+    my ( $post11, $depmsg ) = $dep->checkDependency();
 
     # To verify a use case raised by Michael Daum: $web.$script looks up
     # template topic $script in $web, no further searching is done
