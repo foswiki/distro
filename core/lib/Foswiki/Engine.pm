@@ -130,7 +130,7 @@ sub prepare {
             $e->can('stringify')
           ? $e->stringify()
           : 'Unknown ' . ref($e) . ' exception: ' . $@;
-        $res->header( -type => 'text/plain' );
+        $res->header( -type => 'text/plain', -status => '500' );
         if (DEBUG) {
 
             # output the full message and stacktrace to the browser
