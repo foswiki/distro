@@ -386,9 +386,9 @@ sub isCacheable {
 
     my $session = $Foswiki::Plugins::SESSION;
 
-    # POSTs aren't cacheable
+    # POSTs and HEADs aren't cacheable
     my $method = $session->{request}->method;
-    $isCacheable = 0 if $method && $method eq 'POST';
+    $isCacheable = 0 if $method && $method =~ /^(?:POST|HEAD)$/;
 
     if ($isCacheable) {
 
