@@ -1544,8 +1544,10 @@ sub merge_gitignore {
 
                 # we're installing, so keep all the old rules, or
                 # we're uninstalling, so keep files not being uninstalled
-                if ( $installing || ( !exists $input_files->{$old_rule} ) ) {
-                    push( @merged_rules, $old_rule );
+                if ($installing) {
+                    if ( !exists $input_files->{$old_rule} ) {
+                        push( @merged_rules, $old_rule );
+                    }
                 }
                 else {
                     $dropped_rules{$old_rule} = 1;
@@ -1557,6 +1559,7 @@ sub merge_gitignore {
     # Append new files not matching an existing wildcard
     if ($installing) {
         foreach my $file ( keys %{$input_files} ) {
+            next if ( $file =~ m#/.git/# ); # git hooks files don't get ignored.
             if ( $file && $file =~ /[^\s]/ && !$dropped_rules{$file} ) {
                 my $nmatch_rules = scalar(@match_rules);
                 my $matched;
