@@ -45,6 +45,8 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
                  lib/Foswiki.spec
   -[L]ist      - list all the foswiki extensions that could be installed by asking
                  all the extension repositories that are known from the .buildcontrib
+  -[s]vn       - Create subversion connections for git-svn usage
+  -N[ohooks]   - Disable linking of git hooks. Not for foswiki repositories!
 
 Examples:
   softlink and enable FirstPlugin and SomeContrib
@@ -64,8 +66,10 @@ Examples:
   Then, install extensions (missing modules automatically cloned & configured
   for git-svn against svn.foswiki.org; 'master' branch is svn's trunk, see [1]):
       ./pseudo-install.pl developer
-  Install & enable an extension from an abritrary git repo
-      ./pseudo-install.pl -e git@github.com:/me/MyPlugin.git
+  Install & enable an extension from an abritrary git repo without enabling hooks
+      ./pseudo-install.pl -e -N git@github.com:/me/MyPlugin.git
+  Install an extension from a local file based git repo, without hooks
+      ./pseudo-install.pl  -N file:///home/git/LocalDataContrib
   Install UnitTestContrib and include config values into LocalSite.cfg from
   lib/Foswiki/Contrib/UnitTestContrib/AutoBuildSelenium.cfg
       ./pseudo-install.pl -EAutoBuildSelenium UnitTestContrib
@@ -87,6 +91,8 @@ my $do_genconfig;
 my @extensions_path;
 my %extensions_extra_config;
 my $autoenable     = 0;
+my $githooks       = 1;
+my $svnconnect     = 0;
 my $installing     = 1;
 my $autoconf       = 0;
 my $listextensions = 0;
@@ -114,6 +120,12 @@ my %arg_dispatch   = (
     },
     '-m' => sub {
         $autoenable = 0;
+    },
+    '-N' => sub {
+        $githooks = 0;
+    },
+    '-s' => sub {
+        $svnconnect = 1;
     },
     '-A' => sub {
         $autoconf = 1;
@@ -468,7 +480,7 @@ sub installModuleByName {
         warn "---> No MANIFEST in $module"
           . ( $manifest ? "(at $manifest)" : '' ) . "\n";
     }
-    update_githooks_dir( $moduleDir, $module );
+    update_githooks_dir( $moduleDir, $module ) if ($githooks);
 
     return $libDir;
 }
@@ -638,7 +650,7 @@ sub cloneModuleByName {
             cloneModuleByURL( $config{clone_dir}, $url );
             if ( -d $moduleDir ) {
                 $cloned = 1;
-                if ( $config{repos}->[$repoIndex]->{svn} ) {
+                if ( $svnconnect && $config{repos}->[$repoIndex]->{svn} ) {
                     connectGitRepoToSVNByRepoURL( $module, $moduleDir,
                         $config{repos}->[$repoIndex]->{svn} );
                 }
@@ -652,7 +664,9 @@ sub cloneModuleByName {
             $repoIndex = $repoIndex + 1;
         }
     }
-    if ( !checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) ) {
+    if ( $svnconnect
+        && !checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) )
+    {
         my $svnRepo = getSVNRepoByModuleBranchName( 'core', 'Release01x01' );
 
         print "It seems your 'core' checkout isn't connected to a svn repo... ";
@@ -1530,8 +1544,10 @@ sub merge_gitignore {
 
                 # we're installing, so keep all the old rules, or
                 # we're uninstalling, so keep files not being uninstalled
-                if ( $installing || ( !exists $input_files->{$old_rule} ) ) {
-                    push( @merged_rules, $old_rule );
+                if ($installing) {
+                    if ( !exists $input_files->{$old_rule} ) {
+                        push( @merged_rules, $old_rule );
+                    }
                 }
                 else {
                     $dropped_rules{$old_rule} = 1;
@@ -1543,6 +1559,7 @@ sub merge_gitignore {
     # Append new files not matching an existing wildcard
     if ($installing) {
         foreach my $file ( keys %{$input_files} ) {
+            next if ( $file =~ m#/.git/# ); # git hooks files don't get ignored.
             if ( $file && $file =~ /[^\s]/ && !$dropped_rules{$file} ) {
                 my $nmatch_rules = scalar(@match_rules);
                 my $matched;
@@ -1678,7 +1695,7 @@ init_config();
 init_extensions_path();
 run();
 update_gitignore_file($basedir);
-update_githooks_dir( $basedir, 'core' );
+update_githooks_dir( $basedir, 'core' ) if ($githooks);
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
