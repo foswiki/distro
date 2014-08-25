@@ -13,7 +13,7 @@ BEGIN {
 
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} || '../lib' );
 
-    # designed to be run within a SVN checkout area
+    # designed to be run within a GIT checkout area
     my @path = split( /\/+/, File::Spec->rel2abs($0) );
     pop(@path);    # the script name
 
@@ -36,7 +36,6 @@ package FoswikiBuild;
 
 @FoswikiBuild::ISA = ("Foswiki::Contrib::Build");
 
-my $cvs;
 my $gitdir;
 
 sub new {
@@ -47,35 +46,27 @@ sub new {
     my $name;
 
     if ( my $gitdir = findPathToDir('.git') ) {
-        $cvs = 'git';
-        print
-"detected git installation at $gitdir\n*Note: svn will still be used to query the Repository for the list of release tags.\n";
+        print "detected git installation at $gitdir\n";
 
-     # Verify that all files are committed and all commits are dcommmited to svn
+     # Verify that all files are committed and all commits are pushed to github TODO
         my $gitstatus = `git status -uno`;
         unless ($nocheck) {
             die
 "***\nuncommitted changes in tree - build aborted\n***\n$gitstatus\n"
               if ( $gitstatus =~ m/(modified:)|(new file:)|(deleted:)/ );
-            my $gitlog = `git log -1`;
-            die
-"***\n*** changes not yet dcommited - build aborted\n***\n$gitlog\n"
-              if ( $gitlog !~ m/git-svn-id:/ );
         }
     }
     else {
-        print "detected svn installation\n\n";
-        $cvs = 'svn';
+        die "no .git dir detected, svn is ***OBSOLETE***, aborting!\n";
     }
 
     if ( scalar(@ARGV) > 1 ) {
         $name = pop(@ARGV);
         if ( $name eq '-auto' ) {
 
-            #build a name from major.minor.patch.-auto.svnrev
-            my $rev = ( $cvs eq 'svn' ) ? `svn info ..` : `git svn info`;
-            $rev =~ /Revision: (\d*)/m;
-            $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $1;
+            #build a name from major.minor.patch.-auto.gitrev
+            my $rev = `git rev-parse --short HEAD`;
+            $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
             $autoBuild = 1;
         }
         if ( $name eq '-commit' ) {
@@ -100,7 +91,7 @@ establish the correct baseline functionality. If a unit test fails,
 any release package generated from that code is USELESS.
 END
     my @olds = sort grep { /^FoswikiRelease\d+x\d+x\d+$/ }
-      split( '/\n', `svn ls http://svn.foswiki.org/tags` );
+      split( '\n', `git tag` );
 
     unless ($autoBuild) {
 
@@ -135,7 +126,7 @@ a name appended for descriptive purposes.
 
 END
         print <<END unless $commit;
--commit option was not specified, nothing will be committed to the $cvs repository.
+-commit option was not specified, nothing will be committed to the git repository.
 If you are building a real release, Ctrl-c now and rerun:
    perl ../tools/build.pl release -commit
  
@@ -226,21 +217,11 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
             # Note; the commit is unconditional, because we *must* update
             # Foswiki.pm before building.
             my $tim = 'BUILD ' . $name . ' at ' . gmtime() . ' GMT';
-            if ( $cvs eq 'svn' ) {
+	    my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
 
-                my $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-
-                print `$cmd` if $commit;
-                print "$cmd\n";
-                die $@ if $@;
-            }
-            else {
-                my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
-
-                print `$cmd` if $commit;
-                print "$cmd\n";
-                die $@ if $@;
-            }
+	    print `$cmd` if $commit;
+	    print "$cmd\n";
+	    die $@ if $@;
         }
         else {
             # This is a rebuild, just use the same name.
