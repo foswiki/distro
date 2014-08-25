@@ -1581,8 +1581,11 @@ sub merge_gitignore {
                 my $i = 0;
 
                 while ( !$matched && $i < $nmatch_rules ) {
-                    my @parts = split( /\*/, $match_rules[$i] );
-                    my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
+                    my $regex = '^'
+                      . join( '.*',
+                        map { quotemeta($_) } split( /\*/, $match_rules[$i] ) )
+                      . '$';
+                    $regex = qr/$regex/;
 
                     $i += 1;
                     $matched = ( $file =~ $regex );
