@@ -138,48 +138,60 @@ sub setPageVariation {
     $variation->{md5} = Digest::MD5::md5_hex( $web, $topic, $variationKey )
       unless defined $variation->{md5};
 
-    writeDebug("INSERT topic $webTopic, variation=$variationKey");
+    #writeDebug("INSERT topic $webTopic, variation=$variationKey");
 
-    $this->{dbh}->begin_work;
+    my $error;
+    try {
+        $this->{dbh}->begin_work;
 
-    unless ( defined $this->{_insert_page} ) {
-        $this->{_insert_page} = $this->{dbh}->prepare(<<HERE);
-          insert into $this->{pagesTable} 
-            (topic, variation, contenttype, lastmodified, etag, status, location, expire, isdirty, md5) values 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        unless ( defined $this->{_insert_page} ) {
+            $this->{_insert_page} = $this->{dbh}->prepare(<<HERE);
+            insert into $this->{pagesTable} 
+              (topic, variation, contenttype, lastmodified, etag, status, location, expire, isdirty, md5) values 
+              (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 HERE
+        }
+
+      #     if (TRACE) {
+      #         writeDebug( "   contenttype=" . $variation->{contenttype} );
+      #         writeDebug( "   lastmodified=" . $variation->{lastmodified} );
+      #         writeDebug( "   etag=" . $variation->{etag} );
+      #         writeDebug( "   status=" . $variation->{status} );
+      #         writeDebug( "   location=" . ( $variation->{location} || '' ) );
+      #         writeDebug( "   expire=" .   ( $variation->{expire}   || '' ) );
+      #         writeDebug( "   isdirty=" . $variation->{isdirty} );
+      #         writeDebug( "   md5=" . $variation->{md5} );
+      #     }
+
+        $this->{_insert_page}->execute(
+            $webTopic,                 $variationKey,
+            $variation->{contenttype}, $variation->{lastmodified},
+            $variation->{etag},        $variation->{status},
+            $variation->{location},    $variation->{expire},
+            $variation->{isdirty},     $variation->{md5}
+          )
+          or die( "Can't execute statement: " . $this->{_insert_page}->errstr );
+
+        $this->{dbh}->commit;
     }
-
-    if (TRACE) {
-        writeDebug( "   contenttype=" . $variation->{contenttype} );
-        writeDebug( "   lastmodified=" . $variation->{lastmodified} );
-        writeDebug( "   etag=" . $variation->{etag} );
-        writeDebug( "   status=" . $variation->{status} );
-        writeDebug( "   location=" . ( $variation->{location} || '' ) );
-        writeDebug( "   expire=" .   ( $variation->{expire}   || '' ) );
-        writeDebug( "   isdirty=" . $variation->{isdirty} );
-        writeDebug( "   md5=" . $variation->{md5} );
-    }
-
-    $this->{_insert_page}->execute(
-        $webTopic,                 $variationKey,
-        $variation->{contenttype}, $variation->{lastmodified},
-        $variation->{etag},        $variation->{status},
-        $variation->{location},    $variation->{expire},
-        $variation->{isdirty},     $variation->{md5}
-    ) or die( "Can't execute statement: " . $this->{_insert_page}->errstr );
-
-    $this->{dbh}->commit;
+    catch Error::Simple with {
+        local $this->{dbh}->{RaiseError} = 0;
+        $this->{dbh}->rollback;
+        $error = 1;
+        writeDebug("transaction error at setPageVariation");
+    };
+    return 0 if $error;
 
     my $FILE;
     my $fileName = Foswiki::Sandbox::normalizeFileName(
         $this->{cacheDir} . '/' . $variation->{md5} );
-    writeDebug("saving data of $webTopic into $fileName");
+
+    #writeDebug("saving data of $webTopic into $fileName");
     open( $FILE, '>', $fileName ) or die "Can't create file $fileName - $!\n";
     print $FILE $variation->{data};
     close($FILE);
 
-    return;
+    return 1;    # success
 }
 
 =begin TML
@@ -196,7 +208,7 @@ sub getPageVariation {
     my $webTopic = $web;
     $webTopic .= '.' . $topic if $topic;
 
-    writeDebug("getPageVariation($webTopic, $variationKey)");
+    #writeDebug("getPageVariation($webTopic, $variationKey)");
 
     my $sth = $this->{dbh}->prepare(<<HERE);
       select contenttype, lastmodified, etag, status, expire, isdirty, md5 from $this->{pagesTable} 
@@ -264,45 +276,56 @@ sub deletePage {
     my $webTopic = $web;
     $webTopic .= '.' . $topic if $topic;
 
-    $this->{dbh}->begin_work;
+    try {
+        $this->{dbh}->begin_work;
 
-    # delete page
-    if ( defined $variationKey ) {
-        writeDebug( "DELETE page $webTopic variation=" . $variationKey );
-        my $md5 = Digest::MD5::md5_hex( $web, $topic, $variationKey );
-        my $fileName =
-          Foswiki::Sandbox::normalizeFileName( $this->{cacheDir} . '/' . $md5 );
-        writeDebug("deleting $fileName for $webTopic");
-        unlink $fileName;
+        # delete page
+        if ( defined $variationKey ) {
 
-        $this->{dbh}->do(
-            "delete from $this->{pagesTable} where topic = ? and variation = ?",
-            undef, $webTopic, $variationKey
-        );
-    }
-    else {
+            #writeDebug( "DELETE page $webTopic variation=" . $variationKey );
+            my $md5 = Digest::MD5::md5_hex( $web, $topic, $variationKey );
+            my $fileName =
+              Foswiki::Sandbox::normalizeFileName(
+                $this->{cacheDir} . '/' . $md5 );
 
-        # get all filenames and delete them
-        unless ( defined $this->{_select_md5} ) {
-            $this->{_select_md5} = $this->{dbh}->prepare(<<HERE);
-              select md5 from $this->{pagesTable} where topic = ? and variation = ?
-HERE
-        }
-        $this->{_select_md5}->execute( $webTopic, $variationKey );
-        while ( my ($md5) = $this->{_select_md5}->fetchrow_array() ) {
-            my $fileName = $this->{cacheDir} . '/' . $md5;
-            writeDebug("deleting $fileName for $webTopic");
+            #writeDebug("deleting $fileName for $webTopic");
             unlink $fileName;
+
+            $this->{dbh}->do(
+"delete from $this->{pagesTable} where topic = ? and variation = ?",
+                undef, $webTopic, $variationKey
+            );
+        }
+        else {
+
+            # get all filenames and delete them
+            unless ( defined $this->{_select_md5} ) {
+                $this->{_select_md5} = $this->{dbh}->prepare(<<HERE);
+                select md5 from $this->{pagesTable} where topic = ? and variation = ?
+HERE
+            }
+            $this->{_select_md5}->execute( $webTopic, $variationKey );
+            while ( my ($md5) = $this->{_select_md5}->fetchrow_array() ) {
+                my $fileName = $this->{cacheDir} . '/' . $md5;
+
+                #writeDebug("deleting $fileName for $webTopic");
+                unlink $fileName;
+            }
+
+            #writeDebug("DELETE page $webTopic");
+            $this->{dbh}->do( "delete from $this->{pagesTable} where topic = ?",
+                undef, $webTopic );
         }
 
-        writeDebug("DELETE page $webTopic");
-        $this->{dbh}->do( "delete from $this->{pagesTable} where topic = ?",
-            undef, $webTopic );
+        $this->deleteDependencies( $web, $topic, $variationKey );
+
+        $this->{dbh}->commit;
     }
-
-    $this->deleteDependencies( $web, $topic, $variationKey );
-
-    $this->{dbh}->commit;
+    catch Error::Simple with {
+        local $this->{dbh}->{RaiseError} = 0;
+        $this->{dbh}->rollback;
+        writeDebug("transaction error at deletePage");
+    };
 }
 
 =begin TML
@@ -353,24 +376,32 @@ sub setDependencies {
 
     my $fromWebTopic = $web . '.' . $topic;
 
-    $this->{dbh}->begin_work;
+    try {
+        $this->{dbh}->begin_work;
 
-    unless ( defined $this->{_insert_dep} ) {
-        $this->{_insert_dep} = $this->{dbh}->prepare(<<HERE);
-          insert into $this->{depsTable} (from_topic, variation, to_topic) values (?, ?, ?)
+        unless ( defined $this->{_insert_dep} ) {
+            $this->{_insert_dep} = $this->{dbh}->prepare(<<HERE);
+            insert into $this->{depsTable} (from_topic, variation, to_topic) values (?, ?, ?)
 HERE
-    }
+        }
 
-    foreach my $toWebTopic (@topicDeps) {
-        next if $toWebTopic eq $fromWebTopic;
-        writeDebug(
-            "INSERT dependency $fromWebTopic, $variationKey, $toWebTopic");
-        $this->{_insert_dep}
-          ->execute( $fromWebTopic, $variationKey, $toWebTopic )
-          or die( "Can't execute statement: " . $this->{_insert_dep}->errstr );
-    }
+        foreach my $toWebTopic (@topicDeps) {
+            next if $toWebTopic eq $fromWebTopic;
 
-    $this->{dbh}->commit;
+    #writeDebug( "INSERT dependency $fromWebTopic, $variationKey, $toWebTopic");
+            $this->{_insert_dep}
+              ->execute( $fromWebTopic, $variationKey, $toWebTopic )
+              or
+              die( "Can't execute statement: " . $this->{_insert_dep}->errstr );
+        }
+
+        $this->{dbh}->commit;
+    }
+    catch Error::Simple with {
+        local $this->{dbh}->{RaiseError} = 0;
+        $this->{dbh}->rollback;
+        writeDebug("transaction error at setDependencies");
+    };
 }
 
 =begin TML
@@ -433,46 +464,58 @@ sub fireDependency {
 
     if (TRACE) {
         my ( $package, $file, $line ) = caller(1);
-        writeDebug("FIRING $webTopic ... called from $package, line $line");
+
+        #writeDebug("FIRING $webTopic ... called from $package, line $line");
     }
 
-    $this->{dbh}->begin_work;
+    my $error;
+    try {
+        $this->{dbh}->begin_work;
 
-    # (1) get all md5s and unline the files holding the blob
-    unless ( $this->{_select_rev_md5} ) {
-        $this->{_select_rev_md5} = $this->{dbh}->prepare(<<HERE);
-          select md5 from $this->{pagesTable} as pages join $this->{depsTable} as deps on 
-            deps.from_topic = pages.topic and 
-            deps.variation = pages.variation where
-            deps.to_topic = ?
+        # (1) get all md5s and unline the files holding the blob
+        unless ( $this->{_select_rev_md5} ) {
+            $this->{_select_rev_md5} = $this->{dbh}->prepare(<<HERE);
+            select md5 from $this->{pagesTable} as pages join $this->{depsTable} as deps on 
+              deps.from_topic = pages.topic and 
+              deps.variation = pages.variation where
+              deps.to_topic = ?
 HERE
-    }
+        }
 
-    $this->{_select_rev_md5}->execute($webTopic);
-    while ( my ($md5) = $this->{_select_rev_md5}->fetchrow_array ) {
-        my $fileName = $this->{cacheDir} . '/' . $md5;
-        writeDebug("deleting $fileName for $webTopic");
-        unlink $fileName;
-    }
+        $this->{_select_rev_md5}->execute($webTopic);
+        while ( my ($md5) = $this->{_select_rev_md5}->fetchrow_array ) {
+            my $fileName = $this->{cacheDir} . '/' . $md5;
 
-    # (2) delete the page entries that used $web.$topic
-    $this->{dbh}->do(<<HERE);
-      delete from $this->{pagesTable} where ( 
-        select count(*) > 0 from $this->{depsTable} as deps 
-          where deps.from_topic = $this->{pagesTable}.topic and 
-                deps.variation = $this->{pagesTable}.variation and 
-                deps.to_topic = '$webTopic' 
-      )
+            #writeDebug("deleting $fileName for $webTopic");
+            unlink $fileName;
+        }
+
+        # (2) delete the page entries that used $web.$topic
+        $this->{dbh}->do(<<HERE);
+        delete from $this->{pagesTable} where ( 
+          select count(*) > 0 from $this->{depsTable} as deps 
+            where deps.from_topic = $this->{pagesTable}.topic and 
+                  deps.variation = $this->{pagesTable}.variation and 
+                  deps.to_topic = '$webTopic' 
+        )
 HERE
 
 # (3) delete the deps of topics that we just removed
 # SMELL: yes, I know cascaded deletes would have been better, but that
 # doesn't seem to work on mysql and sqlite. postgresql is fine, but the rest is ...
-    $this->{dbh}->do(<<HERE);
-      delete from $this->{depsTable} where 
-        from_topic not in ( select distinct topic from $this->{pagesTable} )
+        $this->{dbh}->do(<<HERE);
+        delete from $this->{depsTable} where 
+          from_topic not in ( select distinct topic from $this->{pagesTable} )
 HERE
-    $this->{dbh}->commit;
+        $this->{dbh}->commit;
+    }
+    catch Error::Simple with {
+        local $this->{dbh}->{RaiseError} = 0;
+        $this->{dbh}->rollback;
+        $error = 1;
+        writeDebug("transaction error at fireDependency");
+    };
+    return if $error;
 
     # (4) delete all pages in WEBDEPENDENCIES
     foreach my $dep ( @{ $this->getWebDependencies($web) } ) {
@@ -501,9 +544,10 @@ sub connect {
             $this->{username},
             $this->{password},
             {
-                PrintError => 0,
-                RaiseError => 1,
-                AutoCommit => 1
+                PrintError         => 0,
+                RaiseError         => 1,
+                AutoCommit         => 1,
+                ShowErrorStatement => 1,
             }
         );
 
@@ -538,7 +582,7 @@ sub createTables {
         return;
     }
 
-    writeDebug("building new database");
+    #writeDebug("building new database");
 
     $this->{dbh}->do(<<HERE);
       create table $this->{pagesTable} (
@@ -587,7 +631,7 @@ drops all tables and creates new ones.
 sub rebuild {
     my $this = shift;
 
-    writeDebug("rebuild database");
+    #writeDebug("rebuild database");
 
     eval {
         $this->{dbh}->do("drop table $this->{pagesTable}");
