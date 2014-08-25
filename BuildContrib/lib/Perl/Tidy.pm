@@ -26365,7 +26365,7 @@ sub guess_if_pattern_or_division {
     my $msg        = "guessing that / after $last_nonblank_token starts a ";
 
     if ( $i >= $max_token_index ) {
-        "division (no end to pattern found on the line)\n";
+        $msg = "division (no end to pattern found on the line)\n";
     }
     else {
         my $ibeg = $i;
