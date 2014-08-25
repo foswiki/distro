@@ -211,7 +211,7 @@ var StrikeOne = {
     },
 
     /**
-     * calculate a new key response to validate the SUBMIIT (called
+     * calculate a new key response to validate the SUBMIT (called
      * outside this file for non HTML Form submits)
      */
     calculateNewKey: function(input) {
@@ -257,8 +257,7 @@ var StrikeOne = {
  * by security.
  */
 if (typeof jQuery != "undefined") {
-    jQuery(document).ready(
-        function($) {
+    jQuery(function($) {
             $('.s1js_available').show();
         });
 } else {
