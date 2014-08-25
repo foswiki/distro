@@ -51,7 +51,7 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
 Examples:
   softlink and enable FirstPlugin and SomeContrib
       perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
-   
+
   Check out a new trunk, create a default LocalSite.cfg, install and enable
   all the plugins for the default distribution (and then run the unit tests)
       svn co http://svn.foswiki.org/trunk
@@ -161,7 +161,7 @@ my %default_config = (
         },
         {
             type => 'git',
-            url  => 'git://github.com/foswiki',
+            url  => 'https://github.com/foswiki',
             svn  => 'http://svn.foswiki.org',
             bare => 1,
             note => <<'HERE'
@@ -642,7 +642,22 @@ sub cloneModuleByName {
 
     while ( !$cloned && ( $repoIndex < scalar( @{ $config{repos} } ) ) ) {
         if ( $config{repos}->[$repoIndex]->{type} eq 'git' ) {
+            my $curUrl = do_commands(<<"HERE");
+git config --get remote.origin.url
+HERE
+
+            my ( $repoPfx, $rest ) = split( /:/, $curUrl );
+
+            # Prefix is either git@github.com, https or git
+
             my $url = $config{repos}->[$repoIndex]->{url} . "/$module";
+
+            if ( $repoPfx eq 'git@github.com' ) {
+                $url =~ s#(?:https|git)://github.com/#git\@github.com:#;
+            }
+            elsif ( $repoPfx eq 'https' ) {
+                $url =~ s#^git:#https:#;
+            }
 
             if ( $config{repos}->[$repoIndex]->{bare} ) {
                 $url .= '.git';
