@@ -41,7 +41,10 @@ sub target_tidy {
     foreach my $path (@files) {
         print "Tidying $path\n";
         local @ARGV = ($path);
-        Perl::Tidy::perltidy();
+        Perl::Tidy::perltidy(
+            perltidyrc =>
+              '/dev/null'    # SMELL: use the extension's TIDY file if present
+        );
         File::Copy::move( "$path.tdy", $path );
     }
 }

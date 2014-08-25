@@ -439,7 +439,9 @@ ERROR
     }
 
     my $config = $this->_loadConfig();
-    my $rep    = $config->{repositories}->{ $this->{project} };
+    my $rep    = $config->{repositories}->{'default'};
+    $rep = $config->{repositories}->{ $this->{project} }
+      if defined $config->{repositories}->{ $this->{project} };
     if ($rep) {
         $this->{UPLOADTARGETPUB}    = $rep->{pub};
         $this->{UPLOADTARGETSCRIPT} = $rep->{script};
