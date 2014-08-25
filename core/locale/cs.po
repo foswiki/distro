@@ -3989,7 +3989,7 @@ msgstr ""
 
 #: core/lib/Foswiki/I18N.pm:318
 msgid "_language_name"
-msgstr "_jméno_jazyka"
+msgstr "Český"
 
 #: core/lib/Foswiki/Meta.pm:1708
 msgid "access denied on root"
