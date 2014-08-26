@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl 
 #
 # Build for Foswiki
 # Crawford Currie & Sven Dowideit
@@ -7,6 +7,7 @@
 # the distribution.
 
 use strict;
+use warnings;
 
 BEGIN {
     use File::Spec;
@@ -48,7 +49,7 @@ sub new {
     if ( my $gitdir = findPathToDir('.git') ) {
         print "detected git installation at $gitdir\n";
 
-     # Verify that all files are committed and all commits are pushed to github TODO
+ # Verify that all files are committed and all commits are pushed to github TODO
         my $gitstatus = `git status -uno`;
         unless ($nocheck) {
             die
@@ -66,7 +67,7 @@ sub new {
 
             #build a name from major.minor.patch.-auto.gitrev
             my $rev = `git rev-parse --short HEAD`;
-            $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
+            $name = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
             $autoBuild = 1;
         }
         if ( $name eq '-commit' ) {
@@ -217,11 +218,11 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
             # Note; the commit is unconditional, because we *must* update
             # Foswiki.pm before building.
             my $tim = 'BUILD ' . $name . ' at ' . gmtime() . ' GMT';
-	    my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
+            my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
 
-	    print `$cmd` if $commit;
-	    print "$cmd\n";
-	    die $@ if $@;
+            print `$cmd` if $commit;
+            print "$cmd\n";
+            die $@ if $@;
         }
         else {
             # This is a rebuild, just use the same name.
