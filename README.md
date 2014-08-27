@@ -1,26 +1,33 @@
 # Foswiki Installation based on git
 
 You can run a Foswiki instance from this clone simply by pointing Apache at it in the normal way and running `configure`.
+Note however it will be missing all the extensions.  Read on for instructions on how to install the default extensions shipped with Foswiki.
 
 **Note: Configure is currently broken in the master branch.  We hope to resovle this shortly.  We recommend using the Release01x01 branch.**
 
 By default the cloned Foswiki core won't have any of the extensions (plugins or contribs) installed.   Default extensions are downloaded one level up from the Foswiki core:
 
-To "install" extensions in a checkout area, you should use the `pseudo-install.pl` script to install them. On Unix/Linux this script generates soft-links from the core tree to the extensions, so you can work on your code in situ and see the impact of the changes on your live foswiki without needing to do an install step. Windows doesn't support soft links, so the script can also be run in `-copy` mode (the default on Windows), but in this case you will have to re-run it each time you change your extension. *Remember you have to enable any plugins you want to test* in `configure`. Use:
- - `pseudo-install.pl default` to enable the default contribs and plugins (e.g. Extensions.TwistyContrib which is relied on by Extensions.PatternSkin)
+To "install" extensions in a checkout area, you should use the `pseudo-install.pl` script to install them. On Unix/Linux this script generates soft-links from the core tree
+to the extensions, so you can work on your code in situ and see the impact of the changes on your live foswiki without needing to do an install step.
+Windows doesn't support soft links, so the script can also be run in `-copy` mode (the default on Windows), but in this case you will have to re-run it each time you change your extension.
+*Remember that you have to enable any plugins you want to test* in `configure`. Use:
+ - `pseudo-install.pl default` to install the default contribs and plugins (e.g. Extensions.TwistyContrib which is relied on by Extensions.PatternSkin)
  - `pseudo-install.pl developer` to install the additional developer extensions.  The developer option also installs all the default extensions.
-See the header comment of the `pseudo-install.pl` script (core directory of checkout) for options and more information. Note that `pseudo-install.pl` only works with extensions that have a MANIFEST file, as required by the Extensions.BuildContrib.
+See the header comment of the `pseudo-install.pl` script (core directory of checkout) for options and more information.
+Note that `pseudo-install.pl` only works with extensions that have a MANIFEST file, as required by the Extensions.BuildContrib.
 
 Script examples below are for `bash` shell.
 ## Example of running pseudo-install
 
-The typical situation is that you want to run a pseudo-installed Foswiki checked out from "master" branch. And if you develop plugins, you want to be able to activate your plugin in this installation. This is the entire sequence for checking out the master branch from git and doing the pseudo-install. We assume that you want to run your git based install in `/var/www/foswiki`
+The typical situation is that you want to run a pseudo-installed Foswiki checked out from "master" branch. (But use Release01x01 for now)
+And if you develop plugins, you want to be able to activate your plugin in this installation. This is the entire sequence for checking out the master branch from git
+and doing the pseudo-install. We assume that you want to run your git based install in `/var/www/foswiki`
 
 The following commands check out an _absolutely minimal_ Foswiki (the core + default user mapping only). This is the smallest checkout that will run. The steps are:
 1. create the root directory called foswiki
-1. checkout `https://github.com/foswiki/distro.git` using the git master branch
+1. `git clone https://github.com/foswiki/distro.git foswiki`
 1. This will check out core and all the default and developer extensions, however they are not installed yet.
-1. pseudo-install default
+1. `cd core && ./pseudo-install default`
 1. change the ownership so the entire tree is owned by the user running the Apache. In this example the user name is "apache".
 1. point Apache at the checkout
 Change the commands to fit your actual file locations and Apache user. Some commands may have to be run as root.
@@ -58,10 +65,10 @@ Linked data/System/AutoViewTemplatePlugin.txt
 mkdir /var/www/fw/core/lib/Foswiki/Plugins
 ...
 #...
-#... A large amount of output is generated.  
-#... Errors about dependencies on foswiki extensions can generally be ignored.  
+#... A large amount of output is generated.
+#... Errors about dependencies on foswiki extensions can generally be ignored.
 #... The extensions are not installed in the order that would resolve all dependencies.
-#... 
+#...
 
 
 # If necessary, change ownership of all files to the webserver user.
@@ -72,14 +79,15 @@ chown -R apache:apache foswiki
 # Now configure Apache to use the Foswiki in /var/www/foswiki/core
 ```
 
-1. Use to generate configuration http://foswiki.org/Support/ApacheConfigGenerator?vhost`example.com&dir`%2Fvar%2Fwww%2Fexample.com%2Ffoswiki&pathurl`%2Ffoswiki&allowconf`&requireconf`&engine`CGI&fastcgimodule`fastcgi&apver`2&shorterurls`enabled&loginmanager`Template&phpinstalled`None&errordocument`UserRegistration
+1. Use the [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator?foswikiversion=1.1&vhost=&port=&timeout=&dir=%2Fvar%2Fwww%2Ffoswiki&symlink=on&pathurl=%2Ffoswiki&shorterurls=enabled&engine=CGI&fastcgimodule=fastcgi&fcgidreqlen=&apver=2&allowconf=&reqandor=and&requireconf=&loginmanager=Template&htpath=&errordocument=UserRegistration&errorcustom=&phpinstalled=PHP4&blockpubhtml=on#HighLight)
 1. Clipboard copy and save this to core/../foswiki.httpd.conf
  -* cat &gt; foswiki-svn_httpd.conf
 1. Include this httpd.conf from your apache httpd.conf
  -* If you are on a Mac, you can put this file into /etc/apache2/other/ and line "Include /private/etc/apache2/other/*.conf" will pick it up.
  -* Otherwise, edit your httpd.conf and add: Include /path/to/foswiki-svn_httpd.conf
  -* Ensure your new .conf file has chmod a+r access
-%ICON{info}% Note: If the apache error log has lots of `Symbolic link not allowed or link target not accessible` type messages, then you probably need to add `+FollowSymLinks` to the `Options` for the `/var/www/foswiki/dev/core/pub` directory in your apache configuration.
+**Note:** If the apache error log has lots of `Symbolic link not allowed or link target not accessible` type messages, then you probably need to add `+FollowSymLinks`
+to the `Options` for the `/var/www/foswiki/dev/core/pub` directory in your apache configuration.
 
 Now and then you will want to keep your installation in sync with the latest version in the foswiki git repository. The pseudo-install script is not intelligent enough to cope with changes to MANIFESTs, so this is the idiot proof way to update. It first removes all the links (or copied files), git fetch. And finally does a new pseudo-install.
 ```
@@ -98,7 +106,7 @@ cd /var/www/foswiki/core
 ./pseudo-install.pl developer
 ```
 
-This will also install the Extensions.BuildContrib and a number of other components useful to developers. 
+This will also install the Extensions.BuildContrib and a number of other components useful to developers.
 
 ## Tips, hints, and useful commands
 ### Enable ASSERTS for more extensive testing
@@ -127,7 +135,7 @@ It is probably best to test using platform modules as well as the shipped module
 
 The example commands above describe how to install a _minimalist_ Foswiki.    The pseudo-install script knows some additional tricks to use with non-default extensions. If you pseudo-install an extension that is not currently checked out,  pseudo-install will automatically clone the extension from github using  `https://github.com/foswiki/ExtensionName.git`
 
-%T% Note that although we use release managed branches  (master, Release01x00, Release01x01) in the Foswiki core distribution ("distro"), non-default extensions typically only have a "master" branch. 
+**Note:** Although we use release managed branches  (master, Release01x00, Release01x01) in the Foswiki core distribution ("distro"), non-default extensions typically only have a "master" branch.
 
 Here's how to install a non-default extension, using AntiWikiSpamPlugin as an example:
 ```
@@ -165,9 +173,10 @@ Linked /var/www/fw/core/tools/develop/githooks/commit-msg as /var/www/fw/core/..
 Linked /var/www/fw/core/tools/develop/githooks/pre-commit as /var/www/fw/core/../.git/hooks/pre-commit
 ```
 
-### Delete all broken soft links in a subversion-based install
+### Delete all broken soft links
 
-This is handy if you have changed a lot of MANIFESTS or have manually soft-linked any files, and want to remove any broken soft links. Assume your trunk checkout is at `/var/www/foswiki`
+This is handy if you have changed a lot of MANIFESTS or have manually soft-linked any files, and want to remove any broken soft links. Assume your trunk checkout is at `/var/www/foswiki`.
+You'll also need to do this when switching between Release01x01 and master branches.
 
 ```
 find -L /var/www/foswiki/core -type l -exec rm \{\} \;
