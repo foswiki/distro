@@ -87,14 +87,16 @@ cd /var/www/foswiki/core
 ./pseudo-install.pl -uninstall all
 git pull
 ./pseudo-install.pl default
-chown -R apache:apache ..```
+chown -R apache:apache ..
+```
 
 Normally just doing the git pull will be enough, unless someone has removed files (and even then you can usually ignore it).
 
 If you are a developer you can also install the kit required to run unit tests, by passing the `developer` parameter to `pseudo-install.pl`
 ```
 cd /var/www/foswiki/core
-./pseudo-install.pl developer```
+./pseudo-install.pl developer
+```
 
 This will also install the Extensions.BuildContrib and a number of other components useful to developers. 
 
@@ -102,7 +104,9 @@ This will also install the Extensions.BuildContrib and a number of other compone
 ### Enable ASSERTS for more extensive testing
 
 The unit tests run with ASSERTS enabled, but the live web environment does not.  In order to enable ASSERTS, edit `bin/LocalLib.cfg` (If it's not there, create it by copying `bin/LocalLib.cfg.txt`) and un-comment the following line
-```$ENV{FOSWIKI_ASSERTS} ` 1;```
+```
+$ENV{FOSWIKI_ASSERTS} ` 1;
+```
 
 This enables additional validation tests that will impact performance, but will catch some issues that might be missed during normal web usage.
 
@@ -111,7 +115,9 @@ This enables additional validation tests that will impact performance, but will 
 
 Foswiki ships with a number of CPAN modules that are used only when the underlying platform is missing the modules.  In order to test using the modules that are shipped with Foswiki, CPAN lib prepending should be enabled in <span>bin/LocalLib.cfg</span>by uncommenting the following line:
 
-```$CPANBASE ` '';                     # Uncommented: Default path prepended```
+```
+$CPANBASE ` '';                     # Uncommented: Default path prepended
+```
 
 .   See the comments in `bin/LocalLib.cfg.txt` for more details.
 
@@ -164,7 +170,8 @@ Linked /var/www/fw/core/tools/develop/githooks/pre-commit as /var/www/fw/core/..
 This is handy if you have changed a lot of MANIFESTS or have manually soft-linked any files, and want to remove any broken soft links. Assume your trunk checkout is at `/var/www/foswiki`
 
 ```
-find -L /var/www/foswiki/core -type l -exec rm \{\} \;```
+find -L /var/www/foswiki/core -type l -exec rm \{\} \;
+```
 
 ### Create a new extension
 
@@ -175,13 +182,15 @@ You can quickly and easily create a new extension using the `create_new_extensio
 If you are developing new code you will want to set up the development and test environment. For this you will need to pseudo-install !BuildContrib, !UnitTestContrib and !TestFixturePlugin.
 
 ```
-./pseudo-install.pl developer```
+./pseudo-install.pl developer
+```
 
 Then:
 ```
 cd test/unit
 export FOSWIKI_LIBS`/var/www/foswiki/core/lib
-perl ../bin/TestRunner.pl FoswikiSuite```
+perl ../bin/TestRunner.pl FoswikiSuite
+```
 
 (or equivalent on Windows)
 
