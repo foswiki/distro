@@ -1,0 +1,49 @@
+%{
+
+Template for the HTML page used by the =configure= script.
+This is a separate template because it is *not* run through the
+renderer, but is instead entirely native HTML managed by the
+configure.js script.
+
+}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="noindex" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, user-scalable=yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Foswiki Configuration" />
+  <link rel="icon" href="%FAVICON%" type="image/x-icon" /> <link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
+  <title>Foswiki Configuration</title>
+  <meta content="noindex" name="robots" />
+  <link type="image/x-icon" rel="icon" href="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/focsiki-icon.ico" />
+  <link type="image/x-icon" rel="shortcut icon" href="%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/focsiki-icon.ico" />
+  <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/strikeone_src.js"></script>
+  <link type="text/css" media="all" rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css" />
+%JQREQUIRE{Configure}%
+  <style type="text/css">
+.loadWhirly {
+    background-image: url("%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/loadWhirly.gif");
+}
+.checkWhirly {
+    background-image: url("%PUBURLPATH%/%SYSTEMWEB%/ConfigurePlugin/checkWhirly.gif");
+}
+  </style>
+ </head>
+ <body>
+  <img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png" alt="Foswiki configure"/>
+  <div class="top_level_button"><input id="showExpert" disabled="disabled" type="checkbox">Show expert options</input><button id="saveButton">Save</button></div>
+  <br style="clear:both" />
+  <div id="root">
+  </div>
+ </body>
+ <div id="auth_prompt" title="Wizard requires authentication">
+  <label for="username">Username</label>
+  <input type="text" name="username" id="username" value="testuser" class="text ui-widget-content ui-corner-all"><br />
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all"><br />
+ </div>
+</html>

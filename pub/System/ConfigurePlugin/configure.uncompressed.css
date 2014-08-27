@@ -3,6 +3,12 @@ html body {
 	font-size: 13px;
 }
 
+.whirly {
+    display:inline-block;
+    width: 20px;
+    height: 20px;
+}
+
 .top_level_button {
     float: right;
     margin:1em;
@@ -106,6 +112,10 @@ div.information {
     display: inline;
 }
 
+.value_default > .default_button {
+    display: none;
+}
+
 /* Button shown if value differs from default */
 .default_button {
     display: inline;
@@ -115,10 +125,6 @@ div.information {
 
 .default-icon {
     background-image: url("reset-icon.png") !important;
-}
-
-.value_default > .default_button {
-    display: none;
 }
 
 .info_button {
@@ -149,4 +155,13 @@ div.information {
 
 .inexpert .errors {
     display: block;
+}
+
+.closed_dialog {
+    display: none;
+}
+
+#auth_prompt {
+    height: 300px;
+    width: 350px;
 }

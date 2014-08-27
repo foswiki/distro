@@ -3,7 +3,9 @@
 # ---+++ Testing
 # The following key specs are only used in testing the ConfigurePlugin
 # and do nothing.
-# **STRING**
+# **STRING FEEDBACK="label='Test';wizard='Test';method='test';auth=1"**
+# When you press the Test button, expect the value to change to "ROPE" and
+# there to be one each of the different levels of report.
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{STRING} = 'STRING';
 # **PASSWORD**
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{PASSWORD} = 'PASSWORD';
@@ -47,3 +49,5 @@ $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{EXPERT} = 'EXPERT';
 # $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{empty} = 'empty';
 # **STRING**
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{DEPENDS} = '$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{H} and $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{EXPERT} ans $$Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{NotPresent}';
+
+

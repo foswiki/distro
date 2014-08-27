@@ -7,92 +7,10 @@ One line description, required for extensions repository catalog.
 
 %SHORTDESCRIPTION%
 
-RPC interface to Foswiki configuration data, with a simple HTML interface.
 This plugin provides access to all Foswiki configuration data, supports running
 server-side checkers, and allows you to save modifications.
 
-Callers must authenticate as admins, or the request will be rejected with
-a 403 status.
-
-Note that this interface does not do everything that =configure= does.
-The intent is to provide an interface to support those who want to
-build their own configuration interface in Javascript. Most relevant is
-that this interface will *fail* unless Foswiki has been minimally
-configured (!LocalSite.cfg exists).
-
-Very much a work in progress. Install, and visit %ATTACHURL%/configure.html to try it out.
-This is a basic HTML + JS interface that uses the
-!ConfigurePlugin to display the configuration. Section opening, and calling checkers, is
-done as late as possible using RPC calls. There is currently no way to save from the
-interface, so it can be explored quite safely.
-
----++ Remote Procedure Call (RPC) interface
-RPC calls are handled via the =JsonRpcContrib=.
-The following procedures are supported:
-
----+++ =getspec=
-Retrieves a list of .spec entries that exactly match the parameters passed in.
-
-The following fields can be used in searches:
-   * =title= - title of a section,
-   * =type= - type of a leaf spec entry,
-   * =parent= - a structure that will be used to match a parent,
-   * =keys= - keys of a spec entry,
-   * =description= - descriptive text of a section or entry.
-For example, ={'title':'Store'}= will retrieve the entire spec subtree for the section
-called 'Store'.
-
-={'keys':'{Store}{Implementation}'}= will retrieve the spec for that one entry. You cannot
-pass a list; if you require the spec for a subsection, retrieve the section title.
-
-={'parent':{'title':'Something'}}= will return all specs within the section named =Something=.
-
-An additional parameter, =children=, controls how many levels of spec are returned.
-=children=0= will return only the immediate matched level. For example,
-={'parent':{'title':'Something'},'children':0}= will return the nodes that are directly
-under =Something=, bot not their children.
-
-Only exact matches are supported for searching.
-
-See below for information on how specs are represented.
-
----+++ =getcfg=
-Retrieve the current setting value of one or more keys.
-The =keys= parameter can be used to pass in a list of key names
-(e.g. ={'keys':["{Store}{Implementation}","{DataDir}"]}= )
-to get values for. If there isn't at least one key parameter,
-returns the entire configuration hash. All keys must be found, or
-an error will be thrown. Results are returned in a hash mapping
-key name to current value.
-
----+++ =check=
-Runs the server-side checkers on a set of keys, optionally with
-new candidate values. The keys to be checked are passed in as key-value
-pairs. If you don't pass anything, all known keys will be checked.
-If you pass =null= for a value, then the existing value for that key in !LocalSite.cfg will be checked. For example,
-the ={Mail}{Server}= entry with a new value would be checked by passing in the JSON
-={"Mail":{"Server":"newvalue"}}=.
-
-You can pass as many configuration items as you want. If you allso pass the parameter =check_dependent= with a true value, then any other keys that depend
-on the keys you pass will also be added to the check. If you don't pass
-in any items, check will be run on *all* configuration items.
-
-The results of the check are reported in an array where each entry is a
-hash with fields =keys=, =level= (e.g. =warnings=, =errors=), and =message=.
-
-Non-information reports may also have =sections=, which
-is an array of section titles leading from the root down to the key.
-
-Guessed fields may also have a =guess=.
-
-Note that a change may have knock-on effects on other items that use that configuration item, which may affect values other than those changed.
-
----+++ =changecfg=
-Lets you change configuration values and clear them. Changes will be saved.
-*Does not check the configuration*. Takes two parameters:
-   * =clear= - array of keys to clear from the configuration. Keys will be cleared even if they have a .spec entry.
-   * =set= - hash mapping key names to new values. Clears are done *before* sets.
-Result is a string reporting the outcome.
+%$POD%
 
 ---++ Invocation examples
 
@@ -107,24 +25,25 @@ while POSTing a request encoded according to the JSON-RPC 2.0 specification:
   jsonrpc: "2.0", 
   method: "getspec", 
   params: {
-     keys: [ "{DataDir}", "{Store}{Implementation}" ]
+     get : { keys: [ "{DataDir}", "Store" ] },
+     depth : 0
   }, 
   id: "caller's id"
 }
 </verbatim>
 
 ---++ .spec format
-All .spec entries have a =type= (which is =SECTION= for sections). They also may
-have =description= and =children=.
+There are two node types in the .spec tree:
 
 SECTIONs have:
-   * =title=
+   * =headline= (default =UNKNOWN=, the root is usually '')
+   * =typename= (always =SECTION=)
+   * =children= - array of child nodes (sections and keys)
  
-Configuration entries (such as ={DataDir}=) have:
-   * =keys=
-   * =options=
-   * =optional=
-   * =defined=
+Key entries (such as ={DataDir}=) have:
+   * =keys= e.g. ={Store}{Cupboard}=
+   * =typename= (from the .spec)
+   * Other keys from the .spec e.g. =SIZE=, =AUDIT=, =FEEDBACK=, =CHECK=
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
@@ -133,7 +52,7 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 ---++ Info
 
 |  Author: | CrawfordCurrie |
-|  Copyright: | 2013, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved |
+|  Copyright: | 2013-2014, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |

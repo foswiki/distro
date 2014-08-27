@@ -18,18 +18,14 @@ Types.BaseType = Class.extend({
     },
 
     createUI: function(change_handler) {
-        var opts = ' ' + (this.spec.options ? this.spec.options : '') + ' ';
-        // M (mandatory) - ignored by this tool
-        // CHECK=? - ignored by this tool
-        // FEEDBACK=? - ignored by this tool
-        // AUDIT=? - ignored by this tool
         var val = this.spec.current_value;
         if (val == undefined)
-            val = this.spec.spec_value;
+            val = '';//eval(this.spec.default);
 
  	var m;
         // columns x rows
-        if (m = opts.match(/^\s*(\d+)x(\d+)(\s|$)/)) {
+        if (this.spec.SIZE
+            && (m = this.spec.SIZE.match(/^\s*(\d+)x(\d+)(\s|$)/))) {
             var cols = m[1];
             var rows = m[2];
             var value = val == undefined ? '' : val;
@@ -40,7 +36,8 @@ Types.BaseType = Class.extend({
         } else {
             // simple size
  	    var size = 80;
-            if (m = opts.match(/^\s*(\d+)(\s|$)/)) {
+            if (this.spec.SIZE
+                && (m = this.spec.SIZE.match(/^\s*(\d+)(\s|$)/))) {
  		size = m[1];
  	    }
             this.ui = $('<input id="' + _id_ify(this.spec.keys)
@@ -48,7 +45,7 @@ Types.BaseType = Class.extend({
             if (val != undefined)
                 this.ui.attr('value', val);
         }
-        if (m = opts.match(/\b([sS])\b/) ) {
+        if (this.spec.SPELLCHECK) {
             this.ui.attr('spellcheck', "true");
         }
  	if (change_handler != undefined)
@@ -64,20 +61,27 @@ Types.BaseType = Class.extend({
  	return this.ui.val();
     },
 
+    commitVal: function() {
+ 	this.spec.current_value = this.currentValue();
+    },
+
     restoreCurrentValue: function() {
         this.useVal(this.spec.current_value);
     },
 
-    restoreSpecValue: function() {
-        this.useVal(this.spec.spec_value);
+    restoreDefaultValue: function() {
+        this.useVal(eval(this.spec.default));
     },
 
     isModified: function() {
-        return this.currentValue() != this.spec.current_value;
+        var cv = this.spec.current_value;
+        if (typeof(cv) == 'undefined')
+            cv = '';
+        return this.currentValue() != cv;
     },
 
     isDefault: function() {
-        return this.currentValue() == this.spec.spec_value;
+        return this.currentValue() == eval(this.spec.default);
     }
 
 });
@@ -88,7 +92,7 @@ Types.BOOLEAN = Types.BaseType.extend({
  		    + '" />');
  	if (change_handler != undefined)
  	    this.ui.change(change_handler);
-        if (this.spec.current_value) {
+        if (this.spec.current_value != 0) {
             this.ui.attr('checked', 'checked');
         }
         if (this.spec.extraClass) {
@@ -101,6 +105,18 @@ Types.BOOLEAN = Types.BaseType.extend({
  	return this.ui[0].checked ? 1 : 0;
     },
 
+    isModified: function() {
+        var a = this.currentValue();
+        var b = this.spec.current_value;
+        return a != b;
+    },
+
+    isDefault: function() {
+        var a = this.currentValue();
+        var b = eval(this.spec.default);
+        return a == b;
+    },
+
     useVal: function(val) {
         this.ui[0].attr(checked, val ? 'checked' : '');
     }
@@ -108,16 +124,16 @@ Types.BOOLEAN = Types.BaseType.extend({
 
 Types.BOOLGROUP = Types.BaseType.extend({
     createUI: function(change_handler) {
- 	var options = split(/,\s*/, this.spec.options);
+ 	var options = this.spec.select_from;
  	var sets = [];
- 	var values = split(/,\s*/, this.spec.current_value);
+ 	var values = this.spec.current_value.split(/,\s*/);
  	for (var i = 0; i < values.length; i++) {
  	    sets[values[i]] = true;
  	}
  	this.ui = $('<div class="checkbox_group"></div>');
  	for (var i = 0; i < options.length; i++) {
  	    var cb = $('<input type="checkbox" name="' + options[i]
- 		       + ' id="' + _if_ify(this.spec.keys) + '"/>');
+ 		       + ' id="' + _id_ify(this.spec.keys) + '"/>');
  	    if (sets[options[i]])
  		cb.attr('checked', 'checked');
  	    cb.change(change_handler);
@@ -160,10 +176,8 @@ Types.PASSWORD = Types.BaseType.extend({
 
 Types.PERL = Types.BaseType.extend({
     createUI: function(change_handler) {
-        if (!this.spec.options)
-            this.spec.options = '';
-        if (!this.spec.options.match(/\b(\d+)x(\d+)\b/)) {
-            this.spec.options = " 80x20 " + this.spec.options;
+        if (!(this.spec.SIZE && this.spec.SIZE.match(/\b(\d+)x(\d+)\b/))) {
+            this.spec.SIZE = "80x20";
         }
  	return this._super(change_handler);
     }
@@ -233,24 +247,23 @@ Types.SELECT = Types.BaseType.extend({
     },
 
     createUI: function(change_handler) {
- 	var opts = this.spec.options;
  	var size = 1;
  	var m;
- 	if (m = opts.match(/\b(\d+)\b/))
+ 	if (this.spec.SIZE && (m = this.spec.SIZE.match(/\b(\d+)\b/)))
  	    size = m[0];
  	var mult = false;
  	this.ui = $('<select id="' + _id_ify(this.spec.keys) + '" size="' + size
  		    + '" class="foswikiSelect" />');
  	if (change_handler != undefined)
  	    this.ui.change(change_handler);
- 	if (opts.match(/\bmultiple\b/)) {
+ 	if (this.spec.MULTIPLE) {
  	    this.ui.attr('multiple', 'multiple');
  	}
 
- 	if (this.spec.choices != undefined) {
+ 	if (this.spec.select_from != undefined) {
  	    var sel = this._getSel(this.spec.current_value);
- 	    for (var i = 0; i < this.spec.choices.length; i++) {
- 		var opt = this.spec.choices[i];
+ 	    for (var i = 0; i < this.spec.select_from.length; i++) {
+ 		var opt = this.spec.select_from[i];
  		var option = $('<option>' + opt + '</option>');
  		if (sel[opt])
  		    $(this).attr('selected', 'selected');
@@ -262,10 +275,10 @@ Types.SELECT = Types.BaseType.extend({
 
     useVal: function(val) {
         var sel = this._getSel(val);
- 	if (this.spec.choices != undefined) {
+ 	if (this.spec.select_from != undefined) {
             var i = 0;
  	    this.ui.find('option').each(function() {
- 		var opt = this.spec.choices[i++];
+ 		var opt = this.spec.select_from[i++];
  		if (sel[opt])
  		    $(this).attr('selected', 'selected');
                 else

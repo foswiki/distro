@@ -1,3 +1,3 @@
-Foswiki::Contrib::JQueryPlugin,>=0,perl,JQuery
-Foswiki::Contrib::JsonRpcContrib,>=0,perl,JSON interface
+Foswiki::Plugins::JQueryPlugin,>=0,perl,Required JQuery
+Foswiki::Contrib::JsonRpcContrib,>=0,perl,Required JSON interface
 

@@ -1,7 +1,7 @@
 /*
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
@@ -20,10 +20,14 @@ As per the GPL, removal of this notice is prohibited.
 User interface for Foswiki configuration. Uses the JsonRpc interface
 to interact with Foswiki.
 */
-var json_rpc_url = "../../../bin/jsonrpc";
+var json_rpc_url = "jsonrpc";
 var reqnum = 0;
+// Required for eval()ing values from FW
+var $FALSE = 0;
+var $TRUE = 1;
 
-var main = function($) {
+(function($) {
+    var auth_action = function() {};
 
     function requestID(s) {
         var rid = _id_ify(s) + '_' + reqnum++;
@@ -33,8 +37,7 @@ var main = function($) {
 
     // Load a whirling wait image
     function createWhirly($node, loadType, atStart) {
-        var $image = $('<img src="' + loadType + 'Whirly.gif" alt="'
-                      + loadType + '"/>');
+        var $image = $('<div class="whirly ' + loadType + 'Whirly" ></div>');
         if (atStart)
             $node.prepend($image);
         else
@@ -42,7 +45,29 @@ var main = function($) {
         return $image;
     }
 
-    // Update the interface with check results.
+    // Make an RPC call
+    function RPC(method, rid, params, report, $whirly) {
+        $.jsonRpc(
+            json_rpc_url,
+            {
+                namespace: 'configure',
+                method: method,
+                id: requestID(rid),
+                params: params,
+                error: function(jsonResponse, textStatus, xhr) {
+                    if ($whirly)
+                        $whirly.remove();
+                    alert(jsonResponse.error.message);
+                },
+                success: function(jsonResponse, textStatus, xhr) {
+                    if ($whirly)
+                        $whirly.remove();
+                    report(jsonResponse.result);
+                }
+            });
+    }
+
+    // Update the interface with check_current_value results.
     // Each result relates to a single configuration key, which is
     // annotated with the report detail. Tabs in the tab hierarchy
     // leading to the key are annotated as well, to indicate where
@@ -50,43 +75,57 @@ var main = function($) {
     function update_reports(results) {
         $('body').css('cursor','wait');
         var refresh_tabs = {};
-        for (var i = 0; i < results.length; i++) {
-            var r = results[i];
+
+        $.each(results, function (index, r) {
             var id = _id_ify(r.keys);
-            var has = [];
 
             // Remove all existing reports related to these keys
+            // This will remove all errors, notes etc.
             $('.' + id + '_report').remove();
 
-            // First update the key block report
-            // An empty information message can be ignored
-            if (!(r.level == 'information' && r.message == '')) {
-                has[r.level] = true;
+            // Update the key block report
+            var has = { errors: 0, warnings: 0 };
+            if (r.reports) {
                 var $reports = $('#' + id + '_reports');
-                var $whine = $('<div>' + r.message + '</div>');
-                $whine.addClass(r.level);
-                $whine.addClass(id + '_report');
-                $reports.append($whine);
+                $.each(r.reports, function(index, rep) {
+                    // An empty information message can be ignored
+                    if (!(rep.level == 'notes' && rep.message == '')) {
+                        if (rep.level == 'errors' || rep.level == 'warnings')
+                            has[rep.level]++;
+                        var $whine = $('<div>' + rep.message + '</div>');
+                        $whine.addClass(rep.level);
+                        $whine.addClass(id + '_report');
+                        $reports.append($whine);
+                    }
+                });
             }
 
-            if (r.sections) {
-                // Bubble the existance of this report up through
-                // the hierarchy, by following the chain of reports
-                var path = r.sections.join(' > ');
-                for (var j = 0; j < r.sections.length; j++) {
-                    var sid = _id_ify(r.sections[j]);
-                    var $section = $('#' + sid + '_reports').first(
-                        function() {
-                            var $whine = $('<div>' + path + ' > ' + r.keys
-                                           + ' has ' + r.level + '</div>');
-                            $whine.addClass(r.level);
-                            $whine.addClass(id + '_report');
-                            $(this).append(whine);
-                        });
-                    refresh_tabs[sid] = has;
-                }
+            // Bubble the existance of reports up through
+            // the section hierarchy
+            if (has.errors + has.warnings > 0 && r.path) {
+                var path = r.path.join(' > ');
+
+                $.each(r.path, function(index, pel) {
+                    var sid = _id_ify(pel);
+                    refresh_tabs[sid] = {};
+                    $.each(has, function (index, level) {
+                        $('#' + sid + '_reports').first(
+                            function() {
+                                var $whine = $('<div>' + path + ' > '
+                                               + r.keys
+                                               + ' has '
+                                               + level
+                                               + '</div>');
+                                $whine.addClass(level);
+                                $whine.addClass(id + '_report');
+                                $(this).append($whine);
+                                refresh_tabs[sid][level] = true;
+                            });
+                    });
+                });
             }
-        }
+        });
+
         // Refresh the tab element
         $.each(refresh_tabs, function(id, has) {
             var $tab = $('#' + id + '_tab');
@@ -101,82 +140,99 @@ var main = function($) {
         $('body').css('cursor','auto');
     }
 
-    // Performs a check on a key to decide whether to display
-    // reset/default controls
-    function checkModified($node, noCheck) {
+    // Create a popup with reports
+    function wizard_reports(results) {
+        $('body').css('cursor','wait');
+        // Generate reports
+        var $div = $('<div id="report_dialog"></div>');
+        $.each(results.report, function(index, rep) {
+            var $whine = $('<div>' + rep.message + '</div>');
+            $whine.addClass(rep.level);
+            $div.append($whine);
+        });
+        // Reflect changed values back to the input elements
+        $.each(results.changes, function(keys, value) {
+            // Get the input for the keys, if it's there
+            var $input = $('#' + _id_ify(keys));
+            $input.each(function() {
+                $(this).attr('value', value);
+                update_modified_default($(this).closest('div.node'));
+            })
+        });
+        $div.dialog({
+            modal: true,
+            buttons: {
+                Ok: function() {
+                    $div.dialog("close");
+                    $div.remove();
+                    $('body').css('cursor','auto');
+                }
+            }
+        });
+    }
+
+    function update_modified_default($node) {
         var handler = $node.data('value_handler');
-        if (handler.isModified())
+        if (handler.isModified()) {
             $node.addClass("value_modified");
-        else
+            $('#saveButton').button("enable");
+        } else {
             $node.removeClass("value_modified");
+            if (!$('#saveButton').button("option", "disabled")) {
+                $('#saveButton').button('disable');
+                $('.value_modified').first().each(function() {
+                    $('#saveButton').button('enable');
+                });
+            }
+        }
 
         if (handler.isDefault())
             $node.addClass("value_default");
         else
             $node.removeClass("value_default");
-
-        if (noCheck)
-            return;
-
-        var val = handler.currentValue();
-        var params = {};
-        params[handler.spec.keys] = val;
-
-        var whirly = createWhirly($node, 'check', false);
-        var rid = requestID("modify" + _id_ify(handler.spec.keys));
-        $.jsonRpc(
-            json_rpc_url,
-            {
-                namespace: "configure",
-                method: "check",
-                id: rid,
-                params: params,
-                error: function(jsonResponse, textStatus, xhr) {
-                    whirly.remove();
-                    alert(jsonResponse.error.message);
-                },
-                success: function(jsonResponse, textStatus, xhr) {
-                    update_reports(jsonResponse.result);
-                    whirly.remove();
-                }
-            });
     }
 
-    function checkKeys(keys, $node, noWhirly) {
-        var $whirly;
-        if (!noWhirly)
-            $whirly = createWhirly($node, 'check', true);
-        var rid = requestID("checkKeys");
-        $.jsonRpc(
-            json_rpc_url,
-            {
-                namespace: "configure",
-                method: "check",
-                id: rid,
-                params: keys,
-                error: function(jsonResponse, textStatus, xhr) {
-                    if ($whirly)
-                        $whirly.remove();
-                    alert(jsonResponse.error.message);
-                },
-                success: function(jsonResponse, textStatus, xhr) {
-                    if ($whirly)
-                        $whirly.remove();
-                    update_reports(jsonResponse.result);
-                }
-            });
-    }
+    // Performs a check on a key
+    function check_current_value($node) {
+        update_modified_default($node);
 
-    // Call to check all the *known* keys under this node. Keys
-    // that are currently missing from the UI (because they have
-    // not been loaded yet) will not be checked.
-    function checkLoadedKeys($node) {
-        var to_do = {};
-        $node.find('.node.keyed').each(function() {
-            var spec = $(this).data('spec.entry');
-            to_do[spec.keys] = null;
+        var handler = $node.data('value_handler');
+        var params = { keys: [ handler.spec.keys ], set: {} };
+        // Find and set *all* modified values
+        $('.value_modified').each(function() {
+            var handler = $(this).data('value_handler');
+            params.set[handler.spec.keys] = handler.currentValue();
         });
-        checkKeys(to_do, $node);
+
+        RPC('check_current_value',
+            'ccv' + handler.spec.keys,
+            params,
+            update_reports,
+            createWhirly($node, 'check') );
+    }
+
+    // Delegate for calling wizards once auth info is available
+    function call_wizard($node, fb) {
+        var handler = $node.data('value_handler');
+        var params = {
+            wizard: fb.wizard,
+            keys: handler.spec.keys,
+            method: fb.method,
+            set: {},
+            cfgusername: $('#username').val(),
+            cfgpassword: $('#password').val()
+        };
+
+        $('.value_modified').each(function() {
+            var handler = $(this).data('value_handler');
+            params.set[handler.spec.keys] = handler.currentValue();
+        });
+
+        RPC('wizard',
+            'cw' + handler.spec.keys,
+            params,
+            wizard_reports,
+            createWhirly($node, 'check'));
     }
 
     // Load all the value UIs for the key nodes under an element
@@ -185,22 +241,25 @@ var main = function($) {
             var $key = $(this);
             $key.removeClass('valued');
             var spec = $key.data('spec.entry');
-            var handler_class = spec.type;
+            var handler_class = spec.typename;
             if (!(typeof(window['Types'][handler_class]) === "function"))
                 handler_class = "BaseType";
             var handler = new window['Types'][handler_class](spec);
             $key.data('value_handler', handler);
 
-            $key.append(handler.createUI(
+            var $ui = handler.createUI(
                 function() {
-                    checkModified($key);
-                }));
+                    update_modified_default($key);
+                    check_current_value($key);
+                });
+            $key.append($ui);
 
             var $button = $('<button class="undo_button"></button>');
-            $button.attr('title', 'Reset to configured value: ' + spec.current_value);
+            $button.attr('title', 'Reset to configured value: '
+                         + spec.current_value);
             $button.click(function() {
                 handler.restoreCurrentValue();
-                checkModified($key);
+                check_current_value($key);
             }).button({
                 icons: {
                     primary: "undo-icon"
@@ -210,10 +269,10 @@ var main = function($) {
             $key.append($button);
 
             $button = $('<button class="default_button"></button>');
-            $button.attr('title', 'Reset to default value: ' + spec.spec_value);
+            $button.attr('title', 'Reset to default value: ' + spec.default);
             $button.click(function() {
-                handler.restoreSpecValue();
-                checkModified($key);
+                handler.restoreDefaultValue();
+                check_current_value($key);
             }).button({
                 icons: {
                     primary: "default-icon"
@@ -222,7 +281,39 @@ var main = function($) {
             });
             $key.append($button);
 
-            checkModified($key, true);
+            if (spec.FEEDBACK)
+                $.each(spec.FEEDBACK, function(index, fb) {
+                    var onClick;
+                    if (fb.method) {
+                        if (!fb.label)
+                            fb.label = fb.method;
+                        if (!fb.label)
+                            fb.label = fb.wizard;
+                        $button = $('<button class="feedback_button">'
+                                    + fb.label + '</button>');
+                        if (spec.title == null)
+                            spec.title = fb.label;
+                        $button.attr('title', spec.title);
+                        $button.click(function() {
+                            if (fb.auth == 1) {
+                                auth_action = function() {
+                                    call_wizard($key, fb);
+                                };
+                                $('#auth_prompt').dialog(
+                                    'option', 'title',
+                                    spec.title + ' requires authentication');
+                                $('#auth_prompt').dialog("open");
+                            } else
+                                call_wizard($key, fb);
+                        }).button();
+                        $key.append($button);
+                    }
+                    else {
+                        console.debug("Useless FEEDBACK on " + spec.keys);
+                    }
+                });
+
+            update_modified_default($key);
         });
     }
 
@@ -242,41 +333,40 @@ var main = function($) {
         if ($node.data('spec.entry'))
             return;
         $node.data('spec.entry', spec);
-        var $whirly = createWhirly($node, 'load', true);
-        var rid = requestID(spec.title);
-        $.jsonRpc(
-            json_rpc_url,
+        RPC('getspec',
+            spec.headline,
             {
-                namespace: "configure",
-                method: "getspec",
-                id: rid,
-                params: {
-                    "parent" : {
-                        "depth": spec.depth,
-                        "title" : spec.title
-                    },
-                    "children" : 0 },
-                error: function(jsonResponse, textStatus, xhr) {
-                    $whirly.remove();
-                    if (jsonResponse.error.code == 1) {
-                        alert(jsonResponse.error.message);
-                    } else {
-                        debugger;
+                get : {
+                    parent : {
+                        depth: spec.depth,
+                        headline : spec.headline
                     }
                 },
-                success: function(jsonResponse, textStatus, xhr) {
-                    var $report = $('<div class="reports"></div>');
-                    $report.attr('id', _id_ify(spec.title) + '_reports');
-                    $node.append($report);
+                depth : 0
+            },
+            function(response) {
+                var $report = $('<div class="reports"></div>');
+                $report.attr('id', _id_ify(spec.headline) + '_reports');
+                $node.append($report);
 
-                    if (spec.description) {
-                        $node.append('<div class="description">'
-                                      + spec.description + '</div>');
-                    }
-                    load_section_specs(jsonResponse.result, $node);
-                    $whirly.remove();
-                    checkLoadedKeys($node);
+                if (spec.desc) {
+                    $node.append('<div class="description">'
+                                 + spec.desc + '</div>');
                 }
+                load_section_specs(response, $node);
+                // Call to check all the *known* keys under this node. Keys
+                // that are currently missing from the UI (because they have
+                // not been loaded yet) will not be checked.
+                var to_do = [];
+                $node.find('.node.keyed').each(function() {
+                    var spec = $(this).data('spec.entry');
+                    to_do.push(spec.keys);
+                });
+                RPC('check_current_value',
+                    'checkLoadedKeys',
+                    { keys : to_do },
+                    update_reports,
+                    createWhirly($node, 'check') );
             }
         );
     }
@@ -324,41 +414,39 @@ var main = function($) {
                 console.debug(err);
             }
         };
-        for (var i = 0; i < keys.length; i++) {
+        $.each(keys, function(index, k) {
             // Add a change handler so we know when the key value changes.
             // By using on() we will get the handler attached to elements
             // when they are loaded, even if they're not there yet.
-            $(document).on("change", keys[i], null, handler);
-        }
+            $(document).on("change", k, null, handler);
+        });
         return handler;
     };
 
-    // Create the DOM for a section
+    // Create the DOM for a section from getspec entries
     function load_section_specs(entries, $section) {
         // Construct a value field for each key
         var on_ready = [];
-        for (var i = 0; i < entries.length; i++) {
-            var entry = entries[i];
+        $.each(entries, function(index, entry) {
             var label;
-            if (entry.type != "SECTION") {
+            if (entry.typename != "SECTION") {
                 var $node = $('<div class="node valued closed"></div>');
-                var label = null;
                 $node.data('spec.entry', entry);
-                if (entry.options) {
-                    // Decode options
-                    var m;
-                    if (m = entry.options.match(/\bEXPERT\b/))
-                        $node.addClass('inexpert');
-                    if (m = entry.options.match(/\bLABEL="(.*?)"/))
-                        label = m[1];
-                    if (m = entry.options.match(/\b(DISPLAY_IF\s*.*)$/))
-                        on_ready.push(
-                            add_dependency(m[1], $node, function ($el, tf) {
+                if (entry.EXPERT && entry.EXPERT == 1) {
+                    // Set inexpert to suppress display
+                    $node.addClass('inexpert');
+                }
+                var label = entry.LABEL;
+                if (entry.DISPLAY_IF != null)
+                    on_ready.push(
+                        add_dependency(
+                            entry.DISPLAY_IF, $node, function ($el, tf) {
                                 $el.toggle(tf);
                             }));
-                    else if (entry.options.match(/\b(ENABLE_IF\s*.*)$/))
-                        on_ready.push(
-                            add_dependency(m[1], $node, function($el, tf) {
+                if (entry.ENABLE_IF != null)
+                    on_ready.push(
+                        add_dependency(
+                            entry.ENABLE_IF, $node, function($el, tf) {
                                 if (tf) {
 	                            $el.find("input,textarea").removeAttr('disabled');
                                 } else {
@@ -366,7 +454,7 @@ var main = function($) {
                                         .attr('disabled', 'disabled');
                                 }
                             }));
-                }
+
                 var id = "NO_ID";
                 if (entry.keys != null) {
                     id = _id_ify(entry.keys);
@@ -375,9 +463,9 @@ var main = function($) {
                         label = entry.keys;
                     var $head = $('<div class="keys">' + label + '</div>');
                     $node.append($head);
-                    if (entry.description) {
+                    if (entry.desc) {
                         var $infob = $('<button class="info_button"></button>');
-                        $head.append($infob);
+                        $head.prepend($infob);
                         $infob.click(function() {
                             toggle_description($(this).closest('.keyed'));
                         }).button({
@@ -387,35 +475,36 @@ var main = function($) {
                             text: false
                         });
                     }
-                } else if (entry.title != null) {
+                } else if (entry.headline != null) {
                     // unkeyed type e.g. BUTTON
-                    id = _id_ify(entry.title);
+                    id = _id_ify(entry.headline);
                 }
                 $node.attr('id', id + '_block');
                 var $report = $('<div class="reports"></div>');
                 $report.attr('id', id + '_reports');
                 $node.append($report);
-                if (entry.description) {
+                if (entry.desc) {
                     $node.append('<div class="description">'
-                                  + entry.description + '</div>');
+                                  + entry.desc + '</div>');
                 }
                 $section.append($node);
             }
-        }
+        });
 
-        // Construct tab entry for each child
+        // Construct tab entry for each (unique) child
         var $children = null;
         var $lis = null;
-        for (var i = 0; i < entries.length; i++) {
-            var entry = entries[i];
-            if (entry.type == "SECTION") {
+        var created = {};
+        $.each(entries, function(index, entry) {
+            if (entry.typename == "SECTION" && !created[entry.headline]) {
+                created[entry.headline] = true;
                 var $li = $('<li><a href="'
                            // This URL could be anything; we're going to
                            // cancel it in the beforeLoad, below.
                            + json_rpc_url
                            + '"><span class="tab" id="'
-                           + _id_ify(entry.title) + '_tab">'
-                           + entry.title + '</span></a></li>');
+                           + _id_ify(entry.headline) + '_tab">'
+                           + entry.headline + '</span></a></li>');
                 $li.data('spec.entry', entry);
                 if ($children == null) {
                     $children = $('<div></div>');
@@ -425,7 +514,7 @@ var main = function($) {
                 }
                 $lis.append($li);
             }
-        }
+        });
 
         if ($children != null) {
             // Construct the child tabs for the section
@@ -445,34 +534,78 @@ var main = function($) {
         load_value_uis($section);
 
        // Invoke any dependency handlers
-        for (i = 0; i < on_ready.length; i++) {
-            var handler = on_ready[i];
+        $.each(on_ready, function(index, handler) {
             handler.call();
-        }
+        });
     }
 
-    // Get all root entries
-    var $whirly = createWhirly($('#root'), 'load', false);
-    var rid = requestID("root");
-    $.jsonRpc(
-        json_rpc_url,
-        {
-            namespace: "configure",
-            method: "getspec",
-            id: rid,
-            params: { "parent": { "type" : "ROOT" }, "children" : 0 },
-            error: function(jsonResponse, textStatus, xhr) {
-                $whirly.remove();
-                if (jsonResponse.error.code == 1) {
-                    alert(jsonResponse.error.message);
-                } else {
-                    debugger;
+    $(document).ready(function() {
+        $('#auth_prompt').dialog({
+            autoOpen: false,
+            height: 400,
+            width: 400,
+            modal: true,
+            buttons: {
+                "Confirm": function () {
+                    $('#auth_prompt').dialog( "close" );
+                    auth_action();
+                },
+                Cancel: function() {
+                    $('#auth_prompt').dialog( "close" );
                 }
-            },
-            success: function(jsonResponse, textStatus, xhr) {
-                load_section_specs(jsonResponse.result, $('#root'));
-                $whirly.remove();
-                checkKeys({}, $('#root'), true);
+            }
+        });
+
+        $('#saveButton').button({disabled: true}).click(function() {
+            // SMELL: Save wizard v.s. changecfg in ConfigurePlugin
+            auth_action = function() {
+                var params = {
+                    wizard: 'Save',
+                    method: 'save',
+                    set: {},
+                    cfgusername: $('#username').val(),
+                    cfgpassword: $('#password').val()
+                };
+                $('.value_modified').each(function() {
+                    var handler = $(this).data('value_handler');
+                    params.set[handler.spec.keys] = handler.currentValue();
+                });
+                RPC('wizard',
+                    'save',
+                    params,
+                    function(results) {
+                        wizard_reports(results);
+                        var erc = 0;
+                        $.each(results.report, function(index, rep) {
+                            if (rep.level == 'errors') {
+                                erc += 1;
+                            }
+                        });
+                        // No errors, commit the UI value to the spec
+                        if (erc == 0) {
+                            $('.value_modified').each(function() {
+                                var handler = $(this).data('value_handler');
+                                handler.commitVal();
+                                $(this).removeClass('value_modified');
+                            });
+                        }
+                    },
+                    createWhirly($('#root'), 'load'));
+            };
+            $('#auth_prompt').dialog(
+                'option', 'title', 'Save requires authentication');
+            $('#auth_prompt').dialog("open");
+        });
+
+        $(document).tooltip();
+
+        // Get all root entries
+        RPC('getspec',
+            'rootSpec',
+            { "get" : { "parent": { "depth" : 0 } }, "depth" : 0 },
+            function(result) {
+                load_section_specs(result, $('#root'));
+
                 $('#showExpert').change(function() {
                     if (this.checked) {
                         $('.inexpert').each(function() {
@@ -484,17 +617,22 @@ var main = function($) {
                         });
                     }
                 }).removeAttr('disabled');
-            }
-        }
-    );
+
+                // Check all keys under root
+                RPC('check_current_value',
+                    'deepCheck',
+                    { keys : [] },
+                    update_reports,
+                    createWhirly($('#root'), 'check') );
+            },
+            createWhirly($('#root'), 'load'));
+    });
 
     $(window).on('beforeunload', function() {
         if ($('.value_modified').length > 0)
             return "You have unsaved changes";
-        return null;
+        return 'Are you really sure?';
     });
 
-    $(document).tooltip();
-}
+})(jQuery);
 
-main(jQuery);
