@@ -76,7 +76,7 @@ sub getSerialiser {
     return $serialisers{$style}
       if ( defined( $serialisers{$style} ) );
 
-    $style = 'Simplified' if ( $style eq 'default' );
+    $style = 'Simplified' if ( $style eq 'Default' );
     my $module = "Foswiki::Serialise::$style";
 
     eval "require $module";
