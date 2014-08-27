@@ -421,6 +421,7 @@ lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Checker.pm 0444
+lib/Foswiki/Configure/Checkers/AccessibleCFG.pm 0444
 lib/Foswiki/Configure/Checkers/AuthRealm.pm 0444
 lib/Foswiki/Configure/Checkers/AuthScripts.pm 0444
 lib/Foswiki/Configure/Checkers/BasicSanity.pm 0444
@@ -450,6 +451,7 @@ lib/Foswiki/Configure/Checkers/Email/SSLClientKeyPassword.pm 0444
 lib/Foswiki/Configure/Checkers/Email/SSLCrlFile.pm 0444
 lib/Foswiki/Configure/Checkers/EnableEmail.pm 0444
 lib/Foswiki/Configure/Checkers/ExtensionsRepositories.pm 0444
+lib/Foswiki/Configure/Checkers/FormTypes.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/AutoDetect.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/Encoding.pm 0444
 lib/Foswiki/Configure/Checkers/Htpasswd/FileName.pm 0444
@@ -459,6 +461,7 @@ lib/Foswiki/Configure/Checkers/LANGUAGE.pm 0444
 lib/Foswiki/Configure/Checkers/LegacyRESTSecurity.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Dir.pm 0444
 lib/Foswiki/Configure/Checkers/LogFileName.pm 0444
+lib/Foswiki/Configure/Checkers/Log/Action.pm 0444
 lib/Foswiki/Configure/Checkers/Log/Implementation.pm 0444
 lib/Foswiki/Configure/Checkers/LoginManager.pm 0444
 lib/Foswiki/Configure/Checkers/LowerNational.pm 0444
@@ -490,7 +493,6 @@ lib/Foswiki/Configure/Checkers/Site/CharSet.pm 0444
 lib/Foswiki/Configure/Checkers/Site/Locale.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/MAILHOST.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/SENDERHOST.pm 0444
-lib/Foswiki/Configure/Checkers/SMTP/MailMethod.pm 0444
 lib/Foswiki/Configure/Checkers/SMTP/Username.pm 0444
 lib/Foswiki/Configure/Checkers/Store/EgrepCmd.pm 0444
 lib/Foswiki/Configure/Checkers/Store/FgrepCmd.pm 0444
@@ -524,6 +526,20 @@ lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
 lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Visitor.pm 0444
+lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm 0444
+lib/Foswiki/Configure/Wizards/CancelSMIMECertificate.pm 0444
+lib/Foswiki/Configure/Wizards/GenerateCSR.pm 0444
+lib/Foswiki/Configure/Wizards/GenerateSMIMECertificate.pm 0444
+lib/Foswiki/Configure/Wizards/GuessSSLCaLocations.pm 0444
+lib/Foswiki/Configure/Wizards/InstallCertificate.pm 0444
+lib/Foswiki/Configure/Wizards/Save.pm 0444
+lib/Foswiki/Configure/Wizards/ScriptHash.pm 0444
+lib/Foswiki/Configure/Wizards/SendTestEmail.pm 0444
+lib/Foswiki/Configure/Wizards/ShowActiveCertificate.pm 0444
+lib/Foswiki/Configure/Wizards/ShowCSR.pm 0444
+lib/Foswiki/Configure/Wizards/StudyWebserver.pm 0444
+lib/Foswiki/Configure/Wizards/Test.pm 0444
+lib/Foswiki/Configure/Wizards/ValidateCertificates.pm 0444
 lib/Foswiki/Contrib/core/DEPENDENCIES 0444
 lib/Foswiki/Contrib/core/MANIFEST 0444 #just the foswiki core module files
 lib/Foswiki/Engine.pm 0444
