@@ -69,9 +69,11 @@ sub run {
     my $requestor = $req->http('x-requested-with') || '';
     unless (
            $Foswiki::cfg{isVALID}
+        || $Foswiki::cfg{isBOOTSTRAPPING}
         || $requestor eq 'XMLHttpRequest'
 
-   # Configure uses FoswikiReflectionRequest to query values before LSC is ready
+        # Configure uses FoswikiReflectionRequest to query values
+        # before LSC is ready
         || $requestor eq 'FoswikiReflectionRequest'
       )
     {
