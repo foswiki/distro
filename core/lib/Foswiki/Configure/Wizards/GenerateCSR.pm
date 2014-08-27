@@ -17,16 +17,19 @@ our @ISA = ('Foswiki::Configure::Wizard');
 
 use Foswiki::Configure::Wizards::GenerateSMIMECertificate ();
 
-sub execute {
+# WIZARD
+sub request_cert {
     my ( $this, $reporter ) = @_;
     return Foswiki::Configure::Wizards::GenerateSMIMECertificate(
-        $reporter, {
-            C => [ $Foswiki::cfg{Email}{SmimeCertC} ],
+        $reporter,
+        {
+            C  => [ $Foswiki::cfg{Email}{SmimeCertC} ],
             ST => [ $Foswiki::cfg{Email}{SmimeCertST} ],
-            L => [ $Foswiki::cfg{Email}{SmimeCertL} ],
-            O => [ $Foswiki::cfg{Email}{SmimeCertO} ],
-            U => [ $Foswiki::cfg{Email}{SmimeCertOU}],
-        });
+            L  => [ $Foswiki::cfg{Email}{SmimeCertL} ],
+            O  => [ $Foswiki::cfg{Email}{SmimeCertO} ],
+            U  => [ $Foswiki::cfg{Email}{SmimeCertOU} ],
+        }
+    );
 }
 
 1;

@@ -41,6 +41,8 @@ sub new {
     my $this = $class->SUPER::new(
         children  => [],
         headline  => 'UNKNOWN',
+        typename  => 'SECTION',
+        _depth    => 0,
         _vobCache => {},          # Do not serialise
         @opts
     );
@@ -61,6 +63,7 @@ sub addChild {
         die "Subnode already present; cannot add again" if $child eq $kid;
     }
     $child->{_parent} = $this;
+    $child->{_depth}  = $this->{_depth} + 1;
 
     push( @{ $this->{children} }, $child );
 
@@ -129,6 +132,11 @@ sub getSectionObject {
 sub getValueObject {
     my ( $this, $keys ) = @_;
     return $this->{_vobCache}->{$keys};
+}
+
+sub getAllValueKeys {
+    my $this = shift;
+    return keys $this->{_vobCache};
 }
 
 1;

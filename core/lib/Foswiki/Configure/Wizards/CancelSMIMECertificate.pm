@@ -17,8 +17,9 @@ our @ISA = ('Foswiki::Configure::Wizard');
 
 use MIME::Base64;
 
-sub execute {
-    my ($this, $reporter) = @_;
+# WIZARD
+sub cancel_cert {
+    my ( $this, $reporter ) = @_;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
     Foswiki::Configure::Load::expandValue($certfile);
@@ -36,7 +37,8 @@ sub execute {
         }
         if ($ok) {
             $reporter->NOTE("Request cancelled");
-        } else {
+        }
+        else {
             $this->ERROR("Cancel failed.");
         }
     }

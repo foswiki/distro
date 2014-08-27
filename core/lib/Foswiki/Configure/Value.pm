@@ -45,6 +45,8 @@ value of an attribute. A process is a ref to a function that performs
 this parsing. Execution of processes may be supressed by setting
 $Foswiki::Configure::LoadSpec::RAW_VALS to 1.
 
+Processes are used to parse 'FEEDBACK' and 'CHECK' values.
+
 =cut
 
 package Foswiki::Configure::Value;
@@ -58,10 +60,6 @@ our @ISA = ('Foswiki::Configure::Item');
 
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
-    AUDIT => {
-        parse_val => '_AUDIT',
-        default   => [ { group => 'PARS', button => 0 } ]
-    },
     FEEDBACK    => { parse_val => '_FEEDBACK' },
     CHECK       => { parse_val => '_CHECK' },
     LABEL       => {},
@@ -151,77 +149,31 @@ sub parseTypeParams {
     return $str;
 }
 
-# Add one or more audit group to this value
-#    * =$spec= can be a ref to a {group=> button=>}, or a space-separated
-#      string of group:button pairs.
-#
-# Group specifiers are Name:button, where button is the button number
-#  to be pressed when audited in the named group. button defaults to 1.
-# e.g. DIRS URI:0 DIRS:1 EPARS:1
-
-sub _AUDIT {
-    my ( $this, $spec ) = @_;
-
-    $spec =~ s/^(["']\s*)(.*?)\s*\1$/$2/;    # remove optional quotes
-    my $ospec = $spec;
-    while ( $spec =~ s/^\s*([A-Za-z0-9_]+)(?::(\d+))?// ) {
-        my $group  = $1;
-        my $button = $2;
-        $button = 1 unless defined $button;
-        unless ( grep { $_->{group} eq $group && $_->{button} == $button }
-            @{ $this->{AUDIT} } )
-        {
-            push( @{ $this->{AUDIT} }, { group => $group, button => $button } );
-        }
-    }
-    die "AUDIT parse failed at $spec in $ospec" if $spec;
-}
-
 # A feedback is a set of key=value pairs
 sub _FEEDBACK {
     my ( $this, $str ) = @_;
 
-    my %fb = ( label => 'Validate' );
+    $str =~ s/^\s*(["'])(.*)\1\s*$/$2/;
 
-    # Parse ';' separated list of feedback specs
-    if ( $str =~ s/^(AUTO|ON-CHANGE|IMMEDIATE)//i ) {
-        $fb{label} = '~';
-    }
-    elsif ( $str =~ s/^VALIDATE//i ) {
-        $fb{label} = 'Validate';
-    }
-    elsif ( $str =~ s/^FIX//i ) {
-        $fb{label} = 'Repair';
-    }
-    elsif ( $str =~ s/^TEST//i ) {
-        $fb{label} = 'Test';
-    }
-    elsif ( $str =~ s/^(["'])(.*)\1$/$2/ ) {
-        if ( $str =~ s/^([A-Z0-9' ]+)$//i ) {
-            $fb{label} = $1;
+    my %fb;
+    while ( $str =~ s/^\s*([a-z]+)\s*=\s*// ) {
+
+        my $attr = $1;
+
+        if ( $str =~ s/^(\d+)// ) {
+
+            # name=number
+            $fb{$attr} = $1;
         }
-        else {
-            do {
-                if ( $str =~ s/^(["'])(.*?[^\\])\1// ) {
+        elsif ( $str =~ s/(["'])(.*?[^\\])\1// ) {
 
-                    # "string"
-                    $fb{label} = $2;
-                }
-                elsif ( $str =~ s/^([a-z]+)\s*=\s*(["'])(.*?[^\\])\2// ) {
-
-                    # name=string
-                    $fb{$1} = $3;
-                }
-                elsif ( $str =~ s/^([a-z]+)\s*=\s*(\d+)// ) {
-
-                    # name=number
-                    $fb{$1} = $2;
-                }
-            } while ( $str =~ s/^\s*;\s*// );
+            # name=string
+            $fb{$attr} = $2;
         }
+        last unless $str =~ s/^\s*;//;
     }
 
-    die "FEEDBACK parse failed at $str" unless $str eq '';
+    die "FEEDBACK parse failed at $str" unless $str =~ /^\s*$/;
 
     push @{ $this->{FEEDBACK} }, \%fb;
 }
@@ -287,9 +239,10 @@ Get the array of checks specified by the CHECK option in the .spec
 sub getChecks {
     my ($this) = @_;
 
-    if (ref($this->{CHECK}) eq 'ARRAY') {
-        return @{$this->{CHECK}};
-    } else {
+    if ( ref( $this->{CHECK} ) eq 'ARRAY' ) {
+        return @{ $this->{CHECK} };
+    }
+    else {
         return ();
     }
 }
@@ -311,6 +264,11 @@ sub getValueObject {
     my ( $this, $keys ) = @_;
 
     return ( $this->{keys} && $keys eq $this->{keys} ) ? $this : undef;
+}
+
+sub getAllValueKeys {
+    my $this = shift;
+    return ( $this->{keys} );
 }
 
 =pod
@@ -340,16 +298,9 @@ sub stringify {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-TWiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

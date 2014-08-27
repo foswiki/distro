@@ -97,17 +97,20 @@ sub construct {
 
         # Create the item under the current heading
         my $value = Foswiki::Configure::Value->new(
-            'SCRIPTHASH',
+            'URLPATH',
             keys        => $keys,
-            desc        => "Full URL for $script script.  Rarely modified.",
+            desc        => "Full URL for $script script. Rarely modified.",
             EXPERT      => 1,
             MUST_ENABLE => 1,
-            default     => "'$default'",
+            UNDEFINEDOK => 1,
+
+            # By providing a default we are suggesting it is a
+            # good idea - which it isn't. So don't.
+            #default     => "'$default'",
             opts =>
-              'FEEDBACK=AUTO FEEDBACK="Verify" CHECK="expand nullok notrail"',
+'FEEDBACK="label=\'Verify\';wizard=\'ScriptHash\';method=\'verify\';auth=1" CHECK="expand nullok notrail"',
         );
 
-        $value->set( opts => 'AUDIT="PARS:0 URI:0"' );
         push( @$settings, $value );
     }
     closedir $dh;
