@@ -24,12 +24,12 @@ And if you develop plugins, you want to be able to activate your plugin in this 
 and doing the pseudo-install. We assume that you want to run your git based install in `/var/www/foswiki`
 
 The following commands check out an _absolutely minimal_ Foswiki (the core + default user mapping only). This is the smallest checkout that will run. The steps are:
-1. create the root directory called foswiki
-1. `git clone https://github.com/foswiki/distro.git foswiki`
-1. This will check out core and all the default and developer extensions, however they are not installed yet.
-1. `cd core && ./pseudo-install default`
-1. change the ownership so the entire tree is owned by the user running the Apache. In this example the user name is "apache".
-1. point Apache at the checkout
+ 1. create the root directory called foswiki
+ 1. `git clone https://github.com/foswiki/distro.git foswiki`
+ 1. This will check out core and all the default and developer extensions, however they are not installed yet.
+ 1. `cd core && ./pseudo-install default`
+ 1. change the ownership so the entire tree is owned by the user running the Apache. In this example the user name is "apache".
+ 1. point Apache at the checkout
 Change the commands to fit your actual file locations and Apache user. Some commands may have to be run as root.
 
 ```
@@ -79,10 +79,10 @@ chown -R apache:apache foswiki
 # Now configure Apache to use the Foswiki in /var/www/foswiki/core
 ```
 
-1. Use the [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator?foswikiversion=1.1&vhost=&port=&timeout=&dir=%2Fvar%2Fwww%2Ffoswiki&symlink=on&pathurl=%2Ffoswiki&shorterurls=enabled&engine=CGI&fastcgimodule=fastcgi&fcgidreqlen=&apver=2&allowconf=&reqandor=and&requireconf=&loginmanager=Template&htpath=&errordocument=UserRegistration&errorcustom=&phpinstalled=PHP4&blockpubhtml=on#HighLight)
-1. Clipboard copy and save this to core/../foswiki.httpd.conf
+ 1. Use the [ApacheConfigGenerator](http://foswiki.org/Support/ApacheConfigGenerator?foswikiversion=1.1&vhost=&port=&timeout=&dir=%2Fvar%2Fwww%2Ffoswiki&symlink=on&pathurl=%2Ffoswiki&shorterurls=enabled&engine=CGI&fastcgimodule=fastcgi&fcgidreqlen=&apver=2&allowconf=&reqandor=and&requireconf=&loginmanager=Template&htpath=&errordocument=UserRegistration&errorcustom=&phpinstalled=PHP4&blockpubhtml=on#HighLight)
+ 1. Clipboard copy and save this to core/../foswiki.httpd.conf
  -* cat &gt; foswiki-svn_httpd.conf
-1. Include this httpd.conf from your apache httpd.conf
+ 1. Include this httpd.conf from your apache httpd.conf
  -* If you are on a Mac, you can put this file into /etc/apache2/other/ and line "Include /private/etc/apache2/other/*.conf" will pick it up.
  -* Otherwise, edit your httpd.conf and add: Include /path/to/foswiki-svn_httpd.conf
  -* Ensure your new .conf file has chmod a+r access
@@ -106,7 +106,7 @@ cd /var/www/foswiki/core
 ./pseudo-install.pl developer
 ```
 
-This will also install the Extensions.BuildContrib and a number of other components useful to developers.
+This will also install [BuildContrib](http://foswiki.org/Extensions/BuildContrib) and a number of other components useful to developers.
 
 ## Tips, hints, and useful commands
 ### Enable ASSERTS for more extensive testing
@@ -203,6 +203,6 @@ perl ../bin/TestRunner.pl FoswikiSuite
 
 (or equivalent on Windows)
 
-For full details, see [[Development.UnitTests#SettingUpATestEnvironment]]
+For full details, see http://foswiki.org/Development/UnitTests#SettingUpATestEnvironment
 
 
