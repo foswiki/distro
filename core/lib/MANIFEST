@@ -2,7 +2,7 @@
 !include ../AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin
 !include ../CompareRevisionsAddOn/lib/Foswiki/Contrib/CompareRevisionsAddOn
 !include ../CommentPlugin/lib/Foswiki/Plugins/CommentPlugin
-!include ../ConfigureContrib/lib/Foswiki/Contrib/ConfigureContrib
+!include ../ConfigurePlugin/lib/Foswiki/Contrib/ConfigurePlugin
 !include ../EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
 !include ../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin
 !include ../FamFamFamContrib/lib/Foswiki/Contrib/FamFamFamContrib
@@ -12,6 +12,7 @@
 !include ../JEditableContrib/lib/Foswiki/Contrib/JEditableContrib
 !include ../JSCalendarContrib/lib/Foswiki/Contrib/JSCalendarContrib
 !include ../JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin
+!include ../JsonRpcContrib/lib/Foswiki/Contrib/JsonRpcContrib
 !include ../MailerContrib/lib/Foswiki/Contrib/MailerContrib
 !include ../NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin
 !include ../PatternSkin/lib/Foswiki/Contrib/PatternSkin
