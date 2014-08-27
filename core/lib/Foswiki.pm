@@ -41,12 +41,6 @@ with CGI accelerators such as mod_perl.
 
 =cut
 
-our $configureRunning;
-if ( $configureRunning && !$configureFork ) {
-    require Carp;
-    Carp::confess("I was loaded when running under configure");
-}
-
 use strict;
 use warnings;
 use Assert;
@@ -76,6 +70,7 @@ our $TRUE  = 1;
 our $FALSE = 0;
 our $engine;
 our $TranslationToken = "\0";    # Do not deprecate - used in many plugins
+our $system_message;             # Important broadcast message from the system
 
 # Note: the following marker is used in text to mark RENDERZONE
 # macros that have been hoisted from the source text of a page. It is
@@ -210,12 +205,13 @@ BEGIN {
                 $Foswiki::cfg{DisplayTimeValues}
             );
         },
-        ENCODE    => undef,
-        ENV       => undef,
-        EXPAND    => undef,
-        FORMAT    => undef,
-        FORMFIELD => undef,
-        GMTIME    => sub {
+        ENCODE            => undef,
+        ENV               => undef,
+        EXPAND            => undef,
+        FORMAT            => undef,
+        FORMFIELD         => undef,
+        FOSWIKI_BROADCAST => sub { $Foswiki::system_message || '' },
+        GMTIME            => sub {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
                 'gmtime' );
         },
@@ -350,26 +346,135 @@ BEGIN {
         $Foswiki::cfg{OS} = 'OS2';
     }
 
-    # readConfig is defined in Foswiki::Configure::Load to allow overriding it
-    if ( Foswiki::Configure::Load::readConfig() ) {
+    # Load LocalSite.cfg
+    if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
         $Foswiki::cfg{isVALID} = 1;
     }
+    else {
 
-    unless ( $Foswiki::cfg{isVALID} ) {
-        if ( !$Foswiki::configureFork ) {
+        # Failed to read LocalSite.cfg
+        # Clear out $Foswiki::cfg to allow variable expansion to work
+        # when reloading Foswiki.spec et al.
+        # SMELL: have to keep {Engine} as this is defined by the
+        # script (smells of a hack).
+        %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
 
-            # configureFork is set when configure intentionally loads Foswiki.pm
-            # And has set the environment to prevent the reloading and overlay
-            # of the configuration hash
+        # Try to repair $Foswiki::cfg to a minimal configuration,
+        # using paths and URLs relative to this request. If URL
+        # rewriting is happening in the web server this is likely
+        # to go down in flames, but it gives us the best chance of
+        # recovering. We need to guess values for all the vars that
+        # would otherwise default to NOT SET.
+        eval "require FindBin";
+        die "Could not load FindBin to support configuration recovery: $@"
+          if $@;
+        FindBin::again();    # in case we are under mod_perl or similar
+        $FindBin::Bin =~ /^(.*)$/;
+        my $bin = $1;
+        $FindBin::Script =~ /^(.*)$/;
+        my $script = $1;
 
-            # Special hack to support the new ConfigurePlugin. If we were
-            # unable to load a valid LSC, try to load the plugin. If this
-            # fails we will carry blindly on.
-            eval 'require Foswiki::Plugins::ConfigurePlugin';
-            print STDERR
-"WARNING: failed to load ConfigurePlugin to support bootstrap configuration: $@\n"
-              if $@;
+        my $protocol = $ENV{HTTPS} ? 'https' : 'http';
+        if ( $ENV{HTTP_HOST} ) {
+            $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{HTTP_HOST}";
         }
+        elsif ( $ENV{SERVER_NAME} ) {
+            $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{SERVER_NAME}";
+        }
+        else {
+            # OK, so this is barfilicious. Think of something better.
+            $Foswiki::cfg{DefaultUrlHost} = "$protocol://localhost";
+        }
+
+        # Examine the CGI path
+        if ( $ENV{SCRIPT_NAME} ) {
+            if ( $ENV{SCRIPT_NAME} =~ m{^(.*?)/$script(\b|$)} ) {
+                $Foswiki::cfg{ScriptUrlPath} = $1;
+
+                # This might not work, depending on the websrver config,
+                # but it's the best we can do
+                $Foswiki::cfg{PubUrlPath} = "$1/../pub";
+            }
+        }
+        else {
+            $Foswiki::cfg{ScriptUrlPath} = '/';
+        }
+        my %rel_to_root = (
+            DataDir    => { dir => 'data',   required => 0 },
+            LocalesDir => { dir => 'locale', required => 0 },
+            PubDir     => { dir => 'pub',    required => 0 },
+            ToolsDir   => { dir => 'tools',  required => 0 },
+            WorkingDir => {
+                dir           => 'working',
+                required      => 1,
+                validate_file => 'README'
+            },
+            TemplateDir => {
+                dir           => 'templates',
+                required      => 1,
+                validate_file => 'configure.tmpl'
+            },
+            ScriptDir => {
+                dir           => 'bin',
+                required      => 1,
+                validate_file => 'setlib.cfg'
+            }
+        );
+
+        # Note that we don't resolve x/../y to y, as this might
+        # confuse soft links
+        my $root = File::Spec->catdir( $bin, File::Spec->updir() );
+        $root =~ s{\\}{/}g;
+        my $fatal = '';
+        my $warn  = '';
+        while ( my ( $key, $def ) = each %rel_to_root ) {
+            $Foswiki::cfg{$key} = "$root/$def->{dir}";
+            if ( -d $Foswiki::cfg{$key} ) {
+                if ( $def->{validate_file}
+                    && !-e "$Foswiki::cfg{$key}/$def->{validate_file}" )
+                {
+                    $fatal .=
+"\n{$key} (guessed $Foswiki::cfg{$key}) $Foswiki::cfg{$key}/$def->{validate_file} not found";
+                }
+            }
+            elsif ( $def->{required} ) {
+                $fatal .= "\n{$key} (guessed $Foswiki::cfg{$key})";
+            }
+            else {
+                $warn .= "\n{$key} could not be guessed";
+            }
+        }
+        if ($fatal) {
+            die <<EPITAPH;
+Unable to bootstrap configuration. LocalSite.cfg could not be loaded,
+and Foswiki was unable to guess the locations of the following critical
+directories: $fatal
+EPITAPH
+        }
+
+        # Re-read Foswiki.spec *and Config.spec*. We need the Config.spec's
+        # to get a true picture of our defaults (notably those from
+        # JQueryPlugin. Without the Config.spec, no plugins get registered)
+        Foswiki::Configure::Load::readConfig( 0, 0, 1 );
+
+        $Foswiki::cfg{isVALID}         = 1;
+        $Foswiki::cfg{isBOOTSTRAPPING} = 1;
+        eval 'require Foswiki::Plugins::ConfigurePlugin';
+        die
+"LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
+          if $@;
+
+        # Note: message is not I18N'd because there is no point; there
+        # is no localisation in a default cfg derived from Foswiki.spec
+        $system_message = <<BOOTS;
+ *WARNING !LocalSite.cfg could not be found, or failed to load.* %BR%This
+Foswiki is running using a bootstrap configuration worked
+out by detecting the layout of the installation. Any requests made to this
+Foswiki will be treated as requests made by an administrator with full rights
+to make changes! You should either:
+   * correct any permissions problems with an existing !LocalSite.cfg (see the webserver error logs for details), or
+   * visit [[%SCRIPTURL{configure}%][configure]] as soon as possible to generate a new one.
+BOOTS
     }
 
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -932,7 +1037,6 @@ BOGUS
     # SMELL: null operation. the http headers are written out
     # during Foswiki::Engine::finalize
     # $hdr = $this->{response}->printHeaders;
-
     $this->{response}->print($text);
 }
 
