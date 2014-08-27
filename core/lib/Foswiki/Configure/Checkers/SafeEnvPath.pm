@@ -22,12 +22,14 @@ our @ISA = ('Foswiki::Configure::Checker');
 #   Use '/' not '\' in pathnames.
 #
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     my $pathSep = ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) ? ';' : ':';
 
-    $reporter->WARN( "You should set a value for this path.")
-      unless ( $Foswiki::cfg{SafeEnvPath} );
+    unless ( $Foswiki::cfg{SafeEnvPath} ) {
+        $reporter->WARN("You should set a value for this path.");
+        return;
+    }
 
     # First, get the proposed path
     my @dirs = ( split( /$pathSep/o, $Foswiki::cfg{SafeEnvPath} ) );

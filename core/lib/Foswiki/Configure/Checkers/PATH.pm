@@ -36,11 +36,11 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::FileUtil ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     $this->showExpandedValue($reporter);
 
-    foreach my $opts ($this->{item}->getChecks()) {
+    foreach my $opts ( $this->{item}->getChecks() ) {
         my $perms = $opts->{perms};
 
         next unless ($perms);
@@ -76,29 +76,22 @@ sub check_current_value {
 
     my $path = $this->getCfg();
     if ( $path =~ /\\/ ) {
-        reporter->WARN(
-                'You should use c:/path style slashes, not c:\path' );
+        reporter->WARN('You should use c:/path style slashes, not c:\path');
     }
 }
 
-sub check_potential_value {
-    my ($this, $string, $reporter) = @_;
+sub validate_permissions {
+    my ( $this, $reporter ) = @_;
 
-    my $path = eval "'$string'";
-    if ($@) {
-        $reporter->ERROR("Could not parse $this->{item}->{keys} = '$string'"
-                         . $this->stripTraceback($@));
-        return;
-    }
-    Foswiki::Configure::Load::expandValue($path);
+    my $path = eval "\$Foswiki::cfg$this->{item}->{keys}";
 
-    my $fileCount        = 0;
-    my $fileErrors       = 0;
-    my $excessPerms      = 0;
-    my $missingFile      = 0;
+    my $fileCount   = 0;
+    my $fileErrors  = 0;
+    my $excessPerms = 0;
+    my $missingFile = 0;
     my @messages;
 
-    foreach my $check ($this->{item}->getChecks()) {
+    foreach my $check ( $this->{item}->getChecks() ) {
         my $perms  = $check->{perms};
         my $filter = $check->{filter}[0];
 
@@ -107,38 +100,40 @@ sub check_potential_value {
             $checkPerms =~ s/d//g if ( $Foswiki::cfg{OS} eq 'WINDOWS' );
 
             if ( $checkPerms =~ /F/ && !-f $path ) {
-                return $reporter->ERROR("$string is not a plain file");
+                return $reporter->ERROR("$path is not a plain file");
             }
             if ( $checkPerms =~ /D/ && !-d $path ) {
-                return $reporter->ERROR("$string is not a directory");
+                return $reporter->ERROR("$path is not a directory");
             }
 
-            my $report = Foswiki::Configure::FileUtil::checkTreePerms(
-                $path, $checkPerms, filter => $filter );
-            $fileCount        += $report->{fileCount};
-            $fileErrors       += $report->{fileErrors};
-            $excessPerms      += $report->{excessPerms};
-            $missingFile       += $report->{missingFile};
-            push(@messages,  @{$report->{messages}});
+            my $report =
+              Foswiki::Configure::FileUtil::checkTreePerms( $path, $checkPerms,
+                filter => $filter );
+            $fileCount   += $report->{fileCount};
+            $fileErrors  += $report->{fileErrors};
+            $excessPerms += $report->{excessPerms};
+            $missingFile += $report->{missingFile};
+            push( @messages, @{ $report->{messages} } );
         }
     }
 
     if ( $fileCount >= $Foswiki::cfg{PathCheckLimit} ) {
         $reporter->NOTE(
-"File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options", @messages
+"File checking limit $Foswiki::cfg{PathCheckLimit} reached, checking stopped - see expert options",
+            @messages
         );
     }
 
     my $dperm = sprintf( '%04o', $Foswiki::cfg{Store}{dirPermission} );
     my $fperm = sprintf( '%04o', $Foswiki::cfg{Store}{filePermission} );
 
-    if ( $fileErrors ) {
+    if ($fileErrors) {
         my $insufficientMsg =
           $fileErrors == 1
           ? "a directory or file has insufficient permissions."
           : "$fileErrors directories or files have insufficient permissions.";
 
-        $reporter->ERROR(<<ERRMSG, @messages)
+        $reporter->ERROR( <<ERRMSG, @messages )
 $insufficientMsg Insufficient permissions could prevent Foswiki or the web server from accessing or updating the files. Verify that the Store expert settings of {Store}{filePermission} ($fperm) and {Store}{dirPermission} ($dperm) are correct for your environment, and correct the file permissions listed below.
 ERRMSG
     }
@@ -148,13 +143,13 @@ ERRMSG
           $this->{missingFile} == 1
           ? "a file is missing."
           : "$this->{missingFile} files are missing.";
-        $reporter->WARN(<<PREFS, @messages)
+        $reporter->WARN( <<PREFS, @messages )
 This warning can be safely ignored in many cases. The web directories have been checked for a $Foswiki::cfg{WebPrefsTopicName} topic and $missingMsg If this file is missing, Foswiki will not recognize the directory as a Web and the contents will not be accessible to Foswiki.  This is expected with some extensions and might not be a problem. Verify whether or not each directory listed as missing $Foswiki::cfg{WebPrefsTopicName} is intended to be a web.  If Foswiki web access is desired, copy in a $Foswiki::cfg{WebPrefsTopicName} topic.
 PREFS
     }
 
-    if ( $excessPerms ) {
-        $reporter->WARN(<< "PERMS", @messages);
+    if ($excessPerms) {
+        $reporter->WARN( << "PERMS", @messages );
 $excessPerms or more directories appear to have more access permission than requested in the Store configuration. Excess permissions might allow other users on the web server to have undesired access to the files. Verify that the Store expert settings of {Store}{filePermission} ($fperm} and {Store}{dirPermission}) ($dperm}) are set correctly for your environment and correct the file permissions listed below.  (Files were not checked for excessive permissions.)
 PERMS
     }

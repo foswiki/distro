@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Load ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     unless ( $Foswiki::cfg{Log}{Dir} ) {
         $Foswiki::cfg{Log}{Dir} = "$Foswiki::cfg{WorkingDir}/logs";
@@ -32,7 +32,7 @@ sub check_current_value {
     }
     else {
         mkdir($ld)
-          || return $this->ERROR(
+          || return $reporter->ERROR(
             "$ld does not exist, and I can't create it: $!");
         $reporter->NOTE("Created $ld");
     }

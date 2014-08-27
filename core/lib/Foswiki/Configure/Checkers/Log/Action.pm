@@ -1,41 +1,27 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::MaxLSCBackups;
+package Foswiki::Configure::Checkers::Log::Action;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
-
-use Foswiki::Configure::FileUtil ();
+use Foswiki::Configure::Checkers::PERL ();
+our @ISA = ('Foswiki::Configure::Checkers::PERL');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $max = $Foswiki::cfg{MaxLSCBackups} || 0;
-
-    unless ($max) {
-        $reporter->WARN('No backups will be saved.');
+    my $val = $this->getCfg();
+    unless ( ref($val) eq 'HASH' ) {
+        $reporter->ERROR("Was expecting this to be an hash");
         return;
     }
-
-    my $lsc = Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg');
-    unless ($lsc) {
-        $reporter->ERROR(
-'LocalSite.cfg could not be found on the path. Don\'t know where to look for backups.'
-        );
-        return;
-    }
-    my ( $vol, $dir, $file ) = File::Spec->splitpath($lsc);
-    my $lscBackup =
-      File::Spec->catpath( $vol, $dir, 'LocalSite.cfg.' . time() );
-
-    my $e = Foswiki::Configure::FileUtil::checkCanCreateFile($lscBackup);
-    if ($e) {
-        $reporter->ERROR( <<WHINE );
-No backups are possible because configure was unable to write
-to the directory $lscBackup: $e.
-WHINE
+    while ( my ( $k, $v ) = each %$val ) {
+        if ( $k !~ /^[a-zA-Z]+$/ ) {
+            $reporter->ERROR("Was expecting entry $k to be a script name");
+        }
+        if ( ref($v) ne 'SCALAR' ) {
+            $reporter->ERROR("Was expecting $k to be a scalar");
+        }
     }
 }
 

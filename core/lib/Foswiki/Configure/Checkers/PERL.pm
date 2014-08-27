@@ -8,30 +8,20 @@ require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     $this->showExpandedValue($reporter);
 
     my $value = $this->getCfgUndefOk();
     return '' if ( defined $value );
 
-    return $this->ERROR("Unexpected undefined PERL value");
-}
-
-sub check_potential_value {
-    my ($this, $string, $reporter) = @_;
- 
-    if ( defined $string ) {
-        my $s = _rvalue($string);
-        if ( $s ) {
-            $reporter->ERROR("Cannot parse PERL value: failed at: '$s'");
-        }
-    }
+    return $reporter->ERROR("Unexpected undefined PERL value");
 }
 
 # Simple parse of a perl value to determine if it matches a simple
 # grammar. Returns the remainder of the string at the point completed.
 # If the parse completed, this will be the empty string.
+# SMELL: move this to JS
 sub _rvalue {
     my ( $s, $term ) = @_;
     $s =~ s/^\s+(.*?)$/$1/s;

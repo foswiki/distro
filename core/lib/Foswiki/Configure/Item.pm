@@ -38,6 +38,7 @@ sub new {
     my $this = bless(
         {
             _parent => undef,
+            _depth  => 0,
 
             # Serialisable attribtes
             desc         => '',
@@ -75,14 +76,8 @@ it's children at depth 1, etc.
 =cut
 
 sub getDepth {
-    my $depth = 0;
-    my $mum   = shift;
-
-    while ($mum) {
-        $depth++;
-        $mum = $mum->{_parent};
-    }
-    return $depth;
+    my $this = shift;
+    return $this->{_depth};
 }
 
 =begin TML
@@ -195,6 +190,7 @@ sub _parseOptions {
                 $this->$fn($val);
             }
             else {
+
                 # Can shed quotes now
                 $val =~ s/^(["'])(.*)\1$/$2/;
                 if ( ref( $this->{$key} ) eq 'ARRAY' ) {
@@ -288,6 +284,41 @@ sub hasDeep {
 
 =begin TML
 
+---++ ObjectMethod getAllValueKeys() -> @list
+
+Return a list of all the keys for value objects under this node.
+
+=cut
+
+sub getAllValueKeys {
+    my $this = shift;
+
+    return ();
+}
+
+=begin TML
+
+---++ ObjectMethod getSectionPath() -> @list
+
+Get the path down to a configuration item. The path is a list of section
+titles.
+
+=cut
+
+sub getSectionPath {
+    my $this = shift;
+    my @path = ();
+
+    if ( $this->{parent} ) {
+        @path = $this->{parent}->getSectionPath();
+        push( @path, $this->{parent}->{headline} )
+          if $this->{parent}->{headline};
+    }
+    return @path;
+}
+
+=begin TML
+
 ---++ ObjectMethod getSectionObject($head, $depth) -> $item
 
 This gets the section object that has the heading $head and
@@ -303,8 +334,74 @@ sub getSectionObject {
 
 =begin TML
 
+---++ find(%search) -> @result
+
+Find the first item that matches the search keys given in %search.
+For example, find(keys => '{Keys}') or find(headline => 'Section').
+Searches recursively. You can use the pseudo-key =parent= to look up the
+tree, and =depth= to match the depth (the spec root is at depth 0).
+
+An empty search matches the first thing found.
+If there are search terms, then the entire subtree is searched,
+but the shallowest matching node is returned.
+All search terms must be matched.
+
+=cut
+
+# True if the given configuration item matches the given search
+sub _matches {
+    my ( $this, %search ) = @_;
+    my $match = 1;
+
+    while ( my ( $k, $e ) = each %search ) {
+        if ( $k eq 'parent' ) {
+            unless ( $this->{_parent}
+                && $this->{_parent}->_matches(%$e) )
+            {
+                $match = 0;
+                last;
+            }
+        }
+        elsif ( $k eq 'depth' ) {
+            unless ( $this->getDepth() == $e ) {
+                $match = 0;
+                last;
+            }
+        }
+        elsif ( !defined $this->{$k} || $this->{$k} ne $e ) {
+            $match = 0;
+            last;
+        }
+    }
+    return $match;
+}
+
+sub find {
+    my $this   = shift;
+    my %search = @_;
+
+    my $match = $this->_matches(%search);
+
+    # Return without searching the subtree if this node matches
+    if ($match) {
+        return ($this);
+    }
+
+    return () unless $this->{children};
+
+    # Search children
+    my @result = ();
+    foreach my $child ( @{ $this->{children} } ) {
+        push( @result, $child->find(@_) );
+    }
+
+    return @result;
+}
+
+=begin TML
+
 ---++ ObjectMethod getValueObject($keys) -> $value
-Get the first Configure::Value object (leaf configuration item)
+Get the first Foswiki::Configure::Value object (leaf configuration item)
 associated with this Item. If this Item is a Value object, it will
 just return 'this'. if it is a Section, it will search the section
 (and it's subsections) for the value object with matching keys.

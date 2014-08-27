@@ -18,13 +18,20 @@ These have keys of the form {Languages}{ language }{Enabled}.
 =cut
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return unless ( $Foswiki::cfg{UserInterfaceInternationalisation} );
 
-    my ( $enabled, $keys, $lang, $dir, $compress ) = $this->_config();
+    my $enabled = $this->getCfg();
+    return unless $enabled;
 
-    return unless ($enabled);
+    my $dir      = $this->getCfg('{LocalesDir}');
+    my $compress = $Foswiki::cfg{LanguageFileCompression};
+
+    my $lang = $this->{item}->{keys};
+    unless ( $lang =~ s/^\{Languages\}\{'?([\w-]+)'?\}\{Enabled\}$/$1/ ) {
+        die "Invalid item key $lang for LANGUAGE";
+    }
 
     return $reporter->ERROR("Missing language file $dir/$lang.po")
       unless ( -r "$dir/$lang.po" );
@@ -37,7 +44,7 @@ sub check_current_value {
             if ($@) {
                 return $reporter->ERROR(
 "Locale::Msgfmt can not be loaded, unable to compile strings."
-                  );
+                );
             }
             my $umask =
               umask( oct(777) - $Foswiki::cfg{Store}{filePermission} );
@@ -74,26 +81,11 @@ sub check_current_value {
     }
 }
 
-sub _config {
-    my ( $this ) = @_;
-
-    my $enabled = $this->getCfg();
-    my $dir      = $this->getCfg('{LocalesDir}');
-    my $compress = $Foswiki::cfg{LanguageFileCompression};
-
-    my $lang = $this->{item}->{keys};
-    die "Invalid item key $keys for LANGUAGE\n"
-      unless ( $lang =~ s/^\{Languages\}\{'?([\w-]+)'?\}\{Enabled\}$/$1/ );
-
-    return ( $enabled, $keys, $lang, $dir, $compress );
-}
-
-sub check_potential_value {
-    my ($this, $string, $reporter) = @_;
+sub refresh_cache {
+    my ( $this, $string, $reporter ) = @_;
 
     if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
-        my ( $enabled, $keys, $lang, $dir, $compress ) =
-          $this->_config();
+        my $dir = $Foswiki::cfg{LocalesDir};
 
         if ( -f "$dir/languages.cache" ) {
             if ( unlink("$dir/languages.cache") ) {
