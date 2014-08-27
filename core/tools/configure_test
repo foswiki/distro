@@ -1,0 +1,226 @@
+#!/usr/bin/perl
+# Simple test script for the baseline Configure classes, also useful#
+# for testing .spec changes.
+#
+# Run from the lib/Foswiki/Configure directory.
+#
+# Reads the .spec (including configured plugins) and, if it is error free,
+# LocalSite.cfg, do other stuff.
+#
+# *THIS IS NOT A FINISHED WORK* is is a test framework; edit it and
+# add the functions you want to call. As it is checked in, it will
+# simply call the checkers and report.
+
+# usage:
+# configure_test <action>[=<value]?
+# Examples:
+#
+# configure_test checker={PubDir} method=validate_permissions
+#
+# will call validate_permissions() for the {PubDir} checker.
+#
+# configure_test method=check_current_value
+#
+# will call the check_current_value() method for all leaf items
+# in the .spec.
+#
+# configure_test wizard=GuessSSLCaLocations
+#
+# will call execute() from Foswiki::Configure::Wizards::ClomClomp
+# and report the results.
+#
+# configure_test wizard=Email method=send_test_email
+#
+# will call send_test_email() from Foswiki::Configure::Wizards::Email
+# and report the results.
+#
+use strict;
+
+use lib '../lib';
+
+$ENV{FOSWIKI_ASSERTS} = 1;
+
+use JSON;
+
+require Assert;
+
+require Foswiki::Configure::Root;
+require Foswiki::Configure::LoadSpec;
+require Foswiki::Configure::Load;
+require Foswiki::Configure::Reporter;
+require Foswiki::Configure::Checker;
+require Foswiki::Configure::Wizard;
+
+my $params = {};
+foreach my $p (@ARGV) {
+    if ( $p =~ /^([^=]+?)=(.*)$/ ) {
+        $params->{$1} = $2;
+    }
+    else {
+        $params->{$p} = 1;
+    }
+}
+
+unless ( scalar( keys %$params ) ) {
+    $params->{method} = 'check_current_value';
+}
+
+{
+
+    package CheckVisitor;
+
+    sub new {
+        my ( $class, $method, $reporter ) = @_;
+        return bless( { method => $method }, $class );
+    }
+
+    sub startVisit {
+        my ( $this, $visitee ) = @_;
+
+        return 1 unless ( $visitee->isa('Foswiki::Configure::Value') );
+
+        my $checker  = Foswiki::Configure::Checker::loadChecker($visitee);
+        my $reporter = Foswiki::Configure::Reporter->new();
+
+        if ($checker) {
+            my $x = eval "\$Foswiki::cfg$visitee->{keys}";
+            if ( ref($x) ) {
+                $x = Data::Dumper->Dump( [$x] );
+                $x =~ s/\$.*?= //;
+                $x =~ s/;\s*$//s;
+            }
+
+            my $meth = $this->{method};
+            $reporter->NOTE("---++ $visitee->{keys}");
+            $checker->$meth( $reporter, "$x" );
+            print $reporter->text() . "\n";
+        }
+
+        return 1;
+    }
+
+    sub endVisit {
+        my ( $this, $visitee ) = @_;
+
+        return 1;
+    }
+}
+
+sub _prompt {
+    my ( $root, $keys, $default ) = @_;
+    my $vob = $root->getValueObject($keys);
+    if ( $vob && $vob->{desc} ) {
+        print "$vob->{desc}\n";
+    }
+    local $/ = "\n";
+    my $reply = '';
+    while ( !$reply ) {
+        print $keys;
+        print " ($default)" if defined $default;
+        print ': ';
+        $reply = <STDIN>;
+        chomp($reply);
+        $reply ||= $default;
+    }
+    eval "\$Foswiki::cfg$keys='$reply'";
+    die $@ if $@;
+}
+
+my $root = Foswiki::Configure::Root->new();
+Foswiki::Configure::LoadSpec::readSpec($root);
+
+#$Foswiki::Configure::LoadSpec::RAW_VALS = 1;
+#$Foswiki::Configure::LoadSpec::FIRST_SECTION_ONLY = 1;
+my $reporter = Foswiki::Configure::Reporter->new();
+my $ok       = 1;
+if (@Foswiki::Configure::LoadSpec::errors) {
+    foreach my $e (@Foswiki::Configure::LoadSpec::errors) {
+        $reporter->ERROR( join( ' ', @$e ) );
+    }
+    $ok = 0;
+}
+if (@Foswiki::Configure::LoadSpec::warnings) {
+    foreach my $e (@Foswiki::Configure::LoadSpec::warnings) {
+        $reporter->WARN( join( ' ', @$e ) );
+    }
+}
+
+if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
+    $Foswiki::cfg{isVALID} = 1;
+}
+else {
+    %Foswiki::cfg = ();
+    eval "require FindBin";
+    die "Could not load FindBin to support configuration recovery: $@"
+      if $@;
+    FindBin::again();    # in case we are under mod_perl or similar
+    $FindBin::Bin =~ /^(.*)$/;
+    my $bin = $1;
+    print "** Enter values for critical configuration items.\n";
+    print
+      "** type a new value or hit return to accept the value in brackets.\n";
+    _prompt( $root, '{DefaultUrlHost}', 'http://localhost' );
+    _prompt( $root, '{ScriptUrlPath}' );
+    _prompt( $root, '{PubUrlPath}' );
+    _prompt( $root, '{ScriptDir}',      "$bin/../bin" );
+    _prompt( $root, '{DataDir}',        "$bin/../pub" );
+    _prompt( $root, '{PubDir}',         "$bin/../pub" );
+    _prompt( $root, '{TemplateDir}',    "$bin/../templates" );
+    _prompt( $root, '{LocalesDir}',     "$bin/../locale" );
+    _prompt( $root, '{WorkingDir}',     "$bin/../working" );
+    _prompt( $root, '{ToolsDir}',       $bin );
+    Foswiki::Configure::Load::readConfig( 0, 0, 1 );
+    $Foswiki::cfg{isVALID}         = 1;
+    $Foswiki::cfg{isBOOTSTRAPPING} = 1;
+}
+
+if ($ok) {
+    if ( $params->{checker} ) {
+
+        # Call checker method
+
+        my $vob = $root->getValueObject( $params->{checker} );
+        die "Checker $params->{checker} not found" unless $vob;
+        my $checker = Foswiki::Configure::Checker::loadChecker($vob);
+
+        my $x = eval "\$Foswiki::cfg$checker";
+        if ( ref($x) ) {
+            $x = Data::Dumper->Dump( [$x] );
+            $x =~ s/\$.*?= //;
+            $x =~ s/;\s*$//s;
+        }
+
+        my $meth = $params->{method} || 'check_current_value';
+        die "Checker for $vob->{keys} does not define $meth"
+          unless $checker->can($meth);
+        my $val = eval("\$Foswiki::cfg$vob->{keys}");
+        $val = 'undef' unless defined $val;
+        print "--- Running $meth on $vob->{keys} = $val\n";
+
+        $checker->$meth($reporter);
+
+    }
+    elsif ( $params->{wizard} ) {
+
+        # Call wizard method
+
+        my $wiz =
+          Foswiki::Configure::Wizard::loadWizard( $params->{wizard}, $params );
+        my $meth = $params->{method} || 'execute';
+        print "--- Running $params->{wizard}\::$meth\n";
+        print $wiz->$meth($reporter);
+
+    }
+    else {
+        # Call method on all items in .spec
+
+        my $meth = $params->{method} || 'check_current_value';
+        print "--- Running $meth on all keys in .spec\n";
+        my $check_visitor = CheckVisitor->new($meth);
+        $root->visit($check_visitor);
+    }
+}
+
+print $reporter->text() . "\n";
+
+1;
