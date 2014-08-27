@@ -45,6 +45,10 @@ BEGIN {
         function => 'changes',
         context  => { changes => 1 },
     };
+    $Foswiki::cfg{SwitchBoard}{configure} = {
+        package  => 'Foswiki::UI::Configure',
+        function => 'configure'
+    };
     $Foswiki::cfg{SwitchBoard}{edit} = {
         package  => 'Foswiki::UI::Edit',
         function => 'edit',
@@ -185,6 +189,7 @@ sub handleRequest {
         require Foswiki::Configure::ImageTest;
         return Foswiki::Configure::ImageTest::respond($req);
     }
+
     my $dispatcher = $Foswiki::cfg{SwitchBoard}{ $req->action() };
     unless ( defined $dispatcher ) {
         $res = new Foswiki::Response();
