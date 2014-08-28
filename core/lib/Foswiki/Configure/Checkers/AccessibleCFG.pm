@@ -4,20 +4,23 @@ package Foswiki::Configure::Checkers::AccessibleCFG;
 use strict;
 use warnings;
 
+use Assert;
+
 use Foswiki::Configure::Checkers::PERL ();
 our @ISA = ('Foswiki::Configure::Checkers::PERL');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $val = $this->getCfg();
-    unless ( ref($val) eq 'ARRAY' ) {
-        $reporter->ERROR("Was expecting this to be an array");
+    my $val = $Foswiki::cfg{AccessibleCFG};
+
+    if ( ref($val) ne 'ARRAY' ) {
+        $reporter->ERROR('Must be an array');
         return;
     }
     my $ec = 0;
     foreach my $v (@$val) {
-        if ( ref($v) ne 'SCALAR' ) {
+        if ( ref($v) ) {
             $reporter->ERROR("Was expecting entry $ec to be a scalar");
         }
         if ( $v !~ /^({\w+})+$/ ) {

@@ -58,6 +58,8 @@ use Data::Dumper ();
 use Foswiki::Configure::Item ();
 our @ISA = ('Foswiki::Configure::Item');
 
+use Foswiki::Configure::FileUtil ();
+
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
     FEEDBACK    => { parse_val => '_FEEDBACK' },
@@ -122,25 +124,35 @@ sub parseTypeParams {
         # SELECT types *always* start with a comma-separated list of
         # things to select from. These things may be words or wildcard
         # class specifiers, or quoted strings (no internal quotes)
-        $this->{select_from} = [];
+        my @picks = ();
         do {
             if ( $str =~ s/^\s*(["'])(.*?)\1// ) {
-                push( @{ $this->{select_from} }, $2 );
+                push( @picks, $2 );
             }
             elsif ( $str =~ s/^\s*([-A-Za-z0-9:.*]*)// ) {
-                push( @{ $this->{select_from} }, defined $1 ? $1 : '' );
+                my $v = $1;
+                $v = '' unless defined $v;
+                if ( $v =~ /\*/ && $this->{typename} eq 'SELECTCLASS' ) {
+
+                    # Populate the class list
+                    push( @picks,
+                        Foswiki::Configure::FileUtil::findPackages($v) );
+                }
+                else {
+                    push( @picks, $v );
+                }
             }
             else {
                 die "Illegal .spec at $str";
             }
         } while ( $str =~ s/\s*,// );
+        $this->{select_from} = [@picks];
     }
     elsif ( $str =~ s/^\s*(\d+(?:x\d+)?)// ) {
 
         # Width specifier for e.g. STRING
         $this->{SIZE} = $1;
     }
-
     return $str;
 }
 

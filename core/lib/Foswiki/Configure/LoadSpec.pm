@@ -424,13 +424,18 @@ sub _parse {
 
             # Record the value *string*, internal formatting et al.
             ASSERT( UNTAINTED($value), $value ) if DEBUG;
-            if ( $value =~ /^qr\/(.*)\/$/ ) {
+            if ( $open->{typename} eq 'REGEX' ) {
 
                 # regexp; convert to string
                 $value = eval $value;
                 $value = "$value";
-                $value =~ s/'/\\'/g;
-                $value = "'$value'";
+            }
+            elsif ( $open->{typename} eq 'PERL' ) {
+
+                # PERL - convert to string
+                my $var1 = Data::Dumper->Dump( [$value] );
+                $var1 =~ s/^.*=\s*//;
+                $value = $var1;
             }
             $open->{default} = $value;
 

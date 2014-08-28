@@ -1314,7 +1314,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # Foswiki supports different back-end store implementations.
 # **SELECTCLASS Foswiki::Store::* **
 # Store implementation.
-$Foswiki::cfg{Store}{Implementation} = '';
+$Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
 
 # **PERL EXPERT**
 # Customisation of the Foswiki Store implementation. This allows
