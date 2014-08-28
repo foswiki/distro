@@ -1802,23 +1802,23 @@ $Foswiki::cfg{Email}{EnableSMIME} = $FALSE;
 # The following parameters can be used to specify commonly used components of the subject
 # name for Certificate Signing Requests.<p>
 # You can also install a signed certificate with the action button if OpenSSL is installed.
-# **STRING LABEL="Country Code" DISPLAY_IF="{EnableEmail}"**
+# **STRING DISPLAY_IF="{EnableEmail}"**
 # ISO country code (2 letters)
 $Foswiki::cfg{Email}{SmimeCertC} = '';
 
-# **STRING LABEL="State or Province" DISPLAY_IF="{EnableEmail}"**
+# **STRING DISPLAY_IF="{EnableEmail}"**
 # State or Province
 $Foswiki::cfg{Email}{SmimeCertST} = '';
 
-# **STRING LABEL="Locality" DISPLAY_IF="{EnableEmail}"**
+# **STRING DISPLAY_IF="{EnableEmail}"**
 # Locality (city or town)
 $Foswiki::cfg{Email}{SmimeCertL} = '';
 
-# **STRING LABEL="Organization" DISPLAY_IF="{EnableEmail}"**
+# **STRING DISPLAY_IF="{EnableEmail}"**
 # Organization - Required
 $Foswiki::cfg{Email}{SmimeCertO} = '';
 
-# **STRING LABEL="Organizational Unit" DISPLAY_IF="{EnableEmail}"**
+# **STRING DISPLAY_IF="{EnableEmail}"**
 # Organizational unit (e.g. Department) - Required
 $Foswiki::cfg{Email}{SmimeCertOU} = '';
 
@@ -1830,12 +1830,7 @@ $Foswiki::cfg{Email}{SmimeCertOU} = '';
 #          'Net::SMTP (TLS)',\
 #          'Net::SMTP (STARTTLS)',\
 #          MailProgram \
-#          DISPLAY_IF="{EnableEmail}"\
-#          CHANGE="var s = $('[name=\"{SMTP}{MAILHOST}\"]');\
-#                  if( this.options[this.selectedIndex].value === 'MailProgram' )\
-#                    s.val(' ---- Unused when MailProgram selected ---');\
-#                  else { if( /^ ---- Unused/.test(s.val()) ){\
-#                         s.val(' ---- Enter e-mail server name to configure Net::SMTP ---');s.get(0).select();}}" **
+#          DISPLAY_IF="{EnableEmail}" **
 # Select the method Foswiki will use for sending email.  On Unix/Linux hosts
 # "MailProgram" is generally acceptable, although Net::SMTP provides better
 # diagnostics when things go amiss.  Otherwise choose one of the Email

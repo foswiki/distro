@@ -22,8 +22,6 @@ sub verify {
 
     require Foswiki::Net;
 
-    # These are set NOSAVE in Foswiki.spec; when testing
-    # potential values, they will be set in the incoming query
     my $user     = $this->param('cfgusername');
     my $password = $this->param('cfgpassword');
 

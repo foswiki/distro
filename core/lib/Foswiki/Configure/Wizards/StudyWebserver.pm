@@ -404,7 +404,7 @@ sub _getScriptENV {
 
     my $user = $this->param('cfgusername');
 
-    my $password = $this->('cfgpassword');
+    my $password = $this->param('cfgpassword');
     if ($user) {
         require MIME::Base64;
         my $auth = MIME::Base64::encode_base64( "$user:$password", '' );

@@ -510,6 +510,7 @@ lib/Foswiki/Configure/Checkers/UseLocale.pm 0444
 lib/Foswiki/Configure/Checkers/UserInterfaceInternationalisation.pm 0444
 lib/Foswiki/Configure/Checkers/WarningFileName.pm 0444
 lib/Foswiki/Configure/Checkers/WebMasterName.pm 0444
+lib/Foswiki/Configure/Checkers/WorkingDir.pm 0444
 lib/Foswiki/Configure/Dependency.pm 0444
 lib/Foswiki/Configure/FileUtil.pm 0444
 lib/Foswiki/Configure/ImageTest.pm 0444
@@ -526,6 +527,7 @@ lib/Foswiki/Configure/Root.pm 0444
 lib/Foswiki/Configure/Section.pm 0444
 lib/Foswiki/Configure/Value.pm 0444
 lib/Foswiki/Configure/Visitor.pm 0444
+lib/Foswiki/Configure/Wizard.pm 0444
 lib/Foswiki/Configure/Wizards/AutoConfigureEmail.pm 0444
 lib/Foswiki/Configure/Wizards/CancelSMIMECertificate.pm 0444
 lib/Foswiki/Configure/Wizards/GenerateCSR.pm 0444
@@ -739,6 +741,7 @@ lib/Foswiki/UI.pm 0444
 lib/Foswiki/UI/Attach.pm 0444
 lib/Foswiki/UI/ChangeForm.pm 0444
 lib/Foswiki/UI/Changes.pm 0444
+lib/Foswiki/UI/Configure.pm 0444
 lib/Foswiki/UI/Edit.pm 0444
 lib/Foswiki/UI/Manage.pm 0444
 lib/Foswiki/UI/Oops.pm 0444

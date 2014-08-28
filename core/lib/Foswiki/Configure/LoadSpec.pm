@@ -424,6 +424,14 @@ sub _parse {
 
             # Record the value *string*, internal formatting et al.
             ASSERT( UNTAINTED($value), $value ) if DEBUG;
+            if ( $value =~ /^qr\/(.*)\/$/ ) {
+
+                # regexp; convert to string
+                $value = eval $value;
+                $value = "$value";
+                $value =~ s/'/\\'/g;
+                $value = "'$value'";
+            }
             $open->{default} = $value;
 
             $open->{keys} = $keys;

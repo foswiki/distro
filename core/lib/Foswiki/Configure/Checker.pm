@@ -442,9 +442,6 @@ sub showExpandedValue {
     elsif ( !$this->{item}->{UNDEFINEDOK} ) {
         $reporter->ERROR("$this->{item}->{keys} is undefined");
     }
-    elsif ( !$this->{item}->{MUST_ENABLE} ) {
-        $reporter->WARN('The value of this field is undefined');
-    }
 }
 
 # Strip traceback from die and carp for a user message

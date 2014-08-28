@@ -62,23 +62,18 @@ our @ISA = ('Foswiki::Configure::Item');
 use constant ATTRSPEC => {
     FEEDBACK    => { parse_val => '_FEEDBACK' },
     CHECK       => { parse_val => '_CHECK' },
-    LABEL       => {},
-    CHANGE      => {},
     MANDATORY   => {},
     MULTIPLE    => {},         # Allow multiple select
     HIDDEN      => {},
-    MUST_ENABLE => {},
     UNDEFINEDOK => {},         # Allow non-existant values
     SPELLCHECK  => {},
     EXPERT      => {},
-    SAVE        => {},
     DISPLAY_IF  => { openclose => 1 },
     ENABLE_IF   => { openclose => 1 },
 
     # Rename single character options (legacy)
     M => 'MANDATORY',
     H => 'HIDDEN',
-    E => 'MUST_ENABLE',
     U => 'UNDEFINEDOK'
 };
 

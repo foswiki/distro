@@ -101,7 +101,6 @@ sub construct {
             keys        => $keys,
             desc        => "Full URL for $script script. Rarely modified.",
             EXPERT      => 1,
-            MUST_ENABLE => 1,
             UNDEFINEDOK => 1,
 
             # By providing a default we are suggesting it is a
