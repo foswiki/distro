@@ -10,16 +10,22 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::FileUtil ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     my $max = $Foswiki::cfg{MaxLSCBackups} || 0;
 
-    unless( $max ) {
-        $reporter->WARN( 'No backups will be saved.' );
+    unless ($max) {
+        $reporter->WARN('No backups will be saved.');
         return;
     }
 
     my $lsc = Foswiki::Configure::FileUtil::findFileOnPath('LocalSite.cfg');
+    unless ($lsc) {
+        $reporter->ERROR(
+'LocalSite.cfg could not be found on the path. Don\'t know where to look for backups.'
+        );
+        return;
+    }
     my ( $vol, $dir, $file ) = File::Spec->splitpath($lsc);
     my $lscBackup =
       File::Spec->catpath( $vol, $dir, 'LocalSite.cfg.' . time() );

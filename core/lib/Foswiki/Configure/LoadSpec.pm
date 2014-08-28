@@ -80,7 +80,7 @@ use constant TRACE => 0;
 =begin TML
 
 ---++ Global $RAW_VALS
-Set true to suppress parsing of attribute values (AUDIT, FEEDBACK and
+Set true to suppress parsing of attribute values (FEEDBACK and
 CHECK strings) and simply store them as strings. This is
 useful for performance, when these items are not required.
 Default behaviour is to parse the strings.
@@ -199,6 +199,7 @@ sub _loadSpecsFrom {
 }
 
 {
+
     # Inner class that represents section headings temporarily during the
     # parse. They are expanded to section blocks at the end.
     package SectionMarker;
@@ -423,6 +424,19 @@ sub _parse {
 
             # Record the value *string*, internal formatting et al.
             ASSERT( UNTAINTED($value), $value ) if DEBUG;
+            if ( $open->{typename} eq 'REGEX' ) {
+
+                # regexp; convert to string
+                $value = eval $value;
+                $value = "$value";
+            }
+            elsif ( $open->{typename} eq 'PERL' ) {
+
+                # PERL - convert to string
+                my $var1 = Data::Dumper->Dump( [$value] );
+                $var1 =~ s/^.*=\s*//;
+                $value = $var1;
+            }
             $open->{default} = $value;
 
             $open->{keys} = $keys;

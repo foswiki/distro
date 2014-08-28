@@ -1720,7 +1720,7 @@ in the object only)
 
 sub attachmentExists {
     my ( $web, $topic, $attachment ) = _checkWTA(@_);
-    return 0 unless defined $web && defined $topic && defined $attachment;
+    return 0 unless defined $web && defined $topic && $attachment;
 
     my $topicObject =
       Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
@@ -1770,6 +1770,7 @@ sub readAttachment {
     my ( $web, $topic, $attachment, $rev ) = @_;
 
     ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
+    die "Invalid attachment" unless $attachment;
 
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     ASSERT($attachment)                if DEBUG;
@@ -2171,6 +2172,7 @@ This is the way 99% of extensions will create new attachments. See
 sub saveAttachment {
     my ( $web, $topic, $attachment, $data ) = @_;
     ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
+    die "Invalid attachment" unless $attachment;
 
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $topicObject =
@@ -2225,6 +2227,7 @@ sub moveAttachment {
     my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
 
     ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
+    die "Invalid attachment" unless $attachment;
 
     ( $newWeb, $newTopic, $newAttachment ) = _validateWTA(
         $newWeb        || $web,
@@ -2307,6 +2310,7 @@ sub copyAttachment {
     my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
 
     ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
+    die "Invalid attachment" unless $attachment;
 
     ( $newWeb, $newTopic, $newAttachment ) = _validateWTA(
         $newWeb        || $web,

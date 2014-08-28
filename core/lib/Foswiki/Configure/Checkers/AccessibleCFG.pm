@@ -1,38 +1,42 @@
 # See bottom of file for license and copyright information
-
-package Foswiki::Configure::FeedbackCheckers::Email::SmimeKeyPassword;
+package Foswiki::Configure::Checkers::AccessibleCFG;
 
 use strict;
 use warnings;
 
-require Foswiki::Configure::FeedbackCheckers::Certificate::KeyPasswordChecker;
-our @ISA = qw( Foswiki::Configure::FeedbackCheckers::Certificate::KeyPasswordChecker );
+use Assert;
 
-sub provideFeedback {
-    my( $this, $button, $label ) = @_;
+use Foswiki::Configure::Checkers::PERL ();
+our @ISA = ('Foswiki::Configure::Checkers::PERL');
 
-    return $this->provideFeedbackEnabled(
-        $Foswiki::cfg{Email}{EnableSMIME},
-        '{Email}{SmimeKeyFile}',
-        $button, $label );
+sub check_current_value {
+    my ( $this, $reporter ) = @_;
+
+    my $val = $Foswiki::cfg{AccessibleCFG};
+
+    if ( ref($val) ne 'ARRAY' ) {
+        $reporter->ERROR('Must be an array');
+        return;
+    }
+    my $ec = 0;
+    foreach my $v (@$val) {
+        if ( ref($v) ) {
+            $reporter->ERROR("Was expecting entry $ec to be a scalar");
+        }
+        if ( $v !~ /^({\w+})+$/ ) {
+            $reporter->ERROR("Was expecting '$v' to be a cfg key");
+        }
+        $ec++;
+    }
 }
 
 1;
-
 __END__
-
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-TWiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -45,4 +49,3 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
-

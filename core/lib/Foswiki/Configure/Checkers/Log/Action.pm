@@ -1,33 +1,35 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::FeedbackCheckers::MSWin32;
-
-=begin TML
-
----+ package Foswiki::Configure::FeedbackCheckers::MSWin32
-
-Foswiki::Configure::Section for MSWin inspection.
-
-SMELL: This is *not* a Checker, it is only in the Checkers package
-for historical reasons and needs to be moved out.
-
-=cut
+package Foswiki::Configure::Checkers::Log::Action;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Section ();
-our @ISA = ('Foswiki::Configure::Section');
+use Foswiki::Configure::Checkers::PERL ();
+our @ISA = ('Foswiki::Configure::Checkers::PERL');
 
-sub new {
-    my $class = shift;
-    return $class->SUPER::new( headline => 'MS Windows Specific' );
+sub check_current_value {
+    my ( $this, $reporter ) = @_;
+
+    my $val = $this->getCfg();
+    unless ( ref($val) eq 'HASH' ) {
+        $reporter->ERROR("Was expecting this to be an hash");
+        return;
+    }
+    while ( my ( $k, $v ) = each %$val ) {
+        if ( $k !~ /^[a-zA-Z]+$/ ) {
+            $reporter->ERROR("Was expecting entry $k to be a script name");
+        }
+        if ( ref($v) ne 'SCALAR' ) {
+            $reporter->ERROR("Was expecting $k to be a scalar");
+        }
+    }
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -91,9 +91,9 @@ JQUERYPLUGIN is not a hard requirement, but it must sort earlier.
 }%%TMPL:DEF{"bodyend"}%</div>
 </body></html>%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"broadcastmessage"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%%{
+}%%TMPL:DEF{"broadcastmessage"}%<span class="foswikiAlert">%FOSWIKI_BROADCAST%</span>%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%%{
 ---------------------------------------------------
-}%%TMPL:DEF{"broadcastmessage:contents"}%<div class="foswikiBroadcastMessage"> %BROADCASTMESSAGE% </div>%TMPL:END%%{
+}%%TMPL:DEF{"broadcastmessage:contents"}%<div class="foswikiBroadcastMessage"> %TMPL:P{"broadcastmessage"}% </div>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"attachments"}%%TMPL:END%%{
 ---------------------------------------------------

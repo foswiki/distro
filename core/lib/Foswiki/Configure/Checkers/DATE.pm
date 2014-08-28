@@ -16,15 +16,11 @@ use warnings;
 
 use Foswiki::Time qw/-nofoswiki/;
 
-BEGIN {
-    die "Bad version of Foswiki::Time" if ( exists $INC{'Foswiki.pm'} );
-}
-
 use Foswiki::Configure::Checker ();
 our @ISA = qw/Foswiki::Configure::Checker/;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     $this->showExpandedValue($reporter);
 
@@ -40,7 +36,7 @@ sub check_current_value {
             if ($normalize) {    # undef uses configured display format
                 my $normval = Foswiki::Time::formatTime( $binval,
                     '$year-$mo-$dayT$hour:$min:$sec$isotz', undef );
-                $this->NOTE( "$value != $normval" )
+                $reporter->NOTE("$value != $normval")
                   if ( $normval ne $value );
             }
         }

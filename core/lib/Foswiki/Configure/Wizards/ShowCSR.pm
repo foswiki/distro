@@ -1,11 +1,11 @@
-# See bottom of file for license and copyright information
-package Foswiki::Configure::Wizards::GenerateCSR;
+package Foswiki::Configure::Wizards::ShowCSR;
 
 =begin TML
 
----++ package Foswiki::Configure::Wizards::GenerateCSR
+---++ package Foswiki::Configure::Wizards::ShowCSR
 
-Wizard to generate a SMIME certificate signing request (CSR).
+Wizard to show pending SSL Certificate signing request.
+Returns certificate in param 'certificate'.
 
 =cut
 
@@ -15,24 +15,34 @@ use warnings;
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
 
-use Foswiki::Configure::Wizards::GenerateSMIMECertificate ();
-
 # WIZARD
-sub request_cert {
+sub execute {
     my ( $this, $reporter ) = @_;
-    return Foswiki::Configure::Wizards::GenerateSMIMECertificate(
-        $reporter,
-        {
-            C  => [ $Foswiki::cfg{Email}{SmimeCertC} ],
-            ST => [ $Foswiki::cfg{Email}{SmimeCertST} ],
-            L  => [ $Foswiki::cfg{Email}{SmimeCertL} ],
-            O  => [ $Foswiki::cfg{Email}{SmimeCertO} ],
-            U  => [ $Foswiki::cfg{Email}{SmimeCertOU} ],
-        }
-    );
+
+    my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
+    Foswiki::Configure::Load::expandValue($certfile);
+    my $csrfile = "$ceertfile.csr";
+
+    unless ( -r $csrfile ) {
+        return $reporter->ERROR("No CSR pending");
+    }
+
+    my $output;
+    {
+        no warnings 'exec';
+
+        $output = `openssl req -in $csrfile -batch -subject -text 2>&1`;
+    }
+    if ($?) {
+        return $reporter->ERROR(
+            "Operation failed" . ( $? == -1 ? " (No openssl: $!)" : '' ) );
+    }
+
+    $this->param( 'certificate', $output );
 }
 
 1;
+
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

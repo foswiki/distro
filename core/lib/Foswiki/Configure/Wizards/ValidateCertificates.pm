@@ -1,57 +1,40 @@
 # See bottom of file for license and copyright information
+package Foswiki::Configure::Wizards::ValidateCertificates;
 
-package Foswiki::Configure::FeedbackCheckers::Email::SSLCaPath;
+=begin TML
+
+---++ package Foswiki::Configure::Wizards::ValidateCertificates
+
+Wizard to check SSL certificates.
+
+=cut
 
 use strict;
 use warnings;
 
-require Foswiki::Configure::Checker;
-our @ISA = qw/Foswiki::Configure::Checker/;
+use Foswiki::Configure::Wizard ();
+our @ISA = ('Foswiki::Configure::Wizard');
 
-sub provideFeedback {
-    my ( $this, $button, $label ) = @_;
+# WIZARD
+sub validate {
+    my ( $this, $reporter ) = @_;
 
-    return ''
-      unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
-        && $Foswiki::cfg{Email}{SSLVerifyServer} );
+    my $path = $Foswiki::cfg{Email}{SSLCaPath};
 
-    my $e = '';
-    my $keys = $this->{item}->{keys};
-
-    if ( $button == 2 ) {
-        $e .= $this->_checkDir()
-          unless ( $e =~ /Error:/ );
+    unless ($path) {
+        return $reporter->ERROR(
+            '{Email}{SSLCaPath} is not set; nothing to validate');
     }
-
-    if ( $e =~ /I guessed/ ) {
-        $e .= $this->FB_VALUE( $keys, $this->getItemCurrentValue )
-          . $this->FB_VALUE( '{Email}{SSLCaFile}',
-            $this->getItemCurrentValue('{Email}{SSLCaFile}') );
-    }
-
-    return wantarray ? ( $e, 0 ) : $e;
-}
-
-sub _checkDir {
-    my $this = shift;
-
-    my $e = '';
-
-    my $path = $this->getCfg;
-
-    # If path needed, check() reported it missing
-
-    return $e unless ($path);
 
     $path =~ m,^([\w_./]+)$,
-      or return $e . $this->ERROR("Invalid characters in $path");
+      or return $this->ERROR("Invalid characters in $path");
     $path = $1;
 
     # One or both consumers require path
 
-    my $creq = !$this->getCfg('{Email}{SSLCaFile}');
+    my $creq = !$Foswiki::cfg{Email}{SSLCaFile};
     my $rreq = $Foswiki::cfg{Email}{SSLCheckCRL}
-      && !$this->getCfg('{Email}{SSLCrlFile}');
+      && !$Foswiki::cfg{Email}{SSLCrlFile};
 
     my ( $certs, $crls, $chashes, $rhashes, $errs ) = (0) x 4;
 
@@ -59,7 +42,7 @@ sub _checkDir {
 
     my $dh;
     unless ( opendir( $dh, $path ) ) {
-        return $e . $this->ERROR("Unable to read $path: $!");
+        return $this->ERROR("Unable to read $path: $!");
     }
     my %seen;
     while ( defined( my $file = readdir($dh) ) ) {
@@ -92,7 +75,7 @@ sub _checkDir {
     closedir($dh);
 
     if ($errs) {
-        $e .= $this->ERROR(
+        $reporter->ERROR(
 "Errors checking files: $errs.  Check permissions and that openssl is installed."
         );
     }
@@ -103,20 +86,20 @@ sub _checkDir {
         if ( $certs eq $chashes ) {
             $m .=
 ", all of which seem to have a hash. (The hash values were not computed.)";
-            $e .= $this->NOTE($m);
+            $reporter->NOTE($m);
         }
         else {
-            $e .= $this->ERROR(
+            $reporter->ERROR(
                 ", but only $chashes hash" . ( $chashes = 1 ? '' : 'es' ) );
         }
     }
     elsif ($creq) {
-        $e .= $this->ERROR(
+        $reporter->ERROR(
             "No certificates found in path and no {Email}{SSLCaFile} specified"
         );
     }
     else {
-        $e .= $this->NOTE("No certificates found");
+        $reporter->NOTE("No certificates found");
     }
 
     if ($crls) {
@@ -125,22 +108,21 @@ sub _checkDir {
         if ( $crls eq $rhashes ) {
             $m .=
 ", all of which seem to have a hash. (The hash values were not computed.)";
-            $e .= $this->NOTE($m);
+            $reporter->NOTE($m);
         }
         else {
-            $e .= $this->ERROR(
+            $reporter->ERROR(
                 ", but only $rhashes hash" . ( $rhashes = 1 ? '' : 'es' ) );
         }
     }
     elsif ($rreq) {
-        $e .= $this->ERROR(
+        $reporter->ERROR(
 "No CRLs found in path, but {Email}{SSLCheckCRL} is enabled and there is no {Email}{SSLCrlFile}."
         );
     }
     else {
-        $e .= $this->NOTE("No CRLs found");
+        $reporter->NOTE("No CRLs found");
     }
-    return $e;
 }
 
 # Identify file type
@@ -200,21 +182,12 @@ sub fileType {
 }
 
 1;
-
 __END__
-
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-TWiki Contributors are listed in the AUTHORS file in the root
-of this distribution. NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

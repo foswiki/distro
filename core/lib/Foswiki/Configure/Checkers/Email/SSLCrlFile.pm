@@ -9,7 +9,7 @@ require Foswiki::Configure::Checker;
 our @ISA = qw/Foswiki::Configure::Checker/;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return '' unless ( $Foswiki::cfg{Email}{SSLCheckCRL} );
 
@@ -34,7 +34,7 @@ sub check_current_value {
             elsif ( $this->getCfg( $Foswiki::cfg{Email}{SSLCaFile} ) ) {
                 $reporter->NOTE(
                     "Guessed {Email}{SSLCaFile} may also contain CRLs");
-                $file = '$Foswiki::cfg{Email}{SSLCaFile}';
+                $file    = '$Foswiki::cfg{Email}{SSLCaFile}';
                 $guessed = 1;
             }
         }
@@ -51,9 +51,14 @@ sub check_current_value {
     my $file = $this->getCfg;
 
     if ($file) {
+        return $reporter->ERROR("Invalid characters in $file")
+          unless $file =~ m,^([\w_./]+)$,;
+        $file = $1;
+
         if ( -r $file ) {
             $reporter->NOTE( "File was last modified "
                   . ( scalar localtime( ( stat _ )[9] ) ) );
+            _checkCRLFile( $file, $reporter );
         }
         else {
             $reporter->ERROR("Unable to read $file");
@@ -67,11 +72,52 @@ sub check_current_value {
         $reporter->ERROR(
             -d $path ? "$path is not readable" : "$path is not a directory" );
     }
-    
+
     if ( !( $file || $path ) ) {
         $reporter->ERROR(
 "Either or both {Email}{SSLCrlFile} and {Email}{SSLCaPath} must be set for server verification.  CRLs are more dynamic than CA root certificates, and must be updated frequently to be useful.  Be sure that any method you choose satisfies your site's security policies.  Alternatively, your OS distribution may also provide a file or directory."
         );
+    }
+}
+
+sub _checkCRLFile {
+    my ( $path, $reporter ) = @_;
+
+    my $certs = 0;
+    my $crls  = 0;
+
+    open( my $fh, '<', $path )
+      or return $reporter->ERROR("Unable to open $path: $!");
+    while (<$fh>) {
+        if (/^-----BEGIN (.*)-----/) {
+            my $hdr = $1;
+            if ( $hdr =~ /^(X509 |TRUSTED |)CERTIFICATE$/ ) {
+                $certs++;
+            }
+            elsif ( $hdr eq 'X509 CRL' ) {
+                $crls++;
+            }
+        }
+    }
+    close($fh);
+
+    if ($crls) {
+        my $m = "File contains $crls CRL";
+        $m .= 's' if ( $crls != 1 );
+        $reporter->NOTE($m);
+    }
+    elsif ( $Foswiki::cfg{Email}{SSLCaPath} ) {
+        $reporter->NOTE("File contains no CRLs, but {Email}{SSLCaPath} may.");
+    }
+    else {
+        $reporter->ERROR("File contains no CRLs");
+    }
+    if ($certs) {
+        my $m = "File ";
+        $m .= 'also ' if ($crls);
+        $m .= "contains $certs certificate";
+        $m .= 's'     if ( $certs != 1 );
+        $reporter->NOTE($m);
     }
 }
 

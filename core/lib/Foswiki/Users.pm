@@ -603,11 +603,15 @@ sub setEmails {
 True if the user is an admin
    * is $Foswiki::cfg{SuperAdminGroup}
    * is a member of the $Foswiki::cfg{SuperAdminGroup}
+   * Foswiki is bootstrapping a new configuration
 
 =cut
 
 sub isAdmin {
     my ( $this, $cUID ) = @_;
+
+    # If bootstrapping the configuration, always admin
+    return 1 if $Foswiki::cfg{isBOOTSTRAPPING};
 
     return 0 unless defined $cUID;
 

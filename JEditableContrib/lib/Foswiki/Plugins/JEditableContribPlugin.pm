@@ -1,8 +1,12 @@
 package Foswiki::Plugins::JEditableContribPlugin;
+
 use strict;
 use warnings;
+
 use Foswiki::Plugins::JQueryPlugin::Plugins       ();
 use Foswiki::Contrib::JEditableContrib::JEDITABLE ();
+
+our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'JEditable',

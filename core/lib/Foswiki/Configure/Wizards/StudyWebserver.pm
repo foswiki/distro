@@ -12,26 +12,28 @@ Wizard to try to analyse and report on webserver.
 use strict;
 use warnings;
 
-use CGI ();
-use FindBin ();
+use CGI        ();
+use FindBin    ();
 use File::Spec ();
-use JSON ();
+use JSON       ();
 
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
 
 use Foswiki::Net ();
 
-our $inc_rubric = '@INC library path _This is the Perl library path, used to load Foswiki modules, third-party modules used by some plugins, and Perl built-in modules_ ';
+our $inc_rubric =
+'@INC library path _This is the Perl library path, used to load Foswiki modules, third-party modules used by some plugins, and Perl built-in modules_ ';
 
-sub execute {
-    my ($this, $reporter) = @_;
+# WIZARD
+sub report {
+    my ( $this, $reporter ) = @_;
 
-    $reporter->NOTE('---+ Environment Variables' );
+    $reporter->NOTE('---+ Environment Variables');
 
     # Check the execution environment
 
-    my $XENV = _getScriptENV($reporter);
+    my $XENV = $this->_getScriptENV($reporter);
 
     my $uid = getlogin() || getpwuid($>);
 
@@ -46,20 +48,19 @@ sub execute {
         # etc - if it isn't, give up. Run command without stderr
         # output, to avoid CGI giving error.
         # Get names of primary and other groups.
-        # This is down here because it takes 30s to execute on
+        # This is down here because it takes 30s to run on
         # Strawberry perl!
-        @groups = (
-            lc( qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul )
-                || 'n/a' ));
+        @groups =
+          ( lc( qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ) || 'n/a' ) );
     }
 
     if ( !$XENV ) {
         $reporter->WARN(
 "Unable to query execution environment. The following analysis only reflects the configure environment."
-            );
+        );
         $reporter->NOTE('| *Variable* | *Configure* |');
         for my $key ( sort keys %ENV ) {
-            my $value = $ENV{$key};
+            my $value   = $ENV{$key};
             my $decoded = '';
             if ( $key eq 'HTTP_COOKIE' && $value ) {
 
@@ -69,60 +70,61 @@ sub execute {
                 $decoded = ' _Cookie string decoded for readability_ ';
             }
             $value =~ s/\n/\\n/g;
-            $reporter->NOTE( "| $key | $value$decoded |" );
+            $reporter->NOTE("| $key | $value$decoded |");
         }
 
-        $reporter->NOTE( '---+ General Environment' );
+        $reporter->NOTE('---+ General Environment');
 
         # Report the Umask
         my $pUmask = sprintf( '%03o', umask() );
-        $reporter->NOTE( "| UMASK | $pUmask |" );
+        $reporter->NOTE("| UMASK | $pUmask |");
 
-        my $ipath = join(' ', @INC );
+        my $ipath = join( ' ', @INC );
         $reporter->NOTE("| $inc_rubric | $ipath |");
 
-        my $user = 'userid: '
-            . ( $uid ? "*$uid*" : 'unknown' )
-            . ' groups: *'
-            .join(', ', @groups) . '*';
-        $reporter->NOTE( "| User _Your scripts are executing as this user_ | $user |")
+        my $user =
+            'userid: '
+          . ( $uid ? "*$uid*" : 'unknown' )
+          . ' groups: *'
+          . join( ', ', @groups ) . '*';
+        $reporter->NOTE(
+            "| User _Your scripts are executing as this user_ | $user |");
     }
     else {
         $reporter->NOTE('| *Variable* | *Execution* | *Configure* |');
         _compareHashes( $reporter, $XENV->{ENV}, \%ENV );
 
-        $reporter->NOTE( '---+ General Environment' );
+        $reporter->NOTE('---+ General Environment');
 
         $reporter->NOTE('| | *Execution* | *Configure* |');
 
         # Report the Umask
         my $cUmask = sprintf( '%03o', umask );
         my $xUmask = sprintf( '%03o', $XENV->{umask} || 0 );
-        _compareHashes( $reporter,
-                        { UMASK => $xUmask},
-                        { UMASK => $cUmask } );
+        _compareHashes( $reporter, { UMASK => $xUmask }, { UMASK => $cUmask } );
 
         # Perl @INC (lib path)
         _compareHashes(
             $reporter,
             { $inc_rubric => join( " ", @{ $XENV->{'@INC'} } ) },
             { $inc_rubric => join( " ", @INC ) },
-            );
+        );
 
-        my $user = 'userid: '
-            . ( $uid ? "*$uid*" : 'unknown' )
-            . ' groups: *'
-            .join(', ', @groups) . '*';
+        my $user =
+            'userid: '
+          . ( $uid ? "*$uid*" : 'unknown' )
+          . ' groups: *'
+          . join( ', ', @groups ) . '*';
 
-        my $xuser = 'userid: '
-            . ( $XENV->{uid} ? "*$XENV->{uid}*" : 'unknown' )
-            . ' groups: *'
-            . join(', ', @{$XENV->{groups}}) . '*';
+        my $xuser =
+            'userid: '
+          . ( $XENV->{uid} ? "*$XENV->{uid}*" : 'unknown' )
+          . ' groups: *'
+          . join( ', ', @{ $XENV->{groups} } ) . '*';
 
-        my $rubric = 'Webserver user _Your CGI scripts are executing as this user_';
-        _compareHashes(
-            $reporter,
-            { $rubric => $user },
+        my $rubric =
+          'Webserver user _Your CGI scripts are executing as this user_';
+        _compareHashes( $reporter, { $rubric => $user },
             { $rubric => $xuser } );
     }
 
@@ -161,16 +163,16 @@ sub execute {
         my $bd = Cwd::abs_path( $roots[1] ) || 'undef';
         if ( $dd ne $bd ) {
             $reporter->WARN(
-              "{DataDir} => $roots[0] ($dd) vs. {ScriptDir} => $roots[1] ($bd)");
+"{DataDir} => $roots[0] ($dd) vs. {ScriptDir} => $roots[1] ($bd)"
+            );
         }
     }
 
     my $root = $roots[0];
 
-    $reporter->NOTE(
-        '| Foswiki root directory | '
-        . join( '', $root =~ m,^(.*?)[\\/\]>]$, )
-        . '|');
+    $reporter->NOTE( '| Foswiki root directory | '
+          . join( '', $root =~ m,^(.*?)[\\/\]>]$, )
+          . '|' );
 
     unless ( -w $root ) {
         $reporter->WARN(<<HERE);
@@ -248,7 +250,7 @@ HERE
         ucfirst( lc( $Config::Config{osname} ) ) . ' '
       . $Config::Config{osvers} . ' ('
       . $Config::Config{archname} . ')';
-    $reporter->NOTE( "| Operating system | $n |" );
+    $reporter->NOTE("| Operating system | $n |");
 
     # Perl version and type
     if ( $] =~ /^(\d+)\.(\d{3})(\d{3})$/ ) {
@@ -268,7 +270,7 @@ Foswiki code.
 HERE
     }
 
-    $reporter->NOTE( "| Perl version | $n |" );
+    $reporter->NOTE("| Perl version | $n |");
 
     $reporter->NOTE( "| CGI bin directory | " . $this->_getBinDir() . '|' );
 
@@ -291,9 +293,12 @@ HERE
         $n = "not detected";
     }
 
-    if ( !$Foswiki::cfg{DETECTED}{ModPerlLoaded} &&
-         ($Foswiki::cfg{DETECTED}{ModPerlVersion} || $mpUsed)) {
-        $reporter->WARN( 'mod_perl may not be loaded into the webserver. It is not reported as present in the SERVER_SOFTWARE environment variable, but this is not definitive because the ServerTokens directive often is used to suppress this information.');
+    if ( !$Foswiki::cfg{DETECTED}{ModPerlLoaded}
+        && ( $Foswiki::cfg{DETECTED}{ModPerlVersion} || $mpUsed ) )
+    {
+        $reporter->WARN(
+'mod_perl may not be loaded into the webserver. It is not reported as present in the SERVER_SOFTWARE environment variable, but this is not definitive because the ServerTokens directive often is used to suppress this information.'
+        );
     }
 
     $reporter->NOTE("| mod_perl installation | $n |");
@@ -331,7 +336,7 @@ BADXENV
 }
 
 sub _compareHashes {
-    my ($reporter, $execution, $configure) = @_;
+    my ( $reporter, $execution, $configure ) = @_;
 
     my $content = '';
 
@@ -363,16 +368,18 @@ sub _compareHashes {
 # Return %XENV = env from the script execution environment
 
 sub _getScriptENV {
-    my $reporter = shift;
+    my ( $this, $reporter ) = @_;
 
-    my @pars = ( -name => 'FOSWIKI_CONFIGURATION',
-                 -value => time,
-                 -path => '/',
-                 -expires => "+1h" );
+    my @pars = (
+        -name    => 'FOSWIKI_CONFIGURATION',
+        -value   => time,
+        -path    => '/',
+        -expires => "+1h"
+    );
     push @pars, -secure => 1 if ( $ENV{HTTPS} && $ENV{HTTPS} eq 'on' );
     my $cookie = CGI->cookie(@pars);
     local $Foswiki::VERSION = "CONFIGURATION";
-    my $net    = Foswiki::Net->new;
+    my $net = Foswiki::Net->new;
 
     # Flags must be defined and false.  Avoid 'used once' warnings.
 
@@ -380,7 +387,7 @@ sub _getScriptENV {
     local $Foswiki::Net::noHTTPResponse = 1 || $Foswiki::Net::noHTTPResponse;
 
     # 'attach' chosen because it is unlikely to be redirected.
-    # SMELL: this assumes 
+    # SMELL: this assumes
 
     my $test = '/Web/Topic/Env/Echo?configurationTest=yes';
     my $target =
@@ -395,11 +402,10 @@ sub _getScriptENV {
     my ( $limit, $try ) = (10);
     my @headers = ( Cookie => join( '=', $cookie->name, $cookie->value ), );
 
-    # These are set NOSAVE in Foswiki.spec; when testing
-    # potential values, they will be set in the incoming query
-    my $user = $Foswiki::cfg{TestUsername};
-    my $password = $Foswiki::cfg{TestPassword};
-    if ($user ) {
+    my $user = $this->param('cfgusername');
+
+    my $password = $this->param('cfgpassword');
+    if ($user) {
         require MIME::Base64;
         my $auth = MIME::Base64::encode_base64( "$user:$password", '' );
         push @headers, Authorization => "Basic $auth";
@@ -410,10 +416,12 @@ sub _getScriptENV {
         if ( $response->is_error ) {
             my $content = $response->content || '';
             $content =~ s/<([^>]*)>/&lt;$1&gt;/g;
-            $reporter->ERROR( "Failed to access =$url= "
-                              . $response->code . ' '
-                              . $response->message,
-                              "PREFORMAT: $content" );
+            $reporter->ERROR(
+                "Failed to access =$url= "
+                  . $response->code . ' '
+                  . $response->message,
+                "PREFORMAT: $content"
+            );
             last;
         }
         if ( $response->is_redirect ) {
@@ -442,11 +450,10 @@ sub _getScriptENV {
             $xenv = JSON->new->allow_nonref->decode( $response->content || '' );
         };
         if ($@) {
-            $reporter->ERROR(
-                "Server returned incorrect diagnostic data: $@"
-            );
+            $reporter->ERROR("Server returned incorrect diagnostic data: $@");
             return undef;
-        } else {
+        }
+        else {
             return $xenv;
         }
         last;

@@ -14,15 +14,11 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Checkers::PLUGIN_MODULE ();
 
 sub check_current_value {
-    # Disable this to prevent recursion
-}
+    my ( $this, $reporter ) = @_;
 
-sub check_potential_value {
-    my ($this, $reporter) = @_;
-
-    if ($this->getCfg()) {
-        Foswiki::Configure::Checkers::PLUGIN_MODULE::check_current_value(
-            $this, $reporter);
+    if ( $this->getCfg() ) {
+        Foswiki::Configure::Checkers::PLUGIN_MODULE::check_current_value( $this,
+            $reporter );
     }
 }
 

@@ -17,7 +17,7 @@ our @ISA = ('Foswiki::Configure::Wizard');
 
 use constant DEBUG_SSL => 1;
 
-use Foswiki::IP ();
+use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 
 # N.B. Below the block comment are not enabled placeholders
 # Search order (specify hash key):
@@ -77,12 +77,13 @@ my %mtas = (
 #>>>
 
 use constant ACCEPTMSG =>
-"Configuration accepted. Next step:Setup and test {WebMasterEmail}.";
+  "Configuration accepted. Next step: Setup and test {WebMasterEmail}.";
 
-sub execute {
-    my ($this, $reporter) = @_;
+# WIZARD
+sub autoconfigure {
+    my ( $this, $reporter ) = @_;
 
-    if ($Foswiki::cfg{EnableEmail}) {
+    if ( $Foswiki::cfg{EnableEmail} ) {
         _autoconfig($reporter);
     }
 }
@@ -94,12 +95,12 @@ sub _autoconfig {
         my ( $certFile, $keyFile ) = (
             $Foswiki::cfg{Email}{SmimeCertificateFile},
             $Foswiki::cfg{Email}{SmimeKeyFile},
-            );
+        );
         unless ( $certFile && $keyFile ) {
             ( $certFile, $keyFile ) = (
                 '$Foswiki::cfg{DataDir}/SmimeCertificate.pem',
                 '$Foswiki::cfg{DataDir}/SmimePrivateKey.pem',
-                );
+            );
         }
         Foswiki::Configure::Load::expandValue($certFile);
         Foswiki::Configure::Load::expandValue($keyFile);
@@ -112,17 +113,19 @@ To generate a self-signed certificate or generate a signing request, use the res
 Because no certificate is present, S/MIME has been disabled to allow basic autoconfiguration to continue.
 NOCERT
             $Foswiki::cfg{Email}{EnableSMIME} = 0;
+            $reporter->change( '{Email}{EnableSMIME}' => 0 );
         }
     }
 
     my $perlAvail = eval "require Net::SMTP";
 
     if ($perlAvail) {
-        return if _autoconfigPerl( $reporter );
+        return if _autoconfigPerl($reporter);
         $reporter->WARN(
-            'Net::SMTP is available, but configuration failed. Falling back to mail program.');
+'Net::SMTP is available, but configuration failed. Falling back to mail program.'
+        );
     }
-    return if _autoconfigProgram( $reporter );
+    return if _autoconfigProgram($reporter);
 
     $reporter->ERROR(<<FAILED);
 Mail program configuration failed. Foswiki will not be able to send mail.
@@ -132,7 +135,7 @@ FAILED
 # Return 0 on failure
 # $perlAvail = 0 if not available, -1 if tried and failed, 1 if tried and OK
 sub _autoconfigProgram {
-    my ( $reporter ) = @_;
+    my ($reporter) = @_;
 
     $reporter->NOTE("Attempting to configure a mailer program");
 
@@ -166,9 +169,11 @@ sub _autoconfigProgram {
             foreach my $p ( split( /:/, $path ) ) {
                 if ( -x "$p/$cfg->{file}" ) {
                     my $prog = Cwd::realpath("$p/$cfg->{file}");
-                    if ( ( File::Basename::fileparse($prog) )[0] =~ $cfg->{regexp} ) {
+                    if ( ( File::Basename::fileparse($prog) )[0] =~
+                        $cfg->{regexp} )
+                    {
                         _setMailProgram( $cfg, $p, $reporter );
-                        return 1; # OK
+                        return 1;    # OK
                     }
                 }
             }
@@ -182,7 +187,8 @@ sub _autoconfigProgram {
 
     foreach my $p ( '/usr/sbin', split( /:/, $path ) ) {
         if ( -x "$p/$mailp" ) {
-            $mailp = ( File::Basename::fileparse( Cwd::realpath("$p/$mailp") ) )[0];
+            $mailp =
+              ( File::Basename::fileparse( Cwd::realpath("$p/$mailp") ) )[0];
             foreach my $mta (@mtas) {
                 my $cfg = $mtas{$mta} or next;
                 if ( $mailp =~ $cfg->{regexp} ) {
@@ -196,7 +202,7 @@ sub _autoconfigProgram {
         }
     }
 
-    return 0; # failed
+    return 0;    # failed
 }
 
 # mailwrapper uses a config file
@@ -229,7 +235,8 @@ sub _sniffSELinux {
 
     my $selStatus = system("selinuxenabled");
     unless ( $selStatus == -1
-             || ( ( $selStatus >> 8 ) && !( $selStatus & 127 ) ) ) {
+        || ( ( $selStatus >> 8 ) && !( $selStatus & 127 ) ) )
+    {
         $reporter->NOTE(<<SELINUX);
 SELinux appears to be enabled on your system.
 Please ensure that the SELinux policy permits SMTP connections from webserver processes to at least one of these tcp ports: 587, 465 or 25.  Also ensure that your e-mail client is permitted to be run under your webserver, and that it is permitted access to its configuration data and temporary files in this security context.
@@ -249,8 +256,7 @@ ID
 
     # MailProgram probes don't send mail, so just a generic message if
     # isSELinux is enabled.
-    _sniffSELinux($reporter),
-    $reporter->NOTE(ACCEPTMSG);
+    _sniffSELinux($reporter), $reporter->NOTE(ACCEPTMSG);
 }
 
 # autoconfig loosely parallels Net.pm
@@ -270,7 +276,7 @@ our $pad = ' ' x length('Net::SMTpXXX ');
 
 # Return 0 on failure
 sub _autoconfigPerl {
-    my ( $reporter ) = @_;
+    my ($reporter) = @_;
 
     $SIG{__DIE__} = sub {
         Carp::confess($@);
@@ -283,7 +289,7 @@ sub _autoconfigPerl {
     my $IOHandleAvail = eval "require IO::Handle";
     if ($@) {
         $reporter->ERROR(
-            "IO::Handle is required to auto configure Net::SMTP mail" );
+            "IO::Handle is required to auto configure Net::SMTP mail");
         return 0;
     }
 
@@ -311,12 +317,11 @@ sub _autoconfigPerl {
     @Net::SMTP::ISA = (
         grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
         'IO::Socket::IP'
-    ) if ($Foswiki::IP::IPv6Avail);
+    ) if ($IPv6Avail);
 
     $host = $Foswiki::cfg{SMTP}{MAILHOST};
     unless ( $host && $host !~ /^ ---/ ) {
-        $reporter->ERROR(
-            "{SMTP}{MAILHOST} must be specified to use Net::SMTP" );
+        $reporter->ERROR("{SMTP}{MAILHOST} must be specified to use Net::SMTP");
         return 0;
     }
 
@@ -328,7 +333,7 @@ sub _autoconfigPerl {
     $host = $hInfo->{name};
 
     my @addrs;
-    if ($Foswiki::IP::IPv6Avail) {
+    if ($IPv6Avail) {
 
         # IO::Socket::IP will handle multiple addresses/address families
         # in the right order if we pass $host, but passing the list lets
@@ -346,7 +351,7 @@ sub _autoconfigPerl {
     }
     unless (@addrs) {
         $reporter->ERROR(
-            "{SMTP}{MAILHOST} $host is invalid: server has no IP address" );
+            "{SMTP}{MAILHOST} $host is invalid: server has no IP address");
         return 0;
     }
 
@@ -363,7 +368,7 @@ sub _autoconfigPerl {
         require Net::Domain;
         $hello = Net::Domain::hostfqdn();
         $hello = "[$hello]"
-          if ( $hello =~ /^(?:$Foswiki::IP::IPv4Re|$Foswiki::IP::IPv6ZidRe)$/ );
+          if ( $hello =~ /^(?:$IPv4Re|$IPv6ZidRe)$/ );
         push @options, Hello => $hello;
     }
 
@@ -371,7 +376,8 @@ sub _autoconfigPerl {
     $noconnect  = 1;
     $allconnect = 1;
 
-    my $log = bless {}, 'Foswiki::Configure::Wizards::AutoConfigureEmail::Mailer';
+    my $log = bless {},
+      'Foswiki::Configure::Wizards::AutoConfigureEmail::Mailer';
 
     # Get SSL options common to all secure connection methods
 
@@ -538,7 +544,8 @@ sub _autoconfigPerl {
             @Foswiki::Configure::Wizards::AutoConfigureEmail::SSL::ISA =
               @{ $cfg->{isa} };
 
-            $tlog = "${pad}Testing "
+            $tlog =
+                "${pad}Testing "
               . ( $cfg->{id} || uc($method) ) . " on "
               . (
                   $port =~ /^\d+$/           ? "port $port\n"
@@ -548,8 +555,8 @@ sub _autoconfigPerl {
             $verified = $cfg->{verify} || -1;
 
             my $smtp =
-              Foswiki::Configure::Wizards::AutoConfigureEmail::Mailer->new( @options,
-                Port => $port );
+              Foswiki::Configure::Wizards::AutoConfigureEmail::Mailer->new(
+                @options, Port => $port );
             unless ($smtp) {
                 next;
             }
@@ -590,8 +597,9 @@ sub _autoconfigPerl {
 
     #  @use[ cfg, port, authOK, authMsg ]
     if ( $use[2] == 0 ) {    # Incomplete
-        $reporter->NOTE( "This configuration appears to be acceptable, but testing is incomplete."
-            );
+        $reporter->NOTE(
+"This configuration appears to be acceptable, but testing is incomplete."
+        );
         $reporter->ERROR( $use[3] );
         return 0;
     }
@@ -599,12 +607,14 @@ sub _autoconfigPerl {
         $reporter->NOTE( $use[3], ACCEPTMSG );
     }
     if ( $use[2] == 2 ) {                    # Bad credentials
-        # Authentication failed, perl is OK, don't try program.
+            # Authentication failed, perl is OK, don't try program.
         $reporter->ERROR( $use[3] );
     }
     else {    # Other failure
-        $reporter->ERROR($use[3]);
-        $reporter->ERROR("Although a connection was established with $host on port $use[1], it did not accept mail.");
+        $reporter->ERROR( $use[3] );
+        $reporter->ERROR(
+"Although a connection was established with $host on port $use[1], it did not accept mail."
+        );
         return 0;
     }
     return 1;
@@ -619,7 +629,8 @@ sub _diagnoseFailure {
 
     # If no connection went through, there's probably a block
     if ($noconnect) {
-        my $mess = "No connection was established on any port, so if the e-mail server is up, it is likely that a firewall";
+        my $mess =
+"No connection was established on any port, so if the e-mail server is up, it is likely that a firewall";
         $mess .= "and/or SELINUX" if ($isSELinux);
         $mess .= " is blocking TCP connections to e-mail submission ports.";
 
@@ -629,9 +640,11 @@ sub _diagnoseFailure {
 
     # Some worked, some didn't
     unless ($allconnect) {
-        my $mess = "At least one connection was blocked, but others succeeded.  It is possible that that a firewall";
+        my $mess =
+"At least one connection was blocked, but others succeeded.  It is possible that that a firewall";
         $mess .= "and/or SELINUX" if ($isSELinux);
-        $mess .= " is blocking TCP connections to some e-mail submission port(s).
+        $mess .=
+          " is blocking TCP connections to some e-mail submission port(s).
 However, only one connection type needs to work, so you should focus on the\
 issues logged on the ports where connections succeeded.";
 
@@ -871,9 +884,9 @@ sub new {
     }
 
     my $sclass =
-        $tlsSsl    ? 'IO::Socket::SSL'
+        $tlsSsl                 ? 'IO::Socket::SSL'
       : $Foswiki::IP::IPv6Avail ? 'IO::Socket::IP'
-      :              'IO::Socket::INET';
+      :                           'IO::Socket::INET';
     $! = 0;
     $@ = '';
     my $sock = $sclass->new(@sockopts);

@@ -4,13 +4,15 @@ package Foswiki::Configure::Checkers::URL;
 use strict;
 use warnings;
 
+use Assert;
+
 use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 
 require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
 # This is a generic (item-independent) checker for URIs.
-# 
+#
 # CHECKoptions:
 #    * expand = expand $Foswiki::cfg variables in value
 #    * nullok = allow item to be empty
@@ -28,7 +30,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 #           Default: host
 #    * user = Permit user@host syntax
 #    * pass = Permit user:pass@host syntax
-# 
+#
 # CHECKoptions default to whatever is in the model if not provided
 
 # Fallback validation expression:
@@ -39,13 +41,13 @@ our @ISA = ('Foswiki::Configure::Checker');
 my $uriRE = qr|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(\?[^#]*)?(#.*)?|o;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
     my $keys = $this->{item}->{keys};
 
     $this->showExpandedValue($reporter);
 
     my ($check) = $this->{item}->getChecks();
-    checkURI($reporter, $this->getCfgUndefOk(), %$check);
+    checkURI( $reporter, $this->getCfgUndefOk(), %$check );
 }
 
 sub _vlist {
@@ -55,7 +57,12 @@ sub _vlist {
 }
 
 sub checkURI {
-    my( $reporter, $uri, %check) = @_;
+    my ( $reporter, $uri, %check ) = @_;
+
+    unless ( defined $uri ) {
+        $reporter->ERROR("Not a valid URI") unless $check{nullok}[0];
+        return;
+    }
 
     $check{expand}   ||= [0];
     $check{parts}    ||= [qw/scheme authority path/];
@@ -112,27 +119,23 @@ sub checkURI {
                     if ( defined $pass ) {
                         unless ( $check{pass}[0] ) {
                             $reporter->ERROR(
-"Embedded password is not permitted in $uri"
-                            );
+                                "Embedded password is not permitted in $uri");
                         }
                     }
                 }
                 else {
                     $reporter->ERROR(
-"Embedded authentication is not permitted in $uri"
-                    );
+                        "Embedded authentication is not permitted in $uri");
                 }
             }
             my $hi = hostInfo($auth);
             if ( $hi->{error} ) {
                 $reporter->ERROR(
-"$auth is not a valid authority specifier: $hi->{error}"
-                );
+                    "$auth is not a valid authority specifier: $hi->{error}");
             }
             else {
                 if ( $hi->{ipaddr} ) {
-                    $reporter->ERROR(
-                        "IP address is not permitted in $uri")
+                    $reporter->ERROR("IP address is not permitted in $uri")
                       unless ( $check{authtype}[0] =~ /ip$/ );
                     $reporter->ERROR("IP address is required in $uri")
                       if ( $check{authtype}[0] eq 'ip' );
@@ -155,25 +158,22 @@ sub checkURI {
                             }
                         }
                         $reporter->ERROR(
-"$auth has no IP addresses. Verify DNS or hostname."
+                            "$auth has no IP addresses. Verify DNS or hostname."
                         ) unless ( @{ $hi->{addrs} } );
                     }
                     else {
-                        $reporter->ERROR(
-                            "Hostname is not permitted in $uri");
+                        $reporter->ERROR("Hostname is not permitted in $uri");
                     }
                 }
             }
         }
         elsif ( $partsReq->{authority} ) {
             $reporter->ERROR(
-"Authority ($check{authtype}[0]) is required in $uri"
-            );
+                "Authority ($check{authtype}[0]) is required in $uri");
         }
     }
     else {
-        $reporter->ERROR(
-            "Authority ($authority) is not permitted in $uri")
+        $reporter->ERROR("Authority ($authority) is not permitted in $uri")
           if ( defined $authority );
     }
     $authority = '' unless ( defined $authority );
@@ -235,8 +235,7 @@ m{^(?:/|(?:/(?:[~+a-zA-Z0-9\$_\@.&!*"'(),-]|%[[:xdigit:]]{2})+)*/?)$}
         }
     }
     else {
-        $reporter->ERROR(
-            "Fragment ($fragment) is not permitted in $uri")
+        $reporter->ERROR("Fragment ($fragment) is not permitted in $uri")
           if ( defined $fragment );
     }
     $fragment = '' unless ( defined $fragment );

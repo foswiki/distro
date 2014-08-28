@@ -1,35 +1,38 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Wizards::GenerateCSR;
-
-=begin TML
-
----++ package Foswiki::Configure::Wizards::GenerateCSR
-
-Wizard to generate a SMIME certificate signing request (CSR).
-
-=cut
+package Foswiki::Configure::Checkers::FormTypes;
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Foswiki::Configure::Checkers::PERL ();
+our @ISA = ('Foswiki::Configure::Checkers::PERL');
 
-use Foswiki::Configure::Wizards::GenerateSMIMECertificate ();
-
-# WIZARD
-sub request_cert {
+sub check_current_value {
     my ( $this, $reporter ) = @_;
-    return Foswiki::Configure::Wizards::GenerateSMIMECertificate(
-        $reporter,
-        {
-            C  => [ $Foswiki::cfg{Email}{SmimeCertC} ],
-            ST => [ $Foswiki::cfg{Email}{SmimeCertST} ],
-            L  => [ $Foswiki::cfg{Email}{SmimeCertL} ],
-            O  => [ $Foswiki::cfg{Email}{SmimeCertO} ],
-            U  => [ $Foswiki::cfg{Email}{SmimeCertOU} ],
+
+    my $val = $this->getCfg();
+    unless ( ref($val) eq 'ARRAY' ) {
+        $reporter->ERROR("Was expecting this to be an array");
+        return;
+    }
+    my $ec = 0;
+    foreach my $e (@$val) {
+        if ( ref($e) ne 'HASH' ) {
+            $reporter->ERROR("Was expecting entry $ec to be a hash");
         }
-    );
+        else {
+
+            # Validate the keys
+            while ( my ( $k, $v ) = %$e ) {
+                unless ( ref($v) eq 'SCALAR' ) {
+                    $reporter->ERROR(
+"Was expecting entry $ec to be a hash containing only scalars, but $k is not a scalar."
+                    );
+                }
+            }
+        }
+        $ec++;
+    }
 }
 
 1;

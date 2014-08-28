@@ -66,8 +66,8 @@ sub _loadSmilies {
 
     $cache{$current}{pattern} = "(";
     my $state = 0;
-    foreach my $line ( split( /\n/, Foswiki::Func::readTopic( $web, $topic ) ) )
-    {
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+    foreach my $line ( split( /\n/, $text || '' ) ) {
 
         # | smily | image | description |
         if ( $line =~ /^\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*$/ ) {

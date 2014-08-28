@@ -27,7 +27,7 @@ sub construct {
 
     my $d =
          $Foswiki::cfg{LocalesDir}
-      || Foswiki::Configure::FileUtil::findFileOnPath('../locales')
+      || Foswiki::Configure::FileUtil::findFileOnPath('../locale')
       || '';
     Foswiki::Configure::Load::expandValue($d);
 
@@ -67,11 +67,10 @@ sub construct {
         my $value = Foswiki::Configure::Value->new(
             'LANGUAGE',
             keys       => '{Languages}{' . $keys . '}{Enabled}',
-            LABEL      => "Enable $label",
+            desc       => "Enable $label",
             default    => '0',
             DISPLAY_IF => "{UserInterfaceInternationalisation}",
         );
-        $value->set( opts => "FEEDBACK=AUTO AUDIT='PARS:0 LANG:0'" );
         $langs{$label} = $value;
     }
     closedir(DIR);

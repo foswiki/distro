@@ -8,13 +8,14 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
-    return if ($Foswiki::cfg{MinPasswordLength} > 7);
+    return if ( $Foswiki::cfg{MinPasswordLength} >= 7 );
 
-    if ($Foswiki::cfg{MinPasswordLength}) {
+    if ( $Foswiki::cfg{MinPasswordLength} ) {
         $reporter->WARN('Allowing passwords < 7 characters is insecure.');
-    } else {
+    }
+    else {
         $reporter->WARN('Allowing null passwords is VERY insecure.');
     }
 }

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1409216418" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -222,6 +222,8 @@ Some extensions have setup requirements that are best integrated into =configure
 =Config.spec= files are read during configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/Foswiki/Plugins/BathPlugin/Config.spec=.
 
 ---+++ Structure of a <code>Config.spec</code> file
+This is a high level outline of the content of a <code>Config.spec</code> file. For full technical details, see [[http://foswiki.org/Development/HowToWriteASpecFile][How To Write A .spec File]]. However the information given here should be sufficient for most extension developers.
+
 The =Config.spec= file for a plugin starts with a line that declares what section the configuration should appear in. The standard for all extensions is:
 <verbatim class="tml">
 # ---+ Extensions
@@ -288,12 +290,17 @@ A range of types are available for use in =Config.spec= files:
 | =URLPATH= _length_ | A relative URL path |
 
 All types can be followed by a comma-separated list of _attributes_.
-| =EXPERT= | means this an expert option |
-| =M= | means the setting is mandatory (may not be empty) |
-| =H= | means the option is not visible in =configure= |
-| =5x80= | means "use a 5 row, 80 column textarea". Can be used with any text entry field type, such as STRING, COMMAND, PERL etc. |
 | =DISPLAY_IF= | means this option is conditionally displayed based on some Javascript expression (see below for more) |
 | =ENABLE_IF= | means this option is conditionally enabled based on some Javascript expression (see below for more) |
+| =EXPERT= | means this an expert option |
+| =HIDDEN= | means the option is not visible in =configure= |
+| =MANDATORY= | means the setting is mandatory (may not be empty) |
+| =MULTIPLE= | Allow multiple select (SELECT type) |
+| =SPELLCHECK= | Enable to request spellchecking in the UI (if available) |
+| =80= | means "use an 80 column one-line text field" - if the UI wants to support it. |
+| =5x80= | means "use a 5 row, 80 column textarea". Can be used with any text entry field type, such as STRING, COMMAND, PERL etc. However the UI may not support it. |
+Any of the boolean attributes can be preceded with =NO= to invert the meaning e.g. =NOHIDDEN= (however since this is the default state for these options, it's of limited use!)
+
 As of Foswiki 1.2.0 you can also use the =ENHANCE= type to enhance the documentation for an already-existing =$Foswiki::cfg= value. For example:
 <verbatim>
 # **ENHANCE {Store}{Implementation}**
@@ -301,7 +308,7 @@ As of Foswiki 1.2.0 you can also use the =ENHANCE= type to enhance the documenta
 </verbatim>
 =ENHANCE= does not have a corresponding =$Foswiki::cfg= value, just a documentation block.
 
-See =lib/Foswiki.spec= for many more examples.
+See =lib/Foswiki.spec= for many more examples, and [[http://foswiki.org/Development/HowToWriteASpecFile][How To Write A .spec File]] for more information about the syntax and attributes.
 
 =Config.spec= files are also used for other (non-plugin) extensions. in this case they are stored under the =Contrib= directory instead of the =Plugins= directory.
 

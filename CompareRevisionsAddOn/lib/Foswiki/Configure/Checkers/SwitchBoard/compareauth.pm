@@ -10,31 +10,27 @@ our @ISA = qw( Foswiki::Configure::Checker );
 
 sub check {
     my $this  = shift;
-    my $e     = '';
     my $value = $Foswiki::cfg{SwitchBoard}{compareauth};
 
-    if ( not ref($value) and $value =~ /HASH\([^\)]*\)/ ) {
-        $e .= $this->ERROR(<<"MESSAGE");
+    if ( !$value || ref($value) ne 'HASH' ) {
+        return $this->ERROR(<<"MESSAGE");
 Illegal value. Please rectify by copying and pasting the value from
-<code>{SwitchBoard}{compare}</code> above. Refer to
+<code>{SwitchBoard}{compare}</code>. Refer to
 <a href="http://foswiki.org/Tasks/Item10803">Foswikitask:Item10803</a> for more
 information
 MESSAGE
     }
 
-    return $e;
+    return '';
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

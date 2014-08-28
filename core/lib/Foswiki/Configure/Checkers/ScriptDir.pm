@@ -7,17 +7,19 @@ use warnings;
 use Foswiki::Configure::Checkers::PATH ();
 our @ISA = ('Foswiki::Configure::Checkers::PATH');
 
-sub check_potential_value {
-    my ( $this, $string, $reporter ) = @_;
+# Wizard method
+sub validate {
+    my ( $this, $reporter ) = @_;
 
     my $dir = $this->getCfg();
 
     my $ext = $Foswiki::cfg{ScriptSuffix} || '';
     my $errs = '';
     unless ( opendir( D, $dir ) ) {
-        return $reporter->ERROR(<<HERE);
+        $reporter->ERROR(<<HERE);
 Cannot open '$dir' for read ($!) - check it exists, and that permissions are correct.
 HERE
+        return;
     }
     foreach my $script ( grep { -f "$dir/$_" && /^\w+(\.\w+)?$/ } readdir D ) {
         my $err = '';
@@ -34,7 +36,8 @@ HERE
             && $script !~ /\.cfg$/
             && $script !~ /\.fcgi$/ )
         {
-            $err .= "   * has a suffix ($1), but no script suffix is configured.\n";
+            $err .=
+              "   * has a suffix ($1), but no script suffix is configured.\n";
         }
 
         #  Verify that scripts are executable
@@ -42,7 +45,8 @@ HERE
             && $script !~ /\.cfg$/
             && !-x "$dir/$script" )
         {
-            $err .= "   * permissions do not include eXecute.  It might not be an executable script.\n";
+            $err .=
+"   * permissions do not include eXecute.  It might not be an executable script.\n";
         }
         if ($err) {
             $reporter->WARN("$script:\n$err");

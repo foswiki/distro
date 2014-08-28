@@ -15,14 +15,15 @@ use warnings;
 use Foswiki::Configure::Wizard ();
 our @ISA = ('Foswiki::Configure::Wizard');
 
-sub execute {
+# WIZARD
+sub generate_cert {
     my ( $this, $reporter ) = @_;
 
-    return generate($reporter, {});
+    return _generate( $reporter, {} );
 }
 
 sub generate {
-    my ($reporter, $checks) = @_;
+    my ( $reporter, $checks ) = @_;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
     Foswiki::Configure::Load::expandValue($certfile);
@@ -32,49 +33,53 @@ sub generate {
     my $ok = 1;
     unless ( $Foswiki::cfg{WebMasterEmail} ) {
         $reporter->ERROR(
-            "The {WebMasterEmail} address must be specified to generate a certificate.");
+"The {WebMasterEmail} address must be specified to generate a certificate."
+        );
         $ok = 0;
     }
     unless ( $Foswiki::cfg{WebMasterName} ) {
         $reporter->ERROR(
-            "{WebMasterName} if not set. Please specify the name to appear on Foswiki-generated e-mails.  It can be generic.");
+"{WebMasterName} if not set. Please specify the name to appear on Foswiki-generated e-mails.  It can be generic."
+        );
         $ok = 0;
     }
 
     if ( $Foswiki::cfg{Email}{SmimeCertificateFile} ) {
         $reporter->ERROR(
 "A certificate file has been specified.  To use a self-signed certificate instead, please clear {Email}{SmimeCertificateFile}."
-            );
+        );
         $ok = 0;
     }
 
     if ( $Foswiki::cfg{Email}{SmimeKeyFile} && $ok ) {
         $reporter->ERROR(
-            "A certificate private key file has been specified.  To use a self-signed certificate please clear {Email}{SmimeCertificateFile}.");
+"A certificate private key file has been specified.  To use a self-signed certificate please clear {Email}{SmimeCertificateFile}."
+        );
         $ok = 0;
     }
     else {
         if ( -f "$certfile.csr" ) {
             $reporter->ERROR(
 "A Certificate Signing Request is pending.  Generating a new one would invalidate it and replace the private key. Cancel the Certificate Signing Request before processding."
-                );
+            );
             $ok = 0;
         }
     }
     unless ($ok) {
         $reporter->ERROR(
 "The preceding errors must be corrected before a certificate can be generated or requested."
-            );
+        );
         return;
     }
 
     ( $ok, my $msg, my $keypass ) = _generate(
         $Foswiki::cfg{WebMasterName},
         $Foswiki::cfg{WebMasterEmail},
-        $certfile, $keyfile, $checks );
+        $certfile, $keyfile, $checks
+    );
     if ($ok) {
         $reporter->NOTE($msg);
-        $reporter->JSON({ '{Email}{SmimeKeyPassword}' => $keypass });
+        $reporter->JSON( { '{Email}{SmimeKeyPassword}' => $keypass } );
     }
     else {
         $reporter->ERROR($msg);
@@ -89,7 +94,7 @@ sub _generate {
 
     # CHECK="expires:356d passlen:15,37 O='' OU='' C='' ST='' L=''"
 
-    my $days = 356;
+    my $days    = 356;
     my $minpass = 15;
     my $maxpass = $minpass * 3;
     $maxpass = 37 if ( $maxpass > 37 );

@@ -19,8 +19,9 @@ our @ISA = ('Foswiki::Configure::Wizard');
 # required because Foswiki::Net doesn't use the Foswiki::Sandbox :-(
 use constant NOREDIRECT => 0;
 
-sub execute {
-    my ($this, $reporter) = @_;
+# WIZARD
+sub send {
+    my ( $this, $reporter ) = @_;
 
     return 1 unless ( $Foswiki::cfg{EnableEmail} );
 
@@ -34,21 +35,19 @@ sub execute {
         $Foswiki::cfg{Email}{SmimeCertificateFile} );
 
     my $safe_smkf = $Foswiki::cfg{Email}{SmimeKeyFile};
-    Foswiki::Configure::Load::expandValue(
-        $Foswiki::cfg{Email}{SmimeKeyFile} );
+    Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
 
-    eval {
-        _sendTestEmail($Foswiki::cfg{WebMasterEmail}, $reporter);
-    };
+    eval { _sendTestEmail( $Foswiki::cfg{WebMasterEmail}, $reporter ); };
     die $@ if $@;
 
+    # Don't report these as changed - they are simply expansions
     $Foswiki::cfg{Email}{SmimeCertificateFile} = $safe_smcf;
-    $Foswiki::cfg{Email}{SmimeKeyFile} = $safe_smkf;
+    $Foswiki::cfg{Email}{SmimeKeyFile}         = $safe_smkf;
 }
 
 # Send a test email to the address in the value
 sub _sendTestEmail {
-    my ($addrs, $reporter) = @_;
+    my ( $addrs, $reporter ) = @_;
 
     require Foswiki::Net;
 
@@ -296,69 +295,68 @@ MAILTEST
 
         # Redirect streams so we can capture errors from the sendmail
         # program (which does not use Foswiki::Sandbox)
-        my ($savedOut, $savedErr);
+        my ( $savedOut, $savedErr );
 
         die "Can't save STDERR: $!"
-            unless NOREDIRECT || open( $savedErr, '>&STDERR' );
+          unless NOREDIRECT || open( $savedErr, '>&STDERR' );
 
         die "Can't close original STDERR: $!"
-            unless NOREDIRECT || close( STDERR );
+          unless NOREDIRECT || close(STDERR);
 
         eval {
             # STDERR has been closed
             die "Can't capture STDERR: $!"
-                unless NOREDIRECT || open( STDERR, '+>', undef );
+              unless NOREDIRECT || open( STDERR, '+>', undef );
 
             local $/ = undef;
             eval {
                 # STDERR has been captured
                 die "Can't save STDOUT: $!"
-                    unless NOREDIRECT || open( $savedOut, '>&STDOUT' );
+                  unless NOREDIRECT || open( $savedOut, '>&STDOUT' );
 
                 die "Can't close original STDOUT: $!"
-                    unless NOREDIRECT || close(STDOUT);
+                  unless NOREDIRECT || close(STDOUT);
 
                 eval {
                     # STDOUT has been closed
                     die "Can't capture STDOUT: $!"
-                        unless NOREDIRECT || open(STDOUT, '+>', undef );
+                      unless NOREDIRECT || open( STDOUT, '+>', undef );
                     eval {
-                        eval {
-                            $neterrors .= $net->sendEmail( $msg, 1 );
-                        };
+                        eval { $neterrors .= $net->sendEmail( $msg, 1 ); };
                         print $savedErr($@) if $@;
                         $neterrors .= $@ if $@;
 
                         die "Seek: STDOUT: $!"
-                            unless NOREDIRECT || seek( STDOUT, 0, 0 );
+                          unless NOREDIRECT || seek( STDOUT, 0, 0 );
 
                         $stdout = <STDOUT>;
                     };
-                    die( ($@ || '') . " Can't close capturing STDOUT: $!" )
-                        unless NOREDIRECT || close(STDOUT);
+                    die( ( $@ || '' ) . " Can't close capturing STDOUT: $!" )
+                      unless NOREDIRECT || close(STDOUT);
                 };
 
-                die( ($@ || '') . " Can't restore STDOUT: $!")
-                    unless NOREDIRECT || open( STDOUT, '>&', $savedOut );
+                die( ( $@ || '' ) . " Can't restore STDOUT: $!" )
+                  unless NOREDIRECT || open( STDOUT, '>&', $savedOut );
                 close $savedOut;
 
                 die "Seek: STDERR: $!"
-                    unless NOREDIRECT || seek( STDERR, 0, 0 );
+                  unless NOREDIRECT || seek( STDERR, 0, 0 );
                 $stderr = <STDERR> unless NOREDIRECT;
             };
+
             # Restore captured STDERR
-            die( ($@ || '') . " Can't close capturing STDERR: $!" )
-                unless NOREDIRECT || close( STDERR ); 
+            die( ( $@ || '' ) . " Can't close capturing STDERR: $!" )
+              unless NOREDIRECT || close(STDERR);
         };
-        die( ($@ || '') . " Can't restore saved STDERR: $!" )
-            unless NOREDIRECT || open( STDERR, '>&', $savedErr );
+        die( ( $@ || '' ) . " Can't restore saved STDERR: $!" )
+          unless NOREDIRECT || open( STDERR, '>&', $savedErr );
         close $savedErr unless NOREDIRECT;
 
         # sendmail in debug mode echoes the entire message - twice.
         # We'll remove that from the log.
 
-        if ($Foswiki::cfg{MailProgram} =~ /(?:^|\b)sendmail(?:\b|$)/ ) {
-            if ($stderr =~ /^(Please install an MTA.*)$/m) {
+        if ( $Foswiki::cfg{MailProgram} =~ /(?:^|\b)sendmail(?:\b|$)/ ) {
+            if ( $stderr =~ /^(Please install an MTA.*)$/m ) {
                 $neterrors .= $1;
             }
             my $stampre = qr/^(?:\d+\s+(<<<|>>>)\s+)/;
@@ -402,12 +400,12 @@ MAILTEST
 
     if ( $neterrors || $Foswiki::cfg{SMTP}{Debug} ) {
         if ($stdout) {
-            $reporter->NOTE("Mailer output", "PREFORMAT:$stdout");
+            $reporter->NOTE( "Mailer output", "PREFORMAT:$stdout" );
         }
         if ($stderr) {
             $stderr =~ s/<a\s+/<a target="_blank" /gms;
-            $reporter->NOTE('Transcript of e-mail server dialog',
-                            "PREFORMAT:$stderr");
+            $reporter->NOTE( 'Transcript of e-mail server dialog',
+                "PREFORMAT:$stderr" );
         }
 
         return if $neterrors;

@@ -1,5 +1,4 @@
 # See bottom of file for license and copyright information
-
 package Foswiki::Configure::Checkers::Email::SSLCaPath;
 
 use strict;
@@ -9,64 +8,18 @@ require Foswiki::Configure::Checker;
 our @ISA = qw/Foswiki::Configure::Checker/;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return ''
       unless ( $Foswiki::cfg{Email}{MailMethod} =~ /^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
-
-    # This is quite similar to CaFile, but we recompute
-    # the defaults in case they depended on Path, but
-    # path has been cleared.
-
-    my $value = $this->getCfg;
-
-    unless ( $value || $Foswiki::cfg{Email}{SSLCaFile} ) {
-
-        # See if we can use LWP or Crypt::SSLEay's defaults
-
-        my ( $file, $path ) =
-          @ENV{qw/PERL_LWP_SSL_CA_FILE PERL_LWP_SSL_CA_PATH/};
-        my $guessed = 0;
-        if ( $file || $path ) {
-            $reporter->NOTE("Guessed from LWP settings");
-            $guessed = 1;
-        }
-        else {
-            ( $file, $path ) = @ENV{qw/HTTPS_CA_FILE HTTPS_CA_DIR/};
-            if ( $file || $path ) {
-                $reporter->NOTE("Guessed from Crypt::SSLEay's settings");
-                $guessed = 1;
-            }
-            else {
-                if ( eval 'require Mozilla::CA;' ) {
-                    $file = Mozilla::CA::SSL_ca_file();
-                    if ($file) {
-                        $reporter->NOTE("Obtained from Mozilla::CA");
-                        $guessed = 1;
-                    }
-                    else {
-                        $reporter->ERROR(
-                            "Mozilla::CA is installed but has no file");
-                    }
-                }
-            }
-        }
-        if ($guessed) {
-            $this->WARN(Foswiki::Configure::Checker::GUESSED_MESSAGE);
-            $file = '' unless ( defined $file );
-            $path = '' unless ( defined $path );
-            $this->setItemValue($path);
-            $this->setItemValue( $file, '{Email}{SSLCaFile}' );
-        }
-    }
 
     my $file = $this->getCfg('{Email}{SSLCaFile}');
 
     if ( $file && !-r $file ) {
         $reporter->ERROR("Unable to read $file");
     }
-    my $path = $this->getCfg('{Email}{SSLCaPath}');
+    my $path = $this->getCfg();
     if ($path) {
         if ( !( -d $path && -r _ ) ) {
             $reporter->ERROR(
@@ -95,7 +48,6 @@ sub check_current_value {
 1;
 
 __END__
-
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors

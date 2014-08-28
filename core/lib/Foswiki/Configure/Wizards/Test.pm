@@ -1,33 +1,40 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::FeedbackCheckers::Welcome;
+package Foswiki::Configure::Wizards::Test;
 
 =begin TML
 
----+ package Foswiki::Configure::FeedbackCheckers::Welcome
+---++ package Foswiki::Configure::Wizards::Test
 
-Foswiki::Configure::Section for welcome screen
-
-SMELL: This is *not* a Checker, it is only in the Checkers package
-for historical reasons and needs to be moved out.
+Wizard to test configure parameter passing
 
 =cut
 
 use strict;
 use warnings;
 
-use Foswiki::Configure::Section ();
-our @ISA = ('Foswiki::Configure::Section');
+use Assert;
 
-sub new {
-    my ($class, @check) = @_;
-    return $class->SUPER::new( headline => 'Welcome', NOLAYOUT => 1 );
+use Foswiki::Configure::Wizard ();
+our @ISA = ('Foswiki::Configure::Wizard');
+
+sub test {
+    my ( $this, $reporter ) = @_;
+
+    die "No username" unless $this->param('cfgusername');
+    die "No password" unless $this->param('cfgpassword');
+    $reporter->ERROR("This is an error");
+    $reporter->WARN("This is a warning");
+    $reporter->CONFIRM("This is a confirmation");
+    $reporter->NOTE("This is a note");
+    $Foswiki::cfg{Plugins}{ConfigurePlugin}{Test}{STRING} = 'ROPE';
+    $reporter->CHANGED('{Plugins}{ConfigurePlugin}{Test}{STRING}');
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

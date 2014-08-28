@@ -26,6 +26,9 @@ our $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
 our $TRUE  = 1;
 our $FALSE = 0;
 
+our @NOT_SET = qw( DataDir DefaultUrlHost PubUrlPath ToolsDir WorkingDir
+  PubDir TemplateDir ScriptDir ScriptUrlPath LocalesDir );
+
 # Configuration items that have been deprecated and must be mapped to
 # new configuration items. The value is mapped unchanged.
 our %remap = (
@@ -43,7 +46,7 @@ our %remap = (
 
 =begin TML
 
----++ StaticMethod readConfig([$noexpand][,$nospec])
+---++ StaticMethod readConfig([$noexpand][,$nospec][,$config_spec])
 
 In normal Foswiki operations as a web server this method is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
@@ -64,13 +67,14 @@ provide defaults, and it would be silly to have them in two places anyway.
      values.
    * =$nospec= - can be set when the caller knows that Foswiki.spec
      has already been read.
-
+   * =$config_spec - if set, will also read Config.spec files located
+     using the standard methods (iff !$nospec). Slow.
 =cut
 
 sub readConfig {
-    my $noexpand = shift;
-    my $nospec   = shift;
+    my ( $noexpand, $nospec, $config_spec ) = @_;
 
+    # To prevent us from overriding the custom code in test mode
     return if $Foswiki::cfg{ConfigurationFinished};
 
     # Assume LocalSite.cfg is valid - will be set false if errors detected.
@@ -80,29 +84,53 @@ sub readConfig {
     # (Suppress Foswiki.spec if already read)
 
     my @files = qw( Foswiki.spec LocalSite.cfg );
-    shift @files if ($nospec);
+    if ($nospec) {
+        shift @files;
+    }
+    elsif ($config_spec) {
+        foreach my $dir (@INC) {
+            foreach my $subdir ( 'Foswiki/Plugins', 'Foswiki/Contrib' ) {
+                my $d;
+                next unless opendir( $d, "$dir/$subdir" );
+                my %read;
+                foreach
+                  my $extension ( grep { !/^\./ && !/^Empty/ } readdir $d )
+                {
+                    next if $read{$extension};
+                    $extension =~ /(.*)/;    # untaint
+                    my $file = "$dir/$subdir/$1/Config.spec";
+                    next unless -e $file;
+                    push( @files, $file );
+                    $read{$extension} = 1;
+                }
+                closedir($d);
+            }
+        }
+    }
 
     for my $file (@files) {
         unless ( my $return = do $file ) {
             my $errorMessage;
             if ($@) {
-                $errorMessage = "Could not parse $file: $@";
+                $errorMessage = "Failed to 'do' $file: $@";
                 print STDERR "$errorMessage \n";
+                next;
             }
-            elsif ( not defined $return ) {
+            next if $file =~ /Config\.spec$/;
+            if ( not defined $return ) {
                 print STDERR
 "Could not 'do' $file: $! \n - This might be okay if file LocalSite.cfg does not exist in a new installation.\n";
                 unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
 
                     # LocalSite.cfg doesn't exist, which is OK
-                    $errorMessage = "Could not do $file: $!";
+                    $errorMessage = "Could not 'do' $file: $!";
                 }
                 $validLSC = 0;
             }
             elsif ( not $return eq '1' ) {
                 print STDERR
                   "Running file $file returned  unexpected results: $return \n";
-                $errorMessage = "Could not run $file" unless $return;
+                $errorMessage = "Could not 'do' $file" unless $return;
             }
             if ($errorMessage) {
                 die <<GOLLYGOSH;
@@ -120,11 +148,7 @@ GOLLYGOSH
     # we need to default them. Otherwise we get peppered with
     # 'uninitialised variable' alerts later.
 
-    foreach my $var (
-        qw( DataDir DefaultUrlHost PubUrlPath ToolsDir WorkingDir
-        PubDir TemplateDir ScriptDir ScriptUrlPath LocalesDir )
-      )
-    {
+    foreach my $var (@NOT_SET) {
 
         # We can't do this, because it prevents Foswiki being run without
         # a LocalSite.cfg, which we don't want
@@ -178,7 +202,7 @@ CODE
 
 =begin TML
 
----++ StaticMethod expandValue($datum, $mode)
+---++ StaticMethod expandValue($datum [, $mode])
 
 Expands references to Foswiki configuration items which occur in the
 values configuration items contained within the datum, which may be a
