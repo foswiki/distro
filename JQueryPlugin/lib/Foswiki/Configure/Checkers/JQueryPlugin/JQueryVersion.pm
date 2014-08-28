@@ -13,6 +13,12 @@ sub check {
     my $e         = '';
     my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersion};
 
+    if ( !$jqversion ) {
+        return $this->ERROR(<<'MESSAGE');
+There is no configured jQuery version
+MESSAGE
+    }
+
     if ( $jqversion =~ /^jquery-(\d+)\.(\d+)/ && defined $1
         and ( $1 * 1000 + $2 ) <= 1003 )
     {
