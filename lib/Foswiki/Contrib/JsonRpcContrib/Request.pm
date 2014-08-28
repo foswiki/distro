@@ -115,7 +115,7 @@ sub initFromString {
     my ( $this, $data ) = @_;
 
     # parse json-rpc request
-    eval { $this->{data} = $this->parser->decode($data); };
+    eval { $this->{data} = $this->json->decode($data); };
 
     if ($@) {
         my $error = $@;
@@ -177,14 +177,14 @@ sub namespace {
 }
 
 ##############################################################################
-sub parser {
+sub json {
     my $this = shift;
 
-    unless ( defined $this->{parser} ) {
-        $this->{parser} = new JSON;
+    unless ( defined $this->{json} ) {
+        $this->{json} = new JSON;
     }
 
-    return $this->{parser};
+    return $this->{json};
 }
 
 ################################################################################

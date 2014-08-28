@@ -110,11 +110,18 @@ sub encode {
     my $id = $this->id();
     $message->{id} = $id if defined $id;
 
+    return $this->json->encode($message);
+}
+
+################################################################################
+sub json {
+    my $this = shift;
+
     unless ( defined $this->{json} ) {
         $this->{json} = JSON->new->pretty(DEBUG)->convert_blessed(1);
     }
 
-    return $this->{json}->encode($message);
+    return $this->{json};
 }
 
 1;
